@@ -54,6 +54,9 @@ const Tag *PlaylistItem::tag() const
 
 QString PlaylistItem::text(int column) const
 {
+    if(!m_data->tag())
+	return QString::null;
+
     int offset = static_cast<Playlist *>(listView())->columnOffset();
 
     switch(column - offset) {
