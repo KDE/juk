@@ -124,3 +124,4 @@ void FileRenamer::moveFile(const QString &src, const QString &dest)
     if(!srcFile.remove())
         kdWarning() << "Could not delete source file " << src << endl;
 }
+// vim:ts=4:sw=4:noet
