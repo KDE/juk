@@ -407,6 +407,11 @@ void Playlist::playNext()
 
     Playlist *list = m_playingItem ? m_playingItem->playlist() : this;
 
+    if(list->items().isEmpty()) {
+	setPlaying(0);
+	return;
+    }
+
     PlaylistItem *next = 0;
 
     if(m_playNextItem) {
@@ -416,7 +421,7 @@ void Playlist::playNext()
     else if(random) {
 	if(list->m_randomList.isEmpty())
 	    list->m_randomList = list->items();
-	next = list->m_randomList[KApplication::random() % m_randomList.count()];
+	next = list->m_randomList[KApplication::random() % list->m_randomList.count()];
 	list->m_randomList.remove(next);
     }
     else {
