@@ -28,6 +28,7 @@
 #include "searchplaylist.h"
 #include "historyplaylist.h"
 #include "upcomingplaylist.h"
+#include "folderplaylist.h"
 #include "playlistcollection.h"
 #include "actioncollection.h"
 
@@ -35,7 +36,15 @@ using namespace ActionCollection;
 
 Cache *Cache::m_cache = 0;
 static const int playlistCacheVersion = 2;
-enum PlaylistType { Normal = 0, Search = 1, History = 2, Upcoming = 3 };
+
+enum PlaylistType
+{
+    Normal   = 0,
+    Search   = 1,
+    History  = 2,
+    Upcoming = 3,
+    Folder   = 4
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -130,26 +139,34 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
             }
             case History:
             {
-		action<KToggleAction>("showHistory")->setChecked(true);
-		collection->setHistoryPlaylistEnabled(true);
-		s >> *collection->historyPlaylist();
-		playlist = collection->historyPlaylist();
+                action<KToggleAction>("showHistory")->setChecked(true);
+                collection->setHistoryPlaylistEnabled(true);
+                s >> *collection->historyPlaylist();
+                playlist = collection->historyPlaylist();
                 break;
             }
-	    case Upcoming:
-	    {
-		UpcomingPlaylist *p = new UpcomingPlaylist(collection);
-		action<KToggleAction>("saveUpcomingTracks")->setChecked(true);
-		s >> *p;
-		playlist = p;
-		collection->setUpcomingPlaylist(p);
-		break;
-	    }
-            default:
-                Playlist *p = new Playlist(collection, true);
-		s >> *p;
+            case Upcoming:
+            {
+                UpcomingPlaylist *p = new UpcomingPlaylist(collection);
+                action<KToggleAction>("saveUpcomingTracks")->setChecked(true);
+                s >> *p;
                 playlist = p;
-
+                collection->setUpcomingPlaylist(p);
+                break;
+            }
+            case Folder:
+            {
+                kdDebug(65432) << "reading folder" << endl;
+                FolderPlaylist *p = new FolderPlaylist(collection);
+                s >> *p;
+                playlist = p;
+		break;
+            }
+            default:
+                kdDebug(65432) << "reading playlist" << endl;
+                Playlist *p = new Playlist(collection, true);
+                s >> *p;
+                playlist = p;
                 break;
             }
             if(version == 2) {
@@ -169,7 +186,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
         f.reset();
 
-        while(!fs.atEnd()) {
+         while(!fs.atEnd()) {
             Playlist *p = new Playlist(collection);
             fs >> *p;
         }
@@ -187,33 +204,39 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     QFile f(playlistsFile);
 
     if(!f.open(IO_WriteOnly))
-	return;
+        return;
 
     QByteArray data;
     QDataStream s(data, IO_WriteOnly);
 
     for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); it++) {
-	if(*it) {
-	    if(dynamic_cast<HistoryPlaylist *>(*it)) {
-		s << Q_INT32(History)
-		  << *static_cast<HistoryPlaylist *>(*it);
-	    }
-	    else if(dynamic_cast<SearchPlaylist *>(*it)) {
-		s << Q_INT32(Search)
-		  << *static_cast<SearchPlaylist *>(*it);
-	    }
-	    else if(dynamic_cast<UpcomingPlaylist *>(*it)) {
-		if(!action<KToggleAction>("saveUpcomingTracks")->isChecked())
-		    continue;
-		s << Q_INT32(Upcoming)
-		  << *static_cast<UpcomingPlaylist *>(*it);
-	    }
-	    else {
-		s << Q_INT32(Normal)
-		  << *(*it);
-	    }
-	    s << Q_INT32((*it)->sortColumn());
-	}
+        if(*it) {
+            if(dynamic_cast<HistoryPlaylist *>(*it)) {
+                s << Q_INT32(History)
+                  << *static_cast<HistoryPlaylist *>(*it);
+            }
+            else if(dynamic_cast<SearchPlaylist *>(*it)) {
+                s << Q_INT32(Search)
+                  << *static_cast<SearchPlaylist *>(*it);
+            }
+            else if(dynamic_cast<UpcomingPlaylist *>(*it)) {
+                if(!action<KToggleAction>("saveUpcomingTracks")->isChecked())
+                    continue;
+                s << Q_INT32(Upcoming)
+                  << *static_cast<UpcomingPlaylist *>(*it);
+            }
+            else if(dynamic_cast<FolderPlaylist *>(*it)) {
+                kdDebug(65432) << "saving folder " << (*it)->name() << endl;
+                s << Q_INT32(Folder)
+                  << *static_cast<FolderPlaylist *>(*it);
+            }
+            else {
+                kdDebug(65432) << "saving playlist " << (*it)->name() << endl;
+                s << Q_INT32(Normal)
+                  << *(*it);
+            }
+            s << Q_INT32((*it)->sortColumn());
+        }
     }
 
     QDataStream fs(&f);

@@ -127,7 +127,8 @@ private:
  * @see TrackSequenceManager
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class UpcomingPlaylist::UpcomingSequenceIterator : public TrackSequenceIterator {
+class UpcomingPlaylist::UpcomingSequenceIterator : public TrackSequenceIterator
+{
 public:
     /**
      * Default constructor.

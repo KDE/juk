@@ -506,11 +506,11 @@ void Playlist::clearItems(const PlaylistItemList &items)
     dataChanged();
 }
 
-QStringList Playlist::files()
+QStringList Playlist::files() const
 {
     QStringList list;
 
-    for(QListViewItemIterator it(this); it.current(); ++it)
+    for(QListViewItemIterator it(const_cast<Playlist *>(this)); it.current(); ++it)
 	list.append(static_cast<PlaylistItem *>(*it)->file().absFilePath());
 
     return list;
@@ -1809,7 +1809,7 @@ void Playlist::slotPlayCurrent()
 // helper functions
 ////////////////////////////////////////////////////////////////////////////////
 
-QDataStream &operator<<(QDataStream &s, Playlist &p)
+QDataStream &operator<<(QDataStream &s, const Playlist &p)
 {
     s << p.name();
     s << p.fileName();

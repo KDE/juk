@@ -22,12 +22,20 @@ class FolderPlaylist : public Playlist
     Q_OBJECT
 
 public:
-    FolderPlaylist(PlaylistCollection *collection, const QString &folder,
+    FolderPlaylist(PlaylistCollection *collection, const QString &folder = QString::null,
                    const QString &name = QString::null);
     virtual ~FolderPlaylist();
 
+    QString folder() const;
+    void setFolder(const QString &s);
+
+private slots:
+    void slotUpdate();
 private:
     QString m_folder;
 };
+
+QDataStream &operator<<(QDataStream &s, const FolderPlaylist &p);
+QDataStream &operator>>(QDataStream &s, FolderPlaylist &p);
 
 #endif

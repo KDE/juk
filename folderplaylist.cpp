@@ -13,6 +13,9 @@
  ***************************************************************************/
 
 #include "folderplaylist.h"
+#include "playlistcollection.h"
+
+#include <qtimer.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -20,15 +23,59 @@
 
 FolderPlaylist::FolderPlaylist(PlaylistCollection *collection, const QString &folder,
                                const QString &name) :
-    Playlist(collection, name),
+    Playlist(collection, name, "folder"),
     m_folder(folder)
 {
-    addFiles(folder, false);
+    QTimer::singleShot(0, this, SLOT(slotUpdate()));
 }
 
 FolderPlaylist::~FolderPlaylist()
 {
 
+}
+
+QString FolderPlaylist::folder() const
+{
+    return m_folder;
+}
+
+void FolderPlaylist::setFolder(const QString &s)
+{
+    m_folder = s;
+    QTimer::singleShot(0, this, SLOT(slotUpdate()));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private slots
+////////////////////////////////////////////////////////////////////////////////
+
+void FolderPlaylist::slotUpdate()
+{
+    if(!m_folder.isNull())
+        addFiles(m_folder, false);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// helper functions
+////////////////////////////////////////////////////////////////////////////////
+
+QDataStream &operator<<(QDataStream &s, const FolderPlaylist &p)
+{
+    s << p.name()
+      << p.folder();
+    return s;
+}
+
+QDataStream &operator>>(QDataStream &s, FolderPlaylist &p)
+{
+    QString name;
+    QString folder;
+    s >> name
+      >> folder;
+
+    p.setFolder(folder);
+    p.setName(name);
+    return s;
 }
 
 #include "folderplaylist.moc"

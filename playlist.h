@@ -122,7 +122,7 @@ public:
     /**
      * All of the (media) files in the list.
      */
-    QStringList files();
+    QStringList files() const;
 
     /**
      * Returns a list of all of the items in the playlist.
@@ -611,7 +611,7 @@ private:
 
 bool processEvents();
 
-QDataStream &operator<<(QDataStream &s, Playlist &p);
+QDataStream &operator<<(QDataStream &s, const Playlist &p);
 QDataStream &operator>>(QDataStream &s, Playlist &p);
 
 // template method implementations
