@@ -52,6 +52,7 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
     readSettings();
     setupLayout();
     setupActions();
+    playlistChanged();
     readConfig();
     setupPlayer();
     setupSystemTray();
@@ -84,8 +85,6 @@ void JuK::setupLayout()
 
     connect(splitter, SIGNAL(selectedPlaylistCountChanged(int)), statusLabel, SLOT(setPlaylistCount(int)));
     connect(statusLabel, SIGNAL(jumpButtonClicked()), splitter, SLOT(selectPlaying()));
-
-    updatePlaylistInfo();
 
     splitter->setFocus();
 

@@ -84,8 +84,6 @@ private slots:
     void clear();
     void selectAll();
 
-private slots:
-
     // player menu
     void play();
     void pause();
