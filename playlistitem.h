@@ -184,9 +184,9 @@ public:
 
     QString absFilePath() const { return m_absFileName; }
 
-    void resizeLower(int size) { m_lower.resize(size); }
-    void setLower(int column, const QString &value) { m_lower[column] = value; }
-    QString lower(int column) const { return m_lower[column]; }
+    void setColumns(int columns) { m_local8Bit.resize(columns); }
+    void setLocal8BitLower(int column, const QCString &value) { m_local8Bit[column] = value; }
+    QCString local8BitLower(int column) const { return m_local8Bit[column]; }
 
 protected:
     /**
@@ -204,7 +204,7 @@ private:
     int m_referenceCount;
     Tag *m_dataTag;
     QString m_absFileName;
-    QValueVector<QString> m_lower;
+    QValueVector<QCString> m_local8Bit;
 };
 
 #endif

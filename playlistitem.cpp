@@ -277,10 +277,9 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
             return 0;
 	}
     }
-    else {
-	previousResult = firstItem->data()->lower(column).localeAwareCompare(secondItem->data()->lower(column));
-        return previousResult;
-    }
+    else
+	return strcoll(firstItem->data()->local8BitLower(column),
+		       secondItem->data()->local8BitLower(column));
 }
 
 bool PlaylistItem::isValid() const
@@ -317,9 +316,9 @@ void PlaylistItem::slotRefreshImpl()
     setText(CommentColumn + offset,     shortComment);
 
     int columns = listView()->columns();
-    m_data->resizeLower(columns);
+    m_data->setColumns(columns);
     for(int i = 0; i < columns; i++)
-	m_data->setLower(i, text(i).lower());
+	m_data->setLocal8BitLower(i, text(i).lower().local8Bit());
 }
 
 void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
