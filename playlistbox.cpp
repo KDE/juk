@@ -21,6 +21,7 @@
 #include <klineeditdlg.h>
 #include <kpopupmenu.h>
 #include <kaction.h>
+#include <kmainwindow.h>
 #include <kdebug.h>
 
 #include <qheader.h>
@@ -45,54 +46,49 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
     setSorting(0);
     setFullWidth(true);
     setItemMargin(3);
-    // setAlternateBackground(QColor());
-
+	
+    setAcceptDrops(true);
+    setSelectionModeExt(Extended);
     
-    // Sadly the actions from the main menu can't be reused because these require being enabled and disabled at
-    // different times.
+    m_contextMenu = new KPopupMenu(this);
 
-    m_playlistContextMenu = new KPopupMenu();
+    // Find the main window and then get the associated KActionCollection.
 
-    m_popupIndex["save"] = m_playlistContextMenu->insertItem(
-	SmallIconSet("filesave"), i18n("Save"), this, SLOT(slotContextSave()));
+    QObject *w = parent;
+    while(w && !dynamic_cast<KMainWindow *>(w))
+	w = w->parent();
+    
+    if(!w)
+	return;
 
-    m_popupIndex["saveas"] = m_playlistContextMenu->insertItem(
-        SmallIconSet("filesaveas"), i18n("Save As..."), this, SLOT(slotContextSaveAs()));
-
-    m_popupIndex["rename"] = m_playlistContextMenu->insertItem(
-	i18n("Rename..."), this, SLOT(slotContextRename()));
-
-    m_popupIndex["duplicate"] = m_playlistContextMenu->insertItem(
-	SmallIconSet("editcopy"), i18n("Duplicate..."), this, SLOT(slotContextDuplicate()));
-
-    m_popupIndex["remove"] = m_playlistContextMenu->insertItem( 
-	SmallIconSet("edittrash"), i18n("Remove"), this, SLOT(slotContextDeleteItem()));
-
-    m_popupIndex["reload"] = m_playlistContextMenu->insertItem(
-	SmallIconSet("reload"), i18n("Reload Playlist File"), this, SLOT(slotContextReload()));
-
+    KActionCollection *actions = static_cast<KMainWindow *>(w)->actionCollection();
+    
+    actions->action("file_new")->plug(m_contextMenu);
+    actions->action("renamePlaylist")->plug(m_contextMenu);
+    actions->action("duplicatePlaylist")->plug(m_contextMenu);
+    actions->action("deleteItemPlaylist")->plug(m_contextMenu);
+    actions->action("file_save")->plug(m_contextMenu);
+    actions->action("file_save_as")->plug(m_contextMenu);
+    
     // add the view modes stuff
-
-    m_viewModeAction = new KSelectAction(m_playlistContextMenu, "viewModeMenu");
+	
+    m_viewModeAction = new KSelectAction(m_contextMenu, "viewModeMenu");
     m_viewModeAction->setText(i18n("View Modes"));
-
+    
     QStringList modes;
     modes << i18n("Default") << i18n("Compact");
     m_viewModeAction->setItems(modes);
     m_viewModeAction->setCurrentItem(m_viewMode);
-
-    m_viewModeAction->plug(m_playlistContextMenu);
+    
+    m_viewModeAction->plug(m_contextMenu);
     connect(m_viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
 
-    setAcceptDrops(true);
-    setSelectionModeExt(Extended);
-
-    connect(this, SIGNAL(selectionChanged()), 
+    connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotPlaylistChanged()));
-
+    
     connect(this, SIGNAL(doubleClicked(QListViewItem *)), 
 	    this, SLOT(slotDoubleClicked(QListViewItem *)));
-
+    
     connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
 	    this, SLOT(slotShowContextMenu(QListViewItem *, const QPoint &, int)));
 }
@@ -100,7 +96,6 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
 PlaylistBox::~PlaylistBox()
 {
     saveConfig();
-    delete m_playlistContextMenu;
 }
 
 void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise)
@@ -386,23 +381,7 @@ void PlaylistBox::slotDoubleClicked(QListViewItem *)
 
 void PlaylistBox::slotShowContextMenu(QListViewItem *item, const QPoint &point, int)
 {
-    Item *i = static_cast<Item *>(item);
-
-    m_contextMenuOn = i;
-
-    if(i) {
-	bool isCollection = i->playlist() == CollectionList::instance();
-	bool hasFile = !i->playlist()->fileName().isEmpty();
-	
-	m_playlistContextMenu->setItemEnabled(m_popupIndex["save"], !isCollection);
-	m_playlistContextMenu->setItemEnabled(m_popupIndex["saveas"], !isCollection);
-	m_playlistContextMenu->setItemEnabled(m_popupIndex["rename"], !isCollection);
-	m_playlistContextMenu->setItemEnabled(m_popupIndex["remove"], !isCollection);
-	m_playlistContextMenu->setItemEnabled(m_popupIndex["reload"], !isCollection);
-	m_playlistContextMenu->setItemEnabled(m_popupIndex["reload"], hasFile);
-
-	m_playlistContextMenu->popup(point);
-    }
+    m_contextMenu->popup(point);
 }
 
 void PlaylistBox::slotContextSave()

@@ -129,9 +129,7 @@ void JuK::setupActions()
     m_showSearchAction = new KToggleAction(i18n("Show &Search Bar"), "filefind", 0, actionCollection(), "showSearch");
     m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit",     0, actionCollection(), "showEditor");
 
-    new KAction(i18n("Refresh Items"), "reload", 0, m_splitter, SLOT(slotRefresh()), actionCollection(), "refresh"); // 1
-    
-    // actionCollection()->insert(m_splitter->columnVisibleAction());
+    createSplitterAction(i18n("Refresh Items"), SLOT(slotRefresh()), "refresh", "reload");
 
     //////////////////////////////////////////////////
     // play menu
@@ -207,8 +205,6 @@ void JuK::setupActions()
 
     // set the slider to the proper orientation and make it stay that way
     m_sliderAction->slotUpdateOrientation();
-
-    connect(m_splitter, SIGNAL(signalPlaylistChanged()), this, SLOT(slotPlaylistChanged()));
 }
 
 void JuK::setupSplitterConnections()
@@ -217,9 +213,12 @@ void JuK::setupSplitterConnections()
     for(; it != m_splitterConnections.end(); ++it)
         connect((*it).first, SIGNAL(activated()), m_splitter, (*it).second);
 
+    actionCollection()->insert(m_splitter->columnVisibleAction());
+
     connect(m_showSearchAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetSearchVisible(bool)));
     connect(m_showEditorAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetEditorVisible(bool)));
     connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), m_sliderAction, SLOT(slotUpdateOrientation(QDockWindow *)));
+    connect(m_splitter, SIGNAL(signalPlaylistChanged()), this, SLOT(slotPlaylistChanged()));
 }
 
 void JuK::setupSystemTray()
@@ -526,7 +525,6 @@ void JuK::slotPlaylistChanged()
 
 void JuK::startPlayingPlaylist()
 {
-//    if(actionCollection()->action("randomPlay")->isChecked())
     if(m_randomPlayAction->isChecked())
         play(m_splitter->playRandomFile());
     else
@@ -843,7 +841,7 @@ KAction *JuK::createSplitterAction(const QString &text, const char *slot, const 
     else
 	action = new KAction(text, pix, shortcut, actionCollection(), name);
 
-    m_splitterConnections.append(qMakePair(action, slot));
+    m_splitterConnections.append(SplitterConnection(action, slot));
     
     return action;
 }

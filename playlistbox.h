@@ -119,11 +119,10 @@ private slots:
 private:
     PlaylistSplitter *m_splitter;
     QStringList m_names;
-    KPopupMenu *m_playlistContextMenu;
+    KPopupMenu *m_contextMenu;
     Item *m_contextMenuOn;
     bool m_updatePlaylistStack;
     QPtrDict<Item> m_playlistDict;
-    QMap<QString, int> m_popupIndex;
     ViewMode m_viewMode;
     KSelectAction *m_viewModeAction;
 };
