@@ -84,7 +84,7 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection, QW
     m_widgetStack = new QWidgetStack(vbox);
 
     // Create buttons to select key group
-    m_group = new QHButtonGroup(i18n("Global shortcuts"), vbox);
+    m_group = new QHButtonGroup(i18n("Global Shortcuts"), vbox);
     new QRadioButton(i18n("&No keys"),         m_group);
     new QRadioButton(i18n("&Standard keys"),   m_group);
     new QRadioButton(i18n("&Multimedia keys"), m_group);

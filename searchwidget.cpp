@@ -125,9 +125,9 @@ void SearchWidget::setupLayout()
 
     m_lineEdit = new KLineEdit(this, "searchLineEdit");
     m_caseSensitive = new KComboBox(this);
-    m_caseSensitive->insertItem(i18n("Normal matching"), 0);
-    m_caseSensitive->insertItem(i18n("Case sensitive"), 1);
-    m_caseSensitive->insertItem(i18n("Pattern matching"), 2);
+    m_caseSensitive->insertItem(i18n("Normal Matching"), 0);
+    m_caseSensitive->insertItem(i18n("Case Sensitive"), 1);
+    m_caseSensitive->insertItem(i18n("Pattern Matching"), 2);
     connect(m_caseSensitive, SIGNAL(activated(int)), this, SLOT(slotQueryChanged()));
 
     QPushButton *button = new QPushButton(i18n("Clear"), this);

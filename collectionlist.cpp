@@ -116,7 +116,7 @@ CollectionList::CollectionList(QWidget *parent) : Playlist(parent, i18n("Collect
     m_dirWatch->startScan();
 
     rmbMenu()->insertSeparator();
-    rmbMenu()->insertItem(SmallIcon("new"), i18n("Create Group from Selected Items"), this, SLOT(slotCreateGroup()));
+    rmbMenu()->insertItem(SmallIcon("new"), i18n("Create Group From Selected Items"), this, SLOT(slotCreateGroup()));
 }
 
 CollectionList::~CollectionList()
