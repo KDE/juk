@@ -240,88 +240,90 @@ void JuK::keyPressEvent(QKeyEvent *e)
 
 void JuK::readSettings()
 {
-    KConfig *config = KGlobal::config();
-    { // general settings
-        KConfigGroupSaver saver(config, "Settings");
-        m_showSplash = config->readBoolEntry("ShowSplashScreen", true);
-        m_startDocked = config->readBoolEntry("StartDocked", false);
-    }
+    KConfigGroup config(KGlobal::config(), "Settings");
+    m_showSplash = config.readBoolEntry("ShowSplashScreen", true);
+    m_startDocked = config.readBoolEntry("StartDocked", false);
 }
 
 void JuK::readConfig()
 {
-    // Automagically save and m_restore many window settings.
     setAutoSaveSettings();
 
-    KConfig *config = KGlobal::config();
-    { // player settings
-        KConfigGroupSaver saver(config, "Player");
-        if(m_sliderAction->volumeSlider()) {
-	    int maxVolume = m_sliderAction->volumeSlider()->maxValue();
-	    int volume = config->readNumEntry("Volume", maxVolume);
-            m_sliderAction->volumeSlider()->setVolume(volume);
-        }
-        bool randomPlay = config->readBoolEntry("RandomPlay", false);
-        m_randomPlayAction->setChecked(randomPlay);
+    // player settings
 
-        bool loopPlaylist = config->readBoolEntry("LoopPlaylist", false);
-        ActionCollection::action<KToggleAction>("loopPlaylist")->setChecked(loopPlaylist);
+    KConfigGroup playerConfig(KGlobal::config(), "Player");
+
+    if(m_sliderAction->volumeSlider()) {
+	int maxVolume = m_sliderAction->volumeSlider()->maxValue();
+	int volume = playerConfig.readNumEntry("Volume", maxVolume);
+	m_sliderAction->volumeSlider()->setVolume(volume);
     }
-    { // view settings
-        KConfigGroupSaver saver(config, "View");
 
-	// The history list will actually be created by the playlist restoration
-	// code, but we want to remember the checkbox's setting and hope that
-	// it's in synch with the code that does the real work.
+    bool randomPlay = playerConfig.readBoolEntry("RandomPlay", false);
+    m_randomPlayAction->setChecked(randomPlay);
 
-	bool showHistory = config->readBoolEntry("ShowHistory", false);
-	m_showHistoryAction->setChecked(showHistory);
-    }
-    { // general settings
-        KConfigGroupSaver saver(config, "Settings");
+    bool loopPlaylist = playerConfig.readBoolEntry("LoopPlaylist", false);
+    ActionCollection::action<KToggleAction>("loopPlaylist")->setChecked(loopPlaylist);
 
-        bool dockInSystemTray = config->readBoolEntry("DockInSystemTray", true);
-        m_toggleSystemTrayAction->setChecked(dockInSystemTray);
+    // view settings
 
-        bool dockOnClose = config->readBoolEntry("DockOnClose", true);
-        m_toggleDockOnCloseAction->setChecked(dockOnClose);
+    KConfigGroup viewConfig(KGlobal::config(), "View");
 
-        bool showPopups = config->readBoolEntry("TrackPopup", false);
-        m_togglePopupsAction->setChecked(showPopups);
+    // The history list will actually be created by the playlist restoration
+    // code, but we want to remember the checkbox's setting and hope that
+    // it's in synch with the code that does the real work.
 
-        if(m_outputSelectAction)
-            m_outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
-    }
+    bool showHistory = viewConfig.readBoolEntry("ShowHistory", false);
+    m_showHistoryAction->setChecked(showHistory);
+
+
+    // general settings
+    
+    KConfigGroup settingsConfig(KGlobal::config(), "Settings");
+
+    bool dockInSystemTray = settingsConfig.readBoolEntry("DockInSystemTray", true);
+    m_toggleSystemTrayAction->setChecked(dockInSystemTray);
+
+    bool dockOnClose = settingsConfig.readBoolEntry("DockOnClose", true);
+    m_toggleDockOnCloseAction->setChecked(dockOnClose);
+
+    bool showPopups = settingsConfig.readBoolEntry("TrackPopup", false);
+    m_togglePopupsAction->setChecked(showPopups);
+
+    if(m_outputSelectAction)
+	m_outputSelectAction->setCurrentItem(settingsConfig.readNumEntry("MediaSystem", 0));
 
     m_toggleSplashAction->setChecked(m_showSplash);
 }
 
 void JuK::saveConfig()
 {
-    KConfig *config = KGlobal::config();
-    { // player settings
-        KConfigGroupSaver saver(config, "Player");
-	config->writeEntry("Volume", m_sliderAction->volumeSlider()->volume());
-	config->writeEntry("RandomPlay", m_randomPlayAction->isChecked());
+    // player settings
+    
+    KConfigGroup playerConfig(KGlobal::config(), "Player");
+    playerConfig.writeEntry("Volume", m_sliderAction->volumeSlider()->volume());
+    playerConfig.writeEntry("RandomPlay", m_randomPlayAction->isChecked());
 
-	KToggleAction *a = ActionCollection::action<KToggleAction>("loopPlaylist");
-	config->writeEntry("LoopPlaylist", a->isChecked());
-    }
-    { // view settings
-        KConfigGroupSaver saver(config, "View");
-	config->writeEntry("ShowHistory", m_showHistoryAction->isChecked());
-    }
-    { // general settings
-        KConfigGroupSaver saver(config, "Settings");
-        config->writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
-        config->writeEntry("StartDocked", m_startDocked);
-        config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
-        config->writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
-        config->writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
-        if(m_outputSelectAction)
-            config->writeEntry("MediaSystem", m_outputSelectAction->currentItem());
-    }
-    config->sync();
+    KToggleAction *a = ActionCollection::action<KToggleAction>("loopPlaylist");
+    playerConfig.writeEntry("LoopPlaylist", a->isChecked());
+
+    // view settings
+    KConfigGroup viewConfig(KGlobal::config(), "View");
+    viewConfig.writeEntry("ShowHistory", m_showHistoryAction->isChecked());
+
+
+    // general settings
+
+    KConfigGroup settingsConfig(KGlobal::config(), "Settings");
+    settingsConfig.writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
+    settingsConfig.writeEntry("StartDocked", m_startDocked);
+    settingsConfig.writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
+    settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
+    settingsConfig.writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
+    if(m_outputSelectAction)
+	settingsConfig.writeEntry("MediaSystem", m_outputSelectAction->currentItem());
+
+    KGlobal::config()->sync();
 }
 
 bool JuK::queryExit()

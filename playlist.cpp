@@ -198,47 +198,44 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
 Playlist::SharedSettings::SharedSettings()
 {
-    KConfig *config = kapp->config();
-    {
-	KConfigGroupSaver saver(config, "PlaylistShared");
+    KConfigGroup config(KGlobal::config(), "PlaylistShared");
 
-	// save column order
-	m_columnOrder = config->readIntListEntry("ColumnOrder");
+    // save column order
+    m_columnOrder = config.readIntListEntry("ColumnOrder");
 
-	QValueList<int> l = config->readIntListEntry("VisibleColumns");
+    QValueList<int> l = config.readIntListEntry("VisibleColumns");
 
-	if(l.isEmpty()) {
+    if(l.isEmpty()) {
 
-	    // Provide some default values for column visibility if none were
-	    // read from the configuration file.
+	// Provide some default values for column visibility if none were
+	// read from the configuration file.
 
-	    for(int i = 0; i <= PlaylistItem::lastColumn(); i++) {
-		switch(i) {
-		case PlaylistItem::BitrateColumn:
-		case PlaylistItem::CommentColumn:
-		case PlaylistItem::FileNameColumn:
-		    m_columnsVisible.append(false);
-		    break;
-		default:
-		    m_columnsVisible.append(true);
-		}
+	for(int i = 0; i <= PlaylistItem::lastColumn(); i++) {
+	    switch(i) {
+	    case PlaylistItem::BitrateColumn:
+	    case PlaylistItem::CommentColumn:
+	    case PlaylistItem::FileNameColumn:
+		m_columnsVisible.append(false);
+		break;
+	    default:
+		m_columnsVisible.append(true);
 	    }
 	}
-	else {
-	    // Convert the int list into a bool list.
-
-	    m_columnsVisible.resize(l.size(), true);
-	    uint i = 0;
-	    for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
-		if(! bool(*it))
-		    m_columnsVisible[i] = bool(*it);
-		i++;
-	    }
-	}
-
-	m_inlineCompletion = KGlobalSettings::Completion(
-	    config->readNumEntry("InlineCompletionMode", KGlobalSettings::CompletionAuto));
     }
+    else {
+	// Convert the int list into a bool list.
+	
+	m_columnsVisible.resize(l.size(), true);
+	uint i = 0;
+	for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
+	    if(! bool(*it))
+		m_columnsVisible[i] = bool(*it);
+	    i++;
+	}
+    }
+
+    m_inlineCompletion = KGlobalSettings::Completion(
+	config.readNumEntry("InlineCompletionMode", KGlobalSettings::CompletionAuto));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -247,20 +244,17 @@ Playlist::SharedSettings::SharedSettings()
 
 void Playlist::SharedSettings::writeConfig()
 {
-    KConfig *config = kapp->config();
-    {
-	KConfigGroupSaver saver(config, "PlaylistShared");
-	config->writeEntry("ColumnOrder", m_columnOrder);
+    KConfigGroup config(KGlobal::config(), "PlaylistShared");
+    config.writeEntry("ColumnOrder", m_columnOrder);
 
-	QValueList<int> l;
-	for(uint i = 0; i < m_columnsVisible.size(); i++)
-	    l.append(int(m_columnsVisible[i]));
+    QValueList<int> l;
+    for(uint i = 0; i < m_columnsVisible.size(); i++)
+	l.append(int(m_columnsVisible[i]));
 
-	config->writeEntry("VisibleColumns", l);
-	config->writeEntry("InlineCompletionMode", m_inlineCompletion);
-    }
+    config.writeEntry("VisibleColumns", l);
+    config.writeEntry("InlineCompletionMode", m_inlineCompletion);
 
-    config->sync();
+    KGlobal::config()->sync();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -207,21 +207,16 @@ void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName, Ite
 
 void PlaylistBox::readConfig()
 {
-    KConfig *config = kapp->config();
-    {
-	KConfigGroupSaver saver(config, "PlaylistBox");
-	m_viewModeIndex = config->readNumEntry("ViewMode", 0);
-    }
+    KConfigGroup config(KGlobal::config(), "PlaylistBox");
+    m_viewModeIndex = config.readNumEntry("ViewMode", 0);
 }
 
 void PlaylistBox::saveConfig()
 {
-    KConfig *config = kapp->config();
-    {
-	KConfigGroupSaver saver(config, "PlaylistBox");
-	config->writeEntry("ViewMode", m_viewModeAction->currentItem());
-	config->sync();
-    }
+    KConfigGroup config(KGlobal::config(), "PlaylistBox");
+    config.writeEntry("ViewMode", m_viewModeAction->currentItem());
+    
+    KGlobal::config()->sync();
 }
 
 void PlaylistBox::remove()

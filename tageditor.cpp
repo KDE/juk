@@ -324,19 +324,18 @@ void TagEditor::slotUpdateCollection()
 
 void TagEditor::readConfig()
 {
-    KConfig *config = KGlobal::config();
-    { // combo box completion modes
-	KConfigGroupSaver saver(config, "TagEditor");
-	if(m_artistNameBox && m_albumNameBox) {
-	    readCompletionMode(config, m_artistNameBox, "ArtistNameBoxMode");
-	    readCompletionMode(config, m_albumNameBox, "AlbumNameBoxMode");
-	    readCompletionMode(config, m_genreBox, "GenreBoxMode");
-        }
-
-	bool show = config->readBoolEntry("Show", false);
-        action<KToggleAction>("showEditor")->setChecked(show);
-	setShown(show);
+    // combo box completion modes
+	
+    KConfigGroup config(KGlobal::config(), "TagEditor");
+    if(m_artistNameBox && m_albumNameBox) {
+	readCompletionMode(&config, m_artistNameBox, "ArtistNameBoxMode");
+	readCompletionMode(&config, m_albumNameBox, "AlbumNameBoxMode");
+	readCompletionMode(&config, m_genreBox, "GenreBoxMode");
     }
+
+    bool show = config.readBoolEntry("Show", false);
+    action<KToggleAction>("showEditor")->setChecked(show);
+    setShown(show);
 
     TagLib::StringList genres = TagLib::ID3v1::genreList();
 
@@ -350,7 +349,7 @@ void TagEditor::readConfig()
     m_genreBox->completionObject()->setItems(m_genreList);
 }
 
-void TagEditor::readCompletionMode(KConfig *config, KComboBox *box, const QString &key)
+void TagEditor::readCompletionMode(KConfigBase *config, KComboBox *box, const QString &key)
 {
     KGlobalSettings::Completion mode =
 	KGlobalSettings::Completion(config->readNumEntry(key, KGlobalSettings::CompletionAuto));
@@ -360,17 +359,16 @@ void TagEditor::readCompletionMode(KConfig *config, KComboBox *box, const QStrin
 
 void TagEditor::saveConfig()
 {
-    KConfig *config = KGlobal::config();
-    { // combo box completion modes
-        KConfigGroupSaver saver(config, "TagEditor");
-        if(m_artistNameBox && m_albumNameBox) {
-	    config->writeEntry("ArtistNameBoxMode", m_artistNameBox->completionMode());
-	    config->writeEntry("AlbumNameBoxMode", m_albumNameBox->completionMode());
-	    config->writeEntry("GenreBoxMode", m_genreBox->completionMode());
-        }
-	config->writeEntry("Show", action<KToggleAction>("showEditor")->isChecked());
-    }
+    // combo box completion modes
 
+    KConfigGroup config(KGlobal::config(), "TagEditor");
+
+    if(m_artistNameBox && m_albumNameBox) {
+	config.writeEntry("ArtistNameBoxMode", m_artistNameBox->completionMode());
+	config.writeEntry("AlbumNameBoxMode", m_albumNameBox->completionMode());
+	config.writeEntry("GenreBoxMode", m_genreBox->completionMode());
+    }
+    config.writeEntry("Show", action<KToggleAction>("showEditor")->isChecked());
 }
 
 void TagEditor::setupActions()

@@ -11,8 +11,8 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kdebug.h>
+#include <kglobal.h>
 #include <kmacroexpander.h>
-
 
 FileNameScheme::FileNameScheme(const QString &s)
     : m_regExp(),
@@ -93,16 +93,13 @@ QString FileNameScheme::composeRegExp(const QString &s) const
 {
     QMap<QChar, QString> substitutions;
 
-    KConfig *cfg = kapp->config();
-    {
-        KConfigGroupSaver saver(cfg, "TagGuesser");
+    KConfigGroup config(KGlobal::config(), "TagGuesser");
 
-        substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&_,\\.]+)");
-        substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&_,\\.]+)");
-        substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&_,\\.]+)");
-        substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
-        substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s_]+)");
-    }
+    substitutions[ 't' ] = config.readEntry("Title regexp", "([\\w\\s'&_,\\.]+)");
+    substitutions[ 'a' ] = config.readEntry("Artist regexp", "([\\w\\s'&_,\\.]+)");
+    substitutions[ 'A' ] = config.readEntry("Album regexp", "([\\w\\s'&_,\\.]+)");
+    substitutions[ 'T' ] = config.readEntry("Track regexp", "(\\d+)");
+    substitutions[ 'c' ] = config.readEntry("Comment regexp", "([\\w\\s_]+)");
 
     QString regExp = QRegExp::escape(s.simplifyWhiteSpace());
     regExp = ".*" + regExp;
@@ -116,11 +113,9 @@ QStringList TagGuesser::schemeStrings()
 {
     QStringList schemes;
 
-    KConfig *cfg = kapp->config();
-    {
-        KConfigGroupSaver saver(cfg, "TagGuesser");
-        schemes = cfg->readListEntry( "Filename schemes" );
-    }
+    KConfigGroup config(KGlobal::config(), "TagGuesser");
+    schemes = config.readListEntry("Filename schemes");
+
     if ( schemes.isEmpty() ) {
         schemes += "%a - (%T) - %t [%c]";
         schemes += "%a - (%T) - %t (%c)";

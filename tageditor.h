@@ -23,7 +23,7 @@ class KLineEdit;
 class KIntSpinBox;
 class KEdit;
 class KPushButton;
-class KConfig;
+class KConfigBase;
 
 class QCheckBox;
 class QBoxLayout;
@@ -52,7 +52,7 @@ private:
     void setupActions();
     void setupLayout();
     void readConfig();
-    void readCompletionMode(KConfig *config, KComboBox *box, const QString &key);
+    void readCompletionMode(KConfigBase *config, KComboBox *box, const QString &key);
     void saveConfig();
     void save(const PlaylistItemList &list);
     void saveChangesPrompt();

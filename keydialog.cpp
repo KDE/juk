@@ -77,11 +77,9 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
     // Read key group from configuration
 
     int selectedButton;
-    KConfig *config = KGlobal::config();
-    {
-        KConfigGroupSaver saver(config, "Shortcuts");
-        selectedButton = config->readNumEntry("GlobalKeys", StandardKeys);
-    }
+
+    KConfigGroup config(KGlobal::config(), "Shortcuts");
+    selectedButton = config.readNumEntry("GlobalKeys", StandardKeys);
 
     // Create widgets for key chooser - widget stack used to replace key chooser
 
@@ -134,12 +132,11 @@ int KeyDialog::configure()
 
     int retcode = exec();
     if(retcode == Accepted) {
-        KConfig *config = KGlobal::config();
-        {
-            KConfigGroupSaver saver(config, "Shortcuts");
-            config->writeEntry("GlobalKeys", m_group->id(m_group->selected()));
-            config->sync();
-        }
+
+	KConfigGroup config(KGlobal::config(), "Shortcuts");
+	config.writeEntry("GlobalKeys", m_group->id(m_group->selected()));
+	KGlobal::config()->sync();
+
         m_pKeyChooser->save();
     }
     return retcode;
