@@ -821,10 +821,7 @@ void Playlist::polish()
     for(int i = 0; i < header()->count(); ++i) {
 	m_headerMenu->insertItem(header()->label(i), i);
 	m_headerMenu->setItemChecked(i, true);
-
-#if QT_VERSION >= 0x030200
 	adjustColumn(i);
-#endif
     }
 
     connect(m_headerMenu, SIGNAL(activated(int)), this, SLOT(slotToggleColumnVisible(int)));
