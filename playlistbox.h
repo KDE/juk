@@ -86,7 +86,6 @@ private:
     QValueList<Item *> selectedItems();
     void setSingleItem(QListViewItem *item);
 
-    void addName(const QString &name) { m_names.append(name); }
     void setupItem(Item *item);
     int viewModeIndex() const { return m_viewModeIndex; }
     ViewMode *viewMode() const { return m_viewModes[m_viewModeIndex]; }
@@ -102,7 +101,6 @@ private slots:
     void slotSetViewMode(int index);
 
 private:
-    QStringList m_names;
     KPopupMenu *m_contextMenu;
     bool m_updatePlaylistStack;
     QPtrDict<Item> m_playlistDict;

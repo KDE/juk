@@ -251,7 +251,10 @@ void PlaylistCollection::addFolder()
 
 void PlaylistCollection::rename()
 {
-    QString name = playlistNameDialog(i18n("Rename"), currentPlaylist()->name(), false);
+    QString old = currentPlaylist()->name();
+    QString name = playlistNameDialog(i18n("Rename"), old, false);
+
+    m_playlistNames.remove(old);
 
     if(name.isNull())
         return;

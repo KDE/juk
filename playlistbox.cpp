@@ -276,7 +276,7 @@ void PlaylistBox::remove()
 	   (*it)->playlist() &&
 	   (!(*it)->playlist()->readOnly()))
 	{
-	    m_names.remove((*it)->text(0));
+	    removeName((*it)->text(0));
 	    m_playlistDict.remove((*it)->playlist());
 	    removeQueue.append((*it)->playlist());
 	}
@@ -627,9 +627,6 @@ void PlaylistBox::Item::setup()
 void PlaylistBox::Item::slotSetName(const QString &name)
 {
     if(listView()) {
-	listView()->m_names.remove(text(0));
-	listView()->m_names.append(name);
-
 	setText(0, name);
 	setSelected(true);
 
