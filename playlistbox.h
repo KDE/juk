@@ -24,6 +24,7 @@
 #include <qwidgetstack.h>
 #include <qptrlist.h>
 #include <qptrdict.h>
+#include <qmap.h>
 
 #include "listboxpixmap.h"
 
@@ -95,7 +96,7 @@ private slots:
      */
     void slotPlaylistChanged(QListBoxItem *item);
     void slotDoubleClicked(QListBoxItem *);
-    void slotDrawContextMenu(QListBoxItem *item, const QPoint &point);
+    void slotShowContextMenu(QListBoxItem *item, const QPoint &point);
 
     // context menu entries
     void slotContextSave();
@@ -107,11 +108,11 @@ private slots:
 private:
     PlaylistSplitter *m_splitter;
     QStringList m_names;
-    KPopupMenu *m_collectionContextMenu;
     KPopupMenu *m_playlistContextMenu;
     Item *m_contextMenuOn;
     bool m_updatePlaylistStack;
     QPtrDict<Item> m_playlistDict;
+    QMap<QString, int> m_popupIndex;
 };
 
 

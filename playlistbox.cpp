@@ -40,15 +40,16 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
 								       m_splitter(parent),
 								       m_updatePlaylistStack(true)
 {
-    m_collectionContextMenu = new KPopupMenu();
-    m_collectionContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(slotContextDuplicate()));
+    // Sadly the actions from the main menu can't be reused because these require being enabled and disabled at
+    // different times.
 
     m_playlistContextMenu = new KPopupMenu();
-    m_playlistContextMenu->insertItem(SmallIcon("filesave"), i18n("Save"), this, SLOT(slotContextSave()));
-    m_playlistContextMenu->insertItem(SmallIcon("filesaveas"), i18n("Save As..."), this, SLOT(slotContextSaveAs()));
-    m_playlistContextMenu->insertItem(i18n("Rename..."), this, SLOT(slotContextRename()));
-    m_playlistContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(slotContextDuplicate()));
-    m_playlistContextMenu->insertItem(SmallIcon("edittrash"), i18n("Remove"), this, SLOT(slotContextDeleteItem()));
+
+    m_popupIndex["save"]      = m_playlistContextMenu->insertItem(SmallIcon("filesave"), i18n("Save"), this, SLOT(slotContextSave()));
+    m_popupIndex["saveas"]    = m_playlistContextMenu->insertItem(SmallIcon("filesaveas"), i18n("Save As..."), this, SLOT(slotContextSaveAs()));
+    m_popupIndex["rename"]    = m_playlistContextMenu->insertItem(i18n("Rename..."), this, SLOT(slotContextRename()));
+    m_popupIndex["duplicate"] = m_playlistContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(slotContextDuplicate()));
+    m_popupIndex["remove"]    = m_playlistContextMenu->insertItem(SmallIcon("edittrash"), i18n("Remove"), this, SLOT(slotContextDeleteItem()));
 
     setAcceptDrops(true);
 
@@ -61,7 +62,6 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
 
 PlaylistBox::~PlaylistBox()
 {
-    delete m_collectionContextMenu;
     delete m_playlistContextMenu;
 }
 
@@ -316,7 +316,7 @@ void PlaylistBox::mousePressEvent(QMouseEvent *e)
     if(e->button() == Qt::RightButton) {
 	QListBoxItem *i = itemAt(e->pos());
 	if(i)
-	    slotDrawContextMenu(i, e->globalPos());
+	    slotShowContextMenu(i, e->globalPos());
 	e->accept();
     }
     else {
@@ -341,17 +341,27 @@ void PlaylistBox::slotDoubleClicked(QListBoxItem *)
     emit signalDoubleClicked();
 }
 
-void PlaylistBox::slotDrawContextMenu(QListBoxItem *item, const QPoint &point)
+void PlaylistBox::slotShowContextMenu(QListBoxItem *item, const QPoint &point)
 {
     Item *i = static_cast<Item *>(item);
 
     m_contextMenuOn = i;
 
-    if(i)
-	if(i->playlist() == CollectionList::instance())
-	    m_collectionContextMenu->popup(point);
-	else
-	    m_playlistContextMenu->popup(point);
+    if(i) {
+	if(i->playlist() == CollectionList::instance()) {
+	    m_playlistContextMenu->setItemEnabled(m_popupIndex["save"], false);
+	    m_playlistContextMenu->setItemEnabled(m_popupIndex["saveas"], false);
+	    m_playlistContextMenu->setItemEnabled(m_popupIndex["rename"], false);
+	    m_playlistContextMenu->setItemEnabled(m_popupIndex["remove"], false);
+	}
+	else {
+	    m_playlistContextMenu->setItemEnabled(m_popupIndex["save"], true);
+	    m_playlistContextMenu->setItemEnabled(m_popupIndex["saveas"], true);
+	    m_playlistContextMenu->setItemEnabled(m_popupIndex["rename"], true);
+	    m_playlistContextMenu->setItemEnabled(m_popupIndex["remove"], true);	    
+	}
+	m_playlistContextMenu->popup(point);
+    }
 }
 
 void PlaylistBox::slotContextSave()
