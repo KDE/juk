@@ -17,13 +17,50 @@
 #include <kapplication.h>
 #include <kstandarddirs.h>
 #include <kdebug.h>
+#include <kwin.h>
 
 #include <qimage.h>
 #include <qvbox.h>
+#include <qregexp.h>
 #include <qwidget.h>
 #include <qnamespace.h>
 
 #include "coverinfo.h"
+
+/**
+ * QVBox subclass to show a window for the track cover, and update the parent
+ * CoverInfo when we close.  It may not be the 'best' way to do it, but it
+ * works.
+ *
+ * @author Michael Pyne <michael.pyne@kdemail.net>
+ */
+class CoverInfo::CoverPopupWindow : public QVBox
+{
+public:
+    CoverPopupWindow(CoverInfo &coverInfo, const QPixmap &pixmap, QWidget *parent = 0) :
+        QVBox(parent, 0, WDestructiveClose), m_coverInfo(coverInfo)
+    {
+        QString caption = coverInfo.m_tag.artist() + " - " + coverInfo.m_tag.album();
+        setCaption(kapp->makeStdCaption(caption));
+
+        QWidget *widget = new QWidget(this);
+        widget->setPaletteBackgroundPixmap(pixmap);
+        widget->setFixedSize(pixmap.size());
+
+        // Trim as much as possible and keep that size.
+
+        adjustSize();
+        setFixedSize(size());
+    }
+
+    ~CoverPopupWindow()
+    {
+        m_coverInfo.m_popupWindow = 0;
+    }
+
+private:
+    CoverInfo &m_coverInfo;
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -31,24 +68,22 @@
 
 
 CoverInfo::CoverInfo(const Tag &tag) :
-    m_tag(tag)
+    m_tag(tag), m_popupWindow(0)
 {
-
 }
 
 QPixmap *CoverInfo::coverPixmap()
 {
-
     QPixmap *coverThumb = getPixmap(false);
 
-    if (!coverThumb->isNull())
+    if(!coverThumb->isNull())
         return coverThumb;
 
-    // If the file doesn't exists, try to create the thumbnail from
+    // If the file doesn't exist, try to create the thumbnail from
     // the large image
 
     QPixmap *largeCover = largeCoverPixmap();
-    if (!largeCover->isNull()) {
+    if(!largeCover->isNull()) {
         QImage img(largeCover->convertToImage());
         img.smoothScale(80, 80).save(coverLocation(false), "PNG");
     }
@@ -63,7 +98,7 @@ QPixmap *CoverInfo::largeCoverPixmap()
 
 QPixmap *CoverInfo::getPixmap(bool large)
 {
-    if (m_tag.artist().isEmpty() || m_tag.album().isEmpty())
+    if(m_tag.artist().isEmpty() || m_tag.album().isEmpty())
         return new QPixmap();
 
     return new QPixmap(coverLocation(large));
@@ -71,28 +106,29 @@ QPixmap *CoverInfo::getPixmap(bool large)
 
 QString CoverInfo::coverLocation(bool large)
 {
-    QString fileName (QFile::encodeName(m_tag.artist() + " - " + m_tag.album()));
-    fileName.replace(" ", "_").replace("/", "_").replace("?", "_").append(".png");
-    QString fileLocation = KGlobal::dirs()->saveLocation("data", kapp->instanceName() + "/") +
-					"covers/" +
-					(large ? "large/" : "") +
-					fileName.lower();
+    QString fileName(QFile::encodeName(m_tag.artist() + " - " + m_tag.album()));
+    QRegExp maskedFileNameChars("[ /?]");
+
+    fileName.replace(maskedFileNameChars, "_");
+    fileName.append(".png");
+
+    QString dataDir = KGlobal::dirs()->saveLocation("appdata");
+    QString fileLocation = dataDir + "covers/" + (large ? "large/" : "") + fileName.lower();
+
     return fileLocation;
 }
 
 void CoverInfo::popupLargeCover()
 {
-    QPixmap *largeCover = largeCoverPixmap();;
-    if (largeCover->isNull()){
+    QPixmap *largeCover = largeCoverPixmap();
+    if(largeCover->isNull())
         return;
-    }
-    QVBox *container = new QVBox(0, 0, Qt::WDestructiveClose);
-    container->setCaption(kapp->makeStdCaption(m_tag.artist() + " - " +m_tag.album()));
-    QWidget *widget = new QWidget(container);
-    widget->setPaletteBackgroundPixmap(*largeCover);
-    widget->setFixedSize(largeCover->size());
-    container->adjustSize();
-    container->setFixedSize(container->size());
-    container->show();
+
+    if(!m_popupWindow)
+        m_popupWindow = new CoverPopupWindow(*this, *largeCover);
+
+    m_popupWindow->show();
+    KWin::activateWindow(m_popupWindow->winId());
 }
 
+// vim: set et sw=4 ts=8:

@@ -38,7 +38,11 @@ public:
 
 
 private:
+    class CoverPopupWindow;
+    friend class CoverPopupWindow;
+
     Tag m_tag;
+    CoverPopupWindow *m_popupWindow;
 };
 #endif
 
