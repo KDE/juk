@@ -311,20 +311,25 @@ void PlaylistBox::deleteItems(const ItemList &items)
 	    return;
     }
 
-    QListViewItem *nextItem = 0;
-
     QValueList< QPair<Item *, Playlist *> > removeQueue;
 
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 	m_names.remove((*it)->text(0));
 	m_playlistDict.remove((*it)->playlist());
-
-	nextItem = (*it)->nextSibling() ? (*it)->nextSibling() : (*it)->itemAbove();
-
 	removeQueue.append(qMakePair(*it, (*it)->playlist()));
     }
 
-    setSingleItem(nextItem);
+    if(items.back()->nextSibling() && static_cast<Item *>(items.back()->nextSibling())->playlist())
+	setSingleItem(items.back()->nextSibling());
+    else {
+	Item *i = static_cast<Item *>(items.front()->itemAbove());
+	while(i && !i->playlist())
+	    i = static_cast<Item *>(i->itemAbove());
+
+	assert(i);
+
+	setSingleItem(i);
+    }
 
     QValueListConstIterator< QPair<Item *, Playlist *> > it = removeQueue.begin();
     for(; it != removeQueue.end(); ++it) {
