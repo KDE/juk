@@ -965,7 +965,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     // Turn off non-explicit sorting.
 
-    setSorting(columns() + 1);
+    setSorting(PlaylistItem::lastColumn() + columnOffset() + 1);
 
     PlaylistItem *after = 0;
 
