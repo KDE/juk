@@ -18,14 +18,13 @@
 #ifndef PLAYLISTBOX_H
 #define PLAYLISTBOX_H
 
-#include <klistbox.h>
+#include <klistview.h>
 
 #include <qwidgetstack.h>
 #include <qptrdict.h>
 #include <qmap.h>
 
 #include "playlist.h"
-#include "listboxpixmap.h"
 
 class PlaylistItem;
 class PlaylistSplitter;
@@ -37,7 +36,7 @@ class KPopupMenu;
  * JuK's main widget (PlaylistSplitter). 
  */
 
-class PlaylistBox : public KListBox
+class PlaylistBox : public KListView
 {
     Q_OBJECT
 
@@ -47,10 +46,9 @@ public:
 
     void createItem(Playlist *playlist, const char *icon = 0, bool raise = false);
 
-    void sort();
     void raise(Playlist *playlist);
     QStringList names() const { return m_names; }
-    PlaylistList playlists() const;
+    PlaylistList playlists();
 
     // All of the methods use the selected item.
     void save();
@@ -78,20 +76,19 @@ private:
     void deleteItem(Item *item);
     void reload(Item *item);
 
-    virtual void resizeEvent(QResizeEvent *e);
     virtual void decode(QMimeSource *s, Item *item);
-    virtual void dropEvent(QDropEvent *e);
-    virtual void dragMoveEvent(QDragMoveEvent *e);
-    virtual void mousePressEvent(QMouseEvent *e);
+    virtual void contentsDropEvent(QDropEvent *e);
+    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     /** 
      * This is used by PlaylistItemBox (a friend class) to add names to the name
      * list returned by names(). 
      */
     void addName(const QString &name) { m_names.append(name); }
 
-    QValueList<Item *> selectedItems() const;
+    QValueList<Item *> selectedItems();
 
-    void setCurrentItem(QListBoxItem *item);
+    void setSingleItem(QListViewItem *item);
+    void ensureCurrentVisible() { ensureItemVisible(currentItem()); }
 
 private slots:
     /** 
@@ -99,8 +96,8 @@ private slots:
      * the signal as currentChanged(Item *). 
      */
     void slotPlaylistChanged();
-    void slotDoubleClicked(QListBoxItem *);
-    void slotShowContextMenu(QListBoxItem *item, const QPoint &point);
+    void slotDoubleClicked(QListViewItem *);
+    void slotShowContextMenu(QListViewItem *item, const QPoint &point, int);
 
     // context menu entries
     void slotContextSave();
@@ -122,7 +119,7 @@ private:
 
 
 
-class PlaylistBox::Item : public QObject, public ListBoxPixmap
+class PlaylistBox::Item : public QObject, public KListViewItem
 {
     friend class PlaylistBox;
 
@@ -140,7 +137,9 @@ protected:
     Item(PlaylistBox *listbox, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_list; }
-    PlaylistBox *listBox() const { return static_cast<PlaylistBox *>(ListBoxPixmap::listBox()); }
+    PlaylistBox *listView() const { return static_cast<PlaylistBox *>(KListViewItem::listView()); }
+
+    virtual int compare(QListViewItem *i, int col, bool) const;
 
 public slots:
     void slotSetName(const QString &name);

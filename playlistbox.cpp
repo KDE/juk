@@ -22,10 +22,12 @@
 #include <kapplication.h>
 #include <klineeditdlg.h>
 #include <kpopupmenu.h>
+#include <kdebug.h>
 
 #include <qfile.h>
 #include <qdrawutil.h>
 #include <qclipboard.h>
+#include <qheader.h>
 
 #include "playlistbox.h"
 #include "collectionlist.h"
@@ -35,10 +37,14 @@
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(parent, name),
+PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView(parent, name),
 								       m_splitter(parent),
 								       m_updatePlaylistStack(true)
 {
+    addColumn("Playlists");
+    header()->hide();
+    setSorting(0);
+    
     // Sadly the actions from the main menu can't be reused because these require being enabled and disabled at
     // different times.
 
@@ -63,13 +69,16 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
 	SmallIconSet("reload"), i18n("Reload Playlist File"), this, SLOT(slotContextReload()));
 
     setAcceptDrops(true);
-    setSelectionMode(Extended);
+    setSelectionModeExt(Extended);
 
     connect(this, SIGNAL(selectionChanged()), 
 	    this, SLOT(slotPlaylistChanged()));
 
-    connect(this, SIGNAL(doubleClicked(QListBoxItem *)), 
-	    this, SLOT(slotDoubleClicked(QListBoxItem *)));
+    connect(this, SIGNAL(doubleClicked(QListViewItem *)), 
+	    this, SLOT(slotDoubleClicked(QListViewItem *)));
+
+    connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
+	    this, SLOT(slotShowContextMenu(QListViewItem *, const QPoint &, int)));
 }
 
 PlaylistBox::~PlaylistBox()
@@ -86,32 +95,11 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise)
     m_playlistDict.insert(playlist, i);
 
     if(raise) {
-	setCurrentItem(i);
+	setSingleItem(i);
 	ensureCurrentVisible();
     }
 
-    sort();
-}
-
-void PlaylistBox::sort()
-{
-    QListBoxItem *collectionItem = firstItem();
-
-    bool collectionSelected = isSelected(collectionItem);
-
-    m_updatePlaylistStack = false;
-
-    if(collectionSelected)
-	setSelected(collectionItem, false);
-
-    takeItem(collectionItem);
-    KListBox::sort();
-    insertItem(collectionItem, 0);
-
-    if(collectionSelected)
-	setSelected(collectionItem, true);
-
-    m_updatePlaylistStack = true;
+    // sort();
 }
 
 void PlaylistBox::raise(Playlist *playlist)
@@ -124,19 +112,18 @@ void PlaylistBox::raise(Playlist *playlist)
     clearSelection();
     setSelected(i, true);
 
-    setCurrentItem(i);
+    setSingleItem(i);
     ensureCurrentVisible();
 }
 
-PlaylistList PlaylistBox::playlists() const
+PlaylistList PlaylistBox::playlists()
 {
     PlaylistList l;
 
-    // skip the collection m_list
-
-    for(uint j = 1; j < count(); j++) {
-	Item *i = static_cast<Item *>(item(j));
-	l.append(i->playlist());
+    for(QListViewItemIterator it(this); it.current(); ++it) {
+	Item *i = static_cast<Item *>(*it);
+	if(i->playlist() != CollectionList::instance())
+	    l.append(i->playlist());
     }
 
     return l;
@@ -201,10 +188,10 @@ void PlaylistBox::rename(Item *item)
     bool ok;
 
     QString name = KLineEditDlg::getText(i18n("Rename"),
-        i18n("Please enter a name for this playlist:"), item->text(), &ok);
+        i18n("Please enter a name for this playlist:"), item->text(0), &ok);
 
     if(ok) {
-	item->setText(name);
+	item->setText(0, name);
 
 	// Telling the playlist to change it's name will emit a signal that
 	// is connected to Item::slotSetName().
@@ -227,7 +214,7 @@ void PlaylistBox::duplicate(Item *item)
 
     QString name = KLineEditDlg::getText(i18n("New Playlist"), 
         i18n("Please enter a name for the new playlist:"), 
-        m_splitter->uniquePlaylistName(item->text(), true), &ok);
+        m_splitter->uniquePlaylistName(item->text(0), true), &ok);
 
 	if(ok) {
 	    Playlist *p = m_splitter->createPlaylist(name);
@@ -256,10 +243,10 @@ void PlaylistBox::deleteItem(Item *item)
 	    return;
     }
     
-    m_names.remove(item->text());
+    m_names.remove(item->text(0));
     m_playlistDict.remove(item->playlist());
 
-    setCurrentItem(item->prev() ? item->prev() : item->next());
+    setSingleItem(item->nextSibling() ? item->nextSibling() : lastItem());
 
     delete item->playlist();
     delete item;
@@ -271,13 +258,6 @@ void PlaylistBox::reload(Item *item)
 	item->playlist()->slotReload();
 }
 
-void PlaylistBox::resizeEvent(QResizeEvent *e)
-{
-    triggerUpdate(true);
-
-    KListBox::resizeEvent(e);
-}
-
 void PlaylistBox::decode(QMimeSource *s, Item *item)
 {
     if(!s || !item || !item->playlist())
@@ -286,7 +266,6 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
     KURL::List urls;
     
     if(KURLDrag::decode(s, urls) && !urls.isEmpty()) {
-	
 	QStringList files;
 	
 	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
@@ -296,13 +275,13 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
     }
 }
 
-void PlaylistBox::dropEvent(QDropEvent *e)
+void PlaylistBox::contentsDropEvent(QDropEvent *e)
 {
     Item *i = static_cast<Item *>(itemAt(e->pos()));
     decode(e, i);
 }
 
-void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
+void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 {
     // If we can decode the input source, there is a non-null item at the "move"
     // position, the playlist for that Item is non-null, is not the 
@@ -311,7 +290,7 @@ void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
     // Otherwise, do not accept the event.
     
     if(KURLDrag::canDecode(e) && itemAt(e->pos())) {
-	Item *i = static_cast<Item *>(itemAt(e->pos()));
+	Item *target = static_cast<Item *>(itemAt(e->pos()));
 
 	// This is a semi-dirty hack to check if the items are coming from within
 	// JuK.  If they are not coming from a Playlist (or subclass) then the
@@ -319,11 +298,8 @@ void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
 	// coming from outside of JuK.
 
 	if(dynamic_cast<Playlist *>(e->source())) {
-	    if(i->playlist() && i->playlist() != CollectionList::instance())
-		if(selectedItem() && i != selectedItem())
-		    e->accept(true);
-		else
-		    e->accept(false);
+	    if(target->playlist() && target->playlist() != CollectionList::instance() && !target->isSelected())
+		e->accept(true);
 	    else
 		e->accept(false);
 	}
@@ -332,40 +308,25 @@ void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
     }
     else
 	e->accept(false);
-
 }
 
-void PlaylistBox::mousePressEvent(QMouseEvent *e)
-{
-    if(e->button() == Qt::RightButton) {
-	QListBoxItem *i = itemAt(e->pos());
-	if(i)
-	    slotShowContextMenu(i, e->globalPos());
-	e->accept();
-    }
-    else {
-	e->ignore();
-	QListBox::mousePressEvent(e);
-    }
-}
-
-QValueList<PlaylistBox::Item *> PlaylistBox::selectedItems() const
+QValueList<PlaylistBox::Item *> PlaylistBox::selectedItems()
 {
     QValueList<Item *> l;
-    
-    int c = count();
-    for(int i = 0; i < c; i++)
-	if(isSelected(i))
-	    l.append(static_cast<Item *>(item(i)));
-    
+
+    for(QListViewItemIterator it(this); it.current(); ++it) {
+	if(isSelected(*it))
+	    l.append(static_cast<Item *>(*it));
+    }
+
     return l;
 }
 
-void PlaylistBox::setCurrentItem(QListBoxItem *item)
+void PlaylistBox::setSingleItem(QListViewItem *item)
 {
-    setSelectionMode(Single);
-    KListBox::setCurrentItem(item);
-    setSelectionMode(Extended);
+    setSelectionModeExt(Single);
+    KListView::setCurrentItem(item);
+    setSelectionModeExt(Extended);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -384,19 +345,19 @@ void PlaylistBox::slotPlaylistChanged()
     }
 }
 
-void PlaylistBox::slotDoubleClicked(QListBoxItem *)
+void PlaylistBox::slotDoubleClicked(QListViewItem *)
 {
     emit signalDoubleClicked();
 }
 
-void PlaylistBox::slotShowContextMenu(QListBoxItem *item, const QPoint &point)
+void PlaylistBox::slotShowContextMenu(QListViewItem *item, const QPoint &point, int)
 {
     Item *i = static_cast<Item *>(item);
 
     m_contextMenuOn = i;
 
     if(i) {
-	setCurrentItem(i);
+	// setSingleItem(i);
 
 	bool isCollection = i->playlist() == CollectionList::instance();
 	bool hasFile = !i->playlist()->fileName().isEmpty();
@@ -449,20 +410,20 @@ void PlaylistBox::slotContextReload()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
-    : QObject(listbox), ListBoxPixmap(listbox, pix, text),
+    : QObject(listbox), KListViewItem(listbox, text),
       m_list(l)
 {
-    setOrientation(Qt::Vertical);
+    setPixmap(0, pix);
     listbox->addName(text);
 
     connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
 }
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QString &text, Playlist *l) 
-    : ListBoxPixmap(listbox, SmallIcon("midi", 32), text),
+    : KListViewItem(listbox, text),
       m_list(l)
 {
-    setOrientation(Qt::Vertical);
+    setPixmap(0, SmallIcon("midi", 32));
 }
 
 PlaylistBox::Item::~Item()
@@ -470,14 +431,24 @@ PlaylistBox::Item::~Item()
 
 }
 
+int PlaylistBox::Item::compare(QListViewItem *i, int col, bool) const
+{
+    if(playlist() == CollectionList::instance())
+	return -1;
+    else if(static_cast<Item *>(i)->playlist() == CollectionList::instance())
+	return 1;
+
+    return text(col).lower().localeAwareCompare(i->text(col).lower());
+}
+
 void PlaylistBox::Item::slotSetName(const QString &name)
 {
-    if(listBox()) {
-	listBox()->m_names.remove(text());
-	listBox()->m_names.append(name);
+    if(listView()) {
+	listView()->m_names.remove(text(0));
+	listView()->m_names.append(name);
 
-	setText(name);
-	listBox()->updateItem(this);
+	setText(0, name);
+	// listView()->updateItem(this);
     }
 }
 
