@@ -347,7 +347,6 @@ void JuK::setupActions()
 
     setStandardToolBarMenuEnabled(true);
 
-    m_restoreOnLoadAction     = new KToggleAction(i18n("&Restore Playlists on Load"),    0, actionCollection(), "restoreOnLoad");
     m_toggleSplashAction      = new KToggleAction(i18n("Show Splash Screen on Startup"), 0, actionCollection(), "showSplashScreen");
     m_toggleSystemTrayAction  = new KToggleAction(i18n("&Dock in System Tray"),          0, actionCollection(), "toggleSystemTray");
     m_toggleDockOnCloseAction = new KToggleAction(i18n("&Stay in System Tray on Close"), 0, actionCollection(), "dockOnClose");
@@ -495,7 +494,6 @@ void JuK::readSettings()
     KConfig *config = KGlobal::config();
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
-        m_restore = config->readBoolEntry("RestoreOnLoad", true);
         m_showSplash = config->readBoolEntry("ShowSplashScreen", true);
     }
 }
@@ -545,7 +543,6 @@ void JuK::readConfig()
             m_outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
     }
 
-    m_restoreOnLoadAction->setChecked(m_restore);
     m_toggleSplashAction->setChecked(m_showSplash);
 }
 
@@ -569,7 +566,6 @@ void JuK::saveConfig()
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
-        config->writeEntry("RestoreOnLoad", m_restoreOnLoadAction->isChecked());
         config->writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
         config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
         config->writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());

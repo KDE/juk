@@ -53,7 +53,6 @@
 	</Menu>
 	<Menu name="settings"><text>&amp;Settings</text>
 		<!-- <Action name="showGenreListEditor"/> -->
-		<!-- <Action name="restoreOnLoad" append="show_merge"/> -->
 		<Action name="showSplashScreen" append="show_merge"/>
 		<Action name="toggleSystemTray" append="show_merge"/>
 		<Action name="dockOnClose" append="show_merge"/>

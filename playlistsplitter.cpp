@@ -18,6 +18,7 @@
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <klineeditdlg.h>
+#include <kcmdlineargs.h>
 #include <kdebug.h>
 
 #include <qpopupmenu.h>
@@ -50,6 +51,14 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *na
     m_playingItem(0), m_searchWidget(0), m_dynamicList(0), m_restore(restore),
     m_nextPlaylistItem(0)
 {
+#ifndef NO_DEBUG
+    m_restore = KCmdLineArgs::parsedArgs()->isSet("restore");
+#else
+    m_restore = true;
+#endif
+
+    m_dirWatch = new KDirWatch();
+
     setupLayout();
     readConfig();
 
@@ -469,7 +478,6 @@ void PlaylistSplitter::readConfig()
 	    m_directoryList = config->readListEntry("DirectoryList");
 	    QTimer::singleShot(0, this, SLOT(slotScanDirectories()));
 
-	    m_dirWatch = new KDirWatch();
 	    connect(m_dirWatch, SIGNAL(dirty(const QString &)),
 		    this, SLOT(slotDirChanged(const QString &)));
 

@@ -49,6 +49,9 @@ public:
 
 static KCmdLineOptions options[] =
 {
+#ifndef NO_DEBUG
+    { "restore", I18N_NOOP("Restore playlists.  Use --norestore for debugging."), 0 },
+#endif
     { "+[file(s)]", I18N_NOOP("File(s) to open"), 0 },
     { 0, 0, 0 }
 };
@@ -68,6 +71,8 @@ int main(int argc, char *argv[])
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
+
+    Application::addCmdLineOptions();
 
     Application a;
 
