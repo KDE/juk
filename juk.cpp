@@ -162,7 +162,7 @@ void JuK::setupActions()
 	connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
     }
 
-    new KAction(i18n("Tag Guesser..."), "tagGuesserConfig", 0, this, SLOT(slotConfigureTagGuesser()), actionCollection(), "tagGuesserConfig");
+    new KAction(i18n("Tag Guesser..."), 0, 0, this, SLOT(slotConfigureTagGuesser()), actionCollection(), "tagGuesserConfig");
 
     KStdAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
 
