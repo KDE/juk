@@ -89,7 +89,7 @@
                         <cstring>importPlaylistsCheckBox</cstring>
                     </property>
                     <property name="text">
-                        <string>Import Playlists</string>
+                        <string>Import playlists</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
