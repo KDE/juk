@@ -34,8 +34,28 @@
 #include <qcheckbox.h>
 #include <qlayout.h>
 #include <qdir.h>
+#include <qvalidator.h>
 
 #include <id3v1genres.h>
+
+class FileNameValidator : public QValidator
+{
+public:
+    FileNameValidator(QObject *parent, const char *name = 0) :
+	QValidator(parent, name) {}
+
+    virtual void fixup(QString &s) const
+    {
+	s.remove('/');
+    }
+
+    virtual State validate(QString &s, int &) const
+    {
+	if(s.find('/' != -1))
+	   return Invalid;
+	return Acceptable;
+    }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -351,6 +371,8 @@ void TagEditor::setupLayout()
 							horizontalSpacing);
 
 	m_fileNameBox = new KLineEdit(this, "fileNameBox");
+	m_fileNameBox->setValidator(new FileNameValidator(m_fileNameBox));	
+
 	QLabel *fileNameIcon = new QLabel(this);
 	fileNameIcon->setPixmap(SmallIcon("sound"));
 	QWidget *fileNameLabel = addHidden(new QLabel(m_fileNameBox, i18n("&File name:"), this));
