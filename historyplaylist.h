@@ -32,8 +32,8 @@ public:
     virtual ~HistoryPlaylist();
 
     virtual void createItems(const PlaylistItemList &siblings);
-    virtual int columnOffset() { return 1; }
-    virtual bool readOnly() { return true; }
+    virtual int columnOffset() const { return 1; }
+    virtual bool readOnly() const { return true; }
 public slots:
     void cut() {}
     void clear() {}

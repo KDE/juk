@@ -99,7 +99,7 @@ void Playlist::SharedSettings::setColumnOrder(const Playlist *l)
 
     m_columnOrder.clear();
 
-    for(int i = 0; i < l->columns(); ++i)
+    for(int i = l->columnOffset(); i < l->columns(); ++i)
 	m_columnOrder.append(l->header()->mapToIndex(i));
 
     writeConfig();
@@ -120,15 +120,16 @@ void Playlist::SharedSettings::apply(Playlist *l) const
     if(!l)
 	return;
 
+    int offset = l->columnOffset();
     int i = 0;
     for(QValueListConstIterator<int> it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
-	l->header()->moveSection(i++, *it);
+	l->header()->moveSection(i++ + offset, *it + offset);
 
     for(uint i = 0; i < m_columnsVisible.size(); i++) {
-	if(m_columnsVisible[i] && ! l->isColumnVisible(i))
-	    l->showColumn(i);
-	else if(! m_columnsVisible[i] && l->isColumnVisible(i))
-	    l->hideColumn(i);
+	if(m_columnsVisible[i] && !l->isColumnVisible(i + offset))
+	    l->showColumn(i + offset);
+	else if(!m_columnsVisible[i] && l->isColumnVisible(i + offset))
+	    l->hideColumn(i + offset);
     }
 
     l->updateLeftColumn();
@@ -1099,7 +1100,7 @@ void Playlist::slotToggleColumnVisible(int column)
     else
 	showColumn(column);
 
-    SharedSettings::instance()->toggleColumnVisible(column);
+    SharedSettings::instance()->toggleColumnVisible(column - columnOffset());
 }
 
 int Playlist::leftMostVisibleColumn() const

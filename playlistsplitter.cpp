@@ -196,16 +196,20 @@ void PlaylistSplitter::stop()
 
 QString PlaylistSplitter::playingArtist() const
 {
-    if(m_playingItem)
-	return m_playingItem->text(PlaylistItem::ArtistColumn);
+    if(m_playingItem) {
+	int offset =  static_cast<Playlist *>(m_playingItem->listView())->columnOffset();
+	return m_playingItem->text(PlaylistItem::ArtistColumn + offset);
+    }
     else
 	return QString::null;
 }
 
 QString PlaylistSplitter::playingTrack() const
 {
-    if(m_playingItem)
-	return m_playingItem->text(PlaylistItem::TrackColumn);
+    if(m_playingItem) {
+	int offset =  static_cast<Playlist *>(m_playingItem->listView())->columnOffset();
+	return m_playingItem->text(PlaylistItem::TrackColumn + offset);
+    }
     else
 	return QString::null;
 }

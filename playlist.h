@@ -213,8 +213,8 @@ public:
      */
     void emitCountChanged() { emit signalCountChanged(this); }
 
-    virtual int columnOffset() { return 0; }
-    virtual bool readOnly() { return false; }
+    virtual int columnOffset() const { return 0; }
+    virtual bool readOnly() const { return false; }
 
 public slots:
     /**
