@@ -1,4 +1,3 @@
-// -*- Mode: c++-mode; c-basic-offset: 4; indent-tabs-mode: nil; -*-
 // musicbrainzquery.h
 //
 // Copyright (C)  2003  Zack Rusin <zack@kde.org>
@@ -21,7 +20,7 @@
 #ifndef MUSICBRAINZ_H
 #define MUSICBRAINZ_H
 
-#include "../config.h"
+#include <config.h>
 
 #if HAVE_MUSICBRAINZ
 
@@ -42,36 +41,36 @@ class KProcess;
  * name one would do :
  *
  * QStringList l;
- * l<<"h2o";
+ * l << "h2o";
  * MusicBrainzQuery *query =
  *       new MusicBrainzQuery( MusicBrainzQuery::AlbumByName ,
- *                          l );
- * connect( query, SIGNAL(done(const MusicBrainzQuery::AlbumList&)),
+ *                             l );
+ * connect( query, SIGNAL( done(const MusicBrainzQuery::AlbumList&)),
  *         SLOT(slotDone(const MusicBrainzQuery::AlbumList&)) );
  * query->start();
  *
  */
 
-class MusicBrainzQuery : public QObject,
-                         public MusicBrainz
+class MusicBrainzQuery : public QObject, public MusicBrainz
 {
     Q_OBJECT
 public:
     enum QueryType {
-        CD,//!identifies the cd , doesn't take any arguments
-        File,//!tries to identify the given file, takes file path
-        TrackFromTRM,//!identifies the song from trm, takes the trm
-        TrackFromID,//!song from track id, takes the trackId
-        ArtistByName,//!name
-        AlbumByName,//!name
-        TrackByName,//!name
-        TRM,//!artist name + track name
-        ArtistByID,//!artist id
-        AlbumByID,//!album id
-        TrackByID//!track id
+        CD,           //! Identifies the CD, doesn't take any arguments
+        File,         //! Tries to identify the given file, takes file path
+        TrackFromTRM, //! Identifies the song from TRM, takes the TRM
+        TrackFromID,  //! Song from track ID, takes the trackId
+        ArtistByName, //! Name
+        AlbumByName,  //! Name
+        TrackByName,  //! Name
+        TRM,          //! Artist name and track name.
+        ArtistByID,   //! Artist ID
+        AlbumByID,    //! Album ID
+        TrackByID     //! Track ID
     };
+
     struct Track {
-        int     num;
+        int     number;
         QString id;
         QString album;
         QString name;
@@ -79,9 +78,12 @@ public:
         QString artist;
         QString artistId;
     };
+
     typedef QValueList<Track> TrackList;
+
     struct Album {
-        Album(): numTracks(0) {}
+        Album() : numTracks(0) {}
+
         QString name;
         QString artist;
         QString id;
@@ -89,37 +91,37 @@ public:
         QString type;
         QString cdIndexId;
         QString artistId;
-        int     numTracks;
+        int numTracks;
         TrackList tracksList;
     };
+
     typedef QValueList<Album> AlbumList;
 
-    MusicBrainzQuery(QueryType query, const QStringList& args,
-                     QObject* parent=0, const char* name=0);
+    MusicBrainzQuery(QueryType query, const QStringList &args,
+                     QObject *parent = 0, const char *name = 0);
 
     void start();
 
 signals:
-    void done(const MusicBrainzQuery::AlbumList&);
-    void done(const MusicBrainzQuery::TrackList&);
+    void signalDone(const MusicBrainzQuery::AlbumList &);
+    void signalDone(const MusicBrainzQuery::TrackList &);
 
-protected slots:
+private slots:
     void slotQuery();
-    void trmData(KProcess *proc, char *buffer, int buflen);
-    void trmGenerationFinished(KProcess *proc);
+    void slotTrmData(KProcess *proc, char *buffer, int bufferLength);
+    void slotTrmGenerationFinished(KProcess *process);
 
-protected:
-    void        trmQuery(const QString& file);
-    QString     dataExtract(const QString&, int i=0);
-    void        queryStrings(std::string& query, std::string& result, std::string& extraction);
-    Album       extractAlbum(int);
-    Track       extractTrack(int);
-    Track       extractTrackFromAlbum(int);
+private:
+    QString     dataExtract(const QString &, int i = 0);
+    void        queryStrings(std::string &query, std::string &result, std::string &extraction);
+    Album       extractAlbum();
+    Track       extractTrack(int trackNumber);
+    Track       extractTrackFromAlbum(int trackNumber);
 
     QueryType   m_query;
     QStringList m_arguments;
     QString     m_trm;
-    bool        m_tracks;//if only tracks should be extracted
+    bool        m_tracks; //if only tracks should be extracted
 };
 
 #endif

@@ -17,7 +17,7 @@
 // Foundation, Inc., 59 Temple Place - Suite 330, Boston, MA
 // 02111-1307, USA.
 
-#include "../config.h"
+#include <config.h>
 
 #if HAVE_MUSICBRAINZ
 
@@ -32,29 +32,37 @@
 #include <string>
 #include <vector>
 
-MusicBrainzQuery::MusicBrainzQuery(QueryType query, const QStringList& args,
-                                   QObject* parent, const char* name)
-    : QObject(parent,name), m_query(query), m_arguments(args), m_tracks(false)
+MusicBrainzQuery::MusicBrainzQuery(QueryType query, const QStringList &args,
+                                   QObject *parent, const char *name)
+    : QObject(parent, name),
+      MusicBrainz(),
+      m_query(query),
+      m_arguments(args),
+      m_tracks(false)
 {
 
 }
 
 void MusicBrainzQuery::start()
 {
-    if (m_query == File){
+    if(m_query == File) {
 #if HAVE_TRM
-        KProcess *proc = new KProcess(this);
-        *proc << "trm";
-        *proc << m_arguments.first();
-        connect(proc, SIGNAL(receivedStdout(KProcess*, char*, int)),
-                SLOT(trmData(KProcess*, char*, int)));
-        connect(proc, SIGNAL(processExited(KProcess *)),
-                SLOT(trmGenerationFinished(KProcess *)));
-        proc->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+        KProcess *process = new KProcess(this);
+        *process << "trm";
+        *process << m_arguments.first();
+
+        connect(process, SIGNAL(receivedStdout(KProcess *, char *, int)),
+                SLOT(slotTrmData(KProcess *, char *, int)));
+
+        connect(process, SIGNAL(processExited(KProcess *)),
+                SLOT(slotTrmGenerationFinished(KProcess *)));
+
+        process->start(KProcess::NotifyOnExit, KProcess::AllOutput);
 #else
-        emit done(TrackList());
+        emit signalDone(TrackList());
 #endif
-    } else
+    }
+    else
         QTimer::singleShot(0, this, SLOT(slotQuery()));
 }
 
@@ -65,54 +73,57 @@ void MusicBrainzQuery::slotQuery()
     std::string extractString;
     AlbumList albums;
     TrackList tracks;
-    std::vector<std::string> vec;
+    std::vector<std::string> v;
 
     queryStrings(queryString, resultString, extractString);
 
-    //UseUTF8( false );
-    SetDepth( 4 );
+    // UseUTF8(false);
 
-    for(QStringList::Iterator itr = m_arguments.begin();
-        itr != m_arguments.end(); ++itr) {
-        vec.push_back(std::string((*itr).latin1()));
-    }
+    SetDepth(4);
 
-    bool ret = Query(queryString, &vec);
-    if( ret ) {
-        std::string temp;
+    QStringList::ConstIterator it = m_arguments.begin();
+    for(; it != m_arguments.end(); ++it)
+        v.push_back(std::string((*it).latin1()));
+
+    bool ret = Query(queryString, &v);
+    if(ret) {
         int numEntries = DataInt(resultString);
-        for( int i = 1; i <= numEntries; ++i ) {
+
+        for(int i = 1; i <= numEntries; ++i) {
             Select(extractString, i);
-            if ( m_tracks ) {
+
+            if(m_tracks) {
                 Track track(extractTrack(i));
                 tracks.append(track);
-            } else {
-                Album alb(extractAlbum(i));
-                albums.append(alb);
+            }
+	    else {
+                Album album(extractAlbum());
+                albums.append(album);
             }
         }
-    } else {
+    } 
+    else {
         std::string error;
         GetQueryError(error);
-        kdDebug()<<"Query failed: "<< error.c_str() <<endl;
+        kdDebug(65432) << "Query failed: " << error.c_str() << endl;
     }
 
     if (m_tracks)
-        emit done(tracks);
+        emit signalDone(tracks);
     else
-        emit done(albums);
+        emit signalDone(albums);
 
-    deleteLater();//schedule deletion
+    deleteLater(); // schedule deletion
 }
 
-QString MusicBrainzQuery::dataExtract(const QString& type, int i)
+QString MusicBrainzQuery::dataExtract(const QString &type, int i)
 {
-    std::string str = Data(type.latin1(), i);
-    if (str.empty()) {
+    std::string s = Data(type.latin1(), i);
+
+    if(s.empty())
         return QString::null;
-    } else {
-        return str.c_str();
-    }
+
+    return s.c_str();
 }
 
 void MusicBrainzQuery::queryStrings(std::string& query, std::string& result, std::string& extraction)
@@ -173,81 +184,103 @@ void MusicBrainzQuery::queryStrings(std::string& query, std::string& result, std
         m_tracks   = true;
         break;
     default:
-        kdDebug(65432)<<"Unrecognized query reported"<<endl;
+        kdDebug(65432) << "Unrecognized query reported" << endl;
     }
 }
 
-MusicBrainzQuery::Album MusicBrainzQuery::extractAlbum(int i)
+MusicBrainzQuery::Album MusicBrainzQuery::extractAlbum()
 {
-    std::string temp;
+    kdDebug(65432) << "Extracting album" << endl;
 
-    kdDebug()<<"Extracting "<<i<<endl;
-    Album alb;
-    GetIDFromURL(Data(MBE_AlbumGetAlbumId), temp);
-    alb.id = temp.c_str();
-    alb.name       = dataExtract(MBE_AlbumGetAlbumName);
-    alb.numTracks  = DataInt(MBE_AlbumGetNumTracks);
-    alb.artist     = dataExtract(MBE_AlbumGetArtistName, 1);
-    GetIDFromURL(Data(MBE_AlbumGetArtistId, 1), temp);
-    alb.artistId =  temp.c_str();
-    alb.status     = dataExtract(MBE_AlbumGetAlbumStatus);
-    alb.type       = dataExtract(MBE_AlbumGetAlbumType);
-    alb.cdIndexId  = dataExtract(MBE_AlbumGetNumCdindexIds);
+    std::string s;
+
+    GetIDFromURL(Data(MBE_AlbumGetAlbumId), s);
+
+    Album album;
+
+    album.id         = s.c_str();
+    album.name       = dataExtract(MBE_AlbumGetAlbumName);
+    album.numTracks  = DataInt(MBE_AlbumGetNumTracks);
+    album.artist     = dataExtract(MBE_AlbumGetArtistName, 1);
+
+    GetIDFromURL(Data(MBE_AlbumGetArtistId, 1), s);
+
+    album.artistId   = s.c_str();
+    album.status     = dataExtract(MBE_AlbumGetAlbumStatus);
+    album.type       = dataExtract(MBE_AlbumGetAlbumType);
+    album.cdIndexId  = dataExtract(MBE_AlbumGetNumCdindexIds);
 
     TrackList tracks;
-    for(int num = 1; num <= alb.numTracks; ++num) {
-        tracks.append(extractTrackFromAlbum(num));
-    }
-    alb.tracksList = tracks;
 
-    return alb;
+    for(int i = 1; i <= album.numTracks; ++i)
+        tracks.append(extractTrackFromAlbum(i));
+
+    album.tracksList = tracks;
+
+    return album;
 }
 
-MusicBrainzQuery::Track MusicBrainzQuery::extractTrackFromAlbum(int num)
+MusicBrainzQuery::Track MusicBrainzQuery::extractTrackFromAlbum(int trackNumber)
 {
     Track track;
-    std::string temp;
-    track.num      = num;
-    track.name     = dataExtract(MBE_AlbumGetTrackName, num);
-    track.duration = dataExtract(MBE_AlbumGetTrackDuration, num);
-    track.artist   = dataExtract(MBE_AlbumGetArtistName, num);
-    GetIDFromURL(Data(MBE_AlbumGetTrackId), temp);
-    track.id = (temp.empty()) ? QString::null : QString(temp.c_str());
-    GetIDFromURL(Data(MBE_AlbumGetArtistId),temp);
-    track.artistId = (temp.empty()) ? QString::null : QString(temp.c_str());
+
+    track.number      = trackNumber;
+    track.name        = dataExtract(MBE_AlbumGetTrackName, trackNumber);
+    track.duration    = dataExtract(MBE_AlbumGetTrackDuration, trackNumber);
+    track.artist      = dataExtract(MBE_AlbumGetArtistName, trackNumber);
+
+    std::string s;
+
+    GetIDFromURL(Data(MBE_AlbumGetTrackId), s);
+
+    track.id = s.empty() ? QString::null : QString(s.c_str());
+
+    GetIDFromURL(Data(MBE_AlbumGetArtistId), s);
+
+    track.artistId = s.empty() ? QString::null : QString(s.c_str());
+
     return track;
 }
 
-MusicBrainzQuery::Track MusicBrainzQuery::extractTrack(int num)
+MusicBrainzQuery::Track MusicBrainzQuery::extractTrack(int trackNumber)
 {
     Track track;
-    std::string temp1, temp2 = Data(MBE_TrackGetTrackId);
-    track.name     = dataExtract(MBE_TrackGetTrackName, num);
-    track.duration = dataExtract(MBE_TrackGetTrackDuration, num);
-    track.artist   = dataExtract(MBE_TrackGetArtistName, num);
-    track.album    = dataExtract(MBE_AlbumGetAlbumName, num);
+    const std::string source = Data(MBE_TrackGetTrackId);
+    std::string target = source;
 
-    GetIDFromURL(temp2, temp1);
-    track.id = (temp1.empty()) ? QString::null : QString(temp1.c_str());
+    track.name     = dataExtract(MBE_TrackGetTrackName, trackNumber);
+    track.duration = dataExtract(MBE_TrackGetTrackDuration, trackNumber);
+    track.artist   = dataExtract(MBE_TrackGetArtistName, trackNumber);
+    track.album    = dataExtract(MBE_AlbumGetAlbumName, trackNumber);
+
+    GetIDFromURL(source, target);
+
+    track.id = target.empty() ? QString::null : QString(target.c_str());
+
     Select(MBS_SelectTrackAlbum);
-    track.num      = GetOrdinalFromList(MBE_AlbumGetTrackList, temp2);
-    GetIDFromURL(Data(MBE_AlbumGetArtistId), temp1);
-    track.artistId = (temp1.empty())? QString::null : QString(temp1.c_str());
+
+    track.number = GetOrdinalFromList(MBE_AlbumGetTrackList, source);
+
+    GetIDFromURL(Data(MBE_AlbumGetArtistId), target);
+
+    track.artistId = target.empty() ? QString::null : QString(target.c_str());
+
     Select(MBS_Rewind);
+
     return track;
 }
 
-void MusicBrainzQuery::trmData(KProcess *, char *buffer, int buflen)
+void MusicBrainzQuery::slotTrmData(KProcess *, char *buffer, int bufferLength)
 {
-    m_trm += QString::fromLatin1(buffer, buflen);
+    m_trm += QString::fromLatin1(buffer, bufferLength);
 }
 
-void MusicBrainzQuery::trmGenerationFinished(KProcess*)
+void MusicBrainzQuery::slotTrmGenerationFinished(KProcess *)
 {
     m_arguments.clear();
     m_arguments << m_trm;
     m_query = TrackFromTRM;
-    kdDebug()<<"Generation finished "<<m_trm<<endl;
+    kdDebug(65432) << "Generation finished " << m_trm << endl;
     slotQuery();
 }
 

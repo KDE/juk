@@ -20,7 +20,7 @@ public:
     l<<file;
     MusicBrainzQuery *query = new MusicBrainzQuery( MusicBrainzQuery::File ,
                                                     l );
-    connect( query, SIGNAL(done(const MusicBrainzQuery::TrackList&)),
+    connect( query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList&)),
              SLOT(slotTrack(const MusicBrainzQuery::TrackList&)) );
     query->start();
   }
@@ -33,7 +33,7 @@ public slots:
       kdDebug() <<"Id        = "<< (*itr).id <<endl;
       kdDebug() <<"Name      = "<< (*itr).name <<endl;
       kdDebug() <<"Artist id = "<< (*itr).artistId <<endl;
-      kdDebug() <<"Song Num  = "<< (*itr).num <<endl;
+      kdDebug() <<"Song Num  = "<< (*itr).number <<endl;
     }
     kapp->quit();
   }
