@@ -27,7 +27,6 @@ class CoverInfo
 
 public:
     enum CoverSize { FullSize, Thumbnail };
-    enum PopupCorner { TopLeftCorner, BottomRightCorner };
 
     CoverInfo(const FileHandle &file);
 
@@ -37,7 +36,7 @@ public:
     void setCover(const QImage &image = QImage());
 
     QPixmap pixmap(CoverSize size) const;
-    void popup(PopupCorner corner = TopLeftCorner);
+    void popup() const;
 
 private:
     QString coverLocation(CoverSize size) const;

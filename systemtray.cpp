@@ -193,7 +193,7 @@ void  SystemTray::slotPopupLargeCover()
         return;
 
     FileHandle playingFile = PlayerManager::instance()->playingFile();
-    playingFile.coverInfo()->popup(CoverInfo::BottomRightCorner);
+    playingFile.coverInfo()->popup();
 }
 
 void SystemTray::slotStop()

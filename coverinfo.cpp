@@ -107,34 +107,34 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
     return QPixmap(coverLocation(size));
 }
 
-void CoverInfo::popup(PopupCorner corner)
+void CoverInfo::popup() const
 {
-    QPoint p = QCursor::pos();
-
-    int offset = corner == TopLeftCorner ? -10 : 10;
-    p.setX(p.x() + offset);
-    p.setY(p.y() + offset);
-
     QPixmap image = pixmap(FullSize);
+    QRect desktop = KApplication::desktop()->screenGeometry(kapp->mainWidget());
+    QPoint mouse  = QCursor::pos();
 
-    if(corner == BottomRightCorner) {
-        p.setX(p.x() - image.width());
-        p.setY(p.y() - image.height());
+    int x = mouse.x();
+    int y = mouse.y();
+    int height = image.size().height() + 4;
+    int width  = image.size().width() + 4;
 
-        if(p.x() < 0)
-            p.setX(0);
-        if(p.y() < 0)
-            p.setY(0);
-    }
-    else {
-        QRect r = KApplication::desktop()->screenGeometry(kapp->mainWidget());
-        if(p.x() + image.width() > r.right())
-            p.setX(r.right() - image.width());
-        if(p.y() + image.height() > r.bottom())
-            p.setX(r.bottom() - image.height());
-    }
+    // Detect the right direction to pop up (always towards the center of the
+    // screen), try to pop up with the mouse pointer 10 pixels into the image in
+    // both directions.  If we're too close to the screen border for this margin,
+    // show it at the screen edge, accounting for the four pixels (two on each
+    // side) for the window border.
 
-    new CoverPopup(image, p);
+    if(x < desktop.width() / 2)
+        x = (x < 10) ? 0 : (x - 10);
+    else
+        x = (x > desktop.width() - 10) ? desktop.width() - width : (x - width + 10);
+
+    if(y < desktop.height() / 2)
+        y = (y < 10) ? 0 : (y - 10);
+    else
+        y = (y > desktop.height() - 10) ? desktop.height() - height : (y - height + 10);
+
+    new CoverPopup(image, QPoint(x, y));
 }
 
 QString CoverInfo::coverLocation(CoverSize size) const
