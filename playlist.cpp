@@ -427,9 +427,11 @@ void Playlist::clear()
 
 void Playlist::slotGuessTagInfo()
 {
+    KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
     for(PlaylistItem *item = items.first(); item != 0; item = items.next())
         item->guessTagInfo();
+    KApplication::restoreOverrideCursor();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
