@@ -76,7 +76,6 @@ private:
     QLabel *m_playlistLabel;
     QLabel *m_trackLabel;
     QLabel *m_itemTimeLabel;
-//    PlaylistItem *playingItem;
 };
 
 #endif

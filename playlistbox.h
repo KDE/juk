@@ -78,6 +78,7 @@ public:
 
     ViewMode *viewMode()       { return m_viewModes[m_viewModeIndex]; }
     int viewModeIndex() const  { return m_viewModeIndex; }
+    void ensureCurrentVisible() { ensureItemVisible(currentItem()); }
 
     class Item;
     friend class Item;
@@ -123,8 +124,6 @@ private:
     QValueList<Item *> selectedItems();
 
     void setSingleItem(QListViewItem *item);
-    void ensureCurrentVisible() { ensureItemVisible(currentItem()); }
-
     void setupItem(Item *item, Playlist *playlist);
 
 private slots:
