@@ -53,6 +53,9 @@ public:
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
     
+
+    void queueRefresh() { m_needsRefresh = true; }
+
 protected:
     PlaylistBox *playlistBox() const { return m_playlistBox; }
     bool visible() const { return m_visible; }
@@ -72,6 +75,7 @@ private:
 
     PlaylistBox *m_playlistBox;
     bool m_visible;
+    bool m_needsRefresh;
     QMap<PlaylistBox::Item *, QStringList> m_lines;
 };
 

@@ -60,6 +60,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     // Find the main window and then get the associated KActionCollection.
 
     QObject *w = parent;
+
     while(w && !dynamic_cast<KMainWindow *>(w))
 	w = w->parent();
 
@@ -121,6 +122,7 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise, b
     Item *i = new Item(this, icon, playlist->name(), playlist);
 
     setupItem(i, playlist);
+    viewMode()->queueRefresh();
 
     if(raise) {
 	setSingleItem(i);
@@ -248,8 +250,10 @@ void PlaylistBox::rename(Item *item)
 	// Telling the playlist to change it's name will emit a signal that
 	// is connected to Item::slotSetName().
 
-	if(item->playlist())
+	if(item->playlist()) {
 	    item->playlist()->setName(name);
+	    viewMode()->queueRefresh();
+	}
 
 	sort();
 	setSelected(item, true);

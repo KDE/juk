@@ -32,7 +32,8 @@
 
 ViewMode::ViewMode(PlaylistBox *b) : QObject(b),
     m_playlistBox(b),
-    m_visible(false)
+    m_visible(false),
+    m_needsRefresh(false)
 {
     connect(this, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)),
             b, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)));
@@ -52,6 +53,9 @@ void ViewMode::paintCell(PlaylistBox::Item *i,
 {
     if(width < i->pixmap(column)->width())
 	return;
+
+    if(m_needsRefresh)
+	updateHeights();
 
     PlaylistBox::Item *item = static_cast<PlaylistBox::Item *>(i);
 
@@ -89,15 +93,15 @@ PlaylistBox::Item *ViewMode::createSearchItem(PlaylistBox *box, SearchPlaylist *
 
 bool ViewMode::eventFilter(QObject *watched, QEvent *e)
 {
-    if(m_visible &&
-       watched == m_playlistBox->viewport() &&
-       e->type() == QEvent::Resize)
-    {
+    if(m_visible && watched == m_playlistBox->viewport() && e->type() == QEvent::Resize) {
         QResizeEvent *re = static_cast<QResizeEvent *>(e);
         if(re->size().width() != re->oldSize().width())
-            updateHeights();
+            m_needsRefresh = true;
     }
 
+    if(e->type() == QEvent::Hide)
+	m_needsRefresh = true;
+    
     return QObject::eventFilter(watched, e);
 }
 
@@ -106,7 +110,7 @@ void ViewMode::setShown(bool shown)
     m_visible = shown;
     if(shown) {
         updateIcons(32);
-        updateHeights();
+	m_needsRefresh = true;
     }
 }
 
@@ -132,6 +136,8 @@ void ViewMode::updateHeights()
         i->setHeight(height);
         i->invalidateHeight();
     }
+
+    m_needsRefresh = false;
 }
 
 QStringList ViewMode::lines(const PlaylistBox::Item *item,
