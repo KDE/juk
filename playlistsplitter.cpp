@@ -149,10 +149,13 @@ void PlaylistSplitter::stop()
 {
     m_nextPlaylistItem = 0;
 
-    if(m_playingItem) {
-	m_playingItem->setPixmap(0, 0);
-	m_playingItem = 0;
-    }
+    if(!m_playingItem)
+	return;
+
+    Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
+
+    p->setPlaying(m_playingItem, false);
+    m_playingItem = 0;
 }
 
 QString PlaylistSplitter::playingArtist() const
@@ -561,7 +564,10 @@ QString PlaylistSplitter::play(PlaylistItem *item)
     if(!item)
 	return QString::null;
 
-    item->setPixmap(0, QPixmap(UserIcon("playing")));
+    Playlist *p = static_cast<Playlist *>(item->listView());
+
+    p->setPlaying(item, true);
+
     m_playingItem = item;
 
     return item->absFilePath();

@@ -52,13 +52,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 Playlist::Playlist(QWidget *parent, const QString &name) : KListView(parent, name.latin1()), 
-								       m_playlistName(name)
+							   m_playlistName(name), m_playingItem(0), m_leftColumn(0)
+    
 {
     setup();
 }
 
 Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name), 
-												   m_playlistFileName(playlistFile.absFilePath())													    
+										       m_playlistFileName(playlistFile.absFilePath()), 
+										       m_playingItem(0), m_leftColumn(0)													    
 {
     setup();
 
@@ -542,6 +544,20 @@ void Playlist::setup()
 
     setAcceptDrops(true);
     m_allowDuplicates = false;
+
+    connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
+}
+
+void Playlist::setPlaying(PlaylistItem *item, bool playing)
+{
+    if(playing) {
+	m_playingItem = item;
+	item->setPixmap(m_leftColumn, QPixmap(UserIcon("playing")));
+    }
+    else {
+	m_playingItem = 0;
+	item->setPixmap(m_leftColumn, QPixmap(0, 0));
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -660,6 +676,20 @@ void Playlist::slotApplyModification(QListViewItem *item, const QString &text, i
 	else
 		applyTag(item, text, column);
 }
+
+void Playlist::slotColumnOrderChanged(int, int from, int to)
+{
+    // kdDebug() << "section: " << section << " from: " << from << " to: " << to << endl;
+    
+    if(from == 0 || to == 0) {
+	if(m_playingItem) {
+	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
+	    m_playingItem->setPixmap(header()->mapToSection(0), QPixmap(UserIcon("playing")));
+	}
+	m_leftColumn = header()->mapToSection(0);
+    }
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
