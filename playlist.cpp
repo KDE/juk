@@ -133,6 +133,8 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 	else if(! m_columnsVisible[i] && l->isColumnVisible(i))
 	    l->hideColumn(i);
     }
+
+    l->updateLeftColumn();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -388,6 +390,19 @@ void Playlist::setName(const QString &n)
 {
     m_playlistName = n;
     emit signalNameChanged(m_playlistName);
+}
+
+void Playlist::updateLeftColumn()
+{
+    int newLeftColumn = leftMostVisibleColumn();
+
+    if(m_leftColumn != newLeftColumn) {
+	if(m_playingItem) {
+	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
+	    m_playingItem->setPixmap(newLeftColumn, QPixmap(UserIcon("playing")));
+	}
+	m_leftColumn = newLeftColumn;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

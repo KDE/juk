@@ -122,6 +122,12 @@ public:
     KActionMenu *columnVisibleAction() const { return m_columnVisibleAction; }
 
     void setPlaying(PlaylistItem *item, bool playing = true);
+    
+    /**
+     * This forces an update of the left most visible column, but does not save
+     * the settings for this.
+     */ 
+    void updateLeftColumn();
 
 public slots:
     /**
