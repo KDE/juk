@@ -372,17 +372,15 @@ void TagEditor::setupLayout()
 	addItem(i18n("Comment:"), m_commentBox, rightColumnLayout);
     }
 
-    connect(m_artistNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(m_trackNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(m_albumNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(m_genreBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
-    connect(m_genreBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(m_fileNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(m_yearSpin, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
-    connect(m_trackSpin, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
-    connect(m_commentBox, SIGNAL(textChanged()), this, SIGNAL(changed()));
-
-    connect(this, SIGNAL(changed()), this, SLOT(setDataChanged()));
+    connect(m_artistNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(slotDataChanged()));
+    connect(m_trackNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(slotDataChanged()));
+    connect(m_albumNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(slotDataChanged()));
+    connect(m_genreBox, SIGNAL(activated(int)), this, SLOT(slotDataChanged()));
+    connect(m_genreBox, SIGNAL(textChanged(const QString&)), this, SLOT(slotDataChanged()));
+    connect(m_fileNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(slotDataChanged()));
+    connect(m_yearSpin, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
+    connect(m_trackSpin, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
+    connect(m_commentBox, SIGNAL(textChanged()), this, SLOT(slotDataChanged()));
 }
 
 void TagEditor::save(const PlaylistItemList &list)
@@ -537,7 +535,7 @@ void TagEditor::showEvent(QShowEvent *e)
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void TagEditor::setDataChanged(bool c)
+void TagEditor::slotDataChanged(bool c)
 {
     m_dataChanged = c;
 }

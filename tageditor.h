@@ -49,7 +49,7 @@ public slots:
     void updateCollection();
     
 signals:
-    void changed();
+//    void signalChanged();
 
 private:
     void setupLayout();
@@ -66,7 +66,7 @@ private:
     virtual void showEvent(QShowEvent *e);
 
 private slots:
-    void setDataChanged(bool c = true);
+    void slotDataChanged(bool c = true);
 
 private:
     typedef QMap<QWidget *, QCheckBox *> BoxMap;
