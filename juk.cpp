@@ -372,7 +372,7 @@ void JuK::setupActions()
     new KAction(i18n("&Stop"),  "player_stop",  0, this, SLOT(stop()),
 		actionCollection(), "stop");
 
-    m_backAction = new KToolBarPopupAction(i18n("Skip &Back"), "player_start", 0,
+    m_backAction = new KToolBarPopupAction(i18n("&Previous Track"), "player_start", 0,
 					   this, SLOT(back()), actionCollection(), "back");
 
     connect(m_backAction->popupMenu(), SIGNAL(aboutToShow()),
@@ -381,7 +381,7 @@ void JuK::setupActions()
     connect(m_backAction->popupMenu(), SIGNAL(activated(int)),
 	    this, SLOT(back(int)));
 
-    new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()),
+    new KAction(i18n("&Next Track"), "player_end", 0, this, SLOT(forward()),
 		actionCollection(), "forward");
 
     m_loopPlaylistAction = new KToggleAction(i18n("&Loop Playlist"), 0, 0,
