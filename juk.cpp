@@ -211,7 +211,7 @@ void JuK::readConfig()
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
-	bool showEditor = config->readBoolEntry("ShowEditor", true);
+	bool showEditor = config->readBoolEntry("ShowEditor", false);
 	showEditorAction->setChecked(showEditor);
 	splitter->setEditorVisible(showEditor);
     }
