@@ -108,8 +108,8 @@ void Cache::load()
 	checksum = config->readNumEntry("Checksum", -1);
     }
     if(checksum >= 0 && checksum != qChecksum(data.data(), data.size())) {
-	KMessageBox::sorry(0, i18n("The music data cache has been corrupted.  JuK "
-				   "needs to rescan it now.  This may take some time."));
+	KMessageBox::sorry(0, i18n("The music data cache has been corrupted. JuK "
+				   "needs to rescan it now. This may take some time."));
 	return;
     }
 

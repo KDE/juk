@@ -132,7 +132,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 
         m_trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
         m_trackPositionSlider->setMaxValue(1000);
-        QToolTip::add(m_trackPositionSlider, i18n("Track Position"));
+        QToolTip::add(m_trackPositionSlider, i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
 
 	m_volumeSlider = new VolumeSlider(base, "volumeSlider");
