@@ -168,9 +168,10 @@ public:
     KActionMenu *columnVisibleAction() const { return m_collection->columnVisibleAction(); }
 
     /**
-     * Create a playlist with the name \a name.
+     * Create a playlist with the name \a name.  If \a raise is true then the
+     * Playlist will be made the current playlist.
      */
-    Playlist *createPlaylist(const QString &name);
+    Playlist *createPlaylist(const QString &name, bool raise = true);
 
 public slots:
 
@@ -198,8 +199,11 @@ public slots:
     /**
      * Create a playlist and prompt the user for a name if no name was
      * specified.
+     *
+     * If \a raise is true the playlist will be shown after being created.
      */
-    Playlist *slotCreatePlaylist(const QString &name = QString::null);
+    Playlist *slotCreatePlaylist(const QString &name = QString::null,
+				 bool raise = true);
 
     /**
      * Create a playlist from a user-defined directory, and prompt the user for
