@@ -32,8 +32,10 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     const QStringList schemes = TagGuesser::schemeStrings();
     QStringList::ConstIterator it = schemes.begin();
     QStringList::ConstIterator end = schemes.end();
-    for (; it != end; ++it)
-        new KListViewItem(m_child->lvSchemes, *it);
+    for (; it != end; ++it) {
+        KListViewItem *item = new KListViewItem(m_child->lvSchemes, *it);
+        item->moveItem(m_child->lvSchemes->lastItem());
+    }
 
     connect(m_child->lvSchemes, SIGNAL(currentChanged(QListViewItem *)),
             this, SLOT(slotCurrentChanged(QListViewItem *)));
