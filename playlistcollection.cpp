@@ -705,9 +705,9 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu->setIconSet(SmallIconSet("image"));
     menu->insert(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "viewmag"));
-    menu->insert(createAction(i18n("Get Cover from &File..."),
+    menu->insert(createAction(i18n("Get Cover From &File..."),
         SLOT(slotAddLocalCover()), "addCover", "fileimport"));
-    menu->insert(createAction(i18n("Get Cover from &Internet..."), 
+    menu->insert(createAction(i18n("Get Cover From &Internet..."), 
         SLOT(slotAddInternetCover()), "googleCover", "connect_established"));
     menu->insert(createAction(i18n("&Delete Cover"),
         SLOT(slotRemoveCovers()), "removeCover", "editdelete"));
