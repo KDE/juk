@@ -65,6 +65,7 @@ private slots:
   // file menu
   void openFile();
   void openDirectory();
+  void saveFile();
   void quit();
 
   // function menu

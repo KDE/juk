@@ -61,7 +61,7 @@ Tag::Tag(QString file)
   if(trackName.length() <= 0) {
     trackName = fileName;
     while((trackName.right(4)).lower() == ".mp3") {
-      trackName = trackName.left(trackName.length()-4);
+      trackName = trackName.left(trackName.length() - 4);
     }
     trackName = trackName.right(trackName.length() - trackName.findRev(QDir::separator(), -1) -1);
   }
@@ -82,6 +82,18 @@ Tag::Tag(QString file)
 
 
 Tag::~Tag() 
+{
+  save();
+}
+
+
+bool Tag::exists() 
+{
+  QFile id3_file(fileName);
+  return(id3_file.exists()); 
+}
+
+void Tag::save()
 {
   if(changed) {
     if(artistName.length()>0) {
@@ -127,17 +139,10 @@ Tag::~Tag()
       ID3_AddComment(&tag, comment.latin1(), REPLACE);
     }
 
-    tag.Update();    
-  }
+    tag.Update();
+    changed = false;
+  }  
 }
-
-
-bool Tag::exists() 
-{
-  QFile id3_file(fileName);
-  return(id3_file.exists()); 
-}
-
 
 ////////////////////////////////////////////////
 // functions to gather information

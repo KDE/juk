@@ -29,13 +29,7 @@ FileListItem::FileListItem(QFileInfo *file, KListView *parent) : KListViewItem(p
   fileInfo = file;
   tag = new Tag(fileInfo->filePath());
 
-  setText(0, tag->getTrack());
-  setText(1, tag->getArtist());
-  setText(2, tag->getAlbum());
-  setText(3, tag->getTrackNumberString());
-  setText(4, tag->getGenre());
-  setText(5, tag->getYearString());
-  setText(6, fileInfo->filePath());
+  refresh();
 }
 
 FileListItem::~FileListItem()
@@ -66,6 +60,32 @@ MPEGHeader *FileListItem::getHeader()
     header = new MPEGHeader(fileInfo->filePath());
   }
   return(header);
+}
+
+void FileListItem::setFile(QString fileName)
+{
+  if(fileInfo) 
+    fileInfo->setFile(fileName);
+  
+  if(header) {
+    delete(header);
+    (void) getHeader();
+  }
+  if(tag) {
+    delete(tag);
+    (void) getTag();
+  }
+}
+
+void FileListItem::refresh()
+{
+  setText(0, tag->getTrack());
+  setText(1, tag->getArtist());
+  setText(2, tag->getAlbum());
+  setText(3, tag->getTrackNumberString());
+  setText(4, tag->getGenre());
+  setText(5, tag->getYearString());
+  setText(6, fileInfo->filePath());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

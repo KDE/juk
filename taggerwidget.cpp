@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kmessagebox.h>
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -24,6 +25,7 @@
 #include <qhbox.h>
 #include <qlayout.h>
 #include <qlabel.h>
+#include <qdir.h>
 
 #include "taggerwidget.h"
 #include "genrelistlist.h"
@@ -34,6 +36,7 @@
 
 TaggerWidget::TaggerWidget(QWidget *parent) : QWidget(parent)
 {
+  changed = false;
   setupLayout();
   readConfig();
 }
@@ -56,6 +59,68 @@ FileListItem *TaggerWidget::getSelectedItem()
     return(taggerList->getSelectedItem());
   else
     return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void TaggerWidget::save()
+{
+  kdDebug() << "TaggerWidget::save()" << endl;
+  QPtrList<QListViewItem> items = taggerList->selectedItems();
+
+  if(items.count() > 0) {
+
+    FileListItem *item = dynamic_cast<FileListItem *>(items.first());
+    
+    if(item && changed) {
+      QFileInfo newFile(item->getFileInfo()->dirPath() + QDir::separator() + fileNameBox->text());
+      QFileInfo directory(item->getFileInfo()->dirPath());
+
+      // if (the new file is writable or the new file doesn't exist and it's directory is writable)
+      // and the old file is writable...
+      if((newFile.isWritable() || (!newFile.exists() && directory.isWritable())) && item->getFileInfo()->isWritable()) {
+	// if the file name in the box doesn't match the current file name
+	if(item->getFileInfo()->fileName()!=newFile.fileName()) {
+	  // rename the file if it doesn't exist or we say it's ok
+	  if(!newFile.exists() ||
+	     KMessageBox::warningYesNo(this, i18n("This file already exists.\nDo you want to replace it?"), 
+				  i18n("File Exists")) == KMessageBox::Yes) 
+	    {
+	    QDir currentDir;
+	    currentDir.rename(item->getFileInfo()->filePath(), newFile.filePath());
+	    item->setFile(newFile.filePath());
+	  }
+	}
+
+	item->getTag()->setArtist(artistNameBox->currentText());
+	item->getTag()->setTrack(trackNameBox->text());
+	item->getTag()->setAlbum(albumNameBox->currentText());
+	//  item->getTag()->setGenre(genreBox->currentText());
+	//  item->getTag()->setGenre(genreBox->currentItem() - 1);
+	item->getTag()->setTrackNumber(trackSpin->value());
+	item->getTag()->setYear(yearSpin->value());
+	item->getTag()->setComment(commentBox->text());
+
+	item->getTag()->save();
+	
+	item->refresh();
+
+	changed = false;
+      }
+      else {
+	KMessageBox::sorry(this, i18n("Could not save to specified file."));
+      }
+
+      changed = false;
+    }
+  }
+}
+
+void TaggerWidget::setChanged()
+{
+  changed = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -90,7 +155,7 @@ void TaggerWidget::setupLayout()
   taggerList = new FileList(split, "taggerList");
 
   // this connection is a little ugly -- it does a cast
-  connect(taggerList, SIGNAL(selectionChanged(QListViewItem *)), this, SLOT(updateBoxes(FileListItem *)));
+  connect(taggerList, SIGNAL(selectionChanged()), this, SLOT(updateBoxes()));
 
   //////////////////////////////////////////////////////////////////////////////
   // now set up a bottom widget of the splitter and make it stay small at 
@@ -181,6 +246,15 @@ void TaggerWidget::setupLayout()
     commentBox = new KEdit(bottem, "commentBox");
     rightColumnLayout->addWidget(commentBox);
   }
+  
+  connect(artistNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(setChanged()));
+  connect(trackNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(setChanged()));
+  connect(albumNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(setChanged()));
+  connect(genreBox, SIGNAL(activated(const QString&)), this, SLOT(setChanged()));
+  connect(fileNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(setChanged()));
+  connect(yearSpin, SIGNAL(valueChanged(int)), this, SLOT(setChanged()));
+  connect(trackSpin, SIGNAL(valueChanged(int)), this, SLOT(setChanged()));
+  connect(commentBox, SIGNAL(textChanged()), this, SLOT(setChanged()));
 }
 
 void TaggerWidget::readConfig()
@@ -199,31 +273,42 @@ void TaggerWidget::readConfig()
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void TaggerWidget::updateBoxes(FileListItem *item)
+void TaggerWidget::updateBoxes() // this needs to be updated to properly work with multiple selections
 {
   //  kdDebug() << "updateBoxes(): " << item->getFileInfo()->filePath() << endl;
 
-  Tag *tag = item->getTag();
-  QFileInfo *fileInfo = item->getFileInfo();
-  MPEGHeader *header = item->getHeader();
+  QPtrList<QListViewItem> items = taggerList->selectedItems();
 
-  artistNameBox->setEditText(tag->getArtist());
-  trackNameBox->setText(tag->getTrack());
-  albumNameBox->setEditText(tag->getAlbum());
+  if(items.count() > 0) {
 
-  if(genreList && genreList->findIndex(tag->getGenre()) >= 0)
-    genreBox->setCurrentItem(genreList->findIndex(tag->getGenre()) + 1);
-  else 
-    genreBox->setCurrentItem(0);
+    FileListItem *item = dynamic_cast<FileListItem *>(items.first());
 
-  fileNameBox->setText(fileInfo->fileName());
-  trackSpin->setValue(tag->getTrackNumber());
-  yearSpin->setValue(tag->getYear());
-
-  if(header->getResult()) {
-    lengthBox->setText(header->getLengthChar());
-    bitrateBox->setText(QString::number(header->getBitrate()));
+    if(item) {
+      Tag *tag = item->getTag();
+      QFileInfo *fileInfo = item->getFileInfo();
+      MPEGHeader *header = item->getHeader();
+      
+      artistNameBox->setEditText(tag->getArtist());
+      trackNameBox->setText(tag->getTrack());
+      albumNameBox->setEditText(tag->getAlbum());
+      
+      if(genreList && genreList->findIndex(tag->getGenre()) >= 0)
+	genreBox->setCurrentItem(genreList->findIndex(tag->getGenre()) + 1);
+      else 
+	genreBox->setCurrentItem(0);
+      
+      fileNameBox->setText(fileInfo->fileName());
+      trackSpin->setValue(tag->getTrackNumber());
+      yearSpin->setValue(tag->getYear());
+      
+      if(header->getResult()) {
+	lengthBox->setText(header->getLengthChar());
+	bitrateBox->setText(QString::number(header->getBitrate()));
+      }
+      
+      commentBox->setText(tag->getComment());
+      
+      changed = false;
+    }
   }
-
-  commentBox->setText(tag->getComment());
 }

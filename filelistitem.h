@@ -32,6 +32,9 @@ public:
   QFileInfo *getFileInfo();
   Tag *getTag();
   MPEGHeader *getHeader();
+  
+  void setFile(QString fileName);
+  void refresh();
 
 protected:
 

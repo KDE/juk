@@ -85,7 +85,9 @@ void FileList::setup()
   addColumn(i18n("Genre"));
   addColumn(i18n("Year"));
   addColumn(i18n("File Name"));
+
   setAllColumnsShowFocus(true);
+  setSelectionMode(QListView::Extended);
   setShowSortIndicator(true);
   setItemMargin(3);
 

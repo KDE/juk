@@ -29,6 +29,7 @@ public:
   ~Tag();
   
   bool exists();
+  void save();
   
   // functions that gather information
   

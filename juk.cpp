@@ -130,6 +130,12 @@ void JuK::openDirectory()
   tagger->add(KFileDialog::getExistingDirectory());
 }
 
+void JuK::saveFile()
+{
+  if(tagger && tagger->isVisible())
+    tagger->save();
+}
+
 void JuK::quit()
 {
   kapp->quit();

@@ -40,6 +40,10 @@ public:
 
   FileListItem *getSelectedItem();
 
+public slots:
+  void save();
+  void setChanged();
+
 private:
   void setupLayout();
   void readConfig();
@@ -58,10 +62,12 @@ private:
   KLineEdit *bitrateBox;
   KEdit *commentBox;
 
+  // internally useful things
   GenreList *genreList;
+  bool changed;
 
 private slots:
-  void updateBoxes(FileListItem *item); 
+  void updateBoxes(); 
 };
 
 #endif
