@@ -93,7 +93,7 @@ protected:
 
 signals:
     void signalCollectionChanged();
-    void signalRequestPlaylistCreation(const QValueList<QFileInfo> &fileInfos);
+    void signalRequestPlaylistCreation(const PlaylistItemList &items);
 
 private slots:
     void slotRemoveItem(const QString &file);

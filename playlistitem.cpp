@@ -137,8 +137,9 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListView
     setup(item, parent);
 }
 
-PlaylistItem::PlaylistItem(Playlist *parent) : QObject(parent), KListViewItem(parent),
-					       m_collectionItem(0), m_data(0), m_playing(false)
+PlaylistItem::PlaylistItem(CollectionList *parent) : QObject(parent), KListViewItem(parent),
+						     m_collectionItem(static_cast<CollectionListItem *>(this)), 
+						     m_data(0), m_playing(false)
 {
     setDragEnabled(true);
 }

@@ -231,7 +231,7 @@ void PlaylistBox::duplicate(Item *item)
 
 	if(ok) {
 	    Playlist *p = m_splitter->createPlaylist(name);
-	    m_splitter->slotAddToPlaylist(item->playlist()->files(), p);
+	    p->createItems(item->playlist()->items());
 	}
     }
 }

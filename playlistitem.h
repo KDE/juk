@@ -44,7 +44,6 @@ typedef QValueList<PlaylistItem *> PlaylistItemList;
 class PlaylistItem : public QObject, public KListViewItem 
 {
     friend class Playlist;
-    friend class PlaylistSplitter;
     friend class CollectionList;
 
     /** 
@@ -105,7 +104,7 @@ protected:
     /**
      * This is the constructor that shold be used by subclasses.
      */
-    PlaylistItem(Playlist *parent);
+    PlaylistItem(CollectionList *parent);
 
     /**
      * See the class documentation for an explanation of construction and deletion
@@ -125,7 +124,7 @@ protected:
 
     bool isValid() const;
 
-    virtual CollectionListItem *collectionItem() { return m_collectionItem; }
+    virtual CollectionListItem *collectionItem() const { return m_collectionItem; }
 
 protected slots:
     void slotRefreshImpl();

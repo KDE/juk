@@ -408,8 +408,8 @@ void PlaylistSplitter::setupLayout()
     m_collection = CollectionList::instance();
     setupPlaylist(m_collection, true, "folder_sound");
     connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
-    connect(m_collection, SIGNAL(signalRequestPlaylistCreation(const QValueList<QFileInfo> &)), 
-	    this, SLOT(slotCreatePlaylist(const QValueList<QFileInfo> &)));
+    connect(m_collection, SIGNAL(signalRequestPlaylistCreation(const PlaylistItemList &)), 
+	    this, SLOT(slotCreatePlaylist(const PlaylistItemList &)));
 
 
     // Create the search widget -- this must be done after the CollectionList is created.
@@ -617,14 +617,9 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 	// unsorted...
 	m_dynamicList->setSorting(m_dynamicList->columns() + 1);
 
-	PlaylistItem *previous = 0;
-
 	for(PlaylistList::ConstIterator it = l.begin(); it != l.end(); ++it) {
-	    if(*it) {
-		PlaylistItemList items = (*it)->items();
-		for(PlaylistItemList::Iterator itemIt = items.begin(); itemIt != items.end(); ++itemIt)
-		    previous = new PlaylistItem((*itemIt)->collectionItem(), m_dynamicList, previous);
-	    }
+	    if(*it)
+		m_dynamicList->createItems((*it)->items());
 	}
     }
 
@@ -647,16 +642,17 @@ void PlaylistSplitter::slotPlaylistItemRemoved(PlaylistItem *item)
 	m_nextPlaylistItem = 0;
 }
 
-void PlaylistSplitter::slotCreatePlaylist(const QValueList<QFileInfo> &fileInfos)
+void PlaylistSplitter::slotCreatePlaylist(const PlaylistItemList &items)
 {
+    if(items.isEmpty())
+	return;
+
     Playlist *playlist = slotCreatePlaylist();
+
     if(!playlist)
         return;
 
-    QValueList<QFileInfo>::ConstIterator it = fileInfos.begin();
-    QValueList<QFileInfo>::ConstIterator end = fileInfos.end();
-    for(; it != end; ++it)
-        playlist->createItem(*it);
+    playlist->createItems(items);
 }
 
 void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSensitive)

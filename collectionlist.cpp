@@ -182,11 +182,7 @@ void CollectionList::slotRefreshItem(const QString &file)
 
 void CollectionList::slotCreateGroup()
 {
-    PlaylistItemList items = selectedItems();
-    QValueList<QFileInfo> fileInfos;
-    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
-        fileInfos << *(*it)->data()->fileInfo();
-    emit signalRequestPlaylistCreation(fileInfos);
+    emit signalRequestPlaylistCreation(selectedItems());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

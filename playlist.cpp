@@ -601,6 +601,19 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 	return 0;
 }
 
+void Playlist::createItems(const PlaylistItemList &siblings)
+{
+    PlaylistItem *previous = 0;
+    
+    for(PlaylistItemList::ConstIterator it = siblings.begin(); it != siblings.end(); ++it) {
+
+	if(!m_members.insert(resolveSymLinks((*it)->absFilePath()))) {
+	    previous = new PlaylistItem((*it)->collectionItem(), this, previous);
+	    connect((*it), SIGNAL(destroyed()), (*it)->collectionItem(), SLOT(deleteLater()));
+	}
+    }
+}
+
 void Playlist::hideColumn(int c)
 {
     m_headerMenu->setItemChecked(c, false);
