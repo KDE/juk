@@ -49,8 +49,6 @@ class PlaylistItem : public KListViewItem
     friend class CollectionListItem;
     friend class QPtrDict<PlaylistItem>;
 
-    // Q_OBJECT
-
 public:
     enum ColumnType { TrackColumn       = 0,
 		      ArtistColumn      = 1,
