@@ -86,16 +86,9 @@ void TagTransactionManager::changeTagOnItem(PlaylistItem *item, Tag *newTag)
 Tag *TagTransactionManager::duplicateTag(const Tag *tag, const QString &fileName)
 {
     QString name = fileName.isNull() ? tag->fileName() : fileName;
-    Tag *newTag = new Tag(name, false);
+    Tag *newTag = new Tag(*tag);
 
-    newTag->setTitle(tag->title());
-    newTag->setArtist(tag->artist());
-    newTag->setAlbum(tag->album());
-    newTag->setGenre(tag->genre());
-    newTag->setTrack(tag->track());
-    newTag->setYear(tag->year());
-    newTag->setComment(tag->comment());
-
+    newTag->setFileName(name);
     return newTag;
 }
 
