@@ -211,8 +211,7 @@ void CollectionListItem::refresh()
 
     for(int i = offset; i < columns; i++) {
 	int id = i - offset;
-	if(id != TrackNumberColumn && id != LengthColumn)
-	{        
+	if(id != TrackNumberColumn && id != LengthColumn) {        
 	    // All columns other than track num and length need local-encoded data for sorting        
 
 	    QCString lower = id == FileNameColumn
@@ -228,7 +227,6 @@ void CollectionListItem::refresh()
 		lower = StringShare::tryShare(lower);
 	    }
 	    data()->local8Bit[id] = lower;
-	    data()->shortFileName = file().fileInfo().fileName().lower().local8Bit();
 	}
 
 	int newWidth = width(listView()->fontMetrics(), listView(), i);
@@ -237,6 +235,7 @@ void CollectionListItem::refresh()
 	if(newWidth != data()->cachedWidths[i])
 	    playlist()->slotWeightDirty(i);
     }
+    data()->shortFileName = file().fileInfo().fileName().lower().local8Bit();
 
     repaint();
     playlist()->PlaylistInterface::update();
