@@ -167,8 +167,8 @@ void PlaylistCollection::duplicate()
     QString name = KInputDialog::getText(
         i18n("Duplicate"),
         i18n("Please enter a name for this playlist:"),
-	uniquePlaylistName(currentPlaylist()->name()),
-	&ok);
+        uniquePlaylistName(currentPlaylist()->name()),
+        &ok);
 
     if(!ok)
         return;
@@ -194,9 +194,9 @@ void PlaylistCollection::remove()
 void PlaylistCollection::reload()
 {
     if(currentPlaylist() == CollectionList::instance())
-	CollectionList::instance()->addFiles(m_folderList, m_importPlaylists);
+        CollectionList::instance()->addFiles(m_folderList, m_importPlaylists);
     else
-	currentPlaylist()->slotReload();
+        currentPlaylist()->slotReload();
 
 }
 
@@ -205,7 +205,7 @@ void PlaylistCollection::editSearch()
     SearchPlaylist *p = dynamic_cast<SearchPlaylist *>(currentPlaylist());
 
     if(!p)
-	return;
+        return;
 
     AdvancedSearchDialog::Result r =
         AdvancedSearchDialog(p->name(), p->playlistSearch(), widget).exec();
@@ -259,10 +259,10 @@ void PlaylistCollection::createSearchPlaylist()
     QString name = uniquePlaylistName(i18n("Search Playlist"));
 
     AdvancedSearchDialog::Result r =
-	AdvancedSearchDialog(name, PlaylistSearch(), widget).exec();
+        AdvancedSearchDialog(name, PlaylistSearch(), widget).exec();
 
     if(r.result == AdvancedSearchDialog::Accepted)
-	raise(new SearchPlaylist(this, r.search, r.playlistName));
+        raise(new SearchPlaylist(this, r.search, r.playlistName));
 }
 
 void PlaylistCollection::createFolderPlaylist()
