@@ -192,6 +192,12 @@ private:
     void setup();
     void applyTag(QListViewItem *item, const QString &text, int column);
     int leftMostVisibleColumn() const;
+    
+    /**
+     * This class is used internally to store settings that are shared by all
+     * of the playlists, such as column order.  It is implemented as a singleton.
+     */
+    class SharedSettings;
 
 private slots:
     void slotEmitSelected() { emit signalSelectionChanged(selectedItems()); }

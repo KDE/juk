@@ -47,6 +47,20 @@
 #include "tag.h"
 #include "genrelistlist.h"
 
+class Playlist::SharedSettings
+{
+public:
+    static SharedSettings *instance() {
+	if(!m_instance)
+	    m_instance = new SharedSettings;
+	return m_instance;
+    }
+private:
+    static SharedSettings *m_instance;
+};
+
+Playlist::SharedSettings* Playlist::SharedSettings::m_instance = 0;
+
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////

@@ -29,6 +29,9 @@ static const char *tim = I18N_NOOP("GStreamer port");
 static const char *stefan = I18N_NOOP("Global keybindings support");
 static const char *stephan = I18N_NOOP("Track announcement popups");
 
+#if KDE_IS_VERSION(3,1,90)
+typedef KUniqueApplication Application;
+#else
 class Application : public KUniqueApplication
 {
 public:
@@ -41,6 +44,7 @@ public:
 	return KUniqueApplication::newInstance();
     }
 };
+#endif
 
 static KCmdLineOptions options[] =
 {
