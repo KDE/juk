@@ -7,18 +7,11 @@
 		<Separator/>
 		<Action name="file_save"/>
 		<Separator/>
-		<Action name="deleteFile"/>
+		<Action name="remove"/>
 		<Separator/>
 		<Action name="file_quit"/>
 	</Menu>
-	<Menu name="Function"><text>F&amp;unction</text>
-		<Action name="showTagger"/>
-		<Action name="showPlaylist"/>
-	</Menu>
-	<Menu name="player"><text>&amp;Player</text>
-		<Action name="addToPlaylist"/>
-		<Action name="removeFromPlaylist"/>
-		<Separator/>
+		<Menu name="player"><text>&amp;Player</text>
 		<Action name="playFile"/>
 		<Action name="pauseFile"/>
 		<Action name="stopFile"/>
@@ -29,16 +22,12 @@
 	<Action name="file_open"/>
 	<Action name="openDirectory"/>
 	<Action name="file_save"/>
-	<Action name="deleteFile"/>
-	<Action name="addToPlaylist"/>
-	<Action name="removeFromPlaylist"/>
+	<Action name="remove"/>
 	<Separator lineSeparator="true"/>
 	<Action name="edit_cut"/>
 	<Action name="edit_copy"/>
 	<Action name="edit_paste"/>
 	<Separator lineSeparator="true"/>
-	<Action name="showTagger"/>
-	<Action name="showPlaylist"/>
 </ToolBar>
 
 <ToolBar name="playToolBar" noMerge="1"><text>Play Toolbar</text>

@@ -85,32 +85,35 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 {
     if(parent) {
         QWidget *base = new QWidget(parent);
-        //    base->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum));
+	base->setName("kde toolbar widget");
+//	base->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum));
 
-        layout = new QBoxLayout(base, QBoxLayout::TopToBottom, 5, 5);
+	layout = new QBoxLayout(base, QBoxLayout::TopToBottom, 5, 5);
 
-        trackPositionSlider = new QSlider(base, "trackPositionSlider" );
+        trackPositionSlider = new QSlider(base, "trackPositionSlider");
         trackPositionSlider->setMaxValue(1000);
         QToolTip::add(trackPositionSlider, i18n("Track Position"));
         layout->addWidget(trackPositionSlider);
 
-        volumeSlider = new QSlider(base, "volumeSlider" );
+	volumeSlider = new QSlider(base, "volumeSlider" );
         volumeSlider->setMaxValue(100);
         QToolTip::add(volumeSlider, i18n("Volume"));
         layout->addWidget(volumeSlider);
 
+	volumeSlider->setName("kde toolbar widget");
+        trackPositionSlider->setName("kde toolbar widget");
+
         layout->setStretchFactor(trackPositionSlider, 4);
         layout->setStretchFactor(volumeSlider, 1);
 
-        //    this->setWidget(base);
+//        setWidget(base);
 
         connect(parent, SIGNAL(modechange()), this, SLOT(updateLabels()));
         connect(parent, SIGNAL(modechange()), this, SLOT(updateSize()));
         return(base);
     }
-    else {
+    else
         return(0);
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -147,3 +150,4 @@ void SliderAction::updateSize()
     }
 
 }
+#include "slideraction.moc"

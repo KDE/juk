@@ -28,11 +28,14 @@
 #include <kmainwindow.h>
 
 #include <qtimer.h>
+#include <qwidgetstack.h>
 
 #include "taggerwidget.h"
 #include "playlistwidget.h"
 #include "slideraction.h"
 #include "player.h"
+#include "playlistbox.h"
+#include "playlistsplitter.h"
 
 class JuK : public KMainWindow
 {
@@ -51,8 +54,7 @@ private:
     void saveConfig();
 
     // layout objects
-    TaggerWidget *tagger;
-    PlaylistWidget *playlist;
+    PlaylistSplitter *splitter;
 
     // actions
     SliderAction *sliderAction;
@@ -60,15 +62,9 @@ private:
     KAction *pauseAction;
     KAction *stopAction;
 
-    KAction *showTaggerAction;
-    KAction *showPlaylistAction;
-
-    KAction *addToPlaylistAction;
-    KAction *removeFromPlaylistAction;
-
     QTimer *playTimer;
     Player player;
-    FileListItem *playingItem;
+    PlaylistItem *playingItem;
     bool trackPositionDragging;
     bool noSeek;
 
@@ -79,22 +75,14 @@ private slots:
     void openFile();
     void openDirectory();
     void saveFile();
-    void deleteFile();
+    void remove();
     void quit();
 
     // edit menu
     void cut();
     void copy() {};
     void paste() {};
-    void selectAll();
-
-    // function menu
-    void showTagger();
-    void showPlaylist();
-
-    // player menu
-    void addToPlaylist();
-    void removeFromPlaylist();
+    void selectAll(bool select = true);
 
     void playFile();
     void pauseFile();
@@ -107,9 +95,9 @@ private slots:
     void pollPlay();
     void setVolume(int volume);
     void playItem(QListViewItem *item);
-    void playItem(FileListItem *item);
+    void playItem(PlaylistItem *item);
     void playTaggerItem(QListViewItem *item);
-    void playTaggerItem(FileListItem *item);
+    void playTaggerItem(PlaylistItem *item);
 };
 
 #endif

@@ -230,12 +230,12 @@ x_libraries = @x_libraries@
 
 bin_PROGRAMS = juk
 
-juk_SOURCES = cache.cpp audiodata.cpp cacheitem.cpp genrelistreader.cpp genrelistlist.cpp genrelist.cpp genre.cpp player.cpp filelistitem.cpp tag.cpp filelist.cpp customaction.cpp playlistwidget.cpp slideraction.cpp taggerwidget.cpp juk.cpp main.cpp 
+juk_SOURCES = collectionlist.cpp playlistitem.cpp playlist.cpp playlistsplitter.cpp listboxpixmap.cpp playlistbox.cpp tageditor.cpp cache.cpp audiodata.cpp genrelistreader.cpp genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp playlistwidget.cpp slideraction.cpp taggerwidget.cpp juk.cpp main.cpp 
 juk_LDADD = -lid3 -lsoundserver_idl $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 SUBDIRS = pics data 
 
-EXTRA_DIST = main.cpp juk.cpp juk.h juk.desktop jukui.rc taggerwidget.cpp taggerwidget.h slideraction.cpp slideraction.h playlistwidget.cpp playlistwidget.h customaction.h customaction.cpp filelist.cpp filelist.h tag.cpp tag.h filelistitem.cpp filelistitem.h player.cpp player.h genre.h genre.cpp hi16-app-juk.png hi32-app-juk.png hi48-app-juk.png genrelist.cpp genrelist.h genrelistlist.cpp genrelistlist.h genrelistreader.cpp genrelistreader.h cacheitem.cpp cacheitem.h audiodata.cpp audiodata.h cache.cpp cache.h 
+EXTRA_DIST = main.cpp juk.cpp juk.h juk.desktop jukui.rc taggerwidget.cpp taggerwidget.h slideraction.cpp slideraction.h playlistwidget.cpp playlistwidget.h customaction.h customaction.cpp tag.cpp tag.h player.cpp player.h genre.h genre.cpp hi16-app-juk.png hi32-app-juk.png hi48-app-juk.png genrelist.cpp genrelist.h genrelistlist.cpp genrelistlist.h genrelistreader.cpp genrelistreader.h audiodata.cpp audiodata.h cache.cpp cache.h tageditor.cpp tageditor.h playlistbox.cpp playlistbox.h listboxpixmap.cpp listboxpixmap.h playlistsplitter.cpp playlistsplitter.h playlist.cpp playlist.h playlistitem.cpp playlistitem.h collectionlist.cpp collectionlist.h 
 
 ####### kdevelop will overwrite this part!!! (end)############
 
@@ -257,24 +257,28 @@ CONFIG_CLEAN_FILES =
 bin_PROGRAMS = juk$(EXEEXT)
 PROGRAMS = $(bin_PROGRAMS)
 
-am_juk_OBJECTS = cache.$(OBJEXT) audiodata.$(OBJEXT) cacheitem.$(OBJEXT) \
+am_juk_OBJECTS = collectionlist.$(OBJEXT) playlistitem.$(OBJEXT) \
+	playlist.$(OBJEXT) playlistsplitter.$(OBJEXT) \
+	listboxpixmap.$(OBJEXT) playlistbox.$(OBJEXT) \
+	tageditor.$(OBJEXT) cache.$(OBJEXT) audiodata.$(OBJEXT) \
 	genrelistreader.$(OBJEXT) genrelistlist.$(OBJEXT) \
 	genrelist.$(OBJEXT) genre.$(OBJEXT) player.$(OBJEXT) \
-	filelistitem.$(OBJEXT) tag.$(OBJEXT) filelist.$(OBJEXT) \
-	customaction.$(OBJEXT) playlistwidget.$(OBJEXT) \
+	tag.$(OBJEXT) customaction.$(OBJEXT) playlistwidget.$(OBJEXT) \
 	slideraction.$(OBJEXT) taggerwidget.$(OBJEXT) juk.$(OBJEXT) \
 	main.$(OBJEXT)
 #>- juk_OBJECTS = $(am_juk_OBJECTS)
-#>+ 12
+#>+ 14
 juk_final_OBJECTS = juk.all_cpp.o 
-juk_nofinal_OBJECTS = cache.$(OBJEXT) audiodata.$(OBJEXT) cacheitem.$(OBJEXT) \
+juk_nofinal_OBJECTS = collectionlist.$(OBJEXT) playlistitem.$(OBJEXT) \
+	playlist.$(OBJEXT) playlistsplitter.$(OBJEXT) \
+	listboxpixmap.$(OBJEXT) playlistbox.$(OBJEXT) \
+	tageditor.$(OBJEXT) cache.$(OBJEXT) audiodata.$(OBJEXT) \
 	genrelistreader.$(OBJEXT) genrelistlist.$(OBJEXT) \
 	genrelist.$(OBJEXT) genre.$(OBJEXT) player.$(OBJEXT) \
-	filelistitem.$(OBJEXT) tag.$(OBJEXT) filelist.$(OBJEXT) \
-	customaction.$(OBJEXT) playlistwidget.$(OBJEXT) \
+	tag.$(OBJEXT) customaction.$(OBJEXT) playlistwidget.$(OBJEXT) \
 	slideraction.$(OBJEXT) taggerwidget.$(OBJEXT) juk.$(OBJEXT) \
 	main.$(OBJEXT)\
-	slideraction.moc.o filelistitem.moc.o customaction.moc.o juk.moc.o filelist.moc.o taggerwidget.moc.o  \
+	collectionlist.moc.o  \
 	juk_meta_unload.o 
 @KDE_USE_FINAL_FALSE@juk_OBJECTS = $(juk_nofinal_OBJECTS)
 @KDE_USE_FINAL_TRUE@juk_OBJECTS = $(juk_final_OBJECTS)
@@ -287,15 +291,17 @@ LDFLAGS = @LDFLAGS@
 LIBS = @LIBS@
 depcomp = $(SHELL) $(top_srcdir)/admin/depcomp
 @AMDEP_TRUE@DEP_FILES = $(DEPDIR)/audiodata.Po $(DEPDIR)/cache.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/cacheitem.Po $(DEPDIR)/customaction.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/filelist.Po $(DEPDIR)/filelistitem.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/genre.Po $(DEPDIR)/genrelist.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/genrelistlist.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/collectionlist.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/customaction.Po $(DEPDIR)/genre.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/genrelist.Po $(DEPDIR)/genrelistlist.Po \
 	@AMDEP_TRUE@	$(DEPDIR)/genrelistreader.Po $(DEPDIR)/juk.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/main.Po $(DEPDIR)/player.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/listboxpixmap.Po $(DEPDIR)/main.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/player.Po $(DEPDIR)/playlist.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/playlistbox.Po $(DEPDIR)/playlistitem.Po \
+	@AMDEP_TRUE@	$(DEPDIR)/playlistsplitter.Po \
 	@AMDEP_TRUE@	$(DEPDIR)/playlistwidget.Po \
 	@AMDEP_TRUE@	$(DEPDIR)/slideraction.Po $(DEPDIR)/tag.Po \
-	@AMDEP_TRUE@	$(DEPDIR)/taggerwidget.Po
+	@AMDEP_TRUE@	$(DEPDIR)/tageditor.Po $(DEPDIR)/taggerwidget.Po
 #>- CXXCOMPILE = $(CXX) $(DEFS) $(DEFAULT_INCLUDES) $(INCLUDES) \
 #>- $(AM_CPPFLAGS) $(CPPFLAGS) $(AM_CXXFLAGS) $(CXXFLAGS)
 #>+ 2
@@ -389,20 +395,24 @@ distclean-compile:
 
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/audiodata.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/cache.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/cacheitem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/collectionlist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/customaction.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/filelist.Po@am__quote@
-@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/filelistitem.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/genre.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/genrelist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/genrelistlist.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/genrelistreader.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/juk.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/listboxpixmap.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/main.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/player.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/playlist.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/playlistbox.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/playlistitem.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/playlistsplitter.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/playlistwidget.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/slideraction.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/tag.Po@am__quote@
+@AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/tageditor.Po@am__quote@
 @AMDEP_TRUE@@am__include@ @am__quote@$(DEPDIR)/taggerwidget.Po@am__quote@
 
 distclean-depend:
@@ -695,32 +705,48 @@ messages: rc.cpp
 .NOEXPORT:
 
 #>+ 3
-slideraction.moc.cpp: $(srcdir)/slideraction.h
-	$(MOC) $(srcdir)/slideraction.h -o slideraction.moc.cpp
+slideraction.moc: $(srcdir)/slideraction.h
+	$(MOC) $(srcdir)/slideraction.h -o slideraction.moc
 
 #>+ 3
-filelistitem.moc.cpp: $(srcdir)/filelistitem.h
-	$(MOC) $(srcdir)/filelistitem.h -o filelistitem.moc.cpp
+collectionlist.moc.cpp: $(srcdir)/collectionlist.h
+	$(MOC) $(srcdir)/collectionlist.h -o collectionlist.moc.cpp
 
 #>+ 3
-customaction.moc.cpp: $(srcdir)/customaction.h
-	$(MOC) $(srcdir)/customaction.h -o customaction.moc.cpp
+playlistbox.moc: $(srcdir)/playlistbox.h
+	$(MOC) $(srcdir)/playlistbox.h -o playlistbox.moc
 
 #>+ 3
-juk.moc.cpp: $(srcdir)/juk.h
-	$(MOC) $(srcdir)/juk.h -o juk.moc.cpp
+customaction.moc: $(srcdir)/customaction.h
+	$(MOC) $(srcdir)/customaction.h -o customaction.moc
 
 #>+ 3
-filelist.moc.cpp: $(srcdir)/filelist.h
-	$(MOC) $(srcdir)/filelist.h -o filelist.moc.cpp
+playlistitem.moc: $(srcdir)/playlistitem.h
+	$(MOC) $(srcdir)/playlistitem.h -o playlistitem.moc
 
 #>+ 3
-taggerwidget.moc.cpp: $(srcdir)/taggerwidget.h
-	$(MOC) $(srcdir)/taggerwidget.h -o taggerwidget.moc.cpp
+taggerwidget.moc: $(srcdir)/taggerwidget.h
+	$(MOC) $(srcdir)/taggerwidget.h -o taggerwidget.moc
+
+#>+ 3
+playlist.moc: $(srcdir)/playlist.h
+	$(MOC) $(srcdir)/playlist.h -o playlist.moc
+
+#>+ 3
+playlistsplitter.moc: $(srcdir)/playlistsplitter.h
+	$(MOC) $(srcdir)/playlistsplitter.h -o playlistsplitter.moc
+
+#>+ 3
+juk.moc: $(srcdir)/juk.h
+	$(MOC) $(srcdir)/juk.h -o juk.moc
+
+#>+ 3
+tageditor.moc: $(srcdir)/tageditor.h
+	$(MOC) $(srcdir)/tageditor.h -o tageditor.moc
 
 #>+ 3
 clean-metasources:
-	-rm -f  slideraction.moc.cpp filelistitem.moc.cpp customaction.moc.cpp juk.moc.cpp filelist.moc.cpp taggerwidget.moc.cpp
+	-rm -f  slideraction.moc collectionlist.moc.cpp playlistbox.moc customaction.moc playlistitem.moc taggerwidget.moc playlist.moc playlistsplitter.moc juk.moc tageditor.moc
 
 #>+ 2
 docs-am:
@@ -747,12 +773,12 @@ force-reedit:
 
 
 #>+ 12
-juk_meta_unload.cpp:  slideraction.moc.cpp customaction.moc.cpp filelistitem.moc.cpp juk.moc.cpp taggerwidget.moc.cpp filelist.moc.cpp
+juk_meta_unload.cpp:  slideraction.moc collectionlist.moc.cpp playlistbox.moc playlistitem.moc customaction.moc playlist.moc taggerwidget.moc playlistsplitter.moc tageditor.moc juk.moc
 	@echo 'creating juk_meta_unload.cpp'
 	@-rm -f juk_meta_unload.cpp
 	@if test ${kde_qtver} = 2; then \
 		echo 'static const char * _metalist_juk[] = {' > juk_meta_unload.cpp ;\
-		cat  slideraction.moc.cpp customaction.moc.cpp filelistitem.moc.cpp juk.moc.cpp taggerwidget.moc.cpp filelist.moc.cpp | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> juk_meta_unload.cpp ;\
+		cat  slideraction.moc collectionlist.moc.cpp playlistbox.moc playlistitem.moc customaction.moc playlist.moc taggerwidget.moc playlistsplitter.moc tageditor.moc juk.moc | grep 'char.*className' | sed -e 's/.*[^A-Za-z0-9_:]\([A-Za-z0-9_:]*\)::className.*$$/\"\1\",/' | sort | uniq >> juk_meta_unload.cpp ;\
 		echo '0};' >> juk_meta_unload.cpp ;\
 		echo '#include <kunload.h>' >> juk_meta_unload.cpp ;\
 		echo '_UNLOAD(juk)' >> juk_meta_unload.cpp ;\
@@ -764,11 +790,11 @@ clean-moc-classes:
 	-rm -f  juk_meta_unload.cpp
 
 #>+ 11
-juk.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/cache.cpp $(srcdir)/audiodata.cpp $(srcdir)/cacheitem.cpp $(srcdir)/genrelistreader.cpp $(srcdir)/genrelistlist.cpp $(srcdir)/genrelist.cpp $(srcdir)/genre.cpp $(srcdir)/player.cpp $(srcdir)/filelistitem.cpp $(srcdir)/tag.cpp $(srcdir)/filelist.cpp $(srcdir)/customaction.cpp $(srcdir)/playlistwidget.cpp $(srcdir)/slideraction.cpp $(srcdir)/taggerwidget.cpp $(srcdir)/juk.cpp $(srcdir)/main.cpp $(srcdir)/juk_meta_unload.cpp  slideraction.moc.cpp filelistitem.moc.cpp customaction.moc.cpp juk.moc.cpp filelist.moc.cpp taggerwidget.moc.cpp
+juk.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/collectionlist.cpp $(srcdir)/playlistitem.cpp $(srcdir)/playlist.cpp $(srcdir)/playlistsplitter.cpp $(srcdir)/listboxpixmap.cpp $(srcdir)/playlistbox.cpp $(srcdir)/tageditor.cpp $(srcdir)/cache.cpp $(srcdir)/audiodata.cpp $(srcdir)/genrelistreader.cpp $(srcdir)/genrelistlist.cpp $(srcdir)/genrelist.cpp $(srcdir)/genre.cpp $(srcdir)/player.cpp $(srcdir)/tag.cpp $(srcdir)/customaction.cpp $(srcdir)/playlistwidget.cpp $(srcdir)/slideraction.cpp $(srcdir)/taggerwidget.cpp $(srcdir)/juk.cpp $(srcdir)/main.cpp $(srcdir)/juk_meta_unload.cpp  collectionlist.moc.cpp slideraction.moc playlistbox.moc customaction.moc playlistitem.moc taggerwidget.moc playlist.moc playlistsplitter.moc juk.moc tageditor.moc 
 	@echo 'creating juk.all_cpp.cpp ...'; \
 	rm -f juk.all_cpp.files juk.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> juk.all_cpp.final; \
-	for file in cache.cpp audiodata.cpp cacheitem.cpp genrelistreader.cpp genrelistlist.cpp genrelist.cpp genre.cpp player.cpp filelistitem.cpp tag.cpp filelist.cpp customaction.cpp playlistwidget.cpp slideraction.cpp taggerwidget.cpp juk.cpp main.cpp juk_meta_unload.cpp  slideraction.moc.cpp filelistitem.moc.cpp customaction.moc.cpp juk.moc.cpp filelist.moc.cpp taggerwidget.moc.cpp; do \
+	for file in collectionlist.cpp playlistitem.cpp playlist.cpp playlistsplitter.cpp listboxpixmap.cpp playlistbox.cpp tageditor.cpp cache.cpp audiodata.cpp genrelistreader.cpp genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp playlistwidget.cpp slideraction.cpp taggerwidget.cpp juk.cpp main.cpp juk_meta_unload.cpp  collectionlist.moc.cpp; do \
 	  echo "#include \"$$file\"" >> juk.all_cpp.files; \
 	  test ! -f $(srcdir)/$$file || egrep '^#pragma +implementation' $(srcdir)/$$file >> juk.all_cpp.final; \
 	done; \
@@ -798,3 +824,14 @@ cvs-clean:
 #>+ 3
 kde-rpo-clean:
 	-rm -f *.rpo
+
+#>+ 10
+$(srcdir)/playlist.cpp: playlist.moc 
+$(srcdir)/slideraction.cpp: slideraction.moc 
+$(srcdir)/playlistbox.cpp: playlistbox.moc 
+$(srcdir)/tageditor.cpp: tageditor.moc 
+$(srcdir)/playlistitem.cpp: playlistitem.moc 
+$(srcdir)/playlistsplitter.cpp: playlistsplitter.moc 
+$(srcdir)/customaction.cpp: customaction.moc 
+$(srcdir)/taggerwidget.cpp: taggerwidget.moc 
+$(srcdir)/juk.cpp: juk.moc 

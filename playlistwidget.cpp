@@ -48,34 +48,34 @@ void PlaylistWidget::add(QStringList &items)
     playlistList->append(items);
 }
 
-void PlaylistWidget::add(FileListItem *item)
+void PlaylistWidget::add(PlaylistItem *item)
 {
     playlistList->append(item);
 }
 
-void PlaylistWidget::add(QPtrList<FileListItem> &items)
+void PlaylistWidget::add(QPtrList<PlaylistItem> &items)
 {
     playlistList->append(items);
 }
 
-void PlaylistWidget::remove(QPtrList<FileListItem> &items)
+void PlaylistWidget::remove(QPtrList<PlaylistItem> &items)
 {
     playlistList->remove(items);
 }
 
-FileList *PlaylistWidget::getPlaylistList()
+Playlist *PlaylistWidget::getPlaylistList()
 {
     return(playlistList);
 }
 
-QPtrList<FileListItem> PlaylistWidget::getSelectedItems()
+QPtrList<PlaylistItem> PlaylistWidget::getSelectedItems()
 {
     return(playlistList->selectedItems());
 }
 
-FileListItem *PlaylistWidget::firstItem()
+PlaylistItem *PlaylistWidget::firstItem()
 {
-    return(dynamic_cast<FileListItem *>(playlistList->firstChild()));
+    return(dynamic_cast<PlaylistItem *>(playlistList->firstChild()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,6 +89,6 @@ void PlaylistWidget::setupLayout()
     /////////////////////////////////////////////////////////////////////////
     QVBoxLayout *playlistMainLayout = new QVBoxLayout(this);
 
-    playlistList = new FileList(this, "playlistList");
+    playlistList = new Playlist(this, "playlistList");
     playlistMainLayout->addWidget(playlistList);
 }

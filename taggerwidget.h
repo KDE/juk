@@ -18,17 +18,12 @@
 #ifndef TAGGERWIDGET_H
 #define TAGGERWIDGET_H
 
-#include <klistview.h>
-#include <kcombobox.h>
-#include <klineedit.h>
-#include <knuminput.h>
-#include <keditcl.h>
-
 #include <qptrlist.h>
 
-#include "filelist.h"
-#include "filelistitem.h"
+#include "playlist.h"
+#include "playlistitem.h"
 #include "genrelist.h"
+#include "tageditor.h"
 
 class TaggerWidget : public QWidget
 {
@@ -41,44 +36,21 @@ public:
     void add(const QString &item);
     void add(const QStringList &items);
 
-    FileList *getTaggerList();
+    Playlist *getTaggerList();
 
-    QPtrList<FileListItem> getSelectedItems();
+    QPtrList<PlaylistItem> getSelectedItems();
 
 public slots:
     void save();
-    void save(const QPtrList<FileListItem> &items);
-    void deleteFile();
-    void deleteFile(const QPtrList<FileListItem> &items);
-    void setChanged();
+    void remove();
+    void remove(const QPtrList<PlaylistItem> &items);
 
 private:
     void setupLayout();
-    void readConfig();
 
     // main visual objects
-    FileList *taggerList;
-
-    KComboBox *artistNameBox;
-    KLineEdit *trackNameBox;
-    KComboBox *albumNameBox;
-    KComboBox *genreBox;
-    KLineEdit *fileNameBox;
-    KIntSpinBox *trackSpin;
-    KIntSpinBox *yearSpin;
-    KLineEdit *lengthBox;
-    KLineEdit *bitrateBox;
-    KEdit *commentBox;
-
-    // internally useful things
-    QPtrList<FileListItem> previousSelection;
-    GenreList *genreList;
-    bool changed;
-
-private slots:
-    void saveChangesPrompt();
-    void updateBoxes();
-    void updateCombos();
+    Playlist *taggerList;
+    TagEditor *editor;
 };
 
 #endif

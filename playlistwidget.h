@@ -22,8 +22,8 @@
 
 #include <qptrlist.h>
 
-#include "filelist.h"
-#include "filelistitem.h"
+#include "playlist.h"
+#include "playlistitem.h"
 
 class PlaylistWidget : public QWidget
 {
@@ -33,20 +33,20 @@ public:
 
     void add(const QString &item);
     void add(QStringList &items);
-    void add(FileListItem *item);
-    void add(QPtrList<FileListItem> &items);
+    void add(PlaylistItem *item);
+    void add(QPtrList<PlaylistItem> &items);
 
-    void remove(QPtrList<FileListItem> &items);
+    void remove(QPtrList<PlaylistItem> &items);
 
-    FileList *getPlaylistList();
-    QPtrList<FileListItem> getSelectedItems();
-    FileListItem *firstItem();
+    Playlist *getPlaylistList();
+    QPtrList<PlaylistItem> getSelectedItems();
+    PlaylistItem *firstItem();
 
 private:
     void setupLayout();
 
     // main visual objects
-    FileList *playlistList;
+    Playlist *playlistList;
 };
 
 #endif

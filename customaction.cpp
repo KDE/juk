@@ -82,3 +82,4 @@ KToolBar *CustomAction::getToolBar()
 {
     return(toolbar);
 }
+#include "customaction.moc"

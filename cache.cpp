@@ -30,7 +30,7 @@ Cache *Cache::instance()
     return(cache);
 }
 
-Cache::Item *Cache::item(const QString &fileName) const
+CacheItem *Cache::item(const QString &file) const
 {
     return(0);
 }
@@ -41,7 +41,7 @@ Cache::Item *Cache::item(const QString &fileName) const
 
 Cache::Cache()
 {
-    
+    setAutoDelete(true);
 }
 
 Cache::~Cache()
@@ -50,15 +50,20 @@ Cache::~Cache()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Cache::Item public methods
+// CacheItem public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Cache::Item::Item()
+CacheItem::CacheItem()
 {
 
 }
 
-Cache::Item::~Item()
+CacheItem::CacheItem(const Tag &tag)
+{
+
+}
+
+CacheItem::~CacheItem()
 {
 
 }

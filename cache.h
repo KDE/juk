@@ -19,18 +19,23 @@
 #define CACHE_H
 
 #include <qstring.h>
+#include <qdict.h>
+
+#include "tag.h"
 
 // Eventually this should implement the same interface as the Tag class; in fact
 // there should be an abstract API for both of them to use.  But, for the
 // moment this is just a place holder to fill in the design.
 
-class Cache
+class CacheItem;
+
+class Cache : public QDict<CacheItem>
 {
 public:
     class Item;
 
     static Cache *instance();
-    Item *item(const QString &fileName) const;
+    CacheItem *item(const QString &fileName) const;
 
 protected:
     Cache();
@@ -41,11 +46,18 @@ private:
     
 };
 
-class Cache::Item
+class CacheItem
 {
 public:
-    Item();
-    virtual ~Item();
+    CacheItem();
+    CacheItem(const Tag &tag);
+    virtual ~CacheItem();
+
+    QString track() const { return QString::null; }
+    QString artist() const { return QString::null; }
+    QString album() const { return QString::null; }
+    QString trackNumber() const { return QString::null; }
+    QString length() const { return QString::null; }
 };
 
 #endif

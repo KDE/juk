@@ -22,6 +22,8 @@
 #include <kcmdlineargs.h>
 #include <kdebug.h>
 
+#include <qsplitter.h>
+
 #include "juk.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -53,7 +55,7 @@ void JuK::setupActions()
     KStdAction::open(this, SLOT(openFile()), actionCollection());
     (void) new KAction(i18n("Open &Directory..."), "fileopen", 0, this, SLOT(openDirectory()), actionCollection(), "openDirectory");
     KStdAction::save(this, SLOT(saveFile()), actionCollection());
-    (void) new KAction(i18n("Delete"), "edittrash", 0, this, SLOT(deleteFile()), actionCollection(), "deleteFile");
+    (void) new KAction(i18n("Delete"), "edittrash", 0, this, SLOT(remove()), actionCollection(), "remove");
     KStdAction::quit(this, SLOT(quit()), actionCollection());
 
     // edit menu
@@ -63,19 +65,9 @@ void JuK::setupActions()
     KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
     // play menu
-    addToPlaylistAction = new KAction(i18n("&Add to Playlist"), "enqueue", 0, this,
-                                      SLOT(addToPlaylist()), actionCollection(), "addToPlaylist");
-    removeFromPlaylistAction = new KAction(i18n("&Remove from Playlist"), "dequeue", 0, this,
-                                           SLOT(removeFromPlaylist()), actionCollection(), "removeFromPlaylist");
     playAction = new KAction(i18n("&Play"), "1rightarrow", 0, this, SLOT(playFile()), actionCollection(), "playFile");
     pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pauseFile()), actionCollection(), "pauseFile");
     stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stopFile()), actionCollection(), "stopFile");
-
-    // function menu
-
-    showTaggerAction = new KAction(i18n("Tagger"), "tag", 0, this, SLOT(showTagger()), actionCollection(), "showTagger");
-    showPlaylistAction = new KAction(i18n("Playlist Editor"), "edit", 0, this, SLOT(showPlaylist()), actionCollection(), "showPlaylist");
-
 
     // just in the toolbar
     sliderAction = new SliderAction(i18n("Track Position"), actionCollection(), "trackPositionAction");
@@ -86,29 +78,23 @@ void JuK::setupActions()
 void JuK::setupLayout()
 {
     // automagically save and restore settings
-    this->setAutoSaveSettings();
+    setAutoSaveSettings();
 
-    // create the main widgets
-    tagger = new TaggerWidget(this);
-    playlist = new PlaylistWidget(this);
-
-    showTagger();
+    splitter = new PlaylistSplitter(this, "playlistSplitter");
+    setCentralWidget(splitter);
 
     // set the slider to the proper orientation and make it stay that way
     sliderAction->updateOrientation();
     connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), sliderAction, SLOT(updateOrientation(QDockWindow *)));
 
     // playlist item activation connection
-    connect(playlist->getPlaylistList(), SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
-    connect(tagger->getTaggerList(), SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
-
-    tagger->getTaggerList()->setFocus();
+    connect(splitter, SIGNAL(playlistDoubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
 }
 
 void JuK::setupPlayer()
 {
-    trackPositionDragging=false;
-    noSeek=false;
+    trackPositionDragging = false;
+    noSeek = false;
     pauseAction->setEnabled(false);
     stopAction->setEnabled(false);
 
@@ -133,8 +119,7 @@ void JuK::processArgs()
     for(int i = 0; i < args->count(); i++)
 	files.append(args->arg(i));
 
-    if(tagger)
-	tagger->add(files);
+    splitter->open(files);
 }
 
 void JuK::readConfig()
@@ -172,32 +157,30 @@ void JuK::saveConfig()
 void JuK::openFile()
 {
     QStringList files = KFileDialog::getOpenFileNames(QString::null, "*.mp3|MPEG Audio (*.mp3)");
-    tagger->add(files);
+    splitter->open(files);
 }
 
 void JuK::openDirectory()
 {
-    tagger->add(KFileDialog::getExistingDirectory());
+    splitter->open(KFileDialog::getExistingDirectory());
 }
 
 void JuK::saveFile()
 {
-    if(tagger && tagger->isVisible())
-        tagger->save();
+    splitter->save();
 }
 
-void JuK::deleteFile()
+void JuK::remove()
 {
-    QPtrList<FileListItem> items(tagger->getSelectedItems());
-    FileListItem *item = items.first();
+    QPtrList<PlaylistItem> items(splitter->playlistSelection());
+    PlaylistItem *item = items.first();
     while(item) {
-        if(item == playingItem)
-            playingItem = 0;
-        item = items.next();
+	if(item == playingItem)
+	    playingItem = 0;
+	item = items.next();
     }
-
-    if(tagger && tagger->isVisible())
-        tagger->deleteFile();
+    
+    splitter->remove();
 }
 
 void JuK::quit()
@@ -211,77 +194,26 @@ void JuK::quit()
 
 void JuK::cut()
 {
-    if(tagger && tagger->isVisible()) {
-        QPtrList<FileListItem> items(tagger->getTaggerList()->selectedItems());
+    QPtrList<PlaylistItem> items = splitter->playlistSelection();
 
-        FileListItem *item = items.first();
-        while(item) {
-            if(item == playingItem)
-                playingItem = 0;
-            item = items.next();
-        }
-
-        tagger->getTaggerList()->remove(items);
+    PlaylistItem *item = items.first();
+    while(item) {
+	if(item == playingItem)
+	    playingItem = 0;
+	item = items.next();
     }
-    else if(playlist && playlist->isVisible())
-        removeFromPlaylist();
+
+    splitter->clearSelectedItems();
 }
 
-void JuK::selectAll()
+void JuK::selectAll(bool select)
 {
-    if(tagger && tagger->isVisible()) {
-        tagger->getTaggerList()->selectAll(true);
-    }
-    else if(playlist && playlist->isVisible()) {
-        playlist->getPlaylistList()->selectAll(true);
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// function menu
-////////////////////////////////////////////////////////////////////////////////
-
-void JuK::showTagger()
-{
-    playlist->hide();
-    tagger->show();
-    setCentralWidget(tagger);
-
-    addToPlaylistAction->setEnabled(true);
-    removeFromPlaylistAction->setEnabled(false);
-
-    showTaggerAction->setEnabled(false);
-    showPlaylistAction->setEnabled(true);
-}
-
-void JuK::showPlaylist()
-{
-    tagger->hide();
-    playlist->show();
-    setCentralWidget(playlist);
-
-    addToPlaylistAction->setEnabled(false);
-    removeFromPlaylistAction->setEnabled(true);
-
-    showTaggerAction->setEnabled(true);
-    showPlaylistAction->setEnabled(false);
+    splitter->selectAll(select);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // player menu
 ////////////////////////////////////////////////////////////////////////////////
-
-void JuK::addToPlaylist()
-{
-    QPtrList<FileListItem> items(tagger->getSelectedItems());
-    playlist->add(items);
-}
-
-void JuK::removeFromPlaylist()
-{
-    QPtrList<FileListItem> items(playlist->getSelectedItems());
-    playlist->remove(items);
-}
 
 void JuK::playFile()
 {
@@ -294,12 +226,12 @@ void JuK::playFile()
             playTimer->start(pollInterval);
         }
     }
-    else if(playlist) {
-        QPtrList<FileListItem> items(playlist->getSelectedItems());
+    else if(splitter) {
+        QPtrList<PlaylistItem> items = splitter->playlistSelection();
         if(items.count() > 0)
-            playItem(dynamic_cast<FileListItem *>(items.at(0)));
+            playItem(items.at(0));
         else
-            playItem(playlist->firstItem());
+            playItem(splitter->playlistFirstItem());
     }
 }
 
@@ -349,9 +281,9 @@ void JuK::pollPlay()
         if(player.paused())
             pauseFile();
         else {
-            if(playingItem && dynamic_cast<FileListItem*>(playingItem->itemBelow())) {
+            if(playingItem && dynamic_cast<PlaylistItem *>(playingItem->itemBelow())) {
                 playingItem->setPixmap(0, 0);
-                playingItem = dynamic_cast<FileListItem *>(playingItem->itemBelow());
+                playingItem = dynamic_cast<PlaylistItem *>(playingItem->itemBelow());
                 sliderAction->getTrackPositionSlider()->setValue(0);
                 player.play(playingItem->absFilePath(), player.getVolume());
                 if(player.playing()) {
@@ -384,12 +316,12 @@ void JuK::setVolume(int volume)
 
 void JuK::playItem(QListViewItem *item)
 {
-    FileListItem *fileListItem = dynamic_cast<FileListItem *>(item);
+    PlaylistItem *fileListItem = dynamic_cast<PlaylistItem *>(item);
     if(fileListItem)
         playItem(fileListItem);
 }
 
-void JuK::playItem(FileListItem *item)
+void JuK::playItem(PlaylistItem *item)
 {
     if(player.playing() || player.paused())
         stopFile();
@@ -414,7 +346,9 @@ void JuK::playTaggerItem(QListViewItem *item)
 
 }
 
-void JuK::playTaggerItem(FileListItem *item)
+void JuK::playTaggerItem(PlaylistItem *item)
 {
 
 }
+
+#include "juk.moc"
