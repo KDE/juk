@@ -406,6 +406,15 @@ void Playlist::playNext()
 	return;
     }
 
+    // Always initialize m_randomList if random play is enabled, otherwise the
+    // first file JuK plays in album random play mode doesn't save the album
+    // because m_randomList isn't updated on the m_playNextItem branch.
+
+    if(random && list->m_randomList.isEmpty()) {
+	m_randomAlbum = QString::null;
+	list->m_randomList = list->visibleItems();
+    }
+
     PlaylistItem *next = 0;
 
     if(m_playNextItem) {
@@ -413,11 +422,6 @@ void Playlist::playNext()
 	m_playNextItem = 0;
     }
     else if(random) {
-	if(list->m_randomList.isEmpty()) {
-	    m_randomAlbum = QString::null;
-	    list->m_randomList = list->visibleItems();
-	}
-
 	if(albumRandom) {
 	    PlaylistItemList albumMatches;
 	    PlaylistItemList::ConstIterator it;
