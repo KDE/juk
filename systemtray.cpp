@@ -70,8 +70,8 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     m_playPix = createPixmap("player_play");
     m_pausePix = createPixmap("player_pause");
 
-    m_backPix = loadIcon("player_start");
     m_forwardPix = loadIcon("player_end");
+    m_backPix = loadIcon("player_start");
 
     setPixmap(m_appPix);
 
@@ -86,8 +86,8 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     action("play")->plug(cm);
     action("pause")->plug(cm);
     action("stop")->plug(cm);
-    action("back")->plug(cm);
     action("forward")->plug(cm);
+    action("back")->plug(cm);
 
     cm->insertSeparator();
 
@@ -217,14 +217,15 @@ void SystemTray::createPopup(bool addButtons)
                 buttonBox = new QVBox(box);
                 buttonBox->setSpacing(3);
             }
-            
+ 
+            QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
+            forwardButton->setFlat(true);
+            connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
+
             QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
             backButton->setFlat(true);
             connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
 
-            QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
-            forwardButton->setFlat(true);
-            connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
         }
 
         // We don't want an autodelete popup.  There are times when it will need
