@@ -53,10 +53,6 @@ public:
      */
     void setDirWatchEnabled(bool enabled) { m_splitter->setDirWatchEnabled(enabled); }
 
-signals:
-    void signalEdit();
-    void signalNewSong(const QString& songTitle);
-
 private:
     void setupLayout();
     void setupActions();

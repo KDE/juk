@@ -325,20 +325,17 @@ void JuK::setupSplitterConnections()
 void JuK::setupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
-        m_systemTray = new SystemTray(this, "systemTray");
-        m_systemTray->show();
+	m_systemTray = new SystemTray(this, "systemTray");
+	m_systemTray->show();
 
-        connect(this, SIGNAL(signalNewSong(const QString&)),
-		m_systemTray, SLOT(slotNewSong(const QString&)));
-
-        m_toggleDockOnCloseAction->setEnabled(true);
+	m_toggleDockOnCloseAction->setEnabled(true);
 	m_togglePopupsAction->setEnabled(true);
 
-        connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
+	connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
     }
     else {
-        m_systemTray = 0;
-        m_toggleDockOnCloseAction->setEnabled(false);
+	m_systemTray = 0;
+	m_toggleDockOnCloseAction->setEnabled(false);
 	m_togglePopupsAction->setEnabled(false);
     }
 }

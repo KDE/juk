@@ -85,12 +85,6 @@ SystemTray::~SystemTray()
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void SystemTray::slotNewSong(const QString& songName)
-{
-    setToolTip(songName);
-    createPopup(songName, true);
-}
-
 void SystemTray::slotStop()
 {
     setPixmap(m_appPix);

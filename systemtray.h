@@ -31,9 +31,6 @@ public:
     SystemTray(QWidget *parent = 0, const char *name = 0);
     virtual ~SystemTray();
 
-public slots:
-    void slotNewSong(const QString &songName);
-
 private:
     virtual void wheelEvent(QWheelEvent *e);
     void createPopup(const QString &songName, bool addButtons = true);
@@ -47,7 +44,6 @@ private slots:
     void slotStop();
 
 private:
-
     QPixmap m_playPix;
     QPixmap m_pausePix;
     QPixmap m_currentPix;
