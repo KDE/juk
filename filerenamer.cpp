@@ -14,6 +14,7 @@
 #include <kdialogbase.h>
 #include <kdebug.h>
 #include <kiconloader.h>
+#include <kio/netaccess.h>
 #include <klocale.h>
 #include <kmacroexpander.h>
 #include <kmessagebox.h>
@@ -244,28 +245,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
         }
     }
 
-    QFile srcFile(src);
-    if(!srcFile.open(IO_ReadOnly)) {
-        KMessageBox::error(0, i18n("Could not open %1 for reading.").arg(src));
-        return false;
-    }
-
-    QFile destFile(dest);
-    if(!destFile.open(IO_WriteOnly)) {
-        KMessageBox::error(0, i18n("Could not open %1 for writing.").arg(dest));
-        return false;
-    }
-
-    destFile.writeBlock(srcFile.readAll());
-
-    if(!srcFile.remove()) {
-        KMessageBox::sorry(0, i18n("Renamed the file, but failed the source "
-                                      "file %1. You might want to do so by "
-                                      "hand.").arg(src));
-        return false;
-    }
-
-    return true;
+    return KIO::NetAccess::file_move(KURL(src), KURL(dest));
 }
 
 // vim:ts=4:sw=4:et
