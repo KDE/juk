@@ -62,7 +62,7 @@ public:
     virtual void unplug(QWidget *widget);
 
 public slots:
-    void slotUpdateOrientation(QDockWindow *dockWindow = 0);
+    void slotUpdateOrientation();
 
 signals:
     void signalPositionChanged(int position);

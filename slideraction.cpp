@@ -147,6 +147,7 @@ int SliderAction::plug(QWidget *parent, int index)
 
     if(parent->inherits("KToolBar") && !m_toolBar) {
 	m_toolBar = static_cast<KToolBar *>(parent);
+
 	int id = KAction::getToolButtonID();
 
 	m_toolBar->insertWidget(id, w->width(), w, index);
@@ -154,6 +155,10 @@ int SliderAction::plug(QWidget *parent, int index)
 	addContainer(m_toolBar, id);
 
 	connect(m_toolBar, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
+	connect(m_toolBar, SIGNAL(orientationChanged(Orientation)),
+		this, SLOT(slotUpdateOrientation()));
+	connect(m_toolBar, SIGNAL(placeChanged(QDockWindow::Place)),
+		this, SLOT(slotUpdateOrientation()));
 
 	return (containerCount() - 1);
     }
@@ -181,20 +186,21 @@ void SliderAction::unplug(QWidget *parent)
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void SliderAction::slotUpdateOrientation(QDockWindow *dockWindow)
+void SliderAction::slotUpdateOrientation()
 {
+    kdDebug(65432) << k_funcinfo << endl;
+
     // if the toolbar is not null and either the dockWindow not defined or is the toolbar
-    if((!dockWindow || dockWindow == dynamic_cast<QDockWindow *>(m_toolBar))) {
-        if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
-            m_trackPositionSlider->setOrientation(Vertical);
-            m_volumeSlider->setOrientation(Vertical);
-            m_layout->setDirection(QBoxLayout::TopToBottom);
-        }
-        else {
-            m_trackPositionSlider->setOrientation(Horizontal);
-            m_volumeSlider->setOrientation(Horizontal);
-            m_layout->setDirection(QBoxLayout::LeftToRight);
-        }
+
+    if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
+	m_trackPositionSlider->setOrientation(Vertical);
+	m_volumeSlider->setOrientation(Vertical);
+	m_layout->setDirection(QBoxLayout::TopToBottom);
+    }
+    else {
+	m_trackPositionSlider->setOrientation(Horizontal);
+	m_volumeSlider->setOrientation(Horizontal);
+	m_layout->setDirection(QBoxLayout::LeftToRight);
     }
     slotUpdateSize();
 }
