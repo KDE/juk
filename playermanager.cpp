@@ -266,7 +266,7 @@ void PlayerManager::back()
 
 void PlayerManager::volumeUp()
 {
-    if(!m_player || !m_sliderAction)
+    if(!player() || !m_sliderAction)
 	return;
 
     int volume = m_sliderAction->volumeSlider()->value() +
@@ -278,7 +278,7 @@ void PlayerManager::volumeUp()
 
 void PlayerManager::volumeDown()
 {
-    if(!m_player || !m_sliderAction)
+    if(!player() || !m_sliderAction)
 	return;
 
     int volume = m_sliderAction->volumeSlider()->value() -
@@ -290,7 +290,7 @@ void PlayerManager::volumeDown()
 
 void PlayerManager::mute()
 {
-    if(!m_player || !m_sliderAction)
+    if(!player() || !m_sliderAction)
         return;
 
     slotSetVolume(m_muted ? m_sliderAction->volumeSlider()->value() : 0);
@@ -358,7 +358,7 @@ void PlayerManager::slotUpdateTime(int position)
         return;
 
     float positionFraction = float(position) / m_sliderAction->trackPositionSlider()->maxValue();
-    float totalTime = float(m_player->totalTime());
+    float totalTime = float(player()->totalTime());
     long seekTime = long(positionFraction * totalTime + 0.5); // "+0.5" for rounding
 
     m_statusLabel->setItemCurrentTime(seekTime);
