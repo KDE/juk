@@ -57,58 +57,18 @@ public:
      * the format "[startingWith] i" where "i" is the first integer greater than
      * 0 that does not currently exist in the PlaylistBox.
      */
-    QString uniquePlaylistName(const QString &startingWith, bool useParentheses = false);
-
-    /* This calls the above method with startingWith == i18n("Playlist") to
-     * produce "Playlist 1", "Playlist 2", ...
-     */
-    QString uniquePlaylistName() { return uniquePlaylistName(i18n("Playlist")); }
-
-    ////////////////////////////////////////////////////////////////////////////
-    // Variations on the theme "play stuff"
-    ////////////////////////////////////////////////////////////////////////////
+    QString uniquePlaylistName(const QString &startingWith = i18n("Playlist"),
+			       bool useParentheses = false);
 
     virtual QString name() const;
-    virtual QString nextFile();
-    virtual QString currentFile();
-    virtual QString previousFile() { return playPreviousFile(); }
-
-    /**
-     * Returns the file name of the next item to be played and advances the next
-     * file.
-     */
-    QString playNextFile(bool random = false, bool loopPlaylist = false);
-
-    /**
-     * Returns the file name of the previous item and moves the playing indicator
-     * to the previous file.
-     */
-    QString playPreviousFile(bool random = false);
+    virtual FileHandle nextFile();
+    virtual FileHandle currentFile();
+    virtual FileHandle previousFile();
 
     /**
      * Fills the menu passed in with the recently played history
      */
     void populatePlayHistoryMenu(QPopupMenu *menu, bool random);
-
-    /**
-     * Returns the name of the currently selected file and moves the playing
-     * indicator to that file.
-     */
-    QString playSelectedFile();
-
-    /**
-     * Returns the name of the first item in the playlist and moves the playing
-     * indicator to that file.
-     */
-    QString playFirstFile();
-
-    /**
-     * Plays a random file in the currently visible playlist and returns it's
-     * name.
-     */
-    QString playRandomFile();
-
-    ////////////////////////////////////////////////////////////////////////////
 
     /**
      * Returns the name of the currently visible playlist.
@@ -171,8 +131,6 @@ public:
 
 public slots:
 
-// File slots
-
     /**
      * Open files or playlists.
      */
@@ -184,13 +142,9 @@ public slots:
      */
     void slotOpenDirectory();
 
-// Tagger slots
-
     void slotSaveTag() { m_editor->save(); }
     void slotGuessTagInfo(TagGuesser::Type type);
     void slotRenameFile();
-
-// Playlist slots
 
     /**
      * Create a playlist and prompt the user for a name if no name was
@@ -209,8 +163,6 @@ public slots:
      * visible.
      */
     void slotSelectPlaying();
-
-// Other slots
 
     /**
      * Deletes the selected items from the hard disk.
@@ -257,8 +209,6 @@ public slots:
      * inserted at the end of the list.
      */
     void slotAddToPlaylist(const QStringList &files, Playlist *list, PlaylistItem *after = 0);
-
-// PlaylistBox forwarding slots
 
     void slotSavePlaylist() { m_playlistBox->save(); }
     void slotSaveAsPlaylist() { m_playlistBox->saveAs(); }
@@ -320,7 +270,7 @@ private:
      * A convenience function that sets the playing icon, sets the playing item
      * and then returns the name of the file.
      */
-    QString play(PlaylistItem *item);
+    FileHandle play(PlaylistItem *item);
 
     /**
      * This should be called to update the shown items -- it does not restart the

@@ -186,10 +186,7 @@ void PlayerManager::play(const FileHandle &file)
             player()->seekPosition(0);
         }
         else {
-            // TODO: currentFile() really should return a FileHanlde as such
-            // making the cast below not needed.
-
-            FileHandle currentFile = FileHandle(m_playlistInterface->currentFile());
+            FileHandle currentFile = m_playlistInterface->currentFile();
 
             if(!currentFile.isNull()) {
                 player()->play(currentFile);
@@ -303,9 +300,7 @@ void PlayerManager::playPause()
 
 void PlayerManager::forward()
 {
-    // TODO: nextFile() should return a FileHandle
-
-    FileHandle file = FileHandle(m_playlistInterface->nextFile());
+    FileHandle file = m_playlistInterface->nextFile();
 
     if(!file.isNull())
         play(file);
@@ -315,9 +310,7 @@ void PlayerManager::forward()
 
 void PlayerManager::back()
 {
-    // TODO: previousFile() should return a FileHandle
-
-    FileHandle file = FileHandle(m_playlistInterface->previousFile());
+    FileHandle file = m_playlistInterface->previousFile();
 
     if(!file.isNull())
         play(file);
@@ -372,9 +365,7 @@ void PlayerManager::slotPollPlay()
     if(!player()->playing()) {
         m_timer->stop();
 
-        // TODO: nextFile() should use FileHandle
-
-        FileHandle nextFile = FileHandle(m_playlistInterface->nextFile());
+        FileHandle nextFile = m_playlistInterface->nextFile();
         if(!nextFile.isNull())
             play(nextFile);
         else

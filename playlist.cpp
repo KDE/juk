@@ -370,7 +370,7 @@ PlaylistItemList Playlist::historyItems(PlaylistItem *current, bool random) cons
         for(; it != m_history.begin() && j < 10; --it, ++j)
             list.append(*it);
 
-        if (j < 10)
+        if(j < 10)
             list.append(*it);
     }
     else if(current) {
