@@ -367,16 +367,15 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
 {
     if(!current)
-	return 0;
+        return 0;
 
     if(random && !m_history.isEmpty())
-	return m_history.pop();
-    else {
-        if(!current->itemAbove())
-            return current;
-        else
-            return static_cast<PlaylistItem *>(current->itemAbove());
-    }
+        return m_history.pop();
+
+    if(!current->itemAbove())
+        return current;
+
+    return static_cast<PlaylistItem *>(current->itemAbove());
 }
 
 QString Playlist::name() const
