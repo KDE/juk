@@ -425,6 +425,9 @@ void JuK::setVolume(int volume)
 void JuK::playFile(const QString &file)
 {
     float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());
+
+    if(player.paused())
+	player.stop();
     
     player.play(file, volume);
 
