@@ -96,6 +96,8 @@ void CoverInfo::setCover(const QImage &image)
         clearCover();
 
     image.save(coverLocation(CoverInfo::FullSize), "PNG");
+    m_hasCover = true;
+    m_haveCheckedForCover = true;
 }
 
 QPixmap CoverInfo::pixmap(CoverSize size) const
