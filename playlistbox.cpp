@@ -58,7 +58,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     header()->blockSignals(true);
     header()->hide();
-    header()->blockSignals(false);    
+    header()->blockSignals(false);
 
     setSorting(0);
     setFullWidth(true);
@@ -71,7 +71,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     K3bPlaylistExporter *exporter = new K3bPlaylistExporter(this);
     m_k3bAction = exporter->action();
-    
+
     action("file_new")->plug(m_contextMenu);
     action("renamePlaylist")->plug(m_contextMenu);
     action("editSearch")->plug(m_contextMenu);
@@ -264,7 +264,8 @@ void PlaylistBox::remove()
 	    return;
     }
     else {
-	if(KMessageBox::warningYesNo(this, i18n("Are you sure you want to remove these items?")) == KMessageBox::No)
+	if(KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to remove these items?"),
+	   i18n("Remove Items?"),KGuiItem(i18n("&Remove"),"edittrash")) == KMessageBox::Cancel)
 	    return;
     }
 

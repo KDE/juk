@@ -776,7 +776,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 	else
 	    message = i18n("Do you really want to delete these %1 items from your disk?").arg(QString::number(files.count()));
 
-	if(KMessageBox::warningYesNoList(this, message, files) == KMessageBox::Yes) {
+	if(KMessageBox::warningContinueCancelList(this, message, files, i18n("Delete Items?"), KGuiItem(i18n("&Delete"),"editdelete")) == KMessageBox::Continue) {
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 		if(QFile::remove((*it)->file().absFilePath())) {
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
@@ -1579,7 +1579,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	    action("edit_copy")->plug(m_rmbMenu);
 
 	m_rmbEditID = m_rmbMenu->insertItem(
-	    SmallIconSet("editclear"), i18n("Edit"), this, SLOT(slotRenameTag()));
+	    i18n("Edit"), this, SLOT(slotRenameTag()));
 
 	action("refresh")->plug(m_rmbMenu);
 	action("removeItem")->plug(m_rmbMenu);
