@@ -66,7 +66,6 @@ public:
      */
     virtual void save();
     virtual void saveAs();
-    virtual void refresh();
     virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
     virtual void clearItems(const PlaylistItemList &items);
 
@@ -180,6 +179,12 @@ public slots:
     virtual void paste();
     virtual void clear();
     virtual void selectAll() { KListView::selectAll(true); }
+
+    /**
+     * Refreshes the tags of the selection from disk, or all of the files in the
+     * list if there is no selection.
+     */
+    virtual void slotRefresh();
 
     void slotGuessTagInfoFile();
     void slotGuessTagInfoInternet();

@@ -242,23 +242,6 @@ void Playlist::saveAs()
     }
 }
 
-void Playlist::refresh()
-{
-    PlaylistItemList l = selectedItems();
-    if(l.isEmpty())
-	l = visibleItems();
-
-    KApplication::setOverrideCursor(Qt::waitCursor);
-    int j = 0;
-    for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
-	(*it)->slotRefreshFromDisk();
-	if(j % 5 == 0)
-	    kapp->processEvents();
-	j = j % 5 + 1;
-    }
-    KApplication::restoreOverrideCursor();
-}
-
 void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 {
     emit signalAboutToRemove(item);
@@ -466,6 +449,23 @@ void Playlist::clear()
 	l = items();
 
     clearItems(l);
+}
+
+void Playlist::slotRefresh()
+{
+    PlaylistItemList l = selectedItems();
+    if(l.isEmpty())
+	l = visibleItems();
+
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    int j = 0;
+    for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
+	(*it)->slotRefreshFromDisk();
+	if(j % 5 == 0)
+	    kapp->processEvents();
+	j = j % 5 + 1;
+    }
+    KApplication::restoreOverrideCursor();
 }
 
 void Playlist::slotRenameFile()
@@ -825,9 +825,9 @@ void Playlist::polish()
 
     m_rmbMenu->insertSeparator();
 
-    m_rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove From Disk"), this, SLOT(slotDeleteSelectedItems()));
-
     m_rmbEditID = m_rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
+    m_rmbMenu->insertItem(SmallIcon("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
+    m_rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove From Disk"), this, SLOT(slotDeleteSelectedItems()));
 
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotEmitSelected()));

@@ -220,7 +220,7 @@ public slots:
      *
      * \see slotReloadPlaylist()
      */
-    void slotRefresh() { visiblePlaylist()->refresh(); }
+    void slotRefresh() { visiblePlaylist()->slotRefresh(); }
 
     /**
      * If the current playlist is one that was imported from a .m3u file, this
