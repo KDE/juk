@@ -48,6 +48,7 @@ public:
 
 public slots:
     void clear();
+    virtual void setFocus();
 
 signals:
     void signalQueryChanged();
@@ -77,6 +78,7 @@ public:
 public slots:
     void clear();
     void setEnabled(bool enable);
+    virtual void setFocus();
 
 signals:
     void signalQueryChanged();

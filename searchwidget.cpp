@@ -128,6 +128,11 @@ void SearchLine::clear()
 	m_lineEdit->clear();
 }
 
+void SearchLine::setFocus()
+{
+    m_lineEdit->setFocus();
+}
+
 void SearchLine::slotActivate()
 {
     action("stop")->activate();
@@ -213,6 +218,11 @@ void SearchWidget::setEnabled(bool enable)
 {
     emit signalShown(enable);
     setShown(enable);
+}
+
+void SearchWidget::setFocus()
+{
+    m_searchLine->setFocus();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -49,6 +49,9 @@ public:
 
     PlaylistInterface *playlist() const { return m_playlistBox; }
 
+public slots:
+    virtual void setFocus();
+
 private:
 
     /**
