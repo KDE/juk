@@ -38,6 +38,7 @@ class PlaylistCollection;
 class PlaylistSearch;
 
 class PlaylistItem;
+class PlaylistToolTip;
 typedef QValueList<PlaylistItem *> PlaylistItemList;
 
 typedef QValueList<Playlist *> PlaylistList;
@@ -580,6 +581,7 @@ private:
     KPopupMenu *m_rmbMenu;
     KPopupMenu *m_headerMenu;
     KActionMenu *m_columnVisibleAction;
+    PlaylistToolTip *m_toolTip;
 
     /**
      * This is used to indicate if the list of visible items has changed (via a 

@@ -285,7 +285,8 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_searchEnabled(true),
     m_lastSelected(0),
     m_playlistName(name),
-    m_rmbMenu(0)
+    m_rmbMenu(0),
+    m_toolTip(0)
 {
     setup();
     collection->setupPlaylist(this, iconName);
@@ -305,7 +306,8 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_searchEnabled(true),
     m_lastSelected(0),
     m_playlistName(name),
-    m_rmbMenu(0)
+    m_rmbMenu(0),
+    m_toolTip(0)
 {
     setup();
     collection->setupPlaylist(this, iconName);
@@ -326,7 +328,8 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_searchEnabled(true),
     m_lastSelected(0),
     m_fileName(playlistFile.absFilePath()),
-    m_rmbMenu(0)
+    m_rmbMenu(0),
+    m_toolTip(0)
 {
     setup();
     loadFile(m_fileName, playlistFile);
@@ -345,7 +348,8 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_lastSelected(0),
-    m_rmbMenu(0)
+    m_rmbMenu(0),
+    m_toolTip(0)
 {
     setup();
 
@@ -357,6 +361,8 @@ Playlist::~Playlist()
 {
     if(m_playingItem && m_playingItem->playlist() == this)
 	m_playingItem = 0;
+
+    delete m_toolTip;
 }
 
 QString Playlist::name() const
@@ -1167,7 +1173,7 @@ void Playlist::polish()
     m_disableColumnWidthUpdates = false;
 
     setShowToolTips(false);
-    new PlaylistToolTip(viewport(), this);
+    m_toolTip = new PlaylistToolTip(viewport(), this);
 }
 
 void Playlist::setupItem(PlaylistItem *item)
