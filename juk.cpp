@@ -163,10 +163,9 @@ void JuK::setupActions()
     new KAction(i18n("Genre List Editor..."), 0, this, SLOT(slotShowGenreListEditor()), actionCollection(), "showGenreListEditor");
 
     m_outputSelectAction = Player::playerSelectAction(actionCollection());
-
     if(m_outputSelectAction) {
-	m_outputSelectAction->setCurrentItem(0);
-	connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
+        m_outputSelectAction->setCurrentItem(0);
+        connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
     }
 
     new KAction(i18n("&Tag Guesser..."), 0, 0, this, SLOT(slotConfigureTagGuesser()), actionCollection(), "tagGuesserConfig");
@@ -188,23 +187,23 @@ void JuK::setupActions()
 void JuK::setupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
-	m_systemTray = new SystemTray(this, "systemTray");
-	m_systemTray->show();
+        m_systemTray = new SystemTray(this, "systemTray");
+        m_systemTray->show();
 
-	connect(this, SIGNAL(signalNewSong(const QString&)), m_systemTray, SLOT(slotNewSong(const QString&)));
+        connect(this, SIGNAL(signalNewSong(const QString&)), m_systemTray, SLOT(slotNewSong(const QString&)));
 
-	if(m_player && m_player->paused())
-	    m_systemTray->slotPause();
-	else if(m_player && m_player->playing())
-	    m_systemTray->slotPlay();
+        if(m_player && m_player->paused())
+            m_systemTray->slotPause();
+        else if(m_player && m_player->playing())
+            m_systemTray->slotPlay();
 
-	m_toggleDockOnCloseAction->setEnabled(true);
+        m_toggleDockOnCloseAction->setEnabled(true);
 
-	connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
+        connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
     }
     else {
-	m_systemTray = 0;
-	m_toggleDockOnCloseAction->setEnabled(false);
+        m_systemTray = 0;
+        m_toggleDockOnCloseAction->setEnabled(false);
     }
 }
 
@@ -232,8 +231,8 @@ void JuK::setupPlayer()
 
     int playerType = 0;
     if(m_outputSelectAction) {
-	playerType = m_outputSelectAction->currentItem();
-	connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
+        playerType = m_outputSelectAction->currentItem();
+        connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
     }
 
     m_player = Player::createPlayer(playerType);
@@ -264,7 +263,7 @@ void JuK::processArgs()
     QStringList files;
 
     for(int i = 0; i < args->count(); i++)
-	files.append(args->arg(i));
+        files.append(args->arg(i));
 
     m_splitter->open(files);
 }
@@ -272,7 +271,7 @@ void JuK::processArgs()
 void JuK::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() >= Qt::Key_Back && e->key() <= Qt::Key_MediaLast)
-	e->accept();
+        e->accept();
     KMainWindow::keyPressEvent(e);
 }
 
@@ -285,8 +284,8 @@ void JuK::readSettings()
     KConfig *config = KGlobal::config();
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
-	m_restore = config->readBoolEntry("RestoreOnLoad", true);
-	m_showSplash = config->readBoolEntry("ShowSplashScreen", true);
+        m_restore = config->readBoolEntry("RestoreOnLoad", true);
+        m_showSplash = config->readBoolEntry("ShowSplashScreen", true);
     }
 }
 
@@ -302,32 +301,32 @@ void JuK::readConfig()
             int volume = config->readNumEntry("Volume", m_sliderAction->getVolumeSlider()->maxValue());
             m_sliderAction->getVolumeSlider()->setValue(volume);
         }
-	bool randomPlay = config->readBoolEntry("RandomPlay", false);
-	m_randomPlayAction->setChecked(randomPlay);
+        bool randomPlay = config->readBoolEntry("RandomPlay", false);
+        m_randomPlayAction->setChecked(randomPlay);
 
-	bool loopPlaylist = config->readBoolEntry("LoopPlaylist", false);
-	m_loopPlaylistAction->setChecked(loopPlaylist);
+        bool loopPlaylist = config->readBoolEntry("LoopPlaylist", false);
+        m_loopPlaylistAction->setChecked(loopPlaylist);
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
-	bool showEditor = config->readBoolEntry("ShowEditor", false);
-	m_showEditorAction->setChecked(showEditor);
-	m_splitter->slotSetEditorVisible(showEditor);
+        bool showEditor = config->readBoolEntry("ShowEditor", false);
+        m_showEditorAction->setChecked(showEditor);
+        m_splitter->slotSetEditorVisible(showEditor);
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
 
-	bool dockInSystemTray = config->readBoolEntry("DockInSystemTray", true);
-	m_toggleSystemTrayAction->setChecked(dockInSystemTray);
+        bool dockInSystemTray = config->readBoolEntry("DockInSystemTray", true);
+        m_toggleSystemTrayAction->setChecked(dockInSystemTray);
 
-	bool dockOnClose = config->readBoolEntry("DockOnClose", true);
-	m_toggleDockOnCloseAction->setChecked(dockOnClose);
+        bool dockOnClose = config->readBoolEntry("DockOnClose", true);
+        m_toggleDockOnCloseAction->setChecked(dockOnClose);
 
-	bool showPopups = config->readBoolEntry("TrackPopup", false);
-	m_togglePopupsAction->setChecked(showPopups);
+        bool showPopups = config->readBoolEntry("TrackPopup", false);
+        m_togglePopupsAction->setChecked(showPopups);
 
-	if(m_outputSelectAction)
-	    m_outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
+        if(m_outputSelectAction)
+            m_outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
     }
 
     m_restoreOnLoadAction->setChecked(m_restore);
@@ -341,24 +340,24 @@ void JuK::saveConfig()
         KConfigGroupSaver saver(config, "Player");
         if(m_sliderAction && m_sliderAction->getVolumeSlider())
             config->writeEntry("Volume", m_sliderAction->getVolumeSlider()->value());
-	if(m_randomPlayAction)
-	    config->writeEntry("RandomPlay", m_randomPlayAction->isChecked());
-	if(m_loopPlaylistAction)
-	    config->writeEntry("LoopPlaylist", m_loopPlaylistAction->isChecked());
+        if(m_randomPlayAction)
+            config->writeEntry("RandomPlay", m_randomPlayAction->isChecked());
+        if(m_loopPlaylistAction)
+            config->writeEntry("LoopPlaylist", m_loopPlaylistAction->isChecked());
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
-	config->writeEntry("ShowEditor", m_showEditorAction->isChecked());
+        config->writeEntry("ShowEditor", m_showEditorAction->isChecked());
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
-	config->writeEntry("RestoreOnLoad", m_restoreOnLoadAction->isChecked());
-	config->writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
-	config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
-	config->writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
-	config->writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
-	if(m_outputSelectAction)
-	    config->writeEntry("MediaSystem", m_outputSelectAction->currentItem());
+        config->writeEntry("RestoreOnLoad", m_restoreOnLoadAction->isChecked());
+        config->writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
+        config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
+        config->writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
+        config->writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
+        if(m_outputSelectAction)
+            config->writeEntry("MediaSystem", m_outputSelectAction->currentItem());
     }
     config->sync();
 }
@@ -392,13 +391,13 @@ void JuK::invokeEditSlot( const char *slotName, const char *slot )
     QObject *object = focusWidget();
 
     if(!object || !slotName || !slot)
-	return;
+        return;
 
     QMetaObject *meta = object->metaObject();
     QStrList l = meta->slotNames(true);
 
     if(l.find(slotName) == -1)
-	return;
+        return;
 
     connect(this, SIGNAL(signalEdit()), object, slot);
     emit signalEdit();
@@ -410,9 +409,9 @@ QString JuK::playingString() const
     QString s;
 
     if(m_splitter->playingArtist().isEmpty())
-	s = m_splitter->playingTrack().simplifyWhiteSpace();
+        s = m_splitter->playingTrack().simplifyWhiteSpace();
     else
-	s = m_splitter->playingArtist().simplifyWhiteSpace() + " - " + m_splitter->playingTrack().simplifyWhiteSpace();
+        s = m_splitter->playingArtist().simplifyWhiteSpace() + " - " + m_splitter->playingTrack().simplifyWhiteSpace();
 
     return s;
 }
@@ -425,37 +424,37 @@ void JuK::updatePlaylistInfo()
 void JuK::play(const QString &file)
 {
     if(!m_player)
-	return;
+        return;
 
     float volume = float(m_sliderAction->getVolumeSlider()->value()) / float(m_sliderAction->getVolumeSlider()->maxValue());
 
     if(m_player->paused())
-	m_player->stop();
+        m_player->stop();
 
     m_player->play(file, volume);
 
     // Make sure that the m_player actually starts before doing anything.
 
     if(m_player->playing()) {
-	m_pauseAction->setEnabled(true);
-	m_stopAction->setEnabled(true);
+        m_pauseAction->setEnabled(true);
+        m_stopAction->setEnabled(true);
 
-	m_backAction->setEnabled(true);
-	m_forwardAction->setEnabled(true);
+        m_backAction->setEnabled(true);
+        m_forwardAction->setEnabled(true);
 
-	m_sliderAction->getTrackPositionSlider()->setValue(0);
-	m_sliderAction->getTrackPositionSlider()->setEnabled(true);
-	m_playTimer->start(m_pollInterval);
+        m_sliderAction->getTrackPositionSlider()->setValue(0);
+        m_sliderAction->getTrackPositionSlider()->setEnabled(true);
+        m_playTimer->start(m_pollInterval);
 
-	m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
+        m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
 
-	emit signalNewSong(playingString());
+        emit signalNewSong(playingString());
 
-	if(m_systemTray)
-	    m_systemTray->slotPlay();
+        if(m_systemTray)
+            m_systemTray->slotPlay();
     }
     else
-	stop();
+        stop();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -465,16 +464,16 @@ void JuK::play(const QString &file)
 void JuK::slotPlaylistChanged()
 {
     if(m_splitter->collectionListSelected()) {
-	m_savePlaylistAction->setEnabled(false);
-	m_saveAsPlaylistAction->setEnabled(false);
-	m_renamePlaylistAction->setEnabled(false);
-	m_deleteItemPlaylistAction->setEnabled(false);
+        m_savePlaylistAction->setEnabled(false);
+        m_saveAsPlaylistAction->setEnabled(false);
+        m_renamePlaylistAction->setEnabled(false);
+        m_deleteItemPlaylistAction->setEnabled(false);
     }
     else {
-	m_savePlaylistAction->setEnabled(true);
-	m_saveAsPlaylistAction->setEnabled(true);
-	m_renamePlaylistAction->setEnabled(true);
-	m_deleteItemPlaylistAction->setEnabled(true);
+        m_savePlaylistAction->setEnabled(true);
+        m_saveAsPlaylistAction->setEnabled(true);
+        m_renamePlaylistAction->setEnabled(true);
+        m_deleteItemPlaylistAction->setEnabled(true);
     }
 
     updatePlaylistInfo();
@@ -516,7 +515,7 @@ void JuK::selectAll()
 void JuK::play()
 {
     if(!m_player)
-	return;
+    return;
 
     if(m_player->paused()) {
         m_player->play();
