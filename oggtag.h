@@ -60,6 +60,14 @@ private:
      * wrong or the key was not found.
      */
     int readCommentInt(const QString &key) const;
+    /**
+     * Writes a string to the specified key.
+     */
+    void writeCommentItem(const QString &key, const QString &value);
+    /**
+     * Writes a string to the specified key.
+     */
+    void writeCommentItem(const QString &key, int value);
     
     KFileMetaInfo metaInfo;
     KFileMetaInfoGroup commentGroup;

@@ -18,6 +18,7 @@
 #include <kdebug.h>
 
 #include <qdatetime.h>
+#include <qvariant.h>
 
 #include "oggtag.h"
 #include "genrelistlist.h"
@@ -39,7 +40,7 @@ OggTag::~OggTag()
 
 void OggTag::save()
 {
-
+    metaInfo.applyChanges();
 }
 
 QString OggTag::track() const
@@ -108,37 +109,41 @@ bool OggTag::hasTag() const
 
 void OggTag::setTrack(const QString &value)
 {
-
+    writeCommentItem("Title", value);
 }
 
 void OggTag::setArtist(const QString &value)
 {
-
+    writeCommentItem("Artist", value);
 }
 
 void OggTag::setAlbum(const QString &value)
 {
-
+    writeCommentItem("Album", value);
 }
 
 void OggTag::setGenre(const Genre &value)
 {
-
+    writeCommentItem("Genre", value);
 }
 
 void OggTag::setTrackNumber(int value)
 {
-
+    writeCommentItem("Tracknumber", value);
 }
 
 void OggTag::setYear(int value)
 {
-
+    QDate d = QDate::fromString(readCommentString("Date"), Qt::ISODate);
+    if(d.setYMD(value, d.month(), d.day())) {
+	QDateTime dt = d;
+	writeCommentItem("Date", dt.toString(Qt::ISODate));
+    }
 }
 
 void OggTag::setComment(const QString &value)
 {
-
+    writeCommentItem("Description", value);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -150,7 +155,9 @@ QString OggTag::readCommentString(const QString &key) const
     if(metaInfo.isValid() && !metaInfo.isEmpty() &&
        commentGroup.isValid() && !commentGroup.isEmpty() &&
        commentGroup.contains(key))
-	return(commentGroup.item(key).string());
+	// I'm throwing in the stripWhiteSpace() here, because the IOSlave/KFMI
+	// stuff seems to be padding fields arbitrarily.
+	return(commentGroup.item(key).string().stripWhiteSpace());
     else
 	return(QString::null);
 }
@@ -169,4 +176,24 @@ int OggTag::readCommentInt(const QString &key) const
     }
     else
 	return(-1);
+}
+
+void OggTag::writeCommentItem(const QString &key, const QString &value)
+{
+    if(metaInfo.isValid() && commentGroup.isValid()) {
+	QVariant v(value);
+	if(!commentGroup.contains(key))
+	    commentGroup.addItem(key);
+	commentGroup.item(key).setValue(v);
+    }
+}
+
+void OggTag::writeCommentItem(const QString &key, int value)
+{
+    if(metaInfo.isValid() && commentGroup.isValid()) {
+	QVariant v(QString::number(value));
+	if(!commentGroup.contains(key))
+	    commentGroup.addItem(key);
+	commentGroup.item(key).setValue(v);
+    }
 }

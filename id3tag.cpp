@@ -113,7 +113,7 @@ ID3Tag::ID3Tag(const QString &file) : Tag(file)
 
 ID3Tag::~ID3Tag()
 {
-    save();
+
 }
 
 
