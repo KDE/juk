@@ -389,8 +389,6 @@ void PlaylistSplitter::removeSelectedItems()
 {
     PlaylistItemList items = playlistSelection();
 
-    checkPlayingItemBeforeRemove(items);
-
     Playlist *p = visiblePlaylist();
     if(p)
 	p->remove(items);
@@ -399,8 +397,7 @@ void PlaylistSplitter::removeSelectedItems()
 void PlaylistSplitter::clearSelectedItems()
 {
     PlaylistItemList items = playlistSelection();
-    checkPlayingItemBeforeRemove(items);
- 
+
     Playlist *p = visiblePlaylist();
     if(p)
 	p->clearItems(items); 
@@ -539,21 +536,12 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
     connect(p, SIGNAL(doubleClicked()), this, SIGNAL(doubleClicked()));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
     connect(p, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
+    connect(p, SIGNAL(aboutToRemove(PlaylistItem *)), this, SLOT(playlistItemRemoved(PlaylistItem *)));
 
     if(raise) {
 	playlistStack->raiseWidget(p);
 	playlistBox->setCurrentItem(i);
 	playlistBox->ensureCurrentVisible();
-    }
-}
-
-void PlaylistSplitter::checkPlayingItemBeforeRemove(PlaylistItemList &items)
-{
-    PlaylistItem *item = items.first();
-    while(item) {
-	if(item == playingItem)
-	    playingItem = 0;
-	item = items.next();
     }
 }
 
@@ -574,6 +562,12 @@ void PlaylistSplitter::playlistCountChanged(Playlist *p)
 {
     if(p && p == playlistStack->visibleWidget())
 	emit(selectedPlaylistCountChanged(p->childCount()));
+}
+
+void PlaylistSplitter::playlistItemRemoved(PlaylistItem *item)
+{
+    if(item == playingItem)
+	playingItem = 0;
 }
 
 #include "playlistsplitter.moc"

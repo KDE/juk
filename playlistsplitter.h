@@ -262,7 +262,7 @@ private:
     void saveConfig();
     void addImpl(const QString &file, Playlist *list);
     void setupPlaylist(Playlist *p, bool raise = false, const char *icon = "midi");
-    void checkPlayingItemBeforeRemove(PlaylistItemList &items);
+//    void checkPlayingItemBeforeRemove(PlaylistItemList &items);
     
 private slots:
     void changePlaylist(PlaylistBoxItem *item);
@@ -278,6 +278,11 @@ private slots:
      * Add a directory to the queue 
      */
     void queueDirectoryRemove(const QString &directory) { directoryQueueRemove.append(directory); }
+
+    /**
+     * This should be connected to Playlist::aboutToRemove()
+     */
+    void playlistItemRemoved(PlaylistItem *item);
 
 private:
     PlaylistItem *playingItem;

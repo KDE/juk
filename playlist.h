@@ -164,6 +164,12 @@ signals:
     
     void doubleClicked();
 
+    /**
+     * This signal is emitted just before a playlist item is removed from the 
+     * list.
+     */
+    void aboutToRemove(PlaylistItem *item);
+
 private:
     void setup();
     QPtrStack<PlaylistItem> history;

@@ -186,7 +186,8 @@ void Playlist::clearItems(const PlaylistItemList &items)
 {
     QPtrListIterator<PlaylistItem> it(items);
     while(it.current()) {
-//        members.remove(it.current()->absFilePath()); // TODO: fix this for the new sorted class
+	emit(aboutToRemove(it.current()));
+//      members.remove(it.current()->absFilePath()); // TODO: fix this for the new sorted class
         delete(it.current());
         ++it;
     }
@@ -238,8 +239,10 @@ void Playlist::remove(const PlaylistItemList &items)
 	
 	if(KMessageBox::questionYesNoList(this, message, files) == KMessageBox::Yes) {
 	    for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it) {
-		if(QFile::remove(it.current()->filePath()))
+		if(QFile::remove(it.current()->filePath())) {
+		    emit(aboutToRemove(it.current()));
 		    delete(it.current());
+		}
 		else
 		    KMessageBox::sorry(this, i18n("Could not save delete ") + it.current()->fileName() + ".");
 	    }
