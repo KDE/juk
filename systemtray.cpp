@@ -28,7 +28,7 @@
 #include <qpainter.h>
 
 #include "systemtray.h"
-#include "juk.h"
+#include "jukIface.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -173,7 +173,7 @@ void SystemTray::wheelEvent(QWheelEvent *e)
     if(e->orientation() == Horizontal)
 	return;
     
-    JuKIface *juk = static_cast<JuK *>(parent());
+    JuKIface *juk = reinterpret_cast<JuKIface *>(parent());
 
     switch(e->state()) {
     case ShiftButton:
