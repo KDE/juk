@@ -116,7 +116,7 @@ QString CoverInfo::coverLocation(int size) const
     fileName.append(".png");
 
     QString dataDir = KGlobal::dirs()->saveLocation("appdata");
-    QString subDir = QString::null;
+    QString subDir;
 
     switch (size) {
     case FullSize:
