@@ -168,7 +168,7 @@ public:
     KActionMenu *columnVisibleAction() const { return m_collection->columnVisibleAction(); }
 
     /**
-     * Create a playlist with the named \a name.
+     * Create a playlist with the name \a name.
      */
     Playlist *createPlaylist(const QString &name);
 
