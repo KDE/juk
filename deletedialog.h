@@ -16,18 +16,50 @@
 #ifndef _DELETEDIALOG_H
 #define _DELETEDIALOG_H
 
+#include <kdialogbase.h>
+#include <kguiitem.h>
+
+#include <qcheckbox.h>
+#include <qvbox.h>
+
 #include "deletedialogbase.h"
 
 class QStringList;
+class KListBox;
+class QLabel;
+class QWidgetStack;
 
-class DeleteDialog : public DeleteDialogBase
+class DeleteWidget : public DeleteDialogBase
 {
+    Q_OBJECT
+
 public:
-    DeleteDialog(QWidget *parent = 0, const char *name = 0);
+    DeleteWidget(QWidget *parent = 0, const char *name = 0);
 
     void setFiles(const QStringList &files);
 
-    static bool confirmDeleteList(QWidget *parent, const QStringList &condemnedFiles);
+protected slots:
+    virtual void slotShouldDelete(bool shouldDelete);
+};
+
+class DeleteDialog : public KDialogBase
+{
+    Q_OBJECT
+
+public:
+    DeleteDialog(QWidget *parent, const char *name = "delete_dialog");
+
+    bool confirmDeleteList(const QStringList &condemnedFiles);
+    void setFiles(const QStringList &files);
+    bool shouldDelete() const { return m_widget->ddShouldDelete->isChecked(); }
+
+protected slots:
+    virtual void accept();
+    void slotShouldDelete(bool shouldDelete);
+
+private:
+    DeleteWidget *m_widget;
+    KGuiItem m_trashGuiItem;
 };
 
 #endif

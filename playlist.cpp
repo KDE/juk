@@ -740,16 +740,17 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
 	KURL trashDir = KGlobalSettings::trashPath();
 
-	QString message = i18n("Do you really want to move this item to the trash?",
-			       "Do you really want to move these %n items to the trash?",
-			       files.count());
-			
-	if(DeleteDialog::confirmDeleteList(this, files)) {
+	DeleteDialog dialog(this);
+	if(dialog.confirmDeleteList(files)) {
+	    bool shouldDelete = dialog.shouldDelete();
+
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 		if(m_playingItem == *it)
 		    action("forward")->activate();
 
-		if(KIO::NetAccess::move((*it)->file().absFilePath(), trashDir)) {
+		QString removePath = (*it)->file().absFilePath();
+		if((!shouldDelete && KIO::NetAccess::move(removePath, trashDir)) ||
+		   (shouldDelete && QFile::remove(removePath))) {
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
                         m_randomList.remove(*it);
 		    CollectionList::instance()->clearItem((*it)->collectionItem());
