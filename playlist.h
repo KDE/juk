@@ -401,6 +401,8 @@ public slots:
 
     void slotColumnResizeModeChanged();
 
+    virtual void dataChanged();
+
 protected:
     /**
      * Remove \a items from the playlist and disk.  This will ignore items that
@@ -424,6 +426,8 @@ protected:
 
     virtual void insertItem(QListViewItem *item);
     virtual void takeItem(QListViewItem *item);
+
+    virtual bool hasItem(const QString &file) const { return m_members.contains(file); }
 
     void addColumn(const QString &label);
 
@@ -530,7 +534,10 @@ private:
      */
     void calculateColumnWeights();
 
-    PlaylistItem *addFile(const QString &file, bool importPlaylists, PlaylistItem *after);
+    void addFile(const QString &file, FileHandleList &files, bool importPlaylists,
+		 PlaylistItem **after);
+    void addFileHelper(FileHandleList &files, bool importPlaylists,
+		       PlaylistItem **after, bool ignoreTimer = false);
 
     void redisplaySearch() { setSearch(m_search); }
 
@@ -671,6 +678,8 @@ private:
     static int m_leftColumn;
     static UpcomingPlaylist *m_upcomingPlaylist;
     static QMap<int, PlaylistItem *> m_backMenuItems;
+
+    bool m_blockDataChanged;
 };
 
 bool processEvents();

@@ -113,7 +113,7 @@ public:
 
     virtual void updateData()
     {
-	if(m_parent && m_parent->m_currentPlaylist)
+	if(m_parent && m_parent->m_currentPlaylist && m_parent->isVisible())
 	    m_parent->slotSetItems(m_parent->m_currentPlaylist->selectedItems());
     }
 

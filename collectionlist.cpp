@@ -86,9 +86,6 @@ void CollectionList::initialize(PlaylistCollection *collection)
 
 PlaylistItem *CollectionList::createItem(const FileHandle &file, QListViewItem *, bool)
 {
-    if(m_itemsDict.find(file.absFilePath()))
-	return 0;
-
     PlaylistItem *item = new CollectionListItem(file);
     
     if(!item->isValid()) {

@@ -127,6 +127,8 @@ protected:
     void addWatched(const QString &file) { m_dirWatch->addFile(file); }
     void removeWatched(const QString &file) { m_dirWatch->removeFile(file); }
 
+    virtual bool hasItem(const QString &file) const { return m_itemsDict.find(file); }
+
 signals:
     void signalCollectionChanged();
 

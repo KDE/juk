@@ -36,7 +36,6 @@ juk_SOURCES = \
 	mediafiles.cpp \
 	musicbrainzquery.cpp \
 	nowplaying.cpp \
-	painteater.cpp \
 	playermanager.cpp \
 	playlist.cpp \
 	playlistbox.cpp \

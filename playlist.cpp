@@ -36,6 +36,7 @@
 #include <qtooltip.h>
 #include <qwidgetstack.h>
 #include <qfile.h>
+#include <qhbox.h>
 
 #include <id3v1genres.h>
 
@@ -55,7 +56,6 @@
 #include "juk.h"
 #include "tag.h"
 #include "k3bexporter.h"
-#include "painteater.h"
 #include "upcomingplaylist.h"
 #include "deletedialog.h"
 #include "googlefetcher.h"
@@ -323,7 +323,8 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0),
-    m_toolTip(0)
+    m_toolTip(0),
+    m_blockDataChanged(false)
 {
     setup();
     collection->setupPlaylist(this, iconName);
@@ -345,7 +346,8 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0),
-    m_toolTip(0)
+    m_toolTip(0),
+    m_blockDataChanged(false)
 {
     setup();
     collection->setupPlaylist(this, iconName);
@@ -368,7 +370,8 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_lastSelected(0),
     m_fileName(playlistFile.absFilePath()),
     m_rmbMenu(0),
-    m_toolTip(0)
+    m_toolTip(0),
+    m_blockDataChanged(false)
 {
     setup();
     loadFile(m_fileName, playlistFile);
@@ -389,7 +392,8 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_searchEnabled(true),
     m_lastSelected(0),
     m_rmbMenu(0),
-    m_toolTip(0)
+    m_toolTip(0),
+    m_blockDataChanged(false)
 {
     setup();
 
@@ -574,8 +578,12 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 
 void Playlist::clearItems(const PlaylistItemList &items)
 {
+    m_blockDataChanged = true;
+
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
 	clearItem(*it, false);
+
+    m_blockDataChanged = false;
 
     dataChanged();
 }
@@ -760,7 +768,9 @@ void Playlist::slotRenameFile()
 
     emit signalEnableDirWatch(false);
 
+    m_blockDataChanged = true;
     renamer.rename(items);
+    m_blockDataChanged = false;
     dataChanged();
 
     emit signalEnableDirWatch(true);
@@ -818,9 +828,11 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
     KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
     setCanDeletePlaylist(false);
+
+    m_blockDataChanged = true;
+
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
         (*it)->guessTagInfo(type);
-
 	processEvents();
     }
 
@@ -829,6 +841,8 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 
     if(type == TagGuesser::FileName)
 	TagTransactionManager::instance()->commit();
+
+    m_blockDataChanged = false;
 
     dataChanged();
     setCanDeletePlaylist(true);
@@ -886,6 +900,13 @@ void Playlist::slotColumnResizeModeChanged()
     SharedSettings::instance()->sync();
 }
 
+void Playlist::dataChanged()
+{
+    if(m_blockDataChanged)
+	return;
+    PlaylistInterface::dataChanged();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
@@ -899,6 +920,9 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
             files.append((*it)->file().absFilePath());
 
 	DeleteDialog dialog(this);
+
+	m_blockDataChanged = true;
+
 	if(dialog.confirmDeleteList(files)) {
 	    bool shouldDelete = dialog.shouldDelete();
 	    QStringList errorFiles;
@@ -929,6 +953,9 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 		KMessageBox::errorList(this, errorMsg, errorFiles);
 	    }
 	}
+
+	m_blockDataChanged = false;
+
 	dataChanged();
     }
 }
@@ -1042,6 +1069,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     else if(vp.y() < item->itemPos() + item->height() / 2)
 	item = static_cast<PlaylistItem *>(item->itemAbove());
 
+    m_blockDataChanged = true;
+
     if(e->source() == this) {
 
 	// Since we're trying to arrange things manually, turn off sorting.
@@ -1067,6 +1096,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     }
     else
 	decode(e, item);
+
+    m_blockDataChanged = false;
 
     dataChanged();
     emit signalPlaylistItemsDropped(this);
@@ -1107,8 +1138,13 @@ void Playlist::read(QDataStream &s)
     s >> files;
 
     QListViewItem *after = 0;
+
+    m_blockDataChanged = true;
+
     for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
         after = createItem(FileHandle(*it), after, false);
+
+    m_blockDataChanged = false;
 
     dataChanged();
     m_collection->setupPlaylist(this, "midi");
@@ -1175,10 +1211,17 @@ void Playlist::addFiles(const QStringList &files, bool importPlaylists,
 
     KApplication::setOverrideCursor(Qt::waitCursor);
 
-    PaintEater pe(this);
+    m_blockDataChanged = true;
 
-    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
-        after = addFile(*it, importPlaylists, after);
+    FileHandleList queue;
+
+    const QStringList::ConstIterator filesEnd = files.end();
+    for(QStringList::ConstIterator it = files.begin(); it != filesEnd; ++it)
+        addFile(*it, queue, importPlaylists, &after);
+
+    addFileHelper(queue, importPlaylists, &after, true);
+
+    m_blockDataChanged = false;
 
     slotWeightDirty();
     dataChanged();
@@ -1482,6 +1525,8 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     m_disableColumnWidthUpdates = true;
 
+    m_blockDataChanged = true;
+
     while(!stream.atEnd()) {
 	QString itemName = stream.readLine().stripWhiteSpace();
 
@@ -1499,6 +1544,8 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 		after = createItem(FileHandle(item, item.absFilePath()), 0, false);
 	}
     }
+
+    m_blockDataChanged = false;
 
     file.close();
 
@@ -1593,34 +1640,44 @@ void Playlist::calculateColumnWeights()
     m_weightDirty.clear();
 }
 
-PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
-				PlaylistItem *after)
+void Playlist::addFile(const QString &file, FileHandleList &files, bool importPlaylists,
+		       PlaylistItem **after)
 {
-    if(processEvents())
-	m_collection->dataChanged();
+    if(hasItem(file) && !m_allowDuplicates)
+	return;
+
+    processEvents();
+    addFileHelper(files, importPlaylists, after);
 
     // Our biggest thing that we're fighting during startup is too many stats
     // of files.  Make sure that we don't do one here if it's not needed.
 
     FileHandle cached = Cache::instance()->value(file);
-    if(!cached.isNull())
-	return createItem(cached, after, false);
+
+    if(!cached.isNull()) {
+	cached.tag();
+	files.append(cached);
+	return;
+    }
+    
 
     const QFileInfo fileInfo = QDir::cleanDirPath(file);
-
     if(!fileInfo.exists())
-	return after;
+	return;
 
     if(fileInfo.isFile() && fileInfo.isReadable()) {
-	if(MediaFiles::isMediaFile(file))
-	    return createItem(FileHandle(fileInfo, fileInfo.absFilePath()), after, false);
-
-	if(importPlaylists && MediaFiles::isPlaylistFile(file) &&
-	   !m_collection->containsPlaylistFile(fileInfo.absFilePath()))
-	{
-	    new Playlist(m_collection, fileInfo);
-	    return after;
+	if(MediaFiles::isMediaFile(file)) {
+	    FileHandle f(fileInfo, fileInfo.absFilePath());
+	    f.tag();
+	    files.append(f);
 	}
+    }
+
+    if(importPlaylists && MediaFiles::isPlaylistFile(file) &&
+       !m_collection->containsPlaylistFile(fileInfo.absFilePath()))
+    {
+	new Playlist(m_collection, fileInfo);
+	return;
     }
 
     if(fileInfo.isDir()) {
@@ -1634,21 +1691,54 @@ PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
 	    struct dirent *dirEntry;
 
 	    for(dirEntry = ::readdir(dir); dirEntry; dirEntry = ::readdir(dir)) {
-		if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
-		    after = addFile(fileInfo.filePath() + QDir::separator() +
-				    QFile::decodeName(dirEntry->d_name), importPlaylists, after);
+		if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0) {
+		    addFile(fileInfo.filePath() + QDir::separator() + QFile::decodeName(dirEntry->d_name),
+			    files, importPlaylists, after);
+		}
 	    }
 	    ::closedir(dir);
 	}
-	else
-	{
+	else {
 	    kdWarning(65432) << "Unable to open directory "
 	                     << fileInfo.filePath()
 			     << ", make sure it is readable.\n";
 	}
     }
+}
 
-    return after;
+void Playlist::addFileHelper(FileHandleList &files, bool loadPlaylists,
+			     PlaylistItem **after, bool ignoreTimer)
+{
+    static QTime time = QTime::currentTime();
+
+    // Process new items every 10 seconds, when we've loaded 1000 items, or when
+    // it's been requested in the API.
+
+    if(ignoreTimer || time.elapsed() > 10000 ||
+       (files.count() >= 1000 && time.elapsed() > 1000))
+    {
+	time.restart();
+
+	const bool focus = hasFocus();
+	const bool visible = isVisible() && files.count() > 20;
+
+	kdDebug(65432) << k_funcinfo << name() << " - " << files.count() << " - " << visible << endl;
+
+	if(visible)
+	    m_collection->raiseDistraction();
+	const FileHandleList::ConstIterator filesEnd = files.end();
+	for(FileHandleList::ConstIterator it = files.begin(); it != filesEnd; ++it)
+	    *after = createItem(*it, *after, loadPlaylists);
+	files.clear();
+
+	if(visible)
+	    m_collection->lowerDistraction();
+
+	if(focus)
+	    setFocus();
+
+	processEvents();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2103,7 +2193,7 @@ bool processEvents()
 {
     static QTime time = QTime::currentTime();
 
-    if(time.elapsed() > 200) {
+    if(time.elapsed() > 100) {
 	time.restart();
 	kapp->processEvents();
 	return true;

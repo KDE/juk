@@ -41,6 +41,7 @@
 #include <kfiledialog.h>
 
 #include <qwidgetstack.h>
+#include <qhbox.h>
 
 #define widget (kapp->mainWidget())
 
@@ -59,7 +60,9 @@ PlaylistCollection::PlaylistCollection(QWidgetStack *playlistStack) :
     m_playing(false),
     m_showMorePlaylist(0),
     m_belowShowMorePlaylist(0),
-    m_dynamicPlaylist(0)
+    m_dynamicPlaylist(0),
+    m_belowDistraction(0),
+    m_distraction(0)
 {
     m_actionHandler = new ActionHandler(this);
     PlayerManager::instance()->setPlaylistInterface(this);
@@ -542,6 +545,9 @@ QObject *PlaylistCollection::object() const
 
 Playlist *PlaylistCollection::currentPlaylist() const
 {
+    if(m_belowDistraction)
+        return m_belowDistraction;
+
     if(m_upcomingPlaylist)
         return m_upcomingPlaylist;
 
@@ -569,6 +575,32 @@ void PlaylistCollection::raise(Playlist *playlist)
     m_playlistStack->raiseWidget(playlist);
     clearShowMore(false);
     dataChanged();
+}
+
+void PlaylistCollection::raiseDistraction()
+{
+    if(m_belowDistraction)
+        return;
+
+    m_belowDistraction = currentPlaylist();
+
+    if(!m_distraction) {
+        m_distraction = new QHBox(m_playlistStack);
+        m_playlistStack->addWidget(m_distraction);
+    }
+
+    m_playlistStack->raiseWidget(m_distraction);
+}
+
+void PlaylistCollection::lowerDistraction()
+{
+    if(!m_distraction)
+        return;
+
+    if(m_belowDistraction)
+        m_playlistStack->raiseWidget(m_belowDistraction);
+
+    m_belowDistraction = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

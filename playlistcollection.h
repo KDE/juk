@@ -147,6 +147,14 @@ public:
      */
     virtual void raise(Playlist *playlist);
 
+    /**
+     * This is used to put up a temporary widget over the top of the playlist
+     * stack.  This is part of a trick to significantly speed up painting by
+     * hiding the playlist to which items are being added.
+     */
+    void raiseDistraction();
+    void lowerDistraction();
+
     class ActionHandler;
 
 protected:
@@ -188,6 +196,9 @@ private:
     QGuardedPtr<SearchPlaylist> m_showMorePlaylist;
     QGuardedPtr<Playlist> m_belowShowMorePlaylist;
     QGuardedPtr<DynamicPlaylist> m_dynamicPlaylist;
+    QGuardedPtr<Playlist> m_belowDistraction;
+
+    QWidget *m_distraction;
 };
 
 /**
