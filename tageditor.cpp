@@ -694,7 +694,8 @@ void TagEditor::showEvent(QShowEvent *e)
 
 bool TagEditor::eventFilter(QObject *watched, QEvent *e)
 {
-    if(watched->inherits("QSpinBox") && e->type() == QEvent::KeyRelease)
+    QKeyEvent *ke = static_cast<QKeyEvent*>(e);
+    if(watched->inherits("QSpinBox") && e->type() == QEvent::KeyRelease && ke->state() == 0)
 	slotDataChanged();
 
     return false;
