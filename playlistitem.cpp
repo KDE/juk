@@ -19,12 +19,10 @@
 #include <kmainwindow.h>
 #include <klocale.h>
 #include <kdebug.h>
-#include <kapplication.h>
 
 #include "playlistitem.h"
 #include "collectionlist.h"
 #include "trackpickerdialog.h"
-#include "musicbrainzitem.h"
 #include "stringshare.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,9 +158,13 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
 						       tag()->fileName());
 	connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
 		SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
-	KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
-	connect(query, SIGNAL(signalStatusMsg(const QString &, int)),
-		win->statusBar(), SLOT(message(const QString &, int)));
+	KMainWindow *win = dynamic_cast<KMainWindow *>(kapp->mainWidget());
+	if(win)
+	    connect(query, SIGNAL(signalStatusMsg(const QString &, int)),
+		    win->statusBar(), SLOT(message(const QString &, int)));
+	else
+	    kdWarning(65432) << "Could not find the main window." << endl;
+
 	query->start();
 #endif //add message box telling users musicbrainz is not installed or keep it quiet?
 	break;
@@ -370,16 +372,16 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 {
 #if HAVE_MUSICBRAINZ
 
-    KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
+    KMainWindow *win = dynamic_cast<KMainWindow *>(kapp->mainWidget());
 
-    if(res.isEmpty()) {
+    if(win && res.isEmpty()) {
         win->statusBar()->message(i18n("No matches found."), 2000);
         return;
     }
 
     TrackPickerDialog *trackPicker = new TrackPickerDialog(fileName(), res, win);
 
-    if(trackPicker->exec() != QDialog::Accepted) {
+    if(win && trackPicker->exec() != QDialog::Accepted) {
 	win->statusBar()->message(i18n("Canceled."), 2000);
 	return;
     }
@@ -398,7 +400,8 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
     tag()->save();
     slotRefresh();
 
-    win->statusBar()->message(i18n("Done."), 2000);
+    if(win)
+	win->statusBar()->message(i18n("Done."), 2000);
 #else
     Q_UNUSED(res)
 #endif
