@@ -263,7 +263,7 @@ private:
     QString play(PlaylistItem *item);
     
 private slots:
-    void slotChangePlaylist(Playlist *p);
+    void slotChangePlaylist(const QValueList<Playlist *> &l);
     void slotPlaylistCountChanged(Playlist *p);
     /**
      * Add a directory to the directory list queue.  We need to queue these 

@@ -68,7 +68,7 @@ public slots:
     void clear() {} // override the (destructive) default
 
 signals:
-    void signalCurrentChanged(Playlist *);
+    void signalCurrentChanged(const QValueList<Playlist *> &);
     void signalDoubleClicked();
 
 private:
@@ -89,12 +89,14 @@ private:
      */
     void addName(const QString &name) { m_names.append(name); }
 
+    QValueList<Item *> selectedItems() const;
+
 private slots:
     /** 
      * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
      * the signal as currentChanged(Item *). 
      */
-    void slotPlaylistChanged(QListBoxItem *item);
+    void slotPlaylistChanged(QListBoxItem *);
     void slotDoubleClicked(QListBoxItem *);
     void slotShowContextMenu(QListBoxItem *item, const QPoint &point);
 

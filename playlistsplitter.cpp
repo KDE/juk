@@ -367,8 +367,8 @@ void PlaylistSplitter::setupLayout()
     // Make the connection that will update the selected playlist when a 
     // selection is made in the playlist box.
 
-    connect(m_playlistBox, SIGNAL(signalCurrentChanged(Playlist *)), 
-	    this, SLOT(slotChangePlaylist(Playlist *)));
+    connect(m_playlistBox, SIGNAL(signalCurrentChanged(const QValueList<Playlist *> &)), 
+	    this, SLOT(slotChangePlaylist(const QValueList<Playlist *> &)));
 
     connect(m_playlistBox, SIGNAL(signalDoubleClicked()), this, SIGNAL(signalListBoxDoubleClicked()));
 
@@ -542,15 +542,15 @@ QString PlaylistSplitter::play(PlaylistItem *item)
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistSplitter::slotChangePlaylist(Playlist *p)
+void PlaylistSplitter::slotChangePlaylist(const QValueList<Playlist *> &l)
 {
-    if(!p)
+    if(l.isEmpty())
 	return;
 
     m_nextPlaylistItem = 0; 
-    m_playlistStack->raiseWidget(p);
+    m_playlistStack->raiseWidget(l.first());
     m_editor->slotSetItems(playlistSelection());
-    emit signalPlaylistChanged();
+    emit signalPlaylistChanged();    
 }
 
 void PlaylistSplitter::slotPlaylistCountChanged(Playlist *p)

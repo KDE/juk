@@ -62,6 +62,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
         SLOT(slotContextDeleteItem()));
 
     setAcceptDrops(true);
+    setSelectionMode(Extended);
 
     connect(this, SIGNAL(currentChanged(QListBoxItem *)), 
 	    this, SLOT(slotPlaylistChanged(QListBoxItem *)));
@@ -338,15 +339,32 @@ void PlaylistBox::mousePressEvent(QMouseEvent *e)
     }
 }
 
+QValueList<PlaylistBox::Item *> PlaylistBox::selectedItems() const
+{
+    QValueList<Item *> l;
+    
+    int c = count();
+    for(int i = 0; i < c; i++)
+	if(isSelected(i))
+	    l.append(static_cast<Item *>(item(i)));
+    
+    return l;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistBox::slotPlaylistChanged(QListBoxItem *item)
+void PlaylistBox::slotPlaylistChanged(QListBoxItem *)
 {
-    Item *i = dynamic_cast<Item *>(item);
-    if(m_updatePlaylistStack && i && i->playlist())
-	emit signalCurrentChanged(i->playlist());
+    QValueList<Item *> items = selectedItems();
+    if(m_updatePlaylistStack && !items.isEmpty()) {
+	QValueList<Playlist *> playlists;
+	for(QValueList<Item *>::iterator i = items.begin(); i != items.end(); ++i)
+	    playlists.append((*i)->playlist());
+
+	emit signalCurrentChanged(playlists);
+    }
 }
 
 void PlaylistBox::slotDoubleClicked(QListBoxItem *)
