@@ -126,8 +126,6 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     CollectionList::initialize(this);
     Cache::loadPlaylists(this);
-    raise(CollectionList::instance());
-
     TrackSequenceManager::instance()->setCurrentPlaylist(CollectionList::instance());
 
     // We need to wait until after Collection List is created to set this up.
@@ -140,6 +138,8 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     setSorting(0);
     sort();
+
+    raise(CollectionList::instance());
     
     connect(CollectionList::instance(), SIGNAL(signalNewTag(const QString &, unsigned)),
             this, SLOT(slotAddItem(const QString &, unsigned)));
