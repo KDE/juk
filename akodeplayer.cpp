@@ -42,6 +42,15 @@ aKodePlayer::~aKodePlayer()
 void aKodePlayer::play(const FileHandle &file)
 {
     kdDebug( 65432 ) << k_funcinfo << endl;
+    
+    if (file == FileHandle::null()) { // null FileHandle file means unpauze
+        if (paused())
+            m_player->play();
+        else
+            stop();
+        return;
+    }
+    
     QString filename = file.absFilePath();
     delete m_currentFile;
     m_currentFile = qstrdup(filename.local8Bit());
@@ -102,7 +111,7 @@ bool aKodePlayer::playing() const
 
 bool aKodePlayer::paused() const
 {
-    return false;
+    return m_player && (m_player->state() == aKode::Player::Paused);
 }
 
 int aKodePlayer::totalTime() const
