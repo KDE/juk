@@ -29,10 +29,10 @@ PlaylistSearch::PlaylistSearch(const PlaylistSearch &search) :
 
 }
 
-PlaylistSearch::PlaylistSearch(const PlaylistList &playlists, 
-			       const ComponentList &components, 
+PlaylistSearch::PlaylistSearch(const PlaylistList &playlists,
+			       const ComponentList &components,
 			       SearchMode mode) :
-    m_playlists(playlists), 
+    m_playlists(playlists),
     m_components(components),
     m_mode(mode)
 {
@@ -47,7 +47,7 @@ void PlaylistSearch::search()
 {
 
     // This really isn't as bad as it looks.  Despite the four nexted loops
-    // most of the time this will be searching one playlist for one search 
+    // most of the time this will be searching one playlist for one search
     // component -- possibly for one column.
 
     // Also there should be some caching of previous searches in here and
@@ -99,30 +99,42 @@ PlaylistSearch::Component::Component() :
     m_searchAllVisible(true),
     m_caseSensitive(false)
 {
-    
+
 }
 
 PlaylistSearch::Component::Component(const Component &component) :
     m_query(component.m_query),
+    m_queryRe(component.m_queryRe),
     m_columns(component.m_columns),
     m_searchAllVisible(component.m_searchAllVisible),
-    m_caseSensitive(component.m_caseSensitive)
+    m_caseSensitive(component.m_caseSensitive),
+    m_re(component.m_re)
 {
 
 }
 
 PlaylistSearch::Component::Component(const QString &query, bool caseSensitive, const ColumnList &columns) :
-    m_query(query), 
-    m_columns(columns), 
+    m_query(query),
+    m_columns(columns),
     m_searchAllVisible(columns.isEmpty()),
-    m_caseSensitive(caseSensitive)
+    m_caseSensitive(caseSensitive),
+    m_re(false)
 {
 
 }
 
+PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& columns) :
+    m_queryRe(query),
+    m_columns(columns),
+    m_searchAllVisible(columns.isEmpty()),
+    m_caseSensitive(false),
+    m_re(true)
+{
+}
+
 bool PlaylistSearch::Component::matches(PlaylistItem *item)
 {
-    if(m_query.isEmpty())
+    if((m_re && m_queryRe.isEmpty()) || (!m_re && m_query.isEmpty()))
 	return false;
 
     if(m_columns.isEmpty()) {
@@ -135,9 +147,11 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item)
 
 
     for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
-	if(item->text(*it).contains(m_query, m_caseSensitive))
-	    return true;
+        int matches = m_re ? item->text(*it).contains(m_queryRe)
+                           : item->text(*it).contains(m_query, m_caseSensitive);
+        if(matches > 0)
+            return true;
     }
-    
+
     return false;
 }

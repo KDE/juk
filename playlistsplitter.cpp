@@ -416,8 +416,8 @@ void PlaylistSplitter::setupLayout()
     // Create the search widget -- this must be done after the CollectionList is created.
     m_searchWidget = new SearchWidget(editorSplitter, CollectionList::instance(), "searchWidget");
     editorSplitter->moveToFirst(m_searchWidget);
-    connect(m_searchWidget, SIGNAL(signalQueryChanged(const QString &, bool)),
-	    this, SLOT(slotShowSearchResults(const QString &, bool)));
+    connect(m_searchWidget, SIGNAL(signalQueryChanged(const QString &, bool, bool)),
+	    this, SLOT(slotShowSearchResults(const QString &, bool, bool)));
     connect(CollectionList::instance(), SIGNAL(signalVisibleColumnsChanged()),
 	    this, SLOT(slotVisibleColumnsChanged()));
 
@@ -649,7 +649,7 @@ void PlaylistSplitter::slotCreatePlaylist(const PlaylistItemList &items)
     playlist->createItems(items);
 }
 
-void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSensitive)
+void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSensitive, bool regExp)
 {
     if(query.isEmpty()) {
 	visiblePlaylist()->setItemsVisible(visiblePlaylist()->items(), true);
@@ -659,14 +659,25 @@ void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSens
     PlaylistList playlists;
     playlists.append(visiblePlaylist());
 
-    PlaylistSearch::Component component(query, caseSensitive, m_searchWidget->searchedColumns(0));
+    PlaylistSearch::Component *component;
+
+    if (regExp)
+    {
+        component = new PlaylistSearch::Component(QRegExp(query, caseSensitive), m_searchWidget->searchedColumns(0));
+    }
+    else
+    {
+        component = new PlaylistSearch::Component(query, caseSensitive, m_searchWidget->searchedColumns(0));
+    }
+
     PlaylistSearch::ComponentList components;
-    components.append(component);
+    components.append(*component);
 
     PlaylistSearch search(playlists, components);
 
     Playlist::setItemsVisible(search.matchedItems(), true);
     Playlist::setItemsVisible(search.unmatchedItems(), false);
+    delete component;
 }
 
 void PlaylistSplitter::slotVisibleColumnsChanged()
@@ -674,7 +685,7 @@ void PlaylistSplitter::slotVisibleColumnsChanged()
     m_searchWidget->slotUpdateColumns();
     m_searchWidget->slotQueryChanged();
     if(m_searchWidget->searchedColumns(0).count() > 1)
-	slotShowSearchResults(m_searchWidget->query(), m_searchWidget->caseSensitive());
+        slotShowSearchResults(m_searchWidget->query(), m_searchWidget->caseSensitive(), m_searchWidget->regExp());
 }
 
 #include "playlistsplitter.moc"

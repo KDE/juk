@@ -19,6 +19,7 @@
 #define PLAYLISTSEARCH_H
 
 #include <qvaluelist.h>
+#include <qregexp.h>
 
 #include "playlist.h"
 #include "playlistitem.h"
@@ -86,6 +87,11 @@ public:
      */
     Component(const QString &query, bool caseSensitive = false, const ColumnList &columns = ColumnList());
 
+    /**
+     * Create a query component.  This defaults to searching all visible coulumns.
+     */
+    Component(const QRegExp &query, const ColumnList &columns = ColumnList());
+
     QString query() const { return m_query; }
     ColumnList columns() const { return m_columns; }
 
@@ -95,9 +101,11 @@ protected:
     
 private:
     QString m_query;
+    QRegExp m_queryRe;
     ColumnList m_columns;
     bool m_searchAllVisible;
     bool m_caseSensitive;
+    bool m_re;
 };
 
 

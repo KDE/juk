@@ -52,7 +52,12 @@ QString SearchWidget::query() const
 
 bool SearchWidget::caseSensitive() const
 {
-    return m_caseSensitive->isChecked();
+    return m_caseSensitive->currentItem() == 1;
+}
+
+bool SearchWidget::regExp() const
+{
+    return m_caseSensitive->currentItem() == 2;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,7 +84,7 @@ void SearchWidget::slotQueryChanged(int)
     else
 	m_searchedColumns[0].append(m_searchFieldsBox->currentItem() - 1);
     
-    emit signalQueryChanged(m_lineEdit->text(), m_caseSensitive->isChecked());
+    emit signalQueryChanged(m_lineEdit->text(), caseSensitive(), regExp());
 }
 
 void SearchWidget::slotUpdateColumns()
@@ -119,14 +124,17 @@ void SearchWidget::setupLayout()
     connect(m_searchFieldsBox, SIGNAL(activated(int)), this, SLOT(slotQueryChanged()));
 
     m_lineEdit = new KLineEdit(this, "searchLineEdit");
-    m_caseSensitive = new QCheckBox(i18n("Case sensitive"), this);
+    m_caseSensitive = new KComboBox(this);
+    m_caseSensitive->insertItem(i18n("Normal matching"), 0);
+    m_caseSensitive->insertItem(i18n("Case sensitive"), 1);
+    m_caseSensitive->insertItem(i18n("Pattern matching"), 2);
+    connect(m_caseSensitive, SIGNAL(activated(int)), this, SLOT(slotQueryChanged()));
 
     QPushButton *button = new QPushButton(i18n("Clear"), this);
 
     connect(button, SIGNAL(clicked()), this, SLOT(clear()));
     connect(m_lineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(slotQueryChanged()));
-    
-    connect(m_caseSensitive, SIGNAL(toggled(bool)), this, SLOT(slotQueryChanged()));
+
     setFixedHeight(minimumSizeHint().height());
 }
 

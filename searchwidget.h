@@ -46,6 +46,7 @@ public:
 
     QString query() const;
     bool caseSensitive() const;
+    bool regExp() const;
 
 public slots:
     void clear();
@@ -53,7 +54,7 @@ public slots:
     void slotQueryChanged(int = 0);
 
 signals:
-    void signalQueryChanged(const QString &query, bool caseSensitive);
+    void signalQueryChanged(const QString &query, bool caseSensitive, bool regExp);
 
 private:
     void setupLayout();
@@ -62,7 +63,7 @@ private:
     const Playlist *m_playlist;
     KLineEdit *m_lineEdit;
     KComboBox *m_searchFieldsBox;
-    QCheckBox *m_caseSensitive;
+    KComboBox *m_caseSensitive;
     QStringList m_columnHeaders;
     QValueList< QValueList<int> > m_searchedColumns;
 } ;

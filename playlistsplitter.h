@@ -291,7 +291,7 @@ private slots:
     void slotSetNextItem(PlaylistItem *item = 0) { m_nextPlaylistItem = item; }
     void slotDirChanged(const QString &dir) { slotAddToPlaylist(dir, m_collection); }
     void slotCreatePlaylist(const PlaylistItemList &items);
-    void slotShowSearchResults(const QString &query, bool caseSensitive = false);
+    void slotShowSearchResults(const QString &query, bool caseSensitive = false, bool regExp = false);
     void slotVisibleColumnsChanged();
 
 private:
