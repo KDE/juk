@@ -181,7 +181,7 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
             return(0);
     }
     else
-        return(firstItem->key(column, ascending).compare(secondItem->key(column, ascending)));
+        return(firstItem->key(column, ascending).lower().localeAwareCompare(secondItem->key(column, ascending).lower()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
