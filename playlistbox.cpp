@@ -478,8 +478,10 @@ void PlaylistBox::slotPlaylistChanged()
 	}
     }
 
+    bool singlePlaylist = playlists.count() == 1;
+
     if(playlists.isEmpty() ||
-       (playlists.count() == 1 &&
+       (singlePlaylist &&
 	(playlists.front() == CollectionList::instance() ||
 	 playlists.front()->readOnly())))
     {
@@ -500,14 +502,23 @@ void PlaylistBox::slotPlaylistChanged()
     if(m_k3bAction)
 	m_k3bAction->setEnabled(!playlists.isEmpty());
 
-    bool searchList =
-	playlists.count() == 1 && dynamic_cast<SearchPlaylist *>(playlists.front());
+    bool searchList = singlePlaylist && dynamic_cast<SearchPlaylist *>(playlists.front());
 
     action("editSearch")->setEnabled(searchList);
 
-    if(playlists.count() == 1) {
+    if(singlePlaylist) {
 	playlistStack()->raiseWidget(playlists.front());
 	PlaylistInterface::update(); // Update the status bar
+
+	delete m_dynamicPlaylist;
+	m_dynamicPlaylist = 0;
+    }
+    else if(!playlists.isEmpty()) {
+	DynamicPlaylist *p = new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "midi", false);
+	playlistStack()->raiseWidget(p);
+
+	delete m_dynamicPlaylist;
+	m_dynamicPlaylist = p;
     }
 }
 

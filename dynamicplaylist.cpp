@@ -136,6 +136,8 @@ void DynamicPlaylist::checkUpdateItems()
 
 void DynamicPlaylist::slotUpdateItems()
 {
+    kdDebug(65432) << k_funcinfo << endl;
+
     // This should be optimized to check to see which items are already in the
     // list and just adding those and removing the ones that aren't.
 
