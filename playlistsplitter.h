@@ -34,6 +34,7 @@ class KActionMenu;
 class KDirWatch;
 class PlaylistItem;
 class SearchWidget;
+class HistoryPlaylist;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
@@ -397,6 +398,7 @@ private:
     TagEditor *m_editor;
 
     CollectionList *m_collection;
+    HistoryPlaylist *m_history;
     Playlist *m_dynamicList;
 
     StringHash m_playlistFiles;

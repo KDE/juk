@@ -29,6 +29,7 @@
 #include "playlistsearch.h"
 #include "dynamicplaylist.h"
 #include "searchplaylist.h"
+#include "historyplaylist.h"
 #include "mediafiles.h"
 #include "advancedsearchdialog.h"
 
@@ -471,6 +472,9 @@ void PlaylistSplitter::setupLayout()
     setupPlaylist(m_collection, true, "folder_sound", true);
     connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
 
+    m_history = new HistoryPlaylist(m_playlistStack);
+    setupPlaylist(m_history, false, "history", true);
+
     // Create the search widget -- this must be done after the CollectionList is created.
     m_searchWidget = new SearchWidget(editorSplitter, "searchWidget");
     editorSplitter->moveToFirst(m_searchWidget);
@@ -664,6 +668,12 @@ QString PlaylistSplitter::play(PlaylistItem *item)
     p->setPlaying(item, true);
 
     m_playingItem = item;
+
+    if(m_history) {
+	PlaylistItemList l;
+	l.append(item);
+	m_history->createItems(l);
+    }
 
     return item->absFilePath();
 }
