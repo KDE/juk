@@ -599,7 +599,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 	else
 	    message = i18n("Do you really want to delete these %1 items from your disk?").arg(QString::number(files.count()));
 
-	if(KMessageBox::questionYesNoList(this, message, files) == KMessageBox::Yes) {
+	if(KMessageBox::warningYesNoList(this, message, files) == KMessageBox::Yes) {
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 		if(QFile::remove((*it)->filePath())) {
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
