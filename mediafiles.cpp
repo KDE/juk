@@ -27,7 +27,7 @@ namespace MediaFiles {
     static const char mp3Type[]  = "audio/x-mp3";
     static const char oggType[]  = "application/ogg";
     static const char flacType[] = "audio/x-flac";
-    static const char m3uType[]  = "audio/x-mpegurl";
+    static const char m3uType[]  = "audio/mpegurl";
 
     static const char playlistExtension[] = ".m3u";
 }
