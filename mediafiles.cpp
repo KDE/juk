@@ -28,7 +28,7 @@ namespace MediaFiles {
     static const char oggType[]  = "application/ogg";
     static const char flacType[] = "audio/x-flac";
     static const char m3uType[]  = "audio/x-mpegurl";
-    
+
     static const char playlistExtension[] = ".m3u";
 }
 
@@ -36,7 +36,7 @@ QStringList MediaFiles::openDialog(QWidget *parent)
 {
     KFileDialog dialog(QString::null, QString::null, parent, "filedialog", true);
     dialog.setOperationMode(KFileDialog::Opening);
-    
+
     dialog.setCaption(i18n("Open"));
     dialog.setMode(KFile::Files | KFile::LocalOnly);
     // dialog.ops->clearHistory();
@@ -50,19 +50,19 @@ QStringList MediaFiles::openDialog(QWidget *parent)
 QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *parent)
 {
     QString fileName = KFileDialog::getSaveFileName(playlistName + playlistExtension,
-						    QString("*").append(playlistExtension),
-						    parent,
-						    i18n("Playlists"));
+                                                    QString("*").append(playlistExtension),
+                                                    parent,
+                                                    i18n("Playlists"));
     if(!fileName.isEmpty() && !fileName.endsWith(playlistExtension))
        fileName.append(playlistExtension);
-    
+
     return fileName;
 }
 
 bool MediaFiles::isMediaFile(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
-    
+
     return result->is(mp3Type) || result->is(oggType) || result->is(flacType);
 }
 

@@ -35,7 +35,7 @@ int SplashScreen::count = 0;
 SplashScreen *SplashScreen::instance()
 {
     if(!splash && !done)
-	splash = new SplashScreen();
+        splash = new SplashScreen();
     return splash;
 }
 
@@ -49,9 +49,9 @@ void SplashScreen::finishedLoading()
 void SplashScreen::increment()
 {
     if(splash) {
-	count++;
-	if(( count & 63 ) == 0)
-	    splash->processEvents();
+        count++;
+        if(( count & 63 ) == 0)
+            splash->processEvents();
     }
 }
 
@@ -67,13 +67,13 @@ SplashScreen::SplashScreen() : QHBox(0 , "splashScreen", Qt::WStyle_Splash)
     setLineWidth(5);
     setFrameShape(Box);
     setFrameShadow(Plain);
-    
+
     QFont font = QWidget::font();
 
     if(font.pixelSize() > 0)
-	font.setPixelSize(font.pixelSize() * 2);
+        font.setPixelSize(font.pixelSize() * 2);
     else
-	font.setPointSize(font.pointSize() * 2);
+        font.setPointSize(font.pointSize() * 2);
 
     QLabel *iconLabel = new QLabel(this);
     iconLabel->setPixmap(DesktopIcon("juk"));
@@ -85,7 +85,7 @@ SplashScreen::SplashScreen() : QHBox(0 , "splashScreen", Qt::WStyle_Splash)
     m_countLabel->setText(QString::number(count));
     m_countLabel->setFont(font);
     m_countLabel->setMinimumWidth(m_countLabel->fontMetrics().width("00000"));
-    
+
     setMaximumWidth(iconLabel->width() + textLabel->width() + m_countLabel->width() + 10);
     setMaximumHeight(QMAX(iconLabel->height(), textLabel->height()));
 

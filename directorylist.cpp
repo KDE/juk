@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 DirectoryList::DirectoryList(const QStringList &directories, QWidget *parent,
-			     const char *name) :
+                             const char *name) :
     KDialogBase(parent, name, true, i18n("Folder List"), Ok | Cancel, Ok, true),
     m_dirList(directories)
 {
@@ -38,14 +38,14 @@ DirectoryList::DirectoryList(const QStringList &directories, QWidget *parent,
 
     m_base->directoryListView->setFullWidth(true);
 
-    connect(m_base->addDirectoryButton, SIGNAL(clicked()), 
-	SLOT(slotAddDirectory()));
-    connect(m_base->removeDirectoryButton, SIGNAL(clicked()), 
-	SLOT(slotRemoveDirectory()));
+    connect(m_base->addDirectoryButton, SIGNAL(clicked()),
+        SLOT(slotAddDirectory()));
+    connect(m_base->removeDirectoryButton, SIGNAL(clicked()),
+        SLOT(slotRemoveDirectory()));
 
     QStringList::ConstIterator it = directories.begin();
     for(; it != directories.end(); ++it)
-	new KListViewItem(m_base->directoryListView, *it);
+        new KListViewItem(m_base->directoryListView, *it);
 
     QSize sz = sizeHint();
     setMinimumSize(QMAX(350, sz.width()), QMAX(250, sz.height()));
@@ -65,18 +65,18 @@ void DirectoryList::slotAddDirectory()
 {
     QString dir = KFileDialog::getExistingDirectory();
     if(!dir.isEmpty() && m_dirList.find(dir) == m_dirList.end()) {
-	m_dirList.append(dir);
-	new KListViewItem(m_base->directoryListView, dir);
-	emit signalDirectoryAdded(dir);
+        m_dirList.append(dir);
+        new KListViewItem(m_base->directoryListView, dir);
+        emit signalDirectoryAdded(dir);
     }
 }
 
 void DirectoryList::slotRemoveDirectory()
 {
     if(!m_base->directoryListView->selectedItem())
-	return;
+        return;
 
-    QString dir = m_base->directoryListView->selectedItem()->text(0); 
+    QString dir = m_base->directoryListView->selectedItem()->text(0);
     m_dirList.remove(dir);
     emit signalDirectoryRemoved(dir);
     delete m_base->directoryListView->selectedItem();

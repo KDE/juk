@@ -23,14 +23,14 @@
 /**
  This class attempts to normalize repeated occurances of strings to use
  the same shared object, if possible, by using a small hash
-*/ 
+*/
 class StringShare
 {
     struct Data;
 public:
     static QString  tryShare(const QString& in);
     static QCString tryShare(const QCString& in);
-    
+
 private:
     static Data* data();
     static Data* s_data;

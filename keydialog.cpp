@@ -74,8 +74,8 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection, QW
     int selectedButton;
     KConfig *config = KGlobal::config();
     {
-	KConfigGroupSaver saver(config, "Shortcuts");
-	selectedButton = config->readNumEntry("GlobalKeys", StandardKeys);
+        KConfigGroupSaver saver(config, "Shortcuts");
+        selectedButton = config->readNumEntry("GlobalKeys", StandardKeys);
     }
 
     // Create widgets for key chooser - widget stack used to replace key chooser
@@ -121,13 +121,13 @@ int KeyDialog::configure()
     // Show the dialog and save configuration if accepted
     int retcode = exec();
     if(retcode == Accepted) {
-	KConfig *config = KGlobal::config();
-	{
-	    KConfigGroupSaver saver(config, "Shortcuts");
-	    config->writeEntry("GlobalKeys", m_group->id(m_group->selected()));
-	    config->sync();
-	}
-	m_pKeyChooser->save();
+        KConfig *config = KGlobal::config();
+        {
+            KConfigGroupSaver saver(config, "Shortcuts");
+            config->writeEntry("GlobalKeys", m_group->id(m_group->selected()));
+            config->sync();
+        }
+        m_pKeyChooser->save();
     }
     return retcode;
 }
@@ -138,7 +138,7 @@ void KeyDialog::slotKeys(int group)
 
     // Set modifier keys according to key group and modifier keys
     for (uint i = 0; i < keyInfoCount; i++)
-	m_keys->setShortcut(keyInfo[i].action, keyInfo[i].shortcut[group][fourModKeys]);
+        m_keys->setShortcut(keyInfo[i].action, keyInfo[i].shortcut[group][fourModKeys]);
 
     // Create a new key chooser to show the keys, and delete the old one
     QWidget *w = m_widgetStack->visibleWidget();
@@ -160,7 +160,7 @@ int KeyDialog::configure(KGlobalAccel *keys, KActionCollection *actionCollection
     KeyDialog dlg(keys, actionCollection, parent);
     int retcode = dlg.configure();
     if (retcode == Accepted)
-	keys->updateConnections();
+        keys->updateConnections();
     return retcode;
 }
 
@@ -172,11 +172,11 @@ void KeyDialog::insert(KGlobalAccel* keys, const QString& action, const QString&
 
     // Find and insert a standard key
     for (uint i = 0; i < keyInfoCount; i++)
-	if (keyInfo[i].action == action) {
-	    def3 = keyInfo[i].shortcut[StandardKeys][0];
-	    def4 = keyInfo[i].shortcut[StandardKeys][1];
-	    break;
-	}
+        if (keyInfo[i].action == action) {
+            def3 = keyInfo[i].shortcut[StandardKeys][0];
+            def4 = keyInfo[i].shortcut[StandardKeys][1];
+            break;
+        }
     keys->insert(action, label, QString::null, def3, def4, objSlot, methodSlot);
 }
 

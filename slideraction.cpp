@@ -32,7 +32,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /**
- * This "custom" slider reverses the left and middle buttons.  Typically the 
+ * This "custom" slider reverses the left and middle buttons.  Typically the
  * middle button "instantly" seeks rather than moving the slider towards the
  * click position in fixed intervals.  This behavior has now been mapped on
  * to the left mouse button.
@@ -47,12 +47,12 @@ protected:
     virtual void mousePressEvent(QMouseEvent *e) {
         if(e->button() == LeftButton) {
             QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), MidButton, e->state());
-            QSlider::mousePressEvent(&reverse); 
+            QSlider::mousePressEvent(&reverse);
             emit sliderPressed();
-	}
+        }
         else if(e->button() == MidButton) {
             QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), LeftButton, e->state());
-            QSlider::mousePressEvent(&reverse); 
+            QSlider::mousePressEvent(&reverse);
         }
     }
     virtual void focusInEvent(QFocusEvent *) { clearFocus(); }
@@ -145,7 +145,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         volumeLabel->setName("kde toolbar widget");
         volumeLabel->setPixmap(SmallIcon("juk_volume"));
         QToolTip::add(volumeLabel, i18n("Volume"));
-	m_layout->addWidget(volumeLabel);
+        m_layout->addWidget(volumeLabel);
 
         m_volumeSlider = new VolumeSlider(base, "volumeSlider");
         m_volumeSlider->setMaxValue(100);

@@ -66,7 +66,7 @@ void SearchPlaylist::updateItems()
 
     if(!oldItems.isEmpty() && newItems.isEmpty())
         emit signalCountChanged(this);
-    
+
     createItems(newItems);
 }
 

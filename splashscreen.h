@@ -25,17 +25,17 @@ class QLabel;
 /**
  * Well, all of this session restoration sure is fun, but it's starting to take
  * a while, especially say, if you're building KDE and indexing your file system
- * in the background.  ;-)  So, despite my general hate of splashscreens I 
+ * in the background.  ;-)  So, despite my general hate of splashscreens I
  * thought on appropriate here.
  *
- * As in other places, this is a singleton.  That makes it relatively easy to 
+ * As in other places, this is a singleton.  That makes it relatively easy to
  * handle the updates from whichever class seems appropriate through static
  * methods.
  */
 
-class SplashScreen : public QHBox 
+class SplashScreen : public QHBox
 {
-public: 
+public:
     static SplashScreen *instance();
     static void finishedLoading();
     static void increment();

@@ -72,7 +72,7 @@ int main(int argc, char *argv[])
 
     // Here we do some DCOP locking of sorts to prevent incoming DCOP calls
     // before JuK has finished its initialization.
-    
+
     a.dcopClient()->suspend();
     JuK *juk = new JuK();
     a.dcopClient()->resume();

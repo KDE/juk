@@ -48,7 +48,7 @@ protected:
     bool dirty() const { return m_dirty; }
 
     /**
-     * Return a list of the items in this playlist.  For example in a search 
+     * Return a list of the items in this playlist.  For example in a search
      * list this should return only the matched items.  By default it returns
      * all of the items in the playlists associated with this dynamic list.
      */

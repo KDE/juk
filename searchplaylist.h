@@ -26,12 +26,12 @@ class SearchPlaylist : public DynamicPlaylist
     Q_OBJECT
 public:
     SearchPlaylist(QWidget *parent,
-		   const PlaylistSearch &search = PlaylistSearch(),
-		   const QString &name = QString::null);
+                   const PlaylistSearch &search = PlaylistSearch(),
+                   const QString &name = QString::null);
 
     PlaylistSearch playlistSearch() const { return m_search; }
     void setPlaylistSearch(const PlaylistSearch &s) { m_search = s; }
-    
+
 protected:
     /**
      * Runs the search to update the current items.

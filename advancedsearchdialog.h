@@ -40,7 +40,7 @@ public:
         QString playlistName;
     };
 
-    AdvancedSearchDialog(const QString &defaultName, 
+    AdvancedSearchDialog(const QString &defaultName,
                          QWidget *parent = 0,
                          const char *name = 0);
 
@@ -54,7 +54,7 @@ protected slots:
     virtual void clear();
     virtual void more();
     virtual void fewer();
-    
+
 private:
     void updateButtons();
 

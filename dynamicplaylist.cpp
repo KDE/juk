@@ -32,8 +32,8 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists, QWidget *parent,
     setSorting(columns() + 1);
 
     for(PlaylistList::ConstIterator it = m_playlists.begin(); it != m_playlists.end(); ++it) {
-	connect(*it, SIGNAL(signalDataChanged()), this, SLOT(slotSetDirty()));
-	connect(*it, SIGNAL(signalCountChanged(Playlist *)), this, SLOT(slotSetDirty()));
+        connect(*it, SIGNAL(signalDataChanged()), this, SLOT(slotSetDirty()));
+        connect(*it, SIGNAL(signalCountChanged(Playlist *)), this, SLOT(slotSetDirty()));
     }
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()), this, SLOT(slotSetDirty()));
 }
@@ -45,7 +45,7 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists, QWidget *parent,
 void DynamicPlaylist::slotReload()
 {
     for(PlaylistList::Iterator it = m_playlists.begin(); it != m_playlists.end(); ++it)
-	(*it)->slotReload();
+        (*it)->slotReload();
 
     checkUpdateItems();
 }
@@ -76,7 +76,7 @@ void DynamicPlaylist::updateItems()
 
     PlaylistItemList newSiblings = siblings;
     if(m_siblings != newSiblings) {
-	m_siblings = newSiblings;
+        m_siblings = newSiblings;
         QTimer::singleShot(0, this, SLOT(slotUpdateItems()));
     }
 }
@@ -88,7 +88,7 @@ void DynamicPlaylist::updateItems()
 void DynamicPlaylist::checkUpdateItems()
 {
     if(!m_dirty)
-	return;
+        return;
 
     updateItems();
 

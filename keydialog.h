@@ -54,7 +54,7 @@ public:
      * standard keys. It behaves like the function in KGlobalAccel.
      */
     static void insert(KGlobalAccel *keys, const QString& action, const QString& label,
-		       const QObject *objSlot, const char *methodSlot);
+                       const QObject *objSlot, const char *methodSlot);
 
 private:
 
@@ -64,10 +64,10 @@ private:
     enum KeyGroup { NoKeys = 0, StandardKeys = 1, MultimediaKeys = 2 };
 
     struct KeyInfo {
-	QString action;
-	KShortcut shortcut[3][2];
+        QString action;
+        KShortcut shortcut[3][2];
     };
-    
+
     void newDialog(KGlobalAccel *keys, KActionCollection *actionCollection, int selectedButton = 0);
     int configure();
 

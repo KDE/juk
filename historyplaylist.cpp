@@ -92,9 +92,9 @@ QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p)
     s << Q_INT32(l.count());
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
-	const HistoryPlaylistItem *i = static_cast<HistoryPlaylistItem *>(*it);
-	s << i->filePath();
-	s << i->dateTime();
+        const HistoryPlaylistItem *i = static_cast<HistoryPlaylistItem *>(*it);
+        s << i->filePath();
+        s << i->dateTime();
     }
 
     return s;
@@ -111,11 +111,11 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
     QDateTime dateTime;
 
     for(int i = 0; i < count; i++) {
-	s >> fileName;
-	s >> dateTime;
+        s >> fileName;
+        s >> dateTime;
 
-	after = p.createItem<HistoryPlaylistItem, CollectionListItem, CollectionList>(QFileInfo(fileName), fileName, after, false);
-	after->setDateTime(dateTime);
+        after = p.createItem<HistoryPlaylistItem, CollectionListItem, CollectionList>(QFileInfo(fileName), fileName, after, false);
+        after->setDateTime(dateTime);
     }
 
     p.emitCountChanged();

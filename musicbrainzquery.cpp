@@ -101,7 +101,7 @@ void MusicBrainzQuery::slotQuery()
                 Track track(extractTrack(i));
                 tracks.append(track);
             }
-	    else {
+            else {
                 Album album(extractAlbum());
                 albums.append(album);
             }
