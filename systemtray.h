@@ -36,6 +36,7 @@ private:
     void createPopup(bool addButtons = true);
     void setToolTip(const QString &tip = QString::null);
     void mousePressEvent(QMouseEvent *e);
+    bool buttonsToLeft() const;
     QPixmap createPixmap(const QString &pixName);
 
 private slots:

@@ -20,6 +20,7 @@
 #include <kiconeffect.h>
 #include <kaction.h>
 #include <kpopupmenu.h>
+#include <kglobalsettings.h>
 #include <kdebug.h>
 
 #include <qhbox.h>
@@ -124,6 +125,20 @@ void SystemTray::createPopup(bool addButtons)
         QHBox *box = new QHBox(m_popup);
         box->setSpacing(15); // Add space between text and buttons
 
+        // See where to put the buttons
+        bool onLeft = buttonsToLeft();
+        QVBox *buttonBox;
+
+        if(onLeft) {
+            // They go to the left because JuK is on that side
+            buttonBox = new QVBox(box);
+            buttonBox->setSpacing(3);
+
+            // Separator line
+            QFrame *line = new QFrame(box);
+            line->setFrameShape(QFrame::VLine);
+        }
+
         QVBox *infoBox = new QVBox(box);
 
         infoBox->setSpacing(3);
@@ -145,8 +160,7 @@ void SystemTray::createPopup(bool addButtons)
         // Artist info
         QString artistStr = playingInfo->artist();
         QLabel *artist = 0;
-        if(!artistStr.isEmpty())
-        {
+        if(!artistStr.isEmpty()) {
             artist = new QLabel(infoBox);
             artist->setAlignment(AlignRight | AlignVCenter);
         }
@@ -156,8 +170,7 @@ void SystemTray::createPopup(bool addButtons)
         // Album info
         QString albumStr = playingInfo->album();
         QLabel *album = 0;
-        if(!albumStr.isEmpty())
-        {
+        if(!albumStr.isEmpty()) {
             int year = playingInfo->year();
             
             // See if there is a year.
@@ -170,8 +183,7 @@ void SystemTray::createPopup(bool addButtons)
         else
             ++numSpacers;
 
-        for( ; numSpacers != 0; --numSpacers)
-        {
+        for( ; numSpacers != 0; --numSpacers) {
             // Add an empty label.  QSpacerItems weren't working for
             // me for some reason.  QBoxLayout->addSpacing() wasn't
             // either. mpyne :-(
@@ -179,12 +191,14 @@ void SystemTray::createPopup(bool addButtons)
         }
 
         if(addButtons) {
-            // Add separator line
-            QFrame *line = new QFrame(box);
-            line->setFrameShape(QFrame::VLine);
+            if(!onLeft) {
+                // Add separator line
+                QFrame *line = new QFrame(box);
+                line->setFrameShape(QFrame::VLine);
 
-            QVBox *buttonBox = new QVBox(box);
-            buttonBox->setSpacing(3);
+                buttonBox = new QVBox(box);
+                buttonBox->setSpacing(3);
+            }
             
             QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
             backButton->setFlat(true);
@@ -211,6 +225,17 @@ void SystemTray::createPopup(bool addButtons)
         m_popup->setView(box);
         m_popup->show();
     }
+}
+
+bool SystemTray::buttonsToLeft() const
+{
+    QPoint center = mapToGlobal(geometry().center());
+    QRect bounds = KGlobalSettings::desktopGeometry(center);
+    int middle = bounds.center().x();
+
+    // This seems to accurately guess what side of the icon that
+    // KPassivePopup will popup on.
+    return((center.x() - (width() / 2)) < middle);
 }
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
