@@ -139,8 +139,8 @@ void JuK::setupActions()
     new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()), actions(), "pause");
     new KAction(i18n("&Stop"),  "player_stop",  0, m_player, SLOT(stop()),  actions(), "stop");
 
-    new KToolBarPopupAction(i18n("Previous &Track"), "player_start", KShortcut(), m_player, SLOT(back()), actions(), "back");
-    new KAction(i18n("&Next Track"), "player_end", KShortcut(), m_player, SLOT(forward()), actions(), "forward");
+    new KToolBarPopupAction(i18n("Previous"), "player_start", KShortcut(), m_player, SLOT(back()), actions(), "back");
+    new KAction(i18n("&Next"), "player_end", KShortcut(), m_player, SLOT(forward()), actions(), "forward");
     new KToggleAction(i18n("&Loop Playlist"), 0, KShortcut(), actions(), "loopPlaylist");
     KToggleAction *resizeColumnAction =
         new KToggleAction(i18n("&Resize Playlist Columns Manually"),
