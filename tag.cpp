@@ -67,8 +67,9 @@ Tag::Tag(const QString &fileName) :
     }
 }
 
-void Tag::save()
+bool Tag::save()
 {
+    bool result;
     TagLib::ID3v2::FrameFactory::instance()->setDefaultTextEncoding(TagLib::String::UTF8);
 
     TagLib::File *file = 0;
@@ -89,13 +90,15 @@ void Tag::save()
         file->tag()->setTrack(m_track);
         file->tag()->setYear(m_year);
 
-        file->save();
+        result = file->save();
     }
-    else
+    else {
         kdError(65432) << "Couldn't save file." << endl;
-
+	result = false;
+    }
 
     delete file;
+    return result;
 }
 
 CacheDataStream &Tag::read(CacheDataStream &s)

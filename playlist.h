@@ -439,9 +439,9 @@ private:
 
     /**
      * Writes \a text to \a item in \a column.  This is used by the inline tag
-     * editor.
+     * editor.  Returns false if the tag update failed.
      */
-    void editTag(PlaylistItem *item, const QString &text, int column);
+    bool editTag(PlaylistItem *item, const QString &text, int column);
 
     /**
      * Returns the index of the left most visible column in the playlist.

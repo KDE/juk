@@ -33,7 +33,7 @@ class Tag
 public:
     Tag(const QString &fileName);
 
-    void save();
+    bool save();
 
     QString title() const { return m_title; }
     QString artist() const { return m_artist; }

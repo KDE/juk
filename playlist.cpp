@@ -1704,7 +1704,7 @@ void Playlist::slotRenameTag()
     rename(currentItem(), m_currentColumn);
 }
 
-void Playlist::editTag(PlaylistItem *item, const QString &text, int column)
+bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
 {
     switch(column - columnOffset())
     {
@@ -1738,13 +1738,18 @@ void Playlist::editTag(PlaylistItem *item, const QString &text, int column)
     }
     }
 
-    item->file().tag()->save();
-    item->refresh();
+    if(item->file().tag()->save()) {
+	item->refresh();
+	return true;
+    }
+
+    return false;
 }
 
 void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 {
     QString text = renameLineEdit()->text();
+    QStringList failedFiles;
 
     PlaylistItemList l = selectedItems();
     if(text == m_editText ||
@@ -1760,9 +1765,18 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
     }
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
-	editTag(*it, text, column);
+	QFileInfo fi((*it)->file().absFilePath());
+
+	if(!fi.isWritable() || !editTag(*it, text, column))
+	    failedFiles += fi.absFilePath();
+
 	processEvents();
     }
+
+    if(!failedFiles.isEmpty())
+	KMessageBox::detailedSorry(this,
+	                           i18n("Could not save to specified file(s)."),
+				   i18n("Could Not Write to:\n") + failedFiles.join("\n"));
 
     CollectionList::instance()->dataChanged();
     dataChanged();
