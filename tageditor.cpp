@@ -50,7 +50,7 @@ public:
 
     virtual State validate(QString &s, int &) const
     {
-	if(s.find('/' != -1))
+	if(s.find('/') != -1)
 	   return Invalid;
 	return Acceptable;
     }
