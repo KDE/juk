@@ -87,7 +87,7 @@ private slots:
 
 private:
     QByteArray m_buffer;
-    KIO::TransferJob *m_job;
+    QGuardedPtr<KIO::TransferJob> m_job;
 };
 
 #endif

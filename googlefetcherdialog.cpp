@@ -221,7 +221,6 @@ CoverIconViewItem::~CoverIconViewItem()
         kapp->processEvents();
 
         delete m_job;
-        m_job = 0;
     }
 }
 
@@ -234,7 +233,6 @@ void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
 
 void CoverIconViewItem::imageResult(KIO::Job *job)
 {
-    m_job = 0; // Job has deleted itself
     if(job->error())
         return;
 
