@@ -19,6 +19,7 @@ juk_SOURCES = \
 	historyplaylist.cpp \
 	juk.cpp \
 	jukIface.skel \
+	k3bexporter.cpp \
 	keydialog.cpp \
 	main.cpp \
 	mediafiles.cpp \

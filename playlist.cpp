@@ -47,6 +47,7 @@
 #include "actioncollection.h"
 #include "juk.h"
 #include "tag.h"
+#include "k3bexporter.h"
 #include "painteater.h"
 
 using namespace ActionCollection;
@@ -1529,6 +1530,11 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
 	m_rmbMenu->insertItem(
 	    SmallIcon("folder_new"), i18n("Create Playlist From Selected Items"), this, SLOT(slotCreateGroup()));
+
+	K3bExporter *exporter = new K3bExporter(this);
+	KAction *k3bAction = exporter->action();
+	if(k3bAction)
+	    k3bAction->plug(m_rmbMenu);
     }
 
     if(!readOnly())

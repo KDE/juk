@@ -36,6 +36,7 @@
 #include "searchplaylist.h"
 #include "actioncollection.h"
 #include "cache.h"
+#include "k3bexporter.h"
 
 using namespace ActionCollection;
 
@@ -66,6 +67,9 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     m_contextMenu = new KPopupMenu(this);
 
+    K3bPlaylistExporter *exporter = new K3bPlaylistExporter(this);
+    m_k3bAction = exporter->action();
+    
     action("file_new")->plug(m_contextMenu);
     action("renamePlaylist")->plug(m_contextMenu);
     action("editSearch")->plug(m_contextMenu);
@@ -74,6 +78,8 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     action("deleteItemPlaylist")->plug(m_contextMenu);
     action("file_save")->plug(m_contextMenu);
     action("file_save_as")->plug(m_contextMenu);
+    if(m_k3bAction)
+	m_k3bAction->plug(m_contextMenu);
 
     m_contextMenu->insertSeparator();
 
@@ -520,6 +526,7 @@ void PlaylistBox::slotPlaylistChanged()
     }
     action("reloadPlaylist")->setEnabled(allowReload);
     action("duplicatePlaylist")->setEnabled(!playlists.isEmpty());
+    m_k3bAction->setEnabled(!playlists.isEmpty());
 
     bool searchList =
 	playlists.count() == 1 && dynamic_cast<SearchPlaylist *>(playlists.front());
