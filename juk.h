@@ -75,6 +75,9 @@ private slots:
   void showPlaylist();
 
   // player menu
+  void addToPlaylist();
+  void removeFromPlaylist();
+
   void playFile();
   void pauseFile();
   void stopFile();

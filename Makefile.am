@@ -1,8 +1,5 @@
 ####### kdevelop will overwrite this part!!! (begin)##########
 bin_PROGRAMS = juk
-
-## INCLUDES were found outside kdevelop specific part
-
 juk_SOURCES = genrelistreader.cpp genrelistlist.cpp genrelist.cpp genre.cpp player.cpp MPEGHeader.cpp filelistitem.cpp tag.cpp filelist.cpp customaction.cpp playlistwidget.cpp slideraction.cpp taggerwidget.cpp juk.cpp main.cpp 
 juk_LDADD   = -lid3 -lsoundserver_idl $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 

@@ -24,6 +24,8 @@
 #include <knuminput.h>
 #include <keditcl.h>
 
+#include <qptrlist.h>
+
 #include "filelist.h"
 #include "filelistitem.h"
 #include "genrelist.h"
@@ -39,6 +41,7 @@ public:
   void add(QStringList *items);
 
   FileListItem *getSelectedItem();
+  QPtrList<QListViewItem> *getSelectedItems();
 
 public slots:
   void save();

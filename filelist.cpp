@@ -21,6 +21,7 @@
 #include <qdir.h>
 #include <qtimer.h>
 #include <qapplication.h>
+#include <qptrlist.h> 
 
 #include "filelist.h"
 
@@ -66,13 +67,19 @@ void FileList::append(QStringList *items)
 
 void FileList::append(FileListItem *item)
 {
-  
+  if(item && members.contains(item->absFilePath()) == 0) {
+    members.append(item->absFilePath());
+    (void) new FileListItem(item, this);
+  }
 }
 
 void FileList::append(QPtrList<QListViewItem> *items)
 {
-  //  for(QPtrListIterator it = items->begin(); it != items->end(); ++it)
-  //    append(QString((*it)));
+  QPtrListIterator<QListViewItem> it(*items);
+  while(it.current()) {
+    append(dynamic_cast<FileListItem *>(it.current()));
+    ++it;
+  }
 }
 
 FileListItem *FileList::getSelectedItem()

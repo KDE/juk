@@ -23,13 +23,26 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-FileListItem::FileListItem(QFileInfo *file, KListView *parent) : KListViewItem(parent), QFileInfo(*file)
+FileListItem::FileListItem(QFileInfo *file, KListView *parent) : QObject(parent), KListViewItem(parent), QFileInfo(*file)
 {
   header = 0;
-  //  fileInfo = file;
   tag = new Tag(filePath());
-
+  
   refresh();
+}
+
+FileListItem::FileListItem(FileListItem *item, KListView *parent) : QObject(parent), KListViewItem(parent), QFileInfo(*item)
+{
+  //  kdDebug() << "FileListItem(FileListItem *item, KListView *parent)" << endl;
+
+  if(item) {
+    tag = item->getTag();
+    header = item->getHeader();
+    connect(item, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));
+    addSibling(item);
+    
+    refresh();
+  }
 }
 
 FileListItem::~FileListItem()
@@ -39,15 +52,23 @@ FileListItem::~FileListItem()
  
   if(header)
     delete(header);
+
+  emit(destroyed(this));
 }
 
 Tag *FileListItem::getTag()
 {
-  if(!tag) {
+  if(!tag)
     tag = new Tag(filePath());
-  }
   return(tag);
 }
+
+/*
+void FileListItem::setTag(Tag *itemTag)
+{
+  tag = itemTag;
+}
+*/
 
 MPEGHeader *FileListItem::getHeader()
 {
@@ -56,6 +77,13 @@ MPEGHeader *FileListItem::getHeader()
   }
   return(header);
 }
+
+/*
+void FileListItem::setHeader(MPEGHeader *itemHeader)
+{
+  header = itemHeader;
+}
+*/
 
 void FileListItem::setFile(QString fileName)
 {
@@ -73,13 +101,31 @@ void FileListItem::setFile(QString fileName)
 
 void FileListItem::refresh()
 {
-  setText(0, tag->getTrack());
-  setText(1, tag->getArtist());
-  setText(2, tag->getAlbum());
-  setText(3, tag->getTrackNumberString());
-  setText(4, tag->getGenre());
-  setText(5, tag->getYearString());
+  setText(0, getTag()->getTrack());
+  setText(1, getTag()->getArtist());
+  setText(2, getTag()->getAlbum());
+  setText(3, getTag()->getTrackNumberString());
+  setText(4, getTag()->getGenre());
+  setText(5, getTag()->getYearString());
   setText(6, filePath());
+
+  emit(refreshed());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void FileListItem::addSibling(FileListItem *sibling)
+{
+  connect(sibling, SIGNAL(refreshed()), this, SLOT(refresh()));
+  connect(sibling, SIGNAL(destroyed(FileListItem *)), this, SLOT(removeSibling(FileListItem *)));
+}
+
+void FileListItem::removeSibling(FileListItem *sibling)
+{
+  disconnect(sibling, SIGNAL(refreshed()), this, SLOT(refresh()));
+  disconnect(sibling, SIGNAL(destroyed(FileListItem *)), this, SLOT(removeSibling(FileListItem *)));  
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -129,4 +175,15 @@ int FileListItem::compare(FileListItem *firstItem, FileListItem *secondItem, int
   else {
     return(firstItem->key(column, ascending).compare(secondItem->key(column, ascending)));
   }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private slots
+////////////////////////////////////////////////////////////////////////////////
+
+void FileListItem::parentDestroyed(FileListItem *parent)
+{
+  header = 0;
+  tag = 0;
+  disconnect(parent, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));
 }

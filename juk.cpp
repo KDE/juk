@@ -186,6 +186,15 @@ void JuK::showPlaylist()
 // player menu
 ////////////////////////////////////////////////////////////////////////////////
 
+void JuK::addToPlaylist()
+{
+  playlist->add(tagger->getSelectedItems());
+}
+
+void JuK::removeFromPlaylist()
+{
+
+}
 
 void JuK::playFile()
 {

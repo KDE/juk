@@ -19,30 +19,46 @@
 #define FILELISTITEM_H
 
 #include <klistview.h>
+
 #include <qfileinfo.h>
+#include <qobject.h>
 
 #include "tag.h"
 #include "MPEGHeader.h"
 
-class FileListItem : public KListViewItem, public QFileInfo  {
+class FileListItem : public QObject, public KListViewItem, public QFileInfo {
+  Q_OBJECT
 public: 
   FileListItem(QFileInfo *file, KListView *parent);
+  FileListItem(FileListItem *item, KListView *parent);
   ~FileListItem();
 
   Tag *getTag();
+  //  void setTag(Tag *itemTag);
   MPEGHeader *getHeader();
+  //  void setHeader(MPEGHeader *itemHeader);
   
   void setFile(QString fileName);
-  void refresh();
 
-protected:
+public slots:
+  void refresh();
+  void addSibling(FileListItem *sibling);
+  void removeSibling(FileListItem *sibling);
+
+signals:
+  void refreshed();
+  void destroyed(FileListItem *);
 
 private:
   int compare(QListViewItem *item, int column, bool ascending) const;
   int compare(FileListItem *firstItem, FileListItem *secondItem, int column, bool ascending) const;
+
   QFileInfo *fileInfo;
   Tag *tag;
   MPEGHeader *header;
+
+private slots:
+  void parentDestroyed(FileListItem *parent);
 };
 
 #endif
