@@ -465,11 +465,6 @@ void JuK::setupGlobalAccels()
     m_accel->updateConnections();
 }
 
-void JuK::polish()
-{
-    actionCollection()->insert(m_splitter->columnVisibleAction());
-}
-
 void JuK::processArgs()
 {
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();

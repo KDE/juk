@@ -94,8 +94,6 @@ protected:
     void addWatched(const QString &file) { m_dirWatch->addFile(file); }
     void removeWatched(const QString &file) { m_dirWatch->removeFile(file); }
 
-    virtual void polish();
-
 signals:
     void signalCollectionChanged();
     void signalRequestPlaylistCreation(const PlaylistItemList &items);
