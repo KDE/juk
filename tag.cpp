@@ -194,6 +194,9 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
 
     m_lengthString = QString::number(minutes) + (seconds >= 10 ? ":" : ":0") + QString::number(seconds);
 
+    if(m_title.isEmpty())
+        m_title = m_info.baseName(true);
+
     Cache::instance()->insert(fileName, this);
 }
 
