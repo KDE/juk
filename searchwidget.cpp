@@ -26,19 +26,106 @@
 #include <qpushbutton.h>
 
 #include "searchwidget.h"
-#include "playlist.h"
+#include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// public methods
+// SearchLine public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SearchWidget::SearchWidget(QWidget *parent, const Playlist *playlist, const char *name) 
-    : QWidget(parent, name),
-      m_playlist(playlist)
+SearchLine::SearchLine(QWidget *parent, const char *name) : QHBox(parent, name)
+{
+    setSpacing(5);
 
+    m_searchFieldsBox = new KComboBox(this, "searchFields");
+    connect(m_searchFieldsBox, SIGNAL(activated(int)),
+            this, SIGNAL(signalQueryChanged()));
+
+    m_lineEdit = new KLineEdit(this, "searchLineEdit");
+    connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
+            this, SIGNAL(signalQueryChanged()));
+
+    m_caseSensitive = new KComboBox(this);
+    m_caseSensitive->insertItem(i18n("Normal Matching"), 0);
+    m_caseSensitive->insertItem(i18n("Case Sensitive"), 1);
+    m_caseSensitive->insertItem(i18n("Pattern Matching"), 2);
+    connect(m_caseSensitive, SIGNAL(activated(int)),
+            this, SIGNAL(signalQueryChanged()));
+}
+
+PlaylistSearch::Component SearchLine::searchComponent() const
+{
+    QString query = m_lineEdit->text();
+    bool caseSensitive = m_caseSensitive->currentItem() == CaseSensitive;
+
+    Playlist *playlist = CollectionList::instance();
+
+    QValueList<int> searchedColumns;
+
+    if(m_searchFieldsBox->currentItem() == 0) {
+	for(int i = 0; i < playlist->columns(); i++) {
+	    if(playlist->isColumnVisible(i) && !playlist->columnText(i).isEmpty())
+		searchedColumns.append(i);
+	}
+    }
+    else
+	searchedColumns.append(m_searchFieldsBox->currentItem() - 1);
+
+    return PlaylistSearch::Component(query, caseSensitive, searchedColumns);
+}
+
+void SearchLine::setSearchComponent(const PlaylistSearch::Component &component)
+{
+    if(!component.isPatternSearch()) {
+	m_lineEdit->setText(component.query());
+	m_caseSensitive->setCurrentItem(component.isCaseSensitive() ? CaseSensitive : Default);
+    }
+    else {
+	m_lineEdit->setText(component.pattern().pattern());
+	m_caseSensitive->setCurrentItem(Pattern);
+    }
+}
+
+void SearchLine::clear()
+{
+    // We don't want to emit the signal if it's already empty.
+    if(!m_lineEdit->text().isEmpty())
+	m_lineEdit->clear();
+}
+
+void SearchLine::updateColumns()
+{
+    QString currentText = m_searchFieldsBox->currentText();
+    m_searchFieldsBox->clear();
+
+    QStringList columnHeaders;
+
+    columnHeaders.append(QString("<%1>").arg(i18n("All Visible")));
+
+    Playlist *playlist = CollectionList::instance();
+
+    int selection = -1;
+
+    for(int i = 0; i < playlist->columns(); i++) {
+	if(playlist->isColumnVisible(i) && !playlist->columnText(i).isEmpty()) {
+	    QString text = playlist->columnText(i);
+	    columnHeaders.append(text);
+	    if(currentText == text)
+		selection = i;
+	}
+    }
+
+    m_searchFieldsBox->insertStringList(columnHeaders);
+    m_searchFieldsBox->setCurrentItem(selection + 1);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// SearchWidget public methods
+////////////////////////////////////////////////////////////////////////////////
+
+SearchWidget::SearchWidget(QWidget *parent, const char *name) : QWidget(parent, name)
 {
     setupLayout();
-    slotUpdateColumns();
+    updateColumns();
 }
 
 SearchWidget::~SearchWidget()
@@ -46,113 +133,41 @@ SearchWidget::~SearchWidget()
 
 }
 
-QString SearchWidget::query() const
-{
-    return m_lineEdit->text();
-}
-
-bool SearchWidget::caseSensitive() const
-{
-    return m_caseSensitive->currentItem() == CaseSensitive;
-}
-
-bool SearchWidget::regExp() const
-{
-    return m_caseSensitive->currentItem() == Pattern;
-}
-
 void SearchWidget::setSearch(const PlaylistSearch &search)
 {
     PlaylistSearch::ComponentList components = search.components();
 
-    // This is intentionally written so that when multiple search lines are
-    // supported that it can be easily updated.
-
-    PlaylistSearch::ComponentList::ConstIterator it = components.begin();
-
-    if(it == components.end()) {
+    if(components.isEmpty()) {
 	clear();
 	return;
     }
 
-    if(!(*it).isPatternSearch()) {
-	m_lineEdit->setText((*it).query());
-	m_caseSensitive->setCurrentItem((*it).isCaseSensitive() ? CaseSensitive : Default);
-    }
-    else {
-	m_lineEdit->setText((*it).pattern().pattern());
-	m_caseSensitive->setCurrentItem(Pattern);
-    }
+    m_searchLine->setSearchComponent(*components.begin());
 }
 
 PlaylistSearch SearchWidget::search(const PlaylistList &playlists) const
 {
     PlaylistSearch::ComponentList components;
-    PlaylistSearch::Component c;
+    components.append(m_searchLine->searchComponent());
+    return PlaylistSearch(playlists, components);
+}
 
-    if(m_caseSensitive->currentItem() != Pattern)
-	c = PlaylistSearch::Component(query(), caseSensitive(), searchedColumns());
-    else
-	c = PlaylistSearch::Component(QRegExp(query()), searchedColumns());
-
-    components.append(c);
-    
-    PlaylistSearch s(playlists, components);
-
-    return s;
+void SearchWidget::updateColumns()
+{
+    m_searchLine->updateColumns();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// public slots
+// SearchWidget public slots
 ////////////////////////////////////////////////////////////////////////////////
 
 void SearchWidget::clear()
 {
-    // We don't want to emit the signal if it's already empty.
-    if(!m_lineEdit->text().isEmpty())
-	m_lineEdit->clear();
-}
-
-void SearchWidget::slotQueryChanged(int)
-{
-    m_searchedColumns[0].clear();
-
-    if(m_searchFieldsBox->currentItem() == 0) {
-	for(int i = 0; i < m_playlist->columns(); i++) {
-	    if(m_playlist->isColumnVisible(i) && !m_playlist->columnText(i).isEmpty())
-		m_searchedColumns[0].append(i);
-	}
-    }
-    else
-	m_searchedColumns[0].append(m_searchFieldsBox->currentItem() - 1);
-    
-    emit signalQueryChanged();
-}
-
-void SearchWidget::slotUpdateColumns()
-{
-    QString currentText = m_searchFieldsBox->currentText();
-    m_searchFieldsBox->clear();
-    m_columnHeaders.clear();
-    m_columnHeaders.append(QString("<%1>").arg(i18n("All Visible")));
-
-    int selection = -1;
-
-    for(int i = 0; i < m_playlist->columns(); i++) {
-	if(m_playlist->isColumnVisible(i) && !m_playlist->columnText(i).isEmpty()) {
-	    QString text = m_playlist->columnText(i);
-	    m_columnHeaders.append(text);
-	    if(currentText == text)
-		selection = i;
-	}
-    }
-
-    m_searchFieldsBox->insertStringList(m_columnHeaders);
-    m_searchFieldsBox->setCurrentItem(selection + 1);
+    m_searchLine->clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// private methods
+// SearchWidget private methods
 ////////////////////////////////////////////////////////////////////////////////
 
 void SearchWidget::setupLayout()
@@ -162,20 +177,11 @@ void SearchWidget::setupLayout()
 
     new QLabel(i18n("Search:"), this);
 
-    m_searchFieldsBox = new KComboBox(this, "searchFields");
-    connect(m_searchFieldsBox, SIGNAL(activated(int)), this, SLOT(slotQueryChanged()));
-
-    m_lineEdit = new KLineEdit(this, "searchLineEdit");
-    m_caseSensitive = new KComboBox(this);
-    m_caseSensitive->insertItem(i18n("Normal Matching"), 0);
-    m_caseSensitive->insertItem(i18n("Case Sensitive"), 1);
-    m_caseSensitive->insertItem(i18n("Pattern Matching"), 2);
-    connect(m_caseSensitive, SIGNAL(activated(int)), this, SLOT(slotQueryChanged()));
+    m_searchLine = new SearchLine(this);
+    connect(m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
 
     QPushButton *button = new QPushButton(i18n("Clear"), this);
-
     connect(button, SIGNAL(clicked()), this, SLOT(clear()));
-    connect(m_lineEdit, SIGNAL(textChanged(const QString &)), this, SLOT(slotQueryChanged()));
 
     setFixedHeight(minimumSizeHint().height());
 }

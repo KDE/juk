@@ -453,7 +453,7 @@ void PlaylistSplitter::setupLayout()
 
 
     // Create the search widget -- this must be done after the CollectionList is created.
-    m_searchWidget = new SearchWidget(editorSplitter, CollectionList::instance(), "searchWidget");
+    m_searchWidget = new SearchWidget(editorSplitter, "searchWidget");
     editorSplitter->moveToFirst(m_searchWidget);
     connect(m_searchWidget, SIGNAL(signalQueryChanged()), this, SLOT(slotShowSearchResults()));
     connect(CollectionList::instance(), SIGNAL(signalVisibleColumnsChanged()),
@@ -766,10 +766,9 @@ void PlaylistSplitter::slotShowSearchResults()
 
 void PlaylistSplitter::slotVisibleColumnsChanged()
 {
-    m_searchWidget->slotUpdateColumns();
-    m_searchWidget->slotQueryChanged();
-    if(m_searchWidget->searchedColumns(0).count() > 1)
-        slotShowSearchResults();
+    m_searchWidget->updateColumns();
+    // if(m_searchWidget->searchedColumns(0).count() > 1)
+    slotShowSearchResults();
 }
 
 void PlaylistSplitter::slotCreateSearchList(const PlaylistSearch &search, 

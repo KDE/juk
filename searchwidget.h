@@ -19,6 +19,7 @@
 #define SEARCHWIDGET_H
 
 #include <qwidget.h>
+#include <qhbox.h>
 
 #include "playlistsearch.h"
 
@@ -29,35 +30,53 @@ class KComboBox;
 
 class Playlist;
 
-class SearchWidget : public QWidget
+class SearchLine : public QHBox
 {
     Q_OBJECT
 
 public:
     enum Mode { Default = 0, CaseSensitive = 1, Pattern = 2 };
+
+    SearchLine(QWidget *parent, const char *name = 0);
+    virtual ~SearchLine() {}
+
+    PlaylistSearch::Component searchComponent() const;
+    void setSearchComponent(const PlaylistSearch::Component &component);
+
+    void updateColumns();
+    void clear();
+
+signals:
+    void signalQueryChanged();
+
+private:
+    KLineEdit *m_lineEdit;
+    KComboBox *m_searchFieldsBox;
+    KComboBox *m_caseSensitive;
+};
+
+class SearchWidget : public QWidget
+{
+    Q_OBJECT
+
+public:
     /**
      * Note that playlist here is just a playlist to get the columns from and
      * has nothing to do with the results of a search.
      */
-    SearchWidget(QWidget *parent, const Playlist *playlist, const char *name);
+    SearchWidget(QWidget *parent, const char *name = 0);
     virtual ~SearchWidget();
 
     /**
      * Returns a list of searched columns for the given search row.
      */
-    QValueList<int> searchedColumns(int searchLine = 0) const { return m_searchedColumns[searchLine]; }
-
-    QString query() const;
-    bool caseSensitive() const;
-    bool regExp() const;
     
     PlaylistSearch search(const PlaylistList &playlists) const;
     void setSearch(const PlaylistSearch &search);
+    void updateColumns();
 
 public slots:
     void clear();
-    void slotUpdateColumns();
-    void slotQueryChanged(int = 0);
 
 signals:
     void signalQueryChanged();
@@ -66,12 +85,8 @@ private:
     void setupLayout();
 
 private:
-    const Playlist *m_playlist;
-    KLineEdit *m_lineEdit;
-    KComboBox *m_searchFieldsBox;
-    KComboBox *m_caseSensitive;
+    SearchLine *m_searchLine;
     QStringList m_columnHeaders;
-    QValueList< QValueList<int> > m_searchedColumns;
 };
 
 #endif
