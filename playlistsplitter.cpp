@@ -113,21 +113,27 @@ QString PlaylistSplitter::playNextFile(bool random, bool loopPlaylist)
     // the item that's after the currently playing item, (3) play the selected 
     // item or (4) play the first item in the list.
 
+    // (1) we've asked for a specific next item
     if(m_nextPlaylistItem && m_nextPlaylistItem != m_playingItem) {
         i = m_nextPlaylistItem;
         m_nextPlaylistItem = 0;
     }
+    // (2) play the item after the currently selected item
     else if(m_playingItem) {
         Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
         i = p->nextItem(m_playingItem, random);
         if(!i && loopPlaylist)
             i = static_cast<PlaylistItem *>(p->firstChild());
     }
-    else {
+    // (3) play the selected item
+    else if(playlistSelection().size() > 0) {
         i = playlistSelection().first();
         if(!i)
             i = static_cast<PlaylistItem *>(visiblePlaylist()->firstChild());
     }
+    // (4) play the first item in the list
+    else
+        i = static_cast<PlaylistItem *>(visiblePlaylist()->firstChild());
 
     return play(i);
 }
