@@ -21,8 +21,6 @@
 
 #include <config.h>
 
-#ifdef USE_ARTS
-
 #include "player.h"
 
 #include <kurl.h>
@@ -89,7 +87,6 @@ private:
     float m_currentVolume;
 };
 
-#endif
 #endif
 
 // vim: sw=4 ts=8 et

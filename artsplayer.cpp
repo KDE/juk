@@ -18,8 +18,6 @@
 
 #include "artsplayer.h"
 
-#ifdef USE_ARTS
-
 #include <kdebug.h>
 #include <kconfig.h>
 #include <kstandarddirs.h>
@@ -289,5 +287,4 @@ bool ArtsPlayer::serverRunning() const
 
 #include "artsplayer.moc"
 
-#endif
 // vim: sw=4 ts=8 et
