@@ -30,7 +30,6 @@
 
 GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
                                          const GoogleImageList &imageList,
-                                         uint /* selectedIndex */,
                                          const FileHandle &file,
                                          QWidget *parent) :
     KDialogBase(parent, name.latin1(), true, QString::null,

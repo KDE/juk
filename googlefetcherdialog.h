@@ -30,7 +30,6 @@ class GoogleFetcherDialog : public KDialogBase
 public:
     GoogleFetcherDialog(const QString &name,
                         const GoogleImageList &urlList,
-                        uint selectedIndex,
                         const FileHandle &file,
                         QWidget *parent = 0);
 

@@ -139,7 +139,6 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
 QPixmap GoogleFetcher::pixmap()
 {
     bool chosen = false;
-    const int selectedIndex = 0;
     m_loadedSize = All;
 
     displayWaitMessage();
@@ -147,24 +146,21 @@ QPixmap GoogleFetcher::pixmap()
     QPixmap pixmap;
 
     while(!chosen) {
-        GoogleFetcherDialog dialog("google", m_imageList, selectedIndex, m_file, 0);
 
-        connect(&dialog, SIGNAL(sizeChanged(GoogleFetcher::ImageSize)),
-                this, SLOT(slotLoadImageURLs(GoogleFetcher::ImageSize)));
-        connect(this, SIGNAL(signalNewSearch(GoogleImageList &)),
-                &dialog, SLOT(refreshScreen(GoogleImageList &)));
-        dialog.exec();
-        pixmap = dialog.result();
-        chosen = dialog.takeIt();
-        if(dialog.newSearch()) {
-            bool ok;
-            m_searchString = KInputDialog::getText(i18n("Cover Downloader"),
-                                                   i18n("Enter new search terms:"),
-                                                   m_searchString, &ok);
-            if(ok && !m_searchString.isEmpty())
-                displayWaitMessage();
-            else
-                m_searchString = m_loadedQuery;
+        if(m_imageList.isEmpty())
+            chosen = !requestNewSearchTerms(true);
+        else {
+            GoogleFetcherDialog dialog("google", m_imageList, m_file, 0);
+            connect(&dialog, SIGNAL(sizeChanged(GoogleFetcher::ImageSize)),
+                    this, SLOT(slotLoadImageURLs(GoogleFetcher::ImageSize)));
+            connect(this, SIGNAL(signalNewSearch(GoogleImageList &)),
+                    &dialog, SLOT(refreshScreen(GoogleImageList &)));
+            dialog.exec();
+            pixmap = dialog.result();
+            chosen = dialog.takeIt();
+
+            if(dialog.newSearch())
+                requestNewSearchTerms();
         }
     }
     return pixmap;
@@ -178,5 +174,20 @@ void GoogleFetcher::displayWaitMessage()
     statusBar->clear();
 }
 
-#include "googlefetcher.moc"
+bool GoogleFetcher::requestNewSearchTerms(bool noResults)
+{
+    bool ok;
+    m_searchString = KInputDialog::getText(i18n("Cover Downloader"),
+                                           noResults ?
+                                             i18n("No matching images found, please enter new search terms:") :
+                                             i18n("Enter new search terms:"),
+                                           m_searchString, &ok);
+    if(ok && !m_searchString.isEmpty())
+        displayWaitMessage();
+    else
+        m_searchString = m_loadedQuery;
 
+    return ok;
+}
+
+#include "googlefetcher.moc"
