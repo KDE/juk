@@ -75,7 +75,10 @@ JuK::JuK(QWidget *parent, const char *name) :
 
 JuK::~JuK()
 {
-
+    action("stop")->activate();
+    delete m_systemTray;
+    m_systemTray = 0;
+    delete m_splitter;
 }
 
 KActionCollection *JuK::actionCollection() const
@@ -344,13 +347,9 @@ bool JuK::queryExit()
     m_startDocked = !isVisible();
 
     hide();
-    action("stop")->activate();
-    delete m_systemTray;
-    m_systemTray = 0;
 
     Cache::instance()->save();
     saveConfig();
-    delete m_splitter;
     return true;
 }
 
