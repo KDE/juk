@@ -68,29 +68,47 @@ void MusicBrainzLookup::message(const QString &s) const
 
 void MusicBrainzLookup::confirmation()
 {
+    // Here we do a bit of queuing to make sure that we don't pop up multiple
+    // instances of the confirmation dialog at once.
+
+    static QValueList< QPair<FileHandle, KTRMResultList> > queue;
+
     if(results().isEmpty())
         return;
 
-    TrackPickerDialog dialog(m_file.fileInfo().fileName(), results());
+    if(!queue.isEmpty()) {
+	queue.append(qMakePair(m_file, results()));
+	return;
+    }
 
-    if(dialog.exec() == QDialog::Accepted && !dialog.result().isEmpty()) {
+    queue.append(qMakePair(m_file, results()));
 
-        KTRMResult result = dialog.result();
+    while(!queue.isEmpty()) {
+        FileHandle file = queue.first().first;
+        KTRMResultList results = queue.first().second;
+        TrackPickerDialog dialog(file.fileInfo().fileName(), results);
 
-        if(!result.title.isEmpty())
-            m_file.tag()->setTitle(result.title);
-        if(!result.artist.isEmpty())
-            m_file.tag()->setArtist(result.artist);
-        if(!result.album.isEmpty())
-            m_file.tag()->setAlbum(result.album);
-        if(result.track != 0)
-            m_file.tag()->setTrack(result.track);
-        if(result.year != 0)
-            m_file.tag()->setYear(result.year);
+        if(dialog.exec() == QDialog::Accepted && !dialog.result().isEmpty()) {
 
-        m_file.tag()->save();
+            KTRMResult result = dialog.result();
 
-        CollectionList::instance()->slotRefreshItem(m_file.absFilePath());
+            if(!result.title.isEmpty())
+                file.tag()->setTitle(result.title);
+            if(!result.artist.isEmpty())
+                file.tag()->setArtist(result.artist);
+            if(!result.album.isEmpty())
+                file.tag()->setAlbum(result.album);
+            if(result.track != 0)
+                file.tag()->setTrack(result.track);
+            if(result.year != 0)
+                file.tag()->setYear(result.year);
+
+            file.tag()->save();
+
+            CollectionList::instance()->slotRefreshItem(file.absFilePath());
+        }
+
+        queue.pop_front();
     }
 }
 
