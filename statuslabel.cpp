@@ -120,7 +120,7 @@ void StatusLabel::updateData()
         setItemTotalTime(0);
         setItemCurrentTime(0);
 
-	int time = playlist()->time();
+        int time = playlist()->time();
 
         int days = time / (60 * 60 * 24);
         int hours = time / (60 * 60) % 24;
