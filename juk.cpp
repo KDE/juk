@@ -43,7 +43,8 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose)
+JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose),
+					      m_shuttingDown(false)
 {
     SplashScreen::instance()->show();
     kapp->processEvents();
@@ -101,16 +102,15 @@ void JuK::setupActions()
     new KAction(i18n("Open &Directory..."), "fileopen", 0, m_splitter, SLOT(slotOpenDirectory()), actionCollection(), "openDirectory");
 
     m_renamePlaylistAction = new KAction(i18n("Rename..."), 0, m_splitter, SLOT(slotRenamePlaylist()), 
-				       actionCollection(), "renamePlaylist");
+					 actionCollection(), "renamePlaylist");
     new KAction(i18n("Duplicate..."), "editcopy", 0, m_splitter, SLOT(slotDuplicatePlaylist()), actionCollection(), "duplicatePlaylist");
     
     m_savePlaylistAction = KStdAction::save(m_splitter, SLOT(slotSavePlaylist()), actionCollection());
     m_saveAsPlaylistAction = KStdAction::saveAs(m_splitter, SLOT(slotSaveAsPlaylist()), actionCollection());
     m_deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, m_splitter, SLOT(slotDeletePlaylist()), 
-					   actionCollection(), "deleteItemPlaylist");
+					     actionCollection(), "deleteItemPlaylist");
 
-    //KStdAction::quit(this, SLOT(close()), actionCollection());
-    KStdAction::quit(kapp, SLOT(quit()), actionCollection());
+    KStdAction::quit(this, SLOT(slotQuit()), actionCollection());
 
     // edit menu
     KStdAction::cut(this, SLOT(cut()), actionCollection());
@@ -189,6 +189,8 @@ void JuK::setupSystemTray()
 	    m_systemTray->slotPlay();
 	
 	m_toggleDockOnCloseAction->setEnabled(true);
+
+	connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
     }
     else {
 	m_systemTray = 0;
@@ -332,7 +334,7 @@ bool JuK::queryExit()
 
 bool JuK::queryClose()
 {
-    if(m_systemTray && m_toggleDockOnCloseAction->isChecked()) {
+    if(!m_shuttingDown && m_systemTray && m_toggleDockOnCloseAction->isChecked()) {
 	KMessageBox::information(this,
 				 i18n("<qt>Closing the main window will keep JuK running in the system tray. "
 				      "Use Quit from the File menu to quit the application.</qt>"), 

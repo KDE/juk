@@ -84,6 +84,9 @@ private:
 private slots:
     void slotPlaylistChanged();
 
+    // file menu
+    void slotQuit() { m_shuttingDown = true; kapp->quit(); }
+
     // edit menu
     void cut();
     void copy();
@@ -157,6 +160,7 @@ private:
     bool m_trackPositionDragging;
     bool m_noSeek;
     bool m_restore;
+    bool m_shuttingDown;
 
     static const int m_pollInterval = 800;
 };
