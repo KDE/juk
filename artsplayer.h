@@ -20,7 +20,7 @@
 
 #include <qstring.h>
 #include <soundserver.h>
-#include <arts/artsflow.h>
+#include <artsflow.h>
 
 #include "player.h"
 
