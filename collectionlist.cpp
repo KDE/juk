@@ -354,6 +354,17 @@ PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist) cons
     return 0;
 }
 
+void CollectionListItem::updateCollectionDict(const QString &oldPath, const QString &newPath)
+{
+    CollectionList *collection = CollectionList::instance();
+
+    if(!collection)
+	return;
+
+    collection->removeFromDict(oldPath);
+    collection->addToDict(newPath, this);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // CollectionListItem protected methods
 ////////////////////////////////////////////////////////////////////////////////

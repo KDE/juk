@@ -108,6 +108,8 @@ protected:
     bool importPlaylists() const;
     bool containsPlaylistFile(const QString &file) const;
 
+    void enableDirWatch(bool enable);
+
     QString playlistNameDialog(const QString &caption = i18n("Create New Playlist"),
                                const QString &suggest = QString::null,
                                bool forceUnique = true) const;
@@ -180,6 +182,7 @@ private slots:
 
     void slotSetSearchEnabled(bool enable) { m_collection->setSearchEnabled(enable); }
     void slotSetHistoryPlaylistEnabled(bool enable) {m_collection->setHistoryPlaylistEnabled(enable); }
+    void slotEnableDirWatch(bool enable) { m_collection->enableDirWatch(enable); }
 
 signals:
     void signalSelectedItemsChanged();

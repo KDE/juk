@@ -40,6 +40,7 @@ PlaylistItem::~PlaylistItem()
 
 void PlaylistItem::setFile(const FileHandle &file)
 {
+    m_collectionItem->updateCollectionDict(d->fileHandle.absFilePath(), file.absFilePath());
     d->fileHandle = file;
     refresh();
 }

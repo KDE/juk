@@ -677,6 +677,8 @@ void PlaylistBox::Item::init()
 	connect(m_playlist, SIGNAL(signalNameChanged(const QString &)),
 		this, SLOT(slotSetName(const QString &)));
 	connect(m_playlist, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+	connect(m_playlist, SIGNAL(signalEnableDirWatch(bool)),
+	        list->object(), SLOT(slotEnableDirWatch(bool)));
     }
 
     if(m_playlist == CollectionList::instance()) {

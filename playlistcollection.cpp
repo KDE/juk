@@ -459,6 +459,14 @@ bool PlaylistCollection::containsPlaylistFile(const QString &file) const
     return m_playlistFiles.contains(file);
 }
 
+void PlaylistCollection::enableDirWatch(bool enable)
+{
+    if(enable)
+        m_dirWatch.startScan(false);
+    else
+        m_dirWatch.stopScan();
+}
+
 QString PlaylistCollection::playlistNameDialog(const QString &caption,
                                                const QString &suggest,
                                                bool forceUnique) const

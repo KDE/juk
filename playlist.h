@@ -423,6 +423,8 @@ signals:
      */
     void signalAboutToRemove(PlaylistItem *item);
 
+    void signalEnableDirWatch(bool enable);
+
 private:
     void setup();
 
