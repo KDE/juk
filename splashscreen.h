@@ -37,6 +37,7 @@ public:
     static SplashScreen *instance();
     static void finishedLoading();
     static void increment();
+    static void update();
 
 protected:
     SplashScreen();

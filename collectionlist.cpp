@@ -61,6 +61,8 @@ void CollectionList::initialize(PlaylistCollection *collection, bool restoreOnLo
 	{
 	    new CollectionListItem(*it);
 	}
+
+	SplashScreen::update();
     }
 
     collection->setupPlaylist(m_list, "folder_sound");
