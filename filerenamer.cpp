@@ -25,62 +25,78 @@ FileRenamer::FileRenamer(const PlaylistItem *item)
     rename(item);
 }
 
+QString FileRenamer::filenameScheme() const
+{
+    return KConfigGroup(kapp->config(), "FileRenamer").readEntry("FilenameScheme");
+}
+
+QString FileRenamer::getToken(const QString &name, const QString &value) const
+{
+    const KConfigGroup grp(kapp->config(), "FileRenamer");
+
+    const bool needContent = grp.readBoolEntry("Need" + name + "Content", true);
+    if(value.isEmpty() && needContent)
+        return QString();
+
+    QString token = grp.readEntry(name + "Token");
+    token.replace("%s", value);
+    return token;
+}
+
+QString FileRenamer::titleToken(const QString &value) const
+{
+    return getToken("Title", value);
+}
+
+QString FileRenamer::artistToken(const QString &value) const
+{
+    return getToken("Artist", value);
+}
+
+QString FileRenamer::albumToken(const QString &value) const
+{
+    return getToken("Album", value);
+}
+
+QString FileRenamer::trackToken(const QString &value) const
+{
+    return getToken("Track", value);
+}
+
+QString FileRenamer::commentToken(const QString &value) const
+{
+    return getToken("Comment", value);
+}
+
 void FileRenamer::rename(const PlaylistItem *item)
 {
     if(item == 0 || item->tag() == 0)
         return;
 
-    QString newFilename;
-    QString titleToken, artistToken, albumToken, trackToken, commentToken;
-    KConfig *cfg = kapp->config();
-    {
-        KConfigGroupSaver saver(cfg, "FileRenamer");
-        newFilename = cfg->readPathEntry("FilenameScheme", item->absFilePath());
+    QString newFilename = rename(item->absFilePath(), *item->tag());
+    moveFile(item->absFilePath(), newFilename);
+}
 
-        if(!item->tag()->track().isNull()) {
-            titleToken = cfg->readEntry("Title token");
-            titleToken.replace("%s", item->tag()->track());
-        }
-
-        if(!item->tag()->artist().isNull()) {
-            artistToken = cfg->readEntry("Artist token");
-            artistToken.replace("%s", item->tag()->artist());
-        }
-
-        if(!item->tag()->album().isNull()) {
-            albumToken = cfg->readEntry("Album token");
-            albumToken.replace("%s", item->tag()->album());
-        }
-
-        if(item->tag()->trackNumber() > 0) {
-            trackToken = cfg->readEntry("Track token");
-            trackToken.replace("%s", item->tag()->trackNumberString());
-        }
-
-        if(!item->tag()->comment().isNull()) {
-            commentToken = cfg->readEntry("Comment token");
-            trackToken.replace("%s", item->tag()->comment());
-        }
-    }
+QString FileRenamer::rename(const QString &filename, const Tag &tag) const
+{
+    QString newFilename = filenameScheme();
 
     QMap<QChar, QString> substitutions;
-    substitutions[ 't' ] = titleToken;
-    substitutions[ 'a' ] = artistToken;
-    substitutions[ 'A' ] = albumToken;
-    substitutions[ 'T' ] = trackToken;
-    substitutions[ 'c' ] = commentToken;
+    substitutions[ 't' ] = titleToken(tag.track());
+    substitutions[ 'a' ] = artistToken(tag.artist());
+    substitutions[ 'A' ] = albumToken(tag.album());
+    substitutions[ 'T' ] = trackToken(tag.trackNumberString());
+    substitutions[ 'c' ] = commentToken(tag.comment());
 
     newFilename = KMacroExpander::expandMacros(newFilename, substitutions);
-
     newFilename = newFilename.stripWhiteSpace();
 
     if(QFileInfo(newFilename).isRelative())
-        newFilename = item->absFilePath().left( item->absFilePath().findRev( "/" ) )
+        newFilename = filename.left( filename.findRev( "/" ) )
                       + "/" + newFilename;
+    newFilename += "." + QFileInfo(filename).extension();
 
-    newFilename += "." + QFileInfo(item->absFilePath()).extension();
-
-    moveFile(item->absFilePath(), newFilename);
+    return newFilename;
 }
 
 void FileRenamer::moveFile(const QString &src, const QString &dest)

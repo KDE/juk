@@ -9,8 +9,10 @@
 #ifndef FILERENAMER_H
 #define FILERENAMER_H
 
+#include <qstring.h>
+
 class PlaylistItem;
-class QString;
+class Tag;
 
 class FileRenamer
 {
@@ -18,9 +20,18 @@ class FileRenamer
 		FileRenamer();
 		FileRenamer(const PlaylistItem *item);
 
+		QString filenameScheme() const;
+		QString titleToken( const QString &value = QString::null ) const;
+		QString artistToken( const QString &value = QString::null ) const;
+		QString albumToken( const QString &value = QString::null ) const;
+		QString trackToken( const QString &value = QString::null) const;
+		QString commentToken( const QString &value = QString::null ) const;
+
 		void rename(const PlaylistItem *item);
+		QString rename(const QString &filename, const Tag &tag) const;
 
 	private:
+		QString getToken(const QString &name, const QString &value) const;
 		void moveFile(const QString &src, const QString &dest);
 };
 
