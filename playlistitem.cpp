@@ -143,6 +143,7 @@ void PlaylistItem::slotRefresh()
 {
     // This signal will be received by the "parent" CollectionListItem which will
     // in turn call slotRefreshImpl() for all of its children, including this item.
+
     emit(signalRefreshed());
 }
 
@@ -172,6 +173,7 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListView
 
 
 // This constructor should only be used by the CollectionList subclass.
+
 PlaylistItem::PlaylistItem(CollectionList *parent) :
     QObject(parent), KListViewItem(parent),
     m_collectionItem(static_cast<CollectionListItem *>(this)), m_data(0), m_playing(false)
@@ -197,6 +199,12 @@ void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int
 
     colorGroup.setColor(QColorGroup::Base, c);
     QListViewItem::paintCell(p, colorGroup, column, width, align);
+}
+
+void PlaylistItem::setText(int column, const QString &text)
+{
+    KListViewItem::setText(column, text);
+    emit signalColumnWidthChanged(column);
 }
 
 int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
@@ -348,6 +356,12 @@ void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
     }
 
     setDragEnabled(true);
+
+    // We only want this connection to take effect for changes after item
+    // creation -- i.e. editing the item.  We'll handle item creation separately
+    // as that avoids this signal firing a few thousand times.
+
+    connect(this, SIGNAL(signalColumnWidthChanged(int)), parent, SLOT(slotWidthDirty(int)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

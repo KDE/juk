@@ -137,6 +137,7 @@ protected:
     void setData(Data *d) { m_data = d; }
 
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
+    virtual void setText(int column, const QString &text);
 
     virtual int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
@@ -151,6 +152,7 @@ protected slots:
 
 signals:
     void signalRefreshed();
+    void signalColumnWidthChanged(int column);
 
 private:
     void setup(CollectionListItem *item, Playlist *parent);

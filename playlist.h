@@ -270,6 +270,8 @@ public:
      */
     virtual bool readOnly() const { return false; }
 
+    void setColumnWidthUpdatesDisabled(bool disabled) { m_disableColumnWidthUpdates = disabled; }
+
 public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
@@ -326,6 +328,13 @@ public slots:
      * Reload the playlist contents from the m3u file.
      */
     virtual void slotReload();
+
+    /**
+     * Tells the listview that the next time that it paints that the weighted
+     * column widths must be recalculated.  If this is called without a column
+     * all visible columns are marked as dirty.
+     */
+    void slotWidthDirty(int column = -1);
 
 protected:
     /**
@@ -473,6 +482,7 @@ private:
      */
     void calculateColumnWeights();
 
+private:
     /**
      * This class is used internally to store settings that are shared by all
      * of the playlists, such as column order.  It is implemented as a singleton.
@@ -525,12 +535,6 @@ private slots:
      */
     void slotCreateGroup() { emit signalCreatePlaylist(selectedItems()); }
 
-    /**
-     * Tells the listview that the next time that it paints that the weighted
-     * column widths must be recalculated.
-     */
-    void slotWidthDirty(int column);
-
 private:
     StringHash m_members;
 
@@ -546,6 +550,7 @@ private:
     bool m_polished;
 
     QValueList<int> m_widthDirty;
+    bool m_disableColumnWidthUpdates;
     /**
      * The average minimum widths of columns to be used in balancing calculations.
      */
@@ -631,12 +636,16 @@ ItemType *Playlist::createItem(const QFileInfo &file, const QString &absFilePath
 	return i;
     }
     else
-	return 0;    
+	return 0;
 }
 
 template <class CollectionItemType, class ItemType, class SiblingType>
 void Playlist::createItems(const QValueList<SiblingType *> &siblings)
 {
+    if(siblings.isEmpty())
+	return;
+
+    m_disableColumnWidthUpdates = true;
     ItemType *previous = 0;
 
     QValueListConstIterator<SiblingType *> it = siblings.begin();
@@ -648,6 +657,8 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
     }
 
     emit signalCountChanged(this);
+    m_disableColumnWidthUpdates = false;
+    slotWidthDirty();
 }
 
 #endif

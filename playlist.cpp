@@ -216,6 +216,7 @@ Playlist::Playlist(QWidget *parent, const QString &name) :
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_polished(false),
+    m_disableColumnWidthUpdates(true),
     m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0)
@@ -228,6 +229,7 @@ Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const QString
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_polished(false),
+    m_disableColumnWidthUpdates(true),
     m_lastSelected(0),
     m_fileName(playlistFile.absFilePath()),
     m_rmbMenu(0)
@@ -556,6 +558,21 @@ void Playlist::slotReload()
     loadFile(m_fileName, fileInfo);
 }
 
+void Playlist::slotWidthDirty(int column)
+{
+    if(column < 0) {
+	m_widthDirty.clear();
+	for(int i = 0; i < columns(); i++) {
+	    if(isColumnVisible(i))
+		m_widthDirty.append(i);
+	}
+	return;
+    }
+
+    if(m_widthDirty.find(column) == m_widthDirty.end())
+	m_widthDirty.append(column);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
@@ -854,6 +871,8 @@ void Playlist::polish()
 
     setAcceptDrops(true);
     setDropVisualizer(true);
+
+    m_disableColumnWidthUpdates = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -883,6 +902,8 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     PlaylistItem *after = 0;
 
+    m_disableColumnWidthUpdates = true;
+
     while(!stream.atEnd()) {
 	QString itemName = stream.readLine().stripWhiteSpace();
 
@@ -904,6 +925,8 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     file.close();
 
     emit signalCountChanged(this);
+    
+    m_disableColumnWidthUpdates = false;
 }
 
 void Playlist::setPlaying(PlaylistItem *item, bool p)
@@ -936,17 +959,29 @@ int Playlist::leftMostVisibleColumn() const
 
 void Playlist::updateColumnWidths()
 {
+    if(m_disableColumnWidthUpdates)
+	return;
+
     // Make sure that the column weights have been initialized before trying to
     // update the columns.
     
-    if(m_columnWeights.isEmpty())
-	return;
-
     QValueList<int> visibleColumns;
     for(int i = 0; i < columns(); i++) {
 	if(isColumnVisible(i))
 	    visibleColumns.append(i);
     }
+
+    QValueListConstIterator<int> it;
+
+    if(count() == 0) {
+	for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it)
+	    setColumnWidth(*it, header()->fontMetrics().width(header()->label(*it) + 10));
+
+	return;
+    }
+
+    if(m_columnWeights.isEmpty())
+	return;
 
     // First build a list of minimum widths based on the strings in the listview
     // header.  We won't let the width of the column go below this width.
@@ -954,7 +989,6 @@ void Playlist::updateColumnWidths()
     QValueVector<int> minimumWidth(columns(), 0);
     int minimumWidthTotal = 0;
 
-    QValueListConstIterator<int> it;
     for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
 	minimumWidth[*it] = header()->fontMetrics().width(header()->label(*it) + 10);
 	minimumWidthTotal += minimumWidth[*it];
@@ -1056,6 +1090,9 @@ void Playlist::updateColumnWidths()
 
 void Playlist::calculateColumnWeights()
 {
+    if(m_disableColumnWidthUpdates)
+	return;
+
     PlaylistItemList l = items();
     QValueListConstIterator<int> columnIt;
 
@@ -1281,12 +1318,6 @@ void Playlist::slotToggleColumnVisible(int column)
     SharedSettings::instance()->toggleColumnVisible(column - columnOffset());
 }
 
-void Playlist::slotWidthDirty(int column)
-{
-    if(m_widthDirty.find(column) == m_widthDirty.end())
-	m_widthDirty.append(column);
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -1316,6 +1347,7 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
     PlaylistItem *after = 0;
 
     p.setSorting(p.columns() + 1);
+    p.setColumnWidthUpdatesDisabled(true);
 
     for(QStringList::Iterator it = files.begin(); it != files.end(); ++it ) {
 	QFileInfo info(*it);
@@ -1323,6 +1355,7 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
     }
 
     p.emitCountChanged();
+    p.setColumnWidthUpdatesDisabled(false);
 
     return s;
 }
