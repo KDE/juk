@@ -385,9 +385,12 @@ void PlaylistBox::setSingleItem(QListViewItem *item)
 void PlaylistBox::slotPlaylistChanged()
 {
     QValueList<Item *> items = selectedItems();
-    m_hasSelection = items.count() > 0;
+    m_hasSelection = !items.isEmpty();
 
-    if(m_updatePlaylistStack) {
+    if(!m_updatePlaylistStack)
+    return;
+    
+    if(m_hasSelection) {
 
 	QValueList<Playlist *> playlists;
 	for(QValueList<Item *>::iterator i = items.begin(); i != items.end(); ++i)
