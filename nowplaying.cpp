@@ -218,11 +218,9 @@ void HistoryItem::update(const FileHandle &file)
     if(m_history.count() >= 10)
         m_history.remove(m_history.fromLast());
 
-    m_history.prepend(file);
     QString format = "<a href=\"#\"><font size=\"-2\">%1</font></a>";
     QString current = QString("<b>%1</b><br>").arg(i18n("History"));
     QString previous;
-
 
     for(FileHandleList::ConstIterator it = m_history.begin();
         it != m_history.end(); ++it)
@@ -234,9 +232,11 @@ void HistoryItem::update(const FileHandle &file)
             current.append("<br>");
         else {
             setText(previous);
-            return;
+            break;
         }
     }
+
+    m_history.prepend(file);
 }
 
 #include "nowplaying.moc"
