@@ -24,7 +24,6 @@
 
 class Playlist;
 class PlaylistItem;
-class DynamicPlaylist;
 class ViewMode;
 class PlaylistSearch;
 class SearchPlaylist;
@@ -129,7 +128,6 @@ private:
     bool m_treeViewSetup;
     Item *m_dropItem;
     QTimer *m_showTimer;
-    DynamicPlaylist *m_dynamicPlaylist;
 };
 
 

@@ -24,6 +24,7 @@
 #include "filehandle.h"
 
 class NowPlayingItem;
+class PlaylistCollection;
 
 /**
  * This is the widget that holds all of the other items and handles updating them
@@ -35,13 +36,16 @@ class NowPlaying : public QHBox
     Q_OBJECT
 
 public:
-    NowPlaying(QWidget *parent, const char *name = 0);
+    NowPlaying(QWidget *parent, PlaylistCollection *collection,
+               const char *name = 0);
     void addItem(NowPlayingItem *item);
+    PlaylistCollection *collection() const;
 
 private slots:
     void slotUpdate();    
 
 private:
+    PlaylistCollection *m_collection;
     QValueList<NowPlayingItem *> m_items;
 };
 
@@ -53,9 +57,11 @@ class NowPlayingItem
 {
 public:
     virtual void update(const FileHandle &file) = 0;
-
+    NowPlaying *parent() const { return m_parent; }
 protected:
-    NowPlayingItem(NowPlaying *parent) { parent->addItem(this); }
+    NowPlayingItem(NowPlaying *parent) : m_parent(parent) { parent->addItem(this); }
+private:
+    NowPlaying *m_parent;
 };
 
 /**
@@ -96,11 +102,17 @@ public:
 
 class TrackItem : public QWidget, public NowPlayingItem
 {
+    Q_OBJECT
+
 public:
     TrackItem(NowPlaying *parent);
     virtual void update(const FileHandle &file);
 
+private slots:
+    void slotOpenLink(const QString &link);
+
 private:
+    FileHandle m_file;
     LinkLabel *m_label;
 };
 

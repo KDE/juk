@@ -118,7 +118,7 @@ void PlaylistSplitter::setupLayout()
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_editor, SLOT(slotUpdateCollection()));
 
-    NowPlaying *nowPlaying = new NowPlaying(top);
+    NowPlaying *nowPlaying = new NowPlaying(top, m_playlistBox);
 
     // Create the search widget -- this must be done after the CollectionList is created.
 

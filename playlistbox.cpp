@@ -56,8 +56,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     m_doingMultiSelect(false),
     m_treeViewSetup(false),
     m_dropItem(0),
-    m_showTimer(0),
-    m_dynamicPlaylist(0)
+    m_showTimer(0)
 {
     readConfig();
     addColumn("Playlists", width());
@@ -179,11 +178,16 @@ void PlaylistBox::raise(Playlist *playlist)
 
     Item *i = m_playlistDict.find(playlist);
 
-    clearSelection();
-    setSelected(i, true);
+    if(i) {
+	clearSelection();
+	setSelected(i, true);
 
-    setSingleItem(i);
-    ensureItemVisible(currentItem());
+	setSingleItem(i);
+	ensureItemVisible(currentItem());
+    }
+    else
+	PlaylistCollection::raise(playlist);
+    
     slotPlaylistChanged();
 }
 
@@ -386,7 +390,7 @@ void PlaylistBox::slotShowDropTarget()
 	return;
     }
 
-    playlistStack()->raiseWidget(m_dropItem->playlist());
+    raise(m_dropItem->playlist());
 }
 
 // For the following two function calls, we can forward the slot*Item calls
@@ -640,9 +644,6 @@ void PlaylistBox::slotPlaylistChanged()
 	TrackSequenceManager::instance()->setCurrentPlaylist(playlists.front());
 	dataChanged(); // Update the status bar
 
-	delete m_dynamicPlaylist;
-	m_dynamicPlaylist = 0;
-
 	if(playlists.front() == upcomingPlaylist())
 	    action("deleteItemPlaylist")->setText(i18n("Hid&e"));
 	else
@@ -653,11 +654,8 @@ void PlaylistBox::slotPlaylistChanged()
 	    new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "midi", false, true);
 	p->applySharedSettings();
 	playlistStack()->raiseWidget(p);
-
-	delete m_dynamicPlaylist;
-	m_dynamicPlaylist = p;
-
-	TrackSequenceManager::instance()->setCurrentPlaylist(m_dynamicPlaylist);
+	TrackSequenceManager::instance()->setCurrentPlaylist(p);
+	connect(playlistStack(), SIGNAL(aboutToShow(int)), p, SLOT(deleteLater()));
     }
 }
 

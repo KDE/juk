@@ -24,6 +24,8 @@
 #include <klocale.h>
 #include <kdirlister.h>
 
+#include <qguardedptr.h>
+
 class QWidgetStack;
 class KAction;
 class Playlist;
@@ -56,6 +58,7 @@ public:
 
     virtual QStringList playlists() const;
     virtual void createPlaylist(const QString &name);
+    virtual void showMore(const QString &artist, const QString &album = QString::null);
     virtual void removeTrack(const QString &playlist, const QStringList &files);
 
     virtual QString playlist() const;
@@ -75,6 +78,8 @@ public:
     virtual void reload();
     virtual void editSearch();
     virtual void setCanDeletePlaylist(bool);
+
+    bool showMoreActive() const;
 
     void enableDirWatch(bool enable);
 
@@ -166,6 +171,8 @@ private:
     bool        m_importPlaylists;
     bool        m_searchEnabled;
     bool        m_playing;
+
+    QGuardedPtr<Playlist> m_showMore;
 };
 
 /**

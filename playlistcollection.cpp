@@ -142,6 +142,44 @@ void PlaylistCollection::createPlaylist(const QString &name)
     raise(new Playlist(this, name));
 }
 
+void PlaylistCollection::showMore(const QString &artist, const QString &album)
+{
+
+    PlaylistList playlists;
+    PlaylistSearch::ComponentList components;
+
+    playlists.append(CollectionList::instance());
+
+    if(currentPlaylist() != CollectionList::instance() &&
+       currentPlaylist() != m_showMore)
+        playlists.append(currentPlaylist());
+
+    { // Just setting off the artist stuff in its own block.
+        ColumnList columns;
+        columns.append(PlaylistItem::ArtistColumn);
+        PlaylistSearch::Component c(artist, false, columns,
+                                    PlaylistSearch::Component::Exact);
+        components.append(c);
+    }
+
+    if(!album.isNull()) {
+        ColumnList columns;
+        columns.append(PlaylistItem::AlbumColumn);
+        PlaylistSearch::Component c(album, false, columns,
+                                    PlaylistSearch::Component::Exact);
+        components.append(c);
+    }
+
+    PlaylistSearch search(playlists, components, PlaylistSearch::MatchAll);
+
+    m_showMore = new SearchPlaylist(this, search, i18n("Now Playing"), false, true);
+
+    m_showMore->applySharedSettings();
+    m_playlistStack->raiseWidget(m_showMore);
+
+    QObject::connect(m_playlistStack, SIGNAL(aboutToShow(int)), m_showMore, SLOT(deleteLater()));
+}
+
 void PlaylistCollection::removeTrack(const QString &playlist, const QStringList &files)
 {
     Playlist *p = playlistByName(playlist);
@@ -532,6 +570,11 @@ bool PlaylistCollection::importPlaylists() const
 bool PlaylistCollection::containsPlaylistFile(const QString &file) const
 {
     return m_playlistFiles.contains(file);
+}
+
+bool PlaylistCollection::showMoreActive() const
+{
+    return bool(m_showMore);
 }
 
 void PlaylistCollection::enableDirWatch(bool enable)

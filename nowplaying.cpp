@@ -26,6 +26,7 @@
 #include <qimage.h>
 
 #include "nowplaying.h"
+#include "playlistcollection.h"
 #include "playermanager.h"
 #include "coverinfo.h"
 #include "tag.h"
@@ -41,8 +42,9 @@ struct Line : public QFrame
 // NowPlaying
 ////////////////////////////////////////////////////////////////////////////////
 
-NowPlaying::NowPlaying(QWidget *parent, const char *name) :
-    QHBox(parent, name)
+NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection, const char *name) :
+    QHBox(parent, name),
+    m_collection(collection)
 {
     layout()->setMargin(5);
     layout()->setSpacing(3);
@@ -62,6 +64,11 @@ NowPlaying::NowPlaying(QWidget *parent, const char *name) :
 void NowPlaying::addItem(NowPlayingItem *item)
 {
     m_items.append(item);
+}
+
+PlaylistCollection *NowPlaying::collection() const
+{
+    return m_collection;
 }
 
 void NowPlaying::slotUpdate()
@@ -172,10 +179,15 @@ TrackItem::TrackItem(NowPlaying *parent) :
     layout->addStretch();
     layout->addWidget(m_label);
     layout->addStretch();
+
+    connect(m_label, SIGNAL(linkClicked(const QString &)), this,
+            SLOT(slotOpenLink(const QString &)));
 }
 
 void TrackItem::update(const FileHandle &file)
 {
+    m_file = file;
+
     QString title  = QStyleSheet::escape(file.tag()->title());
     QString artist = QStyleSheet::escape(file.tag()->artist());
     QString album  = QStyleSheet::escape(file.tag()->album());
@@ -187,7 +199,7 @@ void TrackItem::update(const FileHandle &file)
     QString format =
         "<font size=\"+%1\"><b>%2</b></font>"
         "<br />"
-        "<font size=\"+%3\"><b><a href=\"#\">%4</a>%5<a href=\"#\">%6</a></b></font>";
+        "<font size=\"+%3\"><b><a href=\"artist\">%4</a>%5<a href=\"album\">%6</a></b></font>";
 
     do {
         m_label->setText(format.arg(size).arg(title).arg(size - 2)
@@ -196,6 +208,16 @@ void TrackItem::update(const FileHandle &file)
     } while(m_label->heightForWidth(m_label->width()) > imageSize && size >= 0);
 
     m_label->setFixedHeight(QMIN(imageSize, m_label->heightForWidth(m_label->width())));
+}
+
+void TrackItem::slotOpenLink(const QString &link)
+{
+    PlaylistCollection *collection = NowPlayingItem::parent()->collection();
+
+    if(link == "artist")
+        collection->showMore(m_file.tag()->artist());
+    else if(link == "album")
+        collection->showMore(m_file.tag()->artist(), m_file.tag()->album());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
