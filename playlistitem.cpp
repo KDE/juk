@@ -96,7 +96,7 @@ void PlaylistItem::guessTagInfoFromFile()
 
 void PlaylistItem::guessTagInfoFromInternet()
 {
-#ifdef HAVE_MUSICBRAINZ
+#if HAVE_MUSICBRAINZ
   MusicBrainzQuery *query = new MusicBrainzQuery(MusicBrainzQuery::File,
                                                  tag()->absFilePath());
   connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
@@ -291,7 +291,7 @@ void PlaylistItem::slotRefreshImpl()
     setText(CommentColumn,     shortComment);
 }
 
-#ifdef HAVE_MUSICBRAINZ
+#if HAVE_MUSICBRAINZ
 void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 {
     //FIXME:GUI to pick one of the results

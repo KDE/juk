@@ -133,7 +133,7 @@ protected:
 
 protected slots:
     void slotRefreshImpl();
-#ifdef HAVE_MUSICBRAINZ
+#if HAVE_MUSICBRAINZ
     void slotTagGuessResults(const MusicBrainzQuery::TrackList &);
 #endif
 
