@@ -38,7 +38,8 @@
 PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView(parent, name),
 								       m_splitter(parent),
 								       m_updatePlaylistStack(true),
-								       m_viewMode(Compact)
+								       m_viewMode(Compact),
+								       m_hasSelection(false)
 {
     readConfig();
     addColumn("Playlists", width());
@@ -72,7 +73,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
     
     // add the view modes stuff
 	
-    m_viewModeAction = new KSelectAction(m_contextMenu, "viewModeMenu");
+    m_viewModeAction = new KSelectAction(actions, "viewModeMenu");
     m_viewModeAction->setText(i18n("View Modes"));
     
     QStringList modes;
@@ -365,13 +366,16 @@ void PlaylistBox::setSingleItem(QListViewItem *item)
 void PlaylistBox::slotPlaylistChanged()
 {
     QValueList<Item *> items = selectedItems();
-    if(m_updatePlaylistStack && !items.isEmpty()) {
-	QValueList<Playlist *> playlists;
-	for(QValueList<Item *>::iterator i = items.begin(); i != items.end(); ++i)
-	    playlists.append((*i)->playlist());
+    m_hasSelection = items.count() > 0;
 
-	emit signalCurrentChanged(playlists);
-    }
+    if(!m_updatePlaylistStack)
+	return;
+
+    QValueList<Playlist *> playlists;
+    for(QValueList<Item *>::iterator i = items.begin(); i != items.end(); ++i)
+	playlists.append((*i)->playlist());
+
+    emit signalCurrentChanged(playlists);
 }
 
 void PlaylistBox::slotDoubleClicked(QListViewItem *)
@@ -379,41 +383,9 @@ void PlaylistBox::slotDoubleClicked(QListViewItem *)
     emit signalDoubleClicked();
 }
 
-void PlaylistBox::slotShowContextMenu(QListViewItem *item, const QPoint &point, int)
+void PlaylistBox::slotShowContextMenu(QListViewItem *, const QPoint &point, int)
 {
     m_contextMenu->popup(point);
-}
-
-void PlaylistBox::slotContextSave()
-{
-    save(m_contextMenuOn);
-}
-
-void PlaylistBox::slotContextSaveAs()
-{
-    saveAs(m_contextMenuOn);
-}
-
-void PlaylistBox::slotContextRename()
-{
-    rename(m_contextMenuOn);
-}
-
-void PlaylistBox::slotContextDuplicate()
-{
-    duplicate(m_contextMenuOn);
-}
-
-void PlaylistBox::slotContextDeleteItem()
-{
-    deleteItem(m_contextMenuOn);
-    m_contextMenuOn = 0;
-}
-
-void PlaylistBox::slotContextReload()
-{
-    reload(m_contextMenuOn);
-    m_contextMenuOn = 0;
 }
 
 void PlaylistBox::slotSetViewMode(int viewMode)

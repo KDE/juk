@@ -60,6 +60,8 @@ public:
     void duplicate();
     void deleteItem();
 
+    bool hasSelection() const { return m_hasSelection; }
+    
     ViewMode viewMode() const { return m_viewMode; }
 
     class Item;
@@ -105,26 +107,18 @@ private slots:
      */
     void slotPlaylistChanged();
     void slotDoubleClicked(QListViewItem *);
-    void slotShowContextMenu(QListViewItem *item, const QPoint &point, int);
-
-    // context menu entries
-    void slotContextSave();
-    void slotContextSaveAs();
-    void slotContextRename();
-    void slotContextDuplicate();
-    void slotContextDeleteItem();
-    void slotContextReload();
+    void slotShowContextMenu(QListViewItem *, const QPoint &point, int);
     void slotSetViewMode(int viewMode);
 
 private:
     PlaylistSplitter *m_splitter;
     QStringList m_names;
     KPopupMenu *m_contextMenu;
-    Item *m_contextMenuOn;
     bool m_updatePlaylistStack;
     QPtrDict<Item> m_playlistDict;
     ViewMode m_viewMode;
     KSelectAction *m_viewModeAction;
+    bool m_hasSelection;
 };
 
 

@@ -131,6 +131,8 @@ public:
      */
     bool collectionListSelected() const { return visiblePlaylist() == m_collection; }
 
+    bool hasListSelected() const { return m_playlistBox->hasSelection(); }
+
     /**
      * Open each of \a files, where \a files is a list of playlists and music
      * files.

@@ -507,7 +507,7 @@ void JuK::play(const QString &file)
 
 void JuK::slotPlaylistChanged()
 {
-    if(m_splitter->collectionListSelected()) {
+    if(m_splitter->collectionListSelected() || !m_splitter->hasListSelected()) {
         actionCollection()->action("file_save")->setEnabled(false);
         actionCollection()->action("file_save_as")->setEnabled(false);
         actionCollection()->action("renamePlaylist")->setEnabled(false);
@@ -519,6 +519,11 @@ void JuK::slotPlaylistChanged()
         actionCollection()->action("renamePlaylist")->setEnabled(true);
         actionCollection()->action("deleteItemPlaylist")->setEnabled(true);
     }
+    if(m_splitter->hasListSelected())
+        actionCollection()->action("duplicatePlaylist")->setEnabled(true);
+    else
+        actionCollection()->action("duplicatePlaylist")->setEnabled(false);
+    
 
     updatePlaylistInfo();
 }
@@ -632,10 +637,8 @@ void JuK::back()
 
 void JuK::back(int howMany)
 {
-    for (--howMany; howMany > 0; --howMany)
-    {
+    for(--howMany; howMany > 0; --howMany)
         m_splitter->playPreviousFile(m_randomPlayAction->isChecked());
-    }
 
     play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
 }

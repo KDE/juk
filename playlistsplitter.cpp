@@ -597,8 +597,10 @@ QString PlaylistSplitter::play(PlaylistItem *item)
 
 void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 {
-    if(l.isEmpty())
+    if(l.isEmpty()) {
+	emit signalPlaylistChanged();
 	return;
+    }
 
     Playlist *current = m_dynamicList;
 
@@ -610,7 +612,6 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 	m_playlistStack->raiseWidget(l.first());
 	m_editor->slotSetItems(playlistSelection());
 	m_dynamicList = 0;
-	emit signalPlaylistChanged();
     }
     else {
 	m_dynamicList = new DynamicPlaylist(l, m_playlistStack, i18n("Dynamic List"));
@@ -619,6 +620,8 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 
     if(current)
 	delete current;
+
+    emit signalPlaylistChanged();
 }
 
 void PlaylistSplitter::slotPlaylistCountChanged(Playlist *p)
@@ -661,14 +664,10 @@ void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSens
 
     PlaylistSearch::Component *component;
 
-    if (regExp)
-    {
+    if(regExp)
         component = new PlaylistSearch::Component(QRegExp(query, caseSensitive), m_searchWidget->searchedColumns(0));
-    }
     else
-    {
         component = new PlaylistSearch::Component(query, caseSensitive, m_searchWidget->searchedColumns(0));
-    }
 
     PlaylistSearch::ComponentList components;
     components.append(*component);
