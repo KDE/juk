@@ -103,7 +103,7 @@ public:
     void start();
 
 signals:
-    void signalStatusMsg(const QString &msg);
+    void signalStatusMsg(const QString &msg, int timeout);
     void signalDone(const MusicBrainzQuery::AlbumList & = AlbumList());
     void signalDone(const MusicBrainzQuery::TrackList &);
 

@@ -62,7 +62,7 @@ void MusicBrainzQuery::start()
         connect(process, SIGNAL(processExited(KProcess *)),
                 SLOT(slotTrmGenerationFinished(KProcess *)));
 
-        emit signalStatusMsg( i18n( "Generating TRM signature..." ) );
+        emit signalStatusMsg( i18n( "Generating TRM signature..." ), 0 );
         bool started = process->start(KProcess::NotifyOnExit, KProcess::AllOutput);
         if(!started) {
             kdDebug(65432) << "trm utility could not be started." << endl;
@@ -84,7 +84,7 @@ void MusicBrainzQuery::slotQuery()
 
     queryStrings(queryString, resultString, extractString);
 
-    emit signalStatusMsg( i18n( "Querying MusicBrainz server..." ) );
+    emit signalStatusMsg( i18n( "Querying MusicBrainz server..." ), 0 );
 
     // UseUTF8(false);
 
@@ -295,7 +295,11 @@ void MusicBrainzQuery::slotTrmGenerationFinished(KProcess *process)
     m_arguments << m_trm;
     m_query = TrackFromTRM;
     kdDebug(65432) << "Generation finished " << m_trm << endl;
-    slotQuery();
+    if (m_trm.isEmpty())
+        emit signalStatusMsg( i18n( "TRM generation failed" ), 2000 );
+    else
+        slotQuery();
+    
 }
 
 #include "musicbrainzquery.moc"

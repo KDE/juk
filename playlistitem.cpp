@@ -106,8 +106,8 @@ void PlaylistItem::guessTagInfoFromInternet()
   connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
           SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
   KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
-  connect(query, SIGNAL(signalStatusMsg(const QString &)),
-          win->statusBar(), SLOT(message(const QString &)));
+  connect(query, SIGNAL(signalStatusMsg(const QString &, int)),
+          win->statusBar(), SLOT(message(const QString &, int)));
   query->start();
 #endif //add message box teeling users musicbrainz is not installed or keep it quiet?
 }
@@ -302,8 +302,14 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 {
 #if HAVE_MUSICBRAINZ
     //FIXME:GUI to pick one of the results
+
+    KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
+
     if(res.count() == 0)
+    {
+        win->statusBar()->message(i18n("No matches found."), 2000);
         return;
+    }
     MusicBrainzQuery::Track track = res.first();
 
     if(!track.name.isEmpty())
@@ -318,7 +324,6 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
     tag()->save();
     slotRefresh();
 
-    KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
     win->statusBar()->message(i18n("Done."), 2000);
 #else
     Q_UNUSED(res)
