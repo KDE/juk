@@ -435,7 +435,7 @@ void JuK::updatePlaylistInfo()
 
 void JuK::play(const QString &file)
 {
-    if(!m_player)
+    if(!m_player || !m_sliderAction || !m_sliderAction->getVolumeSlider())
         return;
 
     float volume = float(m_sliderAction->getVolumeSlider()->value()) / float(m_sliderAction->getVolumeSlider()->maxValue());
