@@ -63,11 +63,11 @@ Tag::Tag(const QString &fileName) :
     else if(MediaFiles::isFLAC(fileName)) {
         TagLib::FLAC::File file(QFile::encodeName(fileName).data());
         if(file.isOpen())
-	    setup(&file);
+            setup(&file);
     }
 #ifdef TAGLIB_1_3
     else if(MediaFiles::isMPC(fileName)) {
-	kdDebug(65432) << "Trying to resolve Musepack file" << endl;
+        kdDebug(65432) << "Trying to resolve Musepack file" << endl;
         TagLib::MPC::File file(QFile::encodeName(fileName).data());
         if(file.isOpen())
             setup(&file);
@@ -131,7 +131,7 @@ bool Tag::save()
     }
     else {
         kdError(65432) << "Couldn't save file." << endl;
-	result = false;
+        result = false;
     }
 
     delete file;
