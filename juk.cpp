@@ -133,6 +133,10 @@ void JuK::setupActions()
     new KToolBarPopupAction(i18n("Previous &Track"), "player_start", KShortcut(), m_player, SLOT(back()), actions(), "back");
     new KAction(i18n("&Next Track"), "player_end", KShortcut(), m_player, SLOT(forward()), actions(), "forward");
     new KToggleAction(i18n("&Loop Playlist"), 0, KShortcut(), actions(), "loopPlaylist");
+    KToggleAction *resizeColumnAction =
+        new KToggleAction(i18n("&Resize Column Headers Manually"),
+	                  KShortcut(), actions(), "resizeColumnsManually");
+    resizeColumnAction->setCheckedState(i18n("&Resize Column Headers Automatically"));
 
     // the following are not visible by default
 

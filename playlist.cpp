@@ -208,6 +208,9 @@ Playlist::SharedSettings::SharedSettings()
 {
     KConfigGroup config(KGlobal::config(), "PlaylistShared");
 
+    bool resizeColumnsManually = config.readBoolEntry("ResizeColumnsManually", false);
+    action<KToggleAction>("resizeColumnsManually")->setChecked(resizeColumnsManually);
+
     // save column order
     m_columnOrder = config.readIntListEntry("ColumnOrder");
 
@@ -262,6 +265,9 @@ void Playlist::SharedSettings::writeConfig()
 
     config.writeEntry("VisibleColumns", l);
     config.writeEntry("InlineCompletionMode", m_inlineCompletion);
+
+    bool resizeColumnsManually = ActionCollection::action<KToggleAction>("resizeColumnsManually")->isChecked();
+    config.writeEntry("ResizeColumnsManually", resizeColumnsManually);
 
     KGlobal::config()->sync();
 }
@@ -819,7 +825,8 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 	}
 	case QEvent::MouseButtonRelease:
 	{
-	    if(m_widthsDirty)
+	    KToggleAction *manualResize = action<KToggleAction>("resizeColumnsManually");
+	    if(manualResize && !manualResize->isChecked() && m_widthsDirty)
 		QTimer::singleShot(0, this, SLOT(slotUpdateColumnWidths()));
 	    break;
 	}
