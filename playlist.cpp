@@ -1178,7 +1178,7 @@ void Playlist::setupItem(PlaylistItem *item)
     if(!m_search.isEmpty())
 	item->setVisible(m_search.checkItem(item));
 
-    if(firstChild() && !firstChild()->nextSibling()) {
+    if(childCount() <= 2) {
 	slotWeightDirty();
 	slotUpdateColumnWidths();
 	triggerUpdate();
