@@ -815,8 +815,6 @@ void Playlist::setup()
 
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotEmitSelected()));
-    connect(this, SIGNAL(doubleClicked(QListViewItem *)),
-	    this, SLOT(slotEmitDoubleClicked(QListViewItem *)));
     connect(this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int)),
 	    this, SLOT(slotShowRMBMenu(QListViewItem *, const QPoint &, int)));
     connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),

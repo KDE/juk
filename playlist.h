@@ -270,7 +270,6 @@ private:
 
 private slots:
     void slotEmitSelected() { emit signalSelectionChanged(selectedItems()); }
-    void slotEmitDoubleClicked(QListViewItem *) { emit signalDoubleClicked(); }
     void slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column);
     void slotApplyModification(QListViewItem *item, const QString &text, int column);
     void slotRenameTag();

@@ -252,7 +252,7 @@ void JuK::setupLayout()
     setCentralWidget(m_splitter);
 
     // playlist item activation connection
-    connect(m_splitter, SIGNAL(signalDoubleClicked()), this, SLOT(slotPlaySelectedFile()));
+    connect(m_splitter, SIGNAL(signalActivated()), this, SLOT(slotPlaySelectedFile()));
     connect(m_splitter, SIGNAL(signalListBoxDoubleClicked()), this, SLOT(startPlayingPlaylist()));
 
     // create status bar

@@ -226,7 +226,7 @@ public slots:
     void slotDeletePlaylist() { m_playlistBox->deleteItem(); }
 
 signals:
-    void signalDoubleClicked();
+    void signalActivated();
     void signalListBoxDoubleClicked();
     void signalPlaylistChanged();
     void signalSelectedPlaylistCountChanged(int);

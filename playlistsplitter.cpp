@@ -555,14 +555,22 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon, 
 {
     connect(p, SIGNAL(signalSelectionChanged(const PlaylistItemList &)),
 	    m_editor, SLOT(slotSetItems(const PlaylistItemList &)));
-    connect(p, SIGNAL(signalDoubleClicked()),
-	    this, SIGNAL(signalDoubleClicked()));
+
+    connect(p, SIGNAL(doubleClicked(QListViewItem *)),
+	    this, SIGNAL(signalActivated()));
+
+    connect(p, SIGNAL(returnPressed(QListViewItem *)), 
+	    this, SIGNAL(signalActivated()));
+
     connect(p, SIGNAL(signalNumberOfItemsChanged(Playlist *)),
 	    this, SLOT(slotPlaylistCountChanged(Playlist *)));
+
     connect(p, SIGNAL(signalAboutToRemove(PlaylistItem *)),
 	    this, SLOT(slotPlaylistItemRemoved(PlaylistItem *)));
+
     connect(p, SIGNAL(signalFilesDropped(const QStringList &, Playlist *)),
 	    this, SLOT(slotAddToPlaylist(const QStringList &, Playlist *)));
+
     connect(p, SIGNAL(signalSetNext(PlaylistItem *)),
 	    this, SLOT(slotSetNextItem(PlaylistItem *)));
 
