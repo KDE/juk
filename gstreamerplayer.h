@@ -64,8 +64,6 @@ private slots:
 
 private:
     void setupPlayer();
-    void setupVolumeControl();
-    bool serverRunning() const;
 
     QGstPlay::Play *player;
     unsigned long long duration;

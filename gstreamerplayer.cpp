@@ -171,16 +171,6 @@ void GStreamerPlayer::setupPlayer()
     connect(player, SIGNAL(streamEnd()), SLOT(stop()));
 }
 
-void GStreamerPlayer::setupVolumeControl()
-{
-
-}
-
-bool GStreamerPlayer::serverRunning() const
-{
-    return true;
-}
-
 #include "gstreamerplayer.moc"
 
 #endif
