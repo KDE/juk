@@ -18,11 +18,9 @@
 #include <kurl.h>
 #include <kurldrag.h>
 #include <klocale.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 
-#include <qclipboard.h>
 #include <qtimer.h>
 
 #include "collectionlist.h"
