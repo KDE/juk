@@ -373,12 +373,8 @@ void PlaylistSplitter::setupLayout()
 
     // Create the playlist and the editor.
     
-    m_searchWidget = new SearchWidget(editorSplitter, "searchWidget");
     m_playlistStack = new QWidgetStack(editorSplitter, "playlistStack");
     m_editor = new TagEditor(editorSplitter, "tagEditor");
-
-    connect(m_searchWidget, SIGNAL(signalQueryChanged(const QString &, bool)),
-	    this, SLOT(slotShowSearchResults(const QString &, bool)));
 
     // Make the editor as small as possible (or at least as small as recommended)
 
@@ -403,6 +399,15 @@ void PlaylistSplitter::setupLayout()
     connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
     connect(m_collection, SIGNAL(signalRequestPlaylistCreation(const QValueList<QFileInfo> &)), 
 	    this, SLOT(slotCreatePlaylist(const QValueList<QFileInfo> &)));
+
+
+    // Create the search widget -- this must be done after the CollectionList is created.
+    m_searchWidget = new SearchWidget(editorSplitter, CollectionList::instance(), "searchWidget");
+    editorSplitter->moveToFirst(m_searchWidget);
+    connect(m_searchWidget, SIGNAL(signalQueryChanged(const QString &, bool)),
+	    this, SLOT(slotShowSearchResults(const QString &, bool)));
+    connect(CollectionList::instance(), SIGNAL(signalVisibleColumnsChanged()),
+	    this, SLOT(slotVisibleColumnsChanged()));
 
     // Show the collection on startup.
     m_playlistBox->setSelected(0, true);
@@ -628,7 +633,7 @@ void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSens
     PlaylistList playlists;
     playlists.append(visiblePlaylist());
 
-    PlaylistSearch::Component component(query, caseSensitive);
+    PlaylistSearch::Component component(query, caseSensitive, m_searchWidget->searchedColumns(0));
     PlaylistSearch::ComponentList components;
     components.append(&component);
 
@@ -636,6 +641,14 @@ void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSens
 
     Playlist::setItemsVisible(search.matchedItems(), true);    
     Playlist::setItemsVisible(search.unmatchedItems(), false);
+}
+
+void PlaylistSplitter::slotVisibleColumnsChanged()
+{
+    m_searchWidget->slotUpdateColumns();
+    m_searchWidget->slotQueryChanged();
+    if(m_searchWidget->searchedColumns(0).count() > 1)
+	slotShowSearchResults(m_searchWidget->query(), m_searchWidget->caseSensitive());
 }
 
 #include "playlistsplitter.moc"

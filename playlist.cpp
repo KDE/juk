@@ -608,6 +608,7 @@ void Playlist::hideColumn(int c)
 	}
 	m_leftColumn = leftMostVisibleColumn();
     }
+    emit signalVisibleColumnsChanged();
 }
 
 void Playlist::showColumn(int c)
@@ -631,6 +632,7 @@ void Playlist::showColumn(int c)
 	}
 	m_leftColumn = leftMostVisibleColumn();
     }
+    emit signalVisibleColumnsChanged();
 }
 
 bool Playlist::isColumnVisible(int c) const

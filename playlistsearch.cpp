@@ -17,15 +17,23 @@
 
 #include "playlistsearch.h"
 
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+////////////////////////////////////////////////////////////////////////////////
+
 PlaylistSearch::PlaylistSearch(const PlaylistList &playlists, 
 			       const ComponentList &components, 
 			       SearchMode mode) :
     m_playlists(playlists), 
-    m_components(components), 
+    m_components(components),
     m_mode(mode)
 {
     search();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
 
 void PlaylistSearch::search()
 {
@@ -75,6 +83,10 @@ void PlaylistSearch::search()
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// Component public methods
+////////////////////////////////////////////////////////////////////////////////
+
 PlaylistSearch::Component::Component(const QString &query, bool caseSensitive, const ColumnList &columns) :
     m_query(query), 
     m_columns(columns), 
@@ -91,9 +103,9 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item)
 
     if(m_columns.isEmpty()) {
 	Playlist *p = static_cast<Playlist *>(item->listView());
-	for(int i = 0; i < PlaylistItem::lastColumn(); i++) {
+	for(int i = 0; i < p->columns(); i++) {
 	    if(p->isColumnVisible(i))
-		m_columns.append(PlaylistItem::ColumnType(i));
+		m_columns.append(i);
 	}
     }
 

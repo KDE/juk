@@ -23,7 +23,7 @@
 #include "playlist.h"
 #include "playlistitem.h"
 
-typedef QValueList<PlaylistItem::ColumnType> ColumnList;
+typedef QValueList<int> ColumnList;
 
 class PlaylistSearch
 {

@@ -212,6 +212,7 @@ signals:
     void signalAboutToRemove(PlaylistItem *item);
     void signalFilesDropped(const QStringList &files, Playlist *);
     void signalSetNext(PlaylistItem *item);    
+    void signalVisibleColumnsChanged();
 
 private:
     void setup();

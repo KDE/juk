@@ -20,29 +20,51 @@
 
 #include <qwidget.h>
 
-class KLineEdit;
 class QCheckBox;
+
+class KLineEdit;
+class KComboBox;
+
+class Playlist;
 
 class SearchWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    SearchWidget(QWidget *parent, const char *name);
+    /** 
+     * Note that playlist here is just a playlist to get the columns from and
+     * has nothing to do with the results of a search.
+     */
+    SearchWidget(QWidget *parent, const Playlist *playlist, const char *name);
     virtual ~SearchWidget();
+
+    /**
+     * Returns a list of searched columns for the given search row.
+     */
+    QValueList<int> searchedColumns(int searchLine = 0) { return m_searchedColumns[searchLine]; }
+
+    QString query() const;
+    bool caseSensitive() const;
 
 public slots:
     void clear();
+    void slotUpdateColumns();
+    void slotQueryChanged(int = 0);
 
 signals:
     void signalQueryChanged(const QString &query, bool caseSensitive);
 
-private slots:
-    void slotQueryChanged();
+private:
+    void setupLayout();
 
 private:
+    const Playlist *m_playlist;
     KLineEdit *m_lineEdit;
+    KComboBox *m_searchFieldsBox;
     QCheckBox *m_caseSensitive;
+    QStringList m_columnHeaders;
+    QValueList< QValueList<int> > m_searchedColumns;
 } ;
 
 #endif

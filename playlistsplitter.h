@@ -291,6 +291,7 @@ private slots:
     void slotDirChanged(const QString &dir) { slotAddToPlaylist(dir, m_collection); }
     void slotCreatePlaylist(const QValueList<QFileInfo> &fileInfos);
     void slotShowSearchResults(const QString &query, bool caseSensitive = false);
+    void slotVisibleColumnsChanged();
 
 private:
     PlaylistItem *m_playingItem;
