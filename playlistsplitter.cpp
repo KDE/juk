@@ -284,10 +284,10 @@ void PlaylistSplitter::open(const QStringList &files)
 	slotAddToPlaylist(files, visiblePlaylist());
 }
 
-Playlist *PlaylistSplitter::createPlaylist(const QString &name)
+Playlist *PlaylistSplitter::createPlaylist(const QString &name, bool raise)
 {
     Playlist *p = new Playlist(m_playlistStack, name);
-    setupPlaylist(p, true);
+    setupPlaylist(p, raise);
     return p;
 }
 
@@ -331,17 +331,22 @@ void PlaylistSplitter::slotOpenDirectory()
     }
 }
 
-Playlist *PlaylistSplitter::slotCreatePlaylist(const QString &name_)
+Playlist *PlaylistSplitter::slotCreatePlaylist(const QString &name, bool raise)
 {
+    if(!name.isNull())
+	return createPlaylist(name, raise);
+
     bool ok;
 
     // If this text is changed, please also change it in PlaylistBox::duplicate().
 
-    QString name = KInputDialog::getText(i18n("Create New Playlist"),
+    QString s = KInputDialog::getText(
+	i18n("Create New Playlist"),
 	i18n("Please enter a name for the new playlist:"),
-	name_.isNull() ? uniquePlaylistName() : name_, &ok);
+	uniquePlaylistName(), &ok);
+    
     if(ok)
-	return createPlaylist(name);
+	return createPlaylist(s, raise);
     else
 	return 0;
 }
@@ -983,12 +988,21 @@ void PlaylistSplitter::slotCreatePlaylist(const PlaylistItemList &items)
     if(items.isEmpty())
 	return;
 
-    Playlist *playlist = slotCreatePlaylist();
+    Playlist *playlist = slotCreatePlaylist(QString::null, false);
 
     if(!playlist)
         return;
 
     playlist->createItems(items);
+
+    // Set this to the current playlist.  We avoid doing this above through the
+    // slotCreatePlaylist() because if the items being copied are in a dynamic
+    // list we need for their lifetime to last through their being copied in the
+    // call above.
+
+    PlaylistList l;
+    l.append(playlist);
+    slotChangePlaylist(l);
 }
 
 void PlaylistSplitter::slotShowSearchResults()
