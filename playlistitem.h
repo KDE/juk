@@ -91,6 +91,12 @@ public:
     void guessTagInfo(TagGuesser::Type type);
     void renameFile();
 
+    /**
+     * The widths of items are cached when they're updated for us in computations
+     * in the "weighted" listview column width mode.
+     */
+    QValueVector<int> cachedWidths() const;
+
 public slots:
     /**
      * This just refreshes from the in memory data.  This may seem pointless at
@@ -184,9 +190,14 @@ public:
 
     QString absFilePath() const { return m_absFileName; }
 
-    void setColumns(int columns) { m_local8Bit.resize(columns); }
+    void setColumns(int columns);
+
     void setLocal8BitLower(int column, const QCString &value) { m_local8Bit[column] = value; }
     QCString local8BitLower(int column) const { return m_local8Bit[column]; }
+
+    void setCachedWidth(int column, int value) { m_cachedWidths[column] = value; }
+    int cachedWidth(int column) const { return m_cachedWidths[column]; }
+    QValueVector<int> cachedWidths() const { return m_cachedWidths; }
 
 protected:
     /**
@@ -205,6 +216,7 @@ private:
     Tag *m_dataTag;
     QString m_absFileName;
     QValueVector<QCString> m_local8Bit;
+    QValueVector<int> m_cachedWidths;
 };
 
 #endif

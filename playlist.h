@@ -344,6 +344,10 @@ protected:
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const { return KURLDrag::canDecode(e); }
+    virtual void viewportPaintEvent(QPaintEvent *pe);
+    virtual void viewportResizeEvent(QResizeEvent *re);
+
+    void addColumn(const QString &label);
 
     /**
      * Here I'm using delayed setup of some things that aren't quite intuitive.
@@ -462,6 +466,13 @@ private:
      */
     int leftMostVisibleColumn() const;
 
+    void updateColumnWidths();
+
+    /**
+     * Build the column "weights" for the weighted width mode.
+     */
+    void calculateColumnWeights();
+
     /**
      * This class is used internally to store settings that are shared by all
      * of the playlists, such as column order.  It is implemented as a singleton.
@@ -514,19 +525,37 @@ private slots:
      */
     void slotCreateGroup() { emit signalCreatePlaylist(selectedItems()); }
 
+    /**
+     * Tells the listview that the next time that it paints that the weighted
+     * column widths must be recalculated.
+     */
+    void slotWidthDirty(int column);
+
 private:
     StringHash m_members;
+
     int m_currentColumn;
     int m_processed;
-    bool m_allowDuplicates;
-    /**
-     * This is used to indicate if the list of visible items has changed (via a 
-     * call to setVisibleItems()) while random play is playing.
-     */
-    static bool m_visibleChanged;
-    PlaylistItemList m_history;
 
-    QString m_fileName;
+    int m_rmbPasteID;
+    int m_rmbEditID;
+
+    int m_selectedCount;
+
+    bool m_allowDuplicates;
+    bool m_polished;
+
+    QValueList<int> m_widthDirty;
+    /**
+     * The average minimum widths of columns to be used in balancing calculations.
+     */
+    QValueVector<int> m_columnWeights;
+
+    PlaylistItemList m_randomList;
+    PlaylistItemList m_history;
+    PlaylistSearch m_search;
+
+    PlaylistItem *m_lastSelected;
 
     /**
      * Used to store the text for inline editing before it is changed so that
@@ -540,24 +569,19 @@ private:
      * file name.
      */
     QString m_playlistName;
+    QString m_fileName;
 
     KPopupMenu *m_rmbMenu;
     KPopupMenu *m_headerMenu;
     KActionMenu *m_columnVisibleAction;
 
-    int m_rmbPasteID;
-    int m_rmbEditID;
-    int m_selectedCount;
-
-    PlaylistItem *m_lastSelected;
-
-    static PlaylistItem *m_playingItem;
+    /**
+     * This is used to indicate if the list of visible items has changed (via a 
+     * call to setVisibleItems()) while random play is playing.
+     */
+    static bool m_visibleChanged;
     static int m_leftColumn;
-
-    PlaylistItemList m_randomList;
-    PlaylistSearch m_search;
-
-    bool m_polished;
+    static PlaylistItem *m_playingItem;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);

@@ -130,6 +130,11 @@ void PlaylistItem::renameFile()
     slotRefresh();
 }
 
+QValueVector<int> PlaylistItem::cachedWidths() const
+{
+    return m_data->cachedWidths();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem public slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -270,7 +275,6 @@ void PlaylistItem::slotRefreshImpl()
     // PlaylistItemData changes.
 
     int offset = static_cast<Playlist *>(listView())->columnOffset();
-    
 
     setText(TrackColumn + offset,       tag()->track());
     setText(ArtistColumn + offset,      tag()->artist());
@@ -285,12 +289,15 @@ void PlaylistItem::slotRefreshImpl()
     if(shortComment.length() > 50)
 	shortComment = shortComment.left(47) + "...";
 
-    setText(CommentColumn + offset,     shortComment);
+    setText(CommentColumn + offset, shortComment);
 
-    int columns = listView()->columns();
+    int columns = lastColumn() + offset + 1;
     m_data->setColumns(columns);
-    for(int i = 0; i < columns; i++)
+
+    for(int i = 0; i < columns; i++) {
 	m_data->setLocal8BitLower(i, text(i).lower().local8Bit());
+	m_data->setCachedWidth(i, width(listView()->fontMetrics(), listView(), i));
+    }
 }
 
 void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
@@ -390,6 +397,12 @@ void PlaylistItem::Data::setFile(const QString &file)
 {
     m_fileInfo.setFile(file);
     refresh();
+}
+
+void PlaylistItem::Data::setColumns(int columns)
+{
+    m_local8Bit.resize(columns);
+    m_cachedWidths.resize(columns, -1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
