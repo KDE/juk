@@ -17,7 +17,6 @@
 #define PLAYERMANAGER_H
 
 #include "player.h"
-#include "filehandle.h"
 #include "jukIface.h"
 
 class QTimer;

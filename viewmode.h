@@ -16,7 +16,6 @@
 #ifndef VIEWMODE_H
 #define VIEWMODE_H
 
-#include <klocale.h>
 
 #include <qdict.h>
 

@@ -16,9 +16,7 @@
 #ifndef PLAYLISTEXPORTER_H
 #define PLAYLISTEXPORTER_H
 
-#include <qobject.h>
 
-#include "playlistitem.h"
 
 class KAction;
 class KActionCollection;

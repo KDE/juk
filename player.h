@@ -17,7 +17,6 @@
 #define PLAYER_H
 
 #include <qobject.h>
-#include <qstring.h>
 
 #include "filehandle.h"
 

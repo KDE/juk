@@ -19,10 +19,7 @@
 #include <kstatusbar.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
-#include <kiconloader.h>
-#include <kapplication.h>
 
-#include <qslider.h>
 
 #include "juk.h"
 #include "slideraction.h"

@@ -16,7 +16,6 @@
 #ifndef TAGEDITOR_H
 #define TAGEDITOR_H
 
-#include <qvaluelist.h>
 #include <qwidget.h>
 
 class KComboBox;

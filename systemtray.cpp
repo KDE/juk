@@ -24,12 +24,9 @@
 #include <kglobalsettings.h>
 #include <kdebug.h>
 
-#include <qhbox.h>
 #include <qvbox.h>
 #include <qpushbutton.h>
 #include <qtooltip.h>
-#include <qlayout.h>
-#include <qfileinfo.h>
 #include <qvaluevector.h>
 
 #include "tag.h"

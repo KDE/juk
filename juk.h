@@ -17,10 +17,8 @@
 #define JUK_H
 
 #include <kmainwindow.h>
-#include <kshortcut.h>
 
 #include "playermanager.h"
-#include "jukIface.h"
 
 class QTimer;
 class QListViewItem;

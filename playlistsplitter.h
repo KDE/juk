@@ -17,7 +17,6 @@
 #define PLAYLISTSPLITTER_H
 
 #include <kfiledialog.h>
-#include <klocale.h>
 
 #include <qwidgetstack.h>
 

@@ -16,9 +16,7 @@
 #ifndef STRINGHASH_H
 #define STRINGHASH_H
 
-#include <qstring.h>
 #include <qptrvector.h>
-#include <qvaluelist.h>
 
 #include "filehandle.h"
 

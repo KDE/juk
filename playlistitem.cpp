@@ -17,7 +17,6 @@
 
 #include "playlistitem.h"
 #include "collectionlist.h"
-#include "musicbrainzquery.h"
 #include "tag.h"
 
 static void startMusicBrainzQuery(const FileHandle &file)

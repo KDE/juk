@@ -24,9 +24,6 @@
 #include <kconfig.h>
 #include <klocale.h>
 
-#include <qobject.h>
-#include <qstringlist.h>
-#include <qsignal.h>
 
 class QWidgetStack;
 class KAction;

@@ -17,8 +17,6 @@
 
 #include "filehandle.h"
 
-#include <qstring.h>
-#include <qvaluelist.h>
 
 class PlaylistObserver;
 

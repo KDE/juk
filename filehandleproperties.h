@@ -15,7 +15,6 @@
 #define FILEHANDLEPROPERTIES_H
 
 #include <qmap.h>
-#include <qcstring.h>
 
 /*
  * These ugly macros make possible a property registration system that makes it
