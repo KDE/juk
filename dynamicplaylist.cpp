@@ -34,7 +34,7 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists, QWidget *parent,
     for(PlaylistList::ConstIterator it = m_playlists.begin(); it != m_playlists.end(); ++it) {
         if(*it) {
             connect(*it, SIGNAL(signalDataChanged()), this, SLOT(slotSetDirty()));
-            connect(*it, SIGNAL(signalNumberOfItemsChanged(Playlist *)), this, SLOT(slotSetDirty()));
+            connect(*it, SIGNAL(signalCountChanged(Playlist *)), this, SLOT(slotSetDirty()));
         }
         else
             m_playlists.remove(*it);

@@ -21,7 +21,6 @@
 #include <kdebug.h>
 #include <kapplication.h>
 
-#include "tagguesser.h"
 #include "playlistitem.h"
 #include "filerenamer.h"
 #include "collectionlist.h"
@@ -99,6 +98,7 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
 
 	tag()->save();
 	slotRefresh();
+	break;
     }
     case TagGuesser::MusicBrainz:
     {
@@ -112,6 +112,7 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
 		win->statusBar(), SLOT(message(const QString &, int)));
 	query->start();
 #endif //add message box telling users musicbrainz is not installed or keep it quiet?
+	break;
     }
     }
 }

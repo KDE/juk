@@ -91,6 +91,12 @@ void JuK::startPlayingPlaylist()
         play(m_splitter->playFirstFile());
 }
 
+void JuK::slotGuessTagInfo(int i)
+{
+    int index = m_guessMenu->popupMenu()->indexOf(i);
+    m_splitter->slotGuessTagInfo(TagGuesser::Type(index));
+}
+
 void JuK::play()
 {
     if(!m_player)
@@ -371,25 +377,24 @@ void JuK::setupActions()
     // tagger menu
     //////////////////////////////////////////////////
 
-    createSplitterAction(i18n("&Save"),   SLOT(slotSaveTag()),
+    createSplitterAction(i18n("&Save"), SLOT(slotSaveTag()),
 			 "saveItem",   "filesave", "CTRL+t");
     createSplitterAction(i18n("&Delete"), SLOT(slotDeleteSelectedItems()),
 			 "removeItem", "editdelete");
 
-    KActionMenu *guessMenu = new KActionMenu(i18n("&Guess Tag Information"),
+    m_guessMenu = new KActionMenu(i18n("&Guess Tag Information"),
 					     QString::null, actionCollection(),
 					     "guessTag");
 
     KAction *a;
 
-    a = createSplitterAction(i18n("From &Filename"),
-			     SLOT(slotGuessTagInfoFile()),
-			     "guessTagFile", 0, "CTRL+f");
-    guessMenu->insert(a);
+    a = new KAction(i18n("From &Filename"), "CTRL+f", actionCollection(), "guessTagFile");
+    m_guessMenu->insert(a);
 
-    a = createSplitterAction(i18n("From &Internet"), SLOT(slotGuessTagInfoInternet()),
-			     "guessTagInternet", 0, "CTRL+i");
-    guessMenu->insert(a);
+    a = new KAction(i18n("From &Internet"), "CTRL+i", actionCollection(), "guessTagInternet");
+    m_guessMenu->insert(a);
+
+    connect(m_guessMenu->popupMenu(), SIGNAL(activated(int)), this, SLOT(slotGuessTagInfo(int)));
 
     // new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()),
     //   actionCollection(), "renameFile"); // 4
@@ -403,7 +408,7 @@ void JuK::setupActions()
 
     setStandardToolBarMenuEnabled(true);
 
-    m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startup"),
+    m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startp"),
 					     0, actionCollection(), "showSplashScreen");
 
     m_toggleSystemTrayAction = new KToggleAction(i18n("&Dock in System Tray"),

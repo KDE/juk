@@ -820,7 +820,7 @@ void Playlist::polish()
 
     m_rmbEditID = m_rmbMenu->insertItem(SmallIconSet("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
     m_rmbMenu->insertItem(SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
-    m_rmbMenu->insertItem(SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotDeleteSelectedItems()));
+    m_rmbMenu->insertItem(SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotRemoveSelectedItems()));
 
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotEmitSelected()));

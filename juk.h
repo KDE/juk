@@ -182,6 +182,7 @@ private slots:
     void slotPlaySelectedFile() { play(m_splitter->playSelectedFile()); }
     void startPlayingPlaylist();
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
+    void slotGuessTagInfo(int i);
 
 private:
     // layout objects
@@ -202,6 +203,7 @@ private:
     KToggleAction *m_togglePopupsAction;
     KToggleAction *m_toggleSplashAction;
     KSelectAction *m_outputSelectAction;
+    KActionMenu *m_guessMenu;
 
     KToolBarPopupAction *m_backAction;
     KToggleAction *m_loopPlaylistAction;
