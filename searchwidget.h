@@ -44,6 +44,8 @@ public:
     void setSearchComponent(const PlaylistSearch::Component &component);
 
     void updateColumns();
+
+public slots:
     void clear();
 
 signals:

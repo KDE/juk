@@ -199,11 +199,15 @@ void SearchWidget::setupLayout()
 {
     boxLayout()->setSpacing(5);
 
+    QToolButton *clearSearchButton = new QToolButton(this);
+    clearSearchButton->setTextLabel(i18n("Clear Search"), true);
+    clearSearchButton->setIconSet(SmallIconSet("locationbar_erase"));
+
     new QLabel(i18n("Search:"), this, "kde toolbar widget");
 
     m_searchLine = new SearchLine(this, true, "kde toolbar widget");
     connect(m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
-
+    connect(clearSearchButton, SIGNAL(pressed()), m_searchLine, SLOT(clear()));
     setStretchableWidget(m_searchLine);
 
     QToolButton *b = new QToolButton(this);
