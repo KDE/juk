@@ -869,10 +869,6 @@ void Playlist::polish()
     addColumn(i18n("Comment"));
     addColumn(i18n("File Name"));
 
-    setSorting(1);
-
-    // These settings aren't really respected in KDE < 3.1.1, fixed in CVS
-
     setRenameable(PlaylistItem::TrackColumn, true);
     setRenameable(PlaylistItem::ArtistColumn, true);
     setRenameable(PlaylistItem::AlbumColumn, true);
@@ -943,6 +939,8 @@ void Playlist::setup()
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
     connect(this, SIGNAL(signalDataChanged()), this, SIGNAL(signalChanged()));
     connect(this, SIGNAL(signalCountChanged(Playlist *)), this, SIGNAL(signalChanged()));
+
+    setSorting(1);
 }
 
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
@@ -1447,7 +1445,6 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
 
     PlaylistItem *after = 0;
 
-    p.setSorting(p.columns() + 1);
     p.setColumnWidthUpdatesDisabled(true);
 
     for(QStringList::Iterator it = files.begin(); it != files.end(); ++it ) {

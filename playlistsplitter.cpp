@@ -534,11 +534,17 @@ void PlaylistSplitter::readConfig()
 	    m_dirWatch->startScan();
 	}
 
-	// restore the list of hidden and shown columns
-
 	if(m_collection) {
+
+	    // Restore the list of hidden and shown columns
+
 	    for(int i = 0; i < m_collection->columns(); i++)
 		m_columnNames.append(m_collection->columnText(i));
+
+	    // Restore the collection list's sort column -- the other playlists
+	    // are hanlded in the serialization code.
+
+	    m_collection->setSortColumn(config->readNumEntry("CollectionListSortColumn", 1));
 	}
 
     }
@@ -559,6 +565,7 @@ void PlaylistSplitter::saveConfig()
 	    config->writePathEntry("DirectoryList", m_directoryList);
 	    config->writeEntry("SortColumn", m_collection->sortColumn());
 	    config->writeEntry("PlaylistSplitterSizes", sizes());
+	    config->writeEntry("CollectionListSortColumn", m_collection->sortColumn());
 	}
     }
 }
@@ -699,6 +706,7 @@ void PlaylistSplitter::readPlaylists()
 
     switch(version) {
     case 1:
+    case 2:
     {
 	// Our checksum is only for the values after the version and checksum so
 	// we want to get a byte array with just the checksummed data.
@@ -719,6 +727,8 @@ void PlaylistSplitter::readPlaylists()
 	    Q_INT32 playlistType;
 	    s >> playlistType;
 
+	    Playlist *playlist;
+
 	    switch(playlistType) {
 	    case Search:
 	    {
@@ -726,12 +736,16 @@ void PlaylistSplitter::readPlaylists()
 		s >> *p;
 		setupPlaylist(p, false, "find");
 
+		playlist = p;
+
 		break;
 	    }
 	    case History:
 	    {
 		slotSetHistoryVisible(true);
 		s >> *m_history;
+
+		playlist = m_history;
 		break;
 	    }
 	    default:
@@ -744,7 +758,15 @@ void PlaylistSplitter::readPlaylists()
 		}
 		else
 		    setupPlaylist(p);
+
+		playlist = p;
+
 		break;
+	    }
+	    if(version == 2) {
+		Q_INT32 sortColumn;
+		s >> sortColumn;
+		playlist->setSorting(sortColumn);
 	    }
 	}
 	break;
@@ -802,6 +824,7 @@ void PlaylistSplitter::savePlaylists()
 		s << Q_INT32(Normal)
 		  << *(*it);
 	    }
+	    s << Q_INT32((*it)->sortColumn());
 	}
     }
 

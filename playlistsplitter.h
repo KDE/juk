@@ -278,7 +278,7 @@ signals:
 private:
 
     enum PlaylistType { Normal = 0, Search = 1, History = 2 };
-    static const int playlistCacheVersion = 1;
+    static const int playlistCacheVersion = 2;
 
 
     /**
