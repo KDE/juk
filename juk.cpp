@@ -219,6 +219,7 @@ void JuK::setupGlobalAccels()
 {
     m_accel = new KGlobalAccel(this);
 
+    KeyDialog::insert(m_accel, "Play",        i18n("Play"),         action("play"),        SLOT(activate()));
     KeyDialog::insert(m_accel, "PlayPause",   i18n("Play / Pause"), action("playPause"),   SLOT(activate()));
     KeyDialog::insert(m_accel, "Stop",        i18n("Stop Playing"), action("stop"),        SLOT(activate()));
     KeyDialog::insert(m_accel, "Back",        i18n("Back"),         action("back"),        SLOT(activate()));
