@@ -314,7 +314,6 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 {
 #if HAVE_MUSICBRAINZ
 
-    MusicBrainzQuery::Track track;
     KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
 
     if(res.count() == 0) {
@@ -322,17 +321,12 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
         return;
     }
 
-    if(res.count() > 1)
-    {
-    	TrackPickerDialog *trackPicker = new TrackPickerDialog(fileName(), res, win);
+    TrackPickerDialog *trackPicker = new TrackPickerDialog(fileName(), res, win);
 
-    	if(trackPicker->exec() != QDialog::Accepted)
-	    return;
+    if(trackPicker->exec() != QDialog::Accepted)
+	return;
 
-	track = trackPicker->selectedTrack();
-    }
-    else
-    	track = res.first();
+    MusicBrainzQuery::Track track = trackPicker->selectedTrack();
 
     if(!track.name.isEmpty())
         tag()->setTrack(track.name);
