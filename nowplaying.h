@@ -79,6 +79,17 @@ private:
 };
 
 /**
+ * A link label that doesn't automatically open Konqueror.
+ */
+
+class LinkLabel : public KActiveLabel
+{
+public:
+    LinkLabel(QWidget *parent, const char *name = 0) : KActiveLabel(parent, name) {}
+    virtual void openLink(const QString &) {}
+};
+
+/**
  * Show the text information on the current track and provides links to the
  * album and artist of the currently playing item.
  */
@@ -90,14 +101,14 @@ public:
     virtual void update(const FileHandle &file);
 
 private:
-    KActiveLabel *m_label;
+    LinkLabel *m_label;
 };
 
 /**
  * Shows up to 10 items of history and links to those items.
  */
 
-class HistoryItem : public KActiveLabel, public NowPlayingItem
+class HistoryItem : public LinkLabel, public NowPlayingItem
 {
 public:
     HistoryItem(NowPlaying *parent);
@@ -105,7 +116,7 @@ public:
 
 private:
     FileHandleList m_history;
-    KActiveLabel *m_label;
+    LinkLabel *m_label;
 };
 
 #endif

@@ -166,7 +166,7 @@ TrackItem::TrackItem(NowPlaying *parent) :
 
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    m_label = new KActiveLabel(this);
+    m_label = new LinkLabel(this);
     m_label->setLinkUnderline(false);
 
     layout->addStretch();
@@ -203,7 +203,7 @@ void TrackItem::update(const FileHandle &file)
 ////////////////////////////////////////////////////////////////////////////////
 
 HistoryItem::HistoryItem(NowPlaying *parent) :
-    KActiveLabel(parent, "HistoryItem"),
+    LinkLabel(parent, "HistoryItem"),
     NowPlayingItem(parent)
 {
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
