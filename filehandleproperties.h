@@ -33,7 +33,7 @@
         {                                                                           \
             virtual QString value(const FileHandle &f) const                        \
             {                                                                       \
-                return f.##method;                                                  \
+                return f.method;                                                    \
             }                                                                       \
             static const int dummy;                                                 \
         };                                                                          \
@@ -48,7 +48,7 @@
         {                                                                           \
             virtual QString value(const FileHandle &f) const                        \
             {                                                                       \
-                return QString::number(f.##method);                                 \
+                return QString::number(f.method);                                   \
             }                                                                       \
             static const int dummy;                                                 \
         };                                                                          \
