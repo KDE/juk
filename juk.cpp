@@ -47,7 +47,7 @@ JuK::JuK(QWidget *parent, const char *name) :
 
     readSettings();
 
-    if(m_showSplash && isVisible()) {
+    if(m_showSplash && !m_startDocked) {
 	SplashScreen::instance()->show();
 	kapp->processEvents();
     }
@@ -589,6 +589,7 @@ void JuK::readSettings()
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
         m_showSplash = config->readBoolEntry("ShowSplashScreen", true);
+        m_startDocked = config->readBoolEntry("StartDocked", false);
     }
 }
 
