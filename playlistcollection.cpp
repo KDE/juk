@@ -83,28 +83,28 @@ void PlaylistCollection::playFirst()
 {
     m_playing = true;
     currentPlaylist()->playFirst();
-    update();
+    currentChanged();
 }
 
 void PlaylistCollection::playPrevious()
 {
     m_playing = true;
     currentPlaylist()->playPrevious();
-    update();
+    currentChanged();
 }
 
 void PlaylistCollection::playNext()
 {
     m_playing = true;
     currentPlaylist()->playNext();
-    update();
+    currentChanged();
 }
 
 void PlaylistCollection::stop()
 {
     m_playing = false;
     currentPlaylist()->stop();
-    update();
+    currentChanged();
 }
 
 bool PlaylistCollection::playing() const
@@ -403,7 +403,7 @@ void PlaylistCollection::raise(Playlist *playlist)
 {
     playlist->setSearchEnabled(m_searchEnabled);
     m_playlistStack->raiseWidget(playlist);
-    update(); // Update the status bar
+    dataChanged();
 }
 
 void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)

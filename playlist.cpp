@@ -522,7 +522,7 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
         m_randomList.remove(item);
     delete item;
     if(emitChanged)
-	PlaylistInterface::update();
+	dataChanged();
 }
 
 void Playlist::clearItems(const PlaylistItemList &items)
@@ -530,7 +530,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
 	clearItem(*it, false);
 
-    PlaylistInterface::update();
+    dataChanged();
 }
 
 QStringList Playlist::files()
@@ -822,7 +822,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 	    }
 
 	}
-	PlaylistInterface::update();
+	dataChanged();
     }
 }
 
@@ -976,7 +976,7 @@ void Playlist::read(QDataStream &s)
     for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
         after = createItem(FileHandle(*it), after, false);
 
-    PlaylistInterface::update();
+    dataChanged();
     m_collection->setupPlaylist(this, "midi");
 }
 
@@ -1034,7 +1034,7 @@ void Playlist::addFiles(const QStringList &files, bool importPlaylists,
         after = addFile(*it, importPlaylists, after);
 
     slotWeightDirty();
-    PlaylistInterface::update();
+    dataChanged();
 
     KApplication::restoreOverrideCursor();
 }
@@ -1240,7 +1240,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     file.close();
 
-    PlaylistInterface::update();
+    dataChanged();
 
     m_disableColumnWidthUpdates = false;
 }

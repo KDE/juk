@@ -25,7 +25,8 @@ class Watched
 public:
     void addObserver(PlaylistObserver *observer);
     void removeObserver(PlaylistObserver *observer);
-    virtual void update();
+    virtual void currentChanged();
+    virtual void dataChanged();
 
 protected:
     virtual ~Watched();
@@ -58,7 +59,8 @@ class PlaylistObserver
 {
 public:
     virtual ~PlaylistObserver();
-    virtual void update() = 0;
+    virtual void updateCurrent() = 0;
+    virtual void updateData() = 0;
 
     void clearWatched() { m_playlist = 0; }
 

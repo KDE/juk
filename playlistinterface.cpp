@@ -18,13 +18,23 @@
 // Watched implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-void Watched::update()
+void Watched::currentChanged()
 {
     for(QValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
 	it != m_observers.end();
 	++it)
     {
-        (*it)->update();
+        (*it)->updateCurrent();
+    }    
+}
+
+void Watched::dataChanged()
+{
+    for(QValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
+	it != m_observers.end();
+	++it)
+    {
+        (*it)->updateData();
     }    
 }
 

@@ -512,7 +512,7 @@ void PlaylistBox::slotPlaylistChanged()
 
     if(singlePlaylist) {
 	playlistStack()->raiseWidget(playlists.front());
-	PlaylistInterface::update(); // Update the status bar
+	dataChanged(); // Update the status bar
 
 	delete m_dynamicPlaylist;
 	m_dynamicPlaylist = 0;

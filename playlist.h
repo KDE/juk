@@ -630,7 +630,7 @@ ItemType *Playlist::createItem(const FileHandle &file, QListViewItem *after,
             m_randomList.append(i);
 
 	if(emitChanged)
-	    PlaylistInterface::update();
+	    dataChanged();
 
 	return i;
     }
@@ -657,7 +657,7 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
 	}
     }
 
-    PlaylistInterface::update();
+    dataChanged();
     m_disableColumnWidthUpdates = false;
     slotWeightDirty();
 }

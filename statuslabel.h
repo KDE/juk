@@ -32,7 +32,8 @@ class StatusLabel : public QHBox, public PlaylistObserver
 public:
     StatusLabel(PlaylistInterface *playlist, QWidget *parent = 0, const char *name = 0);
     virtual ~StatusLabel();
-    virtual void update();
+    virtual void updateCurrent();
+    virtual void updateData();
 
 public slots:
     /**

@@ -32,7 +32,8 @@ public:
     {
 
     }
-    virtual void update() { m_parent->slotSetDirty(); }
+    virtual void updateData() { m_parent->slotSetDirty(); }
+    virtual void updateCurrent() {}
 
 private:
     DynamicPlaylist *m_parent;

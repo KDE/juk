@@ -92,7 +92,7 @@ void CollectionList::clearItems(const PlaylistItemList &items)
 	clearItem(*it, false);
     }
 
-    PlaylistInterface::update();
+    dataChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -238,7 +238,7 @@ void CollectionListItem::refresh()
     data()->shortFileName = file().fileInfo().fileName().lower().local8Bit();
 
     repaint();
-    playlist()->PlaylistInterface::update();
+    playlist()->dataChanged();
 }
 
 PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist) const
@@ -266,7 +266,7 @@ CollectionListItem::CollectionListItem(const FileHandle &file) :
 
 	if(file.tag()) {
 	    refresh();
-	    l->PlaylistInterface::update();
+	    l->dataChanged();
 	    // l->addWatched(m_path);
 	}
 	else

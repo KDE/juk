@@ -89,7 +89,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const cha
 
     installEventFilter(this);
 
-    update();
+    updateData();
 }
 
 StatusLabel::~StatusLabel()
@@ -97,7 +97,7 @@ StatusLabel::~StatusLabel()
 
 }
 
-void StatusLabel::update()
+void StatusLabel::updateCurrent()
 {
     if(playlist()->playing()) {
         FileHandle file = playlist()->currentFile();
@@ -110,7 +110,13 @@ void StatusLabel::update()
         m_trackLabel->setText(text);
         m_playlistLabel->setText(playlist()->name().simplifyWhiteSpace());
     }
-    else {
+}
+
+void StatusLabel::updateData()
+{
+    updateCurrent();
+
+    if(!playlist()->playing()) {
         setItemTotalTime(0);
         setItemCurrentTime(0);
         int days = playlist()->time() / (60 * 60 * 24);
