@@ -1,3 +1,7 @@
+// Copyright Frerich Raabe <raabe@kde.org>.
+// This notice was added by Michael Pyne <michael.pyne@kdemail.net>
+// Assume the license is GPL-2 unless and until Frerich Raabe changes it.
+
 #include "tagguesser.h"
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
