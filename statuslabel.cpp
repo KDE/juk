@@ -24,7 +24,7 @@
 #include <qlabel.h>
 #include <qtooltip.h>
 #include <qfontmetrics.h>
-
+#include <qlayout.h>
 
 #include "statuslabel.h"
 #include "playlistitem.h"
@@ -38,21 +38,29 @@
 
 StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name), playingItem(0)
 {
-    setSpacing(0);
-
-    QHBox *trackAndPlaylist = new QHBox(this);
+    QFrame *trackAndPlaylist = new QFrame(this);
     trackAndPlaylist->setFrameStyle(Box | Sunken);
+    trackAndPlaylist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    
+    // Make sure that we have enough of a margin to suffice for the borders, 
+    // hence the "lineWidth() * 2"
+    QHBoxLayout *trackAndPlaylistLayout = new QHBoxLayout(trackAndPlaylist, trackAndPlaylist->lineWidth() * 2, 5, "trackAndPlaylistLayout");
+    trackAndPlaylistLayout->addSpacing(5);
 
     playlistLabel = new QLabel(trackAndPlaylist, "playlistLabel");
+    trackAndPlaylistLayout->addWidget(playlistLabel);
     playlistLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     playlistLabel->setTextFormat(RichText);
-    playlistLabel->setAlignment(AlignLeft);
+    playlistLabel->setAlignment(AlignLeft | AlignVCenter);
 
     trackLabel = new QLabel(trackAndPlaylist, "trackLabel");
-    trackLabel->setAlignment(AlignRight);
+    trackAndPlaylistLayout->addWidget(trackLabel);
+    trackLabel->setAlignment(AlignRight | AlignVCenter);
     trackLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     trackLabel->setTextFormat(RichText);
 
+    trackAndPlaylistLayout->addSpacing(5);
+    
     itemTimeLabel = new QLabel(this);
     QFontMetrics fontMetrics(font());
     itemTimeLabel->setAlignment(AlignCenter);
@@ -62,12 +70,17 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name
 
     setItemTotalTime(0);
     setItemCurrentTime(0);
-  
-    QLabel *iconLabel = new QLabel(this);
-    iconLabel->setPixmap(SmallIcon("up"));
-    iconLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
-    iconLabel->setFrameStyle(Box | Sunken);
-    QToolTip::add(iconLabel, i18n("Jump to the currently playing item"));
+
+    QHBox *jumpBox = new QHBox(this);
+    jumpBox->setFrameStyle(Box | Sunken);
+    jumpBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
+
+    QPushButton *jumpButton = new QPushButton(jumpBox);
+    jumpButton->setPixmap(SmallIcon("up"));
+    jumpButton->setFlat(true);
+
+    QToolTip::add(jumpButton, i18n("Jump to the currently playing item"));
+    connect(jumpButton, SIGNAL(clicked()), this, SLOT(jumpToPlayingItem()));
 }
 
 StatusLabel::~StatusLabel()
@@ -83,12 +96,18 @@ void StatusLabel::setPlayingItem(PlaylistItem *item)
 	Playlist *p = static_cast<Playlist *>(item->listView());
 	if(p && p->playlistBoxItem()) {
 
-	    QString playlist = QStyleSheet::escape(p->playlistBoxItem()->text());
-	    QString artist = QStyleSheet::escape(item->text(PlaylistItem::ArtistColumn));
-    	    QString track = QStyleSheet::escape(item->text(PlaylistItem::TrackColumn));
+	    QString playlist = QStyleSheet::escape(p->playlistBoxItem()->text().simplifyWhiteSpace());
+	    QString artist = QStyleSheet::escape(item->text(PlaylistItem::ArtistColumn).simplifyWhiteSpace());
+    	    QString track = QStyleSheet::escape(item->text(PlaylistItem::TrackColumn).simplifyWhiteSpace());
 
 	    playlistLabel->setText(playlist);
-	    QString label = artist + " - " + track;
+	    
+	    QString label;
+	    if(artist.isEmpty() || track.isEmpty())
+		label = artist + track;
+	    else
+		label = artist + " - " + track;
+
 	    trackLabel->setText(label);
 	}
 	else

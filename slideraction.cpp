@@ -28,6 +28,13 @@
 // convenience class
 ////////////////////////////////////////////////////////////////////////////////
 
+/**
+ * This "custom" slider reverses the left and middle buttons.  Typically the 
+ * middle button "instantly" seeks rather than moving the slider towards the
+ * click position in fixed intervals.  This behavior has now been mapped on
+ * to the left mouse button.
+ */
+
 class TrackPositionSlider : public QSlider
 {
 public:
