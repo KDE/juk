@@ -624,11 +624,6 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	decode(e);
 }
 
-void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
-{
-    e->accept(KURLDrag::canDecode(e));
-}
-
 void Playlist::showEvent(QShowEvent *e)
 {
     SharedSettings::instance()->apply(this);
@@ -845,6 +840,7 @@ void Playlist::polish()
     setResizeMode(QListView::LastColumn);
 
     setAcceptDrops(true);
+    setDropVisualizer(true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

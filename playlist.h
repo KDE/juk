@@ -19,6 +19,7 @@
 #define PLAYLIST_H
 
 #include <klistview.h>
+#include <kurldrag.h>
 
 #include <qstringlist.h>
 #include <qvaluevector.h>
@@ -208,8 +209,8 @@ protected:
     virtual bool canDecode(QMimeSource *s);
     virtual void decode(QMimeSource *s);
     virtual void contentsDropEvent(QDropEvent *e);
-    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     virtual void showEvent(QShowEvent *e);
+    virtual bool acceptDrag(QDropEvent *e) const { return KURLDrag::canDecode(e); }
 
     /**
      * Though it's somewhat obvious, this function will stat the file, so only use it when
