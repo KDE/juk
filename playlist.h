@@ -512,6 +512,7 @@ private:
 
     void redisplaySearch() { setSearch(m_search); }
 
+    void refreshAlbums(const PlaylistItemList &items, const QImage &image = QImage());
     void refreshAlbum(const QString &artist, const QString &album);
 
     /**

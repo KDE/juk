@@ -104,9 +104,8 @@ public:
 	    r.setLeft(headerPosition);
 	    r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
 
-	    if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn) {
+	    if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
 		tip(r, item->file().absFilePath());
-	    }
 	    else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
 		QMimeSourceFactory *f = QMimeSourceFactory::defaultFactory();
 	        f->setImage("coverThumb",
@@ -729,10 +728,7 @@ void Playlist::slotRemoveCover()
 						    QString::null,
 						    i18n("&Delete Covers"));
     if(button == KMessageBox::Continue) {
-        for(PlaylistItemList::Iterator it = items.begin(); it !=items.end(); ++it)
-            (*it)->file().coverInfo()->clearCover();
-
-        slotRefresh();
+	refreshAlbums(items);
         PlayerManager::instance()->registerChangedCover();
     }
 }
@@ -759,11 +755,8 @@ void Playlist::slotAddCover(bool retrieveLocal)
     if(image.isNull())
         return;
 
-    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
-        (*it)->file().coverInfo()->setCover(image);
-        slotRefresh();
-    }
-    slotRefresh();
+    refreshAlbums(items, image);
+
     PlayerManager::instance()->registerChangedCover();
 }
 
@@ -1122,6 +1115,32 @@ void Playlist::addFiles(const QStringList &files, bool importPlaylists,
     dataChanged();
 
     KApplication::restoreOverrideCursor();
+}
+
+void Playlist::refreshAlbums(const PlaylistItemList &items, const QImage &image)
+{
+    QValueList< QPair<QString, QString> > albums;
+
+    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+	if(albums.find(qMakePair((*it)->file().tag()->artist(),
+				 (*it)->file().tag()->album())) == albums.end())
+	{
+	    albums.append(qMakePair((*it)->file().tag()->artist(),
+				    (*it)->file().tag()->album()));				    
+	    if(image.isNull())
+		(*it)->file().coverInfo()->clearCover();
+	    else
+		(*it)->file().coverInfo()->setCover(image);
+	}
+	else
+	    (*it)->file().coverInfo()->setCover();
+    }
+
+    for(QValueList< QPair<QString, QString> >::ConstIterator it = albums.begin();
+	it != albums.end(); ++it)
+    {
+	refreshAlbum((*it).first, (*it).second);
+    }
 }
 
 void Playlist::refreshAlbum(const QString &artist, const QString &album)

@@ -18,7 +18,6 @@
 #include <kdebug.h>
 #include <kwin.h>
 
-#include <qimage.h>
 #include <qvbox.h>
 #include <qregexp.h>
 
@@ -80,6 +79,7 @@ bool CoverInfo::hasCover()
         m_hasCover = QFile(coverLocation(FullSize)).exists();
         m_haveCheckedForCover = true;
     }
+
     return m_hasCover;
 }
 
@@ -87,17 +87,21 @@ void CoverInfo::clearCover()
 {
     QFile::remove(coverLocation(CoverInfo::FullSize));
     QFile::remove(coverLocation(CoverInfo::Thumbnail));
+    m_hasCover = false;
     m_haveCheckedForCover = false;
 }
 
 void CoverInfo::setCover(const QImage &image)
 {
+    m_haveCheckedForCover = false;
+
+    if(image.isNull())
+        return;
+
     if(m_hasCover)
         clearCover();
 
     image.save(coverLocation(CoverInfo::FullSize), "PNG");
-    m_hasCover = true;
-    m_haveCheckedForCover = true;
 }
 
 QPixmap CoverInfo::pixmap(CoverSize size) const

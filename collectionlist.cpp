@@ -31,6 +31,7 @@
 #include "actioncollection.h"
 #include "tag.h"
 #include "viewmode.h"
+#include "coverinfo.h"
 
 using namespace ActionCollection;
 
@@ -342,6 +343,7 @@ void CollectionListItem::refresh()
 {
     int offset = static_cast<Playlist *>(listView())->columnOffset();
     int columns = lastColumn() + offset + 1;
+
     data()->local8Bit.resize(columns);
     data()->cachedWidths.resize(columns);
 
@@ -375,6 +377,8 @@ void CollectionListItem::refresh()
 	if(newWidth != data()->cachedWidths[i])
 	    playlist()->slotWeightDirty(i);
     }
+
+    file().coverInfo()->setCover();
 
     if(listView()->isVisible())
 	repaint();

@@ -15,7 +15,7 @@
 #ifndef COVERINFO_H
 #define COVERINFO_H
 
-
+#include <qimage.h>
 #include <qpixmap.h>
 
 #include "filehandle.h"
@@ -32,7 +32,7 @@ public:
     bool hasCover();
 
     void clearCover();
-    void setCover(const QImage &image);
+    void setCover(const QImage &image = QImage());
 
     QPixmap pixmap(CoverSize size) const;
     void popupLargeCover();
