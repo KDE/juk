@@ -29,6 +29,7 @@
 #include "stringhash.h"
 #include "playlistsearch.h"
 #include "tagguesser.h"
+#include "playlistinterface.h"
 
 class KPopupMenu;
 class KActionMenu;
@@ -42,7 +43,7 @@ typedef QValueList<PlaylistItem *> PlaylistItemList;
 
 typedef QValueList<Playlist *> PlaylistList;
 
-class Playlist : public KListView
+class Playlist : public KListView /*, PlaylistInterface */
 {
     Q_OBJECT
 
@@ -181,22 +182,22 @@ public:
      * something other than the filename, this returns the filename less the
      * extension.  If m_playlistName does have a value, this returns that.
      */
-    QString name() const;
+    virtual QString name() const;
+
+    /**
+     * Returns the number of items in the playlist.
+     */
+    virtual int count() const { return childCount(); }
+    
+    /**
+     * Returns the combined time of all the itens.
+     */
+    virtual int time();
 
     /**
      * This sets a name for the playlist that is \e different from the file name.
      */
     void setName(const QString &n);
-
-    /**
-     * Returns the number of items in the playlist.
-     */
-    int count() const { return childCount(); }
-    
-    /**
-     * Returns the combined time of all the itens.
-     */
-    int totalTime();
 
     /**
      * Returns the next item to be played.  If random is false this is just

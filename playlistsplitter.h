@@ -65,7 +65,7 @@ public:
     virtual FileHandle currentFile();
     virtual FileHandle previousFile();
     virtual int count() const { return visiblePlaylist()->childCount(); }
-    virtual int time() const  { return visiblePlaylist()->totalTime(); }
+    virtual int time() const  { return visiblePlaylist()->time(); }
 
     /**
      * Fills the menu passed in with the recently played history
@@ -83,10 +83,6 @@ public:
      */
     void open(const QString &file);
 
-    QStringList columnNames() const { return m_columnNames; }
-
-    KActionMenu *columnVisibleAction() const { return m_collection->columnVisibleAction(); }
-
     /**
      * Create a playlist with the name \a name.  If \a raise is true then the
      * Playlist will be made the current playlist.
@@ -94,6 +90,8 @@ public:
     Playlist *createPlaylist(const QString &name, bool raise = true);
 
     /**
+     * TODO -- REMOVE THIS -- MASSIVE HACK
+     *
      * This can be used to turn on or off scanning for new files.  This is
      * presently used so that the file renamer can temporariy disable searching
      * for new files while it performs the rename.

@@ -486,13 +486,7 @@ QString Playlist::name() const
 	return m_playlistName;
 }
 
-void Playlist::setName(const QString &n)
-{
-    m_playlistName = n;
-    emit signalNameChanged(m_playlistName);
-}
-
-int Playlist::totalTime()
+int Playlist::time()
 {
     int time = 0;
     QListViewItemIterator it(this);
@@ -503,6 +497,12 @@ int Playlist::totalTime()
 	it++;
     }
     return time;
+}
+
+void Playlist::setName(const QString &n)
+{
+    m_playlistName = n;
+    emit signalNameChanged(m_playlistName);
 }
 
 void Playlist::updateLeftColumn()
