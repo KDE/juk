@@ -1,2 +1,2 @@
-datadir = $(kde_datadir)/juk
-data_DATA = id3v1.genreml
+juk_datadir = $(kde_datadir)/juk
+juk_data_DATA = id3v1.genreml
