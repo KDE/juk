@@ -103,13 +103,11 @@ protected:
 
 signals:
     void signalCollectionChanged();
-    void signalRequestPlaylistCreation(const PlaylistItemList &items);
 
 private slots:
     void slotRemoveItem(const QString &file);
     void slotRefreshItem(const QString &file);
-    void slotCreateGroup();
-    
+
 private:
     /**
      * Just the size of the above enum to keep from hard coding it in several

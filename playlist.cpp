@@ -21,6 +21,7 @@
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <kaction.h>
+#include <kmainwindow.h>
 #include <kpopupmenu.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -190,7 +191,8 @@ int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(QWidget *parent, const QString &name) :
     KListView(parent, name.latin1()),
-    m_playlistName(name)
+    m_playlistName(name),
+    m_rmbMenu(0)
 
 {
     setup();
@@ -198,7 +200,8 @@ Playlist::Playlist(QWidget *parent, const QString &name) :
 
 Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const QString &name) : 
     KListView(parent, name.latin1()),
-    m_fileName(playlistFile.absFilePath())
+    m_fileName(playlistFile.absFilePath()),
+    m_rmbMenu(0)
 {
     setup();
     loadFile(m_fileName, playlistFile);
@@ -821,25 +824,6 @@ void Playlist::polish()
     hideColumn(PlaylistItem::CommentColumn);
     hideColumn(PlaylistItem::FileNameColumn);
 
-    //////////////////////////////////////////////////
-    // setup playlist RMB menu
-    //////////////////////////////////////////////////
-
-    m_rmbMenu = new KPopupMenu(this);
-
-    m_rmbMenu->insertItem(SmallIconSet("player_play"), i18n("Play Next"), this, SLOT(slotSetNext()));
-    m_rmbMenu->insertSeparator();
-    m_rmbMenu->insertItem(SmallIconSet("editcut"), i18n("Cut"), this, SLOT(cut()));
-    m_rmbMenu->insertItem(SmallIconSet("editcopy"), i18n("Copy"), this, SLOT(copy()));
-    m_rmbPasteID = m_rmbMenu->insertItem(SmallIconSet("editpaste"), i18n("Paste"), this, SLOT(paste()));
-    m_rmbMenu->insertItem(SmallIconSet("editclear"), i18n("Clear"), this, SLOT(clear()));
-
-    m_rmbMenu->insertSeparator();
-
-    m_rmbEditID = m_rmbMenu->insertItem(SmallIconSet("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
-    m_rmbMenu->insertItem(SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
-    m_rmbMenu->insertItem(SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotRemoveSelectedItems()));
-
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotEmitSelected()));
     connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
@@ -931,6 +915,38 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 {
     if(!item)
 	return;
+
+    // Create the RMB menu on demand.
+
+    if(!m_rmbMenu) {
+
+	// A bit of a hack to get a pointer to the action collection.
+	// Probably more of these actions should be ported over to using KActions.
+
+	KActionCollection *actionCollection =
+	    static_cast<KMainWindow *>(kapp->mainWidget())->actionCollection();
+
+	m_rmbMenu = new KPopupMenu(this);
+
+	m_rmbMenu->insertItem(SmallIconSet("player_play"), i18n("Play Next"), this, SLOT(slotSetNext()));
+	m_rmbMenu->insertSeparator();
+	m_rmbMenu->insertItem(SmallIconSet("editcut"), i18n("Cut"), this, SLOT(cut()));
+	m_rmbMenu->insertItem(SmallIconSet("editcopy"), i18n("Copy"), this, SLOT(copy()));
+	m_rmbPasteID = m_rmbMenu->insertItem(SmallIconSet("editpaste"), i18n("Paste"), this, SLOT(paste()));
+	m_rmbMenu->insertItem(SmallIconSet("editclear"), i18n("Clear"), this, SLOT(clear()));
+
+	m_rmbMenu->insertSeparator();
+
+	m_rmbEditID = m_rmbMenu->insertItem(SmallIconSet("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
+	m_rmbMenu->insertItem(SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
+	m_rmbMenu->insertItem(SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotRemoveSelectedItems()));
+
+	m_rmbMenu->insertSeparator();
+	actionCollection->action("guessTag")->plug(m_rmbMenu);
+
+	m_rmbMenu->insertSeparator();
+	m_rmbMenu->insertItem(SmallIcon("new"), i18n("Create Group From Selected Items"), this, SLOT(slotCreateGroup()));
+    }
 
     m_rmbMenu->setItemEnabled(m_rmbPasteID, canDecode(kapp->clipboard()->data()));
 

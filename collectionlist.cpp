@@ -120,9 +120,6 @@ CollectionList::CollectionList(QWidget *parent) :
     m_dirWatch->startScan();
 
     polish();
-
-    rmbMenu()->insertSeparator();
-    rmbMenu()->insertItem(SmallIcon("new"), i18n("Create Group From Selected Items"), this, SLOT(slotCreateGroup()));
 }
 
 CollectionList::~CollectionList()
@@ -169,11 +166,6 @@ void CollectionList::slotRemoveItem(const QString &file)
 void CollectionList::slotRefreshItem(const QString &file)
 {
     m_itemsDict[file]->slotRefresh();
-}
-
-void CollectionList::slotCreateGroup()
-{
-    emit signalRequestPlaylistCreation(selectedItems());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

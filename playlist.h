@@ -269,8 +269,6 @@ protected:
      */
     static QString resolveSymLinks(const QFileInfo &file);
 
-    KPopupMenu *rmbMenu() const { return m_rmbMenu; }
-
 signals:
     /**
      * This is emitted when the playlist selection is changed.  This is used
@@ -336,6 +334,11 @@ signals:
      * \see isColumnVisible()
      */
     void signalVisibleColumnsChanged();
+
+    /**
+     * Request creation of a playlist based on \a items.
+     */
+    void signalCreatePlaylist(const PlaylistItemList &items);
 
 private:
     void setup();
@@ -406,6 +409,11 @@ private slots:
      * \see showColumn()
      */
     void slotToggleColumnVisible(int column);
+
+    /**
+     * Prompts the user to create a new playlist with from the selected items.
+     */
+    void slotCreateGroup() { emit signalCreatePlaylist(selectedItems()); }
 
 private:
     SortedStringList m_members;

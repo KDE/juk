@@ -470,9 +470,6 @@ void PlaylistSplitter::setupLayout()
     m_collection = CollectionList::instance();
     setupPlaylist(m_collection, true, "folder_sound", true);
     connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
-    connect(m_collection, SIGNAL(signalRequestPlaylistCreation(const PlaylistItemList &)),
-	    this, SLOT(slotCreatePlaylist(const PlaylistItemList &)));
-
 
     // Create the search widget -- this must be done after the CollectionList is created.
     m_searchWidget = new SearchWidget(editorSplitter, "searchWidget");
@@ -622,6 +619,9 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon, 
 
     connect(p, SIGNAL(itemRenamed(QListViewItem *)),
 	    m_editor, SLOT(slotRefresh()));
+
+    connect(p, SIGNAL(signalCreatePlaylist(const PlaylistItemList &)),
+	    this, SLOT(slotCreatePlaylist(const PlaylistItemList &)));
 
     if(icon)
 	m_playlistBox->createItem(p, icon, raise, sortedFirst);
