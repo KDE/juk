@@ -937,6 +937,13 @@ void JuK::slotPollPlay()
     m_noSeek = false;
 }
 
+void JuK::slotPlaySelectedFile()
+{
+    QString file = m_splitter->playSelectedFile();
+    if(!file.isNull())
+	play(m_splitter->playSelectedFile());
+}
+
 void JuK::slotSetVolume(int volume)
 {
     if(m_player && m_sliderAction && m_sliderAction->volumeSlider() &&

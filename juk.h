@@ -170,7 +170,7 @@ private slots:
      * m_playTimer to know when to call itself again.
      */
     void slotPollPlay();
-    void slotPlaySelectedFile() { play(m_splitter->playSelectedFile()); }
+    void slotPlaySelectedFile();
     void startPlayingPlaylist();
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
     void slotGuessTagInfoFromFile();
