@@ -323,10 +323,10 @@ void JuK::setupActions()
     // edit menu
     //////////////////////////////////////////////////
 
-    KStdAction::cut(this,   SLOT(cut()),   actionCollection());
-    KStdAction::copy(this,  SLOT(copy()),  actionCollection());
-    KStdAction::paste(this, SLOT(paste()), actionCollection());
-    KStdAction::clear(this, SLOT(clear()), actionCollection());
+    KStdAction::cut(kapp,   SLOT(cut()),   actionCollection());
+    KStdAction::copy(kapp,  SLOT(copy()),  actionCollection());
+    KStdAction::paste(kapp, SLOT(paste()), actionCollection());
+    KStdAction::clear(kapp, SLOT(clear()), actionCollection());
 
     KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
@@ -685,24 +685,6 @@ bool JuK::queryClose()
 	return true;
 }
 
-void JuK::invokeEditSlot(const char *slotName, const char *slot)
-{
-    QObject *object = focusWidget();
-
-    if(!object || !slotName || !slot)
-        return;
-
-    QMetaObject *meta = object->metaObject();
-    QStrList l = meta->slotNames(true);
-
-    if(l.find(slotName) == -1)
-        return;
-
-    connect(this, SIGNAL(signalEdit()), object, slot);
-    emit signalEdit();
-    disconnect(this, SIGNAL(signalEdit()), object, slot);
-}
-
 QString JuK::playingString() const
 {
     QString s;
@@ -809,35 +791,6 @@ void JuK::slotPlaylistChanged()
         actionCollection()->action("duplicatePlaylist")->setEnabled(false);
     
     updatePlaylistInfo();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// edit menu
-////////////////////////////////////////////////////////////////////////////////
-
-void JuK::cut()
-{
-    invokeEditSlot("cut()", SLOT(cut()));
-}
-
-void JuK::copy()
-{
-    invokeEditSlot("copy()", SLOT(copy()));
-}
-
-void JuK::paste()
-{
-    invokeEditSlot("paste()", SLOT(paste()));
-}
-
-void JuK::clear()
-{
-    invokeEditSlot("clear()", SLOT(clear()));
-}
-
-void JuK::selectAll()
-{
-    invokeEditSlot("selectAll()", SLOT(selectAll()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

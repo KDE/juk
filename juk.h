@@ -102,7 +102,6 @@ private:
     virtual bool queryExit();
     virtual bool queryClose();
 
-    void invokeEditSlot(const char *slotName, const char *slot);
     QString playingString() const;
 
     int currentTime() const { return m_player->currentTime(); }
@@ -148,14 +147,6 @@ private slots:
 
     // file menu
     void slotQuit() { m_shuttingDown = true; kapp->quit(); }
-
-    // edit menu
-    void cut();
-    void copy();
-    void paste();
-    void clear();
-    void selectAll();
-
 
     // settings menu
     void slotShowGenreListEditor();
