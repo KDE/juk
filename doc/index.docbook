@@ -647,6 +647,19 @@ shift-f1 what's this help
 action="simul">&Ctrl;<keycap>A</keycap></keycombo></entry>
 <entry>Select all</entry>
 </row>
+<row>
+<entry><keycombo action="simul">&Ctrl;<keycap>C</keycap></keycombo></entry>
+<entry>Copy</entry>
+</row>
+<row>
+<entry><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo></entry>
+<entry>Guess tag entries based on filename</entry>
+</row>
+<row>
+<entry><keycombo
+action="simul">&Ctrl;<keycap>N</keycap></keycombo></entry>
+<entry>New Playlist</entry>
+</row>
 </tbody>
 </tgroup>
 </informaltable>
