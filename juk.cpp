@@ -224,7 +224,7 @@ void JuK::addToPlaylist()
 
 void JuK::removeFromPlaylist()
 {
-    QPtrList<FileListItem> items(tagger->getSelectedItems());
+    QPtrList<FileListItem> items(playlist->getSelectedItems());
     playlist->remove(items);
 }
 
@@ -240,7 +240,7 @@ void JuK::playFile()
         }
     }
     else if(playlist) {
-        QPtrList<FileListItem> items(tagger->getSelectedItems());
+        QPtrList<FileListItem> items(playlist->getSelectedItems());
         if(items.count() > 0)
             playItem(dynamic_cast<FileListItem *>(items.at(0)));
         else
