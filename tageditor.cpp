@@ -562,10 +562,16 @@ void TagEditor::save(const PlaylistItemList &list)
 		    item->file().tag()->setTitle(m_trackNameBox->text());
 		if(m_enableBoxes[m_albumNameBox]->isOn())
 		    item->file().tag()->setAlbum(m_albumNameBox->currentText());
-		if(m_enableBoxes[m_trackSpin]->isOn())
+		if(m_enableBoxes[m_trackSpin]->isOn()) {
+		    if(m_trackSpin->text().isEmpty())
+			m_trackSpin->setValue(0);
 		    item->file().tag()->setTrack(m_trackSpin->value());
-		if(m_enableBoxes[m_yearSpin]->isOn())
+		}
+		if(m_enableBoxes[m_yearSpin]->isOn()) {
+		    if(m_yearSpin->text().isEmpty())
+			m_yearSpin->setValue(0);
 		    item->file().tag()->setYear(m_yearSpin->value());
+		}
 		if(m_enableBoxes[m_commentBox]->isOn())
 		    item->file().tag()->setComment(m_commentBox->text());
 		
