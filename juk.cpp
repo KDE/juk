@@ -99,12 +99,12 @@ void JuK::setupActions()
     // file menu
     //////////////////////////////////////////////////
 
-    createSplitterAction(i18n("New Playlist..."),    SLOT(slotCreatePlaylist()),    "file_new",           "filenew");
-    createSplitterAction(i18n("Open..."),            SLOT(slotOpen()),              "file_open",          "fileopen");
+    createSplitterAction(i18n("New Playlist..."),    SLOT(slotCreatePlaylist()),    "file_new",           "filenew",  "CTRL+n");
+    createSplitterAction(i18n("Open..."),            SLOT(slotOpen()),              "file_open",          "fileopen", "CTRL+o");
     createSplitterAction(i18n("Open &Directory..."), SLOT(slotOpenDirectory()),     "openDirectory",      "fileopen");
     createSplitterAction(i18n("&Rename..."),         SLOT(slotRenamePlaylist()),    "renamePlaylist");
     createSplitterAction(i18n("D&uplicate..."),      SLOT(slotDuplicatePlaylist()), "duplicatePlaylist");
-    createSplitterAction(i18n("Save"),               SLOT(slotSavePlaylist()),      "file_save",          "filesave");
+    createSplitterAction(i18n("Save"),               SLOT(slotSavePlaylist()),      "file_save",          "filesave", "CTRL+s");
     createSplitterAction(i18n("Save As..."),         SLOT(slotSaveAsPlaylist()),    "file_save_as",       "filesaveas");
     createSplitterAction(i18n("R&emove"),            SLOT(slotDeletePlaylist()),    "deleteItemPlaylist", "edittrash");
 
