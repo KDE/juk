@@ -326,13 +326,17 @@ void JuK::pollPlay()
 {
     noSeek = true;
     if(!player.playing()) {
+
         playTimer->stop();
+
         if(player.paused())
             pauseFile();
         else if(playingItem) {
+
 	    PlaylistItem *next = Playlist::nextItem(playingItem, randomPlayAction->isChecked());
+	    playingItem->setPixmap(0, 0);
+
 	    if(next) {
-		playingItem->setPixmap(0, 0);
 		playingItem = next;
 		sliderAction->getTrackPositionSlider()->setValue(0);
 		player.play(playingItem->absFilePath(), player.getVolume());
