@@ -515,7 +515,8 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     if(!m_randomList.isEmpty() && !m_visibleChanged)
         m_randomList.remove(item);
     delete item;
-    PlaylistInterface::update();
+    if(emitChanged)
+	PlaylistInterface::update();
 }
 
 void Playlist::clearItems(const PlaylistItemList &items)
