@@ -422,6 +422,14 @@ void Playlist::hideColumn(int c)
     setColumnWidth(c, 0);
     setResizeMode(QListView::LastColumn);
     triggerUpdate();
+
+    if(c == m_leftColumn) {
+	if(m_playingItem) {
+	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
+	    m_playingItem->setPixmap(leftMostVisibleColumn(), QPixmap(UserIcon("playing")));
+	}
+	m_leftColumn = leftMostVisibleColumn();
+    }
 }
 
 void Playlist::showColumn(int c)
@@ -437,14 +445,19 @@ void Playlist::showColumn(int c)
     
     setColumnWidth(c, w);
     triggerUpdate();
+
+    if(c == leftMostVisibleColumn()) {
+	if(m_playingItem) {
+	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
+	    m_playingItem->setPixmap(leftMostVisibleColumn(), QPixmap(UserIcon("playing")));
+	}
+	m_leftColumn = leftMostVisibleColumn();
+    }
 }
 
 bool Playlist::isColumnVisible(int c) const
 {
-    if(columnWidth(c) != 0)
-	return true;
-    else
-	return false;
+    return columnWidth(c) != 0;
 }
 
 QString Playlist::resolveSymLinks(const QFileInfo &file)
@@ -690,6 +703,14 @@ void Playlist::slotColumnOrderChanged(int, int from, int to)
     }
 }
 
+int Playlist::leftMostVisibleColumn() const
+{
+    int i = 0;
+    while(!isColumnVisible(header()->mapToSection(i)) && i < PlaylistItem::lastColumn())
+	i++;
+
+    return header()->mapToSection(i);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions

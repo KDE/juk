@@ -191,7 +191,7 @@ signals:
 private:
     void setup();
     void applyTag(QListViewItem *item, const QString &text, int column);
-    QPtrStack<PlaylistItem> m_history;
+    int leftMostVisibleColumn() const;
 
 private slots:
     void slotEmitSelected() { emit signalSelectionChanged(selectedItems()); }
@@ -206,6 +206,7 @@ private:
     SortedStringList m_members;
     int m_processed;
     bool m_allowDuplicates;
+    QPtrStack<PlaylistItem> m_history;
 
     QString m_playlistFileName;
 

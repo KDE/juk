@@ -61,6 +61,8 @@ public:
     enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3,
                       GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
 
+    static const int lastColumn() { return FileNameColumn; }
+
     void setFile(const QString &file);
     Tag *tag() const;
 
