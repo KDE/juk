@@ -55,12 +55,36 @@ public:
     }
 };
 
+class FixedHLayout : public QHBoxLayout
+{
+public:
+    FixedHLayout(QWidget *parent, int margin = 0, int spacing = -1, const char *name = 0) :
+	QHBoxLayout(parent, margin, spacing, name),
+	m_width(-1) {}
+    FixedHLayout(QLayout *parentLayout, int spacing = -1, const char *name = 0) :
+	QHBoxLayout(parentLayout, spacing, name),
+	m_width(-1) {}
+    void setWidth(int w = -1)
+    {
+	m_width = w == -1 ? QHBoxLayout::minimumSize().width() : w;
+    }
+    virtual QSize minimumSize() const
+    {
+	QSize s = QHBoxLayout::minimumSize();
+	s.setWidth(m_width);
+	return s;
+    }
+private:
+    int m_width;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-TagEditor::TagEditor(QWidget *parent, const char *name) : QWidget(parent, name),
-							  m_currentPlaylist(0)
+TagEditor::TagEditor(QWidget *parent, const char *name) :
+    QWidget(parent, name),
+    m_currentPlaylist(0)
 {
     setupLayout();
     readConfig();
@@ -373,8 +397,8 @@ void TagEditor::setupLayout()
         rightColumnLayout->addWidget(addHidden(m_fileNameBox));
 
         { // lay out the track row
-            QHBoxLayout *trackRowLayout = new QHBoxLayout(rightColumnLayout,
-							  horizontalSpacing);
+            FixedHLayout *trackRowLayout = new FixedHLayout(rightColumnLayout,
+							    horizontalSpacing);
 
             m_trackSpin = new KIntSpinBox(0, 255, 1, 0, 10, this, "trackSpin");
 	    addItem(i18n("T&rack:"), m_trackSpin, trackRowLayout);
@@ -404,6 +428,8 @@ void TagEditor::setupLayout()
             m_bitrateBox->setMaximumWidth(50);
             m_bitrateBox->setReadOnly(true);
             trackRowLayout->addWidget(addHidden(m_bitrateBox));
+
+	    trackRowLayout->setWidth();
         }
 
         m_commentBox = new KEdit(this, "commentBox");
