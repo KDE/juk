@@ -59,6 +59,7 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
     processArgs();
 
     SplashScreen::finishedLoading();
+    QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
 }
 
 JuK::~JuK()

@@ -98,11 +98,19 @@ void CollectionList::clear()
 	Playlist::clear();
 }
 
+void CollectionList::slotCheckCache()
+{
+    for(QDictIterator<CollectionListItem>it(m_itemsDict); it.current(); ++it) {
+	it.current()->checkCurrent();
+	kapp->processEvents();
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionList::CollectionList(PlaylistSplitter *s, QWidget *parent) : Playlist(s, parent, i18n("Collection List"))
+CollectionList::CollectionList(PlaylistSplitter *s, QWidget *parent) : Playlist(s, parent, i18n("Collection List")) //, m_finishedLoading(false)
 {
 
 }
@@ -206,7 +214,6 @@ CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &pat
 		  << "CollectionList::initialize() has been called." << endl;
 
     SplashScreen::increment();
-    QTimer::singleShot(3 * 1000, this, SLOT(slotCheckCurrent()));
 }
 
 CollectionListItem::~CollectionListItem()
@@ -222,11 +229,7 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
     connect(this, SIGNAL(signalRefreshed()), child, SLOT(slotRefreshImpl()));
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// CollectionListItem private slots
-////////////////////////////////////////////////////////////////////////////////
-
-void CollectionListItem::slotCheckCurrent()
+void CollectionListItem::checkCurrent()
 {
     if(!data()->exists() || !data()->isFile())
 	CollectionList::instance()->clearItem(this);

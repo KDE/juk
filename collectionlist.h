@@ -57,6 +57,7 @@ public:
 public slots:
     virtual void paste();
     virtual void clear();
+    void slotCheckCache();
     
 protected:
     CollectionList(PlaylistSplitter *s, QWidget *parent);
@@ -113,14 +114,13 @@ protected:
 
     void addChildItem(PlaylistItem *child);
 
-private slots:
     /**
      * This slot, called from a QTimer::singleShot() set in the constructor, allows for
      * delayed consistancy checking for the cache at the cost of a few CPU cycles.  The
      * effect however is that stating files is delayed until after the GUI is shown by
      * moving this action into the event loop.
      */
-    void slotCheckCurrent();
+    void checkCurrent();
 };
 
 #endif
