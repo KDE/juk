@@ -404,9 +404,10 @@ void JuK::setupActions()
 
     a = new KAction(i18n("From &Filename"), "CTRL+f", actionCollection(), "guessTagFile");
     m_guessMenu->insert(a);
-
+#if HAVE_MUSICBRAINZ
     a = new KAction(i18n("From &Internet"), "CTRL+i", actionCollection(), "guessTagInternet");
     m_guessMenu->insert(a);
+#endif
 
     connect(m_guessMenu->popupMenu(), SIGNAL(activated(int)), this, SLOT(slotGuessTagInfo(int)));
 
