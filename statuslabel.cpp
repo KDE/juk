@@ -103,8 +103,6 @@ StatusLabel::~StatusLabel()
 
 void StatusLabel::update()
 {
-    kdDebug(65432) << k_funcinfo << playlist()->playing() << endl;
-
     if(playlist()->playing()) {
         FileHandle file = playlist()->currentFile();
         QString text = file.tag()->artist() + " - " + file.tag()->title();
