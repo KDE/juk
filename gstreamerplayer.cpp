@@ -49,10 +49,11 @@ GStreamerPlayer::~GStreamerPlayer()
 void GStreamerPlayer::play(const QString &fileName, float volume)
 {
     m_currentFile = fileName;
-    if(!fileName.isNull())
+    if(!fileName.isEmpty()) {
 	m_player->setLocation(fileName);  
 
-    play(volume);
+	play(volume);
+    }
 }
 
 void GStreamerPlayer::play(float volume)
