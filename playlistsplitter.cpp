@@ -20,6 +20,7 @@
 #include <kapplication.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
+#include <kdirwatch.h>
 #include <kdebug.h>
 
 #include <qinputdialog.h>
@@ -244,15 +245,21 @@ void PlaylistSplitter::slotOpenDirectory()
     DirectoryList *l = new DirectoryList(m_directoryList, this, "directoryList");
 
     m_directoryQueue.clear();
+    m_directoryQueueRemove.clear();
 
     connect(l, SIGNAL(signalDirectoryAdded(const QString &)), this, SLOT(slotQueueDirectory(const QString &)));
     connect(l, SIGNAL(signalDirectoryRemoved(const QString &)), this, SLOT(slotQueueDirectoryRemove(const QString &)));
 
     if(l->exec() == QDialog::Accepted) {
 	open(m_directoryQueue);
+	for(QStringList::Iterator it = m_directoryQueue.begin(); it !=  m_directoryQueue.end(); it++)
+	    m_dirWatch->addDir(*it, false, true);
+	    
 	m_directoryList += m_directoryQueue;
-	for(QStringList::Iterator it = m_directoryQueueRemove.begin(); it !=  m_directoryQueueRemove.end(); it++)
+	for(QStringList::Iterator it = m_directoryQueueRemove.begin(); it !=  m_directoryQueueRemove.end(); it++) {
+	    m_dirWatch->removeDir(*it);
 	    m_directoryList.remove(*it);
+	}
     }
 }
 void PlaylistSplitter::slotSetEditorVisible(bool visible)
@@ -408,6 +415,14 @@ void PlaylistSplitter::readConfig()
 
 	    m_directoryList = config->readListEntry("DirectoryList");
 	    QTimer::singleShot(0, this, SLOT(slotScanDirectories()));
+
+	    m_dirWatch = new KDirWatch();
+	    connect(m_dirWatch, SIGNAL(dirty(const QString &)), this, SLOT(slotDirChanged(const QString &)));
+
+            for(QStringList::Iterator it = m_directoryList.begin(); it != m_directoryList.end(); ++it)
+		m_dirWatch->addDir(*it, false, true);
+
+	    m_dirWatch->startScan();
 	}
 
 	// restore the list of hidden and shown columns
@@ -433,8 +448,7 @@ void PlaylistSplitter::readConfig()
 	    setupColumns(m_collection);
 	}
     }
-}	
-
+}
 
 void PlaylistSplitter::saveConfig()
 {

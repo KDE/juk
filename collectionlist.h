@@ -19,6 +19,7 @@
 #define COLLECTIONLIST_H
 
 #include <kapplication.h>
+#include <kdirwatch.h>
 
 #include <qclipboard.h>
 #include <qdict.h>
@@ -26,6 +27,8 @@
 #include "playlist.h"
 #include "playlistitem.h"
 #include "sortedstringlist.h"
+
+class CollectionListItem;
 
 /** 
  * This is the "collection", or all of the music files that have been opened
@@ -37,8 +40,6 @@
  * Hence there will be the familiar singleton "instance()" method allong with an
  * "initialize()" method.
  */
-
-class CollectionListItem;
 
 class CollectionList : public Playlist
 {
@@ -87,14 +88,22 @@ protected:
 
     void emitNumberOfItemsChanged() { emit signalNumberOfItemsChanged(this); }
 
+    void addWatched(const QString &file) { m_dirWatch->addFile(file); }
+    void removeWatched(const QString &file) { m_dirWatch->removeFile(file); }
+
 signals:
     void signalCollectionChanged();
+
+private slots:
+    void slotRemoveItem(const QString &file);
+    void slotRefreshItem(const QString &file);
     
 private:
-    static CollectionList *list;
+    static CollectionList *m_list;
     QDict<CollectionListItem> m_itemsDict;
     SortedStringList m_artists;
     SortedStringList m_albums;
+    KDirWatch *m_dirWatch;
 };
 
 class CollectionListItem : public PlaylistItem
@@ -126,6 +135,9 @@ protected:
      * moving this action into the event loop.
      */
     void checkCurrent();
+
+private:
+    QString m_path;
 };
 
 #endif

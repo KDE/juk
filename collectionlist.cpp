@@ -31,16 +31,16 @@
 // static methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionList *CollectionList::list = 0;
+CollectionList *CollectionList::m_list = 0;
 
 CollectionList *CollectionList::instance()
 {
-    return list;
+    return m_list;
 }
 
 void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
 {
-    list = new CollectionList(parent);
+    m_list = new CollectionList(parent);
 
     if(restoreOnLoad)
 	for(QDictIterator<Tag>it(*Cache::instance()); it.current(); ++it)
@@ -90,9 +90,13 @@ void CollectionList::slotCheckCache()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionList::CollectionList(QWidget *parent) : Playlist(parent, i18n("Collection List"))
+CollectionList::CollectionList(QWidget *parent) : Playlist(parent, i18n("Collection List")),
+						  m_itemsDict(5003)
 {
-
+    m_dirWatch = new KDirWatch();
+    connect(m_dirWatch, SIGNAL(deleted(const QString &)), this, SLOT(slotRemoveItem(const QString &)));
+    connect(m_dirWatch, SIGNAL(dirty(const QString &)), this, SLOT(slotRefreshItem(const QString &)));
+    m_dirWatch->startScan();
 }
 
 CollectionList::~CollectionList()
@@ -148,6 +152,21 @@ void CollectionList::addAlbum(const QString &album)
     if(album != previousAlbum && !m_albums.insert(album))
 	previousAlbum = album;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// private slots
+////////////////////////////////////////////////////////////////////////////////
+
+void CollectionList::slotRemoveItem(const QString &file)
+{
+    clearItem(m_itemsDict[file]);
+}
+
+void CollectionList::slotRefreshItem(const QString &file)
+{
+    m_itemsDict[file]->slotRefresh();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // CollectionListItem public slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,26 +179,29 @@ void CollectionListItem::slotRefresh()
 	CollectionList::instance()->addArtist(text(ArtistColumn));
 	CollectionList::instance()->addAlbum(text(AlbumColumn));	
     }
+
     // This is connected to slotRefreshImpl() for all of the items children.
-    emit(signalRefreshed());
+    emit signalRefreshed();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // CollectionListItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &path) : PlaylistItem(CollectionList::instance())
+CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &path) : PlaylistItem(CollectionList::instance()),
+										     m_path(path)
 {
     CollectionList *l = CollectionList::instance();
     if(l) {
-	l->addToDict(path, this);
-	setData(Data::newUser(file, path));
+	l->addToDict(m_path, this);
+	setData(Data::newUser(file, m_path));
 	slotRefresh();
 	connect(this, SIGNAL(signalRefreshed()), l, SIGNAL(signalDataChanged()));
 	l->emitNumberOfItemsChanged();
+//	l->addWatched(m_path);
     }
     else
-	kdError() << "CollectionListItems should not be created before"
+	kdError() << "CollectionListItems should not be created before "
 		  << "CollectionList::initialize() has been called." << endl;
 
     SplashScreen::increment();
@@ -188,8 +210,11 @@ CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &pat
 CollectionListItem::~CollectionListItem()
 {
     CollectionList *l = CollectionList::instance();
-    if(l)
-	l->removeFromDict(Playlist::resolveSymLinks(*data()));
+    if(l) {
+	QString path = Playlist::resolveSymLinks(*data());
+//	l->removeWatched(m_path);
+	l->removeFromDict(m_path);
+    }
 }
 
 void CollectionListItem::addChildItem(PlaylistItem *child)
@@ -200,8 +225,10 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
 
 void CollectionListItem::checkCurrent()
 {
-    if(!data()->exists() || !data()->isFile())
+    if(!data()->exists() || !data()->isFile()) {
 	CollectionList::instance()->clearItem(this);
+	return;
+    }
     else if(!data()->tag()->current())
 	data()->refresh();
 }

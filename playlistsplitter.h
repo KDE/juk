@@ -31,6 +31,7 @@
 
 class KActionMenu;
 class PlaylistItem;
+class KDirWatch;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
@@ -284,6 +285,7 @@ private slots:
 
     void slotScanDirectories() { open(m_directoryList); }
     void slotSetNextItem(PlaylistItem *item = 0) { m_nextPlaylistItem = item; }
+    void slotDirChanged(const QString &dir) { open(dir); }
 
 private:
     PlaylistItem *m_playingItem;
@@ -308,6 +310,8 @@ private:
     bool m_restore;
 
     PlaylistItem *m_nextPlaylistItem;
+    
+    KDirWatch *m_dirWatch;
 };
 
 #endif
