@@ -19,14 +19,14 @@
 
 static const int tableSize = 5003;
 
-class StringHash::m_Node
+class StringHash::Node
 {
 public:
-    m_Node(const QString &value) : key(value), next(0) {}
-    ~m_Node() {}
+    Node(const QString &value) : key(value), next(0) {}
+    ~Node() {}
     
     QString key;
-    m_Node *next;
+    Node *next;
 };
 
 StringHash::StringHash() : m_table(tableSize)
@@ -43,8 +43,8 @@ StringHash::~StringHash()
 bool StringHash::insert(const QString &value)
 {
     int h = hash(value);
-    m_Node *i = m_table[h];
-    m_Node *j = 0;
+    Node *i = m_table[h];
+    Node *j = 0;
     
     while(i) {
 	if(i->key == value)
@@ -56,9 +56,9 @@ bool StringHash::insert(const QString &value)
     }
 
     if(j)
-	j->next = new m_Node(value);
+	j->next = new Node(value);
     else
-	m_table.insert(h, new m_Node(value));
+	m_table.insert(h, new Node(value));
 
     return false;
 }
@@ -66,7 +66,7 @@ bool StringHash::insert(const QString &value)
 bool StringHash::contains(const QString &value) const
 {
     int h = hash(value);
-    m_Node *i = m_table[h];
+    Node *i = m_table[h];
 
     while(i && i->key != value)
 	i = i->next;
@@ -79,7 +79,7 @@ QStringList StringHash::values() const
 {
     QStringList l;
 
-    m_Node *n;
+    Node *n;
 
     for(int i = 0; i < tableSize; i++) {
 	n = m_table[i];
@@ -119,7 +119,7 @@ int StringHash::hash(const QString &key) const
     return index % tableSize;
 }
 
-void StringHash::deleteNode(m_Node *n)
+void StringHash::deleteNode(Node *n)
 {
     if(n) {
 	deleteNode(n->next);
