@@ -228,7 +228,7 @@ void PlaylistBox::rename(Item *item)
     bool ok;
 
     QString name = KLineEditDlg::getText(i18n("Rename"),
-        i18n("Please enter a name for this playlist:"), item->text(0), &ok);
+        i18n("Please enter a name for this playlist:"), item->text(), &ok);
 
     if(ok) {
 	item->setText(0, name);
