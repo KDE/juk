@@ -47,12 +47,6 @@ void UpcomingPlaylist::initialize()
     m_oldIterator = manager()->takeIterator();
     manager()->installIterator(new UpcomingSequenceIterator(this));
 
-    if(playingItem()) {
-        PlaylistItemList list;
-        list.append(playingItem());
-        createItems(list);
-    }
-
     if(!m_oldIterator->current())
         m_oldIterator->prepareToPlay(CollectionList::instance());
     else
@@ -62,7 +56,7 @@ void UpcomingPlaylist::initialize()
     // list instead of the first, so we'll need to move it after the list is
     // initialized.  Also, we should fill the list to our set number of items.
 
-    bool needsAdjusting = !items().isEmpty();
+    bool needsAdjusting = playingItem() != 0;
 
     if(needsAdjusting && action<KToggleAction>("loopPlaylist")->isChecked()) {
         m_oldIterator->advance();
@@ -81,7 +75,7 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
     if(itemList.isEmpty())
         return;
 
-    createItems(itemList, static_cast<PlaylistItem *>(lastChild()));
+    createItems(itemList, playingItem());
 }
 
 void UpcomingPlaylist::removeIteratorOverride()
