@@ -194,11 +194,11 @@ private slots:
     void slotGuessTagFromFile()     { m_collection->guessTagFromFile(); }
     void slotGuessTagFromInternet() { m_collection->guessTagFromInternet(); }
 
-    void slotSetSearchEnabled(bool enable) { m_collection->setSearchEnabled(enable); }
-    void slotSetHistoryPlaylistEnabled(bool enable) {m_collection->setHistoryPlaylistEnabled(enable); }
+    void slotSetSearchEnabled(bool enable)           { m_collection->setSearchEnabled(enable); }
+    void slotSetHistoryPlaylistEnabled(bool enable)  { m_collection->setHistoryPlaylistEnabled(enable); }
     void slotSetUpcomingPlaylistEnabled(bool enable) { m_collection->setUpcomingPlaylistEnabled(enable); }
-    void slotEnableDirWatch(bool enable) { m_collection->enableDirWatch(enable); }
-    void slotDirChanged(const QString &path) { m_collection->dirChanged(path); }
+    void slotEnableDirWatch(bool enable)             { m_collection->enableDirWatch(enable); }
+    void slotDirChanged(const QString &path)         { m_collection->dirChanged(path); }
 
 signals:
     void signalSelectedItemsChanged();
