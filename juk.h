@@ -27,6 +27,7 @@
 #include <kstdaction.h>
 #include <kmainwindow.h>
 #include <kmenubar.h>
+#include <kpopupmenu.h>
 
 #include <qlabel.h>
 
@@ -106,6 +107,8 @@ private slots:
     void pause();
     void stop();
     void back();
+    void back(int howMany);
+    void slotPopulateBackMenu();
     void forward();
     void seekBack();
     void seekForward();
@@ -163,7 +166,7 @@ private:
     KAction *m_playAction;
     KAction *m_pauseAction;
     KAction *m_stopAction;
-    KAction *m_backAction;
+    KToolBarPopupAction *m_backAction;
     KAction *m_forwardAction;
     KToggleAction *m_loopPlaylistAction;
 

@@ -82,6 +82,11 @@ public:
     QString playPreviousFile(bool random = false);
 
     /**
+     * Fills the menu passed in with the recently played history
+     */
+    void populatePlayHistoryMenu(QPopupMenu* menu, bool random);
+
+    /**
      * Returns the name of the currently selected file and moves the playing 
      * indicator to that file.
      */

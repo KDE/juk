@@ -87,6 +87,11 @@ public:
     PlaylistItemList selectedItems() const;
 
     /**
+     * Returns a list of the last 10 played items.
+     */
+    PlaylistItemList historyItems(PlaylistItem *current, bool random) const;
+
+    /**
      * Allow duplicate files in the playlist.
      */
     void setAllowDuplicates(bool allow);
@@ -249,7 +254,7 @@ private:
     SortedStringList m_members;
     int m_processed;
     bool m_allowDuplicates;
-    QPtrStack<PlaylistItem> m_history;
+    QPtrList<PlaylistItem> m_history;
 
     QString m_fileName;
     

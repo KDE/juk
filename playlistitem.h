@@ -45,6 +45,7 @@ class PlaylistItem : public QObject, public KListViewItem
 {
     friend class Playlist;
     friend class CollectionList;
+    friend class QPtrList<PlaylistItem>;
 
     /**
      * Needs access to the destuctor, even though the destructor isn't used by QPtrStack.

@@ -20,6 +20,7 @@
 #include <klineeditdlg.h>
 #include <kdebug.h>
 
+#include <qpopupmenu.h>
 
 #include "playlistsplitter.h"
 #include "directorylist.h"
@@ -139,6 +140,18 @@ QString PlaylistSplitter::playPreviousFile(bool random)
     PlaylistItem *i = p->previousItem(m_playingItem, random);
 
     return play(i);
+}
+
+void PlaylistSplitter::populatePlayHistoryMenu(QPopupMenu* menu, bool random)
+{
+    Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
+    PlaylistItemList list = p->historyItems(m_playingItem, random);
+    menu->clear();
+    int i = 0;
+    for (PlaylistItemList::iterator it = list.begin(); it != list.end(); ++it)
+    {
+        menu->insertItem((*it)->tag()->track(), ++i);
+    }
 }
 
 QString PlaylistSplitter::playSelectedFile()

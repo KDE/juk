@@ -317,6 +317,29 @@ PlaylistItemList Playlist::selectedItems() const
     return list;
 }
 
+PlaylistItemList Playlist::historyItems(PlaylistItem *current, bool random) const
+{
+    PlaylistItemList list;
+
+    if (random)
+    {
+        QPtrListIterator<PlaylistItem> it(m_history);
+        it.toLast();
+        for (int j = 0; it.current() && j < 10; --it, ++j)
+                list.append(it.current());
+    }
+    else if (current)
+    {
+        current = static_cast<PlaylistItem *>(current->itemAbove());
+        for (int j = 0;
+             current && j < 10;
+             ++j, current = static_cast<PlaylistItem *>(current->itemAbove()))
+            list.append(current);
+    }
+
+    return list;
+}
+
 PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 {
     if(!current)
@@ -332,7 +355,7 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 
         m_randomList.remove(current);
 
-        m_history.push(current);
+        m_history.append(current);
 
         i = current;
         while(i == current) {
@@ -340,7 +363,10 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
         }
     }
     else
+    {
+        m_history.clear();
 	i = static_cast<PlaylistItem *>(current->itemBelow());
+    }
 
     return i;
 }
@@ -350,13 +376,15 @@ PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
     if(!current)
         return 0;
 
-    if(random && !m_history.isEmpty()) {
-        PlaylistItem * item = m_history.pop();
+    if(random && !m_history.isEmpty())
+    {
+        PlaylistItem * item = m_history.take(m_history.count() - 1);
         //should we add it to the random list ?
         //m_randomList.append(item);
         return item;
     }
 
+    m_history.clear();
     if(!current->itemAbove())
         return current;
 

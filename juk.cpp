@@ -132,7 +132,9 @@ void JuK::setupActions()
     m_playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(play()), actionCollection(), "play");
     m_pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pause()), actionCollection(), "pause");
     m_stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stop()), actionCollection(), "stop");
-    m_backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(back()), actionCollection(), "back");
+    m_backAction = new KToolBarPopupAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(back()), actionCollection(), "back");
+    connect(m_backAction->popupMenu(), SIGNAL(aboutToShow()), this, SLOT(slotPopulateBackMenu()));
+    connect(m_backAction->popupMenu(), SIGNAL(activated(int)), this, SLOT(back(int)));
     m_forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()), actionCollection(), "forward");
     m_loopPlaylistAction = new KToggleAction(i18n("&Loop Playlist"), 0, 0, actionCollection(), "loopPlaylist");
 
@@ -587,6 +589,21 @@ void JuK::stop()
 void JuK::back()
 {
     play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
+}
+
+void JuK::back(int howMany)
+{
+    for (--howMany; howMany > 0; --howMany)
+    {
+        m_splitter->playPreviousFile(m_randomPlayAction->isChecked());
+    }
+
+    play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
+}
+
+void JuK::slotPopulateBackMenu()
+{
+    m_splitter->populatePlayHistoryMenu(m_backAction->popupMenu(), m_randomPlayAction->isChecked());
 }
 
 void JuK::forward()
