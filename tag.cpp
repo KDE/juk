@@ -45,11 +45,15 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
 
     if(MediaFiles::isMP3(fileName)) {
         TagLib::MPEG::File file(QStringToTString(fileName));
+        if(!file.isOpen())
+            return 0;
         return new Tag(fileName, &file);
     }
 
     if(MediaFiles::isOgg(fileName)) {
         TagLib::Vorbis::File file(QStringToTString(fileName));
+        if(!file.isOpen())
+            return 0;
         return new Tag(fileName, &file);
     }
 
