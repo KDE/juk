@@ -44,6 +44,7 @@ private:
     virtual void wheelEvent( QWheelEvent *e);
     void createPopup(const QString &songName, bool addButtons = true);
     void setToolTip(const QString &tip = QString::null);
+    void mousePressEvent( QMouseEvent * );
     QPixmap createPixmap(const QString &pixName);
 
     QPixmap m_playPix;

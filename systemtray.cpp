@@ -201,6 +201,30 @@ void SystemTray::wheelEvent(QWheelEvent *e)
 }
 
 /*
+ * Reimplemented this in order to use the middle mouse button
+ */
+void SystemTray::mousePressEvent( QMouseEvent *e )
+{
+    switch ( e->button() ) {
+    case LeftButton:
+    case RightButton:
+        KSystemTray::mousePressEvent( e );
+        break;
+    case MidButton:
+        if ( !rect().contains( e->pos() ) )
+	    return;
+        if ( m_pauseAction->isEnabled() )
+            m_pauseAction->activate();
+        else
+            m_playAction->activate();
+        break;
+    default:
+	// nothing
+	break;
+    }
+}
+
+/*
  * This function copies the entirety of src into dest, starting in
  * dest at x and y.  This function exists because I was unable to find
  * a function like it in either QImage or kdefx
@@ -209,12 +233,12 @@ void SystemTray::wheelEvent(QWheelEvent *e)
 static bool copyImage(QImage &dest, QImage &src, int x, int y)
 {
     if(dest.depth() != src.depth())
-        return false;   
+        return false;
     if((x + src.width()) >= dest.width())
         return false;
     if((y + src.height()) >= dest.height())
         return false;
-    
+
     // We want to use KIconEffect::overlay to do this, since it handles
     // alpha, but the images need to be the same size.  We can handle that.
 
@@ -225,24 +249,24 @@ static bool copyImage(QImage &dest, QImage &src, int x, int y)
     // etc.
 
     large_src.detach();
-	
+
     // However, we do have to specifically ensure that setAlphaBuffer is set
     // to false
 
     large_src.setAlphaBuffer (false);
     large_src.fill(0); // All transparent pixels
     large_src.setAlphaBuffer (true);
-    
+
     int w = src.width();
     int h = src.height();
     for(int dx = 0; dx < w; dx++)
         for(int dy = 0; dy < h; dy++)
             large_src.setPixel(dx + x, dy + y, src.pixel(dx, dy));
-    
+
     // Apply effect to image
 
     KIconEffect::overlay (dest, large_src);
-    
+
     return true;
 }
 
