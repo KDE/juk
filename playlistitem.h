@@ -182,8 +182,6 @@ private:
 
 class PlaylistItem::Pointer
 {
-    friend class Playlist;
-
 public:
     Pointer(PlaylistItem *item);
     Pointer(const Pointer &p);
