@@ -74,6 +74,8 @@ void CollectionList::clear()
 				   "your scan on startup list, then they will be readded on startup."));
     if(result == KMessageBox::Yes)			      
 	Playlist::clear();
+
+    emit signalCollectionChanged();
 }
 
 void CollectionList::slotCheckCache()

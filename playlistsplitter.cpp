@@ -64,6 +64,8 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *na
 
     setupLayout();
     readConfig();
+
+    m_editor->slotUpdateCollection();
 }
 
 PlaylistSplitter::~PlaylistSplitter()
@@ -364,6 +366,7 @@ void PlaylistSplitter::setupLayout()
     CollectionList::initialize(m_playlistStack, m_restore);
     m_collection = CollectionList::instance();
     setupPlaylist(m_collection, true, "folder_sound");
+    connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
 
     // Show the collection on startup.
     m_playlistBox->setSelected(0, true);
@@ -498,7 +501,6 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
 {
     connect(p, SIGNAL(signalSelectionChanged(const PlaylistItemList &)), m_editor, SLOT(slotSetItems(const PlaylistItemList &)));
     connect(p, SIGNAL(signalDoubleClicked()), this, SIGNAL(signalDoubleClicked()));
-    connect(p, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
     connect(p, SIGNAL(signalNumberOfItemsChanged(Playlist *)), this, SLOT(slotPlaylistCountChanged(Playlist *)));
     connect(p, SIGNAL(signalAboutToRemove(PlaylistItem *)), this, SLOT(slotPlaylistItemRemoved(PlaylistItem *)));
     connect(p, SIGNAL(signalFilesDropped(const QStringList &, Playlist *)), this, SLOT(slotAddToPlaylist(const QStringList &, Playlist *)));

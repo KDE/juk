@@ -147,7 +147,9 @@ bool SortedStringList::BSTInsert(const QString &value)
     
     while(node) {
 	previousNode = node;
-	if(value < node->key)
+	if(value == node->key)
+	    return true;
+	else if(value < node->key)
 	    node = node->left;
 	else
 	    node = node->right;

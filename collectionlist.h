@@ -86,6 +86,9 @@ protected:
     void addAlbum(const QString &album);
 
     void emitNumberOfItemsChanged() { emit signalNumberOfItemsChanged(this); }
+
+signals:
+    void signalCollectionChanged();
     
 private:
     static CollectionList *list;
