@@ -157,24 +157,36 @@ void SystemTray::createPopup()
 
         bool onLeft = buttonsToLeft();
         QVBox *buttonBox;
+        QVBox *infoBox;
 
         if(onLeft) {
 
             // They go to the left because JuK is on that side
 
             buttonBox = new QVBox(box);
-            buttonBox->setSpacing(3);
 
             // Separator line
 
             QFrame *line = new QFrame(box);
             line->setFrameShape(QFrame::VLine);
-        }
 
-        QVBox *infoBox = new QVBox(box);
+            infoBox = new QVBox(box);
+        }
+        else {
+
+            // Buttons go on right because JuK is there
+
+            infoBox = new QVBox(box);
+
+            QFrame *line = new QFrame(box);
+            line->setFrameShape(QFrame::VLine);
+
+            buttonBox = new QVBox(box);
+        }
 
         infoBox->setSpacing(3);
         infoBox->setMargin(3);
+        buttonBox->setSpacing(3);
         
         // This should be initialized to the number of labels that are used.
 
@@ -184,12 +196,6 @@ void SystemTray::createPopup()
             (*it)->setAlignment(AlignRight | AlignVCenter);
         }
 
-        QFrame *line = new QFrame(box);
-        line->setFrameShape(QFrame::VLine);
-
-        buttonBox = new QVBox(box);
-        buttonBox->setSpacing(3);
- 
         QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
         forwardButton->setFlat(true);
         connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
