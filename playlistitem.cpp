@@ -41,12 +41,32 @@ Tag *PlaylistItem::tag() const
     return(data->tag());
 }
 
-// QFileInfo-ish methods
-QString PlaylistItem::fileName() const { return(data->fileName()); }
-QString PlaylistItem::filePath() const { return(data->filePath()); }
-QString PlaylistItem::absFilePath() const { return(data->absFilePath()); }
-QString PlaylistItem::dirPath(bool absPath) const { return(data->dirPath(absPath)); }
-bool PlaylistItem::isWritable() const { return(data->isWritable()); }
+// some forwarding methods
+
+QString PlaylistItem::fileName() const
+{ 
+    return(data->fileName()); 
+}
+
+QString PlaylistItem::filePath() const
+{
+    return(data->filePath());
+}
+
+QString PlaylistItem::absFilePath() const
+{
+    return(data->absFilePath());
+}
+
+QString PlaylistItem::dirPath(bool absPath) const
+{
+    return(data->dirPath(absPath));
+}
+
+bool PlaylistItem::isWritable() const 
+{
+    return(data->isWritable());
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem public slots

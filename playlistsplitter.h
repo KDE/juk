@@ -63,6 +63,10 @@ public:
      */
     QString uniquePlaylistName() { return(uniquePlaylistName(i18n("Playlist"))); }
     
+    ////////////////////////////////////////////////////////////////////////////
+    // Variations on the theme "play stuff"
+    ////////////////////////////////////////////////////////////////////////////
+
     /**
      * Returns the file name of the next item to be played and advances the next
      * file.
@@ -86,6 +90,18 @@ public:
      * indicator to that file.
      */
     QString playFirstFile();
+
+    /**
+     * Since the player is handled at a higher level, this just clears the 
+     * pointer to the currently playing item and updates the icon.
+     */
+    void stop();
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    QString playingArtist() const;
+    QString playingTrack() const;
+    QString playingList() const;
 
     /**
      * Returns a list of the extensions that are used for playlists.
@@ -117,6 +133,18 @@ public:
      */
     bool collectionListSelected() const { return(visiblePlaylist() == CollectionList::instance()); }
 
+    /**
+     * Open each of \a files, where \a files is a list of playlists and music
+     * files.
+     */
+    void open(const QStringList &files) { add(files, visiblePlaylist()); }
+
+    /**
+     * Open \a file where \a is a playlist or music file.
+     */
+    void open(const QString &file) { add(file, visiblePlaylist()); }
+
+
 // static methods
 
     /** 
@@ -141,16 +169,7 @@ public slots:
      */
     void openDirectory();
 
-    /**
-     * Open each of \a files, where \a files is a list of playlists and music
-     * files.
-     */
-    void open(const QStringList &files) { add(files, visiblePlaylist()); }
-
-    /**
-     * Open \a file where \a is a playlist or music file.
-     */
-    void open(const QString &file) { add(file, visiblePlaylist()); }
+// Tagger slots
 
     /**
      * Save.
@@ -176,33 +195,13 @@ public slots:
     Playlist *createPlaylist(const QString &name);
 
     /**
-     * Prompt the user for a playlist to open.
-     */
-    void openPlaylist();
-
-    /**
-     * Open the playlist (m3u file or simiar) at \a playlistFile.
-     */
-    Playlist *openPlaylist(const QString &playlistFile);
-
-    /**
      * Sets the selection to the currently playing item and ensures that it is
      * visible.
      */
     void selectPlaying();
 
-    QString playingArtist() const;
-    QString playingTrack() const;
-    QString playingList() const;
-
 // Other slots
     
-    /**
-     * Since the player is handled at a higher level, this just clears the 
-     * pointer to the currently playing item and updates the icon.
-     */
-    void stop();
-
     /**
      * Deletes the selected items from the hard disk. 
      */
@@ -262,7 +261,11 @@ private:
     void saveConfig();
     void addImpl(const QString &file, Playlist *list);
     void setupPlaylist(Playlist *p, bool raise = false, const char *icon = "midi");
-//    void checkPlayingItemBeforeRemove(PlaylistItemList &items);
+
+    /**
+     * Open the playlist (m3u file or simiar) at \a file.
+     */
+    Playlist *openPlaylist(const QString &file);
     
 private slots:
     void changePlaylist(PlaylistBoxItem *item);

@@ -167,6 +167,38 @@ QString PlaylistSplitter::playFirstFile()
 	return(QString::null);
 }
 
+void PlaylistSplitter::stop()
+{
+    if(playingItem) {
+	playingItem->setPixmap(0, 0);
+	playingItem = 0;
+    }
+}
+
+QString PlaylistSplitter::playingArtist() const
+{
+    if(playingItem)
+	return(playingItem->text(PlaylistItem::ArtistColumn));
+    else
+	return(QString::null);
+}
+
+QString PlaylistSplitter::playingTrack() const
+{
+    if(playingItem)
+	return(playingItem->text(PlaylistItem::TrackColumn));
+    else
+	return(QString::null);
+}
+
+QString PlaylistSplitter::playingList() const
+{
+    if(playingItem)
+	return(static_cast<Playlist *>(playingItem->listView())->name());
+    else
+	return(QString::null);
+}
+
 void PlaylistSplitter::add(const QString &file, Playlist *list)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
@@ -204,46 +236,6 @@ QString PlaylistSplitter::extensionsString(const QStringList &extensions, const 
 
     return(s);
 }
-
-/*
-void PlaylistSplitter::setSelected(PlaylistItem *i) // static
-{
-    // Hu hu!  See how much crap I can pack into just one pointer to a 
-    // PlaylistItem!  Sensitive viewers may want to close their eyes for the
-    // next few lines.
-    
-    if(i) {
-	
-	// Get the playlist associated with the playing item and make set the
-	// playing item to be both selected and visible.
-	
-	Playlist *l = dynamic_cast<Playlist *>(i->listView());
-	
-	if(l) {
-	    l->clearSelection();
-	    l->setSelected(i, true);
-	    l->ensureItemVisible(i);
-	    
-	    // Now move on to the PlaylistBox.  The Playlist knows which
-	    // PlaylistBoxItem that it is associated with, so we'll just get
-	    // that and then figure out the PlaylistBox from there.
-	    // 
-	    // Once we have that we can set the appropriate Playlist to be
-	    // visible.
-	    
-	    if(l->playlistBoxItem() && l->playlistBoxItem()->listBox()) {
-		QListBox *b = l->playlistBoxItem()->listBox();
-		
-		b->clearSelection();
-		b->setSelected(l->playlistBoxItem(), true);
-
-		b->setCurrentItem(l->playlistBoxItem());
-		b->ensureCurrentVisible();
-	    }
-	}
-    }    
-}
-*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
@@ -301,24 +293,6 @@ Playlist *PlaylistSplitter::createPlaylist(const QString &name)
     return(p);
 }
 
-void PlaylistSplitter::openPlaylist()
-{
-    QStringList files = KFileDialog::getOpenFileNames(QString::null, "*.m3u");
-
-    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
-	openPlaylist(*it);
-}
-
-Playlist *PlaylistSplitter::openPlaylist(const QString &playlistFile)
-{
-    QFileInfo file(playlistFile);
-    if(!file.exists() || !file.isFile() || !file.isReadable() || playlistFiles.insert(file.absFilePath()))
-	return(0);
-
-    Playlist *p = new Playlist(this, playlistFile, playlistStack, file.baseName(true).latin1());
-    setupPlaylist(p);
-    return(p);
-}
 
 void PlaylistSplitter::selectPlaying()
 {
@@ -351,39 +325,6 @@ void PlaylistSplitter::selectPlaying()
 	}    
     }
 }
-
-QString PlaylistSplitter::playingArtist() const
-{
-    if(playingItem)
-	return(playingItem->text(PlaylistItem::ArtistColumn));
-    else
-	return(QString::null);
-}
-
-QString PlaylistSplitter::playingTrack() const
-{
-    if(playingItem)
-	return(playingItem->text(PlaylistItem::TrackColumn));
-    else
-	return(QString::null);
-}
-
-QString PlaylistSplitter::playingList() const
-{
-    if(playingItem)
-	return(static_cast<Playlist *>(playingItem->listView())->name());
-    else
-	return(QString::null);
-}
-
-void PlaylistSplitter::stop()
-{
-    if(playingItem) {
-	playingItem->setPixmap(0, 0);
-	playingItem = 0;
-    }
-}
-
 
 void PlaylistSplitter::removeSelectedItems()
 {
@@ -543,6 +484,17 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
 	playlistBox->setCurrentItem(i);
 	playlistBox->ensureCurrentVisible();
     }
+}
+
+Playlist *PlaylistSplitter::openPlaylist(const QString &file)
+{
+    QFileInfo fileInfo(file);
+    if(!fileInfo.exists() || !fileInfo.isFile() || !fileInfo.isReadable() || playlistFiles.insert(fileInfo.absFilePath()))
+	return(0);
+
+    Playlist *p = new Playlist(this, file, playlistStack, fileInfo.baseName(true).latin1());
+    setupPlaylist(p);
+    return(p);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

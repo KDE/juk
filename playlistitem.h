@@ -24,7 +24,6 @@
 #include <qobject.h>
 
 #include "tag.h"
-#include "audiodata.h"
 #include "cache.h"
 
 class Playlist;
@@ -52,6 +51,7 @@ public:
 
     // These are just forwarding methods to PlaylistItem::Data, a QFileInfo 
     // subclass.
+
     QString fileName() const;
     QString filePath() const;
     QString absFilePath() const;

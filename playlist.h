@@ -40,11 +40,13 @@ public:
      * PlaylistSplitter::createPlaylist().
      */
     Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name = QString::null);
+
     /** 
      * Before creating a playlist directly, please see 
      * PlaylistSplitter::openPlaylist().
      */
     Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name = 0);
+
     virtual ~Playlist();
 
     /**
@@ -61,10 +63,12 @@ public:
     /** 
      * All of the (media) files in the list. 
      */
+
     QStringList files() const;
     /** 
      * Returns a list of all of the items in the playlist.
      */
+
     PlaylistItemList items() const;
     
     /**
