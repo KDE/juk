@@ -381,14 +381,26 @@ void TaggerWidget::updateBoxes() // this needs to be updated to properly work wi
                 bitrateBox->setText(QString::number(audioData->getBitrate()));
             }
             else {
-                lengthBox->setText(QString::null);
-                bitrateBox->setText(QString::null);
+                lengthBox->clear();
+                bitrateBox->clear();
             }
 
             commentBox->setText(tag->getComment());
 
             changed = false;
         }
+    }
+    else {
+        artistNameBox->lineEdit()->clear();
+        trackNameBox->clear();
+        albumNameBox->lineEdit()->clear();
+        genreBox->setCurrentItem(0);
+        fileNameBox->clear();
+        trackSpin->setValue(0);
+        yearSpin->setValue(0);
+        lengthBox->clear();
+        bitrateBox->clear();
+        commentBox->clear();
     }
 }
 
