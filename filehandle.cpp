@@ -34,6 +34,8 @@ AddProperty(Genre, tag()->genre());
 AddNumberProperty(Track, tag()->track());
 AddNumberProperty(Year, tag()->year());
 AddProperty(Comment, tag()->comment());
+AddNumberProperty(Seconds, tag()->seconds());
+AddNumberProperty(Bitrate, tag()->bitrate());
 AddProperty(Path, absFilePath());
 
 static QString resolveSymLinks(const QFileInfo &file) // static
