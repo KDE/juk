@@ -32,6 +32,8 @@ class Playlist;
 class PlaylistItem;
 typedef QValueList<PlaylistItem *> PlaylistItemList;
 
+class CollectionObserver;
+
 class TagEditor : public QWidget
 {
     Q_OBJECT
@@ -40,12 +42,14 @@ public:
     TagEditor(QWidget *parent = 0, const char *name = 0);
     virtual ~TagEditor();
     PlaylistItemList items() const { return m_items; }
+    void setupObservers();
 
 public slots:
     void slotSave() { save(m_items); }
     void slotSetItems(const PlaylistItemList &list);
     void slotRefresh();
     void slotClear();
+    void slotPlaylistDestroyed(Playlist *p);
     void slotUpdateCollection(); //Update collection if we're visible, or defer otherwise
 
 private:
@@ -99,8 +103,12 @@ private:
     PlaylistItemList m_items;
     Playlist *m_currentPlaylist;
     
+    CollectionObserver *m_observer;
+
     bool m_dataChanged;
     bool m_collectionChanged;
+
+    friend class CollectionObserver;
 };
 
 #endif

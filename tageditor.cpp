@@ -98,13 +98,35 @@ private:
     int m_width;
 };
 
+class CollectionObserver : public PlaylistObserver
+{
+public:
+    CollectionObserver(TagEditor *parent) :
+	PlaylistObserver(CollectionList::instance()),
+	m_parent(parent)
+    {
+    }
+
+    virtual void updateData()
+    {
+	if(m_parent && m_parent->m_currentPlaylist)
+	    m_parent->slotSetItems(m_parent->m_currentPlaylist->selectedItems());
+    }
+
+    virtual void updateCurrent() {}
+
+private:
+    TagEditor *m_parent;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
 TagEditor::TagEditor(QWidget *parent, const char *name) :
     QWidget(parent, name),
-    m_currentPlaylist(0)
+    m_currentPlaylist(0),
+    m_observer(0)
 {
     setupActions();
     setupLayout();
@@ -115,7 +137,13 @@ TagEditor::TagEditor(QWidget *parent, const char *name) :
 
 TagEditor::~TagEditor()
 {
+    delete m_observer;
     saveConfig();
+}
+
+void TagEditor::setupObservers()
+{
+    m_observer = new CollectionObserver(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -536,12 +564,19 @@ void TagEditor::save(const PlaylistItemList &list)
     if(!list.isEmpty() && m_dataChanged) {
 	
 	KApplication::setOverrideCursor(Qt::waitCursor);
+	m_dataChanged = false;
 
 	// To keep track of the files that don't cooperate...
 
 	QStringList errorFiles;
+
+	// The list variable can become corrupted if the playlist holding its
+	// items dies, which is possible as we edit tags.  So we need to copy
+	// the end marker.
+
+	PlaylistItemList::ConstIterator end = list.end();
 	
-	for(PlaylistItemList::ConstIterator it = list.begin(); it != list.end(); ++it) {
+	for(PlaylistItemList::ConstIterator it = list.begin(); it != end; /* Deliberatly missing */ ) {
 
 	    // Process items before we being modifying tags, as the dynamic
 	    // playlists will try to modify the file we edit if the tag changes
@@ -551,6 +586,12 @@ void TagEditor::save(const PlaylistItemList &list)
 
 	    PlaylistItem *item = *it;
 	    
+	    // The playlist can be deleted from under us if this is the last
+	    // item and we edit it so that it doesn't match the search, which
+	    // means we can't increment the iterator, so let's do it now.
+
+	    ++it;
+
 	    QFileInfo newFile(item->file().fileInfo().dirPath() + QDir::separator() +
 			      m_fileNameBox->text());
 	    QFileInfo directory(item->file().fileInfo().dirPath());
@@ -629,8 +670,6 @@ void TagEditor::save(const PlaylistItemList &list)
 	    KMessageBox::detailedSorry(this,
 				       i18n("Could not save to specified file(s)."), 
 				       i18n("Could Not Write to:\n") + errorFiles.join("\n"));
-	m_dataChanged = false;
-
 	CollectionList::instance()->dataChanged();
 	KApplication::restoreOverrideCursor();
     }
@@ -733,6 +772,14 @@ void TagEditor::slotItemRemoved(PlaylistItem *item)
     m_items.remove(item);
     if(m_items.isEmpty())
 	slotRefresh();
+}
+
+void TagEditor::slotPlaylistDestroyed(Playlist *p)
+{
+    if(m_currentPlaylist == p) {
+	m_currentPlaylist = 0;
+	slotSetItems(PlaylistItemList());
+    }
 }
 
 #include "tageditor.moc"
