@@ -19,6 +19,8 @@
 #include <qslider.h>
 #include <qtimer.h>
 
+#include <math.h>
+
 #include "artsplayer.h"
 #include "gstreamerplayer.h"
 #include "playermanager.h"
@@ -266,6 +268,8 @@ void PlayerManager::play(const FileHandle &file)
     action("pause")->setEnabled(true);
     action("stop")->setEnabled(true);
     action("forward")->setEnabled(true);
+//    if(action<KToggleAction>("albumRandomPlay")->isChecked())
+//        action("forwardAlbum")->setEnabled(true);
     action("back")->setEnabled(true);
 
     if(m_sliderAction->trackPositionSlider())
@@ -319,6 +323,7 @@ void PlayerManager::stop()
     action("stop")->setEnabled(false);
     action("back")->setEnabled(false);
     action("forward")->setEnabled(false);
+//    action("forwardAlbum")->setEnabled(false);
 
     if(m_sliderAction->trackPositionSlider()) {
         m_sliderAction->trackPositionSlider()->setValue(0);
@@ -473,7 +478,14 @@ void PlayerManager::slotPollPlay()
     // constructed in time during startup. -mpyne
 
     if(!m_sliderAction->volumeDragging() && m_sliderAction->volumeSlider())
-        m_sliderAction->volumeSlider()->setVolume((int) (m_sliderAction->volumeSlider()->maxValue() * volume()));
+    {
+        int maxV = m_sliderAction->volumeSlider()->maxValue();
+        float v = sqrtf(sqrtf(volume())); // Cancel out exponential scaling
+
+        m_sliderAction->volumeSlider()->blockSignals(true);
+        m_sliderAction->volumeSlider()->setVolume((int)((v) * maxV));
+        m_sliderAction->volumeSlider()->blockSignals(false);
+    }
 
     // Ok, this is weird stuff, but it works pretty well.  Ordinarily we don't
     // need to check up on our playing time very often, but in the span of the
@@ -500,10 +512,21 @@ void PlayerManager::slotSetOutput(int system)
 
 void PlayerManager::slotSetVolume(int volume)
 {
+    float scaledVolume;
+
     if(m_sliderAction->volumeSlider())
-        setVolume(float(volume) / float(m_sliderAction->volumeSlider()->maxValue()));
-    else
-        setVolume(float(volume) / 100.0);
+        scaledVolume = float(volume) / m_sliderAction->volumeSlider()->maxValue();
+    else {
+        scaledVolume = float(volume) / 100.0; // Hopefully this is accurate
+        scaledVolume = kMin(1.0f, scaledVolume);
+    }
+
+    // Perform exponential scaling to counteract the fact that humans perceive
+    // volume changes logarithmically.
+
+    scaledVolume *= scaledVolume;
+    scaledVolume *= scaledVolume;
+    setVolume(scaledVolume); // scaledVolume ^ 4
 }
 
 void PlayerManager::slotUpdateTime(int position)
@@ -537,6 +560,7 @@ void PlayerManager::setup()
     if(!action("pause") ||
        !action("stop") ||
        !action("back") ||
+//       !action("forwardAlbum") ||
        !action("forward") ||
        !action("trackPositionAction"))
     {
@@ -550,6 +574,7 @@ void PlayerManager::setup()
     action("stop")->setEnabled(false);
     action("back")->setEnabled(false);
     action("forward")->setEnabled(false);
+//    action("forwardAlbum")->setEnabled(false);
 
     // setup sliders
 
