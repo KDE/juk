@@ -110,8 +110,7 @@ void CoverInfo::popup() const
     QPixmap image = pixmap(FullSize);
     QPoint mouse  = QCursor::pos();
     QRect desktop = KApplication::desktop()->screenGeometry(mouse);
-    kdDebug(65432)<<desktop<<endl;
-    kdDebug(65432)<<mouse<<endl;
+    
     int x = mouse.x();
     int y = mouse.y();
     int height = image.size().height() + 4;
