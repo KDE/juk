@@ -44,6 +44,7 @@ public:
     PlaylistBox(PlaylistSplitter *parent = 0, const char *name = 0);
     virtual ~PlaylistBox();
 
+    void sort();
     QStringList names() const;
 
 public slots:
@@ -75,6 +76,7 @@ private:
     KPopupMenu *collectionContextMenu;
     KPopupMenu *playlistContextMenu;
     PlaylistBoxItem *contextMenuOn;
+    bool updatePlaylistStack;
 
 private slots:
     /** 
@@ -118,9 +120,10 @@ public:
     virtual ~PlaylistBoxItem();
 
     Playlist *playlist() const;
+    PlaylistBox *listBox() const;
 
 public slots:
-    void changeFile(const QString &file);
+    void setName(const QString &name);
     
 private:
     Playlist *list;

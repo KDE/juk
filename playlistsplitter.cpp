@@ -40,24 +40,22 @@ void processEvents()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// static public methods
-////////////////////////////////////////////////////////////////////////////////
-
-PlaylistSplitter *PlaylistSplitter::splitter = 0;
-
-PlaylistSplitter *PlaylistSplitter::instance()
-{
-    return(splitter);
-}
-
-void PlaylistSplitter::initialize(QWidget *parent)
-{
-    splitter = new PlaylistSplitter(parent);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
+
+PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) : QSplitter(Qt::Horizontal, parent, name)
+{
+    setupLayout();
+    readConfig();
+    mediaExtensions.append("mp3");
+    mediaExtensions.append("ogg");
+    listExtensions.append("m3u");
+}
+
+PlaylistSplitter::~PlaylistSplitter()
+{
+    saveConfig();
+}
 
 QString PlaylistSplitter::uniquePlaylistName()
 {
@@ -121,12 +119,9 @@ QString PlaylistSplitter::extensionsString(const QStringList &extensions, const 
     return(s);
 }
 
-QStringList PlaylistSplitter::playlistExtensions()
+QStringList PlaylistSplitter::playlistExtensions() const
 {
-    if(splitter)
-	return(splitter->listExtensions);
-    else
-	return(QString::null);
+    return(listExtensions);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -217,12 +212,13 @@ Playlist *PlaylistSplitter::createPlaylist()
 
 Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 {
-    Playlist *p = new Playlist(playlistStack, name.latin1());
+    Playlist *p = new Playlist(this, playlistStack, name.latin1());
     new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
 
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
+    playlistBox->sort();
     return(p);
 }
 
@@ -242,12 +238,12 @@ Playlist *PlaylistSplitter::openPlaylist(const QString &playlistFile)
 
     playlistFiles.append(file.absFilePath());
     
-    QString name = file.baseName(true);
-    Playlist *p = new Playlist(playlistFile, playlistStack, name.latin1());
+    Playlist *p = new Playlist(this, playlistFile, playlistStack, file.baseName(true).latin1());
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
-    new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
+    new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), p->name(), p);
+    playlistBox->sort();
     return(p);
 }
 
@@ -270,24 +266,6 @@ void PlaylistSplitter::add(const QStringList &files, Playlist *list)
 
     if(editor)
 	editor->updateCollection();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// protected members
-////////////////////////////////////////////////////////////////////////////////
-
-PlaylistSplitter::PlaylistSplitter(QWidget *parent) : QSplitter(Qt::Horizontal, parent, "playlistSplitter")
-{
-    setupLayout();
-    readConfig();
-    mediaExtensions.append("mp3");
-    mediaExtensions.append("ogg");
-    listExtensions.append("m3u");
-}
-
-PlaylistSplitter::~PlaylistSplitter()
-{
-    saveConfig();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -325,7 +303,7 @@ void PlaylistSplitter::setupLayout()
     // fact is a subclass) so it is created here rather than by using 
     // createPlaylist().
 
-    CollectionList::initialize(playlistStack);
+    CollectionList::initialize(this, playlistStack);
     collection = CollectionList::instance();
 
     PlaylistBoxItem *collectionBoxItem = new PlaylistBoxItem(playlistBox, SmallIcon("folder_sound", 32), 
@@ -351,8 +329,11 @@ void PlaylistSplitter::readConfig()
 	    openPlaylist(*it);
 
 	QStringList internal = config->readListEntry("InternalPlaylists");
-	for(QStringList::Iterator it = internal.begin(); it != internal.end(); ++it)
-	    openPlaylist(*it);
+	for(QStringList::Iterator it = internal.begin(); it != internal.end(); ++it) {
+	    Playlist *p = openPlaylist(*it);
+	    if(p)
+		p->setInternal(true);
+	}
     }
 }	
 
@@ -366,15 +347,16 @@ void PlaylistSplitter::saveConfig()
     if(playlistBox) {
 	QStringList internalPlaylists;
 	QStringList externalPlaylists;
-	for(uint i = 0; i < playlistBox->count(); i++) {
+
+	// Start at item 1.  We want to skip the collection list.
+
+	for(uint i = 1; i < playlistBox->count(); i++) {
 	    PlaylistBoxItem *item = static_cast<PlaylistBoxItem *>(playlistBox->item(i));
 	    if(item && item->playlist()) {
 		Playlist *p = item->playlist();
 		if(p->isInternalFile()) {
-		    if(p->fileName().isEmpty())
-			; // save the file
-		    if(!p->fileName().isEmpty())
-			internalPlaylists.append(p->fileName());
+		    p->save(true);
+		    internalPlaylists.append(p->fileName());
 		}
 		else
 		    externalPlaylists.append(p->fileName());
@@ -382,10 +364,8 @@ void PlaylistSplitter::saveConfig()
 	}
 	{ // block for Playlists group
 	    KConfigGroupSaver saver(config, "Playlists");
-	    if(!internalPlaylists.isEmpty())
-		config->writeEntry("InternalPlaylists", internalPlaylists);
-	    if(!externalPlaylists.isEmpty())
-		config->writeEntry("ExternalPlaylists", externalPlaylists);
+	    config->writeEntry("InternalPlaylists", internalPlaylists);
+	    config->writeEntry("ExternalPlaylists", externalPlaylists);
 	}
     }
 }

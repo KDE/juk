@@ -33,9 +33,9 @@ CollectionList *CollectionList::instance()
     return(list);
 }
 
-void CollectionList::initialize(QWidget *parent)
+void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent)
 {
-    list = new CollectionList(parent);
+    list = new CollectionList(s, parent);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionList::CollectionList(QWidget *parent) : Playlist(parent, "collectionList")
+CollectionList::CollectionList(PlaylistSplitter *s, QWidget *parent) : Playlist(s, parent, "collectionList")
 {
 
 }
@@ -91,8 +91,8 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 		files.append((*it).path());
 	    
-	    if(PlaylistSplitter::instance())
-		PlaylistSplitter::instance()->add(files, this);
+	    if(playlistSplitter())
+		playlistSplitter()->add(files, this);
 	}
     }
 }

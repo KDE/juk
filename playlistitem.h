@@ -66,8 +66,10 @@ public slots:
     virtual void refreshFromDisk();
 
 protected:
-    /** Items should always be created using Playlist::createItem() or through a
-	subclss or friend class. */
+    /** 
+     * Items should always be created using Playlist::createItem() or through a
+     * subclss or friend class. 
+     */
     PlaylistItem(CollectionListItem *item, Playlist *parent);
     PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after);
     PlaylistItem(Playlist *parent);

@@ -34,25 +34,16 @@ class TagEditor;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
- * a QWidgetStack of the Playlists.  This like CollectionList, has been 
- * implemented as a pseudo-singleton to provide global access without passing
- * pointers all over the place. */
+ * a QWidgetStack of the Playlists.  
+ */
 
 class PlaylistSplitter : public QSplitter
 {
     Q_OBJECT
 
 public:
-    /**
-     * Since this class is something of a singleton, all instances should be
-     * refered to by the instance() method.  Also see initialize().
-     */
-    static PlaylistSplitter *instance();
-    /**
-     * This method must be called to construct the object.  It creates the 
-     * instance of the object that can be referred to by instance().
-     */
-    static void initialize(QWidget *parent = 0);
+    PlaylistSplitter(QWidget *parent, const char *name = 0);
+    virtual ~PlaylistSplitter();
 
     /**
      * Returns a unique string to be used as new playlist names.  This follows
@@ -77,16 +68,16 @@ public:
 
     // static (non-initialization) methods
 
+    /**
+     * Returns a lif of the extensions that are used for playlists.
+     */
+    QStringList playlistExtensions() const;
     /** 
      * Merges a list of file extensions, and a description of those types into a
      * format that makes sense to KFileDialog.  If type = QString::null then no
      * description is appended.
      */
     static QString extensionsString(const QStringList &extensions, const QString &type = QString::null);
-    /**
-     * Returns a lif of the extensions that are used for playlists.
-     */
-    static QStringList playlistExtensions();
 
 public slots:
     void open();
@@ -123,8 +114,6 @@ public slots:
     void deleteItemPlaylist() { playlistBox->deleteItem(); }
 
 protected:
-    PlaylistSplitter(QWidget *parent = 0);
-    virtual ~PlaylistSplitter();
 
 private:
     void setupLayout();

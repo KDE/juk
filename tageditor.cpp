@@ -209,20 +209,20 @@ void TagEditor::refresh()
 	Tag *tag = item->getTag();
 	AudioData *audioData = item->getAudioData();
 	
-	artistNameBox->setEditText(tag->getArtist());
-	trackNameBox->setText(tag->getTrack());
-	albumNameBox->setEditText(tag->getAlbum());
+	artistNameBox->setEditText(tag->artist());
+	trackNameBox->setText(tag->track());
+	albumNameBox->setEditText(tag->album());
 	
-	if(genreList && genreList->findIndex(tag->getGenre()) >= 0)
-	    genreBox->setCurrentItem(genreList->findIndex(tag->getGenre()) + 1);
+	if(genreList && genreList->findIndex(tag->genre()) >= 0)
+	    genreBox->setCurrentItem(genreList->findIndex(tag->genre()) + 1);
 	else {
 	    genreBox->setCurrentItem(0);
-	    genreBox->setEditText(tag->getGenre());
+	    genreBox->setEditText(tag->genre());
 	}
 	
 	fileNameBox->setText(item->fileName());
-	trackSpin->setValue(tag->getTrackNumber());
-	yearSpin->setValue(tag->getYear());
+	trackSpin->setValue(tag->trackNumber());
+	yearSpin->setValue(tag->year());
 	
 	if(audioData->getResult()) {
 	    lengthBox->setText(audioData->getLengthChar());
@@ -233,7 +233,7 @@ void TagEditor::refresh()
 	    bitrateBox->clear();
 	}
 	
-	commentBox->setText(tag->getComment());
+	commentBox->setText(tag->comment());
 	
 	dataChanged = false;
     }
@@ -336,7 +336,7 @@ void TagEditor::save(const PlaylistItemList &list)
                 if(genreList->findIndex(genreBox->currentText()) >= 0)
                     item->getTag()->setGenre((*genreList)[genreList->findIndex(genreBox->currentText())]);
                 else
-                    item->getTag()->setGenre(Genre(genreBox->currentText(), item->getTag()->getGenre().getID3v1()));
+                    item->getTag()->setGenre(Genre(genreBox->currentText(), item->getTag()->genre().getID3v1()));
 
 
                 item->getTag()->save();

@@ -1,5 +1,5 @@
 /***************************************************************************
-                          tag.h  -  description
+                          id3tag.h  -  description
                              -------------------
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 by Scott Wheeler
@@ -27,53 +27,46 @@
 class Tag
 {
 public:
-    Tag(const QString &file);
+    /**
+     * All Tag objects should be instantiated through this method.  It determines
+     * the appropriate concrete subclass and instantiates that.  It's servering
+     * as a mini-factory; a full blown abstract factory is an overkill here.
+     */
+    static Tag *createTag(const QString &file);
     virtual ~Tag();
 
-    bool exists();
-    void save();
+    virtual void save() = 0;
 
-    // functions that gather information
+    virtual QString track() const = 0;
+    virtual QString artist() const = 0;
+    virtual QString album() const = 0;
+    virtual Genre genre() const = 0;
+    virtual int trackNumber() const = 0;
+    virtual QString trackNumberString() const = 0;
+    virtual int year() const = 0;
+    virtual QString yearString() const = 0;
+    virtual QString comment() const = 0;
+    virtual bool hasTag() const = 0;
 
-    QString getFileName() const;
-    QString getTrack() const; // The song's name, not it's track number
-    QString getArtist() const;
-    QString getAlbum() const;
-    Genre getGenre() const;
-    int getTrackNumber() const;
-    QString getTrackNumberString() const;
-    int getYear() const;
-    QString getYearString() const;
-    QString getComment() const;
-    bool hasTag() const;
-
-    // functions that set information
-
-    void setTrack(QString value); // The song's name, not it's track number
-    void setArtist(QString value);
-    void setAlbum(QString value);
-    void setGenre(Genre value);
-    void setTrackNumber(int value);
-    void setYear(int value);
-    void setComment(QString value);
-
-private:
-    ID3_Tag tag;
-    QString fileName;
-    bool changed;
-
-    // properties read or derived from the tag:
-
-    bool hasTagBool;
-    QString artistName;
-    QString albumName;
-    QString trackName;
-    int trackNumber;
-    QString trackNumberString;
-    Genre genre;
-    int year;
-    QString yearString;
-    QString comment;
+    virtual void setTrack(const QString &value) = 0;
+    virtual void setArtist(const QString &value) = 0;
+    virtual void setAlbum(const QString &value) = 0;
+    virtual void setGenre(const Genre &value) = 0;
+    virtual void setTrackNumber(int value) = 0;
+    virtual void setYear(int value) = 0;
+    virtual void setComment(const QString &value) = 0;
+    
+protected:
+    /**
+     * The constructor is procetected since this is an abstract class and as
+     * such it should not be instantiated directly.  createTag() should be
+     * used to instantiate a concrete subclass of Tag that can be manipulated
+     * though the public API.
+     *
+     * Here we're also accepting a file as a parameter, not because it is used
+     * now, but reserving it for later use.
+     */
+    Tag(const QString &file);
 };
 
 #endif

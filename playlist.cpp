@@ -19,6 +19,7 @@
 #include <kurl.h>
 #include <kurldrag.h>
 #include <kiconloader.h>
+#include <kstandarddirs.h>
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -39,19 +40,21 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Playlist::Playlist(QWidget *parent, const char *name) : KListView(parent, name)
+Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1())
 {
-    setup();
+    playlistName = name;
     internalFile = true;
     playlistFileName = QString::null;
+    splitter = s;
+    setup();
 }
 
-Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name)
+Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name)
 {
-    setup();
-
     internalFile = false;
     playlistFileName = playlistFile.absFilePath();
+    splitter = s;
+    setup();
 
     QFile file(playlistFileName);
     if(!file.open(IO_ReadOnly))
@@ -66,16 +69,27 @@ Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *n
 
     while(!stream.atEnd()) {
 	QString itemName = (stream.readLine()).stripWhiteSpace();
-	QFileInfo item(itemName);
 
-	if(item.isRelative())
-	    item.setFile(QDir::cleanDirPath(playlistFile.dirPath(true) + "/" + itemName));
-	
-	if(item.exists() && item.isFile() && item.isReadable()) {
-	    if(after)
-		after = createItem(item, after);
-	    else
-		after = createItem(item);
+	// Here we're checking to see if JuK has recorded a name for the playlist
+	// in the m3u file.  i.e. if one of the lines is 
+	// "#NAME=Really Good Music" this will pick that out.
+
+	if(itemName.startsWith("#")) {
+	    if(itemName.startsWith("#NAME="))
+		setName(itemName.section('=', 1, -1));
+	}
+	else {
+	    QFileInfo item(itemName);
+
+	    if(item.isRelative())
+		item.setFile(QDir::cleanDirPath(playlistFile.dirPath(true) + "/" + itemName));
+	    
+	    if(item.exists() && item.isFile() && item.isReadable()) {
+		if(after)
+		    after = createItem(item, after);
+		else
+		    after = createItem(item);
+	    }
 	}
     }
     
@@ -87,9 +101,13 @@ Playlist::~Playlist()
 
 }
 
-void Playlist::save()
+void Playlist::save(bool autoGenerateFileName)
 {
-    if(internalFile || playlistFileName == QString::null)
+    if(autoGenerateFileName && playlistFileName == QString::null) {
+	QString dataDir = KGlobal::dirs()->saveLocation("appdata");
+	playlistFileName = dataDir + name() + "." + splitter->playlistExtensions().first();
+    }
+    else if(!autoGenerateFileName && (internalFile || playlistFileName == QString::null))
 	return saveAs();
     
     QFile file(playlistFileName);
@@ -98,6 +116,9 @@ void Playlist::save()
 	return KMessageBox::error(this, i18n("Could not save to file %1.").arg(playlistFileName));
     
     QTextStream stream(&file);
+
+    if(playlistName != QString::null)
+	stream << "#NAME=" << playlistName << endl;
 
     QStringList fileList = files();
 
@@ -118,18 +139,22 @@ void Playlist::saveAs()
     // This needs to be replace with something that sets the default to the 
     // playlist name.
 
-    QStringList extensions = PlaylistSplitter::playlistExtensions();
+    QStringList extensions = splitter->playlistExtensions();
 
     playlistFileName = KFileDialog::getSaveFileName(QString::null, 
-						    PlaylistSplitter::extensionsString(PlaylistSplitter::playlistExtensions(),
+						    splitter->extensionsString(splitter->playlistExtensions(),
 										       i18n("Playlists")));
     playlistFileName = playlistFileName.stripWhiteSpace();
     internalFile = false;
 
     if(playlistFileName != QString::null) {
-	if(!PlaylistSplitter::playlistExtensions().contains(playlistFileName.section('.', -1)))
-	    playlistFileName.append('.' + PlaylistSplitter::playlistExtensions().first());
-	emit(fileNameChanged(playlistFileName));
+	if(!splitter->playlistExtensions().contains(playlistFileName.section('.', -1)))
+	    playlistFileName.append('.' + splitter->playlistExtensions().first());
+
+	
+	if(playlistName == QString::null)
+	    emit(nameChanged(name()));
+
 	save();
     }
 }
@@ -235,9 +260,33 @@ bool Playlist::isInternalFile() const
     return(internalFile);
 }
 
+void Playlist::setInternal(bool internal)
+{
+    internalFile = internal;
+}
+
 QString Playlist::fileName() const
 {
     return(playlistFileName);
+}
+
+void Playlist::setFileName(const QString &n)
+{
+    playlistFileName = n;
+}
+
+QString Playlist::name() const
+{
+    if(playlistName == QString::null)
+	return(playlistFileName.section(QDir::separator(), -1).section('.', 0, -2));
+    else
+	return(playlistName);
+}
+
+void Playlist::setName(const QString &n)
+{
+    playlistName = n;
+    emit(nameChanged(playlistName));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -287,8 +336,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 		fileList.append((*it).path());
 	    
-	    if(PlaylistSplitter::instance())
-		PlaylistSplitter::instance()->add(fileList, this);
+	    if(splitter)
+		splitter->add(fileList, this);
 	}
     }
 }
@@ -317,6 +366,11 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
     }
     else
 	return(0);
+}
+
+PlaylistSplitter *Playlist::playlistSplitter() const
+{
+    return(splitter);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -349,6 +403,8 @@ void Playlist::setup()
 
     setAcceptDrops(true);
     allowDuplicates = false;
+
+    playlistName = QString::null;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

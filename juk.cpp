@@ -54,8 +54,7 @@ JuK::~JuK()
 
 void JuK::setupLayout()
 {
-    PlaylistSplitter::initialize(this);
-    splitter = PlaylistSplitter::instance();
+    splitter = new PlaylistSplitter(this, "playlistSplitter");
     setCentralWidget(splitter);
 
     // playlist item activation connection
@@ -191,6 +190,7 @@ void JuK::saveConfig()
 bool JuK::queryClose()
 {
     saveConfig();
+    delete(splitter);
     return(true);
 }
 

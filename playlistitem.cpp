@@ -137,12 +137,12 @@ void PlaylistItem::refreshImpl()
     }
     else {
 	
-	setText(TrackColumn,       getTag()->getTrack());
-	setText(ArtistColumn,      getTag()->getArtist());
-	setText(AlbumColumn,       getTag()->getAlbum());
-	setText(TrackNumberColumn, getTag()->getTrackNumberString());
-	setText(GenreColumn,       getTag()->getGenre());
-	setText(YearColumn,        getTag()->getYearString());
+	setText(TrackColumn,       getTag()->track());
+	setText(ArtistColumn,      getTag()->artist());
+	setText(AlbumColumn,       getTag()->album());
+	setText(TrackNumberColumn, getTag()->trackNumberString());
+	setText(GenreColumn,       getTag()->genre());
+	setText(YearColumn,        getTag()->yearString());
 	setText(LengthColumn,      getAudioData()->getLengthChar());
 	setText(FileNameColumn,    filePath());
     }
@@ -201,9 +201,9 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 int PlaylistItem::compare(PlaylistItem *firstItem, PlaylistItem *secondItem, int column, bool ascending) const
 {
     if(column == TrackNumberColumn) {
-        if(firstItem->getTag()->getTrackNumber() > secondItem->getTag()->getTrackNumber())
+        if(firstItem->getTag()->trackNumber() > secondItem->getTag()->trackNumber())
             return(1);
-        else if(firstItem->getTag()->getTrackNumber() < secondItem->getTag()->getTrackNumber())
+        else if(firstItem->getTag()->trackNumber() < secondItem->getTag()->trackNumber())
             return(-1);
         else
             return(0);
@@ -258,7 +258,7 @@ void PlaylistItem::Data::deleteUser()
 Tag *PlaylistItem::Data::getTag()
 {
     if(!tag)
-        tag = new Tag(filePath());
+        tag = Tag::createTag(filePath());
     return(tag);
 }
 

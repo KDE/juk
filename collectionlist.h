@@ -33,6 +33,7 @@
     "initialize()" method.
 */
 
+class PlaylistSplitter;
 class CollectionListItem;
 
 class CollectionList : public Playlist
@@ -42,7 +43,7 @@ class CollectionList : public Playlist
     Q_OBJECT
 public: 
     static CollectionList *instance();
-    static void initialize(QWidget *parent);
+    static void initialize(PlaylistSplitter *s, QWidget *parent);
 
     QStringList artists() const;
     QStringList albums() const;
@@ -51,7 +52,7 @@ public:
     virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *);
     
 protected:
-    CollectionList(QWidget *parent = 0);
+    CollectionList(PlaylistSplitter *s, QWidget *parent);
     virtual ~CollectionList();
 
     virtual void contentsDropEvent(QDropEvent *e);

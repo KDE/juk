@@ -37,6 +37,7 @@
 PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(parent, name)
 {
     splitter = parent;
+    updatePlaylistStack = true;
 
     collectionContextMenu = new KPopupMenu();
     collectionContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicate()));
@@ -60,6 +61,27 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
 PlaylistBox::~PlaylistBox()
 {
     delete(playlistContextMenu);
+}
+
+void PlaylistBox::sort()
+{
+    QListBoxItem *collectionItem = firstItem();
+
+    bool collectionSelected = isSelected(collectionItem);
+
+    updatePlaylistStack = false;
+
+    if(collectionSelected)
+	setSelected(collectionItem, false);
+
+    takeItem(collectionItem);
+    KListBox::sort();
+    insertItem(collectionItem, 0);
+
+    if(collectionSelected)
+	setSelected(collectionItem, true);
+
+    updatePlaylistStack = true;
 }
 
 QStringList PlaylistBox::names() const
@@ -106,10 +128,13 @@ void PlaylistBox::rename(PlaylistBoxItem *item)
 	QString name = QInputDialog::getText(i18n("Rename..."), i18n("Please enter a name for this playlist:"),
 					     QLineEdit::Normal, item->text(), &ok);
 	if(ok) {
-	    nameList.remove(item->text());
-	    nameList.append(name);
 	    item->setText(name);
-	    updateItem(item);
+	   
+	    // Telling the playlist to change it's name will emit a signal that
+	    // is connected to PlaylistItem::setName().
+
+	    if(item->playlist())
+		item->playlist()->setName(name);
 	}
     }
 }
@@ -262,7 +287,7 @@ void PlaylistBox::addName(const QString &name)
 void PlaylistBox::playlistChanged(QListBoxItem *item)
 {
     PlaylistBoxItem *i = dynamic_cast<PlaylistBoxItem *>(item);
-    if(i)
+    if(updatePlaylistStack && i)
 	emit(currentChanged(i));
 }
 
@@ -323,7 +348,7 @@ PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const
     setOrientation(Qt::Vertical);
     listbox->addName(text);
 
-    connect(l, SIGNAL(fileNameChanged(const QString &)), this, SLOT(changeFile(const QString &)));
+    connect(l, SIGNAL(nameChanged(const QString &)), this, SLOT(setName(const QString &)));
 }
 
 PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QString &text, Playlist *l) 
@@ -343,20 +368,19 @@ Playlist *PlaylistBoxItem::playlist() const
     return(list);
 }
 
-void PlaylistBoxItem::changeFile(const QString &file)
+PlaylistBox *PlaylistBoxItem::listBox() const
 {
-    QStringList extensions = PlaylistSplitter::playlistExtensions();
+    return(dynamic_cast<PlaylistBox *>(ListBoxPixmap::listBox()));
+}
 
-    // get just the filename, not the path
-    QString text = file.section(QDir::separator(), -1);
+void PlaylistBoxItem::setName(const QString &name)
+{
+    if(listBox()) {
+	listBox()->nameList.remove(text());
+	listBox()->nameList.append(name);
 
-    for(QStringList::Iterator it = extensions.begin(); it != extensions.end(); ++it) {
-	if(text.endsWith(*it)) {
-	    // remove the extension
-	    text = text.left(text.length() - (*it).length() - 1);
-	    setText(text);
-	    return;
-	}
+	setText(name);
+	listBox()->updateItem(this);
     }
 }
 

@@ -24,16 +24,32 @@
 
 #include "playlistitem.h"
 
+class PlaylistSplitter;
+
 class Playlist : public KListView
 {
     Q_OBJECT
 
 public:
-    Playlist(QWidget *parent = 0, const char *name = 0);
-    Playlist(const QFileInfo &playlistFile, QWidget *parent = 0, const char *name = 0);
+    /** 
+     * Before creating a playlist directly, please see 
+     * PlaylistSplitter::createPlaylist().
+     */
+    Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name = QString::null);
+    /** 
+     * Before creating a playlist directly, please see 
+     * PlaylistSplitter::openPlaylist().
+     */
+    Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name = 0);
     virtual ~Playlist();
 
-    virtual void save();
+    /**
+     * Saves the file to the currently set file name.  If there is no filename
+     * currently set, the default behavior is to prompt the user for a file
+     * name.  However, by setting autoGenerateFileName, you can tell save to 
+     * pick a file name.
+     */
+    virtual void save(bool autoGenerateFileName = false);
     virtual void saveAs();
     virtual void refresh();
     virtual void clearItems(const PlaylistItemList &items);
@@ -58,12 +74,21 @@ public:
 
     /** 
      * This is being used as a mini-factory of sorts to make the construction
-     * of PlaylistItems virtual. 
+     * of PlaylistItems virtual.  In this case it allows for the creation of
+     * both PlaylistItems and CollectionListItems.
      */
     virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *after = 0);
 
+    /**
+     * Internal files are files which have not been saved by the user, but rather
+     * are stored in JuK's data directory and are restored by session management.
+     */
     bool isInternalFile() const;
+    void setInternal(bool internal);
     QString fileName() const;
+    void setFileName(const QString &n);
+    QString name() const;
+    void setName(const QString &n);
 
     // static methods
 
@@ -76,6 +101,7 @@ protected:
     virtual QDragObject *dragObject();
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+    PlaylistSplitter *playlistSplitter() const;
 
 private:
     void setup();
@@ -92,6 +118,8 @@ private:
      */
     bool internalFile;
     QString playlistFileName;
+    QString playlistName;
+    PlaylistSplitter *splitter;
 
 private slots:
     void emitSelected();
@@ -114,7 +142,7 @@ signals:
      * primarily to notify the TagEditor of the new data. 
      */
     void selectionChanged(const PlaylistItemList &selection);
-    void fileNameChanged(const QString &fileName);
+    void nameChanged(const QString &fileName);
 };
 
 #endif
