@@ -57,6 +57,9 @@ void DirectoryList::addDirectory()
 
 void DirectoryList::removeDirectory()
 {
+    if(!directoryListView->selectedItem())
+	return;
+
     QString dir = directoryListView->selectedItem()->text(0); 
     dirList.remove(dir);
     emit(directoryRemoved(dir));
