@@ -144,6 +144,7 @@ void NowPlaying::slotButtonPress()
         KURL file = KFileDialog::getImageOpenURL(":homedir", this, i18n("Select cover image file - JuK"));
         QImage image(file.directory() + "/" + file.fileName());
         image.save(playingFile.coverInfo()->coverLocation(CoverInfo::FullSize), "PNG");
+        playingFile.coverInfo()->resetHasCover();
         slotRefresh();
     }
 }

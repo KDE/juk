@@ -66,7 +66,7 @@ private:
 
 
 CoverInfo::CoverInfo(const FileHandle &file) :
-    m_file(file), m_popupWindow(0)
+    m_file(file), m_haveCheckedForCover(false), m_hasCover(false), m_popupWindow(0)
 {
 }
 
@@ -91,12 +91,25 @@ QPixmap CoverInfo::coverPixmap() const
 
 bool CoverInfo::hasCover() const
 {
-    return (QFile(coverLocation(Thumbnail)).exists() || QFile(coverLocation(FullSize)).exists());
+    if (!m_haveCheckedForCover)
+        checkHasCover();
+    return m_hasCover;
+}
+
+bool CoverInfo::checkHasCover() const 
+{
+    m_hasCover=QFile(coverLocation(FullSize)).exists();
+    m_haveCheckedForCover=true;
 }
 
 QPixmap CoverInfo::largeCoverPixmap() const
 {
     return pixmap(FullSize);
+}
+
+void CoverInfo::resetHasCover() const
+{
+    m_haveCheckedForCover=false;
 }
 
 QPixmap CoverInfo::pixmap(int size) const

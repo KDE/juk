@@ -731,6 +731,7 @@ void Playlist::slotRemoveCover()
         for(PlaylistItemList::Iterator it = items.begin(); it !=items.end(); ++it) {
             QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::FullSize));
             QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
+            (*it)->file().coverInfo()->resetHasCover();
         }
 
         slotRefresh();
@@ -764,6 +765,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
         QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::FullSize));
         QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
         image.save((*it)->file().coverInfo()->coverLocation(CoverInfo::FullSize), "PNG");
+        (*it)->file().coverInfo()->resetHasCover();
         slotRefresh();
     }
     slotRefresh();
@@ -938,7 +940,7 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 	    QFile::remove(item->file().coverInfo()->coverLocation(true));
 	    QFile::remove(item->file().coverInfo()->coverLocation(false));
 	    QImage(file).save(item->file().coverInfo()->coverLocation(true), "PNG");
-
+            item->file().coverInfo()->resetHasCover();
 	    refreshAlbum(item->file().tag()->artist(),
 			 item->file().tag()->album());
 

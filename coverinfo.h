@@ -29,6 +29,7 @@ public:
 
     QPixmap coverPixmap() const;
     bool hasCover() const;
+    void resetHasCover() const;
     QPixmap pixmap(int size) const;
     QPixmap largeCoverPixmap() const;
     QString coverLocation(int size) const;
@@ -39,8 +40,11 @@ public:
 private:
     class CoverPopupWindow;
     friend class CoverPopupWindow;
+    bool checkHasCover() const;
 
     FileHandle m_file;
+    mutable bool m_haveCheckedForCover;
+    mutable bool m_hasCover;
     CoverPopupWindow *m_popupWindow;
 };
 #endif
