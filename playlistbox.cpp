@@ -98,8 +98,6 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise)
 	setSingleItem(i);
 	ensureCurrentVisible();
     }
-
-    // sort();
 }
 
 void PlaylistBox::raise(Playlist *playlist)
@@ -357,8 +355,6 @@ void PlaylistBox::slotShowContextMenu(QListViewItem *item, const QPoint &point, 
     m_contextMenuOn = i;
 
     if(i) {
-	// setSingleItem(i);
-
 	bool isCollection = i->playlist() == CollectionList::instance();
 	bool hasFile = !i->playlist()->fileName().isEmpty();
 	
@@ -406,7 +402,21 @@ void PlaylistBox::slotContextReload()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// PlaylistBox::Item public methods
+// PlaylistBox::Item public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void PlaylistBox::Item::slotSetName(const QString &name)
+{
+    if(listView()) {
+	listView()->m_names.remove(text(0));
+	listView()->m_names.append(name);
+
+	setText(0, name);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
@@ -439,17 +449,6 @@ int PlaylistBox::Item::compare(QListViewItem *i, int col, bool) const
 	return 1;
 
     return text(col).lower().localeAwareCompare(i->text(col).lower());
-}
-
-void PlaylistBox::Item::slotSetName(const QString &name)
-{
-    if(listView()) {
-	listView()->m_names.remove(text(0));
-	listView()->m_names.append(name);
-
-	setText(0, name);
-	// listView()->updateItem(this);
-    }
 }
 
 #include "playlistbox.moc"
