@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>556</width>
-            <height>308</height>
+            <height>310</height>
         </rect>
     </property>
     <vbox>
@@ -29,7 +29,7 @@
                         <cstring>fileInfoGroup</cstring>
                     </property>
                     <property name="title">
-                        <string>File name is...</string>
+                        <string>File Name</string>
                     </property>
                     <property name="alignment">
                         <set>AlignTop</set>
@@ -74,7 +74,7 @@
                         <cstring>trackInfoGroup</cstring>
                     </property>
                     <property name="title">
-                        <string>Select the best possible match...</string>
+                        <string>Select Best Possible Match</string>
                     </property>
                     <property name="alignment">
                         <set>AlignTop</set>
@@ -147,6 +147,8 @@
         </widget>
     </vbox>
 </widget>
+<customwidgets>
+</customwidgets>
 <tabstops>
     <tabstop>trackList</tabstop>
 </tabstops>
