@@ -35,6 +35,8 @@ using namespace ActionCollection;
 
 PlayerManager *PlayerManager::m_instance = 0;
 
+enum Status { StatusStopped = -1, StatusPaused = 1, StatusPlaying = 2 };
+
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
 ////////////////////////////////////////////////////////////////////////////////
@@ -125,18 +127,14 @@ float PlayerManager::volume() const
 
 int PlayerManager::status() const
 {
-    // DCOP call to interface better with the Media Control applet
-    // Constant values provided by mETz.
-    // mETz: You can thank me later. :-)
-
     if(!player())
-        return -1;
+        return StatusStopped;
 
     if(player()->paused())
-        return 1;
+        return StatusPaused;
 
     if(player()->playing())
-        return 2;
+        return StatusPlaying;
     
     return 0;
 }
