@@ -31,7 +31,7 @@
 
 		<Separator/>
 
-		<Action name="refresh"/>
+		<Action name="viewModeMenu"/>
 	</Menu>
 	<Menu name="player"><text>&amp;Player</text>
 		<Action name="randomPlay"/>
@@ -48,6 +48,10 @@
 	<Menu name="playlist"><text>&amp;Tagger</text>
 		<Action name="saveItem"/>
 		<Action name="removeItem"/>
+		<Action name="refresh"/>
+
+		<Separator/>
+
 		<Action name="guessTag"/>
 		<Action name="renameFile"/>
 	</Menu>

@@ -480,7 +480,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("Edit Search..."),  SLOT(slotEditSearch()),   "editSearch", "editclear");
 
     createAction(i18n("&Delete"),         SLOT(slotRemoveItems()),  "removeItem", "editdelete");
-    createAction(i18n("Refresh Items"),   SLOT(slotRefreshItems()), "refresh", "reload");
+    createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "reload");
     createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", "CTRL+r");
 }
 
