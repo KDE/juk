@@ -217,7 +217,7 @@ void JuK::setupActions()
 
     // TODO: switch this back to being a popup action
 
-    new KAction(i18n("Previous& Track"), "player_start", 0, m_player, SLOT(back()),    actions(), "back");
+    new KAction(i18n("Previous &Track"), "player_start", 0, m_player, SLOT(back()),    actions(), "back");
     new KAction(i18n("&Next Track"),     "player_end",   0, m_player, SLOT(forward()), actions(), "forward");
 
     new KToggleAction(i18n("&Loop Playlist"), 0, 0, actions(), "loopPlaylist");
