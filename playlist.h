@@ -34,6 +34,8 @@ class KActionMenu;
 
 class QEvent;
 
+typedef QValueList<Playlist *> PlaylistList;
+
 class Playlist : public KListView
 {
     Q_OBJECT
@@ -134,7 +136,7 @@ public slots:
      * Remove the currently selected items from the playlist and disk.
      */ 
     void slotDeleteSelectedItems() { deleteFromDisk(selectedItems()); };
-    virtual void slotSetNext() { emit signalSetNext(selectedItems().getFirst()); }
+    virtual void slotSetNext() { emit signalSetNext(selectedItems().first()); }
     
     /*
      * The edit slots are required to use the canonical names so that they are

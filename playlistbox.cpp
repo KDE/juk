@@ -27,7 +27,6 @@
 #include <qdrawutil.h>
 #include <qclipboard.h>
 
-#include "playlist.h"
 #include "playlistbox.h"
 #include "collectionlist.h"
 #include "playlistsplitter.h"
@@ -129,9 +128,9 @@ void PlaylistBox::raise(Playlist *playlist)
     ensureCurrentVisible();
 }
 
-QPtrList<Playlist> PlaylistBox::playlists() const
+PlaylistList PlaylistBox::playlists() const
 {
-    QPtrList<Playlist> l;
+    PlaylistList l;
 
     // skip the collection m_list
 

@@ -32,7 +32,6 @@
 #include <qdir.h>
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qptrlist.h>
 #include <qheader.h>
 #include <qcursor.h>
 #include <qclipboard.h>
@@ -257,8 +256,8 @@ void Playlist::refresh()
 
     KApplication::setOverrideCursor(Qt::waitCursor);
     int j = 0;
-    for(PlaylistItem *i = l.first(); i; i = l.next()) {
-	i->slotRefreshFromDisk();
+    for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
+	(*it)->slotRefreshFromDisk();
 	if(j % 5 == 0)
 	    kapp->processEvents();
 	j = j % 5 + 1;
@@ -277,11 +276,9 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 
 void Playlist::clearItems(const PlaylistItemList &items)
 {
-    QPtrListIterator<PlaylistItem> it(items);
-    while(it.current()) {
-	clearItem(it.current(), false);
-        ++it;
-    }
+    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
+	clearItem(*it, false);
+
     emit signalNumberOfItemsChanged(this);
 }
 
@@ -327,7 +324,7 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 	    srand(time(0));
 	    i = current;
 	    while(i == current)
-		i = items().at(rand() % count());
+		i = items()[rand() % count()];
 	}
 	else
 	    i = 0;
@@ -406,8 +403,8 @@ void Playlist::slotGuessTagInfo()
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
-    for(PlaylistItem *item = items.first(); item != 0; item = items.next())
-        item->guessTagInfo();
+    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
+        (*it)->guessTagInfo();
     KApplication::restoreOverrideCursor();
 }
 
@@ -430,8 +427,8 @@ void Playlist::deleteFromDisk(const PlaylistItemList &items)
     if(isVisible() && !items.isEmpty()) {
 
         QStringList files;
-	for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it)
-            files.append(it.current()->fileName());
+	for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
+            files.append((*it)->fileName());
 
 	QString message;
 
@@ -441,13 +438,13 @@ void Playlist::deleteFromDisk(const PlaylistItemList &items)
 	    message = i18n("Do you really want to delete these %1 items from your disk?").arg(QString::number(files.count()));
 
 	if(KMessageBox::questionYesNoList(this, message, files) == KMessageBox::Yes) {
-	    for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it) {
-		if(QFile::remove(it.current()->filePath())) {
-		    emit signalAboutToRemove(it.current());
-		    delete it.current();
+	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+		if(QFile::remove((*it)->filePath())) {
+		    emit signalAboutToRemove(*it);
+		    delete *it;
 		}
 		else
-		    KMessageBox::sorry(this, i18n("Could not delete ") + it.current()->fileName() + ".");
+		    KMessageBox::sorry(this, i18n("Could not delete ") + (*it)->fileName() + ".");
 	    }
 
 	}
@@ -459,9 +456,9 @@ QDragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
     KURL::List urls;
-    for(PlaylistItem *i = items.first(); i; i = items.next()) {
+    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
 	KURL url;
-	url.setPath(i->absFilePath());
+	url.setPath((*it)->absFilePath());
 	urls.append(url);
     }
 
@@ -879,22 +876,26 @@ void Playlist::slotApplyModification(QListViewItem *item, const QString &text, i
     QPtrList<QListViewItem> selectedSongs = KListView::selectedItems();
     if (selectedSongs.count() > 1)
     {
-        if (KMessageBox::warningYesNo(0, i18n("This will rename multiple files! Are you sure?"), QString::null,
-					                  KStdGuiItem::yes(), KStdGuiItem::no(), "DontWarnMultipleTags") == KMessageBox::No)
-			return;
+        if (KMessageBox::warningYesNo(0,
+				      i18n("This will rename multiple files! Are you sure?"), 
+				      QString::null, 
+				      KStdGuiItem::yes(), 
+				      KStdGuiItem::no(), 
+				      "DontWarnMultipleTags") == KMessageBox::No) 
+	{
+	    return;
+	}
 
         QPtrListIterator<QListViewItem> it(selectedSongs);
         for(; it.current(); ++it)
            applyTag((*it), text, column);
-	}
-	else
-		applyTag(item, text, column);
+    }
+    else
+	applyTag(item, text, column);
 }
 
 void Playlist::slotColumnOrderChanged(int, int from, int to)
 {
-    // kdDebug() << "section: " << section << " from: " << from << " to: " << to << endl;
-
     if(from == 0 || to == 0) {
 	if(m_playingItem) {
 	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));

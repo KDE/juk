@@ -21,13 +21,12 @@
 #include <klistbox.h>
 
 #include <qwidgetstack.h>
-#include <qptrlist.h>
 #include <qptrdict.h>
 #include <qmap.h>
 
+#include "playlist.h"
 #include "listboxpixmap.h"
 
-class Playlist;
 class PlaylistItem;
 class PlaylistSplitter;
 
@@ -51,7 +50,7 @@ public:
     void sort();
     void raise(Playlist *playlist);
     QStringList names() const { return m_names; }
-    QPtrList<Playlist> playlists() const;
+    PlaylistList playlists() const;
 
     // All of the methods use the selected item.
     void save();

@@ -76,7 +76,7 @@ void TagEditor::slotRefresh()
     // the most common case -- is to just process the first item.  Then we
     // check after that to see if there are other m_items and adjust accordingly.
 
-    PlaylistItem *item = m_items.getFirst();
+    PlaylistItem *item = m_items.first();
 
     if(item) {
 	Tag *tag = item->tag();
@@ -99,12 +99,12 @@ void TagEditor::slotRefresh()
 	
 	// Start at the second item, since we've already processed the first.
 
-	QPtrListIterator<PlaylistItem> it(m_items);
+	PlaylistItemList::Iterator it = m_items.begin();
 	++it;
 
 	// If there is more than one item in the m_items that we're dealing with...
 
-	if(it.current()) {
+	if(it != m_items.end()) {
 	    m_fileNameBox->clear();
 	    m_fileNameBox->setEnabled(false);
 
@@ -114,7 +114,7 @@ void TagEditor::slotRefresh()
 	    m_bitrateBox->clear();
 	    m_bitrateBox->setEnabled(false);
 	    
-	    for(BoxMap::iterator boxIt = m_enableBoxes.begin(); boxIt != m_enableBoxes.end(); boxIt++) {
+	    for(BoxMap::Iterator boxIt = m_enableBoxes.begin(); boxIt != m_enableBoxes.end(); boxIt++) {
 		(*boxIt)->setChecked(true);
 		(*boxIt)->show();
 	    }
@@ -135,7 +135,7 @@ void TagEditor::slotRefresh()
 		m_enableBoxes[m_commentBox]->setChecked(false);
 	    }
 	    else {
-		for(; it.current(); ++it) {
+		for(; it != m_items.end(); ++it) {
 		    tag = (*it)->tag();
 		    if(m_artistNameBox->currentText() != tag->artist() && m_enableBoxes.contains(m_artistNameBox)) {
 			m_artistNameBox->lineEdit()->clear();
@@ -389,7 +389,7 @@ void TagEditor::save(const PlaylistItemList &list)
 
 	QStringList errorFiles;
 	
-	for(QPtrListIterator<PlaylistItem> it(list); it.current(); ++it) {
+	for(PlaylistItemList::ConstIterator it = list.begin(); it != list.end(); ++it) {
 	    PlaylistItem *item = *it;
 	    
 	    QFileInfo newFile(item->dirPath() + QDir::separator() + m_fileNameBox->text());
@@ -469,11 +469,9 @@ void TagEditor::saveChangesPrompt()
     if(isVisible() && m_dataChanged && !m_items.isEmpty()) {
 
 	QStringList files;
-        PlaylistItem *item = m_items.first();
-        while(item) {
-            files.append(item->fileName());
-            item = m_items.next();
-        }
+
+	for(PlaylistItemList::Iterator it = m_items.begin(); it != m_items.end(); it++)
+            files.append((*it)->fileName());
 
         if(KMessageBox::questionYesNoList(this,
 					  i18n("Do you want to save your changes to:\n"), 
@@ -481,7 +479,8 @@ void TagEditor::saveChangesPrompt()
 					  i18n("Save Changes"),
 					  KStdGuiItem::yes(),
 					  KStdGuiItem::no(),
-					  "tagEditor_showSaveChangesBox") == KMessageBox::Yes) {
+					  "tagEditor_showSaveChangesBox") == KMessageBox::Yes)
+	{
             save(m_items);
 	}
     }

@@ -83,7 +83,7 @@ public:
      * Returns the name of the currently selected file and moves the playing 
      * indicator to that file.
      */
-    QString playSelectedFile() { return play(playlistSelection().getFirst()); }
+    QString playSelectedFile() { return play(playlistSelection().first()); }
 
     /**
      * Returns the name of the first item in the playlist and moves the playing
@@ -230,7 +230,7 @@ signals:
 
 private:
     /**
-     * Returns a QPtrList of the selected PlaylistItems in the top playlist in 
+     * Returns a PlaylistItemList of the selected PlaylistItems in the top playlist in 
      * the QWidgetStack of playlists.
      */
     PlaylistItemList playlistSelection() const { return visiblePlaylist()->selectedItems(); }

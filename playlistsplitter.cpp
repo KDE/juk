@@ -121,7 +121,7 @@ QString PlaylistSplitter::playNextFile(bool random, bool loopPlaylist)
             i = static_cast<PlaylistItem *>(p->firstChild());
     }
     else {
-        i = playlistSelection().getFirst();
+        i = playlistSelection().first();
         if(!i)
             i = static_cast<PlaylistItem *>(visiblePlaylist()->firstChild());
     }
@@ -459,10 +459,10 @@ void PlaylistSplitter::saveConfig()
 
 	    QDataStream s(&f);
 
-	    QPtrList<Playlist> l = m_playlistBox->playlists();
+	    PlaylistList l = m_playlistBox->playlists();
 
-	    for(Playlist *p = l.first(); p; p = l.next())
-		s << *p;
+	    for(PlaylistList::Iterator it = l.begin(); it != l.end(); it++)
+		s << *(*it);
 
 	    f.close();
 	}

@@ -22,7 +22,6 @@
 
 #include <qfileinfo.h>
 #include <qobject.h>
-#include <qptrlist.h>
 #include <qptrstack.h>
 
 #include "tag.h"
@@ -32,7 +31,7 @@ class Playlist;
 class PlaylistItem;
 class CollectionListItem;
 
-typedef QPtrList<PlaylistItem> PlaylistItemList;
+typedef QValueList<PlaylistItem *> PlaylistItemList;
 
 /**
  * Items for the Playlist and the baseclass for CollectionListItem.  
@@ -47,10 +46,6 @@ class PlaylistItem : public QObject, public KListViewItem
     friend class Playlist;
     friend class CollectionList;
 
-    /** 
-     * Needs access to the destuctor, even though the destructor isn't used by QPtrList.
-     */
-    friend class QPtrList<PlaylistItem>;
     /** 
      * Needs access to the destuctor, even though the destructor isn't used by QPtrStack.
      */

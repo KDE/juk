@@ -184,8 +184,8 @@ void CollectionList::slotCreateGroup()
 {
     PlaylistItemList items = selectedItems();
     QValueList<QFileInfo> fileInfos;
-    for(PlaylistItem *item = items.first(); item != 0; item = items.next())
-        fileInfos << *item->data()->fileInfo();
+    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
+        fileInfos << *(*it)->data()->fileInfo();
     emit signalRequestPlaylistCreation(fileInfos);
 }
 
