@@ -85,31 +85,30 @@ void MusicBrainzLookup::confirmation()
     queue.append(qMakePair(m_file, results()));
 
     while(!queue.isEmpty()) {
-        QPair<FileHandle, KTRMResultList> topItem = queue.first();
-        FileHandle file = topItem.first;
-        KTRMResultList results = topItem.second;
+        QPair<FileHandle, KTRMResultList> item = queue.first();
+        FileHandle file = item.first;
+        KTRMResultList results = item.second;
         TrackPickerDialog dialog(file.fileInfo().fileName(), results);
 
-        if(dialog.exec() == QDialog::Accepted && !dialog.choice().isEmpty()) {
-            KTRMResult result = dialog.choice();
+        if(dialog.exec() == QDialog::Accepted && !dialog.result().isEmpty()) {
+            KTRMResult result = dialog.result();
             Tag *tag = TagTransactionManager::duplicateTag(file.tag());
-            if(tag){
-                if(!result.title().isEmpty())
-                    tag->setTitle(result.title());
-                if(!result.artist().isEmpty())
-                    tag->setArtist(result.artist());
-                if(!result.album().isEmpty())
-                    tag->setAlbum(result.album());
-                if(result.track() != 0)
-                    tag->setTrack(result.track());
-                if(result.year() != 0)
-                    tag->setYear(result.year());
-						
-                PlaylistItem *item = CollectionList::instance()->lookup(file.absFilePath());
-                TagTransactionManager::instance()->changeTagOnItem(item, tag);
-                TagTransactionManager::instance()->commit();
-            }
-				}
+
+            if(!result.title().isEmpty())
+                tag->setTitle(result.title());
+            if(!result.artist().isEmpty())
+                tag->setArtist(result.artist());
+            if(!result.album().isEmpty())
+                tag->setAlbum(result.album());
+            if(result.track() != 0)
+                tag->setTrack(result.track());
+            if(result.year() != 0)
+                tag->setYear(result.year());
+
+            PlaylistItem *item = CollectionList::instance()->lookup(file.absFilePath());
+            TagTransactionManager::instance()->changeTagOnItem(item, tag);
+            TagTransactionManager::instance()->commit();
+        }
         queue.pop_front();
     }
 }
