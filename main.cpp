@@ -22,12 +22,9 @@
 
 #include "juk.h"
 
-static const char *description =
-I18N_NOOP("JuK is a jukebox and tagger for KDE. \n"
-          "It supports id3v1 and id3v2 tags.\n"
-          "It is based on QTagger 0.2, also by\n"
-          "Scott Wheeler.  It makes use of id3lib\n"
-          "to handle the low level aspects of tagging.");
+static const char *description = I18N_NOOP("Jukebox and music manager for KDE");
+static const char *scott = I18N_NOOP("Author, cheif dork and keeper of the funk");
+static const char *daniel = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
 
 static KCmdLineOptions options[] =
 {
@@ -39,9 +36,11 @@ int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", I18N_NOOP("JuK"),
                          VERSION, description, KAboutData::License_GPL,
-                         "(c) 2002, Scott Wheeler", 0, 0, "wheeler@kde.org");
+                         "(c) 2002, 2003, Scott Wheeler", 0, 0, "wheeler@kde.org");
 
-    aboutData.addAuthor("Scott Wheeler", 0, "wheeler@kde.org");
+    aboutData.addAuthor("Scott Wheeler", scott, "wheeler@kde.org");
+    aboutData.addCredit("Daniel Molkentin", daniel, "molkentin@kde.org");
+
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
 
