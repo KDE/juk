@@ -188,9 +188,11 @@ QDataStream &CachedTag::read(QDataStream &s)
 #if 0 /// TODO: This should be included the next time that the cache format changes
     s >> m_tagExists
 #else
-    s >> int(m_tagExists)
+    int tagExists;
+    s >> tagExists;
+    m_tagExists = tagExists;
 #endif
-      >> m_tagTrack
+    s >> m_tagTrack
       >> m_tagArtist
       >> m_tagAlbum
       >> m_tagGenre
