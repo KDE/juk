@@ -59,9 +59,8 @@ protected:
     bool visible() const { return m_visible; }
     void setVisible(bool v) { m_visible = v; }
     void updateIcons(int size);
-
-protected:
     virtual void updateHeights();
+    static void paintDropIndicator(QPainter *painter, int width, int height);
 
 signals:
     void signalCreateSearchList(const PlaylistSearch &search,

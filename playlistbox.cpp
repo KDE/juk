@@ -46,7 +46,8 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     m_updatePlaylistStack(true),
     m_viewModeIndex(0),
     m_hasSelection(false),
-    m_doingMultiSelect(false)
+    m_doingMultiSelect(false),
+    m_dropItem(0)
 {
     readConfig();
     addColumn("Playlists", width());
@@ -389,6 +390,12 @@ void PlaylistBox::contentsDropEvent(QDropEvent *e)
 {
     Item *i = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
     decode(e, i);
+
+    if(m_dropItem) {
+	Item *old = m_dropItem;
+	m_dropItem = 0;
+	old->repaint();
+    }
 }
 
 void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
@@ -404,8 +411,9 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 	return;
     }
 
-    if(itemAt(e->pos())) {
-	Item *target = static_cast<Item *>(itemAt(e->pos()));
+    Item *target = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
+
+    if(target) {
 
 	if(target->playlist() && target->playlist()->readOnly())
 	    return;
@@ -427,6 +435,20 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 	}
 	else // the dropped items are coming from outside of JuK
 	    e->accept(true);
+
+	if(m_dropItem != target) {
+	    Item *old = m_dropItem;
+
+	    if(e->isAccepted()) {
+		m_dropItem = target;
+		target->repaint();
+	    }
+	    else
+		m_dropItem = 0;
+
+	    if(old)
+		old->repaint();
+	}
     }
     else {
 
@@ -435,6 +457,16 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 
 	e->accept(true);
     }
+}
+
+void PlaylistBox::contentsDragLeaveEvent(QDragLeaveEvent *e)
+{
+    if(m_dropItem) {
+	Item *old = m_dropItem;
+	m_dropItem = 0;
+	old->repaint();
+    }
+    KListView::contentsDragLeaveEvent(e);
 }
 
 void PlaylistBox::contentsMousePressEvent(QMouseEvent *e)

@@ -83,6 +83,8 @@ public:
     friend class Item;
     typedef QValueList<Item *> ItemList;
 
+    Item *dropItem() const { return m_dropItem; }
+
 public slots:
     void paste();
     void clear() {} // override the (destructive) default
@@ -109,6 +111,7 @@ private:
     virtual void decode(QMimeSource *s, Item *item);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+    virtual void contentsDragLeaveEvent(QDragLeaveEvent *e);
     virtual void contentsMousePressEvent(QMouseEvent *e);
     virtual void contentsMouseReleaseEvent(QMouseEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
@@ -146,6 +149,7 @@ private:
     KSelectAction *m_viewModeAction;
     bool m_hasSelection;
     bool m_doingMultiSelect;
+    Item *m_dropItem;
 };
 
 

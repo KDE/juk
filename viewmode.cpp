@@ -46,18 +46,16 @@ ViewMode::~ViewMode()
 
 }
 
-void ViewMode::paintCell(PlaylistBox::Item *i,
+void ViewMode::paintCell(PlaylistBox::Item *item,
                          QPainter *painter, 
                          const QColorGroup &colorGroup,
                          int column, int width, int)
 {
-    if(width < i->pixmap(column)->width())
+    if(width < item->pixmap(column)->width())
 	return;
 
     if(m_needsRefresh)
 	updateHeights();
-
-    PlaylistBox::Item *item = static_cast<PlaylistBox::Item *>(i);
 
     QFontMetrics fm = painter->fontMetrics();
 
@@ -77,12 +75,15 @@ void ViewMode::paintCell(PlaylistBox::Item *i,
         painter->drawPixmap(x, y, *pm);
     }
     y += pm->height() + fm.height() - fm.descent();
-    for(QStringList::Iterator it = m_lines[i].begin(); it != m_lines[i].end(); ++it) {
+    for(QStringList::Iterator it = m_lines[item].begin(); it != m_lines[item].end(); ++it) {
         int x = (width - fm.width(*it)) / 2;
         x = QMAX(x, item->listView()->itemMargin());
         painter->drawText(x, y, *it);
         y += fm.height() - fm.descent();
     }
+
+    if(item == item->listView()->dropItem())
+        paintDropIndicator(painter, width, item->height());
 }
 
 PlaylistBox::Item *ViewMode::createSearchItem(PlaylistBox *box, SearchPlaylist *playlist,
@@ -122,6 +123,8 @@ void ViewMode::updateIcons(int size)
     }
 }
 
+
+
 void ViewMode::updateHeights()
 {
     const int width = m_playlistBox->viewport()->width();
@@ -138,6 +141,22 @@ void ViewMode::updateHeights()
     }
 
     m_needsRefresh = false;
+}
+
+void ViewMode::paintDropIndicator(QPainter *painter, int width, int height) // static
+{
+    static const int border = 1;
+    static const int lineWidth = 2;
+
+    QPen oldPen = painter->pen();
+    QPen newPen = oldPen;
+
+    newPen.setWidth(lineWidth);
+    newPen.setStyle(DotLine);
+
+    painter->setPen(newPen);
+    painter->drawRect(border, border, width - border * 2, height - border * 2);
+    painter->setPen(oldPen);
 }
 
 QStringList ViewMode::lines(const PlaylistBox::Item *item,
@@ -193,6 +212,8 @@ void CompactViewMode::paintCell(PlaylistBox::Item *item,
                                 int column, int width, int align)
 {
     item->KListViewItem::paintCell(painter, colorGroup, column, width, align);
+    if(item == item->listView()->dropItem())
+        paintDropIndicator(painter, width, item->height());
 }
 
 void CompactViewMode::setShown(bool shown)
