@@ -219,12 +219,12 @@ KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
     QStringList l;
     l <<
 #if HAVE_ARTS
-        "aRts" <<
+        i18n("aRts") <<
 #endif
 #if HAVE_GSTREAMER
-        "GStreamer" <<
+        i18n("GStreamer") <<
 #endif
-        "aKode";
+        i18n("aKode");
     action->setItems(l);
     return action;
 }
