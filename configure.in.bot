@@ -7,7 +7,7 @@ if test "x$have_taglib" = "xfalse"; then
 	echo "**************************************************"
 fi
 
-if test "x$have_gst" = "xfalse"; then
+if test "x$have_gst" = "xno"; then
 	echo "**************************************************"
 	echo "*"
 	echo "* You do not seem to have GStreamer and the"

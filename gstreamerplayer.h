@@ -1,7 +1,6 @@
 /***************************************************************************
-    begin                : Sat Feb 9 2003
-    copyright            : (C) 2003 by Tim Jansen
-    email                : tim@tjansen.de
+    copyright            : (C) 2004 Scott Wheeler
+    email                : wheeler@kde.org
 ***************************************************************************/
 
 /***************************************************************************
@@ -17,11 +16,11 @@
 #ifndef GSTREAMERPLAYER_H
 #define GSTREAMERPLAYER_H
 
-#include <config.h>
+#include "config.h"
 
 #if HAVE_GSTREAMER
 
-#include <kde/gstplay/play.h>
+#include <gst/gst.h>
 
 #include <qstring.h>
 
@@ -54,24 +53,15 @@ public slots:
     void pause();
     void stop();
 
-private slots:
-    void slotSetPosition(long long d) { m_positionNs = d; }
-    void slotSetDuration(long long d) { m_durationNs = d; }
-    void slotStopIfNotPlaying();
-
 private:
-    void setupPlayer();
+    long long time(GstQueryType type) const;
 
-    KDE::GSTPlay::Play *m_player;
-    unsigned long long m_duration;
-
-    long long m_positionNs; // in ns
-    long long m_durationNs; // in ns
-
-    QString m_currentFile;
-    float m_currentVolume;
+    GstElement *m_pipeline;
+    GstElement *m_source;
+    GstElement *m_decoder;
+    GstElement *m_volume;
+    GstElement *m_sink;
 };
 
 #endif
-
 #endif
