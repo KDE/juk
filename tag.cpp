@@ -78,7 +78,7 @@ QString Tag::readBitrate(const KFileMetaInfo &metaInfo)
 QString Tag::readLength(const KFileMetaInfo &metaInfo)
 {
     if(metaInfo.isValid() && !metaInfo.isEmpty())
-	return metaInfo.item("Length").string().stripWhiteSpace().replace(QRegExp("^0+"), QString::null);
+	return metaInfo.item("Length").string().stripWhiteSpace().replace(QRegExp("^0+([0-9])"), "\\1");
     else
 	return QString::null;
 }
