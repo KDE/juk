@@ -101,7 +101,7 @@ CollectionList::CollectionList(QWidget *parent) : Playlist(parent, i18n("Collect
 
 CollectionList::~CollectionList()
 {
-
+    delete m_dirWatch;
 }
 
 void CollectionList::decode(QMimeSource *s)

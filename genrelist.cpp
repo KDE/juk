@@ -41,11 +41,11 @@ GenreList::~GenreList()
 
 void GenreList::load(const QString &file)
 {
-    GenreListReader *handler = new GenreListReader(this);
+    GenreListReader handler(this);
     QFile input(file);
     QXmlInputSource source(input);
     QXmlSimpleReader reader;
-    reader.setContentHandler(handler);
+    reader.setContentHandler(&handler);
     reader.parse(source);
 
     if(m_hasIndex)

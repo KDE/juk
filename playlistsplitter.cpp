@@ -71,6 +71,7 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *na
 
 PlaylistSplitter::~PlaylistSplitter()
 {
+    delete m_dirWatch;
     saveConfig();
 }
 
