@@ -68,6 +68,8 @@ private:
 
     virtual void showEvent(QShowEvent *e);
 
+    virtual bool eventFilter(QObject *watched, QEvent *e);
+
 private slots:
     void slotDataChanged(bool c = true);
     void slotItemRemoved(PlaylistItem *item);

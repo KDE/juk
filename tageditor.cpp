@@ -366,12 +366,14 @@ void TagEditor::setupLayout()
 
             m_trackSpin = new KIntSpinBox(0, 255, 1, 0, 10, this, "trackSpin");
 	    addItem(i18n("T&rack:"), m_trackSpin, trackRowLayout);
+	    m_trackSpin->installEventFilter(this);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
 						    QSizePolicy::Minimum));
 
             m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "yearSpin");
 	    addItem(i18n("&Year:"), m_yearSpin, trackRowLayout);
+	    m_yearSpin->installEventFilter(this);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
 						    QSizePolicy::Minimum));
@@ -576,6 +578,14 @@ void TagEditor::showEvent(QShowEvent *e)
 {
     slotRefresh();
     QWidget::showEvent(e);
+}
+
+bool TagEditor::eventFilter(QObject *watched, QEvent *e)
+{
+    if(watched->inherits("QSpinBox") && e->type() == QEvent::KeyRelease)
+	slotDataChanged();
+
+    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
