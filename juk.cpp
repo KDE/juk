@@ -60,7 +60,7 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
 
 JuK::~JuK()
 {
-    delete(player);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -297,6 +297,8 @@ void JuK::saveConfig()
 
 bool JuK::queryClose()
 {
+    stopFile();
+    delete(player);
     Cache::instance()->save();
     saveConfig();
     delete(splitter);
