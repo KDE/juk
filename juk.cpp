@@ -328,7 +328,7 @@ void JuK::setupActions()
     KStdAction::paste(kapp, SLOT(paste()), actionCollection());
     KStdAction::clear(kapp, SLOT(clear()), actionCollection());
 
-    KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
+    KStdAction::selectAll(kapp, SLOT(selectAll()), actionCollection());
 
     createSplitterAction(
 	i18n("Advanced Search"), SLOT(slotAdvancedSearch()), "advancedSearch", "find");
