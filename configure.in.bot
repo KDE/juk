@@ -1,0 +1,23 @@
+if test "x$have_id3lib" == "xfalse"; then
+	echo "**************************************************"
+	echo "*"
+	echo "* id3lib 3.8.0 or greater is required by JuK."
+	echo "* JuK will be disabled from"
+	echo "* id3lib is available at http://id3lib.sf.net/"
+	echo "* or as part of most Linux distributions."
+	echo "*"
+	echo "**************************************************"
+fi
+
+if test "x$have_gst" == "xfalse"; then
+	echo "**************************************************"
+	echo "*"
+	echo "* You do not seem to have GStreamer and the"
+	echo "* KDE GStreamer bindings installed.  Without these"
+	echo "* aRts output will be used exclusively."
+	echo "*"
+	echo "* JuK supports GStreamer output but will also"
+	echo "* work with aRts."
+	echo "*"
+	echo "**************************************************"
+fi

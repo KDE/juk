@@ -1,17 +1,12 @@
 #MIN_CONFIG(3)
 
+have_id3lib=true
+
 AM_INIT_AUTOMAKE(juk,1.0)
 
 AC_DEFUN(AC_NO_ID3LIB, 
 [
-	echo "**************************************************"
-	echo "*"
-	echo "* id3lib 3.8.0 or greater is required by JuK."
-	echo "*"
-	echo "* id3lib is available at http://id3lib.sf.net/"
-	echo "* or as part of most Linux distributions."
-	echo "*"
-	echo "**************************************************"
+	have_id3lib=false
 	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
 ])
 
@@ -28,17 +23,6 @@ AC_DEFUN(AC_HAVE_GST,
 
 AC_DEFUN(AC_NO_GST,
 [
-	echo "**************************************************"
-	echo "*"
-	echo "* You do not seem to have GStreamer and the"
-	echo "* Qt GStreamer bindings installed.  Without these"
-	echo "* aRts output will be used exclusively."
-	echo "*"
-	echo "* JuK supports GStreamer output but will also"
-	echo "* work with aRts."
-	echo "*"
-	echo "**************************************************"
-
 	AC_DEFINE(HAVE_GSTREAMER, 0, [don't have GStreamer])
 	have_gst=false
 ])
