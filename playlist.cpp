@@ -420,8 +420,10 @@ void Playlist::playNext()
     else {
 	next = nextItem(m_playingItem);
 
-	if(!next && loop)
-	    next = static_cast<PlaylistItem *>(firstChild());
+	if(!next && loop) {
+	    QListViewItemIterator it(this, QListViewItemIterator::Visible);
+	    next = static_cast<PlaylistItem *>(*it);
+	}
     }
 
     setPlaying(next);
