@@ -427,6 +427,8 @@ signals:
 private:
     void setup();
 
+    PlaylistItem *nextItem(PlaylistItem *current = 0) const;
+
     /**
      * Load the playlist from a file.  \a fileName should be the absolute path.
      * \a fileInfo should point to the same file as \a fileName.  This is a

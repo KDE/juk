@@ -389,9 +389,7 @@ int Playlist::time() const
 
 void Playlist::playFirst()
 {
-    m_playNextItem = static_cast<PlaylistItem*>(QListViewItemIterator(
-        this, QListViewItemIterator::Visible).current());
-
+    m_playNextItem = nextItem();
     action("forward")->activate();
 }
 
@@ -420,24 +418,10 @@ void Playlist::playNext()
 	list->m_randomList.remove(next);
     }
     else {
-	// If there's a current item then we want to play the item after it.  If
-	// not we want to either play the first selected item or failing that the
-	// first visible item.
+	next = nextItem(m_playingItem);
 
-	if(m_playingItem) {
-	    next = static_cast<PlaylistItem *>(m_playingItem->itemBelow());
-	    if(!next && loop) {
-		QListViewItemIterator it(list, QListViewItemIterator::Visible);
-		next = static_cast<PlaylistItem *>(it.current());
-	    }
-	}
-	else {
-	    QListViewItemIterator it(list, QListViewItemIterator::Selected |
-				     QListViewItemIterator::Visible);
-	    if(!it.current())
-		it = QListViewItemIterator(list, QListViewItemIterator::Visible);
-	    next = static_cast<PlaylistItem *>(it.current());
-	}
+	if(!next && loop)
+	    next = nextItem();
     }
 
     setPlaying(next);
@@ -1220,6 +1204,25 @@ void Playlist::setup()
     setSorting(1);
 }
 
+PlaylistItem *Playlist::nextItem(PlaylistItem *current) const
+{
+    if(current) {
+	QListViewItemIterator it(current, QListViewItemIterator::Visible);
+	++it;
+	return static_cast<PlaylistItem *>(it.current());
+    }
+    else {
+	QListViewItemIterator it(const_cast<Playlist *>(this),
+				 QListViewItemIterator::Selected |
+				 QListViewItemIterator::Visible);
+	if(!it.current()) {
+	    it = QListViewItemIterator(const_cast<Playlist *>(this),
+				       QListViewItemIterator::Selected);
+	}
+	return static_cast<PlaylistItem *>(it.current());
+    }
+}
+
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 {
     QFile file(fileName);
@@ -1752,10 +1755,7 @@ void Playlist::slotInlineCompletionModeChanged(KGlobalSettings::Completion mode)
 
 void Playlist::slotPlayCurrent()
 {
-    QListViewItemIterator it(this, QListViewItemIterator::Selected |
-			     QListViewItemIterator::Visible);
-    m_playNextItem = static_cast<PlaylistItem *>(it.current());
-
+    m_playNextItem = nextItem();
     action("forward")->activate();
 }
 
