@@ -124,6 +124,7 @@ public:
 
 private slots:
     void slotOpenLink(const QString &link);
+    void slotUpdate();
 
 private:
     FileHandle m_file;

@@ -24,6 +24,7 @@
 #include <qevent.h>
 #include <qdragobject.h>
 #include <qimage.h>
+#include <qtimer.h>
 
 #include "nowplaying.h"
 #include "playlistcollection.h"
@@ -192,10 +193,28 @@ TrackItem::TrackItem(NowPlaying *parent) :
 void TrackItem::update(const FileHandle &file)
 {
     m_file = file;
+    QTimer::singleShot(0, this, SLOT(slotUpdate()));
+}
 
-    QString title  = QStyleSheet::escape(file.tag()->title());
-    QString artist = QStyleSheet::escape(file.tag()->artist());
-    QString album  = QStyleSheet::escape(file.tag()->album());
+void TrackItem::slotOpenLink(const QString &link)
+{
+    PlaylistCollection *collection = NowPlayingItem::parent()->collection();
+
+    if(link == "artist")
+        collection->showMore(m_file.tag()->artist());
+    else if(link == "album")
+        collection->showMore(m_file.tag()->artist(), m_file.tag()->album());
+    else if(link == "clear")
+        collection->clearShowMore();
+
+    update(m_file);
+}
+
+void TrackItem::slotUpdate()
+{
+    QString title  = QStyleSheet::escape(m_file.tag()->title());
+    QString artist = QStyleSheet::escape(m_file.tag()->artist());
+    QString album  = QStyleSheet::escape(m_file.tag()->album());
     QString separator = (artist.isNull() || album.isNull()) ? QString::null : QString(" - ");
 
     // This block-o-nastiness makes the font smaller and smaller until it actually fits.
@@ -218,20 +237,6 @@ void TrackItem::update(const FileHandle &file)
     } while(m_label->heightForWidth(m_label->width()) > imageSize && size >= 0);
 
     m_label->setFixedHeight(QMIN(imageSize, m_label->heightForWidth(m_label->width())));
-}
-
-void TrackItem::slotOpenLink(const QString &link)
-{
-    PlaylistCollection *collection = NowPlayingItem::parent()->collection();
-
-    if(link == "artist")
-        collection->showMore(m_file.tag()->artist());
-    else if(link == "album")
-        collection->showMore(m_file.tag()->artist(), m_file.tag()->album());
-    else if(link == "clear")
-        collection->clearShowMore();
-
-    update(m_file);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
