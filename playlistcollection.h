@@ -132,6 +132,8 @@ protected:
 
     Playlist *playlistByName(const QString &name) const;
 
+    void newItems(const KFileItemList &list) const;
+
 private:
     void readConfig();
     void saveConfig();
@@ -198,6 +200,8 @@ private slots:
     void slotSetUpcomingPlaylistEnabled(bool enable) { m_collection->setUpcomingPlaylistEnabled(enable); }
     void slotEnableDirWatch(bool enable)             { m_collection->enableDirWatch(enable); }
     void slotDirChanged(const QString &path)         { m_collection->dirChanged(path); }
+
+    void slotNewItems(const KFileItemList &list)     { m_collection->newItems(list); }
 
 signals:
     void signalSelectedItemsChanged();
