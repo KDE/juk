@@ -182,6 +182,12 @@ public slots:
     Playlist *slotCreatePlaylist();
 
     /**
+     * Create a playlist from a user-defined directory, and prompt the user for
+     * a name.
+     */
+    Playlist *slotCreatePlaylistFromDir();
+
+    /**
      * Sets the selection to the currently playing item and ensures that it is
      * visible.
      */

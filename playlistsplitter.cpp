@@ -310,6 +310,23 @@ Playlist *PlaylistSplitter::slotCreatePlaylist()
 	return 0;
 }
 
+Playlist *PlaylistSplitter::slotCreatePlaylistFromDir()
+{
+    const QString dirName = KFileDialog::getExistingDirectory();
+    if(dirName.isEmpty())
+        return 0;
+
+    Playlist *playlist = slotCreatePlaylist();
+    if(!playlist)
+        return 0;
+
+    const QStringList files = QDir(dirName).entryList(QDir::Files);
+    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
+        slotAddToPlaylist(dirName + "/" + *it, playlist);
+
+    return playlist;
+}
+
 void PlaylistSplitter::slotSelectPlaying()
 {
     if(!m_playingItem)
