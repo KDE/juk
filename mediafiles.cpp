@@ -16,8 +16,13 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 
-
 #include "mediafiles.h"
+
+#include <taglib/tag.h>
+#if (TAGLIB_MAJOR_VERSION>1) ||  \
+   ((TAGLIB_MAJOR_VERSION==1) && (TAGLIB_MINOR_VERSION>=2))
+#define TAGLIB_12
+#endif
 
 namespace MediaFiles {
     QStringList mimeTypes();
@@ -25,7 +30,11 @@ namespace MediaFiles {
     static const char mp3Type[]  = "audio/x-mp3";
     static const char oggType[]  = "application/ogg";
     static const char flacType[] = "audio/x-flac";
+    static const char mpcType[]  = "audio/x-musepack";
     static const char m3uType[]  = "audio/mpegurl";
+
+    static const char vorbisType[]  = "audio/x-vorbis";
+    static const char oggflacType[] = "audio/x-oggflac";
 
     static const char playlistExtension[] = ".m3u";
 }
@@ -61,7 +70,11 @@ bool MediaFiles::isMediaFile(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
 
-    return result->is(mp3Type) || result->is(oggType) || result->is(flacType);
+    return result->is(mp3Type) || result->is(oggType) || result->is(flacType)
+#ifdef TAGLIB_12
+                               || result->is(mpcType)
+#endif
+    ;
 }
 
 bool MediaFiles::isPlaylistFile(const QString &fileName)
@@ -88,11 +101,32 @@ bool MediaFiles::isFLAC(const QString &fileName)
     return result->is(flacType);
 }
 
+bool MediaFiles::isMPC(const QString &fileName)
+{
+    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
+    return result->is(mpcType);
+}
+
+bool MediaFiles::isVorbis(const QString &fileName)
+{
+    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, false);
+    return result->is(vorbisType);
+}
+
+bool MediaFiles::isOggFLAC(const QString &fileName)
+{
+    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, false);
+    return result->is(oggflacType);
+}
+
 QStringList MediaFiles::mimeTypes()
 {
     QStringList l;
 
-    l << mp3Type << oggType << flacType << m3uType;
-
+    l << mp3Type << oggType << flacType << m3uType << vorbisType
+#ifdef TAGLIB_12
+    << oggflacType << mpcType
+#endif
+    ;
     return l;
 }

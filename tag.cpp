@@ -25,6 +25,13 @@
 #include <taglib/xiphcomment.h>
 #include <taglib/id3v2framefactory.h>
 
+#if (TAGLIB_MAJOR_VERSION>1) ||  \
+   ((TAGLIB_MAJOR_VERSION==1) && (TAGLIB_MINOR_VERSION>=2))
+#include <taglib/mpcfile.h>
+#include <taglib/oggflacfile.h>
+#define TAGLIB_12
+#endif
+
 #include "cache.h"
 #include "tag.h"
 #include "mediafiles.h"
@@ -49,15 +56,28 @@ Tag::Tag(const QString &fileName) :
             setup(&file);
     }
 
-    else if(MediaFiles::isOgg(fileName)) {
-        TagLib::Vorbis::File file(QFile::encodeName(fileName).data());
-        if(file.isValid())
-            setup(&file);
-    }
-
     else if(MediaFiles::isFLAC(fileName)) {
         TagLib::FLAC::File file(QFile::encodeName(fileName).data());
         if(file.isOpen())
+	    setup(&file);
+    }
+#ifdef TAGLIB_12
+    else if(MediaFiles::isMPC(fileName)) {
+	kdDebug(65432) << "Trying to resolve Musepack file" << endl;
+        TagLib::MPC::File file(QFile::encodeName(fileName).data());
+        if(file.isOpen())
+            setup(&file);
+    }
+    else if(MediaFiles::isOggFLAC(fileName)) {
+	kdDebug(65432) << "Trying to resolve Ogg/FLAC file" << endl;
+        TagLib::Ogg::FLAC::File file(QFile::encodeName(fileName).data());
+        if(file.isOpen())
+            setup(&file);
+    }
+#endif
+    else if(MediaFiles::isVorbis(fileName)) {
+        TagLib::Vorbis::File file(QFile::encodeName(fileName).data());
+        if(file.isValid())
             setup(&file);
     }
 
@@ -76,10 +96,16 @@ bool Tag::save()
 
     if(MediaFiles::isMP3(m_fileName))
         file = new TagLib::MPEG::File(QFile::encodeName(m_fileName).data());
-    else if(MediaFiles::isOgg(m_fileName))
-        file = new TagLib::Vorbis::File(QFile::encodeName(m_fileName).data());
     else if(MediaFiles::isFLAC(m_fileName))
         file = new TagLib::FLAC::File(QFile::encodeName(m_fileName).data());
+#ifdef TAGLIB_12
+    else if(MediaFiles::isMPC(m_fileName))
+        file = new TagLib::MPC::File(QFile::encodeName(m_fileName).data());
+    else if(MediaFiles::isOggFLAC(m_fileName))
+        file = new TagLib::Ogg::FLAC::File(QFile::encodeName(m_fileName).data());
+#endif
+    else if(MediaFiles::isVorbis(m_fileName))
+        file = new TagLib::Vorbis::File(QFile::encodeName(m_fileName).data());
 
     if(file && file->isValid() && file->tag() && !file->readOnly()) {
         file->tag()->setTitle(QStringToTString(m_title));
@@ -89,8 +115,12 @@ bool Tag::save()
         file->tag()->setComment(QStringToTString(m_comment));
         file->tag()->setTrack(m_track);
         file->tag()->setYear(m_year);
-
+#ifdef TAGLIB_12
         result = file->save();
+#else
+        file->save();
+        result = true;
+#endif
     }
     else {
         kdError(65432) << "Couldn't save file." << endl;

@@ -45,9 +45,14 @@ namespace MediaFiles
     bool isPlaylistFile(const QString &fileName);
 
     /**
-     * Returns true if fileName is an mp3 file.
+     * Returns true if fileName is a mp3 file.
      */
     bool isMP3(const QString &fileName);
+
+    /**
+     * Returns true if fileName is a mpc (aka musepack) file.
+     */
+    bool isMPC(const QString &fileName);
 
     /**
      * Returns true if fileName is an Ogg file.
@@ -55,9 +60,19 @@ namespace MediaFiles
     bool isOgg(const QString &fileName);
 
     /**
-     * Returns true if fileName is an FLAC file.
+     * Returns true if fileName is a FLAC file.
      */
     bool isFLAC(const QString &fileName);
+
+    /**
+     * Returns true if fileName is an Ogg/Vorbis file.
+     */
+    bool isVorbis(const QString &fileName);
+
+    /**
+     * Returns true if fileName is an Ogg/FLAC file.
+     */
+    bool isOggFLAC(const QString &fileName);
 }
 
 #endif
