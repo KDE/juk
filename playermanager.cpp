@@ -67,10 +67,10 @@ static Player *createPlayer(int system = ArtsBackend)
     default:
 #if HAVE_ARTS
         p = new ArtsPlayer;
-#elif defined(HAVE_GSTREAMER)
+#elif HAVE_GSTREAMER
         p = new GStreamerPlayer;
 #else
-        p = new AkodePlayer;
+        p = new aKodePlayer;
 #endif
         break;
     }
