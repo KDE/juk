@@ -210,9 +210,7 @@ Playlist *PlaylistBox::currentPlaylist() const
     if(m_dynamicPlaylist)
 	return m_dynamicPlaylist;
 
-    if(Playlist::playingItem())
-	return Playlist::playingItem()->playlist();
-    else if(currentItem() && static_cast<Item *>(currentItem())->playlist())
+    if(currentItem() && static_cast<Item *>(currentItem())->playlist())
 	return static_cast<Item *>(currentItem())->playlist();
     else
 	return PlaylistCollection::currentPlaylist();
