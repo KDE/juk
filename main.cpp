@@ -18,6 +18,7 @@
 #include <kuniqueapplication.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
+#include <dcopclient.h>
 
 #include "juk.h"
 
@@ -69,7 +70,14 @@ int main(int argc, char *argv[])
     KCmdLineArgs::addCmdLineOptions(options);
 
     Application a;
+
+    // Here we do some DCOP locking of sorts to prevent incoming DCOP calls
+    // before JuK has finished its initialization.
+    
+    a.dcopClient()->suspend();
     JuK *juk = new JuK();
+    a.dcopClient()->resume();
+
     a.setMainWidget(juk);
     juk->show();
 
