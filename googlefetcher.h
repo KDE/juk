@@ -44,7 +44,7 @@ typedef QValueList<GoogleImage> GoogleImageList;
 
 class GoogleFetcher : public QObject
 {
-Q_OBJECT
+    Q_OBJECT
 
 public:
     enum ImageSize { All, Icon, Small, Medium, Large, XLarge };
@@ -61,20 +61,17 @@ private:
     void displayWaitMessage();
     void buildBox();
 
+private slots:
+    void slotLoadImageURLs(GoogleFetcher::ImageSize size = All);
+
+signals:
+    void signalNewSearch(GoogleImageList &images);
+
     FileHandle m_file;
     QString m_searchString;
     QString m_loadedQuery;
     ImageSize m_loadedSize;
     GoogleImageList m_imageList;
-    bool m_chosen;
     uint m_selectedIndex;
-    QPixmap m_currentPixmap;
-    KDialogBase *m_dialog;
-
-signals:
-    void newSearch(GoogleImageList&);
-
-private slots:
-    void loadImageURLs(GoogleFetcher::ImageSize size = All);
 };
 #endif

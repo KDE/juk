@@ -69,7 +69,6 @@ private:
     KIconView *m_iconWidget;
     bool m_takeIt;
     bool m_newSearch;
-    uint m_index;
     FileHandle m_file;
 };
 

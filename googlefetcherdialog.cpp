@@ -28,7 +28,7 @@
 
 GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
                                          const GoogleImageList &imageList,
-                                         uint selectedIndex,
+                                         uint /* selectedIndex */,
                                          const FileHandle &file,
                                          QWidget *parent) :
     KDialogBase(parent, name.latin1(), true, QString::null,
@@ -37,7 +37,6 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     m_imageList(imageList),
     m_takeIt(false),
     m_newSearch(false),
-    m_index(selectedIndex),
     m_file(file)
 {
     QHBox *mainBox = new QHBox(this);
@@ -111,12 +110,12 @@ int GoogleFetcherDialog::exec()
 
 void GoogleFetcherDialog::slotOk()
 {
-    uint selectedIndex=m_iconWidget->index(m_iconWidget->currentItem());
+    uint selectedIndex = m_iconWidget->index(m_iconWidget->currentItem());
     m_pixmap = pixmapFromURL(m_imageList[selectedIndex].imageURL());
 
     if(m_pixmap.isNull()) {
         KMessageBox::sorry(this,
-                           i18n("The cover you have selected is unavailable.  Please select another."),
+                           i18n("The cover you have selected is unavailable. Please select another."),
                            i18n("Cover Unavailable"));
         QPixmap blankPix;
         blankPix.resize(80, 80);
@@ -148,16 +147,16 @@ void GoogleFetcherDialog::slotUser1()
 
 void GoogleFetcherDialog::imgSizeChanged(int index)
 {
-    GoogleFetcher::ImageSize imageSize=GoogleFetcher::All;
+    GoogleFetcher::ImageSize imageSize = GoogleFetcher::All;
     switch (index) {
         case 1:
-            imageSize=GoogleFetcher::Icon;
+            imageSize = GoogleFetcher::Icon;
             break;
         case 2:
-            imageSize=GoogleFetcher::Small;
+            imageSize = GoogleFetcher::Small;
             break;
         case 3:
-            imageSize=GoogleFetcher::Medium;
+            imageSize = GoogleFetcher::Medium;
             break;
         case 4:
             imageSize=GoogleFetcher::Large;

@@ -44,7 +44,7 @@ GoogleFetcher::GoogleFetcher(const FileHandle &file)
 
 }
 
-void GoogleFetcher::loadImageURLs(GoogleFetcher::ImageSize size)
+void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
 {
     if(m_loadedQuery == m_searchString && m_loadedSize == size)
         return;
@@ -92,7 +92,7 @@ void GoogleFetcher::loadImageURLs(GoogleFetcher::ImageSize size)
     if(topLevelNodes.length() <= 5 ||
        topLevelNodes.item(4).nodeName().string() != "font")
     {
-        emit newSearch(m_imageList);
+        emit signalNewSearch(m_imageList);
         return;
     }
 
@@ -104,8 +104,11 @@ void GoogleFetcher::loadImageURLs(GoogleFetcher::ImageSize size)
         if(thisTopNode.nodeName().string() == "table") {
 
             uint imageIndex = 0;
-            if(thisTopNode.firstChild().firstChild().firstChild().attributes().getNamedItem("colspan") != NULL)
+            if(!thisTopNode.firstChild().firstChild().firstChild()
+               .attributes().getNamedItem("colspan").isNull())
+            {
                 imageIndex = 1;
+            }
 
             DOM::NodeList images = thisTopNode.firstChild().childNodes().item(imageIndex).childNodes();
 
@@ -130,25 +133,30 @@ void GoogleFetcher::loadImageURLs(GoogleFetcher::ImageSize size)
             }
         }
     }
-    emit newSearch(m_imageList);
+    emit signalNewSearch(m_imageList);
 }
 
 QPixmap GoogleFetcher::pixmap()
 {
-    m_chosen = false;
-    m_selectedIndex = 0;
+    bool chosen = false;
+    const int selectedIndex = 0;
     m_loadedSize = All;
 
     displayWaitMessage();
 
-    while(!m_chosen) {
-        GoogleFetcherDialog *dialog = new GoogleFetcherDialog("google", m_imageList, m_selectedIndex, m_file, 0);
-        connect (dialog, SIGNAL(sizeChanged(GoogleFetcher::ImageSize)), this, SLOT(loadImageURLs(GoogleFetcher::ImageSize)));
-        connect (this, SIGNAL(newSearch(GoogleImageList&)), dialog, SLOT(refreshScreen(GoogleImageList&)));
-        dialog->exec();
-        m_currentPixmap = ((GoogleFetcherDialog*)dialog)->result();
-        m_chosen = ((GoogleFetcherDialog*)dialog)->takeIt();
-        if(((GoogleFetcherDialog*)dialog)->newSearch()) {
+    QPixmap pixmap;
+
+    while(!chosen) {
+        GoogleFetcherDialog dialog("google", m_imageList, selectedIndex, m_file, 0);
+
+        connect(&dialog, SIGNAL(sizeChanged(GoogleFetcher::ImageSize)),
+                this, SLOT(slotLoadImageURLs(GoogleFetcher::ImageSize)));
+        connect(this, SIGNAL(signalNewSearch(GoogleImageList &)),
+                &dialog, SLOT(refreshScreen(GoogleImageList &)));
+        dialog.exec();
+        pixmap = dialog.result();
+        chosen = dialog.takeIt();
+        if(dialog.newSearch()) {
             bool ok;
             m_searchString = KInputDialog::getText(i18n("Cover Downloader"),
                                                    i18n("Enter new search terms:"),
@@ -158,19 +166,15 @@ QPixmap GoogleFetcher::pixmap()
             else
                 m_searchString = m_loadedQuery;
         }
-        if (dialog) {
-            delete dialog;
-            dialog=0;
-        }
     }
-    return m_currentPixmap;
+    return pixmap;
 }
 
 void GoogleFetcher::displayWaitMessage()
 {
     KStatusBar *statusBar = static_cast<KMainWindow *>(kapp->mainWidget())->statusBar();
     statusBar->message(i18n("Searching for Images. Please Wait..."));
-    loadImageURLs();
+    slotLoadImageURLs();
     statusBar->clear();
 }
 
