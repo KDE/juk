@@ -70,6 +70,8 @@ public:
     };
 
     struct Track {
+        Track() : number(0) {}
+
         int     number;
         QString id;
         QString album;
