@@ -123,6 +123,7 @@ private:
     Album       extractAlbum();
     Track       extractTrack(int trackNumber);
     Track       extractTrackFromAlbum(int trackNumber);
+    void        setupProxy();
 
     QueryType   m_query;
     QStringList m_arguments;

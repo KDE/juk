@@ -32,6 +32,8 @@
 #include <kstatusbar.h>
 #include <kprocess.h>
 #include <klocale.h>
+#include <kprotocolmanager.h>
+#include <kurl.h>
 #include <kdeversion.h>
 #include <kdebug.h>
 
@@ -85,6 +87,7 @@ void MusicBrainzQuery::slotQuery()
     TrackList tracks;
     std::vector<std::string> v;
 
+    setupProxy();
     queryStrings(queryString, resultString, extractString);
 
     emit signalStatusMsg( i18n( "Querying MusicBrainz server..." ), 0 );
@@ -280,6 +283,17 @@ MusicBrainzQuery::Track MusicBrainzQuery::extractTrack(int trackNumber)
     Select(MBS_Rewind);
 
     return track;
+}
+
+void MusicBrainzQuery::setupProxy()
+{
+    // Check KDE proxy settings to see if we should have the MusicBrainz
+    // library use a proxy.
+    if (!KProtocolManager::useProxy())
+        return;
+
+    KURL proxyUrl (KProtocolManager::proxyFor ("http"));
+    SetProxy (proxyUrl.host().latin1(), (short) proxyUrl.port());
 }
 
 void MusicBrainzQuery::slotTrmData(KProcess *, char *buffer, int bufferLength)
