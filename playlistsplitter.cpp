@@ -467,6 +467,7 @@ void PlaylistSplitter::readConfig()
 	    // the last column is just a filler
 	    m_visibleColumns.resize(collection->columns() - 1, true);
 	    QValueList<int> l = config->readIntListEntry("VisibleColumns");
+	    collection->setSorting(config->readNumEntry("SortColumn", 1));
 
 	    uint i = 0;
 	    for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
@@ -524,6 +525,7 @@ void PlaylistSplitter::saveConfig()
 		l.append(int(m_visibleColumns[i]));
 	    
 	    config->writeEntry("VisibleColumns", l);
+	    config->writeEntry("SortColumn", collection->sortColumn());
 
 	    config->writeEntry("PlaylistSplitterSizes", sizes());
 	}
