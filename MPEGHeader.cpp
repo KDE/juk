@@ -62,6 +62,8 @@ MPEGHeader::MPEGHeader(const char* filein)
      success = false;
      fileglob = strdup(filein);
 
+     lengthchar = 0;
+
      FILE* file;
 
      if ((file = fopen(filein, "r")))
@@ -77,6 +79,9 @@ MPEGHeader::MPEGHeader(const char* filein)
 
 MPEGHeader::~MPEGHeader()
 {
+  free(fileglob);
+  if(lengthchar)
+    free(lengthchar);
 }
 
 bool MPEGHeader::readLayerInfo (FILE* file)
