@@ -69,6 +69,28 @@ AudioData *FileListItem::getAudioData()
 
 void FileListItem::refresh()
 {
+  // This should be the only function that needs to be rewritten if the structure of
+  // FileListItemData changes.  Also, currently this also inserts things into the 
+  // album and artist registries of the FileList.  If something like sorted insert 
+  // happens at some point it could either be implemented here or in a subclass of
+  // QValueList.  And another note: the artist/album registry doesn't remove items 
+  // when they no longer exist in the list view.  I decided that this is too much work
+  // for something not very useful at the moment, but at some point, a QValueList of
+  // a subclass of QPair could track such things...
+
+  // if the text has changed and the artist registry of the FileList doens't contain
+  // this artist, add it to the mentioned registry
+  
+  FileList *fileList = static_cast<FileList *>(listView());
+
+  if(text(ArtistColumn) != getTag()->getArtist() && 
+     fileList->getArtistList()->contains(getTag()->getArtist()) == 0) 
+    fileList->getArtistList()->append(getTag()->getArtist());
+
+  if(text(AlbumColumn) != getTag()->getAlbum() && 
+     fileList->getAlbumList()->contains(getTag()->getAlbum()) == 0) 
+    fileList->getAlbumList()->append(getTag()->getAlbum());
+
   setText(TrackColumn,       getTag()->getTrack());
   setText(ArtistColumn,      getTag()->getArtist());
   setText(AlbumColumn,       getTag()->getAlbum());

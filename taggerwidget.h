@@ -73,7 +73,9 @@ private:
   bool changed;
 
 private slots:
-  void updateBoxes(); 
+  void saveChangesPrompt();
+  void updateBoxes();
+  void updateCombos();
 };
 
 #endif

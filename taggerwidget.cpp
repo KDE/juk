@@ -72,7 +72,6 @@ QPtrList<QListViewItem> TaggerWidget::getSelectedItems()
 
 void TaggerWidget::save()
 {
-  //  kdDebug() << "TaggerWidget::save()" << endl;
   QPtrList<QListViewItem> items = taggerList->selectedItems();
 
   if(items.count() > 0) {
@@ -166,8 +165,9 @@ void TaggerWidget::setupLayout()
   //////////////////////////////////////////////////////////////////////////////
   taggerList = new FileList(split, "taggerList");
 
-  // this connection is a little ugly -- it does a cast
+  connect(taggerList, SIGNAL(selectionChanged()), this, SLOT(saveChangesPrompt()));
   connect(taggerList, SIGNAL(selectionChanged()), this, SLOT(updateBoxes()));
+  connect(taggerList, SIGNAL(dataChanged()), this, SLOT(updateCombos()));
 
   //////////////////////////////////////////////////////////////////////////////
   // now set up a bottom widget of the splitter and make it stay small at 
@@ -288,6 +288,12 @@ void TaggerWidget::readConfig()
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
+void TaggerWidget::saveChangesPrompt()
+{
+  if(changed && KMessageBox::warningYesNo(this, i18n("Do you want to save your changes to this file?"), i18n("Save Changes")) == KMessageBox::Yes)
+    kdDebug() << "TaggerWidget::saveChangesPrompt() -- save changes " << endl;
+}
+
 void TaggerWidget::updateBoxes() // this needs to be updated to properly work with multiple selections
 {
   //  kdDebug() << "updateBoxes(): " << item->filePath() << endl;
@@ -326,5 +332,20 @@ void TaggerWidget::updateBoxes() // this needs to be updated to properly work wi
       
       changed = false;
     }
+  }
+}
+
+void TaggerWidget::updateCombos()
+{
+  if(artistNameBox->listBox()) {
+    artistNameBox->listBox()->clear();
+    taggerList->getArtistList()->sort();
+    artistNameBox->listBox()->insertStringList(*taggerList->getArtistList());
+  }
+
+  if(albumNameBox->listBox()) {
+    albumNameBox->listBox()->clear();
+    taggerList->getAlbumList()->sort();
+    albumNameBox->listBox()->insertStringList(*taggerList->getAlbumList());
   }
 }
