@@ -1,4 +1,5 @@
-bin_PROGRAMS = juk tagguessertest
+bin_PROGRAMS = juk
+check_PROGRAMS = tagguessertest
 
 juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
 	gstreamerplayer.cpp artsplayer.cpp directorylist.cpp stringhash.cpp \
