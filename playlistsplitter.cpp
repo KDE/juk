@@ -192,8 +192,8 @@ QString PlaylistSplitter::nextFile()
 QString PlaylistSplitter::currentFile()
 {
     PlaylistItem *i = 0;
-    const bool random = false; // TODO: should check this
 
+    bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
     
     if(m_nextPlaylistItem && m_nextPlaylistItem != m_playingItem) {
         i = m_nextPlaylistItem;
