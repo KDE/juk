@@ -241,9 +241,6 @@ void SystemTray::createPopup()
 
 bool SystemTray::buttonsToLeft() const
 {
-    QRect bounds = KGlobalSettings::desktopGeometry(center);
-    int middle = bounds.center().x();
-
     // The following code was nicked from kpassivepopup.cpp
 
     NETWinInfo ni(qt_xdisplay(), winId(), qt_xrootwin(), 
@@ -251,9 +248,11 @@ bool SystemTray::buttonsToLeft() const
     NETRect frame, win;
     ni.kdeGeometry(frame, win);
     
+    QRect bounds = KGlobalSettings::desktopGeometry(QPoint(win.pos.x, win.pos.y));
+
     // This seems to accurately guess what side of the icon that
     // KPassivePopup will popup on.
-    return(win.pos.x < middle);
+    return(win.pos.x < bounds.center().x());
 }
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
