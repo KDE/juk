@@ -21,6 +21,7 @@
 #include <kstatusbar.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
+#include <kiconloader.h>
 
 #include <qslider.h>
 
@@ -134,8 +135,8 @@ void JuK::setupLayout()
     // Needs to be here because m_splitter is not called before setupActions
     // (because PlaylistSplitter itself accesses the actionCollection)
 
-    new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()),
-                actions(), "renameFile"); // 4
+    new KAction(i18n("&Rename File"), "filesaveas", "CTRL+r", m_splitter,
+		SLOT(slotRenameFile()), actions(), "renameFile");
 
     m_splitter->setFocus();
 
@@ -245,14 +246,15 @@ void JuK::setupActions()
     KActionMenu *guessMenu = new KActionMenu(i18n("&Guess Tag Information"),
 					     QString::null, actions(),
 					     "guessTag");
+    guessMenu->setIconSet(SmallIconSet("wizard"));
 
     guessMenu->insert(
-	new KAction(i18n("From &Filename"), 0, "CTRL+f", this, SLOT(slotGuessTagInfoFromFile()),
-		    actions(), "guessTagFile"));
+	new KAction(i18n("From &Filename"), "fileimport", "CTRL+f",
+		    this, SLOT(slotGuessTagInfoFromFile()), actions(), "guessTagFile"));
 #if HAVE_MUSICBRAINZ
     guessMenu->insert(
-	new KAction(i18n("From &Internet"), 0, "CTRL+i", this, SLOT(slotGuessTagInfoFromInternet()),
-		    actions(), "guessTagInternet"));
+	new KAction(i18n("From &Internet"), "connect_established", "CTRL+i",
+		    this, SLOT(slotGuessTagInfoFromInternet()), actions(), "guessTagInternet"));
 #endif
 
     //////////////////////////////////////////////////
@@ -261,17 +263,18 @@ void JuK::setupActions()
 
     setStandardToolBarMenuEnabled(true);
 
-    m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startup"),
-					     0, actions(), "showSplashScreen");
-
-    m_toggleSystemTrayAction = new KToggleAction(i18n("&Dock in System Tray"),
-						 0, actions(), "toggleSystemTray");
-
-    m_toggleDockOnCloseAction = new KToggleAction(i18n("&Stay in System Tray on Close"),
-						  0, actions(), "dockOnClose");
-
-    m_togglePopupsAction = new KToggleAction(i18n("Popup &Track Announcement"),
-					     0, this, 0, actions(), "togglePopups");
+    m_toggleSplashAction =
+	new KToggleAction(i18n("Show Splash Screen on Startup"), "launch",
+			  KShortcut(), actions(), "showSplashScreen");
+    m_toggleSystemTrayAction =
+	new KToggleAction(i18n("&Dock in System Tray"),
+			  KShortcut(), actions(), "toggleSystemTray");
+    m_toggleDockOnCloseAction = 
+	new KToggleAction(i18n("&Stay in System Tray on Close"),
+			  KShortcut(), actions(), "dockOnClose");
+    m_togglePopupsAction =
+	new KToggleAction(i18n("Popup &Track Announcement"), "info",
+			  KShortcut(), this, 0, actions(), "togglePopups");
 
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)),
 	    this, SLOT(slotToggleSystemTray(bool)));
