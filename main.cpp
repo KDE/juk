@@ -1,8 +1,6 @@
 /***************************************************************************
-                          main.cpp  -  description
-                             -------------------
     begin                : Mon Feb  4 23:40:41 EST 2002
-    copyright            : (C) 2002 by Scott Wheeler
+    copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
 ***************************************************************************/
 
@@ -35,6 +33,7 @@ static const char zack[]        = I18N_NOOP("More automagical things, now using 
 static const char adam[]        = I18N_NOOP("Co-conspirator in MusicBrainz wizardry");
 static const char matthias[]    = I18N_NOOP("Friendly, neighborhood aRts guru");
 static const char maks[]        = I18N_NOOP("Making JuK friendlier to people with\nterabytes of music");
+static const char michael[]     = I18N_NOOP("Bugfixes, K3b integration, endurer of pedantry");
 static const char antonio[]     = I18N_NOOP("DCOP interface");
 
 static KCmdLineOptions options[] =
@@ -61,6 +60,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit("Matthias Kretz", matthias, "kretz@kde.org");
     aboutData.addCredit("Maks Orlovich", maks, "maksim@kde.org");
     aboutData.addCredit("Antonio Larrosa Jimenez", antonio, "larrosa@kde.org");
+    aboutData.addCredit("Michael Pyne", michael, "pynm0001@comcast.net");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
