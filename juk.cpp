@@ -179,8 +179,6 @@ void JuK::setupSystemTray()
 
 void JuK::setupPlayer()
 {
-    player = Player::createPlayer();
-
     trackPositionDragging = false;
     noSeek = false;
     pauseAction->setEnabled(false);
@@ -199,6 +197,14 @@ void JuK::setupPlayer()
 
         connect(sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
     }
+    
+    int playerType = 0;
+    if(outputSelectAction) {
+	playerType = outputSelectAction->currentItem();
+	connect(outputSelectAction, SIGNAL(activated(int)), this, SLOT(setOutput(int)));
+    }
+
+    player = Player::createPlayer(playerType);
 }
 
 
@@ -253,6 +259,10 @@ void JuK::readConfig()
         KConfigGroupSaver saver(config, "Settings");
 	bool dockInSystemTray = config->readBoolEntry("DockInSystemTray", true);
 	toggleSystemTrayAction->setChecked(dockInSystemTray);
+	
+	if(outputSelectAction)
+	    outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
+	
     }
 
     if(restoreOnLoadAction)
@@ -280,6 +290,8 @@ void JuK::saveConfig()
 	    config->writeEntry("RestoreOnLoad", restoreOnLoadAction->isChecked());
 	if(toggleSystemTrayAction)
 	    config->writeEntry("DockInSystemTray", toggleSystemTrayAction->isChecked());
+	if(outputSelectAction)
+	    config->writeEntry("MediaSystem", outputSelectAction->currentItem());
     }
 }
 
