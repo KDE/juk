@@ -97,9 +97,9 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     {
 	KConfigGroupSaver(cfg, "TagGuesser");
 
-	substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s']+)");
-	substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s]+)");
-	substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s]+)");
+	substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&]+)");
+	substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&]+)");
+	substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&]+)");
 	substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
 	substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s]+)");
     }	
@@ -115,7 +115,7 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     for (; it != end; ++it)
         regExp.replace("%" + QString(it.key()), it.data());
 #endif
-    regExp += "\\.[^\\.]+";
+    regExp += "\\.*";
     return regExp;
 }
 
