@@ -16,15 +16,18 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
+#include <kcombobox.h>
 
 #include <qhbox.h>
 #include <qimage.h>
+#include <qlabel.h>
+#include <qpushbutton.h>
 
 #include "googlefetcherdialog.h"
 #include "tag.h"
 
 GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
-                                         const QValueList<GoogleImage> &imageList,
+                                         const GoogleImageList &imageList,
                                          uint selectedIndex,
                                          const FileHandle &file,
                                          QWidget *parent) :
@@ -46,7 +49,22 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     m_iconWidget->setFixedSize(500,550);
     m_iconWidget->arrangeItemsInGrid();
     m_iconWidget->setItemsMovable(FALSE);
-    
+
+    QHBox *imgSize = new QHBox(actionButton(User1)->parentWidget());
+    QLabel *label = new QLabel(imgSize);
+    label->setText(i18n("Image Size: "));
+
+    KComboBox *combo = new KComboBox(imgSize);
+    combo->insertItem(i18n("All Sizes"));
+    combo->insertItem(i18n("Very Small"));
+    combo->insertItem(i18n("Small"));
+    combo->insertItem(i18n("Medium"));
+    combo->insertItem(i18n("Large"));
+    combo->insertItem(i18n("Very Large"));
+    combo->setCurrentItem(0);
+    connect(combo, SIGNAL(activated(int)), this, SLOT(imgSizeChanged(int)));
+
+    imgSize->adjustSize();
     setMainWidget(mainBox);
     setButtonText(User1, i18n("New Search"));
 }
@@ -70,9 +88,20 @@ void GoogleFetcherDialog::setLayout()
     adjustSize();
 }
 
+void GoogleFetcherDialog::setImageList(const GoogleImageList &imageList)
+{
+    m_imageList=imageList;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
+
+void GoogleFetcherDialog::refreshScreen(GoogleImageList &imageList)
+{
+    setImageList(imageList);
+    setLayout();
+}
 
 int GoogleFetcherDialog::exec()
 {
@@ -117,6 +146,30 @@ void GoogleFetcherDialog::slotUser1()
     hide();
 }
 
+void GoogleFetcherDialog::imgSizeChanged(int index)
+{
+    GoogleFetcher::ImageSize imageSize=GoogleFetcher::All;
+    switch (index) {
+        case 1:
+            imageSize=GoogleFetcher::Icon;
+            break;
+        case 2:
+            imageSize=GoogleFetcher::Small;
+            break;
+        case 3:
+            imageSize=GoogleFetcher::Medium;
+            break;
+        case 4:
+            imageSize=GoogleFetcher::Large;
+            break;
+        case 5:
+            imageSize=GoogleFetcher::XLarge;
+            break;
+        default:
+            break;
+    }
+    emit sizeChanged(imageSize);
+}
 
 QPixmap GoogleFetcherDialog::fetchedImage(uint index) const
 {

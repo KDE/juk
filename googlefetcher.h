@@ -15,6 +15,8 @@
 #ifndef GOOGLEFETCHER_H
 #define GOOGLEFETCHER_H
 
+#include <kdialogbase.h>
+
 #include <qpixmap.h>
 #include <qstringlist.h>
 #include <qregexp.h>
@@ -38,9 +40,15 @@ private:
     QString m_size;
 };
 
-class GoogleFetcher
+typedef QValueList<GoogleImage> GoogleImageList;
+
+class GoogleFetcher : public QObject
 {
+Q_OBJECT
+
 public:
+    enum ImageSize { All, Icon, Small, Medium, Large, XLarge };
+    
     GoogleFetcher(const FileHandle &file);
     QPixmap pixmap();
 
@@ -50,16 +58,23 @@ private:
     void saveCover();
     void previous();
     void next();
-    void loadImageURLs();
     void displayWaitMessage();
     void buildBox();
 
     FileHandle m_file;
     QString m_searchString;
     QString m_loadedQuery;
-    QValueList<GoogleImage> m_imageList;
+    ImageSize m_loadedSize;
+    GoogleImageList m_imageList;
     bool m_chosen;
     uint m_selectedIndex;
     QPixmap m_currentPixmap;
+    KDialogBase *m_dialog;
+
+signals:
+    void newSearch(GoogleImageList&);
+
+private slots:
+    void loadImageURLs(GoogleFetcher::ImageSize size = All);
 };
 #endif

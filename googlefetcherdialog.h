@@ -33,7 +33,7 @@ class GoogleFetcherDialog : public KDialogBase
 
 public:
     GoogleFetcherDialog(const QString &name,
-                        const QValueList<GoogleImage> &urlList,
+                        const GoogleImageList &urlList,
                         uint selectedIndex,
                         const FileHandle &file,
                         QWidget *parent = 0);
@@ -43,23 +43,29 @@ public:
     QPixmap result() const { return m_pixmap; }
     bool takeIt() const { return m_takeIt; }
     bool newSearch() const { return m_newSearch; }
+    
+    void setLayout();
+    void setImageList(const GoogleImageList &urlList);
 
 public slots:
     int exec();
+    void refreshScreen(GoogleImageList &list);
+
+signals:
+    int sizeChanged(GoogleFetcher::ImageSize);
 
 protected slots:
     void slotOk();
     void slotCancel();
     void slotUser1();
+    void imgSizeChanged(int index);
 
 private:
-    void setLayout();
-
     QPixmap fetchedImage(uint index) const;
     QPixmap pixmapFromURL(const KURL &url) const;
 
     QPixmap m_pixmap;
-    QValueList<GoogleImage> m_imageList;
+    GoogleImageList m_imageList;
     KIconView *m_iconWidget;
     bool m_takeIt;
     bool m_newSearch;

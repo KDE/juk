@@ -44,17 +44,38 @@ GoogleFetcher::GoogleFetcher(const FileHandle &file)
 
 }
 
-void GoogleFetcher::loadImageURLs()
+void GoogleFetcher::loadImageURLs(GoogleFetcher::ImageSize size)
 {
-    if(m_loadedQuery == m_searchString)
+    if(m_loadedQuery == m_searchString && m_loadedSize == size)
         return;
 
     m_imageList.clear();
 
     KURL url("http://images.google.com/images");
     url.addQueryItem("q", m_searchString);
-
+    
+    switch (size) {
+        case XLarge:
+            url.addQueryItem("imgsz", "xlarge|xxlarge");
+            break;
+        case Large:
+            url.addQueryItem("imgsz", "large");
+            break;
+        case Medium:
+            url.addQueryItem("imgsz", "medium");
+            break;
+        case Small:
+            url.addQueryItem("imgsz", "small");
+            break;
+        case Icon:
+            url.addQueryItem("imgsz", "icon");
+            break;
+        default:
+            break;
+    }
+    
     m_loadedQuery = m_searchString;
+    m_loadedSize = size;
 
     DOM::HTMLDocument search;
     search.setAsync(false);
@@ -71,6 +92,7 @@ void GoogleFetcher::loadImageURLs()
     if(topLevelNodes.length() <= 5 ||
        topLevelNodes.item(4).nodeName().string() != "font")
     {
+        emit newSearch(m_imageList);
         return;
     }
 
@@ -80,7 +102,12 @@ void GoogleFetcher::loadImageURLs()
         DOM::Node thisTopNode = topLevelNodes.item(i);
 
         if(thisTopNode.nodeName().string() == "table") {
-            DOM::NodeList images = thisTopNode.firstChild().firstChild().childNodes();
+
+            uint imageIndex = 0;
+            if(thisTopNode.firstChild().firstChild().firstChild().attributes().getNamedItem("colspan") != NULL)
+                imageIndex = 1;
+
+            DOM::NodeList images = thisTopNode.firstChild().childNodes().item(imageIndex).childNodes();
 
             // For each table node, pull the images out of the first row
                 
@@ -90,7 +117,7 @@ void GoogleFetcher::loadImageURLs()
                     .getNamedItem("src").nodeValue().string();
 
                 DOM::Node topFont = thisTopNode.firstChild().childNodes()
-                    .item(1).childNodes().item(j).firstChild();
+                    .item(imageIndex + 1).childNodes().item(j).firstChild();
 
                 // And pull the size out of the second row
 
@@ -103,46 +130,37 @@ void GoogleFetcher::loadImageURLs()
             }
         }
     }
+    emit newSearch(m_imageList);
 }
 
 QPixmap GoogleFetcher::pixmap()
 {
     m_chosen = false;
     m_selectedIndex = 0;
+    m_loadedSize = All;
 
     displayWaitMessage();
 
     while(!m_chosen) {
-        if(m_imageList.size() == 0) {
+        GoogleFetcherDialog *dialog = new GoogleFetcherDialog("google", m_imageList, m_selectedIndex, m_file, 0);
+        connect (dialog, SIGNAL(sizeChanged(GoogleFetcher::ImageSize)), this, SLOT(loadImageURLs(GoogleFetcher::ImageSize)));
+        connect (this, SIGNAL(newSearch(GoogleImageList&)), dialog, SLOT(refreshScreen(GoogleImageList&)));
+        dialog->exec();
+        m_currentPixmap = ((GoogleFetcherDialog*)dialog)->result();
+        m_chosen = ((GoogleFetcherDialog*)dialog)->takeIt();
+        if(((GoogleFetcherDialog*)dialog)->newSearch()) {
             bool ok;
-
-            m_searchString = 
-                KInputDialog::getText(i18n("Cover Downloader"),
-                                      i18n("No covers found. Enter new search terms:"),
-                                      m_searchString, &ok);
-
+            m_searchString = KInputDialog::getText(i18n("Cover Downloader"),
+                                                   i18n("Enter new search terms:"),
+                                                   m_searchString, &ok);
             if(ok && !m_searchString.isEmpty())
                 displayWaitMessage();
-            else {
-                m_currentPixmap = QPixmap();
-                m_chosen = true;
-            }
+            else
+                m_searchString = m_loadedQuery;
         }
-        else {
-            GoogleFetcherDialog dialog("google", m_imageList, m_selectedIndex, m_file, 0);
-            dialog.exec();
-            m_currentPixmap = dialog.result();
-            m_chosen = dialog.takeIt();
-            if(dialog.newSearch()) {
-                bool ok;
-                m_searchString = KInputDialog::getText(i18n("Cover Downloader"),
-                                                       i18n("Enter new search terms:"),
-                                                       m_searchString, &ok);
-                if(ok && !m_searchString.isEmpty())
-                    displayWaitMessage();
-                else
-                    m_searchString = m_loadedQuery;
-            }
+        if (dialog) {
+            delete dialog;
+            dialog=0;
         }
     }
     return m_currentPixmap;
@@ -155,3 +173,6 @@ void GoogleFetcher::displayWaitMessage()
     loadImageURLs();
     statusBar->clear();
 }
+
+#include "googlefetcher.moc"
+
