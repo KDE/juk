@@ -125,7 +125,7 @@ QStringList PlaylistCollection::playlists() const
     QObjectList *childList = m_playlistStack->queryList("Playlist");
     QObject *obj;
     for(obj = childList->first(); obj; obj = childList->next()) {
-        Playlist *p = static_cast<Playlist*>(obj);
+        Playlist *p = static_cast<Playlist *>(obj);
         l.append(p->name());
     }
 
@@ -200,7 +200,7 @@ void PlaylistCollection::open(const QStringList &l)
     if(files.isEmpty())
         return;
 
-    if(currentPlaylist() == CollectionList::instance() ||
+    if(visiblePlaylist() == CollectionList::instance() ||
        KMessageBox::questionYesNo(
            widget,
            i18n("Do you want to add these items to the current list or to the collection list?"),
@@ -211,7 +211,7 @@ void PlaylistCollection::open(const QStringList &l)
         CollectionList::instance()->addFiles(files, m_importPlaylists);
     }
     else
-        currentPlaylist()->addFiles(files, m_importPlaylists);
+        visiblePlaylist()->addFiles(files, m_importPlaylists);
 
     dataChanged();
 }
@@ -256,7 +256,7 @@ void PlaylistCollection::addFolder()
 
 void PlaylistCollection::rename()
 {
-    QString old = currentPlaylist()->name();
+    QString old = visiblePlaylist()->name();
     QString name = playlistNameDialog(i18n("Rename"), old, false);
 
     m_playlistNames.remove(old);
@@ -264,25 +264,25 @@ void PlaylistCollection::rename()
     if(name.isNull())
         return;
 
-    currentPlaylist()->setName(name);
+    visiblePlaylist()->setName(name);
 }
 
 void PlaylistCollection::duplicate()
 {
-    QString name = playlistNameDialog(i18n("Duplicate"), currentPlaylist()->name());
+    QString name = playlistNameDialog(i18n("Duplicate"), visiblePlaylist()->name());
     if(name.isNull())
         return;
-    raise(new Playlist(this, currentPlaylist()->items(), name));
+    raise(new Playlist(this, visiblePlaylist()->items(), name));
 }
 
 void PlaylistCollection::save()
 {
-    currentPlaylist()->save();
+    visiblePlaylist()->save();
 }
 
 void PlaylistCollection::saveAs()
 {
-    currentPlaylist()->saveAs();
+    visiblePlaylist()->saveAs();
 }
 
 void PlaylistCollection::remove()
@@ -292,16 +292,16 @@ void PlaylistCollection::remove()
 
 void PlaylistCollection::reload()
 {
-    if(currentPlaylist() == CollectionList::instance())
+    if(visiblePlaylist() == CollectionList::instance())
         CollectionList::instance()->addFiles(m_folderList, m_importPlaylists);
     else
-        currentPlaylist()->slotReload();
+        visiblePlaylist()->slotReload();
 
 }
 
 void PlaylistCollection::editSearch()
 {
-    SearchPlaylist *p = dynamic_cast<SearchPlaylist *>(currentPlaylist());
+    SearchPlaylist *p = dynamic_cast<SearchPlaylist *>(visiblePlaylist());
 
     if(!p)
         return;
@@ -322,22 +322,22 @@ void PlaylistCollection::setCanDeletePlaylist(bool canDelete)
 
 void PlaylistCollection::removeItems()
 {
-    currentPlaylist()->slotRemoveSelectedItems();
+    visiblePlaylist()->slotRemoveSelectedItems();
 }
 
 void PlaylistCollection::refreshItems()
 {
-    currentPlaylist()->slotRefresh();
+    visiblePlaylist()->slotRefresh();
 }
 
 void PlaylistCollection::renameItems()
 {
-    currentPlaylist()->slotRenameFile();
+    visiblePlaylist()->slotRenameFile();
 }
 
 PlaylistItemList PlaylistCollection::selectedItems()
 {
-    return currentPlaylist()->selectedItems();
+    return visiblePlaylist()->selectedItems();
 }
 
 void PlaylistCollection::scanFolders()
@@ -382,12 +382,12 @@ void PlaylistCollection::createFolderPlaylist()
 
 void PlaylistCollection::guessTagFromFile()
 {
-    currentPlaylist()->slotGuessTagInfo(TagGuesser::FileName);
+    visiblePlaylist()->slotGuessTagInfo(TagGuesser::FileName);
 }
 
 void PlaylistCollection::guessTagFromInternet()
 {
-    currentPlaylist()->slotGuessTagInfo(TagGuesser::MusicBrainz);
+    visiblePlaylist()->slotGuessTagInfo(TagGuesser::MusicBrainz);
 }
 
 void PlaylistCollection::setSearchEnabled(bool enable)
@@ -397,7 +397,7 @@ void PlaylistCollection::setSearchEnabled(bool enable)
 
     m_searchEnabled = enable;
 
-    currentPlaylist()->setSearchEnabled(enable);
+    visiblePlaylist()->setSearchEnabled(enable);
 }
 
 HistoryPlaylist *PlaylistCollection::historyPlaylist() const
@@ -429,14 +429,22 @@ QObject *PlaylistCollection::object() const
     return m_actionHandler;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// protected methods
-////////////////////////////////////////////////////////////////////////////////
-
 Playlist *PlaylistCollection::currentPlaylist() const
+{
+    if(Playlist::playingItem())
+        return Playlist::playingItem()->playlist();
+    else
+        return visiblePlaylist();
+}
+
+Playlist *PlaylistCollection::visiblePlaylist() const
 {
     return static_cast<Playlist *>(m_playlistStack->visibleWidget());
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// protected methods
+////////////////////////////////////////////////////////////////////////////////
 
 QWidgetStack *PlaylistCollection::playlistStack() const
 {

@@ -62,12 +62,10 @@ public:
     virtual void setCanDeletePlaylist(bool canDelete);
 
     Item *dropItem() const { return m_dropItem; }
-    Playlist *visiblePlaylist() const;
 
 public slots:
     void paste();
     void clear() {}
-    virtual Playlist *currentPlaylist() const;
 
 protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
