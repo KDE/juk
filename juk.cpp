@@ -15,15 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "juk.h"
-#include "slideraction.h"
-#include "statuslabel.h"
-#include "splashscreen.h"
-#include "genrelisteditor.h"
-#include "systemtray.h"
-#include "keydialog.h"
-#include "tagguesserconfigdlg.h"
-
 #include <kaction.h>
 #include <kcmdlineargs.h>
 #include <kstatusbar.h>
@@ -33,6 +24,15 @@
 #include <qmetaobject.h>
 #include <qslider.h>
 #include <qmime.h>
+
+#include "juk.h"
+#include "slideraction.h"
+#include "statuslabel.h"
+#include "splashscreen.h"
+#include "genrelisteditor.h"
+#include "systemtray.h"
+#include "keydialog.h"
+#include "tagguesserconfigdlg.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
