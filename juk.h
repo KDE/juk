@@ -57,6 +57,8 @@ private:
 
     virtual bool queryClose();
 
+    void updateStatusLabel();
+
     // layout objects
     PlaylistSplitter *splitter;
     QLabel *statusLabel;

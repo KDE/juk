@@ -307,8 +307,26 @@ void JuK::stopFile()
     sliderAction->getTrackPositionSlider()->setEnabled(false);
     if(playingItem)
         playingItem->setPixmap(0, 0);
+    playingItem = 0;
 
-    statusLabel->clear();
+    updateStatusLabel();
+}
+
+void JuK::updateStatusLabel()
+{
+    if(playingItem) {
+	Playlist *p = static_cast<Playlist *>(playingItem->listView());
+	if(p && p->playlistBoxItem()) {
+	    QString label = p->playlistBoxItem()->text() 
+		+ " / " + playingItem->text(PlaylistItem::ArtistColumn) 
+		+ " - " + playingItem->text(PlaylistItem::TrackColumn);
+	    statusLabel->setText(label);
+	}
+	else
+	    statusLabel->clear();
+    }
+    else
+	statusLabel->clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -355,6 +373,7 @@ void JuK::pollPlay()
 		    playingItem->setPixmap(0, QPixmap(UserIcon("playing")));
 		}
 	    }
+	    updateStatusLabel();
 	}
 	else
 	    stopFile();
@@ -402,13 +421,7 @@ void JuK::playItem(PlaylistItem *item)
             playingItem->setPixmap(0, QPixmap(UserIcon("playing")));
             playTimer->start(pollInterval);
 
-	    Playlist * p = static_cast<Playlist *>(item->listView());
-	    if(p && p->playlistBoxItem()) {
-		QString label = p->playlistBoxItem()->text() 
-		    + " / " + item->text(PlaylistItem::ArtistColumn) 
-		    + " - " + item->text(PlaylistItem::TrackColumn);
-		statusLabel->setText(label);
-	    }
+	    updateStatusLabel();
         }
     }
 }
