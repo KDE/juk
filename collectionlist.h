@@ -21,12 +21,31 @@
 
 #include <qdict.h>
 #include <qclipboard.h>
+#include <qvaluevector.h>
 
 #include "playlist.h"
 #include "playlistitem.h"
 #include "sortedstringlist.h"
 
 class CollectionListItem;
+class ViewMode;
+
+/**
+ * This type is for mapping QString track attributes like the album, artist
+ * and track to an integer count representing the number of outstanding items
+ * that hold the string.
+ */
+
+typedef QDict<int> TagCountDict;
+typedef QDictIterator<int> TagCountDictIterator;
+
+/**
+ * We then have an array of dicts, one for each column in the list view.  We
+ * use pointers to TagCountDicts because QDict has a broken copy ctor, which
+ * doesn't copy the case sensitivity setting.
+ */
+
+typedef QValueVector<TagCountDict*> TagCountDicts;
 
 /** 
  * This is the "collection", or all of the music files that have been opened
@@ -58,7 +77,7 @@ public:
     /**
      * Returns a unique set of values associated with the type specified.
      */
-    QStringList uniqueSet(UniqueSetType t) const { return m_uniqueSets[t].values(); }
+    QStringList uniqueSet(UniqueSetType t) const;
 
     CollectionListItem *lookup(const QString &file) { return m_itemsDict.find(file); }
     
@@ -69,6 +88,8 @@ public:
     void emitVisibleColumnsChanged() { emit signalVisibleColumnsChanged(); }
 
     virtual void clearItems(const PlaylistItemList &items);
+
+    void setupTreeViewEntries(ViewMode *viewMode) const;
 
 public slots:
     virtual void paste() { decode(kapp->clipboard()->data()); }
@@ -90,10 +111,11 @@ protected:
     void addToDict(const QString &file, CollectionListItem *item) { m_itemsDict.replace(file, item); }
     void removeFromDict(const QString &file) { m_itemsDict.remove(file); }
 
-    /**
-     * Add a value to one of the unique value lists; use the UniqueSetType as a key.
-     */
-    void addUnique(UniqueSetType t, const QString &value);
+    // These methods are also used by CollectionListItem, to manage the
+    // strings used in generating the unique sets and tree view mode playlists.
+
+    QString addStringToDict(const QString &value, unsigned column);
+    void removeStringFromDict(const QString &value, unsigned column);
 
     void addWatched(const QString &file) { m_dirWatch->addFile(file); }
     void removeWatched(const QString &file) { m_dirWatch->removeFile(file); }
@@ -110,6 +132,10 @@ signals:
      */
     void signalVisibleColumnsChanged();
 
+    void signalNewTag(const QString &, unsigned);
+
+    void signalRemovedTag(const QString &, unsigned);
+
 private:
     /**
      * Just the size of the above enum to keep from hard coding it in several
@@ -120,8 +146,7 @@ private:
     static CollectionList *m_list;
     QDict<CollectionListItem> m_itemsDict;
     KDirWatch *m_dirWatch;
-    QValueVector<SortedStringList> m_uniqueSets;
-    QValueVector<QString> m_uniqueSetLast;
+    TagCountDicts m_columnTags;
 };
 
 class CollectionListItem : public PlaylistItem

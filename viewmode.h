@@ -90,6 +90,8 @@ protected:
 
 ////////////////////////////////////////////////////////////////////////////////
 
+class TreeViewItemPlaylist;
+
 class TreeViewMode : public CompactViewMode
 {
     Q_OBJECT
@@ -102,11 +104,16 @@ public:
     virtual void setShown(bool shown);
     void setupCategories();
 
-private:
-    void setupCategory(const QString &searchCategory, const QStringList &members,
-                       int column, bool exact = true);
+public slots:
+    void slotRemoveItem(const QString &item, unsigned column);
+    void slotAddItem(const QString &item, unsigned column);
+
+signals:
+    void signalPlaylistDestroyed(Playlist*);
+
 private:
     QDict<PlaylistBox::Item> m_searchCategories;    
+    QMap<QString, TreeViewItemPlaylist*> m_treeViewItems;
 };
 
 #endif

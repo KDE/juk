@@ -43,6 +43,7 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     readConfig();
 
     m_editor->slotUpdateCollection();
+    m_editor->setupObservers();
 }
 
 PlaylistSplitter::~PlaylistSplitter()
@@ -96,6 +97,8 @@ void PlaylistSplitter::setupLayout()
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));
+    connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist*)),
+            m_editor, SLOT(slotPlaylistDestroyed(Playlist*)));
 
     moveToFirst(m_playlistBox);
 

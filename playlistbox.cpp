@@ -125,6 +125,20 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     Cache::loadPlaylists(this);
     raise(CollectionList::instance());
 
+    setSorting(-1); // Disable sorting for speed
+
+    CollectionList::instance()->setupTreeViewEntries(m_viewModes[2]);
+
+    setSorting(0);
+    sort();
+    
+    connect(CollectionList::instance(), SIGNAL(signalNewTag(const QString &, unsigned)),
+            m_viewModes[2], SLOT(slotAddItem(const QString &, unsigned)));
+    connect(m_viewModes[2], SIGNAL(signalPlaylistDestroyed(Playlist*)),
+            this, SLOT(slotPlaylistDestroyed(Playlist*)));
+    connect(CollectionList::instance(), SIGNAL(signalRemovedTag(const QString &, unsigned)),
+            m_viewModes[2], SLOT(slotRemoveItem(const QString &, unsigned)));
+
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
 }
 
@@ -297,6 +311,15 @@ void PlaylistBox::remove()
 
     for(PlaylistList::ConstIterator it = removeQueue.begin(); it != removeQueue.end(); ++it)
 	delete *it;
+}
+
+void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
+{
+    emit signalPlaylistDestroyed(p);
+
+    removeName(m_playlistDict[p]->text(0));
+    delete m_playlistDict[p];
+    m_playlistDict.remove(p);
 }
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)

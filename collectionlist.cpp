@@ -28,6 +28,8 @@
 #include "stringshare.h"
 #include "cache.h"
 #include "actioncollection.h"
+#include "tag.h"
+#include "viewmode.h"
 
 using namespace ActionCollection;
 
@@ -59,6 +61,13 @@ void CollectionList::initialize(PlaylistCollection *collection)
 	new CollectionListItem(*it);
 
     SplashScreen::update();
+
+    // The CollectionList is created with sorting disabled for speed.  Re-enable
+    // it here, and perform the sort.
+    KConfigGroup config(KGlobal::config(), "Playlists");
+    m_list->setSortColumn(config.readNumEntry("CollectionListSortColumn", 1));
+    m_list->sort();
+
     collection->setupPlaylist(m_list, "folder_sound");
 }
 
@@ -93,6 +102,24 @@ void CollectionList::clearItems(const PlaylistItemList &items)
     }
 
     dataChanged();
+}
+
+void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
+{
+    TreeViewMode *treeViewMode = dynamic_cast<TreeViewMode*>(viewMode);
+    if(!treeViewMode) {
+	kdWarning(65432) << "Can't setup entries on a non-tree-view mode!\n";
+	return;
+    }
+
+    QValueList<int> columnList;
+    columnList << PlaylistItem::ArtistColumn;
+    columnList << PlaylistItem::GenreColumn;
+    columnList << PlaylistItem::AlbumColumn;
+
+    for(QValueList<int>::Iterator colIt = columnList.begin(); colIt != columnList.end(); ++colIt)
+	for(TagCountDictIterator it(*m_columnTags[*colIt]); it.current(); ++it)
+	    treeViewMode->slotAddItem(it.currentKey(), *colIt);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,8 +169,7 @@ void CollectionList::slotRefreshItem(const QString &file)
 CollectionList::CollectionList(PlaylistCollection *collection) :
     Playlist(collection, true),
     m_itemsDict(5003),
-    m_uniqueSets(m_uniqueSetCount, SortedStringList()),
-    m_uniqueSetLast(m_uniqueSetCount, QString::null)
+    m_columnTags(15, 0)
 {
     new KAction(i18n("Show Playing"), KShortcut(), actions(), "showPlaying");
 
@@ -157,9 +183,16 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
 	    this, SLOT(slotPopulateBackMenu()));
     connect(action<KToolBarPopupAction>("back")->popupMenu(), SIGNAL(activated(int)),
 	    this, SLOT(slotPlayFromBackMenu(int)));
+    setSorting(-1); // Temporarily disable sorting to add items faster.
 
-    KConfigGroup config(KGlobal::config(), "Playlists");
-    setSortColumn(config.readNumEntry("CollectionListSortColumn", 1));
+    m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict(5001, false);
+    m_columnTags[PlaylistItem::ArtistColumn]->setAutoDelete(true);
+
+    m_columnTags[PlaylistItem::AlbumColumn] = new TagCountDict(5001, false);
+    m_columnTags[PlaylistItem::AlbumColumn]->setAutoDelete(true);
+
+    m_columnTags[PlaylistItem::GenreColumn] = new TagCountDict(5001, false);
+    m_columnTags[PlaylistItem::GenreColumn]->setAutoDelete(true);
 
     polish();
 }
@@ -168,6 +201,14 @@ CollectionList::~CollectionList()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
     config.writeEntry("CollectionListSortColumn", sortColumn());
+
+    // The CollectionListItems will try to remove themselves from the
+    // m_columnTags member, so we must make sure they're gone before we
+    // are.
+
+    clearItems(items());
+    for(TagCountDicts::Iterator it = m_columnTags.begin(); it != m_columnTags.end(); ++it)
+	delete *it;
 
     delete m_dirWatch;
 }
@@ -188,14 +229,68 @@ void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
-void CollectionList::addUnique(UniqueSetType t, const QString &value)
+QString CollectionList::addStringToDict(const QString &value, unsigned column)
 {
-    if(value.isEmpty())
+    if(column > m_columnTags.count() || value.stripWhiteSpace().isEmpty())
+	return QString::null;
+
+    int *refCountPtr = m_columnTags[column]->find(value);
+    if(refCountPtr)
+	++(*refCountPtr);
+    else {
+	m_columnTags[column]->insert(value, new int(1));
+	emit signalNewTag(value, column);
+    }
+
+    return value;
+}
+
+QStringList CollectionList::uniqueSet(UniqueSetType t) const
+{
+    int column;
+
+    switch(t)
+    {
+    case Artists:
+        column = PlaylistItem::ArtistColumn;
+    break;
+    
+    case Albums:
+        column = PlaylistItem::AlbumColumn;
+    break;
+    
+    case Genres:
+        column = PlaylistItem::GenreColumn;
+    break;
+
+    default:
+	return QStringList();
+    }
+
+    if((unsigned) column >= m_columnTags.count())
+	return QStringList();
+
+    TagCountDictIterator it(*m_columnTags[column]);
+    QStringList list;
+
+    for(; it.current(); ++it)
+	list += it.currentKey();
+
+    return list;
+}
+
+void CollectionList::removeStringFromDict(const QString &value, unsigned column)
+{
+    if(column > m_columnTags.count() || value.isEmpty())
 	return;
 
-    if(value != m_uniqueSetLast[t] && !m_uniqueSets[t].insert(value)) {
-	m_uniqueSetLast[t] = value;
-	emit signalCollectionChanged();
+    int *refCountPtr = m_columnTags[column]->find(value);
+    if(refCountPtr) {
+	--(*refCountPtr);
+	if(*refCountPtr == 0) {
+	    emit signalRemovedTag(value, column);
+	    m_columnTags[column]->remove(value);
+	}
     }
 }
 
@@ -205,10 +300,6 @@ void CollectionList::addUnique(UniqueSetType t, const QString &value)
 
 void CollectionListItem::refresh()
 {
-    CollectionList::instance()->addUnique(CollectionList::Artists, text(ArtistColumn));
-    CollectionList::instance()->addUnique(CollectionList::Albums, text(AlbumColumn));
-    CollectionList::instance()->addUnique(CollectionList::Genres, text(GenreColumn));
-
     int offset = static_cast<Playlist *>(listView())->columnOffset();
     int columns = lastColumn() + offset + 1;
     data()->local8Bit.resize(columns);
@@ -230,7 +321,13 @@ void CollectionListItem::refresh()
 	       (id == CommentColumn))
 	    {
 		lower = StringShare::tryShare(lower);
+
+		if(id != YearColumn && id != CommentColumn && data()->local8Bit[id] != lower) {
+		    CollectionList::instance()->removeStringFromDict(data()->local8Bit[id], id);
+		    CollectionList::instance()->addStringToDict(text(i), id);
+		}
 	    }
+
 	    data()->local8Bit[id] = lower;
 	}
 
@@ -298,8 +395,12 @@ CollectionListItem::~CollectionListItem()
     }
 
     CollectionList *l = CollectionList::instance();
-    if(l)
+    if(l) {
 	l->removeFromDict(file().absFilePath());
+	l->removeStringFromDict(file().tag()->album(), AlbumColumn);
+	l->removeStringFromDict(file().tag()->artist(), ArtistColumn);
+	l->removeStringFromDict(file().tag()->genre(), GenreColumn);
+    }
 }
 
 void CollectionListItem::addChildItem(PlaylistItem *child)

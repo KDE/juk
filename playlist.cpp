@@ -1784,12 +1784,12 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
     }
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
+	processEvents();
+
 	QFileInfo fi((*it)->file().absFilePath());
 
 	if(!fi.isWritable() || !editTag(*it, text, column))
 	    failedFiles += fi.absFilePath();
-
-	processEvents();
     }
 
     if(!failedFiles.isEmpty())

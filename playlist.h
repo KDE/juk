@@ -35,7 +35,6 @@ class KActionMenu;
 class QEvent;
 
 class PlaylistCollection;
-class PlaylistSearch;
 
 class PlaylistItem;
 class PlaylistToolTip;

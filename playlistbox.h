@@ -70,6 +70,9 @@ protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem);
 
+signals:
+    void signalPlaylistDestroyed(Playlist *);
+
 private:
     void readConfig();
     void saveConfig();
@@ -99,6 +102,7 @@ private slots:
     void slotDoubleClicked();
     void slotShowContextMenu(QListViewItem *, const QPoint &point, int);
     void slotSetViewMode(int index);
+    void slotPlaylistDestroyed(Playlist*);
 
 private:
     KPopupMenu *m_contextMenu;

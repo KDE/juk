@@ -283,37 +283,68 @@ void TreeViewMode::setShown(bool show)
     }
 }
 
-void TreeViewMode::setupCategory(const QString &searchCategory, const QStringList &members, int column, bool exact)
+void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
 {
-    CollectionList *collection = CollectionList::instance();
+    QString itemKey;
+    if(column == PlaylistItem::ArtistColumn)
+        itemKey = "artists" + item.lower();
+    else if(column == PlaylistItem::GenreColumn)
+        itemKey = "genres" + item.lower();
+    else if(column == PlaylistItem::AlbumColumn)
+        itemKey = "albums" + item.lower();
+    else {
+        kdWarning() << k_funcinfo << "Unhandled column type " << column << endl;
+        return;
+    }
+
+    if(!m_treeViewItems.contains(itemKey))
+        return;
+
+    TreeViewItemPlaylist *itemPlaylist = m_treeViewItems[itemKey];
+    m_treeViewItems.remove(itemKey);
+    itemPlaylist->deleteLater();
+    emit signalPlaylistDestroyed(itemPlaylist);
+}
+
+void TreeViewMode::slotAddItem(const QString &item, unsigned column)
+{
     QValueList<int> columns;
     columns.append(column);
 
-    KApplication::setOverrideCursor(Qt::waitCursor);
-
-    for(QStringList::ConstIterator it = members.begin(); it != members.end(); ++it) {
-        
-        PlaylistSearch::ComponentList components;
-
-        PlaylistSearch::Component::MatchMode mode;
-        if(exact)
-            mode = PlaylistSearch::Component::Exact;
-        else
-            mode = PlaylistSearch::Component::ContainsWord;
-
-        components.append(PlaylistSearch::Component(*it, true, columns, mode));
-
-        PlaylistList playlists;
-        playlists.append(collection);
-
-        PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
-        TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, *it, false);
-        playlistBox()->setupPlaylist(p, "midi", m_searchCategories[searchCategory]);
-
-        processEvents();
+    QString itemKey, searchCategory;
+    if(column == PlaylistItem::ArtistColumn)
+        searchCategory = "artists";
+    else if(column == PlaylistItem::GenreColumn)
+        searchCategory = "genres";
+    else if(column == PlaylistItem::AlbumColumn)
+        searchCategory = "albums";
+    else {
+        kdWarning() << k_funcinfo << "Unhandled column type " << column << endl;
+        return;
     }
 
-    KApplication::restoreOverrideCursor();
+    itemKey = searchCategory + item.lower();
+
+    if(m_treeViewItems.contains(itemKey))
+        return;
+        
+    PlaylistSearch::ComponentList components;
+
+    PlaylistSearch::Component::MatchMode mode = PlaylistSearch::Component::ContainsWord;
+    if(column != PlaylistItem::ArtistColumn)
+        mode = PlaylistSearch::Component::Exact;
+
+    components.append(PlaylistSearch::Component(item, true, columns, mode));
+
+    PlaylistList playlists;
+    playlists.append(CollectionList::instance());
+
+    PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
+
+    TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, item, false);
+    playlistBox()->setupPlaylist(p, "midi", m_searchCategories[searchCategory]);
+
+    m_treeViewItems[itemKey] = p;
 }
 
 void TreeViewMode::setupCategories()
@@ -323,18 +354,12 @@ void TreeViewMode::setupCategories()
     
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
     m_searchCategories.insert("artists", i);
-    setupCategory("artists", CollectionList::instance()->uniqueSet(CollectionList::Artists),
-                  PlaylistItem::ArtistColumn, false);
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
     m_searchCategories.insert("albums", i);
-    setupCategory("albums", CollectionList::instance()->uniqueSet(CollectionList::Albums),
-                  PlaylistItem::AlbumColumn);
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Genres"));
     m_searchCategories.insert("genres", i);
-    setupCategory("genres", CollectionList::instance()->uniqueSet(CollectionList::Genres),
-                  PlaylistItem::GenreColumn);
 
     for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
         it.current()->setSortedFirst(true);
