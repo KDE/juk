@@ -666,9 +666,26 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 	return;
     }
 
-    Playlist *current = m_dynamicList;
+    // Save the current dynamic list so that we can delete it when we're done
+    // showing the next list.  The two situations are that we're either showing
+    // an existing, non-dynamic list or that we're creating a dynamic list; in 
+    // both cases we want to get rid of the current one.
+    //
+    // If in fact the currently visible list *is not* a dynamic list, then
+    // m_dyanmicList will simply be zero, making deleting it at the end of this
+    // method just a no-op.
+    //
+    // And finally, because we will end up doing a recursive call to this method
+    // to show the dynamic playlist (second case calls the first case), we want
+    // to make sure that in that case we don't delete the very thing we're
+    // being asked to show.  (Hence the conditional assignment.)
+
+    Playlist *current = l.first() != m_dynamicList ? m_dynamicList : 0;
 
     m_nextPlaylistItem = 0;
+
+    // First case:  We're just showing one, currently existing list.
+
     if(l.count() == 1) {
 	m_playlistStack->raiseWidget(l.first());
 	m_editor->slotSetItems(playlistSelection());
@@ -679,13 +696,21 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 	    redisplaySearch();
 	}
     }
+
+    // Second case: There are multiple playlists in our list, so we need to create
+    // a new "dynamic list" that is the union of these playlists.
+
     else {
 	m_dynamicList = new DynamicPlaylist(l, m_playlistStack, i18n("Dynamic List"));
+
+	// Note that this call will end up making a recursive call to this
+	// method, but in that call since there will only be one list, it will
+	// take the "first case" above.
+	
 	setupPlaylist(m_dynamicList, true, 0);
     }
 
-    if(current)
-	delete current;
+    delete current;
 
     emit signalPlaylistChanged();
 }
