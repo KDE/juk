@@ -23,7 +23,7 @@
         <widget class="KListView" row="0" column="0" rowspan="5" colspan="1">
             <column>
                 <property name="text">
-                    <string>Filename scheme</string>
+                    <string>Filename Scheme</string>
                 </property>
                 <property name="clickable">
                     <bool>false</bool>

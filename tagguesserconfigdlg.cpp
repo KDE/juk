@@ -18,7 +18,7 @@
 #include <qtoolbutton.h>
 
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
-    : KDialogBase(parent, name, true, i18n("Tag guesser configuration"),
+    : KDialogBase(parent, name, true, i18n("Tag Guesser Configuration"),
                   Ok | Cancel, Ok, true)
 {
     m_child = new TagGuesserConfigDlgWidget(this, "child");

@@ -48,7 +48,7 @@
                         <cstring>addDirectoryButton</cstring>
                     </property>
                     <property name="text">
-                        <string>Add Directory</string>
+                        <string>Add Directory...</string>
                     </property>
                 </widget>
                 <widget class="KPushButton">
