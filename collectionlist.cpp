@@ -235,11 +235,8 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
 
 void CollectionListItem::checkCurrent()
 {
-    if(!data()->exists() || !data()->isFile()) {
-	kdDebug() << "So, this exists -- " << m_path << endl;
+    if(!data()->exists() || !data()->isFile())
 	CollectionList::instance()->clearItem(this);
-	return;
-    }
     else if(!data()->tag()->current()) {
 	data()->refresh();
 	slotRefresh();

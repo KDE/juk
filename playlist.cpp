@@ -279,11 +279,13 @@ void Playlist::saveAs()
 
 void Playlist::refresh()
 {
-    PlaylistItemList list;
+    PlaylistItemList l = selectedItems();
+    if(l.isEmpty())
+	l = items();
 
     KApplication::setOverrideCursor(Qt::waitCursor);
     int j = 0;
-    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow())) {
+    for(PlaylistItem *i = l.first(); i; i = l.next()) {
 	i->slotRefreshFromDisk();
 	if(j % 5 == 0)
 	    kapp->processEvents();
