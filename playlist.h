@@ -284,6 +284,13 @@ public:
 
     void setColumnWidthUpdatesDisabled(bool disabled) { m_disableColumnWidthUpdates = disabled; }
 
+    /**
+     * Playlists have a common set of shared settings such as visible columns
+     * that should be applied just before the playlist is shown.  Calling this
+     * method applies those.
+     */
+    void applySharedSettings();
+
 public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
@@ -574,6 +581,7 @@ private:
 
     bool m_allowDuplicates;
     bool m_polished;
+    bool m_applySharedSettings;
 
     QValueList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;

@@ -662,6 +662,8 @@ QString PlaylistSplitter::play(PlaylistItem *item)
 
 void PlaylistSplitter::redisplaySearch()
 {
+    // kdDebug(65432) << k_funcinfo << endl;
+
     if(!m_searchWidget->isVisible() || visiblePlaylist()->search().isEmpty())
 	visiblePlaylist()->setItemsVisible(visiblePlaylist()->items(), true);
     else {
@@ -834,16 +836,16 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
     // First case:  We're just showing one, currently existing list.
 
     if(l.count() == 1) {
+
+	l.first()->applySharedSettings();
 	m_playlistStack->raiseWidget(l.first());
 	m_editor->slotSetItems(playlistSelection());
 
 	if(m_dynamicList != l.first())
 	   m_dynamicList = 0;
 
-	if(m_searchWidget) {
+	if(m_searchWidget)
 	    m_searchWidget->setSearch(l.first()->search());
-	    redisplaySearch();
-	}
     }
 
     // Second case: There are multiple playlists in our list, so we need to create
@@ -857,6 +859,7 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 	// take the "first case" above.
 	
 	setupPlaylist(m_dynamicList, true, 0);
+	m_dynamicList->applySharedSettings();
     }
 
     if(current) {

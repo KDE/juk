@@ -78,6 +78,9 @@ PlaylistSearch::Component SearchLine::searchComponent() const
 
 void SearchLine::setSearchComponent(const PlaylistSearch::Component &component)
 {
+    if(component == searchComponent())
+	return;
+
     if(!component.isPatternSearch()) {
 	m_lineEdit->setText(component.query());
 	m_caseSensitive->setCurrentItem(component.isCaseSensitive() ? CaseSensitive : Default);

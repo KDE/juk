@@ -229,6 +229,7 @@ Playlist::Playlist(QWidget *parent, const QString &name) :
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_polished(false),
+    m_applySharedSettings(true),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_lastSelected(0),
@@ -243,6 +244,7 @@ Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const QString
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_polished(false),
+    m_applySharedSettings(true),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_lastSelected(0),
@@ -708,8 +710,16 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
 void Playlist::showEvent(QShowEvent *e)
 {
-    SharedSettings::instance()->apply(this);
+    if(m_applySharedSettings) {
+	SharedSettings::instance()->apply(this);
+	m_applySharedSettings = false;
+    }
     KListView::showEvent(e);
+}
+
+void Playlist::applySharedSettings()
+{
+    m_applySharedSettings = true;
 }
 
 void Playlist::viewportPaintEvent(QPaintEvent *pe)

@@ -110,6 +110,8 @@ public:
     bool isPatternSearch() const { return m_re; }
     bool isCaseSensitive() const { return m_caseSensitive; }
     MatchMode matchMode() const { return m_mode; }
+
+    bool operator==(const Component &v) const;
     
 private:
     QString m_query;

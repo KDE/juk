@@ -215,6 +215,21 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
     return false;
 }
 
+bool PlaylistSearch::Component::operator==(const Component &v) const
+{
+    return m_query == v.m_query &&
+	m_queryRe == v.m_queryRe &&
+	m_columns == v.m_columns &&
+	m_mode == v.m_mode &&
+	m_searchAllVisible == v.m_searchAllVisible &&
+	m_caseSensitive == v.m_caseSensitive &&
+	m_re == v.m_re;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// helper functions
+////////////////////////////////////////////////////////////////////////////////
+
 QDataStream &operator<<(QDataStream &s, const PlaylistSearch &search)
 {
     s << search.components()
