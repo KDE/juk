@@ -32,17 +32,13 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-ArtsPlayer::ArtsPlayer() : Player()
+ArtsPlayer::ArtsPlayer() : Player(),
+			   m_dispatcher(0),
+			   m_server(0),
+			   m_media(0),
+			   m_volumeControl(0),
+			   m_currentVolume(1.0)
 {
-    // set pointers to null
-    m_server = 0;
-    m_volumeControl = 0;
-    m_media = 0;
-    m_dispatcher = 0;
-
-    // startup volume of "full" volume
-    m_currentVolume = 1.0;
-
     setupPlayer();
 }
 
@@ -155,7 +151,7 @@ long ArtsPlayer::totalTime() const
 
 long ArtsPlayer::currentTime() const
 {
-    if(serverRunning() && m_media && m_media->state() == posPlaying)
+    if(serverRunning() && m_media && (m_media->state() == posPlaying || m_media->state() == posPaused))
         return m_media->currentTime().seconds;
     else
         return -1;

@@ -97,7 +97,7 @@ void JuK::play()
 
     if(m_player->paused()) {
         m_player->play();
-
+        m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
 	// Here, before doing anything, we want to make sure that the m_player did
 	// in fact start.
 
@@ -122,6 +122,7 @@ void JuK::pause()
 
     m_playTimer->stop();
     m_player->pause();
+    m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
     actionCollection()->action("pause")->setEnabled(false);
     if(m_systemTray)
 	m_systemTray->slotPause();
@@ -233,6 +234,12 @@ void JuK::volumeMute()
 void JuK::openFile(const QString &file)
 {
     m_splitter->open(file);
+}
+
+void JuK::openFile(const QStringList &files)
+{
+    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
+	openFile(*it);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -597,7 +604,7 @@ bool JuK::queryClose()
 	return true;
 }
 
-void JuK::invokeEditSlot( const char *slotName, const char *slot )
+void JuK::invokeEditSlot(const char *slotName, const char *slot)
 {
     QObject *object = focusWidget();
 
@@ -618,6 +625,8 @@ void JuK::invokeEditSlot( const char *slotName, const char *slot )
 QString JuK::playingString() const
 {
     QString s;
+    if(!m_player->playing() && !m_player->paused())
+	return i18n("No song playing");
 
     if(m_splitter->playingArtist().isEmpty())
         s = m_splitter->playingTrack().simplifyWhiteSpace();

@@ -54,6 +54,7 @@ servicemenu_DATA = jukservicemenu.desktop
 
 METASOURCES = AUTO
 KDE_ICON = AUTO
+POFILES = AUTO
 
 xdg_apps_DATA = juk.desktop
 

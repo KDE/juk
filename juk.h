@@ -67,12 +67,6 @@ public slots:
     void volumeDown();
     void volumeMute();
 
-    /**
-     * Set the volume.  100 is the maximum.
-     */
-    void setVolume(float volume);
-
-
 signals:
     void signalEdit();
     void signalNewSong(const QString& songTitle);
@@ -109,6 +103,20 @@ private:
 
     void invokeEditSlot(const char *slotName, const char *slot);
     QString playingString() const;
+
+    int currentTime() const { return m_player->currentTime(); }
+    int totalTime() const { return m_player->totalTime(); }
+
+    /**
+     * Set the volume.  100 is the maximum.
+     */
+    void setVolume(float volume);
+
+    /**
+     * Set the position in the currently playing track (in seconds).
+     */
+    void setTime(int time) { m_player->seek(time); }
+
     void updatePlaylistInfo();
 
     /**
@@ -118,6 +126,7 @@ private:
     void play(const QString &file);
 
     void openFile(const QString &file);
+    void openFile(const QStringList &files);
 
     /**
      * Because we want to be able to reuse these actions in the main GUI classes,
