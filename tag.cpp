@@ -70,7 +70,29 @@ Tag::~Tag()
 
 void Tag::save()
 {
+    if(!m_info.isWritable())
+        return;
 
+    TagLib::File *file = 0;
+
+    if(MediaFiles::isMP3(m_fileName))
+        file = new TagLib::MPEG::File(QStringToTString(m_fileName));
+    else if(MediaFiles::isOgg(m_fileName))
+        file = new TagLib::Vorbis::File(QStringToTString(m_fileName));
+
+    if(file && file->isOpen() && file->tag()) {
+        file->tag()->setTitle(QStringToTString(m_title));
+        file->tag()->setArtist(QStringToTString(m_artist));
+        file->tag()->setAlbum(QStringToTString(m_album));
+        file->tag()->setGenre(QStringToTString(m_genre));
+        file->tag()->setComment(QStringToTString(m_comment));
+        file->tag()->setTrack(m_track);
+        file->tag()->setYear(m_year);
+
+        file->save();
+    }
+
+    delete file;
 }
 
 bool Tag::current() const
