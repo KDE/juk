@@ -89,7 +89,7 @@ void JuK::setupLayout()
 
     splitter->setFocus();
 
-    setFixedSize(750, 500);
+    resize(750, 500);
 }
 
 void JuK::setupActions()
