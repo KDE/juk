@@ -149,10 +149,10 @@ Note that the order in which the schemes appear in the list is relevant since th
     </grid>
 </widget>
 <includes>
-    <include location="local" impldecl="in implementation">kdialog.h</include>
-    <include location="local" impldecl="in implementation">kiconloader.h</include>
+    <include location="global" impldecl="in implementation">kdialog.h</include>
 </includes>
 <layoutdefaults spacing="6" margin="0"/>
+<layoutfunctions spacing="KDialog::spacingHint"/>
 <includehints>
     <includehint>klistview.h</includehint>
     <includehint>kpushbutton.h</includehint>
