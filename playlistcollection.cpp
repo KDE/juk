@@ -389,7 +389,7 @@ HistoryPlaylist *PlaylistCollection::historyPlaylist() const
 
 void PlaylistCollection::setHistoryPlaylistEnabled(bool enable)
 {
-    kdDebug(65432) << k_funcinfo << enable << endl;
+//    kdDebug(65432) << k_funcinfo << enable << endl;
 
     if((enable && m_historyPlaylist) || (!enable && !m_historyPlaylist))
         return;

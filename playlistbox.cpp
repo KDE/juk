@@ -653,9 +653,11 @@ void PlaylistBox::Item::init()
     setPixmap(0, SmallIcon(m_iconName, iconSize));
     list->addName(m_text);
 
-    if(m_playlist)
+    if(m_playlist) {
 	connect(m_playlist, SIGNAL(signalNameChanged(const QString &)),
 		this, SLOT(slotSetName(const QString &)));
+	connect(m_playlist, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+    }
 
     if(m_playlist == CollectionList::instance()) {
 	m_sortedFirst = true;
@@ -667,8 +669,6 @@ void PlaylistBox::Item::init()
 
     if(m_playlist == list->historyPlaylist())
 	m_sortedFirst = true;
-
-    connect(m_playlist, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 }
 
 #include "playlistbox.moc"

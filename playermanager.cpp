@@ -532,7 +532,9 @@ void PlayerManager::setup()
     connect(m_sliderAction->volumeSlider(), SIGNAL(signalVolumeChanged(int)),
             this, SLOT(slotSetVolume(int)));
 
-    KAction *outputAction = action("outputSelect");
+    // Call this method manually to avoid warnings.
+    
+    KAction *outputAction = actions()->action("outputSelect");
 
     if(outputAction) {
         int mediaSystem = static_cast<KSelectAction *>(outputAction)->currentItem();
