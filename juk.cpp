@@ -29,6 +29,7 @@
 #include "collectionlist.h"
 #include "slideraction.h"
 #include "cache.h"
+#include "statuslabel.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -63,7 +64,7 @@ void JuK::setupLayout()
     connect(splitter, SIGNAL(playlistDoubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
 
     // create status bar
-    statusLabel = new QLabel(statusBar());
+    statusLabel = new StatusLabel(statusBar());
     statusBar()->addWidget(statusLabel, 1);
 
     splitter->setFocus();
@@ -309,24 +310,7 @@ void JuK::stopFile()
         playingItem->setPixmap(0, 0);
     playingItem = 0;
 
-    updateStatusLabel();
-}
-
-void JuK::updateStatusLabel()
-{
-    if(playingItem) {
-	Playlist *p = static_cast<Playlist *>(playingItem->listView());
-	if(p && p->playlistBoxItem()) {
-	    QString label = p->playlistBoxItem()->text() 
-		+ " / " + playingItem->text(PlaylistItem::ArtistColumn) 
-		+ " - " + playingItem->text(PlaylistItem::TrackColumn);
-	    statusLabel->setText(label);
-	}
-	else
-	    statusLabel->clear();
-    }
-    else
-	statusLabel->clear();
+    statusLabel->clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -373,7 +357,7 @@ void JuK::pollPlay()
 		    playingItem->setPixmap(0, QPixmap(UserIcon("playing")));
 		}
 	    }
-	    updateStatusLabel();
+	    statusLabel->setPlayingItem(playingItem);
 	}
 	else
 	    stopFile();
@@ -421,7 +405,7 @@ void JuK::playItem(PlaylistItem *item)
             playingItem->setPixmap(0, QPixmap(UserIcon("playing")));
             playTimer->start(pollInterval);
 
-	    updateStatusLabel();
+	    statusLabel->setPlayingItem(playingItem);
         }
     }
 }

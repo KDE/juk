@@ -37,6 +37,7 @@ class Playlist;
 class PlaylistSplitter;
 class PlaylistItem;
 class SliderAction;
+class StatusLabel;
 
 class JuK : public KMainWindow
 {
@@ -57,11 +58,9 @@ private:
 
     virtual bool queryClose();
 
-    void updateStatusLabel();
-
     // layout objects
     PlaylistSplitter *splitter;
-    QLabel *statusLabel;
+    StatusLabel *statusLabel;
 
     // actions
     KToggleAction *showEditorAction;
