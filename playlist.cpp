@@ -298,7 +298,7 @@ void Playlist::saveAs()
 void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 {
     emit signalAboutToRemove(item);
-    m_members.remove(item->absFilePath());
+    m_members.remove(item->file().absFilePath());
     if(!m_randomList.isEmpty() && !m_visibleChanged)
         m_randomList.remove(item);
     item->deleteLater();
@@ -324,7 +324,7 @@ QStringList Playlist::files()
     QStringList list;
 
     for(QListViewItemIterator it(this); it.current(); ++it)
-	list.append(static_cast<PlaylistItem *>(*it)->absFilePath());
+	list.append(static_cast<PlaylistItem *>(*it)->file().absFilePath());
 
     return list;
 }
@@ -458,8 +458,8 @@ int Playlist::totalTime()
     QListViewItemIterator it(this);
     while (it.current()) {
 	PlaylistItem *item = static_cast<PlaylistItem *>(it.current());
-	if (item->tag()->current())
-	    time += item->tag()->seconds();
+	if(item->file().tag()->current())
+	    time += item->file().tag()->seconds();
 	it++;
     }
     return time;
@@ -535,7 +535,7 @@ void Playlist::slotRefresh()
     for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
 	(*it)->slotRefreshFromDisk();
 
-	if(!(*it)->tag()) {
+	if(!(*it)->file().tag()) {
 	    kdDebug(65432) << "Error while trying to refresh the tag.  "
 			   << "This file has probably been removed."
 			   << endl;
@@ -604,7 +604,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
         QStringList files;
 	for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
-            files.append((*it)->fileName());
+            files.append((*it)->file().absFilePath());
 
 	QString message;
 
@@ -615,13 +615,13 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
 	if(KMessageBox::warningYesNoList(this, message, files) == KMessageBox::Yes) {
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-		if(QFile::remove((*it)->filePath())) {
+		if(QFile::remove((*it)->file().absFilePath())) {
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
                         m_randomList.remove(*it);
 		    CollectionList::instance()->clearItem((*it)->collectionItem());
 		}
 		else
-		    KMessageBox::sorry(this, i18n("Could not delete ") + (*it)->fileName() + ".");
+		    KMessageBox::sorry(this, i18n("Could not delete ") + (*it)->file().absFilePath() + ".");
 	    }
 
 	}
@@ -635,7 +635,7 @@ QDragObject *Playlist::dragObject(QWidget *parent)
     KURL::List urls;
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
 	KURL url;
-	url.setPath((*it)->absFilePath());
+	url.setPath((*it)->file().absFilePath());
 	urls.append(url);
     }
 
@@ -1339,36 +1339,36 @@ void Playlist::editTag(PlaylistItem *item, const QString &text, int column)
     switch(column - columnOffset())
     {
     case PlaylistItem::TrackColumn:
-	item->tag()->setTitle(text);
+	item->file().tag()->setTitle(text);
 	break;
     case PlaylistItem::ArtistColumn:
-	item->tag()->setArtist(text);
+	item->file().tag()->setArtist(text);
 	break;
     case PlaylistItem::AlbumColumn:
-	item->tag()->setAlbum(text);
+	item->file().tag()->setAlbum(text);
 	break;
     case PlaylistItem::TrackNumberColumn:
     {
 	bool ok;
 	int value = text.toInt(&ok);
 	if(ok)
-	    item->tag()->setTrack(value);
+	    item->file().tag()->setTrack(value);
 	break;
     }
     case PlaylistItem::GenreColumn:
-	item->tag()->setGenre(text);
+	item->file().tag()->setGenre(text);
 	break;
     case PlaylistItem::YearColumn:
     {
 	bool ok;
 	int value = text.toInt(&ok);
 	if(ok)
-	    item->tag()->setYear(value);
+	    item->file().tag()->setYear(value);
 	break;
     }
     }
 
-    item->tag()->save();
+    item->file().tag()->save();
     item->slotRefresh();
 }
 

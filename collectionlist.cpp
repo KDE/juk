@@ -192,15 +192,17 @@ void CollectionListItem::slotRefresh()
 // CollectionListItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &path) :
+CollectionListItem::CollectionListItem(const QFileInfo &info, const QString &path) :
     PlaylistItem(CollectionList::instance()),
     m_path(path)
 {
     CollectionList *l = CollectionList::instance();
     if(l) {
 	l->addToDict(m_path, this);
-	setData(Data::newUser(file, m_path));
-	if(data()->tag()) {
+
+	setFile(FileHandle(info, path));
+
+	if(file().tag()) {
 	    slotRefresh();
 	    connect(this, SIGNAL(signalRefreshed()), l, SIGNAL(signalDataChanged()));
 	    l->emitCountChanged();
@@ -220,8 +222,8 @@ CollectionListItem::~CollectionListItem()
 {
     CollectionList *l = CollectionList::instance();
     if(l) {
-	QString path = Playlist::resolveSymLinks(*data()->fileInfo());
-//	l->removeWatched(m_path);
+	QString path = Playlist::resolveSymLinks(file().absFilePath());
+	// l->removeWatched(m_path);
 	l->removeFromDict(m_path);
     }
 }
@@ -234,11 +236,11 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
 
 bool CollectionListItem::checkCurrent()
 {
-    if(!data()->exists() || !data()->isFile())
+    if(!file().fileInfo().exists() || !file().fileInfo().isFile())
 	return false;
 
-    if(!data()->tag()->current()) {
-	data()->refresh();
+    if(!file().tag()->current()) {
+	file().refresh();
 	slotRefresh();
     }
 

@@ -32,55 +32,49 @@
 PlaylistItem::~PlaylistItem()
 {
     emit signalAboutToDelete();
-    m_data->deleteUser();
 }
 
-void PlaylistItem::setFile(const QString &file)
+void PlaylistItem::setFile(const FileHandle &file)
 {
-    m_data->setFile(file);
+    d->fileHandle = file;
     slotRefresh();
 }
 
-Tag *PlaylistItem::tag()
+FileHandle PlaylistItem::file() const
 {
-    return m_data->tag();
-}
-
-const Tag *PlaylistItem::tag() const
-{
-    return m_data->tag();
+    return d->fileHandle;
 }
 
 QString PlaylistItem::text(int column) const
 {
-    if(!m_data->tag())
+    if(!d->fileHandle.tag())
 	return QString::null;
 
     int offset = static_cast<Playlist *>(listView())->columnOffset();
 
     switch(column - offset) {
     case TrackColumn:
-	return m_data->tag()->title();
+	return d->fileHandle.tag()->title();
     case ArtistColumn:
-	return m_data->tag()->artist();
+	return d->fileHandle.tag()->artist();
     case AlbumColumn:
-	return m_data->tag()->album();
+	return d->fileHandle.tag()->album();
     case TrackNumberColumn:
-	return m_data->tag()->track() > 0
-	    ? QString::number(m_data->tag()->track())
+	return d->fileHandle.tag()->track() > 0
+	    ? QString::number(d->fileHandle.tag()->track())
 	    : QString::null;
     case GenreColumn:
-	return m_data->tag()->genre();
+	return d->fileHandle.tag()->genre();
     case YearColumn:
-	return m_data->tag()->year() > 0 
-	    ? QString::number(m_data->tag()->year())
+	return d->fileHandle.tag()->year() > 0 
+	    ? QString::number(d->fileHandle.tag()->year())
 	    : QString::null;
     case LengthColumn:
-	return m_data->tag()->lengthString();
+	return d->fileHandle.tag()->lengthString();
     case CommentColumn:
-	return m_data->tag()->comment();
+	return d->fileHandle.tag()->comment();
     case FileNameColumn:
-	return m_data->tag()->fileName();
+	return d->fileHandle.tag()->fileName();
     default:
 	return KListViewItem::text(column);
     }
@@ -98,31 +92,6 @@ void PlaylistItem::setText(int column, const QString &text)
     emit signalColumnWidthChanged(column);
 }
 
-QString PlaylistItem::fileName() const
-{
-    return m_data->fileInfo()->fileName();
-}
-
-QString PlaylistItem::filePath() const
-{
-    return m_data->fileInfo()->filePath();
-}
-
-QString PlaylistItem::absFilePath() const
-{
-    return m_data->absFilePath();
-}
-
-QString PlaylistItem::dirPath(bool absPath) const
-{
-    return m_data->fileInfo()->dirPath(absPath);
-}
-
-bool PlaylistItem::isWritable() const
-{
-    return m_data->fileInfo()->isWritable();
-}
-
 void PlaylistItem::setSelected(bool selected)
 {
     static_cast<Playlist *>(listView())->markItemSelected(this, selected);
@@ -134,20 +103,20 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
     switch(type) {
     case TagGuesser::FileName:
     {
-	TagGuesser guesser(tag()->fileName());
+	TagGuesser guesser(d->fileHandle.tag()->fileName());
 
 	if(!guesser.title().isNull())
-	    tag()->setTitle(guesser.title());
+	    d->fileHandle.tag()->setTitle(guesser.title());
 	if(!guesser.artist().isNull())
-	    tag()->setArtist(guesser.artist());
+	    d->fileHandle.tag()->setArtist(guesser.artist());
 	if(!guesser.album().isNull())
-	    tag()->setAlbum(guesser.album());
+	    d->fileHandle.tag()->setAlbum(guesser.album());
 	if(!guesser.track().isNull())
-	    tag()->setTrack(guesser.track().toInt());
+	    d->fileHandle.tag()->setTrack(guesser.track().toInt());
 	if(!guesser.comment().isNull())
-	    tag()->setComment(guesser.comment());
+	    d->fileHandle.tag()->setComment(guesser.comment());
 
-	tag()->save();
+	d->fileHandle.tag()->save();
 	slotRefresh();
 	break;
     }
@@ -155,7 +124,7 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
     {
 #if HAVE_MUSICBRAINZ
 	MusicBrainzQuery *query = new MusicBrainzQuery(MusicBrainzQuery::File,
-						       tag()->fileName());
+						       d->fileHandle.tag()->fileName());
 	connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
 		SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
 	KMainWindow *win = dynamic_cast<KMainWindow *>(kapp->mainWidget());
@@ -179,7 +148,7 @@ Playlist *PlaylistItem::playlist() const
 
 QValueVector<int> PlaylistItem::cachedWidths() const
 {
-    return m_data->cachedWidths();
+    return d->cachedWidths;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -196,7 +165,7 @@ void PlaylistItem::slotRefresh()
 
 void PlaylistItem::slotRefreshFromDisk()
 {
-    m_data->refresh();
+    d->fileHandle.refresh();
     slotRefresh();
 }
 
@@ -212,14 +181,14 @@ void PlaylistItem::slotClear()
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
     QObject(parent), KListViewItem(parent),
-    m_playing(false)
+    d(0), m_playing(false)
 {
     setup(item, parent);
 }
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
     QObject(parent), KListViewItem(parent, after),
-    m_playing(false)
+    d(0), m_playing(false)
 {
     setup(item, parent);
 }
@@ -229,7 +198,7 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListView
 
 PlaylistItem::PlaylistItem(CollectionList *parent) :
     QObject(parent), KListViewItem(parent),
-    m_collectionItem(static_cast<CollectionListItem *>(this)), m_data(0), m_playing(false)
+    d(new Data), m_collectionItem(static_cast<CollectionListItem *>(this)), m_playing(false)
 {
     setDragEnabled(true);
 }
@@ -303,31 +272,30 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
     }
 
     if(column == TrackNumberColumn + offset) {
-        if(firstItem->tag()->track() > secondItem->tag()->track())
+        if(firstItem->d->fileHandle.tag()->track() > secondItem->d->fileHandle.tag()->track())
             return 1;
-        else if(firstItem->tag()->track() < secondItem->tag()->track())
+        else if(firstItem->d->fileHandle.tag()->track() < secondItem->d->fileHandle.tag()->track())
             return -1;
         else
             return 0;
     }
     else if(column == LengthColumn + offset) {
-        if(firstItem->tag()->seconds() > secondItem->tag()->seconds())
+        if(firstItem->d->fileHandle.tag()->seconds() > secondItem->d->fileHandle.tag()->seconds())
             return 1;
-        else if(firstItem->tag()->seconds() < secondItem->tag()->seconds())
+        else if(firstItem->d->fileHandle.tag()->seconds() < secondItem->d->fileHandle.tag()->seconds())
             return -1;
         else
             return 0;
     }
     else
-	return strcoll(firstItem->data()->local8BitLower(column - offset),
-		       secondItem->data()->local8BitLower(column - offset));
+	return strcoll(firstItem->d->local8Bit[column - offset],
+		       secondItem->d->local8Bit[column - offset]);
 }
 
 bool PlaylistItem::isValid() const
 {
-    return m_data && m_data->tag();
+    return bool(d->fileHandle.tag());
 }
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem protected slots
@@ -337,7 +305,8 @@ void PlaylistItem::slotRefreshImpl()
 {
     int offset = static_cast<Playlist *>(listView())->columnOffset();
     int columns = lastColumn() + offset + 1;
-    m_data->setColumns(columns);
+    d->local8Bit.resize(columns);
+    d->cachedWidths.resize(columns);
 
     for(int i = offset; i < columns; i++) {
 	int id = i - offset;
@@ -355,13 +324,13 @@ void PlaylistItem::slotRefreshImpl()
 	    {
 		lower = StringShare::tryShare(lower);
 	    }
-	    m_data->setLocal8BitLower(id, lower);
+	    d->local8Bit[id] = lower;
 	}
 
 	int newWidth = width(listView()->fontMetrics(), listView(), i);
-	m_data->setCachedWidth(i, newWidth);
+	d->cachedWidths[i] = newWidth;
 
-	if(newWidth != m_data->cachedWidth(i))
+	if(newWidth != d->cachedWidths[i])
 	    emit signalColumnWidthChanged(i);
     }
 
@@ -379,7 +348,7 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
         return;
     }
 
-    TrackPickerDialog *trackPicker = new TrackPickerDialog(fileName(), res, win);
+    TrackPickerDialog *trackPicker = new TrackPickerDialog(d->fileHandle.absFilePath(), res, win);
 
     if(win && trackPicker->exec() != QDialog::Accepted) {
 	win->statusBar()->message(i18n("Canceled."), 2000);
@@ -389,15 +358,15 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
     MusicBrainzQuery::Track track = trackPicker->selectedTrack();
 
     if(!track.name.isEmpty())
-        tag()->setTitle(track.name);
+        d->fileHandle.tag()->setTitle(track.name);
     if(!track.artist.isEmpty())
-        tag()->setArtist(track.artist);
+        d->fileHandle.tag()->setArtist(track.artist);
     if(!track.album.isEmpty())
-        tag()->setAlbum(track.album);
+        d->fileHandle.tag()->setAlbum(track.album);
     if(track.number)
-        tag()->setTrack(track.number);
+        d->fileHandle.tag()->setTrack(track.number);
 
-    tag()->save();
+    d->fileHandle.tag()->save();
     slotRefresh();
 
     if(win)
@@ -415,12 +384,10 @@ void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
 {
     m_collectionItem = item;
 
-    if(item) {
-	m_data = item->data()->newUser();
-	item->addChildItem(this);
-	slotRefreshImpl();
-	connect(this, SIGNAL(signalRefreshed()), parent, SIGNAL(signalDataChanged()));
-    }
+    d = item->d;
+    item->addChildItem(this);
+    slotRefreshImpl();
+    connect(this, SIGNAL(signalRefreshed()), parent, SIGNAL(signalDataChanged()));
 
     setDragEnabled(true);
 
@@ -429,78 +396,6 @@ void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
     // as that avoids this signal firing a few thousand times.
 
     connect(this, SIGNAL(signalColumnWidthChanged(int)), parent, SLOT(slotWeightDirty(int)));
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistItem::Data public methods
-////////////////////////////////////////////////////////////////////////////////
-
-PlaylistItem::Data *PlaylistItem::Data::newUser(const QFileInfo &file, const QString &path)
-{
-    return new Data(file, path);
-}
-
-PlaylistItem::Data *PlaylistItem::Data::newUser()
-{
-    m_referenceCount++;
-    return this;
-}
-
-void PlaylistItem::Data::refresh()
-{
-    m_fileInfo.refresh();
-    delete m_dataTag;
-    m_dataTag = Tag::createTag(m_fileInfo.filePath());
-    Q_ASSERT(m_dataTag);
-    m_absFileName = m_fileInfo.absFilePath();
-}
-
-void PlaylistItem::Data::deleteUser()
-{
-    // The delete this is safe because we control object creation through a
-    // protected constructor and the newUser() methods.
-
-    if(--m_referenceCount == 0)
-        delete this;
-}
-
-Tag *PlaylistItem::Data::tag()
-{
-    return m_dataTag;
-}
-
-const Tag *PlaylistItem::Data::tag() const
-{
-    return m_dataTag;
-}
-
-void PlaylistItem::Data::setFile(const QString &file)
-{
-    m_fileInfo.setFile(file);
-    refresh();
-}
-
-void PlaylistItem::Data::setColumns(int columns)
-{
-    m_local8Bit.resize(columns);
-    m_cachedWidths.resize(columns, -1);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistItem::Data protected methods
-////////////////////////////////////////////////////////////////////////////////
-
-PlaylistItem::Data::Data(const QFileInfo &file, const QString &path) :
-    m_fileInfo(file),
-    m_referenceCount(1),
-    m_absFileName(path)
-{
-    m_dataTag = Tag::createTag(path);
-}
-
-PlaylistItem::Data::~Data()
-{
-    delete m_dataTag;
 }
 
 #include "playlistitem.moc"

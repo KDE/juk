@@ -704,7 +704,7 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
 
     QValueListConstIterator<SiblingType *> it = siblings.begin();
     for(; it != siblings.end(); ++it) {
-	if(!m_members.insert(resolveSymLinks((*it)->absFilePath())) || m_allowDuplicates) {
+	if(!m_members.insert(resolveSymLinks((*it)->file().absFilePath())) || m_allowDuplicates) {
 	    newItem = new ItemType((*it)->collectionItem(), this, newItem);
 	    setupItem(newItem);
 	    if(!m_randomList.isEmpty() && !m_visibleChanged)

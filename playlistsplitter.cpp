@@ -273,7 +273,7 @@ void PlaylistSplitter::populatePlayHistoryMenu(QPopupMenu *menu, bool random)
     menu->clear();
     int i = 0;
     for(PlaylistItemList::Iterator it = list.begin(); it != list.end(); ++it)
-        menu->insertItem((*it)->tag()->title(), ++i);
+        menu->insertItem((*it)->file().tag()->title(), ++i);
 }
 
 QString PlaylistSplitter::playSelectedFile()
@@ -796,7 +796,7 @@ QString PlaylistSplitter::play(PlaylistItem *item)
 	m_history->createItems(l);
     }
 
-    return item->absFilePath();
+    return item->file().absFilePath();
 }
 
 void PlaylistSplitter::redisplaySearch()

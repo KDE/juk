@@ -147,17 +147,17 @@ QString FileRenamer::expandToken(TokenType type, const QString &value_) const
 
 void FileRenamer::rename(PlaylistItem *item)
 {
-    if(item == 0 || item->tag() == 0)
+    if(item == 0 || item->file().tag() == 0)
         return;
 
-    QString newFilename = rename(item->absFilePath(), *item->tag());
+    QString newFilename = rename(item->file().absFilePath(), *item->file().tag());
     if(KMessageBox::warningContinueCancel(0,
         i18n("<qt>You are about to rename the file<br/><br/> '%1'<br/><br/> to <br/><br/>'%2'<br/><br/>Are you sure you "
-             "want to continue?</qt>").arg(item->absFilePath()).arg(newFilename),
+             "want to continue?</qt>").arg(item->file().absFilePath()).arg(newFilename),
               i18n("Warning"), KStdGuiItem::cont(), "ShowFileRenamerWarning")
        == KMessageBox::Continue) {
-        if(moveFile(item->absFilePath(), newFilename))
-            item->setFile(newFilename);
+        if(moveFile(item->file().absFilePath(), newFilename))
+            item->setFile(FileHandle(newFilename));
     }
 }
 
@@ -168,13 +168,13 @@ void FileRenamer::rename(const PlaylistItemList &items)
 
     PlaylistItemList::ConstIterator it = items.begin();
     for(; it != items.end(); ++it) {
-        if(!*it || !(*it)->tag())
+        if(!*it || !(*it)->file().tag())
             continue;
 
-         const QString oldName = (*it)->absFilePath();
-         const QString newName = rename(oldName, *(*it)->tag());
-         map[oldName] = newName;
-         itemMap[oldName] = *it;
+        const QString oldName = (*it)->file().absFilePath();
+        const QString newName = rename(oldName, *(*it)->file().tag());
+        map[oldName] = newName;
+        itemMap[oldName] = *it;
     }
 
     if(ConfirmationDialog(map).exec() == QDialog::Accepted) {
@@ -184,7 +184,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
         QMap<QString, QString>::ConstIterator it = map.begin();
         for(; it != map.end(); ++it, ++j) {
             if(moveFile(it.key(), it.data()))
-                itemMap[it.key()]->setFile(it.data());
+                itemMap[it.key()]->setFile(FileHandle(it.data()));
 
             if(j % 5 == 0)
                 kapp->processEvents();

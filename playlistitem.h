@@ -21,6 +21,7 @@
 #include <config.h>
 
 #include <klistview.h>
+#include <ksharedptr.h>
 
 #include <qptrstack.h>
 #include <qptrdict.h>
@@ -30,6 +31,7 @@
 #include "tagguesser.h"
 #include "tag.h"
 #include "cache.h"
+#include "filehandle.h"
 
 #if HAVE_MUSICBRAINZ == 0
 // a bit of a hack so that the slots type definition is still valid
@@ -78,9 +80,8 @@ public:
 
     static int lastColumn() { return FileNameColumn; }
 
-    void setFile(const QString &file);
-    Tag *tag();
-    const Tag *tag() const;
+    void setFile(const FileHandle &file);
+    FileHandle file() const;
 
     virtual QString text(int column) const;
     virtual void setText(int column, const QString &text);
@@ -88,15 +89,11 @@ public:
     // These are just forwarding methods to PlaylistItem::Data, a QFileInfo
     // subclass.
 
-    QString fileName() const;
-    QString filePath() const;
-    QString absFilePath() const;
-    QString dirPath(bool absPath = false) const;
-    bool isWritable() const;
     void setPlaying(bool playing = true) { m_playing = playing; }
 
     virtual void setSelected(bool selected);
     void guessTagInfo(TagGuesser::Type type);
+
     Playlist *playlist() const;
 
     /**
@@ -144,11 +141,6 @@ protected:
      */
     virtual ~PlaylistItem();
 
-    class Data;
-    Data *data() { return m_data; }
-    const Data *data() const { return m_data; }
-    void setData(Data *d) { m_data = d; }
-
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
 
     virtual int compare(QListViewItem *item, int column, bool ascending) const;
@@ -168,70 +160,23 @@ signals:
     void signalAboutToDelete();
 
 private:
+
+    struct Data : public KShared
+    {
+	Data() {}
+	Data(const QFileInfo &info, const QString &path) : fileHandle(info, path) {}
+	Data(const QString &path) : fileHandle(path) {}
+
+	FileHandle fileHandle;
+	QValueVector<QCString> local8Bit;
+	QValueVector<int> cachedWidths;
+    };
+
+    KSharedPtr<Data> d;
+
     void setup(CollectionListItem *item, Playlist *parent);
-
     CollectionListItem *m_collectionItem;
-    Data *m_data;
     bool m_playing;
-};
-
-/**
- * This is the data class for PlaylistItems.  Several PlaylistItems that are
- * based on the same file will share the m_data member.  This has both the
- * advantages of being memory efficient and allowing the PlaylistItems to stay
- * synchronized.
- *
- * The sharing is implemented through a refcount and protected constructors and
- * destructors that make it necessary to obtain pointers via newUser() and to
- * free an instance using deleteUser().
- */
-
-class PlaylistItem::Data
-{
-public:
-    static Data *newUser(const QFileInfo &file, const QString &path);
-    Data *newUser();
-    void deleteUser();
-
-    void refresh();
-
-    Tag *tag();
-    const Tag *tag() const;
-
-    void setFile(const QString &file);
-    bool isFile() const { return m_fileInfo.isFile(); }
-    bool exists() const { return m_fileInfo.exists(); }
-    const QFileInfo *fileInfo() const { return &m_fileInfo; }
-
-    QString absFilePath() const { return m_absFileName; }
-
-    void setColumns(int columns);
-
-    void setLocal8BitLower(int column, const QCString &value) { m_local8Bit[column] = value; }
-    QCString local8BitLower(int column) const { return m_local8Bit[column]; }
-
-    void setCachedWidth(int column, int value) { m_cachedWidths[column] = value; }
-    int cachedWidth(int column) const { return m_cachedWidths[column]; }
-    QValueVector<int> cachedWidths() const { return m_cachedWidths; }
-
-protected:
-    /**
-     * Because we're trying to use this as a shared item, we want all access
-     * to be through pointers (so that it's safe to use delete this).  Thus
-     * creation of the object should be done by the newUser methods above
-     * and deletion should be handled by deleteUser.  Making the constructor
-     * and destructor protected ensures this.
-     */
-    Data(const QFileInfo &file, const QString &path);
-    ~Data();
-
-private:
-    QFileInfo m_fileInfo;
-    int m_referenceCount;
-    Tag *m_dataTag;
-    QString m_absFileName;
-    QValueVector<QCString> m_local8Bit;
-    QValueVector<int> m_cachedWidths;
 };
 
 #endif

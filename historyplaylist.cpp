@@ -93,7 +93,7 @@ QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p)
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
         const HistoryPlaylistItem *i = static_cast<HistoryPlaylistItem *>(*it);
-        s << i->filePath();
+        s << i->file().absFilePath();
         s << i->dateTime();
     }
 

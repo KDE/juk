@@ -87,6 +87,12 @@ void FileHandle::refresh()
     d->tag = Tag::createTag(d->absFilePath);
 }
 
+void FileHandle::setFile(const QString &path)
+{
+    d->fileInfo.setFile(path);
+    d->absFilePath = d->fileInfo.absFilePath();
+}
+
 Tag *FileHandle::tag() const
 {
     if(!d->tag)

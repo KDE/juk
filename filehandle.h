@@ -31,13 +31,14 @@ public:
     FileHandle();
     FileHandle(const FileHandle &f);
     FileHandle(const QFileInfo &info, const QString &path = QString::null);
-    FileHandle(const QString &path);
+    explicit FileHandle(const QString &path);
     ~FileHandle();
 
     /**
      * Forces the FileHandle to reread its information from the disk.
      */
     void refresh();
+    void setFile(const QString &path);
 
     Tag *tag() const;
     QString absFilePath() const;

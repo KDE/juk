@@ -85,7 +85,7 @@ void TagEditor::slotRefresh()
     // the most common case -- is to just process the first item.  Then we
     // check after that to see if there are other m_items and adjust accordingly.
 
-    if(m_items.isEmpty() || !m_items.first()->tag()) {
+    if(m_items.isEmpty() || !m_items.first()->file().tag()) {
 	slotClear();
 	setEnabled(false);
 	return;
@@ -95,13 +95,13 @@ void TagEditor::slotRefresh()
 
     PlaylistItem *item = m_items.first();
 
-    Tag *tag = item->tag();
+    Tag *tag = item->file().tag();
 	
     m_artistNameBox->setEditText(tag->artist());
     m_trackNameBox->setText(tag->title());
     m_albumNameBox->setEditText(tag->album());
 
-    m_fileNameBox->setText(item->fileName());
+    m_fileNameBox->setText(item->file().absFilePath());
     m_bitrateBox->setText(QString::number(tag->bitrate()));
     m_lengthBox->setText(tag->lengthString());
 
@@ -153,7 +153,7 @@ void TagEditor::slotRefresh()
 	}
 	else {
 	    for(; it != m_items.end(); ++it) {
-		tag = (*it)->tag();
+		tag = (*it)->file().tag();
 
 		if(tag) {
 
@@ -430,23 +430,24 @@ void TagEditor::save(const PlaylistItemList &list)
 	for(PlaylistItemList::ConstIterator it = list.begin(); it != list.end(); ++it) {
 	    PlaylistItem *item = *it;
 	    
-	    QFileInfo newFile(item->dirPath() + QDir::separator() + m_fileNameBox->text());
-	    QFileInfo directory(item->dirPath());
+	    QFileInfo newFile(item->file().fileInfo().dirPath() + QDir::separator() +
+			      m_fileNameBox->text());
+	    QFileInfo directory(item->file().fileInfo().dirPath());
 	    
 	    // If (the new file is writable or the new file doesn't exist and
 	    // it's directory is writable) and the old file is writable...  
 	    // If not we'll append it to errorFiles to tell the user which
 	    // files we couldn't write to.
 	    
-	    if(item->tag() &&
+	    if(item->file().tag() &&
 	       (newFile.isWritable() || (!newFile.exists() && directory.isWritable())) &&
-	       item->isWritable())
+	       item->file().fileInfo().isWritable())
 	    {
 		
 		// If the file name in the box doesn't match the current file
 		// name...
 		
-		if(list.count() == 1 && item->fileName() != newFile.fileName()) {
+		if(list.count() == 1 && item->file().absFilePath() != newFile.fileName()) {
 		    
 		    // Rename the file if it doesn't exist or the user says
 		    // that it's ok.
@@ -458,8 +459,8 @@ void TagEditor::save(const PlaylistItemList &list)
 			   i18n("File Exists")) == KMessageBox::Yes)
 		    {
 			QDir currentDir;
-			currentDir.rename(item->filePath(), newFile.filePath());
-			item->setFile(newFile.filePath());
+			currentDir.rename(item->file().absFilePath(), newFile.filePath());
+			item->file().setFile(newFile.filePath());
 		    }
 		}
 		
@@ -470,27 +471,27 @@ void TagEditor::save(const PlaylistItemList &list)
 		// each field that we write.
 		
 		if(m_enableBoxes[m_artistNameBox]->isOn())
-		    item->tag()->setArtist(m_artistNameBox->currentText());
+		    item->file().tag()->setArtist(m_artistNameBox->currentText());
 		if(m_enableBoxes[m_trackNameBox]->isOn())
-		    item->tag()->setTitle(m_trackNameBox->text());
+		    item->file().tag()->setTitle(m_trackNameBox->text());
 		if(m_enableBoxes[m_albumNameBox]->isOn())
-		    item->tag()->setAlbum(m_albumNameBox->currentText());
+		    item->file().tag()->setAlbum(m_albumNameBox->currentText());
 		if(m_enableBoxes[m_trackSpin]->isOn())
-		    item->tag()->setTrack(m_trackSpin->value());
+		    item->file().tag()->setTrack(m_trackSpin->value());
 		if(m_enableBoxes[m_yearSpin]->isOn())
-		    item->tag()->setYear(m_yearSpin->value());
+		    item->file().tag()->setYear(m_yearSpin->value());
 		if(m_enableBoxes[m_commentBox]->isOn())
-		    item->tag()->setComment(m_commentBox->text());
+		    item->file().tag()->setComment(m_commentBox->text());
 		
 		if(m_enableBoxes[m_genreBox]->isOn())
-		    item->tag()->setGenre(m_genreBox->currentText());
+		    item->file().tag()->setGenre(m_genreBox->currentText());
 		
-		item->tag()->save();
+		item->file().tag()->save();
 		
 		item->slotRefresh();
 	    }
 	    else
-		errorFiles.append(item->fileName());
+		errorFiles.append(item->file().absFilePath());
 
 	    kapp->processEvents();
 	}
@@ -513,7 +514,7 @@ void TagEditor::saveChangesPrompt()
     QStringList files;
 
     for(PlaylistItemList::Iterator it = m_items.begin(); it != m_items.end(); it++)
-	files.append((*it)->fileName());
+	files.append((*it)->file().absFilePath());
 
     if(KMessageBox::questionYesNoList(this,
 				      i18n("Do you want to save your changes to:\n"), 
