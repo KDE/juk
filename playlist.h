@@ -115,12 +115,12 @@ public:
     QStringList files();
 
     /**
-     * Returns a list of all of the \e visible items in the playlist.
+     * Returns a list of all of the items in the playlist.
      */
     virtual PlaylistItemList items();
 
     /**
-     * Returns a list of all of the items in the playlist.
+     * Returns a list of all of the \e visible items in the playlist.
      */
     PlaylistItemList visibleItems();
 
