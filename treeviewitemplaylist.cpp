@@ -32,7 +32,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *donorPlayli
     QString changedTag = i18n("artist");
     if(m_columnType == PlaylistItem::GenreColumn)
         changedTag = i18n("genre");
-    else if (m_columnType == PlaylistItem::AlbumColumn)
+    else if(m_columnType == PlaylistItem::AlbumColumn)
         changedTag = i18n("album");
 
     if(KMessageBox::warningContinueCancelList(
