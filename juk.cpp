@@ -143,7 +143,7 @@ void JuK::setupActions()
     new KAction(i18n("&Delete"), "editdelete", 0, m_splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
 
     KActionMenu *guessMenu = new KActionMenu(i18n("&Guess Tag Information"), "", actionCollection(), "guessTag");
-    guessMenu->insert(new KAction(i18n("From &File"), 0, "CTRL+g", m_splitter,
+    guessMenu->insert(new KAction(i18n("From &Filename"), 0, "CTRL+f", m_splitter,
                                   SLOT(slotGuessTagInfoFile()), actionCollection(), "guessTagFile"));
     guessMenu->insert(new KAction(i18n("From &Internet"), 0, "CTRL+i", m_splitter,
                                   SLOT(slotGuessTagInfoInternet()), actionCollection(), "guessTagInternet"));
