@@ -29,9 +29,14 @@ class PlaylistSearch
 {
 public:
     class Component;
-    typedef QValueList<Component *> ComponentList;
+    typedef QValueList<Component> ComponentList;
 
     enum SearchMode { MatchAny = 0, MatchAll = 1 };
+
+    /**
+     * Copy constructor.
+     */
+    PlaylistSearch(const PlaylistSearch &search);
 
     PlaylistSearch(const PlaylistList &playlists,
 		   const ComponentList &components,
@@ -62,6 +67,18 @@ private:
 class PlaylistSearch::Component
 {
 public:
+
+    /**
+     * Create an empty search component.  This is only provided for use by 
+     * QValueList and should not be used in any other context.
+     */
+    Component();
+
+    /**
+     * Copy constructor.
+     */
+    Component(const Component &component);
+
     /**
      * Create a query component.  This defaults to searching all visible coulumns.
      */
@@ -71,6 +88,8 @@ public:
     ColumnList columns() const { return m_columns; }
 
     bool matches(PlaylistItem *item);
+
+protected:
     
 private:
     QString m_query;

@@ -691,7 +691,7 @@ void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSens
 
     PlaylistSearch::Component component(query, caseSensitive, m_searchWidget->searchedColumns(0));
     PlaylistSearch::ComponentList components;
-    components.append(&component);
+    components.append(component);
 
     PlaylistSearch search(playlists, components);
 

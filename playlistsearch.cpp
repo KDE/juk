@@ -21,6 +21,14 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
+PlaylistSearch::PlaylistSearch(const PlaylistSearch &search) :
+    m_playlists(search.m_playlists),
+    m_components(search.m_components),
+    m_mode(search.m_mode)
+{
+
+}
+
 PlaylistSearch::PlaylistSearch(const PlaylistList &playlists, 
 			       const ComponentList &components, 
 			       SearchMode mode) :
@@ -62,7 +70,7 @@ void PlaylistSearch::search()
 	    ComponentList::Iterator componentIt = m_components.begin();
 	    for(; componentIt != m_components.end(); ++componentIt) {
 
-		bool componentMatches = (*componentIt)->matches(item);
+		bool componentMatches = (*componentIt).matches(item);
 
 		if(componentMatches && m_mode == MatchAny) {
 		    match = true;
@@ -86,6 +94,22 @@ void PlaylistSearch::search()
 ////////////////////////////////////////////////////////////////////////////////
 // Component public methods
 ////////////////////////////////////////////////////////////////////////////////
+
+PlaylistSearch::Component::Component() :
+    m_searchAllVisible(true),
+    m_caseSensitive(false)
+{
+    
+}
+
+PlaylistSearch::Component::Component(const Component &component) :
+    m_query(component.m_query),
+    m_columns(component.m_columns),
+    m_searchAllVisible(component.m_searchAllVisible),
+    m_caseSensitive(component.m_caseSensitive)
+{
+
+}
 
 PlaylistSearch::Component::Component(const QString &query, bool caseSensitive, const ColumnList &columns) :
     m_query(query), 
