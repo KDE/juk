@@ -38,6 +38,8 @@
 // Playlist::SharedSettings definition
 ////////////////////////////////////////////////////////////////////////////////
 
+static bool s_visibleChanged = false;
+
 /**
  * Shared settings between the playlists.
  */
@@ -177,7 +179,8 @@ void Playlist::SharedSettings::writeConfig()
 ////////////////////////////////////////////////////////////////////////////////
 
 Playlist::Playlist(QWidget *parent, const QString &name) : KListView(parent, name.latin1()),
-							   m_playlistName(name), m_playingItem(0), m_leftColumn(0)
+							   m_playlistName(name), m_playingItem(0),
+                                                           m_leftColumn(0)
 
 {
     setup();
@@ -256,6 +259,8 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 {
     emit signalAboutToRemove(item);
     m_members.remove(item->absFilePath());
+    if (!m_randomList.isEmpty() && !s_visibleChanged)
+        m_randomList.remove(item);
     item->deleteLater();
     if(emitChanged)
 	emit signalNumberOfItemsChanged(this);
@@ -290,8 +295,14 @@ PlaylistItemList Playlist::items()
 PlaylistItemList Playlist::visibleItems() const
 {
     PlaylistItemList list;
-    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
-	list.append(i);
+    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow())) {
+        //This check should be removed at some point since those items should all be already visible
+        //at the time of writing there's a bug that leaves some invisible items in the list
+        if(i->isVisible())
+            list.append(i);
+        else
+            kdDebug()<<"File shouldn't be in the list"<< i->fileName()<<endl;
+    }
 
     return list;
 }
@@ -314,17 +325,19 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
     PlaylistItem *i;
 
     if(random) {
-	PlaylistItemList l = visibleItems();
-	if(l.count() > 1) {
-	    m_history.push(current);
+        if (m_randomList.count()<=1 || s_visibleChanged) {
+            m_randomList = visibleItems();
+            s_visibleChanged = false;//got the change
+        }
 
-	    srand(time(0));
-	    i = current;
-	    while(i == current)
-		i = l[rand() % l.count()];
-	}
-	else
-	    i = 0;
+        m_randomList.remove(current);
+
+        m_history.push(current);
+
+        i = current;
+        while(i == current) {
+            i = m_randomList[KApplication::random() % m_randomList.count()];
+        }
     }
     else
 	i = static_cast<PlaylistItem *>(current->itemBelow());
@@ -337,8 +350,12 @@ PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
     if(!current)
         return 0;
 
-    if(random && !m_history.isEmpty())
-        return m_history.pop();
+    if(random && !m_history.isEmpty()) {
+        PlaylistItem * item = m_history.pop();
+        //should we add it to the random list ?
+        //m_randomList.append(item);
+        return item;
+    }
 
     if(!current->itemAbove())
         return current;
@@ -375,6 +392,7 @@ void Playlist::updateLeftColumn()
 
 void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible)
 {
+    s_visibleChanged = true;
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
 	(*it)->setVisible(visible);
 }
@@ -384,11 +402,11 @@ void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible)
 ////////////////////////////////////////////////////////////////////////////////
 
 void Playlist::slotSetNext()
-{ 
+{
     if(!selectedItems().isEmpty())
 	emit signalSetNext(selectedItems().first());
 }
-    
+
 void Playlist::copy()
 {
     kapp->clipboard()->setData(dragObject(0), QClipboard::Clipboard);
@@ -431,7 +449,7 @@ void Playlist::slotReload()
     QFileInfo fileInfo(m_fileName);
     if(!fileInfo.exists() || !fileInfo.isFile() || !fileInfo.isReadable())
 	return;
-    
+
     clear();
     loadFile(m_fileName, fileInfo);
 }
@@ -459,6 +477,8 @@ void Playlist::deleteFromDisk(const PlaylistItemList &items)
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 		if(QFile::remove((*it)->filePath())) {
 		    emit signalAboutToRemove(*it);
+                    if(!m_randomList.isEmpty() && !s_visibleChanged)
+                        m_randomList.remove(*it);
 		    delete *it;
 		}
 		else
@@ -565,12 +585,12 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFile
 	filePath = resolveSymLinks(file);
     else
 	filePath = absFilePath;
-    
+
     CollectionListItem *item = CollectionList::instance()->lookup(filePath);
 
     if(!item) {
 	item = new CollectionListItem(file, filePath);
-	
+
 	// If a valid tag was not created, destroy the CollectionListItem.
 	if(!item->isValid()) {
 	    kdError() << "Playlist::createItem() -- A valid tag was not created for \"" << file.filePath() << "\"" << endl;
@@ -585,6 +605,8 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFile
 	    i = new PlaylistItem(item, this, after);
 	else
 	    i = new PlaylistItem(item, this);
+        if(!m_randomList.isEmpty() && !s_visibleChanged)
+            m_randomList.append(i);
 	emit signalNumberOfItemsChanged(this);
 	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
 	return i;
@@ -596,7 +618,7 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFile
 void Playlist::createItems(const PlaylistItemList &siblings)
 {
     PlaylistItem *previous = 0;
-    
+
     for(PlaylistItemList::ConstIterator it = siblings.begin(); it != siblings.end(); ++it) {
 
 	if(!m_members.insert(resolveSymLinks((*it)->absFilePath()))) {
@@ -664,7 +686,7 @@ QString Playlist::resolveSymLinks(const QFileInfo &file)
 	return QFile::decodeName(real);
     else
 	return file.filePath();
-   
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -917,11 +939,11 @@ void Playlist::slotApplyModification(QListViewItem *item, const QString &text, i
     if (selectedSongs.count() > 1)
     {
         if (KMessageBox::warningYesNo(0,
-				      i18n("This will rename multiple files! Are you sure?"), 
-				      QString::null, 
-				      KStdGuiItem::yes(), 
-				      KStdGuiItem::no(), 
-				      "DontWarnMultipleTags") == KMessageBox::No) 
+				      i18n("This will rename multiple files! Are you sure?"),
+				      QString::null,
+				      KStdGuiItem::yes(),
+				      KStdGuiItem::no(),
+				      "DontWarnMultipleTags") == KMessageBox::No)
 	{
 	    return;
 	}

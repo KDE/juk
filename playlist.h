@@ -41,14 +41,14 @@ class Playlist : public KListView
     Q_OBJECT
 
 public:
-    /** 
-     * Before creating a playlist directly, please see 
+    /**
+     * Before creating a playlist directly, please see
      * PlaylistSplitter::createPlaylist().
      */
     Playlist(QWidget *parent, const QString &name = QString::null);
 
-    /** 
-     * Before creating a playlist directly, please see 
+    /**
+     * Before creating a playlist directly, please see
      * PlaylistSplitter::openPlaylist().
      */
     Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name = 0);
@@ -58,7 +58,7 @@ public:
     /**
      * Saves the file to the currently set file name.  If there is no filename
      * currently set, the default behavior is to prompt the user for a file
-     * name.  
+     * name.
      */
     virtual void save();
     virtual void saveAs();
@@ -66,38 +66,38 @@ public:
     virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
     virtual void clearItems(const PlaylistItemList &items);
 
-    /** 
-     * All of the (media) files in the list. 
+    /**
+     * All of the (media) files in the list.
      */
     QStringList files() const;
 
-    /** 
+    /**
      * Returns a list of all of the \e visible items in the playlist.
      */
     PlaylistItemList items();
 
-    /** 
+    /**
      * Returns a list of all of the items in the playlist.
      */
     PlaylistItemList visibleItems() const;
-    
+
     /**
      * Returns a list of the currently selected items.
      */
     PlaylistItemList selectedItems() const;
-    
-    /** 
-     * Allow duplicate files in the playlist. 
+
+    /**
+     * Allow duplicate files in the playlist.
      */
     void setAllowDuplicates(bool allow);
 
-    /** 
+    /**
      * This is being used as a mini-factory of sorts to make the construction
      * of PlaylistItems virtual.  In this case it allows for the creation of
      * both PlaylistItems and CollectionListItems.
      */
-    virtual PlaylistItem *createItem(const QFileInfo &file, 
-				     const QString &absFilePath = QString::null, 
+    virtual PlaylistItem *createItem(const QFileInfo &file,
+				     const QString &absFilePath = QString::null,
 				     QListViewItem *after = 0);
 
     void createItems(const PlaylistItemList &siblings);
@@ -110,7 +110,7 @@ public:
     bool isColumnVisible(int c) const;
 
     /**
-     * If m_playlistName has no value -- i.e. the name has not been set to 
+     * If m_playlistName has no value -- i.e. the name has not been set to
      * something other than the filename, this returns the filename less the
      * extension.  If m_playlistName does have a value, this returns that.
      */
@@ -118,13 +118,13 @@ public:
 
     /**
      * This sets a name for the playlist that is \e different from the file name.
-     */ 
+     */
     void setName(const QString &n);
 
     int count() const { return childCount(); }
 
-    /** 
-     * This gets the next item to be played.  This is static because often we 
+    /**
+     * This gets the next item to be played.  This is static because often we
      * know about the playing item, but not to which list it belongs.
      */
     PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
@@ -133,11 +133,11 @@ public:
     KActionMenu *columnVisibleAction() const { return m_columnVisibleAction; }
 
     void setPlaying(PlaylistItem *item, bool playing = true);
-    
+
     /**
      * This forces an update of the left most visible column, but does not save
      * the settings for this.
-     */ 
+     */
     void updateLeftColumn();
 
     static void setItemsVisible(const PlaylistItemList &items, bool visible = true);
@@ -145,7 +145,7 @@ public:
 public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
-     */ 
+     */
     void slotDeleteSelectedItems() { deleteFromDisk(selectedItems()); };
     void slotSetNext();
 
@@ -182,7 +182,7 @@ protected:
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     virtual void showEvent(QShowEvent *e);
-    
+
     /**
      * Though it's somewhat obvious, this function will stat the file, so only use it when
      * you're out of a performance critical loop.
@@ -193,35 +193,35 @@ protected:
     const KPopupMenu *rmbMenu() const { return m_rmbMenu; }
 
 signals:
-    /** 
-     * This signal is connected to PlaylistItem::refreshed() in the 
-     * PlaylistItem class. 
+    /**
+     * This signal is connected to PlaylistItem::refreshed() in the
+     * PlaylistItem class.
      */
     void signalDataChanged();
 
-    /** 
+    /**
      * This is emitted when the playlist selection is changed.  This is used
-     * primarily to notify the TagEditor of the new data. 
+     * primarily to notify the TagEditor of the new data.
      */
     void signalSelectionChanged(const PlaylistItemList &selection);
-    
+
     /**
-     * This is connected to the PlaylistBox::Item to let it know when the 
+     * This is connected to the PlaylistBox::Item to let it know when the
      * playlist's name has changed.
      */
     void signalNameChanged(const QString &fileName);
-    
+
     void signalNumberOfItemsChanged(Playlist *);
-    
+
     void signalDoubleClicked();
 
     /**
-     * This signal is emitted just before a playlist item is removed from the 
+     * This signal is emitted just before a playlist item is removed from the
      * list.
      */
     void signalAboutToRemove(PlaylistItem *item);
     void signalFilesDropped(const QStringList &files, Playlist *);
-    void signalSetNext(PlaylistItem *item);    
+    void signalSetNext(PlaylistItem *item);
     void signalVisibleColumnsChanged();
 
 private:
@@ -259,7 +259,7 @@ private:
      * file name.
      */
     QString m_playlistName;
-   
+
     KPopupMenu *m_rmbMenu;
     KPopupMenu *m_headerMenu;
     KActionMenu *m_columnVisibleAction;
@@ -269,6 +269,8 @@ private:
 
     PlaylistItem *m_playingItem;
     int m_leftColumn;
+
+    PlaylistItemList m_randomList;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);

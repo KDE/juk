@@ -34,19 +34,19 @@ class CollectionListItem;
 typedef QValueList<PlaylistItem *> PlaylistItemList;
 
 /**
- * Items for the Playlist and the baseclass for CollectionListItem.  
+ * Items for the Playlist and the baseclass for CollectionListItem.
  * The constructors and destructor are protected and new items should be
  * created via Playlist::createItem().  Items should be removed by
  * Playlist::clear(), Playlist::deleteFromDisk(), Playlist::clearItem() or
  * Playlist::clearItem().
  */
 
-class PlaylistItem : public QObject, public KListViewItem 
+class PlaylistItem : public QObject, public KListViewItem
 {
     friend class Playlist;
     friend class CollectionList;
 
-    /** 
+    /**
      * Needs access to the destuctor, even though the destructor isn't used by QPtrStack.
      */
     friend class QPtrStack<PlaylistItem>;
@@ -65,7 +65,7 @@ public:
     const Tag *tag() const;
 
 
-    // These are just forwarding methods to PlaylistItem::Data, a QFileInfo 
+    // These are just forwarding methods to PlaylistItem::Data, a QFileInfo
     // subclass.
 
     QString fileName() const;
@@ -80,7 +80,7 @@ public:
 
 public slots:
     /**
-     * This just refreshes from the in memory data.  This may seem pointless at 
+     * This just refreshes from the in memory data.  This may seem pointless at
      * first, but this data is shared between all of the list view items that are
      * based on the same file, so if another one of those items changes its data
      * it is important to refresh the others.
@@ -94,9 +94,9 @@ public slots:
     virtual void slotRefreshFromDisk();
 
 protected:
-    /** 
+    /**
      * Items should always be created using Playlist::createItem() or through a
-     * subclss or friend class. 
+     * subclss or friend class.
      */
     PlaylistItem(CollectionListItem *item, Playlist *parent);
     PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after);
@@ -141,8 +141,8 @@ private:
 };
 
 /**
- * This is the data class for PlaylistItems.  Several PlaylistItems that are 
- * based on the same file will share the m_data member.  This has both the 
+ * This is the data class for PlaylistItems.  Several PlaylistItems that are
+ * based on the same file will share the m_data member.  This has both the
  * advantages of being memory efficient and allowing the PlaylistItems to stay
  * synchronized.
  *
