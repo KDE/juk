@@ -19,7 +19,7 @@
 #ifndef GSTREAMERPLAYER_H
 #define GSTREAMERPLAYER_H
 
-#include "../config.h"
+#include <config.h>
 
 #if HAVE_GSTREAMER
 

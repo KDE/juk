@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kapplication.h>
 #include <kconfig.h>
 #include <kmessagebox.h>
 #include <kurldrag.h>
@@ -29,7 +28,6 @@
 #include <qheader.h>
 #include <qcursor.h>
 #include <qdir.h>
-#include <qclipboard.h>
 
 #include <stdlib.h>
 #include <limits.h>

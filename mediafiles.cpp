@@ -18,7 +18,6 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 
-#include <qwidget.h>
 
 #include "mediafiles.h"
 

@@ -20,7 +20,6 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 
-#include <qmetaobject.h>
 #include <qslider.h>
 
 #include "juk.h"
