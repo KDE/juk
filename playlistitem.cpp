@@ -399,18 +399,12 @@ void PlaylistItem::setup(CollectionListItem *item)
 
 QMap<PlaylistItem *, QValueList<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_map; // static
 
-static int count = 0;
-
 PlaylistItem::Pointer::Pointer(PlaylistItem *item) :
     m_item(item)
 {
-    kdDebug(65432) << k_funcinfo << "creating " << ++count << endl;
-
     if(!m_item)
 	return;
 	
-    kdDebug(65432) << k_funcinfo << item->file().tag()->title() << endl;
-
     m_item->m_watched = true;
     m_map[m_item].append(this);
 }
@@ -423,8 +417,6 @@ PlaylistItem::Pointer::Pointer(const Pointer &p) :
 
 PlaylistItem::Pointer::~Pointer()
 {
-    kdDebug(65432) << k_funcinfo << "destroying " << count-- << endl;
-
     if(!m_item)
 	return;
 
@@ -462,8 +454,6 @@ void PlaylistItem::Pointer::clear(PlaylistItem *item) // static
 {
     if(!item)
 	return;
-
-    kdDebug(65432) << k_funcinfo << "clearing " << m_map.count() << " - " << m_map[item].count() << endl;
 
     QValueList<Pointer *> l = m_map[item];
     for(QValueList<Pointer *>::Iterator it = l.begin(); it != l.end(); ++it)
