@@ -16,17 +16,16 @@
 #define NOWPLAYING_H
 
 #include <qwidget.h>
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
-#include <qtimer.h>
+
+class QPushButton;
+class QSplitter;
 
 class NowPlaying : public QWidget
 {
     Q_OBJECT
 
 public:
-    NowPlaying(QWidget *parent = 0, const char *name = 0);
+    NowPlaying(QSplitter *parent, const char *name = 0);
     virtual ~NowPlaying();
 
 private:
@@ -44,7 +43,7 @@ private slots:
 
 protected:
     virtual void resizeEvent(QResizeEvent *ev);
-    virtual void mousePressEvent ( QMouseEvent * e );
+    virtual void mousePressEvent(QMouseEvent *e);
 
 private:
     QPushButton *m_button;

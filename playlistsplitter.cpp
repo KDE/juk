@@ -25,6 +25,7 @@
 #include "tageditor.h"
 #include "collectionlist.h"
 #include "playermanager.h"
+#include "nowplaying.h"
 
 using namespace ActionCollection;
 
@@ -117,14 +118,14 @@ void PlaylistSplitter::setupLayout()
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_editor, SLOT(slotUpdateCollection()));
 
-    m_nowPlaying = new NowPlaying(boxSplitter);
+    NowPlaying *nowPlaying = new NowPlaying(boxSplitter);
 
     boxSplitter->moveToFirst(m_playlistBox);
-    connect(PlayerManager::instance(), SIGNAL(signalPlay()), m_nowPlaying, SLOT(slotRefresh()));
-    connect(PlayerManager::instance(), SIGNAL(signalStop()), m_nowPlaying, SLOT(slotClear()));
-    connect(PlayerManager::instance(), SIGNAL(signalCoverChanged()), m_nowPlaying, SLOT(slotRefresh()));
+    connect(PlayerManager::instance(), SIGNAL(signalPlay()), nowPlaying, SLOT(slotRefresh()));
+    connect(PlayerManager::instance(), SIGNAL(signalStop()), nowPlaying, SLOT(slotClear()));
+    connect(PlayerManager::instance(), SIGNAL(signalCoverChanged()), nowPlaying, SLOT(slotRefresh()));
 
-    boxSplitter->setResizeMode(m_nowPlaying, QSplitter::KeepSize);
+    boxSplitter->setResizeMode(nowPlaying, QSplitter::KeepSize);
 
     // Create the search widget -- this must be done after the CollectionList is created.
 
@@ -186,7 +187,7 @@ void PlaylistSplitter::slotPlaylistChanged(QWidget *w)
     Playlist *p = dynamic_cast<Playlist *>(w);
 
     if(p)
-	m_searchWidget->setSearch(p->search());
+        m_searchWidget->setSearch(p->search());
 }
 
 #include "playlistsplitter.moc"

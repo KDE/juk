@@ -21,7 +21,6 @@
 #include <qwidgetstack.h>
 
 #include "playlistbox.h"
-#include "nowplaying.h"
 
 class KActionMenu;
 class KDirWatch;
@@ -81,7 +80,6 @@ private:
     SearchWidget *m_searchWidget;
     QWidgetStack *m_playlistStack;
     TagEditor *m_editor;
-    NowPlaying *m_nowPlaying;
 };
 
 #endif

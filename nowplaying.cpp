@@ -12,7 +12,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdebug.h>
 #include <kiconloader.h>
 #include <kactionclasses.h>
 #include <kconfig.h>
@@ -22,10 +21,11 @@
 #include <qsize.h>
 #include <qsizepolicy.h>
 #include <qpixmap.h>
-#include <qbutton.h>
 #include <qimage.h>
 #include <qvaluelist.h>
 #include <qsplitter.h>
+#include <qpushbutton.h>
+#include <qlayout.h>
 
 #include "nowplaying.h"
 #include "playermanager.h"
@@ -39,7 +39,7 @@ using namespace ActionCollection;
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-NowPlaying::NowPlaying(QWidget *parent, const char *name) :
+NowPlaying::NowPlaying(QSplitter *parent, const char *name) :
     QWidget(parent, name),
     m_button(0)
 {
@@ -186,4 +186,3 @@ void NowPlaying::setupLayout()
 }
 
 #include "nowplaying.moc"
-
