@@ -62,11 +62,6 @@ protected:
     virtual void updateHeights();
     static void paintDropIndicator(QPainter *painter, int width, int height);
 
-signals:
-    void signalCreateSearchList(const PlaylistSearch &search,
-                                const QString &searchCategory,
-                                const QString &name);
-    
 private:
     QStringList lines(const PlaylistBox::Item *item, const QFontMetrics &fm, int width) const;
 

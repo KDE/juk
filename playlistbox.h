@@ -46,65 +46,35 @@ class PlaylistBox : public KListView, public PlaylistCollection
     Q_OBJECT
 
 public: 
+    class Item;
+    friend class Item;
+    typedef QValueList<Item *> ItemList;
+
     PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 		const QString &name = QString::null);
 
     virtual ~PlaylistBox();
 
-    void createSearchItem(SearchPlaylist *playlist, const QString &searchCategory);
-
-    void raise(Playlist *playlist);
-    QStringList names() const { return m_names; }
-
-    /**
-     * A list of all of the playlists in the PlaylistBox, not counting dynamic
-     * playlists.
-     */
-    PlaylistList playlists();
-
-    void duplicate();
-
-    /**
-     * Delete the item associated with \a playlist.
-     */
-    void deleteItem(Playlist *playlist);
-    void deleteItems() { deleteItems(selectedItems()); }
-
-    bool hasSelection() const  { return m_hasSelection; }
-
-    ViewMode *viewMode()       { return m_viewModes[m_viewModeIndex]; }
-    int viewModeIndex() const  { return m_viewModeIndex; }
-    void ensureCurrentVisible() { ensureItemVisible(currentItem()); }
-
-    class Item;
-    friend class Item;
-    typedef QValueList<Item *> ItemList;
+    virtual void raise(Playlist *playlist);
+    virtual void duplicate();
+    virtual void remove();
 
     Item *dropItem() const { return m_dropItem; }
 
 public slots:
     void paste();
-    void clear() {} // override the (destructive) default
-
+    void clear() {}
     virtual Playlist *currentPlaylist() const;
+
 protected:
-    // virtual Playlist *currentPlaylist() const;
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
 
 signals:
-    void signalDoubleClicked();
-    void signalCreatePlaylist(const QStringList &files);
-    void signalCreateSearchList(const PlaylistSearch &search,
-				const QString &searchCategory,
-				const QString &name);
     void signalCollectionInitialized();
 
 private:
     void readConfig();
     void saveConfig();
-
-    void duplicate(Item *item);
-    void deleteItems(const QValueList<Item *> &items, bool confirm = true);
 
     virtual void decode(QMimeSource *s, Item *item);
     virtual void contentsDropEvent(QDropEvent *e);
@@ -115,16 +85,13 @@ private:
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void keyReleaseEvent(QKeyEvent *e);
 
-    /** 
-     * This is used by PlaylistItemBox (a friend class) to add names to the name
-     * list returned by names(). 
-     */
-    void addName(const QString &name) { m_names.append(name); }
-
     QValueList<Item *> selectedItems();
-
     void setSingleItem(QListViewItem *item);
+
+    void addName(const QString &name) { m_names.append(name); }
     void setupItem(Item *item);
+    int viewModeIndex() const { return m_viewModeIndex; }
+    ViewMode *viewMode() const { return m_viewModes[m_viewModeIndex]; }
 
 private slots:
     /** 
@@ -132,7 +99,7 @@ private slots:
      * the signal as currentChanged(Item *). 
      */
     void slotPlaylistChanged();
-    void slotDoubleClicked(QListViewItem *);
+    void slotDoubleClicked();
     void slotShowContextMenu(QListViewItem *, const QPoint &point, int);
     void slotSetViewMode(int index);
 

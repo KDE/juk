@@ -35,9 +35,6 @@ ViewMode::ViewMode(PlaylistBox *b) : QObject(b),
     m_visible(false),
     m_needsRefresh(false)
 {
-    connect(this, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)),
-            b, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)));
-
     m_playlistBox->viewport()->installEventFilter(this);
 }
 
@@ -261,7 +258,6 @@ TreeViewMode::~TreeViewMode()
 
 void TreeViewMode::setShown(bool show)
 {
-    kdDebug(65432) << k_funcinfo << endl;
     CompactViewMode::setShown(show);
 
     playlistBox()->setRootIsDecorated(show);

@@ -164,13 +164,9 @@ void PlaylistCollection::addFolder()
 
 void PlaylistCollection::rename()
 {
-    bool ok;
+    QString name = playlistNameDialog(i18n("Rename"), currentPlaylist()->name());
 
-    QString name = KInputDialog::getText(
-        i18n("Rename"),
-        i18n("Please enter a name for this playlist:"), currentPlaylist()->name(), &ok);
-
-    if(!ok)
+    if(name.isNull())
         return;
 
     currentPlaylist()->setName(name);
@@ -181,17 +177,9 @@ void PlaylistCollection::rename()
 
 void PlaylistCollection::duplicate()
 {
-    bool ok;
-
-    QString name = KInputDialog::getText(
-        i18n("Duplicate"),
-        i18n("Please enter a name for this playlist:"),
-        uniquePlaylistName(currentPlaylist()->name()),
-        &ok);
-
-    if(!ok)
+    QString name = playlistNameDialog(i18n("Duplicate"), currentPlaylist()->name());
+    if(name.isNull())
         return;
-
     raise(new Playlist(this, currentPlaylist()->items(), name));
 }
 
@@ -262,14 +250,8 @@ void PlaylistCollection::scanFolders()
 
 void PlaylistCollection::createPlaylist()
 {
-    bool ok;
-
-    QString name = KInputDialog::getText(
-        i18n("Create New Playlist"),
-        i18n("Please enter a name for the new playlist:"),
-        uniquePlaylistName(), &ok);
-
-    if(ok)
+    QString name = playlistNameDialog();
+    if(!name.isNull())
         raise(new Playlist(this, name));
 }
 
@@ -292,14 +274,9 @@ void PlaylistCollection::createFolderPlaylist()
         return;
 
     QString name = uniquePlaylistName(folder.mid(folder.findRev('/') + 1));
+    name = playlistNameDialog(i18n("Create Folder Playlist"), name);
 
-    bool ok;
-    name = KInputDialog::getText(
-        i18n("Create New Playlist"),
-        i18n("Please enter a name for the new playlist:"),
-        name, &ok);
-
-    if(ok)
+    if(!name.isNull())
         raise(new FolderPlaylist(this, folder, name));
 }
 
@@ -359,11 +336,11 @@ void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
         playlist->deleteLater();
     }
 
+    if(!playlist->name().isNull())
+        m_playlistNames.insert(playlist->name());
+
     QObject::connect(playlist, SIGNAL(selectionChanged()),
                      object(), SIGNAL(signalSelectedItemsChanged()));
-    // connect(p, SIGNAL(signalFilesDropped(const QStringList &, Playlist *, PlaylistItem *)),
-    //    this, SLOT(slotAddToPlaylist(const QStringList &, Playlist *, PlaylistItem *)));
-
 }
 
 bool PlaylistCollection::importPlaylists() const
@@ -371,16 +348,48 @@ bool PlaylistCollection::importPlaylists() const
     return m_importPlaylists;
 }
 
-QString PlaylistCollection::uniquePlaylistName(const QString &suggest)
+QString PlaylistCollection::playlistNameDialog(const QString &caption,
+                                               const QString &suggest) const
 {
-    int count = 1;
-    QString s = suggest + " (%1)";
+    bool ok;
 
-    while(m_playlistNames.find(s.arg(count)) != m_playlistNames.end())
-        count++;
+    QString name = KInputDialog::getText(
+        caption,
+        i18n("Please enter a name for this playlist:"), uniquePlaylistName(suggest), &ok);
 
-    return s.arg(count);
+    return ok ? uniquePlaylistName(name) : QString::null;
 }
+
+
+QString PlaylistCollection::uniquePlaylistName(const QString &suggest) const
+{
+    if(!m_playlistNames.contains(suggest))
+        return suggest;
+
+    QString base = suggest;
+    base.remove(QRegExp("\\s\\([0-9]+\\)$"));
+
+    int count = 1;
+    QString s = QString("%1 (%2)").arg(base).arg(count);
+
+    while(m_playlistNames.contains(s)) {
+        count++;
+        s = QString("%1 (%2)").arg(base).arg(count);
+    }
+
+    return s;
+}
+
+void PlaylistCollection::addName(const QString &name)
+{
+    m_playlistNames.insert(name);
+}
+
+void PlaylistCollection::removeName(const QString &name)
+{
+    m_playlistNames.remove(name);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods

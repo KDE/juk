@@ -471,6 +471,9 @@ void Playlist::playPrevious()
 
 void Playlist::setName(const QString &n)
 {
+    m_collection->addName(n);
+    m_collection->removeName(m_playlistName);
+
     m_playlistName = n;
     emit signalNameChanged(m_playlistName);
 }

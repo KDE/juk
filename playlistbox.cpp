@@ -114,7 +114,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 	    this, SLOT(slotPlaylistChanged()));
 
     connect(this, SIGNAL(doubleClicked(QListViewItem *)),
-	    this, SLOT(slotDoubleClicked(QListViewItem *)));
+	    this, SLOT(slotDoubleClicked()));
 
     connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
 	    this, SLOT(slotShowContextMenu(QListViewItem *, const QPoint &, int)));
@@ -126,13 +126,16 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
 PlaylistBox::~PlaylistBox()
 {
-    Cache::savePlaylists(playlists());
-    saveConfig();
-}
+    PlaylistList l;
+    CollectionList *collection = CollectionList::instance();
+    for(QListViewItemIterator it(this); it.current(); ++it) {
+	Item *i = static_cast<Item *>(it.current());
+	if(i->playlist() && i->playlist() != collection)
+	    l.append(i->playlist());
+    }
 
-void PlaylistBox::createSearchItem(SearchPlaylist *playlist, const QString &searchCategory)
-{
-    m_viewModes[m_viewModeIndex]->createSearchItem(this, playlist, searchCategory);
+    Cache::savePlaylists(l);
+    saveConfig();
 }
 
 void PlaylistBox::raise(Playlist *playlist)
@@ -146,26 +149,22 @@ void PlaylistBox::raise(Playlist *playlist)
     setSelected(i, true);
 
     setSingleItem(i);
-    ensureCurrentVisible();
-}
-
-PlaylistList PlaylistBox::playlists()
-{
-    PlaylistList l;
-
-    CollectionList *collection = CollectionList::instance();
-
-    Item *i = static_cast<Item *>(firstChild());
-    for(; i; i = static_cast<Item *>(i->nextSibling()))
-	if(i->playlist() && i->playlist() != collection)
-	    l.append(i->playlist());
-
-    return l;
+    ensureItemVisible(currentItem());
 }
 
 void PlaylistBox::duplicate()
 {
-    duplicate(static_cast<Item *>(currentItem()));
+    Item *item = static_cast<Item *>(currentItem());
+    if(!item || !item->playlist())
+	return;
+
+    QString name = playlistNameDialog(i18n("Duplicate"), item->text(0));
+
+    if(name.isNull())
+	return;
+
+    Playlist *p = new Playlist(this, name);
+    p->createItems(item->playlist()->items());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -221,39 +220,10 @@ void PlaylistBox::saveConfig()
     }
 }
 
-void PlaylistBox::duplicate(Item *item)
+void PlaylistBox::remove()
 {
-    if(item && item->playlist()) {
-	bool ok;
+    ItemList items = selectedItems();
 
-	// If this text is changed, please also change it in PlaylistSplitter::createPlaylist().
-
-	QString name = KInputDialog::getText(i18n("New Playlist"),
-					     i18n("Please enter a name for the new playlist:"),
-					     uniquePlaylistName(item->text(0)), &ok);
-
-	if(ok) {
-	    Playlist *p = new Playlist(this, name);
-	    p->createItems(item->playlist()->items());
-	}
-    }
-}
-
-void PlaylistBox::deleteItem(Playlist *playlist)
-{
-    Item *i = m_playlistDict.find(playlist);
-
-    if(!i)
-	return;
-
-    ItemList l;
-    l.append(i);
-
-    deleteItems(l, false);
-}
-
-void PlaylistBox::deleteItems(const ItemList &items, bool confirm)
-{
     if(items.isEmpty())
 	return;
 
@@ -264,31 +234,29 @@ void PlaylistBox::deleteItems(const ItemList &items, bool confirm)
 	    files.append((*it)->playlist()->fileName());
     }
 
-    if(confirm) {
-	if(!files.isEmpty()) {
-	    int remove = KMessageBox::warningYesNoCancelList(
-		this, i18n("Do you want to delete these files from the disk as well?"), files);
+    if(!files.isEmpty()) {
+	int remove = KMessageBox::warningYesNoCancelList(
+	    this, i18n("Do you want to delete these files from the disk as well?"), files);
 
-	    if(remove == KMessageBox::Yes) {
-		QStringList couldNotDelete;
-		for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
-		    if(!QFile::remove(*it))
-			couldNotDelete.append(*it);
-		}
-
-		// Would be nice if there were a KMessageBox::sorryList() to use with
-		// couldNotDelete.
-
-		if(!couldNotDelete.isEmpty())
-		    KMessageBox::sorry(this, i18n("Could not delete all of the specified files."));
+	if(remove == KMessageBox::Yes) {
+	    QStringList couldNotDelete;
+	    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
+		if(!QFile::remove(*it))
+		    couldNotDelete.append(*it);
 	    }
-	    else if(remove == KMessageBox::Cancel)
-		return;
+
+	    // Would be nice if there were a KMessageBox::sorryList() to use with
+	    // couldNotDelete.
+
+	    if(!couldNotDelete.isEmpty())
+		KMessageBox::sorry(this, i18n("Could not delete all of the specified files."));
 	}
-	else {
-	    if(KMessageBox::warningYesNo(this, i18n("Are you sure you want to remove these items?")) == KMessageBox::No)
-		return;
-	}
+	else if(remove == KMessageBox::Cancel)
+	    return;
+    }
+    else {
+	if(KMessageBox::warningYesNo(this, i18n("Are you sure you want to remove these items?")) == KMessageBox::No)
+	    return;
     }
 
     QValueList< QPair<Item *, Playlist *> > removeQueue;
@@ -296,7 +264,7 @@ void PlaylistBox::deleteItems(const ItemList &items, bool confirm)
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 	if(*it != Item::collectionItem() &&
 	   (*it)->playlist() &&
-	   (!confirm || !(*it)->playlist()->readOnly()))
+	   (!(*it)->playlist()->readOnly()))
 	{
 	    m_names.remove((*it)->text(0));
 	    m_playlistDict.remove((*it)->playlist());
@@ -338,9 +306,14 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 	    files.append((*it).path());
 
 	if(item && item->playlist())
-	    item->playlist()->addFiles(files, importPlaylists());
-	else
-	    emit signalCreatePlaylist(files);
+	    item->playlist()->addFiles(files, true);
+	else {
+	    QString name = playlistNameDialog();
+	    if(!name.isNull()) {
+		Playlist *p = new Playlist(this, name);
+		p->addFiles(files, true);
+	    }
+	}
     }
 }
 
@@ -463,10 +436,8 @@ PlaylistBox::ItemList PlaylistBox::selectedItems()
 {
     ItemList l;
 
-    for(QListViewItemIterator it(this); it.current(); ++it) {
-	if(isSelected(*it))
-	    l.append(static_cast<Item *>(*it));
-    }
+    for(QListViewItemIterator it(this, QListViewItemIterator::Selected); it.current(); ++it)
+	l.append(static_cast<Item *>(*it));
 
     return l;
 }
@@ -539,7 +510,7 @@ void PlaylistBox::slotPlaylistChanged()
 	playlistStack()->raiseWidget(playlists.front());
 }
 
-void PlaylistBox::slotDoubleClicked(QListViewItem *)
+void PlaylistBox::slotDoubleClicked()
 {
     action("stop")->activate();
     action("play")->activate();
@@ -629,7 +600,7 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 	setSelected(true);
 
 	listView()->sort();
-	listView()->ensureCurrentVisible();
+	listView()->ensureItemVisible(listView()->currentItem());
     }
 }
 

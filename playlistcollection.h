@@ -55,15 +55,15 @@ public:
     // Play the top item of the current playlist
     void playFirst();
 
-    void open(const QStringList &files = QStringList());
-    void addFolder();
-    void rename();
-    void duplicate();
-    void save();
-    void saveAs();
-    void remove();
-    void reload();
-    void editSearch();
+    virtual void open(const QStringList &files = QStringList());
+    virtual void addFolder();
+    virtual void rename();
+    virtual void duplicate();
+    virtual void save();
+    virtual void saveAs();
+    virtual void remove();
+    virtual void reload();
+    virtual void editSearch();
 
     void removeItems();
     void refreshItems();
@@ -94,7 +94,12 @@ protected:
 
     bool importPlaylists() const;
 
-    QString uniquePlaylistName(const QString &suggest = i18n("Playlist"));
+    QString playlistNameDialog(const QString &caption = i18n("Create New Playlist"),
+                               const QString &suggest = QString::null) const;
+    QString uniquePlaylistName(const QString &suggest = i18n("Playlist")) const;
+
+    void addName(const QString &name);
+    void removeName(const QString &name);
 
 private:
     void readConfig();
@@ -104,7 +109,7 @@ private:
     ActionHandler *m_actionHandler;
 
     KDirWatch   m_dirWatch;
-    QStringList m_playlistNames;
+    StringHash  m_playlistNames;
     StringHash  m_playlistFiles;
     QStringList m_folderList;
     bool        m_importPlaylists;
