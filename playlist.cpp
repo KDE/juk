@@ -353,7 +353,7 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
     PlaylistItem *i;
 
     if(random) {
-        if (m_randomList.count() <= 1 || m_visibleChanged) {
+        if(m_randomList.count() <= 1 || m_visibleChanged) {
             m_randomList = visibleItems();
             m_visibleChanged = false; // got the change
         }
@@ -577,17 +577,27 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *after)
     emit signalFilesDropped(fileList, this, after);
 }
 
-bool Playlist::eventFilter(QObject* watched, QEvent* e)
+bool Playlist::eventFilter(QObject *watched, QEvent *e)
 {
-    if(watched->inherits("QHeader")) { // Gotcha!
+    if(watched == header()) {
 
 	if(e->type() == QEvent::MouseButtonPress) {
 
 	    QMouseEvent *me = static_cast<QMouseEvent*>(e);
 
-	    if(me->button() == Qt::RightButton) {
+	    switch(me->button()) {
+	    case LeftButton:
+		// If this is the empty column at the end of the listview, ignore
+		// the click.
+		if(header()->sectionAt(me->x()) == columns() - 1)
+		    return true;
+		break;
+	    case RightButton:
 		m_headerMenu->popup(QCursor::pos());
 		return true;
+		break;
+	    default:
+		break;
 	    }
 	}
     }
