@@ -446,15 +446,15 @@ void JuK::setupPlayer()
 void JuK::setupGlobalAccels()
 {
     m_accel = new KGlobalAccel(this);
-    KeyDialog::insert(m_accel, "PlayPause",  i18n("Play/Pause"),        this, SLOT(playPause()));
-    KeyDialog::insert(m_accel, "Stop",       i18n("Stop Playing"),      this, SLOT(stop()));
-    KeyDialog::insert(m_accel, "Back",       i18n("Back"),              this, SLOT(back()));
-    KeyDialog::insert(m_accel, "Forward",    i18n("Forward"),           this, SLOT(forward()));
-    KeyDialog::insert(m_accel, "SeekBack",   i18n("Seek Back"),         this, SLOT(seekBack()));
-    KeyDialog::insert(m_accel, "SeekForward",i18n("Seek Forward"),      this, SLOT(seekForward()));
-    KeyDialog::insert(m_accel, "VolumeUp",   i18n("Volume Up"),         this, SLOT(volumeUp()));
-    KeyDialog::insert(m_accel, "VolumeDown", i18n("Volume Down"),       this, SLOT(volumeDown()));
-    KeyDialog::insert(m_accel, "Mute",       i18n("Mute"),              this, SLOT(volumeMute()));
+    KeyDialog::insert(m_accel, "PlayPause",   i18n("Play/Pause"),   this, SLOT(playPause()));
+    KeyDialog::insert(m_accel, "Stop",        i18n("Stop Playing"), this, SLOT(stop()));
+    KeyDialog::insert(m_accel, "Back",        i18n("Back"),         this, SLOT(back()));
+    KeyDialog::insert(m_accel, "Forward",     i18n("Forward"),      this, SLOT(forward()));
+    KeyDialog::insert(m_accel, "SeekBack",    i18n("Seek Back"),    this, SLOT(seekBack()));
+    KeyDialog::insert(m_accel, "SeekForward", i18n("Seek Forward"), this, SLOT(seekForward()));
+    KeyDialog::insert(m_accel, "VolumeUp",    i18n("Volume Up"),    this, SLOT(volumeUp()));
+    KeyDialog::insert(m_accel, "VolumeDown",  i18n("Volume Down"),  this, SLOT(volumeDown()));
+    KeyDialog::insert(m_accel, "Mute",        i18n("Mute"),         this, SLOT(volumeMute()));
 
     m_accel->setConfigGroup("Shortcuts");
     m_accel->readSettings();

@@ -28,6 +28,7 @@
 #include <qpainter.h>
 
 #include "systemtray.h"
+#include "juk.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -169,11 +170,24 @@ void SystemTray::setToolTip(const QString &tip)
 
 void SystemTray::wheelEvent(QWheelEvent *e)
 {
-    if(e->delta() > 0)
-	m_backAction->activate();
-    else
-	m_forwardAction->activate();
+    JuKIface *juk = static_cast<JuK *>(parent());
 
+    switch(e->state()) {
+    case ShiftButton:
+	if(juk) {
+	    if(e->delta() > 0)
+		juk->volumeUp();
+	    else
+		juk->volumeDown();
+	}
+	break;
+    default:
+	if(e->delta() > 0)
+	    m_backAction->activate();
+	else
+	    m_forwardAction->activate();
+	break;
+    }
     e->accept();
 }
 
