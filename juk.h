@@ -52,13 +52,15 @@ private:
     void setupActions();
     void setupPlayer();
     void setupSystemTray();
+
     void processArgs();
-    void readConfig();
+
     /**
-     * This is only separate from readConfig() because it is useful to call it
-     * before we construct the splitter.
+     * readSettings() is separate from readConfig() in that it contains settings
+     * that need to be read before the GUI is setup.
      */
     void readSettings();
+    void readConfig();
     void saveConfig();
 
     virtual bool queryClose();
@@ -79,6 +81,7 @@ private slots:
 
     // settings menu
     void showGenreListEditor();
+    void toggleSystemTray(bool enabled);
 
     // additional player slots
     void trackPositionSliderClick();
@@ -118,6 +121,7 @@ private:
     KToggleAction *restoreOnLoadAction;
     SliderAction *sliderAction;
     KToggleAction *randomPlayAction;
+    KToggleAction *toggleSystemTrayAction;
 
     KAction *playAction;
     KAction *pauseAction;

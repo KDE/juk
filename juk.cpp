@@ -51,16 +51,16 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
     setupLayout();
     setupActions();
     setupPlayer();
-    setupSystemTray();
     readConfig();
+    setupSystemTray();
     processArgs();
-	
+
     SplashScreen::finishedLoading();
 }
 
 JuK::~JuK()
 {
-    delete(playTimer);
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -130,7 +130,9 @@ void JuK::setupActions()
     new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(removeSelectedItems()), actionCollection(), "removeItem");
     
     // settings menu
-    restoreOnLoadAction = new KToggleAction(i18n("Restored Playlists on Load"),  0, actionCollection(), "restoreOnLoad"); 
+    restoreOnLoadAction = new KToggleAction(i18n("Restored playlists on load"),  0, actionCollection(), "restoreOnLoad");
+    toggleSystemTrayAction = new KToggleAction(i18n("Dock in system tray"), 0, actionCollection(), "toggleSystemTray");
+    connect(toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(toggleSystemTray(bool)));
     new KAction(i18n("Genre List Editor"), 0, this, SLOT(showGenreListEditor()), actionCollection(), "showGenreListEditor");
 
     connect(splitter, SIGNAL(playlistChanged()), this, SLOT(playlistChanged()));
@@ -147,15 +149,24 @@ void JuK::setupActions()
 }
 
 void JuK::setupSystemTray()
-{	
-    systemTray = new SystemTray(this, "systemTray");
-    systemTray->show();
-
-    connect(systemTray, SIGNAL(play()),    this, SLOT(playFile()));
-    connect(systemTray, SIGNAL(stop()),    this, SLOT(stopFile()));
-    connect(systemTray, SIGNAL(pause()),   this, SLOT(pauseFile()));
-    connect(systemTray, SIGNAL(back()),    this, SLOT(backFile()));
-    connect(systemTray, SIGNAL(forward()), this, SLOT(forwardFile()));
+{
+    if(toggleSystemTrayAction && toggleSystemTrayAction->isChecked()) {
+	systemTray = new SystemTray(this, "systemTray");
+	systemTray->show();
+	
+	connect(systemTray, SIGNAL(play()),    this, SLOT(playFile()));
+	connect(systemTray, SIGNAL(stop()),    this, SLOT(stopFile()));
+	connect(systemTray, SIGNAL(pause()),   this, SLOT(pauseFile()));
+	connect(systemTray, SIGNAL(back()),    this, SLOT(backFile()));
+	connect(systemTray, SIGNAL(forward()), this, SLOT(forwardFile()));
+	
+	if(player.paused())
+	    systemTray->slotPause();
+	else if(player.playing())
+	    systemTray->slotPlay();
+    }
+    else
+	systemTray = 0;
 }
 
 void JuK::setupPlayer()
@@ -192,6 +203,19 @@ void JuK::processArgs()
     splitter->open(files);
 }
 
+/**
+ * These are settings that need to be know before setting up the GUI.
+ */
+
+void JuK::readSettings()
+{
+    KConfig *config = KGlobal::config();
+    { // general settings
+        KConfigGroupSaver saver(config, "Settings");
+	restore = config->readBoolEntry("RestoreOnLoad", true);
+    }
+}
+
 void JuK::readConfig()
 {
     // Automagically save and restore many window settings.
@@ -215,18 +239,15 @@ void JuK::readConfig()
 	showEditorAction->setChecked(showEditor);
 	splitter->setEditorVisible(showEditor);
     }
+    { // general settings
+        KConfigGroupSaver saver(config, "Settings");
+	bool dockInSystemTray = config->readBoolEntry("DockInSystemTray", true);
+	toggleSystemTrayAction->setChecked(dockInSystemTray);
+    }
 
     if(restoreOnLoadAction)
 	restoreOnLoadAction->setChecked(restore);
-}
-
-void JuK::readSettings()
-{
-    KConfig *config = KGlobal::config();
-    { // general settings
-        KConfigGroupSaver saver(config, "Settings");
-	restore = config->readBoolEntry("RestoreOnLoad", true);
-    }
+    
 }
 
 void JuK::saveConfig()
@@ -247,6 +268,8 @@ void JuK::saveConfig()
         KConfigGroupSaver saver(config, "Settings");
 	if(restoreOnLoadAction)
 	    config->writeEntry("RestoreOnLoad", restoreOnLoadAction->isChecked());
+	if(toggleSystemTrayAction)
+	    config->writeEntry("DockInSystemTray", toggleSystemTrayAction->isChecked());
     }
 }
 
@@ -301,7 +324,8 @@ void JuK::playFile()
             pauseAction->setEnabled(true);
             stopAction->setEnabled(true);
             playTimer->start(pollInterval);
-	    systemTray->slotPlay();
+	    if(systemTray)
+		systemTray->slotPlay();
         }
     }
     else if(player.playing())
@@ -315,7 +339,8 @@ void JuK::pauseFile()
     playTimer->stop();
     player.pause();
     pauseAction->setEnabled(false);
-    systemTray->slotPause();
+    if(systemTray)
+	systemTray->slotPause();
 }
 
 void JuK::stopFile()
@@ -334,8 +359,9 @@ void JuK::stopFile()
     splitter->stop();
 
     statusLabel->clear();
-
-    systemTray->slotStop();
+    
+    if(systemTray)
+	systemTray->slotStop();
 }
 
 void JuK::backFile()
@@ -356,6 +382,16 @@ void JuK::showGenreListEditor()
 {
     GenreListEditor * editor = new GenreListEditor();
     editor->exec();
+}
+
+void JuK::toggleSystemTray(bool enabled)
+{
+    if(enabled && !systemTray)
+	setupSystemTray();
+    else if(!enabled && systemTray) {
+	delete(systemTray);
+	systemTray = 0;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -446,7 +482,8 @@ void JuK::playFile(const QString &file)
 
 	statusLabel->setPlayingItemInfo(splitter->playingTrack(), splitter->playingArtist(), splitter->playingList());
 
-	systemTray->slotPlay();
+	if(systemTray)
+	    systemTray->slotPlay();
     }
     else
 	stopFile();
