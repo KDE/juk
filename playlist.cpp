@@ -408,8 +408,10 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
         m_history.clear();
 	if(current)
 	    i = static_cast<PlaylistItem *>(current->itemBelow());
-	else
-	    i = static_cast<PlaylistItem *>(firstChild());
+	else {
+	    QListViewItemIterator it(this, QListViewItemIterator::Visible);
+	    i = static_cast<PlaylistItem *>(it.current());
+	}
     }
 
     return i;
