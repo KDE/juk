@@ -44,7 +44,8 @@ using namespace ActionCollection;
 PlaylistCollection::PlaylistCollection(QWidgetStack *playlistStack) :
     m_playlistStack(playlistStack),
     m_importPlaylists(true),
-    m_searchEnabled(true)
+    m_searchEnabled(true),
+    m_playing(false)
 {
     m_actionHandler = new ActionHandler(this);
     PlayerManager::instance()->setPlaylistInterface(this);
@@ -77,22 +78,35 @@ int PlaylistCollection::time() const
 
 void PlaylistCollection::playFirst()
 {
+    m_playing = true;
     currentPlaylist()->playFirst();
+    update();
 }
 
 void PlaylistCollection::playPrevious()
 {
+    m_playing = true;
     currentPlaylist()->playPrevious();
+    update();
 }
 
 void PlaylistCollection::playNext()
 {
+    m_playing = true;
     currentPlaylist()->playNext();
+    update();
 }
 
 void PlaylistCollection::stop()
 {
+    m_playing = false;
     currentPlaylist()->stop();
+    update();
+}
+
+bool PlaylistCollection::playing() const
+{
+    return m_playing;
 }
 
 void PlaylistCollection::open(const QStringList &l)

@@ -50,6 +50,7 @@ public:
     virtual void playNext();
     virtual void playPrevious();
     virtual void stop();
+    virtual bool playing() const;
 
     // Play the top item of the current playlist
     void playFirst();
@@ -109,6 +110,7 @@ private:
     bool        m_importPlaylists;
     bool        m_restore;
     bool        m_searchEnabled;
+    bool        m_playing;
 };
 
 /**
@@ -158,6 +160,7 @@ private slots:
 
 signals:
     void signalSelectedItemsChanged();
+    void signalCountChanged();
 
 private:
     PlaylistCollection *m_collection;

@@ -1,7 +1,4 @@
 /***************************************************************************
-                          playlistinterface.h
-                             -------------------
-    begin                : Fri Feb 27 2004
     copyright            : (C) 2004 by Scott Wheeler
     email                : wheeler@kde.org
 ***************************************************************************/
@@ -21,13 +18,30 @@
 #include "filehandle.h"
 
 #include <qstring.h>
+#include <qvaluelist.h>
+
+class PlaylistObserver;
+
+class Watched
+{
+public:
+    void addObserver(PlaylistObserver *observer);
+    void removeObserver(PlaylistObserver *observer);
+    virtual void update();
+
+protected:
+    virtual ~Watched();
+
+private:
+    QValueList<PlaylistObserver *> m_observers;
+};
 
 /**
  * This is a simple interface that should be used by things that implement a
  * playlist-like API.
  */
 
-class PlaylistInterface
+class PlaylistInterface : public Watched
 {
 public:
     virtual QString name() const = 0;
@@ -38,6 +52,24 @@ public:
     virtual void playNext() = 0;
     virtual void playPrevious() = 0;
     virtual void stop() = 0;
+
+    virtual bool playing() const = 0;
+};
+
+class PlaylistObserver
+{
+public:
+    virtual ~PlaylistObserver();
+    virtual void update() = 0;
+
+    void clearWatched() { m_playlist = 0; }
+
+protected:
+    PlaylistObserver(PlaylistInterface *playlist);
+    const PlaylistInterface *playlist() const;
+
+private:
+    PlaylistInterface *m_playlist;
 };
 
 #endif

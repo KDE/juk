@@ -89,12 +89,11 @@ KActionCollection *JuK::actionCollection() const
 
 void JuK::setupLayout()
 {
-    m_statusLabel = new StatusLabel(statusBar());
-    statusBar()->addWidget(m_statusLabel, 1);
-
     m_splitter = new PlaylistSplitter(this, "playlistSplitter");
     setCentralWidget(m_splitter);
 
+    m_statusLabel = new StatusLabel(m_splitter->playlist(), statusBar());
+    statusBar()->addWidget(m_statusLabel, 1);
     PlayerManager::instance()->setStatusLabel(m_statusLabel);
 
     m_splitter->setFocus();

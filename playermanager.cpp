@@ -217,16 +217,13 @@ void PlayerManager::play(const FileHandle &file)
 	    m_playlistInterface->playNext();
             m_file = m_playlistInterface->currentFile();
 
-            if(!m_file.isNull()) {
+            if(!m_file.isNull())
                 player()->play(m_file);
-                m_statusLabel->setPlayingItemInfo(m_file, m_playlistInterface);
-            }
         }
     }
     else {
         m_file = file;
         player()->play(file);
-        m_statusLabel->setPlayingItemInfo(file, m_playlistInterface);
     }
 
     // Make sure that the player() actually starts before doing anything.
@@ -285,8 +282,6 @@ void PlayerManager::stop()
 
     m_sliderAction->trackPositionSlider()->setValue(0);
     m_sliderAction->trackPositionSlider()->setEnabled(false);
-
-    m_statusLabel->clear();
 
     player()->stop();
     m_playlistInterface->stop();

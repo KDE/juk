@@ -36,12 +36,15 @@ public:
                     const QString &name = QString::null,
                     const QString &iconName = "midi");
 
+    virtual ~DynamicPlaylist();
+
 public slots:
     /**
      * Reimplemented so that it will reload all of the playlists that are
      * associated with the dynamic list.
      */
     virtual void slotReload();
+    void slotSetDirty() { m_dirty = true; }
 
 protected:
     /**
@@ -70,9 +73,6 @@ protected:
      */
     virtual void updateItems();
 
-protected slots:
-    void slotSetDirty() { m_dirty = true; }
-
 private:
     /**
      * Checks to see if the current list of items is "dirty" and if so updates
@@ -85,6 +85,7 @@ private slots:
     void slotUpdateItems();
 
 private:
+    QValueList<PlaylistObserver *> m_observers;
     PlaylistItemList m_siblings;
     PlaylistList m_playlists;
     bool m_dirty;

@@ -128,7 +128,7 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
         after->setDateTime(dateTime);
     }
 
-    p.emitCountChanged();
+    p.PlaylistInterface::update();
 
     return s;
 }

@@ -100,9 +100,6 @@ public:
      * preferable to delay this notification until after other operations have
      * completed.  In those cases set \a emitChanged to false and call the
      * signal directly.
-     *
-     * @see signalCountChanged()
-     * @see emitCountChanged()
      */
     virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
 
@@ -252,15 +249,6 @@ public:
     void setSearchEnabled(bool searchEnabled);
 
     /**
-     * Emits a signal indicating that the number of items have changed.  This
-     * is useful in conjunction with createItem() where emitChanged is false.
-     *
-     * In many situations it is not practical for speed reasons to trigger the
-     * actions associated with signalCountChanged() after each insertion.
-     */
-    void emitCountChanged() { emit signalCountChanged(this); }
-
-    /**
      * Marks \a item as either selected or deselected based.
      */
     void markItemSelected(PlaylistItem *item, bool selected);
@@ -288,8 +276,6 @@ public:
      * method applies those.
      */
     void applySharedSettings();
-
-    void emitDataChanged() { emit signalDataChanged(); }
 
     /**
      * Returns true if full path sort is currently enabled for the file column.
@@ -425,30 +411,6 @@ signals:
      * playlist's name has changed.
      */
     void signalNameChanged(const QString &name);
-
-    /**
-     * This signal is emitted when items are added to or removed from the list.
-     *
-     * \see signalDataChanged()
-     * \see signalChanged()
-     */
-    void signalCountChanged(Playlist *);
-
-    /**
-     * This signal is connected to PlaylistItem::refreshed() in the PlaylistItem
-     * class.  It is emitted when a playlist item's data has been changed.
-     *
-     * \see signalCountChanged()
-     * \see signalChanged()
-     */
-    void signalDataChanged();
-
-    /**
-     * This is the union of signalDataChanged() and signalCountChanged().
-     * It is emitted with either quantity or value of the PlaylistItems are
-     * changed.
-     */
-    void signalChanged();
 
     /**
      * This signal is emitted just before a playlist item is removed from the
@@ -661,10 +623,8 @@ ItemType *Playlist::createItem(const FileHandle &file, QListViewItem *after,
         if(!m_randomList.isEmpty() && !m_visibleChanged)
             m_randomList.append(i);
 
-	emit signalCountChanged(this);
-
 	if(emitChanged)
-	    emit signalCountChanged(this);
+	    PlaylistInterface::update();
 
 	return i;
     }
@@ -691,7 +651,7 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
 	}
     }
 
-    emit signalCountChanged(this);
+    PlaylistInterface::update();
     m_disableColumnWidthUpdates = false;
     slotWeightDirty();
 }

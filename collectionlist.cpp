@@ -99,7 +99,7 @@ void CollectionList::clearItems(const PlaylistItemList &items)
 	clearItem(*it, false);
     }
 
-    emit signalCountChanged(this);
+    PlaylistInterface::update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -244,7 +244,7 @@ void CollectionListItem::refresh()
     }
 
     repaint();
-    playlist()->emitDataChanged();
+    playlist()->PlaylistInterface::update();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -263,7 +263,7 @@ CollectionListItem::CollectionListItem(const FileHandle &file) :
 
 	if(file.tag()) {
 	    refresh();
-	    l->emitCountChanged();
+	    l->PlaylistInterface::update();
 	    // l->addWatched(m_path);
 	}
 	else

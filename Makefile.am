@@ -30,6 +30,7 @@ juk_SOURCES = \
 	playlist.cpp \
 	playlistbox.cpp \
 	playlistcollection.cpp \
+	playlistinterface.cpp \
 	playlistitem.cpp \
 	playlistsearch.cpp \
 	playlistsplitter.cpp \

@@ -515,8 +515,7 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     if(!m_randomList.isEmpty() && !m_visibleChanged)
         m_randomList.remove(item);
     delete item;
-    if(emitChanged)
-	emit signalCountChanged(this);
+    PlaylistInterface::update();
 }
 
 void Playlist::clearItems(const PlaylistItemList &items)
@@ -524,7 +523,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
 	clearItem(*it, false);
 
-    emit signalCountChanged(this);
+    PlaylistInterface::update();
 }
 
 QStringList Playlist::files()
@@ -814,7 +813,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 	    }
 
 	}
-	emit signalCountChanged(this);
+	PlaylistInterface::update();
     }
 }
 
@@ -1022,7 +1021,7 @@ void Playlist::addFiles(const QStringList &files, bool importPlaylists,
         after = addFile(*it, importPlaylists, after);
 
     slotWeightDirty();
-    emit signalCountChanged(this);
+    PlaylistInterface::update();
 
     KApplication::restoreOverrideCursor();
 }
@@ -1183,8 +1182,6 @@ void Playlist::setup()
     setItemMargin(3);
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
-    connect(this, SIGNAL(signalDataChanged()), this, SIGNAL(signalChanged()));
-    connect(this, SIGNAL(signalCountChanged(Playlist *)), this, SIGNAL(signalChanged()));
     setSorting(1);
 }
 
@@ -1224,7 +1221,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     file.close();
 
-    emit signalCountChanged(this);
+    PlaylistInterface::update();
 
     m_disableColumnWidthUpdates = false;
 }

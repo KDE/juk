@@ -18,34 +18,25 @@
 #ifndef STATUSLABEL_H
 #define STATUSLABEL_H
 
+#include "playlistinterface.h"
+
 #include <qhbox.h>
 
 class QLabel;
 class KSqueezedTextLabel;
 
 class FileHandle;
-class PlaylistInterface;
 
-class StatusLabel : public QHBox
+class StatusLabel : public QHBox, public PlaylistObserver
 {
     Q_OBJECT
 
 public:
-
-    StatusLabel(QWidget *parent = 0, const char *name = 0);
+    StatusLabel(PlaylistInterface *playlist, QWidget *parent = 0, const char *name = 0);
     virtual ~StatusLabel();
+    virtual void update();
 
 public slots:
-    void setPlayingItemInfo(const FileHandle &file, const PlaylistInterface *playlist);
-    void setPlaylist(PlaylistInterface *playlist);
-
-    /**
-     * This clears the information about the playing items and frees that status
-     * bar up for playlist information.  Ok, ok, so that's not actually clearing,
-     * but use your imagination.
-     */
-    void clear();
-
     /**
      * This just sets internal variables that are used by setItemCurrentTime().
      * Please call that method to display the time.
@@ -61,11 +52,6 @@ private:
     virtual bool eventFilter(QObject *o, QEvent *e);
 
     static QString formatTime(int minutes, int seconds);
-
-    enum Mode { PlayingItemInfo, PlaylistInfo } mode;
-
-    QString m_playlistName;
-    QString m_playlistLength;
 
     int m_itemTotalTime;
     int m_itemCurrentTime;

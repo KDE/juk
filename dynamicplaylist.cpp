@@ -20,6 +20,25 @@
 #include "dynamicplaylist.h"
 #include "collectionlist.h"
 
+// TODO: this current updates even when things are just played in the watched
+// playlists.  There should be different update types and this should only
+// watch the data changes.
+
+class PlaylistDirtyObserver : public PlaylistObserver
+{
+public:
+    PlaylistDirtyObserver(DynamicPlaylist *parent, Playlist *playlist) :
+	PlaylistObserver(playlist),
+        m_parent(parent) 
+    {
+
+    }
+    virtual void update() { m_parent->slotSetDirty(); }
+
+private:
+    DynamicPlaylist *m_parent;
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -34,11 +53,20 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
 {
     setSorting(columns() + 1);
 
-    for(PlaylistList::ConstIterator it = m_playlists.begin(); it != m_playlists.end(); ++it) {
-        connect(*it, SIGNAL(signalDataChanged()), this, SLOT(slotSetDirty()));
-        connect(*it, SIGNAL(signalCountChanged(Playlist *)), this, SLOT(slotSetDirty()));
-    }
+    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it)
+        m_observers.append(new PlaylistDirtyObserver(this, *it));
+
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()), this, SLOT(slotSetDirty()));
+}
+
+DynamicPlaylist::~DynamicPlaylist()
+{
+    for(QValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
+        it != m_observers.end();
+        ++it)
+    {
+        delete *it;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
