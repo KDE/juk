@@ -28,6 +28,8 @@
 #include "coverinfo.h"
 #include "tagtransactionmanager.h"
 
+PlaylistItemList PlaylistItem::m_playingItems; // static
+
 static void startMusicBrainzQuery(const FileHandle &file)
 {
 #if HAVE_MUSICBRAINZ
@@ -52,6 +54,7 @@ PlaylistItem::~PlaylistItem()
 	playlist()->setPlaying(0);
 
     m_collectionItem->removeChildItem(this);
+    m_playingItems.remove(this);
 }
 
 void PlaylistItem::setFile(const FileHandle &file)
@@ -141,6 +144,24 @@ void PlaylistItem::setText(int column, const QString &text)
 
     KListViewItem::setText(column, text);
     playlist()->slotWeightDirty(column);
+}
+
+void PlaylistItem::setPlaying(bool playing)
+{
+    m_playing = playing;
+    listView()->triggerUpdate();
+
+    if(playing)
+	m_playingItems.append(this);
+    else {
+
+	// This is a tricky little recursion, but it
+	// in fact does clear the list.
+
+	m_playingItems.remove(this);
+	if(!m_playingItems.isEmpty())
+	    m_playingItems.front()->setPlaying(false);
+    }
 }
 
 void PlaylistItem::setSelected(bool selected)

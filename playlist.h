@@ -119,7 +119,7 @@ public:
      * @return 0 if no file is playing, otherwise a pointer to the PlaylistItem
      *     of the track that is currently playing.
      */
-    static PlaylistItem *playingItem() { return m_playingItem; }
+    static PlaylistItem *playingItem();
 
     /**
      * All of the (media) files in the list.
@@ -520,6 +520,8 @@ private:
     void refreshAlbums(const PlaylistItemList &items, const QImage &image = QImage());
     void refreshAlbum(const QString &artist, const QString &album);
 
+    void updatePlaying() const;
+
     /**
      * This class is used internally to store settings that are shared by all
      * of the playlists, such as column order.  It is implemented as a singleton.
@@ -646,7 +648,6 @@ private:
      */
     static bool m_visibleChanged;
     static int m_leftColumn;
-    static PlaylistItem *m_playingItem;
     static UpcomingPlaylist *m_upcomingPlaylist;
     static QMap<int, PlaylistItem *> m_backMenuItems;
 };

@@ -73,7 +73,7 @@ public:
     virtual QString text(int column) const;
     virtual void setText(int column, const QString &text);
 
-    void setPlaying(bool playing = true) { m_playing = playing; }
+    void setPlaying(bool playing = true);
 
     virtual void setSelected(bool selected);
     void guessTagInfo(TagGuesser::Type type);
@@ -163,12 +163,12 @@ private:
     void setup(CollectionListItem *item);
     CollectionListItem *m_collectionItem;
     bool m_playing;
+    static PlaylistItemList m_playingItems;
 };
 
 inline kdbgstream &operator<<(kdbgstream &s, const PlaylistItem &item)
 {
     s << item.text(PlaylistItem::TrackColumn);
-
     return s;
 }
 

@@ -302,7 +302,6 @@ void Playlist::SharedSettings::writeConfig()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistItemList Playlist::m_history;
-PlaylistItem *Playlist::m_playingItem = 0;
 UpcomingPlaylist *Playlist::m_upcomingPlaylist = 0;
 QMap<int, PlaylistItem *> Playlist::m_backMenuItems;
 int Playlist::m_leftColumn = 0;
@@ -399,8 +398,6 @@ Playlist::~Playlist()
     // so call clearItems() to make sure it happens.
 
     clearItems(items());
-    if(m_playingItem && m_playingItem->playlist() == this)
-	m_playingItem = 0;
 
     delete m_toolTip;
 
@@ -420,7 +417,7 @@ QString Playlist::name() const
 
 FileHandle Playlist::currentFile() const
 {
-    return m_playingItem ? m_playingItem->file() : FileHandle::null();
+    return playingItem() ? playingItem()->file() : FileHandle::null();
 }
 
 int Playlist::time() const
@@ -456,7 +453,7 @@ void Playlist::stop()
 
 void Playlist::playPrevious()
 {
-    if(!m_playingItem)
+    if(!playingItem())
 	return;
 
     bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
@@ -474,7 +471,7 @@ void Playlist::playPrevious()
     }
 
     if(!previous)
-	previous = static_cast<PlaylistItem *>(m_playingItem->itemAbove());
+	previous = static_cast<PlaylistItem *>(playingItem()->itemAbove());
 
     setPlaying(previous, false);
 }
@@ -544,6 +541,11 @@ void Playlist::clearItems(const PlaylistItemList &items)
     dataChanged();
 }
 
+PlaylistItem *Playlist::playingItem() // static
+{
+    return PlaylistItem::m_playingItems.isEmpty() ? 0 : PlaylistItem::m_playingItems.front();
+}
+
 QStringList Playlist::files() const
 {
     QStringList list;
@@ -593,9 +595,7 @@ void Playlist::updateLeftColumn()
     int newLeftColumn = leftMostVisibleColumn();
 
     if(m_leftColumn != newLeftColumn) {
-	if(m_playingItem)
-            m_playingItem->listView()->triggerUpdate();
-
+	updatePlaying();
 	m_leftColumn = newLeftColumn;
     }
 }
@@ -804,14 +804,14 @@ void Playlist::slotWeightDirty(int column)
 
 void Playlist::slotShowPlaying()
 {
-    if(!m_playingItem)
+    if(!playingItem())
 	return;
 
-    Playlist *l = m_playingItem->playlist();
+    Playlist *l = playingItem()->playlist();
 
     l->clearSelection();
-    l->setSelected(m_playingItem, true);
-    l->ensureItemVisible(m_playingItem);
+    l->setSelected(playingItem(), true);
+    l->ensureItemVisible(playingItem());
     m_collection->raise(l);
 }
 
@@ -846,7 +846,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 	    QStringList errorFiles;
 
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-		if(m_playingItem == *it)
+		if(playingItem() == *it)
 		    action("forward")->activate();
 
 		QString removePath = (*it)->file().absFilePath();
@@ -1139,6 +1139,15 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, const QImage &image)
     }
 }
 
+void Playlist::updatePlaying() const
+{
+    for(PlaylistItemList::ConstIterator it = PlaylistItem::m_playingItems.begin();
+	it != PlaylistItem::m_playingItems.end(); ++it)
+    {
+	(*it)->listView()->triggerUpdate();
+    }
+}
+
 void Playlist::refreshAlbum(const QString &artist, const QString &album)
 {
     ColumnList columns;
@@ -1182,9 +1191,7 @@ void Playlist::hideColumn(int c, bool updateSearch)
     header()->setResizeEnabled(false, c);
 
     if(c == m_leftColumn) {
-	if(m_playingItem)
-            m_playingItem->listView()->triggerUpdate();
-
+	updatePlaying();
 	m_leftColumn = leftMostVisibleColumn();
     }
 
@@ -1215,8 +1222,7 @@ void Playlist::showColumn(int c, bool updateSearch)
     header()->moveSection(c, c); // Approximate old position
 
     if(c == leftMostVisibleColumn()) {
-	if(m_playingItem)
-            m_playingItem->listView()->triggerUpdate();
+	updatePlaying();
 	m_leftColumn = leftMostVisibleColumn();
     }
 
@@ -1348,7 +1354,7 @@ void Playlist::setCanDeletePlaylist(bool canDelete)
 
 void Playlist::slotPopulateBackMenu() const
 {
-    if(!m_playingItem)
+    if(!playingItem())
 	return;
 
     KPopupMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
@@ -1449,21 +1455,17 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
 void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 {
-    if(m_playingItem == item)
+    if(playingItem() == item)
 	return;
 
-    if(m_playingItem) {
-	m_playingItem->setPlaying(false);
-        m_playingItem->listView()->triggerUpdate();
-
+    if(playingItem()) {
 	if(addToHistory) {
-	    if(m_playingItem->playlist() == m_upcomingPlaylist)
-		m_history.append(m_playingItem->collectionItem());
+	    if(playingItem()->playlist() == m_upcomingPlaylist)
+		m_history.append(playingItem()->collectionItem());
 	    else
-		m_history.append(m_playingItem);
+		m_history.append(playingItem());
 	}
-
-	m_playingItem = 0;
+	playingItem()->setPlaying(false);
     }
 
     TrackSequenceManager::instance()->setCurrent(item);
@@ -1471,17 +1473,15 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
     if(!item)
 	return;
 
-    m_playingItem = item;
     item->setPlaying(true);
 
     bool enableBack = !m_history.isEmpty();
     action<KToolBarPopupAction>("back")->popupMenu()->setEnabled(enableBack);
-    item->listView()->triggerUpdate();
 }
 
 bool Playlist::playing() const
 {
-    return m_playingItem && this == static_cast<Playlist *>(m_playingItem->listView());
+    return playingItem() && this == playingItem()->playlist();
 }
 
 int Playlist::leftMostVisibleColumn() const
@@ -1949,9 +1949,7 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 void Playlist::slotColumnOrderChanged(int, int from, int to)
 {
     if(from == 0 || to == 0) {
-	if(m_playingItem)
-            m_playingItem->listView()->triggerUpdate();
-
+	updatePlaying();
 	m_leftColumn = header()->mapToSection(0);
     }
 
