@@ -100,7 +100,7 @@ void PlayerManager::stop()
     m_player->stop();
 }
 
-void PlayerManager::setVolume(float volume = 1.0)
+void PlayerManager::setVolume(float volume)
 {
     if(!m_player)
         return;
