@@ -34,6 +34,8 @@ public:
     static void loadPlaylists(PlaylistCollection *collection);
     static void savePlaylists(const PlaylistList &playlists);
 
+    static bool cacheFileExists();
+
 protected:
     Cache();
     void load();

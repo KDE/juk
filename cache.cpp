@@ -245,6 +245,11 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     QDir(dirName).rename("playlists.new", "playlists");
 }
 
+bool Cache::cacheFileExists() // static
+{
+    return QFile::exists(KGlobal::dirs()->saveLocation("appdata") + "cache");
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
