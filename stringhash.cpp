@@ -40,5 +40,5 @@ int StringHash::hash(QString key) const
     if(index < 0)
         index = -index;
 
-    return index % maxSize();
+    return index % tableSize();
 }

@@ -22,24 +22,43 @@
 #include <qstringlist.h>
 #include <qptrvector.h>
 
+/**
+ * A simple hash representing an (un-mapped) set of data.
+ */
+
 template <class T> class Hash
 {
 public:
 
+    /**
+     * To combine two operations into one (that takes the same amount as each
+     * independantly) this inserts an item and returns true if the item was
+     * already in the set or false if it did not.
+     */
     bool insert(T value);
+
+    /**
+     * Returns true if the set contains the item \a value.
+     */
     bool contains(T value) const;
+
+    /**
+     * Removes an item.  Returns true if the item was present and false if not.
+     */
     bool remove(T value);
+
+    QValueList<T> values() const;
 
 protected:
     Hash() : m_table(m_tableSize) {}
     virtual ~Hash();
 
-    /**
+    /*
      * This should probably be done with partial template specialization, but
      * I'm too lazy at the moment.
      */
     virtual int hash(T key) const = 0;
-    static int maxSize() { return m_tableSize; }
+    static inline int tableSize() { return m_tableSize; }
 private:
 
     struct Node
@@ -67,7 +86,7 @@ class PtrHash : public Hash<void *>
 {
 public:
     PtrHash() : Hash<void *>() {}
-    virtual int hash(void *key) const { return long(key) % maxSize(); }
+    virtual int hash(void *key) const { return long(key) % tableSize(); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -144,6 +163,24 @@ bool Hash<T>::remove(T value)
     delete i;
 
     return true;
+}
+
+template <class T>
+QValueList<T> Hash<T>::values() const
+{
+    QValueList<T> l;
+
+    Node *n;
+
+    for(int i = 0; i < tableSize(); i++) {
+        n = m_table[i];
+        while(n) {
+            l.append(n->key);
+            n = n->next;
+        }
+    }
+
+    return l;
 }
 
 template <class T>
