@@ -244,6 +244,8 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 {
     // reimplemented from QListViewItem
 
+    int offset = static_cast<Playlist *>(listView())->columnOffset();
+
     if(!item)
 	return 0;
 
@@ -259,27 +261,34 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
     if(c != 0)
 	return c;
     else {
-
 	// Loop through the columns doing comparisons until something is differnt.
 	// If all else is the same, compare the track name.
 
 	Playlist *p = static_cast<Playlist *>(listView());
-	int last = p->isColumnVisible(AlbumColumn) ? TrackNumberColumn : ArtistColumn;
+	int last = p->isColumnVisible(AlbumColumn + offset) ? TrackNumberColumn : ArtistColumn;
 
 	for(int i = ArtistColumn; i <= last; i++) {
-	    if(p->isColumnVisible(i)) {
+	    if(p->isColumnVisible(i + offset)) {
 		c = compare(this, playlistItem, i, ascending);
 		if(c != 0)
 		    return c;
 	    }
 	}
-	return compare(this, playlistItem, TrackColumn, ascending);
+	return compare(this, playlistItem, TrackColumn + offset, ascending);
     }
 }
 
 int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool) const
 {
-    if(column == TrackNumberColumn) {
+    int offset = static_cast<Playlist *>(listView())->columnOffset();
+
+    if(column < offset) {
+	QString first = firstItem->text(column).lower();
+	QString second = secondItem->text(column).lower();
+	return first.localeAwareCompare(second);
+    }
+
+    if(column == TrackNumberColumn + offset) {
         if(firstItem->tag()->track() > secondItem->tag()->track())
             return 1;
         else if(firstItem->tag()->track() < secondItem->tag()->track())
@@ -287,7 +296,7 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
         else
             return 0;
     }
-    else if(column == LengthColumn) {
+    else if(column == LengthColumn + offset) {
         if(firstItem->tag()->seconds() > secondItem->tag()->seconds())
             return 1;
         else if(firstItem->tag()->seconds() < secondItem->tag()->seconds())
@@ -296,8 +305,8 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
             return 0;
     }
     else
-	return strcoll(firstItem->data()->local8BitLower(column),
-		       secondItem->data()->local8BitLower(column));
+	return strcoll(firstItem->data()->local8BitLower(column - offset),
+		       secondItem->data()->local8BitLower(column - offset));
 }
 
 bool PlaylistItem::isValid() const
@@ -316,21 +325,28 @@ void PlaylistItem::slotRefreshImpl()
     int columns = lastColumn() + offset + 1;
     m_data->setColumns(columns);
 
-    for(int i = 0; i < columns; i++) {
+    for(int i = offset; i < columns; i++) {
 	int id = i - offset;
-	if (id != TrackNumberColumn && id != LengthColumn)
+	if(id != TrackNumberColumn && id != LengthColumn)
 	{        
-	    //All columns other than track num and length need local-encoded data for sorting        
+	    // All columns other than track num and length need local-encoded data for sorting        
+
 	    QCString lower = text(i).lower().local8Bit();
-	    //For some columns, we may be able to share some strings
-	    if ((id == ArtistColumn) || (id == AlbumColumn) ||
-		(id == GenreColumn)  || (id == YearColumn)  ||
-		(id == CommentColumn))
-		    lower = StringShare::tryShare(lower);                                
-	    m_data->setLocal8BitLower(i, lower);
+
+	    // For some columns, we may be able to share some strings
+
+	    if((id == ArtistColumn) || (id == AlbumColumn) ||
+	       (id == GenreColumn)  || (id == YearColumn)  ||
+	       (id == CommentColumn))
+	    {
+		lower = StringShare::tryShare(lower);
+	    }
+	    m_data->setLocal8BitLower(id, lower);
 	}
+
 	int newWidth = width(listView()->fontMetrics(), listView(), i);
 	m_data->setCachedWidth(i, newWidth);
+
 	if(newWidth != m_data->cachedWidth(i))
 	    emit signalColumnWidthChanged(i);
     }
