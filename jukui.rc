@@ -48,7 +48,7 @@
 		<Action name="removeItem"/>
 	</Menu>
 	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
-		<Action name="showGenreListEditor"/>
+		<!-- <Action name="showGenreListEditor"/> -->
 		<Action name="restoreOnLoad"/>
 		<Action name="toggleSystemTray"/>
 		<Action name="outputSelect"/>
