@@ -9,7 +9,7 @@
 #ifndef FILERENAMER_H
 #define FILERENAMER_H
 
-#include <qstring.h>
+#include <kconfigbase.h>
 
 class PlaylistItem;
 class Tag;
@@ -17,22 +17,41 @@ class Tag;
 class FileRenamer
 {
 	public:
+		enum TokenType {
+			Title, Artist, Album, Track, Comment
+		};
+
+		class Config
+		{
+			public:
+				Config(KConfigBase *cfg);
+
+				QString filenameScheme() const;
+				void setFilenameScheme(const QString &scheme);
+
+				QString getToken(TokenType type) const;
+				void setToken(TokenType type, const QString &value);
+
+				bool tokenNeedsValue(TokenType type) const;
+				void setTokenNeedsValue(TokenType type, bool needsValue);
+
+			private:
+				KConfigGroup m_grp;
+		};
+
+		static QString tokenToString(TokenType type);
+
 		FileRenamer();
 		FileRenamer(const PlaylistItem *item);
-
-		QString filenameScheme() const;
-		QString titleToken( const QString &value = QString::null ) const;
-		QString artistToken( const QString &value = QString::null ) const;
-		QString albumToken( const QString &value = QString::null ) const;
-		QString trackToken( const QString &value = QString::null) const;
-		QString commentToken( const QString &value = QString::null ) const;
 
 		void rename(const PlaylistItem *item);
 		QString rename(const QString &filename, const Tag &tag) const;
 
 	private:
-		QString getToken(const QString &name, const QString &value) const;
+		QString expandToken(TokenType type, const QString &value) const;
 		void moveFile(const QString &src, const QString &dest);
+
+		Config m_cfg;
 };
 
 #endif // FILERENAMER_H
