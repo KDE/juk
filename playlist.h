@@ -126,8 +126,16 @@ public slots:
      */ 
     void removeSelectedItems() { remove(selectedItems()); };
 
+    void copy();
+    void clear();
+    void cut() { copy(); clear(); }
+    void paste();
+    void selectAll() { KListView::selectAll(true); }
+
 protected:
+    virtual QDragObject *dragObject(QWidget *parent);
     virtual QDragObject *dragObject();
+    virtual void decode(QMimeSource *s);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     PlaylistSplitter *playlistSplitter() const { return splitter; }

@@ -175,12 +175,6 @@ public slots:
      */
     void saveItem() { editor->save(); }
 
-// Edit slots
-    
-    void copy() {}
-    void paste() {}
-    void clear() { clearSelectedItems(); }
-
 // Playlist slots
 
     /**
@@ -216,11 +210,6 @@ public slots:
      * Removes the selected items from the playlist. 
      */
     void clearSelectedItems();
-
-    /**
-     * Select (or deselect) all of the items in the currently visible playlist.
-     */
-    void selectAll(bool select = true) { visiblePlaylist()->selectAll(select); }
 
     /**
      * Show or hide the editor.

@@ -87,22 +87,28 @@ CollectionList::~CollectionList()
 
 }
 
+void CollectionList::decode(QMimeSource *s)
+{
+    KURL::List urls;
+    
+    if(!KURLDrag::decode(s, urls) || urls.isEmpty())
+	return;
+	
+    QStringList files;
+	
+    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
+	files.append((*it).path());
+	
+    if(playlistSplitter())
+	playlistSplitter()->add(files, this);
+}
+
 void CollectionList::contentsDropEvent(QDropEvent *e)
 {
-    if(e->source() != this) {
-	KURL::List urls;
-	
-	if(KURLDrag::decode(e, urls) && !urls.isEmpty()) {
-	    
-	    QStringList files;
-	    
-	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
-		files.append((*it).path());
-	    
-	    if(playlistSplitter())
-		playlistSplitter()->add(files, this);
-	}
-    }
+    if(e->source() == this)
+	return;
+
+
 }
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)

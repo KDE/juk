@@ -31,6 +31,7 @@
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qptrlist.h>
+#include <qclipboard.h>
 
 #include <stdlib.h>
 #include <time.h>
@@ -269,11 +270,26 @@ void Playlist::setName(const QString &n)
     emit(nameChanged(playlistName));
 }
 
+void Playlist::copy()
+{
+    kapp->clipboard()->setData(dragObject(0), QClipboard::Clipboard);
+}
+
+void Playlist::paste()
+{
+    decode(kapp->clipboard()->data());
+}
+
+void Playlist::clear()
+{
+    clearItems(selectedItems());
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-QDragObject *Playlist::dragObject()
+QDragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
     KURL::List urls;
@@ -283,10 +299,31 @@ QDragObject *Playlist::dragObject()
 	urls.append(url);
     }
     
-    KURLDrag *drag = new KURLDrag(urls, this, "Playlist Items");
+    KURLDrag *drag = new KURLDrag(urls, parent, "Playlist Items");
     drag->setPixmap(SmallIcon("sound"));
 
     return drag;
+}
+
+QDragObject *Playlist::dragObject()
+{
+    return dragObject(this);
+}
+
+void Playlist::decode(QMimeSource *s)
+{
+    KURL::List urls;
+    
+    if(!KURLDrag::decode(s, urls) || urls.isEmpty())
+	return;
+    
+    QStringList fileList;
+    
+    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
+	fileList.append((*it).path());
+    
+    if(splitter)
+	splitter->add(fileList, this);
 }
 
 void Playlist::contentsDropEvent(QDropEvent *e)
@@ -306,20 +343,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	    moveAfter = *it;
 	}
     }
-    else {
-	KURL::List urls;
-    
-	if(KURLDrag::decode(e, urls) && !urls.isEmpty()) {
-	    
-	    QStringList fileList;
-	    
-	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
-		fileList.append((*it).path());
-	    
-	    if(splitter)
-		splitter->add(fileList, this);
-	}
-    }
+    else
+	decode(e);
 }
 
 void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)

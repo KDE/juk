@@ -60,12 +60,16 @@ public slots:
     void deleteItem();
     void deleteItem(PlaylistBoxItem *item);
 
+    void paste();
+    void clear() {}
+
 signals:
     void currentChanged(PlaylistBoxItem *);
     void doubleClicked();
 
 private:
     virtual void resizeEvent(QResizeEvent *e);
+    virtual void decode(QMimeSource *s, PlaylistBoxItem *item);
     virtual void dropEvent(QDropEvent *e);
     virtual void dragMoveEvent(QDragMoveEvent *e);
     virtual void mousePressEvent(QMouseEvent *e);

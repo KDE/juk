@@ -27,6 +27,8 @@
 #include <qlistview.h>
 #include <qinputdialog.h>
 #include <qslider.h>
+#include <qstrlist.h>
+#include <qmetaobject.h>
 
 #include "juk.h"
 #include "slideraction.h"
@@ -108,9 +110,10 @@ void JuK::setupActions()
 
     // edit menu
     KStdAction::cut(this, SLOT(cut()), actionCollection());
-    KStdAction::copy(splitter, SLOT(copy()), actionCollection());
-    KStdAction::paste(splitter, SLOT(paste()), actionCollection());
-    KStdAction::selectAll(splitter, SLOT(selectAll()), actionCollection());
+    KStdAction::copy(this, SLOT(copy()), actionCollection());
+    KStdAction::paste(this, SLOT(paste()), actionCollection());
+    new KAction(i18n("Clear"), "editclear", 0, this, SLOT(clear()), actionCollection(), "clear");
+    KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
     // view menu
     showEditorAction = new KToggleAction(i18n("Show Tag Editor"), "edit", 0, actionCollection(), "showEditor");
@@ -305,6 +308,24 @@ bool JuK::queryClose()
     return true;
 }
 
+void JuK::invokeEditSlot( const char *slotName, const char *slot )
+{
+    QObject *object = focusWidget();
+    
+    if(!object || !slotName || !slot)
+	return;
+    
+    QMetaObject *meta = object->metaObject();
+    QStrList l = meta->slotNames(true);
+  
+    if(l.find(slotName) == -1)
+	return;
+    
+    connect(this, SIGNAL( editSignal() ), object, slot);
+    emit editSignal();
+    disconnect(this, SIGNAL(editSignal()), object, slot);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slot definitions
 ////////////////////////////////////////////////////////////////////////////////
@@ -330,6 +351,35 @@ void JuK::playlistChanged()
 void JuK::updatePlaylistInfo()
 {
     statusLabel->setPlaylistInfo(splitter->selectedPlaylistName(), splitter->selectedPlaylistCount());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// edit menu
+////////////////////////////////////////////////////////////////////////////////
+
+void JuK::cut()
+{
+    invokeEditSlot("cut()", SLOT(cut()));
+}
+
+void JuK::copy()
+{
+    invokeEditSlot("copy()", SLOT(copy()));
+}
+
+void JuK::paste()
+{
+    invokeEditSlot("paste()", SLOT(paste()));
+}
+
+void JuK::clear()
+{
+    invokeEditSlot("clear()", SLOT(clear()));
+}
+
+void JuK::selectAll()
+{
+    invokeEditSlot("selectAll()", SLOT(selectAll()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

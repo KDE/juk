@@ -46,6 +46,9 @@ public:
     JuK(QWidget* parent = 0, const char *name = 0);
     virtual ~JuK();
 
+signals:
+    void editSignal();
+
 private:
     // private methods
     void setupLayout();
@@ -65,12 +68,20 @@ private:
 
     virtual bool queryClose();
 
+    void invokeEditSlot(const char *slotName, const char *slot);
+
 private slots:
     void playlistChanged();
     void updatePlaylistInfo();
 
     // edit menu
-    void cut() { splitter->copy(); splitter->clear(); }
+    void cut();
+    void copy();
+    void paste();
+    void clear();
+    void selectAll();
+
+private slots:
 
     // player menu
     void play();

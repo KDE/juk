@@ -19,11 +19,13 @@
 #include <kurldrag.h>
 #include <kmessagebox.h>
 #include <klocale.h>
+#include <kapplication.h>
 #include <kdebug.h>
 
 #include <qfile.h>
 #include <qdrawutil.h>
 #include <qinputdialog.h>
+#include <qclipboard.h>
 
 #include "playlist.h"
 #include "playlistbox.h"
@@ -186,6 +188,12 @@ void PlaylistBox::deleteItem(PlaylistBoxItem *item)
     delete item;
 }
 
+void PlaylistBox::paste()
+{
+    PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(selectedItem());
+    decode(kapp->clipboard()->data(), i);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox private methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,22 +205,28 @@ void PlaylistBox::resizeEvent(QResizeEvent *e)
     KListBox::resizeEvent(e);
 }
 
-void PlaylistBox::dropEvent(QDropEvent *e)
+void PlaylistBox::decode(QMimeSource *s, PlaylistBoxItem *item)
 {
+    if(!s || !item || !item->playlist())
+	return;
+
     KURL::List urls;
     
-    if(KURLDrag::decode(e, urls) && !urls.isEmpty()) {
-
+    if(KURLDrag::decode(s, urls) && !urls.isEmpty()) {
+	
 	QStringList files;
-
+	
 	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	    files.append((*it).path());
-
-	PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(itemAt(e->pos()));
-
-	if(i && i->playlist())
-	    splitter->add(files, i->playlist());
+	
+	splitter->add(files, item->playlist());
     }
+}
+
+void PlaylistBox::dropEvent(QDropEvent *e)
+{
+    PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(itemAt(e->pos()));
+    decode(e, i);
 }
 
 void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
