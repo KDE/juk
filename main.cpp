@@ -37,7 +37,7 @@ static KCmdLineOptions options[] =
     { "norestore", I18N_NOOP("Restore playlists.  Use --norestore for debugging."), 0 },
 #endif
     { "+[file(s)]", I18N_NOOP("File(s) to open"), 0 },
-    { 0, 0, 0 }
+    KCmdLineLastOption
 };
 
 int main(int argc, char *argv[])
