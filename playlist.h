@@ -415,7 +415,6 @@ signals:
      * primarily to notify the TagEditor of the new data.
      */
     void signalSelectionChanged(const PlaylistItemList &selection);
-    void signalDoubleClicked();
 
     /**
      * This is connected to the PlaylistBox::Item to let it know when the
