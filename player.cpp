@@ -17,6 +17,8 @@
 
 #include <kdebug.h>
 
+#include <qfile.h>
+
 #include <connect.h>
 #include <flowsystem.h>
 
@@ -69,13 +71,16 @@ void Player::play(float volume = 1.0)
       if(media) {
 	stop();
       }
-      media = new PlayObject(server->createPlayObject(currentFile.latin1()));
+      media = new PlayObject(server->createPlayObject(QFile::encodeName(currentFile).data()));
+      //      media = new PlayObject(server->createPlayObject(currentFile.latin1()));
       if(!media->isNull()) {
 	setVolume(volume);
 	media->play();
       }
       else {
-	stop();
+	kdDebug() << "Media did not initialize properly! (" << currentFile << ")" << endl;
+	delete(media);
+	media = 0;
       }
     }
   }
