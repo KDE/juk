@@ -26,7 +26,11 @@
 #include <qobject.h>
 #include <qptrstack.h>
 
-#include "musicbrainzquery.h"
+#if HAVE_MUSICBRAINZ == 0
+// a bit of a hack so that the slots type definition is still valid
+namespace MusicBrainzQuery { typedef int TrackList; }
+#endif
+
 #include "tag.h"
 #include "cache.h"
 
@@ -133,9 +137,7 @@ protected:
 
 protected slots:
     void slotRefreshImpl();
-#if HAVE_MUSICBRAINZ
     void slotTagGuessResults(const MusicBrainzQuery::TrackList &);
-#endif
 
 signals:
     void signalRefreshed();

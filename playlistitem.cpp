@@ -291,9 +291,9 @@ void PlaylistItem::slotRefreshImpl()
     setText(CommentColumn,     shortComment);
 }
 
-#if HAVE_MUSICBRAINZ
 void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 {
+#if HAVE_MUSICBRAINZ
     //FIXME:GUI to pick one of the results
     if(res.count() == 0)
         return;
@@ -310,8 +310,10 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 
     tag()->save();
     slotRefresh();
-}
+#else
+    Q_UNUSED(res)
 #endif
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem private methods
