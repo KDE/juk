@@ -15,10 +15,7 @@
 #include <kglobal.h>
 #include <kapplication.h>
 #include <kstandarddirs.h>
-#include <kdebug.h>
-#include <kwin.h>
 
-#include <qvbox.h>
 #include <qregexp.h>
 #include <qlayout.h>
 #include <qlabel.h>

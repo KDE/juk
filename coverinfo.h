@@ -17,7 +17,6 @@
 
 #include <qimage.h>
 #include <qpixmap.h>
-#include <qlabel.h>
 
 #include "filehandle.h"
 
