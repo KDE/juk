@@ -6,17 +6,22 @@ juk_SOURCES = \
 	actioncollection.cpp \
 	artsplayer.cpp \
 	cache.cpp \
+	categoryreaderinterface.cpp \
 	collectionlist.cpp \
 	deletedialog.cpp \
 	deletedialogbase.ui \
 	directorylist.cpp \
 	directorylistbase.ui \
 	dynamicplaylist.cpp \
+	exampleoptions.cpp \
+	exampleoptionsbase.ui \
 	folderplaylist.cpp \
 	filehandle.cpp \
 	filerenamer.cpp \
+	filerenamerbase.ui \
+	filerenameroptions.cpp \
+	filerenameroptionsbase.ui \
 	filerenamerconfigdlg.cpp \
-	filerenamerconfigdlgwidget.ui \
 	gstreamerplayer.cpp \
 	historyplaylist.cpp \
 	juk.cpp \
@@ -48,6 +53,7 @@ juk_SOURCES = \
 	tagguesser.cpp \
 	tagguesserconfigdlg.cpp \
 	tagguesserconfigdlgwidget.ui \
+	tagrenameroptions.cpp \
 	tagtransactionmanager.cpp \
 	trackpickerdialog.cpp \
 	trackpickerdialogbase.ui \
