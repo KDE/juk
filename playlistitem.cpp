@@ -375,7 +375,7 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
     TrackPickerDialog *trackPicker = new TrackPickerDialog(fileName(), res, win);
 
     if(trackPicker->exec() != QDialog::Accepted) {
-	win->statusBar()->message(i18n("Cancelled."), 2000);
+	win->statusBar()->message(i18n("Canceled."), 2000);
 	return;
     }
 
