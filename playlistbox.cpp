@@ -167,32 +167,23 @@ void PlaylistBox::deleteItem()
 
 void PlaylistBox::deleteItem(PlaylistBoxItem *item)
 {
-    if(item && item->playlist()) {
+    if(!item || !item->playlist())
+	return;
 
-	// If the file is "internal" (not loaded from a file and not yet saved),
-	// or the file name is null, or the user specifically chooses to delete 
-	// the file then delete it.  Otherwise, just remove the file from the
-	// PlaylistBox.
-
-	if(item->playlist()->fileName() != QString::null) {
-	    if(item->playlist()->isInternalFile())
-		QFile::remove(item->playlist()->fileName());
-	    else {
-		int remove = KMessageBox::warningYesNoCancel(this, i18n("Do you want to delete this file from the disk as well?"));
-		
-		if(remove == KMessageBox::Yes) {
-		    if(!QFile::remove(item->playlist()->fileName()))
-			KMessageBox::sorry(this, i18n("Could not delete the specified file."));
-		}
-		else if(remove == KMessageBox::Cancel)
-		    return;
-	    }
+    if(!item->playlist()->fileName().isEmpty()) {
+	int remove = KMessageBox::warningYesNoCancel(this, i18n("Do you want to delete this file from the disk as well?"));
+	
+	if(remove == KMessageBox::Yes) {
+	    if(!QFile::remove(item->playlist()->fileName()))
+		KMessageBox::sorry(this, i18n("Could not delete the specified file."));
 	}
-
-	nameList.remove(item->text());
-	delete item->playlist();
-	delete item;
+	else if(remove == KMessageBox::Cancel)
+	    return;
     }
+    
+    nameList.remove(item->text());
+    delete item->playlist();
+    delete item;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -201,10 +192,6 @@ void PlaylistBox::deleteItem(PlaylistBoxItem *item)
 
 void PlaylistBox::resizeEvent(QResizeEvent *e)
 {
-    // hack-ish, but functional 
-
-//    for(int i = 0; i <= count(); i++)
-//	updateItem(i);
     triggerUpdate(true);
 
     KListBox::resizeEvent(e);

@@ -24,14 +24,13 @@
 #include <qsplitter.h>
 #include <qwidgetstack.h>
 
-#include "playlistitem.h"
 #include "playlistbox.h"
 #include "collectionlist.h"
-#include "tageditor.h"
-#include "playlist.h"
 #include "stringhash.h"
+#include "tageditor.h"
 
 class PlaylistBoxItem;
+class PlaylistItem;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and

@@ -25,7 +25,7 @@ public:
     enum Color { Red, Black };
     
     Node(const QString &value) : key(value), parent(0), left(0), right(0), color(Black) {}
-    ~Node();
+    ~Node() {}
     
     QString key;
     Node *parent;
@@ -51,18 +51,69 @@ bool SortedStringList::insert(const QString &value)
 
 bool SortedStringList::contains(const QString &value) const
 {
-    Node *n = root;
-    while(n && value != n->key) {
-	if(value < n->key)
-	    n = n->left;
-	else
-	    n = n->right;
-    }
+    return find(value);
+}
 
-    if(n)
-	return true;
-    else
+SortedStringList::Node *SortedStringList::treeMinimum(Node *n) const
+{
+    while(n->left)
+	n = n->left;
+    return n;
+}
+
+SortedStringList::Node *SortedStringList::treeSuccessor(Node *n) const
+{
+    if(n->right)
+	return treeMinimum(n->right);
+    
+    Node *p = n->parent;
+    
+    while(p && n == p->right) {
+	n = p;
+	p = p->parent;
+    }
+    
+    return p;
+}
+
+bool SortedStringList::remove(const QString &value)
+{
+    Node *n = find(value);
+
+    if(!n)
 	return false;
+    
+    Node *y;
+    Node *x;
+
+    if(!n->left || !n->right)
+	y = n;
+    else
+	y = treeSuccessor(n);
+
+    if(y->left)
+	x = y->left;
+    else
+	x = y->right;
+
+    if(x)
+	x->parent = y->parent;
+    
+    if(!y->parent)
+	root = x;
+    else {
+	if(y == y->parent->left)
+	    y->parent->left = x;
+	else
+	    y->parent->right = x;
+    }
+    
+    if(y != x)
+	n->key = y->key;
+    
+    delete y;
+
+    return true;
 }
 
 QStringList SortedStringList::values() const
@@ -75,6 +126,19 @@ QStringList SortedStringList::values() const
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
+
+SortedStringList::Node *SortedStringList::find(const QString &value) const
+{
+    Node *n = root;
+    while(n && value != n->key) {
+	if(value < n->key)
+	    n = n->left;
+	else
+	    n = n->right;
+    }
+
+    return n;
+}
 
 bool SortedStringList::BSTInsert(const QString &value)
 {
@@ -99,14 +163,10 @@ bool SortedStringList::BSTInsert(const QString &value)
     if(!root)
 	root = n;
     else {
-	if(value < previousNode->key) {
+	if(value < previousNode->key)
 	    previousNode->left = n;
-//	    kdDebug() << "LEFT - " << value << endl;
-	}
-	else {
+	else
 	    previousNode->right = n;
-//	    kdDebug() << "RIGHT - " << value << endl;
-	}
     }
     
     return false;

@@ -18,13 +18,17 @@
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kapplication.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
 
 #include <qinputdialog.h>
 
+#include "playlistitem.h"
 #include "playlistsplitter.h"
 #include "collectionlist.h"
 #include "directorylist.h"
+#include "playlist.h"
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
@@ -395,15 +399,24 @@ void PlaylistSplitter::readConfig()
 	directoryList = config->readListEntry("DirectoryList");
 
 	if(restore) {
-	    QStringList external = config->readListEntry("ExternalPlaylists");
-	    for(QStringList::Iterator it = external.begin(); it != external.end(); ++it)
-		openPlaylist(*it);
+
+	    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
+
+	    QFile f(playlistsFile);
 	    
-	    QStringList internal = config->readListEntry("InternalPlaylists");
-	    for(QStringList::Iterator it = internal.begin(); it != internal.end(); ++it) {
-		Playlist *p = openPlaylist(*it);
-		if(p)
-		    p->setInternal(true);
+	    if(f.open(IO_ReadOnly)) {
+		QDataStream s(&f);
+		while(!s.atEnd()) {
+		    Playlist *p = new Playlist(this, playlistStack);
+		    s >> *p;
+
+		    // check to see if we've alredy loaded this item before continuing
+
+		    if(!playlistFiles.insert(p->fileName()))
+			setupPlaylist(p);
+		    else
+			delete p;
+		}
 	    }
 
 	    open(directoryList);
@@ -419,27 +432,29 @@ void PlaylistSplitter::saveConfig()
     // Save the list of open playlists.
     
     if(restore && playlistBox) {
-	QStringList internalPlaylists;
-	QStringList externalPlaylists;
 
 	// Start at item 1.  We want to skip the collection list.
 
-	for(uint i = 1; i < playlistBox->count(); i++) {
-	    PlaylistBoxItem *item = static_cast<PlaylistBoxItem *>(playlistBox->item(i));
-	    if(item && item->playlist()) {
-		Playlist *p = item->playlist();
-		if(p->isInternalFile()) {
-		    p->save(true);
-		    internalPlaylists.append(p->fileName());
+	QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
+	QFile f(playlistsFile);
+	
+	if(f.open(IO_WriteOnly)) {
+
+	    QDataStream s(&f);
+
+	    for(uint i = 1; i < playlistBox->count(); i++) {
+		PlaylistBoxItem *item = static_cast<PlaylistBoxItem *>(playlistBox->item(i));
+		if(item && item->playlist()) {
+		    Playlist *p = item->playlist();
+		    s << *p;
 		}
-		else
-		    externalPlaylists.append(p->fileName());
-	    }		
+	    }
+
+	    f.close();
+
 	}
 	{ // block for Playlists group
 	    KConfigGroupSaver saver(config, "Playlists");
-	    config->writeEntry("InternalPlaylists", internalPlaylists);
-	    config->writeEntry("ExternalPlaylists", externalPlaylists);
 	    config->writeEntry("DirectoryList", directoryList);
 	}
     }

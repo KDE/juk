@@ -63,9 +63,10 @@ void GStreamerPlayer::play(float volume)
     // 1.0 is full volume
     positionNs = 0;
     durationNs = 0;
-    if (player->getState() != Element::STATE_PLAYING)
+    if (player->getState() != Element::STATE_PLAYING) {
 	player->setState(Element::STATE_PLAYING);
-
+	player->setVolume(volume);
+    }
 }
 
 void GStreamerPlayer::pause()

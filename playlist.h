@@ -52,10 +52,9 @@ public:
     /**
      * Saves the file to the currently set file name.  If there is no filename
      * currently set, the default behavior is to prompt the user for a file
-     * name.  However, by setting autoGenerateFileName, you can tell save to 
-     * pick a file name.
+     * name.  
      */
-    virtual void save(bool autoGenerateFileName = false);
+    virtual void save();
     virtual void saveAs();
     virtual void refresh();
     virtual void clearItems(const PlaylistItemList &items);
@@ -63,8 +62,8 @@ public:
     /** 
      * All of the (media) files in the list. 
      */
-
     QStringList files() const;
+
     /** 
      * Returns a list of all of the items in the playlist.
      */
@@ -94,12 +93,6 @@ public:
      */
     virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *after = 0);
 
-    /**
-     * Internal files are files which have not been saved by the user, but rather
-     * are stored in JuK's data directory and are restored by session management.
-     */
-    bool isInternalFile() const { return internalFile; }
-    void setInternal(bool internal) { internalFile = internal; }
     QString fileName() const { return playlistFileName; }
     void setFileName(const QString &n) { playlistFileName = n; }
 
@@ -193,13 +186,6 @@ private:
     int processed;
     bool allowDuplicates;
 
-    /**
-     * If a file is "internal" it is not one that the user has yet chosen to 
-     * save.  However for the purposes of being able to restore a user's 
-     * loaded playlists it will be saved "internally" in:
-     * $KDEHOME/share/apps/juk/playlists.
-     */
-    bool internalFile;
     QString playlistFileName;
 
     /**
@@ -212,5 +198,8 @@ private:
 
     int rmbEditID;
 };
+
+QDataStream &operator<<(QDataStream &s, const Playlist &p);
+QDataStream &operator>>(QDataStream &s, Playlist &p);
 
 #endif

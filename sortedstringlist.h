@@ -29,6 +29,7 @@ public:
 
     bool insert(const QString &value);
     bool contains(const QString &value) const;
+    bool remove(const QString &value);
 
     /**
      * Returns a sorted list of the values.
@@ -40,12 +41,17 @@ public:
 private:
     class Node;
 
+    Node *find(const QString &value) const;
     /**
      * The insertion implementation.  Returns true if the item was already 
      * present in the list.
      */
     bool BSTInsert(const QString &value);
     void traverse(const Node *n, QStringList &list) const;
+
+    Node *treeMinimum(Node *n) const;
+    Node *treeSuccessor(Node *n) const;
+
 
     Node *root;
 };
