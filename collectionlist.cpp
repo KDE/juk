@@ -21,6 +21,7 @@
 
 #include "collectionlist.h"
 #include "playlistsplitter.h"
+#include "cache.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
@@ -36,6 +37,9 @@ CollectionList *CollectionList::instance()
 void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent)
 {
     list = new CollectionList(s, parent);
+
+    for(QDictIterator<Tag>it(*Cache::instance()); it.current(); ++it)
+	new CollectionListItem(it.current()->fileInfo());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

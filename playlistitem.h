@@ -48,7 +48,7 @@ public:
 
     // These can't be const members because they fetch the data "on demand".
 
-    Tag *getTag();
+    Tag *tag() const;
     AudioData *getAudioData();
 
     void setFile(const QString &file);
@@ -87,10 +87,21 @@ signals:
 private:
     void setup(CollectionListItem *item, Playlist *parent);
     virtual int compare(QListViewItem *item, int column, bool ascending) const;
-    int compare(PlaylistItem *firstItem, PlaylistItem *secondItem, int column, bool ascending) const;
+    int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
     Data *data;
 };
+
+/**
+ * This is the data class for PlaylistItems.  Several PlaylistItems that are 
+ * based on the same file will share the data member.  This has both the 
+ * advantages of being memory efficient and allowing the PlaylistItems to stay
+ * synchronized.
+ *
+ * The sharing is implemented through a refcount and protected constructors and
+ * destructors that make it necessary to obtain pointers via newUser() and to
+ * free an instance using deleteUser().
+ */
 
 class PlaylistItem::Data : public QFileInfo
 {
@@ -101,26 +112,24 @@ public:
 
     void refresh();
 
-    Tag *getTag();
+    Tag *tag() const;
 
     void setFile(const QString &file);
 
 protected:
-    // Because we're trying to use this as a shared item, we want all access
-    // to be through pointers (so that it's safe to use delete this).  Thus
-    // creation of the object should be done by the newUser methods above
-    // and deletion should be handled by deleteUser.  Making the constructor
-    // and destructor protected ensures this.
-
+    /**
+     * Because we're trying to use this as a shared item, we want all access
+     * to be through pointers (so that it's safe to use delete this).  Thus
+     * creation of the object should be done by the newUser methods above
+     * and deletion should be handled by deleteUser.  Making the constructor
+     * and destructor protected ensures this.
+     */
     Data(const QFileInfo &file);
     virtual ~Data();
 
 private:
     int referenceCount;
-
-    CacheItem *cache;
-    Tag *tag;
+    Tag *dataTag;
 };
-
 
 #endif

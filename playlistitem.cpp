@@ -21,7 +21,6 @@
 #include "playlist.h"
 #include "collectionlist.h"
 
-
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem public methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -37,9 +36,9 @@ void PlaylistItem::setFile(const QString &file)
     refresh();
 }
 
-Tag *PlaylistItem::getTag()
+Tag *PlaylistItem::tag() const
 {
-    return(data->getTag());
+    return(data->tag());
 }
 
 // QFileInfo-ish methods
@@ -103,44 +102,16 @@ void PlaylistItem::setData(Data *d)
 void PlaylistItem::refreshImpl()
 {
     // This should be the only function that needs to be rewritten if the structure of    
-    // PlaylistItemData changes.  Also, currently this also inserts things into the
-    // album and artist registries of the Playlist.  If something like sorted insert
-    // happens at some point it could either be implemented here or in a subclass of
-    // QValueList.  And another note: the artist/album registry doesn't remove items
-    // when they no longer exist in the list view.  I decided that this is too much work
-    // for something not very useful at the moment, but at some point, a QValueList of
-    // a subclass of QPair could track such things...
+    // PlaylistItemData changes.  
 
-    // if the text has changed and the artist registry of the Playlist doens't contain
-    // this artist, add it to the mentioned registry
-
-    if(Cache::instance()->item(absFilePath())) {
-
-	// ... do stuff relative to a cache hit.  At the moment this will never 
-	// happen since the cache isn't yet implemented.
-
-	// The current though is that "Tag" and "Cache::Item" should share a 
-	// common virtual interface so that the below code could actually be 
-	// used through that interface.  In this if block it would just be
-	// decided what object the meta data was going to come from and then
-	// something like metaData->getArtist() could be used, where metaData
-	// is either a Tag or a Cache::Item.
-
-        // And on further thought this should also be hidden in 
-	// PlaylistItem::Data.  I'll work on that later.
-
-    }
-    else {
-	
-	setText(TrackColumn,       getTag()->track());
-	setText(ArtistColumn,      getTag()->artist());
-	setText(AlbumColumn,       getTag()->album());
-	setText(TrackNumberColumn, getTag()->trackNumberString());
-	setText(GenreColumn,       getTag()->genre());
-	setText(YearColumn,        getTag()->yearString());
-	setText(LengthColumn,      getTag()->lengthString());
-	setText(FileNameColumn,    filePath());
-    }
+    setText(TrackColumn,       tag()->track());
+    setText(ArtistColumn,      tag()->artist());
+    setText(AlbumColumn,       tag()->album());
+    setText(TrackNumberColumn, tag()->trackNumberString());
+    setText(GenreColumn,       tag()->genre());
+    setText(YearColumn,        tag()->yearString());
+    setText(LengthColumn,      tag()->lengthString());
+    setText(FileNameColumn,    filePath());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -169,23 +140,22 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
     // non-const pointer.  Yuck.
 
     PlaylistItem *playlistItem = dynamic_cast<PlaylistItem *>(item);
-    PlaylistItem *thisPlaylistItem = const_cast<PlaylistItem *>(this);
 
     // The following statments first check to see if you can sort based on the
     // specified column.  If the values for the two PlaylistItems are the same
     // in that column it then trys to sort based on columns 1, 2, 3 and 0,
     // (artist, album, track number, track name) in that order.
 
-    if(playlistItem && thisPlaylistItem) {
-        if(compare(thisPlaylistItem, playlistItem, column, ascending) != 0)
-            return(compare(thisPlaylistItem, playlistItem, column, ascending));
+    if(playlistItem) {
+        if(compare(this, playlistItem, column, ascending) != 0)
+            return(compare(this, playlistItem, column, ascending));
         else {
             for(int i = ArtistColumn; i <= TrackNumberColumn; i++) {
-                if(compare(thisPlaylistItem, playlistItem, i, ascending) != 0)
-                    return(compare(thisPlaylistItem, playlistItem, i, ascending));
+                if(compare(this, playlistItem, i, ascending) != 0)
+                    return(compare(this, playlistItem, i, ascending));
             }
-            if(compare(thisPlaylistItem, playlistItem, TrackColumn, ascending) != 0)
-                return(compare(thisPlaylistItem, playlistItem, TrackColumn, ascending));
+            if(compare(this, playlistItem, TrackColumn, ascending) != 0)
+                return(compare(this, playlistItem, TrackColumn, ascending));
             return(0);
         }
     }
@@ -193,20 +163,20 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
         return(0); // cast failed, something is wrong
 }
 
-int PlaylistItem::compare(PlaylistItem *firstItem, PlaylistItem *secondItem, int column, bool ascending) const
+int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const
 {
     if(column == TrackNumberColumn) {
-        if(firstItem->getTag()->trackNumber() > secondItem->getTag()->trackNumber())
+        if(firstItem->tag()->trackNumber() > secondItem->tag()->trackNumber())
             return(1);
-        else if(firstItem->getTag()->trackNumber() < secondItem->getTag()->trackNumber())
+        else if(firstItem->tag()->trackNumber() < secondItem->tag()->trackNumber())
             return(-1);
         else
             return(0);
     }
     else if(column == LengthColumn) {
-        if(firstItem->getTag()->seconds() > secondItem->getTag()->seconds())
+        if(firstItem->tag()->seconds() > secondItem->tag()->seconds())
             return(1);
-        else if(firstItem->getTag()->seconds() < secondItem->getTag()->seconds())
+        else if(firstItem->tag()->seconds() < secondItem->tag()->seconds())
             return(-1);
         else
             return(0);
@@ -221,7 +191,7 @@ int PlaylistItem::compare(PlaylistItem *firstItem, PlaylistItem *secondItem, int
 
 PlaylistItem::Data *PlaylistItem::Data::newUser(const QFileInfo &file)
 {
-    return(new Data(file));
+    return new Data(file);
 }
 
 PlaylistItem::Data *PlaylistItem::Data::newUser()
@@ -232,11 +202,8 @@ PlaylistItem::Data *PlaylistItem::Data::newUser()
 
 void PlaylistItem::Data::refresh()
 {
-    delete(cache);
-    delete(tag);
-
-    cache = 0;
-    tag = 0;
+    delete(dataTag);
+    dataTag = Tag::createTag(filePath());
 }
 
 void PlaylistItem::Data::deleteUser()
@@ -248,17 +215,15 @@ void PlaylistItem::Data::deleteUser()
         delete(this);
 }
 
-Tag *PlaylistItem::Data::getTag()
+Tag *PlaylistItem::Data::tag() const
 {
-    if(!tag)
-        tag = Tag::createTag(filePath());
-    return(tag);
+    return(dataTag);
 }
 
 void PlaylistItem::Data::setFile(const QString &file)
 {
-    delete(tag);
-    tag = 0;
+    delete(dataTag);
+    dataTag = 0;
 
     QFileInfo::setFile(file);
 }
@@ -270,22 +235,12 @@ void PlaylistItem::Data::setFile(const QString &file)
 PlaylistItem::Data::Data(const QFileInfo &file) : QFileInfo(file)
 {
     referenceCount = 1;
-
-    // initialize pointers to null
-    cache = 0;
-    tag = 0;
+    dataTag = Tag::createTag(filePath());
 }
 
 PlaylistItem::Data::~Data()
 {
-    // Create our cache "on the way out" to avoid having lots of duplicate copies
-    // of the same information in memory.  This checks to see if the item is in
-    // the cache and 
-
-    if(tag && !cache && !Cache::instance()->isEmpty() && !Cache::instance()->find(absFilePath()) )
-	Cache::instance()->replace(absFilePath(), new CacheItem(*tag));
-
-    delete(tag);
+    delete(dataTag);
 }
 
 #include "playlistitem.moc"

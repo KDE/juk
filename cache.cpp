@@ -15,55 +15,82 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kstandarddirs.h>
+#include <kdebug.h>
+
 #include "cache.h"
+#include "cachedtag.h"
 
 Cache *Cache::cache = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
-// Cache public methods
+// public methods
 ////////////////////////////////////////////////////////////////////////////////
 
 Cache *Cache::instance()
 {
-    if(!cache)
+    if(cache == 0) {
 	cache = new Cache();
+	cache->load();
+    }
     return(cache);
 }
 
-CacheItem *Cache::item(const QString &file) const
+void Cache::load()
 {
-    return(0);
+    QString cacheFileName = KGlobal::dirs()->saveLocation("appdata") + "cache";
+
+    QFile f(cacheFileName);
+
+    if(!f.open(IO_ReadOnly))
+	return;
+
+    QDataStream s(&f);
+
+    while(!s.atEnd()) {
+
+	QString fileName;
+	s >> fileName;
+
+	CachedTag *t = new CachedTag(fileName);
+	s >> *t;
+
+	if(!t->current())
+	    delete(t);
+    }
+
+    f.close();
+}
+
+void Cache::save()
+{
+    QString cacheFileName = KGlobal::dirs()->saveLocation("appdata") + "cache";
+
+    QFile f(cacheFileName);
+
+    if(!f.open(IO_WriteOnly))
+	return;
+
+    QDataStream s(&f);
+
+    for(QDictIterator<Tag>it(*this); it.current(); ++it) {
+	s << it.current()->absFilePath()
+	  << *(it.current());
+    }
+
+    f.close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// Cache protected methods
+// protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Cache::Cache()
+Cache::Cache() : QDict<Tag>()
 {
-    setAutoDelete(true);
+
 }
 
 Cache::~Cache()
 {
     delete(cache);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// CacheItem public methods
-////////////////////////////////////////////////////////////////////////////////
-
-CacheItem::CacheItem()
-{
-
-}
-
-CacheItem::CacheItem(const Tag &tag)
-{
-
-}
-
-CacheItem::~CacheItem()
-{
-
 }

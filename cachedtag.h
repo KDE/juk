@@ -18,6 +18,8 @@
 #ifndef CACHEDTAG_H
 #define CACHEDTAG_H
 
+#include <qdatastream.h>
+
 #include "tag.h"
 
 class CachedTag : public Tag
@@ -27,6 +29,7 @@ public:
     virtual ~CachedTag();
 
     virtual void save();
+    virtual bool hasTag() const;
 
     virtual QString track() const;
     virtual QString artist() const;
@@ -37,7 +40,6 @@ public:
     virtual int year() const;
     virtual QString yearString() const;
     virtual QString comment() const;
-    virtual bool hasTag() const;
 
     virtual void setTrack(const QString &value);
     virtual void setArtist(const QString &value);
@@ -45,7 +47,44 @@ public:
     virtual void setGenre(const Genre &value);
     virtual void setTrackNumber(int value);
     virtual void setYear(int value);
-    virtual void setComment(const QString &value);    
+    virtual void setComment(const QString &value);
+
+    virtual QString bitrateString() const;
+    virtual QString lengthString() const;
+    virtual int seconds() const;
+
+    // CachedTag specific methods
+
+    /**
+     * Checks to see if the cache for this item is up to date.
+     */
+    inline bool current() const;
+    QDataStream &read(QDataStream &s);
+
+private:
+    Tag *proxiedTag();
+    Tag *externalTag;
+
+    QString tagTrack;
+    QString tagArtist;
+    QString tagAlbum;
+    Genre tagGenre;
+    int tagTrackNumber;
+    QString tagTrackNumberString;
+    int tagYear;
+    QString tagYearString;
+    QString tagComment;
+
+    QString tagBitrateString;
+    QString tagLengthString;
+    int tagSeconds;
+
+    bool tagExists;
+
+    QString fileName;
+    QDateTime modificationTime;
 };
+
+QDataStream &operator>>(QDataStream &s, CachedTag &t);
 
 #endif

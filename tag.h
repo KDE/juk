@@ -44,7 +44,7 @@ public:
      * the appropriate concrete subclass and instantiates that.  It's servering
      * as a mini-factory; a full blown abstract factory is an overkill here.
      */
-    static Tag *createTag(const QString &file);
+    static Tag *createTag(const QString &file, bool ignoreCache = false);
     virtual ~Tag();
 
     virtual void save() = 0;
@@ -72,14 +72,13 @@ public:
     virtual QString lengthString() const = 0;
     virtual int seconds() const = 0;
 
-    /**
-     * Reads the absolute path from the QFileInfo object associated with this tag.
-     */
-    QString absFilePath() const;
-    /**
-     * Reads the modification date from the QFileInfo object associated with this tag.
-     */
-    QDateTime lastModified() const;
+    // These functions are inlined because they are used on startup -- the most
+    // performance critical section of JuK.
+
+    inline QString absFilePath() const;
+    inline QDateTime lastModified() const;
+    inline bool fileExists() const;
+    inline QFileInfo fileInfo() const;
     
 protected:
     /**
@@ -87,9 +86,6 @@ protected:
      * such it should not be instantiated directly.  createTag() should be
      * used to instantiate a concrete subclass of Tag that can be manipulated
      * though the public API.
-     *
-     * Here we're also accepting a file as a parameter, not because it is used
-     * now, but reserving it for later use.
      */
     Tag(const QString &file);
 
@@ -98,7 +94,7 @@ protected:
     static inline int readSeconds(const KFileMetaInfo &metaInfo);
     
 private:
-    QFileInfo fileInfo;
+    QFileInfo info;
 };
 
 QDataStream &operator<<(QDataStream &s, const Tag &t);

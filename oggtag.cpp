@@ -148,17 +148,17 @@ void OggTag::setComment(const QString &value)
 
 QString OggTag::bitrateString() const
 {
-    return(readBitrate(metaInfo));
+    return readBitrate(metaInfo);
 }
 
 QString OggTag::lengthString() const
 {
-    return(readLength(metaInfo));
+    return readLength(metaInfo);
 }
 
 int OggTag::seconds() const
 {
-    return(readSeconds(metaInfo));
+    return readSeconds(metaInfo);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -27,6 +27,7 @@
 #include "playlistsplitter.h"
 #include "collectionlist.h"
 #include "slideraction.h"
+#include "cache.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -135,6 +136,7 @@ void JuK::setupPlayer()
     }
 }
 
+
 void JuK::processArgs()
 {
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -189,6 +191,7 @@ void JuK::saveConfig()
 
 bool JuK::queryClose()
 {
+    Cache::instance()->save();
     saveConfig();
     delete(splitter);
     return(true);

@@ -206,7 +206,7 @@ void TagEditor::refresh()
     PlaylistItem *item = items.getFirst();
 
     if(item) {
-	Tag *tag = item->getTag();
+	Tag *tag = item->tag();
 	
 	artistNameBox->setEditText(tag->artist());
 	trackNameBox->setText(tag->track());
@@ -317,22 +317,22 @@ void TagEditor::save(const PlaylistItemList &list)
                     }
                 }
 
-                item->getTag()->setArtist(artistNameBox->currentText());
-                item->getTag()->setTrack(trackNameBox->text());
-                item->getTag()->setAlbum(albumNameBox->currentText());
-                item->getTag()->setTrackNumber(trackSpin->value());
-                item->getTag()->setYear(yearSpin->value());
-                item->getTag()->setComment(commentBox->text());
+                item->tag()->setArtist(artistNameBox->currentText());
+                item->tag()->setTrack(trackNameBox->text());
+                item->tag()->setAlbum(albumNameBox->currentText());
+                item->tag()->setTrackNumber(trackSpin->value());
+                item->tag()->setYear(yearSpin->value());
+                item->tag()->setComment(commentBox->text());
 
-                //  item->getTag()->setGenre(genreBox->currentText());
-                //  item->getTag()->setGenre(genreBox->currentItem() - 1);
+                //  item->tag()->setGenre(genreBox->currentText());
+                //  item->tag()->setGenre(genreBox->currentItem() - 1);
                 if(genreList->findIndex(genreBox->currentText()) >= 0)
-                    item->getTag()->setGenre((*genreList)[genreList->findIndex(genreBox->currentText())]);
+                    item->tag()->setGenre((*genreList)[genreList->findIndex(genreBox->currentText())]);
                 else
-                    item->getTag()->setGenre(Genre(genreBox->currentText(), item->getTag()->genre().getID3v1()));
+                    item->tag()->setGenre(Genre(genreBox->currentText(), item->tag()->genre().getID3v1()));
 
 
-                item->getTag()->save();
+                item->tag()->save();
 
                 item->refresh();
 

@@ -15,27 +15,34 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+
 #include <qregexp.h>
 
 #include "tag.h"
 #include "id3tag.h"
 #include "oggtag.h"
 #include "cachedtag.h"
+#include "cache.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Tag *Tag::createTag(const QString &file)
+Tag *Tag::createTag(const QString &file, bool ignoreCache)
 {
-    QFileInfo f(file);
-    QString extension = f.extension(false).lower();
-    
-    // insert a check for a cache hit here
+    Tag *cachedItem;
 
-    if(extension == "mp3")
+    if(!ignoreCache)
+	cachedItem = Cache::instance()->find(file);
+    else
+	cachedItem = 0;
+
+    if(cachedItem)
+	return(cachedItem);
+    else if(file.lower().endsWith("mp3"))
 	return new ID3Tag(file);
-    if(extension == "ogg")
+    if(file.lower().endsWith("ogg"))
 	return new OggTag(file);
     else
 	return(0);
@@ -43,17 +50,27 @@ Tag *Tag::createTag(const QString &file)
 
 Tag::~Tag()
 {
-
+    Cache::instance()->remove(absFilePath());
 }
 
 QString Tag::absFilePath() const
 {
-    return(fileInfo.absFilePath());
+    return(info.absFilePath());
 }
 
 QDateTime Tag::lastModified() const
 {
-    return(fileInfo.lastModified());
+    return(info.lastModified());
+}
+
+bool Tag::fileExists() const
+{
+    return(info.exists() && info.isFile());
+}
+
+QFileInfo Tag::fileInfo() const
+{
+    return(info);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -62,7 +79,8 @@ QDateTime Tag::lastModified() const
 
 Tag::Tag(const QString &file)
 {
-    fileInfo.setFile(file);
+    info.setFile(file);
+    Cache::instance()->insert(info.absFilePath(), this);
 }
 
 QString Tag::readBitrate(const KFileMetaInfo &metaInfo)

@@ -23,41 +23,19 @@
 
 #include "tag.h"
 
-// Eventually this should implement the same interface as the Tag class; in fact
-// there should be an abstract API for both of them to use.  But, for the
-// moment this is just a place holder to fill in the design.
-
-class CacheItem;
-
-class Cache : public QDict<CacheItem>
+class Cache : public QDict<Tag>
 {
 public:
-    class Item;
-
     static Cache *instance();
-    CacheItem *item(const QString &fileName) const;
+    void save();
 
 protected:
     Cache();
     virtual ~Cache();
+    void load();
 
 private:
     static Cache *cache;
-    
-};
-
-class CacheItem
-{
-public:
-    CacheItem();
-    CacheItem(const Tag &tag);
-    virtual ~CacheItem();
-
-    QString track() const { return QString::null; }
-    QString artist() const { return QString::null; }
-    QString album() const { return QString::null; }
-    QString trackNumber() const { return QString::null; }
-    QString length() const { return QString::null; }
 };
 
 #endif
