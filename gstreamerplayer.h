@@ -23,7 +23,7 @@
 
 #if HAVE_GSTREAMER
 
-#include <qgstplay/play.h>
+#include <kde/gstplay/play.h>
 
 #include <qobject.h>
 #include <qstring.h>
@@ -65,7 +65,7 @@ private slots:
 private:
     void setupPlayer();
 
-    QGstPlay::Play *player;
+    KDE::GSTPlay::Play *player;
     unsigned long long duration;
 
     long long positionNs; // in ns

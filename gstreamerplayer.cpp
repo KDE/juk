@@ -28,8 +28,8 @@
 
 #include "gstreamerplayer.h"
 
-using namespace QGst;
-using namespace QGstPlay;
+using namespace KDE::GST;
+using namespace KDE::GSTPlay;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -52,10 +52,10 @@ GStreamerPlayer::~GStreamerPlayer()
 void GStreamerPlayer::play(const QString &fileName, float volume)
 {
     currentFile = fileName;
-    if(!fileName.isNull())
+    if(!fileName.isEmpty()) {
 	player->setLocation(fileName);  
-
-    play(volume);
+        play(volume);
+    }
 }
 
 void GStreamerPlayer::play(float volume)
