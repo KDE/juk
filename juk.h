@@ -66,6 +66,7 @@ private:
 
 private slots:
     void slotShowHide();
+    void slotAboutToQuit();
     void slotQuit();
     void slotToggleSystemTray(bool enabled);
     void slotEditKeys();

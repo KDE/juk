@@ -218,7 +218,7 @@ void JuK::setupSystemTray()
 	m_toggleDockOnCloseAction->setEnabled(true);
 	m_togglePopupsAction->setEnabled(true);
 
-	connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
+	connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotAboutToQuit()));
     }
     else {
 	m_systemTray = 0;
@@ -413,8 +413,14 @@ void JuK::slotShowHide()
     setShown(!isShown());
 }
 
+void JuK::slotAboutToQuit()
+{
+    m_shuttingDown = true;
+}
+
 void JuK::slotQuit()
 {
+    kdDebug(65432) << k_funcinfo << endl;
     m_shuttingDown = true;
     kapp->quit();
 }
