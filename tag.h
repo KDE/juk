@@ -1,5 +1,5 @@
 /***************************************************************************
-                          id3tag.h  -  description
+                          tag.h  -  description
                              -------------------
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 by Scott Wheeler
