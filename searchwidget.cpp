@@ -56,7 +56,7 @@ SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
     connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
             this, SIGNAL(signalQueryChanged()));
     connect(m_lineEdit, SIGNAL(returnPressed()),
-            action("playFirst"), SLOT(activate()));
+            this, SLOT(slotActivate()));
 
     if(!m_simple) {
 	m_caseSensitive = new KComboBox(this);
@@ -126,6 +126,12 @@ void SearchLine::clear()
     // We don't want to emit the signal if it's already empty.
     if(!m_lineEdit->text().isEmpty())
 	m_lineEdit->clear();
+}
+
+void SearchLine::slotActivate()
+{
+    action("stop")->activate();
+    action("playFirst")->activate();
 }
 
 void SearchLine::updateColumns()

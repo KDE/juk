@@ -52,6 +52,9 @@ public slots:
 signals:
     void signalQueryChanged();
 
+private slots:
+    void slotActivate();
+
 private:
     bool m_simple;
     KLineEdit *m_lineEdit;

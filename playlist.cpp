@@ -389,7 +389,8 @@ int Playlist::time() const
 
 void Playlist::playFirst()
 {
-    m_playNextItem = nextItem();
+    m_playNextItem = static_cast<PlaylistItem *>(
+	QListViewItemIterator(const_cast<Playlist *>(this), QListViewItemIterator::Visible).current());
     action("forward")->activate();
 }
 
