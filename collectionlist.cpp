@@ -153,6 +153,11 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
     connect(action("showPlaying"), SIGNAL(activated()), this, SLOT(slotShowPlaying()));
     m_dirWatch->startScan();
 
+    connect(action<KToolBarPopupAction>("back")->popupMenu(), SIGNAL(aboutToShow()),
+	    this, SLOT(slotPopulateBackMenu()));
+    connect(action<KToolBarPopupAction>("back")->popupMenu(), SIGNAL(activated(int)),
+	    this, SLOT(slotPlayFromBackMenu(int)));
+
     KConfigGroup config(KGlobal::config(), "Playlists");
     setSortColumn(config.readNumEntry("CollectionListSortColumn", 1));
 

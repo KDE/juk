@@ -131,11 +131,6 @@ public:
     PlaylistItemList selectedItems();
 
     /**
-     * Returns a list of the last 10 played items.
-     */
-    PlaylistItemList historyItems(PlaylistItem *current, bool random) const;
-
-    /**
      * Allow duplicate files in the playlist.
      */
     void setAllowDuplicates(bool allow) { m_allowDuplicates = allow; }
@@ -409,6 +404,10 @@ protected:
     template <class CollectionItemType, class ItemType, class SiblingType>
     void createItems(const QValueList<SiblingType *> &siblings);
 
+protected slots:
+    void slotPopulateBackMenu() const;
+    void slotPlayFromBackMenu(int number) const;
+
 signals:
 
     /**
@@ -592,6 +591,7 @@ private:
     static int m_leftColumn;
     static PlaylistItem *m_playingItem;
     static PlaylistItem *m_playNextItem;
+    static QMap<int, PlaylistItem *> m_backMenuItems;
 };
 
 void processEvents();

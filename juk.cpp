@@ -104,8 +104,8 @@ void JuK::setupActions()
     KStdAction::clear(kapp, SLOT(clear()), actions());
     KStdAction::selectAll(kapp, SLOT(selectAll()), actions());
 
-    m_showHistoryAction = new KToggleAction(i18n("Show &History"),    "history",  0, actions(), "showHistory");
-    m_randomPlayAction =  new KToggleAction(i18n("&Random Play"),                 0, actions(), "randomPlay");
+    m_showHistoryAction = new KToggleAction(i18n("Show &History"), "history",  0, actions(), "showHistory");
+    m_randomPlayAction = new KToggleAction(i18n("&Random Play"), 0, actions(), "randomPlay");
 
     m_showHistoryAction->setCheckedState(i18n("Hide &History"));
 
@@ -113,14 +113,9 @@ void JuK::setupActions()
     new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()), actions(), "pause");
     new KAction(i18n("&Stop"),  "player_stop",  0, m_player, SLOT(stop()),  actions(), "stop");
 
-    // m_backAction = new KToolBarPopupAction(i18n("Previous &Track"), "player_start", 0,
-    //                                        this, SLOT(back()), actions(), "back");
-    // TODO: switch this back to being a popup action
-
-    new KAction(i18n("Previous &Track"), "player_start", 0, m_player, SLOT(back()),    actions(), "back");
-    new KAction(i18n("&Next Track"),     "player_end",   0, m_player, SLOT(forward()), actions(), "forward");
-
-    new KToggleAction(i18n("&Loop Playlist"), 0, 0, actions(), "loopPlaylist");
+    new KToolBarPopupAction(i18n("Previous &Track"), "player_start", KShortcut(), m_player, SLOT(back()), actions(), "back");
+    new KAction(i18n("&Next Track"), "player_end", KShortcut(), m_player, SLOT(forward()), actions(), "forward");
+    new KToggleAction(i18n("&Loop Playlist"), 0, KShortcut(), actions(), "loopPlaylist");
 
     // the following are not visible by default
 

@@ -263,7 +263,9 @@ void Playlist::SharedSettings::writeConfig()
 
 PlaylistItem *Playlist::m_playingItem = 0;
 PlaylistItem *Playlist::m_playNextItem = 0;
+QMap<int, PlaylistItem *> Playlist::m_backMenuItems;
 int Playlist::m_leftColumn = 0;
+
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
 		   const QString &iconName) :
@@ -389,8 +391,7 @@ void Playlist::playFirst()
     m_playNextItem = static_cast<PlaylistItem*>(QListViewItemIterator(
         this, QListViewItemIterator::Visible).current());
 
-    action("stop")->activate();
-    action("play")->activate();
+    action("forward")->activate();
 }
 
 void Playlist::playNext()
@@ -443,6 +444,7 @@ void Playlist::playNext()
 
 void Playlist::stop()
 {
+    m_history.clear();
     setPlaying(0);
 }
 
@@ -567,32 +569,6 @@ PlaylistItemList Playlist::selectedItems()
 	list = items(QListViewItemIterator::IteratorFlag(QListViewItemIterator::Selected |
 							 QListViewItemIterator::Visible));
 	break;
-    }
-
-    return list;
-}
-
-PlaylistItemList Playlist::historyItems(PlaylistItem *current, bool random) const
-{
-    PlaylistItemList list;
-
-    if (random && !m_history.isEmpty()) {
-        PlaylistItemList::ConstIterator it = m_history.end();
-        --it;
-
-        int j = 0;
-        for(; it != m_history.begin() && j < 10; --it, ++j)
-            list.append(*it);
-
-        if(j < 10)
-            list.append(*it);
-    }
-    else if(current) {
-        current = static_cast<PlaylistItem *>(current->itemAbove());
-        for(int j = 0; current && j < 10; ++j) {
-            list.append(current);
-            current = static_cast<PlaylistItem *>(current->itemAbove());
-	}
     }
 
     return list;
@@ -1193,6 +1169,39 @@ void Playlist::setupItem(PlaylistItem *item)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// protected slots
+////////////////////////////////////////////////////////////////////////////////
+
+void Playlist::slotPopulateBackMenu() const
+{
+    if(!m_playingItem)
+	return;
+
+    KPopupMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
+    menu->clear();
+    m_backMenuItems.clear();
+
+    int count = 0;
+    PlaylistItemList::ConstIterator it = m_playingItem->playlist()->m_history.end();
+
+    while(it != m_playingItem->playlist()->m_history.begin() && count < 10) {
+	++count;
+	--it;
+	int index = menu->insertItem((*it)->file().tag()->title());
+	m_backMenuItems[index] = *it;
+    }
+}
+
+void Playlist::slotPlayFromBackMenu(int number) const
+{
+    if(!m_backMenuItems.contains(number))
+	return;
+
+    m_playNextItem = m_backMenuItems[number];
+    action("forward")->activate();
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -1266,6 +1275,9 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
     m_playingItem = item;
     item->setPixmap(m_leftColumn, UserIcon("playing"));
     item->setPlaying(true);
+
+    bool enableBack = !m_playingItem->playlist()->m_history.isEmpty();
+    action<KToolBarPopupAction>("back")->popupMenu()->setEnabled(enableBack);
 }
 
 bool Playlist::playing() const
@@ -1733,8 +1745,7 @@ void Playlist::slotPlayCurrent()
 			     QListViewItemIterator::Visible);
     m_playNextItem = static_cast<PlaylistItem *>(it.current());
 
-    action("stop")->activate();
-    action("play")->activate();
+    action("forward")->activate();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
