@@ -36,7 +36,6 @@
 StatusLabel::StatusLabel(QWidget *parent, const char *name) :
     QHBox(parent, name),
     mode(PlaylistInfo),
-    m_playlistCount(0),
     m_showTimeRemaining(false)
 {
     QFrame *trackAndPlaylist = new QFrame(this);
@@ -94,21 +93,12 @@ StatusLabel::~StatusLabel()
 
 }
 
-void StatusLabel::setPlaylistInfo(const QString &name, int count, int totalTime)
+void StatusLabel::setPlaylist(PlaylistInterface *playlist)
 {
-    m_playlistName = name;
-    m_playlistCount = count;
-    m_playlistTotalTime = totalTime;
-
-    if(mode != PlaylistInfo)
-	return;
-
-    m_playlistLabel->setText(m_playlistName);
-
-    int days = totalTime / (60 * 60 * 24);
-    int hours = totalTime / (60 * 60) % 24;
-    int minutes = totalTime / 60 % 60;
-    int seconds = totalTime % 60;
+    int days = playlist->time() / (60 * 60 * 24);
+    int hours = playlist->time() / (60 * 60) % 24;
+    int minutes = playlist->time() / 60 % 60;
+    int seconds = playlist->time() % 60;
 
     QString time;
 
@@ -122,17 +112,13 @@ void StatusLabel::setPlaylistInfo(const QString &name, int count, int totalTime)
     else
 	time.append(QString().sprintf("%1d:%02d", minutes, seconds));
 
-    m_trackLabel->setText(i18n("1 item", "%n items", count) + " - " + time);
-}
+    m_playlistLength = i18n("1 item", "%n items", playlist->count()) + " - " + time;
+    m_playlistName = playlist->name();
 
-void StatusLabel::setPlaylistTime(int totalTime)
-{
-    setPlaylistInfo(m_playlistName, m_playlistCount, totalTime);
-}
-
-void StatusLabel::setPlaylistCount(int c)
-{
-    setPlaylistInfo(m_playlistName, c, m_playlistTotalTime);
+    if(mode == PlaylistInfo) {
+	m_playlistLabel->setText(m_playlistName);
+	m_trackLabel->setText(m_playlistLength);
+    }
 }
 
 void StatusLabel::setPlayingItemInfo(const FileHandle &file, const PlaylistInterface *playlist)
@@ -147,14 +133,13 @@ void StatusLabel::setPlayingItemInfo(const FileHandle &file, const PlaylistInter
 
 void StatusLabel::clear()
 {
-    m_playlistLabel->clear();
-    m_trackLabel->clear();
     setItemTotalTime(0);
     setItemCurrentTime(0);
 
     mode = PlaylistInfo;
 
-    setPlaylistInfo(m_playlistName, m_playlistCount, m_playlistTotalTime);
+    m_playlistLabel->setText(m_playlistName);
+    m_trackLabel->setText(m_playlistLength);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

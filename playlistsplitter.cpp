@@ -701,7 +701,7 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon, 
 	    this, SLOT(slotPlayCurrent()));
 
     connect(p, SIGNAL(signalCountChanged(Playlist *)),
-	    this, SLOT(slotPlaylistCountChanged(Playlist *)));
+	    this, SIGNAL(signalPlaylistChanged()));
 
     connect(p, SIGNAL(signalAboutToRemove(PlaylistItem *)),
 	    this, SLOT(slotPlaylistItemRemoved(PlaylistItem *)));
@@ -993,14 +993,6 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
     }
 
     emit signalPlaylistChanged();
-}
-
-void PlaylistSplitter::slotPlaylistCountChanged(Playlist *p)
-{
-    if(p && p == m_playlistStack->visibleWidget()) {
-	emit signalSelectedPlaylistCountChanged(p->childCount());
-	emit signalSelectedPlaylistTimeChanged(p->totalTime());
-    }
 }
 
 void PlaylistSplitter::slotPlaylistItemRemoved(PlaylistItem *item)

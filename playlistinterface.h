@@ -31,6 +31,9 @@ public:
     virtual FileHandle nextFile() = 0;
     virtual FileHandle currentFile() = 0;
     virtual FileHandle previousFile() = 0;
+
+    virtual int time() const = 0;
+    virtual int count() const = 0;
 };
 
 #endif

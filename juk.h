@@ -80,8 +80,6 @@ private:
     virtual bool queryExit();
     virtual bool queryClose();
 
-    void updatePlaylistInfo();
-
     void openFile(const QString &file);
     void openFile(const QStringList &files);
 

@@ -64,26 +64,13 @@ public:
     virtual FileHandle nextFile();
     virtual FileHandle currentFile();
     virtual FileHandle previousFile();
+    virtual int count() const { return visiblePlaylist()->childCount(); }
+    virtual int time() const  { return visiblePlaylist()->totalTime(); }
 
     /**
      * Fills the menu passed in with the recently played history
      */
     void populatePlayHistoryMenu(QPopupMenu *menu, bool random);
-
-    /**
-     * Returns the name of the currently visible playlist.
-     */
-    QString visiblePlaylistName() const { return visiblePlaylist()->name(); }
-
-    /**
-     * Returns the number of items in the currently selected playlist.
-     */
-    int selectedPlaylistCount() const { return visiblePlaylist()->childCount(); }
-
-    /**
-     * Returns the combined time of all the itens in the currently selected playlist.
-     */
-    int selectedPlaylistTotalTime() const { return visiblePlaylist()->totalTime(); }
 
     /**
      * Open each of \a files, where \a files is a list of playlists and music
@@ -211,8 +198,6 @@ public slots:
 
 signals:
     void signalPlaylistChanged();
-    void signalSelectedPlaylistCountChanged(int);
-    void signalSelectedPlaylistTimeChanged(int);
 
 private:
 
@@ -276,12 +261,6 @@ private slots:
      * playlists.  To make things easy, it is always handled as a list.
      */
     void slotChangePlaylist(const PlaylistList &l);
-
-    /**
-     * This slot is called when the total numbers in the playlist splitter has
-     * changed.
-     */
-    void slotPlaylistCountChanged(Playlist *p);
 
     /**
      * This should be connected to Playlist::aboutToRemove()

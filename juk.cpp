@@ -124,10 +124,6 @@ void JuK::setupLayout()
 
     statusBar()->addWidget(m_statusLabel, 1);
 
-    connect(m_splitter, SIGNAL(signalSelectedPlaylistCountChanged(int)),
-	    m_statusLabel, SLOT(setPlaylistCount(int)));
-    connect(m_splitter, SIGNAL(signalSelectedPlaylistTimeChanged(int)),
-	    m_statusLabel, SLOT(setPlaylistTime(int)));
     connect(m_statusLabel, SIGNAL(jumpButtonClicked()),
 	    m_splitter, SLOT(slotSelectPlaying()));
 
@@ -513,13 +509,6 @@ bool JuK::queryClose()
 	return true;
 }
 
-void JuK::updatePlaylistInfo()
-{
-    m_statusLabel->setPlaylistInfo(m_splitter->visiblePlaylistName(),
-				   m_splitter->selectedPlaylistCount(),
-				   m_splitter->selectedPlaylistTotalTime());
-}
-
 KAction *JuK::createSplitterAction(const QString &text, const char *slot,
 				   const char *name, const QString &pix,
 				   const KShortcut &shortcut)
@@ -547,7 +536,7 @@ void JuK::slotShowHide()
 
 void JuK::slotPlaylistChanged()
 {
-    updatePlaylistInfo();
+    m_statusLabel->setPlaylist(m_splitter);
 }
 
 void JuK::slotQuit()

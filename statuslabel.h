@@ -36,14 +36,8 @@ public:
     virtual ~StatusLabel();
 
 public slots:
-    /**
-     * Set the playlist name.  This text will only be used when there is not an
-     * item playing.
-     */ 
-    void setPlaylistCount(int c);
     void setPlayingItemInfo(const FileHandle &file, const PlaylistInterface *playlist);
-    void setPlaylistInfo(const QString &name, int count, int totalTime);
-    void setPlaylistTime(int totalTime);
+    void setPlaylist(PlaylistInterface *playlist);
 
     /**
      * This clears the information about the playing items and frees that status
@@ -71,10 +65,10 @@ private:
     enum Mode { PlayingItemInfo, PlaylistInfo } mode;
 
     QString m_playlistName;
-    int m_playlistCount;
+    QString m_playlistLength;
+
     int m_itemTotalTime;
     int m_itemCurrentTime;
-    int m_playlistTotalTime;
     bool m_showTimeRemaining;
 
     KSqueezedTextLabel *m_playlistLabel;
