@@ -36,7 +36,7 @@ public:
 
         QLabel *l = new QLabel(hbox);
         l->setPixmap(SmallIcon("messagebox_warning", 32));
-        
+
         l = new QLabel(i18n("You're about to rename the following files. "
                             "Are you sure you want to continue?"), hbox);
         hbox->setStretchFactor(l, 1);
@@ -47,7 +47,7 @@ public:
         lv->addColumn(i18n("New Name"));
 
         int lvHeight = 0;
-        
+
         QMap<QString, QString>::ConstIterator it = files.begin();
         for(; it != files.end(); ++it) {
             KListViewItem *i = new KListViewItem(lv, it.key(), it.data());
@@ -165,18 +165,16 @@ void FileRenamer::rename(const PlaylistItemList &items)
 {
     QMap<QString, QString> map;
     QMap<QString, PlaylistItem *> itemMap;
-    QStringList filenames;
 
     PlaylistItemList::ConstIterator it = items.begin();
     for(; it != items.end(); ++it) {
-	if(*it && (*it)->tag()) {
-            const QString oldName = (*it)->absFilePath();
-            const QString newName = rename(oldName, *(*it)->tag());
-            filenames += oldName;
-            filenames += " => " + newName;
-            map[oldName] = newName;
-            itemMap[oldName] = *it;
-        }
+        if(!*it || !(*it)->tag())
+            continue;
+
+         const QString oldName = (*it)->absFilePath();
+         const QString newName = rename(oldName, *(*it)->tag());
+         map[oldName] = newName;
+         itemMap[oldName] = *it;
     }
 
     if(ConfirmationDialog(map).exec() == QDialog::Accepted) {
@@ -187,7 +185,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
         for(; it != map.end(); ++it, ++j) {
             if(moveFile(it.key(), it.data()))
                 itemMap[it.key()]->setFile(it.data());
-                
+
             if(j % 5 == 0)
                 kapp->processEvents();
         }
