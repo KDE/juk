@@ -1,3 +1,6 @@
+#ifndef JUKIFACE_H
+#define JUKIFACE_H
+
 #include <dcopobject.h>
 
 class JuKIface : virtual public DCOPObject
@@ -24,4 +27,4 @@ k_dcop:
 
    virtual void playFirstFile()=0;
 };
-
+#endif
