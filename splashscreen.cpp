@@ -18,9 +18,11 @@
 #include <kapplication.h>
 #include <kiconloader.h>
 #include <klocale.h>
+#include <kdebug.h>
 
 #include <qlabel.h>
 #include <qfont.h>
+#include <qtimer.h>
 
 #include "splashscreen.h"
 
@@ -34,9 +36,8 @@ int SplashScreen::count = 0;
 
 SplashScreen *SplashScreen::instance()
 {
-    if(!splash && !done) {
+    if(!splash && !done)
 	splash = new SplashScreen();
-    }
     return(splash);
 }
 
@@ -51,8 +52,8 @@ void SplashScreen::increment()
 {
     if(splash) {
 	count++;
-	splash->countLabel->setText(QString::number(count));
-	kapp->processEvents();
+	if(count % 10 == 0)
+	    splash->processEvents();
     }
 }
 
@@ -93,4 +94,14 @@ SplashScreen::SplashScreen() : QHBox(0 , "splashScreen", Qt::WStyle_Splash)
 SplashScreen::~SplashScreen()
 {
 
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void SplashScreen::processEvents()
+{
+    countLabel->setText(QString::number(count));
+    kapp->processEvents();    
 }

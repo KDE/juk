@@ -34,6 +34,7 @@
 #include "statuslabel.h"
 #include "splashscreen.h"
 #include "genrelisteditor.h"
+#include "systemtray.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -50,9 +51,10 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
     setupLayout();
     setupActions();
     setupPlayer();
+    setupSystemTray();
     readConfig();
     processArgs();
-
+	
     SplashScreen::finishedLoading();
 }
 
@@ -93,7 +95,7 @@ void JuK::setupActions()
     new KAction(i18n("Open &Directory..."), "fileopen", 0, splitter, SLOT(openDirectory()), actionCollection(), "openDirectory");
     KStdAction::save(splitter, SLOT(save()), actionCollection());
     new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(removeSelectedItems()), actionCollection(), "remove");
-    KStdAction::quit(this, SLOT(quit()), actionCollection());
+    KStdAction::quit(this, SLOT(close()), actionCollection());
 
     // edit menu
     KStdAction::cut(splitter, SLOT(clearSelectedItems()), actionCollection());
@@ -142,6 +144,18 @@ void JuK::setupActions()
     // set the slider to the proper orientation and make it stay that way
     sliderAction->updateOrientation();
     connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), sliderAction, SLOT(updateOrientation(QDockWindow *)));
+}
+
+void JuK::setupSystemTray()
+{	
+    systemTray = new SystemTray(this, "systemTray");
+    systemTray->show();
+
+    connect(systemTray, SIGNAL(play()),    this, SLOT(playFile()));
+    connect(systemTray, SIGNAL(stop()),    this, SLOT(stopFile()));
+    connect(systemTray, SIGNAL(pause()),   this, SLOT(pauseFile()));
+    connect(systemTray, SIGNAL(back()),    this, SLOT(backFile()));
+    connect(systemTray, SIGNAL(forward()), this, SLOT(forwardFile()));
 }
 
 void JuK::setupPlayer()
@@ -293,6 +307,8 @@ void JuK::playFile()
 	player.seekPosition(0);
     else
 	playFile(splitter->playNextFile(randomPlayAction->isChecked()));
+
+    systemTray->slotPlay();
 }
 
 void JuK::pauseFile()
@@ -300,6 +316,7 @@ void JuK::pauseFile()
     playTimer->stop();
     player.pause();
     pauseAction->setEnabled(false);
+    systemTray->slotPause();
 }
 
 void JuK::stopFile()
@@ -318,6 +335,8 @@ void JuK::stopFile()
     splitter->stop();
 
     statusLabel->clear();
+
+    systemTray->slotStop();
 }
 
 void JuK::backFile()

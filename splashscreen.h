@@ -45,6 +45,8 @@ protected:
     virtual ~SplashScreen();
 
 private:
+    void processEvents();
+
     static SplashScreen *splash;
     static bool done;
     static int count;

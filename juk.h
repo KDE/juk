@@ -36,6 +36,7 @@ class QListViewItem;
 
 class SliderAction;
 class StatusLabel;
+class SystemTray;
 
 class JuK : public KMainWindow
 {
@@ -50,6 +51,7 @@ private:
     void setupLayout();
     void setupActions();
     void setupPlayer();
+    void setupSystemTray();
     void processArgs();
     void readConfig();
     /**
@@ -64,9 +66,6 @@ private:
 private slots:
     void playlistChanged();
     void updatePlaylistInfo();
-
-    // file menu
-    void quit() { close(); }
 
     // edit menu
     void copy() {};
@@ -108,10 +107,12 @@ private slots:
     void playSelectedFile() { playFile(splitter->playSelectedFile()); }
     void playFirstFile() { playFile(splitter->playFirstFile()); }
 
+
 private:
     // layout objects
     PlaylistSplitter *splitter;
     StatusLabel *statusLabel;
+    SystemTray *systemTray;
 
     // actions
     KToggleAction *showEditorAction;
