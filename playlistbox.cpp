@@ -176,6 +176,7 @@ void PlaylistBox::raise(Playlist *playlist)
 
     setSingleItem(i);
     ensureItemVisible(currentItem());
+    slotPlaylistChanged();
 }
 
 void PlaylistBox::duplicate()
