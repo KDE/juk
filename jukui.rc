@@ -1,3 +1,5 @@
+<!-- PLEASE UPDATE jukui-rtl.rc WHEN UPDATING THIS FILE -->
+
 <!DOCTYPE kpartgui>
 <kpartgui name="juk" version="5">
 <MenuBar>
