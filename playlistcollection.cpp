@@ -432,8 +432,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu->insert(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
                               "guessTagInternet", "connect_established", "CTRL+i"));
 #else
-    createAction(i18n("Guess Tag From &Filename"), SLOT(slotGuessTagFromFile()),
-                 "guessTagFile", "fileimport", "CTRL+f");
+    createAction(i18n("Guess Tag Information From &Filename"), SLOT(slotGuessTagFromFile()),
+                 "guessTag", "fileimport", "CTRL+f");
 #endif
 
 
