@@ -935,7 +935,7 @@ void Playlist::setSorting(int column, bool ascending)
 	    m_fileColumnFullPathSort = !m_fileColumnFullPathSort;
 
 	setColumnText(column, m_fileColumnFullPathSort
-		      ? i18n("File Name (Full Path)")
+		      ? i18n("File Name (full path)")
 		      : i18n("File Name"));
     }
     else if(sortColumn() == columnOffset() + PlaylistItem::FileNameColumn)
