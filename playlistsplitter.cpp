@@ -320,9 +320,7 @@ Playlist *PlaylistSplitter::slotCreatePlaylistFromDir()
     if(!playlist)
         return 0;
 
-    const QStringList files = QDir(dirName).entryList(QDir::Files);
-    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
-        slotAddToPlaylist(dirName + "/" + *it, playlist);
+    slotAddToPlaylist(dirName, playlist);
 
     return playlist;
 }
