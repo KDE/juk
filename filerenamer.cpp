@@ -19,6 +19,7 @@
 #include <klocale.h>
 #include <kmacroexpander.h>
 #include <kmessagebox.h>
+#include <kstandarddirs.h>
 
 #include <qdir.h>
 #include <qhbox.h>
@@ -27,6 +28,7 @@
 #include <qvbox.h>
 #include <qpainter.h>
 #include <qsimplerichtext.h>
+#include <qstylesheet.h>
 
 class FileRenamer::ConfirmationDialog : public KDialogBase
 {
@@ -165,17 +167,19 @@ void FileRenamer::rename(PlaylistItem *item)
     if(QFileInfo(newFilename).absFilePath() == item->file().absFilePath())
         return;
 
-    if(KMessageBox::warningContinueCancel(0,
-        i18n("<qt>You are about to rename the file<br/><br/> '%1'<br/><br/> to <br/><br/>'%2'<br/><br/>Are you sure you "
-             "want to continue?</qt>").arg(item->file().absFilePath()).arg(newFilename),
-              i18n("Warning"), KStdGuiItem::cont(), "ShowFileRenamerWarning")
-       == KMessageBox::Continue) {
+    QString message = i18n("<qt>You are about to rename the file<br/><br/>'%1'<br/><br/> to <br/>"
+                           "<br/>'%2'<br/><br/>Are you sure you want to continue?</qt>");
+    message = message.arg(QStyleSheet::escape(item->file().absFilePath()));
+    message = message.arg(QStyleSheet::escape(newFilename));
+
+    if(KMessageBox::warningContinueCancel(0, message, i18n("Warning"), KStdGuiItem::cont(),
+                                          "ShowFileRenamerWarning") == KMessageBox::Continue)
+    {
         if(moveFile(item->file().absFilePath(), newFilename))
             item->setFile(FileHandle(newFilename));
         else
-            KMessageBox::error(0,
-                i18n("<qt>Failed to rename the file<br/><br/>'%1'<br/><br/>to<br/><br/>'%2'</qt>")
-                    .arg(item->file().absFilePath()).arg(newFilename));
+            KMessageBox::error(0, i18n("<qt>Failed to rename the file<br/><br/>'%1'<br/><br/>to<br/><br/>'%2'</qt>")
+                               .arg(item->file().absFilePath()).arg(newFilename));
     }
 }
 
@@ -249,25 +253,29 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     if(src == dest)
         return false;
 
-    QString dest_ = dest.mid(1); // strip the leading "/"
-    if(dest_.find("/") > 0) {
-        const QStringList components = QStringList::split("/", dest_.left( dest.findRev("/")));
-        QStringList::ConstIterator it = components.begin();
-        QStringList::ConstIterator end = components.end();
-        QString processedComponents;
-        for(; it != end; ++it) {
-            processedComponents += "/" + *it;
-            kdDebug(65432) << "Checking path " << processedComponents << endl;
-            QDir dir(processedComponents);
-            if(!dir.exists()) {
-                if (!dir.mkdir(processedComponents, true))
-                    return false;
-                kdDebug(65432) << "Need to create " << processedComponents << endl;
-            }
-        }
-    }
+    // Escape URL.
+    KURL srcURL = KURL::fromPathOrURL(src);
+    KURL dstURL = KURL::fromPathOrURL(dest);
 
-    return KIO::NetAccess::file_move(KURL(src), KURL(dest));
+    // Clean it.
+    srcURL.cleanPath();
+    dstURL.cleanPath();
+
+    // Make sure it is valid.
+    if(!srcURL.isValid() || !dstURL.isValid())
+        return false;
+
+    // Get just the directory.
+    KURL dir = dstURL;
+    dir.setFileName(QString::null);
+
+    // Create the directory.
+    if(!KStandardDirs::exists(dir.path()))
+        if(!KStandardDirs::makeDir(dir.path()))
+            return false;
+
+    // Move the file.
+    return KIO::NetAccess::file_move(srcURL, dstURL);
 }
 
 // vim:ts=4:sw=4:et
