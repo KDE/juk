@@ -13,6 +13,7 @@
  ***************************************************************************/
 
 #include <config.h>
+#include <qobjectlist.h>
 
 #include "collectionlist.h"
 #include "playlistcollection.h"
@@ -107,6 +108,109 @@ void PlaylistCollection::stop()
 bool PlaylistCollection::playing() const
 {
     return m_playing;
+}
+
+QStringList PlaylistCollection::playlists() const
+{
+    QStringList l;
+
+    QObjectList *childList = m_playlistStack->queryList("Playlist");
+    QObject *obj;
+    for(obj = childList->first(); obj; obj = childList->next()) {
+	Playlist *p = static_cast<Playlist*>(obj);
+	l.append(p->name());
+    }
+
+    delete childList;
+    return l;
+}
+
+void PlaylistCollection::createPlaylist(const QString &name)
+{
+    raise(new Playlist(this, name));
+}
+
+void PlaylistCollection::openFile(const QString &playlist, const QString &file)
+{
+    Playlist *p = playlistByName(playlist);
+
+    if(p)
+	p->addFiles(file, m_importPlaylists);
+}
+
+void PlaylistCollection::openFile(const QString &playlist, const QStringList &files)
+{
+    Playlist *p = playlistByName(playlist);
+
+    if(p)
+	p->addFiles(files, m_importPlaylists);
+}
+
+void PlaylistCollection::removeTrack(const QString &playlist, const QString &file)
+{
+    Playlist *p = playlistByName(playlist);
+    CollectionListItem *item = CollectionList::instance()->lookup(file);
+
+    if(!p || !item)
+	return;
+
+    PlaylistItem *playlistItem = item->itemForPlaylist(p);
+    if(playlistItem)
+	p->clearItem(item);
+}
+
+void PlaylistCollection::removeTrack(const QString &playlist, const QStringList &files)
+{
+    Playlist *p = playlistByName(playlist);
+    PlaylistItemList itemList;
+    if(!p)
+	return;
+    
+    QStringList::ConstIterator it;
+    for(it = files.begin(); it != files.end(); ++it) {
+	CollectionListItem *item = CollectionList::instance()->lookup(*it);
+
+	if(item) {
+	    PlaylistItem *playlistItem = item->itemForPlaylist(p);
+	    if(playlistItem)
+		itemList.append(playlistItem);
+	}
+    }
+
+    p->clearItems(itemList);
+}
+
+QString PlaylistCollection::playlist() const
+{
+    if(currentPlaylist())
+        return currentPlaylist()->name();
+    return QString::null;
+}
+
+void PlaylistCollection::setPlaylist(const QString &playlist)
+{
+    Playlist *p = playlistByName(playlist);
+    if(p)
+	raise(p);
+}
+
+QStringList PlaylistCollection::playlistTracks(const QString &playlist) const
+{
+    Playlist *p = playlistByName(playlist);
+
+    if(p)
+	return p->files();
+    return QStringList();
+}
+
+QString PlaylistCollection::trackProperty(const QString &file, const QString &property) const
+{
+    CollectionList *l = CollectionList::instance();
+    CollectionListItem *item = l->lookup(file);
+
+    if(item)
+	return item->file().property(property);
+    return QString::null;
 }
 
 void PlaylistCollection::open(const QStringList &l)
@@ -394,6 +498,24 @@ void PlaylistCollection::removeName(const QString &name)
     m_playlistNames.remove(name);
 }
 
+Playlist *PlaylistCollection::playlistByName(const QString &name) const
+{
+    QObjectList *l = m_playlistStack->queryList("Playlist");
+    Playlist *list = 0;
+    QObject *obj;
+    
+    for(obj = l->first(); obj; obj = l->next()) {
+        Playlist *p = static_cast<Playlist*>(obj);
+        if(p->name() == name) {
+            list = p;
+            break;
+        }
+    }
+
+    delete l;
+    return list;
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
@@ -463,7 +585,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 #endif
 
 
-    createAction(i18n("Play First Song"), SLOT(slotPlayFirst()),    "playFirst");
+    createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),    "playFirst");
     createAction(i18n("Open..."),         SLOT(slotOpen()),         "file_open", "fileopen", "CTRL+o");
     createAction(i18n("Add &Folder..."),  SLOT(slotAddFolder()),    "openDirectory", "fileopen");
     createAction(i18n("&Rename..."),      SLOT(slotRename()),       "renamePlaylist", "lineedit");

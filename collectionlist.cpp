@@ -248,6 +248,15 @@ void CollectionListItem::refresh()
     playlist()->PlaylistInterface::update();
 }
 
+PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist) const
+{
+    PlaylistItemList::ConstIterator it;
+    for(it = m_children.begin(); it != m_children.end(); ++it)
+	if((*it)->playlist() == playlist)
+	    return *it;
+    return 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // CollectionListItem protected methods
 ////////////////////////////////////////////////////////////////////////////////

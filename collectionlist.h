@@ -137,6 +137,7 @@ class CollectionListItem : /* public QObject, */ public PlaylistItem
 
 public:
     virtual void refresh();
+    PlaylistItem *itemForPlaylist(const Playlist *playlist) const;
 
 protected:
     CollectionListItem(const FileHandle &file);

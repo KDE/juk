@@ -51,6 +51,21 @@ public:
     virtual void stop();
     virtual bool playing() const;
 
+    virtual QStringList playlists() const;
+    virtual void createPlaylist(const QString &name);
+
+    virtual void openFile(const QString &playlist, const QString &file);
+    virtual void openFile(const QString &playlist, const QStringList &files);
+    
+    virtual void removeTrack(const QString &playlist, const QString &file);
+    virtual void removeTrack(const QString &playlist, const QStringList &files);
+
+    virtual QString playlist() const;
+    virtual void setPlaylist(const QString &playlist);
+
+    virtual QStringList playlistTracks(const QString &playlist) const;
+    virtual QString trackProperty(const QString &file, const QString &property) const;
+
     // Play the top item of the current playlist
     void playFirst();
 
@@ -100,6 +115,8 @@ protected:
 
     void addName(const QString &name);
     void removeName(const QString &name);
+
+    Playlist *playlistByName(const QString &name) const;
 
 private:
     void readConfig();

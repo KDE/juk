@@ -11,6 +11,22 @@ k_dcop:
     void openFile(const QString &file) { open(file); }
     void openFile(const QStringList &files) { open(files); }
 
+    virtual QStringList playlists() const = 0;
+    virtual void createPlaylist(const QString &) = 0;
+    virtual void remove() = 0; // Removes current playlist
+
+    virtual void openFile(const QString &playlist, const QString &file) = 0;
+    virtual void openFile(const QString &playlist, const QStringList &files) = 0;
+
+    virtual void removeTrack(const QString &playlist, const QString &file) = 0;
+    virtual void removeTrack(const QString &playlist, const QStringList &files) = 0;
+
+    virtual QString playlist() const = 0;
+    virtual void setPlaylist(const QString &playlist) = 0;
+
+    virtual QStringList playlistTracks(const QString &playlist) const = 0;
+    virtual QString trackProperty(const QString &file, const QString &property) const = 0;
+
 protected:
     CollectionIface() : DCOPObject("Collection") {}
     virtual void open(const QStringList &files) = 0;
