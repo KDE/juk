@@ -76,15 +76,15 @@ void JuK::setupLayout()
     setCentralWidget(splitter);
 
     // playlist item activation connection
-    connect(splitter, SIGNAL(doubleClicked()), this, SLOT(playSelectedFile()));
-    connect(splitter, SIGNAL(listBoxDoubleClicked()), this, SLOT(playFirstFile()));
+    connect(splitter, SIGNAL(signalDoubleClicked()), this, SLOT(playSelectedFile()));
+    connect(splitter, SIGNAL(signalListBoxDoubleClicked()), this, SLOT(playFirstFile()));
 
     // create status bar
     statusLabel = new StatusLabel(statusBar());
     statusBar()->addWidget(statusLabel, 1);
 
-    connect(splitter, SIGNAL(selectedPlaylistCountChanged(int)), statusLabel, SLOT(setPlaylistCount(int)));
-    connect(statusLabel, SIGNAL(jumpButtonClicked()), splitter, SLOT(selectPlaying()));
+    connect(splitter, SIGNAL(signalSelectedPlaylistCountChanged(int)), statusLabel, SLOT(setPlaylistCount(int)));
+    connect(statusLabel, SIGNAL(jumpButtonClicked()), splitter, SLOT(slotSelectPlaying()));
 
     splitter->setFocus();
 
@@ -94,17 +94,17 @@ void JuK::setupLayout()
 void JuK::setupActions()
 {
     // file menu
-    KStdAction::openNew(splitter, SLOT(createPlaylist()), actionCollection());
-    KStdAction::open(splitter, SLOT(open()), actionCollection());
-    new KAction(i18n("Open &Directory..."), "fileopen", 0, splitter, SLOT(openDirectory()), actionCollection(), "openDirectory");
+    KStdAction::openNew(splitter, SLOT(slotCreatePlaylist()), actionCollection());
+    KStdAction::open(splitter, SLOT(slotOpen()), actionCollection());
+    new KAction(i18n("Open &Directory..."), "fileopen", 0, splitter, SLOT(slotOpenDirectory()), actionCollection(), "openDirectory");
 
-    renamePlaylistAction = new KAction(i18n("Rename..."), 0, splitter, SLOT(renamePlaylist()), 
+    renamePlaylistAction = new KAction(i18n("Rename..."), 0, splitter, SLOT(slotRenamePlaylist()), 
 				       actionCollection(), "renamePlaylist");
-    new KAction(i18n("Duplicate..."), "editcopy", 0, splitter, SLOT(duplicatePlaylist()), actionCollection(), "duplicatePlaylist");
+    new KAction(i18n("Duplicate..."), "editcopy", 0, splitter, SLOT(slotDuplicatePlaylist()), actionCollection(), "duplicatePlaylist");
     
-    savePlaylistAction = KStdAction::save(splitter, SLOT(savePlaylist()), actionCollection());
-    saveAsPlaylistAction = KStdAction::saveAs(splitter, SLOT(saveAsPlaylist()), actionCollection());
-    deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, splitter, SLOT(deleteItemPlaylist()), 
+    savePlaylistAction = KStdAction::save(splitter, SLOT(slotSavePlaylist()), actionCollection());
+    saveAsPlaylistAction = KStdAction::saveAs(splitter, SLOT(slotSaveAsPlaylist()), actionCollection());
+    deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, splitter, SLOT(slotDeletePlaylist()), 
 					   actionCollection(), "deleteItemPlaylist");
 
     KStdAction::quit(this, SLOT(close()), actionCollection());
@@ -118,8 +118,8 @@ void JuK::setupActions()
 
     // view menu
     showEditorAction = new KToggleAction(i18n("Show Tag Editor"), "edit", 0, actionCollection(), "showEditor");
-    connect(showEditorAction, SIGNAL(toggled(bool)), splitter, SLOT(setEditorVisible(bool)));
-    KStdAction::redisplay(splitter, SLOT(refresh()), actionCollection());
+    connect(showEditorAction, SIGNAL(toggled(bool)), splitter, SLOT(slotSetEditorVisible(bool)));
+    KStdAction::redisplay(splitter, SLOT(slotRefresh()), actionCollection());
     actionCollection()->insert(splitter->columnVisibleAction());
     
     // play menu
@@ -131,8 +131,8 @@ void JuK::setupActions()
     forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()), actionCollection(), "forward");
 
     // tagger menu
-    new KAction(i18n("Save"), "filesave", "CTRL+t", splitter, SLOT(saveItem()), actionCollection(), "saveItem");
-    new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(removeSelectedItems()), actionCollection(), "removeItem");
+    new KAction(i18n("Save"), "filesave", "CTRL+t", splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
+    new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
     
     // settings menu
 
@@ -162,7 +162,7 @@ void JuK::setupActions()
     sliderAction->updateOrientation();
     connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), sliderAction, SLOT(updateOrientation(QDockWindow *)));
 
-    connect(splitter, SIGNAL(playlistChanged()), this, SLOT(playlistChanged()));
+    connect(splitter, SIGNAL(signalPlaylistChanged()), this, SLOT(playlistChanged()));
 }
 
 void JuK::setupSystemTray()
@@ -264,7 +264,7 @@ void JuK::readConfig()
         KConfigGroupSaver saver(config, "View");
 	bool showEditor = config->readBoolEntry("ShowEditor", false);
 	showEditorAction->setChecked(showEditor);
-	splitter->setEditorVisible(showEditor);
+	splitter->slotSetEditorVisible(showEditor);
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");

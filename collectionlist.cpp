@@ -124,7 +124,7 @@ void CollectionList::decode(QMimeSource *s)
 	files.append((*it).path());
 	
     if(playlistSplitter())
-	playlistSplitter()->add(files, this);
+	playlistSplitter()->addToPlaylist(files, this);
 }
 
 void CollectionList::contentsDropEvent(QDropEvent *e)

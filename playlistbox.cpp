@@ -216,7 +216,7 @@ void PlaylistBox::duplicate(Item *item)
 					     QLineEdit::Normal, m_splitter->uniquePlaylistName(item->text(), true), &ok);
 	if(ok) {
 	    Playlist *p = m_splitter->createPlaylist(name);
-	    m_splitter->add(item->playlist()->files(), p);
+	    m_splitter->addToPlaylist(item->playlist()->files(), p);
 	}
     }
 }
@@ -268,7 +268,7 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	    files.append((*it).path());
 	
-	m_splitter->add(files, item->playlist());
+	m_splitter->addToPlaylist(files, item->playlist());
     }
 }
 
@@ -385,9 +385,9 @@ void PlaylistBox::slotContextDeleteItem()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
-    : QObject(listbox), ListBoxPixmap(listbox, pix, text)
+    : QObject(listbox), ListBoxPixmap(listbox, pix, text),
+      list(l)
 {
-    list = l;
     setOrientation(Qt::Vertical);
     listbox->addName(text);
 
@@ -395,25 +395,15 @@ PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString 
 }
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QString &text, Playlist *l) 
-    : ListBoxPixmap(listbox, SmallIcon("midi", 32), text)
+    : ListBoxPixmap(listbox, SmallIcon("midi", 32), text),
+      list(l)
 {
-    list = l;
     setOrientation(Qt::Vertical);
 }
 
 PlaylistBox::Item::~Item()
 {
 
-}
-
-Playlist *PlaylistBox::Item::playlist() const
-{
-    return list;
-}
-
-PlaylistBox *PlaylistBox::Item::listBox() const
-{
-    return dynamic_cast<PlaylistBox *>(ListBoxPixmap::listBox());
 }
 
 void PlaylistBox::Item::setName(const QString &name)

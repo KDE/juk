@@ -46,7 +46,7 @@ class PlaylistSplitter : public QSplitter
     Q_OBJECT
 
 public:
-    PlaylistSplitter(QWidget *parent, bool restoreOnLoad = true, const char *name = 0);
+    PlaylistSplitter(QWidget *parent, bool restore = true, const char *name = 0);
 
     virtual ~PlaylistSplitter();
 
@@ -103,11 +103,6 @@ public:
     QString playingList() const;
 
     /**
-     * Returns a list of the extensions that are used for playlists.
-     */
-    QStringList playlistExtensions() const { return listExtensions; }
-
-    /**
      * Returns the name of the currently selected playlist.
      */
     QString selectedPlaylistName() const { return visiblePlaylist()->name(); }
@@ -120,17 +115,17 @@ public:
     /**
      * Add the file to the playlist.
      */
-    void add(const QString &file, Playlist *list);
+    void addToPlaylist(const QString &file, Playlist *list);
     
     /**
      * Adds the files to the playlist.
      */
-    void add(const QStringList &files, Playlist *list);
+    void addToPlaylist(const QStringList &files, Playlist *list);
 
     /**
      * Returns true if the the collection list is the visible playlist.
      */
-    bool collectionListSelected() const { return visiblePlaylist() == CollectionList::instance(); }
+    bool collectionListSelected() const { return visiblePlaylist() == m_collection; }
 
     /**
      * Open each of \a files, where \a files is a list of playlists and music
@@ -145,7 +140,12 @@ public:
 
     QStringList columnNames() const { return m_columnNames; }
     
-    KActionMenu *columnVisibleAction() const { return collection->columnVisibleAction(); }
+    KActionMenu *columnVisibleAction() const { return m_collection->columnVisibleAction(); }
+
+    /**
+     * Create a playlist with the named \a name.
+     */
+    Playlist *createPlaylist(const QString &name);
 
 // static methods
 
@@ -156,6 +156,12 @@ public:
      */
     static QString extensionsString(const QStringList &extensions, const QString &type = QString::null);
 
+    /**
+     * Returns a list of the extensions that are used for playlists.
+     */
+    static QStringList playlistExtensions() { return *m_listExtensions; }
+
+
 public slots:
 
 // File slots
@@ -163,77 +169,67 @@ public slots:
     /**
      * Open files or playlists.
      */
-    void open();
+    void slotOpen();
 
     /**
      * Open a directory recursively, grabbing all of the music and playlist files
      * in it's heirarchy.
      */
-    void openDirectory();
+    void slotOpenDirectory();
 
 // Tagger slots
 
     /**
      * Save.
      */
-    void saveItem() { editor->save(); }
+    void slotSaveTag() { m_editor->save(); }
 
 // Playlist slots
 
     /**
      * Create a playlist and prompt the user for a name.
      */
-    Playlist *createPlaylist();
-
-    /**
-     * Create a playlist with the named \a name.
-     */
-    Playlist *createPlaylist(const QString &name);
+    Playlist *slotCreatePlaylist();
 
     /**
      * Sets the selection to the currently playing item and ensures that it is
      * visible.
      */
-    void selectPlaying();
+    void slotSelectPlaying();
 
 // Other slots
     
     /**
      * Deletes the selected items from the hard disk. 
      */
-    void removeSelectedItems();
+    void slotDeleteSelectedItems();
     
     /**
      * Refresh the contents of the currently visible playlist.  This will cause
      * all of the audio meta data to be reread from disk.
      */
-    void refresh() { visiblePlaylist()->refresh(); }
-
-    /**
-     * Removes the selected items from the playlist. 
-     */
-    void clearSelectedItems();
+    void slotRefresh() { visiblePlaylist()->refresh(); }
 
     /**
      * Show or hide the editor.
      */
-    void setEditorVisible(bool visible);
+    void slotSetEditorVisible(bool visible);
 
 // PlaylistBox forwarding slots
 
-    void savePlaylist() { playlistBox->save(); }
-    void saveAsPlaylist() { playlistBox->saveAs(); }
-    void renamePlaylist() { playlistBox->rename(); }
-    void duplicatePlaylist() { playlistBox->duplicate(); }
-    void deleteItemPlaylist() { playlistBox->deleteItem(); }
+    void slotSavePlaylist() { m_playlistBox->save(); }
+    void slotSaveAsPlaylist() { m_playlistBox->saveAs(); }
+    void slotRenamePlaylist() { m_playlistBox->rename(); }
+    void slotDuplicatePlaylist() { m_playlistBox->duplicate(); }
+    void slotDeletePlaylist() { m_playlistBox->deleteItem(); }
 
     void slotToggleColumnVisible(int column);
 
 signals:
-    void doubleClicked();
-    void listBoxDoubleClicked();
-    void playlistChanged();
-    void selectedPlaylistCountChanged(int);
+    void signalDoubleClicked();
+    void signalListBoxDoubleClicked();
+    void signalPlaylistChanged();
+    void signalSelectedPlaylistCountChanged(int);
 
 private:
     /**
@@ -247,7 +243,7 @@ private:
      */
     PlaylistItem *playlistFirstItem() const { return static_cast<PlaylistItem *>(visiblePlaylist()->firstChild()); }
 
-    Playlist *visiblePlaylist() const { return static_cast<Playlist *>(playlistStack->visibleWidget()); }
+    Playlist *visiblePlaylist() const { return static_cast<Playlist *>(m_playlistStack->visibleWidget()); }
 
     void setupLayout();
     void readConfig();
@@ -263,47 +259,46 @@ private:
     void setupColumns(Playlist *p);
     
 private slots:
-    void changePlaylist(Playlist *p);
-    void playlistCountChanged(Playlist *p);
+    void slotChangePlaylist(Playlist *p);
+    void slotPlaylistCountChanged(Playlist *p);
     /**
      * Add a directory to the directory list queue.  We need to queue these 
      * rather than processing them when they become available because the user
      * could cancel the action.
      */
-    void queueDirectory(const QString &directory) { directoryQueue.append(directory); }
+    void slotQueueDirectory(const QString &directory) { m_directoryQueue.append(directory); }
 
     /**
      * Add a directory to the queue 
      */
-    void queueDirectoryRemove(const QString &directory) { directoryQueueRemove.append(directory); }
+    void slotQueueDirectoryRemove(const QString &directory) { m_directoryQueueRemove.append(directory); }
 
     /**
      * This should be connected to Playlist::aboutToRemove()
      */
-    void playlistItemRemoved(PlaylistItem *item);
+    void slotPlaylistItemRemoved(PlaylistItem *item);
 
 private:
-    PlaylistItem *playingItem;
-    PlaylistBox *playlistBox;
-    QWidgetStack *playlistStack;
-    TagEditor *editor;
+    PlaylistItem *m_playingItem;
+    PlaylistBox *m_playlistBox;
+    QWidgetStack *m_playlistStack;
+    TagEditor *m_editor;
 
-    CollectionList *collection;
+    CollectionList *m_collection;
 
-    StringHash playlistFiles;
+    StringHash m_playlistFiles;
 
-    QStringList mediaExtensions;
-    QStringList listExtensions;
+    static QStringList *m_mediaExtensions;
+    static QStringList *m_listExtensions;
 
-    QStringList directoryList;
-    QStringList directoryQueue;
-    QStringList directoryQueueRemove;
+    QStringList m_directoryList;
+    QStringList m_directoryQueue;
+    QStringList m_directoryQueueRemove;
 
     QValueVector<bool> m_visibleColumns;
     QStringList m_columnNames;
 
-    bool showEditor;
-    bool restore;
+    bool m_restore;
 };
 
 #endif

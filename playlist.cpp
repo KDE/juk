@@ -335,7 +335,7 @@ void Playlist::decode(QMimeSource *s)
 	fileList.append((*it).path());
     
     if(splitter)
-	splitter->add(fileList, this);
+	splitter->addToPlaylist(fileList, this);
 }
 
 bool Playlist::eventFilter(QObject* watched, QEvent* e)

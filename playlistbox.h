@@ -127,8 +127,8 @@ public:
     Item(PlaylistBox *listbox, const QString &text, Playlist *l = 0);
     virtual ~Item();
 
-    Playlist *playlist() const;
-    PlaylistBox *listBox() const;
+    Playlist *playlist() const { return list; }
+    PlaylistBox *listBox() const { return static_cast<PlaylistBox *>(ListBoxPixmap::listBox()); }
 
 public slots:
     void setName(const QString &name);
