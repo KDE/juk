@@ -495,11 +495,36 @@ void PlaylistBox::slotPlaylistChanged()
     if(!m_updatePlaylistStack)
 	return;
 
+    bool allowReload = false;
+
     PlaylistList playlists;
-    for(ItemList::ConstIterator i = items.begin(); i != items.end(); ++i) {
-	if((*i)->playlist())
-	    playlists.append((*i)->playlist());
+    for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+	Playlist *p = (*it)->playlist();
+	if(p) {
+	    if(p == CollectionList::instance() || !p->fileName().isNull())
+		allowReload = true;
+	    playlists.append(p);
+	}
     }
+
+    if(playlists.isEmpty() ||
+       (playlists.count() == 1 &&
+	(playlists.front() == CollectionList::instance() ||
+	 playlists.front()->readOnly())))
+    {
+        action("file_save")->setEnabled(false);
+        action("file_save_as")->setEnabled(false);
+        action("renamePlaylist")->setEnabled(false);
+        action("deleteItemPlaylist")->setEnabled(false);
+    }
+    else {
+        action("file_save")->setEnabled(true);
+        action("file_save_as")->setEnabled(true);
+        action("renamePlaylist")->setEnabled(playlists.count() == 1);
+        action("deleteItemPlaylist")->setEnabled(true);
+    }
+    action("reloadPlaylist")->setEnabled(allowReload);
+    action("duplicatePlaylist")->setEnabled(!playlists.isEmpty());
 
     emit signalCurrentChanged(playlists);
 }

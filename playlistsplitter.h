@@ -84,30 +84,6 @@ public:
      * Returns the combined time of all the itens in the currently selected playlist.
      */
     int selectedPlaylistTotalTime() const { return visiblePlaylist()->totalTime(); }
-    /**
-     * Returns true if the the collection list is the visible playlist.
-     */
-    bool collectionListSelected() const { return visiblePlaylist() == m_collection; }
-
-    /**
-     * Returns true if the selected list has a file associated with it.
-     */
-    bool fileBasedListSelected() { return !visiblePlaylist()->fileName().isNull(); }
-
-    /**
-     * Returns true if the selected list is read only.
-     */
-    bool readOnlyListSelected() { return visiblePlaylist()->readOnly(); }
-
-    /**
-     * Returns true if the currently selected playlist is a dynamic list.
-     */
-    bool dynamicListSelected() { return m_dynamicList && visiblePlaylist() == m_dynamicList; }
-
-    /**
-     * Returns true if the playlist selection widget has a currently selected item.
-     */
-    bool hasListSelected() const { return m_playlistBox->hasSelection(); }
 
     /**
      * Open each of \a files, where \a files is a list of playlists and music
@@ -229,7 +205,6 @@ private:
 
     enum PlaylistType { Normal = 0, Search = 1, History = 2 };
     static const int playlistCacheVersion = 2;
-
 
     /**
      * Returns a PlaylistItemList of the selected PlaylistItems in the top playlist in

@@ -544,32 +544,6 @@ void JuK::slotShowHide()
 
 void JuK::slotPlaylistChanged()
 {
-    if(m_splitter->collectionListSelected() ||
-       !m_splitter->hasListSelected() ||
-       m_splitter->readOnlyListSelected())
-    {
-        action("file_save")->setEnabled(false);
-        action("file_save_as")->setEnabled(false);
-        action("renamePlaylist")->setEnabled(false);
-        action("reloadPlaylist")->setEnabled(m_splitter->collectionListSelected());
-        action("deleteItemPlaylist")->setEnabled(false);
-    }
-    else {
-        action("file_save")->setEnabled(true);
-        action("file_save_as")->setEnabled(true);
-        action("renamePlaylist")->setEnabled(true);
-        action("deleteItemPlaylist")->setEnabled(true);
-
-	if(m_splitter->fileBasedListSelected() || m_splitter->dynamicListSelected())
-	    action("reloadPlaylist")->setEnabled(true);
-	else
-	    action("reloadPlaylist")->setEnabled(false);
-    }
-    if(m_splitter->hasListSelected())
-        action("duplicatePlaylist")->setEnabled(true);
-    else
-        action("duplicatePlaylist")->setEnabled(false);
-
     updatePlaylistInfo();
 }
 

@@ -398,7 +398,7 @@ void PlaylistSplitter::slotDeleteSelectedItems()
 
 void PlaylistSplitter::slotReloadPlaylist()
 {
-    if(collectionListSelected())
+    if(visiblePlaylist() == m_collection)
 	slotScanDirectories();
     else
 	visiblePlaylist()->slotReload();
