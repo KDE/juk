@@ -998,6 +998,12 @@ void Playlist::hideColumn(int c, bool updateSearch)
     setColumnWidthMode(c, Manual);
     setColumnWidth(c, 0);
 
+    // Moving the column to the end seems to prevent it from randomly
+    // popping up.
+
+    header()->moveSection(c, header()->count());
+    header()->setResizeEnabled(false, c);
+
     if(c == m_leftColumn) {
 	if(m_playingItem) {
 	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
@@ -1027,6 +1033,8 @@ void Playlist::showColumn(int c, bool updateSearch)
     // the real size in the next call.
 
     setColumnWidth(c, 1);
+    header()->setResizeEnabled(true, c);
+    header()->moveSection(c, c); // Approximate old position
 
     if(c == leftMostVisibleColumn()) {
 	if(m_playingItem) {
