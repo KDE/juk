@@ -341,7 +341,7 @@ void TreeViewMode::slotAddItem(const QString &item, unsigned column)
     if(column != PlaylistItem::ArtistColumn)
         mode = PlaylistSearch::Component::Exact;
 
-    components.append(PlaylistSearch::Component(item, true, columns, mode));
+    components.append(PlaylistSearch::Component(item, false, columns, mode));
 
     PlaylistList playlists;
     playlists.append(CollectionList::instance());
