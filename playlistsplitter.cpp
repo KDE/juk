@@ -577,8 +577,10 @@ void PlaylistSplitter::saveConfig()
 
 	    PlaylistList l = m_playlistBox->playlists();
 
-	    for(PlaylistList::Iterator it = l.begin(); it != l.end(); it++)
-		s << *(*it);
+	    for(PlaylistList::Iterator it = l.begin(); it != l.end(); it++) {
+		if(*it && *it != m_history)
+		    s << *(*it);
+	    }
 
 	    f.close();
 	}
