@@ -406,9 +406,11 @@ void PlaylistItem::Data::setFile(const QString &file)
 // PlaylistItem::Data protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::Data::Data(const QFileInfo &file, const QString &path) : m_fileInfo(file), m_absFileName(path)
+PlaylistItem::Data::Data(const QFileInfo &file, const QString &path) :
+    m_fileInfo(file),
+    m_referenceCount(1),
+    m_absFileName(path)
 {
-    m_referenceCount = 1;
     m_dataTag = Tag::createTag(path);
 }
 

@@ -29,11 +29,14 @@ public:
     
 protected:
     virtual void showEvent(QShowEvent *e);
-    virtual PlaylistItemList items() const;
+    virtual PlaylistItemList items();
+
 private slots:
     void slotSetDirty() { m_dirty = true; }
 
 private:
+    void search();
+
     PlaylistSearch m_search;
     bool m_dirty;
 };

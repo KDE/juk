@@ -15,7 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+
 #include "searchplaylist.h"
+#include "playlistitem.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -37,19 +40,32 @@ SearchPlaylist::SearchPlaylist(const PlaylistSearch &search, QWidget *parent, co
 
 void SearchPlaylist::showEvent(QShowEvent *e)
 {
-    if(m_dirty) {
-	clear();
-	m_search.search();
-	createItems(m_search.matchedItems());
-	m_dirty = false;
-    }
-
-    DynamicPlaylist::showEvent(e);
+    search();
+    Playlist::showEvent(e);
 }
 
-PlaylistItemList SearchPlaylist::items() const
+PlaylistItemList SearchPlaylist::items()
 {
-    return m_search.matchedItems();
+    search();
+    return Playlist::items();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void SearchPlaylist::search()
+{
+    if(m_dirty) {
+
+	// Here we don't simply use "clear" since that would involve a call to
+	// items() which would in turn call this method...
+
+        clearItems(Playlist::items());
+        m_search.search();
+        createItems(m_search.matchedItems());
+        m_dirty = false;
+    }
 }
 
 #include "searchplaylist.moc"

@@ -52,7 +52,7 @@ protected:
      * list this should return only the matched items.  By default it returns
      * all of the items in the playlists associated with this dynamic list.
      */
-    virtual PlaylistItemList items() const;
+    virtual PlaylistItemList items();
 
     /**
      * Reimplemented from QWidget.  Here it updates the list of items (when
@@ -75,7 +75,7 @@ private slots:
     void slotUpdateItems();
 
 private:
-    PlaylistItemList m_items;
+    PlaylistItemList m_siblings;
     PlaylistList m_playlists;
     bool m_dirty;
 };

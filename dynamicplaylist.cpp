@@ -58,14 +58,10 @@ void DynamicPlaylist::slotReload()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItemList DynamicPlaylist::items() const
+PlaylistItemList DynamicPlaylist::items()
 {
-    PlaylistItemList l;
-
-    for(PlaylistList::ConstIterator it = m_playlists.begin(); it != m_playlists.end(); ++it)
-        l += (*it)->items();
-
-    return l;
+    checkUpdateItems();
+    return Playlist::items();
 }
 
 void DynamicPlaylist::showEvent(QShowEvent *e)
@@ -80,14 +76,21 @@ void DynamicPlaylist::showEvent(QShowEvent *e)
 
 void DynamicPlaylist::checkUpdateItems()
 {
-    if(m_dirty) {
-        PlaylistItemList newItems = items();
-        if(m_items != newItems) {
-            m_items = newItems;
-	    QTimer::singleShot(0, this, SLOT(slotUpdateItems()));
-	}
-        m_dirty = false;
+    if(!m_dirty)
+	return;
+
+    PlaylistItemList siblings;
+
+    for(PlaylistList::ConstIterator it = m_playlists.begin(); it != m_playlists.end(); ++it)
+        siblings += (*it)->items();
+
+
+    PlaylistItemList newSiblings = siblings;
+    if(m_siblings != newSiblings) {
+	m_siblings = newSiblings;
+        QTimer::singleShot(0, this, SLOT(slotUpdateItems()));
     }
+    m_dirty = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -100,7 +103,7 @@ void DynamicPlaylist::slotUpdateItems()
     // list and just adding those and removing the ones that aren't.
 
     clear();
-    createItems(m_items);
+    createItems(m_siblings);
 }
 
 #include "dynamicplaylist.moc"
