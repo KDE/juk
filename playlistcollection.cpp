@@ -202,6 +202,8 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
         m_showMorePlaylist = new SearchPlaylist(this, search, i18n("Now Playing"), false, true);
 
     m_belowShowMorePlaylist = visiblePlaylist();
+
+    PlaylistCollection::setupPlaylist(m_showMorePlaylist, QString::null);
     PlaylistCollection::raise(m_showMorePlaylist);
 }
 
