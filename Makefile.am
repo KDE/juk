@@ -47,7 +47,7 @@ tagguessertest_LDFLAGS = $(all_libraries)
 mbtest_LDADD = $(LIB_KDECORE) $(mblibs)
 mbtest_LDFLAGS = $(all_libraries)
 
-SUBDIRS = pics data
+SUBDIRS = pics
 
 rcdir = $(kde_datadir)/juk
 rc_DATA = jukui.rc
