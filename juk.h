@@ -77,7 +77,6 @@ private:
     SystemTray *m_systemTray;
 
     SliderAction *m_sliderAction;
-    KToggleAction *m_showHistoryAction;
     KToggleAction *m_randomPlayAction;
     KToggleAction *m_toggleSystemTrayAction;
     KToggleAction *m_toggleDockOnCloseAction;
