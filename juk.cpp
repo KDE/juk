@@ -50,7 +50,7 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
 {
     SplashScreen::instance()->show();
     kapp->processEvents();
- 
+
     // Expect segfaults if you change this order.
 
     readSettings();
@@ -104,13 +104,13 @@ void JuK::setupActions()
     KStdAction::open(m_splitter, SLOT(slotOpen()), actionCollection());
     new KAction(i18n("Open &Directory..."), "fileopen", 0, m_splitter, SLOT(slotOpenDirectory()), actionCollection(), "openDirectory");
 
-    m_renamePlaylistAction = new KAction(i18n("Rename..."), 0, m_splitter, SLOT(slotRenamePlaylist()), 
+    m_renamePlaylistAction = new KAction(i18n("Rename..."), 0, m_splitter, SLOT(slotRenamePlaylist()),
 					 actionCollection(), "renamePlaylist");
     new KAction(i18n("Duplicate..."), "editcopy", 0, m_splitter, SLOT(slotDuplicatePlaylist()), actionCollection(), "duplicatePlaylist");
-    
+
     m_savePlaylistAction = KStdAction::save(m_splitter, SLOT(slotSavePlaylist()), actionCollection());
     m_saveAsPlaylistAction = KStdAction::saveAs(m_splitter, SLOT(slotSaveAsPlaylist()), actionCollection());
-    m_deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, m_splitter, SLOT(slotDeletePlaylist()), 
+    m_deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, m_splitter, SLOT(slotDeletePlaylist()),
 					     actionCollection(), "deleteItemPlaylist");
 
     KStdAction::quit(this, SLOT(slotQuit()), actionCollection());
@@ -127,7 +127,7 @@ void JuK::setupActions()
     connect(m_showEditorAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetEditorVisible(bool)));
     KStdAction::redisplay(m_splitter, SLOT(slotRefresh()), actionCollection());
     actionCollection()->insert(m_splitter->columnVisibleAction());
-    
+
     // play menu
     m_randomPlayAction = new KToggleAction(i18n("Random Play"), 0, actionCollection(), "randomPlay");
     m_playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(slotPlay()), actionCollection(), "play");
@@ -141,7 +141,7 @@ void JuK::setupActions()
     new KAction(i18n("Save"), "filesave", "CTRL+t", m_splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
     new KAction(i18n("Delete"), "editdelete", 0, m_splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
     new KAction(i18n("Guess Tag Information"), 0, m_splitter, SLOT(slotGuessTagInfo()), actionCollection(), "guessTag");
-    
+
     // settings menu
     new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this, SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
     new KToggleAction(i18n("Show Tool Bar"), "CTRL+b", this, SLOT(slotToggleToolBar()), actionCollection(), "toggleToolBar");
@@ -187,12 +187,12 @@ void JuK::setupSystemTray()
 	m_systemTray->show();
 
 	connect(this, SIGNAL(signalNewSong(const QString&)), m_systemTray, SLOT(slotNewSong(const QString&)));
-	
+
 	if(m_player && m_player->paused())
 	    m_systemTray->slotPause();
 	else if(m_player && m_player->playing())
 	    m_systemTray->slotPlay();
-	
+
 	m_toggleDockOnCloseAction->setEnabled(true);
 
 	connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
@@ -224,7 +224,7 @@ void JuK::setupPlayer()
 
         connect(m_sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
     }
-    
+
     int playerType = 0;
     if(m_outputSelectAction) {
 	playerType = m_outputSelectAction->currentItem();
@@ -257,7 +257,7 @@ void JuK::processArgs()
 {
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     QStringList files;
-    
+
     for(int i = 0; i < args->count(); i++)
 	files.append(args->arg(i));
 
@@ -292,6 +292,8 @@ void JuK::readConfig()
     KConfig *config = KGlobal::config();
     { // m_player settings
         KConfigGroupSaver saver(config, "Player");
+        if(m_outputSelectAction)
+            m_outputSelectAction->setCurrentItem( config->readNumEntry("Output",0) );
         if(m_sliderAction->getVolumeSlider()) {
             int volume = config->readNumEntry("Volume", m_sliderAction->getVolumeSlider()->maxValue());
             m_sliderAction->getVolumeSlider()->setValue(volume);
@@ -312,7 +314,7 @@ void JuK::readConfig()
 
 	bool dockInSystemTray = config->readBoolEntry("DockInSystemTray", true);
 	m_toggleSystemTrayAction->setChecked(dockInSystemTray);
-	
+
 	bool dockOnClose = config->readBoolEntry("DockOnClose", true);
 	m_toggleDockOnCloseAction->setChecked(dockOnClose);
 
@@ -321,11 +323,11 @@ void JuK::readConfig()
 
 	if(m_outputSelectAction)
 	    m_outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
-	
+
     }
 
     m_restoreOnLoadAction->setChecked(m_restore);
-    
+
 }
 
 void JuK::saveConfig()
@@ -333,6 +335,8 @@ void JuK::saveConfig()
     KConfig *config = KGlobal::config();
     { // m_player settings
         KConfigGroupSaver saver(config, "Player");
+        if(m_outputSelectAction)
+            config->writeEntry("Output", m_outputSelectAction->currentItem());
         if(m_sliderAction && m_sliderAction->getVolumeSlider())
             config->writeEntry("Volume", m_sliderAction->getVolumeSlider()->value());
 	if(m_randomPlayAction)
@@ -371,7 +375,7 @@ bool JuK::queryClose()
     if(!m_shuttingDown && m_systemTray && m_toggleDockOnCloseAction->isChecked()) {
 	KMessageBox::information(this,
 				 i18n("<qt>Closing the main window will keep JuK running in the system tray. "
-				      "Use Quit from the File menu to quit the application.</qt>"), 
+				      "Use Quit from the File menu to quit the application.</qt>"),
 				 i18n("Docking in System Tray"), "hideOnCloseInfo");
 	hide();
 	return false;
@@ -383,16 +387,16 @@ bool JuK::queryClose()
 void JuK::invokeEditSlot( const char *slotName, const char *slot )
 {
     QObject *object = focusWidget();
-    
+
     if(!object || !slotName || !slot)
 	return;
-    
+
     QMetaObject *meta = object->metaObject();
     QStrList l = meta->slotNames(true);
-  
+
     if(l.find(slotName) == -1)
 	return;
-    
+
     connect(this, SIGNAL(signalEdit()), object, slot);
     emit signalEdit();
     disconnect(this, SIGNAL(signalEdit()), object, slot);
@@ -401,7 +405,7 @@ void JuK::invokeEditSlot( const char *slotName, const char *slot )
 QString JuK::playingString() const
 {
     QString s;
-    
+
     if(m_splitter->playingArtist().isEmpty())
 	s = m_splitter->playingTrack().simplifyWhiteSpace();
     else
@@ -424,7 +428,7 @@ void JuK::play(const QString &file)
 
     if(m_player->paused())
 	m_player->stop();
-    
+
     m_player->play(file, volume);
 
     // Make sure that the m_player actually starts before doing anything.
@@ -432,10 +436,10 @@ void JuK::play(const QString &file)
     if(m_player->playing()) {
 	m_pauseAction->setEnabled(true);
 	m_stopAction->setEnabled(true);
-	
+
 	m_backAction->setEnabled(true);
 	m_forwardAction->setEnabled(true);
-	
+
 	m_sliderAction->getTrackPositionSlider()->setValue(0);
 	m_sliderAction->getTrackPositionSlider()->setEnabled(true);
 	m_playTimer->start(m_pollInterval);
@@ -461,7 +465,7 @@ void JuK::slotPlaylistChanged()
 	m_savePlaylistAction->setEnabled(false);
 	m_saveAsPlaylistAction->setEnabled(false);
 	m_renamePlaylistAction->setEnabled(false);
-	m_deleteItemPlaylistAction->setEnabled(false);	
+	m_deleteItemPlaylistAction->setEnabled(false);
     }
     else {
 	m_savePlaylistAction->setEnabled(true);
@@ -562,7 +566,7 @@ void JuK::slotStop()
     m_splitter->stop();
 
     m_statusLabel->clear();
-    
+
     if(m_systemTray)
 	m_systemTray->slotStop();
 }
@@ -700,7 +704,7 @@ void JuK::slotPollPlay()
     if(!m_player)
 	return;
 
-    // Our locking mechanism.  Since this method adjusts the play slider, we 
+    // Our locking mechanism.  Since this method adjusts the play slider, we
     // want to make sure that our adjustments
     m_noSeek = true;
 
@@ -717,7 +721,7 @@ void JuK::slotPollPlay()
     }
 
     // Ok, this is weird stuff, but it works pretty well.  Ordinarily we don't
-    // need to check up on our playing time very often, but in the span of the 
+    // need to check up on our playing time very often, but in the span of the
     // last interval, we want to check a lot -- to figure out that we've hit the
     // end of the song as soon as possible.
 
