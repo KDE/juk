@@ -17,10 +17,12 @@
 
 #include <ktoolbar.h>
 #include <klocale.h>
+#include <kiconloader.h>
 #include <kdebug.h>
 
 #include <qtooltip.h>
 #include <qlayout.h>
+#include <qlabel.h>
 #include <qslider.h>
 
 #include "slideraction.h"
@@ -42,17 +44,18 @@ public:
     TrackPositionSlider(QWidget *parent, const char *name) : QSlider(parent, name) {}
 
 protected:
-    void mousePressEvent(QMouseEvent *e) {
-	if(e->button() == LeftButton) {
-	    QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), MidButton, e->state());
-	    QSlider::mousePressEvent(&reverse); 
-	    emit sliderPressed();
+    virtual void mousePressEvent(QMouseEvent *e) {
+        if(e->button() == LeftButton) {
+            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), MidButton, e->state());
+            QSlider::mousePressEvent(&reverse); 
+            emit sliderPressed();
 	}
-	else if(e->button() == MidButton) {
-	    QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), LeftButton, e->state());
-	    QSlider::mousePressEvent(&reverse); 
-	}
+        else if(e->button() == MidButton) {
+            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), LeftButton, e->state());
+            QSlider::mousePressEvent(&reverse); 
+        }
     }
+    virtual void focusInEvent(QFocusEvent *) { clearFocus(); }
 };
 
 class VolumeSlider : public QSlider
@@ -61,12 +64,12 @@ public:
     VolumeSlider(QWidget *parent, const char *name) : QSlider(parent, name) {}
 
 protected:
-    void wheelEvent(QWheelEvent *e) {
-	QWheelEvent transposed(e->pos(), -(e->delta()), e->state(), e->orientation());
-	
-	QSlider::wheelEvent(&transposed);
-//	QSlider::wheelEvent(new QWheelEvent(e->pos(), -(e->delta()), e->state(), e->orientation()));
+    virtual void wheelEvent(QWheelEvent *e) {
+        QWheelEvent transposed(e->pos(), -(e->delta()), e->state(), e->orientation());
+
+        QSlider::wheelEvent(&transposed);
     }
+    virtual void focusInEvent(QFocusEvent *) { clearFocus(); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -82,16 +85,6 @@ SliderAction::SliderAction(const QString &text, QObject *parent, const char *nam
 SliderAction::~SliderAction()
 {
 
-}
-
-QSlider *SliderAction::getTrackPositionSlider() const
-{
-    return m_trackPositionSlider;
-}
-
-QSlider *SliderAction::getVolumeSlider() const
-{
-    return m_volumeSlider;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -124,18 +117,37 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 {
     if(parent) {
         QWidget *base = new QWidget(parent);
-	base->setBackgroundMode( parent->backgroundMode() );
-	base->setName("kde toolbar widget");
-//	base->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum));
+        base->setBackgroundMode(parent->backgroundMode());
+        base->setName("kde toolbar widget");
 
-	m_layout = new QBoxLayout(base, QBoxLayout::TopToBottom, 5, 5);
+        QToolBar *toolbar = dynamic_cast<QToolBar *>(parent);
+        if(toolbar)
+            toolbar->setStretchableWidget(base);
+
+        m_layout = new QBoxLayout(base, QBoxLayout::TopToBottom, 5, 5);
+
+        m_layout->addItem(new QSpacerItem(20, 1));
+
+        QLabel *trackPositionLabel = new QLabel(base);
+        trackPositionLabel->setName("kde toolbar widget");
+        trackPositionLabel->setPixmap(SmallIcon("juk_time"));
+        QToolTip::add(trackPositionLabel, i18n("Track position"));
+        m_layout->addWidget(trackPositionLabel);
 
         m_trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
         m_trackPositionSlider->setMaxValue(1000);
         QToolTip::add(m_trackPositionSlider, i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
 
-	m_volumeSlider = new VolumeSlider(base, "volumeSlider");
+        m_layout->addItem(new QSpacerItem(10, 1));
+
+        QLabel *volumeLabel = new QLabel(base);
+        volumeLabel->setName("kde toolbar widget");
+        volumeLabel->setPixmap(SmallIcon("juk_volume"));
+        QToolTip::add(volumeLabel, i18n("Volume"));
+	m_layout->addWidget(volumeLabel);
+
+        m_volumeSlider = new VolumeSlider(base, "volumeSlider");
         m_volumeSlider->setMaxValue(100);
         QToolTip::add(m_volumeSlider, i18n("Volume"));
         m_layout->addWidget(m_volumeSlider);
@@ -145,8 +157,6 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 
         m_layout->setStretchFactor(m_trackPositionSlider, 4);
         m_layout->setStretchFactor(m_volumeSlider, 1);
-
-//        setWidget(base);
 
         connect(parent, SIGNAL(modechange()), this, SLOT(slotUpdateSize()));
         return base;

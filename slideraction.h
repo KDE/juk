@@ -31,8 +31,8 @@ public:
     SliderAction(const QString &text, QObject *parent, const char *name);
     virtual ~SliderAction();
 
-    QSlider *getVolumeSlider() const;
-    QSlider *getTrackPositionSlider() const;
+    QSlider *volumeSlider() const { return m_volumeSlider; }
+    QSlider *trackPositionSlider() const { return m_trackPositionSlider; }
 
 public slots:
     void slotUpdateOrientation(QDockWindow *dockWindow = 0);

@@ -77,10 +77,10 @@ JuK::~JuK()
 
 void JuK::setVolume(float volume)
 {
-    if(m_sliderAction->getVolumeSlider()->maxValue() > 0 &&
-       volume >= 0 && m_sliderAction->getVolumeSlider()->maxValue() >= volume)
+    if(m_sliderAction->volumeSlider()->maxValue() > 0 &&
+       volume >= 0 && m_sliderAction->volumeSlider()->maxValue() >= volume)
     {
-        slotSetVolume(int(volume / 100) * m_sliderAction->getVolumeSlider()->maxValue());
+        slotSetVolume(int(volume / 100) * m_sliderAction->volumeSlider()->maxValue());
     }
 }
 
@@ -144,7 +144,7 @@ void JuK::pause()
 
 void JuK::stop()
 {
-    if(!m_player || !m_sliderAction || !m_sliderAction->getVolumeSlider())
+    if(!m_player || !m_sliderAction || !m_sliderAction->volumeSlider())
 	return;
 
     m_playTimer->stop();
@@ -155,8 +155,8 @@ void JuK::stop()
     actionCollection()->action("back")->setEnabled(false);
     actionCollection()->action("forward")->setEnabled(false);
 
-    m_sliderAction->getTrackPositionSlider()->setValue(0);
-    m_sliderAction->getTrackPositionSlider()->setEnabled(false);
+    m_sliderAction->trackPositionSlider()->setValue(0);
+    m_sliderAction->trackPositionSlider()->setEnabled(false);
 
     m_splitter->stop();
 
@@ -193,16 +193,16 @@ void JuK::forward()
 
 void JuK::seekBack()
 {
-    int position = m_sliderAction->getTrackPositionSlider()->value();
-    position = QMAX(m_sliderAction->getTrackPositionSlider()->minValue(), position - 10);
-    emit m_sliderAction->getTrackPositionSlider()->setValue(position);
+    int position = m_sliderAction->trackPositionSlider()->value();
+    position = QMAX(m_sliderAction->trackPositionSlider()->minValue(), position - 10);
+    emit m_sliderAction->trackPositionSlider()->setValue(position);
 }
 
 void JuK::seekForward()
 {
-    int position = m_sliderAction->getTrackPositionSlider()->value();
-    position = QMIN(m_sliderAction->getTrackPositionSlider()->maxValue(), position + 10);
-    emit m_sliderAction->getTrackPositionSlider()->setValue(position);
+    int position = m_sliderAction->trackPositionSlider()->value();
+    position = QMIN(m_sliderAction->trackPositionSlider()->maxValue(), position + 10);
+    emit m_sliderAction->trackPositionSlider()->setValue(position);
 }
 
 void JuK::playPause()
@@ -218,29 +218,29 @@ void JuK::playPause()
 
 void JuK::volumeUp()
 {
-    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
-	int volume = m_sliderAction->getVolumeSlider()->value() +
-	    m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% up
+    if(m_sliderAction && m_sliderAction->volumeSlider()) {
+	int volume = m_sliderAction->volumeSlider()->value() +
+	    m_sliderAction->volumeSlider()->maxValue() / 25; // 4% up
 	slotSetVolume(volume);
-	m_sliderAction->getVolumeSlider()->setValue(volume);
+	m_sliderAction->volumeSlider()->setValue(volume);
     }
 }
 
 void JuK::volumeDown()
 {
-    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
-	int volume = m_sliderAction->getVolumeSlider()->value() -
-	    m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% down
+    if(m_sliderAction && m_sliderAction->volumeSlider()) {
+	int volume = m_sliderAction->volumeSlider()->value() -
+	    m_sliderAction->volumeSlider()->maxValue() / 25; // 4% down
 	slotSetVolume(volume);
-	m_sliderAction->getVolumeSlider()->setValue(volume);
+	m_sliderAction->volumeSlider()->setValue(volume);
     }
 }
 
 void JuK::volumeMute()
 {
-    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
+    if(m_sliderAction && m_sliderAction->volumeSlider()) {
 	if(m_muted)
-	    slotSetVolume(m_sliderAction->getVolumeSlider()->value());
+	    slotSetVolume(m_sliderAction->volumeSlider()->value());
 	else
 	    slotSetVolume(0);
 	    m_muted = !m_muted;
@@ -284,6 +284,7 @@ void JuK::setupLayout()
 
     // Needs to be here because m_splitter is not called before setupActions
     // (because PlaylistSplitter itself accesses the actionCollection)
+
     new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()),
                 actionCollection(), "renameFile"); // 4
 
@@ -523,18 +524,18 @@ void JuK::setupPlayer()
     connect(m_playTimer, SIGNAL(timeout()), this, SLOT(slotPollPlay()));
 
     if(m_sliderAction &&
-       m_sliderAction->getTrackPositionSlider() &&
-       m_sliderAction->getVolumeSlider())
+       m_sliderAction->trackPositionSlider() &&
+       m_sliderAction->volumeSlider())
     {
-        connect(m_sliderAction->getTrackPositionSlider(), SIGNAL(valueChanged(int)),
+        connect(m_sliderAction->trackPositionSlider(), SIGNAL(valueChanged(int)),
 		this, SLOT(slotTrackPositionSliderUpdate(int)));
-        connect(m_sliderAction->getTrackPositionSlider(), SIGNAL(sliderPressed()),
+        connect(m_sliderAction->trackPositionSlider(), SIGNAL(sliderPressed()),
 		this, SLOT(slotTrackPositionSliderClicked()));
-        connect(m_sliderAction->getTrackPositionSlider(), SIGNAL(sliderReleased()),
+        connect(m_sliderAction->trackPositionSlider(), SIGNAL(sliderReleased()),
 		this, SLOT(slotTrackPositionSliderReleased()));
-        m_sliderAction->getTrackPositionSlider()->setEnabled(false);
+        m_sliderAction->trackPositionSlider()->setEnabled(false);
 
-        connect(m_sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)),
+        connect(m_sliderAction->volumeSlider(), SIGNAL(valueChanged(int)),
 		this, SLOT(slotSetVolume(int)));
     }
 
@@ -606,10 +607,10 @@ void JuK::readConfig()
     KConfig *config = KGlobal::config();
     { // player settings
         KConfigGroupSaver saver(config, "Player");
-        if(m_sliderAction->getVolumeSlider()) {
-	    int maxVolume = m_sliderAction->getVolumeSlider()->maxValue();
+        if(m_sliderAction->volumeSlider()) {
+	    int maxVolume = m_sliderAction->volumeSlider()->maxValue();
 	    int volume = config->readNumEntry("Volume", maxVolume);
-            m_sliderAction->getVolumeSlider()->setValue(volume);
+            m_sliderAction->volumeSlider()->setValue(volume);
         }
         bool randomPlay = config->readBoolEntry("RandomPlay", false);
         m_randomPlayAction->setChecked(randomPlay);
@@ -659,8 +660,8 @@ void JuK::saveConfig()
     KConfig *config = KGlobal::config();
     { // m_player settings
         KConfigGroupSaver saver(config, "Player");
-        if(m_sliderAction && m_sliderAction->getVolumeSlider())
-            config->writeEntry("Volume", m_sliderAction->getVolumeSlider()->value());
+        if(m_sliderAction && m_sliderAction->volumeSlider())
+            config->writeEntry("Volume", m_sliderAction->volumeSlider()->value());
         if(m_randomPlayAction)
             config->writeEntry("RandomPlay", m_randomPlayAction->isChecked());
         if(m_loopPlaylistAction)
@@ -743,11 +744,11 @@ void JuK::updatePlaylistInfo()
 
 void JuK::play(const QString &file)
 {
-    if(!m_player || !m_sliderAction || !m_sliderAction->getVolumeSlider())
+    if(!m_player || !m_sliderAction || !m_sliderAction->volumeSlider())
         return;
 
-    float volume = float(m_sliderAction->getVolumeSlider()->value()) /
-	float(m_sliderAction->getVolumeSlider()->maxValue());
+    float volume = float(m_sliderAction->volumeSlider()->value()) /
+	float(m_sliderAction->volumeSlider()->maxValue());
 
     if(m_player->paused())
         m_player->stop();
@@ -763,8 +764,8 @@ void JuK::play(const QString &file)
 
         m_backAction->setEnabled(true);
 
-        m_sliderAction->getTrackPositionSlider()->setValue(0);
-        m_sliderAction->getTrackPositionSlider()->setEnabled(true);
+        m_sliderAction->trackPositionSlider()->setValue(0);
+        m_sliderAction->trackPositionSlider()->setEnabled(true);
         m_playTimer->start(m_pollInterval);
 
         m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
@@ -871,7 +872,7 @@ void JuK::slotTrackPositionSliderReleased()
 	return;
 
     m_trackPositionDragging = false;
-    m_player->seekPosition(m_sliderAction->getTrackPositionSlider()->value());
+    m_player->seekPosition(m_sliderAction->trackPositionSlider()->value());
 }
 
 void JuK::slotTrackPositionSliderUpdate(int position)
@@ -886,7 +887,7 @@ void JuK::slotTrackPositionSliderUpdate(int position)
     if(m_player->playing() && m_trackPositionDragging && !m_noSeek) {
 	// position from 0 to 1
 	float positionFraction = float(position) /
-	    m_sliderAction->getTrackPositionSlider()->maxValue();
+	    m_sliderAction->trackPositionSlider()->maxValue();
 	float totalTime = float(m_player->totalTime());
 	long seekTime = long(positionFraction * totalTime + 0.5); // "+0.5" for rounding
 
@@ -913,7 +914,7 @@ void JuK::slotPollPlay()
 				      m_loopPlaylistAction->isChecked()));
     }
     else if(!m_trackPositionDragging) {
-        m_sliderAction->getTrackPositionSlider()->setValue(m_player->position());
+        m_sliderAction->trackPositionSlider()->setValue(m_player->position());
 	m_statusLabel->setItemTotalTime(m_player->totalTime());
 	m_statusLabel->setItemCurrentTime(m_player->currentTime());
     }
@@ -935,12 +936,12 @@ void JuK::slotPollPlay()
 
 void JuK::slotSetVolume(int volume)
 {
-    if(m_player && m_sliderAction && m_sliderAction->getVolumeSlider() &&
-       m_sliderAction->getVolumeSlider()->maxValue() > 0 &&
-       volume >= 0 && m_sliderAction->getVolumeSlider()->maxValue() >= volume)
+    if(m_player && m_sliderAction && m_sliderAction->volumeSlider() &&
+       m_sliderAction->volumeSlider()->maxValue() > 0 &&
+       volume >= 0 && m_sliderAction->volumeSlider()->maxValue() >= volume)
     {
         m_player->setVolume(float(volume) /
-			    float(m_sliderAction->getVolumeSlider()->maxValue()));
+			    float(m_sliderAction->volumeSlider()->maxValue()));
     }
 }
 
