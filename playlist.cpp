@@ -378,8 +378,7 @@ int Playlist::time() const
     QListViewItemIterator it(const_cast<Playlist *>(this));
     while (it.current()) {
 	PlaylistItem *item = static_cast<PlaylistItem *>(it.current());
-	if(item->file().current())
-	    time += item->file().tag()->seconds();
+	time += item->file().tag()->seconds();
 	it++;
     }
     return time;
@@ -972,8 +971,12 @@ void Playlist::read(QDataStream &s)
 
     QStringList files;
     s >> files;
-    addFiles(files, false);
 
+    QListViewItem *after = 0;
+    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
+        after = createItem(FileHandle(*it), after, false);
+
+    PlaylistInterface::update();
     m_collection->setupPlaylist(this, "midi");
 }
 
@@ -1752,7 +1755,7 @@ void processEvents()
 {
     static QTime time = QTime::currentTime();
 
-    if(time.elapsed() > 1000) {
+    if(time.elapsed() > 500) {
 	time.restart();
 	kapp->processEvents();
     }

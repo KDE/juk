@@ -266,8 +266,6 @@ void Cache::load()
         s >> fileName;
         fileName.squeeze();        
 
-        FileHandle f(fileName);
-        s >> f;
-        // f.setFile(fileName);
+        FileHandle f(fileName, s);
     }
 }

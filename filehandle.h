@@ -37,6 +37,7 @@ public:
     FileHandle(const FileHandle &f);
     explicit FileHandle(const QFileInfo &info, const QString &path = QString::null);
     explicit FileHandle(const QString &path);
+    FileHandle(const QString &path, CacheDataStream &s);
     ~FileHandle();
 
     /**

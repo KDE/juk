@@ -103,6 +103,15 @@ FileHandle::FileHandle(const QString &path) :
     setup(QFileInfo(path), path);
 }
 
+FileHandle::FileHandle(const QString &path, CacheDataStream &s)
+{
+    d = new FileHandlePrivate;
+    d->fileInfo = QFileInfo(path);
+    d->absFilePath = path;
+    read(s);
+    Cache::instance()->insert(*this);
+}
+
 FileHandle::~FileHandle()
 {
     if(d->deref())

@@ -167,6 +167,10 @@ public:
      * This handles adding files of various types -- music, playlist or directory
      * files.  Music files that are found will be added to this playlist.  New
      * playlist files that are found will result in new playlists being created.
+     *
+     * Note that this should not be used in the case of adding *only* playlist
+     * items since it has the overhead of checking to see if the file is a playlist
+     * or directory first.
      */
     void addFiles(const QStringList &files, bool importPlaylists,
 		  PlaylistItem *after = 0);
