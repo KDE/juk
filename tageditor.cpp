@@ -103,7 +103,7 @@ void TagEditor::slotRefresh()
     m_trackNameBox->setText(tag->title());
     m_albumNameBox->setEditText(tag->album());
 
-    m_fileNameBox->setText(item->file().absFilePath());
+    m_fileNameBox->setText(item->file().fileInfo().fileName());
     m_bitrateBox->setText(QString::number(tag->bitrate()));
     m_lengthBox->setText(tag->lengthString());
 
@@ -466,7 +466,9 @@ void TagEditor::save(const PlaylistItemList &list)
 		// If the file name in the box doesn't match the current file
 		// name...
 		
-		if(list.count() == 1 && item->file().absFilePath() != newFile.fileName()) {
+		if(list.count() == 1 &&
+		   item->file().fileInfo().fileName() != newFile.fileName())
+		{
 		    
 		    // Rename the file if it doesn't exist or the user says
 		    // that it's ok.
