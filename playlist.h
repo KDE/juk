@@ -20,6 +20,7 @@
 
 #include <klistview.h>
 #include <kurldrag.h>
+#include <kglobalsettings.h>
 
 #include <qstringlist.h>
 #include <qvaluevector.h>
@@ -530,6 +531,14 @@ private slots:
      * to manually set the size of the column.
      */
     void slotColumnSizeChanged(int column, int oldSize, int newSize);
+
+    /**
+     * The slot is called when the completion mode for the line edit in the
+     * inline tag editor is changed.  It saves the settings and through the
+     * magic of the SharedSettings class will apply it to the other playlists as
+     * well.
+     */
+    void slotInlineCompletionModeChanged(KGlobalSettings::Completion mode);
 
 private:
     StringHash m_members;

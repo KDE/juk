@@ -63,6 +63,7 @@ public:
      */
     void setColumnOrder(const Playlist *l);
     void toggleColumnVisible(int column);
+    void setInlineCompletionMode(KGlobalSettings::Completion mode);
 
     /**
      * Apply the settings.
@@ -79,6 +80,7 @@ private:
     static SharedSettings *m_instance;
     QValueList<int> m_columnOrder;
     QValueVector<bool> m_columnsVisible;
+    KGlobalSettings::Completion m_inlineCompletion;
 };
 
 Playlist::SharedSettings *Playlist::SharedSettings::m_instance = 0;
@@ -117,6 +119,13 @@ void Playlist::SharedSettings::toggleColumnVisible(int column)
     writeConfig();
 }
 
+void Playlist::SharedSettings::setInlineCompletionMode(KGlobalSettings::Completion mode)
+{
+    m_inlineCompletion = mode;
+    writeConfig();
+}
+
+
 void Playlist::SharedSettings::apply(Playlist *l) const
 {
     if(!l)
@@ -135,6 +144,7 @@ void Playlist::SharedSettings::apply(Playlist *l) const
     }
 
     l->updateLeftColumn();
+    l->renameLineEdit()->setCompletionMode(m_inlineCompletion);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -169,7 +179,6 @@ Playlist::SharedSettings::SharedSettings()
 	    }
 	}
 	else {
-
 	    // Convert the int list into a bool list.
 
 	    m_columnsVisible.resize(l.size(), true);
@@ -180,6 +189,9 @@ Playlist::SharedSettings::SharedSettings()
 		i++;
 	    }
 	}
+
+	m_inlineCompletion = KGlobalSettings::Completion(
+	    config->readNumEntry("InlineCompletionMode", KGlobalSettings::CompletionAuto));
     }
 }
 
@@ -190,7 +202,6 @@ Playlist::SharedSettings::SharedSettings()
 void Playlist::SharedSettings::writeConfig()
 {
     KConfig *config = kapp->config();
-
     {
 	KConfigGroupSaver saver(config, "PlaylistShared");
 	config->writeEntry("ColumnOrder", m_columnOrder);
@@ -200,6 +211,7 @@ void Playlist::SharedSettings::writeConfig()
 	    l.append(int(m_columnsVisible[i]));
 
 	config->writeEntry("VisibleColumns", l);
+	config->writeEntry("InlineCompletionMode", m_inlineCompletion);
     }
 
     config->sync();
@@ -903,6 +915,9 @@ void Playlist::polish()
     connect(header(), SIGNAL(sizeChange(int, int, int)),
 	    this, SLOT(slotColumnSizeChanged(int, int, int)));
 
+    connect(renameLineEdit(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
+	    this, SLOT(slotInlineCompletionModeChanged(KGlobalSettings::Completion)));
+
     setHScrollBarMode(AlwaysOff);
 
     setAcceptDrops(true);
@@ -1283,8 +1298,6 @@ void Playlist::slotRenameTag()
 	break;
     }
 
-    edit->setCompletionMode(KGlobalSettings::CompletionAuto);
-
     m_editText = currentItem()->text(m_currentColumn);
 
     rename(currentItem(), m_currentColumn);
@@ -1377,6 +1390,11 @@ void Playlist::slotColumnSizeChanged(int column, int, int newSize)
 {
     m_widthsDirty = true;
     m_columnFixedWidths[column] = newSize;
+}
+
+void Playlist::slotInlineCompletionModeChanged(KGlobalSettings::Completion mode)
+{
+    SharedSettings::instance()->setInlineCompletionMode(mode);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
