@@ -60,6 +60,10 @@ TrackPickerDialog::TrackPickerDialog(const QString &name,
         new TrackPickerItem(m_base->trackList, *it);
 
     m_base->trackList->setSelected(m_base->trackList->firstChild(), true);
+
+    connect(m_base->trackList, SIGNAL(doubleClicked(QListViewItem *, const QPoint &, int)),
+            this, SLOT(accept()));
+
     setMinimumWidth(kMax(400, width()));
 }
 
