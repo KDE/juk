@@ -22,6 +22,7 @@
 #include <kdebug.h>
 
 #include <qpopupmenu.h>
+#include <qlayout.h>
 
 #include "playlistsplitter.h"
 #include "searchwidget.h"
@@ -514,8 +515,6 @@ void PlaylistSplitter::slotRenameFile()
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
-
-#include <qlayout.h>
 
 void PlaylistSplitter::setupLayout()
 {
