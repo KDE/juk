@@ -68,9 +68,15 @@ class PlaylistItem : public QObject, public KListViewItem
     Q_OBJECT
 
 public:
-    enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3,
-                      GenreColumn = 4, YearColumn = 5, LengthColumn = 6, CommentColumn = 7,
-		      FileNameColumn = 8 };
+    enum ColumnType { TrackColumn       = 0,
+		      ArtistColumn      = 1,
+		      AlbumColumn       = 2,
+		      TrackNumberColumn = 3,
+		      GenreColumn       = 4,
+		      YearColumn        = 5,
+		      LengthColumn      = 6,
+		      CommentColumn     = 7,
+		      FileNameColumn    = 8 };
 
     static int lastColumn() { return FileNameColumn; }
 
@@ -79,6 +85,7 @@ public:
     const Tag *tag() const;
 
     virtual QString text(int column) const;
+    virtual void setText(int column, const QString &text);
 
     // These are just forwarding methods to PlaylistItem::Data, a QFileInfo
     // subclass.
@@ -140,7 +147,6 @@ protected:
     void setData(Data *d) { m_data = d; }
 
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
-    virtual void setText(int column, const QString &text);
 
     virtual int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;

@@ -53,7 +53,9 @@ const Tag *PlaylistItem::tag() const
 
 QString PlaylistItem::text(int column) const
 {
-    switch(column) {
+    int offset = static_cast<Playlist *>(listView())->columnOffset();
+
+    switch(column - offset) {
     case TrackColumn:
 	return m_data->tag()->track();
     case ArtistColumn:
@@ -73,12 +75,21 @@ QString PlaylistItem::text(int column) const
     case FileNameColumn:
 	return m_data->tag()->absFilePath();
     default:
-	return QString::null;
+	return KListViewItem::text(column);
     }
 }
 
-// Some forwarding methods - these can't be inlined because the Data class
-// isn't defined yet.
+void PlaylistItem::setText(int column, const QString &text)
+{
+    int offset = static_cast<Playlist *>(listView())->columnOffset();
+    if(column - offset >= 0 && column + offset <= lastColumn()) {
+	KListViewItem::setText(column, QString::null);
+	return;
+    }
+
+    KListViewItem::setText(column, text);
+    emit signalColumnWidthChanged(column);
+}
 
 QString PlaylistItem::fileName() const
 {
@@ -164,7 +175,7 @@ void PlaylistItem::slotRefresh()
     // This signal will be received by the "parent" CollectionListItem which will
     // in turn call slotRefreshImpl() for all of its children, including this item.
 
-    emit(signalRefreshed());
+    emit signalRefreshed();
 }
 
 void PlaylistItem::slotRefreshFromDisk()
@@ -219,11 +230,6 @@ void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int
 
     colorGroup.setColor(QColorGroup::Base, c);
     QListViewItem::paintCell(p, colorGroup, column, width, align);
-}
-
-void PlaylistItem::setText(int column, const QString &)
-{
-    emit signalColumnWidthChanged(column);
 }
 
 int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
@@ -304,7 +310,10 @@ void PlaylistItem::slotRefreshImpl()
 
     for(int i = 0; i < columns; i++) {
 	m_data->setLocal8BitLower(i, text(i).lower().local8Bit());
-	m_data->setCachedWidth(i, width(listView()->fontMetrics(), listView(), i));
+	int newWidth = width(listView()->fontMetrics(), listView(), i);
+	m_data->setCachedWidth(i, newWidth);
+	if(newWidth != m_data->cachedWidth(i))
+	    emit signalColumnWidthChanged(i);
     }
 }
 
