@@ -47,8 +47,8 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const cha
     // Make sure that we have enough of a margin to suffice for the borders,
     // hence the "lineWidth() * 2"
     QHBoxLayout *trackAndPlaylistLayout = new QHBoxLayout(trackAndPlaylist,
-							  trackAndPlaylist->lineWidth() * 2,
-							  5, "trackAndPlaylistLayout");
+                                                          trackAndPlaylist->lineWidth() * 2,
+                                                          5, "trackAndPlaylistLayout");
     trackAndPlaylistLayout->addSpacing(5);
 
     m_playlistLabel = new KSqueezedTextLabel(trackAndPlaylist, "playlistLabel");
@@ -99,6 +99,8 @@ StatusLabel::~StatusLabel()
 
 void StatusLabel::updateCurrent()
 {
+    kdDebug(65432) << k_funcinfo << endl;
+
     if(playlist()->playing()) {
         FileHandle file = playlist()->currentFile();
 
@@ -110,11 +112,13 @@ void StatusLabel::updateCurrent()
         m_trackLabel->setText(text);
         m_playlistLabel->setText(playlist()->name().simplifyWhiteSpace());
     }
+    else
+        updateData();
 }
 
 void StatusLabel::updateData()
 {
-    updateCurrent();
+    kdDebug(65432) << k_funcinfo << endl;
 
     if(!playlist()->playing()) {
         setItemTotalTime(0);
@@ -139,6 +143,8 @@ void StatusLabel::updateData()
         m_playlistLabel->setText(playlist()->name());
         m_trackLabel->setText(i18n("1 item", "%n items", playlist()->count()) + " - " + time);
     }
+    else
+        updateCurrent();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
