@@ -41,6 +41,8 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     connect(m_child->bAdd, SIGNAL(clicked()), this, SLOT(slotAddClicked()));
     connect(m_child->bModify, SIGNAL(clicked()), this, SLOT(slotModifyClicked()));
     connect(m_child->bRemove, SIGNAL(clicked()), this, SLOT(slotRemoveClicked()));
+
+    resize( 400, 300 );
 }
 
 void TagGuesserConfigDlg::accept()
