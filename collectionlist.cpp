@@ -183,10 +183,8 @@ void CollectionListItem::slotRefresh()
 {
     slotRefreshImpl();
     
-    if(CollectionList::instance()) {
-	CollectionList::instance()->addArtist(text(ArtistColumn));
-	CollectionList::instance()->addAlbum(text(AlbumColumn));	
-    }
+    CollectionList::instance()->addArtist(text(ArtistColumn));
+    CollectionList::instance()->addAlbum(text(AlbumColumn));	
 
     // This is connected to slotRefreshImpl() for all of the items children.
     emit signalRefreshed();
@@ -238,11 +236,14 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
 void CollectionListItem::checkCurrent()
 {
     if(!data()->exists() || !data()->isFile()) {
+	kdDebug() << "So, this exists -- " << m_path << endl;
 	CollectionList::instance()->clearItem(this);
 	return;
     }
-    else if(!data()->tag()->current())
+    else if(!data()->tag()->current()) {
 	data()->refresh();
+	slotRefresh();
+    }
 }
 
 #include "collectionlist.moc"
