@@ -698,13 +698,16 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
 	return;
 
     m_disableColumnWidthUpdates = true;
-    ItemType *previous = 0;
+    ItemType *newItem = 0;
 
     QValueListConstIterator<SiblingType *> it = siblings.begin();
     for(; it != siblings.end(); ++it) {
 	if(!m_members.insert(resolveSymLinks((*it)->absFilePath())) || m_allowDuplicates) {
-	    previous = new ItemType((*it)->collectionItem(), this, previous);
-	    connect((*it)->collectionItem(), SIGNAL(signalAboutToDelete()), (*it), SLOT(slotClear()));
+	    newItem = new ItemType((*it)->collectionItem(), this, newItem);
+	    setupItem(newItem);
+	    if(!m_randomList.isEmpty() && !m_visibleChanged)
+		m_randomList.append(newItem);
+	    connect((*it)->collectionItem(), SIGNAL(signalAboutToDelete()), newItem, SLOT(slotClear()));
 	}
     }
 
