@@ -22,6 +22,7 @@
 #include <kaction.h>
 #include <kmainwindow.h>
 #include <kiconeffect.h>
+#include <kdebug.h>
 
 #include <qhbox.h>
 #include <qpushbutton.h>
@@ -86,8 +87,7 @@ SystemTray::~SystemTray()
 
 void SystemTray::slotNewSong(const QString& songName)
 {
-    setToolTip( songName );
-
+    setToolTip(songName);
     createPopup(songName, true);
 }
 
@@ -162,6 +162,7 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
 
 void SystemTray::setToolTip(const QString &tip)
 {
+    // if(!QToolTip::textFor(this).isNull())
     QToolTip::remove(this);
 
     if(tip.isNull())
