@@ -81,7 +81,7 @@ public:
     virtual void remove() = 0;
     virtual void reload();
     virtual void editSearch();
-    virtual void setCanDeletePlaylist(bool);
+    virtual void setCanDeletePlaylist(bool) = 0;
 
     bool showMoreActive() const;
     void clearShowMore(bool raise = true);
