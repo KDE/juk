@@ -42,6 +42,7 @@
 #include "genrelistlist.h"
 #include "mediafiles.h"
 #include "collectionlist.h"
+#include "filerenamer.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
@@ -534,11 +535,15 @@ void Playlist::slotRefresh()
 
 void Playlist::slotRenameFile()
 {
-    KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
-    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
-        (*it)->renameFile();
-    KApplication::restoreOverrideCursor();
+    if(items.count() == 1) {
+        KApplication::setOverrideCursor(Qt::waitCursor);
+        items[ 0 ]->renameFile();
+        KApplication::restoreOverrideCursor();
+        return;
+    }
+    FileRenamer renamer;
+    renamer.rename(items);
 }
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
@@ -1207,6 +1212,8 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
 	m_rmbMenu->insertSeparator();
 	actionCollection->action("guessTag")->plug(m_rmbMenu);
+    if(!readOnly())
+	actionCollection->action("renameFile")->plug(m_rmbMenu);
 
 	m_rmbMenu->insertSeparator();
 	m_rmbMenu->insertItem(SmallIcon("new"), i18n("Create Playlist From Selected Items"), this, SLOT(slotCreateGroup()));

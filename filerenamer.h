@@ -10,8 +10,8 @@
 #define FILERENAMER_H
 
 #include <kconfigbase.h>
+#include "playlistitem.h"
 
-class PlaylistItem;
 class Tag;
 
 class FileRenamer
@@ -45,6 +45,7 @@ class FileRenamer
 		FileRenamer(const PlaylistItem *item);
 
 		void rename(const PlaylistItem *item);
+		void rename(const PlaylistItemList &items);
 		QString rename(const QString &filename, const Tag &tag) const;
 
 	private:

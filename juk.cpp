@@ -405,8 +405,8 @@ void JuK::setupActions()
 
     connect(m_guessMenu->popupMenu(), SIGNAL(activated(int)), this, SLOT(slotGuessTagInfo(int)));
 
-    // new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()),
-    //   actionCollection(), "renameFile"); // 4
+    new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()),
+                actionCollection(), "renameFile"); // 4
 
     //////////////////////////////////////////////////
     // settings menu

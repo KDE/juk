@@ -12,7 +12,9 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kdebug.h>
+#include <klocale.h>
 #include <kmacroexpander.h>
+#include <kmessagebox.h>
 
 #include <qdir.h>
 
@@ -92,7 +94,42 @@ void FileRenamer::rename(const PlaylistItem *item)
         return;
 
     QString newFilename = rename(item->absFilePath(), *item->tag());
-    moveFile(item->absFilePath(), newFilename);
+    if(KMessageBox::warningContinueCancel(0,
+        i18n("You're about to rename the file '%1' to '%2'. Are you sure you "
+             "want to continue?").arg(item->absFilePath()).arg(newFilename),
+              i18n("Warning"), KStdGuiItem::cont(), "ShowFileRenamerWarning")
+       == KMessageBox::Continue) {
+        moveFile(item->absFilePath(), newFilename);
+    }
+}
+
+void FileRenamer::rename(const PlaylistItemList &items)
+{
+    QMap<QString, QString> map;
+    QStringList filenames;
+
+    PlaylistItemList::ConstIterator it = items.begin();
+    for(; it != items.end(); ++it) {
+        const QString oldName = (*it)->absFilePath();
+        const QString newName = rename(oldName, *(*it)->tag());
+        filenames += oldName + "=>" + newName;
+        map[oldName] = newName;
+    }
+
+    if(KMessageBox::warningContinueCancelList(0, i18n("You're about to "
+       "rename the following files. Are you sure you want to continue?"),
+       filenames, i18n("Warning"), KStdGuiItem::cont(), "ShowFileRenamerWarning")
+       == KMessageBox::Continue) {
+        KApplication::setOverrideCursor(Qt::waitCursor);
+        int j = 1;
+        QMap<QString, QString>::ConstIterator it = map.begin();
+        for(; it != map.end(); ++it, ++j) {
+            moveFile(it.key(), it.data());
+            if(j % 5 == 0)
+                kapp->processEvents();
+        }
+        KApplication::restoreOverrideCursor();
+    }
 }
 
 QString FileRenamer::rename(const QString &filename, const Tag &tag) const
@@ -139,23 +176,24 @@ void FileRenamer::moveFile(const QString &src, const QString &dest)
         }
     }
 
-    return;
-
     QFile srcFile(src);
     if(!srcFile.open(IO_ReadOnly)) {
-        kdWarning() << "Could not open" << src << " for reading." << endl;
+        KMessageBox::error(0, i18n("Could not open %1 for reading.").arg(src));
         return;
     }
 
     QFile destFile(dest);
     if(!destFile.open(IO_WriteOnly)) {
-        kdWarning() << "Could not open " << dest << " for writing." << endl;
+        KMessageBox::error(0, i18n("Could not open %1 for writing.").arg(dest));
         return;
     }
 
     destFile.writeBlock(srcFile.readAll());
 
     if(!srcFile.remove())
-        kdWarning() << "Could not delete source file " << src << endl;
+        KMessageBox::sorry(0, i18n("Renamed the file, but failed the source "
+                                      "file %1. You might want to do so by "
+                                      "hand.").arg(src));
 }
-// vim:ts=4:sw=4:noet
+
+// vim:ts=4:sw=4:et
