@@ -166,7 +166,6 @@ bool AudioData::headCheck(unsigned long head)
 
 int AudioData::getBitrate(){
     return (bitrates[version][layer - 1][bitrate_index]);
-
 }
 
 int AudioData::getSamplerate(){
@@ -199,17 +198,18 @@ int AudioData::getLength() {
 }
 
 char* AudioData::getLengthChar() {
-    int min, sec;
-    char buf[6];
+    if(success) {
+        int min, sec;
+        char buf[6];
 
-    min=length/60;
-    sec=length%60;
-    /*   if (sec < 10)
-         sprintf (buf, "%d:0%d", min, sec);
-         else   */
-    sprintf (buf, "%d:%02d", min, sec);
-    lengthchar=strdup (buf);
-    return lengthchar;
+        min=length/60;
+        sec=length%60;
+        sprintf (buf, "%d:%02d", min, sec);
+        lengthchar=strdup (buf);
+        return lengthchar;
+    }
+    else
+        return 0;
 }
 
 int AudioData::getSize() {

@@ -380,6 +380,10 @@ void TaggerWidget::updateBoxes() // this needs to be updated to properly work wi
                 lengthBox->setText(audioData->getLengthChar());
                 bitrateBox->setText(QString::number(audioData->getBitrate()));
             }
+            else {
+                lengthBox->setText(QString::null);
+                bitrateBox->setText(QString::null);
+            }
 
             commentBox->setText(tag->getComment());
 
