@@ -18,12 +18,13 @@
 #ifndef ARTSPLAYER_H
 #define ARTSPLAYER_H
 
+#include <config.h>
 #include "player.h"
 
 #include <kurl.h>
+#ifdef USE_ARTS
+#include <qstring.h>
 #include <artsflow.h>
-
-class QString;
 
 class KArtsDispatcher;
 class KArtsServer;
@@ -82,6 +83,8 @@ private:
     KURL m_currentURL;
     float m_currentVolume;
 };
+
+#endif
 
 #endif
 

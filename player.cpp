@@ -38,7 +38,9 @@ Player *Player::createPlayer(int system)
     }
 #else
     Q_UNUSED(system);
+#ifdef USE_ARTS
     p = new ArtsPlayer;
+#endif
 #endif
 
     return p;

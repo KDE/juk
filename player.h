@@ -22,8 +22,9 @@
  * Just an interface for concrete player implementations
  */
 
+#include <qstring.h>
+
 class QObject;
-class QString;
 class KSelectAction;
 
 class Player
