@@ -389,39 +389,27 @@ void TagEditor::updateCollection()
     m_albumNameBox->listBox()->insertStringList(albumList);
     m_albumNameBox->completionObject()->setItems(albumList);
 
-    // That was simple, now comes the fun part where we merge the user's list
-    // of genres with the list that comes with TagLib.  We use a hash table
-    // for the fast insertion/search properties, and the fact that we can query
-    // the key values later.
+    // Merge the list of genres found in tags with the standard ID3v1 set.
 
-    QDict<int> dict(5003);
-    int *tempPtr = new int (0);
+    StringHash genreHash;
 
     m_genreList = list->uniqueSet(CollectionList::Genres);
+
     for(QStringList::ConstIterator it = m_genreList.begin(); it != m_genreList.end(); ++it)
-	dict.replace(*it, tempPtr);
+	genreHash.insert(*it);
 
     TagLib::StringList genres = TagLib::ID3v1::genreList();
+
     for(TagLib::StringList::ConstIterator it = genres.begin(); it != genres.end(); ++it)
-	dict.replace(TStringToQString((*it)), tempPtr);
+	genreHash.insert(TStringToQString((*it)));
 
-    m_genreList.clear();
-
-    QDictIterator<int> dictIt(dict);
-    while(dictIt.current()) {
-	m_genreList += dictIt.currentKey();
-	++dictIt;
-    }
-	
+    m_genreList = genreHash.values();
     m_genreList.sort();
 
     m_genreBox->listBox()->clear();
     m_genreBox->listBox()->insertItem(QString::null);
     m_genreBox->listBox()->insertStringList(m_genreList);
     m_genreBox->completionObject()->setItems(m_genreList);
-
-    dict.clear();
-    delete tempPtr;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
