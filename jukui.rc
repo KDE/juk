@@ -70,7 +70,6 @@
 		<Action name="toggleSystemTray" append="show_merge"/>
 		<Action name="dockOnClose" append="show_merge"/>
 		<Action name="togglePopups" append="show_merge"/>
-		<Action name="showCovers" append="show_merge"/>
 		<Action name="saveUpcomingTracks" append="show_merge"/>
 		<Action name="tagGuesserConfig" append="save_merge"/>
 		<Action name="fileRenamerConfig" append="save_merge"/>

@@ -174,10 +174,6 @@ void JuK::setupActions()
     m_togglePopupsAction =
 	new KToggleAction(i18n("Popup &Track Announcement"),
 			  KShortcut(), this, 0, actions(), "togglePopups");
-    m_toggleCoversAction =
-	new KToggleAction(i18n("Show Cover Images"),
-			  KShortcut(), this, 0, actions(), "showCovers");
-
     new KToggleAction(i18n("Save &Play Queue on Exit"),
                       KShortcut(), this, 0, actions(), "saveUpcomingTracks");
 
@@ -324,9 +320,6 @@ void JuK::readConfig()
     bool showPopups = settingsConfig.readBoolEntry("TrackPopup", false);
     m_togglePopupsAction->setChecked(showPopups);
 
-    bool showCovers = settingsConfig.readBoolEntry("ShowCovers", false);
-    m_toggleCoversAction->setChecked(showCovers);
-
     if(m_outputSelectAction)
 	m_outputSelectAction->setCurrentItem(settingsConfig.readNumEntry("MediaSystem", 0));
 
@@ -365,7 +358,6 @@ void JuK::saveConfig()
     settingsConfig.writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
     settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
     settingsConfig.writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
-    settingsConfig.writeEntry("ShowCovers", m_toggleCoversAction->isChecked());
     if(m_outputSelectAction)
 	settingsConfig.writeEntry("MediaSystem", m_outputSelectAction->currentItem());
 
