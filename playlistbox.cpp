@@ -70,6 +70,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     actions->action("file_new")->plug(m_contextMenu);
     actions->action("renamePlaylist")->plug(m_contextMenu);
     actions->action("duplicatePlaylist")->plug(m_contextMenu);
+    actions->action("reloadPlaylist")->plug(m_contextMenu);
     actions->action("deleteItemPlaylist")->plug(m_contextMenu);
     actions->action("file_save")->plug(m_contextMenu);
     actions->action("file_save_as")->plug(m_contextMenu);
@@ -301,12 +302,6 @@ void PlaylistBox::deleteItem(Item *item)
 
     delete item->playlist();
     delete item;
-}
-
-void PlaylistBox::reload(Item *item)
-{
-    if(item && item->playlist())
-	item->playlist()->slotReload();
 }
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)

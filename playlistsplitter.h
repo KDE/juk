@@ -201,10 +201,24 @@ public slots:
     void slotDeleteSelectedItems();
 
     /**
-     * Refresh the contents of the currently visible playlist.  This will cause
-     * all of the audio meta data to be reread from disk.
+     * Refresh either the selection, or if there is no selection, the contents 
+     * of the currently visible playlist.  This will cause all of the audio
+     * meta data to be reread from disk.
+     *
+     * \note Within this context "refresh" indicates reloading meta data and
+     * "reloading" typically denotes reloading the playlist.
+     *
+     * \see slotReloadPlaylist()
      */
     void slotRefresh() { visiblePlaylist()->refresh(); }
+
+    /**
+     * If the current playlist is one that was imported from a .m3u file, this
+     * will revert to the contents of that file.
+     * 
+     * \see slotRefresh()
+     */
+    void slotReloadPlaylist() { visiblePlaylist()->slotReload(); }
 
     /**
      * Show or hide the editor.
@@ -230,7 +244,6 @@ public slots:
     void slotRenamePlaylist() { m_playlistBox->rename(); }
     void slotDuplicatePlaylist() { m_playlistBox->duplicate(); }
     void slotDeletePlaylist();
-
 signals:
     void signalActivated();
     void signalListBoxDoubleClicked();

@@ -97,7 +97,6 @@ private:
     void rename(Item *item);
     void duplicate(Item *item);
     void deleteItem(Item *item);
-    void reload(Item *item);
 
     virtual void decode(QMimeSource *s, Item *item);
     virtual void contentsDropEvent(QDropEvent *e);
