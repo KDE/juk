@@ -32,6 +32,20 @@ Genre::Genre(QString genreName, int id3v1Number) : QString(genreName)
   id3v1 = id3v1Number;
 }
 
+Genre &Genre::operator=(const QString &genreName)
+{
+  Genre genre(genreName, this->getId3v1());
+  *this = genre;
+  return(*this);
+}
+
+Genre &Genre::operator=(const char *genreName)
+{
+  Genre genre(genreName, this->getId3v1());
+  *this = genre;
+  return(*this);
+}
+
 int Genre::getId3v1()
 {
   return(id3v1);

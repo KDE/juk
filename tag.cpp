@@ -15,13 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+
 #include <qdir.h>
+#include <qregexp.h>
 
 #include <id3/misc_support.h>
 
 #include "tag.h"
 
-#include "genre.h"
 #include "genrelist.h"
 #include "genrelistlist.h"
 
@@ -48,8 +50,8 @@ Tag::Tag(QString file)
   trackNumber = ID3_GetTrackNum(&tag);
   trackNumberString = ID3_GetTrack(&tag);
   comment = ID3_GetComment(&tag);
-  genreNumber = int(ID3_GetGenreNum(&tag));
   genre = ID3_GetGenre(&tag);
+  genre.setId3v1(int(ID3_GetGenreNum(&tag)));
   yearString = ID3_GetYear(&tag);
   
   hasTagBool = (tag.HasV2Tag() || tag.HasV1Tag());
@@ -67,14 +69,16 @@ Tag::Tag(QString file)
   }
   
   ///////////////////////////////////////////////////////
-  // get the genrename from the genre number           
+  // parse the genre string for (<id3v1 number>)
   ///////////////////////////////////////////////////////
 
-  if(genre == "(" + QString::number(genreNumber) + ")" || genre == QString::null) 
-    genre = GenreListList::id3v1List()->name(genreNumber);
-  
+  if(genre == "(" + QString::number(genre.getId3v1()) + ")" || genre == QString::null) 
+    genre = GenreListList::id3v1List()->name(genre.getId3v1());
+  else if(genre.find(QRegExp("\\([0-9]+\\)")) == 0)
+    genre = genre.mid(genre.find(")") + 1);
+
   ///////////////////////////////////////////////////////
-  // convert the year to a string                      
+  // convert the year                  
   ///////////////////////////////////////////////////////
 
   year = yearString.toInt();
@@ -120,9 +124,16 @@ void Tag::save()
     else {
       ID3_RemoveTracks(&tag);
     }
-    ID3_AddGenre(&tag, 1, REPLACE);
-    if(genreNumber>=0 && genreNumber<255) {
-      ID3_AddGenre(&tag, genreNumber, REPLACE);
+    //    ID3_AddGenre(&tag, 1, REPLACE);
+    if(genre.getId3v1() >=0 && genre.getId3v1() <  int(GenreListList::id3v1List()->count())) {
+      QString genreString;
+
+      if(genre != GenreListList::id3v1List()->name(genre.getId3v1()))
+	genreString = "(" + QString::number(genre.getId3v1()) + ")" + genre;
+      else
+	genreString = "(" + QString::number(genre.getId3v1()) + ")";
+
+      ID3_AddGenre(&tag, genreString.latin1(), REPLACE);
     }
     else {
       ID3_RemoveGenres(&tag);
@@ -152,8 +163,7 @@ QString Tag::getFileName() { return fileName; }
 QString Tag::getTrack() { return trackName; }               // The song's name, not it's track number
 QString Tag::getArtist() { return artistName; }
 QString Tag::getAlbum() { return albumName; }
-QString Tag::getGenre() { return genre; }
-int Tag::getGenreNumber() { return genreNumber; }
+Genre Tag::getGenre() { return genre; }
 int Tag::getTrackNumber() { return trackNumber; }
 QString Tag::getTrackNumberString() { return trackNumberString; }
 int Tag::getYear() { return year; }
@@ -181,15 +191,10 @@ void Tag::setAlbum(QString value)
   changed = true;
   albumName = value;
 };               
-void Tag::setGenre(int value) 
+void Tag::setGenre(Genre value) 
 {
   changed = true;
-  if(value >=  0 && value <=  255) {
-    genreNumber = value;
-  }
-  else {
-    genreNumber = 255;
-  }
+  genre = value;
 }; 
 void Tag::setTrackNumber(int value) 
 {

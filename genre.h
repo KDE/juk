@@ -24,7 +24,10 @@ class Genre : public QString
 {
 public:
   Genre();
-  Genre(QString genreName, int id3v1Number);
+  Genre(QString genreName, int id3v1Number = 255);
+
+  Genre &operator=(const QString &);
+  Genre &operator=(const char *);
 
   int getId3v1();
 

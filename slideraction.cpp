@@ -31,7 +31,6 @@
 SliderAction::SliderAction(const QString &text, QObject *parent, const char *name)
   : CustomAction(text, parent, name)
 {
-  connect(this, SIGNAL(pluggedIn(QWidget *)), this, SLOT(createWidget(QWidget *)));
 }
 
 SliderAction::~SliderAction()

@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "kdebug.h"
+
 #include "genrelistreader.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -24,6 +26,7 @@
 GenreListReader::GenreListReader(GenreList *genreList)
 {
   list = genreList;
+  inGenreTag = false;
 }
 
 GenreListReader::~GenreListReader()
@@ -54,8 +57,8 @@ bool GenreListReader::endElement(const QString&, const QString&, const QString& 
   
 bool GenreListReader::characters(const QString& content)
 {
-  if(inGenreTag) {
+  if(inGenreTag)
     list->append(Genre(content, id3v1));
-  }
+
   return(true);
 };

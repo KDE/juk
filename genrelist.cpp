@@ -92,9 +92,9 @@ int GenreList::findIndex(QString item)
 
 void GenreList::initializeIndex()
 {
-  kdDebug() << "initializeIndex()" << endl;
+  //  kdDebug() << "initializeIndex()" << endl;
   index.clear();
-  kdDebug() << "Cleared size: " << index.size() << endl;
+  //  kdDebug() << "Cleared size: " << index.size() << endl;
   index.resize(count() + 1);
   for(GenreList::Iterator it = begin(); it != end(); ++it) {
     if((*it).getId3v1() >= 0 && (*it).getId3v1() <= int(index.size())) {

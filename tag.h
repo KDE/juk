@@ -22,6 +22,8 @@
 
 #include <id3/tag.h>
 
+#include "genre.h"
+
 class Tag 
 {
 public: 
@@ -37,8 +39,7 @@ public:
   QString getTrack();              // The song's name, not it's track number
   QString getArtist();             
   QString getAlbum();              
-  QString getGenre(); 
-  int getGenreNumber();
+  Genre getGenre(); 
   int getTrackNumber();
   QString getTrackNumberString();
   int getYear();
@@ -51,8 +52,7 @@ public:
   void setTrack(QString value);               // The song's name, not it's track number
   void setArtist(QString value);              
   void setAlbum(QString value);               
-  void setGenre(QString value); 
-  void setGenre(int value); 
+  void setGenre(Genre value); 
   void setTrackNumber(int value);
   void setYear(int value);
   void setComment(QString value); 
@@ -70,8 +70,7 @@ private:
   QString trackName;
   int trackNumber;
   QString trackNumberString;
-  QString genre;
-  int genreNumber;
+  Genre genre;
   int year;
   QString yearString;
   QString comment;

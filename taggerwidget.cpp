@@ -67,7 +67,7 @@ FileListItem *TaggerWidget::getSelectedItem()
 
 void TaggerWidget::save()
 {
-  kdDebug() << "TaggerWidget::save()" << endl;
+  //  kdDebug() << "TaggerWidget::save()" << endl;
   QPtrList<QListViewItem> items = taggerList->selectedItems();
 
   if(items.count() > 0) {
@@ -97,11 +97,17 @@ void TaggerWidget::save()
 	item->getTag()->setArtist(artistNameBox->currentText());
 	item->getTag()->setTrack(trackNameBox->text());
 	item->getTag()->setAlbum(albumNameBox->currentText());
-	//  item->getTag()->setGenre(genreBox->currentText());
-	//  item->getTag()->setGenre(genreBox->currentItem() - 1);
 	item->getTag()->setTrackNumber(trackSpin->value());
 	item->getTag()->setYear(yearSpin->value());
 	item->getTag()->setComment(commentBox->text());
+
+	//  item->getTag()->setGenre(genreBox->currentText());
+	//  item->getTag()->setGenre(genreBox->currentItem() - 1);
+	if(genreList->findIndex(genreBox->currentText()) >= 0)
+	  item->getTag()->setGenre((*genreList)[genreList->findIndex(genreBox->currentText())]);
+	else
+	  item->getTag()->setGenre(Genre(genreBox->currentText(), item->getTag()->getGenre().getId3v1()));
+
 
 	item->getTag()->save();
 	
@@ -121,6 +127,7 @@ void TaggerWidget::save()
 void TaggerWidget::setChanged()
 {
   changed = true;
+  //  kdDebug() << "setChanged()" << endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -195,7 +202,7 @@ void TaggerWidget::setupLayout()
     
     leftColumnLayout->addWidget(new QLabel(i18n("Genre"), bottem));
     
-    genreBox = new KComboBox(false, bottem, "genreBox");
+    genreBox = new KComboBox(true, bottem, "genreBox");
     
     leftColumnLayout->addWidget(genreBox);
     
@@ -250,7 +257,8 @@ void TaggerWidget::setupLayout()
   connect(artistNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(setChanged()));
   connect(trackNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(setChanged()));
   connect(albumNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(setChanged()));
-  connect(genreBox, SIGNAL(activated(const QString&)), this, SLOT(setChanged()));
+  connect(genreBox, SIGNAL(activated(int)), this, SLOT(setChanged()));
+  connect(genreBox, SIGNAL(textChanged(const QString&)), this, SLOT(setChanged()));
   connect(fileNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(setChanged()));
   connect(yearSpin, SIGNAL(valueChanged(int)), this, SLOT(setChanged()));
   connect(trackSpin, SIGNAL(valueChanged(int)), this, SLOT(setChanged()));
@@ -264,7 +272,7 @@ void TaggerWidget::readConfig()
     genreBox->clear();
     // add values to the genre box
     genreBox->insertItem(QString::null);
-    for(GenreList::Iterator it = genreList->begin(); it != genreList->end(); ++it)
+    for(GenreList::Iterator it = genreList->begin(); it != genreList->end(); ++it) 
       genreBox->insertItem((*it));     
   }
 }
@@ -294,8 +302,10 @@ void TaggerWidget::updateBoxes() // this needs to be updated to properly work wi
       
       if(genreList && genreList->findIndex(tag->getGenre()) >= 0)
 	genreBox->setCurrentItem(genreList->findIndex(tag->getGenre()) + 1);
-      else 
+      else {
 	genreBox->setCurrentItem(0);
+	genreBox->setEditText(tag->getGenre());
+      }
       
       fileNameBox->setText(fileInfo->fileName());
       trackSpin->setValue(tag->getTrackNumber());
