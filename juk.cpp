@@ -120,7 +120,7 @@ void JuK::setupActions()
     KStdAction::clear(kapp, SLOT(clear()), actions());
     KStdAction::selectAll(kapp, SLOT(selectAll()), actions());
 
-    KActionMenu *actionMenu = new KActionMenu("Random Play", "roll", actions(), "actionMenu");
+    KActionMenu *actionMenu = new KActionMenu(i18n("&Random Play"), "roll", actions(), "actionMenu");
     actionMenu->setDelayed(false);
 
     KRadioAction *ka = new KRadioAction(i18n("&Disable Random Play"), "player_playlist", 0, actions(), "disableRandomPlay");
