@@ -339,6 +339,10 @@ private slots:
      * are loaded and current (i.e. the cache is in sync with the file system).
      */
     void slotScanDirectories() { open(m_directoryList); }
+
+    /**
+     * Set the next item to be played to item.
+     */
     void slotSetNextItem(PlaylistItem *item = 0) { m_nextPlaylistItem = item; }
 
     /**
@@ -346,6 +350,11 @@ private slots:
      * the user's set of music dirs has had items added or removed.
      */
     void slotDirChanged(const QString &dir) { slotAddToPlaylist(dir, m_collection); }
+
+    /**
+     * Create a playlist that contains the specified files.
+     */
+    void slotCreatePlaylist(const QStringList &files) { slotAddToPlaylist(files, slotCreatePlaylist()); }
 
     /**
      * This slot creates a playlist that contains the listed items.  It is

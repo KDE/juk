@@ -84,6 +84,7 @@ public slots:
 signals:
     void signalCurrentChanged(const PlaylistList &);
     void signalDoubleClicked();
+    void signalCreatePlaylist(const QStringList &files);
     void signalCreateSearchList(const PlaylistSearch &search,
 				const QString &searchCategory,
 				const QString &name);

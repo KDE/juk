@@ -306,7 +306,7 @@ void PlaylistBox::deleteItem(Item *item)
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
 {
-    if(!s || !item || !item->playlist())
+    if(!s)
 	return;
 
     KURL::List urls;
@@ -316,8 +316,11 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 	
 	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	    files.append((*it).path());
-	
-	m_splitter->slotAddToPlaylist(files, item->playlist());
+
+	if(item && item->playlist())
+	    m_splitter->slotAddToPlaylist(files, item->playlist());
+	else
+	    emit signalCreatePlaylist(files);
     }
 }
 
@@ -335,7 +338,12 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
     //
     // Otherwise, do not accept the event.
     
-    if(KURLDrag::canDecode(e) && itemAt(e->pos())) {
+    if(!KURLDrag::canDecode(e)) {
+	e->accept(false);
+	return;
+    }
+
+    if(itemAt(e->pos())) {
 	Item *target = static_cast<Item *>(itemAt(e->pos()));
 
 	// This is a semi-dirty hack to check if the items are coming from within
@@ -344,16 +352,25 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 	// coming from outside of JuK.
 
 	if(dynamic_cast<Playlist *>(e->source())) {
-	    if(target->playlist() && target->playlist() != CollectionList::instance() && !target->isSelected())
+	    if(target->playlist() &&
+	       target->playlist() != CollectionList::instance() &&
+	       !target->isSelected())
+	    {
 		e->accept(true);
+	    }
 	    else
 		e->accept(false);
 	}
 	else // the dropped items are coming from outside of JuK
 	    e->accept(true);
     }
-    else
-	e->accept(false);
+    else {
+
+	// We're dragging over the whitespace.  We'll use this case to make it
+	// possible to create new lists.
+
+	e->accept(true);
+    }
 }
 
 QValueList<PlaylistBox::Item *> PlaylistBox::selectedItems()

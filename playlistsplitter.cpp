@@ -424,6 +424,9 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)),
             this, SLOT(slotCreateSearchList(const PlaylistSearch &, const QString &, const QString &)));
 
+    connect(m_playlistBox, SIGNAL(signalCreatePlaylist(const QStringList &)),
+	    this, SLOT(slotCreatePlaylist(const QStringList &)));
+
     // Create a splitter to go between the playlists and the editor.
 
     QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this, "editorSplitter");
