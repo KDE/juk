@@ -71,20 +71,17 @@ class CoverIconViewItem : public QObject
 {
     Q_OBJECT
 
-    public:
-        CoverIconViewItem(QIconView *parent, GoogleImage image);
-        ~CoverIconViewItem();
+public:
+    CoverIconViewItem(QIconView *parent, const GoogleImage &image);
+    ~CoverIconViewItem();
 
-    private slots:
-        void imageData(KIO::Job* job, const QByteArray& data);
-        void imageResult(KIO::Job* job);
+private slots:
+    void imageData(KIO::Job *job, const QByteArray &data);
+    void imageResult(KIO::Job* job);
 
-    private:
-        static const uint BUFFER_SIZE = 2000000;
-
-        KIconViewItem *m_iconViewItem;
-        uchar* m_buffer;
-        uint m_bufferIndex;
+private:
+    QByteArray m_buffer;
+    KIconViewItem *m_iconViewItem;
 };
 
 #endif

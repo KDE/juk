@@ -83,15 +83,19 @@ int GoogleFetcherDialog::exec()
 void GoogleFetcherDialog::slotOk()
 {
     uint selectedIndex=m_iconWidget->index(m_iconWidget->currentItem());
-    m_pixmap=pixmapFromURL(m_imageList[selectedIndex].imageURL());
-    if (m_pixmap.isNull()) {
-        KMessageBox::sorry(this, i18n("The cover you have selected is unavailable.  Please select another."), i18n("Cover unavailable"));
-        QPixmap blankPix=QPixmap();
-        blankPix.resize(80,80);
+    m_pixmap = pixmapFromURL(m_imageList[selectedIndex].imageURL());
+
+    if(m_pixmap.isNull()) {
+        KMessageBox::sorry(this,
+                           i18n("The cover you have selected is unavailable.  Please select another."),
+                           i18n("Cover Unavailable"));
+        QPixmap blankPix;
+        blankPix.resize(80, 80);
         blankPix.fill();
-        m_iconWidget->currentItem()->setPixmap(blankPix, TRUE, TRUE);
+        m_iconWidget->currentItem()->setPixmap(blankPix, true, true);
         return;
     }
+
     m_takeIt = true;
     m_newSearch = false;
     hide();
@@ -136,39 +140,36 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KURL &url) const
 // CoverIconViewItem
 ////////////////////////////////////////////////////////////////////////////////
 
-CoverIconViewItem::CoverIconViewItem(QIconView *parent, GoogleImage image) : 
-                   QObject(),m_buffer(0),m_bufferIndex(0)
+CoverIconViewItem::CoverIconViewItem(QIconView *parent, const GoogleImage &image) : 
+    QObject(parent)
 {
-    //Set up the iconViewItem
+    // Set up the iconViewItem
     
-    m_iconViewItem=new KIconViewItem(parent, parent->lastItem(), image.size());
-    QPixmap mainMap=QPixmap();
-    mainMap.resize(80,80);
+    m_iconViewItem = new KIconViewItem(parent, parent->lastItem(), image.size());
+    QPixmap mainMap;
+    mainMap.resize(80, 80);
     mainMap.fill();
-    m_iconViewItem->setPixmap(mainMap, TRUE, TRUE);    
+    m_iconViewItem->setPixmap(mainMap, true, true);
     
-    //Start downloading the image.
+    // Start downloading the image.
     
-    m_buffer = new uchar[BUFFER_SIZE];
-
-    KIO::TransferJob* job = KIO::get(image.thumbURL(), false, false);
-    connect(job, SIGNAL(result(KIO::Job*)), this, SLOT(imageResult(KIO::Job*)));
-    connect(job, SIGNAL(data(KIO::Job*, const QByteArray&)), this, SLOT(imageData(KIO::Job*, const QByteArray&)));
+    KIO::TransferJob *job = KIO::get(image.thumbURL(), false, false);
+    connect(job, SIGNAL(result(KIO::Job *)), this, SLOT(imageResult(KIO::Job *)));
+    connect(job, SIGNAL(data(KIO::Job *, const QByteArray &)),
+            this, SLOT(imageData(KIO::Job *, const QByteArray &)));
    
 }
 
 CoverIconViewItem::~CoverIconViewItem()
 {
-    delete m_buffer;
+
 }
 
 void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
 {
-    if(m_bufferIndex + (uint) data.size() >= BUFFER_SIZE)
-        return;
-
-    memcpy(m_buffer + m_bufferIndex, data.data(), data.size());
-    m_bufferIndex += data.size();
+    int currentSize = m_buffer.size();
+    m_buffer.resize(currentSize + data.size(), QGArray::SpeedOptim);
+    memcpy(&(m_buffer.data()[currentSize]), data.data(), data.size());
 }
 
 void CoverIconViewItem::imageResult(KIO::Job *job)
@@ -176,10 +177,9 @@ void CoverIconViewItem::imageResult(KIO::Job *job)
     if(job->error())
         return;
     
-    QPixmap iconImage=QPixmap();
-    iconImage.loadFromData(m_buffer, m_bufferIndex);
-    iconImage=QImage(iconImage.convertToImage()).smoothScale(80,80);
-    m_iconViewItem->setPixmap(iconImage, TRUE, TRUE);
+    QPixmap iconImage(m_buffer);
+    iconImage = QImage(iconImage.convertToImage()).smoothScale(80, 80);
+    m_iconViewItem->setPixmap(iconImage, true, true);
 }
 
 #include "googlefetcherdialog.moc"

@@ -33,7 +33,7 @@ GoogleImage::GoogleImage(QString thumbURL, QString size) :
     // images?q=tbn:hKSEWNB8aNcJ:www.styxnet.com/deyoung/styx/stygians/cp_portrait.jpg
 
     m_imageURL = "http://" + thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
-    m_size = size.replace("pixels - ", "\n(")+")";
+    m_size = size.replace("pixels - ", "\n(") + ")";
 }
 
 
@@ -51,8 +51,9 @@ void GoogleFetcher::loadImageURLs()
 
     m_imageList.clear();
 
-    KURL url = "http://images.google.com/images?q=" +
-        KURL::encode_string_no_slash(m_searchString);
+    KURL url("http://images.google.com/images");
+    url.addQueryItem("q", m_searchString);
+
     m_loadedQuery = m_searchString;
 
     DOM::HTMLDocument search;
