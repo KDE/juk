@@ -38,7 +38,6 @@
 
 
 Tag::Tag(const QString &fileName) :
-    m_info(fileName),
     m_fileName(fileName),
     m_track(0),
     m_year(0),
@@ -174,7 +173,6 @@ CacheDataStream &Tag::read(CacheDataStream &s)
 ////////////////////////////////////////////////////////////////////////////////
 
 Tag::Tag(const QString &fileName, bool) :
-    m_info(fileName),
     m_fileName(fileName),
     m_track(0),
     m_year(0),

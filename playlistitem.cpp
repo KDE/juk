@@ -75,7 +75,7 @@ QString PlaylistItem::text(int column) const
     case CommentColumn:
 	return d->fileHandle.tag()->comment();
     case FileNameColumn:
-	return d->fileHandle.tag()->fileName();
+	return d->fileHandle.absFilePath();
     default:
 	return KListViewItem::text(column);
     }
@@ -104,7 +104,7 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
     switch(type) {
     case TagGuesser::FileName:
     {
-	TagGuesser guesser(d->fileHandle.tag()->fileName());
+	TagGuesser guesser(d->fileHandle.absFilePath());
 
 	if(!guesser.title().isNull())
 	    d->fileHandle.tag()->setTitle(guesser.title());
@@ -125,7 +125,7 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
     {
 #if HAVE_MUSICBRAINZ
 	MusicBrainzQuery *query = new MusicBrainzQuery(MusicBrainzQuery::File,
-						       d->fileHandle.tag()->fileName());
+						       d->fileHandle.absFilePath());
 	connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
 		SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
 	KMainWindow *win = dynamic_cast<KMainWindow *>(kapp->mainWidget());

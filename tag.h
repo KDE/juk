@@ -65,10 +65,6 @@ public:
     QString lengthString() const { return m_lengthString; }
     CacheDataStream &read(CacheDataStream &s);
 
-    // TODO -- REMOVE THESE METHODS ONCE THE CACHE IS FILEHANDLE BASED
-    const QFileInfo &fileInfo() const { return m_info; }
-    const QString &fileName() const { return m_fileName; }
-
 private:
     /**
      * Create an empty tag.  Used in FileHandle for cache restoration.
@@ -76,9 +72,6 @@ private:
     Tag(const QString &fileName, bool);
     void setup(TagLib::File *file);
 
-    // TODO -- remove m_info and prefer the one in the FileHandle
-
-    QFileInfo m_info;
     QString m_fileName;
     QString m_title;
     QString m_artist;
