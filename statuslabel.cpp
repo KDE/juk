@@ -100,7 +100,7 @@ void StatusLabel::setPlaylistCount(int c)
     m_playlistCount = c;
 
     if(mode == PlaylistInfo)
-	m_trackLabel->setText(QString::number(c) + " " + i18n("item(s)"));
+	m_trackLabel->setText(i18n("1 item", "%n items", c));
 }
 
 void StatusLabel::setPlayingItemInfo(const QString &track, const QString &playlist)
