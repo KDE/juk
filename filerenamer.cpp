@@ -127,7 +127,8 @@ void FileRenamer::rename(const PlaylistItemList &items)
     for(; it != items.end(); ++it) {
         const QString oldName = (*it)->absFilePath();
         const QString newName = rename(oldName, *(*it)->tag());
-        filenames += oldName + "=>" + newName;
+        filenames += oldName;
+        filenames += " => " + newName;
         map[oldName] = newName;
     }
 
