@@ -49,7 +49,7 @@ void GStreamerPlayer::play(const QString &fileName)
     m_positionNs = 0;
     m_durationNs = 0;
 
-    if(!fileName.isEmpty()) {
+    if(!fileName.isEmpty())
         m_player->setLocation(fileName);
 
     if(m_player->getState() != Element::STATE_PLAYING)
