@@ -156,7 +156,12 @@ void GStreamerPlayer::setupPlayer()
 	    SLOT(slotSetPosition(long long)));
     connect(m_player, SIGNAL(streamLength(long long)), 
 	    SLOT(slotSetDuration(long long)));
-    connect(m_player, SIGNAL(streamEnd()), SLOT(stop()));
+    connect(m_player, SIGNAL(streamEnd()), SLOT(stopIfNotPlaying()));
+}
+
+void GStreamerPlayer::stopIfNotPlaying() {
+    if (!playing())
+	stop();
 }
 
 #include "gstreamerplayer.moc"
