@@ -58,6 +58,7 @@ public:
     ComponentList components() const { return m_components; }
 
     void setSearchMode(SearchMode m) { m_mode = m; }
+    SearchMode searchMode() const { return m_mode; }
 
     bool isNull() const { return m_components.isEmpty(); }
     bool isEmpty() const;
@@ -105,19 +106,38 @@ public:
     QRegExp pattern() const { return m_queryRe; }
     ColumnList columns() const { return m_columns; }
 
-    bool matches(PlaylistItem *item);
+    bool matches(PlaylistItem *item) const;
     bool isPatternSearch() const { return m_re; }
     bool isCaseSensitive() const { return m_caseSensitive; }
+    MatchMode matchMode() const { return m_mode; }
     
 private:
     QString m_query;
     QRegExp m_queryRe;
-    ColumnList m_columns;
+    mutable ColumnList m_columns;
     MatchMode m_mode;
     bool m_searchAllVisible;
     bool m_caseSensitive;
     bool m_re;
 };
 
+/**
+ * Streams \a search to the stream \a s.
+ * \note This does not save the playlist list, but instead will assume that the
+ * search is just relevant to the collection list.  This is all that is presently
+ * needed by JuK.
+ */
+QDataStream &operator<<(QDataStream &s, const PlaylistSearch &search);
+
+/**
+ * Streams \a search from the stream \a s.
+ * \note This does not save the playlist list, but instead will assume that the
+ * search is just relevant to the collection list.  This is all that is presently
+ * needed by JuK.
+ */
+QDataStream &operator>>(QDataStream &s, PlaylistSearch &search);
+
+QDataStream &operator<<(QDataStream &s, const PlaylistSearch::Component &c);
+QDataStream &operator>>(QDataStream &s, PlaylistSearch::Component &c);
 
 #endif

@@ -45,4 +45,31 @@ void SearchPlaylist::updateItems()
     createItems(m_search.matchedItems());
 }
 
+
+////////////////////////////////////////////////////////////////////////////////
+// helper functions
+////////////////////////////////////////////////////////////////////////////////
+
+QDataStream &operator<<(QDataStream &s, const SearchPlaylist &p)
+{
+    s << p.name()
+      << p.playlistSearch();
+
+    return s;
+}
+
+QDataStream &operator>>(QDataStream &s, SearchPlaylist &p)
+{
+    QString name;
+    PlaylistSearch search;
+
+    s >> name
+      >> search;
+
+    p.setName(name);
+    p.setPlaylistSearch(search);
+
+    return s;
+}
+
 #include "searchplaylist.moc"

@@ -28,6 +28,9 @@ public:
     SearchPlaylist(QWidget *parent,
 		   const PlaylistSearch &search = PlaylistSearch(),
 		   const QString &name = QString::null);
+
+    PlaylistSearch playlistSearch() const { return m_search; }
+    void setPlaylistSearch(const PlaylistSearch &s) { m_search = s; }
     
 protected:
     /**
@@ -37,5 +40,8 @@ protected:
 
     PlaylistSearch m_search;
 };
+
+QDataStream &operator<<(QDataStream &s, const SearchPlaylist &p);
+QDataStream &operator>>(QDataStream &s, SearchPlaylist &p);
 
 #endif

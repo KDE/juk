@@ -15,11 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdatastream.h>
 #include <kdebug.h>
 
 #include "playlistsearch.h"
 #include "playlist.h"
 #include "playlistitem.h"
+#include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -145,7 +147,7 @@ PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& col
 
 }
 
-bool PlaylistSearch::Component::matches(PlaylistItem *item)
+bool PlaylistSearch::Component::matches(PlaylistItem *item) const
 {
     if((m_re && m_queryRe.isEmpty()) || (!m_re && m_query.isEmpty()))
 	return false;
@@ -211,4 +213,69 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item)
 	}
     }
     return false;
+}
+
+QDataStream &operator<<(QDataStream &s, const PlaylistSearch &search)
+{
+    s << search.components()
+      << Q_INT32(search.searchMode());
+
+    return s;
+}
+
+QDataStream &operator>>(QDataStream &s, PlaylistSearch &search)
+{
+    search.clearPlaylists();
+    search.addPlaylist(CollectionList::instance());
+
+    search.clearComponents();
+    PlaylistSearch::ComponentList components;
+    s >> components;
+    PlaylistSearch::ComponentList::ConstIterator it = components.begin();
+    for(; it != components.end(); ++it)
+        search.addComponent(*it);
+
+    Q_INT32 mode;
+    s >> mode;
+    search.setSearchMode(PlaylistSearch::SearchMode(mode));
+    
+    return s;
+}
+
+QDataStream &operator<<(QDataStream &s, const PlaylistSearch::Component &c)
+{
+    s << c.isPatternSearch();
+
+    if(c.isPatternSearch())
+        s << c.pattern().pattern();
+    else
+        s << c.query();
+
+    s << c.isCaseSensitive()
+      << c.columns()
+      << Q_INT32(c.matchMode());
+
+    return s;
+}
+
+QDataStream &operator>>(QDataStream &s, PlaylistSearch::Component &c)
+{
+    bool patternSearch;
+    QString pattern;
+    bool caseSensitive;
+    ColumnList columns;
+    Q_INT32 mode;
+
+    s >> patternSearch
+      >> pattern
+      >> caseSensitive
+      >> columns
+      >> mode;
+
+    if(patternSearch)
+        c = PlaylistSearch::Component(QRegExp(pattern), columns);
+    else
+        c = PlaylistSearch::Component(pattern, caseSensitive, columns, PlaylistSearch::Component::MatchMode(mode));
+
+    return s;
 }

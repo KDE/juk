@@ -710,8 +710,13 @@ void PlaylistSplitter::readPlaylists()
 
 	    switch(playlistType) {
 	    case Search:
-		// p = new SearchPlaylist(m_playlistStack);
+	    {
+		SearchPlaylist *p = new SearchPlaylist(m_playlistStack);
+		s >> *p;
+		setupPlaylist(p, false, "find");
+
 		break;
+	    }
 	    case History:
 	    {
 		slotSetHistoryVisible(true);
@@ -778,15 +783,16 @@ void PlaylistSplitter::savePlaylists()
 	    // These first two aren't implemented yet.
 
 	    if(*it == m_history) {
-		s << Q_INT32(History);
-		s << *m_history;
+		s << Q_INT32(History)
+		  << *m_history;
 	    }
 	    else if(dynamic_cast<SearchPlaylist *>(*it)) {
-		// s << Q_INT32(Search);
+		s << Q_INT32(Search)
+		  << *static_cast<SearchPlaylist *>(*it);
 	    }
 	    else {
-		s << Q_INT32(Normal);
-		s << *(*it);
+		s << Q_INT32(Normal)
+		  << *(*it);
 	    }
 	}
     }
