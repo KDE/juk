@@ -485,6 +485,9 @@ QObject *PlaylistCollection::object() const
 
 Playlist *PlaylistCollection::currentPlaylist() const
 {
+    if(m_upcomingPlaylist)
+        return m_upcomingPlaylist;
+
     if(Playlist::playingItem())
         return Playlist::playingItem()->playlist();
     else

@@ -111,6 +111,11 @@ void UpcomingPlaylist::clearItem(PlaylistItem *item, bool emitChanged)
     Playlist::clearItem(item, emitChanged);
 }
 
+QMap< PlaylistItem *, QGuardedPtr<Playlist> > &UpcomingPlaylist::playlistIndex()
+{
+    return m_playlistIndex;
+}
+
 void UpcomingPlaylist::removeIteratorOverride()
 {
     if(!m_oldIterator)
@@ -228,9 +233,10 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
     Playlist *p = currentItem->playlist();
 
     if(p != m_playlist) {
-        PlaylistItemList list;
-        list.append(currentItem);
-        m_playlist->createItems(list);
+        PlaylistItem *i = m_playlist->createItem(currentItem, (PlaylistItem *) 0);
+        m_playlist->playlistIndex().insert(i, p);
+        m_playlist->dataChanged();
+        m_playlist->slotWeightDirty();
     }
     else {
 

@@ -82,7 +82,15 @@ public:
      */
     void appendItems(const PlaylistItemList &itemList);
 
+    /**
+     * Reimplemented to set the playing item in both the source playlist
+     * and the upcoming playlist.
+     */
     virtual void playNext();
+
+    /**
+     * Reimplemented to remove the item from the Playlist index.
+     */
     virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
 
     /**
@@ -90,7 +98,7 @@ public:
      * playlist that they came from.  This is used to remap the currently
      * playing item to the source playlist.
      */
-    QMap< PlaylistItem *, QGuardedPtr<Playlist> > &playlistIndex() const;
+    QMap< PlaylistItem *, QGuardedPtr<Playlist> > &playlistIndex();
 
 private:
 
