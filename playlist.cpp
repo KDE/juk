@@ -906,7 +906,7 @@ void Playlist::polish()
     connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
 	    this, SLOT(slotShowRMBMenu(QListViewItem *, const QPoint &, int)));
     connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
-	    this, SLOT(slotApplyModification(QListViewItem *, const QString &, int)));
+	    this, SLOT(slotInlineEditDone(QListViewItem *, const QString &, int)));
 
     connect(header(), SIGNAL(sizeChange(int, int, int)),
 	    this, SLOT(slotColumnSizeChanged(int, int, int)));
@@ -1323,7 +1323,7 @@ void Playlist::slotRenameTag()
     rename(currentItem(), m_currentColumn);
 }
 
-void Playlist::applyTag(PlaylistItem *item, const QString &text, int column)
+void Playlist::editTag(PlaylistItem *item, const QString &text, int column)
 {
     switch(column - columnOffset())
     {
@@ -1361,7 +1361,7 @@ void Playlist::applyTag(PlaylistItem *item, const QString &text, int column)
     item->slotRefresh();
 }
 
-void Playlist::slotApplyModification(QListViewItem *, const QString &, int column)
+void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 {
     QString text = renameLineEdit()->text();
 
@@ -1379,7 +1379,7 @@ void Playlist::slotApplyModification(QListViewItem *, const QString &, int colum
     }
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
-	applyTag(*it, text, column);
+	editTag(*it, text, column);
 	kapp->processEvents();
     }
     slotEmitSelected();

@@ -483,9 +483,10 @@ private:
     void loadFile(const QString &fileName, const QFileInfo &fileInfo);
 
     /**
-     * Save the tag for an individual item.
+     * Writes \a text to \a item in \a column.  This is used by the inline tag
+     * editor.
      */
-    void applyTag(PlaylistItem *item, const QString &text, int column);
+    void editTag(PlaylistItem *item, const QString &text, int column);
 
     /**
      * Returns the index of the left most visible column in the playlist.
@@ -532,11 +533,12 @@ private slots:
     void slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column);
 
     /**
-     * This slot applys the tag for a specific item.
+     * This slot is called when the inline tag editor has completed its editing
+     * and starts the process of renaming the values.
      *
-     * \see applyTag()
+     * \see editTag()
      */
-    void slotApplyModification(QListViewItem *, const QString &, int column);
+    void slotInlineEditDone(QListViewItem *, const QString &, int column);
 
     /**
      * This starts the renaming process by displaying a line edit if the mouse is in 
