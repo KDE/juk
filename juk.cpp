@@ -672,8 +672,13 @@ void JuK::saveConfig()
 
 bool JuK::queryExit()
 {
+    hide();
+    delete m_systemTray;
+    m_systemTray = 0;
+
     stop();
     delete m_player;
+
     Cache::instance()->save();
     saveConfig();
     delete m_splitter;
