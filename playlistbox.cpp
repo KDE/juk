@@ -292,11 +292,8 @@ void PlaylistBox::remove()
 		    couldNotDelete.append(*it);
 	    }
 
-	    // Would be nice if there were a KMessageBox::sorryList() to use with
-	    // couldNotDelete.
-
 	    if(!couldNotDelete.isEmpty())
-		KMessageBox::sorry(this, i18n("Could not delete all of the specified files."));
+		KMessageBox::errorList(this, i18n("Could delete these files."), couldNotDelete);
 	}
 	else if(remove == KMessageBox::Cancel)
 	    return;

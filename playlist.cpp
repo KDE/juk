@@ -786,6 +786,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 	DeleteDialog dialog(this);
 	if(dialog.confirmDeleteList(files)) {
 	    bool shouldDelete = dialog.shouldDelete();
+	    QStringList errorFiles;
 
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 		if(m_playingItem == *it)
@@ -803,9 +804,15 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 		    m_history.remove(*it);
 		}
 		else
-		    KMessageBox::sorry(this, i18n("Could not move ") + (*it)->file().absFilePath() + ".");
+		    errorFiles.append((*it)->file().absFilePath());
 	    }
 
+	    if(!errorFiles.isEmpty()) {
+		QString errorMsg = shouldDelete ? 
+			i18n("Could not delete these files") :
+			i18n("Could not move these files to the Trash");
+		KMessageBox::errorList(this, errorMsg, errorFiles);
+	    }
 	}
 	dataChanged();
     }
