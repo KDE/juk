@@ -16,7 +16,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
-
+#include <kdatastream.h>
 #include <qregexp.h>
 
 #include "tag.h"
