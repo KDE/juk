@@ -110,7 +110,7 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
     QValueList<int> checkedSeparators = config.readIntListEntry("CheckedDirSeparators");
     QValueList<int>::ConstIterator it = checkedSeparators.begin();
     for(; it != checkedSeparators.end(); ++it)
-        if(*it > 0 && *it < (NumTypes - 1))
+        if(*it >= 0 && *it < (NumTypes - 1))
             m_folderSeparators[*it] = true;
 
     m_musicFolder = config.readPathEntry("MusicFolder", "${HOME}/music");
