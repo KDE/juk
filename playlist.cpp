@@ -231,7 +231,7 @@ void Playlist::saveAs()
 	// If there's no playlist name set, use the file name.
 	if(m_playlistName.isEmpty())
 	    emit signalNameChanged(name());
-	
+
 	save();
     }
 }
@@ -462,12 +462,23 @@ void Playlist::slotRenameFile()
     KApplication::restoreOverrideCursor();
 }
 
-void Playlist::slotGuessTagInfo()
+void Playlist::slotGuessTagInfoFile()
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
-        (*it)->guessTagInfo();
+        (*it)->guessTagInfoFromFile();
+    KApplication::restoreOverrideCursor();
+}
+
+void Playlist::slotGuessTagInfoInternet()
+{
+    //not sure if the cursor stuff makes sense
+    //since guessing will be asynchronous anyway
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    PlaylistItemList items = selectedItems();
+    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
+        (*it)->guessTagInfoFromInternet();
     KApplication::restoreOverrideCursor();
 }
 
@@ -772,7 +783,7 @@ void Playlist::setup()
     // hide some columns by default
     //////////////////////////////////////////////////
 
-    
+
     hideColumn(PlaylistItem::CommentColumn);
     hideColumn(PlaylistItem::FileNameColumn);
 
@@ -965,7 +976,7 @@ void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
 void Playlist::slotApplyModification(QListViewItem *item, const QString &text, int column)
 {
     // kdDebug(65432) << "Playlist::slotApplyModification()" << endl;
-    
+
     if(text == m_editText)
 	return;
 

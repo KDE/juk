@@ -140,7 +140,12 @@ void JuK::setupActions()
     // tagger menu
     new KAction(i18n("&Save"), "filesave", "CTRL+t", m_splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
     new KAction(i18n("&Delete"), "editdelete", 0, m_splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
-    new KAction(i18n("&Guess Tag Information"), 0, "CTRL+g", m_splitter, SLOT(slotGuessTagInfo()), actionCollection(), "guessTag");
+
+    KActionMenu *guessMenu = new KActionMenu(i18n("&Guess Tag Information"), "", actionCollection(), "guessTag");
+    guessMenu->insert(new KAction(i18n("From &File"), 0, "CTRL+g", m_splitter,
+                                  SLOT(slotGuessTagInfoFile()), actionCollection(), "guessTagFile"));
+    guessMenu->insert(new KAction(i18n("From &Internet"), 0, "CTRL+i", m_splitter,
+                                  SLOT(slotGuessTagInfoInternet()), actionCollection(), "guessTagInternet"));
     //new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()), actionCollection(), "renameFile");
 
     // settings menu
@@ -790,5 +795,5 @@ void JuK::openFile(const QString &file)
 {
     m_splitter->open(file);
 }
-    
+
 #include "juk.moc"

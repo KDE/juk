@@ -37,9 +37,9 @@ class PlaylistItem;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
- * a QWidgetStack of the Playlists.  
+ * a QWidgetStack of the Playlists.
  *
- * This class serves as a "mediator" (see "Design Patterns") between the JuK 
+ * This class serves as a "mediator" (see "Design Patterns") between the JuK
  * class and the playlist classes.  Thus all access to the playlist classes from
  * non-Playlist related classes should be through the public API of this class.
  */
@@ -60,11 +60,11 @@ public:
      */
     QString uniquePlaylistName(const QString &startingWith, bool useParentheses = false);
 
-    /* This calls the above method with startingWith == i18n("Playlist") to 
+    /* This calls the above method with startingWith == i18n("Playlist") to
      * produce "Playlist 1", "Playlist 2", ...
      */
     QString uniquePlaylistName() { return uniquePlaylistName(i18n("Playlist")); }
-    
+
     ////////////////////////////////////////////////////////////////////////////
     // Variations on the theme "play stuff"
     ////////////////////////////////////////////////////////////////////////////
@@ -74,7 +74,7 @@ public:
      * file.
      */
     QString playNextFile(bool random = false, bool loopPlaylist = false);
-    
+
     /**
      * Returns the file name of the previous item and moves the playing indicator
      * to the previous file.
@@ -87,7 +87,7 @@ public:
     void populatePlayHistoryMenu(QPopupMenu* menu, bool random);
 
     /**
-     * Returns the name of the currently selected file and moves the playing 
+     * Returns the name of the currently selected file and moves the playing
      * indicator to that file.
      */
     QString playSelectedFile();
@@ -105,7 +105,7 @@ public:
     QString playRandomFile();
 
     /**
-     * Since the player is handled at a higher level, this just clears the 
+     * Since the player is handled at a higher level, this just clears the
      * pointer to the currently playing item and updates the icon.
      */
     void stop();
@@ -143,7 +143,7 @@ public:
     void open(const QString &file);
 
     QStringList columnNames() const { return m_columnNames; }
-    
+
     KActionMenu *columnVisibleAction() const { return m_collection->columnVisibleAction(); }
 
     /**
@@ -169,7 +169,8 @@ public slots:
 // Tagger slots
 
     void slotSaveTag() { m_editor->save(); }
-    void slotGuessTagInfo();
+    void slotGuessTagInfoFile();
+    void slotGuessTagInfoInternet();
     void slotRenameFile();
 
 // Playlist slots
@@ -186,12 +187,12 @@ public slots:
     void slotSelectPlaying();
 
 // Other slots
-    
+
     /**
-     * Deletes the selected items from the hard disk. 
+     * Deletes the selected items from the hard disk.
      */
     void slotDeleteSelectedItems();
-    
+
     /**
      * Refresh the contents of the currently visible playlist.  This will cause
      * all of the audio meta data to be reread from disk.
@@ -209,7 +210,7 @@ public slots:
      * Add the file to the playlist.
      */
     void slotAddToPlaylist(const QString &file, Playlist *list);
-    
+
     /**
      * Adds the files to the playlist.
      */
@@ -231,7 +232,7 @@ signals:
 
 private:
     /**
-     * Returns a PlaylistItemList of the selected PlaylistItems in the top playlist in 
+     * Returns a PlaylistItemList of the selected PlaylistItems in the top playlist in
      * the QWidgetStack of playlists.
      */
     PlaylistItemList playlistSelection() const { return visiblePlaylist()->selectedItems(); }
@@ -265,19 +266,19 @@ private:
      * and then returns the name of the file.
      */
     QString play(PlaylistItem *item);
-    
+
 private slots:
     void slotChangePlaylist(const PlaylistList &l);
     void slotPlaylistCountChanged(Playlist *p);
     /**
-     * Add a directory to the directory list queue.  We need to queue these 
+     * Add a directory to the directory list queue.  We need to queue these
      * rather than processing them when they become available because the user
      * could cancel the action.
      */
     void slotQueueDirectory(const QString &directory) { m_directoryQueue.append(directory); }
 
     /**
-     * Add a directory to the queue 
+     * Add a directory to the queue
      */
     void slotQueueDirectoryRemove(const QString &directory) { m_directoryQueueRemove.append(directory); }
 
@@ -314,7 +315,7 @@ private:
     bool m_restore;
 
     PlaylistItem *m_nextPlaylistItem;
-    
+
     KDirWatch *m_dirWatch;
 };
 

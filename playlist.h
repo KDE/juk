@@ -128,7 +128,7 @@ public:
 
     int count() const { return childCount(); }
 
-    /** 
+    /**
      * This gets the next item to be played.
      */
     PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
@@ -163,7 +163,8 @@ public slots:
     virtual void clear();
     virtual void selectAll() { KListView::selectAll(true); }
 
-    void slotGuessTagInfo();
+    void slotGuessTagInfoFile();
+    void slotGuessTagInfoInternet();
     void slotRenameFile();
 
     /**
@@ -257,9 +258,9 @@ private:
     QPtrList<PlaylistItem> m_history;
 
     QString m_fileName;
-    
+
     /**
-     * Used to store the text for inline editing before it is changed so that 
+     * Used to store the text for inline editing before it is changed so that
      * we can know if something actually changed and as such if we need to save
      * the tag.
      */

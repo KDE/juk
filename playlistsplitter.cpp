@@ -44,9 +44,9 @@ void processEvents()
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *name) : 
+PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *name) :
     QSplitter(Qt::Horizontal, parent, name),
-    m_playingItem(0), m_searchWidget(0), m_dynamicList(0), m_restore(restore), 
+    m_playingItem(0), m_searchWidget(0), m_dynamicList(0), m_restore(restore),
     m_nextPlaylistItem(0)
 {
     setupLayout();
@@ -70,20 +70,20 @@ QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool u
 
     int playlistNumber = 1;
 
-    // while the list contains more than zero instances of the generated 
+    // while the list contains more than zero instances of the generated
     // string...
 
     if(useParenthesis) {
 	while(names.contains(startingWith + " (" + QString::number(playlistNumber) + ")") != 0)
 	    playlistNumber++;
-	
-	return startingWith + " (" + QString::number(playlistNumber) + ")";	
+
+	return startingWith + " (" + QString::number(playlistNumber) + ")";
     }
     else
     {
 	while(names.contains(startingWith + ' ' + QString::number(playlistNumber)) != 0)
 	    playlistNumber++;
-	
+
 	return startingWith + " " + QString::number(playlistNumber);
     }
 }
@@ -93,7 +93,7 @@ QString PlaylistSplitter::playNextFile(bool random, bool loopPlaylist)
     PlaylistItem *i;
 
     // Four basic cases here:  (1) We've asked for a specific next item, (2) play
-    // the item that's after the currently playing item, (3) play the selected 
+    // the item that's after the currently playing item, (3) play the selected
     // item or (4) play the first item in the list.
 
     // (1) we've asked for a specific next item
@@ -208,16 +208,16 @@ QString PlaylistSplitter::playingList() const
 	return QString::null;
 }
 
-void PlaylistSplitter::open(const QString &file) 
+void PlaylistSplitter::open(const QString &file)
 {
     if(file.isEmpty())
 	return;
 
-    if(visiblePlaylist() == m_collection || 
-       KMessageBox::questionYesNo(this, 
-				  i18n("Do you want to add this item to the current list or to the collection list?"), 
-				  QString::null, 
-				  KGuiItem(i18n("Current")), 
+    if(visiblePlaylist() == m_collection ||
+       KMessageBox::questionYesNo(this,
+				  i18n("Do you want to add this item to the current list or to the collection list?"),
+				  QString::null,
+				  KGuiItem(i18n("Current")),
 				  KGuiItem(i18n("Collection"))) == KMessageBox::No)
     {
 	slotAddToPlaylist(file, m_collection);
@@ -226,17 +226,17 @@ void PlaylistSplitter::open(const QString &file)
 	slotAddToPlaylist(file, visiblePlaylist());
 }
 
-void PlaylistSplitter::open(const QStringList &files) 
+void PlaylistSplitter::open(const QStringList &files)
 {
     if(files.isEmpty())
 	return;
-    
-    if(visiblePlaylist() == m_collection || 
-       KMessageBox::questionYesNo(this, 
-				  i18n("Do you want to add these items to the current list or to the collection list?"), 
-				  QString::null, 
-				  KGuiItem(i18n("Current")), 
-				  KGuiItem(i18n("Collection"))) == KMessageBox::No) 
+
+    if(visiblePlaylist() == m_collection ||
+       KMessageBox::questionYesNo(this,
+				  i18n("Do you want to add these items to the current list or to the collection list?"),
+				  QString::null,
+				  KGuiItem(i18n("Current")),
+				  KGuiItem(i18n("Collection"))) == KMessageBox::No)
     {
 	slotAddToPlaylist(files, m_collection);
     }
@@ -261,22 +261,22 @@ void PlaylistSplitter::slotOpen()
 }
 
 void PlaylistSplitter::slotOpenDirectory()
-{ 
+{
     DirectoryList *l = new DirectoryList(m_directoryList, this, "directoryList");
 
     m_directoryQueue.clear();
     m_directoryQueueRemove.clear();
 
-    connect(l, SIGNAL(signalDirectoryAdded(const QString &)), 
+    connect(l, SIGNAL(signalDirectoryAdded(const QString &)),
 	    this, SLOT(slotQueueDirectory(const QString &)));
-    connect(l, SIGNAL(signalDirectoryRemoved(const QString &)), 
+    connect(l, SIGNAL(signalDirectoryRemoved(const QString &)),
 	    this, SLOT(slotQueueDirectoryRemove(const QString &)));
 
     if(l->exec() == QDialog::Accepted) {
 	open(m_directoryQueue);
 	for(QStringList::Iterator it = m_directoryQueue.begin(); it !=  m_directoryQueue.end(); it++)
 	    m_dirWatch->addDir(*it, false, true);
-	    
+
 	m_directoryList += m_directoryQueue;
 
 	QStringList::Iterator it = m_directoryQueueRemove.begin();
@@ -293,7 +293,7 @@ Playlist *PlaylistSplitter::slotCreatePlaylist()
 
     // If this text is changed, please also change it in PlaylistBox::duplicate().
 
-    QString name = KLineEditDlg::getText(i18n("Create New Playlist"), 
+    QString name = KLineEditDlg::getText(i18n("Create New Playlist"),
 	i18n("Please enter a name for the new playlist:"),
 	uniquePlaylistName(), &ok);
     if(ok)
@@ -308,7 +308,7 @@ void PlaylistSplitter::slotSelectPlaying()
 	return;
 
     Playlist *l = static_cast<Playlist *>(m_playingItem->listView());
-	
+
     if(!l)
 	return;
 
@@ -348,9 +348,16 @@ void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *lis
 	m_editor->slotUpdateCollection();
 }
 
-void PlaylistSplitter::slotGuessTagInfo()
+void PlaylistSplitter::slotGuessTagInfoFile()
 {
-    visiblePlaylist()->slotGuessTagInfo();
+    visiblePlaylist()->slotGuessTagInfoFile();
+    if(m_editor)
+        m_editor->slotRefresh();
+}
+
+void PlaylistSplitter::slotGuessTagInfoInternet()
+{
+    visiblePlaylist()->slotGuessTagInfoInternet();
     if(m_editor)
         m_editor->slotRefresh();
 }
@@ -377,7 +384,7 @@ void PlaylistSplitter::setupLayout()
     QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this, "editorSplitter");
 
     // Create the playlist and the editor.
-    
+
     m_playlistStack = new QWidgetStack(editorSplitter, "playlistStack");
     m_editor = new TagEditor(editorSplitter, "tagEditor");
 
@@ -385,24 +392,24 @@ void PlaylistSplitter::setupLayout()
 
     editorSplitter->setResizeMode(m_editor, QSplitter::FollowSizeHint);
 
-    // Make the connection that will update the selected playlist when a 
+    // Make the connection that will update the selected playlist when a
     // selection is made in the playlist box.
 
-    connect(m_playlistBox, SIGNAL(signalCurrentChanged(const PlaylistList &)), 
+    connect(m_playlistBox, SIGNAL(signalCurrentChanged(const PlaylistList &)),
 	    this, SLOT(slotChangePlaylist(const PlaylistList &)));
 
     connect(m_playlistBox, SIGNAL(signalDoubleClicked()), this, SIGNAL(signalListBoxDoubleClicked()));
 
-    // Create the collection list; this should always exist.  This has a 
+    // Create the collection list; this should always exist.  This has a
     // slightly different creation process than normal playlists (since it in
-    // fact is a subclass) so it is created here rather than by using 
+    // fact is a subclass) so it is created here rather than by using
     // slotCreatePlaylist().
 
     CollectionList::initialize(m_playlistStack, m_restore);
     m_collection = CollectionList::instance();
     setupPlaylist(m_collection, true, "folder_sound");
     connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
-    connect(m_collection, SIGNAL(signalRequestPlaylistCreation(const PlaylistItemList &)), 
+    connect(m_collection, SIGNAL(signalRequestPlaylistCreation(const PlaylistItemList &)),
 	    this, SLOT(slotCreatePlaylist(const PlaylistItemList &)));
 
 
@@ -430,7 +437,7 @@ void PlaylistSplitter::readConfig()
 	    splitterSizes.append(640);
 	}
 	setSizes(splitterSizes);
-	
+
 	if(m_restore) {
 
 	    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
@@ -456,7 +463,7 @@ void PlaylistSplitter::readConfig()
 	    QTimer::singleShot(0, this, SLOT(slotScanDirectories()));
 
 	    m_dirWatch = new KDirWatch();
-	    connect(m_dirWatch, SIGNAL(dirty(const QString &)), 
+	    connect(m_dirWatch, SIGNAL(dirty(const QString &)),
 		    this, SLOT(slotDirChanged(const QString &)));
 
 	    QStringList::Iterator it = m_directoryList.begin();
@@ -488,7 +495,7 @@ void PlaylistSplitter::saveConfig()
 
 	QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
 	QFile f(playlistsFile);
-	
+
 	if(f.open(IO_WriteOnly)) {
 
 	    QDataStream s(&f);
@@ -538,9 +545,9 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
 	    this, SIGNAL(signalDoubleClicked()));
     connect(p, SIGNAL(signalNumberOfItemsChanged(Playlist *)),
 	    this, SLOT(slotPlaylistCountChanged(Playlist *)));
-    connect(p, SIGNAL(signalAboutToRemove(PlaylistItem *)), 
+    connect(p, SIGNAL(signalAboutToRemove(PlaylistItem *)),
 	    this, SLOT(slotPlaylistItemRemoved(PlaylistItem *)));
-    connect(p, SIGNAL(signalFilesDropped(const QStringList &, Playlist *)), 
+    connect(p, SIGNAL(signalFilesDropped(const QStringList &, Playlist *)),
 	    this, SLOT(slotAddToPlaylist(const QStringList &, Playlist *)));
     connect(p, SIGNAL(signalSetNext(PlaylistItem *)),
 	    this, SLOT(slotSetNextItem(PlaylistItem *)));
@@ -555,9 +562,9 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
 Playlist *PlaylistSplitter::openPlaylist(const QString &file)
 {
     QFileInfo fileInfo(file);
-    if(!fileInfo.exists() || 
-       !fileInfo.isFile() || 
-       !fileInfo.isReadable() || 
+    if(!fileInfo.exists() ||
+       !fileInfo.isFile() ||
+       !fileInfo.isReadable() ||
        m_playlistFiles.insert(fileInfo.absFilePath()))
     {
 	return 0;
@@ -658,7 +665,7 @@ void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSens
 
     PlaylistSearch search(playlists, components);
 
-    Playlist::setItemsVisible(search.matchedItems(), true);    
+    Playlist::setItemsVisible(search.matchedItems(), true);
     Playlist::setItemsVisible(search.unmatchedItems(), false);
 }
 

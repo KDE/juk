@@ -18,12 +18,15 @@
 #ifndef PLAYLISTITEM_H
 #define PLAYLISTITEM_H
 
+#include <config.h>
+
 #include <klistview.h>
 
 #include <qfileinfo.h>
 #include <qobject.h>
 #include <qptrstack.h>
 
+#include "musicbrainzquery.h"
 #include "tag.h"
 #include "cache.h"
 
@@ -76,7 +79,8 @@ public:
     bool isWritable() const;
     void setPlaying(bool playing = true) { m_playing = playing; }
 
-    void guessTagInfo();
+    void guessTagInfoFromFile();
+    void guessTagInfoFromInternet();
     void renameFile();
 
 public slots:
@@ -129,6 +133,9 @@ protected:
 
 protected slots:
     void slotRefreshImpl();
+#ifdef HAVE_MUSICBRAINZ
+    void slotTagGuessResults(const MusicBrainzQuery::TrackList &);
+#endif
 
 signals:
     void signalRefreshed();

@@ -51,8 +51,8 @@ const Tag *PlaylistItem::tag() const
 // isn't defined yet
 
 QString PlaylistItem::fileName() const
-{ 
-    return m_data->fileInfo()->fileName(); 
+{
+    return m_data->fileInfo()->fileName();
 }
 
 QString PlaylistItem::filePath() const
@@ -70,12 +70,12 @@ QString PlaylistItem::dirPath(bool absPath) const
     return m_data->fileInfo()->dirPath(absPath);
 }
 
-bool PlaylistItem::isWritable() const 
+bool PlaylistItem::isWritable() const
 {
     return m_data->fileInfo()->isWritable();
 }
 
-void PlaylistItem::guessTagInfo()
+void PlaylistItem::guessTagInfoFromFile()
 {
     TagGuesser guesser(tag()->absFilePath());
 
@@ -92,6 +92,17 @@ void PlaylistItem::guessTagInfo()
 
     tag()->save();
     slotRefresh();
+}
+
+void PlaylistItem::guessTagInfoFromInternet()
+{
+#ifdef HAVE_MUSICBRAINZ
+  MusicBrainzQuery *query = new MusicBrainzQuery(MusicBrainzQuery::File,
+                                                 tag()->absFilePath());
+  connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
+          SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
+  query->start();
+#endif //add message box teeling users musicbrainz is not installed or keep it quiet?
 }
 
 void PlaylistItem::renameFile()
@@ -122,14 +133,14 @@ void PlaylistItem::slotRefreshFromDisk()
 // PlaylistItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) : 
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
     QObject(parent), KListViewItem(parent),
     m_playing(false)
 {
     setup(item, parent);
 }
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) : 
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
     QObject(parent), KListViewItem(parent, after),
     m_playing(false)
 {
@@ -138,7 +149,7 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListView
 
 
 // This constructor should only be used by the CollectionList subclass.
-PlaylistItem::PlaylistItem(CollectionList *parent) : 
+PlaylistItem::PlaylistItem(CollectionList *parent) :
     QObject(parent), KListViewItem(parent),
     m_collectionItem(static_cast<CollectionListItem *>(this)), m_data(0), m_playing(false)
 {
@@ -149,9 +160,9 @@ void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int
 {
     if(!m_playing)
 	return KListViewItem::paintCell(p, cg, column, width, align);
-    
+
     QColorGroup colorGroup = cg;
-    
+
     QColor base = colorGroup.base();
     QColor selection = colorGroup.highlight();
 
@@ -200,9 +211,9 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const
 {
 
-    // Try some very basic caching for "two in a row" searches.  From what I've 
+    // Try some very basic caching for "two in a row" searches.  From what I've
     // seen this is ~15% of all calls.
-    
+
     static const PlaylistItem *previousFirstItem = 0;
     static const PlaylistItem *previousSecondItem = 0;
     static int previousColumn = 0;
@@ -214,7 +225,7 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
     previousFirstItem = firstItem;
     previousSecondItem = secondItem;
     previousColumn = column;
-    
+
     if(column == TrackNumberColumn) {
         if(firstItem->tag()->trackNumber() > secondItem->tag()->trackNumber()) {
 	    previousResult = 1;
@@ -250,7 +261,7 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
 }
 
 bool PlaylistItem::isValid() const
-{ 
+{
     return m_data && m_data->tag();
 }
 
@@ -261,8 +272,8 @@ bool PlaylistItem::isValid() const
 
 void PlaylistItem::slotRefreshImpl()
 {
-    // This should be the only function that needs to be rewritten if the structure of    
-    // PlaylistItemData changes.  
+    // This should be the only function that needs to be rewritten if the structure of
+    // PlaylistItemData changes.
 
     setText(TrackColumn,       tag()->track());
     setText(ArtistColumn,      tag()->artist());
@@ -272,13 +283,35 @@ void PlaylistItem::slotRefreshImpl()
     setText(YearColumn,        tag()->yearString());
     setText(LengthColumn,      tag()->lengthString());
     setText(FileNameColumn,    filePath());
-    
+
     QString shortComment = tag()->comment().simplifyWhiteSpace();
     if(shortComment.length() > 50)
 	shortComment = shortComment.left(47) + "...";
-    
+
     setText(CommentColumn,     shortComment);
 }
+
+#ifdef HAVE_MUSICBRAINZ
+void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
+{
+    //FIXME:GUI to pick one of the results
+    if(res.count() == 0)
+        return;
+    MusicBrainzQuery::Track track = res.first();
+
+    if(!track.name.isEmpty())
+        tag()->setTrack(track.name);
+    if(!track.artist.isEmpty())
+        tag()->setArtist(track.artist);
+    if(!track.album.isEmpty())
+        tag()->setAlbum(track.album);
+    if(!track.number)
+        tag()->setTrackNumber(track.number);
+
+    tag()->save();
+    slotRefresh();
+}
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem private methods
