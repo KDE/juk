@@ -380,6 +380,8 @@ void CollectionListItem::refresh()
 	repaint();
 
     for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
+	(*it)->playlist()->update();
+	(*it)->playlist()->dataChanged();
 	if((*it)->listView()->isVisible())
 	    (*it)->repaint();
     }
@@ -406,6 +408,13 @@ void CollectionListItem::updateCollectionDict(const QString &oldPath, const QStr
 
     collection->removeFromDict(oldPath);
     collection->addToDict(newPath, this);
+}
+
+void CollectionListItem::repaint() const
+{
+    QListViewItem::repaint();
+    for(PlaylistItemList::ConstIterator it = m_children.begin(); it != m_children.end(); ++it)
+	(*it)->repaint();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

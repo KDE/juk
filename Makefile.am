@@ -48,6 +48,7 @@ juk_SOURCES = \
 	tagguesser.cpp \
 	tagguesserconfigdlg.cpp \
 	tagguesserconfigdlgwidget.ui \
+	tagtransactionmanager.cpp \
 	trackpickerdialog.cpp \
 	trackpickerdialogbase.ui \
 	tracksequenceiterator.cpp \

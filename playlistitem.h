@@ -77,6 +77,8 @@ public:
 
     Playlist *playlist() const;
 
+    virtual CollectionListItem *collectionItem() const { return m_collectionItem; }
+
     /**
      * The widths of items are cached when they're updated for us in computations
      * in the "weighted" listview column width mode.
@@ -138,8 +140,6 @@ protected:
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
     bool isValid() const;
-
-    virtual CollectionListItem *collectionItem() const { return m_collectionItem; }
 
     struct Data : public KShared
     {

@@ -38,6 +38,7 @@
 #include "cache.h"
 #include "k3bexporter.h"
 #include "tracksequencemanager.h"
+#include "tagtransactionmanager.h"
 
 using namespace ActionCollection;
 
@@ -125,6 +126,10 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
 	    this, SLOT(slotShowContextMenu(QListViewItem *, const QPoint &, int)));
+
+    TagTransactionManager *tagManager = TagTransactionManager::instance();
+    connect(tagManager, SIGNAL(signalAboutToModifyTags()), SLOT(slotFreezePlaylists()));
+    connect(tagManager, SIGNAL(signalDoneModifyingTags()), SLOT(slotUnfreezePlaylists()));
 
     CollectionList::initialize(this);
     Cache::loadPlaylists(this);
@@ -222,6 +227,16 @@ Playlist *PlaylistBox::currentPlaylist() const
 	return static_cast<Item *>(currentItem())->playlist();
     else
 	return PlaylistCollection::currentPlaylist();
+}
+
+void PlaylistBox::slotFreezePlaylists()
+{
+    setCanDeletePlaylist(false);
+}
+
+void PlaylistBox::slotUnfreezePlaylists()
+{
+    setCanDeletePlaylist(true);
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
@@ -415,6 +430,7 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 	    playlistItem = dynamic_cast<TreeViewItemPlaylist *>(item->playlist());
 	    if(playlistItem) {
 		playlistItem->retag(files, currentPlaylist());
+		TagTransactionManager::instance()->commit();
 		currentPlaylist()->update();
 		return;
 	    }

@@ -55,6 +55,7 @@
 #include "painteater.h"
 #include "upcomingplaylist.h"
 #include "deletedialog.h"
+#include "tagtransactionmanager.h"
 
 using namespace ActionCollection;
 
@@ -691,6 +692,13 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 
 	processEvents();
     }
+
+    // MusicBrainz queries automatically commit at this point.  What would
+    // be nice is having a signal emitted when the last query is completed.
+
+    if(type == TagGuesser::FileName)
+	TagTransactionManager::instance()->commit();
+
     dataChanged();
     setCanDeletePlaylist(true);
     KApplication::restoreOverrideCursor();
@@ -1671,50 +1679,47 @@ void Playlist::slotRenameTag()
 
 bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
 {
+    Tag *newTag = TagTransactionManager::duplicateTag(item->file().tag());
+
     switch(column - columnOffset())
     {
     case PlaylistItem::TrackColumn:
-	item->file().tag()->setTitle(text);
+	newTag->setTitle(text);
 	break;
     case PlaylistItem::ArtistColumn:
-	item->file().tag()->setArtist(text);
+	newTag->setArtist(text);
 	break;
     case PlaylistItem::AlbumColumn:
-	item->file().tag()->setAlbum(text);
+	newTag->setAlbum(text);
 	break;
     case PlaylistItem::TrackNumberColumn:
     {
 	bool ok;
 	int value = text.toInt(&ok);
 	if(ok)
-	    item->file().tag()->setTrack(value);
+	    newTag->setTrack(value);
 	break;
     }
     case PlaylistItem::GenreColumn:
-	item->file().tag()->setGenre(text);
+	newTag->setGenre(text);
 	break;
     case PlaylistItem::YearColumn:
     {
 	bool ok;
 	int value = text.toInt(&ok);
 	if(ok)
-	    item->file().tag()->setYear(value);
+	    newTag->setYear(value);
 	break;
     }
     }
 
-    if(item->file().tag()->save()) {
-	item->refresh();
-	return true;
-    }
-
-    return false;
+    TagTransactionManager::instance()->changeTagOnItem(item, newTag);
+    return true;
 }
 
 void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 {
     QString text = renameLineEdit()->text();
-    QStringList failedFiles;
     bool changed = false;
 
     PlaylistItemList l = selectedItems();
@@ -1737,19 +1742,10 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 	return;
     }
 
-    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
-	processEvents();
+    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it)
+	editTag(*it, text, column);
 
-	QFileInfo fi((*it)->file().absFilePath());
-
-	if(!fi.isWritable() || !editTag(*it, text, column))
-	    failedFiles += fi.absFilePath();
-    }
-
-    if(!failedFiles.isEmpty())
-	KMessageBox::detailedSorry(this,
-	                           i18n("Could not save to specified file(s)."),
-				   i18n("Could Not Write to:\n") + failedFiles.join("\n"));
+    TagTransactionManager::instance()->commit();
 
     CollectionList::instance()->dataChanged();
     dataChanged();

@@ -32,6 +32,10 @@ class Tag
     friend class FileHandle;
 public:
     Tag(const QString &fileName);
+    /**
+     * Create an empty tag.  Used in FileHandle for cache restoration.
+     */
+    Tag(const QString &fileName, bool);
 
     bool save();
 
@@ -42,6 +46,8 @@ public:
     int track() const { return m_track; }
     int year() const { return m_year; }
     QString comment() const { return m_comment; }
+
+    QString fileName() const { return m_fileName; }
 
     void setTitle(const QString &value) { m_title = value; }
     void setArtist(const QString &value) { m_artist = value; }
@@ -64,10 +70,6 @@ public:
     CacheDataStream &read(CacheDataStream &s);
 
 private:
-    /**
-     * Create an empty tag.  Used in FileHandle for cache restoration.
-     */
-    Tag(const QString &fileName, bool);
     void setup(TagLib::File *file);
 
     QString m_fileName;

@@ -70,6 +70,7 @@ private slots:
     void slotEditKeys();
     void slotConfigureTagGuesser();
     void slotConfigureFileRenamer();
+    void slotUndo();
 
 private:
     PlaylistSplitter *m_splitter;

@@ -68,6 +68,9 @@ public slots:
     void clear() {}
     virtual Playlist *currentPlaylist() const;
 
+    void slotFreezePlaylists();
+    void slotUnfreezePlaylists();
+
 protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem);

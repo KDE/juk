@@ -24,6 +24,7 @@
 #include "tag.h"
 #include "actioncollection.h"
 #include "ktrm.h"
+#include "tagtransactionmanager.h"
 
 static void startMusicBrainzQuery(const FileHandle &file)
 {
@@ -126,20 +127,20 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
     case TagGuesser::FileName:
     {
 	TagGuesser guesser(d->fileHandle.absFilePath());
+	Tag *tag = TagTransactionManager::duplicateTag(d->fileHandle.tag());
 
 	if(!guesser.title().isNull())
-	    d->fileHandle.tag()->setTitle(guesser.title());
+	    tag->setTitle(guesser.title());
 	if(!guesser.artist().isNull())
-	    d->fileHandle.tag()->setArtist(guesser.artist());
+	    tag->setArtist(guesser.artist());
 	if(!guesser.album().isNull())
-	    d->fileHandle.tag()->setAlbum(guesser.album());
+	    tag->setAlbum(guesser.album());
 	if(!guesser.track().isNull())
-	    d->fileHandle.tag()->setTrack(guesser.track().toInt());
+	    tag->setTrack(guesser.track().toInt());
 	if(!guesser.comment().isNull())
-	    d->fileHandle.tag()->setComment(guesser.comment());
+	    tag->setComment(guesser.comment());
 
-	d->fileHandle.tag()->save();
-	refresh();
+	TagTransactionManager::instance()->changeTagOnItem(this, tag);
 	break;
     }
     case TagGuesser::MusicBrainz:
@@ -161,7 +162,6 @@ QValueVector<int> PlaylistItem::cachedWidths() const
 void PlaylistItem::refresh()
 {
     m_collectionItem->refresh();
-    repaint();
 }
 
 void PlaylistItem::refreshFromDisk()

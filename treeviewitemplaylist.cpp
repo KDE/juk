@@ -26,6 +26,7 @@
 #include "tag.h"
 #include "playlistitem.h"
 #include "playlistsearch.h"
+#include "tagtransactionmanager.h"
 
 TreeViewItemPlaylist::TreeViewItemPlaylist(PlaylistCollection *collection,
                                            const PlaylistSearch &search,
@@ -68,7 +69,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *donorPlayli
         if(!item)
             continue;
 
-        Tag *tag = item->file().tag();
+        Tag *tag = TagTransactionManager::duplicateTag(item->file().tag());
         switch(m_columnType) {
         case PlaylistItem::ArtistColumn:
             tag->setArtist(name());
@@ -86,24 +87,8 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *donorPlayli
             kdDebug() << "Unhandled column type editing " << *it << endl;
         }
 
-        tag->save();
-        item->refresh();
-
-        DynamicPlaylist *dynPlaylist = dynamic_cast<DynamicPlaylist *>(donorPlaylist);
-        if(dynPlaylist) {
-            dynPlaylist->slotSetDirty();
-            static_cast<QWidget*>(dynPlaylist)->update();
-        }
-        else {
-            PlaylistItem *donorItem = item->itemForPlaylist(donorPlaylist);
-            if(donorItem)
-                donorItem->repaint();
-        }
-
-        kapp->processEvents();
+	TagTransactionManager::instance()->changeTagOnItem(item, tag);
     }
-
-    dataChanged();
 }
 
 #include "treeviewitemplaylist.moc"

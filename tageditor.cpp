@@ -18,6 +18,7 @@
 #include "playlistitem.h"
 #include "tag.h"
 #include "actioncollection.h"
+#include "tagtransactionmanager.h"
 
 #include <kcombobox.h>
 #include <klineedit.h>
@@ -634,95 +635,45 @@ void TagEditor::save(const PlaylistItemList &list)
 
 	    ++it;
 
-	    QFileInfo newFile(item->file().fileInfo().dirPath() + QDir::separator() +
-			      m_fileNameBox->text());
-	    QFileInfo directory(item->file().fileInfo().dirPath());
+	    QString fileName = item->file().fileInfo().dirPath() + QDir::separator() +
+	                       m_fileNameBox->text();
+	    if(list.count() > 1)
+		fileName = item->file().fileInfo().absFilePath();
 
-	    // If (the new file is writable or the new file doesn't exist and
-	    // it's directory is writable) and the old file is writable...  
-	    // If not we'll append it to errorFiles to tell the user which
-	    // files we couldn't write to.
+	    Tag *tag = TagTransactionManager::duplicateTag(item->file().tag(), fileName);
+		
+	    // A bit more ugliness.  If there are multiple files that are
+	    // being modified, they each have a "enabled" checkbox that
+	    // says if that field is to be respected for the multiple 
+	    // files.  We have to check to see if that is enabled before
+	    // each field that we write.
 	    
-	    if(item &&
-	       item->file().tag() &&
-	       item->file().fileInfo().isWritable())
-	    {
-		
-		// If the file name in the box doesn't match the current file
-		// name...
-		
-		if(list.count() == 1 &&
-		   item->file().fileInfo().fileName() != newFile.fileName())
-		{
-		    
-		    // We're definitely trying to rename a file, so if it exists
-		    // but isn't writable, or it doesn't exist but its directory
-		    // isn't writable, we have an error.
-
-		    if((newFile.exists() && !newFile.isWritable()) ||
-		       (!newFile.exists() && !directory.isWritable()) &&
-		       item)
-		    {
-			errorFiles.append(newFile.filePath());
-			continue;
-		    }
-
-		    // Rename the file if it doesn't exist or the user says
-		    // that it's ok.
-		    
-		    if(!newFile.exists() ||
-		       KMessageBox::warningYesNo(
-			   this, 
-			   i18n("This file already exists.\nDo you want to replace it?"),
-			   i18n("File Exists")) == KMessageBox::Yes)
-		    {
-			QDir currentDir;
-			currentDir.rename(item->file().absFilePath(), newFile.filePath());
-			item->file().setFile(newFile.filePath());
-		    }
-		}
-		
-		// A bit more ugliness.  If there are multiple files that are
-		// being modified, they each have a "enabled" checkbox that
-		// says if that field is to be respected for the multiple 
-		// files.  We have to check to see if that is enabled before
-		// each field that we write.
-		
-		if(m_enableBoxes[m_artistNameBox]->isOn())
-		    item->file().tag()->setArtist(m_artistNameBox->currentText());
-		if(m_enableBoxes[m_trackNameBox]->isOn())
-		    item->file().tag()->setTitle(m_trackNameBox->text());
-		if(m_enableBoxes[m_albumNameBox]->isOn())
-		    item->file().tag()->setAlbum(m_albumNameBox->currentText());
-		if(m_enableBoxes[m_trackSpin]->isOn()) {
-		    if(m_trackSpin->text().isEmpty())
-			m_trackSpin->setValue(0);
-		    item->file().tag()->setTrack(m_trackSpin->value());
-		}
-		if(m_enableBoxes[m_yearSpin]->isOn()) {
-		    if(m_yearSpin->text().isEmpty())
-			m_yearSpin->setValue(0);
-		    item->file().tag()->setYear(m_yearSpin->value());
-		}
-		if(m_enableBoxes[m_commentBox]->isOn())
-		    item->file().tag()->setComment(m_commentBox->text());
-		
-		if(m_enableBoxes[m_genreBox]->isOn())
-		    item->file().tag()->setGenre(m_genreBox->currentText());
-		
-		item->file().tag()->save();
-		
-		item->refresh();
-		item->playlist()->update();
+	    if(m_enableBoxes[m_artistNameBox]->isOn())
+		tag->setArtist(m_artistNameBox->currentText());
+	    if(m_enableBoxes[m_trackNameBox]->isOn())
+		tag->setTitle(m_trackNameBox->text());
+	    if(m_enableBoxes[m_albumNameBox]->isOn())
+		tag->setAlbum(m_albumNameBox->currentText());
+	    if(m_enableBoxes[m_trackSpin]->isOn()) {
+		if(m_trackSpin->text().isEmpty())
+		    m_trackSpin->setValue(0);
+		tag->setTrack(m_trackSpin->value());
 	    }
-	    else if(item)
-		errorFiles.append(item->file().absFilePath());
+	    if(m_enableBoxes[m_yearSpin]->isOn()) {
+		if(m_yearSpin->text().isEmpty())
+		    m_yearSpin->setValue(0);
+		tag->setYear(m_yearSpin->value());
+	    }
+	    if(m_enableBoxes[m_commentBox]->isOn())
+		tag->setComment(m_commentBox->text());
+	    
+	    if(m_enableBoxes[m_genreBox]->isOn())
+		tag->setGenre(m_genreBox->currentText());
+
+	    TagTransactionManager::instance()->changeTagOnItem(item, tag);
 	}
 	
-	if(!errorFiles.isEmpty())
-	    KMessageBox::detailedSorry(this,
-				       i18n("Could not save to specified file(s)."), 
-				       i18n("Could Not Write to:\n") + errorFiles.join("\n"));
+	TagTransactionManager::instance()->commit();
 	CollectionList::instance()->dataChanged();
 	m_performingSave = false;
 	KApplication::restoreOverrideCursor();

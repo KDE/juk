@@ -20,6 +20,7 @@
 #include "trackpickerdialog.h"
 #include "tag.h"
 #include "collectionlist.h"
+#include "tagtransactionmanager.h"
 
 #include <kmainwindow.h>
 #include <kapplication.h>
@@ -91,21 +92,22 @@ void MusicBrainzLookup::confirmation()
         if(dialog.exec() == QDialog::Accepted && !dialog.result().isEmpty()) {
 
             KTRMResult result = dialog.result();
+            Tag *tag = TagTransactionManager::duplicateTag(file.tag());
 
             if(!result.title().isEmpty())
-                file.tag()->setTitle(result.title());
+                tag->setTitle(result.title());
             if(!result.artist().isEmpty())
-                file.tag()->setArtist(result.artist());
+                tag->setArtist(result.artist());
             if(!result.album().isEmpty())
-                file.tag()->setAlbum(result.album());
+                tag->setAlbum(result.album());
             if(result.track() != 0)
-                file.tag()->setTrack(result.track());
+                tag->setTrack(result.track());
             if(result.year() != 0)
-                file.tag()->setYear(result.year());
+                tag->setYear(result.year());
 
-            file.tag()->save();
-
-            CollectionList::instance()->slotRefreshItem(file.absFilePath());
+            PlaylistItem *item = CollectionList::instance()->lookup(file.absFilePath());
+            TagTransactionManager::instance()->changeTagOnItem(item, tag);
+            TagTransactionManager::instance()->commit();
         }
 
         queue.pop_front();

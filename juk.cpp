@@ -33,6 +33,7 @@
 #include "cache.h"
 #include "playlistsplitter.h"
 #include "collectionlist.h"
+#include "tagtransactionmanager.h"
 
 using namespace ActionCollection;
 
@@ -92,6 +93,8 @@ KActionCollection *JuK::actionCollection() const
 
 void JuK::setupLayout()
 {
+    new TagTransactionManager(this);
+
     m_splitter = new PlaylistSplitter(this, "playlistSplitter");
     setCentralWidget(m_splitter);
 
@@ -108,6 +111,7 @@ void JuK::setupActions()
     ActionCollection::actions()->setWidget(this);
 
     KStdAction::quit(this, SLOT(slotQuit()), actions());
+    KStdAction::undo(this, SLOT(slotUndo()), actions());
     KStdAction::cut(kapp,   SLOT(cut()),   actions());
     KStdAction::copy(kapp,  SLOT(copy()),  actions());
     KStdAction::paste(kapp, SLOT(paste()), actions());
@@ -416,6 +420,11 @@ void JuK::slotConfigureTagGuesser()
 void JuK::slotConfigureFileRenamer()
 {
     FileRenamerConfigDlg(this).exec();
+}
+
+void JuK::slotUndo()
+{
+    TagTransactionManager::instance()->undo();
 }
 
 #include "juk.moc"
