@@ -191,7 +191,7 @@ public slots:
      * 
      * \see slotRefresh()
      */
-    void slotReloadPlaylist() { visiblePlaylist()->slotReload(); }
+    void slotReloadPlaylist();
 
     /**
      * Show or hide the editor.

@@ -551,7 +551,7 @@ void JuK::slotPlaylistChanged()
         action("file_save")->setEnabled(false);
         action("file_save_as")->setEnabled(false);
         action("renamePlaylist")->setEnabled(false);
-        action("reloadPlaylist")->setEnabled(false);
+        action("reloadPlaylist")->setEnabled(m_splitter->collectionListSelected());
         action("deleteItemPlaylist")->setEnabled(false);
     }
     else {
