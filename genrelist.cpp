@@ -68,7 +68,7 @@ void GenreList::initializeIndex()
 {
   kdDebug() << "initializeIndex()" << endl;
   index.clear();
-  index.resize(count() + 1);
+  index.resize(count());
   for(GenreList::Iterator it = begin(); it != end(); ++it) {
     if((*it).getId3v1() >= 0 && (*it).getId3v1() <= int(index.size())) {
       //      kdDebug() << "initializeIndex() - " << (*it).getId3v1()  << " - " 
