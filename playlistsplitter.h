@@ -193,9 +193,10 @@ public slots:
 // Playlist slots
 
     /**
-     * Create a playlist and prompt the user for a name.
+     * Create a playlist and prompt the user for a name if no name was
+     * specified.
      */
-    Playlist *slotCreatePlaylist();
+    Playlist *slotCreatePlaylist(const QString &name = QString::null);
 
     /**
      * Create a playlist from a user-defined directory, and prompt the user for

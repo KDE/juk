@@ -301,7 +301,7 @@ void PlaylistSplitter::slotOpenDirectory()
     }
 }
 
-Playlist *PlaylistSplitter::slotCreatePlaylist()
+Playlist *PlaylistSplitter::slotCreatePlaylist(const QString &name_)
 {
     bool ok;
 
@@ -309,7 +309,7 @@ Playlist *PlaylistSplitter::slotCreatePlaylist()
 
     QString name = KInputDialog::getText(i18n("Create New Playlist"),
 	i18n("Please enter a name for the new playlist:"),
-	uniquePlaylistName(), &ok);
+	name_.isNull() ? uniquePlaylistName() : name_, &ok);
     if(ok)
 	return createPlaylist(name);
     else
@@ -322,7 +322,7 @@ Playlist *PlaylistSplitter::slotCreatePlaylistFromDir()
     if(dirName.isEmpty())
         return 0;
 
-    Playlist *playlist = slotCreatePlaylist();
+    Playlist *playlist = slotCreatePlaylist(dirName.mid(dirName.findRev('/') + 1));
     if(!playlist)
         return 0;
 

@@ -292,6 +292,11 @@ void JuK::setupActions()
     KActionMenu *newMenu = new KActionMenu(i18n("&New"), "filenew",
 					   actionCollection(), "file_new");
 
+    /* This connection will call the
+     * PlaylistSplitter::slotCreatePlaylist(const QString &) slot - this is
+     * possible because the QString parameter has a default value, so the
+     * slot can be called without arguments (as required by the signal's
+     * signature). */
     newMenu->insert(createSplitterAction(i18n("Empty Playlist..."),
 					 SLOT(slotCreatePlaylist()), 0, 0, 0));
 
