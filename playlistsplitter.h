@@ -139,7 +139,7 @@ public slots:
      * Open a directory recursively, grabbing all of the music and playlist files
      * in it's heirarchy.
      */
-    void openDirectory() { open(KFileDialog::getExistingDirectory()); }
+    void openDirectory();
 
     /**
      * Open each of \a files, where \a files is a list of playlists and music
@@ -229,6 +229,18 @@ public slots:
      */
     void setEditorVisible(bool visible);
 
+    /**
+     * Add a directory to the directory list queue.  We need to queue these 
+     * rather than processing them when they become available because the user
+     * could cancel the action.
+     */
+    void queueDirectory(const QString &directory) { directoryQueue.append(directory); }
+
+    /**
+     * Add a directory to the queue 
+     */
+    void queueDirectoryRemove(const QString &directory) { directoryQueueRemove.append(directory); }
+
 // PlaylistBox forwarding slots
 
     void savePlaylist() { playlistBox->save(); }
@@ -280,6 +292,10 @@ private:
 
     QStringList mediaExtensions;
     QStringList listExtensions;
+
+    QStringList directoryList;
+    QStringList directoryQueue;
+    QStringList directoryQueueRemove;
 
     bool showEditor;
     bool restore;

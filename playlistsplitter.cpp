@@ -24,6 +24,7 @@
 
 #include "playlistsplitter.h"
 #include "collectionlist.h"
+#include "directorylist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
@@ -44,11 +45,12 @@ void processEvents()
 PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restoreOnLoad, const char *name) : QSplitter(Qt::Horizontal, parent, name), 
 											    playingItem(0), restore(restoreOnLoad)
 {
-    setupLayout();
-    readConfig();
     mediaExtensions.append("mp3");
     mediaExtensions.append("ogg");
     listExtensions.append("m3u");
+
+    setupLayout();
+    readConfig();
 }
 
 PlaylistSplitter::~PlaylistSplitter()
@@ -251,10 +253,25 @@ void PlaylistSplitter::open()
 {
     QStringList files = KFileDialog::getOpenFileNames(QString::null, 
 						      extensionsString((mediaExtensions + listExtensions), i18n("Media Files")));
-//    QStringList files = KFileDialog::getOpenFileNames();
     open(files);
 }
 
+void PlaylistSplitter::openDirectory()
+{ 
+    DirectoryList *l = new DirectoryList(directoryList, this, "directoryList");
+
+    directoryQueue.clear();
+
+    connect(l, SIGNAL(directoryAdded(const QString &)), this, SLOT(queueDirectory(const QString &)));
+    connect(l, SIGNAL(directoryRemoved(const QString &)), this, SLOT(removeDirectory(const QString &)));
+
+    if(l->exec() == QDialog::Accepted) {
+	open(directoryQueue);
+	directoryList += directoryQueue;
+	for(QStringList::Iterator it = directoryQueueRemove.begin(); it !=  directoryQueueRemove.end(); it++)
+	    directoryList.remove(*it);
+    }
+}
 void PlaylistSplitter::setEditorVisible(bool visible)
 {
     if(visible)
@@ -437,6 +454,8 @@ void PlaylistSplitter::readConfig()
     { // block for Playlists group
 	KConfigGroupSaver saver(config, "Playlists");
 
+	directoryList = config->readListEntry("DirectoryList");
+
 	if(restore) {
 	    QStringList external = config->readListEntry("ExternalPlaylists");
 	    for(QStringList::Iterator it = external.begin(); it != external.end(); ++it)
@@ -448,6 +467,8 @@ void PlaylistSplitter::readConfig()
 		if(p)
 		    p->setInternal(true);
 	    }
+
+	    open(directoryList);
 	}
     }
 }	
@@ -481,6 +502,7 @@ void PlaylistSplitter::saveConfig()
 	    KConfigGroupSaver saver(config, "Playlists");
 	    config->writeEntry("InternalPlaylists", internalPlaylists);
 	    config->writeEntry("ExternalPlaylists", externalPlaylists);
+	    config->writeEntry("DirectoryList", directoryList);
 	}
     }
 }
