@@ -393,9 +393,9 @@ void TagEditor::updateCollection()
 	
     m_genreList.sort();
 
-    m_genreBox->clear();
-    m_genreBox->insertItem(QString::null);
-    m_genreBox->insertStringList(m_genreList);
+    m_genreBox->listBox()->clear();
+    m_genreBox->listBox()->insertItem(QString::null);
+    m_genreBox->listBox()->insertStringList(m_genreList);
     m_genreBox->completionObject()->setItems(m_genreList);
 
     dict.clear();
