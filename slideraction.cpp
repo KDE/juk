@@ -188,8 +188,6 @@ void SliderAction::unplug(QWidget *parent)
 
 void SliderAction::slotUpdateOrientation()
 {
-    kdDebug(65432) << k_funcinfo << endl;
-
     // if the toolbar is not null and either the dockWindow not defined or is the toolbar
 
     if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
