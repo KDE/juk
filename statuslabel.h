@@ -39,19 +39,21 @@ public:
      * This just sets internal variables that are used by setItemCurrentTime().
      * Please call that method to display the time.
      */      
-    void setItemTotalTime(long time);
-    void setItemCurrentTime(long time);
+    void setItemTotalTime(int time);
+    void setItemCurrentTime(int time);
 
 private:
     static QString formatTime(int minutes, int seconds);
-    virtual void mousePressEvent(QMouseEvent *);
+    void updateTime();
+    virtual bool eventFilter(QObject *o, QEvent *e);
 
     QLabel *playlistLabel;
     QLabel *trackLabel;
     QLabel *itemTimeLabel;
     PlaylistItem *playingItem;
-    int itemTotalMinutes;
-    int itemTotalSeconds;
+    int itemTotalTime;
+    int itemCurrentTime;
+    bool showTimeRemaining;
 
 private slots:
     void jumpToPlayingItem() const;

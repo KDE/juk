@@ -15,16 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kcombobox.h>
+#include <klineedit.h>
+#include <knuminput.h>
+#include <keditcl.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
 #include <kdebug.h>
 
 #include <qlabel.h>
+#include <qcheckbox.h>
 #include <qlayout.h>
 #include <qdir.h>
 
 #include "tageditor.h"
+#include "tag.h"
+#include "collectionlist.h"
+#include "genrelist.h"
 #include "genrelistlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -59,11 +67,18 @@ void TagEditor::readConfig()
         }
     }
 
-    genreList = GenreListList::ID3v1List(); // this should later be read from a config file 
+    // Once the custom genre list editor is done, this is where we should read 
+    // the genre list from the config file.
+
+    genreList = GenreListList::ID3v1List();
+
     if(genreList && genreBox) {
         genreBox->clear();
-        // add values to the genre box
+
+        // Add values to the genre box
+
         genreBox->insertItem(QString::null);
+
         for(GenreList::Iterator it = genreList->begin(); it != genreList->end(); ++it)
             genreBox->insertItem((*it));
     }
@@ -102,28 +117,19 @@ void TagEditor::setupLayout()
     // put stuff in the left column -- all of the field names are class wide
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
-        leftColumnLayout->addWidget(new QLabel(i18n("Artist Name"), this));
-
         artistNameBox = new KComboBox(true, this, "artistNameBox");
-        leftColumnLayout->addWidget(artistNameBox);
 	artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-
-        leftColumnLayout->addWidget(new QLabel(i18n("Track Name"), this));
+	addItem(i18n("Artist Name"), artistNameBox, leftColumnLayout);
 
         trackNameBox = new KLineEdit(this, "trackNameBox");
-        leftColumnLayout->addWidget(trackNameBox);
-
-        leftColumnLayout->addWidget(new QLabel(i18n("Album Name"), this));
+	addItem(i18n("Track Name"), trackNameBox, leftColumnLayout);
 
         albumNameBox = new KComboBox(true, this, "albumNameBox");
-        leftColumnLayout->addWidget(albumNameBox);
 	albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-
-        leftColumnLayout->addWidget(new QLabel(i18n("Genre"), this));
+	addItem(i18n("Album Name"), albumNameBox, leftColumnLayout);
 
         genreBox = new KComboBox(true, this, "genreBox");
-
-        leftColumnLayout->addWidget(genreBox);
+	addItem(i18n("Genre"), genreBox, leftColumnLayout);
 
         // this fills the space at the bottem of the left column
         leftColumnLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding));
@@ -136,25 +142,21 @@ void TagEditor::setupLayout()
 
         fileNameBox = new KLineEdit(this, "fileNameBox");
         rightColumnLayout->addWidget(fileNameBox);
+
         { // lay out the track row
             QHBoxLayout *trackRowLayout = new QHBoxLayout(rightColumnLayout, horizontalSpacing);
 
-            trackRowLayout->addWidget(new QLabel(i18n("Track"), this));
-
             trackSpin = new KIntSpinBox(0, 255, 1, 0, 10, this, "trackSpin");
-            trackRowLayout->addWidget(trackSpin);
+	    addItem("Track", trackSpin, trackRowLayout);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-            trackRowLayout->addWidget(new QLabel(i18n("Year"), this));
-
             yearSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "yearSpin");
-            trackRowLayout->addWidget(yearSpin);
+	    addItem(i18n("Year"), yearSpin, trackRowLayout);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
             trackRowLayout->addWidget(new QLabel(i18n("Length"), this));
-
             lengthBox = new KLineEdit(this, "lengthBox");
             lengthBox->setMaximumWidth(50);
             lengthBox->setReadOnly(true);
@@ -163,16 +165,15 @@ void TagEditor::setupLayout()
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
             trackRowLayout->addWidget(new QLabel(i18n("Bitrate"), this));
-
             bitrateBox = new KLineEdit(this, "bitrateBox");
             bitrateBox->setMaximumWidth(50);
             bitrateBox->setReadOnly(true);
             trackRowLayout->addWidget(bitrateBox);
         }
-        rightColumnLayout->addWidget(new QLabel(i18n("Comment"), this));
 
         commentBox = new KEdit(this, "commentBox");
-        rightColumnLayout->addWidget(commentBox);
+	commentBox->setTextFormat(Qt::PlainText);
+	addItem(i18n("Comment"), commentBox, rightColumnLayout);
     }
 
     connect(artistNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
@@ -201,7 +202,10 @@ void TagEditor::setItems(const PlaylistItemList &list)
 
 void TagEditor::refresh()
 {
-    // currently this only works for one item
+    // This method takes the list of currently selected items and tries to 
+    // figure out how to show that in the tag editor.  The current strategy --
+    // the most common case -- is to just process the first item.  Then we
+    // check after that to see if there are other items and adjust accordingly.
 
     PlaylistItem *item = items.getFirst();
 
@@ -228,6 +232,70 @@ void TagEditor::refresh()
 	
 	commentBox->setText(tag->comment());
 	
+	// Start at the second item, since we've already processed the first.
+
+	QPtrListIterator<PlaylistItem> it(items);
+	++it;
+
+	// If there is more than one item in the items that we're dealing with...
+
+	if(it.current()) {
+	    fileNameBox->clear();
+	    fileNameBox->setEnabled(false);
+	    
+	    for(BoxMap::iterator boxIt = enableBoxes.begin(); boxIt != enableBoxes.end(); boxIt++) {
+		(*boxIt)->setChecked(true);
+		(*boxIt)->show();
+	    }
+
+	    // Yep, this is ugly.  Loop through all of the files checking to see
+	    // if their fields are the same.  If so, by default, enable their 
+	    // checkbox.
+
+	    for(; it.current(); ++it) {
+		tag = (*it)->tag();
+		if(artistNameBox->currentText() != tag->artist() && enableBoxes.contains(artistNameBox)) {
+		    artistNameBox->lineEdit()->clear();
+		    enableBoxes[artistNameBox]->setChecked(false);
+		}
+		if(trackNameBox->text() != tag->track() && enableBoxes.contains(trackNameBox)) {
+		    trackNameBox->clear();
+		    enableBoxes[trackNameBox]->setChecked(false);
+		}
+		if(albumNameBox->currentText() != tag->album() && enableBoxes.contains(albumNameBox)) {
+		    albumNameBox->lineEdit()->clear();
+		    enableBoxes[albumNameBox]->setChecked(false);
+		}
+		if(genreBox->currentText() != tag->genre() && enableBoxes.contains(genreBox)) {
+		    genreBox->lineEdit()->clear();
+		    enableBoxes[genreBox]->setChecked(false);
+		}		
+
+		if(trackSpin->value() != tag->trackNumber() && enableBoxes.contains(trackSpin)) {
+		    trackSpin->setValue(0);
+		    enableBoxes[trackSpin]->setChecked(false);
+		}		
+		if(yearSpin->value() != tag->year() && enableBoxes.contains(yearSpin)) {
+		    yearSpin->setValue(0);
+		    enableBoxes[yearSpin]->setChecked(false);
+		}
+
+		if(commentBox->text() != tag->comment() && enableBoxes.contains(commentBox)) {
+		    commentBox->clear();
+		    enableBoxes[commentBox]->setChecked(false);
+		}
+	    }
+	}
+	else {
+	    // Clean up in the case that we are only handling one item.
+	    
+	    fileNameBox->setEnabled(true);
+
+	    for(BoxMap::iterator boxIt = enableBoxes.begin(); boxIt != enableBoxes.end(); boxIt++) {
+		(*boxIt)->setChecked(true);
+		(*boxIt)->hide();
+	    }
+	}
 	dataChanged = false;
     }
     else
@@ -293,53 +361,82 @@ void TagEditor::save(const PlaylistItemList &list)
 {
     if(list.count() > 0) {
 	
-	// While this accepts a list of items, it currently only works for the first item.
-	
-        PlaylistItem *item = list.getFirst();
-	
-        if(item && dataChanged) {
-            QFileInfo newFile(item->dirPath() + QDir::separator() + fileNameBox->text());
-            QFileInfo directory(item->dirPath());
+        if(list.count() > 0 && dataChanged) {
 
-            // if (the new file is writable or the new file doesn't exist and it's directory is writable)
-            // and the old file is writable...
-            if((newFile.isWritable() || (!newFile.exists() && directory.isWritable())) && item->isWritable()) {
-                // if the file name in the box doesn't match the current file name
-                if(item->fileName()!=newFile.fileName()) {
-                    // rename the file if it doesn't exist or we say it's ok
-                    if(!newFile.exists() ||
-                       KMessageBox::warningYesNo(this, i18n("This file already exists.\nDo you want to replace it?"),
-                                                 i18n("File Exists")) == KMessageBox::Yes)
-                    {
-                        QDir currentDir;
-                        currentDir.rename(item->filePath(), newFile.filePath());
-                        item->setFile(newFile.filePath());
-                    }
-                }
+	    // To keep track of the files that don't cooperate...
 
-                item->tag()->setArtist(artistNameBox->currentText());
-                item->tag()->setTrack(trackNameBox->text());
-                item->tag()->setAlbum(albumNameBox->currentText());
-                item->tag()->setTrackNumber(trackSpin->value());
-                item->tag()->setYear(yearSpin->value());
-                item->tag()->setComment(commentBox->text());
+	    QStringList errorFiles;
+		
+	    for(QPtrListIterator<PlaylistItem> it(list); it.current(); ++it) {
+		PlaylistItem *item = *it;
 
-                //  item->tag()->setGenre(genreBox->currentText());
-                //  item->tag()->setGenre(genreBox->currentItem() - 1);
-                if(genreList->findIndex(genreBox->currentText()) >= 0)
-                    item->tag()->setGenre((*genreList)[genreList->findIndex(genreBox->currentText())]);
-                else
-                    item->tag()->setGenre(Genre(genreBox->currentText(), item->tag()->genre().getID3v1()));
+		QFileInfo newFile(item->dirPath() + QDir::separator() + fileNameBox->text());
+		QFileInfo directory(item->dirPath());
 
+		// If (the new file is writable or the new file doesn't exist and
+		// it's directory is writable) and the old file is writable...  
+		// If not we'll append it to errorFiles to tell the user which
+		// files we couldn't write to.
 
-                item->tag()->save();
+		if((newFile.isWritable() || (!newFile.exists() && directory.isWritable())) && item->isWritable()) {
 
-                item->refresh();
+		    // If the file name in the box doesn't match the current file
+		    // name...
 
-                dataChanged = false;
-            }
-            else
-                KMessageBox::sorry(this, i18n("Could not save to specified file."));
+		    if(list.count() == 1 && item->fileName() != newFile.fileName()) {
+
+			// Rename the file if it doesn't exist or the user says
+			// that it's ok.
+
+			if(!newFile.exists() ||
+			   KMessageBox::warningYesNo(this, i18n("This file already exists.\nDo you want to replace it?"),
+						     i18n("File Exists")) == KMessageBox::Yes)
+			{
+			    QDir currentDir;
+			    currentDir.rename(item->filePath(), newFile.filePath());
+			    item->setFile(newFile.filePath());
+			}
+		    }
+
+		    // A bit more ugliness.  If there are multiple files that are
+		    // being modified, they each have a "enabled" checkbox that
+		    // says if that field is to be respected for the multiple 
+		    // files.  We have to check to see if that is enabled before
+		    // each field that we write.
+		    
+		    if(enableBoxes[artistNameBox]->isOn())
+			item->tag()->setArtist(artistNameBox->currentText());
+		    if(enableBoxes[trackNameBox]->isOn())
+			item->tag()->setTrack(trackNameBox->text());
+		    if(enableBoxes[albumNameBox]->isOn())
+			item->tag()->setAlbum(albumNameBox->currentText());
+		    if(enableBoxes[trackSpin]->isOn())
+			item->tag()->setTrackNumber(trackSpin->value());
+		    if(enableBoxes[yearSpin]->isOn())
+			item->tag()->setYear(yearSpin->value());
+		    if(enableBoxes[commentBox]->isOn())
+			item->tag()->setComment(commentBox->text());
+		    
+		    if(enableBoxes[genreBox]->isOn()) {
+			if(genreList->findIndex(genreBox->currentText()) >= 0)
+			    item->tag()->setGenre((*genreList)[genreList->findIndex(genreBox->currentText())]);
+			else
+			    item->tag()->setGenre(Genre(genreBox->currentText(), item->tag()->genre().getID3v1()));
+		    }
+		    
+		    item->tag()->save();
+		    
+		    item->refresh();
+		}
+		else
+		    errorFiles.append(item->fileName());
+	    }
+	    
+	    if(!errorFiles.isEmpty())
+		KMessageBox::detailedSorry(this,
+					   i18n("Could not save to specified file(s)."), 
+					   i18n("Could not write to:\n") + errorFiles.join("\n"));
+	    dataChanged = false;
         }
     }
 }
@@ -348,18 +445,57 @@ void TagEditor::saveChangesPrompt()
 {
     if(dataChanged && !items.isEmpty()) {
 
-        QString message = i18n("Do you want to save your changes to:\n");
-
+	QStringList files;
         PlaylistItem *item = items.first();
-
         while(item) {
-            message.append(item->fileName() + "\n");
+            files.append(item->fileName());
             item = items.next();
         }
 
-        if(KMessageBox::warningYesNo(this, message, i18n("Save Changes")) == KMessageBox::Yes)
+        if(KMessageBox::questionYesNoList(this,
+					  i18n("Do you want to save your changes to:\n"), 
+					  files, 
+					  i18n("Save Changes")) == KMessageBox::Yes) {
             save(items);
+	}
     }
+}
+
+void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
+{
+    if(!item || !layout)
+	return;
+
+    QLabel *label = new QLabel(text, this);
+
+    QCheckBox *enableBox = new QCheckBox(i18n("Enable"), this);
+    enableBox->setChecked(true);
+
+    label->setMinimumHeight(enableBox->height());
+
+    if(layout->direction() == QBoxLayout::LeftToRight) {
+	layout->addWidget(label);
+	layout->addWidget(item);
+	layout->addWidget(enableBox);
+    }
+    else {
+	QHBoxLayout *l = new QHBoxLayout(layout);
+
+	l->addWidget(label);
+	l->setStretchFactor(label, 1);
+
+	l->insertStretch(-1, 1);
+
+	l->addWidget(enableBox);
+	l->setStretchFactor(enableBox, 0);
+
+	layout->addWidget(item);
+    }
+
+    enableBox->hide();
+
+    connect(enableBox, SIGNAL(toggled(bool)), item, SLOT(setEnabled(bool)));
+    enableBoxes.insert(item, enableBox);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

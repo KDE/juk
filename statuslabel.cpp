@@ -36,7 +36,7 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name), playingItem(0)
+StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name), playingItem(0), showTimeRemaining(false)
 {
     QFrame *trackAndPlaylist = new QFrame(this);
     trackAndPlaylist->setFrameStyle(Box | Sunken);
@@ -67,6 +67,7 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name
     itemTimeLabel->setMinimumWidth(fontMetrics.boundingRect("000:00 / 000:00").width());
     itemTimeLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     itemTimeLabel->setFrameStyle(Box | Sunken);
+    itemTimeLabel->installEventFilter(this);
 
     setItemTotalTime(0);
     setItemCurrentTime(0);
@@ -81,6 +82,8 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name
 
     QToolTip::add(jumpButton, i18n("Jump to the currently playing item"));
     connect(jumpButton, SIGNAL(clicked()), this, SLOT(jumpToPlayingItem()));
+
+    installEventFilter(this);
 }
 
 StatusLabel::~StatusLabel()
@@ -126,27 +129,40 @@ void StatusLabel::clear()
     setItemCurrentTime(0);
 }
 
-void StatusLabel::setItemTotalTime(long time)
+void StatusLabel::setItemTotalTime(int time)
 {
-    itemTotalMinutes = int(time / 60);
-    itemTotalSeconds = time % 60;
+    itemTotalTime = time;
 }
 
-void StatusLabel::setItemCurrentTime(long time)
+void StatusLabel::setItemCurrentTime(int time)
 {
-    int minutes = int(time / 60);
-    int seconds = time % 60;
-    QString timeString = formatTime(minutes, seconds) +  " / " + formatTime(itemTotalMinutes, itemTotalSeconds);
-    itemTimeLabel->setText(timeString);
+    itemCurrentTime = time;
+    updateTime();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void StatusLabel::mousePressEvent(QMouseEvent *)
+void StatusLabel::updateTime()
 {
-    jumpToPlayingItem();
+    int minutes;
+    int seconds;
+
+    if(showTimeRemaining) {
+	minutes = int((itemTotalTime - itemCurrentTime) / 60);
+	seconds = (itemTotalTime - itemCurrentTime) % 60;
+    }
+    else {
+	minutes = int(itemCurrentTime / 60);
+	seconds = itemCurrentTime % 60;
+    }
+
+    int totalMinutes = int(itemTotalTime / 60);
+    int totalSeconds = itemTotalTime % 60;
+
+    QString timeString = formatTime(minutes, seconds) +  " / " + formatTime(totalMinutes, totalSeconds);
+    itemTimeLabel->setText(timeString);    
 }
 
 QString StatusLabel::formatTime(int minutes, int seconds)
@@ -158,6 +174,26 @@ QString StatusLabel::formatTime(int minutes, int seconds)
     if(s.length() == 1)
 	s = "0" + s;
     return(m + ":" + s);
+}
+
+bool StatusLabel::eventFilter(QObject *o, QEvent *e)
+{
+    if(!o || !e)
+	return(false);
+    
+    QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
+    if(mouseEvent && mouseEvent->state() == LeftButton) {
+
+	if(o == itemTimeLabel) {
+	    showTimeRemaining = !showTimeRemaining;
+	    updateTime();
+	}
+	else
+	    jumpToPlayingItem();
+
+	return(true);
+    }
+    return(false);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

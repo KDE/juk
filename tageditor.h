@@ -18,15 +18,15 @@
 #ifndef TAGEDITOR_H
 #define TAGEDITOR_H
 
-#include <kcombobox.h>
-#include <klineedit.h>
-#include <knuminput.h>
-#include <keditcl.h>
+#include <qmap.h>
 
-#include "tag.h"
 #include "playlistitem.h"
-#include "collectionlist.h"
-#include "genrelist.h"
+
+class KComboBox;
+class KLineEdit;
+class KIntSpinBox;
+class KEdit;
+class GenreList;
 
 class TagEditor : public QWidget
 {
@@ -52,6 +52,10 @@ private:
     void saveConfig();
     void save(const PlaylistItemList &list);
     void saveChangesPrompt();
+    void addItem(const QString &text, QWidget *item, QBoxLayout *layout);
+
+    typedef QMap<QWidget *, QCheckBox *> BoxMap;
+    BoxMap enableBoxes;
 
     GenreList *genreList;
 
