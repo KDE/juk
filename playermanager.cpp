@@ -481,7 +481,7 @@ void PlayerManager::slotPollPlay()
     if(!m_sliderAction->volumeDragging() && m_sliderAction->volumeSlider())
     {
         int maxV = m_sliderAction->volumeSlider()->maxValue();
-        float v = sqrtf(sqrtf(volume())); // Cancel out exponential scaling
+        float v = sqrt(sqrt(volume())); // Cancel out exponential scaling
 
         m_sliderAction->volumeSlider()->blockSignals(true);
         m_sliderAction->volumeSlider()->setVolume((int)((v) * maxV));
