@@ -60,7 +60,7 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
 
 JuK::~JuK()
 {
-
+    delete(player);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,9 +160,9 @@ void JuK::setupSystemTray()
 	connect(systemTray, SIGNAL(back()),    this, SLOT(backFile()));
 	connect(systemTray, SIGNAL(forward()), this, SLOT(forwardFile()));
 	
-	if(player.paused())
+	if(player && player->paused())
 	    systemTray->slotPause();
-	else if(player.playing())
+	else if(player && player->playing())
 	    systemTray->slotPlay();
     }
     else
@@ -171,6 +171,8 @@ void JuK::setupSystemTray()
 
 void JuK::setupPlayer()
 {
+    player = Player::createPlayer();
+
     trackPositionDragging = false;
     noSeek = false;
     pauseAction->setEnabled(false);
@@ -314,13 +316,16 @@ void JuK::updatePlaylistInfo()
 
 void JuK::playFile()
 {
-    if(player.paused()) {
-        player.play();
+    if(!player)
+	return;
+
+    if(player->paused()) {
+        player->play();
 
 	// Here, before doing anything, we want to make sure that the player did
 	// in fact start.
 
-        if(player.playing()) {
+        if(player->playing()) {
             pauseAction->setEnabled(true);
             stopAction->setEnabled(true);
             playTimer->start(pollInterval);
@@ -328,16 +333,19 @@ void JuK::playFile()
 		systemTray->slotPlay();
         }
     }
-    else if(player.playing())
-	player.seekPosition(0);
+    else if(player->playing())
+	player->seekPosition(0);
     else
 	playFile(splitter->playNextFile(randomPlayAction->isChecked()));
 }
 
 void JuK::pauseFile()
 {
+    if(!player)
+	return;
+
     playTimer->stop();
-    player.pause();
+    player->pause();
     pauseAction->setEnabled(false);
     if(systemTray)
 	systemTray->slotPause();
@@ -345,8 +353,11 @@ void JuK::pauseFile()
 
 void JuK::stopFile()
 {
+    if(!player)
+	return;
+
     playTimer->stop();
-    player.stop();
+    player->stop();
 
     pauseAction->setEnabled(false);
     stopAction->setEnabled(false);
@@ -405,36 +416,45 @@ void JuK::trackPositionSliderClick()
 
 void JuK::trackPositionSliderRelease()
 {
+    if(!player)
+	return;
+
     trackPositionDragging = false;
-    player.seekPosition(sliderAction->getTrackPositionSlider()->value());
+    player->seekPosition(sliderAction->getTrackPositionSlider()->value());
 }
 
 void JuK::trackPositionSliderUpdate(int position)
 {
-    if(player.playing() && !trackPositionDragging && !noSeek)
-        player.seekPosition(position);
+    if(!player)
+	return;
+
+    if(player->playing() && !trackPositionDragging && !noSeek)
+        player->seekPosition(position);
 }
 
 // This method is called when the play timer has expired.
 
 void JuK::pollPlay()
 {
+    if(!player)
+	return;
+
     // Our locking mechanism.  Since this method adjusts the play slider, we 
     // want to make sure that our adjustments
     noSeek = true;
 
-    if(!player.playing()) {
+    if(!player->playing()) {
 
         playTimer->stop();
 
-	if(!player.paused())
+	if(!player->paused())
 	    playFile(splitter->playNextFile(randomPlayAction->isChecked()));
 
     }
     else if(!trackPositionDragging) {
-        sliderAction->getTrackPositionSlider()->setValue(player.position());
-	statusLabel->setItemTotalTime(player.totalTime());
-	statusLabel->setItemCurrentTime(player.currentTime());
+        sliderAction->getTrackPositionSlider()->setValue(player->position());
+	statusLabel->setItemTotalTime(player->totalTime());
+	statusLabel->setItemCurrentTime(player->currentTime());
     }
 
     // Ok, this is weird stuff, but it works pretty well.  Ordinarily we don't
@@ -442,7 +462,7 @@ void JuK::pollPlay()
     // last interval, we want to check a lot -- to figure out that we've hit the
     // end of the song as soon as possible.
 
-    if(player.playing() && player.totalTime() > 0 && float(player.totalTime() - player.currentTime()) < pollInterval * 2)
+    if(player->playing() && player->totalTime() > 0 && float(player->totalTime() - player->currentTime()) < pollInterval * 2)
         playTimer->changeInterval(50);
 
     noSeek = false;
@@ -450,26 +470,29 @@ void JuK::pollPlay()
 
 void JuK::setVolume(int volume)
 {
-    if(sliderAction && sliderAction->getVolumeSlider() &&
+    if(player && sliderAction && sliderAction->getVolumeSlider() &&
        sliderAction->getVolumeSlider()->maxValue() > 0 &&
        volume >= 0 && sliderAction->getVolumeSlider()->maxValue() >= volume)
     {
-        player.setVolume(float(volume) / float(sliderAction->getVolumeSlider()->maxValue()));
+        player->setVolume(float(volume) / float(sliderAction->getVolumeSlider()->maxValue()));
     }
 }
 
 void JuK::playFile(const QString &file)
 {
+    if(!player)
+	return;
+
     float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());
 
-    if(player.paused())
-	player.stop();
+    if(player->paused())
+	player->stop();
     
-    player.play(file, volume);
+    player->play(file, volume);
 
     // Make sure that the player actually starts before doing anything.
 
-    if(player.playing()) {
+    if(player->playing()) {
 	pauseAction->setEnabled(true);
 	stopAction->setEnabled(true);
 	

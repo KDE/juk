@@ -2,7 +2,7 @@
                           player.h  -  description
                              -------------------
     begin                : Sun Feb 17 2002
-    copyright            : (C) 2002 by Scott Wheeler
+    copyright            : (C) 2002, 2003 by Scott Wheeler
     email                : wheeler@kde.org
 ***************************************************************************/
 
@@ -18,49 +18,44 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <qstring.h>
-#include <soundserver.h>
-#include <arts/artsflow.h>
+/**
+ * Just an interface for concrete player implementations
+ */
 
-using namespace Arts;
+class QString;
 
 class Player
 {
 public:
-    Player();
-    Player(const QString &fileName);
-    virtual ~Player();
 
-    void play(const QString &fileName, float volume = 1.0);
-    void play(float volume = 1.0);
-    void pause();
-    void stop();
+    enum SoundSystem { Arts, GStreamer };
 
-    void setVolume(float volume = 1.0);
-    float getVolume() const;
+    Player() {}
+    virtual ~Player() {}
 
-    bool playing() const;
-    bool paused() const;
+    virtual void play(const QString &fileName, float volume = 1.0) = 0;
+    virtual void play(float volume = 1.0) = 0;
+    virtual void pause() = 0;
+    virtual void stop() = 0;
 
-    long totalTime() const;
-    long currentTime() const;
-    int position() const; // in this case not really the percent
+    virtual void setVolume(float volume = 1.0) = 0;
+    virtual float getVolume() const = 0;
 
-    void seek(long seekTime);
-    void seekPosition(int position);
+    virtual bool playing() const = 0;
+    virtual bool paused() const = 0;
 
-private:
-    void setupPlayer();
-    void setupVolumeControl();
-    bool serverRunning() const;
+    virtual long totalTime() const = 0;
+    virtual long currentTime() const = 0;
+    virtual int position() const = 0; // in this case not really the percent
 
-    Dispatcher *dispatcher;
-    SimpleSoundServer *server;
-    PlayObject *media;
-    StereoVolumeControl *volumeControl;
+    virtual void seek(long seekTime) = 0;
+    virtual void seekPosition(int position) = 0;
 
-    QString currentFile;
-    float currentVolume;
+    /**
+     * Returns a pointer to a Player object.
+     */
+
+    static Player *createPlayer(SoundSystem s = Arts);
 };
 
 #endif

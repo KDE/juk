@@ -25,6 +25,7 @@
 static const char *description = I18N_NOOP("Jukebox and music manager for KDE");
 static const char *scott = I18N_NOOP("Author, cheif dork and keeper of the funk");
 static const char *daniel = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
+static const char *tim = I18N_NOOP("GStreamer port");
 
 static KCmdLineOptions options[] =
 {
@@ -40,6 +41,7 @@ int main(int argc, char *argv[])
 
     aboutData.addAuthor("Scott Wheeler", scott, "wheeler@kde.org");
     aboutData.addCredit("Daniel Molkentin", daniel, "molkentin@kde.org");
+    aboutData.addCredit("Tim Jansen", tim, "tim@tjansen.de");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);

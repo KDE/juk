@@ -135,7 +135,7 @@ private:
     KAction *deleteItemPlaylistAction;
 
     QTimer *playTimer;
-    Player player;
+    Player *player;
 
     bool trackPositionDragging;
     bool noSeek;
