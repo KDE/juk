@@ -46,7 +46,7 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     cm->insertItem(SmallIcon("player_start"), i18n("Back"), this, SIGNAL(back()));
     cm->insertItem(SmallIcon("player_end" ), i18n("Forward"), this, SIGNAL(forward()));
     
-    connect(blinkTimer, SIGNAL(timeout()), this, SLOT(slotBlink()));
+//    connect(blinkTimer, SIGNAL(timeout()), this, SLOT(slotBlink()));
 }
 
 SystemTray::~SystemTray()
@@ -66,14 +66,16 @@ void SystemTray::slotNewSong(const QString& songName)
 
 void SystemTray::slotPlay()
 {
-    currentPix = playPix;
-    blinkTimer->start(blinkInterval);
+    setPixmap(playPix);
+//    currentPix = playPix;
+//    blinkTimer->start(blinkInterval);
 }
 
 void SystemTray::slotPause()
 {
-    currentPix = pausePix;
-    blinkTimer->start(blinkInterval);
+    setPixmap(pausePix);
+//    currentPix = pausePix;
+//    blinkTimer->start(blinkInterval);
 }
 
 void SystemTray::slotStop()
@@ -87,6 +89,7 @@ void SystemTray::slotStop()
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
+/*
 void SystemTray::slotBlink()
 {
     if(blinkStatus)
@@ -96,5 +99,6 @@ void SystemTray::slotBlink()
 
     blinkStatus = !blinkStatus;
 }
+*/
 
 #include "systemtray.moc"

@@ -43,9 +43,11 @@ signals:
     void pause();
     void forward();
     void back();
-    
-private slots:
-    void slotBlink();
+
+/*    
+ * private slots:
+ * void slotBlink();
+ */
     
 private:
     QTimer *blinkTimer;
