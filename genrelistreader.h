@@ -20,7 +20,7 @@
 
 #include <qxml.h>
 
-#include "genrelist.h"
+class GenreList;
 
 /**
  * A SAX2 based XML reader to read GenreLists.  Since there's little use to keep

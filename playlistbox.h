@@ -60,6 +60,10 @@ public slots:
     void deleteItem();
     void deleteItem(PlaylistBoxItem *item);
 
+signals:
+    void currentChanged(PlaylistBoxItem *);
+    void doubleClicked();
+
 private:
     virtual void resizeEvent(QResizeEvent *e);
     virtual void dropEvent(QDropEvent *e);
@@ -71,20 +75,13 @@ private:
      */
     void addName(const QString &name);
 
-    PlaylistSplitter *splitter;
-    QStringList nameList;
-    KPopupMenu *collectionContextMenu;
-    KPopupMenu *playlistContextMenu;
-    PlaylistBoxItem *contextMenuOn;
-    bool updatePlaylistStack;
-
 private slots:
     /** 
      * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
      * the signal as  currentChanged(PlaylistBoxItem *). 
      */
     void playlistChanged(QListBoxItem *item);
-    void playlistDoubleClicked(QListBoxItem *item);
+    void playlistDoubleClicked(QListBoxItem *);
     void drawContextMenu(QListBoxItem *item, const QPoint &point);
 
     // context menu entries
@@ -94,10 +91,13 @@ private slots:
     void contextDuplicate();
     void contextDeleteItem();
 
-signals:
-    void currentChanged(PlaylistBoxItem *);
-    void doubleClicked(PlaylistBoxItem *);
-
+private:
+    PlaylistSplitter *splitter;
+    QStringList nameList;
+    KPopupMenu *collectionContextMenu;
+    KPopupMenu *playlistContextMenu;
+    PlaylistBoxItem *contextMenuOn;
+    bool updatePlaylistStack;
 
 #if QT_VERSION < 0x031000
 public:

@@ -22,7 +22,8 @@
 #define LISTBOXPIXMAP_H
 
 #include <qlistbox.h>
-#include <qpainter.h>
+
+class QPainter;
 
 class ListBoxPixmap : public QListBoxPixmap
 {

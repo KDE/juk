@@ -18,21 +18,27 @@
 #ifndef PLAYLISTSPLITTER_H
 #define PLAYLISTSPLITTER_H
 
+#include <kfiledialog.h>
+#include <klocale.h>
+
 #include <qsplitter.h>
+#include <qwidgetstack.h>
 
 #include "playlistitem.h"
 #include "playlistbox.h"
+#include "collectionlist.h"
+#include "tageditor.h"
+#include "playlist.h"
 
-class QWidgetStack;
-
-class Playlist;
 class PlaylistBoxItem;
-class CollectionList;
-class TagEditor;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
  * a QWidgetStack of the Playlists.  
+ *
+ * This class serves as a "mediator" (see "Design Patterns") between the JuK 
+ * class and the playlist classes.  Thus all access to the playlist classes from
+ * non-Playlist related classes should be through the public API of this class.
  */
 
 class PlaylistSplitter : public QSplitter
@@ -41,45 +47,76 @@ class PlaylistSplitter : public QSplitter
 
 public:
     PlaylistSplitter(QWidget *parent, bool restoreOnLoad = true, const char *name = 0);
+
     virtual ~PlaylistSplitter();
 
     /**
      * Returns a unique string to be used as new playlist names.  This follows
-     * the format "[startingWith] i" where "i" is the first integer greater than 0
-     * that does not currently exist in the PlaylistBox.
+     * the format "[startingWith] i" where "i" is the first integer greater than
+     * 0 that does not currently exist in the PlaylistBox.
      */
     QString uniquePlaylistName(const QString &startingWith, bool useParentheses = false);
+
     /* This calls the above method with startingWith == i18n("Playlist") to 
      * produce "Playlist 1", "Playlist 2", ...
      */
-    QString uniquePlaylistName();
+    QString uniquePlaylistName() { return(uniquePlaylistName(i18n("Playlist"))); }
+    
     /**
-     * Returns a QPtrList of the selected PlaylistItems in the top playlist in 
-     * the QWidgetStack of playlists.
+     * Returns the file name of the next item to be played and advances the next
+     * file.
      */
-    PlaylistItemList playlistSelection() const;
+    QString playNextFile(bool random = false);
+    
     /**
-     * This returns a pointer to the first item in the playlist on the top
-     * of the QWidgetStack of playlists.
+     * Returns the file name of the previous item and moves the playing indicator
+     * to the previous file.
      */
-    PlaylistItem *playlistFirstItem() const;
+    QString playPreviousFile(bool random = false);
 
     /**
-     * Returns a lif of the extensions that are used for playlists.
+     * Returns the name of the currently selected file and moves the playing 
+     * indicator to that file.
      */
-    QStringList playlistExtensions() const;
+    QString playSelectedFile();
+
+    /**
+     * Returns the name of the first item in the playlist and moves the playing
+     * indicator to that file.
+     */
+    QString playFirstFile();
+
+    /**
+     * Returns a list of the extensions that are used for playlists.
+     */
+    QStringList playlistExtensions() const { return(listExtensions); }
 
     /**
      * Returns the name of the currently selected playlist.
      */
-    QString selectedPlaylistName() const;
+    QString selectedPlaylistName() const { return(visiblePlaylist()->name()); }
 
     /**
      * Returns the number of items in the currently selected playlist.
      */
-    int selectedPlaylistCount() const;
+    int selectedPlaylistCount() const { return(visiblePlaylist()->childCount()); }
 
-    // static methods
+    /**
+     * Add the file to the playlist.
+     */
+    void add(const QString &file, Playlist *list);
+    
+    /**
+     * Adds the files to the playlist.
+     */
+    void add(const QStringList &files, Playlist *list);
+
+    /**
+     * Returns true if the the collection list is the visible playlist.
+     */
+    bool collectionListSelected() const { return(visiblePlaylist() == CollectionList::instance()); }
+
+// static methods
 
     /** 
      * Merges a list of file extensions, and a description of those types into a
@@ -87,13 +124,11 @@ public:
      * description is appended.
      */
     static QString extensionsString(const QStringList &extensions, const QString &type = QString::null);
-    /**
-     * Set the selection to the specified item (for both the PlaylistBox and
-     * Playlist) and ensure that those selections are visible.
-     */
-    static void setSelected(PlaylistItem *i);
 
 public slots:
+
+// File slots
+
     /**
      * Open files or playlists.
      */
@@ -103,75 +138,131 @@ public slots:
      * Open a directory recursively, grabbing all of the music and playlist files
      * in it's heirarchy.
      */
-    void openDirectory();
+    void openDirectory() { open(KFileDialog::getExistingDirectory()); }
 
     /**
      * Open each of \a files, where \a files is a list of playlists and music
      * files.
      */
-    void open(const QStringList &files);
+    void open(const QStringList &files) { add(files, visiblePlaylist()); }
 
     /**
      * Open \a file where \a is a playlist or music file.
      */
-    void open(const QString &file);
+    void open(const QString &file) { add(file, visiblePlaylist()); }
 
     /**
      * Save.
      */
-    void save();
+    void save() { editor->save(); }
 
-    /**
-     * Deletes the selected items from the hard disk. 
-     */
-    void remove();
-    
-    /**
-     * Refresh the contents of the currently visible playlist.  This will cause
-     * all of the audio meta data to be reread from disk.
-     */
-    void refresh();
-    /**
-     * Removes the selected items from the playlist. 
-     */
-    void clearSelectedItems();
-    void selectAll(bool select = true);
-
-    void setEditorVisible(bool visible);
+// Playlist slots
 
     /**
      * Create a playlist and prompt the user for a name.
      */
     Playlist *createPlaylist();
+
     /**
      * Create a playlist with the named \a name.
      */
     Playlist *createPlaylist(const QString &name);
+
     /**
      * Prompt the user for a playlist to open.
      */
     void openPlaylist();
+
     /**
      * Open the playlist (m3u file or simiar) at \a playlistFile.
      */
     Playlist *openPlaylist(const QString &playlistFile);
 
-    void add(const QString &file, Playlist *list);
-    void add(const QStringList &files, Playlist *list);
+    /**
+     * Sets the selection to the currently playing item and ensures that it is
+     * visible.
+     */
+    void selectPlaying();
 
-    // PlaylistBox forwarding methods
+    QString playingArtist() const;
+    QString playingTrack() const;
+    QString playingList() const;
+
+// Other slots
+    
+    /**
+     * Since the player is handled at a higher level, this just clears the 
+     * pointer to the currently playing item and updates the icon.
+     */
+    void stop();
+
+    /**
+     * Deletes the selected items from the hard disk. 
+     */
+    void removeSelectedItems();
+    
+    /**
+     * Refresh the contents of the currently visible playlist.  This will cause
+     * all of the audio meta data to be reread from disk.
+     */
+    void refresh() { visiblePlaylist()->refresh(); }
+
+    /**
+     * Removes the selected items from the playlist. 
+     */
+    void clearSelectedItems();
+
+    /**
+     * Select (or deselect) all of the items in the currently visible playlist.
+     */
+    void selectAll(bool select = true) { visiblePlaylist()->selectAll(select); }
+
+    /**
+     * Show or hide the editor.
+     */
+    void setEditorVisible(bool visible);
+
+// PlaylistBox forwarding slots
+
     void savePlaylist() { playlistBox->save(); }
     void saveAsPlaylist() { playlistBox->saveAs(); }
     void renamePlaylist() { playlistBox->rename(); }
     void duplicatePlaylist() { playlistBox->duplicate(); }
     void deleteItemPlaylist() { playlistBox->deleteItem(); }
 
+signals:
+    void doubleClicked();
+    void listBoxDoubleClicked();
+    void playlistChanged();
+    void selectedPlaylistCountChanged(int);
+
 private:
+    /**
+     * Returns a QPtrList of the selected PlaylistItems in the top playlist in 
+     * the QWidgetStack of playlists.
+     */
+    PlaylistItemList playlistSelection() const { return(visiblePlaylist()->selectedItems()); }
+    /**
+     * This returns a pointer to the first item in the playlist on the top
+     * of the QWidgetStack of playlists.
+     */
+    PlaylistItem *playlistFirstItem() const { return(static_cast<PlaylistItem *>(visiblePlaylist()->firstChild())); }
+
+    Playlist *visiblePlaylist() const { return(static_cast<Playlist *>(playlistStack->visibleWidget())); }
+
     void setupLayout();
     void readConfig();
     void saveConfig();
     void addImpl(const QString &file, Playlist *list);
+    void setupPlaylist(Playlist *p, const char *icon = "midi");
+    void checkPlayingItemBeforeRemove(PlaylistItemList &items);
+    
+private slots:
+    void changePlaylist(PlaylistBoxItem *item);
+    void playlistCountChanged(Playlist *p);
 
+private:
+    PlaylistItem *playingItem;
     PlaylistBox *playlistBox;
     QWidgetStack *playlistStack;
     TagEditor *editor;
@@ -185,18 +276,6 @@ private:
 
     bool showEditor;
     bool restore;
-
-private slots:
-    // playlist box slots
-    void changePlaylist(PlaylistBoxItem *item);
-    void playlistBoxDoubleClicked(PlaylistBoxItem *item);
-    void playlistCountChanged(Playlist *p);
-
-signals:
-    void playlistDoubleClicked(QListViewItem *);
-    void playlistChanged(Playlist *);
-    void playlistChanged();
-    void selectedPlaylistCountChanged(int);
 };
 
 #endif

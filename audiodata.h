@@ -36,7 +36,6 @@
 
 class AudioData
 {
-
 public:
     AudioData(const char* filein);
     virtual ~AudioData();
@@ -54,7 +53,6 @@ public:
     bool getResult() const;
 
 private:
-
     bool success;
     char* fileglob;
     int length;

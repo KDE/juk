@@ -27,6 +27,7 @@ class GenreList;
 class GenreListEditor : public GenreListEditorBase 
 {
     Q_OBJECT
+
 public: 
     GenreListEditor(QWidget *parent = 0, const char *name = 0);
     ~GenreListEditor();
@@ -36,11 +37,12 @@ private:
     void loadLists();
     void updateGenreList();
 
-    QDict<GenreList> listDict;
-
 private slots:
     virtual void updateGenreBoxes(QListViewItem *item);
     virtual void updateGenreName(const QString &name);
+
+private:
+    QDict<GenreList> listDict;
 };
 
 #endif

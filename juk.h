@@ -22,32 +22,30 @@
 #include <config.h>
 #endif
 
-#include <kapp.h>
 #include <kaction.h>
 #include <kstdaction.h>
 #include <kmainwindow.h>
 
-#include <qtimer.h>
-#include <qlistview.h>
 #include <qlabel.h>
 
 #include "player.h"
+#include "playlistsplitter.h"
 
-class Playlist;
-class PlaylistSplitter;
-class PlaylistItem;
+class QTimer;
+class QListViewItem;
+
 class SliderAction;
 class StatusLabel;
 
 class JuK : public KMainWindow
 {
     Q_OBJECT
+
 public:
     JuK(QWidget* parent = 0, const char *name = 0);
     virtual ~JuK();
 
 private:
-
     // private methods
     void setupLayout();
     void setupActions();
@@ -63,6 +61,54 @@ private:
 
     virtual bool queryClose();
 
+private slots:
+    void playlistChanged();
+    void updatePlaylistInfo();
+
+    // file menu
+    void quit();
+
+    // edit menu
+    void copy() {};
+    void paste() {};
+
+    // player menu
+    void playFile();
+    void pauseFile();
+    void stopFile();
+    void backFile();
+    void forwardFile();
+
+    // settings menu
+    void showGenreListEditor();
+
+    // additional player slots
+    void trackPositionSliderClick();
+    void trackPositionSliderRelease();
+    void trackPositionSliderUpdate(int position);
+
+    /**
+     * This method is called to check our progress in the playing file.  It uses
+     * playTimer to know when to call itself again.
+     */
+    void pollPlay();
+
+    /**
+     * This method is called by the slider to set the volume of the player.  Its
+     * value is relative to the maxValue() of the volume slider.
+     */
+    void setVolume(int volume);
+
+    /**
+     * This is the main method to play stuff.  Everything else is just a wrapper
+     * around this.
+     */
+    void playFile(const QString &file);
+
+    void playSelectedFile() { playFile(splitter->playSelectedFile()); }
+    void playFirstFile() { playFile(splitter->playFirstFile()); }
+
+private:
     // layout objects
     PlaylistSplitter *splitter;
     StatusLabel *statusLabel;
@@ -86,52 +132,12 @@ private:
 
     QTimer *playTimer;
     Player player;
-    PlaylistItem *playingItem;
 
     bool trackPositionDragging;
     bool noSeek;
     bool restore;
 
     static const int pollInterval = 800;
-
-private slots:
-    void playlistChanged(Playlist *list);
-    void updatePlaylistInfo();
-
-    // file menu
-    void remove();
-    void quit();
-
-    // edit menu
-    void cut();
-    void copy() {};
-    void paste() {};
-
-    // player menu
-    void playFile();
-    void pauseFile();
-    void stopFile();
-    void backFile();
-    void forwardFile();
-
-    // settings menu
-    void showGenreListEditor();
-
-    // additional player slots
-    void trackPositionSliderClick();
-    void trackPositionSliderRelease();
-    void trackPositionSliderUpdate(int position);
-    void pollPlay();
-    void setVolume(int volume);
-    /**
-     * This is just a wrapper around the below method to take a QListViewItem.
-     */
-    void playItem(QListViewItem *item);
-    /**
-     * This is the main method to play stuff.  All of the other play related 
-     * members in this class ultimately call this method.
-     */
-    void playItem(PlaylistItem *item);
 };
 
 #endif

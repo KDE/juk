@@ -218,11 +218,6 @@ PlaylistItemList Playlist::selectedItems() const
     return(list);
 }
 
-void Playlist::remove()
-{
-    remove(selectedItems());
-}
-
 void Playlist::remove(const PlaylistItemList &items)
 {
     if(isVisible() && !items.isEmpty()) {
@@ -234,9 +229,9 @@ void Playlist::remove(const PlaylistItemList &items)
 	QString message;
 
 	if(files.count() == 1)
-	    message = i18n("Do you really want to delete this item?");
+	    message = i18n("Do you really want to delete this item from your disk?");
 	else
-	    message = i18n("Do you really want to delete these %1 items?").arg(QString::number(files.count()));
+	    message = i18n("Do you really want to delete these %1 items from your disk?").arg(QString::number(files.count()));
 	
 	if(KMessageBox::questionYesNoList(this, message, files) == KMessageBox::Yes) {
 	    for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it) {
@@ -257,18 +252,15 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 	return(0);
 
     PlaylistItem *i;
-    Playlist *list = static_cast<Playlist *>(current->listView());
 
     if(random) {
-	PlaylistItemList items = list->items();
-	
-	if(items.count() > 1) {
-	    list->history.push(current);
+	if(count() > 1) {
+	    history.push(current);
 
 	    srand(time(0));
 	    i = current;
 	    while(i == current)
-		i = items.at(rand() % items.count());
+		i = items().at(rand() % count());
 	}
 	else
 	    i = 0;
@@ -284,10 +276,8 @@ PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
     if(!current)
 	return(0);
 
-    Playlist *list = static_cast<Playlist *>(current->listView());
-
-    if(random && !list->history.isEmpty())
-	return(list->history.pop());
+    if(random && !history.isEmpty())
+	return(history.pop());
     else
 	return(static_cast<PlaylistItem *>(current->itemAbove()));
 }
@@ -334,6 +324,11 @@ PlaylistBoxItem *Playlist::playlistBoxItem() const
 void Playlist::setPlaylistBoxItem(PlaylistBoxItem *item)
 {
     boxItem = item;
+}
+
+int Playlist::count() const
+{
+    return(childCount());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -446,6 +441,7 @@ void Playlist::setup()
     setSorting(1);
 
     connect(this, SIGNAL(selectionChanged()), this, SLOT(emitSelected()));
+    connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(emitDoubleClicked(QListViewItem *)));
 
     addColumn(QString::null);
     setResizeMode(QListView::LastColumn);
@@ -462,6 +458,11 @@ void Playlist::setup()
 void Playlist::emitSelected()
 {
     emit(selectionChanged(selectedItems()));
+}
+
+void Playlist::emitDoubleClicked(QListViewItem *)
+{
+    emit(doubleClicked());
 }
 
 #include "playlist.moc"

@@ -28,23 +28,26 @@ class StatusLabel : public QHBox
 {
     Q_OBJECT
 
-public: 
+public:
+
     StatusLabel(QWidget *parent = 0, const char *name = 0);
     virtual ~StatusLabel();
 
 public slots:
-    void setPlayingItem(PlaylistItem *item);
+//    void setPlayingItem(PlaylistItem *item);
 
     /**
      * Set the playlist name.  This text will only be used when there is not an
      * item playing.
      */ 
-    void setPlaylistName(const QString &t);
+    void setPlaylistInfo(const QString &name, int count);
     void setPlaylistCount(int c);
+    void setPlayingItemInfo(const QString &name, const QString &artist, const QString &playlist);
 
     /**
      * This clears the information about the playing items and frees that status
-     * bar up for playlist information.
+     * bar up for playlist information.  Ok, ok, so that's not actually clearing,
+     * but use your imagination.
      */
     void clear();
 
@@ -52,27 +55,31 @@ public slots:
      * This just sets internal variables that are used by setItemCurrentTime().
      * Please call that method to display the time.
      */      
-    void setItemTotalTime(int time);
-    void setItemCurrentTime(int time);
+    void setItemTotalTime(int time) { itemTotalTime = time; }
+    void setItemCurrentTime(int time) { itemCurrentTime = time; updateTime(); }
 
 private:
-    static QString formatTime(int minutes, int seconds);
     void updateTime();
     virtual bool eventFilter(QObject *o, QEvent *e);
 
-    QString playlistName;
-    int playlistCount;
-    QLabel *playlistLabel;
-    QLabel *trackLabel;
-    QLabel *itemTimeLabel;
-    PlaylistItem *playingItem;
-    int itemTotalTime;
-    int itemCurrentTime;
-    bool showTimeRemaining;
+    static QString formatTime(int minutes, int seconds);
 
 private slots:
     void jumpToPlayingItem() const;
 
+private:
+    enum Mode { PlayingItemInfo, PlaylistInfo } mode;
+
+    QString playlistName;
+    int playlistCount;
+    int itemTotalTime;
+    int itemCurrentTime;
+    bool showTimeRemaining;
+
+    QLabel *playlistLabel;
+    QLabel *trackLabel;
+    QLabel *itemTimeLabel;
+//    PlaylistItem *playingItem;
 };
 
 #endif

@@ -291,11 +291,14 @@ void PlaylistBox::playlistChanged(QListBoxItem *item)
 	emit(currentChanged(i));
 }
 
-void PlaylistBox::playlistDoubleClicked(QListBoxItem *item)
+void PlaylistBox::playlistDoubleClicked(QListBoxItem *)
 {
+/*
     PlaylistBoxItem *i = dynamic_cast<PlaylistBoxItem *>(item);
     if(i)
 	emit(doubleClicked(i));
+*/
+    emit(doubleClicked());
 }
 
 void PlaylistBox::drawContextMenu(QListBoxItem *item, const QPoint &point)

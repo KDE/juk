@@ -19,7 +19,6 @@
 #define GENRELIST_H
 
 #include <qvaluelist.h>
-#include <qstring.h>
 #include <qvaluevector.h>
 
 #include "genre.h"

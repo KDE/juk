@@ -37,7 +37,7 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name), playingItem(0), showTimeRemaining(false)
+StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name), mode(PlaylistInfo), playlistCount(0), showTimeRemaining(false)
 {
     QFrame *trackAndPlaylist = new QFrame(this);
     trackAndPlaylist->setFrameStyle(Box | Sunken);
@@ -51,14 +51,14 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name
     playlistLabel = new QLabel(trackAndPlaylist, "playlistLabel");
     trackAndPlaylistLayout->addWidget(playlistLabel);
     playlistLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    playlistLabel->setTextFormat(RichText);
+    playlistLabel->setTextFormat(PlainText);
     playlistLabel->setAlignment(AlignLeft | AlignVCenter);
 
     trackLabel = new QLabel(trackAndPlaylist, "trackLabel");
     trackAndPlaylistLayout->addWidget(trackLabel);
     trackLabel->setAlignment(AlignRight | AlignVCenter);
     trackLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    trackLabel->setTextFormat(RichText);
+    trackLabel->setTextFormat(PlainText);
 
     trackAndPlaylistLayout->addSpacing(5);
     
@@ -92,70 +92,42 @@ StatusLabel::~StatusLabel()
 
 }
 
-void StatusLabel::setPlayingItem(PlaylistItem *item)
+void StatusLabel::setPlaylistInfo(const QString &name, int count)
 {
-    playingItem = item;
+    playlistName = name;
 
-    if(item) {
-	Playlist *p = static_cast<Playlist *>(item->listView());
-	if(p && p->playlistBoxItem()) {
-
-	    QString playlist = QStyleSheet::escape(p->playlistBoxItem()->text().simplifyWhiteSpace());
-	    QString artist = QStyleSheet::escape(item->text(PlaylistItem::ArtistColumn).simplifyWhiteSpace());
-    	    QString track = QStyleSheet::escape(item->text(PlaylistItem::TrackColumn).simplifyWhiteSpace());
-
-	    playlistLabel->setText(playlist);
-	    
-	    QString label;
-	    if(artist.isEmpty() || track.isEmpty())
-		label = artist + track;
-	    else
-		label = artist + " - " + track;
-
-	    trackLabel->setText(label);
-	}
-	else
-	    clear();
-    }
-    else
-	clear();
-}
-
-void StatusLabel::setPlaylistName(const QString &t)
-{
-    playlistName = t;
-    if(!playingItem)
+    if(mode == PlaylistInfo)
 	playlistLabel->setText(playlistName);
+
+    setPlaylistCount(count);
 }
 
 void StatusLabel::setPlaylistCount(int c)
 {
     playlistCount = c;
-    if(!playingItem)
-	trackLabel->setText(QString::number(playlistCount) + " " + i18n("Item(s)"));
+
+    if(mode == PlaylistInfo)
+	trackLabel->setText(QString::number(c) + " " + i18n("Item(s)"));
+}
+
+void StatusLabel::setPlayingItemInfo(const QString &name, const QString &artist, const QString &playlist)
+{
+    mode = PlayingItemInfo;
+
+    trackLabel->setText(artist.simplifyWhiteSpace() + " - " + name.simplifyWhiteSpace());
+    playlistLabel->setText(playlist.simplifyWhiteSpace());
 }
 
 void StatusLabel::clear()
 {
     playlistLabel->clear();
     trackLabel->clear();
-    playingItem = 0;
     setItemTotalTime(0);
     setItemCurrentTime(0);
     
-    setPlaylistName(playlistName);
-    setPlaylistCount(playlistCount);
-}
+    mode = PlaylistInfo;
 
-void StatusLabel::setItemTotalTime(int time)
-{
-    itemTotalTime = time;
-}
-
-void StatusLabel::setItemCurrentTime(int time)
-{
-    itemCurrentTime = time;
-    updateTime();
+    setPlaylistInfo(playlistName, playlistCount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -183,17 +155,6 @@ void StatusLabel::updateTime()
     itemTimeLabel->setText(timeString);    
 }
 
-QString StatusLabel::formatTime(int minutes, int seconds)
-{
-    QString m = QString::number(minutes);
-    if(m.length() == 1)
-	m = "0" + m;
-    QString s = QString::number(seconds);
-    if(s.length() == 1)
-	s = "0" + s;
-    return(m + ":" + s);
-}
-
 bool StatusLabel::eventFilter(QObject *o, QEvent *e)
 {
     if(!o || !e)
@@ -214,14 +175,24 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
     return(false);
 }
 
+QString StatusLabel::formatTime(int minutes, int seconds) // static
+{
+    QString m = QString::number(minutes);
+    if(m.length() == 1)
+	m = "0" + m;
+    QString s = QString::number(seconds);
+    if(s.length() == 1)
+	s = "0" + s;
+    return(m + ":" + s);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
 void StatusLabel::jumpToPlayingItem() const
 {
-    if(playingItem)
-	PlaylistSplitter::setSelected(playingItem);
+//    PlaylistSplitter::setSelected(playingItem);
 }
 
 #include "statuslabel.moc"

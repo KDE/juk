@@ -73,7 +73,7 @@ public:
     /**
      * Remove the currently selected items from the playlist.
      */ 
-    void remove();
+    void removeSelectedItems() { remove(selectedItems()); };
     
     /**
      * Remove \a items from the playlist.  This will ignore items that are not
@@ -117,49 +117,20 @@ public:
     PlaylistBoxItem *playlistBoxItem() const;
     void setPlaylistBoxItem(PlaylistBoxItem *item);
 
-    // static methods
+    int count() const;
 
     /** 
      * This gets the next item to be played.  This is static because often we 
      * know about the playing item, but not to which list it belongs.
      */
-    static PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
-    static PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
+    PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
+    PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
 
 protected:
     virtual QDragObject *dragObject();
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     PlaylistSplitter *playlistSplitter() const;
-
-private:
-    void setup();
-
-    QStringList members;
-    int processed;
-    bool allowDuplicates;
-
-    /**
-     * If a file is "internal" it is not one that the user has yet chosen to 
-     * save.  However for the purposes of being able to restore a user's 
-     * loaded playlists it will be saved "internally" in:
-     * $KDEHOME/share/apps/juk/playlists.
-     */
-    bool internalFile;
-    QString playlistFileName;
-
-    /**
-     * This is only defined if the playlist name is something other than the
-     * file name.
-     */
-    QString playlistName;
-    PlaylistSplitter *splitter;
-    PlaylistBoxItem *boxItem;
-    
-    QPtrStack<PlaylistItem> history;
-
-private slots:
-    void emitSelected();
 
 signals:
     /** 
@@ -187,6 +158,38 @@ signals:
     void nameChanged(const QString &fileName);
     
     void numberOfItemsChanged(Playlist *);
+    
+    void doubleClicked();
+
+private:
+    void setup();
+    QPtrStack<PlaylistItem> history;
+
+private slots:
+    void emitSelected();
+    void emitDoubleClicked(QListViewItem *);
+
+private:
+    QStringList members;
+    int processed;
+    bool allowDuplicates;
+
+    /**
+     * If a file is "internal" it is not one that the user has yet chosen to 
+     * save.  However for the purposes of being able to restore a user's 
+     * loaded playlists it will be saved "internally" in:
+     * $KDEHOME/share/apps/juk/playlists.
+     */
+    bool internalFile;
+    QString playlistFileName;
+
+    /**
+     * This is only defined if the playlist name is something other than the
+     * file name.
+     */
+    QString playlistName;
+    PlaylistSplitter *splitter;
+    PlaylistBoxItem *boxItem;
 };
 
 #endif

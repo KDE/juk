@@ -18,6 +18,7 @@
 #ifndef TAGEDITOR_H
 #define TAGEDITOR_H
 
+#include <qwidget.h>
 #include <qmap.h>
 
 #include "playlistitem.h"
@@ -27,6 +28,9 @@ class KComboBox;
 class KLineEdit;
 class KIntSpinBox;
 class KEdit;
+
+class QCheckBox;
+class QBoxLayout;
 
 class TagEditor : public QWidget
 {
@@ -59,6 +63,10 @@ private:
      */
     void addItem(const QString &text, QWidget *item, QBoxLayout *layout);
 
+private slots:
+    void setDataChanged(bool c = true);
+
+private:
     typedef QMap<QWidget *, QCheckBox *> BoxMap;
     BoxMap enableBoxes;
 
@@ -77,11 +85,7 @@ private:
 
     PlaylistItemList items;
     
-    bool dataChanged;
-
-private slots:
-    void setDataChanged(bool c = true);
-
+    bool dataChanged; 
 };
 
 #endif

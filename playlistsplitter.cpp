@@ -15,20 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kfiledialog.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kapplication.h>
-#include <klocale.h>
 #include <kdebug.h>
 
 #include <qinputdialog.h>
-#include <qwidgetstack.h>
 
 #include "playlistsplitter.h"
-#include "playlist.h"
 #include "collectionlist.h"
-#include "tageditor.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
@@ -47,7 +42,7 @@ void processEvents()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restoreOnLoad, const char *name) : QSplitter(Qt::Horizontal, parent, name), 
-											    restore(restoreOnLoad)
+											    playingItem(0), restore(restoreOnLoad)
 {
     setupLayout();
     readConfig();
@@ -61,14 +56,10 @@ PlaylistSplitter::~PlaylistSplitter()
     saveConfig();
 }
 
-QString PlaylistSplitter::uniquePlaylistName()
-{
-    return(uniquePlaylistName(i18n("Playlist")));
-}
-
 QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool useParenthesis)
 {
     if(!playlistBox)
+
 	return(QString::null);
 
     QStringList names = playlistBox->names();
@@ -93,20 +84,109 @@ QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool u
     }
 }
 
-PlaylistItemList PlaylistSplitter::playlistSelection() const
+QString PlaylistSplitter::playNextFile(bool random)
 {
-    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-    return(p->selectedItems());
+    Playlist *p;
+    PlaylistItem *i;
+
+    if(playingItem) {
+	playingItem->setPixmap(0, 0);
+
+	p = static_cast<Playlist *>(playingItem->listView());
+	i = p->nextItem(playingItem, random);
+    }
+    else {
+	PlaylistItemList items = playlistSelection();
+	if(!items.isEmpty())
+	    i = items.first();
+	else {
+	    p = visiblePlaylist();
+	    i = static_cast<PlaylistItem *>(p->firstChild());
+	}
+    }
+
+    if(i) {
+	i->setPixmap(0, QPixmap(UserIcon("playing")));
+	playingItem = i;
+	return(i->absFilePath());
+    }
+    else
+	return(QString::null);
 }
 
-PlaylistItem *PlaylistSplitter::playlistFirstItem() const
+QString PlaylistSplitter::playPreviousFile(bool random)
 {
-    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
+    if(playingItem) {
+	Playlist *p = static_cast<Playlist *>(playingItem->listView());
+	PlaylistItem *i = p->previousItem(playingItem, random);
+
+	playingItem->setPixmap(0, 0);
+	i->setPixmap(0, QPixmap(UserIcon("playing")));
+	
+	playingItem = i;
+	return(i->absFilePath());
+    }
+    else
+	return(QString::null);
+}
+
+QString PlaylistSplitter::playSelectedFile()
+{
+    stop();
+
+    PlaylistItemList items = playlistSelection();
+
+    if(!items.isEmpty()) {
+	PlaylistItem *i = items.first();
+	i->setPixmap(0, QPixmap(UserIcon("playing")));
+	
+	playingItem = i;
+	return(i->absFilePath());
+    }
+    else
+	return(QString::null);
+}
+
+QString PlaylistSplitter::playFirstFile()
+{
+    stop();
+
+    Playlist *p = visiblePlaylist();
     PlaylistItem *i = static_cast<PlaylistItem *>(p->firstChild());
-    return(i);
+
+    if(i) {
+	i->setPixmap(0, QPixmap(UserIcon("playing")));
+	i->setPixmap(0, QPixmap(UserIcon("playing")));
+	playingItem = i;
+
+	return(i->absFilePath());
+    }
+    else
+	return(QString::null);
 }
 
-QString PlaylistSplitter::extensionsString(const QStringList &extensions, const QString &type)
+void PlaylistSplitter::add(const QString &file, Playlist *list)
+{
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    addImpl(file, list);
+    KApplication::restoreOverrideCursor();
+    
+    if(editor)
+	editor->updateCollection();
+}
+
+void PlaylistSplitter::add(const QStringList &files, Playlist *list)
+{
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
+        addImpl(*it, list);
+    KApplication::restoreOverrideCursor();
+
+    if(editor)
+	editor->updateCollection();
+}
+
+QString PlaylistSplitter::extensionsString(const QStringList &extensions, const QString &type) // static
 {
     QStringList l;
 
@@ -123,30 +203,8 @@ QString PlaylistSplitter::extensionsString(const QStringList &extensions, const 
     return(s);
 }
 
-QString PlaylistSplitter::selectedPlaylistName() const
-{
-    if(playlistStack->visibleWidget()) {
-	Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-	return(p->name());
-    }
-    return(QString::null);
-}
-
-int PlaylistSplitter::selectedPlaylistCount() const
-{
-    if(playlistStack->visibleWidget()) {
-	Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-	return(p->childCount());
-    }
-    return(0);
-}
-
-QStringList PlaylistSplitter::playlistExtensions() const
-{
-    return(listExtensions);
-}
-
-void PlaylistSplitter::setSelected(PlaylistItem *i)
+/*
+void PlaylistSplitter::setSelected(PlaylistItem *i) // static
 {
     // Hu hu!  See how much crap I can pack into just one pointer to a 
     // PlaylistItem!  Sensitive viewers may want to close their eyes for the
@@ -183,6 +241,7 @@ void PlaylistSplitter::setSelected(PlaylistItem *i)
 	}
     }    
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
@@ -196,65 +255,12 @@ void PlaylistSplitter::open()
     open(files);
 }
 
-void PlaylistSplitter::openDirectory()
-{
-    open(KFileDialog::getExistingDirectory());
-}
-
-void PlaylistSplitter::open(const QStringList &files)
-{
-    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-    if(p)
-	add(files, p);
-}
-
-void PlaylistSplitter::open(const QString &file)
-{
-    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-    if(p)
-	add(file, p);
-}
-
-void PlaylistSplitter::save()
-{
-    if(editor)
-	editor->save();
-}
-
-void PlaylistSplitter::remove()
-{
-    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-    if(p)
-	p->remove();
-}
-
-void PlaylistSplitter::refresh()
-{
-    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-    if(p)
-	p->refresh();
-}
-
 void PlaylistSplitter::setEditorVisible(bool visible)
 {
     if(visible)
 	editor->show();
     else
 	editor->hide();
-}
-
-void PlaylistSplitter::clearSelectedItems()
-{
-    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-    if(p)
-	p->clearItems(p->selectedItems()); 
-}
-
-void PlaylistSplitter::selectAll(bool select)
-{
-    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-    if(p)
-	p->selectAll(select);
 }
 
 Playlist *PlaylistSplitter::createPlaylist()
@@ -274,14 +280,7 @@ Playlist *PlaylistSplitter::createPlaylist()
 Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 {
     Playlist *p = new Playlist(this, playlistStack, name.latin1());
-    PlaylistBoxItem *i = new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
-    p->setPlaylistBoxItem(i);
-
-    connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
-    connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
-    connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
-    connect(p, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
-    playlistBox->sort();
+    setupPlaylist(p);
     return(p);
 }
 
@@ -302,35 +301,94 @@ Playlist *PlaylistSplitter::openPlaylist(const QString &playlistFile)
     playlistFiles.append(file.absFilePath());
     
     Playlist *p = new Playlist(this, playlistFile, playlistStack, file.baseName(true).latin1());
-    connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
-    connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
-    connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
-    connect(p, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
-    PlaylistBoxItem *i = new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), p->name(), p);
-    p->setPlaylistBoxItem(i);
-    playlistBox->sort();
+    setupPlaylist(p);
     return(p);
 }
 
-void PlaylistSplitter::add(const QString &file, Playlist *list)
+void PlaylistSplitter::selectPlaying()
 {
-    KApplication::setOverrideCursor(Qt::waitCursor);
-    addImpl(file, list);
-    KApplication::restoreOverrideCursor();
-    
-    if(editor)
-	editor->updateCollection();
+    if(!playingItem)
+	return;
+
+    Playlist *l = static_cast<Playlist *>(playingItem->listView());
+	
+    if(l) {
+
+	l->clearSelection();
+	l->setSelected(playingItem, true);
+	l->ensureItemVisible(playingItem);
+	
+	// Now move on to the PlaylistBox.  The Playlist knows which
+	// PlaylistBoxItem that it is associated with, so we'll just get
+	// that and then figure out the PlaylistBox from there.
+	// 
+	// Once we have that we can set the appropriate Playlist to be
+	// visible.
+	
+	if(l->playlistBoxItem() && l->playlistBoxItem()->listBox()) {
+	    QListBox *b = l->playlistBoxItem()->listBox();
+	    
+	    b->clearSelection();
+	    b->setSelected(l->playlistBoxItem(), true);
+	    
+	    b->setCurrentItem(l->playlistBoxItem());
+	    b->ensureCurrentVisible();
+	}    
+    }
 }
 
-void PlaylistSplitter::add(const QStringList &files, Playlist *list)
+QString PlaylistSplitter::playingArtist() const
 {
-    KApplication::setOverrideCursor(Qt::waitCursor);
-    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
-        addImpl(*it, list);
-    KApplication::restoreOverrideCursor();
+    if(playingItem)
+	return(playingItem->text(PlaylistItem::ArtistColumn));
+    else
+	return(QString::null);
+}
 
-    if(editor)
-	editor->updateCollection();
+QString PlaylistSplitter::playingTrack() const
+{
+    if(playingItem)
+	return(playingItem->text(PlaylistItem::TrackColumn));
+    else
+	return(QString::null);
+}
+
+QString PlaylistSplitter::playingList() const
+{
+    if(playingItem)
+	return(static_cast<Playlist *>(playingItem->listView())->name());
+    else
+	return(QString::null);
+}
+
+void PlaylistSplitter::stop()
+{
+    if(playingItem) {
+	playingItem->setPixmap(0, 0);
+	playingItem = 0;
+    }
+}
+
+
+void PlaylistSplitter::removeSelectedItems()
+{
+    PlaylistItemList items = playlistSelection();
+
+    checkPlayingItemBeforeRemove(items);
+
+    Playlist *p = visiblePlaylist();
+    if(p)
+	p->remove(items);
+}
+
+void PlaylistSplitter::clearSelectedItems()
+{
+    PlaylistItemList items = playlistSelection();
+    checkPlayingItemBeforeRemove(items);
+ 
+    Playlist *p = visiblePlaylist();
+    if(p)
+	p->clearItems(items); 
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -360,8 +418,7 @@ void PlaylistSplitter::setupLayout()
     connect(playlistBox, SIGNAL(currentChanged(PlaylistBoxItem *)), 
 	    this, SLOT(changePlaylist(PlaylistBoxItem *)));
 
-    connect(playlistBox, SIGNAL(doubleClicked(PlaylistBoxItem *)), 
-	    this, SLOT(playlistBoxDoubleClicked(PlaylistBoxItem *)));
+    connect(playlistBox, SIGNAL(doubleClicked()), this, SIGNAL(listBoxDoubleClicked()));
 
     // Create the collection list; this should always exist.  This has a 
     // slightly different creation process than normal playlists (since it in
@@ -370,19 +427,10 @@ void PlaylistSplitter::setupLayout()
 
     CollectionList::initialize(this, playlistStack, restore);
     collection = CollectionList::instance();
-
-    PlaylistBoxItem *collectionBoxItem = new PlaylistBoxItem(playlistBox, SmallIcon("folder_sound", 32), 
-							     i18n("Music Collection"), collection);
-    collection->setPlaylistBoxItem(collectionBoxItem);
-
-    connect(collection, SIGNAL(selectionChanged(const PlaylistItemList &)), 
-	    editor, SLOT(setItems(const PlaylistItemList &)));
-    connect(collection, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
-    connect(collection, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
-    connect(collection, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
+    setupPlaylist(collection, "folder_sound");
 
     // Show the collection on startup.
-    playlistBox->setSelected(collectionBoxItem, true);
+    playlistBox->setSelected(0, true);
 }
 
 void PlaylistSplitter::readConfig()
@@ -461,6 +509,28 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
     }    
 }
 
+void PlaylistSplitter::setupPlaylist(Playlist *p, const char *icon)
+{
+    PlaylistBoxItem *i = new PlaylistBoxItem(playlistBox, SmallIcon(icon, 32), p->name(), p);
+    p->setPlaylistBoxItem(i);
+    playlistBox->sort();
+
+    connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
+    connect(p, SIGNAL(doubleClicked()), this, SIGNAL(doubleClicked()));
+    connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
+    connect(p, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
+}
+
+void PlaylistSplitter::checkPlayingItemBeforeRemove(PlaylistItemList &items)
+{
+    PlaylistItem *item = items.first();
+    while(item) {
+	if(item == playingItem)
+	    playingItem = 0;
+	item = items.next();
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -470,15 +540,8 @@ void PlaylistSplitter::changePlaylist(PlaylistBoxItem *item)
     if(item && item->playlist()) {
 	playlistStack->raiseWidget(item->playlist());
 	editor->setItems(playlistSelection());
-	emit(playlistChanged(item->playlist()));
 	emit(playlistChanged());
     }
-}
-
-void PlaylistSplitter::playlistBoxDoubleClicked(PlaylistBoxItem *item)
-{
-    if(item && item->playlist() && item->playlist()->firstChild())
-	emit(playlistDoubleClicked(item->playlist()->firstChild()));
 }
 
 void PlaylistSplitter::playlistCountChanged(Playlist *p)

@@ -18,19 +18,15 @@
 #ifndef SLIDERACTION_H
 #define SLIDERACTION_H
 
-#include <kaction.h>
-#include <ktoolbar.h>
-
-#include <qstring.h>
-#include <qslider.h>
-#include <qobject.h>
-#include <qlayout.h>
+class QSlider;
+class QBoxLayout;
 
 #include "customaction.h"
 
 class SliderAction : public CustomAction
 {
     Q_OBJECT
+
 public:
     SliderAction(const QString &text, QObject *parent, const char *name);
     virtual ~SliderAction();
@@ -44,15 +40,16 @@ public slots:
 private:
     QWidget *createWidget(QWidget *parent);
 
+private slots:
+    void updateLabels();
+    void updateSize();
+
+private:
     QBoxLayout *layout;
     QSlider *trackPositionSlider;
     QSlider *volumeSlider;
 
     static const int volumeMax = 50;
-
-private slots:
-    void updateLabels();
-    void updateSize();
 };
 
 #endif

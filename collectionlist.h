@@ -42,6 +42,7 @@ class CollectionList : public Playlist
     friend class CollectionListItem;
 
     Q_OBJECT
+
 public: 
     static CollectionList *instance();
     static void initialize(PlaylistSplitter *s, QWidget *parent, bool restoreOnLoad = true);
@@ -93,12 +94,12 @@ class CollectionListItem : public PlaylistItem
 public:
     virtual ~CollectionListItem();
 
+public slots:
+    virtual void refresh();
+
 protected:
     CollectionListItem(const QFileInfo &file);
     void addChildItem(PlaylistItem *child);
-
-public slots:
-    virtual void refresh();
 };
 
 #endif

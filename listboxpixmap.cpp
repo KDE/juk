@@ -20,6 +20,7 @@
 
 #include <kdebug.h>
 
+#include <qpainter.h>
 #include <qdrawutil.h>
 #include <qstringlist.h>
 #include <qregexp.h>

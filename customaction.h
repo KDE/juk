@@ -19,9 +19,7 @@
 #define CUSTOMACTION_H
 
 #include <kaction.h>
-#include <ktoolbar.h>
 
-#include <qstring.h>
 #include <qobject.h>
 
 // Many months after writing this, despite having felt rather clever at the time
@@ -44,12 +42,11 @@ protected:
     QWidget *customWidget;
     KToolBar *toolbar;
 
-private:
-    virtual QWidget *createWidget(QWidget *parent) = 0;
-
 signals:
     void pluggedIn(QWidget *parent);
 
+private:
+    virtual QWidget *createWidget(QWidget *parent) = 0;
 };
 
 #endif

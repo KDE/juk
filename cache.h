@@ -18,7 +18,6 @@
 #ifndef CACHE_H
 #define CACHE_H
 
-#include <qstring.h>
 #include <qdict.h>
 
 #include "tag.h"

@@ -23,12 +23,12 @@
 #include <kconfig.h>
 #include <kdebug.h>
 
+#include <qtimer.h>
+#include <qlistview.h>
 #include <qinputdialog.h>
+#include <qslider.h>
 
 #include "juk.h"
-#include "playlist.h"
-#include "playlistsplitter.h"
-#include "collectionlist.h"
 #include "slideraction.h"
 #include "cache.h"
 #include "statuslabel.h"
@@ -71,13 +71,16 @@ void JuK::setupLayout()
     setCentralWidget(splitter);
 
     // playlist item activation connection
-    connect(splitter, SIGNAL(playlistDoubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
+    connect(splitter, SIGNAL(doubleClicked()), this, SLOT(playSelectedFile()));
+    connect(splitter, SIGNAL(listBoxDoubleClicked()), this, SLOT(playFirstFile()));
 
     // create status bar
     statusLabel = new StatusLabel(statusBar());
     statusBar()->addWidget(statusLabel, 1);
 
     connect(splitter, SIGNAL(selectedPlaylistCountChanged(int)), statusLabel, SLOT(setPlaylistCount(int)));
+
+    updatePlaylistInfo();
 
     splitter->setFocus();
 }
@@ -88,11 +91,11 @@ void JuK::setupActions()
     KStdAction::open(splitter, SLOT(open()), actionCollection());
     new KAction(i18n("Open &Directory..."), "fileopen", 0, splitter, SLOT(openDirectory()), actionCollection(), "openDirectory");
     KStdAction::save(splitter, SLOT(save()), actionCollection());
-    new KAction(i18n("Delete"), "editdelete", 0, this, SLOT(remove()), actionCollection(), "remove");
+    new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(removeSelectedItems()), actionCollection(), "remove");
     KStdAction::quit(this, SLOT(quit()), actionCollection());
 
     // edit menu
-    KStdAction::cut(this, SLOT(cut()), actionCollection());
+    KStdAction::cut(splitter, SLOT(clearSelectedItems()), actionCollection());
     KStdAction::copy(this, SLOT(copy()), actionCollection());
     KStdAction::paste(this, SLOT(paste()), actionCollection());
     KStdAction::selectAll(splitter, SLOT(selectAll()), actionCollection());
@@ -127,8 +130,7 @@ void JuK::setupActions()
     restoreOnLoadAction = new KToggleAction(i18n("Restored Playlists on Load"),  0, actionCollection(), "restoreOnLoad"); 
     new KAction(i18n("Genre List Editor"), 0, this, SLOT(showGenreListEditor()), actionCollection(), "showGenreListEditor");
 
-    playlistChanged(0);
-    connect(splitter, SIGNAL(playlistChanged(Playlist *)), this, SLOT(playlistChanged(Playlist *)));
+    connect(splitter, SIGNAL(playlistChanged()), this, SLOT(playlistChanged()));
 
 
     // just in the toolbar
@@ -143,8 +145,6 @@ void JuK::setupActions()
 
 void JuK::setupPlayer()
 {
-    playingItem = 0;
-
     trackPositionDragging = false;
     noSeek = false;
     pauseAction->setEnabled(false);
@@ -247,9 +247,9 @@ bool JuK::queryClose()
 // private slot definitions
 ////////////////////////////////////////////////////////////////////////////////
 
-void JuK::playlistChanged(Playlist *list)
+void JuK::playlistChanged()
 {
-    if(!list || list == CollectionList::instance()) {
+    if(splitter->collectionListSelected()) {
 	savePlaylistAction->setEnabled(false);
 	saveAsPlaylistAction->setEnabled(false);
 	renamePlaylistAction->setEnabled(false);
@@ -267,50 +267,16 @@ void JuK::playlistChanged(Playlist *list)
 
 void JuK::updatePlaylistInfo()
 {
-    statusLabel->setPlaylistName(splitter->selectedPlaylistName());
-    statusLabel->setPlaylistCount(splitter->selectedPlaylistCount());
+    statusLabel->setPlaylistInfo(splitter->selectedPlaylistName(), splitter->selectedPlaylistCount());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private action slot implementations - file menu
 ////////////////////////////////////////////////////////////////////////////////
 
-void JuK::remove()
-{
-    PlaylistItemList items(splitter->playlistSelection());
-    PlaylistItem *item = items.first();
-    while(item) {
-	if(item == playingItem)
-	    playingItem = 0;
-	item = items.next();
-    }
-    
-    splitter->remove();
-}
-
 void JuK::quit()
 {
-    // delete(this);
-    // kapp->quit();
     close();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// edit menu
-////////////////////////////////////////////////////////////////////////////////
-
-void JuK::cut()
-{
-    PlaylistItemList items = splitter->playlistSelection();
-
-    PlaylistItem *item = items.first();
-    while(item) {
-	if(item == playingItem)
-	    playingItem = 0;
-	item = items.next();
-    }
-
-    splitter->clearSelectedItems();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -333,13 +299,8 @@ void JuK::playFile()
     }
     else if(player.playing())
 	player.seekPosition(0);
-    else if(splitter) {
-        PlaylistItemList items = splitter->playlistSelection();
-        if(items.count() > 0)
-            playItem(items.at(0));
-        else
-            playItem(splitter->playlistFirstItem());
-    }
+    else
+	playFile(splitter->playNextFile(randomPlayAction->isChecked()));
 }
 
 void JuK::pauseFile()
@@ -353,30 +314,28 @@ void JuK::stopFile()
 {
     playTimer->stop();
     player.stop();
+
     pauseAction->setEnabled(false);
     stopAction->setEnabled(false);
     backAction->setEnabled(false);
     forwardAction->setEnabled(false);
+
     sliderAction->getTrackPositionSlider()->setValue(0);
     sliderAction->getTrackPositionSlider()->setEnabled(false);
-    if(playingItem)
-        playingItem->setPixmap(0, 0);
-    playingItem = 0;
+
+    splitter->stop();
 
     statusLabel->clear();
 }
 
 void JuK::backFile()
 {
-    PlaylistItem *i = Playlist::previousItem(playingItem, randomPlayAction->isChecked());
-    if(i)
-	playItem(i);
+    playFile(splitter->playPreviousFile(randomPlayAction->isChecked()));
 }
 
 void JuK::forwardFile()
 {
-    PlaylistItem *i = Playlist::nextItem(playingItem, randomPlayAction->isChecked());
-    playItem(i);
+    playFile(splitter->playNextFile(randomPlayAction->isChecked()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -410,36 +369,41 @@ void JuK::trackPositionSliderUpdate(int position)
         player.seekPosition(position);
 }
 
+// This method is called when the play timer has expired.
+
 void JuK::pollPlay()
 {
+    // Our locking mechanism.  Since this method adjusts the play slider, we 
+    // want to make sure that our adjustments
     noSeek = true;
+
+    
+
     if(!player.playing()) {
 
         playTimer->stop();
 
-        if(player.paused())
-            pauseFile();
-        else if(playingItem) {
+	if(!player.paused()) {
+	    
+	    QString nextFile = splitter->playNextFile();
+	    
+	    if(!nextFile.isEmpty()) {
 
-	    PlaylistItem *next = Playlist::nextItem(playingItem, randomPlayAction->isChecked());
-	    playingItem->setPixmap(0, 0);
-
-	    if(next) {
-		playingItem = next;
-		
 		backAction->setEnabled(true);
 		
 		sliderAction->getTrackPositionSlider()->setValue(0);
-		player.play(playingItem->absFilePath(), player.getVolume());
-		if(player.playing()) {
+		player.play(nextFile, player.getVolume());		
+		
+		// Check to make sure that the file actually starts playing.
+		
+		if(player.playing())
 		    playTimer->start(pollInterval);
-		    playingItem->setPixmap(0, QPixmap(UserIcon("playing")));
-		}
+		else
+		    stopFile();
 	    }
-	    statusLabel->setPlayingItem(playingItem);
+	    else
+		stopFile();
 	}
-	else
-	    stopFile();
     }
     else if(!trackPositionDragging) {
         sliderAction->getTrackPositionSlider()->setValue(player.position());
@@ -452,7 +416,7 @@ void JuK::pollPlay()
     // last interval, we want to check a lot -- to figure out that we've hit the
     // end of the song as soon as possible.
 
-    if(player.playing() && float(player.totalTime() - player.currentTime()) < pollInterval * 2)
+    if(player.playing() && player.totalTime() > 0 && float(player.totalTime() - player.currentTime()) < pollInterval * 2)
         playTimer->changeInterval(50);
 
     noSeek = false;
@@ -468,37 +432,25 @@ void JuK::setVolume(int volume)
     }
 }
 
-void JuK::playItem(QListViewItem *item)
+void JuK::playFile(const QString &file)
 {
-    playItem(dynamic_cast<PlaylistItem *>(item));
-}
+    float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());
+    
+    player.play(file, volume);
 
-void JuK::playItem(PlaylistItem *item)
-{
-    if(player.playing() || player.paused())
-        stopFile();
+    // Make sure that the player actually starts before doing anything.
 
-    if(item) {
-        float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());
-        player.play(item->absFilePath(), volume);
+    if(player.playing()) {
+	pauseAction->setEnabled(true);
+	stopAction->setEnabled(true);
+	
+	backAction->setEnabled(true);
+	forwardAction->setEnabled(true);
+	
+	sliderAction->getTrackPositionSlider()->setEnabled(true);
+	playTimer->start(pollInterval);
 
-	// Make sure that the player actually starts before doing anything.
-
-        if(player.playing()) {
-            pauseAction->setEnabled(true);
-            stopAction->setEnabled(true);
-
-	    backAction->setEnabled(true);
-	    forwardAction->setEnabled(true);
-
-	    playingItem = item;
-
-            sliderAction->getTrackPositionSlider()->setEnabled(true);
-            item->setPixmap(0, QPixmap(UserIcon("playing")));
-            playTimer->start(pollInterval);
-
-	    statusLabel->setPlayingItem(item);
-        }
+	statusLabel->setPlayingItemInfo(splitter->playingTrack(), splitter->playingArtist(), splitter->playingList());
     }
 }
 
