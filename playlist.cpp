@@ -726,7 +726,7 @@ void Playlist::applyTags(QListViewItem *item, const QString &text, int column)
 
 void Playlist::columnOrderChanged(int, int from, int to)
 {
-    kdDebug() << /* "section: " << section << */ " from: " << from << " to: " << to << endl;
+    // kdDebug() << /* "section: " << section << */ " from: " << from << " to: " << to << endl;
     
     if(from == 0 || to == 0) {
 	if(playingItem) {
