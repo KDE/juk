@@ -2,7 +2,7 @@ if test "x$have_id3lib" == "xfalse"; then
 	echo "**************************************************"
 	echo "*"
 	echo "* id3lib 3.8.0 or greater is required by JuK."
-	echo "* JuK will be disabled from"
+	echo "* JuK will be disabled from compilation."
 	echo "* id3lib is available at http://id3lib.sf.net/"
 	echo "* or as part of most Linux distributions."
 	echo "*"
