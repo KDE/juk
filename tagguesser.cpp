@@ -91,12 +91,15 @@ QString FileNameScheme::comment() const
 
 QString FileNameScheme::composeRegExp(const QString &s) const
 {
+    KConfig *cfg;
+    cfg->setGroup("Tag guesser");
+
     QMap<QChar, QString> substitutions;
-    substitutions[ 't' ] = "([\\w\\s']+)";
-    substitutions[ 'a' ] = "([\\w\\s]+)";
-    substitutions[ 'A' ] = "([\\w\\s]+)";
-    substitutions[ 'T' ] = "(\\d+)";
-    substitutions[ 'c' ] = "([\\w\\s]+)";
+    substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s']+)");
+    substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s]+)");
+    substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s]+)");
+    substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
+    substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s]+)");
 
     QString regExp = QRegExp::escape(s.simplifyWhiteSpace());
     regExp = ".*" + regExp;
