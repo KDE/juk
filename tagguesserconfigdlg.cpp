@@ -51,7 +51,7 @@ void TagGuesserConfigDlg::accept()
     for (QListViewItem *it = m_child->lvSchemes->firstChild(); it; it = it->nextSibling())
         schemes += it->text(0);
     TagGuesser::setSchemeStrings(schemes);
-    accept();
+    KDialogBase::accept();
 }
 
 void TagGuesserConfigDlg::slotCurrentChanged(QListViewItem *item)
