@@ -28,9 +28,8 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 CachedTag::CachedTag(const QString &file) : Tag(file), 
-					    m_externalTag(0), m_tagTrackNumber(0), 
-					    m_tagYear(0), m_tagSeconds(0), 
-					    m_tagExists(false)
+					    m_externalTag(0), m_tagTrackNumber(0),
+					    m_tagYear(0), m_tagSeconds(0)
 {
 
 }
@@ -118,14 +117,6 @@ QString CachedTag::comment() const
 	return m_tagComment;
 }
 
-bool CachedTag::hasTag() const
-{
-    if(m_externalTag)
-	return m_externalTag->hasTag();
-    else
-	return m_tagExists;
-}
-
 void CachedTag::setTrack(const QString &value)
 {
     proxiedTag()->setTrack(value);
@@ -185,16 +176,13 @@ bool CachedTag::current() const
 
 QDataStream &CachedTag::read(QDataStream &s)
 {
-    QString dummy;
-      /// TODO: Use Q_UINT32 in place of all integers.
-#if 0 /// TODO: This should be included the next time that the cache format changes
-    s >> m_tagExists
-#else
-    int tagExists;
-    s >> tagExists;
-    m_tagExists = tagExists;
-#endif
-    s >> m_tagTrack
+    static QString dummyString;
+    static int dummyInt;
+
+    // TODO: Use Q_UINT32 in place of all integers.
+
+    s >> dummyInt                // TODO: remove
+      >> m_tagTrack
       >> m_tagArtist
       >> m_tagAlbum
       >> m_tagGenre
@@ -208,7 +196,7 @@ QDataStream &CachedTag::read(QDataStream &s)
       >> m_tagLengthString
       >> m_tagSeconds
 
-      >> dummy //Was filename, not really needed - the base has it already
+      >> dummyString             // TODO: remove
       >> m_modificationTime;
 
     //Try to reduce memory usage: share tags that frequently repeat, squeeze others            

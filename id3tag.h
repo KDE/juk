@@ -31,7 +31,6 @@ public:
     virtual ~ID3Tag();
 
     virtual void save();
-    virtual bool hasTag() const;
 
     virtual QString track() const;
     virtual QString artist() const;

@@ -164,11 +164,6 @@ void ID3Tag::save()
     }
 }
 
-bool ID3Tag::hasTag() const
-{ 
-    return m_tagExists;
-}
-
 QString ID3Tag::track() const  // The song's name, not it's track number
 { 
     return m_tagTrack; 

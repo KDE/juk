@@ -43,14 +43,6 @@ void OggTag::save()
     m_metaInfo.applyChanges();
 }
 
-bool OggTag::hasTag() const
-{
-    if(m_metaInfo.isValid() && !m_metaInfo.isEmpty())
-	return true;
-    else
-	return false;
-}
-
 QString OggTag::track() const
 {
     QString s = readCommentString("Title");

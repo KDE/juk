@@ -29,7 +29,6 @@ public:
     virtual ~CachedTag();
 
     virtual void save();
-    virtual bool hasTag() const;
 
     virtual QString track() const;
     virtual QString artist() const;
@@ -78,8 +77,6 @@ private:
     QString m_tagBitrateString;
     QString m_tagLengthString;
     int m_tagSeconds;
-
-    bool m_tagExists;
 
     QDateTime m_modificationTime;
 };

@@ -104,11 +104,8 @@ int Tag::readSeconds(const KFileMetaInfo &metaInfo)
 QDataStream &operator<<(QDataStream &s, const Tag &t)
 {
       /// TODO: Use Q_UINT32 in place of all integers.
-#if 0 /// TODO: This should be included the next time that the cache format changes
-    s << t.hasTag()
-#else
-    s << int(t.hasTag())
-#endif
+
+    s << 0                       // TODO: remove
       << t.track()
       << t.artist()
       << t.album()
@@ -118,12 +115,10 @@ QDataStream &operator<<(QDataStream &s, const Tag &t)
       << t.year()
       << t.yearString()
       << t.comment()
-
       << t.bitrateString()
       << t.lengthString()
       << t.seconds()
-
-      << t.absFilePath()
+      << QString::null           // TODO: remove
       << t.lastModified();
 
     return s;

@@ -48,7 +48,6 @@ public:
     virtual ~Tag();
 
     virtual void save() = 0;
-    virtual bool hasTag() const = 0;
 
     virtual QString track() const = 0;
     virtual QString artist() const = 0;
