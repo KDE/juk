@@ -136,6 +136,10 @@ void JuK::setupActions()
     new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(removeSelectedItems()), actionCollection(), "removeItem");
     
     // settings menu
+
+    new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this, SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
+    new KToggleAction(i18n("Show Tool Bar"), "CTRL+b", this, SLOT(slotToggleToolBar()), actionCollection(), "toggleToolBar");
+
     restoreOnLoadAction = new KToggleAction(i18n("Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
 
     toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), 0, actionCollection(), "toggleSystemTray");

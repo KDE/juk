@@ -25,6 +25,7 @@
 #include <kaction.h>
 #include <kstdaction.h>
 #include <kmainwindow.h>
+#include <kmenubar.h>
 
 #include <qlabel.h>
 
@@ -122,6 +123,9 @@ private slots:
 
     void playSelectedFile() { play(splitter->playSelectedFile()); }
     void playFirstFile() { play(splitter->playFirstFile()); }
+
+    void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
+    void slotToggleToolBar() { toolBar()->isVisible() ? toolBar()->hide() : toolBar()->show(); }
 
 private:
     // layout objects
