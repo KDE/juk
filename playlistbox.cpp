@@ -65,8 +65,8 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
     setAcceptDrops(true);
     setSelectionMode(Extended);
 
-    connect(this, SIGNAL(currentChanged(QListBoxItem *)), 
-	    this, SLOT(slotPlaylistChanged(QListBoxItem *)));
+    connect(this, SIGNAL(selectionChanged()), 
+	    this, SLOT(slotPlaylistChanged()));
 
     connect(this, SIGNAL(doubleClicked(QListBoxItem *)), 
 	    this, SLOT(slotDoubleClicked(QListBoxItem *)));
@@ -362,7 +362,7 @@ QValueList<PlaylistBox::Item *> PlaylistBox::selectedItems() const
 // PlaylistBox private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistBox::slotPlaylistChanged(QListBoxItem *)
+void PlaylistBox::slotPlaylistChanged()
 {
     QValueList<Item *> items = selectedItems();
     if(m_updatePlaylistStack && !items.isEmpty()) {

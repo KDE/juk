@@ -123,20 +123,22 @@ void PlaylistItem::slotRefreshFromDisk()
 // PlaylistItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) : QObject(parent), KListViewItem(parent),
-									 m_playing(false)
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) : 
+    QObject(parent), KListViewItem(parent),
+    m_playing(false)
 {
     setup(item, parent);
 }
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) : QObject(parent), KListViewItem(parent, after),
-											       m_playing(false)
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) : 
+    QObject(parent), KListViewItem(parent, after),
+    m_playing(false)
 {
     setup(item, parent);
 }
 
 PlaylistItem::PlaylistItem(Playlist *parent) : QObject(parent), KListViewItem(parent),
-					       m_playing(false)
+					       m_collectionItem(0), m_data(0), m_playing(false)
 {
     setDragEnabled(true);
 }
@@ -282,6 +284,8 @@ void PlaylistItem::slotRefreshImpl()
 
 void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
 {
+    m_collectionItem = item;
+
     if(item) {
 	m_data = item->data()->newUser();
 	item->addChildItem(this);

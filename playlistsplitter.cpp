@@ -53,7 +53,8 @@ void processEvents()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *name) : QSplitter(Qt::Horizontal, parent, name), 
-										      m_playingItem(0), m_restore(restore), m_nextPlaylistItem(0)
+										      m_playingItem(0), m_dynamicList(0),
+										      m_restore(restore), m_nextPlaylistItem(0)
 {
     if(!m_mediaExtensions && !m_listExtensions) {
 	m_mediaExtensions = new QStringList();
@@ -166,7 +167,9 @@ void PlaylistSplitter::stop()
 
     Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
 
-    p->setPlaying(m_playingItem, false);
+    if(p)
+	p->setPlaying(m_playingItem, false);
+
     m_playingItem = 0;
 }
 
@@ -549,7 +552,8 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
     connect(p, SIGNAL(signalSetNext(PlaylistItem *)),
 	    this, SLOT(slotSetNextItem(PlaylistItem *)));
 
-    m_playlistBox->createItem(p, icon, raise);
+    if(icon)
+	m_playlistBox->createItem(p, icon, raise);
 
     if(raise)
 	m_playlistStack->raiseWidget(p);
@@ -596,12 +600,36 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
     if(l.isEmpty())
 	return;
 
+    Playlist *current = m_dynamicList;
+
     m_searchWidget->clear();
 
     m_nextPlaylistItem = 0;
-    m_playlistStack->raiseWidget(l.first());
-    m_editor->slotSetItems(playlistSelection());
-    emit signalPlaylistChanged();    
+    if(l.count() == 1) {
+	m_playlistStack->raiseWidget(l.first());
+	m_editor->slotSetItems(playlistSelection());
+	m_dynamicList = 0;
+	emit signalPlaylistChanged();
+    }
+    else {
+	m_dynamicList = new Playlist(m_playlistStack, i18n("Dynamic List"));
+	setupPlaylist(m_dynamicList, true, 0);
+	// unsorted...
+	m_dynamicList->setSorting(m_dynamicList->columns() + 1);
+
+	PlaylistItem *previous = 0;
+
+	for(PlaylistList::ConstIterator it = l.begin(); it != l.end(); ++it) {
+	    if(*it) {
+		PlaylistItemList items = (*it)->items();
+		for(PlaylistItemList::Iterator itemIt = items.begin(); itemIt != items.end(); ++itemIt)
+		    previous = new PlaylistItem((*itemIt)->collectionItem(), m_dynamicList, previous);
+	    }
+	}
+    }
+
+    if(current)
+	delete current;
 }
 
 void PlaylistSplitter::slotPlaylistCountChanged(Playlist *p)

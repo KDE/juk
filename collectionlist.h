@@ -138,6 +138,8 @@ protected:
      */
     void checkCurrent();
 
+    virtual CollectionListItem *collectionItem() { return this; }
+
 private:
     QString m_path;
 };

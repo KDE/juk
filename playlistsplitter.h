@@ -252,6 +252,9 @@ private:
     void readConfig();
     void saveConfig();
     void addImpl(const QString &file, Playlist *list);
+    /**
+     * If NULL is passed for the icon, no entry is created in the PlaylistBox
+     */
     void setupPlaylist(Playlist *p, bool raise = false, const char *icon = "midi");
 
     /**
@@ -302,6 +305,7 @@ private:
     TagEditor *m_editor;
 
     CollectionList *m_collection;
+    Playlist *m_dynamicList;
 
     StringHash m_playlistFiles;
 

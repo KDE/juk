@@ -96,7 +96,7 @@ private slots:
      * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
      * the signal as currentChanged(Item *). 
      */
-    void slotPlaylistChanged(QListBoxItem *);
+    void slotPlaylistChanged();
     void slotDoubleClicked(QListBoxItem *);
     void slotShowContextMenu(QListBoxItem *item, const QPoint &point);
 
