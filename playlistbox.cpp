@@ -434,14 +434,17 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 
 void PlaylistBox::contentsMousePressEvent(QMouseEvent *e)
 {
-    m_mousePressed = true;
+    if(e->button() == LeftButton)
+	m_mousePressed = true;
     KListView::contentsMousePressEvent(e);
 }
 
 void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
 {
-    m_mousePressed = false;
-    slotPlaylistChanged();
+    if(e->button() == LeftButton) {
+	m_mousePressed = false;
+	slotPlaylistChanged();
+    }
     KListView::contentsMouseReleaseEvent(e);
 }
 
