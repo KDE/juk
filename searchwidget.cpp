@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Mar 6 2003
     copyright            : (C) 2003 by Scott Wheeler
-                           (C) 2003 by Richard L√§rk√§ng <nouseforaname@home.se>
+                           (C) 2003 by Richard L‰rk‰ng <nouseforaname@home.se>
  ***************************************************************************/
 
 /***************************************************************************

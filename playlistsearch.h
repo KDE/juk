@@ -72,7 +72,6 @@ private:
 class PlaylistSearch::Component
 {
 public:
-
     /**
      * Create an empty search component.  This is only provided for use by 
      * QValueList and should not be used in any other context.
@@ -82,7 +81,9 @@ public:
     /**
      * Create a query component.  This defaults to searching all visible coulumns.
      */
-    Component(const QString &query, bool caseSensitive = false, const ColumnList &columns = ColumnList());
+    Component(const QString &query,
+	      bool caseSensitive = false,
+	      const ColumnList &columns = ColumnList());
 
     /**
      * Create a query component.  This defaults to searching all visible coulumns.

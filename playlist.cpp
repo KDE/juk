@@ -605,14 +605,11 @@ bool Playlist::eventFilter(QObject* watched, QEvent* e)
 
 void Playlist::contentsDropEvent(QDropEvent *e)
 {
-    QListViewItem *moveAfter = itemAt(e->pos());
-    if(!moveAfter)
-	moveAfter = lastItem();
-
-    // This is slightly more efficient since it doesn't have to cast everything
-    // to PlaylistItem.
-
     if(e->source() == this) {
+
+	QListViewItem *moveAfter = itemAt(contentsToViewport(e->pos()));
+	if(!moveAfter)
+	    moveAfter = lastItem();
 
 	// Since we're trying to arrange things manually, turn off sorting.
 
@@ -621,8 +618,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	QPtrList<QListViewItem> items = KListView::selectedItems();
 
 	for(QPtrListIterator<QListViewItem> it(items); it.current(); ++it) {
-	    (*it)->moveItem(moveAfter);
-	    moveAfter = *it;
+	    it.current()->moveItem(moveAfter);
+	    moveAfter = it.current();
 	}
     }
     else
@@ -635,7 +632,8 @@ void Playlist::showEvent(QShowEvent *e)
     KListView::showEvent(e);
 }
 
-PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFilePath, QListViewItem *after, bool emitChanged)
+PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFilePath,
+				   QListViewItem *after, bool emitChanged)
 {
     QString filePath;
 
@@ -651,7 +649,8 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFile
 
 	// If a valid tag was not created, destroy the CollectionListItem.
 	if(!item->isValid()) {
-	    kdError() << "Playlist::createItem() -- A valid tag was not created for \"" << file.filePath() << "\"" << endl;
+	    kdError() << "Playlist::createItem() -- A valid tag was not created for \""
+		      << file.filePath() << "\"" << endl;
 	    delete item;
 	    return 0;
 	}

@@ -330,7 +330,7 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 
 void PlaylistBox::contentsDropEvent(QDropEvent *e)
 {
-    Item *i = static_cast<Item *>(itemAt(e->pos()));
+    Item *i = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
     decode(e, i);
 }
 
