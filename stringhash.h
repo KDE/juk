@@ -30,6 +30,7 @@ public:
 
     bool insert(const QString &value);
     bool contains(const QString &value) const;
+    bool remove(const QString &value);
 
     /**
      * Returns a sorted list of the values.

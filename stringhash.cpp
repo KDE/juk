@@ -74,6 +74,26 @@ bool StringHash::contains(const QString &value) const
     return bool(i);
 }
 
+bool StringHash::remove(const QString &value)
+{
+    int h = hash(value);
+    Node *previous = 0;
+    Node *i = m_table[h];
+
+    while(i && i->key != value) {
+	previous = i;
+	i = i->next;
+    }
+
+    if(!i)
+	return false;
+
+    previous->next = i->next;
+    delete i;
+
+    return true;
+}
+
 /*
 QStringList StringHash::values() const
 {

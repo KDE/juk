@@ -25,7 +25,7 @@
 #include <qvaluevector.h>
 #include <qptrstack.h>
 
-#include "sortedstringlist.h"
+#include "stringhash.h"
 #include "playlistsearch.h"
 #include "tagguesser.h"
 
@@ -429,7 +429,7 @@ private slots:
     void slotCreateGroup() { emit signalCreatePlaylist(selectedItems()); }
 
 private:
-    SortedStringList m_members;
+    StringHash m_members;
     int m_currentColumn;
     int m_processed;
     bool m_allowDuplicates;
