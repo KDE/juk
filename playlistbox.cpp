@@ -183,7 +183,10 @@ Playlist *PlaylistBox::currentPlaylist() const
     if(m_dynamicPlaylist)
 	return m_dynamicPlaylist;
 
-    return currentItem() ? static_cast<Item *>(currentItem())->playlist() : 0;
+    if(currentItem() && static_cast<Item *>(currentItem())->playlist())
+	return static_cast<Item *>(currentItem())->playlist();
+    else
+	return static_cast<Playlist *>(playlistStack()->visibleWidget());
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
@@ -604,7 +607,6 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 
 	listView()->sort();
 	listView()->ensureItemVisible(listView()->currentItem());
-
 	listView()->viewMode()->queueRefresh();
     }
 }
