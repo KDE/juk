@@ -341,7 +341,7 @@ void JuK::setupActions()
 					   0, actionCollection(), "showSearch");
     m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit",
 					   0, actionCollection(), "showEditor");
-    m_showHistoryAction = new KToggleAction(i18n("Show &History Editor"), "history",
+    m_showHistoryAction = new KToggleAction(i18n("Show &History"), "history",
 					   0, actionCollection(), "showHistory");
 
     createSplitterAction(i18n("Refresh Items"), SLOT(slotRefresh()), "refresh", "reload");
