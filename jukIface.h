@@ -7,8 +7,6 @@
 class CollectionIface : virtual public DCOPObject
 {
     K_DCOP
-public:
-    CollectionIface() : DCOPObject("Collection") {}
 k_dcop:
     virtual void openFile(const QString &s) = 0;
     virtual void openFile(const QStringList &file) = 0;
@@ -17,8 +15,6 @@ k_dcop:
 class PlayerIface : virtual public DCOPObject
 {
     K_DCOP
-public:
-    PlayerIface() : DCOPObject("Player") {}
 k_dcop:
     virtual void play() = 0;
     virtual void pause() = 0;
