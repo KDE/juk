@@ -107,7 +107,7 @@ FileHandle::FileHandle(const QString &path, CacheDataStream &s)
 {
     d = new FileHandlePrivate;
     d->fileInfo = QFileInfo(path);
-    d->absFilePath = resolveSymLinks(path);
+    d->absFilePath = path;
     read(s);
     Cache::instance()->insert(*this);
 }
