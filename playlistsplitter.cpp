@@ -118,7 +118,7 @@ QString PlaylistSplitter::playNextFile(bool random, bool loopPlaylist)
         Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
         i = p->nextItem(m_playingItem, random);
         if(!i && loopPlaylist)
-            i = static_cast<PlaylistItem *>(visiblePlaylist()->firstChild());
+            i = static_cast<PlaylistItem *>(p->firstChild());
     }
     else {
         i = playlistSelection().getFirst();
