@@ -16,29 +16,42 @@
  ***************************************************************************/
 
 #include <kfiledialog.h>
+#include <klocale.h>
 #include <klistview.h>
 #include <kpushbutton.h>
 
+#include "directorylistbase.h"
 #include "directorylist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-DirectoryList::DirectoryList(QStringList &directories, QWidget* parent, const char* name) : DirectoryListBase(parent, name, true, 0),
-											    m_dirList(directories)
+DirectoryList::DirectoryList(QStringList &directories, QWidget* parent, 
+    const char* name) : KDialogBase(parent, name, true, 
+    i18n("Directory List"),  Ok|Cancel, Ok, true),
+	m_dirList(directories)
 {
-    directoryListView->setFullWidth(true);
-    connect(addDirectoryButton, SIGNAL(clicked()), this, SLOT(slotAddDirectory()));
-    connect(removeDirectoryButton, SIGNAL(clicked()), this, SLOT(slotRemoveDirectory()));
+    m_base = new DirectoryListBase(this);
 
-    for(QStringList::ConstIterator it = directories.begin(); it != directories.end(); ++it)
-	new KListViewItem(directoryListView, *it);
+    setMainWidget(m_base);
+
+    m_base->directoryListView->setFullWidth(true);
+
+    connect(m_base->addDirectoryButton, SIGNAL(clicked()), 
+	SLOT(slotAddDirectory()));
+    connect(m_base->removeDirectoryButton, SIGNAL(clicked()), 
+	SLOT(slotRemoveDirectory()));
+
+    for(QStringList::ConstIterator it = directories.begin(); 
+		it != directories.end(); ++it)
+	new KListViewItem(m_base->directoryListView, *it);
+
+    resize(350, 250);
 }
 
 DirectoryList::~DirectoryList()
 {
-    
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,20 +63,22 @@ void DirectoryList::slotAddDirectory()
     QString dir = KFileDialog::getExistingDirectory();
     if(!dir.isEmpty() && m_dirList.find(dir) == m_dirList.end()) {
 	m_dirList.append(dir);
-	new KListViewItem(directoryListView, dir);
+	new KListViewItem(m_base->directoryListView, dir);
 	emit signalDirectoryAdded(dir);
     }
 }
 
 void DirectoryList::slotRemoveDirectory()
 {
-    if(!directoryListView->selectedItem())
+    if(!m_base->directoryListView->selectedItem())
 	return;
 
-    QString dir = directoryListView->selectedItem()->text(0); 
+    QString dir = m_base->directoryListView->selectedItem()->text(0); 
     m_dirList.remove(dir);
     emit signalDirectoryRemoved(dir);
-    delete directoryListView->selectedItem();
+    delete m_base->directoryListView->selectedItem();
 }
 
 #include "directorylist.moc"
+
+// vim: ts=8

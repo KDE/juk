@@ -20,9 +20,11 @@
 
 #include <qstringlist.h>
 
-#include "directorylistbase.h"
+#include <kdialogbase.h>
 
-class DirectoryList : public DirectoryListBase
+class DirectoryListBase;
+
+class DirectoryList : public KDialogBase
 {
     Q_OBJECT
 
@@ -40,6 +42,9 @@ private slots:
 
 private:
     QStringList m_dirList;
+    DirectoryListBase *m_base;
 };
 
 #endif
+
+// vim:ts=8
