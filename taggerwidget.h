@@ -47,6 +47,7 @@ public:
 
 public slots:
   void save();
+  void save(QPtrList<FileListItem> items);
   void setChanged();
 
 private:
@@ -68,6 +69,7 @@ private:
   KEdit *commentBox;
 
   // internally useful things
+  QPtrList<FileListItem> previousSelection;
   GenreList *genreList;
   bool changed;
 

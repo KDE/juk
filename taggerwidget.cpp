@@ -72,8 +72,11 @@ QPtrList<FileListItem> TaggerWidget::getSelectedItems()
 
 void TaggerWidget::save()
 {
-  QPtrList<FileListItem> items = taggerList->selectedItems();
+  save(taggerList->selectedItems());
+}
 
+void TaggerWidget::save(QPtrList<FileListItem> items)
+{
   if(items.count() > 0) {
 
     FileListItem *item = dynamic_cast<FileListItem *>(items.first());
@@ -90,12 +93,12 @@ void TaggerWidget::save()
 	  // rename the file if it doesn't exist or we say it's ok
 	  if(!newFile.exists() ||
 	     KMessageBox::warningYesNo(this, i18n("This file already exists.\nDo you want to replace it?"), 
-				  i18n("File Exists")) == KMessageBox::Yes) 
+				       i18n("File Exists")) == KMessageBox::Yes) 
 	    {
-	    QDir currentDir;
-	    currentDir.rename(item->filePath(), newFile.filePath());
-	    item->setFile(newFile.filePath());
-	  }
+	      QDir currentDir;
+	      currentDir.rename(item->filePath(), newFile.filePath());
+	      item->setFile(newFile.filePath());
+	    }
 	}
 
 	item->getTag()->setArtist(artistNameBox->currentText());
@@ -122,7 +125,7 @@ void TaggerWidget::save()
       else {
 	KMessageBox::sorry(this, i18n("Could not save to specified file."));
       }
-
+      
       changed = false;
     }
   }
@@ -131,7 +134,6 @@ void TaggerWidget::save()
 void TaggerWidget::setChanged()
 {
   changed = true;
-  //  kdDebug() << "setChanged()" << endl;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -290,8 +292,24 @@ void TaggerWidget::readConfig()
 
 void TaggerWidget::saveChangesPrompt()
 {
-  if(changed && KMessageBox::warningYesNo(this, i18n("Do you want to save your changes to this file?"), i18n("Save Changes")) == KMessageBox::Yes)
-    kdDebug() << "TaggerWidget::saveChangesPrompt() -- save changes " << endl;
+  if(changed && !previousSelection.isEmpty()) {
+
+    QString message = i18n("Do you want to save your changes to:\n");
+    
+    FileListItem *item = previousSelection.first();
+
+    while(item) {
+      message.append(item->fileName() + "\n");
+      item = previousSelection.next();
+    }
+
+    if(KMessageBox::warningYesNo(this, message, i18n("Save Changes")) == KMessageBox::Yes) {
+      save(previousSelection);
+    }
+  }
+
+  previousSelection = taggerList->selectedItems();
+
 }
 
 void TaggerWidget::updateBoxes() // this needs to be updated to properly work with multiple selections
