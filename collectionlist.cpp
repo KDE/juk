@@ -112,7 +112,6 @@ void CollectionList::slotCheckCache()
 CollectionList::CollectionList(QWidget *parent) :
     Playlist(parent, i18n("Collection List")),
     m_itemsDict(5003),
-    m_viewModeItems(m_uniqueSetCount, SortedStringList()),
     m_uniqueSets(m_uniqueSetCount, SortedStringList()),
     m_uniqueSetLast(m_uniqueSetCount, QString::null)
 {
@@ -150,9 +149,7 @@ void CollectionList::addUnique(UniqueSetType t, const QString &value)
     if(value.isEmpty())
 	return;
 
-    if(value == m_uniqueSetLast[t] || m_uniqueSets[t].insert(value))
-	m_viewModeItems[t].insert(value);
-    else {
+    if(value != m_uniqueSetLast[t] && !m_uniqueSets[t].insert(value)) {
 	m_uniqueSetLast[t] = value;
 	emit signalCollectionChanged();
     }
