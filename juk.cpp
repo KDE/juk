@@ -80,7 +80,9 @@ void JuK::setVolume(float volume)
     if(m_sliderAction->volumeSlider()->maxValue() > 0 &&
        volume >= 0 && m_sliderAction->volumeSlider()->maxValue() >= volume)
     {
-        slotSetVolume(int(volume / 100) * m_sliderAction->volumeSlider()->maxValue());
+	int v = int(volume / 100 * m_sliderAction->volumeSlider()->maxValue());
+	slotSetVolume(v);
+	m_sliderAction->volumeSlider()->setValue(v);
     }
 }
 
