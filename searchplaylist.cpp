@@ -34,6 +34,14 @@ SearchPlaylist::SearchPlaylist(QWidget *parent, const PlaylistSearch &search, co
 
 }
 
+void SearchPlaylist::setPlaylistSearch(const PlaylistSearch &s, bool update)
+{
+    m_search = s;
+
+    if(update)
+        updateItems();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -92,7 +100,7 @@ QDataStream &operator>>(QDataStream &s, SearchPlaylist &p)
       >> search;
 
     p.setName(name);
-    p.setPlaylistSearch(search);
+    p.setPlaylistSearch(search, false);
 
     return s;
 }

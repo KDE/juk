@@ -37,6 +37,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
+					   const PlaylistSearch &defaultSearch,
                                            QWidget *parent,
                                            const char *name) :
     KDialogBase(parent, name, true, i18n("Create Search Playlist"), Ok|Cancel)
@@ -55,12 +56,29 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     QHButtonGroup *group = new QHButtonGroup(criteriaGroupBox);
     m_matchAnyButton = new QRadioButton(i18n("Match any of the following"), group);
     m_matchAllButton = new QRadioButton(i18n("Match all of the following"), group);
-    m_matchAnyButton->setChecked(true);
 
     m_criteria = new QVBox(criteriaGroupBox);
 
-    m_searchLines.append(new SearchLine(m_criteria));
-    m_searchLines.append(new SearchLine(m_criteria));
+    if(defaultSearch.isNull()) {
+        m_searchLines.append(new SearchLine(m_criteria));
+        m_searchLines.append(new SearchLine(m_criteria));
+        m_matchAnyButton->setChecked(true);
+    }
+    else {
+        PlaylistSearch::ComponentList components = defaultSearch.components();
+        for(PlaylistSearch::ComponentList::ConstIterator it = components.begin();
+            it != components.end();
+            ++it)
+        {
+            SearchLine *s = new SearchLine(m_criteria);
+            s->setSearchComponent(*it);
+            m_searchLines.append(s);
+        }
+        if(defaultSearch.searchMode() == PlaylistSearch::MatchAny)
+            m_matchAnyButton->setChecked(true);
+        else
+            m_matchAllButton->setChecked(true);
+    }
 
     QWidget *buttons = new QWidget(criteriaGroupBox);
     QBoxLayout *l = new QHBoxLayout(buttons, 0, 5);

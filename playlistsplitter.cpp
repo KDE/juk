@@ -35,6 +35,7 @@
 #include "mediafiles.h"
 #include "advancedsearchdialog.h"
 #include "actioncollection.h"
+#include "viewmode.h"
 #include "tag.h"
 
 using namespace ActionCollection;
@@ -412,6 +413,23 @@ void PlaylistSplitter::slotReloadPlaylist()
 	visiblePlaylist()->slotReload();
 }
 
+void PlaylistSplitter::slotEditSearch()
+{
+    SearchPlaylist *p = dynamic_cast<SearchPlaylist *>(visiblePlaylist());
+
+    if(!p)
+	return;
+
+    AdvancedSearchDialog::Result r =
+	AdvancedSearchDialog(p->name(), p->playlistSearch(), this).exec();
+
+    if(r.result == AdvancedSearchDialog::Accepted) {
+	p->setPlaylistSearch(r.search);
+	p->setName(r.playlistName);
+	m_playlistBox->viewMode()->queueRefresh();
+    }
+}
+
 void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list, PlaylistItem *after)
 {
     if(!after)
@@ -480,7 +498,8 @@ void PlaylistSplitter::slotSetHistoryVisible(bool visible)
 void PlaylistSplitter::slotAdvancedSearch()
 {
     AdvancedSearchDialog *d =
-	new AdvancedSearchDialog(uniquePlaylistName(i18n("Search Playlist")), this);
+	new AdvancedSearchDialog(uniquePlaylistName(i18n("Search Playlist")),
+				 PlaylistSearch(), this);
     AdvancedSearchDialog::Result r = d->exec();
     delete d;
 

@@ -20,7 +20,6 @@
 
 #include <kdialogbase.h>
 
-
 class KLineEdit;
 class KPushButton;
 class QGroupBox;
@@ -40,6 +39,7 @@ public:
     };
 
     AdvancedSearchDialog(const QString &defaultName,
+                         const PlaylistSearch &defaultSearch = PlaylistSearch(),
                          QWidget *parent = 0,
                          const char *name = 0);
 

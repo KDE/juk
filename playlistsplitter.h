@@ -177,6 +177,12 @@ public slots:
     void slotReloadPlaylist();
 
     /**
+     * If the visible playlist is a SearchPlaylist then popup a dialog to edit
+     * the search.
+     */
+    void slotEditSearch();
+
+    /**
      * Show or hide the editor.
      */
     void slotSetEditorVisible(bool visible) { m_editor->setShown(visible); }

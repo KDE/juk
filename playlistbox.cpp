@@ -62,6 +62,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
 
     action("file_new")->plug(m_contextMenu);
     action("renamePlaylist")->plug(m_contextMenu);
+    action("editSearch")->plug(m_contextMenu);
     action("duplicatePlaylist")->plug(m_contextMenu);
     action("reloadPlaylist")->plug(m_contextMenu);
     action("deleteItemPlaylist")->plug(m_contextMenu);
@@ -128,8 +129,10 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise, b
     }
     i->setSortedFirst(sortedFirst);
 
-    if(playlist == CollectionList::instance())
+    if(playlist == CollectionList::instance()) {
+	slotPlaylistChanged();
 	emit signalCollectionInitialized();
+    }
 }
 
 void PlaylistBox::createSearchItem(SearchPlaylist *playlist, const QString &searchCategory)
@@ -532,6 +535,11 @@ void PlaylistBox::slotPlaylistChanged()
     }
     action("reloadPlaylist")->setEnabled(allowReload);
     action("duplicatePlaylist")->setEnabled(!playlists.isEmpty());
+
+    bool searchList =
+	playlists.count() == 1 && dynamic_cast<SearchPlaylist *>(playlists.front());
+
+    action("editSearch")->setEnabled(searchList);
 
     emit signalCurrentChanged(playlists);
 }

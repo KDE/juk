@@ -9,6 +9,7 @@
 		<Separator/>
 
 		<Action name="renamePlaylist"/>
+		<Action name="editSearch"/>
 		<Action name="duplicatePlaylist"/>
 		<Action name="reloadPlaylist"/>
 		<Action name="deleteItemPlaylist"/>

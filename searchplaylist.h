@@ -29,7 +29,7 @@ public:
                    const QString &name = QString::null);
 
     PlaylistSearch playlistSearch() const { return m_search; }
-    void setPlaylistSearch(const PlaylistSearch &s) { m_search = s; }
+    void setPlaylistSearch(const PlaylistSearch &s, bool update = true);
 
 protected:
     /**

@@ -67,10 +67,6 @@ public:
     SearchWidget(QWidget *parent, const char *name = 0);
     virtual ~SearchWidget();
 
-    /**
-     * Returns a list of searched columns for the given search row.
-     */
-    
     PlaylistSearch search(const PlaylistList &playlists) const;
     void setSearch(const PlaylistSearch &search);
 
