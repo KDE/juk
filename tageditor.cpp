@@ -439,7 +439,8 @@ void TagEditor::save(const PlaylistItemList &list)
 	    // If not we'll append it to errorFiles to tell the user which
 	    // files we couldn't write to.
 	    
-	    if(item->file().tag() &&
+	    if(item &&
+	       item->file().tag() &&
 	       (newFile.isWritable() || (!newFile.exists() && directory.isWritable())) &&
 	       item->file().fileInfo().isWritable())
 	    {
@@ -490,7 +491,7 @@ void TagEditor::save(const PlaylistItemList &list)
 		
 		item->slotRefresh();
 	    }
-	    else
+	    else if(item)
 		errorFiles.append(item->file().absFilePath());
 
 	    kapp->processEvents();
