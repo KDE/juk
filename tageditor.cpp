@@ -175,6 +175,8 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
 
     if(isVisible())
 	slotRefresh();
+    else
+	m_collectionChanged = true;
 }
 
 void TagEditor::slotRefresh()
@@ -759,10 +761,11 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, 
 
 void TagEditor::showEvent(QShowEvent *e)
 {
-    if(m_collectionChanged)
+    if(m_collectionChanged) {
 	updateCollection();
+	slotRefresh();
+    }
 
-    slotRefresh();
     QWidget::showEvent(e);
 }
 
