@@ -70,8 +70,8 @@ static Player *createPlayer(int system = ArtsBackend)
 ////////////////////////////////////////////////////////////////////////////////
 
 PlayerManager::PlayerManager() :
-    Player(),
     DCOPObject("Player"),
+    Player(),
     m_sliderAction(0),
     m_playlistInterface(0),
     m_statusLabel(0),

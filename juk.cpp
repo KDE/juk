@@ -43,8 +43,8 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent, const char *name) :
-    KMainWindow(parent, name, WDestructiveClose),
     DCOPObject("Collection"),
+    KMainWindow(parent, name, WDestructiveClose),
     m_player(PlayerManager::instance()),
     m_shuttingDown(false)
 {
