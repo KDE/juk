@@ -114,7 +114,7 @@ void GStreamerPlayer::seekPosition(int position)
 {
     long long total = time(GST_QUERY_TOTAL);
     if(total > 0)
-        seek(double(position) / double(1000) * double(totalTime()) + 0.5);
+        seek(int(double(position) / double(1000) * double(totalTime()) + 0.5));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

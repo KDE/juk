@@ -162,7 +162,7 @@ CoverIconViewItem::~CoverIconViewItem()
     delete m_buffer;
 }
 
-void CoverIconViewItem::imageData(KIO::Job* job, const QByteArray& data)
+void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
 {
     if(m_bufferIndex + (uint) data.size() >= BUFFER_SIZE)
         return;
@@ -171,7 +171,7 @@ void CoverIconViewItem::imageData(KIO::Job* job, const QByteArray& data)
     m_bufferIndex += data.size();
 }
 
-void CoverIconViewItem::imageResult(KIO::Job* job)
+void CoverIconViewItem::imageResult(KIO::Job *job)
 {
     if(job->error())
         return;
