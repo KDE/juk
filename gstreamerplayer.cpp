@@ -32,7 +32,7 @@ using namespace KDE::GSTPlay;
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-GStreamerPlayer::GStreamerPlayer() : QObject(0), Player(),
+GStreamerPlayer::GStreamerPlayer() : Player(),
                                      m_positionNs(0), m_durationNs(0), m_currentVolume(1.0)
 {
     setupPlayer();

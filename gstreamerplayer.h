@@ -25,12 +25,11 @@
 
 #include <kde/gstplay/play.h>
 
-#include <qobject.h>
 #include <qstring.h>
 
 #include "player.h"
 
-class GStreamerPlayer : public QObject, public Player
+class GStreamerPlayer : public Player
 {
     Q_OBJECT
 

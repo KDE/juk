@@ -39,7 +39,7 @@ namespace KDE {
     class PlayObject;
 }
 
-class ArtsPlayer : public QObject, public Player
+class ArtsPlayer : public Player
 {
     Q_OBJECT
 

@@ -18,18 +18,12 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-/**
- * Just an interface for concrete player implementations
- */
-
+#include <qobject.h>
 #include <qstring.h>
 
 #include "filehandle.h"
 
-class QObject;
-class KSelectAction;
-
-class Player
+class Player : public QObject
 {
 public:
     virtual ~Player() {}
@@ -52,7 +46,7 @@ public:
     virtual void seekPosition(int position) = 0;
 
 protected:
-    Player() {}
+    Player() : QObject() {}
 
 };
 
