@@ -31,6 +31,7 @@
 #include <qtooltip.h>
 #include <qpainter.h>
 #include <qvaluevector.h>
+#include <qstylesheet.h>
 
 #include <netwm.h>
 
@@ -296,15 +297,17 @@ void SystemTray::createPopup()
 
         int labelCount = 0;
 
-        m_labels[labelCount++]->setText(QString("<nobr><h2>%1</h2></nobr>").arg(playingInfo->title()));
+        QString title = QStyleSheet::escape(playingInfo->title());
+        m_labels[labelCount++]->setText(QString("<qt><nobr><h2>%1</h2></nobr><qt>").arg(title));
 
         if(!playingInfo->artist().isEmpty())
             m_labels[labelCount++]->setText(playingInfo->artist());
 
         if(!playingInfo->album().isEmpty()) {
+            QString album = QStyleSheet::escape(playingInfo->album());
             QString s = playingInfo->year() > 0
-                ? QString("%1 (%2)").arg(playingInfo->album()).arg(playingInfo->year())
-                : playingInfo->album();
+                ? QString("%1 (%2)").arg(album).arg(playingInfo->year())
+                : album;
             m_labels[labelCount++]->setText(s);
         }
 
