@@ -566,6 +566,7 @@ void TagEditor::setupLayout()
 	    trackRowLayout->addWidget(addHidden(new QLabel(i18n("Length:"), this)));
 	    m_lengthBox = new KLineEdit(this, "lengthBox");
 	    // addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
+	    m_lengthBox->setMinimumWidth(fontMetrics().width("00:00") + trackRowLayout->spacing());
 	    m_lengthBox->setMaximumWidth(50);
 	    m_lengthBox->setAlignment(Qt::AlignRight);
 	    m_lengthBox->setReadOnly(true);
@@ -577,6 +578,7 @@ void TagEditor::setupLayout()
 	    trackRowLayout->addWidget(addHidden(new QLabel(i18n("Bitrate:"), this)));
 	    m_bitrateBox = new KLineEdit(this, "bitrateBox");
 	    // addItem(i18n("Bitrate:"), m_bitrateBox, trackRowLayout);
+	    m_bitrateBox->setMinimumWidth(fontMetrics().width("000") + trackRowLayout->spacing());
 	    m_bitrateBox->setMaximumWidth(50);
 	    m_bitrateBox->setAlignment(Qt::AlignRight);
 	    m_bitrateBox->setReadOnly(true);
