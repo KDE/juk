@@ -21,6 +21,7 @@
 #include <kdebug.h>
 
 #include <qslider.h>
+#include <qtimer.h>
 
 #include "playermanager.h"
 #include "slideraction.h"
@@ -36,14 +37,17 @@ PlayerManager::PlayerManager() :
     Player(),
     m_actionCollection(0),
     m_sliderAction(0),
-    m_player(0)
+    m_playlistInterface(0),
+    m_player(0),
+    m_timer(0),
+    m_noSeek(false)
 {
     setup();
 }
 
 PlayerManager::~PlayerManager()
 {
-
+    delete m_player;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -55,72 +59,6 @@ PlayerManager *PlayerManager::instance() // static
     if(!m_instance)
         m_instance = new PlayerManager;
     return m_instance;
-}
-
-void PlayerManager::play(const QString &fileName)
-{
-    if(!m_player)
-        return;
-
-    if(fileName.isNull()) {
-	if(m_player->paused())
-            m_player->play();
-        if(m_player->playing())
-            m_player->seekPosition(0);
-    }
-    else {
-        if(m_player->paused())
-            m_player->stop();
-        m_player->play(fileName);
-    }
-
-    // Make sure that the m_player actually starts before doing anything.
-
-    if(!m_player->playing()) {
-        stop();
-        return;
-    }
-
-    m_actionCollection->action("pause")->setEnabled(true);
-    m_actionCollection->action("stop")->setEnabled(true);
-    m_actionCollection->action("forward")->setEnabled(true);
-    m_actionCollection->action("back")->setEnabled(true);
-
-    m_sliderAction->trackPositionSlider()->setValue(0);
-    m_sliderAction->trackPositionSlider()->setEnabled(true);
-    // m_playTimer->start(m_pollInterval);
-}
-
-void PlayerManager::pause()
-{
-    if(!m_player)
-        return;
-
-    m_player->pause();
-}
-
-void PlayerManager::stop()
-{
-    if(!m_player)
-        return;
-
-    m_player->stop();
-}
-
-void PlayerManager::setVolume(float volume)
-{
-    if(!m_player)
-        return;
-
-    m_player->setVolume(volume);
-}
-
-float PlayerManager::volume() const
-{
-    if(!m_player)
-        return 0;
-
-    return m_player->volume();
 }
 
 bool PlayerManager::playing() const
@@ -137,6 +75,14 @@ bool PlayerManager::paused() const
         return false;
 
     return m_player->paused();
+}
+
+float PlayerManager::volume() const
+{
+    if(!m_player)
+        return 0;
+
+    return m_player->volume();
 }
 
 long PlayerManager::totalTime() const
@@ -163,6 +109,76 @@ int PlayerManager::position() const
     return m_player->position();
 }
 
+void PlayerManager::setPlaylistInterface(const PlaylistInterface *interface)
+{
+    m_playlistInterface = interface;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void PlayerManager::play(const QString &fileName)
+{
+    if(!m_player || !m_playlistInterface)
+        return;
+
+    if(fileName.isNull()) {
+	if(m_player->paused())
+            m_player->play();
+        if(m_player->playing())
+            m_player->seekPosition(0);
+        else
+            m_player->play(m_playlistInterface->nextFile());
+    }
+    else {
+        if(m_player->paused())
+            m_player->stop();
+        m_player->play(fileName);
+    }
+
+    // Make sure that the m_player actually starts before doing anything.
+
+    if(!m_player->playing()) {
+        stop();
+        return;
+    }
+
+    m_actionCollection->action("pause")->setEnabled(true);
+    m_actionCollection->action("stop")->setEnabled(true);
+    m_actionCollection->action("forward")->setEnabled(true);
+    m_actionCollection->action("back")->setEnabled(true);
+
+    m_sliderAction->trackPositionSlider()->setValue(0);
+    m_sliderAction->trackPositionSlider()->setEnabled(true);
+
+    m_timer->start(m_pollInterval);
+}
+
+void PlayerManager::pause()
+{
+    if(!m_player)
+        return;
+
+    m_player->pause();
+}
+
+void PlayerManager::stop()
+{
+    if(!m_player)
+        return;
+
+    m_player->stop();
+}
+
+void PlayerManager::setVolume(float volume)
+{
+    if(!m_player)
+        return;
+
+    m_player->setVolume(volume);
+}
+
 void PlayerManager::seek(long seekTime)
 {
     if(!m_player)
@@ -177,6 +193,45 @@ void PlayerManager::seekPosition(int position)
         return;
 
     m_player->seekPosition(position);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private slots
+////////////////////////////////////////////////////////////////////////////////
+
+void PlayerManager::slotPollPlay()
+{
+    if(!m_player || !m_playlistInterface)
+        return;
+
+    m_noSeek = true;
+
+    if(!m_player->playing()) {
+        m_timer->stop();
+        play(m_playlistInterface->nextFile());
+    }
+    else if(!m_sliderAction->dragging()) {
+        m_sliderAction->trackPositionSlider()->setValue(m_player->position());
+
+        // TODO: figure out something to do with the status bar interface
+
+        // m_statusLabel->setItemTotalTime(m_player->totalTime());
+        // m_statusLabel->setItemCurrentTime(m_player->currentTime());
+    }
+
+    // Ok, this is weird stuff, but it works pretty well.  Ordinarily we don't
+    // need to check up on our playing time very often, but in the span of the
+    // last interval, we want to check a lot -- to figure out that we've hit the
+    // end of the song as soon as possible.
+
+    if(m_player->playing() &&
+       m_player->totalTime() > 0 &&
+       float(m_player->totalTime() - m_player->currentTime()) < m_pollInterval * 2)
+    {
+        m_timer->changeInterval(50);
+    }
+
+    m_noSeek = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -231,6 +286,9 @@ void PlayerManager::setup()
     }
     else
         m_player = Player::createPlayer();
+
+    m_timer = new QTimer(this, "play timer");
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(slotPollPlay()));
 }
 
 #include "playermanager.moc"

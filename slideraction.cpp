@@ -66,7 +66,6 @@ public:
 protected:
     virtual void wheelEvent(QWheelEvent *e) {
         QWheelEvent transposed(e->pos(), -(e->delta()), e->state(), e->orientation());
-
         QSlider::wheelEvent(&transposed);
     }
     virtual void focusInEvent(QFocusEvent *) { clearFocus(); }
@@ -77,7 +76,8 @@ protected:
 ////////////////////////////////////////////////////////////////////////////////
 
 SliderAction::SliderAction(const QString &text, QObject *parent, const char *name)
-    : CustomAction(text, parent, name)
+    : CustomAction(text, parent, name),
+      m_dragging(false)
 {
 
 }
@@ -138,6 +138,8 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         m_trackPositionSlider->setMaxValue(1000);
         QToolTip::add(m_trackPositionSlider, i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
+	connect(m_trackPositionSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()));
+	connect(m_trackPositionSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()));
 
         m_layout->addItem(new QSpacerItem(10, 1));
 

@@ -34,6 +34,8 @@ public:
     QSlider *volumeSlider() const { return m_volumeSlider; }
     QSlider *trackPositionSlider() const { return m_trackPositionSlider; }
 
+    bool dragging() const { return m_dragging; }
+
 public slots:
     void slotUpdateOrientation(QDockWindow *dockWindow = 0);
 
@@ -42,11 +44,14 @@ private:
 
 private slots:
     void slotUpdateSize();
+    void slotSliderPressed() { m_dragging = true; }
+    void slotSliderReleased() { m_dragging = false; }
 
 private:
     QBoxLayout *m_layout;
     QSlider *m_trackPositionSlider;
     QSlider *m_volumeSlider;
+    bool m_dragging;
 
     static const int volumeMax = 50;
 };

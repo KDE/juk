@@ -22,7 +22,20 @@
 
 #include "player.h"
 
+class QTimer;
 class SliderAction;
+
+/**
+ * This is a simple interface that should be implemented by objects used by
+ * the PlayerManager.
+ */
+
+class PlaylistInterface
+{
+public:
+    virtual QString nextFile() const = 0;
+    virtual QString previousFile() const = 0;
+};
 
 /**
  * This class serves as a proxy to the Player interface and handles managing
@@ -40,34 +53,41 @@ protected:
 public:
     static PlayerManager *instance();
 
-public slots:
-
-    // Implementation of the Player interface
-
-    virtual void play(const QString &fileName = QString::null);
-    virtual void pause();
-    virtual void stop();
-
-    virtual void setVolume(float volume = 1.0);
-    virtual float volume() const;
-
     virtual bool playing() const;
     virtual bool paused() const;
-
+    virtual float volume() const;
     virtual long totalTime() const;
     virtual long currentTime() const;
     virtual int position() const;
 
+    void setPlaylistInterface(const PlaylistInterface *interface);
+
+public slots:
+
+    virtual void play(const QString &fileName = QString::null);
+    virtual void pause();
+    virtual void stop();
+    virtual void setVolume(float volume = 1.0);
     virtual void seek(long seekTime);
     virtual void seekPosition(int position);
 
 private:
     void setup();
+
+private slots:
+    void slotPollPlay();
+
+private:
     static PlayerManager *m_instance;
 
     KActionCollection *m_actionCollection;
     SliderAction *m_sliderAction;
+    const PlaylistInterface *m_playlistInterface;
     Player *m_player;
+    QTimer *m_timer;
+    bool m_noSeek;
+
+    static const int m_pollInterval = 800;
 };
 
 #endif
