@@ -20,11 +20,13 @@
 
 #include <klistview.h>
 #include <kurldrag.h>
+#include <kdebug.h>
 #include <kglobalsettings.h>
 
 #include <qstringlist.h>
 #include <qvaluevector.h>
 #include <qptrstack.h>
+#include <qfileinfo.h>
 
 #include "stringhash.h"
 #include "playlistsearch.h"
@@ -34,7 +36,6 @@ class KPopupMenu;
 class KActionMenu;
 
 class QEvent;
-class QFileInfo;
 
 class PlaylistSearch;
 
