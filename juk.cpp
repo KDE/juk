@@ -119,11 +119,11 @@ void JuK::setupActions()
 
     // play menu
     randomPlayAction = new KToggleAction(i18n("Random Play"), 0, actionCollection(), "randomPlay");
-    playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(playFile()), actionCollection(), "playFile");
-    pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pauseFile()), actionCollection(), "pauseFile");
-    stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stopFile()), actionCollection(), "stopFile");
-    backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(backFile()), actionCollection(), "backFile");
-    forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forwardFile()), actionCollection(), "forwardFile");
+    playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(play()), actionCollection(), "play");
+    pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pause()), actionCollection(), "pause");
+    stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stop()), actionCollection(), "stop");
+    backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(back()), actionCollection(), "back");
+    forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()), actionCollection(), "forward");
 
     // tagger menu
     new KAction(i18n("Save"), "filesave", "CTRL+t", splitter, SLOT(saveItem()), actionCollection(), "saveItem");
@@ -162,11 +162,11 @@ void JuK::setupSystemTray()
 	systemTray = new SystemTray(this, "systemTray");
 	systemTray->show();
 	
-	connect(systemTray, SIGNAL(play()),    this, SLOT(playFile()));
-	connect(systemTray, SIGNAL(stop()),    this, SLOT(stopFile()));
-	connect(systemTray, SIGNAL(pause()),   this, SLOT(pauseFile()));
-	connect(systemTray, SIGNAL(back()),    this, SLOT(backFile()));
-	connect(systemTray, SIGNAL(forward()), this, SLOT(forwardFile()));
+	connect(systemTray, SIGNAL(play()),    this, SLOT(play()));
+	connect(systemTray, SIGNAL(stop()),    this, SLOT(stop()));
+	connect(systemTray, SIGNAL(pause()),   this, SLOT(pause()));
+	connect(systemTray, SIGNAL(back()),    this, SLOT(back()));
+	connect(systemTray, SIGNAL(forward()), this, SLOT(forward()));
 	
 	if(player && player->paused())
 	    systemTray->slotPause();
@@ -297,7 +297,7 @@ void JuK::saveConfig()
 
 bool JuK::queryClose()
 {
-    stopFile();
+    stop();
     delete(player);
     Cache::instance()->save();
     saveConfig();
@@ -336,7 +336,7 @@ void JuK::updatePlaylistInfo()
 // player menu
 ////////////////////////////////////////////////////////////////////////////////
 
-void JuK::playFile()
+void JuK::play()
 {
     if(!player)
 	return;
@@ -358,10 +358,10 @@ void JuK::playFile()
     else if(player->playing())
 	player->seekPosition(0);
     else
-	playFile(splitter->playNextFile(randomPlayAction->isChecked()));
+	play(splitter->playNextFile(randomPlayAction->isChecked()));
 }
 
-void JuK::pauseFile()
+void JuK::pause()
 {
     if(!player)
 	return;
@@ -373,7 +373,7 @@ void JuK::pauseFile()
 	systemTray->slotPause();
 }
 
-void JuK::stopFile()
+void JuK::stop()
 {
     if(!player)
 	return;
@@ -397,14 +397,14 @@ void JuK::stopFile()
 	systemTray->slotStop();
 }
 
-void JuK::backFile()
+void JuK::back()
 {
-    playFile(splitter->playPreviousFile(randomPlayAction->isChecked()));
+    play(splitter->playPreviousFile(randomPlayAction->isChecked()));
 }
 
-void JuK::forwardFile()
+void JuK::forward()
 {
-    playFile(splitter->playNextFile(randomPlayAction->isChecked()));
+    play(splitter->playNextFile(randomPlayAction->isChecked()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -429,7 +429,7 @@ void JuK::toggleSystemTray(bool enabled)
 
 void JuK::setOutput(int output)
 {
-    stopFile();
+    stop();
     delete(player);
     player = Player::createPlayer(output);
 }
@@ -477,7 +477,7 @@ void JuK::pollPlay()
         playTimer->stop();
 
 	if(!player->paused())
-	    playFile(splitter->playNextFile(randomPlayAction->isChecked()));
+	    play(splitter->playNextFile(randomPlayAction->isChecked()));
 
     }
     else if(!trackPositionDragging) {
@@ -507,7 +507,7 @@ void JuK::setVolume(int volume)
     }
 }
 
-void JuK::playFile(const QString &file)
+void JuK::play(const QString &file)
 {
     if(!player)
 	return;
@@ -538,7 +538,7 @@ void JuK::playFile(const QString &file)
 	    systemTray->slotPlay();
     }
     else
-	stopFile();
+	stop();
 }
 
 #include "juk.moc"

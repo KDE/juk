@@ -73,11 +73,11 @@ private slots:
     void cut() { splitter->copy(); splitter->clear(); }
 
     // player menu
-    void playFile();
-    void pauseFile();
-    void stopFile();
-    void backFile();
-    void forwardFile();
+    void play();
+    void pause();
+    void stop();
+    void back();
+    void forward();
 
     // settings menu
     void showGenreListEditor();
@@ -105,10 +105,10 @@ private slots:
      * This is the main method to play stuff.  Everything else is just a wrapper
      * around this.
      */
-    void playFile(const QString &file);
+    void play(const QString &file);
 
-    void playSelectedFile() { playFile(splitter->playSelectedFile()); }
-    void playFirstFile() { playFile(splitter->playFirstFile()); }
+    void playSelectedFile() { play(splitter->playSelectedFile()); }
+    void playFirstFile() { play(splitter->playFirstFile()); }
 
 private:
     // layout objects

@@ -33,11 +33,11 @@
 
 		<Separator/>
 
-		<Action name="playFile"/>
-		<Action name="pauseFile"/>
-		<Action name="stopFile"/>
-		<Action name="backFile"/>
-		<Action name="forwardFile"/>
+		<Action name="play"/>
+		<Action name="pause"/>
+		<Action name="stop"/>
+		<Action name="back"/>
+		<Action name="forward"/>
 	</Menu>
 	<Menu name="playlist"><text>Tagger</text>
 		<Action name="saveItem"/>
@@ -68,13 +68,13 @@
 </ToolBar>
 
 <ToolBar name="playToolBar" noMerge="1"><text>Play Toolbar</text>
-	<Action name="playFile"/>
-	<Action name="pauseFile"/>
-	<Action name="stopFile"/>
+	<Action name="play"/>
+	<Action name="pause"/>
+	<Action name="stop"/>
 
 	<Separator lineSeparator="false"/>	
 
-	<Action name="backFile"/>
-	<Action name="forwardFile"/>
+	<Action name="back"/>
+	<Action name="forward"/>
 	<Action name="trackPositionAction"/>
 </kpartgui>
