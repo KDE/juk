@@ -546,10 +546,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
 void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-    if(KURLDrag::canDecode(e))
-	e->accept(true);
-    else
-	e->accept(false);
+    e->accept( KURLDrag::canDecode( e ) );
 }
 
 void Playlist::showEvent(QShowEvent *e)
