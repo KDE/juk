@@ -18,10 +18,6 @@
 #ifndef JUK_H
 #define JUK_H
 
-#ifdef HAVE_CONFIG_H
-#include <config.h>
-#endif
-
 #include <kaction.h>
 #include <kglobalaccel.h>
 #include <kstdaction.h>
