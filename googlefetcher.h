@@ -27,14 +27,12 @@ public:
     GoogleFetcher(const Tag *tag);
     QPixmap pixmap();
 
-private slots:
+private:
     void cancel();
     void editSearch();
     void saveCover();
     void previous();
     void next();
-
-private:
     void loadImageURLs();
     void displayWaitMessage();
     void buildBox();
