@@ -84,6 +84,9 @@ protected:
 
     void emitNumberOfItemsChanged() { emit(numberOfItemsChanged(this)); }
     
+signals:
+    void collectionChanged();
+
 private:
     static CollectionList *list;
     QDict<CollectionListItem> itemsDict;

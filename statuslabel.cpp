@@ -28,7 +28,6 @@
 #include <qlayout.h>
 
 #include "statuslabel.h"
-#include "playlistitem.h"
 #include "playlist.h"
 #include "playlistbox.h"
 #include "playlistsplitter.h"

@@ -159,12 +159,6 @@ signals:
      * PlaylistItem class. 
      */
     void dataChanged();
-    /** 
-     * This signal is emitted when items are added to the collection list.  
-     * This happens in the createItem() method when items are added to the 
-     * collection. 
-     */
-    void collectionChanged();
 
     /** 
      * This is emitted when the playlist selection is changed.  This is used
