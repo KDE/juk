@@ -311,13 +311,13 @@ void JuK::setupActions()
     newMenu->insert(createSplitterAction(i18n("Empty Playlist..."),
 					 SLOT(slotCreatePlaylist()), 0, 0, 0));
 
-    newMenu->insert(createSplitterAction(i18n("Playlist From Directory..."),
+    newMenu->insert(createSplitterAction(i18n("Playlist From Folder..."),
 					 SLOT(slotCreatePlaylistFromDir()), 0, 0, 0));
 
     createSplitterAction(
 	i18n("Open..."), SLOT(slotOpen()), "file_open", "fileopen", "CTRL+o");
     createSplitterAction(
-	i18n("Open &Directory..."), SLOT(slotOpenDirectory()), "openDirectory", "fileopen");
+	i18n("Open &Folder..."), SLOT(slotOpenDirectory()), "openDirectory", "fileopen");
     createSplitterAction(
 	i18n("&Rename..."), SLOT(slotRenamePlaylist()), "renamePlaylist");
     createSplitterAction(

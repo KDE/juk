@@ -29,7 +29,7 @@
 
 DirectoryList::DirectoryList(const QStringList &directories, QWidget *parent,
 			     const char *name) :
-    KDialogBase(parent, name, true, i18n("Directory List"), Ok | Cancel, Ok, true),
+    KDialogBase(parent, name, true, i18n("Folder List"), Ok | Cancel, Ok, true),
     m_dirList(directories)
 {
     m_base = new DirectoryListBase(this);

@@ -19,7 +19,7 @@
         <widget class="KListView">
             <column>
                 <property name="text">
-                    <string>Directories</string>
+                    <string>Folders</string>
                 </property>
                 <property name="clickable">
                     <bool>true</bool>
@@ -45,7 +45,7 @@
                         <cstring>addDirectoryButton</cstring>
                     </property>
                     <property name="text">
-                        <string>Add Directory...</string>
+                        <string>Add Folder...</string>
                     </property>
                 </widget>
                 <widget class="KPushButton">
@@ -53,7 +53,7 @@
                         <cstring>removeDirectoryButton</cstring>
                     </property>
                     <property name="text">
-                        <string>Remove Directory</string>
+                        <string>Remove Folder</string>
                     </property>
                 </widget>
                 <widget class="QLabel">
@@ -61,7 +61,7 @@
                         <cstring>informationLabel</cstring>
                     </property>
                     <property name="text">
-                        <string>These directories will be scanned on startup for new files.</string>
+                        <string>These folders will be scanned on startup for new files.</string>
                     </property>
                     <property name="alignment">
                         <set>WordBreak|AlignVCenter</set>
