@@ -35,7 +35,7 @@ TrackPickerDialog::TrackPickerDialog(const QString &fileName,
                                      const MusicBrainzQuery::TrackList &tracks,
 				     QWidget *parent,
                                      const char *name) :
-    KDialogBase(parent, name, true, i18n("Directory List"), Ok | Cancel, Ok, true)
+    KDialogBase(parent, name, true, i18n("Internet Tag Guesser"), Ok | Cancel, Ok, true)
 {
     m_base = new TrackPickerDialogBase(this);
     setMainWidget(m_base);
