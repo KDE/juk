@@ -302,7 +302,6 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     m_members.remove(item->file().absFilePath());
     if(!m_randomList.isEmpty() && !m_visibleChanged)
         m_randomList.remove(item);
-    // item->deleteLater();
     delete item;
     if(emitChanged)
 	emit signalCountChanged(this);
@@ -312,11 +311,6 @@ void Playlist::clearItems(const PlaylistItemList &items)
 {
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
 	clearItem(*it, false);
-
-    // Since we're using deleteLater() in the above call and calls to this will expect
-    // those items to have actually gone away.
-
-    kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
 
     emit signalCountChanged(this);
 }
