@@ -207,7 +207,7 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
 		// ...then we have a match
 
 		if((i == 0 || !s.at(i - 1).isLetterOrNumber()) &&
-		   (i + m_query.length() <= s.length() || !s.at(i + m_query.length()).isLetterOrNumber()))
+		   (i + m_query.length() == s.length() || !s.at(i + m_query.length()).isLetterOrNumber()))
 		    return true;
 		break;
 	    }
