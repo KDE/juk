@@ -57,10 +57,9 @@ Tag::~Tag()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Tag::Tag(const QString &file)
+Tag::Tag(const QString &file) : info(file), fileName(file)
 {
-    info.setFile(file);
-    Cache::instance()->insert(info.absFilePath(), this);
+    Cache::instance()->insert(file, this);
 }
 
 QString Tag::readBitrate(const KFileMetaInfo &metaInfo)

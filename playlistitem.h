@@ -114,7 +114,7 @@ private:
 class PlaylistItem::Data : public QFileInfo
 {
 public:
-    static Data *newUser(const QFileInfo &file);
+    static Data *newUser(const QFileInfo &file, const QString &path);
     Data *newUser();
     void deleteUser();
 
@@ -124,6 +124,8 @@ public:
 
     void setFile(const QString &file);
 
+    QString absFilePath() const { return(absFileName); }
+
 protected:
     /**
      * Because we're trying to use this as a shared item, we want all access
@@ -132,12 +134,13 @@ protected:
      * and deletion should be handled by deleteUser.  Making the constructor
      * and destructor protected ensures this.
      */
-    Data(const QFileInfo &file);
+    Data(const QFileInfo &file, const QString &path);
     virtual ~Data();
 
 private:
     int referenceCount;
     Tag *dataTag;
+    QString absFileName;
 };
 
 #endif

@@ -156,7 +156,7 @@ void Playlist::saveAs()
     internalFile = false;
 
     if(playlistFileName != QString::null) {
-	if(!splitter->playlistExtensions().contains(playlistFileName.section('.', -1)))
+	if(splitter->playlistExtensions().find(playlistFileName.section('.', -1)) == splitter->playlistExtensions().end())
 	    playlistFileName.append('.' + splitter->playlistExtensions().first());
 
 	
@@ -186,7 +186,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
 {
     QPtrListIterator<PlaylistItem> it(items);
     while(it.current()) {
-        members.remove(it.current()->absFilePath());
+//        members.remove(it.current()->absFilePath()); // TODO: fix this for the new sorted class
         delete(it.current());
         ++it;
     }
@@ -397,13 +397,14 @@ void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 
 PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 {
-    CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
+    QString filePath = file.absFilePath();
+
+    CollectionListItem *item = CollectionList::instance()->lookup(filePath);
 
     if(!item && CollectionList::instance())
-	item = new CollectionListItem(file);
+	item = new CollectionListItem(file, filePath);
     
-    if(item && members.contains(file.absFilePath()) == 0 || allowDuplicates) {
-	members.append(file.absFilePath());
+    if(item && !members.insert(filePath) || allowDuplicates) {
 	PlaylistItem *i;
 	if(after)
 	    i = new PlaylistItem(item, this, after);

@@ -24,6 +24,7 @@
 #include <qptrstack.h>
 
 #include "playlistitem.h"
+#include "sortedstringlist.h"
 
 class PlaylistSplitter;
 class PlaylistBoxItem;
@@ -178,7 +179,7 @@ private:
     QPopupMenu *rmbMenu;
     int currentColumn;
 
-    QStringList members;
+    SortedStringList members;
     int processed;
     bool allowDuplicates;
 

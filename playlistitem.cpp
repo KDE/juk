@@ -216,9 +216,9 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
 // PlaylistItem::Data public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::Data *PlaylistItem::Data::newUser(const QFileInfo &file)
+PlaylistItem::Data *PlaylistItem::Data::newUser(const QFileInfo &file, const QString &path)
 {
-    return new Data(file);
+    return new Data(file, path);
 }
 
 PlaylistItem::Data *PlaylistItem::Data::newUser()
@@ -231,6 +231,7 @@ void PlaylistItem::Data::refresh()
 {
     delete(dataTag);
     dataTag = Tag::createTag(filePath());
+    absFileName = absFilePath();
 }
 
 void PlaylistItem::Data::deleteUser()
@@ -257,10 +258,10 @@ void PlaylistItem::Data::setFile(const QString &file)
 // PlaylistItem::Data protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::Data::Data(const QFileInfo &file) : QFileInfo(file)
+PlaylistItem::Data::Data(const QFileInfo &file, const QString &path) : QFileInfo(file), absFileName(path)
 {
     referenceCount = 1;
-    dataTag = Tag::createTag(filePath());
+    dataTag = Tag::createTag(path);
 }
 
 PlaylistItem::Data::~Data()

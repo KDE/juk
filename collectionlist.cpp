@@ -42,7 +42,7 @@ void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent, bool resto
 
     if(restoreOnLoad)
 	for(QDictIterator<Tag>it(*Cache::instance()); it.current(); ++it)
-	    new CollectionListItem(it.current()->fileInfo());
+	    new CollectionListItem(it.current()->fileInfo(), it.current()->absFilePath());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -51,12 +51,12 @@ void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent, bool resto
 
 QStringList CollectionList::artists() const
 {
-    return(artistList);
+    return(artistList.values());
 }
 
 QStringList CollectionList::albums() const
 {
-    return(albumList);
+    return(albumList.values());
 }
 
 CollectionListItem *CollectionList::lookup(const QString &file)
@@ -66,10 +66,11 @@ CollectionListItem *CollectionList::lookup(const QString &file)
 
 PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 {
-    if(itemsDict.find(file.absFilePath()))
+    QString path = file.absFilePath();
+    if(itemsDict.find(path))
 	return(0);
 
-    return(new CollectionListItem(file));
+    return(new CollectionListItem(file, path));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -124,26 +125,32 @@ void CollectionList::removeFromDict(const QString &file)
 
 void CollectionList::addArtist(const QString &artist)
 {
-    if(artistList.contains(artist) == 0)
-	artistList.append(artist);
+    // Do a bit of caching since there will very often be "two in a row" insertions.
+    static QString previousArtist;
+
+    if(artist != previousArtist && !artistList.insert(artist))
+	previousArtist = artist;
 }
 
 void CollectionList::addAlbum(const QString &album)
 {
-    if(albumList.contains(album) == 0)
-	albumList.append(album);
+    // Do a bit of caching since there will very often be "two in a row" insertions.
+    static QString previousAlbum;
+
+    if(album != previousAlbum && !albumList.insert(album))
+	previousAlbum = album;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // CollectionListItem public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem::CollectionListItem(const QFileInfo &file) : PlaylistItem(CollectionList::instance())
+CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &path) : PlaylistItem(CollectionList::instance())
 {
     CollectionList *l = CollectionList::instance();
     if(l) {
-	l->addToDict(file.absFilePath(), this);
-	setData(Data::newUser(file));
+	l->addToDict(path, this);
+	setData(Data::newUser(file, path));
 	refresh();
 	connect(this, SIGNAL(refreshed()), l, SIGNAL(dataChanged()));
     }

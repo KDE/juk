@@ -22,6 +22,7 @@
 
 #include "playlist.h"
 #include "playlistitem.h"
+#include "sortedstringlist.h"
 
 /** 
  * This is the "collection", or all of the music files that have been opened
@@ -79,8 +80,8 @@ protected:
 private:
     static CollectionList *list;
     QDict<CollectionListItem> itemsDict;
-    QStringList artistList;
-    QStringList albumList;
+    SortedStringList artistList;
+    SortedStringList albumList;
 };
 
 class CollectionListItem : public PlaylistItem
@@ -98,7 +99,7 @@ public slots:
     virtual void refresh();
 
 protected:
-    CollectionListItem(const QFileInfo &file);
+    CollectionListItem(const QFileInfo &file, const QString &path);
     void addChildItem(PlaylistItem *child);
 };
 

@@ -29,6 +29,7 @@
 #include "collectionlist.h"
 #include "tageditor.h"
 #include "playlist.h"
+#include "sortedstringlist.h"
 
 class PlaylistBoxItem;
 
@@ -275,7 +276,7 @@ private:
 
     CollectionList *collection;
 
-    QStringList playlistFiles;
+    SortedStringList playlistFiles;
 
     QStringList mediaExtensions;
     QStringList listExtensions;
