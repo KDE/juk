@@ -18,7 +18,6 @@
 #ifndef TAG_H
 #define TAG_H
 
-
 #include <qfileinfo.h>
 
 namespace TagLib { class File; }
@@ -33,6 +32,7 @@ class CacheDataStream;
 class Tag
 {
     friend class Cache;
+    friend class FileHandle;
 public:
     /**
      * All Tag objects should be instantiated through this method.  It determines
@@ -64,24 +64,17 @@ public:
     int seconds() const { return m_seconds; }
     int bitrate() const { return m_bitrate; }
 
-    QString fileName() const { return m_fileName; }
-    QDateTime lastModified() const;
-
     /**
      * As a convenience, since producing a length string from a number of second
      * isn't a one liner, provide the lenght in string form.
      */
     QString lengthString() const { return m_lengthString; }
-
-    /**
-     * Check to see if the item is up to date.
-     */
-    bool current() const;
-
-    bool fileExists() const { return m_info.exists() && m_info.isFile(); }
-    QFileInfo fileInfo() const { return m_info; }
-
     CacheDataStream &read(CacheDataStream &s);
+
+    // TODO -- REMOVE THESE METHODS ONCE THE CACHE IS FILEHANDLE BASED
+    const QDateTime &lastModified() const;
+    const QFileInfo &fileInfo() const { return m_info; }
+    const QString &fileName() const { return m_fileName; }
 
 private:
     /*!
@@ -93,7 +86,6 @@ private:
     QFileInfo m_info;
     QString m_fileName;
     mutable QDateTime m_lastModified;
-
     QString m_title;
     QString m_artist;
     QString m_album;
@@ -104,7 +96,6 @@ private:
     int m_seconds;
     int m_bitrate;
     QDateTime m_modificationTime;
-
     QString m_lengthString;
 };
 

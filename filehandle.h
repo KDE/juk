@@ -44,6 +44,9 @@ public:
     QString absFilePath() const;
     const QFileInfo &fileInfo() const;
 
+    bool current() const;
+    const QDateTime &lastModified() const;
+
     FileHandle &operator=(const FileHandle &f);
     bool operator==(const FileHandle &f) const;
 

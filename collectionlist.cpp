@@ -41,6 +41,8 @@ void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
 {
     m_list = new CollectionList(parent);
 
+    // TODO: don't fetch the fileInfo from the tag, but rather from the FileHandle
+
     if(restoreOnLoad)
 	for(QDictIterator<Tag>it(*Cache::instance()); it.current(); ++it)
 	    new CollectionListItem(it.current()->fileInfo(), it.current()->fileName());
@@ -82,10 +84,10 @@ PlaylistItem *CollectionList::createItem(const QFileInfo &file, const QString &a
 void CollectionList::clear()
 {
     int result = KMessageBox::warningYesNo(this, 
-			      i18n("Removing an item from the collection will also remove it from "
-				   "all of your playlists. Are you sure you want to continue?\n\n"
-				   "Note, however, that if the directory that these files are in is in "
-				   "your \"scan on startup\" list, they will be readded on startup."));
+	i18n("Removing an item from the collection will also remove it from "
+	     "all of your playlists. Are you sure you want to continue?\n\n"
+	     "Note, however, that if the directory that these files are in is in "
+	     "your \"scan on startup\" list, they will be readded on startup."));
     if(result == KMessageBox::Yes)			      
 	Playlist::clear();
 
@@ -116,7 +118,7 @@ CollectionList::CollectionList(QWidget *parent) :
     m_uniqueSets(m_uniqueSetCount, SortedStringList()),
     m_uniqueSetLast(m_uniqueSetCount, QString::null)
 {
-    m_dirWatch = new KDirWatch();
+    m_dirWatch = new KDirWatch;
     connect(m_dirWatch, SIGNAL(deleted(const QString &)), this, SLOT(slotRemoveItem(const QString &)));
     connect(m_dirWatch, SIGNAL(dirty(const QString &)), this, SLOT(slotRefreshItem(const QString &)));
     m_dirWatch->startScan();
@@ -239,7 +241,7 @@ bool CollectionListItem::checkCurrent()
     if(!file().fileInfo().exists() || !file().fileInfo().isFile())
 	return false;
 
-    if(!file().tag()->current()) {
+    if(!file().current()) {
 	file().refresh();
 	slotRefresh();
     }

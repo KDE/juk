@@ -458,7 +458,7 @@ int Playlist::totalTime()
     QListViewItemIterator it(this);
     while (it.current()) {
 	PlaylistItem *item = static_cast<PlaylistItem *>(it.current());
-	if(item->file().tag()->current())
+	if(item->file().current())
 	    time += item->file().tag()->seconds();
 	it++;
     }

@@ -113,6 +113,20 @@ const QFileInfo &FileHandle::fileInfo() const
     return d->fileInfo;
 }
 
+bool FileHandle::current() const
+{
+    return(d->tag->m_modificationTime.isValid() &&
+           lastModified().isValid() &&
+           d->tag->m_modificationTime >= lastModified());
+}
+
+const QDateTime &FileHandle::lastModified() const
+{
+    // TODO: this should be done internally once the cache is FileHandle based
+
+    return d->tag->lastModified();
+}
+
 FileHandle &FileHandle::operator=(const FileHandle &f)
 {
     if(&f == this)

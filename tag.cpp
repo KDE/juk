@@ -82,9 +82,6 @@ void Tag::save()
 {
     TagLib::ID3v2::FrameFactory::instance()->setDefaultTextEncoding(TagLib::String::UTF8);
 
-    if(!m_info.isWritable())
-        return;
-
     TagLib::File *file = 0;
 
     if(MediaFiles::isMP3(m_fileName))
@@ -94,7 +91,7 @@ void Tag::save()
     else if(MediaFiles::isFLAC(m_fileName))
         file = new TagLib::FLAC::File(QFile::encodeName(m_fileName).data());
 
-    if(file && file->isValid() && file->tag()) {
+    if(file && file->isValid() && file->tag() && !file->readOnly()) {
         file->tag()->setTitle(QStringToTString(m_title));
         file->tag()->setArtist(QStringToTString(m_artist));
         file->tag()->setAlbum(QStringToTString(m_album));
@@ -112,20 +109,13 @@ void Tag::save()
     delete file;
 }
 
-bool Tag::current() const
-{
-    return(m_modificationTime.isValid() &&
-           lastModified().isValid() &&
-           m_modificationTime >= Tag::lastModified());
-}
-
-QDateTime Tag::lastModified() const
+const QDateTime &Tag::lastModified() const
 {
     if(m_lastModified.isNull())
         m_lastModified = m_info.lastModified();
+
     return m_lastModified;
 }
-
 
 CacheDataStream &Tag::read(CacheDataStream &s)
 {
@@ -202,7 +192,6 @@ CacheDataStream &Tag::read(CacheDataStream &s)
 ////////////////////////////////////////////////////////////////////////////////
 
 Tag::Tag(const QString &file) :
-    m_info(file),
     m_fileName(file),
     m_track(0),
     m_year(0),
@@ -213,7 +202,6 @@ Tag::Tag(const QString &file) :
 }
 
 Tag::Tag(const QString &fileName, TagLib::File *file) :
-    m_info(fileName),
     m_fileName(fileName)
 {
     m_title   = TStringToQString(file->tag()->title()).stripWhiteSpace();
@@ -233,8 +221,10 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
 
     m_lengthString = QString::number(minutes) + (seconds >= 10 ? ":" : ":0") + QString::number(seconds);
 
-    if(m_title.isEmpty())
-        m_title = m_info.baseName(true);
+    if(m_title.isEmpty()) {
+	int i = m_fileName.findRev('.');
+        m_title = i > 0 ? m_fileName.left(i) : m_fileName;
+    }
 
     Cache::instance()->insert(fileName, this);
 }
