@@ -130,7 +130,7 @@ void OggTag::setAlbum(const QString &value)
 
 void OggTag::setGenre(const Genre &value)
 {
-    writeCommentItem("Genre", value);
+    writeCommentItem("Genre", value.name());
 }
 
 void OggTag::setTrackNumber(int value)

@@ -94,11 +94,11 @@ void TagEditor::slotRefresh()
     m_bitrateBox->setText(tag->bitrateString());
     m_lengthBox->setText(tag->lengthString());
 
-    if(m_genreList.findIndex(tag->genre()) >= 0)
-	m_genreBox->setCurrentItem(m_genreList.findIndex(tag->genre()) + 1);
+    if(m_genreList.findIndex(tag->genre().name()) >= 0)
+	m_genreBox->setCurrentItem(m_genreList.findIndex(tag->genre().name()) + 1);
     else {
 	m_genreBox->setCurrentItem(0);
-	m_genreBox->setEditText(tag->genre());
+	m_genreBox->setEditText(tag->genre().name());
     }
     
     m_trackSpin->setValue(tag->trackNumber());
@@ -161,7 +161,7 @@ void TagEditor::slotRefresh()
 		    m_albumNameBox->lineEdit()->clear();
 		    m_enableBoxes[m_albumNameBox]->setChecked(false);
 		}
-		if(m_genreBox->currentText() != tag->genre() &&
+		if(m_genreBox->currentText() != tag->genre().name() &&
 		   m_enableBoxes.contains(m_genreBox))
 		{
 		    m_genreBox->lineEdit()->clear();
@@ -285,7 +285,7 @@ void TagEditor::readConfig()
         m_genreBox->insertItem(QString::null);
 
         for(GenreList::Iterator it = m_genreList.begin(); it != m_genreList.end(); ++it)
-            m_genreBox->insertItem((*it));
+            m_genreBox->insertItem((*it).name());
     }
 }
 
@@ -484,7 +484,7 @@ void TagEditor::save(const PlaylistItemList &list)
 			    m_genreList[m_genreList.findIndex(m_genreBox->currentText())]);
 		    else
 			item->tag()->setGenre(
-			    Genre(m_genreBox->currentText(), item->tag()->genre().getID3v1()));
+			    Genre(m_genreBox->currentText(), item->tag()->genre().ID3v1()));
 		}
 		
 		item->tag()->save();

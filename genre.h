@@ -21,17 +21,20 @@
 #include <qstring.h>
 #include <qdatastream.h>
 
-class Genre : public QString
+class Genre
 {
 public:
     Genre();
-    Genre(const QString &genreName, int ID3v1Number = 255);
-    Genre &operator=(const QString &);
+    explicit Genre(const QString &name, int ID3v1 = 255);
     
-    int getID3v1() const;
-    void setID3v1(int number);
+    QString name() const { return m_name; }
+    void setName(const QString &name) { m_name = name; }
+
+    int ID3v1() const { return m_ID3v1; }
+    void setID3v1(int ID3v1) { m_ID3v1 = ID3v1; }
     
 private:
+    QString m_name;
     int m_ID3v1;
 };
 

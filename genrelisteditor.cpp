@@ -46,9 +46,8 @@ void GenreListEditor::loadID3v1Genres()
 {
     GenreList ID3v1List = GenreListList::ID3v1List();
 
-    for(GenreList::Iterator it = ID3v1List.begin(); it != ID3v1List.end(); it++) {
-	ID3v1Box->insertItem(*it);
-    }
+    for(GenreList::Iterator it = ID3v1List.begin(); it != ID3v1List.end(); it++)
+	ID3v1Box->insertItem((*it).name());
 }
 
 void GenreListEditor::loadLists()
@@ -70,7 +69,7 @@ void GenreListEditor::updateGenreList()
 	genreList->clear();
 
 	for(GenreList::Iterator it = currentList->begin(); it != currentList->end(); it++)
-	    new KListViewItem(genreList, *it, currentList->ID3v1Name((*it).getID3v1()));
+	    new KListViewItem(genreList, (*it).name(), currentList->ID3v1Name((*it).ID3v1()));
     }
 }
 

@@ -76,7 +76,7 @@ int GenreList::findIndex(const QString &item)
 
     int i = 0;
     for(GenreList::Iterator it = begin(); it != end(); ++it) {
-        if(item == (*it)) {
+        if(item == (*it).name()) {
             lastItem = item;
             lastIndex = i;
             return i;
@@ -105,6 +105,6 @@ void GenreList::initializeIndex()
     m_index.clear();
     m_index.resize(size());
     for(GenreList::Iterator it = begin(); it != end(); ++it)
-        if((*it).getID3v1() >= 0 && (*it).getID3v1() < int(m_index.size()))
-            m_index[(*it).getID3v1()] = QString(*it);
+        if((*it).ID3v1() >= 0 && (*it).ID3v1() < int(m_index.size()))
+            m_index[(*it).ID3v1()] = (*it).name();
 }

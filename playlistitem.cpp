@@ -299,7 +299,7 @@ void PlaylistItem::slotRefreshImpl()
     setText(ArtistColumn + offset,      tag()->artist());
     setText(AlbumColumn + offset,       tag()->album());
     setText(TrackNumberColumn + offset, tag()->trackNumberString());
-    setText(GenreColumn + offset,       tag()->genre());
+    setText(GenreColumn + offset,       tag()->genre().name());
     setText(YearColumn + offset,        tag()->yearString());
     setText(LengthColumn + offset,      tag()->lengthString());
     setText(FileNameColumn + offset,    filePath());

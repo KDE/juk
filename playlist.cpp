@@ -1006,7 +1006,7 @@ void Playlist::slotRenameTag()
 	QStringList genreStrings;
 	GenreList genres = GenreListList::ID3v1List();
 	for(GenreList::Iterator it = genres.begin(); it != genres.end(); ++it)
-	    genreStrings.append(*it);
+	    genreStrings.append((*it).name());
 	edit->completionObject()->setItems(genreStrings);
 	break;
     }
@@ -1042,7 +1042,7 @@ void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
 	break;
     }
     case PlaylistItem::GenreColumn:
-	i->tag()->setGenre(text);
+	i->tag()->setGenre(Genre(text));
 	break;
     case PlaylistItem::YearColumn:
     {

@@ -26,8 +26,6 @@
 
 #include "genrelistlist.h"
 
-#define REPLACE true
-
 // Warning:  Some of this code is really old (~2 years) and may reflect some of 
 // my C days and or general bad design.  However, I haven't gone to great length 
 // to replace it since it will be replaced when TagLib is ready to drop in.
@@ -74,7 +72,7 @@ ID3Tag::ID3Tag(const QString &fileName) : Tag(fileName),
     delete [] temp;
 
     temp = ID3_GetGenre(&m_tag);
-    m_tagGenre = temp;
+    m_tagGenre.setName(temp);
     delete [] temp;
 
     m_tagGenre.setID3v1(int(ID3_GetGenreNum(&m_tag)));
@@ -96,10 +94,10 @@ ID3Tag::ID3Tag(const QString &fileName) : Tag(fileName),
 
     // parse the genre string for (<ID3v1 number>)
 
-    if(m_tagGenre == "(" + QString::number(m_tagGenre.getID3v1()) + ")" || m_tagGenre.isNull())
-        m_tagGenre = GenreListList::ID3v1List().ID3v1Name(m_tagGenre.getID3v1());
-    else if(m_tagGenre.find(QRegExp("\\([0-9]+\\)")) == 0)
-        m_tagGenre = m_tagGenre.mid(m_tagGenre.find(")") + 1);
+    if(m_tagGenre.name() == "(" + QString::number(m_tagGenre.ID3v1()) + ")" || m_tagGenre.name().isNull())
+        m_tagGenre.setName(GenreListList::ID3v1List().ID3v1Name(m_tagGenre.ID3v1()));
+    else if(m_tagGenre.name().find(QRegExp("\\([0-9]+\\)")) == 0)
+        m_tagGenre.setName(m_tagGenre.name().mid(m_tagGenre.name().find(")") + 1));
 
     // convert the year
 
@@ -120,46 +118,46 @@ void ID3Tag::save()
 {
     if(m_changed) {
         if(m_tagArtist.length() > 0)
-            ID3_AddArtist(&m_tag, m_tagArtist.latin1(), REPLACE);
+            ID3_AddArtist(&m_tag, m_tagArtist.latin1(), true);
         else
             ID3_RemoveArtists(&m_tag);
 
         if(m_tagAlbum.length() > 0)
-            ID3_AddAlbum(&m_tag, m_tagAlbum.latin1(), REPLACE);
+            ID3_AddAlbum(&m_tag, m_tagAlbum.latin1(), true);
         else
             ID3_RemoveAlbums(&m_tag);
 
         if(m_tagTrack.length() > 0)
-            ID3_AddTitle(&m_tag, m_tagTrack.latin1(), REPLACE);
+            ID3_AddTitle(&m_tag, m_tagTrack.latin1(), true);
         else
             ID3_RemoveTitles(&m_tag);
 
         if(m_tagTrackNumber > 0)
-            ID3_AddTrack(&m_tag,  uchar(m_tagTrackNumber),  uchar(0),  REPLACE);
+            ID3_AddTrack(&m_tag,  uchar(m_tagTrackNumber),  uchar(0),  true);
         else
             ID3_RemoveTracks(&m_tag);
 
-        if(m_tagGenre.getID3v1() >= 0 && m_tagGenre.getID3v1() <  int(GenreListList::ID3v1List().count())) {
+        if(m_tagGenre.ID3v1() >= 0 && m_tagGenre.ID3v1() <  int(GenreListList::ID3v1List().count())) {
             QString genreString;
 
-            if(m_tagGenre != GenreListList::ID3v1List().ID3v1Name(m_tagGenre.getID3v1()))
-                genreString = "(" + QString::number(m_tagGenre.getID3v1()) + ")" + m_tagGenre;
+            if(m_tagGenre.name() != GenreListList::ID3v1List().ID3v1Name(m_tagGenre.ID3v1()))
+                genreString = "(" + QString::number(m_tagGenre.ID3v1()) + ")" + m_tagGenre.name();
             else
-                genreString = "(" + QString::number(m_tagGenre.getID3v1()) + ")";
+                genreString = "(" + QString::number(m_tagGenre.ID3v1()) + ")";
 
-            ID3_AddGenre(&m_tag, genreString.latin1(), REPLACE);
+            ID3_AddGenre(&m_tag, genreString.latin1(), true);
         }
         else
             ID3_RemoveGenres(&m_tag);
 
         if(m_tagYear > 0)
-            ID3_AddYear(&m_tag, m_tagYearString.latin1(), REPLACE);
+            ID3_AddYear(&m_tag, m_tagYearString.latin1(), true);
         else
             ID3_RemoveYears(&m_tag);
 
         ID3_RemoveComments(&m_tag);
         if(m_tagComment.length()>0)
-            ID3_AddComment(&m_tag, m_tagComment.latin1(), REPLACE);
+            ID3_AddComment(&m_tag, m_tagComment.latin1(), true);
 
         m_tag.Update();
         m_changed = false;
