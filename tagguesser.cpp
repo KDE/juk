@@ -129,6 +129,8 @@ QStringList TagGuesser::schemeStrings()
         schemes = cfg->readListEntry( "Filename schemes" );
     }
     if ( schemes.isEmpty() ) {
+        schemes += "%a/%A/[%T] %t [%c]";
+        schemes += "%a/%A/[%T] %t (%c)";
         schemes += "%a/%A/[%T] %t";
         schemes += "%a - (%T) - %t [%c]";
         schemes += "%a - (%T) - %t (%c)";
