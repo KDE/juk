@@ -28,8 +28,12 @@
 #include <qapplication.h>
 #include <qptrlist.h>
 
+#include <stdlib.h>
+#include <time.h>
+
 #include "playlist.h"
 #include "collectionlist.h"
+#include "playlistsplitter.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -38,8 +42,29 @@
 Playlist::Playlist(QWidget *parent, const char *name) : KListView(parent, name)
 {
     setup();
-    setAcceptDrops(true);
-    allowDuplicates = false;
+}
+
+Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name)
+{
+    setup();
+
+    QFile file(playlistFile.absFilePath());
+    file.open(IO_ReadOnly);
+
+    QTextStream stream(&file);
+
+    while(!stream.atEnd()) {
+	QString itemName = (stream.readLine()).stripWhiteSpace();
+	QFileInfo item(itemName);
+
+	if(item.isRelative())
+	    item.setFile(QDir::cleanDirPath(playlistFile.dirPath(true) + "/" + itemName));
+
+	if(item.exists() && item.isFile() && item.isReadable())
+	    createItem(item);
+    }
+    
+    file.close();
 }
 
 Playlist::~Playlist()
@@ -57,31 +82,6 @@ void Playlist::saveAs()
 {
     kdDebug() << "Playlist::saveAs() -- Not yet implemented!" << endl;
     // needs an implementation to write to m3u files
-}
-
-void Playlist::add(const QString &item, bool sorted)
-{
-    collectionListChanged = false;
-
-    QApplication::setOverrideCursor(Qt::waitCursor);
-    addImpl(item);
-    QApplication::restoreOverrideCursor();
-    
-    if(collectionListChanged)
-	emit(collectionChanged());
-}
-
-void Playlist::add(const QStringList &items, bool sorted)
-{
-    collectionListChanged = false;
-
-    QApplication::setOverrideCursor(Qt::waitCursor);
-    for(QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
-        addImpl(*it);
-    QApplication::restoreOverrideCursor();
-
-    if(collectionListChanged)
-	emit(collectionChanged());
 }
 
 void Playlist::refresh()
@@ -154,14 +154,30 @@ void Playlist::remove(const PlaylistItemList &items)
     }
 }
 
-QStringList &Playlist::getArtistList()
+PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 {
-    return(artistList);
-}
+    if(!current)
+	return(0);
 
-QStringList &Playlist::getAlbumList()
-{
-    return(albumList);
+    PlaylistItem *i;
+
+    if(random) {
+	Playlist *list = static_cast<Playlist *>(current->listView());
+	PlaylistItemList items = list->items();
+	
+	if(items.count() > 1) {
+	    srand(time(0));
+	    i = current;
+	    while(i == current)
+		i = items.at(rand() % items.count());
+	}
+	else
+	    i = 0;
+    }
+    else
+	i = static_cast<PlaylistItem *>(current->itemBelow());	
+
+    return(i);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -211,7 +227,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 		fileList.append((*it).path());
 	    
-	    add(fileList);
+	    if(PlaylistSplitter::instance())
+		PlaylistSplitter::instance()->add(fileList, this);
 	}
     }
 }
@@ -224,45 +241,20 @@ void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
-PlaylistItem *Playlist::createItem(const QFileInfo &file, bool sorted)
+PlaylistItem *Playlist::createItem(const QFileInfo &file)
 {
     CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
 
-    if(!item && CollectionList::instance()) {
+    if(!item && CollectionList::instance())
 	item = new CollectionListItem(file);
-	collectionListChanged = true;
-    }
     
-    if(item) {
-	if(sorted && selectedItems().getFirst())
-	    PlaylistItem *newItem = new PlaylistItem(item, this, selectedItems().getFirst());
-	else
-	    PlaylistItem *newItem = new PlaylistItem(item, this);
+    if(item && members.contains(file.absFilePath()) == 0 || allowDuplicates) {
+	members.append(file.absFilePath());
+	PlaylistItem *newItem = new PlaylistItem(item, this);
+	return(newItem);
     }
     else
 	return(0);
-}
-
-void Playlist::addImpl(const QString &item, bool sorted)
-{
-    processEvents();
-    QFileInfo file(QDir::cleanDirPath(item));
-    if(file.exists()) {
-        if(file.isDir()) {
-            QDir dir(file.filePath());
-            QStringList dirContents=dir.entryList();
-            for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it)
-                if(*it != "." && *it != "..")
-                    addImpl(file.filePath() + QDir::separator() + *it);
-        }
-        else {
-            QString extension = file.extension(false);
-            if(extensions.contains(extension) > 0 && (members.contains(file.absFilePath()) == 0 || allowDuplicates)) {
-                members.append(file.absFilePath());
-                (void) createItem(file, sorted);
-            }
-        }
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -271,10 +263,6 @@ void Playlist::addImpl(const QString &item, bool sorted)
 
 void Playlist::setup()
 {
-    processed = 0;
-
-    extensions.append("mp3");
-
     addColumn(i18n("Track Name"));
     addColumn(i18n("Artist"));
     addColumn(i18n("Album"));
@@ -296,13 +284,9 @@ void Playlist::setup()
     addColumn(QString::null);
     setResizeMode(QListView::LastColumn);
     // setFullWidth(true);
-}
 
-void Playlist::processEvents()
-{
-    if(processed == 0)
-        qApp->processEvents();
-    processed = ( processed + 1 ) % 10;
+    setAcceptDrops(true);
+    allowDuplicates = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

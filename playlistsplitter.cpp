@@ -16,27 +16,48 @@
  ***************************************************************************/
 
 #include <kiconloader.h>
+#include <kapplication.h>
 #include <klocale.h>
 #include <kdebug.h>
 
 #include <qinputdialog.h>
 
 #include "playlistsplitter.h"
+#include "playlist.h"
+#include "collectionlist.h"
+#include "tageditor.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// helper functions
+////////////////////////////////////////////////////////////////////////////////
+
+void processEvents()
+{
+    static int processed = 0;
+    if(processed == 0)
+        kapp->processEvents();
+    processed = ( processed + 1 ) % 10;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// static public methods
+////////////////////////////////////////////////////////////////////////////////
+
+PlaylistSplitter *PlaylistSplitter::splitter = 0;
+
+PlaylistSplitter *PlaylistSplitter::instance()
+{
+    return(splitter);
+}
+
+void PlaylistSplitter::initialize(QWidget *parent)
+{
+    splitter = new PlaylistSplitter(parent);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
-
-PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) : QSplitter(Qt::Horizontal, parent, name)
-{
-    setupLayout();
-    readConfig();
-}
-
-PlaylistSplitter::~PlaylistSplitter()
-{
-
-}
 
 QString PlaylistSplitter::uniquePlaylistName()
 {
@@ -87,18 +108,29 @@ PlaylistItem *PlaylistSplitter::playlistFirstItem() const
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
+void PlaylistSplitter::open()
+{
+    QStringList files = KFileDialog::getOpenFileNames(QString::null, "*.mp3 *.m3u|Media Files");
+    open(files);
+}
+
+void PlaylistSplitter::openDirectory()
+{
+    open(KFileDialog::getExistingDirectory());
+}
+
 void PlaylistSplitter::open(const QStringList &files)
 {
     Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
     if(p)
-	p->add(files);
+	add(files, p);
 }
 
 void PlaylistSplitter::open(const QString &file)
 {
     Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
     if(p)
-	p->add(file);
+	add(file, p);
 }
 
 void PlaylistSplitter::save()
@@ -147,7 +179,7 @@ Playlist *PlaylistSplitter::createPlaylist()
 {
     bool ok;
 
-    // If this text is changed, please also change it in PlaylistBox::duplicateItem().
+    // If this text is changed, please also change it in PlaylistBox::duplicate().
 
     QString name = QInputDialog::getText(i18n("New Playlist..."), i18n("Please enter a name for the new playlist:"),
 					 QLineEdit::Normal, uniquePlaylistName(), &ok);
@@ -160,27 +192,84 @@ Playlist *PlaylistSplitter::createPlaylist()
 Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 {
     Playlist *p = new Playlist(playlistStack, name.latin1());
-    (void) new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
+    new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
     return(p);
 }
 
+void PlaylistSplitter::openPlaylist()
+{
+    QStringList files = KFileDialog::getOpenFileNames(QString::null, "*.m3u");
+
+    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
+	Playlist *p = openPlaylist(*it);
+}
+
+Playlist *PlaylistSplitter::openPlaylist(const QString &playlistFile)
+{
+    QFileInfo file(playlistFile);
+    if(!file.exists() || !file.isFile() || !file.isReadable())
+	return(0);
+	
+    QString name = file.baseName(true);
+    Playlist *p = new Playlist(playlistFile, playlistStack, name.latin1());
+    connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
+    connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
+    connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
+    new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
+    return(p);
+}
+
+void PlaylistSplitter::add(const QString &file, Playlist *list)
+{
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    addImpl(file, list);
+    KApplication::restoreOverrideCursor();
+    
+    if(editor)
+	editor->updateCollection();
+}
+
+void PlaylistSplitter::add(const QStringList &files, Playlist *list)
+{
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
+        addImpl(*it, list);
+    KApplication::restoreOverrideCursor();
+
+    if(editor)
+	editor->updateCollection();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// protected members
+////////////////////////////////////////////////////////////////////////////////
+
+PlaylistSplitter::PlaylistSplitter(QWidget *parent) : QSplitter(Qt::Horizontal, parent, "playlistSplitter")
+{
+    setupLayout();
+    readConfig();
+    mediaExtensions.append("mp3");
+    listExtensions.append("m3u");
+}
+
+PlaylistSplitter::~PlaylistSplitter()
+{
+
+}
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
 void PlaylistSplitter::setupLayout()
 {
-    setOpaqueResize();
-
     playlistBox = new PlaylistBox(this, "playlistBox");
 
     // Create a splitter to go between the playlists and the editor.
 
     QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this, "editorSplitter");
-    editorSplitter->setOpaqueResize();
 
     // Create the playlist and the editor.
 
@@ -221,6 +310,28 @@ void PlaylistSplitter::readConfig()
 
 }
 
+void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
+{
+    processEvents();
+    QFileInfo fileInfo(QDir::cleanDirPath(file));
+    if(fileInfo.exists()) {
+        if(fileInfo.isDir()) {
+            QDir dir(fileInfo.filePath());
+            QStringList dirContents=dir.entryList();
+            for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it)
+                if(*it != "." && *it != "..")
+                    addImpl(fileInfo.filePath() + QDir::separator() + *it, list);
+        }
+        else {
+            QString extension = fileInfo.extension(false);
+            if(mediaExtensions.contains(extension) > 0)
+		list->createItem(fileInfo);
+	    else if(listExtensions.contains(extension) > 0)
+		openPlaylist(fileInfo.absFilePath());
+        }
+    }    
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -230,6 +341,7 @@ void PlaylistSplitter::changePlaylist(PlaylistBoxItem *item)
     if(item && item->playlist()) {
 	playlistStack->raiseWidget(item->playlist());
 	editor->setItems(playlistSelection());
+	emit(playlistChanged(item->playlist()));
     }
 }
 

@@ -17,12 +17,20 @@
 		<Action name="view_redisplay"/>
 	</Menu>
 	<Menu name="player"><text>&amp;Player</text>
+		<Action name="randomPlay"/>
+		<Separator/>
 		<Action name="playFile"/>
 		<Action name="pauseFile"/>
 		<Action name="stopFile"/>
 	</Menu>
 	<Menu name="playlist"><text>Play&amp;list</text>
 		<Action name="createPlaylist"/>
+		<Action name="openPlaylist"/>
+		<Action name="savePlaylist"/>
+		<Action name="saveAsPlaylist"/>
+		<Action name="renamePlaylist"/>
+		<Action name="duplicatePlaylist"/>
+		<Action name="deleteItemPlaylist"/>
 	</Menu>
 </MenuBar>
 

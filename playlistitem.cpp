@@ -26,16 +26,6 @@
 // PlaylistItem public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) : QObject(parent), KListViewItem(parent)
-{
-    setup(item, parent);
-}
-
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after) : QObject(parent), KListViewItem(parent, after)
-{
-    setup(item, parent);
-}
-
 PlaylistItem::~PlaylistItem()
 {
     data->deleteUser();
@@ -86,6 +76,16 @@ void PlaylistItem::refreshFromDisk()
 // PlaylistItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) : QObject(parent), KListViewItem(parent)
+{
+    setup(item, parent);
+}
+
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after) : QObject(parent), KListViewItem(parent, after)
+{
+    setup(item, parent);
+}
+
 PlaylistItem::PlaylistItem(Playlist *parent) : QObject(parent), KListViewItem(parent)
 {
     setDragEnabled(true);
@@ -118,16 +118,6 @@ void PlaylistItem::refreshImpl()
 
     // if the text has changed and the artist registry of the Playlist doens't contain
     // this artist, add it to the mentioned registry
-
-    Playlist *fileList = static_cast<Playlist *>(listView());
-
-    if(text(ArtistColumn) != getTag()->getArtist() &&
-       fileList->getArtistList().contains(getTag()->getArtist()) == 0)
-        fileList->getArtistList().append(getTag()->getArtist());
-
-    if(text(AlbumColumn) != getTag()->getAlbum() &&
-       fileList->getAlbumList().contains(getTag()->getAlbum()) == 0)
-        fileList->getAlbumList().append(getTag()->getAlbum());
 
     if(Cache::instance()->item(absFilePath())) {
 
@@ -178,7 +168,12 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 {
     // reimplemented from QListViewItem
 
-    PlaylistItem *fileListItem = dynamic_cast<PlaylistItem *>(item);
+    // This is pretty ugly.  This needs to be a const method to match the
+    // signature from QListViewItem::compare(), but for our purposes, we need
+    // to be able to call non-const methods, so we're casting this to a 
+    // non-const pointer.  Yuck.
+
+    PlaylistItem *playlistItem = dynamic_cast<PlaylistItem *>(item);
     PlaylistItem *thisPlaylistItem = const_cast<PlaylistItem *>(this);
 
     // The following statments first check to see if you can sort based on the
@@ -186,16 +181,16 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
     // in that column it then trys to sort based on columns 1, 2, 3 and 0,
     // (artist, album, track number, track name) in that order.
 
-    if(fileListItem && thisPlaylistItem) {
-        if(compare(thisPlaylistItem, fileListItem, column, ascending) != 0)
-            return(compare(thisPlaylistItem, fileListItem, column, ascending));
+    if(playlistItem && thisPlaylistItem) {
+        if(compare(thisPlaylistItem, playlistItem, column, ascending) != 0)
+            return(compare(thisPlaylistItem, playlistItem, column, ascending));
         else {
             for(int i = ArtistColumn; i <= TrackNumberColumn; i++) {
-                if(compare(thisPlaylistItem, fileListItem, i, ascending) != 0)
-                    return(compare(thisPlaylistItem, fileListItem, i, ascending));
+                if(compare(thisPlaylistItem, playlistItem, i, ascending) != 0)
+                    return(compare(thisPlaylistItem, playlistItem, i, ascending));
             }
-            if(compare(thisPlaylistItem, fileListItem, TrackColumn, ascending) != 0)
-                return(compare(thisPlaylistItem, fileListItem, TrackColumn, ascending));
+            if(compare(thisPlaylistItem, playlistItem, TrackColumn, ascending) != 0)
+                return(compare(thisPlaylistItem, playlistItem, TrackColumn, ascending));
             return(0);
         }
     }

@@ -44,13 +44,11 @@ public:
     static CollectionList *instance();
     static void initialize(QWidget *parent);
 
-    virtual void add(const QString &item, bool sorted = true);
-    virtual void add(const QStringList &items, bool sorted = true);
+    QStringList artists() const;
+    QStringList albums() const;
 
     CollectionListItem *lookup(const QString &file);
-    /** The sorted parameter here is actually ignored.  All items inserted into
-	the collection will be sorted. */
-    virtual PlaylistItem *createItem(const QFileInfo &file, bool sorted = true);
+    virtual PlaylistItem *createItem(const QFileInfo &file);
     
 protected:
     CollectionList(QWidget *parent = 0);
@@ -59,23 +57,36 @@ protected:
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
 
-    virtual void addImpl(const QString &item);
-
+    // These methods are used by CollectionListItem, which is a friend class.
     void addToDict(const QString &file, CollectionListItem *item);
     void removeFromDict(const QString &file);
-
+    /** This checks to see if the artist given is in the artist list maintained
+	by the collection list (for use in autocompletion and the TagEditor 
+	combo boxes), and if it is not, it adds it to the list. */
+    void addArtist(const QString &artist);
+    /** This is similar to addArtist(), but is for album names. */
+    void addAlbum(const QString &album);
+    
 private:
     static CollectionList *list;
     QDict<CollectionListItem> itemsDict;
+    QStringList artistList;
+    QStringList albumList;
 };
 
 class CollectionListItem : public PlaylistItem
 {
+    friend class Playlist;
+    friend class CollectionList;
+    friend class PlaylistItem;
+
     Q_OBJECT
+
 public:
-    CollectionListItem(const QFileInfo &file);
     virtual ~CollectionListItem();
 
+protected:
+    CollectionListItem(const QFileInfo &file);
     void addChildItem(PlaylistItem *child);
 
 public slots:

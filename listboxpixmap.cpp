@@ -18,7 +18,11 @@
     Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 */
 
+#include <kdebug.h>
+
 #include <qdrawutil.h>
+#include <qstringlist.h>
+#include <qregexp.h>
 
 #include "listboxpixmap.h"
 
@@ -27,9 +31,11 @@ class ListBoxPixmap::ListBoxPixmapPrivate
 public:
     ListBoxPixmapPrivate() {
 	orientation = Qt::Horizontal;
+	lineCount = 1;
     }
 
     Qt::Orientation orientation;
+    int lineCount;
 };
 
 ListBoxPixmap::ListBoxPixmap(QListBox *listbox, const QPixmap &pixmap) 
@@ -76,7 +82,7 @@ ListBoxPixmap::~ListBoxPixmap()
 int ListBoxPixmap::width(const QListBox *listbox) const
 {
     if(d->orientation == Qt::Horizontal)
-	QListBoxPixmap::width(listbox);
+	return QListBoxPixmap::width(listbox);
 
     return listbox->viewport()->width();
 }
@@ -84,9 +90,9 @@ int ListBoxPixmap::width(const QListBox *listbox) const
 int ListBoxPixmap::height(const QListBox *listbox) const 
 {
     if(d->orientation == Qt::Horizontal)
-	QListBoxPixmap::height(listbox);
+	return QListBoxPixmap::height(listbox);
 
-    int min = listbox->fontMetrics().lineSpacing() + pixmap()->height() + 6;
+    int min = listbox->fontMetrics().lineSpacing() * d->lineCount + pixmap()->height() + 6;
     return min;
 }
 
@@ -103,11 +109,10 @@ void ListBoxPixmap::setOrientation(Qt::Orientation o)
 
 void ListBoxPixmap::paint(QPainter *painter)
 {
-    // Ripped out of Kaplan, which Danimo said was just ripped out of something 
-    // else.
-    
-    if(d->orientation == Qt::Horizontal) {
-	QListBoxPixmap::paint(painter);
+    // If we're using the default orientation, use the default paint method.
+
+    if( d->orientation == Qt::Horizontal ) {
+	QListBoxPixmap::paint( painter );
 	return;
     }
 
@@ -119,7 +124,7 @@ void ListBoxPixmap::paint(QPainter *painter)
     const QPixmap *pm = pixmap();
     
     if ( !pm->isNull() ) {
-	int x = (w - pm->width()) / 2;
+	int x = ( w - pm->width() ) / 2;
 	x = QMAX( x, margin );
 	painter->drawPixmap( x, y, *pm );
     }
@@ -127,9 +132,38 @@ void ListBoxPixmap::paint(QPainter *painter)
     if ( !text().isEmpty() ) {
 	QFontMetrics fm = painter->fontMetrics();
 	y += pm->height() + fm.height() - fm.descent();
-	int x = (w - fm.width( text() )) / 2;
-	x = QMAX( x, margin );
-	painter->drawText( x, y, text() );
+
+	QStringList lines;
+	QString line = text();
+
+	while( !line.isEmpty() ) {
+	    int textLength = line.length(); 
+	    while( textLength > 0 && 
+		   fm.width( line.mid( 0, textLength ).stripWhiteSpace() ) + margin * 2 > w &&
+		   fm.width( line.mid( 0, textLength ).stripWhiteSpace() ) + margin * 2 > pm->width() ) {
+		int i = line.findRev( QRegExp( "\\W" ), textLength - 1 );
+		if( i > 0 )
+		    textLength = i;
+		else
+		    textLength--;
+	    }
+	    
+	    lines.append( line.mid( 0, textLength ).stripWhiteSpace() );
+	    line = line.mid( textLength );
+	}
+	if( d->lineCount != lines.count() ) {
+	    d->lineCount = lines.count();
+	    listBox()->triggerUpdate( true );
+	}
+	
+	for( QStringList::Iterator it = lines.begin(); it != lines.end(); ++it ) {
+	    int x = (w - fm.width( *it )) / 2;
+	    x = QMAX( x, margin );
+	    painter->drawText( x, y, *it );
+	    y += fm.height() - fm.descent();
+	}
+
+
     }
     // draw sunken
     if ( isCurrent() || isSelected() ) {

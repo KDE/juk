@@ -24,7 +24,9 @@
 #include <qwidgetstack.h>
 
 #include "listboxpixmap.h"
-#include "playlist.h"
+
+class Playlist;
+class PlaylistItem;
 
 class PlaylistBoxItem;
 class PlaylistSplitter;
@@ -42,6 +44,19 @@ public:
     virtual ~PlaylistBox();
 
     QStringList names() const;
+
+public slots:
+    void save();
+    void save(PlaylistBoxItem *item);
+    void saveAs();
+    void saveAs(PlaylistBoxItem *item);
+    void rename();
+    void rename(PlaylistBoxItem *item);
+    void duplicate();
+    void duplicate(PlaylistBoxItem *item);
+    void deleteItem();
+    void deleteItem(PlaylistBoxItem *item);
+    
 
 private:
     virtual void resizeEvent(QResizeEvent *e);
@@ -67,7 +82,7 @@ private slots:
     void contextSave();
     void contextSaveAs();
     void contextRename();
-    void contextDuplicateItem();
+    void contextDuplicate();
     void contextDeleteItem();
     
 

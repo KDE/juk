@@ -24,7 +24,6 @@
 #include <keditcl.h>
 
 #include "tag.h"
-#include "playlist.h"
 #include "playlistitem.h"
 #include "collectionlist.h"
 #include "genrelist.h"

@@ -27,17 +27,14 @@
 class Playlist : public KListView
 {
     Q_OBJECT
+
 public:
     Playlist(QWidget *parent = 0, const char *name = 0);
+    Playlist(const QFileInfo &playlistFile, QWidget *parent = 0, const char *name = 0);
     virtual ~Playlist();
 
     virtual void save();
     virtual void saveAs();
-
-    /** Set sorted = false to add the items at the end of the list rather
-	than adding them into the list in their sorted place. */
-    virtual void add(const QString &item, bool sorted = true);
-    virtual void add(const QStringList &items, bool sorted = true);
 
     virtual void refresh();
 
@@ -55,34 +52,23 @@ public:
     /** Allow duplicate files in the playlist. */
     void setAllowDuplicates(bool allow);
 
-    // These are used in a hard-core, encapsulation breaking way and should be
-    // replaced soon (see PlaylistItem).  Unfortunately they're more efficient
-    // than elegant solutions.  These also should be removed by doing the
-    // checking that is currently done in PlaylistItem in the CollectionList
-    // subclass of Playlist.
+    /** This gets the next item to be played in the playlist. */
+    static PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
 
-    QStringList &getArtistList();
-    QStringList &getAlbumList();
+    /** This is being used as a mini-factory of sorts to make the construction
+	of PlaylistItems virtual. */
+    virtual PlaylistItem *createItem(const QFileInfo &file);
 
 protected:
     virtual QDragObject *dragObject();
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-    /** This is being used as a mini-factory of sorts to make the construction
-	of PlaylistItems virtual. */
-    virtual PlaylistItem *createItem(const QFileInfo &file, bool sorted = true);
-    virtual void addImpl(const QString &item, bool sorted = true);
 
 private:
     void setup();
-    void processEvents();
 
-    QStringList extensions;
     QStringList members;
-    QStringList artistList;
-    QStringList albumList;
     int processed;
-    bool collectionListChanged;
     bool allowDuplicates;
 
 private slots:

@@ -35,16 +35,18 @@ typedef QPtrList<PlaylistItem> PlaylistItemList;
 
 class PlaylistItem : public QObject, public KListViewItem 
 {
+    friend class Playlist;
+
     Q_OBJECT
 public:
     enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3,
                       GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
 
-    PlaylistItem(CollectionListItem *item, Playlist *parent);
-    PlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after);
+    // The constructors are in the protected secion.  See the note there.
+
     virtual ~PlaylistItem();
 
-    // these can't be const members because they fetch the data "on demand"
+    // These can't be const members because they fetch the data "on demand".
 
     Tag *getTag();
     AudioData *getAudioData();
@@ -64,6 +66,10 @@ public slots:
     virtual void refreshFromDisk();
 
 protected:
+    /** Items should always be created using Playlist::createItem() or through a
+	subclss or friend class. */
+    PlaylistItem(CollectionListItem *item, Playlist *parent);
+    PlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after);
     PlaylistItem(Playlist *parent);
 
     class Data;
@@ -78,7 +84,7 @@ signals:
 
 private:
     void setup(CollectionListItem *item, Playlist *parent);
-    int compare(QListViewItem *item, int column, bool ascending) const;
+    virtual int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(PlaylistItem *firstItem, PlaylistItem *secondItem, int column, bool ascending) const;
 
     Data *data;

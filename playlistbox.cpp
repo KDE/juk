@@ -23,6 +23,7 @@
 #include <qdrawutil.h>
 #include <qinputdialog.h>
 
+#include "playlist.h"
 #include "playlistbox.h"
 #include "collectionlist.h"
 #include "playlistsplitter.h"
@@ -36,13 +37,13 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
     splitter = parent;
 
     collectionContextMenu = new KPopupMenu();
-    collectionContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicateItem()));
+    collectionContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicate()));
 
     playlistContextMenu = new KPopupMenu();
     playlistContextMenu->insertItem(SmallIcon("filesave"), i18n("Save"), this, SLOT(contextSave()));
     playlistContextMenu->insertItem(SmallIcon("filesaveas"), i18n("Save As..."), this, SLOT(contextSaveAs()));
     playlistContextMenu->insertItem(i18n("Rename..."), this, SLOT(contextRename()));
-    playlistContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicateItem()));
+    playlistContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicate()));
     playlistContextMenu->insertItem(SmallIcon("editdelete"), i18n("Delete"), this, SLOT(contextDeleteItem()));
 
     setAcceptDrops(true);
@@ -62,6 +63,88 @@ QStringList PlaylistBox::names() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// PlaylistBox public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void PlaylistBox::save()
+{
+    save(static_cast<PlaylistBoxItem *>(selectedItem()));
+}
+
+void PlaylistBox::save(PlaylistBoxItem *item)
+{
+    if(item)
+	item->playlist()->save();    
+}
+
+void PlaylistBox::saveAs()
+{
+    saveAs(static_cast<PlaylistBoxItem *>(selectedItem()));
+}
+
+void PlaylistBox::saveAs(PlaylistBoxItem *item)
+{
+    if(item)
+        item->playlist()->saveAs();
+}
+
+void PlaylistBox::rename()
+{
+    rename(static_cast<PlaylistBoxItem *>(selectedItem()));
+}
+
+void PlaylistBox::rename(PlaylistBoxItem *item)
+{
+    if(item) {
+	bool ok;
+
+	QString name = QInputDialog::getText(i18n("Rename..."), i18n("Please enter a name for this playlist:"),
+					     QLineEdit::Normal, item->text(), &ok);
+	if(ok) {
+	    nameList.remove(item->text());
+	    nameList.append(name);
+	    item->setText(name);
+	    updateItem(item);
+	}
+    }
+}
+
+void PlaylistBox::duplicate()
+{
+    duplicate(static_cast<PlaylistBoxItem *>(selectedItem()));
+}
+
+void PlaylistBox::duplicate(PlaylistBoxItem *item)
+{
+    if(item) {
+	bool ok;
+
+	// If this text is changed, please also change it in PlaylistSplitter::createPlaylist().
+
+	QString name = QInputDialog::getText(i18n("New Playlist..."), i18n("Please enter a name for the new playlist:"),
+					     QLineEdit::Normal, splitter->uniquePlaylistName(item->text(), true), &ok);
+	if(ok) {
+	    Playlist *p = splitter->createPlaylist(name);
+	    splitter->add(item->playlist()->files(), p);
+	}
+    }
+}
+
+void PlaylistBox::deleteItem()
+{
+    deleteItem(static_cast<PlaylistBoxItem *>(selectedItem()));
+}
+
+void PlaylistBox::deleteItem(PlaylistBoxItem *item)
+{
+    if(item) {
+	nameList.remove(item->text());
+	delete(item->playlist());
+	delete(item);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox private methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -69,8 +152,9 @@ void PlaylistBox::resizeEvent(QResizeEvent *e)
 {
     // hack-ish, but functional 
 
-    for(int i = 0; i <= count(); i++)
-	updateItem(i);
+//    for(int i = 0; i <= count(); i++)
+//	updateItem(i);
+    triggerUpdate(true);
 
     KListBox::resizeEvent(e);
 }
@@ -89,7 +173,7 @@ void PlaylistBox::dropEvent(QDropEvent *e)
 	PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(itemAt(e->pos()));
 
 	if(i && i->playlist())
-	    i->playlist()->add(files);
+	    splitter->add(files, i->playlist());
     }
 }
 
@@ -171,56 +255,28 @@ void PlaylistBox::drawContextMenu(QListBoxItem *item, const QPoint &point)
 
 void PlaylistBox::contextSave()
 {
-    if(contextMenuOn)
-	contextMenuOn->playlist()->save();
+    save(contextMenuOn);
 }
 
 void PlaylistBox::contextSaveAs()
 {
-    if(contextMenuOn)
-	contextMenuOn->playlist()->saveAs();
+    saveAs(contextMenuOn);
 }
 
 void PlaylistBox::contextRename()
 {
-    if(contextMenuOn) {
-	bool ok;
-
-	QString name = QInputDialog::getText(i18n("Rename..."), i18n("Please enter a name for this playlist:"),
-					     QLineEdit::Normal, contextMenuOn->text(), &ok);
-	if(ok) {
-	    nameList.remove(contextMenuOn->text());
-	    nameList.append(name);
-	    contextMenuOn->setText(name);
-	    updateItem(contextMenuOn);
-	}
-    }
+    rename(contextMenuOn);
 }
 
-void PlaylistBox::contextDuplicateItem()
+void PlaylistBox::contextDuplicate()
 {
-    if(contextMenuOn) {
-	bool ok;
-
-	// If this text is changed, please also change it in PlaylistSplitter::createPlaylist().
-
-	QString name = QInputDialog::getText(i18n("New Playlist..."), i18n("Please enter a name for the new playlist:"),
-					     QLineEdit::Normal, splitter->uniquePlaylistName(contextMenuOn->text(), true), &ok);
-	if(ok) {
-	    Playlist *p = splitter->createPlaylist(name);
-	    p->add(contextMenuOn->playlist()->files());
-	}
-    }
+    duplicate(contextMenuOn);
 }
 
 void PlaylistBox::contextDeleteItem()
 {
-    if(contextMenuOn) {
-	nameList.remove(contextMenuOn->text());
-	delete(contextMenuOn->playlist());
-	delete(contextMenuOn);
-	contextMenuOn = 0;
-    }
+    deleteItem(contextMenuOn);
+    contextMenuOn = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

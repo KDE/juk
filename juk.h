@@ -28,10 +28,15 @@
 #include <kmainwindow.h>
 
 #include <qtimer.h>
+#include <qlistview.h>
 
 #include "slideraction.h"
 #include "player.h"
-#include "playlistsplitter.h"
+
+class Playlist;
+class PlaylistSplitter;
+class PlaylistItem;
+
 
 class JuK : public KMainWindow
 {
@@ -42,8 +47,8 @@ public:
 
 private:
     // private methods
-    void setupActions();
     void setupLayout();
+    void setupActions();
     void setupPlayer();
     void processArgs();
     void readConfig();
@@ -55,9 +60,15 @@ private:
     // actions
     KToggleAction *showEditorAction;
     SliderAction *sliderAction;
+    KToggleAction *randomPlayAction;
     KAction *playAction;
     KAction *pauseAction;
     KAction *stopAction;
+
+    KAction *savePlaylistAction;
+    KAction *saveAsPlaylistAction;
+    KAction *renamePlaylistAction;
+    KAction *deleteItemPlaylistAction;
 
     QTimer *playTimer;
     Player player;
@@ -68,10 +79,9 @@ private:
     const static int pollInterval = 800;
 
 private slots:
+    void playlistChanged(Playlist *list);
+
     // file menu
-    void openFile();
-    void openDirectory();
-    void saveFile();
     void remove();
     void quit();
 
@@ -79,7 +89,6 @@ private slots:
     void cut();
     void copy() {};
     void paste() {};
-    void selectAll(bool select = true);
 
     // player menu
     void playFile();
@@ -94,8 +103,6 @@ private slots:
     void setVolume(int volume);
     void playItem(QListViewItem *item);
     void playItem(PlaylistItem *item);
-    void playTaggerItem(QListViewItem *item);
-    void playTaggerItem(PlaylistItem *item);
 };
 
 #endif

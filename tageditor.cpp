@@ -274,7 +274,7 @@ void TagEditor::updateCollection()
 	// silly to build and maintain unsorted lists and have to call sort 
 	// every time that you want to verify that a list is sorted.	
 
-	QStringList artistList = list->getArtistList();
+	QStringList artistList = list->artists();
 	artistList.sort();
 
         artistNameBox->listBox()->insertStringList(artistList);
@@ -284,7 +284,7 @@ void TagEditor::updateCollection()
     if(albumNameBox->listBox()) {
         albumNameBox->listBox()->clear();
 
-	QStringList albumList = list->getAlbumList();
+	QStringList albumList = list->albums();
 	albumList.sort();
 
         albumNameBox->listBox()->insertStringList(albumList);

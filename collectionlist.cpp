@@ -20,6 +20,7 @@
 #include <kdebug.h>
 
 #include "collectionlist.h"
+#include "playlistsplitter.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
@@ -41,16 +42,14 @@ void CollectionList::initialize(QWidget *parent)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void CollectionList::add(const QString &item, bool sorted)
+QStringList CollectionList::artists() const
 {
-    Playlist::add(item);
-    emit(collectionChanged());
+    return(artistList);
 }
 
-void CollectionList::add(const QStringList &items, bool sorted)
+QStringList CollectionList::albums() const
 {
-    Playlist::add(items);
-    emit(collectionChanged());
+    return(albumList);
 }
 
 CollectionListItem *CollectionList::lookup(const QString &file)
@@ -58,21 +57,12 @@ CollectionListItem *CollectionList::lookup(const QString &file)
     return(itemsDict.find(file));
 }
 
-PlaylistItem *CollectionList::createItem(const QFileInfo &file, bool sorted)
+PlaylistItem *CollectionList::createItem(const QFileInfo &file)
 {
-    PlaylistItem *item = new CollectionListItem(file);
-}
+    if(itemsDict.find(file.absFilePath()))
+	return(0);
 
-////////////////////////////////////////////////////////////////////////////////
-// public slots
-////////////////////////////////////////////////////////////////////////////////
-
-void CollectionListItem::refresh()
-{
-    refreshImpl();
-    
-    // This is connected to refreshImpl() for all of the items children.
-    emit(refreshed());
+    return(new CollectionListItem(file));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +91,8 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 		files.append((*it).path());
 	    
-	    add(files);
+	    if(PlaylistSplitter::instance())
+		PlaylistSplitter::instance()->add(files, this);
 	}
     }
 }
@@ -114,12 +105,6 @@ void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
-void CollectionList::addImpl(const QString &item)
-{
-    if(!lookup(item))
-	Playlist::addImpl(item);
-}
-
 void CollectionList::addToDict(const QString &file, CollectionListItem *item)
 {
     itemsDict.replace(file, item);
@@ -128,6 +113,18 @@ void CollectionList::addToDict(const QString &file, CollectionListItem *item)
 void CollectionList::removeFromDict(const QString &file)
 {
     itemsDict.remove(file);
+}
+
+void CollectionList::addArtist(const QString &artist)
+{
+    if(artistList.contains(artist) == 0)
+	artistList.append(artist);
+}
+
+void CollectionList::addAlbum(const QString &album)
+{
+    if(albumList.contains(album) == 0)
+	albumList.append(album);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -159,6 +156,22 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
 {
     connect(child, SIGNAL(refreshed()), this, SLOT(refresh()));
     connect(this, SIGNAL(refreshed()), child, SLOT(refreshImpl()));   
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// CollectionListItem public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void CollectionListItem::refresh()
+{
+    refreshImpl();
+    
+    if(CollectionList::instance()) {
+	CollectionList::instance()->addArtist(text(ArtistColumn));
+	CollectionList::instance()->addAlbum(text(AlbumColumn));	
+    }
+    // This is connected to refreshImpl() for all of the items children.
+    emit(refreshed());
 }
 
 #include "collectionlist.moc"

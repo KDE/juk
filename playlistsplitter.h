@@ -18,25 +18,31 @@
 #ifndef PLAYLISTSPLITTER_H
 #define PLAYLISTSPLITTER_H
 
+#include <kfiledialog.h>
 #include <klocale.h>
 
 #include <qsplitter.h>
 #include <qwidgetstack.h>
 
-#include "playlist.h"
+#include "playlistitem.h"
 #include "playlistbox.h"
-#include "collectionlist.h"
-#include "tageditor.h"
+
+class Playlist;
+class PlaylistBoxItem;
+class CollectionList;
+class TagEditor;
 
 /** This is the main layout class of JuK.  It should contain a PlaylistBox and
-    a QWidgetStack of the Playlists. */
+    a QWidgetStack of the Playlists.  This like CollectionList, has been 
+    implemented as a pseudo-singleton to provide global access without passing
+    pointers all over the place. */
 
 class PlaylistSplitter : public QSplitter
 {
     Q_OBJECT
 public:
-    PlaylistSplitter(QWidget *parent = 0, const char *name = 0);
-    virtual ~PlaylistSplitter();
+    static PlaylistSplitter *instance();
+    static void initialize(QWidget *parent = 0);
 
     /** Returns a unique string to be used as new playlist names. */
     QString uniquePlaylistName();
@@ -45,6 +51,8 @@ public:
     PlaylistItem *playlistFirstItem() const;
 
 public slots:
+    void open();
+    void openDirectory();
     void open(const QStringList &files);
     void open(const QString &file);
     void save();
@@ -59,16 +67,38 @@ public slots:
 
     Playlist *createPlaylist();
     Playlist *createPlaylist(const QString &name);
+    void openPlaylist();
+    Playlist *openPlaylist(const QString &playlistFile);
+
+    void add(const QString &file, Playlist *list);
+    void add(const QStringList &files, Playlist *list);
+
+    // PlaylistBox forwarding methods
+    void savePlaylist() { playlistBox->save(); }
+    void saveAsPlaylist() { playlistBox->saveAs(); }
+    void renamePlaylist() { playlistBox->rename(); }
+    void duplicatePlaylist() { playlistBox->duplicate(); }
+    void deleteItemPlaylist() { playlistBox->deleteItem(); }
+
+protected:
+    PlaylistSplitter(QWidget *parent = 0);
+    virtual ~PlaylistSplitter();
 
 private:
     void setupLayout();
     void readConfig();
+    void addImpl(const QString &file, Playlist *list);
+
+    static PlaylistSplitter *splitter;
 
     PlaylistBox *playlistBox;
     QWidgetStack *playlistStack;
     TagEditor *editor;
 
     CollectionList *collection;
+
+    QStringList mediaExtensions;
+    QStringList listExtensions;
 
     bool showEditor;
 
@@ -78,6 +108,7 @@ private slots:
 
 signals:
     void playlistDoubleClicked(QListViewItem *);
+    void playlistChanged(Playlist *);
 };
 
 #endif
