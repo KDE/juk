@@ -114,6 +114,11 @@ if test "$PKGCONFIGFOUND" = "yes" ; then
 	dnl And we can also ask for the right version of gstreamer
 	have_gst=no
 
+# pkg-config seems to have a bug where it masks needed -L entries when it
+# shouldn't, so disable that.
+	PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+	export PKG_CONFIG_ALLOW_SYSTEM_LIBS
+
 	dnl start with 0.8
 	GST_MAJORMINOR=0.8
 	GST_REQ=0.8.0
@@ -134,6 +139,12 @@ if test "$PKGCONFIGFOUND" = "yes" ; then
 		CFLAGS_GST=$GST_CFLAGS
 		LDADD_GST=`$PKG_CONFIG --libs-only-l gstreamer-$GST_MAJORMINOR`
 		LDFLAGS_GST=`$PKG_CONFIG --libs-only-other gstreamer-$GST_MAJORMINOR`
+
+		# Append -L entries, since they are masked by --libs-only-l and
+		# --libs-only-other
+		LIBDIRS_GST=`$PKG_CONFIG --libs-only-L gstreamer-$GST_MAJORMINOR`
+		[ -n "$LIBDIRS_GST" ] && LDFLAGS_GST="$LDFLAGS_GST $LIBDIRS_GST"
+
 		AC_SUBST(CFLAGS_GST)
 		AC_SUBST(LDADD_GST)
 		AC_SUBST(LDFLAGS_GST)
