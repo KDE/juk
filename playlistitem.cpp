@@ -14,11 +14,13 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <kaction.h>
 
 #include "playlistitem.h"
 #include "collectionlist.h"
 #include "musicbrainzquery.h"
 #include "tag.h"
+#include "actioncollection.h"
 
 static void startMusicBrainzQuery(const FileHandle &file)
 {
@@ -35,6 +37,14 @@ static void startMusicBrainzQuery(const FileHandle &file)
 
 PlaylistItem::~PlaylistItem()
 {
+    // Although this isn't the most efficient way to accomplish the task of
+    // stopping playback when deleting the item being played, it has the
+    // stark advantage of working reliably.  I'll tell anyone who tries to
+    // optimize this, the timing issues can be *hard*. -- mpyne
+
+    if(playlist()->playingItem() == this)
+	playlist()->setPlaying(0);
+
     m_collectionItem->removeChildItem(this);
 }
 
@@ -55,7 +65,7 @@ QString PlaylistItem::text(int column) const
     if(!d->fileHandle.tag())
 	return QString::null;
 
-    int offset = static_cast<Playlist *>(listView())->columnOffset();
+    int offset = playlist()->columnOffset();
 
     switch(column - offset) {
     case TrackColumn:
@@ -92,7 +102,7 @@ QString PlaylistItem::text(int column) const
 
 void PlaylistItem::setText(int column, const QString &text)
 {
-    int offset = static_cast<Playlist *>(listView())->columnOffset();
+    int offset = playlist()->columnOffset();
     if(column - offset >= 0 && column + offset <= lastColumn()) {
 	KListViewItem::setText(column, QString::null);
 	return;
@@ -104,7 +114,7 @@ void PlaylistItem::setText(int column, const QString &text)
 
 void PlaylistItem::setSelected(bool selected)
 {
-    static_cast<Playlist *>(listView())->markItemSelected(this, selected);
+    playlist()->markItemSelected(this, selected);
     KListViewItem::setSelected(selected);
 }
 
@@ -160,7 +170,7 @@ void PlaylistItem::refreshFromDisk()
 
 void PlaylistItem::clear()
 {
-    static_cast<Playlist *>(listView())->clearItem(this);
+    playlist()->clearItem(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -219,7 +229,7 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 {
     // reimplemented from QListViewItem
 
-    int offset = static_cast<Playlist *>(listView())->columnOffset();
+    int offset = playlist()->columnOffset();
 
     if(!item)
 	return 0;
@@ -239,11 +249,10 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 	// Loop through the columns doing comparisons until something is differnt.
 	// If all else is the same, compare the track name.
 
-	Playlist *p = static_cast<Playlist *>(listView());
-	int last = p->isColumnVisible(AlbumColumn + offset) ? TrackNumberColumn : ArtistColumn;
+	int last = playlist()->isColumnVisible(AlbumColumn + offset) ? TrackNumberColumn : ArtistColumn;
 
 	for(int i = ArtistColumn; i <= last; i++) {
-	    if(p->isColumnVisible(i + offset)) {
+	    if(playlist()->isColumnVisible(i + offset)) {
 		c = compare(this, playlistItem, i, ascending);
 		if(c != 0)
 		    return c;
@@ -255,7 +264,7 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 
 int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool) const
 {
-    int offset = static_cast<Playlist *>(listView())->columnOffset();
+    int offset = playlist()->columnOffset();
 
     if(column < 0 || column > lastColumn() + offset)
 	return 0;

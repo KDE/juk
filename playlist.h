@@ -110,6 +110,14 @@ public:
     virtual void clearItems(const PlaylistItemList &items);
 
     /**
+     * Accessor function to return a pointer to the currently playing file.
+     *
+     * @return 0 if no file is playing, otherwise a pointer to the PlaylistItem
+     *     of the track that is currently playing.
+     */
+    PlaylistItem *playingItem() const { return m_playingItem; }
+
+    /**
      * All of the (media) files in the list.
      */
     QStringList files();
