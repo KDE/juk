@@ -735,6 +735,14 @@ void PlaylistSplitter::slotPlaylistItemRemoved(PlaylistItem *item)
 	m_nextPlaylistItem = 0;
 }
 
+void PlaylistSplitter::slotCreatePlaylist(const QStringList &files)
+{
+    Playlist *p = slotCreatePlaylist();
+    if(p)
+	slotAddToPlaylist(files, p);
+}
+
+
 void PlaylistSplitter::slotCreatePlaylist(const PlaylistItemList &items)
 {
     if(items.isEmpty())

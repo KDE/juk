@@ -354,7 +354,7 @@ private slots:
     /**
      * Create a playlist that contains the specified files.
      */
-    void slotCreatePlaylist(const QStringList &files) { slotAddToPlaylist(files, slotCreatePlaylist()); }
+    void slotCreatePlaylist(const QStringList &files);
 
     /**
      * This slot creates a playlist that contains the listed items.  It is
