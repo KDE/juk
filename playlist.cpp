@@ -594,7 +594,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 		    emit signalAboutToRemove(*it);
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
                         m_randomList.remove(*it);
-		    delete *it;
+		    CollectionList::instance()->clearItem((*it)->collectionItem());
 		}
 		else
 		    KMessageBox::sorry(this, i18n("Could not delete ") + (*it)->fileName() + ".");
