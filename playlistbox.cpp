@@ -42,7 +42,8 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     m_splitter(parent),
     m_updatePlaylistStack(true),
     m_viewModeIndex(0),
-    m_hasSelection(false)
+    m_hasSelection(false),
+    m_mousePressed(false)
 {
     readConfig();
     addColumn("Playlists", width());
@@ -193,26 +194,6 @@ void PlaylistBox::paste()
 {
     Item *i = static_cast<Item *>(currentItem());
     decode(kapp->clipboard()->data(), i);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistBox protected methods
-////////////////////////////////////////////////////////////////////////////////
-
-void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *)
-{
-    if(!m_hasSelection || !m_updatePlaylistStack)
-	return;
-
-    const ItemList items = selectedItems();
-
-    PlaylistList playlists;
-    for(ItemList::ConstIterator i = items.begin(); i != items.end(); ++i) {
-	if((*i)->playlist())
-	    playlists.append((*i)->playlist());
-    }
-
-    emit signalCurrentChanged(playlists);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -451,6 +432,19 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
     }
 }
 
+void PlaylistBox::contentsMousePressEvent(QMouseEvent *e)
+{
+    m_mousePressed = true;
+    KListView::contentsMousePressEvent(e);
+}
+
+void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
+{
+    m_mousePressed = false;
+    slotPlaylistChanged();
+    KListView::contentsMouseReleaseEvent(e);
+}
+
 PlaylistBox::ItemList PlaylistBox::selectedItems()
 {
     ItemList l;
@@ -476,7 +470,24 @@ void PlaylistBox::setSingleItem(QListViewItem *item)
 
 void PlaylistBox::slotPlaylistChanged()
 {
-    m_hasSelection = !selectedItems().isEmpty();
+    // Don't update while the mouse is pressed down.
+
+    if(m_mousePressed)
+	return;
+
+    ItemList items = selectedItems();
+    m_hasSelection = !items.isEmpty();
+
+    if(!m_updatePlaylistStack)
+	return;
+
+    PlaylistList playlists;
+    for(ItemList::ConstIterator i = items.begin(); i != items.end(); ++i) {
+	if((*i)->playlist())
+	    playlists.append((*i)->playlist());
+    }
+
+    emit signalCurrentChanged(playlists);
 }
 
 void PlaylistBox::slotDoubleClicked(QListViewItem *)

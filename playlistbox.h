@@ -96,9 +96,6 @@ signals:
 				const QString &name);
     void signalCollectionInitialized();
 
-protected:
-    virtual void contentsMouseReleaseEvent(QMouseEvent *e);
-
 private:
     void readConfig();
     void saveConfig();
@@ -112,6 +109,9 @@ private:
     virtual void decode(QMimeSource *s, Item *item);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+    virtual void contentsMousePressEvent(QMouseEvent *e);
+    virtual void contentsMouseReleaseEvent(QMouseEvent *e);
+
     /** 
      * This is used by PlaylistItemBox (a friend class) to add names to the name
      * list returned by names(). 
@@ -126,6 +126,10 @@ private:
     void setupItem(Item *item, Playlist *playlist);
 
 private slots:
+    /** 
+     * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
+     * the signal as currentChanged(Item *). 
+     */
     void slotPlaylistChanged();
     void slotDoubleClicked(QListViewItem *);
     void slotShowContextMenu(QListViewItem *, const QPoint &point, int);
@@ -141,6 +145,7 @@ private:
     QValueList<ViewMode *> m_viewModes;
     KSelectAction *m_viewModeAction;
     bool m_hasSelection;
+    bool m_mousePressed;
 };
 
 
