@@ -31,21 +31,21 @@
 
 Tag *Tag::createTag(const QString &file, bool ignoreCache)
 {
-    Tag *cachedItem;
+    Tag *cachedItem = 0;
 
     if(!ignoreCache)
-	cachedItem = Cache::instance()->find(file);
-    else
-	cachedItem = 0;
+        cachedItem = Cache::instance()->find(file);
 
     if(cachedItem)
-	return cachedItem;
-    else if(file.lower().endsWith("mp3"))
-	return new ID3Tag(file);
+        return cachedItem;
+
+    if(file.lower().endsWith("mp3"))
+        return new ID3Tag(file);
+
     if(file.lower().endsWith("ogg"))
-	return new OggTag(file);
-    else
-	return 0;
+        return new OggTag(file);
+
+    return 0;
 }
 
 Tag::~Tag()
