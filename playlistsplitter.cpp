@@ -19,6 +19,8 @@
 #include <kmessagebox.h>
 #include <kinputdialog.h>
 #include <kcmdlineargs.h>
+#include <kmainwindow.h>
+#include <kactioncollection.h>
 #include <kdebug.h>
 
 #include <qpopupmenu.h>
@@ -170,8 +172,17 @@ QString PlaylistSplitter::nextFile()
         m_nextPlaylistItem = 0;
     }
     else if(m_playingItem) {
-        i = m_playingItem->playlist()->nextItem(m_playingItem);
-	// TODO: check to see if we're in loop / random mode
+
+	KMainWindow *w = dynamic_cast<KMainWindow *>(kapp->mainWidget());
+	KAction *randomAction = w ? w->actionCollection()->action("randomPlay") : 0;
+	KAction *loopAction = w ? w->actionCollection()->action("loopPlaylist") : 0;
+	bool random = w && randomAction && static_cast<KToggleAction *>(randomAction)->isChecked();
+	bool loop = w && loopAction && static_cast<KToggleAction *>(loopAction)->isChecked();
+
+        i = m_playingItem->playlist()->nextItem(m_playingItem, random);
+
+	if(!i && loop)
+	    i = m_playingItem->playlist()->visibleItems().front();
     }
 
     return play(i);

@@ -583,7 +583,7 @@ void JuK::readConfig()
 void JuK::saveConfig()
 {
     KConfig *config = KGlobal::config();
-    { // m_player settings
+    { // player settings
         KConfigGroupSaver saver(config, "Player");
         if(m_sliderAction && m_sliderAction->volumeSlider())
             config->writeEntry("Volume", m_sliderAction->volumeSlider()->value());
