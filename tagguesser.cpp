@@ -91,7 +91,7 @@ QString FileNameScheme::comment() const
 
 QString FileNameScheme::composeRegExp(const QString &s) const
 {
-    KConfig *cfg;
+    KConfig *cfg = kapp->config();
     cfg->setGroup("Tag guesser");
 
     QMap<QChar, QString> substitutions;
