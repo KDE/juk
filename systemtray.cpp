@@ -264,7 +264,6 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
     QImage fgImage = fgPix.convertToImage(); // Should be 16x16
 
     KIconEffect::semiTransparent(bgImage);
-    KIconEffect::semiTransparent(bgImage);
     copyImage(bgImage, fgImage, (bgImage.width() - fgImage.width()) / 2,
               (bgImage.height() - fgImage.height()) / 2);
 
