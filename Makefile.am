@@ -21,12 +21,10 @@ INCLUDES= $(all_includes) -I$(arts_includes)
 ##################################################
 if link_lib_GST
 gstlibs = -lkdegst -lkdegstplay
-else
-gstlibs =
 endif
 ##################################################
 
-juk_LDADD = $(gstlibs) -lid3 -lsoundserver_idl $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_KFILE) $(LIB_QT)
+juk_LDADD = $(gstlibs) -lid3 -lsoundserver_idl $(LIB_KIO)
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 tagguessertest_LDADD = $(LIB_KDECORE)
