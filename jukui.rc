@@ -91,4 +91,5 @@
 	<Action name="back"/>
 	<Action name="forward"/>
 	<Action name="trackPositionAction"/>
+</ToolBar>
 </kpartgui>
