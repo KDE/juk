@@ -273,6 +273,11 @@ signals:
     void signalSelectedPlaylistCountChanged(int);
 
 private:
+
+    enum PlaylistType { Normal = 0, Search = 1, History = 2 };
+    static const int playlistCacheVersion = 1;
+
+
     /**
      * Returns a PlaylistItemList of the selected PlaylistItems in the top playlist in
      * the QWidgetStack of playlists.

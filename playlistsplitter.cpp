@@ -424,7 +424,7 @@ void PlaylistSplitter::slotAdvancedSearch()
     delete d;
 
     if(r.result == AdvancedSearchDialog::Accepted) {
-	SearchPlaylist *p = new SearchPlaylist(r.search, m_playlistStack, r.playlistName);
+	SearchPlaylist *p = new SearchPlaylist(m_playlistStack, r.search, r.playlistName);
 	setupPlaylist(p, true, "find");
     }
 }
@@ -681,22 +681,82 @@ void PlaylistSplitter::readPlaylists()
     if(!f.open(IO_ReadOnly))
 	return;
 
-    QByteArray data = f.readAll();
-    f.close();
+    QDataStream fs(&f);
 
-    QDataStream s(data, IO_ReadOnly);
+    Q_INT32 version;
+    fs >> version;
 
-    while(!s.atEnd()) {
-	Playlist *p = new Playlist(m_playlistStack);
-	s >> *p;
+    switch(version) {
+    case 1:
+    {
+	// Our checksum is only for the values after the version and checksum so
+	// we want to get a byte array with just the checksummed data.
 
-	// check to see if we've alredy loaded this item before continuing
+	QByteArray data;
+	Q_UINT16 checksum;
+	fs >> checksum >> data;
 
-	if(p->fileName().isEmpty() || !m_playlistFiles.insert(p->fileName()))
-	    setupPlaylist(p);
-	else
-	    delete p;
+	if(checksum != qChecksum(data.data(), data.size()))
+	    return;
+
+	// Create a new stream just based on the data.
+
+	QDataStream s(data, IO_ReadOnly);
+
+	while(!s.atEnd()) {
+
+	    Q_INT32 playlistType;
+	    s >> playlistType;
+
+	    Playlist *p;
+
+	    switch(playlistType) {
+	    case Search:
+		p = new SearchPlaylist(m_playlistStack);
+		break;
+	    case History:
+		p = new HistoryPlaylist(m_playlistStack);
+		break;
+	    default:
+		p = new Playlist(m_playlistStack);
+		s >> *p;
+
+		if(!p->fileName().isEmpty() && m_playlistFiles.insert(p->fileName())) {
+		    delete p;
+		    p = 0;
+		}
+		break;
+	    }
+
+	    if(p)
+		setupPlaylist(p);
+	}
+	break;
     }
+    default:
+    {
+	// Because the original version of the playlist cache did not contain a
+	// version number, we want to revert to the beginning of the file before
+	// reading the data.
+
+	f.reset();
+
+	while(!fs.atEnd()) {
+	    Playlist *p = new Playlist(m_playlistStack);
+	    fs >> *p;
+
+	    // check to see if we've alredy loaded this item before continuing
+
+	    if(p->fileName().isEmpty() || !m_playlistFiles.insert(p->fileName()))
+		setupPlaylist(p);
+	    else
+		delete p;
+	}
+	break;
+    }
+    }
+
+    f.close();
 }
 
 void PlaylistSplitter::savePlaylists()
@@ -713,11 +773,28 @@ void PlaylistSplitter::savePlaylists()
     PlaylistList l = m_playlistBox->playlists();
 
     for(PlaylistList::Iterator it = l.begin(); it != l.end(); it++) {
-	if(*it && *it != m_history)
-	    s << *(*it);
+	if(*it) {
+
+	    // These first two aren't implemented yet.
+
+	    if(*it == m_history) {
+		// s << Q_INT32(History);
+	    }
+	    else if(dynamic_cast<SearchPlaylist *>(*it)) {
+		// s << Q_INT32(Search);
+	    }
+	    else {
+		s << Q_INT32(Normal);
+		s << *(*it);
+	    }
+	}
     }
 
-    f.writeBlock(data);
+    QDataStream fs(&f);
+    fs << Q_INT32(playlistCacheVersion);
+    fs << qChecksum(data.data(), data.size());
+
+    fs << data;
     f.close();
 }
 
@@ -844,7 +921,7 @@ void PlaylistSplitter::slotCreateSearchList(const PlaylistSearch &search,
 					    const QString &searchCategory,
 					    const QString &name)
 {
-    SearchPlaylist *p = new SearchPlaylist(search, m_playlistStack, name);
+    SearchPlaylist *p = new SearchPlaylist(m_playlistStack, search, name);
     m_playlistBox->createSearchItem(p, searchCategory);
     setupPlaylist(p, false, 0);
 }
