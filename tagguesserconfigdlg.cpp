@@ -26,6 +26,7 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
 
     m_child->lvSchemes->setItemsRenameable(true);
     m_child->lvSchemes->setSorting(-1);
+    m_child->lvSchemes->setDefaultRenameAction(QListView::Accept);
     m_child->bMoveUp->setIconSet(BarIconSet("1uparrow"));
     m_child->bMoveDown->setIconSet(BarIconSet("1downarrow"));
 
