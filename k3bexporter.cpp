@@ -222,8 +222,8 @@ KAction *K3bPlaylistExporter::action()
 void K3bPlaylistExporter::slotExport()
 {
     if(m_playlistBox) {
-        setPlaylist(m_playlistBox->currentPlaylist());
-        exportPlaylistItems(m_playlistBox->currentPlaylist()->items());
+        setPlaylist(m_playlistBox->visiblePlaylist());
+        exportPlaylistItems(m_playlistBox->visiblePlaylist()->items());
     }
 }
 

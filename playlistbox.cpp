@@ -210,7 +210,9 @@ Playlist *PlaylistBox::currentPlaylist() const
     if(m_dynamicPlaylist)
 	return m_dynamicPlaylist;
 
-    if(currentItem() && static_cast<Item *>(currentItem())->playlist())
+    if(Playlist::playingItem())
+	return Playlist::playingItem()->playlist();
+    else if(currentItem() && static_cast<Item *>(currentItem())->playlist())
 	return static_cast<Item *>(currentItem())->playlist();
     else
 	return PlaylistCollection::currentPlaylist();
@@ -332,7 +334,7 @@ Playlist *PlaylistBox::visiblePlaylist() const
     if ( m_dynamicPlaylist )
 	return m_dynamicPlaylist;
 
-    return PlaylistCollection::currentPlaylist();
+    return selectedItems().front()->playlist();
 }
 
 void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
@@ -525,11 +527,12 @@ void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
     KListView::keyReleaseEvent(e);
 }
 
-PlaylistBox::ItemList PlaylistBox::selectedItems()
+PlaylistBox::ItemList PlaylistBox::selectedItems() const
 {
     ItemList l;
 
-    for(QListViewItemIterator it(this, QListViewItemIterator::Selected); it.current(); ++it)
+    for(QListViewItemIterator it(const_cast<PlaylistBox *>(this),
+				 QListViewItemIterator::Selected); it.current(); ++it)
 	l.append(static_cast<Item *>(*it));
 
     return l;

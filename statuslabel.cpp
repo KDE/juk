@@ -28,8 +28,6 @@
 #include "playlistinterface.h"
 #include "actioncollection.h"
 #include "tag.h"
-#include "playlist.h"
-#include "playlistitem.h"
 
 using namespace ActionCollection;
 
@@ -101,16 +99,8 @@ StatusLabel::~StatusLabel()
 
 void StatusLabel::updateCurrent()
 {
-    //kdDebug(65432) << k_funcinfo << endl;
-
-    // Use a hack to always show the currently playing playlist in the status
-    // bar.  We can't change PlaylistBox::currentPlaylist() to do this as that
-    // has too many sideeffects at this point.
-
-    if(Playlist::playingItem()) {
-        PlaylistInterface *playlist = Playlist::playingItem()->playlist();
-
-        FileHandle file = playlist->currentFile();
+    if(playlist()->playing()) {
+        FileHandle file = playlist()->currentFile();
 
         QString mid =  file.tag()->artist().isEmpty() || file.tag()->title().isEmpty()
             ? QString::null : QString(" - ");
@@ -118,15 +108,13 @@ void StatusLabel::updateCurrent()
         QString text = file.tag()->artist() + mid + file.tag()->title();
 
         m_trackLabel->setText(text);
-        m_playlistLabel->setText(playlist->name().simplifyWhiteSpace());
+        m_playlistLabel->setText(playlist()->name().simplifyWhiteSpace());
     }
-    else
-        updateData();
 }
 
 void StatusLabel::updateData()
 {
-    //kdDebug(65432) << k_funcinfo << endl;
+    updateCurrent();
 
     if(!playlist()->playing()) {
         setItemTotalTime(0);
@@ -151,8 +139,6 @@ void StatusLabel::updateData()
         m_playlistLabel->setText(playlist()->name());
         m_trackLabel->setText(i18n("1 item", "%n items", playlist()->count()) + " - " + time);
     }
-    else if (Playlist::playingItem())
-        updateCurrent();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
