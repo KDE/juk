@@ -146,13 +146,14 @@ QPixmap SystemTray::createPixmap( const QString &pixName )
     QPixmap bgPix = m_appPix;
     QPixmap fgPix = SmallIcon(pixName);
 
-    KIconEffect effect;
-    bgPix = effect.apply(bgPix, KIconEffect::DeSaturate, 0.8, QColor(), true);
+    // Do it twice to make wheels happy
+    KIconEffect::semiTransparent( bgPix );
+    KIconEffect::semiTransparent( bgPix );
 
     QPainter p(&buffer);
     p.drawPixmap(0, 0, bgPix);
     p.drawPixmap((buffer.width() - fgPix.width()) / 2, 
-		 (buffer.height() - fgPix.height()) / 2, fgPix);
+	(buffer.height() - fgPix.height()) / 2, fgPix);
 
     return buffer;
 }
@@ -160,7 +161,7 @@ QPixmap SystemTray::createPixmap( const QString &pixName )
 void SystemTray::setToolTip(const QString &tip)
 {
     QToolTip::remove(this);
-   
+
     if(tip.isNull())
         QToolTip::add(this, "JuK");
     else
@@ -168,3 +169,5 @@ void SystemTray::setToolTip(const QString &tip)
 }
 
 #include "systemtray.moc"
+
+// vim: ts=8
