@@ -34,7 +34,7 @@
 #include <string>
 #include <vector>
 
-MusicBrainzQuery::MusicBrainzQuery(QueryType query, const QStringList &args,
+MusicBrainzQuery::MusicBrainzQuery(const QueryType &query, const QStringList &args,
                                    QObject *parent, const char *name)
     : QObject(parent, name),
       MusicBrainz(),
@@ -295,7 +295,6 @@ void MusicBrainzQuery::slotTrmGenerationFinished(KProcess *process)
         emit signalStatusMsg( i18n( "TRM generation failed" ), 2000 );
     else
         slotQuery();
-
 }
 
 #include "musicbrainzquery.moc"
