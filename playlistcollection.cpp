@@ -125,7 +125,7 @@ void PlaylistCollection::stop()
 {
     m_playing = false;
     currentPlaylist()->stop();
-    currentChanged();
+    dataChanged();
 }
 
 bool PlaylistCollection::playing() const
