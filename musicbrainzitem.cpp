@@ -39,6 +39,4 @@ MusicBrainzItem::~MusicBrainzItem()
 
 }
 
-#include "musicbrainzitem.moc"
-
 #endif // HAVE_MUSICBRAINZ
