@@ -401,9 +401,6 @@ void PlaylistCollection::removeName(const QString &name)
 
 void PlaylistCollection::readConfig()
 {
-    if(!m_restore)
-        return;
-
     KConfigGroup config(KGlobal::config(), "Playlists");
 
     m_importPlaylists = config.readBoolEntry("ImportPlaylists", true);
@@ -424,9 +421,6 @@ void PlaylistCollection::readConfig()
 
 void PlaylistCollection::saveConfig()
 {
-    if(!m_restore)
-        return;
-
     KConfigGroup config(KGlobal::config(), "Playlists");
     config.writeEntry("ImportPlaylists", m_importPlaylists);
     config.writePathEntry("DirectoryList", m_folderList);

@@ -113,7 +113,6 @@ private:
     StringHash  m_playlistFiles;
     QStringList m_folderList;
     bool        m_importPlaylists;
-    bool        m_restore;
     bool        m_searchEnabled;
     bool        m_playing;
 };
