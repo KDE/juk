@@ -233,49 +233,21 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 
 int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool) const
 {
-
-    // Try some very basic caching for "two in a row" searches.  From what I've
-    // seen this is ~15% of all calls.
-
-    static const PlaylistItem *previousFirstItem = 0;
-    static const PlaylistItem *previousSecondItem = 0;
-    static int previousColumn = 0;
-    static int previousResult = 0;
-
-    if(firstItem == previousFirstItem && secondItem == previousSecondItem && column == previousColumn)
-	return previousResult;
-
-    previousFirstItem = firstItem;
-    previousSecondItem = secondItem;
-    previousColumn = column;
-
     if(column == TrackNumberColumn) {
-        if(firstItem->tag()->trackNumber() > secondItem->tag()->trackNumber()) {
-	    previousResult = 1;
+        if(firstItem->tag()->trackNumber() > secondItem->tag()->trackNumber())
             return 1;
-	}
-        else if(firstItem->tag()->trackNumber() < secondItem->tag()->trackNumber()) {
-	    previousResult = -1;
+        else if(firstItem->tag()->trackNumber() < secondItem->tag()->trackNumber())
             return -1;
-	}
-        else {
-	    previousResult = 0;
+        else
             return 0;
-	}
     }
     else if(column == LengthColumn) {
-        if(firstItem->tag()->seconds() > secondItem->tag()->seconds()) {
-	    previousResult = 1;
+        if(firstItem->tag()->seconds() > secondItem->tag()->seconds())
             return 1;
-	}
-        else if(firstItem->tag()->seconds() < secondItem->tag()->seconds()) {
-	    previousResult = -1;
+        else if(firstItem->tag()->seconds() < secondItem->tag()->seconds())
             return -1;
-	}
-        else {
-	    previousResult = 0;
+        else
             return 0;
-	}
     }
     else
 	return strcoll(firstItem->data()->local8BitLower(column),
