@@ -24,8 +24,7 @@
 #include <qptrdict.h>
 #include <qmap.h>
 
-#include "playlist.h"
-
+class Playlist;
 class PlaylistItem;
 class PlaylistSplitter;
 class ViewMode;
@@ -34,6 +33,8 @@ class SearchPlaylist;
 
 class KPopupMenu;
 class KSelectAction;
+
+typedef QValueList<Playlist *> PlaylistList;
 
 /** 
  * This is the play list selection box that is by default on the right side of

@@ -29,6 +29,7 @@
 #include <qregexp.h>
 
 #include "playlistbox.h"
+#include "playlist.h"
 #include "playlistsplitter.h"
 #include "viewmode.h"
 #include "searchplaylist.h"
