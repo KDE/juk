@@ -46,5 +46,6 @@ GenericName[sr@Latn]=Muzički plejer
 GenericName[sv]=Musikspelare
 GenericName[ta]=இசை இயக்கி
 GenericName[uk]=Програвач музики
+GenericName[uz]=Мусиқа плейер
 GenericName[zh_CN]=音乐播放器
 Categories=Qt;KDE;AudioVideo
