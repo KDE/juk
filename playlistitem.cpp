@@ -28,14 +28,12 @@
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) : QObject(parent), KListViewItem(parent)
 {
-    if(item) {
-	data = item->getData()->newUser();
-	item->addChildItem(this);
-	refreshImpl();
-	connect(this, SIGNAL(refreshed()), parent, SIGNAL(dataChanged()));
-    }
+    setup(item, parent);
+}
 
-    setDragEnabled(true);
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after) : QObject(parent), KListViewItem(parent, after)
+{
+    setup(item, parent);
 }
 
 PlaylistItem::~PlaylistItem()
@@ -76,6 +74,12 @@ void PlaylistItem::refresh()
     // This signal will be received by the "parent" CollectionListItem which will
     // in turn call refreshImpl() for all of its children, including this item.
     emit(refreshed());
+}
+
+void PlaylistItem::refreshFromDisk()
+{
+    data->refresh();
+    refresh();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -158,6 +162,18 @@ void PlaylistItem::refreshImpl()
 // PlaylistItem private methods
 ////////////////////////////////////////////////////////////////////////////////
 
+void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
+{
+    if(item) {
+	data = item->getData()->newUser();
+	item->addChildItem(this);
+	refreshImpl();
+	connect(this, SIGNAL(refreshed()), parent, SIGNAL(dataChanged()));
+    }
+
+    setDragEnabled(true);
+}
+
 int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 {
     // reimplemented from QListViewItem
@@ -222,6 +238,17 @@ PlaylistItem::Data *PlaylistItem::Data::newUser()
 {
     referenceCount++;
     return(this);
+}
+
+void PlaylistItem::Data::refresh()
+{
+    delete(cache);
+    delete(tag);
+    delete(audioData);
+
+    cache = 0;
+    tag = 0;
+    audioData = 0;
 }
 
 void PlaylistItem::Data::deleteUser()

@@ -38,7 +38,7 @@ public:
     virtual ~TagEditor();
 
 public slots:
-    void setItems(const QPtrList<PlaylistItem> &list);
+    void setItems(const PlaylistItemList &list);
     void refresh();
     void clear();
     void save();
@@ -51,7 +51,7 @@ private:
     void setupLayout();
     void readConfig();
     void saveConfig();
-    void save(const QPtrList<PlaylistItem> &list);
+    void save(const PlaylistItemList &list);
     void saveChangesPrompt();
 
     GenreList *genreList;
@@ -67,7 +67,7 @@ private:
     KLineEdit *bitrateBox;
     KEdit *commentBox;
 
-    QPtrList<PlaylistItem> items;
+    PlaylistItemList items;
     
     bool dataChanged;
 

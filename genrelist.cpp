@@ -55,7 +55,7 @@ void GenreList::load(const QString &file)
 
 QString GenreList::name(int ID3v1)
 {
-    if(hasIndex && ID3v1 >= 0 && ID3v1 < int(index.count()))
+    if(hasIndex && ID3v1 >= 0 && ID3v1 < int(index.size()))
         return(index[ID3v1]);
     else
         return(QString::null);
@@ -94,8 +94,8 @@ int GenreList::findIndex(const QString &item)
 void GenreList::initializeIndex()
 {
     index.clear();
-    index.resize(count());
+    index.resize(size());
     for(GenreList::Iterator it = begin(); it != end(); ++it)
-        if((*it).getID3v1() >= 0 && (*it).getID3v1() < int(index.count()))
+        if((*it).getID3v1() >= 0 && (*it).getID3v1() < int(index.size()))
             index[(*it).getID3v1()] = QString(*it);
 }

@@ -33,8 +33,8 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name)
 {
     // Expect segfaults if you change this order.
 
-    setupActions();
     setupLayout();
+    setupActions();
     setupPlayer();
     readConfig();
     processArgs();
@@ -67,6 +67,8 @@ void JuK::setupActions()
 
     // view menu
     showEditorAction = new KToggleAction(i18n("Show Tag Editor"), 0, actionCollection(), "showEditor");
+    connect(showEditorAction, SIGNAL(toggled(bool)), splitter, SLOT(setEditorVisible(bool)));
+    KStdAction::redisplay(splitter, SLOT(refresh()), actionCollection());
 
     // play menu
     playAction = new KAction(i18n("&Play"), "1rightarrow", 0, this, SLOT(playFile()), actionCollection(), "playFile");
@@ -74,12 +76,16 @@ void JuK::setupActions()
     stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stopFile()), actionCollection(), "stopFile");
 
     // playlist menu
-    (void) new KAction(i18n("New Playlist..."), "filenew", 0, this, SLOT(createPlaylist()), actionCollection(), "createPlaylist");
+    (void) new KAction(i18n("New Playlist..."), "filenew", 0, splitter, SLOT(createPlaylist()), actionCollection(), "createPlaylist");
 
     // just in the toolbar
     sliderAction = new SliderAction(i18n("Track Position"), actionCollection(), "trackPositionAction");
 
     createGUI();
+
+    // set the slider to the proper orientation and make it stay that way
+    sliderAction->updateOrientation();
+    connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), sliderAction, SLOT(updateOrientation(QDockWindow *)));
 }
 
 void JuK::setupLayout()
@@ -89,11 +95,6 @@ void JuK::setupLayout()
 
     splitter = new PlaylistSplitter(this, "playlistSplitter");
     setCentralWidget(splitter);
-    connect(showEditorAction, SIGNAL(toggled(bool)), splitter, SLOT(setEditorVisible(bool)));
-
-    // set the slider to the proper orientation and make it stay that way
-    sliderAction->updateOrientation();
-    connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), sliderAction, SLOT(updateOrientation(QDockWindow *)));
 
     // playlist item activation connection
     connect(splitter, SIGNAL(playlistDoubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
@@ -108,7 +109,7 @@ void JuK::setupPlayer()
     pauseAction->setEnabled(false);
     stopAction->setEnabled(false);
 
-    playTimer=new QTimer(this);
+    playTimer = new QTimer(this);
     connect(playTimer, SIGNAL(timeout()), this, SLOT(pollPlay()));
 
     if(sliderAction && sliderAction->getTrackPositionSlider() && sliderAction->getVolumeSlider()) {
@@ -192,7 +193,7 @@ void JuK::saveFile()
 
 void JuK::remove()
 {
-    QPtrList<PlaylistItem> items(splitter->playlistSelection());
+    PlaylistItemList items(splitter->playlistSelection());
     PlaylistItem *item = items.first();
     while(item) {
 	if(item == playingItem)
@@ -205,7 +206,7 @@ void JuK::remove()
 
 void JuK::quit()
 {
-    delete(this);
+    kapp->quit();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -214,7 +215,7 @@ void JuK::quit()
 
 void JuK::cut()
 {
-    QPtrList<PlaylistItem> items = splitter->playlistSelection();
+    PlaylistItemList items = splitter->playlistSelection();
 
     PlaylistItem *item = items.first();
     while(item) {
@@ -247,7 +248,7 @@ void JuK::playFile()
         }
     }
     else if(splitter) {
-        QPtrList<PlaylistItem> items = splitter->playlistSelection();
+        PlaylistItemList items = splitter->playlistSelection();
         if(items.count() > 0)
             playItem(items.at(0));
         else
@@ -274,21 +275,6 @@ void JuK::stopFile()
     sliderAction->getTrackPositionSlider()->setEnabled(false);
     if(playingItem)
         playingItem->setPixmap(0, 0);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// playlist menu
-////////////////////////////////////////////////////////////////////////////////
-
-void JuK::createPlaylist()
-{
-    if(splitter) {
-	bool ok;
-	QString name = QInputDialog::getText(i18n("New Playlist..."), i18n("Please enter a name for the new playlist:"), 
-					     QLineEdit::Normal, splitter->uniquePlaylistName(), &ok);
-	if(ok)
-	    splitter->createPlaylist(name);
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -192,7 +192,7 @@ void TagEditor::setupLayout()
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void TagEditor::setItems(const QPtrList<PlaylistItem> &list)
+void TagEditor::setItems(const PlaylistItemList &list)
 {
     saveChangesPrompt();
     items = list;
@@ -296,7 +296,7 @@ void TagEditor::updateCollection()
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void TagEditor::save(const QPtrList<PlaylistItem> &list)
+void TagEditor::save(const PlaylistItemList &list)
 {
     if(list.count() > 0) {
 	

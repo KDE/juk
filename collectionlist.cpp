@@ -41,15 +41,15 @@ void CollectionList::initialize(QWidget *parent)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void CollectionList::append(const QString &item)
+void CollectionList::add(const QString &item, bool sorted)
 {
-    Playlist::append(item);
+    Playlist::add(item);
     emit(collectionChanged());
 }
 
-void CollectionList::append(const QStringList &items)
+void CollectionList::add(const QStringList &items, bool sorted)
 {
-    Playlist::append(items);
+    Playlist::add(items);
     emit(collectionChanged());
 }
 
@@ -58,7 +58,7 @@ CollectionListItem *CollectionList::lookup(const QString &file)
     return(itemsDict.find(file));
 }
 
-PlaylistItem *CollectionList::createItem(const QFileInfo &file)
+PlaylistItem *CollectionList::createItem(const QFileInfo &file, bool sorted)
 {
     PlaylistItem *item = new CollectionListItem(file);
 }
@@ -101,7 +101,7 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 		files.append((*it).path());
 	    
-	    append(files);
+	    add(files);
 	}
     }
 }
@@ -114,10 +114,10 @@ void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
-void CollectionList::appendImpl(const QString &item)
+void CollectionList::addImpl(const QString &item)
 {
     if(!lookup(item))
-	Playlist::appendImpl(item);
+	Playlist::addImpl(item);
 }
 
 void CollectionList::addToDict(const QString &file, CollectionListItem *item)

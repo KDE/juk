@@ -31,17 +31,26 @@ public:
     Playlist(QWidget *parent = 0, const char *name = 0);
     virtual ~Playlist();
 
-    /** Set sorted = false to append the items at the end of the list rather
+    virtual void save();
+    virtual void saveAs();
+
+    /** Set sorted = false to add the items at the end of the list rather
 	than adding them into the list in their sorted place. */
-    virtual void append(const QString &item, bool sorted = true);
-    virtual void append(const QStringList &items, bool sorted = true);
+    virtual void add(const QString &item, bool sorted = true);
+    virtual void add(const QStringList &items, bool sorted = true);
 
-    virtual void clearItems(const QPtrList<PlaylistItem> &items);
+    virtual void refresh();
 
-    QPtrList<PlaylistItem> selectedItems() const;
+    virtual void clearItems(const PlaylistItemList &items);
+
+    /** All of the files in the list. */
+    QStringList files() const;
+    /** All of the items in the list. */
+    PlaylistItemList items() const;
+    PlaylistItemList selectedItems() const;
 
     void remove();
-    void remove(const QPtrList<PlaylistItem> &items);
+    void remove(const PlaylistItemList &items);
 
     /** Allow duplicate files in the playlist. */
     void setAllowDuplicates(bool allow);
@@ -61,8 +70,8 @@ protected:
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     /** This is being used as a mini-factory of sorts to make the construction
 	of PlaylistItems virtual. */
-    virtual PlaylistItem *createItem(const QFileInfo &file);
-    virtual void appendImpl(const QString &item, bool sorted = true);
+    virtual PlaylistItem *createItem(const QFileInfo &file, bool sorted = true);
+    virtual void addImpl(const QString &item, bool sorted = true);
 
 private:
     void setup();
@@ -91,7 +100,7 @@ signals:
 
     /** This is emitted when the playlist selection is changed.  This is used
 	primarily to notify the TagEditor of the new data. */
-    void selectionChanged(const QPtrList<PlaylistItem> &selection);
+    void selectionChanged(const PlaylistItemList &selection);
 };
 
 #endif

@@ -28,7 +28,10 @@
 #include "cache.h"
 
 class Playlist;
+class PlaylistItem;
 class CollectionListItem;
+
+typedef QPtrList<PlaylistItem> PlaylistItemList;
 
 class PlaylistItem : public QObject, public KListViewItem 
 {
@@ -38,6 +41,7 @@ public:
                       GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
 
     PlaylistItem(CollectionListItem *item, Playlist *parent);
+    PlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after);
     virtual ~PlaylistItem();
 
     // these can't be const members because they fetch the data "on demand"
@@ -57,6 +61,7 @@ public:
 
 public slots:
     virtual void refresh();
+    virtual void refreshFromDisk();
 
 protected:
     PlaylistItem(Playlist *parent);
@@ -72,6 +77,7 @@ signals:
     void refreshed();
 
 private:
+    void setup(CollectionListItem *item, Playlist *parent);
     int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(PlaylistItem *firstItem, PlaylistItem *secondItem, int column, bool ascending) const;
 
@@ -84,6 +90,8 @@ public:
     static Data *newUser(const QFileInfo &file);
     Data *newUser();
     void deleteUser();
+
+    void refresh();
 
     Tag *getTag();
     AudioData *getAudioData();

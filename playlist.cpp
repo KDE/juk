@@ -47,32 +47,51 @@ Playlist::~Playlist()
 
 }
 
-void Playlist::append(const QString &item, bool sorted)
+void Playlist::save()
+{
+    kdDebug() << "Playlist::save() -- Not yet implemented!" << endl;
+    // needs an implementation to write to m3u files
+}
+
+void Playlist::saveAs()
+{
+    kdDebug() << "Playlist::saveAs() -- Not yet implemented!" << endl;
+    // needs an implementation to write to m3u files
+}
+
+void Playlist::add(const QString &item, bool sorted)
 {
     collectionListChanged = false;
 
     QApplication::setOverrideCursor(Qt::waitCursor);
-    appendImpl(item);
+    addImpl(item);
     QApplication::restoreOverrideCursor();
     
     if(collectionListChanged)
 	emit(collectionChanged());
 }
 
-void Playlist::append(const QStringList &items, bool sorted)
+void Playlist::add(const QStringList &items, bool sorted)
 {
     collectionListChanged = false;
 
     QApplication::setOverrideCursor(Qt::waitCursor);
     for(QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
-        appendImpl(*it);
+        addImpl(*it);
     QApplication::restoreOverrideCursor();
 
     if(collectionListChanged)
 	emit(collectionChanged());
 }
 
-void Playlist::clearItems(const QPtrList<PlaylistItem> &items)
+void Playlist::refresh()
+{
+    PlaylistItemList list;
+    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
+	i->refreshFromDisk();
+}
+
+void Playlist::clearItems(const PlaylistItemList &items)
 {
     QPtrListIterator<PlaylistItem> it(items);
     while(it.current()) {
@@ -82,13 +101,31 @@ void Playlist::clearItems(const QPtrList<PlaylistItem> &items)
     }
 }
 
-QPtrList<PlaylistItem> Playlist::selectedItems() const
+QStringList Playlist::files() const
 {
-    QPtrList<PlaylistItem> list;
-    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i != 0; i = static_cast<PlaylistItem *>(i->itemBelow())) {
+    QStringList list;
+    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
+	list.append(i->absFilePath());
+
+    return(list);
+}
+
+PlaylistItemList Playlist::items() const
+{
+    PlaylistItemList list;
+    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
+	list.append(i);
+
+    return(list);
+}
+
+PlaylistItemList Playlist::selectedItems() const
+{
+    PlaylistItemList list;
+    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
         if(i->isSelected())
             list.append(i);
-    }
+    
     return(list);
 }
 
@@ -97,16 +134,16 @@ void Playlist::remove()
     remove(selectedItems());
 }
 
-void Playlist::remove(const QPtrList<PlaylistItem> &items)
+void Playlist::remove(const PlaylistItemList &items)
 {
     if(isVisible() && !items.isEmpty()) {
         QString message = i18n("Are you sure that you want to delete:\n");
 
-	for(QPtrListIterator<PlaylistItem> it(items); it.current() != 0; ++it)
+	for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it)
             message.append(it.current()->fileName() + "\n");
 
 	if(KMessageBox::warningYesNo(this, message, i18n("Delete Files")) == KMessageBox::Yes) {
-	    for(QPtrListIterator<PlaylistItem> it(items); it.current() != 0; ++it) {
+	    for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it) {
 		if(QFile::remove(it.current()->filePath()))
 		    delete(it.current());
 		else
@@ -133,7 +170,7 @@ QStringList &Playlist::getAlbumList()
 
 QDragObject *Playlist::dragObject()
 {
-    QPtrList<PlaylistItem> items = selectedItems();
+    PlaylistItemList items = selectedItems();
     KURL::List urls;
     for(PlaylistItem *i = items.first(); i; i = items.next()) {
 	KURL url;
@@ -159,7 +196,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     if(e->source() == this) {
 	QPtrList<QListViewItem> items = KListView::selectedItems();
 	
-	for(QPtrListIterator<QListViewItem> it(items); it.current() != 0; ++it) {
+	for(QPtrListIterator<QListViewItem> it(items); it.current(); ++it) {
 	    (*it)->moveItem(moveAfter);
 	    moveAfter = *it;
 	}
@@ -169,12 +206,12 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     
 	if(KURLDrag::decode(e, urls) && !urls.isEmpty()) {
 	    
-	    QStringList files;
+	    QStringList fileList;
 	    
 	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
-		files.append((*it).path());
+		fileList.append((*it).path());
 	    
-	    append(files);
+	    add(fileList);
 	}
     }
 }
@@ -187,22 +224,26 @@ void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
-PlaylistItem *Playlist::createItem(const QFileInfo &file)
+PlaylistItem *Playlist::createItem(const QFileInfo &file, bool sorted)
 {
     CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
 
-    if(item)
-	return(new PlaylistItem(item, this));
-    else if(CollectionList::instance()) {
+    if(!item && CollectionList::instance()) {
 	item = new CollectionListItem(file);
 	collectionListChanged = true;
-	return(new PlaylistItem(item, this));
+    }
+    
+    if(item) {
+	if(sorted && selectedItems().getFirst())
+	    PlaylistItem *newItem = new PlaylistItem(item, this, selectedItems().getFirst());
+	else
+	    PlaylistItem *newItem = new PlaylistItem(item, this);
     }
     else
 	return(0);
 }
 
-void Playlist::appendImpl(const QString &item, bool sorted)
+void Playlist::addImpl(const QString &item, bool sorted)
 {
     processEvents();
     QFileInfo file(QDir::cleanDirPath(item));
@@ -212,13 +253,13 @@ void Playlist::appendImpl(const QString &item, bool sorted)
             QStringList dirContents=dir.entryList();
             for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it)
                 if(*it != "." && *it != "..")
-                    appendImpl(file.filePath() + QDir::separator() + *it);
+                    addImpl(file.filePath() + QDir::separator() + *it);
         }
         else {
             QString extension = file.extension(false);
             if(extensions.contains(extension) > 0 && (members.contains(file.absFilePath()) == 0 || allowDuplicates)) {
                 members.append(file.absFilePath());
-                (void) createItem(file);
+                (void) createItem(file, sorted);
             }
         }
     }

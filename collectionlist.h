@@ -44,11 +44,13 @@ public:
     static CollectionList *instance();
     static void initialize(QWidget *parent);
 
-    virtual void append(const QString &item);
-    virtual void append(const QStringList &items);
+    virtual void add(const QString &item, bool sorted = true);
+    virtual void add(const QStringList &items, bool sorted = true);
 
     CollectionListItem *lookup(const QString &file);
-    virtual PlaylistItem *createItem(const QFileInfo &file);
+    /** The sorted parameter here is actually ignored.  All items inserted into
+	the collection will be sorted. */
+    virtual PlaylistItem *createItem(const QFileInfo &file, bool sorted = true);
     
 protected:
     CollectionList(QWidget *parent = 0);
@@ -57,7 +59,7 @@ protected:
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
 
-    virtual void appendImpl(const QString &item);
+    virtual void addImpl(const QString &item);
 
     void addToDict(const QString &file, CollectionListItem *item);
     void removeFromDict(const QString &file);

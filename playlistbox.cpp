@@ -21,23 +21,39 @@
 #include <kdebug.h>
 
 #include <qdrawutil.h>
+#include <qinputdialog.h>
 
 #include "playlistbox.h"
 #include "collectionlist.h"
+#include "playlistsplitter.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(QWidget *parent, const char *name) : KListBox(parent, name)
+PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(parent, name)
 {
+    splitter = parent;
+
+    collectionContextMenu = new KPopupMenu();
+    collectionContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicateItem()));
+
+    playlistContextMenu = new KPopupMenu();
+    playlistContextMenu->insertItem(SmallIcon("filesave"), i18n("Save"), this, SLOT(contextSave()));
+    playlistContextMenu->insertItem(SmallIcon("filesaveas"), i18n("Save As..."), this, SLOT(contextSaveAs()));
+    playlistContextMenu->insertItem(i18n("Rename..."), this, SLOT(contextRename()));
+    playlistContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicateItem()));
+    playlistContextMenu->insertItem(SmallIcon("editdelete"), i18n("Delete"), this, SLOT(contextDeleteItem()));
+
     setAcceptDrops(true);
-    connect(this, SIGNAL(currentChanged(QListBoxItem *)), this, SLOT(currentItemChanged(QListBoxItem *)));
+
+    connect(this, SIGNAL(currentChanged(QListBoxItem *)), 
+	    this, SLOT(currentItemChanged(QListBoxItem *)));
 }
 
 PlaylistBox::~PlaylistBox()
 {
-
+    delete(playlistContextMenu);
 }
 
 QStringList PlaylistBox::names() const
@@ -46,7 +62,7 @@ QStringList PlaylistBox::names() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// PlaylistBox protected methods
+// PlaylistBox private methods
 ////////////////////////////////////////////////////////////////////////////////
 
 void PlaylistBox::resizeEvent(QResizeEvent *e)
@@ -73,7 +89,7 @@ void PlaylistBox::dropEvent(QDropEvent *e)
 	PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(itemAt(e->pos()));
 
 	if(i && i->playlist())
-	    i->playlist()->append(files);
+	    i->playlist()->add(files);
     }
 }
 
@@ -84,26 +100,44 @@ void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
     // selected playlist and is not the CollectionList, then accept the event.
     //
     // Otherwise, do not accept the event.
-
-    // At the moment this does not account for dragging from sources outside of
-    // JuK onto the CollectionList or to the selected PlaylistBoxItem.  It makes
-    // sense to not allow this from the top widget of the QWidgetStack of 
-    // playlists, however, it should allow dragging from other applications, i.e.
-    // Konq to these PlaylistBoxItems.  This just involves checking the source 
-    // in the logic below.
     
     if(KURLDrag::canDecode(e) && itemAt(e->pos())) {
 	PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(itemAt(e->pos()));
-	if(i->playlist() && i->playlist() != CollectionList::instance())
-	    if(selectedItem() && i != selectedItem())
-		e->accept(true);
+
+	// This is a semi-dirty hack to check if the items are coming from within
+	// JuK.  If they are not coming from a Playlist (or subclass) then the
+	// dynamic_cast will fail and we can safely assume that the item is 
+	// coming from outside of JuK.
+
+	if(dynamic_cast<Playlist *>(e->source())) {
+	    if(i->playlist() && i->playlist() != CollectionList::instance())
+		if(selectedItem() && i != selectedItem())
+		    e->accept(true);
+		else
+		    e->accept(false);
 	    else
 		e->accept(false);
-	else
-	    e->accept(false);
+	}
+	else // the dropped items are coming from outside of JuK
+	    e->accept(true);
     }
     else
 	e->accept(false);
+
+}
+
+void PlaylistBox::mousePressEvent(QMouseEvent *e)
+{
+    if(e->button() == Qt::RightButton) {
+	QListBoxItem *i = itemAt(e->pos());
+	if(i)
+	    drawContextMenu(i, e->globalPos());
+	e->accept();
+    }
+    else {
+	e->ignore();
+	QListBox::mousePressEvent(e);
+    }
 }
 
 void PlaylistBox::addName(const QString &name)
@@ -122,18 +156,87 @@ void PlaylistBox::currentItemChanged(QListBoxItem *item)
 	emit(currentChanged(i));
 }
 
+void PlaylistBox::drawContextMenu(QListBoxItem *item, const QPoint &point)
+{
+    PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(item);
+
+    contextMenuOn = i;
+
+    if(i)
+	if(i->playlist() == CollectionList::instance())
+	    collectionContextMenu->popup(point);
+	else
+	    playlistContextMenu->popup(point);
+}
+
+void PlaylistBox::contextSave()
+{
+    if(contextMenuOn)
+	contextMenuOn->playlist()->save();
+}
+
+void PlaylistBox::contextSaveAs()
+{
+    if(contextMenuOn)
+	contextMenuOn->playlist()->saveAs();
+}
+
+void PlaylistBox::contextRename()
+{
+    if(contextMenuOn) {
+	bool ok;
+
+	QString name = QInputDialog::getText(i18n("Rename..."), i18n("Please enter a name for this playlist:"),
+					     QLineEdit::Normal, contextMenuOn->text(), &ok);
+	if(ok) {
+	    nameList.remove(contextMenuOn->text());
+	    nameList.append(name);
+	    contextMenuOn->setText(name);
+	    updateItem(contextMenuOn);
+	}
+    }
+}
+
+void PlaylistBox::contextDuplicateItem()
+{
+    if(contextMenuOn) {
+	bool ok;
+
+	// If this text is changed, please also change it in PlaylistSplitter::createPlaylist().
+
+	QString name = QInputDialog::getText(i18n("New Playlist..."), i18n("Please enter a name for the new playlist:"),
+					     QLineEdit::Normal, splitter->uniquePlaylistName(contextMenuOn->text(), true), &ok);
+	if(ok) {
+	    Playlist *p = splitter->createPlaylist(name);
+	    p->add(contextMenuOn->playlist()->files());
+	}
+    }
+}
+
+void PlaylistBox::contextDeleteItem()
+{
+    if(contextMenuOn) {
+	nameList.remove(contextMenuOn->text());
+	delete(contextMenuOn->playlist());
+	delete(contextMenuOn);
+	contextMenuOn = 0;
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBoxItem public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) : ListBoxPixmap(listbox, pix, text)
+PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
+    : ListBoxPixmap(listbox, pix, text)
 {
     list = l;
     setOrientation(Qt::Vertical);
     listbox->addName(text);
 }
 
-PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QString &text, Playlist *l) : ListBoxPixmap(listbox, SmallIcon("midi", 32), text)
+PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QString &text, Playlist *l) 
+    : ListBoxPixmap(listbox, SmallIcon("midi", 32), text)
 {
     list = l;
     setOrientation(Qt::Vertical);

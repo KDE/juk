@@ -11,8 +11,10 @@
 		<Separator/>
 		<Action name="file_quit"/>
 	</Menu>
-	<Menu name="view"><text>&amp;View</text>
+	<Menu name="view" noMerge="1"><text>&amp;View</text>
 		<Action name="showEditor"/>
+		<Separator/>
+		<Action name="view_redisplay"/>
 	</Menu>
 	<Menu name="player"><text>&amp;Player</text>
 		<Action name="playFile"/>

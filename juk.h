@@ -86,9 +86,6 @@ private slots:
     void pauseFile();
     void stopFile();
 
-    // playlist menu
-    void createPlaylist();
-
     // additional player slots
     void trackPositionSliderClick();
     void trackPositionSliderRelease();

@@ -38,10 +38,10 @@ public:
     PlaylistSplitter(QWidget *parent = 0, const char *name = 0);
     virtual ~PlaylistSplitter();
 
-    void createPlaylist(const QString &name);
     /** Returns a unique string to be used as new playlist names. */
     QString uniquePlaylistName();
-    QPtrList<PlaylistItem> playlistSelection() const;
+    QString uniquePlaylistName(const QString &startingWith, bool useParentheses = false);
+    PlaylistItemList playlistSelection() const;
     PlaylistItem *playlistFirstItem() const;
 
 public slots:
@@ -50,11 +50,15 @@ public slots:
     void save();
     /** Deletes the selected items from the hard disk. */
     void remove();
+    void refresh();
     /** Removes the selected items from the playlist. */
     void clearSelectedItems();
     void selectAll(bool select = true);
 
     void setEditorVisible(bool visible);
+
+    Playlist *createPlaylist();
+    Playlist *createPlaylist(const QString &name);
 
 private:
     void setupLayout();

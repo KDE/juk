@@ -19,6 +19,7 @@
 #define PLAYLISTBOX_H
 
 #include <klistbox.h>
+#include <kpopupmenu.h>
 
 #include <qwidgetstack.h>
 
@@ -26,6 +27,7 @@
 #include "playlist.h"
 
 class PlaylistBoxItem;
+class PlaylistSplitter;
 
 /** This is the play list selection box that is by default on the right side of
     JuK's main widget (PlaylistSplitter). */
@@ -36,34 +38,56 @@ class PlaylistBox : public KListBox
 
     Q_OBJECT
 public: 
-    PlaylistBox(QWidget *parent = 0, const char *name = 0);
+    PlaylistBox(PlaylistSplitter *parent = 0, const char *name = 0);
     virtual ~PlaylistBox();
 
     QStringList names() const;
 
-protected:
+private:
     virtual void resizeEvent(QResizeEvent *e);
     virtual void dropEvent(QDropEvent *e);
     virtual void dragMoveEvent(QDragMoveEvent *e);
+    virtual void mousePressEvent(QMouseEvent *e);
     /** This is used by PlaylistItemBox (a friend class) to add names to the name
 	list returned by names(). */
     void addName(const QString &name);
 
-private:
-    QWidgetStack *stack;
+    PlaylistSplitter *splitter;
     QStringList nameList;
+    KPopupMenu *collectionContextMenu;
+    KPopupMenu *playlistContextMenu;
+    PlaylistBoxItem *contextMenuOn;
 
 private slots:
-    /** Catches QListBox::clicked(QListBoxItem *), does a cast and then re-emits
-        the signal as  clicked(PlaylistBoxItem *). */
+    /** Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
+        the signal as  currentChanged(PlaylistBoxItem *). */
     void currentItemChanged(QListBoxItem *item);
+    void drawContextMenu(QListBoxItem *item, const QPoint &point);
+    // context menu entries
+    void contextSave();
+    void contextSaveAs();
+    void contextRename();
+    void contextDuplicateItem();
+    void contextDeleteItem();
+    
 
 signals:
     void currentChanged(PlaylistBoxItem *);
+
+
+#if QT_VERSION < 0x031000
+public:
+    // This method is defined in Qt 3.1 and later.
+    QListBoxItem *selectedItem() { return(item(currentItem())); }
+#endif
 };
+
+
 
 class PlaylistBoxItem : public ListBoxPixmap
 {
+    friend class PlaylistBox;
+
 public:
     PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l = 0);
     PlaylistBoxItem(PlaylistBox *listbox, const QString &text, Playlist *l = 0);
