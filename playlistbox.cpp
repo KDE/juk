@@ -20,11 +20,11 @@
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kapplication.h>
+#include <klineeditdlg.h>
 #include <kdebug.h>
 
 #include <qfile.h>
 #include <qdrawutil.h>
-#include <qinputdialog.h>
 #include <qclipboard.h>
 
 #include "playlist.h"
@@ -82,10 +82,10 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise)
 
     Item *i = new Item(this, SmallIcon(icon, 32), playlist->name(), playlist);
     m_playlistDict.insert(playlist, i);
-    
+
     if(raise) {
 	setCurrentItem(i);
-	ensureCurrentVisible();	
+	ensureCurrentVisible();
     }
 
     sort();
@@ -198,17 +198,18 @@ void PlaylistBox::rename(Item *item)
 
     bool ok;
 
-    QString name = QInputDialog::getText(i18n("Rename"), i18n("Please enter a name for this playlist:"),
-					 QLineEdit::Normal, item->text(), &ok);
+    QString name = KLineEditDlg::getText(i18n("Rename"),
+        i18n("Please enter a name for this playlist:"), item->text(), &ok);
+
     if(ok) {
 	item->setText(name);
-	
+
 	// Telling the playlist to change it's name will emit a signal that
 	// is connected to Item::slotSetName().
-	
+
 	if(item->playlist())
 	    item->playlist()->setName(name);
-	
+
 	sort();
 	setSelected(item, true);
 	ensureCurrentVisible();
@@ -222,8 +223,10 @@ void PlaylistBox::duplicate(Item *item)
 
 	// If this text is changed, please also change it in PlaylistSplitter::createPlaylist().
 
-	QString name = QInputDialog::getText(i18n("New Playlist"), i18n("Please enter a name for the new playlist:"),
-					     QLineEdit::Normal, m_splitter->uniquePlaylistName(item->text(), true), &ok);
+    QString name = KLineEditDlg::getText(i18n("New Playlist"), 
+        i18n("Please enter a name for the new playlist:"), 
+        m_splitter->uniquePlaylistName(item->text(), true), &ok);
+
 	if(ok) {
 	    Playlist *p = m_splitter->createPlaylist(name);
 	    m_splitter->slotAddToPlaylist(item->playlist()->files(), p);
