@@ -22,6 +22,7 @@
 #include <kpopupmenu.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kinputdialog.h>
 
 #include <qheader.h>
 #include <qcursor.h>
@@ -1862,6 +1863,14 @@ void Playlist::slotToggleColumnVisible(int column)
 	showColumn(column);
 
     SharedSettings::instance()->toggleColumnVisible(column - columnOffset());
+}
+
+void Playlist::slotCreateGroup()
+{
+    QString name = m_collection->playlistNameDialog(i18n("Create New Playlist"));
+
+    if(!name.isEmpty())
+	new Playlist(m_collection, selectedItems(), name);
 }
 
 void Playlist::slotColumnSizeChanged(int column, int, int newSize)

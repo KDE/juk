@@ -535,7 +535,7 @@ private slots:
     /**
      * Prompts the user to create a new playlist with from the selected items.
      */
-    void slotCreateGroup() { new Playlist(m_collection, selectedItems()); }
+    void slotCreateGroup();
 
     /**
      * This slot is called when the user drags the slider in the listview header
