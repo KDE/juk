@@ -64,11 +64,15 @@ QString PlaylistItem::text(int column) const
     case AlbumColumn:
 	return m_data->tag()->album();
     case TrackNumberColumn:
-	return QString::number(m_data->tag()->track());
+	return m_data->tag()->track() > 0
+	    ? QString::number(m_data->tag()->track())
+	    : QString::null;
     case GenreColumn:
 	return m_data->tag()->genre();
     case YearColumn:
-	return QString::number(m_data->tag()->year());
+	return m_data->tag()->year() > 0 
+	    ? QString::number(m_data->tag()->year())
+	    : QString::null;
     case LengthColumn:
 	return m_data->tag()->lengthString();
     case CommentColumn:
