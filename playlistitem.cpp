@@ -24,7 +24,7 @@
 #include "playlistitem.h"
 #include "filerenamer.h"
 #include "collectionlist.h"
-#include "trackpickerdialogbase.h"
+#include "trackpickerdialog.h"
 #include "musicbrainzitem.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -324,26 +324,12 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 
     if(res.count() > 1)
     {
-    	TrackPickerDialogBase *trackPicker =
-	    new TrackPickerDialogBase(win, "trackPickerDialogBase");
-	trackPicker->fileLabel->setText(fileName());
+    	TrackPickerDialog *trackPicker = new TrackPickerDialog(fileName(), res, win);
 
-	MusicBrainzQuery::TrackList::ConstIterator it = res.begin();
-    	for(; it != res.end(); ++it) {
-	    new MusicBrainzItem(trackPicker->trackList, *it, (*it).name,
-				(*it).artist, (*it).album);
-	}
-	
     	if(trackPicker->exec() != QDialog::Accepted)
 	    return;
 
-	MusicBrainzItem *item =
-	    static_cast<MusicBrainzItem *>(trackPicker->trackList->selectedItem());
-	
-	if(!item)
-	    return;
-	
-	track = item->track();
+	track = trackPicker->selectedTrack();
     }
     else
     	track = res.first();

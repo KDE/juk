@@ -13,7 +13,7 @@ juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
 	playlistsearch.cpp searchwidget.cpp filerenamer.cpp dynamicplaylist.cpp \
 	searchplaylist.cpp musicbrainzquery.cpp mediafiles.cpp viewmode.cpp \
 	advancedsearchdialog.cpp historyplaylist.cpp trackpickerdialogbase.ui \
-	musicbrainzitem.cpp
+	musicbrainzitem.cpp trackpickerdialog.cpp
 
 
 tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp
