@@ -608,6 +608,11 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     // to PlaylistItem.
 
     if(e->source() == this) {
+
+	// Since we're trying to arrange things manually, turn off sorting.
+
+	setSorting(columns() + 1);
+
 	QPtrList<QListViewItem> items = KListView::selectedItems();
 
 	for(QPtrListIterator<QListViewItem> it(items); it.current(); ++it) {
