@@ -433,7 +433,7 @@ void JuK::setupActions()
     m_toggleDockOnCloseAction = new KToggleAction(i18n("&Stay in System Tray on Close"),
 						  0, actionCollection(), "dockOnClose");
 
-    m_togglePopupsAction = new KToggleAction(i18n("&Popup Track Announcement"),
+    m_togglePopupsAction = new KToggleAction(i18n("Popup &Track Announcement"),
 					     0, this, 0, actionCollection(), "togglePopups");
 
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)),
