@@ -24,7 +24,7 @@
 #include <qobject.h>
 
 #include "tag.h"
-#include "MPEGHeader.h"
+#include "audiodata.h"
 
 class FileListItem : public QObject, public KListViewItem, public QFileInfo {
   Q_OBJECT
@@ -37,7 +37,7 @@ public:
   ~FileListItem();
 
   Tag *getTag();
-  MPEGHeader *getHeader();
+  AudioData *getAudioData();
 
   void setFile(QString fileName);
 
@@ -56,7 +56,7 @@ private:
 
   QFileInfo *fileInfo;
   Tag *tag;
-  MPEGHeader *header;
+  AudioData *audioData;
 
 private slots:
   void parentDestroyed(FileListItem *parent);

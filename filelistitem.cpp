@@ -25,7 +25,7 @@
 
 FileListItem::FileListItem(QFileInfo *file, KListView *parent) : QObject(parent), KListViewItem(parent), QFileInfo(*file)
 {
-  header = 0;
+  audioData = 0;
   tag = new Tag(filePath());
   
   refresh();
@@ -37,7 +37,7 @@ FileListItem::FileListItem(FileListItem *item, KListView *parent) : QObject(pare
 
   if(item) {
     tag = item->getTag();
-    header = item->getHeader();
+    audioData = item->getAudioData();
     connect(item, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));
     addSibling(item);
     
@@ -50,8 +50,8 @@ FileListItem::~FileListItem()
   if(tag)
     delete(tag);
  
-  if(header)
-    delete(header);
+  if(audioData)
+    delete(audioData);
 
   emit(destroyed(this));
 }
@@ -63,21 +63,21 @@ Tag *FileListItem::getTag()
   return(tag);
 }
 
-MPEGHeader *FileListItem::getHeader()
+AudioData *FileListItem::getAudioData()
 {
-  if(!header) {
-    header = new MPEGHeader(filePath());
+  if(!audioData) {
+    audioData = new AudioData(filePath());
   }
-  return(header);
+  return(audioData);
 }
 
 void FileListItem::setFile(QString fileName)
 {
   setFile(fileName);
   
-  if(header) {
-    delete(header);
-    (void) getHeader();
+  if(audioData) {
+    delete(audioData);
+    (void) getAudioData();
   }
   if(tag) {
     delete(tag);
@@ -93,7 +93,7 @@ void FileListItem::refresh()
   setText(TrackNumberColumn, getTag()->getTrackNumberString());
   setText(GenreColumn,       getTag()->getGenre());
   setText(YearColumn,        getTag()->getYearString());
-  setText(LengthColumn,      getHeader()->getLengthChar());
+  setText(LengthColumn,      getAudioData()->getLengthChar());
   setText(FileNameColumn,    filePath());
 
   emit(refreshed());
@@ -160,9 +160,9 @@ int FileListItem::compare(FileListItem *firstItem, FileListItem *secondItem, int
       return(0);
   }
   else if(column == LengthColumn) {
-    if(firstItem->getHeader()->getLength() > secondItem->getHeader()->getLength())
+    if(firstItem->getAudioData()->getLength() > secondItem->getAudioData()->getLength())
       return(1);
-    else if(firstItem->getHeader()->getLength() < secondItem->getHeader()->getLength())
+    else if(firstItem->getAudioData()->getLength() < secondItem->getAudioData()->getLength())
       return(-1);
     else
       return(0);    
@@ -178,7 +178,7 @@ int FileListItem::compare(FileListItem *firstItem, FileListItem *secondItem, int
 
 void FileListItem::parentDestroyed(FileListItem *parent)
 {
-  header = 0;
+  audioData = 0;
   tag = 0;
   disconnect(parent, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));
 }

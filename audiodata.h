@@ -1,5 +1,5 @@
 /***************************************************************************
- MPEGHeader.h is a modified version of fileinfo.h which is a part of 
+ AudioData.h is a modified version of fileinfo.h which is a part of 
  Mp3Kult (C) 2001 by Stefano Brustia (hio@lombardiacom.it) which is 
  available at:
 
@@ -17,20 +17,20 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#ifndef MPEGHEADER_H
-#define MPEGHEADER_H
+#ifndef AUDIODATA_H
+#define AUDIODATA_H
 
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/stat.h>
 
-class MPEGHeader
+class AudioData
 {
 
 public:
-     MPEGHeader(const char* filein);
-     ~MPEGHeader();
+     AudioData(const char* filein);
+     ~AudioData();
 
      int getBitrate();
      int getSamplerate();

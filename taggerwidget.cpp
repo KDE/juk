@@ -297,7 +297,7 @@ void TaggerWidget::updateBoxes() // this needs to be updated to properly work wi
 
     if(item) {
       Tag *tag = item->getTag();
-      MPEGHeader *header = item->getHeader();
+      AudioData *audioData = item->getAudioData();
       
       artistNameBox->setEditText(tag->getArtist());
       trackNameBox->setText(tag->getTrack());
@@ -314,9 +314,9 @@ void TaggerWidget::updateBoxes() // this needs to be updated to properly work wi
       trackSpin->setValue(tag->getTrackNumber());
       yearSpin->setValue(tag->getYear());
       
-      if(header->getResult()) {
-	lengthBox->setText(header->getLengthChar());
-	bitrateBox->setText(QString::number(header->getBitrate()));
+      if(audioData->getResult()) {
+	lengthBox->setText(audioData->getLengthChar());
+	bitrateBox->setText(QString::number(audioData->getBitrate()));
       }
       
       commentBox->setText(tag->getComment());

@@ -1,5 +1,5 @@
 /***************************************************************************
- MPEGHeader.cpp is a modified version of fileinfo.cpp which is a part of 
+ AudioData.cpp is a modified version of fileinfo.cpp which is a part of 
  Mp3Kult (C) 2001 by Stefano Brustia (hio@lombardiacom.it) which is 
  available at:
 
@@ -17,7 +17,7 @@
  *   (at your option) any later version.                                   *
  ***************************************************************************/
 
-#include "MPEGHeader.h"
+#include "audiodata.h"
 
 #include <iostream.h>
 #include <ctype.h>
@@ -57,7 +57,7 @@ const char *version_nums[3] =
   {"1", "2", "2.5"};
 
 
-MPEGHeader::MPEGHeader(const char* filein)
+AudioData::AudioData(const char* filein)
 {
      success = false;
      fileglob = strdup(filein);
@@ -77,14 +77,14 @@ MPEGHeader::MPEGHeader(const char* filein)
      }
 }
 
-MPEGHeader::~MPEGHeader()
+AudioData::~AudioData()
 {
   free(fileglob);
   if(lengthchar)
     free(lengthchar);
 }
 
-bool MPEGHeader::readLayerInfo (FILE* file)
+bool AudioData::readLayerInfo (FILE* file)
 {
      unsigned char buf[4];
      unsigned long head;
@@ -143,7 +143,7 @@ bool MPEGHeader::readLayerInfo (FILE* file)
      return true;
 }
 
-bool MPEGHeader::headCheck(unsigned long head)
+bool AudioData::headCheck(unsigned long head)
 {
      if ((head & 0xffe00000) != 0xffe00000)
           return false;
@@ -164,24 +164,24 @@ bool MPEGHeader::headCheck(unsigned long head)
      return true;
 }
 
-int MPEGHeader::getBitrate(){
+int AudioData::getBitrate(){
 	return (bitrates[version][layer - 1][bitrate_index]);
 
 }
 
-int MPEGHeader::getSamplerate(){
+int AudioData::getSamplerate(){
 	return (s_freq[version][sampling_frequency]);
 }
 
-const char* MPEGHeader::getMpegver(){
+const char* AudioData::getMpegver(){
 	return (version_names[version]);
 }
 
-int MPEGHeader::getLayer() {
+int AudioData::getLayer() {
 	return layer;
 }
 
-const char* MPEGHeader::getMode(int mode)
+const char* AudioData::getMode(int mode)
 {
      if ((mode >= 0) && (mode < 5))
 	     return (mode_names[mode]);
@@ -189,16 +189,16 @@ const char* MPEGHeader::getMode(int mode)
      return "Stereo";
 }
 
-int MPEGHeader::getMode()
+int AudioData::getMode()
 {
      return mode;
 }
 
-int MPEGHeader::getLength() {
+int AudioData::getLength() {
 	return length;
 }
 
-char* MPEGHeader::getLengthChar() {
+char* AudioData::getLengthChar() {
 	int min, sec;
 	char buf[6];
 
@@ -212,11 +212,11 @@ char* MPEGHeader::getLengthChar() {
 	return lengthchar;
 }
 
-int MPEGHeader::getSize() {
+int AudioData::getSize() {
 	return filelen;
 }
 
-bool MPEGHeader::getResult()
+bool AudioData::getResult()
 {
      return success;
 }
