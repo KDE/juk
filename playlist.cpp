@@ -469,7 +469,7 @@ void Playlist::playPrevious()
     if(!previous)
 	previous = static_cast<PlaylistItem *>(m_playingItem->itemAbove());
 
-    setPlaying(previous);
+    setPlaying(previous, false);
 }
 
 void Playlist::setName(const QString &n)
@@ -1245,18 +1245,23 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     m_disableColumnWidthUpdates = false;
 }
 
-void Playlist::setPlaying(PlaylistItem *item)
+void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 {
+    if(m_playingItem == item)
+	return;
+
     if(m_playingItem) {
 	m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
 	m_playingItem->setPlaying(false);
+
+	if(addToHistory)
+	    m_playingItem->playlist()->m_history.append(m_playingItem);
+
 	m_playingItem = 0;
     }
 
     if(!item)
 	return;
-
-    item->playlist()->m_history.append(item);
 
     m_playingItem = item;
     item->setPixmap(m_leftColumn, UserIcon("playing"));
