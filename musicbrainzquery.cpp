@@ -77,8 +77,8 @@ void MusicBrainzLookup::confirmation()
         return;
 
     if(!queue.isEmpty()) {
-	queue.append(qMakePair(m_file, results()));
-	return;
+        queue.append(qMakePair(m_file, results()));
+        return;
     }
 
     queue.append(qMakePair(m_file, results()));
