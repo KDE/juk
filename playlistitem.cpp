@@ -47,7 +47,6 @@ FileHandle PlaylistItem::file() const
 
 QString PlaylistItem::text(int column) const
 {
-    // kdDebug(65432) << k_funcinfo << "column == " << column << ", title == "<<  d->fileHandle.tag()->title() << endl;
     if(!d->fileHandle.tag())
 	return QString::null;
 
@@ -172,7 +171,6 @@ void PlaylistItem::slotRefreshFromDisk()
 
 void PlaylistItem::slotClear()
 {
-    // deleteLater();
     static_cast<Playlist *>(listView())->clearItem(this);
 }
 
