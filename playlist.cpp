@@ -224,7 +224,7 @@ Playlist::SharedSettings::SharedSettings()
     }
     else {
 	// Convert the int list into a bool list.
-	
+
 	m_columnsVisible.resize(l.size(), true);
 	uint i = 0;
 	for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
@@ -727,6 +727,9 @@ void Playlist::slotRenameFile()
 
     FileRenamer renamer;
     PlaylistItemList items = selectedItems();
+    if ( items.isEmpty() )
+        return;
+
     if(items.count() == 1)
 	renamer.rename(items[0]);
     else
@@ -954,7 +957,7 @@ void Playlist::setSorting(int column, bool ascending)
     }
     else if(sortColumn() == columnOffset() + PlaylistItem::FileNameColumn)
 	setColumnText(sortColumn(), i18n("File Name"));
-    
+
     KListView::setSorting(column, ascending);
 }
 
@@ -1153,7 +1156,7 @@ void Playlist::polish()
 	    this, SLOT(slotInlineEditDone(QListViewItem *, const QString &, int)));
     connect(this, SIGNAL(doubleClicked(QListViewItem *)),
 	    this, SLOT(slotPlayCurrent()));
-    connect(this, SIGNAL(returnPressed(QListViewItem *)), 
+    connect(this, SIGNAL(returnPressed(QListViewItem *)),
 	    this, SLOT(slotPlayCurrent()));
 
     connect(header(), SIGNAL(sizeChange(int, int, int)),
