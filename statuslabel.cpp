@@ -17,19 +17,13 @@
 
 #include <kpushbutton.h>
 #include <kiconloader.h>
-#include <klocale.h>
 #include <kdebug.h>
 
-#include <qevent.h>
-#include <qstylesheet.h>
 #include <qlabel.h>
 #include <qtooltip.h>
-#include <qfontmetrics.h>
 #include <qlayout.h>
 
 #include "statuslabel.h"
-#include "playlist.h"
-#include "playlistbox.h"
 #include "playlistsplitter.h"
 
 ////////////////////////////////////////////////////////////////////////////////

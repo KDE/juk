@@ -18,7 +18,6 @@
 #include <kuniqueapplication.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
-#include <klocale.h>
 
 #include "juk.h"
 

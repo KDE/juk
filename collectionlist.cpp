@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kurl.h>
 #include <kurldrag.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -23,10 +22,8 @@
 #include <kpopupmenu.h>
 #include <kiconloader.h>
 
-#include <qtimer.h>
 
 #include "collectionlist.h"
-#include "cache.h"
 #include "splashscreen.h"
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -15,25 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kapplication.h>
-#include <klocale.h>
-#include <kiconloader.h>
 #include <kcmdlineargs.h>
 #include <kstatusbar.h>
-#include <kconfig.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 
-#include <qtimer.h>
-#include <qlistview.h>
-#include <qinputdialog.h>
 #include <qslider.h>
-#include <qstrlist.h>
-#include <qmetaobject.h>
 
 #include "juk.h"
 #include "slideraction.h"
-#include "cache.h"
 #include "statuslabel.h"
 #include "splashscreen.h"
 #include "genrelisteditor.h"

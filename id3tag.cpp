@@ -24,7 +24,6 @@
 
 #include "id3tag.h"
 
-#include "genrelist.h"
 #include "genrelistlist.h"
 
 #define REPLACE true

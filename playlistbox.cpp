@@ -18,22 +18,16 @@
 #include <kiconloader.h>
 #include <kurldrag.h>
 #include <kmessagebox.h>
-#include <klocale.h>
-#include <kapplication.h>
 #include <klineeditdlg.h>
 #include <kpopupmenu.h>
 #include <kaction.h>
 #include <kdebug.h>
 
-#include <qfile.h>
-#include <qdrawutil.h>
-#include <qclipboard.h>
 #include <qheader.h>
 #include <qpainter.h>
 #include <qregexp.h>
 
 #include "playlistbox.h"
-#include "collectionlist.h"
 #include "playlistsplitter.h"
 
 ////////////////////////////////////////////////////////////////////////////////

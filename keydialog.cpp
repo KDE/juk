@@ -19,9 +19,7 @@
 
 #include <kconfig.h>
 #include <klocale.h>
-#include <kshortcut.h>
 
-#include <qlayout.h>
 #include <qradiobutton.h>
 #include <qvbox.h>
 #include <qwhatsthis.h>

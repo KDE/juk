@@ -23,7 +23,6 @@
 #include "tag.h"
 #include "id3tag.h"
 #include "oggtag.h"
-#include "cachedtag.h"
 #include "cache.h"
 
 ////////////////////////////////////////////////////////////////////////////////

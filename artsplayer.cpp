@@ -19,7 +19,6 @@
 #include <kconfig.h>
 #include <kstandarddirs.h>
 
-#include <qfile.h>
 #include <qdir.h>
 
 #include <connect.h>

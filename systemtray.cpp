@@ -14,10 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kapplication.h>
 #include <kiconloader.h>
 #include <kpopupmenu.h>
-#include <klocale.h>
 #include <kpassivepopup.h>
 #include <kaction.h>
 #include <kmainwindow.h>
@@ -26,8 +24,6 @@
 
 #include <qhbox.h>
 #include <qpushbutton.h>
-#include <qlabel.h>
-#include <qtimer.h>
 #include <qtooltip.h>
 #include <qpainter.h>
 

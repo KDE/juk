@@ -19,7 +19,6 @@
 
 #include "tagguesser.h"
 #include "playlistitem.h"
-#include "playlist.h"
 #include "filerenamer.h"
 #include "collectionlist.h"
 

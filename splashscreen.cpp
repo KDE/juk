@@ -21,8 +21,6 @@
 #include <kdebug.h>
 
 #include <qlabel.h>
-#include <qfont.h>
-#include <qtimer.h>
 
 #include "splashscreen.h"
 

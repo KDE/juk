@@ -15,22 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
-#include <kiconloader.h>
-#include <kapplication.h>
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
-#include <kdirwatch.h>
 #include <klineeditdlg.h>
 #include <kdebug.h>
 
-#include <qtimer.h>
 
-#include "playlistitem.h"
 #include "playlistsplitter.h"
-#include "collectionlist.h"
 #include "directorylist.h"
-#include "playlist.h"
 #include "playlistsearch.h"
 
 QStringList *PlaylistSplitter::m_mediaExtensions = 0;

@@ -11,14 +11,10 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kdebug.h>
-#include <kdeversion.h>
 #if KDE_IS_VERSION(3,1,90)
 #    include <kmacroexpander.h>
 #endif
 
-#include <qmap.h>
-#include <qregexp.h>
-#include <qurl.h>
 
 FileNameScheme::FileNameScheme(const QString &s)
     : m_regExp(),

@@ -11,14 +11,12 @@
 
 #include <kapplication.h>
 #include <kconfig.h>
-#include <kdeversion.h>
 #include <kdebug.h>
 #if KDE_IS_VERSION(3,1,90)
 #  include <kmacroexpander.h>
 #endif
 
 #include <qdir.h>
-#include <qfile.h>
 
 FileRenamer::FileRenamer()
 {

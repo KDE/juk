@@ -22,7 +22,6 @@
 #include "artsplayer.h"
 #include "gstreamerplayer.h"
 
-#include "../config.h"
 
 /*
  * The goal here is to contain all of the #if'ed ugliness in this file.

@@ -19,7 +19,6 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-#include <qslider.h>
 #include <qlabel.h>
 #include <qtooltip.h>
 #include <qlayout.h>

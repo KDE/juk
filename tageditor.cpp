@@ -15,7 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kapplication.h>
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <knuminput.h>
@@ -24,7 +23,6 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <kdebug.h>
-#include <kpushbutton.h>
 
 #include <qlabel.h>
 #include <qcheckbox.h>
@@ -32,7 +30,6 @@
 #include <qdir.h>
 
 #include "tageditor.h"
-#include "tag.h"
 #include "collectionlist.h"
 #include "genrelistlist.h"
 

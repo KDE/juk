@@ -17,9 +17,7 @@
 
 #include <kdebug.h>
 
-#include <qdatetime.h>
 #include <qregexp.h>
-#include <qvariant.h>
 
 #include "oggtag.h"
 #include "genrelistlist.h"

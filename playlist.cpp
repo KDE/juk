@@ -15,36 +15,23 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kapplication.h>
-#include <kfiledialog.h>
 #include <kmessagebox.h>
-#include <kurl.h>
 #include <kurldrag.h>
 #include <kiconloader.h>
-#include <kstandarddirs.h>
-#include <klocale.h>
 #include <klineedit.h>
 #include <kaction.h>
 #include <kpopupmenu.h>
 #include <kdebug.h>
 
-#include <qfileinfo.h>
-#include <qdir.h>
-#include <qtimer.h>
-#include <qapplication.h>
 #include <qheader.h>
 #include <qcursor.h>
-#include <qclipboard.h>
 
 #include <stdlib.h>
 #include <limits.h>
 #include <time.h>
 
 #include "playlist.h"
-#include "collectionlist.h"
-#include "playlistbox.h"
 #include "playlistsplitter.h"
-#include "tag.h"
 #include "genrelistlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
