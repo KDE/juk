@@ -16,11 +16,12 @@
 #define GOOGLEFETCHERDIALOG_H
 
 #include <kdialogbase.h>
-#include <kurl.h>
 
 #include <qpixmap.h>
 
-#include "tag.h"
+#include "filehandle.h"
+
+class KURL;
 
 class GoogleFetcherDialog : public KDialogBase
 {
@@ -28,9 +29,9 @@ class GoogleFetcherDialog : public KDialogBase
 
 public:
     GoogleFetcherDialog(const QString &name,
-                        const QValueList<QString> &urlList,
+                        const QStringList &urlList,
                         uint selectedIndex,
-                        const Tag *tag,
+			const FileHandle &file,
                         QWidget *parent = 0);
 
     virtual ~GoogleFetcherDialog();
@@ -53,15 +54,15 @@ private:
     void setLayout();
 
     QPixmap fetchedImage(uint index) const;
-    QPixmap getPixmapFromURL(KURL url) const;
+    QPixmap getPixmapFromURL(const KURL &url) const;
 
-    QValueList<QString> m_urlList;
+    QStringList m_urlList;
     QPixmap m_pixmap;
     QWidget *m_pixWidget;
     bool m_takeIt;
     bool m_newSearch;
     uint m_index;
-    const Tag *m_tag;
+    FileHandle m_file;
 };
 
 #endif

@@ -20,13 +20,14 @@
 #include <kmainwindow.h>
 #include <klocale.h>
 #include <kinputdialog.h>
+#include <kurl.h>
 
 #include "googlefetcher.h"
 #include "googlefetcherdialog.h"
 
-GoogleFetcher::GoogleFetcher(const Tag *tag)
-    : m_tag(tag),
-      m_searchString(m_tag->artist() + " " + m_tag->album())
+GoogleFetcher::GoogleFetcher(const FileHandle &file)
+    : m_file(file),
+      m_searchString(file.tag()->artist() + " " + file.tag()->album())
 {
 
 }
@@ -89,7 +90,7 @@ QPixmap GoogleFetcher::pixmap()
             }
         }
         else {
-            GoogleFetcherDialog dialog("google", m_urlList, m_selectedIndex, m_tag, 0);
+            GoogleFetcherDialog dialog("google", m_urlList, m_selectedIndex, m_file, 0);
             dialog.exec();
             m_currentPixmap = dialog.result();
             m_chosen = dialog.takeIt();

@@ -18,13 +18,14 @@
 #include <qpixmap.h>
 #include <qstringlist.h>
 
+#include "filehandle.h"
+
 class KURL;
-class Tag;
 
 class GoogleFetcher
 {
 public:
-    GoogleFetcher(const Tag *tag);
+    GoogleFetcher(const FileHandle &file);
     QPixmap pixmap();
 
 private:
@@ -37,7 +38,7 @@ private:
     void displayWaitMessage();
     void buildBox();
 
-    const Tag *m_tag;
+    FileHandle m_file;
     QString m_searchString;
     QString m_loadedQuery;
     QStringList m_urlList;

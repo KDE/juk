@@ -757,7 +757,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
     }
     else {
         PlaylistItemList::Iterator it=items.begin();
-        image = GoogleFetcher((*it)->file().tag()).pixmap().convertToImage();;
+        image = GoogleFetcher((*it)->file()).pixmap().convertToImage();;
     }
 
     if(image.isNull())

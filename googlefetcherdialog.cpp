@@ -22,9 +22,9 @@
 #include "googlefetcherdialog.h"
 
 GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
-                                         const QValueList<QString> &urlList,
+                                         const QStringList &urlList,
                                          uint selectedIndex,
-                                         const Tag *tag,
+                                         const FileHandle &file,
                                          QWidget *parent) :
     KDialogBase(parent, name.latin1(), true, QString::null,
                 Ok | Cancel | User1 | User2 | User3, NoDefault, true),
@@ -33,7 +33,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     m_takeIt(false),
     m_newSearch(false),
     m_index(selectedIndex),
-    m_tag(tag)
+    m_file(file)
 {
     QHBox *mainBox = new QHBox(this);
     m_pixWidget = new QWidget(mainBox);
@@ -56,7 +56,7 @@ void GoogleFetcherDialog::setLayout()
         m_pixmap = QImage(m_pixmap.convertToImage()).smoothScale(500, 500);
 
     setCaption(QString("(%1/%2) %3 - %4").arg(m_index+1).arg(m_urlList.size())
-               .arg(m_tag->artist()).arg(m_tag->album()));
+               .arg(m_file.tag()->artist()).arg(m_file.tag()->album()));
 
     m_pixWidget->setPaletteBackgroundPixmap(m_pixmap);
     m_pixWidget->setFixedSize(m_pixmap.size());
@@ -85,7 +85,7 @@ void GoogleFetcherDialog::slotCancel()
 {
     m_takeIt = true;
     m_newSearch = false;
-    m_pixmap=QPixmap();
+    m_pixmap = QPixmap();
     hide();
 }
 
@@ -93,12 +93,7 @@ void GoogleFetcherDialog::slotUser3()
 {
     m_takeIt = false;
     m_newSearch = false;
-
-    if(m_index == 0)
-        m_index = m_urlList.size() - 1;
-    else
-        m_index = m_index-1;
-
+    m_index = m_index == 0 ? m_urlList.size() - 1 : m_index - 1;
     setLayout();
 }
 
@@ -106,12 +101,7 @@ void GoogleFetcherDialog::slotUser2()
 {
     m_takeIt = false;
     m_newSearch = false;
-
-    if(m_index >= m_urlList.size()-1)
-        m_index = 0;
-    else
-        m_index = m_index+1;
-
+    m_index = (m_index >= m_urlList.size() - 1) ? 0 : m_index + 1;
     setLayout();
 }
 
@@ -126,18 +116,19 @@ void GoogleFetcherDialog::slotUser1()
 
 QPixmap GoogleFetcherDialog::fetchedImage(uint index) const
 {
-    if (index>m_urlList.count())
+    if(index>m_urlList.count())
         return QPixmap();
 
     QValueListConstIterator<QString> returnVal = m_urlList.at(index);
     return getPixmapFromURL(*returnVal);
 }
 
-QPixmap GoogleFetcherDialog::getPixmapFromURL(KURL url) const
+QPixmap GoogleFetcherDialog::getPixmapFromURL(const KURL &url) const
 {
     kdDebug(65432) << "imageURL: " << url << endl;
 
     QString tmpFile;
+
     if(KIO::NetAccess::download(url, tmpFile, 0)) {
         QPixmap returnVal = QPixmap(tmpFile);
         QFile(tmpFile).remove();
