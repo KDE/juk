@@ -44,7 +44,7 @@ FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
     if(m_options.category() != Track)
         m_trackGroup->hide();
 
-    QString tagText = m_options.getTagTypeText();
+    QString tagText = m_options.tagTypeText();
 
     setCaption(caption().arg(tagText));
     m_tagFormatGroup->setTitle(m_tagFormatGroup->title().arg(tagText));
@@ -68,7 +68,7 @@ FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
 
 void FileRenamerTagOptions::slotBracketsChanged()
 {
-    QString tag = m_options.getTagTypeText();
+    QString tag = m_options.tagTypeText();
 
     m_options.setPrefix(m_prefixText->text());
     m_options.setSuffix(m_suffixText->text());

@@ -58,18 +58,18 @@ public:
 
     TagRenamerOptions &operator=(const TagRenamerOptions &other);
 
-/**
- * Maps \p type to a textual representation of its name.  E.g. Track => "Track"
- *
- * @param type the category to retrieve a text representation of.
- * @param translate if true, the string is translated (if possible).
- * @return text representation of category.
- */
-    static QString getTagTypeText(TagType category, bool translate = true);
+    /**
+     * Maps \p type to a textual representation of its name.  E.g. Track => "Track"
+     *
+     * @param type the category to retrieve a text representation of.
+     * @param translate if true, the string is translated (if possible).
+     * @return text representation of category.
+     */
+    static QString tagTypeText(TagType category, bool translate = true);
 
-    QString getTagTypeText(bool translate = true) const
+    QString tagTypeText(bool translate = true) const
     {
-        return getTagTypeText(category(), translate);
+        return tagTypeText(category(), translate);
     }
 
     /**

@@ -352,7 +352,7 @@ void FileRenamerWidget::createTagRows()
         downMapper->connect(m_rows[i].downButton, SIGNAL(clicked()), SLOT(map()));
         downMapper->setMapping(m_rows[i].downButton, m_rows[i].category);
 
-        QString labelText = QString("<b>%1</b>").arg(TagRenamerOptions::getTagTypeText(m_rows[i].category));
+        QString labelText = QString("<b>%1</b>").arg(TagRenamerOptions::tagTypeText(m_rows[i].category));
         QLabel *label = new QLabel(labelText, frame);
         frame->setStretchFactor(label, 1);
         label->setAlignment(AlignCenter);

@@ -61,7 +61,7 @@ TagRenamerOptions::TagRenamerOptions(TagType category)
 
     // Make sure we don't use translated strings for the config file keys.
 
-    const QString typeKey = getTagTypeText(category, false);
+    const QString typeKey = tagTypeText(category, false);
     KConfigGroup config(KGlobal::config(), "FileRenamer");
 
     setSuffix(config.readEntry(QString("%1Suffix").arg(typeKey)));
@@ -82,7 +82,7 @@ TagRenamerOptions::TagRenamerOptions(TagType category)
     setDisabled(config.readBoolEntry(QString("%1Disabled").arg(typeKey), disabled));
 }
 
-QString TagRenamerOptions::getTagTypeText(TagType type, bool translate)
+QString TagRenamerOptions::tagTypeText(TagType type, bool translate)
 {
     // These must be declared in the same order that they are defined in
     // the TagType enum in test.h.  We can dynamically translate these strings,
@@ -106,7 +106,7 @@ void TagRenamerOptions::saveConfig() const
 {
     // Make sure we don't use translated strings for the config file keys.
 
-    const QString typeKey = getTagTypeText(false);
+    const QString typeKey = tagTypeText(false);
     KConfigGroup config(KGlobal::config(), "FileRenamer");
 
     config.writeEntry(QString("%1Suffix").arg(typeKey), suffix());
