@@ -55,10 +55,10 @@ protected slots:
 private:
     void setLayout();
 
-    QPixmap m_pixmap;
     QPixmap fetchedImage(uint index) const;
     QPixmap pixmapFromURL(const KURL &url) const;
 
+    QPixmap m_pixmap;
     QValueList<GoogleImage> m_imageList;
     KIconView *m_iconWidget;
     bool m_takeIt;
