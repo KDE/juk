@@ -396,8 +396,7 @@ protected:
     virtual QDragObject *dragObject(QWidget *parent);
     virtual QDragObject *dragObject() { return dragObject(this); }
     virtual bool canDecode(QMimeSource *s);
-    virtual void decode(QMimeSource *s, PlaylistItem *after = 0);
-    void tryCoverSet(QDropEvent *e);
+    virtual void decode(QMimeSource *s, PlaylistItem *item = 0);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);
     virtual void showEvent(QShowEvent *e);
@@ -512,6 +511,8 @@ private:
     PlaylistItem *addFile(const QString &file, bool importPlaylists, PlaylistItem *after);
 
     void redisplaySearch() { setSearch(m_search); }
+
+    void refreshAlbum(const QString &artist, const QString &album);
 
     /**
      * This class is used internally to store settings that are shared by all

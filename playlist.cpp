@@ -307,7 +307,6 @@ UpcomingPlaylist *Playlist::m_upcomingPlaylist = 0;
 QMap<int, PlaylistItem *> Playlist::m_backMenuItems;
 int Playlist::m_leftColumn = 0;
 
-
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
 		   const QString &iconName) :
     KListView(collection->playlistStack(), name.latin1()),
@@ -913,19 +912,46 @@ bool Playlist::canDecode(QMimeSource *s)
     return KURLDrag::decode(s, urls) && !urls.isEmpty();
 }
 
-void Playlist::decode(QMimeSource *s, PlaylistItem *after)
+void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 {
     KURL::List urls;
 
     if(!KURLDrag::decode(s, urls) || urls.isEmpty())
 	return;
 
+    // handle dropped images
+
+    if(!MediaFiles::isMediaFile(urls.front().path())) {
+
+	QString file;
+
+	if(urls.front().isLocalFile())
+	    file = urls.front().path();
+	else
+	    KIO::NetAccess::download(urls.front(), file, 0);
+
+	KMimeType::Ptr mimeType = KMimeType::findByPath(file);
+
+	kdDebug(65432) << k_funcinfo << mimeType->name() << endl;
+
+	if(item && mimeType->name().startsWith("image/")) {
+	    QFile::remove(item->file().coverInfo()->coverLocation(true));
+	    QFile::remove(item->file().coverInfo()->coverLocation(false));
+	    QImage(file).save(item->file().coverInfo()->coverLocation(true), "PNG");
+
+	    refreshAlbum(item->file().tag()->artist(),
+			 item->file().tag()->album());
+
+	    PlayerManager::instance()->registerChangedCover();
+	}
+    }
+
     QStringList fileList;
 
     for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
 	fileList.append((*it).path());
 
-    addFiles(fileList, m_collection->importPlaylists(), after);
+    addFiles(fileList, m_collection->importPlaylists(), item);
 }
 
 bool Playlist::eventFilter(QObject *watched, QEvent *e)
@@ -967,16 +993,16 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 void Playlist::contentsDropEvent(QDropEvent *e)
 {
     QPoint vp = contentsToViewport(e->pos());
-    PlaylistItem *moveAfter = static_cast<PlaylistItem *>(itemAt(vp));
+    PlaylistItem *item = static_cast<PlaylistItem *>(itemAt(vp));
 
     // When dropping on the upper half of an item, insert before this item.
     // This is what the user expects, and also allows the insertion at
     // top of the list
 
-    if(!moveAfter)
-	moveAfter = static_cast<PlaylistItem *>(lastItem());
-    else if(vp.y() < moveAfter->itemPos() + moveAfter->height() / 2)
-	moveAfter = static_cast<PlaylistItem *>(moveAfter->itemAbove());
+    if(!item)
+	item = static_cast<PlaylistItem *>(lastItem());
+    else if(vp.y() < item->itemPos() + item->height() / 2)
+	item = static_cast<PlaylistItem *>(item->itemAbove());
 
     if(e->source() == this) {
 
@@ -987,7 +1013,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	QPtrList<QListViewItem> items = KListView::selectedItems();
 
 	for(QPtrListIterator<QListViewItem> it(items); it.current(); ++it) {
-	    if(!moveAfter) {
+	    if(!item) {
 
 		// Insert the item at the top of the list.  This is a bit ugly,
 		// but I don't see another way.
@@ -996,61 +1022,17 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 		insertItem(it.current());
 	    }
 	    else
-		it.current()->moveItem(moveAfter);
+		it.current()->moveItem(item);
 
-	    moveAfter = static_cast<PlaylistItem *>(it.current());
+	    item = static_cast<PlaylistItem *>(it.current());
 	}
     }
     else
-    {
-        tryCoverSet(e);
-	decode(e, moveAfter);
-    }
+	decode(e, item);
 
     dataChanged();
     emit signalPlaylistItemsDropped(this);
     KListView::contentsDropEvent(e);
-}
-
-void Playlist::tryCoverSet(QDropEvent *e)
-{
-    QPoint vp = contentsToViewport(e->pos());
-    PlaylistItem *coverItem = static_cast<PlaylistItem *>(itemAt(vp));
-
-    if(!coverItem)
-        return;
-
-    KURL::List urls;
-
-    if(!KURLDrag::decode(e, urls) || urls.isEmpty())
-            return;
-
-    KURL::List::Iterator it = urls.begin();
-    KURL url(*it);
-
-    QImage image;
-
-    if(url.isLocalFile())
-        image = QImage(url.directory() + "/" + url.fileName());
-    else {
-        QString tmpFile;
-	if(KIO::NetAccess::download(url, tmpFile, 0)) {
-	    image = QImage(tmpFile);
-	    QFile(tmpFile).remove();
-	}
-    }
-
-    if(image.isNull())
-        return;
-
-    QFile::remove(coverItem->file().coverInfo()->coverLocation(CoverInfo::FullSize));
-    QFile::remove(coverItem->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
-
-    image.save(coverItem->file().coverInfo()->coverLocation(CoverInfo::FullSize), "PNG");
-
-    slotRefresh();
-
-    PlayerManager::instance()->registerChangedCover();
 }
 
 void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
@@ -1149,6 +1131,32 @@ void Playlist::addFiles(const QStringList &files, bool importPlaylists,
     dataChanged();
 
     KApplication::restoreOverrideCursor();
+}
+
+void Playlist::refreshAlbum(const QString &artist, const QString &album)
+{
+    ColumnList columns;
+    columns.append(PlaylistItem::ArtistColumn);
+    PlaylistSearch::Component artistComponent(artist, false, columns,
+					      PlaylistSearch::Component::Exact);
+
+    columns.clear();
+    columns.append(PlaylistItem::AlbumColumn);
+    PlaylistSearch::Component albumComponent(album, false, columns,
+					     PlaylistSearch::Component::Exact);
+
+    PlaylistSearch::ComponentList components;
+    components.append(artist);
+    components.append(album);
+
+    PlaylistList playlists;
+    playlists.append(CollectionList::instance());
+
+    PlaylistSearch search(playlists, components);
+    PlaylistItemList matches = search.matchedItems();
+
+    for(PlaylistItemList::Iterator it = matches.begin(); it != matches.end(); ++it)
+	(*it)->refresh();
 }
 
 void Playlist::hideColumn(int c, bool updateSearch)

@@ -257,11 +257,8 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 {
     if(e->source() == this)
 	return;
-    else
-    {
-	tryCoverSet(e);
-	decode(e);
-    }
+    else 
+	decode(e, static_cast<PlaylistItem *>(itemAt(contentsToViewport(e->pos()))));
 }
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
