@@ -408,6 +408,9 @@ void PlaylistCollection::raise(Playlist *playlist)
 
 void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
 {
+    if(!playlist->fileName().isNull())
+        m_playlistFiles.insert(playlist->fileName());
+
     if(!playlist->name().isNull())
         m_playlistNames.insert(playlist->name());
 
@@ -503,7 +506,6 @@ void PlaylistCollection::readConfig()
     m_importPlaylists = config.readBoolEntry("ImportPlaylists", true);
     m_folderList      = config.readPathListEntry("DirectoryList");
 
-    // QTimer::singleShot(0, this, SLOT(slotScanDirectories()));
     // connect(&m_dirWatch, SIGNAL(dirty(const QString &)),
     // this, SLOT(slotDirChanged(const QString &)));
 

@@ -118,6 +118,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     CollectionList::initialize(this);
     Cache::loadPlaylists(this);
     raise(CollectionList::instance());
+    QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
 }
 
 PlaylistBox::~PlaylistBox()
