@@ -221,8 +221,6 @@ public slots:
     void slotDeletePlaylist();
 
 signals:
-    void signalActivated();
-    void signalListBoxDoubleClicked();
     void signalPlaylistChanged();
     void signalSelectedPlaylistCountChanged(int);
     void signalSelectedPlaylistTimeChanged(int);
@@ -345,6 +343,8 @@ private slots:
      */
     void slotCreateSearchList(const PlaylistSearch &search, const QString &searchCategory,
 			      const QString &name);
+
+    void slotPlayCurrent();
 
     /**
      * Since the player is handled at a higher level, this just clears the

@@ -523,8 +523,6 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(signalCurrentChanged(const PlaylistList &)),
 	    this, SLOT(slotChangePlaylist(const PlaylistList &)));
 
-    connect(m_playlistBox, SIGNAL(signalDoubleClicked()), this, SIGNAL(signalListBoxDoubleClicked()));
-
     // Create the collection list; this should always exist.  This has a
     // slightly different creation process than normal playlists (since it in
     // fact is a subclass) so it is created here rather than by using
@@ -659,10 +657,10 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon, 
 	    m_editor, SLOT(slotSetItems(const PlaylistItemList &)));
 
     connect(p, SIGNAL(doubleClicked(QListViewItem *)),
-	    this, SIGNAL(signalActivated()));
+	    this, SLOT(slotPlayCurrent()));
 
     connect(p, SIGNAL(returnPressed(QListViewItem *)), 
-	    this, SIGNAL(signalActivated()));
+	    this, SLOT(slotPlayCurrent()));
 
     connect(p, SIGNAL(signalCountChanged(Playlist *)),
 	    this, SLOT(slotPlaylistCountChanged(Playlist *)));
@@ -1029,6 +1027,12 @@ void PlaylistSplitter::slotCreateSearchList(const PlaylistSearch &search,
     SearchPlaylist *p = new SearchPlaylist(m_playlistStack, search, name);
     m_playlistBox->createSearchItem(p, searchCategory);
     setupPlaylist(p, false, 0);
+}
+
+void PlaylistSplitter::slotPlayCurrent()
+{
+    action("stop")->activate();
+    action("play")->activate();
 }
 
 void PlaylistSplitter::stop()

@@ -116,12 +116,6 @@ void JuK::setupLayout()
     m_splitter = new PlaylistSplitter(this, "playlistSplitter");
     setCentralWidget(m_splitter);
 
-    // playlist item activation connection
-    connect(m_splitter, SIGNAL(signalActivated()),
-	    this, SLOT(slotPlayCurrent()));
-    connect(m_splitter, SIGNAL(signalListBoxDoubleClicked()),
-	    this, SLOT(slotPlayCurrent()));
-
     // create status bar
 
     m_statusLabel = new StatusLabel(statusBar());
@@ -603,16 +597,6 @@ void JuK::slotToggleSystemTray(bool enabled)
 void JuK::slotEditKeys()
 {
     KeyDialog::configure(m_accel, actions(), this);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// additional player slots
-////////////////////////////////////////////////////////////////////////////////
-
-void JuK::slotPlayCurrent()
-{
-    m_player->stop();
-    action("play")->activate();
 }
 
 void JuK::slotConfigureTagGuesser()

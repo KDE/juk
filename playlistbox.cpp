@@ -506,7 +506,8 @@ void PlaylistBox::slotPlaylistChanged()
 
 void PlaylistBox::slotDoubleClicked(QListViewItem *)
 {
-    emit signalDoubleClicked();
+    action("stop")->activate();
+    action("play")->activate();
 }
 
 void PlaylistBox::slotShowContextMenu(QListViewItem *, const QPoint &point, int)

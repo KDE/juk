@@ -96,30 +96,20 @@ private:
 				  const KShortcut &shortcut = KShortcut());
 
 private slots:
-
-    /**
-     * Toggles the shown / hidden state of the main window.
-     */
     void slotShowHide();
 
     void slotPlaylistChanged();
 
-    // file menu
     void slotQuit();
 
-    // settings menu
     void slotToggleSystemTray(bool enabled);
     void slotEditKeys();
     void slotConfigureTagGuesser();
     void slotConfigureFileRenamer();
-
-    void slotPlayCurrent();
-
     void slotGuessTagInfoFromFile();
     void slotGuessTagInfoFromInternet();
 
 private:
-    // layout objects
     PlaylistSplitter *m_splitter;
     StatusLabel *m_statusLabel;
     SystemTray *m_systemTray;
@@ -127,7 +117,6 @@ private:
     typedef QPair<KAction *, const char *> SplitterConnection;
     QValueList<SplitterConnection> m_splitterConnections;
 
-    // actions
     SliderAction *m_sliderAction;
     KToggleAction *m_showSearchAction;
     KToggleAction *m_showEditorAction;
