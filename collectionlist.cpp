@@ -352,7 +352,8 @@ void CollectionListItem::refresh()
     playlist()->dataChanged();
     CollectionList::instance()->dataChanged();
     emit CollectionList::instance()->signalCollectionChanged();
-    repaint();
+    if(listView()->isVisible())
+	repaint();
 }
 
 PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist) const
