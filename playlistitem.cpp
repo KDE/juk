@@ -334,6 +334,8 @@ void PlaylistItem::slotRefreshImpl()
 	if(newWidth != m_data->cachedWidth(i))
 	    emit signalColumnWidthChanged(i);
     }
+
+    repaint();
 }
 
 void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
