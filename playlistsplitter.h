@@ -23,7 +23,6 @@
 #include "playlistbox.h"
 
 class KActionMenu;
-class KDirWatch;
 class PlaylistItem;
 class SearchWidget;
 class HistoryPlaylist;

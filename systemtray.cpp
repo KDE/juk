@@ -326,7 +326,7 @@ void SystemTray::createPopup()
         if(!playingInfo->album().isEmpty()) {
             QString album = QStyleSheet::escape(playingInfo->album());
             QString s = playingInfo->year() > 0
-                ? QString("%1 (%2)").arg(album).arg(playingInfo->year())
+                ? QString("<qt>%1</qt> (%2)").arg(album).arg(playingInfo->year())
                 : album;
             m_labels[labelCount++]->setText(s);
         }
