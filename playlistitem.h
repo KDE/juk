@@ -51,12 +51,11 @@ public:
 
     // These are just forwarding methods to PlaylistItem::Data, a QFileInfo 
     // subclass.
-
-    inline QString fileName() const;
-    inline QString filePath() const;
-    inline QString absFilePath() const;
-    inline QString dirPath(bool absPath = false) const;
-    inline bool isWritable() const;
+    QString fileName() const;
+    QString filePath() const;
+    QString absFilePath() const;
+    QString dirPath(bool absPath = false) const;
+    bool isWritable() const;
 
 public slots:
     /**

@@ -58,7 +58,7 @@ public:
     /**
      * Checks to see if the cache for this item is up to date.
      */
-    inline bool current() const;
+    bool current() const;
     QDataStream &read(QDataStream &s);
 
 private:

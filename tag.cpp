@@ -53,26 +53,6 @@ Tag::~Tag()
     Cache::instance()->remove(absFilePath());
 }
 
-QString Tag::absFilePath() const
-{
-    return(info.absFilePath());
-}
-
-QDateTime Tag::lastModified() const
-{
-    return(info.lastModified());
-}
-
-bool Tag::fileExists() const
-{
-    return(info.exists() && info.isFile());
-}
-
-QFileInfo Tag::fileInfo() const
-{
-    return(info);
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////

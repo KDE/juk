@@ -42,7 +42,6 @@ Tag *PlaylistItem::tag() const
 }
 
 // QFileInfo-ish methods
-
 QString PlaylistItem::fileName() const { return(data->fileName()); }
 QString PlaylistItem::filePath() const { return(data->filePath()); }
 QString PlaylistItem::absFilePath() const { return(data->absFilePath()); }

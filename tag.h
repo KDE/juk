@@ -75,10 +75,10 @@ public:
     // These functions are inlined because they are used on startup -- the most
     // performance critical section of JuK.
 
-    inline QString absFilePath() const;
-    inline QDateTime lastModified() const;
-    inline bool fileExists() const;
-    inline QFileInfo fileInfo() const;
+    inline QString absFilePath() const { return(info.absFilePath()); }
+    inline QDateTime lastModified() const { return(info.lastModified()); }
+    inline bool fileExists() const { return(info.exists() && info.isFile()); }
+    inline QFileInfo fileInfo() const { return(info); }
     
 protected:
     /**
@@ -89,9 +89,9 @@ protected:
      */
     Tag(const QString &file);
 
-    static inline QString readBitrate(const KFileMetaInfo &metaInfo);
-    static inline QString readLength(const KFileMetaInfo &metaInfo);
-    static inline int readSeconds(const KFileMetaInfo &metaInfo);
+    static QString readBitrate(const KFileMetaInfo &metaInfo);
+    static QString readLength(const KFileMetaInfo &metaInfo);
+    static int readSeconds(const KFileMetaInfo &metaInfo);
     
 private:
     QFileInfo info;
