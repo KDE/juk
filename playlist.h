@@ -257,7 +257,7 @@ protected:
     virtual QDragObject *dragObject(QWidget *parent);
     virtual QDragObject *dragObject() { return dragObject(this); }
     virtual bool canDecode(QMimeSource *s);
-    virtual void decode(QMimeSource *s, QListViewItem *after = 0);
+    virtual void decode(QMimeSource *s, PlaylistItem *after = 0);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const { return KURLDrag::canDecode(e); }
@@ -320,7 +320,7 @@ signals:
     /**
      * This is emitted when \a files are dropped on a specific playlist.
      */
-    void signalFilesDropped(const QStringList &files, Playlist *, QListViewItem *after);
+    void signalFilesDropped(const QStringList &files, Playlist *, PlaylistItem *after);
 
     /**
      * Set the next item to be played in the current playlist.  This is used by

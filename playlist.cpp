@@ -444,7 +444,7 @@ void Playlist::copy()
 
 void Playlist::paste()
 {
-    decode(kapp->clipboard()->data(), currentItem());
+    decode(kapp->clipboard()->data(), static_cast<PlaylistItem *>(currentItem()));
 }
 
 void Playlist::clear()
@@ -559,7 +559,7 @@ bool Playlist::canDecode(QMimeSource *s)
     return KURLDrag::decode(s, urls) && !urls.isEmpty();
 }
 
-void Playlist::decode(QMimeSource *s, QListViewItem *after)
+void Playlist::decode(QMimeSource *s, PlaylistItem *after)
 {
     KURL::List urls;
 
@@ -595,16 +595,16 @@ bool Playlist::eventFilter(QObject* watched, QEvent* e)
 void Playlist::contentsDropEvent(QDropEvent *e)
 {
     QPoint vp = contentsToViewport(e->pos());
-    QListViewItem *moveAfter = itemAt(vp);
+    PlaylistItem *moveAfter = static_cast<PlaylistItem *>(itemAt(vp));
 
     // When dropping on the upper half of an item, insert before this item.
     // This is what the user expects, and also allows the insertion at
     // top of the list
 
     if(!moveAfter)
-	moveAfter = lastItem();
+	moveAfter = static_cast<PlaylistItem *>(lastItem());
     else if(vp.y() < moveAfter->itemPos() + moveAfter->height() / 2)
-	moveAfter = moveAfter->itemAbove();
+	moveAfter = static_cast<PlaylistItem *>(moveAfter->itemAbove());
 
     if(e->source() == this) {
 
@@ -626,7 +626,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	    else
 		it.current()->moveItem(moveAfter);
 
-	    moveAfter = it.current();
+	    moveAfter = static_cast<PlaylistItem *>(it.current());
 	}
     }
     else
