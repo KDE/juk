@@ -22,16 +22,28 @@
 
 #include "tag.h"
 #include "cacheitem.h"
+#include "audiodata.h"
 
 class FileListItemData : public QFileInfo
 {
 public: 
-  FileListItemData();
+  FileListItemData(QFileInfo *file);
   ~FileListItemData();
 
+  FileListItemData *newUser();
+  void deleteUser();
+
+  Tag *getTag();
+  AudioData *getAudioData();
+
+  void setFile(QString file);
+
 private:
+  int referenceCount;
+
   CacheItem *cache;
   Tag *tag;
+  AudioData *audioData;
 };
 
 #endif

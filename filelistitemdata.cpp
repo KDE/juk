@@ -17,7 +17,59 @@
 
 #include "filelistitemdata.h"
 
-FileListItemData::FileListItemData(){
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+////////////////////////////////////////////////////////////////////////////////
+
+FileListItemData::FileListItemData(QFileInfo *file) : QFileInfo(*file)
+{
+  referenceCount = 1;
+
+  // initialize pointers to null
+  cache = 0;
+  tag = 0;
+  audioData = 0;
 }
-FileListItemData::~FileListItemData(){
+
+FileListItemData::~FileListItemData()
+{
+  delete(cache);
+  delete(tag);
+  delete(audioData);
+}
+
+FileListItemData *FileListItemData::newUser()
+{
+  referenceCount++;
+  return(this);
+}
+
+void FileListItemData::deleteUser()
+{
+  referenceCount--;
+  if(referenceCount <= 0)
+    delete(this);
+}
+
+Tag *FileListItemData::getTag()
+{
+  if(!tag)
+    tag = new Tag(filePath());
+  return(tag);
+}
+
+AudioData *FileListItemData::getAudioData()
+{
+  if(!audioData) {
+    audioData = new AudioData(filePath());
+  }
+  return(audioData);
+}
+
+void FileListItemData::setFile(QString file)
+{
+  delete(tag);
+  tag = 0;
+
+  QFileInfo::setFile(file);
 }

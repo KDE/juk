@@ -25,8 +25,9 @@
 
 #include "tag.h"
 #include "audiodata.h"
+#include "filelistitemdata.h"
 
-class FileListItem : public QObject, public KListViewItem, public QFileInfo {
+class FileListItem : public QObject, public KListViewItem {
   Q_OBJECT
 public: 
   enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3, 
@@ -36,10 +37,18 @@ public:
   FileListItem(FileListItem *item, KListView *parent);
   ~FileListItem();
 
+  FileListItemData *getData();
   Tag *getTag();
   AudioData *getAudioData();
 
-  void setFile(QString fileName);
+  void setFile(QString file);
+  
+  // QFileInfo-ish methods
+  QString fileName() const;
+  QString filePath() const;
+  QString absFilePath() const;
+  QString dirPath(bool absPath = false) const;
+  bool isWritable() const;
 
 public slots:
   void refresh();
@@ -54,6 +63,7 @@ private:
   int compare(QListViewItem *item, int column, bool ascending) const;
   int compare(FileListItem *firstItem, FileListItem *secondItem, int column, bool ascending) const;
 
+  FileListItemData *data;
   QFileInfo *fileInfo;
   Tag *tag;
   AudioData *audioData;

@@ -23,21 +23,16 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-FileListItem::FileListItem(QFileInfo *file, KListView *parent) : QObject(parent), KListViewItem(parent), QFileInfo(*file)
+FileListItem::FileListItem(QFileInfo *file, KListView *parent) : QObject(parent), KListViewItem(parent)
 {
-  audioData = 0;
-  tag = new Tag(filePath());
-  
+  data = new FileListItemData(file);
   refresh();
 }
 
-FileListItem::FileListItem(FileListItem *item, KListView *parent) : QObject(parent), KListViewItem(parent), QFileInfo(*item)
+FileListItem::FileListItem(FileListItem *item, KListView *parent) : QObject(parent), KListViewItem(parent)
 {
-  //  kdDebug() << "FileListItem(FileListItem *item, KListView *parent)" << endl;
-
   if(item) {
-    tag = item->getTag();
-    audioData = item->getAudioData();
+    data = item->getData()->newUser();
     connect(item, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));
     addSibling(item);
     
@@ -47,42 +42,29 @@ FileListItem::FileListItem(FileListItem *item, KListView *parent) : QObject(pare
 
 FileListItem::~FileListItem()
 {
-  if(tag)
-    delete(tag);
- 
-  if(audioData)
-    delete(audioData);
-
+  data->deleteUser();
   emit(destroyed(this));
 }
 
-Tag *FileListItem::getTag()
+void FileListItem::setFile(QString file)
 {
-  if(!tag)
-    tag = new Tag(filePath());
-  return(tag);
+  data->setFile(file);
+  refresh();
 }
 
-AudioData *FileListItem::getAudioData()
-{
-  if(!audioData) {
-    audioData = new AudioData(filePath());
-  }
-  return(audioData);
+FileListItemData *FileListItem::getData() 
+{ 
+  return(data); 
 }
 
-void FileListItem::setFile(QString fileName)
-{
-  setFile(fileName);
-  
-  if(audioData) {
-    delete(audioData);
-    (void) getAudioData();
-  }
-  if(tag) {
-    delete(tag);
-    (void) getTag();
-  }
+Tag *FileListItem::getTag() 
+{ 
+  return(data->getTag()); 
+}
+
+AudioData *FileListItem::getAudioData() 
+{ 
+  return(data->getAudioData()); 
 }
 
 void FileListItem::refresh()
@@ -98,6 +80,14 @@ void FileListItem::refresh()
 
   emit(refreshed());
 }
+
+// QFileInfo-ish methods
+
+QString FileListItem::fileName() const { return(data->fileName()); }
+QString FileListItem::filePath() const { return(data->filePath()); }
+QString FileListItem::absFilePath() const { return(data->absFilePath()); }
+QString FileListItem::dirPath(bool absPath) const { return(data->dirPath(absPath)); }
+bool FileListItem::isWritable() const { return(data->isWritable()); }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
@@ -178,7 +168,6 @@ int FileListItem::compare(FileListItem *firstItem, FileListItem *secondItem, int
 
 void FileListItem::parentDestroyed(FileListItem *parent)
 {
-  audioData = 0;
-  tag = 0;
+  
   disconnect(parent, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));
 }
