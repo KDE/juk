@@ -347,17 +347,6 @@ private slots:
      * changed.
      */
     void slotPlaylistCountChanged(Playlist *p);
-    /**
-     * Add a directory to the directory list queue.  We need to queue these
-     * rather than processing them when they become available because the user
-     * could cancel the action.
-     */
-    void slotQueueDirectory(const QString &directory) { m_directoryQueue.append(directory); }
-
-    /**
-     * Add a directory to the queue
-     */
-    void slotQueueDirectoryRemove(const QString &directory) { m_directoryQueueRemove.append(directory); }
 
     /**
      * This should be connected to Playlist::aboutToRemove()
@@ -426,14 +415,11 @@ private:
     Playlist *m_dynamicList;
 
     StringHash m_playlistFiles;
-
     QStringList m_directoryList;
-    QStringList m_directoryQueue;
-    QStringList m_directoryQueueRemove;
-
     QStringList m_columnNames;
 
     bool m_restore;
+    bool m_importPlaylists;
 
     PlaylistItem *m_nextPlaylistItem;
 

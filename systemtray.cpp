@@ -36,7 +36,7 @@ static bool copyImage(QImage &dest, QImage &src, int x, int y);
 ////////////////////////////////////////////////////////////////////////////////
 
 SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, name),
-                                                                m_popup(0)
+                                                            m_popup(0)
 
 {
     m_appPix = loadIcon("juk_dock");

@@ -27,8 +27,20 @@ class DirectoryList : public KDialogBase
     Q_OBJECT
 
 public:
-    DirectoryList(const QStringList &directories, QWidget *parent = 0, const char *name = 0);
+    struct Result
+    {
+	QStringList addedDirs;
+	QStringList removedDirs;
+	DialogCode status;
+	bool addPlaylists;
+    };
+
+    DirectoryList(const QStringList &directories, bool importPlaylists,
+		  QWidget *parent = 0, const char *name = 0);
     virtual ~DirectoryList();
+
+public slots:
+    Result exec();
 
 signals:
     void signalDirectoryAdded(const QString &directory);
@@ -40,7 +52,9 @@ private slots:
 
 private:
     QStringList m_dirList;
+    bool m_importPlaylists;
     DirectoryListBase *m_base;
+    Result m_result;
 };
 
 #endif

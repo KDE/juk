@@ -120,7 +120,7 @@ private:
 PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     QSplitter(Qt::Horizontal, parent, name),
     m_playingItem(0), m_searchWidget(0), m_history(0),
-    m_dynamicList(0), m_nextPlaylistItem(0)
+    m_dynamicList(0), m_importPlaylists(true), m_nextPlaylistItem(0)
 {
 #ifndef NO_DEBUG
     m_restore = KCmdLineArgs::parsedArgs()->isSet("restore");
@@ -383,28 +383,32 @@ void PlaylistSplitter::slotOpen()
 
 void PlaylistSplitter::slotOpenDirectory()
 {
-    DirectoryList l(m_directoryList, this, "directoryList");
+    DirectoryList l(m_directoryList, m_importPlaylists, this, "directoryList");
+    DirectoryList::Result result = l.exec();
 
-    m_directoryQueue.clear();
-    m_directoryQueueRemove.clear();
+    if(result.status == QDialog::Accepted) {
 
-    connect(&l, SIGNAL(signalDirectoryAdded(const QString &)),
-	    this, SLOT(slotQueueDirectory(const QString &)));
-    connect(&l, SIGNAL(signalDirectoryRemoved(const QString &)),
-	    this, SLOT(slotQueueDirectoryRemove(const QString &)));
-
-    if(l.exec() == QDialog::Accepted) {
-	open(m_directoryQueue);
-	for(QStringList::Iterator it = m_directoryQueue.begin(); it !=  m_directoryQueue.end(); it++)
+	for(QStringList::Iterator it = result.addedDirs.begin();
+	    it != result.addedDirs.end(); it++)
+	{
 	    m_dirWatch.addDir(*it, false, true);
+	    m_directoryList.append(*it);
+	}
 
-	m_directoryList += m_directoryQueue;
-
-	QStringList::Iterator it = m_directoryQueueRemove.begin();
-	for(; it !=  m_directoryQueueRemove.end(); it++) {
+	for(QStringList::Iterator it = result.removedDirs.begin();
+	    it !=  result.removedDirs.end(); it++)
+	{
 	    m_dirWatch.removeDir(*it);
 	    m_directoryList.remove(*it);
 	}
+
+
+	if(result.addPlaylists && !m_importPlaylists)
+	    open(m_directoryList);
+	else
+	    open(result.addedDirs);
+
+	m_importPlaylists = result.addPlaylists;
     }
 }
 
@@ -640,6 +644,8 @@ void PlaylistSplitter::readConfig()
 
 	    readPlaylists();
 
+	    m_importPlaylists = config->readBoolEntry("ImportPlaylists", true);
+
 	    m_directoryList = config->readPathListEntry("DirectoryList");
 	    QTimer::singleShot(0, this, SLOT(slotScanDirectories()));
 
@@ -681,6 +687,7 @@ void PlaylistSplitter::saveConfig()
 
 	{ // block for Playlists group
 	    KConfigGroupSaver saver(config, "Playlists");
+	    config->writeEntry("ImportPlaylists", m_importPlaylists);
 	    config->writePathEntry("DirectoryList", m_directoryList);
 	    config->writeEntry("SortColumn", m_collection->sortColumn());
 	    config->writeEntry("PlaylistSplitterSizes", sizes());
@@ -701,7 +708,7 @@ PlaylistItem *PlaylistSplitter::addImpl(const QString &file, Playlist *list, Pla
     if(MediaFiles::isMediaFile(file))
 	return list->createItem(fileInfo, QString::null, after, false);
 
-    if(MediaFiles::isPlaylistFile(file)) {
+    if(m_importPlaylists && MediaFiles::isPlaylistFile(file)) {
 	openPlaylist(fileInfo.absFilePath());
 	return after;
     }
