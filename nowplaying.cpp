@@ -265,7 +265,7 @@ void HistoryItem::update(const FileHandle &file)
     if(m_history.count() >= 10)
         m_history.remove(m_history.fromLast());
 
-    QString format = "<br /><a href=\"%1\"><font size=\"-2\">%2</font></a>";
+    QString format = "<br /><a href=\"%1\"><font size=\"-1\">%2</font></a>";
     QString current = QString("<b>%1</b>").arg(i18n("History"));
     QString previous;
 
