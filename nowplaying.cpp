@@ -46,6 +46,7 @@ struct Line : public QFrame
 
 NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection, const char *name) :
     QHBox(parent, name),
+    m_observer(this, collection),
     m_collection(collection)
 {
     layout()->setMargin(5);

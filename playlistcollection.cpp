@@ -572,6 +572,7 @@ void PlaylistCollection::raise(Playlist *playlist)
     playlist->applySharedSettings();
     playlist->setSearchEnabled(m_searchEnabled);
     m_playlistStack->raiseWidget(playlist);
+    clearShowMore(false);
     dataChanged();
 }
 

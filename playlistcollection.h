@@ -122,6 +122,9 @@ public:
 
     void dirChanged(const QString &path);
 
+    /**
+     * Returns a pointer to the action handler.
+     */
     QObject *object() const;
 
     void newItems(const KFileItemList &list) const;

@@ -48,6 +48,17 @@ private slots:
     void slotUpdate();
 
 private:
+    struct Observer : public PlaylistObserver
+    {
+        Observer(NowPlaying *parent, PlaylistInterface *playlist) :
+            PlaylistObserver(playlist),
+            m_parent(parent) {}
+        virtual void updateCurrent() {}
+        virtual void updateData() { m_parent->slotUpdate(); }
+        NowPlaying *m_parent;
+    };
+
+    Observer m_observer;
     PlaylistCollection *m_collection;
     QValueList<NowPlayingItem *> m_items;
 };
