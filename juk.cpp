@@ -292,8 +292,6 @@ void JuK::readConfig()
     KConfig *config = KGlobal::config();
     { // m_player settings
         KConfigGroupSaver saver(config, "Player");
-        if(m_outputSelectAction)
-            m_outputSelectAction->setCurrentItem( config->readNumEntry("Output",0) );
         if(m_sliderAction->getVolumeSlider()) {
             int volume = config->readNumEntry("Volume", m_sliderAction->getVolumeSlider()->maxValue());
             m_sliderAction->getVolumeSlider()->setValue(volume);
@@ -335,8 +333,6 @@ void JuK::saveConfig()
     KConfig *config = KGlobal::config();
     { // m_player settings
         KConfigGroupSaver saver(config, "Player");
-        if(m_outputSelectAction)
-            config->writeEntry("Output", m_outputSelectAction->currentItem());
         if(m_sliderAction && m_sliderAction->getVolumeSlider())
             config->writeEntry("Volume", m_sliderAction->getVolumeSlider()->value());
 	if(m_randomPlayAction)
