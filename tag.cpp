@@ -60,9 +60,7 @@ Tag::Tag(QString file)
     trackNumberString = temp;
     delete [] temp;
 
-    QRegExp zeros("0+");
-    if(zeros.exactMatch(trackNumberString))
-        trackNumberString = QString::null;
+    trackNumberString.replace(QRegExp("^0+"), QString::null);
 
     trackNumber = ID3_GetTrackNum(&tag);
 
