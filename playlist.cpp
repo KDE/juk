@@ -98,16 +98,18 @@ Playlist::SharedSettings::SharedSettings()
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1()), 
-										playlistName(name), splitter(s), boxItem(0), 
-										playingItem(0), leftColumn(0)
+Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) :
+    KListView(parent, name.latin1()),
+    playlistName(name), splitter(s), boxItem(0),
+    playingItem(0), leftColumn(0)
 {
     setup();
 }
 
-Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name), 
-													    playlistFileName(playlistFile.absFilePath()),
-													    splitter(s), playingItem(0), leftColumn(0)
+Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const QString &name) :
+    KListView(parent, name.latin1()),
+    playlistFileName(playlistFile.absFilePath()),
+    splitter(s), playingItem(0), leftColumn(0)
 													    
 {
     setup();

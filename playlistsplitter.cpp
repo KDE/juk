@@ -324,7 +324,7 @@ Playlist *PlaylistSplitter::createPlaylist()
 
 Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 {
-    Playlist *p = new Playlist(this, playlistStack, name.latin1());
+    Playlist *p = new Playlist(this, playlistStack, name);
     setupPlaylist(p, true);
     return p;
 }
@@ -581,7 +581,7 @@ Playlist *PlaylistSplitter::openPlaylist(const QString &file)
     if(!fileInfo.exists() || !fileInfo.isFile() || !fileInfo.isReadable() || playlistFiles.insert(fileInfo.absFilePath()))
 	return 0;
 
-    Playlist *p = new Playlist(this, file, playlistStack, fileInfo.baseName(true).latin1());
+    Playlist *p = new Playlist(this, file, playlistStack, fileInfo.baseName(true));
     setupPlaylist(p);
     return p;
 }

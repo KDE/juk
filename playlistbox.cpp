@@ -36,7 +36,7 @@
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(parent, name)
+PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) : KListBox(parent, name.latin1())
 {
     splitter = parent;
     updatePlaylistStack = true;

@@ -50,7 +50,8 @@ public:
      * Before creating a playlist directly, please see 
      * PlaylistSplitter::openPlaylist().
      */
-    Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name = 0);
+    Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile,
+	     QWidget *parent, const QString &name = QString::null);
 
     virtual ~Playlist();
 

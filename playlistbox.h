@@ -43,7 +43,7 @@ class PlaylistBox : public KListBox
     Q_OBJECT
 
 public: 
-    PlaylistBox(PlaylistSplitter *parent = 0, const char *name = 0);
+    PlaylistBox(PlaylistSplitter *parent = 0, const QString &name = QString::null);
     virtual ~PlaylistBox();
 
     void sort();
