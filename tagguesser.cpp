@@ -91,15 +91,18 @@ QString FileNameScheme::comment() const
 
 QString FileNameScheme::composeRegExp(const QString &s) const
 {
-    KConfig *cfg = kapp->config();
-    cfg->setGroup("Tag guesser");
-
     QMap<QChar, QString> substitutions;
-    substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s']+)");
-    substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s]+)");
-    substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s]+)");
-    substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
-    substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s]+)");
+
+    KConfig *cfg = kapp->config();
+    {
+	KConfigGroupSaver(cfg, "TagGuesser");
+
+	substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s']+)");
+	substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s]+)");
+	substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s]+)");
+	substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
+	substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s]+)");
+    }	
 
     QString regExp = QRegExp::escape(s.simplifyWhiteSpace());
     regExp = ".*" + regExp;
@@ -118,9 +121,13 @@ QString FileNameScheme::composeRegExp(const QString &s) const
 
 QStringList TagGuesser::schemeStrings()
 {
+    QStringList schemes;
+
     KConfig *cfg = kapp->config();
-    cfg->setGroup("Tag guesser");
-    QStringList schemes = cfg->readListEntry( "Filename schemes" );
+    {
+	KConfigGroupSaver(cfg, "TagGuesser");
+	schemes = cfg->readListEntry( "Filename schemes" );
+    }
     if ( schemes.isEmpty() ) {
         schemes += "%a/%A/[%T] %t";
         schemes += "%a - (%T) - %t [%c]";
@@ -154,8 +161,10 @@ QStringList TagGuesser::schemeStrings()
 void TagGuesser::setSchemeStrings(const QStringList &schemes)
 {
     KConfig *cfg = kapp->config();
-    cfg->setGroup("Tag guesser");
-    cfg->writeEntry("Filename schemes", schemes);
+    {
+	KConfigGroupSaver(cfg, "TagGuesser");
+	cfg->writeEntry("Filename schemes", schemes);
+    }
     cfg->sync();
 }
 
