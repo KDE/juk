@@ -47,6 +47,8 @@ public:
 
     void queueRefresh() { m_needsRefresh = true; }
 
+    virtual void setupItem(PlaylistBox::Item *item) const;
+
 protected:
     PlaylistBox *playlistBox() const { return m_playlistBox; }
     bool visible() const { return m_visible; }
@@ -56,7 +58,7 @@ protected:
     static void paintDropIndicator(QPainter *painter, int width, int height);
 
 private:
-    QStringList lines(const PlaylistBox::Item *item, const QFontMetrics &fm, int width) const;
+    static QStringList lines(const PlaylistBox::Item *item, const QFontMetrics &fm, int width);
 
     PlaylistBox *m_playlistBox;
     bool m_visible;
@@ -80,10 +82,9 @@ public:
                            QPainter *painter,
                            const QColorGroup &colorGroup,
                            int column, int width, int align);
+
+    virtual void setupItem(PlaylistBox::Item *item) const { item->KListViewItem::setup(); }
 protected:
-    /**
-     * Override the implementation from the base class.  This isn't needed here.
-     */
     virtual void updateHeights();
 };
 
@@ -103,7 +104,7 @@ public:
 
 private:
     void setupCategory(const QString &searchCategory, const QStringList &members,
-		       int column, bool exact = true);
+                       int column, bool exact = true);
 private:
     QDict<PlaylistBox::Item> m_searchCategories;    
 };

@@ -41,8 +41,8 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
-			 const QString &name) :
-    KListView(parent, name.latin1()),
+			 const char *name) :
+    KListView(parent, name),
     PlaylistCollection(playlistStack),
     m_updatePlaylistStack(true),
     m_viewModeIndex(0),
@@ -53,7 +53,11 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 {
     readConfig();
     addColumn("Playlists", width());
+
+    header()->blockSignals(true);
     header()->hide();
+    header()->blockSignals(false);    
+
     setSorting(0);
     setFullWidth(true);
     setItemMargin(3);
@@ -118,6 +122,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     CollectionList::initialize(this);
     Cache::loadPlaylists(this);
     raise(CollectionList::instance());
+
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
 }
 
@@ -602,6 +607,11 @@ void PlaylistBox::Item::setText(int column, const QString &text)
     KListViewItem::setText(column, text);
 }
 
+void PlaylistBox::Item::setup()
+{
+    listView()->viewMode()->setupItem(this);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox::Item protected slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -627,7 +637,7 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 
 void PlaylistBox::Item::init()
 {
-    PlaylistBox *list = static_cast<PlaylistBox *>(listView());
+    PlaylistBox *list = listView();
 
     list->setupItem(this);
 

@@ -51,7 +51,7 @@ public:
     friend class TreeViewMode;
 
     PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
-		const QString &name = QString::null);
+		const char *name = 0);
 
     virtual ~PlaylistBox();
 
@@ -151,8 +151,11 @@ protected:
 
     virtual QString text(int column) const { return KListViewItem::text(column); }
 
+    virtual void setup();
+
     static Item *collectionItem() { return m_collectionItem; }
     static void setCollectionItem(Item *item) { m_collectionItem = item; }
+
 
 protected slots:
     void slotSetName(const QString &name);

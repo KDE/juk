@@ -28,7 +28,8 @@
 // ViewMode
 ////////////////////////////////////////////////////////////////////////////////
 
-ViewMode::ViewMode(PlaylistBox *b) : QObject(b),
+ViewMode::ViewMode(PlaylistBox *b) :
+    QObject(b),
     m_playlistBox(b),
     m_visible(false),
     m_needsRefresh(false)
@@ -106,7 +107,7 @@ bool ViewMode::eventFilter(QObject *watched, QEvent *e)
 
     if(e->type() == QEvent::Hide)
 	m_needsRefresh = true;
-    
+
     return QObject::eventFilter(watched, e);
 }
 
@@ -127,9 +128,18 @@ void ViewMode::updateIcons(int size)
     }
 }
 
+void ViewMode::setupItem(PlaylistBox::Item *item) const
+{
+    const PlaylistBox *box = item->listView();
+    const int width = box->width() - box->verticalScrollBar()->width() - border * 2;
+    const int baseHeight = 2 * box->itemMargin() + 32 + border * 2;
+    const QFontMetrics fm = box->fontMetrics();
+    item->setHeight(baseHeight + (fm.height() - fm.descent()) * lines(item, fm, width).count());
+}
+
 void ViewMode::updateHeights()
 {
-    const int width = m_playlistBox->viewport()->width() - border * 2;
+    const int width = m_playlistBox->width() - m_playlistBox->verticalScrollBar()->width() - border * 2;
 
     const int baseHeight = 2 * m_playlistBox->itemMargin() + 32 + border * 2;
     const QFontMetrics fm = m_playlistBox->fontMetrics();
@@ -139,7 +149,6 @@ void ViewMode::updateHeights()
         m_lines[i] = lines(i, fm, width);
         const int height = baseHeight + (fm.height() - fm.descent()) * m_lines[i].count();
         i->setHeight(height);
-        i->invalidateHeight();
     }
 
     m_needsRefresh = false;
@@ -163,7 +172,7 @@ void ViewMode::paintDropIndicator(QPainter *painter, int width, int height) // s
 
 QStringList ViewMode::lines(const PlaylistBox::Item *item,
 			    const QFontMetrics &fm,
-			    int width) const
+			    int width)
 {
     // Here 32 is a bit arbitrary, but that's the width of the icons in this
     // mode and seems to a reasonable lower bound.
@@ -265,7 +274,7 @@ void TreeViewMode::setShown(bool show)
         else {
             for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
                 it.current()->setVisible(true);
-	}
+        }
     }
     else {
         for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
@@ -285,11 +294,11 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
         
         PlaylistSearch::ComponentList components;
 
-	PlaylistSearch::Component::MatchMode mode;
-	if(exact)
-	    mode = PlaylistSearch::Component::Exact;
-	else
-	    mode = PlaylistSearch::Component::ContainsWord;
+        PlaylistSearch::Component::MatchMode mode;
+        if(exact)
+            mode = PlaylistSearch::Component::Exact;
+        else
+            mode = PlaylistSearch::Component::ContainsWord;
 
         components.append(PlaylistSearch::Component(*it, true, columns, mode));
 
@@ -298,9 +307,9 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
 
         PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
         SearchPlaylist *p = new SearchPlaylist(playlistBox(), s, *it, false);
-	playlistBox()->setupPlaylist(p, "midi", m_searchCategories[searchCategory]);
+        playlistBox()->setupPlaylist(p, "midi", m_searchCategories[searchCategory]);
 
-	processEvents();
+        processEvents();
     }
 
     KApplication::restoreOverrideCursor();
@@ -314,17 +323,17 @@ void TreeViewMode::setupCategories()
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
     m_searchCategories.insert("artists", i);
     setupCategory("artists", CollectionList::instance()->uniqueSet(CollectionList::Artists),
-		  PlaylistItem::ArtistColumn, false);
+                  PlaylistItem::ArtistColumn, false);
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
     m_searchCategories.insert("albums", i);
     setupCategory("albums", CollectionList::instance()->uniqueSet(CollectionList::Albums),
-		  PlaylistItem::AlbumColumn);
+                  PlaylistItem::AlbumColumn);
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Genres"));
     m_searchCategories.insert("genres", i);
     setupCategory("genres", CollectionList::instance()->uniqueSet(CollectionList::Genres),
-		  PlaylistItem::GenreColumn);
+                  PlaylistItem::GenreColumn);
 
     for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
         it.current()->setSortedFirst(true);
