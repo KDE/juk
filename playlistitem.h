@@ -121,6 +121,7 @@ protected:
     virtual ~PlaylistItem();
 
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
+    virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}
 
     virtual int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
