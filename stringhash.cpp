@@ -88,7 +88,15 @@ bool StringHash::remove(const QString &value)
     if(!i)
 	return false;
 
-    previous->next = i->next;
+    if(previous)
+	previous->next = i->next;
+    else {
+	if(i->next)
+	    m_table.insert(h, i->next);
+	else
+	    m_table.remove(h);
+    }
+
     delete i;
 
     return true;
