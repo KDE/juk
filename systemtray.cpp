@@ -28,6 +28,7 @@
 #include <qpainter.h>
 
 #include "systemtray.h"
+#include "playermanager.h"
 #include "jukIface.h"
 
 static bool copyImage(QImage &dest, QImage &src, int x, int y);
@@ -62,6 +63,10 @@ SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(pare
     m_backAction    = m_actionCollection->action("back");
     m_forwardAction = m_actionCollection->action("forward");
 
+    connect(m_playAction, SIGNAL(activated()), this, SLOT(slotPlay()));
+    connect(m_pauseAction, SIGNAL(activated()), this, SLOT(slotPause()));
+    connect(m_stopAction, SIGNAL(activated()), this, SLOT(slotStop()));
+
     m_togglePopupsAction = static_cast<KToggleAction *>(m_actionCollection->action("togglePopups"));
 
     m_playAction->plug(cm);
@@ -73,6 +78,11 @@ SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(pare
     cm->insertSeparator();
 
     m_togglePopupsAction->plug(cm);
+
+    if(PlayerManager::instance()->playing())
+	slotPlay();
+    else if(PlayerManager::instance()->paused())
+	slotPause();
 }
 
 SystemTray::~SystemTray()

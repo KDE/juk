@@ -36,9 +36,6 @@ public:
 
 public slots:
     void slotNewSong(const QString &songName);
-    void slotPlay() { setPixmap(m_playPix); }
-    void slotPause() { setPixmap(m_pausePix); }
-    void slotStop();
 
 private:
     virtual void wheelEvent(QWheelEvent *e);
@@ -46,6 +43,13 @@ private:
     void setToolTip(const QString &tip = QString::null);
     void mousePressEvent(QMouseEvent *e);
     QPixmap createPixmap(const QString &pixName);
+
+private slots:
+    void slotPlay() { setPixmap(m_playPix); }
+    void slotPause() { setPixmap(m_pausePix); }
+    void slotStop();
+
+private:
 
     QPixmap m_playPix;
     QPixmap m_pausePix;

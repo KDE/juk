@@ -192,7 +192,17 @@ void SliderAction::slotUpdateSize()
             m_trackPositionSlider->setMaximumWidth(absoluteMax);
         }
     }
+}
 
+void SliderAction::slotSliderPressed()
+{
+    m_dragging = true;
+}
+
+void SliderAction::slotSliderReleased()
+{
+    m_dragging = false;
+    emit signalPositionChanged(m_trackPositionSlider->value());
 }
 
 #include "slideraction.moc"

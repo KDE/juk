@@ -24,6 +24,7 @@
 
 class QTimer;
 class SliderAction;
+class StatusLabel;
 
 /**
  * This is a simple interface that should be implemented by objects used by
@@ -33,8 +34,8 @@ class SliderAction;
 class PlaylistInterface
 {
 public:
-    virtual QString nextFile() const = 0;
-    virtual QString previousFile() const = 0;
+    virtual QString nextFile() = 0;
+    virtual QString previousFile() = 0;
 };
 
 /**
@@ -60,7 +61,8 @@ public:
     virtual long currentTime() const;
     virtual int position() const;
 
-    void setPlaylistInterface(const PlaylistInterface *interface);
+    void setPlaylistInterface(PlaylistInterface *interface);
+    void setStatusLabel(StatusLabel *label);
 
 public slots:
 
@@ -71,18 +73,24 @@ public slots:
     virtual void seek(long seekTime);
     virtual void seekPosition(int position);
 
+    void slotSetVolume(int volume); // TODO: make private
+
 private:
+    Player *player() const;
     void setup();
 
 private slots:
     void slotPollPlay();
+    void slotUpdateTime(int position);
+    void slotSetOutput(int system);
 
 private:
     static PlayerManager *m_instance;
 
     KActionCollection *m_actionCollection;
     SliderAction *m_sliderAction;
-    const PlaylistInterface *m_playlistInterface;
+    PlaylistInterface *m_playlistInterface;
+    StatusLabel *m_statusLabel;
     Player *m_player;
     QTimer *m_timer;
     bool m_noSeek;

@@ -31,7 +31,7 @@
 
 #include <qlabel.h>
 
-#include "player.h"
+#include "playermanager.h"
 #include "playlistsplitter.h"
 #include "jukIface.h"
 
@@ -149,15 +149,9 @@ private slots:
 
     // settings menu
     void slotToggleSystemTray(bool enabled);
-    void slotSetOutput(int output);
     void slotEditKeys();
     void slotConfigureTagGuesser();
     void slotConfigureFileRenamer();
-
-    // additional player slots
-    void slotTrackPositionSliderClicked();
-    void slotTrackPositionSliderReleased();
-    void slotTrackPositionSliderUpdate(int position);
 
     /**
      * This method is called by the slider to set the volume of the player.  Its
@@ -169,7 +163,6 @@ private slots:
      * This method is called to check our progress in the playing file.  It uses
      * m_playTimer to know when to call itself again.
      */
-    void slotPollPlay();
     void slotPlaySelectedFile();
     void startPlayingPlaylist();
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
@@ -201,11 +194,9 @@ private:
     KToolBarPopupAction *m_backAction;
     KToggleAction *m_loopPlaylistAction;
 
-    QTimer *m_playTimer;
-    Player *m_player;
+    PlayerManager *m_player;
     KGlobalAccel *m_accel;
 
-    bool m_trackPositionDragging;
     bool m_noSeek;
     bool m_startDocked;
     bool m_showSplash;

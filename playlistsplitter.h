@@ -29,6 +29,7 @@
 #include "stringhash.h"
 #include "tageditor.h"
 #include "tagguesser.h"
+#include "playermanager.h"
 
 class KActionMenu;
 class KDirWatch;
@@ -45,7 +46,7 @@ class HistoryPlaylist;
  * non-Playlist related classes should be through the public API of this class.
  */
 
-class PlaylistSplitter : public QSplitter
+class PlaylistSplitter : public QSplitter, public PlaylistInterface
 {
     Q_OBJECT
 
@@ -82,10 +83,13 @@ public:
      */
     QString playPreviousFile(bool random = false);
 
+    QString nextFile() { return playNextFile(); }
+    QString previousFile() { return playPreviousFile(); }
+
     /**
      * Fills the menu passed in with the recently played history
      */
-    void populatePlayHistoryMenu(QPopupMenu* menu, bool random);
+    void populatePlayHistoryMenu(QPopupMenu *menu, bool random);
 
     /**
      * Returns the name of the currently selected file and moves the playing

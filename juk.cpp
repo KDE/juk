@@ -33,6 +33,7 @@
 #include "keydialog.h"
 #include "tagguesserconfigdlg.h"
 #include "filerenamerconfigdlg.h"
+#include "playermanager.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -106,63 +107,18 @@ void JuK::slotGuessTagInfoFromInternet()
 
 void JuK::play()
 {
-    if(m_player->paused()) {
-        m_player->play();
-        m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
-
-	// Here, before doing anything, we want to make sure that the m_player did
-	// in fact start.
-
-	if(m_player->playing()) {
-	    actionCollection()->action("pause")->setEnabled(true);
-	    actionCollection()->action("stop")->setEnabled(true);
-	    m_playTimer->start(m_pollInterval);
-	    if(m_systemTray)
-		m_systemTray->slotPlay();
-	}
-    }
-    else if(m_player->playing())
-	m_player->seekPosition(0);
-    else
-	play(m_splitter->playNextFile(m_randomPlayAction->isChecked(),
-				      m_loopPlaylistAction->isChecked()));
+    m_player->play();
 }
 
 void JuK::pause()
 {
-    if(!m_player)
-	return;
-
-    m_playTimer->stop();
     m_player->pause();
-    m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
-    actionCollection()->action("pause")->setEnabled(false);
-    if(m_systemTray)
-	m_systemTray->slotPause();
 }
 
 void JuK::stop()
 {
-    if(!m_player || !m_sliderAction || !m_sliderAction->volumeSlider())
-	return;
-
-    m_playTimer->stop();
     m_player->stop();
-
-    actionCollection()->action("pause")->setEnabled(false);
-    actionCollection()->action("stop")->setEnabled(false);
-    actionCollection()->action("back")->setEnabled(false);
-    actionCollection()->action("forward")->setEnabled(false);
-
-    m_sliderAction->trackPositionSlider()->setValue(0);
-    m_sliderAction->trackPositionSlider()->setEnabled(false);
-
     m_splitter->stop();
-
-    m_statusLabel->clear();
-
-    if(m_systemTray)
-	m_systemTray->slotStop();
 }
 
 void JuK::back()
@@ -206,9 +162,6 @@ void JuK::seekForward()
 
 void JuK::playPause()
 {
-    if(!m_player)
-	return;
-
     if(m_player->playing())
 	pause();
     else
@@ -273,7 +226,9 @@ void JuK::setupLayout()
 	    this, SLOT(startPlayingPlaylist()));
 
     // create status bar
+
     m_statusLabel = new StatusLabel(statusBar());
+
     statusBar()->addWidget(m_statusLabel, 1);
 
     connect(m_splitter, SIGNAL(signalSelectedPlaylistCountChanged(int)),
@@ -282,6 +237,8 @@ void JuK::setupLayout()
 	    m_statusLabel, SLOT(setPlaylistTime(int)));
     connect(m_statusLabel, SIGNAL(jumpButtonClicked()),
 	    m_splitter, SLOT(slotSelectPlaying()));
+
+    PlayerManager::instance()->setStatusLabel(m_statusLabel);
 
     // Needs to be here because m_splitter is not called before setupActions
     // (because PlaylistSplitter itself accesses the actionCollection)
@@ -443,10 +400,8 @@ void JuK::setupActions()
 
     m_outputSelectAction = Player::playerSelectAction(actionCollection());
 
-    if(m_outputSelectAction) {
+    if(m_outputSelectAction)
         m_outputSelectAction->setCurrentItem(0);
-        connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
-    }
 
     new KAction(i18n("&Tag Guesser..."), 0, 0, this, SLOT(slotConfigureTagGuesser()),
 		actionCollection(), "tagGuesserConfig");
@@ -496,11 +451,6 @@ void JuK::setupSystemTray()
         connect(this, SIGNAL(signalNewSong(const QString&)),
 		m_systemTray, SLOT(slotNewSong(const QString&)));
 
-        if(m_player && m_player->paused())
-            m_systemTray->slotPause();
-        else if(m_player && m_player->playing())
-            m_systemTray->slotPlay();
-
         m_toggleDockOnCloseAction->setEnabled(true);
 	m_togglePopupsAction->setEnabled(true);
 
@@ -515,46 +465,13 @@ void JuK::setupSystemTray()
 
 void JuK::setupPlayer()
 {
-    m_trackPositionDragging = false;
-    m_noSeek = false;
     m_muted = false;
-    actionCollection()->action("pause")->setEnabled(false);
-    actionCollection()->action("stop")->setEnabled(false);
-    actionCollection()->action("back")->setEnabled(false);
-    actionCollection()->action("forward")->setEnabled(false);
 
-    m_playTimer = new QTimer(this);
-    connect(m_playTimer, SIGNAL(timeout()), this, SLOT(slotPollPlay()));
-
-    if(m_sliderAction &&
-       m_sliderAction->trackPositionSlider() &&
-       m_sliderAction->volumeSlider())
-    {
-        connect(m_sliderAction->trackPositionSlider(), SIGNAL(valueChanged(int)),
-		this, SLOT(slotTrackPositionSliderUpdate(int)));
-        connect(m_sliderAction->trackPositionSlider(), SIGNAL(sliderPressed()),
-		this, SLOT(slotTrackPositionSliderClicked()));
-        connect(m_sliderAction->trackPositionSlider(), SIGNAL(sliderReleased()),
-		this, SLOT(slotTrackPositionSliderReleased()));
-        m_sliderAction->trackPositionSlider()->setEnabled(false);
-
-        connect(m_sliderAction->volumeSlider(), SIGNAL(valueChanged(int)),
-		this, SLOT(slotSetVolume(int)));
+    if(m_sliderAction) {
     }
 
-    int playerType = 0;
-    if(m_outputSelectAction) {
-        playerType = m_outputSelectAction->currentItem();
-        connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
-    }
-
-    m_player = Player::createPlayer(playerType);
-
-    float volume =
-	float(m_sliderAction->volumeSlider()->value()) /
-	float(m_sliderAction->volumeSlider()->maxValue());
-
-    m_player->setVolume(volume);
+    m_player = PlayerManager::instance();
+    PlayerManager::instance()->setPlaylistInterface(m_splitter);
 }
 
 
@@ -705,7 +622,6 @@ bool JuK::queryExit()
     m_systemTray = 0;
 
     stop();
-    delete m_player;
 
     Cache::instance()->save();
     saveConfig();
@@ -754,36 +670,8 @@ void JuK::updatePlaylistInfo()
 
 void JuK::play(const QString &file)
 {
-    if(!m_player || !m_sliderAction || !m_sliderAction->volumeSlider())
-        return;
-
-    if(m_player->paused())
-        m_player->stop();
-
     m_player->play(file);
-
-    // Make sure that the m_player actually starts before doing anything.
-
-    if(m_player->playing()) {
-        actionCollection()->action("pause")->setEnabled(true);
-        actionCollection()->action("stop")->setEnabled(true);
-        actionCollection()->action("forward")->setEnabled(true);
-
-        m_backAction->setEnabled(true);
-
-        m_sliderAction->trackPositionSlider()->setValue(0);
-        m_sliderAction->trackPositionSlider()->setEnabled(true);
-        m_playTimer->start(m_pollInterval);
-
-        m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
-
-        emit signalNewSong(playingString());
-
-        if(m_systemTray)
-            m_systemTray->slotPlay();
-    }
-    else
-        stop();
+    emit signalNewSong(playingString());
 }
 
 KAction *JuK::createSplitterAction(const QString &text, const char *slot,
@@ -853,13 +741,6 @@ void JuK::slotToggleSystemTray(bool enabled)
     }
 }
 
-void JuK::slotSetOutput(int output)
-{
-    stop();
-    delete m_player;
-    m_player = Player::createPlayer(output);
-}
-
 void JuK::slotEditKeys()
 {
     KeyDialog::configure(m_accel, actionCollection(), this);
@@ -868,79 +749,6 @@ void JuK::slotEditKeys()
 ////////////////////////////////////////////////////////////////////////////////
 // additional player slots
 ////////////////////////////////////////////////////////////////////////////////
-
-void JuK::slotTrackPositionSliderClicked()
-{
-    m_trackPositionDragging = true;
-}
-
-void JuK::slotTrackPositionSliderReleased()
-{
-    if(!m_player)
-	return;
-
-    m_trackPositionDragging = false;
-    m_player->seekPosition(m_sliderAction->trackPositionSlider()->value());
-}
-
-void JuK::slotTrackPositionSliderUpdate(int position)
-{
-    if(!m_player)
-	return;
-
-    if(m_player->playing() && !m_trackPositionDragging && !m_noSeek)
-        m_player->seekPosition(position);
-
-    // The dragging flag is set, so just update the status label, rather than seeking
-    if(m_player->playing() && m_trackPositionDragging && !m_noSeek) {
-	// position from 0 to 1
-	float positionFraction = float(position) /
-	    m_sliderAction->trackPositionSlider()->maxValue();
-	float totalTime = float(m_player->totalTime());
-	long seekTime = long(positionFraction * totalTime + 0.5); // "+0.5" for rounding
-
-	m_statusLabel->setItemCurrentTime(seekTime);
-    }
-}
-
-// This method is called when the play timer has expired.
-
-void JuK::slotPollPlay()
-{
-    if(!m_player)
-	return;
-
-    // Our locking mechanism.  Since this method adjusts the play slider, we
-    // want to make sure that our adjustments
-    m_noSeek = true;
-
-    if(!m_player->playing()) {
-
-        m_playTimer->stop();
-
-	play(m_splitter->playNextFile(m_randomPlayAction->isChecked(),
-				      m_loopPlaylistAction->isChecked()));
-    }
-    else if(!m_trackPositionDragging) {
-        m_sliderAction->trackPositionSlider()->setValue(m_player->position());
-	m_statusLabel->setItemTotalTime(m_player->totalTime());
-	m_statusLabel->setItemCurrentTime(m_player->currentTime());
-    }
-
-    // Ok, this is weird stuff, but it works pretty well.  Ordinarily we don't
-    // need to check up on our playing time very often, but in the span of the
-    // last interval, we want to check a lot -- to figure out that we've hit the
-    // end of the song as soon as possible.
-
-    if(m_player->playing() &&
-       m_player->totalTime() > 0 &&
-       float(m_player->totalTime() - m_player->currentTime()) < m_pollInterval * 2)
-    {
-        m_playTimer->changeInterval(50);
-    }
-
-    m_noSeek = false;
-}
 
 void JuK::slotPlaySelectedFile()
 {
@@ -951,16 +759,7 @@ void JuK::slotPlaySelectedFile()
 
 void JuK::slotSetVolume(int volume)
 {
-    if(m_player &&
-       m_sliderAction &&
-       m_sliderAction->volumeSlider() &&
-       m_sliderAction->volumeSlider()->maxValue() > 0 &&
-       volume >= 0 &&
-       m_sliderAction->volumeSlider()->maxValue() >= volume)
-    {
-        m_player->setVolume(float(volume) /
-			    float(m_sliderAction->volumeSlider()->maxValue()));
-    }
+    m_player->slotSetVolume(volume);
 }
 
 void JuK::slotConfigureTagGuesser()

@@ -39,13 +39,16 @@ public:
 public slots:
     void slotUpdateOrientation(QDockWindow *dockWindow = 0);
 
+signals:
+    void signalPositionChanged(int position);
+
 private:
     QWidget *createWidget(QWidget *parent);
 
 private slots:
     void slotUpdateSize();
-    void slotSliderPressed() { m_dragging = true; }
-    void slotSliderReleased() { m_dragging = false; }
+    void slotSliderPressed();
+    void slotSliderReleased();
 
 private:
     QBoxLayout *m_layout;
