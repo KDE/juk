@@ -60,7 +60,7 @@ ArtsPlayer::~ArtsPlayer()
 
 void ArtsPlayer::play(const QString &fileName, float volume)
 {
-    m_currentURL = KURL::encode_string(fileName);
+    m_currentURL.setPath(fileName);
     play(volume);
 }
 
