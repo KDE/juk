@@ -54,9 +54,11 @@ public:
 	     const QString &name = QString::null, const QString &iconName = "midi");
     Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
 	     const QString &iconName = "midi");
+
     /**
-     * This constructor should just be used for creating playlists from the Playlist
-     * cache.
+     * This constructor should generally only be used either by the cache
+     * restoration methods or by subclasses that want to handle calls to
+     * PlaylistCollection::setupPlaylist() differently.
      */
     Playlist(PlaylistCollection *collection, bool delaySetup);
 

@@ -312,7 +312,8 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
         playlists.append(collection);
 
         PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
-        new SearchPlaylist(playlistBox(), s, *it);
+        SearchPlaylist *p = new SearchPlaylist(playlistBox(), s, *it, false);
+	playlistBox()->setupPlaylist(p, "midi", m_searchCategories[searchCategory]);
 
         static int i = 0;
         if(++i % 5 == 0)

@@ -45,8 +45,10 @@ class PlaylistBox : public KListView, public PlaylistCollection
 
 public: 
     class Item;
-    friend class Item;
     typedef QValueList<Item *> ItemList;
+
+    friend class Item;
+    friend class TreeViewMode;
 
     PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 		const QString &name = QString::null);
@@ -66,6 +68,7 @@ public slots:
 
 protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
+    virtual void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem);
 
 signals:
     void signalCollectionInitialized();

@@ -32,7 +32,8 @@ public:
     DynamicPlaylist(const PlaylistList &lists,
                     PlaylistCollection *collection,
                     const QString &name = QString::null,
-                    const QString &iconName = "midi");
+                    const QString &iconName = "midi",
+                    bool setupPlaylist = true);
 
     virtual ~DynamicPlaylist();
 

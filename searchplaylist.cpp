@@ -27,8 +27,9 @@
 
 SearchPlaylist::SearchPlaylist(PlaylistCollection *collection,
                                const PlaylistSearch &search,
-                               const QString &name) :
-    DynamicPlaylist(search.playlists(), collection, name, "find"),
+                               const QString &name,
+			       bool setupPlaylist) :
+    DynamicPlaylist(search.playlists(), collection, name, "find", setupPlaylist),
     m_search(search)
 {
 

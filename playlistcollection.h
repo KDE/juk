@@ -38,6 +38,7 @@ class PlaylistCollection : public PlaylistInterface
 {
     friend class Playlist;
     friend class CollectionList;
+    friend class DynamicPlaylist;
 
 public:
     PlaylistCollection(QWidgetStack *playlistStack);

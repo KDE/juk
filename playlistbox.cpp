@@ -188,10 +188,14 @@ Playlist *PlaylistBox::currentPlaylist() const
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
 {
     PlaylistCollection::setupPlaylist(playlist, iconName);
-
     new Item(this, iconName, playlist->name(), playlist);
 }
 
+void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem)
+{
+    PlaylistCollection::setupPlaylist(playlist, iconName);
+    new Item(parentItem, iconName, playlist->name(), playlist);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox private methods

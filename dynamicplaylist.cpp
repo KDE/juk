@@ -17,6 +17,7 @@
 
 #include "dynamicplaylist.h"
 #include "collectionlist.h"
+#include "playlistcollection.h"
 
 // TODO: this current updates even when things are just played in the watched
 // playlists.  There should be different update types and this should only
@@ -44,11 +45,16 @@ private:
 DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
                                  PlaylistCollection *collection,
                                  const QString &name,
-                                 const QString &iconName) :
-    Playlist(collection, name, iconName),
+                                 const QString &iconName,
+				 bool setupPlaylist) :
+    Playlist(collection, true),
     m_playlists(playlists),
     m_dirty(true)
 {
+    if(setupPlaylist)
+        collection->setupPlaylist(this, iconName);
+    setName(name);
+
     setSorting(columns() + 1);
 
     for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it)
