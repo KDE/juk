@@ -45,6 +45,7 @@ k_dcop:
     virtual QString trackProperty(const QString &property) const = 0;
 
     virtual void play() = 0;
+    virtual void play(const QString &file) = 0;
     virtual void pause() = 0;
     virtual void stop() = 0;
     virtual void playPause() = 0;

@@ -26,6 +26,7 @@
 #include "slideraction.h"
 #include "statuslabel.h"
 #include "actioncollection.h"
+#include "collectionlist.h"
 #include "tag.h"
 
 #include "config.h"
@@ -256,6 +257,15 @@ void PlayerManager::play(const FileHandle &file)
     m_timer->start(m_pollInterval);
 
     emit signalPlay();
+}
+
+void PlayerManager::play(const QString &file)
+{
+    CollectionListItem *item = CollectionList::instance()->lookup(file);
+    if(item) {
+        Playlist::setPlaying(item);
+        play(item->file());
+    }
 }
 
 void PlayerManager::play()

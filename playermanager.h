@@ -63,6 +63,7 @@ public:
 public slots:
 
     void play(const FileHandle &file);
+    void play(const QString &file);
     void play();
     void pause();
     void stop();
