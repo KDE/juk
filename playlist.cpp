@@ -145,7 +145,7 @@ Playlist::SharedSettings::SharedSettings()
 {
     KConfig *config = kapp->config();
     {
-	KConfigGroupSaver(config, "PlaylistShared");
+	KConfigGroupSaver saver(config, "PlaylistShared");
 
 	// save column order
 	m_columnOrder = config->readIntListEntry("ColumnOrder");
@@ -172,7 +172,7 @@ void Playlist::SharedSettings::writeConfig()
     KConfig *config = kapp->config();
 
     {
-	KConfigGroupSaver(config, "PlaylistShared");
+	KConfigGroupSaver saver(config, "PlaylistShared");
 	config->writeEntry("ColumnOrder", m_columnOrder);
 
 	QValueList<int> l;

@@ -96,7 +96,7 @@ QString FileNameScheme::composeRegExp(const QString &s) const
 
     KConfig *cfg = kapp->config();
     {
-        KConfigGroupSaver(cfg, "TagGuesser");
+        KConfigGroupSaver saver(cfg, "TagGuesser");
 
         substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&]+)");
         substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&]+)");
@@ -126,7 +126,7 @@ QStringList TagGuesser::schemeStrings()
 
     KConfig *cfg = kapp->config();
     {
-        KConfigGroupSaver(cfg, "TagGuesser");
+        KConfigGroupSaver saver(cfg, "TagGuesser");
         schemes = cfg->readListEntry( "Filename schemes" );
     }
     if ( schemes.isEmpty() ) {
@@ -165,7 +165,7 @@ void TagGuesser::setSchemeStrings(const QStringList &schemes)
 {
     KConfig *cfg = kapp->config();
     {
-        KConfigGroupSaver(cfg, "TagGuesser");
+        KConfigGroupSaver saver(cfg, "TagGuesser");
         cfg->writeEntry("Filename schemes", schemes);
     }
     cfg->sync();
