@@ -39,7 +39,7 @@ ViewMode::~ViewMode()
 
 }
 
-void ViewMode::paintCell(QListViewItem *i,
+void ViewMode::paintCell(PlaylistBox::Item *i,
                          QPainter *painter, 
                          const QColorGroup &colorGroup,
                          int column, int width, int align)
@@ -128,7 +128,7 @@ CompactViewMode::~CompactViewMode()
 
 }
 
-void CompactViewMode::paintCell(QListViewItem *i,
+void CompactViewMode::paintCell(PlaylistBox::Item *i,
                                 QPainter *painter, 
                                 const QColorGroup &colorGroup,
                                 int column, int width, int align)
@@ -158,7 +158,6 @@ void CompactViewMode::paintCell(QListViewItem *i,
 
 void CompactViewMode::setShown(bool shown)
 {
-    // m_visible = shown;
     if(shown)
         updateIcons(16);
 }
@@ -179,5 +178,26 @@ TreeViewMode::~TreeViewMode()
 
 void TreeViewMode::setShown(bool show)
 {
-    CompactViewMode::setShown(show);
+    if(show) {
+	updateIcons(16);
+	
+	if(m_categories.isEmpty()) {
+	    m_categories.append(new PlaylistBox::Item(playlistBox(), "midi", i18n("Artists")));
+	    m_categories.append(new PlaylistBox::Item(playlistBox(), "midi", i18n("Albums")));
+
+	    QValueListIterator<PlaylistBox::Item *> it = m_categories.begin();
+	    for(; it != m_categories.end(); ++it)
+		(*it)->setSortedFirst(true);
+	}
+	else {
+	    QValueListIterator<PlaylistBox::Item *> it = m_categories.begin();
+	    for(; it != m_categories.end(); ++it)
+		(*it)->setVisible(true);
+	}
+    }
+    else {
+	QValueListIterator<PlaylistBox::Item *> it = m_categories.begin();
+	for(; it != m_categories.end(); ++it)
+	    (*it)->setVisible(false);
+    }
 }

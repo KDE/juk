@@ -25,10 +25,10 @@
 #include <qmap.h>
 
 #include "playlist.h"
-#include "viewmode.h"
 
 class PlaylistItem;
 class PlaylistSplitter;
+class ViewMode;
 
 class KPopupMenu;
 class KSelectAction;
@@ -46,7 +46,8 @@ public:
     PlaylistBox(PlaylistSplitter *parent = 0, const char *name = 0);
     virtual ~PlaylistBox();
 
-    void createItem(Playlist *playlist, const char *icon = 0, bool raise = false);
+    void createItem(Playlist *playlist, const char *icon = 0,
+		    bool raise = false, bool sortedFirst = false);
 
     void raise(Playlist *playlist);
     QStringList names() const { return m_names; }
@@ -61,7 +62,7 @@ public:
 
     bool hasSelection() const  { return m_hasSelection; }
 
-    ViewMode *viewMode()       { return m_viewModes.at(m_viewModeIndex); }
+    ViewMode *viewMode()       { return m_viewModes[m_viewModeIndex]; }
     int viewModeIndex() const  { return m_viewModeIndex; }
 
     class Item;
@@ -117,7 +118,7 @@ private:
     bool m_updatePlaylistStack;
     QPtrDict<Item> m_playlistDict;
     int m_viewModeIndex;
-    QPtrList<ViewMode> m_viewModes;
+    QValueList<ViewMode *> m_viewModes;
     KSelectAction *m_viewModeAction;
     bool m_hasSelection;
 };
@@ -129,6 +130,7 @@ class PlaylistBox::Item : public QObject, public KListViewItem
     friend class PlaylistBox;
     friend class ViewMode;
     friend class CompactViewMode;
+    friend class TreeViewMode;
 
     Q_OBJECT
 
@@ -146,6 +148,7 @@ protected:
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(KListViewItem::listView()); }
     const char *iconName() const { return m_iconName; }
     QString text() const { return m_text; }
+    void setSortedFirst(bool first) { m_sortedFirst = first; }
 
     virtual int compare(QListViewItem *i, int col, bool) const;
     virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
@@ -160,6 +163,7 @@ private:
     Playlist *m_list;
     QString m_text;
     const char *m_iconName;
+    bool m_sortedFirst;
 };
 
 #endif

@@ -48,7 +48,7 @@ class PlaylistSplitter : public QSplitter
     Q_OBJECT
 
 public:
-    PlaylistSplitter(QWidget *parent, bool restore = true, const char *name = 0);
+    PlaylistSplitter(QWidget *parent, const char *name = 0);
 
     virtual ~PlaylistSplitter();
 
@@ -253,7 +253,7 @@ private:
     /**
      * If NULL is passed for the icon, no entry is created in the PlaylistBox
      */
-    void setupPlaylist(Playlist *p, bool raise = false, const char *icon = "midi");
+    void setupPlaylist(Playlist *p, bool raise = false, const char *icon = "midi", bool sortedFirst = false);
 
     /**
      * Open the playlist (m3u file or simiar) at \a file.

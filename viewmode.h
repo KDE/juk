@@ -22,11 +22,10 @@
 
 #include <qstring.h>
 
+#include "playlistbox.h"
+
 class QPainter;
 class QColorGroup;
-class QListViewItem;
-
-class PlaylistBox;
 
 class ViewMode
 {
@@ -37,7 +36,7 @@ public:
     virtual QString name() const      { return i18n("Default"); }
     virtual void setShown(bool shown);
 
-    virtual void paintCell(QListViewItem *item,
+    virtual void paintCell(PlaylistBox::Item *item,
                            QPainter *painter, 
                            const QColorGroup &colorGroup,
                            int column, int width, int align);
@@ -63,7 +62,7 @@ public:
     virtual QString name() const { return i18n("Compact"); }
     virtual void setShown(bool shown);
 
-    virtual void paintCell(QListViewItem *item,
+    virtual void paintCell(PlaylistBox::Item *item,
                            QPainter *painter,
                            const QColorGroup &colorGroup,
                            int column, int width, int align);
@@ -79,6 +78,9 @@ public:
 
     virtual QString name() const { return i18n("Tree"); }
     virtual void setShown(bool shown);
+
+private:
+    QValueList<PlaylistBox::Item *> m_categories;
 };
 
 #endif

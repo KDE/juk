@@ -195,7 +195,6 @@ private:
     // actions
     KToggleAction *m_showSearchAction;
     KToggleAction *m_showEditorAction;
-    KToggleAction *m_restoreOnLoadAction;
     SliderAction *m_sliderAction;
     KToggleAction *m_randomPlayAction;
     KToggleAction *m_toggleSystemTrayAction;
@@ -213,7 +212,6 @@ private:
 
     bool m_trackPositionDragging;
     bool m_noSeek;
-    bool m_restore;
     bool m_showSplash;
     bool m_shuttingDown;
     bool m_muted;

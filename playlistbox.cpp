@@ -30,16 +30,18 @@
 
 #include "playlistbox.h"
 #include "playlistsplitter.h"
+#include "viewmode.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView(parent, name),
-								       m_splitter(parent),
-								       m_updatePlaylistStack(true),
-								       m_viewModeIndex(0),
-								       m_hasSelection(false)
+PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) :
+    KListView(parent, name),
+    m_splitter(parent),
+    m_updatePlaylistStack(true),
+    m_viewModeIndex(0),
+    m_hasSelection(false)
 {
     readConfig();
     addColumn("Playlists", width());
@@ -80,12 +82,11 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
     m_viewModes.append(new CompactViewMode(this));
     m_viewModes.append(new TreeViewMode(this));
 
-    m_viewModes.setAutoDelete(true);
-
     QStringList modeNames;
 
-    for(ViewMode *view = m_viewModes.first(); view; view = m_viewModes.next())
-	modeNames.append(view->name());
+    QValueListIterator<ViewMode *> it = m_viewModes.begin();
+    for(; it != m_viewModes.end(); ++it)
+	modeNames.append((*it)->name());
 
     m_viewModeAction->setItems(modeNames);
     m_viewModeAction->setCurrentItem(m_viewModeIndex);
@@ -106,9 +107,13 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
 PlaylistBox::~PlaylistBox()
 {
     saveConfig();
+
+    QValueListIterator<ViewMode *> it = m_viewModes.begin();
+    for(; it != m_viewModes.end(); ++it)
+	delete(*it);
 }
 
-void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise)
+void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise, bool sortedFirst)
 {
     if(!playlist)
 	return;
@@ -120,6 +125,7 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise)
 	setSingleItem(i);
 	ensureCurrentVisible();
     }
+    i->setSortedFirst(sortedFirst);
 }
 
 void PlaylistBox::raise(Playlist *playlist)
@@ -142,7 +148,7 @@ PlaylistList PlaylistBox::playlists()
 
     for(QListViewItemIterator it(this); it.current(); ++it) {
 	Item *i = static_cast<Item *>(*it);
-	if(i->playlist() != CollectionList::instance())
+	if(i->playlist() && i->playlist() != CollectionList::instance())
 	    l.append(i->playlist());
     }
 
@@ -382,8 +388,10 @@ void PlaylistBox::slotPlaylistChanged()
 	return;
 
     QValueList<Playlist *> playlists;
-    for(QValueList<Item *>::iterator i = items.begin(); i != items.end(); ++i)
-	playlists.append((*i)->playlist());
+    for(QValueList<Item *>::iterator i = items.begin(); i != items.end(); ++i) {
+	if((*i)->playlist())
+	    playlists.append((*i)->playlist());
+    }
 
     emit signalCurrentChanged(playlists);
 }
@@ -414,13 +422,14 @@ void PlaylistBox::slotSetViewMode(int index)
 
 PlaylistBox::Item::Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l) 
     : QObject(listBox), KListViewItem(listBox, text),
-      m_list(l), m_text(text), m_iconName(icon)
+      m_list(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
     int iconSize = listBox->viewModeIndex() == 0 ? 32 : 16;
     setPixmap(0, SmallIcon(icon, iconSize));
     listBox->addName(text);
 
-    connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
+    if(l)
+	connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
 }
 
 PlaylistBox::Item::~Item()
@@ -430,9 +439,11 @@ PlaylistBox::Item::~Item()
 
 int PlaylistBox::Item::compare(QListViewItem *i, int col, bool) const
 {
-    if(playlist() == CollectionList::instance())
+    Item *otherItem = static_cast<Item *>(i);
+
+    if(m_sortedFirst && !otherItem->m_sortedFirst)
 	return -1;
-    else if(static_cast<Item *>(i)->playlist() == CollectionList::instance())
+    else if(otherItem->m_sortedFirst && !m_sortedFirst)
 	return 1;
 
     return text(col).lower().localeAwareCompare(i->text(col).lower());

@@ -248,7 +248,7 @@ void JuK::openFile(const QStringList &files)
 
 void JuK::setupLayout()
 {
-    m_splitter = new PlaylistSplitter(this, m_restore, "playlistSplitter");
+    m_splitter = new PlaylistSplitter(this, "playlistSplitter");
     setCentralWidget(m_splitter);
 
     // playlist item activation connection

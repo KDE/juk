@@ -46,9 +46,9 @@ void processEvents()
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *name) :
+PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     QSplitter(Qt::Horizontal, parent, name),
-    m_playingItem(0), m_searchWidget(0), m_dynamicList(0), m_restore(restore),
+    m_playingItem(0), m_searchWidget(0), m_dynamicList(0),
     m_nextPlaylistItem(0)
 {
 #ifndef NO_DEBUG
@@ -89,8 +89,7 @@ QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool u
 
 	return startingWith + " (" + QString::number(playlistNumber) + ")";
     }
-    else
-    {
+    else {
 	while(names.contains(startingWith + ' ' + QString::number(playlistNumber)) != 0)
 	    playlistNumber++;
 
@@ -424,7 +423,7 @@ void PlaylistSplitter::setupLayout()
 
     CollectionList::initialize(m_playlistStack, m_restore);
     m_collection = CollectionList::instance();
-    setupPlaylist(m_collection, true, "folder_sound");
+    setupPlaylist(m_collection, true, "folder_sound", true);
     connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
     connect(m_collection, SIGNAL(signalRequestPlaylistCreation(const PlaylistItemList &)),
 	    this, SLOT(slotCreatePlaylist(const PlaylistItemList &)));
@@ -552,7 +551,7 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
     }
 }
 
-void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
+void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon, bool sortedFirst)
 {
     connect(p, SIGNAL(signalSelectionChanged(const PlaylistItemList &)),
 	    m_editor, SLOT(slotSetItems(const PlaylistItemList &)));
@@ -568,7 +567,7 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
 	    this, SLOT(slotSetNextItem(PlaylistItem *)));
 
     if(icon)
-	m_playlistBox->createItem(p, icon, raise);
+	m_playlistBox->createItem(p, icon, raise, sortedFirst);
 
     if(raise) {
 	PlaylistList l;
