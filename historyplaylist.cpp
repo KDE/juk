@@ -27,7 +27,7 @@
 HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
     PlaylistItem(item, parent, after)
 {
-
+    setText(0, QDateTime::currentDateTime().toString(LocalDate));
 }
 
 HistoryPlaylistItem::~HistoryPlaylistItem()
