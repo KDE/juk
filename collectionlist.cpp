@@ -86,6 +86,12 @@ void CollectionList::initialize(PlaylistCollection *collection)
 
 PlaylistItem *CollectionList::createItem(const FileHandle &file, QListViewItem *, bool)
 {
+    // It's probably possible to optimize the line below away, but, well, right
+    // now it's more important to not load duplicate items.
+
+    if(m_itemsDict.find(file.absFilePath()))
+	return 0;
+
     PlaylistItem *item = new CollectionListItem(file);
     
     if(!item->isValid()) {
