@@ -56,6 +56,11 @@ namespace MediaFiles
      * Returns true if fileName is an Ogg file.
      */
     bool isOgg(const QString &fileName);
+
+    /**
+     * Returns true if fileName is an FLAC file.
+     */
+    bool isFLAC(const QString &fileName);
 }
 
 #endif

@@ -24,9 +24,10 @@
 namespace MediaFiles {
     QStringList mimeTypes();
 
-    static const char mp3Type[] = "audio/x-mp3";
-    static const char oggType[] = "application/ogg";
-    static const char m3uType[] = "audio/x-mpegurl";
+    static const char mp3Type[]  = "audio/x-mp3";
+    static const char oggType[]  = "application/ogg";
+    static const char flacType[] = "audio/x-flac";
+    static const char m3uType[]  = "audio/x-mpegurl";
     
     static const char playlistExtension[] = ".m3u";
 }
@@ -62,7 +63,7 @@ bool MediaFiles::isMediaFile(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
     
-    return result->is(mp3Type) || result->is(oggType);
+    return result->is(mp3Type) || result->is(oggType) || result->is(flacType);
 }
 
 bool MediaFiles::isPlaylistFile(const QString &fileName)
@@ -83,11 +84,17 @@ bool MediaFiles::isOgg(const QString &fileName)
     return result->is(oggType);
 }
 
+bool MediaFiles::isFLAC(const QString &fileName)
+{
+    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
+    return result->is(flacType);
+}
+
 QStringList MediaFiles::mimeTypes()
 {
     QStringList l;
 
-    l << mp3Type << oggType << m3uType;
+    l << mp3Type << oggType << flacType << m3uType;
 
     return l;
 }

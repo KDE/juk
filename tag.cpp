@@ -47,6 +47,9 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
     if(MediaFiles::isOgg(fileName))
         return new OggTag(fileName);
 
+    if(MediaFiles::isFLAC(fileName))
+        return new OggTag(fileName);
+
     kdError() << "Couldn't resolve the mime type of \"" << fileName << "\" -- this shouldn't happen." << endl;
 
     return 0;
@@ -90,7 +93,7 @@ int Tag::readSeconds(const KFileMetaInfo &metaInfo)
 
     for(QStringList::Iterator it = l.begin(); it != l.end(); ++it)
 	total = 60 * total + (*it).toInt();
-    
+
     return total;
 }
 
