@@ -24,6 +24,7 @@
 #include "filehandleproperties.h"
 #include "tag.h"
 #include "cache.h"
+#include "coverinfo.h"
 
 AddProperty(Title, tag()->title());
 AddProperty(Artist, tag()->artist());

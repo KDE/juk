@@ -40,6 +40,7 @@
 #include "actioncollection.h"
 #include "playermanager.h"
 #include "collectionlist.h"
+#include "coverinfo.h"
 
 using namespace ActionCollection;
 

@@ -59,6 +59,7 @@
 #include "upcomingplaylist.h"
 #include "deletedialog.h"
 #include "googlefetcher.h"
+#include "coverinfo.h"
 #include "tagtransactionmanager.h"
 
 using namespace ActionCollection;
@@ -447,8 +448,7 @@ void Playlist::playFirst()
 void Playlist::playNext()
 {
     TrackSequenceManager::instance()->setCurrentPlaylist(this);
-    PlaylistItem *next = TrackSequenceManager::instance()->nextItem();
-    setPlaying(next);
+    setPlaying(TrackSequenceManager::instance()->nextItem());
 }
 
 void Playlist::stop()

@@ -31,6 +31,7 @@
 #include "playermanager.h"
 #include "filehandle.h"
 #include "actioncollection.h"
+#include "coverinfo.h"
 
 using namespace ActionCollection;
 

@@ -18,11 +18,10 @@
 
 #include <qstringlist.h>
 
-#include "coverinfo.h"
-
 class QFileInfo;
 class QDateTime;
 class QDataStream;
+class CoverInfo;
 
 class Tag;
 class CacheDataStream;

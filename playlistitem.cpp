@@ -25,6 +25,7 @@
 #include "tag.h"
 #include "actioncollection.h"
 #include "ktrm.h"
+#include "coverinfo.h"
 #include "tagtransactionmanager.h"
 
 static void startMusicBrainzQuery(const FileHandle &file)

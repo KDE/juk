@@ -19,7 +19,6 @@
 #define SYSTEMTRAY_H
 
 #include <ksystemtray.h>
-#include "coverinfo.h"
 
 #include <qvaluevector.h>
 

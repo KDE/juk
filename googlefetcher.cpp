@@ -24,6 +24,7 @@
 
 #include "googlefetcher.h"
 #include "googlefetcherdialog.h"
+#include "tag.h"
 
 GoogleFetcher::GoogleFetcher(const FileHandle &file)
     : m_file(file),

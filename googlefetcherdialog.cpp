@@ -20,6 +20,7 @@
 #include <qimage.h>
 
 #include "googlefetcherdialog.h"
+#include "tag.h"
 
 GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
                                          const QStringList &urlList,
