@@ -1,10 +1,10 @@
 /***************************************************************************
-                          cacheitem.cpp  -  description
+                          collectionlist.cpp  -  description
                              -------------------
-    begin                : Fri Mar 22 2002
+    begin                : Fri Sep 13 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
-***************************************************************************/
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,14 +15,14 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "cacheitem.h"
+#include "collectionlist.h"
 
-CacheItem::CacheItem()
+CollectionList::CollectionList(QWidget *parent, const char *name) : Playlist(parent, name)
 {
 
 }
 
-CacheItem::~CacheItem()
+CollectionList::~CollectionList()
 {
 
 }

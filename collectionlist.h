@@ -1,10 +1,10 @@
 /***************************************************************************
-                          cacheitem.h  -  description
+                          collectionlist.h  -  description
                              -------------------
-    begin                : Fri Mar 22 2002
+    begin                : Fri Sep 13 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
-***************************************************************************/
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,14 +15,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CACHEITEM_H
-#define CACHEITEM_H
+#ifndef COLLECTIONLIST_H
+#define COLLECTIONLIST_H
 
-class CacheItem
+#include "playlist.h"
+
+class CollectionList : public Playlist
 {
-public:
-    CacheItem();
-    virtual ~CacheItem();
+    Q_OBJECT
+public: 
+    CollectionList(QWidget *parent = 0, const char *name = 0);
+    virtual ~CollectionList();
 };
 
 #endif
