@@ -40,9 +40,9 @@
 ArtsPlayer::ArtsPlayer() : Player(),
                            m_dispatcher(0),
                            m_server(0),
-                           m_factory( 0 ),
-                           m_playobject( 0 ),
-                           m_amanPlay( 0 ),
+                           m_factory(0),
+                           m_playobject(0),
+                           m_amanPlay(0),
                            m_volumeControl(Arts::StereoVolumeControl::null()),
 m_currentVolume(1.0)
 {
@@ -66,50 +66,48 @@ void ArtsPlayer::play(const QString &fileName, float volume)
 
 void ArtsPlayer::play(float volume)
 {
-    //kdDebug( 65432 ) << k_funcinfo << endl;
-    // make sure, that the server still exists, if it doesn't a new one should
-    // be started automatically and the factory and amanPlay are created again
-    if( m_server->server().isNull() )
-    {
-        KMessageBox::error( 0, i18n( "Cannot find the aRts soundserver." ) );
+    // kdDebug(65432) << k_funcinfo << endl;
+    // Make sure that the server still exists, if it doesn't a new one should
+    // be started automatically and the factory and amanPlay are created again.
+
+    if(m_server->server().isNull()) {
+        KMessageBox::error(0, i18n("Cannot find the aRts soundserver."));
         return;
     }
 
-    if( ! m_playobject || m_playobject->state() != Arts::posPaused )
+    if(!m_playobject || m_playobject->state() != Arts::posPaused)
     {
-        if( m_playobject && m_playobject->state() == Arts::posPlaying )
+        if(m_playobject && m_playobject->state() == Arts::posPlaying)
             stop();
         delete m_playobject;
-        m_playobject = m_factory->createPlayObject( m_currentURL, false );
+        m_playobject = m_factory->createPlayObject(m_currentURL, false);
         m_currentVolume = volume; //save volume for playObjectCreated
-        if( m_playobject->object().isNull() )
-            connect( m_playobject, SIGNAL( playObjectCreated() ), SLOT( playObjectCreated() ) );
+        if(m_playobject->object().isNull())
+            connect(m_playobject, SIGNAL(playObjectCreated()), SLOT(playObjectCreated()));
         else
             playObjectCreated();
     }
     else
-        setVolume( volume );
+        setVolume(volume);
     m_playobject->play();
 }
 
 void ArtsPlayer::pause()
 {
-    //kdDebug( 65432 ) << k_funcinfo << endl;
-    if( m_playobject )
+    // kdDebug(65432) << k_funcinfo << endl;
+    if(m_playobject)
         m_playobject->pause();
 }
 
 void ArtsPlayer::stop()
 {
-    //kdDebug( 65432 ) << k_funcinfo << endl;
-    if( m_playobject )
-    {
+    // kdDebug(65432) << k_funcinfo << endl;
+    if(m_playobject) {
         m_playobject->halt();
         delete m_playobject;
         m_playobject = 0;
     }
-    if( !m_volumeControl.isNull() )
-    {
+    if(!m_volumeControl.isNull()) {
         m_volumeControl.stop();
         m_volumeControl = Arts::StereoVolumeControl::null();
     }
@@ -117,15 +115,13 @@ void ArtsPlayer::stop()
 
 void ArtsPlayer::setVolume(float volume)
 {
-    //kdDebug( 65432 ) << k_funcinfo << endl;
-    if( serverRunning() && m_playobject && !m_playobject->isNull() )
-    {
-        if( m_volumeControl.isNull() )
+    // kdDebug( 65432 ) << k_funcinfo << endl;
+    if(serverRunning() && m_playobject && !m_playobject->isNull()) {
+        if(m_volumeControl.isNull())
             setupVolumeControl();
-        if( !m_volumeControl.isNull() )
-        {
+        if(!m_volumeControl.isNull()) {
             m_currentVolume = volume;
-            m_volumeControl.scaleFactor( volume );
+            m_volumeControl.scaleFactor(volume);
         }
     }
 }
@@ -141,7 +137,7 @@ float ArtsPlayer::getVolume() const
 
 bool ArtsPlayer::playing() const
 {
-    if( serverRunning() && m_playobject && m_playobject->state() == Arts::posPlaying )
+    if(serverRunning() && m_playobject && m_playobject->state() == Arts::posPlaying)
         return true;
     else
         return false;
@@ -149,7 +145,7 @@ bool ArtsPlayer::playing() const
 
 bool ArtsPlayer::paused() const
 {
-    if( serverRunning() && m_playobject && m_playobject->state() == Arts::posPaused )
+    if(serverRunning() && m_playobject && m_playobject->state() == Arts::posPaused)
         return true;
     else
         return false;
@@ -157,7 +153,7 @@ bool ArtsPlayer::paused() const
 
 long ArtsPlayer::totalTime() const
 {
-    if( serverRunning() && m_playobject )
+    if(serverRunning() && m_playobject)
         return m_playobject->overallTime().seconds;
     else
         return -1;
@@ -165,19 +161,24 @@ long ArtsPlayer::totalTime() const
 
 long ArtsPlayer::currentTime() const
 {
-    if( serverRunning() && m_playobject && ( m_playobject->state() == Arts::posPlaying || m_playobject->state() == Arts::posPaused ) )
+    if(serverRunning() && m_playobject &&
+       (m_playobject->state() == Arts::posPlaying ||
+	m_playobject->state() == Arts::posPaused))
+    {
         return m_playobject->currentTime().seconds;
+    }
     else
         return -1;
 }
 
 int ArtsPlayer::position() const
 {
-    if( serverRunning() && m_playobject && m_playobject->state() == Arts::posPlaying )
-    {
+    if(serverRunning() && m_playobject && m_playobject->state() == Arts::posPlaying) {
         long total = m_playobject->overallTime().seconds * 1000 + m_playobject->overallTime().ms;
         long current = m_playobject->currentTime().seconds * 1000 + m_playobject->currentTime().ms;
+
         // add .5 to make rounding happen properly
+
         return int(double(current) * 1000 / total + .5);
     }
     else
@@ -217,29 +218,29 @@ void ArtsPlayer::seekPosition(int position)
 
 void ArtsPlayer::setupArtsObjects()
 {
-    //kdDebug( 65432 ) << k_funcinfo << endl;
+    // kdDebug( 65432 ) << k_funcinfo << endl;
     delete m_factory;
     delete m_amanPlay;
     m_volumeControl = Arts::StereoVolumeControl::null();
-    m_factory = new KDE::PlayObjectFactory( m_server );
-    m_amanPlay = new KAudioManagerPlay( m_server );
+    m_factory = new KDE::PlayObjectFactory(m_server);
+    m_amanPlay = new KAudioManagerPlay(m_server);
 
-    if( m_amanPlay->isNull() || !m_factory )
-    {
-        KMessageBox::error( 0, i18n( "Connecting/starting aRts soundserver failed. Make sure that artsd is configured properly." ) );
-        exit( 1 );
+    if(m_amanPlay->isNull() || !m_factory) {
+        KMessageBox::error(0, i18n("Connecting/starting aRts soundserver failed. "
+                                   "Make sure that artsd is configured properly."));
+        exit(1);
     }
 
-    m_amanPlay->setTitle( i18n( "JuK" ) );
-    m_amanPlay->setAutoRestoreID( "JuKAmanPlay" );
+    m_amanPlay->setTitle(i18n("JuK"));
+    m_amanPlay->setAutoRestoreID("JuKAmanPlay");
 
-    m_factory->setAudioManagerPlay( m_amanPlay );
+    m_factory->setAudioManagerPlay(m_amanPlay);
 }
 
 void ArtsPlayer::playObjectCreated()
 {
-    //kdDebug( 65432 ) << k_funcinfo << endl;
-    setVolume( m_currentVolume );
+    // kdDebug(65432) << k_funcinfo << endl;
+    setVolume(m_currentVolume);
 }
 
 void ArtsPlayer::setupPlayer()
@@ -247,15 +248,14 @@ void ArtsPlayer::setupPlayer()
     m_dispatcher = new KArtsDispatcher;
     m_server = new KArtsServer;
     setupArtsObjects();
-    connect( m_server, SIGNAL( restartedServer() ), SLOT( setupArtsObjects() ) );
+    connect(m_server, SIGNAL(restartedServer()), SLOT(setupArtsObjects()));
 }
 
 void ArtsPlayer::setupVolumeControl()
 {
-    //kdDebug( 65432 ) << k_funcinfo << endl;
+    // kdDebug( 65432 ) << k_funcinfo << endl;
     m_volumeControl = Arts::DynamicCast(m_server->server().createObject("Arts::StereoVolumeControl"));
-    if(!m_volumeControl.isNull() && !m_playobject->isNull() && !m_playobject->object().isNull())
-    {
+    if(!m_volumeControl.isNull() && !m_playobject->isNull() && !m_playobject->object().isNull()) {
         Arts::Synth_AMAN_PLAY ap = m_amanPlay->amanPlay();
         Arts::PlayObject po = m_playobject->object();
         ap.stop();
@@ -270,8 +270,7 @@ void ArtsPlayer::setupVolumeControl()
         Arts::connect(m_volumeControl, "outleft" , ap, "left" );
         Arts::connect(m_volumeControl, "outright", ap, "right");
     }
-    else
-    {
+    else {
         m_volumeControl = Arts::StereoVolumeControl::null();
         kdDebug(65432) << "Could not initialize volume control!" << endl;
     }

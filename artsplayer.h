@@ -74,9 +74,9 @@ private:
     KDE::PlayObject *m_playobject;
     KAudioManagerPlay *m_amanPlay;
 
-    Arts::StereoVolumeControl m_volumeControl; // this is a pretty heavy module
-    //for the needs that JuK has, it would probably be good to use two Synth_MUL
-    //instead or the one from noatun
+    // This is a pretty heavy module for the needs that JuK has, it would probably
+    // be good to use two Synth_MUL instead or the one from Noatun.
+    Arts::StereoVolumeControl m_volumeControl;
 
     KURL m_currentURL;
     float m_currentVolume;
