@@ -86,8 +86,8 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     // add the view modes stuff
 
-    m_viewModeAction = new KSelectAction(i18n("View Modes"), "view_choose",
-					 KShortcut(), actions(), "viewModeMenu");
+    KSelectAction *viewModeAction =
+	new KSelectAction(i18n("View Modes"), "view_choose", KShortcut(), actions(), "viewModeMenu");
 
     m_viewModes.append(new ViewMode(this));
     m_viewModes.append(new CompactViewMode(this));
@@ -98,18 +98,18 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     for(QValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
 	modeNames.append((*it)->name());
 
-    m_viewModeAction->setItems(modeNames);
+    viewModeAction->setItems(modeNames);
 
-    QPopupMenu *p = m_viewModeAction->popupMenu();
+    QPopupMenu *p = viewModeAction->popupMenu();
     p->changeItem(0, SmallIconSet("view_detailed"), modeNames[0]);
     p->changeItem(1, SmallIconSet("view_text"), modeNames[1]);
     p->changeItem(2, SmallIconSet("view_tree"), modeNames[2]);
 
-    m_viewModeAction->setCurrentItem(m_viewModeIndex);
+    viewModeAction->setCurrentItem(m_viewModeIndex);
     m_viewModes[m_viewModeIndex]->setShown(true);
 
-    m_viewModeAction->plug(m_contextMenu);
-    connect(m_viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
+    viewModeAction->plug(m_contextMenu);
+    connect(viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
 
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotPlaylistChanged()));
@@ -220,8 +220,7 @@ void PlaylistBox::readConfig()
 void PlaylistBox::saveConfig()
 {
     KConfigGroup config(KGlobal::config(), "PlaylistBox");
-    config.writeEntry("ViewMode", m_viewModeAction->currentItem());
-    
+    config.writeEntry("ViewMode", action<KSelectAction>("viewModeMenu")->currentItem());
     KGlobal::config()->sync();
 }
 

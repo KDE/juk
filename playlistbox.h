@@ -108,7 +108,6 @@ private:
     QPtrDict<Item> m_playlistDict;
     int m_viewModeIndex;
     QValueList<ViewMode *> m_viewModes;
-    KSelectAction *m_viewModeAction;
     KAction *m_k3bAction;
     bool m_hasSelection;
     bool m_doingMultiSelect;
