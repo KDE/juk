@@ -25,6 +25,8 @@
 #include <connect.h>
 #include <flowsystem.h>
 
+#include <sys/wait.h>
+
 #include "artsplayer.h"
 
 ////////////////////////////////////////////////////////////////////////////////
