@@ -33,6 +33,7 @@
 #include "tag.h"
 #include "playlistitem.h"
 #include "collectionlist.h"
+#include "historyplaylist.h"
 
 static const int imageSize = 64;
 
@@ -251,6 +252,9 @@ HistoryItem::HistoryItem(NowPlaying *parent) :
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     setLinkUnderline(false);
     setText(QString("<b>%1</b>").arg(i18n("History")));
+
+    m_timer = new QTimer(this);
+    connect(m_timer, SIGNAL(timeout()), this, SLOT(slotAddPlaying()));
 }
 
 void HistoryItem::update(const FileHandle &file)
@@ -277,8 +281,9 @@ void HistoryItem::update(const FileHandle &file)
         }
     }
 
-    m_history.prepend(Item(KApplication::randomString(20),
-                           file, Playlist::playingItem()->playlist()));
+    m_file = file;
+    m_timer->stop();
+    m_timer->start(HistoryPlaylist::delay(), true);
 }
 
 void HistoryItem::openLink(const QString &link)
@@ -299,6 +304,20 @@ void HistoryItem::openLink(const QString &link)
             break;
         }
     }
+}
+
+void HistoryItem::slotAddPlaying()
+{
+    // More or less copied from the HistoryPlaylist
+
+    PlayerManager *manager = PlayerManager::instance();
+
+    if(manager->playing() && manager->playingFile() == m_file) {
+        m_history.prepend(Item(KApplication::randomString(20),
+                               m_file, Playlist::playingItem()->playlist()));
+    }
+
+    m_file = FileHandle::null();
 }
 
 #include "nowplaying.moc"

@@ -47,6 +47,9 @@ public:
     virtual void createItems(const PlaylistItemList &siblings);
     virtual int columnOffset() const { return 1; }
     virtual bool readOnly() const { return true; }
+
+    static int delay() { return 5000; }
+
 public slots:
     void cut() {}
     void clear() {}

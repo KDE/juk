@@ -25,6 +25,8 @@
 #include "filehandle.h"
 #include "playlist.h"
 
+class QTimer;
+
 class NowPlayingItem;
 class PlaylistCollection;
 class Playlist;
@@ -137,10 +139,15 @@ private:
 
 class HistoryItem : public LinkLabel, public NowPlayingItem
 {
+    Q_OBJECT
+
 public:
     HistoryItem(NowPlaying *parent);
     virtual void update(const FileHandle &file);
     virtual void openLink(const QString &link);
+
+private slots:
+    void slotAddPlaying();
 
 private:
     struct Item
@@ -156,6 +163,8 @@ private:
 
     QValueList<Item> m_history;
     LinkLabel *m_label;
+    QTimer *m_timer;
+    FileHandle m_file;
 };
 
 #endif
