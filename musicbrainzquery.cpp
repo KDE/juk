@@ -32,7 +32,7 @@
 #include <string>
 #include <vector>
 
-MusicBrainzQuery::MusicBrainzQuery(QueryType query, QStringList args,
+MusicBrainzQuery::MusicBrainzQuery(QueryType query, const QStringList& args,
                                    QObject* parent, const char* name)
     : QObject(parent,name), m_query(query), m_arguments(args), m_tracks(false)
 {
@@ -177,26 +177,26 @@ void MusicBrainzQuery::queryStrings(std::string& query, std::string& result, std
     }
 }
 
-MusicBrainzQuery::Album MusicBrainzQuery::extractAlbum( int i )
+MusicBrainzQuery::Album MusicBrainzQuery::extractAlbum(int i)
 {
     std::string temp;
 
     kdDebug()<<"Extracting "<<i<<endl;
     Album alb;
-    GetIDFromURL( Data( MBE_AlbumGetAlbumId ), temp );
+    GetIDFromURL(Data(MBE_AlbumGetAlbumId), temp);
     alb.id = temp.c_str();
-    alb.name       = dataExtract( MBE_AlbumGetAlbumName );
-    alb.numTracks  = DataInt( MBE_AlbumGetNumTracks );
-    alb.artist     = dataExtract( MBE_AlbumGetArtistName, 1 );
-    GetIDFromURL( Data( MBE_AlbumGetArtistId, 1 ), temp );
+    alb.name       = dataExtract(MBE_AlbumGetAlbumName);
+    alb.numTracks  = DataInt(MBE_AlbumGetNumTracks);
+    alb.artist     = dataExtract(MBE_AlbumGetArtistName, 1);
+    GetIDFromURL(Data(MBE_AlbumGetArtistId, 1), temp);
     alb.artistId =  temp.c_str();
-    alb.status     = dataExtract( MBE_AlbumGetAlbumStatus );
-    alb.type       = dataExtract( MBE_AlbumGetAlbumType );
-    alb.cdIndexId  = dataExtract( MBE_AlbumGetNumCdindexIds );
+    alb.status     = dataExtract(MBE_AlbumGetAlbumStatus);
+    alb.type       = dataExtract(MBE_AlbumGetAlbumType);
+    alb.cdIndexId  = dataExtract(MBE_AlbumGetNumCdindexIds);
 
     TrackList tracks;
-    for( int num = 1; num <= alb.numTracks; ++num  ) {
-        tracks.append( extractTrackFromAlbum(num) );
+    for(int num = 1; num <= alb.numTracks; ++num) {
+        tracks.append(extractTrackFromAlbum(num));
     }
     alb.tracksList = tracks;
 
@@ -211,10 +211,10 @@ MusicBrainzQuery::Track MusicBrainzQuery::extractTrackFromAlbum(int num)
     track.name     = dataExtract(MBE_AlbumGetTrackName, num);
     track.duration = dataExtract(MBE_AlbumGetTrackDuration, num);
     track.artist   = dataExtract(MBE_AlbumGetArtistName, num);
-    GetIDFromURL( Data(MBE_AlbumGetTrackId), temp );
-    track.id = ( temp.empty() )?QString::null: QString( temp.c_str() );
-    GetIDFromURL( Data(MBE_AlbumGetArtistId ), temp );
-    track.artistId = ( temp.empty() )? QString::null : QString( temp.c_str() );
+    GetIDFromURL(Data(MBE_AlbumGetTrackId), temp);
+    track.id = (temp.empty()) ? QString::null : QString(temp.c_str());
+    GetIDFromURL(Data(MBE_AlbumGetArtistId),temp);
+    track.artistId = (temp.empty()) ? QString::null : QString(temp.c_str());
     return track;
 }
 
@@ -227,12 +227,12 @@ MusicBrainzQuery::Track MusicBrainzQuery::extractTrack(int num)
     track.artist   = dataExtract(MBE_TrackGetArtistName, num);
     track.album    = dataExtract(MBE_AlbumGetAlbumName, num);
 
-    GetIDFromURL( temp2, temp1 );
-    track.id = ( temp1.empty() )?QString::null: QString( temp1.c_str() );
+    GetIDFromURL(temp2, temp1);
+    track.id = (temp1.empty()) ? QString::null : QString(temp1.c_str());
     Select(MBS_SelectTrackAlbum);
     track.num      = GetOrdinalFromList(MBE_AlbumGetTrackList, temp2);
-    GetIDFromURL( Data(MBE_AlbumGetArtistId ), temp1 );
-    track.artistId = ( temp1.empty() )? QString::null : QString( temp1.c_str() );
+    GetIDFromURL(Data(MBE_AlbumGetArtistId), temp1);
+    track.artistId = (temp1.empty())? QString::null : QString(temp1.c_str());
     Select(MBS_Rewind);
     return track;
 }

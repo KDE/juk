@@ -94,7 +94,7 @@ public:
     };
     typedef QValueList<Album> AlbumList;
 
-    MusicBrainzQuery(QueryType query, QStringList args,
+    MusicBrainzQuery(QueryType query, const QStringList& args,
                      QObject* parent=0, const char* name=0);
 
     void start();
