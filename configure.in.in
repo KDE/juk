@@ -59,12 +59,5 @@ AC_TRY_COMPILE([
 ])
 AC_LANG_RESTORE
 
-if test -z "$TRM" ; then
-   AC_DEFINE(HAVE_TRM,0,[Is trm program present])
-else
-   AC_DEFINE(HAVE_TRM,1,[Is trm program present])
-fi
-
-
 AM_CONDITIONAL(link_lib_GST, test x$have_gst = xtrue)
 AM_CONDITIONAL(link_lib_MB, test x$have_musicbrainz = xtrue)
