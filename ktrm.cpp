@@ -34,6 +34,7 @@
 #include <qfile.h>
 
 #include <tunepimp/tp_c.h>
+#include <fixx11h.h>
 
 class KTRMLookup;
 

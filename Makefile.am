@@ -1,5 +1,5 @@
 bin_PROGRAMS = juk
-check_PROGRAMS = tagguessertest mbtest
+check_PROGRAMS = tagguessertest
 
 juk_SOURCES = \
 	advancedsearchdialog.cpp \
@@ -69,7 +69,6 @@ juk_SOURCES = \
 	viewmode.cpp
 
 tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp
-mbtest_SOURCES = mbtest.cpp musicbrainzquery.cpp
 
 INCLUDES= $(all_includes) $(taglib_includes) $(GST_CFLAGS) $(ARTS_CFLAGS)
 
@@ -86,9 +85,6 @@ juk_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LDFLAGS_GST)
 
 tagguessertest_LDADD = $(LIB_KDECORE)
 tagguessertest_LDFLAGS = $(all_libraries)
-
-mbtest_LDADD = $(LIB_KDECORE) $(mblibs)
-mbtest_LDFLAGS = $(all_libraries)
 
 SUBDIRS = pics
 

@@ -27,10 +27,10 @@
 
 #define NUMBER(x) (x == 0 ? QString::null : QString::number(x))
 
-class TrackItem : public KListViewItem
+class TrackPickerItem : public KListViewItem
 {
 public:
-    TrackItem(KListView *parent, const KTRMResult &result) :
+    TrackPickerItem(KListView *parent, const KTRMResult &result) :
         KListViewItem(parent, parent->lastChild(),
                       result.title(), result.artist(), result.album(),
                       NUMBER(result.track()), NUMBER(result.year())),
@@ -57,7 +57,7 @@ TrackPickerDialog::TrackPickerDialog(const QString &name,
     m_base->trackList->setSorting(-1);
 
     for(KTRMResultList::ConstIterator it = results.begin(); it != results.end(); ++it)
-        new TrackItem(m_base->trackList, *it);
+        new TrackPickerItem(m_base->trackList, *it);
 
     m_base->trackList->setSelected(m_base->trackList->firstChild(), true);
     setMinimumWidth(kMax(400, width()));
@@ -71,7 +71,7 @@ TrackPickerDialog::~TrackPickerDialog()
 KTRMResult TrackPickerDialog::result() const
 {
     if(m_base->trackList->selectedItem())
-        return static_cast<TrackItem *>(m_base->trackList->selectedItem())->result();
+        return static_cast<TrackPickerItem *>(m_base->trackList->selectedItem())->result();
     else
         return KTRMResult();
 }

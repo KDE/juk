@@ -35,7 +35,7 @@ using namespace ActionCollection;
 
 PlayerManager *PlayerManager::m_instance = 0;
 
-enum Status { StatusStopped = -1, StatusPaused = 1, StatusPlaying = 2 };
+enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying = 2 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
