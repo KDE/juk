@@ -82,7 +82,7 @@ void JuK::setVolume(float volume)
        volume >= 0 && m_sliderAction->volumeSlider()->maxValue() >= volume)
     {
 	int v = int(volume / 100 * m_sliderAction->volumeSlider()->maxValue());
-	slotSetVolume(v);
+	m_player->slotSetVolume(v);
 	m_sliderAction->volumeSlider()->setValue(v);
     }
 }
@@ -173,7 +173,7 @@ void JuK::volumeUp()
     if(m_sliderAction && m_sliderAction->volumeSlider()) {
 	int volume = m_sliderAction->volumeSlider()->value() +
 	    m_sliderAction->volumeSlider()->maxValue() / 25; // 4% up
-	slotSetVolume(volume);
+	m_player->slotSetVolume(volume);
 	m_sliderAction->volumeSlider()->setValue(volume);
     }
 }
@@ -183,7 +183,7 @@ void JuK::volumeDown()
     if(m_sliderAction && m_sliderAction->volumeSlider()) {
 	int volume = m_sliderAction->volumeSlider()->value() -
 	    m_sliderAction->volumeSlider()->maxValue() / 25; // 4% down
-	slotSetVolume(volume);
+	m_player->slotSetVolume(volume);
 	m_sliderAction->volumeSlider()->setValue(volume);
     }
 }
@@ -192,9 +192,9 @@ void JuK::volumeMute()
 {
     if(m_sliderAction && m_sliderAction->volumeSlider()) {
 	if(m_muted)
-	    slotSetVolume(m_sliderAction->volumeSlider()->value());
+	    m_player->slotSetVolume(m_sliderAction->volumeSlider()->value());
 	else
-	    slotSetVolume(0);
+	    m_player->slotSetVolume(0);
 	    m_muted = !m_muted;
     }
 }
@@ -757,21 +757,14 @@ void JuK::slotPlaySelectedFile()
 	play(m_splitter->playSelectedFile());
 }
 
-void JuK::slotSetVolume(int volume)
-{
-    m_player->slotSetVolume(volume);
-}
-
 void JuK::slotConfigureTagGuesser()
 {
-    TagGuesserConfigDlg dlg(this);
-    dlg.exec();
+    TagGuesserConfigDlg(this).exec();
 }
 
 void JuK::slotConfigureFileRenamer()
 {
-    FileRenamerConfigDlg dlg(this);
-    dlg.exec();
+    FileRenamerConfigDlg(this).exec();
 }
 
 #include "juk.moc"

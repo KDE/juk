@@ -154,12 +154,6 @@ private slots:
     void slotConfigureFileRenamer();
 
     /**
-     * This method is called by the slider to set the volume of the player.  Its
-     * value is relative to the maxValue() of the volume slider.
-     */
-    void slotSetVolume(int volume);
-
-    /**
      * This method is called to check our progress in the playing file.  It uses
      * m_playTimer to know when to call itself again.
      */
