@@ -48,6 +48,7 @@ class PlaylistItem : public KListViewItem
     friend class CollectionList;
     friend class CollectionListItem;
     friend class QPtrDict<PlaylistItem>;
+    friend class Pointer;
 
 public:
     enum ColumnType { TrackColumn       = 0,
@@ -124,6 +125,8 @@ public:
      */
     static const PlaylistItemList &playingItems() { return m_playingItems; }
 
+    class Pointer;
+
 protected:
     /**
      * Items should always be created using Playlist::createItem() or through a
@@ -169,8 +172,33 @@ private:
 
     void setup(CollectionListItem *item);
     CollectionListItem *m_collectionItem;
-    bool m_playing;
+    bool m_watched;
     static PlaylistItemList m_playingItems;
+};
+
+/**
+ * A helper class to implement guarded pointer semantics.
+ */
+
+class PlaylistItem::Pointer
+{
+    friend class Playlist;
+
+public:
+    Pointer(PlaylistItem *item);
+    Pointer(const Pointer &p);
+    ~Pointer();
+    Pointer &operator=(PlaylistItem *item);
+    bool operator==(const Pointer &p) const { return m_item == p.m_item; }
+    bool operator!=(const Pointer &p) const { return m_item != p.m_item; }
+    PlaylistItem *operator->() const { return m_item; }
+    PlaylistItem &operator*() const { return *m_item; }
+    operator PlaylistItem*() const { return m_item; }
+    static void clear(PlaylistItem *item);
+    
+private:
+    PlaylistItem *m_item;
+    static QMap<PlaylistItem *, QValueList<Pointer *> > m_map;
 };
 
 inline kdbgstream &operator<<(kdbgstream &s, const PlaylistItem &item)

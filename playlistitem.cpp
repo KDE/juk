@@ -57,6 +57,9 @@ PlaylistItem::~PlaylistItem()
 	if(m_playingItems.isEmpty())
 	    playlist()->setPlaying(0);
     }
+
+    if(m_watched)
+	Pointer::clear(this);
 }
 
 void PlaylistItem::setFile(const FileHandle &file)
@@ -237,14 +240,16 @@ void PlaylistItem::clear()
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
     KListViewItem(parent),
-    d(0)
+    d(0),
+    m_watched(0)
 {
     setup(item);
 }
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
     KListViewItem(parent, after),
-    d(0)
+    d(0),
+    m_watched(0)
 {
     setup(item);
 }
@@ -253,7 +258,8 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListView
 // This constructor should only be used by the CollectionList subclass.
 
 PlaylistItem::PlaylistItem(CollectionList *parent) :
-    KListViewItem(parent)
+    KListViewItem(parent),
+    m_watched(0)
 {
     d = new Data;
     m_collectionItem = static_cast<CollectionListItem *>(this);
@@ -385,4 +391,83 @@ void PlaylistItem::setup(CollectionListItem *item)
     d = item->d;
     item->addChildItem(this);
     setDragEnabled(true);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PlaylistItem::Pointer implementation
+////////////////////////////////////////////////////////////////////////////////
+
+QMap<PlaylistItem *, QValueList<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_map; // static
+
+static int count = 0;
+
+PlaylistItem::Pointer::Pointer(PlaylistItem *item) :
+    m_item(item)
+{
+    kdDebug(65432) << k_funcinfo << "creating " << ++count << endl;
+
+    if(!m_item)
+	return;
+	
+    kdDebug(65432) << k_funcinfo << item->file().tag()->title() << endl;
+
+    m_item->m_watched = true;
+    m_map[m_item].append(this);
+}
+
+PlaylistItem::Pointer::Pointer(const Pointer &p) :
+    m_item(p.m_item)
+{
+    m_map[m_item].append(this);
+}
+
+PlaylistItem::Pointer::~Pointer()
+{
+    kdDebug(65432) << k_funcinfo << "destroying " << count-- << endl;
+
+    if(!m_item)
+	return;
+
+    m_map[m_item].remove(this);
+    if(m_map[m_item].isEmpty()) {
+	m_map.remove(m_item);
+	m_item->m_watched = false;
+    }
+}
+
+PlaylistItem::Pointer &PlaylistItem::Pointer::operator=(PlaylistItem *item)
+{
+    if(item == m_item)
+	return *this;
+
+    if(m_item) {
+	m_map[m_item].remove(this);
+	if(m_map[m_item].isEmpty()) {
+	    m_map.remove(m_item);
+	    m_item->m_watched = false;
+	}
+    }
+
+    if(item) {
+	m_map[item].append(this);
+	item->m_watched = true;
+    }
+
+    m_item = item;
+
+    return *this;
+}
+
+void PlaylistItem::Pointer::clear(PlaylistItem *item) // static
+{
+    if(!item)
+	return;
+
+    kdDebug(65432) << k_funcinfo << "clearing " << m_map.count() << " - " << m_map[item].count() << endl;
+
+    QValueList<Pointer *> l = m_map[item];
+    for(QValueList<Pointer *>::Iterator it = l.begin(); it != l.end(); ++it)
+	(*it)->m_item = 0;
+    m_map.remove(item);
+    item->m_watched = false;
 }

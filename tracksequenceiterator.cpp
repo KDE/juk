@@ -172,7 +172,7 @@ void DefaultSequenceIterator::reset()
 
 void DefaultSequenceIterator::setCurrent(PlaylistItem *current)
 {
-    PlaylistItem *oldCurrent = this->current();
+    PlaylistItem *oldCurrent = DefaultSequenceIterator::current();
 
     TrackSequenceIterator::setCurrent(current);
 

@@ -71,7 +71,7 @@ public:
      *
      * @return current track
      */
-    virtual PlaylistItem *current() const { return m_current; } 
+    virtual PlaylistItem *current() const { return m_current; }
 
     /**
      * This function creates a perfect copy of the object it is called on, to
@@ -108,7 +108,8 @@ public:
     virtual void setCurrent(PlaylistItem *current);
 
 private:
-    PlaylistItem *m_current; ///< the current item
+    QGuardedPtr<Playlist> m_playlist;
+    PlaylistItem::Pointer m_current; ///< the current item
 };
 
 /**
