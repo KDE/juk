@@ -3,11 +3,11 @@
 AM_INIT_AUTOMAKE(juk,1.0)
 
 artsc_config_test_path=$prefix/bin:$exec_prefix/bin:$KDEDIR/bin:$PATH
-AC_PATH_PROG(ARTSC_CONFIG, artsc-config, no, $artsc_config_test_path)
+AC_PATH_PROG(ARTSCCONFIG, artsc-config, no, $artsc_config_test_path)
 
-if test "x$build_arts" = "xyes" && test "x$ARTSC_CONFIG" != "xno" ; then
+if test "x$build_arts" = "xyes" && test "x$ARTSCCONFIG" != "xno" ; then
 	LIB_ARTS="-lartskde"
-	ARTS_PREFIX=[`$ARTSC_CONFIG --arts-prefix`]
+	ARTS_PREFIX=[`$ARTSCCONFIG --arts-prefix`]
 	ARTS_CFLAGS="-I$ARTS_PREFIX/include/arts"
 	AC_DEFINE(HAVE_ARTS, 1, [have arts support in juk])
 else
