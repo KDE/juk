@@ -137,6 +137,7 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
     if(m_currentPlaylist) {
 	connect(m_currentPlaylist, SIGNAL(signalAboutToRemove(PlaylistItem *)),
 		this, SLOT(slotItemRemoved(PlaylistItem *)));
+	connect(m_currentPlaylist, SIGNAL(destroyed()), this, SLOT(slotPlaylistRemoved()));
     }
 
     m_items = list;

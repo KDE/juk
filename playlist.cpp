@@ -357,7 +357,8 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
 
 Playlist::~Playlist()
 {
-
+    if(m_playingItem && m_playingItem->playlist() == this)
+	m_playingItem = 0;
 }
 
 QString Playlist::name() const
