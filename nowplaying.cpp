@@ -44,7 +44,7 @@ struct CoverPopup : public QWidget
         label->setLineWidth(1);
 
         label->setPixmap(image);
-        setGeometry(x, y, label->width(), label->height());
+        setGeometry(x - 10, y - 10, label->width(), label->height());
         show();
     }
 };
@@ -140,7 +140,9 @@ void CoverItem::mousePressEvent(QMouseEvent *event)
 
 bool CoverItem::eventFilter(QObject *object, QEvent *event)
 {
-    if(object == m_popup && event->type() == QEvent::MouseButtonPress) {
+    if(object == m_popup && (event->type() == QEvent::MouseButtonPress ||
+                             event->type() == QEvent::Leave))
+    {
         delete m_popup;
         m_popup = 0;
         return true;
