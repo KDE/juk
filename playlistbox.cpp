@@ -68,6 +68,8 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     action("file_save")->plug(m_contextMenu);
     action("file_save_as")->plug(m_contextMenu);
 
+    m_contextMenu->insertSeparator();
+
     // add the view modes stuff
 
     m_viewModeAction = new KSelectAction(i18n("View Modes"), "view_choose",
