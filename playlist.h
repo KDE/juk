@@ -357,6 +357,8 @@ public slots:
 
     void slotShowPlaying();
 
+    void slotColumnResizeModeChanged();
+
 protected:
     /**
      * Remove \a items from the playlist and disk.  This will ignore items that
@@ -497,7 +499,6 @@ private:
 
 private slots:
 
-    void slotColumnResizeModeChanged();
     void slotUpdateColumnWidths();
 
     void slotAddToUpcoming();

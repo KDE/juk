@@ -124,6 +124,7 @@ public:
      * Apply the settings.
      */
     void apply(Playlist *l) const;
+    void sync() { writeConfig(); }
 
 protected:
     SharedSettings();
@@ -200,6 +201,7 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
     l->updateLeftColumn();
     l->renameLineEdit()->setCompletionMode(m_inlineCompletion);
+    l->slotColumnResizeModeChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -745,6 +747,19 @@ void Playlist::slotShowPlaying()
     l->setSelected(m_playingItem, true);
     l->ensureItemVisible(m_playingItem);
     m_collection->raise(l);
+}
+
+void Playlist::slotColumnResizeModeChanged()
+{
+    if(action<KToggleAction>("resizeColumnsManually")->isChecked())
+	setHScrollBarMode(Auto);
+    else
+	setHScrollBarMode(AlwaysOff);
+
+    if(!action<KToggleAction>("resizeColumnsManually")->isChecked())
+	slotUpdateColumnWidths();
+
+    SharedSettings::instance()->sync();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1428,17 +1443,6 @@ PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
-
-void Playlist::slotColumnResizeModeChanged()
-{
-    if(action<KToggleAction>("resizeColumnsManually")->isChecked())
-	setHScrollBarMode(Auto);
-    else
-	setHScrollBarMode(AlwaysOff);
-
-    if(!action<KToggleAction>("resizeColumnsManually")->isChecked())
-	slotUpdateColumnWidths();
-}
 
 void Playlist::slotUpdateColumnWidths()
 {
