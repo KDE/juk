@@ -331,8 +331,8 @@ PlaylistItemList Playlist::historyItems(PlaylistItem *current, bool random) cons
     else if(current) {
         current = static_cast<PlaylistItem *>(current->itemAbove());
         for(int j = 0; current && j < 10; ++j) {
-            current = static_cast<PlaylistItem *>(current->itemAbove());
             list.append(current);
+            current = static_cast<PlaylistItem *>(current->itemAbove());
 	}
     }
 

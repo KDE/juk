@@ -139,10 +139,8 @@ void PlaylistSplitter::populatePlayHistoryMenu(QPopupMenu* menu, bool random)
     PlaylistItemList list = p->historyItems(m_playingItem, random);
     menu->clear();
     int i = 0;
-    for (PlaylistItemList::iterator it = list.begin(); it != list.end(); ++it)
-    {
+    for(PlaylistItemList::Iterator it = list.begin(); it != list.end(); ++it)
         menu->insertItem((*it)->tag()->track(), ++i);
-    }
 }
 
 QString PlaylistSplitter::playSelectedFile()
@@ -532,7 +530,7 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
     if(fileInfo.exists()) {
         if(fileInfo.isDir()) {
             QDir dir(fileInfo.filePath());
-            QStringList dirContents=dir.entryList();
+            QStringList dirContents = dir.entryList();
             for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it)
                 if(*it != "." && *it != "..")
                     addImpl(fileInfo.filePath() + QDir::separator() + *it, list);
