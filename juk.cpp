@@ -782,7 +782,10 @@ KAction *JuK::createSplitterAction(const QString &text, const char *slot,
 
 void JuK::slotPlaylistChanged()
 {
-    if(m_splitter->collectionListSelected() || !m_splitter->hasListSelected()) {
+    if(m_splitter->collectionListSelected() ||
+       !m_splitter->hasListSelected() ||
+       m_splitter->readOnlyListSelected())
+    {
         actionCollection()->action("file_save")->setEnabled(false);
         actionCollection()->action("file_save_as")->setEnabled(false);
         actionCollection()->action("renamePlaylist")->setEnabled(false);
@@ -805,7 +808,6 @@ void JuK::slotPlaylistChanged()
     else
         actionCollection()->action("duplicatePlaylist")->setEnabled(false);
     
-
     updatePlaylistInfo();
 }
 

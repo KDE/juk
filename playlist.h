@@ -100,7 +100,7 @@ public:
     /**
      * Allow duplicate files in the playlist.
      */
-    void setAllowDuplicates(bool allow);
+    void setAllowDuplicates(bool allow) { m_allowDuplicates = allow; }
 
     /**
      * This is being used as a mini-factory of sorts to make the construction
@@ -212,6 +212,9 @@ public:
      * actions associated with signalCountChanged() after each insertion.
      */
     void emitCountChanged() { emit signalCountChanged(this); }
+
+    virtual int columnOffset() { return 0; }
+    virtual bool readOnly() { return false; }
 
 public slots:
     /**
@@ -478,7 +481,7 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
 
     QValueListConstIterator<SiblingType *> it = siblings.begin();
     for(; it != siblings.end(); ++it) {
-	if(!m_members.insert(resolveSymLinks((*it)->absFilePath()))) {
+	if(!m_members.insert(resolveSymLinks((*it)->absFilePath())) || m_allowDuplicates) {
 	    previous = new ItemType((*it)->collectionItem(), this, previous);
 	    connect((*it)->collectionItem(), SIGNAL(destroyed()), (*it), SLOT(deleteLater()));
 	}

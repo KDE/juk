@@ -66,7 +66,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
 	return;
     
     KActionCollection *actions = static_cast<KMainWindow *>(w)->actionCollection();
-    
+
     actions->action("file_new")->plug(m_contextMenu);
     actions->action("renamePlaylist")->plug(m_contextMenu);
     actions->action("duplicatePlaylist")->plug(m_contextMenu);
@@ -340,7 +340,7 @@ void PlaylistBox::deleteItems(const ItemList &items)
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
 {
-    if(!s)
+    if(!s || (item->playlist() && item->playlist()->readOnly()))
 	return;
 
     KURL::List urls;
@@ -379,6 +379,9 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 
     if(itemAt(e->pos())) {
 	Item *target = static_cast<Item *>(itemAt(e->pos()));
+
+	if(target->playlist() && target->playlist()->readOnly())
+	    return;
 
 	// This is a semi-dirty hack to check if the items are coming from within
 	// JuK.  If they are not coming from a Playlist (or subclass) then the

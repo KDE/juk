@@ -41,7 +41,7 @@ HistoryPlaylistItem::~HistoryPlaylistItem()
 
 HistoryPlaylist::HistoryPlaylist(QWidget *parent) : Playlist(parent, i18n("History"))
 {
-
+    setAllowDuplicates(true);
 }
 
 HistoryPlaylist::~HistoryPlaylist()
@@ -53,3 +53,16 @@ void HistoryPlaylist::createItems(const PlaylistItemList &siblings)
 {
     Playlist::createItems<CollectionListItem, HistoryPlaylistItem, PlaylistItem>(siblings);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// HistoryPlaylist protected members
+////////////////////////////////////////////////////////////////////////////////
+
+void HistoryPlaylist::polish()
+{
+    addColumn(i18n("Time"));
+    Playlist::polish();
+    setSorting(-1);
+}
+
+#include "historyplaylist.moc"

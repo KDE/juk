@@ -138,6 +138,11 @@ public:
     bool fileBasedListSelected() { return !visiblePlaylist()->fileName().isNull(); }
 
     /**
+     * Returns true if the selected list is read only.
+     */
+    bool readOnlyListSelected() { return visiblePlaylist()->readOnly(); }
+
+    /**
      * Returns true if the currently selected playlist is a dynamic list.
      */
     bool dynamicListSelected() { return m_dynamicList && visiblePlaylist() == m_dynamicList; }

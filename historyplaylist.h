@@ -25,11 +25,21 @@ class HistoryPlaylistItem;
 
 class HistoryPlaylist : public Playlist
 {
+    Q_OBJECT
+
 public:
     HistoryPlaylist(QWidget *parent);
     virtual ~HistoryPlaylist();
 
     virtual void createItems(const PlaylistItemList &siblings);
+    virtual int columnOffset() { return 1; }
+    virtual bool readOnly() { return true; }
+public slots:
+    void cut() {}
+    void clear() {}
+
+protected:
+    virtual void polish();
 };
 
 

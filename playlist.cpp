@@ -931,16 +931,25 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
 	m_rmbMenu->insertItem(SmallIconSet("player_play"), i18n("Play Next"), this, SLOT(slotSetNext()));
 	m_rmbMenu->insertSeparator();
-	m_rmbMenu->insertItem(SmallIconSet("editcut"), i18n("Cut"), this, SLOT(cut()));
-	m_rmbMenu->insertItem(SmallIconSet("editcopy"), i18n("Copy"), this, SLOT(copy()));
-	m_rmbPasteID = m_rmbMenu->insertItem(SmallIconSet("editpaste"), i18n("Paste"), this, SLOT(paste()));
-	m_rmbMenu->insertItem(SmallIconSet("editclear"), i18n("Clear"), this, SLOT(clear()));
 
-	m_rmbMenu->insertSeparator();
+	if(!readOnly())
+	    m_rmbMenu->insertItem(SmallIconSet("editcut"), i18n("Cut"), this, SLOT(cut()));
+
+	m_rmbMenu->insertItem(SmallIconSet("editcopy"), i18n("Copy"), this, SLOT(copy()));
+
+	if(!readOnly()) {
+	    m_rmbPasteID = m_rmbMenu->insertItem(SmallIconSet("editpaste"), i18n("Paste"), this, SLOT(paste()));
+	    m_rmbMenu->insertItem(SmallIconSet("editclear"), i18n("Clear"), this, SLOT(clear()));
+
+	    m_rmbMenu->insertSeparator();
+	}
 
 	m_rmbEditID = m_rmbMenu->insertItem(SmallIconSet("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
-	m_rmbMenu->insertItem(SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
-	m_rmbMenu->insertItem(SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotRemoveSelectedItems()));
+
+	if(!readOnly()) {
+	    m_rmbMenu->insertItem(SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
+	    m_rmbMenu->insertItem(SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotRemoveSelectedItems()));
+	}
 
 	m_rmbMenu->insertSeparator();
 	actionCollection->action("guessTag")->plug(m_rmbMenu);
@@ -949,7 +958,12 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	m_rmbMenu->insertItem(SmallIcon("new"), i18n("Create Group From Selected Items"), this, SLOT(slotCreateGroup()));
     }
 
-    m_rmbMenu->setItemEnabled(m_rmbPasteID, canDecode(kapp->clipboard()->data()));
+    if(!readOnly())
+	m_rmbMenu->setItemEnabled(m_rmbPasteID, canDecode(kapp->clipboard()->data()));
+
+    // Ignore any columns added by subclasses.
+
+    column -= columnOffset();
 
     bool showEdit =
 	(column == PlaylistItem::TrackColumn) ||
@@ -979,7 +993,7 @@ void Playlist::slotRenameTag()
 
     KLineEdit *edit = renameLineEdit();
 
-    switch(m_currentColumn)
+    switch(m_currentColumn - columnOffset())
     {
     case PlaylistItem::TrackColumn:
 	edit->completionObject()->setItems(list->uniqueSet(CollectionList::Artists));
@@ -1007,7 +1021,7 @@ void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
 {
     PlaylistItem *i = static_cast<PlaylistItem *>(item);
 
-    switch(column)
+    switch(column - columnOffset())
     {
     case PlaylistItem::TrackColumn:
 	i->tag()->setTrack(text);

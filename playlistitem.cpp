@@ -292,20 +292,23 @@ void PlaylistItem::slotRefreshImpl()
     // This should be the only function that needs to be rewritten if the structure of
     // PlaylistItemData changes.
 
-    setText(TrackColumn,       tag()->track());
-    setText(ArtistColumn,      tag()->artist());
-    setText(AlbumColumn,       tag()->album());
-    setText(TrackNumberColumn, tag()->trackNumberString());
-    setText(GenreColumn,       tag()->genre());
-    setText(YearColumn,        tag()->yearString());
-    setText(LengthColumn,      tag()->lengthString());
-    setText(FileNameColumn,    filePath());
+    int offset = static_cast<Playlist *>(listView())->columnOffset();
+    
+
+    setText(TrackColumn + offset,       tag()->track());
+    setText(ArtistColumn + offset,      tag()->artist());
+    setText(AlbumColumn + offset,       tag()->album());
+    setText(TrackNumberColumn + offset, tag()->trackNumberString());
+    setText(GenreColumn + offset,       tag()->genre());
+    setText(YearColumn + offset,        tag()->yearString());
+    setText(LengthColumn + offset,      tag()->lengthString());
+    setText(FileNameColumn + offset,    filePath());
 
     QString shortComment = tag()->comment().simplifyWhiteSpace();
     if(shortComment.length() > 50)
 	shortComment = shortComment.left(47) + "...";
 
-    setText(CommentColumn,     shortComment);
+    setText(CommentColumn + offset,     shortComment);
 }
 
 void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
