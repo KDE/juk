@@ -55,7 +55,7 @@ GenreListList GenreListList::lists()
     
     for(QStringList::Iterator it = files.begin(); it != files.end(); it++) {
 	GenreList genreList(*it);
-	if(genreList.count() > 0)
+	if(!genreList.isEmpty())
 	    l.append(genreList);
     }
 

@@ -418,7 +418,7 @@ void TagEditor::setupLayout()
 
 void TagEditor::save(const PlaylistItemList &list)
 {
-    if(list.count() > 0 && m_dataChanged) {
+    if(!list.isEmpty() && m_dataChanged) {
 	
 	KApplication::setOverrideCursor(Qt::waitCursor);
 

@@ -308,7 +308,7 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 
     KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
 
-    if(res.count() == 0) {
+    if(res.isEmpty()) {
         win->statusBar()->message(i18n("No matches found."), 2000);
         return;
     }
