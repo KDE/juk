@@ -229,8 +229,12 @@ void PlaylistBox::remove()
     QStringList files;
 
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-	if(*it && (*it)->playlist() && !(*it)->playlist()->fileName().isEmpty())
+	if(*it && (*it)->playlist() &&
+	   !(*it)->playlist()->fileName().isEmpty() &&
+	   QFileInfo((*it)->playlist()->fileName()).exists())
+	{
 	    files.append((*it)->playlist()->fileName());
+	}
     }
 
     if(!files.isEmpty()) {
