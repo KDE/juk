@@ -221,7 +221,6 @@ private:
 
     int m_rmbPasteID;
     int m_rmbEditID;
-    int m_rmbEditMultipleID;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);
