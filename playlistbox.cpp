@@ -142,22 +142,22 @@ PlaylistList PlaylistBox::playlists()
 
 void PlaylistBox::save()
 {
-    save(static_cast<Item *>(selectedItem()));
+    save(static_cast<Item *>(currentItem()));
 }
 
 void PlaylistBox::saveAs()
 {
-    saveAs(static_cast<Item *>(selectedItem()));
+    saveAs(static_cast<Item *>(currentItem()));
 }
 
 void PlaylistBox::rename()
 {
-    rename(static_cast<Item *>(selectedItem()));
+    rename(static_cast<Item *>(currentItem()));
 }
 
 void PlaylistBox::duplicate()
 {
-    duplicate(static_cast<Item *>(selectedItem()));
+    duplicate(static_cast<Item *>(currentItem()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,12 +166,12 @@ void PlaylistBox::duplicate()
 
 void PlaylistBox::deleteItem()
 {
-    deleteItem(static_cast<Item *>(selectedItem()));
+    deleteItem(static_cast<Item *>(currentItem()));
 }
 
 void PlaylistBox::paste()
 {
-    Item *i = static_cast<Item *>(selectedItem());
+    Item *i = static_cast<Item *>(currentItem());
     decode(kapp->clipboard()->data(), i);
 }
 
@@ -206,6 +206,7 @@ void PlaylistBox::save(Item *item)
 
 void PlaylistBox::saveAs(Item *item)
 {
+    kdDebug(65432) << "saveAs() - " << bool(item) << endl;
     if(item)
         item->playlist()->saveAs();
 }
