@@ -212,12 +212,19 @@ void Playlist::remove()
 void Playlist::remove(const PlaylistItemList &items)
 {
     if(isVisible() && !items.isEmpty()) {
-        QString message = i18n("Are you sure that you want to delete:\n");
 
+        QStringList files;
 	for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it)
-            message.append(it.current()->fileName() + "\n");
+            files.append(it.current()->fileName());
 
-	if(KMessageBox::warningYesNo(this, message, i18n("Delete Files")) == KMessageBox::Yes) {
+	QString message;
+
+	if(files.count() == 1)
+	    message = i18n("Do you really want to delete this item?");
+	else
+	    message = i18n("Do you really want to delete these %1 items?").arg(QString::number(files.count()));
+	
+	if(KMessageBox::questionYesNoList(this, message, files) == KMessageBox::Yes) {
 	    for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it) {
 		if(QFile::remove(it.current()->filePath()))
 		    delete(it.current());
