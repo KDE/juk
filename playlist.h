@@ -334,7 +334,7 @@ public slots:
      * column widths must be recalculated.  If this is called without a column
      * all visible columns are marked as dirty.
      */
-    void slotWidthDirty(int column = -1);
+    void slotWeightDirty(int column = -1);
 
 protected:
     /**
@@ -475,14 +475,11 @@ private:
      */
     int leftMostVisibleColumn() const;
 
-    void updateColumnWidths();
-
     /**
      * Build the column "weights" for the weighted width mode.
      */
     void calculateColumnWeights();
 
-private:
     /**
      * This class is used internally to store settings that are shared by all
      * of the playlists, such as column order.  It is implemented as a singleton.
@@ -490,6 +487,8 @@ private:
     class SharedSettings;
 
 private slots:
+
+    void slotUpdateColumnWidths();
 
     /**
      * This is just used to emit the selection as a list of PlaylistItems when
@@ -535,6 +534,12 @@ private slots:
      */
     void slotCreateGroup() { emit signalCreatePlaylist(selectedItems()); }
 
+    /**
+     * This slot is called when the user drags the slider in the listview header
+     * to manually set the size of the column.
+     */
+    void slotColumnSizeChanged(int column, int oldSize, int newSize);
+
 private:
     StringHash m_members;
 
@@ -549,12 +554,14 @@ private:
     bool m_allowDuplicates;
     bool m_polished;
 
-    QValueList<int> m_widthDirty;
+    QValueList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;
     /**
      * The average minimum widths of columns to be used in balancing calculations.
      */
     QValueVector<int> m_columnWeights;
+    QValueVector<int> m_columnFixedWidths;
+    bool m_widthsDirty;
 
     PlaylistItemList m_randomList;
     PlaylistItemList m_history;
@@ -658,7 +665,7 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
 
     emit signalCountChanged(this);
     m_disableColumnWidthUpdates = false;
-    slotWidthDirty();
+    slotWeightDirty();
 }
 
 #endif

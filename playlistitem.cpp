@@ -361,7 +361,7 @@ void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
     // creation -- i.e. editing the item.  We'll handle item creation separately
     // as that avoids this signal firing a few thousand times.
 
-    connect(this, SIGNAL(signalColumnWidthChanged(int)), parent, SLOT(slotWidthDirty(int)));
+    connect(this, SIGNAL(signalColumnWidthChanged(int)), parent, SLOT(slotWeightDirty(int)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

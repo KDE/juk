@@ -217,6 +217,7 @@ Playlist::Playlist(QWidget *parent, const QString &name) :
     m_allowDuplicates(false),
     m_polished(false),
     m_disableColumnWidthUpdates(true),
+    m_widthsDirty(true),
     m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0)
@@ -230,6 +231,7 @@ Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const QString
     m_allowDuplicates(false),
     m_polished(false),
     m_disableColumnWidthUpdates(true),
+    m_widthsDirty(true),
     m_lastSelected(0),
     m_fileName(playlistFile.absFilePath()),
     m_rmbMenu(0)
@@ -558,19 +560,19 @@ void Playlist::slotReload()
     loadFile(m_fileName, fileInfo);
 }
 
-void Playlist::slotWidthDirty(int column)
+void Playlist::slotWeightDirty(int column)
 {
     if(column < 0) {
-	m_widthDirty.clear();
+	m_weightDirty.clear();
 	for(int i = 0; i < columns(); i++) {
 	    if(isColumnVisible(i))
-		m_widthDirty.append(i);
+		m_weightDirty.append(i);
 	}
 	return;
     }
 
-    if(m_widthDirty.find(column) == m_widthDirty.end())
-	m_widthDirty.append(column);
+    if(m_weightDirty.find(column) == m_weightDirty.end())
+	m_weightDirty.append(column);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -649,9 +651,22 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *after)
 bool Playlist::eventFilter(QObject *watched, QEvent *e)
 {
     if(watched == header()) {
-	if(e->type() == QEvent::MouseButtonPress) {
-	    if(static_cast<QMouseEvent*>(e)->button() == RightButton)
+	switch(e->type()) {
+	case QEvent::MouseButtonPress:
+	{
+	    if(static_cast<QMouseEvent *>(e)->button() == RightButton)
 		m_headerMenu->popup(QCursor::pos());
+	    break;
+	}
+	case QEvent::MouseButtonRelease:
+	{
+	    if(m_widthsDirty)
+		QTimer::singleShot(0, this, SLOT(slotUpdateColumnWidths()));
+	    break;
+	}
+
+	default:
+	    break;
 	}
     }
 
@@ -711,9 +726,9 @@ void Playlist::viewportPaintEvent(QPaintEvent *pe)
 {
     // If there are columns that need to be updated, well, update them.
 
-    if(!m_widthDirty.isEmpty()) {
+    if(!m_weightDirty.isEmpty()) {
 	calculateColumnWeights();
-	updateColumnWidths();
+	slotUpdateColumnWidths();
     }
 
     KListView::viewportPaintEvent(pe);
@@ -725,14 +740,14 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
     // widths.
 
     if(re->size().width() != re->oldSize().width())
-	updateColumnWidths();
+	slotUpdateColumnWidths();
 
     KListView::viewportResizeEvent(re);
 }
 
 void Playlist::addColumn(const QString &label)
 {
-    slotWidthDirty(columns());
+    slotWeightDirty(columns());
     KListView::addColumn(label, 30);
 }
 
@@ -762,7 +777,7 @@ void Playlist::hideColumn(int c)
 	m_leftColumn = leftMostVisibleColumn();
     }
 
-    updateColumnWidths();
+    slotUpdateColumnWidths();
     triggerUpdate();
     emit signalVisibleColumnsChanged();
 }
@@ -784,7 +799,7 @@ void Playlist::showColumn(int c)
 	m_leftColumn = leftMostVisibleColumn();
     }
 
-    updateColumnWidths();
+    slotUpdateColumnWidths();
     triggerUpdate();
     emit signalVisibleColumnsChanged();
 }
@@ -804,7 +819,6 @@ QString Playlist::resolveSymLinks(const QFileInfo &file) // static
 	return QFile::decodeName(real);
     else
 	return file.filePath();
-
 }
 
 void Playlist::polish()
@@ -842,6 +856,8 @@ void Playlist::polish()
     setShowSortIndicator(true);
     setDropVisualizer(true);
 
+    m_columnFixedWidths.resize(columns(), 0);
+
     //////////////////////////////////////////////////
     // setup header RMB menu
     //////////////////////////////////////////////////
@@ -866,6 +882,9 @@ void Playlist::polish()
 	    this, SLOT(slotShowRMBMenu(QListViewItem *, const QPoint &, int)));
     connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
 	    this, SLOT(slotApplyModification(QListViewItem *, const QString &, int)));
+
+    connect(header(), SIGNAL(sizeChange(int, int, int)),
+	    this, SLOT(slotColumnSizeChanged(int, int, int)));
 
     setHScrollBarMode(AlwaysOff);
 
@@ -957,7 +976,47 @@ int Playlist::leftMostVisibleColumn() const
     return header()->mapToSection(i);
 }
 
-void Playlist::updateColumnWidths()
+void Playlist::calculateColumnWeights()
+{
+    if(m_disableColumnWidthUpdates)
+	return;
+
+    PlaylistItemList l = items();
+    QValueListConstIterator<int> columnIt;
+
+    QValueVector<double> averageWidth(columns(), 0);
+    double itemCount = l.size();
+
+    QValueVector<int> cachedWidth;
+
+    // Here we're not using a real average, but averaging the squares of the
+    // column widths and then using the square root of that value.  This gives
+    // a nice weighting to the longer columns without doing something arbitrary
+    // like adding a fixed amount of padding.
+
+    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
+	cachedWidth = (*it)->cachedWidths();
+	for(columnIt = m_weightDirty.begin(); columnIt != m_weightDirty.end(); ++columnIt)
+	    averageWidth[*columnIt] += pow(double(cachedWidth[*columnIt]) , 2.0) / itemCount;
+    }
+
+    m_columnWeights.resize(columns(), -1);
+
+    for(columnIt = m_weightDirty.begin(); columnIt != m_weightDirty.end(); ++columnIt) {
+	m_columnWeights[*columnIt] = int(sqrt(averageWidth[*columnIt]) + 0.5);
+
+	//  kdDebug(65432) << k_funcinfo << "m_columnWeights[" << *columnIt << "] == "
+	//                 << m_columnWeights[*columnIt] << endl;
+    }
+
+    m_weightDirty.clear();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private slots
+////////////////////////////////////////////////////////////////////////////////
+
+void Playlist::slotUpdateColumnWidths()
 {
     if(m_disableColumnWidthUpdates)
 	return;
@@ -989,9 +1048,18 @@ void Playlist::updateColumnWidths()
     QValueVector<int> minimumWidth(columns(), 0);
     int minimumWidthTotal = 0;
 
+    // Also build a list of either the minimum *or* the fixed width -- whichever is
+    // greater.
+
+    QValueVector<int> minimumFixedWidth(columns(), 0);
+    int minimumFixedWidthTotal = 0;
+
     for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
 	minimumWidth[*it] = header()->fontMetrics().width(header()->label(*it) + 10);
 	minimumWidthTotal += minimumWidth[*it];
+
+	minimumFixedWidth[*it] = QMAX(minimumWidth[*it], m_columnFixedWidths[*it]);
+	minimumFixedWidthTotal += minimumFixedWidth[*it];
     }
 
     // Make sure that the width won't get any smaller than this.  We have to
@@ -999,6 +1067,14 @@ void Playlist::updateColumnWidths()
     // resize event this will set a pretty hard lower bound on the size.
 
     setMinimumWidth(minimumWidthTotal + verticalScrollBar()->width());
+
+    // If we've got enough room for the fixed widths (larger than the minimum
+    // widths) then instead use those for our "minimum widths".
+
+    if(minimumFixedWidthTotal < visibleWidth()) {
+	minimumWidth = minimumFixedWidth;
+	minimumWidthTotal = minimumFixedWidthTotal;
+    }
 
     // We've got a list of columns "weights" based on some statistics gathered
     // about the widths of the items in that column.  We need to find the total
@@ -1086,47 +1162,9 @@ void Playlist::updateColumnWidths()
 
     int remainingWidth = visibleWidth() - usedWidth;
     setColumnWidth(visibleColumns.back(), columnWidth(visibleColumns.back()) + remainingWidth);
+
+    m_widthsDirty = false;
 }
-
-void Playlist::calculateColumnWeights()
-{
-    if(m_disableColumnWidthUpdates)
-	return;
-
-    PlaylistItemList l = items();
-    QValueListConstIterator<int> columnIt;
-
-    QValueVector<double> averageWidth(columns(), 0);
-    double itemCount = l.size();
-
-    QValueVector<int> cachedWidth;
-
-    // Here we're not using a real average, but averaging the squares of the
-    // column widths and then using the square root of that value.  This gives
-    // a nice weighting to the longer columns without doing something arbitrary
-    // like adding a fixed amount of padding.
-
-    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
-	cachedWidth = (*it)->cachedWidths();
-	for(columnIt = m_widthDirty.begin(); columnIt != m_widthDirty.end(); ++columnIt)
-	    averageWidth[*columnIt] += pow(double(cachedWidth[*columnIt]) , 2.0) / itemCount;
-    }
-
-    m_columnWeights.resize(columns(), -1);
-
-    for(columnIt = m_widthDirty.begin(); columnIt != m_widthDirty.end(); ++columnIt) {
-	m_columnWeights[*columnIt] = int(sqrt(averageWidth[*columnIt]) + 0.5);
-
-	//  kdDebug(65432) << k_funcinfo << "m_columnWeights[" << *columnIt << "] == "
-	//                 << m_columnWeights[*columnIt] << endl;
-    }
-
-    m_widthDirty.clear();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private slots
-////////////////////////////////////////////////////////////////////////////////
 
 void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column)
 {
@@ -1316,6 +1354,12 @@ void Playlist::slotToggleColumnVisible(int column)
 	showColumn(column);
 
     SharedSettings::instance()->toggleColumnVisible(column - columnOffset());
+}
+
+void Playlist::slotColumnSizeChanged(int column, int, int newSize)
+{
+    m_widthsDirty = true;
+    m_columnFixedWidths[column] = newSize;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

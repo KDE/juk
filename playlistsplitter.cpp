@@ -362,7 +362,7 @@ void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list, Pl
 
     KApplication::setOverrideCursor(Qt::waitCursor);
     addImpl(file, list, after);
-    list->slotWidthDirty();
+    list->slotWeightDirty();
     list->emitCountChanged();
     KApplication::restoreOverrideCursor();
 
@@ -388,7 +388,7 @@ void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *lis
     for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
         after = addImpl(*it, list, after);
 
-    list->slotWidthDirty();
+    list->slotWeightDirty();
     list->emitCountChanged();
 
     KApplication::restoreOverrideCursor();
