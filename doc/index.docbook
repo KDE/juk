@@ -25,7 +25,7 @@
 <copyright>
 <year>2001</year>
 <year>2002</year>
-<holder>George N. Ugnacious</holder>
+<holder>Scott Wheeler</holder>
 </copyright>
 <!-- <legalnotice>&FDLNotice;</legalnotice> -->
 
@@ -49,8 +49,9 @@
 <title>Introduction</title>
 
 <para>
-&juk; is a program that lets you do absolutely nothing. Please report
-any problems or feature requests to the KDE mailing lists.
+&juk; is well, a jukebox.  As is typical with many jukebox applications, &juk; 
+allows you to edit the &quot;tags&quot; of the audio files, and do some basic
+management of your collection and playlists.
 </para>
 </chapter>
 
