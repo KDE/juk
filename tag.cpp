@@ -46,14 +46,14 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
 
     if(MediaFiles::isMP3(fileName)) {
         TagLib::MPEG::File file(QFile::encodeName(fileName).data());
-        if(!file.isOpen())
+        if(!file.isValid())
             return 0;
         return new Tag(fileName, &file);
     }
 
     if(MediaFiles::isOgg(fileName)) {
         TagLib::Vorbis::File file(QFile::encodeName(fileName).data());
-        if(!file.isOpen())
+        if(!file.isValid())
             return 0;
         return new Tag(fileName, &file);
     }
@@ -87,7 +87,7 @@ void Tag::save()
 #endif
 #endif
 
-    if(file && file->isOpen() && file->tag()) {
+    if(file && file->isValid() && file->tag()) {
         file->tag()->setTitle(QStringToTString(m_title));
         file->tag()->setArtist(QStringToTString(m_artist));
         file->tag()->setAlbum(QStringToTString(m_album));
