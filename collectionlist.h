@@ -117,9 +117,6 @@ private:
 
     static CollectionList *m_list;
     QDict<CollectionListItem> m_itemsDict;
-    SortedStringList m_artists;
-    SortedStringList m_albums;
-    SortedStringList m_genres;
     KDirWatch *m_dirWatch;
     QValueVector<SortedStringList> m_viewModeItems;
     QValueVector<SortedStringList> m_uniqueSets;
