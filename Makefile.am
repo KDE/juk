@@ -6,8 +6,8 @@ juk_SOURCES = directorylistbase.ui \
 	sortedstringlist.cpp systemtray.cpp splashscreen.cpp \
 	statuslabel.cpp cachedtag.cpp collectionlist.cpp \
 	playlistitem.cpp playlist.cpp playlistsplitter.cpp \
-	playlistbox.cpp tageditor.cpp cache.cpp genrelistreader.cpp \
-	genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp \
+	playlistbox.cpp tageditor.cpp cache.cpp \
+	player.cpp tag.cpp customaction.cpp \
 	slideraction.cpp keydialog.cpp juk.cpp main.cpp tagguesser.cpp \
 	tagguesserconfigdlgwidget.ui tagguesserconfigdlg.cpp jukIface.skel \
 	playlistsearch.cpp searchwidget.cpp filerenamer.cpp dynamicplaylist.cpp \

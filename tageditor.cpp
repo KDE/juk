@@ -29,9 +29,10 @@
 #include <qlayout.h>
 #include <qdir.h>
 
+#include <id3v1genres.h>
+
 #include "tageditor.h"
 #include "collectionlist.h"
-#include "genrelistlist.h"
 #include "playlistitem.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -48,11 +49,6 @@ TagEditor::TagEditor(QWidget *parent, const char *name) : QWidget(parent, name)
 TagEditor::~TagEditor()
 {
     saveConfig();
-}
-
-void TagEditor::setGenreList(const GenreList &list)
-{
-    m_genreList = list;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,13 +90,13 @@ void TagEditor::slotRefresh()
     m_bitrateBox->setText(tag->bitrateString());
     m_lengthBox->setText(tag->lengthString());
 
-    if(m_genreList.findIndex(tag->genre().name()) >= 0)
-	m_genreBox->setCurrentItem(m_genreList.findIndex(tag->genre().name()) + 1);
+    if(m_genreList.findIndex(tag->genre()) >= 0)
+	m_genreBox->setCurrentItem(m_genreList.findIndex(tag->genre()) + 1);
     else {
 	m_genreBox->setCurrentItem(0);
-	m_genreBox->setEditText(tag->genre().name());
+	m_genreBox->setEditText(tag->genre());
     }
-    
+
     m_trackSpin->setValue(tag->trackNumber());
     m_yearSpin->setValue(tag->year());
     
@@ -161,7 +157,7 @@ void TagEditor::slotRefresh()
 		    m_albumNameBox->lineEdit()->clear();
 		    m_enableBoxes[m_albumNameBox]->setChecked(false);
 		}
-		if(m_genreBox->currentText() != tag->genre().name() &&
+		if(m_genreBox->currentText() != tag->genre() &&
 		   m_enableBoxes.contains(m_genreBox))
 		{
 		    m_genreBox->lineEdit()->clear();
@@ -258,35 +254,30 @@ void TagEditor::readConfig()
 {
     KConfig *config = KGlobal::config();
     { // combo box completion modes
-        KConfigGroupSaver saver(config, "TagEditor");
-        if(m_artistNameBox && m_albumNameBox) {
-            KGlobalSettings::Completion artistNameBoxMode = 
+	KConfigGroupSaver saver(config, "TagEditor");
+	if(m_artistNameBox && m_albumNameBox) {
+	    KGlobalSettings::Completion artistNameBoxMode = 
 		KGlobalSettings::Completion(config->readNumEntry("ArtistNameBoxMode",
 								 KGlobalSettings::CompletionAuto));
 	    m_artistNameBox->setCompletionMode(artistNameBoxMode);
 	    
-            KGlobalSettings::Completion albumNameBoxMode = 
+	    KGlobalSettings::Completion albumNameBoxMode = 
 		KGlobalSettings::Completion(config->readNumEntry("AlbumNameBoxMode",
 								 KGlobalSettings::CompletionAuto));
 	    m_albumNameBox->setCompletionMode(albumNameBoxMode);
         }
     }
 
-    // Once the custom genre list editor is done, this is where we should read 
-    // the genre list from the config file.
+    TagLib::StringList genres = TagLib::ID3v1::genreList();
 
-    m_genreList = GenreListList::ID3v1List();
+    for(TagLib::StringList::ConstIterator it = genres.begin(); it != genres.end(); ++it)
+	m_genreList.append(TStringToQString((*it)));
+    m_genreList.sort();
 
-    if(m_genreBox) {
-        m_genreBox->clear();
-
-        // Add values to the genre box
-
-        m_genreBox->insertItem(QString::null);
-
-        for(GenreList::Iterator it = m_genreList.begin(); it != m_genreList.end(); ++it)
-            m_genreBox->insertItem((*it).name());
-    }
+    m_genreBox->clear();
+    m_genreBox->insertItem(QString::null);
+    m_genreBox->insertStringList(m_genreList);
+    m_genreBox->setCompletedItems(m_genreList);
 }
 
 void TagEditor::saveConfig()
@@ -480,14 +471,8 @@ void TagEditor::save(const PlaylistItemList &list)
 		if(m_enableBoxes[m_commentBox]->isOn())
 		    item->tag()->setComment(m_commentBox->text());
 		
-		if(m_enableBoxes[m_genreBox]->isOn()) {
-		    if(m_genreList.findIndex(m_genreBox->currentText()) >= 0)
-			item->tag()->setGenre(
-			    m_genreList[m_genreList.findIndex(m_genreBox->currentText())]);
-		    else
-			item->tag()->setGenre(
-			    Genre(m_genreBox->currentText(), item->tag()->genre().ID3v1()));
-		}
+		if(m_enableBoxes[m_genreBox]->isOn())
+		    item->tag()->setGenre(m_genreBox->currentText());
 		
 		item->tag()->save();
 		

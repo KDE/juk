@@ -33,7 +33,7 @@ public:
     virtual QString track() const;
     virtual QString artist() const;
     virtual QString album() const;
-    virtual Genre genre() const;
+    virtual QString genre() const;
     virtual int trackNumber() const;
     virtual QString trackNumberString() const;
     virtual int year() const;
@@ -43,7 +43,7 @@ public:
     virtual void setTrack(const QString &value);
     virtual void setArtist(const QString &value);
     virtual void setAlbum(const QString &value);
-    virtual void setGenre(const Genre &value);
+    virtual void setGenre(const QString &value);
     virtual void setTrackNumber(int value);
     virtual void setYear(int value);
     virtual void setComment(const QString &value);
@@ -67,7 +67,7 @@ private:
     QString m_tagTrack;
     QString m_tagArtist;
     QString m_tagAlbum;
-    Genre m_tagGenre;
+    QString m_tagGenre;
     int m_tagTrackNumber;
     QString m_tagTrackNumberString;
     int m_tagYear;

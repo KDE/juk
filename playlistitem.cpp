@@ -66,7 +66,7 @@ QString PlaylistItem::text(int column) const
     case TrackNumberColumn:
 	return m_data->tag()->trackNumberString();
     case GenreColumn:
-	return m_data->tag()->genre().name();
+	return m_data->tag()->genre();
     case YearColumn:
 	return m_data->tag()->yearString();
     case LengthColumn:

@@ -31,6 +31,8 @@
 #include <qdir.h>
 #include <qeventloop.h>
 
+#include <id3v1genres.h>
+
 #include <stdlib.h>
 #include <limits.h>
 #include <time.h>
@@ -39,7 +41,6 @@
 #include "playlist.h"
 #include "playlistitem.h"
 #include "playlistsearch.h"
-#include "genrelistlist.h"
 #include "mediafiles.h"
 #include "collectionlist.h"
 #include "filerenamer.h"
@@ -1293,11 +1294,11 @@ void Playlist::slotRenameTag()
 	break;
     case PlaylistItem::GenreColumn:
     {
-	QStringList genreStrings;
-	GenreList genres = GenreListList::ID3v1List();
-	for(GenreList::Iterator it = genres.begin(); it != genres.end(); ++it)
-	    genreStrings.append((*it).name());
-	edit->completionObject()->setItems(genreStrings);
+	QStringList genreList;
+	TagLib::StringList genres = TagLib::ID3v1::genreList();
+	for(TagLib::StringList::ConstIterator it = genres.begin(); it != genres.end(); ++it)
+	    genreList.append(TStringToQString((*it)));
+	edit->completionObject()->setItems(genreList);
 	break;
     }
     default:
@@ -1332,7 +1333,7 @@ void Playlist::applyTag(PlaylistItem *item, const QString &text, int column)
 	break;
     }
     case PlaylistItem::GenreColumn:
-	item->tag()->setGenre(Genre(text));
+	item->tag()->setGenre(text);
 	break;
     case PlaylistItem::YearColumn:
     {

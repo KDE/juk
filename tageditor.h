@@ -21,8 +21,6 @@
 #include <qwidget.h>
 #include <qmap.h>
 
-#include "genrelist.h"
-
 class KComboBox;
 class KLineEdit;
 class KIntSpinBox;
@@ -42,7 +40,6 @@ class TagEditor : public QWidget
 public: 
     TagEditor(QWidget *parent = 0, const char *name = 0);
     virtual ~TagEditor();
-    void setGenreList(const GenreList &list);
     void save() { save(m_items); }
 
 public slots:
@@ -77,7 +74,7 @@ private:
     typedef QMap<QWidget *, QCheckBox *> BoxMap;
     BoxMap m_enableBoxes;
 
-    GenreList m_genreList;
+    QStringList m_genreList;
 
     KComboBox *m_artistNameBox;
     KLineEdit *m_trackNameBox;

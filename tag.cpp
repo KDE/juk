@@ -117,6 +117,7 @@ QDataStream &operator<<(QDataStream &s, const Tag &t)
       << t.artist()
       << t.album()
       << t.genre()
+      << 0                         // TODO: remove
       << t.trackNumber()
       << t.trackNumberString()
       << t.year()

@@ -24,8 +24,6 @@
 #include <qdatetime.h>
 #include <qfileinfo.h>
 
-#include "genre.h"
-
 namespace TagLib { class File; }
 
 /**
@@ -54,7 +52,7 @@ public:
     virtual QString track() const { return m_title; }
     virtual QString artist() const { return m_artist; }
     virtual QString album() const { return m_album; }
-    virtual Genre genre() const { return Genre(m_genre); }
+    virtual QString genre() const { return m_genre; }
     virtual int trackNumber() const { return m_track; }
     virtual QString trackNumberString() const { return QString::number(m_track); }
     virtual int year() const { return m_year; }
@@ -64,7 +62,7 @@ public:
     virtual void setTrack(const QString &value) { m_title = value; }
     virtual void setArtist(const QString &value) { m_artist = value; }
     virtual void setAlbum(const QString &value) { m_album = value; }
-    virtual void setGenre(const Genre &value) { m_genre = value.name(); }
+    virtual void setGenre(const QString &value) { m_genre = value; }
     virtual void setTrackNumber(int value) { m_track = value; }
     virtual void setYear(int value) { m_year = value; }
     virtual void setComment(const QString &value) { m_comment = value; }

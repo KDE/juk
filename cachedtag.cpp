@@ -69,7 +69,7 @@ QString CachedTag::album() const
 	return m_tagAlbum;
 }
 
-Genre CachedTag::genre() const
+QString CachedTag::genre() const
 {
     if(m_externalTag)
 	return m_externalTag->genre();
@@ -132,7 +132,7 @@ void CachedTag::setAlbum(const QString &value)
     proxiedTag()->setAlbum(value);
 }
 
-void CachedTag::setGenre(const Genre &value)
+void CachedTag::setGenre(const QString &value)
 {
     proxiedTag()->setGenre(value);
 }
@@ -186,20 +186,19 @@ QDataStream &CachedTag::read(QDataStream &s)
       >> m_tagArtist
       >> m_tagAlbum
       >> m_tagGenre
+      >> dummyInt                // TODO: remove
       >> m_tagTrackNumber
       >> m_tagTrackNumberString
       >> m_tagYear
       >> m_tagYearString
       >> m_tagComment
-
       >> m_tagBitrateString
       >> m_tagLengthString
       >> m_tagSeconds
-
-      >> dummyString           // TODO: remove
+      >> dummyString             // TODO: remove
       >> m_modificationTime;
 
-    //Try to reduce memory usage: share tags that frequently repeat, squeeze others            
+    // Try to reduce memory usage: share tags that frequently repeat, squeeze others            
     m_tagTrack.squeeze();
     m_tagComment = StringShare::tryShare(m_tagComment);
     m_tagArtist  = StringShare::tryShare(m_tagArtist);
