@@ -630,10 +630,6 @@ void TagEditor::save(const PlaylistItemList &list)
 	m_dataChanged = false;
 	m_performingSave = true;
 
-	// To keep track of the files that don't cooperate...
-
-	QStringList errorFiles;
-
 	// The list variable can become corrupted if the playlist holding its
 	// items dies, which is possible as we edit tags.  So we need to copy
 	// the end marker.
