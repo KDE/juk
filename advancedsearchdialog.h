@@ -50,6 +50,7 @@ public slots:
 
 protected slots:
     virtual void accept();
+    virtual void clear();
     
 private:
     QWidget *m_criteria;
