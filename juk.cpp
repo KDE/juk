@@ -43,9 +43,10 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent, const char *name) :
-    DCOPObject("Player"),
     KMainWindow(parent, name, WDestructiveClose),
-    m_shuttingDown(false)
+    m_player(PlayerManager::instance()),
+    m_shuttingDown(false),
+    m_muted(false)
 {
     // Expect segfaults if you change this order.
 
@@ -61,10 +62,11 @@ JuK::JuK(QWidget *parent, const char *name) :
     setupSplitterConnections();
     slotPlaylistChanged();
     readConfig();
-    setupPlayer();
     setupSystemTray();
     setupGlobalAccels();
     processArgs();
+
+    m_player->setPlaylistInterface(m_splitter);
 
     SplashScreen::finishedLoading();
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
@@ -100,12 +102,6 @@ void JuK::setTime(int time)
     m_player->seek(time);
 }
 
-void JuK::startPlayingPlaylist()
-{
-    m_player->stop();
-    action("play")->activate();
-}
-
 void JuK::slotGuessTagInfoFromFile()
 {
     m_splitter->slotGuessTagInfo(TagGuesser::FileName);
@@ -114,27 +110,6 @@ void JuK::slotGuessTagInfoFromFile()
 void JuK::slotGuessTagInfoFromInternet()
 {
     m_splitter->slotGuessTagInfo(TagGuesser::MusicBrainz);
-}
-
-void JuK::play()
-{
-    m_player->play();
-}
-
-void JuK::pause()
-{
-    m_player->pause();
-}
-
-void JuK::stop()
-{
-    m_player->stop();
-    m_splitter->stop();
-}
-
-void JuK::back()
-{
-    play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
 }
 
 void JuK::back(int howMany)
@@ -231,9 +206,9 @@ void JuK::setupLayout()
 
     // playlist item activation connection
     connect(m_splitter, SIGNAL(signalActivated()),
-	    this, SLOT(slotPlaySelectedFile()));
+	    this, SLOT(slotPlayCurrent()));
     connect(m_splitter, SIGNAL(signalListBoxDoubleClicked()),
-	    this, SLOT(startPlayingPlaylist()));
+	    this, SLOT(slotPlayCurrent()));
 
     // create status bar
 
@@ -335,13 +310,13 @@ void JuK::setupActions()
     m_randomPlayAction = new KToggleAction(i18n("&Random Play"), 0,
 					   actionCollection(), "randomPlay");
 
-    new KAction(i18n("&Play"),  "player_play",  0, this, SLOT(play()),
+    new KAction(i18n("&Play"),  "player_play",  0, m_player, SLOT(play()),
 		actionCollection(), "play");
 
-    new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pause()),
+    new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()),
 		actionCollection(), "pause");
 
-    new KAction(i18n("&Stop"),  "player_stop",  0, this, SLOT(stop()),
+    new KAction(i18n("&Stop"),  "player_stop",  0, m_player, SLOT(stop()),
 		actionCollection(), "stop");
 
     m_backAction = new KToolBarPopupAction(i18n("Previous &Track"), "player_start", 0,
@@ -386,9 +361,6 @@ void JuK::setupActions()
     //////////////////////////////////////////////////
     // settings menu
     //////////////////////////////////////////////////
-
-    new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this,
-		      SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
 
     setStandardToolBarMenuEnabled(true);
 
@@ -473,23 +445,11 @@ void JuK::setupSystemTray()
     }
 }
 
-void JuK::setupPlayer()
-{
-    m_muted = false;
-
-    if(m_sliderAction) {
-    }
-
-    m_player = PlayerManager::instance();
-    PlayerManager::instance()->setPlaylistInterface(m_splitter);
-}
-
-
 void JuK::setupGlobalAccels()
 {
     m_accel = new KGlobalAccel(this);
     KeyDialog::insert(m_accel, "PlayPause",   i18n("Play/Pause"),   this, SLOT(playPause()));
-    KeyDialog::insert(m_accel, "Stop",        i18n("Stop Playing"), this, SLOT(stop()));
+    KeyDialog::insert(m_accel, "Stop",        i18n("Stop Playing"), action("stop"), SLOT(activate()));
     KeyDialog::insert(m_accel, "Back",        i18n("Back"),         this, SLOT(back()));
     KeyDialog::insert(m_accel, "Forward",     i18n("Forward"),      this, SLOT(forward()));
     KeyDialog::insert(m_accel, "SeekBack",    i18n("Seek Back"),    this, SLOT(seekBack()));
@@ -631,8 +591,6 @@ bool JuK::queryExit()
     delete m_systemTray;
     m_systemTray = 0;
 
-    stop();
-
     Cache::instance()->save();
     saveConfig();
     delete m_splitter;
@@ -765,7 +723,7 @@ void JuK::slotEditKeys()
 // additional player slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void JuK::slotPlaySelectedFile()
+void JuK::slotPlayCurrent()
 {
     m_player->stop();
     action("play")->activate();

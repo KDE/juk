@@ -110,12 +110,6 @@ public:
      */
     QString playRandomFile();
 
-    /**
-     * Since the player is handled at a higher level, this just clears the
-     * pointer to the currently playing item and updates the icon.
-     */
-    void stop();
-
     ////////////////////////////////////////////////////////////////////////////
 
     QString playingArtist() const;
@@ -416,6 +410,12 @@ private slots:
      */
     void slotCreateSearchList(const PlaylistSearch &search, const QString &searchCategory,
 			      const QString &name);
+
+    /**
+     * Since the player is handled at a higher level, this just clears the
+     * pointer to the currently playing item and updates the icon.
+     */
+    void stop();
 
 private:
     PlaylistItem *m_playingItem;

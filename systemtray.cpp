@@ -29,7 +29,7 @@
 #include "systemtray.h"
 #include "playermanager.h"
 #include "actioncollection.h"
-#include "jukIface.h"
+#include "juk.h"
 
 using namespace ActionCollection;
 
@@ -181,7 +181,7 @@ void SystemTray::wheelEvent(QWheelEvent *e)
     // that a reinterpret_cast isn't portable when combined with multiple
     // inheritance.  (This is why I don't check the result.)
 
-    JuKIface *juk = dynamic_cast<JuKIface *>(parent());
+    JuK *juk = dynamic_cast<JuK *>(parent());
 
     switch(e->state()) {
     case ShiftButton:

@@ -131,6 +131,8 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     setupLayout();
     readConfig();
 
+    connect(action("stop"), SIGNAL(activated()), this, SLOT(stop()));
+
     m_editor->slotUpdateCollection();
 }
 
@@ -297,21 +299,6 @@ QString PlaylistSplitter::playRandomFile()
 
     // Not exactly random (the first item won't be taken into account)
     return play(p->nextItem(i, true));
-}
-
-void PlaylistSplitter::stop()
-{
-    m_nextPlaylistItem = 0;
-
-    if(!m_playingItem)
-	return;
-
-    Playlist *p = m_playingItem->playlist();
-
-    if(p)
-	p->setPlaying(m_playingItem, false);
-
-    m_playingItem = 0;
 }
 
 QString PlaylistSplitter::playingArtist() const
@@ -1099,6 +1086,21 @@ void PlaylistSplitter::slotCreateSearchList(const PlaylistSearch &search,
     SearchPlaylist *p = new SearchPlaylist(m_playlistStack, search, name);
     m_playlistBox->createSearchItem(p, searchCategory);
     setupPlaylist(p, false, 0);
+}
+
+void PlaylistSplitter::stop()
+{
+    m_nextPlaylistItem = 0;
+
+    if(!m_playingItem)
+	return;
+
+    Playlist *p = m_playingItem->playlist();
+
+    if(p)
+	p->setPlaying(m_playingItem, false);
+
+    m_playingItem = 0;
 }
 
 #include "playlistsplitter.moc"

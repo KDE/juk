@@ -38,7 +38,7 @@ class SliderAction;
 class StatusLabel;
 class SystemTray;
 
-class JuK : public KMainWindow, virtual public JuKIface
+class JuK : public KMainWindow
 {
     Q_OBJECT
 
@@ -48,11 +48,7 @@ public:
     virtual KActionCollection *actionCollection() const;
 
 public slots:
-    void play();
-    void pause();
-    void stop();
-    void back();
-    void back(int howMany);
+    void back(int howMany = 0);
     void slotPopulateBackMenu();
     void forward();
     void seekBack();
@@ -79,7 +75,6 @@ private:
      * @see createSplitterAction();
      */
     void setupSplitterConnections();
-    void setupPlayer();
     void setupSystemTray();
     void setupGlobalAccels();
 
@@ -150,13 +145,8 @@ private slots:
     void slotConfigureTagGuesser();
     void slotConfigureFileRenamer();
 
-    /**
-     * This method is called to check our progress in the playing file.  It uses
-     * m_playTimer to know when to call itself again.
-     */
-    void slotPlaySelectedFile();
-    void startPlayingPlaylist();
-    void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
+    void slotPlayCurrent();
+
     void slotGuessTagInfoFromFile();
     void slotGuessTagInfoFromInternet();
 
