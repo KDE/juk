@@ -26,7 +26,7 @@ class GenreListList : public QValueList<GenreList>
 {
 public:
     GenreListList();
-    virtual ~GenreListList();
+    ~GenreListList();
 
     static GenreList ID3v1List();
     static GenreListList lists();

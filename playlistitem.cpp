@@ -78,6 +78,12 @@ bool PlaylistItem::isWritable() const
     return m_data->fileInfo()->isWritable();
 }
 
+void PlaylistItem::setSelected(bool selected)
+{
+    static_cast<Playlist *>(listView())->markItemSelected(this, selected);
+    KListViewItem::setSelected(selected);
+}
+
 void PlaylistItem::guessTagInfo(TagGuesser::Type type)
 {
     switch(type) {

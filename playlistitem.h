@@ -85,6 +85,8 @@ public:
     bool isWritable() const;
     void setPlaying(bool playing = true) { m_playing = playing; }
 
+    virtual void setSelected(bool selected);
+
     void guessTagInfo(TagGuesser::Type type);
     void renameFile();
 

@@ -193,7 +193,9 @@ int Playlist::m_leftColumn = 0;
 Playlist::Playlist(QWidget *parent, const QString &name) :
     KListView(parent, name.latin1()),
     m_playlistName(name),
-    m_rmbMenu(0)
+    m_rmbMenu(0),
+    m_selectedCount(0),
+    m_lastSelected(0)
 
 {
     setup();
@@ -313,9 +315,23 @@ PlaylistItemList Playlist::visibleItems() const
 PlaylistItemList Playlist::selectedItems() const
 {
     PlaylistItemList list;
-    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
-        if(i->isSelected())
-            list.append(i);
+
+    switch(m_selectedCount) {
+    case 0:
+	break;
+    case 1:
+	list.append(m_lastSelected);
+	break;
+    default:
+	for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild());
+	    i; 
+	    i = static_cast<PlaylistItem *>(i->itemBelow()))
+	{
+	    if(i->isSelected())
+		list.append(i);
+	}
+	break;
+    }
 
     return list;
 }
@@ -429,6 +445,16 @@ void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible) // s
     m_visibleChanged = true;
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
 	(*it)->setVisible(visible);
+}
+
+void Playlist::markItemSelected(PlaylistItem *item, bool selected)
+{
+    if(selected && !item->isSelected()) {
+	m_selectedCount++;
+	m_lastSelected = item;
+    }
+    else if(!selected && item->isSelected())
+	m_selectedCount--;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -213,6 +213,8 @@ public:
      */
     void emitCountChanged() { emit signalCountChanged(this); }
 
+    void markItemSelected(PlaylistItem *item, bool selected);
+
     virtual int columnOffset() const { return 0; }
     virtual bool readOnly() const { return false; }
 
@@ -459,6 +461,9 @@ private:
 
     int m_rmbPasteID;
     int m_rmbEditID;
+    int m_selectedCount;
+
+    PlaylistItem *m_lastSelected;
 
     static PlaylistItem *m_playingItem;
     static int m_leftColumn;
