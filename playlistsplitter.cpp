@@ -53,6 +53,7 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *na
     readConfig();
 
     m_editor->slotUpdateCollection();
+    m_playlistBox->initViewMode();
 }
 
 PlaylistSplitter::~PlaylistSplitter()
@@ -650,6 +651,7 @@ void PlaylistSplitter::slotCreatePlaylist(const PlaylistItemList &items)
         return;
 
     playlist->createItems(items);
+    m_playlistBox->initViewMode();
 }
 
 void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSensitive, bool regExp)

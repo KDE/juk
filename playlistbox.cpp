@@ -30,6 +30,7 @@
 
 #include "playlistbox.h"
 #include "playlistsplitter.h"
+#include "playlistsearch.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox public methods
@@ -77,7 +78,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
     m_viewModeAction->setText(i18n("View Modes"));
     
     QStringList modes;
-    modes << i18n("Default") << i18n("Compact");
+    modes << i18n("Default") << i18n("Compact") << i18n("Tree");
     m_viewModeAction->setItems(modes);
     m_viewModeAction->setCurrentItem(m_viewMode);
     
@@ -131,8 +132,8 @@ PlaylistList PlaylistBox::playlists()
 {
     PlaylistList l;
 
-    for(QListViewItemIterator it(this); it.current(); ++it) {
-	Item *i = static_cast<Item *>(*it);
+    for(QListViewItem *it = firstChild(); it; it = it->nextSibling()) {
+	Item *i = static_cast<Item *>(it);
 	if(i->playlist() != CollectionList::instance())
 	    l.append(i->playlist());
     }
@@ -158,6 +159,22 @@ void PlaylistBox::rename()
 void PlaylistBox::duplicate()
 {
     duplicate(static_cast<Item *>(currentItem()));
+}
+
+void PlaylistBox::initViewMode()
+{
+    int iconSize = m_viewMode != Default ? 16 : 32;
+    for(QListViewItem *it = firstChild(); it; it = it->nextSibling()) {
+	Item *i = static_cast<Item *>(it);
+	i->setPixmap(0, SmallIcon(i->iconName(), iconSize));
+
+	for(QListViewItem *n = i->firstChild(); n; n = n->nextSibling())
+	    n->setVisible(m_viewMode == Tree);
+	if(m_viewMode == Tree && i->childCount() == 0)
+	    i->slotSetData();
+    }
+    setRootIsDecorated(m_viewMode == Tree);
+    setColumnWidthMode(0, (m_viewMode == Tree) ? Maximum : Manual);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -303,6 +320,7 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 	    files.append((*it).path());
 	
 	m_splitter->slotAddToPlaylist(files, item->playlist());
+	item->rootItem()->slotSetData();
     }
 }
 
@@ -345,9 +363,9 @@ QValueList<PlaylistBox::Item *> PlaylistBox::selectedItems()
 {
     QValueList<Item *> l;
 
-    for(QListViewItemIterator it(this); it.current(); ++it) {
-	if(isSelected(*it))
-	    l.append(static_cast<Item *>(*it));
+    for(QListViewItem *it = firstChild(); it; it = it->nextSibling()) {
+	if(isSelected(it))
+	    l.append(static_cast<Item *>(it));
     }
 
     return l;
@@ -369,14 +387,38 @@ void PlaylistBox::slotPlaylistChanged()
     QValueList<Item *> items = selectedItems();
     m_hasSelection = items.count() > 0;
 
-    if(!m_updatePlaylistStack)
-	return;
+    if(m_updatePlaylistStack) {
 
-    QValueList<Playlist *> playlists;
-    for(QValueList<Item *>::iterator i = items.begin(); i != items.end(); ++i)
-	playlists.append((*i)->playlist());
+	QValueList<Playlist *> playlists;
+	for(QValueList<Item *>::iterator i = items.begin(); i != items.end(); ++i)
+	    playlists.append((*i)->playlist());
 
-    emit signalCurrentChanged(playlists);
+	emit signalCurrentChanged(playlists);
+    }
+    else {
+	for(QListViewItemIterator it(this); it.current(); ++it) {
+	    if(isSelected(*it)) {
+		Item *i = static_cast<Item *>(*it);
+		PlaylistList playlists;
+		playlists.append(i->playlist());
+		
+		if(i->childCount() > 0)
+		    i->playlist()->setItemsVisible(i->playlist()->items(), true);
+		else {
+		    ColumnList searchedColumns;
+		    searchedColumns.append(i->category());
+		    PlaylistSearch::Component component(i->text(), true, searchedColumns);
+		    PlaylistSearch::ComponentList components;
+		    components.append(component);
+		    PlaylistSearch search(playlists, components);
+		    Playlist::setItemsVisible(search.matchedItems(), true);    
+		    Playlist::setItemsVisible(search.unmatchedItems(), false);
+		}
+		emit signalCurrentChanged(playlists);
+		break;
+	    }
+	}
+    }
 }
 
 void PlaylistBox::slotDoubleClicked(QListViewItem *)
@@ -393,11 +435,7 @@ void PlaylistBox::slotSetViewMode(int viewMode)
 {
     if(viewMode != m_viewMode) {
 	m_viewMode = ViewMode(viewMode);
-	int iconSize = m_viewMode == Compact ? 16 : 32;
-	for(QListViewItemIterator it(this); it.current(); ++it) {
-	    Item *i = static_cast<Item *>(*it);
-	    i->setPixmap(0, SmallIcon(i->iconName(), iconSize));
-	}
+	initViewMode();
     }
 }
 
@@ -407,13 +445,23 @@ void PlaylistBox::slotSetViewMode(int viewMode)
 
 PlaylistBox::Item::Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l) 
     : QObject(listBox), KListViewItem(listBox, text),
-      m_list(l), m_text(text), m_iconName(icon)
+      m_list(l), m_text(text), m_iconName(icon), m_category(-1)
 {
-    int iconSize = listBox->viewMode() == PlaylistBox::Compact ? 16 : 32;
+    int iconSize = listBox->viewMode() != PlaylistBox::Default ? 16 : 32;
     setPixmap(0, SmallIcon(icon, iconSize));
     listBox->addName(text);
 
     connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
+    connect(l, SIGNAL(signalDataChanged()),                                 this, SLOT(slotTriggerSetData()));
+    connect(l, SIGNAL(signalNumberOfItemsChanged(Playlist *)),              this, SLOT(slotTriggerSetData()));
+    connect(l, SIGNAL(signalFilesDropped(const QStringList &, Playlist *)), this, SLOT(slotSetData()));
+}
+
+PlaylistBox::Item::Item(Item *parent, const char *icon, const QString &text, int category, Playlist *l)
+    : QObject(parent), KListViewItem(parent, text),
+      m_list(l), m_text(text), m_iconName(icon), m_category(category)
+{
+    setPixmap(0, SmallIcon(icon, 16));
 }
 
 PlaylistBox::Item::~Item()
@@ -423,9 +471,10 @@ PlaylistBox::Item::~Item()
 
 int PlaylistBox::Item::compare(QListViewItem *i, int col, bool) const
 {
-    if(playlist() == CollectionList::instance())
+    if(playlist() == CollectionList::instance() && category() == -1)
 	return -1;
-    else if(static_cast<Item *>(i)->playlist() == CollectionList::instance())
+    else if(static_cast<Item *>(i)->playlist() == CollectionList::instance() &&
+	    static_cast<Item *>(i)->category() == -1)
 	return 1;
 
     return text(col).lower().localeAwareCompare(i->text(col).lower());
@@ -441,6 +490,10 @@ void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGro
     QString line = m_text;
     
     switch(static_cast<PlaylistBox *>(listView())->viewMode()) {
+    case Tree:
+	KListViewItem::setText(column, line);
+	KListViewItem::paintCell(painter, colorGroup, column, width, align);
+	break;
     case Compact:
     {
 	int baseWidth = pixmap(column)->width() + listView()->itemMargin() * 4;
@@ -514,6 +567,14 @@ void PlaylistBox::Item::setText(int column, const QString &text)
     KListViewItem::setText(column, text);
 }
 
+PlaylistBox::Item *PlaylistBox::Item::rootItem()
+{
+    Item *i = this;
+    while(i->category() != -1)
+        i = static_cast<Item *>(i->KListViewItem::parent());
+    return i;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox::Item protected slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -526,6 +587,82 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 
 	setText(0, name);
     }
+}
+
+void PlaylistBox::Item::slotTriggerSetData()
+{
+    // Trigger setting data in tree view later, to ensure deleteLater is done
+    QTimer::singleShot(1, this, SLOT(slotSetData()));
+}
+
+void PlaylistBox::Item::slotSetData()
+{
+    static const char *categoryText[] =
+        {I18N_NOOP("Artist"), I18N_NOOP("Album"), I18N_NOOP("Genre"), I18N_NOOP("Year")};
+    static const int categoryIndex[] =
+        {PlaylistItem::ArtistColumn, PlaylistItem::AlbumColumn, 
+         PlaylistItem::GenreColumn,  PlaylistItem::YearColumn};
+    static const int categoryCount = sizeof(categoryText)/sizeof(categoryText[0]);
+
+    PlaylistBox *listBox = static_cast<PlaylistBox *>(listView());
+    if(listBox->viewMode() != Tree && childCount() == 0)
+        return;
+
+    // Fetch item data and put in categories
+    PlaylistItemList items = m_list->items();
+    SortedStringList categories[categoryCount];
+    for(PlaylistItemList::iterator item = items.begin(); item != items.end(); ++item) {
+        Tag *tag = (*item)->tag();
+        categories[0].insert(tag->artist());
+        categories[1].insert(tag->album());
+        categories[2].insert(tag->genre());
+        categories[3].insert(tag->yearString());
+    }
+
+    // Delete items that no longer exist, and remove existing items from categories
+    listBox->setUpdatesEnabled(false);
+    if(childCount() > 0) {
+	for(QListViewItem *i = firstChild(); i; ) {
+	    Item *categoryItem = static_cast<Item *>(i);
+	    i = i->nextSibling();
+
+	    int category = categoryItem->category();
+	    for(QListViewItem *n = categoryItem->firstChild(); n; ) {
+		Item *currentItem = static_cast<Item *>(n);
+		n = n->nextSibling();
+		if(categories[category].contains(currentItem->text()))
+		    categories[category].remove(currentItem->text());
+		else
+		    delete currentItem;
+	    }
+	}
+    }
+
+    // Find or create category items, and then add new items remaining in categories
+    for(int category = 0; category < categoryCount; category++) {
+	QStringList categoryList = categories[category].values();
+	Item *categoryItem = 0;
+	QListViewItem *item;
+	for(item = firstChild(); item; item = item->nextSibling()) {
+	    Item *currentItem = static_cast<Item *>(item);
+	    if(currentItem->category() == category) {
+		categoryItem = currentItem;
+		break;
+	    }
+	}
+	if(!item)
+	    categoryItem = new Item(this, iconName(), i18n(categoryText[category]), category, m_list);
+	for(QStringList::iterator text = categoryList.begin(); text != categoryList.end(); ++text)
+	    if(!(*text).isEmpty())
+		new Item(categoryItem, "cdimage", *text, categoryIndex[category], m_list);
+	if(categoryItem->childCount() < 2) {
+	    delete categoryItem;
+	    categoryItem = 0;
+	}
+    }
+
+    listBox->setUpdatesEnabled(true);
+    listBox->triggerUpdate();
 }
 
 #include "playlistbox.moc"

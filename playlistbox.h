@@ -42,7 +42,7 @@ class PlaylistBox : public KListView
     Q_OBJECT
 
 public: 
-    enum ViewMode { Default = 0, Compact = 1 };
+    enum ViewMode { Default = 0, Compact = 1, Tree = 2 };
 
     PlaylistBox(PlaylistSplitter *parent = 0, const char *name = 0);
     virtual ~PlaylistBox();
@@ -61,7 +61,8 @@ public:
     void deleteItem();
 
     bool hasSelection() const { return m_hasSelection; }
-    
+
+    void initViewMode();
     ViewMode viewMode() const { return m_viewMode; }
 
     class Item;
@@ -138,25 +139,31 @@ public:
     
 protected:
     Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l = 0);
+    Item(Item *parent, const char *icon, const QString &text, int category, Playlist *l = 0);
 
     Playlist *playlist() const { return m_list; }
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(KListViewItem::listView()); }
     const char *iconName() const { return m_iconName; }
     QString text() const { return m_text; }
+    int category() const { return m_category; }
 
     virtual int compare(QListViewItem *i, int col, bool) const;
     virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
     virtual void setText(int column, const QString &text);
+    virtual Item *rootItem();
 
     virtual QString text(int column) const { return KListViewItem::text(column); }
 
 protected slots:
     void slotSetName(const QString &name);
+    void slotTriggerSetData();
+    void slotSetData();
 
 private:
     Playlist *m_list;
     QString m_text;
     const char *m_iconName;
+    int m_category;
 };
 
 #endif
