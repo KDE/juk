@@ -23,7 +23,7 @@ k_dcop:
    virtual void volumeUp()=0;
    virtual void volumeDown()=0;
    virtual void volumeMute()=0;
-   virtual void setVolume(int volume)=0;
+   virtual void setVolume(float volume)=0;
 
    virtual void startPlayingPlaylist()=0;
 };

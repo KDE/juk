@@ -50,6 +50,30 @@ public:
     JuK(QWidget* parent = 0, const char *name = 0);
     virtual ~JuK();
 
+public slots:
+    void play();
+    void pause();
+    void stop();
+    void back();
+    void back(int howMany);
+    void slotPopulateBackMenu();
+    void forward();
+    void seekBack();
+    void seekForward();
+
+    void playPause();
+
+    void volumeUp();
+    void volumeDown();
+    void volumeMute();
+
+    /**
+     * This method is called by the slider to set the volume of the player.  Its
+     * value is relative to the maxValue() of the volume slider.
+     */
+    void setVolume(float volume);
+
+
 signals:
     void signalEdit();
     void signalNewSong(const QString& songTitle);
@@ -123,16 +147,6 @@ private slots:
     void clear();
     void selectAll();
 
-    // player menu
-    void play();
-    void pause();
-    void stop();
-    void back();
-    void back(int howMany);
-    void slotPopulateBackMenu();
-    void forward();
-    void seekBack();
-    void seekForward();
 
     // settings menu
     void slotShowGenreListEditor();
@@ -145,23 +159,17 @@ private slots:
     void slotTrackPositionSliderClicked();
     void slotTrackPositionSliderReleased();
     void slotTrackPositionSliderUpdate(int position);
-    void playPause();
-    void volumeUp();
-    void volumeDown();
-    void volumeMute();
+
+    /**
+     * Set the volume.  100 is the maximum.
+     */
+    void slotSetVolume(int volume);
 
     /**
      * This method is called to check our progress in the playing file.  It uses
      * m_playTimer to know when to call itself again.
      */
     void slotPollPlay();
-
-    /**
-     * This method is called by the slider to set the volume of the player.  Its
-     * value is relative to the maxValue() of the volume slider.
-     */
-    void setVolume(int volume);
-
     void slotPlaySelectedFile() { play(m_splitter->playSelectedFile()); }
     void startPlayingPlaylist();
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }

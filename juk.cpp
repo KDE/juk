@@ -22,6 +22,7 @@
 
 #include <qmetaobject.h>
 #include <qslider.h>
+#include <qmime.h>
 
 #include "juk.h"
 #include "slideraction.h"
@@ -66,6 +67,172 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
 JuK::~JuK()
 {
 
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void JuK::setVolume(float volume)
+{
+    if(m_sliderAction->getVolumeSlider()->maxValue() > 0 &&
+       volume >= 0 && m_sliderAction->getVolumeSlider()->maxValue() >= volume)
+    {
+        slotSetVolume(volume / 100 * m_sliderAction->getVolumeSlider()->maxValue());
+    }
+}
+
+void JuK::startPlayingPlaylist()
+{
+    if(m_randomPlayAction->isChecked())
+        play(m_splitter->playRandomFile());
+    else
+        play(m_splitter->playFirstFile());
+}
+
+void JuK::play()
+{
+    if(!m_player)
+    return;
+
+    if(m_player->paused()) {
+        m_player->play();
+
+	// Here, before doing anything, we want to make sure that the m_player did
+	// in fact start.
+
+        if(m_player->playing()) {
+            actionCollection()->action("pause")->setEnabled(true);
+            actionCollection()->action("stop")->setEnabled(true);
+            m_playTimer->start(m_pollInterval);
+	    if(m_systemTray)
+		m_systemTray->slotPlay();
+        }
+    }
+    else if(m_player->playing())
+	m_player->seekPosition(0);
+    else
+	play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
+}
+
+void JuK::pause()
+{
+    if(!m_player)
+	return;
+
+    m_playTimer->stop();
+    m_player->pause();
+    actionCollection()->action("pause")->setEnabled(false);
+    if(m_systemTray)
+	m_systemTray->slotPause();
+}
+
+void JuK::stop()
+{
+    if(!m_player || !m_sliderAction || !m_sliderAction->getVolumeSlider())
+	return;
+
+    m_playTimer->stop();
+    m_player->stop();
+
+    actionCollection()->action("pause")->setEnabled(false);
+    actionCollection()->action("stop")->setEnabled(false);
+    actionCollection()->action("back")->setEnabled(false);
+    actionCollection()->action("forward")->setEnabled(false);
+
+    m_sliderAction->getTrackPositionSlider()->setValue(0);
+    m_sliderAction->getTrackPositionSlider()->setEnabled(false);
+
+    m_splitter->stop();
+
+    m_statusLabel->clear();
+
+    if(m_systemTray)
+	m_systemTray->slotStop();
+}
+
+void JuK::back()
+{
+    play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
+}
+
+void JuK::back(int howMany)
+{
+    for(--howMany; howMany > 0; --howMany)
+        m_splitter->playPreviousFile(m_randomPlayAction->isChecked());
+
+    play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
+}
+
+void JuK::slotPopulateBackMenu()
+{
+    m_splitter->populatePlayHistoryMenu(m_backAction->popupMenu(), m_randomPlayAction->isChecked());
+}
+
+void JuK::forward()
+{
+    play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
+}
+
+void JuK::seekBack()
+{
+    int position = m_sliderAction->getTrackPositionSlider()->value();
+    position = QMAX(m_sliderAction->getTrackPositionSlider()->minValue(), position - 10);
+    emit m_sliderAction->getTrackPositionSlider()->setValue(position);
+}
+
+void JuK::seekForward()
+{
+    int position = m_sliderAction->getTrackPositionSlider()->value();
+    position = QMIN(m_sliderAction->getTrackPositionSlider()->maxValue(), position + 10);
+    emit m_sliderAction->getTrackPositionSlider()->setValue(position);
+}
+
+void JuK::playPause()
+{
+    if(!m_player)
+	return;
+
+    if(m_player->playing())
+	pause();
+    else
+	play();
+}
+
+void JuK::volumeUp()
+{
+    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
+	int volume = m_sliderAction->getVolumeSlider()->value() +
+	  m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% up
+	slotSetVolume(volume);
+	m_sliderAction->getVolumeSlider()->setValue(volume);
+    }
+}
+
+void JuK::volumeDown()
+{
+    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
+	int volume = m_sliderAction->getVolumeSlider()->value() -
+	  m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% down
+	slotSetVolume(volume);
+	m_sliderAction->getVolumeSlider()->setValue(volume);
+    }
+}
+
+void JuK::volumeMute()
+{
+    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
+	if(m_muted)
+	    slotSetVolume(m_sliderAction->getVolumeSlider()->value());
+	else
+	    slotSetVolume(0);
+	    m_muted = !m_muted;
+    }
+}
+
+void JuK::openFile(const QString &file)
+{
+    m_splitter->open(file);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -263,7 +430,7 @@ void JuK::setupPlayer()
         connect(m_sliderAction->getTrackPositionSlider(), SIGNAL(sliderReleased()), this, SLOT(slotTrackPositionSliderReleased()));
         m_sliderAction->getTrackPositionSlider()->setEnabled(false);
 
-        connect(m_sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
+        connect(m_sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
     }
 
     int playerType = 0;
@@ -501,6 +668,21 @@ void JuK::play(const QString &file)
         stop();
 }
 
+KAction *JuK::createSplitterAction(const QString &text, const char *slot, const char *name, 
+				   const QString &pix, const KShortcut &shortcut)
+{
+    KAction *action;
+
+    if(pix.isNull())
+	action = new KAction(text, shortcut, actionCollection(), name);
+    else
+	action = new KAction(text, pix, shortcut, actionCollection(), name);
+
+    m_splitterConnections.append(SplitterConnection(action, slot));
+    
+    return action;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slot definitions
 ////////////////////////////////////////////////////////////////////////////////
@@ -526,14 +708,6 @@ void JuK::slotPlaylistChanged()
     
 
     updatePlaylistInfo();
-}
-
-void JuK::startPlayingPlaylist()
-{
-    if(m_randomPlayAction->isChecked())
-        play(m_splitter->playRandomFile());
-    else
-        play(m_splitter->playFirstFile());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -563,108 +737,6 @@ void JuK::clear()
 void JuK::selectAll()
 {
     invokeEditSlot("selectAll()", SLOT(selectAll()));
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// player menu
-////////////////////////////////////////////////////////////////////////////////
-
-void JuK::play()
-{
-    if(!m_player)
-    return;
-
-    if(m_player->paused()) {
-        m_player->play();
-
-	// Here, before doing anything, we want to make sure that the m_player did
-	// in fact start.
-
-        if(m_player->playing()) {
-            actionCollection()->action("pause")->setEnabled(true);
-            actionCollection()->action("stop")->setEnabled(true);
-            m_playTimer->start(m_pollInterval);
-	    if(m_systemTray)
-		m_systemTray->slotPlay();
-        }
-    }
-    else if(m_player->playing())
-	m_player->seekPosition(0);
-    else
-	play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
-}
-
-void JuK::pause()
-{
-    if(!m_player)
-	return;
-
-    m_playTimer->stop();
-    m_player->pause();
-    actionCollection()->action("pause")->setEnabled(false);
-    if(m_systemTray)
-	m_systemTray->slotPause();
-}
-
-void JuK::stop()
-{
-    if(!m_player || !m_sliderAction || !m_sliderAction->getVolumeSlider())
-	return;
-
-    m_playTimer->stop();
-    m_player->stop();
-
-    actionCollection()->action("pause")->setEnabled(false);
-    actionCollection()->action("stop")->setEnabled(false);
-    actionCollection()->action("back")->setEnabled(false);
-    actionCollection()->action("forward")->setEnabled(false);
-
-    m_sliderAction->getTrackPositionSlider()->setValue(0);
-    m_sliderAction->getTrackPositionSlider()->setEnabled(false);
-
-    m_splitter->stop();
-
-    m_statusLabel->clear();
-
-    if(m_systemTray)
-	m_systemTray->slotStop();
-}
-
-void JuK::back()
-{
-    play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
-}
-
-void JuK::back(int howMany)
-{
-    for(--howMany; howMany > 0; --howMany)
-        m_splitter->playPreviousFile(m_randomPlayAction->isChecked());
-
-    play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
-}
-
-void JuK::slotPopulateBackMenu()
-{
-    m_splitter->populatePlayHistoryMenu(m_backAction->popupMenu(), m_randomPlayAction->isChecked());
-}
-
-void JuK::forward()
-{
-    play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
-}
-
-void JuK::seekBack()
-{
-    int position = m_sliderAction->getTrackPositionSlider()->value();
-    position = QMAX(m_sliderAction->getTrackPositionSlider()->minValue(), position - 10);
-    emit m_sliderAction->getTrackPositionSlider()->setValue(position);
-}
-
-void JuK::seekForward()
-{
-    int position = m_sliderAction->getTrackPositionSlider()->value();
-    position = QMIN(m_sliderAction->getTrackPositionSlider()->maxValue(), position + 10);
-    emit m_sliderAction->getTrackPositionSlider()->setValue(position);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -737,48 +809,6 @@ void JuK::slotTrackPositionSliderUpdate(int position)
     }
 }
 
-void JuK::playPause()
-{
-    if(!m_player)
-	return;
-
-    if(m_player->playing())
-	pause();
-    else
-	play();
-}
-
-void JuK::volumeUp()
-{
-    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
-	int volume = m_sliderAction->getVolumeSlider()->value() +
-	  m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% up
-	setVolume(volume);
-	m_sliderAction->getVolumeSlider()->setValue(volume);
-    }
-}
-
-void JuK::volumeDown()
-{
-    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
-	int volume = m_sliderAction->getVolumeSlider()->value() -
-	  m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% down
-	setVolume(volume);
-	m_sliderAction->getVolumeSlider()->setValue(volume);
-    }
-}
-
-void JuK::volumeMute()
-{
-    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
-	if(m_muted)
-	    setVolume(m_sliderAction->getVolumeSlider()->value());
-	else
-	    setVolume(0);
-	    m_muted = !m_muted;
-    }
-}
-
 // This method is called when the play timer has expired.
 
 void JuK::slotPollPlay()
@@ -813,7 +843,7 @@ void JuK::slotPollPlay()
     m_noSeek = false;
 }
 
-void JuK::setVolume(int volume)
+void JuK::slotSetVolume(int volume)
 {
     if(m_player && m_sliderAction && m_sliderAction->getVolumeSlider() &&
        m_sliderAction->getVolumeSlider()->maxValue() > 0 &&
@@ -827,26 +857,6 @@ void JuK::slotConfigureTagGuesser()
 {
     TagGuesserConfigDlg dlg(this);
     dlg.exec();
-}
-
-void JuK::openFile(const QString &file)
-{
-    m_splitter->open(file);
-}
-
-KAction *JuK::createSplitterAction(const QString &text, const char *slot, const char *name, 
-                               const QString &pix, const KShortcut &shortcut)
-{
-    KAction *action;
-
-    if(pix.isNull())
-	action = new KAction(text, shortcut, actionCollection(), name);
-    else
-	action = new KAction(text, pix, shortcut, actionCollection(), name);
-
-    m_splitterConnections.append(SplitterConnection(action, slot));
-    
-    return action;
 }
 
 #include "juk.moc"
