@@ -141,7 +141,7 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
     buffer.fill(this, 0, 0);
 
     QPixmap bgPix = m_appPix;
-    QPixmap fgPix = loadIcon(pixName);
+    QPixmap fgPix = SmallIcon(pixName);
 
     // Make this pretty close to invisible.  I'm certain there's a cleaner way to
     // do this, but I am exceedingly lazy.
