@@ -47,14 +47,20 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1()), 
-										boxItem(0), playlistName(name), internalFile(true), splitter(s)
+										internalFile(true), 
+										playlistName(name), 
+										splitter(s), 
+										boxItem(0)
 {
     setup();
 }
 
-Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name), internalFile(false), splitter(s)
+Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name), 
+													    internalFile(false), 
+													    playlistFileName(playlistFile.absFilePath()),
+													    splitter(s)
+													    
 {
-    playlistFileName = playlistFile.absFilePath();
     setup();
 
     QFile file(playlistFileName);
