@@ -345,6 +345,7 @@ void JuK::saveConfig()
 	if(m_outputSelectAction)
 	    config->writeEntry("MediaSystem", m_outputSelectAction->currentItem());
     }
+	config->sync();
 }
 
 bool JuK::queryExit()
