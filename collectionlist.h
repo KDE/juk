@@ -62,13 +62,6 @@ public:
      */
     QStringList uniqueSet(UniqueSetType t) const { return m_uniqueSets[t].values(); }
 
-    /**
-     * This is similar to uniqueSet() but in this case only returns values for
-     * which there are two or more occurances in the collection list.  This is
-     * useful when grouping items.
-     */
-    QStringList viewModeItems(UniqueSetType t) const { return m_viewModeItems[t].values(); }
-
     CollectionListItem *lookup(const QString &file) { return m_itemsDict.find(file); }
     
     virtual PlaylistItem *createItem(const FileHandle &file,
@@ -127,7 +120,6 @@ private:
     static CollectionList *m_list;
     QDict<CollectionListItem> m_itemsDict;
     KDirWatch *m_dirWatch;
-    QValueVector<SortedStringList> m_viewModeItems;
     QValueVector<SortedStringList> m_uniqueSets;
     QValueVector<QString> m_uniqueSetLast;
 };
