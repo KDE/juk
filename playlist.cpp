@@ -395,9 +395,9 @@ void Playlist::playFirst()
 
 void Playlist::playNext()
 {
-    bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
     bool loop = action("loopPlaylist") && action<KToggleAction>("loopPlaylist")->isChecked();
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
+    bool random = albumRandom || (action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked());
 
     Playlist *list = m_playingItem ? m_playingItem->playlist() : this;
 

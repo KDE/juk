@@ -95,7 +95,14 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
 
     cm->insertSeparator();
 
-    action("randomPlay")->plug(cm);
+    // Pity the actionCollection doesn't keep track of what sub-menus it has.
+
+    KActionMenu *menu = new KActionMenu(i18n("&Random Play"), this);
+    menu->insert(action("disableRandomPlay"));
+    menu->insert(action("randomPlay"));
+    menu->insert(action("albumRandomPlay"));
+    menu->plug(cm);
+
     action("togglePopups")->plug(cm);
 
     if(PlayerManager::instance()->playing())
@@ -235,6 +242,9 @@ bool SystemTray::buttonsToLeft() const
     QPoint center = mapToGlobal(geometry().center());
     QRect bounds = KGlobalSettings::desktopGeometry(center);
     int middle = bounds.center().x();
+
+    kdDebug() << "Current geometry is " << geometry() << endl;
+    kdDebug() << "Current global position is " << mapToGlobal(pos()) << endl;
 
     // This seems to accurately guess what side of the icon that
     // KPassivePopup will popup on.

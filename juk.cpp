@@ -104,7 +104,14 @@ void JuK::setupActions()
     KStdAction::clear(kapp, SLOT(clear()), actions());
     KStdAction::selectAll(kapp, SLOT(selectAll()), actions());
 
-    m_randomPlayAction = new KToggleAction(i18n("&Random Play"), 0, actions(), "randomPlay");
+    KToggleAction *ka = new KRadioAction(i18n("&Album Random Play"), 0, actions(), "albumRandomPlay");
+    ka->setExclusiveGroup("randomPlayGroup");
+
+    ka = new KRadioAction(i18n("Option for disabled random play mode", "&Disabled"), 0, actions(), "disableRandomPlay");
+    ka->setExclusiveGroup("randomPlayGroup");
+
+    m_randomPlayAction = new KRadioAction(i18n("&Random Play"), 0, actions(), "randomPlay");
+    m_randomPlayAction->setExclusiveGroup("randomPlayGroup");
 
     new KAction(i18n("&Play"),  "player_play",  0, m_player, SLOT(play()),  actions(), "play");
     new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()), actions(), "pause");
@@ -113,8 +120,6 @@ void JuK::setupActions()
     new KToolBarPopupAction(i18n("Previous &Track"), "player_start", KShortcut(), m_player, SLOT(back()), actions(), "back");
     new KAction(i18n("&Next Track"), "player_end", KShortcut(), m_player, SLOT(forward()), actions(), "forward");
     new KToggleAction(i18n("&Loop Playlist"), 0, KShortcut(), actions(), "loopPlaylist");
-    KToggleAction *ka = new KToggleAction(i18n("Album Random Play"), 0, actions(), "albumRandomPlay");
-    connect (m_randomPlayAction, SIGNAL(toggled(bool)), ka, SLOT(setEnabled(bool)));
 
     // the following are not visible by default
 
@@ -249,12 +254,15 @@ void JuK::readConfig()
 	m_sliderAction->volumeSlider()->setVolume(volume);
     }
 
-    bool randomPlay = playerConfig.readBoolEntry("RandomPlay", false);
-    m_randomPlayAction->setChecked(randomPlay);
-    ActionCollection::action<KToggleAction>("albumRandomPlay")->setEnabled(randomPlay);
+    // Default to no random play
 
-    bool albumRandomPlay = playerConfig.readBoolEntry("AlbumRandomPlay", false);
-    ActionCollection::action<KToggleAction>("albumRandomPlay")->setChecked(albumRandomPlay);
+    ActionCollection::action<KToggleAction>("disableRandomPlay")->setChecked(true);
+
+    QString randomPlayMode = playerConfig.readEntry("RandomPlay", "Disabled");
+    if(randomPlayMode == "true" || randomPlayMode == "Normal")
+	m_randomPlayAction->setChecked(true);
+    else if(randomPlayMode == "AlbumRandomPlay")
+	ActionCollection::action<KToggleAction>("albumRandomPlay")->setChecked(true);
 
     bool loopPlaylist = playerConfig.readBoolEntry("LoopPlaylist", false);
     ActionCollection::action<KToggleAction>("loopPlaylist")->setChecked(loopPlaylist);
@@ -290,7 +298,12 @@ void JuK::saveConfig()
     playerConfig.writeEntry("LoopPlaylist", a->isChecked());
 
     a = ActionCollection::action<KToggleAction>("albumRandomPlay");
-    playerConfig.writeEntry("AlbumRandomPlay", a->isChecked() && a->isEnabled());
+    if(a->isChecked())
+	playerConfig.writeEntry("RandomPlay", "AlbumRandomPlay");
+    else if(m_randomPlayAction->isChecked())
+	playerConfig.writeEntry("RandomPlay", "Normal");
+    else
+	playerConfig.writeEntry("RandomPlay", "Disabled");
 
     // general settings
 

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="juk">
+<kpartgui name="juk" version="3">
 <MenuBar>
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="file_new"/>
@@ -34,8 +34,12 @@
 		<Action name="viewModeMenu"/>
 	</Menu>
 	<Menu name="player"><text>&amp;Player</text>
-		<Action name="randomPlay"/>
-		<Action name="albumRandomPlay"/>
+		<Menu name="randomPlayMenu"><text>&amp;Random Play</text>
+			<Action name="disableRandomPlay"/>
+			<Action name="randomPlay"/>
+			<Action name="albumRandomPlay"/>
+		</Menu>
+
 		<Action name="loopPlaylist"/>
 
 		<Separator/>
