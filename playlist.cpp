@@ -61,6 +61,7 @@
 #include "googlefetcher.h"
 #include "coverinfo.h"
 #include "tagtransactionmanager.h"
+#include "cache.h"
 
 using namespace ActionCollection;
 
@@ -1594,6 +1595,13 @@ PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
 {
     if(processEvents())
 	m_collection->dataChanged();
+
+    // Our biggest thing that we're fighting during startup is too many stats
+    // of files.  Make sure that we don't do one here if it's not needed.
+
+    FileHandle cached = Cache::instance()->value(file);
+    if(!cached.isNull())
+	return createItem(cached, after, false);
 
     const QFileInfo fileInfo = QDir::cleanDirPath(file);
 

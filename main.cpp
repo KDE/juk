@@ -77,7 +77,7 @@ int main(int argc, char *argv[])
     // before JuK has finished its initialization.
 
     a.dcopClient()->suspend();
-    JuK *juk = new JuK();
+    JuK *juk = new JuK;
     a.dcopClient()->resume();
 
     a.setMainWidget(juk);
