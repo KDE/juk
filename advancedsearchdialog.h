@@ -29,8 +29,6 @@ public:
     virtual ~AdvancedSearchDialog();
 
 private:
-    QWidget *searchLine();
-
     QWidget *m_criteria;
 };
 

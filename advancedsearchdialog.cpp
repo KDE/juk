@@ -28,6 +28,7 @@
 #include <qlayout.h>
 
 #include "advancedsearchdialog.h"
+#include "searchwidget.h"
 
 AdvancedSearchDialog::AdvancedSearchDialog(QWidget *parent, const char *name) :
     KDialogBase(parent, name, true, i18n("Create Search Playlist"), Ok|Cancel)
@@ -48,8 +49,8 @@ AdvancedSearchDialog::AdvancedSearchDialog(QWidget *parent, const char *name) :
 
     m_criteria = new QVBox(criteriaGroupBox);
 
-    searchLine();
-    searchLine();
+    new SearchLine(m_criteria);
+    new SearchLine(m_criteria);
 
     QWidget *buttons = new QWidget(criteriaGroupBox);
     QBoxLayout *l = new QHBoxLayout(buttons, 0, 5);
@@ -65,25 +66,4 @@ AdvancedSearchDialog::AdvancedSearchDialog(QWidget *parent, const char *name) :
 AdvancedSearchDialog::~AdvancedSearchDialog()
 {
 
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private members
-////////////////////////////////////////////////////////////////////////////////
-
-QWidget *AdvancedSearchDialog::searchLine()
-{
-    QHBox *box = new QHBox(m_criteria);
-    box->setSpacing(5);
-
-    new KComboBox(box);
-
-    new KLineEdit(box);
-
-    KComboBox *caseSensitive = new KComboBox(box);
-    caseSensitive->insertItem(i18n("Normal Matching"), 0);
-    caseSensitive->insertItem(i18n("Case Sensitive"), 1);
-    caseSensitive->insertItem(i18n("Pattern Matching"), 2);
-
-    return box;
 }
