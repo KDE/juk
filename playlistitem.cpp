@@ -99,9 +99,7 @@ QString PlaylistItem::text(int column) const
     case AlbumColumn:
 	return d->fileHandle.tag()->album();
     case CoverColumn:
-	return d->fileHandle.coverInfo()->hasCover()
-	    ? QString::null
-	    : " ";
+	return QString::null;
     case TrackNumberColumn:
 	return d->fileHandle.tag()->track() > 0
 	    ? QString::number(d->fileHandle.tag()->track())
