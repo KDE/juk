@@ -726,10 +726,8 @@ void Playlist::slotRemoveCover()
 						    i18n("Are you sure you want to delete these covers?"),
 						    QString::null,
 						    i18n("&Delete Covers"));
-    if(button == KMessageBox::Continue) {
+    if(button == KMessageBox::Continue)
 	refreshAlbums(items);
-        PlayerManager::instance()->registerChangedCover();
-    }
 }
 
 void Playlist::slotAddCover(bool retrieveLocal)
@@ -755,8 +753,6 @@ void Playlist::slotAddCover(bool retrieveLocal)
         return;
 
     refreshAlbums(items, image);
-
-    PlayerManager::instance()->registerChangedCover();
 }
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
@@ -925,7 +921,6 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 	    item->file().coverInfo()->setCover(QImage(file));
 	    refreshAlbum(item->file().tag()->artist(),
 			 item->file().tag()->album());
-	    PlayerManager::instance()->registerChangedCover();
 	}
     }
 
