@@ -113,6 +113,7 @@ void PlaylistSearch::search()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistSearch::Component::Component() :
+    m_mode(Contains),
     m_searchAllVisible(true),
     m_caseSensitive(false)
 {
@@ -121,9 +122,11 @@ PlaylistSearch::Component::Component() :
 
 PlaylistSearch::Component::Component(const QString &query,
 				     bool caseSensitive,
-				     const ColumnList &columns) :
+				     const ColumnList &columns,
+				     MatchMode mode) :
     m_query(query),
     m_columns(columns),
+    m_mode(mode),
     m_searchAllVisible(columns.isEmpty()),
     m_caseSensitive(caseSensitive),
     m_re(false)
@@ -134,6 +137,7 @@ PlaylistSearch::Component::Component(const QString &query,
 PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& columns) :
     m_queryRe(query),
     m_columns(columns),
+    m_mode(Exact),
     m_searchAllVisible(columns.isEmpty()),
     m_caseSensitive(false),
     m_re(true)
@@ -155,12 +159,39 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item)
     }
 
 
-    for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
-        int matches = m_re ? item->text(*it).contains(m_queryRe)
-                           : item->text(*it).contains(m_query, m_caseSensitive);
-        if(matches > 0)
-            return true;
+    bool match = false;
+
+    for(ColumnList::Iterator it = m_columns.begin(); !match && it != m_columns.end(); ++it) {
+
+        if(m_re)
+	    match = item->text(*it).contains(m_queryRe) > 0;
+	else {
+
+	    switch(m_mode) {
+	    case Contains:
+		match = item->text(*it).contains(m_query, m_caseSensitive) > 0;
+		break;
+	    case Exact:
+	    {
+		if(item->text(*it).length() == m_query.length()) {
+
+		    if(m_caseSensitive)
+			match = item->text(*it) == m_query;
+		    else
+			match = item->text(*it).lower() == m_query.lower();
+
+		}
+		break;
+	    }
+	    case ContainsWord:
+	    {
+		QRegExp r(QString("\\b%1\\b").arg(m_query), m_caseSensitive);
+		match = item->text(*it).contains(r) > 0;
+		break;
+	    }
+	    }
+	}
     }
 
-    return false;
+    return match;
 }

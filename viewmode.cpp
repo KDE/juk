@@ -233,7 +233,7 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
     for(QStringList::ConstIterator it = members.begin(); it != members.end(); ++it) {
         
         PlaylistSearch::ComponentList components;
-        components.append(PlaylistSearch::Component(*it, false, columns));
+        components.append(PlaylistSearch::Component(*it, false, columns, PlaylistSearch::Component::ContainsWord));
 
         PlaylistList playlists;
         playlists.append(collection);

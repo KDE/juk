@@ -72,6 +72,8 @@ private:
 class PlaylistSearch::Component
 {
 public:
+    enum MatchMode { Contains = 0, Exact = 1, ContainsWord = 2 };
+
     /**
      * Create an empty search component.  This is only provided for use by 
      * QValueList and should not be used in any other context.
@@ -83,7 +85,8 @@ public:
      */
     Component(const QString &query,
 	      bool caseSensitive = false,
-	      const ColumnList &columns = ColumnList());
+	      const ColumnList &columns = ColumnList(),
+	      MatchMode mode = Contains);
 
     /**
      * Create a query component.  This defaults to searching all visible coulumns.
@@ -102,6 +105,7 @@ private:
     QString m_query;
     QRegExp m_queryRe;
     ColumnList m_columns;
+    MatchMode m_mode;
     bool m_searchAllVisible;
     bool m_caseSensitive;
     bool m_re;
