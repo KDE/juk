@@ -149,14 +149,34 @@ Playlist::SharedSettings::SharedSettings()
 	m_columnOrder = config->readIntListEntry("ColumnOrder");
 
 	QValueList<int> l = config->readIntListEntry("VisibleColumns");
-	m_columnsVisible.resize(l.size(), true);
 
-	// save visible columns
-	uint i = 0;
-	for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
-	    if(! bool(*it))
-		m_columnsVisible[i] = bool(*it);
-	    i++;
+	if(l.isEmpty()) {
+
+	    // Provide some default values for column visibility if none were
+	    // read from the configuration file.
+
+	    for(int i = 0; i <= PlaylistItem::lastColumn(); i++) {
+		switch(i) {
+		case PlaylistItem::CommentColumn:
+		case PlaylistItem::FileNameColumn:
+		    m_columnsVisible.append(false);
+		    break;
+		default:
+		    m_columnsVisible.append(true);
+		}
+	    }
+	}
+	else {
+
+	    // Convert the int list into a bool list.
+
+	    m_columnsVisible.resize(l.size(), true);
+	    uint i = 0;
+	    for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
+		if(! bool(*it))
+		    m_columnsVisible[i] = bool(*it);
+		i++;
+	    }
 	}
     }
 }
@@ -812,9 +832,6 @@ void Playlist::polish()
     //////////////////////////////////////////////////
     // hide some columns by default
     //////////////////////////////////////////////////
-
-    hideColumn(PlaylistItem::CommentColumn + columnOffset());
-    hideColumn(PlaylistItem::FileNameColumn + columnOffset());
 
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotEmitSelected()));

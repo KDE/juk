@@ -27,7 +27,6 @@
 #include "playlist.h"
 #include "playlistitem.h"
 #include "sortedstringlist.h"
-#include "stringhash.h"
 
 class CollectionListItem;
 
