@@ -111,6 +111,8 @@ private:
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     virtual void contentsMousePressEvent(QMouseEvent *e);
     virtual void contentsMouseReleaseEvent(QMouseEvent *e);
+    virtual void keyPressEvent(QKeyEvent *e);
+    virtual void keyReleaseEvent(QKeyEvent *e);
 
     /** 
      * This is used by PlaylistItemBox (a friend class) to add names to the name
@@ -145,7 +147,7 @@ private:
     QValueList<ViewMode *> m_viewModes;
     KSelectAction *m_viewModeAction;
     bool m_hasSelection;
-    bool m_mousePressed;
+    bool m_doingMultiSelect;
 };
 
 

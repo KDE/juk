@@ -43,7 +43,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     m_updatePlaylistStack(true),
     m_viewModeIndex(0),
     m_hasSelection(false),
-    m_mousePressed(false)
+    m_doingMultiSelect(false)
 {
     readConfig();
     addColumn("Playlists", width());
@@ -435,17 +435,33 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 void PlaylistBox::contentsMousePressEvent(QMouseEvent *e)
 {
     if(e->button() == LeftButton)
-	m_mousePressed = true;
+	m_doingMultiSelect = true;
     KListView::contentsMousePressEvent(e);
 }
 
 void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
 {
     if(e->button() == LeftButton) {
-	m_mousePressed = false;
+	m_doingMultiSelect = false;
 	slotPlaylistChanged();
     }
     KListView::contentsMouseReleaseEvent(e);
+}
+
+void PlaylistBox::keyPressEvent(QKeyEvent *e)
+{
+    if((e->key() == Key_Up || e->key() == Key_Down) && e->state() == ShiftButton)
+	m_doingMultiSelect = true;
+    KListView::keyPressEvent(e);
+}
+
+void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
+{
+    if(m_doingMultiSelect && e->key() == Key_Shift) {
+	m_doingMultiSelect = false;
+	slotPlaylistChanged();
+    }
+    KListView::keyReleaseEvent(e);
 }
 
 PlaylistBox::ItemList PlaylistBox::selectedItems()
@@ -475,7 +491,7 @@ void PlaylistBox::slotPlaylistChanged()
 {
     // Don't update while the mouse is pressed down.
 
-    if(m_mousePressed)
+    if(m_doingMultiSelect)
 	return;
 
     ItemList items = selectedItems();
