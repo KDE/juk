@@ -32,8 +32,7 @@ rc_DATA = jukui.rc
 METASOURCES = AUTO
 KDE_ICON = AUTO
 
-appsdir = $(kde_appsdir)/Multimedia
-apps_DATA = juk.desktop
+xdg_apps_DATA = juk.desktop
 
 messages: rc.cpp
 	$(EXTRACTRC) *.rc >> rc.cpp
