@@ -35,6 +35,7 @@ class PlaylistInterface
 {
 public:
     virtual QString nextFile() = 0;
+    virtual QString currentFile() = 0;
     virtual QString previousFile() = 0;
 };
 
@@ -72,6 +73,9 @@ public slots:
     virtual void setVolume(float volume = 1.0);
     virtual void seek(long seekTime);
     virtual void seekPosition(int position);
+
+    void forward();
+    void back();
 
     void slotSetVolume(int volume); // TODO: make private
 

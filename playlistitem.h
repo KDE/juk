@@ -98,8 +98,8 @@ public:
     void setPlaying(bool playing = true) { m_playing = playing; }
 
     virtual void setSelected(bool selected);
-
     void guessTagInfo(TagGuesser::Type type);
+    Playlist *playlist() const;
 
     /**
      * The widths of items are cached when they're updated for us in computations

@@ -142,8 +142,7 @@ void JuK::slotPopulateBackMenu()
 
 void JuK::forward()
 {
-    play(m_splitter->playNextFile(m_randomPlayAction->isChecked(),
-				  m_loopPlaylistAction->isChecked()));
+    m_player->forward();
 }
 
 void JuK::seekBack()

@@ -386,12 +386,12 @@ PlaylistItemList Playlist::historyItems(PlaylistItem *current, bool random) cons
 
 PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 {
-    PlaylistItem *i;
+    PlaylistItem *i = 0;
 
     if(random) {
 	if(m_randomList.count() <= 1 || m_visibleChanged) {
 	    m_randomList = visibleItems();
-	    m_visibleChanged = false; // got the change
+	    m_visibleChanged = false;
 	}
 
 	if(current) {
@@ -407,6 +407,7 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
     }
     else {
         m_history.clear();
+
 	if(current)
 	    i = static_cast<PlaylistItem *>(current->itemBelow());
 	else {

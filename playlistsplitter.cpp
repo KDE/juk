@@ -161,6 +161,51 @@ QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool u
     }
 }
 
+QString PlaylistSplitter::nextFile()
+{
+    PlaylistItem *i = 0;
+
+    if(m_nextPlaylistItem && m_nextPlaylistItem != m_playingItem) {
+        i = m_nextPlaylistItem;
+        m_nextPlaylistItem = 0;
+    }
+    else if(m_playingItem) {
+        i = m_playingItem->playlist()->nextItem(m_playingItem);
+	// TODO: check to see if we're in loop / random mode
+    }
+
+    return play(i);
+}
+
+QString PlaylistSplitter::currentFile()
+{
+    PlaylistItem *i = 0;
+    const bool random = false; // TODO: should check this
+
+    
+    if(m_nextPlaylistItem && m_nextPlaylistItem != m_playingItem) {
+        i = m_nextPlaylistItem;
+        m_nextPlaylistItem = 0;
+    }
+
+    // Play the selected item.
+
+    else if(playlistSelection().size() > 0) {
+        i = playlistSelection().first();
+        if(!i)
+	    i = m_playingItem->playlist()->nextItem(0, random);
+    }
+
+    // Play the first item in the list.
+
+    else {
+	kdDebug(65432) << k_funcinfo << "Playing the first item in the current list." << endl;
+	i = visiblePlaylist()->nextItem(0, random);
+    }
+
+    return play(i);
+}
+
 QString PlaylistSplitter::playNextFile(bool random, bool loopPlaylist)
 {
     PlaylistItem *i;
@@ -171,12 +216,14 @@ QString PlaylistSplitter::playNextFile(bool random, bool loopPlaylist)
 
     // (1) we've asked for a specific next item
     if(m_nextPlaylistItem && m_nextPlaylistItem != m_playingItem) {
+	kdDebug(65432) << k_funcinfo << "Playing the requested 'next' item." << endl;
+
         i = m_nextPlaylistItem;
         m_nextPlaylistItem = 0;
     }
     // (2) play the item after the currently selected item
     else if(m_playingItem) {
-	Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
+	Playlist *p = m_playingItem->playlist();
         i = p->nextItem(m_playingItem, random);
         if(!i && loopPlaylist) {
 	    PlaylistItemList visibleItems = p->visibleItems();
@@ -187,8 +234,9 @@ QString PlaylistSplitter::playNextFile(bool random, bool loopPlaylist)
     else if(playlistSelection().size() > 0) {
         i = playlistSelection().first();
         if(!i)
-	    i = static_cast<Playlist *>(m_playingItem->listView())->nextItem(0, random);
+	    i = m_playingItem->playlist()->nextItem(0, random);
     }
+    // (4) Play the first item in the list.
     else
 	i = visiblePlaylist()->nextItem(0, random);
 
@@ -200,15 +248,15 @@ QString PlaylistSplitter::playPreviousFile(bool random)
     if(!m_playingItem)
 	return QString::null;
 
-    Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
+    Playlist *p = m_playingItem->playlist();
     PlaylistItem *i = p->previousItem(m_playingItem, random);
 
     return play(i);
 }
 
-void PlaylistSplitter::populatePlayHistoryMenu(QPopupMenu* menu, bool random)
+void PlaylistSplitter::populatePlayHistoryMenu(QPopupMenu *menu, bool random)
 {
-    Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
+    Playlist *p = m_playingItem->playlist();
     PlaylistItemList list = p->historyItems(m_playingItem, random);
     menu->clear();
     int i = 0;
@@ -248,7 +296,7 @@ void PlaylistSplitter::stop()
     if(!m_playingItem)
 	return;
 
-    Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
+    Playlist *p = m_playingItem->playlist();
 
     if(p)
 	p->setPlaying(m_playingItem, false);
@@ -259,7 +307,7 @@ void PlaylistSplitter::stop()
 QString PlaylistSplitter::playingArtist() const
 {
     if(m_playingItem) {
-	int offset =  static_cast<Playlist *>(m_playingItem->listView())->columnOffset();
+	int offset =  m_playingItem->playlist()->columnOffset();
 	return m_playingItem->text(PlaylistItem::ArtistColumn + offset);
     }
     else
@@ -269,7 +317,7 @@ QString PlaylistSplitter::playingArtist() const
 QString PlaylistSplitter::playingTrack() const
 {
     if(m_playingItem) {
-	int offset =  static_cast<Playlist *>(m_playingItem->listView())->columnOffset();
+	int offset =  m_playingItem->playlist()->columnOffset();
 	return m_playingItem->text(PlaylistItem::TrackColumn + offset);
     }
     else
@@ -279,7 +327,7 @@ QString PlaylistSplitter::playingTrack() const
 QString PlaylistSplitter::playingList() const
 {
     if(m_playingItem)
-	return static_cast<Playlist *>(m_playingItem->listView())->name();
+	return m_playingItem->playlist()->name();
     else
 	return QString::null;
 }
@@ -398,7 +446,7 @@ void PlaylistSplitter::slotSelectPlaying()
     if(!m_playingItem)
 	return;
 
-    Playlist *l = static_cast<Playlist *>(m_playingItem->listView());
+    Playlist *l = m_playingItem->playlist();
 
     if(!l)
 	return;
@@ -731,10 +779,12 @@ QString PlaylistSplitter::play(PlaylistItem *item)
 {
     stop();
 
-    if(!item)
+    if(!item) {
+	kdDebug(65432) << k_funcinfo << "The current item is null." << endl;
 	return QString::null;
+    }
 
-    Playlist *p = static_cast<Playlist *>(item->listView());
+    Playlist *p = item->playlist();
 
     if(!p)
 	return QString::null;

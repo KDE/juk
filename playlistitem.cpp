@@ -170,6 +170,11 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
     }
 }
 
+Playlist *PlaylistItem::playlist() const
+{
+    return static_cast<Playlist *>(listView());
+}
+
 QValueVector<int> PlaylistItem::cachedWidths() const
 {
     return m_data->cachedWidths();

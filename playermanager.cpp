@@ -133,16 +133,16 @@ void PlayerManager::play(const QString &fileName)
     if(fileName.isNull()) {
 	if(player()->paused())
             player()->play();
-        if(player()->playing())
+        else if(player()->playing())
             player()->seekPosition(0);
-        else
-            player()->play(m_playlistInterface->nextFile());
+        else {
+            QString file = m_playlistInterface->currentFile();
+            if(!file.isNull())
+                player()->play(file);
+	}
     }
-    else {
-        if(player()->paused())
-            player()->stop();
+    else
         player()->play(fileName);
-    }
 
     // Make sure that the player() actually starts before doing anything.
 
@@ -226,6 +226,24 @@ void PlayerManager::seekPosition(int position)
     player()->seekPosition(position);
 }
 
+void PlayerManager::forward()
+{
+    QString file = m_playlistInterface->nextFile();
+    if(!file.isNull())
+        play(file);
+    else
+        stop();
+}
+
+void PlayerManager::back()
+{
+    QString file = m_playlistInterface->previousFile();
+    if(!file.isNull())
+        play(file);
+    else
+        stop();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -239,7 +257,11 @@ void PlayerManager::slotPollPlay()
 
     if(!player()->playing()) {
         m_timer->stop();
-        play(m_playlistInterface->nextFile());
+        QString nextFile = m_playlistInterface->nextFile();
+        if(!nextFile.isNull())
+            play();
+        else
+            stop();
     }
     else if(!m_sliderAction->dragging()) {
         m_sliderAction->trackPositionSlider()->setValue(player()->position());

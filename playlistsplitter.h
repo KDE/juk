@@ -71,6 +71,10 @@ public:
     // Variations on the theme "play stuff"
     ////////////////////////////////////////////////////////////////////////////
 
+    virtual QString nextFile();
+    virtual QString currentFile();
+    virtual QString previousFile() { return playPreviousFile(); }
+
     /**
      * Returns the file name of the next item to be played and advances the next
      * file.
@@ -82,9 +86,6 @@ public:
      * to the previous file.
      */
     QString playPreviousFile(bool random = false);
-
-    QString nextFile() { return playNextFile(); }
-    QString previousFile() { return playPreviousFile(); }
 
     /**
      * Fills the menu passed in with the recently played history
