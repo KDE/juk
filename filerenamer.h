@@ -72,8 +72,8 @@ public:
 
     ConfigCategoryReader();
 
-    PlaylistItem *playlistItem() const { return m_currentItem; }
-    void setPlaylistItem(PlaylistItem *item) { m_currentItem = item; }
+    const PlaylistItem *playlistItem() const { return m_currentItem; }
+    void setPlaylistItem(const PlaylistItem *item) { m_currentItem = item; }
 
     // CategoryReaderInterface reimplementations
 
@@ -90,7 +90,7 @@ public:
     virtual bool isDisabled(TagType category) const;
 
 private:
-    PlaylistItem *m_currentItem;
+    const PlaylistItem *m_currentItem;
     TagRenamerOptions m_options[NumTypes];
     QValueList<TagType> m_categoryOrder;
     QString m_separator;
@@ -431,7 +431,7 @@ public:
     void rename(PlaylistItem *item);
     void rename(const PlaylistItemList &items);
 
-    static QString getFileName(const CategoryReaderInterface &interface);
+    static QString fileName(const CategoryReaderInterface &interface);
 
     /**
      * Adjusts \p track if necessary in order to make it at least the minimum

@@ -34,6 +34,8 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kpushbutton.h>
+#include <kapplication.h>
+#include <kmessagebox.h>
 
 #include <qfile.h>
 #include <qhbox.h>
@@ -47,12 +49,52 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qsignalmapper.h>
+#include <qheader.h>
 
 #include "tag.h"
 #include "filehandle.h"
 #include "filerenamer.h"
 #include "exampleoptions.h"
 #include "playlistitem.h"
+#include "playlist.h"
+
+class ConfirmationDialog : public KDialogBase
+{
+public:
+    ConfirmationDialog(const QMap<QString, QString> &files,
+                       QWidget *parent = 0, const char *name = 0)
+        : KDialogBase(parent, name, true, i18n("Warning"), Ok | Cancel)
+    {
+        QVBox *vbox = makeVBoxMainWidget();
+        QHBox *hbox = new QHBox(vbox);
+
+        QLabel *l = new QLabel(hbox);
+        l->setPixmap(SmallIcon("messagebox_warning", 32));
+
+        l = new QLabel(i18n("You are about to rename the following files. "
+                            "Are you sure you want to continue?"), hbox);
+        hbox->setStretchFactor(l, 1);
+
+        KListView *lv = new KListView(vbox);
+
+        lv->addColumn(i18n("Original Name"));
+        lv->addColumn(i18n("New Name"));
+
+        int lvHeight = 0;
+
+        QMap<QString, QString>::ConstIterator it = files.begin();
+        for(; it != files.end(); ++it) {
+            KListViewItem *i = it.key() != it.data()
+                ? new KListViewItem(lv, it.key(), it.data())
+                : new KListViewItem(lv, it.key(), i18n("No Change"));
+            lvHeight += i->height();
+        }
+
+        lvHeight += lv->horizontalScrollBar()->height() + lv->header()->height();
+        lv->setMinimumHeight(QMIN(lvHeight, 400));
+        resize(QMIN(width(), 500), QMIN(minimumHeight(), 400));
+    }
+};
 
 //
 // Implementation of ConfigCategoryReader
@@ -356,7 +398,7 @@ void FileRenamerWidget::exampleTextChanged()
         return;
     }
 
-    m_exampleText->setText(FileRenamer::getFileName(*this) + ".mp3");
+    m_exampleText->setText(FileRenamer::fileName(*this) + ".mp3");
 }
 
 QString FileRenamerWidget::fileCategoryValue(TagType category) const
@@ -651,19 +693,42 @@ void FileRenamer::rename(PlaylistItem *item)
 void FileRenamer::rename(const PlaylistItemList &items)
 {
     ConfigCategoryReader reader;
-    QString oldFile, newFile, extension;
+    QStringList errorFiles;
+    QMap<QString, QString> map;
+    QMap<QString, PlaylistItem *> itemMap;
 
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
         reader.setPlaylistItem(*it);
-        oldFile = (*it)->file().absFilePath();
-        extension = (*it)->file().fileInfo().extension(false);
-        newFile = getFileName(reader) + "." + extension;
+        QString oldFile = (*it)->file().absFilePath();
+        QString extension = (*it)->file().fileInfo().extension(false);
+        QString newFile = fileName(reader) + "." + extension;
 
-        moveFile(oldFile, newFile);
+        if(oldFile != newFile) {
+            map[oldFile] = newFile;
+            itemMap[oldFile] = *it;
+        }
     }
+
+    if(ConfirmationDialog(map).exec() != QDialog::Accepted)
+        return;
+
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    for(QMap<QString, QString>::ConstIterator it = map.begin();
+        it != map.end(); ++it)
+    {
+        if(moveFile(it.key(), it.data()))
+            itemMap[it.key()]->setFile(FileHandle(it.data()));
+        else
+            errorFiles << i18n("%1 to %2").arg(it.key()).arg(it.data());
+
+        processEvents();
+    }
+    KApplication::restoreOverrideCursor();
+
+    if(!errorFiles.isEmpty())
+        KMessageBox::error(0, i18n("The following rename operations failed:\n") + errorFiles.join("\n"));
 }
 
-// @author Frerich Raabe <raabe@kde.org>
 bool FileRenamer::moveFile(const QString &src, const QString &dest)
 {
     kdDebug(65432) << "Moving file " << src << " to " << dest << endl;
@@ -698,7 +763,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     return KIO::NetAccess::file_move(srcURL, dstURL);
 }
 
-QString FileRenamer::getFileName(const CategoryReaderInterface &interface)
+QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 {
     const QValueList<TagType> categoryOrder = interface.categoryOrder();
     const QString separator = interface.separator();
