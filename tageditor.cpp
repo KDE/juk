@@ -478,7 +478,10 @@ void TagEditor::saveChangesPrompt()
         if(KMessageBox::questionYesNoList(this,
 					  i18n("Do you want to save your changes to:\n"), 
 					  files, 
-					  i18n("Save Changes")) == KMessageBox::Yes) {
+					  i18n("Save Changes"),
+					  KStdGuiItem::yes(),
+					  KStdGuiItem::no(),
+					  "tagEditor_showSaveChangesBox") == KMessageBox::Yes) {
             save(m_items);
 	}
     }
