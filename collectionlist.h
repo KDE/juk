@@ -143,8 +143,6 @@ class CollectionListItem : /* public QObject, */ public PlaylistItem
      */
     friend class QDict<CollectionListItem>;
 
-    // Q_OBJECT
-
 public:
     virtual void refresh();
 
@@ -156,11 +154,6 @@ protected:
     void removeChildItem(PlaylistItem *child);
 
     /**
-     * This slot, called from a QTimer::singleShot() set in the constructor, allows for
-     * delayed consistancy checking for the cache at the cost of a few CPU cycles.  The
-     * effect however is that stating files is delayed until after the GUI is shown by
-     * moving this action into the event loop.
-     *
      * Returns true if the item is now up to date (even if this required a refresh) or
      * false if the item is invalid.
      */
