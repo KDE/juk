@@ -53,6 +53,10 @@ public:
 
     CollectionListItem *lookup(const QString &file);
     virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *);
+
+public slots:
+    virtual void paste();
+    virtual void clear();
     
 protected:
     CollectionList(PlaylistSplitter *s, QWidget *parent);

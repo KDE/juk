@@ -66,7 +66,6 @@ PlaylistSplitter::~PlaylistSplitter()
 QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool useParenthesis)
 {
     if(!playlistBox)
-
 	return QString::null;
 
     QStringList names = playlistBox->names();
@@ -417,8 +416,6 @@ void PlaylistSplitter::readConfig()
     { // block for Playlists group
 	KConfigGroupSaver saver(config, "Playlists");
 
-	directoryList = config->readListEntry("DirectoryList");
-
 	if(restore) {
 
 	    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
@@ -440,6 +437,7 @@ void PlaylistSplitter::readConfig()
 		}
 	    }
 
+	    directoryList = config->readListEntry("DirectoryList");
 	    open(directoryList);
 	}
     }

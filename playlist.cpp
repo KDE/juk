@@ -371,6 +371,7 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 	else
 	    i = new PlaylistItem(item, this);
 	emit(numberOfItemsChanged(this));
+	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
 	return i;
     }
     else

@@ -126,11 +126,11 @@ public slots:
      */ 
     void removeSelectedItems() { remove(selectedItems()); };
 
-    void copy();
-    void clear();
-    void cut() { copy(); clear(); }
-    void paste();
-    void selectAll() { KListView::selectAll(true); }
+    virtual void copy();
+    virtual void clear();
+    virtual void cut() { copy(); clear(); }
+    virtual void paste();
+    virtual void selectAll() { KListView::selectAll(true); }
 
 protected:
     virtual QDragObject *dragObject(QWidget *parent);

@@ -18,7 +18,11 @@
 #include <kurl.h>
 #include <kurldrag.h>
 #include <klocale.h>
+#include <kapplication.h>
+#include <kmessagebox.h>
 #include <kdebug.h>
+
+#include <qclipboard.h>
 
 #include "collectionlist.h"
 #include "playlistsplitter.h"
@@ -71,6 +75,26 @@ PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 	return 0;
 
     return new CollectionListItem(file, path);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void CollectionList::paste()
+{
+    decode(kapp->clipboard()->data());
+}
+
+void CollectionList::clear()
+{
+    int result = KMessageBox::warningYesNo(this, 
+			      i18n("Removing an item from the collection will also remove it from "
+				   "all of your playlists.  Are you sure you want to continue?  \n\n"
+				   "Note however that if the directory that these files are in are in "
+				   "your scan on startup list, then they will be readded on startup."));
+    if(result == KMessageBox::Yes)			      
+	Playlist::clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
