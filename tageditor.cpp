@@ -24,6 +24,7 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kpushbutton.h>
 
 #include <qlabel.h>
 #include <qcheckbox.h>
@@ -32,6 +33,7 @@
 
 #include "tageditor.h"
 #include "tag.h"
+#include "tagguesser.h"
 #include "collectionlist.h"
 #include "genrelistlist.h"
 
@@ -365,6 +367,9 @@ void TagEditor::setupLayout()
         m_commentBox = new KEdit(this, "commentBox");
 	m_commentBox->setTextFormat(Qt::PlainText);
 	addItem(i18n("Comment:"), m_commentBox, rightColumnLayout);
+
+        m_suggestButton = new KPushButton(i18n("S&uggest"), this, "suggestButton");
+        rightColumnLayout->addWidget(m_suggestButton, 0 /*no stretching */, Qt::AlignRight);
     }
 
     connect(m_artistNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(slotDataChanged()));
@@ -376,6 +381,7 @@ void TagEditor::setupLayout()
     connect(m_yearSpin, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
     connect(m_trackSpin, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
     connect(m_commentBox, SIGNAL(textChanged()), this, SLOT(slotDataChanged()));
+    connect(m_suggestButton, SIGNAL(clicked()), this, SLOT(slotSuggestClicked()));
 }
 
 void TagEditor::save(const PlaylistItemList &list)
@@ -533,6 +539,23 @@ void TagEditor::showEvent(QShowEvent *e)
 void TagEditor::slotDataChanged(bool c)
 {
     m_dataChanged = c;
+}
+
+void TagEditor::slotSuggestClicked()
+{
+    PlaylistItem *item = m_items.getFirst();
+    if(!item)
+        return;
+
+    Tag *tag = item->tag();
+    Q_ASSERT(tag);
+    TagGuesser guesser(tag->absFilePath());
+
+    m_trackNameBox->setText(guesser.title());
+    m_artistNameBox->setEditText(guesser.artist());
+    m_albumNameBox->setEditText(guesser.album());
+    m_trackSpin->setValue(guesser.track().toInt());
+    m_commentBox->setText(guesser.comment());
 }
 
 #include "tageditor.moc"

@@ -28,6 +28,7 @@ class KComboBox;
 class KLineEdit;
 class KIntSpinBox;
 class KEdit;
+class KPushButton;
 
 class QCheckBox;
 class QBoxLayout;
@@ -64,6 +65,7 @@ private:
 
 private slots:
     void slotDataChanged(bool c = true);
+    void slotSuggestClicked();
 
 private:
     typedef QMap<QWidget *, QCheckBox *> BoxMap;
@@ -81,6 +83,7 @@ private:
     KLineEdit *m_lengthBox;
     KLineEdit *m_bitrateBox;
     KEdit *m_commentBox;
+    KPushButton *m_suggestButton;
 
     PlaylistItemList m_items;
     

@@ -1,4 +1,4 @@
-bin_PROGRAMS = juk
+bin_PROGRAMS = juk tagguessertest
 
 juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
 	gstreamerplayer.cpp artsplayer.cpp directorylist.cpp stringhash.cpp \
@@ -7,7 +7,9 @@ juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
 	playlistitem.cpp playlist.cpp playlistsplitter.cpp listboxpixmap.cpp \
 	playlistbox.cpp tageditor.cpp cache.cpp genrelistreader.cpp \
 	genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp \
-	slideraction.cpp keydialog.cpp juk.cpp main.cpp
+	slideraction.cpp keydialog.cpp juk.cpp main.cpp tagguesser.cpp
+
+tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp
 
 INCLUDES= $(all_includes) -I$(arts_includes)
 
@@ -23,6 +25,9 @@ endif
 
 juk_LDADD = $(gstlibs) -lid3 -lsoundserver_idl $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_KFILE) $(LIB_QT)
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+
+tagguessertest_LDADD = $(LIB_KDECORE)
+tagguessertest_LDFLAGS = $(all_libraries)
 
 SUBDIRS = pics data 
 
