@@ -198,6 +198,9 @@ void PlaylistItem::slotRefreshImpl()
     // This should be the only function that needs to be rewritten if the structure of    
     // PlaylistItemData changes.  
 
+    if(!tag())
+        return;
+
     setText(TrackColumn,       tag()->track());
     setText(ArtistColumn,      tag()->artist());
     setText(AlbumColumn,       tag()->album());
