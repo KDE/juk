@@ -91,10 +91,19 @@ void JuK::setupLayout()
 void JuK::setupActions()
 {
     // file menu
+    KStdAction::openNew(splitter, SLOT(createPlaylist()), actionCollection());
     KStdAction::open(splitter, SLOT(open()), actionCollection());
     new KAction(i18n("Open &Directory..."), "fileopen", 0, splitter, SLOT(openDirectory()), actionCollection(), "openDirectory");
-    KStdAction::save(splitter, SLOT(save()), actionCollection());
-    new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(removeSelectedItems()), actionCollection(), "remove");
+
+    renamePlaylistAction = new KAction(i18n("Rename..."), 0, splitter, SLOT(renamePlaylist()), 
+				       actionCollection(), "renamePlaylist");
+    new KAction(i18n("Duplicate..."), "editcopy", 0, splitter, SLOT(duplicatePlaylist()), actionCollection(), "duplicatePlaylist");
+
+    savePlaylistAction = KStdAction::save(splitter, SLOT(savePlaylist()), actionCollection());
+    saveAsPlaylistAction = KStdAction::saveAs(splitter, SLOT(saveAsPlaylist()), actionCollection());
+    deleteItemPlaylistAction = new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(deleteItemPlaylist()), 
+					   actionCollection(), "deleteItemPlaylist");
+
     KStdAction::quit(this, SLOT(close()), actionCollection());
 
     // edit menu
@@ -116,18 +125,9 @@ void JuK::setupActions()
     backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(backFile()), actionCollection(), "backFile");
     forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forwardFile()), actionCollection(), "forwardFile");
 
-    // playlist menu
-    new KAction(i18n("New..."), "filenew", 0, splitter, SLOT(createPlaylist()), actionCollection(), "createPlaylist");
-    new KAction(i18n("Open..."), "fileopen", 0, splitter, SLOT(openPlaylist()), actionCollection(), "openPlaylist");
-
-    savePlaylistAction = new KAction(i18n("Save"), "filesave", 0, splitter, SLOT(savePlaylist()), actionCollection(), "savePlaylist");
-    saveAsPlaylistAction = new KAction(i18n("Save As..."), "filesaveas", 0, splitter, SLOT(saveAsPlaylist()), 
-				       actionCollection(), "saveAsPlaylist");
-    renamePlaylistAction = new KAction(i18n("Rename..."), 0, splitter, SLOT(renamePlaylist()), 
-				       actionCollection(), "renamePlaylist");
-    new KAction(i18n("Duplicate..."), "editcopy", 0, splitter, SLOT(duplicatePlaylist()), actionCollection(), "duplicatePlaylist");
-    deleteItemPlaylistAction = new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(deleteItemPlaylist()), 
-					   actionCollection(), "deleteItemPlaylist");
+    // tagger menu
+    new KAction(i18n("Save"), "filesave", 0, splitter, SLOT(saveItem()), actionCollection(), "saveItem");
+    new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(removeSelectedItems()), actionCollection(), "removeItem");
     
     // settings menu
     restoreOnLoadAction = new KToggleAction(i18n("Restored Playlists on Load"),  0, actionCollection(), "restoreOnLoad"); 

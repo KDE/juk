@@ -2,37 +2,46 @@
 <kpartgui name="juk">
 <MenuBar>
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
+		<Action name="file_new"/>
 		<Action name="file_open"/>
 		<Action name="openDirectory"/>
+
 		<Separator/>
+
+		<Action name="renamePlaylist"/>
+		<Action name="duplicatePlaylist"/>
+		<Action name="deleteItemPlaylist"/>
+
+		<Separator/>
+
 		<Action name="file_save"/>
+		<Action name="file_saveas"/>
+
 		<Separator/>
-		<Action name="remove"/>
-		<Separator/>
+
 		<Action name="file_quit"/>
 	</Menu>
 	<Menu name="view" noMerge="1"><text>&amp;View</text>
 		<Action name="showEditor"/>
+
 		<Separator/>
+
 		<Action name="view_redisplay"/>
 	</Menu>
 	<Menu name="player"><text>&amp;Player</text>
 		<Action name="randomPlay"/>
+
 		<Separator/>
+
 		<Action name="playFile"/>
 		<Action name="pauseFile"/>
 		<Action name="stopFile"/>
 		<Action name="backFile"/>
 		<Action name="forwardFile"/>
 	</Menu>
-	<Menu name="playlist"><text>Play&amp;list</text>
-		<Action name="createPlaylist"/>
-		<Action name="openPlaylist"/>
-		<Action name="savePlaylist"/>
-		<Action name="saveAsPlaylist"/>
-		<Action name="renamePlaylist"/>
-		<Action name="duplicatePlaylist"/>
-		<Action name="deleteItemPlaylist"/>
+	<Menu name="playlist"><text>Tagger</text>
+		<Action name="saveItem"/>
+		<Action name="removeItem"/>
 	</Menu>
 	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
 		<Action name="showGenreListEditor"/>
@@ -43,11 +52,15 @@
 <ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
 	<Action name="file_open"/>
 	<Action name="file_save"/>
+
 	<Separator lineSeparator="true"/>
+
 	<Action name="edit_cut"/>
 	<Action name="edit_copy"/>
 	<Action name="edit_paste"/>
+
 	<Separator lineSeparator="true"/>
+
 	<Action name="showEditor"/>
 </ToolBar>
 
@@ -55,7 +68,9 @@
 	<Action name="playFile"/>
 	<Action name="pauseFile"/>
 	<Action name="stopFile"/>
+
 	<Separator lineSeparator="false"/>	
+
 	<Action name="backFile"/>
 	<Action name="forwardFile"/>
 	<Action name="trackPositionAction"/>

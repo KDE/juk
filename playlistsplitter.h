@@ -155,7 +155,7 @@ public slots:
     /**
      * Save.
      */
-    void save() { editor->save(); }
+    void saveItem() { editor->save(); }
 
 // Edit slots
     
