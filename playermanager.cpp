@@ -469,6 +469,7 @@ void PlayerManager::slotSetOutput(int system)
     stop();
     delete m_player;
     m_player = createPlayer(system);
+    setup();
 }
 
 void PlayerManager::slotSetVolume(int volume)
