@@ -194,10 +194,13 @@ void JuK::setupActions()
 
     m_showSearchAction = new KToggleAction(i18n("Show &Search Bar"), "filefind",
 					   0, actions(), "showSearch");
+    m_showSearchAction->setCheckedState(i18n("Hide &Search Bar"));
     m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit",
 					   0, actions(), "showEditor");
+    m_showEditorAction->setCheckedState(i18n("Hide &Tag Editor"));
     m_showHistoryAction = new KToggleAction(i18n("Show &History"), "history",
 					   0, actions(), "showHistory");
+    m_showHistoryAction->setCheckedState(i18n("Hide &History"));
 
     createSplitterAction(i18n("Refresh Items"), SLOT(slotRefresh()), "refresh", "reload");
 
@@ -230,7 +233,7 @@ void JuK::setupActions()
     new KAction(i18n("Play / Pause"), "playPause",   0, m_player, SLOT(playPause()),   actions(), "playPause");
     new KAction(i18n("Seek Forward"), "seekForward", 0, m_player, SLOT(seekForward()), actions(), "seekForward");
     new KAction(i18n("Seek Back"),    "seekBack",    0, m_player, SLOT(seekBack()),    actions(), "seekBack");
-    
+
 
     //////////////////////////////////////////////////
     // tagger menu
@@ -264,10 +267,11 @@ void JuK::setupActions()
     m_toggleSplashAction =
 	new KToggleAction(i18n("Show Splash Screen on Startup"),
 			  KShortcut(), actions(), "showSplashScreen");
+    m_toggleSplashAction->setCheckedState(i18n("Hide Splash Screen on Startup"));
     m_toggleSystemTrayAction =
 	new KToggleAction(i18n("&Dock in System Tray"),
 			  KShortcut(), actions(), "toggleSystemTray");
-    m_toggleDockOnCloseAction = 
+    m_toggleDockOnCloseAction =
 	new KToggleAction(i18n("&Stay in System Tray on Close"),
 			  KShortcut(), actions(), "dockOnClose");
     m_togglePopupsAction =
