@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <kmimetype.h>
 
 #include <qregexp.h>
 
@@ -39,10 +40,14 @@ Tag *Tag::createTag(const QString &file, bool ignoreCache)
     if(cachedItem)
         return cachedItem;
 
-    if(file.lower().endsWith("mp3"))
+    KMimeType::Ptr result = KMimeType::findByURL(file, 0, true /* local file */);
+    if(!result)
+        return 0;
+
+    if(result->name() == "audio/x-mp3")
         return new ID3Tag(file);
 
-    if(file.lower().endsWith("ogg"))
+    if(result->name() == "application/x-ogg")
         return new OggTag(file);
 
     return 0;
