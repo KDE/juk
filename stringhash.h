@@ -182,7 +182,7 @@ class FileHandleHash : public Hash<FileHandle>
 public:
     FileHandleHash() : Hash<FileHandle>() {}
 
-    FileHandle FileHandleHash::value(const QString &key) const
+    FileHandle value(const QString &key) const
     {
         int h = hashString(key) % tableSize();
         Node *i = m_table[h];
