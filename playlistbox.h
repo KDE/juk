@@ -67,7 +67,7 @@ public:
     void saveAs();
     void rename();
     void duplicate();
-    void deleteItem();
+    void deleteItems() { deleteItems(selectedItems()); }
 
     bool hasSelection() const  { return m_hasSelection; }
 
@@ -76,6 +76,7 @@ public:
 
     class Item;
     friend class Item;
+    typedef QValueList<Item *> ItemList;
 
 public slots:
     void paste();
@@ -98,7 +99,7 @@ private:
     void saveAs(Item *item);
     void rename(Item *item);
     void duplicate(Item *item);
-    void deleteItem(Item *item);
+    void deleteItems(const QValueList<Item *> &items);
 
     virtual void decode(QMimeSource *s, Item *item);
     virtual void contentsDropEvent(QDropEvent *e);

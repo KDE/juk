@@ -189,11 +189,6 @@ void PlaylistBox::duplicate()
 // PlaylistBox public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistBox::deleteItem()
-{
-    deleteItem(static_cast<Item *>(currentItem()));
-}
-
 void PlaylistBox::paste()
 {
     Item *i = static_cast<Item *>(currentItem());
@@ -279,33 +274,61 @@ void PlaylistBox::duplicate(Item *item)
     }
 }
 
-void PlaylistBox::deleteItem(Item *item)
+void PlaylistBox::deleteItems(const ItemList &items)
 {
-    if(!item || !item->playlist())
+    if(items.isEmpty())
 	return;
 
-    if(!item->playlist()->fileName().isEmpty()) {
-	int remove = KMessageBox::warningYesNoCancel(this, i18n("Do you want to delete this file from the disk as well?"));
+    QStringList files;
+
+    for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+	if(*it && (*it)->playlist() && !(*it)->playlist()->fileName().isEmpty())
+	    files.append((*it)->playlist()->fileName());
+    }
+
+    if(!files.isEmpty()) {
+#if 0
+	int remove = KMessageBox::warningYesNoCancelList(
+	    this, i18n("Do you want to delete these files from the disk as well?"), files);
+#else
+	int remove = KMessageBox::warningYesNoCancel(
+	    this, i18n("Do you want to delete these files from the disk as well?"));
+#endif
 	
 	if(remove == KMessageBox::Yes) {
-	    if(!QFile::remove(item->playlist()->fileName()))
-		KMessageBox::sorry(this, i18n("Could not delete the specified file."));
+	    QStringList couldNotDelete;
+	    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
+		if(!QFile::remove(*it))
+		    couldNotDelete.append(*it);
+	    }
+
+	    // Would be nice if there were a KMessageBox::sorryList() to use with
+	    // couldNotDelete.
+
+	    if(!couldNotDelete.isEmpty())
+		KMessageBox::sorry(this, i18n("Could not delete all of the specified files."));
 	}
 	else if(remove == KMessageBox::Cancel)
 	    return;
     }
     else {
-	if(KMessageBox::warningYesNo(this, i18n("Are you sure you want to remove this item?")) == KMessageBox::No)
+	if(KMessageBox::warningYesNo(this, i18n("Are you sure you want to remove these items?")) == KMessageBox::No)
 	    return;
     }
-    
-    m_names.remove(item->text(0));
-    m_playlistDict.remove(item->playlist());
 
-    setSingleItem(item->nextSibling() ? item->nextSibling() : item->itemAbove());
+    QListViewItem *nextItem = 0;
 
-    delete item->playlist();
-    delete item;
+    for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+	m_names.remove((*it)->text(0));
+	m_playlistDict.remove((*it)->playlist());
+
+	nextItem = (*it)->nextSibling() ? (*it)->nextSibling() : (*it)->itemAbove();
+
+	delete (*it)->playlist();
+	delete *it;
+    }
+
+    setSingleItem(nextItem);
 }
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
@@ -377,9 +400,9 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
     }
 }
 
-QValueList<PlaylistBox::Item *> PlaylistBox::selectedItems()
+PlaylistBox::ItemList PlaylistBox::selectedItems()
 {
-    QValueList<Item *> l;
+    ItemList l;
 
     for(QListViewItemIterator it(this); it.current(); ++it) {
 	if(isSelected(*it))
@@ -402,14 +425,14 @@ void PlaylistBox::setSingleItem(QListViewItem *item)
 
 void PlaylistBox::slotPlaylistChanged()
 {
-    QValueList<Item *> items = selectedItems();
+    ItemList items = selectedItems();
     m_hasSelection = !items.isEmpty();
 
     if(!m_updatePlaylistStack)
 	return;
 
-    QValueList<Playlist *> playlists;
-    for(QValueList<Item *>::iterator i = items.begin(); i != items.end(); ++i) {
+    PlaylistList playlists;
+    for(ItemList::ConstIterator i = items.begin(); i != items.end(); ++i) {
 	if((*i)->playlist())
 	    playlists.append((*i)->playlist());
     }

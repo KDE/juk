@@ -366,7 +366,7 @@ void PlaylistSplitter::slotDeletePlaylist()
     if(m_playingItem && m_playingItem->listView() == visiblePlaylist())
 	m_playingItem = 0;
 
-    m_playlistBox->deleteItem();
+    m_playlistBox->deleteItems();
 }
 
 void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *list)
