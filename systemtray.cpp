@@ -34,33 +34,39 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(parent, name), m_blinkStatus(false), m_parent (parent), m_popup(0L)
+SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(parent, name),
+								m_popup(0)
 
 {
-    m_blinkTimer = new QTimer(this, "blinktimer");
-    
     m_appPix     = SmallIcon("juk");
     m_playPix    = SmallIcon("player_play");
     m_pausePix   = SmallIcon("player_pause");
     m_backPix    = SmallIcon("player_start");
-    m_forwardPix = SmallIcon("player_end");
+    m_forwardPix = SmallIcon("player_end");    
 
     setPixmap(m_appPix);
-    
+
     KPopupMenu *cm = contextMenu();
-    cm->insertItem(m_playPix, i18n("Play"), this, SIGNAL(signalPlay()));
-    cm->insertItem(m_pausePix, i18n("Pause"), this, SIGNAL(signalPause()));
-    cm->insertItem(SmallIcon("player_stop"), i18n("Stop"), this, SIGNAL(signalStop()));
-    cm->insertItem(m_backPix, i18n("Back"), this, SIGNAL(signalBack()));
-    cm->insertItem(m_forwardPix, i18n("Forward"), this, SIGNAL(signalForward()));
+
+    m_actionCollection = parent->actionCollection();
+
+    m_playAction    = m_actionCollection->action("play");
+    m_pauseAction   = m_actionCollection->action("pause");
+    m_stopAction    = m_actionCollection->action("stop");
+    m_backAction    = m_actionCollection->action("back");
+    m_forwardAction = m_actionCollection->action("forward");
+
+    m_togglePopupsAction = static_cast<KToggleAction *>(m_actionCollection->action("togglePopups"));
+
+    m_playAction->plug(cm);
+    m_pauseAction->plug(cm);
+    m_stopAction->plug(cm);
+    m_backAction->plug(cm);
+    m_forwardAction->plug(cm);
 
     cm->insertSeparator();
 
-    // Get a pointer to the togglePopups action, and if it exists, plug it into our popup menu
-    KToggleAction *togglePopupsAction = dynamic_cast<KToggleAction*>(m_parent->actionCollection()->action("togglePopups"));
-    if(togglePopupsAction)
-	togglePopupsAction->plug(cm);
-
+    m_togglePopupsAction->plug(cm);
 }
 
 SystemTray::~SystemTray()
@@ -82,7 +88,6 @@ void SystemTray::slotNewSong(const QString& songName)
 
 void SystemTray::slotStop()
 {
-    m_blinkTimer->stop();
     setPixmap(m_appPix);
     QToolTip::remove(this);
 
@@ -96,11 +101,8 @@ void SystemTray::slotStop()
 
 void SystemTray::createPopup(const QString &songName, bool addButtons) 
 {
-    // Get a pointer to the togglePopups action
-    KToggleAction *togglePopupsAction = dynamic_cast<KToggleAction*>(m_parent->actionCollection()->action("togglePopups"));
-
     // If the action exists and it's checked, do our stuff
-    if(togglePopupsAction && togglePopupsAction->isChecked()) {
+    if(m_togglePopupsAction && m_togglePopupsAction->isChecked()) {
 
 	delete m_popup;
         m_popup = new KPassivePopup(this);
@@ -111,7 +113,7 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
         if(addButtons) {
             QPushButton *backButton = new QPushButton(m_backPix, 0, box, "popup_back");
             backButton->setFlat(true);
-            connect(backButton, SIGNAL(clicked()), m_parent, SLOT(slotBack()));
+            connect(backButton, SIGNAL(clicked()), m_backAction, SLOT(activate()));
         }
 
         QLabel *l = new QLabel(songName, box);
@@ -120,7 +122,7 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
         if(addButtons) {
             QPushButton *forwardButton = new QPushButton (m_forwardPix, 0, box, "popup_forward");
             forwardButton->setFlat(true);
-            connect(forwardButton, SIGNAL(clicked()), m_parent, SLOT(slotForward()));
+            connect(forwardButton, SIGNAL(clicked()), m_forwardAction, SLOT(activate()));
         }
 
         m_popup->setView(box);

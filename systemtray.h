@@ -24,6 +24,8 @@ class QTimer;
 class QPimap;
 class KPassivePopup;
 class KMainWindow;
+class KAction;
+class KToggleAction;
 
 class SystemTray : public KSystemTray
 {
@@ -39,18 +41,9 @@ public slots:
     void slotPause() { setPixmap(m_pausePix); }
     void slotStop();
 
-signals:
-    void signalPlay();
-    void signalStop();
-    void signalPause();
-    void signalForward();
-    void signalBack();
-
 private:
     void createPopup(const QString &songName, bool addButtons = true);
 
-    QTimer *m_blinkTimer;
-    bool m_blinkStatus;
     QPixmap m_playPix;
     QPixmap m_pausePix;
     QPixmap m_currentPix;
@@ -58,9 +51,16 @@ private:
     QPixmap m_forwardPix;
     QPixmap m_appPix;
 
-    KMainWindow *m_parent;
     KPassivePopup *m_popup;
     QLabel *m_currentLabel;
+
+    KActionCollection *m_actionCollection;
+    KAction *m_playAction;
+    KAction *m_pauseAction;
+    KAction *m_stopAction;
+    KAction *m_backAction;
+    KAction *m_forwardAction;
+    KToggleAction *m_togglePopupsAction;
 };
 
 #endif // SYSTEMTRAY_H

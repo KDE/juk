@@ -180,12 +180,6 @@ void JuK::setupSystemTray()
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
 	m_systemTray = new SystemTray(this, "systemTray");
 	m_systemTray->show();
-	
-	connect(m_systemTray, SIGNAL(signalPlay()),    this, SLOT(slotPlay()));
-	connect(m_systemTray, SIGNAL(signalStop()),    this, SLOT(slotStop()));
-	connect(m_systemTray, SIGNAL(signalPause()),   this, SLOT(slotPause()));
-	connect(m_systemTray, SIGNAL(signalBack()),    this, SLOT(slotBack()));
-	connect(m_systemTray, SIGNAL(signalForward()), this, SLOT(slotForward()));
 
 	connect(this, SIGNAL(signalNewSong(const QString&)), m_systemTray, SLOT(slotNewSong(const QString&)));
 	
@@ -246,6 +240,7 @@ void JuK::setupGlobalAccels()
     KeyDialog::insert(m_accel, "VolumeUp",   i18n("Volume Up"),    this, SLOT(slotVolumeUp()));
     KeyDialog::insert(m_accel, "VolumeDown", i18n("Volume Down"),  this, SLOT(slotVolumeDown()));
     KeyDialog::insert(m_accel, "Mute",       i18n("Mute"),         this, SLOT(slotVolumeMute()));
+
     m_accel->setConfigGroup("Shortcuts");
     m_accel->readSettings();
     m_accel->updateConnections();
