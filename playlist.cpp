@@ -763,6 +763,9 @@ void Playlist::slotWeightDirty(int column)
 
 void Playlist::slotShowPlaying()
 {
+    if(!m_playingItem)
+	return;
+
     Playlist *l = m_playingItem->playlist();
 
     l->clearSelection();
