@@ -114,10 +114,22 @@ public:
 
     void newItems(const KFileItemList &list) const;
 
+    /**
+     * This is the current playlist in all things relating to the player.  It
+     * represents the playlist that either should be played from or is currently
+     * playing.
+     */
+    virtual Playlist *currentPlaylist() const;
+
+    /**
+     * This is the currently visible playlist and should be used for all user
+     * interaction elements.
+     */
+    virtual Playlist *visiblePlaylist() const;
+
     class ActionHandler;
 
 protected:
-    virtual Playlist *currentPlaylist() const;
     virtual QWidgetStack *playlistStack() const;
     virtual void raise(Playlist *playlist);
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);

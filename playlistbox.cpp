@@ -216,19 +216,6 @@ void PlaylistBox::paste()
 // PlaylistBox protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Playlist *PlaylistBox::currentPlaylist() const
-{
-    if(m_dynamicPlaylist)
-	return m_dynamicPlaylist;
-
-    if(Playlist::playingItem())
-	return Playlist::playingItem()->playlist();
-    else if(currentItem() && static_cast<Item *>(currentItem())->playlist())
-	return static_cast<Item *>(currentItem())->playlist();
-    else
-	return PlaylistCollection::currentPlaylist();
-}
-
 void PlaylistBox::slotFreezePlaylists()
 {
     setCanDeletePlaylist(false);
@@ -368,14 +355,6 @@ void PlaylistBox::setCanDeletePlaylist(bool canDelete)
 
     if(treeView)
 	treeView->slotCanDeletePlaylist(canDelete);
-}
-
-Playlist *PlaylistBox::visiblePlaylist() const
-{
-    if(m_dynamicPlaylist)
-	return m_dynamicPlaylist;
-
-    return selectedItems().front()->playlist();
 }
 
 void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
