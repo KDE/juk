@@ -211,6 +211,8 @@ void PlaylistCollection::open(const QStringList &l)
     }
     else
         currentPlaylist()->addFiles(files, m_importPlaylists);
+
+    dataChanged();
 }
 
 void PlaylistCollection::open(const QString &playlist, const QStringList &files)
