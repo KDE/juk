@@ -262,7 +262,8 @@ private:
     Playlist *openPlaylist(const QString &file);
 
     void setupColumns(Playlist *p);
-    
+    QString play(PlaylistItem *item);    
+
 private slots:
     void changePlaylist(PlaylistBoxItem *item);
     void playlistCountChanged(Playlist *p);

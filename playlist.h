@@ -131,6 +131,8 @@ public:
 
     KActionMenu *columnVisibleAction() const { return _columnVisibleAction; }
 
+    void setPlaying(PlaylistItem *item, bool playing = true);
+
 public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
@@ -186,7 +188,6 @@ signals:
 
 private:
     void setup();
-    QPtrStack<PlaylistItem> history;
 
 private slots:
     void emitSelected() {  emit(selectionChanged(selectedItems())); }
@@ -194,12 +195,15 @@ private slots:
     void showRMBMenu(QListViewItem *item, const QPoint &point, int column);
     void applyTags(QListViewItem *item, const QString &text, int column);
     void renameTag();
+    void columnOrderChanged(int, int from, int to);
+    int leftMostVisibleColumn() const;
 
 private:
     int currentColumn;
     SortedStringList members;
     int processed;
     bool allowDuplicates;
+    QPtrStack<PlaylistItem> history;
 
     QString playlistFileName;
 
@@ -217,6 +221,9 @@ private:
 
     int rmbPasteID;
     int rmbEditID;
+
+    PlaylistItem *playingItem;
+    int leftColumn;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);

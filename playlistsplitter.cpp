@@ -98,9 +98,9 @@ QString PlaylistSplitter::playNextFile(bool random)
     PlaylistItem *i;
 
     if(playingItem) {
-	playingItem->setPixmap(0, 0);
-
 	p = static_cast<Playlist *>(playingItem->listView());
+	p->setPlaying(playingItem, false);
+
 	i = p->nextItem(playingItem, random);
     }
     else {
@@ -114,7 +114,8 @@ QString PlaylistSplitter::playNextFile(bool random)
     }
 
     if(i) {
-	i->setPixmap(0, QPixmap(UserIcon("playing")));
+	p = static_cast<Playlist *>(i->listView());
+	p->setPlaying(i, true);
 	playingItem = i;
 	return i->absFilePath();
     }
@@ -128,8 +129,8 @@ QString PlaylistSplitter::playPreviousFile(bool random)
 	Playlist *p = static_cast<Playlist *>(playingItem->listView());
 	PlaylistItem *i = p->previousItem(playingItem, random);
 
-	playingItem->setPixmap(0, 0);
-	i->setPixmap(0, QPixmap(UserIcon("playing")));
+	p->setPlaying(playingItem, false);
+	p->setPlaying(i, true);
 	
 	playingItem = i;
 	return i->absFilePath();
@@ -144,9 +145,10 @@ QString PlaylistSplitter::playSelectedFile()
 
     PlaylistItemList items = playlistSelection();
 
-    if(!items.isEmpty()) {
+    if(!items.isEmpty() && items.first()) {
 	PlaylistItem *i = items.first();
-	i->setPixmap(0, QPixmap(UserIcon("playing")));
+	Playlist *p = static_cast<Playlist *>(i->listView());
+	p->setPlaying(i, true);
 	
 	playingItem = i;
 	return i->absFilePath();
@@ -163,8 +165,7 @@ QString PlaylistSplitter::playFirstFile()
     PlaylistItem *i = static_cast<PlaylistItem *>(p->firstChild());
 
     if(i) {
-	i->setPixmap(0, QPixmap(UserIcon("playing")));
-	i->setPixmap(0, QPixmap(UserIcon("playing")));
+	p->setPlaying(i, true);
 	playingItem = i;
 
 	return i->absFilePath();
@@ -175,10 +176,13 @@ QString PlaylistSplitter::playFirstFile()
 
 void PlaylistSplitter::stop()
 {
-    if(playingItem) {
-	playingItem->setPixmap(0, 0);
-	playingItem = 0;
-    }
+    if(!playingItem)
+        return;
+
+    Playlist *p = static_cast<Playlist *>(playingItem->listView());
+
+    p->setPlaying(playingItem, false);
+    playingItem = 0;
 }
 
 QString PlaylistSplitter::playingArtist() const
@@ -591,6 +595,22 @@ void PlaylistSplitter::setupColumns(Playlist *p)
 	else if(! m_visibleColumns[i] && p->isColumnVisible(i))
 	    p->hideColumn(i);
     }
+}
+
+QString PlaylistSplitter::play(PlaylistItem *item)
+{
+    stop();
+
+    if(!item)
+        return QString::null;
+
+    Playlist *p = static_cast<Playlist *>(item->listView());
+
+    p->setPlaying(item, true);
+
+    playingItem = item;
+
+    return item->absFilePath();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

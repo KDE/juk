@@ -51,16 +51,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1()), 
-										playlistName(name), 
-										splitter(s), 
-										boxItem(0)
+										playlistName(name), splitter(s), boxItem(0), 
+										playingItem(0), leftColumn(0)
 {
     setup();
 }
 
 Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name), 
 													    playlistFileName(playlistFile.absFilePath()),
-													    splitter(s)
+													    splitter(s), playingItem(0), leftColumn(0)
 													    
 {
     setup();
@@ -421,6 +420,14 @@ void Playlist::hideColumn(int c)
     setColumnWidth(c, 0);
     setResizeMode(QListView::LastColumn);
     triggerUpdate();
+
+    if(c == leftColumn) {
+	if(playingItem) {
+	    playingItem->setPixmap(leftColumn, QPixmap(0, 0));
+	    playingItem->setPixmap(leftMostVisibleColumn(), QPixmap(UserIcon("playing")));
+	}
+	leftColumn = leftMostVisibleColumn();
+    }
 }
 
 void Playlist::showColumn(int c)
@@ -436,14 +443,19 @@ void Playlist::showColumn(int c)
     
     setColumnWidth(c, w);
     triggerUpdate();
+
+    if(c == leftMostVisibleColumn()) {
+	if(playingItem) {
+	    playingItem->setPixmap(leftColumn, QPixmap(0, 0));
+	    playingItem->setPixmap(leftMostVisibleColumn(), QPixmap(UserIcon("playing")));
+	}
+	leftColumn = leftMostVisibleColumn();
+    }
 }
 
 bool Playlist::isColumnVisible(int c) const
 {
-    if(columnWidth(c) != 0)
-	return true;
-    else
-	return false;
+    return columnWidth(c) != 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -532,6 +544,20 @@ void Playlist::setup()
 
     setAcceptDrops(true);
     allowDuplicates = false;
+
+    connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(columnOrderChanged(int, int, int)));
+}
+
+void Playlist::setPlaying(PlaylistItem *item, bool playing)
+{
+    if(playing) {
+	playingItem = item;
+	item->setPixmap(leftColumn, QPixmap(UserIcon("playing")));
+    }
+    else {
+	playingItem = 0;
+	item->setPixmap(leftColumn, QPixmap(0, 0));
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -629,6 +655,28 @@ void Playlist::applyTags(QListViewItem *item, const QString &text, int column)
 
     i->tag()->save();
     i->refresh();
+}
+
+void Playlist::columnOrderChanged(int, int from, int to)
+{
+    // kdDebug() << /* "section: " << section << */ " from: " << from << " to: " << to << endl;
+    
+    if(from == 0 || to == 0) {
+	if(playingItem) {
+	    playingItem->setPixmap(leftColumn, QPixmap(0, 0));
+	    playingItem->setPixmap(leftMostVisibleColumn(), QPixmap(UserIcon("playing")));
+	}
+	leftColumn = leftMostVisibleColumn();
+    }
+}
+
+int Playlist::leftMostVisibleColumn() const
+{
+    int i = 0;
+    while(!isColumnVisible(header()->mapToSection(i)) && i < PlaylistItem::lastColumn())
+	i++;
+    
+    return header()->mapToSection(i);
 }
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p)

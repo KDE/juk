@@ -47,6 +47,8 @@ public:
 
     Tag *tag() const;
 
+    static int lastColumn() { return FileNameColumn; }
+
     void setFile(const QString &file);
 
     // These are just forwarding methods to PlaylistItem::Data, a QFileInfo 
