@@ -130,7 +130,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 
         QLabel *trackPositionLabel = new QLabel(base);
         trackPositionLabel->setName("kde toolbar widget");
-        trackPositionLabel->setPixmap(SmallIcon("juk_time"));
+        trackPositionLabel->setPixmap(SmallIcon("player_time"));
         QToolTip::add(trackPositionLabel, i18n("Track position"));
         m_layout->addWidget(trackPositionLabel);
 
@@ -145,7 +145,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 
         QLabel *volumeLabel = new QLabel(base);
         volumeLabel->setName("kde toolbar widget");
-        volumeLabel->setPixmap(SmallIcon("juk_volume"));
+        volumeLabel->setPixmap(SmallIcon("player_volume"));
         QToolTip::add(volumeLabel, i18n("Volume"));
         m_layout->addWidget(volumeLabel);
 
