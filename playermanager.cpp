@@ -44,7 +44,7 @@ enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying =
 // helper functions
 ////////////////////////////////////////////////////////////////////////////////
 
-enum SoundSystem { AkodeBackend = 0, ArtsBackend = 1, GStreamerBackend = 2};
+enum SoundSystem { ArtsBackend = 0, GStreamerBackend = 1, AkodeBackend = 2 };
 
 static Player *createPlayer(int system = ArtsBackend)
 {
