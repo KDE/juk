@@ -101,7 +101,7 @@ StatusLabel::~StatusLabel()
 
 void StatusLabel::updateCurrent()
 {
-    //kdDebug(65432) << k_funcinfo << endl;
+    kdDebug(65432) << k_funcinfo << endl;
 
     // Use a hack to always show the currently playing playlist in the status
     // bar.  We can't change PlaylistBox::currentPlaylist() to do this as that
@@ -126,7 +126,7 @@ void StatusLabel::updateCurrent()
 
 void StatusLabel::updateData()
 {
-    //kdDebug(65432) << k_funcinfo << endl;
+    kdDebug(65432) << k_funcinfo << endl;
 
     if(!playlist()->playing()) {
         setItemTotalTime(0);
@@ -151,7 +151,7 @@ void StatusLabel::updateData()
         m_playlistLabel->setText(playlist()->name());
         m_trackLabel->setText(i18n("1 item", "%n items", playlist()->count()) + " - " + time);
     }
-    else
+    else if(Playlist::playingItem())
         updateCurrent();
 }
 
