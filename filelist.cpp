@@ -31,11 +31,13 @@
 
 FileList::FileList(QWidget *parent, const char *name) : KListView(parent, name)
 {
+  processed = 0;
   setup();
 }
 
 FileList::FileList(QString item, QWidget *parent, const char *name) : KListView(parent, name)
 {
+  processed = 0;
   setup();
   append(item);
 }
@@ -114,6 +116,7 @@ void FileList::setup()
 
 void FileList::appendImpl(QString item)
 {
+  processEvents();
   QFileInfo *file = new QFileInfo(QDir::cleanDirPath(item));
   if(file->exists()) {
     if(file->isDir()) {
@@ -136,4 +139,15 @@ void FileList::appendImpl(QString item)
     }
   }
   delete(file);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private slots
+////////////////////////////////////////////////////////////////////////////////
+
+void FileList::processEvents()
+{
+  if(processed == 0)
+    qApp->processEvents();
+  processed = ( processed + 1 ) % 10;
 }

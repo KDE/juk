@@ -26,6 +26,7 @@
 
 class FileList : public KListView
 {
+  Q_OBJECT
 public: 
   FileList(QWidget *parent = 0, const char *name = 0);
   FileList(QString item, QWidget *parent = 0, const char *name = 0);
@@ -45,6 +46,8 @@ private:
   
   QStringList extensions;
   QStringList members;
+  void processEvents();
+  int processed;
 };
 
 #endif
