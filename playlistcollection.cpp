@@ -183,7 +183,7 @@ void PlaylistCollection::remove()
 void PlaylistCollection::reload()
 {
     if(currentPlaylist() == CollectionList::instance())
-    { /* slotScanDirectories(); */ }
+	CollectionList::instance()->addFiles(m_folderList, m_importPlaylists);
     else
 	currentPlaylist()->slotReload();
 
