@@ -244,13 +244,12 @@ void PlaylistCollection::addFolder()
             m_folderList.remove(*it);
         }
 
+        m_importPlaylists = result.addPlaylists;
 
         if(result.addPlaylists && !m_importPlaylists)
             open(m_folderList);
         else if(!result.addedDirs.isEmpty())
             open(result.addedDirs);
-
-        m_importPlaylists = result.addPlaylists;
     }
 }
 
