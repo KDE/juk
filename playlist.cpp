@@ -874,7 +874,7 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *after)
 
     QStringList fileList;
 
-    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
+    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
 	fileList.append((*it).path());
 
     addFiles(fileList, m_collection->importPlaylists(), after);
