@@ -714,7 +714,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
         }
     }
 
-    if(ConfirmationDialog(map).exec() != QDialog::Accepted)
+    if(itemMap.isEmpty() || ConfirmationDialog(map).exec() != QDialog::Accepted)
         return;
 
     KApplication::setOverrideCursor(Qt::waitCursor);
