@@ -39,13 +39,13 @@ Tag *Tag::createTag(const QString &file, bool ignoreCache)
 	cachedItem = 0;
 
     if(cachedItem)
-	return(cachedItem);
+	return cachedItem;
     else if(file.lower().endsWith("mp3"))
 	return new ID3Tag(file);
     if(file.lower().endsWith("ogg"))
 	return new OggTag(file);
     else
-	return(0);
+	return 0;
 }
 
 Tag::~Tag()
@@ -65,17 +65,17 @@ Tag::Tag(const QString &file) : info(file), fileName(file)
 QString Tag::readBitrate(const KFileMetaInfo &metaInfo)
 {
     if(metaInfo.isValid() && !metaInfo.isEmpty())
-	return(metaInfo.item("Bitrate").string().stripWhiteSpace().section(' ', 0, 0));
+	return metaInfo.item("Bitrate").string().stripWhiteSpace().section(' ', 0, 0);
     else
-	return(QString::null);
+	return QString::null;
 }
 
 QString Tag::readLength(const KFileMetaInfo &metaInfo)
 {
     if(metaInfo.isValid() && !metaInfo.isEmpty())
-	return(metaInfo.item("Length").string().stripWhiteSpace().replace(QRegExp("^0+"), QString::null));
+	return metaInfo.item("Length").string().stripWhiteSpace().replace(QRegExp("^0+"), QString::null);
     else
-	return(QString::null);
+	return QString::null;
 }
 
 int Tag::readSeconds(const KFileMetaInfo &metaInfo)
@@ -87,7 +87,7 @@ int Tag::readSeconds(const KFileMetaInfo &metaInfo)
     for(QStringList::Iterator it = l.begin(); it != l.end(); ++it)
 	total = 60 * total + (*it).toInt();
     
-    return(total);
+    return total;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -115,5 +115,5 @@ QDataStream &operator<<(QDataStream &s, const Tag &t)
       << t.absFilePath()
       << t.lastModified();
 
-    return(s);
+    return s;
 }

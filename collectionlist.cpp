@@ -33,7 +33,7 @@ CollectionList *CollectionList::list = 0;
 
 CollectionList *CollectionList::instance()
 {
-    return(list);
+    return list;
 }
 
 void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent, bool restoreOnLoad)
@@ -51,26 +51,26 @@ void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent, bool resto
 
 QStringList CollectionList::artists() const
 {
-    return(artistList.values());
+    return artistList.values();
 }
 
 QStringList CollectionList::albums() const
 {
-    return(albumList.values());
+    return albumList.values();
 }
 
 CollectionListItem *CollectionList::lookup(const QString &file)
 {
-    return(itemsDict.find(file));
+    return itemsDict.find(file);
 }
 
 PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 {
     QString path = file.absFilePath();
     if(itemsDict.find(path))
-	return(0);
+	return 0;
 
-    return(new CollectionListItem(file, path));
+    return new CollectionListItem(file, path);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -40,7 +40,7 @@ GenreList GenreListList::ID3v1List()
         ID3v1->load(locate("data", "juk/id3v1.genreml"));
 	ID3v1->setReadOnly(true);
     }
-    return(*ID3v1);
+    return *ID3v1;
 }
 
 GenreListList GenreListList::lists()
@@ -59,7 +59,7 @@ GenreListList GenreListList::lists()
 	    l.append(genreList);
     }
 
-    return(l);
+    return l;
 }
 
 // private

@@ -38,34 +38,34 @@ void PlaylistItem::setFile(const QString &file)
 
 Tag *PlaylistItem::tag() const
 {
-    return(data->tag());
+    return data->tag();
 }
 
 // some forwarding methods
 
 QString PlaylistItem::fileName() const
 { 
-    return(data->fileName()); 
+    return data->fileName(); 
 }
 
 QString PlaylistItem::filePath() const
 {
-    return(data->filePath());
+    return data->filePath();
 }
 
 QString PlaylistItem::absFilePath() const
 {
-    return(data->absFilePath());
+    return data->absFilePath();
 }
 
 QString PlaylistItem::dirPath(bool absPath) const
 {
-    return(data->dirPath(absPath));
+    return data->dirPath(absPath);
 }
 
 bool PlaylistItem::isWritable() const 
 {
-    return(data->isWritable());
+    return data->isWritable();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -106,7 +106,7 @@ PlaylistItem::PlaylistItem(Playlist *parent) : QObject(parent), KListViewItem(pa
 
 PlaylistItem::Data *PlaylistItem::getData()
 {
-    return(data);
+    return data;
 }
 
 void PlaylistItem::setData(Data *d)
@@ -154,7 +154,7 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
     // reimplemented from QListViewItem
 
     if(!item)
-	return(0);
+	return 0;
 
     PlaylistItem *playlistItem = static_cast<PlaylistItem *>(item);
 
@@ -166,7 +166,7 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
     int c = compare(this, playlistItem, column, ascending);
 
     if(c != 0)
-	return(c);
+	return c;
     else {
 
 	// Loop through the columns doing comparisons until something is differnt.
@@ -175,9 +175,9 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 	for(int i = ArtistColumn; i <= TrackNumberColumn; i++) {
 	    c = compare(this, playlistItem, i, ascending);
 	    if(c != 0)
-		return(c);
+		return c;
 	}
-	return(compare(this, playlistItem, TrackColumn, ascending));
+	return compare(this, playlistItem, TrackColumn, ascending);
     }
 }
 
@@ -192,7 +192,7 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
     static int previousResult = 0;
 
     if(firstItem == previousFirstItem && secondItem == previousSecondItem && column == previousColumn)
-	return(previousResult);
+	return previousResult;
 
     previousFirstItem = firstItem;
     previousSecondItem = secondItem;
@@ -201,34 +201,34 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
     if(column == TrackNumberColumn) {
         if(firstItem->tag()->trackNumber() > secondItem->tag()->trackNumber()) {
 	    previousResult = 1;
-            return(1);
+            return 1;
 	}
         else if(firstItem->tag()->trackNumber() < secondItem->tag()->trackNumber()) {
 	    previousResult = -1;
-            return(-1);
+            return -1;
 	}
         else {
 	    previousResult = 0;
-            return(0);
+            return 0;
 	}
     }
     else if(column == LengthColumn) {
         if(firstItem->tag()->seconds() > secondItem->tag()->seconds()) {
 	    previousResult = 1;
-            return(1);
+            return 1;
 	}
         else if(firstItem->tag()->seconds() < secondItem->tag()->seconds()) {
 	    previousResult = -1;
-            return(-1);
+            return -1;
 	}
         else {
 	    previousResult = 0;
-            return(0);
+            return 0;
 	}
     }
     else {
 	previousResult = firstItem->key(column, ascending).lower().localeAwareCompare(secondItem->key(column, ascending).lower());
-        return(previousResult);
+        return previousResult;
     }
 }
 
@@ -244,7 +244,7 @@ PlaylistItem::Data *PlaylistItem::Data::newUser(const QFileInfo &file, const QSt
 PlaylistItem::Data *PlaylistItem::Data::newUser()
 {
     referenceCount++;
-    return(this);
+    return this;
 }
 
 void PlaylistItem::Data::refresh()
@@ -265,7 +265,7 @@ void PlaylistItem::Data::deleteUser()
 
 Tag *PlaylistItem::Data::tag() const
 {
-    return(dataTag);
+    return dataTag;
 }
 
 void PlaylistItem::Data::setFile(const QString &file)

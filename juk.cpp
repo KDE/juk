@@ -302,7 +302,7 @@ bool JuK::queryClose()
     Cache::instance()->save();
     saveConfig();
     delete(splitter);
-    return(true);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -47,9 +47,9 @@ void OggTag::save()
 bool OggTag::hasTag() const
 {
     if(metaInfo.isValid() && !metaInfo.isEmpty())
-	return(true);
+	return true;
     else
-	return(false);
+	return false;
 }
 
 QString OggTag::track() const
@@ -59,7 +59,7 @@ QString OggTag::track() const
     if(s.stripWhiteSpace().isEmpty())
 	s = fileInfo.baseName();
 
-    return(s);
+    return s;
 }
 
 QString OggTag::artist() const
@@ -94,18 +94,18 @@ int OggTag::year() const
     QDateTime d = QDateTime::fromString(readCommentString("Date"), Qt::ISODate);
 
     if(d.isValid())
-	return(d.date().year());
+	return d.date().year();
     else
-	return(0);
+	return 0;
 }
 
 QString OggTag::yearString() const
 {
     QDateTime d = QDate::fromString(readCommentString("Date"), Qt::ISODate);
     if(d.isValid())
-	return(QString::number(d.date().year()));
+	return QString::number(d.date().year());
     else
-	return(QString::null);
+	return QString::null;
 }
 
 QString OggTag::comment() const
@@ -178,9 +178,9 @@ QString OggTag::readCommentString(const QString &key) const
        commentGroup.contains(key))
 	// I'm throwing in the stripWhiteSpace() here, because the IOSlave/KFMI
 	// stuff seems to be padding fields arbitrarily. 
-	return(commentGroup.item(key).string().stripWhiteSpace());
+	return commentGroup.item(key).string().stripWhiteSpace();
     else
-	return(QString::null);
+	return QString::null;
 }
 
 int OggTag::readCommentInt(const QString &key) const
@@ -191,12 +191,12 @@ int OggTag::readCommentInt(const QString &key) const
 	bool ok;
 	int value = commentGroup.item(key).value().toInt(&ok);
 	if(ok)
-	    return(value);
+	    return value;
 	else
-	    return(-1);
+	    return -1;
     }
     else
-	return(-1);
+	return -1;
 }
 
 void OggTag::writeCommentItem(const QString &key, const QString &value)

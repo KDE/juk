@@ -158,7 +158,7 @@ void StatusLabel::updateTime()
 bool StatusLabel::eventFilter(QObject *o, QEvent *e)
 {
     if(!o || !e)
-	return(false);
+	return false;
     
     QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
     if(mouseEvent && mouseEvent->state() == LeftButton) {
@@ -170,9 +170,9 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
 	else
 	    emit(jumpButtonClicked());
 
-	return(true);
+	return true;
     }
-    return(false);
+    return false;
 }
 
 QString StatusLabel::formatTime(int minutes, int seconds) // static
@@ -183,7 +183,7 @@ QString StatusLabel::formatTime(int minutes, int seconds) // static
     QString s = QString::number(seconds);
     if(s.length() == 1)
 	s = "0" + s;
-    return(m + ":" + s);
+    return m + ":" + s;
 }
 
 #include "statuslabel.moc"

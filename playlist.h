@@ -98,9 +98,9 @@ public:
      * Internal files are files which have not been saved by the user, but rather
      * are stored in JuK's data directory and are restored by session management.
      */
-    bool isInternalFile() const { return(internalFile); }
+    bool isInternalFile() const { return internalFile; }
     void setInternal(bool internal) { internalFile = internal; }
-    QString fileName() const { return(playlistFileName); }
+    QString fileName() const { return playlistFileName; }
     void setFileName(const QString &n) { playlistFileName = n; }
 
     /**
@@ -115,10 +115,10 @@ public:
      */ 
     void setName(const QString &n);
 
-    PlaylistBoxItem *playlistBoxItem() const { return(boxItem); }
+    PlaylistBoxItem *playlistBoxItem() const { return boxItem; }
     void setPlaylistBoxItem(PlaylistBoxItem *item) { boxItem = item; }
 
-    int count() const { return(childCount()); }
+    int count() const { return childCount(); }
 
     /** 
      * This gets the next item to be played.  This is static because often we 
@@ -137,7 +137,7 @@ protected:
     virtual QDragObject *dragObject();
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-    PlaylistSplitter *playlistSplitter() const { return(splitter); }
+    PlaylistSplitter *playlistSplitter() const { return splitter; }
 
 signals:
     /** 

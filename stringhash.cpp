@@ -116,7 +116,7 @@ int StringHash::hash(const QString &key) const
     if(index < 0)
 	index = -index;
 
-    return(index % tableSize);
+    return index % tableSize;
 }
 
 void StringHash::deleteNode(Node *n)

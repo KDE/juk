@@ -75,10 +75,10 @@ public:
     // These functions are inlined because they are used on startup -- the most
     // performance critical section of JuK.
 
-    inline QString absFilePath() const { return(fileName); }
-    inline QDateTime lastModified() const { return(info.lastModified()); }
-    inline bool fileExists() const { return(info.exists() && info.isFile()); }
-    inline QFileInfo fileInfo() const { return(info); }
+    inline QString absFilePath() const { return fileName; }
+    inline QDateTime lastModified() const { return info.lastModified(); }
+    inline bool fileExists() const { return info.exists() && info.isFile(); }
+    inline QFileInfo fileInfo() const { return info; }
     
 protected:
     /**

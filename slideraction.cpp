@@ -74,7 +74,7 @@ QSlider *SliderAction::getTrackPositionSlider() const
     if(trackPositionSlider)
         return (trackPositionSlider);
     else
-        return(0);
+        return 0;
 }
 
 QSlider *SliderAction::getVolumeSlider() const
@@ -82,7 +82,7 @@ QSlider *SliderAction::getVolumeSlider() const
     if(volumeSlider)
         return (volumeSlider);
     else
-        return(0);
+        return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -140,10 +140,10 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 
         connect(parent, SIGNAL(modechange()), this, SLOT(updateLabels()));
         connect(parent, SIGNAL(modechange()), this, SLOT(updateSize()));
-        return(base);
+        return base;
     }
     else
-        return(0);
+        return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -55,9 +55,9 @@ void GenreList::load(const QString &file)
 QString GenreList::ID3v1Name(int ID3v1)
 {
     if(hasIndex && ID3v1 >= 0 && ID3v1 < int(index.size()))
-        return(index[ID3v1]);
+        return index[ID3v1];
     else
-        return(QString::null);
+        return QString::null;
 }
 
 int GenreList::findIndex(const QString &item)
@@ -72,23 +72,23 @@ int GenreList::findIndex(const QString &item)
     // a cache hit
 
     if(!lastItem.isEmpty() && lastItem == item)
-        return(lastIndex);
+        return lastIndex;
 
     int i = 0;
     for(GenreList::Iterator it = begin(); it != end(); ++it) {
         if(item == (*it)) {
             lastItem = item;
             lastIndex = i;
-            return(i);
+            return i;
         }
         i++;
     }
-    return(-1);
+    return -1;
 }
 
 QString GenreList::name() const
 {
-    return(listName);
+    return listName;
 }
 
 void GenreList::setName(const QString &n)

@@ -102,7 +102,7 @@ private:
 #if QT_VERSION < 0x031000
 public:
     // This method is defined in Qt 3.1 and later.
-    QListBoxItem *selectedItem() { return(item(currentItem())); }
+    QListBoxItem *selectedItem() { return item(currentItem()); }
 #endif
 };
 

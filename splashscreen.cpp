@@ -38,7 +38,7 @@ SplashScreen *SplashScreen::instance()
 {
     if(!splash && !done)
 	splash = new SplashScreen();
-    return(splash);
+    return splash;
 }
 
 void SplashScreen::finishedLoading()

@@ -200,7 +200,7 @@ QStringList Playlist::files() const
     for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
 	list.append(i->absFilePath());
 
-    return(list);
+    return list;
 }
 
 PlaylistItemList Playlist::items() const
@@ -209,7 +209,7 @@ PlaylistItemList Playlist::items() const
     for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
 	list.append(i);
 
-    return(list);
+    return list;
 }
 
 PlaylistItemList Playlist::selectedItems() const
@@ -219,7 +219,7 @@ PlaylistItemList Playlist::selectedItems() const
         if(i->isSelected())
             list.append(i);
     
-    return(list);
+    return list;
 }
 
 void Playlist::remove(const PlaylistItemList &items)
@@ -255,7 +255,7 @@ void Playlist::remove(const PlaylistItemList &items)
 PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 {
     if(!current)
-	return(0);
+	return 0;
 
     PlaylistItem *i;
 
@@ -274,26 +274,26 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
     else
 	i = static_cast<PlaylistItem *>(current->itemBelow());	
 
-    return(i);
+    return i;
 }
 
 PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
 {
     if(!current)
-	return(0);
+	return 0;
 
     if(random && !history.isEmpty())
-	return(history.pop());
+	return history.pop();
     else
-	return(static_cast<PlaylistItem *>(current->itemAbove()));
+	return static_cast<PlaylistItem *>(current->itemAbove());
 }
 
 QString Playlist::name() const
 {
     if(playlistName == QString::null)
-	return(playlistFileName.section(QDir::separator(), -1).section('.', 0, -2));
+	return playlistFileName.section(QDir::separator(), -1).section('.', 0, -2);
     else
-	return(playlistName);
+	return playlistName;
 }
 
 void Playlist::setName(const QString &n)
@@ -319,7 +319,7 @@ QDragObject *Playlist::dragObject()
     KURLDrag *drag = new KURLDrag(urls, this, "Playlist Items");
     drag->setPixmap(SmallIcon("sound"));
 
-    return(drag);
+    return drag;
 }
 
 void Playlist::contentsDropEvent(QDropEvent *e)
@@ -379,10 +379,10 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 	else
 	    i = new PlaylistItem(item, this);
 	emit(numberOfItemsChanged(this));
-	return(i);
+	return i;
     }
     else
-	return(0);
+	return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -33,7 +33,7 @@ Cache *Cache::instance()
 	cache = new Cache();
 	cache->load();
     }
-    return(cache);
+    return cache;
 }
 
 void Cache::save()

@@ -86,7 +86,7 @@ void PlaylistBox::sort()
 
 QStringList PlaylistBox::names() const
 {
-    return(nameList);
+    return nameList;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -368,12 +368,12 @@ PlaylistBoxItem::~PlaylistBoxItem()
 
 Playlist *PlaylistBoxItem::playlist() const
 {
-    return(list);
+    return list;
 }
 
 PlaylistBox *PlaylistBoxItem::listBox() const
 {
-    return(dynamic_cast<PlaylistBox *>(ListBoxPixmap::listBox()));
+    return dynamic_cast<PlaylistBox *>(ListBoxPixmap::listBox());
 }
 
 void PlaylistBoxItem::setName(const QString &name)

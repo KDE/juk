@@ -41,81 +41,81 @@ void CachedTag::save()
 QString CachedTag::track() const
 {
     if(externalTag)
-	return(externalTag->track());
+	return externalTag->track();
     else
-	return(tagTrack);
+	return tagTrack;
 }
 
 QString CachedTag::artist() const
 {
     if(externalTag)
-	return(externalTag->artist());
+	return externalTag->artist();
     else
-	return(tagArtist);
+	return tagArtist;
 }
 
 QString CachedTag::album() const
 {
     if(externalTag)
-	return(externalTag->album());
+	return externalTag->album();
     else
-	return(tagAlbum);
+	return tagAlbum;
 }
 
 Genre CachedTag::genre() const
 {
     if(externalTag)
-	return(externalTag->genre());
+	return externalTag->genre();
     else
-	return(tagGenre);
+	return tagGenre;
 }
 
 int CachedTag::trackNumber() const
 {
     if(externalTag)
-	return(externalTag->trackNumber());
+	return externalTag->trackNumber();
     else
-	return(tagTrackNumber);
+	return tagTrackNumber;
 }
 
 QString CachedTag::trackNumberString() const
 {
     if(externalTag)
-	return(externalTag->trackNumberString());
+	return externalTag->trackNumberString();
     else
-	return(tagTrackNumberString);
+	return tagTrackNumberString;
 }
 
 int CachedTag::year() const
 {
     if(externalTag)
-	return(externalTag->year());
+	return externalTag->year();
     else
-	return(tagYear);
+	return tagYear;
 }
 
 QString CachedTag::yearString() const
 {
     if(externalTag)
-	return(externalTag->yearString());
+	return externalTag->yearString();
     else
-	return(tagYearString);
+	return tagYearString;
 }
 
 QString CachedTag::comment() const
 {
     if(externalTag)
-	return(externalTag->comment());
+	return externalTag->comment();
     else
-	return(tagComment);
+	return tagComment;
 }
 
 bool CachedTag::hasTag() const
 {
     if(externalTag)
-	return(externalTag->hasTag());
+	return externalTag->hasTag();
     else
-	return(tagExists);
+	return tagExists;
 }
 
 void CachedTag::setTrack(const QString &value)
@@ -155,17 +155,17 @@ void CachedTag::setComment(const QString &value)
 
 QString CachedTag::bitrateString() const
 {
-    return(tagBitrateString);
+    return tagBitrateString;
 }
 
 QString CachedTag::lengthString() const
 {
-    return(tagLengthString);
+    return tagLengthString;
 }
 
 int CachedTag::seconds() const
 {
-    return(tagSeconds);
+    return tagSeconds;
 }
 
 bool CachedTag::current() const
@@ -197,7 +197,7 @@ QDataStream &CachedTag::read(QDataStream &s)
       >> fileName
       >> modificationTime;
 
-    return(s);
+    return s;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -211,7 +211,7 @@ Tag *CachedTag::proxiedTag()
 	externalTag = Tag::createTag(absFilePath(), true);
     }
 
-    return(externalTag);
+    return externalTag;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

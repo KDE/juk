@@ -62,7 +62,7 @@ QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool u
 {
     if(!playlistBox)
 
-	return(QString::null);
+	return QString::null;
 
     QStringList names = playlistBox->names();
 
@@ -75,14 +75,14 @@ QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool u
 	while(names.contains(startingWith + " (" + QString::number(playlistNumber) + ")") != 0)
 	    playlistNumber++;
 	
-	return(startingWith + " (" + QString::number(playlistNumber) + ")");	
+	return startingWith + " (" + QString::number(playlistNumber) + ")";	
     }
     else
     {
 	while(names.contains(startingWith + ' ' + QString::number(playlistNumber)) != 0)
 	    playlistNumber++;
 	
-	return(startingWith + " " + QString::number(playlistNumber));
+	return startingWith + " " + QString::number(playlistNumber);
     }
 }
 
@@ -110,10 +110,10 @@ QString PlaylistSplitter::playNextFile(bool random)
     if(i) {
 	i->setPixmap(0, QPixmap(UserIcon("playing")));
 	playingItem = i;
-	return(i->absFilePath());
+	return i->absFilePath();
     }
     else
-	return(QString::null);
+	return QString::null;
 }
 
 QString PlaylistSplitter::playPreviousFile(bool random)
@@ -126,10 +126,10 @@ QString PlaylistSplitter::playPreviousFile(bool random)
 	i->setPixmap(0, QPixmap(UserIcon("playing")));
 	
 	playingItem = i;
-	return(i->absFilePath());
+	return i->absFilePath();
     }
     else
-	return(QString::null);
+	return QString::null;
 }
 
 QString PlaylistSplitter::playSelectedFile()
@@ -143,10 +143,10 @@ QString PlaylistSplitter::playSelectedFile()
 	i->setPixmap(0, QPixmap(UserIcon("playing")));
 	
 	playingItem = i;
-	return(i->absFilePath());
+	return i->absFilePath();
     }
     else
-	return(QString::null);
+	return QString::null;
 }
 
 QString PlaylistSplitter::playFirstFile()
@@ -161,10 +161,10 @@ QString PlaylistSplitter::playFirstFile()
 	i->setPixmap(0, QPixmap(UserIcon("playing")));
 	playingItem = i;
 
-	return(i->absFilePath());
+	return i->absFilePath();
     }
     else
-	return(QString::null);
+	return QString::null;
 }
 
 void PlaylistSplitter::stop()
@@ -178,25 +178,25 @@ void PlaylistSplitter::stop()
 QString PlaylistSplitter::playingArtist() const
 {
     if(playingItem)
-	return(playingItem->text(PlaylistItem::ArtistColumn));
+	return playingItem->text(PlaylistItem::ArtistColumn);
     else
-	return(QString::null);
+	return QString::null;
 }
 
 QString PlaylistSplitter::playingTrack() const
 {
     if(playingItem)
-	return(playingItem->text(PlaylistItem::TrackColumn));
+	return playingItem->text(PlaylistItem::TrackColumn);
     else
-	return(QString::null);
+	return QString::null;
 }
 
 QString PlaylistSplitter::playingList() const
 {
     if(playingItem)
-	return(static_cast<Playlist *>(playingItem->listView())->name());
+	return static_cast<Playlist *>(playingItem->listView())->name();
     else
-	return(QString::null);
+	return QString::null;
 }
 
 void PlaylistSplitter::add(const QString &file, Playlist *list)
@@ -234,7 +234,7 @@ QString PlaylistSplitter::extensionsString(const QStringList &extensions, const 
     if(type != QString::null)
 	s += "|" + type + " (" + l.join(", ") + ")";
 
-    return(s);
+    return s;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -281,16 +281,16 @@ Playlist *PlaylistSplitter::createPlaylist()
     QString name = QInputDialog::getText(i18n("New Playlist..."), i18n("Please enter a name for the new playlist:"),
 					 QLineEdit::Normal, uniquePlaylistName(), &ok);
     if(ok)
-	return(createPlaylist(name));
+	return createPlaylist(name);
     else
-	return(0);
+	return 0;
 }
 
 Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 {
     Playlist *p = new Playlist(this, playlistStack, name.latin1());
     setupPlaylist(p, true);
-    return(p);
+    return p;
 }
 
 
@@ -490,11 +490,11 @@ Playlist *PlaylistSplitter::openPlaylist(const QString &file)
 {
     QFileInfo fileInfo(file);
     if(!fileInfo.exists() || !fileInfo.isFile() || !fileInfo.isReadable() || playlistFiles.insert(fileInfo.absFilePath()))
-	return(0);
+	return 0;
 
     Playlist *p = new Playlist(this, file, playlistStack, fileInfo.baseName(true).latin1());
     setupPlaylist(p);
-    return(p);
+    return p;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

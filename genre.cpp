@@ -41,12 +41,12 @@ Genre &Genre::operator=(const QString &genreName)
 {
     Genre genre(genreName, getID3v1());
     *this = genre;
-    return(*this);
+    return *this;
 }
 
 int Genre::getID3v1() const
 {
-    return(ID3v1);
+    return ID3v1;
 }
 
 void Genre::setID3v1(int ID3v1Number)
@@ -61,7 +61,7 @@ void Genre::setID3v1(int ID3v1Number)
 QDataStream &operator<<(QDataStream &s, const Genre &g)
 {
     s << QString(g) << g.getID3v1();
-    return(s);
+    return s;
 }
 
 QDataStream &operator>>(QDataStream &s, Genre &g)
@@ -74,5 +74,5 @@ QDataStream &operator>>(QDataStream &s, Genre &g)
     g = name;
     g.setID3v1(n);
 
-    return(s);
+    return s;
 }

@@ -61,7 +61,7 @@ public:
     /* This calls the above method with startingWith == i18n("Playlist") to 
      * produce "Playlist 1", "Playlist 2", ...
      */
-    QString uniquePlaylistName() { return(uniquePlaylistName(i18n("Playlist"))); }
+    QString uniquePlaylistName() { return uniquePlaylistName(i18n("Playlist")); }
     
     ////////////////////////////////////////////////////////////////////////////
     // Variations on the theme "play stuff"
@@ -106,17 +106,17 @@ public:
     /**
      * Returns a list of the extensions that are used for playlists.
      */
-    QStringList playlistExtensions() const { return(listExtensions); }
+    QStringList playlistExtensions() const { return listExtensions; }
 
     /**
      * Returns the name of the currently selected playlist.
      */
-    QString selectedPlaylistName() const { return(visiblePlaylist()->name()); }
+    QString selectedPlaylistName() const { return visiblePlaylist()->name(); }
 
     /**
      * Returns the number of items in the currently selected playlist.
      */
-    int selectedPlaylistCount() const { return(visiblePlaylist()->childCount()); }
+    int selectedPlaylistCount() const { return visiblePlaylist()->childCount(); }
 
     /**
      * Add the file to the playlist.
@@ -131,7 +131,7 @@ public:
     /**
      * Returns true if the the collection list is the visible playlist.
      */
-    bool collectionListSelected() const { return(visiblePlaylist() == CollectionList::instance()); }
+    bool collectionListSelected() const { return visiblePlaylist() == CollectionList::instance(); }
 
     /**
      * Open each of \a files, where \a files is a list of playlists and music
@@ -247,14 +247,14 @@ private:
      * Returns a QPtrList of the selected PlaylistItems in the top playlist in 
      * the QWidgetStack of playlists.
      */
-    PlaylistItemList playlistSelection() const { return(visiblePlaylist()->selectedItems()); }
+    PlaylistItemList playlistSelection() const { return visiblePlaylist()->selectedItems(); }
     /**
      * This returns a pointer to the first item in the playlist on the top
      * of the QWidgetStack of playlists.
      */
-    PlaylistItem *playlistFirstItem() const { return(static_cast<PlaylistItem *>(visiblePlaylist()->firstChild())); }
+    PlaylistItem *playlistFirstItem() const { return static_cast<PlaylistItem *>(visiblePlaylist()->firstChild()); }
 
-    Playlist *visiblePlaylist() const { return(static_cast<Playlist *>(playlistStack->visibleWidget())); }
+    Playlist *visiblePlaylist() const { return static_cast<Playlist *>(playlistStack->visibleWidget()); }
 
     void setupLayout();
     void readConfig();

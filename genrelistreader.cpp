@@ -51,7 +51,7 @@ bool GenreListReader::startElement(const QString &, const QString &, const QStri
     else
         ID3v1 = 255;
 
-    return(true);
+    return true;
 };
 
 bool GenreListReader::endElement(const QString &, const QString &, const QString & element)
@@ -59,7 +59,7 @@ bool GenreListReader::endElement(const QString &, const QString &, const QString
     if(element.lower() == "genre")
         inGenreTag = false;
 
-    return(true);
+    return true;
 };
 
 bool GenreListReader::characters(const QString &content)
@@ -67,5 +67,5 @@ bool GenreListReader::characters(const QString &content)
     if(inGenreTag)
         list->append(Genre(content, ID3v1));
 
-    return(true);
+    return true;
 };

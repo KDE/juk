@@ -168,52 +168,52 @@ void ID3Tag::save()
 
 bool ID3Tag::hasTag() const
 { 
-    return(tagExists);
+    return tagExists;
 }
 
 QString ID3Tag::track() const  // The song's name, not it's track number
 { 
-    return(tagTrack); 
+    return tagTrack; 
 }              
 
 QString ID3Tag::artist() const 
 { 
-    return(tagArtist);
+    return tagArtist;
 }
 
 QString ID3Tag::album() const
 { 
-    return(tagAlbum);
+    return tagAlbum;
 }
 
 Genre ID3Tag::genre() const 
 { 
-    return(tagGenre);
+    return tagGenre;
 }
 
 int ID3Tag::trackNumber() const 
 { 
-    return(tagTrackNumber);
+    return tagTrackNumber;
 }
 
 QString ID3Tag::trackNumberString() const
 { 
-    return(tagTrackNumberString);
+    return tagTrackNumberString;
 }
 
 int ID3Tag::year() const
 { 
-    return(tagYear);
+    return tagYear;
 }
 
 QString ID3Tag::yearString() const
 { 
-    return(tagYearString);
+    return tagYearString;
 }
 
 QString ID3Tag::comment() const
 { 
-    return(tagComment);
+    return tagComment;
 }
 
 /////////////////////////////////////////////////////
@@ -272,15 +272,15 @@ void ID3Tag::setComment(const QString &value)
 
 QString ID3Tag::bitrateString() const
 {
-    return(readBitrate(metaInfo));
+    return readBitrate(metaInfo);
 }
 
 QString ID3Tag::lengthString() const
 {
-    return(readLength(metaInfo));
+    return readLength(metaInfo);
 }
 
 int ID3Tag::seconds() const
 {
-    return(readSeconds(metaInfo));
+    return readSeconds(metaInfo);
 }

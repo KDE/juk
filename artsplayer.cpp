@@ -116,7 +116,7 @@ void ArtsPlayer::setVolume(float volume)
 
 float ArtsPlayer::getVolume() const
 {
-    return(currentVolume);
+    return currentVolume;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -126,33 +126,33 @@ float ArtsPlayer::getVolume() const
 bool ArtsPlayer::playing() const
 {
     if(serverRunning() && media && media->state() == posPlaying)
-        return(true);
+        return true;
     else
-        return(false);
+        return false;
 }
 
 bool ArtsPlayer::paused() const
 {
     if(serverRunning() && media && media->state() == posPaused)
-        return(true);
+        return true;
     else
-        return(false);
+        return false;
 }
 
 long ArtsPlayer::totalTime() const
 {
     if(serverRunning() && media)
-        return(media->overallTime().seconds);
+        return media->overallTime().seconds;
     else
-        return(-1);
+        return -1;
 }
 
 long ArtsPlayer::currentTime() const
 {
     if(serverRunning() && media && media->state() == posPlaying)
-        return(media->currentTime().seconds);
+        return media->currentTime().seconds;
     else
-        return(-1);
+        return -1;
 }
 
 int ArtsPlayer::position() const
@@ -163,10 +163,10 @@ int ArtsPlayer::position() const
         long total = media->overallTime().seconds * 1000 + media->overallTime().ms;
         long current = media->currentTime().seconds * 1000 + media->currentTime().ms;
         // add .5 to make rounding happen properly
-        return(int(double(current) * 1000 / total + .5));
+        return int(double(current) * 1000 / total + .5);
     }
     else
-        return(-1);
+        return -1;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -231,7 +231,7 @@ void ArtsPlayer::setupVolumeControl()
 bool ArtsPlayer::serverRunning() const
 {
     if(server)
-        return(!(server->isNull()));
+        return !(server->isNull());
     else
-        return(0);
+        return 0;
 }

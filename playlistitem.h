@@ -124,7 +124,7 @@ public:
 
     void setFile(const QString &file);
 
-    QString absFilePath() const { return(absFileName); }
+    QString absFilePath() const { return absFileName; }
 
 protected:
     /**

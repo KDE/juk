@@ -53,10 +53,10 @@ int CustomAction::plug(QWidget *parent, int index)
             return (containerCount() - 1);
         }
 
-        return(-1);
+        return -1;
     }
     else {
-        return(-1);
+        return -1;
     }
 }
 
@@ -82,6 +82,6 @@ void CustomAction::unplug(QWidget *parent)
 
 KToolBar *CustomAction::getToolBar()
 {
-    return(toolbar);
+    return toolbar;
 }
 #include "customaction.moc"
