@@ -21,7 +21,11 @@
 #include <taglib/tag.h>
 #if (TAGLIB_MAJOR_VERSION>1) ||  \
    ((TAGLIB_MAJOR_VERSION==1) && (TAGLIB_MINOR_VERSION>=2))
-#define TAGLIB_12
+#define TAGLIB_1_2
+#endif
+#if (TAGLIB_MAJOR_VERSION>1) ||  \
+   ((TAGLIB_MAJOR_VERSION==1) && (TAGLIB_MINOR_VERSION>=3))
+#define TAGLIB_1_3
 #endif
 
 namespace MediaFiles {
@@ -71,7 +75,7 @@ bool MediaFiles::isMediaFile(const QString &fileName)
     KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
 
     return result->is(mp3Type) || result->is(oggType) || result->is(flacType)
-#ifdef TAGLIB_12
+#ifdef TAGLIB_1_3
                                || result->is(mpcType)
 #endif
     ;
@@ -124,8 +128,11 @@ QStringList MediaFiles::mimeTypes()
     QStringList l;
 
     l << mp3Type << oggType << flacType << m3uType << vorbisType
-#ifdef TAGLIB_12
-    << oggflacType << mpcType
+#ifdef TAGLIB_1_2
+    << oggflacType
+#endif
+#ifdef TAGLIB_1_3
+    << mpcType
 #endif
     ;
     return l;

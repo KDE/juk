@@ -26,14 +26,14 @@
 #include <taglib/id3v2framefactory.h>
 
 #if (TAGLIB_MAJOR_VERSION > 1) || \
+      ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 2))
+#include <taglib/oggflacfile.h>
+#define TAGLIB_1_2
+#endif
+#if (TAGLIB_MAJOR_VERSION > 1) || \
     ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 3))
 #include <taglib/mpcfile.h>
-#include <taglib/oggflacfile.h>
 #define TAGLIB_1_3
-#define TAGLIB_1_2
-#elif (TAGLIB_MAJOR_VERSION > 1) || \
-      ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 2))
-#define TAGLIB_1_2
 #endif
 
 #include "cache.h"
@@ -72,8 +72,9 @@ Tag::Tag(const QString &fileName) :
         if(file.isOpen())
             setup(&file);
     }
+#endif
+#ifdef TAGLIB_1_2
     else if(MediaFiles::isOggFLAC(fileName)) {
-	kdDebug(65432) << "Trying to resolve Ogg/FLAC file" << endl;
         TagLib::Ogg::FLAC::File file(QFile::encodeName(fileName).data());
         if(file.isOpen())
             setup(&file);
@@ -105,6 +106,8 @@ bool Tag::save()
 #ifdef TAGLIB_1_3
     else if(MediaFiles::isMPC(m_fileName))
         file = new TagLib::MPC::File(QFile::encodeName(m_fileName).data());
+#endif
+#ifdef TAGLIB_1_2
     else if(MediaFiles::isOggFLAC(m_fileName))
         file = new TagLib::Ogg::FLAC::File(QFile::encodeName(m_fileName).data());
 #endif
