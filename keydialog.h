@@ -15,8 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef __KEYDIALOG_H__
-#define __KEYDIALOG_H__
+#ifndef KEYDIALOG_H
+#define KEYDIALOG_H
 
 #include <kactioncollection.h>
 #include <kdialogbase.h>
@@ -34,7 +34,7 @@ public:
     /**
      * Constructs a KeyDialog called @p name as a child of @p parent.
      */
-    KeyDialog(KGlobalAccel* keys, KActionCollection* coll, QWidget *parent = 0, const char* name = 0);
+    KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection, QWidget *parent = 0, const char* name = 0);
 
     /**
      * Destructor. Deletes all resources used by a KeyDialog object.
@@ -46,28 +46,43 @@ public:
      * accelerators and actions. It behaves essentially like the functions
      * in KKeyDialog.
      */
-    static int configure(KGlobalAccel* keys, KActionCollection* coll, QWidget* parent = 0);
+    static int configure(KGlobalAccel *keys, KActionCollection *actionCollection, QWidget *parent = 0);
 
     /**
      * This is a member function, provided to create a global accelerator with
      * standard keys. It behaves like the function in KGlobalAccel.
      */
     static void insert(KGlobalAccel *keys, const QString& action, const QString& label,
-		       const QObject* objSlot, const char* methodSlot);
+		       const QObject *objSlot, const char *methodSlot);
+
+private:
+
+    /**
+     * Groups of keys that can be selected in the dialog.
+     */
+    enum KeyGroup { NoKeys = 0, StandardKeys = 1, MultimediaKeys = 2 };
+
+    struct KeyInfo {
+	QString action;
+	KShortcut shortcut[3][2];
+    };
+    
+    void newDialog(KGlobalAccel *keys, KActionCollection *actionCollection, int selectedButton = 0);
+    int configure();
 
 private slots:
     void slotKeys(int group);
     void slotDefault();
 
 private:
-    void newDialog(KGlobalAccel* keys, KActionCollection* coll, int selectedButton = 0);
-    int configure();
-
-    KActionCollection *m_coll;
+    KActionCollection *m_actionCollection;
     KGlobalAccel      *m_keys;
     KKeyChooser       *m_pKeyChooser;
     QHButtonGroup     *m_group;
-    QWidgetStack      *m_widgetstack;
+    QWidgetStack      *m_widgetStack;
+
+    static const KeyInfo keyInfo[];
+    static const uint    keyInfoCount;
 };
 
-#endif // __KEYDIALOG_H__
+#endif // KEYDIALOG_H

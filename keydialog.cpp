@@ -26,14 +26,9 @@
 #include <qvbox.h>
 #include <qwhatsthis.h>
 
-// Groups of keys that can be selected in the dialog
-enum KeyGroup {NoKeys = 0, StandardKeys = 1, MultimediaKeys = 2};
 
 // Table of shortcut keys for each action, key group and three or four button modifier
-static const struct {
-    QString   action;
-    KShortcut shortcut[3][2];
-} keyInfo[] = {
+const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
     {"PlayPause",
       {{KShortcut::null(),                       KShortcut::null()},
        {Qt::CTRL+Qt::ALT+Qt::Key_P,              KKey::QtWIN+Qt::ALT+Qt::Key_P},
@@ -64,11 +59,10 @@ static const struct {
        {Qt::Key_VolumeMute,                      Qt::Key_VolumeMute}}}
 };
 
-#define KEYINFO_COUNT (sizeof(keyInfo) / sizeof(keyInfo[0]))
+const uint KeyDialog::keyInfoCount = sizeof(KeyDialog::KeyInfo) / sizeof(KeyDialog::keyInfo[0]);
 
-
-KeyDialog::KeyDialog(KGlobalAccel* keys, KActionCollection* coll, QWidget *parent, const char* name)
-: KDialogBase( parent, name, true, i18n("Configure Shortcuts"), Default|Ok|Cancel, Ok )
+KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection, QWidget *parent, const char* name)
+    : KDialogBase(parent, name, true, i18n("Configure Shortcuts"), Default | Ok | Cancel, Ok)
 {
     // Read key group from configuration
     int selectedButton;
@@ -81,7 +75,7 @@ KeyDialog::KeyDialog(KGlobalAccel* keys, KActionCollection* coll, QWidget *paren
     // Create widgets for key chooser - widget stack used to replace key chooser
     QVBox *vbox = new QVBox(this);
     vbox->setSpacing(KDialog::spacingHint());
-    m_widgetstack = new QWidgetStack(vbox);
+    m_widgetStack = new QWidgetStack(vbox);
 
     // Create buttons to select key group
     m_group = new QHButtonGroup(i18n("Global shortcuts"), vbox);
@@ -94,23 +88,23 @@ KeyDialog::KeyDialog(KGlobalAccel* keys, KActionCollection* coll, QWidget *paren
 
     // Create the key chooser
     setMainWidget(vbox);
-    newDialog(keys, coll, selectedButton);
+    newDialog(keys, actionCollection, selectedButton);
 }
 
 KeyDialog::~KeyDialog()
 {
 }
 
-void KeyDialog::newDialog(KGlobalAccel* keys, KActionCollection* coll, int selectedButton)
+void KeyDialog::newDialog(KGlobalAccel* keys, KActionCollection* actionCollection, int selectedButton)
 {
     m_keys = keys;
-    m_coll = coll;
+    m_actionCollection = actionCollection;
 
     // Create key chooser and show it in the widget stack
     m_pKeyChooser = new KKeyChooser(keys, this);
-    m_pKeyChooser->insert(coll);
-    m_widgetstack->addWidget(m_pKeyChooser);
-    m_widgetstack->raiseWidget(m_pKeyChooser);
+    m_pKeyChooser->insert(actionCollection);
+    m_widgetStack->addWidget(m_pKeyChooser);
+    m_widgetStack->raiseWidget(m_pKeyChooser);
     m_group->setButton(selectedButton);
 
     connect(this, SIGNAL(defaultClicked()), this, SLOT(slotDefault()));
@@ -137,13 +131,13 @@ void KeyDialog::slotKeys(int group)
     bool fourModKeys = KGlobalAccel::useFourModifierKeys();
 
     // Set modifier keys according to key group and modifier keys
-    for (unsigned int i = 0; i < KEYINFO_COUNT; i++)
+    for (unsigned int i = 0; i < keyInfoCount; i++)
 	m_keys->setShortcut(keyInfo[i].action, keyInfo[i].shortcut[group][fourModKeys]);
 
     // Create a new key chooser to show the keys, and delete the old one
-    QWidget *w = m_widgetstack->visibleWidget();
-    newDialog(m_keys, m_coll, group);
-    m_widgetstack->removeWidget(w);
+    QWidget *w = m_widgetStack->visibleWidget();
+    newDialog(m_keys, m_actionCollection, group);
+    m_widgetStack->removeWidget(w);
     delete w;
 }
 
@@ -154,10 +148,10 @@ void KeyDialog::slotDefault()
     m_pKeyChooser->allDefault();
 }
 
-int KeyDialog::configure(KGlobalAccel* keys, KActionCollection* coll, QWidget* parent)
+int KeyDialog::configure(KGlobalAccel *keys, KActionCollection *actionCollection, QWidget* parent)
 {
     // Create and show dialog - update connections if accepted
-    KeyDialog dlg(keys, coll, parent);
+    KeyDialog dlg(keys, actionCollection, parent);
     int retcode = dlg.configure();
     if (retcode == Accepted)
 	keys->updateConnections();
@@ -171,7 +165,7 @@ void KeyDialog::insert(KGlobalAccel* keys, const QString& action, const QString&
     KShortcut def4 = KShortcut::null();
 
     // Find and insert a standard key
-    for (unsigned int i = 0; i < KEYINFO_COUNT; i++)
+    for (unsigned int i = 0; i < keyInfoCount; i++)
 	if (keyInfo[i].action == action) {
 	    def3 = keyInfo[i].shortcut[StandardKeys][0];
 	    def4 = keyInfo[i].shortcut[StandardKeys][1];
