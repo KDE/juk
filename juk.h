@@ -46,6 +46,8 @@ private:
   void setupActions();
   void setupLayout();
   void setupPlayer();
+  void readConfig();
+  void saveConfig();
 
   // layout objects
   TaggerWidget *tagger;

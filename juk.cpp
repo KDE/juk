@@ -31,10 +31,12 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name)
   setupActions();
   setupLayout();
   setupPlayer();
+  readConfig();
 }
 
 JuK::~JuK()
 {
+  saveConfig();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -105,8 +107,29 @@ void JuK::setupPlayer()
     sliderAction->getTrackPositionSlider()->setEnabled(false);
 
     connect(sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
-    sliderAction->getVolumeSlider()->setValue(sliderAction->getVolumeSlider()->maxValue());
   }
+}
+
+void JuK::readConfig()
+{
+  KConfig *config = KGlobal::config();
+  { // player settings
+    KConfigGroupSaver saver(config, "Player");
+    if(sliderAction && sliderAction->getVolumeSlider()) {
+      int volume = config->readNumEntry("Volume", sliderAction->getVolumeSlider()->maxValue());
+      sliderAction->getVolumeSlider()->setValue(volume);
+    }
+  }
+}
+
+void JuK::saveConfig()
+{
+  KConfig *config = KGlobal::config();
+  { // player settings
+    KConfigGroupSaver saver(config, "Player");
+    if(sliderAction && sliderAction->getVolumeSlider())
+      config->writeEntry("Volume", sliderAction->getVolumeSlider()->value());
+  }  
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -138,7 +161,7 @@ void JuK::saveFile()
 
 void JuK::quit()
 {
-  kapp->quit();
+  delete(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
