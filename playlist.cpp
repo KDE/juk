@@ -391,6 +391,11 @@ Playlist::~Playlist()
 	m_playingItem = 0;
 
     delete m_toolTip;
+
+    // Select a different playlist if we're the selected one
+
+    if(isVisible() && this != CollectionList::instance())
+	m_collection->raise(CollectionList::instance());
 }
 
 QString Playlist::name() const

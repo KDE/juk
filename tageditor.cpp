@@ -158,6 +158,15 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
     if(m_performingSave)
 	return;
 
+    // Store the playlist that we're setting because saveChangesPrompt
+    // can delete the PlaylistItems in list.
+
+    Playlist *itemPlaylist = 0;
+    if(!list.isEmpty())
+	itemPlaylist = list.first()->playlist();
+
+    bool hadPlaylist = m_currentPlaylist != 0;
+
     saveChangesPrompt();
 
     if(m_currentPlaylist) {
@@ -165,15 +174,23 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
 		   this, SLOT(slotItemRemoved(PlaylistItem *)));
     }
 
-    m_currentPlaylist = list.isEmpty() ? 0 : static_cast<Playlist *>(list.first()->listView());
+    if(hadPlaylist && !m_currentPlaylist || !itemPlaylist) {
+	m_currentPlaylist = 0;
+	m_items.clear();
+    }
+    else {
+	m_currentPlaylist = itemPlaylist;
+
+	// We can't use list here, it may not be valid
+
+	m_items = itemPlaylist->selectedItems();
+    }
 
     if(m_currentPlaylist) {
 	connect(m_currentPlaylist, SIGNAL(signalAboutToRemove(PlaylistItem *)),
 		this, SLOT(slotItemRemoved(PlaylistItem *)));
 	connect(m_currentPlaylist, SIGNAL(destroyed()), this, SLOT(slotPlaylistRemoved()));
     }
-
-    m_items = list;
 
     if(isVisible())
 	slotRefresh();
