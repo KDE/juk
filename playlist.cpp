@@ -1336,6 +1336,7 @@ void Playlist::slotApplyModification(QListViewItem *, const QString &text, int c
 	applyTag((*it), text, column);
 	kapp->processEvents();
     }
+    slotEmitSelected();
 }
 
 void Playlist::slotColumnOrderChanged(int, int from, int to)

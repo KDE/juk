@@ -606,9 +606,6 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon, 
     connect(p, SIGNAL(signalSetNext(PlaylistItem *)),
 	    this, SLOT(slotSetNextItem(PlaylistItem *)));
 
-    connect(p, SIGNAL(itemRenamed(QListViewItem *)),
-	    m_editor, SLOT(slotRefresh()));
-
     connect(p, SIGNAL(signalCreatePlaylist(const PlaylistItemList &)),
 	    this, SLOT(slotCreatePlaylist(const PlaylistItemList &)));
 
