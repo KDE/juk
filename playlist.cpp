@@ -217,6 +217,7 @@ Playlist::SharedSettings::SharedSettings()
 	    case PlaylistItem::BitrateColumn:
 	    case PlaylistItem::CommentColumn:
 	    case PlaylistItem::FileNameColumn:
+	    case PlaylistItem::FullPathColumn:
 		m_columnsVisible.append(false);
 		break;
 	    default:
