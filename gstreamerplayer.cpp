@@ -23,9 +23,6 @@
 
 #include <qfile.h>
 
-#include <connect.h>
-#include <flowsystem.h>
-
 #include "gstreamerplayer.h"
 
 using namespace KDE::GST;
