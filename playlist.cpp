@@ -241,7 +241,7 @@ Playlist::Playlist(QWidget *parent, const QString &name) :
     setup();
 }
 
-Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const QString &name) : 
+Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const QString &name) :
     KListView(parent, name.latin1()),
     m_selectedCount(0),
     m_allowDuplicates(false),
@@ -979,7 +979,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     file.close();
 
     emit signalCountChanged(this);
-    
+
     m_disableColumnWidthUpdates = false;
 }
 
@@ -1068,7 +1068,7 @@ void Playlist::slotUpdateColumnWidths()
 
     // Make sure that the column weights have been initialized before trying to
     // update the columns.
-    
+
     QValueList<int> visibleColumns;
     for(int i = 0; i < columns(); i++) {
 	if(isColumnVisible(i))
@@ -1199,7 +1199,7 @@ void Playlist::slotUpdateColumnWidths()
 	}
 	else
 	    width = weightedWidth[*it];
-	
+
 	setColumnWidth(*it, width);
 	usedWidth += width;
     }
@@ -1277,7 +1277,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
     if(showEdit)
 	m_rmbMenu->changeItem(m_rmbEditID,
-		i18n("Edit %1").arg(columnText(column)));
+		i18n("Edit '%1'").arg(columnText(column)));
 
     m_rmbMenu->setItemVisible(m_rmbEditID, showEdit);
 
@@ -1365,7 +1365,7 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
     QString text = renameLineEdit()->text();
 
     PlaylistItemList l = selectedItems();
-    if(text == m_editText || 
+    if(text == m_editText ||
        (l.count() > 1 && KMessageBox::warningYesNo(
 	   0,
 	   i18n("This will edit multiple files! Are you sure?"),
