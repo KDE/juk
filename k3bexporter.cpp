@@ -108,7 +108,7 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
         *process << (*it)->file().absFilePath();
     
     if(!process->start(KProcess::DontCare))
-        KMessageBox::error(m_parent, i18n("Unable to start K3b!"));
+        KMessageBox::error(m_parent, i18n("Unable to start K3b."));
 }
 
 void K3bExporter::exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref)
@@ -142,7 +142,7 @@ void K3bExporter::exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref)
 
 void K3bExporter::DCOPErrorMessage()
 {
-    KMessageBox::error(m_parent, i18n("There was a DCOP communication error with K3b!"));
+    KMessageBox::error(m_parent, i18n("There was a DCOP communication error with K3b."));
 }
 
 bool K3bExporter::startNewK3bProject(DCOPRef &ref)
