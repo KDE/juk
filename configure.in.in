@@ -48,13 +48,12 @@ PKG_CHECK_MODULES(GST, \
 
 dnl Give error if we don't have gstreamer
 if test "x$have_gst" = "xno"; then
-	CFLAGS_GST=""
+	GST_CFLAGS=""
 	LDADD_GST=""
 	LDFLAGS_GST=""
 	AC_MSG_WARN([GStreamer version >= $GST_REQ required.])
 	AC_DEFINE(HAVE_GSTREAMER, 0, [have GStreamer])
 else
-	CFLAGS_GST=$GST_CFLAGS
 	LDADD_GST=`$PKG_CONFIG --libs-only-l gstreamer-$GST_MAJORMINOR`
 	LDFLAGS_GST=`$PKG_CONFIG --libs-only-other gstreamer-$GST_MAJORMINOR`
 
@@ -63,7 +62,7 @@ else
 	LIBDIRS_GST=`$PKG_CONFIG --libs-only-L gstreamer-$GST_MAJORMINOR`
 	LDADD_GST="$LDADD_GST $LIBDIRS_GST"
 
-	AC_SUBST(CFLAGS_GST)
+	AC_SUBST(GST_CFLAGS)
 	AC_SUBST(LDADD_GST)
 	AC_SUBST(LDFLAGS_GST)
 	AC_MSG_NOTICE([GStreamer version >= $GST_REQ found.])
