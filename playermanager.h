@@ -44,6 +44,7 @@ public:
     bool playing() const;
     bool paused() const;
     float volume() const;
+    int status() const;
     int totalTime() const;
     int currentTime() const;
     int position() const;

@@ -120,6 +120,24 @@ float PlayerManager::volume() const
     return player()->volume();
 }
 
+int PlayerManager::status() const
+{
+    // DCOP call to interface better with the Media Control applet
+    // Constant values provided by mETz.
+    // mETz: You can thank me later. :-)
+
+    if(!player())
+        return -1;
+
+    if(player()->paused())
+        return 1;
+
+    if(player()->playing())
+        return 2;
+    
+    return 0;
+}
+
 int PlayerManager::totalTime() const
 {
     if(!player())

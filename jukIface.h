@@ -39,6 +39,7 @@ k_dcop:
     virtual bool playing() const = 0;
     virtual bool paused() const = 0;
     virtual float volume() const = 0;
+    virtual int status() const = 0;
     
     virtual QStringList trackProperties() = 0;
     virtual QString trackProperty(const QString &property) const = 0;
