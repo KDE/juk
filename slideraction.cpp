@@ -125,7 +125,11 @@ void VolumeSlider::slotValueChanged(int value)
 
 SliderAction::SliderAction(const QString &text, QObject *parent, const char *name)
     : KAction(text, 0, parent, name),
-      m_toolBar(0), m_dragging(false)
+      m_toolBar(0),
+      m_layout(0),
+      m_trackPositionSlider(0),
+      m_volumeSlider(0),
+      m_dragging(false)
 {
 
 }

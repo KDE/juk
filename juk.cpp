@@ -321,7 +321,12 @@ void JuK::saveConfig()
     // player settings
     
     KConfigGroup playerConfig(KGlobal::config(), "Player");
-    playerConfig.writeEntry("Volume", m_sliderAction->volumeSlider()->volume());
+
+    if (m_sliderAction->volumeSlider())
+    {
+        playerConfig.writeEntry("Volume", m_sliderAction->volumeSlider()->volume());
+    }
+
     playerConfig.writeEntry("RandomPlay", m_randomPlayAction->isChecked());
 
     KToggleAction *a = ActionCollection::action<KToggleAction>("loopPlaylist");
