@@ -354,7 +354,7 @@ void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
 	    continue;
 	    
 	components.clear();
-	components.append(PlaylistSearch::Component(item, true, columns, mode));
+	components.append(PlaylistSearch::Component(item, false, columns, mode));
 
 	PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
 
