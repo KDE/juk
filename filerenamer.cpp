@@ -11,12 +11,54 @@
 
 #include <kapplication.h>
 #include <kconfig.h>
+#include <kdialogbase.h>
 #include <kdebug.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kmacroexpander.h>
 #include <kmessagebox.h>
 
 #include <qdir.h>
+#include <qhbox.h>
+#include <qheader.h>
+#include <qlabel.h>
+#include <qvbox.h>
+
+class FileRenamer::ConfirmationDialog : public KDialogBase
+{
+public:
+    ConfirmationDialog(const QMap<QString, QString> &files,
+                       QWidget *parent = 0, const char *name = 0)
+        : KDialogBase(parent, name, true, i18n("Warning"), Ok | Cancel)
+    {
+        QVBox *vbox = makeVBoxMainWidget();
+        QHBox *hbox = new QHBox(vbox);
+
+        QLabel *l = new QLabel(hbox);
+        l->setPixmap(SmallIcon("messagebox_warning", 32));
+        
+        l = new QLabel(i18n("You're about to rename the following files. "
+                            "Are you sure you want to continue?"), hbox);
+        hbox->setStretchFactor(l, 1);
+
+        KListView *lv = new KListView(vbox);
+
+        lv->addColumn(i18n("Original Name"));
+        lv->addColumn(i18n("New Name"));
+
+        int lvHeight = 0;
+        
+        QMap<QString, QString>::ConstIterator it = files.begin();
+        for(; it != files.end(); ++it) {
+            KListViewItem *i = new KListViewItem(lv, it.key(), it.data());
+            lvHeight += i->height();
+        }
+
+        lvHeight += lv->horizontalScrollBar()->height() + lv->header()->height();
+        lv->setFixedHeight(QMIN(lvHeight, 400));
+        resize(QMIN(width(), 500), QMIN(minimumHeight(), 400));
+    }
+};
 
 FileRenamer::Config::Config(KConfigBase *cfg)
     : m_grp(cfg, "FileRenamer")
@@ -135,10 +177,8 @@ void FileRenamer::rename(const PlaylistItemList &items)
         itemMap[oldName] = *it;
     }
 
-    if(KMessageBox::warningContinueCancelList(0, i18n("You're about to "
-       "rename the following files. Are you sure you want to continue?"),
-       filenames, i18n("Warning"), KStdGuiItem::cont(), "ShowFileRenamerWarning")
-       == KMessageBox::Continue) {
+    if(ConfirmationDialog(map).exec() == QDialog::Accepted) {
+
         KApplication::setOverrideCursor(Qt::waitCursor);
         int j = 1;
         QMap<QString, QString>::ConstIterator it = map.begin();

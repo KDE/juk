@@ -49,6 +49,8 @@ class FileRenamer
 		QString rename(const QString &filename, const Tag &tag) const;
 
 	private:
+		class ConfirmationDialog;
+
 		QString expandToken(TokenType type, const QString &value) const;
 		/**
 		 * Attempts to rename the file from \a src to \a dest.  Returns true
