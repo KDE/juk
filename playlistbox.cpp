@@ -124,10 +124,10 @@ PlaylistBox::~PlaylistBox()
 {
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
-    for(QListViewItemIterator it(this); it.current(); ++it) {
-	Item *i = static_cast<Item *>(it.current());
-	if(i->playlist() && i->playlist() != collection)
-	    l.append(i->playlist());
+    for(QListViewItem *i = firstChild(); i; i = i->itemBelow()) {
+	Item *item = static_cast<Item *>(i);
+	if(item->playlist() && item->playlist() != collection)
+	    l.append(item->playlist());
     }
 
     Cache::savePlaylists(l);
