@@ -28,6 +28,7 @@
 #include "collectionlist.h"
 #include "stringhash.h"
 #include "tageditor.h"
+#include "tagguesser.h"
 
 class KActionMenu;
 class KDirWatch;
@@ -180,8 +181,7 @@ public slots:
 // Tagger slots
 
     void slotSaveTag() { m_editor->save(); }
-    void slotGuessTagInfoFile();
-    void slotGuessTagInfoInternet();
+    void slotGuessTagInfo(TagGuesser::Type type);
     void slotRenameFile();
 
 // Playlist slots

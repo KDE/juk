@@ -222,7 +222,7 @@ CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &pat
 	if(data()->tag()) {
 	    slotRefresh();
 	    connect(this, SIGNAL(signalRefreshed()), l, SIGNAL(signalDataChanged()));
-	    l->emitNumberOfItemsChanged();
+	    l->emitCountChanged();
 	    // l->addWatched(m_path);
 	}
 	else

@@ -250,7 +250,7 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
         m_randomList.remove(item);
     item->deleteLater();
     if(emitChanged)
-	emit signalNumberOfItemsChanged(this);
+	emit signalCountChanged(this);
 }
 
 void Playlist::clearItems(const PlaylistItemList &items)
@@ -264,7 +264,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
     // kapp->processEvents();
     kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
 
-    emit signalNumberOfItemsChanged(this);
+    emit signalCountChanged(this);
 }
 
 QStringList Playlist::files() const
@@ -482,23 +482,12 @@ void Playlist::slotRenameFile()
     KApplication::restoreOverrideCursor();
 }
 
-void Playlist::slotGuessTagInfoFile()
+void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
-        (*it)->guessTagInfoFromFile();
-    KApplication::restoreOverrideCursor();
-}
-
-void Playlist::slotGuessTagInfoInternet()
-{
-    //not sure if the cursor stuff makes sense
-    //since guessing will be asynchronous anyway
-    KApplication::setOverrideCursor(Qt::waitCursor);
-    PlaylistItemList items = selectedItems();
-    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
-        (*it)->guessTagInfoFromInternet();
+        (*it)->guessTagInfo(type);
     KApplication::restoreOverrideCursor();
 }
 
@@ -516,7 +505,7 @@ void Playlist::slotReload()
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Playlist::deleteFromDisk(const PlaylistItemList &items)
+void Playlist::removeFromDisk(const PlaylistItemList &items)
 {
     if(isVisible() && !items.isEmpty()) {
 
@@ -544,7 +533,7 @@ void Playlist::deleteFromDisk(const PlaylistItemList &items)
 	    }
 
 	}
-	emit signalNumberOfItemsChanged(this);
+	emit signalCountChanged(this);
     }
 }
 
@@ -664,11 +653,11 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFile
 	    i = new PlaylistItem(item, this);
         if(!m_randomList.isEmpty() && !m_visibleChanged)
             m_randomList.append(i);
-	emit signalNumberOfItemsChanged(this);
+	emit signalCountChanged(this);
 	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
 
 	if(emitChanged)
-	    emit signalNumberOfItemsChanged(this);
+	    emit signalCountChanged(this);
 
 	return i;
     }
@@ -687,7 +676,7 @@ void Playlist::createItems(const PlaylistItemList &siblings)
 	    connect((*it)->collectionItem(), SIGNAL(destroyed()), *it, SLOT(deleteLater()));
 	}
     }
-    emit signalNumberOfItemsChanged(this);
+    emit signalCountChanged(this);
 }
 
 void Playlist::hideColumn(int c)
@@ -835,7 +824,7 @@ void Playlist::polish()
 
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotEmitSelected()));
-    connect(this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int)),
+    connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
 	    this, SLOT(slotShowRMBMenu(QListViewItem *, const QPoint &, int)));
     connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
 	    this, SLOT(slotApplyModification(QListViewItem *, const QString &, int)));
@@ -860,7 +849,7 @@ void Playlist::setup()
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
     connect(this, SIGNAL(signalDataChanged()), this, SIGNAL(signalChanged()));
-    connect(this, SIGNAL(signalNumberOfItemsChanged(Playlist *)), this, SIGNAL(signalChanged()));
+    connect(this, SIGNAL(signalCountChanged(Playlist *)), this, SIGNAL(signalChanged()));
 }
 
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
@@ -894,7 +883,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     file.close();
 
-    emit signalNumberOfItemsChanged(this);
+    emit signalCountChanged(this);
 }
 
 void Playlist::setPlaying(PlaylistItem *item, bool p)
@@ -1108,7 +1097,7 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
 	after = p.createItem(info, *it, after, false);
     }
 
-    p.emitNumberOfItemsChanged();
+    p.emitCountChanged();
 
     return s;
 }

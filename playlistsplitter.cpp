@@ -347,14 +347,14 @@ void PlaylistSplitter::slotDeleteSelectedItems()
 {
     Playlist *p = visiblePlaylist();
     if(p)
-	p->slotDeleteSelectedItems();
+	p->slotRemoveSelectedItems();
 }
 
 void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
     addImpl(file, list);
-    list->emitNumberOfItemsChanged();
+    list->emitCountChanged();
     KApplication::restoreOverrideCursor();
 
     if(m_editor)
@@ -374,7 +374,7 @@ void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *lis
     KApplication::setOverrideCursor(Qt::waitCursor);
     for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
         addImpl(*it, list);
-    list->emitNumberOfItemsChanged();
+    list->emitCountChanged();
     KApplication::restoreOverrideCursor();
 
     if(m_editor)
@@ -388,16 +388,9 @@ void PlaylistSplitter::slotSetSearchVisible(bool visible)
 }
 
 
-void PlaylistSplitter::slotGuessTagInfoFile()
+void PlaylistSplitter::slotGuessTagInfo(TagGuesser::Type type)
 {
-    visiblePlaylist()->slotGuessTagInfoFile();
-    if(m_editor)
-        m_editor->slotRefresh();
-}
-
-void PlaylistSplitter::slotGuessTagInfoInternet()
-{
-    visiblePlaylist()->slotGuessTagInfoInternet();
+    visiblePlaylist()->slotGuessTagInfo(type);
     if(m_editor)
         m_editor->slotRefresh();
 }
@@ -592,7 +585,7 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon, 
     connect(p, SIGNAL(returnPressed(QListViewItem *)), 
 	    this, SIGNAL(signalActivated()));
 
-    connect(p, SIGNAL(signalNumberOfItemsChanged(Playlist *)),
+    connect(p, SIGNAL(signalCountChanged(Playlist *)),
 	    this, SLOT(slotPlaylistCountChanged(Playlist *)));
 
     connect(p, SIGNAL(signalAboutToRemove(PlaylistItem *)),

@@ -42,6 +42,9 @@ class FileNameScheme
 class TagGuesser
 {
     public:
+
+        enum Type { FileName, MusicBrainz };
+
         static QStringList schemeStrings();
         static void setSchemeStrings(const QStringList &schemes);
 

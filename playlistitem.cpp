@@ -51,8 +51,8 @@ const Tag *PlaylistItem::tag() const
     return m_data->tag();
 }
 
-// some forwarding methods - these can't be inlined because the Data class
-// isn't defined yet
+// Some forwarding methods - these can't be inlined because the Data class
+// isn't defined yet.
 
 QString PlaylistItem::fileName() const
 {
@@ -79,37 +79,41 @@ bool PlaylistItem::isWritable() const
     return m_data->fileInfo()->isWritable();
 }
 
-void PlaylistItem::guessTagInfoFromFile()
+void PlaylistItem::guessTagInfo(TagGuesser::Type type)
 {
-    TagGuesser guesser(tag()->absFilePath());
+    switch(type) {
+    case TagGuesser::FileName:
+    {
+	TagGuesser guesser(tag()->absFilePath());
 
-    if(!guesser.title().isNull())
-        tag()->setTrack(guesser.title());
-    if(!guesser.artist().isNull())
-        tag()->setArtist(guesser.artist());
-    if(!guesser.album().isNull())
-        tag()->setAlbum(guesser.album());
-    if(!guesser.track().isNull())
-        tag()->setTrackNumber(guesser.track().toInt());
-    if(!guesser.comment().isNull())
-        tag()->setComment(guesser.comment());
+	if(!guesser.title().isNull())
+	    tag()->setTrack(guesser.title());
+	if(!guesser.artist().isNull())
+	    tag()->setArtist(guesser.artist());
+	if(!guesser.album().isNull())
+	    tag()->setAlbum(guesser.album());
+	if(!guesser.track().isNull())
+	    tag()->setTrackNumber(guesser.track().toInt());
+	if(!guesser.comment().isNull())
+	    tag()->setComment(guesser.comment());
 
-    tag()->save();
-    slotRefresh();
-}
-
-void PlaylistItem::guessTagInfoFromInternet()
-{
+	tag()->save();
+	slotRefresh();
+    }
+    case TagGuesser::MusicBrainz:
+    {
 #if HAVE_MUSICBRAINZ
-  MusicBrainzQuery *query = new MusicBrainzQuery(MusicBrainzQuery::File,
-                                                 tag()->absFilePath());
-  connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
-          SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
-  KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
-  connect(query, SIGNAL(signalStatusMsg(const QString &, int)),
-          win->statusBar(), SLOT(message(const QString &, int)));
-  query->start();
-#endif //add message box teeling users musicbrainz is not installed or keep it quiet?
+	MusicBrainzQuery *query = new MusicBrainzQuery(MusicBrainzQuery::File,
+						       tag()->absFilePath());
+	connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
+		SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
+	KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
+	connect(query, SIGNAL(signalStatusMsg(const QString &, int)),
+		win->statusBar(), SLOT(message(const QString &, int)));
+	query->start();
+#endif //add message box telling users musicbrainz is not installed or keep it quiet?
+    }
+    }
 }
 
 void PlaylistItem::renameFile()

@@ -27,6 +27,7 @@
 
 #include "sortedstringlist.h"
 #include "playlistsearch.h"
+#include "tagguesser.h"
 
 class KPopupMenu;
 class KActionMenu;
@@ -46,6 +47,7 @@ class Playlist : public KListView
     Q_OBJECT
 
 public:
+
     /**
      * Before creating a playlist directly, please see
      * PlaylistSplitter::createPlaylist().
@@ -112,7 +114,16 @@ public:
 
     void createItems(const PlaylistItemList &siblings);
 
+    /**
+     * Returns the file name associated with this playlist (an m3u file) or
+     * QString::null if no such file exists.
+     */
     QString fileName() const { return m_fileName; }
+
+    /**
+     * Sets the file name to be associated with this playlist; this file should
+     * have the "m3u" extension.
+     */
     void setFileName(const QString &n) { m_fileName = n; }
 
     void hideColumn(int c);
@@ -131,14 +142,31 @@ public:
      */
     void setName(const QString &n);
 
+    /**
+     * Returns the number of items in the playlist.
+     */
     int count() const { return childCount(); }
 
     /**
-     * This gets the next item to be played.
+     * Returns the next item to be played.  If random is false this is just
+     * the next item in the playlist (or null if the current items is the last
+     * item in the list).  If random is true, then it will select an item at
+     * random from this list (and try to be a bit clever about it to not repeat
+     * items before everything has been played at least once).
      */
     PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
+
+    /**
+     * Returns the item played before the currently playing item.  If random is
+     * false, this is simply the item above the currently playing item in the
+     * list.  If random is true this checks the history of recently played items.
+     */
     PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
 
+    /**
+     * Returns the KActionMenu that allows this to be embedded in menus outside
+     * of the playlist.
+     */
     KActionMenu *columnVisibleAction() const { return m_columnVisibleAction; }
 
     /**
@@ -157,18 +185,39 @@ public:
      */
     void updateLeftColumn();
 
+    /**
+     * Sets the items in the list to be either visible based on the value of
+     * visible.  This is useful for search operations and such.
+     */
     static void setItemsVisible(const PlaylistItemList &items, bool visible = true);
 
+    /**
+     * Returns the search associated with this list, or an empty search if one
+     * has not yet been set.
+     */
     PlaylistSearch search() const { return m_search; }
+
+    /**
+     * Set the search associtated with this playlist.
+     *
+     * \note This does not cause the search to be rerun.
+     */
     void setSearch(const PlaylistSearch &s) { m_search = s; }
 
-    void emitNumberOfItemsChanged() { emit signalNumberOfItemsChanged(this); }
+    /**
+     * Emits a signal indicating that the number of items have changed.  This
+     * is useful in conjunction with createItem() where emitChanged is false.
+     *
+     * In many situations it is not practical for speed reasons to trigger the
+     * actions associated with signalCountChanged() after each insertion.
+     */
+    void emitCountChanged() { emit signalCountChanged(this); }
 
 public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
      */
-    void slotDeleteSelectedItems() { deleteFromDisk(selectedItems()); };
+    void slotRemoveSelectedItems() { removeFromDisk(selectedItems()); };
     void slotSetNext();
 
     /*
@@ -187,8 +236,7 @@ public slots:
      */
     virtual void slotRefresh();
 
-    void slotGuessTagInfoFile();
-    void slotGuessTagInfoInternet();
+    void slotGuessTagInfo(TagGuesser::Type type);
     void slotRenameFile();
 
     /**
@@ -201,9 +249,11 @@ protected:
      * Remove \a items from the playlist and disk.  This will ignore items that
      * are not actually in the list.
      */
-    void deleteFromDisk(const PlaylistItemList &items);
+    void removeFromDisk(const PlaylistItemList &items);
 
-    virtual bool eventFilter(QObject* watched, QEvent* e);
+    // the following are all reimplemented from base classes
+
+    virtual bool eventFilter(QObject *watched, QEvent *e);
     virtual QDragObject *dragObject(QWidget *parent);
     virtual QDragObject *dragObject() { return dragObject(this); }
     virtual bool canDecode(QMimeSource *s);
@@ -211,6 +261,7 @@ protected:
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const { return KURLDrag::canDecode(e); }
+    virtual void polish();
 
     /**
      * Though it's somewhat obvious, this function will stat the file, so only use it when
@@ -218,23 +269,15 @@ protected:
      */
     static QString resolveSymLinks(const QFileInfo &file);
 
-    KPopupMenu *rmbMenu() { return m_rmbMenu; }
-    const KPopupMenu *rmbMenu() const { return m_rmbMenu; }
-
-    virtual void polish();
+    KPopupMenu *rmbMenu() const { return m_rmbMenu; }
 
 signals:
-    /**
-     * This signal is connected to PlaylistItem::refreshed() in the
-     * PlaylistItem class.
-     */
-    void signalDataChanged();
-
     /**
      * This is emitted when the playlist selection is changed.  This is used
      * primarily to notify the TagEditor of the new data.
      */
     void signalSelectionChanged(const PlaylistItemList &selection);
+    void signalDoubleClicked();
 
     /**
      * This is connected to the PlaylistBox::Item to let it know when the
@@ -243,34 +286,78 @@ signals:
     void signalNameChanged(const QString &fileName);
 
     /**
-     * This signal is emited when items are added to or removed from the list.
+     * This signal is emitted when items are added to or removed from the list.
+     *
+     * \see signalDataChanged()
+     * \see signalChanged()
      */
-    void signalNumberOfItemsChanged(Playlist *);
-    void signalDoubleClicked();
+    void signalCountChanged(Playlist *);
 
     /**
-     * This is the union of signalDataChanged() and signalNumberOfItemsChanged().
-     * It is emited with either quantity or value of the PlaylistItems are
+     * This signal is connected to PlaylistItem::refreshed() in the PlaylistItem
+     * class.  It is emitted when a playlist item's data has been changed.
+     *
+     * \see signalCountChanged()
+     * \see signalChanged()
+     */
+    void signalDataChanged();
+
+    /**
+     * This is the union of signalDataChanged() and signalCountChanged().
+     * It is emitted with either quantity or value of the PlaylistItems are
      * changed.
      */
     void signalChanged();
 
     /**
      * This signal is emitted just before a playlist item is removed from the
-     * list.
+     * list allowing for any cleanup that needs to happen.  Typically this
+     * is used to remove the item from the history and safeguard against
+     * dangling pointers.
      */
     void signalAboutToRemove(PlaylistItem *item);
+
+    /**
+     * This is emitted when \a files are dropped on a specific playlist.
+     */
     void signalFilesDropped(const QStringList &files, Playlist *);
+
+    /**
+     * Set the next item to be played in the current playlist.  This is used by
+     * the "Play Next" feature.
+     */
     void signalSetNext(PlaylistItem *item);
+
+    /**
+     * This is emitted when the set of columns that is visible is changed.
+     *
+     * \see hideColumn()
+     * \see showColumn()
+     * \see isColumnVisible()
+     */
     void signalVisibleColumnsChanged();
 
 private:
     void setup();
-    void loadFile(const QString &fileName, const QFileInfo &fileInfo);
+
     /**
-     * Save the tag for an individual items.
+     * Load the playlist from a file.  \a fileName should be the absolute path.
+     * \a fileInfo should point to the same file as \a fileName.  This is a
+     * little awkward API-wise, but keeps us from throwing away useful
+     * information.
+     */
+    void loadFile(const QString &fileName, const QFileInfo &fileInfo);
+
+    /**
+     * Save the tag for an individual item.
      */
     void applyTag(QListViewItem *item, const QString &text, int column);
+
+    /**
+     * Returns the index of the left most visible column in the playlist.
+     *
+     * \see isColumnVisible()
+     */
     int leftMostVisibleColumn() const;
 
     /**
@@ -280,11 +367,23 @@ private:
     class SharedSettings;
 
 private slots:
+
+    /**
+     * This is just used to emit the selection as a list of PlaylistItems when
+     * the selection changes.
+     */
     void slotEmitSelected() { emit signalSelectionChanged(selectedItems()); }
+
+    /**
+     * Show the RMB menu.  Matches the signature for the signal 
+     * QListView::contextMenuRequested().
+     */
     void slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column);
 
     /**
-     * This slot applys the tag for 
+     * This slot applys the tag for a specific item.
+     *
+     * \see applyTag()
      */
     void slotApplyModification(QListViewItem *, const QString &text, int column);
 
@@ -293,7 +392,19 @@ private slots:
      * an appropriate position.
      */
     void slotRenameTag();
+
+    /**
+     * Moves the column \a from to the position \a to.  This matches the signature
+     * for the signal QHeader::indexChange().
+     */
     void slotColumnOrderChanged(int, int from, int to);
+
+    /**
+     * Toggles a columns visible status.  Useful for KActions.
+     *
+     * \see hideColumn()
+     * \see showColumn()
+     */
     void slotToggleColumnVisible(int column);
 
 private:

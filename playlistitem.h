@@ -27,14 +27,14 @@
 #include <qptrstack.h>
 
 #include "musicbrainzquery.h"
+#include "tagguesser.h"
+#include "tag.h"
+#include "cache.h"
 
 #if HAVE_MUSICBRAINZ == 0
 // a bit of a hack so that the slots type definition is still valid
 namespace MusicBrainzQuery { typedef int TrackList; }
 #endif
-
-#include "tag.h"
-#include "cache.h"
 
 class Playlist;
 class PlaylistItem;
@@ -85,8 +85,7 @@ public:
     bool isWritable() const;
     void setPlaying(bool playing = true) { m_playing = playing; }
 
-    void guessTagInfoFromFile();
-    void guessTagInfoFromInternet();
+    void guessTagInfo(TagGuesser::Type type);
     void renameFile();
 
 public slots:

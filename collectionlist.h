@@ -99,8 +99,6 @@ protected:
      */
     void addUnique(UniqueSetType t, const QString &value);
 
-    void emitNumberOfItemsChanged() { emit signalNumberOfItemsChanged(this); }
-
     void addWatched(const QString &file) { m_dirWatch->addFile(file); }
     void removeWatched(const QString &file) { m_dirWatch->removeFile(file); }
 
