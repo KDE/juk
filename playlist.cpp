@@ -1051,7 +1051,7 @@ void Playlist::slotUpdateColumnWidths()
 
     if(count() == 0) {
 	for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it)
-	    setColumnWidth(*it, header()->fontMetrics().width(header()->label(*it) + 10));
+	    setColumnWidth(*it, header()->fontMetrics().width(header()->label(*it)) + 10);
 
 	return;
     }
@@ -1072,7 +1072,7 @@ void Playlist::slotUpdateColumnWidths()
     int minimumFixedWidthTotal = 0;
 
     for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
-	minimumWidth[*it] = header()->fontMetrics().width(header()->label(*it) + 10);
+	minimumWidth[*it] = header()->fontMetrics().width(header()->label(*it)) + 10;
 	minimumWidthTotal += minimumWidth[*it];
 
 	minimumFixedWidth[*it] = QMAX(minimumWidth[*it], m_columnFixedWidths[*it]);
