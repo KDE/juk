@@ -55,9 +55,16 @@ signals:
     void signalNewSong(const QString& songTitle);
 
 private:
-    // private methods
     void setupLayout();
     void setupActions();
+    /**
+     * Solves the problem of the splitter needing to use some of the actions from
+     * this class and as such them needing to be created before the
+     * PlaylistSplitter, but also needing to connect to the playlist splitter.
+     *
+     * @see createSplitterAction();
+     */
+    void setupSplitterConnections();
     void setupPlayer();
     void setupSystemTray();
     void setupGlobalAccels();
@@ -88,6 +95,20 @@ private:
     void play(const QString &file);
 
     void openFile(const QString &file);
+
+    /**
+     * Because we want to be able to reuse these actions in the main GUI classes,
+     * which are created by the PlaylistSplitter, it is useful to create them
+     * before creating the splitter.  This however creates a problem in that we
+     * also need to connect them to the splitter.  This method builds creates
+     * actions and builds a list of connections that can be set up after the
+     * splitter is created.
+     */
+    KAction *createSplitterAction(const QString &text, 
+				  const char *slot, 
+				  const char *name,
+				  const QString &pix = QString::null,
+				  const KShortcut &shortcut = KShortcut());
 
 private slots:
     void slotPlaylistChanged();
@@ -151,6 +172,9 @@ private:
     StatusLabel *m_statusLabel;
     SystemTray *m_systemTray;
 
+    typedef QPair<KAction *, const char *> SplitterConnection;
+    QValueList<SplitterConnection> m_splitterConnections;
+
     // actions
     KToggleAction *m_showSearchAction;
     KToggleAction *m_showEditorAction;
@@ -163,17 +187,8 @@ private:
     KToggleAction *m_toggleSplashAction;
     KSelectAction *m_outputSelectAction;
 
-    KAction *m_playAction;
-    KAction *m_pauseAction;
-    KAction *m_stopAction;
     KToolBarPopupAction *m_backAction;
-    KAction *m_forwardAction;
     KToggleAction *m_loopPlaylistAction;
-
-    KAction *m_savePlaylistAction;
-    KAction *m_saveAsPlaylistAction;
-    KAction *m_renamePlaylistAction;
-    KAction *m_deleteItemPlaylistAction;
 
     QTimer *m_playTimer;
     Player *m_player;

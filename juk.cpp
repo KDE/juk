@@ -49,8 +49,9 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
 	kapp->processEvents();
     }
 
-    setupLayout();
     setupActions();
+    setupLayout();
+    setupSplitterConnections();
     slotPlaylistChanged();
     readConfig();
     setupPlayer();
@@ -94,78 +95,99 @@ void JuK::setupLayout()
 
 void JuK::setupActions()
 {
+    //////////////////////////////////////////////////
     // file menu
-    KStdAction::openNew(m_splitter, SLOT(slotCreatePlaylist()), actionCollection());
-    KStdAction::open(m_splitter, SLOT(slotOpen()), actionCollection());
-    new KAction(i18n("Open &Directory..."), "fileopen", 0, m_splitter, SLOT(slotOpenDirectory()), actionCollection(), "openDirectory");
+    //////////////////////////////////////////////////
 
-    m_renamePlaylistAction = new KAction(i18n("&Rename..."), 0, m_splitter, SLOT(slotRenamePlaylist()),
-					 actionCollection(), "renamePlaylist");
-    new KAction(i18n("D&uplicate..."), "editcopy", 0, m_splitter, SLOT(slotDuplicatePlaylist()), actionCollection(), "duplicatePlaylist");
-
-    m_savePlaylistAction = KStdAction::save(m_splitter, SLOT(slotSavePlaylist()), actionCollection());
-    m_saveAsPlaylistAction = KStdAction::saveAs(m_splitter, SLOT(slotSaveAsPlaylist()), actionCollection());
-    m_deleteItemPlaylistAction = new KAction(i18n("R&emove"), "edittrash", 0, m_splitter, SLOT(slotDeletePlaylist()),
-					     actionCollection(), "deleteItemPlaylist");
+    createSplitterAction(i18n("New Playlist..."),    SLOT(slotCreatePlaylist()),    "file_new",           "filenew");
+    createSplitterAction(i18n("Open..."),            SLOT(slotOpen()),              "file_open",          "fileopen");
+    createSplitterAction(i18n("Open &Directory..."), SLOT(slotOpenDirectory()),     "openDirectory",      "fileopen");
+    createSplitterAction(i18n("&Rename..."),         SLOT(slotRenamePlaylist()),    "renamePlaylist");
+    createSplitterAction(i18n("D&uplicate..."),      SLOT(slotDuplicatePlaylist()), "duplicatePlaylist");
+    createSplitterAction(i18n("Save"),               SLOT(slotSavePlaylist()),      "file_save",          "filesave");
+    createSplitterAction(i18n("Save As..."),         SLOT(slotSaveAsPlaylist()),    "file_save_as",       "filesaveas");
+    createSplitterAction(i18n("R&emove"),            SLOT(slotDeletePlaylist()),    "deleteItemPlaylist", "edittrash");
 
     KStdAction::quit(this, SLOT(slotQuit()), actionCollection());
 
+    //////////////////////////////////////////////////
     // edit menu
-    KStdAction::cut(this, SLOT(cut()), actionCollection());
-    KStdAction::copy(this, SLOT(copy()), actionCollection());
+    //////////////////////////////////////////////////
+
+    KStdAction::cut(this,   SLOT(cut()),   actionCollection());
+    KStdAction::copy(this,  SLOT(copy()),  actionCollection());
     KStdAction::paste(this, SLOT(paste()), actionCollection());
+
     new KAction(i18n("C&lear"), "editclear", 0, this, SLOT(clear()), actionCollection(), "clear");
+
     KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
+    //////////////////////////////////////////////////
     // view menu
+    //////////////////////////////////////////////////
+
     m_showSearchAction = new KToggleAction(i18n("Show &Search Bar"), "filefind", 0, actionCollection(), "showSearch");
-    connect(m_showSearchAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetSearchVisible(bool)));
+    m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit",     0, actionCollection(), "showEditor");
 
-    m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit", 0, actionCollection(), "showEditor");
-    connect(m_showEditorAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetEditorVisible(bool)));
+    new KAction(i18n("Refresh Items"), "reload", 0, m_splitter, SLOT(slotRefresh()), actionCollection(), "refresh"); // 1
+    
+    // actionCollection()->insert(m_splitter->columnVisibleAction());
 
-    new KAction(i18n("Refresh Items"), "reload", 0, m_splitter, SLOT(slotRefresh()), actionCollection(), "refresh");
-    actionCollection()->insert(m_splitter->columnVisibleAction());
-
+    //////////////////////////////////////////////////
     // play menu
+    //////////////////////////////////////////////////
+
     m_randomPlayAction = new KToggleAction(i18n("&Random Play"), 0, actionCollection(), "randomPlay");
-    m_playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(play()), actionCollection(), "play");
-    m_pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pause()), actionCollection(), "pause");
-    m_stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stop()), actionCollection(), "stop");
+
+    new KAction(i18n("&Play"),  "player_play",  0, this, SLOT(play()),  actionCollection(), "play");
+    new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pause()), actionCollection(), "pause");
+    new KAction(i18n("&Stop"),  "player_stop",  0, this, SLOT(stop()),  actionCollection(), "stop");
+
     m_backAction = new KToolBarPopupAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(back()), actionCollection(), "back");
-    connect(m_backAction->popupMenu(), SIGNAL(aboutToShow()), this, SLOT(slotPopulateBackMenu()));
+    connect(m_backAction->popupMenu(), SIGNAL(aboutToShow()),  this, SLOT(slotPopulateBackMenu()));
     connect(m_backAction->popupMenu(), SIGNAL(activated(int)), this, SLOT(back(int)));
-    m_forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()), actionCollection(), "forward");
+
+    new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()), actionCollection(), "forward");
+
     m_loopPlaylistAction = new KToggleAction(i18n("&Loop Playlist"), 0, 0, actionCollection(), "loopPlaylist");
 
+    //////////////////////////////////////////////////
     // tagger menu
-    new KAction(i18n("&Save"), "filesave", "CTRL+t", m_splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
-    new KAction(i18n("&Delete"), "editdelete", 0, m_splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
+    //////////////////////////////////////////////////
+
+    createSplitterAction(i18n("&Save"),   SLOT(slotSaveTag()),             "saveItem",   "filesave", "CTRL+t");
+    createSplitterAction(i18n("&Delete"), SLOT(slotDeleteSelectedItems()), "removeItem", "editdelete");
 
     KActionMenu *guessMenu = new KActionMenu(i18n("&Guess Tag Information"), "", actionCollection(), "guessTag");
-    guessMenu->insert(new KAction(i18n("From &Filename"), 0, "CTRL+f", m_splitter,
-                                  SLOT(slotGuessTagInfoFile()), actionCollection(), "guessTagFile"));
-    guessMenu->insert(new KAction(i18n("From &Internet"), 0, "CTRL+i", m_splitter,
-                                  SLOT(slotGuessTagInfoInternet()), actionCollection(), "guessTagInternet"));
-    //new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()), actionCollection(), "renameFile");
 
+    guessMenu->insert(
+        createSplitterAction(i18n("From &Filename"), SLOT(slotGuessTagInfoFile()),     "guessTagFile",     0, "CTRL+f"));
+    guessMenu->insert(
+        createSplitterAction(i18n("From &Internet"), SLOT(slotGuessTagInfoInternet()), "guessTagInternet", 0, "CTRL+i"));
+
+    // new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()), actionCollection(), "renameFile"); // 4
+
+    //////////////////////////////////////////////////
     // settings menu
+    //////////////////////////////////////////////////
+
     new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this, SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
+
     setStandardToolBarMenuEnabled(true);
 
-    m_restoreOnLoadAction = new KToggleAction(i18n("&Restore Playlists on Load"), 0, actionCollection(), "restoreOnLoad");
-    m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startup"), 0, actionCollection(), "showSplashScreen");
+    m_restoreOnLoadAction     = new KToggleAction(i18n("&Restore Playlists on Load"),    0, actionCollection(), "restoreOnLoad");
+    m_toggleSplashAction      = new KToggleAction(i18n("Show Splash Screen on Startup"), 0, actionCollection(), "showSplashScreen");
+    m_toggleSystemTrayAction  = new KToggleAction(i18n("&Dock in System Tray"),          0, actionCollection(), "toggleSystemTray");
+    m_toggleDockOnCloseAction = new KToggleAction(i18n("&Stay in System Tray on Close"), 0, actionCollection(), "dockOnClose");
+    m_togglePopupsAction      = new KToggleAction(i18n("&Popup Track Announcement"),     0, this, 0, actionCollection(), "togglePopups");
 
-    m_toggleSystemTrayAction = new KToggleAction(i18n("&Dock in System Tray"), KShortcut(), actionCollection(), "toggleSystemTray");
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(slotToggleSystemTray(bool)));
 
-    m_toggleDockOnCloseAction = new KToggleAction(i18n("&Stay in System Tray on Close"), 0, actionCollection(), "dockOnClose");
-
-    m_togglePopupsAction = new KToggleAction(i18n("&Popup Track Announcement"), 0, this, 0, actionCollection(), "togglePopups");
 
     new KAction(i18n("Genre List Editor..."), 0, this, SLOT(slotShowGenreListEditor()), actionCollection(), "showGenreListEditor");
 
     m_outputSelectAction = Player::playerSelectAction(actionCollection());
+
     if(m_outputSelectAction) {
         m_outputSelectAction->setCurrentItem(0);
         connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
@@ -175,16 +197,29 @@ void JuK::setupActions()
 
     KStdAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
 
+    //////////////////////////////////////////////////
     // just in the toolbar
+    //////////////////////////////////////////////////
+
     m_sliderAction = new SliderAction(i18n("Track Position"), actionCollection(), "trackPositionAction");
 
     createGUI();
 
     // set the slider to the proper orientation and make it stay that way
     m_sliderAction->slotUpdateOrientation();
-    connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), m_sliderAction, SLOT(slotUpdateOrientation(QDockWindow *)));
 
     connect(m_splitter, SIGNAL(signalPlaylistChanged()), this, SLOT(slotPlaylistChanged()));
+}
+
+void JuK::setupSplitterConnections()
+{
+    QValueListConstIterator<SplitterConnection> it = m_splitterConnections.begin();
+    for(; it != m_splitterConnections.end(); ++it)
+        connect((*it).first, SIGNAL(activated()), m_splitter, (*it).second);
+
+    connect(m_showSearchAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetSearchVisible(bool)));
+    connect(m_showEditorAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetEditorVisible(bool)));
+    connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), m_sliderAction, SLOT(slotUpdateOrientation(QDockWindow *)));
 }
 
 void JuK::setupSystemTray()
@@ -215,10 +250,10 @@ void JuK::setupPlayer()
     m_trackPositionDragging = false;
     m_noSeek = false;
     m_muted = false;
-    m_pauseAction->setEnabled(false);
-    m_stopAction->setEnabled(false);
-    m_backAction->setEnabled(false);
-    m_forwardAction->setEnabled(false);
+    actionCollection()->action("pause")->setEnabled(false);
+    actionCollection()->action("stop")->setEnabled(false);
+    actionCollection()->action("back")->setEnabled(false);
+    actionCollection()->action("forward")->setEnabled(false);
 
     m_playTimer = new QTimer(this);
     connect(m_playTimer, SIGNAL(timeout()), this, SLOT(slotPollPlay()));
@@ -446,11 +481,11 @@ void JuK::play(const QString &file)
     // Make sure that the m_player actually starts before doing anything.
 
     if(m_player->playing()) {
-        m_pauseAction->setEnabled(true);
-        m_stopAction->setEnabled(true);
+        actionCollection()->action("pause")->setEnabled(true);
+        actionCollection()->action("stop")->setEnabled(true);
+        actionCollection()->action("forward")->setEnabled(true);
 
         m_backAction->setEnabled(true);
-        m_forwardAction->setEnabled(true);
 
         m_sliderAction->getTrackPositionSlider()->setValue(0);
         m_sliderAction->getTrackPositionSlider()->setEnabled(true);
@@ -474,16 +509,16 @@ void JuK::play(const QString &file)
 void JuK::slotPlaylistChanged()
 {
     if(m_splitter->collectionListSelected()) {
-        m_savePlaylistAction->setEnabled(false);
-        m_saveAsPlaylistAction->setEnabled(false);
-        m_renamePlaylistAction->setEnabled(false);
-        m_deleteItemPlaylistAction->setEnabled(false);
+        actionCollection()->action("file_save")->setEnabled(false);
+        actionCollection()->action("file_save_as")->setEnabled(false);
+        actionCollection()->action("renamePlaylist")->setEnabled(false);
+        actionCollection()->action("deleteItemPlaylist")->setEnabled(false);
     }
     else {
-        m_savePlaylistAction->setEnabled(true);
-        m_saveAsPlaylistAction->setEnabled(true);
-        m_renamePlaylistAction->setEnabled(true);
-        m_deleteItemPlaylistAction->setEnabled(true);
+        actionCollection()->action("file_save")->setEnabled(true);
+        actionCollection()->action("file_save_as")->setEnabled(true);
+        actionCollection()->action("renamePlaylist")->setEnabled(true);
+        actionCollection()->action("deleteItemPlaylist")->setEnabled(true);
     }
 
     updatePlaylistInfo();
@@ -491,6 +526,7 @@ void JuK::slotPlaylistChanged()
 
 void JuK::startPlayingPlaylist()
 {
+//    if(actionCollection()->action("randomPlay")->isChecked())
     if(m_randomPlayAction->isChecked())
         play(m_splitter->playRandomFile());
     else
@@ -542,8 +578,8 @@ void JuK::play()
 	// in fact start.
 
         if(m_player->playing()) {
-            m_pauseAction->setEnabled(true);
-            m_stopAction->setEnabled(true);
+            actionCollection()->action("pause")->setEnabled(true);
+            actionCollection()->action("stop")->setEnabled(true);
             m_playTimer->start(m_pollInterval);
 	    if(m_systemTray)
 		m_systemTray->slotPlay();
@@ -562,7 +598,7 @@ void JuK::pause()
 
     m_playTimer->stop();
     m_player->pause();
-    m_pauseAction->setEnabled(false);
+    actionCollection()->action("pause")->setEnabled(false);
     if(m_systemTray)
 	m_systemTray->slotPause();
 }
@@ -575,10 +611,10 @@ void JuK::stop()
     m_playTimer->stop();
     m_player->stop();
 
-    m_pauseAction->setEnabled(false);
-    m_stopAction->setEnabled(false);
-    m_backAction->setEnabled(false);
-    m_forwardAction->setEnabled(false);
+    actionCollection()->action("pause")->setEnabled(false);
+    actionCollection()->action("stop")->setEnabled(false);
+    actionCollection()->action("back")->setEnabled(false);
+    actionCollection()->action("forward")->setEnabled(false);
 
     m_sliderAction->getTrackPositionSlider()->setValue(0);
     m_sliderAction->getTrackPositionSlider()->setEnabled(false);
@@ -795,6 +831,21 @@ void JuK::slotConfigureTagGuesser()
 void JuK::openFile(const QString &file)
 {
     m_splitter->open(file);
+}
+
+KAction *JuK::createSplitterAction(const QString &text, const char *slot, const char *name, 
+                               const QString &pix, const KShortcut &shortcut)
+{
+    KAction *action;
+
+    if(pix.isNull())
+	action = new KAction(text, shortcut, actionCollection(), name);
+    else
+	action = new KAction(text, pix, shortcut, actionCollection(), name);
+
+    m_splitterConnections.append(qMakePair(action, slot));
+    
+    return action;
 }
 
 #include "juk.moc"
