@@ -18,7 +18,7 @@
 #include <kiconloader.h>
 #include <kurldrag.h>
 #include <kmessagebox.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kpopupmenu.h>
 #include <kaction.h>
 #include <kmainwindow.h>
@@ -243,7 +243,7 @@ void PlaylistBox::rename(Item *item)
 
     bool ok;
 
-    QString name = KLineEditDlg::getText(i18n("Rename"),
+    QString name = KInputDialog::getText(i18n("Rename"),
         i18n("Please enter a name for this playlist:"), item->text(), &ok);
 
     if(ok) {
@@ -268,7 +268,7 @@ void PlaylistBox::duplicate(Item *item)
 
 	// If this text is changed, please also change it in PlaylistSplitter::createPlaylist().
 
-	QString name = KLineEditDlg::getText(i18n("New Playlist"), 
+	QString name = KInputDialog::getText(i18n("New Playlist"), 
 					     i18n("Please enter a name for the new playlist:"), 
 					     m_splitter->uniquePlaylistName(item->text(0), true), &ok);
 
