@@ -151,7 +151,7 @@ void Playlist::saveAs()
 
     playlistFileName = KFileDialog::getSaveFileName(QString::null, 
 						    splitter->extensionsString(splitter->playlistExtensions(),
-										       i18n("Playlists")));
+									       i18n("Playlists")));
     playlistFileName = playlistFileName.stripWhiteSpace();
     internalFile = false;
 
@@ -441,7 +441,9 @@ void Playlist::setup()
     setRenameable(PlaylistItem::TrackColumn, true);
     setRenameable(PlaylistItem::ArtistColumn, true);
     setRenameable(PlaylistItem::AlbumColumn, true);
+    setRenameable(PlaylistItem::TrackNumberColumn, true);
     setRenameable(PlaylistItem::GenreColumn, true);
+    setRenameable(PlaylistItem::YearColumn, true);
 
     setAllColumnsShowFocus(true);
     setSelectionMode(QListView::Extended);
@@ -494,7 +496,9 @@ void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
 	(column == PlaylistItem::TrackColumn) || 
 	(column == PlaylistItem::ArtistColumn) || 
 	(column == PlaylistItem::AlbumColumn) ||
-	(column == PlaylistItem::GenreColumn);
+	(column == PlaylistItem::TrackNumberColumn) ||
+	(column == PlaylistItem::GenreColumn) ||
+	(column == PlaylistItem::YearColumn);
 
     rmbMenu->setItemVisible(rmbEditID, showEdit);
 
@@ -549,9 +553,25 @@ void Playlist::applyTags(QListViewItem *item, const QString &text, int column)
     case PlaylistItem::AlbumColumn:
 	i->tag()->setAlbum(text);
 	break;
+    case PlaylistItem::TrackNumberColumn:
+    {
+	bool ok;
+	int value = text.toInt(&ok);
+	if(ok)
+	    i->tag()->setTrackNumber(value);
+	break;
+    }
     case PlaylistItem::GenreColumn:
 	i->tag()->setGenre(text);
 	break;
+    case PlaylistItem::YearColumn:
+    {
+	bool ok;
+	int value = text.toInt(&ok);
+	if(ok)
+	    i->tag()->setYear(value);
+	break;
+    }
     }
 
     i->tag()->save();

@@ -68,8 +68,7 @@ private slots:
     void updatePlaylistInfo();
 
     // edit menu
-    void copy() {};
-    void paste() {};
+    void cut() { splitter->copy(); splitter->clear(); }
 
     // player menu
     void playFile();

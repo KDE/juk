@@ -98,9 +98,9 @@ void JuK::setupActions()
     KStdAction::quit(this, SLOT(close()), actionCollection());
 
     // edit menu
-    KStdAction::cut(splitter, SLOT(clearSelectedItems()), actionCollection());
-    KStdAction::copy(this, SLOT(copy()), actionCollection());
-    KStdAction::paste(this, SLOT(paste()), actionCollection());
+    KStdAction::cut(this, SLOT(cut()), actionCollection());
+    KStdAction::copy(splitter, SLOT(copy()), actionCollection());
+    KStdAction::paste(splitter, SLOT(paste()), actionCollection());
     KStdAction::selectAll(splitter, SLOT(selectAll()), actionCollection());
 
     // view menu

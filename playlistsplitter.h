@@ -156,6 +156,12 @@ public slots:
      */
     void save() { editor->save(); }
 
+// Edit slots
+    
+    void copy() {}
+    void paste() {}
+    void clear() { clearSelectedItems(); }
+
 // Playlist slots
 
     /**
