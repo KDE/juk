@@ -239,8 +239,6 @@ private:
      * This returns a pointer to the first item in the playlist on the top
      * of the QWidgetStack of playlists.
      */
-    PlaylistItem *playlistFirstItem() const { return static_cast<PlaylistItem *>(visiblePlaylist()->firstChild()); }
-
     Playlist *visiblePlaylist() const { return static_cast<Playlist *>(m_playlistStack->visibleWidget()); }
 
     void setupLayout();
