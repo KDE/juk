@@ -49,7 +49,7 @@ void GStreamerPlayer::play(const FileHandle &file)
 {
     if(!file.isNull()) {
         stop();
-        g_object_set(G_OBJECT(m_source), "location", file.absFilePath().utf8().data(), 0);
+        g_object_set(G_OBJECT(m_source), "location", file.absFilePath().local8Bit().data(), 0);
     }
 
     gst_element_set_state(m_pipeline, GST_STATE_PLAYING);
