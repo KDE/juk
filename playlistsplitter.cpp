@@ -516,24 +516,7 @@ void PlaylistSplitter::readConfig()
 
 	if(m_restore) {
 
-	    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
-
-	    QFile f(playlistsFile);
-
-	    if(f.open(IO_ReadOnly)) {
-		QDataStream s(&f);
-		while(!s.atEnd()) {
-		    Playlist *p = new Playlist(m_playlistStack);
-		    s >> *p;
-
-		    // check to see if we've alredy loaded this item before continuing
-
-		    if(p->fileName().isEmpty() || !m_playlistFiles.insert(p->fileName()))
-			setupPlaylist(p);
-		    else
-			delete p;
-		}
-	    }
+	    readPlaylists();
 
 	    m_directoryList = config->readListEntry("DirectoryList");
 	    QTimer::singleShot(0, this, SLOT(slotScanDirectories()));
@@ -566,24 +549,8 @@ void PlaylistSplitter::saveConfig()
 
     if(m_restore && m_playlistBox) {
 
-	// Start at item 1.  We want to skip the collection list.
+	savePlaylists();
 
-	QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
-	QFile f(playlistsFile);
-
-	if(f.open(IO_WriteOnly)) {
-
-	    QDataStream s(&f);
-
-	    PlaylistList l = m_playlistBox->playlists();
-
-	    for(PlaylistList::Iterator it = l.begin(); it != l.end(); it++) {
-		if(*it && *it != m_history)
-		    s << *(*it);
-	    }
-
-	    f.close();
-	}
 	{ // block for Playlists group
 	    KConfigGroupSaver saver(config, "Playlists");
 	    config->writeEntry("DirectoryList", m_directoryList);
@@ -702,6 +669,48 @@ void PlaylistSplitter::redisplaySearch()
     else {
 	Playlist::setItemsVisible(visiblePlaylist()->search().matchedItems(), true);
 	Playlist::setItemsVisible(visiblePlaylist()->search().unmatchedItems(), false);
+    }
+}
+
+void PlaylistSplitter::readPlaylists()
+{
+    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
+
+    QFile f(playlistsFile);
+
+    if(f.open(IO_ReadOnly)) {
+	QDataStream s(&f);
+	while(!s.atEnd()) {
+	    Playlist *p = new Playlist(m_playlistStack);
+	    s >> *p;
+
+	    // check to see if we've alredy loaded this item before continuing
+
+	    if(p->fileName().isEmpty() || !m_playlistFiles.insert(p->fileName()))
+		setupPlaylist(p);
+	    else
+		delete p;
+	}
+    }
+}
+
+void PlaylistSplitter::savePlaylists()
+{
+    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
+    QFile f(playlistsFile);
+
+    if(f.open(IO_WriteOnly)) {
+
+	QDataStream s(&f);
+
+	PlaylistList l = m_playlistBox->playlists();
+
+	for(PlaylistList::Iterator it = l.begin(); it != l.end(); it++) {
+	    if(*it && *it != m_history)
+		s << *(*it);
+	}
+
+	f.close();
     }
 }
 

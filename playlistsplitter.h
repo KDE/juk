@@ -321,6 +321,9 @@ private:
      */
     void redisplaySearch();
 
+    void readPlaylists();
+    void savePlaylists();
+
 private slots:
 
     /**
