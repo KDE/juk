@@ -114,7 +114,7 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
         s >> fileName;
         s >> dateTime;
 
-        after = p.createItem<HistoryPlaylistItem, CollectionListItem, CollectionList>(QFileInfo(fileName), fileName, after, false);
+        after = p.createItem<HistoryPlaylistItem, CollectionListItem, CollectionList>(FileHandle(fileName), after, false);
         after->setDateTime(dateTime);
     }
 

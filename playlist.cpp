@@ -32,8 +32,6 @@
 
 #include <id3v1genres.h>
 
-#include <stdlib.h>
-#include <limits.h>
 #include <time.h>
 #include <math.h>
 
@@ -779,10 +777,10 @@ void Playlist::addColumn(const QString &label)
     KListView::addColumn(label, 30);
 }
 
-PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFilePath,
+PlaylistItem *Playlist::createItem(const FileHandle &file,
 				   QListViewItem *after, bool emitChanged)
 {
-    return createItem<PlaylistItem, CollectionListItem, CollectionList>(file, absFilePath, after, emitChanged);
+    return createItem<PlaylistItem, CollectionListItem, CollectionList>(file, after, emitChanged);
 }
 
 void Playlist::createItems(const PlaylistItemList &siblings)
@@ -851,18 +849,6 @@ void Playlist::showColumn(int c, bool emitChanged)
 bool Playlist::isColumnVisible(int c) const
 {
     return columnWidth(c) != 0;
-}
-
-// Though it's somewhat obvious, this function will stat the file, so only use it when
-// you're out of a performance critical loop.
-
-QString Playlist::resolveSymLinks(const QFileInfo &file) // static
-{
-    char real[PATH_MAX];
-    if(file.exists() && realpath(QFile::encodeName(file.absFilePath()).data(), real))
-	return QFile::decodeName(real);
-    else
-	return file.filePath();
 }
 
 void Playlist::polish()
@@ -986,9 +972,9 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 	   MediaFiles::isMediaFile(item.fileName()))
 	{
 	    if(after)
-		after = createItem(item, QString::null, after, false);
+		after = createItem(FileHandle(item, item.absFilePath()), after, false);
 	    else
-		after = createItem(item, QString::null, 0, false);
+		after = createItem(FileHandle(item, item.absFilePath()), 0, false);
 	}
     }
 
@@ -1462,10 +1448,8 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
 
     p.setColumnWidthUpdatesDisabled(true);
 
-    for(QStringList::Iterator it = files.begin(); it != files.end(); ++it ) {
-	QFileInfo info(*it);
-	after = p.createItem(info, *it, after, false);
-    }
+    for(QStringList::Iterator it = files.begin(); it != files.end(); ++it )
+	after = p.createItem(FileHandle(*it), after, false);
 
     p.emitCountChanged();
     p.setColumnWidthUpdatesDisabled(false);

@@ -70,8 +70,8 @@ public:
     QStringList viewModeItems(UniqueSetType t) const { return m_viewModeItems[t].values(); }
 
     CollectionListItem *lookup(const QString &file) { return m_itemsDict.find(file); }
-    virtual PlaylistItem *createItem(const QFileInfo &file, 
-				     const QString &absFilePath = QString::null, 
+    
+    virtual PlaylistItem *createItem(const FileHandle &file,
 				     QListViewItem * = 0,
 				     bool = false);
 
@@ -147,7 +147,7 @@ public:
     virtual void refresh();
 
 protected:
-    CollectionListItem(const QFileInfo &file, const QString &path);
+    CollectionListItem(const FileHandle &file);
     virtual ~CollectionListItem();
 
     void addChildItem(PlaylistItem *child);
@@ -163,7 +163,6 @@ protected:
 
 private:
     bool m_shuttingDown;
-    QString m_path;
     PlaylistItemList m_children;
 };
 

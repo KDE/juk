@@ -131,8 +131,7 @@ public:
      * of PlaylistItems virtual.  In this case it allows for the creation of
      * both PlaylistItems and CollectionListItems.
      */
-    virtual PlaylistItem *createItem(const QFileInfo &file,
-				     const QString &absFilePath = QString::null,
+    virtual PlaylistItem *createItem(const FileHandle &file,
 				     QListViewItem *after = 0,
 				     bool emitChanged = true);
 
@@ -144,8 +143,7 @@ public:
      * be the same.     
      */
     template <class ItemType, class CollectionItemType, class CollectionListType>
-    ItemType *createItem(const QFileInfo &file,
-			 const QString &absFilePath = QString::null,
+    ItemType *createItem(const FileHandle &file,
 			 QListViewItem *after = 0,
 			 bool emitChanged = true);
 
@@ -408,12 +406,6 @@ protected:
     template <class CollectionItemType, class ItemType, class SiblingType>
     void createItems(const QValueList<SiblingType *> &siblings);
 
-    /**
-     * Though it's somewhat obvious, this function will stat the file, so only use it when
-     * you're out of a performance critical loop.
-     */
-    static QString resolveSymLinks(const QFileInfo &file);
-
 signals:
     /**
      * This is emitted when the playlist selection is changed.  This is used
@@ -646,38 +638,27 @@ QDataStream &operator>>(QDataStream &s, Playlist &p);
 // template method implementations
 
 template <class ItemType, class CollectionItemType, class CollectionListType>
-ItemType *Playlist::createItem(const QFileInfo &file, const QString &absFilePath,
-			       QListViewItem *after, bool emitChanged)
+ItemType *Playlist::createItem(const FileHandle &file, QListViewItem *after,
+			       bool emitChanged)
 {
-    QString filePath;
-
-    if(absFilePath.isNull())
-	filePath = resolveSymLinks(file);
-    else
-	filePath = absFilePath;
-
-    CollectionItemType *item = CollectionListType::instance()->lookup(filePath);
+    CollectionItemType *item = CollectionListType::instance()->lookup(file.absFilePath());
 
     if(!item) {
-	item = new CollectionItemType(file, filePath);
+	item = new CollectionItemType(file);
 	setupItem(item);
 
 	// If a valid tag was not created, destroy the CollectionListItem.
 	if(!item->isValid()) {
 	    kdError(65432) << "Playlist::createItem() -- A valid tag was not created for \""
-			   << file.filePath() << "\"" << endl;
+			   << file.absFilePath() << "\"" << endl;
 	    delete item;
 	    return 0;
 	}
     }
 
-    if(item && !m_members.insert(filePath) || m_allowDuplicates) {
-	ItemType *i;
-	if(after)
-	    i = new ItemType(item, this, after);
-	else
-	    i = new ItemType(item, this);
+    if(item && !m_members.insert(file.absFilePath()) || m_allowDuplicates) {
 
+	ItemType *i = after ? new ItemType(item, this, after) : new ItemType(item, this);
 	setupItem(i);
 
         if(!m_randomList.isEmpty() && !m_visibleChanged)
@@ -705,7 +686,7 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
 
     QValueListConstIterator<SiblingType *> it = siblings.begin();
     for(; it != siblings.end(); ++it) {
-	if(!m_members.insert(resolveSymLinks((*it)->file().absFilePath())) || m_allowDuplicates) {
+	if(!m_members.insert((*it)->file().absFilePath()) || m_allowDuplicates) {
 	    newItem = new ItemType((*it)->collectionItem(), this, newItem);
 	    setupItem(newItem);
 	    if(!m_randomList.isEmpty() && !m_visibleChanged)

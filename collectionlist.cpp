@@ -49,7 +49,7 @@ void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
 	    it != Cache::instance()->end();
 	    ++it)
 	{
-	    new CollectionListItem((*it).fileInfo(), (*it).absFilePath());
+	    new CollectionListItem(*it);
 	}
     }
 }
@@ -58,22 +58,16 @@ void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem *CollectionList::createItem(const QFileInfo &file, const QString &absFilePath, QListViewItem *, bool)
+PlaylistItem *CollectionList::createItem(const FileHandle &file, QListViewItem *, bool)
 {
-    QString filePath;
-
-    if(absFilePath.isNull())
-	filePath = resolveSymLinks(file);
-    else
-	filePath = absFilePath;
-    
-    if(m_itemsDict.find(filePath))
+    if(m_itemsDict.find(file.absFilePath()))
 	return 0;
 
-    PlaylistItem *item = new CollectionListItem(file, filePath);
+    PlaylistItem *item = new CollectionListItem(file);
     
     if(!item->isValid()) {
-	kdError() << "CollectinList::createItem() -- A valid tag was not created for \"" << file.filePath() << "\"" << endl;
+	kdError() << "CollectinList::createItem() -- A valid tag was not created for \""
+		  << file.absFilePath() << "\"" << endl;
 	delete item;
 	return 0;
     }
@@ -225,18 +219,17 @@ void CollectionListItem::refresh()
 // CollectionListItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem::CollectionListItem(const QFileInfo &info, const QString &path) :
+CollectionListItem::CollectionListItem(const FileHandle &file) :
     PlaylistItem(CollectionList::instance()),
-    m_shuttingDown(false),
-    m_path(path)
+    m_shuttingDown(false)
 {
     CollectionList *l = CollectionList::instance();
     if(l) {
-	l->addToDict(m_path, this);
+	l->addToDict(file.absFilePath(), this);
 
-	setFile(FileHandle(info, path));
+	data()->fileHandle = file;
 
-	if(file().tag()) {
+	if(file.tag()) {
 	    refresh();
 	    l->emitCountChanged();
 	    // l->addWatched(m_path);
@@ -263,11 +256,8 @@ CollectionListItem::~CollectionListItem()
     }
 
     CollectionList *l = CollectionList::instance();
-    if(l) {
-	QString path = Playlist::resolveSymLinks(file().absFilePath());
-	// l->removeWatched(m_path);
-	l->removeFromDict(m_path);
-    }
+    if(l)
+	l->removeFromDict(file().absFilePath());
 }
 
 void CollectionListItem::addChildItem(PlaylistItem *child)

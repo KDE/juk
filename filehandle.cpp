@@ -15,6 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <limits.h>
+#include <stdlib.h>
+
 #include <kdebug.h>
 
 #include <qfileinfo.h>
@@ -22,6 +25,17 @@
 #include "filehandle.h"
 #include "tag.h"
 #include "cache.h"
+
+static QString resolveSymLinks(const QFileInfo &file) // static
+{
+    char real[PATH_MAX];
+
+    if(file.exists() && realpath(QFile::encodeName(file.absFilePath()).data(), real))
+	return QFile::decodeName(real);
+    else
+	return file.filePath();
+}
+
 
 /**
  * A simple reference counter -- pasted from TagLib.
@@ -114,7 +128,7 @@ Tag *FileHandle::tag() const
 QString FileHandle::absFilePath() const
 {
     if(d->absFilePath.isNull())
-        d->absFilePath = d->fileInfo.absFilePath();
+        d->absFilePath = resolveSymLinks(d->fileInfo.absFilePath());
     return d->absFilePath;
 }
 
