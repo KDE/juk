@@ -1,8 +1,15 @@
 [Desktop Entry]
-ServiceTypes=application/x-ogg,audio/x-mp3
+ServiceTypes=application/ogg,audio/x-mp3
 Actions=addToCollection
 
 [Desktop Action addToCollection]
 Name=Add to JuK Collection
+Name[cs]=Přidat do JuK kolekce
+Name[da]=Tilføj til JuK-samling
+Name[es]=Añadir a colección de JuK
+Name[fr]=Ajouter à la collection de JuK
+Name[pt_BR]=Adicionar à Coleção do Juk
+Name[sv]=Lägg till i JuK-samlingslista
+Name[tr]=JuK Koleksiyonu Ekle
 Icon=juk
 Exec=dcop juk Player openFile %u
