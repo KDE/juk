@@ -33,7 +33,8 @@ public:
                     PlaylistCollection *collection,
                     const QString &name = QString::null,
                     const QString &iconName = "midi",
-                    bool setupPlaylist = true);
+                    bool setupPlaylist = true,
+		    bool synchronizePlaying = false);
 
     virtual ~DynamicPlaylist();
 
@@ -92,6 +93,7 @@ private:
     PlaylistItemList m_siblings;
     PlaylistList m_playlists;
     bool m_dirty;
+    bool m_synchronizePlaying;
 };
 
 #endif

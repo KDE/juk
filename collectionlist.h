@@ -138,9 +138,7 @@ signals:
      * \see Playlsit::isColumnVisible()
      */
     void signalVisibleColumnsChanged();
-
     void signalNewTag(const QString &, unsigned);
-
     void signalRemovedTag(const QString &, unsigned);
 
 private:

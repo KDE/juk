@@ -43,10 +43,12 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
                                  PlaylistCollection *collection,
                                  const QString &name,
                                  const QString &iconName,
-				 bool setupPlaylist) :
+                                 bool setupPlaylist,
+                                 bool synchronizePlaying) :
     Playlist(collection, true),
     m_playlists(playlists),
-    m_dirty(true)
+    m_dirty(true),
+    m_synchronizePlaying(synchronizePlaying)
 {
     if(setupPlaylist)
         collection->setupPlaylist(this, iconName);
@@ -54,14 +56,25 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
 
     setSorting(columns() + 1);
 
-    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it)
+    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it) {
         m_observers.append(new PlaylistDirtyObserver(this, *it));
+    }
 
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()), this, SLOT(slotSetDirty()));
 }
 
 DynamicPlaylist::~DynamicPlaylist()
 {
+    if(playing()) {
+        PlaylistList l;
+        l.append(this);
+        for(PlaylistList::Iterator it = m_playlists.begin();
+            it != m_playlists.end(); ++it)
+        {
+            (*it)->synchronizePlayingItems(l, true);
+        }
+    }
+
     for(QValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
         it != m_observers.end();
         ++it)
@@ -144,6 +157,8 @@ void DynamicPlaylist::slotUpdateItems()
 
     clear();
     createItems(m_siblings);
+    if(m_synchronizePlaying)
+        synchronizePlayingItems(m_playlists, true);
 }
 
 #include "dynamicplaylist.moc"

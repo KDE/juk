@@ -50,11 +50,13 @@ PlaylistItem::~PlaylistItem()
     // stark advantage of working reliably.  I'll tell anyone who tries to
     // optimize this, the timing issues can be *hard*. -- mpyne
 
-    if(playlist()->playingItem() == this)
-	playlist()->setPlaying(0);
-
     m_collectionItem->removeChildItem(this);
-    m_playingItems.remove(this);
+
+    if(m_playingItems.find(this) != m_playingItems.end()) {
+	m_playingItems.remove(this);
+	if(m_playingItems.isEmpty())
+	    playlist()->setPlaying(0);
+    }
 }
 
 void PlaylistItem::setFile(const FileHandle &file)
@@ -146,22 +148,27 @@ void PlaylistItem::setText(int column, const QString &text)
     playlist()->slotWeightDirty(column);
 }
 
-void PlaylistItem::setPlaying(bool playing)
+void PlaylistItem::setPlaying(bool playing, bool master)
 {
     m_playing = playing;
-    listView()->triggerUpdate();
+    m_playingItems.remove(this);
 
-    if(playing)
-	m_playingItems.append(this);
+    if(playing) {
+	if(master)
+	    m_playingItems.prepend(this);
+	else
+	    m_playingItems.append(this);
+    }
     else {
 
 	// This is a tricky little recursion, but it
 	// in fact does clear the list.
 
-	m_playingItems.remove(this);
 	if(!m_playingItems.isEmpty())
 	    m_playingItems.front()->setPlaying(false);
     }
+
+    listView()->triggerUpdate();
 }
 
 void PlaylistItem::setSelected(bool selected)

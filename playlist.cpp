@@ -543,7 +543,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
 
 PlaylistItem *Playlist::playingItem() // static
 {
-    return PlaylistItem::m_playingItems.isEmpty() ? 0 : PlaylistItem::m_playingItems.front();
+    return PlaylistItem::playingItems().isEmpty() ? 0 : PlaylistItem::playingItems().front();
 }
 
 QStringList Playlist::files() const
@@ -645,6 +645,23 @@ void Playlist::markItemSelected(PlaylistItem *item, bool selected)
     }
     else if(!selected && item->isSelected())
 	m_selectedCount--;
+}
+
+void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMaster)
+{
+    for(PlaylistList::ConstIterator it = sources.begin(); it != sources.end(); ++it) {
+        if((*it)->playing()) {
+            CollectionListItem *base = playingItem()->collectionItem();
+            for(QListViewItemIterator itemIt(this); itemIt.current(); ++itemIt) {
+                PlaylistItem *item = static_cast<PlaylistItem *>(itemIt.current());
+                if(base == item->collectionItem()) {
+                    item->setPlaying(true, setMaster);
+                    return;
+                }
+            }
+            return;
+        }
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1141,8 +1158,8 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, const QImage &image)
 
 void Playlist::updatePlaying() const
 {
-    for(PlaylistItemList::ConstIterator it = PlaylistItem::m_playingItems.begin();
-	it != PlaylistItem::m_playingItems.end(); ++it)
+    for(PlaylistItemList::ConstIterator it = PlaylistItem::playingItems().begin();
+	it != PlaylistItem::playingItems().end(); ++it)
     {
 	(*it)->listView()->triggerUpdate();
     }

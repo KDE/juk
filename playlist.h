@@ -301,6 +301,13 @@ public:
     virtual bool searchIsEditable() const { return false; }
 
     /**
+     * Synchronizes the the playing item in this playlist with the playing item
+     * in \a sources.  If \a setMaster is true, this list will become the source
+     * for determining the next item.
+     */
+    void synchronizePlayingItems(const PlaylistList &sources, bool setMaster);
+
+    /**
      * Playlists have a common set of shared settings such as visible columns
      * that should be applied just before the playlist is shown.  Calling this
      * method applies those.

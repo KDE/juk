@@ -649,7 +649,8 @@ void PlaylistBox::slotPlaylistChanged()
 	    action("deleteItemPlaylist")->setText(i18n("R&emove"));
     }
     else if(!playlists.isEmpty()) {
-	DynamicPlaylist *p = new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "midi", false);
+	DynamicPlaylist *p =
+	    new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "midi", false, true);
 	p->applySharedSettings();
 	playlistStack()->raiseWidget(p);
 

@@ -73,7 +73,7 @@ public:
     virtual QString text(int column) const;
     virtual void setText(int column, const QString &text);
 
-    void setPlaying(bool playing = true);
+    void setPlaying(bool playing = true, bool master = true);
 
     virtual void setSelected(bool selected);
     void guessTagInfo(TagGuesser::Type type);
@@ -116,6 +116,13 @@ public:
      * Returns properly casted item above this one.
      */
     PlaylistItem *itemAbove() { return static_cast<PlaylistItem *>(KListViewItem::itemAbove()); }
+
+    /**
+     * Returns a reference to the list of the currnetly playing items, with the
+     * first being the "master" item (i.e. the item from which the next track is
+     * chosen).
+     */
+    static const PlaylistItemList &playingItems() { return m_playingItems; }
 
 protected:
     /**
