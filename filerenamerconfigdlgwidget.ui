@@ -9,8 +9,11 @@
             <x>0</x>
             <y>0</y>
             <width>584</width>
-            <height>333</height>
+            <height>335</height>
         </rect>
+    </property>
+    <property name="caption">
+        <string>Form1</string>
     </property>
     <grid>
         <property name="name">
@@ -35,7 +38,7 @@
                         <cstring>lFilenameScheme</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Filename scheme</string>
+                        <string>&amp;Filename scheme:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leFilenameScheme</cstring>
@@ -52,7 +55,7 @@
                         <cstring>lCommentToken</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Comment token</string>
+                        <string>&amp;Comment token:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leCommentToken</cstring>
@@ -84,7 +87,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                         <cstring>lArtistToken</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Artist token</string>
+                        <string>&amp;Artist token:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leArtistToken</cstring>
@@ -103,7 +106,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                         <cstring>lTrackToken</cstring>
                     </property>
                     <property name="text">
-                        <string>T&amp;rack token</string>
+                        <string>T&amp;rack token:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leTrackToken</cstring>
@@ -135,7 +138,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                         <cstring>lTitleToken</cstring>
                     </property>
                     <property name="text">
-                        <string>&amp;Title token</string>
+                        <string>&amp;Title token:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leTitleToken</cstring>
@@ -193,7 +196,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                         <cstring>lAlbumToken</cstring>
                     </property>
                     <property name="text">
-                        <string>Al&amp;bum token</string>
+                        <string>Al&amp;bum token:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>leAlbumToken</cstring>
@@ -338,7 +341,7 @@ Note that after selecting a file, you can change the token strings, the filename
                         <cstring>leCurrentFilename</cstring>
                     </property>
                     <property name="text">
-                        <string>C&amp;urrent filename</string>
+                        <string>C&amp;urrent filename:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>urlReqCurrentFilename</cstring>
@@ -357,7 +360,7 @@ Note that after selecting a file, you can change the token strings, the filename
                         <cstring>lNewFilename_</cstring>
                     </property>
                     <property name="text">
-                        <string>New filename</string>
+                        <string>New filename:</string>
                     </property>
                     <property name="toolTip" stdset="0">
                         <string>New filename of above file, if renamed according to given settings</string>
