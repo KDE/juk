@@ -88,7 +88,12 @@ SplashScreen::SplashScreen() : QHBox(0 , "splashScreen", Qt::WStyle_Splash)
     countLabel->setText(QString::number(count));
     countLabel->setFont(font);
     
-    setMinimumWidth(iconLabel->width() + textLabel->width() + countLabel->width() + 10);
+    setMaximumWidth(iconLabel->width() + textLabel->width() + countLabel->width() + 10);
+    setMaximumHeight(QMAX(iconLabel->height(), textLabel->height()));
+
+    QDesktopWidget *desktop = KApplication::desktop();
+    QRect r = desktop->screenGeometry(desktop->primaryScreen());
+    setGeometry((r.width() / 2) - (width() / 2), (r.height() / 2) - (height() / 2), width(), height());
 }
 
 SplashScreen::~SplashScreen()
