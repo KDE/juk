@@ -160,6 +160,11 @@ void FileRenamer::rename(PlaylistItem *item)
         return;
 
     QString newFilename = rename(item->file().absFilePath(), *item->file().tag());
+
+    // Don't try to rename the file if the name didn't change.
+    if(QFileInfo(newFilename).absFilePath() == item->file().absFilePath())
+        return;
+
     if(KMessageBox::warningContinueCancel(0,
         i18n("<qt>You are about to rename the file<br/><br/> '%1'<br/><br/> to <br/><br/>'%2'<br/><br/>Are you sure you "
              "want to continue?</qt>").arg(item->file().absFilePath()).arg(newFilename),
@@ -178,6 +183,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
 {
     QMap<QString, QString> map;
     QMap<QString, PlaylistItem *> itemMap;
+    QStringList errorFiles;
 
     PlaylistItemList::ConstIterator it = items.begin();
     for(; it != items.end(); ++it) {
@@ -195,20 +201,23 @@ void FileRenamer::rename(const PlaylistItemList &items)
         int j = 1;
         QMap<QString, QString>::ConstIterator it = map.begin();
         for(; it != map.end(); ++it, ++j) {
+            // Don't rename a file if the name didn't change.
+            if(QFileInfo(it.key()).absFilePath() == QFileInfo(it.data()).absFilePath())
+                continue;
+
             if(moveFile(it.key(), it.data()))
                 itemMap[it.key()]->setFile(FileHandle(it.data()));
             else
-                KMessageBox::queuedMessageBox(0, KMessageBox::Error,
-                    i18n("<qt>Failed to rename the file<br/><br/>'%1'<br/><br/>to<br/><br/>'%2'</qt>")
-                        .arg(it.key()).arg(it.data()),
-                    i18n("Renaming failed"),
-                    0);
+                errorFiles << QString("%1 to %2").arg(it.key()).arg(it.data());
 
             if(j % 5 == 0)
                 kapp->processEvents();
         }
         KApplication::restoreOverrideCursor();
     }
+
+    if(!errorFiles.isEmpty())
+        KMessageBox::error(0, i18n("The following rename operations failed:\n") + errorFiles.join("\n"));
 }
 
 QString FileRenamer::rename(const QString &filename, const Tag &tag) const
