@@ -115,7 +115,9 @@ QString FileNameScheme::composeRegExp(const QString &s) const
 
 QStringList TagGuesser::schemeStrings()
 {
-    QStringList schemes = kapp->config()->readListEntry( "Filename schemes" );
+    KConfig *cfg = kapp->config();
+    cfg->setGroup("Tag guesser");
+    QStringList schemes = cfg->readListEntry( "Filename schemes" );
     if ( schemes.isEmpty() ) {
         schemes += "%a/%A/[%T] %t";
         schemes += "%a - (%T) - %t [%c]";
@@ -148,7 +150,9 @@ QStringList TagGuesser::schemeStrings()
 
 void TagGuesser::setSchemeStrings(const QStringList &schemes)
 {
-    kapp->config()->writeEntry("Filename schemes", schemes);
+    KConfig *cfg = kapp->config();
+    cfg->setGroup("Tag guesser");
+    cfg->writeEntry("Filename schemes", schemes);
 }
 
 TagGuesser::TagGuesser()
