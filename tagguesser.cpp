@@ -115,7 +115,7 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     for (; it != end; ++it)
         regExp.replace("%" + QString(it.key()), it.data());
 #endif
-    regExp += "\\.*";
+    regExp += ".*";
     return regExp;
 }
 
