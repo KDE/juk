@@ -300,9 +300,7 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
         SearchPlaylist *p = new SearchPlaylist(playlistBox(), s, *it, false);
 	playlistBox()->setupPlaylist(p, "midi", m_searchCategories[searchCategory]);
 
-        static int i = 0;
-        if(++i % 5 == 0)
-            kapp->processEvents();
+	processEvents();
     }
 
     KApplication::restoreOverrideCursor();
