@@ -125,15 +125,18 @@ if test "$PKGCONFIGFOUND" = "yes" ; then
 
 	dnl Give error if we don't have gstreamer
 	if test "x$have_gst" = "xno"; then
-		LIB_GST=""
 		CFLAGS_GST=""
+		LDADD_GST=""
+		LDFLAGS_GST=""
 		AC_MSG_WARN([GStreamer version >= $GST_REQ required.])
 		AC_DEFINE(HAVE_GSTREAMER, 0, [have GStreamer])
 	else
-		LIB_GST=$GST_LIBS
 		CFLAGS_GST=$GST_CFLAGS
-		AC_SUBST(LIB_GST)
+		LDADD_GST=`$PKG_CONFIG --libs-only-l gstreamer-$GST_MAJORMINOR`
+		LDFLAGS_GST=`$PKG_CONFIG --libs-only-other gstreamer-$GST_MAJORMINOR`
 		AC_SUBST(CFLAGS_GST)
+		AC_SUBST(LDADD_GST)
+		AC_SUBST(LDFLAGS_GST)
 		AC_MSG_NOTICE([GStreamer version >= $GST_REQ found.])
 		AC_DEFINE(HAVE_GSTREAMER, 1, [have GStreamer])
 	fi

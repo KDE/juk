@@ -77,8 +77,8 @@ mblibs = -lmusicbrainz -ltunepimp
 endif
 ##################################################
 
-juk_LDADD = $(LIB_GST) $(mblibs) -lartskde $(LIB_KIO) $(taglib_libs)
-juk_LDFLAGS = $(all_libraries) $(KDE_RPATH)
+juk_LDADD = $(LDADD_GST) $(mblibs) -lartskde $(LIB_KIO) $(taglib_libs)
+juk_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LDFLAGS_GST)
 
 tagguessertest_LDADD = $(LIB_KDECORE)
 tagguessertest_LDFLAGS = $(all_libraries)
