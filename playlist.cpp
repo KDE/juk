@@ -982,7 +982,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	actionCollection->action("guessTag")->plug(m_rmbMenu);
 
 	m_rmbMenu->insertSeparator();
-	m_rmbMenu->insertItem(SmallIcon("new"), i18n("Create Group From Selected Items"), this, SLOT(slotCreateGroup()));
+	m_rmbMenu->insertItem(SmallIcon("new"), i18n("Create Playlist From Selected Items"), this, SLOT(slotCreateGroup()));
     }
 
     if(!readOnly())
