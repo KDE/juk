@@ -175,7 +175,7 @@ QString PlaylistSplitter::nextFile()
     }
     else if(m_playingItem) {
 
-	bool random = action("randomPlay") && action<KToggleAction>("randomePlay")->isChecked();
+	bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
 	bool loop = action("loopPlaylist") && action<KToggleAction>("loopPlaylist")->isChecked();
 
         i = m_playingItem->playlist()->nextItem(m_playingItem, random);
