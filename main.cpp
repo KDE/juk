@@ -22,14 +22,14 @@
 
 #include "juk.h"
 
-static const char *description = I18N_NOOP("Jukebox and music manager for KDE");
-static const char *scott = I18N_NOOP("Author, chief dork and keeper of the funk");
-static const char *daniel = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
-static const char *tim = I18N_NOOP("GStreamer port");
-static const char *stefan = I18N_NOOP("Global keybindings support");
-static const char *stephan = I18N_NOOP("Track announcement popups");
-static const char *frerich = I18N_NOOP("Automagic track data guessing, bugfixes");
-static const char *zack = I18N_NOOP("More automagical things, now using MusicBrainz");
+static const char description[] = I18N_NOOP("Jukebox and music manager for KDE");
+static const char scott[]       = I18N_NOOP("Author, chief dork and keeper of the funk");
+static const char daniel[]      = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
+static const char tim[]         = I18N_NOOP("GStreamer port");
+static const char stefan[]      = I18N_NOOP("Global keybindings support");
+static const char stephan[]     = I18N_NOOP("Track announcement popups");
+static const char frerich[]     = I18N_NOOP("Automagic track data guessing, bugfixes");
+static const char zack[]        = I18N_NOOP("More automagical things, now using MusicBrainz");
 
 #if KDE_IS_VERSION(3,1,90)
 typedef KUniqueApplication Application;
