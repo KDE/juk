@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kiconloader.h>
+#include <klocale.h>
 #include <kdebug.h>
 
 #include "playlistsplitter.h"
@@ -42,6 +43,25 @@ void PlaylistSplitter::createPlaylist(const QString &name)
     connect(p, SIGNAL(selectionChanged(const QPtrList<PlaylistItem> &)), editor, SLOT(setItems(const QPtrList<PlaylistItem> &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
+}
+
+QString PlaylistSplitter::uniquePlaylistName()
+{
+    if(!playlistBox)
+	return(QString::null);
+
+    QStringList names = playlistBox->names();
+
+    QString newName = i18n("Playlist");
+    int playlistNumber = 1;
+
+    // while the list contains more than zero instances of the generated 
+    // string...
+
+    while(names.contains(newName + ' ' + QString::number(playlistNumber)) != 0)
+	playlistNumber++;
+    
+    return(newName + " " + QString::number(playlistNumber));
 }
 
 QPtrList<PlaylistItem> PlaylistSplitter::playlistSelection() const
@@ -152,9 +172,6 @@ void PlaylistSplitter::setupLayout()
 
     // Show the collection on startup.
     playlistBox->setSelected(collectionBoxItem, true);
-
-    // just for testing -- until I get the dialog/menu entry for adding playlists
-    createPlaylist(i18n("Playlist 1"));
 }
 
 void PlaylistSplitter::readConfig()

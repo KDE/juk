@@ -15,12 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
 #include <kiconloader.h>
+#include <kurldrag.h>
+#include <klocale.h>
+#include <kdebug.h>
 
 #include <qdrawutil.h>
 
 #include "playlistbox.h"
+#include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox public methods
@@ -28,6 +31,7 @@
 
 PlaylistBox::PlaylistBox(QWidget *parent, const char *name) : KListBox(parent, name)
 {
+    setAcceptDrops(true);
     connect(this, SIGNAL(currentChanged(QListBoxItem *)), this, SLOT(currentItemChanged(QListBoxItem *)));
 }
 
@@ -35,6 +39,15 @@ PlaylistBox::~PlaylistBox()
 {
 
 }
+
+QStringList PlaylistBox::names() const
+{
+    return(nameList);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PlaylistBox protected methods
+////////////////////////////////////////////////////////////////////////////////
 
 void PlaylistBox::resizeEvent(QResizeEvent *e)
 {
@@ -44,6 +57,58 @@ void PlaylistBox::resizeEvent(QResizeEvent *e)
 	updateItem(i);
 
     KListBox::resizeEvent(e);
+}
+
+void PlaylistBox::dropEvent(QDropEvent *e)
+{
+    KURL::List urls;
+    
+    if(KURLDrag::decode(e, urls) && !urls.isEmpty()) {
+
+	QStringList files;
+
+	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
+	    files.append((*it).path());
+
+	PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(itemAt(e->pos()));
+
+	if(i && i->playlist())
+	    i->playlist()->append(files);
+    }
+}
+
+void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
+{
+    // If we can decode the input source, there is a non-null item at the "move"
+    // position, the playlist for that PlaylistBoxItem is non-null, is not the 
+    // selected playlist and is not the CollectionList, then accept the event.
+    //
+    // Otherwise, do not accept the event.
+
+    // At the moment this does not account for dragging from sources outside of
+    // JuK onto the CollectionList or to the selected PlaylistBoxItem.  It makes
+    // sense to not allow this from the top widget of the QWidgetStack of 
+    // playlists, however, it should allow dragging from other applications, i.e.
+    // Konq to these PlaylistBoxItems.  This just involves checking the source 
+    // in the logic below.
+    
+    if(KURLDrag::canDecode(e) && itemAt(e->pos())) {
+	PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(itemAt(e->pos()));
+	if(i->playlist() && i->playlist() != CollectionList::instance())
+	    if(selectedItem() && i != selectedItem())
+		e->accept(true);
+	    else
+		e->accept(false);
+	else
+	    e->accept(false);
+    }
+    else
+	e->accept(false);
+}
+
+void PlaylistBox::addName(const QString &name)
+{
+    nameList.append(name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -61,13 +126,14 @@ void PlaylistBox::currentItemChanged(QListBoxItem *item)
 // PlaylistBoxItem public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBoxItem::PlaylistBoxItem(QListBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) : ListBoxPixmap(listbox, pix, text)
+PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) : ListBoxPixmap(listbox, pix, text)
 {
     list = l;
     setOrientation(Qt::Vertical);
+    listbox->addName(text);
 }
 
-PlaylistBoxItem::PlaylistBoxItem(QListBox *listbox, const QString &text, Playlist *l) : ListBoxPixmap(listbox, SmallIcon("midi", 32), text)
+PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QString &text, Playlist *l) : ListBoxPixmap(listbox, SmallIcon("midi", 32), text)
 {
     list = l;
     setOrientation(Qt::Vertical);

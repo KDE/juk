@@ -36,7 +36,7 @@ public:
 private:
     GenreList *list;
     bool inGenreTag;
-    int id3v1;
+    int ID3v1;
 };
 
 #endif

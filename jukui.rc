@@ -19,6 +19,9 @@
 		<Action name="pauseFile"/>
 		<Action name="stopFile"/>
 	</Menu>
+	<Menu name="playlist"><text>Play&amp;list</text>
+		<Action name="createPlaylist"/>
+	</Menu>
 </MenuBar>
 
 <ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>

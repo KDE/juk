@@ -32,16 +32,26 @@ class PlaylistBoxItem;
 
 class PlaylistBox : public KListBox
 {
+    friend class PlaylistBoxItem;
+
     Q_OBJECT
 public: 
     PlaylistBox(QWidget *parent = 0, const char *name = 0);
     virtual ~PlaylistBox();
 
+    QStringList names() const;
+
 protected:
     virtual void resizeEvent(QResizeEvent *e);
+    virtual void dropEvent(QDropEvent *e);
+    virtual void dragMoveEvent(QDragMoveEvent *e);
+    /** This is used by PlaylistItemBox (a friend class) to add names to the name
+	list returned by names(). */
+    void addName(const QString &name);
 
 private:
     QWidgetStack *stack;
+    QStringList nameList;
 
 private slots:
     /** Catches QListBox::clicked(QListBoxItem *), does a cast and then re-emits
@@ -55,12 +65,9 @@ signals:
 class PlaylistBoxItem : public ListBoxPixmap
 {
 public:
-    PlaylistBoxItem(QListBox *listbox, const QPixmap &pix, const QString &text, Playlist *l = 0);
-    PlaylistBoxItem(QListBox *listbox, const QString &text, Playlist *l = 0);
+    PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l = 0);
+    PlaylistBoxItem(PlaylistBox *listbox, const QString &text, Playlist *l = 0);
     virtual ~PlaylistBoxItem();
-
-    // This (and the playlist member variable) should be switched to the Playlist class once
-    // the design is ready for that.
 
     Playlist *playlist() const;
     

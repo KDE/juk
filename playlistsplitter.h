@@ -39,6 +39,8 @@ public:
     virtual ~PlaylistSplitter();
 
     void createPlaylist(const QString &name);
+    /** Returns a unique string to be used as new playlist names. */
+    QString uniquePlaylistName();
     QPtrList<PlaylistItem> playlistSelection() const;
     PlaylistItem *playlistFirstItem() const;
 

@@ -54,6 +54,9 @@ protected:
     CollectionList(QWidget *parent = 0);
     virtual ~CollectionList();
 
+    virtual void contentsDropEvent(QDropEvent *e);
+    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+
     virtual void appendImpl(const QString &item);
 
     void addToDict(const QString &file, CollectionListItem *item);

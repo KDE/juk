@@ -39,12 +39,12 @@ bool GenreListReader::startElement(const QString &, const QString &, const QStri
     if(element.lower() == "genre") {
         inGenreTag = true;
         if(attributes.index("id3v1") != -1)
-            id3v1 = attributes.value("id3v1").toInt();
+            ID3v1 = attributes.value("id3v1").toInt();
         else
-            id3v1 = 255;
+            ID3v1 = 255;
     }
     else {
-        id3v1 = 255;
+        ID3v1 = 255;
     }
     return(true);
 };
@@ -59,7 +59,7 @@ bool GenreListReader::endElement(const QString &, const QString &, const QString
 bool GenreListReader::characters(const QString& content)
 {
     if(inGenreTag)
-        list->append(Genre(content, id3v1));
+        list->append(Genre(content, ID3v1));
 
     return(true);
 };

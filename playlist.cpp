@@ -16,6 +16,9 @@
  ***************************************************************************/
 
 #include <kmessagebox.h>
+#include <kurl.h>
+#include <kurldrag.h>
+#include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -35,6 +38,7 @@
 Playlist::Playlist(QWidget *parent, const char *name) : KListView(parent, name)
 {
     setup();
+    setAcceptDrops(true);
     allowDuplicates = false;
 }
 
@@ -43,7 +47,7 @@ Playlist::~Playlist()
 
 }
 
-void Playlist::append(const QString &item)
+void Playlist::append(const QString &item, bool sorted)
 {
     collectionListChanged = false;
 
@@ -55,7 +59,7 @@ void Playlist::append(const QString &item)
 	emit(collectionChanged());
 }
 
-void Playlist::append(const QStringList &items)
+void Playlist::append(const QStringList &items, bool sorted)
 {
     collectionListChanged = false;
 
@@ -127,6 +131,62 @@ QStringList &Playlist::getAlbumList()
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
+QDragObject *Playlist::dragObject()
+{
+    QPtrList<PlaylistItem> items = selectedItems();
+    KURL::List urls;
+    for(PlaylistItem *i = items.first(); i; i = items.next()) {
+	KURL url;
+	url.setPath(i->absFilePath());
+	urls.append(url);
+    }
+    
+    KURLDrag *drag = new KURLDrag(urls, this, "Playlist Items");
+    drag->setPixmap(SmallIcon("sound"));
+
+    return(drag);
+}
+
+void Playlist::contentsDropEvent(QDropEvent *e)
+{
+    QListViewItem *moveAfter = itemAt(e->pos());
+    if(!moveAfter)
+	moveAfter = lastItem();
+
+    // This is slightly more efficient since it doesn't have to cast everything
+    // to PlaylistItem.
+
+    if(e->source() == this) {
+	QPtrList<QListViewItem> items = KListView::selectedItems();
+	
+	for(QPtrListIterator<QListViewItem> it(items); it.current() != 0; ++it) {
+	    (*it)->moveItem(moveAfter);
+	    moveAfter = *it;
+	}
+    }
+    else {
+	KURL::List urls;
+    
+	if(KURLDrag::decode(e, urls) && !urls.isEmpty()) {
+	    
+	    QStringList files;
+	    
+	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
+		files.append((*it).path());
+	    
+	    append(files);
+	}
+    }
+}
+
+void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
+{
+    if(KURLDrag::canDecode(e))
+	e->accept(true);
+    else
+	e->accept(false);
+}
+
 PlaylistItem *Playlist::createItem(const QFileInfo &file)
 {
     CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
@@ -142,7 +202,7 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file)
 	return(0);
 }
 
-void Playlist::appendImpl(const QString &item)
+void Playlist::appendImpl(const QString &item, bool sorted)
 {
     processEvents();
     QFileInfo file(QDir::cleanDirPath(item));
@@ -191,6 +251,10 @@ void Playlist::setup()
     setSorting(1);
 
     connect(this, SIGNAL(selectionChanged()), this, SLOT(emitSelected()));
+
+    addColumn(QString::null);
+    setResizeMode(QListView::LastColumn);
+    // setFullWidth(true);
 }
 
 void Playlist::processEvents()

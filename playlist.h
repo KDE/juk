@@ -31,8 +31,10 @@ public:
     Playlist(QWidget *parent = 0, const char *name = 0);
     virtual ~Playlist();
 
-    virtual void append(const QString &item);
-    virtual void append(const QStringList &items);
+    /** Set sorted = false to append the items at the end of the list rather
+	than adding them into the list in their sorted place. */
+    virtual void append(const QString &item, bool sorted = true);
+    virtual void append(const QStringList &items, bool sorted = true);
 
     virtual void clearItems(const QPtrList<PlaylistItem> &items);
 
@@ -54,10 +56,13 @@ public:
     QStringList &getAlbumList();
 
 protected:
+    virtual QDragObject *dragObject();
+    virtual void contentsDropEvent(QDropEvent *e);
+    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     /** This is being used as a mini-factory of sorts to make the construction
 	of PlaylistItems virtual. */
     virtual PlaylistItem *createItem(const QFileInfo &file);
-    virtual void appendImpl(const QString &item);
+    virtual void appendImpl(const QString &item, bool sorted = true);
 
 private:
     void setup();

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kmessagebox.h>
+#include <kconfig.h>
 #include <klocale.h>
 #include <kdebug.h>
 
@@ -44,6 +45,20 @@ TagEditor::~TagEditor()
 
 void TagEditor::readConfig()
 {
+    KConfig *config = KGlobal::config();
+    { // combo box completion modes
+        KConfigGroupSaver saver(config, "TagEditor");
+        if(artistNameBox && albumNameBox) {
+            KGlobalSettings::Completion artistNameBoxMode = 
+		KGlobalSettings::Completion(config->readNumEntry("ArtistNameBoxMode", KGlobalSettings::CompletionAuto));
+	    artistNameBox->setCompletionMode(artistNameBoxMode);
+	    
+            KGlobalSettings::Completion albumNameBoxMode = 
+		KGlobalSettings::Completion(config->readNumEntry("AlbumNameBoxMode", KGlobalSettings::CompletionAuto));
+	    albumNameBox->setCompletionMode(albumNameBoxMode);
+        }
+    }
+
     genreList = GenreListList::ID3v1List(); // this should later be read from a config file 
     if(genreList && genreBox) {
         genreBox->clear();
@@ -56,6 +71,14 @@ void TagEditor::readConfig()
 
 void TagEditor::saveConfig()
 {
+    KConfig *config = KGlobal::config();
+    { // combo box completion modes
+        KConfigGroupSaver saver(config, "TagEditor");
+        if(artistNameBox && albumNameBox) {
+	    config->writeEntry("ArtistNameBoxMode", artistNameBox->completionMode());
+	    config->writeEntry("AlbumNameBoxMode", albumNameBox->completionMode());
+        }
+    }
 
 }
 
@@ -83,6 +106,7 @@ void TagEditor::setupLayout()
 
         artistNameBox = new KComboBox(true, this, "artistNameBox");
         leftColumnLayout->addWidget(artistNameBox);
+	artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
 
         leftColumnLayout->addWidget(new QLabel(i18n("Track Name"), this));
 
@@ -93,6 +117,7 @@ void TagEditor::setupLayout()
 
         albumNameBox = new KComboBox(true, this, "albumNameBox");
         leftColumnLayout->addWidget(albumNameBox);
+	albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
 
         leftColumnLayout->addWidget(new QLabel(i18n("Genre"), this));
 
@@ -237,7 +262,6 @@ void TagEditor::save()
 
 void TagEditor::updateCollection()
 {
-    kdDebug() << "TagEditor::updateCollection()" << endl;
     CollectionList *list = CollectionList::instance();
 
     if(!list)
@@ -254,6 +278,7 @@ void TagEditor::updateCollection()
 	artistList.sort();
 
         artistNameBox->listBox()->insertStringList(artistList);
+	artistNameBox->completionObject()->setItems(artistList);
     }
 
     if(albumNameBox->listBox()) {
@@ -263,6 +288,7 @@ void TagEditor::updateCollection()
 	albumList.sort();
 
         albumNameBox->listBox()->insertStringList(albumList);
+	albumNameBox->completionObject()->setItems(albumList);
     }    
 }
 

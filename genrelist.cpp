@@ -55,7 +55,7 @@ void GenreList::load(const QString &file)
 
 QString GenreList::name(int ID3v1)
 {
-    if(hasIndex && ID3v1 >= 0 && ID3v1 <= int(index.size()))
+    if(hasIndex && ID3v1 >= 0 && ID3v1 < int(index.count()))
         return(index[ID3v1]);
     else
         return(QString::null);
@@ -63,7 +63,6 @@ QString GenreList::name(int ID3v1)
 
 int GenreList::findIndex(const QString &item)
 {
-
     // cache the previous search -- since there are a lot of "two in a row"
     // searchs this should optimize things a little (this is also why this
     // method isn't a "const" method)
@@ -94,15 +93,9 @@ int GenreList::findIndex(const QString &item)
 
 void GenreList::initializeIndex()
 {
-    //  kdDebug() << "initializeIndex()" << endl;
     index.clear();
-    //  kdDebug() << "Cleared size: " << index.size() << endl;
-    index.resize(count() + 1);
-    for(GenreList::Iterator it = begin(); it != end(); ++it) {
-        if((*it).getID3v1() >= 0 && (*it).getID3v1() <= int(index.size())) {
-            //      kdDebug() << "initializeIndex() - " << (*it).getID3v1()  << " - "
-            //                << index.size() << " - " << count() << " - " << (*it) << endl;
+    index.resize(count());
+    for(GenreList::Iterator it = begin(); it != end(); ++it)
+        if((*it).getID3v1() >= 0 && (*it).getID3v1() < int(index.count()))
             index[(*it).getID3v1()] = QString(*it);
-        }
-    }
 }

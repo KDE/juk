@@ -541,12 +541,7 @@ GTAGS:
 distclean-tags:
 	-rm -f TAGS ID GTAGS GRTAGS GSYMS GPATH
 
-#>- DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
-#>+ 4
-KDE_DIST=playlistwidget.h playlistwidget.cpp taggerwidget.h taggerwidget.cpp 
-
-DISTFILES= $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
-
+DISTFILES = $(DIST_COMMON) $(DIST_SOURCES) $(TEXINFOS) $(EXTRA_DIST)
 
 top_distdir = ..
 distdir = $(top_distdir)/$(PACKAGE)-$(VERSION)
@@ -719,10 +714,6 @@ playlistitem.moc: $(srcdir)/playlistitem.h
 	$(MOC) $(srcdir)/playlistitem.h -o playlistitem.moc
 
 #>+ 3
-taggerwidget.moc: $(srcdir)/taggerwidget.h
-	$(MOC) $(srcdir)/taggerwidget.h -o taggerwidget.moc
-
-#>+ 3
 playlist.moc: $(srcdir)/playlist.h
 	$(MOC) $(srcdir)/playlist.h -o playlist.moc
 
@@ -740,7 +731,7 @@ tageditor.moc: $(srcdir)/tageditor.h
 
 #>+ 3
 clean-metasources:
-	-rm -f  slideraction.moc collectionlist.moc playlistbox.moc customaction.moc playlistitem.moc taggerwidget.moc playlist.moc playlistsplitter.moc juk.moc tageditor.moc
+	-rm -f  slideraction.moc collectionlist.moc playlistbox.moc customaction.moc playlistitem.moc playlist.moc playlistsplitter.moc juk.moc tageditor.moc
 
 #>+ 2
 docs-am:
@@ -784,7 +775,7 @@ clean-moc-classes:
 	-rm -f  juk_meta_unload.cpp
 
 #>+ 11
-juk.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/collectionlist.cpp $(srcdir)/playlistitem.cpp $(srcdir)/playlist.cpp $(srcdir)/playlistsplitter.cpp $(srcdir)/listboxpixmap.cpp $(srcdir)/playlistbox.cpp $(srcdir)/tageditor.cpp $(srcdir)/cache.cpp $(srcdir)/audiodata.cpp $(srcdir)/genrelistreader.cpp $(srcdir)/genrelistlist.cpp $(srcdir)/genrelist.cpp $(srcdir)/genre.cpp $(srcdir)/player.cpp $(srcdir)/tag.cpp $(srcdir)/customaction.cpp $(srcdir)/slideraction.cpp $(srcdir)/juk.cpp $(srcdir)/main.cpp juk_meta_unload.cpp   slideraction.moc collectionlist.moc playlistbox.moc customaction.moc playlistitem.moc taggerwidget.moc playlist.moc playlistsplitter.moc juk.moc tageditor.moc 
+juk.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/collectionlist.cpp $(srcdir)/playlistitem.cpp $(srcdir)/playlist.cpp $(srcdir)/playlistsplitter.cpp $(srcdir)/listboxpixmap.cpp $(srcdir)/playlistbox.cpp $(srcdir)/tageditor.cpp $(srcdir)/cache.cpp $(srcdir)/audiodata.cpp $(srcdir)/genrelistreader.cpp $(srcdir)/genrelistlist.cpp $(srcdir)/genrelist.cpp $(srcdir)/genre.cpp $(srcdir)/player.cpp $(srcdir)/tag.cpp $(srcdir)/customaction.cpp $(srcdir)/slideraction.cpp $(srcdir)/juk.cpp $(srcdir)/main.cpp juk_meta_unload.cpp   slideraction.moc collectionlist.moc playlistbox.moc customaction.moc playlistitem.moc playlist.moc playlistsplitter.moc juk.moc tageditor.moc 
 	@echo 'creating juk.all_cpp.cpp ...'; \
 	rm -f juk.all_cpp.files juk.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> juk.all_cpp.final; \
@@ -819,7 +810,7 @@ cvs-clean:
 kde-rpo-clean:
 	-rm -f *.rpo
 
-#>+ 11
+#>+ 10
 $(srcdir)/playlist.cpp: playlist.moc 
 $(srcdir)/slideraction.cpp: slideraction.moc 
 $(srcdir)/playlistbox.cpp: playlistbox.moc 
@@ -828,5 +819,4 @@ $(srcdir)/playlistitem.cpp: playlistitem.moc
 $(srcdir)/collectionlist.cpp: collectionlist.moc 
 $(srcdir)/playlistsplitter.cpp: playlistsplitter.moc 
 $(srcdir)/customaction.cpp: customaction.moc 
-$(srcdir)/taggerwidget.cpp: taggerwidget.moc 
 $(srcdir)/juk.cpp: juk.moc 

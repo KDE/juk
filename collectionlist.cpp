@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kurl.h>
+#include <kurldrag.h>
 #include <kdebug.h>
 
 #include "collectionlist.h"
@@ -85,6 +87,31 @@ CollectionList::CollectionList(QWidget *parent) : Playlist(parent, "collectionLi
 CollectionList::~CollectionList()
 {
 
+}
+
+void CollectionList::contentsDropEvent(QDropEvent *e)
+{
+    if(e->source() != this) {
+	KURL::List urls;
+	
+	if(KURLDrag::decode(e, urls) && !urls.isEmpty()) {
+	    
+	    QStringList files;
+	    
+	    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
+		files.append((*it).path());
+	    
+	    append(files);
+	}
+    }
+}
+
+void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
+{
+    if(KURLDrag::canDecode(e) && e->source() != this)
+	e->accept(true);
+    else
+	e->accept(false);
 }
 
 void CollectionList::appendImpl(const QString &item)

@@ -81,9 +81,13 @@ private slots:
     void paste() {};
     void selectAll(bool select = true);
 
+    // player menu
     void playFile();
     void pauseFile();
     void stopFile();
+
+    // playlist menu
+    void createPlaylist();
 
     // additional player slots
     void trackPositionSliderClick();

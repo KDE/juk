@@ -21,6 +21,8 @@
 #include <kcmdlineargs.h>
 #include <kdebug.h>
 
+#include <qinputdialog.h>
+
 #include "juk.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -70,6 +72,9 @@ void JuK::setupActions()
     playAction = new KAction(i18n("&Play"), "1rightarrow", 0, this, SLOT(playFile()), actionCollection(), "playFile");
     pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pauseFile()), actionCollection(), "pauseFile");
     stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stopFile()), actionCollection(), "stopFile");
+
+    // playlist menu
+    (void) new KAction(i18n("New Playlist..."), "filenew", 0, this, SLOT(createPlaylist()), actionCollection(), "createPlaylist");
 
     // just in the toolbar
     sliderAction = new SliderAction(i18n("Track Position"), actionCollection(), "trackPositionAction");
@@ -270,6 +275,25 @@ void JuK::stopFile()
     if(playingItem)
         playingItem->setPixmap(0, 0);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// playlist menu
+////////////////////////////////////////////////////////////////////////////////
+
+void JuK::createPlaylist()
+{
+    if(splitter) {
+	bool ok;
+	QString name = QInputDialog::getText(i18n("New Playlist..."), i18n("Please enter a name for the new playlist:"), 
+					     QLineEdit::Normal, splitter->uniquePlaylistName(), &ok);
+	if(ok)
+	    splitter->createPlaylist(name);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// additional player slots
+////////////////////////////////////////////////////////////////////////////////
 
 void JuK::trackPositionSliderClick()
 {
