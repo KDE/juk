@@ -83,7 +83,7 @@ public:
     virtual void updateCurrent() = 0;
 
     /**
-     * This method must be implemented in concerete implementations; it should
+     * This method must be implemented in concrete implementations; it should
      * define what action should be taken when the data of the PlaylistItems in
      * the playlist changes.
      */
