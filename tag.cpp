@@ -77,8 +77,10 @@ void Tag::save()
 
     if(MediaFiles::isMP3(m_fileName))
         file = new TagLib::MPEG::File(QStringToTString(m_fileName));
+#ifdef BREAK_MY_OGGS
     else if(MediaFiles::isOgg(m_fileName))
         file = new TagLib::Vorbis::File(QStringToTString(m_fileName));
+#endif
 
     if(file && file->isOpen() && file->tag()) {
         file->tag()->setTitle(QStringToTString(m_title));
