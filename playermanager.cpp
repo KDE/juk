@@ -357,7 +357,7 @@ void PlayerManager::setup()
     if(outputAction) {
         int mediaSystem = static_cast<KSelectAction *>(outputAction)->currentItem();
         m_player = Player::createPlayer(mediaSystem);
-        connect(outputAction, SIGNAL(activated(int)), this, SLOT(setOutputSystem(int)));
+        connect(outputAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
     }
     else
         m_player = Player::createPlayer();
