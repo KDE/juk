@@ -107,6 +107,7 @@ protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
 
     bool importPlaylists() const;
+    bool containsPlaylistFile(const QString &file) const;
 
     QString playlistNameDialog(const QString &caption = i18n("Create New Playlist"),
                                const QString &suggest = QString::null,

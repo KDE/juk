@@ -1334,7 +1334,9 @@ PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
 	if(MediaFiles::isMediaFile(file))
 	    return createItem(FileHandle(fileInfo, fileInfo.absFilePath()), after, false);
 
-	if(importPlaylists && MediaFiles::isPlaylistFile(file)) {
+	if(importPlaylists && MediaFiles::isPlaylistFile(file) &&
+	   !m_collection->containsPlaylistFile(fileInfo.absFilePath()))
+	{
 	    new Playlist(m_collection, fileInfo);
 	    return after;
 	}

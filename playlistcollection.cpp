@@ -431,15 +431,6 @@ void PlaylistCollection::raise(Playlist *playlist)
 
 void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
 {
-    // Add this playlist file to our list.  If it's already in the list remove
-    // the item.
-
-    if(!playlist->fileName().isEmpty() &&
-       m_playlistFiles.insert(playlist->fileName()))
-    {
-        playlist->deleteLater();
-    }
-
     if(!playlist->name().isNull())
         m_playlistNames.insert(playlist->name());
 
@@ -450,6 +441,11 @@ void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
 bool PlaylistCollection::importPlaylists() const
 {
     return m_importPlaylists;
+}
+
+bool PlaylistCollection::containsPlaylistFile(const QString &file) const
+{
+    return m_playlistFiles.contains(file);
 }
 
 QString PlaylistCollection::playlistNameDialog(const QString &caption,
