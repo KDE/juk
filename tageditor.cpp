@@ -83,11 +83,11 @@ void TagEditor::slotRefresh()
     Tag *tag = item->tag();
 	
     m_artistNameBox->setEditText(tag->artist());
-    m_trackNameBox->setText(tag->track());
+    m_trackNameBox->setText(tag->title());
     m_albumNameBox->setEditText(tag->album());
 
     m_fileNameBox->setText(item->fileName());
-    m_bitrateBox->setText(tag->bitrateString());
+    m_bitrateBox->setText(QString::number(tag->bitrate()));
     m_lengthBox->setText(tag->lengthString());
 
     if(m_genreList.findIndex(tag->genre()) >= 0)
@@ -97,7 +97,7 @@ void TagEditor::slotRefresh()
 	m_genreBox->setEditText(tag->genre());
     }
 
-    m_trackSpin->setValue(tag->trackNumber());
+    m_trackSpin->setValue(tag->track());
     m_yearSpin->setValue(tag->year());
     
     m_commentBox->setText(tag->comment());
@@ -145,7 +145,7 @@ void TagEditor::slotRefresh()
 		    m_artistNameBox->lineEdit()->clear();
 		    m_enableBoxes[m_artistNameBox]->setChecked(false);
 		}
-		if(m_trackNameBox->text() != tag->track() &&
+		if(m_trackNameBox->text() != tag->title() &&
 		   m_enableBoxes.contains(m_trackNameBox))
 		{
 		    m_trackNameBox->clear();
@@ -163,7 +163,7 @@ void TagEditor::slotRefresh()
 		    m_genreBox->lineEdit()->clear();
 		    m_enableBoxes[m_genreBox]->setChecked(false);
 		}		
-		if(m_trackSpin->value() != tag->trackNumber() &&
+		if(m_trackSpin->value() != tag->track() &&
 		   m_enableBoxes.contains(m_trackSpin))
 		{
 		    m_trackSpin->setValue(0);
@@ -460,11 +460,11 @@ void TagEditor::save(const PlaylistItemList &list)
 		if(m_enableBoxes[m_artistNameBox]->isOn())
 		    item->tag()->setArtist(m_artistNameBox->currentText());
 		if(m_enableBoxes[m_trackNameBox]->isOn())
-		    item->tag()->setTrack(m_trackNameBox->text());
+		    item->tag()->setTitle(m_trackNameBox->text());
 		if(m_enableBoxes[m_albumNameBox]->isOn())
 		    item->tag()->setAlbum(m_albumNameBox->currentText());
 		if(m_enableBoxes[m_trackSpin]->isOn())
-		    item->tag()->setTrackNumber(m_trackSpin->value());
+		    item->tag()->setTrack(m_trackSpin->value());
 		if(m_enableBoxes[m_yearSpin]->isOn())
 		    item->tag()->setYear(m_yearSpin->value());
 		if(m_enableBoxes[m_commentBox]->isOn())

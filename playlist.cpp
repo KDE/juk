@@ -1316,7 +1316,7 @@ void Playlist::applyTag(PlaylistItem *item, const QString &text, int column)
     switch(column - columnOffset())
     {
     case PlaylistItem::TrackColumn:
-	item->tag()->setTrack(text);
+	item->tag()->setTitle(text);
 	break;
     case PlaylistItem::ArtistColumn:
 	item->tag()->setArtist(text);
@@ -1329,7 +1329,7 @@ void Playlist::applyTag(PlaylistItem *item, const QString &text, int column)
 	bool ok;
 	int value = text.toInt(&ok);
 	if(ok)
-	    item->tag()->setTrackNumber(value);
+	    item->tag()->setTrack(value);
 	break;
     }
     case PlaylistItem::GenreColumn:

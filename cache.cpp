@@ -53,28 +53,24 @@ void Cache::save()
 	return;
 
     QByteArray data;
-    QDataStream s(data, IO_WriteOnly);
+    CacheDataStream s(data, IO_WriteOnly);
 
     for(QDictIterator<Tag>it(*this); it.current(); ++it) {
-	s << it.current()->absFilePath()
-	  << *(it.current());
+	s << it.current()->fileName();
+	s << *(it.current());
     }
 
-    f.writeBlock(data);
+    QDataStream fs(&f);
+
+    Q_INT32 checksum = qChecksum(data.data(), data.size());
+
+    fs << Q_INT32(m_currentVersion)
+       << checksum
+       << data;
+
     f.close();
 
     QDir(dirName).rename("cache.new", "cache");
-
-    // Store the checksum so that later we can make sure that things are ok.
-
-    int checksum = qChecksum(data.data(), data.size());
-
-    KConfig *config = KGlobal::config();
-    {
-	KConfigGroupSaver saver(config, "Cache");
-	config->writeEntry("Checksum", checksum);
-    }
-    config->sync();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -95,39 +91,50 @@ void Cache::load()
     if(!f.open(IO_ReadOnly))
 	return;
 
-    QByteArray data = f.readAll();
-    f.close();
+    CacheDataStream s(&f);
 
-    // Compare the checksum of the data to the one stored in the config file to
-    // make sure that our cache isn't corrupt.
+    Q_INT32 version;
+    s >> version;
 
-    int checksum;
-    KConfig *config = KGlobal::config();
-    {
-	KConfigGroupSaver saver(config, "Cache");
-	checksum = config->readNumEntry("Checksum", -1);
+    QBuffer buffer;
+
+    // Do the version specific stuff.
+
+    switch(version) {
+    case 1: {
+	s.setCacheVersion(1);
+
+	Q_INT32 checksum;
+	QByteArray data;
+	s >> checksum
+	  >> data;
+
+	buffer.setBuffer(data);
+	buffer.open(IO_ReadOnly);
+	s.setDevice(&buffer);
+
+	if(checksum != qChecksum(data.data(), data.size())) {
+	    KMessageBox::sorry(0, i18n("The music data cache has been corrupted. JuK "
+				       "needs to rescan it now. This may take some time."));
+	    return;
+	}
+	break;
     }
-    if(checksum >= 0 && checksum != qChecksum(data.data(), data.size())) {
-	KMessageBox::sorry(0, i18n("The music data cache has been corrupted. JuK "
-				   "needs to rescan it now. This may take some time."));
-	return;
+    default: {
+	s.device()->reset();
+	s.setCacheVersion(0);
+	break;
+    }
     }
 
-    QDataStream s(data, IO_ReadOnly);
+    // Read the cached tags.
 
     while(!s.atEnd()) {
-
 	QString fileName;
 	s >> fileName;
-	//fileName.squeeze();        
+	fileName.squeeze();        
 
 	Tag *t = new Tag(fileName);
 	s >> *t;
-
-	// Just do a dumb read from the cache.  Originally cache concistancy was
-	// checked here, but this means that JuK was having to stat every file
-	// in the cache while blocking GUI creation.  This has since been moved
-	// to the event loop and is placed in the event loop in the 
-	// CollectionListItem constructor.
     }
 }

@@ -150,7 +150,7 @@ void PlaylistSplitter::populatePlayHistoryMenu(QPopupMenu* menu, bool random)
     menu->clear();
     int i = 0;
     for(PlaylistItemList::Iterator it = list.begin(); it != list.end(); ++it)
-        menu->insertItem((*it)->tag()->track(), ++i);
+        menu->insertItem((*it)->tag()->title(), ++i);
 }
 
 QString PlaylistSplitter::playSelectedFile()

@@ -24,8 +24,8 @@
 #include <taglib/vorbisfile.h>
 #include <taglib/xiphcomment.h>
 
-#include "tag.h"
 #include "cache.h"
+#include "tag.h"
 #include "mediafiles.h"
 #include "stringshare.h"
 
@@ -65,7 +65,7 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
 
 Tag::~Tag()
 {
-    Cache::instance()->remove(absFilePath());
+    Cache::instance()->remove(m_fileName);
 }
 
 void Tag::save()
@@ -80,38 +80,81 @@ bool Tag::current() const
            m_modificationTime >= Tag::lastModified());
 }
 
-QDataStream &Tag::read(QDataStream &s)
+QDateTime Tag::lastModified() const
 {
-    static QString dummyString;
-    static int dummyInt;
+    if(m_lastModified.isNull())
+	m_lastModified = m_info.lastModified();
+    return m_lastModified;
+}
 
-    // TODO: Use Q_UINT32 in place of all integers.
 
-    s >> dummyInt                // TODO: remove
-      >> m_title
-      >> m_artist
-      >> m_album
-      >> m_genre
-      >> dummyInt                // TODO: remove
-      >> m_track
-      >> dummyString             // TODO: remove
-      >> m_year
-      >> dummyString             // TODO: remove
-      >> m_comment
-      >> m_bitrateString         // TODO: remove and replace with int
-      >> m_lengthString
-      >> m_seconds
-      >> dummyString             // TODO: remove
-      >> m_modificationTime;
+CacheDataStream &Tag::read(CacheDataStream &s)
+{
+    switch(s.cacheVersion()) {
+    case 1: {
+	Q_INT32 track;
+	Q_INT32 year;
+	Q_INT32 bitrate;
+	Q_INT32 seconds;
+
+	s >> m_title
+	  >> m_artist
+	  >> m_album
+	  >> m_genre
+	  >> track
+	  >> year
+	  >> m_comment
+	  >> bitrate
+	  >> m_lengthString
+	  >> seconds
+	  >> m_modificationTime;
+
+	m_track = track;
+	m_year = year;
+	m_bitrate = bitrate;
+	m_seconds = seconds;
+	break;
+    }
+    default: {
+	static QString dummyString;
+	static int dummyInt;
+	QString bitrateString;
+
+	s >> dummyInt
+	  >> m_title
+	  >> m_artist
+	  >> m_album
+	  >> m_genre
+	  >> dummyInt
+	  >> m_track
+	  >> dummyString
+	  >> m_year
+	  >> dummyString
+	  >> m_comment
+	  >> bitrateString
+	  >> m_lengthString
+	  >> m_seconds
+	  >> dummyString
+	  >> m_modificationTime;
+
+	bool ok;
+	m_bitrate = bitrateString.toInt(&ok);
+	if(!ok)
+	    m_bitrate = 0;
+	break;
+    }
+    }
 
     // Try to reduce memory usage: share tags that frequently repeat, squeeze others
+
     m_title.squeeze();
+    m_lengthString.squeeze();
+
     m_comment       = StringShare::tryShare(m_comment);
     m_artist        = StringShare::tryShare(m_artist);
     m_album         = StringShare::tryShare(m_album);
     m_genre         = StringShare::tryShare(m_genre);
-    m_bitrateString = StringShare::tryShare(m_bitrateString);
-    m_lengthString.squeeze();
+
     return s;
 }
 
@@ -145,7 +188,6 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
 
     m_seconds = file->audioProperties()->length();
     m_bitrate = file->audioProperties()->length();
-    m_bitrateString = QString::number(m_bitrate);
 
     const int seconds = m_seconds % 60;
     const int minutes = (m_seconds - seconds) / 60;
@@ -159,31 +201,24 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
 // related functions
 ////////////////////////////////////////////////////////////////////////////////
 
-QDataStream &operator<<(QDataStream &s, const Tag &t)
+CacheDataStream &operator<<(CacheDataStream &s, const Tag &t)
 {
-    // TODO: Use Q_UINT32 in place of all integers.
-
-    s << 0                         // TODO: remove
-      << t.track()
+    s << t.title()
       << t.artist()
       << t.album()
       << t.genre()
-      << 0                         // TODO: remove
-      << t.trackNumber()
-      << QString::null             // TODO: remove
-      << t.year()
-      << QString::null             // TODO: remove
+      << Q_INT32(t.track())
+      << Q_INT32(t.year())
       << t.comment()
-      << t.bitrateString()         // TODO: remove and replace with int
+      << Q_INT32(t.bitrate())
       << t.lengthString()
-      << t.seconds()
-      << QString::null             // TODO: remove
+      << Q_INT32(t.seconds())
       << t.lastModified();
 
     return s;
 }
 
-QDataStream &operator>>(QDataStream &s, Tag &t)
+CacheDataStream &operator>>(CacheDataStream &s, Tag &t)
 {
     return t.read(s);
 }

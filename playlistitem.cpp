@@ -58,23 +58,23 @@ QString PlaylistItem::text(int column) const
 
     switch(column - offset) {
     case TrackColumn:
-	return m_data->tag()->track();
+	return m_data->tag()->title();
     case ArtistColumn:
 	return m_data->tag()->artist();
     case AlbumColumn:
 	return m_data->tag()->album();
     case TrackNumberColumn:
-	return m_data->tag()->trackNumberString();
+	return QString::number(m_data->tag()->track());
     case GenreColumn:
 	return m_data->tag()->genre();
     case YearColumn:
-	return m_data->tag()->yearString();
+	return QString::number(m_data->tag()->year());
     case LengthColumn:
 	return m_data->tag()->lengthString();
     case CommentColumn:
 	return m_data->tag()->comment();
     case FileNameColumn:
-	return m_data->tag()->absFilePath();
+	return m_data->tag()->fileName();
     default:
 	return KListViewItem::text(column);
     }
@@ -128,16 +128,16 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
     switch(type) {
     case TagGuesser::FileName:
     {
-	TagGuesser guesser(tag()->absFilePath());
+	TagGuesser guesser(tag()->fileName());
 
 	if(!guesser.title().isNull())
-	    tag()->setTrack(guesser.title());
+	    tag()->setTitle(guesser.title());
 	if(!guesser.artist().isNull())
 	    tag()->setArtist(guesser.artist());
 	if(!guesser.album().isNull())
 	    tag()->setAlbum(guesser.album());
 	if(!guesser.track().isNull())
-	    tag()->setTrackNumber(guesser.track().toInt());
+	    tag()->setTrack(guesser.track().toInt());
 	if(!guesser.comment().isNull())
 	    tag()->setComment(guesser.comment());
 
@@ -149,7 +149,7 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
     {
 #if HAVE_MUSICBRAINZ
 	MusicBrainzQuery *query = new MusicBrainzQuery(MusicBrainzQuery::File,
-						       tag()->absFilePath());
+						       tag()->fileName());
 	connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
 		SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
 	KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
@@ -273,9 +273,9 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool) const
 {
     if(column == TrackNumberColumn) {
-        if(firstItem->tag()->trackNumber() > secondItem->tag()->trackNumber())
+        if(firstItem->tag()->track() > secondItem->tag()->track())
             return 1;
-        else if(firstItem->tag()->trackNumber() < secondItem->tag()->trackNumber())
+        else if(firstItem->tag()->track() < secondItem->tag()->track())
             return -1;
         else
             return 0;
@@ -348,13 +348,13 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
     MusicBrainzQuery::Track track = trackPicker->selectedTrack();
 
     if(!track.name.isEmpty())
-        tag()->setTrack(track.name);
+        tag()->setTitle(track.name);
     if(!track.artist.isEmpty())
         tag()->setArtist(track.artist);
     if(!track.album.isEmpty())
         tag()->setAlbum(track.album);
     if(track.number)
-        tag()->setTrackNumber(track.number);
+        tag()->setTrack(track.number);
 
     tag()->save();
     slotRefresh();

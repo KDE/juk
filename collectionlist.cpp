@@ -43,7 +43,7 @@ void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
 
     if(restoreOnLoad)
 	for(QDictIterator<Tag>it(*Cache::instance()); it.current(); ++it)
-	    new CollectionListItem(it.current()->fileInfo(), it.current()->absFilePath());
+	    new CollectionListItem(it.current()->fileInfo(), it.current()->fileName());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

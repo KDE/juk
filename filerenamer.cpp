@@ -198,10 +198,10 @@ QString FileRenamer::rename(const QString &filename, const Tag &tag) const
     QString newFilename = m_cfg.filenameScheme();
 
     QMap<QChar, QString> substitutions;
-    substitutions[ 't' ] = expandToken(Title, tag.track());
+    substitutions[ 't' ] = expandToken(Title, tag.title());
     substitutions[ 'a' ] = expandToken(Artist, tag.artist());
     substitutions[ 'A' ] = expandToken(Album, tag.album());
-    substitutions[ 'T' ] = expandToken(Track, tag.trackNumberString());
+    substitutions[ 'T' ] = expandToken(Track, QString::number(tag.track()));
     substitutions[ 'c' ] = expandToken(Comment, tag.comment());
 
     newFilename = KMacroExpander::expandMacros(newFilename, substitutions);

@@ -26,6 +26,8 @@
 
 namespace TagLib { class File; }
 
+class CacheDataStream;
+
 /*!
  * This should really be called "metadata" and may at some point be titled as
  * such.  Right now it's mostly a Qt wrapper around TagLib.
@@ -46,47 +48,43 @@ public:
 
     void save();
 
-    QString track() const { return m_title; }
+    QString title() const { return m_title; }
     QString artist() const { return m_artist; }
     QString album() const { return m_album; }
     QString genre() const { return m_genre; }
-    int trackNumber() const { return m_track; }
-    QString trackNumberString() const { return m_track > 0 ? QString::number(m_track) : QString::null; }
+    int track() const { return m_track; }
     int year() const { return m_year; }
-    QString yearString() const { return m_year > 0 ? QString::number(m_year) : QString::null; }
     QString comment() const { return m_comment; }
 
-    void setTrack(const QString &value) { m_title = value; }
+    void setTitle(const QString &value) { m_title = value; }
     void setArtist(const QString &value) { m_artist = value; }
     void setAlbum(const QString &value) { m_album = value; }
     void setGenre(const QString &value) { m_genre = value; }
-    void setTrackNumber(int value) { m_track = value; }
+    void setTrack(int value) { m_track = value; }
     void setYear(int value) { m_year = value; }
     void setComment(const QString &value) { m_comment = value; }
 
-    QString bitrateString() const { return m_bitrateString; }
-    QString lengthString() const { return m_lengthString; }
     int seconds() const { return m_seconds; }
+    int bitrate() const { return m_bitrate; }
+
+    QString fileName() const { return m_fileName; }
+    QDateTime lastModified() const;
+
+    /**
+     * As a convenience, since producing a length string from a number of second
+     * isn't a one liner, provide the lenght in string form.
+     */
+    QString lengthString() const { return m_lengthString; }
 
     /**
      * Check to see if the item is up to date.
      */
     bool current() const;
 
-    // These functions are inlined because they are used on startup -- the most
-    // performance critical section of JuK.
+    bool fileExists() const { return m_info.exists() && m_info.isFile(); }
+    QFileInfo fileInfo() const { return m_info; }
 
-    inline QString absFilePath() const { return m_fileName; }
-    inline QDateTime lastModified() const
-    {
-        if(m_lastModified.isNull())
-            m_lastModified = m_info.lastModified();
-        return m_lastModified;
-    }
-    inline bool fileExists() const { return m_info.exists() && m_info.isFile(); }
-    inline QFileInfo fileInfo() const { return m_info; }
-
-    QDataStream &read(QDataStream &s);
+    CacheDataStream &read(CacheDataStream &s);
 
 private:
     /*!
@@ -108,12 +106,12 @@ private:
     int m_year;
     int m_seconds;
     int m_bitrate;
-    QString m_lengthString;
-    QString m_bitrateString;
     QDateTime m_modificationTime;
+
+    QString m_lengthString;
 };
 
-QDataStream &operator<<(QDataStream &s, const Tag &t);
-QDataStream &operator>>(QDataStream &s, Tag &t);
+CacheDataStream &operator<<(CacheDataStream &s, const Tag &t);
+CacheDataStream &operator>>(CacheDataStream &s, Tag &t);
 
 #endif

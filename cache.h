@@ -20,7 +20,7 @@
 
 #include <qdict.h>
 
-#include "tag.h"
+class Tag;
 
 class Cache : public QDict<Tag>
 {
@@ -39,6 +39,27 @@ private:
      * size of the dict.
      */
     static const int m_cacheSize = 5003;
+    static const int m_currentVersion = 1;
+};
+
+/**
+ * A simple QDataStream subclass that has an extra field to indicate the cache
+ * version.
+ */
+
+class CacheDataStream : public QDataStream
+{
+public:
+    CacheDataStream(QIODevice *d) : QDataStream(d), m_cacheVersion(0) {}
+    CacheDataStream(QByteArray a, int mode) : QDataStream(a, mode), m_cacheVersion(0) {}
+
+    virtual ~CacheDataStream() {}
+
+    int cacheVersion() const { return m_cacheVersion; }
+    void setCacheVersion(int v) { m_cacheVersion = v; }
+    
+private:
+    int m_cacheVersion;
 };
 
 #endif
