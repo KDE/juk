@@ -324,17 +324,17 @@ void TagEditor::setupLayout()
     { // just for organization
         m_artistNameBox = new KComboBox(true, this, "artistNameBox");
 	m_artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-	addItem(i18n("Artist name:"), m_artistNameBox, leftColumnLayout);
+	addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout);
 
         m_trackNameBox = new KLineEdit(this, "trackNameBox");
-	addItem(i18n("Track name:"), m_trackNameBox, leftColumnLayout);
+	addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout);
 
         m_albumNameBox = new KComboBox(true, this, "albumNameBox");
 	m_albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-	addItem(i18n("Album name:"), m_albumNameBox, leftColumnLayout);
+	addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout);
 
         m_genreBox = new KComboBox(true, this, "genreBox");
-	addItem(i18n("Genre:"), m_genreBox, leftColumnLayout);
+	addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout);
 
         // this fills the space at the bottem of the left column
         leftColumnLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
@@ -344,7 +344,7 @@ void TagEditor::setupLayout()
     // put stuff in the right column
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
-        rightColumnLayout->addWidget(addHidden(new QLabel(i18n("File name:"), this)));
+        rightColumnLayout->addWidget(addHidden(new QLabel(i18n("&File name:"), this)));
 
         m_fileNameBox = new KLineEdit(this, "fileNameBox");
         rightColumnLayout->addWidget(addHidden(m_fileNameBox));
@@ -354,13 +354,13 @@ void TagEditor::setupLayout()
 							  horizontalSpacing);
 
             m_trackSpin = new KIntSpinBox(0, 255, 1, 0, 10, this, "trackSpin");
-	    addItem(i18n("Track:"), m_trackSpin, trackRowLayout);
+	    addItem(i18n("T&rack:"), m_trackSpin, trackRowLayout);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
 						    QSizePolicy::Minimum));
 
             m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "yearSpin");
-	    addItem(i18n("Year:"), m_yearSpin, trackRowLayout);
+	    addItem(i18n("&Year:"), m_yearSpin, trackRowLayout);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
 						    QSizePolicy::Minimum));
@@ -383,7 +383,7 @@ void TagEditor::setupLayout()
 
         m_commentBox = new KEdit(this, "commentBox");
 	m_commentBox->setTextFormat(Qt::PlainText);
-	addItem(i18n("Comment:"), m_commentBox, rightColumnLayout);
+	addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout);
     }
 
     connect(m_artistNameBox, SIGNAL(textChanged(const QString&)),
@@ -534,7 +534,7 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
     if(!item || !layout)
 	return;
 
-    QLabel *label = new QLabel(text, this);
+    QLabel *label = new QLabel(item, text, this);
 
     QCheckBox *enableBox = new QCheckBox(i18n("Enable"), this);
     enableBox->setChecked(true);
