@@ -150,6 +150,7 @@ private:
     KToggleAction *m_randomPlayAction;
     KToggleAction *m_toggleSystemTrayAction;
     KToggleAction *m_toggleDockOnCloseAction;
+    KToggleAction *m_togglePopupsAction;
     KSelectAction *m_outputSelectAction;
 
     KAction *m_playAction;

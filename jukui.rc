@@ -52,8 +52,9 @@
 		<Action name="restoreOnLoad"/>
 		<Action name="toggleSystemTray"/>
 		<Action name="dockOnClose"/>
+		<Action name="togglePopups"/>
 		<Action name="outputSelect"/>
-		<Separator />
+		<Separator/>
 		<Action name="options_configure_keybinding"/>
 	</Menu>
 </MenuBar>

@@ -1,8 +1,8 @@
 /***************************************************************************
                           systray.cpp  -  description
                              -------------------
-							 
-    copyright            : (C) 2002 by Daniel Molkentin, 
+
+    copyright            : (C) 2002 by Daniel Molkentin,
     email                : molkentin@kde.org
  ***************************************************************************/
 
@@ -22,21 +22,23 @@
 
 class QTimer;
 class QPimap;
+class KPassivePopup;
+class KMainWindow;
 
 class SystemTray : public KSystemTray
 {
     Q_OBJECT
 
-public:	
-    SystemTray(QWidget *parent = 0, const char* name = 0);
+public:
+    SystemTray(KMainWindow *parent = 0, const char *name = 0);
     virtual ~SystemTray();
-    
+
 public slots:
     void slotNewSong(const QString& songName);
     void slotPlay() { setPixmap(m_playPix); }
     void slotPause() { setPixmap(m_pausePix); }
     void slotStop();
-    
+
 signals:
     void signalPlay();
     void signalStop();
@@ -45,12 +47,20 @@ signals:
     void signalBack();
 
 private:
+    void createPopup(const QString &songName, bool addButtons = true);
+
     QTimer *m_blinkTimer;
     bool m_blinkStatus;
     QPixmap m_playPix;
     QPixmap m_pausePix;
     QPixmap m_currentPix;
+    QPixmap m_backPix;
+    QPixmap m_forwardPix;
     QPixmap m_appPix;
+
+    KMainWindow *m_parent;
+    KPassivePopup *m_popup;
+    QLabel *m_currentLabel;
 };
 
 #endif // SYSTEMTRAY_H

@@ -150,15 +150,18 @@ void JuK::setupActions()
 
     m_toggleDockOnCloseAction = new KToggleAction(i18n("Stay in System Tray on Close"), 0, actionCollection(), "dockOnClose");
 
+    m_togglePopupsAction = new KToggleAction(i18n("Popup Track Announcement"), 0, this, 0, actionCollection(), "togglePopups");
+
     new KAction(i18n("Genre List Editor..."), 0, this, SLOT(slotShowGenreListEditor()), actionCollection(), "showGenreListEditor");
 
-    KStdAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
-
     m_outputSelectAction = Player::playerSelectAction(actionCollection());
+
     if(m_outputSelectAction) {
 	m_outputSelectAction->setCurrentItem(0);
 	connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
     }
+
+    KStdAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
 
     // just in the toolbar
     m_sliderAction = new SliderAction(i18n("Track Position"), actionCollection(), "trackPositionAction");
@@ -287,14 +290,12 @@ void JuK::readConfig()
     KConfig *config = KGlobal::config();
     { // m_player settings
         KConfigGroupSaver saver(config, "Player");
-        if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
+        if(m_sliderAction->getVolumeSlider()) {
             int volume = config->readNumEntry("Volume", m_sliderAction->getVolumeSlider()->maxValue());
             m_sliderAction->getVolumeSlider()->setValue(volume);
         }
-	if(m_randomPlayAction) {
-	    bool randomPlay = config->readBoolEntry("RandomPlay", false);
-	    m_randomPlayAction->setChecked(randomPlay);
-	}
+	bool randomPlay = config->readBoolEntry("RandomPlay", false);
+	m_randomPlayAction->setChecked(randomPlay);
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
@@ -311,13 +312,15 @@ void JuK::readConfig()
 	bool dockOnClose = config->readBoolEntry("DockOnClose", true);
 	m_toggleDockOnCloseAction->setChecked(dockOnClose);
 
+	bool showPopups = config->readBoolEntry("TrackPopup", false);
+	m_togglePopupsAction->setChecked(showPopups);
+
 	if(m_outputSelectAction)
 	    m_outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
 	
     }
 
-    if(m_restoreOnLoadAction)
-	m_restoreOnLoadAction->setChecked(m_restore);
+    m_restoreOnLoadAction->setChecked(m_restore);
     
 }
 
@@ -337,12 +340,10 @@ void JuK::saveConfig()
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
-	if(m_restoreOnLoadAction)
-	    config->writeEntry("RestoreOnLoad", m_restoreOnLoadAction->isChecked());
-	if(m_toggleSystemTrayAction)
-	    config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
-	if(m_toggleDockOnCloseAction)
-	    config->writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
+	config->writeEntry("RestoreOnLoad", m_restoreOnLoadAction->isChecked());
+	config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
+	config->writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
+	config->writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
 	if(m_outputSelectAction)
 	    config->writeEntry("MediaSystem", m_outputSelectAction->currentItem());
     }
