@@ -256,7 +256,7 @@ void FileRenamerWidget::loadConfig()
             m_folderSwitches[*it]->setChecked(true);
     }
 
-    QString url = config.readPathEntry("MusicDirectory", "${HOME}/music");
+    QString url = config.readPathEntry("MusicFolder", "${HOME}/music");
     m_musicFolder->setURL(url);
 
     m_separator->setCurrentText(config.readEntry("Separator", " - "));
@@ -281,7 +281,7 @@ void FileRenamerWidget::saveConfig()
         categoryOrder += m_rows[i].category;
 
     config.writeEntry("CategoryOrder", categoryOrder);
-    config.writePathEntry("MusicDirectory", m_musicFolder->url());
+    config.writePathEntry("MusicFolder", m_musicFolder->url());
     config.writeEntry("Separator", m_separator->currentText());
 
     config.sync();
