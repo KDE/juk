@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+
 #include "dynamicplaylist.h"
 #include "collectionlist.h"
 
@@ -41,6 +43,18 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists, QWidget *parent,
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void DynamicPlaylist::slotReload()
+{
+    for(PlaylistList::Iterator it = m_playlists.begin(); it != m_playlists.end(); ++it)
+	(*it)->slotReload();
+
+    checkUpdateItems();
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -56,6 +70,16 @@ PlaylistItemList DynamicPlaylist::items() const
 
 void DynamicPlaylist::showEvent(QShowEvent *e)
 {
+    checkUpdateItems();
+    Playlist::showEvent(e);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void DynamicPlaylist::checkUpdateItems()
+{
     if(m_dirty) {
         PlaylistItemList newItems = items();
         if(m_items != newItems) {
@@ -64,8 +88,6 @@ void DynamicPlaylist::showEvent(QShowEvent *e)
 	}
         m_dirty = false;
     }
-
-    Playlist::showEvent(e);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

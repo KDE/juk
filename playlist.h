@@ -188,7 +188,7 @@ public slots:
     /**
      * Reload the playlist contents from the m3u file.
      */
-    void slotReload();
+    virtual void slotReload();
 
 protected:
     /**

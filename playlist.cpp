@@ -28,6 +28,7 @@
 #include <qheader.h>
 #include <qcursor.h>
 #include <qdir.h>
+#include <qeventloop.h>
 
 #include <stdlib.h>
 #include <limits.h>
@@ -274,6 +275,12 @@ void Playlist::clearItems(const PlaylistItemList &items)
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
 	clearItem(*it, false);
 
+    // Since we're using deleteLater() in the above call and calls to this will expect
+    // those items to have actually gone away.
+
+    // kapp->processEvents();
+    kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
+
     emit signalNumberOfItemsChanged(this);
 }
 
@@ -290,6 +297,7 @@ QStringList Playlist::files() const
 PlaylistItemList Playlist::items()
 {
     PlaylistItemList list;
+
     for(QListViewItemIterator it(this); it.current(); ++it)
 	list.append(static_cast<PlaylistItem *>(it.current()));
 
@@ -301,6 +309,7 @@ PlaylistItemList Playlist::visibleItems() const
     PlaylistItemList list;
     PlaylistItem *i = static_cast<PlaylistItem *>(firstChild());
     for(; i; i = static_cast<PlaylistItem *>(i->itemBelow())) {
+
         // This check should be removed at some point since those items should 
 	// all be already visible at the time of writing there's a bug that 
 	// leaves some invisible items in the list
@@ -494,7 +503,7 @@ void Playlist::slotReload()
     if(!fileInfo.exists() || !fileInfo.isFile() || !fileInfo.isReadable())
 	return;
 
-    clear();
+    clearItems(items());
     loadFile(m_fileName, fileInfo);
 }
 

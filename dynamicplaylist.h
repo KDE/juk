@@ -33,12 +33,19 @@ public:
      */
     DynamicPlaylist(const PlaylistList &lists, QWidget *parent, const QString &name = QString::null);
 
+public slots:
+    /**
+     * Reimplemented so that it will reload all of the playlists that are
+     * associated with the dynamic list.
+     */
+    virtual void slotReload();
+
 protected:
     /**
      * Returns true if this list's items need to be updated the next time it's
      * shown.
      */
-    bool dirty() { return m_dirty; }
+    bool dirty() const { return m_dirty; }
 
     /**
      * Return a list of the items in this playlist.  For example in a search 
@@ -55,6 +62,14 @@ protected:
 
 protected slots:
     void slotSetDirty(bool d = true) { m_dirty = d; }
+
+private:
+    /**
+     * Checks to see if the current list of items is "dirty" and if so updates
+     * this dynamic playlist's items to be in sync with the lists that it is a
+     * wrapper around.
+     */
+    void checkUpdateItems();
 
 private slots:
     void slotUpdateItems();

@@ -244,6 +244,7 @@ public slots:
     void slotRenamePlaylist() { m_playlistBox->rename(); }
     void slotDuplicatePlaylist() { m_playlistBox->duplicate(); }
     void slotDeletePlaylist();
+
 signals:
     void signalActivated();
     void signalListBoxDoubleClicked();
