@@ -528,21 +528,14 @@ void PlaylistCollection::dirChanged(const QString &path)
     QFileInfo fileInfo(path);
 
     if(fileInfo.isDir()) {
+	QDir dir(path);
+	QString absPath = dir.absPath() + QDir::separator();
+	QStringList files = dir.entryList(QDir::Files | QDir::Readable);
 
-	// Resorting to the POSIX API because QDir::listEntries() stats every
-	// file and blocks while it's doing so.
+	for(QStringList::Iterator it = files.begin(); it != files.end(); ++it)
+	    (*it).prepend(absPath);
 
-	DIR *dir = ::opendir(QFile::encodeName(fileInfo.filePath()));
-	struct dirent *dirEntry;
-
-	for(dirEntry = ::readdir(dir); dirEntry; dirEntry = ::readdir(dir)) {
-	    if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
-		CollectionList::instance()->addFiles(
-		    fileInfo.filePath() + QDir::separator() + QFile::decodeName(dirEntry->d_name),
-		    m_importPlaylists
-		);
-	}
-	::closedir(dir);
+	CollectionList::instance()->addFiles(files, m_importPlaylists);
     }
 }
 
