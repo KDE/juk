@@ -39,14 +39,11 @@ AC_DEFUN([AC_NO_MUSICBRAINZ],
 	have_musicbrainz=false
 ])
 
-KDE_CHECK_HEADER(musicbrainz/musicbrainz.h,
+KDE_CHECK_HEADER(tunepimp/tp_c.h,
 	AC_HAVE_MUSICBRAINZ,
 	AC_NO_MUSICBRAINZ
 )
 
-KDE_FIND_PATH(trm,TRM,[$kde_default_bindirs],[
-  AC_MSG_WARN([Could not find trm utility anywhere, check http://www.musicbrainz.org/products/trmgen/download.html for TRM Generator.])
-])
 if test -z "$TRM" ; then
    AC_DEFINE(HAVE_TRM,0,[Is trm program present])
 else

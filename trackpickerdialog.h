@@ -31,14 +31,13 @@ class TrackPickerDialog : public KDialogBase
     Q_OBJECT
 
 public:
-    TrackPickerDialog(const QString &fileName,
-                      const MusicBrainzQuery::TrackList &tracks,
-                      QWidget *parent = 0,
-                      const char *name = 0);
+    TrackPickerDialog(const QString &name,
+		      const KTRMResultList &results,
+                      QWidget *parent = 0);
 
     virtual ~TrackPickerDialog();
 
-    MusicBrainzQuery::Track selectedTrack() const;
+    KTRMResult result() const;
 
 public slots:
     int exec();

@@ -114,7 +114,7 @@ void CollectionList::clearItems(const PlaylistItemList &items)
 
 void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
 {
-    TreeViewMode *treeViewMode = dynamic_cast<TreeViewMode*>(viewMode);
+    TreeViewMode *treeViewMode = dynamic_cast<TreeViewMode *>(viewMode);
     if(!treeViewMode) {
 	kdWarning(65432) << "Can't setup entries on a non-tree-view mode!\n";
 	return;

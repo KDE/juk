@@ -23,7 +23,6 @@ juk_SOURCES = \
 	keydialog.cpp \
 	main.cpp \
 	mediafiles.cpp \
-	musicbrainzitem.cpp \
 	musicbrainzquery.cpp \
 	painteater.cpp \
 	playermanager.cpp \
@@ -50,6 +49,7 @@ juk_SOURCES = \
 	trackpickerdialog.cpp \
 	trackpickerdialogbase.ui \
 	treeviewitemplaylist.cpp \
+	ktrm.cpp \
 	viewmode.cpp
 
 tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp
@@ -69,7 +69,7 @@ endif
 # check to see if MusicBrainz is available
 ##################################################
 if link_lib_MB
-mblibs = -lmusicbrainz
+mblibs = -lmusicbrainz -ltunepimp
 endif
 ##################################################
 

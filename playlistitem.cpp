@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <config.h>
+
 #include <kdebug.h>
 #include <kaction.h>
 
@@ -22,10 +24,12 @@
 #include "tag.h"
 #include "actioncollection.h"
 
+#include "ktrm.h"
+
 static void startMusicBrainzQuery(const FileHandle &file)
 {
 #if HAVE_MUSICBRAINZ
-    new MusicBrainzFileQuery(file);
+    new MusicBrainzLookup(file);
 #else
     Q_UNUSED(file)
 #endif

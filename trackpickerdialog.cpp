@@ -19,35 +19,48 @@
 
 #include <qlabel.h>
 
+#include <klistview.h>
 #include <klocale.h>
 
 #include "trackpickerdialog.h"
 #include "trackpickerdialogbase.h"
-#include "musicbrainzitem.h"
+
+#define NUMBER(x) (x == 0 ? QString::null : QString::number(x))
+
+class TrackItem : public KListViewItem
+{
+public:
+    TrackItem(KListView *parent, const KTRMResult &result) :
+        KListViewItem(parent, parent->lastChild(),
+                      result.title, result.artist, result.album,
+                      NUMBER(result.track), NUMBER(result.year)),
+        m_result(result) {}
+    KTRMResult result() const { return m_result; }
+
+private:
+    KTRMResult m_result;
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-TrackPickerDialog::TrackPickerDialog(const QString &fileName,
-                                     const MusicBrainzQuery::TrackList &tracks,
-                                     QWidget *parent,
-                                     const char *name) :
-    KDialogBase(parent, name, true, i18n("Internet Tag Guesser"), Ok | Cancel, Ok, true)
+TrackPickerDialog::TrackPickerDialog(const QString &name,
+                                     const KTRMResultList &results,
+                                     QWidget *parent) :
+    KDialogBase(parent, name.latin1(), true, i18n("Internet Tag Guesser"), Ok | Cancel, Ok, true)
 {
     m_base = new TrackPickerDialogBase(this);
     setMainWidget(m_base);
 
-    m_base->fileLabel->setText(fileName);
+    m_base->fileLabel->setText(name);
+    m_base->trackList->setSorting(-1);
 
-    MusicBrainzQuery::TrackList::ConstIterator it = tracks.begin();
-    for(; it != tracks.end(); ++it)
-        new MusicBrainzItem(m_base->trackList, *it, (*it).name, (*it).artist, (*it).album);
-
+    for(KTRMResultList::ConstIterator it = results.begin(); it != results.end(); ++it)
+        new TrackItem(m_base->trackList, *it);
 
     m_base->trackList->setSelected(m_base->trackList->firstChild(), true);
-    setMinimumWidth(QMAX(400, width()));
-
+    setMinimumWidth(kMax(400, width()));
 }
 
 TrackPickerDialog::~TrackPickerDialog()
@@ -55,12 +68,12 @@ TrackPickerDialog::~TrackPickerDialog()
 
 }
 
-MusicBrainzQuery::Track TrackPickerDialog::selectedTrack() const
+KTRMResult TrackPickerDialog::result() const
 {
     if(m_base->trackList->selectedItem())
-        return static_cast<MusicBrainzItem *>(m_base->trackList->selectedItem())->track();
+        return static_cast<TrackItem *>(m_base->trackList->selectedItem())->result();
     else
-        return MusicBrainzQuery::Track();
+        return KTRMResult();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

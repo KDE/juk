@@ -1,9 +1,8 @@
 if test "x$have_taglib" = "xfalse"; then
 	echo "**************************************************"
 	echo "*"
-	echo "* JuK will not be built without TagLib.  TagLib"
-	echo "* replaces the id3lib dependancy.  See the notice"
-	echo "* below for where to find TagLib."
+	echo "* JuK will not be built without TagLib." 
+	echo "* See the notice below for where to find TagLib."
 	echo "*"
 	echo "**************************************************"
 fi
@@ -27,11 +26,14 @@ fi
 if test "x$have_musicbrainz" = "xfalse"; then
 	echo "**************************************************"
 	echo "*"
-	echo "* You do not seem to have libmusicbrainz and JuK"
-	echo "* will be compiled without MusicBrainz support "
-	echo "* Automatic song recogntion will not be supported. "
-	echo "* Please download libmusicbrainz 2.0.1 from "
+	echo "* You do not seem to have libmusicbrainz and"
+        echo "* libtunepimp.  JuK will be compiled without"
+	echo "* will be compiled without MusicBrainz support and"
+	echo "* automatic song recogntion will not be supported."
+	echo "* Please download libmusicbrainz 2.x and libtunepimp"
+	echo "* 0.3.x from:"
 	echo "* http://www.musicbrainz.org/products/client/download.html "
+	echo "* http://www.musicbrainz.org/products/tunepimp/download.html"
 	echo "*"
 	echo "**************************************************"
 fi

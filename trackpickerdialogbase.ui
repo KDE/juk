@@ -86,7 +86,7 @@
                         <widget class="KListView">
                             <column>
                                 <property name="text">
-                                    <string>Name</string>
+                                    <string>Track Name</string>
                                 </property>
                                 <property name="clickable">
                                     <bool>true</bool>
@@ -115,6 +115,28 @@
                                 </property>
                                 <property name="resizable">
                                     <bool>false</bool>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>Track</string>
+                                </property>
+                                <property name="clickable">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="resizable">
+                                    <bool>true</bool>
+                                </property>
+                            </column>
+                            <column>
+                                <property name="text">
+                                    <string>Year</string>
+                                </property>
+                                <property name="clickable">
+                                    <bool>true</bool>
+                                </property>
+                                <property name="resizable">
+                                    <bool>true</bool>
                                 </property>
                             </column>
                             <property name="name">
@@ -147,8 +169,6 @@
         </widget>
     </vbox>
 </widget>
-<customwidgets>
-</customwidgets>
 <tabstops>
     <tabstop>trackList</tabstop>
 </tabstops>
