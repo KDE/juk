@@ -214,6 +214,7 @@ void JuK::playFile()
       playAction->setEnabled(false);
       pauseAction->setEnabled(true);
       stopAction->setEnabled(true);
+      playTimer->start(pollInterval);
     }
   }
   else if(playlist) {
