@@ -52,20 +52,15 @@ public:
     GoogleFetcher(const FileHandle &file);
     QPixmap pixmap();
 
+signals:
+    void signalNewSearch(GoogleImageList &images);
+
 private:
-    void cancel();
-    void editSearch();
-    void saveCover();
-    void previous();
-    void next();
     void displayWaitMessage();
-    void buildBox();
+    bool requestNewSearchTerms(bool noResults = false);
 
 private slots:
     void slotLoadImageURLs(GoogleFetcher::ImageSize size = All);
-
-signals:
-    void signalNewSearch(GoogleImageList &images);
 
 private:
     FileHandle m_file;
