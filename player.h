@@ -53,7 +53,8 @@ public:
     virtual void seekPosition(int position) = 0;
 
     /**
-     * Returns a pointer to a Player object.  The user is responcible
+     * Returns a pointer to a Player object.
+     * Ownership of the returned player is transferred to the caller.
      */
     static Player *createPlayer(int system = Arts);
     static KSelectAction *playerSelectAction(QObject *parent);
