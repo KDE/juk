@@ -8,5 +8,4 @@ juk_applet_LDADD =  $(LIB_KDECORE)
 juk_applet_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 METASOURCES = AUTO
-KDE_ICON = AUTO
 POFILES = AUTO
