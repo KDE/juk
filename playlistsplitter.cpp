@@ -31,7 +31,6 @@
 #include "collectionlist.h"
 #include "directorylist.h"
 #include "playlist.h"
-#include "searchwidget.h"
 #include "playlistsearch.h"
 
 QStringList *PlaylistSplitter::m_mediaExtensions = 0;
