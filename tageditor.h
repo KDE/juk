@@ -107,6 +107,7 @@ private:
 
     bool m_dataChanged;
     bool m_collectionChanged;
+    bool m_performingSave;
 
     friend class CollectionObserver;
 };

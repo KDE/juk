@@ -126,7 +126,8 @@ private:
 TagEditor::TagEditor(QWidget *parent, const char *name) :
     QWidget(parent, name),
     m_currentPlaylist(0),
-    m_observer(0)
+    m_observer(0),
+    m_performingSave(false)
 {
     setupActions();
     setupLayout();
@@ -152,6 +153,9 @@ void TagEditor::setupObservers()
 
 void TagEditor::slotSetItems(const PlaylistItemList &list)
 {
+    if(m_performingSave)
+	return;
+
     saveChangesPrompt();
 
     if(m_currentPlaylist) {
@@ -565,6 +569,7 @@ void TagEditor::save(const PlaylistItemList &list)
 	
 	KApplication::setOverrideCursor(Qt::waitCursor);
 	m_dataChanged = false;
+	m_performingSave = true;
 
 	// To keep track of the files that don't cooperate...
 
@@ -595,7 +600,7 @@ void TagEditor::save(const PlaylistItemList &list)
 	    QFileInfo newFile(item->file().fileInfo().dirPath() + QDir::separator() +
 			      m_fileNameBox->text());
 	    QFileInfo directory(item->file().fileInfo().dirPath());
-	    
+
 	    // If (the new file is writable or the new file doesn't exist and
 	    // it's directory is writable) and the old file is writable...  
 	    // If not we'll append it to errorFiles to tell the user which
@@ -603,7 +608,6 @@ void TagEditor::save(const PlaylistItemList &list)
 	    
 	    if(item &&
 	       item->file().tag() &&
-	       (newFile.isWritable() || (!newFile.exists() && directory.isWritable())) &&
 	       item->file().fileInfo().isWritable())
 	    {
 		
@@ -614,6 +618,18 @@ void TagEditor::save(const PlaylistItemList &list)
 		   item->file().fileInfo().fileName() != newFile.fileName())
 		{
 		    
+		    // We're definitely trying to rename a file, so if it exists
+		    // but isn't writable, or it doesn't exist but its directory
+		    // isn't writable, we have an error.
+
+		    if((newFile.exists() && !newFile.isWritable()) ||
+		       (!newFile.exists() && !directory.isWritable()) &&
+		       item)
+		    {
+			errorFiles.append(newFile.filePath());
+			continue;
+		    }
+
 		    // Rename the file if it doesn't exist or the user says
 		    // that it's ok.
 		    
@@ -671,6 +687,7 @@ void TagEditor::save(const PlaylistItemList &list)
 				       i18n("Could not save to specified file(s)."), 
 				       i18n("Could Not Write to:\n") + errorFiles.join("\n"));
 	CollectionList::instance()->dataChanged();
+	m_performingSave = false;
 	KApplication::restoreOverrideCursor();
     }
 }
