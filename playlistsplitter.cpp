@@ -331,29 +331,14 @@ void PlaylistSplitter::selectPlaying()
 
     Playlist *l = static_cast<Playlist *>(playingItem->listView());
 	
-    if(l) {
+    if(!l)
+	return;
 
-	l->clearSelection();
-	l->setSelected(playingItem, true);
-	l->ensureItemVisible(playingItem);
-	
-	// Now move on to the PlaylistBox.  The Playlist knows which
-	// PlaylistBoxItem that it is associated with, so we'll just get
-	// that and then figure out the PlaylistBox from there.
-	// 
-	// Once we have that we can set the appropriate Playlist to be
-	// visible.
-	
-	if(l->playlistBoxItem() && l->playlistBoxItem()->listBox()) {
-	    QListBox *b = l->playlistBoxItem()->listBox();
-	    
-	    b->clearSelection();
-	    b->setSelected(l->playlistBoxItem(), true);
-	    
-	    b->setCurrentItem(l->playlistBoxItem());
-	    b->ensureCurrentVisible();
-	}    
-    }
+    l->clearSelection();
+    l->setSelected(playingItem, true);
+    l->ensureItemVisible(playingItem);
+    
+    playlistBox->raise(l);
 }
 
 void PlaylistSplitter::removeSelectedItems()
@@ -398,8 +383,8 @@ void PlaylistSplitter::setupLayout()
     // Make the connection that will update the selected playlist when a 
     // selection is made in the playlist box.
 
-    connect(playlistBox, SIGNAL(currentChanged(PlaylistBoxItem *)), 
-	    this, SLOT(changePlaylist(PlaylistBoxItem *)));
+    connect(playlistBox, SIGNAL(currentChanged(Playlist *)), 
+	    this, SLOT(changePlaylist(Playlist *)));
 
     connect(playlistBox, SIGNAL(doubleClicked()), this, SIGNAL(listBoxDoubleClicked()));
 
@@ -497,16 +482,12 @@ void PlaylistSplitter::saveConfig()
 
 	    QDataStream s(&f);
 
-	    for(uint i = 1; i < playlistBox->count(); i++) {
-		PlaylistBoxItem *item = static_cast<PlaylistBoxItem *>(playlistBox->item(i));
-		if(item && item->playlist()) {
-		    Playlist *p = item->playlist();
-		    s << *p;
-		}
-	    }
+	    QPtrList<Playlist> l = playlistBox->playlists();
+
+	    for(Playlist *p = l.first(); p; p = l.next())
+		s << *p;
 
 	    f.close();
-
 	}
 	{ // block for Playlists group
 	    KConfigGroupSaver saver(config, "Playlists");
@@ -547,10 +528,6 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
 
 void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
 {
-    PlaylistBoxItem *i = new PlaylistBoxItem(playlistBox, SmallIcon(icon, 32), p->name(), p);
-    p->setPlaylistBoxItem(i);
-    playlistBox->sort();
-
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
     connect(p, SIGNAL(doubleClicked()), this, SIGNAL(doubleClicked()));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
@@ -559,11 +536,11 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
 
     connect(p, SIGNAL(signalToggleColumnVisible(int)), this, SLOT(slotToggleColumnVisible(int)));
 
+    playlistBox->createItem(p, icon, raise);
+
     if(raise) {
 	playlistStack->raiseWidget(p);
 	setupColumns(p);
-	playlistBox->setCurrentItem(i);
-	playlistBox->ensureCurrentVisible();
     }
 }
 
@@ -595,14 +572,15 @@ void PlaylistSplitter::setupColumns(Playlist *p)
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistSplitter::changePlaylist(PlaylistBoxItem *item)
+void PlaylistSplitter::changePlaylist(Playlist *p)
 {
-    if(item && item->playlist()) {
-	playlistStack->raiseWidget(item->playlist());
-	editor->setItems(playlistSelection());
-	setupColumns(item->playlist());
-	emit(playlistChanged());
-    }
+    if(!p)
+	return;
+    
+    playlistStack->raiseWidget(p);
+    editor->setItems(playlistSelection());
+    setupColumns(p);
+    emit(playlistChanged());
 }
 
 void PlaylistSplitter::playlistCountChanged(Playlist *p)

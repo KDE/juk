@@ -52,8 +52,7 @@
 
 Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1()), 
 										playlistName(name), 
-										splitter(s), 
-										boxItem(0)
+										splitter(s)
 {
     setup();
 }

@@ -27,7 +27,6 @@
 #include "sortedstringlist.h"
 
 class PlaylistSplitter;
-class PlaylistBoxItem;
 class KPopupMenu;
 
 class KPopupMenu;
@@ -117,9 +116,6 @@ public:
      */ 
     void setName(const QString &n);
 
-    PlaylistBoxItem *playlistBoxItem() const { return boxItem; }
-    void setPlaylistBoxItem(PlaylistBoxItem *item) { boxItem = item; }
-
     int count() const { return childCount(); }
 
     /** 
@@ -173,7 +169,7 @@ signals:
     void selectionChanged(const PlaylistItemList &selection);
     
     /**
-     * This is connected to the PlaylistBoxItem to let it know when the 
+     * This is connected to the PlaylistBox::Item to let it know when the 
      * playlist's name has changed.
      */
     void nameChanged(const QString &fileName);
@@ -215,7 +211,6 @@ private:
      */
     QString playlistName;
     PlaylistSplitter *splitter;
-    PlaylistBoxItem *boxItem;
    
     KPopupMenu *rmbMenu;
     KPopupMenu *headerMenu;

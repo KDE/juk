@@ -30,7 +30,6 @@
 #include "tageditor.h"
 
 class KActionMenu;
-class PlaylistBoxItem;
 class PlaylistItem;
 
 /**
@@ -264,7 +263,7 @@ private:
     void setupColumns(Playlist *p);
     
 private slots:
-    void changePlaylist(PlaylistBoxItem *item);
+    void changePlaylist(Playlist *p);
     void playlistCountChanged(Playlist *p);
     /**
      * Add a directory to the directory list queue.  We need to queue these 

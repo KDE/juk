@@ -22,13 +22,14 @@
 #include <kpopupmenu.h>
 
 #include <qwidgetstack.h>
+#include <qptrlist.h>
+#include <qptrdict.h>
 
 #include "listboxpixmap.h"
 
 class Playlist;
 class PlaylistItem;
 
-class PlaylistBoxItem;
 class PlaylistSplitter;
 
 /** 
@@ -38,40 +39,52 @@ class PlaylistSplitter;
 
 class PlaylistBox : public KListBox
 {
-    friend class PlaylistBoxItem;
-
     Q_OBJECT
 
 public: 
+    enum ItemType { Collection, Plain };
+
     PlaylistBox(PlaylistSplitter *parent = 0, const char *name = 0);
     virtual ~PlaylistBox();
 
+    void createItem(Playlist *playlist, const char *icon = 0, bool raise = false);
+
     void sort();
+    void raise(Playlist *playlist);
     QStringList names() const;
+    QPtrList<Playlist> playlists() const;
 
 public slots:
     // All of the slots without parameters default to the selected item.
     void save();
-    void save(PlaylistBoxItem *item);
     void saveAs();
-    void saveAs(PlaylistBoxItem *item);
     void rename();
-    void rename(PlaylistBoxItem *item);
     void duplicate();
-    void duplicate(PlaylistBoxItem *item);
     void deleteItem();
-    void deleteItem(PlaylistBoxItem *item);
 
     void paste();
+    /**
+     * Override the default behavior of clear so that the clipboard code doesn't
+     * do bad things.
+     */
     void clear() {}
 
 signals:
-    void currentChanged(PlaylistBoxItem *);
+    void currentChanged(Playlist *);
     void doubleClicked();
 
 private:
+    class Item;
+    friend class Item;
+
+    void save(Item *item);
+    void saveAs(Item *item);
+    void rename(Item *item);
+    void duplicate(Item *item);
+    void deleteItem(Item *item);
+
     virtual void resizeEvent(QResizeEvent *e);
-    virtual void decode(QMimeSource *s, PlaylistBoxItem *item);
+    virtual void decode(QMimeSource *s, Item *item);
     virtual void dropEvent(QDropEvent *e);
     virtual void dragMoveEvent(QDragMoveEvent *e);
     virtual void mousePressEvent(QMouseEvent *e);
@@ -84,7 +97,7 @@ private:
 private slots:
     /** 
      * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
-     * the signal as  currentChanged(PlaylistBoxItem *). 
+     * the signal as  currentChanged(Item *). 
      */
     void playlistChanged(QListBoxItem *item);
     void playlistDoubleClicked(QListBoxItem *);
@@ -102,22 +115,23 @@ private:
     QStringList nameList;
     KPopupMenu *collectionContextMenu;
     KPopupMenu *playlistContextMenu;
-    PlaylistBoxItem *contextMenuOn;
+    Item *contextMenuOn;
     bool updatePlaylistStack;
+    QPtrDict<Item> _playlistDict;
 };
 
 
 
-class PlaylistBoxItem : public QObject, public ListBoxPixmap
+class PlaylistBox::Item : public QObject, public ListBoxPixmap
 {
     friend class PlaylistBox;
 
     Q_OBJECT
 
 public:
-    PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l = 0);
-    PlaylistBoxItem(PlaylistBox *listbox, const QString &text, Playlist *l = 0);
-    virtual ~PlaylistBoxItem();
+    Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l = 0);
+    Item(PlaylistBox *listbox, const QString &text, Playlist *l = 0);
+    virtual ~Item();
 
     Playlist *playlist() const;
     PlaylistBox *listBox() const;

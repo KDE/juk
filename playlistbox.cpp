@@ -65,6 +65,20 @@ PlaylistBox::~PlaylistBox()
     delete playlistContextMenu;
 }
 
+void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise)
+{
+    if(!playlist)
+	return;
+
+    Item *i = new Item(this, SmallIcon(icon, 32), playlist->name(), playlist);
+    _playlistDict.insert(playlist, i);
+    
+    if(raise) {
+	setCurrentItem(i);
+	ensureCurrentVisible();	
+    }
+}
+
 void PlaylistBox::sort()
 {
     QListBoxItem *collectionItem = firstItem();
@@ -86,9 +100,37 @@ void PlaylistBox::sort()
     updatePlaylistStack = true;
 }
 
+void PlaylistBox::raise(Playlist *playlist)
+{
+    if(!playlist)
+	return;
+
+    Item *i = _playlistDict.find(playlist);
+
+    clearSelection();
+    setSelected(i, true);
+    
+    setCurrentItem(i);
+    ensureCurrentVisible();
+}
+
 QStringList PlaylistBox::names() const
 {
     return nameList;
+}
+
+QPtrList<Playlist> PlaylistBox::playlists() const
+{
+    QPtrList<Playlist> l;
+
+    // skip the collection list
+
+    for(uint j = 1; j < count(); j++) {
+	Item *i = static_cast<Item *>(item(j));
+	l.append(i->playlist());
+    }
+
+    return l;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -97,32 +139,52 @@ QStringList PlaylistBox::names() const
 
 void PlaylistBox::save()
 {
-    save(static_cast<PlaylistBoxItem *>(selectedItem()));
-}
-
-void PlaylistBox::save(PlaylistBoxItem *item)
-{
-    if(item)
-	item->playlist()->save();    
+    save(static_cast<Item *>(selectedItem()));
 }
 
 void PlaylistBox::saveAs()
 {
-    saveAs(static_cast<PlaylistBoxItem *>(selectedItem()));
+    saveAs(static_cast<Item *>(selectedItem()));
 }
 
-void PlaylistBox::saveAs(PlaylistBoxItem *item)
+void PlaylistBox::rename()
+{
+    rename(static_cast<Item *>(selectedItem()));
+}
+
+void PlaylistBox::duplicate()
+{
+    duplicate(static_cast<Item *>(selectedItem()));
+}
+
+void PlaylistBox::deleteItem()
+{
+    deleteItem(static_cast<Item *>(selectedItem()));
+}
+
+void PlaylistBox::paste()
+{
+    Item *i = static_cast<Item *>(selectedItem());
+    decode(kapp->clipboard()->data(), i);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PlaylistBox private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void PlaylistBox::save(Item *item)
+{
+    if(item)
+	item->playlist()->save();
+}
+
+void PlaylistBox::saveAs(Item *item)
 {
     if(item)
         item->playlist()->saveAs();
 }
 
-void PlaylistBox::rename()
-{
-    rename(static_cast<PlaylistBoxItem *>(selectedItem()));
-}
-
-void PlaylistBox::rename(PlaylistBoxItem *item)
+void PlaylistBox::rename(Item *item)
 {
     if(!item)
 	return;
@@ -146,12 +208,7 @@ void PlaylistBox::rename(PlaylistBoxItem *item)
     }
 }
 
-void PlaylistBox::duplicate()
-{
-    duplicate(static_cast<PlaylistBoxItem *>(selectedItem()));
-}
-
-void PlaylistBox::duplicate(PlaylistBoxItem *item)
+void PlaylistBox::duplicate(Item *item)
 {
     if(item) {
 	bool ok;
@@ -167,12 +224,7 @@ void PlaylistBox::duplicate(PlaylistBoxItem *item)
     }
 }
 
-void PlaylistBox::deleteItem()
-{
-    deleteItem(static_cast<PlaylistBoxItem *>(selectedItem()));
-}
-
-void PlaylistBox::deleteItem(PlaylistBoxItem *item)
+void PlaylistBox::deleteItem(Item *item)
 {
     if(!item || !item->playlist())
 	return;
@@ -193,19 +245,10 @@ void PlaylistBox::deleteItem(PlaylistBoxItem *item)
     }
     
     nameList.remove(item->text());
+    _playlistDict.remove(item->playlist());
     delete item->playlist();
     delete item;
 }
-
-void PlaylistBox::paste()
-{
-    PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(selectedItem());
-    decode(kapp->clipboard()->data(), i);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistBox private methods
-////////////////////////////////////////////////////////////////////////////////
 
 void PlaylistBox::resizeEvent(QResizeEvent *e)
 {
@@ -214,7 +257,7 @@ void PlaylistBox::resizeEvent(QResizeEvent *e)
     KListBox::resizeEvent(e);
 }
 
-void PlaylistBox::decode(QMimeSource *s, PlaylistBoxItem *item)
+void PlaylistBox::decode(QMimeSource *s, Item *item)
 {
     if(!s || !item || !item->playlist())
 	return;
@@ -234,20 +277,20 @@ void PlaylistBox::decode(QMimeSource *s, PlaylistBoxItem *item)
 
 void PlaylistBox::dropEvent(QDropEvent *e)
 {
-    PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(itemAt(e->pos()));
+    Item *i = static_cast<Item *>(itemAt(e->pos()));
     decode(e, i);
 }
 
 void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
 {
     // If we can decode the input source, there is a non-null item at the "move"
-    // position, the playlist for that PlaylistBoxItem is non-null, is not the 
+    // position, the playlist for that Item is non-null, is not the 
     // selected playlist and is not the CollectionList, then accept the event.
     //
     // Otherwise, do not accept the event.
     
     if(KURLDrag::canDecode(e) && itemAt(e->pos())) {
-	PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(itemAt(e->pos()));
+	Item *i = static_cast<Item *>(itemAt(e->pos()));
 
 	// This is a semi-dirty hack to check if the items are coming from within
 	// JuK.  If they are not coming from a Playlist (or subclass) then the
@@ -296,15 +339,15 @@ void PlaylistBox::addName(const QString &name)
 
 void PlaylistBox::playlistChanged(QListBoxItem *item)
 {
-    PlaylistBoxItem *i = dynamic_cast<PlaylistBoxItem *>(item);
-    if(updatePlaylistStack && i)
-	emit(currentChanged(i));
+    Item *i = dynamic_cast<Item *>(item);
+    if(updatePlaylistStack && i && i->playlist())
+	emit(currentChanged(i->playlist()));
 }
 
 void PlaylistBox::playlistDoubleClicked(QListBoxItem *)
 {
 /*
-    PlaylistBoxItem *i = dynamic_cast<PlaylistBoxItem *>(item);
+    Item *i = dynamic_cast<Item *>(item);
     if(i)
 	emit(doubleClicked(i));
 */
@@ -313,7 +356,7 @@ void PlaylistBox::playlistDoubleClicked(QListBoxItem *)
 
 void PlaylistBox::drawContextMenu(QListBoxItem *item, const QPoint &point)
 {
-    PlaylistBoxItem *i = static_cast<PlaylistBoxItem *>(item);
+    Item *i = static_cast<Item *>(item);
 
     contextMenuOn = i;
 
@@ -351,10 +394,10 @@ void PlaylistBox::contextDeleteItem()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// PlaylistBoxItem public methods
+// PlaylistBox::Item public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
+PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
     : QObject(listbox), ListBoxPixmap(listbox, pix, text)
 {
     list = l;
@@ -364,29 +407,29 @@ PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const
     connect(l, SIGNAL(nameChanged(const QString &)), this, SLOT(setName(const QString &)));
 }
 
-PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QString &text, Playlist *l) 
+PlaylistBox::Item::Item(PlaylistBox *listbox, const QString &text, Playlist *l) 
     : ListBoxPixmap(listbox, SmallIcon("midi", 32), text)
 {
     list = l;
     setOrientation(Qt::Vertical);
 }
 
-PlaylistBoxItem::~PlaylistBoxItem()
+PlaylistBox::Item::~Item()
 {
 
 }
 
-Playlist *PlaylistBoxItem::playlist() const
+Playlist *PlaylistBox::Item::playlist() const
 {
     return list;
 }
 
-PlaylistBox *PlaylistBoxItem::listBox() const
+PlaylistBox *PlaylistBox::Item::listBox() const
 {
     return dynamic_cast<PlaylistBox *>(ListBoxPixmap::listBox());
 }
 
-void PlaylistBoxItem::setName(const QString &name)
+void PlaylistBox::Item::setName(const QString &name)
 {
     if(listBox()) {
 	listBox()->nameList.remove(text());
