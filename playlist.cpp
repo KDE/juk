@@ -1663,6 +1663,16 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
     m_rmbMenu->setItemVisible(m_rmbEditID, showEdit);
 
+    // Disable edit menu if only one file is selected, and it's read-only
+
+    QFileInfo fi(static_cast<PlaylistItem*>(item)->file().absFilePath());
+    bool enableEdit = true;
+
+    if(!fi.isWritable() && selectedItems().count() == 1)
+	enableEdit = false;
+
+    m_rmbMenu->setItemEnabled(m_rmbEditID, enableEdit);
+
     m_rmbMenu->popup(point);
     m_currentColumn = column;
 }

@@ -163,6 +163,10 @@ void TagEditor::slotRefresh()
 
     Tag *tag = item->file().tag();
 	
+    QFileInfo fi(item->file().absFilePath());
+    if(!fi.isWritable() && m_items.count() == 1)
+	setEnabled(false);
+
     m_artistNameBox->setEditText(tag->artist());
     m_trackNameBox->setText(tag->title());
     m_albumNameBox->setEditText(tag->album());
