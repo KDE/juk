@@ -18,18 +18,19 @@
 #include <kdebug.h>
 
 #include "filelistitem.h"
+#include "filelist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-FileListItem::FileListItem(QFileInfo &file, KListView *parent) : QObject(parent), KListViewItem(parent)
+FileListItem::FileListItem(QFileInfo &file, FileList *parent) : QObject(parent), KListViewItem(parent)
 {
   data = new FileListItemData(file);
   refresh();
 }
 
-FileListItem::FileListItem(FileListItem &item, KListView *parent) : QObject(parent), KListViewItem(parent)
+FileListItem::FileListItem(FileListItem &item, FileList *parent) : QObject(parent), KListViewItem(parent)
 {
   data = item.getData()->newUser();
   //  connect(&item, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));

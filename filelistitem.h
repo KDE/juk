@@ -27,14 +27,16 @@
 #include "audiodata.h"
 #include "filelistitemdata.h"
 
+class FileList;
+
 class FileListItem : public QObject, public KListViewItem {
   Q_OBJECT
 public: 
   enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3, 
 		    GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
   
-  FileListItem(QFileInfo &file, KListView *parent);
-  FileListItem(FileListItem &item, KListView *parent);
+  FileListItem(QFileInfo &file, FileList *parent);
+  FileListItem(FileListItem &item, FileList *parent);
   ~FileListItem();
 
   FileListItemData *getData();
