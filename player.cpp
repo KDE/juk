@@ -1,0 +1,243 @@
+/***************************************************************************
+                          player.cpp  -  description
+                             -------------------
+    begin                : Sun Feb 17 2002
+    copyright            : (C) 2002 by Scott Wheeler
+    email                : scott@slackorama.net
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include <kdebug.h>
+
+#include <connect.h>
+#include <flowsystem.h>
+
+#include "player.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+////////////////////////////////////////////////////////////////////////////////
+
+Player::Player()
+{
+  server = 0;
+  volumeControl = 0;
+  media = 0;
+  dispatcher = 0;
+  setupPlayer();
+}
+
+Player::Player(QString fileName)
+{
+  setupPlayer();
+  currentFile=fileName;
+}
+
+Player::~Player()
+{
+  if(volumeControl) 
+    delete(volumeControl);
+  if(media)
+    delete(media);
+  if(server)
+    delete(server);
+  if(dispatcher)
+    delete(dispatcher);
+}
+
+void Player::play(QString fileName, float volume = 1.0)
+{
+  currentFile=fileName;
+  play(volume);
+}
+
+void Player::play(float volume = 1.0)
+{
+  if(serverRunning()) {
+    if(media && media->state()==posPaused) {
+      media->play();
+    }
+    else {
+      if(media) {
+	stop();
+      }
+      media = new PlayObject(server->createPlayObject(currentFile.latin1()));
+      if(!media->isNull()) {
+	setVolume(volume);
+	media->play();
+      }
+      else {
+	stop();
+      }
+    }
+  }
+}
+
+void Player::pause()
+{
+  if(serverRunning()) {
+    if(media) {
+      media->pause();
+    }
+  }
+}
+
+void Player::stop()
+{
+  if(serverRunning()) {
+    if(media) {
+      media->halt();
+      delete(media);
+      media = 0;
+    }
+    if(volumeControl) {
+      delete(volumeControl);
+      volumeControl = 0;
+    }
+  }
+}
+
+void Player::setVolume(float volume=1.0)
+{
+  if(serverRunning()) {
+    if(!volumeControl)
+      setupVolumeControl();
+    if(volumeControl) {
+      volumeControl->scaleFactor(volume); 
+    }
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+// player status functions
+/////////////////////////////////////////////////////////////////////////////////
+
+bool Player::playing()
+{
+  if(serverRunning() && media && media->state()==posPlaying) {
+    return(true);
+  }
+  else {
+    return(false);
+  }
+}
+
+bool Player::paused()
+{
+  if(serverRunning() && media && media->state()==posPaused) {
+    return(true);
+  }
+  else {
+    return(false);
+  }
+}
+
+long Player::totalTime()
+{
+  if(serverRunning() && media) {
+    return(media->overallTime().seconds);
+  }
+  else {
+    return(-1);
+  }
+}
+
+long Player::currentTime()
+{
+  if(serverRunning() && media && media->state()==posPlaying) {
+    return(media->currentTime().seconds);
+  }
+  else {
+    return(-1);
+  }
+}
+
+int Player::position()
+{
+  if(serverRunning() && media && media->state()==posPlaying) {
+    //    long total=media->overallTime().ms;
+    //    long current=media->currentTime().ms;
+    long total=media->overallTime().seconds * 1000 + media->overallTime().ms;
+    long current=media->currentTime().seconds * 1000 + media->currentTime().ms;
+    // add .5 to make rounding happen properly
+    return(int(double(current)*1000/total+.5)); // x1000 not x100, so this isn't an actaul percent
+  }
+  else {
+    return(-1);
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+// player seek functions
+/////////////////////////////////////////////////////////////////////////////////
+
+void Player::seek(long seekTime)
+{
+  if(serverRunning() && media) {
+    poTime poSeekTime;
+    poSeekTime.seconds=seekTime;
+    media->seek(poSeekTime);
+  }
+}
+
+void Player::seekPosition(int position)
+{
+  if(serverRunning() && media) {
+    poTime poSeekTime;
+    long total=media->overallTime().seconds;
+    poSeekTime.seconds=long(double(total)*position/1000+.5);
+    media->seek(poSeekTime);
+  }
+}
+
+/////////////////////////////////////////////////////////////////////////////////
+// private 
+/////////////////////////////////////////////////////////////////////////////////
+
+void Player::setupPlayer()
+{
+  dispatcher=new Dispatcher;
+  server=new SimpleSoundServer(Reference("global:Arts_SimpleSoundServer"));
+}
+
+void Player::setupVolumeControl()
+{
+  volumeControl = new StereoVolumeControl(DynamicCast(server->createObject("Arts::StereoVolumeControl")));
+  if(volumeControl && media && !volumeControl->isNull() && !media->isNull()) {
+    
+    Synth_BUS_UPLINK uplink = Arts::DynamicCast(media->_getChild( "uplink" ));
+    uplink.stop();
+    Arts::disconnect(*media, "left", uplink, "left");
+    Arts::disconnect(*media, "right", uplink, "right");
+    
+    volumeControl->start();
+    uplink.start();
+    media->_addChild(*volumeControl, "volume" );
+    
+    Arts::connect(*media, "left", *volumeControl, "inleft");
+    Arts::connect(*media, "right", *volumeControl, "inright");
+    Arts::connect(*volumeControl, "outleft", uplink, "left");
+    Arts::connect(*volumeControl, "outright", uplink, "right");
+  }
+  else {
+    delete(volumeControl);
+    volumeControl = 0;
+    kdDebug() << "Could not initialize volume control!" << endl;
+  }
+}
+
+bool Player::serverRunning()
+{
+  if(server)
+    return(!(server->isNull()));
+  else
+    return(0);
+}

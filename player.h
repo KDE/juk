@@ -1,0 +1,63 @@
+/***************************************************************************
+                          player.h  -  description
+                             -------------------
+    begin                : Sun Feb 17 2002
+    copyright            : (C) 2002 by Scott Wheeler
+    email                : scott@slackorama.net
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#ifndef PLAYER_H
+#define PLAYER_H
+
+#include <qstring.h>
+#include <soundserver.h>
+#include <arts/artsflow.h>
+
+using namespace Arts;
+
+class Player 
+{
+public:
+  Player();
+  Player(QString fileName);
+  ~Player();
+  
+  void play(QString fileName, float volume = 1.0);
+  void play(float volume = 1.0);
+  void pause();
+  void stop();
+
+  void setVolume(float volume = 1.0);
+  
+  bool playing();
+  bool paused();
+  
+  long totalTime();
+  long currentTime();
+  int position(); // in this case not really the percent
+  void seek(long seekTime);
+  void seekPosition(int position);  
+  
+private:
+  void setupPlayer();
+  void setupVolumeControl();
+  bool serverRunning();
+
+  Dispatcher *dispatcher;
+  SimpleSoundServer *server;
+  PlayObject *media;
+  StereoVolumeControl *volumeControl;
+  
+  QString currentFile;
+};
+
+#endif

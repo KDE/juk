@@ -1,0 +1,49 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="juk">
+<MenuBar>
+	<Menu name="file" noMerge="1"><text>&amp;File</text>
+		<Action name="file_open"/>
+		<Action name="openDirectory"/>
+		<Separator/>
+		<Action name="file_save"/>
+		<Separator/>
+		<Action name="deleteFile"/>
+		<Separator/>
+		<Action name="file_quit"/>
+	</Menu>
+	<Menu name="Function"><text>F&amp;unction</text>
+		<Action name="showTagger"/>
+		<Action name="showPlaylist"/>
+	</Menu>
+	<Menu name="player"><text>&amp;Player</text>
+		<Action name="addToPlaylist"/>
+		<Action name="removeFromPlaylist"/>
+		<Separator/>
+		<Action name="playFile"/>
+		<Action name="pauseFile"/>
+		<Action name="stopFile"/>
+	</Menu>
+</MenuBar>
+
+<ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
+	<Action name="file_open"/>
+	<Action name="openDirectory"/>
+	<Action name="file_save"/>
+	<Action name="deleteFile"/>
+	<Action name="addToPlaylist"/>
+	<Action name="removeFromPlaylist"/>
+	<Separator lineSeparator="true"/>
+	<Action name="edit_cut"/>
+	<Action name="edit_copy"/>
+	<Action name="edit_paste"/>
+	<Separator lineSeparator="true"/>
+	<Action name="showTagger"/>
+	<Action name="showPlaylist"/>
+</ToolBar>
+
+<ToolBar name="playToolBar" noMerge="1"><text>Play Toolbar</text>
+	<Action name="playFile"/>
+	<Action name="pauseFile"/>
+	<Action name="stopFile"/>
+	<Action name="trackPositionAction"/>
+</kpartgui>
