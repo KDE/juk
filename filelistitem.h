@@ -33,7 +33,11 @@ public:
   Tag *getTag();
   MPEGHeader *getHeader();
 
+protected:
+
 private:
+  virtual int compare(QListViewItem *item, int column, bool ascending) const;
+  int compare(FileListItem *firstItem, FileListItem *secondItem, int column, bool ascending) const;
   QFileInfo *fileInfo;
   Tag *tag;
   MPEGHeader *header;
