@@ -307,8 +307,6 @@ void JuK::playFile()
 	player.seekPosition(0);
     else
 	playFile(splitter->playNextFile(randomPlayAction->isChecked()));
-
-    systemTray->slotPlay();
 }
 
 void JuK::pauseFile()
@@ -443,7 +441,11 @@ void JuK::playFile(const QString &file)
 	playTimer->start(pollInterval);
 
 	statusLabel->setPlayingItemInfo(splitter->playingTrack(), splitter->playingArtist(), splitter->playingList());
+
+	systemTray->slotPlay();
     }
+    else
+	stopFile();
 }
 
 #include "juk.moc"
