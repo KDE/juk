@@ -46,6 +46,8 @@
 #include "juk.h"
 #include "tag.h"
 
+using namespace ActionCollection;
+
 /**
  * A tooltip specialized to show full filenames over the file name column.
  */
@@ -1304,36 +1306,35 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
 	m_rmbMenu = new KPopupMenu(this);
 
-	m_rmbMenu->insertItem(SmallIconSet("player_play"), i18n("Play Next"), this, SLOT(slotSetNext()));
+	m_rmbMenu->insertItem(SmallIconSet("player_play"), i18n("Play Next"),
+			      this, SLOT(slotSetNext()));
 	m_rmbMenu->insertSeparator();
-
-	if(!readOnly())
-	    m_rmbMenu->insertItem(SmallIconSet("editcut"), i18n("Cut"), this, SLOT(cut()));
-
-	m_rmbMenu->insertItem(SmallIconSet("editcopy"), i18n("Copy"), this, SLOT(copy()));
 
 	if(!readOnly()) {
-	    m_rmbPasteID = m_rmbMenu->insertItem(SmallIconSet("editpaste"), i18n("Paste"), this, SLOT(paste()));
-	    m_rmbMenu->insertItem(SmallIconSet("editclear"), i18n("Clear"), this, SLOT(clear()));
-
-	    m_rmbMenu->insertSeparator();
+	    action("edit_cut")->plug(m_rmbMenu);
+	    action("edit_copy")->plug(m_rmbMenu);
+	    action("edit_paste")->plug(m_rmbMenu);
+	    action("edit_clear")->plug(m_rmbMenu);
 	}
+	else
+	    action("edit_copy")->plug(m_rmbMenu);
 
-	m_rmbEditID = m_rmbMenu->insertItem(SmallIconSet("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
-
-	if(!readOnly()) {
-	    m_rmbMenu->insertItem(SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
-	    m_rmbMenu->insertItem(SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotRemoveSelectedItems()));
-	}
+	m_rmbEditID = m_rmbMenu->insertItem(
+	    SmallIconSet("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
+	m_rmbMenu->insertItem(
+	    SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
+	m_rmbMenu->insertItem(
+	    SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotRemoveSelectedItems()));
 
 	m_rmbMenu->insertSeparator();
-	ActionCollection::action("guessTag")->plug(m_rmbMenu);
 
-    if(!readOnly())
-	ActionCollection::action("renameFile")->plug(m_rmbMenu);
+	action("guessTag")->plug(m_rmbMenu);
+	action("renameFile")->plug(m_rmbMenu);
 
 	m_rmbMenu->insertSeparator();
-	m_rmbMenu->insertItem(SmallIcon("new"), i18n("Create Playlist From Selected Items"), this, SLOT(slotCreateGroup()));
+
+	m_rmbMenu->insertItem(
+	    SmallIcon("new"), i18n("Create Playlist From Selected Items"), this, SLOT(slotCreateGroup()));
     }
 
     if(!readOnly())
