@@ -12,13 +12,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
-#include <dom/html_document.h>
-#include <dom/dom_string.h>
-#include <dom/html_misc.h>
-#include <dom/dom_node.h>
 #include <kio/netaccess.h>
-#include <kapplication.h>
+#include <klocale.h>
+#include <kdebug.h>
 
 #include <qhbox.h>
 #include <qimage.h>
@@ -30,7 +26,8 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
                                          uint selectedIndex,
                                          const Tag *tag,
                                          QWidget *parent) :
-    KDialogBase(parent, name.latin1(), true, QString::null, Ok | Cancel | User1 | User2 | User3, NoDefault, true),
+    KDialogBase(parent, name.latin1(), true, QString::null,
+                Ok | Cancel | User1 | User2 | User3, NoDefault, true),
     m_urlList(urlList),
     m_pixmap(QPixmap()),
     m_takeIt(false),
@@ -142,7 +139,7 @@ QPixmap GoogleFetcherDialog::getPixmapFromURL(KURL url) const
 
     QString tmpFile;
     if(KIO::NetAccess::download(url, tmpFile, 0)) {
-        QPixmap returnVal=QPixmap(tmpFile);
+        QPixmap returnVal = QPixmap(tmpFile);
         QFile(tmpFile).remove();
         return returnVal;
     }
