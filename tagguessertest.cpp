@@ -2,6 +2,7 @@
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <kapplication.h>
+#include <qdir.h>
 #include <iostream>
 
 using std::cout;
@@ -42,55 +43,57 @@ int main( int argc, char **argv )
     KCmdLineArgs::init(argc, argv, &aboutData);
     KApplication app;
     check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats [Live].mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats (Live).mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats.mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", QString::null );
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );
     check( "/home/frerich/Chemical Brothers - [01] - Block rockin' beats [Live].mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - [01] - Block rockin' beats (Live).mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - [01] - Block rockin' beats.mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", QString::null );
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );
     check( "/home/frerich/Chemical Brothers - 01 - Block rockin' beats [Live].mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - 01 - Block rockin' beats (Live).mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - 01 - Block rockin' beats.mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", QString::null );
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );
     check( "/home/frerich/(01) Chemical Brothers - Block rockin' beats [Live].mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/(01) Chemical Brothers - Block rockin' beats (Live).mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/(01) Chemical Brothers - Block rockin' beats.mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", QString::null );
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );
     check( "/home/frerich/[01] Chemical Brothers - Block rockin' beats [Live].mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/[01] Chemical Brothers - Block rockin' beats (Live).mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/[01] Chemical Brothers - Block rockin' beats.mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", QString::null );
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );
     check( "/home/frerich/01 Chemical Brothers - Block rockin' beats [Live].mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/01 Chemical Brothers - Block rockin' beats (Live).mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/01 Chemical Brothers - Block rockin' beats.mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", QString::null );
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );
     check( "/home/frerich/(Chemical Brothers) Block rockin' beats [Live].mp3",
-            "Block rockin' beats", "Chemical Brothers", QString::null, "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", QString::null, "Live" );
     check( "/home/frerich/(Chemical Brothers) Block rockin' beats (Live).mp3",
-            "Block rockin' beats", "Chemical Brothers", QString::null, "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", QString::null, "Live" );
     check( "/home/frerich/(Chemical Brothers) Block rockin' beats.mp3",
-            "Block rockin' beats", "Chemical Brothers", QString::null, QString::null );
+            "Block Rockin' Beats", "Chemical Brothers", QString::null, QString::null );
     check( "/home/frerich/Chemical Brothers - Block rockin' beats [Live].mp3",
-            "Block rockin' beats", "Chemical Brothers", QString::null, "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", QString::null, "Live" );
     check( "/home/frerich/Chemical Brothers - Block rockin' beats (Live).mp3",
-            "Block rockin' beats", "Chemical Brothers", QString::null, "Live" );
+            "Block Rockin' Beats", "Chemical Brothers", QString::null, "Live" );
     check( "/home/frerich/Chemical Brothers - Block rockin' beats.mp3",
-            "Block rockin' beats", "Chemical Brothers", QString::null, QString::null );
+            "Block Rockin' Beats", "Chemical Brothers", QString::null, QString::null );
     check( "/home/frerich/mp3/Chemical Brothers/Dig your own hole/[01] Block rockin' beats.mp3",
-            "Block rockin' beats", "Chemical Brothers", "01", QString::null, "Dig your own hole");
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null, "Dig your own hole");
+    check( QDir::homeDirPath() + "/[01] Randy - Religion, religion.mp3",
+            "Religion, Religion", "Randy", "01", QString::null, QString::null );
     cout << "All OK" << endl;
     return 0;
 }
