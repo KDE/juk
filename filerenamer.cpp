@@ -820,11 +820,7 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
         }
     }
 
-    // ??? This simplify whitespace here seems bogus to me.  That could
-    // potentially break the folder name "My  Music" which though odd wouldn't
-    // be invalid in any way.
-    
-    return QString(folder + QDir::separator() + result).simplifyWhiteSpace();
+    return QString(folder + QDir::separator() + result);
 }
 
 QString FileRenamer::fixupTrack(const QString &track, const CategoryReaderInterface &interface)
