@@ -29,11 +29,11 @@ class CoverInfo
 public:
     CoverInfo(const Tag &tag);
 
-    QPixmap *coverPixmap();
-    bool hasCover() { return (QFile(coverLocation(false)).exists() || QFile(coverLocation(true)).exists()); }
-    QPixmap *getPixmap(bool large);
-    QPixmap *largeCoverPixmap();
-    QString coverLocation(bool large);
+    QPixmap *coverPixmap() const;
+    bool hasCover() const;
+    QPixmap *pixmap(bool large) const;
+    QPixmap *largeCoverPixmap() const;
+    QString coverLocation(bool large) const;
     void popupLargeCover();
 
 

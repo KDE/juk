@@ -72,9 +72,9 @@ CoverInfo::CoverInfo(const Tag &tag) :
 {
 }
 
-QPixmap *CoverInfo::coverPixmap()
+QPixmap *CoverInfo::coverPixmap() const
 {
-    QPixmap *coverThumb = getPixmap(false);
+    QPixmap *coverThumb = pixmap(false);
 
     if(!coverThumb->isNull())
         return coverThumb;
@@ -88,15 +88,20 @@ QPixmap *CoverInfo::coverPixmap()
         img.smoothScale(80, 80).save(coverLocation(false), "PNG");
     }
 
-    return getPixmap(false);
+    return pixmap(false);
 }
 
-QPixmap *CoverInfo::largeCoverPixmap()
+bool CoverInfo::hasCover() const
 {
-    return getPixmap(true);
+    return (QFile(coverLocation(false)).exists() || QFile(coverLocation(true)).exists());
 }
 
-QPixmap *CoverInfo::getPixmap(bool large)
+QPixmap *CoverInfo::largeCoverPixmap() const
+{
+    return pixmap(true);
+}
+
+QPixmap *CoverInfo::pixmap(bool large) const
 {
     if(m_tag.artist().isEmpty() || m_tag.album().isEmpty())
         return new QPixmap();
@@ -104,7 +109,7 @@ QPixmap *CoverInfo::getPixmap(bool large)
     return new QPixmap(coverLocation(large));
 }
 
-QString CoverInfo::coverLocation(bool large)
+QString CoverInfo::coverLocation(bool large) const
 {
     QString fileName(QFile::encodeName(m_tag.artist() + " - " + m_tag.album()));
     QRegExp maskedFileNameChars("[ /?]");
@@ -113,7 +118,7 @@ QString CoverInfo::coverLocation(bool large)
     fileName.append(".png");
 
     QString dataDir = KGlobal::dirs()->saveLocation("appdata");
-    QString fileLocation = dataDir + "covers/" + (large ? "large/" : "") + fileName.lower();
+    QString fileLocation = dataDir + "covers/" + (large ? "large/" : QString::null) + fileName.lower();
 
     return fileLocation;
 }
