@@ -33,8 +33,6 @@ public:
 
     virtual void append(const QString &item);
     virtual void append(const QStringList &items);
-    virtual void append(PlaylistItem *item);
-    virtual void append(QPtrList<PlaylistItem> &items);
 
     virtual void clearItems(const QPtrList<PlaylistItem> &items);
 
@@ -42,6 +40,9 @@ public:
 
     void remove();
     void remove(const QPtrList<PlaylistItem> &items);
+
+    /** Allow duplicate files in the playlist. */
+    void setAllowDuplicates(bool allow);
 
     // These are used in a hard-core, encapsulation breaking way and should be
     // replaced soon (see PlaylistItem).  Unfortunately they're more efficient
@@ -52,27 +53,39 @@ public:
     QStringList &getArtistList();
     QStringList &getAlbumList();
 
+protected:
+    /** This is being used as a mini-factory of sorts to make the construction
+	of PlaylistItems virtual. */
+    virtual PlaylistItem *createItem(const QFileInfo &file);
+    virtual void appendImpl(const QString &item);
+
 private:
     void setup();
-    void appendImpl(const QString &item);
+    void processEvents();
 
     QStringList extensions;
     QStringList members;
     QStringList artistList;
     QStringList albumList;
-    void processEvents();
     int processed;
+    bool collectionListChanged;
+    bool allowDuplicates;
 
 private slots:
     void emitSelected();
 
 signals:
+    /** This signal is connected to PlaylistItem::refreshed() in the 
+	PlaylistItem class. */
     void dataChanged();
 
-    // This signal should later be moved to the "CollectionList" subclass of
-    // Playlist.
+    /** This signal is emitted when items are added to the collection list.  
+	This happens in the createItem() method when items are added to the 
+	collection. */
+    void collectionChanged();
 
-    void collectionChanged(Playlist *list);
+    /** This is emitted when the playlist selection is changed.  This is used
+	primarily to notify the TagEditor of the new data. */
     void selectionChanged(const QPtrList<PlaylistItem> &selection);
 };
 

@@ -28,13 +28,9 @@
 #include <kmainwindow.h>
 
 #include <qtimer.h>
-#include <qwidgetstack.h>
 
-#include "taggerwidget.h"
-#include "playlistwidget.h"
 #include "slideraction.h"
 #include "player.h"
-#include "playlistbox.h"
 #include "playlistsplitter.h"
 
 class JuK : public KMainWindow
@@ -57,6 +53,7 @@ private:
     PlaylistSplitter *splitter;
 
     // actions
+    KToggleAction *showEditorAction;
     SliderAction *sliderAction;
     KAction *playAction;
     KAction *pauseAction;

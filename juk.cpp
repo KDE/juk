@@ -16,13 +16,10 @@
  ***************************************************************************/
 
 #include <klocale.h>
-#include <keditcl.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
 #include <kcmdlineargs.h>
 #include <kdebug.h>
-
-#include <qsplitter.h>
 
 #include "juk.h"
 
@@ -32,6 +29,8 @@
 
 JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name)
 {
+    // Expect segfaults if you change this order.
+
     setupActions();
     setupLayout();
     setupPlayer();
@@ -64,6 +63,9 @@ void JuK::setupActions()
     KStdAction::paste(this, SLOT(paste()), actionCollection());
     KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
+    // view menu
+    showEditorAction = new KToggleAction(i18n("Show Tag Editor"), 0, actionCollection(), "showEditor");
+
     // play menu
     playAction = new KAction(i18n("&Play"), "1rightarrow", 0, this, SLOT(playFile()), actionCollection(), "playFile");
     pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pauseFile()), actionCollection(), "pauseFile");
@@ -82,6 +84,7 @@ void JuK::setupLayout()
 
     splitter = new PlaylistSplitter(this, "playlistSplitter");
     setCentralWidget(splitter);
+    connect(showEditorAction, SIGNAL(toggled(bool)), splitter, SLOT(setEditorVisible(bool)));
 
     // set the slider to the proper orientation and make it stay that way
     sliderAction->updateOrientation();
@@ -89,6 +92,8 @@ void JuK::setupLayout()
 
     // playlist item activation connection
     connect(splitter, SIGNAL(playlistDoubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
+
+    splitter->setFocus();
 }
 
 void JuK::setupPlayer()
@@ -132,6 +137,12 @@ void JuK::readConfig()
             sliderAction->getVolumeSlider()->setValue(volume);
         }
     }
+    { // view Settings
+        KConfigGroupSaver saver(config, "View");
+	bool showEditor = config->readBoolEntry("ShowEditor", true);
+	showEditorAction->setChecked(showEditor);
+	splitter->setEditorVisible(showEditor);
+    }
 }
 
 void JuK::saveConfig()
@@ -141,6 +152,10 @@ void JuK::saveConfig()
         KConfigGroupSaver saver(config, "Player");
         if(sliderAction && sliderAction->getVolumeSlider())
             config->writeEntry("Volume", sliderAction->getVolumeSlider()->value());
+    }
+    { // view settings
+        KConfigGroupSaver saver(config, "View");
+	config->writeEntry("ShowEditor", showEditorAction->isChecked());
     }
 }
 

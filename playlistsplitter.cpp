@@ -41,6 +41,7 @@ void PlaylistSplitter::createPlaylist(const QString &name)
     (void) new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
     connect(p, SIGNAL(selectionChanged(const QPtrList<PlaylistItem> &)), editor, SLOT(setItems(const QPtrList<PlaylistItem> &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
+    connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
 }
 
 QPtrList<PlaylistItem> PlaylistSplitter::playlistSelection() const
@@ -62,34 +63,20 @@ PlaylistItem *PlaylistSplitter::playlistFirstItem() const
 
 void PlaylistSplitter::open(const QStringList &files)
 {
-    collection->append(files);
-
-    // If the collection is not the top widget in the widget stack, assume that 
-    // the open was intended to go to the top widget and open the files there 
-    // too.
-
-    // The open methods are currently causing segfaults.  I haven't tried to debug
-    // them yet.
-
-    if(playlistStack->visibleWidget() != collection) {
-	Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-	p->append(files);
-    }
+    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
+    p->append(files);
 }
 
 void PlaylistSplitter::open(const QString &file)
 {
-    collection->append(file);
+    Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
+    p->append(file);
+}
 
-    // If the collection is not the top widget in the widget stack, assume that 
-    // the open was intended to go to the top widget and open the files there 
-    // too.
-
-
-    if(playlistStack->visibleWidget() != collection) {
-	Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
-	p->append(file);
-    }
+void PlaylistSplitter::save()
+{
+    if(editor)
+	editor->save();
 }
 
 void PlaylistSplitter::remove()
@@ -125,11 +112,13 @@ void PlaylistSplitter::selectAll(bool select)
 void PlaylistSplitter::setupLayout()
 {
     setOpaqueResize();
+
     playlistBox = new PlaylistBox(this, "playlistBox");
 
     // Create a splitter to go between the playlists and the editor.
 
     QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this, "editorSplitter");
+    editorSplitter->setOpaqueResize();
 
     // Create the playlist and the editor.
 
@@ -150,10 +139,16 @@ void PlaylistSplitter::setupLayout()
     // fact is a subclass) so it is created here rather than by using 
     // createPlaylist().
 
-    collection = new CollectionList(playlistStack, "collectionList");
-    PlaylistBoxItem *collectionBoxItem = new PlaylistBoxItem(playlistBox, SmallIcon("folder_sound", 32), i18n("Music Collection"), collection);
-    connect(collection, SIGNAL(selectionChanged(const QPtrList<PlaylistItem> &)), editor, SLOT(setItems(const QPtrList<PlaylistItem> &)));
+    CollectionList::initialize(playlistStack);
+    collection = CollectionList::instance();
+
+    PlaylistBoxItem *collectionBoxItem = new PlaylistBoxItem(playlistBox, SmallIcon("folder_sound", 32), 
+							     i18n("Music Collection"), collection);
+
+    connect(collection, SIGNAL(selectionChanged(const QPtrList<PlaylistItem> &)), 
+	    editor, SLOT(setItems(const QPtrList<PlaylistItem> &)));
     connect(collection, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
+    connect(collection, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
 
     // Show the collection on startup.
     playlistBox->setSelected(collectionBoxItem, true);
@@ -164,10 +159,7 @@ void PlaylistSplitter::setupLayout()
 
 void PlaylistSplitter::readConfig()
 {
-    // This should eventually be replace by a KConfig entry.
-    showEditor = true;
 
-    setEditorVisible(showEditor);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -25,8 +25,10 @@
 
 #include "tag.h"
 #include "audiodata.h"
+#include "cache.h"
 
 class Playlist;
+class CollectionListItem;
 
 class PlaylistItem : public QObject, public KListViewItem 
 {
@@ -35,8 +37,7 @@ public:
     enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3,
                       GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
 
-    PlaylistItem(const QFileInfo &file, Playlist *parent);
-    PlaylistItem(PlaylistItem &item, Playlist *parent);
+    PlaylistItem(CollectionListItem *item, Playlist *parent);
     virtual ~PlaylistItem();
 
     // these can't be const members because they fetch the data "on demand"
@@ -55,24 +56,57 @@ public:
     bool isWritable() const;
 
 public slots:
-    void refresh();
+    virtual void refresh();
+
+protected:
+    PlaylistItem(Playlist *parent);
+
+    class Data;
+    Data *getData();
+    void setData(Data *d);
 
 protected slots:
-    void addSibling(const PlaylistItem *sibling);
-    void removeSibling(const PlaylistItem *sibling);
+    void refreshImpl();
 
 signals:
     void refreshed();
 
 private:
-    class Data;
-
-    Data *getData();
-
     int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(PlaylistItem *firstItem, PlaylistItem *secondItem, int column, bool ascending) const;
 
     Data *data;
 };
+
+class PlaylistItem::Data : public QFileInfo
+{
+public:
+    static Data *newUser(const QFileInfo &file);
+    Data *newUser();
+    void deleteUser();
+
+    Tag *getTag();
+    AudioData *getAudioData();
+
+    void setFile(const QString &file);
+
+protected:
+    // Because we're trying to use this as a shared item, we want all access
+    // to be through pointers (so that it's safe to use delete this).  Thus
+    // creation of the object should be done by the newUser methods above
+    // and deletion should be handled by deleteUser.  Making the constructor
+    // and destructor protected ensures this.
+
+    Data(const QFileInfo &file);
+    virtual ~Data();
+
+private:
+    int referenceCount;
+
+    CacheItem *cache;
+    Tag *tag;
+    AudioData *audioData;
+};
+
 
 #endif

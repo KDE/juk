@@ -26,6 +26,7 @@
 #include <qptrlist.h>
 
 #include "playlist.h"
+#include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -34,6 +35,7 @@
 Playlist::Playlist(QWidget *parent, const char *name) : KListView(parent, name)
 {
     setup();
+    allowDuplicates = false;
 }
 
 Playlist::~Playlist()
@@ -43,38 +45,27 @@ Playlist::~Playlist()
 
 void Playlist::append(const QString &item)
 {
+    collectionListChanged = false;
+
     QApplication::setOverrideCursor(Qt::waitCursor);
     appendImpl(item);
     QApplication::restoreOverrideCursor();
-    emit(collectionChanged(this));
+    
+    if(collectionListChanged)
+	emit(collectionChanged());
 }
 
 void Playlist::append(const QStringList &items)
 {
+    collectionListChanged = false;
+
     QApplication::setOverrideCursor(Qt::waitCursor);
     for(QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
         appendImpl(*it);
     QApplication::restoreOverrideCursor();
-    emit(collectionChanged(this));
-}
 
-void Playlist::append(PlaylistItem *item)
-{
-    if(item && members.contains(item->absFilePath()) == 0) {
-        members.append(item->absFilePath());
-        (void) new PlaylistItem(*item, this);
-    }
-    emit(collectionChanged(this));
-}
-
-void Playlist::append(QPtrList<PlaylistItem> &items)
-{
-    QPtrListIterator<PlaylistItem> it(items);
-    while(it.current()) {
-        append(it.current());
-        ++it;
-    }
-    // the emit(collectionChanged()) is handled in the above function
+    if(collectionListChanged)
+	emit(collectionChanged());
 }
 
 void Playlist::clearItems(const QPtrList<PlaylistItem> &items)
@@ -133,6 +124,47 @@ QStringList &Playlist::getAlbumList()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// protected members
+////////////////////////////////////////////////////////////////////////////////
+
+PlaylistItem *Playlist::createItem(const QFileInfo &file)
+{
+    CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
+
+    if(item)
+	return(new PlaylistItem(item, this));
+    else if(CollectionList::instance()) {
+	item = new CollectionListItem(file);
+	collectionListChanged = true;
+	return(new PlaylistItem(item, this));
+    }
+    else
+	return(0);
+}
+
+void Playlist::appendImpl(const QString &item)
+{
+    processEvents();
+    QFileInfo file(QDir::cleanDirPath(item));
+    if(file.exists()) {
+        if(file.isDir()) {
+            QDir dir(file.filePath());
+            QStringList dirContents=dir.entryList();
+            for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it)
+                if(*it != "." && *it != "..")
+                    appendImpl(file.filePath() + QDir::separator() + *it);
+        }
+        else {
+            QString extension = file.extension(false);
+            if(extensions.contains(extension) > 0 && (members.contains(file.absFilePath()) == 0 || allowDuplicates)) {
+                members.append(file.absFilePath());
+                (void) createItem(file);
+            }
+        }
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -160,31 +192,6 @@ void Playlist::setup()
 
     connect(this, SIGNAL(selectionChanged()), this, SLOT(emitSelected()));
 }
-
-void Playlist::appendImpl(const QString &item)
-{
-    processEvents();
-    QFileInfo file(QDir::cleanDirPath(item));
-    if(file.exists()) {
-        if(file.isDir()) {
-            QDir dir(file.filePath());
-            QStringList dirContents=dir.entryList();
-            for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it) {
-                if(*it != "." && *it != "..") {
-                    appendImpl(file.filePath() + QDir::separator() + *it);
-                }
-            }
-        }
-        else {
-            QString extension = file.extension(false);
-            if(extensions.contains(extension) > 0 && members.contains(file.absFilePath()) == 0) {
-                members.append(file.absFilePath());
-                (void) new PlaylistItem(file, this);
-            }
-        }
-    }
-}
-
 
 void Playlist::processEvents()
 {

@@ -45,7 +45,7 @@ public:
 public slots:
     void open(const QStringList &files);
     void open(const QString &file);
-    void save() {}
+    void save();
     /** Deletes the selected items from the hard disk. */
     void remove();
     /** Removes the selected items from the playlist. */

@@ -235,8 +235,14 @@ void TagEditor::save()
     save(items);
 }
 
-void TagEditor::updateCollection(Playlist *list)
+void TagEditor::updateCollection()
 {
+    kdDebug() << "TagEditor::updateCollection()" << endl;
+    CollectionList *list = CollectionList::instance();
+
+    if(!list)
+	return;
+    
     if(artistNameBox->listBox()) {
         artistNameBox->listBox()->clear();
 	

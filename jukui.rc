@@ -11,7 +11,10 @@
 		<Separator/>
 		<Action name="file_quit"/>
 	</Menu>
-		<Menu name="player"><text>&amp;Player</text>
+	<Menu name="view"><text>&amp;View</text>
+		<Action name="showEditor"/>
+	</Menu>
+	<Menu name="player"><text>&amp;Player</text>
 		<Action name="playFile"/>
 		<Action name="pauseFile"/>
 		<Action name="stopFile"/>
@@ -27,7 +30,6 @@
 	<Action name="edit_cut"/>
 	<Action name="edit_copy"/>
 	<Action name="edit_paste"/>
-	<Separator lineSeparator="true"/>
 </ToolBar>
 
 <ToolBar name="playToolBar" noMerge="1"><text>Play Toolbar</text>

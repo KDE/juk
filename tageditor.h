@@ -26,6 +26,7 @@
 #include "tag.h"
 #include "playlist.h"
 #include "playlistitem.h"
+#include "collectionlist.h"
 #include "genrelist.h"
 
 class TagEditor : public QWidget
@@ -41,7 +42,7 @@ public slots:
     void refresh();
     void clear();
     void save();
-    void updateCollection(Playlist *list);
+    void updateCollection();
     
 signals:
     void changed();
