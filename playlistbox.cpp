@@ -22,6 +22,7 @@
 #include <kapplication.h>
 #include <klineeditdlg.h>
 #include <kpopupmenu.h>
+#include <kaction.h>
 #include <kdebug.h>
 
 #include <qfile.h>
@@ -41,14 +42,16 @@
 
 PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView(parent, name),
 								       m_splitter(parent),
-								       m_updatePlaylistStack(true)
+								       m_updatePlaylistStack(true),
+								       m_viewMode(Compact)
 {
+    readConfig();
     addColumn("Playlists", width());
     header()->hide();
     setSorting(0);
     setFullWidth(true);
-    // setAlternateBackground(QColor());
     setItemMargin(3);
+
     
     // Sadly the actions from the main menu can't be reused because these require being enabled and disabled at
     // different times.
@@ -73,6 +76,19 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
     m_popupIndex["reload"] = m_playlistContextMenu->insertItem(
 	SmallIconSet("reload"), i18n("Reload Playlist File"), this, SLOT(slotContextReload()));
 
+    // add the view modes stuff
+
+    m_viewModeAction = new KSelectAction(m_playlistContextMenu, "viewModeMenu");
+    m_viewModeAction->setText(i18n("View Modes"));
+
+    QStringList modes;
+    modes << i18n("Default") << i18n("Compact");
+    m_viewModeAction->setItems(modes);
+    m_viewModeAction->setCurrentItem(m_viewMode);
+
+    m_viewModeAction->plug(m_playlistContextMenu);
+    connect(m_viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
+
     setAcceptDrops(true);
     setSelectionModeExt(Extended);
 
@@ -88,6 +104,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
 
 PlaylistBox::~PlaylistBox()
 {
+    saveConfig();
     delete m_playlistContextMenu;
 }
 
@@ -96,7 +113,7 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise)
     if(!playlist)
 	return;
 
-    Item *i = new Item(this, SmallIcon(icon, 32), playlist->name(), playlist);
+    Item *i = new Item(this, icon, playlist->name(), playlist);
     m_playlistDict.insert(playlist, i);
 
     if(raise) {
@@ -170,6 +187,25 @@ void PlaylistBox::paste()
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox private methods
 ////////////////////////////////////////////////////////////////////////////////
+
+void PlaylistBox::readConfig()
+{
+    KConfig *config = kapp->config();
+    {
+	KConfigGroupSaver saver(config, "PlaylistBox");
+	m_viewMode = (ViewMode) config->readNumEntry("ViewMode", 0);
+    }
+}
+
+void PlaylistBox::saveConfig()
+{
+    KConfig *config = kapp->config();
+    {
+	KConfigGroupSaver saver(config, "PlaylistBox");
+	config->writeEntry("ViewMode", m_viewModeAction->currentItem());
+	config->sync();
+    }
+}
 
 void PlaylistBox::save(Item *item)
 {
@@ -406,17 +442,15 @@ void PlaylistBox::slotContextReload()
     m_contextMenuOn = 0;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistBox::Item public slots
-////////////////////////////////////////////////////////////////////////////////
-
-void PlaylistBox::Item::slotSetName(const QString &name)
+void PlaylistBox::slotSetViewMode(int viewMode)
 {
-    if(listView()) {
-	listView()->m_names.remove(text(0));
-	listView()->m_names.append(name);
-
-	setText(0, name);
+    if(viewMode != m_viewMode) {
+	m_viewMode = ViewMode(viewMode);
+	int iconSize = m_viewMode == Compact ? 16 : 32;
+	for(QListViewItemIterator it(this); it.current(); ++it) {
+	    Item *i = static_cast<Item *>(*it);
+	    i->setPixmap(0, SmallIcon(i->iconName(), iconSize));
+	}
     }
 }
 
@@ -424,12 +458,13 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
-    : QObject(listbox), KListViewItem(listbox, text),
-      m_list(l), m_text(text)
+PlaylistBox::Item::Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l) 
+    : QObject(listBox), KListViewItem(listBox, text),
+      m_list(l), m_text(text), m_iconName(icon)
 {
-    setPixmap(0, pix);
-    listbox->addName(text);
+    int iconSize = listBox->viewMode() == PlaylistBox::Compact ? 16 : 32;
+    setPixmap(0, SmallIcon(icon, iconSize));
+    listBox->addName(text);
 
     connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
 }
@@ -454,31 +489,49 @@ void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGro
     if(width > pixmap(column)->width()) {
 	QFontMetrics fm = painter->fontMetrics();
     
-	QStringList lines;
 	QString line = m_text;
-	
-	while(!line.isEmpty()) {
-	    int textLength = line.length();
-	    while(textLength > 0 && 
-		  fm.width(line.mid(0, textLength).stripWhiteSpace()) + 
-		  pixmap(column)->width() + 
-		  listView()->itemMargin() * 4 > width)
-	    {
-		int i = line.findRev(QRegExp( "\\W"), textLength - 1);
-		if(i > 0)
-		    textLength = i;
-		else
-		    textLength--;
+	int baseWidth = pixmap(column)->width() + listView()->itemMargin() * 4;
+
+	switch(static_cast<PlaylistBox *>(listView())->viewMode()) {
+	case Compact:
+	{
+	    if(baseWidth + fm.width(line) > width) {
+		int ellipsisLength = fm.width("...");
+		while(baseWidth + fm.width(line) + ellipsisLength > width)
+		    line.truncate(line.length() - 1);
+		line = line.append("...");
+	    }
+	    KListViewItem::setText(column, line);
+	}
+	default:
+	{
+	    QStringList lines;
+	    while(!line.isEmpty()) {
+		int textLength = line.length();
+		while(textLength > 0 && 
+		      fm.width(line.mid(0, textLength).stripWhiteSpace()) + 
+		      baseWidth > width)
+		{
+		    int i = line.findRev(QRegExp( "\\W"), textLength - 1);
+		    if(i > 0)
+			textLength = i;
+		    else
+			textLength--;
+		}
+		
+		lines.append(line.mid(0, textLength).stripWhiteSpace());
+		line = line.mid(textLength);
 	    }
 	    
-	    lines.append(line.mid(0, textLength).stripWhiteSpace());
-	    line = line.mid(textLength);
-	}
-	
-	setMultiLinesEnabled(lines.count() > 1);
+	    setMultiLinesEnabled(lines.count() > 1);
+	    
+	    KListViewItem::setText(column, lines.join("\n"));
 
-	KListViewItem::setText(column, lines.join("\n"));
+	    break;
+	}
+	}
     }
+
     KListViewItem::paintCell(painter, colorGroup, column, width, align);
 }
 
@@ -486,6 +539,20 @@ void PlaylistBox::Item::setText(int column, const QString &text)
 {
     m_text = text;
     KListViewItem::setText(column, text);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PlaylistBox::Item protected slots
+////////////////////////////////////////////////////////////////////////////////
+
+void PlaylistBox::Item::slotSetName(const QString &name)
+{
+    if(listView()) {
+	listView()->m_names.remove(text(0));
+	listView()->m_names.append(name);
+
+	setText(0, name);
+    }
 }
 
 #include "playlistbox.moc"

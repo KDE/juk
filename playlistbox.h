@@ -30,6 +30,7 @@ class PlaylistItem;
 class PlaylistSplitter;
 
 class KPopupMenu;
+class KSelectAction;
 
 /** 
  * This is the play list selection box that is by default on the right side of
@@ -41,6 +42,8 @@ class PlaylistBox : public KListView
     Q_OBJECT
 
 public: 
+    enum ViewMode { Default = 0, Compact = 1 };
+
     PlaylistBox(PlaylistSplitter *parent = 0, const char *name = 0);
     virtual ~PlaylistBox();
 
@@ -57,6 +60,8 @@ public:
     void duplicate();
     void deleteItem();
 
+    ViewMode viewMode() const { return m_viewMode; }
+
     class Item;
     friend class Item;
 
@@ -69,6 +74,9 @@ signals:
     void signalDoubleClicked();
 
 private:
+    void readConfig();
+    void saveConfig();
+
     void save(Item *item);
     void saveAs(Item *item);
     void rename(Item *item);
@@ -106,6 +114,7 @@ private slots:
     void slotContextDuplicate();
     void slotContextDeleteItem();
     void slotContextReload();
+    void slotSetViewMode(int viewMode);
 
 private:
     PlaylistSplitter *m_splitter;
@@ -115,6 +124,8 @@ private:
     bool m_updatePlaylistStack;
     QPtrDict<Item> m_playlistDict;
     QMap<QString, int> m_popupIndex;
+    ViewMode m_viewMode;
+    KSelectAction *m_viewModeAction;
 };
 
 
@@ -131,23 +142,25 @@ class PlaylistBox::Item : public QObject, public KListViewItem
 
 public:
     virtual ~Item();
-
-public slots:
-    void slotSetName(const QString &name);
     
 protected:
-    Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l = 0);
+    Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_list; }
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(KListViewItem::listView()); }
+    const char *iconName() const { return m_iconName; }
 
     virtual int compare(QListViewItem *i, int col, bool) const;
     virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
     virtual void setText(int column, const QString &text);
 
+protected slots:
+    void slotSetName(const QString &name);
+
 private:
     Playlist *m_list;
     QString m_text;
+    const char *m_iconName;
 };
 
 #endif
