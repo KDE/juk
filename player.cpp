@@ -53,7 +53,7 @@ KSelectAction *Player::playerSelectAction(QObject *parent)
 {
     KSelectAction *action = 0;
 #if HAVE_GSTREAMER
-    action = new KSelectAction(i18n("Ouput To"), 0, parent, "outputSelect");
+    action = new KSelectAction(i18n("Output To"), 0, parent, "outputSelect");
     QStringList l;
     l << "aRts" << "GStreamer";
     action->setItems(l);
