@@ -243,7 +243,7 @@ void PlayerManager::seekBack()
 
 void PlayerManager::playPause()
 {
-    playing() ? pause() : play();
+    playing() ? action("pause")->activate() : action("play")->activate();
 }
 
 void PlayerManager::forward()
