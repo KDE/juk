@@ -40,12 +40,12 @@ SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(pare
 								m_popup(0)
 
 {
-    m_appPix     = UserIcon("juk_dock");
+    m_appPix = UserIcon("juk_dock");
 
-    m_playPix = createPixmap( "player_play" );
-    m_pausePix = createPixmap( "player_pause" );
+    m_playPix = createPixmap("player_play");
+    m_pausePix = createPixmap("player_pause");
 
-    m_backPix    = SmallIcon("player_start");
+    m_backPix = SmallIcon("player_start");
     m_forwardPix = SmallIcon("player_end");
 
     setPixmap(m_appPix);
@@ -140,31 +140,31 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
 
 QPixmap SystemTray::createPixmap( const QString &pixName )
 {
-    QPixmap buffer( 22, 22 );
-    buffer.fill( this, 0, 0 );
+    QPixmap buffer(22, 22);
+    buffer.fill(this, 0, 0);
 
     QPixmap bgPix = m_appPix;
-    QPixmap fgPix = SmallIcon( pixName );
+    QPixmap fgPix = SmallIcon(pixName);
 
     KIconEffect effect;
-    bgPix = effect.apply( bgPix, KIconEffect::DeSaturate, 0.8, QColor(), true );
+    bgPix = effect.apply(bgPix, KIconEffect::DeSaturate, 0.8, QColor(), true);
 
-    QPainter p( &buffer );
-    p.drawPixmap( 0, 0, bgPix );
-    p.drawPixmap( ( buffer.width()-fgPix.width() )/2, 
-        ( buffer.height()-fgPix.height() )/2, fgPix );
+    QPainter p(&buffer);
+    p.drawPixmap(0, 0, bgPix);
+    p.drawPixmap((buffer.width() - fgPix.width()) / 2, 
+		 (buffer.height() - fgPix.height()) / 2, fgPix);
 
     return buffer;
 }
 
-void SystemTray::setToolTip( const QString &tip )
+void SystemTray::setToolTip(const QString &tip)
 {
-    QToolTip::remove( this );
-
-    if ( tip.isNull() )
-        QToolTip::add( this, "JuK" );
+    QToolTip::remove(this);
+   
+    if(tip.isNull())
+        QToolTip::add(this, "JuK");
     else
-        QToolTip::add( this, tip );
+        QToolTip::add(this, tip);
 }
 
 #include "systemtray.moc"
