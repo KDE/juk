@@ -77,8 +77,7 @@ void ArtsPlayer::play(float volume)
 
     if(!m_playobject || m_playobject->state() != Arts::posPaused)
     {
-        if(m_playobject && m_playobject->state() == Arts::posPlaying)
-            stop();
+        stop();
         delete m_playobject;
         m_playobject = m_factory->createPlayObject(m_currentURL, false);
         m_currentVolume = volume; //save volume for playObjectCreated
@@ -122,6 +121,7 @@ void ArtsPlayer::setVolume(float volume)
         if(!m_volumeControl.isNull()) {
             m_currentVolume = volume;
             m_volumeControl.scaleFactor(volume);
+            // kdDebug( 65432 ) << "set volume to " << volume << endl;
         }
     }
 }
@@ -269,6 +269,7 @@ void ArtsPlayer::setupVolumeControl()
         Arts::connect(po, "right", m_volumeControl, "inright");
         Arts::connect(m_volumeControl, "outleft" , ap, "left" );
         Arts::connect(m_volumeControl, "outright", ap, "right");
+        // kdDebug( 65432 ) << "connected volume control" << endl;
     }
     else {
         m_volumeControl = Arts::StereoVolumeControl::null();
