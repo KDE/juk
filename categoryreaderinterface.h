@@ -33,47 +33,47 @@ class CategoryReaderInterface
 public:
     virtual ~CategoryReaderInterface() { }
 
-/**
- * Returns the textual representation of \p type, without any processing done
- * on it.  For example, track values shouldn't be expanded out to the minimum
- * width from this function.
- *
- * @param category to retrieve the value of.
- * @return textual representation of that category's value.
- */
+    /**
+     * Returns the textual representation of \p type, without any processing done
+     * on it.  For example, track values shouldn't be expanded out to the minimum
+     * width from this function.
+     *
+     * @param category to retrieve the value of.
+     * @return textual representation of that category's value.
+     */
     virtual QString categoryValue(TagType type) const = 0;
 
-/**
- * Returns the user-specified prefix string for \p category.
- *
- * @param category the category to retrieve the value for.
- * @return user-specified prefix string for \p category.
- */
+    /**
+     * Returns the user-specified prefix string for \p category.
+     *
+     * @param category the category to retrieve the value for.
+     * @return user-specified prefix string for \p category.
+     */
     virtual QString prefix(TagType category) const = 0;
 
-/**
- * Returns the user-specified suffix string for \p category.
- *
- * @param category the category to retrieve the value for.
- * @return user-specified suffix string for \p category.
- */
+    /**
+     * Returns the user-specified suffix string for \p category.
+     *
+     * @param category the category to retrieve the value for.
+     * @return user-specified suffix string for \p category.
+     */
     virtual QString suffix(TagType category) const = 0;
 
-/**
- * Returns the user-specified empty action for \p category.
- *
- * @param category the category to retrieve the value for.
- * @return user-specified empty action for \p category.
- */
+    /**
+     * Returns the user-specified empty action for \p category.
+     *
+     * @param category the category to retrieve the value for.
+     * @return user-specified empty action for \p category.
+     */
     virtual TagRenamerOptions::EmptyActions emptyAction(TagType category) const = 0;
 
-/**
- * Returns the user-specified empty text for \p category.  This text might
- * be used to replace an empty value.
- *
- * @param category the category to retrieve the value for.
- * @return the user-specified empty text for \p category.
- */
+    /**
+     * Returns the user-specified empty text for \p category.  This text might
+     * be used to replace an empty value.
+     *
+     * @param category the category to retrieve the value for.
+     * @return the user-specified empty text for \p category.
+     */
     virtual QString emptyText(TagType category) const = 0;
 
     virtual QValueList<TagType> categoryOrder() const = 0;
