@@ -48,24 +48,24 @@ Tag::Tag(const QString &fileName) :
     if(MediaFiles::isMP3(fileName)) {
         TagLib::MPEG::File file(QFile::encodeName(fileName).data());
         if(file.isValid())
-	    setup(&file);
+            setup(&file);
     }
 
     else if(MediaFiles::isOgg(fileName)) {
         TagLib::Vorbis::File file(QFile::encodeName(fileName).data());
         if(file.isValid())
-	    setup(&file);
+            setup(&file);
     }
 
     else if(MediaFiles::isFLAC(fileName)) {
         TagLib::FLAC::File file(QFile::encodeName(fileName).data());
         if(file.isOpen())
-	    setup(&file);
+            setup(&file);
     }
 
     else {
-	kdError(65432) << "Couldn't resolve the mime type of \"" <<
-	    fileName << "\" -- this shouldn't happen." << endl;
+        kdError(65432) << "Couldn't resolve the mime type of \"" <<
+            fileName << "\" -- this shouldn't happen." << endl;
     }
 }
 
@@ -203,8 +203,9 @@ void Tag::setup(TagLib::File *file)
     m_lengthString = QString::number(minutes) + (seconds >= 10 ? ":" : ":0") + QString::number(seconds);
 
     if(m_title.isEmpty()) {
-	int i = m_fileName.findRev('.');
-        m_title = i > 0 ? m_fileName.left(i) : m_fileName;
+        int i = m_fileName.findRev('/');
+        int j = m_fileName.findRev('.');
+        m_title = i > 0 ? m_fileName.mid(i + 1, j - i - 1) : m_fileName;
     }
 
     m_isValid = true;
