@@ -346,7 +346,7 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
     PlaylistItem *i;
 
     if(random) {
-        if (m_randomList.count()<=1 || s_visibleChanged) {
+        if (m_randomList.count() <= 1 || s_visibleChanged) {
             m_randomList = visibleItems();
             s_visibleChanged = false;//got the change
         }
@@ -356,9 +356,10 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
         m_history.append(current);
 
         i = current;
-        while(i == current) {
-            i = m_randomList[KApplication::random() % m_randomList.count()];
-        }
+        if(!m_randomList.isEmpty()) {
+	    while(i == current)
+		i = m_randomList[KApplication::random() % m_randomList.count()];
+	}
     }
     else
     {
