@@ -25,7 +25,6 @@
 
 class QCheckBox;
 
-class KLineEdit;
 class KComboBox;
 
 class Playlist;
@@ -53,6 +52,7 @@ private:
     KLineEdit *m_lineEdit;
     KComboBox *m_searchFieldsBox;
     KComboBox *m_caseSensitive;
+    QValueList<int> m_columnList;
 };
 
 class SearchWidget : public QWidget

@@ -2,7 +2,7 @@
                           searchwidget.cpp
                              -------------------
     begin                : Sun Mar 6 2003
-    copyright            : (C) 2003 by Scott Wheeler
+    copyright            : (C) 2003 by Scott Wheeler <wheeler@kde.org>
                            (C) 2003 by Richard Lärkäng <nouseforaname@home.se>
  ***************************************************************************/
 
@@ -64,13 +64,14 @@ PlaylistSearch::Component SearchLine::searchComponent() const
     QValueList<int> searchedColumns;
 
     if(m_searchFieldsBox->currentItem() == 0) {
-	for(int i = 0; i < playlist->columns(); i++) {
-	    if(playlist->isColumnVisible(i) && !playlist->columnText(i).isEmpty())
-		searchedColumns.append(i);
+	QValueListConstIterator<int> it = m_columnList.begin();
+	for(; it != m_columnList.end(); ++it) {
+	    if(playlist->isColumnVisible(*it))
+		searchedColumns.append(*it);
 	}
     }
     else
-	searchedColumns.append(m_searchFieldsBox->currentItem() - 1);
+	searchedColumns.append(m_columnList[m_searchFieldsBox->currentItem() - 1]);
 
     return PlaylistSearch::Component(query, caseSensitive, searchedColumns);
 }
@@ -106,13 +107,15 @@ void SearchLine::updateColumns()
     Playlist *playlist = CollectionList::instance();
 
     int selection = -1;
+    m_columnList.clear();
 
     for(int i = 0; i < playlist->columns(); i++) {
-	if(playlist->isColumnVisible(i) && !playlist->columnText(i).isEmpty()) {
+	if(playlist->isColumnVisible(i)) {
+	    m_columnList.append(i);
 	    QString text = playlist->columnText(i);
 	    columnHeaders.append(text);
 	    if(currentText == text)
-		selection = i;
+		selection = m_columnList.size() - 1;
 	}
     }
 
