@@ -121,38 +121,51 @@ void TagEditor::refresh()
 	    // Yep, this is ugly.  Loop through all of the files checking to see
 	    // if their fields are the same.  If so, by default, enable their 
 	    // checkbox.
-
-	    for(; it.current(); ++it) {
-		tag = (*it)->tag();
-		if(artistNameBox->currentText() != tag->artist() && enableBoxes.contains(artistNameBox)) {
-		    artistNameBox->lineEdit()->clear();
-		    enableBoxes[artistNameBox]->setChecked(false);
-		}
-		if(trackNameBox->text() != tag->track() && enableBoxes.contains(trackNameBox)) {
-		    trackNameBox->clear();
-		    enableBoxes[trackNameBox]->setChecked(false);
-		}
-		if(albumNameBox->currentText() != tag->album() && enableBoxes.contains(albumNameBox)) {
-		    albumNameBox->lineEdit()->clear();
-		    enableBoxes[albumNameBox]->setChecked(false);
-		}
-		if(genreBox->currentText() != tag->genre() && enableBoxes.contains(genreBox)) {
-		    genreBox->lineEdit()->clear();
-		    enableBoxes[genreBox]->setChecked(false);
-		}		
-
-		if(trackSpin->value() != tag->trackNumber() && enableBoxes.contains(trackSpin)) {
-		    trackSpin->setValue(0);
-		    enableBoxes[trackSpin]->setChecked(false);
-		}		
-		if(yearSpin->value() != tag->year() && enableBoxes.contains(yearSpin)) {
-		    yearSpin->setValue(0);
-		    enableBoxes[yearSpin]->setChecked(false);
-		}
-
-		if(commentBox->text() != tag->comment() && enableBoxes.contains(commentBox)) {
-		    commentBox->clear();
-		    enableBoxes[commentBox]->setChecked(false);
+	    
+	    // Also, if there are more than 50 items, don't scan all of them.
+	    
+	    if(items.count() > 50) {
+		enableBoxes[artistNameBox]->setChecked(false);
+		enableBoxes[trackNameBox]->setChecked(false);
+		enableBoxes[albumNameBox]->setChecked(false);
+		enableBoxes[genreBox]->setChecked(false);
+		enableBoxes[trackSpin]->setChecked(false);
+		enableBoxes[yearSpin]->setChecked(false);
+		enableBoxes[commentBox]->setChecked(false);
+	    }
+	    else {
+		for(; it.current(); ++it) {
+		    tag = (*it)->tag();
+		    if(artistNameBox->currentText() != tag->artist() && enableBoxes.contains(artistNameBox)) {
+			artistNameBox->lineEdit()->clear();
+			enableBoxes[artistNameBox]->setChecked(false);
+		    }
+		    if(trackNameBox->text() != tag->track() && enableBoxes.contains(trackNameBox)) {
+			trackNameBox->clear();
+			enableBoxes[trackNameBox]->setChecked(false);
+		    }
+		    if(albumNameBox->currentText() != tag->album() && enableBoxes.contains(albumNameBox)) {
+			albumNameBox->lineEdit()->clear();
+			enableBoxes[albumNameBox]->setChecked(false);
+		    }
+		    if(genreBox->currentText() != tag->genre() && enableBoxes.contains(genreBox)) {
+			genreBox->lineEdit()->clear();
+			enableBoxes[genreBox]->setChecked(false);
+		    }		
+		    
+		    if(trackSpin->value() != tag->trackNumber() && enableBoxes.contains(trackSpin)) {
+			trackSpin->setValue(0);
+			enableBoxes[trackSpin]->setChecked(false);
+		    }		
+		    if(yearSpin->value() != tag->year() && enableBoxes.contains(yearSpin)) {
+			yearSpin->setValue(0);
+			enableBoxes[yearSpin]->setChecked(false);
+		    }
+		    
+		    if(commentBox->text() != tag->comment() && enableBoxes.contains(commentBox)) {
+			commentBox->clear();
+			enableBoxes[commentBox]->setChecked(false);
+		    }
 		}
 	    }
 	}
