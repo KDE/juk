@@ -46,21 +46,15 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1())
+Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1()), 
+										boxItem(0), playlistName(name), internalFile(true), splitter(s)
 {
-    boxItem = 0;
-    playlistName = name;
-    internalFile = true;
-    playlistFileName = QString::null;
-    splitter = s;
     setup();
 }
 
-Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name)
+Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name), internalFile(false), splitter(s)
 {
-    internalFile = false;
     playlistFileName = playlistFile.absFilePath();
-    splitter = s;
     setup();
 
     QFile file(playlistFileName);
