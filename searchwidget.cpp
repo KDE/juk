@@ -17,6 +17,7 @@
 
 #include <klocale.h>
 #include <klineedit.h>
+#include <kiconloader.h>
 #include <kcombobox.h>
 #include <kdebug.h>
 
@@ -24,6 +25,7 @@
 #include <qlabel.h>
 #include <qcheckbox.h>
 #include <qpushbutton.h>
+#include <qtoolbutton.h>
 
 #include "searchwidget.h"
 #include "collectionlist.h"
@@ -32,24 +34,32 @@
 // SearchLine public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SearchLine::SearchLine(QWidget *parent, const char *name) : QHBox(parent, name)
+SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
+    QHBox(parent, name),
+    m_simple(simple)
 {
     setSpacing(5);
 
-    m_searchFieldsBox = new KComboBox(this, "searchFields");
-    connect(m_searchFieldsBox, SIGNAL(activated(int)),
-            this, SIGNAL(signalQueryChanged()));
+    if(!m_simple) {
+	m_searchFieldsBox = new KComboBox(this, "searchFields");
+	connect(m_searchFieldsBox, SIGNAL(activated(int)),
+		this, SIGNAL(signalQueryChanged()));
+    }
 
     m_lineEdit = new KLineEdit(this, "searchLineEdit");
     connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
             this, SIGNAL(signalQueryChanged()));
 
-    m_caseSensitive = new KComboBox(this);
-    m_caseSensitive->insertItem(i18n("Normal Matching"), 0);
-    m_caseSensitive->insertItem(i18n("Case Sensitive"), 1);
-    m_caseSensitive->insertItem(i18n("Pattern Matching"), 2);
-    connect(m_caseSensitive, SIGNAL(activated(int)),
-            this, SIGNAL(signalQueryChanged()));
+    if(!m_simple) {
+	m_caseSensitive = new KComboBox(this);
+	m_caseSensitive->insertItem(i18n("Normal Matching"), 0);
+	m_caseSensitive->insertItem(i18n("Case Sensitive"), 1);
+	m_caseSensitive->insertItem(i18n("Pattern Matching"), 2);
+	connect(m_caseSensitive, SIGNAL(activated(int)),
+		this, SIGNAL(signalQueryChanged()));
+    }
+    else
+	m_caseSensitive = 0;
 
     updateColumns();
 }
@@ -57,13 +67,13 @@ SearchLine::SearchLine(QWidget *parent, const char *name) : QHBox(parent, name)
 PlaylistSearch::Component SearchLine::searchComponent() const
 {
     QString query = m_lineEdit->text();
-    bool caseSensitive = m_caseSensitive->currentItem() == CaseSensitive;
+    bool caseSensitive = m_caseSensitive && m_caseSensitive->currentItem() == CaseSensitive;
 
     Playlist *playlist = CollectionList::instance();
 
     QValueList<int> searchedColumns;
 
-    if(m_searchFieldsBox->currentItem() == 0) {
+    if(!m_searchFieldsBox || m_searchFieldsBox->currentItem() == 0) {
 	QValueListConstIterator<int> it = m_columnList.begin();
 	for(; it != m_columnList.end(); ++it) {
 	    if(playlist->isColumnVisible(*it))
@@ -81,13 +91,15 @@ void SearchLine::setSearchComponent(const PlaylistSearch::Component &component)
     if(component == searchComponent())
 	return;
 
-    if(!component.isPatternSearch()) {
+    if(m_simple || !component.isPatternSearch()) {
 	m_lineEdit->setText(component.query());
-	m_caseSensitive->setCurrentItem(component.isCaseSensitive() ? CaseSensitive : Default);
+	if(m_caseSensitive)
+	    m_caseSensitive->setCurrentItem(component.isCaseSensitive() ? CaseSensitive : Default);
     }
     else {
 	m_lineEdit->setText(component.pattern().pattern());
-	m_caseSensitive->setCurrentItem(Pattern);
+	if(m_caseSensitive)
+	    m_caseSensitive->setCurrentItem(Pattern);
     }
 }
 
@@ -100,8 +112,12 @@ void SearchLine::clear()
 
 void SearchLine::updateColumns()
 {
-    QString currentText = m_searchFieldsBox->currentText();
-    m_searchFieldsBox->clear();
+    QString currentText;
+
+    if(m_searchFieldsBox) {
+	currentText = m_searchFieldsBox->currentText();
+	m_searchFieldsBox->clear();
+    }
 
     QStringList columnHeaders;
 
@@ -120,15 +136,17 @@ void SearchLine::updateColumns()
 	    selection = m_columnList.size() - 1;
     }
 
-    m_searchFieldsBox->insertStringList(columnHeaders);
-    m_searchFieldsBox->setCurrentItem(selection + 1);
+    if(m_searchFieldsBox) {
+	m_searchFieldsBox->insertStringList(columnHeaders);
+	m_searchFieldsBox->setCurrentItem(selection + 1);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // SearchWidget public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SearchWidget::SearchWidget(QWidget *parent, const char *name) : QWidget(parent, name)
+SearchWidget::SearchWidget(QWidget *parent, const char *name) : KToolBar(parent, name)
 {
     setupLayout();
     updateColumns();
@@ -178,18 +196,20 @@ void SearchWidget::updateColumns()
 
 void SearchWidget::setupLayout()
 {
-    QHBoxLayout *layout = new QHBoxLayout(this, 5);
-    layout->setAutoAdd(true);
+    boxLayout()->setSpacing(5);
 
-    new QLabel(i18n("Search:"), this);
+    new QLabel(i18n("Search:"), this, "kde toolbar widget");
 
-    m_searchLine = new SearchLine(this);
+    m_searchLine = new SearchLine(this, true, "kde toolbar widget");
     connect(m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
 
-    QPushButton *button = new QPushButton(i18n("Clear"), this);
-    connect(button, SIGNAL(clicked()), this, SLOT(clear()));
+    setStretchableWidget(m_searchLine);
 
-    setFixedHeight(minimumSizeHint().height());
+    QToolButton *b = new QToolButton(this);
+    b->setTextLabel(i18n("Advanced Search"), true);
+    b->setIconSet(SmallIconSet("wizard"));
+
+    connect(b, SIGNAL(clicked()), this, SIGNAL(signalAdvancedSearchClicked()));
 }
 
 #include "searchwidget.moc"

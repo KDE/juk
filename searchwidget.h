@@ -18,7 +18,8 @@
 #ifndef SEARCHWIDGET_H
 #define SEARCHWIDGET_H
 
-#include <qwidget.h>
+#include <ktoolbar.h>
+
 #include <qhbox.h>
 
 #include "playlistsearch.h"
@@ -36,7 +37,7 @@ class SearchLine : public QHBox
 public:
     enum Mode { Default = 0, CaseSensitive = 1, Pattern = 2 };
 
-    SearchLine(QWidget *parent, const char *name = 0);
+    SearchLine(QWidget *parent, bool simple = false, const char *name = 0);
     virtual ~SearchLine() {}
 
     PlaylistSearch::Component searchComponent() const;
@@ -49,13 +50,14 @@ signals:
     void signalQueryChanged();
 
 private:
+    bool m_simple;
     KLineEdit *m_lineEdit;
     KComboBox *m_searchFieldsBox;
     KComboBox *m_caseSensitive;
     QValueList<int> m_columnList;
 };
 
-class SearchWidget : public QWidget
+class SearchWidget : public KToolBar
 {
     Q_OBJECT
 
@@ -75,6 +77,7 @@ public slots:
 
 signals:
     void signalQueryChanged();
+    void signalAdvancedSearchClicked();
 
 private:
     void updateColumns();

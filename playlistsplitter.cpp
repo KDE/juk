@@ -450,6 +450,8 @@ void PlaylistSplitter::slotRenameFile()
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
+#include <qlayout.h>
+
 void PlaylistSplitter::setupLayout()
 {
     setOpaqueResize(false);
@@ -468,7 +470,10 @@ void PlaylistSplitter::setupLayout()
 
     // Create the playlist and the editor.
 
-    m_playlistStack = new QWidgetStack(editorSplitter, "playlistStack");
+    QWidget *top = new QWidget(editorSplitter);
+    QVBoxLayout *topLayout = new QVBoxLayout(top);
+
+    m_playlistStack = new QWidgetStack(top, "playlistStack");
     m_editor = new TagEditor(editorSplitter, "tagEditor");
 
     // Make the editor as small as possible (or at least as small as recommended)
@@ -494,11 +499,16 @@ void PlaylistSplitter::setupLayout()
     connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
 
     // Create the search widget -- this must be done after the CollectionList is created.
-    m_searchWidget = new SearchWidget(editorSplitter, "searchWidget");
-    editorSplitter->moveToFirst(m_searchWidget);
+
+    m_searchWidget = new SearchWidget(top, "searchWidget");
     connect(m_searchWidget, SIGNAL(signalQueryChanged()), this, SLOT(slotShowSearchResults()));
+    connect(m_searchWidget, SIGNAL(signalAdvancedSearchClicked()), this, SLOT(slotAdvancedSearch()));
+
     connect(CollectionList::instance(), SIGNAL(signalVisibleColumnsChanged()),
 	    this, SLOT(slotVisibleColumnsChanged()));
+
+    topLayout->addWidget(m_searchWidget);
+    topLayout->addWidget(m_playlistStack);
 
     // Show the collection on startup.
     m_playlistBox->setSelected(0, true);

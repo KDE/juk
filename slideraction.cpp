@@ -152,7 +152,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         QToolTip::add(m_volumeSlider, i18n("Volume"));
         m_layout->addWidget(m_volumeSlider);
 
-	m_volumeSlider->setName("kde toolbar widget");
+        m_volumeSlider->setName("kde toolbar widget");
         m_trackPositionSlider->setName("kde toolbar widget");
 
         m_layout->setStretchFactor(m_trackPositionSlider, 4);
