@@ -297,7 +297,7 @@ void PlaylistBox::deleteItem(Item *item)
     m_names.remove(item->text(0));
     m_playlistDict.remove(item->playlist());
 
-    setSingleItem(item->nextSibling() ? item->nextSibling() : lastItem());
+    setSingleItem(item->nextSibling() ? item->nextSibling() : item->itemAbove());
 
     delete item->playlist();
     delete item;
