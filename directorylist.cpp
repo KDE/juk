@@ -47,7 +47,9 @@ DirectoryList::DirectoryList(QStringList &directories, QWidget* parent,
 		it != directories.end(); ++it)
 	new KListViewItem(m_base->directoryListView, *it);
 
-    resize(350, 250);
+    QSize sz = sizeHint();
+    setMinimumSize(QMAX(350, sz.width()), QMAX(250, sz.height()));
+    resize(sizeHint());
 }
 
 DirectoryList::~DirectoryList()
