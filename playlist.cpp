@@ -791,7 +791,7 @@ void Playlist::applySharedSettings()
     m_applySharedSettings = true;
 }
 
-void Playlist::setSorting(int column, bool ascending = true)
+void Playlist::setSorting(int column, bool ascending)
 {
     if(column == columnOffset() + PlaylistItem::FileNameColumn) {
 	if(sortColumn() == column && ascending)
