@@ -242,6 +242,11 @@ public:
     void updateLeftColumn();
 
     /**
+     * Returns the leftmost visible column of the listview.
+     */
+    int leftColumn() const { return m_leftColumn; }
+
+    /**
      * Sets the items in the list to be either visible based on the value of
      * visible.  This is useful for search operations and such.
      */

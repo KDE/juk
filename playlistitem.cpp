@@ -74,14 +74,20 @@ FileHandle PlaylistItem::file() const
     return d->fileHandle;
 }
 
-QPixmap *PlaylistItem::pixmap(int column) const
+const QPixmap *PlaylistItem::pixmap(int column) const
 {
+    static QPixmap image(SmallIcon("image"));
+    static QPixmap playing(UserIcon("playing"));
+
     int offset = playlist()->columnOffset();
 
-    if ((column - offset) == CoverColumn && d->fileHandle.coverInfo()->hasCover())
-        return new QPixmap(SmallIcon("image"));
+    if((column - offset) == CoverColumn && d->fileHandle.coverInfo()->hasCover())
+        return &image;
 
-    return 0;
+    if(column == playlist()->leftColumn() && m_playing)
+	return &playing;
+
+    return KListViewItem::pixmap(column);
 }
 
 QString PlaylistItem::text(int column) const

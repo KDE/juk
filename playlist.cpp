@@ -593,10 +593,9 @@ void Playlist::updateLeftColumn()
     int newLeftColumn = leftMostVisibleColumn();
 
     if(m_leftColumn != newLeftColumn) {
-	if(m_playingItem) {
-	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
-	    m_playingItem->setPixmap(newLeftColumn, UserIcon("playing"));
-	}
+	if(m_playingItem)
+            m_playingItem->listView()->triggerUpdate();
+
 	m_leftColumn = newLeftColumn;
     }
 }
@@ -1186,10 +1185,9 @@ void Playlist::hideColumn(int c, bool updateSearch)
     header()->setResizeEnabled(false, c);
 
     if(c == m_leftColumn) {
-	if(m_playingItem) {
-	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
-	    m_playingItem->setPixmap(leftMostVisibleColumn(), UserIcon("playing"));
-	}
+	if(m_playingItem)
+            m_playingItem->listView()->triggerUpdate();
+
 	m_leftColumn = leftMostVisibleColumn();
     }
 
@@ -1220,10 +1218,8 @@ void Playlist::showColumn(int c, bool updateSearch)
     header()->moveSection(c, c); // Approximate old position
 
     if(c == leftMostVisibleColumn()) {
-	if(m_playingItem) {
-	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
-	    m_playingItem->setPixmap(leftMostVisibleColumn(), UserIcon("playing"));
-	}
+	if(m_playingItem)
+            m_playingItem->listView()->triggerUpdate();
 	m_leftColumn = leftMostVisibleColumn();
     }
 
@@ -1460,8 +1456,8 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 	return;
 
     if(m_playingItem) {
-	m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
 	m_playingItem->setPlaying(false);
+        m_playingItem->listView()->triggerUpdate();
 
 	if(addToHistory) {
 	    if(m_playingItem->playlist() == m_upcomingPlaylist)
@@ -1479,11 +1475,11 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 	return;
 
     m_playingItem = item;
-    item->setPixmap(m_leftColumn, UserIcon("playing"));
     item->setPlaying(true);
 
     bool enableBack = !m_history.isEmpty();
     action<KToolBarPopupAction>("back")->popupMenu()->setEnabled(enableBack);
+    item->listView()->triggerUpdate();
 }
 
 bool Playlist::playing() const
@@ -1956,10 +1952,9 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 void Playlist::slotColumnOrderChanged(int, int from, int to)
 {
     if(from == 0 || to == 0) {
-	if(m_playingItem) {
-	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
-	    m_playingItem->setPixmap(header()->mapToSection(0), UserIcon("playing"));
-	}
+	if(m_playingItem)
+            m_playingItem->listView()->triggerUpdate();
+
 	m_leftColumn = header()->mapToSection(0);
     }
 
