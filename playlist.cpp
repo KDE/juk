@@ -953,6 +953,14 @@ void Playlist::applySharedSettings()
     m_applySharedSettings = true;
 }
 
+void Playlist::setFileColumnFullPathSort(bool enable)
+{
+    m_fileColumnFullPathSort = enable;
+    setColumnText(columnOffset() + PlaylistItem::FileNameColumn, enable
+		  ? i18n("File Name (full path)")
+		  : i18n("File Name"));
+}
+
 void Playlist::setSorting(int column, bool ascending)
 {
     if(column == columnOffset() + PlaylistItem::FileNameColumn) {

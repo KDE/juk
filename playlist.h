@@ -290,6 +290,11 @@ public:
     bool fileColumnFullPathSort() const { return m_fileColumnFullPathSort; }
 
     /**
+     * Sets whether or not the file column sorts using the full path.
+     */
+    void setFileColumnFullPathSort(bool enable);
+
+    /**
      * Reimplemented to add toggling of the file column sorting mode.
      *
      * \see fileColumnFullPathSort()

@@ -65,7 +65,15 @@ void CollectionList::initialize(PlaylistCollection *collection)
     // The CollectionList is created with sorting disabled for speed.  Re-enable
     // it here, and perform the sort.
     KConfigGroup config(KGlobal::config(), "Playlists");
+    
+    SortOrder order = Descending;
+    if(config.readBoolEntry("CollectionListSortAscending", true))
+	order = Ascending;
+
+    m_list->setSortOrder(order);
+    m_list->setFileColumnFullPathSort(config.readBoolEntry("CollectionListFullPathSort", false));
     m_list->setSortColumn(config.readNumEntry("CollectionListSortColumn", 1));
+
     m_list->sort();
 
     collection->setupPlaylist(m_list, "folder_sound");
@@ -201,6 +209,8 @@ CollectionList::~CollectionList()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
     config.writeEntry("CollectionListSortColumn", sortColumn());
+    config.writeEntry("CollectionListFullPathSort", fileColumnFullPathSort());
+    config.writeEntry("CollectionListSortAscending", sortOrder() == Ascending);
 
     // The CollectionListItems will try to remove themselves from the
     // m_columnTags member, so we must make sure they're gone before we
