@@ -42,11 +42,13 @@ class TrackPositionSlider : public QSlider
 {
 public:
     TrackPositionSlider(QWidget *parent, const char *name) : QSlider(parent, name) {}
-    
+
 protected:
     void mousePressEvent(QMouseEvent *e) {
-	if(e->button() == LeftButton)
-	    QSlider::mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, e->pos(), MidButton, e->state()));
+	if(e->button() == LeftButton) {
+	    QSlider::mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, e->pos(), MidButton, e->state())); 
+	    emit sliderPressed();
+	}
 	else if(e->button() == MidButton)
 	    QSlider::mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, e->pos(), LeftButton, e->state()));
     }
@@ -178,4 +180,5 @@ void SliderAction::updateSize()
     }
 
 }
+
 #include "slideraction.moc"
