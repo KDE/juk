@@ -17,19 +17,25 @@
 
 #include "player.h"
 #include "artsplayer.h"
-#if 0
 #include "gstreamerplayer.h"
-#endif
+
+#include "../config.h"
 
 Player *Player::createPlayer(SoundSystem s)
 {
     Player *p = 0;
     
+#if HAVE_GSTREAMER
+
     if(s == Arts)
 	p = new ArtsPlayer();
-#if 0
     else if(s == GStreamer)
 	p = new GStreamerPlayer();
+
+#else
+
+    p = new ArtsPlayer();
+
 #endif
 
     return p;

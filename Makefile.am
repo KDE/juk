@@ -4,7 +4,15 @@ bin_PROGRAMS = juk
 ## INCLUDES were found outside kdevelop specific part
 
 juk_SOURCES = gstreamerplayer.cpp artsplayer.cpp directorylist.cpp directorylistbase.ui stringhash.cpp sortedstringlist.cpp systemtray.cpp genrelisteditor.cpp genrelisteditorbase.ui splashscreen.cpp statuslabel.cpp cachedtag.cpp oggtag.cpp id3tag.cpp collectionlist.cpp playlistitem.cpp playlist.cpp playlistsplitter.cpp listboxpixmap.cpp playlistbox.cpp tageditor.cpp cache.cpp audiodata.cpp genrelistreader.cpp genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp slideraction.cpp juk.cpp main.cpp 
-juk_LDADD   = -lid3 -lsoundserver_idl $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
+
+
+if link_lib_GST
+gstlibs = -lqgst -lqgstplay
+else
+gstlibs =
+endif
+
+juk_LDADD   = $(gstlibs) -lid3 -lsoundserver_idl $(LIB_KFILE) $(LIB_KDEUI) $(LIB_KDECORE) $(LIB_QT) $(LIBSOCKET)
 
 SUBDIRS = pics data 
 

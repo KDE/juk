@@ -30,7 +30,6 @@ public:
 
     enum SoundSystem { Arts, GStreamer };
 
-    Player() {}
     virtual ~Player() {}
 
     virtual void play(const QString &fileName, float volume = 1.0) = 0;
@@ -56,6 +55,10 @@ public:
      */
 
     static Player *createPlayer(SoundSystem s = Arts);
+
+protected:
+    Player() {}
+
 };
 
 #endif

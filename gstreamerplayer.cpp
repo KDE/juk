@@ -15,7 +15,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#if 0
+#include "../config.h"
+
+#if HAVE_GSTREAMER
 
 #include <kdebug.h>
 
@@ -88,9 +90,7 @@ void GStreamerPlayer::setVolume(float volume)
 float GStreamerPlayer::getVolume() const
 {
     // 1.0 is full volume
-    // when is works in QGstPlay::Play, just call:
-    // return player->getVolume();
-    return 1.0;
+    return player->getVolume();
 }
 
 /////////////////////////////////////////////////////////////////////////////////

@@ -15,8 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+
 #ifndef GSTREAMERPLAYER_H
 #define GSTREAMERPLAYER_H
+
+#include "../config.h"
+
+#if HAVE_GSTREAMER
 
 #include <qgstplay/play.h>
 
@@ -58,7 +63,7 @@ private slots:
     void setDuration(long long d);
 
 private:
-    void setupGStreamerPlayer();
+    void setupPlayer();
     void setupVolumeControl();
     bool serverRunning() const;
 
@@ -71,5 +76,7 @@ private:
     QString currentFile;
     float currentVolume;
 };
+
+#endif
 
 #endif
