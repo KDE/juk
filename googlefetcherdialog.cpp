@@ -12,6 +12,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kapplication.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -79,10 +80,10 @@ void GoogleFetcherDialog::setLayout()
               .arg(m_file.tag()->artist())
               .arg(m_file.tag()->album())
               .arg(m_imageList.size()));
+
     m_iconWidget->clear();
-    for(uint i = 0; i < m_imageList.size(); i++) {
+    for(uint i = 0; i < m_imageList.size(); i++)
         new CoverIconViewItem(m_iconWidget, m_imageList[i]);
-    }
 
     adjustSize();
 }
@@ -193,28 +194,35 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KURL &url) const
 ////////////////////////////////////////////////////////////////////////////////
 
 CoverIconViewItem::CoverIconViewItem(QIconView *parent, const GoogleImage &image) : 
-    QObject(parent)
+    QObject(parent), KIconViewItem(parent, parent->lastItem(), image.size()), m_job(0)
 {
     // Set up the iconViewItem
     
-    m_iconViewItem = new KIconViewItem(parent, parent->lastItem(), image.size());
     QPixmap mainMap;
     mainMap.resize(80, 80);
     mainMap.fill();
-    m_iconViewItem->setPixmap(mainMap, true, true);
+    setPixmap(mainMap, true, true);
     
     // Start downloading the image.
     
-    KIO::TransferJob *job = KIO::get(image.thumbURL(), false, false);
-    connect(job, SIGNAL(result(KIO::Job *)), this, SLOT(imageResult(KIO::Job *)));
-    connect(job, SIGNAL(data(KIO::Job *, const QByteArray &)),
+    m_job = KIO::get(image.thumbURL(), false, false);
+    connect(m_job, SIGNAL(result(KIO::Job *)), this, SLOT(imageResult(KIO::Job *)));
+    connect(m_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
             this, SLOT(imageData(KIO::Job *, const QByteArray &)));
-   
 }
 
 CoverIconViewItem::~CoverIconViewItem()
 {
+    if(m_job) {
+        m_job->kill();
 
+        // Drain results issued by KIO before being deleted,
+        // and before deleting the job.
+        kapp->processEvents();
+
+        delete m_job;
+        m_job = 0;
+    }
 }
 
 void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
@@ -226,12 +234,13 @@ void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
 
 void CoverIconViewItem::imageResult(KIO::Job *job)
 {
+    m_job = 0; // Job has deleted itself
     if(job->error())
         return;
     
     QPixmap iconImage(m_buffer);
     iconImage = QImage(iconImage.convertToImage()).smoothScale(80, 80);
-    m_iconViewItem->setPixmap(iconImage, true, true);
+    setPixmap(iconImage, true, true);
 }
 
 #include "googlefetcherdialog.moc"

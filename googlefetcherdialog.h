@@ -68,7 +68,12 @@ private:
     FileHandle m_file;
 };
 
-class CoverIconViewItem : public QObject
+namespace KIO
+{
+    class TransferJob;
+}
+
+class CoverIconViewItem : public QObject, public KIconViewItem
 {
     Q_OBJECT
 
@@ -82,7 +87,7 @@ private slots:
 
 private:
     QByteArray m_buffer;
-    KIconViewItem *m_iconViewItem;
+    KIO::TransferJob *m_job;
 };
 
 #endif
