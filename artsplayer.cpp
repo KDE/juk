@@ -180,6 +180,8 @@ void ArtsPlayer::seek(long seekTime)
 {
     if(serverRunning() && m_media) {
         poTime poSeekTime;
+        poSeekTime.custom = 0;
+        poSeekTime.ms = 0;
         poSeekTime.seconds = seekTime;
         m_media->seek(poSeekTime);
     }
@@ -190,6 +192,8 @@ void ArtsPlayer::seekPosition(int position)
     if(serverRunning() && m_media) {
         poTime poSeekTime;
         long total = m_media->overallTime().seconds;
+        poSeekTime.custom = 0;
+        poSeekTime.ms = 0;
         poSeekTime.seconds = long(double(total) * position / 1000 + .5);
         m_media->seek(poSeekTime);
     }
