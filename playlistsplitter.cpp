@@ -848,7 +848,8 @@ void PlaylistSplitter::readPlaylists()
 	    if(version == 2) {
 		Q_INT32 sortColumn;
 		s >> sortColumn;
-		playlist->setSorting(sortColumn);
+		if(playlist)
+		    playlist->setSorting(sortColumn);
 	    }
 	}
 	break;
