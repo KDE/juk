@@ -51,7 +51,7 @@ public:
 
     void sort();
     void raise(Playlist *playlist);
-    QStringList names() const;
+    QStringList names() const { return m_names; }
     QPtrList<Playlist> playlists() const;
 
 public slots:
@@ -93,16 +93,16 @@ private:
      * This is used by PlaylistItemBox (a friend class) to add names to the name
      * list returned by names(). 
      */
-    void addName(const QString &name);
+    void addName(const QString &name) { m_names.append(name); }
 
 private slots:
     /** 
      * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
      * the signal as  currentChanged(Item *). 
      */
-    void playlistChanged(QListBoxItem *item);
-    void playlistDoubleClicked(QListBoxItem *);
-    void drawContextMenu(QListBoxItem *item, const QPoint &point);
+    void slotPlaylistChanged(QListBoxItem *item);
+    void slotPlaylistDoubleClicked(QListBoxItem *);
+    void slotDrawContextMenu(QListBoxItem *item, const QPoint &point);
 
     // context menu entries
     void contextSave();
@@ -112,13 +112,13 @@ private slots:
     void contextDeleteItem();
 
 private:
-    PlaylistSplitter *splitter;
-    QStringList nameList;
-    KPopupMenu *collectionContextMenu;
-    KPopupMenu *playlistContextMenu;
-    Item *contextMenuOn;
-    bool updatePlaylistStack;
-    QPtrDict<Item> _playlistDict;
+    PlaylistSplitter *m_splitter;
+    QStringList m_names;
+    KPopupMenu *m_collectionContextMenu;
+    KPopupMenu *m_playlistContextMenu;
+    Item *m_contextMenuOn;
+    bool m_updatePlaylistStack;
+    QPtrDict<Item> m_playlistDict;
 };
 
 
