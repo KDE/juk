@@ -24,7 +24,7 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 #include <klineedit.h>
-#include <kactionclasses.h>
+#include <kaction.h>
 #include <kdebug.h>
 
 #include <qfileinfo.h>
