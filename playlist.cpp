@@ -109,7 +109,8 @@ public:
 	    }
 	    else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
 		QMimeSourceFactory *f = QMimeSourceFactory::defaultFactory();
-	        f->setImage("coverThumb", QImage(item->file().coverInfo()->coverPixmap().convertToImage()));
+	        f->setImage("coverThumb",
+			    QImage(item->file().coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage()));
 	        tip(r, "<center><img source=\"coverThumb\"/></center>");
 	    }
 	    else
@@ -721,18 +722,15 @@ void Playlist::slotViewCover()
 void Playlist::slotRemoveCover()
 {
     PlaylistItemList items = selectedItems();
-    if (items.isEmpty())
+    if(items.isEmpty())
         return;
-    int button = KMessageBox::warningContinueCancel( this,
-				  i18n("Are you sure you want to delete these covers?" ),
-				  QString::null,
-				  i18n("&Delete Covers") );
-    if (button == KMessageBox::Continue) {
-        for(PlaylistItemList::Iterator it = items.begin(); it !=items.end(); ++it) {
-            QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::FullSize));
-            QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
-            (*it)->file().coverInfo()->resetHasCover();
-        }
+    int button = KMessageBox::warningContinueCancel(this,
+						    i18n("Are you sure you want to delete these covers?"),
+						    QString::null,
+						    i18n("&Delete Covers"));
+    if(button == KMessageBox::Continue) {
+        for(PlaylistItemList::Iterator it = items.begin(); it !=items.end(); ++it)
+            (*it)->file().coverInfo()->clearCover();
 
         slotRefresh();
         PlayerManager::instance()->registerChangedCover();
@@ -762,10 +760,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
         return;
 
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
-        QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::FullSize));
-        QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
-        image.save((*it)->file().coverInfo()->coverLocation(CoverInfo::FullSize), "PNG");
-        (*it)->file().coverInfo()->resetHasCover();
+        (*it)->file().coverInfo()->setCover(image);
         slotRefresh();
     }
     slotRefresh();
@@ -935,13 +930,9 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 	KMimeType::Ptr mimeType = KMimeType::findByPath(file);
 
 	if(item && mimeType->name().startsWith("image/")) {
-	    QFile::remove(item->file().coverInfo()->coverLocation(CoverInfo::FullSize));
-	    QFile::remove(item->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
-	    QImage(file).save(item->file().coverInfo()->coverLocation(CoverInfo::FullSize), "PNG");
-	    item->file().coverInfo()->resetHasCover();
+	    item->file().coverInfo()->setCover(QImage(file));
 	    refreshAlbum(item->file().tag()->artist(),
 			 item->file().tag()->album());
-
 	    PlayerManager::instance()->registerChangedCover();
 	}
     }

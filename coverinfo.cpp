@@ -74,25 +74,6 @@ CoverInfo::CoverInfo(const FileHandle &file) :
 
 }
 
-QPixmap CoverInfo::coverPixmap() const
-{
-    QPixmap coverThumb = pixmap(Thumbnail);
-
-    if(!coverThumb.isNull())
-        return coverThumb;
-
-    // If the file doesn't exist, try to create the thumbnail from
-    // the large image
-
-    QPixmap largeCover = largeCoverPixmap();
-    if(!largeCover.isNull()) {
-        QImage image(largeCover.convertToImage());
-        image.smoothScale(80, 80).save(coverLocation(Thumbnail), "PNG");
-    }
-
-    return pixmap(Thumbnail);
-}
-
 bool CoverInfo::hasCover()
 {
     if(!m_haveCheckedForCover) {
@@ -102,20 +83,33 @@ bool CoverInfo::hasCover()
     return m_hasCover;
 }
 
-QPixmap CoverInfo::largeCoverPixmap() const
+void CoverInfo::clearCover()
 {
-    return pixmap(FullSize);
+    QFile::remove(coverLocation(CoverInfo::FullSize));
+    QFile::remove(coverLocation(CoverInfo::Thumbnail));
+    m_haveCheckedForCover = false;
 }
 
-void CoverInfo::resetHasCover()
+void CoverInfo::setCover(const QImage &image)
 {
-    m_haveCheckedForCover = false;
+    if(m_hasCover)
+        clearCover();
+
+    image.save(coverLocation(CoverInfo::FullSize), "PNG");
 }
 
 QPixmap CoverInfo::pixmap(CoverSize size) const
 {
     if(m_file.tag()->artist().isEmpty() || m_file.tag()->album().isEmpty())
         return QPixmap();
+
+    if(size == Thumbnail && !QFile(coverLocation(Thumbnail)).exists()) {
+        QPixmap large = pixmap(FullSize);
+        if(!large.isNull()) {
+            QImage image(large.convertToImage());
+            image.smoothScale(80, 80).save(coverLocation(Thumbnail), "PNG");
+        }
+    }
 
     return QPixmap(coverLocation(size));
 }
@@ -145,7 +139,7 @@ QString CoverInfo::coverLocation(CoverSize size) const
 
 void CoverInfo::popupLargeCover()
 {
-    QPixmap largeCover = largeCoverPixmap();
+    QPixmap largeCover = pixmap(FullSize);
     if(largeCover.isNull())
         return;
 

@@ -69,7 +69,7 @@ void NowPlaying::slotRefresh()
     FileHandle playingFile = PlayerManager::instance()->playingFile();
 
     if(playingFile.coverInfo()->hasCover()){
-        QImage image = playingFile.coverInfo()->largeCoverPixmap().convertToImage();
+        QImage image = playingFile.coverInfo()->pixmap(CoverInfo::FullSize).convertToImage();
         QPixmap cover = image.smoothScale(size().width(), size().width());
         setPaletteBackgroundPixmap(cover);
     }
@@ -118,7 +118,7 @@ void NowPlaying::resizeEvent(QResizeEvent *ev)
     if((PlayerManager::instance()->playing() || PlayerManager::instance()->paused()) &&
        playingFile.coverInfo()->hasCover())
     {
-        QImage image = playingFile.coverInfo()->largeCoverPixmap().convertToImage();
+        QImage image = playingFile.coverInfo()->pixmap(CoverInfo::FullSize).convertToImage();
         setPaletteBackgroundPixmap(image.smoothScale(size().width(), size().width()));
     }
     setMaximumHeight(width());
@@ -143,8 +143,7 @@ void NowPlaying::slotButtonPress()
     else {
         KURL file = KFileDialog::getImageOpenURL(":homedir", this, i18n("Select cover image file - JuK"));
         QImage image(file.directory() + "/" + file.fileName());
-        image.save(playingFile.coverInfo()->coverLocation(CoverInfo::FullSize), "PNG");
-        playingFile.coverInfo()->resetHasCover();
+        playingFile.coverInfo()->setCover(image);
         slotRefresh();
     }
 }

@@ -277,7 +277,7 @@ void SystemTray::createPopup()
 
             if(playingFile.coverInfo()->hasCover()) {
                 addSeparatorLine(box);
-                addCoverButton(box, playingFile.coverInfo()->coverPixmap());
+                addCoverButton(box, playingFile.coverInfo()->pixmap(CoverInfo::Thumbnail));
             }
         }
         else {
@@ -288,7 +288,7 @@ void SystemTray::createPopup()
             // it's selected to be shown
 
             if(playingFile.coverInfo()->hasCover()) {
-                addCoverButton(box, playingFile.coverInfo()->coverPixmap());
+                addCoverButton(box, playingFile.coverInfo()->pixmap(CoverInfo::Thumbnail));
                 addSeparatorLine(box);
             }
 

@@ -29,17 +29,19 @@ public:
 
     CoverInfo(const FileHandle &file);
 
-    QPixmap coverPixmap() const;
     bool hasCover();
-    void resetHasCover();
+
+    void clearCover();
+    void setCover(const QImage &image);
+
     QPixmap pixmap(CoverSize size) const;
-    QPixmap largeCoverPixmap() const;
-    QString coverLocation(CoverSize size) const;
     void popupLargeCover();
 
 private:
     class CoverPopupWindow;
     friend class CoverPopupWindow;
+
+    QString coverLocation(CoverSize size) const;
 
     FileHandle m_file;
     bool m_hasCover;
