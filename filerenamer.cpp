@@ -128,7 +128,7 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
 QString ConfigCategoryReader::categoryValue(TagType type) const
 {
     if(!m_currentItem)
-        return "";
+        return QString::null;
 
     Tag *tag = m_currentItem->file().tag();
 
@@ -152,7 +152,7 @@ QString ConfigCategoryReader::categoryValue(TagType type) const
         return tag->genre();
 
     default:
-        return "";
+        return QString::null;
     }
 }
 
@@ -425,7 +425,7 @@ QString FileRenamerWidget::fileCategoryValue(TagType category) const
         return TStringToQString(tag->genre());
 
     default:
-        return "";
+        return QString::null;
     }
 }
 
@@ -456,7 +456,7 @@ QString FileRenamerWidget::categoryValue(TagType category) const
         return example->m_exampleGenre->text();
 
     default:
-        return "";
+        return QString::null;
     }
 }
 
@@ -824,7 +824,7 @@ QString FileRenamer::fixupTrack(const QString &track, const CategoryReaderInterf
         if(interface.emptyAction(Track) == TagRenamerOptions::UseReplacementValue)
             str = interface.emptyText(Track);
         else
-            return "";
+            return QString::null;
     }
 
     unsigned minimumWidth = interface.trackWidth();
