@@ -113,13 +113,11 @@ void SearchLine::updateColumns()
     m_columnList.clear();
 
     for(int i = 0; i < playlist->columns(); i++) {
-	if(playlist->isColumnVisible(i)) {
-	    m_columnList.append(i);
-	    QString text = playlist->columnText(i);
-	    columnHeaders.append(text);
-	    if(currentText == text)
-		selection = m_columnList.size() - 1;
-	}
+	m_columnList.append(i);
+	QString text = playlist->columnText(i);
+	columnHeaders.append(text);
+	if(currentText == text)
+	    selection = m_columnList.size() - 1;
     }
 
     m_searchFieldsBox->insertStringList(columnHeaders);
@@ -160,11 +158,6 @@ PlaylistSearch SearchWidget::search(const PlaylistList &playlists) const
     return PlaylistSearch(playlists, components);
 }
 
-void SearchWidget::updateColumns()
-{
-    m_searchLine->updateColumns();
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // SearchWidget public slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,6 +170,11 @@ void SearchWidget::clear()
 ////////////////////////////////////////////////////////////////////////////////
 // SearchWidget private methods
 ////////////////////////////////////////////////////////////////////////////////
+
+void SearchWidget::updateColumns()
+{
+    m_searchLine->updateColumns();
+}
 
 void SearchWidget::setupLayout()
 {

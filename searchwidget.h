@@ -69,7 +69,6 @@ public:
     
     PlaylistSearch search(const PlaylistList &playlists) const;
     void setSearch(const PlaylistSearch &search);
-    void updateColumns();
 
 public slots:
     void clear();
@@ -78,6 +77,7 @@ signals:
     void signalQueryChanged();
 
 private:
+    void updateColumns();
     void setupLayout();
 
 private:

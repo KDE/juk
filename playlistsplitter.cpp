@@ -921,7 +921,6 @@ void PlaylistSplitter::slotShowSearchResults()
 
 void PlaylistSplitter::slotVisibleColumnsChanged()
 {
-    m_searchWidget->updateColumns();
     slotShowSearchResults();
 }
 
