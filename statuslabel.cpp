@@ -161,7 +161,10 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
 	return false;
 
     QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
-    if(mouseEvent && mouseEvent->state() == LeftButton) {
+    if(mouseEvent &&
+       mouseEvent->state() == LeftButton &&
+       mouseEvent->button() == LeftButton)
+    {
 
 	if(o == m_itemTimeLabel) {
 	    m_showTimeRemaining = !m_showTimeRemaining;
