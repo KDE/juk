@@ -95,6 +95,8 @@ public:
     HistoryPlaylist *historyPlaylist() const;
     void setHistoryPlaylistEnabled(bool enable);
 
+    void dirChanged(const QString &path);
+
     QObject *object() const;
 
     class ActionHandler;
@@ -183,6 +185,7 @@ private slots:
     void slotSetSearchEnabled(bool enable) { m_collection->setSearchEnabled(enable); }
     void slotSetHistoryPlaylistEnabled(bool enable) {m_collection->setHistoryPlaylistEnabled(enable); }
     void slotEnableDirWatch(bool enable) { m_collection->enableDirWatch(enable); }
+    void slotDirChanged(const QString &path) { m_collection->dirChanged(path); }
 
 signals:
     void signalSelectedItemsChanged();

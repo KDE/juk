@@ -15,6 +15,9 @@
 #include <config.h>
 #include <qobjectlist.h>
 
+#include <sys/types.h>
+#include <dirent.h>
+
 #include "collectionlist.h"
 #include "playlistcollection.h"
 #include "actioncollection.h"
@@ -229,7 +232,7 @@ void PlaylistCollection::addFolder()
             it != result.addedDirs.end(); it++)
         {
             m_dirWatch.addDir(*it, false, true);
-            m_folderList.append(*it);
+	    m_folderList.append(*it);
         }
 
         for(QStringList::Iterator it = result.removedDirs.begin();
@@ -515,6 +518,27 @@ void PlaylistCollection::removeName(const QString &name)
     m_playlistNames.remove(name);
 }
 
+void PlaylistCollection::dirChanged(const QString &path)
+{
+    // A file is either created or deleted in the directory.
+    QFileInfo fileInfo(path);
+
+    if(fileInfo.isDir()) {
+
+	// Resorting to the POSIX API because QDir::listEntries() stats every
+	// file and blocks while it's doing so.
+
+	DIR *dir = ::opendir(QFile::encodeName(fileInfo.filePath()));
+	struct dirent *dirEntry;
+
+	for(dirEntry = ::readdir(dir); dirEntry; dirEntry = ::readdir(dir)) {
+	    if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
+		open(fileInfo.filePath() + QDir::separator() + QFile::decodeName(dirEntry->d_name));
+	}
+	::closedir(dir);
+    }
+}
+
 Playlist *PlaylistCollection::playlistByName(const QString &name) const
 {
     QObjectList *l = m_playlistStack->queryList("Playlist");
@@ -545,8 +569,10 @@ void PlaylistCollection::readConfig()
     m_importPlaylists = config.readBoolEntry("ImportPlaylists", true);
     m_folderList      = config.readPathListEntry("DirectoryList");
 
-    // connect(&m_dirWatch, SIGNAL(dirty(const QString &)),
-    // this, SLOT(slotDirChanged(const QString &)));
+    QObject::connect(&m_dirWatch, SIGNAL(deleted(const QString &)),
+            object(), SLOT(slotDirChanged(const QString &)));
+    QObject::connect(&m_dirWatch, SIGNAL(dirty(const QString &)),
+            object(), SLOT(slotDirChanged(const QString &)));
 
     for(QStringList::ConstIterator it = m_folderList.begin();
         it != m_folderList.end(); ++it)
