@@ -42,6 +42,9 @@ class FileNameScheme
 class TagGuesser
 {
     public:
+        static QStringList schemeStrings();
+        static void setSchemeStrings(const QStringList &schemes);
+
         TagGuesser();
         TagGuesser(const QString &absFileName);
 

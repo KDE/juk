@@ -113,18 +113,7 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     return regExp;
 }
 
-TagGuesser::TagGuesser()
-{
-    loadSchemes();
-}
-
-TagGuesser::TagGuesser(const QString &absFileName)
-{
-    loadSchemes();
-    guess(absFileName);
-}
-
-void TagGuesser::loadSchemes()
+QStringList TagGuesser::schemeStrings()
 {
     QStringList schemes = kapp->config()->readListEntry( "Filename schemes" );
     if ( schemes.isEmpty() ) {
@@ -154,7 +143,28 @@ void TagGuesser::loadSchemes()
         schemes += "%a - %t (%c)";
         schemes += "%a - %t";
     }
+    return schemes;
+}
 
+void TagGuesser::setSchemeStrings(const QStringList &schemes)
+{
+    kapp->config()->writeEntry("Filename schemes", schemes);
+}
+
+TagGuesser::TagGuesser()
+{
+    loadSchemes();
+}
+
+TagGuesser::TagGuesser(const QString &absFileName)
+{
+    loadSchemes();
+    guess(absFileName);
+}
+
+void TagGuesser::loadSchemes()
+{
+    const QStringList schemes = schemeStrings();
     QStringList::ConstIterator it = schemes.begin();
     QStringList::ConstIterator end = schemes.end();
     for ( ; it != end; ++it )
