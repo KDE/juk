@@ -370,8 +370,7 @@ void JuK::setupGlobalAccels()
     KeyDialog::insert(m_accel, "VolumeUp",    i18n("Volume Up"),    action("volumeUp"),    SLOT(activate()));
     KeyDialog::insert(m_accel, "VolumeDown",  i18n("Volume Down"),  action("volumeDown"),  SLOT(activate()));
     KeyDialog::insert(m_accel, "Mute",        i18n("Mute"),         action("mute"),        SLOT(activate()));
-    KeyDialog::insert(m_accel, "Show",        i18n("Show"),         this,                  SLOT(show()));
-    KeyDialog::insert(m_accel, "Hide",        i18n("Hide"),         this,                  SLOT(hide()));
+    KeyDialog::insert(m_accel, "ShowHide",    i18n("Show / Hide"),  this,                  SLOT(slotShowHide()));
 
     m_accel->setConfigGroup("Shortcuts");
     m_accel->readSettings();
@@ -576,6 +575,11 @@ KAction *JuK::createSplitterAction(const QString &text, const char *slot,
 ////////////////////////////////////////////////////////////////////////////////
 // private slot definitions
 ////////////////////////////////////////////////////////////////////////////////
+
+void JuK::slotShowHide()
+{
+    setShown(!isShown());
+}
 
 void JuK::slotPlaylistChanged()
 {

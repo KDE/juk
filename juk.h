@@ -108,6 +108,12 @@ private:
 				  const KShortcut &shortcut = KShortcut());
 
 private slots:
+
+    /**
+     * Toggles the shown / hidden state of the main window.
+     */
+    void slotShowHide();
+
     void slotPlaylistChanged();
 
     // file menu
