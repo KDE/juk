@@ -73,7 +73,7 @@ void GoogleFetcher::loadImageURLs()
     m_loadedQuery = m_searchString;
 }
 
-QPixmap GoogleFetcher::getPixmap()
+QPixmap GoogleFetcher::pixmap()
 {
     m_chosen = false;
     m_selectedIndex = 0;

@@ -26,7 +26,7 @@ class GoogleFetcher
 {
 public:
     GoogleFetcher(const Tag *tag);
-    QPixmap getPixmap();
+    QPixmap pixmap();
 
 private slots:
     void cancel();
@@ -36,8 +36,6 @@ private slots:
     void next();
 
 private:
-    QPixmap getPixmapFromURL(const KURL &url);
-    QPixmap fetchedImage(uint index);
     void loadImageURLs();
     void displayWaitBox();
     void buildBox();
