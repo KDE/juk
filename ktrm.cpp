@@ -344,12 +344,7 @@ void KTRMLookup::collision()
     tr_Lock(track);
     int resultCount = tr_GetNumResults(track);
 
-    kdDebug() << k_funcinfo << "resultCount == " << resultCount << endl;
-
-    if(resultCount <= 0) {
-        kdDebug() << "No results found." << endl;
-    }
-    else {
+    if(resultCount > 0) {
         TPResultType type;
         result_t *results = new result_t[resultCount];
         tr_GetResults(track, &type, results, &resultCount);

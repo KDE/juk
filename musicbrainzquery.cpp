@@ -31,7 +31,10 @@
 
 MusicBrainzLookup::MusicBrainzLookup(const FileHandle &file) :
     KTRMLookup(file.absFilePath()),
-    m_file(file) {}
+    m_file(file)
+{
+    message(i18n("Querying MusicBrainz server..."));
+}
 
 void MusicBrainzLookup::recognized()
 {
@@ -60,7 +63,7 @@ void MusicBrainzLookup::error()
 void MusicBrainzLookup::message(const QString &s) const
 {
     KMainWindow *w = static_cast<KMainWindow *>(kapp->mainWidget());
-    w->statusBar()->message(m_file.fileInfo().fileName() + " - " + s, 2000);
+    w->statusBar()->message(QString("%1 (%2)").arg(s).arg(m_file.fileInfo().fileName()), 3000);
 }
 
 void MusicBrainzLookup::confirmation()
