@@ -106,9 +106,6 @@ void JuK::slotGuessTagInfoFromInternet()
 
 void JuK::play()
 {
-    if(!m_player)
-	return;
-
     if(m_player->paused()) {
         m_player->play();
         m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());

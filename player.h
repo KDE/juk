@@ -29,7 +29,6 @@ class KSelectAction;
 class Player
 {
 public:
-
     enum SoundSystem { Arts = 0, GStreamer = 1 };
 
     virtual ~Player() {}

@@ -22,11 +22,7 @@
 #include "artsplayer.h"
 #include "gstreamerplayer.h"
 
-
-/*
- * The goal here is to contain all of the #if'ed ugliness in this file.
- */
-
+// The goal here is to contain all of the #if'ed ugliness in this file.
 
 Player *Player::createPlayer(int system)
 {
@@ -34,15 +30,15 @@ Player *Player::createPlayer(int system)
 #if HAVE_GSTREAMER
     switch(system) {
     case Arts:
-	p = new ArtsPlayer();
-	break;
+        p = new ArtsPlayer;
+        break;
     case GStreamer:
-	p = new GStreamerPlayer();
-	break;
+        p = new GStreamerPlayer;
+        break;
     }
 #else
     Q_UNUSED(system);
-    p = new ArtsPlayer();
+    p = new ArtsPlayer;
 #endif
 
     return p;
@@ -61,3 +57,4 @@ KSelectAction *Player::playerSelectAction(QObject *parent)
 #endif
     return action;
 }
+

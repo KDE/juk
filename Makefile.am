@@ -1,21 +1,51 @@
 bin_PROGRAMS = juk
 check_PROGRAMS = tagguessertest mbtest
 
-juk_SOURCES = directorylistbase.ui \
-	gstreamerplayer.cpp artsplayer.cpp directorylist.cpp stringhash.cpp \
-	sortedstringlist.cpp systemtray.cpp splashscreen.cpp \
-	statuslabel.cpp collectionlist.cpp \
-	playlistitem.cpp playlist.cpp playlistsplitter.cpp \
-	playlistbox.cpp tageditor.cpp cache.cpp \
-	player.cpp tag.cpp customaction.cpp \
-	slideraction.cpp keydialog.cpp juk.cpp main.cpp tagguesser.cpp \
-	tagguesserconfigdlgwidget.ui tagguesserconfigdlg.cpp jukIface.skel \
-	playlistsearch.cpp searchwidget.cpp filerenamer.cpp dynamicplaylist.cpp \
-	searchplaylist.cpp musicbrainzquery.cpp mediafiles.cpp viewmode.cpp \
-	advancedsearchdialog.cpp historyplaylist.cpp trackpickerdialogbase.ui \
-	musicbrainzitem.cpp trackpickerdialog.cpp filerenamerconfigdlgwidget.ui \
-	filerenamerconfigdlg.cpp stringshare.cpp
-
+juk_SOURCES = \
+	advancedsearchdialog.cpp \
+	artsplayer.cpp \
+	cache.cpp \
+	collectionlist.cpp \
+	customaction.cpp \
+	directorylist.cpp \
+	directorylistbase.ui \
+	dynamicplaylist.cpp \
+	filerenamer.cpp \
+	filerenamerconfigdlg.cpp \
+	filerenamerconfigdlgwidget.ui \
+	gstreamerplayer.cpp \
+	historyplaylist.cpp \
+	juk.cpp \
+	jukIface.skel \
+	keydialog.cpp \
+	main.cpp \
+	mediafiles.cpp \
+	musicbrainzitem.cpp \
+	musicbrainzquery.cpp \
+	player.cpp \
+	playermanager.cpp \
+	playlist.cpp \
+	playlistbox.cpp \
+	playlistitem.cpp \
+	playlistsearch.cpp \
+	playlistsplitter.cpp \
+	searchplaylist.cpp \
+	searchwidget.cpp \
+	slideraction.cpp \
+	sortedstringlist.cpp \
+	splashscreen.cpp \
+	statuslabel.cpp \
+	stringhash.cpp \
+	stringshare.cpp \
+	systemtray.cpp \
+	tag.cpp \
+	tageditor.cpp \
+	tagguesser.cpp \
+	tagguesserconfigdlg.cpp \
+	tagguesserconfigdlgwidget.ui \
+	trackpickerdialog.cpp \
+	trackpickerdialogbase.ui \
+	viewmode.cpp
 
 tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp
 mbtest_SOURCES = mbtest.cpp musicbrainzquery.cpp
