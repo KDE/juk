@@ -27,7 +27,7 @@
 class GenreList : public QValueList<Genre>  
 {
 public:
-  GenreList();
+  GenreList(bool createIndex = false);
   GenreList(QString file, bool createIndex = false);
   ~GenreList();
 
@@ -37,6 +37,7 @@ public:
 
 private:
   QValueVector<QString> index;
+  bool hasIndex;
   void initializeIndex();
 };
 

@@ -23,14 +23,24 @@
 // static members
 ////////////////////////////////////////////////////////////////////////////////
 
+// There are some nasty hacks here to get around not being able to call locate()
+// in the initialization of a static data member.  As a result, the function 
+// below can not be called in the initialization of another static member and
+// if it is, well, all hell will break loose and you'll get a strange segfault.
+
 // public
 GenreList GenreListList::id3v1List()
 {
+  if(!id3v1Loaded) {
+    id3v1.load(locate("data", "juk/id3v1.genreml"));
+    id3v1Loaded = true;
+  }
   return(id3v1);
 }
 
 // private
-GenreList GenreListList::id3v1 = GenreList(locate("data", "juk/id3v1.genreml"), true);
+GenreList GenreListList::id3v1(true);
+bool GenreListList::id3v1Loaded = false;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members

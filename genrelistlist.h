@@ -32,6 +32,7 @@ public:
   
 private:
   static GenreList id3v1;
+  static bool id3v1Loaded;
   
 };
 

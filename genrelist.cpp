@@ -24,18 +24,15 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-GenreList::GenreList()
+GenreList::GenreList(bool createIndex = false)
 {
-  //  index = 0;
+  hasIndex = createIndex;
 }
 
 GenreList::GenreList(QString file, bool createIndex = false)
 {
-  //  index = 0;
+  hasIndex = createIndex;
   load(file);
-
-  if(createIndex)
-    initializeIndex();
 }
 
 GenreList::~GenreList()
@@ -50,11 +47,14 @@ void GenreList::load(QString file)
   QXmlSimpleReader reader;
   reader.setContentHandler(handler);
   reader.parse(source);
+
+  if(hasIndex)
+    initializeIndex();  
 }
 
 QString GenreList::name(int id3v1)
 {
-  if(id3v1 >= 0 && id3v1 < int(index.size()))
+  if(hasIndex && id3v1 >= 0 && id3v1 < int(index.size()))
     return(index[id3v1]);
   else
     return(QString::null);
@@ -66,6 +66,7 @@ QString GenreList::name(int id3v1)
 
 void GenreList::initializeIndex()
 {
+  kdDebug() << "initializeIndex()" << endl;
   index.clear();
   index.resize(count());
   for(GenreList::Iterator it = begin(); it != end(); ++it) {
