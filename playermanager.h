@@ -51,6 +51,7 @@ public:
     int currentTime() const;
     int position() const;
 
+    FileHandle playingFile() const;
     QString playingString() const;
 
     void setPlaylistInterface(PlaylistInterface *interface);

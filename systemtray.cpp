@@ -85,6 +85,13 @@ SystemTray::~SystemTray()
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
+void SystemTray::slotPlay()
+{
+    setPixmap(m_playPix);
+    setToolTip(PlayerManager::instance()->playingString());
+    createPopup(PlayerManager::instance()->playingString());
+}
+
 void SystemTray::slotStop()
 {
     setPixmap(m_appPix);

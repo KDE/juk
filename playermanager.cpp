@@ -147,6 +147,11 @@ int PlayerManager::position() const
     return player()->position();
 }
 
+FileHandle PlayerManager::playingFile() const
+{
+    return m_file;
+}
+
 QString PlayerManager::playingString() const
 {
     if(!playing())

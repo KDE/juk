@@ -39,7 +39,7 @@ private:
     QPixmap createPixmap(const QString &pixName);
 
 private slots:
-    void slotPlay() { setPixmap(m_playPix); }
+    void slotPlay();
     void slotPause() { setPixmap(m_pausePix); }
     void slotStop();
 
