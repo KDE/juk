@@ -61,25 +61,26 @@ QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *par
 bool MediaFiles::isMediaFile(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
-    return result->name() == mp3Type || result->name() == oggType;
+    
+    return result->is(mp3Type) || result->is(oggType);
 }
 
 bool MediaFiles::isPlaylistFile(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
-    return result->name() == m3uType;
+    return result->is(m3uType);
 }
 
 bool MediaFiles::isMP3(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
-    return result->name() == mp3Type;
+    return result->is(mp3Type);
 }
 
 bool MediaFiles::isOgg(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
-    return result->name() == oggType;
+    return result->is(oggType);
 }
 
 QStringList MediaFiles::mimeTypes()
