@@ -76,6 +76,8 @@ protected:
      * This is similar to addArtist(), but is for album names. 
      */
     void addAlbum(const QString &album);
+
+    void emitNumberOfItemsChanged() { emit(numberOfItemsChanged(this)); }
     
 private:
     static CollectionList *list;

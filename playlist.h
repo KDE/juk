@@ -94,10 +94,10 @@ public:
      * Internal files are files which have not been saved by the user, but rather
      * are stored in JuK's data directory and are restored by session management.
      */
-    bool isInternalFile() const;
-    void setInternal(bool internal);
-    QString fileName() const;
-    void setFileName(const QString &n);
+    bool isInternalFile() const { return(internalFile); }
+    void setInternal(bool internal) { internalFile = internal; }
+    QString fileName() const { return(playlistFileName); }
+    void setFileName(const QString &n) { playlistFileName = n; }
 
     /**
      * If playlistName has no value -- i.e. the name has not been set to 
@@ -111,10 +111,10 @@ public:
      */ 
     void setName(const QString &n);
 
-    PlaylistBoxItem *playlistBoxItem() const;
-    void setPlaylistBoxItem(PlaylistBoxItem *item);
+    PlaylistBoxItem *playlistBoxItem() const { return(boxItem); }
+    void setPlaylistBoxItem(PlaylistBoxItem *item) { boxItem = item; }
 
-    int count() const;
+    int count() const { return(childCount()); }
 
     /** 
      * This gets the next item to be played.  This is static because often we 
@@ -133,7 +133,7 @@ protected:
     virtual QDragObject *dragObject();
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-    PlaylistSplitter *playlistSplitter() const;
+    PlaylistSplitter *playlistSplitter() const { return(splitter); }
 
 signals:
     /** 
@@ -169,8 +169,8 @@ private:
     QPtrStack<PlaylistItem> history;
 
 private slots:
-    void emitSelected();
-    void emitDoubleClicked(QListViewItem *);
+    void emitSelected() {  emit(selectionChanged(selectedItems())); }
+    void emitDoubleClicked(QListViewItem *) { emit(doubleClicked()); }
     void showRMBMenu(QListViewItem *item, const QPoint &point, int column);
     void applyTags(QListViewItem *item, const QString &text, int column);
     void renameTag();

@@ -229,18 +229,6 @@ public slots:
      */
     void setEditorVisible(bool visible);
 
-    /**
-     * Add a directory to the directory list queue.  We need to queue these 
-     * rather than processing them when they become available because the user
-     * could cancel the action.
-     */
-    void queueDirectory(const QString &directory) { directoryQueue.append(directory); }
-
-    /**
-     * Add a directory to the queue 
-     */
-    void queueDirectoryRemove(const QString &directory) { directoryQueueRemove.append(directory); }
-
 // PlaylistBox forwarding slots
 
     void savePlaylist() { playlistBox->save(); }
@@ -279,6 +267,17 @@ private:
 private slots:
     void changePlaylist(PlaylistBoxItem *item);
     void playlistCountChanged(Playlist *p);
+    /**
+     * Add a directory to the directory list queue.  We need to queue these 
+     * rather than processing them when they become available because the user
+     * could cancel the action.
+     */
+    void queueDirectory(const QString &directory) { directoryQueue.append(directory); }
+
+    /**
+     * Add a directory to the queue 
+     */
+    void queueDirectoryRemove(const QString &directory) { directoryQueueRemove.append(directory); }
 
 private:
     PlaylistItem *playingItem;

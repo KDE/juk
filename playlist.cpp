@@ -285,26 +285,6 @@ PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
 	return(static_cast<PlaylistItem *>(current->itemAbove()));
 }
 
-bool Playlist::isInternalFile() const
-{
-    return(internalFile);
-}
-
-void Playlist::setInternal(bool internal)
-{
-    internalFile = internal;
-}
-
-QString Playlist::fileName() const
-{
-    return(playlistFileName);
-}
-
-void Playlist::setFileName(const QString &n)
-{
-    playlistFileName = n;
-}
-
 QString Playlist::name() const
 {
     if(playlistName == QString::null)
@@ -317,21 +297,6 @@ void Playlist::setName(const QString &n)
 {
     playlistName = n;
     emit(nameChanged(playlistName));
-}
-
-PlaylistBoxItem *Playlist::playlistBoxItem() const
-{
-    return(boxItem);
-}
-
-void Playlist::setPlaylistBoxItem(PlaylistBoxItem *item)
-{
-    boxItem = item;
-}
-
-int Playlist::count() const
-{
-    return(childCount());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -417,11 +382,6 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 	return(0);
 }
 
-PlaylistSplitter *Playlist::playlistSplitter() const
-{
-    return(splitter);
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
@@ -477,16 +437,6 @@ void Playlist::setup()
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
-
-void Playlist::emitSelected()
-{
-    emit(selectionChanged(selectedItems()));
-}
-
-void Playlist::emitDoubleClicked(QListViewItem *)
-{
-    emit(doubleClicked());
-}
 
 void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
 {

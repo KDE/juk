@@ -51,7 +51,7 @@ void DirectoryList::addDirectory()
     if(!dir.isEmpty() && dirList.find(dir) == dirList.end()) {
 	dirList.append(dir);
 	new KListViewItem(directoryListView, dir);
-	emit directoryAdded(dir);
+	emit(directoryAdded(dir));
     }
 }
 
@@ -59,7 +59,7 @@ void DirectoryList::removeDirectory()
 {
     QString dir = directoryListView->selectedItem()->text(0); 
     dirList.remove(dir);
-    emit directoryRemoved(dir);
+    emit(directoryRemoved(dir));
     delete(directoryListView->selectedItem());
 }
 

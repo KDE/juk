@@ -153,6 +153,7 @@ CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &pat
 	setData(Data::newUser(file, path));
 	refresh();
 	connect(this, SIGNAL(refreshed()), l, SIGNAL(dataChanged()));
+	l->emitNumberOfItemsChanged();
     }
     else
 	kdError() << "CollectionListItems should not be created before"

@@ -34,8 +34,6 @@ public:
     virtual ~StatusLabel();
 
 public slots:
-//    void setPlayingItem(PlaylistItem *item);
-
     /**
      * Set the playlist name.  This text will only be used when there is not an
      * item playing.
