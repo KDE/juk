@@ -26,6 +26,8 @@ class TagGuesserConfigDlg : public KDialogBase
     private slots:
         void slotCurrentChanged(QListViewItem *item);
         void slotRenameItem(QListViewItem *item, const QPoint &p, int c);
+        void slotMoveUpClicked();
+        void slotMoveDownClicked();
         void slotAddClicked();
         void slotModifyClicked();
         void slotRemoveClicked();

@@ -38,6 +38,8 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
             this, SLOT(slotCurrentChanged(QListViewItem *)));
     connect(m_child->lvSchemes, SIGNAL(doubleClicked(QListViewItem *, const QPoint &, int)),
             this, SLOT(slotRenameItem(QListViewItem *, const QPoint &, int)));
+    connect(m_child->bMoveUp, SIGNAL(clicked()), this, SLOT(slotMoveUpClicked()));
+    connect(m_child->bMoveDown, SIGNAL(clicked()), this, SLOT(slotMoveDownClicked()));
     connect(m_child->bAdd, SIGNAL(clicked()), this, SLOT(slotAddClicked()));
     connect(m_child->bModify, SIGNAL(clicked()), this, SLOT(slotModifyClicked()));
     connect(m_child->bRemove, SIGNAL(clicked()), this, SLOT(slotRemoveClicked()));
@@ -65,6 +67,25 @@ void TagGuesserConfigDlg::slotCurrentChanged(QListViewItem *item)
 void TagGuesserConfigDlg::slotRenameItem(QListViewItem *item, const QPoint &, int c)
 {
     m_child->lvSchemes->rename(item, c);
+}
+
+void TagGuesserConfigDlg::slotMoveUpClicked()
+{
+    QListViewItem *item = m_child->lvSchemes->currentItem();
+    if(item->itemAbove() == m_child->lvSchemes->firstChild())
+        item->itemAbove()->moveItem(item);
+    else
+      item->moveItem(item->itemAbove()->itemAbove());
+    m_child->lvSchemes->ensureItemVisible(item);
+    slotCurrentChanged(item);
+}
+
+void TagGuesserConfigDlg::slotMoveDownClicked()
+{
+    QListViewItem *item = m_child->lvSchemes->currentItem();
+    item->moveItem(item->itemBelow());
+    m_child->lvSchemes->ensureItemVisible(item);
+    slotCurrentChanged(item);
 }
 
 void TagGuesserConfigDlg::slotAddClicked()
