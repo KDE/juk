@@ -22,9 +22,30 @@
 #include <qregexp.h>
 #include <qlayout.h>
 #include <qlabel.h>
+#include <qcursor.h>
 
 #include "coverinfo.h"
 #include "tag.h"
+
+struct CoverPopup : public QWidget
+{
+    CoverPopup(const QPixmap &image, const QPoint &p) :
+        QWidget(0, 0, WDestructiveClose | WX11BypassWM)
+    {
+        QHBoxLayout *layout = new QHBoxLayout(this);
+        QLabel *label = new QLabel(this);
+
+        layout->addWidget(label);
+        label->setFrameStyle(QFrame::Box | QFrame::Raised);
+        label->setLineWidth(1);
+        label->setPixmap(image);
+
+        setGeometry(p.x(), p.y(), label->width(), label->height());
+        show();
+    }
+    virtual void leaveEvent(QEvent *) { close(); }
+    virtual void mousePressEvent(QMouseEvent *) { close(); }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -34,8 +55,7 @@
 CoverInfo::CoverInfo(const FileHandle &file) :
     m_file(file),
     m_hasCover(false),
-    m_haveCheckedForCover(false),
-    m_popup(0)
+    m_haveCheckedForCover(false)
 {
 
 }
@@ -52,8 +72,8 @@ bool CoverInfo::hasCover()
 
 void CoverInfo::clearCover()
 {
-    QFile::remove(coverLocation(CoverInfo::FullSize));
-    QFile::remove(coverLocation(CoverInfo::Thumbnail));
+    QFile::remove(coverLocation(FullSize));
+    QFile::remove(coverLocation(Thumbnail));
     m_hasCover = false;
     m_haveCheckedForCover = false;
 }
@@ -68,7 +88,7 @@ void CoverInfo::setCover(const QImage &image)
     if(m_hasCover)
         clearCover();
 
-    image.save(coverLocation(CoverInfo::FullSize), "PNG");
+    image.save(coverLocation(FullSize), "PNG");
 }
 
 QPixmap CoverInfo::pixmap(CoverSize size) const
@@ -85,6 +105,36 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
     }
 
     return QPixmap(coverLocation(size));
+}
+
+void CoverInfo::popup(PopupCorner corner)
+{
+    QPoint p = QCursor::pos();
+
+    QPixmap image = pixmap(FullSize);
+
+    if(corner == BottomRightCorner) {
+        p.setX(p.x() - image.width());
+        p.setY(p.y() - image.height());
+
+        if(p.x() < 0)
+            p.setX(0);
+        if(p.y() < 0)
+            p.setY(0);
+    }
+    else {
+        QRect r = KApplication::desktop()->screenGeometry(kapp->mainWidget());
+        if(p.x() + image.width() > r.right())
+            p.setX(r.right() - image.width());
+        if(p.y() + image.height() > r.bottom())
+            p.setX(r.bottom() - image.height());
+    }
+
+    int offset = corner == TopLeftCorner ? -10 : 10;
+    p.setX(p.x() + offset);
+    p.setY(p.y() + offset);
+
+    new CoverPopup(image, p);
 }
 
 QString CoverInfo::coverLocation(CoverSize size) const
@@ -108,58 +158,6 @@ QString CoverInfo::coverLocation(CoverSize size) const
     QString fileLocation = dataDir + "covers/" + subDir + fileName.lower();
 
     return fileLocation;
-}
-
-void CoverInfo::popupCover(int x, int y)
-{
-    QPixmap largeCover = pixmap(FullSize);
-    if(largeCover.isNull())
-        return;
-
-    if(!m_popup)
-        m_popup = new CoverPopup(largeCover);
-
-    m_popup->popup(x, y);
-}
-
-struct CoverPopupWidget : public QWidget
-{
-    CoverPopupWidget(const QPixmap &image, int x, int y) : QWidget(0, 0, WX11BypassWM)
-    {
-        QHBoxLayout *layout = new QHBoxLayout(this);
-        QLabel *label = new QLabel(this);
-
-        layout->addWidget(label);
-        label->setFrameStyle(QFrame::Box | QFrame::Raised);
-        label->setLineWidth(1);
-        label->setPixmap(image);
-
-        setGeometry(x - 10, y - 10, label->width(), label->height());
-        show();
-    }
-};
-
-void CoverPopup::popup(int x, int y)
-{
-    if(m_popupWidget)
-        delete m_popupWidget;
-
-    m_popupWidget = new CoverPopupWidget(m_pixmap, x, y);
-
-    m_popupWidget->installEventFilter(this);
-}
-
-bool CoverPopup::eventFilter(QObject *object, QEvent *event)
-{
-    if(object == m_popupWidget && (event->type() == QEvent::MouseButtonPress ||
-                                   event->type() == QEvent::Leave))
-    {
-        delete m_popupWidget;
-        m_popupWidget = 0;
-        return true;
-    }
-
-    return QLabel::eventFilter(object, event);
 }
 
 // vim: set et sw=4 ts=8:

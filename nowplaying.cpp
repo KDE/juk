@@ -115,7 +115,7 @@ void CoverItem::mousePressEvent(QMouseEvent *event)
     if(event->button() == LeftButton &&
        m_file.coverInfo()->hasCover())
     {
-        m_file.coverInfo()->popupCover(event->globalX(), event->globalY());
+        m_file.coverInfo()->popup();
     }
     
     QLabel::mousePressEvent(event);
