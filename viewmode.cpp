@@ -48,10 +48,8 @@ ViewMode::~ViewMode()
 void ViewMode::paintCell(PlaylistBox::Item *i,
                          QPainter *painter, 
                          const QColorGroup &colorGroup,
-                         int column, int width, int align)
+                         int column, int width, int)
 {
-    Q_UNUSED(align);
-
     if(width < i->pixmap(column)->width())
 	return;
 
@@ -91,8 +89,14 @@ PlaylistBox::Item *ViewMode::createSearchItem(PlaylistBox *box, SearchPlaylist *
 
 bool ViewMode::eventFilter(QObject *watched, QEvent *e)
 {
-    if(watched == m_playlistBox->viewport() && e->type() == QEvent::Resize)
-        updateHeights(static_cast<QResizeEvent *>(e)->size().width());
+    if(m_visible &&
+       watched == m_playlistBox->viewport() &&
+       e->type() == QEvent::Resize)
+    {
+        QResizeEvent *re = static_cast<QResizeEvent *>(e);
+        if(re->size().width() != re->oldSize().width())
+            updateHeights();
+    }
 
     return QObject::eventFilter(watched, e);
 }
@@ -114,15 +118,9 @@ void ViewMode::updateIcons(int size)
     }
 }
 
-void ViewMode::updateHeights(int width)
+void ViewMode::updateHeights()
 {
-    static int oldWidth = 0;
-    if(width == 0)
-        width = m_playlistBox->visibleWidth();
-
-    if(oldWidth == width)
-        return;
-    oldWidth = width;
+    const int width = m_playlistBox->viewport()->width();
 
     const int baseHeight = 3 * m_playlistBox->itemMargin() + 32;
     const QFontMetrics fm = m_playlistBox->fontMetrics();
@@ -193,8 +191,18 @@ void CompactViewMode::paintCell(PlaylistBox::Item *item,
 
 void CompactViewMode::setShown(bool shown)
 {
-    if(shown)
+    setVisible(shown);
+
+    if(shown) {
         updateIcons(16);
+	updateHeights();
+    }
+}
+
+void CompactViewMode::updateHeights()
+{
+    for(QListViewItemIterator it(playlistBox()); it.current(); ++it)
+	it.current()->setup();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -213,11 +221,11 @@ TreeViewMode::~TreeViewMode()
 
 void TreeViewMode::setShown(bool show)
 {
+    CompactViewMode::setShown(show);
+
     playlistBox()->setRootIsDecorated(show);
 
     if(show) {
-        updateIcons(16);
-
         PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
 
         if(!collectionItem) {

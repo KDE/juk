@@ -56,10 +56,11 @@ public:
 protected:
     PlaylistBox *playlistBox() const { return m_playlistBox; }
     bool visible() const { return m_visible; }
+    void setVisible(bool v) { m_visible = v; }
     void updateIcons(int size);
 
 protected:
-    virtual void updateHeights(int width = 0);
+    virtual void updateHeights();
 
 signals:
     void signalCreateSearchList(const PlaylistSearch &search,
@@ -93,7 +94,7 @@ protected:
     /**
      * Override the implementation from the base class.  This isn't needed here.
      */
-    virtual void updateHeights(int = 0) {}
+    virtual void updateHeights();
 };
 
 ////////////////////////////////////////////////////////////////////////////////
