@@ -34,6 +34,7 @@
 
 #include <time.h>
 #include <math.h>
+#include <dirent.h>
 
 #include "playlist.h"
 #include "playlistitem.h"
@@ -1368,18 +1369,18 @@ PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
 
     if(fileInfo.isDir()) {
 
-	QDir dir = fileInfo.filePath();
-	QStringList dirContents = dir.entryList();
+	// Resorting to the POSIX API because QDir::listEntries() stats every
+	// file and blocks while it's doing so.
 
-	for(QStringList::Iterator it = dirContents.begin();
-	    it != dirContents.end();
-	    ++it)
-	{
-	    if(*it != "." && *it != "..") {
-		after = addFile(fileInfo.filePath() + QDir::separator() + *it,
-				importPlaylists, after);
-	    }
+	DIR *dir = ::opendir(QFile::encodeName(fileInfo.filePath()));
+	struct dirent *dirEntry;
+
+	for(dirEntry = ::readdir(dir); dirEntry; dirEntry = ::readdir(dir)) {
+	    if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
+		after = addFile(fileInfo.filePath() + QDir::separator() +
+				QFile::decodeName(dirEntry->d_name), importPlaylists, after);
 	}
+	::closedir(dir);
     }
 
     return after;
