@@ -157,11 +157,36 @@ void UpcomingPlaylist::fillList()
 
 void UpcomingPlaylist::addNewItem()
 {
-    m_oldIterator->advance();
     PlaylistItem *last = static_cast<PlaylistItem *>(lastChild());
-    
-    if(m_oldIterator->current())
-        createItem(m_oldIterator->current()->file(), last);
+
+    if(firstChild()) {
+        Playlist *source = m_playlistIndex[firstChild()];
+
+        if(!source)
+            return;
+
+        CollectionListItem *base = firstChild()->collectionItem();
+        PlaylistItem *target = 0;
+        for(QListViewItemIterator it(source); it.current(); ++it) {
+            if(static_cast<PlaylistItem *>(it.current())->collectionItem() == base) {
+                target = static_cast<PlaylistItem *>(it.current());
+                break;
+            }
+        }
+
+        if(!target)
+            return;
+
+        m_oldIterator->setCurrent(target);
+        m_oldIterator->advance();
+    }
+
+    if(m_oldIterator->current()) {
+        last = createItem(m_oldIterator->current(), last);
+        m_playlistIndex.insert(last, m_oldIterator->current()->playlist());
+        dataChanged();
+        slotWeightDirty();
+    }
 }
 
 inline TrackSequenceManager *UpcomingPlaylist::manager() const
@@ -185,11 +210,10 @@ UpcomingPlaylist::UpcomingSequenceIterator::~UpcomingSequenceIterator()
 
 void UpcomingPlaylist::UpcomingSequenceIterator::advance()
 {
-    bool loop = action("loopPlaylist") && action<KToggleAction>("loopPlaylist")->isChecked();
-
     PlaylistItem *item = m_playlist->firstChild();
+
     if(item) {
-        if(loop)
+        if(!item->nextSibling())
             m_playlist->addNewItem();
 
         m_playlist->setPlaying(0);
