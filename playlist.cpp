@@ -446,7 +446,6 @@ void Playlist::playNext()
 
 	    if(!m_albumSearch.isNull()) {
 		PlaylistItemList albumMatches = m_albumSearch.matchedItems();
-		PlaylistItemList::ConstIterator it;
 
 		next = albumMatches[0];
 
