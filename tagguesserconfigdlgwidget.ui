@@ -152,8 +152,7 @@ Note that the order in which the schemes appear in the list is relevant since th
     <include location="local" impldecl="in implementation">kdialog.h</include>
     <include location="local" impldecl="in implementation">kiconloader.h</include>
 </includes>
-<layoutdefaults spacing="6" margin="11"/>
-<layoutfunctions spacing="KDialog::spacingHint" margin="KDialog::marginHint"/>
+<layoutdefaults spacing="6" margin="0"/>
 <includehints>
     <includehint>klistview.h</includehint>
     <includehint>kpushbutton.h</includehint>
