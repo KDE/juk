@@ -167,7 +167,7 @@ class CollectionListItem : public PlaylistItem
 
 public:
     virtual void refresh();
-    PlaylistItem *itemForPlaylist(const Playlist *playlist) const;
+    PlaylistItem *itemForPlaylist(const Playlist *playlist);
     void updateCollectionDict(const QString &oldPath, const QString &newPath);
 
     void repaint() const;

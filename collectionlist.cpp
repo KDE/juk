@@ -400,8 +400,11 @@ void CollectionListItem::refresh()
     emit CollectionList::instance()->signalCollectionChanged();
 }
 
-PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist) const
+PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist)
 {
+    if(playlist == CollectionList::instance())
+	return this;
+
     PlaylistItemList::ConstIterator it;
     for(it = m_children.begin(); it != m_children.end(); ++it)
 	if((*it)->playlist() == playlist)

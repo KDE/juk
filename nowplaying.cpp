@@ -30,6 +30,8 @@
 #include "playermanager.h"
 #include "coverinfo.h"
 #include "tag.h"
+#include "playlistitem.h"
+#include "collectionlist.h"
 
 static const int imageSize = 64;
 
@@ -238,21 +240,21 @@ HistoryItem::HistoryItem(NowPlaying *parent) :
 
 void HistoryItem::update(const FileHandle &file)
 {
-    if(file.isNull() || (!m_history.isEmpty() && m_history.front() == file))
+    if(file.isNull() || (!m_history.isEmpty() && m_history.front().file == file))
         return;
 
     if(m_history.count() >= 10)
         m_history.remove(m_history.fromLast());
 
-    QString format = "<br /><a href=\"#\"><font size=\"-2\">%1</font></a>";
+    QString format = "<br /><a href=\"%1\"><font size=\"-2\">%2</font></a>";
     QString current = QString("<b>%1</b>").arg(i18n("History"));
     QString previous;
 
-    for(FileHandleList::ConstIterator it = m_history.begin();
+    for(QValueList<Item>::ConstIterator it = m_history.begin();
         it != m_history.end(); ++it)
     {
         previous = current;
-        current.append(format.arg(QStyleSheet::escape((*it).tag()->title())));
+        current.append(format.arg((*it).anchor).arg(QStyleSheet::escape((*it).file.tag()->title())));
         setText(current);
         if(heightForWidth(width()) > imageSize) {
             setText(previous);
@@ -260,7 +262,28 @@ void HistoryItem::update(const FileHandle &file)
         }
     }
 
-    m_history.prepend(file);
+    m_history.prepend(Item(KApplication::randomString(20),
+                           file, Playlist::playingItem()->playlist()));
+}
+
+void HistoryItem::openLink(const QString &link)
+{
+    for(QValueList<Item>::ConstIterator it = m_history.begin();
+        it != m_history.end(); ++it)
+    {
+        if((*it).anchor == link) {
+            if((*it).playlist) {
+                CollectionListItem *collectionItem = 
+                    CollectionList::instance()->lookup((*it).file.absFilePath());
+                PlaylistItem *item = collectionItem->itemForPlaylist((*it).playlist);
+                (*it).playlist->clearSelection();
+                (*it).playlist->setSelected(item, true);
+                (*it).playlist->ensureItemVisible(item);
+                NowPlayingItem::parent()->collection()->raise((*it).playlist);
+            }
+            break;
+        }
+    }
 }
 
 #include "nowplaying.moc"

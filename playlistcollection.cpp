@@ -567,6 +567,13 @@ Playlist *PlaylistCollection::visiblePlaylist() const
     return static_cast<Playlist *>(m_playlistStack->visibleWidget());
 }
 
+void PlaylistCollection::raise(Playlist *playlist)
+{
+    playlist->setSearchEnabled(m_searchEnabled);
+    m_playlistStack->raiseWidget(playlist);
+    dataChanged();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -574,13 +581,6 @@ Playlist *PlaylistCollection::visiblePlaylist() const
 QWidgetStack *PlaylistCollection::playlistStack() const
 {
     return m_playlistStack;
-}
-
-void PlaylistCollection::raise(Playlist *playlist)
-{
-    playlist->setSearchEnabled(m_searchEnabled);
-    m_playlistStack->raiseWidget(playlist);
-    dataChanged();
 }
 
 void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)

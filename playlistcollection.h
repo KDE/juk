@@ -138,11 +138,15 @@ public:
      */
     virtual Playlist *visiblePlaylist() const;
 
+    /**
+     * Makes \a playlist the currently visible playlist.
+     */
+    virtual void raise(Playlist *playlist);
+
     class ActionHandler;
 
 protected:
     virtual QWidgetStack *playlistStack() const;
-    virtual void raise(Playlist *playlist);
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
 
     bool importPlaylists() const;

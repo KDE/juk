@@ -20,11 +20,14 @@
 
 #include <qhbox.h>
 #include <qlabel.h>
+#include <qguardedptr.h>
 
 #include "filehandle.h"
+#include "playlist.h"
 
 class NowPlayingItem;
 class PlaylistCollection;
+class Playlist;
 
 /**
  * This is the widget that holds all of the other items and handles updating them
@@ -125,9 +128,21 @@ class HistoryItem : public LinkLabel, public NowPlayingItem
 public:
     HistoryItem(NowPlaying *parent);
     virtual void update(const FileHandle &file);
+    virtual void openLink(const QString &link);
 
 private:
-    FileHandleList m_history;
+    struct Item
+    {
+        Item() {}
+        Item(const QString &a, const FileHandle &f, Playlist *p)
+            : anchor(a), file(f), playlist(p) {}
+
+        QString anchor;
+        FileHandle file;
+        QGuardedPtr<Playlist> playlist;
+    };
+
+    QValueList<Item> m_history;
     LinkLabel *m_label;
 };
 
