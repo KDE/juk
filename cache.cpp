@@ -16,9 +16,13 @@
  ***************************************************************************/
 
 #include <kstandarddirs.h>
+#include <kmessagebox.h>
+#include <kconfig.h>
+#include <klocale.h>
 #include <kdebug.h>
 
 #include <qdir.h>
+#include <qbuffer.h>
 
 #include "cache.h"
 #include "cachedtag.h"
@@ -48,16 +52,29 @@ void Cache::save()
     if(!f.open(IO_WriteOnly))
 	return;
 
-    QDataStream s(&f);
+    QByteArray data;
+    QDataStream s(data, IO_WriteOnly);
 
     for(QDictIterator<Tag>it(*this); it.current(); ++it) {
 	s << it.current()->absFilePath()
 	  << *(it.current());
     }
 
+    f.writeBlock(data);
     f.close();
-    QDir dir(dirName);
-    dir.rename("cache.new", "cache");
+
+    QDir(dirName).rename("cache.new", "cache");
+
+    // Store the checksum so that later we can make sure that things are ok.
+
+    int checksum = qChecksum(data.data(), data.size());
+
+    KConfig *config = KGlobal::config();
+    {
+	KConfigGroupSaver saver(config, "Cache");
+	config->writeEntry("Checksum", checksum);
+    }
+    config->sync();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,7 +100,25 @@ void Cache::load()
     if(!f.open(IO_ReadOnly))
 	return;
 
-    QDataStream s(&f);
+    QByteArray data = f.readAll();
+    f.close();
+
+    // Compare the checksum of the data to the one stored in the config file to
+    // make sure that our cache isn't corrupt.
+
+    int checksum;
+    KConfig *config = KGlobal::config();
+    {
+	KConfigGroupSaver saver(config, "Cache");
+	checksum = config->readNumEntry("Checksum", -1);
+    }
+    if(checksum >= 0 && checksum != qChecksum(data.data(), data.size())) {
+	KMessageBox::sorry(0, i18n("The music data cache has been corrupted.  JuK "
+				   "needs to rescan it now.  This may take some time."));
+	return;
+    }
+
+    QDataStream s(data, IO_ReadOnly);
 
     while(!s.atEnd()) {
 
@@ -99,6 +134,4 @@ void Cache::load()
 	// to the event loop and is placed in the event loop in the 
 	// CollectionListItem constructor.
     }
-
-    f.close();
 }
