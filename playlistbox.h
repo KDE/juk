@@ -143,6 +143,7 @@ public:
     
 protected:
     Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l = 0);
+    Item(Item *parent, const char *icon, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_list; }
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(KListViewItem::listView()); }
@@ -156,14 +157,20 @@ protected:
 
     virtual QString text(int column) const { return KListViewItem::text(column); }
 
+    static Item *collectionItem() { return m_collectionItem; }
+
 protected slots:
     void slotSetName(const QString &name);
 
 private:
+    // setup() was already taken.
+    void init();
+
     Playlist *m_list;
     QString m_text;
     const char *m_iconName;
     bool m_sortedFirst;
+    static Item *m_collectionItem;
 };
 
 #endif

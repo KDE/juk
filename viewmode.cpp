@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kiconloader.h>
+#include <kdebug.h>
 
 #include <qpixmap.h>
 #include <qpainter.h>
@@ -128,15 +129,15 @@ CompactViewMode::~CompactViewMode()
 
 }
 
-void CompactViewMode::paintCell(PlaylistBox::Item *i,
+void CompactViewMode::paintCell(PlaylistBox::Item *item,
                                 QPainter *painter, 
                                 const QColorGroup &colorGroup,
                                 int column, int width, int align)
 {
-    if(width < i->pixmap(column)->width())
-	return;
+#if 0 // don't think this code is needed anymore
 
-    PlaylistBox::Item *item = static_cast<PlaylistBox::Item *>(i);
+    if(width < item->pixmap(column)->width())
+	return;
 
     QFontMetrics fm = painter->fontMetrics();
     QString line = item->text();
@@ -153,6 +154,8 @@ void CompactViewMode::paintCell(PlaylistBox::Item *i,
             line = "...";
     }
     item->KListViewItem::setText(column, line);
+
+#endif
     item->KListViewItem::paintCell(painter, colorGroup, column, width, align);
 }
 
@@ -180,24 +183,35 @@ void TreeViewMode::setShown(bool show)
 {
     if(show) {
 	updateIcons(16);
-	
-	if(m_categories.isEmpty()) {
-	    m_categories.append(new PlaylistBox::Item(playlistBox(), "midi", i18n("Artists")));
-	    m_categories.append(new PlaylistBox::Item(playlistBox(), "midi", i18n("Albums")));
 
-	    QValueListIterator<PlaylistBox::Item *> it = m_categories.begin();
-	    for(; it != m_categories.end(); ++it)
-		(*it)->setSortedFirst(true);
+	PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
+
+	if(!collectionItem)
+	    kdDebug(65432) << "TreeViewMode::setShown() - the CollectionList isn't initialized yet." << endl;
+	
+	if(collectionItem && m_categories.isEmpty()) {
+
+	    PlaylistBox::Item *i;
+	    
+	    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
+	    m_categories.insert("artists", i);
+
+	    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
+	    m_categories.insert("albums", i);
+
+
+	    for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
+		it.current()->setSortedFirst(true);
 	}
 	else {
-	    QValueListIterator<PlaylistBox::Item *> it = m_categories.begin();
-	    for(; it != m_categories.end(); ++it)
-		(*it)->setVisible(true);
+	    for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
+		it.current()->setVisible(true);
 	}
     }
     else {
-	QValueListIterator<PlaylistBox::Item *> it = m_categories.begin();
-	for(; it != m_categories.end(); ++it)
-	    (*it)->setVisible(false);
+	for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
+	    it.current()->setVisible(false);
     }
+
+    playlistBox()->setRootIsDecorated(show);
 }

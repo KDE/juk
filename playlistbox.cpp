@@ -417,19 +417,23 @@ void PlaylistBox::slotSetViewMode(int index)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// protected methods
+// PlaylistBox::Item protected methods
 ////////////////////////////////////////////////////////////////////////////////
+
+PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 
 PlaylistBox::Item::Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l) 
     : QObject(listBox), KListViewItem(listBox, text),
       m_list(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
-    int iconSize = listBox->viewModeIndex() == 0 ? 32 : 16;
-    setPixmap(0, SmallIcon(icon, iconSize));
-    listBox->addName(text);
+    init();
+}
 
-    if(l)
-	connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
+PlaylistBox::Item::Item(Item *parent, const char *icon, const QString &text, Playlist *l)
+    : QObject(parent->listView()), KListViewItem(parent, text),
+    m_list(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
+{
+    init();
 }
 
 PlaylistBox::Item::~Item()
@@ -473,6 +477,23 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 
 	setText(0, name);
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PlaylistBox::Item private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void PlaylistBox::Item::init()
+{
+    int iconSize = static_cast<PlaylistBox *>(listView())->viewModeIndex() == 0 ? 32 : 16;
+    setPixmap(0, SmallIcon(m_iconName, iconSize));
+    static_cast<PlaylistBox *>(listView())->addName(m_text);
+
+    if(m_list)
+	connect(m_list, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
+
+    if(m_list == CollectionList::instance())
+	m_collectionItem = this;
 }
 
 #include "playlistbox.moc"

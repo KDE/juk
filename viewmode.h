@@ -21,6 +21,7 @@
 #include <klocale.h>
 
 #include <qstring.h>
+#include <qdict.h>
 
 #include "playlistbox.h"
 
@@ -80,7 +81,7 @@ public:
     virtual void setShown(bool shown);
 
 private:
-    QValueList<PlaylistBox::Item *> m_categories;
+    QDict<PlaylistBox::Item> m_categories;
 };
 
 #endif
