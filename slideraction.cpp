@@ -44,11 +44,28 @@ public:
 protected:
     void mousePressEvent(QMouseEvent *e) {
 	if(e->button() == LeftButton) {
-	    QSlider::mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, e->pos(), MidButton, e->state())); 
+	    QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), MidButton, e->state());
+	    QSlider::mousePressEvent(&reverse); 
 	    emit sliderPressed();
 	}
-	else if(e->button() == MidButton)
-	    QSlider::mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, e->pos(), LeftButton, e->state()));
+	else if(e->button() == MidButton) {
+	    QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), LeftButton, e->state());
+	    QSlider::mousePressEvent(&reverse); 
+	}
+    }
+};
+
+class VolumeSlider : public QSlider
+{
+public:
+    VolumeSlider(QWidget *parent, const char *name) : QSlider(parent, name) {}
+
+protected:
+    void wheelEvent(QWheelEvent *e) {
+	QWheelEvent transposed(e->pos(), -(e->delta()), e->state(), e->orientation());
+	
+	QSlider::wheelEvent(&transposed);
+//	QSlider::wheelEvent(new QWheelEvent(e->pos(), -(e->delta()), e->state(), e->orientation()));
     }
 };
 
@@ -117,7 +134,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         QToolTip::add(m_trackPositionSlider, i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
 
-	m_volumeSlider = new QSlider(base, "volumeSlider" );
+	m_volumeSlider = new VolumeSlider(base, "volumeSlider");
         m_volumeSlider->setMaxValue(100);
         QToolTip::add(m_volumeSlider, i18n("Volume"));
         m_layout->addWidget(m_volumeSlider);
