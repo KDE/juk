@@ -43,7 +43,6 @@ FileListItem::FileListItem(FileListItem *item, KListView *parent) : QObject(pare
 FileListItem::~FileListItem()
 {
   data->deleteUser();
-  emit(destroyed(this));
 }
 
 void FileListItem::setFile(QString file)
@@ -96,13 +95,11 @@ bool FileListItem::isWritable() const { return(data->isWritable()); }
 void FileListItem::addSibling(FileListItem *sibling)
 {
   connect(sibling, SIGNAL(refreshed()), this, SLOT(refresh()));
-  connect(sibling, SIGNAL(destroyed(FileListItem *)), this, SLOT(removeSibling(FileListItem *)));
 }
 
 void FileListItem::removeSibling(FileListItem *sibling)
 {
   disconnect(sibling, SIGNAL(refreshed()), this, SLOT(refresh()));
-  disconnect(sibling, SIGNAL(destroyed(FileListItem *)), this, SLOT(removeSibling(FileListItem *)));  
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -160,14 +157,4 @@ int FileListItem::compare(FileListItem *firstItem, FileListItem *secondItem, int
   else {
     return(firstItem->key(column, ascending).compare(secondItem->key(column, ascending)));
   }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private slots
-////////////////////////////////////////////////////////////////////////////////
-
-void FileListItem::parentDestroyed(FileListItem *parent)
-{
-  
-  disconnect(parent, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));
 }

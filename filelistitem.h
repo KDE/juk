@@ -57,19 +57,12 @@ public slots:
 
 signals:
   void refreshed();
-  void destroyed(FileListItem *);
 
 private:
   int compare(QListViewItem *item, int column, bool ascending) const;
   int compare(FileListItem *firstItem, FileListItem *secondItem, int column, bool ascending) const;
 
   FileListItemData *data;
-  QFileInfo *fileInfo;
-  Tag *tag;
-  AudioData *audioData;
-
-private slots:
-  void parentDestroyed(FileListItem *parent);
 };
 
 #endif
