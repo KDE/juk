@@ -140,6 +140,11 @@ void OggTag::setTrackNumber(int value)
 
 void OggTag::setYear(int value)
 {
+    if(value == 0) {
+	writeCommentItem("Date", QString::null);
+	return;
+    }
+
     QDate d = QDate::fromString(readCommentString("Date"), Qt::ISODate);
     if(d.setYMD(value, d.month(), d.day())) {
 	QDateTime dt = d;
