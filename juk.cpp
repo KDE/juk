@@ -199,6 +199,14 @@ void JuK::cut()
 {
     if(tagger && tagger->isVisible()) {
         QPtrList<FileListItem> items(tagger->getTaggerList()->selectedItems());
+
+        FileListItem *item = items.first();
+        while(item) {
+            if(item == playingItem)
+                playingItem = 0;
+            item = items.next();
+        }
+
         tagger->getTaggerList()->remove(items);
     }
     else if(playlist && playlist->isVisible())
