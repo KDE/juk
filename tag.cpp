@@ -16,7 +16,9 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#if 0 /// TODO: This should be included the next time that the cache format changes
 #include <kdatastream.h>
+#endif
 #include <qregexp.h>
 
 #include "tag.h"
@@ -98,8 +100,12 @@ int Tag::readSeconds(const KFileMetaInfo &metaInfo)
 
 QDataStream &operator<<(QDataStream &s, const Tag &t)
 {
+      /// TODO: Use Q_UINT32 in place of all integers.
+#if 0 /// TODO: This should be included the next time that the cache format changes
     s << t.hasTag()
-
+#else
+    s << int(t.hasTag())
+#endif
       << t.track()
       << t.artist()
       << t.album()

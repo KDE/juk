@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#if 0 /// TODO: This should be included the next time that the cache format changes
+#include <kdatastream.h>
+#endif
+
 #include "cachedtag.h"
 #include "cache.h"
 
@@ -180,8 +184,12 @@ bool CachedTag::current() const
 
 QDataStream &CachedTag::read(QDataStream &s)
 {
+      /// TODO: Use Q_UINT32 in place of all integers.
+#if 0 /// TODO: This should be included the next time that the cache format changes
+    s >> m_tagExists
+#else
     s >> int(m_tagExists)
-
+#endif
       >> m_tagTrack
       >> m_tagArtist
       >> m_tagAlbum
