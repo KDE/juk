@@ -95,8 +95,8 @@ void FileRenamer::rename(const PlaylistItem *item)
 
     QString newFilename = rename(item->absFilePath(), *item->tag());
     if(KMessageBox::warningContinueCancel(0,
-        i18n("You're about to rename the file '%1' to '%2'. Are you sure you "
-             "want to continue?").arg(item->absFilePath()).arg(newFilename),
+        i18n("<qt>You're about to rename the file<br/><br/> '%1'<br/><br/> to <br/><br/>'%2'<br/><br/>Are you sure you "
+             "want to continue?</qt>").arg(item->absFilePath()).arg(newFilename),
               i18n("Warning"), KStdGuiItem::cont(), "ShowFileRenamerWarning")
        == KMessageBox::Continue) {
         moveFile(item->absFilePath(), newFilename);
