@@ -18,9 +18,9 @@
 #ifndef STATUSLABEL_H
 #define STATUSLABEL_H
 
-#include <qwidget.h>
 #include <qhbox.h>
-#include <qlabel.h>
+
+class QLabel;
 
 class PlaylistItem;
 
@@ -35,11 +35,27 @@ public:
     void setPlayingItem(PlaylistItem *item);
     void clear();
 
-private:
-    virtual bool eventFilter(QObject *o, QEvent *e);
+    /**
+     * This just sets internal variables that are used by setItemCurrentTime().
+     * Please call that method to display the time.
+     */      
+    void setItemTotalTime(long time);
+    void setItemCurrentTime(long time);
 
+private:
+    static QString formatTime(int minutes, int seconds);
+    virtual void mousePressEvent(QMouseEvent *);
+
+    QLabel *playlistLabel;
     QLabel *trackLabel;
+    QLabel *itemTimeLabel;
     PlaylistItem *playingItem;
+    int itemTotalMinutes;
+    int itemTotalSeconds;
+
+private slots:
+    void jumpToPlayingItem() const;
+
 };
 
 #endif

@@ -412,8 +412,16 @@ void JuK::pollPlay()
 	else
 	    stopFile();
     }
-    else if(!trackPositionDragging)
+    else if(!trackPositionDragging) {
         sliderAction->getTrackPositionSlider()->setValue(player.position());
+	statusLabel->setItemTotalTime(player.totalTime());
+	statusLabel->setItemCurrentTime(player.currentTime());
+    }
+
+    // Ok, this is weird stuff, but it works pretty well.  Ordinarily we don't
+    // need to check up on our playing time very often, but in the span of the 
+    // last interval, we want to check a lot -- to figure out that we've hit the
+    // end of the song as soon as possible.
 
     if(player.playing() && float(player.totalTime() - player.currentTime()) < pollInterval * 2)
         playTimer->changeInterval(50);

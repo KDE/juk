@@ -58,14 +58,14 @@ Player::~Player()
 
 void Player::play(const QString &fileName, float volume)
 {
-    currentFile=fileName;
+    currentFile = fileName;
     play(volume);
 }
 
 void Player::play(float volume)
 {
     if(serverRunning()) {
-        if(media && media->state()==posPaused) {
+        if(media && media->state() == posPaused) {
             media->play();
         }
         else {
@@ -155,7 +155,7 @@ long Player::totalTime() const
 
 long Player::currentTime() const
 {
-    if(serverRunning() && media && media->state()==posPlaying)
+    if(serverRunning() && media && media->state() == posPlaying)
         return(media->currentTime().seconds);
     else
         return(-1);
@@ -163,13 +163,13 @@ long Player::currentTime() const
 
 int Player::position() const
 {
-    if(serverRunning() && media && media->state()==posPlaying) {
+    if(serverRunning() && media && media->state() == posPlaying) {
         //    long total=media->overallTime().ms;
         //    long current=media->currentTime().ms;
-        long total=media->overallTime().seconds * 1000 + media->overallTime().ms;
-        long current=media->currentTime().seconds * 1000 + media->currentTime().ms;
+        long total = media->overallTime().seconds * 1000 + media->overallTime().ms;
+        long current = media->currentTime().seconds * 1000 + media->currentTime().ms;
         // add .5 to make rounding happen properly
-        return(int(double(current)*1000/total+.5));
+        return(int(double(current) * 1000 / total + .5));
     }
     else
         return(-1);
@@ -183,7 +183,7 @@ void Player::seek(long seekTime)
 {
     if(serverRunning() && media) {
         poTime poSeekTime;
-        poSeekTime.seconds=seekTime;
+        poSeekTime.seconds = seekTime;
         media->seek(poSeekTime);
     }
 }
@@ -192,8 +192,8 @@ void Player::seekPosition(int position)
 {
     if(serverRunning() && media) {
         poTime poSeekTime;
-        long total=media->overallTime().seconds;
-        poSeekTime.seconds=long(double(total)*position/1000+.5);
+        long total = media->overallTime().seconds;
+        poSeekTime.seconds = long(double(total) * position / 1000 + .5);
         media->seek(poSeekTime);
     }
 }
@@ -204,8 +204,8 @@ void Player::seekPosition(int position)
 
 void Player::setupPlayer()
 {
-    dispatcher=new Dispatcher;
-    server=new SimpleSoundServer(Reference("global:Arts_SimpleSoundServer"));
+    dispatcher = new Dispatcher;
+    server = new SimpleSoundServer(Reference("global:Arts_SimpleSoundServer"));
 }
 
 void Player::setupVolumeControl()

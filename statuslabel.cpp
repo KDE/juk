@@ -15,10 +15,16 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kpushbutton.h>
+#include <kiconloader.h>
 #include <kdebug.h>
 
 #include <qevent.h>
 #include <qstylesheet.h>
+#include <qlabel.h>
+#include <qtooltip.h>
+#include <qfontmetrics.h>
+
 
 #include "statuslabel.h"
 #include "playlistitem.h"
@@ -30,10 +36,38 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name) 
+StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name), playingItem(0)
 {
-    trackLabel = new QLabel(this, "trackLabel");
-    trackLabel->installEventFilter(this);
+    setSpacing(0);
+
+    QHBox *trackAndPlaylist = new QHBox(this);
+    trackAndPlaylist->setFrameStyle(Box | Sunken);
+
+    playlistLabel = new QLabel(trackAndPlaylist, "playlistLabel");
+    playlistLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    playlistLabel->setTextFormat(RichText);
+    playlistLabel->setAlignment(AlignLeft);
+
+    trackLabel = new QLabel(trackAndPlaylist, "trackLabel");
+    trackLabel->setAlignment(AlignRight);
+    trackLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    trackLabel->setTextFormat(RichText);
+
+    itemTimeLabel = new QLabel(this);
+    QFontMetrics fontMetrics(font());
+    itemTimeLabel->setAlignment(AlignCenter);
+    itemTimeLabel->setMinimumWidth(fontMetrics.boundingRect("000:00 / 000:00").width());
+    itemTimeLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    itemTimeLabel->setFrameStyle(Box | Sunken);
+
+    setItemTotalTime(0);
+    setItemCurrentTime(0);
+  
+    QLabel *iconLabel = new QLabel(this);
+    iconLabel->setPixmap(SmallIcon("up"));
+    iconLabel->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
+    iconLabel->setFrameStyle(Box | Sunken);
+    QToolTip::add(iconLabel, i18n("Jump to the currently playing item"));
 }
 
 StatusLabel::~StatusLabel()
@@ -51,37 +85,70 @@ void StatusLabel::setPlayingItem(PlaylistItem *item)
 
 	    QString playlist = QStyleSheet::escape(p->playlistBoxItem()->text());
 	    QString artist = QStyleSheet::escape(item->text(PlaylistItem::ArtistColumn));
-	    QString track = QStyleSheet::escape(item->text(PlaylistItem::TrackColumn));
+    	    QString track = QStyleSheet::escape(item->text(PlaylistItem::TrackColumn));
 
-	    QString label = playlist + " / " + artist + " - <i>" + track + "</i>";
+	    playlistLabel->setText(playlist);
+	    QString label = artist + " - " + track;
 	    trackLabel->setText(label);
 	}
 	else
-	    trackLabel->clear();
+	    clear();
     }
     else
-	trackLabel->clear();    
+	clear();
 }
 
 void StatusLabel::clear()
 {
+    playlistLabel->clear();
     trackLabel->clear();
     playingItem = 0;
+    setItemTotalTime(0);
+    setItemCurrentTime(0);
+}
+
+void StatusLabel::setItemTotalTime(long time)
+{
+    itemTotalMinutes = int(time / 60);
+    itemTotalSeconds = time % 60;
+}
+
+void StatusLabel::setItemCurrentTime(long time)
+{
+    int minutes = int(time / 60);
+    int seconds = time % 60;
+    QString timeString = formatTime(minutes, seconds) +  " / " + formatTime(itemTotalMinutes, itemTotalSeconds);
+    itemTimeLabel->setText(timeString);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-bool StatusLabel::eventFilter(QObject *o, QEvent *e)
+void StatusLabel::mousePressEvent(QMouseEvent *)
 {
-    if(o && o == trackLabel &&
-       e && e->type() == QEvent::MouseButtonPress) {
-	PlaylistSplitter::setSelected(playingItem);
-	return(true);
-    }
+    jumpToPlayingItem();
+}
 
-    return(false);
+QString StatusLabel::formatTime(int minutes, int seconds)
+{
+    QString m = QString::number(minutes);
+    if(m.length() == 1)
+	m = "0" + m;
+    QString s = QString::number(seconds);
+    if(s.length() == 1)
+	s = "0" + s;
+    return(m + ":" + s);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private slots
+////////////////////////////////////////////////////////////////////////////////
+
+void StatusLabel::jumpToPlayingItem() const
+{
+    if(playingItem)
+	PlaylistSplitter::setSelected(playingItem);
 }
 
 #include "statuslabel.moc"
