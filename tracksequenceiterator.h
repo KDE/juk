@@ -108,7 +108,6 @@ public:
     virtual void setCurrent(PlaylistItem *current);
 
 private:
-    QGuardedPtr<Playlist> m_playlist;
     PlaylistItem::Pointer m_current; ///< the current item
 };
 
