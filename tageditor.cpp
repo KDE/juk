@@ -2,7 +2,7 @@
                           tageditor.cpp  -  description
                              -------------------
     begin                : Sat Sep 7 2002
-    copyright            : (C) 2002 by Scott Wheeler
+    copyright            : (C) 2002, 2003 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
@@ -240,29 +240,15 @@ void TagEditor::slotUpdateCollection()
     if(!list)
 	return;
     
-    if(m_artistNameBox->listBox()) {
-        m_artistNameBox->listBox()->clear();
-	
-	// This is another case where a sorted value list would be useful.  It's
-	// silly to build and maintain unsorted lists and have to call sort 
-	// every time that you want to verify that a list is sorted.	
+    QStringList artistList = list->uniqueSet(CollectionList::Artists);
+    m_artistNameBox->listBox()->clear();
+    m_artistNameBox->listBox()->insertStringList(artistList);
+    m_artistNameBox->completionObject()->setItems(artistList);
 
-	QStringList artistList = list->uniqueSet(CollectionList::Artists);
-	artistList.sort();
-
-        m_artistNameBox->listBox()->insertStringList(artistList);
-	m_artistNameBox->completionObject()->setItems(artistList);
-    }
-
-    if(m_albumNameBox->listBox()) {
-        m_albumNameBox->listBox()->clear();
-
-	QStringList albumList = list->uniqueSet(CollectionList::Albums);
-	albumList.sort();
-
-        m_albumNameBox->listBox()->insertStringList(albumList);
-	m_albumNameBox->completionObject()->setItems(albumList);
-    }    
+    QStringList albumList = list->uniqueSet(CollectionList::Albums);
+    m_albumNameBox->listBox()->clear();
+    m_albumNameBox->listBox()->insertStringList(albumList);
+    m_albumNameBox->completionObject()->setItems(albumList);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -275,15 +261,9 @@ void TagEditor::readConfig()
     { // combo box completion modes
 	KConfigGroupSaver saver(config, "TagEditor");
 	if(m_artistNameBox && m_albumNameBox) {
-	    KGlobalSettings::Completion artistNameBoxMode = 
-		KGlobalSettings::Completion(config->readNumEntry("ArtistNameBoxMode",
-								 KGlobalSettings::CompletionAuto));
-	    m_artistNameBox->setCompletionMode(artistNameBoxMode);
-	    
-	    KGlobalSettings::Completion albumNameBoxMode = 
-		KGlobalSettings::Completion(config->readNumEntry("AlbumNameBoxMode",
-								 KGlobalSettings::CompletionAuto));
-	    m_albumNameBox->setCompletionMode(albumNameBoxMode);
+	    readCompletionMode(config, m_artistNameBox, "ArtistNameBoxMode");
+	    readCompletionMode(config, m_albumNameBox, "AlbumNameBoxMode");
+	    readCompletionMode(config, m_genreBox, "GenreBoxMode");
         }
     }
 
@@ -296,6 +276,15 @@ void TagEditor::readConfig()
     m_genreBox->clear();
     m_genreBox->insertItem(QString::null);
     m_genreBox->insertStringList(m_genreList);
+    m_genreBox->completionObject()->setItems(m_genreList);
+}
+
+void TagEditor::readCompletionMode(KConfig *config, KComboBox *box, const QString &key)
+{
+    KGlobalSettings::Completion mode =
+	KGlobalSettings::Completion(config->readNumEntry(key, KGlobalSettings::CompletionAuto));
+
+    box->setCompletionMode(mode);
 }
 
 void TagEditor::saveConfig()
@@ -306,6 +295,7 @@ void TagEditor::saveConfig()
         if(m_artistNameBox && m_albumNameBox) {
 	    config->writeEntry("ArtistNameBoxMode", m_artistNameBox->completionMode());
 	    config->writeEntry("AlbumNameBoxMode", m_albumNameBox->completionMode());
+	    config->writeEntry("GenreBoxMode", m_genreBox->completionMode());
         }
     }
 

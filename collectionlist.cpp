@@ -2,7 +2,7 @@
                           collectionlist.cpp  -  description
                              -------------------
     begin                : Fri Sep 13 2002
-    copyright            : (C) 2002 by Scott Wheeler
+    copyright            : (C) 2002, 2003 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
@@ -152,8 +152,10 @@ void CollectionList::addUnique(UniqueSetType t, const QString &value)
 
     if(value == m_uniqueSetLast[t] || m_uniqueSets[t].insert(value))
 	m_viewModeItems[t].insert(value);
-    else
-        m_uniqueSetLast[t] = value;
+    else {
+	m_uniqueSetLast[t] = value;
+	emit signalCollectionChanged();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

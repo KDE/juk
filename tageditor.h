@@ -2,7 +2,7 @@
                           tageditor.h  -  description
                              -------------------
     begin                : Sat Sep 7 2002
-    copyright            : (C) 2002 by Scott Wheeler
+    copyright            : (C) 2002, 2003 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 
@@ -52,6 +52,7 @@ public slots:
 private:
     void setupLayout();
     void readConfig();
+    void readCompletionMode(KConfig *config, KComboBox *box, const QString &key);
     void saveConfig();
     void save(const PlaylistItemList &list);
     void saveChangesPrompt();
