@@ -230,8 +230,9 @@ FileHandle PlaylistSplitter::previousFile()
     if(!m_playingItem)
 	return FileHandle::null();
 
+    bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
     Playlist *p = m_playingItem->playlist();
-    PlaylistItem *i = p->previousItem(m_playingItem, false);
+    PlaylistItem *i = p->previousItem(m_playingItem, random);
 
     return play(i);
 }
