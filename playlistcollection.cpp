@@ -363,6 +363,9 @@ QString PlaylistCollection::playlistNameDialog(const QString &caption,
 
 QString PlaylistCollection::uniquePlaylistName(const QString &suggest) const
 {
+    if(suggest.isEmpty())
+        return uniquePlaylistName();
+
     if(!m_playlistNames.contains(suggest))
         return suggest;
 
