@@ -1852,7 +1852,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	m_rmbMenu->insertSeparator();
 
 	m_rmbMenu->insertItem(
-	    SmallIcon("folder_new"), i18n("Create Playlist From Selected Items"), this, SLOT(slotCreateGroup()));
+	    SmallIcon("folder_new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
 
 	K3bExporter *exporter = new K3bExporter(this);
 	KAction *k3bAction = exporter->action();
