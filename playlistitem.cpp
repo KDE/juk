@@ -301,6 +301,7 @@ PlaylistItem::Data *PlaylistItem::Data::newUser()
 
 void PlaylistItem::Data::refresh()
 {
+    m_fileInfo.refresh();
     delete m_dataTag;
     m_dataTag = Tag::createTag(m_fileInfo.filePath());
     Q_ASSERT(m_dataTag);
