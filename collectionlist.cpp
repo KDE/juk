@@ -88,10 +88,23 @@ void CollectionList::clear()
 	     "all of your playlists. Are you sure you want to continue?\n\n"
 	     "Note, however, that if the directory that these files are in is in "
 	     "your \"scan on startup\" list, they will be readded on startup."));
-    if(result == KMessageBox::Yes)			      
-	Playlist::clear();
+    if(result == KMessageBox::Yes) {
+        // We're taking code from Playlist::clear() here.
+        PlaylistItemList l = selectedItems();
+        if (l.isEmpty())
+            l = items();
 
-    emit signalCollectionChanged();
+        // We need to remove the items from the Cache.  Rather
+        // ugly hack, unfortunately.
+        PlaylistItemList::Iterator it = l.begin();
+        for ( ; it != l.end(); ++it)
+            Cache::instance()->remove((*it)->file());
+
+        // Now clear the items like normal
+        clearItems(l);
+
+        emit signalCollectionChanged();
+    }
 }
 
 void CollectionList::slotCheckCache()
