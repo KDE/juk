@@ -740,13 +740,10 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
 	KURL trashDir = KGlobalSettings::trashPath();
 
-	QString message;
-
-	if(files.count() == 1)
-	    message = i18n("Do you really want to move this item to the trash?");
-	else
-	    message = i18n("Do you really want to move these %1 items to the trash?").arg(QString::number(files.count()));
-
+	QString message = i18n(	"Do you really want to move this item to the trash?",
+				"Do you really want to move these %n items to the trash?",
+				files.count() );
+			
 	if(DeleteDialog::confirmDeleteList(this, files)) {
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 		if(m_playingItem == *it)

@@ -52,7 +52,7 @@
                     </property>
                     <property name="text">
                         <string>&lt;qt&gt;&lt;p&gt;Are you sure that you want to delete these items?&lt;/p&gt;
-&lt;p&gt;Deleting these items will &lt;b&gt;permanently remove&lt;/b&gt; them!&lt;/p&gt;&lt;/qt&gt;</string>
+&lt;p&gt;Deleting these items will &lt;b&gt;permanently remove&lt;/b&gt; them.&lt;/p&gt;&lt;/qt&gt;</string>
                     </property>
                     <property name="alignment">
                         <set>WordBreak|AlignCenter</set>
