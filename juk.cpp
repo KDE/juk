@@ -93,10 +93,14 @@ void JuK::startPlayingPlaylist()
         play(m_splitter->playFirstFile());
 }
 
-void JuK::slotGuessTagInfo(int i)
+void JuK::slotGuessTagInfoFromFile()
 {
-    int index = m_guessMenu->popupMenu()->indexOf(i);
-    m_splitter->slotGuessTagInfo(TagGuesser::Type(index));
+    m_splitter->slotGuessTagInfo(TagGuesser::FileName);
+}
+
+void JuK::slotGuessTagInfoFromInternet()
+{
+    m_splitter->slotGuessTagInfo(TagGuesser::MusicBrainz);
 }
 
 void JuK::play()
@@ -402,14 +406,14 @@ void JuK::setupActions()
 
     KAction *a;
 
-    a = new KAction(i18n("From &Filename"), "CTRL+f", actionCollection(), "guessTagFile");
+    a = new KAction(i18n("From &Filename"), 0, "CTRL+f", this, SLOT(slotGuessTagInfoFromFile()),
+                actionCollection(), "guessTagFile");
     m_guessMenu->insert(a);
 #if HAVE_MUSICBRAINZ
-    a = new KAction(i18n("From &Internet"), "CTRL+i", actionCollection(), "guessTagInternet");
+    a = new KAction(i18n("From &Internet"), 0, "CTRL+i", this, SLOT(slotGuessTagInfoFromInternet()),
+                actionCollection(), "guessTagInternet");
     m_guessMenu->insert(a);
 #endif
-
-    connect(m_guessMenu->popupMenu(), SIGNAL(activated(int)), this, SLOT(slotGuessTagInfo(int)));
 
     //////////////////////////////////////////////////
     // settings menu
@@ -479,7 +483,7 @@ void JuK::setupSplitterConnections()
 	    m_splitter, SLOT(slotSetEditorVisible(bool)));
     connect(m_showHistoryAction, SIGNAL(toggled(bool)),
 	    m_splitter, SLOT(slotSetHistoryVisible(bool)));
-    connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), 
+    connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)),
 	    m_sliderAction, SLOT(slotUpdateOrientation(QDockWindow *)));
     connect(m_splitter, SIGNAL(signalPlaylistChanged()),
 	    this, SLOT(slotPlaylistChanged()));
@@ -491,7 +495,7 @@ void JuK::setupSystemTray()
         m_systemTray = new SystemTray(this, "systemTray");
         m_systemTray->show();
 
-        connect(this, SIGNAL(signalNewSong(const QString&)), 
+        connect(this, SIGNAL(signalNewSong(const QString&)),
 		m_systemTray, SLOT(slotNewSong(const QString&)));
 
         if(m_player && m_player->paused())
@@ -631,7 +635,7 @@ void JuK::readConfig()
 	// The history list will actually be created by the playlist restoration
 	// code, but we want to remember the checkbox's setting and hope that
 	// it's in synch with the code that does the real work.
-	
+
 	bool showHistory = config->readBoolEntry("ShowHistory", false);
 	m_showHistoryAction->setChecked(showHistory);
     }
@@ -786,7 +790,7 @@ KAction *JuK::createSplitterAction(const QString &text, const char *slot,
 	action = new KAction(text, pix, shortcut, actionCollection(), name);
 
     m_splitterConnections.append(SplitterConnection(action, slot));
-    
+
     return action;
 }
 
@@ -821,7 +825,7 @@ void JuK::slotPlaylistChanged()
         actionCollection()->action("duplicatePlaylist")->setEnabled(true);
     else
         actionCollection()->action("duplicatePlaylist")->setEnabled(false);
-    
+
     updatePlaylistInfo();
 }
 

@@ -135,8 +135,8 @@ private:
      * actions and builds a list of connections that can be set up after the
      * splitter is created.
      */
-    KAction *createSplitterAction(const QString &text, 
-				  const char *slot, 
+    KAction *createSplitterAction(const QString &text,
+				  const char *slot,
 				  const char *name,
 				  const QString &pix = QString::null,
 				  const KShortcut &shortcut = KShortcut());
@@ -174,7 +174,8 @@ private slots:
     void slotPlaySelectedFile() { play(m_splitter->playSelectedFile()); }
     void startPlayingPlaylist();
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
-    void slotGuessTagInfo(int i);
+    void slotGuessTagInfoFromFile();
+    void slotGuessTagInfoFromInternet();
 
 private:
     // layout objects
