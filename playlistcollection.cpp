@@ -233,9 +233,12 @@ void PlaylistCollection::removeTrack(const QString &playlist, const QStringList 
 
 QString PlaylistCollection::playlist() const
 {
-    if(currentPlaylist())
-        return currentPlaylist()->name();
-    return QString::null;
+    return visiblePlaylist() ? visiblePlaylist()->name() : QString::null;
+}
+
+QString PlaylistCollection::playingPlaylist() const
+{
+    return currentPlaylist() && m_playing ? currentPlaylist()->name() : QString::null;
 }
 
 void PlaylistCollection::setPlaylist(const QString &playlist)

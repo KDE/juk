@@ -66,6 +66,7 @@ public:
     virtual void removeTrack(const QString &playlist, const QStringList &files);
 
     virtual QString playlist() const;
+    virtual QString playingPlaylist() const;
     virtual void setPlaylist(const QString &playlist);
 
     virtual QStringList playlistTracks(const QString &playlist) const;

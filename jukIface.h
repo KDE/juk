@@ -21,6 +21,7 @@ k_dcop:
     virtual void removeTrack(const QString &playlist, const QStringList &files) = 0;
 
     virtual QString playlist() const = 0;
+    virtual QString playingPlaylist() const = 0;
     virtual void setPlaylist(const QString &playlist) = 0;
 
     virtual QStringList playlistTracks(const QString &playlist) const = 0;
