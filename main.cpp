@@ -37,7 +37,7 @@ int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", I18N_NOOP("JuK"),
                          VERSION, description, KAboutData::License_GPL,
-                         "(c) 2002, 2003, Scott Wheeler", 0, 0, "wheeler@kde.org");
+                         "(c) 2002, 2003, Scott Wheeler", 0, "http://www.slackorama.net/oss/juk/", "submit@bugs.kde.org");
 
     aboutData.addAuthor("Scott Wheeler", scott, "wheeler@kde.org");
     aboutData.addCredit("Daniel Molkentin", daniel, "molkentin@kde.org");
