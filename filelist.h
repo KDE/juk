@@ -50,6 +50,9 @@ private:
   QStringList members;
   void processEvents();
   int processed;
+
+signals:
+  void dataChanged();
 };
 
 #endif

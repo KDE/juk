@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <klocale.h>
+#include <kdebug.h>
 
 #include <qfileinfo.h>
 #include <qdir.h>
@@ -57,6 +58,7 @@ void FileList::append(QString item)
   QApplication::setOverrideCursor(Qt::waitCursor);
   appendImpl(item);
   QApplication::restoreOverrideCursor();
+  emit(dataChanged());
 }
 
 void FileList::append(QStringList *items)
@@ -65,6 +67,7 @@ void FileList::append(QStringList *items)
   for(QStringList::Iterator it = items->begin(); it != items->end(); ++it)
     appendImpl(*it);
   QApplication::restoreOverrideCursor();
+  emit(dataChanged());
 }
 
 void FileList::append(FileListItem *item)
@@ -73,6 +76,7 @@ void FileList::append(FileListItem *item)
     members.append(item->absFilePath());
     (void) new FileListItem(*item, this);
   }
+  emit(dataChanged());
 }
 
 void FileList::append(QPtrList<QListViewItem> *items)
@@ -82,6 +86,7 @@ void FileList::append(QPtrList<QListViewItem> *items)
     append(dynamic_cast<FileListItem *>(it.current()));
     ++it;
   }
+  // the emit(dataChanged()) is handled in the above function
 }
 
 void FileList::remove(QPtrList<QListViewItem> *items)
@@ -150,9 +155,6 @@ void FileList::appendImpl(QString item)
   }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// private slots
-////////////////////////////////////////////////////////////////////////////////
 
 void FileList::processEvents()
 {

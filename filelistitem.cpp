@@ -28,6 +28,7 @@ FileListItem::FileListItem(QFileInfo &file, FileList *parent) : QObject(parent),
 {
   data = new FileListItemData(file);
   refresh();
+  connect(this, SIGNAL(refreshed()), parent, SIGNAL(dataChanged()));
 }
 
 FileListItem::FileListItem(FileListItem &item, FileList *parent) : QObject(parent), KListViewItem(parent)
@@ -37,6 +38,7 @@ FileListItem::FileListItem(FileListItem &item, FileList *parent) : QObject(paren
   addSibling(&item);
   
   refresh();
+  connect(this, SIGNAL(refreshed()), parent, SIGNAL(dataChanged()));
 }
 
 FileListItem::~FileListItem()
