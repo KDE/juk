@@ -62,13 +62,14 @@ class FileBoxToolTip : public QToolTip
 {
 public:
     FileBoxToolTip(TagEditor *editor, QWidget *widget) :
-	QToolTip(widget), m_editor(editor) {}
+	QToolTip(widget), m_widget(widget), m_editor(editor) {}
 protected:
     virtual void maybeTip(const QPoint &)
     {
-	tip(m_editor->rect(), m_editor->items().first()->file().absFilePath());
+	tip(m_widget->rect(), m_editor->items().first()->file().absFilePath());
     }
 private:
+    QWidget *m_widget;
     TagEditor *m_editor;
 };
 
