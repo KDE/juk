@@ -32,4 +32,32 @@ KDE_CHECK_HEADER(kde/gst/gstreamer.h,
 	AC_NO_GST
 )
 
+AC_DEFUN(AC_HAVE_MUSICBRAINZ,
+[
+	AC_DEFINE(HAVE_MUSICBRAINZ, 1, [have MusicBrainz])
+	have_musicbrainz=true
+])
+
+AC_DEFUN(AC_NO_MUSICBRAINZ,
+[
+	AC_DEFINE(HAVE_MUSICBRAINZ, 0, [have MusicBrainz])
+	have_musicbrainz=false
+])
+
+KDE_CHECK_HEADER(musicbrainz/musicbrainz.h,
+	AC_HAVE_MUSICBRAINZ,
+	AC_NO_MUSICBRAINZ
+)
+
+KDE_FIND_PATH(trm,TRM,[$kde_default_bindirs],[
+  AC_MSG_WARN([Could not find trm utility anywhere, check http://www.musicbrainz.org/products/trmgen/download.html for TRM Generator.])
+])
+if test -z "$TRM" ; then
+   AC_DEFINE(HAVE_TRM,0,[Is trm program present])
+else
+   AC_DEFINE(HAVE_TRM,1,[Is trm program present])
+fi
+
+
 AM_CONDITIONAL(link_lib_GST, test x$have_gst = xtrue)
+AM_CONDITIONAL(link_lib_MB, test x$have_musicbrainz = xtrue)

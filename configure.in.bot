@@ -24,3 +24,15 @@ if test "x$have_gst" == "xfalse"; then
 	echo "*"
 	echo "**************************************************"
 fi
+
+if test "x$have_musicbrainz" == "xfalse"; then
+	echo "**************************************************"
+	echo "*"
+	echo "* You do not seem to have libmusicbrainz and JuK"
+	echo "* will be compiled without MusicBrainz support "
+	echo "* Automatic song recogntion will not be supported. "
+	echo "* Please download libmusicbrainz 2.0.1 from "
+	echo "* http://www.musicbrainz.org/products/client/download.html "
+	echo "*"
+	echo "**************************************************"
+fi
