@@ -19,10 +19,6 @@
 #include "collectionlist.h"
 #include "playlistcollection.h"
 
-// TODO: this current updates even when things are just played in the watched
-// playlists.  There should be different update types and this should only
-// watch the data changes.
-
 class PlaylistDirtyObserver : public PlaylistObserver
 {
 public:
