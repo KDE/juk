@@ -94,6 +94,8 @@ void JuK::setupLayout()
     setCentralWidget(m_splitter);
 
     m_statusLabel = new StatusLabel(m_splitter->playlist(), statusBar());
+    connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
+            m_statusLabel, SLOT(updateData()));
     statusBar()->addWidget(m_statusLabel, 1);
     PlayerManager::instance()->setStatusLabel(m_statusLabel);
 

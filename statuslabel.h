@@ -33,7 +33,6 @@ public:
     StatusLabel(PlaylistInterface *playlist, QWidget *parent = 0, const char *name = 0);
     virtual ~StatusLabel();
     virtual void updateCurrent();
-    virtual void updateData();
 
 public slots:
     /**
@@ -42,6 +41,7 @@ public slots:
      */      
     void setItemTotalTime(int time) { m_itemTotalTime = time; }
     void setItemCurrentTime(int time) { m_itemCurrentTime = time; updateTime(); }
+    virtual void updateData();
 
 signals:
     void jumpButtonClicked();
