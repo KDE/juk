@@ -434,12 +434,12 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 	}
 
 	if(item && item->playlist())
-	    item->playlist()->addFiles(files, true);
+	    item->playlist()->addFiles(files);
 	else {
 	    QString name = playlistNameDialog();
 	    if(!name.isNull()) {
 		Playlist *p = new Playlist(this, name);
-		p->addFiles(files, true);
+		p->addFiles(files);
 	    }
 	}
     }

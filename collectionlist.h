@@ -102,7 +102,7 @@ public slots:
     void slotRemoveItem(const QString &file);
     void slotRefreshItem(const QString &file);
     
-    void slotNewItems(const KFileItemList &items, bool importPlaylists);
+    void slotNewItems(const KFileItemList &items);
     void slotRefreshItems(const KFileItemList &items);
     void slotDeleteItem(KFileItem *item);
 

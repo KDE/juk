@@ -133,14 +133,14 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
     }
 }
 
-void CollectionList::slotNewItems(const KFileItemList &items, bool importPlaylists)
+void CollectionList::slotNewItems(const KFileItemList &items)
 {
     QStringList files;
 
     for(KFileItemListIterator it(items); it.current(); ++it)
 	files.append((*it)->url().path());
 
-    addFiles(files, importPlaylists);
+    addFiles(files);
     update();
 }
 

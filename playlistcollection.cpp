@@ -285,10 +285,10 @@ void PlaylistCollection::open(const QStringList &l)
            KGuiItem(i18n("Current")),
            KGuiItem(i18n("Collection"))) == KMessageBox::No)
     {
-        CollectionList::instance()->addFiles(files, true);
+        CollectionList::instance()->addFiles(files);
     }
     else
-        visiblePlaylist()->addFiles(files, true);
+        visiblePlaylist()->addFiles(files);
 
     dataChanged();
 }
@@ -298,15 +298,21 @@ void PlaylistCollection::open(const QString &playlist, const QStringList &files)
     Playlist *p = playlistByName(playlist);
 
     if(p)
-        p->addFiles(files, m_importPlaylists);
+        p->addFiles(files);
 }
 
 void PlaylistCollection::addFolder()
 {
+    kdDebug(65432) << k_funcinfo << endl;
     DirectoryList l(m_folderList, m_importPlaylists, widget, "directoryList");
     DirectoryList::Result result = l.exec();
 
     if(result.status == QDialog::Accepted) {
+
+        m_dirLister.blockSignals(true);
+
+        const bool reload = m_importPlaylists != result.addPlaylists;
+        m_importPlaylists = result.addPlaylists;
 
         for(QStringList::Iterator it = result.addedDirs.begin();
             it != result.addedDirs.end(); it++)
@@ -322,14 +328,14 @@ void PlaylistCollection::addFolder()
             m_folderList.remove(*it);
         }
 
-        m_importPlaylists = result.addPlaylists;
-
-        if(result.addPlaylists && !m_importPlaylists)
+        if(reload)
             open(m_folderList);
         else if(!result.addedDirs.isEmpty())
             open(result.addedDirs);
 
         saveConfig();
+
+        m_dirLister.blockSignals(false);
     }
 }
 
@@ -367,7 +373,7 @@ void PlaylistCollection::saveAs()
 void PlaylistCollection::reload()
 {
     if(visiblePlaylist() == CollectionList::instance())
-        CollectionList::instance()->addFiles(m_folderList, m_importPlaylists);
+        CollectionList::instance()->addFiles(m_folderList);
     else
         visiblePlaylist()->slotReload();
 
@@ -426,7 +432,7 @@ PlaylistItemList PlaylistCollection::selectedItems()
 
 void PlaylistCollection::scanFolders()
 {
-    CollectionList::instance()->addFiles(m_folderList, m_importPlaylists);
+    CollectionList::instance()->addFiles(m_folderList);
 
     if(CollectionList::instance()->count() == 0)
         addFolder();
@@ -729,7 +735,7 @@ void PlaylistCollection::removeFileFromDict(const QString &file)
 
 void PlaylistCollection::dirChanged(const QString &path)
 {
-    CollectionList::instance()->addFiles(path, m_importPlaylists);
+    CollectionList::instance()->addFiles(path);
 }
 
 Playlist *PlaylistCollection::playlistByName(const QString &name) const
@@ -752,7 +758,7 @@ Playlist *PlaylistCollection::playlistByName(const QString &name) const
 
 void PlaylistCollection::newItems(const KFileItemList &list) const
 {
-    CollectionList::instance()->slotNewItems(list, m_importPlaylists);
+    CollectionList::instance()->slotNewItems(list);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

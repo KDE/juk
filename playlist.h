@@ -189,8 +189,7 @@ public:
      * items since it has the overhead of checking to see if the file is a playlist
      * or directory first.
      */
-    void addFiles(const QStringList &files, bool importPlaylists,
-		  PlaylistItem *after = 0);
+    void addFiles(const QStringList &files, PlaylistItem *after = 0);
 
     /**
      * Returns the file name associated with this playlist (an m3u file) or
@@ -536,8 +535,8 @@ private:
 
     void addFile(const QString &file, FileHandleList &files, bool importPlaylists,
 		 PlaylistItem **after);
-    void addFileHelper(FileHandleList &files, bool importPlaylists,
-		       PlaylistItem **after, bool ignoreTimer = false);
+    void addFileHelper(FileHandleList &files, PlaylistItem **after,
+		       bool ignoreTimer = false);
 
     void redisplaySearch() { setSearch(m_search); }
 

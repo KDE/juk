@@ -1016,7 +1016,7 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
     for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
 	fileList.append((*it).path());
 
-    addFiles(fileList, m_collection->importPlaylists(), item);
+    addFiles(fileList, item);
 }
 
 bool Playlist::eventFilter(QObject *watched, QEvent *e)
@@ -1203,8 +1203,7 @@ void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after
     createItems<CollectionListItem, PlaylistItem, PlaylistItem>(siblings, after);
 }
 
-void Playlist::addFiles(const QStringList &files, bool importPlaylists,
-			PlaylistItem *after)
+void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 {
     if(!after)
 	after = static_cast<PlaylistItem *>(lastItem());
@@ -1217,9 +1216,9 @@ void Playlist::addFiles(const QStringList &files, bool importPlaylists,
 
     const QStringList::ConstIterator filesEnd = files.end();
     for(QStringList::ConstIterator it = files.begin(); it != filesEnd; ++it)
-        addFile(*it, queue, importPlaylists, &after);
+        addFile(*it, queue, true, &after);
 
-    addFileHelper(queue, importPlaylists, &after, true);
+    addFileHelper(queue, &after, true);
 
     m_blockDataChanged = false;
 
@@ -1647,7 +1646,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
 	return;
 
     processEvents();
-    addFileHelper(files, importPlaylists, after);
+    addFileHelper(files, after);
 
     // Our biggest thing that we're fighting during startup is too many stats
     // of files.  Make sure that we don't do one here if it's not needed.
@@ -1692,8 +1691,14 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
 
 	    for(dirEntry = ::readdir(dir); dirEntry; dirEntry = ::readdir(dir)) {
 		if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0) {
+
+		    // We set importPlaylists to the value from the add directories
+		    // dialog as we want to load all of the ones that the user has
+		    // explicitly asked for, but not those that we find in lower
+		    // directories.
+
 		    addFile(fileInfo.filePath() + QDir::separator() + QFile::decodeName(dirEntry->d_name),
-			    files, importPlaylists, after);
+			    files, m_collection->importPlaylists(), after);
 		}
 	    }
 	    ::closedir(dir);
@@ -1706,8 +1711,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
     }
 }
 
-void Playlist::addFileHelper(FileHandleList &files, bool loadPlaylists,
-			     PlaylistItem **after, bool ignoreTimer)
+void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool ignoreTimer)
 {
     static QTime time = QTime::currentTime();
 
@@ -1728,7 +1732,7 @@ void Playlist::addFileHelper(FileHandleList &files, bool loadPlaylists,
 	    m_collection->raiseDistraction();
 	const FileHandleList::ConstIterator filesEnd = files.end();
 	for(FileHandleList::ConstIterator it = files.begin(); it != filesEnd; ++it)
-	    *after = createItem(*it, *after, loadPlaylists);
+	    *after = createItem(*it, *after, false);
 	files.clear();
 
 	if(visible)
