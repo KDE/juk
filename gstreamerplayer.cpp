@@ -159,8 +159,9 @@ void GStreamerPlayer::setupPlayer()
     connect(m_player, SIGNAL(streamEnd()), SLOT(stopIfNotPlaying()));
 }
 
-void GStreamerPlayer::stopIfNotPlaying() {
-    if (!playing())
+void GStreamerPlayer::slotStopIfNotPlaying()
+{
+    if(!playing())
 	stop();
 }
 

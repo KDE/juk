@@ -61,7 +61,7 @@ public slots:
 private slots:
     void slotSetPosition(long long d) { m_positionNs = d; }
     void slotSetDuration(long long d) { m_durationNs = d; }
-    void stopIfNotPlaying();
+    void slotStopIfNotPlaying();
 
 private:
     void setupPlayer();
