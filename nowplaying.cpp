@@ -117,7 +117,7 @@ void CoverItem::update(const FileHandle &file)
         hide();
 }
 
-void CoverItem::mousePressEvent(QMouseEvent *event)
+void CoverItem::mouseReleaseEvent(QMouseEvent *event)
 {
     if(event->button() == LeftButton &&
        m_file.coverInfo()->hasCover())

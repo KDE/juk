@@ -74,7 +74,7 @@ class CoverItem : public QLabel, public NowPlayingItem
 public:
     CoverItem(NowPlaying *parent);
     virtual void update(const FileHandle &file);
-    virtual void mousePressEvent(QMouseEvent *event);
+    virtual void mouseReleaseEvent(QMouseEvent *event);
 
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *e);
