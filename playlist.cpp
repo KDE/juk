@@ -394,14 +394,7 @@ void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 
 PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 {
-    QString filePath;
-    
-    if(!file.isSymLink())
-	filePath = file.absFilePath();
-    else {
-	QFileInfo linkFile(file.readLink());
-	filePath = linkFile.absFilePath();
-    }
+    QString filePath = resolveSymLinks(file);
 
     CollectionListItem *item = CollectionList::instance()->lookup(filePath);
 
@@ -453,6 +446,22 @@ bool Playlist::isColumnVisible(int c) const
 	return true;
     else
 	return false;
+}
+
+QString Playlist::resolveSymLinks(const QFileInfo &file)
+{
+    if(!file.isSymLink())
+	return file.absFilePath();
+    else {
+	QString linkFileName = file.readLink();
+	QFileInfo linkFile;
+	if(linkFileName.startsWith("/"))
+	    linkFile.setFile(linkFileName);
+	else
+	    linkFile.setFile(file.dirPath(true) + QDir::separator() + linkFileName);
+
+	return linkFile.absFilePath();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

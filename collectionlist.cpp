@@ -71,11 +71,12 @@ CollectionListItem *CollectionList::lookup(const QString &file)
 
 PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 {
-    QString path = file.absFilePath();
-    if(m_itemsDict.find(path))
+    QString filePath = resolveSymLinks(file);
+
+    if(m_itemsDict.find(filePath))
 	return 0;
 
-    return new CollectionListItem(file, path);
+    return new CollectionListItem(file, filePath);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,16 +153,6 @@ void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
-void CollectionList::addToDict(const QString &file, CollectionListItem *item)
-{
-    m_itemsDict.replace(file, item);
-}
-
-void CollectionList::removeFromDict(const QString &file)
-{
-    m_itemsDict.remove(file);
-}
-
 void CollectionList::addArtist(const QString &artist)
 {
     // Do a bit of caching since there will very often be "two in a row" insertions.
@@ -220,7 +211,7 @@ CollectionListItem::~CollectionListItem()
 {
     CollectionList *l = CollectionList::instance();
     if(l)
-	l->removeFromDict(data()->absFilePath());
+	l->removeFromDict(Playlist::resolveSymLinks(*data()));
 }
 
 void CollectionListItem::addChildItem(PlaylistItem *child)

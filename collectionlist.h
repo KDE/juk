@@ -68,8 +68,8 @@ protected:
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
 
     // These methods are used by CollectionListItem, which is a friend class.
-    void addToDict(const QString &file, CollectionListItem *item);
-    void removeFromDict(const QString &file);
+    void addToDict(const QString &file, CollectionListItem *item) { m_itemsDict.replace(file, item); }
+    void removeFromDict(const QString &file) { m_itemsDict.remove(file); }
 
     /** 
      * This checks to see if the artist given is in the artist list maintained

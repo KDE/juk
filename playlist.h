@@ -148,7 +148,9 @@ protected:
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     PlaylistSplitter *playlistSplitter() const { return m_splitter; }
-
+    
+    static QString resolveSymLinks(const QFileInfo &file);
+    
 signals:
     /** 
      * This signal is connected to PlaylistItem::refreshed() in the 
