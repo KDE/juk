@@ -170,6 +170,9 @@ void SystemTray::setToolTip(const QString &tip)
 
 void SystemTray::wheelEvent(QWheelEvent *e)
 {
+    if(e->orientation() == Horizontal)
+	return;
+    
     JuKIface *juk = static_cast<JuK *>(parent());
 
     switch(e->state()) {
