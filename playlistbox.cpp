@@ -652,6 +652,7 @@ void PlaylistBox::slotPlaylistChanged()
     action("editSearch")->setEnabled(searchList);
 
     if(singlePlaylist) {
+	playlists.front()->applySharedSettings();
 	playlistStack()->raiseWidget(playlists.front());
 	TrackSequenceManager::instance()->setCurrentPlaylist(playlists.front());
 	dataChanged(); // Update the status bar
@@ -666,6 +667,7 @@ void PlaylistBox::slotPlaylistChanged()
     }
     else if(!playlists.isEmpty()) {
 	DynamicPlaylist *p = new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "midi", false);
+	p->applySharedSettings();
 	playlistStack()->raiseWidget(p);
 
 	delete m_dynamicPlaylist;
