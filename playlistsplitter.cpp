@@ -135,6 +135,9 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     connect(action("stop"), SIGNAL(activated()), this, SLOT(stop()));
 
     m_editor->slotUpdateCollection();
+
+    if(m_collection->childCount() == 0)
+	QTimer::singleShot(0, this, SLOT(slotOpenDirectory()));
 }
 
 PlaylistSplitter::~PlaylistSplitter()
