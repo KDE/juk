@@ -705,12 +705,14 @@ PlaylistItem *PlaylistSplitter::addImpl(const QString &file, Playlist *list, Pla
     if(!fileInfo.exists())
 	return after;
 
-    if(MediaFiles::isMediaFile(file))
-	return list->createItem(fileInfo, QString::null, after, false);
+    if(fileInfo.isFile() && fileInfo.isReadable()) {
+	if(MediaFiles::isMediaFile(file))
+	    return list->createItem(fileInfo, QString::null, after, false);
 
-    if(m_importPlaylists && MediaFiles::isPlaylistFile(file)) {
-	openPlaylist(fileInfo.absFilePath());
-	return after;
+	if(m_importPlaylists && MediaFiles::isPlaylistFile(file)) {
+	    openPlaylist(fileInfo.absFilePath());
+	    return after;
+	}
     }
 
     if(fileInfo.isDir()) {
