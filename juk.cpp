@@ -374,6 +374,8 @@ void JuK::saveConfig()
 
 bool JuK::queryExit()
 {
+    m_startDocked = !isVisible();
+
     kdDebug(65432) << k_funcinfo << endl;
 
     hide();
@@ -382,7 +384,6 @@ bool JuK::queryExit()
     delete m_systemTray;
     m_systemTray = 0;
 
-    m_startDocked = !isVisible();
     Cache::instance()->save();
     saveConfig();
 
