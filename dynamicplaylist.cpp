@@ -18,6 +18,7 @@
 #include "dynamicplaylist.h"
 #include "collectionlist.h"
 #include "playlistcollection.h"
+#include "tracksequencemanager.h"
 
 class PlaylistDirtyObserver : public PlaylistObserver
 {
@@ -56,24 +57,15 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
 
     setSorting(columns() + 1);
 
-    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it) {
+    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it)
         m_observers.append(new PlaylistDirtyObserver(this, *it));
-    }
 
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()), this, SLOT(slotSetDirty()));
 }
 
 DynamicPlaylist::~DynamicPlaylist()
 {
-    if(playing()) {
-        PlaylistList l;
-        l.append(this);
-        for(PlaylistList::Iterator it = m_playlists.begin();
-            it != m_playlists.end(); ++it)
-        {
-            (*it)->synchronizePlayingItems(l, true);
-        }
-    }
+    lower();
 
     for(QValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
         it != m_observers.end();
@@ -81,6 +73,12 @@ DynamicPlaylist::~DynamicPlaylist()
     {
         delete *it;
     }
+}
+
+void DynamicPlaylist::setPlaylists(const PlaylistList &playlists)
+{
+    m_playlists = playlists;
+    updateItems();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -93,6 +91,33 @@ void DynamicPlaylist::slotReload()
         (*it)->slotReload();
 
     checkUpdateItems();
+}
+
+void DynamicPlaylist::lower(QWidget *top)
+{
+    if(top == this)
+	return;
+
+    if(playing()) {
+        PlaylistList l;
+        l.append(this);
+        for(PlaylistList::Iterator it = m_playlists.begin();
+            it != m_playlists.end(); ++it)
+        {
+            (*it)->synchronizePlayingItems(l, true);
+        }
+    }
+
+    PlaylistItemList list = PlaylistItem::playingItems();
+    for(PlaylistItemList::Iterator it = list.begin(); it != list.end(); ++it) {
+        if((*it)->playlist() == this) {
+            list.remove(it);
+            break;
+        }
+    }
+
+    if(!list.isEmpty())
+        TrackSequenceManager::instance()->setCurrentPlaylist(list.front()->playlist());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -130,6 +155,11 @@ void DynamicPlaylist::updateItems()
         m_siblings = newSiblings;
         QTimer::singleShot(0, this, SLOT(slotUpdateItems()));
     }
+}
+
+bool DynamicPlaylist::synchronizePlaying() const
+{
+    return m_synchronizePlaying;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

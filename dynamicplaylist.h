@@ -40,6 +40,8 @@ public:
 
     virtual bool canReload() const { return false; }
 
+    void setPlaylists(const PlaylistList &playlists);
+
 public slots:
     /**
      * Reimplemented so that it will reload all of the playlists that are
@@ -47,6 +49,13 @@ public slots:
      */
     virtual void slotReload();
     void slotSetDirty() { m_dirty = true; }
+
+    /**
+     * This is called when lowering the widget from the widget stack so that
+     * it can synchronize the playing item with the one that playlist it was
+     * create from.
+     */
+    void lower(QWidget *top = 0);
 
 protected:
     /**
@@ -76,6 +85,8 @@ protected:
      * search).
      */
     virtual void updateItems();
+
+    bool synchronizePlaying() const;
 
 private:
     /**

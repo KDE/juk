@@ -31,6 +31,7 @@
 #include "directorylist.h"
 #include "mediafiles.h"
 #include "playermanager.h"
+#include "tracksequencemanager.h"
 
 #include <kiconloader.h>
 #include <kactionclasses.h>
@@ -55,7 +56,9 @@ PlaylistCollection::PlaylistCollection(QWidgetStack *playlistStack) :
     m_upcomingPlaylist(0),
     m_importPlaylists(true),
     m_searchEnabled(true),
-    m_playing(false)
+    m_playing(false),
+    m_showMorePlaylist(0),
+    m_dynamicPlaylist(0)
 {
     m_actionHandler = new ActionHandler(this);
     PlayerManager::instance()->setPlaylistInterface(this);
@@ -142,17 +145,35 @@ void PlaylistCollection::createPlaylist(const QString &name)
     raise(new Playlist(this, name));
 }
 
+void PlaylistCollection::createDynamicPlaylist(const PlaylistList &playlists)
+{
+    if(m_dynamicPlaylist)
+        m_dynamicPlaylist->setPlaylists(playlists);
+    else
+        m_dynamicPlaylist =
+            new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "midi", false, true);
+
+    m_dynamicPlaylist->applySharedSettings();
+    playlistStack()->raiseWidget(m_dynamicPlaylist);
+    // TrackSequenceManager::instance()->setCurrentPlaylist(m_dynamicPlaylist);
+
+    QObject::connect(m_playlistStack, SIGNAL(aboutToShow(int)),
+                     m_dynamicPlaylist, SLOT(lower()));
+}
+
 void PlaylistCollection::showMore(const QString &artist, const QString &album)
 {
 
     PlaylistList playlists;
     PlaylistSearch::ComponentList components;
 
-    playlists.append(CollectionList::instance());
-
     if(currentPlaylist() != CollectionList::instance() &&
-       currentPlaylist() != m_showMore)
+       currentPlaylist() != m_showMorePlaylist)
+    {
         playlists.append(currentPlaylist());
+    }
+
+    playlists.append(CollectionList::instance());
 
     { // Just setting off the artist stuff in its own block.
         ColumnList columns;
@@ -172,12 +193,17 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
 
     PlaylistSearch search(playlists, components, PlaylistSearch::MatchAll);
 
-    m_showMore = new SearchPlaylist(this, search, i18n("Now Playing"), false, true);
+    if(m_showMorePlaylist)
+        m_showMorePlaylist->setPlaylistSearch(search);
+    else
+        m_showMorePlaylist = new SearchPlaylist(this, search, i18n("Now Playing"), false, true);
 
-    m_showMore->applySharedSettings();
-    m_playlistStack->raiseWidget(m_showMore);
+    m_showMorePlaylist->applySharedSettings();
+    m_playlistStack->raiseWidget(m_showMorePlaylist);
+    TrackSequenceManager::instance()->setCurrentPlaylist(m_showMorePlaylist);
 
-    QObject::connect(m_playlistStack, SIGNAL(aboutToShow(int)), m_showMore, SLOT(deleteLater()));
+    QObject::connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)),
+                     m_showMorePlaylist, SLOT(lower(QWidget *)));
 }
 
 void PlaylistCollection::removeTrack(const QString &playlist, const QStringList &files)
@@ -574,7 +600,7 @@ bool PlaylistCollection::containsPlaylistFile(const QString &file) const
 
 bool PlaylistCollection::showMoreActive() const
 {
-    return bool(m_showMore);
+    return visiblePlaylist() == m_showMorePlaylist;
 }
 
 void PlaylistCollection::enableDirWatch(bool enable)

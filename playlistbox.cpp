@@ -649,14 +649,8 @@ void PlaylistBox::slotPlaylistChanged()
 	else
 	    action("deleteItemPlaylist")->setText(i18n("R&emove"));
     }
-    else if(!playlists.isEmpty()) {
-	DynamicPlaylist *p =
-	    new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "midi", false, true);
-	p->applySharedSettings();
-	playlistStack()->raiseWidget(p);
-	TrackSequenceManager::instance()->setCurrentPlaylist(p);
-	connect(playlistStack(), SIGNAL(aboutToShow(int)), p, SLOT(deleteLater()));
-    }
+    else if(!playlists.isEmpty())
+	createDynamicPlaylist(playlists);
 }
 
 void PlaylistBox::slotDoubleClicked()

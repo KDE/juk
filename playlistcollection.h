@@ -32,7 +32,10 @@ class Playlist;
 class PlaylistItem;
 class HistoryPlaylist;
 class UpcomingPlaylist;
+class SearchPlaylist;
+class DynamicPlaylist;
 
+typedef QValueList<Playlist *> PlaylistList;
 typedef QValueList<PlaylistItem *> PlaylistItemList;
 
 class PlaylistCollection : public PlaylistInterface, CollectionIface
@@ -58,6 +61,7 @@ public:
 
     virtual QStringList playlists() const;
     virtual void createPlaylist(const QString &name);
+    virtual void createDynamicPlaylist(const PlaylistList &playlists);
     virtual void showMore(const QString &artist, const QString &album = QString::null);
     virtual void removeTrack(const QString &playlist, const QStringList &files);
 
@@ -172,7 +176,8 @@ private:
     bool        m_searchEnabled;
     bool        m_playing;
 
-    QGuardedPtr<Playlist> m_showMore;
+    SearchPlaylist *m_showMorePlaylist;
+    DynamicPlaylist *m_dynamicPlaylist;
 };
 
 /**

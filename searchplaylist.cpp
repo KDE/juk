@@ -40,9 +40,8 @@ SearchPlaylist::SearchPlaylist(PlaylistCollection *collection,
 void SearchPlaylist::setPlaylistSearch(const PlaylistSearch &s, bool update)
 {
     m_search = s;
-
     if(update)
-        updateItems();
+        setPlaylists(s.playlists());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,6 +78,11 @@ void SearchPlaylist::updateItems()
 	dataChanged();
 
     createItems(newItems);
+
+    if(synchronizePlaying()) {
+        kdDebug(65432) << k_funcinfo << "synchronizing playing" << endl;
+        synchronizePlayingItems(m_search.playlists(), true);
+    }
 }
 
 
