@@ -26,6 +26,7 @@
 #include "playlist.h"
 #include "playlistsplitter.h"
 #include "collectionlist.h"
+#include "slideraction.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -44,7 +45,6 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
 
 JuK::~JuK()
 {
-    saveConfig();
     delete(playTimer);
 }
 
@@ -186,6 +186,12 @@ void JuK::saveConfig()
         KConfigGroupSaver saver(config, "View");
 	config->writeEntry("ShowEditor", showEditorAction->isChecked());
     }
+}
+
+bool JuK::queryClose()
+{
+    saveConfig();
+    return(true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

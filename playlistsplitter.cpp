@@ -357,8 +357,6 @@ void PlaylistSplitter::readConfig()
 
 void PlaylistSplitter::saveConfig()
 {
-    kdDebug() << "PlaylistSplitter::saveConfig()" << endl;
-    
     KConfig *config = KGlobal::config();
 
     // Save the list of open playlists.

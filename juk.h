@@ -30,13 +30,12 @@
 #include <qtimer.h>
 #include <qlistview.h>
 
-#include "slideraction.h"
 #include "player.h"
 
 class Playlist;
 class PlaylistSplitter;
 class PlaylistItem;
-
+class SliderAction;
 
 class JuK : public KMainWindow
 {
@@ -53,6 +52,8 @@ private:
     void processArgs();
     void readConfig();
     void saveConfig();
+
+    virtual bool queryClose();
 
     // layout objects
     PlaylistSplitter *splitter;
