@@ -22,12 +22,15 @@ const int SIZE = 5003;
 StringShare::Data* StringShare::s_data = 0;
 
 /**
-We store the strings in two simple direct-mapped (i.e. no collision handling, just replace) hashes, which contain strings or null objects. This costs only 4 bytes per slot on 32-bit
-archs, so with the default constant size we only really use 40K or so.
+ * We store the strings in two simple direct-mapped (i.e. no collision handling,
+ * just replace) hashes, which contain strings or null objects. This costs only
+ * 4 bytes per slot on 32-bit archs, so with the default constant size we only
+ * really use 40K or so.
+ *
+ * The end result is that many strings end up pointing to the same underlying data
+ * object, instead of each one having its own little copy. 
+ */
 
-The end result is that many strings end up pointing to the same underlying data object,
-instead of each one having its own little copy. 
-*/
 struct StringShare::Data
 {
     QString  qstringHash [SIZE];
