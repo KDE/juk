@@ -68,6 +68,7 @@ void ArtsPlayer::play(float volume)
             if(m_media)
                 stop();
 
+            delete m_media;
             m_media = new PlayObject(m_server->createPlayObject(QFile::encodeName(m_currentFile).data()));
             //      m_media = new PlayObject(m_server->createPlayObject(m_currentFile.latin1()));
             if(!m_media->isNull()) {
