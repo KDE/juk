@@ -171,6 +171,12 @@ void JuK::saveFile()
     tagger->save();
 }
 
+void JuK::deleteFile()
+{
+  if(tagger && tagger->isVisible())
+    tagger->deleteFile();
+}
+
 void JuK::quit()
 {
   delete(this);

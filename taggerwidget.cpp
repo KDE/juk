@@ -131,6 +131,41 @@ void TaggerWidget::save(QPtrList<FileListItem> items)
   }
 }
 
+void TaggerWidget::deleteFile() 
+{
+  deleteFile(taggerList->selectedItems());
+}
+
+
+void TaggerWidget::deleteFile(QPtrList<FileListItem> items)
+{
+  if(!items.isEmpty()) {
+    QString message = i18n("Are you sure that you want to delete:\n");
+    
+    FileListItem *item = items.first();
+    
+    while(item) {
+      message.append(item->fileName() + "\n");
+      item = items.next();
+    }
+    
+    if(KMessageBox::warningYesNo(this, message, i18n("Delete Files")) == KMessageBox::Yes) {
+      
+      item = items.first();
+      while(item) {
+
+	if(QFile::remove(item->filePath()))
+	  delete(item);
+	else
+	  KMessageBox::sorry(this, i18n("Could not save delete ") + item->fileName() + ".");
+	
+	item = items.next();
+      }      
+
+    }
+  }
+}
+
 void TaggerWidget::setChanged()
 {
   changed = true;

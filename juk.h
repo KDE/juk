@@ -78,6 +78,7 @@ private slots:
   void openFile();
   void openDirectory();
   void saveFile();
+  void deleteFile();
   void quit();
 
   // function menu

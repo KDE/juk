@@ -48,6 +48,8 @@ public:
 public slots:
   void save();
   void save(QPtrList<FileListItem> items);
+  void deleteFile();
+  void deleteFile(QPtrList<FileListItem> items);
   void setChanged();
 
 private:
