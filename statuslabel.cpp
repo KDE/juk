@@ -151,7 +151,7 @@ void StatusLabel::updateData()
         m_playlistLabel->setText(playlist()->name());
         m_trackLabel->setText(i18n("1 item", "%n items", playlist()->count()) + " - " + time);
     }
-    else
+    else if (Playlist::playingItem())
         updateCurrent();
 }
 
