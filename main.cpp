@@ -29,6 +29,19 @@ static const char *tim = I18N_NOOP("GStreamer port");
 static const char *stefan = I18N_NOOP("Global keybindings support");
 static const char *stephan = I18N_NOOP("Track announcement popups");
 
+class Application : public KUniqueApplication
+{
+public:
+    Application() : KUniqueApplication(true, true, false) {}
+    virtual ~Application() {}
+    virtual int newInstance() {
+	QWidget *w = mainWidget();
+	if(w)
+	    w->setShown(true);
+	return KUniqueApplication::newInstance();
+    }
+};
+
 static KCmdLineOptions options[] =
 {
     { "+[file(s)]", I18N_NOOP("File(s) to open"), 0 },
@@ -50,7 +63,7 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
 
-    KUniqueApplication a;
+    Application a;
     JuK *juk = new JuK();
     a.setMainWidget(juk);
     juk->show();
