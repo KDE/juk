@@ -16,6 +16,13 @@ class PlayerIface : virtual public DCOPObject
 {
     K_DCOP
 k_dcop:
+    virtual bool playing() const = 0;
+    virtual bool paused() const = 0;
+    virtual float volume() const = 0;
+    
+    virtual QStringList trackProperties() = 0;
+    virtual QString trackProperty(const QString &property) const = 0;
+
     virtual void play() = 0;
     virtual void pause() = 0;
     virtual void stop() = 0;

@@ -51,6 +51,9 @@ public:
     int currentTime() const;
     int position() const;
 
+    QStringList trackProperties();
+    QString trackProperty(const QString &property) const;
+
     FileHandle playingFile() const;
     QString playingString() const;
 

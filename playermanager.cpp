@@ -147,6 +147,19 @@ int PlayerManager::position() const
     return player()->position();
 }
 
+QStringList PlayerManager::trackProperties()
+{
+    return FileHandle::properties();
+}
+
+QString PlayerManager::trackProperty(const QString &property) const
+{
+    if(!playing())
+        return QString::null;
+
+    return m_file.property(property);
+}
+
 FileHandle PlayerManager::playingFile() const
 {
     return m_file;
