@@ -626,10 +626,8 @@ void PlaylistBox::Item::init()
 	m_sortedFirst = true;
 	m_collectionItem = this;
 
-	if(dynamic_cast<TreeViewMode *>(list->viewMode())) {
-	    kdDebug(65432) << "setting up categories" << endl;
+	if(dynamic_cast<TreeViewMode *>(list->viewMode()))
 	    static_cast<TreeViewMode *>(list->viewMode())->setupCategories();
-	}
     }
 }
 
