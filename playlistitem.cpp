@@ -411,7 +411,6 @@ void PlaylistItem::Data::refresh()
     m_dataTag = Tag::createTag(m_fileInfo.filePath());
     Q_ASSERT(m_dataTag);
     m_absFileName = m_fileInfo.absFilePath();
-    m_fileInfo.refresh(); //Dump cached into we don't need
 }
 
 void PlaylistItem::Data::deleteUser()
