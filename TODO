@@ -1,0 +1,17 @@
+Just a quick 3.4 checklist.  I'll add things as they pop into my mind...
+
+( ) Make the upcoming playlist not suck, specifically I'd like to see it as a
+    real and usable replacement for the "Play Next" feature, which it
+    presently is not.
+
+( ) At least play with making the "Now Playing" bar resizable.  Currently have
+    something sort of working putting it in a slider type of thing.  Not sure
+    if I like it.
+
+( ) Fix the cover manager in lots of ways.  I really don't like having the icon
+    in the listview and have played around with a few things to fix this.  What
+    I'm currently thinking is making a "cover manager" as a view mode and when
+    the user clicks to set the cover switching to that mode.  Or something like
+    that.  Something's got to give.
+
+( ) Show a preview of the cover to be added before saving it.
