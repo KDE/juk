@@ -31,6 +31,7 @@
 #include "tagguesserconfigdlg.h"
 #include "filerenamerconfigdlg.h"
 #include "actioncollection.h"
+#include "cache.h"
 
 using namespace ActionCollection;
 

@@ -22,9 +22,9 @@
 #include <kpopupmenu.h>
 #include <kiconloader.h>
 
-
 #include "collectionlist.h"
 #include "splashscreen.h"
+#include "cache.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
@@ -43,9 +43,14 @@ void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
 
     // TODO: don't fetch the fileInfo from the tag, but rather from the FileHandle
 
-    if(restoreOnLoad)
-	for(QDictIterator<Tag>it(*Cache::instance()); it.current(); ++it)
-	    new CollectionListItem(it.current()->fileInfo(), it.current()->fileName());
+    if(restoreOnLoad) {
+	for(FileHandleHash::Iterator it = Cache::instance()->begin();
+	    it != Cache::instance()->end();
+	    ++it)
+	{
+	    new CollectionListItem((*it).fileInfo(), (*it).absFilePath());
+	}
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

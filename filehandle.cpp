@@ -15,10 +15,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+
 #include <qfileinfo.h>
 
 #include "filehandle.h"
 #include "tag.h"
+#include "cache.h"
 
 /**
  * A simple reference counter -- pasted from TagLib.
@@ -42,8 +45,10 @@ public:
         tag(0) {}
 
     mutable Tag *tag;
-    QFileInfo fileInfo;
     mutable QString absFilePath;
+    QFileInfo fileInfo;
+    QDateTime modificationTime;
+    QDateTime lastModified;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -52,26 +57,27 @@ public:
 
 FileHandle::FileHandle()
 {
-    d = new FileHandlePrivate;
+    static FileHandlePrivate *nullPrivate = new FileHandlePrivate;
+    d = nullPrivate;
+    d->ref();
 }
 
-FileHandle::FileHandle(const FileHandle &f) : d(f.d)
+FileHandle::FileHandle(const FileHandle &f) :
+    d(f.d)
 {
     d->ref();
 }
 
-FileHandle::FileHandle(const QFileInfo &info, const QString &path)
+FileHandle::FileHandle(const QFileInfo &info, const QString &path) :
+    d(0)
 {
-    d = new FileHandlePrivate;
-    d->fileInfo = info;
-    d->absFilePath = path.isNull() ? info.absFilePath() : path;
+    setup(info, path);
 }
 
-FileHandle::FileHandle(const QString &path)
+FileHandle::FileHandle(const QString &path) :
+    d(0)
 {
-    d = new FileHandlePrivate;
-    d->absFilePath = path;
-    d->fileInfo.setFile(path);
+    setup(QFileInfo(path), path);
 }
 
 FileHandle::~FileHandle()
@@ -89,8 +95,12 @@ void FileHandle::refresh()
 
 void FileHandle::setFile(const QString &path)
 {
-    d->fileInfo.setFile(path);
-    d->absFilePath = d->fileInfo.absFilePath();
+    if(!d || isNull())
+        setup(QFileInfo(path), path);
+    else {
+        d->absFilePath = path;
+        d->fileInfo.setFile(path);
+    }
 }
 
 Tag *FileHandle::tag() const
@@ -113,18 +123,38 @@ const QFileInfo &FileHandle::fileInfo() const
     return d->fileInfo;
 }
 
+bool FileHandle::isNull() const
+{
+    return *this == null();
+}
+
 bool FileHandle::current() const
 {
-    return(d->tag->m_modificationTime.isValid() &&
+    return(d->modificationTime.isValid() &&
            lastModified().isValid() &&
-           d->tag->m_modificationTime >= lastModified());
+           d->modificationTime >= lastModified());
 }
 
 const QDateTime &FileHandle::lastModified() const
 {
-    // TODO: this should be done internally once the cache is FileHandle based
+    if(d->lastModified.isNull())
+        d->lastModified = d->fileInfo.lastModified();
 
-    return d->tag->lastModified();
+    return d->lastModified;
+}
+
+void FileHandle::read(CacheDataStream &s)
+{
+    switch(s.cacheVersion()) {
+    case 1:
+    default:
+        if(!d->tag)
+            d->tag = new Tag(d->absFilePath);
+
+        s >> *(d->tag);
+        s >> d->modificationTime;
+        break;
+    }
 }
 
 FileHandle &FileHandle::operator=(const FileHandle &f)
@@ -144,4 +174,58 @@ FileHandle &FileHandle::operator=(const FileHandle &f)
 bool FileHandle::operator==(const FileHandle &f) const
 {
     return d == f.d;
+}
+
+bool FileHandle::operator!=(const FileHandle &f) const
+{
+    return d != f.d;
+}
+
+const FileHandle &FileHandle::null() // static
+{
+    static FileHandle f;
+    return f;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void FileHandle::setup(const QFileInfo &info, const QString &path)
+{
+    if(d && !isNull())
+        return;
+
+    QString fileName = path.isNull() ? info.absFilePath() : path;
+
+    FileHandle cached = Cache::instance()->value(fileName);
+
+    if(cached != null()) {
+        d = cached.d;
+        d->ref();
+    }
+    else {
+        d = new FileHandlePrivate;
+        d->fileInfo = info;
+        d->absFilePath = fileName;
+	Cache::instance()->insert(*this);
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// related functions
+////////////////////////////////////////////////////////////////////////////////
+
+QDataStream &operator<<(QDataStream &s, const FileHandle &f)
+{
+    s << *(f.tag())
+      << f.lastModified();
+
+    return s;
+}
+
+CacheDataStream &operator>>(CacheDataStream &s, FileHandle &f)
+{
+    f.read(s);
+    return s;
 }

@@ -18,11 +18,13 @@
 #ifndef CACHE_H
 #define CACHE_H
 
-#include <qdict.h>
+#include <qdatastream.h>
+
+#include "stringhash.h"
 
 class Tag;
 
-class Cache : public QDict<Tag>
+class Cache : public FileHandleHash
 {
 public:
     static Cache *instance();
@@ -34,11 +36,6 @@ protected:
 
 private:
     static Cache *m_cache;
-    /**
-     * Note this number is a prime number that should be larger than the target
-     * size of the dict.
-     */
-    static const int m_cacheSize = 5003;
     static const int m_currentVersion = 1;
 };
 

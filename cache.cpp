@@ -55,9 +55,9 @@ void Cache::save()
     QByteArray data;
     QDataStream s(data, IO_WriteOnly);
 
-    for(QDictIterator<Tag>it(*this); it.current(); ++it) {
-	s << it.current()->fileName();
-	s << *(it.current());
+    for(Iterator it = begin(); it != end(); ++it) {
+	s << (*it).absFilePath();
+	s << *it;
     }
 
     QDataStream fs(&f);
@@ -77,7 +77,7 @@ void Cache::save()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Cache::Cache() : QDict<Tag>(m_cacheSize)
+Cache::Cache() : FileHandleHash()
 {
 
 }
@@ -134,7 +134,8 @@ void Cache::load()
 	s >> fileName;
 	fileName.squeeze();        
 
-	Tag *t = new Tag(fileName);
-	s >> *t;
+	FileHandle f(fileName);
+	s >> f;
+	// f.setFile(fileName);
     }
 }

@@ -36,16 +36,8 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
+Tag *Tag::createTag(const QString &fileName)
 {
-    Tag *cachedItem = 0;
-
-    if(!ignoreCache)
-        cachedItem = Cache::instance()->find(fileName);
-
-    if(cachedItem)
-        return cachedItem;
-
     if(MediaFiles::isMP3(fileName)) {
         TagLib::MPEG::File file(QFile::encodeName(fileName).data());
         if(!file.isValid())
@@ -71,11 +63,6 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
         fileName << "\" -- this shouldn't happen." << endl;
 
     return 0;
-}
-
-Tag::~Tag()
-{
-    Cache::instance()->remove(m_fileName);
 }
 
 void Tag::save()
@@ -109,14 +96,6 @@ void Tag::save()
     delete file;
 }
 
-const QDateTime &Tag::lastModified() const
-{
-    if(m_lastModified.isNull())
-        m_lastModified = m_info.lastModified();
-
-    return m_lastModified;
-}
-
 CacheDataStream &Tag::read(CacheDataStream &s)
 {
     switch(s.cacheVersion()) {
@@ -135,8 +114,7 @@ CacheDataStream &Tag::read(CacheDataStream &s)
           >> m_comment
           >> bitrate
           >> m_lengthString
-          >> seconds
-          >> m_modificationTime;
+          >> seconds;
 
         m_track = track;
         m_year = year;
@@ -163,8 +141,7 @@ CacheDataStream &Tag::read(CacheDataStream &s)
           >> bitrateString
           >> m_lengthString
           >> m_seconds
-          >> dummyString
-          >> m_modificationTime;
+          >> dummyString;
 
         bool ok;
         m_bitrate = bitrateString.toInt(&ok);
@@ -199,7 +176,7 @@ Tag::Tag(const QString &file) :
     m_seconds(0),
     m_bitrate(0)
 {
-    Cache::instance()->insert(file, this);
+
 }
 
 Tag::Tag(const QString &fileName, TagLib::File *file) :
@@ -227,8 +204,6 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
 	int i = m_fileName.findRev('.');
         m_title = i > 0 ? m_fileName.left(i) : m_fileName;
     }
-
-    Cache::instance()->insert(fileName, this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -246,8 +221,7 @@ QDataStream &operator<<(QDataStream &s, const Tag &t)
       << t.comment()
       << Q_INT32(t.bitrate())
       << t.lengthString()
-      << Q_INT32(t.seconds())
-      << t.lastModified();
+      << Q_INT32(t.seconds());
 
     return s;
 }

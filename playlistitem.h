@@ -30,7 +30,6 @@
 #include "musicbrainzquery.h"
 #include "tagguesser.h"
 #include "tag.h"
-#include "cache.h"
 #include "filehandle.h"
 
 #if HAVE_MUSICBRAINZ == 0

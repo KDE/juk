@@ -18,8 +18,11 @@
 #ifndef STRINGHASH_H
 #define STRINGHASH_H
 
-#include <qstringlist.h>
+#include <qstring.h>
 #include <qptrvector.h>
+#include <qvaluelist.h>
+
+#include "filehandle.h"
 
 /**
  * A simple hash representing an (un-mapped) set of data.
@@ -27,6 +30,7 @@
 
 template <class T> class Hash
 {
+    friend class Iterator;
 public:
 
     Hash() : m_table(m_tableSize) {}
@@ -55,15 +59,56 @@ public:
 
     static inline int tableSize() { return m_tableSize; }
 
-private:
+protected:
 
     struct Node
     {
         Node(T value) : key(value), next(0) {}
-        ~Node() {}
         T key;
         Node *next;
     };
+
+public:
+
+    class Iterator
+    {
+    friend class Hash<T>;
+    public:
+        Iterator(const Hash<T> &hash) : m_hash(hash), m_index(0), m_node(hash.m_table[0]) {}
+        const T &operator*() const { return m_node->key; }
+        T &operator*() { return m_node->key; }
+
+        bool operator==(const Iterator &it) const { return m_index == it.m_index && m_node == it.m_node; }
+        bool operator!=(const Iterator &it) const { return !(it == *this); }
+
+        T &operator++();
+
+    private:
+        const Hash<T> &m_hash;
+        int m_index;
+        Node *m_node;
+    };
+
+    Iterator begin() const
+    {
+        Iterator it(*this);
+        while(!it.m_node && it.m_index < m_tableSize - 1) {
+            it.m_index++;
+            it.m_node = m_table[it.m_index];
+        }
+
+        return it;
+    }
+
+    Iterator end() const
+    {
+        Iterator it(*this);
+        it.m_node = 0;
+        it.m_index = m_tableSize - 1;
+        return it;
+    }
+
+protected:
 
     void deleteNode(Node *n);
     
@@ -109,11 +154,46 @@ inline int hashString(const StringType &s)
 // specializations
 ////////////////////////////////////////////////////////////////////////////////
 
-template<> inline int Hash<QString>::hash(QString key) const { return hashString(key) % tableSize(); }
+// StringHash
+
+template<> inline int Hash<QString>::hash(QString key) const
+{
+    return hashString(key) % tableSize();
+}
 typedef Hash<QString> StringHash;
 
-template<> inline int Hash<void *>::hash(void *key) const { return long(key) % tableSize(); }
+// PtrHash
+
+template<> inline int Hash<void *>::hash(void *key) const
+{
+    return long(key) % tableSize();
+}
 typedef Hash<void *> PtrHash;
+
+// FileHandleHash
+
+template<> inline int Hash<FileHandle>::hash(FileHandle key) const
+{
+    return hashString(key.absFilePath()) % tableSize();
+}
+
+class FileHandleHash : public Hash<FileHandle>
+{
+public:
+    FileHandleHash() : Hash<FileHandle>() {}
+
+    FileHandle FileHandleHash::value(const QString &key) const
+    {
+        int h = hashString(key) % tableSize();
+        Node *i = m_table[h];
+
+        while(i && i->key.absFilePath() != key)
+            i = i->next;
+
+        return i ? i->key : FileHandle::null();
+    }
+};
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // template method implementations
@@ -217,5 +297,20 @@ void Hash<T>::deleteNode(Node *n)
         delete n;
     }
 }
+
+template <class T>
+T &Hash<T>::Iterator::operator++()
+{
+    if(m_node)
+        m_node = m_node->next;
+
+    while(!m_node && m_index < m_tableSize - 1) {
+        m_index++;
+        m_node = m_hash.m_table[m_index];
+    }
+
+    return m_node->key;
+}
+
 
 #endif

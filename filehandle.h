@@ -16,9 +16,14 @@
  ***************************************************************************/
 
 #ifndef JUK_FILEHANDLE_H
-#define JUK_FILEHANLDE_H
+#define JUK_FILEHANDLE_H
+
+class QFileInfo;
+class QDateTime;
+class QDataStream;
 
 class Tag;
+class CacheDataStream;
 
 /**
  * An value based, explicitly shared wrapper around file related information
@@ -30,7 +35,7 @@ class FileHandle
 public:
     FileHandle();
     FileHandle(const FileHandle &f);
-    FileHandle(const QFileInfo &info, const QString &path = QString::null);
+    explicit FileHandle(const QFileInfo &info, const QString &path = QString::null);
     explicit FileHandle(const QString &path);
     ~FileHandle();
 
@@ -44,15 +49,26 @@ public:
     QString absFilePath() const;
     const QFileInfo &fileInfo() const;
 
+    bool isNull() const;
     bool current() const;
     const QDateTime &lastModified() const;
 
+    void read(CacheDataStream &s);
+
     FileHandle &operator=(const FileHandle &f);
     bool operator==(const FileHandle &f) const;
+    bool operator!=(const FileHandle &f) const;
+
+    static const FileHandle &null();
 
 private:
     class FileHandlePrivate;
     FileHandlePrivate *d;
+
+    void setup(const QFileInfo &info, const QString &path);
 };
+
+QDataStream &operator<<(QDataStream &s, const FileHandle &f);
+CacheDataStream &operator>>(CacheDataStream &s, FileHandle &f);
 
 #endif

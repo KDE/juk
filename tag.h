@@ -39,9 +39,7 @@ public:
      * the appropriate concrete subclass and instantiates that.  It's servering
      * as a mini-factory; a full blown abstract factory is an overkill here.
      */
-    static Tag *createTag(const QString &fileName, bool ignoreCache = false);
-
-    ~Tag();
+    static Tag *createTag(const QString &fileName);
 
     void save();
 
@@ -72,7 +70,6 @@ public:
     CacheDataStream &read(CacheDataStream &s);
 
     // TODO -- REMOVE THESE METHODS ONCE THE CACHE IS FILEHANDLE BASED
-    const QDateTime &lastModified() const;
     const QFileInfo &fileInfo() const { return m_info; }
     const QString &fileName() const { return m_fileName; }
 
@@ -87,7 +84,6 @@ private:
 
     QFileInfo m_info;
     QString m_fileName;
-    mutable QDateTime m_lastModified;
     QString m_title;
     QString m_artist;
     QString m_album;
