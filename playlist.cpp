@@ -615,7 +615,7 @@ void Playlist::showEvent(QShowEvent *e)
     KListView::showEvent(e);
 }
 
-PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFilePath, QListViewItem *after)
+PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFilePath, QListViewItem *after, bool emitChanged)
 {
     QString filePath;
 
@@ -647,6 +647,10 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFile
             m_randomList.append(i);
 	emit signalNumberOfItemsChanged(this);
 	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
+
+	if(emitChanged)
+	    emit signalNumberOfItemsChanged(this);
+
 	return i;
     }
     else
@@ -664,6 +668,7 @@ void Playlist::createItems(const PlaylistItemList &siblings)
 	    connect((*it)->collectionItem(), SIGNAL(destroyed()), *it, SLOT(deleteLater()));
 	}
     }
+    emit signalNumberOfItemsChanged(this);
 }
 
 void Playlist::hideColumn(int c)
@@ -824,6 +829,9 @@ void Playlist::setup()
     m_allowDuplicates = false;
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
+
+    connect(this, SIGNAL(signalDataChanged()), this, SIGNAL(signalChanged()));
+    connect(this, SIGNAL(signalNumberOfItemsChanged(Playlist *)), this, SIGNAL(signalChanged()));
 }
 
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
@@ -849,13 +857,15 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
 	if(MediaFiles::isMediaFile(item.fileName()) && item.exists() && item.isFile() && item.isReadable()) {
 	    if(after)
-		after = createItem(item, QString::null, after);
+		after = createItem(item, QString::null, after, false);
 	    else
-		after = createItem(item);
+		after = createItem(item, QString::null, 0, false);
 	}
     }
 
     file.close();
+
+    emit signalNumberOfItemsChanged(this);
 }
 
 void Playlist::setPlaying(PlaylistItem *item, bool p)
@@ -1069,8 +1079,10 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
 
     for(QStringList::Iterator it = files.begin(); it != files.end(); ++it ) {
 	QFileInfo info(*it);
-	after = p.createItem(info, *it, after);
+	after = p.createItem(info, *it, after, false);
     }
+
+    p.emitNumberOfItemsChanged();
 
     return s;
 }

@@ -23,16 +23,33 @@
 
 SearchPlaylist::SearchPlaylist(const PlaylistSearch &search, QWidget *parent, const QString &name) :
     DynamicPlaylist(search.playlists(), parent, name),
-    m_search(search)
+    m_search(search),
+    m_dirty(true)
 {
-
+    PlaylistList::Iterator it = search.playlists().begin();
+    for(; it != search.playlists().end(); ++it)
+	connect(*it, SIGNAL(signalChanged()), this, SLOT(slotSetDirty()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
+void SearchPlaylist::showEvent(QShowEvent *e)
+{
+    if(m_dirty) {
+	clear();
+	m_search.search();
+	createItems(m_search.matchedItems());
+	m_dirty = false;
+    }
+
+    DynamicPlaylist::showEvent(e);
+}
+
 PlaylistItemList SearchPlaylist::items() const
 {
     return m_search.matchedItems();
 }
+
+#include "searchplaylist.moc"

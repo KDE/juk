@@ -23,14 +23,19 @@
 
 class SearchPlaylist : public DynamicPlaylist
 {
+    Q_OBJECT
 public:
     SearchPlaylist(const PlaylistSearch &search, QWidget *parent, const QString &name = QString::null);
     
 protected:
+    virtual void showEvent(QShowEvent *e);
     virtual PlaylistItemList items() const;
+private slots:
+    void slotSetDirty() { m_dirty = true; }
 
 private:
     PlaylistSearch m_search;
+    bool m_dirty;
 };
 
 #endif

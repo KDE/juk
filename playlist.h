@@ -107,7 +107,8 @@ public:
      */
     virtual PlaylistItem *createItem(const QFileInfo &file,
 				     const QString &absFilePath = QString::null,
-				     QListViewItem *after = 0);
+				     QListViewItem *after = 0,
+				     bool emitChanged = true);
 
     void createItems(const PlaylistItemList &siblings);
 
@@ -160,6 +161,8 @@ public:
 
     PlaylistSearch search() const { return m_search; }
     void setSearch(const PlaylistSearch &s) { m_search = s; }
+
+    void emitNumberOfItemsChanged() { emit signalNumberOfItemsChanged(this); }
 
 public slots:
     /**
@@ -231,9 +234,18 @@ signals:
      */
     void signalNameChanged(const QString &fileName);
 
+    /**
+     * This signal is emited when items are added to or removed from the list.
+     */
     void signalNumberOfItemsChanged(Playlist *);
-
     void signalDoubleClicked();
+
+    /**
+     * This is the union of signalDataChanged() and signalNumberOfItemsChanged().
+     * It is emited with either quantity or value of the PlaylistItems are
+     * changed.
+     */
+    void signalChanged();
 
     /**
      * This signal is emitted just before a playlist item is removed from the

@@ -333,6 +333,7 @@ void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
     addImpl(file, list);
+    list->emitNumberOfItemsChanged();
     KApplication::restoreOverrideCursor();
 
     if(m_editor)
@@ -344,6 +345,7 @@ void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *lis
     KApplication::setOverrideCursor(Qt::waitCursor);
     for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
         addImpl(*it, list);
+    list->emitNumberOfItemsChanged();
     KApplication::restoreOverrideCursor();
 
     if(m_editor)
@@ -538,7 +540,7 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
         }
         else {
             if(MediaFiles::isMediaFile(file))
-		list->createItem(fileInfo);
+		list->createItem(fileInfo, QString::null, 0, false);
 	    else if(MediaFiles::isPlaylistFile(file))
 		openPlaylist(fileInfo.absFilePath());
         }

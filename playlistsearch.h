@@ -39,8 +39,10 @@ public:
     PlaylistSearch(const PlaylistSearch &search);
     PlaylistSearch(const PlaylistList &playlists,
 		   const ComponentList &components,
-		   SearchMode mode = MatchAny);
+		   SearchMode mode = MatchAny,
+		   bool searchNow = true);
 
+    void search();
 
     PlaylistItemList searchedItems() const { return m_items; }
     PlaylistItemList matchedItems() const { return m_matchedItems; }
@@ -54,8 +56,6 @@ public:
     bool isEmpty() const;
 
 private:
-    void search();
-
     PlaylistList m_playlists;
     ComponentList m_components;
     SearchMode m_mode;

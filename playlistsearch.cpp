@@ -44,12 +44,14 @@ PlaylistSearch::PlaylistSearch(const PlaylistSearch &search) :
 
 PlaylistSearch::PlaylistSearch(const PlaylistList &playlists,
 			       const ComponentList &components,
-			       SearchMode mode) :
+			       SearchMode mode,
+			       bool searchNow) :
     m_playlists(playlists),
     m_components(components),
     m_mode(mode)
 {
-    search();
+    if(searchNow)
+	search();
 }
 
 bool PlaylistSearch::isEmpty() const
@@ -66,12 +68,11 @@ bool PlaylistSearch::isEmpty() const
     return true;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// private methods
-////////////////////////////////////////////////////////////////////////////////
-
 void PlaylistSearch::search()
 {
+    m_items.clear();
+    m_matchedItems.clear();
+    m_unmatchedItems.clear();
 
     // This really isn't as bad as it looks.  Despite the four nexted loops
     // most of the time this will be searching one playlist for one search

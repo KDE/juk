@@ -57,7 +57,8 @@ public:
     CollectionListItem *lookup(const QString &file) { return m_itemsDict.find(file); }
     virtual PlaylistItem *createItem(const QFileInfo &file, 
 				     const QString &absFilePath = QString::null, 
-				     QListViewItem * = 0);
+				     QListViewItem * = 0,
+				     bool = false);
 
 public slots:
     virtual void paste() { decode(kapp->clipboard()->data()); }

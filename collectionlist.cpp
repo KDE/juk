@@ -50,7 +50,7 @@ void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem *CollectionList::createItem(const QFileInfo &file, const QString &absFilePath, QListViewItem *)
+PlaylistItem *CollectionList::createItem(const QFileInfo &file, const QString &absFilePath, QListViewItem *, bool)
 {
     QString filePath;
 
