@@ -46,9 +46,11 @@ public slots:
     void slotSetItems(const PlaylistItemList &list);
     void slotRefresh();
     void slotClear();
-    void slotUpdateCollection();
-   
+    void slotUpdateCollection(); //Update collection if we're visible, or defer otherwise
+
 private:
+    void updateCollection();    //Update collection
+
     void setupActions();
     void setupLayout();
     void readConfig();
@@ -98,6 +100,7 @@ private:
     Playlist *m_currentPlaylist;
     
     bool m_dataChanged;
+    bool m_collectionChanged;
 };
 
 #endif

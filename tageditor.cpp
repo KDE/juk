@@ -110,6 +110,7 @@ TagEditor::TagEditor(QWidget *parent, const char *name) :
     setupLayout();
     readConfig();
     m_dataChanged = false;
+    m_collectionChanged = false;
 }
 
 TagEditor::~TagEditor()
@@ -306,6 +307,16 @@ void TagEditor::slotClear()
 
 void TagEditor::slotUpdateCollection()
 {
+    if(isVisible())
+	updateCollection();
+    else
+	m_collectionChanged = true;
+}
+
+void TagEditor::updateCollection()
+{
+    m_collectionChanged = false;
+        
     CollectionList *list = CollectionList::instance();
 
     if(!list)
@@ -692,6 +703,9 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, 
 
 void TagEditor::showEvent(QShowEvent *e)
 {
+    if(m_collectionChanged)
+	updateCollection();
+
     slotRefresh();
     QWidget::showEvent(e);
 }
