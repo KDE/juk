@@ -255,6 +255,9 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
 {
     int offset = static_cast<Playlist *>(listView())->columnOffset();
 
+    if(column < 0 || column > lastColumn() + offset)
+	return 0;
+
     if(column < offset) {
 	QString first = firstItem->text(column).lower();
 	QString second = secondItem->text(column).lower();
