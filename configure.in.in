@@ -6,13 +6,13 @@ if test "x$have_taglib" = "xfalse"; then
 	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
 fi
 
-AC_DEFUN(AC_HAVE_GST,
+AC_DEFUN([AC_HAVE_GST],
 [
 	AC_DEFINE(HAVE_GSTREAMER, 1, [have GStreamer])
 	have_gst=true
 ])
 
-AC_DEFUN(AC_NO_GST,
+AC_DEFUN([AC_NO_GST],
 [
 	AC_DEFINE(HAVE_GSTREAMER, 0, [don't have GStreamer])
 	have_gst=false
@@ -23,13 +23,13 @@ KDE_CHECK_HEADER(kde/gst/gstreamer.h,
 	AC_NO_GST
 )
 
-AC_DEFUN(AC_HAVE_MUSICBRAINZ,
+AC_DEFUN([AC_HAVE_MUSICBRAINZ],
 [
 	AC_DEFINE(HAVE_MUSICBRAINZ, 1, [have MusicBrainz])
 	have_musicbrainz=true
 ])
 
-AC_DEFUN(AC_NO_MUSICBRAINZ,
+AC_DEFUN([AC_NO_MUSICBRAINZ],
 [
 	AC_DEFINE(HAVE_MUSICBRAINZ, 0, [have MusicBrainz])
 	have_musicbrainz=false
