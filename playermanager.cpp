@@ -228,6 +228,7 @@ void PlayerManager::play(const FileHandle &file)
         if(player()->paused())
             player()->play();
         else if(player()->playing()) {
+            if(m_sliderAction->trackPositionSlider())
             m_sliderAction->trackPositionSlider()->setValue(0);
             player()->seekPosition(0);
         }
@@ -256,6 +257,7 @@ void PlayerManager::play(const FileHandle &file)
     action("forward")->setEnabled(true);
     action("back")->setEnabled(true);
 
+    if(m_sliderAction->trackPositionSlider())
     m_sliderAction->trackPositionSlider()->setEnabled(true);
 
     m_timer->start(m_pollInterval);
@@ -307,8 +309,10 @@ void PlayerManager::stop()
     action("back")->setEnabled(false);
     action("forward")->setEnabled(false);
 
+    if(m_sliderAction->trackPositionSlider()) {
     m_sliderAction->trackPositionSlider()->setValue(0);
     m_sliderAction->trackPositionSlider()->setEnabled(false);
+    }
 
     player()->stop();
     m_playlistInterface->stop();
@@ -344,19 +348,19 @@ void PlayerManager::seekPosition(int position)
 
     slotUpdateTime(position);
     player()->seekPosition(position);
+
+    if(m_sliderAction->trackPositionSlider())
     m_sliderAction->trackPositionSlider()->setValue(position);
 }
 
 void PlayerManager::seekForward()
 {
-    int position = m_sliderAction->trackPositionSlider()->value();
-    seekPosition(kMin(m_sliderAction->trackPositionSlider()->maxValue(), position + 10));
+    seekPosition(kMin(SliderAction::maxPosition, position() + 10));
 }
 
 void PlayerManager::seekBack()
 {
-    int position = m_sliderAction->trackPositionSlider()->value();
-    seekPosition(kMax(m_sliderAction->trackPositionSlider()->minValue(), position - 10));
+    seekPosition(kMax(SliderAction::minPosition, position() - 10));
 }
 
 void PlayerManager::playPause()
@@ -388,7 +392,7 @@ void PlayerManager::back()
 
 void PlayerManager::volumeUp()
 {
-    if(!player() || !m_sliderAction)
+    if(!player() || !m_sliderAction || !m_sliderAction->volumeSlider())
         return;
 
     int volume = m_sliderAction->volumeSlider()->volume() +
@@ -400,7 +404,7 @@ void PlayerManager::volumeUp()
 
 void PlayerManager::volumeDown()
 {
-    if(!player() || !m_sliderAction)
+    if(!player() || !m_sliderAction || !m_sliderAction->volumeSlider())
         return;
 
     int volume = m_sliderAction->volumeSlider()->value() -
@@ -412,7 +416,7 @@ void PlayerManager::volumeDown()
 
 void PlayerManager::mute()
 {
-    if(!player() || !m_sliderAction)
+    if(!player() || !m_sliderAction || !m_sliderAction->volumeSlider())
         return;
 
     slotSetVolume(m_muted ? m_sliderAction->volumeSlider()->value() : 0);
@@ -441,6 +445,7 @@ void PlayerManager::slotPollPlay()
             stop();
     }
     else if(!m_sliderAction->dragging()) {
+        if(m_sliderAction->trackPositionSlider())
         m_sliderAction->trackPositionSlider()->setValue(player()->position());
 
         if(m_statusLabel) {
@@ -448,6 +453,16 @@ void PlayerManager::slotPollPlay()
             m_statusLabel->setItemCurrentTime(player()->currentTime());
         }
     }
+
+    // This call is done because when the user adds the slider to the toolbar
+    // while playback is occuring the volume slider generally defaults to 0,
+    // and doesn't get updated to the correct volume.  It might be better to
+    // have the SliderAction class fill in the correct volume, but I'm trying
+    // to avoid having it depend on PlayerManager since it may not be
+    // constructed in time during startup. -mpyne
+
+    if(!m_sliderAction->volumeDragging() && m_sliderAction->volumeSlider())
+        m_sliderAction->volumeSlider()->setVolume((int) (m_sliderAction->volumeSlider()->maxValue() * volume()));
 
     // Ok, this is weird stuff, but it works pretty well.  Ordinarily we don't
     // need to check up on our playing time very often, but in the span of the
@@ -474,7 +489,10 @@ void PlayerManager::slotSetOutput(int system)
 
 void PlayerManager::slotSetVolume(int volume)
 {
+    if(m_sliderAction->volumeSlider())
     setVolume(float(volume) / float(m_sliderAction->volumeSlider()->maxValue()));
+    else
+        setVolume(float(volume) / 100.0);
 }
 
 void PlayerManager::slotUpdateTime(int position)
@@ -482,7 +500,7 @@ void PlayerManager::slotUpdateTime(int position)
     if(!m_statusLabel)
         return;
 
-    float positionFraction = float(position) / m_sliderAction->trackPositionSlider()->maxValue();
+    float positionFraction = float(position) / SliderAction::maxPosition;
     float totalTime = float(player()->totalTime());
     int seekTime = int(positionFraction * totalTime + 0.5); // "+0.5" for rounding
 
@@ -530,7 +548,7 @@ void PlayerManager::setup()
             this, SLOT(seekPosition(int)));
     connect(m_sliderAction->trackPositionSlider(), SIGNAL(valueChanged(int)),
             this, SLOT(slotUpdateTime(int)));
-    connect(m_sliderAction->volumeSlider(), SIGNAL(signalVolumeChanged(int)),
+    connect(m_sliderAction, SIGNAL(signalVolumeChanged(int)),
             this, SLOT(slotSetVolume(int)));
 
     // Call this method manually to avoid warnings.
@@ -545,9 +563,15 @@ void PlayerManager::setup()
     else
         m_player = createPlayer();
 
-    float volume =
+    float volume;
+
+    if(m_sliderAction->volumeSlider()) {
+        volume =
         float(m_sliderAction->volumeSlider()->volume()) /
         float(m_sliderAction->volumeSlider()->maxValue());
+    }
+    else
+        volume = 1; // Assume user wants full volume
 
     m_player->setVolume(volume);
 
@@ -556,3 +580,5 @@ void PlayerManager::setup()
 }
 
 #include "playermanager.moc"
+
+// vim: set et ts=4 sw=4:

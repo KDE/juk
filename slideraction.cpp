@@ -123,9 +123,17 @@ void VolumeSlider::slotValueChanged(int value)
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
+const int SliderAction::minPosition = 0;
+const int SliderAction::maxPosition = 1000;
+
 SliderAction::SliderAction(const QString &text, QObject *parent, const char *name)
     : KAction(text, 0, parent, name),
-      m_toolBar(0), m_dragging(false)
+        m_toolBar(0),
+        m_layout(0),
+        m_trackPositionSlider(0),
+        m_volumeSlider(0),
+        m_dragging(false),
+        m_volumeDragging(false)
 {
 
 }
@@ -140,28 +148,31 @@ int SliderAction::plug(QWidget *parent, int index)
     QWidget *w = createWidget(parent);
 
     if(!w)
-	return -1;
+        return -1;
 
     // the check for null makes sure that there is only one toolbar that this is
     // "plugged" in to
 
     if(parent->inherits("KToolBar") && !m_toolBar) {
-	m_toolBar = static_cast<KToolBar *>(parent);
+        m_toolBar = static_cast<KToolBar *>(parent);
 
-	int id = KAction::getToolButtonID();
+        int id = KAction::getToolButtonID();
 
-	m_toolBar->insertWidget(id, w->width(), w, index);
+        m_toolBar->insertWidget(id, w->width(), w, index);
 
-	addContainer(m_toolBar, id);
+        addContainer(m_toolBar, id);
 
-	connect(m_toolBar, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
-	connect(m_toolBar, SIGNAL(orientationChanged(Orientation)),
-		this, SLOT(slotUpdateOrientation()));
-	connect(m_toolBar, SIGNAL(placeChanged(QDockWindow::Place)),
-		this, SLOT(slotUpdateOrientation()));
+        connect(m_toolBar, SIGNAL(destroyed()), this, SLOT(slotToolbarDestroyed()));
+        connect(m_toolBar, SIGNAL(orientationChanged(Orientation)),
+                this, SLOT(slotUpdateOrientation()));
+        connect(m_toolBar, SIGNAL(placeChanged(QDockWindow::Place)),
+                this, SLOT(slotUpdateOrientation()));
 
-	return (containerCount() - 1);
+        slotUpdateOrientation();
+        return (containerCount() - 1);
     }
+    else
+        slotUpdateOrientation();
 
     return -1;
 }
@@ -190,15 +201,18 @@ void SliderAction::slotUpdateOrientation()
 {
     // if the toolbar is not null and either the dockWindow not defined or is the toolbar
 
+    if(!m_toolBar)
+        return;
+
     if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
-	m_trackPositionSlider->setOrientation(Vertical);
-	m_volumeSlider->setOrientation(Vertical);
-	m_layout->setDirection(QBoxLayout::TopToBottom);
+        m_trackPositionSlider->setOrientation(Vertical);
+        m_volumeSlider->setOrientation(Vertical);
+        m_layout->setDirection(QBoxLayout::TopToBottom);
     }
     else {
-	m_trackPositionSlider->setOrientation(Horizontal);
-	m_volumeSlider->setOrientation(Horizontal);
-	m_layout->setDirection(QBoxLayout::LeftToRight);
+        m_trackPositionSlider->setOrientation(Horizontal);
+        m_volumeSlider->setOrientation(Horizontal);
+        m_layout->setDirection(QBoxLayout::LeftToRight);
     }
     slotUpdateSize();
 }
@@ -237,11 +251,11 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         m_layout->addWidget(trackPositionLabel);
 
         m_trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
-        m_trackPositionSlider->setMaxValue(1000);
+        m_trackPositionSlider->setMaxValue(maxPosition);
         QToolTip::add(m_trackPositionSlider, i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
-	connect(m_trackPositionSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()));
-	connect(m_trackPositionSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()));
+        connect(m_trackPositionSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()));
+        connect(m_trackPositionSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()));
 
         m_layout->addItem(new QSpacerItem(10, 1));
 
@@ -255,6 +269,9 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         m_volumeSlider->setMaxValue(100);
         QToolTip::add(m_volumeSlider, i18n("Volume"));
         m_layout->addWidget(m_volumeSlider);
+        connect(m_volumeSlider, SIGNAL(signalVolumeChanged(int)), SIGNAL(signalVolumeChanged(int)));
+        connect(m_volumeSlider, SIGNAL(sliderPressed()), this, SLOT(slotVolumeSliderPressed()));
+        connect(m_volumeSlider, SIGNAL(sliderReleased()), this, SLOT(slotVolumeSliderReleased()));
 
         m_volumeSlider->setName("kde toolbar widget");
         m_trackPositionSlider->setName("kde toolbar widget");
@@ -278,6 +295,9 @@ void SliderAction::slotUpdateSize()
 {
     static const int offset = 3;
     static const int absoluteMax = 10000;
+
+    if(!m_toolBar)
+        return;
 
     if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
         m_volumeSlider->setMaximumWidth(m_toolBar->iconSize() - offset);
@@ -306,4 +326,32 @@ void SliderAction::slotSliderReleased()
     emit signalPositionChanged(m_trackPositionSlider->value());
 }
 
+void SliderAction::slotVolumeSliderPressed()
+{
+    m_volumeDragging = true;
+}
+
+void SliderAction::slotVolumeSliderReleased()
+{
+    m_volumeDragging = false;
+    emit signalVolumeChanged(m_volumeSlider->value());
+}
+
+void SliderAction::slotToolbarDestroyed()
+{
+    int index = findContainer(m_toolBar);
+    if(index != -1)
+        removeContainer(index);
+
+    m_toolBar = 0;
+
+    // This is probably a leak, but this code path hardly ever occurs, and it's
+    // too hard to debug correctly.
+
+    m_trackPositionSlider = 0;
+    m_volumeSlider = 0;
+}
+
 #include "slideraction.moc"
+
+// vim: set et sw=4 ts=4:

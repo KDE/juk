@@ -57,23 +57,31 @@ public:
     QSlider *trackPositionSlider() const { return m_trackPositionSlider; }
 
     bool dragging() const { return m_dragging; }
+    bool volumeDragging() const { return m_volumeDragging; }
 
     virtual int plug(QWidget *parent, int index = -1);
     virtual void unplug(QWidget *widget);
+
+    static const int minPosition;
+    static const int maxPosition;
 
 public slots:
     void slotUpdateOrientation();
 
 signals:
     void signalPositionChanged(int position);
+    void signalVolumeChanged(int volume);
 
 private:
     QWidget *createWidget(QWidget *parent);
 
 private slots:
     void slotUpdateSize();
+    void slotVolumeSliderPressed();
+    void slotVolumeSliderReleased();
     void slotSliderPressed();
     void slotSliderReleased();
+    void slotToolbarDestroyed();
 
 private:
     KToolBar *m_toolBar;
@@ -81,6 +89,7 @@ private:
     QSlider *m_trackPositionSlider;
     VolumeSlider *m_volumeSlider;
     bool m_dragging;
+    bool m_volumeDragging;
 
     static const int volumeMax = 50;
 };
