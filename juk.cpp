@@ -563,7 +563,7 @@ void JuK::pause()
 
 void JuK::stop()
 {
-    if(!m_player)
+    if(!m_player || !m_sliderAction || !m_sliderAction->getVolumeSlider())
 	return;
 
     m_playTimer->stop();
