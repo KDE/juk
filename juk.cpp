@@ -546,9 +546,7 @@ void JuK::pollPlay()
 
         playTimer->stop();
 
-	if(!player->paused())
-	    play(splitter->playNextFile(randomPlayAction->isChecked()));
-
+	play(splitter->playNextFile(randomPlayAction->isChecked()));
     }
     else if(!trackPositionDragging) {
         sliderAction->getTrackPositionSlider()->setValue(player->position());
