@@ -1440,14 +1440,23 @@ PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
 	// file and blocks while it's doing so.
 
 	DIR *dir = ::opendir(QFile::encodeName(fileInfo.filePath()));
-	struct dirent *dirEntry;
 
-	for(dirEntry = ::readdir(dir); dirEntry; dirEntry = ::readdir(dir)) {
-	    if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
-		after = addFile(fileInfo.filePath() + QDir::separator() +
-				QFile::decodeName(dirEntry->d_name), importPlaylists, after);
+	if(dir) {
+	    struct dirent *dirEntry;
+
+	    for(dirEntry = ::readdir(dir); dirEntry; dirEntry = ::readdir(dir)) {
+		if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
+		    after = addFile(fileInfo.filePath() + QDir::separator() +
+				    QFile::decodeName(dirEntry->d_name), importPlaylists, after);
+	    }
+	    ::closedir(dir);
 	}
-	::closedir(dir);
+	else
+	{
+	    kdWarning(65432) << "Unable to open directory "
+	                     << fileInfo.filePath()
+			     << ", make sure it is readable.\n";
+	}
     }
 
     return after;
