@@ -31,6 +31,8 @@
 #include <qtimer.h>
 #include <qapplication.h>
 #include <qptrlist.h>
+#include <qheader.h>
+#include <qcursor.h>
 #include <qclipboard.h>
 
 #include <stdlib.h>
@@ -270,6 +272,10 @@ void Playlist::setName(const QString &n)
     emit(nameChanged(playlistName));
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
 void Playlist::copy()
 {
     kapp->clipboard()->setData(dragObject(0), QClipboard::Clipboard);
@@ -283,6 +289,17 @@ void Playlist::paste()
 void Playlist::clear()
 {
     clearItems(selectedItems());
+}
+
+void Playlist::slotToggleColumnVisible(int column, bool emitSignal)
+{
+    if(isColumnVisible(column))
+	hideColumn(column);
+    else
+	showColumn(column);
+
+    if(emitSignal)
+	emit signalToggleColumnVisible(column);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -310,6 +327,12 @@ QDragObject *Playlist::dragObject()
     return dragObject(this);
 }
 
+bool Playlist::canDecode(QMimeSource *s)
+{
+    KURL::List urls;
+    return KURLDrag::decode(s, urls) && !urls.isEmpty();
+}
+
 void Playlist::decode(QMimeSource *s)
 {
     KURL::List urls;
@@ -324,6 +347,24 @@ void Playlist::decode(QMimeSource *s)
     
     if(splitter)
 	splitter->add(fileList, this);
+}
+
+bool Playlist::eventFilter(QObject* watched, QEvent* e)
+{
+    if(watched->inherits("QHeader")) { // Gotcha!
+	
+	if(e->type() == QEvent::MouseButtonPress) {
+	    
+	    QMouseEvent *me = static_cast<QMouseEvent*>(e);
+
+	    if(me->button() == Qt::RightButton) {
+		headerMenu->popup(QCursor::pos());
+		return true;
+	    }
+	}
+    }
+
+    return KListView::eventFilter(watched, e);
 }
 
 void Playlist::contentsDropEvent(QDropEvent *e)
@@ -378,6 +419,39 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 	return 0;
 }
 
+void Playlist::hideColumn(int c)
+{
+    headerMenu->setItemChecked(c, false);
+
+    setColumnWidthMode(c, Manual);
+    setColumnWidth(c, 0);
+    setResizeMode(QListView::LastColumn);
+    triggerUpdate();
+}
+
+void Playlist::showColumn(int c)
+{
+    headerMenu->setItemChecked(c, true);
+
+    setColumnWidthMode(c, Maximum);
+    
+    int w = 0;
+    QListViewItemIterator it(this);
+    for (; it.current(); ++it ) 
+	w = QMAX(it.current()->width(fontMetrics(), this, c), w);
+    
+    setColumnWidth(c, w);
+    triggerUpdate();
+}
+
+bool Playlist::isColumnVisible(int c) const
+{
+    if(columnWidth(c) != 0)
+	return true;
+    else
+	return false;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
@@ -410,21 +484,56 @@ void Playlist::setup()
 
 
     setSorting(1);
+	
+    installEventFilter(header());
+	
+    //////////////////////////////////////////////////
+    // setup header RMB menu
+    //////////////////////////////////////////////////
 
-    rmbMenu = new QPopupMenu(this);
-    rmbEditID = rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(renameTag()));
+    headerMenu = new KPopupMenu(this);
+    headerMenu->insertTitle(i18n("Show Columns"));
+    headerMenu->setCheckable(true);
+
+    for(int i =0; i < header()->count(); ++i) {
+
+	headerMenu->insertItem(header()->label(i), i);
+
+	headerMenu->setItemChecked(i, true);
+    }
+
+    connect(headerMenu, SIGNAL(activated(int)), this, SLOT(slotToggleColumnVisible(int)));
+
+    //////////////////////////////////////////////////
+    // setup playlist RMB menu
+    //////////////////////////////////////////////////
+
+    rmbMenu = new KPopupMenu(this);
+
+    rmbMenu->insertItem(SmallIcon("editcut"), i18n("Cut"), this, SLOT(cut()));
+    rmbMenu->insertItem(SmallIcon("editcopy"), i18n("Copy"), this, SLOT(copy()));
+    rmbPasteID = rmbMenu->insertItem(SmallIcon("editpaste"), i18n("Paste"), this, SLOT(paste()));
+    rmbMenu->insertItem(SmallIcon("editclear"), i18n("Clear"), this, SLOT(clear()));
+
+    rmbMenu->insertSeparator();
+
     rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove from disk"), this, SLOT(removeSelectedItems()));
-    
+
+    rmbMenu->insertSeparator();
+
+    rmbEditID = rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(renameTag()));
+
     connect(this, SIGNAL(selectionChanged()), this, SLOT(emitSelected()));
     connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(emitDoubleClicked(QListViewItem *)));
     connect(this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int)),
 	    this, SLOT(showRMBMenu(QListViewItem *, const QPoint &, int)));
     connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
 	    this, SLOT(applyTags(QListViewItem *, const QString &, int)));
+
+    //////////////////////////////////////////////////
     
     addColumn(QString::null);
     setResizeMode(QListView::LastColumn);
-    // setFullWidth(true);
 
     setAcceptDrops(true);
     allowDuplicates = false;
@@ -439,6 +548,8 @@ void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
     if(!item)
 	return;
 
+    rmbMenu->setItemEnabled(rmbPasteID, canDecode(kapp->clipboard()->data()));
+
     bool showEdit = 
 	(column == PlaylistItem::TrackColumn) || 
 	(column == PlaylistItem::ArtistColumn) || 
@@ -447,7 +558,7 @@ void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
 	(column == PlaylistItem::GenreColumn) ||
 	(column == PlaylistItem::YearColumn);
 
-    rmbMenu->setItemVisible(rmbEditID, showEdit);
+    rmbMenu->setItemEnabled(rmbEditID, showEdit);
 
     rmbMenu->popup(point);
     currentColumn = column;
@@ -525,7 +636,6 @@ void Playlist::applyTags(QListViewItem *item, const QString &text, int column)
     i->refresh();
 }
 
-
 QDataStream &operator<<(QDataStream &s, const Playlist &p)
 {
     s << p.name();
@@ -559,6 +669,5 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
     
     return s;
 }
-
 
 #include "playlist.moc"

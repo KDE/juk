@@ -31,8 +31,10 @@ class PlaylistItem;
 class PlaylistBoxItem;
 class PlaylistSplitter;
 
-/** This is the play list selection box that is by default on the right side of
-    JuK's main widget (PlaylistSplitter). */
+/** 
+ * This is the play list selection box that is by default on the right side of
+ * JuK's main widget (PlaylistSplitter). 
+ */
 
 class PlaylistBox : public KListBox
 {
@@ -102,12 +104,6 @@ private:
     KPopupMenu *playlistContextMenu;
     PlaylistBoxItem *contextMenuOn;
     bool updatePlaylistStack;
-
-#if QT_VERSION < 0x031000
-public:
-    // This method is defined in Qt 3.1 and later.
-    QListBoxItem *selectedItem() { return item(currentItem()); }
-#endif
 };
 
 

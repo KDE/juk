@@ -446,6 +446,25 @@ void PlaylistSplitter::readConfig()
 	    directoryList = config->readListEntry("DirectoryList");
 	    open(directoryList);
 	}
+
+	// restore the list of hidden and shown columns
+
+	if(collection) {
+	    // the last column is just a filler
+	    _visibleColumns.resize(collection->columns() - 1, true);
+	    QValueList<int> l = config->readIntListEntry("VisibleColumns");
+
+	    uint i = 0;
+	    for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
+		if(! bool(*it)) {
+		    kdDebug() << "! column " << i << endl;
+		    _visibleColumns[i] = bool(*it);
+		    collection->hideColumn(i);
+		}
+		i++;
+	    }
+	    setupColumns(collection);
+	}
     }
 }	
 
@@ -481,6 +500,12 @@ void PlaylistSplitter::saveConfig()
 	{ // block for Playlists group
 	    KConfigGroupSaver saver(config, "Playlists");
 	    config->writeEntry("DirectoryList", directoryList);
+
+	    QValueList<int> l;
+	    for(uint i = 0; i < _visibleColumns.size(); i++)
+		l.append(int(_visibleColumns[i]));
+	    
+	    config->writeEntry("VisibleColumns", l);
 	}
     }
 }
@@ -519,8 +544,11 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
     connect(p, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
     connect(p, SIGNAL(aboutToRemove(PlaylistItem *)), this, SLOT(playlistItemRemoved(PlaylistItem *)));
 
+    connect(p, SIGNAL(signalToggleColumnVisible(int)), this, SLOT(slotToggleColumnVisible(int)));
+
     if(raise) {
 	playlistStack->raiseWidget(p);
+	setupColumns(p);
 	playlistBox->setCurrentItem(i);
 	playlistBox->ensureCurrentVisible();
     }
@@ -537,6 +565,19 @@ Playlist *PlaylistSplitter::openPlaylist(const QString &file)
     return p;
 }
 
+void PlaylistSplitter::setupColumns(Playlist *p)
+{
+    if(!p)
+	return;
+    
+    for(uint i = 0; i < _visibleColumns.size(); i++) {
+	if(_visibleColumns[i] && ! p->isColumnVisible(i))
+	    p->showColumn(i);
+	else if(! _visibleColumns[i] && p->isColumnVisible(i))
+	    p->hideColumn(i);
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -546,6 +587,7 @@ void PlaylistSplitter::changePlaylist(PlaylistBoxItem *item)
     if(item && item->playlist()) {
 	playlistStack->raiseWidget(item->playlist());
 	editor->setItems(playlistSelection());
+	setupColumns(item->playlist());
 	emit(playlistChanged());
     }
 }
@@ -560,6 +602,11 @@ void PlaylistSplitter::playlistItemRemoved(PlaylistItem *item)
 {
     if(item == playingItem)
 	playingItem = 0;
+}
+
+void PlaylistSplitter::slotToggleColumnVisible(int column)
+{
+    _visibleColumns[column] = ! _visibleColumns[column];
 }
 
 #include "playlistsplitter.moc"

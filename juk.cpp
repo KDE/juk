@@ -103,7 +103,7 @@ void JuK::setupActions()
     
     savePlaylistAction = KStdAction::save(splitter, SLOT(savePlaylist()), actionCollection());
     saveAsPlaylistAction = KStdAction::saveAs(splitter, SLOT(saveAsPlaylist()), actionCollection());
-    deleteItemPlaylistAction = new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(deleteItemPlaylist()), 
+    deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, splitter, SLOT(deleteItemPlaylist()), 
 					   actionCollection(), "deleteItemPlaylist");
 
     KStdAction::quit(this, SLOT(close()), actionCollection());

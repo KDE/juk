@@ -49,7 +49,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
     playlistContextMenu->insertItem(SmallIcon("filesaveas"), i18n("Save As..."), this, SLOT(contextSaveAs()));
     playlistContextMenu->insertItem(i18n("Rename..."), this, SLOT(contextRename()));
     playlistContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicate()));
-    playlistContextMenu->insertItem(SmallIcon("editdelete"), i18n("Delete"), this, SLOT(contextDeleteItem()));
+    playlistContextMenu->insertItem(SmallIcon("edittrash"), i18n("Remove"), this, SLOT(contextDeleteItem()));
 
     setAcceptDrops(true);
 
@@ -124,20 +124,25 @@ void PlaylistBox::rename()
 
 void PlaylistBox::rename(PlaylistBoxItem *item)
 {
-    if(item) {
-	bool ok;
+    if(!item)
+	return;
 
-	QString name = QInputDialog::getText(i18n("Rename..."), i18n("Please enter a name for this playlist:"),
-					     QLineEdit::Normal, item->text(), &ok);
-	if(ok) {
-	    item->setText(name);
-	   
-	    // Telling the playlist to change it's name will emit a signal that
-	    // is connected to PlaylistItem::setName().
+    bool ok;
 
-	    if(item->playlist())
-		item->playlist()->setName(name);
-	}
+    QString name = QInputDialog::getText(i18n("Rename..."), i18n("Please enter a name for this playlist:"),
+					 QLineEdit::Normal, item->text(), &ok);
+    if(ok) {
+	item->setText(name);
+	
+	// Telling the playlist to change it's name will emit a signal that
+	// is connected to PlaylistItem::setName().
+	
+	if(item->playlist())
+	    item->playlist()->setName(name);
+	
+	sort();
+	setSelected(item, true);
+	ensureCurrentVisible();
     }
 }
 
@@ -180,6 +185,10 @@ void PlaylistBox::deleteItem(PlaylistBoxItem *item)
 		KMessageBox::sorry(this, i18n("Could not delete the specified file."));
 	}
 	else if(remove == KMessageBox::Cancel)
+	    return;
+    }
+    else {
+	if(KMessageBox::warningYesNo(this, i18n("Are you sure you want to remove this item?")) == KMessageBox::No)
 	    return;
     }
     

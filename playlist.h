@@ -28,7 +28,11 @@
 
 class PlaylistSplitter;
 class PlaylistBoxItem;
-class QPopupMenu;
+class KPopupMenu;
+
+class KPopupMenu;
+
+class QEvent;
 
 class Playlist : public KListView
 {
@@ -96,6 +100,10 @@ public:
     QString fileName() const { return playlistFileName; }
     void setFileName(const QString &n) { playlistFileName = n; }
 
+    void hideColumn(int c);
+    void showColumn(int c);
+    bool isColumnVisible(int c) const;
+
     /**
      * If playlistName has no value -- i.e. the name has not been set to 
      * something other than the filename, this returns the filename less the
@@ -121,20 +129,22 @@ public:
     PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
 
 public slots:
-    /**
+	/**
      * Remove the currently selected items from the playlist and disk.
      */ 
     void removeSelectedItems() { remove(selectedItems()); };
 
-    virtual void copy();
-    virtual void clear();
     virtual void cut() { copy(); clear(); }
+    virtual void copy();
     virtual void paste();
+    virtual void clear();
     virtual void selectAll() { KListView::selectAll(true); }
 
 protected:
+    virtual bool eventFilter(QObject* watched, QEvent* e);
     virtual QDragObject *dragObject(QWidget *parent);
     virtual QDragObject *dragObject();
+    virtual bool canDecode(QMimeSource *s);
     virtual void decode(QMimeSource *s);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
@@ -175,6 +185,8 @@ signals:
      */
     void aboutToRemove(PlaylistItem *item);
 
+    void signalToggleColumnVisible(int column);
+
 private:
     void setup();
     QPtrStack<PlaylistItem> history;
@@ -185,11 +197,10 @@ private slots:
     void showRMBMenu(QListViewItem *item, const QPoint &point, int column);
     void applyTags(QListViewItem *item, const QString &text, int column);
     void renameTag();
+    void slotToggleColumnVisible(int column, bool emitSignal = true);
 
 private:
-    QPopupMenu *rmbMenu;
     int currentColumn;
-
     SortedStringList members;
     int processed;
     bool allowDuplicates;
@@ -203,7 +214,11 @@ private:
     QString playlistName;
     PlaylistSplitter *splitter;
     PlaylistBoxItem *boxItem;
+	
+    KPopupMenu *rmbMenu;
+    KPopupMenu *headerMenu;
 
+    int rmbPasteID;
     int rmbEditID;
 };
 

@@ -254,6 +254,8 @@ private:
      * Open the playlist (m3u file or simiar) at \a file.
      */
     Playlist *openPlaylist(const QString &file);
+
+    void setupColumns(Playlist *p);
     
 private slots:
     void changePlaylist(PlaylistBoxItem *item);
@@ -275,6 +277,8 @@ private slots:
      */
     void playlistItemRemoved(PlaylistItem *item);
 
+    void slotToggleColumnVisible(int column);
+
 private:
     PlaylistItem *playingItem;
     PlaylistBox *playlistBox;
@@ -291,6 +295,8 @@ private:
     QStringList directoryList;
     QStringList directoryQueue;
     QStringList directoryQueueRemove;
+
+    QValueVector<bool> _visibleColumns;
 
     bool showEditor;
     bool restore;
