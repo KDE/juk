@@ -23,6 +23,9 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
+#include <kglobalsettings.h>
+#include <kurl.h>
+#include <kio/netaccess.h>
 
 #include <qheader.h>
 #include <qcursor.h>
@@ -730,29 +733,25 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 {
     if(isVisible() && !items.isEmpty()) {
 
-        QStringList files;
+	QStringList files;
 	for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
             files.append((*it)->file().absFilePath());
+
+	KURL trashDir = KGlobalSettings::trashPath();
 
 	QString message;
 
 	if(files.count() == 1)
-	    message = i18n("Do you really want to delete this item from your disk?");
+	    message = i18n("Do you really want to move this item to the trash?");
 	else
-	    message = i18n("Do you really want to delete these %1 items from your disk?").arg(QString::number(files.count()));
+	    message = i18n("Do you really want to move these %1 items to the trash?").arg(QString::number(files.count()));
 
 	if(KMessageBox::warningContinueCancelList(this, message, files, i18n("Delete Items?"), KGuiItem(i18n("&Delete"),"editdelete")) == KMessageBox::Continue) {
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-
-		// If we delete the item we're playing, we have to switch songs because of the
-		// m_playingItem pointer.  The 'best' thing to do would be to switch to the
-		// next song (or stop if that's it and loop isn't set), but I don't feel like
-		// duplicating all the code, so we'll just stop playback.
-
 		if(m_playingItem == *it)
-		    PlayerManager::instance()->stop();
+		    action("forward")->activate();
 
-		if(QFile::remove((*it)->file().absFilePath())) {
+		if(KIO::NetAccess::move((*it)->file().absFilePath(), trashDir)) {
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
                         m_randomList.remove(*it);
 		    CollectionList::instance()->clearItem((*it)->collectionItem());
@@ -762,7 +761,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 		    m_history.remove(*it);
 		}
 		else
-		    KMessageBox::sorry(this, i18n("Could not delete ") + (*it)->file().absFilePath() + ".");
+		    KMessageBox::sorry(this, i18n("Could not move ") + (*it)->file().absFilePath() + ".");
 	    }
 
 	}
