@@ -26,6 +26,8 @@
 
 #include "genre.h"
 
+namespace TagLib { class File; }
+
 /**
  * This class is an abstract base class for concrete Tag classes.  It provides
  * an API and a creation method to hide the differences between these.
@@ -47,29 +49,29 @@ public:
     static Tag *createTag(const QString &fileName, bool ignoreCache = false);
     virtual ~Tag();
 
-    virtual void save() = 0;
+    virtual void save();
 
-    virtual QString track() const = 0;
-    virtual QString artist() const = 0;
-    virtual QString album() const = 0;
-    virtual Genre genre() const = 0;
-    virtual int trackNumber() const = 0;
-    virtual QString trackNumberString() const = 0;
-    virtual int year() const = 0;
-    virtual QString yearString() const = 0;
-    virtual QString comment() const = 0;
+    virtual QString track() const { return m_title; }
+    virtual QString artist() const { return m_artist; }
+    virtual QString album() const { return m_album; }
+    virtual Genre genre() const { return Genre(m_genre); }
+    virtual int trackNumber() const { return m_track; }
+    virtual QString trackNumberString() const { return QString::number(m_track); }
+    virtual int year() const { return m_year; }
+    virtual QString yearString() const { return QString::number(m_year); }
+    virtual QString comment() const { return m_comment; }
 
-    virtual void setTrack(const QString &value) = 0;
-    virtual void setArtist(const QString &value) = 0;
-    virtual void setAlbum(const QString &value) = 0;
-    virtual void setGenre(const Genre &value) = 0;
-    virtual void setTrackNumber(int value) = 0;
-    virtual void setYear(int value) = 0;
-    virtual void setComment(const QString &value) = 0;
+    virtual void setTrack(const QString &value) { m_title = value; }
+    virtual void setArtist(const QString &value) { m_artist = value; }
+    virtual void setAlbum(const QString &value) { m_album = value; }
+    virtual void setGenre(const Genre &value) { m_genre = value.name(); }
+    virtual void setTrackNumber(int value) { m_track = value; }
+    virtual void setYear(int value) { m_year = value; }
+    virtual void setComment(const QString &value) { m_comment = value; }
 
-    virtual QString bitrateString() const = 0;
-    virtual QString lengthString() const = 0;
-    virtual int seconds() const = 0;
+    virtual QString bitrateString() const { return QString::number(m_bitrate); }
+    virtual QString lengthString() const { return m_lengthString; }
+    virtual int seconds() const { return m_seconds; }
 
     /**
      * Check to see if the item is up to date.  This defaults to true and should
@@ -96,14 +98,23 @@ protected:
      */
     Tag(const QString &file);
 
-    static QString readBitrate(const KFileMetaInfo &metaInfo);
-    static QString readLength(const KFileMetaInfo &metaInfo);
-    static int readSeconds(const KFileMetaInfo &metaInfo);
-    
 private:
+    Tag(const QString &fileName, TagLib::File *file);
+
     QFileInfo m_info;
     QString m_fileName;
     mutable QDateTime m_lastModified;
+
+    QString m_title;
+    QString m_artist;
+    QString m_album;
+    QString m_genre;
+    QString m_comment;
+    int m_track;
+    int m_year;
+    int m_seconds;
+    int m_bitrate;
+    QString m_lengthString;
 };
 
 QDataStream &operator<<(QDataStream &s, const Tag &t);

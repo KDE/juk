@@ -4,7 +4,7 @@ check_PROGRAMS = tagguessertest mbtest
 juk_SOURCES = directorylistbase.ui \
 	gstreamerplayer.cpp artsplayer.cpp directorylist.cpp stringhash.cpp \
 	sortedstringlist.cpp systemtray.cpp splashscreen.cpp \
-	statuslabel.cpp cachedtag.cpp oggtag.cpp id3tag.cpp collectionlist.cpp \
+	statuslabel.cpp cachedtag.cpp collectionlist.cpp \
 	playlistitem.cpp playlist.cpp playlistsplitter.cpp \
 	playlistbox.cpp tageditor.cpp cache.cpp genrelistreader.cpp \
 	genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp \
@@ -20,7 +20,7 @@ juk_SOURCES = directorylistbase.ui \
 tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp
 mbtest_SOURCES = mbtest.cpp musicbrainzquery.cpp
 
-INCLUDES= $(all_includes) -I$(arts_includes)
+INCLUDES= $(all_includes) -I$(arts_includes) $(taglib_includes)
 
 ##################################################
 # check to see if GStreamer is available
@@ -38,7 +38,7 @@ mblibs = -lmusicbrainz
 endif
 ##################################################
 
-juk_LDADD = $(gstlibs) $(mblibs) -lid3 -lartskde $(LIB_KIO)
+juk_LDADD = $(gstlibs) $(mblibs) -lartskde $(LIB_KIO) $(taglib_libs)
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 tagguessertest_LDADD = $(LIB_KDECORE)

@@ -16,14 +16,15 @@
  ***************************************************************************/
 
 #include <kdebug.h>
-#if 0 /// TODO: This should be included the next time that the cache format changes
-#include <kdatastream.h>
-#endif
+
 #include <qregexp.h>
 
+#include <taglib/tag.h>
+#include <taglib/mpegfile.h>
+#include <taglib/vorbisfile.h>
+#include <taglib/xiphcomment.h>
+
 #include "tag.h"
-#include "id3tag.h"
-#include "oggtag.h"
 #include "cache.h"
 #include "mediafiles.h"
 
@@ -41,16 +42,18 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
     if(cachedItem)
         return cachedItem;
 
-    if(MediaFiles::isMP3(fileName))
-        return new ID3Tag(fileName);
+    if(MediaFiles::isMP3(fileName)) {
+        TagLib::MPEG::File file(QStringToTString(fileName));
+        return new Tag(fileName, &file);
+    }
 
-    if(MediaFiles::isOgg(fileName))
-        return new OggTag(fileName);
-
-    if(MediaFiles::isFLAC(fileName))
-        return new OggTag(fileName);
-
-    kdError() << "Couldn't resolve the mime type of \"" << fileName << "\" -- this shouldn't happen." << endl;
+    if(MediaFiles::isOgg(fileName)) {
+        TagLib::Vorbis::File file(QStringToTString(fileName));
+        return new Tag(fileName, &file);
+    }
+    
+    kdError(65432) << "Couldn't resolve the mime type of \"" <<
+        fileName << "\" -- this shouldn't happen." << endl;
 
     return 0;
 }
@@ -58,6 +61,11 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
 Tag::~Tag()
 {
     Cache::instance()->remove(absFilePath());
+}
+
+void Tag::save()
+{
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,32 +77,31 @@ Tag::Tag(const QString &file) : m_info(file), m_fileName(file)
     Cache::instance()->insert(file, this);
 }
 
-QString Tag::readBitrate(const KFileMetaInfo &metaInfo)
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+Tag::Tag(const QString &fileName, TagLib::File *file) :
+    m_info(fileName), m_fileName(fileName)
 {
-    if(metaInfo.isValid() && !metaInfo.isEmpty())
-	return metaInfo.item("Bitrate").string().stripWhiteSpace().section(' ', 0, 0);
-    else
-	return QString::null;
-}
+    m_title   = TStringToQString(file->tag()->title());
+    m_artist  = TStringToQString(file->tag()->artist());
+    m_album   = TStringToQString(file->tag()->album());
+    m_genre   = TStringToQString(file->tag()->genre());
+    m_comment = TStringToQString(file->tag()->comment());
 
-QString Tag::readLength(const KFileMetaInfo &metaInfo)
-{
-    if(metaInfo.isValid() && !metaInfo.isEmpty())
-	return metaInfo.item("Length").string().stripWhiteSpace().replace(QRegExp("^0+([0-9])"), "\\1");
-    else
-	return QString::null;
-}
+    m_track = file->tag()->track();
+    m_year  = file->tag()->year();
 
-int Tag::readSeconds(const KFileMetaInfo &metaInfo)
-{
-    QStringList l = QStringList::split(':', readLength(metaInfo));
+    m_seconds = file->audioProperties()->length();
+    m_bitrate = file->audioProperties()->length();
 
-    int total = 0;
+    const int seconds = m_seconds % 60;
+    const int minutes = (m_seconds - seconds) / 60;
+    
+    m_lengthString = QString::number(minutes) + (seconds >= 10 ? ":" : ":0") + QString::number(seconds);
 
-    for(QStringList::Iterator it = l.begin(); it != l.end(); ++it)
-	total = 60 * total + (*it).toInt();
-
-    return total;
+    Cache::instance()->insert(fileName, this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -103,9 +110,9 @@ int Tag::readSeconds(const KFileMetaInfo &metaInfo)
 
 QDataStream &operator<<(QDataStream &s, const Tag &t)
 {
-      /// TODO: Use Q_UINT32 in place of all integers.
+    // TODO: Use Q_UINT32 in place of all integers.
 
-    s << 0                       // TODO: remove
+    s << 0                         // TODO: remove
       << t.track()
       << t.artist()
       << t.album()
@@ -118,7 +125,7 @@ QDataStream &operator<<(QDataStream &s, const Tag &t)
       << t.bitrateString()
       << t.lengthString()
       << t.seconds()
-      << QString::null           // TODO: remove
+      << QString::null             // TODO: remove
       << t.lastModified();
 
     return s;

@@ -1,10 +1,9 @@
-if test "x$have_id3lib" = "xfalse"; then
+if test "x$have_taglib" = "xfalse"; then
 	echo "**************************************************"
 	echo "*"
-	echo "* id3lib 3.8.0 or greater is required by JuK."
-	echo "* JuK will be disabled from compilation."
-	echo "* id3lib is available at http://id3lib.sf.net/"
-	echo "* or as part of most Linux distributions."
+	echo "* JuK will not be built without TagLib.  TagLib"
+	echo "* replaces the id3lib dependancy.  See the notice"
+	echo "* above for where to find TagLib."
 	echo "*"
 	echo "**************************************************"
 fi

@@ -196,7 +196,7 @@ QDataStream &CachedTag::read(QDataStream &s)
       >> m_tagLengthString
       >> m_tagSeconds
 
-      >> dummyString             // TODO: remove
+      >> dummyString           // TODO: remove
       >> m_modificationTime;
 
     //Try to reduce memory usage: share tags that frequently repeat, squeeze others            
@@ -208,7 +208,6 @@ QDataStream &CachedTag::read(QDataStream &s)
     m_tagYearString        = StringShare::tryShare(m_tagYearString);
     m_tagBitrateString     = StringShare::tryShare(m_tagBitrateString);
     m_tagLengthString.squeeze();
-
     return s;
 }
 

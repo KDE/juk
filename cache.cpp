@@ -119,7 +119,7 @@ void Cache::load()
 
 	QString fileName;
 	s >> fileName;
-	fileName.squeeze();        
+	//fileName.squeeze();        
 
 	CachedTag *t = new CachedTag(fileName);
 	s >> *t;

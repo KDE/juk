@@ -1,19 +1,10 @@
 #MIN_CONFIG(3)
 
-have_id3lib=true
-
 AM_INIT_AUTOMAKE(juk,1.0)
 
-AC_DEFUN(AC_NO_ID3LIB, 
-[
-	have_id3lib=false
+if test "x$have_taglib" = "xfalse"; then
 	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
-])
-
-KDE_CHECK_HEADER(id3/tag.h,
-	,
-	AC_NO_ID3LIB
-)
+fi
 
 AC_DEFUN(AC_HAVE_GST,
 [
