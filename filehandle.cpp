@@ -153,9 +153,9 @@ bool FileHandle::isNull() const
 
 bool FileHandle::current() const
 {
-    return(d->modificationTime.isValid() &&
-           lastModified().isValid() &&
-           d->modificationTime >= lastModified());
+    return (d->modificationTime.isValid() &&
+            lastModified().isValid() &&
+            d->modificationTime >= lastModified());
 }
 
 const QDateTime &FileHandle::lastModified() const
@@ -241,6 +241,7 @@ void FileHandle::setup(const QFileInfo &info, const QString &path)
         d = new FileHandlePrivate;
         d->fileInfo = info;
         d->absFilePath = fileName;
+        d->modificationTime = info.lastModified();
         Cache::instance()->insert(*this);
     }
 }
