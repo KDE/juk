@@ -29,6 +29,7 @@
 #include <qcursor.h>
 #include <qdir.h>
 #include <qeventloop.h>
+#include <qtooltip.h>
 
 #include <id3v1genres.h>
 
@@ -43,6 +44,45 @@
 #include "filerenamer.h"
 #include "actioncollection.h"
 #include "tag.h"
+
+/**
+ * A tooltip specialized to show full filenames over the file name column.
+ */
+
+class PlaylistToolTip : public QToolTip
+{
+public:
+    PlaylistToolTip(QWidget *parent, Playlist *playlist) :
+	QToolTip(parent), m_playlist(playlist) {}
+
+    virtual void maybeTip(const QPoint &p)
+    {
+	PlaylistItem *item = static_cast<PlaylistItem *>(m_playlist->itemAt(p));
+
+	if(!item)
+	    return;
+
+	QPoint contentsPosition = m_playlist->viewportToContents(p);
+
+	int column = m_playlist->header()->sectionAt(contentsPosition.x());
+
+	if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn ||
+	   item->cachedWidths()[column] > m_playlist->columnWidth(column))
+	{
+	    QRect r = m_playlist->itemRect(item);
+	    int headerPosition = m_playlist->header()->sectionPos(column);
+	    r.setLeft(headerPosition);
+	    r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
+	    if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
+		tip(r, item->file().absFilePath());
+	    else
+		tip(r, item->text(column));
+	}
+    }
+
+private:
+    Playlist *m_playlist;
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
@@ -232,6 +272,7 @@ Playlist::Playlist(QWidget *parent, const QString &name) :
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
+    m_fileColumnFullPathSort(true),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_lastSelected(0),
@@ -247,6 +288,7 @@ Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const QString
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
+    m_fileColumnFullPathSort(true),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_lastSelected(0),
@@ -749,6 +791,22 @@ void Playlist::applySharedSettings()
     m_applySharedSettings = true;
 }
 
+void Playlist::setSorting(int column, bool ascending = true)
+{
+    if(column == columnOffset() + PlaylistItem::FileNameColumn) {
+	if(sortColumn() == column && ascending)
+	    m_fileColumnFullPathSort = !m_fileColumnFullPathSort;
+
+	setColumnText(column, m_fileColumnFullPathSort
+		      ? i18n("File Name (Full Path)")
+		      : i18n("File Name"));
+    }
+    else if(sortColumn() == columnOffset() + PlaylistItem::FileNameColumn)
+	setColumnText(sortColumn(), i18n("File Name"));
+    
+    KListView::setSorting(column, ascending);
+}
+
 void Playlist::viewportPaintEvent(QPaintEvent *pe)
 {
     // If there are columns that need to be updated, well, update them.
@@ -923,6 +981,9 @@ void Playlist::polish()
     setDropVisualizer(true);
 
     m_disableColumnWidthUpdates = false;
+
+    setShowToolTips(false);
+    new PlaylistToolTip(viewport(), this);
 }
 
 void Playlist::setupItem(PlaylistItem *item)
@@ -1046,7 +1107,7 @@ void Playlist::calculateColumnWeights()
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
 	cachedWidth = (*it)->cachedWidths();
 	for(columnIt = m_weightDirty.begin(); columnIt != m_weightDirty.end(); ++columnIt)
-	    averageWidth[*columnIt] += pow(double(cachedWidth[*columnIt]) , 2.0) / itemCount;
+	    averageWidth[*columnIt] += pow(double(cachedWidth[*columnIt]), 2.0) / itemCount;
     }
 
     m_columnWeights.resize(columns(), -1);

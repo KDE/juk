@@ -138,6 +138,7 @@ protected:
 	FileHandle fileHandle;
 	QValueVector<QCString> local8Bit;
 	QValueVector<int> cachedWidths;
+	QCString shortFileName;
     };
 
     KSharedPtr<Data> data() const { return d; }

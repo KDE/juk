@@ -191,7 +191,9 @@ void CollectionListItem::refresh()
 	{        
 	    // All columns other than track num and length need local-encoded data for sorting        
 
-	    QCString lower = text(i).lower().local8Bit();
+	    QCString lower = id == FileNameColumn
+		? file().absFilePath().lower().local8Bit()
+		: text(i).lower().local8Bit();
 
 	    // For some columns, we may be able to share some strings
 
@@ -202,6 +204,7 @@ void CollectionListItem::refresh()
 		lower = StringShare::tryShare(lower);
 	    }
 	    data()->local8Bit[id] = lower;
+	    data()->shortFileName = file().fileInfo().fileName().lower().local8Bit();
 	}
 
 	int newWidth = width(listView()->fontMetrics(), listView(), i);
