@@ -85,21 +85,23 @@ FileRenamer::FileRenamer(const PlaylistItem *item)
     rename(item);
 }
 
-QString FileRenamer::expandToken(TokenType type, const QString &value) const
+QString FileRenamer::expandToken(TokenType type, const QString &value_) const
 {
     const bool needValue = m_cfg.tokenNeedsValue(type);
-    if(needValue && value.isEmpty())
+
+    QString value = value_;
+    QString token = m_cfg.getToken(type);
+    if(value.find(QDir::separator()) > -1) {
+        kdWarning() << "Found token value with dir separators!" << endl;
+        value.replace(QDir::separator(), "");
+    }
+
+    if((needValue) && value.isEmpty())
         return QString();
 
-    QString token = m_cfg.getToken(type);
     token.replace("%s", value);
-    if(token.find(QDir::separator()) > -1) {
-        kdWarning() << "Found token value with dir separators!" << endl;
-        token.replace(QDir::separator(), "");
-    }
     return token;
 }
-
 
 void FileRenamer::rename(const PlaylistItem *item)
 {
