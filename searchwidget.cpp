@@ -261,11 +261,15 @@ void SearchWidget::setupLayout()
     connect(clearSearchButton, SIGNAL(pressed()), m_searchLine, SLOT(clear()));
     setStretchableWidget(m_searchLine);
 
-    QToolButton *b = new QToolButton(this);
-    b->setTextLabel(i18n("Advanced Search"), true);
-    b->setIconSet(SmallIconSet("wizard"));
+    // I've decided that I think this is ugly, for now.
 
-    connect(b, SIGNAL(clicked()), this, SIGNAL(signalAdvancedSearchClicked()));
+    /*
+      QToolButton *b = new QToolButton(this);
+      b->setTextLabel(i18n("Advanced Search"), true);
+      b->setIconSet(SmallIconSet("wizard"));
+
+      connect(b, SIGNAL(clicked()), this, SIGNAL(signalAdvancedSearchClicked()));
+    */
 }
 
 #include "searchwidget.moc"

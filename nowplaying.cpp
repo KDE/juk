@@ -1,7 +1,8 @@
 /***************************************************************************
-    copyright            : (C) 2004 Nathan Toone
-    email                : nathan@toonetown.com
-***************************************************************************/
+    begin                : Tue Nov 9 2004
+    copyright            : (C) 2004 by Scott Wheeler
+    email                : wheeler@kde.org
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -13,176 +14,180 @@
  ***************************************************************************/
 
 #include <kiconloader.h>
-#include <kactionclasses.h>
-#include <kconfig.h>
 #include <klocale.h>
-#include <kfiledialog.h>
+#include <kdebug.h>
 
-#include <qsize.h>
-#include <qsizepolicy.h>
-#include <qpixmap.h>
 #include <qimage.h>
-#include <qvaluelist.h>
-#include <qsplitter.h>
-#include <qpushbutton.h>
 #include <qlayout.h>
 
 #include "nowplaying.h"
 #include "playermanager.h"
-#include "filehandle.h"
-#include "actioncollection.h"
 #include "coverinfo.h"
+#include "tag.h"
 
-using namespace ActionCollection;
+static const int imageSize = 64;
 
-////////////////////////////////////////////////////////////////////////////////
-// public members
-////////////////////////////////////////////////////////////////////////////////
-
-NowPlaying::NowPlaying(QSplitter *parent, const char *name) :
-    QWidget(parent, name),
-    m_button(0)
+struct Line : public QFrame
 {
-    setupActions();
-    setupLayout();
-    readConfig();
+    Line(QWidget *parent) : QFrame(parent) { setFrameShape(VLine); }
+};
 
-    slotClear();
+////////////////////////////////////////////////////////////////////////////////
+// NowPlaying
+////////////////////////////////////////////////////////////////////////////////
+
+NowPlaying::NowPlaying(QWidget *parent, const char *name) :
+    QHBox(parent, name)
+{
+    layout()->setMargin(5);
+    layout()->setSpacing(3);
+    setFixedHeight(imageSize + 2 + layout()->margin() * 2);
+
+    setStretchFactor(new CoverItem(this), 0);
+    setStretchFactor(new TrackItem(this), 2);
+    setStretchFactor(new Line(this), 0);
+    setStretchFactor(new HistoryItem(this), 1);
+
+    connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotUpdate()));
+    connect(PlayerManager::instance(), SIGNAL(signalStop()), this, SLOT(slotUpdate()));
+
+    hide();
 }
 
-NowPlaying::~NowPlaying()
+void NowPlaying::addItem(NowPlayingItem *item)
 {
-    saveConfig();
+    m_items.append(item);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// public slots
-////////////////////////////////////////////////////////////////////////////////
-
-void NowPlaying::slotRefresh()
+void NowPlaying::slotUpdate()
 {
-    if(!PlayerManager::instance()->playing())
+    FileHandle file = PlayerManager::instance()->playingFile();
+
+    if(file.isNull()) {
+        hide();
         return;
-
-    m_button->hide();
-
-    FileHandle playingFile = PlayerManager::instance()->playingFile();
-
-    if(playingFile.coverInfo()->hasCover()){
-        QImage image = playingFile.coverInfo()->pixmap(CoverInfo::FullSize).convertToImage();
-        QPixmap cover = image.smoothScale(size().width(), size().width());
-        setPaletteBackgroundPixmap(cover);
     }
-    else {
-        m_button->show();
-        m_button->setText(i18n("Add Cover Image"));
-        setPaletteBackgroundPixmap(QPixmap());
-    }
-}
+    else
+        show();
 
-void NowPlaying::slotClear()
-{
-    m_button->show();
-    m_button->setPixmap(DesktopIcon("juk", 72));
-    setPaletteBackgroundPixmap(QPixmap());
-}
-
-void NowPlaying::mousePressEvent(QMouseEvent *)
-{
-    if(PlayerManager::instance()->playing())
-        slotButtonPress();
-}
-
-void NowPlaying::resizeEvent(QResizeEvent *ev)
-{
-    // if the width hasn't changed, just return.
-
-    if(!ev || ev->oldSize().width() == size().width())
-        return;
-
-    QSplitter *parentSplitter = static_cast<QSplitter *>(parent());
-
-    setMaximumHeight(parentSplitter->size().height());
-    setMinimumHeight(0);
-
-    resize(QSize(width(), width()));
-    int newTop = parentSplitter->size().height() - size().height() - parentSplitter->handleWidth();
-    int newBottom = size().height();
-    QValueList<int> sizeList;
-    sizeList.append(newTop);
-    sizeList.append(newBottom);
-    parentSplitter->setSizes(sizeList);
-
-    FileHandle playingFile=PlayerManager::instance()->playingFile();
-
-    if((PlayerManager::instance()->playing() || PlayerManager::instance()->paused()) &&
-       playingFile.coverInfo()->hasCover())
+    for(QValueList<NowPlayingItem *>::Iterator it = m_items.begin();
+        it != m_items.end(); ++it)
     {
-        QImage image = playingFile.coverInfo()->pixmap(CoverInfo::FullSize).convertToImage();
-        setPaletteBackgroundPixmap(image.smoothScale(size().width(), size().width()));
+        (*it)->update(file);
     }
-    setMaximumHeight(width());
-    setMinimumHeight(width());
 }
 
-///////////////////////////////////////////////////////////////////////////////
-// private slots
+////////////////////////////////////////////////////////////////////////////////
+// CoverItem
 ////////////////////////////////////////////////////////////////////////////////
 
-void NowPlaying::slotButtonPress()
+CoverItem::CoverItem(NowPlaying *parent) :
+    QLabel(parent, "CoverItem"),
+    NowPlayingItem(parent)
 {
-    if(!PlayerManager::instance()->playing()) {
-        action<KAction>("help_about_app")->activate();
+    setFixedHeight(parent->height() - parent->layout()->margin() * 2);
+    setFrameStyle(Box | Plain);
+    setLineWidth(1);
+    setMargin(1);
+}
+
+void CoverItem::update(const FileHandle &file)
+{
+    if(file.coverInfo()->hasCover()) {
+        show();
+        QImage image = file.coverInfo()->pixmap(CoverInfo::FullSize).convertToImage();
+        setPixmap(image.smoothScale(imageSize, imageSize, QImage::ScaleMax));
+    }
+    else
+        hide();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// TrackItem
+////////////////////////////////////////////////////////////////////////////////
+
+TrackItem::TrackItem(NowPlaying *parent) :
+    QWidget(parent, "TrackItem"),
+    NowPlayingItem(parent)
+{
+    setFixedHeight(parent->height() - parent->layout()->margin() * 2);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+
+    QVBoxLayout *layout = new QVBoxLayout(this);
+
+    m_label = new KActiveLabel(this);
+    m_label->setLinkUnderline(false);
+
+    layout->addStretch();
+    layout->addWidget(m_label);
+    layout->addStretch();
+}
+
+void TrackItem::update(const FileHandle &file)
+{
+    QString title  = QStyleSheet::escape(file.tag()->title());
+    QString artist = QStyleSheet::escape(file.tag()->artist());
+    QString album  = QStyleSheet::escape(file.tag()->album());
+    QString separator = (artist.isNull() || album.isNull()) ? QString::null : QString(" - ");
+
+    // This block-o-nastiness makes the font smaller and smaller until it actually fits.
+
+    int size = 4;
+    QString format =
+        "<font size=\"+%1\"><b>%2</b></font>"
+        "<br />"
+        "<font size=\"+%3\"><b><a href=\"#\">%4</a>%5<a href=\"#\">%6</a></b></font>";
+
+    do {
+        m_label->setText(format.arg(size).arg(title).arg(size - 2)
+                         .arg(artist).arg(separator).arg(album));
+        --size;
+    } while(m_label->heightForWidth(m_label->width()) > imageSize && size >= 0);
+
+    m_label->setFixedHeight(QMIN(imageSize, m_label->heightForWidth(m_label->width())));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// HistoryItem
+////////////////////////////////////////////////////////////////////////////////
+
+HistoryItem::HistoryItem(NowPlaying *parent) :
+    KActiveLabel(parent, "HistoryItem"),
+    NowPlayingItem(parent)
+{
+    setFixedHeight(parent->height() - parent->layout()->margin() * 2);
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
+    setLinkUnderline(false);
+    setText(QString("<b>%1</b><br>").arg(i18n("History")));
+}
+
+void HistoryItem::update(const FileHandle &file)
+{
+    if(file.isNull() || (!m_history.isEmpty() && m_history.front() == file))
         return;
+
+    if(m_history.count() >= 10)
+        m_history.remove(m_history.fromLast());
+
+    m_history.prepend(file);
+    QString format = "<a href=\"#\"><font size=\"-2\">%1</font></a>";
+    QString current = QString("<b>%1</b><br>").arg(i18n("History"));
+    QString previous;
+
+
+    for(FileHandleList::ConstIterator it = m_history.begin();
+        it != m_history.end(); ++it)
+    {
+        previous = current;
+        current.append(format.arg(QStyleSheet::escape((*it).tag()->title())));
+        setText(current);
+        if(heightForWidth(width()) < imageSize)
+            current.append("<br>");
+        else {
+            setText(previous);
+            return;
+        }
     }
-
-    FileHandle playingFile = PlayerManager::instance()->playingFile();
-
-    if(playingFile.coverInfo()->hasCover())
-        playingFile.coverInfo()->popupLargeCover();
-    else {
-        KURL file = KFileDialog::getImageOpenURL(":homedir", this, i18n("Select cover image file - JuK"));
-        QImage image(file.directory() + "/" + file.fileName());
-        playingFile.coverInfo()->setCover(image);
-        slotRefresh();
-    }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private members
-////////////////////////////////////////////////////////////////////////////////
-
-void NowPlaying::readConfig()
-{
-    KConfigGroup config(KGlobal::config(), "NowPlaying");
-    bool show = config.readBoolEntry("Show", false);
-    action<KToggleAction>("showNowPlaying")->setChecked(show);
-    setShown(show);
-
-}
-
-void NowPlaying::saveConfig()
-{
-    KConfigGroup config(KGlobal::config(), "NowPlaying");
-    config.writeEntry("Show", action<KToggleAction>("showNowPlaying")->isChecked());
-}
-
-void NowPlaying::setupActions()
-{
-    KToggleAction *show =
-        new KToggleAction(i18n("Show Now Playing"), "player_play", 0, actions(), "showNowPlaying");
-    show->setCheckedState(i18n("Hide Now Playing"));
-    connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
-}
-
-void NowPlaying::setupLayout()
-{
-    QVBoxLayout *vLayout = new QVBoxLayout(this);
-    QHBoxLayout *hLayout = new QHBoxLayout(vLayout);
-    m_button = new QPushButton(this);
-    m_button->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
-    hLayout->addWidget(m_button);
-    connect(m_button, SIGNAL(clicked()), this, SLOT(slotButtonPress()));
 }
 
 #include "nowplaying.moc"

@@ -118,14 +118,7 @@ void PlaylistSplitter::setupLayout()
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_editor, SLOT(slotUpdateCollection()));
 
-    NowPlaying *nowPlaying = new NowPlaying(boxSplitter);
-
-    boxSplitter->moveToFirst(m_playlistBox);
-    connect(PlayerManager::instance(), SIGNAL(signalPlay()), nowPlaying, SLOT(slotRefresh()));
-    connect(PlayerManager::instance(), SIGNAL(signalStop()), nowPlaying, SLOT(slotClear()));
-    connect(PlayerManager::instance(), SIGNAL(signalCoverChanged()), nowPlaying, SLOT(slotRefresh()));
-
-    boxSplitter->setResizeMode(nowPlaying, QSplitter::KeepSize);
+    NowPlaying *nowPlaying = new NowPlaying(top);
 
     // Create the search widget -- this must be done after the CollectionList is created.
 
@@ -139,6 +132,7 @@ void PlaylistSplitter::setupLayout()
     connect(action<KToggleAction>("showSearch"), SIGNAL(toggled(bool)),
             m_searchWidget, SLOT(setEnabled(bool)));
 
+    topLayout->addWidget(nowPlaying);
     topLayout->addWidget(m_searchWidget);
     topLayout->addWidget(m_playlistStack);
 

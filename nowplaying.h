@@ -1,6 +1,7 @@
 /***************************************************************************
-    copyright            : (C) 2004 Nathan Toone
-    email                : nathan@toonetown.com
+    begin                : Tue Nov 9 2004
+    copyright            : (C) 2004 by Scott Wheeler
+    email                : wheeler@kde.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,38 +16,88 @@
 #ifndef NOWPLAYING_H
 #define NOWPLAYING_H
 
-#include <qwidget.h>
+#include <kactivelabel.h>
 
-class QPushButton;
-class QSplitter;
+#include <qhbox.h>
+#include <qlabel.h>
 
-class NowPlaying : public QWidget
+#include "filehandle.h"
+
+class NowPlayingItem;
+
+/**
+ * This is the widget that holds all of the other items and handles updating them
+ * when the playing item changes.
+ */
+
+class NowPlaying : public QHBox
 {
     Q_OBJECT
 
 public:
-    NowPlaying(QSplitter *parent, const char *name = 0);
-    virtual ~NowPlaying();
-
-private:
-    void setupActions();
-    void setupLayout();
-    void readConfig();
-    void saveConfig();
-
-public slots:
-    void slotRefresh();
-    void slotClear();
+    NowPlaying(QWidget *parent, const char *name = 0);
+    void addItem(NowPlayingItem *item);
 
 private slots:
-    void slotButtonPress();
-
-protected:
-    virtual void resizeEvent(QResizeEvent *ev);
-    virtual void mousePressEvent(QMouseEvent *e);
+    void slotUpdate();    
 
 private:
-    QPushButton *m_button;
+    QValueList<NowPlayingItem *> m_items;
+};
+
+/**
+ * Abstract base for the other NowPlaying items.
+ */
+
+class NowPlayingItem
+{
+public:
+    virtual void update(const FileHandle &file) = 0;
+
+protected:
+    NowPlayingItem(NowPlaying *parent) { parent->addItem(this); }
+};
+
+/**
+ * Displays the cover of the currently playing file if available, or hides
+ * itself if not.
+ */
+
+class CoverItem : public QLabel, public NowPlayingItem
+{
+public:
+    CoverItem(NowPlaying *parent);
+    virtual void update(const FileHandle &file);
+};
+
+/**
+ * Show the text information on the current track and provides links to the
+ * album and artist of the currently playing item.
+ */
+
+class TrackItem : public QWidget, public NowPlayingItem
+{
+public:
+    TrackItem(NowPlaying *parent);
+    virtual void update(const FileHandle &file);
+
+private:
+    KActiveLabel *m_label;
+};
+
+/**
+ * Shows up to 10 items of history and links to those items.
+ */
+
+class HistoryItem : public KActiveLabel, public NowPlayingItem
+{
+public:
+    HistoryItem(NowPlaying *parent);
+    virtual void update(const FileHandle &file);
+
+private:
+    FileHandleList m_history;
+    KActiveLabel *m_label;
 };
 
 #endif

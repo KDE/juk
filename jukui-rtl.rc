@@ -26,7 +26,6 @@
 	<Menu name="view" noMerge="1"><text>&amp;View</text>
 		<Action name="showSearch"/>
 		<Action name="showEditor"/>
-		<Action name="showNowPlaying"/>
 		<Action name="showHistory"/>
 		<Action name="showUpcoming"/>
 		<Action name="showColumns"/>
