@@ -17,6 +17,7 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kaction.h>
+#include <kapplication.h>
 
 #include <qfileinfo.h>
 #include <qdir.h>
@@ -188,6 +189,8 @@ bool TagTransactionManager::processChangeList(bool undo)
 
             errorItems.append(str);
         }
+
+        kapp->processEvents();
     }
 
     undo ? m_undoList.clear() : m_list.clear();
