@@ -170,6 +170,9 @@ protected:
     
     static QString resolveSymLinks(const QFileInfo &file);
 
+    KPopupMenu *rmbMenu() { return m_rmbMenu; }
+    const KPopupMenu *rmbMenu() const { return m_rmbMenu; }
+
 signals:
     /** 
      * This signal is connected to PlaylistItem::refreshed() in the 

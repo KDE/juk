@@ -285,6 +285,7 @@ private slots:
     void slotScanDirectories() { open(m_directoryList); }
     void slotSetNextItem(PlaylistItem *item = 0) { m_nextPlaylistItem = item; }
     void slotDirChanged(const QString &dir) { slotAddToPlaylist(dir, m_collection); }
+    void slotCreatePlaylist(const QValueList<QFileInfo> &fileInfos);
 
 private:
     PlaylistItem *m_playingItem;

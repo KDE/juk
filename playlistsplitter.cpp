@@ -381,6 +381,7 @@ void PlaylistSplitter::setupLayout()
     m_collection = CollectionList::instance();
     setupPlaylist(m_collection, true, "folder_sound");
     connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
+    connect(m_collection, SIGNAL(signalRequestPlaylistCreation(const QValueList<QFileInfo> &)), this, SLOT(slotCreatePlaylist(const QValueList<QFileInfo> &)));
 
     // Show the collection on startup.
     m_playlistBox->setSelected(0, true);
@@ -566,6 +567,15 @@ void PlaylistSplitter::slotPlaylistItemRemoved(PlaylistItem *item)
 
     if(item == m_nextPlaylistItem)
 	m_nextPlaylistItem = 0;
+}
+
+void PlaylistSplitter::slotCreatePlaylist(const QValueList<QFileInfo> &fileInfos)
+{
+    Playlist *playlist = slotCreatePlaylist();
+    QValueList<QFileInfo>::ConstIterator it = fileInfos.begin();
+    QValueList<QFileInfo>::ConstIterator end = fileInfos.end();
+    for(; it != end; ++it)
+        playlist->createItem(*it);
 }
 
 #include "playlistsplitter.moc"

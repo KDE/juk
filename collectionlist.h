@@ -93,10 +93,12 @@ protected:
 
 signals:
     void signalCollectionChanged();
+    void signalRequestPlaylistCreation(const QValueList<QFileInfo> &fileInfos);
 
 private slots:
     void slotRemoveItem(const QString &file);
     void slotRefreshItem(const QString &file);
+    void slotCreateGroup();
     
 private:
     static CollectionList *m_list;

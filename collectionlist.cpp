@@ -20,6 +20,8 @@
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
+#include <kpopupmenu.h>
+#include <kiconloader.h>
 
 #include <qtimer.h>
 
@@ -105,6 +107,9 @@ CollectionList::CollectionList(QWidget *parent) : Playlist(parent, i18n("Collect
     connect(m_dirWatch, SIGNAL(deleted(const QString &)), this, SLOT(slotRemoveItem(const QString &)));
     connect(m_dirWatch, SIGNAL(dirty(const QString &)), this, SLOT(slotRefreshItem(const QString &)));
     m_dirWatch->startScan();
+
+    rmbMenu()->insertSeparator();
+    rmbMenu()->insertItem(SmallIcon("new"), i18n("Create Group from Selected Items"), this, SLOT(slotCreateGroup()));
 }
 
 CollectionList::~CollectionList()
@@ -173,6 +178,15 @@ void CollectionList::slotRemoveItem(const QString &file)
 void CollectionList::slotRefreshItem(const QString &file)
 {
     m_itemsDict[file]->slotRefresh();
+}
+
+void CollectionList::slotCreateGroup()
+{
+    QValueList<QFileInfo> fileInfos;
+    PlaylistItemList items = selectedItems();
+    for(PlaylistItem *item = items.first(); item != 0; item = items.next())
+        fileInfos << *item->data()->fileInfo();
+    emit signalRequestPlaylistCreation(fileInfos);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
