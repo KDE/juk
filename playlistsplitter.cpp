@@ -360,6 +360,13 @@ void PlaylistSplitter::slotGuessTagInfo()
         m_editor->slotRefresh();
 }
 
+void PlaylistSplitter::slotRenameFile()
+{
+    visiblePlaylist()->slotRenameFile();
+    if(m_editor)
+        m_editor->slotRefresh();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////

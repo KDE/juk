@@ -49,6 +49,7 @@
 		<Action name="saveItem"/>
 		<Action name="removeItem"/>
 		<Action name="guessTag"/>
+		<Action name="renameFile"/>
 	</Menu>
 	<Menu name="settings"><text>&amp;Settings</text>
 		<!-- <Action name="showGenreListEditor"/> -->

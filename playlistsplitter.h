@@ -174,6 +174,7 @@ public slots:
 
     void slotSaveTag() { m_editor->save(); }
     void slotGuessTagInfo();
+    void slotRenameFile();
 
 // Playlist slots
 

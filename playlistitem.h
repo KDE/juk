@@ -76,6 +76,7 @@ public:
     void setPlaying(bool playing = true) { m_playing = playing; }
 
     void guessTagInfo();
+    void renameFile();
 
 public slots:
     /**
@@ -109,6 +110,7 @@ protected:
 
     class Data;
     Data *data() { return m_data; }
+    const Data *data() const { return m_data; }
     void setData(Data *d) { m_data = d; }
 
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);

@@ -20,6 +20,7 @@
 #include "tagguesser.h"
 #include "playlistitem.h"
 #include "playlist.h"
+#include "filerenamer.h"
 #include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +92,13 @@ void PlaylistItem::guessTagInfo()
         tag()->setComment(guesser.comment());
 
     tag()->save();
+    slotRefresh();
+}
+
+void PlaylistItem::renameFile()
+{
+    FileRenamer renamer;
+    renamer.rename( this );
     slotRefresh();
 }
 

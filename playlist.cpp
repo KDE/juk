@@ -421,6 +421,15 @@ void Playlist::clear()
     clearItems(l);
 }
 
+void Playlist::slotRenameFile()
+{
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    PlaylistItemList items = selectedItems();
+    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
+        (*it)->renameFile();
+    KApplication::restoreOverrideCursor();
+}
+
 void Playlist::slotGuessTagInfo()
 {
     KApplication::setOverrideCursor(Qt::waitCursor);

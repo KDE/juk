@@ -156,6 +156,8 @@ public slots:
     virtual void selectAll() { KListView::selectAll(true); }
 
     void slotGuessTagInfo();
+    void slotRenameFile();
+
     /**
      * Reload the playlist contents from the m3u file.
      */
