@@ -295,7 +295,7 @@ void PlaylistBox::remove()
 	    }
 
 	    if(!couldNotDelete.isEmpty())
-		KMessageBox::errorList(this, i18n("Could delete these files."), couldNotDelete);
+		KMessageBox::errorList(this, i18n("Could not delete these files."), couldNotDelete);
 	}
 	else if(remove == KMessageBox::Cancel)
 	    return;
