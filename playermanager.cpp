@@ -259,7 +259,7 @@ void PlayerManager::slotPollPlay()
         m_timer->stop();
         QString nextFile = m_playlistInterface->nextFile();
         if(!nextFile.isNull())
-            play();
+            play(nextFile);
         else
             stop();
     }
