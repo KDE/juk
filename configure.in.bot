@@ -29,7 +29,7 @@ if test "x$have_musicbrainz" = "xfalse"; then
 	echo "* You do not seem to have libmusicbrainz and"
         echo "* libtunepimp.  JuK will be compiled without"
 	echo "* will be compiled without MusicBrainz support and"
-	echo "* automatic song recogntion will not be supported."
+	echo "* automatic song recognition will not be supported."
 	echo "* Please download libmusicbrainz 2.x and libtunepimp"
 	echo "* 0.3.x from:"
 	echo "* http://www.musicbrainz.org/products/client/download.html "
