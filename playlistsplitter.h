@@ -29,7 +29,7 @@
 #include "stringhash.h"
 #include "tageditor.h"
 #include "tagguesser.h"
-#include "playermanager.h"
+#include "playlistinterface.h"
 
 class KActionMenu;
 class KDirWatch;

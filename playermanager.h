@@ -25,19 +25,7 @@
 class QTimer;
 class SliderAction;
 class StatusLabel;
-
-/**
- * This is a simple interface that should be implemented by objects used by
- * the PlayerManager.
- */
-
-class PlaylistInterface
-{
-public:
-    virtual QString nextFile() = 0;
-    virtual QString currentFile() = 0;
-    virtual QString previousFile() = 0;
-};
+class PlaylistInterface;
 
 /**
  * This class serves as a proxy to the Player interface and handles managing

@@ -24,6 +24,7 @@
 #include <qtimer.h>
 
 #include "playermanager.h"
+#include "playlistinterface.h"
 #include "slideraction.h"
 #include "statuslabel.h"
 
