@@ -65,6 +65,7 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
 
     cm->insertSeparator();
 
+    action("randomPlay")->plug(cm);
     action("togglePopups")->plug(cm);
 
     if(PlayerManager::instance()->playing())
