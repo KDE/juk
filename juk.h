@@ -76,9 +76,6 @@ private:
     StatusLabel *m_statusLabel;
     SystemTray *m_systemTray;
 
-    typedef QPair<KAction *, const char *> SplitterConnection;
-    QValueList<SplitterConnection> m_splitterConnections;
-
     SliderAction *m_sliderAction;
     KToggleAction *m_showHistoryAction;
     KToggleAction *m_randomPlayAction;
@@ -88,7 +85,6 @@ private:
     KToggleAction *m_toggleSplashAction;
     KToggleAction *m_loopPlaylistAction;
     KSelectAction *m_outputSelectAction;
-    KToolBarPopupAction *m_backAction;
 
     PlayerManager *m_player;
     KGlobalAccel *m_accel;
