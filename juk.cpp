@@ -141,14 +141,6 @@ void JuK::seekForward()
     emit m_sliderAction->trackPositionSlider()->setValue(position);
 }
 
-void JuK::playPause()
-{
-    if(m_player->playing())
-	action("pause")->activate();
-    else
-	action("play")->activate();
-}
-
 void JuK::volumeUp()
 {
     if(m_sliderAction && m_sliderAction->volumeSlider()) {
@@ -444,8 +436,9 @@ void JuK::setupSystemTray()
 void JuK::setupGlobalAccels()
 {
     m_accel = new KGlobalAccel(this);
-    KeyDialog::insert(m_accel, "PlayPause",   i18n("Play/Pause"),   this, SLOT(playPause()));
-    KeyDialog::insert(m_accel, "Stop",        i18n("Stop Playing"), action("stop"), SLOT(activate()));
+
+    KeyDialog::insert(m_accel, "PlayPause",   i18n("Play/Pause"),   action("playPause"), SLOT(activate()));
+    KeyDialog::insert(m_accel, "Stop",        i18n("Stop Playing"), action("stop"),      SLOT(activate()));
     KeyDialog::insert(m_accel, "Back",        i18n("Back"),         this, SLOT(back()));
     KeyDialog::insert(m_accel, "Forward",     i18n("Forward"),      this, SLOT(forward()));
     KeyDialog::insert(m_accel, "SeekBack",    i18n("Seek Back"),    this, SLOT(seekBack()));

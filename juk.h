@@ -50,8 +50,6 @@ public slots:
     void seekBack();
     void seekForward();
 
-    void playPause();
-
     void volumeUp();
     void volumeDown();
     void volumeMute();

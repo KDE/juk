@@ -53,13 +53,14 @@ public:
     void setStatusLabel(StatusLabel *label);
 
 public slots:
-
     virtual void play(const QString &fileName = QString::null);
     virtual void pause();
     virtual void stop();
     virtual void setVolume(float volume = 1.0);
     virtual void seek(long seekTime);
     virtual void seekPosition(int position);
+
+    void playPause();
 
     void forward();
     void back();

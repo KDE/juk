@@ -226,6 +226,11 @@ void PlayerManager::seekPosition(int position)
     player()->seekPosition(position);
 }
 
+void PlayerManager::playPause()
+{
+    playing() ? pause() : play();
+}
+
 void PlayerManager::forward()
 {
     QString file = m_playlistInterface->nextFile();
