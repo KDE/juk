@@ -25,6 +25,7 @@
 #include <qfileinfo.h>
 #include <qobject.h>
 #include <qptrstack.h>
+#include <qptrdict.h>
 #include <qvaluevector.h>
 
 #include "musicbrainzquery.h"
@@ -54,8 +55,10 @@ typedef QValueList<PlaylistItem *> PlaylistItemList;
 class PlaylistItem : public QObject, public KListViewItem
 {
     friend class Playlist;
+    friend class SearchPlaylist;
     friend class CollectionList;
     friend class QPtrList<PlaylistItem>;
+    friend class QPtrDict<PlaylistItem>;
 
     /**
      * Needs access to the destuctor, even though the destructor isn't used by QPtrStack.

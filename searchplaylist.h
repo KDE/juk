@@ -36,7 +36,7 @@ protected:
     /**
      * Runs the search to update the current items.
      */
-    void updateItems();
+    virtual void updateItems();
 
 private:
     PlaylistSearch m_search;

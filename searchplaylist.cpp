@@ -17,8 +17,11 @@
 
 #include <kdebug.h>
 
+#include <qptrdict.h>
+
 #include "searchplaylist.h"
 #include "playlistitem.h"
+#include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -40,9 +43,31 @@ void SearchPlaylist::updateItems()
     // Here we don't simply use "clear" since that would involve a call to
     // items() which would in turn call this method...
 
-    clearItems(Playlist::items());
+    PlaylistItemList l = Playlist::items();
+
+    QPtrDict<PlaylistItem> oldItems(503);
+
+    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it)
+        oldItems.insert((*it)->collectionItem(), *it);
+
     m_search.search();
-    createItems(m_search.matchedItems());
+    PlaylistItemList matched = m_search.matchedItems();
+    PlaylistItemList newItems;
+
+    for(PlaylistItemList::ConstIterator it = matched.begin(); it != matched.end(); ++it) {
+        if(!oldItems.remove((*it)->collectionItem()))
+            newItems.append((*it)->collectionItem());
+    }
+
+    // kdDebug(65432) << k_funcinfo << "newItems.size() == " << newItems.size() << endl;
+
+    for(QPtrDictIterator<PlaylistItem> it(oldItems); it.current(); ++it)
+        clearItem(it.current(), false);
+
+    if(!oldItems.isEmpty() && newItems.isEmpty())
+        emit signalCountChanged(this);
+    
+    createItems(newItems);
 }
 
 
