@@ -18,7 +18,12 @@
 #ifndef KEYDIALOG_H
 #define KEYDIALOG_H
 
-#include <kactioncollection.h>
+#include <kdeversion.h>
+#if KDE_VERSION > KDE_MAKE_VERSION(3,1,0)
+#    include <kactioncollection.h>
+#else
+#    include <kaction.h>
+#endif
 #include <kdialogbase.h>
 #include <kglobalaccel.h>
 #include <kkeydialog.h>
