@@ -127,9 +127,7 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     // bindings dialog.
 
     new KAction(i18n("Redisplay Popup"), KShortcut(), this,
-		SLOT(slotPlay()), actions(), "showPopup");
-    new KAction(i18n("Show Playing Cover"), KShortcut(), this,
-		SLOT(slotPopupLargeCover()), actions(), "showPlayingCover");
+                SLOT(slotPlay()), actions(), "showPopup");
     
     KPopupMenu *cm = contextMenu();
 
@@ -154,7 +152,6 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     menu->plug(cm);
 
     action("togglePopups")->plug(cm);
-    action("showCovers")->plug(cm);
 
     if(PlayerManager::instance()->playing())
         slotPlay();
@@ -263,46 +260,24 @@ void SystemTray::createPopup()
         // See where to put the buttons
 
         bool onLeft = buttonsToLeft();
-        QVBox *buttonBox;
         QVBox *infoBox;
 
         if(onLeft) {
 
             // They go to the left because JuK is on that side
 
-            buttonBox = new QVBox(box);
-
-            // Separator line
-
-            QFrame *line = new QFrame(box);
-
-            // Need to set this since cover images are 80 px
-
-            if(action<KToggleAction>("showCovers")->isChecked())
-	        line->setMinimumSize(QSize(0, 80));
-
-            line->setFrameShape(QFrame::VLine);
+            createButtonBox(box);
+            addSeparatorLine(box);
 
             infoBox = new QVBox(box);
 
             // Another line, and the cover, if there's a cover, and if
             // it's selected to be shown
 
-            if(playingFile.coverInfo()->hasCover() &&
-               action<KToggleAction>("showCovers")->isChecked())
+            if(playingFile.coverInfo()->hasCover())
             {
-                QFrame *line = new QFrame(box);
-                line->setFrameShape(QFrame::VLine);
-
-                // cover here
-
-                QPixmap *cover = playingFile.coverInfo()->coverPixmap();
-                QPushButton *coverButton = new QPushButton(box);
-                coverButton->setPixmap(*cover);
-                coverButton->setMinimumSize(cover->size());
-                coverButton->setFixedSize(cover->size());
-                coverButton->setFlat(true);
-                connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));
+                addSeparatorLine(box);
+                addCoverButton(box, playingFile.coverInfo()->coverPixmap());
             }
         }
         else {
@@ -312,53 +287,25 @@ void SystemTray::createPopup()
             // Another line, and the cover, if there's a cover, and if
             // it's selected to be shown
 
-            if(playingFile.coverInfo()->hasCover() &&
-               action<KToggleAction>("showCovers")->isChecked())
+            if(playingFile.coverInfo()->hasCover())
             {
-                // cover here
-
-                QPixmap *cover = playingFile.coverInfo()->coverPixmap();
-                QPushButton *coverButton = new QPushButton(box);
-                coverButton->setPixmap(*cover);
-                coverButton->setMinimumSize(cover->size());
-                coverButton->setFixedSize(cover->size());
-                coverButton->setFlat(true);
-                connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));
-
-                QFrame *line = new QFrame(box);
-                line->setFrameShape(QFrame::VLine);
+                addCoverButton(box, playingFile.coverInfo()->coverPixmap());
+                addSeparatorLine(box);
             }
 
             infoBox = new QVBox(box);
 
-            QFrame *line = new QFrame(box);
-
-            // Need to set this since cover images are 80 px
-
-            if(action<KToggleAction>("showCovers")->isChecked())
-	        line->setMinimumSize(QSize(0, 80));
-
-            line->setFrameShape(QFrame::VLine);
-
-            buttonBox = new QVBox(box);
+            addSeparatorLine(box);
+            createButtonBox(box);
         }
 
         infoBox->setSpacing(3);
         infoBox->setMargin(3);
-        buttonBox->setSpacing(3);
         
         for(unsigned i = 0; i < m_labels.capacity(); ++i) {
             m_labels[i] = new FlickerFreeLabel(" ", infoBox);
             m_labels[i]->setAlignment(AlignRight | AlignVCenter);
         }
-
-        QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
-        forwardButton->setFlat(true);
-        connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
-
-        QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
-        backButton->setFlat(true);
-        connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
 
         // We don't want an autodelete popup.  There are times when it will need
         // to be hidden before the timeout.
@@ -422,6 +369,43 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
 
     bgPix.convertFromImage(bgImage);
     return bgPix;
+}
+
+void SystemTray::createButtonBox(QWidget *parent)
+{
+    QVBox *buttonBox = new QVBox(parent);
+    
+    buttonBox->setSpacing(3);
+
+    QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
+    forwardButton->setFlat(true);
+    connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
+
+    QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
+    backButton->setFlat(true);
+    connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
+}
+
+void SystemTray::addSeparatorLine(QWidget *parent)
+{
+    QFrame *line = new QFrame(parent);
+    line->setFrameShape(QFrame::VLine);
+
+    // Cover art takes up 80 pixels, make sure we take up at least 80 pixels
+    // even if we don't show the cover art for consistency.
+
+    line->setMinimumHeight(80);
+}
+
+void SystemTray::addCoverButton(QWidget *parent, const QPixmap *cover)
+{
+    QPushButton *coverButton = new QPushButton(parent);
+
+    coverButton->setPixmap(*cover);
+    coverButton->setFixedSize(cover->size());
+    coverButton->setFlat(true);
+
+    connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));
 }
 
 void SystemTray::setToolTip(const QString &tip)
@@ -532,4 +516,4 @@ static bool copyImage(QImage &dest, QImage &src, int x, int y)
 
 #include "systemtray.moc"
 
-// vim: ts=8
+// vim: et sw=4 ts=8

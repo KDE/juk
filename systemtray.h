@@ -43,6 +43,10 @@ private:
     bool buttonsToLeft() const;
     QPixmap createPixmap(const QString &pixName);
 
+    void createButtonBox(QWidget *parent);
+    void addSeparatorLine(QWidget *parent);
+    void addCoverButton(QWidget *parent, const QPixmap *cover);
+
 private slots:
     void slotPlay();
     void slotTogglePopup();
