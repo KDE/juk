@@ -566,22 +566,31 @@ void PlaylistSplitter::saveConfig()
 PlaylistItem *PlaylistSplitter::addImpl(const QString &file, Playlist *list, PlaylistItem *after)
 {
     processEvents();
-    QFileInfo fileInfo(QDir::cleanDirPath(file));
-    if(fileInfo.exists()) {
-        if(fileInfo.isDir()) {
-            QDir dir(fileInfo.filePath());
-            QStringList dirContents = dir.entryList();
-            for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it)
-                if(*it != "." && *it != "..")
-                    after = addImpl(fileInfo.filePath() + QDir::separator() + *it, list, after);
-        }
-        else {
-            if(MediaFiles::isMediaFile(file))
-		after = list->createItem(fileInfo, QString::null, after, false);
-	    else if(MediaFiles::isPlaylistFile(file))
-		openPlaylist(fileInfo.absFilePath());
-        }
+
+    const QFileInfo fileInfo = QDir::cleanDirPath(file);
+
+    if(!fileInfo.exists())
+	return after;
+
+    if(MediaFiles::isMediaFile(file))
+	return list->createItem(fileInfo, QString::null, after, false);
+
+    if(MediaFiles::isPlaylistFile(file)) {
+	openPlaylist(fileInfo.absFilePath());
+	return after;
     }
+
+    if(fileInfo.isDir()) {
+
+	QDir dir = fileInfo.filePath();
+	QStringList dirContents = dir.entryList();
+
+	for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it) {
+	    if(*it != "." && *it != "..")
+		after = addImpl(fileInfo.filePath() + QDir::separator() + *it, list, after);
+	}
+    }
+
     return after;
 }
 
