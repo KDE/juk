@@ -76,7 +76,7 @@ void ArtsPlayer::play(const FileHandle &file)
         return;
     }
 
-    if(!m_playobject || m_playobject->state() != Arts::posPaused) {
+    if(!m_playobject || !file.isNull()) {
         stop();
 
         delete m_playobject;
