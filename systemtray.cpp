@@ -138,7 +138,7 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
     }
 }
 
-QPixmap SystemTray::createPixmap( const QString &pixName )
+QPixmap SystemTray::createPixmap(const QString &pixName)
 {
     QPixmap buffer(22, 22);
     buffer.fill(this, 0, 0);
@@ -152,6 +152,7 @@ QPixmap SystemTray::createPixmap( const QString &pixName )
 
     QPainter p(&buffer);
     p.drawPixmap(0, 0, bgPix);
+
     p.drawPixmap((buffer.width() - fgPix.width()) / 2, 
 	(buffer.height() - fgPix.height()) / 2, fgPix);
 
