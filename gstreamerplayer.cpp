@@ -33,7 +33,7 @@ using namespace KDE::GSTPlay;
 ////////////////////////////////////////////////////////////////////////////////
 
 GStreamerPlayer::GStreamerPlayer() : QObject(0), Player(),
-				     m_positionNs(0), m_durationNs(0), m_currentVolume(1.0)
+                                     m_positionNs(0), m_durationNs(0), m_currentVolume(1.0)
 {
     setupPlayer();
 }
@@ -43,37 +43,29 @@ GStreamerPlayer::~GStreamerPlayer()
     delete m_player;
 }
 
-void GStreamerPlayer::play(const QString &fileName, float volume)
+void GStreamerPlayer::play(const QString &fileName)
 {
     m_currentFile = fileName;
     m_positionNs = 0;
     m_durationNs = 0;
+
     if(!fileName.isEmpty()) {
-	m_player->setLocation(fileName);
+        m_player->setLocation(fileName);
 
-	play(volume);
-    }
-}
-
-void GStreamerPlayer::play(float volume)
-{
-    // 1.0 is full volume
-    if (m_player->getState() != Element::STATE_PLAYING) {
-	m_player->setState(Element::STATE_PLAYING);
-	m_player->setVolume(volume);
-    }
+    if(m_player->getState() != Element::STATE_PLAYING)
+        m_player->setState(Element::STATE_PLAYING);
 }
 
 void GStreamerPlayer::pause()
 {
     if(m_player->getState() != Element::STATE_PAUSED)
-	m_player->setState(Element::STATE_PAUSED);
+        m_player->setState(Element::STATE_PAUSED);
 }
 
 void GStreamerPlayer::stop()
 {
     if(m_player->getState() != Element::STATE_READY)
-	m_player->setState(Element::STATE_READY);
+        m_player->setState(Element::STATE_READY);
 }
 
 void GStreamerPlayer::setVolume(float volume)
@@ -82,7 +74,7 @@ void GStreamerPlayer::setVolume(float volume)
     m_player->setVolume(volume);
 }
 
-float GStreamerPlayer::getVolume() const
+float GStreamerPlayer::volume() const
 {
     // 1.0 is full volume
     return m_player->getVolume();
@@ -117,9 +109,9 @@ long GStreamerPlayer::currentTime() const
 int GStreamerPlayer::position() const
 {
     if (m_durationNs > 0)
-	return (int)((m_positionNs * 1000.0) / m_durationNs);
+        return int((m_positionNs * 1000.0) / m_durationNs);
     else
-	return 0;
+        return 0;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -136,9 +128,9 @@ void GStreamerPlayer::seekPosition(int position)
 {
     // position unit is 1/1000th
     if(m_durationNs > 0)
-	m_player->seekToTime(position * m_durationNs / 1000L);
+        m_player->seekToTime(position * m_durationNs / 1000L);
     else
-	m_player->seekToTime(0);
+        m_player->seekToTime(0);
 
 }
 
@@ -150,16 +142,16 @@ void GStreamerPlayer::setupPlayer()
 {
     m_player = new Play(Play::PIPE_AUDIO_BUFFER_THREADED, this, "Play");
     connect(m_player, SIGNAL(timeTick(long long)),
-	    SLOT(slotSetPosition(long long)));
+            SLOT(slotSetPosition(long long)));
     connect(m_player, SIGNAL(streamLength(long long)),
-	    SLOT(slotSetDuration(long long)));
+            SLOT(slotSetDuration(long long)));
     connect(m_player, SIGNAL(streamEnd()), SLOT(slotStopIfNotPlaying()));
 }
 
 void GStreamerPlayer::slotStopIfNotPlaying()
 {
     if(!playing())
-	stop();
+        stop();
 }
 
 #include "gstreamerplayer.moc"

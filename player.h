@@ -34,13 +34,12 @@ public:
 
     virtual ~Player() {}
 
-    virtual void play(const QString &fileName, float volume = 1.0) = 0;
-    virtual void play(float volume = 1.0) = 0;
+    virtual void play(const QString &fileName = QString::null) = 0;
     virtual void pause() = 0;
     virtual void stop() = 0;
 
     virtual void setVolume(float volume = 1.0) = 0;
-    virtual float getVolume() const = 0;
+    virtual float volume() const = 0;
 
     virtual bool playing() const = 0;
     virtual bool paused() const = 0;

@@ -38,11 +38,10 @@ public:
     GStreamerPlayer();
     virtual ~GStreamerPlayer();
 
-    virtual void play(const QString &fileName, float volume = 1.0);
-    virtual void play(float volume = 1.0);
+    virtual void play(const QString &fileName = QString::null);
 
     virtual void setVolume(float volume = 1.0);
-    virtual float getVolume() const;
+    virtual float volume() const;
 
     virtual bool playing() const;
     virtual bool paused() const;

@@ -28,6 +28,7 @@ class QString;
 class KArtsDispatcher;
 class KArtsServer;
 class KAudioManagerPlay;
+
 namespace KDE {
     class PlayObjectFactory;
     class PlayObject;
@@ -41,13 +42,12 @@ public:
     ArtsPlayer();
     virtual ~ArtsPlayer();
 
-    virtual void play(const QString &fileName, float volume = 1.0);
-    virtual void play(float volume = 1.0);
+    virtual void play(const QString &fileName = QString::null);
     virtual void pause();
     virtual void stop();
 
     virtual void setVolume(float volume = 1.0);
-    virtual float getVolume() const;
+    virtual float volume() const;
 
     virtual bool playing() const;
     virtual bool paused() const;
@@ -76,6 +76,7 @@ private:
 
     // This is a pretty heavy module for the needs that JuK has, it would probably
     // be good to use two Synth_MUL instead or the one from Noatun.
+
     Arts::StereoVolumeControl m_volumeControl;
 
     KURL m_currentURL;

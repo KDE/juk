@@ -110,7 +110,7 @@ void JuK::play()
 	return;
 
     if(m_player->paused()) {
-        m_player->play(m_player->getVolume());
+        m_player->play();
         m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
 
 	// Here, before doing anything, we want to make sure that the m_player did
@@ -550,6 +550,12 @@ void JuK::setupPlayer()
     }
 
     m_player = Player::createPlayer(playerType);
+
+    float volume =
+	float(m_sliderAction->volumeSlider()->value()) /
+	float(m_sliderAction->volumeSlider()->maxValue());
+
+    m_player->setVolume(volume);
 }
 
 
@@ -751,13 +757,10 @@ void JuK::play(const QString &file)
     if(!m_player || !m_sliderAction || !m_sliderAction->volumeSlider())
         return;
 
-    float volume = float(m_sliderAction->volumeSlider()->value()) /
-	float(m_sliderAction->volumeSlider()->maxValue());
-
     if(m_player->paused())
         m_player->stop();
 
-    m_player->play(file, volume);
+    m_player->play(file);
 
     // Make sure that the m_player actually starts before doing anything.
 
@@ -948,9 +951,12 @@ void JuK::slotPlaySelectedFile()
 
 void JuK::slotSetVolume(int volume)
 {
-    if(m_player && m_sliderAction && m_sliderAction->volumeSlider() &&
+    if(m_player &&
+       m_sliderAction &&
+       m_sliderAction->volumeSlider() &&
        m_sliderAction->volumeSlider()->maxValue() > 0 &&
-       volume >= 0 && m_sliderAction->volumeSlider()->maxValue() >= volume)
+       volume >= 0 &&
+       m_sliderAction->volumeSlider()->maxValue() >= volume)
     {
         m_player->setVolume(float(volume) /
 			    float(m_sliderAction->volumeSlider()->maxValue()));

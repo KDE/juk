@@ -44,7 +44,7 @@ ArtsPlayer::ArtsPlayer() : Player(),
                            m_playobject(0),
                            m_amanPlay(0),
                            m_volumeControl(Arts::StereoVolumeControl::null()),
-m_currentVolume(1.0)
+                           m_currentVolume(1.0)
 {
     setupPlayer();
 }
@@ -58,36 +58,32 @@ ArtsPlayer::~ArtsPlayer()
     delete m_dispatcher;
 }
 
-void ArtsPlayer::play(const QString &fileName, float volume)
-{
-    m_currentURL.setPath(fileName);
-    play(volume);
-}
-
-void ArtsPlayer::play(float volume)
+void ArtsPlayer::play(const QString &fileName)
 {
     // kdDebug(65432) << k_funcinfo << endl;
     // Make sure that the server still exists, if it doesn't a new one should
     // be started automatically and the factory and amanPlay are created again.
+
+    if(!fileName.isNull())
+        m_currentURL.setPath(fileName);
 
     if(m_server->server().isNull()) {
         KMessageBox::error(0, i18n("Cannot find the aRts soundserver."));
         return;
     }
 
-    if(!m_playobject || m_playobject->state() != Arts::posPaused)
-    {
+    if(!m_playobject || m_playobject->state() != Arts::posPaused) {
         stop();
+
         delete m_playobject;
         m_playobject = m_factory->createPlayObject(m_currentURL, false);
-        m_currentVolume = volume; //save volume for playObjectCreated
+
         if(m_playobject->object().isNull())
             connect(m_playobject, SIGNAL(playObjectCreated()), SLOT(playObjectCreated()));
         else
             playObjectCreated();
     }
-    else
-        setVolume(volume);
+
     m_playobject->play();
 }
 
@@ -115,18 +111,20 @@ void ArtsPlayer::stop()
 void ArtsPlayer::setVolume(float volume)
 {
     // kdDebug( 65432 ) << k_funcinfo << endl;
+
+    m_currentVolume = volume;
+
     if(serverRunning() && m_playobject && !m_playobject->isNull()) {
         if(m_volumeControl.isNull())
             setupVolumeControl();
         if(!m_volumeControl.isNull()) {
-            m_currentVolume = volume;
             m_volumeControl.scaleFactor(volume);
             // kdDebug( 65432 ) << "set volume to " << volume << endl;
         }
     }
 }
 
-float ArtsPlayer::getVolume() const
+float ArtsPlayer::volume() const
 {
     return m_currentVolume;
 }
@@ -163,7 +161,7 @@ long ArtsPlayer::currentTime() const
 {
     if(serverRunning() && m_playobject &&
        (m_playobject->state() == Arts::posPlaying ||
-	m_playobject->state() == Arts::posPaused))
+        m_playobject->state() == Arts::posPaused))
     {
         return m_playobject->currentTime().seconds;
     }
