@@ -43,10 +43,6 @@ public:
                            const QColorGroup &colorGroup,
                            int column, int width, int align);
 
-    virtual PlaylistBox::Item *createSearchItem(PlaylistBox *box,
-                                                SearchPlaylist *playlist,
-                                                const QString &searchCategory);
-
     virtual bool eventFilter(QObject *watched, QEvent *e);
     
 
@@ -104,21 +100,11 @@ public:
 
     virtual QString name() const { return i18n("Tree"); }
     virtual void setShown(bool shown);
-
-    virtual PlaylistBox::Item *createSearchItem(PlaylistBox *box,
-                                                SearchPlaylist *playlist,
-                                                const QString &searchCategory);
+    void setupCategories();
 
 private:
     void setupCategory(const QString &searchCategory, const QStringList &members,
 		       int column, bool exact = true);
-
-private slots:
-    /**
-     * Setup all of the categories.
-     */
-    void slotSetupCategories();
-
 private:
     QDict<PlaylistBox::Item> m_searchCategories;    
 };

@@ -70,9 +70,6 @@ protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem);
 
-signals:
-    void signalCollectionInitialized();
-
 private:
     void readConfig();
     void saveConfig();

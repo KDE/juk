@@ -96,12 +96,6 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
         paintDropIndicator(painter, width, item->height());
 }
 
-PlaylistBox::Item *ViewMode::createSearchItem(PlaylistBox *box, SearchPlaylist *playlist,
-                                              const QString &)
-{
-    return new PlaylistBox::Item(box, "midi", playlist->name(), playlist);
-}
-
 bool ViewMode::eventFilter(QObject *watched, QEvent *e)
 {
     if(m_visible && watched == m_playlistBox->viewport() && e->type() == QEvent::Resize) {
@@ -263,14 +257,11 @@ void TreeViewMode::setShown(bool show)
     if(show) {
         PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
 
-        if(!collectionItem) {
-            connect(playlistBox(), SIGNAL(signalCollectionInitialized()),
-                    this, SLOT(slotSetupCategories()));
+        if(!collectionItem)
             return;
-        }
 
         if(collectionItem && m_searchCategories.isEmpty())
-            slotSetupCategories();
+            setupCategories();
         else {
             for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
                 it.current()->setVisible(true);
@@ -280,12 +271,6 @@ void TreeViewMode::setShown(bool show)
         for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
             it.current()->setVisible(false);
     }
-}
-
-PlaylistBox::Item *TreeViewMode::createSearchItem(PlaylistBox *, SearchPlaylist *playlist,
-						  const QString &searchCategory)
-{
-    return new PlaylistBox::Item(m_searchCategories[searchCategory], "midi", playlist->name(), playlist);
 }
 
 void TreeViewMode::setupCategory(const QString &searchCategory, const QStringList &members, int column, bool exact)
@@ -323,10 +308,9 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
     KApplication::restoreOverrideCursor();
 }
 
-void TreeViewMode::slotSetupCategories()
+void TreeViewMode::setupCategories()
 {
     PlaylistBox::Item *i;
-    
     PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
     
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));

@@ -53,9 +53,6 @@ void CollectionList::initialize(PlaylistCollection *collection, bool restoreOnLo
 
     m_list = new CollectionList(collection);
     m_list->setName(i18n("Collection List"));
-    collection->setupPlaylist(m_list, "folder_sound");
-
-    // TODO: don't fetch the fileInfo from the tag, but rather from the FileHandle
 
     if(restoreOnLoad) {
 	for(FileHandleHash::Iterator it = Cache::instance()->begin();
@@ -65,6 +62,8 @@ void CollectionList::initialize(PlaylistCollection *collection, bool restoreOnLo
 	    new CollectionListItem(*it);
 	}
     }
+
+    collection->setupPlaylist(m_list, "folder_sound");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
