@@ -148,7 +148,6 @@ private slots:
     void slotQuit() { m_shuttingDown = true; kapp->quit(); }
 
     // settings menu
-    void slotShowGenreListEditor();
     void slotToggleSystemTray(bool enabled);
     void slotSetOutput(int output);
     void slotEditKeys();

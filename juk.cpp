@@ -29,7 +29,6 @@
 #include "slideraction.h"
 #include "statuslabel.h"
 #include "splashscreen.h"
-#include "genrelisteditor.h"
 #include "systemtray.h"
 #include "keydialog.h"
 #include "tagguesserconfigdlg.h"
@@ -440,9 +439,6 @@ void JuK::setupActions()
 	    this, SLOT(slotToggleSystemTray(bool)));
 
 
-    new KAction(i18n("Genre List Editor..."), 0, this, SLOT(slotShowGenreListEditor()),
-		actionCollection(), "showGenreListEditor");
-
     m_outputSelectAction = Player::playerSelectAction(actionCollection());
 
     if(m_outputSelectAction) {
@@ -832,12 +828,6 @@ void JuK::slotPlaylistChanged()
 ////////////////////////////////////////////////////////////////////////////////
 // settings menu
 ////////////////////////////////////////////////////////////////////////////////
-
-void JuK::slotShowGenreListEditor()
-{
-    GenreListEditor * editor = new GenreListEditor();
-    editor->exec();
-}
 
 void JuK::slotToggleSystemTray(bool enabled)
 {

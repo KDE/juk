@@ -1,9 +1,9 @@
 bin_PROGRAMS = juk
 check_PROGRAMS = tagguessertest mbtest
 
-juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
+juk_SOURCES = directorylistbase.ui \
 	gstreamerplayer.cpp artsplayer.cpp directorylist.cpp stringhash.cpp \
-	sortedstringlist.cpp systemtray.cpp genrelisteditor.cpp  splashscreen.cpp \
+	sortedstringlist.cpp systemtray.cpp splashscreen.cpp \
 	statuslabel.cpp cachedtag.cpp oggtag.cpp id3tag.cpp collectionlist.cpp \
 	playlistitem.cpp playlist.cpp playlistsplitter.cpp \
 	playlistbox.cpp tageditor.cpp cache.cpp genrelistreader.cpp \
