@@ -124,7 +124,7 @@ void JuK::setupActions()
     m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit", 0, actionCollection(), "showEditor");
     connect(m_showEditorAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetEditorVisible(bool)));
 
-    KStdAction::redisplay(m_splitter, SLOT(slotRefresh()), actionCollection());
+    new KAction(i18n("Refresh Items"), "reload", 0, m_splitter, SLOT(slotRefresh()), actionCollection(), "refresh");
     actionCollection()->insert(m_splitter->columnVisibleAction());
 
     // play menu

@@ -31,7 +31,7 @@
 
 		<Separator/>
 
-		<Action name="view_redisplay"/>
+		<Action name="refresh"/>
 	</Menu>
 	<Menu name="player"><text>&amp;Player</text>
 		<Action name="randomPlay"/>
