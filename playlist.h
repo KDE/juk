@@ -215,6 +215,8 @@ protected:
     KPopupMenu *rmbMenu() { return m_rmbMenu; }
     const KPopupMenu *rmbMenu() const { return m_rmbMenu; }
 
+    virtual void polish();
+
 signals:
     /**
      * This signal is connected to PlaylistItem::refreshed() in the
@@ -315,6 +317,8 @@ private:
 
     PlaylistItemList m_randomList;
     PlaylistSearch m_search;
+
+    bool m_polished;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);

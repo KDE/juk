@@ -386,8 +386,6 @@ void JuK::setupSplitterConnections()
     for(; it != m_splitterConnections.end(); ++it)
         connect((*it).first, SIGNAL(activated()), m_splitter, (*it).second);
 
-    actionCollection()->insert(m_splitter->columnVisibleAction());
-
     connect(m_showSearchAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetSearchVisible(bool)));
     connect(m_showEditorAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetEditorVisible(bool)));
     connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), m_sliderAction, SLOT(slotUpdateOrientation(QDockWindow *)));
@@ -465,6 +463,11 @@ void JuK::setupGlobalAccels()
     m_accel->setConfigGroup("Shortcuts");
     m_accel->readSettings();
     m_accel->updateConnections();
+}
+
+void JuK::polish()
+{
+    actionCollection()->insert(m_splitter->columnVisibleAction());
 }
 
 void JuK::processArgs()

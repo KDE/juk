@@ -86,6 +86,8 @@ private:
     void setupSystemTray();
     void setupGlobalAccels();
 
+    virtual void polish();
+
     void processArgs();
 
     void keyPressEvent(QKeyEvent *);

@@ -734,12 +734,13 @@ QString Playlist::resolveSymLinks(const QFileInfo &file) // static
 
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// private members
-////////////////////////////////////////////////////////////////////////////////
-
-void Playlist::setup()
+void Playlist::polish()
 {
+    if(m_polished)
+	return;
+
+    m_polished = true;
+
     addColumn(i18n("Track Name"));
     addColumn(i18n("Artist"));
     addColumn(i18n("Album"));
@@ -749,6 +750,8 @@ void Playlist::setup()
     addColumn(i18n("Length"));
     addColumn(i18n("Comment"));
     addColumn(i18n("File Name"));
+
+    setSorting(1);
 
     // These settings aren't really respected in KDE < 3.1.1, fixed in CVS
 
@@ -765,14 +768,12 @@ void Playlist::setup()
     setDropVisualizer(true);
     setItemMargin(3);
 
-
-    setSorting(1);
-
     //////////////////////////////////////////////////
     // setup header RMB menu
     //////////////////////////////////////////////////
 
     m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), this, "showColumns");
+
     m_headerMenu = m_columnVisibleAction->popupMenu();
     m_headerMenu->insertTitle(i18n("Show"));
     m_headerMenu->setCheckable(true);
@@ -789,7 +790,6 @@ void Playlist::setup()
     //////////////////////////////////////////////////
     // hide some columns by default
     //////////////////////////////////////////////////
-
 
     hideColumn(PlaylistItem::CommentColumn);
     hideColumn(PlaylistItem::FileNameColumn);
@@ -820,16 +820,22 @@ void Playlist::setup()
     connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
 	    this, SLOT(slotApplyModification(QListViewItem *, const QString &, int)));
 
-    //////////////////////////////////////////////////
-
     addColumn(QString::null);
     setResizeMode(QListView::LastColumn);
 
     setAcceptDrops(true);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private members
+////////////////////////////////////////////////////////////////////////////////
+
+void Playlist::setup()
+{
+    m_polished = false;
     m_allowDuplicates = false;
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
-
     connect(this, SIGNAL(signalDataChanged()), this, SIGNAL(signalChanged()));
     connect(this, SIGNAL(signalNumberOfItemsChanged(Playlist *)), this, SIGNAL(signalChanged()));
 }

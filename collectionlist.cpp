@@ -114,9 +114,6 @@ CollectionList::CollectionList(QWidget *parent) : Playlist(parent, i18n("Collect
     connect(m_dirWatch, SIGNAL(deleted(const QString &)), this, SLOT(slotRemoveItem(const QString &)));
     connect(m_dirWatch, SIGNAL(dirty(const QString &)), this, SLOT(slotRefreshItem(const QString &)));
     m_dirWatch->startScan();
-
-    rmbMenu()->insertSeparator();
-    rmbMenu()->insertItem(SmallIcon("new"), i18n("Create Group From Selected Items"), this, SLOT(slotCreateGroup()));
 }
 
 CollectionList::~CollectionList()
@@ -171,6 +168,14 @@ void CollectionList::addAlbum(const QString &album)
 
     if(album != previousAlbum && !m_albums.insert(album))
 	previousAlbum = album;
+}
+
+void CollectionList::polish()
+{
+    Playlist::polish();
+
+    rmbMenu()->insertSeparator();
+    rmbMenu()->insertItem(SmallIcon("new"), i18n("Create Group From Selected Items"), this, SLOT(slotCreateGroup()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
