@@ -29,6 +29,9 @@ template <class T> class Hash
 {
 public:
 
+    Hash() : m_table(m_tableSize) {}
+    ~Hash();
+
     /**
      * To combine two operations into one (that takes the same amount as each
      * independantly) this inserts an item and returns true if the item was
@@ -48,16 +51,10 @@ public:
 
     QValueList<T> values() const;
 
-protected:
-    Hash() : m_table(m_tableSize) {}
-    virtual ~Hash();
+    int hash(T key) const;
 
-    /*
-     * This should probably be done with partial template specialization, but
-     * I'm too lazy at the moment.
-     */
-    virtual int hash(T key) const = 0;
     static inline int tableSize() { return m_tableSize; }
+
 private:
 
     struct Node
@@ -74,48 +71,49 @@ private:
     static const int m_tableSize = 5003;
 };
 
-inline char hashStringAccess(const QString& in, int index)
+////////////////////////////////////////////////////////////////////////////////
+// helper functions
+////////////////////////////////////////////////////////////////////////////////
+
+inline char hashStringAccess(const QString &in, int index)
 {
     return in.unicode()[index].cell();
 }
 
-inline char hashStringAccess(const QCString& in, int index)
+inline char hashStringAccess(const QCString &in, int index)
 {
     return in[index];
 }
 
-//Based on QGDict's hash functions, Copyright (C) 1992-2000 Trolltech AS
-template<typename StringType>
-inline int hashString(const StringType& string)
+// Based on QGDict's hash functions, Copyright (C) 1992-2000 Trolltech AS
+
+template <typename StringType>
+inline int hashString(const StringType &s)
 {
     uint h = 0;
     uint g;
-    for ( uint i = 0; i<string.length(); i++ )
+    for(uint i = 0; i < s.length(); i++)
     {
-        h = (h<<4) + hashStringAccess(string, i);
-        if ( (g = h & 0xf0000000) )
+        h = (h << 4) + hashStringAccess(s, i);
+        if((g = h & 0xf0000000))
             h ^= g >> 24;
         h &= ~g;
     }
     int index = h;
-    if (index < 0)
+    if(index < 0)
         index = -index;
     return index;        
 }
 
-class StringHash : public Hash<QString>
-{
-public:
-    StringHash() : Hash<QString>() {}
-    virtual int hash(QString) const;
-};
+////////////////////////////////////////////////////////////////////////////////
+// specializations
+////////////////////////////////////////////////////////////////////////////////
 
-class PtrHash : public Hash<void *>
-{
-public:
-    PtrHash() : Hash<void *>() {}
-    virtual int hash(void *key) const { return long(key) % tableSize(); }
-};
+template<> inline int Hash<QString>::hash(QString key) const { return hashString(key) % tableSize(); }
+typedef Hash<QString> StringHash;
+
+template<> inline int Hash<void *>::hash(void *key) const { return long(key) % tableSize(); }
+typedef Hash<void *> PtrHash;
 
 ////////////////////////////////////////////////////////////////////////////////
 // template method implementations
@@ -184,7 +182,7 @@ bool Hash<T>::remove(T value)
     else {
         if(i->next)
             m_table.insert(h, i->next);
-	else
+        else
             m_table.remove(h);
     }
 

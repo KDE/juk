@@ -37,7 +37,6 @@ juk_SOURCES = \
 	sortedstringlist.cpp \
 	splashscreen.cpp \
 	statuslabel.cpp \
-	stringhash.cpp \
 	stringshare.cpp \
 	systemtray.cpp \
 	tag.cpp \
