@@ -108,7 +108,7 @@ public:
     virtual void setCurrent(PlaylistItem *current);
 
 private:
-    PlaylistItem *m_current; /// the current item
+    PlaylistItem *m_current; ///< the current item
 };
 
 /**
