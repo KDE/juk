@@ -110,7 +110,7 @@ void MusicBrainzQuery::slotQuery()
                 albums.append(album);
             }
         }
-    } 
+    }
     else {
         std::string error;
         GetQueryError(error);
@@ -260,7 +260,6 @@ MusicBrainzQuery::Track MusicBrainzQuery::extractTrack(int trackNumber)
     track.name     = dataExtract(MBE_TrackGetTrackName, trackNumber);
     track.duration = dataExtract(MBE_TrackGetTrackDuration, trackNumber);
     track.artist   = dataExtract(MBE_TrackGetArtistName, trackNumber);
-    track.album    = dataExtract(MBE_AlbumGetAlbumName, trackNumber);
 
     GetIDFromURL(source, target);
 
@@ -268,6 +267,7 @@ MusicBrainzQuery::Track MusicBrainzQuery::extractTrack(int trackNumber)
 
     Select(MBS_SelectTrackAlbum);
 
+    track.album  = dataExtract(MBE_AlbumGetAlbumName, trackNumber);
     track.number = GetOrdinalFromList(MBE_AlbumGetTrackList, source);
 
     GetIDFromURL(Data(MBE_AlbumGetArtistId), target);
@@ -299,7 +299,7 @@ void MusicBrainzQuery::slotTrmGenerationFinished(KProcess *process)
         emit signalStatusMsg( i18n( "TRM generation failed" ), 2000 );
     else
         slotQuery();
-    
+
 }
 
 #include "musicbrainzquery.moc"
