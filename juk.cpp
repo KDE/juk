@@ -144,7 +144,7 @@ void JuK::setupActions()
     // tagger menu
     new KAction(i18n("&Save"), "filesave", "CTRL+t", m_splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
     new KAction(i18n("&Delete"), "editdelete", 0, m_splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
-    new KAction(i18n("&Guess Tag Information"), 0, m_splitter, SLOT(slotGuessTagInfo()), actionCollection(), "guessTag");
+    new KAction(i18n("&Guess Tag Information"), 0, "CTRL+g", m_splitter, SLOT(slotGuessTagInfo()), actionCollection(), "guessTag");
 
     // settings menu
     new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this, SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
