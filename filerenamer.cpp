@@ -37,7 +37,7 @@ public:
         QLabel *l = new QLabel(hbox);
         l->setPixmap(SmallIcon("messagebox_warning", 32));
 
-        l = new QLabel(i18n("You're about to rename the following files. "
+        l = new QLabel(i18n("You are about to rename the following files. "
                             "Are you sure you want to continue?"), hbox);
         hbox->setStretchFactor(l, 1);
 
@@ -152,7 +152,7 @@ void FileRenamer::rename(PlaylistItem *item)
 
     QString newFilename = rename(item->absFilePath(), *item->tag());
     if(KMessageBox::warningContinueCancel(0,
-        i18n("<qt>You're about to rename the file<br/><br/> '%1'<br/><br/> to <br/><br/>'%2'<br/><br/>Are you sure you "
+        i18n("<qt>You are about to rename the file<br/><br/> '%1'<br/><br/> to <br/><br/>'%2'<br/><br/>Are you sure you "
              "want to continue?</qt>").arg(item->absFilePath()).arg(newFilename),
               i18n("Warning"), KStdGuiItem::cont(), "ShowFileRenamerWarning")
        == KMessageBox::Continue) {
