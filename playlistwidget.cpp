@@ -48,6 +48,15 @@ void PlaylistWidget::add(QStringList *items)
   playlistList->append(items);
 }
 
+void PlaylistWidget::add(FileListItem *item)
+{
+  playlistList->append(item);
+}
+
+void PlaylistWidget::add(QPtrList<QListViewItem> *items)
+{
+  playlistList->append(items);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members

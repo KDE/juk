@@ -18,9 +18,10 @@
 #ifndef PLAYLISTWIDGET_H
 #define PLAYLISTWIDGET_H
 
-// #include <unistd.h>
- #include <klistview.h>
+#include <klistview.h>
+
 #include "filelist.h"
+#include "filelistitem.h"
 
 class PlaylistWidget : public QWidget
 {
@@ -30,6 +31,8 @@ public:
 
   void add(QString item);
   void add(QStringList *items);
+  void add(FileListItem *item);
+  void add(QPtrList<QListViewItem> *items);
 
 private:
   void setupLayout();

@@ -23,11 +23,11 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-FileListItem::FileListItem(QFileInfo *file, KListView *parent) : KListViewItem(parent)
+FileListItem::FileListItem(QFileInfo *file, KListView *parent) : KListViewItem(parent), QFileInfo(*file)
 {
   header = 0;
-  fileInfo = file;
-  tag = new Tag(fileInfo->filePath());
+  //  fileInfo = file;
+  tag = new Tag(filePath());
 
   refresh();
 }
@@ -41,15 +41,10 @@ FileListItem::~FileListItem()
     delete(header);
 }
 
-QFileInfo *FileListItem::getFileInfo()
-{
-  return(fileInfo);
-}
-
 Tag *FileListItem::getTag()
 {
   if(!tag) {
-    tag = new Tag(fileInfo->filePath());
+    tag = new Tag(filePath());
   }
   return(tag);
 }
@@ -57,15 +52,14 @@ Tag *FileListItem::getTag()
 MPEGHeader *FileListItem::getHeader()
 {
   if(!header) {
-    header = new MPEGHeader(fileInfo->filePath());
+    header = new MPEGHeader(filePath());
   }
   return(header);
 }
 
 void FileListItem::setFile(QString fileName)
 {
-  if(fileInfo) 
-    fileInfo->setFile(fileName);
+  setFile(fileName);
   
   if(header) {
     delete(header);
@@ -85,7 +79,7 @@ void FileListItem::refresh()
   setText(3, tag->getTrackNumberString());
   setText(4, tag->getGenre());
   setText(5, tag->getYearString());
-  setText(6, fileInfo->filePath());
+  setText(6, filePath());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -24,12 +24,11 @@
 #include "tag.h"
 #include "MPEGHeader.h"
 
-class FileListItem : public KListViewItem  {
+class FileListItem : public KListViewItem, public QFileInfo  {
 public: 
   FileListItem(QFileInfo *file, KListView *parent);
   ~FileListItem();
 
-  QFileInfo *getFileInfo();
   Tag *getTag();
   MPEGHeader *getHeader();
   

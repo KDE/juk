@@ -59,10 +59,20 @@ void FileList::append(QString item)
 void FileList::append(QStringList *items)
 {
   QApplication::setOverrideCursor(Qt::waitCursor);
-  for(QStringList::Iterator it = items->begin(); it != items->end(); ++it) {
+  for(QStringList::Iterator it = items->begin(); it != items->end(); ++it)
     appendImpl(*it);
-  }
   QApplication::restoreOverrideCursor();
+}
+
+void FileList::append(FileListItem *item)
+{
+  
+}
+
+void FileList::append(QPtrList<QListViewItem> *items)
+{
+  //  for(QPtrListIterator it = items->begin(); it != items->end(); ++it)
+  //    append(QString((*it)));
 }
 
 FileListItem *FileList::getSelectedItem()
@@ -92,13 +102,6 @@ void FileList::setup()
   setItemMargin(3);
 
   setSorting(1);
-
-  //  QColor backGround = paletteBackgroundColor();
-  //  int r, g, b;
-  //  backGround.rgb(&r, &g, &b);
-  //  r=r-5; g=g-5; b=b-5;
-  //  const QColor ab(10,10,10);
-  //  setAlternateBackground(ab);
 }
 
 void FileList::appendImpl(QString item)
@@ -115,8 +118,9 @@ void FileList::appendImpl(QString item)
       }
     }
     else {
-      // QFileInfo::extension() doesn't always work, so I'm getting old-school on this.
-      QString extension=file->filePath().right(file->filePath().length() - (file->filePath().findRev(".") + 1));
+      // QFileInfo::extension() doesn't always work, so I'm getting old-school on this. -- fixed in Qt 3
+      // QString extension = file->filePath().right(file->filePath().length() - (file->filePath().findRev(".") + 1));
+      QString extension = file->extension(false);
       if(extensions.contains(extension) > 0 && members.contains(file->absFilePath()) == 0) {
         members.append(file->absFilePath());
 	(void) new FileListItem(file, this);

@@ -194,7 +194,7 @@ void JuK::playFile()
     float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());
 
     playTimer=new QTimer(this);
-    player.play(tagger->getSelectedItem()->getFileInfo()->absFilePath(), volume);
+    player.play(tagger->getSelectedItem()->absFilePath(), volume);
     if(player.playing()) {
       playAction->setEnabled(false);
       pauseAction->setEnabled(true);

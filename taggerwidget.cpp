@@ -75,21 +75,21 @@ void TaggerWidget::save()
     FileListItem *item = dynamic_cast<FileListItem *>(items.first());
     
     if(item && changed) {
-      QFileInfo newFile(item->getFileInfo()->dirPath() + QDir::separator() + fileNameBox->text());
-      QFileInfo directory(item->getFileInfo()->dirPath());
+      QFileInfo newFile(item->dirPath() + QDir::separator() + fileNameBox->text());
+      QFileInfo directory(item->dirPath());
 
       // if (the new file is writable or the new file doesn't exist and it's directory is writable)
       // and the old file is writable...
-      if((newFile.isWritable() || (!newFile.exists() && directory.isWritable())) && item->getFileInfo()->isWritable()) {
+      if((newFile.isWritable() || (!newFile.exists() && directory.isWritable())) && item->isWritable()) {
 	// if the file name in the box doesn't match the current file name
-	if(item->getFileInfo()->fileName()!=newFile.fileName()) {
+	if(item->fileName()!=newFile.fileName()) {
 	  // rename the file if it doesn't exist or we say it's ok
 	  if(!newFile.exists() ||
 	     KMessageBox::warningYesNo(this, i18n("This file already exists.\nDo you want to replace it?"), 
 				  i18n("File Exists")) == KMessageBox::Yes) 
 	    {
 	    QDir currentDir;
-	    currentDir.rename(item->getFileInfo()->filePath(), newFile.filePath());
+	    currentDir.rename(item->filePath(), newFile.filePath());
 	    item->setFile(newFile.filePath());
 	  }
 	}
@@ -283,7 +283,7 @@ void TaggerWidget::readConfig()
 
 void TaggerWidget::updateBoxes() // this needs to be updated to properly work with multiple selections
 {
-  //  kdDebug() << "updateBoxes(): " << item->getFileInfo()->filePath() << endl;
+  //  kdDebug() << "updateBoxes(): " << item->filePath() << endl;
 
   QPtrList<QListViewItem> items = taggerList->selectedItems();
 
@@ -293,7 +293,6 @@ void TaggerWidget::updateBoxes() // this needs to be updated to properly work wi
 
     if(item) {
       Tag *tag = item->getTag();
-      QFileInfo *fileInfo = item->getFileInfo();
       MPEGHeader *header = item->getHeader();
       
       artistNameBox->setEditText(tag->getArtist());
@@ -307,7 +306,7 @@ void TaggerWidget::updateBoxes() // this needs to be updated to properly work wi
 	genreBox->setEditText(tag->getGenre());
       }
       
-      fileNameBox->setText(fileInfo->fileName());
+      fileNameBox->setText(item->fileName());
       trackSpin->setValue(tag->getTrackNumber());
       yearSpin->setValue(tag->getYear());
       

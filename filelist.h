@@ -34,6 +34,8 @@ public:
 
   void append(QString item);
   void append(QStringList *items);
+  void append(FileListItem *item);
+  void append(QPtrList<QListViewItem> *items);
   
   FileListItem *getSelectedItem();
 
