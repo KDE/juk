@@ -39,14 +39,11 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ID3Tag::ID3Tag(const QString &file) : Tag(file)
+ID3Tag::ID3Tag(const QString &file) : Tag(file), fileName(file), changed(false)
 {
     metaInfo = KFileMetaInfo(file, QString::null, KFileMetaInfo::Fastest);
 
-    fileName = file;
     tag.Link(fileName.latin1());
-
-    changed = false;
 
     // the easy ones -- these are supported in the id3 class
 

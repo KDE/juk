@@ -22,13 +22,9 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-CachedTag::CachedTag(const QString &file) : Tag(file)
+CachedTag::CachedTag(const QString &file) : Tag(file), externalTag(0), tagYear(0), tagTrackNumber(0), tagSeconds(0), tagExists(false)
 {
-    tagYear = 0;
-    tagTrackNumber = 0;
-    tagSeconds = 0;
-    tagExists = false;
-    externalTag = 0;
+
 }
 
 CachedTag::~CachedTag()

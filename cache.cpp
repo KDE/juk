@@ -88,6 +88,9 @@ void Cache::load()
 	CachedTag *t = new CachedTag(fileName);
 	s >> *t;
 
+	// Check the modification time of the file to make sure that 
+	// the cache is current.
+
 	if(!t->current())
 	    delete(t);
     }
