@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kapplication.h>
+#include <kuniqueapplication.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <klocale.h>
@@ -46,7 +46,7 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
 
-    KApplication a;
+    KUniqueApplication a;
     JuK *juk = new JuK();
     a.setMainWidget(juk);
     juk->show();
