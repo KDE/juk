@@ -48,7 +48,10 @@ juk_SOURCES = \
 	tagguesserconfigdlgwidget.ui \
 	trackpickerdialog.cpp \
 	trackpickerdialogbase.ui \
+	tracksequenceiterator.cpp \
+	tracksequencemanager.cpp \
 	treeviewitemplaylist.cpp \
+	upcomingplaylist.cpp \
 	ktrm.cpp \
 	viewmode.cpp
 

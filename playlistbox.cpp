@@ -29,12 +29,14 @@
 #include "collectionlist.h"
 #include "dynamicplaylist.h"
 #include "historyplaylist.h"
+#include "upcomingplaylist.h"
 #include "viewmode.h"
 #include "searchplaylist.h"
 #include "treeviewitemplaylist.h"
 #include "actioncollection.h"
 #include "cache.h"
 #include "k3bexporter.h"
+#include "tracksequencemanager.h"
 
 using namespace ActionCollection;
 
@@ -126,6 +128,12 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     Cache::loadPlaylists(this);
     raise(CollectionList::instance());
 
+    TrackSequenceManager::instance()->setCurrentPlaylist(CollectionList::instance());
+
+    // We need to wait until after Collection List is created to set this up.
+
+    setupUpcomingPlaylist(); 
+
     setSorting(-1); // Disable sorting for speed
 
     performTreeViewSetup();
@@ -214,7 +222,12 @@ Playlist *PlaylistBox::currentPlaylist() const
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
 {
     PlaylistCollection::setupPlaylist(playlist, iconName);
-    new Item(this, iconName, playlist->name(), playlist);
+    if(iconName == "upcoming_playlist") {
+	kdDebug(65432) << "Setting up upcoming playlist after Collection List\n";
+	new Item(this, iconName, playlist->name(), playlist, m_playlistDict[CollectionList::instance()]);
+    }
+    else
+	new Item(this, iconName, playlist->name(), playlist);
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem)
@@ -310,8 +323,14 @@ void PlaylistBox::remove()
 	setSingleItem(i);
     }
 
-    for(PlaylistList::ConstIterator it = removeQueue.begin(); it != removeQueue.end(); ++it)
-	delete *it;
+    for(PlaylistList::ConstIterator it = removeQueue.begin(); it != removeQueue.end(); ++it) {
+	if(*it != upcomingPlaylist())
+	    delete *it;
+	else {
+	    action<KToggleAction>("showUpcoming")->setChecked(false);
+	    setUpcomingPlaylistEnabled(false);
+	}
+    }
 }
 
 void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
@@ -565,10 +584,16 @@ void PlaylistBox::slotPlaylistChanged()
 
     if(singlePlaylist) {
 	playlistStack()->raiseWidget(playlists.front());
+	TrackSequenceManager::instance()->setCurrentPlaylist(playlists.front());
 	dataChanged(); // Update the status bar
 
 	delete m_dynamicPlaylist;
 	m_dynamicPlaylist = 0;
+
+	if(playlists.front() == upcomingPlaylist())
+	    action("deleteItemPlaylist")->setText(i18n("Hid&e"));
+	else
+	    action("deleteItemPlaylist")->setText(i18n("R&emove"));
     }
     else if(!playlists.isEmpty()) {
 	DynamicPlaylist *p = new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "midi", false);
@@ -576,6 +601,8 @@ void PlaylistBox::slotPlaylistChanged()
 
 	delete m_dynamicPlaylist;
 	m_dynamicPlaylist = p;
+
+	TrackSequenceManager::instance()->setCurrentPlaylist(m_dynamicPlaylist);
     }
 }
 
@@ -620,14 +647,23 @@ void PlaylistBox::performTreeViewSetup()
     m_treeViewSetup = true;
 }
 
+void PlaylistBox::setupUpcomingPlaylist()
+{
+    KConfigGroup config(KGlobal::config(), "Playlists");
+    bool enable = config.readBoolEntry("showUpcoming", false);
+
+    setUpcomingPlaylistEnabled(enable);
+    action<KToggleAction>("showUpcoming")->setChecked(enable);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox::Item protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 
-PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l)
-    : QObject(listBox), KListViewItem(listBox, text),
+PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l, Item *after)
+    : QObject(listBox), KListViewItem(listBox, after, text),
       m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
     init();
@@ -648,6 +684,12 @@ PlaylistBox::Item::~Item()
 int PlaylistBox::Item::compare(QListViewItem *i, int col, bool) const
 {
     Item *otherItem = static_cast<Item *>(i);
+    PlaylistBox *playlistBox = static_cast<PlaylistBox *>(listView());
+
+    if(m_playlist == playlistBox->upcomingPlaylist() && otherItem->m_playlist != CollectionList::instance())
+	return -1;
+    if(otherItem->m_playlist == playlistBox->upcomingPlaylist() && m_playlist != CollectionList::instance())
+	return 1;
 
     if(m_sortedFirst && !otherItem->m_sortedFirst)
 	return -1;
@@ -720,7 +762,7 @@ void PlaylistBox::Item::init()
 	    static_cast<TreeViewMode *>(list->viewMode())->setupCategories();
     }
 
-    if(m_playlist == list->historyPlaylist())
+    if(m_playlist == list->historyPlaylist() || m_playlist == list->upcomingPlaylist())
 	m_sortedFirst = true;
 }
 

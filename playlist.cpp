@@ -45,10 +45,12 @@
 #include "collectionlist.h"
 #include "filerenamer.h"
 #include "actioncollection.h"
+#include "tracksequencemanager.h"
 #include "juk.h"
 #include "tag.h"
 #include "k3bexporter.h"
 #include "painteater.h"
+#include "upcomingplaylist.h"
 
 using namespace ActionCollection;
 
@@ -264,8 +266,9 @@ void Playlist::SharedSettings::writeConfig()
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
+PlaylistItemList Playlist::m_history;
 PlaylistItem *Playlist::m_playingItem = 0;
-PlaylistItem *Playlist::m_playNextItem = 0;
+UpcomingPlaylist *Playlist::m_upcomingPlaylist = 0;
 QMap<int, PlaylistItem *> Playlist::m_backMenuItems;
 int Playlist::m_leftColumn = 0;
 
@@ -354,6 +357,10 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
 
 Playlist::~Playlist()
 {
+    // clearItem() will take care of removing the items from the history,
+    // so call clearItems() to make sure it happens.
+
+    clearItems(items());
     if(m_playingItem && m_playingItem->playlist() == this)
 	m_playingItem = 0;
 
@@ -387,96 +394,21 @@ int Playlist::time() const
 
 void Playlist::playFirst()
 {
-    m_playNextItem = static_cast<PlaylistItem *>(
-	QListViewItemIterator(const_cast<Playlist *>(this), QListViewItemIterator::Visible).current());
+    TrackSequenceManager::instance()->setNextItem(static_cast<PlaylistItem *>(
+	QListViewItemIterator(const_cast<Playlist *>(this), QListViewItemIterator::Visible).current()));
     action("forward")->activate();
 }
 
 void Playlist::playNext()
 {
-    bool loop = action("loopPlaylist") && action<KToggleAction>("loopPlaylist")->isChecked();
-    bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
-    bool random = albumRandom || (action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked());
-
-    Playlist *list = m_playingItem ? m_playingItem->playlist() : this;
-
-    if(list->items().isEmpty()) {
-	setPlaying(0);
-	return;
-    }
-
-    // Always initialize m_randomList if random play is enabled, otherwise the
-    // first file JuK plays in album random play mode doesn't save the album
-    // because m_randomList isn't updated on the m_playNextItem branch.
-
-    if(random && list->m_randomList.isEmpty()) {
-	m_albumSearch.clearComponents();
-	m_albumSearch.search();
-	list->m_randomList = list->visibleItems();
-
-	if(m_playingItem && !loop) {
-	    setPlaying(0);
-	    return;
-	}
-    }
-
-    PlaylistItem *next = 0;
-
-    if(m_playNextItem) {
-	next = m_playNextItem;
-	initAlbumSearch(next);
-	m_albumSearch.clearItem(next);
-
-	m_playNextItem = 0;
-
-	if(random)
-	    list->m_randomList.remove(next);
-    }
-    else if(random) {
-	if(albumRandom) {
-	    if(m_albumSearch.isNull() || m_albumSearch.matchedItems().isEmpty()) {
-		next = list->m_randomList[KApplication::random() % list->m_randomList.count()];
-		initAlbumSearch(next);
-	    }
-
-	    // This can be null if initAlbumSearch() left the m_albumSearch
-	    // empty because the album text was empty.
-
-	    if(!m_albumSearch.isNull()) {
-		PlaylistItemList albumMatches = m_albumSearch.matchedItems();
-
-		next = albumMatches[0];
-
-		// Pick first song
-
-		for(unsigned i = 0; i < albumMatches.count(); ++i)
-		    if(albumMatches[i]->file().tag()->track() < next->file().tag()->track())
-			next = albumMatches[i];
-		m_albumSearch.clearItem(next);
-	    }
-	}
-	else
-	    next = list->m_randomList[KApplication::random() % list->m_randomList.count()];
-
-	list->m_randomList.remove(next);
-    }
-    else {
-	next = nextItem(m_playingItem);
-
-	if(!next && loop) {
-	    QListViewItemIterator it(this, QListViewItemIterator::Visible);
-	    next = static_cast<PlaylistItem *>(*it);
-	}
-    }
-
+    TrackSequenceManager::instance()->setCurrentPlaylist(this);
+    PlaylistItem *next = TrackSequenceManager::instance()->nextItem();
     setPlaying(next);
 }
 
 void Playlist::stop()
 {
     m_history.clear();
-    m_albumSearch.clearComponents();
-    m_albumSearch.search();
     setPlaying(0);
 }
 
@@ -496,8 +428,7 @@ void Playlist::playPrevious()
     }
     else {
 	m_history.clear();
-	if(!m_playingItem->itemAbove())
-	    previous = m_playingItem;
+	previous = TrackSequenceManager::instance()->previousItem();
     }
 
     if(!previous)
@@ -556,6 +487,8 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 
     if(!m_randomList.isEmpty() && !m_visibleChanged)
         m_randomList.remove(item);
+    m_history.remove(item);
+
     delete item;
     if(emitChanged)
 	dataChanged();
@@ -606,6 +539,11 @@ PlaylistItemList Playlist::selectedItems()
     }
 
     return list;
+}
+
+PlaylistItem *Playlist::firstChild() const
+{
+    return static_cast<PlaylistItem *>(KListView::firstChild());
 }
 
 void Playlist::updateLeftColumn()
@@ -674,9 +612,8 @@ void Playlist::markItemSelected(PlaylistItem *item, bool selected)
 
 void Playlist::slotSetNext()
 {
-    PlaylistItemList l = selectedItems();
-    if(!l.isEmpty())
-	m_playNextItem = l.front();
+    QListViewItemIterator it(this, QListViewItemIterator::Selected);
+    TrackSequenceManager::instance()->setNextItem(static_cast<PlaylistItem *>(it.current()));
 }
 
 void Playlist::copy()
@@ -825,8 +762,6 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
                         m_randomList.remove(*it);
 		    CollectionList::instance()->clearItem((*it)->collectionItem());
-		    if(m_playNextItem == *it)
-			m_playNextItem = 0;
 
 		    // Get Orwellian and erase the song from history. :-)
 
@@ -947,6 +882,12 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     KListView::contentsDropEvent(e);
 }
 
+void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
+{
+    if(e->button() == LeftButton)
+	KListView::contentsMouseDoubleClickEvent(e);
+}
+
 void Playlist::showEvent(QShowEvent *e)
 {
     if(m_applySharedSettings) {
@@ -1014,9 +955,9 @@ PlaylistItem *Playlist::createItem(const FileHandle &file,
     return createItem<PlaylistItem, CollectionListItem, CollectionList>(file, after, emitChanged);
 }
 
-void Playlist::createItems(const PlaylistItemList &siblings)
+void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after)
 {
-    createItems<CollectionListItem, PlaylistItem, PlaylistItem>(siblings);
+    createItems<CollectionListItem, PlaylistItem, PlaylistItem>(siblings, after);
 }
 
 void Playlist::addFiles(const QStringList &files, bool importPlaylists,
@@ -1208,9 +1149,9 @@ void Playlist::slotPopulateBackMenu() const
     m_backMenuItems.clear();
 
     int count = 0;
-    PlaylistItemList::ConstIterator it = m_playingItem->playlist()->m_history.end();
+    PlaylistItemList::ConstIterator it = m_history.end();
 
-    while(it != m_playingItem->playlist()->m_history.begin() && count < 10) {
+    while(it != m_history.begin() && count < 10) {
 	++count;
 	--it;
 	int index = menu->insertItem((*it)->file().tag()->title());
@@ -1223,7 +1164,7 @@ void Playlist::slotPlayFromBackMenu(int number) const
     if(!m_backMenuItems.contains(number))
 	return;
 
-    m_playNextItem = m_backMenuItems[number];
+    TrackSequenceManager::instance()->setNextItem(m_backMenuItems[number]);
     action("forward")->activate();
 }
 
@@ -1237,7 +1178,6 @@ void Playlist::setup()
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
     setSorting(1);
-    m_albumSearch.addPlaylist(this);
 }
 
 PlaylistItem *Playlist::nextItem(PlaylistItem *current) const
@@ -1257,31 +1197,6 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current) const
 	}
 	return static_cast<PlaylistItem *>(it.current());
     }
-}
-
-void Playlist::initAlbumSearch(const PlaylistItem *item)
-{
-    ColumnList columns;
-    
-    m_albumSearch.setSearchMode(PlaylistSearch::MatchAll);
-    m_albumSearch.clearComponents();
-
-    // if the album name is empty, it will mess up the search,
-    // so ignore empty album names.
-
-    if(item->file().tag()->album().isEmpty())
-	return;
-
-    columns.append(PlaylistItem::AlbumColumn);
-
-    m_albumSearch.addComponent(PlaylistSearch::Component(
-	item->file().tag()->album(),
-	true,
-	columns,
-	PlaylistSearch::Component::Exact)
-    );
-
-    m_albumSearch.search();
 }
 
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
@@ -1334,8 +1249,8 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 	m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
 	m_playingItem->setPlaying(false);
 
-	if(addToHistory)
-	    m_playingItem->playlist()->m_history.append(m_playingItem);
+	if(addToHistory && m_playingItem->playlist() != m_upcomingPlaylist)
+	    m_history.append(m_playingItem);
 
 	m_playingItem = 0;
     }
@@ -1347,7 +1262,9 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
     item->setPixmap(m_leftColumn, UserIcon("playing"));
     item->setPlaying(true);
 
-    bool enableBack = !m_playingItem->playlist()->m_history.isEmpty();
+    TrackSequenceManager::instance()->setCurrent(item);
+
+    bool enableBack = !m_history.isEmpty();
     action<KToolBarPopupAction>("back")->popupMenu()->setEnabled(enableBack);
 }
 
@@ -1608,6 +1525,14 @@ void Playlist::slotUpdateColumnWidths()
     m_widthsDirty = false;
 }
 
+void Playlist::slotAddToUpcoming()
+{
+    if(!m_upcomingPlaylist)
+	return;
+
+    m_upcomingPlaylist->appendItems(selectedItems());
+}
+
 void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column)
 {
     if(!item)
@@ -1624,6 +1549,8 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
 	m_rmbMenu->insertItem(SmallIconSet("player_play"), i18n("Play Next"),
 			      this, SLOT(slotSetNext()));
+	m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("upcoming_playlist"),
+	    i18n("Add to upcoming tracks"), this, SLOT(slotAddToUpcoming()));
 	m_rmbMenu->insertSeparator();
 
 	if(!readOnly()) {
@@ -1674,6 +1601,12 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 		i18n("Edit '%1'").arg(columnText(column)));
 
     m_rmbMenu->setItemVisible(m_rmbEditID, showEdit);
+    m_rmbMenu->setItemVisible(m_rmbUpcomingID, m_upcomingPlaylist != 0);
+
+    if(this == m_upcomingPlaylist)
+	action("removeItem")->setEnabled(false);
+    else
+	action("removeItem")->setEnabled(true);
 
     // Disable edit menu if only one file is selected, and it's read-only
 
@@ -1871,7 +1804,9 @@ void Playlist::slotInlineCompletionModeChanged(KGlobalSettings::Completion mode)
 
 void Playlist::slotPlayCurrent()
 {
-    m_playNextItem = nextItem();
+    QListViewItemIterator it(this, QListViewItemIterator::Selected);
+    PlaylistItem *next = static_cast<PlaylistItem *>(it.current());
+    TrackSequenceManager::instance()->setNextItem(next);
     action("forward")->activate();
 }
 

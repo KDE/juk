@@ -91,6 +91,7 @@ private:
 
     void setupItem(Item *item);
     void performTreeViewSetup();
+    void setupUpcomingPlaylist();
     int viewModeIndex() const { return m_viewModeIndex; }
     ViewMode *viewMode() const { return m_viewModes[m_viewModeIndex]; }
 
@@ -141,7 +142,7 @@ public:
     virtual ~Item();
     
 protected:
-    Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0);
+    Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0, Item *after = 0);
     Item(Item *parent, const QString &icon, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_playlist; }

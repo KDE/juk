@@ -1,0 +1,169 @@
+#include <kconfig.h>
+#include <klocale.h>
+#include <kaction.h>
+#include <kpopupmenu.h>
+
+#include "actioncollection.h"
+#include "tracksequencemanager.h"
+#include "playlist.h"
+#include "playlistitem.h"
+#include "tracksequenceiterator.h"
+#include "tag.h"
+#include "filehandle.h"
+#include "collectionlist.h"
+
+TrackSequenceManager *TrackSequenceManager::m_instance(0);
+
+/////////////////////////////////////////////////////////////////////////////
+// public functions
+/////////////////////////////////////////////////////////////////////////////
+
+TrackSequenceManager::~TrackSequenceManager()
+{
+    // m_playlist and m_popupMenu don't belong to us, don't try to delete them
+    if(m_iterator == m_defaultIterator)
+        m_iterator = 0;
+
+    delete m_iterator;
+    delete m_defaultIterator;
+}
+
+bool TrackSequenceManager::installIterator(TrackSequenceIterator *iterator)
+{
+    PlaylistItem *oldItem = m_iterator ? m_iterator->current() : 0;
+    
+    if(m_iterator != m_defaultIterator)
+        delete m_iterator;
+
+    m_iterator = m_defaultIterator;
+    if(iterator)
+        m_iterator = iterator;
+
+    m_iterator->setCurrent(oldItem);
+
+    return true;
+}
+
+PlaylistItem *TrackSequenceManager::currentItem() const
+{
+    return m_iterator->current();
+}
+
+TrackSequenceIterator *TrackSequenceManager::takeIterator()
+{
+    TrackSequenceIterator *temp = m_iterator;
+
+    m_iterator = 0;
+    return temp;
+}
+
+TrackSequenceManager *TrackSequenceManager::instance()
+{
+    if(!m_instance)
+        m_instance = new TrackSequenceManager;
+
+    if(!m_instance->m_initialized)
+        m_instance->initialize();
+
+    return m_instance;
+}
+
+PlaylistItem *TrackSequenceManager::nextItem()
+{
+    if(m_playNextItem) {
+        
+        // Force the iterator to reset state (such as random item lists)
+
+        m_iterator->reset();        
+        m_iterator->setCurrent(m_playNextItem);
+        m_playNextItem = 0;
+    }
+    else if(m_iterator->current())
+        m_iterator->advance();
+    else
+        m_iterator->prepareToPlay(CollectionList::instance());
+
+    return m_iterator->current();
+}
+
+PlaylistItem *TrackSequenceManager::previousItem()
+{
+    m_iterator->backup();
+    return m_iterator->current();
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// public slots
+/////////////////////////////////////////////////////////////////////////////
+
+void TrackSequenceManager::setNextItem(PlaylistItem *item)
+{
+    m_playNextItem = item;
+}
+
+void TrackSequenceManager::setCurrentPlaylist(Playlist *list)
+{
+    m_playlist = list;
+}
+
+void TrackSequenceManager::setCurrent(PlaylistItem *item)
+{
+    if(item != m_iterator->current()) {
+        m_iterator->setCurrent(item);
+        if(!item)
+            m_iterator->reset();
+    }
+}
+
+void TrackSequenceManager::setPopupMenu(KPopupMenu *menu)
+{
+    // Remove old KActions
+
+    m_popupMenu = menu;
+
+    // Insert new KActions
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// private functions
+/////////////////////////////////////////////////////////////////////////////
+
+void TrackSequenceManager::initialize()
+{
+    CollectionList *collection = CollectionList::instance();
+
+    if(!collection)
+        return;
+
+    // Make sure we don't use m_playNextItem if it's invalid.
+    connect(collection, SIGNAL(signalAboutToRemove(PlaylistItem *)),
+            this, SLOT(slotItemAboutToDie(PlaylistItem *)));
+
+    m_initialized = true;
+}
+
+TrackSequenceManager::TrackSequenceManager() :
+    QObject(),
+    m_playlist(0),
+    m_playNextItem(0),
+    m_popupMenu(0),
+    m_iterator(0),
+    m_initialized(false)
+{
+    m_defaultIterator = new DefaultSequenceIterator();
+    m_iterator = m_defaultIterator;
+}
+
+/////////////////////////////////////////////////////////////////////////////
+// protected slots
+/////////////////////////////////////////////////////////////////////////////
+
+void TrackSequenceManager::slotItemAboutToDie(PlaylistItem *item)
+{
+    if(item == m_playNextItem)
+        m_playNextItem = 0;
+}
+
+#include "tracksequencemanager.moc"
+
+// vim: set et sw=4 tw=0:

@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="juk" version="3">
+<kpartgui name="juk" version="5">
 <MenuBar>
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="file_new"/>
@@ -27,6 +27,7 @@
 		<Action name="showSearch"/>
 		<Action name="showEditor"/>
 		<Action name="showHistory"/>
+		<Action name="showUpcoming"/>
 		<Action name="showColumns"/>
 
 		<Separator/>
@@ -68,6 +69,7 @@
 		<Action name="tagGuesserConfig" append="save_merge"/>
 		<Action name="fileRenamerConfig" append="save_merge"/>
 		<Action name="outputSelect" append="save_merge"/>
+		<Action name="saveUpcomingTracks" append="save_merge"/>
 	</Menu>
 </MenuBar>
 

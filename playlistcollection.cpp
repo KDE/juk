@@ -25,6 +25,7 @@
 #include "searchplaylist.h"
 #include "folderplaylist.h"
 #include "historyplaylist.h"
+#include "upcomingplaylist.h"
 #include "directorylist.h"
 #include "mediafiles.h"
 #include "playermanager.h"
@@ -49,6 +50,7 @@ using namespace ActionCollection;
 PlaylistCollection::PlaylistCollection(QWidgetStack *playlistStack) :
     m_playlistStack(playlistStack),
     m_historyPlaylist(0),
+    m_upcomingPlaylist(0),
     m_importPlaylists(true),
     m_searchEnabled(true),
     m_playing(false)
@@ -419,6 +421,42 @@ void PlaylistCollection::setHistoryPlaylistEnabled(bool enable)
     }
 }
 
+UpcomingPlaylist *PlaylistCollection::upcomingPlaylist() const
+{
+    return m_upcomingPlaylist;
+}
+
+void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
+{
+    if((action<KToggleAction>("showUpcoming")->isChecked() && m_upcomingPlaylist) ||
+	(!enable && !m_upcomingPlaylist))
+    {
+        return;
+    }
+
+    if(enable) {
+        action<KToggleAction>("showUpcoming")->setChecked(true);
+	if(!m_upcomingPlaylist)
+	    m_upcomingPlaylist = new UpcomingPlaylist(this);
+
+	m_upcomingPlaylist->initialize();
+
+        setupPlaylist(m_upcomingPlaylist, "upcoming_playlist");
+	raise(m_upcomingPlaylist);
+    }
+    else {
+	action<KToggleAction>("showUpcoming")->setChecked(false);
+	bool raiseCollection = m_playlistStack->visibleWidget() == m_upcomingPlaylist;
+        delete m_upcomingPlaylist;
+        m_upcomingPlaylist = 0;
+
+	if(raiseCollection) {
+	    kapp->processEvents(); // Seems to stop a crash, weird.
+	    raise(CollectionList::instance());
+	}
+    }
+}
+
 QObject *PlaylistCollection::object() const
 {
     return m_actionHandler;
@@ -555,8 +593,8 @@ void PlaylistCollection::readConfig()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
 
-    m_importPlaylists = config.readBoolEntry("ImportPlaylists", true);
-    m_folderList      = config.readPathListEntry("DirectoryList");
+    m_importPlaylists  = config.readBoolEntry("ImportPlaylists", true);
+    m_folderList       = config.readPathListEntry("DirectoryList");
 
     QObject::connect(&m_dirWatch, SIGNAL(dirty(const QString &)),
             object(), SLOT(slotDirChanged(const QString &)));
@@ -574,6 +612,7 @@ void PlaylistCollection::saveConfig()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
     config.writeEntry("ImportPlaylists", m_importPlaylists);
+    config.writeEntry("showUpcoming", action<KToggleAction>("showUpcoming")->isChecked());
     config.writePathEntry("DirectoryList", m_folderList);
 }
 
@@ -633,8 +672,14 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
         new KToggleAction(i18n("Show &History"), "history",  0, actions(), "showHistory");
     historyAction->setCheckedState(i18n("Hide &History"));
 
+    KToggleAction *upcomingAction =
+        new KToggleAction(i18n("Show &Upcoming Playlist"), "upcoming_playlist", 0, actions(), "showUpcoming");
+    upcomingAction->setCheckedState(i18n("Hide &Upcoming Playlist"));
+
     connect(action<KToggleAction>("showHistory"), SIGNAL(toggled(bool)),
             this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
+    connect(action<KToggleAction>("showUpcoming"), SIGNAL(toggled(bool)),
+            this, SLOT(slotSetUpcomingPlaylistEnabled(bool)));
 }
 
 KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,

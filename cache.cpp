@@ -27,6 +27,7 @@
 #include "tag.h"
 #include "searchplaylist.h"
 #include "historyplaylist.h"
+#include "upcomingplaylist.h"
 #include "playlistcollection.h"
 #include "actioncollection.h"
 
@@ -34,7 +35,7 @@ using namespace ActionCollection;
 
 Cache *Cache::m_cache = 0;
 static const int playlistCacheVersion = 2;
-enum PlaylistType { Normal = 0, Search = 1, History = 2 };
+enum PlaylistType { Normal = 0, Search = 1, History = 2, Upcoming = 3 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -135,6 +136,15 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 		playlist = collection->historyPlaylist();
                 break;
             }
+	    case Upcoming:
+	    {
+		UpcomingPlaylist *p = new UpcomingPlaylist(collection);
+		action<KToggleAction>("saveUpcomingTracks")->setChecked(true);
+		s >> *p;
+		playlist = p;
+		collection->setUpcomingPlaylist(p);
+		break;
+	    }
             default:
                 Playlist *p = new Playlist(collection, true);
 		s >> *p;
@@ -191,6 +201,12 @@ void Cache::savePlaylists(const PlaylistList &playlists)
 	    else if(dynamic_cast<SearchPlaylist *>(*it)) {
 		s << Q_INT32(Search)
 		  << *static_cast<SearchPlaylist *>(*it);
+	    }
+	    else if(dynamic_cast<UpcomingPlaylist *>(*it)) {
+		if(!action<KToggleAction>("saveUpcomingTracks")->isChecked())
+		    continue;
+		s << Q_INT32(Upcoming)
+		  << *static_cast<UpcomingPlaylist *>(*it);
 	    }
 	    else {
 		s << Q_INT32(Normal)

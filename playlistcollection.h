@@ -30,6 +30,7 @@ class KAction;
 class Playlist;
 class PlaylistItem;
 class HistoryPlaylist;
+class UpcomingPlaylist;
 
 typedef QValueList<PlaylistItem *> PlaylistItemList;
 
@@ -97,6 +98,16 @@ public:
     HistoryPlaylist *historyPlaylist() const;
     void setHistoryPlaylistEnabled(bool enable);
 
+    UpcomingPlaylist *upcomingPlaylist() const;
+    void setUpcomingPlaylistEnabled(bool enable);
+
+    /**
+     * Sets the playlist without initializing it (for use by Cache before GUI
+     * is completely setup).  Call setUpcomingPlaylistEnabled(true) when the
+     * rest of initialization is ready.
+     */
+    void setUpcomingPlaylist(UpcomingPlaylist *p) { m_upcomingPlaylist = p; }
+
     void dirChanged(const QString &path);
 
     QObject *object() const;
@@ -126,9 +137,10 @@ private:
     void readConfig();
     void saveConfig();
 
-    QWidgetStack    *m_playlistStack;
-    HistoryPlaylist *m_historyPlaylist;
-    ActionHandler   *m_actionHandler;
+    QWidgetStack     *m_playlistStack;
+    HistoryPlaylist  *m_historyPlaylist;
+    UpcomingPlaylist *m_upcomingPlaylist;
+    ActionHandler    *m_actionHandler;
 
     KDirWatch   m_dirWatch;
     StringHash  m_playlistNames;
@@ -184,6 +196,7 @@ private slots:
 
     void slotSetSearchEnabled(bool enable) { m_collection->setSearchEnabled(enable); }
     void slotSetHistoryPlaylistEnabled(bool enable) {m_collection->setHistoryPlaylistEnabled(enable); }
+    void slotSetUpcomingPlaylistEnabled(bool enable) { m_collection->setUpcomingPlaylistEnabled(enable); }
     void slotEnableDirWatch(bool enable) { m_collection->enableDirWatch(enable); }
     void slotDirChanged(const QString &path) { m_collection->dirChanged(path); }
 

@@ -38,6 +38,8 @@ class PlaylistCollection;
 
 class PlaylistItem;
 class PlaylistToolTip;
+class UpcomingPlaylist;
+
 typedef QValueList<PlaylistItem *> PlaylistItemList;
 
 typedef QValueList<Playlist *> PlaylistList;
@@ -138,6 +140,11 @@ public:
     PlaylistItemList selectedItems();
 
     /**
+     * Returns properly casted first child item in list.
+     */
+    PlaylistItem *firstChild() const;
+
+    /**
      * Allow duplicate files in the playlist.
      */
     void setAllowDuplicates(bool allow) { m_allowDuplicates = allow; }
@@ -163,7 +170,7 @@ public:
 			 QListViewItem *after = 0,
 			 bool emitChanged = true);
 
-    virtual void createItems(const PlaylistItemList &siblings);
+    virtual void createItems(const PlaylistItemList &siblings, PlaylistItem *after = 0);
 
     /**
      * This handles adding files of various types -- music, playlist or directory
@@ -367,6 +374,7 @@ protected:
     virtual bool canDecode(QMimeSource *s);
     virtual void decode(QMimeSource *s, PlaylistItem *after = 0);
     virtual void contentsDropEvent(QDropEvent *e);
+    virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const { return KURLDrag::canDecode(e); }
     virtual void viewportPaintEvent(QPaintEvent *pe);
@@ -383,6 +391,10 @@ protected:
      */
     virtual void polish();
 
+    UpcomingPlaylist *upcomingPlaylist() const { return m_upcomingPlaylist; }
+
+    void setUpcomingPlaylist(UpcomingPlaylist *playlist) { m_upcomingPlaylist = playlist; }
+
     /**
      * Do some finial initialization of created items.  Notably ensure that they
      * are shown or hidden based on the contents of the current PlaylistSearch.
@@ -397,7 +409,7 @@ protected:
      * ItemType should be a PlaylistItem subclass.
      */
     template <class CollectionItemType, class ItemType, class SiblingType>
-    void createItems(const QValueList<SiblingType *> &siblings);
+    void createItems(const QValueList<SiblingType *> &siblings, ItemType *after = 0);
 
 protected slots:
     void slotPopulateBackMenu() const;
@@ -429,7 +441,7 @@ private:
     /** Sets up album random play to play songs with the same album as
      * the given PlaylistItem.
      */
-    void initAlbumSearch(const PlaylistItem *item);
+//    void initAlbumSearch(const PlaylistItem *item);
 
     /**
      * Load the playlist from a file.  \a fileName should be the absolute path.
@@ -480,6 +492,8 @@ private:
 private slots:
 
     void slotUpdateColumnWidths();
+
+    void slotAddToUpcoming();
 
     /**
      * Show the RMB menu.  Matches the signature for the signal 
@@ -544,6 +558,7 @@ private:
     int m_currentColumn;
     int m_processed;
     int m_rmbEditID;
+    int m_rmbUpcomingID;
     int m_selectedCount;
 
     bool m_allowDuplicates;
@@ -560,9 +575,10 @@ private:
     bool m_widthsDirty;
 
     PlaylistItemList m_randomList;
-    PlaylistItemList m_history;
+//    PlaylistItemList m_history;
+    static PlaylistItemList m_history;
     PlaylistSearch m_search;
-    PlaylistSearch m_albumSearch;
+    // PlaylistSearch m_albumSearch;
 
     bool m_searchEnabled;
 
@@ -594,7 +610,7 @@ private:
     static bool m_visibleChanged;
     static int m_leftColumn;
     static PlaylistItem *m_playingItem;
-    static PlaylistItem *m_playNextItem;
+    static UpcomingPlaylist *m_upcomingPlaylist;
     static QMap<int, PlaylistItem *> m_backMenuItems;
 };
 
@@ -643,13 +659,13 @@ ItemType *Playlist::createItem(const FileHandle &file, QListViewItem *after,
 }
 
 template <class CollectionItemType, class ItemType, class SiblingType>
-void Playlist::createItems(const QValueList<SiblingType *> &siblings)
+void Playlist::createItems(const QValueList<SiblingType *> &siblings, ItemType *after)
 {
     if(siblings.isEmpty())
 	return;
 
     m_disableColumnWidthUpdates = true;
-    ItemType *newItem = 0;
+    ItemType *newItem = after;
 
     QValueListConstIterator<SiblingType *> it = siblings.begin();
     for(; it != siblings.end(); ++it) {

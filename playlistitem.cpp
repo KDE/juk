@@ -23,7 +23,6 @@
 #include "musicbrainzquery.h"
 #include "tag.h"
 #include "actioncollection.h"
-
 #include "ktrm.h"
 
 static void startMusicBrainzQuery(const FileHandle &file)

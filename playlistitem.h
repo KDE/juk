@@ -18,6 +18,7 @@
 
 #include <klistview.h>
 #include <ksharedptr.h>
+#include <kdebug.h>
 
 #include <qvaluevector.h>
 #include <qptrdict.h>
@@ -43,6 +44,7 @@ class PlaylistItem : public KListViewItem
 {
     friend class Playlist;
     friend class SearchPlaylist;
+    friend class UpcomingPlaylist;
     friend class CollectionList;
     friend class CollectionListItem;
     friend class QPtrDict<PlaylistItem>;
@@ -100,6 +102,16 @@ public:
      */
     virtual void clear();
 
+    /**
+     * Returns properly casted item below this one.
+     */
+    PlaylistItem *itemBelow() { return static_cast<PlaylistItem *>(KListViewItem::itemBelow()); }
+
+    /**
+     * Returns properly casted item above this one.
+     */
+    PlaylistItem *itemAbove() { return static_cast<PlaylistItem *>(KListViewItem::itemAbove()); }
+
 protected:
     /**
      * Items should always be created using Playlist::createItem() or through a
@@ -149,5 +161,12 @@ private:
     CollectionListItem *m_collectionItem;
     bool m_playing;
 };
+
+inline kdbgstream &operator<<(kdbgstream &s, const PlaylistItem &item)
+{
+    s << item.text(PlaylistItem::TrackColumn);
+
+    return s;
+}
 
 #endif
