@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     KAboutData aboutData("juk", I18N_NOOP("JuK"),
                          "2.0", description, KAboutData::License_GPL,
                          "(c) 2002, 2003, Scott Wheeler", 0,
-			 "http://developer.kde.org/~wheeler/juk.html");
+                         "http://developer.kde.org/~wheeler/juk.html");
 
     aboutData.addAuthor("Scott Wheeler", scott, "wheeler@kde.org");
     aboutData.addCredit("Daniel Molkentin", daniel, "molkentin@kde.org");
@@ -84,10 +84,10 @@ int main(int argc, char *argv[])
     KConfig *config = KGlobal::config();
     {
         KConfigGroupSaver saver(config, "Settings");
-	startDocked = config->readBoolEntry("StartDocked", false);
+        startDocked = config->readBoolEntry("StartDocked", false);
     }
     if(!startDocked)
-	juk->show();
+        juk->show();
 
     return a.exec();
 }
