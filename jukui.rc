@@ -42,9 +42,7 @@
 
 <ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
 	<Action name="file_open"/>
-	<Action name="openDirectory"/>
 	<Action name="file_save"/>
-	<Action name="remove"/>
 	<Separator lineSeparator="true"/>
 	<Action name="edit_cut"/>
 	<Action name="edit_copy"/>
