@@ -64,6 +64,31 @@ public:
 		      FileNameColumn    = 10,
 		      FullPathColumn    = 11 };
 
+    /**
+     * A helper class to implement guarded pointer semantics.
+     */
+
+    class Pointer
+    {
+    public:
+	Pointer() : m_item(0) {}
+	Pointer(PlaylistItem *item);
+	Pointer(const Pointer &p);
+	~Pointer();
+	Pointer &operator=(PlaylistItem *item);
+	bool operator==(const Pointer &p) const { return m_item == p.m_item; }
+	bool operator!=(const Pointer &p) const { return m_item != p.m_item; }
+	PlaylistItem *operator->() const { return m_item; }
+	PlaylistItem &operator*() const { return *m_item; }
+	operator PlaylistItem*() const { return m_item; }
+	static void clear(PlaylistItem *item);
+
+    private:
+	PlaylistItem *m_item;
+	static QMap<PlaylistItem *, QValueList<Pointer *> > m_map;
+    };
+    friend class Pointer;
+
     static int lastColumn() { return FullPathColumn; }
 
     void setFile(const FileHandle &file);
@@ -125,8 +150,6 @@ public:
      */
     static const PlaylistItemList &playingItems() { return m_playingItems; }
 
-    class Pointer;
-
 protected:
     /**
      * Items should always be created using Playlist::createItem() or through a
@@ -174,30 +197,6 @@ private:
     CollectionListItem *m_collectionItem;
     bool m_watched;
     static PlaylistItemList m_playingItems;
-};
-
-/**
- * A helper class to implement guarded pointer semantics.
- */
-
-class PlaylistItem::Pointer
-{
-public:
-    Pointer() : m_item(0) {}
-    Pointer(PlaylistItem *item);
-    Pointer(const Pointer &p);
-    ~Pointer();
-    Pointer &operator=(PlaylistItem *item);
-    bool operator==(const Pointer &p) const { return m_item == p.m_item; }
-    bool operator!=(const Pointer &p) const { return m_item != p.m_item; }
-    PlaylistItem *operator->() const { return m_item; }
-    PlaylistItem &operator*() const { return *m_item; }
-    operator PlaylistItem*() const { return m_item; }
-    static void clear(PlaylistItem *item);
-    
-private:
-    PlaylistItem *m_item;
-    static QMap<PlaylistItem *, QValueList<Pointer *> > m_map;
 };
 
 inline kdbgstream &operator<<(kdbgstream &s, const PlaylistItem &item)
