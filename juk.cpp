@@ -319,8 +319,6 @@ void JuK::setupActions()
     createSplitterAction(
 	i18n("R&emove"), SLOT(slotDeletePlaylist()), "deleteItemPlaylist", "edittrash");
     createSplitterAction(
-	i18n("R&emove"), SLOT(slotDeletePlaylist()), "deleteItemPlaylist", "edittrash");
-    createSplitterAction(
 	i18n("Reload"), SLOT(slotReloadPlaylist()), "reloadPlaylist", "reload");
 
     KStdAction::quit(this, SLOT(slotQuit()), actionCollection());
