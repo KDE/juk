@@ -242,7 +242,7 @@ public slots:
     void slotSetEditorVisible(bool visible) { m_editor->setShown(visible); }
 
     void slotSetSearchVisible(bool visible);
-
+    void slotSetHistoryVisible(bool visible);
     void slotAdvancedSearch();
 
     /**

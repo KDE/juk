@@ -276,7 +276,20 @@ void PlaylistBox::duplicate(Item *item)
     }
 }
 
-void PlaylistBox::deleteItems(const ItemList &items)
+void PlaylistBox::deleteItem(Playlist *playlist)
+{
+    Item *i = m_playlistDict.find(playlist);
+
+    if(!i)
+	return;
+
+    ItemList l;
+    l.append(i);
+
+    deleteItems(l, false);
+}
+
+void PlaylistBox::deleteItems(const ItemList &items, bool confirm)
 {
     if(items.isEmpty())
 	return;
@@ -288,29 +301,31 @@ void PlaylistBox::deleteItems(const ItemList &items)
 	    files.append((*it)->playlist()->fileName());
     }
 
-    if(!files.isEmpty()) {
-	int remove = KMessageBox::warningYesNoCancelList(
-	    this, i18n("Do you want to delete these files from the disk as well?"), files);
+    if(confirm) {
+	if(!files.isEmpty()) {
+	    int remove = KMessageBox::warningYesNoCancelList(
+		this, i18n("Do you want to delete these files from the disk as well?"), files);
 	
-	if(remove == KMessageBox::Yes) {
-	    QStringList couldNotDelete;
-	    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
-		if(!QFile::remove(*it))
-		    couldNotDelete.append(*it);
+	    if(remove == KMessageBox::Yes) {
+		QStringList couldNotDelete;
+		for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
+		    if(!QFile::remove(*it))
+			couldNotDelete.append(*it);
+		}
+
+		// Would be nice if there were a KMessageBox::sorryList() to use with
+		// couldNotDelete.
+
+		if(!couldNotDelete.isEmpty())
+		    KMessageBox::sorry(this, i18n("Could not delete all of the specified files."));
 	    }
-
-	    // Would be nice if there were a KMessageBox::sorryList() to use with
-	    // couldNotDelete.
-
-	    if(!couldNotDelete.isEmpty())
-		KMessageBox::sorry(this, i18n("Could not delete all of the specified files."));
+	    else if(remove == KMessageBox::Cancel)
+		return;
 	}
-	else if(remove == KMessageBox::Cancel)
-	    return;
-    }
-    else {
-	if(KMessageBox::warningYesNo(this, i18n("Are you sure you want to remove these items?")) == KMessageBox::No)
-	    return;
+	else {
+	    if(KMessageBox::warningYesNo(this, i18n("Are you sure you want to remove these items?")) == KMessageBox::No)
+		return;
+	}
     }
 
     QValueList< QPair<Item *, Playlist *> > removeQueue;

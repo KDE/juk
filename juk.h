@@ -188,6 +188,7 @@ private:
     // actions
     KToggleAction *m_showSearchAction;
     KToggleAction *m_showEditorAction;
+    KToggleAction *m_showHistoryAction;
     SliderAction *m_sliderAction;
     KToggleAction *m_randomPlayAction;
     KToggleAction *m_toggleSystemTrayAction;

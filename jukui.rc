@@ -29,6 +29,7 @@
 	<Menu name="view" noMerge="1"><text>&amp;View</text>
 		<Action name="showSearch"/>
 		<Action name="showEditor"/>
+		<Action name="showHistory"/>
 		<Action name="showColumns"/>
 
 		<Separator/>

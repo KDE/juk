@@ -51,8 +51,8 @@ void processEvents()
 
 PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     QSplitter(Qt::Horizontal, parent, name),
-    m_playingItem(0), m_searchWidget(0), m_dynamicList(0),
-    m_nextPlaylistItem(0)
+    m_playingItem(0), m_searchWidget(0), m_history(0),
+    m_dynamicList(0), m_nextPlaylistItem(0)
 {
 #ifndef NO_DEBUG
     m_restore = KCmdLineArgs::parsedArgs()->isSet("restore");
@@ -402,6 +402,20 @@ void PlaylistSplitter::slotSetSearchVisible(bool visible)
     redisplaySearch();
 }
 
+void PlaylistSplitter::slotSetHistoryVisible(bool visible)
+{
+    if(visible && !m_history) {
+	m_history = new HistoryPlaylist(m_playlistStack);
+	setupPlaylist(m_history, false, "history", true);
+	return;
+    }
+
+    if(!visible && m_history) {
+	m_playlistBox->deleteItem(m_history);
+	m_history = 0;
+    }
+}
+
 void PlaylistSplitter::slotAdvancedSearch()
 {
     AdvancedSearchDialog *d =
@@ -475,9 +489,6 @@ void PlaylistSplitter::setupLayout()
     m_collection = CollectionList::instance();
     setupPlaylist(m_collection, true, "folder_sound", true);
     connect(m_collection, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
-
-    m_history = new HistoryPlaylist(m_playlistStack);
-    setupPlaylist(m_history, false, "history", true);
 
     // Create the search widget -- this must be done after the CollectionList is created.
     m_searchWidget = new SearchWidget(editorSplitter, "searchWidget");

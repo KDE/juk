@@ -341,6 +341,8 @@ void JuK::setupActions()
 					   0, actionCollection(), "showSearch");
     m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit",
 					   0, actionCollection(), "showEditor");
+    m_showHistoryAction = new KToggleAction(i18n("Show &History Editor"), "history",
+					   0, actionCollection(), "showHistory");
 
     createSplitterAction(i18n("Refresh Items"), SLOT(slotRefresh()), "refresh", "reload");
 
@@ -464,6 +466,8 @@ void JuK::setupSplitterConnections()
 	    m_splitter, SLOT(slotSetSearchVisible(bool)));
     connect(m_showEditorAction, SIGNAL(toggled(bool)),
 	    m_splitter, SLOT(slotSetEditorVisible(bool)));
+    connect(m_showHistoryAction, SIGNAL(toggled(bool)),
+	    m_splitter, SLOT(slotSetHistoryVisible(bool)));
     connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), 
 	    m_sliderAction, SLOT(slotUpdateOrientation(QDockWindow *)));
     connect(m_splitter, SIGNAL(signalPlaylistChanged()),
@@ -611,6 +615,10 @@ void JuK::readConfig()
         bool showEditor = config->readBoolEntry("ShowEditor", false);
         m_showEditorAction->setChecked(showEditor);
         m_splitter->slotSetEditorVisible(showEditor);
+
+        bool showHistory = config->readBoolEntry("ShowHistory", false);
+        m_showHistoryAction->setChecked(showHistory);
+        m_splitter->slotSetHistoryVisible(showHistory);
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
@@ -648,6 +656,7 @@ void JuK::saveConfig()
 
         config->writeEntry("ShowEditor", m_showEditorAction->isChecked());
         config->writeEntry("ShowSearch", m_showSearchAction->isChecked());
+        config->writeEntry("ShowHistory", m_showHistoryAction->isChecked());
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");

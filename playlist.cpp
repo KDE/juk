@@ -823,8 +823,8 @@ void Playlist::polish()
     // hide some columns by default
     //////////////////////////////////////////////////
 
-    hideColumn(PlaylistItem::CommentColumn);
-    hideColumn(PlaylistItem::FileNameColumn);
+    hideColumn(PlaylistItem::CommentColumn + columnOffset());
+    hideColumn(PlaylistItem::FileNameColumn + columnOffset());
 
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotEmitSelected()));

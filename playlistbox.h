@@ -67,6 +67,11 @@ public:
     void saveAs();
     void rename();
     void duplicate();
+
+    /**
+     * Delete the item associated with \a playlist.
+     */
+    void deleteItem(Playlist *playlist);
     void deleteItems() { deleteItems(selectedItems()); }
 
     bool hasSelection() const  { return m_hasSelection; }
@@ -99,7 +104,7 @@ private:
     void saveAs(Item *item);
     void rename(Item *item);
     void duplicate(Item *item);
-    void deleteItems(const QValueList<Item *> &items);
+    void deleteItems(const QValueList<Item *> &items, bool confirm = true);
 
     virtual void decode(QMimeSource *s, Item *item);
     virtual void contentsDropEvent(QDropEvent *e);
