@@ -29,6 +29,7 @@ class QWidgetStack;
 class KAction;
 class Playlist;
 class PlaylistItem;
+class HistoryPlaylist;
 
 typedef QValueList<PlaylistItem *> PlaylistItemList;
 
@@ -91,6 +92,9 @@ public:
 
     void setSearchEnabled(bool enable);
 
+    HistoryPlaylist *historyPlaylist() const;
+    void setHistoryPlaylistEnabled(bool enable);
+
     QObject *object() const;
 
     class ActionHandler;
@@ -118,8 +122,9 @@ private:
     void readConfig();
     void saveConfig();
 
-    QWidgetStack  *m_playlistStack;
-    ActionHandler *m_actionHandler;
+    QWidgetStack    *m_playlistStack;
+    HistoryPlaylist *m_historyPlaylist;
+    ActionHandler   *m_actionHandler;
 
     KDirWatch   m_dirWatch;
     StringHash  m_playlistNames;
@@ -174,6 +179,7 @@ private slots:
     void slotGuessTagFromInternet() { m_collection->guessTagFromInternet(); }
 
     void slotSetSearchEnabled(bool enable) { m_collection->setSearchEnabled(enable); }
+    void slotSetHistoryPlaylistEnabled(bool enable) {m_collection->setHistoryPlaylistEnabled(enable); }
 
 signals:
     void signalSelectedItemsChanged();

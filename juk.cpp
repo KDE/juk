@@ -104,10 +104,7 @@ void JuK::setupActions()
     KStdAction::clear(kapp, SLOT(clear()), actions());
     KStdAction::selectAll(kapp, SLOT(selectAll()), actions());
 
-    m_showHistoryAction = new KToggleAction(i18n("Show &History"), "history",  0, actions(), "showHistory");
     m_randomPlayAction = new KToggleAction(i18n("&Random Play"), 0, actions(), "randomPlay");
-
-    m_showHistoryAction->setCheckedState(i18n("Hide &History"));
 
     new KAction(i18n("&Play"),  "player_play",  0, m_player, SLOT(play()),  actions(), "play");
     new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()), actions(), "pause");
@@ -256,18 +253,6 @@ void JuK::readConfig()
     bool loopPlaylist = playerConfig.readBoolEntry("LoopPlaylist", false);
     ActionCollection::action<KToggleAction>("loopPlaylist")->setChecked(loopPlaylist);
 
-    // view settings
-
-    KConfigGroup viewConfig(KGlobal::config(), "View");
-
-    // The history list will actually be created by the playlist restoration
-    // code, but we want to remember the checkbox's setting and hope that
-    // it's in synch with the code that does the real work.
-
-    bool showHistory = viewConfig.readBoolEntry("ShowHistory", false);
-    m_showHistoryAction->setChecked(showHistory);
-
-
     // general settings
     
     KConfigGroup settingsConfig(KGlobal::config(), "Settings");
@@ -297,11 +282,6 @@ void JuK::saveConfig()
 
     KToggleAction *a = ActionCollection::action<KToggleAction>("loopPlaylist");
     playerConfig.writeEntry("LoopPlaylist", a->isChecked());
-
-    // view settings
-    KConfigGroup viewConfig(KGlobal::config(), "View");
-    viewConfig.writeEntry("ShowHistory", m_showHistoryAction->isChecked());
-
 
     // general settings
 

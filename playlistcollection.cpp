@@ -21,6 +21,7 @@
 #include "advancedsearchdialog.h"
 #include "searchplaylist.h"
 #include "folderplaylist.h"
+#include "historyplaylist.h"
 #include "directorylist.h"
 #include "mediafiles.h"
 #include "playermanager.h"
@@ -44,6 +45,7 @@ using namespace ActionCollection;
 
 PlaylistCollection::PlaylistCollection(QWidgetStack *playlistStack) :
     m_playlistStack(playlistStack),
+    m_historyPlaylist(0),
     m_importPlaylists(true),
     m_searchEnabled(true),
     m_playing(false)
@@ -380,6 +382,30 @@ void PlaylistCollection::setSearchEnabled(bool enable)
     currentPlaylist()->setSearchEnabled(enable);
 }
 
+HistoryPlaylist *PlaylistCollection::historyPlaylist() const
+{
+    return m_historyPlaylist;
+}
+
+void PlaylistCollection::setHistoryPlaylistEnabled(bool enable)
+{
+    kdDebug(65432) << k_funcinfo << enable << endl;
+
+    if((enable && m_historyPlaylist) || (!enable && !m_historyPlaylist))
+        return;
+
+    if(enable) {
+        action<KToggleAction>("showHistory")->setChecked(true);
+        m_historyPlaylist = new HistoryPlaylist(this);
+        m_historyPlaylist->setName(i18n("History"));
+        setupPlaylist(m_historyPlaylist, "history");
+    }
+    else {
+        delete m_historyPlaylist;
+        m_historyPlaylist = 0;
+    }
+}
+
 QObject *PlaylistCollection::object() const
 {
     return m_actionHandler;
@@ -576,6 +602,13 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("&Delete"),         SLOT(slotRemoveItems()),  "removeItem", "editdelete");
     createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "reload");
     createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", "CTRL+r");
+
+    KToggleAction *historyAction = 
+        new KToggleAction(i18n("Show &History"), "history",  0, actions(), "showHistory");
+    historyAction->setCheckedState(i18n("Hide &History"));
+
+    connect(action<KToggleAction>("showHistory"), SIGNAL(toggled(bool)),
+            this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
 }
 
 KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,

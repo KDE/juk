@@ -17,6 +17,7 @@
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
+#include <kactionclasses.h>
 #include <kdebug.h>
 
 #include <qdir.h>
@@ -26,6 +27,10 @@
 #include "tag.h"
 #include "searchplaylist.h"
 #include "historyplaylist.h"
+#include "playlistcollection.h"
+#include "actioncollection.h"
+
+using namespace ActionCollection;
 
 Cache *Cache::m_cache = 0;
 static const int playlistCacheVersion = 2;
@@ -124,10 +129,10 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
             }
             case History:
             {
-                // slotSetHistoryVisible(true);
-		HistoryPlaylist *p = new HistoryPlaylist(collection);
-                s >> *p;
-                playlist = p;
+		action<KToggleAction>("showHistory")->setChecked(true);
+		collection->setHistoryPlaylistEnabled(true);
+		s >> *collection->historyPlaylist();
+		playlist = collection->historyPlaylist();
                 break;
             }
             default:

@@ -42,7 +42,7 @@ public:
     virtual ~HistoryPlaylist();
 
     virtual HistoryPlaylistItem *createItem(const FileHandle &file, QListViewItem *after = 0,
-                                     bool emitChanged = true);
+                                            bool emitChanged = true);
     virtual void createItems(const PlaylistItemList &siblings);
     virtual int columnOffset() const { return 1; }
     virtual bool readOnly() const { return true; }
@@ -52,6 +52,9 @@ public slots:
 
 protected:
     virtual void polish();
+
+private slots:
+    void slotAddPlaying();
 };
 
 QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p);

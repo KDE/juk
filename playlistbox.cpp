@@ -28,6 +28,7 @@
 #include "playlist.h"
 #include "collectionlist.h"
 #include "dynamicplaylist.h"
+#include "historyplaylist.h"
 #include "viewmode.h"
 #include "searchplaylist.h"
 #include "treeviewitemplaylist.h"
@@ -267,7 +268,7 @@ void PlaylistBox::remove()
 	    return;
     }
 
-    QValueList< QPair<Item *, Playlist *> > removeQueue;
+    PlaylistList removeQueue;
 
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 	if(*it != Item::collectionItem() &&
@@ -276,7 +277,7 @@ void PlaylistBox::remove()
 	{
 	    m_names.remove((*it)->text(0));
 	    m_playlistDict.remove((*it)->playlist());
-	    removeQueue.append(qMakePair(*it, (*it)->playlist()));
+	    removeQueue.append((*it)->playlist());
 	}
     }
 
@@ -293,11 +294,8 @@ void PlaylistBox::remove()
 	setSingleItem(i);
     }
 
-    QValueListConstIterator< QPair<Item *, Playlist *> > it = removeQueue.begin();
-    for(; it != removeQueue.end(); ++it) {
-	delete (*it).first;
-	delete (*it).second;
-    }
+    for(PlaylistList::ConstIterator it = removeQueue.begin(); it != removeQueue.end(); ++it)
+	delete *it;
 }
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
@@ -665,6 +663,11 @@ void PlaylistBox::Item::init()
 	if(dynamic_cast<TreeViewMode *>(list->viewMode()))
 	    static_cast<TreeViewMode *>(list->viewMode())->setupCategories();
     }
+
+    if(m_playlist == list->historyPlaylist())
+	m_sortedFirst = true;
+
+    connect(m_playlist, SIGNAL(destroyed()), this, SLOT(deleteLater()));
 }
 
 #include "playlistbox.moc"

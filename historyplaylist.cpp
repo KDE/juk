@@ -19,15 +19,18 @@
 
 #include "historyplaylist.h"
 #include "collectionlist.h"
+#include "playermanager.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // HistoryPlayList public members
 ////////////////////////////////////////////////////////////////////////////////
 
 HistoryPlaylist::HistoryPlaylist(PlaylistCollection *collection) :
-    Playlist(collection, i18n("History"))
+    Playlist(collection, true)
 {
     setAllowDuplicates(true);
+
+    connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotAddPlaying()));
 }
 
 HistoryPlaylist::~HistoryPlaylist()
@@ -58,6 +61,15 @@ void HistoryPlaylist::polish()
     addColumn(i18n("Time"));
     Playlist::polish();
     setSorting(-1);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private slots
+////////////////////////////////////////////////////////////////////////////////
+
+void HistoryPlaylist::slotAddPlaying()
+{
+    createItem(PlayerManager::instance()->playingFile());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
