@@ -32,7 +32,20 @@ public:
     StatusLabel(QWidget *parent = 0, const char *name = 0);
     virtual ~StatusLabel();
 
+public slots:
     void setPlayingItem(PlaylistItem *item);
+
+    /**
+     * Set the playlist name.  This text will only be used when there is not an
+     * item playing.
+     */ 
+    void setPlaylistName(const QString &t);
+    void setPlaylistCount(int c);
+
+    /**
+     * This clears the information about the playing items and frees that status
+     * bar up for playlist information.
+     */
     void clear();
 
     /**
@@ -47,6 +60,8 @@ private:
     void updateTime();
     virtual bool eventFilter(QObject *o, QEvent *e);
 
+    QString playlistName;
+    int playlistCount;
     QLabel *playlistLabel;
     QLabel *trackLabel;
     QLabel *itemTimeLabel;

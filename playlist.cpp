@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <kapplication.h>
+#include <kfiledialog.h>
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <kurldrag.h>
@@ -186,6 +187,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
         delete(it.current());
         ++it;
     }
+    emit(numberOfItemsChanged(this));
 }
 
 QStringList Playlist::files() const
@@ -245,6 +247,7 @@ void Playlist::remove(const PlaylistItemList &items)
 	    }
 
 	}
+	emit(numberOfItemsChanged(this));
     }
 }
 
@@ -403,10 +406,13 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
     
     if(item && members.contains(file.absFilePath()) == 0 || allowDuplicates) {
 	members.append(file.absFilePath());
+	PlaylistItem *i;
 	if(after)
-	    return(new PlaylistItem(item, this, after));
+	    i = new PlaylistItem(item, this, after);
 	else
-	    return(new PlaylistItem(item, this));
+	    i = new PlaylistItem(item, this);
+	emit(numberOfItemsChanged(this));
+	return(i);
     }
     else
 	return(0);

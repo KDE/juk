@@ -20,6 +20,7 @@
 #include <kiconloader.h>
 #include <kcmdlineargs.h>
 #include <kstatusbar.h>
+#include <kconfig.h>
 #include <kdebug.h>
 
 #include <qinputdialog.h>
@@ -75,6 +76,8 @@ void JuK::setupLayout()
     // create status bar
     statusLabel = new StatusLabel(statusBar());
     statusBar()->addWidget(statusLabel, 1);
+
+    connect(splitter, SIGNAL(selectedPlaylistCountChanged(int)), statusLabel, SLOT(setPlaylistCount(int)));
 
     splitter->setFocus();
 }
@@ -258,6 +261,14 @@ void JuK::playlistChanged(Playlist *list)
 	renamePlaylistAction->setEnabled(true);
 	deleteItemPlaylistAction->setEnabled(true);
     }
+
+    updatePlaylistInfo();
+}
+
+void JuK::updatePlaylistInfo()
+{
+    statusLabel->setPlaylistName(splitter->selectedPlaylistName());
+    statusLabel->setPlaylistCount(splitter->selectedPlaylistCount());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -96,6 +96,7 @@ private:
 
 private slots:
     void playlistChanged(Playlist *list);
+    void updatePlaylistInfo();
 
     // file menu
     void remove();

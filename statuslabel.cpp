@@ -17,6 +17,7 @@
 
 #include <kpushbutton.h>
 #include <kiconloader.h>
+#include <klocale.h>
 #include <kdebug.h>
 
 #include <qevent.h>
@@ -120,6 +121,20 @@ void StatusLabel::setPlayingItem(PlaylistItem *item)
 	clear();
 }
 
+void StatusLabel::setPlaylistName(const QString &t)
+{
+    playlistName = t;
+    if(!playingItem)
+	playlistLabel->setText(playlistName);
+}
+
+void StatusLabel::setPlaylistCount(int c)
+{
+    playlistCount = c;
+    if(!playingItem)
+	trackLabel->setText(QString::number(playlistCount) + " " + i18n("Item(s)"));
+}
+
 void StatusLabel::clear()
 {
     playlistLabel->clear();
@@ -127,6 +142,9 @@ void StatusLabel::clear()
     playingItem = 0;
     setItemTotalTime(0);
     setItemCurrentTime(0);
+    
+    setPlaylistName(playlistName);
+    setPlaylistCount(playlistCount);
 }
 
 void StatusLabel::setItemTotalTime(int time)

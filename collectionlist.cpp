@@ -17,6 +17,7 @@
 
 #include <kurl.h>
 #include <kurldrag.h>
+#include <klocale.h>
 #include <kdebug.h>
 
 #include "collectionlist.h"
@@ -75,7 +76,7 @@ PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionList::CollectionList(PlaylistSplitter *s, QWidget *parent) : Playlist(s, parent, "collectionList")
+CollectionList::CollectionList(PlaylistSplitter *s, QWidget *parent) : Playlist(s, parent, i18n("Collection List"))
 {
 
 }

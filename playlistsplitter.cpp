@@ -15,12 +15,15 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kfiledialog.h>
+#include <klocale.h>
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <klocale.h>
 #include <kdebug.h>
 
 #include <qinputdialog.h>
+#include <qwidgetstack.h>
 
 #include "playlistsplitter.h"
 #include "playlist.h"
@@ -43,10 +46,9 @@ void processEvents()
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restoreOnLoad, const char *name) : QSplitter(Qt::Horizontal, parent, name)
+PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restoreOnLoad, const char *name) : QSplitter(Qt::Horizontal, parent, name), 
+											    restore(restoreOnLoad)
 {
-    restore = restoreOnLoad;
-
     setupLayout();
     readConfig();
     mediaExtensions.append("mp3");
@@ -119,6 +121,24 @@ QString PlaylistSplitter::extensionsString(const QStringList &extensions, const 
 	s += "|" + type + " (" + l.join(", ") + ")";
 
     return(s);
+}
+
+QString PlaylistSplitter::selectedPlaylistName() const
+{
+    if(playlistStack->visibleWidget()) {
+	Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
+	return(p->name());
+    }
+    return(QString::null);
+}
+
+int PlaylistSplitter::selectedPlaylistCount() const
+{
+    if(playlistStack->visibleWidget()) {
+	Playlist *p = static_cast<Playlist *>(playlistStack->visibleWidget());
+	return(p->childCount());
+    }
+    return(0);
 }
 
 QStringList PlaylistSplitter::playlistExtensions() const
@@ -260,6 +280,7 @@ Playlist *PlaylistSplitter::createPlaylist(const QString &name)
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
+    connect(p, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
     playlistBox->sort();
     return(p);
 }
@@ -284,6 +305,7 @@ Playlist *PlaylistSplitter::openPlaylist(const QString &playlistFile)
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
+    connect(p, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
     PlaylistBoxItem *i = new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), p->name(), p);
     p->setPlaylistBoxItem(i);
     playlistBox->sort();
@@ -357,6 +379,7 @@ void PlaylistSplitter::setupLayout()
 	    editor, SLOT(setItems(const PlaylistItemList &)));
     connect(collection, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
     connect(collection, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
+    connect(collection, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
 
     // Show the collection on startup.
     playlistBox->setSelected(collectionBoxItem, true);
@@ -448,6 +471,7 @@ void PlaylistSplitter::changePlaylist(PlaylistBoxItem *item)
 	playlistStack->raiseWidget(item->playlist());
 	editor->setItems(playlistSelection());
 	emit(playlistChanged(item->playlist()));
+	emit(playlistChanged());
     }
 }
 
@@ -455,6 +479,12 @@ void PlaylistSplitter::playlistBoxDoubleClicked(PlaylistBoxItem *item)
 {
     if(item && item->playlist() && item->playlist()->firstChild())
 	emit(playlistDoubleClicked(item->playlist()->firstChild()));
+}
+
+void PlaylistSplitter::playlistCountChanged(Playlist *p)
+{
+    if(p && p == playlistStack->visibleWidget())
+	emit(selectedPlaylistCountChanged(p->childCount()));
 }
 
 #include "playlistsplitter.moc"

@@ -18,14 +18,12 @@
 #ifndef PLAYLISTSPLITTER_H
 #define PLAYLISTSPLITTER_H
 
-#include <kfiledialog.h>
-#include <klocale.h>
-
 #include <qsplitter.h>
-#include <qwidgetstack.h>
 
 #include "playlistitem.h"
 #include "playlistbox.h"
+
+class QWidgetStack;
 
 class Playlist;
 class PlaylistBoxItem;
@@ -70,6 +68,16 @@ public:
      * Returns a lif of the extensions that are used for playlists.
      */
     QStringList playlistExtensions() const;
+
+    /**
+     * Returns the name of the currently selected playlist.
+     */
+    QString selectedPlaylistName() const;
+
+    /**
+     * Returns the number of items in the currently selected playlist.
+     */
+    int selectedPlaylistCount() const;
 
     // static methods
 
@@ -182,10 +190,13 @@ private slots:
     // playlist box slots
     void changePlaylist(PlaylistBoxItem *item);
     void playlistBoxDoubleClicked(PlaylistBoxItem *item);
+    void playlistCountChanged(Playlist *p);
 
 signals:
     void playlistDoubleClicked(QListViewItem *);
     void playlistChanged(Playlist *);
+    void playlistChanged();
+    void selectedPlaylistCountChanged(int);
 };
 
 #endif

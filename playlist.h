@@ -108,6 +108,7 @@ public:
      * extension.  If playlistName does have a value, this returns that.
      */
     QString name() const;
+
     /**
      * This sets a name for the playlist that is \e different from the file name.
      */ 
@@ -184,6 +185,8 @@ signals:
      * playlist's name has changed.
      */
     void nameChanged(const QString &fileName);
+    
+    void numberOfItemsChanged(Playlist *);
 };
 
 #endif
