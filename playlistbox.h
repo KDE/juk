@@ -51,6 +51,11 @@ public:
 
     void raise(Playlist *playlist);
     QStringList names() const { return m_names; }
+
+    /**
+     * A list of all of the playlists in the PlaylistBox, not counting dynamic
+     * playlists.
+     */
     PlaylistList playlists();
 
     // All of the methods use the selected item.

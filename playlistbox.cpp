@@ -146,11 +146,12 @@ PlaylistList PlaylistBox::playlists()
 {
     PlaylistList l;
 
-    for(QListViewItemIterator it(this); it.current(); ++it) {
-	Item *i = static_cast<Item *>(*it);
-	if(i->playlist() && i->playlist() != CollectionList::instance())
+    CollectionList *collection = CollectionList::instance();
+
+    Item *i = static_cast<Item *>(firstChild());
+    for(; i; i = static_cast<Item *>(i->itemBelow()))
+	if(i->playlist() && i->playlist() != collection)
 	    l.append(i->playlist());
-    }
 
     return l;
 }
