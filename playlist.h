@@ -132,6 +132,7 @@ public slots:
     virtual void paste();
     virtual void clear();
     virtual void selectAll() { KListView::selectAll(true); }
+    virtual void playNext();
 
 protected:
     /**

@@ -253,6 +253,12 @@ void Playlist::setName(const QString &n)
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
+void Playlist::playNext()
+{
+    if(m_splitter)
+	m_splitter->playSelectedFileNext();
+}
+
 void Playlist::copy()
 {
     kapp->clipboard()->setData(dragObject(0), QClipboard::Clipboard);
@@ -523,6 +529,7 @@ void Playlist::setup()
 
     m_rmbMenu = new KPopupMenu(this);
 
+    m_rmbMenu->insertItem(SmallIcon("player_play"), i18n("Play Next"), this, SLOT(playNext()));
     m_rmbMenu->insertItem(SmallIcon("editcut"), i18n("Cut"), this, SLOT(cut()));
     m_rmbMenu->insertItem(SmallIcon("editcopy"), i18n("Copy"), this, SLOT(copy()));
     m_rmbPasteID = m_rmbMenu->insertItem(SmallIcon("editpaste"), i18n("Paste"), this, SLOT(paste()));

@@ -85,6 +85,12 @@ public:
     QString playSelectedFile();
 
     /**
+     * Returns the name of the currently selected file and stores it so that
+     * it's forced to be the next file played.
+     */
+    QString playSelectedFileNext();
+
+    /**
      * Returns the name of the first item in the playlist and moves the playing
      * indicator to that file.
      */
@@ -301,6 +307,8 @@ private:
     QStringList m_columnNames;
 
     bool m_restore;
+
+    PlaylistItem *m_nextPlaylistItem;
 };
 
 #endif

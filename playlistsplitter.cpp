@@ -51,7 +51,7 @@ void processEvents()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *name) : QSplitter(Qt::Horizontal, parent, name), 
-										      m_playingItem(0), m_restore(restore)
+										      m_playingItem(0), m_restore(restore), m_nextPlaylistItem(0)
 {
     if(!m_mediaExtensions && !m_listExtensions) {
 	m_mediaExtensions = new QStringList();
@@ -118,6 +118,10 @@ QString PlaylistSplitter::playNextFile(bool random)
 	    i = static_cast<PlaylistItem *>(p->firstChild());
 	}
     }
+    if (m_nextPlaylistItem) {
+      i = m_nextPlaylistItem;
+      m_nextPlaylistItem = 0;
+    }  
 
     if(i) {
 	i->setPixmap(0, QPixmap(UserIcon("playing")));
@@ -161,6 +165,20 @@ QString PlaylistSplitter::playSelectedFile()
 	return QString::null;
 }
 
+QString PlaylistSplitter::playSelectedFileNext()
+{
+    PlaylistItemList items = playlistSelection();
+
+    if(items.isEmpty()) 
+    {
+      m_nextPlaylistItem = 0L;
+      return QString::null;
+    }
+
+    m_nextPlaylistItem = items.first();
+    return m_nextPlaylistItem->absFilePath();
+}
+
 QString PlaylistSplitter::playFirstFile()
 {
     stop();
@@ -169,7 +187,6 @@ QString PlaylistSplitter::playFirstFile()
     PlaylistItem *i = static_cast<PlaylistItem *>(p->firstChild());
 
     if(i) {
-	i->setPixmap(0, QPixmap(UserIcon("playing")));
 	i->setPixmap(0, QPixmap(UserIcon("playing")));
 	m_playingItem = i;
 
@@ -579,7 +596,8 @@ void PlaylistSplitter::slotChangePlaylist(Playlist *p)
 {
     if(!p)
 	return;
-    
+
+    m_nextPlaylistItem = 0; 
     m_playlistStack->raiseWidget(p);
     m_editor->slotSetItems(playlistSelection());
     setupColumns(p);
@@ -596,6 +614,9 @@ void PlaylistSplitter::slotPlaylistItemRemoved(PlaylistItem *item)
 {
     if(item == m_playingItem)
 	m_playingItem = 0;
+
+    if(item == m_nextPlaylistItem)
+	m_nextPlaylistItem = 0;
 }
 
 #include "playlistsplitter.moc"
