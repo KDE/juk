@@ -37,7 +37,7 @@ void FileRenamer::rename(const PlaylistItem *item)
     KConfig *cfg = kapp->config();
     {
         KConfigGroupSaver saver(cfg, "FileRenamer");
-        newFilename = cfg->readEntry("FilenameScheme", item->absFilePath());
+        newFilename = cfg->readPathEntry("FilenameScheme", item->absFilePath());
 
         if(!item->tag()->track().isNull()) {
             titleToken = cfg->readEntry("Title token");
