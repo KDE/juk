@@ -136,7 +136,15 @@ public:
 
     KActionMenu *columnVisibleAction() const { return m_columnVisibleAction; }
 
-    void setPlaying(PlaylistItem *item, bool playing = true);
+    /**
+     * Set item to be the playing item; also set this list to be the playing list.
+     */
+    static void setPlaying(PlaylistItem *item, bool p = true);
+
+    /**
+     * Returns true if this playlist is currently playing.
+     */
+    bool playing() const { return m_playingItem && this == static_cast<Playlist *>(m_playingItem->listView()); }
 
     /**
      * This forces an update of the left most visible column, but does not save
@@ -251,8 +259,8 @@ private slots:
     void slotToggleColumnVisible(int column);
 
 private:
-    int m_currentColumn;
     SortedStringList m_members;
+    int m_currentColumn;
     int m_processed;
     bool m_allowDuplicates;
     /**
@@ -284,8 +292,8 @@ private:
     int m_rmbPasteID;
     int m_rmbEditID;
 
-    PlaylistItem *m_playingItem;
-    int m_leftColumn;
+    static PlaylistItem *m_playingItem;
+    static int m_leftColumn;
 
     PlaylistItemList m_randomList;
 };

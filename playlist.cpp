@@ -182,17 +182,18 @@ void Playlist::SharedSettings::writeConfig()
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
+PlaylistItem *Playlist::m_playingItem = 0;
+int Playlist::m_leftColumn = 0;
+
 Playlist::Playlist(QWidget *parent, const QString &name) : KListView(parent, name.latin1()),
-							   m_playlistName(name), m_playingItem(0),
-                                                           m_leftColumn(0)
+							   m_playlistName(name)
 
 {
     setup();
 }
 
 Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name),
-										       m_fileName(playlistFile.absFilePath()),
-										       m_playingItem(0), m_leftColumn(0)
+										       m_fileName(playlistFile.absFilePath())
 {
     setup();
     loadFile(m_fileName, playlistFile);
@@ -417,7 +418,7 @@ void Playlist::updateLeftColumn()
     }
 }
 
-void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible)
+void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible) // static
 {
     m_visibleChanged = true;
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
@@ -717,7 +718,7 @@ bool Playlist::isColumnVisible(int c) const
 // Though it's somewhat obvious, this function will stat the file, so only use it when
 // you're out of a performance critical loop.
 
-QString Playlist::resolveSymLinks(const QFileInfo &file)
+QString Playlist::resolveSymLinks(const QFileInfo &file) // static
 {
     char real[PATH_MAX];
     if(file.exists() && realpath(QFile::encodeName(file.absFilePath()).data(), real))
@@ -858,9 +859,9 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     file.close();
 }
 
-void Playlist::setPlaying(PlaylistItem *item, bool playing)
+void Playlist::setPlaying(PlaylistItem *item, bool p)
 {
-    if(playing) {
+    if(p) {
 	m_playingItem = item;
 	item->setPixmap(m_leftColumn, QPixmap(UserIcon("playing")));
     }
@@ -869,7 +870,7 @@ void Playlist::setPlaying(PlaylistItem *item, bool playing)
 	item->setPixmap(m_leftColumn, QPixmap(0, 0));
     }
 
-    item->setPlaying(playing);
+    item->setPlaying(p);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
