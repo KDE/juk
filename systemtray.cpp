@@ -32,6 +32,24 @@
 
 static bool copyImage(QImage &dest, QImage &src, int x, int y);
 
+class PassiveInfo : public KPassivePopup
+{
+public:
+    PassiveInfo(QWidget *parent = 0, const char *name = 0) :
+        KPassivePopup(parent, name) {}
+
+protected:
+    virtual void enterEvent(QEvent *)
+    {
+        setTimeout(3000000); // Make timeout damn near infinite
+    }
+    
+    virtual void leaveEvent(QEvent *)
+    {
+        setTimeout(250); // Close quickly
+    }
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -109,7 +127,7 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
     if(m_togglePopupsAction && m_togglePopupsAction->isChecked()) {
 
         delete m_popup;
-        m_popup = new KPassivePopup(this);
+        m_popup = new PassiveInfo(this);
 
         QHBox *box = new QHBox(m_popup);
 
