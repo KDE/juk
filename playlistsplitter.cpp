@@ -721,11 +721,8 @@ FileHandle PlaylistSplitter::play(PlaylistItem *item)
 
     m_playingItem = item;
 
-    if(m_history && p != m_history) {
-	PlaylistItemList l;
-	l.append(item);
-	m_history->createItems(l);
-    }
+    if(m_history && p != m_history)
+	m_history->createItem(item->file());
 
     return item->file();
 }

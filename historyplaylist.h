@@ -21,28 +21,6 @@
 #include "playlist.h"
 #include "playlistitem.h"
 
-class HistoryPlaylistItem;
-
-class HistoryPlaylist : public Playlist
-{
-    Q_OBJECT
-
-public:
-    HistoryPlaylist(QWidget *parent);
-    virtual ~HistoryPlaylist();
-
-    virtual void createItems(const PlaylistItemList &siblings);
-    virtual int columnOffset() const { return 1; }
-    virtual bool readOnly() const { return true; }
-public slots:
-    void cut() {}
-    void clear() {}
-
-protected:
-    virtual void polish();
-};
-
-
 class HistoryPlaylistItem : public PlaylistItem
 {
 public:
@@ -55,6 +33,27 @@ public:
 
 private:
     QDateTime m_dateTime;
+};
+
+class HistoryPlaylist : public Playlist
+{
+    Q_OBJECT
+
+public:
+    HistoryPlaylist(QWidget *parent);
+    virtual ~HistoryPlaylist();
+
+    virtual HistoryPlaylistItem *createItem(const FileHandle &file, QListViewItem *after = 0,
+                                     bool emitChanged = true);
+    virtual void createItems(const PlaylistItemList &siblings);
+    virtual int columnOffset() const { return 1; }
+    virtual bool readOnly() const { return true; }
+public slots:
+    void cut() {}
+    void clear() {}
+
+protected:
+    virtual void polish();
 };
 
 QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p);

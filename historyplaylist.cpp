@@ -36,6 +36,15 @@ HistoryPlaylist::~HistoryPlaylist()
 
 }
 
+HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file,
+                                                 QListViewItem *after, bool emitChanged)
+{
+    if(!after)
+        after = lastItem();
+    return Playlist::createItem<HistoryPlaylistItem, CollectionListItem,
+        CollectionList>(file, after, emitChanged);
+}
+
 void HistoryPlaylist::createItems(const PlaylistItemList &siblings)
 {
     Playlist::createItems<CollectionListItem, HistoryPlaylistItem, PlaylistItem>(siblings);
@@ -114,7 +123,7 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
         s >> fileName;
         s >> dateTime;
 
-        after = p.createItem<HistoryPlaylistItem, CollectionListItem, CollectionList>(FileHandle(fileName), after, false);
+        after = p.createItem(FileHandle(fileName), after, false);
         after->setDateTime(dateTime);
     }
 
