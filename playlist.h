@@ -72,9 +72,14 @@ public:
     QStringList files() const;
 
     /** 
+     * Returns a list of all of the \e visible items in the playlist.
+     */
+    PlaylistItemList items();
+
+    /** 
      * Returns a list of all of the items in the playlist.
      */
-    PlaylistItemList items() const;
+    PlaylistItemList visibleItems() const;
     
     /**
      * Returns a list of the currently selected items.
@@ -130,6 +135,8 @@ public:
      * the settings for this.
      */ 
     void updateLeftColumn();
+
+    static void setItemsVisible(const PlaylistItemList &items, bool visible = true);
 
 public slots:
     /**

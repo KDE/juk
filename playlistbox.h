@@ -67,7 +67,7 @@ public slots:
     void clear() {} // override the (destructive) default
 
 signals:
-    void signalCurrentChanged(const QValueList<Playlist *> &);
+    void signalCurrentChanged(const PlaylistList &);
     void signalDoubleClicked();
 
 private:

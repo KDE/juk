@@ -127,8 +127,12 @@ void JuK::setupActions()
     KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
     // view menu
+    m_showSearchAction = new KToggleAction(i18n("Show &Search Bar"), "filefind", 0, actionCollection(), "showSearch");
+    connect(m_showSearchAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetSearchVisible(bool)));
+
     m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit", 0, actionCollection(), "showEditor");
     connect(m_showEditorAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetEditorVisible(bool)));
+
     KStdAction::redisplay(m_splitter, SLOT(slotRefresh()), actionCollection());
     actionCollection()->insert(m_splitter->columnVisibleAction());
 
@@ -309,6 +313,11 @@ void JuK::readConfig()
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
+
+        bool showSearch = config->readBoolEntry("ShowSearch", true);
+        m_showSearchAction->setChecked(showSearch);
+        m_splitter->slotSetSearchVisible(showSearch);
+
         bool showEditor = config->readBoolEntry("ShowEditor", false);
         m_showEditorAction->setChecked(showEditor);
         m_splitter->slotSetEditorVisible(showEditor);
@@ -347,7 +356,9 @@ void JuK::saveConfig()
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
+
         config->writeEntry("ShowEditor", m_showEditorAction->isChecked());
+        config->writeEntry("ShowSearch", m_showSearchAction->isChecked());
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");

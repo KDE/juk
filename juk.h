@@ -150,6 +150,7 @@ private:
     SystemTray *m_systemTray;
 
     // actions
+    KToggleAction *m_showSearchAction;
     KToggleAction *m_showEditorAction;
     KToggleAction *m_restoreOnLoadAction;
     SliderAction *m_sliderAction;

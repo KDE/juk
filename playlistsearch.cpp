@@ -75,7 +75,7 @@ void PlaylistSearch::search()
     }
 }
 
-PlaylistSearch::Component::Component(const QString &query, const ColumnList &columns, bool caseSensitive) :
+PlaylistSearch::Component::Component(const QString &query, bool caseSensitive, const ColumnList &columns) :
     m_query(query), 
     m_columns(columns), 
     m_searchAllVisible(columns.isEmpty()),

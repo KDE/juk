@@ -28,10 +28,12 @@
 #include "collectionlist.h"
 #include "stringhash.h"
 #include "tageditor.h"
+#include "searchwidget.h"
 
 class KActionMenu;
-class PlaylistItem;
 class KDirWatch;
+
+class PlaylistItem;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
@@ -202,7 +204,9 @@ public slots:
     /**
      * Show or hide the editor.
      */
-    void slotSetEditorVisible(bool visible);
+    void slotSetEditorVisible(bool visible) { m_editor->setShown(visible); }
+
+    void slotSetSearchVisible(bool visible) { m_searchWidget->clear(); m_searchWidget->setShown(visible); }
 
     /**
      * Add the file to the playlist.
@@ -263,7 +267,7 @@ private:
     QString play(PlaylistItem *item);
     
 private slots:
-    void slotChangePlaylist(const QValueList<Playlist *> &l);
+    void slotChangePlaylist(const PlaylistList &l);
     void slotPlaylistCountChanged(Playlist *p);
     /**
      * Add a directory to the directory list queue.  We need to queue these 
@@ -286,10 +290,12 @@ private slots:
     void slotSetNextItem(PlaylistItem *item = 0) { m_nextPlaylistItem = item; }
     void slotDirChanged(const QString &dir) { slotAddToPlaylist(dir, m_collection); }
     void slotCreatePlaylist(const QValueList<QFileInfo> &fileInfos);
+    void slotShowSearchResults(const QString &query, bool caseSensitive = false);
 
 private:
     PlaylistItem *m_playingItem;
     PlaylistBox *m_playlistBox;
+    SearchWidget *m_searchWidget;
     QWidgetStack *m_playlistStack;
     TagEditor *m_editor;
 

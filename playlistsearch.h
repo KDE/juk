@@ -1,5 +1,5 @@
 /***************************************************************************
-                          playlistsearch.h  -  description
+                          playlistsearch.h
                              -------------------
     begin                : Sun Mar 6 2003
     copyright            : (C) 2003 by Scott Wheeler
@@ -65,7 +65,7 @@ public:
     /**
      * Create a query component.  This defaults to searching all visible coulumns.
      */
-    Component(const QString &query, const ColumnList &columns = ColumnList(), bool caseSensitive = false);
+    Component(const QString &query, bool caseSensitive = false, const ColumnList &columns = ColumnList());
 
     QString query() const { return m_query; }
     ColumnList columns() const { return m_columns; }

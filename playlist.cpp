@@ -291,7 +291,16 @@ QStringList Playlist::files() const
     return list;
 }
 
-PlaylistItemList Playlist::items() const
+PlaylistItemList Playlist::items()
+{
+    PlaylistItemList list;
+    for(QListViewItemIterator it(this); it.current(); ++it)
+	list.append(static_cast<PlaylistItem *>(it.current()));
+
+    return list;
+}
+
+PlaylistItemList Playlist::visibleItems() const
 {
     PlaylistItemList list;
     for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
@@ -374,6 +383,12 @@ void Playlist::updateLeftColumn()
 	}
 	m_leftColumn = newLeftColumn;
     }
+}
+
+void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible)
+{
+    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
+	(*it)->setVisible(visible);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
