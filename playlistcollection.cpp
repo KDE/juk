@@ -537,7 +537,10 @@ void PlaylistCollection::dirChanged(const QString &path)
 
 	for(dirEntry = ::readdir(dir); dirEntry; dirEntry = ::readdir(dir)) {
 	    if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0)
-		open(fileInfo.filePath() + QDir::separator() + QFile::decodeName(dirEntry->d_name));
+		CollectionList::instance()->addFiles(
+		    fileInfo.filePath() + QDir::separator() + QFile::decodeName(dirEntry->d_name),
+		    m_importPlaylists
+		);
 	}
 	::closedir(dir);
     }
