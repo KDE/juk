@@ -193,6 +193,7 @@ Playlist::SharedSettings::SharedSettings()
 	m_inlineCompletion = KGlobalSettings::Completion(
 	    config->readNumEntry("InlineCompletionMode", KGlobalSettings::CompletionAuto));
     }
+    CollectionList::instance()->emitVisibleColumnsChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
