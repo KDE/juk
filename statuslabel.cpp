@@ -41,8 +41,8 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name
     QFrame *trackAndPlaylist = new QFrame(this);
     trackAndPlaylist->setFrameStyle(Box | Sunken);
     trackAndPlaylist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    
-    // Make sure that we have enough of a margin to suffice for the borders, 
+
+    // Make sure that we have enough of a margin to suffice for the borders,
     // hence the "lineWidth() * 2"
     QHBoxLayout *trackAndPlaylistLayout = new QHBoxLayout(trackAndPlaylist, trackAndPlaylist->lineWidth() * 2, 5, "trackAndPlaylistLayout");
     trackAndPlaylistLayout->addSpacing(5);
@@ -60,7 +60,7 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name
     m_trackLabel->setTextFormat(PlainText);
 
     trackAndPlaylistLayout->addSpacing(5);
-    
+
     m_itemTimeLabel = new QLabel(this);
     QFontMetrics fontMetrics(font());
     m_itemTimeLabel->setAlignment(AlignCenter);
@@ -106,7 +106,7 @@ void StatusLabel::setPlaylistCount(int c)
     m_playlistCount = c;
 
     if(mode == PlaylistInfo)
-	m_trackLabel->setText(QString::number(c) + " " + i18n("Item(s)"));
+	m_trackLabel->setText(QString::number(c) + " " + i18n("item(s)"));
 }
 
 void StatusLabel::setPlayingItemInfo(const QString &track, const QString &playlist)
@@ -123,7 +123,7 @@ void StatusLabel::clear()
     m_trackLabel->clear();
     setItemTotalTime(0);
     setItemCurrentTime(0);
-    
+
     mode = PlaylistInfo;
 
     setPlaylistInfo(m_playlistName, m_playlistCount);
@@ -151,14 +151,14 @@ void StatusLabel::updateTime()
     int totalSeconds = m_itemTotalTime % 60;
 
     QString timeString = formatTime(minutes, seconds) +  " / " + formatTime(totalMinutes, totalSeconds);
-    m_itemTimeLabel->setText(timeString);    
+    m_itemTimeLabel->setText(timeString);
 }
 
 bool StatusLabel::eventFilter(QObject *o, QEvent *e)
 {
     if(!o || !e)
 	return false;
-    
+
     QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
     if(mouseEvent && mouseEvent->state() == LeftButton) {
 

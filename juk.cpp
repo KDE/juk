@@ -104,13 +104,13 @@ void JuK::setupActions()
     KStdAction::open(m_splitter, SLOT(slotOpen()), actionCollection());
     new KAction(i18n("Open &Directory..."), "fileopen", 0, m_splitter, SLOT(slotOpenDirectory()), actionCollection(), "openDirectory");
 
-    m_renamePlaylistAction = new KAction(i18n("Rename..."), 0, m_splitter, SLOT(slotRenamePlaylist()),
+    m_renamePlaylistAction = new KAction(i18n("&Rename..."), 0, m_splitter, SLOT(slotRenamePlaylist()),
 					 actionCollection(), "renamePlaylist");
-    new KAction(i18n("Duplicate..."), "editcopy", 0, m_splitter, SLOT(slotDuplicatePlaylist()), actionCollection(), "duplicatePlaylist");
+    new KAction(i18n("D&uplicate..."), "editcopy", 0, m_splitter, SLOT(slotDuplicatePlaylist()), actionCollection(), "duplicatePlaylist");
 
     m_savePlaylistAction = KStdAction::save(m_splitter, SLOT(slotSavePlaylist()), actionCollection());
     m_saveAsPlaylistAction = KStdAction::saveAs(m_splitter, SLOT(slotSaveAsPlaylist()), actionCollection());
-    m_deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, m_splitter, SLOT(slotDeletePlaylist()),
+    m_deleteItemPlaylistAction = new KAction(i18n("R&emove"), "edittrash", 0, m_splitter, SLOT(slotDeletePlaylist()),
 					     actionCollection(), "deleteItemPlaylist");
 
     KStdAction::quit(this, SLOT(slotQuit()), actionCollection());
@@ -119,41 +119,41 @@ void JuK::setupActions()
     KStdAction::cut(this, SLOT(cut()), actionCollection());
     KStdAction::copy(this, SLOT(copy()), actionCollection());
     KStdAction::paste(this, SLOT(paste()), actionCollection());
-    new KAction(i18n("Clear"), "editclear", 0, this, SLOT(clear()), actionCollection(), "clear");
+    new KAction(i18n("C&lear"), "editclear", 0, this, SLOT(clear()), actionCollection(), "clear");
     KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
     // view menu
-    m_showEditorAction = new KToggleAction(i18n("Show Tag Editor"), "edit", 0, actionCollection(), "showEditor");
+    m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit", 0, actionCollection(), "showEditor");
     connect(m_showEditorAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetEditorVisible(bool)));
     KStdAction::redisplay(m_splitter, SLOT(slotRefresh()), actionCollection());
     actionCollection()->insert(m_splitter->columnVisibleAction());
 
     // play menu
-    m_randomPlayAction = new KToggleAction(i18n("Random Play"), 0, actionCollection(), "randomPlay");
+    m_randomPlayAction = new KToggleAction(i18n("&Random Play"), 0, actionCollection(), "randomPlay");
     m_playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(slotPlay()), actionCollection(), "play");
     m_pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(slotPause()), actionCollection(), "pause");
     m_stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(slotStop()), actionCollection(), "stop");
     m_backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(slotBack()), actionCollection(), "back");
     m_forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(slotForward()), actionCollection(), "forward");
-    m_loopPlaylistAction = new KToggleAction(i18n("Loop Playlist"), "reload", 0, actionCollection(), "loopPlaylist");
+    m_loopPlaylistAction = new KToggleAction(i18n("&Loop Playlist"), "reload", 0, actionCollection(), "loopPlaylist");
 
     // tagger menu
-    new KAction(i18n("Save"), "filesave", "CTRL+t", m_splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
-    new KAction(i18n("Delete"), "editdelete", 0, m_splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
-    new KAction(i18n("Guess Tag Information"), 0, m_splitter, SLOT(slotGuessTagInfo()), actionCollection(), "guessTag");
+    new KAction(i18n("&Save"), "filesave", "CTRL+t", m_splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
+    new KAction(i18n("&Delete"), "editdelete", 0, m_splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
+    new KAction(i18n("&Guess Tag Information"), 0, m_splitter, SLOT(slotGuessTagInfo()), actionCollection(), "guessTag");
 
     // settings menu
     new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this, SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
     new KToggleAction(i18n("Show Tool Bar"), "CTRL+b", this, SLOT(slotToggleToolBar()), actionCollection(), "toggleToolBar");
 
-    m_restoreOnLoadAction = new KToggleAction(i18n("Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
+    m_restoreOnLoadAction = new KToggleAction(i18n("&Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
 
-    m_toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), KShortcut(), actionCollection(), "toggleSystemTray");
+    m_toggleSystemTrayAction = new KToggleAction(i18n("&Dock in System Tray"), KShortcut(), actionCollection(), "toggleSystemTray");
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(slotToggleSystemTray(bool)));
 
-    m_toggleDockOnCloseAction = new KToggleAction(i18n("Stay in System Tray on Close"), 0, actionCollection(), "dockOnClose");
+    m_toggleDockOnCloseAction = new KToggleAction(i18n("&Stay in System Tray on Close"), 0, actionCollection(), "dockOnClose");
 
-    m_togglePopupsAction = new KToggleAction(i18n("Popup Track Announcement"), 0, this, 0, actionCollection(), "togglePopups");
+    m_togglePopupsAction = new KToggleAction(i18n("&Popup Track Announcement"), 0, this, 0, actionCollection(), "togglePopups");
 
     new KAction(i18n("Genre List Editor..."), 0, this, SLOT(slotShowGenreListEditor()), actionCollection(), "showGenreListEditor");
 
@@ -164,7 +164,7 @@ void JuK::setupActions()
 	connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
     }
 
-    new KAction(i18n("Tag Guesser..."), 0, 0, this, SLOT(slotConfigureTagGuesser()), actionCollection(), "tagGuesserConfig");
+    new KAction(i18n("&Tag Guesser..."), 0, 0, this, SLOT(slotConfigureTagGuesser()), actionCollection(), "tagGuesserConfig");
 
     KStdAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
 
