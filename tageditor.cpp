@@ -28,12 +28,32 @@
 #include <qcheckbox.h>
 #include <qlayout.h>
 #include <qdir.h>
+#include <qvalidator.h>
 
 #include <id3v1genres.h>
 
 #include "tageditor.h"
 #include "collectionlist.h"
 #include "playlistitem.h"
+
+class FileNameValidator : public QValidator
+{
+public:
+    FileNameValidator(QObject *parent, const char *name = 0) :
+	QValidator(parent, name) {}
+
+    virtual void fixup(QString &s) const
+    {
+	s.remove('/');
+    }
+
+    virtual State validate(QString &s, int &) const
+    {
+	if(s.find('/' != -1))
+	   return Invalid;
+	return Acceptable;
+    }
+};
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -102,6 +122,8 @@ void TagEditor::slotRefresh()
     m_albumNameBox->setEditText(tag->album());
 
     m_fileNameBox->setText(item->fileName());
+    m_fileNameBox->setValidator(new FileNameValidator(m_fileNameBox));
+
     m_bitrateBox->setText(QString::number(tag->bitrate()));
     m_lengthBox->setText(tag->lengthString());
 
