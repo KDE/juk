@@ -22,6 +22,7 @@
 #include <math.h>
 
 #include "artsplayer.h"
+#include "akodeplayer.h"
 #include "gstreamerplayer.h"
 #include "playermanager.h"
 #include "playlistinterface.h"
@@ -43,38 +44,36 @@ enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying =
 // helper functions
 ////////////////////////////////////////////////////////////////////////////////
 
-enum SoundSystem { ArtsBackend = 0, GStreamerBackend = 1 };
+enum SoundSystem { AkodeBackend = 0, ArtsBackend = 1, GStreamerBackend = 2};
 
 static Player *createPlayer(int system = ArtsBackend)
 {
 
     Player *p = 0;
-
-#if HAVE_ARTS && HAVE_GSTREAMER
     switch(system) {
+    case AkodeBackend:
+        p = new aKodePlayer;
+        break;
+#if HAVE_ARTS
     case ArtsBackend:
         p = new ArtsPlayer;
         break;
+#endif
+#if HAVE_GSTREAMER
     case GStreamerBackend:
         p = new GStreamerPlayer;
         break;
+#endif
     default:
+#if HAVE_ARTS
         p = new ArtsPlayer;
+#elif defined(HAVE_GSTREAMER)
+        p = new GStreamerPlayer;
+#else
+        p = new AkodePlayer;
+#endif
         break;
     }
-#else
-    Q_UNUSED(system)
-#if HAVE_ARTS
-    p = new ArtsPlayer;
-#endif
-
-#if HAVE_GSTREAMER
-    p = new GStreamerPlayer;
-#else
-#warning No Player Backend Available
-#endif
-#endif
-
     return p;
 }
 
@@ -149,7 +148,7 @@ int PlayerManager::status() const
 
     if(player()->playing())
         return StatusPlaying;
-    
+
     return 0;
 }
 
@@ -218,13 +217,15 @@ KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
     KSelectAction *action = 0;
     action = new KSelectAction(i18n("&Output To"), 0, parent, "outputSelect");
     QStringList l;
-
-#if defined(HAVE_ARTS) && defined(HAVE_GSTREAMER)
-    l << i18n("aRts") << i18n("GStreamer");
-    action->setItems(l);
-#else
-    Q_UNUSED(parent)
+    l << "aKode"
+#if HAVE_ARTS
+      << "aRts"
 #endif
+#if HAVE_GSTREAMER
+      << "GStreamer"
+#endif
+      ;
+    action->setItems(l);
     return action;
 }
 
@@ -588,11 +589,15 @@ void PlayerManager::setup()
             this, SLOT(slotSetVolume(int)));
 
     // Call this method manually to avoid warnings.
-    
+
     KAction *outputAction = actions()->action("outputSelect");
 
     if(outputAction) {
         int mediaSystem = static_cast<KSelectAction *>(outputAction)->currentItem();
+#if (!HAVE_ARTS)
+        // Fix problem with position->enum
+        if (mediaSystem == ArtsBackend) mediaSystem = GStreamerBackend;
+#endif
         m_player = createPlayer(mediaSystem);
         connect(outputAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
     }

@@ -4,6 +4,7 @@ check_PROGRAMS = tagguessertest
 juk_SOURCES = \
 	advancedsearchdialog.cpp \
 	actioncollection.cpp \
+	akodeplayer.cpp \
 	artsplayer.cpp \
 	cache.cpp \
 	categoryreaderinterface.cpp \
@@ -80,7 +81,7 @@ mblibs = -lmusicbrainz -ltunepimp
 endif
 ##################################################
 
-juk_LDADD = -lm $(LDADD_GST) $(mblibs) $(LIB_KIO) $(taglib_libs) $(LIB_KHTML) $(LIB_ARTS)
+juk_LDADD = -lm $(LDADD_GST) $(mblibs) $(LIB_KIO) $(taglib_libs) $(LIB_KHTML) $(LIB_ARTS) ../akode/lib/libakode.la
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LDFLAGS_GST)
 
 tagguessertest_LDADD = $(LIB_KDECORE)
