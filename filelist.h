@@ -36,11 +36,11 @@ public:
   void append(QString item);
   void append(QStringList &items);
   void append(FileListItem *item);
-  void append(QPtrList<QListViewItem> &items);
+  void append(QPtrList<FileListItem> &items);
 
-  void remove(QPtrList<QListViewItem> &items);
+  void remove(QPtrList<FileListItem> &items);
   
-  FileListItem *getSelectedItem();
+  QPtrList<FileListItem> selectedItems();
   
   QStringList *getArtistList();
   QStringList *getAlbumList();

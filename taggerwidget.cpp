@@ -61,7 +61,7 @@ FileList *TaggerWidget::getTaggerList()
   return(taggerList);
 }
 
-QPtrList<QListViewItem> TaggerWidget::getSelectedItems()
+QPtrList<FileListItem> TaggerWidget::getSelectedItems()
 {
   return(taggerList->selectedItems());
 }
@@ -72,7 +72,7 @@ QPtrList<QListViewItem> TaggerWidget::getSelectedItems()
 
 void TaggerWidget::save()
 {
-  QPtrList<QListViewItem> items = taggerList->selectedItems();
+  QPtrList<FileListItem> items = taggerList->selectedItems();
 
   if(items.count() > 0) {
 
@@ -298,7 +298,7 @@ void TaggerWidget::updateBoxes() // this needs to be updated to properly work wi
 {
   //  kdDebug() << "updateBoxes(): " << item->filePath() << endl;
 
-  QPtrList<QListViewItem> items = taggerList->selectedItems();
+  QPtrList<FileListItem> items = taggerList->selectedItems();
 
   if(items.count() > 0) {
 

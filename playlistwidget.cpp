@@ -53,12 +53,12 @@ void PlaylistWidget::add(FileListItem *item)
   playlistList->append(item);
 }
 
-void PlaylistWidget::add(QPtrList<QListViewItem> &items)
+void PlaylistWidget::add(QPtrList<FileListItem> &items)
 {
   playlistList->append(items);
 }
 
-void PlaylistWidget::remove(QPtrList<QListViewItem> &items)
+void PlaylistWidget::remove(QPtrList<FileListItem> &items)
 {
   playlistList->remove(items);
 }
@@ -68,7 +68,7 @@ FileList *PlaylistWidget::getPlaylistList()
   return(playlistList);
 }
 
-QPtrList<QListViewItem> PlaylistWidget::getSelectedItems()
+QPtrList<FileListItem> PlaylistWidget::getSelectedItems()
 {
   return(playlistList->selectedItems());
 }

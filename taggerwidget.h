@@ -43,8 +43,7 @@ public:
 
   FileList *getTaggerList();
   
-  //  FileListItem *getSelectedItem();
-  QPtrList<QListViewItem> getSelectedItems();
+  QPtrList<FileListItem> getSelectedItems();
 
 public slots:
   void save();

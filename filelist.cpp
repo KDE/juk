@@ -79,29 +79,34 @@ void FileList::append(FileListItem *item)
   emit(dataChanged());
 }
 
-void FileList::append(QPtrList<QListViewItem> &items)
+void FileList::append(QPtrList<FileListItem> &items)
 {
-  QPtrListIterator<QListViewItem> it(items);
+  QPtrListIterator<FileListItem> it(items);
   while(it.current()) {
-    append(dynamic_cast<FileListItem *>(it.current()));
+    append(it.current());
     ++it;
   }
   // the emit(dataChanged()) is handled in the above function
 }
 
-void FileList::remove(QPtrList<QListViewItem> &items)
+void FileList::remove(QPtrList<FileListItem> &items)
 {
-  QPtrListIterator<QListViewItem> it(items);
+  QPtrListIterator<FileListItem> it(items);
   while(it.current()) {
-    members.remove(static_cast<FileListItem *>(it.current())->absFilePath());
+    members.remove(it.current()->absFilePath());
     delete(it.current());    
     ++it;
   }
 }
 
-FileListItem *FileList::getSelectedItem()
+QPtrList<FileListItem> FileList::selectedItems()
 {
-  return(dynamic_cast<FileListItem *>(currentItem()));
+  QPtrList<FileListItem> list;
+  for(FileListItem *i = static_cast<FileListItem *>(firstChild()); i != 0; i = static_cast<FileListItem *>(i->itemBelow())) {
+    if(i->isSelected())
+      list.append(i);
+  }
+  return(list);
 }
 
 QStringList *FileList::getArtistList()
