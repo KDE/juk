@@ -46,7 +46,7 @@ KAction *K3bExporter::action()
 {
     if(!KStandardDirs::findExe("k3b").isNull()) {
         return new KAction(
-            i18n("Add Selected Items to K3B project"),
+            i18n("Add Selected Items to K3b Project"),
             SmallIconSet("k3b"),
             0,
             this,
@@ -110,7 +110,7 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
         *process << (*it)->file().absFilePath();
     
     if(!process->start(KProcess::DontCare))
-        KMessageBox::error(m_parent, i18n("Unable to start K3B!"));
+        KMessageBox::error(m_parent, i18n("Unable to start K3b!"));
 }
 
 void K3bExporter::exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref)
@@ -144,7 +144,7 @@ void K3bExporter::exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref)
 
 void K3bExporter::DCOPErrorMessage()
 {
-    KMessageBox::error(m_parent, i18n("There was a DCOP Communication error with K3b!"));
+    KMessageBox::error(m_parent, i18n("There was a DCOP communication error with K3b!"));
 }
 
 bool K3bExporter::startNewK3bProject(DCOPRef &ref)
@@ -180,7 +180,7 @@ K3bExporter::K3bOpenMode K3bExporter::openMode()
         i18n("Create an audio mode CD suitable for CD players, or a data "
              "mode CD suitable for computers and other digital music "
              "players?"),
-        i18n("Create K3B project"),
+        i18n("Create K3b Project"),
         i18n("Audio Mode"),
         i18n("Data Mode")
     );
@@ -208,7 +208,7 @@ KAction *K3bPlaylistExporter::action()
 {
     if(!KStandardDirs::findExe("k3b").isNull()) {
         return new KAction(
-            i18n("Add Playlist to K3B project"),
+            i18n("Add Playlist to K3b Project"),
             SmallIconSet("k3b"),
             0,
             this,
