@@ -25,8 +25,11 @@
 #include <kdebug.h>
 
 #include <qvbox.h>
+#include <qtimer.h>
+#include <qcolor.h>
 #include <qpushbutton.h>
 #include <qtooltip.h>
+#include <qpainter.h>
 #include <qvaluevector.h>
 
 #include <netwm.h>
@@ -39,6 +42,42 @@
 using namespace ActionCollection;
 
 static bool copyImage(QImage &dest, QImage &src, int x, int y);
+
+class FlickerFreeLabel : public QLabel
+{
+public:
+    FlickerFreeLabel(const QString &text, QWidget *parent, const char *name = 0) :
+        QLabel(text, parent, name)
+    {
+        m_textColor = paletteForegroundColor();
+        setBackgroundMode(NoBackground);
+    }
+
+    QColor textColor() const
+    {
+        return m_textColor;
+    }
+
+protected:
+    virtual void drawContents(QPainter *p)
+    {
+        // We want to intercept the drawContents call and draw on a pixmap
+        // instead of the window to keep flicker to an absolute minimum.
+        // Since Qt doesn't refresh the background, we need to do so
+        // ourselves.
+
+        QPixmap pix(size());
+        QPainter pixPainter(&pix);
+
+        pixPainter.fillRect(rect(), paletteBackgroundColor());
+        QLabel::drawContents(&pixPainter);
+
+        bitBlt(p->device(), QPoint(0, 0), &pix, rect(), CopyROP);
+    }
+
+    private:
+    QColor m_textColor;
+};
 
 class PassiveInfo : public KPassivePopup
 {
@@ -66,6 +105,10 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
                                                             m_popup(0)
 
 {
+    // This should be initialized to the number of labels that are used.
+
+    m_labels.reserve(3);
+
     m_appPix = loadIcon("juk_dock");
 
     m_playPix = createPixmap("player_play");
@@ -141,6 +184,37 @@ void SystemTray::slotStop()
     m_popup = 0;
 }
 
+void SystemTray::slotClearLabels()
+{
+    for(unsigned i = 0; i < m_labels.capacity(); ++i)
+        m_labels[i] = 0;
+}
+
+void SystemTray::slotNextStep()
+{
+    static const int steps = 20;
+    QColor result, start, end;
+    int r, g, b;
+
+    ++m_step;
+    for(unsigned i = 0; i < m_labels.capacity() && m_labels[i]; ++i) {
+        start = m_labels[i]->paletteBackgroundColor();
+        result = end = m_labels[i]->textColor();
+
+        if(m_step < steps) {
+            r = (m_step * end.red() + (steps - m_step) * start.red()) / steps;
+            g = (m_step * end.green() + (steps - m_step) * start.green()) / steps;
+            b = (m_step * end.blue() + (steps - m_step) * start.blue()) / steps;
+            result = QColor(r, g, b);
+        }
+
+        m_labels[i]->setPaletteForegroundColor(result);
+    }
+
+    if(m_step < steps)
+        QTimer::singleShot(1500 / steps, this, SLOT(slotNextStep()));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,6 +230,9 @@ void SystemTray::createPopup()
 
         delete m_popup;
         m_popup = new PassiveInfo(this);
+
+        connect(m_popup, SIGNAL(destroyed()), SLOT(slotClearLabels()));
+        m_step = 0;
 
         QHBox *box = new QHBox(m_popup);
         box->setSpacing(15); // Add space between text and buttons
@@ -195,12 +272,9 @@ void SystemTray::createPopup()
         infoBox->setMargin(3);
         buttonBox->setSpacing(3);
         
-        // This should be initialized to the number of labels that are used.
-
-        QValueVector<QLabel *> labels(3, 0);
-        for(QValueVector<QLabel *>::Iterator it = labels.begin(); it != labels.end(); ++it) {
-            *it = new QLabel(" ", infoBox);
-            (*it)->setAlignment(AlignRight | AlignVCenter);
+        for(unsigned i = 0; i < m_labels.capacity(); ++i) {
+            m_labels[i] = new FlickerFreeLabel(" ", infoBox);
+            m_labels[i]->setAlignment(AlignRight | AlignVCenter);
         }
 
         QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
@@ -222,17 +296,19 @@ void SystemTray::createPopup()
 
         int labelCount = 0;
 
-        labels[labelCount++]->setText(QString("<nobr><h2>%1</h2></nobr>").arg(playingInfo->title()));
+        m_labels[labelCount++]->setText(QString("<nobr><h2>%1</h2></nobr>").arg(playingInfo->title()));
 
         if(!playingInfo->artist().isEmpty())
-            labels[labelCount++]->setText(playingInfo->artist());
+            m_labels[labelCount++]->setText(playingInfo->artist());
 
         if(!playingInfo->album().isEmpty()) {
             QString s = playingInfo->year() > 0
                 ? QString("%1 (%2)").arg(playingInfo->album()).arg(playingInfo->year())
                 : playingInfo->album();
-            labels[labelCount++]->setText(s);
+            m_labels[labelCount++]->setText(s);
         }
+
+        slotNextStep();
 
         m_popup->setView(box);
         m_popup->show();

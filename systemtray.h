@@ -20,6 +20,9 @@
 
 #include <ksystemtray.h>
 
+#include <qvaluevector.h>
+
+class FlickerFreeLabel;
 class QTimer;
 class KPassivePopup;
 
@@ -43,6 +46,8 @@ private slots:
     void slotPlay();
     void slotPause() { setPixmap(m_pausePix); }
     void slotStop();
+    void slotClearLabels();
+    void slotNextStep();
 
 private:
     QPixmap m_playPix;
@@ -54,6 +59,8 @@ private:
 
     KPassivePopup *m_popup;
     QLabel *m_currentLabel;
+    QValueVector<FlickerFreeLabel *> m_labels;
+    int m_step;
 };
 
 #endif // SYSTEMTRAY_H
