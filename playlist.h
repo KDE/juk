@@ -443,6 +443,11 @@ private:
 
     PlaylistItem *nextItem(PlaylistItem *current = 0) const;
 
+    /** Sets up album random play to play songs with the same album as
+     * the given PlaylistItem.
+     */
+    void initAlbumSearch(const PlaylistItem *item);
+
     /**
      * Load the playlist from a file.  \a fileName should be the absolute path.
      * \a fileInfo should point to the same file as \a fileName.  This is a
@@ -573,9 +578,9 @@ private:
     bool m_widthsDirty;
 
     PlaylistItemList m_randomList;
-    QString m_randomAlbum;
     PlaylistItemList m_history;
     PlaylistSearch m_search;
+    PlaylistSearch m_albumSearch;
 
     bool m_searchEnabled;
 

@@ -412,7 +412,8 @@ void Playlist::playNext()
     // because m_randomList isn't updated on the m_playNextItem branch.
 
     if(random && list->m_randomList.isEmpty()) {
-	m_randomAlbum = QString::null;
+	m_albumSearch.clearComponents();
+	m_albumSearch.search();
 	list->m_randomList = list->visibleItems();
 
 	if(m_playingItem && !loop) {
@@ -425,6 +426,9 @@ void Playlist::playNext()
 
     if(m_playNextItem) {
 	next = m_playNextItem;
+	initAlbumSearch(next);
+	m_albumSearch.clearItem(next);
+
 	m_playNextItem = 0;
 
 	if(random)
@@ -432,17 +436,27 @@ void Playlist::playNext()
     }
     else if(random) {
 	if(albumRandom) {
-	    PlaylistItemList albumMatches;
-	    PlaylistItemList::ConstIterator it;
-
-	    for(it = list->m_randomList.begin(); !m_randomAlbum.isNull() && it != list->m_randomList.end(); ++it)
-		if((*it) != m_playingItem && (*it)->file().tag()->album() == m_randomAlbum)
-		    albumMatches.append(*it);
-
-	    if(albumMatches.isEmpty())
+	    if(m_albumSearch.isNull() || m_albumSearch.matchedItems().isEmpty()) {
 		next = list->m_randomList[KApplication::random() % list->m_randomList.count()];
-	    else
-		next = albumMatches[KApplication::random() % albumMatches.count()];
+		initAlbumSearch(next);
+	    }
+
+	    // This can be null if initAlbumSearch() left the m_albumSearch
+	    // empty because the album text was empty.
+
+	    if(!m_albumSearch.isNull()) {
+		PlaylistItemList albumMatches = m_albumSearch.matchedItems();
+		PlaylistItemList::ConstIterator it;
+
+		next = albumMatches[0];
+
+		// Pick first song
+
+		for(unsigned i = 0; i < albumMatches.count(); ++i)
+		    if(albumMatches[i]->file().tag()->track() < next->file().tag()->track())
+			next = albumMatches[i];
+		m_albumSearch.clearItem(next);
+	    }
 	}
 	else
 	    next = list->m_randomList[KApplication::random() % list->m_randomList.count()];
@@ -458,17 +472,14 @@ void Playlist::playNext()
 	}
     }
 
-    m_randomAlbum = QString::null;
-    if(next)
-	m_randomAlbum = next->file().tag()->album();
-
     setPlaying(next);
 }
 
 void Playlist::stop()
 {
     m_history.clear();
-    m_randomAlbum = QString::null;
+    m_albumSearch.clearComponents();
+    m_albumSearch.search();
     setPlaying(0);
 }
 
@@ -1256,6 +1267,7 @@ void Playlist::setup()
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
     setSorting(1);
+    m_albumSearch.addPlaylist(this);
 }
 
 PlaylistItem *Playlist::nextItem(PlaylistItem *current) const
@@ -1275,6 +1287,31 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current) const
 	}
 	return static_cast<PlaylistItem *>(it.current());
     }
+}
+
+void Playlist::initAlbumSearch(const PlaylistItem *item)
+{
+    ColumnList columns;
+    
+    m_albumSearch.setSearchMode(PlaylistSearch::MatchAll);
+    m_albumSearch.clearComponents();
+
+    // if the album name is empty, it will mess up the search,
+    // so ignore empty album names.
+
+    if(item->file().tag()->album().isEmpty())
+	return;
+
+    columns.append(PlaylistItem::AlbumColumn);
+
+    m_albumSearch.addComponent(PlaylistSearch::Component(
+	item->file().tag()->album(),
+	true,
+	columns,
+	PlaylistSearch::Component::Exact)
+    );
+
+    m_albumSearch.search();
 }
 
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
