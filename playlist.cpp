@@ -280,7 +280,8 @@ void Playlist::clearItems(const PlaylistItemList &items)
 QStringList Playlist::files() const
 {
     QStringList list;
-    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
+    PlaylistItem *i = static_cast<PlaylistItem *>(firstChild());
+    for(; i; i = static_cast<PlaylistItem *>(i->itemBelow()))
 	list.append(i->absFilePath());
 
     return list;
@@ -298,13 +299,16 @@ PlaylistItemList Playlist::items()
 PlaylistItemList Playlist::visibleItems() const
 {
     PlaylistItemList list;
-    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow())) {
-        //This check should be removed at some point since those items should all be already visible
-        //at the time of writing there's a bug that leaves some invisible items in the list
+    PlaylistItem *i = static_cast<PlaylistItem *>(firstChild());
+    for(; i; i = static_cast<PlaylistItem *>(i->itemBelow())) {
+        // This check should be removed at some point since those items should 
+	// all be already visible at the time of writing there's a bug that 
+	// leaves some invisible items in the list
+
         if(i->isVisible())
             list.append(i);
         else
-            kdDebug(65432)<<"File shouldn't be in the list"<< i->fileName()<<endl;
+            kdDebug(65432) << "File shouldn't be in the list" << i->fileName() << endl;
     }
 
     return list;
@@ -736,6 +740,8 @@ QString Playlist::resolveSymLinks(const QFileInfo &file) // static
 
 void Playlist::polish()
 {
+    KListView::polish();
+
     if(m_polished)
 	return;
 
@@ -778,11 +784,11 @@ void Playlist::polish()
     m_headerMenu->insertTitle(i18n("Show"));
     m_headerMenu->setCheckable(true);
 
-    for(int i =0; i < header()->count(); ++i) {
-
+    for(int i = 0; i < header()->count(); ++i) {
 	m_headerMenu->insertItem(header()->label(i), i);
-
 	m_headerMenu->setItemChecked(i, true);
+
+	adjustColumn(i);
     }
 
     connect(m_headerMenu, SIGNAL(activated(int)), this, SLOT(slotToggleColumnVisible(int)));

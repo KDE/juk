@@ -223,6 +223,8 @@ void TreeViewMode::setupCategory(PlaylistBox::Item *parent, const QStringList &m
 {
     CollectionList *collection = CollectionList::instance();
 
+    KApplication::setOverrideCursor(Qt::waitCursor);
+
     for(QStringList::ConstIterator it = members.begin(); it != members.end(); ++it) {
         
         PlaylistSearch::ComponentList components;
@@ -235,5 +237,11 @@ void TreeViewMode::setupCategory(PlaylistBox::Item *parent, const QStringList &m
 
         SearchPlaylist *p = new SearchPlaylist(s, static_cast<QWidget *>(collection->parent()), *it);
         new PlaylistBox::Item(parent, "midi", *it, p);
+
+	static int i = 0;
+	if(++i % 5 == 0)
+	    kapp->processEvents();
     }
+
+    KApplication::restoreOverrideCursor();
 }
