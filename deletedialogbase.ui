@@ -43,7 +43,7 @@
                         </sizepolicy>
                     </property>
                     <property name="text">
-                        <string>Replace me</string>
+                        <string>Icon Placeholder, not in GUI</string>
                     </property>
                 </widget>
                 <widget class="QLayoutWidget">
@@ -70,7 +70,7 @@
                                 <cstring>ddDeleteText</cstring>
                             </property>
                             <property name="text">
-				<string>&lt;qt&gt;Deleting these items will &lt;b&gt;permanently remove&lt;/b&gt; them.&lt;/qt&gt;</string>
+                                <string>Deletion method placeholder, never shown to user.</string>
                             </property>
                             <property name="alignment">
                                 <set>WordBreak|AlignCenter</set>
@@ -99,7 +99,7 @@
                 <cstring>ddNumFiles</cstring>
             </property>
             <property name="text">
-                <string>Placeholder for number of files</string>
+                <string>Placeholder for number of files, not in GUI</string>
             </property>
             <property name="alignment">
                 <set>AlignVCenter|AlignRight</set>
