@@ -124,13 +124,14 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KURL &url) const
 {
     kdDebug(65432) << "imageURL: " << url << endl;
 
-    QString tmpFile;
+    QString file;
 
-    if(KIO::NetAccess::download(url, tmpFile, 0)) {
-        QPixmap returnVal = QPixmap(tmpFile);
-        QFile(tmpFile).remove();
-        return returnVal;
+    if(KIO::NetAccess::download(url, file, 0)) {
+        QPixmap pixmap = QPixmap(file);
+        KIO::NetAccess::removeTempFile(file);
+        return pixmap;
     }
+    KIO::NetAccess::removeTempFile(file);
     return QPixmap();
 }
 

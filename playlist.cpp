@@ -922,6 +922,8 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 	    refreshAlbum(item->file().tag()->artist(),
 			 item->file().tag()->album());
 	}
+
+        KIO::NetAccess::removeTempFile(file);
     }
 
     QStringList fileList;
