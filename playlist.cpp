@@ -37,6 +37,7 @@
 #include <qclipboard.h>
 
 #include <stdlib.h>
+#include <limits.h>
 #include <time.h>
 
 #include "playlist.h"
@@ -456,18 +457,11 @@ bool Playlist::isColumnVisible(int c) const
 
 QString Playlist::resolveSymLinks(const QFileInfo &file)
 {
-    if(!file.isSymLink())
-	return file.absFilePath();
-    else {
-	QString linkFileName = file.readLink();
-	QFileInfo linkFile;
-	if(linkFileName.startsWith("/"))
-	    linkFile.setFile(linkFileName);
-	else
-	    linkFile.setFile(file.dirPath(true) + QDir::separator() + linkFileName);
-
-	return linkFile.absFilePath();
-    }
+    char real[PATH_MAX];
+    if(file.exists() && realpath(QFile::encodeName(file.absFilePath()).data(), real))
+	return QFile::decodeName(real);
+    else
+	return QString::null;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
