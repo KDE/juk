@@ -1,4 +1,4 @@
-if test "x$have_id3lib" == "xfalse"; then
+if test "x$have_id3lib" = "xfalse"; then
 	echo "**************************************************"
 	echo "*"
 	echo "* id3lib 3.8.0 or greater is required by JuK."
@@ -9,7 +9,7 @@ if test "x$have_id3lib" == "xfalse"; then
 	echo "**************************************************"
 fi
 
-if test "x$have_gst" == "xfalse"; then
+if test "x$have_gst" = "xfalse"; then
 	echo "**************************************************"
 	echo "*"
 	echo "* You do not seem to have GStreamer and the"
@@ -25,7 +25,7 @@ if test "x$have_gst" == "xfalse"; then
 	echo "**************************************************"
 fi
 
-if test "x$have_musicbrainz" == "xfalse"; then
+if test "x$have_musicbrainz" = "xfalse"; then
 	echo "**************************************************"
 	echo "*"
 	echo "* You do not seem to have libmusicbrainz and JuK"
