@@ -4,6 +4,7 @@ Actions=addToCollection
 
 [Desktop Action addToCollection]
 Name=Add to JuK Collection
+Name[bs]=Dodaj u JuK kolekciju
 Name[ca]=Afegeix a la col·lecció JuK
 Name[cs]=Přidat do JuK kolekce
 Name[cy]=Ychwanegu i Gasgliad JuK
@@ -16,7 +17,9 @@ Name[fi]=Lisää JuK kokoelmaan
 Name[fr]=Ajouter à la collection de JuK
 Name[hi]=ज्यूक संग्रह में जोड़ें
 Name[hu]=Hozzáadás egy JuK-válogatáshoz
+Name[is]=Bæta við JuK safnið
 Name[it]=Aggiungi alla collezione di JuK
+Name[ja]=JuKコレクションに追加
 Name[ms]=Tambah ke koleksi JuK
 Name[nb]=Legg til JuK-samling
 Name[nl]=Toevoegen aan JuK-collectie
@@ -24,6 +27,7 @@ Name[nn]=Legg til JuK-samlinga
 Name[pl]=Dodaj do kolekcji JuK
 Name[pt]=Adicionar à Colecção do JuK
 Name[pt_BR]=Adicionar à Coleção do Juk
+Name[ro]=Adaugă în colecţia JuK
 Name[ru]=Добавить в коллекцию Juk
 Name[sk]=Pridať do kolekcie JuK
 Name[sl]=Dodaj v zbirko JuK
