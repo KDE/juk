@@ -69,7 +69,16 @@ int main(int argc, char *argv[])
     a.dcopClient()->resume();
 
     a.setMainWidget(juk);
-    juk->show();
+
+    bool startDocked;
+
+    KConfig *config = KGlobal::config();
+    {
+        KConfigGroupSaver saver(config, "Settings");
+	startDocked = config->readBoolEntry("StartDocked", false);
+    }
+    if(!startDocked)
+	juk->show();
 
     return a.exec();
 }

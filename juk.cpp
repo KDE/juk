@@ -47,7 +47,7 @@ JuK::JuK(QWidget *parent, const char *name) :
 
     readSettings();
 
-    if(m_showSplash) {
+    if(m_showSplash && isVisible()) {
 	SplashScreen::instance()->show();
 	kapp->processEvents();
     }
@@ -292,11 +292,12 @@ void JuK::setupActions()
     KActionMenu *newMenu = new KActionMenu(i18n("&New"), "filenew",
 					   actionCollection(), "file_new");
 
-    /* This connection will call the
-     * PlaylistSplitter::slotCreatePlaylist(const QString &) slot - this is
-     * possible because the QString parameter has a default value, so the
-     * slot can be called without arguments (as required by the signal's
-     * signature). */
+    // This connection will call the
+    // PlaylistSplitter::slotCreatePlaylist(const QString &) slot - this is
+    // possible because the QString parameter has a default value, so the
+    // slot can be called without arguments (as required by the signal's
+    // signature).
+
     newMenu->insert(createSplitterAction(i18n("Empty Playlist..."),
 					 SLOT(slotCreatePlaylist()), 0, 0, 0));
 
@@ -669,6 +670,7 @@ void JuK::saveConfig()
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
         config->writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
+        config->writeEntry("StartDocked", m_startDocked);
         config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
         config->writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
         config->writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
@@ -680,6 +682,8 @@ void JuK::saveConfig()
 
 bool JuK::queryExit()
 {
+    m_startDocked = !isVisible();
+
     hide();
     delete m_systemTray;
     m_systemTray = 0;

@@ -1,4 +1,3 @@
-
 /***************************************************************************
                           juk.h  -  description
                              -------------------
@@ -207,6 +206,7 @@ private:
 
     bool m_trackPositionDragging;
     bool m_noSeek;
+    bool m_startDocked;
     bool m_showSplash;
     bool m_shuttingDown;
     bool m_muted;
