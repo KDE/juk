@@ -777,9 +777,6 @@ void PlaylistSplitter::savePlaylists()
 
     for(PlaylistList::Iterator it = l.begin(); it != l.end(); it++) {
 	if(*it) {
-
-	    // These first two aren't implemented yet.
-
 	    if(*it == m_history) {
 		s << Q_INT32(History)
 		  << *m_history;
