@@ -282,10 +282,10 @@ void TagEditor::saveConfig()
 
 void TagEditor::setupLayout()
 {
-    const int horizontalSpacing = 10;
-    const int verticalSpacing = 2;
+    static const int horizontalSpacing = 10;
+    static const int verticalSpacing = 2;
 
-    QHBoxLayout *layout = new QHBoxLayout(this, 0, horizontalSpacing);
+    QHBoxLayout *layout = new QHBoxLayout(this, 2, horizontalSpacing);
 
     //////////////////////////////////////////////////////////////////////////////
     // define two columns of the bottem layout
