@@ -18,6 +18,8 @@
 #ifndef OGGTAG_H
 #define OGGTAG_H
 
+#include <kfilemetainfo.h>
+
 #include "tag.h"
 
 class OggTag : public Tag
@@ -46,6 +48,21 @@ public:
     virtual void setTrackNumber(int value);
     virtual void setYear(int value);
     virtual void setComment(const QString &value);
+
+private:
+    /**
+     * Simplifies reading a string from a KFMI group.  Returns QString::null if
+     * something went wrong or the key was not found.
+     */
+    QString readCommentString(const QString &key) const;
+    /**
+     * Simplifies reading an int from a KFMI group.  Returns -1 if something went
+     * wrong or the key was not found.
+     */
+    int readCommentInt(const QString &key) const;
+    
+    KFileMetaInfo metaInfo;
+    KFileMetaInfoGroup commentGroup;
 };
 
 #endif

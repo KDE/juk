@@ -33,14 +33,19 @@ public:
 
     void load(const QString &file);
     QString name(int ID3v1);
+    /**
+     * Do a "reverse" lookup.  Given an ID3v1 genre name, find the index.
+     */
     int findIndex(const QString &item);
 
 private:
     QValueVector<QString> index;
     bool hasIndex;
-    /** This is used for creating a mapping between ID3v1 genre numbers and the
-	name that is associated with those genres.  There is no reason that this
-	should be called for GenreLists other than the ID3v1 GenreList. */
+    /** 
+     * This is used for creating a mapping between ID3v1 genre numbers and the
+     * name that is associated with those genres.  There is no reason that this
+     * should be called for GenreLists other than the ID3v1 GenreList. 
+     */
     void initializeIndex();
 };
 

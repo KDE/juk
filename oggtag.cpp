@@ -15,11 +15,19 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+
 #include "oggtag.h"
+#include "genrelistlist.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// public members
+////////////////////////////////////////////////////////////////////////////////
 
 OggTag::OggTag(const QString &file) : Tag(file)
 {
-    
+    metaInfo = KFileMetaInfo(file);
+    commentGroup = KFileMetaInfoGroup(metaInfo.group("Comment"));
 }
 
 OggTag::~OggTag()
@@ -34,43 +42,44 @@ void OggTag::save()
 
 QString OggTag::track() const
 {
-    return(QString::null);
+    return readCommentString("Album");
 }
 
 QString OggTag::artist() const
 {
-    return(QString::null);
+    return readCommentString("Artist");
 }
 
 QString OggTag::album() const
 {
-    return(QString::null);
+    return readCommentString("Album");
 }
 
 Genre OggTag::genre() const
 {
-    Genre g;
-    return(g);
+    QString genreName = readCommentString("Genre");
+    int index = GenreListList::ID3v1List()->findIndex(genreName);
+    return Genre(genreName, index);
 }
 
 int OggTag::trackNumber() const
 {
-    return(0);
+    return readCommentInt("Tracknumber");
 }
 
 QString OggTag::trackNumberString() const
 {
-    return(QString::null);
+    return readCommentString("Tracknumber");
 }
 
 int OggTag::year() const
 {
-    return(0);
+    return readCommentInt("Year");
 }
 
 QString OggTag::yearString() const
 {
-    return(QString::null);
+    return readCommentString("Year");
 }
 
 QString OggTag::comment() const
@@ -80,7 +89,10 @@ QString OggTag::comment() const
 
 bool OggTag::hasTag() const
 {
-    return(false);
+    if(metaInfo.isValid() && !metaInfo.isEmpty())
+	return(true);
+    else
+	return(false);
 }
 
 void OggTag::setTrack(const QString &value)
@@ -116,4 +128,34 @@ void OggTag::setYear(int value)
 void OggTag::setComment(const QString &value)
 {
 
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private members
+////////////////////////////////////////////////////////////////////////////////
+
+QString OggTag::readCommentString(const QString &key) const
+{
+    if(metaInfo.isValid() && !metaInfo.isEmpty() &&
+       commentGroup.isValid() && !commentGroup.isEmpty() &&
+       commentGroup.contains(key))
+	return(commentGroup.item(key).string());
+    else
+	return(QString::null);
+}
+
+int OggTag::readCommentInt(const QString &key) const
+{
+    if(metaInfo.isValid() && !metaInfo.isEmpty() &&
+       commentGroup.isValid() && !commentGroup.isEmpty() &&
+       commentGroup.contains(key)) {
+	bool ok;
+	int value = commentGroup.item(key).value().toInt(&ok);
+	if(ok)
+	    return(value);
+	else
+	    return(-1);
+    }
+    else
+	return(-1);
 }
