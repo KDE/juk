@@ -301,6 +301,7 @@ void JuK::playFile()
             pauseAction->setEnabled(true);
             stopAction->setEnabled(true);
             playTimer->start(pollInterval);
+	    systemTray->slotPlay();
         }
     }
     else if(player.playing())
