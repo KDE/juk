@@ -39,6 +39,24 @@ using namespace ActionCollection;
 
 static bool copyImage(QImage &dest, QImage &src, int x, int y);
 
+class PassiveInfo : public KPassivePopup
+{
+public:
+    PassiveInfo(QWidget *parent = 0, const char *name = 0) :
+        KPassivePopup(parent, name) {}
+
+protected:
+    virtual void enterEvent(QEvent *)
+    {
+        setTimeout(3000000); // Make timeout damn near infinite
+    }
+    
+    virtual void leaveEvent(QEvent *)
+    {
+        setTimeout(250); // Close quickly
+    }
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,7 +138,7 @@ void SystemTray::createPopup(bool addButtons)
     if(action<KToggleAction>("togglePopups")->isChecked()) {
 
         delete m_popup;
-        m_popup = new KPassivePopup(this);
+        m_popup = new PassiveInfo(this);
 
         QHBox *box = new QHBox(m_popup);
         box->setSpacing(15); // Add space between text and buttons
