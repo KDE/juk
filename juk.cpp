@@ -331,6 +331,9 @@ void JuK::setupActions()
 
     KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
+    createSplitterAction(
+	i18n("Advanced Search"), SLOT(slotAdvancedSearch()), "advancedSearch", "find");
+
     //////////////////////////////////////////////////
     // view menu
     //////////////////////////////////////////////////

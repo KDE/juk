@@ -50,6 +50,8 @@ SearchLine::SearchLine(QWidget *parent, const char *name) : QHBox(parent, name)
     m_caseSensitive->insertItem(i18n("Pattern Matching"), 2);
     connect(m_caseSensitive, SIGNAL(activated(int)),
             this, SIGNAL(signalQueryChanged()));
+
+    updateColumns();
 }
 
 PlaylistSearch::Component SearchLine::searchComponent() const

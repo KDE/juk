@@ -237,6 +237,8 @@ public slots:
 
     void slotSetSearchVisible(bool visible);
 
+    void slotAdvancedSearch();
+
     /**
      * Add the file to the playlist.  If \a after is null the items will be
      * inserted at the end of the list.

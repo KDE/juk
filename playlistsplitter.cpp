@@ -30,6 +30,7 @@
 #include "dynamicplaylist.h"
 #include "searchplaylist.h"
 #include "mediafiles.h"
+#include "advancedsearchdialog.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
@@ -396,6 +397,12 @@ void PlaylistSplitter::slotSetSearchVisible(bool visible)
     redisplaySearch();
 }
 
+void PlaylistSplitter::slotAdvancedSearch()
+{
+    AdvancedSearchDialog *d = new AdvancedSearchDialog(this);
+    d->exec();
+    delete d;
+}
 
 void PlaylistSplitter::slotGuessTagInfo(TagGuesser::Type type)
 {
