@@ -94,7 +94,8 @@ protected:
     bool importPlaylists() const;
 
     QString playlistNameDialog(const QString &caption = i18n("Create New Playlist"),
-                               const QString &suggest = QString::null) const;
+                               const QString &suggest = QString::null,
+                               bool forceUnique = true) const;
     QString uniquePlaylistName(const QString &suggest = i18n("Playlist")) const;
 
     void addName(const QString &name);

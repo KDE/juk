@@ -125,7 +125,7 @@ void PlaylistCollection::open(const QStringList &l)
            KGuiItem(i18n("Current")),
            KGuiItem(i18n("Collection"))) == KMessageBox::No)
     {
-	CollectionList::instance()->addFiles(files, m_importPlaylists);
+        CollectionList::instance()->addFiles(files, m_importPlaylists);
     }
     else
         currentPlaylist()->addFiles(files, m_importPlaylists);
@@ -164,15 +164,12 @@ void PlaylistCollection::addFolder()
 
 void PlaylistCollection::rename()
 {
-    QString name = playlistNameDialog(i18n("Rename"), currentPlaylist()->name());
+    QString name = playlistNameDialog(i18n("Rename"), currentPlaylist()->name(), false);
 
     if(name.isNull())
         return;
 
     currentPlaylist()->setName(name);
-
-    // currentPlaylist()->slotRenameFile();
-    // refresh editor
 }
 
 void PlaylistCollection::duplicate()
@@ -349,13 +346,16 @@ bool PlaylistCollection::importPlaylists() const
 }
 
 QString PlaylistCollection::playlistNameDialog(const QString &caption,
-                                               const QString &suggest) const
+                                               const QString &suggest,
+                                               bool forceUnique) const
 {
     bool ok;
 
     QString name = KInputDialog::getText(
         caption,
-        i18n("Please enter a name for this playlist:"), uniquePlaylistName(suggest), &ok);
+        i18n("Please enter a name for this playlist:"),
+        forceUnique ? uniquePlaylistName(suggest) : suggest,
+        &ok);
 
     return ok ? uniquePlaylistName(name) : QString::null;
 }
