@@ -457,10 +457,14 @@ void PlaylistSplitter::readConfig()
 	    uint i = 0;
 	    for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
 		if(! bool(*it)) {
-		    kdDebug() << "! column " << i << endl;
 		    _visibleColumns[i] = bool(*it);
 		    collection->hideColumn(i);
 		}
+
+		// while we're looping go ahead and populate _columnNames
+		
+		_columnNames.append(collection->columnText(i));
+
 		i++;
 	    }
 	    setupColumns(collection);

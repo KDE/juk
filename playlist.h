@@ -31,6 +31,7 @@ class PlaylistBoxItem;
 class KPopupMenu;
 
 class KPopupMenu;
+class KActionMenu;
 
 class QEvent;
 
@@ -128,8 +129,10 @@ public:
     PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
     PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
 
+    KActionMenu *columnVisibleAction() const { return _columnVisibleAction; }
+
 public slots:
-	/**
+    /**
      * Remove the currently selected items from the playlist and disk.
      */ 
     void removeSelectedItems() { remove(selectedItems()); };
@@ -213,9 +216,10 @@ private:
     QString playlistName;
     PlaylistSplitter *splitter;
     PlaylistBoxItem *boxItem;
-	
+   
     KPopupMenu *rmbMenu;
     KPopupMenu *headerMenu;
+    KActionMenu *_columnVisibleAction;
 
     int rmbPasteID;
     int rmbEditID;

@@ -29,6 +29,7 @@
 #include "stringhash.h"
 #include "tageditor.h"
 
+class KActionMenu;
 class PlaylistBoxItem;
 class PlaylistItem;
 
@@ -143,6 +144,9 @@ public:
      */
     void open(const QString &file);
 
+    QStringList columnNames() const { return _columnNames; }
+    
+    KActionMenu *columnVisibleAction() const { return collection->columnVisibleAction(); }
 
 // static methods
 
@@ -297,6 +301,7 @@ private:
     QStringList directoryQueueRemove;
 
     QValueVector<bool> _visibleColumns;
+    QStringList _columnNames;
 
     bool showEditor;
     bool restore;

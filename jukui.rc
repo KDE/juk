@@ -26,6 +26,7 @@
 	</Menu>
 	<Menu name="view" noMerge="1"><text>&amp;View</text>
 		<Action name="showEditor"/>
+		<Action name="showColumns"/>
 
 		<Separator/>
 

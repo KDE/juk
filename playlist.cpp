@@ -24,6 +24,7 @@
 #include <kstandarddirs.h>
 #include <klocale.h>
 #include <klineedit.h>
+#include <kactionclasses.h>
 #include <kdebug.h>
 
 #include <qfileinfo.h>
@@ -480,8 +481,9 @@ void Playlist::setup()
     // setup header RMB menu
     //////////////////////////////////////////////////
 
-    headerMenu = new KPopupMenu(this);
-    headerMenu->insertTitle(i18n("Show Columns"));
+    _columnVisibleAction = new KActionMenu(i18n("Show Columns"), this, "showColumns");
+    headerMenu = _columnVisibleAction->popupMenu();
+    headerMenu->insertTitle(i18n("Show..."));
     headerMenu->setCheckable(true);
 
     for(int i =0; i < header()->count(); ++i) {

@@ -119,7 +119,8 @@ void JuK::setupActions()
     showEditorAction = new KToggleAction(i18n("Show Tag Editor"), "edit", 0, actionCollection(), "showEditor");
     connect(showEditorAction, SIGNAL(toggled(bool)), splitter, SLOT(setEditorVisible(bool)));
     KStdAction::redisplay(splitter, SLOT(refresh()), actionCollection());
-
+    actionCollection()->insert(splitter->columnVisibleAction());
+    
     // play menu
     randomPlayAction = new KToggleAction(i18n("Random Play"), 0, actionCollection(), "randomPlay");
     playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(play()), actionCollection(), "play");
