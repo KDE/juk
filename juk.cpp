@@ -66,6 +66,8 @@ JuK::JuK(QWidget *parent, const char *name) :
 
     SplashScreen::finishedLoading();
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
+
+    m_sliderAction->slotUpdateOrientation();
 }
 
 JuK::~JuK()
@@ -314,9 +316,6 @@ void JuK::setupActions()
 				      "trackPositionAction");
 
     createGUI();
-
-    // set the slider to the proper orientation and make it stay that way
-    m_sliderAction->slotUpdateOrientation();
 }
 
 void JuK::setupSplitterConnections()
@@ -421,7 +420,7 @@ void JuK::readConfig()
         if(m_sliderAction->volumeSlider()) {
 	    int maxVolume = m_sliderAction->volumeSlider()->maxValue();
 	    int volume = config->readNumEntry("Volume", maxVolume);
-            m_sliderAction->volumeSlider()->setValue(volume);
+            m_sliderAction->volumeSlider()->setVolume(volume);
         }
         bool randomPlay = config->readBoolEntry("RandomPlay", false);
         m_randomPlayAction->setChecked(randomPlay);
@@ -471,7 +470,7 @@ void JuK::saveConfig()
     KConfig *config = KGlobal::config();
     { // player settings
         KConfigGroupSaver saver(config, "Player");
-	config->writeEntry("Volume", m_sliderAction->volumeSlider()->value());
+	config->writeEntry("Volume", m_sliderAction->volumeSlider()->volume());
 	config->writeEntry("RandomPlay", m_randomPlayAction->isChecked());
 
 	KToggleAction *a = ActionCollection::action<KToggleAction>("loopPlaylist");

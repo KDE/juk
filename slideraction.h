@@ -18,11 +18,36 @@
 #ifndef SLIDERACTION_H
 #define SLIDERACTION_H
 
+#include <qslider.h>
+
 #include "customaction.h"
 
-class QSlider;
+
 class QBoxLayout;
 class QDockWindow;
+
+class VolumeSlider : public QSlider
+{
+    Q_OBJECT
+
+public:
+    VolumeSlider(Orientation o, QWidget *parent, const char *name);
+
+    int volume() const;
+    void setVolume(int value);
+
+    void setOrientation(Orientation o);
+
+signals:
+    void signalVolumeChanged(int value);
+
+protected:
+    virtual void wheelEvent(QWheelEvent *e);
+    virtual void focusInEvent(QFocusEvent *);
+
+private slots:
+    void slotValueChanged(int value);
+};
 
 class SliderAction : public CustomAction
 {
@@ -32,7 +57,7 @@ public:
     SliderAction(const QString &text, QObject *parent, const char *name);
     virtual ~SliderAction();
 
-    QSlider *volumeSlider() const { return m_volumeSlider; }
+    VolumeSlider *volumeSlider() const { return m_volumeSlider; }
     QSlider *trackPositionSlider() const { return m_trackPositionSlider; }
 
     bool dragging() const { return m_dragging; }
@@ -54,7 +79,7 @@ private slots:
 private:
     QBoxLayout *m_layout;
     QSlider *m_trackPositionSlider;
-    QSlider *m_volumeSlider;
+    VolumeSlider *m_volumeSlider;
     bool m_dragging;
 
     static const int volumeMax = 50;

@@ -268,11 +268,11 @@ void PlayerManager::volumeUp()
     if(!player() || !m_sliderAction)
 	return;
 
-    int volume = m_sliderAction->volumeSlider()->value() +
+    int volume = m_sliderAction->volumeSlider()->volume() +
 	m_sliderAction->volumeSlider()->maxValue() / 25; // 4% up
 
     slotSetVolume(volume);
-    m_sliderAction->volumeSlider()->setValue(volume);
+    m_sliderAction->volumeSlider()->setVolume(volume);
 }
 
 void PlayerManager::volumeDown()
@@ -284,7 +284,7 @@ void PlayerManager::volumeDown()
 	m_sliderAction->volumeSlider()->maxValue() / 25; // 4% down
 
     slotSetVolume(volume);
-    m_sliderAction->volumeSlider()->setValue(volume);
+    m_sliderAction->volumeSlider()->setVolume(volume);
 }
 
 void PlayerManager::mute()
@@ -405,7 +405,7 @@ void PlayerManager::setup()
             this, SLOT(seekPosition(int)));
     connect(m_sliderAction->trackPositionSlider(), SIGNAL(valueChanged(int)),
             this, SLOT(slotUpdateTime(int)));
-    connect(m_sliderAction->volumeSlider(), SIGNAL(valueChanged(int)),
+    connect(m_sliderAction->volumeSlider(), SIGNAL(signalVolumeChanged(int)),
             this, SLOT(slotSetVolume(int)));
 
     KAction *outputAction = action("outputSelect");
@@ -419,7 +419,7 @@ void PlayerManager::setup()
         m_player = Player::createPlayer();
 
     float volume =
-        float(m_sliderAction->volumeSlider()->value()) /
+        float(m_sliderAction->volumeSlider()->volume()) /
         float(m_sliderAction->volumeSlider()->maxValue());
 
     m_player->setVolume(volume);

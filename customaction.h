@@ -36,10 +36,9 @@ public:
     virtual void unplug(QWidget *widget);
 
 protected:
-    KToolBar *getToolBar();
+    KToolBar *toolBar() const { return m_toolBar; }
 
-    QWidget *customWidget;
-    KToolBar *toolbar;
+    KToolBar *m_toolBar;
 
 signals:
     void pluggedIn(QWidget *parent);

@@ -24,9 +24,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 CustomAction::CustomAction(const QString &text, QObject *parent, const char *name)
-    : KAction(text, 0, parent, name)
+    : KAction(text, 0, parent, name),
+      m_toolBar(0)
 {
-    toolbar=NULL;
+
 }
 
 CustomAction::~CustomAction()
@@ -36,52 +37,44 @@ CustomAction::~CustomAction()
 
 int CustomAction::plug(QWidget *parent, int index)
 {
-    customWidget = createWidget(parent);
+    QWidget *w = createWidget(parent);
 
-    if(customWidget) {
-        // the check for null makes sure that there is only one toolbar that this is
-        // "plugged" in to
-        if (parent->inherits("KToolBar") && !toolbar) {
-            toolbar = static_cast<KToolBar *>(parent);
-            int id = KAction::getToolButtonID();
+    if(!w)
+	return -1;
 
-            toolbar->insertWidget(id, customWidget->width(), customWidget, index);
+    // the check for null makes sure that there is only one toolbar that this is
+    // "plugged" in to
 
-            addContainer(toolbar, id);
-            connect(toolbar, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
+    if(parent->inherits("KToolBar") && !m_toolBar) {
+	m_toolBar = static_cast<KToolBar *>(parent);
+	int id = KAction::getToolButtonID();
 
-            return (containerCount() - 1);
-        }
+	m_toolBar->insertWidget(id, w->width(), w, index);
 
-        return -1;
+	addContainer(m_toolBar, id);
+
+	connect(m_toolBar, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
+
+	return (containerCount() - 1);
     }
-    else {
-        return -1;
-    }
+
+    return -1;
 }
 
 
 void CustomAction::unplug(QWidget *parent)
 {
     if (parent->inherits("KToolBar")) {
-        toolbar = static_cast<KToolBar *>(parent);
+        m_toolBar = static_cast<KToolBar *>(parent);
 
-        int index = findContainer(toolbar);
+        int index = findContainer(m_toolBar);
         if (index != -1) {
-            toolbar->removeItem(itemId(index));
+            m_toolBar->removeItem(itemId(index));
             removeContainer(index);
 
-            toolbar = 0;
+            m_toolBar = 0;
         }
     }
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// protected members
-////////////////////////////////////////////////////////////////////////////////
-
-KToolBar *CustomAction::getToolBar()
-{
-    return toolbar;
-}
 #include "customaction.moc"
