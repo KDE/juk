@@ -705,7 +705,11 @@ bool JuK::queryExit()
 
 bool JuK::queryClose()
 {
-    if(!m_shuttingDown && m_systemTray && m_toggleDockOnCloseAction->isChecked()) {
+    if(!m_shuttingDown &&
+       !kapp->sessionSaving() &&
+       m_systemTray &&
+       m_toggleDockOnCloseAction->isChecked())
+    {
 	KMessageBox::information(this,
 	    i18n("<qt>Closing the main window will keep JuK running in the system tray. "
 		 "Use Quit from the File menu to quit the application.</qt>"),
