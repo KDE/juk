@@ -573,7 +573,7 @@ void PlaylistSplitter::slotCreatePlaylist(const QValueList<QFileInfo> &fileInfos
 {
     Playlist *playlist = slotCreatePlaylist();
     if(!playlist)
-	return;
+        return;
 
     QValueList<QFileInfo>::ConstIterator it = fileInfos.begin();
     QValueList<QFileInfo>::ConstIterator end = fileInfos.end();
