@@ -70,15 +70,10 @@ public:
      * Returns a list of the currently selected items.
      */
     PlaylistItemList selectedItems() const;
-
-    /**
-     * Remove the currently selected items from the playlist.
-     */ 
-    void removeSelectedItems() { remove(selectedItems()); };
     
     /**
-     * Remove \a items from the playlist.  This will ignore items that are not
-     * actually in the list.
+     * Remove \a items from the playlist and disk.  This will ignore items that
+     * are not actually in the list.
      */
     void remove(const PlaylistItemList &items);
 
@@ -126,6 +121,12 @@ public:
      */
     PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
     PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
+
+public slots:
+    /**
+     * Remove the currently selected items from the playlist and disk.
+     */ 
+    void removeSelectedItems() { remove(selectedItems()); };
 
 protected:
     virtual QDragObject *dragObject();
@@ -197,6 +198,8 @@ private:
     QString playlistName;
     PlaylistSplitter *splitter;
     PlaylistBoxItem *boxItem;
+
+    int rmbEditID;
 };
 
 #endif

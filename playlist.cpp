@@ -39,7 +39,8 @@
 #include "collectionlist.h"
 #include "playlistsplitter.h"
 #include "playlistbox.h"
-#include <tag.h>
+#include "tag.h"
+#include "genrelistlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -440,6 +441,7 @@ void Playlist::setup()
     setRenameable(PlaylistItem::TrackColumn, true);
     setRenameable(PlaylistItem::ArtistColumn, true);
     setRenameable(PlaylistItem::AlbumColumn, true);
+    setRenameable(PlaylistItem::GenreColumn, true);
 
     setAllColumnsShowFocus(true);
     setSelectionMode(QListView::Extended);
@@ -451,7 +453,8 @@ void Playlist::setup()
     setSorting(1);
 
     rmbMenu = new QPopupMenu(this);
-    rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(renameTag()));
+    rmbEditID = rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(renameTag()));
+    rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove from disk"), this, SLOT(removeSelectedItems()));
     
     connect(this, SIGNAL(selectionChanged()), this, SLOT(emitSelected()));
     connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(emitDoubleClicked(QListViewItem *)));
@@ -484,11 +487,19 @@ void Playlist::emitDoubleClicked(QListViewItem *)
 
 void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
 {
-    if(item && (column == PlaylistItem::TrackColumn || column == PlaylistItem::ArtistColumn || column == PlaylistItem::AlbumColumn))
-    {
-	rmbMenu->popup(point);
-	currentColumn = column;
-    }
+    if(!item)
+	return;
+
+    bool showEdit = 
+	(column == PlaylistItem::TrackColumn) || 
+	(column == PlaylistItem::ArtistColumn) || 
+	(column == PlaylistItem::AlbumColumn) ||
+	(column == PlaylistItem::GenreColumn);
+
+    rmbMenu->setItemVisible(rmbEditID, showEdit);
+
+    rmbMenu->popup(point);
+    currentColumn = column;
 }
 
 void Playlist::renameTag()
@@ -506,6 +517,13 @@ void Playlist::renameTag()
 	break;
     case PlaylistItem::AlbumColumn:
 	edit->completionObject()->setItems(list->albums());
+	break;
+    case PlaylistItem::GenreColumn:
+	QStringList genreStrings;
+	GenreList genres = GenreListList::ID3v1List();
+	for(GenreList::Iterator it = genres.begin(); it != genres.end(); ++it)
+	    genreStrings.append(*it);
+	edit->completionObject()->setItems(genreStrings);
 	break;
     }
 	
@@ -530,6 +548,9 @@ void Playlist::applyTags(QListViewItem *item, const QString &text, int column)
 	break;
     case PlaylistItem::AlbumColumn:
 	i->tag()->setAlbum(text);
+	break;
+    case PlaylistItem::GenreColumn:
+	i->tag()->setGenre(text);
 	break;
     }
 
