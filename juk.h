@@ -60,8 +60,11 @@ private:
 
   QTimer *playTimer;
   Player player;
+  FileListItem *playingItem;
   bool trackPositionDragging;
   bool noSeek;
+
+  const static int pollInterval = 800;
 
 private slots:
   // file menu
@@ -88,6 +91,8 @@ private slots:
   void trackPositionSliderUpdate(int position);
   void pollPlay();
   void setVolume(int volume);
+  void playItem(QListViewItem *item);
+  void playItem(FileListItem *item);
 };
 
 #endif

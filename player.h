@@ -37,6 +37,7 @@ public:
   void stop();
 
   void setVolume(float volume = 1.0);
+  float getVolume();
   
   bool playing();
   bool paused();
@@ -58,6 +59,7 @@ private:
   StereoVolumeControl *volumeControl;
   
   QString currentFile;
+  float currentVolume;
 };
 
 #endif

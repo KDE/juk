@@ -226,15 +226,20 @@ qt_libraries = @qt_libraries@
 x_includes = @x_includes@
 x_libraries = @x_libraries@
 
-EXTRA_DIST = hi16-action-dequeue.png hi16-action-enqueue.png hi16-action-tag.png hi22-action-dequeue.png hi22-action-enqueue.png hi22-action-tag.png hi32-action-dequeue.png hi32-action-enqueue.png hi32-action-tag.png 
+EXTRA_DIST = hi16-action-dequeue.png hi16-action-enqueue.png hi16-action-tag.png hi22-action-dequeue.png hi22-action-enqueue.png hi22-action-tag.png hi32-action-dequeue.png hi32-action-enqueue.png hi32-action-tag.png playing.png 
 
 ####### kdevelop will overwrite this part!!! (end)############
 
 jukicondir = $(kde_datadir)/juk/icons
 jukicon_ICON = AUTO
+
+pics_DATA = playing.png
+picsdir = $(kde_datadir)/juk/pics
 mkinstalldirs = $(SHELL) $(top_srcdir)/admin/mkinstalldirs
 CONFIG_HEADER = ../../config.h
 CONFIG_CLEAN_FILES = 
+DATA =  $(pics_DATA)
+
 DIST_COMMON =  Makefile.am Makefile.in
 
 
@@ -256,6 +261,25 @@ Makefile: $(srcdir)/Makefile.in  $(top_builddir)/config.status $(BUILT_SOURCES)
 	cd $(top_builddir) \
 	&& CONFIG_FILES=$(subdir)/$@ CONFIG_HEADERS= $(SHELL) ./config.status
 
+
+install-picsDATA: $(pics_DATA)
+	@$(NORMAL_INSTALL)
+	$(mkinstalldirs) $(DESTDIR)$(picsdir)
+	@list='$(pics_DATA)'; for p in $$list; do \
+	if test -f $(srcdir)/$$p; then \
+	echo " $(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(picsdir)/$$p"; \
+	$(INSTALL_DATA) $(srcdir)/$$p $(DESTDIR)$(picsdir)/$$p; \
+	else if test -f $$p; then \
+	echo " $(INSTALL_DATA) $$p $(DESTDIR)$(picsdir)/$$p"; \
+	$(INSTALL_DATA) $$p $(DESTDIR)$(picsdir)/$$p; \
+	fi; fi; \
+	done
+
+uninstall-picsDATA:
+	@$(NORMAL_UNINSTALL)
+	list='$(pics_DATA)'; for p in $$list; do \
+	rm -f $(DESTDIR)$(picsdir)/$$p; \
+	done
 tags: TAGS
 TAGS:
 
@@ -291,23 +315,24 @@ installcheck: installcheck-am
 install-exec-am:
 install-exec: install-exec-am
 
-#>- install-data-am:
+#>- install-data-am: install-picsDATA
 #>+ 1
-install-data-am: install-kde-icons 
+install-data-am: install-kde-icons  install-picsDATA
 install-data: install-data-am
 
 install-am: all-am
 	@$(MAKE) $(AM_MAKEFLAGS) install-exec-am install-data-am
 install: install-am
-#>- uninstall-am:
+#>- uninstall-am: uninstall-picsDATA
 #>+ 1
-uninstall-am: uninstall-kde-icons 
+uninstall-am: uninstall-kde-icons  uninstall-picsDATA
 uninstall: uninstall-am
-all-am: Makefile
+all-am: Makefile $(DATA)
 all-redirect: all-am
 install-strip:
 	$(MAKE) $(AM_MAKEFLAGS) AM_INSTALL_PROGRAM_FLAGS=-s install
 installdirs:
+	$(mkinstalldirs)  $(DESTDIR)$(picsdir)
 
 
 mostlyclean-generic:
@@ -340,12 +365,12 @@ maintainer-clean-am:  maintainer-clean-generic distclean-am
 
 maintainer-clean: maintainer-clean-am
 
-.PHONY: tags distdir info-am info dvi-am dvi check check-am \
-	installcheck-am installcheck install-exec-am install-exec \
-	install-data-am install-data install-am install uninstall-am uninstall \
-	all-redirect all-am all installdirs mostlyclean-generic \
-	distclean-generic clean-generic maintainer-clean-generic clean \
-	mostlyclean distclean maintainer-clean
+.PHONY: uninstall-picsDATA install-picsDATA tags distdir info-am info \
+	dvi-am dvi check check-am installcheck-am installcheck install-exec-am \
+	install-exec install-data-am install-data install-am install \
+	uninstall-am uninstall all-redirect all-am all installdirs \
+	mostlyclean-generic distclean-generic clean-generic \
+	maintainer-clean-generic clean mostlyclean distclean maintainer-clean
 
 
 # Tell versions [3.59,3.63) of GNU make to not export all variables.

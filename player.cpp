@@ -30,10 +30,15 @@
 
 Player::Player()
 {
+  // set pointers to null
   server = 0;
   volumeControl = 0;
   media = 0;
   dispatcher = 0;
+
+  // startup volume of "full" volume
+  currentVolume = 1.0;
+
   setupPlayer();
 }
 
@@ -116,9 +121,15 @@ void Player::setVolume(float volume)
     if(!volumeControl)
       setupVolumeControl();
     if(volumeControl) {
+      currentVolume = volume;
       volumeControl->scaleFactor(volume); 
     }
   }
+}
+
+float Player::getVolume()
+{
+  return(currentVolume);
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -173,7 +184,7 @@ int Player::position()
     long total=media->overallTime().seconds * 1000 + media->overallTime().ms;
     long current=media->currentTime().seconds * 1000 + media->currentTime().ms;
     // add .5 to make rounding happen properly
-    return(int(double(current)*1000/total+.5)); // x1000 not x100, so this isn't an actaul percent
+    return(int(double(current)*1000/total+.5));
   }
   else {
     return(-1);

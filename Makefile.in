@@ -293,7 +293,12 @@ DATA =  $(rc_DATA)
 DIST_COMMON =  Makefile.am Makefile.in
 
 
-DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+#>- DISTFILES = $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST)
+#>+ 4
+KDE_DIST=leaks leaks2 leaks3 leaks4 leaks5 leaks6 leaks7 leaks8 leaks9 juk 
+
+DISTFILES= $(DIST_COMMON) $(SOURCES) $(HEADERS) $(TEXINFOS) $(EXTRA_DIST) $(KDE_DIST)
+
 
 TAR = tar
 GZIP_ENV = --best
@@ -774,7 +779,7 @@ clean-moc-classes:
 	-rm -f  juk_meta_unload.cpp
 
 #>+ 11
-juk.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/genrelistreader.cpp $(srcdir)/genrelistlist.cpp $(srcdir)/genrelist.cpp $(srcdir)/genre.cpp $(srcdir)/player.cpp $(srcdir)/MPEGHeader.cpp $(srcdir)/filelistitem.cpp $(srcdir)/tag.cpp $(srcdir)/filelist.cpp $(srcdir)/customaction.cpp $(srcdir)/playlistwidget.cpp $(srcdir)/slideraction.cpp $(srcdir)/taggerwidget.cpp $(srcdir)/juk.cpp $(srcdir)/main.cpp juk_meta_unload.cpp  slideraction.moc.cpp filelistitem.moc.cpp customaction.moc.cpp juk.moc.cpp taggerwidget.moc.cpp
+juk.all_cpp.cpp: $(srcdir)/Makefile.in $(srcdir)/genrelistreader.cpp $(srcdir)/genrelistlist.cpp $(srcdir)/genrelist.cpp $(srcdir)/genre.cpp $(srcdir)/player.cpp $(srcdir)/MPEGHeader.cpp $(srcdir)/filelistitem.cpp $(srcdir)/tag.cpp $(srcdir)/filelist.cpp $(srcdir)/customaction.cpp $(srcdir)/playlistwidget.cpp $(srcdir)/slideraction.cpp $(srcdir)/taggerwidget.cpp $(srcdir)/juk.cpp $(srcdir)/main.cpp $(srcdir)/juk_meta_unload.cpp  slideraction.moc.cpp filelistitem.moc.cpp customaction.moc.cpp juk.moc.cpp taggerwidget.moc.cpp
 	@echo 'creating juk.all_cpp.cpp ...'; \
 	rm -f juk.all_cpp.files juk.all_cpp.final; \
 	echo "#define KDE_USE_FINAL 1" >> juk.all_cpp.final; \

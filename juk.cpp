@@ -18,6 +18,7 @@
 #include <klocale.h>
 #include <keditcl.h>
 #include <kfiledialog.h>
+#include <kiconloader.h>
 #include <kdebug.h>
 
 #include "juk.h"
@@ -37,6 +38,7 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name)
 JuK::~JuK()
 {
   saveConfig();
+  delete(playTimer);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +93,9 @@ void JuK::setupLayout()
   // set the slider to the proper orientation and make it stay that way
   sliderAction->updateOrientation();
   connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), sliderAction, SLOT(updateOrientation(QDockWindow *)));
+
+  // playlist item activation connection
+  connect(playlist->getPlaylistList(), SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
 }
 
 void JuK::setupPlayer()
@@ -99,6 +104,9 @@ void JuK::setupPlayer()
   noSeek=false;
   pauseAction->setEnabled(false);
   stopAction->setEnabled(false);
+
+  playTimer=new QTimer(this);
+  connect(playTimer, SIGNAL(timeout()), this, SLOT(pollPlay()));
 
   if(sliderAction && sliderAction->getTrackPositionSlider() && sliderAction->getVolumeSlider()) {
     connect(sliderAction->getTrackPositionSlider(), SIGNAL(valueChanged(int)), this, SLOT(trackPositionSliderUpdate(int)));
@@ -198,27 +206,17 @@ void JuK::removeFromPlaylist()
 
 void JuK::playFile()
 {
-  if(tagger && tagger->getSelectedItem()) {
-    // get the volume to start with
-    float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());
-
-    playTimer=new QTimer(this);
-    player.play(tagger->getSelectedItem()->absFilePath(), volume);
-    if(player.playing()) {
-      playAction->setEnabled(false);
-      pauseAction->setEnabled(true);
-      stopAction->setEnabled(true);
-      sliderAction->getTrackPositionSlider()->setEnabled(true);
-      connect(playTimer, SIGNAL(timeout()), this, SLOT(pollPlay()));
-      playTimer->start(800);
-    }
+  if(playlist) {
+    if(playlist->getSelectedItems()->count() > 0)
+      playItem(dynamic_cast<FileListItem *>(playlist->getSelectedItems()->at(0)));
+    else
+      playItem(playlist->firstItem());
   }
 }
 
 void JuK::pauseFile()
 {
   playTimer->stop();
-  delete(playTimer);
   player.pause();
   playAction->setEnabled(true);
   pauseAction->setEnabled(false);
@@ -227,13 +225,13 @@ void JuK::pauseFile()
 void JuK::stopFile()
 {
   playTimer->stop();
-  delete(playTimer);
   player.stop();
   playAction->setEnabled(true);
   pauseAction->setEnabled(false);
   stopAction->setEnabled(false);
   sliderAction->getTrackPositionSlider()->setValue(0);
   sliderAction->getTrackPositionSlider()->setEnabled(false);
+  playingItem->setPixmap(0, 0);
 }
 
 void JuK::trackPositionSliderClick()
@@ -256,20 +254,35 @@ void JuK::trackPositionSliderUpdate(int position)
 
 void JuK::pollPlay()
 {
-  noSeek=true;
+  noSeek = true;
   if(!player.playing()) {
     playTimer->stop();
     if(player.paused()) {
       pauseFile();
     }
     else {
-      stopFile();
+      if(playingItem && dynamic_cast<FileListItem*>(playingItem->itemBelow())) {
+	playingItem->setPixmap(0, 0);
+        playingItem = dynamic_cast<FileListItem *>(playingItem->itemBelow());
+	sliderAction->getTrackPositionSlider()->setValue(0);
+	player.play(playingItem->absFilePath(), player.getVolume());
+	if(player.playing()) {
+	  playTimer->start(pollInterval);
+	  playingItem->setPixmap(0, QPixmap(UserIcon("playing")));
+	}
+      }
+      else
+	stopFile();
     }
   }
   else if(!trackPositionDragging) {
     //    kdDebug() << player.position() << " - " << sliderAction->getTrackPositionSlider()->maxValue() << endl;
     sliderAction->getTrackPositionSlider()->setValue(player.position());
   }
+
+  if(player.playing() && float(player.totalTime() - player.currentTime()) < pollInterval * 2)
+    playTimer->changeInterval(50);
+
   noSeek=false;
 }
 
@@ -281,4 +294,31 @@ void JuK::setVolume(int volume)
     {
       player.setVolume(float(volume) / float(sliderAction->getVolumeSlider()->maxValue()));
     }
+}
+
+void JuK::playItem(QListViewItem *item)
+{
+  FileListItem *fileListItem = dynamic_cast<FileListItem *>(item);
+  if(fileListItem)
+    playItem(fileListItem);
+}
+
+void JuK::playItem(FileListItem *item)
+{
+  if(player.playing())
+    stopFile();
+  
+  if(item) {
+    playingItem = item;
+    float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());  
+    player.play(playingItem->absFilePath(), volume);
+    if(player.playing()) {
+      playAction->setEnabled(false);
+      pauseAction->setEnabled(true);
+      stopAction->setEnabled(true);
+      sliderAction->getTrackPositionSlider()->setEnabled(true);
+      playingItem->setPixmap(0, QPixmap(UserIcon("playing")));
+      playTimer->start(pollInterval);
+    }
+  }
 }

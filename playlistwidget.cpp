@@ -58,6 +58,21 @@ void PlaylistWidget::add(QPtrList<QListViewItem> *items)
   playlistList->append(items);
 }
 
+FileList *PlaylistWidget::getPlaylistList()
+{
+  return(playlistList);
+}
+
+QPtrList<QListViewItem> *PlaylistWidget::getSelectedItems()
+{
+  return(new QPtrList<QListViewItem>(playlistList->selectedItems()));
+}
+
+FileListItem *PlaylistWidget::firstItem()
+{
+  return(dynamic_cast<FileListItem *>(playlistList->firstChild()));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////

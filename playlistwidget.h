@@ -20,6 +20,8 @@
 
 #include <klistview.h>
 
+#include <qptrlist.h>
+
 #include "filelist.h"
 #include "filelistitem.h"
 
@@ -34,6 +36,9 @@ public:
   void add(FileListItem *item);
   void add(QPtrList<QListViewItem> *items);
 
+  FileList *getPlaylistList();
+  QPtrList<QListViewItem> *getSelectedItems();
+  FileListItem *firstItem();
 private:
   void setupLayout();
 
