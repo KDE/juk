@@ -53,7 +53,6 @@ TagRenamerOptions::TagRenamerOptions(TagType category)
     case Album:
     case Track:
 	disabled = false;
-	kdDebug(65432) << "not disabled!!!" << endl;
 	break;
     default:
 	disabled = true;
