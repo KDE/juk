@@ -192,6 +192,7 @@ CacheDataStream &Tag::read(CacheDataStream &s)
 ////////////////////////////////////////////////////////////////////////////////
 
 Tag::Tag(const QString &file) :
+    m_info(file),
     m_fileName(file),
     m_track(0),
     m_year(0),
@@ -202,6 +203,7 @@ Tag::Tag(const QString &file) :
 }
 
 Tag::Tag(const QString &fileName, TagLib::File *file) :
+    m_info(fileName),
     m_fileName(fileName)
 {
     m_title   = TStringToQString(file->tag()->title()).stripWhiteSpace();
