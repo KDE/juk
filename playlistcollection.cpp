@@ -450,11 +450,8 @@ UpcomingPlaylist *PlaylistCollection::upcomingPlaylist() const
 
 void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
 {
-    if((action<KToggleAction>("showUpcoming")->isChecked() && m_upcomingPlaylist) ||
-        (!enable && !m_upcomingPlaylist))
-    {
+    if((enable && m_upcomingPlaylist) || (!enable && !m_upcomingPlaylist))
         return;
-    }
 
     if(enable) {
         action<KToggleAction>("showUpcoming")->setChecked(true);
@@ -742,3 +739,5 @@ KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
 
 #undef widget
 #include "playlistcollection.moc"
+
+// vim: set et sw=4:

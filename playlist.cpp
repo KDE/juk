@@ -1034,6 +1034,9 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
 void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
 {
+    // Filter out non left button double clicks, that way users don't have the
+    // weird experience of switching songs from a double right-click.
+
     if(e->button() == LeftButton)
 	KListView::contentsMouseDoubleClickEvent(e);
 }
