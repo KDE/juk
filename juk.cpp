@@ -376,7 +376,7 @@ void JuK::setupActions()
     new KAction(i18n("&Stop"),  "player_stop",  0, this, SLOT(stop()),
 		actionCollection(), "stop");
 
-    m_backAction = new KToolBarPopupAction(i18n("&Previous Track"), "player_start", 0,
+    m_backAction = new KToolBarPopupAction(i18n("Previous &Track"), "player_start", 0,
 					   this, SLOT(back()), actionCollection(), "back");
 
     connect(m_backAction->popupMenu(), SIGNAL(aboutToShow()),
