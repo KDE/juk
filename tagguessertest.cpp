@@ -94,6 +94,8 @@ int main( int argc, char **argv )
             "Block Rockin' Beats", "Chemical Brothers", "01", QString::null, "Dig Your Own Hole");
     check( QDir::homeDirPath() + "/[01] Randy - Religion, religion.mp3",
             "Religion, Religion", "Randy", "01", QString::null, QString::null );
+    check( QDir::homeDirPath() + "/(3) Mr. Doe - Punk.mp3",
+            "Punk", "Mr. Doe", "3", QString::null, QString::null );
     cout << "All OK" << endl;
     return 0;
 }

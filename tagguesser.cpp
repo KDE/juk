@@ -46,8 +46,12 @@ FileNameScheme::FileNameScheme(const QString &s)
 
 bool FileNameScheme::matches(const QString &fileName) const
 {
-    if ( m_regExp.exactMatch( fileName ) ) qDebug( "'%s' matches", m_regExp.pattern().latin1() );
-    return m_regExp.exactMatch(fileName);
+    /* Strip extension ('.mp3') because '.' may be part of a title, and thus
+     * does not work as a separator.
+     */
+    QString stripped = fileName;
+    stripped.truncate(stripped.findRev('.'));
+    return m_regExp.exactMatch(stripped);
 }
 
 QString FileNameScheme::title() const
@@ -93,9 +97,9 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     {
         KConfigGroupSaver saver(cfg, "TagGuesser");
 
-        substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&_,]+)");
-        substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&_,]+)");
-        substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&_,]+)");
+        substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&_,\\.]+)");
+        substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&_,\\.]+)");
+        substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&_,\\.]+)");
         substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
         substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s_]+)");
     }
