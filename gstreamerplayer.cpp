@@ -49,6 +49,8 @@ GStreamerPlayer::~GStreamerPlayer()
 void GStreamerPlayer::play(const QString &fileName, float volume)
 {
     m_currentFile = fileName;
+    m_positionNs = 0;
+    m_durationNs = 0;
     if(!fileName.isEmpty()) {
 	m_player->setLocation(fileName);  
 
@@ -59,8 +61,6 @@ void GStreamerPlayer::play(const QString &fileName, float volume)
 void GStreamerPlayer::play(float volume)
 {
     // 1.0 is full volume
-    m_positionNs = 0;
-    m_durationNs = 0;
     if (m_player->getState() != Element::STATE_PLAYING) {
 	m_player->setState(Element::STATE_PLAYING);
 	m_player->setVolume(volume);
@@ -77,7 +77,6 @@ void GStreamerPlayer::stop()
 {
     if(m_player->getState() != Element::STATE_READY)
 	m_player->setState(Element::STATE_READY);
-
 }
 
 void GStreamerPlayer::setVolume(float volume)
