@@ -5,7 +5,7 @@ juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
 	gstreamerplayer.cpp artsplayer.cpp directorylist.cpp stringhash.cpp \
 	sortedstringlist.cpp systemtray.cpp genrelisteditor.cpp  splashscreen.cpp \
 	statuslabel.cpp cachedtag.cpp oggtag.cpp id3tag.cpp collectionlist.cpp \
-	playlistitem.cpp playlist.cpp playlistsplitter.cpp listboxpixmap.cpp \
+	playlistitem.cpp playlist.cpp playlistsplitter.cpp \
 	playlistbox.cpp tageditor.cpp cache.cpp genrelistreader.cpp \
 	genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp \
 	slideraction.cpp keydialog.cpp juk.cpp main.cpp tagguesser.cpp \
