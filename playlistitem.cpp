@@ -105,51 +105,6 @@ PlaylistItem::PlaylistItem(Playlist *parent) : QObject(parent), KListViewItem(pa
     setDragEnabled(true);
 }
 
-PlaylistItem::Data *PlaylistItem::getData()
-{
-    return m_data;
-}
-
-void PlaylistItem::setData(Data *d)
-{
-    m_data = d;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistItem protected slots
-////////////////////////////////////////////////////////////////////////////////
-
-void PlaylistItem::slotRefreshImpl()
-{
-    // This should be the only function that needs to be rewritten if the structure of    
-    // PlaylistItemData changes.  
-
-    setText(TrackColumn,       tag()->track());
-    setText(ArtistColumn,      tag()->artist());
-    setText(AlbumColumn,       tag()->album());
-    setText(TrackNumberColumn, tag()->trackNumberString());
-    setText(GenreColumn,       tag()->genre());
-    setText(YearColumn,        tag()->yearString());
-    setText(LengthColumn,      tag()->lengthString());
-    setText(FileNameColumn,    filePath());
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistItem private methods
-////////////////////////////////////////////////////////////////////////////////
-
-void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
-{
-    if(item) {
-	m_data = item->getData()->newUser();
-	item->addChildItem(this);
-	slotRefreshImpl();
-	connect(this, SIGNAL(signalRefreshed()), parent, SIGNAL(signalDataChanged()));
-    }
-
-    setDragEnabled(true);
-}
-
 int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 {
     // reimplemented from QListViewItem
@@ -231,6 +186,41 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
 	previousResult = firstItem->key(column, ascending).lower().localeAwareCompare(secondItem->key(column, ascending).lower());
         return previousResult;
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PlaylistItem protected slots
+////////////////////////////////////////////////////////////////////////////////
+
+void PlaylistItem::slotRefreshImpl()
+{
+    // This should be the only function that needs to be rewritten if the structure of    
+    // PlaylistItemData changes.  
+
+    setText(TrackColumn,       tag()->track());
+    setText(ArtistColumn,      tag()->artist());
+    setText(AlbumColumn,       tag()->album());
+    setText(TrackNumberColumn, tag()->trackNumberString());
+    setText(GenreColumn,       tag()->genre());
+    setText(YearColumn,        tag()->yearString());
+    setText(LengthColumn,      tag()->lengthString());
+    setText(FileNameColumn,    filePath());
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// PlaylistItem private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
+{
+    if(item) {
+	m_data = item->data()->newUser();
+	item->addChildItem(this);
+	slotRefreshImpl();
+	connect(this, SIGNAL(signalRefreshed()), parent, SIGNAL(signalDataChanged()));
+    }
+
+    setDragEnabled(true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

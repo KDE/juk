@@ -83,8 +83,11 @@ protected:
     PlaylistItem(Playlist *parent);
 
     class Data;
-    Data *getData();
-    void setData(Data *d);
+    Data *data() { return m_data; }
+    void setData(Data *d) { m_data = d; }
+
+    virtual int compare(QListViewItem *item, int column, bool ascending) const;
+    int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
 protected slots:
     void slotRefreshImpl();
@@ -94,8 +97,6 @@ signals:
 
 private:
     void setup(CollectionListItem *item, Playlist *parent);
-    virtual int compare(QListViewItem *item, int column, bool ascending) const;
-    int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
     Data *m_data;
 };

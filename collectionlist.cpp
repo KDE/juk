@@ -131,8 +131,8 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 {
     if(e->source() == this)
 	return;
-
-
+    else
+	decode(e);
 }
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
@@ -196,7 +196,7 @@ CollectionListItem::~CollectionListItem()
 {
     CollectionList *l = CollectionList::instance();
     if(l)
-	l->removeFromDict(getData()->absFilePath());
+	l->removeFromDict(data()->absFilePath());
 }
 
 void CollectionListItem::addChildItem(PlaylistItem *child)
