@@ -81,6 +81,9 @@ void PlaylistSplitter::setupLayout()
     QVBoxLayout *topLayout = new QVBoxLayout(top);
 
     m_playlistStack = new QWidgetStack(top, "playlistStack");
+
+    connect(m_playlistStack, SIGNAL(aboutToShow(int)), this, SLOT(slotPlaylistChanged()));
+
     m_editor = new TagEditor(editorSplitter, "tagEditor");
 
     // Make the editor as small as possible (or at least as small as recommended)
@@ -152,6 +155,11 @@ void PlaylistSplitter::slotShowSearchResults()
 void PlaylistSplitter::slotPlaylistSelectionChanged()
 {
     m_editor->slotSetItems(static_cast<PlaylistCollection *>(m_playlistBox)->selectedItems());
+}
+
+void PlaylistSplitter::slotPlaylistChanged()
+{
+    m_searchWidget->setSearch(visiblePlaylist()->search());
 }
 
 #include "playlistsplitter.moc"

@@ -70,6 +70,7 @@ private slots:
      */
     void slotShowSearchResults();
     void slotPlaylistSelectionChanged();
+    void slotPlaylistChanged();
 
 private:
     PlaylistBox *m_playlistBox;
