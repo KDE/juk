@@ -35,6 +35,7 @@
 #include <qlayout.h>
 #include <qdir.h>
 #include <qvalidator.h>
+#include <qtooltip.h>
 
 #include <id3v1genres.h>
 
@@ -55,6 +56,20 @@ public:
 	   return Invalid;
 	return Acceptable;
     }
+};
+
+class FileBoxToolTip : public QToolTip
+{
+public:
+    FileBoxToolTip(TagEditor *editor, QWidget *widget) :
+	QToolTip(widget), m_editor(editor) {}
+protected:
+    virtual void maybeTip(const QPoint &)
+    {
+	tip(m_editor->rect(), m_editor->items().first()->file().absFilePath());
+    }
+private:
+    TagEditor *m_editor;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -124,6 +139,7 @@ void TagEditor::slotRefresh()
     m_albumNameBox->setEditText(tag->album());
 
     m_fileNameBox->setText(item->file().fileInfo().fileName());
+    new FileBoxToolTip(this, m_fileNameBox);
     m_bitrateBox->setText(QString::number(tag->bitrate()));
     m_lengthBox->setText(tag->lengthString());
 

@@ -43,6 +43,7 @@ public:
     TagEditor(QWidget *parent = 0, const char *name = 0);
     virtual ~TagEditor();
     void save() { save(m_items); }
+    PlaylistItemList items() const { return m_items; }
 
 public slots:
     void slotSetItems(const PlaylistItemList &list);
