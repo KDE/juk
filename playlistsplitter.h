@@ -278,6 +278,8 @@ private slots:
      */
     void slotPlaylistItemRemoved(PlaylistItem *item);
 
+    void slotScanDirectories() { open(m_directoryList); }
+
 private:
     PlaylistItem *m_playingItem;
     PlaylistBox *m_playlistBox;

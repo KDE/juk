@@ -23,6 +23,7 @@
 #include <kdebug.h>
 
 #include <qinputdialog.h>
+#include <qtimer.h>
 
 #include "playlistitem.h"
 #include "playlistsplitter.h"
@@ -438,7 +439,7 @@ void PlaylistSplitter::readConfig()
 	    }
 
 	    m_directoryList = config->readListEntry("DirectoryList");
-	    open(m_directoryList);
+	    QTimer::singleShot(0, this, SLOT(slotScanDirectories()));
 	}
 
 	// restore the list of hidden and shown columns
