@@ -18,6 +18,9 @@
 #ifndef COLLECTIONLIST_H
 #define COLLECTIONLIST_H
 
+#include <kapplication.h>
+
+#include <qclipboard.h>
 #include <qdict.h>
 
 #include "playlist.h"
@@ -35,7 +38,6 @@
  * "initialize()" method.
  */
 
-class PlaylistSplitter;
 class CollectionListItem;
 
 class CollectionList : public Playlist
@@ -46,21 +48,21 @@ class CollectionList : public Playlist
 
 public: 
     static CollectionList *instance();
-    static void initialize(PlaylistSplitter *s, QWidget *parent, bool restoreOnLoad = true);
+    static void initialize(QWidget *parent, bool restoreOnLoad = true);
 
-    QStringList artists() const;
-    QStringList albums() const;
+    QStringList artists() const { return m_artists.values(); }
+    QStringList albums() const { return m_albums.values(); }
 
-    CollectionListItem *lookup(const QString &file);
+    CollectionListItem *lookup(const QString &file) { return m_itemsDict.find(file); }
     virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *);
 
 public slots:
-    virtual void paste();
+    virtual void paste() { decode(kapp->clipboard()->data()); }
     virtual void clear();
     void slotCheckCache();
     
 protected:
-    CollectionList(PlaylistSplitter *s, QWidget *parent);
+    CollectionList(QWidget *parent);
     virtual ~CollectionList();
 
     virtual void decode(QMimeSource *s);
@@ -88,8 +90,8 @@ protected:
 private:
     static CollectionList *list;
     QDict<CollectionListItem> m_itemsDict;
-    SortedStringList m_artistList;
-    SortedStringList m_albumList;
+    SortedStringList m_artists;
+    SortedStringList m_albums;
 };
 
 class CollectionListItem : public PlaylistItem

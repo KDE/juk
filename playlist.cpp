@@ -42,26 +42,23 @@
 
 #include "playlist.h"
 #include "collectionlist.h"
-#include "playlistsplitter.h"
 #include "playlistbox.h"
+#include "playlistsplitter.h"
 #include "tag.h"
 #include "genrelistlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// public m_members
+// public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1()), 
-										m_playlistName(name), 
-										m_splitter(s)
+Playlist::Playlist(QWidget *parent, const QString &name) : KListView(parent, name.latin1()), 
+								       m_playlistName(name)
 {
     setup();
 }
 
-Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name), 
-													    m_playlistFileName(playlistFile.absFilePath()),
-													    m_splitter(s)
-													    
+Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name), 
+												   m_playlistFileName(playlistFile.absFilePath())													    
 {
     setup();
 
@@ -122,9 +119,9 @@ void Playlist::save()
 
 void Playlist::saveAs()
 {
-    QStringList extensions = m_splitter->playlistExtensions();
+    QStringList extensions = PlaylistSplitter::playlistExtensions();
 
-    m_playlistFileName = KFileDialog::getSaveFileName(QString::null, m_splitter->extensionsString(extensions, i18n("Playlists")));
+    m_playlistFileName = KFileDialog::getSaveFileName(QString::null, PlaylistSplitter::extensionsString(extensions, i18n("Playlists")));
     m_playlistFileName = m_playlistFileName.stripWhiteSpace();
 
     if(m_playlistFileName != QString::null) {
@@ -258,12 +255,6 @@ void Playlist::setName(const QString &n)
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void Playlist::slotPlayNext()
-{
-    if(m_splitter)
-	m_splitter->playSelectedFileNext();
-}
-
 void Playlist::copy()
 {
     kapp->clipboard()->setData(dragObject(0), QClipboard::Clipboard);
@@ -329,11 +320,6 @@ QDragObject *Playlist::dragObject(QWidget *parent)
     return drag;
 }
 
-QDragObject *Playlist::dragObject()
-{
-    return dragObject(this);
-}
-
 bool Playlist::canDecode(QMimeSource *s)
 {
     KURL::List urls;
@@ -352,8 +338,7 @@ void Playlist::decode(QMimeSource *s)
     for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	fileList.append((*it).path());
     
-    if(m_splitter)
-	m_splitter->addToPlaylist(fileList, this);
+    emit signalFilesDropped(fileList, this);
 }
 
 bool Playlist::eventFilter(QObject* watched, QEvent* e)
@@ -469,7 +454,7 @@ QString Playlist::resolveSymLinks(const QFileInfo &file)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// private m_members
+// private members
 ////////////////////////////////////////////////////////////////////////////////
 
 void Playlist::setup()
@@ -527,7 +512,7 @@ void Playlist::setup()
 
     m_rmbMenu = new KPopupMenu(this);
 
-    m_rmbMenu->insertItem(SmallIcon("player_play"), i18n("Play Next"), this, SLOT(slotPlayNext()));
+    m_rmbMenu->insertItem(SmallIcon("player_play"), i18n("Play Next"), this, SLOT(slotSetNext()));
     m_rmbMenu->insertSeparator();
     m_rmbMenu->insertItem(SmallIcon("editcut"), i18n("Cut"), this, SLOT(cut()));
     m_rmbMenu->insertItem(SmallIcon("editcopy"), i18n("Copy"), this, SLOT(copy()));

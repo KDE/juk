@@ -82,13 +82,7 @@ public:
      * Returns the name of the currently selected file and moves the playing 
      * indicator to that file.
      */
-    QString playSelectedFile();
-
-    /**
-     * Returns the name of the currently selected file and stores it so that
-     * it's forced to be the next file played.
-     */
-    QString playSelectedFileNext();
+    QString playSelectedFile() { return play(playlistSelection().getFirst()); }
 
     /**
      * Returns the name of the first item in the playlist and moves the playing
@@ -117,16 +111,6 @@ public:
      * Returns the number of items in the currently selected playlist.
      */
     int selectedPlaylistCount() const { return visiblePlaylist()->childCount(); }
-
-    /**
-     * Add the file to the playlist.
-     */
-    void addToPlaylist(const QString &file, Playlist *list);
-    
-    /**
-     * Adds the files to the playlist.
-     */
-    void addToPlaylist(const QStringList &files, Playlist *list);
 
     /**
      * Returns true if the the collection list is the visible playlist.
@@ -185,9 +169,6 @@ public slots:
 
 // Tagger slots
 
-    /**
-     * Save.
-     */
     void slotSaveTag() { m_editor->save(); }
 
 // Playlist slots
@@ -221,6 +202,16 @@ public slots:
      */
     void slotSetEditorVisible(bool visible);
 
+    /**
+     * Add the file to the playlist.
+     */
+    void slotAddToPlaylist(const QString &file, Playlist *list);
+    
+    /**
+     * Adds the files to the playlist.
+     */
+    void slotAddToPlaylist(const QStringList &files, Playlist *list);
+
 // PlaylistBox forwarding slots
 
     void slotSavePlaylist() { m_playlistBox->save(); }
@@ -243,6 +234,7 @@ private:
      * the QWidgetStack of playlists.
      */
     PlaylistItemList playlistSelection() const { return visiblePlaylist()->selectedItems(); }
+
     /**
      * This returns a pointer to the first item in the playlist on the top
      * of the QWidgetStack of playlists.
@@ -263,6 +255,12 @@ private:
     Playlist *openPlaylist(const QString &file);
 
     void setupColumns(Playlist *p);
+
+    /**
+     * A convenience function that sets the playing icon, sets the playing item
+     * and then returns the name of the file.
+     */
+    QString play(PlaylistItem *item);
     
 private slots:
     void slotChangePlaylist(Playlist *p);
@@ -285,7 +283,7 @@ private slots:
     void slotPlaylistItemRemoved(PlaylistItem *item);
 
     void slotScanDirectories() { open(m_directoryList); }
-    void slotClearNextItem() { m_nextPlaylistItem = 0; }
+    void slotSetNextItem(PlaylistItem *item = 0) { m_nextPlaylistItem = item; }
 
 private:
     PlaylistItem *m_playingItem;

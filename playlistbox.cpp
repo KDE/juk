@@ -216,7 +216,7 @@ void PlaylistBox::duplicate(Item *item)
 					     QLineEdit::Normal, m_splitter->uniquePlaylistName(item->text(), true), &ok);
 	if(ok) {
 	    Playlist *p = m_splitter->createPlaylist(name);
-	    m_splitter->addToPlaylist(item->playlist()->files(), p);
+	    m_splitter->slotAddToPlaylist(item->playlist()->files(), p);
 	}
     }
 }
@@ -268,7 +268,7 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	    files.append((*it).path());
 	
-	m_splitter->addToPlaylist(files, item->playlist());
+	m_splitter->slotAddToPlaylist(files, item->playlist());
     }
 }
 

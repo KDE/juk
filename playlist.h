@@ -26,7 +26,6 @@
 #include "playlistitem.h"
 #include "sortedstringlist.h"
 
-class PlaylistSplitter;
 class KPopupMenu;
 
 class KPopupMenu;
@@ -43,13 +42,13 @@ public:
      * Before creating a playlist directly, please see 
      * PlaylistSplitter::createPlaylist().
      */
-    Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name = QString::null);
+    Playlist(QWidget *parent, const QString &name = QString::null);
 
     /** 
      * Before creating a playlist directly, please see 
      * PlaylistSplitter::openPlaylist().
      */
-    Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name = 0);
+    Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name = 0);
 
     virtual ~Playlist();
 
@@ -126,7 +125,7 @@ public slots:
      * Remove the currently selected items from the playlist and disk.
      */ 
     void slotDeleteSelectedItems() { deleteFromDisk(selectedItems()); };
-    virtual void slotPlayNext();
+    virtual void slotSetNext() { emit signalSetNext(selectedItems().getFirst()); }
     
     /*
      * The edit slots are required to use the canonical names so that they are
@@ -147,12 +146,11 @@ protected:
 
     virtual bool eventFilter(QObject* watched, QEvent* e);
     virtual QDragObject *dragObject(QWidget *parent);
-    virtual QDragObject *dragObject();
+    virtual QDragObject *dragObject() { return dragObject(this); }
     virtual bool canDecode(QMimeSource *s);
     virtual void decode(QMimeSource *s);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-    PlaylistSplitter *playlistSplitter() const { return m_splitter; }
     
     static QString resolveSymLinks(const QFileInfo &file);
     
@@ -190,8 +188,9 @@ signals:
      * list.
      */
     void signalAboutToRemove(PlaylistItem *item);
-
     void signalToggleColumnVisible(int column);
+    void signalFilesDropped(const QStringList &files, Playlist *);
+    void signalSetNext(PlaylistItem *item);    
 
 private:
     void setup();
@@ -218,7 +217,6 @@ private:
      * file name.
      */
     QString m_playlistName;
-    PlaylistSplitter *m_splitter;
    
     KPopupMenu *m_rmbMenu;
     KPopupMenu *m_headerMenu;

@@ -26,7 +26,6 @@
 #include <qtimer.h>
 
 #include "collectionlist.h"
-#include "playlistsplitter.h"
 #include "cache.h"
 #include "splashscreen.h"
 
@@ -41,9 +40,9 @@ CollectionList *CollectionList::instance()
     return list;
 }
 
-void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent, bool restoreOnLoad)
+void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
 {
-    list = new CollectionList(s, parent);
+    list = new CollectionList(parent);
 
     if(restoreOnLoad)
 	for(QDictIterator<Tag>it(*Cache::instance()); it.current(); ++it)
@@ -53,21 +52,6 @@ void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent, bool resto
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
-
-QStringList CollectionList::artists() const
-{
-    return m_artistList.values();
-}
-
-QStringList CollectionList::albums() const
-{
-    return m_albumList.values();
-}
-
-CollectionListItem *CollectionList::lookup(const QString &file)
-{
-    return m_itemsDict.find(file);
-}
 
 PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 {
@@ -82,11 +66,6 @@ PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
-
-void CollectionList::paste()
-{
-    decode(kapp->clipboard()->data());
-}
 
 void CollectionList::clear()
 {
@@ -111,7 +90,7 @@ void CollectionList::slotCheckCache()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionList::CollectionList(PlaylistSplitter *s, QWidget *parent) : Playlist(s, parent, i18n("Collection List")) //, m_finishedLoading(false)
+CollectionList::CollectionList(QWidget *parent) : Playlist(parent, i18n("Collection List"))
 {
 
 }
@@ -133,8 +112,7 @@ void CollectionList::decode(QMimeSource *s)
     for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	files.append((*it).path());
 	
-    if(playlistSplitter())
-	playlistSplitter()->addToPlaylist(files, this);
+    emit signalFilesDropped(files, this);
 }
 
 void CollectionList::contentsDropEvent(QDropEvent *e)
@@ -158,7 +136,7 @@ void CollectionList::addArtist(const QString &artist)
     // Do a bit of caching since there will very often be "two in a row" insertions.
     static QString previousArtist;
 
-    if(artist != previousArtist && !m_artistList.insert(artist))
+    if(artist != previousArtist && !m_artists.insert(artist))
 	previousArtist = artist;
 }
 
@@ -167,7 +145,7 @@ void CollectionList::addAlbum(const QString &album)
     // Do a bit of caching since there will very often be "two in a row" insertions.
     static QString previousAlbum;
 
-    if(album != previousAlbum && !m_albumList.insert(album))
+    if(album != previousAlbum && !m_albums.insert(album))
 	previousAlbum = album;
 }
 ////////////////////////////////////////////////////////////////////////////////
