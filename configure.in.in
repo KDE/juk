@@ -39,10 +39,22 @@ AC_DEFUN([AC_NO_MUSICBRAINZ],
 	have_musicbrainz=false
 ])
 
-KDE_CHECK_HEADER(tunepimp/tp_c.h,
-	AC_HAVE_MUSICBRAINZ,
-	AC_NO_MUSICBRAINZ
-)
+AC_LANG_SAVE
+AC_LANG_CPLUSPLUS
+AC_MSG_CHECKING(for tunepimp)
+AC_TRY_COMPILE([
+#include <tunepimp/tp_c.h>
+], [
+  tunepimp_t m_pimp;
+  tp_AddFile(m_pimp, "myfile");
+  return 0;
+],
+[ 
+  AC_MSG_RESULT(yes)
+  AC_HAVE_MUSICBRAINZ,
+  AC_NO_MUSICBRAINZ],
+[AC_MSG_RESULT(no)])
+AC_LANG_RESTORE
 
 if test -z "$TRM" ; then
    AC_DEFINE(HAVE_TRM,0,[Is trm program present])
