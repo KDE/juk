@@ -735,7 +735,10 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 	setupPlaylist(m_dynamicList, true, 0);
     }
 
-    delete current;
+    if(current) {
+	m_playingItem = 0;
+	delete current;
+    }
 
     emit signalPlaylistChanged();
 }
