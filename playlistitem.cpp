@@ -15,7 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kstatusbar.h>
+#include <kmainwindow.h>
+#include <klocale.h>
 #include <kdebug.h>
+#include <kapplication.h>
 
 #include "tagguesser.h"
 #include "playlistitem.h"
@@ -101,6 +105,9 @@ void PlaylistItem::guessTagInfoFromInternet()
                                                  tag()->absFilePath());
   connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
           SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
+  KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
+  connect(query, SIGNAL(signalStatusMsg(const QString &)),
+          win->statusBar(), SLOT(message(const QString &)));
   query->start();
 #endif //add message box teeling users musicbrainz is not installed or keep it quiet?
 }
@@ -310,6 +317,9 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 
     tag()->save();
     slotRefresh();
+
+    KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
+    win->statusBar()->message(i18n("Done."), 2000);
 #else
     Q_UNUSED(res)
 #endif

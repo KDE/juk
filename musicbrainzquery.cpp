@@ -24,6 +24,7 @@
 #include "musicbrainzquery.h"
 
 #include <kprocess.h>
+#include <klocale.h>
 #include <kdeversion.h>
 #include <kdebug.h>
 
@@ -61,11 +62,12 @@ void MusicBrainzQuery::start()
         connect(process, SIGNAL(processExited(KProcess *)),
                 SLOT(slotTrmGenerationFinished(KProcess *)));
 
+        emit signalStatusMsg( i18n( "Generating TRM signature..." ) );
         bool started = process->start(KProcess::NotifyOnExit, KProcess::AllOutput);
-	if(!started) {
-	    kdDebug(65432) << "trm utility could not be started." << endl;
-	    emit signalDone();
-	}
+        if(!started) {
+            kdDebug(65432) << "trm utility could not be started." << endl;
+            emit signalDone();
+        }
     }
     else
         QTimer::singleShot(0, this, SLOT(slotQuery()));
@@ -81,6 +83,8 @@ void MusicBrainzQuery::slotQuery()
     std::vector<std::string> v;
 
     queryStrings(queryString, resultString, extractString);
+
+    emit signalStatusMsg( i18n( "Querying MusicBrainz server..." ) );
 
     // UseUTF8(false);
 
