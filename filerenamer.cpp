@@ -14,10 +14,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <taglib/tstring.h>
-#include <taglib/fileref.h>
-#include <taglib/tag.h>
-
 #include <algorithm>
 
 #include <kdebug.h>

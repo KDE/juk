@@ -25,12 +25,6 @@
 #include "tagrenameroptions.h"
 #include "playlistitem.h"
 
-// Predeclare some classes
-
-namespace TagLib {
-    class FileRef;
-};
-
 class ExampleOptionsDialog;
 class QCheckBox;
 class QLayout;
