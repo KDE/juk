@@ -50,6 +50,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     m_viewModeIndex(0),
     m_hasSelection(false),
     m_doingMultiSelect(false),
+    m_treeViewSetup(false),
     m_dropItem(0),
     m_dynamicPlaylist(0)
 {
