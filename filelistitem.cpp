@@ -23,21 +23,19 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-FileListItem::FileListItem(QFileInfo *file, KListView *parent) : QObject(parent), KListViewItem(parent)
+FileListItem::FileListItem(QFileInfo &file, KListView *parent) : QObject(parent), KListViewItem(parent)
 {
   data = new FileListItemData(file);
   refresh();
 }
 
-FileListItem::FileListItem(FileListItem *item, KListView *parent) : QObject(parent), KListViewItem(parent)
+FileListItem::FileListItem(FileListItem &item, KListView *parent) : QObject(parent), KListViewItem(parent)
 {
-  if(item) {
-    data = item->getData()->newUser();
-    connect(item, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));
-    addSibling(item);
-    
-    refresh();
-  }
+  data = item.getData()->newUser();
+  //  connect(&item, SIGNAL(destroyed(FileListItem *)), this, SLOT(parentDestroyed(FileListItem *)));
+  addSibling(&item);
+  
+  refresh();
 }
 
 FileListItem::~FileListItem()

@@ -20,6 +20,8 @@
 
 #include <qfileinfo.h>
 
+#include <stdlib.h>
+
 #include "tag.h"
 #include "cacheitem.h"
 #include "audiodata.h"
@@ -27,7 +29,7 @@
 class FileListItemData : public QFileInfo
 {
 public: 
-  FileListItemData(QFileInfo *file);
+  FileListItemData(QFileInfo &file);
   ~FileListItemData();
 
   FileListItemData *newUser();

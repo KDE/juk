@@ -58,6 +58,13 @@ void PlaylistWidget::add(QPtrList<QListViewItem> *items)
   playlistList->append(items);
 }
 
+void PlaylistWidget::remove(QPtrList<QListViewItem> *items)
+{
+  playlistList->remove(items);
+}
+
+
+
 FileList *PlaylistWidget::getPlaylistList()
 {
   return(playlistList);

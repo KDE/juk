@@ -36,6 +36,8 @@ public:
   void add(FileListItem *item);
   void add(QPtrList<QListViewItem> *items);
 
+  void remove(QPtrList<QListViewItem> *items);
+
   FileList *getPlaylistList();
   QPtrList<QListViewItem> *getSelectedItems();
   FileListItem *firstItem();

@@ -21,7 +21,7 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-FileListItemData::FileListItemData(QFileInfo *file) : QFileInfo(*file)
+FileListItemData::FileListItemData(QFileInfo &file) : QFileInfo(file)
 {
   referenceCount = 1;
 
@@ -46,8 +46,7 @@ FileListItemData *FileListItemData::newUser()
 
 void FileListItemData::deleteUser()
 {
-  referenceCount--;
-  if(referenceCount <= 0)
+  if(--referenceCount == 0)
     delete(this);
 }
 

@@ -71,7 +71,7 @@ void FileList::append(FileListItem *item)
 {
   if(item && members.contains(item->absFilePath()) == 0) {
     members.append(item->absFilePath());
-    (void) new FileListItem(item, this);
+    (void) new FileListItem(*item, this);
   }
 }
 
@@ -80,6 +80,15 @@ void FileList::append(QPtrList<QListViewItem> *items)
   QPtrListIterator<QListViewItem> it(*items);
   while(it.current()) {
     append(dynamic_cast<FileListItem *>(it.current()));
+    ++it;
+  }
+}
+
+void FileList::remove(QPtrList<QListViewItem> *items)
+{
+  QPtrListIterator<QListViewItem> it(*items);
+  while(it.current()) {
+    delete(it.current());    
     ++it;
   }
 }
@@ -117,28 +126,27 @@ void FileList::setup()
 void FileList::appendImpl(QString item)
 {
   processEvents();
-  QFileInfo *file = new QFileInfo(QDir::cleanDirPath(item));
-  if(file->exists()) {
-    if(file->isDir()) {
-      QDir dir(file->filePath());
+  QFileInfo file(QDir::cleanDirPath(item));
+  if(file.exists()) {
+    if(file.isDir()) {
+      QDir dir(file.filePath());
       QStringList dirContents=dir.entryList();
       for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it) {
         if(*it != "." && *it != "..") {
-          appendImpl(file->filePath() + QDir::separator() + *it);
+          appendImpl(file.filePath() + QDir::separator() + *it);
         }
       }
     }
     else {
       // QFileInfo::extension() doesn't always work, so I'm getting old-school on this. -- fixed in Qt 3
-      // QString extension = file->filePath().right(file->filePath().length() - (file->filePath().findRev(".") + 1));
-      QString extension = file->extension(false);
-      if(extensions.contains(extension) > 0 && members.contains(file->absFilePath()) == 0) {
-        members.append(file->absFilePath());
+      // QString extension = file.filePath().right(file.filePath().length() - (file.filePath().findRev(".") + 1));
+      QString extension = file.extension(false);
+      if(extensions.contains(extension) > 0 && members.contains(file.absFilePath()) == 0) {
+        members.append(file.absFilePath());
 	(void) new FileListItem(file, this);
       }
     }
   }
-  delete(file);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
