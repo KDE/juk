@@ -130,10 +130,10 @@ void JuK::setupActions()
     new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(removeSelectedItems()), actionCollection(), "removeItem");
     
     // settings menu
-    restoreOnLoadAction = new KToggleAction(i18n("Restored playlists on load"),  0, actionCollection(), "restoreOnLoad");
-    toggleSystemTrayAction = new KToggleAction(i18n("Dock in system tray"), 0, actionCollection(), "toggleSystemTray");
+    restoreOnLoadAction = new KToggleAction(i18n("Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
+    toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), 0, actionCollection(), "toggleSystemTray");
     connect(toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(toggleSystemTray(bool)));
-    new KAction(i18n("Genre List Editor"), 0, this, SLOT(showGenreListEditor()), actionCollection(), "showGenreListEditor");
+    new KAction(i18n("Genre List Editor..."), 0, this, SLOT(showGenreListEditor()), actionCollection(), "showGenreListEditor");
 
     connect(splitter, SIGNAL(playlistChanged()), this, SLOT(playlistChanged()));
 
