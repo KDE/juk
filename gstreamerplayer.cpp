@@ -124,7 +124,7 @@ void GStreamerPlayer::seekPosition(int position)
 void GStreamerPlayer::readConfig()
 {
     KConfigGroup config(KGlobal::config(), "GStreamerPlayer");
-    m_sinkName = config.readEntry("SinkName", "osssink");
+    m_sinkName = config.readEntry("SinkName", QString::null);
 }
 
 void GStreamerPlayer::setupPipeline()
@@ -141,7 +141,15 @@ void GStreamerPlayer::setupPipeline()
     m_source   = gst_element_factory_make("filesrc", "source");
     m_decoder  = gst_element_factory_make("spider", "decoder");
     m_volume   = gst_element_factory_make("volume", "volume");
-    m_sink     = gst_element_factory_make(m_sinkName.utf8().data(), "sink");
+
+    if(!m_sinkName.isNull())
+        m_sink = gst_element_factory_make(m_sinkName.utf8().data(), "sink");
+    else {
+        m_sink = gst_element_factory_make("alsasink", "sink");
+        if(!m_sink)
+            m_sink = gst_element_factory_make("osssink", "sink");            
+    }
+    
 
     gst_bin_add_many(GST_BIN(m_pipeline), m_source, m_decoder, m_volume, m_sink, 0);
     gst_element_link_many(m_source, m_decoder, m_volume, m_sink, 0);
