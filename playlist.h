@@ -404,6 +404,12 @@ protected:
     void setupItem(PlaylistItem *item);
 
     /**
+     * Forwards the call to the parent to enable or disable automatic deletion
+     * of tree view playlists.  Used by CollectionListItem.
+     */
+    void setCanDeletePlaylist(bool canDelete);
+
+    /**
      * As a template this allows us to use the same code to initialize the items
      * in subclasses.  CollectionItemType should always be CollectionListItem and
      * ItemType should be a PlaylistItem subclass.

@@ -59,6 +59,8 @@ public:
     virtual void duplicate();
     virtual void remove();
 
+    virtual void setCanDeletePlaylist(bool canDelete);
+
     Item *dropItem() const { return m_dropItem; }
 
 public slots:

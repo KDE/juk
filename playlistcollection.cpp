@@ -319,6 +319,11 @@ void PlaylistCollection::editSearch()
     }
 }
 
+void PlaylistCollection::setCanDeletePlaylist(bool canDelete)
+{
+    // Implemented in subclass
+}
+
 void PlaylistCollection::removeItems()
 {
     currentPlaylist()->slotRemoveSelectedItems();
