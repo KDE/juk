@@ -27,6 +27,7 @@
 #include <taglib/flacfile.h>
 #endif
 #include <taglib/xiphcomment.h>
+#include <taglib/id3v2framefactory.h>
 
 #include "cache.h"
 #include "tag.h"
@@ -83,6 +84,8 @@ Tag::~Tag()
 
 void Tag::save()
 {
+    TagLib::ID3v2::FrameFactory::instance()->setDefaultTextEncoding(TagLib::String::UTF8);
+
     if(!m_info.isWritable())
         return;
 
