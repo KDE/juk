@@ -124,7 +124,7 @@ private:
     QValueVector<QString> m_uniqueSetLast;
 };
 
-class CollectionListItem : /* public QObject, */ public PlaylistItem
+class CollectionListItem : public PlaylistItem
 {
     friend class Playlist;
     friend class CollectionList;
