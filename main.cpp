@@ -27,6 +27,7 @@ static const char *daniel = I18N_NOOP("System tray docking, \"inline\" tag editi
 static const char *tim = I18N_NOOP("GStreamer port");
 static const char *stefan = I18N_NOOP("Global keybindings support");
 static const char *stephan = I18N_NOOP("Track announcement popups");
+static const char *frerich = I18N_NOOP("Automagic track data guessing, bugfixes");
 
 #if KDE_IS_VERSION(3,1,90)
 typedef KUniqueApplication Application;
@@ -62,6 +63,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit("Tim Jansen", tim, "tim@tjansen.de");
     aboutData.addCredit("Stefan Asserhäll", stefan, "stefan.asserhall@telia.com");
     aboutData.addCredit("Stephan Douglas", stephan, "stephen_douglas@yahoo.com");
+    aboutData.addCredit("Frerich Raabe", frerich, "raabe@kde.org");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
