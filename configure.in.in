@@ -2,7 +2,8 @@
 
 AM_INIT_AUTOMAKE(juk,1.0)
 
-AC_PATH_PROG(ARTSC_CONFIG, artsc-config, no)
+artsc_config_test_path=$prefix/bin:$exec_prefix/bin:$KDEDIR/bin:$PATH
+AC_PATH_PROG(ARTSC_CONFIG, artsc-config, no, $artsc_config_test_path)
 
 if test "x$build_arts" = "xyes" && test "x$ARTSC_CONFIG" != "xno" ; then
 	LIB_ARTS="-lartskde"
