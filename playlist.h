@@ -112,7 +112,7 @@ public:
 				     QListViewItem *after = 0,
 				     bool emitChanged = true);
 
-    void createItems(const PlaylistItemList &siblings);
+    virtual void createItems(const PlaylistItemList &siblings);
 
     /**
      * Returns the file name associated with this playlist (an m3u file) or
@@ -262,6 +262,14 @@ protected:
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const { return KURLDrag::canDecode(e); }
     virtual void polish();
+
+    /**
+     * As a template this allows us to use the same code to initialize the items
+     * in subclasses.  CollectionItemType should always be CollectionListItem and
+     * ItemType should be a PlaylistItem subclass.
+     */
+    template <class CollectionItemType, class ItemType, class SiblingType>
+    void createItems(const QValueList<SiblingType *> &siblings);
 
     /**
      * Though it's somewhat obvious, this function will stat the file, so only use it when
@@ -460,5 +468,23 @@ private:
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);
 QDataStream &operator>>(QDataStream &s, Playlist &p);
+
+// template method implementations
+
+template <class CollectionItemType, class ItemType, class SiblingType>
+void Playlist::createItems(const QValueList<SiblingType *> &siblings)
+{
+    ItemType *previous = 0;
+
+    QValueListConstIterator<SiblingType *> it = siblings.begin();
+    for(; it != siblings.end(); ++it) {
+	if(!m_members.insert(resolveSymLinks((*it)->absFilePath()))) {
+	    previous = new ItemType((*it)->collectionItem(), this, previous);
+	    connect((*it)->collectionItem(), SIGNAL(destroyed()), (*it), SLOT(deleteLater()));
+	}
+    }
+
+    emit signalCountChanged(this);
+}
 
 #endif

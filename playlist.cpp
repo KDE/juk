@@ -698,16 +698,7 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFile
 
 void Playlist::createItems(const PlaylistItemList &siblings)
 {
-    PlaylistItem *previous = 0;
-
-    for(PlaylistItemList::ConstIterator it = siblings.begin(); it != siblings.end(); ++it) {
-
-	if(!m_members.insert(resolveSymLinks((*it)->absFilePath()))) {
-	    previous = new PlaylistItem((*it)->collectionItem(), this, previous);
-	    connect((*it)->collectionItem(), SIGNAL(destroyed()), *it, SLOT(deleteLater()));
-	}
-    }
-    emit signalCountChanged(this);
+    createItems<CollectionListItem, PlaylistItem, PlaylistItem>(siblings);
 }
 
 void Playlist::hideColumn(int c)
