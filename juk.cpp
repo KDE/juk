@@ -501,12 +501,14 @@ void JuK::setupSystemTray()
             m_systemTray->slotPlay();
 
         m_toggleDockOnCloseAction->setEnabled(true);
+	m_togglePopupsAction->setEnabled(true);
 
         connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
     }
     else {
         m_systemTray = 0;
         m_toggleDockOnCloseAction->setEnabled(false);
+	m_togglePopupsAction->setEnabled(false);
     }
 }
 
@@ -842,6 +844,7 @@ void JuK::slotToggleSystemTray(bool enabled)
 	delete m_systemTray;
 	m_systemTray = 0;
 	m_toggleDockOnCloseAction->setEnabled(false);
+	m_togglePopupsAction->setEnabled(false);
     }
 }
 
