@@ -60,7 +60,7 @@ void FileRenamerConfigDlg::accept()
 
 void FileRenamerConfigDlg::currentFilenameChanged(const QString &curFilename)
 {
-    Tag *tag = Tag::createTag(curFilename);
+    Tag *tag = Tag::createTag(curFilename, true);
     if(tag == 0) {
         m_child->lNewFilename->setText(i18n("Could not read tag from file"));
         return;
