@@ -242,7 +242,7 @@ void PlaylistCollection::addFolder()
 
         if(result.addPlaylists && !m_importPlaylists)
             open(m_folderList);
-        else
+        else if(!result.addedDirs.isEmpty())
             open(result.addedDirs);
 
         m_importPlaylists = result.addPlaylists;
