@@ -106,7 +106,7 @@ QString PlaylistSplitter::playNextFile(bool random)
     // the item that's after the currently playing item, (3) play the selected 
     // item or (4) play the first item in the list.
 
-    if(m_nextPlaylistItem) {
+    if(m_nextPlaylistItem && m_nextPlaylistItem != m_playingItem) {
 	i = m_nextPlaylistItem;
 	m_nextPlaylistItem = 0;
     }  
