@@ -176,8 +176,12 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
 
     for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
 
-	if(m_re && item->text(*it).find(m_queryRe) > -1)
-	    return true;
+	if(m_re) {
+	    if(item->text(*it).find(m_queryRe) > -1)
+		return true;
+	    else
+		break;
+	}
 
 	switch(m_mode) {
 	case Contains:
