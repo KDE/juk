@@ -101,7 +101,12 @@ void StatusLabel::update()
 {
     if(playlist()->playing()) {
         FileHandle file = playlist()->currentFile();
-        QString text = file.tag()->artist() + " - " + file.tag()->title();
+
+        QString mid =  file.tag()->artist().isEmpty() || file.tag()->title().isEmpty()
+            ? QString::null : QString(" - ");
+
+        QString text = file.tag()->artist() + mid + file.tag()->title();
+
         m_trackLabel->setText(text);
         m_playlistLabel->setText(playlist()->name().simplifyWhiteSpace());
     }
