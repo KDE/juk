@@ -549,7 +549,7 @@ void TagEditor::saveChangesPrompt()
     }
 }
 
-void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, QString iconName)
+void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, const QString &iconName)
 {
     if(!item || !layout)
 	return;
