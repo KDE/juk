@@ -76,14 +76,15 @@ public:
 
 public slots:
     void clear();
-
-protected:
-    virtual void showEvent(QShowEvent *e);
-    virtual void hideEvent(QHideEvent *e);
+    void setEnabled(bool enable);
 
 signals:
     void signalQueryChanged();
     void signalAdvancedSearchClicked();
+
+    // This signal is only emitted when the Show/Hide action is triggered.
+    // Minimizing/closing the JuK window will not trigger this signal.
+
     void signalShown(bool shown);
 
 private:

@@ -209,20 +209,10 @@ void SearchWidget::clear()
     m_searchLine->clear();
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// SearchWidget protected methods
-////////////////////////////////////////////////////////////////////////////////
-
-void SearchWidget::showEvent(QShowEvent *e)
+void SearchWidget::setEnabled(bool enable)
 {
-    emit signalShown(true);
-    KToolBar::showEvent(e);
-}
-
-void SearchWidget::hideEvent(QHideEvent *e)
-{
-    emit signalShown(false);
-    KToolBar::hideEvent(e);
+    emit signalShown(enable);
+    setShown(enable);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
