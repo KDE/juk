@@ -106,6 +106,9 @@ private slots:
     void slotSetViewMode(int index);
     void slotPlaylistDestroyed(Playlist*);
     void slotSavePlaylists();
+    void slotShowDropTarget();
+
+    void slotPlaylistItemsDropped(Playlist *p);
 
     void slotAddItem(const QString &tag, unsigned column);
     void slotRemoveItem(const QString &tag, unsigned column);
@@ -121,6 +124,7 @@ private:
     bool m_doingMultiSelect;
     bool m_treeViewSetup;
     Item *m_dropItem;
+    QTimer *m_showTimer;
     DynamicPlaylist *m_dynamicPlaylist;
 };
 

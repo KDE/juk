@@ -871,6 +871,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	decode(e, moveAfter);
 
     dataChanged();
+    emit signalPlaylistItemsDropped(this);
     KListView::contentsDropEvent(e);
 }
 

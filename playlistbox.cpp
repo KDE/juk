@@ -55,6 +55,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     m_doingMultiSelect(false),
     m_treeViewSetup(false),
     m_dropItem(0),
+    m_showTimer(0),
     m_dynamicPlaylist(0)
 {
     readConfig();
@@ -147,6 +148,9 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     // Auto-save playlists after 10 minutes
     QTimer::singleShot(600000, this, SLOT(slotSavePlaylists()));
+
+    m_showTimer = new QTimer(this);
+    connect(m_showTimer, SIGNAL(timeout()), SLOT(slotShowDropTarget()));
 }
 
 PlaylistBox::~PlaylistBox()
@@ -223,6 +227,7 @@ Playlist *PlaylistBox::currentPlaylist() const
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
 {
     PlaylistCollection::setupPlaylist(playlist, iconName);
+    connect(playlist, SIGNAL(signalPlaylistItemsDropped(Playlist *)), SLOT(slotPlaylistItemsDropped(Playlist *)));
     if(iconName == "today") {
 	kdDebug(65432) << "Setting up upcoming playlist after Collection List\n";
 	new Item(this, iconName, playlist->name(), playlist, m_playlistDict[CollectionList::instance()]);
@@ -359,6 +364,16 @@ void PlaylistBox::slotSavePlaylists()
     QTimer::singleShot(600000, this, SLOT(slotSavePlaylists()));
 }
 
+void PlaylistBox::slotShowDropTarget()
+{
+    if(!m_dropItem) {
+	kdError(65432) << "Trying to show the playlist of a null item!\n";
+	return;
+    }
+
+    playlistStack()->raiseWidget(m_dropItem->playlist());
+}
+
 // For the following two function calls, we can forward the slot*Item calls
 // to the tree view mode as long as it has already been setup, whether or
 // not it's actually visible.
@@ -411,6 +426,8 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 
 void PlaylistBox::contentsDropEvent(QDropEvent *e)
 {
+    m_showTimer->stop();
+
     Item *i = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
     decode(e, i);
 
@@ -461,10 +478,12 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 
 	if(m_dropItem != target) {
 	    Item *old = m_dropItem;
+	    m_showTimer->stop();
 
 	    if(e->isAccepted()) {
 		m_dropItem = target;
 		target->repaint();
+		m_showTimer->start(1500, true);
 	    }
 	    else
 		m_dropItem = 0;
@@ -632,6 +651,11 @@ void PlaylistBox::slotDoubleClicked()
 void PlaylistBox::slotShowContextMenu(QListViewItem *, const QPoint &point, int)
 {
     m_contextMenu->popup(point);
+}
+
+void PlaylistBox::slotPlaylistItemsDropped(Playlist *p)
+{
+    raise(p);
 }
 
 void PlaylistBox::slotSetViewMode(int index)

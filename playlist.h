@@ -433,6 +433,8 @@ signals:
 
     void signalEnableDirWatch(bool enable);
 
+    void signalPlaylistItemsDropped(Playlist *p);
+
 private:
     void setup();
 
