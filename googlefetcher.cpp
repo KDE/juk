@@ -11,26 +11,18 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <dom/html_document.h>
-#include <dom/dom_string.h>
-#include <dom/html_misc.h>
-#include <dom/dom_node.h>
-#include <kio/netaccess.h>
-#include <kapplication.h>
-#include <kpushbutton.h>
-#include <klocale.h>
-#include <qinputdialog.h>
 
-#include <qfile.h>
-#include <qvbox.h>
-#include <qlayout.h>
-#include <qwidget.h>
-#include <qlabel.h>
-#include <qdialog.h>
+#include <dom/html_document.h>
+#include <dom/html_misc.h>
+
+#include <kapplication.h>
+#include <kstatusbar.h>
+#include <kmainwindow.h>
+#include <klocale.h>
+#include <kinputdialog.h>
 
 #include "googlefetcher.h"
 #include "googlefetcherdialog.h"
-
 
 GoogleFetcher::GoogleFetcher(const Tag *tag)
     : m_tag(tag),
@@ -78,19 +70,19 @@ QPixmap GoogleFetcher::pixmap()
     m_chosen = false;
     m_selectedIndex = 0;
 
-    displayWaitBox();
+    displayWaitMessage();
 
     while(!m_chosen) {
         if(m_urlList.size() == 0) {
             bool ok;
 
             m_searchString = 
-                QInputDialog::getText(i18n("Cover Downloader"),
+                KInputDialog::getText(i18n("Cover Downloader"),
                                       i18n("No covers found. Enter new search terms:"),
-                                      QLineEdit::Normal, m_searchString, &ok, 0);
+                                      m_searchString, &ok);
 
             if(ok && !m_searchString.isEmpty())
-                displayWaitBox();
+                displayWaitMessage();
             else {
                 m_currentPixmap = QPixmap();
                 m_chosen = true;
@@ -103,11 +95,11 @@ QPixmap GoogleFetcher::pixmap()
             m_chosen = dialog.takeIt();
             if(dialog.newSearch()) {
                 bool ok;
-                m_searchString = QInputDialog::getText(i18n("Cover Downloader"),
+                m_searchString = KInputDialog::getText(i18n("Cover Downloader"),
                                                        i18n("Enter new search terms:"),
-                                                       QLineEdit::Normal, m_searchString, &ok, 0);
+                                                       m_searchString, &ok);
                 if(ok && !m_searchString.isEmpty())
-                    displayWaitBox();
+                    displayWaitMessage();
                 else
                     m_searchString = m_loadedQuery;
             }
@@ -116,24 +108,10 @@ QPixmap GoogleFetcher::pixmap()
     return m_currentPixmap;
 }
 
-void GoogleFetcher::displayWaitBox()
+void GoogleFetcher::displayWaitMessage()
 {
-    m_container = new QVBox(0, 0, Qt::WDestructiveClose);
-    m_container->setCaption(kapp->makeStdCaption(m_tag->artist() + " - " +m_tag->album()));
-    QWidget *widget = new QWidget(m_container);
-    QLabel *pleaseWait = new QLabel(widget);
-    pleaseWait->setText(i18n("Searching for Images. Please Wait..."));
-    pleaseWait->adjustSize();
-    m_container->setFixedSize(pleaseWait->size());
-    m_container->show();
+    KStatusBar *statusBar = static_cast<KMainWindow *>(kapp->mainWidget())->statusBar();
+    statusBar->message(i18n("Searching for Images. Please Wait..."));
     loadImageURLs();
-
-    // check that it wasn't closed
-
-    if(pleaseWait->size().height() <= 0 || pleaseWait->size().width() <= 0) {
-        m_chosen = true;
-        return;
-    }
-
-    delete m_container;
+    statusBar->clear();
 }

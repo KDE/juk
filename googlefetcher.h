@@ -16,7 +16,6 @@
 #define GOOGLEFETCHER_H
 
 #include <qpixmap.h>
-#include <qstring.h>
 #include <qstringlist.h>
 
 class KURL;
@@ -37,7 +36,7 @@ private slots:
 
 private:
     void loadImageURLs();
-    void displayWaitBox();
+    void displayWaitMessage();
     void buildBox();
 
     const Tag *m_tag;
@@ -46,7 +45,6 @@ private:
     QStringList m_urlList;
     bool m_chosen;
     uint m_selectedIndex;
-    QVBox *m_container;
     QPixmap m_currentPixmap;
 };
 #endif
