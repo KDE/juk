@@ -1,7 +1,7 @@
 /***************************************************************************
-                          genre.h  -  description
+                          genrelistlist.h  -  description
                              -------------------
-    begin                : Sun Feb 17 2002
+    begin                : Sun Mar 3 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
  ***************************************************************************/
@@ -15,26 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GENRE_H
-#define GENRE_H
+#ifndef GENRELISTLIST_H
+#define GENRELISTLIST_H
 
-#include <qstring.h>
+#include <qvaluelist.h>
 
-class Genre
+#include "genrelist.h"
+
+class GenreListList : public QValueList<GenreList>  
 {
-public:
-  Genre();
-  Genre(QString genreName, int id3v1Number);
+public: 
+  GenreListList();
+  ~GenreListList();
 
-  QString getName();
-  int getId3v1();
-
-  void setName(QString genreName);
-  void setId3v1(int number);
-
+  static GenreList id3v1List();
+  
 private:
-  QString name;
-  int id3v1;
+  static GenreList id3v1;
+  
 };
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          genre.h  -  description
+                          genrelistlist.cpp  -  description
                              -------------------
-    begin                : Sun Feb 17 2002
+    begin                : Sun Mar 3 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
  ***************************************************************************/
@@ -15,26 +15,31 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GENRE_H
-#define GENRE_H
+#include <kstandarddirs.h>
 
-#include <qstring.h>
+#include "genrelistlist.h"
 
-class Genre
+////////////////////////////////////////////////////////////////////////////////
+// static members
+////////////////////////////////////////////////////////////////////////////////
+
+// public
+GenreList GenreListList::id3v1List()
 {
-public:
-  Genre();
-  Genre(QString genreName, int id3v1Number);
+  return(id3v1);
+}
 
-  QString getName();
-  int getId3v1();
+// private
+GenreList GenreListList::id3v1 = GenreList(locate("data", "juk/id3v1.genreml"), true);
 
-  void setName(QString genreName);
-  void setId3v1(int number);
+////////////////////////////////////////////////////////////////////////////////
+// public members
+////////////////////////////////////////////////////////////////////////////////
 
-private:
-  QString name;
-  int id3v1;
-};
+GenreListList::GenreListList()
+{
+}
 
-#endif
+GenreListList::~GenreListList()
+{
+}

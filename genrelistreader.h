@@ -1,7 +1,7 @@
 /***************************************************************************
-                          genre.h  -  description
+                          genrelistreader.h  -  description
                              -------------------
-    begin                : Sun Feb 17 2002
+    begin                : Mon Mar 4 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
  ***************************************************************************/
@@ -15,25 +15,27 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GENRE_H
-#define GENRE_H
+#ifndef GENRELISTREADER_H
+#define GENRELISTREADER_H
 
-#include <qstring.h>
+#include <qxml.h>
 
-class Genre
+#include "genrelist.h"
+
+class GenreListReader : public QXmlDefaultHandler
 {
-public:
-  Genre();
-  Genre(QString genreName, int id3v1Number);
-
-  QString getName();
-  int getId3v1();
-
-  void setName(QString genreName);
-  void setId3v1(int number);
+public: 
+  GenreListReader(GenreList *genreList);
+  ~GenreListReader();
+  
+  bool startElement(const QString&, const QString&, const QString& element, const QXmlAttributes& attributes);
+  bool endElement(const QString&, const QString&, const QString&);
+  
+  bool characters(const QString& content);
 
 private:
-  QString name;
+  GenreList *list;
+  bool inGenreTag;
   int id3v1;
 };
 

@@ -26,7 +26,7 @@
 #include <qlabel.h>
 
 #include "taggerwidget.h"
-#include "genre.h"
+//#include "genre.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -114,7 +114,7 @@ void TaggerWidget::setupLayout()
   { // just for organization
     leftColumnLayout->addWidget(new QLabel(i18n("Artist Name"), bottem));
     
-    artistNameBox = new KComboBox(TRUE, bottem, "artistNameBox");
+    artistNameBox = new KComboBox(true, bottem, "artistNameBox");
     leftColumnLayout->addWidget(artistNameBox);
     
     leftColumnLayout->addWidget(new QLabel(i18n("Track Name"), bottem));
@@ -124,17 +124,17 @@ void TaggerWidget::setupLayout()
     
     leftColumnLayout->addWidget(new QLabel(i18n("Album Name"), bottem));
     
-    albumNameBox = new KComboBox(TRUE, bottem, "albumNameBox");
+    albumNameBox = new KComboBox(true, bottem, "albumNameBox");
     leftColumnLayout->addWidget(albumNameBox);
     
     leftColumnLayout->addWidget(new QLabel(i18n("Genre"), bottem));
     
-    genreBox = new KComboBox(FALSE, bottem, "genreBox");
+    genreBox = new KComboBox(false, bottem, "genreBox");
     
     // add values to the genre box
     genreBox->insertItem(QString::null);
-    for(int i = 0; i <= Genre::getGenreCount(); i++) 
-      genreBox->insertItem(Genre::getGenreName(i)); 
+    //    for(int i = 0; i <= Genre::getGenreCount(); i++) 
+    //      genreBox->insertItem(Genre::getGenreName(i)); 
    
 
     leftColumnLayout->addWidget(genreBox);

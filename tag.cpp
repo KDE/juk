@@ -20,56 +20,64 @@
 #include <id3/misc_support.h>
 
 #include "tag.h"
+
 #include "genre.h"
+#include "genrelist.h"
+#include "genrelistlist.h"
 
 #define REPLACE true
 
+////////////////////////////////////////////////////////////////////////////////
+// public members
+////////////////////////////////////////////////////////////////////////////////
+
 Tag::Tag(QString file) 
 {
-  fileName=file;
+  fileName = file;
   tag.Link(file.latin1());
   
-  changed=false;
+  changed = false;
   
   ///////////////////////////////////////////////////////////
   // the easy ones -- these are supported in the id3 class 
   ///////////////////////////////////////////////////////////
 
-  artistName=ID3_GetArtist(&tag);
-  albumName=ID3_GetAlbum(&tag);
-  trackName=ID3_GetTitle(&tag);
-  trackNumber=ID3_GetTrackNum(&tag);
-  trackNumberString=ID3_GetTrack(&tag);
-  comment=ID3_GetComment(&tag);
-  genreNumber=int(ID3_GetGenreNum(&tag));
-  yearString=ID3_GetYear(&tag);
+  artistName = ID3_GetArtist(&tag);
+  albumName = ID3_GetAlbum(&tag);
+  trackName = ID3_GetTitle(&tag);
+  trackNumber = ID3_GetTrackNum(&tag);
+  trackNumberString = ID3_GetTrack(&tag);
+  comment = ID3_GetComment(&tag);
+  genreNumber = int(ID3_GetGenreNum(&tag));
+  genre = ID3_GetGenre(&tag);
+  yearString = ID3_GetYear(&tag);
   
-  hasTagBool=(tag.HasV2Tag() || tag.HasV1Tag());
+  hasTagBool = (tag.HasV2Tag() || tag.HasV1Tag());
   
   ///////////////////////////////////////////////////////
-  // try to guess the track name if there's no id3 tag //
+  // try to guess the track name if there's no id3 tag 
   ///////////////////////////////////////////////////////
 
-  if(trackName.length()<=0) {
-    trackName=fileName;
-    while((trackName.right(4)).lower()==".mp3") {
-      trackName=trackName.left(trackName.length()-4);
+  if(trackName.length() <= 0) {
+    trackName = fileName;
+    while((trackName.right(4)).lower() == ".mp3") {
+      trackName = trackName.left(trackName.length()-4);
     }
-    trackName=trackName.right(trackName.length()-trackName.findRev(QDir::separator(), -1)-1);
+    trackName = trackName.right(trackName.length() - trackName.findRev(QDir::separator(), -1) -1);
   }
-
-  ///////////////////////////////////////////////////////
-  // get the genrename from the genre number           //
-  ///////////////////////////////////////////////////////
   
-  genre=Genre::getGenreName(genreNumber);
-  if(genreNumber < 0 || genreNumber > Genre::getGenreCount()) { genreNumber=-1; }
-
   ///////////////////////////////////////////////////////
-  // convert the year to a string                      //
+  // get the genrename from the genre number           
   ///////////////////////////////////////////////////////
 
-  year=yearString.toInt();
+  if(genre == "(" + QString::number(genreNumber) + ")" || genre == QString::null) 
+    genre = GenreListList::id3v1List().name(genreNumber);
+  
+  ///////////////////////////////////////////////////////
+  // convert the year to a string                      
+  ///////////////////////////////////////////////////////
+
+  year = yearString.toInt();
 }
 
 
@@ -155,43 +163,44 @@ bool Tag::hasTag() { return hasTagBool; }
 
 void Tag::setTrack(QString value) 
 {
-  changed=TRUE;
-  trackName=value;
+  changed = true;
+  trackName = value;
 };
 void Tag::setArtist(QString value) 
 {
-  changed=TRUE;
-  artistName=value;
+  changed = true;
+  artistName = value;
 };              
 void Tag::setAlbum(QString value) 
 {
-  changed=TRUE;
-  albumName=value;
+  changed = true;
+  albumName = value;
 };               
 void Tag::setGenre(int value) 
 {
-  changed=TRUE;
-  if(value >= 0 && value <= 255) {
-    genreNumber=value;
+  changed = true;
+  if(value >=  0 && value <=  255) {
+    genreNumber = value;
   }
   else {
-    genreNumber=255;
+    genreNumber = 255;
   }
 }; 
 void Tag::setTrackNumber(int value) 
 {
-  changed=TRUE;
-  trackNumber=value;
+  changed = true;
+  trackNumber = value;
   trackNumberString.setNum(value);
 };
 void Tag::setYear(int value) 
 {
-  changed=TRUE;
-  year=value;
+  changed = true;
+  year = value;
   yearString.setNum(value);
 };
 void Tag::setComment(QString value) 
 {
-  changed=TRUE;
-  comment=value;
+  changed = true;
+  comment = value;
 };
+

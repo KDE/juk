@@ -1,7 +1,7 @@
 /***************************************************************************
-                      genre.cpp  -  description
+                          genrelistreader.cpp  -  description
                              -------------------
-    begin                : Tue Feb 5 2002
+    begin                : Mon Mar 4 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
  ***************************************************************************/
@@ -15,40 +15,47 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "genre.h"
+#include "genrelistreader.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Genre::Genre()
+GenreListReader::GenreListReader(GenreList *genreList)
 {
-  name = QString::null;
-  id3v1 = 255;
+  list = genreList;
 }
 
-Genre::Genre(QString genreName, int id3v1Number)
+GenreListReader::~GenreListReader()
 {
-  name = genreName;
-  id3v1 = id3v1Number;
 }
 
-QString Genre::getName()
+bool GenreListReader::startElement(const QString&, const QString&, const QString& element, const QXmlAttributes& attributes)
 {
-  return(name);
-}
+  if(element.lower() == "genre") {
+    inGenreTag = true;
+    if(attributes.index("id3v1") != -1)
+      id3v1 = attributes.value("id3v1").toInt();
+    else 
+      id3v1 = 255;
+  }
+  else {
+    id3v1 = 255;
+  }
+  return(true);
+};
 
-int Genre::getId3v1()
+bool GenreListReader::endElement(const QString&, const QString&, const QString& element)
 {
-  return(id3v1);
-}
-
-void Genre::setName(QString genreName)
+  if(element.lower() == "genre")
+    inGenreTag = false;
+  return(true);
+};
+  
+bool GenreListReader::characters(const QString& content)
 {
-  name = genreName;
-}
-
-void Genre::setId3v1(int id3v1Number)
-{
-  id3v1 = id3v1Number;
-}
+  if(inGenreTag) {
+    list->append(Genre(content, id3v1));
+  }
+  return(true);
+};

@@ -1,7 +1,7 @@
 /***************************************************************************
-                      genre.cpp  -  description
+                          genrelist.cpp  -  description
                              -------------------
-    begin                : Tue Feb 5 2002
+    begin                : Sun Mar 3 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
  ***************************************************************************/
@@ -15,40 +15,60 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "genre.h"
+#include <kdebug.h>
+
+#include "genrelist.h"
+#include "genrelistreader.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Genre::Genre()
+GenreList::GenreList()
 {
-  name = QString::null;
-  id3v1 = 255;
+  //  index = 0;
 }
 
-Genre::Genre(QString genreName, int id3v1Number)
+GenreList::GenreList(QString file, bool createIndex = false)
 {
-  name = genreName;
-  id3v1 = id3v1Number;
+  //  index = 0;
+  load(file);
+
+  if(createIndex)
+    initializeIndex();
 }
 
-QString Genre::getName()
+GenreList::~GenreList()
 {
-  return(name);
 }
 
-int Genre::getId3v1()
+void GenreList::load(QString file)
 {
-  return(id3v1);
+  GenreListReader *handler = new GenreListReader(this);
+  QFile input(file);
+  QXmlInputSource source(input);
+  QXmlSimpleReader reader;
+  reader.setContentHandler(handler);
+  reader.parse(source);
 }
 
-void Genre::setName(QString genreName)
+QString GenreList::name(int id3v1)
 {
-  name = genreName;
+  if(id3v1 >= 0 && id3v1 < int(index.size()))
+    return(index[id3v1]);
+  else
+    return(QString::null);
 }
 
-void Genre::setId3v1(int id3v1Number)
+////////////////////////////////////////////////////////////////////////////////
+// private members
+////////////////////////////////////////////////////////////////////////////////
+
+void GenreList::initializeIndex()
 {
-  id3v1 = id3v1Number;
+  index.clear();
+  index.resize(count());
+  for(GenreList::Iterator it = begin(); it != end(); ++it) {
+    index[(*it).getId3v1()] = (*it).getName();
+  }
 }
