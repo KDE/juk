@@ -84,13 +84,13 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     DOM::Node body = search.body();
     DOM::NodeList topLevelNodes = body.childNodes();
 
-    // On google results, if the fifth (0-based) node is a "Font" node, 
-    // then there are results.  Otherwise, there are no results.
+    // On google results, if the fifth (0-based) node is a "Script" node, 
+    // then there are no results.  Otherwise, there are results.
 
     DOM::Node fourthNode = topLevelNodes.item(4);
 
     if(topLevelNodes.length() <= 5 ||
-       topLevelNodes.item(4).nodeName().string() != "font")
+       topLevelNodes.item(4).nodeName().string() == "script")
     {
         emit signalNewSearch(m_imageList);
         return;
