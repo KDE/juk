@@ -149,6 +149,8 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
     m_uniqueSets(m_uniqueSetCount, SortedStringList()),
     m_uniqueSetLast(m_uniqueSetCount, QString::null)
 {
+    new KAction(i18n("Show Playing"), KShortcut(), actions(), "showPlaying");
+
     m_dirWatch = new KDirWatch;
     connect(m_dirWatch, SIGNAL(deleted(const QString &)), this, SLOT(slotRemoveItem(const QString &)));
     connect(m_dirWatch, SIGNAL(dirty(const QString &)), this, SLOT(slotRefreshItem(const QString &)));

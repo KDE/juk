@@ -80,8 +80,6 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const cha
     jumpBox->setFrameStyle(Box | Sunken);
     jumpBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
 
-    new KAction(i18n("Show Playing"), KShortcut(), actions(), "showPlaying");
-
     QPushButton *jumpButton = new QPushButton(jumpBox);
     jumpButton->setPixmap(SmallIcon("up"));
     jumpButton->setFlat(true);
