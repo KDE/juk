@@ -191,12 +191,16 @@ void PlayerManager::play(const FileHandle &file)
 
             FileHandle currentFile = FileHandle(m_playlistInterface->currentFile());
 
-            if(!currentFile.isNull())
+            if(!currentFile.isNull()) {
                 player()->play(currentFile);
+                m_statusLabel->setPlayingItemInfo(currentFile, m_playlistInterface);
+            }
         }
     }
-    else
+    else {
         player()->play(file);
+        m_statusLabel->setPlayingItemInfo(file, m_playlistInterface);
+    }
 
     // Make sure that the player() actually starts before doing anything.
 

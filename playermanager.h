@@ -80,7 +80,7 @@ private slots:
     void slotPollPlay();
     void slotUpdateTime(int position);
     void slotSetOutput(int system);
-    void slotSetVolume(int volume); // TODO: make private
+    void slotSetVolume(int volume);
 
 private:
     static PlayerManager *m_instance;

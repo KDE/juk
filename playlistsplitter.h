@@ -68,6 +68,7 @@ public:
     // Variations on the theme "play stuff"
     ////////////////////////////////////////////////////////////////////////////
 
+    virtual QString name() const;
     virtual QString nextFile();
     virtual QString currentFile();
     virtual QString previousFile() { return playPreviousFile(); }
@@ -108,10 +109,6 @@ public:
     QString playRandomFile();
 
     ////////////////////////////////////////////////////////////////////////////
-
-    QString playingArtist() const;
-    QString playingTrack() const;
-    QString playingList() const;
 
     /**
      * Returns the name of the currently visible playlist.

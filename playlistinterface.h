@@ -27,6 +27,7 @@
 class PlaylistInterface
 {
 public:
+    virtual QString name() const = 0;
     virtual QString nextFile() = 0;
     virtual QString currentFile() = 0;
     virtual QString previousFile() = 0;

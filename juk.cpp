@@ -514,20 +514,6 @@ bool JuK::queryClose()
 	return true;
 }
 
-QString JuK::playingString() const
-{
-    QString s;
-    if(!m_player->playing() && !m_player->paused())
-	return i18n("No song playing");
-
-    if(!m_splitter->playingArtist().isEmpty())
-	s = m_splitter->playingArtist().simplifyWhiteSpace() + " - ";
-
-    s += m_splitter->playingTrack().simplifyWhiteSpace();
-
-    return s;
-}
-
 void JuK::updatePlaylistInfo()
 {
     m_statusLabel->setPlaylistInfo(m_splitter->visiblePlaylistName(),

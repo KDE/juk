@@ -167,6 +167,11 @@ QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool u
     }
 }
 
+QString PlaylistSplitter::name() const
+{
+    return m_playingItem ? m_playingItem->playlist()->name() : QString::null;
+}
+
 QString PlaylistSplitter::nextFile()
 {
     PlaylistItem *i = 0;
@@ -299,34 +304,6 @@ QString PlaylistSplitter::playRandomFile()
 
     // Not exactly random (the first item won't be taken into account)
     return play(p->nextItem(i, true));
-}
-
-QString PlaylistSplitter::playingArtist() const
-{
-    if(m_playingItem) {
-	int offset =  m_playingItem->playlist()->columnOffset();
-	return m_playingItem->text(PlaylistItem::ArtistColumn + offset);
-    }
-    else
-	return QString::null;
-}
-
-QString PlaylistSplitter::playingTrack() const
-{
-    if(m_playingItem) {
-	int offset =  m_playingItem->playlist()->columnOffset();
-	return m_playingItem->text(PlaylistItem::TrackColumn + offset);
-    }
-    else
-	return QString::null;
-}
-
-QString PlaylistSplitter::playingList() const
-{
-    if(m_playingItem)
-	return m_playingItem->playlist()->name();
-    else
-	return QString::null;
 }
 
 void PlaylistSplitter::open(const QString &file)

@@ -22,7 +22,8 @@
 
 class QLabel;
 
-class PlaylistItem;
+class FileHandle;
+class PlaylistInterface;
 
 class StatusLabel : public QHBox
 {
@@ -39,7 +40,7 @@ public slots:
      * item playing.
      */ 
     void setPlaylistCount(int c);
-    void setPlayingItemInfo(const QString &track, const QString &playlist);
+    void setPlayingItemInfo(const FileHandle &file, const PlaylistInterface *playlist);
     void setPlaylistInfo(const QString &name, int count, int totalTime);
     void setPlaylistTime(int totalTime);
 

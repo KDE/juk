@@ -25,6 +25,9 @@
 #include <qlayout.h>
 
 #include "statuslabel.h"
+#include "filehandle.h"
+#include "playlistinterface.h"
+#include "tag.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -132,12 +135,14 @@ void StatusLabel::setPlaylistCount(int c)
     setPlaylistInfo(m_playlistName, c, m_playlistTotalTime);
 }
 
-void StatusLabel::setPlayingItemInfo(const QString &track, const QString &playlist)
+void StatusLabel::setPlayingItemInfo(const FileHandle &file, const PlaylistInterface *playlist)
 {
     mode = PlayingItemInfo;
 
-    m_trackLabel->setText(track);
-    m_playlistLabel->setText(playlist.simplifyWhiteSpace());
+    QString text = file.tag()->artist() + " - " + file.tag()->title();
+
+    m_trackLabel->setText(text);
+    m_playlistLabel->setText(playlist->name().simplifyWhiteSpace());
 }
 
 void StatusLabel::clear()

@@ -76,8 +76,6 @@ private:
     virtual bool queryExit();
     virtual bool queryClose();
 
-    QString playingString() const;
-
     void updatePlaylistInfo();
 
     void openFile(const QString &file);
