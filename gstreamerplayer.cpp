@@ -164,7 +164,7 @@ void GStreamerPlayer::setPosition(long long d)
 
 void GStreamerPlayer::setupPlayer()
 {
-    player = new Play(Play::PIPE_AUDIO_THREADED, this, "Play");
+    player = new Play(Play::PIPE_AUDIO_BUFFER_THREADED, this, "Play");
     connect(player, SIGNAL(timeTick(long long)), 
 	    SLOT(setPosition(long long)));
     connect(player, SIGNAL(streamLength(long long)), 
