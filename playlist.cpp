@@ -26,6 +26,7 @@
 #include <kglobalsettings.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
+#include <kio/job.h>
 
 #include <qheader.h>
 #include <qcursor.h>
@@ -754,8 +755,6 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 	for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
             files.append((*it)->file().absFilePath());
 
-	KURL trashDir = KGlobalSettings::trashPath();
-
 	DeleteDialog dialog(this);
 	if(dialog.confirmDeleteList(files)) {
 	    bool shouldDelete = dialog.shouldDelete();
@@ -765,7 +764,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 		    action("forward")->activate();
 
 		QString removePath = (*it)->file().absFilePath();
-		if((!shouldDelete && KIO::NetAccess::move(removePath, trashDir)) ||
+		if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removePath), this)) ||
 		   (shouldDelete && QFile::remove(removePath))) {
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
                         m_randomList.remove(*it);
