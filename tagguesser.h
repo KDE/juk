@@ -58,6 +58,7 @@ class TagGuesser
 
     private:
         void loadSchemes();
+        QString capitalizeWords(const QString &s);
 
         FileNameScheme::List m_schemes;
         QString m_title;

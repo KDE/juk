@@ -10,6 +10,7 @@
 
 #include <kapplication.h>
 #include <kconfig.h>
+#include <kdebug.h>
 #include <kdeversion.h>
 #if KDE_IS_VERSION(3,1,90)
 #    include <kmacroexpander.h>
@@ -95,13 +96,13 @@ QString FileNameScheme::composeRegExp(const QString &s) const
 
     KConfig *cfg = kapp->config();
     {
-    KConfigGroupSaver(cfg, "TagGuesser");
+        KConfigGroupSaver(cfg, "TagGuesser");
 
-    substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&]+)");
-    substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&]+)");
-    substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&]+)");
-    substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
-    substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s]+)");
+        substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&]+)");
+        substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&]+)");
+        substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&]+)");
+        substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
+        substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s]+)");
     }
 
     QString regExp = QRegExp::escape(s.simplifyWhiteSpace());
@@ -164,8 +165,8 @@ void TagGuesser::setSchemeStrings(const QStringList &schemes)
 {
     KConfig *cfg = kapp->config();
     {
-    KConfigGroupSaver(cfg, "TagGuesser");
-    cfg->writeEntry("Filename schemes", schemes);
+        KConfigGroupSaver(cfg, "TagGuesser");
+        cfg->writeEntry("Filename schemes", schemes);
     }
     cfg->sync();
 }
@@ -199,14 +200,32 @@ void TagGuesser::guess(const QString &absFileName)
     for (; it != end; ++it) {
         const FileNameScheme schema(*it);
         if(schema.matches(absFileName)) {
-            m_title = schema.title();
-            m_artist = schema.artist();
-            m_album = schema.album();
+            m_title = capitalizeWords(schema.title());
+            m_artist = capitalizeWords(schema.artist());
+            m_album = capitalizeWords(schema.album());
             m_track = schema.track();
             m_comment = schema.comment();
             break;
         }
     }
+}
+
+QString TagGuesser::capitalizeWords(const QString &s)
+{
+    if(s.isEmpty())
+        return s;
+
+    QString result = s;
+    result[ 0 ] = result[ 0 ].upper();
+
+    const QRegExp wordRegExp("\\s\\w");
+    int i = result.find( wordRegExp );
+    while ( i > -1 ) {
+        result[ i + 1 ] = result[ i + 1 ].upper();
+        i = result.find( wordRegExp, ++i );
+    }
+
+    return result;
 }
 
 // vim:ts=4:sw=4:noet
