@@ -40,7 +40,7 @@
                         <cstring>textLabel1_6</cstring>
                     </property>
                     <property name="text">
-                        <string>Music Directory</string>
+                        <string>Music Folder</string>
                     </property>
                 </widget>
                 <widget class="KComboBox" row="1" column="1">
@@ -76,7 +76,7 @@
                 </widget>
                 <widget class="KURLRequester" row="0" column="1">
                     <property name="name">
-                        <cstring>m_musicDirectory</cstring>
+                        <cstring>m_musicFolder</cstring>
                     </property>
                     <property name="url" stdset="0">
                         <string>/home/kde-cvs/music</string>
@@ -271,7 +271,7 @@
         <slot>exampleTextChanged()</slot>
     </connection>
     <connection>
-        <sender>m_musicDirectory</sender>
+        <sender>m_musicFolder</sender>
         <signal>textChanged(const QString&amp;)</signal>
         <receiver>FileRenamerBase</receiver>
         <slot>exampleTextChanged()</slot>

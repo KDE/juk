@@ -83,11 +83,11 @@ public:
 
     virtual QString separator() const = 0;
 
-    virtual QString musicDirectory() const = 0;
+    virtual QString musicFolder() const = 0;
 
     virtual int trackWidth() const = 0;
 
-    virtual bool hasDirSeparator(int index) const = 0;
+    virtual bool hasFolderSeparator(int index) const = 0;
 
     virtual bool isDisabled(TagType category) const = 0;
 

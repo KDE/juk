@@ -39,7 +39,7 @@ class QPushButton;
 class QVBox;
 class PlaylistItem;
 
-// Used to decide what directory the FileRenamerWidget will move rows in.
+// Used to decide what direction the FileRenamerWidget will move rows in.
 typedef enum { MoveUp, MoveDown } MovementDirection;
 
 /**
@@ -84,9 +84,9 @@ public:
     virtual QString emptyText(TagType category) const;
     virtual QValueList<TagType> categoryOrder() const;
     virtual QString separator() const;
-    virtual QString musicDirectory() const;
+    virtual QString musicFolder() const;
     virtual int trackWidth() const;
-    virtual bool hasDirSeparator(int index) const;
+    virtual bool hasFolderSeparator(int index) const;
     virtual bool isDisabled(TagType category) const;
 
 private:
@@ -94,7 +94,7 @@ private:
     TagRenamerOptions m_options[NumTypes];
     QValueList<TagType> m_categoryOrder;
     QString m_separator;
-    QString m_musicDirectory;
+    QString m_musicFolder;
     bool m_folderSeparators[NumTypes - 1];
 };
 
@@ -243,9 +243,9 @@ private:
     virtual QString separator() const;
 
 /**
- * @return local path to the music directory used to store renamed files.
+ * @return local path to the music folder used to store renamed files.
  */
-    virtual QString musicDirectory() const;
+    virtual QString musicFolder() const;
 
 /**
  * @return the minimum width of the track category.
@@ -256,13 +256,13 @@ private:
     }
     
 /**
- * @param  index, the 0-based index for the directory boundary.
- * @return true if there should be a directory separator between category
+ * @param  index, the 0-based index for the folder boundary.
+ * @return true if there should be a folder separator between category
  *         index and index + 1, and false otherwise.  Note that for purposes
  *         of this function, only categories that are required or non-empty
  *         should count.
  */
-    virtual bool hasDirSeparator(int index) const;
+    virtual bool hasFolderSeparator(int index) const;
 
 /**
  * @param category The category to get the status of.
@@ -404,7 +404,7 @@ private:
     Row m_rows[NumTypes];
 
 /** 
- * This holds an array of checkboxes that allow the user to insert directory
+ * This holds an array of checkboxes that allow the user to insert folder
  * separators in between categories.
  */
     QCheckBox *m_folderSwitches[NumTypes - 1];

@@ -75,7 +75,7 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
         if(*it > 0 && *it < (NumTypes - 1))
             m_folderSeparators[*it] = true;
 
-    m_musicDirectory = config.readPathEntry("MusicDirectory", "${HOME}/music");
+    m_musicFolder = config.readPathEntry("MusicFolder", "${HOME}/music");
     m_separator = config.readEntry("Separator", " - ");
 
     checkedSeparators = config.readIntListEntry("CategoryOrder");
@@ -144,9 +144,9 @@ QString ConfigCategoryReader::separator() const
     return m_separator;
 }
 
-QString ConfigCategoryReader::musicDirectory() const
+QString ConfigCategoryReader::musicFolder() const
 {
-    return m_musicDirectory;
+    return m_musicFolder;
 }
 
 int ConfigCategoryReader::trackWidth() const
@@ -154,7 +154,7 @@ int ConfigCategoryReader::trackWidth() const
     return m_options[Track].trackWidth();
 }
 
-bool ConfigCategoryReader::hasDirSeparator(int index) const
+bool ConfigCategoryReader::hasFolderSeparator(int index) const
 {
     return m_folderSeparators[index];
 }
@@ -212,7 +212,7 @@ void FileRenamerWidget::loadConfig()
     }
 
     QString url = config.readPathEntry("MusicDirectory", "${HOME}/music");
-    m_musicDirectory->setURL(url);
+    m_musicFolder->setURL(url);
 
     m_separator->setCurrentText(config.readEntry("Separator", " - "));
 }
@@ -236,7 +236,7 @@ void FileRenamerWidget::saveConfig()
         categoryOrder += m_rows[i].category;
 
     config.writeEntry("CategoryOrder", categoryOrder);
-    config.writePathEntry("MusicDirectory", m_musicDirectory->url());
+    config.writePathEntry("MusicDirectory", m_musicFolder->url());
     config.writeEntry("Separator", m_separator->currentText());
 
     config.sync();
@@ -428,7 +428,7 @@ QValueList<TagType> FileRenamerWidget::categoryOrder() const
     return list;
 }
 
-bool FileRenamerWidget::hasDirSeparator(int index) const
+bool FileRenamerWidget::hasFolderSeparator(int index) const
 {
     return m_folderSwitches[index]->isChecked();
 }
@@ -609,9 +609,9 @@ QString FileRenamerWidget::separator() const
     return m_separator->currentText();
 }
 
-QString FileRenamerWidget::musicDirectory() const
+QString FileRenamerWidget::musicFolder() const
 {
-    return m_musicDirectory->url();
+    return m_musicFolder->url();
 }
 
 void FileRenamerWidget::toggleCategory(int category)
@@ -702,7 +702,7 @@ QString FileRenamer::getFileName(const CategoryReaderInterface &interface)
 {
     const QValueList<TagType> categoryOrder = interface.categoryOrder();
     const QString separator = interface.separator();
-    const QString dir = interface.musicDirectory();
+    const QString folder = interface.musicFolder();
     const QRegExp closeBracket("[])}]\\s*$");
     const QRegExp openBracket("^\\s*[[({]");
 
@@ -720,7 +720,7 @@ QString FileRenamer::getFileName(const CategoryReaderInterface &interface)
         
         value = interface.value(category);
 
-        if(i < (NumTypes - 1) && interface.hasDirSeparator(i))
+        if(i < (NumTypes - 1) && interface.hasFolderSeparator(i))
             value.append("/");
         ++i;
 
@@ -748,7 +748,7 @@ QString FileRenamer::getFileName(const CategoryReaderInterface &interface)
         }
     }
     
-    return QString(dir + QDir::separator() + result).simplifyWhiteSpace();
+    return QString(folder + QDir::separator() + result).simplifyWhiteSpace();
 }
 
 QString FileRenamer::fixupTrack(const QString &track, const CategoryReaderInterface &interface)
