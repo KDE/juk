@@ -36,7 +36,9 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-AdvancedSearchDialog::AdvancedSearchDialog(QWidget *parent, const char *name) :
+AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName, 
+                                           QWidget *parent,
+                                           const char *name) :
     KDialogBase(parent, name, true, i18n("Create Search Playlist"), Ok|Cancel)
 {
     makeVBoxMainWidget();
@@ -45,7 +47,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(QWidget *parent, const char *name) :
     box->setSpacing(5);
 
     new QLabel(i18n("Playlist name:"), box);
-    new KLineEdit(box);
+    m_playlistNameLineEdit = new KLineEdit(defaultName, box);
 
     QVGroupBox *criteriaGroupBox = new QVGroupBox(i18n("Search Criteria"), mainWidget());
 
@@ -104,6 +106,8 @@ void AdvancedSearchDialog::accept()
 
     PlaylistSearch::SearchMode m = PlaylistSearch::SearchMode(!m_matchAnyButton->isChecked());
     m_search.setSearchMode(m);
+
+    m_playlistName = m_playlistNameLineEdit->text();
 
     KDialogBase::accept();
 }

@@ -22,6 +22,7 @@
 
 #include "playlistsearch.h"
 
+class KLineEdit;
 class QGroupBox;
 class QRadioButton;
 class SearchLine;
@@ -35,9 +36,13 @@ public:
     {
         DialogCode result;
         PlaylistSearch search;
+        QString playlistName;
     };
 
-    AdvancedSearchDialog(QWidget *parent = 0, const char *name = 0);
+    AdvancedSearchDialog(const QString &defaultName, 
+                         QWidget *parent = 0,
+                         const char *name = 0);
+
     virtual ~AdvancedSearchDialog();
 
 public slots:
@@ -49,7 +54,9 @@ protected slots:
 private:
     QWidget *m_criteria;
     PlaylistSearch m_search;
+    QString m_playlistName;
     QValueList<SearchLine *> m_searchLines;
+    KLineEdit *m_playlistNameLineEdit;
     QRadioButton *m_matchAnyButton;
     QRadioButton *m_matchAllButton;
 };

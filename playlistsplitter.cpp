@@ -399,7 +399,8 @@ void PlaylistSplitter::slotSetSearchVisible(bool visible)
 
 void PlaylistSplitter::slotAdvancedSearch()
 {
-    AdvancedSearchDialog *d = new AdvancedSearchDialog(this);
+    AdvancedSearchDialog *d =
+	new AdvancedSearchDialog(uniquePlaylistName(i18n("Search Playlist")), this);
     d->exec();
     delete d;
 }
