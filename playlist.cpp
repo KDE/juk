@@ -787,7 +787,9 @@ void Playlist::polish()
 	m_headerMenu->insertItem(header()->label(i), i);
 	m_headerMenu->setItemChecked(i, true);
 
-	// FIXME: adjustColumn(i);
+#if QT_VERSION <= 0x032000
+	adjustColumn(i);
+#endif
     }
 
     connect(m_headerMenu, SIGNAL(activated(int)), this, SLOT(slotToggleColumnVisible(int)));
