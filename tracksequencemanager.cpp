@@ -132,15 +132,6 @@ void TrackSequenceManager::setCurrent(PlaylistItem *item)
     }
 }
 
-void TrackSequenceManager::setPopupMenu(KPopupMenu *menu)
-{
-    // Remove old KActions
-
-    m_popupMenu = menu;
-
-    // Insert new KActions
-}
-
 /////////////////////////////////////////////////////////////////////////////
 // private functions
 /////////////////////////////////////////////////////////////////////////////

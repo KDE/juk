@@ -134,11 +134,9 @@ public slots:
      * playlist.  The TrackSequenceManager does not own @p list after this
      * call.
      *
-     * @see setPopupMenu
      * @param list the current playlist
      */
     void setCurrentPlaylist(Playlist *list);
-
 
     /**
      * Sets the current item to @p item.  You should try to avoid calling this
@@ -150,17 +148,6 @@ public slots:
      * there is no item playing.
      */
     void setCurrent(PlaylistItem *item);
-
-    /**
-     * Set the popup menu to be used by this manager.  If a menu is set, the
-     * manager will insert KActions into it so the user can modify the
-     * behavior of the manager.  If @p menu is replacing an older KPopupMenu,
-     * the KActions will be removed from the old menu first.  The
-     * TrackSequenceManager does not own @p menu after this call.
-     *
-     * @param menu the KPopupMenu to use for configuration
-     */
-    void setPopupMenu(KPopupMenu *menu);
 
 private:
     /**
