@@ -639,6 +639,9 @@ QString PlaylistSplitter::play(PlaylistItem *item)
 
     Playlist *p = static_cast<Playlist *>(item->listView());
 
+    if (!p)
+	return QString::null;
+
     p->setPlaying(item, true);
 
     m_playingItem = item;
