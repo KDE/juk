@@ -703,5 +703,5 @@ KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
         return new KAction(text, icon, shortcut, this, slot, actions(), name);
 }
 
-
+#undef widget
 #include "playlistcollection.moc"

@@ -42,6 +42,8 @@
 
 #include <id3v1genres.h>
 
+#undef KeyRelease
+
 using namespace ActionCollection;
 
 class FileNameValidator : public QValidator
