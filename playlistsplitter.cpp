@@ -21,9 +21,9 @@
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <kdirwatch.h>
+#include <klineeditdlg.h>
 #include <kdebug.h>
 
-#include <qinputdialog.h>
 #include <qtimer.h>
 
 #include "playlistitem.h"
@@ -282,8 +282,9 @@ Playlist *PlaylistSplitter::slotCreatePlaylist()
 
     // If this text is changed, please also change it in PlaylistBox::duplicate().
 
-    QString name = QInputDialog::getText(i18n("New Playlist..."), i18n("Please enter a name for the new playlist:"),
-					 QLineEdit::Normal, uniquePlaylistName(), &ok);
+    QString name = KLineEditDlg::getText(i18n("Create New Playlist"), 
+	i18n("Please enter a name for the new playlist:"),
+	uniquePlaylistName(), &ok);
     if(ok)
 	return createPlaylist(name);
     else
@@ -303,7 +304,7 @@ void PlaylistSplitter::slotSelectPlaying()
     l->clearSelection();
     l->setSelected(m_playingItem, true);
     l->ensureItemVisible(m_playingItem);
-    
+
     m_playlistBox->raise(l);
 }
 
@@ -319,7 +320,7 @@ void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list)
     KApplication::setOverrideCursor(Qt::waitCursor);
     addImpl(file, list);
     KApplication::restoreOverrideCursor();
-    
+
     if(m_editor)
 	m_editor->slotUpdateCollection();
 }
@@ -396,7 +397,7 @@ void PlaylistSplitter::readConfig()
 	    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
 
 	    QFile f(playlistsFile);
-	    
+
 	    if(f.open(IO_ReadOnly)) {
 		QDataStream s(&f);
 		while(!s.atEnd()) {
@@ -438,7 +439,7 @@ void PlaylistSplitter::saveConfig()
     KConfig *config = KGlobal::config();
 
     // Save the list of open playlists.
-    
+
     if(m_restore && m_playlistBox) {
 
 	// Start at item 1.  We want to skip the collection list.
@@ -485,7 +486,7 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
 	    else if(m_listExtensions->contains(extension) > 0)
 		openPlaylist(fileInfo.absFilePath());
         }
-    }    
+    }
 }
 
 void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
@@ -561,3 +562,5 @@ void PlaylistSplitter::slotPlaylistItemRemoved(PlaylistItem *item)
 }
 
 #include "playlistsplitter.moc"
+
+// vim:ts=8
