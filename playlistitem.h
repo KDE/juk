@@ -183,6 +183,7 @@ private:
 class PlaylistItem::Pointer
 {
 public:
+    Pointer() : m_item(0) {}
     Pointer(PlaylistItem *item);
     Pointer(const Pointer &p);
     ~Pointer();

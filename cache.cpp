@@ -147,11 +147,13 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
             }
             case Upcoming:
             {
-                UpcomingPlaylist *p = new UpcomingPlaylist(collection);
+                /*
+                collection->setUpcomingPlaylistEnabled(true);
+                Playlist *p = collection->upcomingPlaylist();
                 action<KToggleAction>("saveUpcomingTracks")->setChecked(true);
                 s >> *p;
                 playlist = p;
-                collection->setUpcomingPlaylist(p);
+                */
                 break;
             }
             case Folder:

@@ -114,13 +114,6 @@ public:
     UpcomingPlaylist *upcomingPlaylist() const;
     void setUpcomingPlaylistEnabled(bool enable);
 
-    /**
-     * Sets the playlist without initializing it (for use by Cache before GUI
-     * is completely setup).  Call setUpcomingPlaylistEnabled(true) when the
-     * rest of initialization is ready.
-     */
-    void setUpcomingPlaylist(UpcomingPlaylist *p) { m_upcomingPlaylist = p; }
-
     void dirChanged(const QString &path);
 
     /**

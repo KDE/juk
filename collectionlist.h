@@ -171,8 +171,8 @@ public:
     virtual void refresh();
     PlaylistItem *itemForPlaylist(const Playlist *playlist);
     void updateCollectionDict(const QString &oldPath, const QString &newPath);
-
     void repaint() const;
+    PlaylistItemList children() const { return m_children; }
 
 protected:
     CollectionListItem(const FileHandle &file);

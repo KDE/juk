@@ -28,6 +28,7 @@ using namespace ActionCollection;
 
 UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection, int defaultSize) :
     Playlist(collection, true),
+    m_active(false),
     m_oldIterator(0),
     m_defaultSize(defaultSize)
 {
@@ -39,11 +40,15 @@ UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection, int defaultSi
 UpcomingPlaylist::~UpcomingPlaylist()
 {
     removeIteratorOverride();
-    setUpcomingPlaylist(0);
 }
 
 void UpcomingPlaylist::initialize()
 {
+    if(m_active)
+        return;
+
+    m_active = true;
+
     m_oldIterator = manager()->takeIterator();
     manager()->installIterator(new UpcomingSequenceIterator(this));
 
@@ -51,27 +56,12 @@ void UpcomingPlaylist::initialize()
         m_oldIterator->prepareToPlay(CollectionList::instance());
     else
         manager()->iterator()->setCurrent(m_oldIterator->current());
-
-    // If an item was already playing, then it will be the last item in the
-    // list instead of the first, so we'll need to move it after the list is
-    // initialized.  Also, we should fill the list to our set number of items.
-
-    bool needsAdjusting = playingItem() != 0;
-
-    if(needsAdjusting && action<KToggleAction>("loopPlaylist")->isChecked()) {
-        m_oldIterator->advance();
-        fillList();
-        PlaylistItem *item = static_cast<PlaylistItem *>(lastItem());
-        takeItem(item);
-        insertItem(item);
-        setPlaying(item, false);
-    }
-
-    setUpcomingPlaylist(this);
 }
 
 void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
 {
+    initialize();
+
     if(itemList.isEmpty())
         return;
 
@@ -88,21 +78,21 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
 
 void UpcomingPlaylist::playNext()
 {
-    TrackSequenceManager::instance()->setCurrentPlaylist(this);
-    setPlaying(TrackSequenceManager::instance()->nextItem());
+    initialize();
 
-    if(!playing())
-        return;
+    PlaylistItem *next = TrackSequenceManager::instance()->nextItem();
 
-    Playlist *source = m_playlistIndex[playingItem()];
-
-    if(!source)
-        return;
-
-    PlaylistList l;
-    l.append(this);
-
-    source->synchronizePlayingItems(l, false);
+    if(next) {
+        setPlaying(next);
+        Playlist *source = m_playlistIndex[next];
+        if(source) {
+            PlaylistList l;
+            l.append(this);
+            source->synchronizePlayingItems(l, false);
+        }
+    }
+    else
+        removeIteratorOverride();
 }
 
 void UpcomingPlaylist::clearItem(PlaylistItem *item, bool emitChanged)
@@ -111,85 +101,45 @@ void UpcomingPlaylist::clearItem(PlaylistItem *item, bool emitChanged)
     Playlist::clearItem(item, emitChanged);
 }
 
-QMap< PlaylistItem *, QGuardedPtr<Playlist> > &UpcomingPlaylist::playlistIndex()
+void UpcomingPlaylist::addFiles(const QStringList &files, PlaylistItem *after)
+{
+    CollectionList::instance()->addFiles(files, after);
+
+    PlaylistItemList l;
+    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
+        FileHandle f(*it);
+        PlaylistItem *i = CollectionList::instance()->lookup(f.absFilePath());
+        if(i)
+            l.append(i);
+    }
+
+    appendItems(l);
+}
+
+QMap< PlaylistItem::Pointer, QGuardedPtr<Playlist> > &UpcomingPlaylist::playlistIndex()
 {
     return m_playlistIndex;
 }
 
 void UpcomingPlaylist::removeIteratorOverride()
 {
-    if(!m_oldIterator)
+    if(!m_active)
         return;
 
-    PlaylistItem *newItem = 0;
-    if(playingItem())
-        newItem = playingItem()->collectionItem();
+    m_active = false;
+
+    if(!m_oldIterator || !playingItem())
+        return;
 
     m_oldIterator->reset();
-    m_oldIterator->setCurrent(newItem);
-
-    manager()->setCurrent(newItem);
+    m_oldIterator->setCurrent(playingItem()->collectionItem());
     manager()->installIterator(m_oldIterator);
-
-    setPlaying(newItem, false);
-
+    manager()->nextItem();
+    setPlaying(manager()->nextItem(), true);
     Watched::currentChanged();
 }
 
-void UpcomingPlaylist::fillList()
-{
-    PlaylistItemList list;
-    int i = 0, limit = m_defaultSize - items().count();
-
-    if(!m_oldIterator->current())
-        m_oldIterator->prepareToPlay(CollectionList::instance());
-
-    if(!m_oldIterator->current())
-        return;
-
-    while(i++ < limit && m_oldIterator->current()) {
-        list.append(m_oldIterator->current());
-        m_oldIterator->advance();
-    }
-
-    createItems(list);
-}
-
-void UpcomingPlaylist::addNewItem()
-{
-    PlaylistItem *last = static_cast<PlaylistItem *>(lastChild());
-
-    if(firstChild()) {
-        Playlist *source = m_playlistIndex[firstChild()];
-
-        if(!source)
-            return;
-
-        CollectionListItem *base = firstChild()->collectionItem();
-        PlaylistItem *target = 0;
-        for(QListViewItemIterator it(source); it.current(); ++it) {
-            if(static_cast<PlaylistItem *>(it.current())->collectionItem() == base) {
-                target = static_cast<PlaylistItem *>(it.current());
-                break;
-            }
-        }
-
-        if(!target)
-            return;
-
-        m_oldIterator->setCurrent(target);
-        m_oldIterator->advance();
-    }
-
-    if(m_oldIterator->current()) {
-        last = createItem(m_oldIterator->current(), last);
-        m_playlistIndex.insert(last, m_oldIterator->current()->playlist());
-        dataChanged();
-        slotWeightDirty();
-    }
-}
-
-inline TrackSequenceManager *UpcomingPlaylist::manager() const
+TrackSequenceManager *UpcomingPlaylist::manager() const
 {
     return TrackSequenceManager::instance();
 }
@@ -213,16 +163,10 @@ void UpcomingPlaylist::UpcomingSequenceIterator::advance()
     PlaylistItem *item = m_playlist->firstChild();
 
     if(item) {
-        if(!item->nextSibling())
-            m_playlist->addNewItem();
-
-        m_playlist->setPlaying(0);
+        PlaylistItem *next = static_cast<PlaylistItem *>(item->nextSibling());
         m_playlist->clearItem(item);
+        setCurrent(next);
     }
-    else
-        m_playlist->fillList();
-
-    setCurrent(m_playlist->firstChild());
 }
 
 void UpcomingPlaylist::UpcomingSequenceIterator::backup()
@@ -245,12 +189,8 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
     // apparently the user didn't want to hear it.
 
     PlaylistItem *playingItem = m_playlist->playingItem();
-    if(playingItem && playingItem->playlist() == m_playlist && currentItem != playingItem) {
-        if(action<KToggleAction>("loopPlaylist")->isChecked())
-            m_playlist->addNewItem();
-
+    if(playingItem && playingItem->playlist() == m_playlist && currentItem != playingItem)
         m_playlist->clearItem(playingItem);
-    }
 
     // If a different playlist owns this item, add it to the upcoming playlist
 
@@ -263,9 +203,9 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
         m_playlist->slotWeightDirty();
     }
     else {
+        // if(p == m_playlist) {
 
         // Bump this item up to the top
-
         m_playlist->takeItem(currentItem);
         m_playlist->insertItem(currentItem);
     }
@@ -280,9 +220,8 @@ void UpcomingPlaylist::UpcomingSequenceIterator::reset()
 
 void UpcomingPlaylist::UpcomingSequenceIterator::prepareToPlay(Playlist *)
 {
-    if(m_playlist->items().isEmpty())
-        m_playlist->fillList();
-    setCurrent(m_playlist->firstChild());
+    if(!m_playlist->items().isEmpty())
+        setCurrent(m_playlist->firstChild());
 }
 
 QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p)

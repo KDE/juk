@@ -532,8 +532,6 @@ void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
         if(!m_upcomingPlaylist)
             m_upcomingPlaylist = new UpcomingPlaylist(this);
 
-        m_upcomingPlaylist->initialize();
-
         setupPlaylist(m_upcomingPlaylist, "today");
     }
     else {
@@ -559,7 +557,7 @@ Playlist *PlaylistCollection::currentPlaylist() const
     if(m_belowDistraction)
         return m_belowDistraction;
 
-    if(m_upcomingPlaylist)
+    if(m_upcomingPlaylist && m_upcomingPlaylist->active())
         return m_upcomingPlaylist;
 
     if(Playlist::playingItem())

@@ -303,7 +303,6 @@ void Playlist::SharedSettings::writeConfig()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistItemList Playlist::m_history;
-UpcomingPlaylist *Playlist::m_upcomingPlaylist = 0;
 QMap<int, PlaylistItem *> Playlist::m_backMenuItems;
 int Playlist::m_leftColumn = 0;
 
@@ -434,20 +433,22 @@ int Playlist::time() const
     // Since this method gets a lot of traffic, let's optimize for such.
 
     if(!m_addTime.isEmpty()) {
-	for(PlaylistItemList::ConstIterator it = m_addTime.begin();
+	for(QValueList<PlaylistItem::Pointer>::ConstIterator it = m_addTime.begin();
 	    it != m_addTime.end(); ++it)
 	{
-	    m_time += (*it)->file().tag()->seconds();
+	    if(*it)
+		m_time += (*it)->file().tag()->seconds();
 	}
 
 	m_addTime.clear();
     }
 
     if(!m_subtractTime.isEmpty()) {
-	for(PlaylistItemList::ConstIterator it = m_subtractTime.begin();
+	for(QValueList<PlaylistItem::Pointer>::ConstIterator it = m_subtractTime.begin();
 	    it != m_subtractTime.end(); ++it)
 	{
-	    m_time -= (*it)->file().tag()->seconds();
+	    if(*it)
+		m_time -= (*it)->file().tag()->seconds();
 	}
 
 	m_subtractTime.clear();
@@ -1560,7 +1561,8 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 
     if(playingItem()) {
 	if(addToHistory) {
-	    if(playingItem()->playlist() == m_upcomingPlaylist)
+	    if(playingItem()->playlist() ==
+	       playingItem()->playlist()->m_collection->upcomingPlaylist())
 		m_history.append(playingItem()->collectionItem());
 	    else
 		m_history.append(playingItem());
@@ -1901,7 +1903,7 @@ void Playlist::slotUpdateColumnWidths()
 void Playlist::slotAddToUpcoming()
 {
     m_collection->setUpcomingPlaylistEnabled(true);
-    m_upcomingPlaylist->appendItems(selectedItems());
+    m_collection->upcomingPlaylist()->appendItems(selectedItems());
 }
 
 void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column)

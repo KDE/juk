@@ -90,12 +90,16 @@ public:
      */
     virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
 
+    virtual void addFiles(const QStringList &files, PlaylistItem *after = 0);
+
     /**
      * Returns a reference to the index between items in the list and the
      * playlist that they came from.  This is used to remap the currently
      * playing item to the source playlist.
      */
-    QMap< PlaylistItem *, QGuardedPtr<Playlist> > &playlistIndex();
+    QMap<PlaylistItem::Pointer, QGuardedPtr<Playlist> > &playlistIndex();
+
+    bool active() const { return m_active; }
 
 private:
 
@@ -107,33 +111,21 @@ private:
     void removeIteratorOverride();
 
     /**
-     * This function fills the playlist up to a certain number of items. This
-     * is useful for when the user clicks on play even when the playlist is
-     * empty.
-     */
-    void fillList();
-
-    /**
-     * This function appends another item to the end of the playlist, based on
-     * the old TrackSequenceManager iterator.
-     */
-    void addNewItem();
-
-    /**
      * This function returns the instance of the TrackSequenceManager.
      *
      * @return the TrackSequenceManager instance.
      * @see TrackSequenceManager::instance()
      */
-    inline TrackSequenceManager *manager() const;
+    TrackSequenceManager *manager() const;
 
 private:
     class UpcomingSequenceIterator;
     friend class UpcomingSequenceIterator;
 
+    bool m_active;
     TrackSequenceIterator *m_oldIterator;
     int m_defaultSize;
-    QMap< PlaylistItem *, QGuardedPtr<Playlist> > m_playlistIndex;
+    QMap<PlaylistItem::Pointer, QGuardedPtr<Playlist> > m_playlistIndex;
 };
 
 /**

@@ -28,6 +28,7 @@
 #include "playlistsearch.h"
 #include "tagguesser.h"
 #include "playlistinterface.h"
+#include "playlistitem.h"
 
 class KPopupMenu;
 class KActionMenu;
@@ -36,13 +37,10 @@ class QEvent;
 
 class PlaylistCollection;
 
-class PlaylistItem;
 class PlaylistToolTip;
 class UpcomingPlaylist;
 
 typedef QValueList<PlaylistItem *> PlaylistItemList;
-
-typedef QValueList<Playlist *> PlaylistList;
 
 class Playlist : public KListView, public PlaylistInterface
 {
@@ -189,7 +187,7 @@ public:
      * items since it has the overhead of checking to see if the file is a playlist
      * or directory first.
      */
-    void addFiles(const QStringList &files, PlaylistItem *after = 0);
+    virtual void addFiles(const QStringList &files, PlaylistItem *after = 0);
 
     /**
      * Returns the file name associated with this playlist (an m3u file) or
@@ -439,10 +437,6 @@ protected:
      */
     virtual void polish();
 
-    UpcomingPlaylist *upcomingPlaylist() const { return m_upcomingPlaylist; }
-
-    void setUpcomingPlaylist(UpcomingPlaylist *playlist) { m_upcomingPlaylist = playlist; }
-
     /**
      * Do some finial initialization of created items.  Notably ensure that they
      * are shown or hidden based on the contents of the current PlaylistSearch.
@@ -632,8 +626,8 @@ private:
     bool m_disableColumnWidthUpdates;
 
     mutable int m_time;
-    mutable PlaylistItemList m_addTime;
-    mutable PlaylistItemList m_subtractTime;
+    mutable QValueList<PlaylistItem::Pointer> m_addTime;
+    mutable QValueList<PlaylistItem::Pointer> m_subtractTime;
 
     /**
      * The average minimum widths of columns to be used in balancing calculations.
@@ -675,7 +669,6 @@ private:
      */
     static bool m_visibleChanged;
     static int m_leftColumn;
-    static UpcomingPlaylist *m_upcomingPlaylist;
     static QMap<int, PlaylistItem *> m_backMenuItems;
 
     bool m_blockDataChanged;
