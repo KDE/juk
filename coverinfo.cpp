@@ -20,44 +20,11 @@
 
 #include <qvbox.h>
 #include <qregexp.h>
+#include <qlayout.h>
+#include <qlabel.h>
 
 #include "coverinfo.h"
 #include "tag.h"
-
-/**
- * QVBox subclass to show a window for the track cover, and update the parent
- * CoverInfo when we close.  It may not be the 'best' way to do it, but it
- * works.
- *
- * @author Michael Pyne <michael.pyne@kdemail.net>
- */
-class CoverInfo::CoverPopupWindow : public QVBox
-{
-public:
-    CoverPopupWindow(CoverInfo &coverInfo, const QPixmap &pixmap, QWidget *parent = 0) :
-        QVBox(parent, 0, WDestructiveClose), m_coverInfo(coverInfo)
-    {
-        QString caption = coverInfo.m_file.tag()->artist() + " - " + coverInfo.m_file.tag()->album();
-        setCaption(kapp->makeStdCaption(caption));
-
-        QWidget *widget = new QWidget(this);
-        widget->setPaletteBackgroundPixmap(pixmap);
-        widget->setFixedSize(pixmap.size());
-
-        // Trim as much as possible and keep that size.
-
-        adjustSize();
-        setFixedSize(size());
-    }
-
-    ~CoverPopupWindow()
-    {
-        m_coverInfo.m_popupWindow = 0;
-    }
-
-private:
-    CoverInfo &m_coverInfo;
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -68,7 +35,7 @@ CoverInfo::CoverInfo(const FileHandle &file) :
     m_file(file),
     m_hasCover(false),
     m_haveCheckedForCover(false),
-    m_popupWindow(0)
+    m_popup(0)
 {
 
 }
@@ -143,17 +110,56 @@ QString CoverInfo::coverLocation(CoverSize size) const
     return fileLocation;
 }
 
-void CoverInfo::popupLargeCover()
+void CoverInfo::popupCover(int x, int y)
 {
     QPixmap largeCover = pixmap(FullSize);
     if(largeCover.isNull())
         return;
 
-    if(!m_popupWindow)
-        m_popupWindow = new CoverPopupWindow(*this, largeCover);
+    if(!m_popup)
+        m_popup = new CoverPopup(largeCover);
 
-    m_popupWindow->show();
-    KWin::activateWindow(m_popupWindow->winId());
+    m_popup->popup(x, y);
+}
+
+struct CoverPopupWidget : public QWidget
+{
+    CoverPopupWidget(const QPixmap &image, int x, int y) : QWidget(0, 0, WX11BypassWM)
+    {
+        QHBoxLayout *layout = new QHBoxLayout(this);
+        QLabel *label = new QLabel(this);
+
+        layout->addWidget(label);
+        label->setFrameStyle(QFrame::Box | QFrame::Raised);
+        label->setLineWidth(1);
+        label->setPixmap(image);
+
+        setGeometry(x - 10, y - 10, label->width(), label->height());
+        show();
+    }
+};
+
+void CoverPopup::popup(int x, int y)
+{
+    if(m_popupWidget)
+        delete m_popupWidget;
+
+    m_popupWidget = new CoverPopupWidget(m_pixmap, x, y);
+
+    m_popupWidget->installEventFilter(this);
+}
+
+bool CoverPopup::eventFilter(QObject *object, QEvent *event)
+{
+    if(object == m_popupWidget && (event->type() == QEvent::MouseButtonPress ||
+                                   event->type() == QEvent::Leave))
+    {
+        delete m_popupWidget;
+        m_popupWidget = 0;
+        return true;
+    }
+
+    return QLabel::eventFilter(object, event);
 }
 
 // vim: set et sw=4 ts=8:

@@ -731,7 +731,7 @@ void Playlist::slotViewCover()
     if (items.isEmpty())
         return;
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
-        (*it)->file().coverInfo()->popupLargeCover();
+        (*it)->file().coverInfo()->popupCover();
 }
 
 void Playlist::slotRemoveCover()

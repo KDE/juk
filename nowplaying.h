@@ -69,7 +69,6 @@ public:
     CoverItem(NowPlaying *parent);
     virtual void update(const FileHandle &file);
     virtual void mousePressEvent(QMouseEvent *event);
-    virtual bool eventFilter(QObject *object, QEvent *event);
 
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *e);
@@ -77,7 +76,6 @@ protected:
 
 private:
     FileHandle m_file;
-    QWidget *m_popup;
 };
 
 /**

@@ -17,8 +17,22 @@
 
 #include <qimage.h>
 #include <qpixmap.h>
+#include <qlabel.h>
 
 #include "filehandle.h"
+
+class CoverPopup : public QLabel
+{
+public:
+    CoverPopup(QPixmap &pixmap):QLabel(0),m_popupWidget(0),m_pixmap(pixmap){}
+     
+    virtual bool eventFilter(QObject *object, QEvent *event);
+    void popup(int x, int y);  
+
+private:
+    QWidget *m_popupWidget;
+    QPixmap m_pixmap;
+};
 
 class CoverInfo
 {
@@ -35,18 +49,15 @@ public:
     void setCover(const QImage &image = QImage());
 
     QPixmap pixmap(CoverSize size) const;
-    void popupLargeCover();
+    void popupCover(int x = 10, int y = 10);
 
 private:
-    class CoverPopupWindow;
-    friend class CoverPopupWindow;
-
     QString coverLocation(CoverSize size) const;
 
     FileHandle m_file;
     bool m_hasCover;
     bool m_haveCheckedForCover;
-    CoverPopupWindow *m_popupWindow;
+    CoverPopup *m_popup;
 };
 #endif
 
