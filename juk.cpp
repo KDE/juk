@@ -418,7 +418,7 @@ QString JuK::playingString() const
 
 void JuK::updatePlaylistInfo()
 {
-    m_statusLabel->setPlaylistInfo(m_splitter->selectedPlaylistName(), m_splitter->selectedPlaylistCount());
+    m_statusLabel->setPlaylistInfo(m_splitter->visiblePlaylistName(), m_splitter->selectedPlaylistCount());
 }
 
 void JuK::play(const QString &file)

@@ -104,9 +104,9 @@ public:
     QString playingList() const;
 
     /**
-     * Returns the name of the currently selected playlist.
+     * Returns the name of the currently visible playlist.
      */
-    QString selectedPlaylistName() const { return visiblePlaylist()->name(); }
+    QString visiblePlaylistName() const { return visiblePlaylist()->name(); }
 
     /**
      * Returns the number of items in the currently selected playlist.
