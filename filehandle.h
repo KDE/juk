@@ -18,6 +18,8 @@
 #ifndef JUK_FILEHANDLE_H
 #define JUK_FILEHANDLE_H
 
+#include <qvaluelist.h>
+
 class QFileInfo;
 class QDateTime;
 class QDataStream;
@@ -67,6 +69,8 @@ private:
 
     void setup(const QFileInfo &info, const QString &path);
 };
+
+typedef QValueList<FileHandle> FileHandleList;
 
 QDataStream &operator<<(QDataStream &s, const FileHandle &f);
 CacheDataStream &operator>>(CacheDataStream &s, FileHandle &f);
