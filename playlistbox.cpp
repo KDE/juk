@@ -647,9 +647,8 @@ void PlaylistBox::slotPlaylistChanged()
     if(m_k3bAction)
 	m_k3bAction->setEnabled(!playlists.isEmpty());
 
-    bool searchList = singlePlaylist && dynamic_cast<SearchPlaylist *>(playlists.front());
-
-    action("editSearch")->setEnabled(searchList);
+    action("editSearch")->setEnabled(singlePlaylist &&
+				     playlists.front()->searchIsEditable());
 
     if(singlePlaylist) {
 	playlists.front()->applySharedSettings();

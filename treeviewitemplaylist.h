@@ -31,6 +31,7 @@ public:
                          const QString &name = QString::null,
                          bool setupPlaylist = true);
 
+    virtual bool searchIsEditable() const { return false; }
     void retag(const QStringList &files, Playlist *donorPlaylist);
 
 signals:

@@ -29,6 +29,7 @@ public:
 
     PlaylistSearch playlistSearch() const { return m_search; }
     void setPlaylistSearch(const PlaylistSearch &s, bool update = true);
+    virtual bool searchIsEditable() const { return true; }
 
 protected:
     /**

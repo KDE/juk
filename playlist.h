@@ -290,6 +290,12 @@ public:
     virtual bool canReload() const { return !m_fileName.isNull(); }
 
     /**
+     * Returns true if the playlist is a search playlist and the search should be
+     * editable.
+     */
+    virtual bool searchIsEditable() const { return false; }
+
+    /**
      * Playlists have a common set of shared settings such as visible columns
      * that should be applied just before the playlist is shown.  Calling this
      * method applies those.
