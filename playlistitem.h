@@ -69,7 +69,7 @@ protected:
     /** Items should always be created using Playlist::createItem() or through a
 	subclss or friend class. */
     PlaylistItem(CollectionListItem *item, Playlist *parent);
-    PlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after);
+    PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after);
     PlaylistItem(Playlist *parent);
 
     class Data;

@@ -31,7 +31,7 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name)
+JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose)
 {
     // Expect segfaults if you change this order.
 
@@ -54,9 +54,6 @@ JuK::~JuK()
 
 void JuK::setupLayout()
 {
-    // automagically save and restore settings
-    setAutoSaveSettings();
-
     PlaylistSplitter::initialize(this);
     splitter = PlaylistSplitter::instance();
     setCentralWidget(splitter);
@@ -152,6 +149,9 @@ void JuK::processArgs()
 
 void JuK::readConfig()
 {
+    // Automagically save and restore many window settings.
+    setAutoSaveSettings();
+
     KConfig *config = KGlobal::config();
     { // player settings
         KConfigGroupSaver saver(config, "Player");
@@ -227,7 +227,9 @@ void JuK::remove()
 
 void JuK::quit()
 {
-    kapp->quit();
+    // delete(this);
+    // kapp->quit();
+    close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

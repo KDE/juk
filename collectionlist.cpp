@@ -57,7 +57,7 @@ CollectionListItem *CollectionList::lookup(const QString &file)
     return(itemsDict.find(file));
 }
 
-PlaylistItem *CollectionList::createItem(const QFileInfo &file)
+PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 {
     if(itemsDict.find(file.absFilePath()))
 	return(0);

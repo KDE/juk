@@ -149,14 +149,14 @@ void PlaylistBox::deleteItem(PlaylistBoxItem *item)
 	// the file then delete it.  Otherwise, just remove the file from the
 	// PlaylistBox.
 
-	if(item->playlist()->file() != QString::null) {
+	if(item->playlist()->fileName() != QString::null) {
 	    if(item->playlist()->isInternalFile())
-		QFile::remove(item->playlist()->file());
+		QFile::remove(item->playlist()->fileName());
 	    else {
 		int remove = KMessageBox::warningYesNoCancel(this, i18n("Do you want to delete this file from the disk as well?"));
 		
 		if(remove == KMessageBox::Yes) {
-		    if(!QFile::remove(item->playlist()->file()))
+		    if(!QFile::remove(item->playlist()->fileName()))
 			KMessageBox::sorry(this, i18n("Could not delete the specified file."));
 		}
 		else if(remove == KMessageBox::Cancel)
@@ -317,11 +317,13 @@ void PlaylistBox::contextDeleteItem()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
-    : ListBoxPixmap(listbox, pix, text)
+    : QObject(listbox), ListBoxPixmap(listbox, pix, text)
 {
     list = l;
     setOrientation(Qt::Vertical);
     listbox->addName(text);
+
+    connect(l, SIGNAL(fileNameChanged(const QString &)), this, SLOT(changeFile(const QString &)));
 }
 
 PlaylistBoxItem::PlaylistBoxItem(PlaylistBox *listbox, const QString &text, Playlist *l) 
@@ -339,6 +341,23 @@ PlaylistBoxItem::~PlaylistBoxItem()
 Playlist *PlaylistBoxItem::playlist() const
 {
     return(list);
+}
+
+void PlaylistBoxItem::changeFile(const QString &file)
+{
+    QStringList extensions = PlaylistSplitter::playlistExtensions();
+
+    // get just the filename, not the path
+    QString text = file.section(QDir::separator(), -1);
+
+    for(QStringList::Iterator it = extensions.begin(); it != extensions.end(); ++it) {
+	if(text.endsWith(*it)) {
+	    // remove the extension
+	    text = text.left(text.length() - (*it).length() - 1);
+	    setText(text);
+	    return;
+	}
+    }
 }
 
 #include "playlistbox.moc"

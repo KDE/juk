@@ -81,7 +81,7 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) : QObject
     setup(item, parent);
 }
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after) : QObject(parent), KListViewItem(parent, after)
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) : QObject(parent), KListViewItem(parent, after)
 {
     setup(item, parent);
 }

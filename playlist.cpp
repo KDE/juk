@@ -43,7 +43,7 @@ Playlist::Playlist(QWidget *parent, const char *name) : KListView(parent, name)
 {
     setup();
     internalFile = true;
-    fileName = QString::null;
+    playlistFileName = QString::null;
 }
 
 Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name)
@@ -51,12 +51,18 @@ Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *n
     setup();
 
     internalFile = false;
-    fileName = playlistFile.absFilePath();
+    playlistFileName = playlistFile.absFilePath();
 
-    QFile file(fileName);
-    file.open(IO_ReadOnly);
+    QFile file(playlistFileName);
+    if(!file.open(IO_ReadOnly))
+	return;
 
     QTextStream stream(&file);
+
+    // turn off non-explicit sorting
+    setSorting(columns() + 1);
+
+    PlaylistItem *after = 0;
 
     while(!stream.atEnd()) {
 	QString itemName = (stream.readLine()).stripWhiteSpace();
@@ -64,9 +70,13 @@ Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *n
 
 	if(item.isRelative())
 	    item.setFile(QDir::cleanDirPath(playlistFile.dirPath(true) + "/" + itemName));
-
-	if(item.exists() && item.isFile() && item.isReadable())
-	    createItem(item);
+	
+	if(item.exists() && item.isFile() && item.isReadable()) {
+	    if(after)
+		after = createItem(item, after);
+	    else
+		after = createItem(item);
+	}
     }
     
     file.close();
@@ -79,14 +89,49 @@ Playlist::~Playlist()
 
 void Playlist::save()
 {
-    kdDebug() << "Playlist::save() -- Not yet implemented!" << endl;
-    // needs an implementation to write to m3u files
+    if(internalFile || playlistFileName == QString::null)
+	return saveAs();
+    
+    QFile file(playlistFileName);
+
+    if(!file.open(IO_WriteOnly))
+	return KMessageBox::error(this, i18n("Could not save to file %1.").arg(playlistFileName));
+    
+    QTextStream stream(&file);
+
+    QStringList fileList = files();
+
+    for(QStringList::Iterator it = fileList.begin(); it != fileList.end(); ++it)
+	stream << *it << endl;
+    
+    file.close();
 }
 
 void Playlist::saveAs()
 {
-    kdDebug() << "Playlist::saveAs() -- Not yet implemented!" << endl;
-    // needs an implementation to write to m3u files
+    // If this is one of our internal files, remove it when we save it to an
+    // "external" file.
+
+    if(internalFile && playlistFileName != QString::null)
+	QFile::remove(playlistFileName);
+
+    // This needs to be replace with something that sets the default to the 
+    // playlist name.
+
+    QStringList extensions = PlaylistSplitter::playlistExtensions();
+
+    playlistFileName = KFileDialog::getSaveFileName(QString::null, 
+						    PlaylistSplitter::extensionsString(PlaylistSplitter::playlistExtensions(),
+										       i18n("Playlists")));
+    playlistFileName = playlistFileName.stripWhiteSpace();
+    internalFile = false;
+
+    if(playlistFileName != QString::null) {
+	if(!PlaylistSplitter::playlistExtensions().contains(playlistFileName.section('.', -1)))
+	    playlistFileName.append('.' + PlaylistSplitter::playlistExtensions().first());
+	emit(fileNameChanged(playlistFileName));
+	save();
+    }
 }
 
 void Playlist::refresh()
@@ -190,9 +235,9 @@ bool Playlist::isInternalFile() const
     return(internalFile);
 }
 
-QString Playlist::file() const
+QString Playlist::fileName() const
 {
-    return(fileName);
+    return(playlistFileName);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -256,7 +301,7 @@ void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
-PlaylistItem *Playlist::createItem(const QFileInfo &file)
+PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 {
     CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
 
@@ -265,8 +310,10 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file)
     
     if(item && members.contains(file.absFilePath()) == 0 || allowDuplicates) {
 	members.append(file.absFilePath());
-	PlaylistItem *newItem = new PlaylistItem(item, this);
-	return(newItem);
+	if(after)
+	    return(new PlaylistItem(item, this, after));
+	else
+	    return(new PlaylistItem(item, this));
     }
     else
 	return(0);

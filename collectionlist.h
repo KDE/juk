@@ -48,7 +48,7 @@ public:
     QStringList albums() const;
 
     CollectionListItem *lookup(const QString &file);
-    virtual PlaylistItem *createItem(const QFileInfo &file);
+    virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *);
     
 protected:
     CollectionList(QWidget *parent = 0);

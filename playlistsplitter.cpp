@@ -36,7 +36,7 @@ void processEvents()
     static int processed = 0;
     if(processed == 0)
         kapp->processEvents();
-    processed = (processed + 1) % 10;
+    processed = (processed + 1) % 5;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -104,13 +104,39 @@ PlaylistItem *PlaylistSplitter::playlistFirstItem() const
     return(i);
 }
 
+QString PlaylistSplitter::extensionsString(const QStringList &extensions, const QString &type)
+{
+    QStringList l;
+
+    for(QStringList::ConstIterator it = extensions.begin(); it != extensions.end(); ++it)
+	l.append(QString("*." + (*it)));
+
+    // i.e. "*.m3u, *.mp3|Media Files"
+
+    QString s = l.join(" ");
+
+    if(type != QString::null)
+	s =  + "|" + type;
+
+    return(s);
+}
+
+QStringList PlaylistSplitter::playlistExtensions()
+{
+    if(splitter)
+	return(splitter->listExtensions);
+    else
+	return(QString::null);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
 void PlaylistSplitter::open()
 {
-    QStringList files = KFileDialog::getOpenFileNames(QString::null, "*.mp3 *.m3u|Media Files");
+    QStringList files = KFileDialog::getOpenFileNames(QString::null, 
+						      extensionsString((mediaExtensions + listExtensions), i18n("Media Files")));
     open(files);
 }
 
@@ -193,6 +219,7 @@ Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 {
     Playlist *p = new Playlist(playlistStack, name.latin1());
     new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
+
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
@@ -204,7 +231,7 @@ void PlaylistSplitter::openPlaylist()
     QStringList files = KFileDialog::getOpenFileNames(QString::null, "*.m3u");
 
     for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
-	Playlist *p = openPlaylist(*it);
+	openPlaylist(*it);
 }
 
 Playlist *PlaylistSplitter::openPlaylist(const QString &playlistFile)
@@ -252,12 +279,13 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent) : QSplitter(Qt::Horizontal, 
     setupLayout();
     readConfig();
     mediaExtensions.append("mp3");
+    mediaExtensions.append("ogg");
     listExtensions.append("m3u");
 }
 
 PlaylistSplitter::~PlaylistSplitter()
 {
-
+    saveConfig();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -312,7 +340,54 @@ void PlaylistSplitter::setupLayout()
 
 void PlaylistSplitter::readConfig()
 {
+    KConfig *config = KGlobal::config();
+    { // block for Playlists group
+	KConfigGroupSaver saver(config, "Playlists");
 
+	QStringList external = config->readListEntry("ExternalPlaylists");
+	for(QStringList::Iterator it = external.begin(); it != external.end(); ++it)
+	    openPlaylist(*it);
+
+	QStringList internal = config->readListEntry("InternalPlaylists");
+	for(QStringList::Iterator it = internal.begin(); it != internal.end(); ++it)
+	    openPlaylist(*it);
+    }
+}	
+
+
+void PlaylistSplitter::saveConfig()
+{
+    kdDebug() << "PlaylistSplitter::saveConfig()" << endl;
+    
+    KConfig *config = KGlobal::config();
+
+    // Save the list of open playlists.
+    
+    if(playlistBox) {
+	QStringList internalPlaylists;
+	QStringList externalPlaylists;
+	for(uint i = 0; i < playlistBox->count(); i++) {
+	    PlaylistBoxItem *item = static_cast<PlaylistBoxItem *>(playlistBox->item(i));
+	    if(item && item->playlist()) {
+		Playlist *p = item->playlist();
+		if(p->isInternalFile()) {
+		    if(p->fileName().isEmpty())
+			; // save the file
+		    if(!p->fileName().isEmpty())
+			internalPlaylists.append(p->fileName());
+		}
+		else
+		    externalPlaylists.append(p->fileName());
+	    }		
+	}
+	{ // block for Playlists group
+	    KConfigGroupSaver saver(config, "Playlists");
+	    if(!internalPlaylists.isEmpty())
+		config->writeEntry("InternalPlaylists", internalPlaylists);
+	    if(!externalPlaylists.isEmpty())
+		config->writeEntry("ExternalPlaylists", externalPlaylists);
+	}
+    }
 }
 
 void PlaylistSplitter::addImpl(const QString &file, Playlist *list)

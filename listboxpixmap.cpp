@@ -35,7 +35,7 @@ public:
     }
 
     Qt::Orientation orientation;
-    int lineCount;
+    uint lineCount;
 };
 
 ListBoxPixmap::ListBoxPixmap(QListBox *listbox, const QPixmap &pixmap) 

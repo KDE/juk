@@ -32,23 +32,61 @@ class PlaylistBoxItem;
 class CollectionList;
 class TagEditor;
 
-/** This is the main layout class of JuK.  It should contain a PlaylistBox and
-    a QWidgetStack of the Playlists.  This like CollectionList, has been 
-    implemented as a pseudo-singleton to provide global access without passing
-    pointers all over the place. */
+/**
+ * This is the main layout class of JuK.  It should contain a PlaylistBox and
+ * a QWidgetStack of the Playlists.  This like CollectionList, has been 
+ * implemented as a pseudo-singleton to provide global access without passing
+ * pointers all over the place. */
 
 class PlaylistSplitter : public QSplitter
 {
     Q_OBJECT
+
 public:
+    /**
+     * Since this class is something of a singleton, all instances should be
+     * refered to by the instance() method.  Also see initialize().
+     */
     static PlaylistSplitter *instance();
+    /**
+     * This method must be called to construct the object.  It creates the 
+     * instance of the object that can be referred to by instance().
+     */
     static void initialize(QWidget *parent = 0);
 
-    /** Returns a unique string to be used as new playlist names. */
-    QString uniquePlaylistName();
+    /**
+     * Returns a unique string to be used as new playlist names.  This follows
+     * the format "[startingWith] i" where "i" is the first integer greater than 0
+     * that does not currently exist in the PlaylistBox.
+     */
     QString uniquePlaylistName(const QString &startingWith, bool useParentheses = false);
+    /* This calls the above method with startingWith == i18n("Playlist") to 
+     * produce "Playlist 1", "Playlist 2", ...
+     */
+    QString uniquePlaylistName();
+    /**
+     * Returns a QPtrList of the selected PlaylistItems in the top playlist in 
+     * the QWidgetStack of playlists.
+     */
     PlaylistItemList playlistSelection() const;
+    /**
+     * This returns a pointer to the first item in the playlist on the top
+     * of the QWidgetStack of playlists.
+     */
     PlaylistItem *playlistFirstItem() const;
+
+    // static (non-initialization) methods
+
+    /** 
+     * Merges a list of file extensions, and a description of those types into a
+     * format that makes sense to KFileDialog.  If type = QString::null then no
+     * description is appended.
+     */
+    static QString extensionsString(const QStringList &extensions, const QString &type = QString::null);
+    /**
+     * Returns a lif of the extensions that are used for playlists.
+     */
+    static QStringList playlistExtensions();
 
 public slots:
     void open();
@@ -56,10 +94,14 @@ public slots:
     void open(const QStringList &files);
     void open(const QString &file);
     void save();
-    /** Deletes the selected items from the hard disk. */
+    /**
+     * Deletes the selected items from the hard disk. 
+     */
     void remove();
     void refresh();
-    /** Removes the selected items from the playlist. */
+    /**
+     * Removes the selected items from the playlist. 
+     */
     void clearSelectedItems();
     void selectAll(bool select = true);
 
@@ -87,6 +129,7 @@ protected:
 private:
     void setupLayout();
     void readConfig();
+    void saveConfig();
     void addImpl(const QString &file, Playlist *list);
 
     static PlaylistSplitter *splitter;

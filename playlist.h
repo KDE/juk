@@ -33,36 +33,44 @@ public:
     Playlist(const QFileInfo &playlistFile, QWidget *parent = 0, const char *name = 0);
     virtual ~Playlist();
 
-    // "File Menu" like operations.  "Open" is the constructor above.
-
     virtual void save();
     virtual void saveAs();
-
     virtual void refresh();
-
     virtual void clearItems(const PlaylistItemList &items);
 
-    /** All of the files in the list. */
+    /** 
+     * All of the (media) files in the list. 
+     */
     QStringList files() const;
-    /** All of the items in the list. */
+    /** 
+     * All of the items in the list.
+     */
     PlaylistItemList items() const;
     PlaylistItemList selectedItems() const;
 
     void remove();
     void remove(const PlaylistItemList &items);
 
-    /** Allow duplicate files in the playlist. */
+    /** 
+     * Allow duplicate files in the playlist. 
+     */
     void setAllowDuplicates(bool allow);
 
-    /** This gets the next item to be played in the playlist. */
-    static PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
-
-    /** This is being used as a mini-factory of sorts to make the construction
-	of PlaylistItems virtual. */
-    virtual PlaylistItem *createItem(const QFileInfo &file);
+    /** 
+     * This is being used as a mini-factory of sorts to make the construction
+     * of PlaylistItems virtual. 
+     */
+    virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *after = 0);
 
     bool isInternalFile() const;
-    QString file() const;
+    QString fileName() const;
+
+    // static methods
+
+    /** 
+     * This gets the next item to be played in the specified playlist.
+     */
+    static PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
 
 protected:
     virtual QDragObject *dragObject();
@@ -76,30 +84,37 @@ private:
     int processed;
     bool allowDuplicates;
 
-    // If a file is "internal" it is not one that the user has yet chosen to 
-    // save.  However for the purposes of being able to restore a user's 
-    // loaded playlists it will be saved "internally" in:
-    // $KDEHOME/share/apps/juk/playlists.
-
+    /**
+     * If a file is "internal" it is not one that the user has yet chosen to 
+     * save.  However for the purposes of being able to restore a user's 
+     * loaded playlists it will be saved "internally" in:
+     * $KDEHOME/share/apps/juk/playlists.
+     */
     bool internalFile;
-    QString fileName;
+    QString playlistFileName;
 
 private slots:
     void emitSelected();
 
 signals:
-    /** This signal is connected to PlaylistItem::refreshed() in the 
-	PlaylistItem class. */
+    /** 
+     * This signal is connected to PlaylistItem::refreshed() in the 
+     * PlaylistItem class. 
+     */
     void dataChanged();
-
-    /** This signal is emitted when items are added to the collection list.  
-	This happens in the createItem() method when items are added to the 
-	collection. */
+    /** 
+     * This signal is emitted when items are added to the collection list.  
+     * This happens in the createItem() method when items are added to the 
+     * collection. 
+     */
     void collectionChanged();
 
-    /** This is emitted when the playlist selection is changed.  This is used
-	primarily to notify the TagEditor of the new data. */
+    /** 
+     * This is emitted when the playlist selection is changed.  This is used
+     * primarily to notify the TagEditor of the new data. 
+     */
     void selectionChanged(const PlaylistItemList &selection);
+    void fileNameChanged(const QString &fileName);
 };
 
 #endif
