@@ -42,7 +42,7 @@
 // Playlist::SharedSettings definition
 ////////////////////////////////////////////////////////////////////////////////
 
-static bool s_visibleChanged = false;
+static bool Playlist::m_visibleChanged = false;
 
 /**
  * Shared settings between the playlists.
@@ -257,7 +257,7 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 {
     emit signalAboutToRemove(item);
     m_members.remove(item->absFilePath());
-    if (!m_randomList.isEmpty() && !s_visibleChanged)
+    if (!m_randomList.isEmpty() && !m_visibleChanged)
         m_randomList.remove(item);
     item->deleteLater();
     if(emitChanged)
@@ -346,9 +346,9 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
     PlaylistItem *i;
 
     if(random) {
-        if (m_randomList.count() <= 1 || s_visibleChanged) {
+        if (m_randomList.count() <= 1 || m_visibleChanged) {
             m_randomList = visibleItems();
-            s_visibleChanged = false;//got the change
+            m_visibleChanged = false; // got the change
         }
 
         m_randomList.remove(current);
@@ -419,7 +419,7 @@ void Playlist::updateLeftColumn()
 
 void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible)
 {
-    s_visibleChanged = true;
+    m_visibleChanged = true;
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
 	(*it)->setVisible(visible);
 }
@@ -515,7 +515,7 @@ void Playlist::deleteFromDisk(const PlaylistItemList &items)
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 		if(QFile::remove((*it)->filePath())) {
 		    emit signalAboutToRemove(*it);
-                    if(!m_randomList.isEmpty() && !s_visibleChanged)
+                    if(!m_randomList.isEmpty() && !m_visibleChanged)
                         m_randomList.remove(*it);
 		    delete *it;
 		}
@@ -643,7 +643,7 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFile
 	    i = new PlaylistItem(item, this, after);
 	else
 	    i = new PlaylistItem(item, this);
-        if(!m_randomList.isEmpty() && !s_visibleChanged)
+        if(!m_randomList.isEmpty() && !m_visibleChanged)
             m_randomList.append(i);
 	emit signalNumberOfItemsChanged(this);
 	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
@@ -984,7 +984,7 @@ void Playlist::slotApplyModification(QListViewItem *item, const QString &text, i
     if (selectedSongs.count() > 1)
     {
         if (KMessageBox::warningYesNo(0,
-				      i18n("This will rename multiple files! Are you sure?"),
+				      i18n("This will edit multiple files! Are you sure?"),
 				      QString::null,
 				      KStdGuiItem::yes(),
 				      KStdGuiItem::no(),

@@ -255,6 +255,11 @@ private:
     SortedStringList m_members;
     int m_processed;
     bool m_allowDuplicates;
+    /**
+     * This is used to indicate if the list of visible items has changed (via a 
+     * call to setVisibleItems()) while random play is playing.
+     */
+    static bool m_visibleChanged;
     QPtrList<PlaylistItem> m_history;
 
     QString m_fileName;
