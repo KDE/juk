@@ -847,7 +847,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 	if(item.isRelative())
 	    item.setFile(QDir::cleanDirPath(fileInfo.dirPath(true) + "/" + itemName));
 
-	if(MediaFiles::isPlaylistFile(item.fileName()) && item.exists() && item.isFile() && item.isReadable()) {
+	if(MediaFiles::isMediaFile(item.fileName()) && item.exists() && item.isFile() && item.isReadable()) {
 	    if(after)
 		after = createItem(item, QString::null, after);
 	    else
