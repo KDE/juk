@@ -50,6 +50,11 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
 PlaylistSplitter::~PlaylistSplitter()
 {
     saveConfig();
+
+    // Since we want to ensure that the shutdown process for the PlaylistCollection
+    // (a base class for PlaylistBox) has a chance to write the playlists to disk
+    // before they are deleted we're explicitly deleting the PlaylistBox here.
+
     delete m_playlistBox;
 }
 
