@@ -70,6 +70,6 @@ void GenreList::initializeIndex()
   index.clear();
   index.resize(count());
   for(GenreList::Iterator it = begin(); it != end(); ++it) {
-    index[(*it).getId3v1()] = (*it).getName();
+    index[(*it).getId3v1()] = static_cast<QString>(*it);
   }
 }

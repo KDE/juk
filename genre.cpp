@@ -21,31 +21,20 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Genre::Genre()
+Genre::Genre() : QString()
 {
   name = QString::null;
   id3v1 = 255;
 }
 
-Genre::Genre(QString genreName, int id3v1Number)
+Genre::Genre(QString genreName, int id3v1Number) : QString(genreName)
 {
-  name = genreName;
   id3v1 = id3v1Number;
-}
-
-QString Genre::getName()
-{
-  return(name);
 }
 
 int Genre::getId3v1()
 {
   return(id3v1);
-}
-
-void Genre::setName(QString genreName)
-{
-  name = genreName;
 }
 
 void Genre::setId3v1(int id3v1Number)

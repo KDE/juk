@@ -20,16 +20,14 @@
 
 #include <qstring.h>
 
-class Genre
+class Genre : public QString
 {
 public:
   Genre();
   Genre(QString genreName, int id3v1Number);
 
-  QString getName();
   int getId3v1();
 
-  void setName(QString genreName);
   void setId3v1(int number);
 
 private:
