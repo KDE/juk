@@ -2,13 +2,21 @@
 
 AM_INIT_AUTOMAKE(juk,1.0)
 
-if test "x$have_taglib" = "xfalse" || test "x$build_arts" = "xno"; then
-	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
+AC_PATH_PROG(ARTSC_CONFIG, artsc-config, no)
+
+if test "x$build_arts" = "xyes" && test "x$ARTSC_CONFIG" != "xno" ; then
+	LIB_ARTS="-lartskde"
+	ARTS_PREFIX=[`$ARTSC_CONFIG --arts-prefix`]
+	ARTS_CFLAGS="-I$ARTS_PREFIX/include/arts"
+	AC_DEFINE(HAVE_ARTS, 1, [have arts support in juk])
+else
+	build_arts="no"
+	LIB_ARTS=""
+	ARTS_CFLAGS=""
 fi
 
-if test "x$build_arts" = "xno"; then
-	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
-fi
+AC_SUBST(LIB_ARTS)
+AC_SUBST(ARTS_CFLAGS)
 
 AC_DEFUN([AC_HAVE_MUSICBRAINZ],
 [
@@ -75,11 +83,15 @@ else
 	# Append -L entries, since they are masked by --libs-only-l and
 	# --libs-only-other
 	LIBDIRS_GST=`$PKG_CONFIG --libs-only-L gstreamer-$GST_MAJORMINOR`
-	[ -n "$LIBDIRS_GST" ] && LDFLAGS_GST="$LDFLAGS_GST $LIBDIRS_GST"
+	LDADD_GST="$LDADD_GST $LIBDIRS_GST"
 
 	AC_SUBST(CFLAGS_GST)
 	AC_SUBST(LDADD_GST)
 	AC_SUBST(LDFLAGS_GST)
 	AC_MSG_NOTICE([GStreamer version >= $GST_REQ found.])
 	AC_DEFINE(HAVE_GSTREAMER, 1, [have GStreamer])
+fi
+
+if test "x$have_taglib" = "xfalse" || ( test "x$build_arts" = "xno" && test "x$have_gst" = "xno" ) ; then
+	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
 fi

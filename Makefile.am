@@ -71,7 +71,7 @@ juk_SOURCES = \
 tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp
 mbtest_SOURCES = mbtest.cpp musicbrainzquery.cpp
 
-INCLUDES= $(all_includes) -I$(arts_includes) $(taglib_includes) $(GST_CFLAGS)
+INCLUDES= $(all_includes) $(taglib_includes) $(GST_CFLAGS) $(ARTS_CFLAGS)
 
 ##################################################
 # check to see if MusicBrainz is available
@@ -81,7 +81,7 @@ mblibs = -lmusicbrainz -ltunepimp
 endif
 ##################################################
 
-juk_LDADD = $(LDADD_GST) $(mblibs) -lartskde $(LIB_KIO) $(taglib_libs) $(LIB_KHTML)
+juk_LDADD = $(LDADD_GST) $(mblibs) $(LIB_KIO) $(taglib_libs) $(LIB_KHTML) $(LIB_ARTS)
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LDFLAGS_GST)
 
 tagguessertest_LDADD = $(LIB_KDECORE)

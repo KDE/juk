@@ -47,7 +47,8 @@ static Player *createPlayer(int system = ArtsBackend)
 {
 
     Player *p = 0;
-#if HAVE_GSTREAMER
+
+#if defined(HAVE_ARTS) && defined(HAVE_GSTREAMER)
     switch(system) {
     case ArtsBackend:
         p = new ArtsPlayer;
@@ -55,10 +56,21 @@ static Player *createPlayer(int system = ArtsBackend)
     case GStreamerBackend:
         p = new GStreamerPlayer;
         break;
+    default:
+        p = new ArtsPlayer;
+        break;
     }
 #else
-    Q_UNUSED(system);
+    Q_UNUSED(system)
+#ifdef HAVE_ARTS
     p = new ArtsPlayer;
+#endif
+
+#ifdef HAVE_GSTREAMER
+    p = new GStreamerPlayer;
+#else
+#warning No Player Backend Available
+#endif
 #endif
 
     return p;
@@ -202,13 +214,14 @@ void PlayerManager::setStatusLabel(StatusLabel *label)
 KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
 {
     KSelectAction *action = 0;
-#if HAVE_GSTREAMER
     action = new KSelectAction(i18n("&Output To"), 0, parent, "outputSelect");
     QStringList l;
-    l << "aRts" << "GStreamer";
+
+#if defined(HAVE_ARTS) && defined(HAVE_GSTREAMER)
+    l << i18n("aRts") << i18n("GStreamer");
     action->setItems(l);
 #else
-    Q_UNUSED(parent);
+    Q_UNUSED(parent)
 #endif
     return action;
 }
