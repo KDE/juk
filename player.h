@@ -4,7 +4,7 @@
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -24,42 +24,42 @@
 
 using namespace Arts;
 
-class Player 
+class Player
 {
 public:
-  Player();
-  Player(QString fileName);
-  ~Player();
-  
-  void play(QString fileName, float volume = 1.0);
-  void play(float volume = 1.0);
-  void pause();
-  void stop();
+    Player();
+    Player(QString fileName);
+    ~Player();
 
-  void setVolume(float volume = 1.0);
-  float getVolume();
-  
-  bool playing();
-  bool paused();
-  
-  long totalTime();
-  long currentTime();
-  int position(); // in this case not really the percent
-  void seek(long seekTime);
-  void seekPosition(int position);  
-  
+    void play(QString fileName, float volume = 1.0);
+    void play(float volume = 1.0);
+    void pause();
+    void stop();
+
+    void setVolume(float volume = 1.0);
+    float getVolume();
+
+    bool playing();
+    bool paused();
+
+    long totalTime();
+    long currentTime();
+    int position(); // in this case not really the percent
+    void seek(long seekTime);
+    void seekPosition(int position);
+
 private:
-  void setupPlayer();
-  void setupVolumeControl();
-  bool serverRunning();
+    void setupPlayer();
+    void setupVolumeControl();
+    bool serverRunning();
 
-  Dispatcher *dispatcher;
-  SimpleSoundServer *server;
-  PlayObject *media;
-  StereoVolumeControl *volumeControl;
-  
-  QString currentFile;
-  float currentVolume;
+    Dispatcher *dispatcher;
+    SimpleSoundServer *server;
+    PlayObject *media;
+    StereoVolumeControl *volumeControl;
+
+    QString currentFile;
+    float currentVolume;
 };
 
 #endif

@@ -4,7 +4,7 @@
     begin                : Fri Mar 22 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -18,11 +18,11 @@
 #ifndef CACHEITEM_H
 #define CACHEITEM_H
 
-class CacheItem 
+class CacheItem
 {
-public: 
-  CacheItem();
-  ~CacheItem();
+public:
+    CacheItem();
+    ~CacheItem();
 };
 
 #endif

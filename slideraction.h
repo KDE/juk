@@ -4,7 +4,7 @@
     begin                : Wed Feb 6 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -27,33 +27,32 @@
 #include <qlayout.h>
 
 #include "customaction.h"
-  
+
 class SliderAction : public CustomAction
 {
-  Q_OBJECT
-public: 
-  SliderAction(const QString &text, QObject *parent, const char *name);
-  ~SliderAction();
+    Q_OBJECT
+public:
+    SliderAction(const QString &text, QObject *parent, const char *name);
+    ~SliderAction();
 
-  QSlider *getVolumeSlider();
-  QSlider *getTrackPositionSlider();
+    QSlider *getVolumeSlider();
+    QSlider *getTrackPositionSlider();
 
 public slots:
-  void updateOrientation(QDockWindow *dockWindow = 0);
+    void updateOrientation(QDockWindow *dockWindow = 0);
 
 private:
-  QWidget *createWidget(QWidget *parent);
+    QWidget *createWidget(QWidget *parent);
 
-  QBoxLayout *layout;
-  QSlider *trackPositionSlider; 
-  QSlider *volumeSlider; 
-  
-  static const int volumeMax = 50;
- 
+    QBoxLayout *layout;
+    QSlider *trackPositionSlider;
+    QSlider *volumeSlider;
+
+    static const int volumeMax = 50;
+
 private slots:
-  void updateLabels();
-  void updateSize();
-
+    void updateLabels();
+    void updateSize();
 };
 
 #endif

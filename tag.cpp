@@ -4,7 +4,7 @@
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -33,163 +33,133 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Tag::Tag(QString file) 
+Tag::Tag(QString file)
 {
-  fileName = file;
-  tag.Link(file.latin1());
-  
-  changed = false;
-  
-  ///////////////////////////////////////////////////////////
-  // the easy ones -- these are supported in the id3 class 
-  ///////////////////////////////////////////////////////////
+    fileName = file;
+    tag.Link(file.latin1());
 
-  char *temp;
+    changed = false;
 
-  temp = ID3_GetArtist(&tag);
-  artistName = temp;
-  delete [] temp;
+    // the easy ones -- these are supported in the id3 class
 
-  temp = ID3_GetAlbum(&tag);
-  albumName = temp;
-  delete [] temp;
+    char *temp;
 
-  temp = ID3_GetTitle(&tag);
-  trackName = temp;
-  delete [] temp;
+    temp = ID3_GetArtist(&tag);
+    artistName = temp;
+    delete [] temp;
 
-  temp = ID3_GetTrack(&tag);
-  trackNumberString = temp;
-  delete [] temp;
+    temp = ID3_GetAlbum(&tag);
+    albumName = temp;
+    delete [] temp;
 
-  trackNumber = ID3_GetTrackNum(&tag);
+    temp = ID3_GetTitle(&tag);
+    trackName = temp;
+    delete [] temp;
 
-  temp = ID3_GetComment(&tag);
-  comment = temp;
-  delete [] temp;
+    temp = ID3_GetTrack(&tag);
+    trackNumberString = temp;
+    delete [] temp;
 
-  temp = ID3_GetGenre(&tag);
-  genre = temp;
-  delete [] temp;
-
-  genre.setId3v1(int(ID3_GetGenreNum(&tag)));
-
-  temp = ID3_GetYear(&tag);
-  yearString = temp;
-  delete [] temp;
-
-  // changed from the below scheme because of memory leaks
-  /*
-    artistName = ID3_GetArtist(&tag);
-    albumName = ID3_GetAlbum(&tag);
-    trackName = ID3_GetTitle(&tag);
-    trackNumberString = ID3_GetTrack(&tag);
     trackNumber = ID3_GetTrackNum(&tag);
-    comment = ID3_GetComment(&tag);
-    genre = ID3_GetGenre(&tag);
+
+    temp = ID3_GetComment(&tag);
+    comment = temp;
+    delete [] temp;
+
+    temp = ID3_GetGenre(&tag);
+    genre = temp;
+    delete [] temp;
+
     genre.setId3v1(int(ID3_GetGenreNum(&tag)));
-    yearString = ID3_GetYear(&tag);
-  */
-  
-  hasTagBool = (tag.HasV2Tag() || tag.HasV1Tag());
-  
-  ///////////////////////////////////////////////////////
-  // try to guess the track name if there's no id3 tag 
-  ///////////////////////////////////////////////////////
 
-  if(trackName.length() <= 0) {
-    trackName = fileName;
-    while((trackName.right(4)).lower() == ".mp3") {
-      trackName = trackName.left(trackName.length() - 4);
+    temp = ID3_GetYear(&tag);
+    yearString = temp;
+    delete [] temp;
+
+    hasTagBool = (tag.HasV2Tag() || tag.HasV1Tag());
+
+    if(trackName.length() <= 0) {
+        trackName = fileName;
+        while((trackName.right(4)).lower() == ".mp3") {
+            trackName = trackName.left(trackName.length() - 4);
+        }
+        trackName = trackName.right(trackName.length() - trackName.findRev(QDir::separator(), -1) -1);
     }
-    trackName = trackName.right(trackName.length() - trackName.findRev(QDir::separator(), -1) -1);
-  }
-  
-  ///////////////////////////////////////////////////////
-  // parse the genre string for (<id3v1 number>)
-  ///////////////////////////////////////////////////////
 
-  if(genre == "(" + QString::number(genre.getId3v1()) + ")" || genre == QString::null) 
-    genre = GenreListList::id3v1List()->name(genre.getId3v1());
-  else if(genre.find(QRegExp("\\([0-9]+\\)")) == 0)
-    genre = genre.mid(genre.find(")") + 1);
+    // parse the genre string for (<id3v1 number>)
 
-  ///////////////////////////////////////////////////////
-  // convert the year                  
-  ///////////////////////////////////////////////////////
+    if(genre == "(" + QString::number(genre.getId3v1()) + ")" || genre == QString::null)
+        genre = GenreListList::id3v1List()->name(genre.getId3v1());
+    else if(genre.find(QRegExp("\\([0-9]+\\)")) == 0)
+        genre = genre.mid(genre.find(")") + 1);
 
-  year = yearString.toInt();
+    // convert the year
+
+    year = yearString.toInt();
 }
 
 
-Tag::~Tag() 
+Tag::~Tag()
 {
-  save();
+    save();
 }
 
 
-bool Tag::exists() 
+bool Tag::exists()
 {
-  QFile id3_file(fileName);
-  return(id3_file.exists()); 
+    QFile id3_file(fileName);
+    return(id3_file.exists());
 }
 
 void Tag::save()
 {
-  if(changed) {
-    if(artistName.length()>0) {
-      ID3_AddArtist(&tag, artistName.latin1(), REPLACE);
-    }
-    else {
-      ID3_RemoveArtists(&tag);
-    }
-    if(albumName.length()>0) {
-      ID3_AddAlbum(&tag, albumName.latin1(), REPLACE);
-    }
-    else {
-      ID3_RemoveAlbums(&tag);
-    }
-    if(trackName.length()>0) {
-      ID3_AddTitle(&tag, trackName.latin1(), REPLACE);
-    }
-    else {
-      ID3_RemoveTitles(&tag);
-    }
-    if(trackNumber>0) {
-      ID3_AddTrack(&tag,  uchar(trackNumber),  uchar(0),  REPLACE);
-    }
-    else {
-      ID3_RemoveTracks(&tag);
-    }
-    //    ID3_AddGenre(&tag, 1, REPLACE);
-    if(genre.getId3v1() >=0 && genre.getId3v1() <  int(GenreListList::id3v1List()->count())) {
-      QString genreString;
+    if(changed) {
+        if(artistName.length()>0)
+            ID3_AddArtist(&tag, artistName.latin1(), REPLACE);
+        else
+            ID3_RemoveArtists(&tag);
 
-      if(genre != GenreListList::id3v1List()->name(genre.getId3v1()))
-	genreString = "(" + QString::number(genre.getId3v1()) + ")" + genre;
-      else
-	genreString = "(" + QString::number(genre.getId3v1()) + ")";
+        if(albumName.length()>0)
+            ID3_AddAlbum(&tag, albumName.latin1(), REPLACE);
+        else
+            ID3_RemoveAlbums(&tag);
 
-      ID3_AddGenre(&tag, genreString.latin1(), REPLACE);
-    }
-    else {
-      ID3_RemoveGenres(&tag);
-    }
-    if(year>0) {
-      ID3_AddYear(&tag, yearString.latin1(), REPLACE);
-    }
-    else {
-      ID3_RemoveYears(&tag);
-    }
-    
-    ID3_RemoveComments(&tag);
-    if(comment.length()>0) {
-      ID3_AddComment(&tag, comment.latin1(), REPLACE);
-    }
+        if(trackName.length()>0)
+            ID3_AddTitle(&tag, trackName.latin1(), REPLACE);
+        else
+            ID3_RemoveTitles(&tag);
 
-    tag.Update();
-    changed = false;
-  }  
+        if(trackNumber>0)
+            ID3_AddTrack(&tag,  uchar(trackNumber),  uchar(0),  REPLACE);
+        else
+            ID3_RemoveTracks(&tag);
+
+        //    ID3_AddGenre(&tag, 1, REPLACE);
+        if(genre.getId3v1() >=0 && genre.getId3v1() <  int(GenreListList::id3v1List()->count())) {
+            QString genreString;
+
+            if(genre != GenreListList::id3v1List()->name(genre.getId3v1()))
+                genreString = "(" + QString::number(genre.getId3v1()) + ")" + genre;
+            else
+                genreString = "(" + QString::number(genre.getId3v1()) + ")";
+
+            ID3_AddGenre(&tag, genreString.latin1(), REPLACE);
+        }
+        else
+            ID3_RemoveGenres(&tag);
+
+        if(year > 0)
+            ID3_AddYear(&tag, yearString.latin1(), REPLACE);
+        else
+            ID3_RemoveYears(&tag);
+
+        ID3_RemoveComments(&tag);
+        if(comment.length()>0)
+            ID3_AddComment(&tag, comment.latin1(), REPLACE);
+
+        tag.Update();
+        changed = false;
+    }
 }
 
 ////////////////////////////////////////////////
@@ -213,41 +183,47 @@ bool Tag::hasTag() { return hasTagBool; }
 /////////////////////////////////////////////////////
 
 
-void Tag::setTrack(QString value) 
+void Tag::setTrack(QString value)
 {
-  changed = true;
-  trackName = value;
+    changed = true;
+    trackName = value;
 };
-void Tag::setArtist(QString value) 
+
+void Tag::setArtist(QString value)
 {
-  changed = true;
-  artistName = value;
-};              
-void Tag::setAlbum(QString value) 
-{
-  changed = true;
-  albumName = value;
-};               
-void Tag::setGenre(Genre value) 
-{
-  changed = true;
-  genre = value;
-}; 
-void Tag::setTrackNumber(int value) 
-{
-  changed = true;
-  trackNumber = value;
-  trackNumberString.setNum(value);
+    changed = true;
+    artistName = value;
 };
-void Tag::setYear(int value) 
+
+void Tag::setAlbum(QString value)
 {
-  changed = true;
-  year = value;
-  yearString.setNum(value);
+    changed = true;
+    albumName = value;
 };
-void Tag::setComment(QString value) 
+
+void Tag::setGenre(Genre value)
 {
-  changed = true;
-  comment = value;
+    changed = true;
+    genre = value;
+};
+
+void Tag::setTrackNumber(int value)
+{
+    changed = true;
+    trackNumber = value;
+    trackNumberString.setNum(value);
+};
+
+void Tag::setYear(int value)
+{
+    changed = true;
+    year = value;
+    yearString.setNum(value);
+};
+
+void Tag::setComment(QString value)
+{
+    changed = true;
+    comment = value;
 };
 

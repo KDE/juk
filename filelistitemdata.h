@@ -4,7 +4,7 @@
     begin                : Fri Mar 22 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -28,24 +28,24 @@
 
 class FileListItemData : public QFileInfo
 {
-public: 
-  FileListItemData(QFileInfo &file);
-  ~FileListItemData();
+public:
+    FileListItemData(QFileInfo &file);
+    ~FileListItemData();
 
-  FileListItemData *newUser();
-  void deleteUser();
+    FileListItemData *newUser();
+    void deleteUser();
 
-  Tag *getTag();
-  AudioData *getAudioData();
+    Tag *getTag();
+    AudioData *getAudioData();
 
-  void setFile(QString file);
+    void setFile(QString file);
 
 private:
-  int referenceCount;
+    int referenceCount;
 
-  CacheItem *cache;
-  Tag *tag;
-  AudioData *audioData;
+    CacheItem *cache;
+    Tag *tag;
+    AudioData *audioData;
 };
 
 #endif

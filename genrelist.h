@@ -4,7 +4,7 @@
     begin                : Sun Mar 3 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -24,21 +24,21 @@
 
 #include "genre.h"
 
-class GenreList : public QValueList<Genre>  
+class GenreList : public QValueList<Genre>
 {
 public:
-  GenreList(bool createIndex = false);
-  GenreList(QString file, bool createIndex = false);
-  ~GenreList();
+    GenreList(bool createIndex = false);
+    GenreList(QString file, bool createIndex = false);
+    ~GenreList();
 
-  void load(QString file);
-  QString name(int id3v1);
-  int findIndex(QString item);
+    void load(QString file);
+    QString name(int id3v1);
+    int findIndex(QString item);
 
 private:
-  QValueVector<QString> index;
-  bool hasIndex;
-  void initializeIndex();
+    QValueVector<QString> index;
+    bool hasIndex;
+    void initializeIndex();
 };
 
 #endif

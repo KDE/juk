@@ -4,7 +4,7 @@
     begin                : Tue Feb 5 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -32,53 +32,53 @@
 
 class TaggerWidget : public QWidget
 {
-  Q_OBJECT
+    Q_OBJECT
 
-public: 
-  TaggerWidget(QWidget *parent);
-  ~TaggerWidget();
+public:
+    TaggerWidget(QWidget *parent);
+    ~TaggerWidget();
 
-  void add(QString item);
-  void add(QStringList &items);
+    void add(QString item);
+    void add(QStringList &items);
 
-  FileList *getTaggerList();
-  
-  QPtrList<FileListItem> getSelectedItems();
+    FileList *getTaggerList();
+
+    QPtrList<FileListItem> getSelectedItems();
 
 public slots:
-  void save();
-  void save(QPtrList<FileListItem> items);
-  void deleteFile();
-  void deleteFile(QPtrList<FileListItem> items);
-  void setChanged();
+    void save();
+    void save(QPtrList<FileListItem> items);
+    void deleteFile();
+    void deleteFile(QPtrList<FileListItem> items);
+    void setChanged();
 
 private:
-  void setupLayout();
-  void readConfig();
+    void setupLayout();
+    void readConfig();
 
-  // main visual objects
-  FileList *taggerList;
+    // main visual objects
+    FileList *taggerList;
 
-  KComboBox *artistNameBox;
-  KLineEdit *trackNameBox;
-  KComboBox *albumNameBox;
-  KComboBox *genreBox;
-  KLineEdit *fileNameBox;
-  KIntSpinBox *trackSpin;
-  KIntSpinBox *yearSpin;
-  KLineEdit *lengthBox;
-  KLineEdit *bitrateBox;
-  KEdit *commentBox;
+    KComboBox *artistNameBox;
+    KLineEdit *trackNameBox;
+    KComboBox *albumNameBox;
+    KComboBox *genreBox;
+    KLineEdit *fileNameBox;
+    KIntSpinBox *trackSpin;
+    KIntSpinBox *yearSpin;
+    KLineEdit *lengthBox;
+    KLineEdit *bitrateBox;
+    KEdit *commentBox;
 
-  // internally useful things
-  QPtrList<FileListItem> previousSelection;
-  GenreList *genreList;
-  bool changed;
+    // internally useful things
+    QPtrList<FileListItem> previousSelection;
+    GenreList *genreList;
+    bool changed;
 
 private slots:
-  void saveChangesPrompt();
-  void updateBoxes();
-  void updateCombos();
+    void saveChangesPrompt();
+    void updateBoxes();
+    void updateCombos();
 };
 
 #endif

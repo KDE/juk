@@ -4,7 +4,7 @@
     begin                : Wed Feb 6 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -22,9 +22,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 CustomAction::CustomAction(const QString &text, QObject *parent, const char *name)
-  : KAction(text, 0, parent, name)
+    : KAction(text, 0, parent, name)
 {
-  toolbar=NULL;
+    toolbar=NULL;
 }
 
 CustomAction::~CustomAction()
@@ -33,44 +33,44 @@ CustomAction::~CustomAction()
 
 int CustomAction::plug(QWidget *parent, int index)
 {
-  customWidget = createWidget(parent);
+    customWidget = createWidget(parent);
 
-  if(customWidget) {
-    // the check for null makes sure that there is only one toolbar that this is
-    // "plugged" in to
-    if (parent->inherits("KToolBar") && !toolbar) {
-      toolbar = static_cast<KToolBar *>(parent);
-      int id = KAction::getToolButtonID();
-      
-      toolbar->insertWidget(id, customWidget->width(), customWidget, index);
-      
-      addContainer(toolbar, id);
-      connect(toolbar, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
-      
-      return (containerCount() - 1);
+    if(customWidget) {
+        // the check for null makes sure that there is only one toolbar that this is
+        // "plugged" in to
+        if (parent->inherits("KToolBar") && !toolbar) {
+            toolbar = static_cast<KToolBar *>(parent);
+            int id = KAction::getToolButtonID();
+
+            toolbar->insertWidget(id, customWidget->width(), customWidget, index);
+
+            addContainer(toolbar, id);
+            connect(toolbar, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
+
+            return (containerCount() - 1);
+        }
+
+        return(-1);
     }
-    
-    return(-1);
-  }
-  else {
-    return(-1);
-  }
+    else {
+        return(-1);
+    }
 }
 
 
 void CustomAction::unplug(QWidget *parent)
 {
-  if (parent->inherits("KToolBar")) {
-    toolbar = static_cast<KToolBar *>(parent);
-    
-    int index = findContainer(toolbar);
-    if (index != -1) {
-      toolbar->removeItem(itemId(index));
-      removeContainer(index);
+    if (parent->inherits("KToolBar")) {
+        toolbar = static_cast<KToolBar *>(parent);
 
-      toolbar = 0;
+        int index = findContainer(toolbar);
+        if (index != -1) {
+            toolbar->removeItem(itemId(index));
+            removeContainer(index);
+
+            toolbar = 0;
+        }
     }
-  }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -79,5 +79,5 @@ void CustomAction::unplug(QWidget *parent)
 
 KToolBar *CustomAction::getToolBar()
 {
-  return(toolbar);
+    return(toolbar);
 }

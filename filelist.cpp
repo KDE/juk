@@ -4,7 +4,7 @@
     begin                : Sat Feb 16 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -22,7 +22,7 @@
 #include <qdir.h>
 #include <qtimer.h>
 #include <qapplication.h>
-#include <qptrlist.h> 
+#include <qptrlist.h>
 
 #include "filelist.h"
 
@@ -32,91 +32,91 @@
 
 FileList::FileList(QWidget *parent, const char *name) : KListView(parent, name)
 {
-  setup();
+    setup();
 }
 
 FileList::FileList(QString &item, QWidget *parent, const char *name) : KListView(parent, name)
 {
-  setup();
-  append(item);
+    setup();
+    append(item);
 }
 
 FileList::FileList(QStringList &items, QWidget *parent, const char *name) : KListView(parent, name)
 {
-  setup();
-  append(items);
+    setup();
+    append(items);
 }
 
 FileList::~FileList()
 {
-  delete(artistList);
-  delete(albumList);
+    delete(artistList);
+    delete(albumList);
 }
 
 void FileList::append(QString item)
 {
-  QApplication::setOverrideCursor(Qt::waitCursor);
-  appendImpl(item);
-  QApplication::restoreOverrideCursor();
-  emit(dataChanged());
+    QApplication::setOverrideCursor(Qt::waitCursor);
+    appendImpl(item);
+    QApplication::restoreOverrideCursor();
+    emit(dataChanged());
 }
 
 void FileList::append(QStringList &items)
 {
-  QApplication::setOverrideCursor(Qt::waitCursor);
-  for(QStringList::Iterator it = items.begin(); it != items.end(); ++it)
-    appendImpl(*it);
-  QApplication::restoreOverrideCursor();
-  emit(dataChanged());
+    QApplication::setOverrideCursor(Qt::waitCursor);
+    for(QStringList::Iterator it = items.begin(); it != items.end(); ++it)
+        appendImpl(*it);
+    QApplication::restoreOverrideCursor();
+    emit(dataChanged());
 }
 
 void FileList::append(FileListItem *item)
 {
-  if(item && members.contains(item->absFilePath()) == 0) {
-    members.append(item->absFilePath());
-    (void) new FileListItem(*item, this);
-  }
-  emit(dataChanged());
+    if(item && members.contains(item->absFilePath()) == 0) {
+        members.append(item->absFilePath());
+        (void) new FileListItem(*item, this);
+    }
+    emit(dataChanged());
 }
 
 void FileList::append(QPtrList<FileListItem> &items)
 {
-  QPtrListIterator<FileListItem> it(items);
-  while(it.current()) {
-    append(it.current());
-    ++it;
-  }
-  // the emit(dataChanged()) is handled in the above function
+    QPtrListIterator<FileListItem> it(items);
+    while(it.current()) {
+        append(it.current());
+        ++it;
+    }
+    // the emit(dataChanged()) is handled in the above function
 }
 
 void FileList::remove(QPtrList<FileListItem> &items)
 {
-  QPtrListIterator<FileListItem> it(items);
-  while(it.current()) {
-    members.remove(it.current()->absFilePath());
-    delete(it.current());    
-    ++it;
-  }
+    QPtrListIterator<FileListItem> it(items);
+    while(it.current()) {
+        members.remove(it.current()->absFilePath());
+        delete(it.current());
+        ++it;
+    }
 }
 
 QPtrList<FileListItem> FileList::selectedItems()
 {
-  QPtrList<FileListItem> list;
-  for(FileListItem *i = static_cast<FileListItem *>(firstChild()); i != 0; i = static_cast<FileListItem *>(i->itemBelow())) {
-    if(i->isSelected())
-      list.append(i);
-  }
-  return(list);
+    QPtrList<FileListItem> list;
+    for(FileListItem *i = static_cast<FileListItem *>(firstChild()); i != 0; i = static_cast<FileListItem *>(i->itemBelow())) {
+        if(i->isSelected())
+            list.append(i);
+    }
+    return(list);
 }
 
 QStringList *FileList::getArtistList()
 {
-  return(artistList);
+    return(artistList);
 }
 
 QStringList *FileList::getAlbumList()
 {
-  return(albumList);
+    return(albumList);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -125,59 +125,59 @@ QStringList *FileList::getAlbumList()
 
 void FileList::setup()
 {
-  processed = 0;
-  artistList = new QStringList();
-  albumList = new QStringList();
+    processed = 0;
+    artistList = new QStringList();
+    albumList = new QStringList();
 
-  extensions.append("mp3");
+    extensions.append("mp3");
 
-  addColumn(i18n("Track Name"));
-  addColumn(i18n("Artist"));
-  addColumn(i18n("Album"));
-  addColumn(i18n("Track"));
-  addColumn(i18n("Genre"));
-  addColumn(i18n("Year"));
-  addColumn(i18n("Length"));
-  addColumn(i18n("File Name"));
+    addColumn(i18n("Track Name"));
+    addColumn(i18n("Artist"));
+    addColumn(i18n("Album"));
+    addColumn(i18n("Track"));
+    addColumn(i18n("Genre"));
+    addColumn(i18n("Year"));
+    addColumn(i18n("Length"));
+    addColumn(i18n("File Name"));
 
-  setAllColumnsShowFocus(true);
-  setSelectionMode(QListView::Extended);
-  setShowSortIndicator(true);
-  setItemMargin(3);
+    setAllColumnsShowFocus(true);
+    setSelectionMode(QListView::Extended);
+    setShowSortIndicator(true);
+    setItemMargin(3);
 
-  setSorting(1);
+    setSorting(1);
 }
 
 void FileList::appendImpl(QString item)
 {
-  processEvents();
-  QFileInfo file(QDir::cleanDirPath(item));
-  if(file.exists()) {
-    if(file.isDir()) {
-      QDir dir(file.filePath());
-      QStringList dirContents=dir.entryList();
-      for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it) {
-        if(*it != "." && *it != "..") {
-          appendImpl(file.filePath() + QDir::separator() + *it);
+    processEvents();
+    QFileInfo file(QDir::cleanDirPath(item));
+    if(file.exists()) {
+        if(file.isDir()) {
+            QDir dir(file.filePath());
+            QStringList dirContents=dir.entryList();
+            for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it) {
+                if(*it != "." && *it != "..") {
+                    appendImpl(file.filePath() + QDir::separator() + *it);
+                }
+            }
         }
-      }
+        else {
+            // QFileInfo::extension() doesn't always work, so I'm getting old-school on this. -- fixed in Qt 3
+            // QString extension = file.filePath().right(file.filePath().length() - (file.filePath().findRev(".") + 1));
+            QString extension = file.extension(false);
+            if(extensions.contains(extension) > 0 && members.contains(file.absFilePath()) == 0) {
+                members.append(file.absFilePath());
+                (void) new FileListItem(file, this);
+            }
+        }
     }
-    else {
-      // QFileInfo::extension() doesn't always work, so I'm getting old-school on this. -- fixed in Qt 3
-      // QString extension = file.filePath().right(file.filePath().length() - (file.filePath().findRev(".") + 1));
-      QString extension = file.extension(false);
-      if(extensions.contains(extension) > 0 && members.contains(file.absFilePath()) == 0) {
-        members.append(file.absFilePath());
-	(void) new FileListItem(file, this);
-      }
-    }
-  }
 }
 
 
 void FileList::processEvents()
 {
-  if(processed == 0)
-    qApp->processEvents();
-  processed = ( processed + 1 ) % 10;
+    if(processed == 0)
+        qApp->processEvents();
+    processed = ( processed + 1 ) % 10;
 }

@@ -4,7 +4,7 @@
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -24,56 +24,56 @@
 
 #include "genre.h"
 
-class Tag 
+class Tag
 {
-public: 
-  Tag(QString file);
-  ~Tag();
-  
-  bool exists();
-  void save();
-  
-  // functions that gather information
-  
-  QString getFileName();           
-  QString getTrack();              // The song's name, not it's track number
-  QString getArtist();             
-  QString getAlbum();              
-  Genre getGenre(); 
-  int getTrackNumber();
-  QString getTrackNumberString();
-  int getYear();
-  QString getYearString();
-  QString getComment();
-  bool hasTag();
+public:
+    Tag(QString file);
+    ~Tag();
 
-  // functions that set information
+    bool exists();
+    void save();
 
-  void setTrack(QString value);               // The song's name, not it's track number
-  void setArtist(QString value);              
-  void setAlbum(QString value);               
-  void setGenre(Genre value); 
-  void setTrackNumber(int value);
-  void setYear(int value);
-  void setComment(QString value); 
+    // functions that gather information
+
+    QString getFileName();
+    QString getTrack(); // The song's name, not it's track number
+    QString getArtist();
+    QString getAlbum();
+    Genre getGenre();
+    int getTrackNumber();
+    QString getTrackNumberString();
+    int getYear();
+    QString getYearString();
+    QString getComment();
+    bool hasTag();
+
+    // functions that set information
+
+    void setTrack(QString value); // The song's name, not it's track number
+    void setArtist(QString value);
+    void setAlbum(QString value);
+    void setGenre(Genre value);
+    void setTrackNumber(int value);
+    void setYear(int value);
+    void setComment(QString value);
 
 private:
-  ID3_Tag tag;
-  QString fileName;
-  bool changed;
+    ID3_Tag tag;
+    QString fileName;
+    bool changed;
 
-  // properties read or derived from the tag:
-  
-  bool hasTagBool;
-  QString artistName;
-  QString albumName;
-  QString trackName;
-  int trackNumber;
-  QString trackNumberString;
-  Genre genre;
-  int year;
-  QString yearString;
-  QString comment;
+    // properties read or derived from the tag:
+
+    bool hasTagBool;
+    QString artistName;
+    QString albumName;
+    QString trackName;
+    int trackNumber;
+    QString trackNumberString;
+    Genre genre;
+    int year;
+    QString yearString;
+    QString comment;
 };
 
 #endif

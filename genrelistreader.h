@@ -4,7 +4,7 @@
     begin                : Mon Mar 4 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -24,19 +24,19 @@
 
 class GenreListReader : public QXmlDefaultHandler
 {
-public: 
-  GenreListReader(GenreList *genreList);
-  ~GenreListReader();
-  
-  bool startElement(const QString&, const QString&, const QString& element, const QXmlAttributes& attributes);
-  bool endElement(const QString&, const QString&, const QString&);
-  
-  bool characters(const QString& content);
+public:
+    GenreListReader(GenreList *genreList);
+    ~GenreListReader();
+
+    bool startElement(const QString&, const QString&, const QString& element, const QXmlAttributes& attributes);
+    bool endElement(const QString&, const QString&, const QString&);
+
+    bool characters(const QString& content);
 
 private:
-  GenreList *list;
-  bool inGenreTag;
-  int id3v1;
+    GenreList *list;
+    bool inGenreTag;
+    int id3v1;
 };
 
 #endif

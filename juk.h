@@ -4,7 +4,7 @@
     begin                : Mon Feb  4 23:40:41 EST 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -36,73 +36,73 @@
 
 class JuK : public KMainWindow
 {
-  Q_OBJECT 
+    Q_OBJECT
 public:
-  JuK(QWidget* parent = 0, const char *name = 0);
-  ~JuK();
+    JuK(QWidget* parent = 0, const char *name = 0);
+    ~JuK();
 
-private: 
-  // private methods
-  void setupActions();
-  void setupLayout();
-  void setupPlayer();
-  void readConfig();
-  void saveConfig();
+private:
+    // private methods
+    void setupActions();
+    void setupLayout();
+    void setupPlayer();
+    void readConfig();
+    void saveConfig();
 
-  // layout objects
-  TaggerWidget *tagger;
-  PlaylistWidget *playlist;
+    // layout objects
+    TaggerWidget *tagger;
+    PlaylistWidget *playlist;
 
-  // actions
-  SliderAction *sliderAction;  
-  KAction *playAction;
-  KAction *pauseAction;
-  KAction *stopAction;
+    // actions
+    SliderAction *sliderAction;
+    KAction *playAction;
+    KAction *pauseAction;
+    KAction *stopAction;
 
-  KAction *showTaggerAction;
-  KAction *showPlaylistAction;
+    KAction *showTaggerAction;
+    KAction *showPlaylistAction;
 
-  KAction *addToPlaylistAction;
-  KAction *removeFromPlaylistAction;
+    KAction *addToPlaylistAction;
+    KAction *removeFromPlaylistAction;
 
-  QTimer *playTimer;
-  Player player;
-  FileListItem *playingItem;
-  bool trackPositionDragging;
-  bool noSeek;
+    QTimer *playTimer;
+    Player player;
+    FileListItem *playingItem;
+    bool trackPositionDragging;
+    bool noSeek;
 
-  const static int pollInterval = 800;
+    const static int pollInterval = 800;
 
 private slots:
-  // file menu
-  void openFile();
-  void openDirectory();
-  void saveFile();
-  void deleteFile();
-  void quit();
+    // file menu
+    void openFile();
+    void openDirectory();
+    void saveFile();
+    void deleteFile();
+    void quit();
 
-  // function menu
-  void showTagger();
-  void showPlaylist();
+    // function menu
+    void showTagger();
+    void showPlaylist();
 
-  // player menu
-  void addToPlaylist();
-  void removeFromPlaylist();
+    // player menu
+    void addToPlaylist();
+    void removeFromPlaylist();
 
-  void playFile();
-  void pauseFile();
-  void stopFile();
+    void playFile();
+    void pauseFile();
+    void stopFile();
 
-  // additional player slots
-  void trackPositionSliderClick();
-  void trackPositionSliderRelease();
-  void trackPositionSliderUpdate(int position);
-  void pollPlay();
-  void setVolume(int volume);
-  void playItem(QListViewItem *item);
-  void playItem(FileListItem *item);
-  void playTaggerItem(QListViewItem *item);
-  void playTaggerItem(FileListItem *item);
+    // additional player slots
+    void trackPositionSliderClick();
+    void trackPositionSliderRelease();
+    void trackPositionSliderUpdate(int position);
+    void pollPlay();
+    void setVolume(int volume);
+    void playItem(QListViewItem *item);
+    void playItem(FileListItem *item);
+    void playTaggerItem(QListViewItem *item);
+    void playTaggerItem(FileListItem *item);
 };
 
 #endif

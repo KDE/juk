@@ -4,7 +4,7 @@
     begin                : Tue Feb 5 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -31,7 +31,7 @@
 
 PlaylistWidget::PlaylistWidget(QWidget *parent) : QWidget(parent)
 {
-  setupLayout();
+    setupLayout();
 }
 
 PlaylistWidget::~PlaylistWidget()
@@ -40,42 +40,42 @@ PlaylistWidget::~PlaylistWidget()
 
 void PlaylistWidget::add(QString item)
 {
-  playlistList->append(item);
+    playlistList->append(item);
 }
 
 void PlaylistWidget::add(QStringList &items)
 {
-  playlistList->append(items);
+    playlistList->append(items);
 }
 
 void PlaylistWidget::add(FileListItem *item)
 {
-  playlistList->append(item);
+    playlistList->append(item);
 }
 
 void PlaylistWidget::add(QPtrList<FileListItem> &items)
 {
-  playlistList->append(items);
+    playlistList->append(items);
 }
 
 void PlaylistWidget::remove(QPtrList<FileListItem> &items)
 {
-  playlistList->remove(items);
+    playlistList->remove(items);
 }
 
 FileList *PlaylistWidget::getPlaylistList()
 {
-  return(playlistList);
+    return(playlistList);
 }
 
 QPtrList<FileListItem> PlaylistWidget::getSelectedItems()
 {
-  return(playlistList->selectedItems());
+    return(playlistList->selectedItems());
 }
 
 FileListItem *PlaylistWidget::firstItem()
 {
-  return(dynamic_cast<FileListItem *>(playlistList->firstChild()));
+    return(dynamic_cast<FileListItem *>(playlistList->firstChild()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -84,11 +84,11 @@ FileListItem *PlaylistWidget::firstItem()
 
 void PlaylistWidget::setupLayout()
 {
-  /////////////////////////////////////////////////////////////////////////
-  // define a main layout box
-  /////////////////////////////////////////////////////////////////////////
-  QVBoxLayout *playlistMainLayout = new QVBoxLayout(this);
+    /////////////////////////////////////////////////////////////////////////
+    // define a main layout box
+    /////////////////////////////////////////////////////////////////////////
+    QVBoxLayout *playlistMainLayout = new QVBoxLayout(this);
 
-  playlistList = new FileList(this, "playlistList");
-  playlistMainLayout->addWidget(playlistList);  
+    playlistList = new FileList(this, "playlistList");
+    playlistMainLayout->addWidget(playlistList);
 }

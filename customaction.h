@@ -4,7 +4,7 @@
     begin                : Wed Feb 6 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -24,27 +24,27 @@
 #include <qstring.h>
 #include <qobject.h>
 
-class CustomAction : public KAction  
+class CustomAction : public KAction
 {
-  Q_OBJECT
-public: 
-  CustomAction(const QString &text, QObject *parent, const char *name);
-  ~CustomAction();
+    Q_OBJECT
+public:
+    CustomAction(const QString &text, QObject *parent, const char *name);
+    ~CustomAction();
 
-  virtual int plug(QWidget *parent, int index = -1);
-  virtual void unplug(QWidget *widget);
+    virtual int plug(QWidget *parent, int index = -1);
+    virtual void unplug(QWidget *widget);
 
 protected:
-  KToolBar *getToolBar();
+    KToolBar *getToolBar();
 
-  QWidget *customWidget;
-  KToolBar *toolbar;
+    QWidget *customWidget;
+    KToolBar *toolbar;
 
-private: 
-  virtual QWidget *createWidget(QWidget *parent) = 0;
+private:
+    virtual QWidget *createWidget(QWidget *parent) = 0;
 
 signals:
-  void pluggedIn(QWidget *parent);
+    void pluggedIn(QWidget *parent);
 
 };
 

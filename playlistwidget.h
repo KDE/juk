@@ -4,7 +4,7 @@
     begin                : Tue Feb 5 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -27,25 +27,26 @@
 
 class PlaylistWidget : public QWidget
 {
-public: 
-  PlaylistWidget(QWidget *parent);
-  ~PlaylistWidget();
+public:
+    PlaylistWidget(QWidget *parent);
+    ~PlaylistWidget();
 
-  void add(QString item);
-  void add(QStringList &items);
-  void add(FileListItem *item);
-  void add(QPtrList<FileListItem> &items);
+    void add(QString item);
+    void add(QStringList &items);
+    void add(FileListItem *item);
+    void add(QPtrList<FileListItem> &items);
 
-  void remove(QPtrList<FileListItem> &items);
+    void remove(QPtrList<FileListItem> &items);
 
-  FileList *getPlaylistList();
-  QPtrList<FileListItem> getSelectedItems();
-  FileListItem *firstItem();
+    FileList *getPlaylistList();
+    QPtrList<FileListItem> getSelectedItems();
+    FileListItem *firstItem();
+
 private:
-  void setupLayout();
+    void setupLayout();
 
-  // main visual objects
-  FileList *playlistList;
+    // main visual objects
+    FileList *playlistList;
 };
 
 #endif

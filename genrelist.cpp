@@ -4,7 +4,7 @@
     begin                : Sun Mar 3 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -26,13 +26,13 @@
 
 GenreList::GenreList(bool createIndex) : QValueList<Genre>()
 {
-  hasIndex = createIndex;
+    hasIndex = createIndex;
 }
 
 GenreList::GenreList(QString file, bool createIndex) : QValueList<Genre>()
 {
-  hasIndex = createIndex;
-  load(file);
+    hasIndex = createIndex;
+    load(file);
 }
 
 GenreList::~GenreList()
@@ -41,49 +41,49 @@ GenreList::~GenreList()
 
 void GenreList::load(QString file)
 {
-  GenreListReader *handler = new GenreListReader(this);
-  QFile input(file);
-  QXmlInputSource source(input);
-  QXmlSimpleReader reader;
-  reader.setContentHandler(handler);
-  reader.parse(source);
+    GenreListReader *handler = new GenreListReader(this);
+    QFile input(file);
+    QXmlInputSource source(input);
+    QXmlSimpleReader reader;
+    reader.setContentHandler(handler);
+    reader.parse(source);
 
-  if(hasIndex)
-    initializeIndex();  
+    if(hasIndex)
+        initializeIndex();
 }
 
 QString GenreList::name(int id3v1)
 {
-  if(hasIndex && id3v1 >= 0 && id3v1 <= int(index.size()))
-    return(index[id3v1]);
-  else
-    return(QString::null);
+    if(hasIndex && id3v1 >= 0 && id3v1 <= int(index.size()))
+        return(index[id3v1]);
+    else
+        return(QString::null);
 }
 
 int GenreList::findIndex(QString item)
 {
-  
-  // cache the previous search -- since there are a lot of "two in a row"
-  // searchs this should optimize things a little
 
-  static QString lastItem;
-  static int lastIndex;
+    // cache the previous search -- since there are a lot of "two in a row"
+    // searchs this should optimize things a little
 
-  if(!lastItem.isEmpty() && lastItem == item) {
-    //    kdDebug() << "GenreList::findIndex() -- cache hit" << endl;
-    return(lastIndex);
-  }
-      
-  int i = 0;
-  for(GenreList::Iterator it = begin(); it != end(); ++it) {
-    if(item == (*it)) {
-      lastItem = item;
-      lastIndex = i;
-      return(i);
+    static QString lastItem;
+    static int lastIndex;
+
+    if(!lastItem.isEmpty() && lastItem == item) {
+        //    kdDebug() << "GenreList::findIndex() -- cache hit" << endl;
+        return(lastIndex);
     }
-    i++;
-  }
-  return(-1);
+
+    int i = 0;
+    for(GenreList::Iterator it = begin(); it != end(); ++it) {
+        if(item == (*it)) {
+            lastItem = item;
+            lastIndex = i;
+            return(i);
+        }
+        i++;
+    }
+    return(-1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -92,15 +92,15 @@ int GenreList::findIndex(QString item)
 
 void GenreList::initializeIndex()
 {
-  //  kdDebug() << "initializeIndex()" << endl;
-  index.clear();
-  //  kdDebug() << "Cleared size: " << index.size() << endl;
-  index.resize(count() + 1);
-  for(GenreList::Iterator it = begin(); it != end(); ++it) {
-    if((*it).getId3v1() >= 0 && (*it).getId3v1() <= int(index.size())) {
-      //      kdDebug() << "initializeIndex() - " << (*it).getId3v1()  << " - " 
-      //                << index.size() << " - " << count() << " - " << (*it) << endl;
-      index[(*it).getId3v1()] = QString(*it);
+    //  kdDebug() << "initializeIndex()" << endl;
+    index.clear();
+    //  kdDebug() << "Cleared size: " << index.size() << endl;
+    index.resize(count() + 1);
+    for(GenreList::Iterator it = begin(); it != end(); ++it) {
+        if((*it).getId3v1() >= 0 && (*it).getId3v1() <= int(index.size())) {
+            //      kdDebug() << "initializeIndex() - " << (*it).getId3v1()  << " - "
+            //                << index.size() << " - " << count() << " - " << (*it) << endl;
+            index[(*it).getId3v1()] = QString(*it);
+        }
     }
-  }
 }

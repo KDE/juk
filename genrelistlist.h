@@ -4,7 +4,7 @@
     begin                : Sun Mar 3 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -22,18 +22,17 @@
 
 #include "genrelist.h"
 
-class GenreListList : public QValueList<GenreList>  
+class GenreListList : public QValueList<GenreList>
 {
-public: 
-  GenreListList();
-  ~GenreListList();
+public:
+    GenreListList();
+    ~GenreListList();
 
-  static GenreList *id3v1List();
-  
+    static GenreList *id3v1List();
+
 private:
-  static GenreList *id3v1;
-  static bool id3v1Loaded;
-  
+    static GenreList *id3v1;
+    static bool id3v1Loaded;
 };
 
 #endif

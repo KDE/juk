@@ -4,7 +4,7 @@
     begin                : Fri Mar 22 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
- ***************************************************************************/
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -23,52 +23,52 @@
 
 FileListItemData::FileListItemData(QFileInfo &file) : QFileInfo(file)
 {
-  referenceCount = 1;
+    referenceCount = 1;
 
-  // initialize pointers to null
-  cache = 0;
-  tag = 0;
-  audioData = 0;
+    // initialize pointers to null
+    cache = 0;
+    tag = 0;
+    audioData = 0;
 }
 
 FileListItemData::~FileListItemData()
 {
-  delete(cache);
-  delete(tag);
-  delete(audioData);
+    delete(cache);
+    delete(tag);
+    delete(audioData);
 }
 
 FileListItemData *FileListItemData::newUser()
 {
-  referenceCount++;
-  return(this);
+    referenceCount++;
+    return(this);
 }
 
 void FileListItemData::deleteUser()
 {
-  if(--referenceCount == 0)
-    delete(this);
+    if(--referenceCount == 0)
+        delete(this);
 }
 
 Tag *FileListItemData::getTag()
 {
-  if(!tag)
-    tag = new Tag(filePath());
-  return(tag);
+    if(!tag)
+        tag = new Tag(filePath());
+    return(tag);
 }
 
 AudioData *FileListItemData::getAudioData()
 {
-  if(!audioData) {
-    audioData = new AudioData(filePath());
-  }
-  return(audioData);
+    if(!audioData) {
+        audioData = new AudioData(filePath());
+    }
+    return(audioData);
 }
 
 void FileListItemData::setFile(QString file)
 {
-  delete(tag);
-  tag = 0;
+    delete(tag);
+    tag = 0;
 
-  QFileInfo::setFile(file);
+    QFileInfo::setFile(file);
 }
