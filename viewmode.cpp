@@ -258,15 +258,15 @@ void TreeViewMode::slotSetupCategories()
     
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
     m_searchCategories.insert("artists", i);
-    setupCategory("artists", CollectionList::instance()->viewModeItems()["artists"].values(), 1);
+    setupCategory("artists", CollectionList::instance()->viewModeItems(CollectionList::Artists), 1);
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
     m_searchCategories.insert("albums", i);
-    setupCategory("albums", CollectionList::instance()->viewModeItems()["albums"].values(), 2);
+    setupCategory("albums", CollectionList::instance()->viewModeItems(CollectionList::Albums), 2);
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Genres"));
     m_searchCategories.insert("genres", i);
-    setupCategory("genres", CollectionList::instance()->viewModeItems()["genres"].values(), 4);
+    setupCategory("genres", CollectionList::instance()->viewModeItems(CollectionList::Genres), 4);
 
     for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
         it.current()->setSortedFirst(true);

@@ -49,20 +49,32 @@ class CollectionList : public Playlist
     Q_OBJECT
 
 public: 
+    /**
+     * A variety of unique value lists will be kept in the collection.  This
+     * enum can be used as an index into those structures.
+     */
+    enum UniqueSetType { Artists = 0, Albums = 1, Genres = 2 };
+
     static CollectionList *instance();
     static void initialize(QWidget *parent, bool restoreOnLoad = true);
 
-    QStringList artists() const { return m_artists.values(); }
-    QStringList albums() const { return m_albums.values(); }
-    QStringList genres() const { return m_genres.values(); }
+    /**
+     * Returns a unique set of values associated with the type specified.
+     */
+    QStringList uniqueSet(UniqueSetType t) const { return m_uniqueSets[t].values(); }
+
+    /**
+     * This is similar to uniqueSet() but in this case only returns values for
+     * which there are two or more occurances in the collection list.  This is
+     * useful when grouping items.
+     */
+    QStringList viewModeItems(UniqueSetType t) const { return m_viewModeItems[t].values(); }
 
     CollectionListItem *lookup(const QString &file) { return m_itemsDict.find(file); }
     virtual PlaylistItem *createItem(const QFileInfo &file, 
 				     const QString &absFilePath = QString::null, 
 				     QListViewItem * = 0,
 				     bool = false);
-
-    QMap<QString, SortedStringList> viewModeItems() const { return m_viewModeItems; }
 
 public slots:
     virtual void paste() { decode(kapp->clipboard()->data()); }
@@ -78,25 +90,14 @@ protected:
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
 
     // These methods are used by CollectionListItem, which is a friend class.
+
     void addToDict(const QString &file, CollectionListItem *item) { m_itemsDict.replace(file, item); }
     void removeFromDict(const QString &file) { m_itemsDict.remove(file); }
 
-    /** 
-     * This checks to see if the artist given is in the artist list maintained
-     * by the collection list (for use in autocompletion and the TagEditor 
-     * combo boxes), and if it is not, it adds it to the list.
-     */
-    void addArtist(const QString &artist);
-
-    /** 
-     * This is similar to addArtist(), but is for album names. 
-     */
-    void addAlbum(const QString &album);
-
     /**
-     * Again, similar to the above, but for genres.
+     * Add a value to one of the unique value lists; use the UniqueSetType as a key.
      */
-    void addGenre(const QString &genre);
+    void addUnique(UniqueSetType t, const QString &value);
 
     void emitNumberOfItemsChanged() { emit signalNumberOfItemsChanged(this); }
 
@@ -113,13 +114,21 @@ private slots:
     void slotCreateGroup();
     
 private:
+    /**
+     * Just the size of the above enum to keep from hard coding it in several
+     * locations.
+     */
+    static const int m_uniqueSetCount = 3;
+
     static CollectionList *m_list;
     QDict<CollectionListItem> m_itemsDict;
     SortedStringList m_artists;
     SortedStringList m_albums;
     SortedStringList m_genres;
     KDirWatch *m_dirWatch;
-    QMap<QString, SortedStringList> m_viewModeItems;
+    QValueVector<SortedStringList> m_viewModeItems;
+    QValueVector<SortedStringList> m_uniqueSets;
+    QValueVector<QString> m_uniqueSetLast;
 };
 
 class CollectionListItem : public PlaylistItem

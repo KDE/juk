@@ -107,8 +107,12 @@ void CollectionList::slotCheckCache()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionList::CollectionList(QWidget *parent) : Playlist(parent, i18n("Collection List")),
-						  m_itemsDict(5003)
+CollectionList::CollectionList(QWidget *parent) :
+    Playlist(parent, i18n("Collection List")),
+    m_itemsDict(5003),
+    m_viewModeItems(m_uniqueSetCount, SortedStringList()),
+    m_uniqueSets(m_uniqueSetCount, SortedStringList()),
+    m_uniqueSetLast(m_uniqueSetCount, QString::null)
 {
     m_dirWatch = new KDirWatch();
     connect(m_dirWatch, SIGNAL(deleted(const QString &)), this, SLOT(slotRemoveItem(const QString &)));
@@ -157,47 +161,15 @@ void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
-void CollectionList::addArtist(const QString &artist)
+void CollectionList::addUnique(UniqueSetType t, const QString &value)
 {
-    if(artist.isEmpty())
+    if(value.isEmpty())
 	return;
 
-    // Do a bit of caching since there will very often be "two in a row" insertions.
-    static QString previousArtist;
-
-    if(artist == previousArtist || m_artists.insert(artist))
-	m_viewModeItems["artists"].insert(artist);
+    if(value == m_uniqueSetLast[t] || m_uniqueSets[t].insert(value))
+	m_viewModeItems[t].insert(value);
     else
-	previousArtist = artist;
-
-}
-
-void CollectionList::addAlbum(const QString &album)
-{
-    if(album.isEmpty())
-	return;
-
-    // Do a bit of caching since there will very often be "two in a row" insertions.
-    static QString previousAlbum;
-
-    if(album == previousAlbum || m_albums.insert(album))
-	m_viewModeItems["albums"].insert(album);
-    else
-	previousAlbum = album;
-}
-
-void CollectionList::addGenre(const QString &genre)
-{
-    if(genre.isEmpty())
-	return;
-
-    // Do a bit of caching since there will very often be "two in a row" insertions.
-    static QString previousGenre;
-
-    if(genre == previousGenre || m_genres.insert(genre))
-	m_viewModeItems["genres"].insert(genre);
-    else
-	previousGenre = genre;
+        m_uniqueSetLast[t] = value;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -227,9 +199,9 @@ void CollectionListItem::slotRefresh()
 {
     slotRefreshImpl();
     
-    CollectionList::instance()->addArtist(text(ArtistColumn));
-    CollectionList::instance()->addAlbum(text(AlbumColumn));
-    CollectionList::instance()->addGenre(text(GenreColumn));
+    CollectionList::instance()->addUnique(CollectionList::Artists, text(ArtistColumn));
+    CollectionList::instance()->addUnique(CollectionList::Albums, text(AlbumColumn));
+    CollectionList::instance()->addUnique(CollectionList::Genres, text(GenreColumn));
 
     // This is connected to slotRefreshImpl() for all of the items children.
     emit signalRefreshed();
@@ -239,8 +211,9 @@ void CollectionListItem::slotRefresh()
 // CollectionListItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &path) : PlaylistItem(CollectionList::instance()),
-										     m_path(path)
+CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &path) :
+    PlaylistItem(CollectionList::instance()),
+    m_path(path)
 {
     CollectionList *l = CollectionList::instance();
     if(l) {

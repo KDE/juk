@@ -950,10 +950,10 @@ void Playlist::slotRenameTag()
     switch(m_currentColumn)
     {
     case PlaylistItem::TrackColumn:
-	edit->completionObject()->setItems(list->artists());
+	edit->completionObject()->setItems(list->uniqueSet(CollectionList::Artists));
 	break;
     case PlaylistItem::AlbumColumn:
-	edit->completionObject()->setItems(list->albums());
+	edit->completionObject()->setItems(list->uniqueSet(CollectionList::Albums));
 	break;
     case PlaylistItem::GenreColumn:
 	QStringList genreStrings;
