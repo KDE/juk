@@ -153,6 +153,7 @@ private slots:
     void slotSetOutput(int output);
     void slotEditKeys();
     void slotConfigureTagGuesser();
+    void slotConfigureFileRenamer();
 
     // additional player slots
     void slotTrackPositionSliderClicked();

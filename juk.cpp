@@ -33,6 +33,7 @@
 #include "systemtray.h"
 #include "keydialog.h"
 #include "tagguesserconfigdlg.h"
+#include "filerenamerconfigdlg.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -444,6 +445,9 @@ void JuK::setupActions()
 
     new KAction(i18n("&Tag Guesser..."), 0, 0, this, SLOT(slotConfigureTagGuesser()),
 		actionCollection(), "tagGuesserConfig");
+
+    new KAction(i18n("&File Renamer..."), 0, 0, this, SLOT(slotConfigureFileRenamer()),
+		actionCollection(), "fileRenamerConfig");
 
     KStdAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
 
@@ -942,6 +946,12 @@ void JuK::slotSetVolume(int volume)
 void JuK::slotConfigureTagGuesser()
 {
     TagGuesserConfigDlg dlg(this);
+    dlg.exec();
+}
+
+void JuK::slotConfigureFileRenamer()
+{
+    FileRenamerConfigDlg dlg(this);
     dlg.exec();
 }
 
