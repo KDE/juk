@@ -62,26 +62,33 @@ void PlayerManager::play(const QString &fileName)
     if(!m_player)
         return;
 
-    if(m_player->paused())
-        m_player->stop();
-
-    m_player->play(fileName);
+    if(fileName.isNull()) {
+	if(m_player->paused())
+            m_player->play();
+        if(m_player->playing())
+            m_player->seekPosition(0);
+    }
+    else {
+        if(m_player->paused())
+            m_player->stop();
+        m_player->play(fileName);
+    }
 
     // Make sure that the m_player actually starts before doing anything.
 
-    if(m_player->playing()) {
-
-        m_actionCollection->action("pause")->setEnabled(true);
-        m_actionCollection->action("stop")->setEnabled(true);
-        m_actionCollection->action("forward")->setEnabled(true);
-        m_actionCollection->action("back")->setEnabled(true);
-
-        m_sliderAction->trackPositionSlider()->setValue(0);
-        m_sliderAction->trackPositionSlider()->setEnabled(true);
-        // m_playTimer->start(m_pollInterval);
-    }
-    else
+    if(!m_player->playing()) {
         stop();
+        return;
+    }
+
+    m_actionCollection->action("pause")->setEnabled(true);
+    m_actionCollection->action("stop")->setEnabled(true);
+    m_actionCollection->action("forward")->setEnabled(true);
+    m_actionCollection->action("back")->setEnabled(true);
+
+    m_sliderAction->trackPositionSlider()->setValue(0);
+    m_sliderAction->trackPositionSlider()->setEnabled(true);
+    // m_playTimer->start(m_pollInterval);
 }
 
 void PlayerManager::pause()
@@ -215,6 +222,15 @@ void PlayerManager::setup()
     m_actionCollection->action("forward")->setEnabled(false);
 
     m_sliderAction = static_cast<SliderAction *>(m_actionCollection->action("trackPositionAction"));
+
+    KAction *outputAction = m_actionCollection->action("outputSelect");
+
+    if(outputAction) {
+        int mediaSystem = static_cast<KSelectAction *>(outputAction)->currentItem();
+        m_player = Player::createPlayer(mediaSystem);
+    }
+    else
+        m_player = Player::createPlayer();
 }
 
 #include "playermanager.moc"
