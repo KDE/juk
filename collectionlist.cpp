@@ -92,10 +92,15 @@ void CollectionList::clear()
 
 void CollectionList::slotCheckCache()
 {
+    PlaylistItemList invalidItems;
+
     for(QDictIterator<CollectionListItem>it(m_itemsDict); it.current(); ++it) {
-	it.current()->checkCurrent();
+	if(!it.current()->checkCurrent())
+	    invalidItems.append(*it);
 	kapp->processEvents();
     }
+
+    clearItems(invalidItems);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -245,14 +250,17 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
     connect(this, SIGNAL(signalRefreshed()), child, SLOT(slotRefreshImpl()));
 }
 
-void CollectionListItem::checkCurrent()
+bool CollectionListItem::checkCurrent()
 {
     if(!data()->exists() || !data()->isFile())
-	CollectionList::instance()->clearItem(this);
-    else if(!data()->tag()->current()) {
+	return false;
+
+    if(!data()->tag()->current()) {
 	data()->refresh();
 	slotRefresh();
     }
+
+    return true;
 }
 
 #include "collectionlist.moc"

@@ -137,8 +137,11 @@ protected:
      * delayed consistancy checking for the cache at the cost of a few CPU cycles.  The
      * effect however is that stating files is delayed until after the GUI is shown by
      * moving this action into the event loop.
+     *
+     * Returns true if the item is now up to date (even if this required a refresh) or
+     * false if the item is invalid.
      */
-    void checkCurrent();
+    bool checkCurrent();
 
     virtual CollectionListItem *collectionItem() { return this; }
 
