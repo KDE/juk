@@ -68,8 +68,7 @@ public slots:
     void volumeMute();
 
     /**
-     * This method is called by the slider to set the volume of the player.  Its
-     * value is relative to the maxValue() of the volume slider.
+     * Set the volume.  100 is the maximum.
      */
     void setVolume(float volume);
 
@@ -161,7 +160,8 @@ private slots:
     void slotTrackPositionSliderUpdate(int position);
 
     /**
-     * Set the volume.  100 is the maximum.
+     * This method is called by the slider to set the volume of the player.  Its
+     * value is relative to the maxValue() of the volume slider.
      */
     void slotSetVolume(int volume);
 
