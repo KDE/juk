@@ -74,7 +74,7 @@ public:
     virtual void remove();
     virtual void reload();
     virtual void editSearch();
-    virtual void setCanDeletePlaylist(bool canDelete);
+    virtual void setCanDeletePlaylist(bool);
 
     void enableDirWatch(bool enable);
 

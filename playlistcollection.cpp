@@ -319,7 +319,7 @@ void PlaylistCollection::editSearch()
     }
 }
 
-void PlaylistCollection::setCanDeletePlaylist(bool canDelete)
+void PlaylistCollection::setCanDeletePlaylist(bool)
 {
     // Implemented in subclass
 }
