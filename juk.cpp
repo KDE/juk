@@ -37,8 +37,8 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose),
-					      DCOPObject("Player"),
+JuK::JuK(QWidget *parent, const char *name) : DCOPObject("Player"),
+					      KMainWindow(parent, name, WDestructiveClose),
 					      m_shuttingDown(false)
 {
     // Expect segfaults if you change this order.
@@ -78,7 +78,7 @@ void JuK::setVolume(float volume)
     if(m_sliderAction->getVolumeSlider()->maxValue() > 0 &&
        volume >= 0 && m_sliderAction->getVolumeSlider()->maxValue() >= volume)
     {
-        slotSetVolume(volume / 100 * m_sliderAction->getVolumeSlider()->maxValue());
+        slotSetVolume(int(volume / 100) * m_sliderAction->getVolumeSlider()->maxValue());
     }
 }
 
