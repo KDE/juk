@@ -15,6 +15,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "tageditor.h"
+#include "collectionlist.h"
+#include "playlistitem.h"
+#include "tag.h"
+
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <knuminput.h>
@@ -30,10 +35,6 @@
 #include <qdir.h>
 
 #include <id3v1genres.h>
-
-#include "tageditor.h"
-#include "collectionlist.h"
-#include "playlistitem.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -489,7 +490,7 @@ void TagEditor::save(const PlaylistItemList &list)
 		
 		item->file().tag()->save();
 		
-		item->slotRefresh();
+		item->refresh();
 	    }
 	    else if(item)
 		errorFiles.append(item->file().absFilePath());

@@ -15,15 +15,21 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kstatusbar.h>
-#include <kmainwindow.h>
-#include <klocale.h>
 #include <kdebug.h>
 
 #include "playlistitem.h"
 #include "collectionlist.h"
-#include "trackpickerdialog.h"
-#include "stringshare.h"
+#include "musicbrainzquery.h"
+#include "tag.h"
+
+static void startMusicBrainzQuery(const FileHandle &file)
+{
+#if HAVE_MUSICBRAINZ
+    new MusicBrainzFileQuery(file);
+#else
+    Q_UNUSED(file)
+#endif
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem public methods
@@ -31,13 +37,13 @@
 
 PlaylistItem::~PlaylistItem()
 {
-    emit signalAboutToDelete();
+    m_collectionItem->removeChildItem(this);
 }
 
 void PlaylistItem::setFile(const FileHandle &file)
 {
     d->fileHandle = file;
-    slotRefresh();
+    refresh();
 }
 
 FileHandle PlaylistItem::file() const
@@ -89,7 +95,7 @@ void PlaylistItem::setText(int column, const QString &text)
     }
 
     KListViewItem::setText(column, text);
-    emit signalColumnWidthChanged(column);
+    playlist()->slotWeightDirty(column);
 }
 
 void PlaylistItem::setSelected(bool selected)
@@ -117,27 +123,12 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
 	    d->fileHandle.tag()->setComment(guesser.comment());
 
 	d->fileHandle.tag()->save();
-	slotRefresh();
+	refresh();
 	break;
     }
     case TagGuesser::MusicBrainz:
-    {
-#if HAVE_MUSICBRAINZ
-	MusicBrainzQuery *query = new MusicBrainzQuery(MusicBrainzQuery::File,
-						       d->fileHandle.absFilePath());
-	connect(query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList &)),
-		SLOT(slotTagGuessResults(const MusicBrainzQuery::TrackList &)));
-	KMainWindow *win = dynamic_cast<KMainWindow *>(kapp->mainWidget());
-	if(win)
-	    connect(query, SIGNAL(signalStatusMsg(const QString &, int)),
-		    win->statusBar(), SLOT(message(const QString &, int)));
-	else
-	    kdWarning(65432) << "Could not find the main window." << endl;
-
-	query->start();
-#endif //add message box telling users musicbrainz is not installed or keep it quiet?
+	startMusicBrainzQuery(d->fileHandle);
 	break;
-    }
     }
 }
 
@@ -151,25 +142,19 @@ QValueVector<int> PlaylistItem::cachedWidths() const
     return d->cachedWidths;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistItem public slots
-////////////////////////////////////////////////////////////////////////////////
-
-void PlaylistItem::slotRefresh()
+void PlaylistItem::refresh()
 {
-    // This signal will be received by the "parent" CollectionListItem which will
-    // in turn call slotRefreshImpl() for all of its children, including this item.
-
-    emit signalRefreshed();
+    m_collectionItem->refresh();
+    repaint();
 }
 
-void PlaylistItem::slotRefreshFromDisk()
+void PlaylistItem::refreshFromDisk()
 {
     d->fileHandle.refresh();
-    slotRefresh();
+    refresh();
 }
 
-void PlaylistItem::slotClear()
+void PlaylistItem::clear()
 {
     static_cast<Playlist *>(listView())->clearItem(this);
 }
@@ -179,26 +164,30 @@ void PlaylistItem::slotClear()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
-    QObject(parent), KListViewItem(parent),
-    d(0), m_playing(false)
+    KListViewItem(parent),
+    d(0),
+    m_playing(false)
 {
-    setup(item, parent);
+    setup(item);
 }
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
-    QObject(parent), KListViewItem(parent, after),
-    d(0), m_playing(false)
+    KListViewItem(parent, after),
+    d(0),
+    m_playing(false)
 {
-    setup(item, parent);
+    setup(item);
 }
 
 
 // This constructor should only be used by the CollectionList subclass.
 
 PlaylistItem::PlaylistItem(CollectionList *parent) :
-    QObject(parent), KListViewItem(parent),
-    d(new Data), m_collectionItem(static_cast<CollectionListItem *>(this)), m_playing(false)
+    KListViewItem(parent),
+    m_playing(false)
 {
+    d = new Data;
+    m_collectionItem = static_cast<CollectionListItem *>(this);
     setDragEnabled(true);
 }
 
@@ -297,104 +286,14 @@ bool PlaylistItem::isValid() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// PlaylistItem protected slots
-////////////////////////////////////////////////////////////////////////////////
-
-void PlaylistItem::slotRefreshImpl()
-{
-    int offset = static_cast<Playlist *>(listView())->columnOffset();
-    int columns = lastColumn() + offset + 1;
-    d->local8Bit.resize(columns);
-    d->cachedWidths.resize(columns);
-
-    for(int i = offset; i < columns; i++) {
-	int id = i - offset;
-	if(id != TrackNumberColumn && id != LengthColumn)
-	{        
-	    // All columns other than track num and length need local-encoded data for sorting        
-
-	    QCString lower = text(i).lower().local8Bit();
-
-	    // For some columns, we may be able to share some strings
-
-	    if((id == ArtistColumn) || (id == AlbumColumn) ||
-	       (id == GenreColumn)  || (id == YearColumn)  ||
-	       (id == CommentColumn))
-	    {
-		lower = StringShare::tryShare(lower);
-	    }
-	    d->local8Bit[id] = lower;
-	}
-
-	int newWidth = width(listView()->fontMetrics(), listView(), i);
-	d->cachedWidths[i] = newWidth;
-
-	if(newWidth != d->cachedWidths[i])
-	    emit signalColumnWidthChanged(i);
-    }
-
-    repaint();
-}
-
-void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
-{
-#if HAVE_MUSICBRAINZ
-
-    KMainWindow *win = dynamic_cast<KMainWindow *>(kapp->mainWidget());
-
-    if(win && res.isEmpty()) {
-        win->statusBar()->message(i18n("No matches found."), 2000);
-        return;
-    }
-
-    TrackPickerDialog *trackPicker = new TrackPickerDialog(d->fileHandle.absFilePath(), res, win);
-
-    if(win && trackPicker->exec() != QDialog::Accepted) {
-	win->statusBar()->message(i18n("Canceled."), 2000);
-	return;
-    }
-
-    MusicBrainzQuery::Track track = trackPicker->selectedTrack();
-
-    if(!track.name.isEmpty())
-        d->fileHandle.tag()->setTitle(track.name);
-    if(!track.artist.isEmpty())
-        d->fileHandle.tag()->setArtist(track.artist);
-    if(!track.album.isEmpty())
-        d->fileHandle.tag()->setAlbum(track.album);
-    if(track.number)
-        d->fileHandle.tag()->setTrack(track.number);
-
-    d->fileHandle.tag()->save();
-    slotRefresh();
-
-    if(win)
-	win->statusBar()->message(i18n("Done."), 2000);
-#else
-    Q_UNUSED(res)
-#endif
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
+void PlaylistItem::setup(CollectionListItem *item)
 {
     m_collectionItem = item;
 
     d = item->d;
     item->addChildItem(this);
-    slotRefreshImpl();
-    connect(this, SIGNAL(signalRefreshed()), parent, SIGNAL(signalDataChanged()));
-
     setDragEnabled(true);
-
-    // We only want this connection to take effect for changes after item
-    // creation -- i.e. editing the item.  We'll handle item creation separately
-    // as that avoids this signal firing a few thousand times.
-
-    connect(this, SIGNAL(signalColumnWidthChanged(int)), parent, SLOT(slotWeightDirty(int)));
 }
-
-#include "playlistitem.moc"

@@ -18,24 +18,14 @@
 #ifndef PLAYLISTITEM_H
 #define PLAYLISTITEM_H
 
-#include <config.h>
-
 #include <klistview.h>
 #include <ksharedptr.h>
 
-#include <qptrstack.h>
-#include <qptrdict.h>
 #include <qvaluevector.h>
+#include <qptrdict.h>
 
-#include "musicbrainzquery.h"
 #include "tagguesser.h"
-#include "tag.h"
 #include "filehandle.h"
-
-#if HAVE_MUSICBRAINZ == 0
-// a bit of a hack so that the slots type definition is still valid
-namespace MusicBrainzQuery { typedef int TrackList; }
-#endif
 
 class Playlist;
 class PlaylistItem;
@@ -51,20 +41,15 @@ typedef QValueList<PlaylistItem *> PlaylistItemList;
  * Playlist::clearItem().
  */
 
-class PlaylistItem : public QObject, public KListViewItem
+class PlaylistItem : public KListViewItem
 {
     friend class Playlist;
     friend class SearchPlaylist;
     friend class CollectionList;
-    friend class QPtrList<PlaylistItem>;
+    friend class CollectionListItem;
     friend class QPtrDict<PlaylistItem>;
 
-    /**
-     * Needs access to the destuctor, even though the destructor isn't used by QPtrStack.
-     */
-    friend class QPtrStack<PlaylistItem>;
-
-    Q_OBJECT
+    // Q_OBJECT
 
 public:
     enum ColumnType { TrackColumn       = 0,
@@ -85,9 +70,6 @@ public:
     virtual QString text(int column) const;
     virtual void setText(int column, const QString &text);
 
-    // These are just forwarding methods to PlaylistItem::Data, a QFileInfo
-    // subclass.
-
     void setPlaying(bool playing = true) { m_playing = playing; }
 
     virtual void setSelected(bool selected);
@@ -101,25 +83,24 @@ public:
      */
     QValueVector<int> cachedWidths() const;
 
-public slots:
     /**
      * This just refreshes from the in memory data.  This may seem pointless at
      * first, but this data is shared between all of the list view items that are
      * based on the same file, so if another one of those items changes its data
      * it is important to refresh the others.
      */
-    virtual void slotRefresh();
+    virtual void refresh();
 
     /**
      * This rereads the tag from disk.  This affects all PlaylistItems based on
      * the same file.
      */
-    virtual void slotRefreshFromDisk();
+    virtual void refreshFromDisk();
 
     /**
      * Asks the item's playlist to remove the item (which uses deleteLater()).
      */
-    virtual void slotClear();
+    virtual void clear();
 
 protected:
     /**
@@ -149,17 +130,6 @@ protected:
 
     virtual CollectionListItem *collectionItem() const { return m_collectionItem; }
 
-protected slots:
-    void slotRefreshImpl();
-    void slotTagGuessResults(const MusicBrainzQuery::TrackList &);
-
-signals:
-    void signalRefreshed();
-    void signalColumnWidthChanged(int column);
-    void signalAboutToDelete();
-
-private:
-
     struct Data : public KShared
     {
 	Data() {}
@@ -171,9 +141,12 @@ private:
 	QValueVector<int> cachedWidths;
     };
 
+    KSharedPtr<Data> data() const { return d; }
+
+private:
     KSharedPtr<Data> d;
 
-    void setup(CollectionListItem *item, Playlist *parent);
+    void setup(CollectionListItem *item);
     CollectionListItem *m_collectionItem;
     bool m_playing;
 };

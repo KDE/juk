@@ -1,6 +1,7 @@
 // musicbrainzquery.h
 //
 // Copyright (C)  2003  Zack Rusin <zack@kde.org>
+// Copyright (C)  2003 - 2004 Scott Wheeler <wheeler@kde.org>
 //
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -27,6 +28,8 @@
 #include <musicbrainz/musicbrainz.h>
 #include <qobject.h>
 #include <qstringlist.h>
+
+#include "filehandle.h"
 
 class KProcess;
 
@@ -125,6 +128,24 @@ private:
     QStringList m_arguments;
     QString     m_trm;
     bool        m_tracks; //if only tracks should be extracted
+};
+
+/**
+ *
+ */
+
+class MusicBrainzFileQuery : public MusicBrainzQuery
+{
+    Q_OBJECT
+
+public:
+    MusicBrainzFileQuery(const FileHandle &file);
+
+public slots:
+    void slotDone(const MusicBrainzQuery::TrackList &result);
+
+private:
+    FileHandle m_file;
 };
 
 #endif

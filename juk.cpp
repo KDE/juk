@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <config.h>
+
 #include <kcmdlineargs.h>
 #include <kstatusbar.h>
 #include <kdebug.h>

@@ -24,6 +24,7 @@
 
 #include "collectionlist.h"
 #include "splashscreen.h"
+#include "stringshare.h"
 #include "cache.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -112,6 +113,16 @@ void CollectionList::slotCheckCache()
     clearItems(invalidItems);
 }
 
+void CollectionList::slotRemoveItem(const QString &file)
+{
+    clearItem(m_itemsDict[file]);
+}
+
+void CollectionList::slotRefreshItem(const QString &file)
+{
+    m_itemsDict[file]->refresh();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -166,33 +177,48 @@ void CollectionList::addUnique(UniqueSetType t, const QString &value)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// private slots
+// CollectionListItem public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void CollectionList::slotRemoveItem(const QString &file)
+void CollectionListItem::refresh()
 {
-    clearItem(m_itemsDict[file]);
-}
-
-void CollectionList::slotRefreshItem(const QString &file)
-{
-    m_itemsDict[file]->slotRefresh();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// CollectionListItem public slots
-////////////////////////////////////////////////////////////////////////////////
-
-void CollectionListItem::slotRefresh()
-{
-    slotRefreshImpl();
-    
     CollectionList::instance()->addUnique(CollectionList::Artists, text(ArtistColumn));
     CollectionList::instance()->addUnique(CollectionList::Albums, text(AlbumColumn));
     CollectionList::instance()->addUnique(CollectionList::Genres, text(GenreColumn));
 
-    // This is connected to slotRefreshImpl() for all of the items children.
-    emit signalRefreshed();
+    int offset = static_cast<Playlist *>(listView())->columnOffset();
+    int columns = lastColumn() + offset + 1;
+    data()->local8Bit.resize(columns);
+    data()->cachedWidths.resize(columns);
+
+    for(int i = offset; i < columns; i++) {
+	int id = i - offset;
+	if(id != TrackNumberColumn && id != LengthColumn)
+	{        
+	    // All columns other than track num and length need local-encoded data for sorting        
+
+	    QCString lower = text(i).lower().local8Bit();
+
+	    // For some columns, we may be able to share some strings
+
+	    if((id == ArtistColumn) || (id == AlbumColumn) ||
+	       (id == GenreColumn)  || (id == YearColumn)  ||
+	       (id == CommentColumn))
+	    {
+		lower = StringShare::tryShare(lower);
+	    }
+	    data()->local8Bit[id] = lower;
+	}
+
+	int newWidth = width(listView()->fontMetrics(), listView(), i);
+	data()->cachedWidths[i] = newWidth;
+
+	if(newWidth != data()->cachedWidths[i])
+	    playlist()->slotWeightDirty(i);
+    }
+
+    repaint();
+    playlist()->emitDataChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -201,6 +227,7 @@ void CollectionListItem::slotRefresh()
 
 CollectionListItem::CollectionListItem(const QFileInfo &info, const QString &path) :
     PlaylistItem(CollectionList::instance()),
+    m_shuttingDown(false),
     m_path(path)
 {
     CollectionList *l = CollectionList::instance();
@@ -210,8 +237,7 @@ CollectionListItem::CollectionListItem(const QFileInfo &info, const QString &pat
 	setFile(FileHandle(info, path));
 
 	if(file().tag()) {
-	    slotRefresh();
-	    connect(this, SIGNAL(signalRefreshed()), l, SIGNAL(signalDataChanged()));
+	    refresh();
 	    l->emitCountChanged();
 	    // l->addWatched(m_path);
 	}
@@ -227,6 +253,15 @@ CollectionListItem::CollectionListItem(const QFileInfo &info, const QString &pat
 
 CollectionListItem::~CollectionListItem()
 {
+    m_shuttingDown = true;
+
+    for(PlaylistItemList::ConstIterator it = m_children.begin();
+	it != m_children.end();
+	++it)
+    {
+	delete *it;
+    }
+
     CollectionList *l = CollectionList::instance();
     if(l) {
 	QString path = Playlist::resolveSymLinks(file().absFilePath());
@@ -237,8 +272,13 @@ CollectionListItem::~CollectionListItem()
 
 void CollectionListItem::addChildItem(PlaylistItem *child)
 {
-    connect(child, SIGNAL(signalRefreshed()), this, SLOT(slotRefresh()));
-    connect(this, SIGNAL(signalRefreshed()), child, SLOT(slotRefreshImpl()));
+    m_children.append(child);
+}
+
+void CollectionListItem::removeChildItem(PlaylistItem *child)
+{
+    if(!m_shuttingDown)
+	m_children.remove(child);
 }
 
 bool CollectionListItem::checkCurrent()
@@ -248,7 +288,7 @@ bool CollectionListItem::checkCurrent()
 
     if(!file().current()) {
 	file().refresh();
-	slotRefresh();
+	refresh();
     }
 
     return true;

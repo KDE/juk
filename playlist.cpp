@@ -44,6 +44,7 @@
 #include "collectionlist.h"
 #include "filerenamer.h"
 #include "actioncollection.h"
+#include "tag.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
@@ -301,7 +302,8 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     m_members.remove(item->file().absFilePath());
     if(!m_randomList.isEmpty() && !m_visibleChanged)
         m_randomList.remove(item);
-    item->deleteLater();
+    // item->deleteLater();
+    delete item;
     if(emitChanged)
 	emit signalCountChanged(this);
 }
@@ -533,7 +535,7 @@ void Playlist::slotRefresh()
     KApplication::setOverrideCursor(Qt::waitCursor);
     int j = 0;
     for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
-	(*it)->slotRefreshFromDisk();
+	(*it)->refreshFromDisk();
 
 	if(!(*it)->file().tag()) {
 	    kdDebug(65432) << "Error while trying to refresh the tag.  "
@@ -1375,7 +1377,7 @@ void Playlist::editTag(PlaylistItem *item, const QString &text, int column)
     }
 
     item->file().tag()->save();
-    item->slotRefresh();
+    item->refresh();
 }
 
 void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)

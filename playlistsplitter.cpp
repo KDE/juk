@@ -35,6 +35,7 @@
 #include "mediafiles.h"
 #include "advancedsearchdialog.h"
 #include "actioncollection.h"
+#include "tag.h"
 
 using namespace ActionCollection;
 

@@ -81,6 +81,9 @@ public slots:
     virtual void paste() { decode(kapp->clipboard()->data()); }
     virtual void clear();
     void slotCheckCache();
+
+    void slotRemoveItem(const QString &file);
+    void slotRefreshItem(const QString &file);
     
 protected:
     CollectionList(QWidget *parent);
@@ -114,10 +117,6 @@ signals:
      */
     void signalVisibleColumnsChanged();
 
-private slots:
-    void slotRemoveItem(const QString &file);
-    void slotRefreshItem(const QString &file);
-
 private:
     /**
      * Just the size of the above enum to keep from hard coding it in several
@@ -133,7 +132,7 @@ private:
     QValueVector<QString> m_uniqueSetLast;
 };
 
-class CollectionListItem : public PlaylistItem
+class CollectionListItem : /* public QObject, */ public PlaylistItem
 {
     friend class Playlist;
     friend class CollectionList;
@@ -144,16 +143,17 @@ class CollectionListItem : public PlaylistItem
      */
     friend class QDict<CollectionListItem>;
 
-    Q_OBJECT
+    // Q_OBJECT
 
-public slots:
-    virtual void slotRefresh();
+public:
+    virtual void refresh();
 
 protected:
     CollectionListItem(const QFileInfo &file, const QString &path);
     virtual ~CollectionListItem();
 
     void addChildItem(PlaylistItem *child);
+    void removeChildItem(PlaylistItem *child);
 
     /**
      * This slot, called from a QTimer::singleShot() set in the constructor, allows for
@@ -169,7 +169,9 @@ protected:
     virtual CollectionListItem *collectionItem() { return this; }
 
 private:
+    bool m_shuttingDown;
     QString m_path;
+    PlaylistItemList m_children;
 };
 
 #endif

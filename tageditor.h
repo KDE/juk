@@ -18,12 +18,15 @@
 #ifndef TAGEDITOR_H
 #define TAGEDITOR_H
 
+#include <qvaluelist.h>
+#include <qwidget.h>
 
 class KComboBox;
 class KLineEdit;
 class KIntSpinBox;
 class KEdit;
 class KPushButton;
+class KConfig;
 
 class QCheckBox;
 class QBoxLayout;

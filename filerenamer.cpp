@@ -8,6 +8,7 @@
  */
 #include "filerenamer.h"
 #include "playlistitem.h"
+#include "tag.h"
 
 #include <kapplication.h>
 #include <kconfig.h>

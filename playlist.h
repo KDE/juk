@@ -295,6 +295,8 @@ public:
      */
     void applySharedSettings();
 
+    void emitDataChanged() { emit signalDataChanged(); }
+
 public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
@@ -682,7 +684,6 @@ ItemType *Playlist::createItem(const QFileInfo &file, const QString &absFilePath
             m_randomList.append(i);
 
 	emit signalCountChanged(this);
-	connect(item, SIGNAL(signalAboutToDelete()), i, SLOT(slotClear()));
 
 	if(emitChanged)
 	    emit signalCountChanged(this);
@@ -709,7 +710,6 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
 	    setupItem(newItem);
 	    if(!m_randomList.isEmpty() && !m_visibleChanged)
 		m_randomList.append(newItem);
-	    connect((*it)->collectionItem(), SIGNAL(signalAboutToDelete()), newItem, SLOT(slotClear()));
 	}
     }
 
