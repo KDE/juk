@@ -885,7 +885,8 @@ void PlaylistSplitter::readPlaylists()
 
 void PlaylistSplitter::savePlaylists()
 {
-    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
+    QString dirName = KGlobal::dirs()->saveLocation("appdata");
+    QString playlistsFile = dirName + "playlists.new";
     QFile f(playlistsFile);
 
     if(!f.open(IO_WriteOnly))
@@ -920,6 +921,8 @@ void PlaylistSplitter::savePlaylists()
 
     fs << data;
     f.close();
+
+    QDir(dirName).rename("playlists.new", "playlists");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
