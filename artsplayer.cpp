@@ -18,7 +18,7 @@
 
 #include "artsplayer.h"
 
-#ifdef HAVE_ARTS
+#if HAVE_ARTS
 
 #include <kdebug.h>
 #include <kconfig.h>

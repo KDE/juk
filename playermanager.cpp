@@ -48,7 +48,7 @@ static Player *createPlayer(int system = ArtsBackend)
 
     Player *p = 0;
 
-#if defined(HAVE_ARTS) && defined(HAVE_GSTREAMER)
+#if HAVE_ARTS && HAVE_GSTREAMER
     switch(system) {
     case ArtsBackend:
         p = new ArtsPlayer;
@@ -62,11 +62,11 @@ static Player *createPlayer(int system = ArtsBackend)
     }
 #else
     Q_UNUSED(system)
-#ifdef HAVE_ARTS
+#if HAVE_ARTS
     p = new ArtsPlayer;
 #endif
 
-#ifdef HAVE_GSTREAMER
+#if HAVE_GSTREAMER
     p = new GStreamerPlayer;
 #else
 #warning No Player Backend Available

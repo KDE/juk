@@ -21,7 +21,7 @@
 
 #include <config.h>
 
-#ifdef HAVE_ARTS
+#if HAVE_ARTS
 
 #include "player.h"
 

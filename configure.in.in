@@ -13,6 +13,7 @@ else
 	build_arts="no"
 	LIB_ARTS=""
 	ARTS_CFLAGS=""
+	AC_DEFINE(HAVE_ARTS, 0, [no arts support in juk])
 fi
 
 AC_SUBST(LIB_ARTS)
