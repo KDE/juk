@@ -447,7 +447,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     menu->insert(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
                               "newPlaylist", "window_new", "CTRL+n"));
-    menu->insert(createAction(i18n("&Search Playlist"), SLOT(slotCreateSearchPlaylist()),
+    menu->insert(createAction(i18n("&Search Playlist..."), SLOT(slotCreateSearchPlaylist()),
                               "newSearchPlaylist", "find", "CTRL+f"));
     menu->insert(createAction(i18n("Playlist From &Folder..."), SLOT(slotCreateFolderPlaylist()),
                               "newDirectoryPlaylist", "fileopen", "CTRL+d"));
