@@ -28,6 +28,8 @@
 #include <qpainter.h>
 #include <qregexp.h>
 
+#include <assert.h>
+
 #include "playlistbox.h"
 #include "playlistsplitter.h"
 #include "viewmode.h"
