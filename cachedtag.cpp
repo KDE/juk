@@ -21,6 +21,7 @@
 
 #include "cachedtag.h"
 #include "cache.h"
+#include "stringshare.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -184,6 +185,7 @@ bool CachedTag::current() const
 
 QDataStream &CachedTag::read(QDataStream &s)
 {
+    QString dummy;
       /// TODO: Use Q_UINT32 in place of all integers.
 #if 0 /// TODO: This should be included the next time that the cache format changes
     s >> m_tagExists
@@ -206,8 +208,18 @@ QDataStream &CachedTag::read(QDataStream &s)
       >> m_tagLengthString
       >> m_tagSeconds
 
-      >> m_fileName
+      >> dummy //Was filename, not really needed - the base has it already
       >> m_modificationTime;
+
+    //Try to reduce memory usage: share tags that frequently repeat, squeeze others            
+    m_tagTrack.squeeze();
+    m_tagComment = StringShare::tryShare(m_tagComment);
+    m_tagArtist  = StringShare::tryShare(m_tagArtist);
+    m_tagAlbum   = StringShare::tryShare(m_tagAlbum);
+    m_tagTrackNumberString = StringShare::tryShare(m_tagTrackNumberString);
+    m_tagYearString        = StringShare::tryShare(m_tagYearString);
+    m_tagBitrateString     = StringShare::tryShare(m_tagBitrateString);
+    m_tagLengthString.squeeze();
 
     return s;
 }

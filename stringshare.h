@@ -1,10 +1,10 @@
 /***************************************************************************
-                          stringhash.cpp  -  description
+                          stringshare.h - string memory usage optimization
                              -------------------
-    begin                : Sun Feb 2 2003
-    copyright            : (C) 2003 by Scott Wheeler
-    email                : wheeler@kde.org
- ***************************************************************************/
+    begin                : Sat Oct 25 2003
+    copyright            : (C) 2003 by Maksim Orlovich
+    email                : maksim.orlovich@kdemail.net
+***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,14 +15,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "stringhash.h"
+#ifndef STRING_SHARE_H
+#define STRING_SHARE_H
 
-////////////////////////////////////////////////////////////////////////////////
-// private methods
-////////////////////////////////////////////////////////////////////////////////
+#include <qstring.h>
 
-
-int StringHash::hash(QString key) const
+/**
+ This class attempts to normalize repeated occurances of strings to use
+ the same shared object, if possible, by using a small hash
+*/ 
+class StringShare
 {
-    return hashString(key) % tableSize();
-}
+    struct Data;
+public:
+    static QString  tryShare(const QString& in);
+    static QCString tryShare(const QCString& in);
+    
+private:
+    static Data* data();
+    static Data* s_data;
+};
+
+#endif

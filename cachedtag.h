@@ -81,7 +81,6 @@ private:
 
     bool m_tagExists;
 
-    QString m_fileName;
     QDateTime m_modificationTime;
 };
 

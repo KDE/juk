@@ -75,6 +75,35 @@ private:
     static const int m_tableSize = 5003;
 };
 
+inline char hashStringAccess(const QString& in, int index)
+{
+    return in.unicode()[index].cell();
+}
+
+inline char hashStringAccess(const QCString& in, int index)
+{
+    return in[index];
+}
+
+//Based on QGDict's hash functions, Copyright (C) 1992-2000 Trolltech AS
+template<typename StringType>
+inline int hashString(const StringType& string)
+{
+    uint h = 0;
+    uint g;
+    for ( uint i = 0; i<string.length(); i++ )
+    {
+        h = (h<<4) + hashStringAccess(string, i);
+        if ( (g = h & 0xf0000000) )
+            h ^= g >> 24;
+        h &= ~g;
+    }
+    int index = h;
+    if (index < 0)
+        index = -index;
+    return index;        
+}
+
 class StringHash : public Hash<QString>
 {
 public:

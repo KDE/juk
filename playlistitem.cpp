@@ -25,6 +25,7 @@
 #include "collectionlist.h"
 #include "trackpickerdialog.h"
 #include "musicbrainzitem.h"
+#include "stringshare.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem public methods
@@ -309,7 +310,18 @@ void PlaylistItem::slotRefreshImpl()
     m_data->setColumns(columns);
 
     for(int i = 0; i < columns; i++) {
-	m_data->setLocal8BitLower(i, text(i).lower().local8Bit());
+	int id = i - offset;
+	if (id != TrackNumberColumn && id != LengthColumn)
+	{        
+	    //All columns other than track num and length need local-encoded data for sorting        
+	    QCString lower = text(i).lower().local8Bit();
+	    //For some columns, we may be able to share some strings
+	    if ((id == ArtistColumn) || (id == AlbumColumn) ||
+		(id == GenreColumn)  || (id == YearColumn)  ||
+		(id == CommentColumn))
+		    lower = StringShare::tryShare(lower);                                
+	    m_data->setLocal8BitLower(i, lower);
+	}
 	int newWidth = width(listView()->fontMetrics(), listView(), i);
 	m_data->setCachedWidth(i, newWidth);
 	if(newWidth != m_data->cachedWidth(i))
@@ -399,6 +411,7 @@ void PlaylistItem::Data::refresh()
     m_dataTag = Tag::createTag(m_fileInfo.filePath());
     Q_ASSERT(m_dataTag);
     m_absFileName = m_fileInfo.absFilePath();
+    m_fileInfo.refresh(); //Dump cached into we don't need
 }
 
 void PlaylistItem::Data::deleteUser()

@@ -17,6 +17,7 @@
 
 #include "genre.h"
 #include "genrelistlist.h"
+#include "stringshare.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -29,7 +30,7 @@ Genre::Genre() :
 }
 
 Genre::Genre(const QString &name) :
-    m_name(name)
+    m_name(StringShare::tryShare(name))
 {
     m_ID3v1 = GenreListList::ID3v1List().findIndex(name);
     if(m_ID3v1 < 0)
@@ -37,7 +38,7 @@ Genre::Genre(const QString &name) :
 }
 
 Genre::Genre(const QString &name, int ID3v1) :
-    m_name(name),
+    m_name(StringShare::tryShare(name)),
     m_ID3v1(ID3v1)
 {
 
@@ -60,7 +61,7 @@ QDataStream &operator>>(QDataStream &s, Genre &g)
 
     s >> name >> n;
 
-    g.setName(name);
+    g.setName(StringShare::tryShare(name));
     g.setID3v1(n);
 
     return s;
