@@ -519,7 +519,7 @@ void PlaylistSplitter::readConfig()
 
 	    readPlaylists();
 
-	    m_directoryList = config->readListEntry("DirectoryList");
+	    m_directoryList = config->readPathListEntry("DirectoryList");
 	    QTimer::singleShot(0, this, SLOT(slotScanDirectories()));
 
 	    connect(m_dirWatch, SIGNAL(dirty(const QString &)),
@@ -554,7 +554,7 @@ void PlaylistSplitter::saveConfig()
 
 	{ // block for Playlists group
 	    KConfigGroupSaver saver(config, "Playlists");
-	    config->writeEntry("DirectoryList", m_directoryList);
+	    config->writePathEntry("DirectoryList", m_directoryList);
 	    config->writeEntry("SortColumn", m_collection->sortColumn());
 	    config->writeEntry("PlaylistSplitterSizes", sizes());
 	}
