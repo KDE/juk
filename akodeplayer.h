@@ -56,8 +56,6 @@ public slots:
 
 private:
     aKode::Player *m_player;
-
-    const char* m_currentFile;
 };
 
 #endif

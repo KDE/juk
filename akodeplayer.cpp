@@ -30,8 +30,7 @@ using namespace aKode;
 ////////////////////////////////////////////////////////////////////////////////
 
 aKodePlayer::aKodePlayer() : Player(),
-                             m_player(0),
-                             m_currentFile(0)
+                             m_player(0)
 {}
 
 aKodePlayer::~aKodePlayer()
@@ -43,7 +42,7 @@ void aKodePlayer::play(const FileHandle &file)
 {
     kdDebug( 65432 ) << k_funcinfo << endl;
     
-    if (file == FileHandle::null()) { // null FileHandle file means unpauze
+    if (file.isNull()) { // null FileHandle file means unpause
         if (paused())
             m_player->play();
         else
@@ -52,10 +51,8 @@ void aKodePlayer::play(const FileHandle &file)
     }
     
     QString filename = file.absFilePath();
-    delete m_currentFile;
-    m_currentFile = qstrdup(filename.local8Bit());
-
-    kdDebug( 65432 ) << "Opening: " << file.absFilePath() << endl;
+    
+    kdDebug( 65432 ) << "Opening: " << filename << endl;
 
     if (m_player)
         m_player->stop();
@@ -64,7 +61,7 @@ void aKodePlayer::play(const FileHandle &file)
         m_player->open("auto");
     }
 
-    if (m_player->load(m_currentFile))
+    if (m_player->load(filename.local8Bit().data()))
         m_player->play();
 
 }
