@@ -240,9 +240,6 @@ bool SystemTray::buttonsToLeft() const
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
 {
-    QPixmap buffer(m_appPix.width(), m_appPix.height());
-    buffer.fill(this, 0, 0);
-
     QPixmap bgPix = m_appPix;
     QPixmap fgPix = SmallIcon(pixName);
 
