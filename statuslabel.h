@@ -21,6 +21,7 @@
 #include <qhbox.h>
 
 class QLabel;
+class KSqueezedTextLabel;
 
 class PlaylistItem;
 
@@ -73,8 +74,8 @@ private:
     int m_itemCurrentTime;
     bool m_showTimeRemaining;
 
-    QLabel *m_playlistLabel;
-    QLabel *m_trackLabel;
+    KSqueezedTextLabel *m_playlistLabel;
+    KSqueezedTextLabel *m_trackLabel;
     QLabel *m_itemTimeLabel;
 };
 
