@@ -772,7 +772,6 @@ void Playlist::polish()
     setSelectionMode(QListView::Extended);
     setShowSortIndicator(true);
     setDropVisualizer(true);
-    setItemMargin(3);
 
     //////////////////////////////////////////////////
     // setup header RMB menu
@@ -840,6 +839,8 @@ void Playlist::setup()
 {
     m_polished = false;
     m_allowDuplicates = false;
+
+    setItemMargin(3);
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
     connect(this, SIGNAL(signalDataChanged()), this, SIGNAL(signalChanged()));
