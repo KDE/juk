@@ -545,7 +545,7 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
                     addImpl(fileInfo.filePath() + QDir::separator() + *it, list);
         }
         else {
-            QString extension = fileInfo.extension(false);
+            QString extension = fileInfo.extension(false).lower();
             if(mediaExtensions.contains(extension) > 0)
 		list->createItem(fileInfo);
 	    else if(listExtensions.contains(extension) > 0)
