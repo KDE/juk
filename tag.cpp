@@ -77,9 +77,13 @@ void Tag::save()
 
     if(MediaFiles::isMP3(m_fileName))
         file = new TagLib::MPEG::File(QStringToTString(m_fileName));
-#ifdef BREAK_MY_OGGS
+#if defined TAGLIB_MINOR_VERSION && TAGLIB_MINOR_VERSION >= 95
     else if(MediaFiles::isOgg(m_fileName))
         file = new TagLib::Vorbis::File(QStringToTString(m_fileName));
+#else
+#ifdef _GNUC
+#warning "Your TagLib is too old for saving Vorbis files.  It is being disabled for now."
+#endif
 #endif
 
     if(file && file->isOpen() && file->tag()) {
