@@ -53,7 +53,7 @@ public:
     enum UniqueSetType { Artists = 0, Albums = 1, Genres = 2 };
 
     static CollectionList *instance();
-    static void initialize(PlaylistCollection *collection, bool restoreOnLoad = true);
+    static void initialize(PlaylistCollection *collection);
 
     /**
      * Returns a unique set of values associated with the type specified.

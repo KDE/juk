@@ -42,7 +42,7 @@ CollectionList *CollectionList::instance()
     return m_list;
 }
 
-void CollectionList::initialize(PlaylistCollection *collection, bool restoreOnLoad)
+void CollectionList::initialize(PlaylistCollection *collection)
 {
     if(m_list)
 	return;
@@ -54,17 +54,11 @@ void CollectionList::initialize(PlaylistCollection *collection, bool restoreOnLo
     m_list = new CollectionList(collection);
     m_list->setName(i18n("Collection List"));
 
-    if(restoreOnLoad) {
-	for(FileHandleHash::Iterator it = Cache::instance()->begin();
-	    it != Cache::instance()->end();
-	    ++it)
-	{
-	    new CollectionListItem(*it);
-	}
+    FileHandleHash::Iterator end = Cache::instance()->end();
+    for(FileHandleHash::Iterator it = Cache::instance()->begin(); it != end; ++it)
+	new CollectionListItem(*it);
 
-	SplashScreen::update();
-    }
-
+    SplashScreen::update();
     collection->setupPlaylist(m_list, "folder_sound");
 }
 
