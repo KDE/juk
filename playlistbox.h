@@ -25,6 +25,7 @@
 #include <qmap.h>
 
 #include "playlist.h"
+#include "viewmode.h"
 
 class PlaylistItem;
 class PlaylistSplitter;
@@ -42,8 +43,6 @@ class PlaylistBox : public KListView
     Q_OBJECT
 
 public: 
-    enum ViewMode { Default = 0, Compact = 1, Tree = 2 };
-
     PlaylistBox(PlaylistSplitter *parent = 0, const char *name = 0);
     virtual ~PlaylistBox();
 
@@ -60,10 +59,10 @@ public:
     void duplicate();
     void deleteItem();
 
-    bool hasSelection() const { return m_hasSelection; }
+    bool hasSelection() const  { return m_hasSelection; }
 
-    void initViewMode();
-    ViewMode viewMode() const { return m_viewMode; }
+    ViewMode *viewMode()       { return m_viewModes.at(m_viewModeIndex); }
+    int viewModeIndex() const  { return m_viewModeIndex; }
 
     class Item;
     friend class Item;
@@ -109,7 +108,7 @@ private slots:
     void slotPlaylistChanged();
     void slotDoubleClicked(QListViewItem *);
     void slotShowContextMenu(QListViewItem *, const QPoint &point, int);
-    void slotSetViewMode(int viewMode);
+    void slotSetViewMode(int index);
 
 private:
     PlaylistSplitter *m_splitter;
@@ -117,7 +116,8 @@ private:
     KPopupMenu *m_contextMenu;
     bool m_updatePlaylistStack;
     QPtrDict<Item> m_playlistDict;
-    ViewMode m_viewMode;
+    int m_viewModeIndex;
+    QPtrList<ViewMode> m_viewModes;
     KSelectAction *m_viewModeAction;
     bool m_hasSelection;
 };
@@ -127,6 +127,8 @@ private:
 class PlaylistBox::Item : public QObject, public KListViewItem
 {
     friend class PlaylistBox;
+    friend class ViewMode;
+    friend class CompactViewMode;
 
     Q_OBJECT
 
@@ -139,31 +141,25 @@ public:
     
 protected:
     Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l = 0);
-    Item(Item *parent, const char *icon, const QString &text, int category, Playlist *l = 0);
 
     Playlist *playlist() const { return m_list; }
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(KListViewItem::listView()); }
     const char *iconName() const { return m_iconName; }
     QString text() const { return m_text; }
-    int category() const { return m_category; }
 
     virtual int compare(QListViewItem *i, int col, bool) const;
     virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
     virtual void setText(int column, const QString &text);
-    virtual Item *rootItem();
 
     virtual QString text(int column) const { return KListViewItem::text(column); }
 
 protected slots:
     void slotSetName(const QString &name);
-    void slotTriggerSetData();
-    void slotSetData();
 
 private:
     Playlist *m_list;
     QString m_text;
     const char *m_iconName;
-    int m_category;
 };
 
 #endif
