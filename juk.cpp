@@ -126,7 +126,7 @@ void JuK::setupActions()
     forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forwardFile()), actionCollection(), "forwardFile");
 
     // tagger menu
-    new KAction(i18n("Save"), "filesave", 0, splitter, SLOT(saveItem()), actionCollection(), "saveItem");
+    new KAction(i18n("Save"), "filesave", "CTRL+t", splitter, SLOT(saveItem()), actionCollection(), "saveItem");
     new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(removeSelectedItems()), actionCollection(), "removeItem");
     
     // settings menu
