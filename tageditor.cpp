@@ -459,7 +459,7 @@ void TagEditor::save(const PlaylistItemList &list)
 
 void TagEditor::saveChangesPrompt()
 {
-    if(dataChanged && !items.isEmpty()) {
+    if(isVisible() && dataChanged && !items.isEmpty()) {
 
 	QStringList files;
         PlaylistItem *item = items.first();
