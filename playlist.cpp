@@ -344,6 +344,7 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_fileColumnFullPathSort(true),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
+    m_searchEnabled(true),
     m_lastSelected(0),
     m_rmbMenu(0)
 {
