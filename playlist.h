@@ -126,13 +126,17 @@ public slots:
      * Remove the currently selected items from the playlist and disk.
      */ 
     void slotDeleteSelectedItems() { deleteFromDisk(selectedItems()); };
-
+    virtual void slotPlayNext();
+    
+    /*
+     * The edit slots are required to use the canonical names so that they are
+     * detected by the application wide framework.
+     */
     virtual void cut() { copy(); clear(); }
     virtual void copy();
     virtual void paste();
     virtual void clear();
     virtual void selectAll() { KListView::selectAll(true); }
-    virtual void playNext();
 
 protected:
     /**

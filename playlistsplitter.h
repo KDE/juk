@@ -285,6 +285,7 @@ private slots:
     void slotPlaylistItemRemoved(PlaylistItem *item);
 
     void slotScanDirectories() { open(m_directoryList); }
+    void slotClearNextItem() { m_nextPlaylistItem = 0; }
 
 private:
     PlaylistItem *m_playingItem;

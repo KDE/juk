@@ -254,7 +254,7 @@ void Playlist::setName(const QString &n)
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void Playlist::playNext()
+void Playlist::slotPlayNext()
 {
     if(m_splitter)
 	m_splitter->playSelectedFileNext();
@@ -523,7 +523,8 @@ void Playlist::setup()
 
     m_rmbMenu = new KPopupMenu(this);
 
-    m_rmbMenu->insertItem(SmallIcon("player_play"), i18n("Play Next"), this, SLOT(playNext()));
+    m_rmbMenu->insertItem(SmallIcon("player_play"), i18n("Play Next"), this, SLOT(slotPlayNext()));
+    m_rmbMenu->insertSeparator();
     m_rmbMenu->insertItem(SmallIcon("editcut"), i18n("Cut"), this, SLOT(cut()));
     m_rmbMenu->insertItem(SmallIcon("editcopy"), i18n("Copy"), this, SLOT(copy()));
     m_rmbPasteID = m_rmbMenu->insertItem(SmallIcon("editpaste"), i18n("Paste"), this, SLOT(paste()));
@@ -532,8 +533,6 @@ void Playlist::setup()
     m_rmbMenu->insertSeparator();
 
     m_rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove From Disk"), this, SLOT(slotDeleteSelectedItems()));
-
-    m_rmbMenu->insertSeparator();
 
     m_rmbEditID = m_rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
     

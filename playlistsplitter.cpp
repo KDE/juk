@@ -64,6 +64,7 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *na
 
     setupLayout();
     readConfig();
+    connect(this, SIGNAL(signalDoubleClicked()), this, SLOT(slotClearNextItem()));
 }
 
 PlaylistSplitter::~PlaylistSplitter()
@@ -169,10 +170,9 @@ QString PlaylistSplitter::playSelectedFileNext()
 {
     PlaylistItemList items = playlistSelection();
 
-    if(items.isEmpty()) 
-    {
-      m_nextPlaylistItem = 0L;
-      return QString::null;
+    if(items.isEmpty()) {
+	m_nextPlaylistItem = 0L;
+	return QString::null;
     }
 
     m_nextPlaylistItem = items.first();
