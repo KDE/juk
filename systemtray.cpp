@@ -150,7 +150,6 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
     // do this, but I am exceedingly lazy.
     KIconEffect::semiTransparent(bgPix);
     KIconEffect::semiTransparent(bgPix);
-    KIconEffect::semiTransparent(bgPix);
 
     QPainter p(&buffer);
     p.drawPixmap(0, 0, bgPix);
