@@ -210,7 +210,12 @@ void TaggerWidget::updateBoxes(FileListItem *item)
   artistNameBox->setEditText(tag->getArtist());
   trackNameBox->setText(tag->getTrack());
   albumNameBox->setEditText(tag->getAlbum());
-  genreBox->setCurrentItem(tag->getGenreNumber() + 1);
+
+  if(genreList && genreList->findIndex(tag->getGenre()) >= 0)
+    genreBox->setCurrentItem(genreList->findIndex(tag->getGenre()) + 1);
+  else 
+    genreBox->setCurrentItem(0);
+
   fileNameBox->setText(fileInfo->fileName());
   trackSpin->setValue(tag->getTrackNumber());
   yearSpin->setValue(tag->getYear());

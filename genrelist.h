@@ -32,8 +32,8 @@ public:
   ~GenreList();
 
   void load(QString file);
-
   QString name(int id3v1);
+  int findIndex(QString item);
 
 private:
   QValueVector<QString> index;

@@ -60,6 +60,32 @@ QString GenreList::name(int id3v1)
     return(QString::null);
 }
 
+int GenreList::findIndex(QString item)
+{
+  
+  // cache the previous search -- since there are a lot of "two in a row"
+  // searchs this should optimize things a little
+
+  static QString lastItem;
+  static int lastIndex;
+
+  if(!lastItem.isEmpty() && lastItem == item) {
+    //    kdDebug() << "GenreList::findIndex() -- cache hit" << endl;
+    return(lastIndex);
+  }
+      
+  int i = 0;
+  for(GenreList::Iterator it = begin(); it != end(); ++it) {
+    if(item == (*it)) {
+      lastItem = item;
+      lastIndex = i;
+      return(i);
+    }
+    i++;
+  }
+  return(-1);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,7 +101,6 @@ void GenreList::initializeIndex()
       //      kdDebug() << "initializeIndex() - " << (*it).getId3v1()  << " - " 
       //                << index.size() << " - " << count() << " - " << (*it) << endl;
       index[(*it).getId3v1()] = QString(*it);
-      //      kdDebug() << "id3v1 #" << (*it).getId3v1() << ", Size: " << index.size() << endl;
     }
   }
 }
