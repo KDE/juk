@@ -74,6 +74,11 @@ public slots:
     void volumeDown();
     void mute();
 
+signals:
+    void signalPlay();
+    void signalPause();
+    void signalStop();
+
 private:
     Player *player() const;
     void setup();

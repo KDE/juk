@@ -17,6 +17,8 @@
 #include <kiconloader.h>
 #include <kpassivepopup.h>
 #include <kiconeffect.h>
+#include <kaction.h>
+#include <kpopupmenu.h>
 #include <kdebug.h>
 
 #include <qhbox.h>
@@ -25,7 +27,7 @@
 
 #include "systemtray.h"
 #include "actioncollection.h"
-#include "juk.h"
+#include "playermanager.h"
 
 using namespace ActionCollection;
 
@@ -53,9 +55,9 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
 
     KPopupMenu *cm = contextMenu();
 
-    connect(action("play"), SIGNAL(activated()), this, SLOT(slotPlay()));
-    connect(action("pause"), SIGNAL(activated()), this, SLOT(slotPause()));
-    connect(action("stop"), SIGNAL(activated()), this, SLOT(slotStop()));
+    connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotPlay()));
+    connect(PlayerManager::instance(), SIGNAL(signalPause()), this, SLOT(slotPause()));
+    connect(PlayerManager::instance(), SIGNAL(signalStop()), this, SLOT(slotStop()));
 
     action("play")->plug(cm);
     action("pause")->plug(cm);

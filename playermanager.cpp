@@ -215,6 +215,8 @@ void PlayerManager::play(const FileHandle &file)
     m_sliderAction->trackPositionSlider()->setEnabled(true);
 
     m_timer->start(m_pollInterval);
+
+    emit signalPlay();
 }
 
 void PlayerManager::play()
@@ -236,6 +238,8 @@ void PlayerManager::pause()
     action("pause")->setEnabled(false);
 
     player()->pause();
+
+    emit signalPause();
 }
 
 void PlayerManager::stop()
@@ -256,6 +260,8 @@ void PlayerManager::stop()
     m_statusLabel->clear();
 
     player()->stop();
+
+    emit signalStop();
 }
 
 void PlayerManager::setVolume(float volume)
