@@ -67,6 +67,7 @@ private slots:
 signals:
     void signalNewSearch(GoogleImageList &images);
 
+private:
     FileHandle m_file;
     QString m_searchString;
     QString m_loadedQuery;
