@@ -22,6 +22,7 @@
 #include <kstatusbar.h>
 #include <kconfig.h>
 #include <kdebug.h>
+#include <kmessagebox.h>
 
 #include <qtimer.h>
 #include <qlistview.h>
@@ -108,7 +109,8 @@ void JuK::setupActions()
     m_deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, m_splitter, SLOT(slotDeletePlaylist()), 
 					   actionCollection(), "deleteItemPlaylist");
 
-    KStdAction::quit(this, SLOT(close()), actionCollection());
+    //KStdAction::quit(this, SLOT(close()), actionCollection());
+    KStdAction::quit(kapp, SLOT(quit()), actionCollection());
 
     // edit menu
     KStdAction::cut(this, SLOT(cut()), actionCollection());
@@ -307,7 +309,7 @@ void JuK::saveConfig()
     }
 }
 
-bool JuK::queryClose()
+bool JuK::queryExit()
 {
     slotStop();
     delete m_player;
@@ -315,6 +317,20 @@ bool JuK::queryClose()
     saveConfig();
     delete m_splitter;
     return true;
+}
+
+bool JuK::queryClose()
+{
+    if(m_systemTray) {
+	KMessageBox::information(this,
+				 i18n("<qt>Closing the main window will keep JuK running in the system tray. "
+				      "Use Quit from the File menu to quit the application.</qt>"), 
+				 i18n("Docking in System Tray"), "hideOnCloseInfo");
+	hide();
+	return false;
+    }
+    else
+	return true;
 }
 
 void JuK::invokeEditSlot( const char *slotName, const char *slot )

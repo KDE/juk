@@ -68,6 +68,7 @@ private:
     void readConfig();
     void saveConfig();
 
+    virtual bool queryExit();
     virtual bool queryClose();
 
     void invokeEditSlot(const char *slotName, const char *slot);
