@@ -282,6 +282,7 @@ void PlaylistBox::remove()
 	return;
 
     QStringList files;
+    QStringList names;
 
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 	if(*it && (*it)->playlist() &&
@@ -290,6 +291,7 @@ void PlaylistBox::remove()
 	{
 	    files.append((*it)->playlist()->fileName());
 	}
+	names.append((*it)->playlist()->name());
     }
 
     if(!files.isEmpty()) {
@@ -313,9 +315,15 @@ void PlaylistBox::remove()
 	    return;
     }
     else {
-	if(KMessageBox::warningContinueCancel(this, i18n("Are you sure you want to remove these items?"),
-	   i18n("Remove Items?"),KGuiItem(i18n("&Remove"),"edittrash")) == KMessageBox::Cancel)
+	if(KMessageBox::warningContinueCancelList(this,
+						  i18n("Are you sure you want to remove these "
+						       "playlists from your collection?"),
+						  names,
+						  i18n("Remove Items?"),
+						  KGuiItem(i18n("&Remove"), "edittrash")) == KMessageBox::Cancel)
+	{
 	    return;
+	}
     }
 
     PlaylistList removeQueue;
