@@ -54,8 +54,7 @@ public:
 
         QMap<QString, QString>::ConstIterator it = files.begin();
         for(; it != files.end(); ++it) {
-
-            KListViewItem *i = it.key() == it.data()
+            KListViewItem *i = it.key() != it.data()
                 ? new KListViewItem(lv, it.key(), it.data())
                 : new KListViewItem(lv, it.key(), i18n("No Change"));
             lvHeight += i->height();
@@ -179,8 +178,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
             continue;
 
         const QString oldName = (*it)->file().absFilePath();
-        const QString newName = rename(oldName, *(*it)->file().tag());
-        map[oldName] = newName;
+        map[oldName] = rename(oldName, *(*it)->file().tag());
         itemMap[oldName] = *it;
     }
 
