@@ -25,6 +25,7 @@
 #include "playlistitem.h"
 
 class PlaylistSplitter;
+class PlaylistBoxItem;
 
 class Playlist : public KListView
 {
@@ -90,6 +91,9 @@ public:
     QString name() const;
     void setName(const QString &n);
 
+    PlaylistBoxItem *playlistBoxItem() const;
+    void setPlaylistBoxItem(PlaylistBoxItem *item);
+
     // static methods
 
     /** 
@@ -120,6 +124,7 @@ private:
     QString playlistFileName;
     QString playlistName;
     PlaylistSplitter *splitter;
+    PlaylistBoxItem *boxItem;
 
 private slots:
     void emitSelected();

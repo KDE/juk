@@ -213,7 +213,8 @@ Playlist *PlaylistSplitter::createPlaylist()
 Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 {
     Playlist *p = new Playlist(this, playlistStack, name.latin1());
-    new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
+    PlaylistBoxItem *i = new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), name, p);
+    p->setPlaylistBoxItem(i);
 
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
@@ -242,7 +243,8 @@ Playlist *PlaylistSplitter::openPlaylist(const QString &playlistFile)
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));
     connect(p, SIGNAL(doubleClicked(QListViewItem *)), this, SIGNAL(playlistDoubleClicked(QListViewItem *)));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
-    new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), p->name(), p);
+    PlaylistBoxItem *i = new PlaylistBoxItem(playlistBox, SmallIcon("midi", 32), p->name(), p);
+    p->setPlaylistBoxItem(i);
     playlistBox->sort();
     return(p);
 }
@@ -308,6 +310,7 @@ void PlaylistSplitter::setupLayout()
 
     PlaylistBoxItem *collectionBoxItem = new PlaylistBoxItem(playlistBox, SmallIcon("folder_sound", 32), 
 							     i18n("Music Collection"), collection);
+    collection->setPlaylistBoxItem(collectionBoxItem);
 
     connect(collection, SIGNAL(selectionChanged(const PlaylistItemList &)), 
 	    editor, SLOT(setItems(const PlaylistItemList &)));

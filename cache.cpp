@@ -36,32 +36,6 @@ Cache *Cache::instance()
     return(cache);
 }
 
-void Cache::load()
-{
-    QString cacheFileName = KGlobal::dirs()->saveLocation("appdata") + "cache";
-
-    QFile f(cacheFileName);
-
-    if(!f.open(IO_ReadOnly))
-	return;
-
-    QDataStream s(&f);
-
-    while(!s.atEnd()) {
-
-	QString fileName;
-	s >> fileName;
-
-	CachedTag *t = new CachedTag(fileName);
-	s >> *t;
-
-	if(!t->current())
-	    delete(t);
-    }
-
-    f.close();
-}
-
 void Cache::save()
 {
     QString cacheFileName = KGlobal::dirs()->saveLocation("appdata") + "cache";
@@ -93,4 +67,30 @@ Cache::Cache() : QDict<Tag>()
 Cache::~Cache()
 {
     delete(cache);
+}
+
+void Cache::load()
+{
+    QString cacheFileName = KGlobal::dirs()->saveLocation("appdata") + "cache";
+
+    QFile f(cacheFileName);
+
+    if(!f.open(IO_ReadOnly))
+	return;
+
+    QDataStream s(&f);
+
+    while(!s.atEnd()) {
+
+	QString fileName;
+	s >> fileName;
+
+	CachedTag *t = new CachedTag(fileName);
+	s >> *t;
+
+	if(!t->current())
+	    delete(t);
+    }
+
+    f.close();
 }

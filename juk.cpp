@@ -18,6 +18,7 @@
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kcmdlineargs.h>
+#include <kstatusbar.h>
 #include <kdebug.h>
 
 #include <qinputdialog.h>
@@ -60,6 +61,10 @@ void JuK::setupLayout()
 
     // playlist item activation connection
     connect(splitter, SIGNAL(playlistDoubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
+
+    // create status bar
+    statusLabel = new QLabel(statusBar());
+    statusBar()->addWidget(statusLabel, 1);
 
     splitter->setFocus();
 }
@@ -302,6 +307,8 @@ void JuK::stopFile()
     sliderAction->getTrackPositionSlider()->setEnabled(false);
     if(playingItem)
         playingItem->setPixmap(0, 0);
+
+    statusLabel->clear();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -394,6 +401,14 @@ void JuK::playItem(PlaylistItem *item)
             sliderAction->getTrackPositionSlider()->setEnabled(true);
             playingItem->setPixmap(0, QPixmap(UserIcon("playing")));
             playTimer->start(pollInterval);
+
+	    Playlist * p = static_cast<Playlist *>(item->listView());
+	    if(p && p->playlistBoxItem()) {
+		QString label = p->playlistBoxItem()->text() 
+		    + " / " + item->text(PlaylistItem::ArtistColumn) 
+		    + " - " + item->text(PlaylistItem::TrackColumn);
+		statusLabel->setText(label);
+	    }
         }
     }
 }

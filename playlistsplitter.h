@@ -113,8 +113,6 @@ public slots:
     void duplicatePlaylist() { playlistBox->duplicate(); }
     void deleteItemPlaylist() { playlistBox->deleteItem(); }
 
-protected:
-
 private:
     void setupLayout();
     void readConfig();

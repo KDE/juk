@@ -35,6 +35,7 @@
 #include "playlist.h"
 #include "collectionlist.h"
 #include "playlistsplitter.h"
+#include "playlistbox.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -42,6 +43,7 @@
 
 Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1())
 {
+    boxItem = 0;
     playlistName = name;
     internalFile = true;
     playlistFileName = QString::null;
@@ -294,6 +296,16 @@ void Playlist::setName(const QString &n)
 {
     playlistName = n;
     emit(nameChanged(playlistName));
+}
+
+PlaylistBoxItem *Playlist::playlistBoxItem() const
+{
+    return(boxItem);
+}
+
+void Playlist::setPlaylistBoxItem(PlaylistBoxItem *item)
+{
+    boxItem = item;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

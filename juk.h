@@ -29,6 +29,7 @@
 
 #include <qtimer.h>
 #include <qlistview.h>
+#include <qlabel.h>
 
 #include "player.h"
 
@@ -45,6 +46,7 @@ public:
     virtual ~JuK();
 
 private:
+
     // private methods
     void setupLayout();
     void setupActions();
@@ -57,6 +59,7 @@ private:
 
     // layout objects
     PlaylistSplitter *splitter;
+    QLabel *statusLabel;
 
     // actions
     KToggleAction *showEditorAction;
