@@ -195,8 +195,6 @@ void SystemTray::createPopup(bool addButtons)
             connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
         }
 
-        m_popup->setView(box);
-
         // We don't want an autodelete popup.  There are times when it will need
         // to be hidden before the timeout.
         m_popup->setAutoDelete(false);
@@ -210,6 +208,7 @@ void SystemTray::createPopup(bool addButtons)
         if(album)
             album->setText(albumStr);
         
+        m_popup->setView(box);
         m_popup->show();
     }
 }
