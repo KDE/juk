@@ -43,8 +43,10 @@ void processEvents()
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) : QSplitter(Qt::Horizontal, parent, name)
+PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restoreOnLoad, const char *name) : QSplitter(Qt::Horizontal, parent, name)
 {
+    restore = restoreOnLoad;
+
     setupLayout();
     readConfig();
     mediaExtensions.append("mp3");
@@ -343,7 +345,7 @@ void PlaylistSplitter::setupLayout()
     // fact is a subclass) so it is created here rather than by using 
     // createPlaylist().
 
-    CollectionList::initialize(this, playlistStack);
+    CollectionList::initialize(this, playlistStack, restore);
     collection = CollectionList::instance();
 
     PlaylistBoxItem *collectionBoxItem = new PlaylistBoxItem(playlistBox, SmallIcon("folder_sound", 32), 
@@ -365,15 +367,17 @@ void PlaylistSplitter::readConfig()
     { // block for Playlists group
 	KConfigGroupSaver saver(config, "Playlists");
 
-	QStringList external = config->readListEntry("ExternalPlaylists");
-	for(QStringList::Iterator it = external.begin(); it != external.end(); ++it)
-	    openPlaylist(*it);
-
-	QStringList internal = config->readListEntry("InternalPlaylists");
-	for(QStringList::Iterator it = internal.begin(); it != internal.end(); ++it) {
-	    Playlist *p = openPlaylist(*it);
-	    if(p)
-		p->setInternal(true);
+	if(restore) {
+	    QStringList external = config->readListEntry("ExternalPlaylists");
+	    for(QStringList::Iterator it = external.begin(); it != external.end(); ++it)
+		openPlaylist(*it);
+	    
+	    QStringList internal = config->readListEntry("InternalPlaylists");
+	    for(QStringList::Iterator it = internal.begin(); it != internal.end(); ++it) {
+		Playlist *p = openPlaylist(*it);
+		if(p)
+		    p->setInternal(true);
+	    }
 	}
     }
 }	
@@ -385,7 +389,7 @@ void PlaylistSplitter::saveConfig()
 
     // Save the list of open playlists.
     
-    if(playlistBox) {
+    if(restore && playlistBox) {
 	QStringList internalPlaylists;
 	QStringList externalPlaylists;
 

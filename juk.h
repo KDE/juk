@@ -54,6 +54,11 @@ private:
     void setupPlayer();
     void processArgs();
     void readConfig();
+    /**
+     * This is only separate from readConfig() because it is useful to call it
+     * before we construct the splitter.
+     */
+    void readSettings();
     void saveConfig();
 
     virtual bool queryClose();
@@ -64,6 +69,7 @@ private:
 
     // actions
     KToggleAction *showEditorAction;
+    KToggleAction *restoreOnLoadAction;
     SliderAction *sliderAction;
     KToggleAction *randomPlayAction;
     KAction *playAction;
@@ -80,6 +86,7 @@ private:
     PlaylistItem *playingItem;
     bool trackPositionDragging;
     bool noSeek;
+    bool restore;
 
     static const int pollInterval = 800;
 

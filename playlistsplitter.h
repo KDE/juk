@@ -42,7 +42,7 @@ class PlaylistSplitter : public QSplitter
     Q_OBJECT
 
 public:
-    PlaylistSplitter(QWidget *parent, const char *name = 0);
+    PlaylistSplitter(QWidget *parent, bool restoreOnLoad = true, const char *name = 0);
     virtual ~PlaylistSplitter();
 
     /**
@@ -137,6 +137,7 @@ private:
     QStringList listExtensions;
 
     bool showEditor;
+    bool restore;
 
 private slots:
     // playlist box slots

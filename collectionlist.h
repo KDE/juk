@@ -23,15 +23,16 @@
 #include "playlist.h"
 #include "playlistitem.h"
 
-/** This is the "collection", or all of the music files that have been opened
-    in any playlist and not explicitly removed from the collection.
-
-    It is being implemented as a "semi-singleton" because I need universal access
-    to just one instance.  However, because the collection needs initialization 
-    parameters (that will not always be available when an instance is needed).  
-    Hence there will be the familiar singleton "instance()" method allong with an
-    "initialize()" method.
-*/
+/** 
+ * This is the "collection", or all of the music files that have been opened
+ * in any playlist and not explicitly removed from the collection.
+ *
+ * It is being implemented as a "semi-singleton" because I need universal access
+ * to just one instance.  However, because the collection needs initialization 
+ * parameters (that will not always be available when an instance is needed).  
+ * Hence there will be the familiar singleton "instance()" method allong with an
+ * "initialize()" method.
+ */
 
 class PlaylistSplitter;
 class CollectionListItem;
@@ -43,7 +44,7 @@ class CollectionList : public Playlist
     Q_OBJECT
 public: 
     static CollectionList *instance();
-    static void initialize(PlaylistSplitter *s, QWidget *parent);
+    static void initialize(PlaylistSplitter *s, QWidget *parent, bool restoreOnLoad = true);
 
     QStringList artists() const;
     QStringList albums() const;

@@ -39,6 +39,7 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
 {
     // Expect segfaults if you change this order.
 
+    readSettings();
     setupLayout();
     setupActions();
     setupPlayer();
@@ -57,7 +58,7 @@ JuK::~JuK()
 
 void JuK::setupLayout()
 {
-    splitter = new PlaylistSplitter(this, "playlistSplitter");
+    splitter = new PlaylistSplitter(this, restore, "playlistSplitter");
     setCentralWidget(splitter);
 
     // playlist item activation connection
@@ -106,8 +107,12 @@ void JuK::setupActions()
     renamePlaylistAction = new KAction(i18n("Rename..."), 0, splitter, SLOT(renamePlaylist()), 
 				       actionCollection(), "renamePlaylist");
     new KAction(i18n("Duplicate..."), "editcopy", 0, splitter, SLOT(duplicatePlaylist()), actionCollection(), "duplicatePlaylist");
-    deleteItemPlaylistAction = new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(deleteItemPlaylist()), actionCollection(), "deleteItemPlaylist");
+    deleteItemPlaylistAction = new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(deleteItemPlaylist()), 
+					   actionCollection(), "deleteItemPlaylist");
     
+    // settings menu
+    restoreOnLoadAction = new KToggleAction(i18n("Restored Playlists on Load"),  0, actionCollection(), "restoreOnLoad"); 
+
     playlistChanged(0);
     connect(splitter, SIGNAL(playlistChanged(Playlist *)), this, SLOT(playlistChanged(Playlist *)));
 
@@ -171,11 +176,23 @@ void JuK::readConfig()
 	    randomPlayAction->setChecked(randomPlay);
 	}
     }
-    { // view Settings
+    { // view settings
         KConfigGroupSaver saver(config, "View");
 	bool showEditor = config->readBoolEntry("ShowEditor", true);
 	showEditorAction->setChecked(showEditor);
 	splitter->setEditorVisible(showEditor);
+    }
+
+    if(restoreOnLoadAction)
+	restoreOnLoadAction->setChecked(restore);
+}
+
+void JuK::readSettings()
+{
+    KConfig *config = KGlobal::config();
+    { // general settings
+        KConfigGroupSaver saver(config, "Settings");
+	restore = config->readBoolEntry("RestoreOnLoad", true);
     }
 }
 
@@ -192,6 +209,11 @@ void JuK::saveConfig()
     { // view settings
         KConfigGroupSaver saver(config, "View");
 	config->writeEntry("ShowEditor", showEditorAction->isChecked());
+    }
+    { // general settings
+        KConfigGroupSaver saver(config, "Settings");
+	if(restoreOnLoadAction)
+	    config->writeEntry("RestoreOnLoad", restoreOnLoadAction->isChecked());
     }
 }
 

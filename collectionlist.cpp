@@ -34,12 +34,13 @@ CollectionList *CollectionList::instance()
     return(list);
 }
 
-void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent)
+void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent, bool restoreOnLoad)
 {
     list = new CollectionList(s, parent);
 
-    for(QDictIterator<Tag>it(*Cache::instance()); it.current(); ++it)
-	new CollectionListItem(it.current()->fileInfo());
+    if(restoreOnLoad)
+	for(QDictIterator<Tag>it(*Cache::instance()); it.current(); ++it)
+	    new CollectionListItem(it.current()->fileInfo());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

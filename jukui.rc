@@ -32,6 +32,9 @@
 		<Action name="duplicatePlaylist"/>
 		<Action name="deleteItemPlaylist"/>
 	</Menu>
+	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
+		<Action name="restoreOnLoad"/>
+	</Menu>
 </MenuBar>
 
 <ToolBar name="mainToolBar" noMerge="1"><text>Main Toolbar</text>
