@@ -43,10 +43,6 @@ public:
     virtual ~JuK();
     virtual KActionCollection *actionCollection() const;
 
-public slots:
-    void back(int howMany = 0);
-    void slotPopulateBackMenu();
-
 signals:
     void signalEdit();
     void signalNewSong(const QString& songTitle);
@@ -83,12 +79,6 @@ private:
     QString playingString() const;
 
     void updatePlaylistInfo();
-
-    /**
-     * This is the main method to play stuff.  Everything else is just a wrapper
-     * around this.
-     */
-    void play(const QString &file);
 
     void openFile(const QString &file);
     void openFile(const QStringList &files);

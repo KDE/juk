@@ -94,20 +94,6 @@ void JuK::slotGuessTagInfoFromInternet()
     m_splitter->slotGuessTagInfo(TagGuesser::MusicBrainz);
 }
 
-void JuK::back(int howMany)
-{
-    for(--howMany; howMany > 0; --howMany)
-        m_splitter->playPreviousFile(m_randomPlayAction->isChecked());
-
-    play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
-}
-
-void JuK::slotPopulateBackMenu()
-{
-    m_splitter->populatePlayHistoryMenu(m_backAction->popupMenu(),
-					m_randomPlayAction->isChecked());
-}
-
 void JuK::openFile(const QString &file)
 {
     m_splitter->open(file);
@@ -230,15 +216,14 @@ void JuK::setupActions()
     new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()), actions(), "pause");
     new KAction(i18n("&Stop"),  "player_stop",  0, m_player, SLOT(stop()),  actions(), "stop");
 
-    m_backAction = new KToolBarPopupAction(i18n("Previous &Track"), "player_start", 0,
-					   this, SLOT(back()), actions(), "back");
+    // m_backAction = new KToolBarPopupAction(i18n("Previous &Track"), "player_start", 0,
+    //                                        this, SLOT(back()), actions(), "back");
 
-    connect(m_backAction->popupMenu(), SIGNAL(aboutToShow()),
-	    this, SLOT(slotPopulateBackMenu()));
-    connect(m_backAction->popupMenu(), SIGNAL(activated(int)),
-	    this, SLOT(back(int)));
+    // TODO: switch this back to being a popup action
 
-    new KAction(i18n("&Next Track"), "player_end", 0, m_player, SLOT(forward()), actions(), "forward");
+    new KAction(i18n("Previous& Track"), "player_start", 0, m_player, SLOT(back()),    actions(), "back");
+    new KAction(i18n("&Next Track"),     "player_end",   0, m_player, SLOT(forward()), actions(), "forward");
+
     new KToggleAction(i18n("&Loop Playlist"), 0, 0, actions(), "loopPlaylist");
 
     // the following are not visible by default
@@ -295,7 +280,7 @@ void JuK::setupActions()
 	    this, SLOT(slotToggleSystemTray(bool)));
 
 
-    m_outputSelectAction = Player::playerSelectAction(actions());
+    m_outputSelectAction = PlayerManager::playerSelectAction(actions());
 
     if(m_outputSelectAction)
         m_outputSelectAction->setCurrentItem(0);
@@ -548,12 +533,6 @@ void JuK::updatePlaylistInfo()
     m_statusLabel->setPlaylistInfo(m_splitter->visiblePlaylistName(),
 				   m_splitter->selectedPlaylistCount(),
 				   m_splitter->selectedPlaylistTotalTime());
-}
-
-void JuK::play(const QString &file)
-{
-    m_player->play(file);
-    emit signalNewSong(playingString());
 }
 
 KAction *JuK::createSplitterAction(const QString &text, const char *slot,

@@ -47,7 +47,7 @@ public:
     ArtsPlayer();
     virtual ~ArtsPlayer();
 
-    virtual void play(const QString &fileName = QString::null);
+    virtual void play(const FileHandle &file = FileHandle::null());
     virtual void pause();
     virtual void stop();
 

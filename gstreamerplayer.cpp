@@ -43,14 +43,14 @@ GStreamerPlayer::~GStreamerPlayer()
     delete m_player;
 }
 
-void GStreamerPlayer::play(const QString &fileName)
+void GStreamerPlayer::play(const FileHandle &file)
 {
-    m_currentFile = fileName;
+    m_currentFile = file.absFilePath();
     m_positionNs = 0;
     m_durationNs = 0;
 
-    if(!fileName.isEmpty())
-        m_player->setLocation(fileName);
+    if(!file.isNull())
+        m_player->setLocation(file.absFilePath());
 
     if(m_player->getState() != Element::STATE_PLAYING)
         m_player->setState(Element::STATE_PLAYING);

@@ -24,17 +24,17 @@
 
 #include <qstring.h>
 
+#include "filehandle.h"
+
 class QObject;
 class KSelectAction;
 
 class Player
 {
 public:
-    enum SoundSystem { Arts = 0, GStreamer = 1 };
-
     virtual ~Player() {}
 
-    virtual void play(const QString &fileName = QString::null) = 0;
+    virtual void play(const FileHandle &file = FileHandle::null()) = 0;
     virtual void pause() = 0;
     virtual void stop() = 0;
 
@@ -50,13 +50,6 @@ public:
 
     virtual void seek(long seekTime) = 0;
     virtual void seekPosition(int position) = 0;
-
-    /**
-     * Returns a pointer to a Player object.
-     * Ownership of the returned player is transferred to the caller.
-     */
-    static Player *createPlayer(int system = Arts);
-    static KSelectAction *playerSelectAction(QObject *parent);
 
 protected:
     Player() {}

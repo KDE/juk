@@ -61,14 +61,14 @@ ArtsPlayer::~ArtsPlayer()
     delete m_dispatcher;
 }
 
-void ArtsPlayer::play(const QString &fileName)
+void ArtsPlayer::play(const FileHandle &file)
 {
     // kdDebug(65432) << k_funcinfo << endl;
     // Make sure that the server still exists, if it doesn't a new one should
     // be started automatically and the factory and amanPlay are created again.
 
-    if(!fileName.isNull())
-        m_currentURL.setPath(fileName);
+    if(!file.isNull())
+        m_currentURL.setPath(file.absFilePath());
 
     if(m_server->server().isNull()) {
         KMessageBox::error(0, i18n("Cannot find the aRts soundserver."));

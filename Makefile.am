@@ -24,7 +24,6 @@ juk_SOURCES = \
 	mediafiles.cpp \
 	musicbrainzitem.cpp \
 	musicbrainzquery.cpp \
-	player.cpp \
 	playermanager.cpp \
 	playlist.cpp \
 	playlistbox.cpp \

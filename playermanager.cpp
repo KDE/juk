@@ -16,19 +16,53 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <klocale.h>
 
 #include <qslider.h>
 #include <qtimer.h>
 
+#include "artsplayer.h"
+#include "gstreamerplayer.h"
 #include "playermanager.h"
 #include "playlistinterface.h"
 #include "slideraction.h"
 #include "statuslabel.h"
 #include "actioncollection.h"
 
+#include "config.h"
+
 using namespace ActionCollection;
 
 PlayerManager *PlayerManager::m_instance = 0;
+
+////////////////////////////////////////////////////////////////////////////////
+// helper functions
+////////////////////////////////////////////////////////////////////////////////
+
+enum SoundSystem { ArtsBackend = 0, GStreamerBackend = 1 };
+
+static Player *createPlayer(int system = ArtsBackend)
+{
+
+    Player *p = 0;
+#if HAVE_GSTREAMER
+    switch(system) {
+    case ArtsBackend:
+        p = new ArtsPlayer;
+        break;
+    case GStreamerBackend:
+        p = new GStreamerPlayer;
+        break;
+    }
+#else
+    Q_UNUSED(system);
+#ifdef USE_ARTS
+    p = new ArtsPlayer;
+#endif
+#endif
+
+    return p;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
@@ -121,30 +155,48 @@ void PlayerManager::setStatusLabel(StatusLabel *label)
     m_statusLabel = label;
 }
 
+KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
+{
+    KSelectAction *action = 0;
+#if HAVE_GSTREAMER
+    action = new KSelectAction(i18n("&Output To"), 0, parent, "outputSelect");
+    QStringList l;
+    l << "aRts" << "GStreamer";
+    action->setItems(l);
+#else
+    Q_UNUSED(parent);
+#endif
+    return action;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlayerManager::play(const QString &fileName)
+void PlayerManager::play(const FileHandle &file)
 {
     if(!player() || !m_playlistInterface)
         return;
 
-    if(fileName.isNull()) {
-	if(player()->paused())
+    if(file.isNull()) {
+        if(player()->paused())
             player()->play();
         else if(player()->playing()) {
-	    m_sliderAction->trackPositionSlider()->setValue(0);
+            m_sliderAction->trackPositionSlider()->setValue(0);
             player()->seekPosition(0);
-	}
+        }
         else {
-            QString file = m_playlistInterface->currentFile();
-            if(!file.isNull())
-                player()->play(file);
-	}
+            // TODO: currentFile() really should return a FileHanlde as such
+            // making the cast below not needed.
+
+            FileHandle currentFile = FileHandle(m_playlistInterface->currentFile());
+
+            if(!currentFile.isNull())
+                player()->play(currentFile);
+        }
     }
     else
-        player()->play(fileName);
+        player()->play(file);
 
     // Make sure that the player() actually starts before doing anything.
 
@@ -247,7 +299,10 @@ void PlayerManager::playPause()
 
 void PlayerManager::forward()
 {
-    QString file = m_playlistInterface->nextFile();
+    // TODO: nextFile() should return a FileHandle
+
+    FileHandle file = FileHandle(m_playlistInterface->nextFile());
+
     if(!file.isNull())
         play(file);
     else
@@ -256,7 +311,10 @@ void PlayerManager::forward()
 
 void PlayerManager::back()
 {
-    QString file = m_playlistInterface->previousFile();
+    // TODO: previousFile() should return a FileHandle
+
+    FileHandle file = FileHandle(m_playlistInterface->previousFile());
+
     if(!file.isNull())
         play(file);
     else
@@ -266,10 +324,10 @@ void PlayerManager::back()
 void PlayerManager::volumeUp()
 {
     if(!player() || !m_sliderAction)
-	return;
+        return;
 
     int volume = m_sliderAction->volumeSlider()->volume() +
-	m_sliderAction->volumeSlider()->maxValue() / 25; // 4% up
+        m_sliderAction->volumeSlider()->maxValue() / 25; // 4% up
 
     slotSetVolume(volume);
     m_sliderAction->volumeSlider()->setVolume(volume);
@@ -278,10 +336,10 @@ void PlayerManager::volumeUp()
 void PlayerManager::volumeDown()
 {
     if(!player() || !m_sliderAction)
-	return;
+        return;
 
     int volume = m_sliderAction->volumeSlider()->value() -
-	m_sliderAction->volumeSlider()->maxValue() / 25; // 4% down
+        m_sliderAction->volumeSlider()->maxValue() / 25; // 4% down
 
     slotSetVolume(volume);
     m_sliderAction->volumeSlider()->setVolume(volume);
@@ -309,7 +367,10 @@ void PlayerManager::slotPollPlay()
 
     if(!player()->playing()) {
         m_timer->stop();
-        QString nextFile = m_playlistInterface->nextFile();
+
+        // TODO: nextFile() should use FileHandle
+
+        FileHandle nextFile = FileHandle(m_playlistInterface->nextFile());
         if(!nextFile.isNull())
             play(nextFile);
         else
@@ -343,7 +404,7 @@ void PlayerManager::slotSetOutput(int system)
 {
     stop();
     delete m_player;
-    m_player = Player::createPlayer(system);
+    m_player = createPlayer(system);
 }
 
 void PlayerManager::slotSetVolume(int volume)
@@ -412,11 +473,11 @@ void PlayerManager::setup()
 
     if(outputAction) {
         int mediaSystem = static_cast<KSelectAction *>(outputAction)->currentItem();
-        m_player = Player::createPlayer(mediaSystem);
+        m_player = createPlayer(mediaSystem);
         connect(outputAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
     }
     else
-        m_player = Player::createPlayer();
+        m_player = createPlayer();
 
     float volume =
         float(m_sliderAction->volumeSlider()->volume()) /

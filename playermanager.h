@@ -18,13 +18,14 @@
 #ifndef PLAYERMANAGER_H
 #define PLAYERMANAGER_H
 
-
-#include "player.h"
+#include "filehandle.h"
 
 class QTimer;
+class KSelectAction;
 class SliderAction;
 class StatusLabel;
 class PlaylistInterface;
+class Player;
 
 /**
  * This class serves as a proxy to the Player interface and handles managing
@@ -52,9 +53,11 @@ public:
     void setPlaylistInterface(PlaylistInterface *interface);
     void setStatusLabel(StatusLabel *label);
 
+    static KSelectAction *playerSelectAction(QObject *parent);
+
 public slots:
 
-    void play(const QString &fileName = QString::null);
+    void play(const FileHandle &file = FileHandle::null());
     void pause();
     void stop();
     void setVolume(float volume = 1.0);
