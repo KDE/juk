@@ -89,7 +89,6 @@ public:
     virtual void setSelected(bool selected);
 
     void guessTagInfo(TagGuesser::Type type);
-    void renameFile();
 
     /**
      * The widths of items are cached when they're updated for us in computations

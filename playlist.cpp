@@ -535,15 +535,13 @@ void Playlist::slotRefresh()
 
 void Playlist::slotRenameFile()
 {
+    FileRenamer renamer;
     PlaylistItemList items = selectedItems();
     if(items.count() == 1) {
-        KApplication::setOverrideCursor(Qt::waitCursor);
-        items[ 0 ]->renameFile();
-        KApplication::restoreOverrideCursor();
-        return;
+        renamer.rename(items[0]);
+    } else {
+        renamer.rename(items);
     }
-    FileRenamer renamer;
-    renamer.rename(items);
 }
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)

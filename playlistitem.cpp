@@ -22,7 +22,6 @@
 #include <kapplication.h>
 
 #include "playlistitem.h"
-#include "filerenamer.h"
 #include "collectionlist.h"
 #include "trackpickerdialog.h"
 #include "musicbrainzitem.h"
@@ -123,13 +122,6 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
 	break;
     }
     }
-}
-
-void PlaylistItem::renameFile()
-{
-    FileRenamer renamer;
-    renamer.rename(this);
-    slotRefresh();
 }
 
 QValueVector<int> PlaylistItem::cachedWidths() const
