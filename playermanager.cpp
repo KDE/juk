@@ -217,14 +217,14 @@ KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
     KSelectAction *action = 0;
     action = new KSelectAction(i18n("&Output To"), 0, parent, "outputSelect");
     QStringList l;
-    l << "aKode"
+    l <<
 #if HAVE_ARTS
-      << "aRts"
+        "aRts" <<
 #endif
 #if HAVE_GSTREAMER
-      << "GStreamer"
+        "GStreamer" <<
 #endif
-      ;
+        "aKode";
     action->setItems(l);
     return action;
 }
@@ -247,7 +247,7 @@ void PlayerManager::play(const FileHandle &file)
             player()->seekPosition(0);
         }
         else {
-	    m_playlistInterface->playNext();
+            m_playlistInterface->playNext();
             m_file = m_playlistInterface->currentFile();
 
             if(!m_file.isNull())
