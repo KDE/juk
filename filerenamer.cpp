@@ -241,7 +241,8 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
             kdDebug(65432) << "Checking path " << processedComponents << endl;
             QDir dir(processedComponents);
             if(!dir.exists()) {
-                dir.mkdir(processedComponents, true);
+                if (!dir.mkdir(processedComponents, true))
+                    return false;
                 kdDebug(65432) << "Need to create " << processedComponents << endl;
             }
         }
