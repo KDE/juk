@@ -151,9 +151,6 @@
                     <property name="text">
                         <string>Include in the &amp;filename anyways</string>
                     </property>
-                    <property name="accel">
-                        <string>Alt+F</string>
-                    </property>
                 </widget>
                 <widget class="QRadioButton">
                     <property name="name">
@@ -161,9 +158,6 @@
                     </property>
                     <property name="text">
                         <string>&amp;Ignore this tag when renaming the file</string>
-                    </property>
-                    <property name="accel">
-                        <string>Alt+I</string>
                     </property>
                     <property name="checked">
                         <bool>true</bool>
@@ -186,9 +180,6 @@
                             </property>
                             <property name="text">
                                 <string>Use &amp;this value:</string>
-                            </property>
-                            <property name="accel">
-                                <string>Alt+T</string>
                             </property>
                         </widget>
                         <widget class="QLineEdit">
