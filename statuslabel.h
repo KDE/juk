@@ -58,16 +58,15 @@ public slots:
     void setItemTotalTime(int time) { itemTotalTime = time; }
     void setItemCurrentTime(int time) { itemCurrentTime = time; updateTime(); }
 
+signals:
+    void jumpButtonClicked();
+
 private:
     void updateTime();
     virtual bool eventFilter(QObject *o, QEvent *e);
 
     static QString formatTime(int minutes, int seconds);
 
-private slots:
-    void jumpToPlayingItem() const;
-
-private:
     enum Mode { PlayingItemInfo, PlaylistInfo } mode;
 
     QString playlistName;

@@ -82,7 +82,7 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name
     jumpButton->setFlat(true);
 
     QToolTip::add(jumpButton, i18n("Jump to the currently playing item"));
-    connect(jumpButton, SIGNAL(clicked()), this, SLOT(jumpToPlayingItem()));
+    connect(jumpButton, SIGNAL(clicked()), this, SIGNAL(jumpButtonClicked()));
 
     installEventFilter(this);
 }
@@ -168,7 +168,7 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
 	    updateTime();
 	}
 	else
-	    jumpToPlayingItem();
+	    emit(jumpButtonClicked());
 
 	return(true);
     }
@@ -184,15 +184,6 @@ QString StatusLabel::formatTime(int minutes, int seconds) // static
     if(s.length() == 1)
 	s = "0" + s;
     return(m + ":" + s);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private slots
-////////////////////////////////////////////////////////////////////////////////
-
-void StatusLabel::jumpToPlayingItem() const
-{
-//    PlaylistSplitter::setSelected(playingItem);
 }
 
 #include "statuslabel.moc"

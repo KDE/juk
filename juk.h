@@ -66,7 +66,7 @@ private slots:
     void updatePlaylistInfo();
 
     // file menu
-    void quit();
+    void quit() { close(); }
 
     // edit menu
     void copy() {};

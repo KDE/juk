@@ -79,6 +79,7 @@ void JuK::setupLayout()
     statusBar()->addWidget(statusLabel, 1);
 
     connect(splitter, SIGNAL(selectedPlaylistCountChanged(int)), statusLabel, SLOT(setPlaylistCount(int)));
+    connect(statusLabel, SIGNAL(jumpButtonClicked()), splitter, SLOT(selectPlaying()));
 
     updatePlaylistInfo();
 
@@ -271,15 +272,6 @@ void JuK::updatePlaylistInfo()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// private action slot implementations - file menu
-////////////////////////////////////////////////////////////////////////////////
-
-void JuK::quit()
-{
-    close();
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // player menu
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -377,33 +369,13 @@ void JuK::pollPlay()
     // want to make sure that our adjustments
     noSeek = true;
 
-    
-
     if(!player.playing()) {
 
         playTimer->stop();
 
-	if(!player.paused()) {
-	    
-	    QString nextFile = splitter->playNextFile();
-	    
-	    if(!nextFile.isEmpty()) {
+	if(!player.paused())
+	    playFile(splitter->playNextFile(randomPlayAction->isChecked()));
 
-		backAction->setEnabled(true);
-		
-		sliderAction->getTrackPositionSlider()->setValue(0);
-		player.play(nextFile, player.getVolume());		
-		
-		// Check to make sure that the file actually starts playing.
-		
-		if(player.playing())
-		    playTimer->start(pollInterval);
-		else
-		    stopFile();
-	    }
-	    else
-		stopFile();
-	}
     }
     else if(!trackPositionDragging) {
         sliderAction->getTrackPositionSlider()->setValue(player.position());
@@ -447,6 +419,7 @@ void JuK::playFile(const QString &file)
 	backAction->setEnabled(true);
 	forwardAction->setEnabled(true);
 	
+	sliderAction->getTrackPositionSlider()->setValue(0);
 	sliderAction->getTrackPositionSlider()->setEnabled(true);
 	playTimer->start(pollInterval);
 
