@@ -50,7 +50,7 @@ void SplashScreen::increment()
 {
     if(splash) {
 	count++;
-	if(count % 10 == 0)
+	if(( count & 63 ) == 0)
 	    splash->processEvents();
     }
 }
