@@ -83,6 +83,8 @@ private:
     Tag(const QString &file);
     Tag(const QString &fileName, TagLib::File *file);
 
+    // TODO -- remove m_info and prefer the one in the FileHandle
+
     QFileInfo m_info;
     QString m_fileName;
     mutable QDateTime m_lastModified;

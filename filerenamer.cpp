@@ -23,6 +23,8 @@
 #include <qheader.h>
 #include <qlabel.h>
 #include <qvbox.h>
+#include <qpainter.h>
+#include <qsimplerichtext.h>
 
 class FileRenamer::ConfirmationDialog : public KDialogBase
 {
@@ -50,7 +52,10 @@ public:
 
         QMap<QString, QString>::ConstIterator it = files.begin();
         for(; it != files.end(); ++it) {
-            KListViewItem *i = new KListViewItem(lv, it.key(), it.data());
+
+            KListViewItem *i = it.key() == it.data()
+                ? new KListViewItem(lv, it.key(), it.data())
+                : new KListViewItem(lv, it.key(), i18n("No Change"));
             lvHeight += i->height();
         }
 
