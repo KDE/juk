@@ -18,6 +18,7 @@
 #include <kdebug.h>
 
 #include <qdatetime.h>
+#include <qregexp.h>
 #include <qvariant.h>
 
 #include "oggtag.h"
@@ -86,7 +87,8 @@ int OggTag::trackNumber() const
 
 QString OggTag::trackNumberString() const
 {
-    return readCommentString("Tracknumber");
+    QString s = readCommentString("Tracknumber");
+    return s.replace(QRegExp("^0+"), QString::null);
 }
 
 int OggTag::year() const
