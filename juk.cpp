@@ -104,7 +104,7 @@ void JuK::setupActions()
     KStdAction::selectAll(splitter, SLOT(selectAll()), actionCollection());
 
     // view menu
-    showEditorAction = new KToggleAction(i18n("Show Tag Editor"), 0, actionCollection(), "showEditor");
+    showEditorAction = new KToggleAction(i18n("Show Tag Editor"), "edit", 0, actionCollection(), "showEditor");
     connect(showEditorAction, SIGNAL(toggled(bool)), splitter, SLOT(setEditorVisible(bool)));
     KStdAction::redisplay(splitter, SLOT(refresh()), actionCollection());
 

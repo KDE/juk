@@ -47,6 +47,8 @@
 	<Action name="edit_cut"/>
 	<Action name="edit_copy"/>
 	<Action name="edit_paste"/>
+	<Separator lineSeparator="true"/>
+	<Action name="showEditor"/>
 </ToolBar>
 
 <ToolBar name="playToolBar" noMerge="1"><text>Play Toolbar</text>
