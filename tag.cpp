@@ -83,7 +83,7 @@ bool Tag::current() const
 QDateTime Tag::lastModified() const
 {
     if(m_lastModified.isNull())
-	m_lastModified = m_info.lastModified();
+        m_lastModified = m_info.lastModified();
     return m_lastModified;
 }
 
@@ -92,56 +92,56 @@ CacheDataStream &Tag::read(CacheDataStream &s)
 {
     switch(s.cacheVersion()) {
     case 1: {
-	Q_INT32 track;
-	Q_INT32 year;
-	Q_INT32 bitrate;
-	Q_INT32 seconds;
+        Q_INT32 track;
+        Q_INT32 year;
+        Q_INT32 bitrate;
+        Q_INT32 seconds;
 
-	s >> m_title
-	  >> m_artist
-	  >> m_album
-	  >> m_genre
-	  >> track
-	  >> year
-	  >> m_comment
-	  >> bitrate
-	  >> m_lengthString
-	  >> seconds
-	  >> m_modificationTime;
+        s >> m_title
+          >> m_artist
+          >> m_album
+          >> m_genre
+          >> track
+          >> year
+          >> m_comment
+          >> bitrate
+          >> m_lengthString
+          >> seconds
+          >> m_modificationTime;
 
-	m_track = track;
-	m_year = year;
-	m_bitrate = bitrate;
-	m_seconds = seconds;
-	break;
+        m_track = track;
+        m_year = year;
+        m_bitrate = bitrate;
+        m_seconds = seconds;
+        break;
     }
     default: {
-	static QString dummyString;
-	static int dummyInt;
-	QString bitrateString;
+        static QString dummyString;
+        static int dummyInt;
+        QString bitrateString;
 
-	s >> dummyInt
-	  >> m_title
-	  >> m_artist
-	  >> m_album
-	  >> m_genre
-	  >> dummyInt
-	  >> m_track
-	  >> dummyString
-	  >> m_year
-	  >> dummyString
-	  >> m_comment
-	  >> bitrateString
-	  >> m_lengthString
-	  >> m_seconds
-	  >> dummyString
-	  >> m_modificationTime;
+        s >> dummyInt
+          >> m_title
+          >> m_artist
+          >> m_album
+          >> m_genre
+          >> dummyInt
+          >> m_track
+          >> dummyString
+          >> m_year
+          >> dummyString
+          >> m_comment
+          >> bitrateString
+          >> m_lengthString
+          >> m_seconds
+          >> dummyString
+          >> m_modificationTime;
 
-	bool ok;
-	m_bitrate = bitrateString.toInt(&ok);
-	if(!ok)
-	    m_bitrate = 0;
-	break;
+        bool ok;
+        m_bitrate = bitrateString.toInt(&ok);
+        if(!ok)
+            m_bitrate = 0;
+        break;
     }
     }
 
@@ -150,10 +150,10 @@ CacheDataStream &Tag::read(CacheDataStream &s)
     m_title.squeeze();
     m_lengthString.squeeze();
 
-    m_comment       = StringShare::tryShare(m_comment);
-    m_artist        = StringShare::tryShare(m_artist);
-    m_album         = StringShare::tryShare(m_album);
-    m_genre         = StringShare::tryShare(m_genre);
+    m_comment = StringShare::tryShare(m_comment);
+    m_artist  = StringShare::tryShare(m_artist);
+    m_album   = StringShare::tryShare(m_album);
+    m_genre   = StringShare::tryShare(m_genre);
 
     return s;
 }
