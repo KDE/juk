@@ -3,7 +3,7 @@ if test "x$have_taglib" = "xfalse"; then
 	echo "*"
 	echo "* JuK will not be built without TagLib.  TagLib"
 	echo "* replaces the id3lib dependancy.  See the notice"
-	echo "* above for where to find TagLib."
+	echo "* below for where to find TagLib."
 	echo "*"
 	echo "**************************************************"
 fi
