@@ -21,7 +21,6 @@
 #include <ksystemtray.h>
 
 class QTimer;
-class QPimap;
 class KPassivePopup;
 class KMainWindow;
 class KAction;
@@ -43,6 +42,7 @@ public slots:
 
 private:
     void createPopup(const QString &songName, bool addButtons = true);
+    void setToolTip( const QString&tip = QString::null );
 
     QPixmap m_playPix;
     QPixmap m_pausePix;

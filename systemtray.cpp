@@ -21,10 +21,10 @@
 #include <kpassivepopup.h>
 #include <kaction.h>
 #include <kmainwindow.h>
+
 #include <qhbox.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
-
 #include <qtimer.h>
 #include <qtooltip.h>
 
@@ -38,13 +38,15 @@ SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(pare
 								m_popup(0)
 
 {
-    m_appPix     = SmallIcon("juk");
+    m_appPix     = UserIcon("juk_dock");
     m_playPix    = SmallIcon("player_play");
     m_pausePix   = SmallIcon("player_pause");
     m_backPix    = SmallIcon("player_start");
-    m_forwardPix = SmallIcon("player_end");    
+    m_forwardPix = SmallIcon("player_end");
 
     setPixmap(m_appPix);
+
+    setToolTip();
 
     KPopupMenu *cm = contextMenu();
 
@@ -80,8 +82,7 @@ SystemTray::~SystemTray()
 
 void SystemTray::slotNewSong(const QString& songName)
 {
-    QToolTip::remove(this);
-    QToolTip::add(this, songName);
+    setToolTip( songName );
 
     createPopup(songName, true);
 }
@@ -89,7 +90,7 @@ void SystemTray::slotNewSong(const QString& songName)
 void SystemTray::slotStop()
 {
     setPixmap(m_appPix);
-    QToolTip::remove(this);
+    setToolTip();
 
     delete m_popup;
     m_popup = 0;
@@ -131,6 +132,16 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
         m_popup->setAutoDelete(false);
         m_popup->show();
     }
+}
+
+void SystemTray::setToolTip( const QString &tip )
+{
+    QToolTip::remove( this );
+
+    if ( tip.isNull() )
+        QToolTip::add( this, "JuK" );
+    else
+        QToolTip::add( this, tip );
 }
 
 #include "systemtray.moc"

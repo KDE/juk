@@ -36,6 +36,9 @@ SUBDIRS = pics data
 rcdir = $(kde_datadir)/juk
 rc_DATA = jukui.rc
 
+dockicondir = $(kde_datadir)/juk/pics
+dockicon_DATA = juk_dock.png
+
 METASOURCES = AUTO
 KDE_ICON = AUTO
 
