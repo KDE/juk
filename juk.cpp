@@ -78,10 +78,7 @@ JuK::JuK(QWidget *parent, const char *name) :
 
 JuK::~JuK()
 {
-    action("stop")->activate();
-    delete m_systemTray;
-    m_systemTray = 0;
-    delete m_splitter;
+    kdDebug(65432) << k_funcinfo << endl;
 }
 
 KActionCollection *JuK::actionCollection() const
@@ -377,17 +374,26 @@ void JuK::saveConfig()
 
 bool JuK::queryExit()
 {
-    m_startDocked = !isVisible();
+    kdDebug(65432) << k_funcinfo << endl;
 
     hide();
 
+    action("stop")->activate();
+    delete m_systemTray;
+    m_systemTray = 0;
+
+    m_startDocked = !isVisible();
     Cache::instance()->save();
     saveConfig();
+
+    delete m_splitter;
     return true;
 }
 
 bool JuK::queryClose()
 {
+    kdDebug(65432) << k_funcinfo << endl;
+
     if(!m_shuttingDown &&
        !kapp->sessionSaving() &&
        m_systemTray &&
