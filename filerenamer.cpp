@@ -313,6 +313,9 @@ void FileRenamerWidget::createTagRows()
     connect(downMapper,   SIGNAL(mapped(int)), SLOT(moveItemDown(int)));
 
     m_mainFrame = new QVBox(m_mainView->viewport());
+    m_mainFrame->setMargin(10);
+    m_mainFrame->setSpacing(5);
+
     m_mainView->addChild(m_mainFrame);
     m_mainView->setResizePolicy(QScrollView::AutoOneFit);
 
@@ -328,16 +331,18 @@ void FileRenamerWidget::createTagRows()
         categoryOrder.pop_front();
 
         QHBox *frame = new QHBox(m_mainFrame);
+        frame->setPaletteBackgroundColor(frame->paletteBackgroundColor().dark(110));
+
         m_rows[i].widget = frame;
         frame->setFrameShape(QFrame::Box);
         frame->setLineWidth(1);
         frame->setMargin(3);
 
         m_mainFrame->setStretchFactor(frame, 1);
-        m_mainFrame->setMargin(2);
-        m_mainFrame->setSpacing(5);
 
         QVBox *buttons = new QVBox(frame);
+        buttons->setFrameStyle(QFrame::Plain | QFrame::Box);
+        buttons->setLineWidth(1);
 
         m_rows[i].upButton = new KPushButton(buttons);
         m_rows[i].downButton = new KPushButton(buttons);
