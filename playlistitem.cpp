@@ -154,6 +154,9 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
     previousFirstItem = firstItem;
     previousSecondItem = secondItem;
     previousColumn = column;
+
+	if(!firstItem->tag() || !secondItem->tag())
+		return 0;
     
     if(column == TrackNumberColumn) {
         if(firstItem->tag()->trackNumber() > secondItem->tag()->trackNumber()) {
