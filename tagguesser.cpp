@@ -93,9 +93,9 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     {
         KConfigGroupSaver saver(cfg, "TagGuesser");
 
-        substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&_]+)");
-        substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&_]+)");
-        substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&_]+)");
+        substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&_,]+)");
+        substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&_,]+)");
+        substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&_,]+)");
         substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
         substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s_]+)");
     }
