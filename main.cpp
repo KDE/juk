@@ -3,7 +3,7 @@
                              -------------------
     begin                : Mon Feb  4 23:40:41 EST 2002
     copyright            : (C) 2002 by Scott Wheeler
-    email                : scott@slackorama.net
+    email                : wheeler@kde.org
 ***************************************************************************/
 
 /***************************************************************************
@@ -38,9 +38,9 @@ int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", I18N_NOOP("JuK"),
                          VERSION, description, KAboutData::License_GPL,
-                         "(c) 2002, Scott Wheeler", 0, 0, "scott@slackorama.net");
+                         "(c) 2002, Scott Wheeler", 0, 0, "wheeler@kde.org");
 
-    aboutData.addAuthor("Scott Wheeler", 0, "scott@slackorama.net");
+    aboutData.addAuthor("Scott Wheeler", 0, "wheeler@kde.org");
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
 

@@ -7,7 +7,7 @@
 
  fileinfo.cpp was modified to just include header information instead of
  header and id3 information.  These changes were made by Scott Wheeler
- (scott@slackorama.net) on 1/13/2002 based on Mp3Kult v0.5.
+ (wheeler@kde.org) on 1/13/2002 based on Mp3Kult v0.5.
 ***************************************************************************/
 
 /***************************************************************************

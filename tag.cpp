@@ -3,7 +3,7 @@
                              -------------------
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 by Scott Wheeler
-    email                : scott@slackorama.net
+    email                : wheeler@kde.org
 ***************************************************************************/
 
 /***************************************************************************
@@ -76,7 +76,7 @@ QString Tag::readBitrate(const KFileMetaInfo &metaInfo)
 QString Tag::readLength(const KFileMetaInfo &metaInfo)
 {
     if(metaInfo.isValid() && !metaInfo.isEmpty())
-	return(metaInfo.item("Length").string().stripWhiteSpace().remove(QRegExp("^0+")));
+	return(metaInfo.item("Length").string().stripWhiteSpace().replace(QRegExp("^0+"), QString::null));
     else
 	return(QString::null);
 }
