@@ -316,6 +316,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_applySharedSettings(true),
     m_mousePressed(false),
     m_disableColumnWidthUpdates(true),
+    m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_lastSelected(0),
@@ -337,6 +338,7 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_applySharedSettings(true),
     m_mousePressed(false),
     m_disableColumnWidthUpdates(true),
+    m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_lastSelected(0),
@@ -359,6 +361,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_applySharedSettings(true),
     m_mousePressed(false),
     m_disableColumnWidthUpdates(true),
+    m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_lastSelected(0),
@@ -380,6 +383,7 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_applySharedSettings(true),
     m_mousePressed(false),
     m_disableColumnWidthUpdates(true),
+    m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_lastSelected(0),
@@ -422,14 +426,29 @@ FileHandle Playlist::currentFile() const
 
 int Playlist::time() const
 {
-    int time = 0;
-    QListViewItemIterator it(const_cast<Playlist *>(this));
-    while (it.current()) {
-	PlaylistItem *item = static_cast<PlaylistItem *>(it.current());
-	time += item->file().tag()->seconds();
-	it++;
+    // Since this method gets a lot of traffic, let's optimize for such.
+
+    if(!m_addTime.isEmpty()) {
+	for(PlaylistItemList::ConstIterator it = m_addTime.begin();
+	    it != m_addTime.end(); ++it)
+	{
+	    m_time += (*it)->file().tag()->seconds();
+	}
+
+	m_addTime.clear();
     }
-    return time;
+
+    if(!m_subtractTime.isEmpty()) {
+	for(PlaylistItemList::ConstIterator it = m_subtractTime.begin();
+	    it != m_subtractTime.end(); ++it)
+	{
+	    m_time -= (*it)->file().tag()->seconds();
+	}
+
+	m_subtractTime.clear();
+    }
+
+    return m_time;
 }
 
 void Playlist::playFirst()
@@ -1113,6 +1132,18 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
 	slotUpdateColumnWidths();
 
     KListView::viewportResizeEvent(re);
+}
+
+void Playlist::insertItem(QListViewItem *item)
+{
+    m_addTime.append(static_cast<PlaylistItem *>(item));
+    KListView::insertItem(item);
+}
+
+void Playlist::takeItem(QListViewItem *item)
+{
+    m_subtractTime.append(static_cast<PlaylistItem *>(item));
+    KListView::takeItem(item);
 }
 
 void Playlist::addColumn(const QString &label)

@@ -422,6 +422,9 @@ protected:
     virtual void viewportPaintEvent(QPaintEvent *pe);
     virtual void viewportResizeEvent(QResizeEvent *re);
 
+    virtual void insertItem(QListViewItem *item);
+    virtual void takeItem(QListViewItem *item);
+
     void addColumn(const QString &label);
 
     /**
@@ -621,6 +624,10 @@ private:
 
     QValueList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;
+
+    mutable int m_time;
+    mutable PlaylistItemList m_addTime;
+    mutable PlaylistItemList m_subtractTime;
 
     /**
      * The average minimum widths of columns to be used in balancing calculations.
