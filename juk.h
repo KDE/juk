@@ -23,6 +23,7 @@
 #endif
 
 #include <kaction.h>
+#include <kglobalaccel.h>
 #include <kstdaction.h>
 #include <kmainwindow.h>
 #include <kmenubar.h>
@@ -57,8 +58,11 @@ private:
     void setupActions();
     void setupPlayer();
     void setupSystemTray();
+    void setupGlobalAccels();
 
     void processArgs();
+
+    void keyPressEvent(QKeyEvent *);
 
     /**
      * readSettings() is separate from readConfig() in that it contains settings
@@ -105,11 +109,16 @@ private slots:
     void slotShowGenreListEditor();
     void slotToggleSystemTray(bool enabled);
     void slotSetOutput(int output);
+    void slotEditKeys();
 
     // additional player slots
     void slotTrackPositionSliderClicked();
     void slotTrackPositionSliderReleased();
     void slotTrackPositionSliderUpdate(int position);
+    void slotPlayPause();
+    void slotVolumeUp();
+    void slotVolumeDown();
+    void slotVolumeMute();
 
     /**
      * This method is called to check our progress in the playing file.  It uses
@@ -156,11 +165,13 @@ private:
 
     QTimer *m_playTimer;
     Player *m_player;
+    KGlobalAccel *m_accel;
 
     bool m_trackPositionDragging;
     bool m_noSeek;
     bool m_restore;
     bool m_shuttingDown;
+    bool m_volmute;
 
     static const int m_pollInterval = 800;
 };

@@ -7,7 +7,7 @@ juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
 	playlistitem.cpp playlist.cpp playlistsplitter.cpp listboxpixmap.cpp \
 	playlistbox.cpp tageditor.cpp cache.cpp genrelistreader.cpp \
 	genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp \
-	slideraction.cpp juk.cpp main.cpp
+	slideraction.cpp keydialog.cpp juk.cpp main.cpp
 
 INCLUDES= $(all_includes) -I$(arts_includes)
 

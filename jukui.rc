@@ -53,6 +53,8 @@
 		<Action name="toggleSystemTray"/>
 		<Action name="dockOnClose"/>
 		<Action name="outputSelect"/>
+		<Separator />
+		<Action name="options_configure_keybinding"/>
 	</Menu>
 </MenuBar>
 

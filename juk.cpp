@@ -38,6 +38,7 @@
 #include "splashscreen.h"
 #include "genrelisteditor.h"
 #include "systemtray.h"
+#include "keydialog.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -58,6 +59,7 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
     readConfig();
     setupPlayer();
     setupSystemTray();
+    setupGlobalAccels();
     processArgs();
 
     SplashScreen::finishedLoading();
@@ -150,6 +152,7 @@ void JuK::setupActions()
 
     new KAction(i18n("Genre List Editor..."), 0, this, SLOT(slotShowGenreListEditor()), actionCollection(), "showGenreListEditor");
 
+    KStdAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
 
     m_outputSelectAction = Player::playerSelectAction(actionCollection());
     if(m_outputSelectAction) {
@@ -202,6 +205,7 @@ void JuK::setupPlayer()
 {
     m_trackPositionDragging = false;
     m_noSeek = false;
+    m_volmute = false;
     m_pauseAction->setEnabled(false);
     m_stopAction->setEnabled(false);
     m_backAction->setEnabled(false);
@@ -229,6 +233,21 @@ void JuK::setupPlayer()
 }
 
 
+void JuK::setupGlobalAccels()
+{
+    m_accel = new KGlobalAccel(this);
+    KeyDialog::insert(m_accel, "PlayPause",  i18n("Play/Pause"),   this, SLOT(slotPlayPause()));
+    KeyDialog::insert(m_accel, "Stop",       i18n("Stop Playing"), this, SLOT(slotStop()));
+    KeyDialog::insert(m_accel, "Back",       i18n("Back"),         this, SLOT(slotBack()));
+    KeyDialog::insert(m_accel, "Forward",    i18n("Forward"),      this, SLOT(slotForward()));
+    KeyDialog::insert(m_accel, "VolumeUp",   i18n("Volume Up"),    this, SLOT(slotVolumeUp()));
+    KeyDialog::insert(m_accel, "VolumeDown", i18n("Volume Down"),  this, SLOT(slotVolumeDown()));
+    KeyDialog::insert(m_accel, "Mute",       i18n("Mute"),         this, SLOT(slotVolumeMute()));
+    m_accel->setConfigGroup("Shortcuts");
+    m_accel->readSettings();
+    m_accel->updateConnections();
+}
+
 void JuK::processArgs()
 {
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
@@ -238,6 +257,13 @@ void JuK::processArgs()
 	files.append(args->arg(i));
 
     m_splitter->open(files);
+}
+
+void JuK::keyPressEvent(QKeyEvent *e)
+{
+    if (e->key() >= Qt::Key_Back && e->key() <= Qt::Key_MediaLast)
+	e->accept();
+    KMainWindow::keyPressEvent(e);
 }
 
 /**
@@ -571,6 +597,11 @@ void JuK::slotSetOutput(int output)
     m_player = Player::createPlayer(output);
 }
 
+void JuK::slotEditKeys()
+{
+    KeyDialog::configure(m_accel, actionCollection(), this);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // additional player slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -596,6 +627,48 @@ void JuK::slotTrackPositionSliderUpdate(int position)
 
     if(m_player->playing() && !m_trackPositionDragging && !m_noSeek)
         m_player->seekPosition(position);
+}
+
+void JuK::slotPlayPause()
+{
+    if(!m_player)
+	return;
+
+    if(m_player->playing())
+	slotPause();
+    else
+	slotPlay();
+}
+
+void JuK::slotVolumeUp()
+{
+    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
+	int volume = m_sliderAction->getVolumeSlider()->value() +
+	  m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% up
+	slotSetVolume(volume);
+	m_sliderAction->getVolumeSlider()->setValue(volume);
+    }
+}
+
+void JuK::slotVolumeDown()
+{
+    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
+	int volume = m_sliderAction->getVolumeSlider()->value() -
+	  m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% down
+	slotSetVolume(volume);
+	m_sliderAction->getVolumeSlider()->setValue(volume);
+    }
+}
+
+void JuK::slotVolumeMute()
+{
+    if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
+	if(m_volmute)
+	    slotSetVolume(m_sliderAction->getVolumeSlider()->value());
+	else
+	    slotSetVolume(0);
+	m_volmute = !m_volmute;
+    }
 }
 
 // This method is called when the play timer has expired.
