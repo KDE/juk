@@ -23,9 +23,7 @@
 #include <taglib/tag.h>
 #include <taglib/mpegfile.h>
 #include <taglib/vorbisfile.h>
-#if defined TAGLIB_MINOR_VERSION && TAGLIB_MINOR_VERSION >= 96
 #include <taglib/flacfile.h>
-#endif
 #include <taglib/xiphcomment.h>
 #include <taglib/id3v2framefactory.h>
 
@@ -62,14 +60,12 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
         return new Tag(fileName, &file);
     }
 
-#if defined TAGLIB_MINOR_VERSION && TAGLIB_MINOR_VERSION >= 96
     if(MediaFiles::isFLAC(fileName)) {
         TagLib::FLAC::File file(QFile::encodeName(fileName).data());
         if(!file.isOpen())
             return 0;
         return new Tag(fileName, &file);
     }
-#endif
 
     kdError(65432) << "Couldn't resolve the mime type of \"" <<
         fileName << "\" -- this shouldn't happen." << endl;
@@ -93,18 +89,11 @@ void Tag::save()
 
     if(MediaFiles::isMP3(m_fileName))
         file = new TagLib::MPEG::File(QFile::encodeName(m_fileName).data());
-#if defined TAGLIB_MINOR_VERSION && TAGLIB_MINOR_VERSION >= 95
     else if(MediaFiles::isOgg(m_fileName))
         file = new TagLib::Vorbis::File(QFile::encodeName(m_fileName).data());
-#else
-#ifdef _GNUC
-#warning "Your TagLib is too old for saving Vorbis files.  It is being disabled for now."
-#endif
-#endif
-#if defined TAGLIB_MINOR_VERSION && TAGLIB_MINOR_VERSION >= 96
     else if(MediaFiles::isFLAC(m_fileName))
         file = new TagLib::FLAC::File(QFile::encodeName(m_fileName).data());
-#endif
+
     if(file && file->isValid() && file->tag()) {
         file->tag()->setTitle(QStringToTString(m_title));
         file->tag()->setArtist(QStringToTString(m_artist));
@@ -115,7 +104,8 @@ void Tag::save()
         file->tag()->setYear(m_year);
 
         file->save();
-    } else
+    }
+    else
         kdError(65432) << "Couldn't save file." << endl;
 
 
