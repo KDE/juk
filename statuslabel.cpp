@@ -18,6 +18,7 @@
 #include <kdebug.h>
 
 #include <qevent.h>
+#include <qstylesheet.h>
 
 #include "statuslabel.h"
 #include "playlistitem.h"
@@ -47,9 +48,12 @@ void StatusLabel::setPlayingItem(PlaylistItem *item)
     if(item) {
 	Playlist *p = static_cast<Playlist *>(item->listView());
 	if(p && p->playlistBoxItem()) {
-	    QString label = p->playlistBoxItem()->text() 
-		+ " / " + item->text(PlaylistItem::ArtistColumn)
-		+ " - <i>" + item->text(PlaylistItem::TrackColumn) + "</i>";
+
+	    QString playlist = QStyleSheet::escape(p->playlistBoxItem()->text());
+	    QString artist = QStyleSheet::escape(item->text(PlaylistItem::ArtistColumn));
+	    QString track = QStyleSheet::escape(item->text(PlaylistItem::TrackColumn));
+
+	    QString label = playlist + " / " + artist + " - <i>" + track + "</i>";
 	    trackLabel->setText(label);
 	}
 	else

@@ -125,8 +125,6 @@ private:
     void saveConfig();
     void addImpl(const QString &file, Playlist *list);
 
-    static PlaylistSplitter *splitter;
-
     PlaylistBox *playlistBox;
     QWidgetStack *playlistStack;
     TagEditor *editor;
