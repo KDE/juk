@@ -75,7 +75,40 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
     if(itemList.isEmpty())
         return;
 
-    createItems(itemList, playingItem());
+    PlaylistItem *after = static_cast<PlaylistItem *>(lastItem());
+
+    for(PlaylistItemList::ConstIterator it = itemList.begin(); it != itemList.end(); ++it) {
+        after = createItem(*it, after);
+        m_playlistIndex.insert(after, (*it)->playlist());
+    }
+
+    dataChanged();
+    slotWeightDirty();
+}
+
+void UpcomingPlaylist::playNext()
+{
+    TrackSequenceManager::instance()->setCurrentPlaylist(this);
+    setPlaying(TrackSequenceManager::instance()->nextItem());
+
+    if(!playing())
+        return;
+
+    Playlist *source = m_playlistIndex[playingItem()];
+
+    if(!source)
+        return;
+
+    PlaylistList l;
+    l.append(this);
+
+    source->synchronizePlayingItems(l, false);
+}
+
+void UpcomingPlaylist::clearItem(PlaylistItem *item, bool emitChanged)
+{
+    m_playlistIndex.remove(item);
+    Playlist::clearItem(item, emitChanged);
 }
 
 void UpcomingPlaylist::removeIteratorOverride()

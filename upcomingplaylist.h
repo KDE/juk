@@ -19,6 +19,8 @@
 #include <klocale.h>
 
 #include <qdatastream.h>
+#include <qptrdict.h>
+#include <qguardedptr.h>
 
 #include "playlist.h"
 #include "tracksequenceiterator.h"
@@ -80,6 +82,16 @@ public:
      */
     void appendItems(const PlaylistItemList &itemList);
 
+    virtual void playNext();
+    virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
+
+    /**
+     * Returns a reference to the index between items in the list and the
+     * playlist that they came from.  This is used to remap the currently
+     * playing item to the source playlist.
+     */
+    QMap< PlaylistItem *, QGuardedPtr<Playlist> > &playlistIndex() const;
+
 private:
 
     /**
@@ -116,6 +128,7 @@ private:
 
     TrackSequenceIterator *m_oldIterator;
     int m_defaultSize;
+    QMap< PlaylistItem *, QGuardedPtr<Playlist> > m_playlistIndex;
 };
 
 /**

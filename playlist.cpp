@@ -1410,25 +1410,6 @@ void Playlist::setup()
     setSorting(1);
 }
 
-PlaylistItem *Playlist::nextItem(PlaylistItem *current) const
-{
-    if(current) {
-	QListViewItemIterator it(current, QListViewItemIterator::Visible);
-	++it;
-	return static_cast<PlaylistItem *>(it.current());
-    }
-    else {
-	QListViewItemIterator it(const_cast<Playlist *>(this),
-				 QListViewItemIterator::Selected |
-				 QListViewItemIterator::Visible);
-	if(!it.current()) {
-	    it = QListViewItemIterator(const_cast<Playlist *>(this),
-				       QListViewItemIterator::Visible);
-	}
-	return static_cast<PlaylistItem *>(it.current());
-    }
-}
-
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 {
     QFile file(fileName);

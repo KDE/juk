@@ -89,7 +89,8 @@ const QPixmap *PlaylistItem::pixmap(int column) const
     if((column - offset) == CoverColumn && d->fileHandle.coverInfo()->hasCover())
         return &image;
 
-    if(column == playlist()->leftColumn() && m_playing)
+    if(column == playlist()->leftColumn() &&
+       m_playingItems.contains(const_cast<PlaylistItem *>(this)))
 	return &playing;
 
     return KListViewItem::pixmap(column);
@@ -150,7 +151,6 @@ void PlaylistItem::setText(int column, const QString &text)
 
 void PlaylistItem::setPlaying(bool playing, bool master)
 {
-    m_playing = playing;
     m_playingItems.remove(this);
 
     if(playing) {
@@ -237,16 +237,14 @@ void PlaylistItem::clear()
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
     KListViewItem(parent),
-    d(0),
-    m_playing(false)
+    d(0)
 {
     setup(item);
 }
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
     KListViewItem(parent, after),
-    d(0),
-    m_playing(false)
+    d(0)
 {
     setup(item);
 }
@@ -255,8 +253,7 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListView
 // This constructor should only be used by the CollectionList subclass.
 
 PlaylistItem::PlaylistItem(CollectionList *parent) :
-    KListViewItem(parent),
-    m_playing(false)
+    KListViewItem(parent)
 {
     d = new Data;
     m_collectionItem = static_cast<CollectionListItem *>(this);
@@ -265,7 +262,7 @@ PlaylistItem::PlaylistItem(CollectionList *parent) :
 
 void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
 {
-    if(!m_playing)
+    if(!m_playingItems.contains(this))
 	return KListViewItem::paintCell(p, cg, column, width, align);
 
     QColorGroup colorGroup = cg;

@@ -116,7 +116,7 @@ void DefaultSequenceIterator::advance()
         PlaylistItem *next = current()->itemBelow();
         if(!next && loop) {
             Playlist *p = current()->playlist();
-            next = static_cast<PlaylistItem *>(p->firstChild());
+            next = p->firstChild();
         }
 
         setCurrent(next);

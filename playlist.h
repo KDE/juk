@@ -445,6 +445,9 @@ protected:
      */
     void setCanDeletePlaylist(bool canDelete);
 
+    template <class ItemType, class SiblingType>
+    ItemType *createItem(SiblingType *sibling, ItemType *after = 0);
+
     /**
      * As a template this allows us to use the same code to initialize the items
      * in subclasses.  CollectionItemType should always be CollectionListItem and
@@ -481,8 +484,6 @@ signals:
 
 private:
     void setup();
-
-    PlaylistItem *nextItem(PlaylistItem *current = 0) const;
 
     /**
      * Load the playlist from a file.  \a fileName should be the absolute path.
@@ -703,27 +704,34 @@ ItemType *Playlist::createItem(const FileHandle &file, QListViewItem *after,
 	return 0;
 }
 
+template <class ItemType, class SiblingType>
+ItemType *Playlist::createItem(SiblingType *sibling, ItemType *after)
+{
+    m_disableColumnWidthUpdates = true;
+    
+    if(!m_members.insert(sibling->file().absFilePath()) || m_allowDuplicates) {
+	after = new ItemType(sibling->collectionItem(), this, after);
+	setupItem(after);
+	if(!m_randomList.isEmpty() && !m_visibleChanged)
+	    m_randomList.append(after);
+    }
+
+    m_disableColumnWidthUpdates = false;
+
+    return after;
+}
+
 template <class CollectionItemType, class ItemType, class SiblingType>
 void Playlist::createItems(const QValueList<SiblingType *> &siblings, ItemType *after)
 {
     if(siblings.isEmpty())
 	return;
 
-    m_disableColumnWidthUpdates = true;
-    ItemType *newItem = after;
-
     QValueListConstIterator<SiblingType *> it = siblings.begin();
-    for(; it != siblings.end(); ++it) {
-	if(!m_members.insert((*it)->file().absFilePath()) || m_allowDuplicates) {
-	    newItem = new ItemType((*it)->collectionItem(), this, newItem);
-	    setupItem(newItem);
-	    if(!m_randomList.isEmpty() && !m_visibleChanged)
-		m_randomList.append(newItem);
-	}
-    }
+    for(; it != siblings.end(); ++it)
+	after = createItem(*it, after);
 
     dataChanged();
-    m_disableColumnWidthUpdates = false;
     slotWeightDirty();
 }
 
