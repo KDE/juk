@@ -12,7 +12,7 @@ AC_DEFUN(AC_NO_ID3LIB,
 	echo "* or as part of most Linux distributions."
 	echo "*"
 	echo "**************************************************"
-	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
+	exit
 ])
 
 KDE_CHECK_HEADER(id3/tag.h,
@@ -43,9 +43,64 @@ AC_DEFUN(AC_NO_GST,
 	have_gst=false
 ])
 
-KDE_CHECK_HEADER(kde/gst/gstreamer.h,
+KDE_CHECK_HEADER(qgst/gstreamer.h,
 	AC_HAVE_GST,
 	AC_NO_GST
 )
 
 AM_CONDITIONAL(link_lib_GST, test x$have_gst = xtrue)
+
+dnl Find aRts using artsc-config
+AC_DEFUN(AC_FIND_ARTS,
+[
+	AC_PATH_PROG(ARTSC_CONFIG, artsc-config, no)
+	if test "x$ARTSC_CONFIG" = "xno" ; then
+		AC_MSG_ERROR(Cannot find artsc-config - missing from path?)
+	fi
+	ARTSDIR=[`$ARTSC_CONFIG --arts-prefix`]
+])
+
+dnl Check if we are building as part of KDE.
+
+AC_MSG_CHECKING(if building standalone aRts snapshot without KDE)
+if test "$DCOPIDL" = ""; then
+	AC_MSG_RESULT(yes)
+
+	AC_FIND_ARTS
+
+	dnl find mcopidl
+	MCOPIDL="$ARTSDIR/bin/mcopidl"
+	AC_SUBST(MCOPIDL)
+
+	dnl fake KDE_RPATH, moc, uic
+	KDE_RPATH=""
+	MOC=true
+	UIC=true
+	AC_SUBST(KDE_RPATH)
+	AC_SUBST(MOC)
+	AC_SUBST(UIC)
+
+	dnl variables
+	arts_datadir="$ARTSDIR/share"
+	arts_includes="$ARTSDIR/include/arts"
+	arts_libraries="$ARTSDIR/lib"
+	ARTS_BUILD_KDE=""
+	ARTS_BUILD_KDE_GUI=""
+else
+	AC_MSG_RESULT(no)
+
+	dnl variables
+	arts_datadir="$kde_datadir"
+	arts_includes="$kde_includes/arts"
+	arts_libraries="$kde_libraries"
+
+	dnl conditional build some things
+	ARTS_BUILD_KDE="builder tools"
+	ARTS_BUILD_KDE_GUI="kde"
+fi
+
+AC_SUBST(arts_datadir)
+AC_SUBST(arts_includes)
+AC_SUBST(arts_libraries)
+AM_CONDITIONAL(arts_within_KDE, test -n "$ARTS_BUILD_KDE")
+
