@@ -240,6 +240,7 @@ void TaggerWidget::setupLayout()
 
       lengthBox = new KLineEdit(bottem, "lengthBox");
       lengthBox->setMaximumWidth(50);
+      lengthBox->setReadOnly(true);
       trackRowLayout->addWidget(lengthBox);
 
       trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
@@ -248,6 +249,7 @@ void TaggerWidget::setupLayout()
 
       bitrateBox = new KLineEdit(bottem, "bitrateBox");
       bitrateBox->setMaximumWidth(50);
+      bitrateBox->setReadOnly(true);
       trackRowLayout->addWidget(bitrateBox);
     }
     rightColumnLayout->addWidget(new QLabel(i18n("Comment"), bottem));
