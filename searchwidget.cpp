@@ -198,12 +198,24 @@ void SearchWidget::setSearch(const PlaylistSearch &search)
     m_searchLine->setSearchComponent(*components.begin());
 }
 
+QString SearchWidget::searchText() const
+{
+    return m_searchLine->searchComponent().query();
+}
+
+void SearchWidget::setSearchText(const QString &text)
+{
+    m_searchLine->setSearchComponent(PlaylistSearch::Component(text));
+}
+
 PlaylistSearch SearchWidget::search(const PlaylistList &playlists) const
 {
     PlaylistSearch::ComponentList components;
     components.append(m_searchLine->searchComponent());
     return PlaylistSearch(playlists, components);
 }
+
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // SearchWidget public slots

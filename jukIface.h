@@ -69,4 +69,15 @@ protected:
     PlayerIface() : DCOPObject("Player") {}
 };
 
+class SearchIface : public DCOPObject
+{
+    K_DCOP
+k_dcop:
+    virtual QString searchText() const = 0;
+    virtual void setSearchText(const QString &text) = 0;
+
+protected:
+    SearchIface() : DCOPObject("Search") {}
+};
+
 #endif

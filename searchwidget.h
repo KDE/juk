@@ -24,6 +24,7 @@
 #include <qhbox.h>
 
 #include "playlistsearch.h"
+#include "jukIface.h"
 
 class QCheckBox;
 
@@ -64,7 +65,7 @@ private:
     QValueList<int> m_columnList;
 };
 
-class SearchWidget : public KToolBar
+class SearchWidget : public KToolBar, public SearchIface
 {
     Q_OBJECT
 
@@ -74,6 +75,9 @@ public:
 
     PlaylistSearch search(const PlaylistList &playlists) const;
     void setSearch(const PlaylistSearch &search);
+
+    virtual QString searchText() const;
+    virtual void setSearchText(const QString &text);
 
 public slots:
     void clear();
