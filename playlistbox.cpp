@@ -17,9 +17,11 @@
 
 #include <kiconloader.h>
 #include <kurldrag.h>
+#include <kmessagebox.h>
 #include <klocale.h>
 #include <kdebug.h>
 
+#include <qfile.h>
 #include <qdrawutil.h>
 #include <qinputdialog.h>
 
@@ -49,7 +51,10 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
     setAcceptDrops(true);
 
     connect(this, SIGNAL(currentChanged(QListBoxItem *)), 
-	    this, SLOT(currentItemChanged(QListBoxItem *)));
+	    this, SLOT(playlistChanged(QListBoxItem *)));
+
+    connect(this, SIGNAL(doubleClicked(QListBoxItem *)), 
+	    this, SLOT(playlistDoubleClicked(QListBoxItem *)));
 }
 
 PlaylistBox::~PlaylistBox()
@@ -137,7 +142,28 @@ void PlaylistBox::deleteItem()
 
 void PlaylistBox::deleteItem(PlaylistBoxItem *item)
 {
-    if(item) {
+    if(item && item->playlist()) {
+
+	// If the file is "internal" (not loaded from a file and not yet saved),
+	// or the file name is null, or the user specifically chooses to delete 
+	// the file then delete it.  Otherwise, just remove the file from the
+	// PlaylistBox.
+
+	if(item->playlist()->file() != QString::null) {
+	    if(item->playlist()->isInternalFile())
+		QFile::remove(item->playlist()->file());
+	    else {
+		int remove = KMessageBox::warningYesNoCancel(this, i18n("Do you want to delete this file from the disk as well?"));
+		
+		if(remove == KMessageBox::Yes) {
+		    if(!QFile::remove(item->playlist()->file()))
+			KMessageBox::sorry(this, i18n("Could not delete the specified file."));
+		}
+		else if(remove == KMessageBox::Cancel)
+		    return;
+	    }
+	}
+
 	nameList.remove(item->text());
 	delete(item->playlist());
 	delete(item);
@@ -233,11 +259,18 @@ void PlaylistBox::addName(const QString &name)
 // PlaylistBox private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistBox::currentItemChanged(QListBoxItem *item)
+void PlaylistBox::playlistChanged(QListBoxItem *item)
 {
     PlaylistBoxItem *i = dynamic_cast<PlaylistBoxItem *>(item);
     if(i)
 	emit(currentChanged(i));
+}
+
+void PlaylistBox::playlistDoubleClicked(QListBoxItem *item)
+{
+    PlaylistBoxItem *i = dynamic_cast<PlaylistBoxItem *>(item);
+    if(i)
+	emit(doubleClicked(i));
 }
 
 void PlaylistBox::drawContextMenu(QListBoxItem *item, const QPoint &point)

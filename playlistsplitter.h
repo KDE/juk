@@ -105,6 +105,7 @@ private:
 private slots:
     // playlist box slots
     void changePlaylist(PlaylistBoxItem *item);
+    void playlistBoxDoubleClicked(PlaylistBoxItem *item);
 
 signals:
     void playlistDoubleClicked(QListViewItem *);

@@ -42,13 +42,18 @@
 Playlist::Playlist(QWidget *parent, const char *name) : KListView(parent, name)
 {
     setup();
+    internalFile = true;
+    fileName = QString::null;
 }
 
 Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name)
 {
     setup();
 
-    QFile file(playlistFile.absFilePath());
+    internalFile = false;
+    fileName = playlistFile.absFilePath();
+
+    QFile file(fileName);
     file.open(IO_ReadOnly);
 
     QTextStream stream(&file);
@@ -178,6 +183,16 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 	i = static_cast<PlaylistItem *>(current->itemBelow());	
 
     return(i);
+}
+
+bool Playlist::isInternalFile() const
+{
+    return(internalFile);
+}
+
+QString Playlist::file() const
+{
+    return(fileName);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

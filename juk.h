@@ -76,7 +76,7 @@ private:
     bool trackPositionDragging;
     bool noSeek;
 
-    const static int pollInterval = 800;
+    static const int pollInterval = 800;
 
 private slots:
     void playlistChanged(Playlist *list);

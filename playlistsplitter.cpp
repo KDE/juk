@@ -36,7 +36,7 @@ void processEvents()
     static int processed = 0;
     if(processed == 0)
         kapp->processEvents();
-    processed = ( processed + 1 ) % 10;
+    processed = (processed + 1) % 10;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -259,6 +259,7 @@ PlaylistSplitter::~PlaylistSplitter()
 {
 
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
@@ -283,7 +284,11 @@ void PlaylistSplitter::setupLayout()
     // Make the connection that will update the selected playlist when a 
     // selection is made in the playlist box.
 
-    connect(playlistBox, SIGNAL(currentChanged(PlaylistBoxItem *)), this, SLOT(changePlaylist(PlaylistBoxItem *)));
+    connect(playlistBox, SIGNAL(currentChanged(PlaylistBoxItem *)), 
+	    this, SLOT(changePlaylist(PlaylistBoxItem *)));
+
+    connect(playlistBox, SIGNAL(doubleClicked(PlaylistBoxItem *)), 
+	    this, SLOT(playlistBoxDoubleClicked(PlaylistBoxItem *)));
 
     // Create the collection list; this should always exist.  This has a 
     // slightly different creation process than normal playlists (since it in
@@ -343,6 +348,12 @@ void PlaylistSplitter::changePlaylist(PlaylistBoxItem *item)
 	editor->setItems(playlistSelection());
 	emit(playlistChanged(item->playlist()));
     }
+}
+
+void PlaylistSplitter::playlistBoxDoubleClicked(PlaylistBoxItem *item)
+{
+    if(item && item->playlist() && item->playlist()->firstChild())
+	emit(playlistDoubleClicked(item->playlist()->firstChild()));
 }
 
 #include "playlistsplitter.moc"

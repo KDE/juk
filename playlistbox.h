@@ -76,7 +76,8 @@ private:
 private slots:
     /** Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
         the signal as  currentChanged(PlaylistBoxItem *). */
-    void currentItemChanged(QListBoxItem *item);
+    void playlistChanged(QListBoxItem *item);
+    void playlistDoubleClicked(QListBoxItem *item);
     void drawContextMenu(QListBoxItem *item, const QPoint &point);
     // context menu entries
     void contextSave();
@@ -88,6 +89,7 @@ private slots:
 
 signals:
     void currentChanged(PlaylistBoxItem *);
+    void doubleClicked(PlaylistBoxItem *);
 
 
 #if QT_VERSION < 0x031000

@@ -33,6 +33,8 @@ public:
     Playlist(const QFileInfo &playlistFile, QWidget *parent = 0, const char *name = 0);
     virtual ~Playlist();
 
+    // "File Menu" like operations.  "Open" is the constructor above.
+
     virtual void save();
     virtual void saveAs();
 
@@ -59,6 +61,9 @@ public:
 	of PlaylistItems virtual. */
     virtual PlaylistItem *createItem(const QFileInfo &file);
 
+    bool isInternalFile() const;
+    QString file() const;
+
 protected:
     virtual QDragObject *dragObject();
     virtual void contentsDropEvent(QDropEvent *e);
@@ -70,6 +75,14 @@ private:
     QStringList members;
     int processed;
     bool allowDuplicates;
+
+    // If a file is "internal" it is not one that the user has yet chosen to 
+    // save.  However for the purposes of being able to restore a user's 
+    // loaded playlists it will be saved "internally" in:
+    // $KDEHOME/share/apps/juk/playlists.
+
+    bool internalFile;
+    QString fileName;
 
 private slots:
     void emitSelected();
