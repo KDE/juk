@@ -159,39 +159,56 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item)
     }
 
 
-    bool match = false;
+    for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
 
-    for(ColumnList::Iterator it = m_columns.begin(); !match && it != m_columns.end(); ++it) {
+	if(m_re && item->text(*it).contains(m_queryRe) > 0)
+	    return true;
 
-        if(m_re)
-	    match = item->text(*it).contains(m_queryRe) > 0;
-	else {
-
-	    switch(m_mode) {
-	    case Contains:
-		match = item->text(*it).contains(m_query, m_caseSensitive) > 0;
-		break;
-	    case Exact:
-	    {
-		if(item->text(*it).length() == m_query.length()) {
-
-		    if(m_caseSensitive)
-			match = item->text(*it) == m_query;
-		    else
-			match = item->text(*it).lower() == m_query.lower();
-
+	switch(m_mode) {
+	case Contains:
+	    if(item->text(*it).contains(m_query, m_caseSensitive) > 0)
+		return true;
+	    break;
+	case Exact:
+	    if(item->text(*it).length() == m_query.length()) {
+		if(m_caseSensitive) {
+		    if(item->text(*it) == m_query)
+			return true;
 		}
-		break;
+		else if(item->text(*it).lower() == m_query.lower())
+		    return true;
 	    }
-	    case ContainsWord:
-	    {
-		QRegExp r(QString("\\b%1\\b").arg(m_query), m_caseSensitive);
-		match = item->text(*it).contains(r) > 0;
+	    break;
+	case ContainsWord:
+	{
+	    QString s = item->text(*it);
+	    int i = s.find(m_query);
+
+	    if(i >= 0) {
+
+		// If we found the pattern and the lengths are the same, then
+		// this is a match.
+
+		if(s.length() == m_query.length())
+		    return true;
+
+		// First: If the match starts at the beginning of the text or the
+		// character before the match is not a word character
+
+		// AND
+
+		// Second: Either the pattern was found at the end of the text,
+		// or the text following the match is a non-word character
+
+		// ...then we have a match
+
+		if((i == 0 || !s.at(i - 1).isLetterOrNumber()) &&
+		   (i + m_query.length() <= s.length() || !s.at(i + m_query.length()).isLetterOrNumber()))
+		    return true;
 		break;
-	    }
 	    }
 	}
+	}
     }
-
-    return match;
+    return false;
 }
