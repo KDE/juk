@@ -111,17 +111,17 @@ QString PlaylistSplitter::playNextFile(bool random)
     // item or (4) play the first item in the list.
 
     if(m_nextPlaylistItem && m_nextPlaylistItem != m_playingItem) {
-	i = m_nextPlaylistItem;
-	m_nextPlaylistItem = 0;
-    }  
+        i = m_nextPlaylistItem;
+        m_nextPlaylistItem = 0;
+    }
     else if(m_playingItem) {
-	Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
-	i = p->nextItem(m_playingItem, random);
+        Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
+        i = p->nextItem(m_playingItem, random);
     }
     else {
-	i = playlistSelection().getFirst();
-	if(!i)
-	    i = static_cast<PlaylistItem *>(visiblePlaylist()->firstChild());
+        i = playlistSelection().getFirst();
+        if(!i)
+            i = static_cast<PlaylistItem *>(visiblePlaylist()->firstChild());
     }
 
     return play(i);
