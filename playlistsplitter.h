@@ -238,14 +238,16 @@ public slots:
     void slotSetSearchVisible(bool visible);
 
     /**
-     * Add the file to the playlist.
+     * Add the file to the playlist.  If \a after is null the items will be
+     * inserted at the end of the list.
      */
-    void slotAddToPlaylist(const QString &file, Playlist *list);
+    void slotAddToPlaylist(const QString &file, Playlist *list, PlaylistItem *after = 0);
 
     /**
-     * Adds the files to the playlist.
+     * Adds the files to the playlist.  If \a after is null the items will be
+     * inserted at the end of the list.
      */
-    void slotAddToPlaylist(const QStringList &files, Playlist *list);
+    void slotAddToPlaylist(const QStringList &files, Playlist *list, PlaylistItem *after = 0);
 
 // PlaylistBox forwarding slots
 
@@ -279,9 +281,16 @@ private:
     void setupLayout();
     void readConfig();
     void saveConfig();
-    void addImpl(const QString &file, Playlist *list);
+
     /**
-     * If NULL is passed for the icon, no entry is created in the PlaylistBox
+     * Adds the file or directory \a file to the Playlist \a list.  If \a after
+     * is not null the items will be inserted after it.  Returns a pointer to the
+     * last item inserted.
+     */
+    PlaylistItem *addImpl(const QString &file, Playlist *list, PlaylistItem *after = 0);
+
+    /**
+     * If null is passed for the icon, no entry is created in the PlaylistBox
      */
     void setupPlaylist(Playlist *p, bool raise = false, const char *icon = "midi", bool sortedFirst = false);
 

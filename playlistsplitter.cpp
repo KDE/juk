@@ -350,10 +350,13 @@ void PlaylistSplitter::slotDeleteSelectedItems()
 	p->slotRemoveSelectedItems();
 }
 
-void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list)
+void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list, PlaylistItem *after)
 {
+    if(!after)
+	after = static_cast<PlaylistItem *>(list->lastItem());
+
     KApplication::setOverrideCursor(Qt::waitCursor);
-    addImpl(file, list);
+    addImpl(file, list, after);
     list->emitCountChanged();
     KApplication::restoreOverrideCursor();
 
@@ -369,12 +372,18 @@ void PlaylistSplitter::slotDeletePlaylist()
     m_playlistBox->deleteItems();
 }
 
-void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *list)
+void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *list, PlaylistItem *after)
 {
+    if(!after)
+	after = static_cast<PlaylistItem *>(list->lastItem());
+
     KApplication::setOverrideCursor(Qt::waitCursor);
+
     for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
-        addImpl(*it, list);
+        after = addImpl(*it, list, after);
+
     list->emitCountChanged();
+
     KApplication::restoreOverrideCursor();
 
     if(m_editor)
@@ -553,7 +562,7 @@ void PlaylistSplitter::saveConfig()
     }
 }
 
-void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
+PlaylistItem *PlaylistSplitter::addImpl(const QString &file, Playlist *list, PlaylistItem *after)
 {
     processEvents();
     QFileInfo fileInfo(QDir::cleanDirPath(file));
@@ -563,15 +572,16 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
             QStringList dirContents = dir.entryList();
             for(QStringList::Iterator it = dirContents.begin(); it != dirContents.end(); ++it)
                 if(*it != "." && *it != "..")
-                    addImpl(fileInfo.filePath() + QDir::separator() + *it, list);
+                    after = addImpl(fileInfo.filePath() + QDir::separator() + *it, list, after);
         }
         else {
             if(MediaFiles::isMediaFile(file))
-		list->createItem(fileInfo, QString::null, 0, false);
+		after = list->createItem(fileInfo, QString::null, after, false);
 	    else if(MediaFiles::isPlaylistFile(file))
 		openPlaylist(fileInfo.absFilePath());
         }
     }
+    return after;
 }
 
 void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon, bool sortedFirst)
@@ -591,8 +601,8 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon, 
     connect(p, SIGNAL(signalAboutToRemove(PlaylistItem *)),
 	    this, SLOT(slotPlaylistItemRemoved(PlaylistItem *)));
 
-    connect(p, SIGNAL(signalFilesDropped(const QStringList &, Playlist *)),
-	    this, SLOT(slotAddToPlaylist(const QStringList &, Playlist *)));
+    connect(p, SIGNAL(signalFilesDropped(const QStringList &, Playlist *, PlaylistItem *)),
+	    this, SLOT(slotAddToPlaylist(const QStringList &, Playlist *, PlaylistItem *)));
 
     connect(p, SIGNAL(signalSetNext(PlaylistItem *)),
 	    this, SLOT(slotSetNextItem(PlaylistItem *)));

@@ -130,21 +130,6 @@ CollectionList::~CollectionList()
     delete m_dirWatch;
 }
 
-void CollectionList::decode(QMimeSource *s)
-{
-    KURL::List urls;
-    
-    if(!KURLDrag::decode(s, urls) || urls.isEmpty())
-	return;
-	
-    QStringList files;
-	
-    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
-	files.append((*it).path());
-	
-    emit signalFilesDropped(files, this);
-}
-
 void CollectionList::contentsDropEvent(QDropEvent *e)
 {
     if(e->source() == this)

@@ -85,7 +85,6 @@ protected:
     CollectionList(QWidget *parent);
     virtual ~CollectionList();
 
-    virtual void decode(QMimeSource *s);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
 

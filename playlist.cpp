@@ -444,7 +444,7 @@ void Playlist::copy()
 
 void Playlist::paste()
 {
-    decode(kapp->clipboard()->data());
+    decode(kapp->clipboard()->data(), currentItem());
 }
 
 void Playlist::clear()
@@ -559,7 +559,7 @@ bool Playlist::canDecode(QMimeSource *s)
     return KURLDrag::decode(s, urls) && !urls.isEmpty();
 }
 
-void Playlist::decode(QMimeSource *s)
+void Playlist::decode(QMimeSource *s, QListViewItem *after)
 {
     KURL::List urls;
 
@@ -571,7 +571,7 @@ void Playlist::decode(QMimeSource *s)
     for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	fileList.append((*it).path());
 
-    emit signalFilesDropped(fileList, this);
+    emit signalFilesDropped(fileList, this, after);
 }
 
 bool Playlist::eventFilter(QObject* watched, QEvent* e)
@@ -594,11 +594,19 @@ bool Playlist::eventFilter(QObject* watched, QEvent* e)
 
 void Playlist::contentsDropEvent(QDropEvent *e)
 {
-    if(e->source() == this) {
+    QPoint vp = contentsToViewport(e->pos());
+    QListViewItem *moveAfter = itemAt(vp);
 
-	QListViewItem *moveAfter = itemAt(contentsToViewport(e->pos()));
-	if(!moveAfter)
-	    moveAfter = lastItem();
+    // When dropping on the upper half of an item, insert before this item.
+    // This is what the user expects, and also allows the insertion at
+    // top of the list
+
+    if(!moveAfter)
+	moveAfter = lastItem();
+    else if(vp.y() < moveAfter->itemPos() + moveAfter->height() / 2)
+	moveAfter = moveAfter->itemAbove();
+
+    if(e->source() == this) {
 
 	// Since we're trying to arrange things manually, turn off sorting.
 
@@ -607,12 +615,22 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	QPtrList<QListViewItem> items = KListView::selectedItems();
 
 	for(QPtrListIterator<QListViewItem> it(items); it.current(); ++it) {
-	    it.current()->moveItem(moveAfter);
+	    if(!moveAfter) {
+
+		// Insert the item at the top of the list.  This is a bit ugly,
+		// but I don't see another way.
+
+		takeItem(it.current());
+		insertItem(it.current());
+	    }
+	    else
+		it.current()->moveItem(moveAfter);
+
 	    moveAfter = it.current();
 	}
     }
     else
-	decode(e);
+	decode(e, moveAfter);
 }
 
 void Playlist::showEvent(QShowEvent *e)
