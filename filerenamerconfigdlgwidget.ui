@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>584</width>
-            <height>331</height>
+            <height>333</height>
         </rect>
     </property>
     <property name="caption">
@@ -125,7 +125,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                         <cstring>leAlbumToken</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Replaces "%t" in the filename scheme, use %s here.</string>
+                        <string>Replaces "%A" in the filename scheme, use %s here.</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%A&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the album name as specified in the metadata tag of a music file.&lt;br/&gt;
@@ -157,7 +157,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                         <cstring>leArtistToken</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Replaces "%t" in the filename scheme, use %s here.</string>
+                        <string>Replaces "%a" in the filename scheme, use %s here.</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%a&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the artist name as specified in the metadata tag of a music file.&lt;br/&gt;
@@ -170,7 +170,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                         <cstring>leCommentToken</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Replaces "%t" in the filename scheme, use %s here.</string>
+                        <string>Replaces "%c" in the filename scheme, use %s here.</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%c&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the comment as specified in the metadata tag of a music file.&lt;br/&gt;
@@ -183,7 +183,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                         <cstring>leTrackToken</cstring>
                     </property>
                     <property name="toolTip" stdset="0">
-                        <string>Replaces "%t" in the filename scheme, use %s here.</string>
+                        <string>Replaces "%T" in the filename scheme, use %s here.</string>
                     </property>
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%T&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the track number as specified in the metadata tag of a music file.&lt;br/&gt;
