@@ -97,7 +97,7 @@ void PlaylistItem::guessTagInfo()
 void PlaylistItem::renameFile()
 {
     FileRenamer renamer;
-    renamer.rename( this );
+    renamer.rename(this);
     slotRefresh();
 }
 

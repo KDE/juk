@@ -38,9 +38,10 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ID3Tag::ID3Tag(const QString &file) : Tag(file), m_fileName(file), m_changed(false)
+ID3Tag::ID3Tag(const QString &fileName) : Tag(fileName), 
+					  m_fileName(fileName), m_changed(false)
 {
-    m_metaInfo = KFileMetaInfo(file, QString::null, KFileMetaInfo::Fastest);
+    m_metaInfo = KFileMetaInfo(fileName, QString::null, KFileMetaInfo::Fastest);
 
     m_tag.Link(m_fileName.latin1());
 

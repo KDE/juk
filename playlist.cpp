@@ -33,6 +33,7 @@
 #include "playlist.h"
 #include "playlistsplitter.h"
 #include "genrelistlist.h"
+#include "mediafiles.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
@@ -221,19 +222,13 @@ void Playlist::save()
 
 void Playlist::saveAs()
 {
-    QStringList extensions = PlaylistSplitter::playlistExtensions();
+    m_fileName = MediaFiles::savePlaylistDialog(name(), this);
 
-    m_fileName = KFileDialog::getSaveFileName(name() + "." + PlaylistSplitter::playlistExtensions().first(),
-						      PlaylistSplitter::extensionsString(extensions, i18n("Playlists")));
-    m_fileName = m_fileName.stripWhiteSpace();
-
-    if(m_fileName != QString::null) {
-	if(extensions.find(m_fileName.section('.', -1)) == extensions.end())
-	    m_fileName.append('.' + extensions.first());
-
+    if(!m_fileName.isEmpty()) {
+	// If there's no playlist name set, use the file name.
 	if(m_playlistName.isEmpty())
 	    emit signalNameChanged(name());
-
+	
 	save();
     }
 }
@@ -830,14 +825,14 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     PlaylistItem *after = 0;
 
     while(!stream.atEnd()) {
-	QString itemName = (stream.readLine()).stripWhiteSpace();
+	QString itemName = stream.readLine().stripWhiteSpace();
 
 	QFileInfo item(itemName);
 
 	if(item.isRelative())
 	    item.setFile(QDir::cleanDirPath(fileInfo.dirPath(true) + "/" + itemName));
 
-	if(item.exists() && item.isFile() && item.isReadable()) {
+	if(MediaFiles::isPlaylistFile(item.fileName()) && item.exists() && item.isFile() && item.isReadable()) {
 	    if(after)
 		after = createItem(item, QString::null, after);
 	    else

@@ -151,21 +151,6 @@ public:
      */
     Playlist *createPlaylist(const QString &name);
 
-// static methods
-
-    /** 
-     * Merges a list of file extensions, and a description of those types into a
-     * format that makes sense to KFileDialog.  If type = QString::null then no
-     * description is appended.
-     */
-    static QString extensionsString(const QStringList &extensions, const QString &type = QString::null);
-
-    /**
-     * Returns a list of the extensions that are used for playlists.
-     */
-    static QStringList playlistExtensions() { return *m_listExtensions; }
-
-
 public slots:
 
 // File slots
@@ -319,9 +304,6 @@ private:
     Playlist *m_dynamicList;
 
     StringHash m_playlistFiles;
-
-    static QStringList *m_mediaExtensions;
-    static QStringList *m_listExtensions;
 
     QStringList m_directoryList;
     QStringList m_directoryQueue;

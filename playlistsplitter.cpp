@@ -26,9 +26,7 @@
 #include "directorylist.h"
 #include "playlistsearch.h"
 #include "dynamicplaylist.h"
-
-QStringList *PlaylistSplitter::m_mediaExtensions = 0;
-QStringList *PlaylistSplitter::m_listExtensions = 0;
+#include "mediafiles.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
@@ -51,15 +49,6 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *na
     m_playingItem(0), m_searchWidget(0), m_dynamicList(0), m_restore(restore), 
     m_nextPlaylistItem(0)
 {
-    if(!m_mediaExtensions && !m_listExtensions) {
-	m_mediaExtensions = new QStringList();
-	m_listExtensions = new QStringList();
-
-	m_mediaExtensions->append("mp3");
-	m_mediaExtensions->append("ogg");
-	m_listExtensions->append("m3u");
-    }
-
     setupLayout();
     readConfig();
 
@@ -219,23 +208,6 @@ QString PlaylistSplitter::playingList() const
 	return QString::null;
 }
 
-QString PlaylistSplitter::extensionsString(const QStringList &extensions, const QString &type) // static
-{
-    QStringList l;
-
-    for(QStringList::ConstIterator it = extensions.begin(); it != extensions.end(); ++it)
-	l.append(QString("*." + (*it)));
-
-    // i.e. "*.m3u, *.mp3|Media Files"
-
-    QString s = l.join(" ");
-
-    if(type != QString::null)
-	s += "|" + type + " (" + l.join(", ") + ")";
-
-    return s;
-}
-
 void PlaylistSplitter::open(const QString &file) 
 {
     if(file.isEmpty())
@@ -285,9 +257,7 @@ Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 
 void PlaylistSplitter::slotOpen()
 {
-    QStringList files = KFileDialog::getOpenFileNames(
-	QString::null, extensionsString((*m_mediaExtensions + *m_listExtensions), i18n("Media Files")));
-    open(files);
+    open(MediaFiles::openDialog(this));
 }
 
 void PlaylistSplitter::slotOpenDirectory()
@@ -552,10 +522,9 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
                     addImpl(fileInfo.filePath() + QDir::separator() + *it, list);
         }
         else {
-            QString extension = fileInfo.extension(false).lower();
-            if(m_mediaExtensions->contains(extension) > 0)
+            if(MediaFiles::isMediaFile(file))
 		list->createItem(fileInfo);
-	    else if(m_listExtensions->contains(extension) > 0)
+	    else if(MediaFiles::isPlaylistFile(file))
 		openPlaylist(fileInfo.absFilePath());
         }
     }

@@ -44,7 +44,7 @@ public:
      * the appropriate concrete subclass and instantiates that.  It's servering
      * as a mini-factory; a full blown abstract factory is an overkill here.
      */
-    static Tag *createTag(const QString &file, bool ignoreCache = false);
+    static Tag *createTag(const QString &fileName, bool ignoreCache = false);
     virtual ~Tag();
 
     virtual void save() = 0;

@@ -16,7 +16,6 @@
  ***************************************************************************/
 
 #include <kdebug.h>
-#include <kmimetype.h>
 
 #include <qregexp.h>
 
@@ -24,30 +23,29 @@
 #include "id3tag.h"
 #include "oggtag.h"
 #include "cache.h"
+#include "mediafiles.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Tag *Tag::createTag(const QString &file, bool ignoreCache)
+Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
 {
     Tag *cachedItem = 0;
 
     if(!ignoreCache)
-        cachedItem = Cache::instance()->find(file);
+        cachedItem = Cache::instance()->find(fileName);
 
     if(cachedItem)
         return cachedItem;
 
-    KMimeType::Ptr result = KMimeType::findByPath(file, 0, true);
+    if(MediaFiles::isMP3(fileName))
+        return new ID3Tag(fileName);
 
-    if(result->name() == "audio/x-mp3")
-        return new ID3Tag(file);
+    if(MediaFiles::isOgg(fileName))
+        return new OggTag(fileName);
 
-    if(result->name() == "application/x-ogg")
-        return new OggTag(file);
-
-    kdError() << "Couldn't resolve the mime type of \"" << file << "\" -- this shouldn't happen." << endl;
+    kdError() << "Couldn't resolve the mime type of \"" << fileName << "\" -- this shouldn't happen." << endl;
 
     return 0;
 }

@@ -25,7 +25,7 @@
 class OggTag : public Tag
 {
 public: 
-    OggTag(const QString &file);
+    OggTag(const QString &fileName);
     virtual ~OggTag();
 
     virtual void save();

@@ -26,10 +26,10 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-OggTag::OggTag(const QString &file) : Tag(file)
+OggTag::OggTag(const QString &fileName) : Tag(fileName)
 {
-    m_fileInfo.setFile(file);
-    m_metaInfo = KFileMetaInfo(file);
+    m_fileInfo.setFile(fileName);
+    m_metaInfo = KFileMetaInfo(fileName);
     m_commentGroup = KFileMetaInfoGroup(m_metaInfo.group("Comment"));
 }
 

@@ -27,7 +27,7 @@
 class ID3Tag : public Tag
 {
 public:
-    ID3Tag(const QString &file);
+    ID3Tag(const QString &fileName);
     virtual ~ID3Tag();
 
     virtual void save();
