@@ -136,12 +136,12 @@ public:
      * Open each of \a files, where \a files is a list of playlists and music
      * files.
      */
-    void open(const QStringList &files) { add(files, visiblePlaylist()); }
+    void open(const QStringList &files);
 
     /**
      * Open \a file where \a is a playlist or music file.
      */
-    void open(const QString &file) { add(file, visiblePlaylist()); }
+    void open(const QString &file);
 
 
 // static methods

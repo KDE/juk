@@ -19,6 +19,7 @@
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <kstandarddirs.h>
+#include <kmessagebox.h>
 #include <kdebug.h>
 
 #include <qinputdialog.h>
@@ -239,6 +240,26 @@ QString PlaylistSplitter::extensionsString(const QStringList &extensions, const 
 	s += "|" + type + " (" + l.join(", ") + ")";
 
     return s;
+}
+
+void PlaylistSplitter::open(const QString &file) 
+{
+    if(visiblePlaylist() == collection || 
+       KMessageBox::questionYesNo(this, i18n("Do you want to add this item to the current list or to the collection list?"), 
+				  QString::null, KGuiItem(i18n("Current")), KGuiItem(i18n("Collection"))) == KMessageBox::No)
+	add(file, collection);
+    else
+	add(file, visiblePlaylist());
+}
+
+void PlaylistSplitter::open(const QStringList &files) 
+{
+    if(visiblePlaylist() == collection || 
+       KMessageBox::questionYesNo(this, i18n("Do you want to add these items to the current list or to the collection list?"), 
+				  QString::null, KGuiItem(i18n("Current")), KGuiItem(i18n("Collection"))) == KMessageBox::No)
+	add(files, collection);
+    else
+	add(files, visiblePlaylist());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
