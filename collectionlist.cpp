@@ -186,6 +186,20 @@ void CollectionList::addAlbum(const QString &album)
 	previousAlbum = album;
 }
 
+void CollectionList::addGenre(const QString &genre)
+{
+    if(genre.isEmpty())
+	return;
+
+    // Do a bit of caching since there will very often be "two in a row" insertions.
+    static QString previousGenre;
+
+    if(genre == previousGenre || m_genres.insert(genre))
+	m_viewModeItems["genres"].insert(genre);
+    else
+	previousGenre = genre;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -214,7 +228,8 @@ void CollectionListItem::slotRefresh()
     slotRefreshImpl();
     
     CollectionList::instance()->addArtist(text(ArtistColumn));
-    CollectionList::instance()->addAlbum(text(AlbumColumn));	
+    CollectionList::instance()->addAlbum(text(AlbumColumn));
+    CollectionList::instance()->addGenre(text(GenreColumn));
 
     // This is connected to slotRefreshImpl() for all of the items children.
     emit signalRefreshed();

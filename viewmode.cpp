@@ -264,6 +264,10 @@ void TreeViewMode::slotSetupCategories()
     m_searchCategories.insert("albums", i);
     setupCategory("albums", CollectionList::instance()->viewModeItems()["albums"].values(), 2);
 
+    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Genres"));
+    m_searchCategories.insert("genres", i);
+    setupCategory("genres", CollectionList::instance()->viewModeItems()["genres"].values(), 4);
+
     for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
         it.current()->setSortedFirst(true);
     

@@ -54,6 +54,7 @@ public:
 
     QStringList artists() const { return m_artists.values(); }
     QStringList albums() const { return m_albums.values(); }
+    QStringList genres() const { return m_genres.values(); }
 
     CollectionListItem *lookup(const QString &file) { return m_itemsDict.find(file); }
     virtual PlaylistItem *createItem(const QFileInfo &file, 
@@ -92,6 +93,11 @@ protected:
      */
     void addAlbum(const QString &album);
 
+    /**
+     * Again, similar to the above, but for genres.
+     */
+    void addGenre(const QString &genre);
+
     void emitNumberOfItemsChanged() { emit signalNumberOfItemsChanged(this); }
 
     void addWatched(const QString &file) { m_dirWatch->addFile(file); }
@@ -111,6 +117,7 @@ private:
     QDict<CollectionListItem> m_itemsDict;
     SortedStringList m_artists;
     SortedStringList m_albums;
+    SortedStringList m_genres;
     KDirWatch *m_dirWatch;
     QMap<QString, SortedStringList> m_viewModeItems;
 };
