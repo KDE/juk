@@ -61,7 +61,9 @@ bool SearchWidget::caseSensitive() const
 
 void SearchWidget::clear()
 {
-    m_lineEdit->clear();
+    // We don't want to emit the signal if it's already empty.
+    if(!m_lineEdit->text().isEmpty())
+	m_lineEdit->clear();
 }
 
 void SearchWidget::slotQueryChanged(int)
