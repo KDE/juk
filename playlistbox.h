@@ -42,8 +42,6 @@ class PlaylistBox : public KListBox
     Q_OBJECT
 
 public: 
-    enum ItemType { Collection, Plain };
-
     PlaylistBox(PlaylistSplitter *parent = 0, const char *name = 0);
     virtual ~PlaylistBox();
 
@@ -54,30 +52,25 @@ public:
     QStringList names() const { return m_names; }
     QPtrList<Playlist> playlists() const;
 
-public slots:
-    // All of the slots without parameters default to the selected item.
+    // All of the methods use the selected item.
     void save();
     void saveAs();
     void rename();
     void duplicate();
     void deleteItem();
 
-    void paste();
-    /**
-     * Override the default behavior of clear so that the clipboard code doesn't
-     * do bad things.
-     */
-    void clear() {}
-
-signals:
-    void currentChanged(Playlist *);
-    void doubleClicked();
-
-public: // private: I hate you moc!
     class Item;
-private:
     friend class Item;
 
+public slots:
+    void paste();
+    void clear() {} // override the (destructive) default
+
+signals:
+    void signalCurrentChanged(Playlist *);
+    void signalDoubleClicked();
+
+private:
     void save(Item *item);
     void saveAs(Item *item);
     void rename(Item *item);
@@ -101,15 +94,15 @@ private slots:
      * the signal as  currentChanged(Item *). 
      */
     void slotPlaylistChanged(QListBoxItem *item);
-    void slotPlaylistDoubleClicked(QListBoxItem *);
+    void slotDoubleClicked(QListBoxItem *);
     void slotDrawContextMenu(QListBoxItem *item, const QPoint &point);
 
     // context menu entries
-    void contextSave();
-    void contextSaveAs();
-    void contextRename();
-    void contextDuplicate();
-    void contextDeleteItem();
+    void slotContextSave();
+    void slotContextSaveAs();
+    void slotContextRename();
+    void slotContextDuplicate();
+    void slotContextDeleteItem();
 
 private:
     PlaylistSplitter *m_splitter;

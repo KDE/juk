@@ -383,10 +383,10 @@ void PlaylistSplitter::setupLayout()
     // Make the connection that will update the selected playlist when a 
     // selection is made in the playlist box.
 
-    connect(playlistBox, SIGNAL(currentChanged(Playlist *)), 
+    connect(playlistBox, SIGNAL(signalCurrentChanged(Playlist *)), 
 	    this, SLOT(changePlaylist(Playlist *)));
 
-    connect(playlistBox, SIGNAL(doubleClicked()), this, SIGNAL(listBoxDoubleClicked()));
+    connect(playlistBox, SIGNAL(signalDoubleClicked()), this, SIGNAL(listBoxDoubleClicked()));
 
     // Create the collection list; this should always exist.  This has a 
     // slightly different creation process than normal playlists (since it in

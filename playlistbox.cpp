@@ -41,14 +41,14 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
 								       m_updatePlaylistStack(true)
 {
     m_collectionContextMenu = new KPopupMenu();
-    m_collectionContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicate()));
+    m_collectionContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(slotContextDuplicate()));
 
     m_playlistContextMenu = new KPopupMenu();
-    m_playlistContextMenu->insertItem(SmallIcon("filesave"), i18n("Save"), this, SLOT(contextSave()));
-    m_playlistContextMenu->insertItem(SmallIcon("filesaveas"), i18n("Save As..."), this, SLOT(contextSaveAs()));
-    m_playlistContextMenu->insertItem(i18n("Rename..."), this, SLOT(contextRename()));
-    m_playlistContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(contextDuplicate()));
-    m_playlistContextMenu->insertItem(SmallIcon("edittrash"), i18n("Remove"), this, SLOT(contextDeleteItem()));
+    m_playlistContextMenu->insertItem(SmallIcon("filesave"), i18n("Save"), this, SLOT(slotContextSave()));
+    m_playlistContextMenu->insertItem(SmallIcon("filesaveas"), i18n("Save As..."), this, SLOT(slotContextSaveAs()));
+    m_playlistContextMenu->insertItem(i18n("Rename..."), this, SLOT(slotContextRename()));
+    m_playlistContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(slotContextDuplicate()));
+    m_playlistContextMenu->insertItem(SmallIcon("edittrash"), i18n("Remove"), this, SLOT(slotContextDeleteItem()));
 
     setAcceptDrops(true);
 
@@ -56,7 +56,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
 	    this, SLOT(slotPlaylistChanged(QListBoxItem *)));
 
     connect(this, SIGNAL(doubleClicked(QListBoxItem *)), 
-	    this, SLOT(slotPlaylistDoubleClicked(QListBoxItem *)));
+	    this, SLOT(slotDoubleClicked(QListBoxItem *)));
 }
 
 PlaylistBox::~PlaylistBox()
@@ -130,10 +130,6 @@ QPtrList<Playlist> PlaylistBox::playlists() const
     return l;
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistBox public slots
-////////////////////////////////////////////////////////////////////////////////
-
 void PlaylistBox::save()
 {
     save(static_cast<Item *>(selectedItem()));
@@ -153,6 +149,10 @@ void PlaylistBox::duplicate()
 {
     duplicate(static_cast<Item *>(selectedItem()));
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// PlaylistBox public slots
+////////////////////////////////////////////////////////////////////////////////
 
 void PlaylistBox::deleteItem()
 {
@@ -333,12 +333,12 @@ void PlaylistBox::slotPlaylistChanged(QListBoxItem *item)
 {
     Item *i = dynamic_cast<Item *>(item);
     if(m_updatePlaylistStack && i && i->playlist())
-	emit(currentChanged(i->playlist()));
+	emit signalCurrentChanged(i->playlist());
 }
 
-void PlaylistBox::slotPlaylistDoubleClicked(QListBoxItem *)
+void PlaylistBox::slotDoubleClicked(QListBoxItem *)
 {
-    emit(doubleClicked());
+    emit signalDoubleClicked();
 }
 
 void PlaylistBox::slotDrawContextMenu(QListBoxItem *item, const QPoint &point)
@@ -354,27 +354,27 @@ void PlaylistBox::slotDrawContextMenu(QListBoxItem *item, const QPoint &point)
 	    m_playlistContextMenu->popup(point);
 }
 
-void PlaylistBox::contextSave()
+void PlaylistBox::slotContextSave()
 {
     save(m_contextMenuOn);
 }
 
-void PlaylistBox::contextSaveAs()
+void PlaylistBox::slotContextSaveAs()
 {
     saveAs(m_contextMenuOn);
 }
 
-void PlaylistBox::contextRename()
+void PlaylistBox::slotContextRename()
 {
     rename(m_contextMenuOn);
 }
 
-void PlaylistBox::contextDuplicate()
+void PlaylistBox::slotContextDuplicate()
 {
     duplicate(m_contextMenuOn);
 }
 
-void PlaylistBox::contextDeleteItem()
+void PlaylistBox::slotContextDeleteItem()
 {
     deleteItem(m_contextMenuOn);
     m_contextMenuOn = 0;
