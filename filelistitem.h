@@ -18,15 +18,15 @@
 #ifndef FILELISTITEM_H
 #define FILELISTITEM_H
 
-#include <qlistview.h>
+#include <klistview.h>
 #include <qfileinfo.h>
 
 #include "tag.h"
 #include "MPEGHeader.h"
 
-class FileListItem : public QListViewItem  {
+class FileListItem : public KListViewItem  {
 public: 
-  FileListItem(QFileInfo *file, QListView *parent);
+  FileListItem(QFileInfo *file, KListView *parent);
   ~FileListItem();
 
   QFileInfo *getFileInfo();

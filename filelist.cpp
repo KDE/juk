@@ -33,13 +33,13 @@ FileList::FileList(QWidget *parent = 0, const char *name = 0) : KListView(parent
   setup();
 }
 
-FileList::FileList(QString item, QWidget *parent = 0, const char *name = 0)
+FileList::FileList(QString item, QWidget *parent = 0, const char *name = 0) : KListView(parent, name)
 {
   setup();
   append(item);
 }
 
-FileList::FileList(QStringList *items, QWidget *parent = 0, const char *name = 0)
+FileList::FileList(QStringList *items, QWidget *parent = 0, const char *name = 0) : KListView(parent, name)
 {
   setup();
   append(items);
@@ -114,7 +114,7 @@ void FileList::appendImpl(QString item)
     }
     else {
       // QFileInfo::extension() doesn't always work, so I'm getting old-school on this.
-      QString extension=file->filePath().right(file->filePath().length() - (file->filePath().findRev(".")+1));
+      QString extension=file->filePath().right(file->filePath().length() - (file->filePath().findRev(".") + 1));
       if(extensions.contains(extension) > 0 && members.contains(file->absFilePath()) == 0) {
         members.append(file->absFilePath());
 	(void) new FileListItem(file, this);

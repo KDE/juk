@@ -19,7 +19,7 @@
 
 #include "filelistitem.h"
 
-FileListItem::FileListItem(QFileInfo *file, QListView *parent) : QListViewItem(parent)
+FileListItem::FileListItem(QFileInfo *file, KListView *parent) : KListViewItem(parent)
 {
   header = 0;
   fileInfo = file;
