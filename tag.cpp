@@ -60,6 +60,10 @@ Tag::Tag(QString file)
     trackNumberString = temp;
     delete [] temp;
 
+    QRegExp zeros("0+");
+    if(zeros.exactMatch(trackNumberString))
+        trackNumberString = QString::null;
+
     trackNumber = ID3_GetTrackNum(&tag);
 
     temp = ID3_GetComment(&tag);
@@ -96,6 +100,9 @@ Tag::Tag(QString file)
     // convert the year
 
     year = yearString.toInt();
+
+    if(year <= 0)
+        yearString = QString::null;
 }
 
 
@@ -211,14 +218,20 @@ void Tag::setTrackNumber(int value)
 {
     changed = true;
     trackNumber = value;
-    trackNumberString.setNum(value);
+    if(trackNumber > 0)
+        trackNumberString.setNum(value);
+    else
+        trackNumberString = QString::null;
 };
 
 void Tag::setYear(int value)
 {
     changed = true;
     year = value;
-    yearString.setNum(value);
+    if(year > 0)
+        yearString.setNum(value);
+    else
+        yearString = QString::null;
 };
 
 void Tag::setComment(QString value)
