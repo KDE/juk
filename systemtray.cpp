@@ -191,9 +191,9 @@ void SystemTray::wheelEvent(QWheelEvent *e)
 	break;
     default:
 	if(e->delta() > 0)
-	    m_backAction->activate();
-	else
 	    m_forwardAction->activate();
+ 	else
+	    m_backAction->activate();
 	break;
     }
     e->accept();
