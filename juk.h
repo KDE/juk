@@ -81,6 +81,12 @@ private slots:
     void deleteFile();
     void quit();
 
+    // edit menu
+    void cut();
+    void copy() {};
+    void paste() {};
+    void selectAll();
+
     // function menu
     void showTagger();
     void showPlaylist();

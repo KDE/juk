@@ -98,6 +98,7 @@ void JuK::setupLayout()
 
     // playlist item activation connection
     connect(playlist->getPlaylistList(), SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
+    connect(tagger->getTaggerList(), SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
 
     tagger->getTaggerList()->setFocus();
 }
@@ -173,6 +174,14 @@ void JuK::saveFile()
 
 void JuK::deleteFile()
 {
+    QPtrList<FileListItem> items(tagger->getSelectedItems());
+    FileListItem *item = items.first();
+    while(item) {
+        if(item == playingItem)
+            playingItem = 0;
+        item = items.next();
+    }
+
     if(tagger && tagger->isVisible())
         tagger->deleteFile();
 }
@@ -180,6 +189,30 @@ void JuK::deleteFile()
 void JuK::quit()
 {
     delete(this);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// edit menu
+////////////////////////////////////////////////////////////////////////////////
+
+void JuK::cut()
+{
+    if(tagger && tagger->isVisible()) {
+        QPtrList<FileListItem> items(tagger->getTaggerList()->selectedItems());
+        tagger->getTaggerList()->remove(items);
+    }
+    else if(playlist && playlist->isVisible())
+        removeFromPlaylist();
+}
+
+void JuK::selectAll()
+{
+    if(tagger && tagger->isVisible()) {
+        tagger->getTaggerList()->selectAll(true);
+    }
+    else if(playlist && playlist->isVisible()) {
+        playlist->getPlaylistList()->selectAll(true);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -265,7 +298,8 @@ void JuK::stopFile()
     stopAction->setEnabled(false);
     sliderAction->getTrackPositionSlider()->setValue(0);
     sliderAction->getTrackPositionSlider()->setEnabled(false);
-    playingItem->setPixmap(0, 0);
+    if(playingItem)
+        playingItem->setPixmap(0, 0);
 }
 
 void JuK::trackPositionSliderClick()
