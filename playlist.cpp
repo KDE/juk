@@ -1764,9 +1764,17 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 {
     QString text = renameLineEdit()->text();
     QStringList failedFiles;
+    bool changed = false;
 
     PlaylistItemList l = selectedItems();
-    if(text == m_editText ||
+
+    // See if any of the files have a tag different from the input.
+
+    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end() && !changed; ++it)
+	if((*it)->text(column - columnOffset()) != text)
+	    changed = true;
+
+    if(!changed ||
        (l.count() > 1 && KMessageBox::warningYesNo(
 	   0,
 	   i18n("This will edit multiple files. Are you sure?"),
