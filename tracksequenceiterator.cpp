@@ -117,6 +117,8 @@ void DefaultSequenceIterator::advance()
         if(!next && loop) {
             Playlist *p = current()->playlist();
             next = p->firstChild();
+            while(next && !next->isVisible())
+                next = static_cast<PlaylistItem *>(next->nextSibling());
         }
 
         setCurrent(next);
