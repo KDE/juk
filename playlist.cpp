@@ -327,13 +327,14 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
     PlaylistItem *i;
 
     if(random) {
-	if(count() > 1) {
+	PlaylistItemList l = visibleItems();
+	if(l.count() > 1) {
 	    m_history.push(current);
 
 	    srand(time(0));
 	    i = current;
 	    while(i == current)
-		i = items()[rand() % count()];
+		i = l[rand() % l.count()];
 	}
 	else
 	    i = 0;
