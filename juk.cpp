@@ -22,6 +22,7 @@
 #include <kstatusbar.h>
 #include <kconfig.h>
 #include <kdebug.h>
+#include <kmessagebox.h>
 
 #include <qtimer.h>
 #include <qlistview.h>
@@ -42,7 +43,8 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose)
+JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose),
+					      shuttingDown(false)
 {
     SplashScreen::instance()->show();
     kapp->processEvents();
@@ -107,7 +109,8 @@ void JuK::setupActions()
     deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, splitter, SLOT(deleteItemPlaylist()), 
 					   actionCollection(), "deleteItemPlaylist");
 
-    KStdAction::quit(this, SLOT(close()), actionCollection());
+    //KStdAction::quit(this, SLOT(close()), actionCollection());
+    KStdAction::quit(this, SLOT(quit()), actionCollection());
 
     // edit menu
     KStdAction::cut(this, SLOT(cut()), actionCollection());
@@ -141,8 +144,10 @@ void JuK::setupActions()
 
     restoreOnLoadAction = new KToggleAction(i18n("Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
 
-    toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), 0, actionCollection(), "toggleSystemTray");
+    toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), KShortcut(), actionCollection(), "toggleSystemTray");
     connect(toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(toggleSystemTray(bool)));
+
+    toggleDockOnCloseAction = new KToggleAction(i18n("Stay in System Tray on Close"), 0, actionCollection(), "dockOnClose");
 
     new KAction(i18n("Genre List Editor..."), 0, this, SLOT(showGenreListEditor()), actionCollection(), "showGenreListEditor");
 
@@ -183,9 +188,15 @@ void JuK::setupSystemTray()
 	    systemTray->slotPause();
 	else if(player && player->playing())
 	    systemTray->slotPlay();
+
+	toggleDockOnCloseAction->setEnabled(true);
+
+	connect(systemTray, SIGNAL(quitSelected()), this, SLOT(quit()));
     }
-    else
+    else {
 	systemTray = 0;
+	toggleDockOnCloseAction->setEnabled(false);
+    }
 }
 
 void JuK::setupPlayer()
@@ -270,10 +281,12 @@ void JuK::readConfig()
         KConfigGroupSaver saver(config, "Settings");
 	bool dockInSystemTray = config->readBoolEntry("DockInSystemTray", true);
 	toggleSystemTrayAction->setChecked(dockInSystemTray);
-	
+
+	bool dockOnClose = config->readBoolEntry("DockOnClose", true);
+ 	toggleDockOnCloseAction->setChecked(dockOnClose);
+
 	if(outputSelectAction)
 	    outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
-	
     }
 
     if(restoreOnLoadAction)
@@ -301,12 +314,14 @@ void JuK::saveConfig()
 	    config->writeEntry("RestoreOnLoad", restoreOnLoadAction->isChecked());
 	if(toggleSystemTrayAction)
 	    config->writeEntry("DockInSystemTray", toggleSystemTrayAction->isChecked());
+	if(toggleDockOnCloseAction)
+	    config->writeEntry("DockOnClose", toggleDockOnCloseAction->isChecked());
 	if(outputSelectAction)
 	    config->writeEntry("MediaSystem", outputSelectAction->currentItem());
     }
 }
 
-bool JuK::queryClose()
+bool JuK::queryExit()
 {
     stop();
     delete player;
@@ -314,6 +329,20 @@ bool JuK::queryClose()
     saveConfig();
     delete splitter;
     return true;
+}
+
+bool JuK::queryClose()
+{
+    if(!shuttingDown && systemTray && toggleDockOnCloseAction->isChecked()) {
+	KMessageBox::information(this,
+				 i18n("<qt>Closing the main window will keep JuK running in the system tray. "
+				      "Use Quit from the File menu to quit the application.</qt>"),
+				 i18n("Docking in System Tray"), "hideOnCloseInfo");
+	hide();
+	return false;
+    }
+    else
+	return true;
 }
 
 void JuK::invokeEditSlot( const char *slotName, const char *slot )
@@ -494,6 +523,7 @@ void JuK::toggleSystemTray(bool enabled)
     else if(!enabled && systemTray) {
 	delete systemTray;
 	systemTray = 0;
+	toggleDockOnCloseAction->setEnabled(false);
     }
 }
 

@@ -68,6 +68,7 @@ private:
     void readConfig();
     void saveConfig();
 
+    virtual bool queryExit();
     virtual bool queryClose();
 
     void invokeEditSlot(const char *slotName, const char *slot);
@@ -76,6 +77,9 @@ private:
 private slots:
     void playlistChanged();
     void updatePlaylistInfo();
+
+    // file menu
+    void quit() { shuttingDown = true; kapp->quit(); }
 
     // edit menu
     void cut();
@@ -137,6 +141,7 @@ private:
     SliderAction *sliderAction;
     KToggleAction *randomPlayAction;
     KToggleAction *toggleSystemTrayAction;
+    KToggleAction *toggleDockOnCloseAction;
     KSelectAction *outputSelectAction;
 
     KAction *playAction;
@@ -156,6 +161,7 @@ private:
     bool trackPositionDragging;
     bool noSeek;
     bool restore;
+    bool shuttingDown;
 
     static const int pollInterval = 800;
 };
