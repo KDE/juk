@@ -36,7 +36,6 @@ PlayerManager *PlayerManager::m_instance = 0;
 
 PlayerManager::PlayerManager() :
     QObject(0, "PlayerManager"),
-    Player(),
     m_sliderAction(0),
     m_playlistInterface(0),
     m_statusLabel(0),

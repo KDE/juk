@@ -31,7 +31,7 @@ class PlaylistInterface;
  * the actions from the top-level mainwindow.
  */
 
-class PlayerManager : public QObject, public Player
+class PlayerManager : public QObject
 {
     Q_OBJECT
 
@@ -42,29 +42,24 @@ protected:
 public:
     static PlayerManager *instance();
 
-    virtual bool playing() const;
-    virtual bool paused() const;
-    virtual float volume() const;
-    virtual long totalTime() const;
-    virtual long currentTime() const;
-    virtual int position() const;
+    bool playing() const;
+    bool paused() const;
+    float volume() const;
+    long totalTime() const;
+    long currentTime() const;
+    int position() const;
 
     void setPlaylistInterface(PlaylistInterface *interface);
     void setStatusLabel(StatusLabel *label);
 
 public slots:
 
-    // implementations of the player interface
-
-    virtual void play(const QString &fileName = QString::null);
-    virtual void pause();
-    virtual void stop();
-    virtual void setVolume(float volume = 1.0);
-    virtual void seek(long seekTime);
-    virtual void seekPosition(int position);
-
-    // additional slots
-
+    void play(const QString &fileName = QString::null);
+    void pause();
+    void stop();
+    void setVolume(float volume = 1.0);
+    void seek(long seekTime);
+    void seekPosition(int position);
     void seekForward();
     void seekBack();
     void playPause();
