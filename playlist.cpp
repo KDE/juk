@@ -187,15 +187,17 @@ void Playlist::SharedSettings::writeConfig()
 PlaylistItem *Playlist::m_playingItem = 0;
 int Playlist::m_leftColumn = 0;
 
-Playlist::Playlist(QWidget *parent, const QString &name) : KListView(parent, name.latin1()),
-							   m_playlistName(name)
+Playlist::Playlist(QWidget *parent, const QString &name) :
+    KListView(parent, name.latin1()),
+    m_playlistName(name)
 
 {
     setup();
 }
 
-Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name),
-										       m_fileName(playlistFile.absFilePath())
+Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const QString &name) : 
+    KListView(parent, name.latin1()),
+    m_fileName(playlistFile.absFilePath())
 {
     setup();
     loadFile(m_fileName, playlistFile);

@@ -587,7 +587,7 @@ Playlist *PlaylistSplitter::openPlaylist(const QString &file)
 	return 0;
     }
 
-    Playlist *p = new Playlist(file, m_playlistStack, fileInfo.baseName(true).latin1());
+    Playlist *p = new Playlist(file, m_playlistStack, fileInfo.baseName(true));
     setupPlaylist(p);
     return p;
 }
