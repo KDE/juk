@@ -11,6 +11,7 @@ juk_SOURCES = \
 	directorylist.cpp \
 	directorylistbase.ui \
 	dynamicplaylist.cpp \
+	filehandle.cpp \
 	filerenamer.cpp \
 	filerenamerconfigdlg.cpp \
 	filerenamerconfigdlgwidget.ui \
