@@ -154,7 +154,13 @@ void CollectionList::slotRefreshItems(const KFileItemList &items)
 
 	if(item) {
 	    item->refreshFromDisk();
-	    item->repaint();
+
+	    // If the item is no longer on disk, remove it from the collection.
+
+	    if(item->file().fileInfo().exists())
+		item->repaint();
+	    else
+		delete item;
 	}
     }
 

@@ -699,7 +699,7 @@ void Playlist::slotRefresh()
     for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
 	(*it)->refreshFromDisk();
 
-	if(!(*it)->file().tag()) {
+	if(!(*it)->file().tag() || !(*it)->file().fileInfo().exists()) {
 	    kdDebug(65432) << "Error while trying to refresh the tag.  "
 			   << "This file has probably been removed."
 			   << endl;
