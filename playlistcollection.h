@@ -111,6 +111,8 @@ public:
 
     QObject *object() const;
 
+    void newItems(const KFileItemList &list) const;
+
     class ActionHandler;
 
 protected:
@@ -131,8 +133,6 @@ protected:
     void removeName(const QString &name);
 
     Playlist *playlistByName(const QString &name) const;
-
-    void newItems(const KFileItemList &list) const;
 
 private:
     void readConfig();
