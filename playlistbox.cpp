@@ -210,10 +210,12 @@ Playlist *PlaylistBox::currentPlaylist() const
     if(m_dynamicPlaylist)
 	return m_dynamicPlaylist;
 
-    if(currentItem() && static_cast<Item *>(currentItem())->playlist())
+    if(Playlist::playingItem())
+	return Playlist::playingItem()->playlist();
+    else if(currentItem() && static_cast<Item *>(currentItem())->playlist())
 	return static_cast<Item *>(currentItem())->playlist();
     else
-	return static_cast<Playlist *>(playlistStack()->visibleWidget());
+	return PlaylistCollection::currentPlaylist();
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
