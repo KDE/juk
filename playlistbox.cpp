@@ -51,6 +51,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
     setSorting(0);
     setFullWidth(true);
     setItemMargin(3);
+    // setAlternateBackground(QColor());
 
     
     // Sadly the actions from the main menu can't be reused because these require being enabled and disabled at
@@ -502,6 +503,8 @@ void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGro
 		line = line.append("...");
 	    }
 	    KListViewItem::setText(column, line);
+	    KListViewItem::paintCell(painter, colorGroup, column, width, align);
+	    break;
 	}
 	default:
 	{
@@ -509,8 +512,7 @@ void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGro
 	    while(!line.isEmpty()) {
 		int textLength = line.length();
 		while(textLength > 0 && 
-		      fm.width(line.mid(0, textLength).stripWhiteSpace()) + 
-		      baseWidth > width)
+		      fm.width(line.mid(0, textLength).stripWhiteSpace()) + listView()->itemMargin() * 2 > width)
 		{
 		    int i = line.findRev(QRegExp( "\\W"), textLength - 1);
 		    if(i > 0)
@@ -522,17 +524,37 @@ void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGro
 		lines.append(line.mid(0, textLength).stripWhiteSpace());
 		line = line.mid(textLength);
 	    }
-	    
-	    setMultiLinesEnabled(lines.count() > 1);
-	    
-	    KListViewItem::setText(column, lines.join("\n"));
 
+	    int y = listView()->itemMargin();
+	    const QPixmap *pm = pixmap(column);
+
+	    int height = 3 * listView()->itemMargin() + pm->height() + 
+		(fm.height() - fm.descent()) * lines.count();
+
+	    if(isSelected()) {
+		painter->fillRect(0, 0, width, height, colorGroup.brush(QColorGroup::Highlight));
+		painter->setPen(colorGroup.highlightedText());
+	    }
+	    else
+		painter->eraseRect(0, 0, width, height);
+	    
+	    if (!pm->isNull()) {
+		int x = (width - pm->width()) / 2;
+		x = QMAX(x, listView()->itemMargin());
+		painter->drawPixmap(x, y, *pm);
+	    }
+	    y += pm->height() + fm.height() - fm.descent();
+	    for(QStringList::Iterator it = lines.begin(); it != lines.end(); ++it) {
+		int x = (width - fm.width(*it)) / 2;
+		x = QMAX(x, listView()->itemMargin());
+		painter->drawText(x, y, *it);
+		y += fm.height() - fm.descent();
+	    }
+	    setHeight(height);
 	    break;
 	}
 	}
     }
-
-    KListViewItem::paintCell(painter, colorGroup, column, width, align);
 }
 
 void PlaylistBox::Item::setText(int column, const QString &text)
