@@ -16,11 +16,8 @@
 #ifndef _DELETEDIALOG_H
 #define _DELETEDIALOG_H
 
-#include <kdialogbase.h>
-#include <kguiitem.h>
 
 #include <qcheckbox.h>
-#include <qvbox.h>
 
 #include "deletedialogbase.h"
 

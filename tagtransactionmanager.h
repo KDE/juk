@@ -16,10 +16,7 @@
 #ifndef _TAGTRANSACTIONMANAGER_H
 #define _TAGTRANSACTIONMANAGER_H
 
-#include <qvaluelist.h>
-#include <qpair.h>
 
-#include "filehandle.h"
 
 class PlaylistItem;
 class QWidget;

@@ -20,11 +20,9 @@
 #include "jukIface.h"
 
 #include <kshortcut.h>
-#include <kconfig.h>
 #include <klocale.h>
 #include <kdirlister.h>
 
-#include <qguardedptr.h>
 
 class QWidgetStack;
 class KAction;

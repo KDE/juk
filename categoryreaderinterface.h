@@ -16,7 +16,6 @@
 #ifndef JUK_CATEGORYREADERINTERFACE_H
 #define JUK_CATEGORYREADERINTERFACE_H
 
-#include "tagrenameroptions.h"
 
 class QString;
 

@@ -16,10 +16,7 @@
 #ifndef _UPCOMINGPLAYLIST_H
 #define _UPCOMINGPLAYLIST_H
 
-#include <klocale.h>
 
-#include <qdatastream.h>
-#include <qptrdict.h>
 #include <qguardedptr.h>
 
 #include "playlist.h"

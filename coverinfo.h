@@ -16,7 +16,6 @@
 #define COVERINFO_H
 
 #include <qimage.h>
-#include <qpixmap.h>
 
 #include "filehandle.h"
 

@@ -15,14 +15,10 @@
 #ifndef GOOGLEFETCHERDIALOG_H
 #define GOOGLEFETCHERDIALOG_H
 
-#include <kdialogbase.h>
 #include <kiconview.h>
 #include <kio/job.h>
-#include <kio/jobclasses.h>
 
-#include <qpixmap.h>
 
-#include "filehandle.h"
 #include "googlefetcher.h"
 
 class KURL;

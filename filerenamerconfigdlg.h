@@ -17,7 +17,6 @@
 #ifndef JUK_FILERENAMERCONFIGDLG_H
 #define JUK_FILERENAMERCONFIGDLG_H
 
-#include <kdialogbase.h>
 
 class FileRenamerWidget;
 

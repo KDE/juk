@@ -16,7 +16,6 @@
 #ifndef HISTORYPLAYLIST_H
 #define HISTORYPLAYLIST_H
 
-#include <qtimer.h>
 
 #include "playlist.h"
 #include "playlistitem.h"

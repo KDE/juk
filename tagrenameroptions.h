@@ -16,7 +16,6 @@
 #ifndef JUK_TAGRENAMEROPTIONS_H
 #define JUK_TAGRENAMEROPTIONS_H
 
-#include <qstring.h>
 
 // Insert all new tag types before NumTypes, that way NumTypes will always be
 // the count of valid tag types.
