@@ -12,7 +12,8 @@ juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
 	tagguesserconfigdlgwidget.ui tagguesserconfigdlg.cpp jukIface.skel \
 	playlistsearch.cpp searchwidget.cpp filerenamer.cpp dynamicplaylist.cpp \
 	searchplaylist.cpp musicbrainzquery.cpp mediafiles.cpp viewmode.cpp \
-	advancedsearchdialog.cpp historyplaylist.cpp
+	advancedsearchdialog.cpp historyplaylist.cpp trackpickerdialogbase.ui \
+	musicbrainzitem.cpp
 
 
 tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp
@@ -45,7 +46,7 @@ tagguessertest_LDFLAGS = $(all_libraries)
 mbtest_LDADD = $(LIB_KDECORE) $(mblibs)
 mbtest_LDFLAGS = $(all_libraries)
 
-SUBDIRS = pics data 
+SUBDIRS = pics data
 
 rcdir = $(kde_datadir)/juk
 rc_DATA = jukui.rc

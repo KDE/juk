@@ -24,6 +24,8 @@
 #include "playlistitem.h"
 #include "filerenamer.h"
 #include "collectionlist.h"
+#include "trackpickerdialogbase.h"
+#include "musicbrainzitem.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem public methods
@@ -311,8 +313,8 @@ void PlaylistItem::slotRefreshImpl()
 void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
 {
 #if HAVE_MUSICBRAINZ
-    //FIXME:GUI to pick one of the results
 
+    MusicBrainzQuery::Track track;
     KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
 
     if(res.count() == 0)
@@ -320,7 +322,28 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
         win->statusBar()->message(i18n("No matches found."), 2000);
         return;
     }
-    MusicBrainzQuery::Track track = res.first();
+    else if(res.count() > 1)
+    {
+    	TrackPickerDialogBase *m_trpicker = new TrackPickerDialogBase( win, "trackPickerDialogBase" );
+	m_trpicker->fileLabel->setText(fileName());
+
+    	for( MusicBrainzQuery::TrackList::ConstIterator itr = res.begin();
+    		itr != res.end(); ++itr )
+		{
+      			new MusicBrainzItem( m_trpicker->trackList, *itr, (*itr).name, (*itr).artist, (*itr).album );
+    		}
+
+    	if ( m_trpicker->exec() )
+	{
+		MusicBrainzItem *item = static_cast<MusicBrainzItem *>(m_trpicker->trackList->selectedItems().first());
+	        if(item)
+			track = (*item).m_track;
+		else
+			return;
+    	}
+    }
+    else
+    	track = res.first();
 
     if(!track.name.isEmpty())
         tag()->setTrack(track.name);
@@ -328,7 +351,7 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
         tag()->setArtist(track.artist);
     if(!track.album.isEmpty())
         tag()->setAlbum(track.album);
-    if(!track.number)
+    if(track.number)
         tag()->setTrackNumber(track.number);
 
     tag()->save();
