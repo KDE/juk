@@ -280,11 +280,13 @@ void MusicBrainzQuery::slotTrmData(KProcess *, char *buffer, int bufferLength)
     m_trm += QString::fromLatin1(buffer, bufferLength);
 }
 
-void MusicBrainzQuery::slotTrmGenerationFinished(KProcess *proc)
+void MusicBrainzQuery::slotTrmGenerationFinished(KProcess *process)
 {
 #if KDE_VERSION < KDE_MAKE_VERSION(3,1,90)
-    delete proc;
+    delete process;
 #endif
+    Q_UNUSED(process);
+
     m_arguments.clear();
     m_arguments << m_trm;
     m_query = TrackFromTRM;

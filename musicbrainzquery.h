@@ -108,7 +108,7 @@ signals:
 
 private slots:
     void slotQuery();
-    void slotTrmData(KProcess *proc, char *buffer, int bufferLength);
+    void slotTrmData(KProcess *process, char *buffer, int bufferLength);
     void slotTrmGenerationFinished(KProcess *process);
 
 private:
