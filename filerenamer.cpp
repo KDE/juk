@@ -169,12 +169,14 @@ void FileRenamer::rename(const PlaylistItemList &items)
 
     PlaylistItemList::ConstIterator it = items.begin();
     for(; it != items.end(); ++it) {
-        const QString oldName = (*it)->absFilePath();
-        const QString newName = rename(oldName, *(*it)->tag());
-        filenames += oldName;
-        filenames += " => " + newName;
-        map[oldName] = newName;
-        itemMap[oldName] = *it;
+	if(*it && (*it)->tag()) {
+            const QString oldName = (*it)->absFilePath();
+            const QString newName = rename(oldName, *(*it)->tag());
+            filenames += oldName;
+            filenames += " => " + newName;
+            map[oldName] = newName;
+            itemMap[oldName] = *it;
+        }
     }
 
     if(ConfirmationDialog(map).exec() == QDialog::Accepted) {
