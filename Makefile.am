@@ -9,7 +9,7 @@ juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
 	genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp \
 	slideraction.cpp juk.cpp main.cpp
 
-INCLUDES= $(all_includes) $(KDE_INCLUDES)/arts
+INCLUDES= $(all_includes) -I$(arts_includes)
 
 ##################################################
 # check to see if GStreamer is available
