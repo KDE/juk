@@ -685,9 +685,7 @@ void JuK::slotPollPlay()
 
         m_playTimer->stop();
 
-	if(!m_player->paused())
-	    play(m_splitter->playNextFile(m_randomPlayAction->isChecked()));
-
+	play(m_splitter->playNextFile(m_randomPlayAction->isChecked()));
     }
     else if(!m_trackPositionDragging) {
         m_sliderAction->getTrackPositionSlider()->setValue(m_player->position());
