@@ -1780,7 +1780,7 @@ void processEvents()
 {
     static QTime time = QTime::currentTime();
 
-    if(time.elapsed() > 500) {
+    if(time.elapsed() > 200) {
 	time.restart();
 	kapp->processEvents();
     }
