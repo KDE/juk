@@ -178,7 +178,7 @@ private:
     bool m_restore;
     bool m_showSplash;
     bool m_shuttingDown;
-    bool m_volmute;
+    bool m_muted;
 
     static const int m_pollInterval = 800;
 };

@@ -211,7 +211,7 @@ void JuK::setupPlayer()
 {
     m_trackPositionDragging = false;
     m_noSeek = false;
-    m_volmute = false;
+    m_muted = false;
     m_pauseAction->setEnabled(false);
     m_stopAction->setEnabled(false);
     m_backAction->setEnabled(false);
@@ -691,11 +691,11 @@ void JuK::slotVolumeDown()
 void JuK::slotVolumeMute()
 {
     if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
-	if(m_volmute)
+	if(m_muted)
 	    slotSetVolume(m_sliderAction->getVolumeSlider()->value());
 	else
 	    slotSetVolume(0);
-	m_volmute = !m_volmute;
+	m_muted = !m_muted;
     }
 }
 
