@@ -17,7 +17,7 @@
 
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
-#include <klineeditdlg.h>
+#include <kinputdialog.h>
 #include <kcmdlineargs.h>
 #include <kdebug.h>
 
@@ -301,7 +301,7 @@ Playlist *PlaylistSplitter::slotCreatePlaylist()
 
     // If this text is changed, please also change it in PlaylistBox::duplicate().
 
-    QString name = KLineEditDlg::getText(i18n("Create New Playlist"),
+    QString name = KInputDialog::getText(i18n("Create New Playlist"),
 	i18n("Please enter a name for the new playlist:"),
 	uniquePlaylistName(), &ok);
     if(ok)
