@@ -59,6 +59,14 @@ void PlaylistItem::setFile(const FileHandle &file)
     refresh();
 }
 
+void PlaylistItem::setFile(const QString &file)
+{
+    QString oldPath = d->fileHandle.absFilePath();
+    d->fileHandle.setFile(file);
+    m_collectionItem->updateCollectionDict(oldPath, d->fileHandle.absFilePath());
+    refresh();
+}
+
 FileHandle PlaylistItem::file() const
 {
     return d->fileHandle;

@@ -65,6 +65,7 @@ public:
     static int lastColumn() { return FullPathColumn; }
 
     void setFile(const FileHandle &file);
+    void setFile(const QString &file);
     FileHandle file() const;
 
     virtual QString text(int column) const;

@@ -721,8 +721,10 @@ void FileRenamer::rename(const PlaylistItemList &items)
     for(QMap<QString, QString>::ConstIterator it = map.begin();
         it != map.end(); ++it)
     {
-        if(moveFile(it.key(), it.data()))
-            itemMap[it.key()]->setFile(FileHandle(it.data()));
+        if(moveFile(it.key(), it.data())) {
+            itemMap[it.key()]->setFile(it.data());
+            itemMap[it.key()]->refresh();
+        }
         else
             errorFiles << i18n("%1 to %2").arg(it.key()).arg(it.data());
 

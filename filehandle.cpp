@@ -134,6 +134,7 @@ void FileHandle::setFile(const QString &path)
     else {
         d->absFilePath = resolveSymLinks(path);
         d->fileInfo.setFile(path);
+        d->tag->setFileName(d->absFilePath);
     }
 }
 

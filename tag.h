@@ -57,6 +57,8 @@ public:
     void setYear(int value) { m_year = value; }
     void setComment(const QString &value) { m_comment = value; }
 
+    void setFileName(const QString &value) { m_fileName = value; }
+
     int seconds() const { return m_seconds; }
     int bitrate() const { return m_bitrate; }
 
