@@ -157,12 +157,15 @@ void JuK::setupActions()
     // slot can be called without arguments (as required by the signal's
     // signature).
 
-    newMenu->insert(createSplitterAction(i18n("Empty Playlist..."),
-					 SLOT(slotCreatePlaylist()), 0, 0, 0));
-    newMenu->insert(createSplitterAction(i18n("Playlist From Folder..."),
-					 SLOT(slotCreatePlaylistFromDir()), 0, 0, 0));
-    newMenu->insert(createSplitterAction(i18n("Search Playlist"),
-					 SLOT(slotAdvancedSearch()), "advancedSearch", "find", "s"));
+    newMenu->insert(createSplitterAction(
+			i18n("Empty Playlist..."), SLOT(slotCreatePlaylist()),
+			"newPlaylist", "window_new", "CTRL+n"));
+    newMenu->insert(createSplitterAction(
+			i18n("Playlist From Folder..."), SLOT(slotCreatePlaylistFromDir()),
+			"newDirectoryPlaylist", "file_open", "CTRL+d"));
+    newMenu->insert(createSplitterAction(
+			i18n("Search Playlist"), SLOT(slotAdvancedSearch()),
+			"newSearchPlaylist", "find", "CTRL+f"));
 
     createSplitterAction(i18n("Open..."),         SLOT(slotOpen()),              "file_open", "fileopen", "CTRL+o");
     createSplitterAction(i18n("Add &Folder..."),  SLOT(slotOpenDirectory()),     "openDirectory", "fileopen");
