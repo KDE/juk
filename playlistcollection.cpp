@@ -339,6 +339,22 @@ void PlaylistCollection::renameItems()
     visiblePlaylist()->slotRenameFile();
 }
 
+void PlaylistCollection::addCovers(bool fromFile)
+{
+   currentPlaylist()->slotAddCover(fromFile);
+}
+
+void PlaylistCollection::removeCovers()
+{
+    currentPlaylist()->slotRemoveCover();
+}
+
+void PlaylistCollection::viewCovers()
+{
+    currentPlaylist()->slotViewCover();
+}
+
+
 PlaylistItemList PlaylistCollection::selectedItems()
 {
     return visiblePlaylist()->selectedItems();
@@ -684,6 +700,17 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("&Delete"),         SLOT(slotRemoveItems()),  "removeItem", "editdelete");
     createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "reload");
     createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", "CTRL+r");
+
+    menu = new KActionMenu(i18n("Cover Manager"), QString::null, actions(), "coverManager");
+    menu->setIconSet(SmallIconSet("image"));
+    menu->insert(createAction(i18n("View Cover"),       SLOT(slotViewCovers()),
+                        "viewCover", "viewmag"));
+    menu->insert(createAction(i18n("Set Cover from File Name"),       SLOT(slotAddLocalCover()),
+                        "addCover", "fileimport"));
+    menu->insert(createAction(i18n("Set Cover from Internet"),       SLOT(slotAddInternetCover()),
+                        "googleCover", "connect_established"));
+    menu->insert(createAction(i18n("Delete Cover"),       SLOT(slotRemoveCovers()),
+                        "removeCover", "editdelete"));
 
     KToggleAction *historyAction =
         new KToggleAction(i18n("Show &History"), "history",  0, actions(), "showHistory");

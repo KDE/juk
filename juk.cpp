@@ -19,6 +19,7 @@
 #include <kstatusbar.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
+#include <kstandarddirs.h>
 
 
 #include "juk.h"
@@ -67,6 +68,7 @@ JuK::JuK(QWidget *parent, const char *name) :
     setupSystemTray();
     setupGlobalAccels();
     processArgs();
+    createDirs();
 
     SplashScreen::finishedLoading();
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
@@ -174,6 +176,9 @@ void JuK::setupActions()
     m_togglePopupsAction =
 	new KToggleAction(i18n("Popup &Track Announcement"),
 			  KShortcut(), this, 0, actions(), "togglePopups");
+    m_toggleCoversAction =
+	new KToggleAction(i18n("Show Cover Images"),
+			  KShortcut(), this, 0, actions(), "showCovers");
 
     new KToggleAction(i18n("Save &Play Queue on Exit"),
                       KShortcut(), this, 0, actions(), "saveUpcomingTracks");
@@ -254,6 +259,16 @@ void JuK::processArgs()
     // m_splitter->open(files);
 }
 
+void JuK::createDirs()
+{
+    QDir dir(KGlobal::dirs()->saveLocation("data", kapp->instanceName() + '/'));
+    if (!dir.exists("covers", false))
+        dir.mkdir("covers", false);
+    dir.cd("covers");
+    if (!dir.exists("large", false))
+        dir.mkdir("large", false);
+}
+
 void JuK::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() >= Qt::Key_Back && e->key() <= Qt::Key_MediaLast)
@@ -310,6 +325,9 @@ void JuK::readConfig()
     bool showPopups = settingsConfig.readBoolEntry("TrackPopup", false);
     m_togglePopupsAction->setChecked(showPopups);
 
+    bool showCovers = settingsConfig.readBoolEntry("ShowCovers", false);
+    m_toggleCoversAction->setChecked(showCovers);
+
     if(m_outputSelectAction)
 	m_outputSelectAction->setCurrentItem(settingsConfig.readNumEntry("MediaSystem", 0));
 
@@ -348,6 +366,7 @@ void JuK::saveConfig()
     settingsConfig.writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
     settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
     settingsConfig.writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
+    settingsConfig.writeEntry("ShowCovers", m_toggleCoversAction->isChecked());
     if(m_outputSelectAction)
 	settingsConfig.writeEntry("MediaSystem", m_outputSelectAction->currentItem());
 

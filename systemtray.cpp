@@ -39,6 +39,7 @@
 #include "systemtray.h"
 #include "actioncollection.h"
 #include "playermanager.h"
+#include "collectionlist.h"
 
 using namespace ActionCollection;
 
@@ -125,7 +126,10 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     // Just create this here so that it show up in the DCOP interface and the key
     // bindings dialog.
 
-    new KAction(i18n("Redisplay Popup"), KShortcut(), this, SLOT(slotPlay()), actions(), "showPopup");
+    new KAction(i18n("Redisplay Popup"), KShortcut(), this,
+		SLOT(slotPlay()), actions(), "showPopup");
+    new KAction(i18n("Show Playing Cover"), KShortcut(), this,
+		SLOT(slotPopupLargeCover()), actions(), "showPlayingCover");
     
     KPopupMenu *cm = contextMenu();
 
@@ -150,6 +154,7 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     menu->plug(cm);
 
     action("togglePopups")->plug(cm);
+    action("showCovers")->plug(cm);
 
     if(PlayerManager::instance()->playing())
         slotPlay();
@@ -174,6 +179,23 @@ void SystemTray::slotPlay()
     setPixmap(m_playPix);
     setToolTip(PlayerManager::instance()->playingString());
     createPopup();
+}
+
+void SystemTray::slotTogglePopup()
+{
+    if(m_popup && m_popup->view()->isVisible())
+        m_popup->setTimeout(50);
+    else
+        slotPlay();
+}
+
+void  SystemTray::slotPopupLargeCover()
+{
+    if(!PlayerManager::instance()->playing())
+        return;
+
+    FileHandle playingFile = PlayerManager::instance()->playingFile();
+    playingFile.coverInfo()->popupLargeCover();
 }
 
 void SystemTray::slotStop()
@@ -253,17 +275,69 @@ void SystemTray::createPopup()
             // Separator line
 
             QFrame *line = new QFrame(box);
+
+            // Need to set this since cover images are 80 px
+
+            if(action<KToggleAction>("showCovers")->isChecked())
+	        line->setMinimumSize(QSize(0, 80));
+
             line->setFrameShape(QFrame::VLine);
 
             infoBox = new QVBox(box);
+
+            // Another line, and the cover, if there's a cover, and if
+            // it's selected to be shown
+
+            if(playingFile.coverInfo()->hasCover() &&
+               action<KToggleAction>("showCovers")->isChecked())
+            {
+                QFrame *line = new QFrame(box);
+                line->setFrameShape(QFrame::VLine);
+
+                // cover here
+
+                QPixmap *cover = playingFile.coverInfo()->coverPixmap();
+                QPushButton *coverButton = new QPushButton(box);
+                coverButton->setPixmap(*cover);
+                coverButton->setMinimumSize(cover->size());
+                coverButton->setFixedSize(cover->size());
+                coverButton->setFlat(true);
+                connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));
+            }
         }
         else {
 
             // Buttons go on right because JuK is there
 
+            // Another line, and the cover, if there's a cover, and if
+            // it's selected to be shown
+
+            if(playingFile.coverInfo()->hasCover() &&
+               action<KToggleAction>("showCovers")->isChecked())
+            {
+                // cover here
+
+                QPixmap *cover = playingFile.coverInfo()->coverPixmap();
+                QPushButton *coverButton = new QPushButton(box);
+                coverButton->setPixmap(*cover);
+                coverButton->setMinimumSize(cover->size());
+                coverButton->setFixedSize(cover->size());
+                coverButton->setFlat(true);
+                connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));
+
+                QFrame *line = new QFrame(box);
+                line->setFrameShape(QFrame::VLine);
+            }
+
             infoBox = new QVBox(box);
 
             QFrame *line = new QFrame(box);
+
+            // Need to set this since cover images are 80 px
+
+            if(action<KToggleAction>("showCovers")->isChecked())
+	        line->setMinimumSize(QSize(0, 80));
+
             line->setFrameShape(QFrame::VLine);
 
             buttonBox = new QVBox(box);
@@ -454,6 +528,7 @@ static bool copyImage(QImage &dest, QImage &src, int x, int y)
 
     return true;
 }
+
 
 #include "systemtray.moc"
 

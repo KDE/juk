@@ -81,6 +81,9 @@ public:
     void removeItems();
     void refreshItems();
     void renameItems();
+    void addCovers(bool fromFile);
+    void removeCovers();
+    void viewCovers();
 
     PlaylistItemList selectedItems();
 
@@ -198,8 +201,12 @@ private slots:
     void slotRemoveItems()  { m_collection->removeItems(); }
     void slotRefreshItems() { m_collection->refreshItems(); }
     void slotRenameItems()  { m_collection->renameItems(); }
-
     void slotScanFolders()  { m_collection->scanFolders(); }
+
+    void slotViewCovers()   { m_collection->viewCovers(); }
+    void slotRemoveCovers() { m_collection->removeCovers(); }
+    void slotAddLocalCover()    { m_collection->addCovers(true); }
+    void slotAddInternetCover() { m_collection->addCovers(false); }
 
     void slotCreatePlaylist()       { m_collection->createPlaylist(); }
     void slotCreateSearchPlaylist() { m_collection->createSearchPlaylist(); }

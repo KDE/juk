@@ -28,6 +28,7 @@
 	<Menu name="view" noMerge="1"><text>&amp;View</text>
 		<Action name="showSearch"/>
 		<Action name="showEditor"/>
+		<Action name="showNowPlaying"/>
 		<Action name="showHistory"/>
 		<Action name="showUpcoming"/>
 		<Action name="showColumns"/>
@@ -58,6 +59,7 @@
 		<Separator/>
 
 		<Action name="guessTag"/>
+		<Action name="coverManager"/>
 		<Action name="renameFile"/>
 	</Menu>
 	<Menu name="settings"><text>&amp;Settings</text>
@@ -65,6 +67,7 @@
 		<Action name="toggleSystemTray" append="show_merge"/>
 		<Action name="dockOnClose" append="show_merge"/>
 		<Action name="togglePopups" append="show_merge"/>
+		<Action name="showCovers" append="show_merge"/>
 		<Action name="saveUpcomingTracks" append="show_merge"/>
 		<Action name="tagGuesserConfig" append="save_merge"/>
 		<Action name="fileRenamerConfig" append="save_merge"/>
@@ -87,6 +90,7 @@
 
 	<Action name="showSearch"/>
 	<Action name="showEditor"/>
+	<Action name="showNowPlaying"/>
 </ToolBar>
 
 <ToolBar name="playToolBar" noMerge="1"><text>Play Toolbar</text>

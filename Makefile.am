@@ -8,6 +8,7 @@ juk_SOURCES = \
 	cache.cpp \
 	categoryreaderinterface.cpp \
 	collectionlist.cpp \
+	coverinfo.cpp \
 	deletedialog.cpp \
 	deletedialogbase.ui \
 	directorylist.cpp \
@@ -23,6 +24,8 @@ juk_SOURCES = \
 	filerenameroptionsbase.ui \
 	filerenamerconfigdlg.cpp \
 	gstreamerplayer.cpp \
+	googlefetcher.cpp \
+	googlefetcherdialog.cpp \
 	historyplaylist.cpp \
 	juk.cpp \
 	jukIface.skel \
@@ -31,6 +34,7 @@ juk_SOURCES = \
 	main.cpp \
 	mediafiles.cpp \
 	musicbrainzquery.cpp \
+	nowplaying.cpp \
 	painteater.cpp \
 	playermanager.cpp \
 	playlist.cpp \
@@ -77,7 +81,7 @@ mblibs = -lmusicbrainz -ltunepimp
 endif
 ##################################################
 
-juk_LDADD = $(LDADD_GST) $(mblibs) -lartskde $(LIB_KIO) $(taglib_libs)
+juk_LDADD = $(LDADD_GST) $(mblibs) -lartskde $(LIB_KIO) $(taglib_libs) $(LIB_KHTML)
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LDFLAGS_GST)
 
 tagguessertest_LDADD = $(LIB_KDECORE)

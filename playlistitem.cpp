@@ -17,6 +17,7 @@
 
 #include <kdebug.h>
 #include <kaction.h>
+#include <kiconloader.h>
 
 #include "playlistitem.h"
 #include "collectionlist.h"
@@ -72,6 +73,16 @@ FileHandle PlaylistItem::file() const
     return d->fileHandle;
 }
 
+QPixmap *PlaylistItem::pixmap(int column) const
+{
+    int offset = playlist()->columnOffset();
+
+    if ((column - offset) == CoverColumn && d->fileHandle.coverInfo()->hasCover())
+        return new QPixmap(SmallIcon("image"));
+
+    return 0;
+}
+
 QString PlaylistItem::text(int column) const
 {
     if(!d->fileHandle.tag())
@@ -86,6 +97,8 @@ QString PlaylistItem::text(int column) const
 	return d->fileHandle.tag()->artist();
     case AlbumColumn:
 	return d->fileHandle.tag()->album();
+    case CoverColumn:
+	return QString::null;
     case TrackNumberColumn:
 	return d->fileHandle.tag()->track() > 0
 	    ? QString::number(d->fileHandle.tag()->track())

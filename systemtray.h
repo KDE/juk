@@ -19,6 +19,7 @@
 #define SYSTEMTRAY_H
 
 #include <ksystemtray.h>
+#include "coverinfo.h"
 
 #include <qvaluevector.h>
 
@@ -44,10 +45,12 @@ private:
 
 private slots:
     void slotPlay();
+    void slotTogglePopup();
     void slotPause() { setPixmap(m_pausePix); }
     void slotStop();
     void slotClearLabels();
     void slotNextStep();
+    void slotPopupLargeCover();
 
 private:
     QPixmap m_playPix;

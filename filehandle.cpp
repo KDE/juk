@@ -67,14 +67,17 @@ class FileHandle::FileHandlePrivate : public RefCounter
 {
 public:
     FileHandlePrivate() :
-        tag(0) {}
+        tag(0),
+	coverInfo(0) {}
 
     ~FileHandlePrivate()
     {
         delete tag;
+	delete coverInfo;
     }
 
     mutable Tag *tag;
+    mutable CoverInfo *coverInfo;
     mutable QString absFilePath;
     QFileInfo fileInfo;
     QDateTime modificationTime;
@@ -149,6 +152,14 @@ Tag *FileHandle::tag() const
         d->tag = new Tag(d->absFilePath);
 
     return d->tag;
+}
+
+CoverInfo *FileHandle::coverInfo() const
+{
+    if(!d->coverInfo)
+        d->coverInfo = new CoverInfo(*tag());
+
+    return d->coverInfo;
 }
 
 QString FileHandle::absFilePath() const

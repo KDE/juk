@@ -352,6 +352,22 @@ public slots:
     void slotRenameFile();
 
     /**
+     * Sets the cover of the selected items, pass in true if you want to load from the local system,
+     * false if you want to load from the internet.
+     */
+    void slotAddCover(bool fromLocal);
+
+    /**
+     * Shows a large image of the cover
+     */
+    void slotViewCover();
+
+    /**
+     * Removes covers from the selected items
+     */
+    void slotRemoveCover();
+
+    /**
      * Reload the playlist contents from the m3u file.
      */
     virtual void slotReload();
@@ -381,6 +397,7 @@ protected:
     virtual QDragObject *dragObject() { return dragObject(this); }
     virtual bool canDecode(QMimeSource *s);
     virtual void decode(QMimeSource *s, PlaylistItem *after = 0);
+    void tryCoverSet(QDropEvent *e);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);
     virtual void showEvent(QShowEvent *e);
@@ -446,6 +463,8 @@ signals:
     void signalAboutToRemove(PlaylistItem *item);
 
     void signalEnableDirWatch(bool enable);
+
+    void coverChanged();
 
     void signalPlaylistItemsDropped(Playlist *p);
 

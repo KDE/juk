@@ -258,7 +258,10 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
     if(e->source() == this)
 	return;
     else
+    {
+	tryCoverSet(e);
 	decode(e);
+    }
 }
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)

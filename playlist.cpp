@@ -23,6 +23,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
+#include <kfiledialog.h>
 #include <kglobalsettings.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
@@ -34,6 +35,7 @@
 #include <qeventloop.h>
 #include <qtooltip.h>
 #include <qwidgetstack.h>
+#include <qfile.h>
 
 #include <id3v1genres.h>
 
@@ -56,6 +58,7 @@
 #include "painteater.h"
 #include "upcomingplaylist.h"
 #include "deletedialog.h"
+#include "googlefetcher.h"
 #include "tagtransactionmanager.h"
 
 using namespace ActionCollection;
@@ -91,16 +94,27 @@ public:
 	int column = m_playlist->header()->sectionAt(contentsPosition.x());
 
 	if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn ||
-	   item->cachedWidths()[column] > m_playlist->columnWidth(column))
+	   item->cachedWidths()[column] > m_playlist->columnWidth(column) ||
+	   (column == m_playlist->columnOffset() + PlaylistItem::CoverColumn &&
+	    item->file().coverInfo()->hasCover()))
 	{
 	    QRect r = m_playlist->itemRect(item);
 	    int headerPosition = m_playlist->header()->sectionPos(column);
 	    r.setLeft(headerPosition);
 	    r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
 	    if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
+	    {
 		tip(r, item->file().absFilePath());
+	    }
+	    else if (column == m_playlist->columnOffset() + PlaylistItem::CoverColumn)
+	    {
+	        QMimeSourceFactory::defaultFactory()->setImage("coverThumb",QImage(item->file().coverInfo()->coverPixmap()->convertToImage()));
+	        tip(r, "<center><img source=\"coverThumb\"/></center>");
+	    }
 	    else
+	    {
 		tip(r, item->text(column));
+	    }
 	}
     }
 
@@ -698,6 +712,67 @@ void Playlist::slotRenameFile()
     emit signalEnableDirWatch(true);
 }
 
+void Playlist::slotViewCover()
+{
+    PlaylistItemList items = selectedItems();
+    if (items.isEmpty())
+        return;
+    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
+        (*it)->file().coverInfo()->popupLargeCover();
+}
+
+void Playlist::slotRemoveCover()
+{
+    PlaylistItemList items = selectedItems();
+    if (items.isEmpty())
+        return;
+    int button = KMessageBox::warningContinueCancel( this,
+				  i18n("Are you sure you want to delete these covers?" ),
+				  QString::null,
+				  i18n("&Delete Covers") );
+    if (button == KMessageBox::Continue) {
+        for(PlaylistItemList::Iterator it = items.begin(); it !=items.end(); ++it) {
+            QFile::remove((*it)->file().coverInfo()->coverLocation(true));
+            QFile::remove((*it)->file().coverInfo()->coverLocation(false));
+        }
+
+        slotRefresh();
+        PlayerManager::instance()->registerChangedCover();
+    }
+}
+
+void Playlist::slotAddCover(bool retrieveLocal)
+{
+    PlaylistItemList items = selectedItems();
+
+    if(items.isEmpty())
+        return;
+
+    QImage image;
+
+    if(retrieveLocal) {
+        KURL file = KFileDialog::getImageOpenURL(
+	    ":homedir", this, i18n("Select cover image file - JuK"));
+        image = QImage(file.directory() + "/" + file.fileName());
+    }
+    else {
+        PlaylistItemList::Iterator it=items.begin();
+        image = GoogleFetcher((*it)->file().tag()).getPixmap().convertToImage();;
+    }
+
+    if(image.isNull())
+        return;
+
+    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
+        QFile::remove((*it)->file().coverInfo()->coverLocation(true));
+        QFile::remove((*it)->file().coverInfo()->coverLocation(false));
+        image.save((*it)->file().coverInfo()->coverLocation(true), "PNG");
+        slotRefresh();
+    }
+    slotRefresh();
+    PlayerManager::instance()->registerChangedCover();
+}
+
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
@@ -929,11 +1004,55 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 	}
     }
     else
+    {
+        tryCoverSet(e);
 	decode(e, moveAfter);
+    }
 
     dataChanged();
     emit signalPlaylistItemsDropped(this);
     KListView::contentsDropEvent(e);
+}
+
+void Playlist::tryCoverSet(QDropEvent *e)
+{
+    QPoint vp = contentsToViewport(e->pos());
+    PlaylistItem *coverItem = static_cast<PlaylistItem *>(itemAt(vp));
+
+    if(!coverItem)
+        return;
+
+    KURL::List urls;
+
+    if(!KURLDrag::decode(e, urls) || urls.isEmpty())
+            return;
+
+    KURL::List::Iterator it = urls.begin();
+    KURL url(*it);
+
+    QImage image;
+
+    if(url.isLocalFile())
+        image = QImage(url.directory() + "/" + url.fileName());
+    else {
+        QString tmpFile;
+	if(KIO::NetAccess::download(url, tmpFile, 0)) {
+	    image = QImage(tmpFile);
+	    QFile(tmpFile).remove();
+	}
+    }
+
+    if(image.isNull())
+        return;
+
+    QFile::remove(coverItem->file().coverInfo()->coverLocation(true));
+    QFile::remove(coverItem->file().coverInfo()->coverLocation(false));
+
+    image.save(coverItem->file().coverInfo()->coverLocation(true), "PNG");
+
+    slotRefresh();
+
+    PlayerManager::instance()->registerChangedCover();
 }
 
 void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
@@ -1121,6 +1240,7 @@ void Playlist::polish()
     addColumn(i18n("Track Name"));
     addColumn(i18n("Artist"));
     addColumn(i18n("Album"));
+    addColumn(i18n("Cover"));
     addColumn(i18n("Track"));
     addColumn(i18n("Genre"));
     addColumn(i18n("Year"));
@@ -1659,6 +1779,8 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
 	action("guessTag")->plug(m_rmbMenu);
 	action("renameFile")->plug(m_rmbMenu);
+
+	action("coverManager")->plug(m_rmbMenu);
 
 	m_rmbMenu->insertSeparator();
 

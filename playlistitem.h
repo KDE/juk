@@ -53,14 +53,15 @@ public:
     enum ColumnType { TrackColumn       = 0,
 		      ArtistColumn      = 1,
 		      AlbumColumn       = 2,
-		      TrackNumberColumn = 3,
-		      GenreColumn       = 4,
-		      YearColumn        = 5,
-		      LengthColumn      = 6,
-		      BitrateColumn     = 7,
-		      CommentColumn     = 8,
-		      FileNameColumn    = 9,
-		      FullPathColumn    = 10 };
+		      CoverColumn       = 3,
+		      TrackNumberColumn = 4,
+		      GenreColumn       = 5,
+		      YearColumn        = 6,
+		      LengthColumn      = 7,
+		      BitrateColumn     = 8,
+		      CommentColumn     = 9,
+		      FileNameColumn    = 10,
+		      FullPathColumn    = 11 };
 
     static int lastColumn() { return FullPathColumn; }
 
@@ -68,6 +69,7 @@ public:
     void setFile(const QString &file);
     FileHandle file() const;
 
+    virtual QPixmap *pixmap(int column) const;
     virtual QString text(int column) const;
     virtual void setText(int column, const QString &text);
 

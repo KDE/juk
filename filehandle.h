@@ -18,6 +18,8 @@
 
 #include <qstringlist.h>
 
+#include "coverinfo.h"
+
 class QFileInfo;
 class QDateTime;
 class QDataStream;
@@ -47,6 +49,7 @@ public:
     void setFile(const QString &path);
 
     Tag *tag() const;
+    CoverInfo *coverInfo() const;
     QString absFilePath() const;
     const QFileInfo &fileInfo() const;
 

@@ -49,6 +49,7 @@ private:
     void setupSystemTray();
     void setupGlobalAccels();
     void processArgs();
+    void createDirs();
 
     void keyPressEvent(QKeyEvent *);
 
@@ -82,6 +83,7 @@ private:
     KToggleAction *m_toggleSystemTrayAction;
     KToggleAction *m_toggleDockOnCloseAction;
     KToggleAction *m_togglePopupsAction;
+    KToggleAction *m_toggleCoversAction;
     KToggleAction *m_toggleSplashAction;
     KToggleAction *m_loopPlaylistAction;
     KSelectAction *m_outputSelectAction;

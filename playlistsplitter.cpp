@@ -24,6 +24,7 @@
 #include "actioncollection.h"
 #include "tageditor.h"
 #include "collectionlist.h"
+#include "playermanager.h"
 
 using namespace ActionCollection;
 
@@ -102,17 +103,28 @@ void PlaylistSplitter::setupLayout()
 
     // Create the PlaylistBox
 
-    m_playlistBox = new PlaylistBox(this, m_playlistStack, "playlistBox");
+    QSplitter *boxSplitter = new QSplitter(Qt::Vertical, this, "boxSplitter");
+
+    m_playlistBox = new PlaylistBox(boxSplitter, m_playlistStack, "playlistBox");
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));
     connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist *)),
             m_editor, SLOT(slotPlaylistDestroyed(Playlist *)));
 
-    moveToFirst(m_playlistBox);
+    moveToFirst(boxSplitter);
 
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_editor, SLOT(slotUpdateCollection()));
+
+    m_nowPlaying = new NowPlaying(boxSplitter);
+
+    boxSplitter->moveToFirst(m_playlistBox);
+    connect(PlayerManager::instance(), SIGNAL(signalPlay()), m_nowPlaying, SLOT(slotRefresh()));
+    connect(PlayerManager::instance(), SIGNAL(signalStop()), m_nowPlaying, SLOT(slotClear()));
+    connect(PlayerManager::instance(), SIGNAL(signalCoverChanged()), m_nowPlaying, SLOT(slotRefresh()));
+
+    boxSplitter->setResizeMode(m_nowPlaying, QSplitter::KeepSize);
 
     // Create the search widget -- this must be done after the CollectionList is created.
 

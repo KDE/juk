@@ -60,6 +60,7 @@ public:
 
     static KSelectAction *playerSelectAction(QObject *parent);
 
+    void registerChangedCover() { emit signalCoverChanged(); }
 public slots:
 
     void play(const FileHandle &file);
@@ -83,6 +84,7 @@ signals:
     void signalPlay();
     void signalPause();
     void signalStop();
+    void signalCoverChanged();
 
 private:
     Player *player() const;
