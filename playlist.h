@@ -282,6 +282,11 @@ public:
      */
     virtual bool readOnly() const { return false; }
 
+    /**
+     * Returns true if it's possible to reload this playlist.
+     */
+    virtual bool canReload() const { return !m_fileName.isNull(); }
+
     void setColumnWidthUpdatesDisabled(bool disabled) { m_disableColumnWidthUpdates = disabled; }
 
     /**

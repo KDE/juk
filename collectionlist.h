@@ -92,6 +92,8 @@ public:
 
     void setupTreeViewEntries(ViewMode *viewMode) const;
 
+    virtual bool canReload() const { return true; }
+
 public slots:
     virtual void paste() { decode(kapp->clipboard()->data()); }
     virtual void clear();

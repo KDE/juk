@@ -26,7 +26,7 @@ FolderPlaylist::FolderPlaylist(PlaylistCollection *collection, const QString &fo
     Playlist(collection, name, "folder"),
     m_folder(folder)
 {
-    QTimer::singleShot(0, this, SLOT(slotUpdate()));
+    QTimer::singleShot(0, this, SLOT(slotReload()));
 }
 
 FolderPlaylist::~FolderPlaylist()
@@ -42,14 +42,14 @@ QString FolderPlaylist::folder() const
 void FolderPlaylist::setFolder(const QString &s)
 {
     m_folder = s;
-    QTimer::singleShot(0, this, SLOT(slotUpdate()));
+    QTimer::singleShot(0, this, SLOT(slotReload()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void FolderPlaylist::slotUpdate()
+void FolderPlaylist::slotReload()
 {
     if(!m_folder.isNull())
         addFiles(m_folder, false);

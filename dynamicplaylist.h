@@ -37,6 +37,8 @@ public:
 
     virtual ~DynamicPlaylist();
 
+    virtual bool canReload() const { return false; }
+
 public slots:
     /**
      * Reimplemented so that it will reload all of the playlists that are

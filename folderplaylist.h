@@ -29,8 +29,11 @@ public:
     QString folder() const;
     void setFolder(const QString &s);
 
-private slots:
-    void slotUpdate();
+    virtual bool canReload() const { return true; }
+
+public slots:
+    virtual void slotReload();
+
 private:
     QString m_folder;
 };

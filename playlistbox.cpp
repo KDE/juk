@@ -565,7 +565,7 @@ void PlaylistBox::slotPlaylistChanged()
 
 	Playlist *p = (*it)->playlist();
 	if(p) {
-	    if(p == CollectionList::instance() || !p->fileName().isNull())
+	    if(p->canReload())
 		allowReload = true;
 	    playlists.append(p);
 	}
