@@ -27,7 +27,7 @@ static const char scott[]       = I18N_NOOP("Author, chief dork and keeper of th
 static const char daniel[]      = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
 static const char tim[]         = I18N_NOOP("GStreamer port");
 static const char stefan[]      = I18N_NOOP("Global keybindings support");
-static const char stephan[]     = I18N_NOOP("Track announcement popups");
+static const char stephen[]     = I18N_NOOP("Track announcement popups");
 static const char frerich[]     = I18N_NOOP("Automagic track data guessing, bugfixes");
 static const char zack[]        = I18N_NOOP("More automagical things, now using MusicBrainz");
 static const char adam[]        = I18N_NOOP("Co-conspirator in MusicBrainz wizardry");
@@ -54,7 +54,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit("Daniel Molkentin", daniel, "molkentin@kde.org");
     aboutData.addCredit("Tim Jansen", tim, "tim@tjansen.de");
     aboutData.addCredit("Stefan Asserhäll", stefan, "stefan.asserhall@telia.com");
-    aboutData.addCredit("Stephan Douglas", stephan, "stephen_douglas@yahoo.com");
+    aboutData.addCredit("Stephen Douglas", stephen, "stephen_douglas@yahoo.com");
     aboutData.addCredit("Frerich Raabe", frerich, "raabe@kde.org");
     aboutData.addCredit("Zack Rusin", zack, "zack@kde.org");
     aboutData.addCredit("Adam Treat", adam, "manyoso@yahoo.com");
