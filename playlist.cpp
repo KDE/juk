@@ -107,6 +107,7 @@ void Playlist::save(bool autoGenerateFileName)
 {
     if(autoGenerateFileName && playlistFileName == QString::null) {
 	QString dataDir = KGlobal::dirs()->saveLocation("appdata");
+	kdDebug() << "Playlist::save() - name() == " << name() << endl;
 	playlistFileName = dataDir + name() + "." + splitter->playlistExtensions().first();
     }
     else if(!autoGenerateFileName && (internalFile || playlistFileName == QString::null))
@@ -437,8 +438,6 @@ void Playlist::setup()
 
     setAcceptDrops(true);
     allowDuplicates = false;
-
-    playlistName = QString::null;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

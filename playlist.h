@@ -89,7 +89,16 @@ public:
     void setInternal(bool internal);
     QString fileName() const;
     void setFileName(const QString &n);
+
+    /**
+     * If playlistName has no value -- i.e. the name has not been set to 
+     * something other than the filename, this returns the filename less the
+     * extension.  If playlistName does have a value, this returns that.
+     */
     QString name() const;
+    /**
+     * This sets a name for the playlist that is \e different from the file name.
+     */ 
     void setName(const QString &n);
 
     PlaylistBoxItem *playlistBoxItem() const;
@@ -125,6 +134,11 @@ private:
      */
     bool internalFile;
     QString playlistFileName;
+
+    /**
+     * This is only defined if the playlist name is something other than the
+     * file name.
+     */
     QString playlistName;
     PlaylistSplitter *splitter;
     PlaylistBoxItem *boxItem;
@@ -152,6 +166,11 @@ signals:
      * primarily to notify the TagEditor of the new data. 
      */
     void selectionChanged(const PlaylistItemList &selection);
+    
+    /**
+     * This is connected to the PlaylistBoxItem to let it know when the 
+     * playlist's name has changed.
+     */
     void nameChanged(const QString &fileName);
 };
 
