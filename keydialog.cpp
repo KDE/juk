@@ -59,7 +59,7 @@ const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
        {Qt::Key_VolumeMute,                      Qt::Key_VolumeMute}}}
 };
 
-const uint KeyDialog::keyInfoCount = sizeof(KeyDialog::KeyInfo) / sizeof(KeyDialog::keyInfo[0]);
+const uint KeyDialog::keyInfoCount = sizeof(KeyDialog::keyInfo) / sizeof(KeyDialog::keyInfo[0]);
 
 KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection, QWidget *parent, const char* name)
     : KDialogBase(parent, name, true, i18n("Configure Shortcuts"), Default | Ok | Cancel, Ok)
@@ -131,7 +131,7 @@ void KeyDialog::slotKeys(int group)
     bool fourModKeys = KGlobalAccel::useFourModifierKeys();
 
     // Set modifier keys according to key group and modifier keys
-    for (unsigned int i = 0; i < keyInfoCount; i++)
+    for (uint i = 0; i < keyInfoCount; i++)
 	m_keys->setShortcut(keyInfo[i].action, keyInfo[i].shortcut[group][fourModKeys]);
 
     // Create a new key chooser to show the keys, and delete the old one
@@ -165,7 +165,7 @@ void KeyDialog::insert(KGlobalAccel* keys, const QString& action, const QString&
     KShortcut def4 = KShortcut::null();
 
     // Find and insert a standard key
-    for (unsigned int i = 0; i < keyInfoCount; i++)
+    for (uint i = 0; i < keyInfoCount; i++)
 	if (keyInfo[i].action == action) {
 	    def3 = keyInfo[i].shortcut[StandardKeys][0];
 	    def4 = keyInfo[i].shortcut[StandardKeys][1];
