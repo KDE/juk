@@ -139,6 +139,7 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 
 int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const
 {
+
     // Try some very basic caching for "two in a row" searches.  From what I've 
     // seen this is ~15% of all calls.
     

@@ -23,6 +23,7 @@
 #include <kdebug.h>
 
 #include <qclipboard.h>
+#include <qtimer.h>
 
 #include "collectionlist.h"
 #include "playlistsplitter.h"
@@ -170,9 +171,24 @@ void CollectionList::addAlbum(const QString &album)
     if(album != previousAlbum && !m_albumList.insert(album))
 	previousAlbum = album;
 }
+////////////////////////////////////////////////////////////////////////////////
+// CollectionListItem public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void CollectionListItem::slotRefresh()
+{
+    slotRefreshImpl();
+    
+    if(CollectionList::instance()) {
+	CollectionList::instance()->addArtist(text(ArtistColumn));
+	CollectionList::instance()->addAlbum(text(AlbumColumn));	
+    }
+    // This is connected to slotRefreshImpl() for all of the items children.
+    emit(signalRefreshed());
+}
 
 ////////////////////////////////////////////////////////////////////////////////
-// CollectionListItem public methods
+// CollectionListItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
 CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &path) : PlaylistItem(CollectionList::instance())
@@ -190,6 +206,7 @@ CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &pat
 		  << "CollectionList::initialize() has been called." << endl;
 
     SplashScreen::increment();
+    QTimer::singleShot(3 * 1000, this, SLOT(slotCheckCurrent()));
 }
 
 CollectionListItem::~CollectionListItem()
@@ -206,19 +223,15 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// CollectionListItem public slots
+// CollectionListItem private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void CollectionListItem::slotRefresh()
+void CollectionListItem::slotCheckCurrent()
 {
-    slotRefreshImpl();
-    
-    if(CollectionList::instance()) {
-	CollectionList::instance()->addArtist(text(ArtistColumn));
-	CollectionList::instance()->addAlbum(text(AlbumColumn));	
-    }
-    // This is connected to slotRefreshImpl() for all of the items children.
-    emit(signalRefreshed());
+    if(!data()->exists() || !data()->isFile())
+	CollectionList::instance()->clearItem(this);
+    else if(!data()->tag()->current())
+	data()->refresh();
 }
 
 #include "collectionlist.moc"

@@ -97,17 +97,30 @@ class CollectionListItem : public PlaylistItem
     friend class CollectionList;
     friend class PlaylistItem;
 
-    Q_OBJECT
+    /** 
+     * Needs access to the destuctor, even though the destructor isn't used by QDict.
+     */
+    friend class QDict<CollectionListItem>;
 
-public:
-    virtual ~CollectionListItem();
+    Q_OBJECT
 
 public slots:
     virtual void slotRefresh();
 
 protected:
     CollectionListItem(const QFileInfo &file, const QString &path);
+    virtual ~CollectionListItem();
+
     void addChildItem(PlaylistItem *child);
+
+private slots:
+    /**
+     * This slot, called from a QTimer::singleShot() set in the constructor, allows for
+     * delayed consistancy checking for the cache at the cost of a few CPU cycles.  The
+     * effect however is that stating files is delayed until after the GUI is shown by
+     * moving this action into the event loop.
+     */
+    void slotCheckCurrent();
 };
 
 #endif

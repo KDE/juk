@@ -22,6 +22,8 @@
 
 #include <qfileinfo.h>
 #include <qobject.h>
+#include <qptrlist.h>
+#include <qptrstack.h>
 
 #include "tag.h"
 #include "cache.h"
@@ -32,9 +34,26 @@ class CollectionListItem;
 
 typedef QPtrList<PlaylistItem> PlaylistItemList;
 
+/**
+ * Items for the Playlist and the baseclass for CollectionListItem.  
+ * The constructors and destructor are protected and new items should be
+ * created via Playlist::createItem().  Items should be removed by
+ * Playlist::clear(), Playlist::deleteFromDisk(), Playlist::clearItem() or
+ * Playlist::clearItem().
+ */
+
 class PlaylistItem : public QObject, public KListViewItem 
 {
     friend class Playlist;
+
+    /** 
+     * Needs access to the destuctor, even though the destructor isn't used by QPtrList.
+     */
+    friend class QPtrList<PlaylistItem>;
+    /** 
+     * Needs access to the destuctor, even though the destructor isn't used by QPtrStack.
+     */
+    friend class QPtrStack<PlaylistItem>;
 
     Q_OBJECT
 
@@ -42,12 +61,9 @@ public:
     enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3,
                       GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
 
-    // The constructors are in the protected secion.  See the note there.
-    virtual ~PlaylistItem();
-
+    void setFile(const QString &file);
     Tag *tag() const;
 
-    void setFile(const QString &file);
 
     // These are just forwarding methods to PlaylistItem::Data, a QFileInfo 
     // subclass.
@@ -81,6 +97,12 @@ protected:
     PlaylistItem(CollectionListItem *item, Playlist *parent);
     PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after);
     PlaylistItem(Playlist *parent);
+
+    /**
+     * See the class documentation for an explanation of construction and deletion
+     * of PlaylistItems.
+     */
+    virtual ~PlaylistItem();
 
     class Data;
     Data *data() { return m_data; }

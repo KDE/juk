@@ -72,6 +72,13 @@ public:
     virtual QString lengthString() const = 0;
     virtual int seconds() const = 0;
 
+    /**
+     * Check to see if the item is up to date.  This defaults to true and should
+     * be reimplemented inf Tag types that are not directly mapped to the file
+     * system (specifically cached tags).
+     */
+    virtual bool current() const { return true; }
+
     // These functions are inlined because they are used on startup -- the most
     // performance critical section of JuK.
 

@@ -108,5 +108,5 @@ SplashScreen::~SplashScreen()
 void SplashScreen::processEvents()
 {
     m_countLabel->setText(QString::number(count));
-    kapp->processEvents();    
+    kapp->processEvents();
 }

@@ -152,13 +152,20 @@ void Playlist::refresh()
     KApplication::restoreOverrideCursor();
 }
 
+void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
+{
+    emit signalAboutToRemove(item);
+    m_members.remove(item->absFilePath());
+    item->deleteLater();
+    if(emitChanged)
+	emit signalNumberOfItemsChanged(this);
+}
+
 void Playlist::clearItems(const PlaylistItemList &items)
 {
     QPtrListIterator<PlaylistItem> it(items);
     while(it.current()) {
-	emit signalAboutToRemove(it.current());
-	m_members.remove(it.current()->absFilePath());
-        delete it.current();
+	clearItem(it.current(), false);
         ++it;
     }
     emit signalNumberOfItemsChanged(this);

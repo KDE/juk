@@ -22,7 +22,8 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-CachedTag::CachedTag(const QString &file) : Tag(file), m_externalTag(0), m_tagTrackNumber(0), m_tagYear(0), m_tagSeconds(0), m_tagExists(false)
+CachedTag::CachedTag(const QString &file) : Tag(file), 
+					    m_externalTag(0), m_tagTrackNumber(0), m_tagYear(0), m_tagSeconds(0), m_tagExists(false)
 {
 
 }
@@ -170,8 +171,7 @@ int CachedTag::seconds() const
 
 bool CachedTag::current() const
 {
-    return(fileExists() &&
-	   m_modificationTime.isValid() && 
+    return(m_modificationTime.isValid() && 
 	   lastModified().isValid() &&
 	   m_modificationTime >= Tag::lastModified());
 }

@@ -88,11 +88,11 @@ void Cache::load()
 	CachedTag *t = new CachedTag(fileName);
 	s >> *t;
 
-	// Check the modification time of the file to make sure that 
-	// the cache is current.
-
-	if(!t->current())
-	    delete t;
+	// Just do a dumb read from the cache.  Originally cache concistancy was
+	// checked here, but this means that JuK was having to stat every file
+	// in the cache while blocking GUI creation.  This has since been moved
+	// to the event loop and is placed in the event loop in the 
+	// CollectionListItem constructor.
     }
 
     f.close();

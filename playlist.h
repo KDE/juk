@@ -61,6 +61,7 @@ public:
     virtual void save();
     virtual void saveAs();
     virtual void refresh();
+    virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
     virtual void clearItems(const PlaylistItemList &items);
 
     /** 
