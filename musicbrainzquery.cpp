@@ -48,11 +48,7 @@ MusicBrainzQuery::MusicBrainzQuery(QueryType query, const QStringList &args,
 void MusicBrainzQuery::start()
 {
     if(m_query == File) {
-#if KDE_IS_VERSION(3,1,90)
         KProcess *process = new KProcess(this);
-#else
-        KProcess *process = new KProcess;
-#endif
         *process << "trm";
         *process << m_arguments.first();
 

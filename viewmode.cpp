@@ -143,28 +143,6 @@ void CompactViewMode::paintCell(PlaylistBox::Item *item,
                                 const QColorGroup &colorGroup,
                                 int column, int width, int align)
 {
-#if 0 // don't think this code is needed anymore
-
-    if(width < item->pixmap(column)->width())
-	return;
-
-    QFontMetrics fm = painter->fontMetrics();
-    QString line = item->text();
-
-    int baseWidth = item->pixmap(column)->width() + item->listView()->itemMargin() * 4;
-    if(baseWidth + fm.width(line) > width) {
-        int ellipsisLength = fm.width("...");
-        if(width > baseWidth + ellipsisLength) {
-            while(baseWidth + fm.width(line) + ellipsisLength > width)
-                line.truncate(line.length() - 1);
-            line = line.append("...");
-        }
-        else
-            line = "...";
-    }
-    item->KListViewItem::setText(column, line);
-
-#endif
     item->KListViewItem::paintCell(painter, colorGroup, column, width, align);
 }
 

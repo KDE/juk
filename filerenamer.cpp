@@ -12,9 +12,7 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kdebug.h>
-#if KDE_IS_VERSION(3,1,90)
-#  include <kmacroexpander.h>
-#endif
+#include <kmacroexpander.h>
 
 #include <qdir.h>
 
@@ -72,14 +70,7 @@ void FileRenamer::rename(const PlaylistItem *item)
     substitutions[ 'T' ] = trackToken;
     substitutions[ 'c' ] = commentToken;
 
-#if KDE_IS_VERSION(3,1,90)
     newFilename = KMacroExpander::expandMacros(newFilename, substitutions);
-#else
-    QMap<QChar, QString>::ConstIterator it = substitutions.begin();
-    QMap<QChar, QString>::ConstIterator end = substitutions.end();
-    for(; it != end; ++it)
-        newFilename.replace("%" + QString(it.key()), it.data());
-#endif
 
     newFilename = newFilename.stripWhiteSpace();
 

@@ -31,23 +31,6 @@ static const char stephan[]     = I18N_NOOP("Track announcement popups");
 static const char frerich[]     = I18N_NOOP("Automagic track data guessing, bugfixes");
 static const char zack[]        = I18N_NOOP("More automagical things, now using MusicBrainz");
 
-#if KDE_IS_VERSION(3,1,90)
-typedef KUniqueApplication Application;
-#else
-class Application : public KUniqueApplication
-{
-public:
-    Application() : KUniqueApplication(true, true, false) {}
-    virtual ~Application() {}
-    virtual int newInstance() {
-	QWidget *w = mainWidget();
-	if(w)
-	    w->setShown(true);
-	return KUniqueApplication::newInstance();
-    }
-};
-#endif
-
 static KCmdLineOptions options[] =
 {
 #ifndef NO_DEBUG
@@ -74,9 +57,9 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
 
-    Application::addCmdLineOptions();
+    KUniqueApplication::addCmdLineOptions();
 
-    Application a;
+    KUniqueApplication a;
 
     // Here we do some DCOP locking of sorts to prevent incoming DCOP calls
     // before JuK has finished its initialization.
