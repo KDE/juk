@@ -134,11 +134,11 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
     m_info(fileName),
     m_fileName(fileName)
 {
-    m_title   = TStringToQString(file->tag()->title());
-    m_artist  = TStringToQString(file->tag()->artist());
-    m_album   = TStringToQString(file->tag()->album());
-    m_genre   = TStringToQString(file->tag()->genre());
-    m_comment = TStringToQString(file->tag()->comment());
+    m_title   = TStringToQString(file->tag()->title()).stripWhiteSpace();
+    m_artist  = TStringToQString(file->tag()->artist()).stripWhiteSpace();
+    m_album   = TStringToQString(file->tag()->album()).stripWhiteSpace();
+    m_genre   = TStringToQString(file->tag()->genre()).stripWhiteSpace();
+    m_comment = TStringToQString(file->tag()->comment()).stripWhiteSpace();
 
     m_track = file->tag()->track();
     m_year  = file->tag()->year();

@@ -51,9 +51,9 @@ public:
     QString album() const { return m_album; }
     QString genre() const { return m_genre; }
     int trackNumber() const { return m_track; }
-    QString trackNumberString() const { return QString::number(m_track); }
+    QString trackNumberString() const { return m_track > 0 ? QString::number(m_track) : QString::null; }
     int year() const { return m_year; }
-    QString yearString() const { return QString::number(m_year); }
+    QString yearString() const { return m_year > 0 ? QString::number(m_year) : QString::null; }
     QString comment() const { return m_comment; }
 
     void setTrack(const QString &value) { m_title = value; }
