@@ -27,6 +27,7 @@
 
 class PlaylistSplitter;
 class PlaylistBoxItem;
+class QPopupMenu;
 
 class Playlist : public KListView
 {
@@ -168,8 +169,14 @@ private:
 private slots:
     void emitSelected();
     void emitDoubleClicked(QListViewItem *);
+    void showRMBMenu(QListViewItem *item, const QPoint &point, int column);
+    void applyTags(QListViewItem *item, const QString &text, int column);
+    void renameTag();
 
 private:
+    QPopupMenu *rmbMenu;
+    int currentColumn;
+
     QStringList members;
     int processed;
     bool allowDuplicates;

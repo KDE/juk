@@ -23,6 +23,7 @@
 #include <kiconloader.h>
 #include <kstandarddirs.h>
 #include <klocale.h>
+#include <klineedit.h>
 #include <kdebug.h>
 
 #include <qfileinfo.h>
@@ -38,6 +39,7 @@
 #include "collectionlist.h"
 #include "playlistsplitter.h"
 #include "playlistbox.h"
+#include <tag.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -433,16 +435,31 @@ void Playlist::setup()
     addColumn(i18n("Length"));
     addColumn(i18n("File Name"));
 
+    // These settings aren't really respected in KDE < 3.1.1, fixed in CVS
+
+    setRenameable(PlaylistItem::TrackColumn, true);
+    setRenameable(PlaylistItem::ArtistColumn, true);
+    setRenameable(PlaylistItem::AlbumColumn, true);
+
     setAllColumnsShowFocus(true);
     setSelectionMode(QListView::Extended);
     setShowSortIndicator(true);
+    setDropVisualizer(true);
     setItemMargin(3);
+
 
     setSorting(1);
 
+    rmbMenu = new QPopupMenu(this);
+    rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(renameTag()));
+    
     connect(this, SIGNAL(selectionChanged()), this, SLOT(emitSelected()));
     connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(emitDoubleClicked(QListViewItem *)));
-
+    connect(this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int)),
+	    this, SLOT(showRMBMenu(QListViewItem *, const QPoint &, int)));
+    connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
+	    this, SLOT(applyTags(QListViewItem *, const QString &, int)));
+    
     addColumn(QString::null);
     setResizeMode(QListView::LastColumn);
     // setFullWidth(true);
@@ -464,5 +481,61 @@ void Playlist::emitDoubleClicked(QListViewItem *)
 {
     emit(doubleClicked());
 }
+
+void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
+{
+    if(item && (column == PlaylistItem::TrackColumn || column == PlaylistItem::ArtistColumn || column == PlaylistItem::AlbumColumn))
+    {
+	rmbMenu->popup(point);
+	currentColumn = column;
+    }
+}
+
+void Playlist::renameTag()
+{
+    // setup completions and validators
+    
+    CollectionList *list = CollectionList::instance();
+
+    KLineEdit *edit = renameLineEdit();
+
+    switch(currentColumn)
+    {
+    case PlaylistItem::TrackColumn:
+	edit->completionObject()->setItems(list->artists());
+	break;
+    case PlaylistItem::AlbumColumn:
+	edit->completionObject()->setItems(list->albums());
+	break;
+    }
+	
+    edit->setCompletionMode(KGlobalSettings::CompletionAuto);
+	
+    rename(currentItem(), currentColumn);
+}
+
+void Playlist::applyTags(QListViewItem *item, const QString &text, int column)
+{
+    // kdDebug() << "Applying " << text << " at column " << column << ", replacing \"" << item->text(column) << "\"" << endl;
+
+    PlaylistItem *i = static_cast<PlaylistItem *>(item);
+
+    switch(column)
+    {
+    case PlaylistItem::TrackColumn:
+	i->tag()->setTrack(text);
+	break;
+    case PlaylistItem::ArtistColumn:
+	i->tag()->setArtist(text);
+	break;
+    case PlaylistItem::AlbumColumn:
+	i->tag()->setAlbum(text);
+	break;
+    }
+
+    i->tag()->save();
+    i->refresh();
+}
+
 
 #include "playlist.moc"
