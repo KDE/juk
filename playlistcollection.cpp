@@ -50,10 +50,12 @@ PlaylistCollection::PlaylistCollection(QWidgetStack *playlistStack) :
 {
     m_actionHandler = new ActionHandler(this);
     PlayerManager::instance()->setPlaylistInterface(this);
+    readConfig();
 }
 
 PlaylistCollection::~PlaylistCollection()
 {
+    saveConfig();
     delete m_actionHandler;
 }
 
