@@ -26,15 +26,14 @@
 #include "googlefetcherdialog.h"
 #include "tag.h"
 
-GoogleImage::GoogleImage(const QString &thumbURL, const QString &size) :
-    m_thumbURL(thumbURL),
-    m_size(size)
+GoogleImage::GoogleImage(QString thumbURL, QString size) :
+    m_thumbURL(thumbURL)
 {
     // thumbURL is in the following format - and we can regex the imageURL
     // images?q=tbn:hKSEWNB8aNcJ:www.styxnet.com/deyoung/styx/stygians/cp_portrait.jpg
 
-    QString m_imageURL = "http://" + QString(m_thumbURL).remove(QRegExp("^.*q=tbn:[^:]*:"));
-    m_size.replace("pixels - ", "\n(") + ")";
+    m_imageURL = "http://" + thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
+    m_size = size.replace("pixels - ","\n(")+")";
 }
 
 
