@@ -25,27 +25,29 @@
 
 #include "tag.h"
 #include "audiodata.h"
-#include "filelistitemdata.h"
 
 class FileList;
 
-class FileListItem : public QObject, public KListViewItem {
+class FileListItem : public QObject, public KListViewItem 
+{
     Q_OBJECT
 public:
     enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3,
                       GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
 
-    FileListItem(QFileInfo &file, FileList *parent);
+    FileListItem(const QFileInfo &file, FileList *parent);
     FileListItem(FileListItem &item, FileList *parent);
-    ~FileListItem();
+    virtual ~FileListItem();
 
-    FileListItemData *getData();
+    // these can't be const members because they fetch the data "on demand"
+
     Tag *getTag();
     AudioData *getAudioData();
 
-    void setFile(QString file);
+    void setFile(const QString &file);
 
     // QFileInfo-ish methods
+
     QString fileName() const;
     QString filePath() const;
     QString absFilePath() const;
@@ -54,17 +56,23 @@ public:
 
 public slots:
     void refresh();
-    void addSibling(FileListItem *sibling);
-    void removeSibling(FileListItem *sibling);
+
+protected slots:
+    void addSibling(const FileListItem *sibling);
+    void removeSibling(const FileListItem *sibling);
 
 signals:
     void refreshed();
 
 private:
+    class Data;
+
+    Data *getData();
+
     int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(FileListItem *firstItem, FileListItem *secondItem, int column, bool ascending) const;
 
-    FileListItemData *data;
+    Data *data;
 };
 
 #endif

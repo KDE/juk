@@ -62,8 +62,6 @@ AudioData::AudioData(const char* filein)
     success = false;
     fileglob = strdup(filein);
 
-    lengthchar = 0;
-
     FILE* file;
 
     if ((file = fopen(filein, "r")))
@@ -80,8 +78,6 @@ AudioData::AudioData(const char* filein)
 AudioData::~AudioData()
 {
     free(fileglob);
-    if(lengthchar)
-        free(lengthchar);
 }
 
 bool AudioData::readLayerInfo (FILE* file)
@@ -164,23 +160,27 @@ bool AudioData::headCheck(unsigned long head)
     return true;
 }
 
-int AudioData::getBitrate(){
+int AudioData::getBitrate() const
+{
     return (bitrates[version][layer - 1][bitrate_index]);
 }
 
-int AudioData::getSamplerate(){
+int AudioData::getSamplerate() const
+{
     return (s_freq[version][sampling_frequency]);
 }
 
-const char* AudioData::getMpegver(){
+QString AudioData::getMpegver() const
+{
     return (version_names[version]);
 }
 
-int AudioData::getLayer() {
+int AudioData::getLayer() const
+{
     return layer;
 }
 
-const char* AudioData::getMode(int mode)
+QString AudioData::getMode(int mode)
 {
     if ((mode >= 0) && (mode < 5))
         return (mode_names[mode]);
@@ -188,16 +188,18 @@ const char* AudioData::getMode(int mode)
     return "Stereo";
 }
 
-int AudioData::getMode()
+int AudioData::getMode() const
 {
     return mode;
 }
 
-int AudioData::getLength() {
+int AudioData::getLength() const
+{
     return length;
 }
 
-char* AudioData::getLengthChar() {
+QString AudioData::getLengthChar() const
+{
     if(success) {
         int min, sec;
         char buf[6];
@@ -205,18 +207,18 @@ char* AudioData::getLengthChar() {
         min=length/60;
         sec=length%60;
         sprintf (buf, "%d:%02d", min, sec);
-        lengthchar=strdup (buf);
-        return lengthchar;
+        return buf;
     }
     else
         return 0;
 }
 
-int AudioData::getSize() {
+int AudioData::getSize() const
+{
     return filelen;
 }
 
-bool AudioData::getResult()
+bool AudioData::getResult() const
 {
     return success;
 }

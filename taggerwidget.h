@@ -36,10 +36,10 @@ class TaggerWidget : public QWidget
 
 public:
     TaggerWidget(QWidget *parent);
-    ~TaggerWidget();
+    virtual ~TaggerWidget();
 
-    void add(QString item);
-    void add(QStringList &items);
+    void add(const QString &item);
+    void add(const QStringList &items);
 
     FileList *getTaggerList();
 
@@ -47,9 +47,9 @@ public:
 
 public slots:
     void save();
-    void save(QPtrList<FileListItem> items);
+    void save(const QPtrList<FileListItem> &items);
     void deleteFile();
-    void deleteFile(QPtrList<FileListItem> items);
+    void deleteFile(const QPtrList<FileListItem> &items);
     void setChanged();
 
 private:

@@ -33,7 +33,7 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Tag::Tag(QString file)
+Tag::Tag(const QString &file)
 {
     fileName = file;
     tag.Link(file.latin1());
@@ -72,7 +72,7 @@ Tag::Tag(QString file)
     genre = temp;
     delete [] temp;
 
-    genre.setId3v1(int(ID3_GetGenreNum(&tag)));
+    genre.setID3v1(int(ID3_GetGenreNum(&tag)));
 
     temp = ID3_GetYear(&tag);
     yearString = temp;
@@ -88,10 +88,10 @@ Tag::Tag(QString file)
         trackName = trackName.right(trackName.length() - trackName.findRev(QDir::separator(), -1) -1);
     }
 
-    // parse the genre string for (<id3v1 number>)
+    // parse the genre string for (<ID3v1 number>)
 
-    if(genre == "(" + QString::number(genre.getId3v1()) + ")" || genre == QString::null)
-        genre = GenreListList::id3v1List()->name(genre.getId3v1());
+    if(genre == "(" + QString::number(genre.getID3v1()) + ")" || genre == QString::null)
+        genre = GenreListList::ID3v1List()->name(genre.getID3v1());
     else if(genre.find(QRegExp("\\([0-9]+\\)")) == 0)
         genre = genre.mid(genre.find(")") + 1);
 
@@ -140,13 +140,13 @@ void Tag::save()
             ID3_RemoveTracks(&tag);
 
         //    ID3_AddGenre(&tag, 1, REPLACE);
-        if(genre.getId3v1() >=0 && genre.getId3v1() <  int(GenreListList::id3v1List()->count())) {
+        if(genre.getID3v1() >=0 && genre.getID3v1() <  int(GenreListList::ID3v1List()->count())) {
             QString genreString;
 
-            if(genre != GenreListList::id3v1List()->name(genre.getId3v1()))
-                genreString = "(" + QString::number(genre.getId3v1()) + ")" + genre;
+            if(genre != GenreListList::ID3v1List()->name(genre.getID3v1()))
+                genreString = "(" + QString::number(genre.getID3v1()) + ")" + genre;
             else
-                genreString = "(" + QString::number(genre.getId3v1()) + ")";
+                genreString = "(" + QString::number(genre.getID3v1()) + ")";
 
             ID3_AddGenre(&tag, genreString.latin1(), REPLACE);
         }
@@ -171,17 +171,59 @@ void Tag::save()
 // functions to gather information
 ////////////////////////////////////////////////
 
-QString Tag::getFileName() { return fileName; }
-QString Tag::getTrack() { return trackName; }               // The song's name, not it's track number
-QString Tag::getArtist() { return artistName; }
-QString Tag::getAlbum() { return albumName; }
-Genre Tag::getGenre() { return genre; }
-int Tag::getTrackNumber() { return trackNumber; }
-QString Tag::getTrackNumberString() { return trackNumberString; }
-int Tag::getYear() { return year; }
-QString Tag::getYearString() { return yearString; }
-QString Tag::getComment() { return comment; }
-bool Tag::hasTag() { return hasTagBool; }
+QString Tag::getFileName() const 
+{ 
+    return(fileName);
+}
+
+QString Tag::getTrack() const  // The song's name, not it's track number
+{ 
+    return(trackName); 
+}              
+
+QString Tag::getArtist() const 
+{ 
+    return(artistName);
+}
+
+QString Tag::getAlbum() const
+{ 
+    return(albumName);
+}
+
+Genre Tag::getGenre() const 
+{ 
+    return(genre);
+}
+
+int Tag::getTrackNumber() const 
+{ 
+    return(trackNumber);
+}
+
+QString Tag::getTrackNumberString() const
+{ 
+    return(trackNumberString);
+}
+
+int Tag::getYear() const
+{ 
+    return(year);
+}
+
+QString Tag::getYearString() const
+{ 
+    return(yearString);
+}
+
+QString Tag::getComment() const
+{ 
+    return(comment);
+}
+bool Tag::hasTag() const
+{ 
+    return(hasTagBool);
+}
 
 /////////////////////////////////////////////////////
 // functions that set information

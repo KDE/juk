@@ -27,25 +27,25 @@
 class Tag
 {
 public:
-    Tag(QString file);
-    ~Tag();
+    Tag(const QString &file);
+    virtual ~Tag();
 
     bool exists();
     void save();
 
     // functions that gather information
 
-    QString getFileName();
-    QString getTrack(); // The song's name, not it's track number
-    QString getArtist();
-    QString getAlbum();
-    Genre getGenre();
-    int getTrackNumber();
-    QString getTrackNumberString();
-    int getYear();
-    QString getYearString();
-    QString getComment();
-    bool hasTag();
+    QString getFileName() const;
+    QString getTrack() const; // The song's name, not it's track number
+    QString getArtist() const;
+    QString getAlbum() const;
+    Genre getGenre() const;
+    int getTrackNumber() const;
+    QString getTrackNumberString() const;
+    int getYear() const;
+    QString getYearString() const;
+    QString getComment() const;
+    bool hasTag() const;
 
     // functions that set information
 

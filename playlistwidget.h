@@ -29,9 +29,9 @@ class PlaylistWidget : public QWidget
 {
 public:
     PlaylistWidget(QWidget *parent);
-    ~PlaylistWidget();
+    virtual ~PlaylistWidget();
 
-    void add(QString item);
+    void add(const QString &item);
     void add(QStringList &items);
     void add(FileListItem *item);
     void add(QPtrList<FileListItem> &items);

@@ -31,10 +31,10 @@ public:
     FileList(QWidget *parent = 0, const char *name = 0);
     FileList(QString &item, QWidget *parent = 0, const char *name = 0);
     FileList(QStringList &items, QWidget *parent = 0, const char *name = 0);
-    ~FileList();
+    virtual ~FileList();
 
-    void append(QString item);
-    void append(QStringList &items);
+    void append(const QString &item);
+    void append(const QStringList &items);
     void append(FileListItem *item);
     void append(QPtrList<FileListItem> &items);
 
@@ -42,17 +42,19 @@ public:
 
     QPtrList<FileListItem> selectedItems();
 
-    QStringList *getArtistList();
-    QStringList *getAlbumList();
+    // yay for implicit sharing!
+
+    QStringList getArtistList() const;
+    QStringList getAlbumList() const;
 
 private:
     void setup();
-    void appendImpl(QString item);
+    void appendImpl(const QString &item);
 
     QStringList extensions;
     QStringList members;
-    QStringList *artistList;
-    QStringList *albumList;
+    QStringList artistList;
+    QStringList albumList;
     void processEvents();
     int processed;
 

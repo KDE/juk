@@ -24,34 +24,33 @@
 Genre::Genre() : QString()
 {
     name = QString::null;
-    id3v1 = 255;
+    ID3v1 = 255;
 }
 
-Genre::Genre(QString genreName, int id3v1Number) : QString(genreName)
+Genre::Genre(const QString &genreName, int ID3v1Number) : QString(genreName)
 {
-    id3v1 = id3v1Number;
+    ID3v1 = ID3v1Number;
 }
+
+// Ok, this just looks *really* ugly at first, but after thinking I must have
+// been out of my mind when I originally wrote it; what it's doing is extracting
+// some information from the object being overwritten, before it's overwritten.
+//
+// Basically it saves the "genre number" even across text assignments. 
 
 Genre &Genre::operator=(const QString &genreName)
 {
-    Genre genre(genreName, this->getId3v1());
+    Genre genre(genreName, getID3v1());
     *this = genre;
     return(*this);
 }
 
-Genre &Genre::operator=(const char *genreName)
+int Genre::getID3v1() const
 {
-    Genre genre(genreName, this->getId3v1());
-    *this = genre;
-    return(*this);
+    return(ID3v1);
 }
 
-int Genre::getId3v1()
+void Genre::setID3v1(int ID3v1Number)
 {
-    return(id3v1);
-}
-
-void Genre::setId3v1(int id3v1Number)
-{
-    id3v1 = id3v1Number;
+    ID3v1 = ID3v1Number;
 }

@@ -29,6 +29,7 @@ CustomAction::CustomAction(const QString &text, QObject *parent, const char *nam
 
 CustomAction::~CustomAction()
 {
+
 }
 
 int CustomAction::plug(QWidget *parent, int index)

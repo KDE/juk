@@ -28,12 +28,12 @@ class GenreList : public QValueList<Genre>
 {
 public:
     GenreList(bool createIndex = false);
-    GenreList(QString file, bool createIndex = false);
-    ~GenreList();
+    GenreList(const QString &file, bool createIndex = false);
+    virtual ~GenreList();
 
-    void load(QString file);
-    QString name(int id3v1);
-    int findIndex(QString item);
+    void load(const QString &file);
+    QString name(int ID3v1);
+    int findIndex(const QString &item);
 
 private:
     QValueVector<QString> index;

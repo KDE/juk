@@ -24,12 +24,16 @@
 #include <qstring.h>
 #include <qobject.h>
 
+// Many months after writing this, despite having felt rather clever at the time
+// I am now rather convinced that this is The Wrong Way (tm) to have handled 
+// things and will hopefully un-hack this later.
+
 class CustomAction : public KAction
 {
     Q_OBJECT
 public:
     CustomAction(const QString &text, QObject *parent, const char *name);
-    ~CustomAction();
+    virtual ~CustomAction();
 
     virtual int plug(QWidget *parent, int index = -1);
     virtual void unplug(QWidget *widget);

@@ -29,7 +29,7 @@ GenreList::GenreList(bool createIndex) : QValueList<Genre>()
     hasIndex = createIndex;
 }
 
-GenreList::GenreList(QString file, bool createIndex) : QValueList<Genre>()
+GenreList::GenreList(const QString &file, bool createIndex) : QValueList<Genre>()
 {
     hasIndex = createIndex;
     load(file);
@@ -37,9 +37,10 @@ GenreList::GenreList(QString file, bool createIndex) : QValueList<Genre>()
 
 GenreList::~GenreList()
 {
+
 }
 
-void GenreList::load(QString file)
+void GenreList::load(const QString &file)
 {
     GenreListReader *handler = new GenreListReader(this);
     QFile input(file);
@@ -52,27 +53,28 @@ void GenreList::load(QString file)
         initializeIndex();
 }
 
-QString GenreList::name(int id3v1)
+QString GenreList::name(int ID3v1)
 {
-    if(hasIndex && id3v1 >= 0 && id3v1 <= int(index.size()))
-        return(index[id3v1]);
+    if(hasIndex && ID3v1 >= 0 && ID3v1 <= int(index.size()))
+        return(index[ID3v1]);
     else
         return(QString::null);
 }
 
-int GenreList::findIndex(QString item)
+int GenreList::findIndex(const QString &item)
 {
 
     // cache the previous search -- since there are a lot of "two in a row"
-    // searchs this should optimize things a little
+    // searchs this should optimize things a little (this is also why this
+    // method isn't a "const" method)
 
     static QString lastItem;
     static int lastIndex;
 
-    if(!lastItem.isEmpty() && lastItem == item) {
-        //    kdDebug() << "GenreList::findIndex() -- cache hit" << endl;
+    // a cache hit
+
+    if(!lastItem.isEmpty() && lastItem == item)
         return(lastIndex);
-    }
 
     int i = 0;
     for(GenreList::Iterator it = begin(); it != end(); ++it) {
@@ -97,10 +99,10 @@ void GenreList::initializeIndex()
     //  kdDebug() << "Cleared size: " << index.size() << endl;
     index.resize(count() + 1);
     for(GenreList::Iterator it = begin(); it != end(); ++it) {
-        if((*it).getId3v1() >= 0 && (*it).getId3v1() <= int(index.size())) {
-            //      kdDebug() << "initializeIndex() - " << (*it).getId3v1()  << " - "
+        if((*it).getID3v1() >= 0 && (*it).getID3v1() <= int(index.size())) {
+            //      kdDebug() << "initializeIndex() - " << (*it).getID3v1()  << " - "
             //                << index.size() << " - " << count() << " - " << (*it) << endl;
-            index[(*it).getId3v1()] = QString(*it);
+            index[(*it).getID3v1()] = QString(*it);
         }
     }
 }

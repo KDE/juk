@@ -28,30 +28,31 @@ class Player
 {
 public:
     Player();
-    Player(QString fileName);
-    ~Player();
+    Player(const QString &fileName);
+    virtual ~Player();
 
-    void play(QString fileName, float volume = 1.0);
+    void play(const QString &fileName, float volume = 1.0);
     void play(float volume = 1.0);
     void pause();
     void stop();
 
     void setVolume(float volume = 1.0);
-    float getVolume();
+    float getVolume() const;
 
-    bool playing();
-    bool paused();
+    bool playing() const;
+    bool paused() const;
 
-    long totalTime();
-    long currentTime();
-    int position(); // in this case not really the percent
+    long totalTime() const;
+    long currentTime() const;
+    int position() const; // in this case not really the percent
+
     void seek(long seekTime);
     void seekPosition(int position);
 
 private:
     void setupPlayer();
     void setupVolumeControl();
-    bool serverRunning();
+    bool serverRunning() const;
 
     Dispatcher *dispatcher;
     SimpleSoundServer *server;

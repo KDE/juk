@@ -337,9 +337,8 @@ void JuK::trackPositionSliderRelease()
 
 void JuK::trackPositionSliderUpdate(int position)
 {
-    if(player.playing() && !trackPositionDragging && !noSeek) {
+    if(player.playing() && !trackPositionDragging && !noSeek)
         player.seekPosition(position);
-    }
 }
 
 void JuK::pollPlay()
@@ -347,9 +346,8 @@ void JuK::pollPlay()
     noSeek = true;
     if(!player.playing()) {
         playTimer->stop();
-        if(player.paused()) {
+        if(player.paused())
             pauseFile();
-        }
         else {
             if(playingItem && dynamic_cast<FileListItem*>(playingItem->itemBelow())) {
                 playingItem->setPixmap(0, 0);
@@ -365,10 +363,8 @@ void JuK::pollPlay()
                 stopFile();
         }
     }
-    else if(!trackPositionDragging) {
-        //    kdDebug() << player.position() << " - " << sliderAction->getTrackPositionSlider()->maxValue() << endl;
+    else if(!trackPositionDragging)
         sliderAction->getTrackPositionSlider()->setValue(player.position());
-    }
 
     if(player.playing() && float(player.totalTime() - player.currentTime()) < pollInterval * 2)
         playTimer->changeInterval(50);

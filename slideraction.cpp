@@ -39,7 +39,7 @@ SliderAction::~SliderAction()
 
 }
 
-QSlider *SliderAction::getTrackPositionSlider()
+QSlider *SliderAction::getTrackPositionSlider() const
 {
     if(trackPositionSlider)
         return (trackPositionSlider);
@@ -47,7 +47,7 @@ QSlider *SliderAction::getTrackPositionSlider()
         return(0);
 }
 
-QSlider *SliderAction::getVolumeSlider()
+QSlider *SliderAction::getVolumeSlider() const
 {
     if(volumeSlider)
         return (volumeSlider);

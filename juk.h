@@ -39,7 +39,7 @@ class JuK : public KMainWindow
     Q_OBJECT
 public:
     JuK(QWidget* parent = 0, const char *name = 0);
-    ~JuK();
+    virtual ~JuK();
 
 private:
     // private methods

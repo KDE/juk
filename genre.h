@@ -23,19 +23,16 @@
 class Genre : public QString
 {
 public:
-  Genre();
-  Genre(QString genreName, int id3v1Number = 255);
-
-  Genre &operator=(const QString &);
-  Genre &operator=(const char *);
-
-  int getId3v1();
-
-  void setId3v1(int number);
-
+    Genre();
+    Genre(const QString &genreName, int ID3v1Number = 255);
+    Genre &operator=(const QString &);
+    
+    int getID3v1() const;
+    void setID3v1(int number);
+    
 private:
-  QString name;
-  int id3v1;
+    QString name;
+    int ID3v1;
 };
 
 #endif

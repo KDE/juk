@@ -33,10 +33,10 @@ class SliderAction : public CustomAction
     Q_OBJECT
 public:
     SliderAction(const QString &text, QObject *parent, const char *name);
-    ~SliderAction();
+    virtual ~SliderAction();
 
-    QSlider *getVolumeSlider();
-    QSlider *getTrackPositionSlider();
+    QSlider *getVolumeSlider() const;
+    QSlider *getTrackPositionSlider() const;
 
 public slots:
     void updateOrientation(QDockWindow *dockWindow = 0);

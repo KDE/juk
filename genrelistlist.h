@@ -26,13 +26,13 @@ class GenreListList : public QValueList<GenreList>
 {
 public:
     GenreListList();
-    ~GenreListList();
+    virtual ~GenreListList();
 
-    static GenreList *id3v1List();
+    static GenreList *ID3v1List();
 
 private:
-    static GenreList *id3v1;
-    static bool id3v1Loaded;
+    static GenreList *ID3v1;
+    static bool ID3v1Loaded;
 };
 
 #endif

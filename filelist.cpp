@@ -49,11 +49,10 @@ FileList::FileList(QStringList &items, QWidget *parent, const char *name) : KLis
 
 FileList::~FileList()
 {
-    delete(artistList);
-    delete(albumList);
+
 }
 
-void FileList::append(QString item)
+void FileList::append(const QString &item)
 {
     QApplication::setOverrideCursor(Qt::waitCursor);
     appendImpl(item);
@@ -61,10 +60,10 @@ void FileList::append(QString item)
     emit(dataChanged());
 }
 
-void FileList::append(QStringList &items)
+void FileList::append(const QStringList &items)
 {
     QApplication::setOverrideCursor(Qt::waitCursor);
-    for(QStringList::Iterator it = items.begin(); it != items.end(); ++it)
+    for(QStringList::ConstIterator it = items.begin(); it != items.end(); ++it)
         appendImpl(*it);
     QApplication::restoreOverrideCursor();
     emit(dataChanged());
@@ -109,12 +108,12 @@ QPtrList<FileListItem> FileList::selectedItems()
     return(list);
 }
 
-QStringList *FileList::getArtistList()
+QStringList FileList::getArtistList() const
 {
     return(artistList);
 }
 
-QStringList *FileList::getAlbumList()
+QStringList FileList::getAlbumList() const
 {
     return(albumList);
 }
@@ -126,8 +125,6 @@ QStringList *FileList::getAlbumList()
 void FileList::setup()
 {
     processed = 0;
-    artistList = new QStringList();
-    albumList = new QStringList();
 
     extensions.append("mp3");
 
@@ -148,7 +145,7 @@ void FileList::setup()
     setSorting(1);
 }
 
-void FileList::appendImpl(QString item)
+void FileList::appendImpl(const QString &item)
 {
     processEvents();
     QFileInfo file(QDir::cleanDirPath(item));

@@ -38,7 +38,7 @@ PlaylistWidget::~PlaylistWidget()
 {
 }
 
-void PlaylistWidget::add(QString item)
+void PlaylistWidget::add(const QString &item)
 {
     playlistList->append(item);
 }

@@ -22,7 +22,7 @@ class CacheItem
 {
 public:
     CacheItem();
-    ~CacheItem();
+    virtual ~CacheItem();
 };
 
 #endif

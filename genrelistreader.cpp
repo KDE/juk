@@ -34,7 +34,7 @@ GenreListReader::~GenreListReader()
 
 }
 
-bool GenreListReader::startElement(const QString&, const QString&, const QString& element, const QXmlAttributes& attributes)
+bool GenreListReader::startElement(const QString &, const QString &, const QString & element, const QXmlAttributes & attributes)
 {
     if(element.lower() == "genre") {
         inGenreTag = true;
@@ -49,7 +49,7 @@ bool GenreListReader::startElement(const QString&, const QString&, const QString
     return(true);
 };
 
-bool GenreListReader::endElement(const QString&, const QString&, const QString& element)
+bool GenreListReader::endElement(const QString &, const QString &, const QString & element)
 {
     if(element.lower() == "genre")
         inGenreTag = false;

@@ -1,10 +1,10 @@
 /***************************************************************************
-                          filelistitemdata.h  -  description
+                          cache.h  -  description
                              -------------------
-    begin                : Fri Mar 22 2002
+    begin                : Sat Sep 7 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
-***************************************************************************/
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,37 +15,37 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef FILELISTITEMDATA_H
-#define FILELISTITEMDATA_H
+#ifndef CACHE_H
+#define CACHE_H
 
-#include <qfileinfo.h>
+#include <qstring.h>
 
-#include <stdlib.h>
+// Eventually this should implement the same interface as the Tag class; in fact
+// there should be an abstract API for both of them to use.  But, for the
+// moment this is just a place holder to fill in the design.
 
-#include "tag.h"
-#include "cacheitem.h"
-#include "audiodata.h"
-
-class FileListItemData : public QFileInfo
+class Cache
 {
 public:
-    FileListItemData(QFileInfo &file);
-    ~FileListItemData();
+    class Item;
 
-    FileListItemData *newUser();
-    void deleteUser();
+    static Cache *instance();
+    Item *item(const QString &fileName) const;
 
-    Tag *getTag();
-    AudioData *getAudioData();
-
-    void setFile(QString file);
+protected:
+    Cache();
+    virtual ~Cache();
 
 private:
-    int referenceCount;
+    static Cache *cache;
+    
+};
 
-    CacheItem *cache;
-    Tag *tag;
-    AudioData *audioData;
+class Cache::Item
+{
+public:
+    Item();
+    virtual ~Item();
 };
 
 #endif

@@ -1,10 +1,10 @@
 /***************************************************************************
-                          filelistitemdata.cpp  -  description
+                          cache.cpp  -  description
                              -------------------
-    begin                : Fri Mar 22 2002
+    begin                : Sat Sep 7 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : scott@slackorama.net
-***************************************************************************/
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,60 +15,50 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "filelistitemdata.h"
+#include "cache.h"
+
+Cache *Cache::cache = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
-// public methods
+// Cache public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-FileListItemData::FileListItemData(QFileInfo &file) : QFileInfo(file)
+Cache *Cache::instance()
 {
-    referenceCount = 1;
-
-    // initialize pointers to null
-    cache = 0;
-    tag = 0;
-    audioData = 0;
+    if(!cache)
+	cache = new Cache();
+    return(cache);
 }
 
-FileListItemData::~FileListItemData()
+Cache::Item *Cache::item(const QString &fileName) const
+{
+    return(0);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Cache protected methods
+////////////////////////////////////////////////////////////////////////////////
+
+Cache::Cache()
+{
+    
+}
+
+Cache::~Cache()
 {
     delete(cache);
-    delete(tag);
-    delete(audioData);
 }
 
-FileListItemData *FileListItemData::newUser()
+////////////////////////////////////////////////////////////////////////////////
+// Cache::Item public methods
+////////////////////////////////////////////////////////////////////////////////
+
+Cache::Item::Item()
 {
-    referenceCount++;
-    return(this);
+
 }
 
-void FileListItemData::deleteUser()
+Cache::Item::~Item()
 {
-    if(--referenceCount == 0)
-        delete(this);
-}
 
-Tag *FileListItemData::getTag()
-{
-    if(!tag)
-        tag = new Tag(filePath());
-    return(tag);
-}
-
-AudioData *FileListItemData::getAudioData()
-{
-    if(!audioData) {
-        audioData = new AudioData(filePath());
-    }
-    return(audioData);
-}
-
-void FileListItemData::setFile(QString file)
-{
-    delete(tag);
-    tag = 0;
-
-    QFileInfo::setFile(file);
 }

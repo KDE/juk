@@ -42,25 +42,21 @@ Player::Player()
     setupPlayer();
 }
 
-Player::Player(QString fileName)
+Player::Player(const QString &fileName)
 {
     setupPlayer();
-    currentFile=fileName;
+    currentFile = fileName;
 }
 
 Player::~Player()
 {
-    if(volumeControl)
-        delete(volumeControl);
-    if(media)
-        delete(media);
-    if(server)
-        delete(server);
-    if(dispatcher)
-        delete(dispatcher);
+    delete(volumeControl);
+    delete(media);
+    delete(server);
+    delete(dispatcher);
 }
 
-void Player::play(QString fileName, float volume)
+void Player::play(const QString &fileName, float volume)
 {
     currentFile=fileName;
     play(volume);
@@ -73,9 +69,9 @@ void Player::play(float volume)
             media->play();
         }
         else {
-            if(media) {
+            if(media)
                 stop();
-            }
+
             media = new PlayObject(server->createPlayObject(QFile::encodeName(currentFile).data()));
             //      media = new PlayObject(server->createPlayObject(currentFile.latin1()));
             if(!media->isNull()) {
@@ -93,11 +89,8 @@ void Player::play(float volume)
 
 void Player::pause()
 {
-    if(serverRunning()) {
-        if(media) {
-            media->pause();
-        }
-    }
+    if(serverRunning() && media)
+	media->pause();
 }
 
 void Player::stop()
@@ -127,7 +120,7 @@ void Player::setVolume(float volume)
     }
 }
 
-float Player::getVolume()
+float Player::getVolume() const
 {
     return(currentVolume);
 }
@@ -136,47 +129,39 @@ float Player::getVolume()
 // player status functions
 /////////////////////////////////////////////////////////////////////////////////
 
-bool Player::playing()
+bool Player::playing() const
 {
-    if(serverRunning() && media && media->state()==posPlaying) {
+    if(serverRunning() && media && media->state() == posPlaying)
         return(true);
-    }
-    else {
+    else
         return(false);
-    }
 }
 
-bool Player::paused()
+bool Player::paused() const
 {
-    if(serverRunning() && media && media->state()==posPaused) {
+    if(serverRunning() && media && media->state() == posPaused)
         return(true);
-    }
-    else {
+    else
         return(false);
-    }
 }
 
-long Player::totalTime()
+long Player::totalTime() const
 {
-    if(serverRunning() && media) {
+    if(serverRunning() && media)
         return(media->overallTime().seconds);
-    }
-    else {
+    else
         return(-1);
-    }
 }
 
-long Player::currentTime()
+long Player::currentTime() const
 {
-    if(serverRunning() && media && media->state()==posPlaying) {
+    if(serverRunning() && media && media->state()==posPlaying)
         return(media->currentTime().seconds);
-    }
-    else {
+    else
         return(-1);
-    }
 }
 
-int Player::position()
+int Player::position() const
 {
     if(serverRunning() && media && media->state()==posPlaying) {
         //    long total=media->overallTime().ms;
@@ -186,9 +171,8 @@ int Player::position()
         // add .5 to make rounding happen properly
         return(int(double(current)*1000/total+.5));
     }
-    else {
+    else
         return(-1);
-    }
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -250,7 +234,7 @@ void Player::setupVolumeControl()
     }
 }
 
-bool Player::serverRunning()
+bool Player::serverRunning() const
 {
     if(server)
         return(!(server->isNull()));

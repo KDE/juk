@@ -46,12 +46,12 @@ TaggerWidget::~TaggerWidget()
 
 }
 
-void TaggerWidget::add(QString item)
+void TaggerWidget::add(const QString &item)
 {
     taggerList->append(item);
 }
 
-void TaggerWidget::add(QStringList &items)
+void TaggerWidget::add(const QStringList &items)
 {
     taggerList->append(items);
 }
@@ -75,11 +75,13 @@ void TaggerWidget::save()
     save(taggerList->selectedItems());
 }
 
-void TaggerWidget::save(QPtrList<FileListItem> items)
+void TaggerWidget::save(const QPtrList<FileListItem> &items)
 {
     if(items.count() > 0) {
 
-        FileListItem *item = dynamic_cast<FileListItem *>(items.first());
+	// While this accepts a list of items, it currently only works for the first item.
+
+        FileListItem *item = dynamic_cast<FileListItem *>(items.getFirst());
 
         if(item && changed) {
             QFileInfo newFile(item->dirPath() + QDir::separator() + fileNameBox->text());
@@ -113,7 +115,7 @@ void TaggerWidget::save(QPtrList<FileListItem> items)
                 if(genreList->findIndex(genreBox->currentText()) >= 0)
                     item->getTag()->setGenre((*genreList)[genreList->findIndex(genreBox->currentText())]);
                 else
-                    item->getTag()->setGenre(Genre(genreBox->currentText(), item->getTag()->getGenre().getId3v1()));
+                    item->getTag()->setGenre(Genre(genreBox->currentText(), item->getTag()->getGenre().getID3v1()));
 
 
                 item->getTag()->save();
@@ -122,9 +124,8 @@ void TaggerWidget::save(QPtrList<FileListItem> items)
 
                 changed = false;
             }
-            else {
+            else
                 KMessageBox::sorry(this, i18n("Could not save to specified file."));
-            }
 
             changed = false;
         }
@@ -137,34 +138,26 @@ void TaggerWidget::deleteFile()
 }
 
 
-void TaggerWidget::deleteFile(QPtrList<FileListItem> items)
+void TaggerWidget::deleteFile(const QPtrList<FileListItem> &items)
 {
     if(!items.isEmpty()) {
         QString message = i18n("Are you sure that you want to delete:\n");
 
-        FileListItem *item = items.first();
+	for(QPtrListIterator<FileListItem> it(items); it.current() != 0; ++it)
+            message.append(it.current()->fileName() + "\n");
 
-        while(item) {
-            message.append(item->fileName() + "\n");
-            item = items.next();
-        }
+	if(KMessageBox::warningYesNo(this, message, i18n("Delete Files")) == KMessageBox::Yes) {
+	    for(QPtrListIterator<FileListItem> it(items); it.current() != 0; ++it) {
+		if(QFile::remove(it.current()->filePath()))
+		    delete(it.current());
+		else
+		    KMessageBox::sorry(this, i18n("Could not save delete ") + it.current()->fileName() + ".");
+	    }
 
-        if(KMessageBox::warningYesNo(this, message, i18n("Delete Files")) == KMessageBox::Yes) {
-
-            item = items.first();
-            while(item) {
-
-                if(QFile::remove(item->filePath()))
-                    delete(item);
-                else
-                    KMessageBox::sorry(this, i18n("Could not save delete ") + item->fileName() + ".");
-
-                item = items.next();
-            }
-
-        }
+	}
     }
 }
+
 
 void TaggerWidget::setChanged()
 {
@@ -311,7 +304,7 @@ void TaggerWidget::setupLayout()
 
 void TaggerWidget::readConfig()
 {
-    genreList = GenreListList::id3v1List(); // this should later be read from a config file
+    genreList = GenreListList::ID3v1List(); // this should later be read from a config file
     if(genreList && genreBox) {
         genreBox->clear();
         // add values to the genre box
@@ -408,13 +401,23 @@ void TaggerWidget::updateCombos()
 {
     if(artistNameBox->listBox()) {
         artistNameBox->listBox()->clear();
-        taggerList->getArtistList()->sort();
-        artistNameBox->listBox()->insertStringList(*taggerList->getArtistList());
+
+	// This is another case where a sorted value list would be useful.  It's
+	// silly to build and maintain unsorted lists and have to call sort 
+	// every time that you want to verify that a list is sorted.	
+
+	QStringList artistList = taggerList->getArtistList();
+	artistList.sort();
+
+        artistNameBox->listBox()->insertStringList(artistList);
     }
 
     if(albumNameBox->listBox()) {
         albumNameBox->listBox()->clear();
-        taggerList->getAlbumList()->sort();
-        albumNameBox->listBox()->insertStringList(*taggerList->getAlbumList());
+
+	QStringList albumList = taggerList->getAlbumList();
+	albumList.sort();
+
+        albumNameBox->listBox()->insertStringList(albumList);
     }
 }
