@@ -22,6 +22,7 @@
 #include "collectionlist.h"
 #include "playlistsplitter.h"
 #include "cache.h"
+#include "splashscreen.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
@@ -148,6 +149,8 @@ CollectionListItem::CollectionListItem(const QFileInfo &file) : PlaylistItem(Col
     else
 	kdError() << "CollectionListItems should not be created before"
 		  << "CollectionList::initialize() has been called." << endl;
+
+    SplashScreen::increment();
 }
 
 CollectionListItem::~CollectionListItem()

@@ -32,21 +32,38 @@ public:
     virtual ~GenreList();
 
     void load(const QString &file);
-    QString name(int ID3v1);
+
     /**
-     * Do a "reverse" lookup.  Given an ID3v1 genre name, find the index.
+     * Given an ID3v1 "number", look up the name.
+     */
+    QString ID3v1Name(int ID3v1);
+
+    /**
+     * Do a "reverse" lookup.  Given an ID3v1 genre name, find the index.  Though
+     * I didn't realize it at the time that I wrote it, this is a 
+     * reimplimentation from QValueList; ours however caches the last search so
+     * it should speed things up a bit for "two in a row" searches that are 
+     * common.
      */
     int findIndex(const QString &item);
 
+    QString name() const;
+    void setName(const QString &n);
+    bool readOnly() const { return readOnlyList; }
+    void setReadOnly(bool ro) { readOnlyList = ro; }
+
 private:
-    QValueVector<QString> index;
-    bool hasIndex;
     /** 
      * This is used for creating a mapping between ID3v1 genre numbers and the
      * name that is associated with those genres.  There is no reason that this
      * should be called for GenreLists other than the ID3v1 GenreList. 
      */
     void initializeIndex();
+
+    QValueVector<QString> index;
+    bool hasIndex;
+    QString listName;
+    bool readOnlyList;
 };
 
 #endif

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          genre.h  -  description
+                          splashscreen.h  -  description
                              -------------------
-    begin                : Sun Feb 17 2002
+    begin                : Sun Dec 8 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
@@ -15,27 +15,41 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GENRE_H
-#define GENRE_H
+#ifndef SPLASHSCREEN_H
+#define SPLASHSCREEN_H
 
-#include <qstring.h>
-#include <qdatastream.h>
+#include <qhbox.h>
 
-class Genre : public QString
+class QLabel;
+
+/**
+ * Well, all of this session restoration sure is fun, but it's starting to take
+ * a while, especially say, if you're building KDE and indexing your file system
+ * in the background.  ;-)  So, despite my general hate of splashscreens I 
+ * thought on appropriate here.
+ *
+ * As in other places, this is a singleton.  That makes it relatively easy to 
+ * handle the updates from whichever class seems appropriate through static
+ * methods.
+ */
+
+class SplashScreen : public QHBox 
 {
-public:
-    Genre();
-    Genre(const QString &genreName, int ID3v1Number = 255);
-    Genre &operator=(const QString &);
-    
-    int getID3v1() const;
-    void setID3v1(int number);
-    
-private:
-    int ID3v1;
-};
+public: 
+    static SplashScreen *instance();
+    static void finishedLoading();
+    static void increment();
 
-QDataStream &operator<<(QDataStream &s, const Genre &g);
-QDataStream &operator>>(QDataStream &s, Genre &g);
+protected:
+    SplashScreen();
+    virtual ~SplashScreen();
+
+private:
+    static SplashScreen *splash;
+    static bool done;
+    static int count;
+
+    QLabel *countLabel;
+};
 
 #endif

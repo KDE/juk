@@ -21,10 +21,9 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Genre::Genre() : QString()
+Genre::Genre() : QString(), ID3v1(255)
 {
-    name = QString::null;
-    ID3v1 = 255;
+
 }
 
 Genre::Genre(const QString &genreName, int ID3v1Number) : QString(genreName)

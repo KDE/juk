@@ -24,14 +24,13 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-GenreList::GenreList(bool createIndex) : QValueList<Genre>()
+GenreList::GenreList(bool createIndex) : QValueList<Genre>(), hasIndex(createIndex)
 {
-    hasIndex = createIndex;
+
 }
 
-GenreList::GenreList(const QString &file, bool createIndex) : QValueList<Genre>()
+GenreList::GenreList(const QString &file, bool createIndex) : QValueList<Genre>(), hasIndex(createIndex)
 {
-    hasIndex = createIndex;
     load(file);
 }
 
@@ -53,7 +52,7 @@ void GenreList::load(const QString &file)
         initializeIndex();
 }
 
-QString GenreList::name(int ID3v1)
+QString GenreList::ID3v1Name(int ID3v1)
 {
     if(hasIndex && ID3v1 >= 0 && ID3v1 < int(index.size()))
         return(index[ID3v1]);
@@ -85,6 +84,16 @@ int GenreList::findIndex(const QString &item)
         i++;
     }
     return(-1);
+}
+
+QString GenreList::name() const
+{
+    return(listName);
+}
+
+void GenreList::setName(const QString &n)
+{
+    listName = n;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <kurldrag.h>
@@ -165,8 +166,16 @@ void Playlist::saveAs()
 void Playlist::refresh()
 {
     PlaylistItemList list;
-    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow()))
+
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    int j = 0;
+    for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow())) {
 	i->refreshFromDisk();
+	if(j % 5 == 0)
+	    kapp->processEvents();
+	j = j % 5 + 1;
+    }
+    KApplication::restoreOverrideCursor();
 }
 
 void Playlist::clearItems(const PlaylistItemList &items)

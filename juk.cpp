@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kapplication.h>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kcmdlineargs.h>
@@ -30,6 +31,8 @@
 #include "slideraction.h"
 #include "cache.h"
 #include "statuslabel.h"
+#include "splashscreen.h"
+#include "genrelisteditor.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -37,6 +40,9 @@
 
 JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose)
 {
+    SplashScreen::instance()->show();
+    kapp->processEvents();
+ 
     // Expect segfaults if you change this order.
 
     readSettings();
@@ -45,6 +51,8 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
     setupPlayer();
     readConfig();
     processArgs();
+
+    SplashScreen::finishedLoading();
 }
 
 JuK::~JuK()
@@ -114,6 +122,7 @@ void JuK::setupActions()
     
     // settings menu
     restoreOnLoadAction = new KToggleAction(i18n("Restored Playlists on Load"),  0, actionCollection(), "restoreOnLoad"); 
+    new KAction(i18n("Genre List Editor"), 0, this, SLOT(showGenreListEditor()), actionCollection(), "showGenreListEditor");
 
     playlistChanged(0);
     connect(splitter, SIGNAL(playlistChanged(Playlist *)), this, SLOT(playlistChanged(Playlist *)));
@@ -359,6 +368,15 @@ void JuK::forwardFile()
     playItem(i);
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// settings menu
+////////////////////////////////////////////////////////////////////////////////
+
+void JuK::showGenreListEditor()
+{
+    GenreListEditor * editor = new GenreListEditor();
+    editor->exec();
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // additional player slots

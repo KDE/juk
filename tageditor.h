@@ -21,12 +21,12 @@
 #include <qmap.h>
 
 #include "playlistitem.h"
+#include "genrelist.h"
 
 class KComboBox;
 class KLineEdit;
 class KIntSpinBox;
 class KEdit;
-class GenreList;
 
 class TagEditor : public QWidget
 {
@@ -35,6 +35,7 @@ class TagEditor : public QWidget
 public: 
     TagEditor(QWidget *parent = 0, const char *name = 0);
     virtual ~TagEditor();
+    void setGenreList(const GenreList &list);
 
 public slots:
     void setItems(const PlaylistItemList &list);
@@ -52,12 +53,16 @@ private:
     void saveConfig();
     void save(const PlaylistItemList &list);
     void saveChangesPrompt();
+    /**
+     * Adds an item to JuK's tagging layout.  This handles the creation and
+     * placement of the "enable" box as well.
+     */
     void addItem(const QString &text, QWidget *item, QBoxLayout *layout);
 
     typedef QMap<QWidget *, QCheckBox *> BoxMap;
     BoxMap enableBoxes;
 
-    GenreList *genreList;
+    GenreList genreList;
 
     KComboBox *artistNameBox;
     KLineEdit *trackNameBox;

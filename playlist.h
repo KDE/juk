@@ -61,12 +61,24 @@ public:
      */
     QStringList files() const;
     /** 
-     * All of the items in the list.
+     * Returns a list of all of the items in the playlist.
      */
     PlaylistItemList items() const;
+    
+    /**
+     * Returns a list of the currently selected items.
+     */
     PlaylistItemList selectedItems() const;
 
+    /**
+     * Remove the currently selected items from the playlist.
+     */ 
     void remove();
+    
+    /**
+     * Remove \a items from the playlist.  This will ignore items that are not
+     * actually in the list.
+     */
     void remove(const PlaylistItemList &items);
 
     /** 

@@ -113,6 +113,9 @@ private slots:
     void backFile();
     void forwardFile();
 
+    // settings menu
+    void showGenreListEditor();
+
     // additional player slots
     void trackPositionSliderClick();
     void trackPositionSliderRelease();

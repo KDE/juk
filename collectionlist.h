@@ -62,11 +62,17 @@ protected:
     // These methods are used by CollectionListItem, which is a friend class.
     void addToDict(const QString &file, CollectionListItem *item);
     void removeFromDict(const QString &file);
-    /** This checks to see if the artist given is in the artist list maintained
-	by the collection list (for use in autocompletion and the TagEditor 
-	combo boxes), and if it is not, it adds it to the list. */
+
+    /** 
+     * This checks to see if the artist given is in the artist list maintained
+     * by the collection list (for use in autocompletion and the TagEditor 
+     * combo boxes), and if it is not, it adds it to the list.
+     */
     void addArtist(const QString &artist);
-    /** This is similar to addArtist(), but is for album names. */
+
+    /** 
+     * This is similar to addArtist(), but is for album names. 
+     */
     void addAlbum(const QString &album);
     
 private:

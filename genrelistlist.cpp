@@ -16,6 +16,9 @@
  ***************************************************************************/
 
 #include <kstandarddirs.h>
+#include <kdebug.h>
+
+#include <qdir.h>
 
 #include "genrelistlist.h"
 
@@ -30,19 +33,38 @@
 
 // public
 
-GenreList *GenreListList::ID3v1List()
+GenreList GenreListList::ID3v1List()
 {
-    if(!ID3v1Loaded) {
+    if(!ID3v1) {
+	ID3v1 = new GenreList(true);
         ID3v1->load(locate("data", "juk/id3v1.genreml"));
-        ID3v1Loaded = true;
+	ID3v1->setReadOnly(true);
     }
-    return(ID3v1);
+    return(*ID3v1);
+}
+
+GenreListList GenreListList::lists()
+{
+    GenreListList l;
+    if(ID3v1)
+	l.append(*ID3v1);
+
+    QDir dir(KGlobal::dirs()->saveLocation("appdata"));
+    
+    QStringList files = dir.entryList("*.genreml");
+    
+    for(QStringList::Iterator it = files.begin(); it != files.end(); it++) {
+	GenreList genreList(*it);
+	if(genreList.count() > 0)
+	    l.append(genreList);
+    }
+
+    return(l);
 }
 
 // private
 
-GenreList *GenreListList::ID3v1 = new GenreList(true);
-bool GenreListList::ID3v1Loaded = false;
+GenreList *GenreListList::ID3v1 = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -50,7 +72,7 @@ bool GenreListList::ID3v1Loaded = false;
 
 GenreListList::GenreListList()
 {
-
+    
 }
 
 GenreListList::~GenreListList()

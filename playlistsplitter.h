@@ -86,15 +86,42 @@ public:
     static void setSelected(PlaylistItem *i);
 
 public slots:
+    /**
+     * Open files or playlists.
+     */
     void open();
+
+    /**
+     * Open a directory recursively, grabbing all of the music and playlist files
+     * in it's heirarchy.
+     */
     void openDirectory();
+
+    /**
+     * Open each of \a files, where \a files is a list of playlists and music
+     * files.
+     */
     void open(const QStringList &files);
+
+    /**
+     * Open \a file where \a is a playlist or music file.
+     */
     void open(const QString &file);
+
+    /**
+     * Save.
+     */
     void save();
+
     /**
      * Deletes the selected items from the hard disk. 
      */
     void remove();
+    
+    /**
+     * Refresh the contents of the currently visible playlist.  This will cause
+     * all of the audio meta data to be reread from disk.
+     */
     void refresh();
     /**
      * Removes the selected items from the playlist. 
@@ -104,9 +131,21 @@ public slots:
 
     void setEditorVisible(bool visible);
 
+    /**
+     * Create a playlist and prompt the user for a name.
+     */
     Playlist *createPlaylist();
+    /**
+     * Create a playlist with the named \a name.
+     */
     Playlist *createPlaylist(const QString &name);
+    /**
+     * Prompt the user for a playlist to open.
+     */
     void openPlaylist();
+    /**
+     * Open the playlist (m3u file or simiar) at \a playlistFile.
+     */
     Playlist *openPlaylist(const QString &playlistFile);
 
     void add(const QString &file, Playlist *list);

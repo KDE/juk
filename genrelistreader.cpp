@@ -23,10 +23,9 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-GenreListReader::GenreListReader(GenreList *genreList)
+GenreListReader::GenreListReader(GenreList *genreList) : QXmlDefaultHandler(), list(genreList), inGenreTag(false)
 {
-    list = genreList;
-    inGenreTag = false;
+
 }
 
 GenreListReader::~GenreListReader()
@@ -43,9 +42,14 @@ bool GenreListReader::startElement(const QString &, const QString &, const QStri
         else
             ID3v1 = 255;
     }
-    else {
-        ID3v1 = 255;
+    else if(element.lower() == "genrelist") {
+	if(attributes.index("name") != -1) {
+	    list->setName(attributes.value("name"));
+	}
     }
+    else
+        ID3v1 = 255;
+
     return(true);
 };
 
@@ -53,10 +57,11 @@ bool GenreListReader::endElement(const QString &, const QString &, const QString
 {
     if(element.lower() == "genre")
         inGenreTag = false;
+
     return(true);
 };
 
-bool GenreListReader::characters(const QString& content)
+bool GenreListReader::characters(const QString &content)
 {
     if(inGenreTag)
         list->append(Genre(content, ID3v1));

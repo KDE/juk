@@ -35,6 +35,7 @@
 		<Action name="deleteItemPlaylist"/>
 	</Menu>
 	<Menu name="settings" noMerge="1"><text>&amp;Settings</text>
+		<Action name="showGenreListEditor"/>
 		<Action name="restoreOnLoad"/>
 	</Menu>
 </MenuBar>

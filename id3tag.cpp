@@ -100,7 +100,7 @@ ID3Tag::ID3Tag(const QString &file) : Tag(file)
     // parse the genre string for (<ID3v1 number>)
 
     if(tagGenre == "(" + QString::number(tagGenre.getID3v1()) + ")" || tagGenre == QString::null)
-        tagGenre = GenreListList::ID3v1List()->name(tagGenre.getID3v1());
+        tagGenre = GenreListList::ID3v1List().ID3v1Name(tagGenre.getID3v1());
     else if(tagGenre.find(QRegExp("\\([0-9]+\\)")) == 0)
         tagGenre = tagGenre.mid(tagGenre.find(")") + 1);
 
@@ -142,10 +142,10 @@ void ID3Tag::save()
         else
             ID3_RemoveTracks(&tag);
 
-        if(tagGenre.getID3v1() >= 0 && tagGenre.getID3v1() <  int(GenreListList::ID3v1List()->count())) {
+        if(tagGenre.getID3v1() >= 0 && tagGenre.getID3v1() <  int(GenreListList::ID3v1List().count())) {
             QString genreString;
 
-            if(tagGenre != GenreListList::ID3v1List()->name(tagGenre.getID3v1()))
+            if(tagGenre != GenreListList::ID3v1List().ID3v1Name(tagGenre.getID3v1()))
                 genreString = "(" + QString::number(tagGenre.getID3v1()) + ")" + tagGenre;
             else
                 genreString = "(" + QString::number(tagGenre.getID3v1()) + ")";

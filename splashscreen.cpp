@@ -1,0 +1,96 @@
+/***************************************************************************
+                          splashscreen.cpp  -  description
+                             -------------------
+    begin                : Sun Dec 8 2002
+    copyright            : (C) 2002 by Scott Wheeler
+    email                : wheeler@kde.org
+ ***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
+#include <kapplication.h>
+#include <kiconloader.h>
+#include <klocale.h>
+
+#include <qlabel.h>
+#include <qfont.h>
+
+#include "splashscreen.h"
+
+SplashScreen *SplashScreen::splash = 0;
+bool SplashScreen::done = false;
+int SplashScreen::count = 0;
+
+////////////////////////////////////////////////////////////////////////////////
+// pubic members
+////////////////////////////////////////////////////////////////////////////////
+
+SplashScreen *SplashScreen::instance()
+{
+    if(!splash && !done) {
+	splash = new SplashScreen();
+    }
+    return(splash);
+}
+
+void SplashScreen::finishedLoading()
+{
+    done = true;
+    delete(splash);
+    splash = 0;
+}
+
+void SplashScreen::increment()
+{
+    if(splash) {
+	count++;
+	splash->countLabel->setText(QString::number(count));
+	kapp->processEvents();
+    }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// protected members
+////////////////////////////////////////////////////////////////////////////////
+
+SplashScreen::SplashScreen() : QHBox(0 , "splashScreen", Qt::WStyle_Splash)
+{
+    setMargin(10);
+    setSpacing(5);
+
+    setLineWidth(5);
+    setFrameShape(Box);
+    setFrameShadow(Plain);
+    
+    QFont font = QWidget::font();
+
+    if(font.pixelSize() > 0)
+	font.setPixelSize(font.pixelSize() * 2);
+    else
+	font.setPointSize(font.pointSize() * 2);
+
+    QLabel *iconLabel = new QLabel(this);
+    iconLabel->setPixmap(DesktopIcon("juk"));
+
+    QLabel *textLabel = new QLabel(i18n("Items loaded:"), this);
+    textLabel->setFont(font);
+    textLabel->setMinimumWidth(textLabel->fontMetrics().width("00000"));
+
+    countLabel = new QLabel(this);
+    countLabel->setText(QString::number(count));
+    countLabel->setFont(font);
+    
+    setMinimumWidth(iconLabel->width() + textLabel->width() + countLabel->width() + 10);
+}
+
+SplashScreen::~SplashScreen()
+{
+
+}

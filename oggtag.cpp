@@ -75,7 +75,7 @@ QString OggTag::album() const
 Genre OggTag::genre() const
 {
     QString genreName = readCommentString("Genre");
-    int index = GenreListList::ID3v1List()->findIndex(genreName);
+    int index = GenreListList::ID3v1List().findIndex(genreName);
     return Genre(genreName, index);
 }
 

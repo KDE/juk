@@ -1,10 +1,10 @@
 /***************************************************************************
-                          genrelistlist.h  -  description
+                          genrelisteditor.h  -  description
                              -------------------
-    begin                : Sun Mar 3 2002
+    begin                : Sun Dec 8 2002
     copyright            : (C) 2002 by Scott Wheeler
     email                : wheeler@kde.org
-***************************************************************************/
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,24 +15,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GENRELISTLIST_H
-#define GENRELISTLIST_H
+#ifndef GENRELISTEDITOR_H
+#define GENRELISTEDITOR_H
 
-#include <qvaluelist.h>
+#include <qdict.h>
 
-#include "genrelist.h"
+#include "genrelisteditorbase.h"
 
-class GenreListList : public QValueList<GenreList>
+class GenreList;
+
+class GenreListEditor : public GenreListEditorBase 
 {
-public:
-    GenreListList();
-    virtual ~GenreListList();
-
-    static GenreList ID3v1List();
-    static GenreListList lists();
+    Q_OBJECT
+public: 
+    GenreListEditor(QWidget *parent = 0, const char *name = 0);
+    ~GenreListEditor();
 
 private:
-    static GenreList *ID3v1;
+    void loadID3v1Genres();
+    void loadLists();
+    void updateGenreList();
+
+    QDict<GenreList> listDict;
+
+private slots:
+    virtual void updateGenreBoxes(QListViewItem *item);
+    virtual void updateGenreName(const QString &name);
 };
 
 #endif

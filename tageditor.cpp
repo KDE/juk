@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kapplication.h>
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <knuminput.h>
@@ -32,7 +33,6 @@
 #include "tageditor.h"
 #include "tag.h"
 #include "collectionlist.h"
-#include "genrelist.h"
 #include "genrelistlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -50,6 +50,188 @@ TagEditor::~TagEditor()
 {
     saveConfig();
 }
+
+void TagEditor::setGenreList(const GenreList &list)
+{
+    genreList = list;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void TagEditor::setItems(const PlaylistItemList &list)
+{
+    saveChangesPrompt();
+    items = list;
+    refresh();
+}
+
+void TagEditor::refresh()
+{
+    // This method takes the list of currently selected items and tries to 
+    // figure out how to show that in the tag editor.  The current strategy --
+    // the most common case -- is to just process the first item.  Then we
+    // check after that to see if there are other items and adjust accordingly.
+
+    PlaylistItem *item = items.getFirst();
+
+    if(item) {
+	Tag *tag = item->tag();
+	
+	artistNameBox->setEditText(tag->artist());
+	trackNameBox->setText(tag->track());
+	albumNameBox->setEditText(tag->album());
+	
+	if(genreList.findIndex(tag->genre()) >= 0)
+	    genreBox->setCurrentItem(genreList.findIndex(tag->genre()) + 1);
+	else {
+	    genreBox->setCurrentItem(0);
+	    genreBox->setEditText(tag->genre());
+	}
+	
+	trackSpin->setValue(tag->trackNumber());
+	yearSpin->setValue(tag->year());
+	
+	commentBox->setText(tag->comment());
+	
+	// Start at the second item, since we've already processed the first.
+
+	QPtrListIterator<PlaylistItem> it(items);
+	++it;
+
+	// If there is more than one item in the items that we're dealing with...
+
+	if(it.current()) {
+	    fileNameBox->clear();
+	    fileNameBox->setEnabled(false);
+
+	    lengthBox->clear();
+	    lengthBox->setEnabled(false);
+	    
+	    bitrateBox->clear();
+	    bitrateBox->setEnabled(false);
+	    
+	    for(BoxMap::iterator boxIt = enableBoxes.begin(); boxIt != enableBoxes.end(); boxIt++) {
+		(*boxIt)->setChecked(true);
+		(*boxIt)->show();
+	    }
+
+	    // Yep, this is ugly.  Loop through all of the files checking to see
+	    // if their fields are the same.  If so, by default, enable their 
+	    // checkbox.
+
+	    for(; it.current(); ++it) {
+		tag = (*it)->tag();
+		if(artistNameBox->currentText() != tag->artist() && enableBoxes.contains(artistNameBox)) {
+		    artistNameBox->lineEdit()->clear();
+		    enableBoxes[artistNameBox]->setChecked(false);
+		}
+		if(trackNameBox->text() != tag->track() && enableBoxes.contains(trackNameBox)) {
+		    trackNameBox->clear();
+		    enableBoxes[trackNameBox]->setChecked(false);
+		}
+		if(albumNameBox->currentText() != tag->album() && enableBoxes.contains(albumNameBox)) {
+		    albumNameBox->lineEdit()->clear();
+		    enableBoxes[albumNameBox]->setChecked(false);
+		}
+		if(genreBox->currentText() != tag->genre() && enableBoxes.contains(genreBox)) {
+		    genreBox->lineEdit()->clear();
+		    enableBoxes[genreBox]->setChecked(false);
+		}		
+
+		if(trackSpin->value() != tag->trackNumber() && enableBoxes.contains(trackSpin)) {
+		    trackSpin->setValue(0);
+		    enableBoxes[trackSpin]->setChecked(false);
+		}		
+		if(yearSpin->value() != tag->year() && enableBoxes.contains(yearSpin)) {
+		    yearSpin->setValue(0);
+		    enableBoxes[yearSpin]->setChecked(false);
+		}
+
+		if(commentBox->text() != tag->comment() && enableBoxes.contains(commentBox)) {
+		    commentBox->clear();
+		    enableBoxes[commentBox]->setChecked(false);
+		}
+	    }
+	}
+	else {
+	    // Clean up in the case that we are only handling one item.
+	    
+	    fileNameBox->setText(item->fileName());
+	    fileNameBox->setEnabled(true);
+	    
+	    lengthBox->setText(tag->lengthString());
+	    lengthBox->setEnabled(true);
+	    
+	    bitrateBox->setText(tag->bitrateString());
+	    bitrateBox->setEnabled(true);	    
+
+	    for(BoxMap::iterator boxIt = enableBoxes.begin(); boxIt != enableBoxes.end(); boxIt++) {
+		(*boxIt)->setChecked(true);
+		(*boxIt)->hide();
+	    }
+	}
+	dataChanged = false;
+    }
+    else
+	clear();
+}
+
+void TagEditor::clear()
+{
+    artistNameBox->lineEdit()->clear();
+    trackNameBox->clear();
+    albumNameBox->lineEdit()->clear();
+    genreBox->setCurrentItem(0);
+    fileNameBox->clear();
+    trackSpin->setValue(0);
+    yearSpin->setValue(0);
+    lengthBox->clear();
+    bitrateBox->clear();
+    commentBox->clear();    
+}
+
+void TagEditor::save()
+{
+    save(items);
+}
+
+void TagEditor::updateCollection()
+{
+    CollectionList *list = CollectionList::instance();
+
+    if(!list)
+	return;
+    
+    if(artistNameBox->listBox()) {
+        artistNameBox->listBox()->clear();
+	
+	// This is another case where a sorted value list would be useful.  It's
+	// silly to build and maintain unsorted lists and have to call sort 
+	// every time that you want to verify that a list is sorted.	
+
+	QStringList artistList = list->artists();
+	artistList.sort();
+
+        artistNameBox->listBox()->insertStringList(artistList);
+	artistNameBox->completionObject()->setItems(artistList);
+    }
+
+    if(albumNameBox->listBox()) {
+        albumNameBox->listBox()->clear();
+
+	QStringList albumList = list->albums();
+	albumList.sort();
+
+        albumNameBox->listBox()->insertStringList(albumList);
+	albumNameBox->completionObject()->setItems(albumList);
+    }    
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private members
+////////////////////////////////////////////////////////////////////////////////
 
 void TagEditor::readConfig()
 {
@@ -72,14 +254,14 @@ void TagEditor::readConfig()
 
     genreList = GenreListList::ID3v1List();
 
-    if(genreList && genreBox) {
+    if(genreBox) {
         genreBox->clear();
 
         // Add values to the genre box
 
         genreBox->insertItem(QString::null);
 
-        for(GenreList::Iterator it = genreList->begin(); it != genreList->end(); ++it)
+        for(GenreList::Iterator it = genreList.begin(); it != genreList.end(); ++it)
             genreBox->insertItem((*it));
     }
 }
@@ -189,255 +371,88 @@ void TagEditor::setupLayout()
     connect(this, SIGNAL(changed()), this, SLOT(setDataChanged()));
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// public slots
-////////////////////////////////////////////////////////////////////////////////
-
-void TagEditor::setItems(const PlaylistItemList &list)
-{
-    saveChangesPrompt();
-    items = list;
-    refresh();
-}
-
-void TagEditor::refresh()
-{
-    // This method takes the list of currently selected items and tries to 
-    // figure out how to show that in the tag editor.  The current strategy --
-    // the most common case -- is to just process the first item.  Then we
-    // check after that to see if there are other items and adjust accordingly.
-
-    PlaylistItem *item = items.getFirst();
-
-    if(item) {
-	Tag *tag = item->tag();
-	
-	artistNameBox->setEditText(tag->artist());
-	trackNameBox->setText(tag->track());
-	albumNameBox->setEditText(tag->album());
-	
-	if(genreList && genreList->findIndex(tag->genre()) >= 0)
-	    genreBox->setCurrentItem(genreList->findIndex(tag->genre()) + 1);
-	else {
-	    genreBox->setCurrentItem(0);
-	    genreBox->setEditText(tag->genre());
-	}
-	
-	fileNameBox->setText(item->fileName());
-	trackSpin->setValue(tag->trackNumber());
-	yearSpin->setValue(tag->year());
-	
-	lengthBox->setText(tag->lengthString());
-	bitrateBox->setText(tag->bitrateString());
-	
-	commentBox->setText(tag->comment());
-	
-	// Start at the second item, since we've already processed the first.
-
-	QPtrListIterator<PlaylistItem> it(items);
-	++it;
-
-	// If there is more than one item in the items that we're dealing with...
-
-	if(it.current()) {
-	    fileNameBox->clear();
-	    fileNameBox->setEnabled(false);
-	    
-	    for(BoxMap::iterator boxIt = enableBoxes.begin(); boxIt != enableBoxes.end(); boxIt++) {
-		(*boxIt)->setChecked(true);
-		(*boxIt)->show();
-	    }
-
-	    // Yep, this is ugly.  Loop through all of the files checking to see
-	    // if their fields are the same.  If so, by default, enable their 
-	    // checkbox.
-
-	    for(; it.current(); ++it) {
-		tag = (*it)->tag();
-		if(artistNameBox->currentText() != tag->artist() && enableBoxes.contains(artistNameBox)) {
-		    artistNameBox->lineEdit()->clear();
-		    enableBoxes[artistNameBox]->setChecked(false);
-		}
-		if(trackNameBox->text() != tag->track() && enableBoxes.contains(trackNameBox)) {
-		    trackNameBox->clear();
-		    enableBoxes[trackNameBox]->setChecked(false);
-		}
-		if(albumNameBox->currentText() != tag->album() && enableBoxes.contains(albumNameBox)) {
-		    albumNameBox->lineEdit()->clear();
-		    enableBoxes[albumNameBox]->setChecked(false);
-		}
-		if(genreBox->currentText() != tag->genre() && enableBoxes.contains(genreBox)) {
-		    genreBox->lineEdit()->clear();
-		    enableBoxes[genreBox]->setChecked(false);
-		}		
-
-		if(trackSpin->value() != tag->trackNumber() && enableBoxes.contains(trackSpin)) {
-		    trackSpin->setValue(0);
-		    enableBoxes[trackSpin]->setChecked(false);
-		}		
-		if(yearSpin->value() != tag->year() && enableBoxes.contains(yearSpin)) {
-		    yearSpin->setValue(0);
-		    enableBoxes[yearSpin]->setChecked(false);
-		}
-
-		if(commentBox->text() != tag->comment() && enableBoxes.contains(commentBox)) {
-		    commentBox->clear();
-		    enableBoxes[commentBox]->setChecked(false);
-		}
-	    }
-	}
-	else {
-	    // Clean up in the case that we are only handling one item.
-	    
-	    fileNameBox->setEnabled(true);
-
-	    for(BoxMap::iterator boxIt = enableBoxes.begin(); boxIt != enableBoxes.end(); boxIt++) {
-		(*boxIt)->setChecked(true);
-		(*boxIt)->hide();
-	    }
-	}
-	dataChanged = false;
-    }
-    else
-	clear();
-}
-
-void TagEditor::clear()
-{
-    artistNameBox->lineEdit()->clear();
-    trackNameBox->clear();
-    albumNameBox->lineEdit()->clear();
-    genreBox->setCurrentItem(0);
-    fileNameBox->clear();
-    trackSpin->setValue(0);
-    yearSpin->setValue(0);
-    lengthBox->clear();
-    bitrateBox->clear();
-    commentBox->clear();    
-}
-
-void TagEditor::save()
-{
-    save(items);
-}
-
-void TagEditor::updateCollection()
-{
-    CollectionList *list = CollectionList::instance();
-
-    if(!list)
-	return;
-    
-    if(artistNameBox->listBox()) {
-        artistNameBox->listBox()->clear();
-	
-	// This is another case where a sorted value list would be useful.  It's
-	// silly to build and maintain unsorted lists and have to call sort 
-	// every time that you want to verify that a list is sorted.	
-
-	QStringList artistList = list->artists();
-	artistList.sort();
-
-        artistNameBox->listBox()->insertStringList(artistList);
-	artistNameBox->completionObject()->setItems(artistList);
-    }
-
-    if(albumNameBox->listBox()) {
-        albumNameBox->listBox()->clear();
-
-	QStringList albumList = list->albums();
-	albumList.sort();
-
-        albumNameBox->listBox()->insertStringList(albumList);
-	albumNameBox->completionObject()->setItems(albumList);
-    }    
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private members
-////////////////////////////////////////////////////////////////////////////////
-
 void TagEditor::save(const PlaylistItemList &list)
 {
-    if(list.count() > 0) {
+    if(list.count() > 0 && dataChanged) {
 	
-        if(list.count() > 0 && dataChanged) {
+	KApplication::setOverrideCursor(Qt::waitCursor);
 
-	    // To keep track of the files that don't cooperate...
+	// To keep track of the files that don't cooperate...
 
-	    QStringList errorFiles;
-		
-	    for(QPtrListIterator<PlaylistItem> it(list); it.current(); ++it) {
-		PlaylistItem *item = *it;
-
-		QFileInfo newFile(item->dirPath() + QDir::separator() + fileNameBox->text());
-		QFileInfo directory(item->dirPath());
-
-		// If (the new file is writable or the new file doesn't exist and
-		// it's directory is writable) and the old file is writable...  
-		// If not we'll append it to errorFiles to tell the user which
-		// files we couldn't write to.
-
-		if((newFile.isWritable() || (!newFile.exists() && directory.isWritable())) && item->isWritable()) {
-
-		    // If the file name in the box doesn't match the current file
-		    // name...
-
-		    if(list.count() == 1 && item->fileName() != newFile.fileName()) {
-
-			// Rename the file if it doesn't exist or the user says
-			// that it's ok.
-
-			if(!newFile.exists() ||
-			   KMessageBox::warningYesNo(this, i18n("This file already exists.\nDo you want to replace it?"),
-						     i18n("File Exists")) == KMessageBox::Yes)
-			{
-			    QDir currentDir;
-			    currentDir.rename(item->filePath(), newFile.filePath());
-			    item->setFile(newFile.filePath());
-			}
-		    }
-
-		    // A bit more ugliness.  If there are multiple files that are
-		    // being modified, they each have a "enabled" checkbox that
-		    // says if that field is to be respected for the multiple 
-		    // files.  We have to check to see if that is enabled before
-		    // each field that we write.
-		    
-		    if(enableBoxes[artistNameBox]->isOn())
-			item->tag()->setArtist(artistNameBox->currentText());
-		    if(enableBoxes[trackNameBox]->isOn())
-			item->tag()->setTrack(trackNameBox->text());
-		    if(enableBoxes[albumNameBox]->isOn())
-			item->tag()->setAlbum(albumNameBox->currentText());
-		    if(enableBoxes[trackSpin]->isOn())
-			item->tag()->setTrackNumber(trackSpin->value());
-		    if(enableBoxes[yearSpin]->isOn())
-			item->tag()->setYear(yearSpin->value());
-		    if(enableBoxes[commentBox]->isOn())
-			item->tag()->setComment(commentBox->text());
-		    
-		    if(enableBoxes[genreBox]->isOn()) {
-			if(genreList->findIndex(genreBox->currentText()) >= 0)
-			    item->tag()->setGenre((*genreList)[genreList->findIndex(genreBox->currentText())]);
-			else
-			    item->tag()->setGenre(Genre(genreBox->currentText(), item->tag()->genre().getID3v1()));
-		    }
-		    
-		    item->tag()->save();
-		    
-		    item->refresh();
-		}
-		else
-		    errorFiles.append(item->fileName());
-	    }
+	QStringList errorFiles;
+	
+	for(QPtrListIterator<PlaylistItem> it(list); it.current(); ++it) {
+	    PlaylistItem *item = *it;
 	    
-	    if(!errorFiles.isEmpty())
-		KMessageBox::detailedSorry(this,
-					   i18n("Could not save to specified file(s)."), 
-					   i18n("Could not write to:\n") + errorFiles.join("\n"));
-	    dataChanged = false;
-        }
+	    QFileInfo newFile(item->dirPath() + QDir::separator() + fileNameBox->text());
+	    QFileInfo directory(item->dirPath());
+	    
+	    // If (the new file is writable or the new file doesn't exist and
+	    // it's directory is writable) and the old file is writable...  
+	    // If not we'll append it to errorFiles to tell the user which
+	    // files we couldn't write to.
+	    
+	    if((newFile.isWritable() || (!newFile.exists() && directory.isWritable())) && item->isWritable()) {
+		
+		// If the file name in the box doesn't match the current file
+		// name...
+		
+		if(list.count() == 1 && item->fileName() != newFile.fileName()) {
+		    
+		    // Rename the file if it doesn't exist or the user says
+		    // that it's ok.
+		    
+		    if(!newFile.exists() ||
+		       KMessageBox::warningYesNo(this, i18n("This file already exists.\nDo you want to replace it?"),
+						 i18n("File Exists")) == KMessageBox::Yes)
+		    {
+			QDir currentDir;
+			currentDir.rename(item->filePath(), newFile.filePath());
+			item->setFile(newFile.filePath());
+		    }
+		}
+		
+		// A bit more ugliness.  If there are multiple files that are
+		// being modified, they each have a "enabled" checkbox that
+		// says if that field is to be respected for the multiple 
+		// files.  We have to check to see if that is enabled before
+		// each field that we write.
+		
+		if(enableBoxes[artistNameBox]->isOn())
+		    item->tag()->setArtist(artistNameBox->currentText());
+		if(enableBoxes[trackNameBox]->isOn())
+		    item->tag()->setTrack(trackNameBox->text());
+		if(enableBoxes[albumNameBox]->isOn())
+		    item->tag()->setAlbum(albumNameBox->currentText());
+		if(enableBoxes[trackSpin]->isOn())
+		    item->tag()->setTrackNumber(trackSpin->value());
+		if(enableBoxes[yearSpin]->isOn())
+		    item->tag()->setYear(yearSpin->value());
+		if(enableBoxes[commentBox]->isOn())
+		    item->tag()->setComment(commentBox->text());
+		
+		if(enableBoxes[genreBox]->isOn()) {
+		    if(genreList.findIndex(genreBox->currentText()) >= 0)
+			item->tag()->setGenre(genreList[genreList.findIndex(genreBox->currentText())]);
+		    else
+			item->tag()->setGenre(Genre(genreBox->currentText(), item->tag()->genre().getID3v1()));
+		}
+		
+		item->tag()->save();
+		
+		item->refresh();
+	    }
+	    else
+		errorFiles.append(item->fileName());
+	}
+	
+	if(!errorFiles.isEmpty())
+	    KMessageBox::detailedSorry(this,
+				       i18n("Could not save to specified file(s)."), 
+				       i18n("Could not write to:\n") + errorFiles.join("\n"));
+	dataChanged = false;
+
+	KApplication::restoreOverrideCursor();
     }
 }
 

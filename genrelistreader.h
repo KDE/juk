@@ -22,6 +22,12 @@
 
 #include "genrelist.h"
 
+/**
+ * A SAX2 based XML reader to read GenreLists.  Since there's little use to keep
+ * the document structure in memory, I've opted for SAX2 over QDom, since it's 
+ * a good deal faster.
+ */ 
+
 class GenreListReader : public QXmlDefaultHandler
 {
 public:
