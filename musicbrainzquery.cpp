@@ -34,7 +34,7 @@
 #include <string>
 #include <vector>
 
-MusicBrainzQuery::MusicBrainzQuery(const QueryType &query, const QStringList &args,
+MusicBrainzQuery::MusicBrainzQuery(QueryType query, const QStringList &args,
                                    QObject *parent, const char *name)
     : QObject(parent, name),
       MusicBrainz(),
