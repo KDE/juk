@@ -1,0 +1,434 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>FileRenamerTagOptionsBase</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>FileRenamerTagOptionsBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>568</width>
+            <height>377</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>%1 Options</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>m_tagFormatGroup</cstring>
+            </property>
+            <property name="title">
+                <string>%1 Format</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>m_description</cstring>
+                    </property>
+                    <property name="text">
+                        <string>When using the file renamer your files will be renamed to the values that you have in your track's %1 tag, plus any additional text that you specify below.</string>
+                    </property>
+                    <property name="textFormat">
+                        <enum>RichText</enum>
+                    </property>
+                    <property name="alignment">
+                        <set>WordBreak|AlignCenter</set>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>m_tagLayout</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer1</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>m_prefixText</cstring>
+                            </property>
+                            <property name="alignment">
+                                <set>AlignRight</set>
+                            </property>
+                        </widget>
+                        <widget class="QLabel">
+                            <property name="name">
+                                <cstring>m_tagLabel</cstring>
+                            </property>
+                            <property name="text">
+                                <string>%1</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>m_suffixText</cstring>
+                            </property>
+                            <property name="alignment">
+                                <set>AlignLeft</set>
+                            </property>
+                        </widget>
+                        <spacer>
+                            <property name="name">
+                                <cstring>spacer1_2</cstring>
+                            </property>
+                            <property name="orientation">
+                                <enum>Horizontal</enum>
+                            </property>
+                            <property name="sizeType">
+                                <enum>Expanding</enum>
+                            </property>
+                            <property name="sizeHint">
+                                <size>
+                                    <width>40</width>
+                                    <height>20</height>
+                                </size>
+                            </property>
+                        </spacer>
+                    </hbox>
+                </widget>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>m_substitution</cstring>
+                    </property>
+                    <property name="font">
+                        <font>
+                            <italic>1</italic>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>Substitution Example</string>
+                    </property>
+                    <property name="alignment">
+                        <set>AlignCenter</set>
+                    </property>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QButtonGroup">
+            <property name="name">
+                <cstring>m_emptyTagGroup</cstring>
+            </property>
+            <property name="title">
+                <string>When the Track's %1 is Empty:</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>m_includeEmptyButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>Include in the &amp;filename anyways</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+F</string>
+                    </property>
+                </widget>
+                <widget class="QRadioButton">
+                    <property name="name">
+                        <cstring>m_ignoreTagButton</cstring>
+                    </property>
+                    <property name="text">
+                        <string>&amp;Ignore this tag when renaming the file</string>
+                    </property>
+                    <property name="accel">
+                        <string>Alt+I</string>
+                    </property>
+                    <property name="checked">
+                        <bool>true</bool>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>m_emptyValueLayout</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <widget class="QRadioButton">
+                            <property name="name">
+                                <cstring>m_useValueButton</cstring>
+                            </property>
+                            <property name="text">
+                                <string>Use &amp;this value:</string>
+                            </property>
+                            <property name="accel">
+                                <string>Alt+T</string>
+                            </property>
+                        </widget>
+                        <widget class="QLineEdit">
+                            <property name="name">
+                                <cstring>m_emptyTagValue</cstring>
+                            </property>
+                            <property name="enabled">
+                                <bool>false</bool>
+                            </property>
+                            <property name="text">
+                                <string>Empty</string>
+                            </property>
+                        </widget>
+                    </hbox>
+                </widget>
+            </vbox>
+        </widget>
+        <widget class="QGroupBox">
+            <property name="name">
+                <cstring>m_trackGroup</cstring>
+            </property>
+            <property name="title">
+                <string>Track Width Options</string>
+            </property>
+            <vbox>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QLabel">
+                    <property name="name">
+                        <cstring>textLabel10</cstring>
+                    </property>
+                    <property name="text">
+                        <string>JuK can force the track used in a file name to have a minimum number of digits.  You may want to do this for better sorting in file managers.</string>
+                    </property>
+                    <property name="textFormat">
+                        <enum>RichText</enum>
+                    </property>
+                    <property name="alignment">
+                        <set>WordBreak|AlignCenter</set>
+                    </property>
+                </widget>
+                <widget class="QLayoutWidget">
+                    <property name="name">
+                        <cstring>m_widthLayout</cstring>
+                    </property>
+                    <hbox>
+                        <property name="name">
+                            <cstring>unnamed</cstring>
+                        </property>
+                        <property name="margin">
+                            <number>0</number>
+                        </property>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>m_spinLayout</cstring>
+                            </property>
+                            <hbox>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <widget class="QLabel">
+                                    <property name="name">
+                                        <cstring>textLabel5</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>Minimum Track &amp;Width:</string>
+                                    </property>
+                                    <property name="buddy" stdset="0">
+                                        <cstring>m_trackWidth</cstring>
+                                    </property>
+                                </widget>
+                                <widget class="KIntSpinBox">
+                                    <property name="name">
+                                        <cstring>m_trackWidth</cstring>
+                                    </property>
+                                    <property name="specialValueText">
+                                        <string>None</string>
+                                    </property>
+                                    <property name="maxValue">
+                                        <number>6</number>
+                                    </property>
+                                    <property name="minValue">
+                                        <number>1</number>
+                                    </property>
+                                </widget>
+                            </hbox>
+                        </widget>
+                        <widget class="QLayoutWidget">
+                            <property name="name">
+                                <cstring>m_exampleLayout</cstring>
+                            </property>
+                            <grid>
+                                <property name="name">
+                                    <cstring>unnamed</cstring>
+                                </property>
+                                <property name="margin">
+                                    <number>0</number>
+                                </property>
+                                <widget class="QLabel" row="1" column="1">
+                                    <property name="name">
+                                        <cstring>m_doubleDigitExample</cstring>
+                                    </property>
+                                    <property name="font">
+                                        <font>
+                                            <italic>1</italic>
+                                        </font>
+                                    </property>
+                                    <property name="text">
+                                        <string>014</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="0" column="1">
+                                    <property name="name">
+                                        <cstring>m_singleDigitExample</cstring>
+                                    </property>
+                                    <property name="font">
+                                        <font>
+                                            <italic>1</italic>
+                                        </font>
+                                    </property>
+                                    <property name="text">
+                                        <string>003</string>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="0" column="0">
+                                    <property name="name">
+                                        <cstring>m_singleDigit</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>3 -&gt;</string>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>AlignVCenter|AlignRight</set>
+                                    </property>
+                                </widget>
+                                <widget class="QLabel" row="1" column="0">
+                                    <property name="name">
+                                        <cstring>m_doubleDigit</cstring>
+                                    </property>
+                                    <property name="text">
+                                        <string>14 -&gt;</string>
+                                    </property>
+                                    <property name="alignment">
+                                        <set>AlignVCenter|AlignRight</set>
+                                    </property>
+                                </widget>
+                            </grid>
+                        </widget>
+                    </hbox>
+                </widget>
+            </vbox>
+        </widget>
+        <spacer>
+            <property name="name">
+                <cstring>spacer6</cstring>
+            </property>
+            <property name="orientation">
+                <enum>Vertical</enum>
+            </property>
+            <property name="sizeType">
+                <enum>Expanding</enum>
+            </property>
+            <property name="sizeHint">
+                <size>
+                    <width>20</width>
+                    <height>0</height>
+                </size>
+            </property>
+        </spacer>
+    </vbox>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>m_useValueButton</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>m_emptyTagValue</receiver>
+        <slot>setEnabled(bool)</slot>
+    </connection>
+    <connection>
+        <sender>m_useValueButton</sender>
+        <signal>clicked()</signal>
+        <receiver>m_emptyTagValue</receiver>
+        <slot>setFocus()</slot>
+    </connection>
+    <connection>
+        <sender>m_trackWidth</sender>
+        <signal>valueChanged(int)</signal>
+        <receiver>FileRenamerTagOptionsBase</receiver>
+        <slot>slotTrackWidthChanged()</slot>
+    </connection>
+    <connection>
+        <sender>m_prefixText</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FileRenamerTagOptionsBase</receiver>
+        <slot>slotBracketsChanged()</slot>
+    </connection>
+    <connection>
+        <sender>m_suffixText</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FileRenamerTagOptionsBase</receiver>
+        <slot>slotBracketsChanged()</slot>
+    </connection>
+    <connection>
+        <sender>m_includeEmptyButton</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>FileRenamerTagOptionsBase</receiver>
+        <slot>slotEmptyActionChanged()</slot>
+    </connection>
+    <connection>
+        <sender>m_ignoreTagButton</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>FileRenamerTagOptionsBase</receiver>
+        <slot>slotEmptyActionChanged()</slot>
+    </connection>
+    <connection>
+        <sender>m_useValueButton</sender>
+        <signal>toggled(bool)</signal>
+        <receiver>FileRenamerTagOptionsBase</receiver>
+        <slot>slotEmptyActionChanged()</slot>
+    </connection>
+    <connection>
+        <sender>m_emptyTagValue</sender>
+        <signal>textChanged(const QString&amp;)</signal>
+        <receiver>FileRenamerTagOptionsBase</receiver>
+        <slot>slotEmptyActionChanged()</slot>
+    </connection>
+</connections>
+<slots>
+    <slot access="protected">slotBracketsChanged()</slot>
+    <slot access="protected">slotTrackWidthChanged()</slot>
+    <slot access="protected">slotEmptyActionChanged()</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>knuminput.h</includehint>
+</includehints>
+</UI>

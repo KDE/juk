@@ -1,7 +1,6 @@
 /***************************************************************************
-    begin                : Mon Nov 01 2004
+    begin                : Sun Oct 31 2004
     copyright            : (C) 2004 by Michael Pyne
-                         : (c) 2003 Frerich Raabe <raabe@kde.org>
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
@@ -14,26 +13,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_FILERENAMERCONFIGDLG_H
-#define JUK_FILERENAMERCONFIGDLG_H
+#include <qstring.h>
 
-#include <kdialogbase.h>
+#include "filerenameroptions.h"
+#include "categoryreaderinterface.h"
 
-class FileRenamerWidget;
-
-class FileRenamerConfigDlg : public KDialogBase
+QString CategoryReaderInterface::value(TagType category) const
 {
-    Q_OBJECT
-    public:
-    FileRenamerConfigDlg(QWidget *parent);
+    QString value = categoryValue(category).stripWhiteSpace();
 
-    protected slots:
-    virtual void accept();
+    if(value.isEmpty() && emptyAction(category) == TagRenamerOptions::UseReplacementValue)
+        value = emptyText(category);
 
-    private:
-    FileRenamerWidget *m_renamerWidget;
-};
+    return prefix(category) + value + suffix(category);
+}
 
-#endif // FILERENAMERCONFIGDLG_H
+bool CategoryReaderInterface::isRequired(TagType category) const
+{
+    return emptyAction(category) != TagRenamerOptions::IgnoreEmptyTag;
+}
 
-// vim: set et ts=4 sw=4:
+bool CategoryReaderInterface::isEmpty(TagType category) const
+{
+    return categoryValue(category).isEmpty();
+}
+
+// vim: set et sw=4 ts=4:

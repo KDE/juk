@@ -692,11 +692,7 @@ void Playlist::slotRenameFile()
 
     emit signalEnableDirWatch(false);
 
-    if(items.count() == 1)
-	renamer.rename(items[0]);
-    else
-	renamer.rename(items);
-
+    renamer.rename(items);
     dataChanged();
 
     emit signalEnableDirWatch(true);
