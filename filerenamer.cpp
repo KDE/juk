@@ -79,7 +79,7 @@ FileRenamer::FileRenamer()
 {
 }
 
-FileRenamer::FileRenamer(const PlaylistItem *item)
+FileRenamer::FileRenamer(PlaylistItem *item)
     : m_cfg(kapp->config())
 {
     rename(item);
@@ -103,7 +103,7 @@ QString FileRenamer::expandToken(TokenType type, const QString &value_) const
     return token;
 }
 
-void FileRenamer::rename(const PlaylistItem *item)
+void FileRenamer::rename(PlaylistItem *item)
 {
     if(item == 0 || item->tag() == 0)
         return;
@@ -114,13 +114,15 @@ void FileRenamer::rename(const PlaylistItem *item)
              "want to continue?</qt>").arg(item->absFilePath()).arg(newFilename),
               i18n("Warning"), KStdGuiItem::cont(), "ShowFileRenamerWarning")
        == KMessageBox::Continue) {
-        moveFile(item->absFilePath(), newFilename);
+        if(moveFile(item->absFilePath(), newFilename))
+            item->setFile(newFilename);
     }
 }
 
 void FileRenamer::rename(const PlaylistItemList &items)
 {
     QMap<QString, QString> map;
+    QMap<QString, PlaylistItem *> itemMap;
     QStringList filenames;
 
     PlaylistItemList::ConstIterator it = items.begin();
@@ -130,6 +132,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
         filenames += oldName;
         filenames += " => " + newName;
         map[oldName] = newName;
+        itemMap[oldName] = *it;
     }
 
     if(KMessageBox::warningContinueCancelList(0, i18n("You're about to "
@@ -140,7 +143,9 @@ void FileRenamer::rename(const PlaylistItemList &items)
         int j = 1;
         QMap<QString, QString>::ConstIterator it = map.begin();
         for(; it != map.end(); ++it, ++j) {
-            moveFile(it.key(), it.data());
+            if(moveFile(it.key(), it.data()))
+                itemMap[it.key()]->setFile(it.data());
+                
             if(j % 5 == 0)
                 kapp->processEvents();
         }
@@ -170,12 +175,12 @@ QString FileRenamer::rename(const QString &filename, const Tag &tag) const
     return newFilename;
 }
 
-void FileRenamer::moveFile(const QString &src, const QString &dest)
+bool FileRenamer::moveFile(const QString &src, const QString &dest)
 {
     kdDebug(65432) << "Moving file " << src << " to " << dest << endl;
 
     if(src == dest)
-        return;
+        return false;
 
     QString dest_ = dest.mid(1); // strip the leading "/"
     if(dest_.find("/") > 0) {
@@ -197,21 +202,25 @@ void FileRenamer::moveFile(const QString &src, const QString &dest)
     QFile srcFile(src);
     if(!srcFile.open(IO_ReadOnly)) {
         KMessageBox::error(0, i18n("Could not open %1 for reading.").arg(src));
-        return;
+        return false;
     }
 
     QFile destFile(dest);
     if(!destFile.open(IO_WriteOnly)) {
         KMessageBox::error(0, i18n("Could not open %1 for writing.").arg(dest));
-        return;
+        return false;
     }
 
     destFile.writeBlock(srcFile.readAll());
 
-    if(!srcFile.remove())
+    if(!srcFile.remove()) {
         KMessageBox::sorry(0, i18n("Renamed the file, but failed the source "
                                       "file %1. You might want to do so by "
                                       "hand.").arg(src));
+        return false;
+    }
+
+    return true;
 }
 
 // vim:ts=4:sw=4:et

@@ -42,15 +42,19 @@ class FileRenamer
 		static QString tokenToString(TokenType type);
 
 		FileRenamer();
-		FileRenamer(const PlaylistItem *item);
+		FileRenamer(PlaylistItem *item);
 
-		void rename(const PlaylistItem *item);
+		void rename(PlaylistItem *item);
 		void rename(const PlaylistItemList &items);
 		QString rename(const QString &filename, const Tag &tag) const;
 
 	private:
 		QString expandToken(TokenType type, const QString &value) const;
-		void moveFile(const QString &src, const QString &dest);
+		/**
+		 * Attempts to rename the file from \a src to \a dest.  Returns true
+		 * if the operation succeeded.
+		 */
+		bool moveFile(const QString &src, const QString &dest);
 
 		Config m_cfg;
 };
