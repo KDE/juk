@@ -25,6 +25,7 @@
 #include <qfileinfo.h>
 #include <qobject.h>
 #include <qptrstack.h>
+#include <qvaluevector.h>
 
 #include "musicbrainzquery.h"
 #include "tagguesser.h"
@@ -183,6 +184,10 @@ public:
 
     QString absFilePath() const { return m_absFileName; }
 
+    void resizeLower(int size) { m_lower.resize(size); }
+    void setLower(int column, const QString &value) { m_lower[column] = value; }
+    QString lower(int column) const { return m_lower[column]; }
+
 protected:
     /**
      * Because we're trying to use this as a shared item, we want all access
@@ -199,6 +204,7 @@ private:
     int m_referenceCount;
     Tag *m_dataTag;
     QString m_absFileName;
+    QValueVector<QString> m_lower;
 };
 
 #endif

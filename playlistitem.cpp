@@ -231,7 +231,7 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
     }
 }
 
-int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const
+int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool) const
 {
 
     // Try some very basic caching for "two in a row" searches.  From what I've
@@ -278,7 +278,7 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
 	}
     }
     else {
-	previousResult = firstItem->key(column, ascending).lower().localeAwareCompare(secondItem->key(column, ascending).lower());
+	previousResult = firstItem->data()->lower(column).localeAwareCompare(secondItem->data()->lower(column));
         return previousResult;
     }
 }
@@ -315,6 +315,11 @@ void PlaylistItem::slotRefreshImpl()
 	shortComment = shortComment.left(47) + "...";
 
     setText(CommentColumn + offset,     shortComment);
+
+    int columns = listView()->columns();
+    m_data->resizeLower(columns);
+    for(int i = 0; i < columns; i++)
+	m_data->setLower(i, text(i).lower());
 }
 
 void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
