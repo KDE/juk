@@ -241,8 +241,8 @@ CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &pat
 	    kdError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
     }
     else
-	kdError() << "CollectionListItems should not be created before "
-		  << "CollectionList::initialize() has been called." << endl;
+	kdError(65432) << "CollectionListItems should not be created before "
+		       << "CollectionList::initialize() has been called." << endl;
 
     SplashScreen::increment();
 }
