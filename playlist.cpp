@@ -1276,7 +1276,7 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current) const
 				 QListViewItemIterator::Visible);
 	if(!it.current()) {
 	    it = QListViewItemIterator(const_cast<Playlist *>(this),
-				       QListViewItemIterator::Selected);
+				       QListViewItemIterator::Visible);
 	}
 	return static_cast<PlaylistItem *>(it.current());
     }
