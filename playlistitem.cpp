@@ -260,6 +260,12 @@ void PlaylistItem::slotRefreshImpl()
     setText(YearColumn,        tag()->yearString());
     setText(LengthColumn,      tag()->lengthString());
     setText(FileNameColumn,    filePath());
+    
+    QString shortComment = tag()->comment().simplifyWhiteSpace();
+    if(shortComment.length() > 50)
+	shortComment = shortComment.left(47) + "...";
+    
+    setText(CommentColumn,     shortComment);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -657,6 +657,7 @@ void Playlist::setup()
     addColumn(i18n("Genre"));
     addColumn(i18n("Year"));
     addColumn(i18n("Length"));
+    addColumn(i18n("Comment"));
     addColumn(i18n("File Name"));
 
     // These settings aren't really respected in KDE < 3.1.1, fixed in CVS
@@ -696,6 +697,13 @@ void Playlist::setup()
     }
 
     connect(m_headerMenu, SIGNAL(activated(int)), this, SLOT(slotToggleColumnVisible(int)));
+
+    //////////////////////////////////////////////////
+    // hide some columns by default
+    //////////////////////////////////////////////////
+
+    hideColumn(PlaylistItem::CommentColumn);
+    hideColumn(PlaylistItem::FileNameColumn);
 
     //////////////////////////////////////////////////
     // setup playlist RMB menu

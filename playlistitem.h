@@ -60,7 +60,8 @@ class PlaylistItem : public QObject, public KListViewItem
 
 public:
     enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3,
-                      GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
+                      GenreColumn = 4, YearColumn = 5, LengthColumn = 6, CommentColumn = 7,
+		      FileNameColumn = 8 };
 
     static int lastColumn() { return FileNameColumn; }
 
