@@ -110,6 +110,7 @@ private slots:
     void slotToggleSystemTray(bool enabled);
     void slotSetOutput(int output);
     void slotEditKeys();
+    void slotConfigureTagGuesser();
 
     // additional player slots
     void slotTrackPositionSliderClicked();

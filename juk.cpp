@@ -39,6 +39,7 @@
 #include "genrelisteditor.h"
 #include "systemtray.h"
 #include "keydialog.h"
+#include "tagguesserconfigdlg.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -160,6 +161,8 @@ void JuK::setupActions()
 	m_outputSelectAction->setCurrentItem(0);
 	connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
     }
+
+    new KAction(i18n("Tag Guesser..."), "tagGuesserConfig", 0, this, SLOT(slotConfigureTagGuesser()), actionCollection(), "tagGuesserConfig");
 
     KStdAction::keyBindings(this, SLOT(slotEditKeys()), actionCollection());
 
@@ -711,6 +714,12 @@ void JuK::slotSetVolume(int volume)
     {
         m_player->setVolume(float(volume) / float(m_sliderAction->getVolumeSlider()->maxValue()));
     }
+}
+
+void JuK::slotConfigureTagGuesser()
+{
+    TagGuesserConfigDlg dlg(this);
+    dlg.exec();
 }
 
 #include "juk.moc"
