@@ -63,7 +63,7 @@
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%c&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the comment as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is a comment specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is a comment specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="2" column="1">
@@ -76,7 +76,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%t&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the title as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is a title specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is a title specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="3" column="0">
@@ -95,7 +95,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%a&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the artist name as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is an artist specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is an artist specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="5" column="0">
@@ -114,7 +114,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%T&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the track number as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is a track number specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is a track number specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="4" column="1">
@@ -127,7 +127,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%A&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the album name as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is an album name specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is an album name specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="2" column="0">
@@ -146,7 +146,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%t&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the title as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is a title specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is a title specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="3" column="1">
@@ -159,7 +159,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%a&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the artist name as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is an artist specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is an artist specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="6" column="1">
@@ -172,7 +172,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%c&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the comment as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is a comment specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is a comment specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="KLineEdit" row="5" column="1">
@@ -185,7 +185,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%T&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the track number as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is a track number specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is a track number specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="QLabel" row="4" column="0">
@@ -204,7 +204,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                     <property name="whatsThis" stdset="0">
                         <string>&lt;qt&gt;Here you can specify the token with which the &lt;b&gt;%A&lt;/b&gt; placeholder in the filename scheme will be expanded with. As with all the token strings in this dialog, you will probably want to use the &lt;b&gt;%s&lt;/b&gt; placeholder here, which will get replaced with the album name as specified in the metadata tag of a music file.&lt;br/&gt;
 &lt;br/&gt;
-You can also check the checkbox at the right labelled "Need value" to indicate that this token should only be used if there is an album name specified in the metadata tag.&lt;/qt&gt;</string>
+You can also check the checkbox at the right labeled "Need value" to indicate that this token should only be used if there is an album name specified in the metadata tag.&lt;/qt&gt;</string>
                     </property>
                 </widget>
                 <widget class="QCheckBox" row="2" column="2">
