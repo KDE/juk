@@ -327,34 +327,15 @@ QStringList Playlist::files()
 
 PlaylistItemList Playlist::items()
 {
-    PlaylistItemList list;
-
-    for(QListViewItemIterator it(this); it.current(); ++it)
-	list.append(static_cast<PlaylistItem *>(it.current()));
-
-    return list;
+    return items(QListViewItemIterator::IteratorFlag(0));
 }
 
-PlaylistItemList Playlist::visibleItems() const
+PlaylistItemList Playlist::visibleItems()
 {
-    PlaylistItemList list;
-    PlaylistItem *i = static_cast<PlaylistItem *>(firstChild());
-    for(; i; i = static_cast<PlaylistItem *>(i->itemBelow())) {
-
-        // This check should be removed at some point since those items should 
-	// all be already visible at the time of writing there's a bug that 
-	// leaves some invisible items in the list
-
-        if(i->isVisible())
-            list.append(i);
-        else
-            kdDebug(65432) << "File shouldn't be in the list" << i->fileName() << endl;
-    }
-
-    return list;
+    return items(QListViewItemIterator::Visible);
 }
 
-PlaylistItemList Playlist::selectedItems() const
+PlaylistItemList Playlist::selectedItems()
 {
     PlaylistItemList list;
 
@@ -365,13 +346,7 @@ PlaylistItemList Playlist::selectedItems() const
 	list.append(m_lastSelected);
 	break;
     default:
-	for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild());
-	    i; 
-	    i = static_cast<PlaylistItem *>(i->itemBelow()))
-	{
-	    if(i->isSelected())
-		list.append(i);
-	}
+	list = items(QListViewItemIterator::Selected);
 	break;
     }
 
@@ -1008,6 +983,16 @@ int Playlist::leftMostVisibleColumn() const
 	i++;
 
     return header()->mapToSection(i);
+}
+
+PlaylistItemList Playlist::items(QListViewItemIterator::IteratorFlag flags)
+{
+    PlaylistItemList list;
+
+    for(QListViewItemIterator it(this, flags); it.current(); ++it)
+	list.append(static_cast<PlaylistItem *>(it.current()));
+
+    return list;
 }
 
 void Playlist::calculateColumnWeights()

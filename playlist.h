@@ -110,12 +110,12 @@ public:
     /**
      * Returns a list of all of the items in the playlist.
      */
-    PlaylistItemList visibleItems() const;
+    PlaylistItemList visibleItems();
 
     /**
      * Returns a list of the currently selected items.
      */
-    PlaylistItemList selectedItems() const;
+    PlaylistItemList selectedItems();
 
     /**
      * Returns a list of the last 10 played items.
@@ -477,6 +477,16 @@ private:
      * \see isColumnVisible()
      */
     int leftMostVisibleColumn() const;
+
+    /**
+     * This method is used internally to provide the backend to the other item
+     * lists.
+     *
+     * \see items()
+     * \see visibleItems()
+     * \see selectedItems()
+     */
+    PlaylistItemList items(QListViewItemIterator::IteratorFlag flags);
 
     /**
      * Build the column "weights" for the weighted width mode.
