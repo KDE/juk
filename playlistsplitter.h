@@ -171,7 +171,7 @@ public slots:
 // Tagger slots
 
     void slotSaveTag() { m_editor->save(); }
-    void slotGuessTagInfo() { m_editor->slotGuessTagInfo(); }
+    void slotGuessTagInfo();
 
 // Playlist slots
 

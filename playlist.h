@@ -146,6 +146,8 @@ public slots:
     virtual void clear();
     virtual void selectAll() { KListView::selectAll(true); }
 
+    void slotGuessTagInfo();
+
 protected:
     /**
      * Remove \a items from the playlist and disk.  This will ignore items that

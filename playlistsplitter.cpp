@@ -336,6 +336,13 @@ void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *lis
 	m_editor->slotUpdateCollection();
 }
 
+void PlaylistSplitter::slotGuessTagInfo()
+{
+    visiblePlaylist()->slotGuessTagInfo();
+    if(m_editor)
+        m_editor->slotRefresh();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////

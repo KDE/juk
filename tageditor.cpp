@@ -33,7 +33,6 @@
 
 #include "tageditor.h"
 #include "tag.h"
-#include "tagguesser.h"
 #include "collectionlist.h"
 #include "genrelistlist.h"
 
@@ -238,28 +237,6 @@ void TagEditor::slotUpdateCollection()
         m_albumNameBox->listBox()->insertStringList(albumList);
 	m_albumNameBox->completionObject()->setItems(albumList);
     }    
-}
-
-void TagEditor::slotGuessTagInfo()
-{
-    PlaylistItem *item = m_items.getFirst();
-    if(!item)
-        return;
-
-    Tag *tag = item->tag();
-    Q_ASSERT(tag);
-    TagGuesser guesser(tag->absFilePath());
-
-    if(!guesser.title().isNull())
-        m_trackNameBox->setText(guesser.title());
-    if(!guesser.artist().isNull())
-        m_artistNameBox->setEditText(guesser.artist());
-    if(!guesser.album().isNull())
-        m_albumNameBox->setEditText(guesser.album());
-    if(!guesser.track().isNull())
-        m_trackSpin->setValue(guesser.track().toInt());
-    if(!guesser.comment().isNull())
-        m_commentBox->setText(guesser.comment());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

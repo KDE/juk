@@ -425,6 +425,13 @@ void Playlist::clear()
     clearItems(selectedItems());
 }
 
+void Playlist::slotGuessTagInfo()
+{
+    PlaylistItemList items = selectedItems();
+    for(PlaylistItem *item = items.first(); item != 0; item = items.next())
+        item->guessTagInfo();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
 ////////////////////////////////////////////////////////////////////////////////

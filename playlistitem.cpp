@@ -17,6 +17,7 @@
 
 #include <kdebug.h>
 
+#include "tagguesser.h"
 #include "playlistitem.h"
 #include "playlist.h"
 #include "collectionlist.h"
@@ -36,7 +37,12 @@ void PlaylistItem::setFile(const QString &file)
     slotRefresh();
 }
 
-Tag *PlaylistItem::tag() const
+Tag *PlaylistItem::tag()
+{
+    return m_data->tag();
+}
+
+const Tag *PlaylistItem::tag() const
 {
     return m_data->tag();
 }
@@ -67,6 +73,24 @@ QString PlaylistItem::dirPath(bool absPath) const
 bool PlaylistItem::isWritable() const 
 {
     return m_data->fileInfo()->isWritable();
+}
+
+void PlaylistItem::guessTagInfo()
+{
+    TagGuesser guesser(tag()->absFilePath());
+
+    if(!guesser.title().isNull())
+        tag()->setTrack(guesser.title());
+    if(!guesser.artist().isNull())
+        tag()->setArtist(guesser.artist());
+    if(!guesser.album().isNull())
+        tag()->setAlbum(guesser.album());
+    if(!guesser.track().isNull())
+        tag()->setTrackNumber(guesser.track().toInt());
+    if(!guesser.comment().isNull())
+        tag()->setComment(guesser.comment());
+
+    slotRefresh();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -285,7 +309,12 @@ void PlaylistItem::Data::deleteUser()
         delete this;
 }
 
-Tag *PlaylistItem::Data::tag() const
+Tag *PlaylistItem::Data::tag()
+{
+    return m_dataTag;
+}
+
+const Tag *PlaylistItem::Data::tag() const
 {
     return m_dataTag;
 }

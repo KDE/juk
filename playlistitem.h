@@ -65,7 +65,8 @@ public:
     static int lastColumn() { return FileNameColumn; }
 
     void setFile(const QString &file);
-    Tag *tag() const;
+    Tag *tag();
+    const Tag *tag() const;
 
 
     // These are just forwarding methods to PlaylistItem::Data, a QFileInfo 
@@ -77,6 +78,8 @@ public:
     QString dirPath(bool absPath = false) const;
     bool isWritable() const;
     void setPlaying(bool playing = true) { m_playing = playing; }
+
+    void guessTagInfo();
 
 public slots:
     /**
@@ -152,7 +155,8 @@ public:
 
     void refresh();
 
-    Tag *tag() const;
+    Tag *tag();
+    const Tag *tag() const;
 
     void setFile(const QString &file);
     bool isFile() const { return m_fileInfo.isFile(); }

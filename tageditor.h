@@ -48,7 +48,6 @@ public slots:
     void slotRefresh();
     void slotClear();
     void slotUpdateCollection();
-    void slotGuessTagInfo();
    
 private:
     void setupLayout();
