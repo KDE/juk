@@ -71,6 +71,10 @@ public:
     virtual void mousePressEvent(QMouseEvent *event);
     virtual bool eventFilter(QObject *object, QEvent *event);
 
+protected:
+    virtual void dragEnterEvent(QDragEnterEvent *e);
+    virtual void dropEvent(QDropEvent *e);
+
 private:
     FileHandle m_file;
     QWidget *m_popup;

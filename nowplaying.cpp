@@ -16,9 +16,14 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kurldrag.h>
+#include <kio/netaccess.h>
 
 #include <qimage.h>
 #include <qlayout.h>
+#include <qevent.h>
+#include <qdragobject.h>
+#include <qimage.h>
 
 #include "nowplaying.h"
 #include "playermanager.h"
@@ -107,6 +112,7 @@ CoverItem::CoverItem(NowPlaying *parent) :
     setFrameStyle(Box | Plain);
     setLineWidth(1);
     setMargin(1);
+    setAcceptDrops(true);
 }
 
 void CoverItem::update(const FileHandle &file)
@@ -149,6 +155,38 @@ bool CoverItem::eventFilter(QObject *object, QEvent *event)
     }
         
     return QLabel::eventFilter(object, event);
+}
+
+void CoverItem::dragEnterEvent(QDragEnterEvent *e)
+{
+    e->accept(QImageDrag::canDecode(e) || KURLDrag::canDecode(e));
+}
+
+void CoverItem::dropEvent(QDropEvent *e)
+{
+    QImage image;
+    KURL::List urls;
+
+    if(QImageDrag::decode(e, image)) {
+        m_file.coverInfo()->setCover(image);
+        update(m_file);
+    }
+    else if(KURLDrag::decode(e, urls)) {
+        QString fileName;
+
+        if(KIO::NetAccess::download(urls.front(), fileName, this)) {
+            if(image.load(fileName)) {
+                m_file.coverInfo()->setCover(image);
+                update(m_file);
+            }
+            else
+                kdError(65432) << "Unable to load image from " << urls.front() << endl;
+
+            KIO::NetAccess::removeTempFile(fileName);
+        }
+        else
+            kdError(65432) << "Unable to download " << urls.front() << endl;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -240,3 +278,5 @@ void HistoryItem::update(const FileHandle &file)
 }
 
 #include "nowplaying.moc"
+
+// vim: set et sw=4 ts=8:
