@@ -305,7 +305,17 @@ private:
     void redisplaySearch();
 
 private slots:
+
+    /**
+     * This slot is called when the user selects a different playlist or list of
+     * playlists.  To make things easy, it is always handled as a list.
+     */
     void slotChangePlaylist(const PlaylistList &l);
+
+    /**
+     * This slot is called when the total numbers in the playlist splitter has
+     * changed.
+     */
     void slotPlaylistCountChanged(Playlist *p);
     /**
      * Add a directory to the directory list queue.  We need to queue these
@@ -324,12 +334,38 @@ private slots:
      */
     void slotPlaylistItemRemoved(PlaylistItem *item);
 
+    /**
+     * Scans the dirs in the users music directory list and makes sure that they
+     * are loaded and current (i.e. the cache is in sync with the file system).
+     */
     void slotScanDirectories() { open(m_directoryList); }
     void slotSetNextItem(PlaylistItem *item = 0) { m_nextPlaylistItem = item; }
+
+    /**
+     * This slot is called when a change in the contents of one of the dirs in
+     * the user's set of music dirs has had items added or removed.
+     */
     void slotDirChanged(const QString &dir) { slotAddToPlaylist(dir, m_collection); }
+
+    /**
+     * This slot creates a playlist that contains the listed items.  It is
+     * private since we want to encapsulate the PlaylistItem handling.
+     */
     void slotCreatePlaylist(const PlaylistItemList &items);
+
+    /**
+     * Updates the visible search results based on the result of the search
+     * associated with the currently visible playlist.
+     */
     void slotShowSearchResults();
+    /**
+     * This slot is called when the set of visible playlist columns changes.
+     */
     void slotVisibleColumnsChanged();
+
+    /**
+     * Create a search list based on the specified search.
+     */
     void slotCreateSearchList(const PlaylistSearch &search, const QString &searchCategory,
 			      const QString &name);
 
