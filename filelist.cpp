@@ -88,6 +88,7 @@ void FileList::remove(QPtrList<QListViewItem> *items)
 {
   QPtrListIterator<QListViewItem> it(*items);
   while(it.current()) {
+    members.remove(static_cast<FileListItem *>(it.current())->absFilePath());
     delete(it.current());    
     ++it;
   }

@@ -217,7 +217,7 @@ void JuK::addToPlaylist()
 
 void JuK::removeFromPlaylist()
 {
-
+  playlist->remove(playlist->getSelectedItems());
 }
 
 void JuK::playFile()
