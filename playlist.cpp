@@ -384,31 +384,31 @@ PlaylistItemList Playlist::historyItems(PlaylistItem *current, bool random) cons
 
 PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 {
-    if(!current)
-	return 0;
-
     PlaylistItem *i;
 
     if(random) {
-        if(m_randomList.count() <= 1 || m_visibleChanged) {
-            m_randomList = visibleItems();
-            m_visibleChanged = false; // got the change
-        }
+	if(m_randomList.count() <= 1 || m_visibleChanged) {
+	    m_randomList = visibleItems();
+	    m_visibleChanged = false; // got the change
+	}
 
-        m_randomList.remove(current);
-
-        m_history.append(current);
+	if(current) {
+	    m_randomList.remove(current);
+	    m_history.append(current);
+	}
 
         i = current;
-        if(!m_randomList.isEmpty()) {
+	if(!m_randomList.isEmpty()) {
 	    while(i == current)
 		i = m_randomList[KApplication::random() % m_randomList.count()];
 	}
     }
-    else
-    {
+    else {
         m_history.clear();
-	i = static_cast<PlaylistItem *>(current->itemBelow());
+	if(current)
+	    i = static_cast<PlaylistItem *>(current->itemBelow());
+	else
+	    i = static_cast<PlaylistItem *>(firstChild());
     }
 
     return i;

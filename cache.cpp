@@ -36,7 +36,7 @@ Cache *Cache::m_cache = 0;
 Cache *Cache::instance()
 {
     if(m_cache == 0) {
-	m_cache = new Cache();
+	m_cache = new Cache;
 	m_cache->load();
     }
     return m_cache;

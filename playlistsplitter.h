@@ -147,6 +147,9 @@ public:
      */
     bool dynamicListSelected() { return m_dynamicList && visiblePlaylist() == m_dynamicList; }
 
+    /**
+     * Returns true if the playlist selection widget has a currently selected item.
+     */
     bool hasListSelected() const { return m_playlistBox->hasSelection(); }
 
     /**
