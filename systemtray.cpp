@@ -177,16 +177,12 @@ void SystemTray::wheelEvent(QWheelEvent *e)
     // that a reinterpret_cast isn't portable when combined with multiple
     // inheritance.  (This is why I don't check the result.)
 
-    JuK *juk = dynamic_cast<JuK *>(parent());
-
     switch(e->state()) {
     case ShiftButton:
-        if(juk) {
-            if(e->delta() > 0)
-                juk->volumeUp();
-            else
-                juk->volumeDown();
-        }
+	if(e->delta() > 0)
+	    action("volumeUp")->activate();
+	else
+	    action("volumeDown")->activate();
         break;
     default:
         if(e->delta() > 0)

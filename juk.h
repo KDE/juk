@@ -46,13 +46,6 @@ public:
 public slots:
     void back(int howMany = 0);
     void slotPopulateBackMenu();
-    void forward();
-    void seekBack();
-    void seekForward();
-
-    void volumeUp();
-    void volumeDown();
-    void volumeMute();
 
 signals:
     void signalEdit();
@@ -88,19 +81,6 @@ private:
     virtual bool queryClose();
 
     QString playingString() const;
-
-    int currentTime() const { return m_player->currentTime(); }
-    int totalTime() const { return m_player->totalTime(); }
-
-    /**
-     * Set the volume.  100 is the maximum.
-     */
-    void setVolume(float volume);
-
-    /**
-     * Set the position in the currently playing track (in seconds).
-     */
-    void setTime(int time);
 
     void updatePlaylistInfo();
 
@@ -154,31 +134,25 @@ private:
     QValueList<SplitterConnection> m_splitterConnections;
 
     // actions
+    SliderAction *m_sliderAction;
     KToggleAction *m_showSearchAction;
     KToggleAction *m_showEditorAction;
     KToggleAction *m_showHistoryAction;
-    SliderAction *m_sliderAction;
     KToggleAction *m_randomPlayAction;
     KToggleAction *m_toggleSystemTrayAction;
     KToggleAction *m_toggleDockOnCloseAction;
     KToggleAction *m_togglePopupsAction;
     KToggleAction *m_toggleSplashAction;
-    KSelectAction *m_outputSelectAction;
-    KActionMenu *m_guessMenu;
-
-    KToolBarPopupAction *m_backAction;
     KToggleAction *m_loopPlaylistAction;
+    KSelectAction *m_outputSelectAction;
+    KToolBarPopupAction *m_backAction;
 
     PlayerManager *m_player;
     KGlobalAccel *m_accel;
 
-    bool m_noSeek;
     bool m_startDocked;
     bool m_showSplash;
     bool m_shuttingDown;
-    bool m_muted;
-
-    static const int m_pollInterval = 800;
 };
 
 #endif

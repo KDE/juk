@@ -51,7 +51,7 @@ public:
      * This is a member function, provided to create a global accelerator with
      * standard keys. It behaves like the function in KGlobalAccel.
      */
-    static void insert(KGlobalAccel *keys, const QString& action, const QString& label,
+    static void insert(KGlobalAccel *keys, const QString &action, const QString &label,
                        const QObject *objSlot, const char *methodSlot);
 
 private:

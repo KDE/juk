@@ -42,7 +42,8 @@ PlayerManager::PlayerManager() :
     m_statusLabel(0),
     m_player(0),
     m_timer(0),
-    m_noSeek(false)
+    m_noSeek(false),
+    m_muted(false)
 {
     setup();
 }
@@ -133,8 +134,10 @@ void PlayerManager::play(const QString &fileName)
     if(fileName.isNull()) {
 	if(player()->paused())
             player()->play();
-        else if(player()->playing())
+        else if(player()->playing()) {
+	    m_sliderAction->trackPositionSlider()->setValue(0);
             player()->seekPosition(0);
+	}
         else {
             QString file = m_playlistInterface->currentFile();
             if(!file.isNull())
@@ -156,7 +159,6 @@ void PlayerManager::play(const QString &fileName)
     action("forward")->setEnabled(true);
     action("back")->setEnabled(true);
 
-    m_sliderAction->trackPositionSlider()->setValue(0);
     m_sliderAction->trackPositionSlider()->setEnabled(true);
 
     m_timer->start(m_pollInterval);
@@ -224,6 +226,19 @@ void PlayerManager::seekPosition(int position)
 
     slotUpdateTime(position);
     player()->seekPosition(position);
+    m_sliderAction->trackPositionSlider()->setValue(position);
+}
+
+void PlayerManager::seekForward()
+{
+    int position = m_sliderAction->trackPositionSlider()->value();
+    seekPosition(kMin(m_sliderAction->trackPositionSlider()->maxValue(), position + 10));
+}
+
+void PlayerManager::seekBack()
+{
+    int position = m_sliderAction->trackPositionSlider()->value();
+    seekPosition(kMax(m_sliderAction->trackPositionSlider()->minValue(), position - 10));
 }
 
 void PlayerManager::playPause()
@@ -247,6 +262,39 @@ void PlayerManager::back()
         play(file);
     else
         stop();
+}
+
+void PlayerManager::volumeUp()
+{
+    if(!m_player || !m_sliderAction)
+	return;
+
+    int volume = m_sliderAction->volumeSlider()->value() +
+	m_sliderAction->volumeSlider()->maxValue() / 25; // 4% up
+
+    slotSetVolume(volume);
+    m_sliderAction->volumeSlider()->setValue(volume);
+}
+
+void PlayerManager::volumeDown()
+{
+    if(!m_player || !m_sliderAction)
+	return;
+
+    int volume = m_sliderAction->volumeSlider()->value() -
+	m_sliderAction->volumeSlider()->maxValue() / 25; // 4% down
+
+    slotSetVolume(volume);
+    m_sliderAction->volumeSlider()->setValue(volume);
+}
+
+void PlayerManager::mute()
+{
+    if(!m_player || !m_sliderAction)
+        return;
+
+    slotSetVolume(m_muted ? m_sliderAction->volumeSlider()->value() : 0);
+    m_muted = !m_muted;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -373,7 +421,7 @@ void PlayerManager::setup()
 
     float volume =
         float(m_sliderAction->volumeSlider()->value()) /
-	float(m_sliderAction->volumeSlider()->maxValue());
+        float(m_sliderAction->volumeSlider()->maxValue());
 
     m_player->setVolume(volume);
 

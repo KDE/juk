@@ -53,6 +53,9 @@ public:
     void setStatusLabel(StatusLabel *label);
 
 public slots:
+
+    // implementations of the player interface
+
     virtual void play(const QString &fileName = QString::null);
     virtual void pause();
     virtual void stop();
@@ -60,12 +63,16 @@ public slots:
     virtual void seek(long seekTime);
     virtual void seekPosition(int position);
 
-    void playPause();
+    // additional slots
 
+    void seekForward();
+    void seekBack();
+    void playPause();
     void forward();
     void back();
-
-    void slotSetVolume(int volume); // TODO: make private
+    void volumeUp();
+    void volumeDown();
+    void mute();
 
 private:
     Player *player() const;
@@ -75,6 +82,7 @@ private slots:
     void slotPollPlay();
     void slotUpdateTime(int position);
     void slotSetOutput(int system);
+    void slotSetVolume(int volume); // TODO: make private
 
 private:
     static PlayerManager *m_instance;
@@ -85,6 +93,7 @@ private:
     Player *m_player;
     QTimer *m_timer;
     bool m_noSeek;
+    bool m_muted;
 
     static const int m_pollInterval = 800;
 };
