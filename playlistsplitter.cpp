@@ -401,8 +401,13 @@ void PlaylistSplitter::slotAdvancedSearch()
 {
     AdvancedSearchDialog *d =
 	new AdvancedSearchDialog(uniquePlaylistName(i18n("Search Playlist")), this);
-    d->exec();
+    AdvancedSearchDialog::Result r = d->exec();
     delete d;
+
+    if(r.result == AdvancedSearchDialog::Accepted) {
+	SearchPlaylist *p = new SearchPlaylist(r.search, m_playlistStack, r.playlistName);
+	setupPlaylist(p, true, "find");
+    }
 }
 
 void PlaylistSplitter::slotGuessTagInfo(TagGuesser::Type type)

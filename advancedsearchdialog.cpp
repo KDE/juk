@@ -86,6 +86,7 @@ AdvancedSearchDialog::Result AdvancedSearchDialog::exec()
     Result r;
     r.result = DialogCode(KDialogBase::exec());
     r.search = m_search;
+    r.playlistName = m_playlistName;
     return r;
 }
 
