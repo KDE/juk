@@ -48,7 +48,7 @@ int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", I18N_NOOP("JuK"),
                          "2.0", description, KAboutData::License_GPL,
-                         "(c) 2002, 2003, Scott Wheeler", 0, "http://www.slackorama.net/oss/juk/");
+                         "(c) 2002, 2003, Scott Wheeler", 0, "");
 
     aboutData.addAuthor("Scott Wheeler", scott, "wheeler@kde.org");
     aboutData.addCredit("Daniel Molkentin", daniel, "molkentin@kde.org");
@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 
     // Here we do some DCOP locking of sorts to prevent incoming DCOP calls
     // before JuK has finished its initialization.
-    
+
     a.dcopClient()->suspend();
     JuK *juk = new JuK();
     a.dcopClient()->resume();
