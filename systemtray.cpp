@@ -29,6 +29,8 @@
 #include <qtooltip.h>
 #include <qvaluevector.h>
 
+#include <netwm.h>
+
 #include "tag.h"
 #include "systemtray.h"
 #include "actioncollection.h"
@@ -239,16 +241,19 @@ void SystemTray::createPopup()
 
 bool SystemTray::buttonsToLeft() const
 {
-    QPoint center = mapToGlobal(geometry().center());
     QRect bounds = KGlobalSettings::desktopGeometry(center);
     int middle = bounds.center().x();
 
-    kdDebug() << "Current geometry is " << geometry() << endl;
-    kdDebug() << "Current global position is " << mapToGlobal(pos()) << endl;
+    // The following code was nicked from kpassivepopup.cpp
 
+    NETWinInfo ni(qt_xdisplay(), winId(), qt_xrootwin(), 
+                  NET::WMIconGeometry | NET::WMKDESystemTrayWinFor);
+    NETRect frame, win;
+    ni.kdeGeometry(frame, win);
+    
     // This seems to accurately guess what side of the icon that
     // KPassivePopup will popup on.
-    return((center.x() - (width() / 2)) < middle);
+    return(win.pos.x < middle);
 }
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
