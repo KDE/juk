@@ -140,7 +140,7 @@ void PlaylistCollection::removeTrack(const QString &playlist, const QStringList 
     PlaylistItemList itemList;
     if(!p)
         return;
-    
+
     QStringList::ConstIterator it;
     for(it = files.begin(); it != files.end(); ++it) {
         CollectionListItem *item = CollectionList::instance()->lookup(*it);
@@ -193,7 +193,7 @@ void PlaylistCollection::open(const QStringList &l)
     if(files.isEmpty())
         files = MediaFiles::openDialog(widget);
 
-    
+
     if(currentPlaylist() == CollectionList::instance() ||
        KMessageBox::questionYesNo(
            widget,
@@ -507,7 +507,7 @@ Playlist *PlaylistCollection::playlistByName(const QString &name) const
     QObjectList *l = m_playlistStack->queryList("Playlist");
     Playlist *list = 0;
     QObject *obj;
-    
+
     for(obj = l->first(); obj; obj = l->next()) {
         Playlist *p = static_cast<Playlist*>(obj);
         if(p->name() == name) {
@@ -578,12 +578,12 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu = new KActionMenu(i18n("&Guess Tag Information"), QString::null, actions(), "guessTag");
     menu->setIconSet(SmallIconSet("wizard"));
 
-    menu->insert(createAction(i18n("From &Filename"), SLOT(slotGuessTagFromFile()),
+    menu->insert(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
                               "guessTagFile", "fileimport", "CTRL+g"));
     menu->insert(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
                               "guessTagInternet", "connect_established", "CTRL+i"));
 #else
-    createAction(i18n("Guess Tag Information From &Filename"), SLOT(slotGuessTagFromFile()),
+    createAction(i18n("Guess Tag Information From &File Name"), SLOT(slotGuessTagFromFile()),
                  "guessTag", "fileimport", "CTRL+f");
 #endif
 
@@ -603,7 +603,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "reload");
     createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", "CTRL+r");
 
-    KToggleAction *historyAction = 
+    KToggleAction *historyAction =
         new KToggleAction(i18n("Show &History"), "history",  0, actions(), "showHistory");
     historyAction->setCheckedState(i18n("Hide &History"));
 
