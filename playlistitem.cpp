@@ -251,7 +251,7 @@ void PlaylistItem::Data::refresh()
 {
     delete dataTag;
     dataTag = Tag::createTag(filePath());
-    absFileName = absFilePath();
+    absFileName = QFileInfo::absFilePath();
 }
 
 void PlaylistItem::Data::deleteUser()
