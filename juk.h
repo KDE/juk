@@ -32,6 +32,7 @@
 
 #include "player.h"
 #include "playlistsplitter.h"
+#include "jukIface.h"
 
 class QTimer;
 class QListViewItem;
@@ -40,7 +41,7 @@ class SliderAction;
 class StatusLabel;
 class SystemTray;
 
-class JuK : public KMainWindow
+class JuK : public KMainWindow, virtual public JuKIface
 {
     Q_OBJECT
 
@@ -85,6 +86,8 @@ private:
      */
     void play(const QString &file);
 
+    void openFile(const QString &file);
+
 private slots:
     void slotPlaylistChanged();
 
@@ -99,13 +102,13 @@ private slots:
     void selectAll();
 
     // player menu
-    void slotPlay();
-    void slotPause();
-    void slotStop();
-    void slotBack();
-    void slotForward();
-    void slotSeekBack();
-    void slotSeekForward();
+    void play();
+    void pause();
+    void stop();
+    void back();
+    void forward();
+    void seekBack();
+    void seekForward();
 
     // settings menu
     void slotShowGenreListEditor();
@@ -118,10 +121,10 @@ private slots:
     void slotTrackPositionSliderClicked();
     void slotTrackPositionSliderReleased();
     void slotTrackPositionSliderUpdate(int position);
-    void slotPlayPause();
-    void slotVolumeUp();
-    void slotVolumeDown();
-    void slotVolumeMute();
+    void playPause();
+    void volumeUp();
+    void volumeDown();
+    void volumeMute();
 
     /**
      * This method is called to check our progress in the playing file.  It uses
@@ -133,10 +136,10 @@ private slots:
      * This method is called by the slider to set the volume of the player.  Its
      * value is relative to the maxValue() of the volume slider.
      */
-    void slotSetVolume(int volume);
+    void setVolume(int volume);
 
     void slotPlaySelectedFile() { play(m_splitter->playSelectedFile()); }
-    void slotPlayFirstFile() { play(m_splitter->playFirstFile()); }
+    void playFirstFile() { play(m_splitter->playFirstFile()); }
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
     void slotToggleToolBar() { toolBar()->isVisible() ? toolBar()->hide() : toolBar()->show(); }
 

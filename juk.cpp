@@ -46,6 +46,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose),
+					      DCOPObject ( "Player" ),
 					      m_shuttingDown(false)
 {
     // Expect segfaults if you change this order.
@@ -86,7 +87,7 @@ void JuK::setupLayout()
 
     // playlist item activation connection
     connect(m_splitter, SIGNAL(signalDoubleClicked()), this, SLOT(slotPlaySelectedFile()));
-    connect(m_splitter, SIGNAL(signalListBoxDoubleClicked()), this, SLOT(slotPlayFirstFile()));
+    connect(m_splitter, SIGNAL(signalListBoxDoubleClicked()), this, SLOT(playFirstFile()));
 
     // create status bar
     m_statusLabel = new StatusLabel(statusBar());
@@ -133,11 +134,11 @@ void JuK::setupActions()
 
     // play menu
     m_randomPlayAction = new KToggleAction(i18n("&Random Play"), 0, actionCollection(), "randomPlay");
-    m_playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(slotPlay()), actionCollection(), "play");
-    m_pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(slotPause()), actionCollection(), "pause");
-    m_stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(slotStop()), actionCollection(), "stop");
-    m_backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(slotBack()), actionCollection(), "back");
-    m_forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(slotForward()), actionCollection(), "forward");
+    m_playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(play()), actionCollection(), "play");
+    m_pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pause()), actionCollection(), "pause");
+    m_stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stop()), actionCollection(), "stop");
+    m_backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(back()), actionCollection(), "back");
+    m_forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()), actionCollection(), "forward");
     m_loopPlaylistAction = new KToggleAction(i18n("&Loop Playlist"), "reload", 0, actionCollection(), "loopPlaylist");
 
     // tagger menu
@@ -226,7 +227,7 @@ void JuK::setupPlayer()
         connect(m_sliderAction->getTrackPositionSlider(), SIGNAL(sliderReleased()), this, SLOT(slotTrackPositionSliderReleased()));
         m_sliderAction->getTrackPositionSlider()->setEnabled(false);
 
-        connect(m_sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(slotSetVolume(int)));
+        connect(m_sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
     }
 
     int playerType = 0;
@@ -242,15 +243,15 @@ void JuK::setupPlayer()
 void JuK::setupGlobalAccels()
 {
     m_accel = new KGlobalAccel(this);
-    KeyDialog::insert(m_accel, "PlayPause",  i18n("Play/Pause"),        this, SLOT(slotPlayPause()));
-    KeyDialog::insert(m_accel, "Stop",       i18n("Stop Playing"),      this, SLOT(slotStop()));
-    KeyDialog::insert(m_accel, "Back",       i18n("Back"),              this, SLOT(slotBack()));
-    KeyDialog::insert(m_accel, "Forward",    i18n("Forward"),           this, SLOT(slotForward()));
-    KeyDialog::insert(m_accel, "SeekBack",   i18n("Seek Back"),         this, SLOT(slotSeekBack()));
-    KeyDialog::insert(m_accel, "SeekForward",i18n("Seek Forward"),      this, SLOT(slotSeekForward()));
-    KeyDialog::insert(m_accel, "VolumeUp",   i18n("Volume Up"),         this, SLOT(slotVolumeUp()));
-    KeyDialog::insert(m_accel, "VolumeDown", i18n("Volume Down"),       this, SLOT(slotVolumeDown()));
-    KeyDialog::insert(m_accel, "Mute",       i18n("Mute"),              this, SLOT(slotVolumeMute()));
+    KeyDialog::insert(m_accel, "PlayPause",  i18n("Play/Pause"),        this, SLOT(playPause()));
+    KeyDialog::insert(m_accel, "Stop",       i18n("Stop Playing"),      this, SLOT(stop()));
+    KeyDialog::insert(m_accel, "Back",       i18n("Back"),              this, SLOT(back()));
+    KeyDialog::insert(m_accel, "Forward",    i18n("Forward"),           this, SLOT(forward()));
+    KeyDialog::insert(m_accel, "SeekBack",   i18n("Seek Back"),         this, SLOT(seekBack()));
+    KeyDialog::insert(m_accel, "SeekForward",i18n("Seek Forward"),      this, SLOT(seekForward()));
+    KeyDialog::insert(m_accel, "VolumeUp",   i18n("Volume Up"),         this, SLOT(volumeUp()));
+    KeyDialog::insert(m_accel, "VolumeDown", i18n("Volume Down"),       this, SLOT(volumeDown()));
+    KeyDialog::insert(m_accel, "Mute",       i18n("Mute"),              this, SLOT(volumeMute()));
 
     m_accel->setConfigGroup("Shortcuts");
     m_accel->readSettings();
@@ -364,7 +365,7 @@ void JuK::saveConfig()
 
 bool JuK::queryExit()
 {
-    slotStop();
+    stop();
     delete m_player;
     Cache::instance()->save();
     saveConfig();
@@ -454,7 +455,7 @@ void JuK::play(const QString &file)
 	    m_systemTray->slotPlay();
     }
     else
-	slotStop();
+	stop();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -512,7 +513,7 @@ void JuK::selectAll()
 // player menu
 ////////////////////////////////////////////////////////////////////////////////
 
-void JuK::slotPlay()
+void JuK::play()
 {
     if(!m_player)
 	return;
@@ -537,7 +538,7 @@ void JuK::slotPlay()
 	play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
 }
 
-void JuK::slotPause()
+void JuK::pause()
 {
     if(!m_player)
 	return;
@@ -549,7 +550,7 @@ void JuK::slotPause()
 	m_systemTray->slotPause();
 }
 
-void JuK::slotStop()
+void JuK::stop()
 {
     if(!m_player)
 	return;
@@ -573,24 +574,24 @@ void JuK::slotStop()
 	m_systemTray->slotStop();
 }
 
-void JuK::slotBack()
+void JuK::back()
 {
     play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
 }
 
-void JuK::slotForward()
+void JuK::forward()
 {
     play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
 }
 
-void JuK::slotSeekBack()
+void JuK::seekBack()
 {
     int position = m_sliderAction->getTrackPositionSlider()->value();
     position = QMAX(m_sliderAction->getTrackPositionSlider()->minValue(), position - 10);
     emit m_sliderAction->getTrackPositionSlider()->setValue(position);
 }
 
-void JuK::slotSeekForward()
+void JuK::seekForward()
 {
     int position = m_sliderAction->getTrackPositionSlider()->value();
     position = QMIN(m_sliderAction->getTrackPositionSlider()->maxValue(), position + 10);
@@ -620,7 +621,7 @@ void JuK::slotToggleSystemTray(bool enabled)
 
 void JuK::slotSetOutput(int output)
 {
-    slotStop();
+    stop();
     delete m_player;
     m_player = Player::createPlayer(output);
 }
@@ -657,45 +658,45 @@ void JuK::slotTrackPositionSliderUpdate(int position)
         m_player->seekPosition(position);
 }
 
-void JuK::slotPlayPause()
+void JuK::playPause()
 {
     if(!m_player)
 	return;
 
     if(m_player->playing())
-	slotPause();
+	pause();
     else
-	slotPlay();
+	play();
 }
 
-void JuK::slotVolumeUp()
+void JuK::volumeUp()
 {
     if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
 	int volume = m_sliderAction->getVolumeSlider()->value() +
 	  m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% up
-	slotSetVolume(volume);
+	setVolume(volume);
 	m_sliderAction->getVolumeSlider()->setValue(volume);
     }
 }
 
-void JuK::slotVolumeDown()
+void JuK::volumeDown()
 {
     if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
 	int volume = m_sliderAction->getVolumeSlider()->value() -
 	  m_sliderAction->getVolumeSlider()->maxValue() / 25; // 4% down
-	slotSetVolume(volume);
+	setVolume(volume);
 	m_sliderAction->getVolumeSlider()->setValue(volume);
     }
 }
 
-void JuK::slotVolumeMute()
+void JuK::volumeMute()
 {
     if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
 	if(m_muted)
-	    slotSetVolume(m_sliderAction->getVolumeSlider()->value());
+	    setVolume(m_sliderAction->getVolumeSlider()->value());
 	else
-	    slotSetVolume(0);
-	m_muted = !m_muted;
+	    setVolume(0);
+	    m_muted = !m_muted;
     }
 }
 
@@ -733,7 +734,7 @@ void JuK::slotPollPlay()
     m_noSeek = false;
 }
 
-void JuK::slotSetVolume(int volume)
+void JuK::setVolume(int volume)
 {
     if(m_player && m_sliderAction && m_sliderAction->getVolumeSlider() &&
        m_sliderAction->getVolumeSlider()->maxValue() > 0 &&
@@ -749,4 +750,9 @@ void JuK::slotConfigureTagGuesser()
     dlg.exec();
 }
 
+void JuK::openFile(const QString &file)
+{
+    m_splitter->open(file);
+}
+    
 #include "juk.moc"
