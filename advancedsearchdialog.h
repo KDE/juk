@@ -23,6 +23,7 @@
 #include "playlistsearch.h"
 
 class KLineEdit;
+class KPushButton;
 class QGroupBox;
 class QRadioButton;
 class SearchLine;
@@ -51,8 +52,12 @@ public slots:
 protected slots:
     virtual void accept();
     virtual void clear();
+    virtual void more();
+    virtual void fewer();
     
 private:
+    void updateButtons();
+
     QWidget *m_criteria;
     PlaylistSearch m_search;
     QString m_playlistName;
@@ -60,6 +65,8 @@ private:
     KLineEdit *m_playlistNameLineEdit;
     QRadioButton *m_matchAnyButton;
     QRadioButton *m_matchAllButton;
+    KPushButton *m_moreButton;
+    KPushButton *m_fewerButton;
 };
 
 #endif

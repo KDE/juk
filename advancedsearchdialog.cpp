@@ -70,8 +70,13 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
 
     l->addStretch(1);
 
-    l->addWidget(new KPushButton(i18n("More"), buttons));
-    l->addWidget(new KPushButton(i18n("Fewer"), buttons));
+    m_moreButton = new KPushButton(i18n("More"), buttons);
+    connect(m_moreButton, SIGNAL(clicked()), SLOT(more()));
+    l->addWidget(m_moreButton);
+
+    m_fewerButton = new KPushButton(i18n("Fewer"), buttons);
+    connect(m_fewerButton, SIGNAL(clicked()), SLOT(fewer()));
+    l->addWidget(m_fewerButton);
 }
 
 AdvancedSearchDialog::~AdvancedSearchDialog()
@@ -120,6 +125,32 @@ void AdvancedSearchDialog::clear()
     QValueListConstIterator<SearchLine *> it = m_searchLines.begin();
     for(; it != m_searchLines.end(); ++it)
         (*it)->clear();
+}
+
+void AdvancedSearchDialog::more()
+{
+    SearchLine *searchLine = new SearchLine(m_criteria);
+    m_searchLines.append(searchLine);
+    searchLine->show();
+    updateButtons();
+}
+
+void AdvancedSearchDialog::fewer()
+{
+    SearchLine *searchLine = m_searchLines.last();
+    m_searchLines.remove(searchLine);
+    delete searchLine;
+    updateButtons();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void AdvancedSearchDialog::updateButtons()
+{
+    m_moreButton->setEnabled(m_searchLines.count() < 16);
+    m_fewerButton->setEnabled(m_searchLines.count() > 1);
 }
 
 #include "advancedsearchdialog.moc"
