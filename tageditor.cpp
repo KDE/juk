@@ -384,7 +384,7 @@ void TagEditor::updateCollection()
     m_artistNameBox->completionObject()->setItems(artistList);
 
     QStringList albumList = list->uniqueSet(CollectionList::Albums);
-    artistList.sort();
+    albumList.sort();
     m_albumNameBox->listBox()->clear();
     m_albumNameBox->listBox()->insertStringList(albumList);
     m_albumNameBox->completionObject()->setItems(albumList);
