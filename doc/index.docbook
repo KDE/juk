@@ -18,7 +18,7 @@
 <firstname>Michael</firstname>
 <surname>Pyne</surname>
 <affiliation>
-<address><email>mpyne@grammarian.homelinux.net</email></address>
+<address><email>michael.pyne@kdemail.net</email></address>
 </affiliation>
 </author>
 
@@ -107,7 +107,7 @@ File...</guimenuitem></menuchoice> and selecting them from a standard
 &kde; file dialog.  You can add entire folders using
 <menuchoice><guimenu>File</guimenu><guimenuitem>Open
 Folder...</guimenuitem></menuchoice>.  Folders added this way
-will be rescanned every time you start &juk; 
+will be rescanned every time you start &juk;
 <!-- ask scott:
      Asked 2004-04-27 (mpyne), Choosing Reload from the Collection
      List context menu will result in a rescan.  Also, a KDirWatch
@@ -254,10 +254,10 @@ your choice.  Use this with caution.</para>
 <varlistentry>
 <term><guisubmenu>Guess Tag Information</guisubmenu></term>
 <listitem>
-<para>This will make &juk; try to guess information such as the 
+<para>This will make &juk; try to guess information such as the
 Artist and Title of a song.  &juk; employs different methods of guessing:
   <variablelist>
-  
+
   <varlistentry><term><guimenuitem>From File Name</guimenuitem></term>
   <listitem><para>&juk; will try to guess the tags of the song based on its filename.
   For example, a song name such as <filename>Roxette - You've Got the Look.mp3</filename>
@@ -268,14 +268,14 @@ Artist and Title of a song.  &juk; employs different methods of guessing:
   replace tags that it did not guess from the file name.</para>
   </listitem>
   </varlistentry>
-  
+
   <varlistentry><term><guimenuitem>From Internet</guimenuitem></term>
   <listitem><para>&juk; will try to guess the tags of the song by using the
   MusicBrainz program.  You must have MusicBrainz installed for this command to work.
   </para>
   </listitem>
   </varlistentry>
-  
+
   </variablelist>
 </para>
 </listitem>
@@ -300,6 +300,17 @@ the Ogg Vorbis song <quote>The Theme (Metroid)</quote> by Stemage could result i
 <para>This allows you to quickly create a playlist from songs in your Collection List.
 This function will prompt you for a name for the new playlist, and will then insert all of
 the songs that are selected into the new playlist.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Add Selected Items to K3b Project</guimenuitem></term>
+<listitem>
+<para>This allows you to quickly create a K3b CD-burning project from your selected songs.  &juk; will ask you if you would like an Audio CD project or a Data CD project, unless K3b already has a project open.</para>
+
+<para>If K3b is not already running, &juk; will start it up for you.  After that, &juk; will add your selected files to the current K3b project.  You can then save the project in K3b for burning later, or burn the CD right away.
+</para>
+
 </listitem>
 </varlistentry>
 
@@ -338,12 +349,55 @@ records the exact time and date the song played.  The playlist doesn't start tra
 This is a playlist which is based off of a search.  You can create a playlist like this by clicking <menuchoice>
 <guimenu>File</guimenu><guisubmenu>New</guisubmenu><guimenuitem>Search Playlist</guimenuitem></menuchoice>, or by clicking on the
 <link linkend="juk-advanced-search-dialog">Advanced Search</link>
- button on the Search Bar.</para>
-<para>After creating this playlist, it will keep track of which songs in the Collection List match your criteria, and automatically update itself accordingly whenever the 
+ button on the <link linkend="search-bar">Search Bar</link>.</para>
+<para>After creating this playlist, it will keep track of which songs in the Collection List match your criteria, and automatically update itself accordingly whenever the
 Collection List changes.</para></listitem>
 </varlistentry>
 
 </variablelist>
+
+<para>Playlists are organized in the <guilabel>Playlist pane</guilabel>, which is the vertical bar at the left.  In this pane is an icon
+for every playlist you have.  There are different view mode for this pane, which can be selected from the
+<guimenu>View</guimenu><guisubmenu>View Modes</guisubmenu> menu.
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default">Default View mode</term>
+<listitem>
+<para>
+This is the default view mode.  In this mode, all the playlists are shown as large icons, one above the other in the view mode.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact">Compact View mode</term>
+<listitem>
+<para>
+This mode is similar to the Normal Viewmode, with the exception that the playlists are represented with horizontal bars with small icons instead
+of with square boxes.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree">Tree View mode</term>
+<listitem>
+<para>This mode is the most powerful.  This mode is just like the Compact viewmode, except that the Collection List is now the root of a tree of virtual
+playlists.  The Collection List has three children nodes, Artist, Album, and Genre.  Each of these node has children representing all of the entries
+from that specific category.  For example, if your Collection List contains music from 4 different artists, you would have 4 entries under the artist
+node.</para>
+<para>One nifty feature of the tree view mode is something called drag-and-drop retagging.  Simply select some files in the track list, and drag them
+onto one of the artist, album, or genre nodes under Collection List.  The songs will automatically be retagged to match the item you dropped the
+tracks on.  For example, if you drag a group of tracks onto a Genre called "Rock", all of the tracks will be retagged will a Genre tag of Rock.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
 
 </sect1>
 
@@ -603,7 +657,7 @@ line.</para>
 <para>Using the tokens, however, allows us to completely ignore tags that are empty.
 If you check the <guilabel>Need value</guilabel> checkbox, then the token will be
 ignored if the corresponding tag is empty.  For example, you could use this to separate
-files with comments from those without by placing something such as 
+files with comments from those without by placing something such as
 <replaceable>has-comment/%s</replaceable> in the <guilabel>Comment token</guilabel>
 editor.</para>
 
@@ -648,7 +702,7 @@ top of the list.
 </para>
 
 <para>You can also edit or remove a scheme from the list.  Just select the scheme in the list,
-and use the <guibutton>Modify</guibutton> button to change the scheme, or the 
+and use the <guibutton>Modify</guibutton> button to change the scheme, or the
 <guibutton>Remove</guibutton> button to remove the scheme from the list.
 </para>
 </sect1>
@@ -678,7 +732,7 @@ can define your search criteria in the <guilabel>Search Criteria</guilabel> grou
 </para>
 
 <para>The top of the <guilabel>Search Criteria</guilabel> group has two radio buttons,
-<guilabel>Match any of the following</guilabel> and <guilabel>Match all of the 
+<guilabel>Match any of the following</guilabel> and <guilabel>Match all of the
 following</guilabel>.  If you select <guilabel>Match any of the following</guilabel>, then
 a match by any of the conditions you define will include the song in the playlist.  Otherwise,
 every condition you define must match in order to include the song in the playlist.
@@ -697,7 +751,7 @@ tag "&lt;All Visible&gt;", then any tag that you can see in the Collection List 
 is fair game to match the search text.
 </para>
 
-<para>The match style list lets &juk; know which search method to use.  
+<para>The match style list lets &juk; know which search method to use.
 The search methods you can use are as follows:
 <variablelist>
 <varlistentry>
@@ -767,13 +821,13 @@ to create.
   <listitem><para>This prompts you for a playlist name, and then inserts it into the
     Playlist view.  The playlist starts out completely empty.</para></listitem>
   </varlistentry>
-  
+
   <varlistentry><term><guimenuitem>Playlist From Folder...</guimenuitem></term>
   <listitem><para>This prompts you for a directory to open, and then creates a playlist
     containing the music within the folder and any sub-folders.  The name of the created
     playlist is the same as the name of the selected folder.</para></listitem>
   </varlistentry>
-  
+
   <varlistentry><term><guimenuitem>Search Playlist...</guimenuitem></term>
   <listitem><para>This brings up the Advanced Search Dialog, allowing you to create a
   <quote>virtual playlist</quote>.  Any songs in your Collection List that match the search
@@ -783,7 +837,7 @@ to create.
   it will show up in the Depeche Mode playlist with no special action required on your part.
   </para></listitem>
   </varlistentry>
-  
+
   </variablelist>
 </listitem>
 </varlistentry>
@@ -824,7 +878,7 @@ playlist.</para></listitem>
 </varlistentry>
 
 <varlistentry>
-<term><guiicon>Paste</guiicon></term> 
+<term><guiicon>Paste</guiicon></term>
 <listitem><para>If you previously either cut or copied a url from the
 collection list, you can paste the url back into a new playlist.  You
 could also paste a url you have copied from &konqueror; or any other
@@ -872,7 +926,7 @@ collection list or a playlist.</para>
 
 <para>Simply typing text into the search bar will reduce the visible
 list of songs to those which contain that text in any visible
-column.</para>
+column.  Pressing <keycap>Enter</keycap> will start playing the top match in the playlist view.</para>
 
 <para>Searching begins instantly when text is entered into the search
 field.  Searching is incremental, that is, as you type each character
@@ -1046,7 +1100,7 @@ playlist.
 </menuchoice>
 </term>
 <listitem><para>This is a toggle action that sets whether or not the
-<interface>Search Bar</interface> is shown.</para>
+<link linkend="search-bar">Search Bar</link> is shown.</para>
 </listitem>
 </varlistentry>
 
@@ -1072,13 +1126,31 @@ playlist.
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>View</guimenu><guimenuitem>Refresh Items</guimenuitem>
+<guimenu>View</guimenu><guisubmenu>View Modes</guisubmenu><guimenuitem>Default</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>This command causes the tags of the selected songs to be
-reloaded from disk.  This doesn't check for new music files within a
-folder, use <menuchoice><guimenu>File</guimenu><guimenuitem>Reload</guimenuitem>
-</menuchoice> after selecting the Collection List playlist instead.</para>
+<listitem><para>Switches to <link linkend="juk-viewmode-default">Default View mode</link>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu><guisubmenu>View Modes</guisubmenu><guimenuitem>Compact</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Switches to <link linkend="juk-viewmode-compact">Compact View mode</link>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu><guisubmenu>View Modes</guisubmenu><guimenuitem>Tree</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Switches to <link linkend="juk-viewmode-tree">Tree View mode</link>.
+</para>
 </listitem>
 </varlistentry>
 
@@ -1396,7 +1468,7 @@ action="simul">&Ctrl;<keycap>I</keycap></keycombo></entry>
 </row>
 <row>
 <entry><keycombo
-action="simul">&Ctrl;<keycap>F</keycap></keycombo></entry>
+action="simul">&Ctrl;<keycap>G</keycap></keycombo></entry>
 <entry>Guess tags from the filename.</entry>
 </row>
 <row>
