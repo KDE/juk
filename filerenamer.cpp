@@ -84,6 +84,10 @@ QString FileRenamer::expandToken(TokenType type, const QString &value) const
 
     QString token = m_cfg.getToken(type);
     token.replace("%s", value);
+    if(token.find(QDir::separator()) > -1) {
+        kdWarning() << "Found token value with dir separators!" << endl;
+        token.replace(QDir::separator(), "");
+    }
     return token;
 }
 
