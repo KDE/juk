@@ -93,6 +93,8 @@ private slots:
   void setVolume(int volume);
   void playItem(QListViewItem *item);
   void playItem(FileListItem *item);
+  void playTaggerItem(QListViewItem *item);
+  void playTaggerItem(FileListItem *item);
 };
 
 #endif

@@ -206,7 +206,15 @@ void JuK::removeFromPlaylist()
 
 void JuK::playFile()
 {
-  if(playlist) {
+  if(player.paused()) {
+    player.play();
+    if(player.playing()) {
+      playAction->setEnabled(false);
+      pauseAction->setEnabled(true);
+      stopAction->setEnabled(true);
+    }
+  }
+  else if(playlist) {
     if(playlist->getSelectedItems()->count() > 0)
       playItem(dynamic_cast<FileListItem *>(playlist->getSelectedItems()->at(0)));
     else
@@ -321,4 +329,14 @@ void JuK::playItem(FileListItem *item)
       playTimer->start(pollInterval);
     }
   }
+}
+
+void JuK::playTaggerItem(QListViewItem *item)
+{
+
+}
+
+void JuK::playTaggerItem(FileListItem *item)
+{
+
 }
