@@ -23,9 +23,6 @@
 
 		<Action name="file_quit"/>
 	</Menu>
-	<Menu name="edit"><text>&amp;Edit</text>
-		<Action name="clear"/>
-	</Menu>
 	<Menu name="view" noMerge="1"><text>&amp;View</text>
 		<Action name="showSearch"/>
 		<Action name="showEditor"/>
