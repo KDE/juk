@@ -111,14 +111,20 @@ void JuK::setupActions()
     KStdAction::clear(kapp, SLOT(clear()), actions());
     KStdAction::selectAll(kapp, SLOT(selectAll()), actions());
 
-    KToggleAction *ka = new KRadioAction(i18n("&Album Random Play"), 0, actions(), "albumRandomPlay");
-    ka->setExclusiveGroup("randomPlayGroup");
+    KActionMenu *actionMenu = new KActionMenu("Random Play", "roll", actions(), "actionMenu");
+    actionMenu->setDelayed(false);
 
-    ka = new KRadioAction(i18n("Option for disabled random play mode", "&Disabled"), 0, actions(), "disableRandomPlay");
+    KRadioAction *ka = new KRadioAction(i18n("&Disable Random Play"), "player_playlist", 0, actions(), "disableRandomPlay");
     ka->setExclusiveGroup("randomPlayGroup");
+    actionMenu->insert(ka);
 
-    m_randomPlayAction = new KRadioAction(i18n("&Random Play"), 0, actions(), "randomPlay");
+    m_randomPlayAction = new KRadioAction(i18n("Use &Random Play"), "roll", 0, actions(), "randomPlay");
     m_randomPlayAction->setExclusiveGroup("randomPlayGroup");
+    actionMenu->insert(m_randomPlayAction);
+
+    ka = new KRadioAction(i18n("Use &Album Random Play"), "roll", 0, actions(), "albumRandomPlay");
+    ka->setExclusiveGroup("randomPlayGroup");
+    actionMenu->insert(ka);
 
     new KAction(i18n("&Play"),  "player_play",  0, m_player, SLOT(play()),  actions(), "play");
     new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()), actions(), "pause");

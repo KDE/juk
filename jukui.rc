@@ -1,7 +1,7 @@
 <!-- PLEASE UPDATE jukui-rtl.rc WHEN UPDATING THIS FILE -->
 
 <!DOCTYPE kpartgui>
-<kpartgui name="juk" version="5">
+<kpartgui name="juk" version="6">
 <MenuBar>
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="file_new"/>
@@ -37,11 +37,7 @@
 		<Action name="viewModeMenu"/>
 	</Menu>
 	<Menu name="player"><text>&amp;Player</text>
-		<Menu name="randomPlayMenu"><text>&amp;Random Play</text>
-			<Action name="disableRandomPlay"/>
-			<Action name="randomPlay"/>
-			<Action name="albumRandomPlay"/>
-		</Menu>
+		<Action name="actionMenu"/>
 
 		<Action name="loopPlaylist"/>
 
