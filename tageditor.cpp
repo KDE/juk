@@ -277,7 +277,6 @@ void TagEditor::readConfig()
     m_genreBox->clear();
     m_genreBox->insertItem(QString::null);
     m_genreBox->insertStringList(m_genreList);
-    m_genreBox->setCompletedItems(m_genreList);
 }
 
 void TagEditor::saveConfig()
