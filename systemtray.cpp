@@ -78,6 +78,11 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
 
     setToolTip();
 
+    // Just create this here so that it show up in the DCOP interface and the key
+    // bindings dialog.
+
+    new KAction(i18n("Redisplay Popup"), KShortcut(), this, SLOT(slotPlay()), actions(), "showPopup");
+    
     KPopupMenu *cm = contextMenu();
 
     connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotPlay()));
@@ -112,6 +117,9 @@ SystemTray::~SystemTray()
 
 void SystemTray::slotPlay()
 {
+    if(!PlayerManager::instance()->playing())
+        return;
+
     setPixmap(m_playPix);
     setToolTip(PlayerManager::instance()->playingString());
     createPopup();
