@@ -72,11 +72,7 @@ mblibs = -lmusicbrainz
 endif
 ##################################################
 
-if include_ARTS
-artslibs = -lartskde
-endif
-
-juk_LDADD = $(gstlibs) $(mblibs) $(artslibs) $(LIB_KIO) $(taglib_libs)
+juk_LDADD = $(gstlibs) $(mblibs) -lartskde $(LIB_KIO) $(taglib_libs)
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 tagguessertest_LDADD = $(LIB_KDECORE)
