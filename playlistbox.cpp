@@ -314,7 +314,7 @@ void PlaylistBox::remove()
 	else if(remove == KMessageBox::Cancel)
 	    return;
     }
-    else {
+    else if(items.count() > 1 || items.front()->playlist() != upcomingPlaylist()) {
 	if(KMessageBox::warningContinueCancelList(this,
 						  i18n("Are you sure you want to remove these "
 						       "playlists from your collection?"),
