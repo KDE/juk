@@ -11,8 +11,9 @@
 
 #include <kapplication.h>
 #include <kconfig.h>
-#include <kdebug.h>
+#include <kmacroexpander.h>
 #include <kdeversion.h>
+#include <kdebug.h>
 
 #include <qdir.h>
 #include <qfile.h>
