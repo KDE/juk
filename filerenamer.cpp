@@ -25,7 +25,7 @@ FileRenamer::Config::Config(KConfigBase *cfg)
 
 QString FileRenamer::Config::filenameScheme() const
 {
-    return m_grp.readEntry("FilenameScheme");
+    return m_grp.readEntry("FilenameScheme", QDir::homeDirPath() + "/Music/%a%A%T%t%c");
 }
 
 void FileRenamer::Config::setFilenameScheme(const QString &scheme)
@@ -35,7 +35,15 @@ void FileRenamer::Config::setFilenameScheme(const QString &scheme)
 
 QString FileRenamer::Config::getToken(TokenType type) const
 {
-    return m_grp.readEntry(tokenToString(type) + "Token");
+    QString fallback;
+    switch(type) {
+        case Title: fallback = "%s"; break;
+        case Artist: fallback = "%s/"; break;
+        case Album: fallback = "%s/"; break;
+        case Track: fallback = "[%s] "; break;
+        case Comment: fallback = " (%s)"; break;
+    }
+    return m_grp.readEntry(tokenToString(type) + "Token", fallback);
 }
 
 void FileRenamer::Config::setToken(TokenType type, const QString &value)
@@ -45,7 +53,8 @@ void FileRenamer::Config::setToken(TokenType type, const QString &value)
 
 bool FileRenamer::Config::tokenNeedsValue(TokenType type) const
 {
-    return m_grp.readBoolEntry("Need" + tokenToString(type) + "Value");
+    bool fallback = type != Title ? true : false;
+    return m_grp.readBoolEntry("Need" + tokenToString(type) + "Value", fallback);
 }
 
 void FileRenamer::Config::setTokenNeedsValue(TokenType type, bool needsValue)
