@@ -253,7 +253,7 @@ void PlaylistSplitter::open(const QStringList &files)
 
 Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 {
-    Playlist *p = new Playlist(m_playlistStack, name.latin1());
+    Playlist *p = new Playlist(m_playlistStack, name);
     setupPlaylist(p, true);
     return p;
 }
