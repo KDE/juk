@@ -297,7 +297,7 @@ void PlayerManager::pause()
 
 void PlayerManager::stop()
 {
-    if(!player())
+    if(!player() || !m_playlistInterface)
         return;
 
     m_timer->stop();
