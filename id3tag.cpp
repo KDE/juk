@@ -1,5 +1,5 @@
 /***************************************************************************
-                          m_tag.cpp  -  description
+                          id3tag.cpp  -  description
                              -------------------
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 by Scott Wheeler

@@ -33,7 +33,7 @@ class PlaylistItem;
 class PlaylistSplitter;
 
 /** 
- * This is the play m_list selection box that is by default on the right side of
+ * This is the play list selection box that is by default on the right side of
  * JuK's main widget (PlaylistSplitter). 
  */
 
@@ -84,14 +84,14 @@ private:
     virtual void mousePressEvent(QMouseEvent *e);
     /** 
      * This is used by PlaylistItemBox (a friend class) to add names to the name
-     * m_list returned by names(). 
+     * list returned by names(). 
      */
     void addName(const QString &name) { m_names.append(name); }
 
 private slots:
     /** 
      * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
-     * the signal as  currentChanged(Item *). 
+     * the signal as currentChanged(Item *). 
      */
     void slotPlaylistChanged(QListBoxItem *item);
     void slotDoubleClicked(QListBoxItem *);
