@@ -70,7 +70,7 @@ private slots:
      */
     void slotShowSearchResults();
     void slotPlaylistSelectionChanged();
-    void slotPlaylistChanged();
+    void slotPlaylistChanged(QWidget *w);
 
 private:
     PlaylistBox *m_playlistBox;
