@@ -119,8 +119,8 @@ QStringList PlaylistCollection::playlists() const
     QObjectList *childList = m_playlistStack->queryList("Playlist");
     QObject *obj;
     for(obj = childList->first(); obj; obj = childList->next()) {
-	Playlist *p = static_cast<Playlist*>(obj);
-	l.append(p->name());
+        Playlist *p = static_cast<Playlist*>(obj);
+        l.append(p->name());
     }
 
     delete childList;
@@ -137,7 +137,7 @@ void PlaylistCollection::openFile(const QString &playlist, const QString &file)
     Playlist *p = playlistByName(playlist);
 
     if(p)
-	p->addFiles(file, m_importPlaylists);
+        p->addFiles(file, m_importPlaylists);
 }
 
 void PlaylistCollection::openFile(const QString &playlist, const QStringList &files)
@@ -145,7 +145,7 @@ void PlaylistCollection::openFile(const QString &playlist, const QStringList &fi
     Playlist *p = playlistByName(playlist);
 
     if(p)
-	p->addFiles(files, m_importPlaylists);
+        p->addFiles(files, m_importPlaylists);
 }
 
 void PlaylistCollection::removeTrack(const QString &playlist, const QString &file)
@@ -154,11 +154,11 @@ void PlaylistCollection::removeTrack(const QString &playlist, const QString &fil
     CollectionListItem *item = CollectionList::instance()->lookup(file);
 
     if(!p || !item)
-	return;
+        return;
 
     PlaylistItem *playlistItem = item->itemForPlaylist(p);
     if(playlistItem)
-	p->clearItem(item);
+        p->clearItem(item);
 }
 
 void PlaylistCollection::removeTrack(const QString &playlist, const QStringList &files)
@@ -166,17 +166,17 @@ void PlaylistCollection::removeTrack(const QString &playlist, const QStringList 
     Playlist *p = playlistByName(playlist);
     PlaylistItemList itemList;
     if(!p)
-	return;
+        return;
     
     QStringList::ConstIterator it;
     for(it = files.begin(); it != files.end(); ++it) {
-	CollectionListItem *item = CollectionList::instance()->lookup(*it);
+        CollectionListItem *item = CollectionList::instance()->lookup(*it);
 
-	if(item) {
-	    PlaylistItem *playlistItem = item->itemForPlaylist(p);
-	    if(playlistItem)
-		itemList.append(playlistItem);
-	}
+        if(item) {
+            PlaylistItem *playlistItem = item->itemForPlaylist(p);
+            if(playlistItem)
+                itemList.append(playlistItem);
+        }
     }
 
     p->clearItems(itemList);
@@ -193,7 +193,7 @@ void PlaylistCollection::setPlaylist(const QString &playlist)
 {
     Playlist *p = playlistByName(playlist);
     if(p)
-	raise(p);
+        raise(p);
 }
 
 QStringList PlaylistCollection::playlistTracks(const QString &playlist) const
@@ -201,7 +201,7 @@ QStringList PlaylistCollection::playlistTracks(const QString &playlist) const
     Playlist *p = playlistByName(playlist);
 
     if(p)
-	return p->files();
+        return p->files();
     return QStringList();
 }
 
@@ -211,7 +211,7 @@ QString PlaylistCollection::trackProperty(const QString &file, const QString &pr
     CollectionListItem *item = l->lookup(file);
 
     if(item)
-	return item->file().property(property);
+        return item->file().property(property);
     return QString::null;
 }
 
