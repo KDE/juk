@@ -43,6 +43,14 @@ void OggTag::save()
     metaInfo.applyChanges();
 }
 
+bool OggTag::hasTag() const
+{
+    if(metaInfo.isValid() && !metaInfo.isEmpty())
+	return(true);
+    else
+	return(false);
+}
+
 QString OggTag::track() const
 {
     return readCommentString("Title");
@@ -99,14 +107,6 @@ QString OggTag::comment() const
     return readCommentString("Description");
 }
 
-bool OggTag::hasTag() const
-{
-    if(metaInfo.isValid() && !metaInfo.isEmpty())
-	return(true);
-    else
-	return(false);
-}
-
 void OggTag::setTrack(const QString &value)
 {
     writeCommentItem("Title", value);
@@ -146,6 +146,21 @@ void OggTag::setComment(const QString &value)
     writeCommentItem("Description", value);
 }
 
+QString OggTag::bitrateString() const
+{
+    return(readBitrate(metaInfo));
+}
+
+QString OggTag::lengthString() const
+{
+    return(readLength(metaInfo));
+}
+
+int OggTag::seconds() const
+{
+    return(readSeconds(metaInfo));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,7 +171,7 @@ QString OggTag::readCommentString(const QString &key) const
        commentGroup.isValid() && !commentGroup.isEmpty() &&
        commentGroup.contains(key))
 	// I'm throwing in the stripWhiteSpace() here, because the IOSlave/KFMI
-	// stuff seems to be padding fields arbitrarily.
+	// stuff seems to be padding fields arbitrarily. 
 	return(commentGroup.item(key).string().stripWhiteSpace());
     else
 	return(QString::null);

@@ -41,6 +41,8 @@
 
 ID3Tag::ID3Tag(const QString &file) : Tag(file)
 {
+    metaInfo = KFileMetaInfo(file, QString::null, KFileMetaInfo::Fastest);
+
     fileName = file;
     tag.Link(fileName.latin1());
 
@@ -167,6 +169,11 @@ void ID3Tag::save()
     }
 }
 
+bool ID3Tag::hasTag() const
+{ 
+    return(tagExists);
+}
+
 QString ID3Tag::track() const  // The song's name, not it's track number
 { 
     return(tagTrack); 
@@ -210,10 +217,6 @@ QString ID3Tag::yearString() const
 QString ID3Tag::comment() const
 { 
     return(tagComment);
-}
-bool ID3Tag::hasTag() const
-{ 
-    return(tagExists);
 }
 
 /////////////////////////////////////////////////////
@@ -270,3 +273,17 @@ void ID3Tag::setComment(const QString &value)
     tagComment = value;
 };
 
+QString ID3Tag::bitrateString() const
+{
+    return(readBitrate(metaInfo));
+}
+
+QString ID3Tag::lengthString() const
+{
+    return(readLength(metaInfo));
+}
+
+int ID3Tag::seconds() const
+{
+    return(readSeconds(metaInfo));
+}

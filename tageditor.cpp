@@ -207,7 +207,6 @@ void TagEditor::refresh()
 
     if(item) {
 	Tag *tag = item->getTag();
-	AudioData *audioData = item->getAudioData();
 	
 	artistNameBox->setEditText(tag->artist());
 	trackNameBox->setText(tag->track());
@@ -224,14 +223,8 @@ void TagEditor::refresh()
 	trackSpin->setValue(tag->trackNumber());
 	yearSpin->setValue(tag->year());
 	
-	if(audioData->getResult()) {
-	    lengthBox->setText(audioData->getLengthChar());
-	    bitrateBox->setText(QString::number(audioData->getBitrate()));
-	}
-	else {
-	    lengthBox->clear();
-	    bitrateBox->clear();
-	}
+	lengthBox->setText(tag->lengthString());
+	bitrateBox->setText(tag->bitrateString());
 	
 	commentBox->setText(tag->comment());
 	

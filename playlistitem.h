@@ -102,7 +102,6 @@ public:
     void refresh();
 
     Tag *getTag();
-    AudioData *getAudioData();
 
     void setFile(const QString &file);
 
@@ -121,7 +120,6 @@ private:
 
     CacheItem *cache;
     Tag *tag;
-    AudioData *audioData;
 };
 
 

@@ -18,11 +18,23 @@
 #ifndef TAG_H
 #define TAG_H
 
-#include <qstring.h>
+#include <kfilemetainfo.h>
 
-#include <id3/tag.h>
+#include <qstring.h>
+#include <qdatetime.h>
+#include <qfileinfo.h>
 
 #include "genre.h"
+
+/**
+ * This class is an abstract base class for concrete Tag classes.  It provides
+ * an API and a creation method to hide the differences between these.
+ *
+ * There are two parts here:  (1) those that are appropriately tag data, such as
+ * the artist name or year recorded and (2) data that is not "tag" data but can 
+ * benefit from the same abstraction mechanism used by the tag class.  This 
+ * includes the track length and bitrate at the moment.
+ */
 
 class Tag
 {
@@ -36,6 +48,7 @@ public:
     virtual ~Tag();
 
     virtual void save() = 0;
+    virtual bool hasTag() const = 0;
 
     virtual QString track() const = 0;
     virtual QString artist() const = 0;
@@ -46,7 +59,6 @@ public:
     virtual int year() const = 0;
     virtual QString yearString() const = 0;
     virtual QString comment() const = 0;
-    virtual bool hasTag() const = 0;
 
     virtual void setTrack(const QString &value) = 0;
     virtual void setArtist(const QString &value) = 0;
@@ -55,6 +67,19 @@ public:
     virtual void setTrackNumber(int value) = 0;
     virtual void setYear(int value) = 0;
     virtual void setComment(const QString &value) = 0;
+
+    virtual QString bitrateString() const = 0;
+    virtual QString lengthString() const = 0;
+    virtual int seconds() const = 0;
+
+    /**
+     * Reads the absolute path from the QFileInfo object associated with this tag.
+     */
+    QString absFilePath() const;
+    /**
+     * Reads the modification date from the QFileInfo object associated with this tag.
+     */
+    QDateTime lastModified() const;
     
 protected:
     /**
@@ -67,6 +92,15 @@ protected:
      * now, but reserving it for later use.
      */
     Tag(const QString &file);
+
+    static inline QString readBitrate(const KFileMetaInfo &metaInfo);
+    static inline QString readLength(const KFileMetaInfo &metaInfo);
+    static inline int readSeconds(const KFileMetaInfo &metaInfo);
+    
+private:
+    QFileInfo fileInfo;
 };
+
+QDataStream &operator<<(QDataStream &s, const Tag &t);
 
 #endif

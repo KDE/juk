@@ -19,6 +19,7 @@
 #define GENRE_H
 
 #include <qstring.h>
+#include <qdatastream.h>
 
 class Genre : public QString
 {
@@ -34,5 +35,8 @@ private:
     QString name;
     int ID3v1;
 };
+
+QDataStream &operator<<(QDataStream &s, const Genre &g);
+QDataStream &operator>>(QDataStream &s, Genre &g);
 
 #endif

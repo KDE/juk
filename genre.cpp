@@ -54,3 +54,26 @@ void Genre::setID3v1(int ID3v1Number)
 {
     ID3v1 = ID3v1Number;
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// related functions
+////////////////////////////////////////////////////////////////////////////////
+
+QDataStream &operator<<(QDataStream &s, const Genre &g)
+{
+    s << QString(g) << g.getID3v1();
+    return(s);
+}
+
+QDataStream &operator>>(QDataStream &s, Genre &g)
+{
+    QString name;
+    int n;
+
+    s >> name >> n;
+
+    g = name;
+    g.setID3v1(n);
+
+    return(s);
+}

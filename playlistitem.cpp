@@ -42,11 +42,6 @@ Tag *PlaylistItem::getTag()
     return(data->getTag());
 }
 
-AudioData *PlaylistItem::getAudioData()
-{
-    return(data->getAudioData());
-}
-
 // QFileInfo-ish methods
 
 QString PlaylistItem::fileName() const { return(data->fileName()); }
@@ -143,7 +138,7 @@ void PlaylistItem::refreshImpl()
 	setText(TrackNumberColumn, getTag()->trackNumberString());
 	setText(GenreColumn,       getTag()->genre());
 	setText(YearColumn,        getTag()->yearString());
-	setText(LengthColumn,      getAudioData()->getLengthChar());
+	setText(LengthColumn,      getTag()->lengthString());
 	setText(FileNameColumn,    filePath());
     }
 }
@@ -209,9 +204,9 @@ int PlaylistItem::compare(PlaylistItem *firstItem, PlaylistItem *secondItem, int
             return(0);
     }
     else if(column == LengthColumn) {
-        if(firstItem->getAudioData()->getLength() > secondItem->getAudioData()->getLength())
+        if(firstItem->getTag()->seconds() > secondItem->getTag()->seconds())
             return(1);
-        else if(firstItem->getAudioData()->getLength() < secondItem->getAudioData()->getLength())
+        else if(firstItem->getTag()->seconds() < secondItem->getTag()->seconds())
             return(-1);
         else
             return(0);
@@ -239,11 +234,9 @@ void PlaylistItem::Data::refresh()
 {
     delete(cache);
     delete(tag);
-    delete(audioData);
 
     cache = 0;
     tag = 0;
-    audioData = 0;
 }
 
 void PlaylistItem::Data::deleteUser()
@@ -260,13 +253,6 @@ Tag *PlaylistItem::Data::getTag()
     if(!tag)
         tag = Tag::createTag(filePath());
     return(tag);
-}
-
-AudioData *PlaylistItem::Data::getAudioData()
-{
-    if(!audioData)
-        audioData = new AudioData(filePath());
-    return(audioData);
 }
 
 void PlaylistItem::Data::setFile(const QString &file)
@@ -288,7 +274,6 @@ PlaylistItem::Data::Data(const QFileInfo &file) : QFileInfo(file)
     // initialize pointers to null
     cache = 0;
     tag = 0;
-    audioData = 0;
 }
 
 PlaylistItem::Data::~Data()
@@ -301,7 +286,6 @@ PlaylistItem::Data::~Data()
 	Cache::instance()->replace(absFilePath(), new CacheItem(*tag));
 
     delete(tag);
-    delete(audioData);
 }
 
 #include "playlistitem.moc"

@@ -15,7 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qfileinfo.h>
+#include <qregexp.h>
 
 #include "tag.h"
 #include "id3tag.h"
@@ -46,11 +46,77 @@ Tag::~Tag()
 
 }
 
+QString Tag::absFilePath() const
+{
+    return(fileInfo.absFilePath());
+}
+
+QDateTime Tag::lastModified() const
+{
+    return(fileInfo.lastModified());
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
 Tag::Tag(const QString &file)
 {
+    fileInfo.setFile(file);
+}
 
+QString Tag::readBitrate(const KFileMetaInfo &metaInfo)
+{
+    if(metaInfo.isValid() && !metaInfo.isEmpty())
+	return(metaInfo.item("Bitrate").string().stripWhiteSpace().section(' ', 0, 0));
+    else
+	return(QString::null);
+}
+
+QString Tag::readLength(const KFileMetaInfo &metaInfo)
+{
+    if(metaInfo.isValid() && !metaInfo.isEmpty())
+	return(metaInfo.item("Length").string().stripWhiteSpace().remove(QRegExp("^0+")));
+    else
+	return(QString::null);
+}
+
+int Tag::readSeconds(const KFileMetaInfo &metaInfo)
+{
+    QStringList l = QStringList::split(':', readLength(metaInfo));
+
+    int total = 0;
+
+    for(QStringList::Iterator it = l.begin(); it != l.end(); ++it)
+	total = 60 * total + (*it).toInt();
+    
+    return(total);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// related functions
+////////////////////////////////////////////////////////////////////////////////
+
+QDataStream &operator<<(QDataStream &s, const Tag &t)
+{
+    s << t.hasTag()
+
+      << t.track()
+      << t.artist()
+      << t.album()
+      << t.genre()
+      << t.trackNumber()
+      << t.trackNumberString()
+      << t.year()
+      << t.yearString()
+      << t.comment()
+
+      << t.bitrateString()
+      << t.lengthString()
+      << t.seconds()
+
+      << t.absFilePath()
+      << t.lastModified();
+
+    return(s);
 }

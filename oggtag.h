@@ -18,8 +18,6 @@
 #ifndef OGGTAG_H
 #define OGGTAG_H
 
-#include <kfilemetainfo.h>
-
 #include "tag.h"
 
 class OggTag : public Tag
@@ -29,6 +27,7 @@ public:
     virtual ~OggTag();
 
     virtual void save();
+    virtual bool hasTag() const;
 
     virtual QString track() const;
     virtual QString artist() const;
@@ -39,7 +38,6 @@ public:
     virtual int year() const;
     virtual QString yearString() const;
     virtual QString comment() const;
-    virtual bool hasTag() const;
 
     virtual void setTrack(const QString &value);
     virtual void setArtist(const QString &value);
@@ -48,6 +46,10 @@ public:
     virtual void setTrackNumber(int value);
     virtual void setYear(int value);
     virtual void setComment(const QString &value);
+
+    virtual QString bitrateString() const;
+    virtual QString lengthString() const;
+    virtual int seconds() const;
 
 private:
     /**
