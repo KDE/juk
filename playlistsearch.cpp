@@ -116,6 +116,13 @@ bool PlaylistSearch::isEmpty() const
     return true;
 }
 
+void PlaylistSearch::clearItem(PlaylistItem *item)
+{
+    m_items.remove(item);
+    m_matchedItems.remove(item);
+    m_unmatchedItems.remove(item);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // Component public methods
 ////////////////////////////////////////////////////////////////////////////////

@@ -61,6 +61,13 @@ public:
     bool isNull() const { return m_components.isEmpty(); }
     bool isEmpty() const;
 
+    /**
+     * This is used to clear an item from the matched and unmatched lists.  This
+     * is useful because it can prevent keeping a dangling pointer around without
+     * requiring invalidating the search.
+     */
+    void clearItem(PlaylistItem *item);
+
 private:
     PlaylistList m_playlists;
     ComponentList m_components;

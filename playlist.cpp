@@ -521,6 +521,8 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 {
     emit signalAboutToRemove(item);
     m_members.remove(item->file().absFilePath());
+    m_search.clearItem(item);
+
     if(!m_randomList.isEmpty() && !m_visibleChanged)
         m_randomList.remove(item);
     delete item;
