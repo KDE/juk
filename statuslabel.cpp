@@ -17,10 +17,10 @@
 
 #include <kpushbutton.h>
 #include <kiconloader.h>
+#include <ksqueezedtextlabel.h> 
 #include <klocale.h>
 #include <kdebug.h>
 
-#include <qlabel.h>
 #include <qtooltip.h>
 #include <qlayout.h>
 
@@ -50,13 +50,13 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) :
 							  5, "trackAndPlaylistLayout");
     trackAndPlaylistLayout->addSpacing(5);
 
-    m_playlistLabel = new QLabel(trackAndPlaylist, "playlistLabel");
+    m_playlistLabel = new KSqueezedTextLabel(trackAndPlaylist, "playlistLabel");
     trackAndPlaylistLayout->addWidget(m_playlistLabel);
     m_playlistLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_playlistLabel->setTextFormat(PlainText);
     m_playlistLabel->setAlignment(AlignLeft | AlignVCenter);
 
-    m_trackLabel = new QLabel(trackAndPlaylist, "trackLabel");
+    m_trackLabel = new KSqueezedTextLabel(trackAndPlaylist, "trackLabel");
     trackAndPlaylistLayout->addWidget(m_trackLabel);
     m_trackLabel->setAlignment(AlignRight | AlignVCenter);
     m_trackLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
