@@ -6,6 +6,10 @@ if test "x$have_taglib" = "xfalse" || test "x$build_arts" = "xno"; then
 	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
 fi
 
+if test "x$build_arts" = "xno"; then
+	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
+fi
+
 AC_DEFUN([AC_HAVE_GST],
 [
 	AC_DEFINE(HAVE_GSTREAMER, 1, [have GStreamer])
