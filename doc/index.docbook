@@ -95,9 +95,9 @@ in those applications from within &juk;.</para>
 <para>You can add files to the Collection List individually, using
 <menuchoice><guimenu>File</guimenu><guimenuitem>Open
 File...</guimenuitem></menuchoice> and selecting them from a standard
-&kde; file dialog.  You can add entire directories using
+&kde; file dialog.  You can add entire folders using
 <menuchoice><guimenu>File</guimenu><guimenuitem>Open
-Directory...</guimenuitem></menuchoice>.  Directories added this way
+Folder...</guimenuitem></menuchoice>.  Folders added this way
 will be rescanned every time you start &juk; and <!-- ask scott -->
 whenever you choose
 <menuchoice><guimenu>View</guimenu><guimenuitem>Redisplay</guimenuitem></menuchoice>.</para>
@@ -116,9 +116,9 @@ affect the <guilabel>Collection List</guilabel>.</para>
 selecting them with
 <menuchoice><guimenu>File</guimenu><guimenuitem>Open
 File...</guimenuitem></menuchoice>.  Any playlist files found in
-directories you add with
+folders you add with
 <menuchoice><guimenu>File</guimenu><guimenuitem>Open
-Directory...</guimenuitem></menuchoice> will also be added
+Folder...</guimenuitem></menuchoice> will also be added
 automatically.</para>
 
 <para>You can create a new playlist by choosing
@@ -189,7 +189,7 @@ new song will play.</para>
 <para>If you are viewing the Collection List, choosing
 <guimenuitem>Clear</guimenuitem> will remove the file from the list,
 and will also remove all corresponding entries for this song from all
-playlists.  You should note that if this file is in a directory that
+playlists.  You should note that if this file is in a folder that
 &juk; scans on startup, it will be readded to the Collection List the
 next time you start up &juk; but it won't be automatically added to
 any playlists.</para>
@@ -579,11 +579,11 @@ instance.</para>
 </varlistentry>
 <varlistentry>
 <term><menuchoice>
-<guimenu>File</guimenu><guimenuitem>Open Directory...</guimenuitem>
+<guimenu>File</guimenu><guimenuitem>Open Folder...</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>Select a directory (or directories) to add to the
-collection list.  These directories will also be rescanned whenever
+<listitem><para>Select a folder (or folders) to add to the
+collection list.  These folders will also be rescanned whenever
 &juk; is started or
 <menuchoice><guimenu>View</guimenu><guimenuitem>Redisplay</guimenuitem>
 </menuchoice> is chosen.</para>
