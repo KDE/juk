@@ -250,7 +250,6 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
 
 void CollectionListItem::checkCurrent()
 {
-    kdDebug() << "CollectionListItem::checkCurrent() (mp3)" << endl;
     if(!data()->exists() || !data()->isFile())
 	CollectionList::instance()->clearItem(this);
     else if(!data()->tag()->current()) {
