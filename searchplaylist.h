@@ -38,6 +38,7 @@ protected:
      */
     void updateItems();
 
+private:
     PlaylistSearch m_search;
 };
 
