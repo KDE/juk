@@ -245,7 +245,7 @@ HistoryItem::HistoryItem(NowPlaying *parent) :
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     setLinkUnderline(false);
-    setText(QString("<b>%1</b><br>").arg(i18n("History")));
+    setText(QString("<b>%1</b><br />").arg(i18n("History")));
 }
 
 void HistoryItem::update(const FileHandle &file)
@@ -256,8 +256,8 @@ void HistoryItem::update(const FileHandle &file)
     if(m_history.count() >= 10)
         m_history.remove(m_history.fromLast());
 
-    QString format = "<a href=\"#\"><font size=\"-2\">%1</font></a>";
-    QString current = QString("<b>%1</b><br>").arg(i18n("History"));
+    QString format = "<br /><a href=\"#\"><font size=\"-2\">%1</font></a>";
+    QString current = QString("<b>%1</b>").arg(i18n("History"));
     QString previous;
 
     for(FileHandleList::ConstIterator it = m_history.begin();
@@ -266,9 +266,7 @@ void HistoryItem::update(const FileHandle &file)
         previous = current;
         current.append(format.arg(QStyleSheet::escape((*it).tag()->title())));
         setText(current);
-        if(heightForWidth(width()) < imageSize)
-            current.append("<br>");
-        else {
+        if(heightForWidth(width()) > imageSize) {
             setText(previous);
             break;
         }
