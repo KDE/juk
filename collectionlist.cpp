@@ -159,19 +159,30 @@ void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 
 void CollectionList::addArtist(const QString &artist)
 {
+    if(artist.isEmpty())
+	return;
+
     // Do a bit of caching since there will very often be "two in a row" insertions.
     static QString previousArtist;
 
-    if(artist != previousArtist && !m_artists.insert(artist))
+    if(artist == previousArtist || m_artists.insert(artist))
+	m_viewModeItems["artists"].insert(artist);
+    else
 	previousArtist = artist;
+
 }
 
 void CollectionList::addAlbum(const QString &album)
 {
+    if(album.isEmpty())
+	return;
+
     // Do a bit of caching since there will very often be "two in a row" insertions.
     static QString previousAlbum;
 
-    if(album != previousAlbum && !m_albums.insert(album))
+    if(album == previousAlbum || m_albums.insert(album))
+	m_viewModeItems["albums"].insert(album);
+    else
 	previousAlbum = album;
 }
 

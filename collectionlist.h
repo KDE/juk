@@ -27,6 +27,7 @@
 #include "playlist.h"
 #include "playlistitem.h"
 #include "sortedstringlist.h"
+#include "stringhash.h"
 
 class CollectionListItem;
 
@@ -59,6 +60,8 @@ public:
 				     const QString &absFilePath = QString::null, 
 				     QListViewItem * = 0,
 				     bool = false);
+
+    QMap<QString, SortedStringList> viewModeItems() const { return m_viewModeItems; }
 
 public slots:
     virtual void paste() { decode(kapp->clipboard()->data()); }
@@ -109,6 +112,7 @@ private:
     SortedStringList m_artists;
     SortedStringList m_albums;
     KDirWatch *m_dirWatch;
+    QMap<QString, SortedStringList> m_viewModeItems;
 };
 
 class CollectionListItem : public PlaylistItem

@@ -199,11 +199,11 @@ void TreeViewMode::setShown(bool show)
 
             i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
             m_categories.insert("artists", i);
-            setupCategory(i, CollectionList::instance()->artists());
+            setupCategory(i, CollectionList::instance()->viewModeItems()["artists"].values());
 
             i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
             m_categories.insert("albums", i);
-            setupCategory(i, CollectionList::instance()->albums());
+            setupCategory(i, CollectionList::instance()->viewModeItems()["albums"].values());
 
             for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
                 it.current()->setSortedFirst(true);

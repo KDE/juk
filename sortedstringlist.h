@@ -27,6 +27,10 @@ public:
     SortedStringList();
     ~SortedStringList();
 
+    /**
+     * Insert the value.  Returns true if the item was already in the list
+     * or false otherwise.
+     */
     bool insert(const QString &value);
     bool contains(const QString &value) const;
     bool remove(const QString &value);
@@ -51,7 +55,6 @@ private:
 
     Node *treeMinimum(Node *n) const;
     Node *treeSuccessor(Node *n) const;
-
 
     Node *m_root;
 };

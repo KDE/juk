@@ -22,16 +22,13 @@
 class SortedStringList::Node 
 {
 public:
-    enum Color { Red, Black };
-    
-    Node(const QString &value) : key(value), parent(0), left(0), right(0), color(Black) {}
+    Node(const QString &value) : key(value), parent(0), left(0), right(0) {}
     ~Node() {}
     
     QString key;
     Node *parent;
     Node *left;
     Node *right;
-    Color color;
 };
 
 SortedStringList::SortedStringList() : m_root(0)
