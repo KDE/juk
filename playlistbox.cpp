@@ -526,7 +526,9 @@ void PlaylistBox::slotPlaylistChanged()
     }
     action("reloadPlaylist")->setEnabled(allowReload);
     action("duplicatePlaylist")->setEnabled(!playlists.isEmpty());
-    m_k3bAction->setEnabled(!playlists.isEmpty());
+
+    if(m_k3bAction)
+	m_k3bAction->setEnabled(!playlists.isEmpty());
 
     bool searchList =
 	playlists.count() == 1 && dynamic_cast<SearchPlaylist *>(playlists.front());
