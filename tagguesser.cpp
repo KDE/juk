@@ -108,7 +108,7 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     regExp = ".*" + regExp;
     regExp.replace(' ', "\\s+");
 #if KDE_IS_VERSION(3,1,90)
-    KMacroExpander::expandMacros(regExp, substitutions);
+    regExp = KMacroExpander::expandMacros(regExp, substitutions);
 #else
     QMap<QChar, QString>::ConstIterator it = substitutions.begin();
     QMap<QChar, QString>::ConstIterator end = substitutions.end();
