@@ -80,31 +80,31 @@ void DefaultSequenceIterator::advance()
         PlaylistItem *item;
 
         if(albumRandom) {
-	    if(m_albumSearch.isNull() || m_albumSearch.matchedItems().isEmpty()) {
-		item = m_randomItems[::random() % m_randomItems.count()];
-		initAlbumSearch(item);
-	    }
+            if(m_albumSearch.isNull() || m_albumSearch.matchedItems().isEmpty()) {
+                item = m_randomItems[::random() % m_randomItems.count()];
+                initAlbumSearch(item);
+            }
 
-	    // This can be null if initAlbumSearch() left the m_albumSearch
-	    // empty because the album text was empty.
+            // This can be null if initAlbumSearch() left the m_albumSearch
+            // empty because the album text was empty.
 
-	    if(!m_albumSearch.isNull()) {
-		PlaylistItemList albumMatches = m_albumSearch.matchedItems();
+            if(!m_albumSearch.isNull()) {
+                PlaylistItemList albumMatches = m_albumSearch.matchedItems();
 
-		item = albumMatches[0];
+                item = albumMatches[0];
 
-		// Pick first song
+                // Pick first song
 
-		for(unsigned i = 0; i < albumMatches.count(); ++i)
-		    if(albumMatches[i]->file().tag()->track() < item->file().tag()->track())
-			item = albumMatches[i];
-		m_albumSearch.clearItem(item);
+                for(unsigned i = 0; i < albumMatches.count(); ++i)
+                    if(albumMatches[i]->file().tag()->track() < item->file().tag()->track())
+                        item = albumMatches[i];
+                m_albumSearch.clearItem(item);
 
                 if(m_albumSearch.matchedItems().isEmpty()) {
                     m_albumSearch.clearComponents();
                     m_albumSearch.search();
                 }
-	    }
+            }
         }
         else
             item = m_randomItems[::random() % m_randomItems.count()];
@@ -113,7 +113,7 @@ void DefaultSequenceIterator::advance()
         m_randomItems.remove(item);
     }
     else {
-        PlaylistItem *next = static_cast<PlaylistItem *>(current()->itemBelow());
+        PlaylistItem *next = current()->itemBelow();
         if(!next && loop) {
             Playlist *p = current()->playlist();
             next = static_cast<PlaylistItem *>(p->firstChild());
@@ -128,7 +128,7 @@ void DefaultSequenceIterator::backup()
     if(!current())
         return;
 
-    PlaylistItem *item = static_cast<PlaylistItem *>(current()->itemAbove());
+    PlaylistItem *item = current()->itemAbove();
 
     if(item)
         setCurrent(item);
@@ -236,15 +236,15 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
     // so ignore empty album names.
 
     if(searchItem->file().tag()->album().isEmpty())
-	return;
+        return;
 
     columns.append(PlaylistItem::AlbumColumn);
 
     m_albumSearch.addComponent(PlaylistSearch::Component(
-	searchItem->file().tag()->album(),
-	true,
-	columns,
-	PlaylistSearch::Component::Exact)
+        searchItem->file().tag()->album(),
+        true,
+        columns,
+        PlaylistSearch::Component::Exact)
     );
 
     m_albumSearch.search();
