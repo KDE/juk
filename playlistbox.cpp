@@ -321,6 +321,14 @@ void PlaylistBox::remove()
 	delete *it;
 }
 
+void PlaylistBox::setCanDeletePlaylist(bool canDelete)
+{
+    TreeViewMode *treeView = dynamic_cast<TreeViewMode *>(m_viewModes[2]);
+
+    if(treeView)
+	treeView->slotCanDeletePlaylist(canDelete);
+}
+
 void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
 {
     emit signalPlaylistDestroyed(p);

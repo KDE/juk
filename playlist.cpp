@@ -744,12 +744,14 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
+    setCanDeletePlaylist(false);
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
         (*it)->guessTagInfo(type);
 
 	processEvents();
     }
     dataChanged();
+    setCanDeletePlaylist(true);
     KApplication::restoreOverrideCursor();
 }
 
@@ -1192,6 +1194,11 @@ void Playlist::setupItem(PlaylistItem *item)
 	slotUpdateColumnWidths();
 	triggerUpdate();
     }
+}
+
+void Playlist::setCanDeletePlaylist(bool canDelete)
+{
+    m_collection->setCanDeletePlaylist(canDelete);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -108,12 +108,16 @@ public slots:
     void slotRemoveItem(const QString &item, unsigned column);
     void slotAddItem(const QString &item, unsigned column);
 
+    void slotCanDeletePlaylist(bool canDelete);
+
 signals:
     void signalPlaylistDestroyed(Playlist*);
 
 private:
     QDict<PlaylistBox::Item> m_searchCategories;    
     QMap<QString, TreeViewItemPlaylist*> m_treeViewItems;
+    QStringList m_pendingItemsToRemove;
+    bool m_canDeletePlaylists;
 };
 
 #endif
