@@ -19,77 +19,56 @@
 
 #include "sortedstringlist.h"
 
-static const int tableSize = 5003;
-
-class SortedStringList::Node
+class SortedStringList::Node 
 {
 public:
-    Node(const QString &value) : key(value), next(0) {}
-    ~Node() {}
+    enum Color { Red, Black };
+    
+    Node(const QString &value) : key(value), parent(0), left(0), right(0), color(Black) {}
+    ~Node();
     
     QString key;
-    Node *next;
+    Node *parent;
+    Node *left;
+    Node *right;
+    Color color;
 };
 
-SortedStringList::SortedStringList() : table(tableSize)
+SortedStringList::SortedStringList() : root(0)
 {
-
+    
 }
 
 SortedStringList::~SortedStringList()
 {
-    for(int i = 0; i < tableSize; i++)
-	deleteNode(table[i]);
+    
 }
 
 bool SortedStringList::insert(const QString &value)
 {
-    int h = hash(value);
-    Node *i = table[h];
-    Node *j = 0;
-    
-    while(i) {
-	if(i->key == value)
-	    return true;
-	else {
-	    j = i;
-	    i = i->next;
-	}
-    }
-
-    if(j)
-	j->next = new Node(value);
-    else
-	table.insert(h, new Node(value));
-
-    return false;
+    return BSTInsert(value);
 }
 
 bool SortedStringList::contains(const QString &value) const
 {
-    int h = hash(value);
-    Node *i = table[h];
+    Node *n = root;
+    while(n && value != n->key) {
+	if(value < n->key)
+	    n = n->left;
+	else
+	    n = n->right;
+    }
 
-    while(i && i->key != value)
-	i = i->next;
-
-    return bool(i);
+    if(n)
+	return true;
+    else
+	return false;
 }
 
 QStringList SortedStringList::values() const
 {
     QStringList l;
-
-    Node *n;
-
-    for(int i = 0; i < tableSize; i++) {
-	n = table[i];
-	while(n) {
-	    l.append(n->key);
-	    n = n->next;
-	}
-    }
-
+    traverse(root, l);
     return l;
 }
 
@@ -97,32 +76,48 @@ QStringList SortedStringList::values() const
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-int SortedStringList::hash(const QString &key) const
+bool SortedStringList::BSTInsert(const QString &value)
 {
-    uint h = 0;
-    uint g;
-
-    const QChar *p = key.unicode();
-
-    for(int i = 0; i < int(key.length()); i++) {
-	h = (h << 4) + p[i].cell();
-	if((g = h & 0xf0000000))
-	    h ^= g >> 24;
-	h &= ~g;
+    Node *previousNode = 0;
+    Node *node = root;
+    
+    while(node) {
+	previousNode = node;
+	if(value < node->key)
+	    node = node->left;
+	else
+	    node = node->right;
     }
+    
+    if(previousNode && value == previousNode->key)
+	return true;
 
-    int index = h;
+    Node *n = new Node(value);
 
-    if(index < 0)
-	index = -index;
+    n->parent = previousNode;
 
-    return(index % tableSize);
+    if(!root)
+	root = n;
+    else {
+	if(value < previousNode->key) {
+	    previousNode->left = n;
+//	    kdDebug() << "LEFT - " << value << endl;
+	}
+	else {
+	    previousNode->right = n;
+//	    kdDebug() << "RIGHT - " << value << endl;
+	}
+    }
+    
+    return false;
 }
 
-void SortedStringList::deleteNode(Node *n)
+void SortedStringList::traverse(const Node *n, QStringList &list) const
 {
-    if(n) {
-	deleteNode(n->next);
-	delete(n);
-    }
+    if(!n)
+	return;
+
+    traverse(n->left, list);
+    list.append(n->key);
+    traverse(n->right, list);
 }

@@ -29,7 +29,7 @@
 #include "collectionlist.h"
 #include "tageditor.h"
 #include "playlist.h"
-#include "sortedstringlist.h"
+#include "stringhash.h"
 
 class PlaylistBoxItem;
 
@@ -276,7 +276,7 @@ private:
 
     CollectionList *collection;
 
-    SortedStringList playlistFiles;
+    StringHash playlistFiles;
 
     QStringList mediaExtensions;
     QStringList listExtensions;

@@ -1,7 +1,7 @@
 /***************************************************************************
-                          sortedstringlist.h  -  description
+                          stringhash.h  -  description
                              -------------------
-    begin                : Wed Jan 29 2003
+    begin                : Sun Feb 2 2003
     copyright            : (C) 2003 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
@@ -15,17 +15,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SORTEDSTRINGLIST_H
-#define SORTEDSTRINGLIST_H
+#ifndef STRINGHASH_H
+#define STRINGHASH_H
 
 #include <qstring.h>
 #include <qstringlist.h>
+#include <qptrvector.h>
 
-class SortedStringList 
+class StringHash 
 {
 public: 
-    SortedStringList();
-    ~SortedStringList();
+    StringHash();
+    ~StringHash();
 
     bool insert(const QString &value);
     bool contains(const QString &value) const;
@@ -35,19 +36,14 @@ public:
      * Warning, this method is expensive and shouldn't be used except when 
      * necessary.
      */
-    QStringList values() const;
+    // QStringList values() const;
 
 private:
     class Node;
-
-    /**
-     * The insertion implementation.  Returns true if the item was already 
-     * present in the list.
-     */
-    bool BSTInsert(const QString &value);
-    void traverse(const Node *n, QStringList &list) const;
-
-    Node *root;
+    int hash(const QString &key) const;
+    void deleteNode(Node *n);
+    
+    QPtrVector<Node> table;
 };
 
 #endif
