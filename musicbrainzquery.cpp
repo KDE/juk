@@ -24,6 +24,7 @@
 #include "musicbrainzquery.h"
 
 #include <kprocess.h>
+#include <kdeversion.h>
 #include <kdebug.h>
 
 #include <qtimer.h>
@@ -47,7 +48,11 @@ void MusicBrainzQuery::start()
 {
     if(m_query == File) {
 #if HAVE_TRM
+#if KDE_IS_VERSION(3,1,90)
         KProcess *process = new KProcess(this);
+#else
+        KProcess *process = new KProcess;
+#endif
         *process << "trm";
         *process << m_arguments.first();
 
@@ -275,8 +280,11 @@ void MusicBrainzQuery::slotTrmData(KProcess *, char *buffer, int bufferLength)
     m_trm += QString::fromLatin1(buffer, bufferLength);
 }
 
-void MusicBrainzQuery::slotTrmGenerationFinished(KProcess *)
+void MusicBrainzQuery::slotTrmGenerationFinished(KProcess *proc)
 {
+#if KDE_VERSION < KDE_MAKE_VERSION(3,1,90)
+    delete proc;
+#endif
     m_arguments.clear();
     m_arguments << m_trm;
     m_query = TrackFromTRM;
