@@ -500,6 +500,7 @@ bool JuK::queryExit()
     m_startDocked = !isVisible();
 
     hide();
+    action("stop")->activate();
     delete m_systemTray;
     m_systemTray = 0;
 
