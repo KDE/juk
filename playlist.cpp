@@ -780,10 +780,25 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
 	if(KMessageBox::warningContinueCancelList(this, message, files, i18n("Delete Items?"), KGuiItem(i18n("&Delete"),"editdelete")) == KMessageBox::Continue) {
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+
+		// If we delete the item we're playing, we have to switch songs because of the
+		// m_playingItem pointer.  The 'best' thing to do would be to switch to the
+		// next song (or stop if that's it and loop isn't set), but I don't feel like
+		// duplicating all the code, so we'll just stop playback.
+
+		if(m_playingItem == *it)
+		    PlayerManager::instance()->stop();
+
 		if(QFile::remove((*it)->file().absFilePath())) {
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
                         m_randomList.remove(*it);
 		    CollectionList::instance()->clearItem((*it)->collectionItem());
+		    if(m_playNextItem == *it)
+			m_playNextItem = 0;
+
+		    // Get Orwellian and erase the song from history. :-)
+
+		    m_history.remove(*it);
 		}
 		else
 		    KMessageBox::sorry(this, i18n("Could not delete ") + (*it)->file().absFilePath() + ".");
