@@ -6,8 +6,8 @@
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  */
-#ifndef ID3TAGGUESSER_H
-#define ID3TAGGUESSER_H
+#ifndef TAGGUESSER_H
+#define TAGGUESSER_H
 
 #include <qregexp.h>
 #include <qstringlist.h>
@@ -68,5 +68,5 @@ class TagGuesser
         QString m_comment;
 };
 
-#endif // ID3TAGGUESSER_H
+#endif // TAGGUESSER_H
 // vim:ts=4:sw=4:noet
