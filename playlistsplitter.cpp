@@ -104,16 +104,14 @@ void PlaylistSplitter::setupLayout()
 
     // Create the PlaylistBox
 
-    QSplitter *boxSplitter = new QSplitter(Qt::Vertical, this, "boxSplitter");
-
-    m_playlistBox = new PlaylistBox(boxSplitter, m_playlistStack, "playlistBox");
+    m_playlistBox = new PlaylistBox(this, m_playlistStack, "playlistBox");
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));
     connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist *)),
             m_editor, SLOT(slotPlaylistDestroyed(Playlist *)));
 
-    moveToFirst(boxSplitter);
+    moveToFirst(m_playlistBox);
 
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_editor, SLOT(slotUpdateCollection()));
