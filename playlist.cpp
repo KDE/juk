@@ -421,7 +421,7 @@ void Playlist::playNext()
 	next = nextItem(m_playingItem);
 
 	if(!next && loop)
-	    next = nextItem();
+	    next = static_cast<PlaylistItem *>(firstChild());
     }
 
     setPlaying(next);
