@@ -1368,7 +1368,7 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
     if(text == m_editText ||
        (l.count() > 1 && KMessageBox::warningYesNo(
 	   0,
-	   i18n("This will edit multiple files! Are you sure?"),
+	   i18n("This will edit multiple files. Are you sure?"),
 	   QString::null,
 	   KStdGuiItem::yes(),
 	   KStdGuiItem::no(),
