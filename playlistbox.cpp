@@ -125,7 +125,7 @@ PlaylistBox::~PlaylistBox()
 {
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
-    for(QListViewItem *i = firstChild(); i; i = i->itemBelow()) {
+    for(QListViewItem *i = firstChild(); i; i = i->nextSibling()) {
 	Item *item = static_cast<Item *>(i);
 	if(item->playlist() && item->playlist() != collection)
 	    l.append(item->playlist());
