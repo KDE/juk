@@ -430,7 +430,7 @@ private:
 
     PlaylistItem *m_nextPlaylistItem;
 
-    KDirWatch *m_dirWatch;
+    KDirWatch m_dirWatch;
 };
 
 #endif

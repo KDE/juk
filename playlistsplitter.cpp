@@ -60,8 +60,6 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     m_restore = true;
 #endif
 
-    m_dirWatch = new KDirWatch;
-
     setupLayout();
     readConfig();
 
@@ -70,7 +68,6 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
 
 PlaylistSplitter::~PlaylistSplitter()
 {
-    delete m_dirWatch;
     saveConfig();
 }
 
@@ -288,13 +285,13 @@ void PlaylistSplitter::slotOpenDirectory()
     if(l->exec() == QDialog::Accepted) {
 	open(m_directoryQueue);
 	for(QStringList::Iterator it = m_directoryQueue.begin(); it !=  m_directoryQueue.end(); it++)
-	    m_dirWatch->addDir(*it, false, true);
+	    m_dirWatch.addDir(*it, false, true);
 
 	m_directoryList += m_directoryQueue;
 
 	QStringList::Iterator it = m_directoryQueueRemove.begin();
 	for(; it !=  m_directoryQueueRemove.end(); it++) {
-	    m_dirWatch->removeDir(*it);
+	    m_dirWatch.removeDir(*it);
 	    m_directoryList.remove(*it);
 	}
     }
@@ -534,14 +531,14 @@ void PlaylistSplitter::readConfig()
 	    m_directoryList = config->readPathListEntry("DirectoryList");
 	    QTimer::singleShot(0, this, SLOT(slotScanDirectories()));
 
-	    connect(m_dirWatch, SIGNAL(dirty(const QString &)),
+	    connect(&m_dirWatch, SIGNAL(dirty(const QString &)),
 		    this, SLOT(slotDirChanged(const QString &)));
 
 	    QStringList::Iterator it = m_directoryList.begin();
             for(; it != m_directoryList.end(); ++it)
-		m_dirWatch->addDir(*it, false, true);
+		m_dirWatch.addDir(*it, false, true);
 
-	    m_dirWatch->startScan();
+	    m_dirWatch.startScan();
 	}
 
 	if(m_collection) {

@@ -36,7 +36,8 @@
 
 SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
     QHBox(parent, name),
-    m_simple(simple)
+    m_simple(simple),
+    m_searchFieldsBox(0)
 {
     setSpacing(5);
 
