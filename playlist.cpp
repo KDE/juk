@@ -671,6 +671,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     }
     else
 	decode(e, moveAfter);
+
+    KListView::contentsDropEvent(e);
 }
 
 void Playlist::showEvent(QShowEvent *e)
