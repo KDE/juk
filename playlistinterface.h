@@ -20,12 +20,27 @@
 
 class PlaylistObserver;
 
+/**
+ * An interface implemented by PlaylistInterface to make it possible to watch
+ * for changes in the PlaylistInterface.  This is a semi-standard observer
+ * pattern from i.e. Design Patterns.
+ */
+
 class Watched
 {
 public:
     void addObserver(PlaylistObserver *observer);
     void removeObserver(PlaylistObserver *observer);
+
+    /**
+     * This is triggered when the currently playing item has been changed.
+     */
     virtual void currentChanged();
+
+    /**
+     * This is triggered when the data in the playlist -- i.e. the tag content
+     * changes.
+     */
     virtual void dataChanged();
 
 protected:
@@ -59,7 +74,19 @@ class PlaylistObserver
 {
 public:
     virtual ~PlaylistObserver();
+
+    /**
+     * This method must be implemented in concrete implementations; it should
+     * define what action should be taken in the observer when the currently
+     * playing item changes.
+     */
     virtual void updateCurrent() = 0;
+
+    /**
+     * This method must be implemented in concerete implementations; it should
+     * define what action should be taken when the data of the PlaylistItems in
+     * the playlist changes.
+     */
     virtual void updateData() = 0;
 
     void clearWatched() { m_playlist = 0; }
