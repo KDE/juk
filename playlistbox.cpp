@@ -2,7 +2,7 @@
                           playlistbox.cpp  -  description
                              -------------------
     begin                : Thu Sep 12 2002
-    copyright            : (C) 2002 by Scott Wheeler, 
+    copyright            : (C) 2002 by Scott Wheeler,
     email                : wheeler@kde.org
  ***************************************************************************/
 
@@ -51,10 +51,10 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     setSorting(0);
     setFullWidth(true);
     setItemMargin(3);
-	
+
     setAcceptDrops(true);
     setSelectionModeExt(Extended);
-    
+
     m_contextMenu = new KPopupMenu(this);
 
     // Find the main window and then get the associated KActionCollection.
@@ -62,10 +62,10 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     QObject *w = parent;
     while(w && !dynamic_cast<KMainWindow *>(w))
 	w = w->parent();
-    
+
     if(!w)
 	return;
-    
+
     KActionCollection *actions = static_cast<KMainWindow *>(w)->actionCollection();
 
     actions->action("file_new")->plug(m_contextMenu);
@@ -75,12 +75,12 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     actions->action("deleteItemPlaylist")->plug(m_contextMenu);
     actions->action("file_save")->plug(m_contextMenu);
     actions->action("file_save_as")->plug(m_contextMenu);
-    
+
     // add the view modes stuff
-	
+
     m_viewModeAction = new KSelectAction(actions, "viewModeMenu");
     m_viewModeAction->setText(i18n("View Modes"));
-    
+
     m_viewModes.append(new ViewMode(this));
     m_viewModes.append(new CompactViewMode(this));
     m_viewModes.append(new TreeViewMode(this));
@@ -94,16 +94,16 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
     m_viewModeAction->setItems(modeNames);
     m_viewModeAction->setCurrentItem(m_viewModeIndex);
     m_viewModes[m_viewModeIndex]->setShown(true);
-    
+
     m_viewModeAction->plug(m_contextMenu);
     connect(m_viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
 
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotPlaylistChanged()));
-    
-    connect(this, SIGNAL(doubleClicked(QListViewItem *)), 
+
+    connect(this, SIGNAL(doubleClicked(QListViewItem *)),
 	    this, SLOT(slotDoubleClicked(QListViewItem *)));
-    
+
     connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
 	    this, SLOT(slotShowContextMenu(QListViewItem *, const QPoint &, int)));
 }
@@ -119,7 +119,7 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise, b
 	return;
 
     Item *i = new Item(this, icon, playlist->name(), playlist);
-    
+
     setupItem(i, playlist);
 
     if(raise) {
@@ -259,13 +259,13 @@ void PlaylistBox::rename(Item *item)
 
 void PlaylistBox::duplicate(Item *item)
 {
-    if(item) {
+    if(item && item->playlist()) {
 	bool ok;
 
 	// If this text is changed, please also change it in PlaylistSplitter::createPlaylist().
 
-	QString name = KInputDialog::getText(i18n("New Playlist"), 
-					     i18n("Please enter a name for the new playlist:"), 
+	QString name = KInputDialog::getText(i18n("New Playlist"),
+					     i18n("Please enter a name for the new playlist:"),
 					     m_splitter->uniquePlaylistName(item->text(0), true), &ok);
 
 	if(ok) {
@@ -304,7 +304,7 @@ void PlaylistBox::deleteItems(const ItemList &items, bool confirm)
 	if(!files.isEmpty()) {
 	    int remove = KMessageBox::warningYesNoCancelList(
 		this, i18n("Do you want to delete these files from the disk as well?"), files);
-	
+
 	    if(remove == KMessageBox::Yes) {
 		QStringList couldNotDelete;
 		for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
@@ -330,7 +330,7 @@ void PlaylistBox::deleteItems(const ItemList &items, bool confirm)
     QValueList< QPair<Item *, Playlist *> > removeQueue;
 
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-	if(*it != Item::collectionItem() && 
+	if(*it != Item::collectionItem() &&
 	   (*it)->playlist() &&
 	   (!confirm || !(*it)->playlist()->readOnly()))
 	{
@@ -366,10 +366,10 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 	return;
 
     KURL::List urls;
-    
+
     if(KURLDrag::decode(s, urls) && !urls.isEmpty()) {
 	QStringList files;
-	
+
 	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	    files.append((*it).path());
 
@@ -389,11 +389,11 @@ void PlaylistBox::contentsDropEvent(QDropEvent *e)
 void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 {
     // If we can decode the input source, there is a non-null item at the "move"
-    // position, the playlist for that Item is non-null, is not the 
+    // position, the playlist for that Item is non-null, is not the
     // selected playlist and is not the CollectionList, then accept the event.
     //
     // Otherwise, do not accept the event.
-    
+
     if(!KURLDrag::canDecode(e)) {
 	e->accept(false);
 	return;
@@ -407,7 +407,7 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 
 	// This is a semi-dirty hack to check if the items are coming from within
 	// JuK.  If they are not coming from a Playlist (or subclass) then the
-	// dynamic_cast will fail and we can safely assume that the item is 
+	// dynamic_cast will fail and we can safely assume that the item is
 	// coming from outside of JuK.
 
 	if(dynamic_cast<Playlist *>(e->source())) {
@@ -526,7 +526,7 @@ void PlaylistBox::slotSetViewMode(int index)
 
     viewMode()->setShown(false);
     m_viewModeIndex = index;
-    viewMode()->setShown(true);    
+    viewMode()->setShown(true);
 }
 
 void PlaylistBox::setupItem(Item *item, Playlist *playlist)
@@ -540,7 +540,7 @@ void PlaylistBox::setupItem(Item *item, Playlist *playlist)
 
 PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 
-PlaylistBox::Item::Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l) 
+PlaylistBox::Item::Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l)
     : QObject(listBox), KListViewItem(listBox, text),
       m_list(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
