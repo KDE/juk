@@ -34,6 +34,7 @@
 	</Menu>
 	<Menu name="player"><text>&amp;Player</text>
 		<Action name="randomPlay"/>
+		<Action name="loopPlaylist"/>
 
 		<Separator/>
 
@@ -42,7 +43,6 @@
 		<Action name="stop"/>
 		<Action name="back"/>
 		<Action name="forward"/>
-		<Action name="loopPlaylist"/>
 	</Menu>
 	<Menu name="playlist"><text>Tagger</text>
 		<Action name="saveItem"/>
