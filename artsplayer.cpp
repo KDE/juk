@@ -2,8 +2,8 @@
                           player.cpp  -  description
                              -------------------
     begin                : Sun Feb 17 2002
-    copyright            : (C) 2002 by Scott Wheeler
-    email                : wheeler@kde.org
+    copyright            : (C) 2002 by Scott Wheeler <wheeler@kde.org>
+                           (C) 2003 by Matthias Kretz <kretz@kde.org>
 ***************************************************************************/
 
 /***************************************************************************
@@ -21,98 +21,111 @@
 
 #include <qdir.h>
 
-#include <connect.h>
-#include <flowsystem.h>
+#include <kartsserver.h>
+#include <kartsdispatcher.h>
+#include <kplayobject.h>
+#include <kplayobjectfactory.h>
 
 #include <sys/wait.h>
 
 #include "artsplayer.h"
+#include <kmessagebox.h>
+#include <kaudiomanagerplay.h>
+#include <klocale.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
 ArtsPlayer::ArtsPlayer() : Player(),
-			   m_dispatcher(0),
-			   m_server(0),
-			   m_media(0),
-			   m_volumeControl(0),
-			   m_currentVolume(1.0)
+                           m_dispatcher(0),
+                           m_server(0),
+                           m_factory( 0 ),
+                           m_playobject( 0 ),
+                           m_amanPlay( 0 ),
+                           m_volumeControl(Arts::StereoVolumeControl::null()),
+m_currentVolume(1.0)
 {
     setupPlayer();
 }
 
 ArtsPlayer::~ArtsPlayer()
 {
-    delete m_volumeControl;
-    delete m_media;
+    delete m_playobject;
+    delete m_factory;
+    delete m_amanPlay;
     delete m_server;
     delete m_dispatcher;
 }
 
 void ArtsPlayer::play(const QString &fileName, float volume)
 {
-    m_currentFile = fileName;
+    m_currentURL = fileName;
     play(volume);
 }
 
 void ArtsPlayer::play(float volume)
 {
-    if (!serverRunning() || (m_server && m_server->error()) ) restart();
-
-    if(serverRunning()) {
-        if(m_media && m_media->state() == posPaused) {
-            m_media->play();
-        }
-        else {
-            if(m_media)
-                stop();
-
-            delete m_media;
-            m_media = new PlayObject(m_server->createPlayObject(QFile::encodeName(m_currentFile).data()));
-            //      m_media = new PlayObject(m_server->createPlayObject(m_currentFile.latin1()));
-            if(!m_media->isNull()) {
-                setVolume(volume);
-                m_media->play();
-            }
-            else {
-                kdDebug(65432) << "Media did not initialize properly! (" << m_currentFile << ")" << endl;
-                delete m_media;
-                m_media = 0;
-            }
-        }
+    //kdDebug( 65432 ) << k_funcinfo << endl;
+    // make sure, that the server still exists, if it doesn't a new one should
+    // be started automatically and the factory and amanPlay are created again
+    if( m_server->server().isNull() )
+    {
+        KMessageBox::error( 0, i18n( "Cannot find the aRts soundserver." ) );
+        return;
     }
+
+    if( ! m_playobject || m_playobject->state() != Arts::posPaused )
+    {
+        if( m_playobject && m_playobject->state() == Arts::posPlaying )
+            stop();
+        delete m_playobject;
+        m_playobject = m_factory->createPlayObject( m_currentURL, false );
+        m_currentVolume = volume; //save volume for playObjectCreated
+        if( m_playobject->object().isNull() )
+            connect( m_playobject, SIGNAL( playObjectCreated() ), SLOT( playObjectCreated() ) );
+        else
+            playObjectCreated();
+    }
+    else
+        setVolume( volume );
+    m_playobject->play();
 }
 
 void ArtsPlayer::pause()
 {
-    if(serverRunning() && m_media)
-	m_media->pause();
+    //kdDebug( 65432 ) << k_funcinfo << endl;
+    if( m_playobject )
+        m_playobject->pause();
 }
 
 void ArtsPlayer::stop()
 {
-    if(serverRunning()) {
-        if(m_media) {
-            m_media->halt();
-            delete m_media;
-            m_media = 0;
-        }
-        if(m_volumeControl) {
-            delete m_volumeControl;
-            m_volumeControl = 0;
-        }
+    //kdDebug( 65432 ) << k_funcinfo << endl;
+    if( m_playobject )
+    {
+        m_playobject->halt();
+        delete m_playobject;
+        m_playobject = 0;
+    }
+    if( !m_volumeControl.isNull() )
+    {
+        m_volumeControl.stop();
+        m_volumeControl = Arts::StereoVolumeControl::null();
     }
 }
 
 void ArtsPlayer::setVolume(float volume)
 {
-    if(serverRunning() && m_media && !m_media->isNull()) {
-        if(!m_volumeControl)
+    //kdDebug( 65432 ) << k_funcinfo << endl;
+    if( serverRunning() && m_playobject && !m_playobject->isNull() )
+    {
+        if( m_volumeControl.isNull() )
             setupVolumeControl();
-        if(m_volumeControl) {
+        if( !m_volumeControl.isNull() )
+        {
             m_currentVolume = volume;
-            m_volumeControl->scaleFactor(volume);
+            m_volumeControl.scaleFactor( volume );
         }
     }
 }
@@ -128,7 +141,7 @@ float ArtsPlayer::getVolume() const
 
 bool ArtsPlayer::playing() const
 {
-    if(serverRunning() && m_media && m_media->state() == posPlaying)
+    if( serverRunning() && m_playobject && m_playobject->state() == Arts::posPlaying )
         return true;
     else
         return false;
@@ -136,7 +149,7 @@ bool ArtsPlayer::playing() const
 
 bool ArtsPlayer::paused() const
 {
-    if(serverRunning() && m_media && m_media->state() == posPaused)
+    if( serverRunning() && m_playobject && m_playobject->state() == Arts::posPaused )
         return true;
     else
         return false;
@@ -144,27 +157,26 @@ bool ArtsPlayer::paused() const
 
 long ArtsPlayer::totalTime() const
 {
-    if(serverRunning() && m_media)
-        return m_media->overallTime().seconds;
+    if( serverRunning() && m_playobject )
+        return m_playobject->overallTime().seconds;
     else
         return -1;
 }
 
 long ArtsPlayer::currentTime() const
 {
-    if(serverRunning() && m_media && (m_media->state() == posPlaying || m_media->state() == posPaused))
-        return m_media->currentTime().seconds;
+    if( serverRunning() && m_playobject && ( m_playobject->state() == Arts::posPlaying || m_playobject->state() == Arts::posPaused ) )
+        return m_playobject->currentTime().seconds;
     else
         return -1;
 }
 
 int ArtsPlayer::position() const
 {
-    if(serverRunning() && m_media && m_media->state() == posPlaying) {
-        //    long total=m_media->overallTime().ms;
-        //    long current=m_media->currentTime().ms;
-        long total = m_media->overallTime().seconds * 1000 + m_media->overallTime().ms;
-        long current = m_media->currentTime().seconds * 1000 + m_media->currentTime().ms;
+    if( serverRunning() && m_playobject && m_playobject->state() == Arts::posPlaying )
+    {
+        long total = m_playobject->overallTime().seconds * 1000 + m_playobject->overallTime().ms;
+        long current = m_playobject->currentTime().seconds * 1000 + m_playobject->currentTime().ms;
         // add .5 to make rounding happen properly
         return int(double(current) * 1000 / total + .5);
     }
@@ -178,24 +190,24 @@ int ArtsPlayer::position() const
 
 void ArtsPlayer::seek(long seekTime)
 {
-    if(serverRunning() && m_media) {
-        poTime poSeekTime;
+    if(serverRunning() && m_playobject) {
+        Arts::poTime poSeekTime;
         poSeekTime.custom = 0;
         poSeekTime.ms = 0;
         poSeekTime.seconds = seekTime;
-        m_media->seek(poSeekTime);
+        m_playobject->object().seek(poSeekTime);
     }
 }
 
 void ArtsPlayer::seekPosition(int position)
 {
-    if(serverRunning() && m_media) {
-        poTime poSeekTime;
-        long total = m_media->overallTime().seconds;
+    if(serverRunning() && m_playobject) {
+        Arts::poTime poSeekTime;
+        long total = m_playobject->overallTime().seconds;
         poSeekTime.custom = 0;
         poSeekTime.ms = 0;
         poSeekTime.seconds = long(double(total) * position / 1000 + .5);
-        m_media->seek(poSeekTime);
+        m_playobject->object().seek(poSeekTime);
     }
 }
 
@@ -203,108 +215,75 @@ void ArtsPlayer::seekPosition(int position)
 // private
 /////////////////////////////////////////////////////////////////////////////////
 
+void ArtsPlayer::setupArtsObjects()
+{
+    //kdDebug( 65432 ) << k_funcinfo << endl;
+    delete m_factory;
+    delete m_amanPlay;
+    m_volumeControl = Arts::StereoVolumeControl::null();
+    m_factory = new KDE::PlayObjectFactory( m_server );
+    m_amanPlay = new KAudioManagerPlay( m_server );
+
+    if( m_amanPlay->isNull() || !m_factory )
+    {
+        KMessageBox::error( 0, i18n( "Connecting/starting aRts soundserver failed. Make sure that artsd is configured properly." ) );
+        exit( 1 );
+    }
+
+    m_amanPlay->setTitle( i18n( "JuK" ) );
+    m_amanPlay->setAutoRestoreID( "JuKAmanPlay" );
+
+    m_factory->setAudioManagerPlay( m_amanPlay );
+}
+
+void ArtsPlayer::playObjectCreated()
+{
+    //kdDebug( 65432 ) << k_funcinfo << endl;
+    setVolume( m_currentVolume );
+}
+
 void ArtsPlayer::setupPlayer()
 {
-    m_dispatcher = new Dispatcher;
-    m_server = new SimpleSoundServer(Reference("global:Arts_SimpleSoundServer"));
+    m_dispatcher = new KArtsDispatcher;
+    m_server = new KArtsServer;
+    setupArtsObjects();
+    connect( m_server, SIGNAL( restartedServer() ), SLOT( setupArtsObjects() ) );
 }
 
 void ArtsPlayer::setupVolumeControl()
 {
-    m_volumeControl = new StereoVolumeControl(DynamicCast(m_server->createObject("Arts::StereoVolumeControl")));
-    if(m_volumeControl && m_media && !m_volumeControl->isNull() && !m_media->isNull()) {
+    //kdDebug( 65432 ) << k_funcinfo << endl;
+    m_volumeControl = Arts::DynamicCast(m_server->server().createObject("Arts::StereoVolumeControl"));
+    if(!m_volumeControl.isNull() && !m_playobject->isNull() && !m_playobject->object().isNull())
+    {
+        Arts::Synth_AMAN_PLAY ap = m_amanPlay->amanPlay();
+        Arts::PlayObject po = m_playobject->object();
+        ap.stop();
+        Arts::disconnect(po, "left" , ap, "left" );
+        Arts::disconnect(po, "right", ap, "right");
 
-        Synth_BUS_UPLINK uplink = Arts::DynamicCast(m_media->_getChild( "uplink" ));
-        uplink.stop();
-        Arts::disconnect(*m_media, "left", uplink, "left");
-        Arts::disconnect(*m_media, "right", uplink, "right");
+        m_volumeControl.start();
+        ap.start();
 
-        m_volumeControl->start();
-        uplink.start();
-        m_media->_addChild(*m_volumeControl, "volume" );
-
-        Arts::connect(*m_media, "left", *m_volumeControl, "inleft");
-        Arts::connect(*m_media, "right", *m_volumeControl, "inright");
-        Arts::connect(*m_volumeControl, "outleft", uplink, "left");
-        Arts::connect(*m_volumeControl, "outright", uplink, "right");
+        Arts::connect(po, "left" , m_volumeControl, "inleft" );
+        Arts::connect(po, "right", m_volumeControl, "inright");
+        Arts::connect(m_volumeControl, "outleft" , ap, "left" );
+        Arts::connect(m_volumeControl, "outright", ap, "right");
     }
-    else {
-        delete m_volumeControl;
-        m_volumeControl = 0;
+    else
+    {
+        m_volumeControl = Arts::StereoVolumeControl::null();
         kdDebug(65432) << "Could not initialize volume control!" << endl;
     }
-}
-
-void ArtsPlayer::restart()
-{
-    delete m_volumeControl;
-    m_volumeControl=0;
-    delete m_server;
-    m_server=0;
-
-    // *** This piece of text was copied from Noatun's engine
-    // and slightly modified
-    KConfig config("kcmartsrc");
-    QCString cmdline;
-
-    config.setGroup("Arts");
-
-    bool rt = config.readBoolEntry("StartRealtime",false);
-    bool x11Comm = config.readBoolEntry("X11GlobalComm",false);
-
-    // put the value of x11Comm into .mcoprc
-    {
-      KConfig X11CommConfig(QDir::homeDirPath()+"/.mcoprc");
-
-      if(x11Comm)
-	X11CommConfig.writeEntry("GlobalComm", "Arts::X11GlobalComm");
-      else
-	X11CommConfig.writeEntry("GlobalComm", "Arts::TmpGlobalComm");
-
-      X11CommConfig.sync();
-    }
-
-    cmdline = QFile::encodeName(KStandardDirs::findExe(
-	  QString::fromLatin1("kdeinit_wrapper") ));
-    cmdline += " ";
-
-    if (rt)
-      cmdline += QFile::encodeName(KStandardDirs::findExe(
-	    QString::fromLatin1("artswrapper")));
-    else
-      cmdline += QFile::encodeName(KStandardDirs::findExe(
-	    QString::fromLatin1("artsd")));
-
-    cmdline += " ";
-    cmdline += config.readEntry("Arguments","-F 10 -S 4096 -s 60 -m artsmessage -l 3 -f").utf8();
-
-    int status=::system(cmdline);
-
-    if ( status!=-1 && WIFEXITED(status) )
-    {
-      // We could have a race-condition here.
-      // The correct way to do it is to make artsd fork-and-exit
-      // after starting to listen to connections (and running artsd
-      // directly instead of using kdeinit), but this is better
-      // than nothing.
-      int time = 0;
-      do
-      {
-	// every time it fails, we should wait a little longer
-	// between tries
-	::sleep(1+time/2);
-	delete m_server;
-	m_server = new SimpleSoundServer(Reference("global:Arts_SimpleSoundServer"));
-      } while(++time < 5 && (m_server->isNull()));
-    }
-    // *** Until here
-
 }
 
 bool ArtsPlayer::serverRunning() const
 {
     if(m_server)
-        return !(m_server->isNull());
+        return !(m_server->server().isNull());
     else
         return false;
 }
+
+#include "artsplayer.moc"
+// vim: sw=4 ts=8 et

@@ -38,7 +38,7 @@ mblibs = -lmusicbrainz
 endif
 ##################################################
 
-juk_LDADD = $(gstlibs) $(mblibs) -lid3 -lsoundserver_idl $(LIB_KIO)
+juk_LDADD = $(gstlibs) $(mblibs) -lid3 -lartskde $(LIB_KIO)
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH)
 
 tagguessertest_LDADD = $(LIB_KDECORE)

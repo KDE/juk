@@ -2,8 +2,8 @@
                           artsplayer.h  -  description
                              -------------------
     begin                : Sun Feb 17 2002
-    copyright            : (C) 2002 by Scott Wheeler
-    email                : wheeler@kde.org
+    copyright            : (C) 2002 by Scott Wheeler <wheeler@kde.org>
+                           (C) 2003 by Matthias Kretz <kretz@kde.org>
 ***************************************************************************/
 
 /***************************************************************************
@@ -18,16 +18,25 @@
 #ifndef ARTSPLAYER_H
 #define ARTSPLAYER_H
 
-#include <qstring.h>
-#include <soundserver.h>
-#include <artsflow.h>
-
 #include "player.h"
 
-using namespace Arts;
+#include <kurl.h>
+#include <artsflow.h>
 
-class ArtsPlayer : public Player
+class QString;
+
+class KArtsDispatcher;
+class KArtsServer;
+class KAudioManagerPlay;
+namespace KDE {
+    class PlayObjectFactory;
+    class PlayObject;
+};
+
+class ArtsPlayer : public QObject, public Player
 {
+    Q_OBJECT
+
 public:
     ArtsPlayer();
     virtual ~ArtsPlayer();
@@ -50,19 +59,29 @@ public:
     virtual void seek(long seekTime);
     virtual void seekPosition(int position);
 
+private slots:
+    void setupArtsObjects();
+    void playObjectCreated();
+
 private:
     void setupPlayer();
     void setupVolumeControl();
     bool serverRunning() const;
-    void restart();
 
-    Dispatcher *m_dispatcher;
-    SimpleSoundServer *m_server;
-    PlayObject *m_media;
-    StereoVolumeControl *m_volumeControl;
+    KArtsDispatcher *m_dispatcher;
+    KArtsServer *m_server;
+    KDE::PlayObjectFactory *m_factory;
+    KDE::PlayObject *m_playobject;
+    KAudioManagerPlay *m_amanPlay;
 
-    QString m_currentFile;
+    Arts::StereoVolumeControl m_volumeControl; // this is a pretty heavy module
+    //for the needs that JuK has, it would probably be good to use two Synth_MUL
+    //instead or the one from noatun
+
+    KURL m_currentURL;
     float m_currentVolume;
 };
 
 #endif
+
+// vim: sw=4 ts=8 et
