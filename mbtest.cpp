@@ -9,13 +9,10 @@
 
 #include <kapplication.h>
 #include <kdebug.h>
-#include <qobject.h>
-#include "musicbrainzquery.h"
 
-class TestMB : public QObject {
-  Q_OBJECT
-public:
-  TestMB( const QString& file ) : QObject(0, "hello") {
+#include "mbtest.h"
+
+TestMB::TestMB( const QString& file ) : QObject(0, "hello") {
     QStringList l;
     l<<file;
     MusicBrainzQuery *query = new MusicBrainzQuery( MusicBrainzQuery::File ,
@@ -23,9 +20,9 @@ public:
     connect( query, SIGNAL(signalDone(const MusicBrainzQuery::TrackList&)),
              SLOT(slotTrack(const MusicBrainzQuery::TrackList&)) );
     query->start();
-  }
-public slots:
-  void slotTrack( const MusicBrainzQuery::TrackList& res ) {
+}
+
+void TestMB::slotTrack( const MusicBrainzQuery::TrackList& res ) {
     for( MusicBrainzQuery::TrackList::ConstIterator itr = res.begin();
          itr != res.end(); ++itr ) {
       kdDebug() <<"Album     = "<< (*itr).album <<endl;
@@ -36,8 +33,7 @@ public slots:
       kdDebug() <<"Song Num  = "<< (*itr).number <<endl;
     }
     kapp->quit();
-  }
-};
+}
 
 #include "mbtest.moc"
 
