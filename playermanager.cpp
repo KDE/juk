@@ -503,11 +503,16 @@ void PlayerManager::slotPollPlay()
     m_noSeek = false;
 }
 
-void PlayerManager::slotSetOutput(int system)
+void PlayerManager::slotSetOutput(const QString &system)
 {
     stop();
     delete m_player;
-    m_player = createPlayer(system);
+    if(system == i18n("aRts"))
+	m_player = createPlayer(ArtsBackend);
+    else if(system == i18n("GStreamer"))
+	m_player = createPlayer(GStreamerBackend);
+    else if(system == i18n("aKode"))
+	m_player = createPlayer(AkodeBackend);
     setup();
 }
 
@@ -599,7 +604,7 @@ void PlayerManager::setup()
         if (mediaSystem == ArtsBackend) mediaSystem = GStreamerBackend;
 #endif
         m_player = createPlayer(mediaSystem);
-        connect(outputAction, SIGNAL(activated(int)), this, SLOT(slotSetOutput(int)));
+        connect(outputAction, SIGNAL(activated(const QString &)), this, SLOT(slotSetOutput(const QString &)));
     }
     else
         m_player = createPlayer();

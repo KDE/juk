@@ -91,7 +91,7 @@ private:
 private slots:
     void slotPollPlay();
     void slotUpdateTime(int position);
-    void slotSetOutput(int system);
+    void slotSetOutput(const QString &);
     void slotSetVolume(int volume);
 
 private:
