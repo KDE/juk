@@ -569,8 +569,6 @@ void PlaylistCollection::readConfig()
     m_importPlaylists = config.readBoolEntry("ImportPlaylists", true);
     m_folderList      = config.readPathListEntry("DirectoryList");
 
-    QObject::connect(&m_dirWatch, SIGNAL(deleted(const QString &)),
-            object(), SLOT(slotDirChanged(const QString &)));
     QObject::connect(&m_dirWatch, SIGNAL(dirty(const QString &)),
             object(), SLOT(slotDirChanged(const QString &)));
 
