@@ -18,7 +18,7 @@ AC_DEFUN(AC_NO_GST,
 	have_gst=false
 ])
 
-KDE_CHECK_HEADER(kde/gst/gstreamer.hh,
+KDE_CHECK_HEADER(kde/gst/gstreamer.h,
 	AC_HAVE_GST,
 	AC_NO_GST
 )
