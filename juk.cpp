@@ -102,10 +102,8 @@ void JuK::setTime(int time)
 
 void JuK::startPlayingPlaylist()
 {
-    if(m_randomPlayAction->isChecked())
-        play(m_splitter->playRandomFile());
-    else
-        play(m_splitter->playFirstFile());
+    m_player->stop();
+    action("play")->activate();
 }
 
 void JuK::slotGuessTagInfoFromFile()
@@ -175,9 +173,9 @@ void JuK::seekForward()
 void JuK::playPause()
 {
     if(m_player->playing())
-	pause();
+	action("pause")->activate();
     else
-	play();
+	action("play")->activate();
 }
 
 void JuK::volumeUp()
@@ -769,9 +767,8 @@ void JuK::slotEditKeys()
 
 void JuK::slotPlaySelectedFile()
 {
-    QString file = m_splitter->playSelectedFile();
-    if(!file.isNull())
-	play(m_splitter->playSelectedFile());
+    m_player->stop();
+    action("play")->activate();
 }
 
 void JuK::slotConfigureTagGuesser()
