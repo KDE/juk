@@ -942,16 +942,22 @@ void Playlist::updateColumnWidths()
     if(m_columnWeights.isEmpty())
 	return;
 
+    QValueList<int> visibleColumns;
+    for(int i = 0; i < columns(); i++) {
+	if(isColumnVisible(i))
+	    visibleColumns.append(i);
+    }
+
     // First build a list of minimum widths based on the strings in the listview
     // header.  We won't let the width of the column go below this width.
 
-    QValueVector<int> minimumWidths(columns(), 0);
+    QValueVector<int> minimumWidth(columns(), 0);
     int minimumWidthTotal = 0;
 
-    for(int i = 0; i < columns(); i++) {
-	minimumWidths[i] = header()->fontMetrics().width(header()->label(i) + 10);
-	if(isColumnVisible(i))
-	    minimumWidthTotal += minimumWidths[i];
+    QValueListConstIterator<int> it;
+    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
+	minimumWidth[*it] = header()->fontMetrics().width(header()->label(*it) + 10);
+	minimumWidthTotal += minimumWidth[*it];
     }
 
     // Make sure that the width won't get any smaller than this.  We have to
@@ -962,46 +968,90 @@ void Playlist::updateColumnWidths()
 
     // We've got a list of columns "weights" based on some statistics gathered
     // about the widths of the items in that column.  We need to find the total
-    // useful weight to use as a divisor for each columns weight.
+    // useful weight to use as a divisor for each column's weight.
 
-    double weight = 0;
-    for(int i = 0; i < columns(); i++) {
-	if(isColumnVisible(i))
-	    weight += m_columnWeights[i];
+    double totalWeight = 0;
+    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it)
+	totalWeight += m_columnWeights[*it];
+
+    // Computed a "weighted width" for each visible column.  This would be the
+    // width if we didn't have to handle the cases of minimum and maximum widths.
+
+    QValueVector<int> weightedWidth(columns(), 0);
+    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it)
+	weightedWidth[*it] = int(double(m_columnWeights[*it]) / totalWeight * visibleWidth() + 0.5);
+
+    // The "extra" width for each column.  This is the weighted width less the
+    // minimum width or zero if the minimum width is greater than the weighted
+    // width.
+
+    QValueVector<int> extraWidth(columns(), 0);
+
+    // This is used as an indicator if we have any columns where the weighted
+    // width is less than the minimum width.  If this is false then we can
+    // just use the weighted width with no problems, otherwise we have to
+    // "readjust" the widths.
+
+    bool readjust = false;
+
+    // If we have columns where the weighted width is less than the minimum width
+    // we need to steal that space from somewhere.  The amount that we need to
+    // steal is the "neededWidth".
+
+    int neededWidth = 0;
+
+    // While we're on the topic of stealing -- we have to have somewhere to steal
+    // from.  availableWidth is the sum of the amount of space beyond the minimum
+    // width that each column has been allocated -- the sum of the values of
+    // extraWidth[].
+
+    int availableWidth = 0;
+
+    // Fill in the values discussed above.
+
+    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
+	if(weightedWidth[*it] < minimumWidth[*it]) {
+	    readjust = true;
+	    extraWidth[*it] = 0;
+	    neededWidth += minimumWidth[*it] - weightedWidth[*it];
+	}
+	else {
+	    extraWidth[*it] = weightedWidth[*it] - minimumWidth[*it];
+	    availableWidth += extraWidth[*it];
+	}
     }
 
-    // In just a few lines we'll be looping through the columns and applying the
-    // weights combined with the minimum widths.  We're also going to want to
-    // keep track of the total used width and the right most column so that we
-    // can make sure that our columns have a nice clean fit.
+    // The adjustmentRatio is the amount of the "extraWidth[]" that columns will
+    // actually be given.
 
-    // The availableWidth is just based on what's leftover after the minimum width.
+    double adjustmentRatio = (double(availableWidth) - double(neededWidth)) / double(availableWidth);
 
-    double availableWidth = visibleWidth() - minimumWidthTotal;
+    // This will be the sum of the total space that we actually use.  Because of
+    // rounding error this won't be the exact available width.
+
     int usedWidth = 0;
-    int rightMostColumn = 0;
 
-    // TODO: This algorithm really needs to improve -- right now columns with a
-    // long title are given a disproportianate amount of space, but things are
-    // close enough to go in for now.
+    // Now set the actual column widths.  If the weighted widths are all greater
+    // than the minimum widths, just use those, otherwise use the "reajusted
+    // weighted width".
 
-    // Apply the "weight" for this column divided by the total weight to decide
-    // what portion of the leftover space should be allocated to this column.
-
-    for(int i = 0; i < columns(); i++) {
-	if(isColumnVisible(i)) {
-	    int currentWidth =
-		int(availableWidth * double(m_columnWeights[i]) / weight) + minimumWidths[i];
-	    usedWidth += currentWidth;
-	    setColumnWidth(i, currentWidth);
-	    rightMostColumn = i;
+    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
+	int width;
+	if(readjust) {
+	    int adjustedExtraWidth = int(double(extraWidth[*it]) * adjustmentRatio + 0.5);
+	    width = minimumWidth[*it] + adjustedExtraWidth;
 	}
+	else
+	    width = weightedWidth[*it];
+	
+	setColumnWidth(*it, width);
+	usedWidth += width;
     }
 
     // Fill the remaining gap for a clean fit into the available space.
 
     int remainingWidth = visibleWidth() - usedWidth;
-    setColumnWidth(rightMostColumn, columnWidth(rightMostColumn) + remainingWidth);
+    setColumnWidth(visibleColumns.back(), columnWidth(visibleColumns.back()) + remainingWidth);
 }
 
 void Playlist::calculateColumnWeights()
@@ -1009,10 +1059,10 @@ void Playlist::calculateColumnWeights()
     PlaylistItemList l = items();
     QValueListConstIterator<int> columnIt;
 
-    QValueVector<double> averageWidths(columns(), 0);
+    QValueVector<double> averageWidth(columns(), 0);
     double itemCount = l.size();
 
-    QValueVector<int> cachedWidths;
+    QValueVector<int> cachedWidth;
 
     // Here we're not using a real average, but averaging the squares of the
     // column widths and then using the square root of that value.  This gives
@@ -1020,15 +1070,15 @@ void Playlist::calculateColumnWeights()
     // like adding a fixed amount of padding.
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
-	cachedWidths = (*it)->cachedWidths();
+	cachedWidth = (*it)->cachedWidths();
 	for(columnIt = m_widthDirty.begin(); columnIt != m_widthDirty.end(); ++columnIt)
-	    averageWidths[*columnIt] += pow(double(cachedWidths[*columnIt]) , 2.0) / itemCount;
+	    averageWidth[*columnIt] += pow(double(cachedWidth[*columnIt]) , 2.0) / itemCount;
     }
 
     m_columnWeights.resize(columns(), -1);
 
     for(columnIt = m_widthDirty.begin(); columnIt != m_widthDirty.end(); ++columnIt) {
-	m_columnWeights[*columnIt] = int(sqrt(averageWidths[*columnIt]) + 0.5);
+	m_columnWeights[*columnIt] = int(sqrt(averageWidth[*columnIt]) + 0.5);
 
 	//  kdDebug(65432) << k_funcinfo << "m_columnWeights[" << *columnIt << "] == "
 	//                 << m_columnWeights[*columnIt] << endl;
