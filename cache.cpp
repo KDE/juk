@@ -160,7 +160,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                 FolderPlaylist *p = new FolderPlaylist(collection);
                 s >> *p;
                 playlist = p;
-		break;
+                break;
             }
             default:
                 kdDebug(65432) << "reading playlist" << endl;
