@@ -33,7 +33,7 @@ public:
 
 private:
     virtual void wheelEvent(QWheelEvent *e);
-    void createPopup(const QString &songName, bool addButtons = true);
+    void createPopup(bool addButtons = true);
     void setToolTip(const QString &tip = QString::null);
     void mousePressEvent(QMouseEvent *e);
     QPixmap createPixmap(const QString &pixName);

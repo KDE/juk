@@ -122,9 +122,9 @@ void SystemTray::createPopup(bool addButtons)
         m_popup = new KPassivePopup(this);
 
         QHBox *box = new QHBox(m_popup);
-        box->setSpacing (15); // Add space between text and buttons
+        box->setSpacing(15); // Add space between text and buttons
 
-        QVBox *infoBox = new QVBox (box);
+        QVBox *infoBox = new QVBox(box);
 
         infoBox->setSpacing(3);
         infoBox->setMargin(3);
@@ -139,16 +139,16 @@ void SystemTray::createPopup(bool addButtons)
         // Give the title a bold, bigger font to make it look better.
         QFont f = title->font();
         f.setBold(true);
-        f.setPointSize (f.pointSize() + 4);
+        f.setPointSize(f.pointSize() + 4);
         title->setFont(f);
         
         // Artist info
         QString artistStr = playingInfo->artist();
         QLabel *artist = 0;
-        if (!artistStr.isEmpty())
+        if(!artistStr.isEmpty())
         {
             artist = new QLabel(infoBox);
-            artist->setAlignment (AlignRight | AlignVCenter);
+            artist->setAlignment(AlignRight | AlignVCenter);
         }
         else
             ++numSpacers;
@@ -156,41 +156,41 @@ void SystemTray::createPopup(bool addButtons)
         // Album info
         QString albumStr = playingInfo->album();
         QLabel *album = 0;
-        if (!albumStr.isEmpty())
+        if(!albumStr.isEmpty())
         {
             int year = playingInfo->year();
             
             // See if there is a year.
-            if (year > 0)
+            if(year > 0)
                 albumStr = i18n("%1 (%2)").arg(albumStr).arg(year);
             
             album = new QLabel(infoBox);
-            album->setAlignment (AlignRight | AlignVCenter);
+            album->setAlignment(AlignRight | AlignVCenter);
         }
         else
             ++numSpacers;
 
-        for ( ; numSpacers != 0; --numSpacers)
+        for( ; numSpacers != 0; --numSpacers)
         {
             // Add an empty label.  QSpacerItems weren't working for
             // me for some reason.  QBoxLayout->addSpacing() wasn't
             // either. mpyne :-(
-            (void) new QLabel (" ", infoBox);
+            (void) new QLabel(" ", infoBox);
         }
 
         if(addButtons) {
             // Add separator line
-            QFrame *line = new QFrame (box);
-            line->setFrameShape (QFrame::VLine);
+            QFrame *line = new QFrame(box);
+            line->setFrameShape(QFrame::VLine);
 
-            QVBox *buttonBox = new QVBox (box);
-            buttonBox->setSpacing (3);
+            QVBox *buttonBox = new QVBox(box);
+            buttonBox->setSpacing(3);
             
             QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
             backButton->setFlat(true);
             connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
 
-            QPushButton *forwardButton = new QPushButton (m_forwardPix, 0, buttonBox, "popup_forward");
+            QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
             forwardButton->setFlat(true);
             connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
         }
@@ -205,8 +205,10 @@ void SystemTray::createPopup(bool addButtons)
         // widgets have been added in order for the width to be calculated
         // correctly.
         title->setText(playingInfo->title());
-        if (artist) artist->setText(artistStr);
-        if (album) album->setText(albumStr);
+        if(artist)
+            artist->setText(artistStr);
+        if(album)
+            album->setText(albumStr);
         
         m_popup->show();
     }
@@ -223,12 +225,12 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
     QImage bgImage = bgPix.convertToImage(); // Probably 22x22
     QImage fgImage = fgPix.convertToImage(); // Should be 16x16
 
-    KIconEffect::semiTransparent (bgImage);
-    KIconEffect::semiTransparent (bgImage);
+    KIconEffect::semiTransparent(bgImage);
+    KIconEffect::semiTransparent(bgImage);
     copyImage(bgImage, fgImage, (bgImage.width() - fgImage.width()) / 2,
               (bgImage.height() - fgImage.height()) / 2);
 
-    bgPix.convertFromImage (bgImage);
+    bgPix.convertFromImage(bgImage);
     return bgPix;
 }
 
@@ -320,9 +322,9 @@ static bool copyImage(QImage &dest, QImage &src, int x, int y)
     // However, we do have to specifically ensure that setAlphaBuffer is set
     // to false
 
-    large_src.setAlphaBuffer (false);
+    large_src.setAlphaBuffer(false);
     large_src.fill(0); // All transparent pixels
-    large_src.setAlphaBuffer (true);
+    large_src.setAlphaBuffer(true);
 
     int w = src.width();
     int h = src.height();
@@ -332,7 +334,7 @@ static bool copyImage(QImage &dest, QImage &src, int x, int y)
 
     // Apply effect to image
 
-    KIconEffect::overlay (dest, large_src);
+    KIconEffect::overlay(dest, large_src);
 
     return true;
 }
