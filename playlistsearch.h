@@ -23,8 +23,10 @@
 
 class Playlist;
 typedef QValueList<Playlist *> PlaylistList;
+
 class PlaylistItem;
 typedef QValueList<PlaylistItem *> PlaylistItemList;
+
 typedef QValueList<int> ColumnList;
 
 class PlaylistSearch
@@ -47,9 +49,15 @@ public:
     PlaylistItemList matchedItems() const { return m_matchedItems; }
     PlaylistItemList unmatchedItems() const { return m_unmatchedItems; }
 
+    void addPlaylist(Playlist *p) { m_playlists.append(p); }
+    void clearPlaylists() { m_playlists.clear(); }
     PlaylistList playlists() const { return m_playlists; }
 
+    void addComponent(const Component &c) { m_components.append(c); }
+    void clearComponents() { m_components.clear(); }
     ComponentList components() const { return m_components; }
+
+    void setSearchMode(SearchMode m) { m_mode = m; }
 
     bool isNull() const { return m_components.isEmpty(); }
     bool isEmpty() const;

@@ -20,16 +20,38 @@
 
 #include <kdialogbase.h>
 
+#include "playlistsearch.h"
+
 class QGroupBox;
+class QRadioButton;
+class SearchLine;
 
 class AdvancedSearchDialog : public KDialogBase
 {
+    Q_OBJECT
+
 public:
+    struct Result
+    {
+        DialogCode result;
+        PlaylistSearch search;
+    };
+
     AdvancedSearchDialog(QWidget *parent = 0, const char *name = 0);
     virtual ~AdvancedSearchDialog();
 
+public slots:
+    Result exec();
+
+protected slots:
+    virtual void accept();
+    
 private:
     QWidget *m_criteria;
+    PlaylistSearch m_search;
+    QValueList<SearchLine *> m_searchLines;
+    QRadioButton *m_matchAnyButton;
+    QRadioButton *m_matchAllButton;
 };
 
 #endif

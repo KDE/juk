@@ -26,9 +26,15 @@
 #include <qhbox.h>
 #include <qvbox.h>
 #include <qlayout.h>
+#include <qhbuttongroup.h>
 
+#include "collectionlist.h"
 #include "advancedsearchdialog.h"
 #include "searchwidget.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+////////////////////////////////////////////////////////////////////////////////
 
 AdvancedSearchDialog::AdvancedSearchDialog(QWidget *parent, const char *name) :
     KDialogBase(parent, name, true, i18n("Create Search Playlist"), Ok|Cancel)
@@ -43,14 +49,15 @@ AdvancedSearchDialog::AdvancedSearchDialog(QWidget *parent, const char *name) :
 
     QVGroupBox *criteriaGroupBox = new QVGroupBox(i18n("Search Criteria"), mainWidget());
 
-    box = new QHBox(criteriaGroupBox);
-    new QRadioButton(i18n("Match any of the following"), box);
-    new QRadioButton(i18n("Match all of the following"), box);
+    QHButtonGroup *group = new QHButtonGroup(criteriaGroupBox);
+    m_matchAnyButton = new QRadioButton(i18n("Match any of the following"), group);
+    m_matchAllButton = new QRadioButton(i18n("Match all of the following"), group);
+    m_matchAnyButton->setChecked(true);
 
     m_criteria = new QVBox(criteriaGroupBox);
 
-    new SearchLine(m_criteria);
-    new SearchLine(m_criteria);
+    m_searchLines.append(new SearchLine(m_criteria));
+    m_searchLines.append(new SearchLine(m_criteria));
 
     QWidget *buttons = new QWidget(criteriaGroupBox);
     QBoxLayout *l = new QHBoxLayout(buttons, 0, 5);
@@ -67,3 +74,38 @@ AdvancedSearchDialog::~AdvancedSearchDialog()
 {
 
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
+AdvancedSearchDialog::Result AdvancedSearchDialog::exec()
+{
+    Result r;
+    r.result = DialogCode(KDialogBase::exec());
+    r.search = m_search;
+    return r;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// protected slots
+////////////////////////////////////////////////////////////////////////////////
+
+void AdvancedSearchDialog::accept()
+{
+    m_search.clearPlaylists();
+    m_search.clearComponents();
+
+    m_search.addPlaylist(CollectionList::instance());
+
+    QValueListConstIterator<SearchLine *> it = m_searchLines.begin();
+    for(; it != m_searchLines.end(); ++it)
+        m_search.addComponent((*it)->searchComponent());
+
+    PlaylistSearch::SearchMode m = PlaylistSearch::SearchMode(!m_matchAnyButton->isChecked());
+    m_search.setSearchMode(m);
+
+    KDialogBase::accept();
+}
+
+#include "advancedsearchdialog.moc"
