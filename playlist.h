@@ -81,6 +81,12 @@ public:
     PlaylistItemList selectedItems() const;
     
     /**
+     * This class is used internally to store settings that are shared by all
+     * of the playlists, such as column order.  It is implemented as a singleton.
+     */
+    class SharedSettings;
+
+    /**
      * Remove \a items from the playlist and disk.  This will ignore items that
      * are not actually in the list.
      */
@@ -153,6 +159,8 @@ protected:
     virtual void decode(QMimeSource *s);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+    virtual void showEvent(QShowEvent *e);
+
     PlaylistSplitter *playlistSplitter() const { return splitter; }
 
 signals:
@@ -224,6 +232,28 @@ private:
 
     PlaylistItem *playingItem;
     int leftColumn;
+};
+
+class Playlist::SharedSettings
+{
+public:
+    static SharedSettings *instance();
+    /**
+     * Sets the default column order to that of Playlist @param p.
+     */
+    void setColumnOrder(const Playlist *p);
+    /**
+     * Sets the columns of @param p to match the stored settings.
+     */
+    void restoreColumnOrder(const Playlist *p);
+
+protected:
+    SharedSettings();
+    ~SharedSettings() {}
+
+private:
+    static SharedSettings *m_instance;
+    QValueList<int> m_columnOrder;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);

@@ -46,6 +46,52 @@
 #include "tag.h"
 #include "genrelistlist.h"
 
+Playlist::SharedSettings *Playlist::SharedSettings::m_instance = 0;
+
+Playlist::SharedSettings *Playlist::SharedSettings::instance()
+{
+    if(!m_instance)
+	m_instance = new SharedSettings;
+    return m_instance;
+}
+
+void Playlist::SharedSettings::setColumnOrder(const Playlist *l)
+{
+    if(!l)
+	return;
+
+    m_columnOrder.clear();
+
+    for(int i = 0; i < l->columns(); ++i)
+	m_columnOrder.append(l->header()->mapToIndex(i));
+
+    KConfig *config = kapp->config();
+    {
+	KConfigGroupSaver(config, "PlaylistShared");
+	config->writeEntry("ColumnOrder", m_columnOrder);
+	config->sync();
+    }
+}
+
+void Playlist::SharedSettings::restoreColumnOrder(const Playlist *l)
+{
+    if(!l)
+	return;
+
+    int i = 0;
+    for(QValueListIterator<int> it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
+	l->header()->moveSection(i++, *it);
+}
+
+Playlist::SharedSettings::SharedSettings()
+{
+    KConfig *config = kapp->config();
+    {
+	KConfigGroupSaver(config, "PlaylistShared");
+	m_columnOrder = config->readIntListEntry("ColumnOrder");
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
@@ -389,6 +435,12 @@ void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
+void Playlist::showEvent(QShowEvent *e)
+{
+    SharedSettings::instance()->restoreColumnOrder(this);
+    KListView::showEvent(e);
+}
+
 PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 {
     QString filePath = file.absFilePath();
@@ -668,6 +720,8 @@ void Playlist::columnOrderChanged(int, int from, int to)
 	}
 	leftColumn = leftMostVisibleColumn();
     }
+
+    SharedSettings::instance()->setColumnOrder(this);
 }
 
 int Playlist::leftMostVisibleColumn() const
