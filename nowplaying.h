@@ -59,6 +59,7 @@ private:
         virtual void updateData() { m_parent->slotUpdate(); }
         NowPlaying *m_parent;
     };
+    friend struct Observer;
 
     Observer m_observer;
     PlaylistCollection *m_collection;
