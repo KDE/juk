@@ -134,4 +134,5 @@ void FileList::appendImpl(QString item)
       }
     }
   }
+  delete(file);
 }
