@@ -135,6 +135,7 @@ void SystemTray::createPopup(bool addButtons)
     Tag *playingInfo = playingFile.tag();
     
     // If the action exists and it's checked, do our stuff
+
     if(action<KToggleAction>("togglePopups")->isChecked()) {
 
         delete m_popup;
@@ -144,15 +145,19 @@ void SystemTray::createPopup(bool addButtons)
         box->setSpacing(15); // Add space between text and buttons
 
         // See where to put the buttons
+
         bool onLeft = buttonsToLeft();
         QVBox *buttonBox;
 
         if(onLeft) {
+
             // They go to the left because JuK is on that side
+
             buttonBox = new QVBox(box);
             buttonBox->setSpacing(3);
 
             // Separator line
+
             QFrame *line = new QFrame(box);
             line->setFrameShape(QFrame::VLine);
         }
@@ -163,6 +168,7 @@ void SystemTray::createPopup(bool addButtons)
         infoBox->setMargin(3);
         
         // We need to add QLabels to replace any missing labels.
+
         int numSpacers = 0;
         
         QString titleStr = playingInfo->title();
@@ -170,12 +176,14 @@ void SystemTray::createPopup(bool addButtons)
         title->setAlignment(AlignRight | AlignVCenter);
 
         // Give the title a bold, bigger font to make it look better.
+
         QFont f = title->font();
         f.setBold(true);
         f.setPointSize(f.pointSize() + 4);
         title->setFont(f);
         
         // Artist info
+
         QString artistStr = playingInfo->artist();
         QLabel *artist = 0;
         if(!artistStr.isEmpty()) {
@@ -186,12 +194,14 @@ void SystemTray::createPopup(bool addButtons)
             ++numSpacers;
                 
         // Album info
+
         QString albumStr = playingInfo->album();
         QLabel *album = 0;
         if(!albumStr.isEmpty()) {
             int year = playingInfo->year();
             
             // See if there is a year.
+
             if(year > 0)
                 albumStr = i18n("%1 (%2)").arg(albumStr).arg(year);
             
@@ -201,11 +211,11 @@ void SystemTray::createPopup(bool addButtons)
         else
             ++numSpacers;
 
-        for( ; numSpacers != 0; --numSpacers) {
+        for(; numSpacers != 0; --numSpacers) {
             // Add an empty label.  QSpacerItems weren't working for
             // me for some reason.  QBoxLayout->addSpacing() wasn't
             // either. mpyne :-(
-            (void) new QLabel(" ", infoBox);
+            new QLabel(" ", infoBox);
         }
 
         if(addButtons) {
@@ -230,12 +240,15 @@ void SystemTray::createPopup(bool addButtons)
 
         // We don't want an autodelete popup.  There are times when it will need
         // to be hidden before the timeout.
+
         m_popup->setAutoDelete(false);
 
         // We have to set the text of the labels after all of the
         // widgets have been added in order for the width to be calculated
         // correctly.
+
         title->setText(playingInfo->title());
+
         if(artist)
             artist->setText(artistStr);
         if(album)
