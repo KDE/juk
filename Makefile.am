@@ -36,6 +36,9 @@ SUBDIRS = pics data
 rcdir = $(kde_datadir)/juk
 rc_DATA = jukui.rc
 
+servicemenudir = $(kde_datadir)/konqueror/servicemenus
+servicemenu_DATA = jukservicemenu.desktop
+
 METASOURCES = AUTO
 KDE_ICON = AUTO
 

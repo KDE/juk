@@ -1,0 +1,8 @@
+[Desktop Entry]
+ServiceTypes=application/x-ogg,audio/x-mp3
+Actions=addToCollection
+
+[Desktop Action addToCollection]
+Name=Add to JuK Collection
+Icon=juk
+Exec=dcop juk Player openFile %u
