@@ -383,6 +383,8 @@ void PlaylistSplitter::slotRenameFile()
 
 void PlaylistSplitter::setupLayout()
 {
+    setOpaqueResize(true);
+
     m_playlistBox = new PlaylistBox(this, "playlistBox");
 
     // Create a splitter to go between the playlists and the editor.

@@ -132,20 +132,22 @@ class PlaylistBox::Item : public QObject, public KListViewItem
 public:
     virtual ~Item();
 
+public slots:
+    void slotSetName(const QString &name);
+    
 protected:
     Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l = 0);
-    Item(PlaylistBox *listbox, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_list; }
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(KListViewItem::listView()); }
 
     virtual int compare(QListViewItem *i, int col, bool) const;
+    virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
+    virtual void setText(int column, const QString &text);
 
-public slots:
-    void slotSetName(const QString &name);
-    
 private:
     Playlist *m_list;
+    QString m_text;
 };
 
 #endif

@@ -28,6 +28,8 @@
 #include <qdrawutil.h>
 #include <qclipboard.h>
 #include <qheader.h>
+#include <qpainter.h>
+#include <qregexp.h>
 
 #include "playlistbox.h"
 #include "collectionlist.h"
@@ -41,9 +43,12 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListView
 								       m_splitter(parent),
 								       m_updatePlaylistStack(true)
 {
-    addColumn("Playlists");
+    addColumn("Playlists", width());
     header()->hide();
     setSorting(0);
+    setFullWidth(true);
+    // setAlternateBackground(QColor());
+    setItemMargin(3);
     
     // Sadly the actions from the main menu can't be reused because these require being enabled and disabled at
     // different times.
@@ -421,19 +426,12 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
     : QObject(listbox), KListViewItem(listbox, text),
-      m_list(l)
+      m_list(l), m_text(text)
 {
     setPixmap(0, pix);
     listbox->addName(text);
 
     connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
-}
-
-PlaylistBox::Item::Item(PlaylistBox *listbox, const QString &text, Playlist *l) 
-    : KListViewItem(listbox, text),
-      m_list(l)
-{
-    setPixmap(0, SmallIcon("midi", 32));
 }
 
 PlaylistBox::Item::~Item()
@@ -449,6 +447,45 @@ int PlaylistBox::Item::compare(QListViewItem *i, int col, bool) const
 	return 1;
 
     return text(col).lower().localeAwareCompare(i->text(col).lower());
+}
+
+void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGroup, int column, int width, int align)
+{
+    if(width > pixmap(column)->width()) {
+	QFontMetrics fm = painter->fontMetrics();
+    
+	QStringList lines;
+	QString line = m_text;
+	
+	while(!line.isEmpty()) {
+	    int textLength = line.length();
+	    while(textLength > 0 && 
+		  fm.width(line.mid(0, textLength).stripWhiteSpace()) + 
+		  pixmap(column)->width() + 
+		  listView()->itemMargin() * 4 > width)
+	    {
+		int i = line.findRev(QRegExp( "\\W"), textLength - 1);
+		if(i > 0)
+		    textLength = i;
+		else
+		    textLength--;
+	    }
+	    
+	    lines.append(line.mid(0, textLength).stripWhiteSpace());
+	    line = line.mid(textLength);
+	}
+	
+	setMultiLinesEnabled(lines.count() > 1);
+
+	KListViewItem::setText(column, lines.join("\n"));
+    }
+    KListViewItem::paintCell(painter, colorGroup, column, width, align);
+}
+
+void PlaylistBox::Item::setText(int column, const QString &text)
+{
+    m_text = text;
+    KListViewItem::setText(column, text);
 }
 
 #include "playlistbox.moc"
