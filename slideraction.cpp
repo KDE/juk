@@ -55,7 +55,29 @@ QSlider *SliderAction::getVolumeSlider()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// protected members
+// public slots
+////////////////////////////////////////////////////////////////////////////////
+
+void SliderAction::updateOrientation(QDockWindow *dockWindow)
+{
+  // if the toolbar is not null and either the dockWindow not defined or is the toolbar
+  if(customWidget && toolbar && (!dockWindow || dockWindow == dynamic_cast<QDockWindow *>(toolbar))) {
+    if(toolbar->barPos() == KToolBar::Right || toolbar->barPos() == KToolBar::Left) {
+      trackPositionSlider->setOrientation(Qt::Vertical);
+      volumeSlider->setOrientation(Qt::Vertical);
+      layout->setDirection(QBoxLayout::TopToBottom);
+    }
+    else {
+      trackPositionSlider->setOrientation(Qt::Horizontal);      
+      volumeSlider->setOrientation(Qt::Horizontal);      
+      layout->setDirection(QBoxLayout::LeftToRight);
+    }
+  }
+  updateSize();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private members
 ////////////////////////////////////////////////////////////////////////////////
 
 QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base class
@@ -88,28 +110,6 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
   else {
     return(0);
   }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// public slots
-////////////////////////////////////////////////////////////////////////////////
-
-void SliderAction::updateOrientation(QDockWindow *dockWindow=NULL)
-{
-  // if the toolbar is not null and either the dockWindow not defined or is the toolbar
-  if(customWidget && toolbar && (!dockWindow || dockWindow == dynamic_cast<QDockWindow *>(toolbar))) {
-    if(toolbar->barPos() == KToolBar::Right || toolbar->barPos() == KToolBar::Left) {
-      trackPositionSlider->setOrientation(Qt::Vertical);
-      volumeSlider->setOrientation(Qt::Vertical);
-      layout->setDirection(QBoxLayout::TopToBottom);
-    }
-    else {
-      trackPositionSlider->setOrientation(Qt::Horizontal);      
-      volumeSlider->setOrientation(Qt::Horizontal);      
-      layout->setDirection(QBoxLayout::LeftToRight);
-    }
-  }
-  updateSize();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

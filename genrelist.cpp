@@ -24,12 +24,12 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-GenreList::GenreList(bool createIndex = false) : QValueList<Genre>()
+GenreList::GenreList(bool createIndex) : QValueList<Genre>()
 {
   hasIndex = createIndex;
 }
 
-GenreList::GenreList(QString file, bool createIndex = false) : QValueList<Genre>()
+GenreList::GenreList(QString file, bool createIndex) : QValueList<Genre>()
 {
   hasIndex = createIndex;
   load(file);

@@ -28,18 +28,18 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-FileList::FileList(QWidget *parent = 0, const char *name = 0) : KListView(parent, name)
+FileList::FileList(QWidget *parent, const char *name) : KListView(parent, name)
 {
   setup();
 }
 
-FileList::FileList(QString item, QWidget *parent = 0, const char *name = 0) : KListView(parent, name)
+FileList::FileList(QString item, QWidget *parent, const char *name) : KListView(parent, name)
 {
   setup();
   append(item);
 }
 
-FileList::FileList(QStringList *items, QWidget *parent = 0, const char *name = 0) : KListView(parent, name)
+FileList::FileList(QStringList *items, QWidget *parent, const char *name) : KListView(parent, name)
 {
   setup();
   append(items);

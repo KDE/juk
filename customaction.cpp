@@ -68,7 +68,7 @@ void CustomAction::unplug(QWidget *parent)
       toolbar->removeItem(itemId(index));
       removeContainer(index);
 
-      toolbar=NULL;
+      toolbar = 0;
     }
   }
 }
@@ -80,9 +80,4 @@ void CustomAction::unplug(QWidget *parent)
 KToolBar *CustomAction::getToolBar()
 {
   return(toolbar);
-}
-
-QWidget *CustomAction::createWidget(QWidget *parent) // virtual, should be reimplemented in subclasses
-{
-  return(0);
 }

@@ -36,12 +36,12 @@ public:
 
 protected:
   KToolBar *getToolBar();
-  virtual QWidget *createWidget(QWidget *parent);
 
   QWidget *customWidget;
   KToolBar *toolbar;
 
 private: 
+  virtual QWidget *createWidget(QWidget *parent) = 0;
 
 signals:
   void pluggedIn(QWidget *parent);

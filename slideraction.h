@@ -39,12 +39,11 @@ public:
   QSlider *getTrackPositionSlider();
 
 public slots:
-  void updateOrientation(QDockWindow *dockWindow=NULL);
-
-protected:
-  virtual QWidget *createWidget(QWidget *parent);
+  void updateOrientation(QDockWindow *dockWindow = 0);
 
 private:
+  QWidget *createWidget(QWidget *parent);
+
   QBoxLayout *layout;
   QSlider *trackPositionSlider; 
   QSlider *volumeSlider; 

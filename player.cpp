@@ -55,13 +55,13 @@ Player::~Player()
     delete(dispatcher);
 }
 
-void Player::play(QString fileName, float volume = 1.0)
+void Player::play(QString fileName, float volume)
 {
   currentFile=fileName;
   play(volume);
 }
 
-void Player::play(float volume = 1.0)
+void Player::play(float volume)
 {
   if(serverRunning()) {
     if(media && media->state()==posPaused) {
@@ -110,9 +110,9 @@ void Player::stop()
   }
 }
 
-void Player::setVolume(float volume=1.0)
+void Player::setVolume(float volume)
 {
-  if(serverRunning()) {
+  if(serverRunning() && media && !media->isNull()) {
     if(!volumeControl)
       setupVolumeControl();
     if(volumeControl) {
