@@ -44,6 +44,7 @@ public:
 		   bool searchNow = true);
 
     void search();
+    bool checkItem(PlaylistItem *item);
 
     PlaylistItemList searchedItems() const { return m_items; }
     PlaylistItemList matchedItems() const { return m_matchedItems; }

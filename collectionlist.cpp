@@ -69,7 +69,9 @@ PlaylistItem *CollectionList::createItem(const QFileInfo &file, const QString &a
 	delete item;
 	return 0;
     }
-    
+
+    setupItem(item);
+
     return item;
 }
 

@@ -926,6 +926,12 @@ void Playlist::polish()
     m_disableColumnWidthUpdates = false;
 }
 
+void Playlist::setupItem(PlaylistItem *item)
+{
+    if(!m_search.isEmpty())
+	item->setVisible(m_search.checkItem(item));
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////

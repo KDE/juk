@@ -388,6 +388,14 @@ protected:
     virtual void polish();
 
     /**
+     * Do some finial initialization of created items.  Notably ensure that they
+     * are shown or hidden based on the contents of the current PlaylistSearch.
+     *
+     * This is called by the PlaylistItem constructor.
+     */
+    void setupItem(PlaylistItem *item);
+
+    /**
      * As a template this allows us to use the same code to initialize the items
      * in subclasses.  CollectionItemType should always be CollectionListItem and
      * ItemType should be a PlaylistItem subclass.
@@ -646,6 +654,7 @@ ItemType *Playlist::createItem(const QFileInfo &file, const QString &absFilePath
 
     if(!item) {
 	item = new CollectionItemType(file, filePath);
+	setupItem(item);
 
 	// If a valid tag was not created, destroy the CollectionListItem.
 	if(!item->isValid()) {
@@ -662,8 +671,12 @@ ItemType *Playlist::createItem(const QFileInfo &file, const QString &absFilePath
 	    i = new ItemType(item, this, after);
 	else
 	    i = new ItemType(item, this);
+
+	setupItem(i);
+
         if(!m_randomList.isEmpty() && !m_visibleChanged)
             m_randomList.append(i);
+
 	emit signalCountChanged(this);
 	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
 

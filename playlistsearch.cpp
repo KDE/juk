@@ -45,20 +45,6 @@ PlaylistSearch::PlaylistSearch(const PlaylistList &playlists,
 	search();
 }
 
-bool PlaylistSearch::isEmpty() const
-{
-    if(isNull())
-	return true;
-
-    ComponentList::ConstIterator it = m_components.begin();
-    for(; it != m_components.end(); ++it) {
-	if(!(*it).query().isEmpty() || !(*it).pattern().isEmpty())
-	    return false;
-    }
-
-    return true;
-}
-
 void PlaylistSearch::search()
 {
     m_items.clear();
@@ -76,38 +62,54 @@ void PlaylistSearch::search()
 
     PlaylistList::Iterator playlistIt = m_playlists.begin();
     for(; playlistIt != m_playlists.end(); ++playlistIt) {
+	for(QListViewItemIterator it(*playlistIt); it.current(); ++it)
+	    checkItem(static_cast<PlaylistItem *>(*it));
+    }
+}
 
-	for(QListViewItemIterator it(*playlistIt); it.current(); ++it) {
+bool PlaylistSearch::checkItem(PlaylistItem *item)
+{
+    m_items.append(item);
 
-	    PlaylistItem *item = static_cast<PlaylistItem *>(*it);
+    // set our default
+    bool match = bool(m_mode);
 
-	    m_items.append(item);
+    ComponentList::Iterator componentIt = m_components.begin();
+    for(; componentIt != m_components.end(); ++componentIt) {
 
-	    // set our default
-	    bool match = bool(m_mode);
+	bool componentMatches = (*componentIt).matches(item);
 
-	    ComponentList::Iterator componentIt = m_components.begin();
-	    for(; componentIt != m_components.end(); ++componentIt) {
+	if(componentMatches && m_mode == MatchAny) {
+	    match = true;
+	    break;
+	}
 
-		bool componentMatches = (*componentIt).matches(item);
-
-		if(componentMatches && m_mode == MatchAny) {
-		    match = true;
-		    break;
-		}
-
-		if(!componentMatches && m_mode == MatchAll) {
-		    match = false;
-		    break;
-		}
-	    }
-
-	    if(match)
-		m_matchedItems.append(item);
-	    else
-		m_unmatchedItems.append(item);
+	if(!componentMatches && m_mode == MatchAll) {
+	    match = false;
+	    break;
 	}
     }
+
+    if(match)
+	m_matchedItems.append(item);
+    else
+	m_unmatchedItems.append(item);
+
+    return match;
+}
+
+bool PlaylistSearch::isEmpty() const
+{
+    if(isNull())
+	return true;
+
+    ComponentList::ConstIterator it = m_components.begin();
+    for(; it != m_components.end(); ++it) {
+	if(!(*it).query().isEmpty() || !(*it).pattern().isEmpty())
+	    return false;
+    }
+
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
