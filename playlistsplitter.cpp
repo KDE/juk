@@ -572,6 +572,9 @@ void PlaylistSplitter::slotPlaylistItemRemoved(PlaylistItem *item)
 void PlaylistSplitter::slotCreatePlaylist(const QValueList<QFileInfo> &fileInfos)
 {
     Playlist *playlist = slotCreatePlaylist();
+    if(!playlist)
+	return;
+
     QValueList<QFileInfo>::ConstIterator it = fileInfos.begin();
     QValueList<QFileInfo>::ConstIterator end = fileInfos.end();
     for(; it != end; ++it)
