@@ -117,7 +117,7 @@ public:
      * @return 0 if no file is playing, otherwise a pointer to the PlaylistItem
      *     of the track that is currently playing.
      */
-    PlaylistItem *playingItem() const { return m_playingItem; }
+    static PlaylistItem *playingItem() { return m_playingItem; }
 
     /**
      * All of the (media) files in the list.
