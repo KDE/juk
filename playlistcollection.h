@@ -17,6 +17,7 @@
 
 #include "playlistinterface.h"
 #include "stringhash.h"
+#include "jukIface.h"
 
 #include <kshortcut.h>
 #include <kdirwatch.h>
@@ -34,7 +35,7 @@ class PlaylistItem;
 
 typedef QValueList<PlaylistItem *> PlaylistItemList;
 
-class PlaylistCollection : public PlaylistInterface
+class PlaylistCollection : public PlaylistInterface, CollectionIface
 {
     friend class Playlist;
     friend class CollectionList;

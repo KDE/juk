@@ -4,15 +4,19 @@
 #include <dcopobject.h>
 #include <qstringlist.h>
 
-class CollectionIface : virtual public DCOPObject
+class CollectionIface : public DCOPObject
 {
     K_DCOP
 k_dcop:
-    virtual void openFile(const QString &s) = 0;
-    virtual void openFile(const QStringList &file) = 0;
+    void openFile(const QString &file) { open(file); }
+    void openFile(const QStringList &files) { open(files); }
+
+protected:
+    CollectionIface() : DCOPObject("Collection") {}
+    virtual void open(const QStringList &files) = 0;
 };
 
-class PlayerIface : virtual public DCOPObject
+class PlayerIface : public DCOPObject
 {
     K_DCOP
 k_dcop:
@@ -38,11 +42,13 @@ k_dcop:
     virtual void mute() = 0;
     virtual void setVolume(float volume) = 0;
     virtual void seek(int time) = 0;
-    // virtual void startPlayingPlaylist() = 0;
 
     virtual QString playingString() const = 0;
     virtual int currentTime() const = 0;
     virtual int totalTime() const = 0;
+
+protected:
+    PlayerIface() : DCOPObject("Player") {}
 };
 
 #endif
