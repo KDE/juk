@@ -77,6 +77,8 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise)
 	setCurrentItem(i);
 	ensureCurrentVisible();	
     }
+
+    sort();
 }
 
 void PlaylistBox::sort()
