@@ -348,7 +348,8 @@ PlaylistItemList Playlist::selectedItems()
 	list.append(m_lastSelected);
 	break;
     default:
-	list = items(QListViewItemIterator::Selected);
+	list = items(QListViewItemIterator::IteratorFlag(QListViewItemIterator::Selected |
+							 QListViewItemIterator::Visible));
 	break;
     }
 
