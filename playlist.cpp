@@ -169,6 +169,7 @@ Playlist::SharedSettings::SharedSettings()
 
 	    for(int i = 0; i <= PlaylistItem::lastColumn(); i++) {
 		switch(i) {
+		case PlaylistItem::BitrateColumn:
 		case PlaylistItem::CommentColumn:
 		case PlaylistItem::FileNameColumn:
 		    m_columnsVisible.append(false);
@@ -867,6 +868,7 @@ void Playlist::polish()
     addColumn(i18n("Genre"));
     addColumn(i18n("Year"));
     addColumn(i18n("Length"));
+    addColumn(i18n("Bitrate"));
     addColumn(i18n("Comment"));
     addColumn(i18n("File Name"));
 

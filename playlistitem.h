@@ -57,8 +57,9 @@ public:
 		      GenreColumn       = 4,
 		      YearColumn        = 5,
 		      LengthColumn      = 6,
-		      CommentColumn     = 7,
-		      FileNameColumn    = 8 };
+		      BitrateColumn     = 7,
+		      CommentColumn     = 8,
+		      FileNameColumn    = 9 };
 
     static int lastColumn() { return FileNameColumn; }
 

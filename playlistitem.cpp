@@ -77,6 +77,8 @@ QString PlaylistItem::text(int column) const
 	    : QString::null;
     case LengthColumn:
 	return d->fileHandle.tag()->lengthString();
+    case BitrateColumn:
+	return QString::number(d->fileHandle.tag()->bitrate());
     case CommentColumn:
 	return d->fileHandle.tag()->comment();
     case FileNameColumn:
@@ -259,25 +261,35 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
 	return first.localeAwareCompare(second);
     }
 
-    if(column == TrackNumberColumn + offset) {
+    switch(column - offset) {
+    case TrackNumberColumn:
         if(firstItem->d->fileHandle.tag()->track() > secondItem->d->fileHandle.tag()->track())
             return 1;
         else if(firstItem->d->fileHandle.tag()->track() < secondItem->d->fileHandle.tag()->track())
             return -1;
         else
             return 0;
-    }
-    else if(column == LengthColumn + offset) {
+	break;
+    case LengthColumn:
         if(firstItem->d->fileHandle.tag()->seconds() > secondItem->d->fileHandle.tag()->seconds())
             return 1;
         else if(firstItem->d->fileHandle.tag()->seconds() < secondItem->d->fileHandle.tag()->seconds())
             return -1;
         else
             return 0;
-    }
-    else
+	break;
+    case BitrateColumn:
+        if(firstItem->d->fileHandle.tag()->bitrate() > secondItem->d->fileHandle.tag()->bitrate())
+            return 1;
+        else if(firstItem->d->fileHandle.tag()->bitrate() < secondItem->d->fileHandle.tag()->bitrate())
+            return -1;
+        else
+            return 0;
+	break;
+    default:
 	return strcoll(firstItem->d->local8Bit[column - offset],
 		       secondItem->d->local8Bit[column - offset]);
+    }
 }
 
 bool PlaylistItem::isValid() const
