@@ -590,6 +590,8 @@ private:
     static PlaylistItem *m_playNextItem;
 };
 
+void processEvents();
+
 QDataStream &operator<<(QDataStream &s, Playlist &p);
 QDataStream &operator>>(QDataStream &s, Playlist &p);
 
@@ -606,6 +608,7 @@ ItemType *Playlist::createItem(const FileHandle &file, QListViewItem *after,
 	setupItem(item);
 
 	// If a valid tag was not created, destroy the CollectionListItem.
+
 	if(!item->isValid()) {
 	    kdError(65432) << "Playlist::createItem() -- A valid tag was not created for \""
 			   << file.absFilePath() << "\"" << endl;

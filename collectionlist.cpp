@@ -125,7 +125,7 @@ void CollectionList::slotCheckCache()
     for(QDictIterator<CollectionListItem>it(m_itemsDict); it.current(); ++it) {
 	if(!it.current()->checkCurrent())
 	    invalidItems.append(*it);
-	kapp->processEvents();
+	processEvents();
     }
 
     clearItems(invalidItems);

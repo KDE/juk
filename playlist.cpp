@@ -702,7 +702,6 @@ void Playlist::slotRefresh()
 	l = visibleItems();
 
     KApplication::setOverrideCursor(Qt::waitCursor);
-    int j = 0;
     for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
 	(*it)->refreshFromDisk();
 
@@ -713,9 +712,7 @@ void Playlist::slotRefresh()
 	    delete (*it)->collectionItem();
 	}
 
-	if(j % 5 == 0)
-	    kapp->processEvents();
-	j = j % 5 + 1;
+	processEvents();
     }
     KApplication::restoreOverrideCursor();
 }
@@ -751,13 +748,10 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
-    int j = 0;
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
         (*it)->guessTagInfo(type);
 
-        j = j % 5 + 1;
-        if(j % 5 == 0)
-             kapp->processEvents();
+	processEvents();
     }
     KApplication::restoreOverrideCursor();
 }
@@ -1325,6 +1319,8 @@ void Playlist::calculateColumnWeights()
 PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
 				PlaylistItem *after)
 {
+    processEvents();
+
     const QFileInfo fileInfo = QDir::cleanDirPath(file);
 
     if(!fileInfo.exists())
@@ -1681,7 +1677,7 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
 	editTag(*it, text, column);
-	kapp->processEvents();
+	processEvents();
     }
 }
 
@@ -1746,6 +1742,16 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
 {
     p.read(s);
     return s;
+}
+
+void processEvents()
+{
+    static QTime time = QTime::currentTime();
+
+    if(time.elapsed() > 1000) {
+	time.restart();
+	kapp->processEvents();
+    }
 }
 
 #include "playlist.moc"
