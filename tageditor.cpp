@@ -76,9 +76,12 @@ void TagEditor::slotRefresh()
 
     if(m_items.isEmpty()) {
 	slotClear();
+	setEnabled(false);
 	return;
     }
     
+    setEnabled(true);
+
     PlaylistItem *item = m_items.first();
 
     Tag *tag = item->tag();
