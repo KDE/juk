@@ -413,6 +413,11 @@ void Playlist::playNext()
     if(random && list->m_randomList.isEmpty()) {
 	m_randomAlbum = QString::null;
 	list->m_randomList = list->visibleItems();
+
+	if(m_playingItem && !loop) {
+	    setPlaying(0);
+	    return;
+	}
     }
 
     PlaylistItem *next = 0;
@@ -420,6 +425,9 @@ void Playlist::playNext()
     if(m_playNextItem) {
 	next = m_playNextItem;
 	m_playNextItem = 0;
+
+	if(random)
+	    list->m_randomList.remove(next);
     }
     else if(random) {
 	if(albumRandom) {
