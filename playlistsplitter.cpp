@@ -427,6 +427,14 @@ void PlaylistSplitter::slotDeleteSelectedItems()
 	p->slotRemoveSelectedItems();
 }
 
+void PlaylistSplitter::slotReloadPlaylist()
+{
+    if(collectionListSelected())
+	slotScanDirectories();
+    else
+	visiblePlaylist()->slotReload();
+}
+
 void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list, PlaylistItem *after)
 {
     if(!after)
