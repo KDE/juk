@@ -320,10 +320,15 @@ PlaylistItemList Playlist::historyItems(PlaylistItem *current, bool random) cons
 {
     PlaylistItemList list;
 
-    if (random) {
+    if (random && !m_history.isEmpty()) {
         PlaylistItemList::ConstIterator it = m_history.end();
+        --it;
 
-        for(int j = 0; it != m_history.begin() && j < 10; --it, ++j)
+        int j = 0;
+        for(; it != m_history.begin() && j < 10; --it, ++j)
+            list.append(*it);
+
+        if (j < 10)
             list.append(*it);
     }
     else if(current) {
