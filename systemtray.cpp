@@ -14,6 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <klocale.h>
 #include <kiconloader.h>
 #include <kpassivepopup.h>
 #include <kiconeffect.h>
@@ -22,9 +23,13 @@
 #include <kdebug.h>
 
 #include <qhbox.h>
+#include <qvbox.h>
 #include <qpushbutton.h>
 #include <qtooltip.h>
+#include <qlayout.h>
+#include <qfileinfo.h>
 
+#include "tag.h"
 #include "systemtray.h"
 #include "actioncollection.h"
 #include "playermanager.h"
@@ -71,9 +76,9 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     action("togglePopups")->plug(cm);
 
     if(PlayerManager::instance()->playing())
-	slotPlay();
+        slotPlay();
     else if(PlayerManager::instance()->paused())
-	slotPause();
+        slotPause();
 }
 
 SystemTray::~SystemTray()
@@ -89,7 +94,7 @@ void SystemTray::slotPlay()
 {
     setPixmap(m_playPix);
     setToolTip(PlayerManager::instance()->playingString());
-    createPopup(PlayerManager::instance()->playingString());
+    createPopup();
 }
 
 void SystemTray::slotStop()
@@ -105,8 +110,11 @@ void SystemTray::slotStop()
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void SystemTray::createPopup(const QString &songName, bool addButtons)
+void SystemTray::createPopup(bool addButtons)
 {
+    FileHandle playingFile = PlayerManager::instance()->playingFile();
+    Tag *playingInfo = playingFile.tag();
+    
     // If the action exists and it's checked, do our stuff
     if(action<KToggleAction>("togglePopups")->isChecked()) {
 
@@ -114,19 +122,75 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
         m_popup = new KPassivePopup(this);
 
         QHBox *box = new QHBox(m_popup);
+        box->setSpacing (15); // Add space between text and buttons
 
-        // The buttons are now optional - no real reason, but it might be useful later
-        if(addButtons) {
-            QPushButton *backButton = new QPushButton(m_backPix, 0, box, "popup_back");
-            backButton->setFlat(true);
-            connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
+        QVBox *infoBox = new QVBox (box);
+
+        infoBox->setSpacing(3);
+        infoBox->setMargin(3);
+        
+        // We need to add QLabels to replace any missing labels.
+        int numSpacers = 0;
+        
+        QString titleStr = playingInfo->title();
+        QLabel *title = new QLabel(titleStr, infoBox);
+        title->setAlignment(AlignRight | AlignVCenter);
+
+        // Give the title a bold, bigger font to make it look better.
+        QFont f = title->font();
+        f.setBold(true);
+        f.setPointSize (f.pointSize() + 4);
+        title->setFont(f);
+        
+        // Artist info
+        QString artistStr = playingInfo->artist();
+        QLabel *artist = 0;
+        if (!artistStr.isEmpty())
+        {
+            artist = new QLabel(infoBox);
+            artist->setAlignment (AlignRight | AlignVCenter);
+        }
+        else
+            ++numSpacers;
+                
+        // Album info
+        QString albumStr = playingInfo->album();
+        QLabel *album = 0;
+        if (!albumStr.isEmpty())
+        {
+            int year = playingInfo->year();
+            
+            // See if there is a year.
+            if (year > 0)
+                albumStr = i18n("%1 (%2)").arg(albumStr).arg(year);
+            
+            album = new QLabel(infoBox);
+            album->setAlignment (AlignRight | AlignVCenter);
+        }
+        else
+            ++numSpacers;
+
+        for ( ; numSpacers != 0; --numSpacers)
+        {
+            // Add an empty label.  QSpacerItems weren't working for
+            // me for some reason.  QBoxLayout->addSpacing() wasn't
+            // either. mpyne :-(
+            (void) new QLabel (" ", infoBox);
         }
 
-        QLabel *l = new QLabel(songName, box);
-        l->setMargin(3);
-
         if(addButtons) {
-            QPushButton *forwardButton = new QPushButton (m_forwardPix, 0, box, "popup_forward");
+            // Add separator line
+            QFrame *line = new QFrame (box);
+            line->setFrameShape (QFrame::VLine);
+
+            QVBox *buttonBox = new QVBox (box);
+            buttonBox->setSpacing (3);
+            
+            QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
+            backButton->setFlat(true);
+            connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
+
+            QPushButton *forwardButton = new QPushButton (m_forwardPix, 0, buttonBox, "popup_forward");
             forwardButton->setFlat(true);
             connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
         }
@@ -135,8 +199,15 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
 
         // We don't want an autodelete popup.  There are times when it will need
         // to be hidden before the timeout.
-
         m_popup->setAutoDelete(false);
+
+        // We have to set the text of the labels after all of the
+        // widgets have been added in order for the width to be calculated
+        // correctly.
+        title->setText(playingInfo->title());
+        if (artist) artist->setText(artistStr);
+        if (album) album->setText(albumStr);
+        
         m_popup->show();
     }
 }
@@ -183,10 +254,10 @@ void SystemTray::wheelEvent(QWheelEvent *e)
 
     switch(e->state()) {
     case ShiftButton:
-	if(e->delta() > 0)
-	    action("volumeUp")->activate();
-	else
-	    action("volumeDown")->activate();
+        if(e->delta() > 0)
+            action("volumeUp")->activate();
+        else
+            action("volumeDown")->activate();
         break;
     default:
         if(e->delta() > 0)
