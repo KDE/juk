@@ -559,7 +559,7 @@ QDragObject *Playlist::dragObject(QWidget *parent)
     }
 
     KURLDrag *drag = new KURLDrag(urls, parent, "Playlist Items");
-    drag->setPixmap(SmallIcon("sound"));
+    drag->setPixmap(BarIcon("sound"));
 
     return drag;
 }
@@ -821,18 +821,18 @@ void Playlist::polish()
 
     m_rmbMenu = new KPopupMenu(this);
 
-    m_rmbMenu->insertItem(SmallIcon("player_play"), i18n("Play Next"), this, SLOT(slotSetNext()));
+    m_rmbMenu->insertItem(SmallIconSet("player_play"), i18n("Play Next"), this, SLOT(slotSetNext()));
     m_rmbMenu->insertSeparator();
-    m_rmbMenu->insertItem(SmallIcon("editcut"), i18n("Cut"), this, SLOT(cut()));
-    m_rmbMenu->insertItem(SmallIcon("editcopy"), i18n("Copy"), this, SLOT(copy()));
-    m_rmbPasteID = m_rmbMenu->insertItem(SmallIcon("editpaste"), i18n("Paste"), this, SLOT(paste()));
-    m_rmbMenu->insertItem(SmallIcon("editclear"), i18n("Clear"), this, SLOT(clear()));
+    m_rmbMenu->insertItem(SmallIconSet("editcut"), i18n("Cut"), this, SLOT(cut()));
+    m_rmbMenu->insertItem(SmallIconSet("editcopy"), i18n("Copy"), this, SLOT(copy()));
+    m_rmbPasteID = m_rmbMenu->insertItem(SmallIconSet("editpaste"), i18n("Paste"), this, SLOT(paste()));
+    m_rmbMenu->insertItem(SmallIconSet("editclear"), i18n("Clear"), this, SLOT(clear()));
 
     m_rmbMenu->insertSeparator();
 
-    m_rmbEditID = m_rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
-    m_rmbMenu->insertItem(SmallIcon("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
-    m_rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove From Disk"), this, SLOT(slotDeleteSelectedItems()));
+    m_rmbEditID = m_rmbMenu->insertItem(SmallIconSet("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
+    m_rmbMenu->insertItem(SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
+    m_rmbMenu->insertItem(SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotDeleteSelectedItems()));
 
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotEmitSelected()));
@@ -936,7 +936,11 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	(column == PlaylistItem::GenreColumn) ||
 	(column == PlaylistItem::YearColumn);
 
-    m_rmbMenu->setItemEnabled(m_rmbEditID, showEdit);
+    if (showEdit)
+	m_rmbMenu->changeItem(m_rmbEditID,
+		i18n("Edit %1").arg(columnText(column)));
+
+    m_rmbMenu->setItemVisible(m_rmbEditID, showEdit);
 
     m_rmbMenu->popup(point);
     m_currentColumn = column;
