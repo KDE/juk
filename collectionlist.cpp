@@ -53,10 +53,15 @@ void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
+PlaylistItem *CollectionList::createItem(const QFileInfo &file, const QString &absFilePath, QListViewItem *)
 {
-    QString filePath = resolveSymLinks(file);
+    QString filePath;
 
+    if(absFilePath.isNull())
+	filePath = resolveSymLinks(file);
+    else
+	filePath = absFilePath;
+    
     if(m_itemsDict.find(filePath))
 	return 0;
 
@@ -245,6 +250,7 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
 
 void CollectionListItem::checkCurrent()
 {
+    kdDebug() << "CollectionListItem::checkCurrent() (mp3)" << endl;
     if(!data()->exists() || !data()->isFile())
 	CollectionList::instance()->clearItem(this);
     else if(!data()->tag()->current()) {

@@ -23,7 +23,7 @@
 #include "cache.h"
 #include "cachedtag.h"
 
-Cache *Cache::cache = 0;
+Cache *Cache::m_cache = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -31,11 +31,11 @@ Cache *Cache::cache = 0;
 
 Cache *Cache::instance()
 {
-    if(cache == 0) {
-	cache = new Cache();
-	cache->load();
+    if(m_cache == 0) {
+	m_cache = new Cache();
+	m_cache->load();
     }
-    return cache;
+    return m_cache;
 }
 
 void Cache::save()
@@ -64,14 +64,14 @@ void Cache::save()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Cache::Cache() : QDict<Tag>(cacheSize)
+Cache::Cache() : QDict<Tag>(m_cacheSize)
 {
 
 }
 
 Cache::~Cache()
 {
-    delete cache;
+    delete m_cache;
 }
 
 void Cache::load()

@@ -570,10 +570,15 @@ void Playlist::showEvent(QShowEvent *e)
     KListView::showEvent(e);
 }
 
-PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
+PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFilePath, QListViewItem *after)
 {
-    QString filePath = resolveSymLinks(file);
+    QString filePath;
 
+    if(absFilePath.isNull())
+	filePath = resolveSymLinks(file);
+    else
+	filePath = absFilePath;
+    
     CollectionListItem *item = CollectionList::instance()->lookup(filePath);
 
     if(!item) {
@@ -662,13 +667,17 @@ bool Playlist::isColumnVisible(int c) const
     return columnWidth(c) != 0;
 }
 
+// Though it's somewhat obvious, this function will stat the file, so only use it when
+// you're out of a performance critical loop.
+
 QString Playlist::resolveSymLinks(const QFileInfo &file)
 {
     char real[PATH_MAX];
     if(file.exists() && realpath(QFile::encodeName(file.absFilePath()).data(), real))
 	return QFile::decodeName(real);
     else
-	return QString::null;
+	return file.filePath();
+   
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -794,7 +803,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
 	if(item.exists() && item.isFile() && item.isReadable()) {
 	    if(after)
-		after = createItem(item, after);
+		after = createItem(item, QString::null, after);
 	    else
 		after = createItem(item);
 	}
@@ -1004,7 +1013,7 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
 
     for(QStringList::Iterator it = files.begin(); it != files.end(); ++it ) {
 	QFileInfo info(*it);
-	after = p.createItem(info, after);
+	after = p.createItem(info, *it, after);
     }
 
     return s;

@@ -96,7 +96,10 @@ public:
      * of PlaylistItems virtual.  In this case it allows for the creation of
      * both PlaylistItems and CollectionListItems.
      */
-    virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *after = 0);
+    virtual PlaylistItem *createItem(const QFileInfo &file, 
+				     const QString &absFilePath = QString::null, 
+				     QListViewItem *after = 0);
+
     void createItems(const PlaylistItemList &siblings);
 
     QString fileName() const { return m_fileName; }
@@ -180,6 +183,10 @@ protected:
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     virtual void showEvent(QShowEvent *e);
     
+    /**
+     * Though it's somewhat obvious, this function will stat the file, so only use it when
+     * you're out of a performance critical loop.
+     */
     static QString resolveSymLinks(const QFileInfo &file);
 
     KPopupMenu *rmbMenu() { return m_rmbMenu; }

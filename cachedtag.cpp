@@ -23,7 +23,9 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 CachedTag::CachedTag(const QString &file) : Tag(file), 
-					    m_externalTag(0), m_tagTrackNumber(0), m_tagYear(0), m_tagSeconds(0), m_tagExists(false)
+					    m_externalTag(0), m_tagTrackNumber(0), 
+					    m_tagYear(0), m_tagSeconds(0), 
+					    m_tagExists(false)
 {
 
 }
