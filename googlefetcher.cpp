@@ -39,27 +39,33 @@ void GoogleFetcher::loadImageURLs()
 
     m_urlList.clear();
 
-    KURL url = "http://images.google.com/images?q="+m_searchString;
-    DOM::HTMLDocument *search = new DOM::HTMLDocument;
-    search->setAsync(false);
-    search->load(url.url());
-    DOM::HTMLCollection col = search->links();
+    KURL url = "http://images.google.com/images?q=" + m_searchString;
 
-    for(uint i = 0; i < col.length(); i++) {
-        DOM::Node result = col.item(i).attributes().getNamedItem("href");
+    DOM::HTMLDocument search;
+    search.setAsync(false);
+    search.load(url.url());
+
+    DOM::HTMLCollection collection = search.links();
+
+    for(uint i = 0; i < collection.length(); i++) {
+
+        DOM::Node result = collection.item(i).attributes().getNamedItem("href");
+
         if(!result.isNull()) {
 
             QString href = result.nodeValue().string();
 
             if(!href.isNull() && href.startsWith("/imgres")) {
-                DOM::HTMLDocument *resdoc = new DOM::HTMLDocument;
-                resdoc->setAsync(false);
-                resdoc->load("http://images.google.com" + href + "&frame=small");
-                DOM::HTMLCollection finalcol=resdoc->links();
+
+                DOM::HTMLDocument resultDocument;
+
+                resultDocument.setAsync(false);
+                resultDocument.load("http://images.google.com" + href + "&frame=small");
 
                 // The right link is always the first in the collection.
 
-                m_urlList.append(finalcol.item(0).attributes().getNamedItem("href").nodeValue().string());
+                m_urlList.append(resultDocument.links().item(0).attributes()
+				 .getNamedItem("href").nodeValue().string());
             }
         }
     }

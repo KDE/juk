@@ -116,14 +116,10 @@ void GoogleFetcherDialog::slotUser1()
 
 QPixmap GoogleFetcherDialog::fetchedImage(uint index) const
 {
-    if(index>m_urlList.count())
-        return QPixmap();
-
-    QValueListConstIterator<QString> returnVal = m_urlList.at(index);
-    return getPixmapFromURL(*returnVal);
+    return (index > m_urlList.count()) ? QPixmap() : pixmapFromURL(m_urlList[index]);
 }
 
-QPixmap GoogleFetcherDialog::getPixmapFromURL(const KURL &url) const
+QPixmap GoogleFetcherDialog::pixmapFromURL(const KURL &url) const
 {
     kdDebug(65432) << "imageURL: " << url << endl;
 

@@ -54,7 +54,7 @@ private:
     void setLayout();
 
     QPixmap fetchedImage(uint index) const;
-    QPixmap getPixmapFromURL(const KURL &url) const;
+    QPixmap pixmapFromURL(const KURL &url) const;
 
     QStringList m_urlList;
     QPixmap m_pixmap;
