@@ -376,10 +376,6 @@ void CollectionListItem::refresh()
 	    playlist()->slotWeightDirty(i);
     }
 
-    playlist()->dataChanged();
-    CollectionList::instance()->dataChanged();
-    emit CollectionList::instance()->signalCollectionChanged();
-
     if(listView()->isVisible())
 	repaint();
 
@@ -387,6 +383,9 @@ void CollectionListItem::refresh()
 	if((*it)->listView()->isVisible())
 	    (*it)->repaint();
     }
+
+    CollectionList::instance()->dataChanged();
+    emit CollectionList::instance()->signalCollectionChanged();
 }
 
 PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist) const
