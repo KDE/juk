@@ -285,18 +285,18 @@
         <sender>genreList</sender>
         <signal>executed(QListViewItem*)</signal>
         <receiver>listEditor</receiver>
-        <slot>updateGenreBoxes(QListViewItem*)</slot>
+        <slot>slotUpdateGenreBoxes(QListViewItem*)</slot>
     </connection>
     <connection>
         <sender>genreNameBox</sender>
         <signal>textChanged(const QString&amp;)</signal>
         <receiver>listEditor</receiver>
-        <slot>updateGenreName(const QString&amp;)</slot>
+        <slot>slotUpdateGenreName(const QString&amp;)</slot>
     </connection>
 </connections>
 <slots>
-    <slot access="protected" specifier="pure virtual">updateGenreBoxes(QListViewItem *)</slot>
-    <slot access="protected" specifier="pure virtual">updateGenreName(const QString &amp;name)</slot>
+    <slot access="protected" specifier="pure virtual">slotUpdateGenreBoxes(QListViewItem *)</slot>
+    <slot access="protected" specifier="pure virtual">slotUpdateGenreName(const QString &amp;name)</slot>
 </slots>
 <layoutdefaults spacing="6" margin="11"/>
 <includehints>

@@ -59,17 +59,17 @@ public slots:
     void stop();
 
 private slots:
-    void setPosition(long long d);
-    void setDuration(long long d);
+    void slotSetPosition(long long d) { m_positionNs = d; }
+    void slotSetDuration(long long d) { m_durationNs = d; }
 
 private:
     void setupPlayer();
 
     QGstPlay::Play *m_player;
-    unsigned long long duration;
+    unsigned long long m_duration;
 
-    long long positionNs; // in ns
-    long long durationNs; // in ns
+    long long m_positionNs; // in ns
+    long long m_durationNs; // in ns
 
     QString m_currentFile;
     float m_currentVolume;

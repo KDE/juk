@@ -35,12 +35,9 @@ using namespace QGstPlay;
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-GStreamerPlayer::GStreamerPlayer() : QObject(0), Player()
+GStreamerPlayer::GStreamerPlayer() : QObject(0), Player(),
+				     m_positionNs(0), m_durationNs(0), m_currentVolume(1.0)
 {
-    m_currentVolume = 1.0;
-    positionNs = 0;
-    durationNs = 0;
-
     setupPlayer();
 }
 
@@ -61,8 +58,8 @@ void GStreamerPlayer::play(const QString &fileName, float volume)
 void GStreamerPlayer::play(float volume)
 {
     // 1.0 is full volume
-    positionNs = 0;
-    durationNs = 0;
+    m_positionNs = 0;
+    m_durationNs = 0;
     if (m_player->getState() != Element::STATE_PLAYING) {
 	m_player->setState(Element::STATE_PLAYING);
 	m_player->setVolume(volume);
@@ -112,18 +109,18 @@ bool GStreamerPlayer::paused() const
 
 long GStreamerPlayer::totalTime() const
 {
-    return durationNs / 1000000000L;
+    return m_durationNs / 1000000000L;
 }
 
 long GStreamerPlayer::currentTime() const
 {
-    return positionNs / 1000000000L;
+    return m_positionNs / 1000000000L;
 }
 
 int GStreamerPlayer::position() const
 {
-    if (durationNs > 0)
-	return (int)((positionNs * 1000.0) / durationNs);
+    if (m_durationNs > 0)
+	return (int)((m_positionNs * 1000.0) / m_durationNs);
     else
 	return 0;
 }
@@ -141,8 +138,8 @@ void GStreamerPlayer::seek(long seekTime)
 void GStreamerPlayer::seekPosition(int position)
 {
     // position unit is 1/1000th
-    if(durationNs > 0)
-	m_player->seekToTime(position * durationNs / 1000L);
+    if(m_durationNs > 0)
+	m_player->seekToTime(position * m_durationNs / 1000L);
     else
 	m_player->seekToTime(0);
 
@@ -152,23 +149,13 @@ void GStreamerPlayer::seekPosition(int position)
 // private
 /////////////////////////////////////////////////////////////////////////////////
 
-void GStreamerPlayer::setDuration(long long d) 
-{
-    durationNs = d;
-}
-
-void GStreamerPlayer::setPosition(long long d)
-{
-    positionNs = d;
-}
-
 void GStreamerPlayer::setupPlayer()
 {
     m_player = new Play(Play::PIPE_AUDIO_BUFFER_THREADED, this, "Play");
     connect(m_player, SIGNAL(timeTick(long long)), 
-	    SLOT(setPosition(long long)));
+	    SLOT(slotSetPosition(long long)));
     connect(m_player, SIGNAL(streamLength(long long)), 
-	    SLOT(setDuration(long long)));
+	    SLOT(slotSetDuration(long long)));
     connect(m_player, SIGNAL(streamEnd()), SLOT(stop()));
 }
 

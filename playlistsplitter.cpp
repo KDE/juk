@@ -298,8 +298,8 @@ void PlaylistSplitter::slotOpenDirectory()
 
     m_directoryQueue.clear();
 
-    connect(l, SIGNAL(directoryAdded(const QString &)), this, SLOT(slotQueueDirectory(const QString &)));
-    connect(l, SIGNAL(directoryRemoved(const QString &)), this, SLOT(slotQueueDirectoryRemove(const QString &)));
+    connect(l, SIGNAL(signalDirectoryAdded(const QString &)), this, SLOT(slotQueueDirectory(const QString &)));
+    connect(l, SIGNAL(signalDirectoryRemoved(const QString &)), this, SLOT(slotQueueDirectoryRemove(const QString &)));
 
     if(l->exec() == QDialog::Accepted) {
 	open(m_directoryQueue);

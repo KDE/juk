@@ -194,7 +194,7 @@ void PlaylistBox::rename(Item *item)
 	item->setText(name);
 	
 	// Telling the playlist to change it's name will emit a signal that
-	// is connected to PlaylistItem::setName().
+	// is connected to Item::slotSetName().
 	
 	if(item->playlist())
 	    item->playlist()->setName(name);
@@ -391,7 +391,7 @@ PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString 
     setOrientation(Qt::Vertical);
     listbox->addName(text);
 
-    connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(setName(const QString &)));
+    connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
 }
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QString &text, Playlist *l) 
@@ -406,7 +406,7 @@ PlaylistBox::Item::~Item()
 
 }
 
-void PlaylistBox::Item::setName(const QString &name)
+void PlaylistBox::Item::slotSetName(const QString &name)
 {
     if(listBox()) {
 	listBox()->m_names.remove(text());

@@ -78,7 +78,7 @@ void GenreListEditor::updateGenreList()
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void GenreListEditor::updateGenreBoxes(QListViewItem *item)
+void GenreListEditor::slotUpdateGenreBoxes(QListViewItem *item)
 {
     if(item) {
 	genreNameBox->setText(item->text(0));
@@ -86,7 +86,7 @@ void GenreListEditor::updateGenreBoxes(QListViewItem *item)
     }
 }
 
-void GenreListEditor::updateGenreName(const QString &name)
+void GenreListEditor::slotUpdateGenreName(const QString &name)
 {
     QListViewItem *current = genreList->currentItem();
     if(!name.isEmpty() && current)

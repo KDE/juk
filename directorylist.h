@@ -31,12 +31,12 @@ public:
     virtual ~DirectoryList();
 
 signals:
-    void directoryAdded(const QString &directory);
-    void directoryRemoved(const QString &directory);
+    void signalDirectoryAdded(const QString &directory);
+    void signalDirectoryRemoved(const QString &directory);
 
 private slots:
-    void addDirectory();
-    void removeDirectory();
+    void slotAddDirectory();
+    void slotRemoveDirectory();
 
 private:
     QStringList m_dirList;

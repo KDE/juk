@@ -89,7 +89,7 @@ QSlider *SliderAction::getVolumeSlider() const
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void SliderAction::updateOrientation(QDockWindow *dockWindow)
+void SliderAction::slotUpdateOrientation(QDockWindow *dockWindow)
 {
     // if the toolbar is not null and either the dockWindow not defined or is the toolbar
     if(customWidget && toolbar && (!dockWindow || dockWindow == dynamic_cast<QDockWindow *>(toolbar))) {
@@ -104,7 +104,7 @@ void SliderAction::updateOrientation(QDockWindow *dockWindow)
             m_layout->setDirection(QBoxLayout::LeftToRight);
         }
     }
-    updateSize();
+    slotUpdateSize();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -138,8 +138,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 
 //        setWidget(base);
 
-        connect(parent, SIGNAL(modechange()), this, SLOT(updateLabels()));
-        connect(parent, SIGNAL(modechange()), this, SLOT(updateSize()));
+        connect(parent, SIGNAL(modechange()), this, SLOT(slotUpdateSize()));
         return base;
     }
     else
@@ -150,12 +149,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void SliderAction::updateLabels()
-{
-
-}
-
-void SliderAction::updateSize()
+void SliderAction::slotUpdateSize()
 {
     static const int offset = 3;
     static const int absoluteMax = 10000;
@@ -175,8 +169,6 @@ void SliderAction::updateSize()
             m_trackPositionSlider->setMaximumHeight(toolbar->iconSize() - offset);
             m_trackPositionSlider->setMaximumWidth(absoluteMax);
         }
-        //    kdDebug() << "SliderAction::updateLabels()" << endl;
-        //    kdDebug() << toolbar->iconSize() << endl;
     }
 
 }

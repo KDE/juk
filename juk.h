@@ -48,8 +48,8 @@ public:
     virtual ~JuK();
 
 signals:
-    void editSignal();
-    void newSongSignal(const QString& songTitle);
+    void signalEdit();
+    void signalNewSong(const QString& songTitle);
 
 private:
     // private methods
@@ -72,10 +72,16 @@ private:
 
     void invokeEditSlot(const char *slotName, const char *slot);
     QString playingString() const;
+    void updatePlaylistInfo();
+
+    /**
+     * This is the main method to play stuff.  Everything else is just a wrapper
+     * around this.
+     */
+    void play(const QString &file);
 
 private slots:
-    void playlistChanged();
-    void updatePlaylistInfo();
+    void slotPlaylistChanged();
 
     // edit menu
     void cut();
@@ -84,44 +90,37 @@ private slots:
     void clear();
     void selectAll();
 
-    // m_player menu
-    void play();
-    void pause();
-    void stop();
-    void back();
-    void forward();
+    // player menu
+    void slotPlay();
+    void slotPause();
+    void slotStop();
+    void slotBack();
+    void slotForward();
 
     // settings menu
-    void showGenreListEditor();
-    void toggleSystemTray(bool enabled);
-    void setOutput(int output);
+    void slotShowGenreListEditor();
+    void slotToggleSystemTray(bool enabled);
+    void slotSetOutput(int output);
 
-    // additional m_player slots
-    void trackPositionSliderClick();
-    void trackPositionSliderRelease();
-    void trackPositionSliderUpdate(int position);
+    // additional player slots
+    void slotTrackPositionSliderClicked();
+    void slotTrackPositionSliderReleased();
+    void slotTrackPositionSliderUpdate(int position);
 
     /**
      * This method is called to check our progress in the playing file.  It uses
      * m_playTimer to know when to call itself again.
      */
-    void pollPlay();
+    void slotPollPlay();
 
     /**
-     * This method is called by the slider to set the volume of the m_player.  Its
+     * This method is called by the slider to set the volume of the player.  Its
      * value is relative to the maxValue() of the volume slider.
      */
-    void setVolume(int volume);
+    void slotSetVolume(int volume);
 
-    /**
-     * This is the main method to play stuff.  Everything else is just a wrapper
-     * around this.
-     */
-    void play(const QString &file);
-
-    void playSelectedFile() { play(m_splitter->playSelectedFile()); }
-    void playFirstFile() { play(m_splitter->playFirstFile()); }
-
+    void slotPlaySelectedFile() { play(m_splitter->playSelectedFile()); }
+    void slotPlayFirstFile() { play(m_splitter->playFirstFile()); }
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
     void slotToggleToolBar() { toolBar()->isVisible() ? toolBar()->hide() : toolBar()->show(); }
 
@@ -157,7 +156,7 @@ private:
     bool m_noSeek;
     bool m_restore;
 
-    static const int pollInterval = 800;
+    static const int m_pollInterval = 800;
 };
 
 #endif

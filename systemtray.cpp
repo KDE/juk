@@ -39,14 +39,11 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     setPixmap(m_appPix);
     
     KPopupMenu *cm = contextMenu();
-    //cm->insertTitle(i18n("Playing"));
-    cm->insertItem(m_playPix, i18n("Play"), this, SIGNAL(play()));
-    cm->insertItem(m_pausePix, i18n("Pause"), this, SIGNAL(pause()));
-    cm->insertItem(SmallIcon("player_stop"), i18n("Stop"), this, SIGNAL(stop()));
-    cm->insertItem(SmallIcon("player_start"), i18n("Back"), this, SIGNAL(back()));
-    cm->insertItem(SmallIcon("player_end" ), i18n("Forward"), this, SIGNAL(forward()));
-    
-//    connect(m_blinkTimer, SIGNAL(timeout()), this, SLOT(slotBlink()));
+    cm->insertItem(m_playPix, i18n("Play"), this, SIGNAL(signalPlay()));
+    cm->insertItem(m_pausePix, i18n("Pause"), this, SIGNAL(signalPause()));
+    cm->insertItem(SmallIcon("player_stop"), i18n("Stop"), this, SIGNAL(signalStop()));
+    cm->insertItem(SmallIcon("player_start"), i18n("Back"), this, SIGNAL(signalBack()));
+    cm->insertItem(SmallIcon("player_end" ), i18n("Forward"), this, SIGNAL(signalForward()));
 }
 
 SystemTray::~SystemTray()
@@ -64,41 +61,11 @@ void SystemTray::slotNewSong(const QString& songName)
     QToolTip::add(this, songName);
 }
 
-void SystemTray::slotPlay()
-{
-    setPixmap(m_playPix);
-//    m_currentPix = m_playPix;
-//    m_blinkTimer->start(blinkInterval);
-}
-
-void SystemTray::slotPause()
-{
-    setPixmap(m_pausePix);
-//    m_currentPix = m_pausePix;
-//    m_blinkTimer->start(blinkInterval);
-}
-
 void SystemTray::slotStop()
 {
     m_blinkTimer->stop();
     setPixmap(m_appPix);
     QToolTip::remove(this);
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// private slots
-////////////////////////////////////////////////////////////////////////////////
-
-/*
-void SystemTray::slotBlink()
-{
-    if(m_blinkStatus)
-	setPixmap(m_currentPix);
-    else
-	setPixmap(m_appPix);
-
-    m_blinkStatus = !m_blinkStatus;
-}
-*/
 
 #include "systemtray.moc"

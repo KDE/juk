@@ -122,16 +122,22 @@ class PlaylistBox::Item : public QObject, public ListBoxPixmap
 
     Q_OBJECT
 
+    // moc won't let me create private QObject subclasses and Qt won't let me
+    // make the destructor protected, so here's the closest hack that will
+    // compile.
+
 public:
+    virtual ~Item();
+
+protected:
     Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l = 0);
     Item(PlaylistBox *listbox, const QString &text, Playlist *l = 0);
-    virtual ~Item();
 
     Playlist *playlist() const { return m_list; }
     PlaylistBox *listBox() const { return static_cast<PlaylistBox *>(ListBoxPixmap::listBox()); }
 
 public slots:
-    void setName(const QString &name);
+    void slotSetName(const QString &name);
     
 private:
     Playlist *m_list;

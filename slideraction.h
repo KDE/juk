@@ -35,14 +35,13 @@ public:
     QSlider *getTrackPositionSlider() const;
 
 public slots:
-    void updateOrientation(QDockWindow *dockWindow = 0);
+    void slotUpdateOrientation(QDockWindow *dockWindow = 0);
 
 private:
     QWidget *createWidget(QWidget *parent);
 
 private slots:
-    void updateLabels();
-    void updateSize();
+    void slotUpdateSize();
 
 private:
     QBoxLayout *m_layout;

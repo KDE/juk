@@ -38,8 +38,8 @@ private:
     void updateGenreList();
 
 private slots:
-    virtual void updateGenreBoxes(QListViewItem *item);
-    virtual void updateGenreName(const QString &name);
+    virtual void slotUpdateGenreBoxes(QListViewItem *item);
+    virtual void slotUpdateGenreName(const QString &name);
 
 private:
     QDict<GenreList> m_listDict;

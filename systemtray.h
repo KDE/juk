@@ -33,22 +33,17 @@ public:
     
 public slots:
     void slotNewSong(const QString& songName);
-    void slotPlay();
+    void slotPlay() { setPixmap(m_playPix); }
+    void slotPause() { setPixmap(m_pausePix); }
     void slotStop();
-    void slotPause();
     
 signals:
-    void play();
-    void stop();
-    void pause();
-    void forward();
-    void back();
+    void signalPlay();
+    void signalStop();
+    void signalPause();
+    void signalForward();
+    void signalBack();
 
-/*    
- * private slots:
- * void slotBlink();
- */
-    
 private:
     QTimer *m_blinkTimer;
     bool m_blinkStatus;
@@ -56,8 +51,6 @@ private:
     QPixmap m_pausePix;
     QPixmap m_currentPix;
     QPixmap m_appPix;
-    
-    static const int blinkInterval = 1000;
 };
 
 #endif // SYSTEMTRAY_H

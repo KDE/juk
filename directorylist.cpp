@@ -29,8 +29,8 @@ DirectoryList::DirectoryList(QStringList &directories, QWidget* parent, const ch
 											    m_dirList(directories)
 {
     directoryListView->setFullWidth(true);
-    connect(addDirectoryButton, SIGNAL(clicked()), this, SLOT(addDirectory()));
-    connect(removeDirectoryButton, SIGNAL(clicked()), this, SLOT(removeDirectory()));
+    connect(addDirectoryButton, SIGNAL(clicked()), this, SLOT(slotAddDirectory()));
+    connect(removeDirectoryButton, SIGNAL(clicked()), this, SLOT(slotRemoveDirectory()));
 
     for(QStringList::ConstIterator it = directories.begin(); it != directories.end(); ++it)
 	new KListViewItem(directoryListView, *it);
@@ -45,24 +45,24 @@ DirectoryList::~DirectoryList()
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void DirectoryList::addDirectory()
+void DirectoryList::slotAddDirectory()
 {
     QString dir = KFileDialog::getExistingDirectory();
     if(!dir.isEmpty() && m_dirList.find(dir) == m_dirList.end()) {
 	m_dirList.append(dir);
 	new KListViewItem(directoryListView, dir);
-	emit(directoryAdded(dir));
+	emit signalDirectoryAdded(dir);
     }
 }
 
-void DirectoryList::removeDirectory()
+void DirectoryList::slotRemoveDirectory()
 {
     if(!directoryListView->selectedItem())
 	return;
 
     QString dir = directoryListView->selectedItem()->text(0); 
     m_dirList.remove(dir);
-    emit(directoryRemoved(dir));
+    emit signalDirectoryRemoved(dir);
     delete directoryListView->selectedItem();
 }
 
