@@ -212,7 +212,7 @@ QString FileRenamer::rename(const QString &filename, const Tag &tag) const
     if(QFileInfo(newFilename).isRelative())
         newFilename = filename.left( filename.findRev( "/" ) )
             + "/" + newFilename;
-    newFilename += "." + QFileInfo(filename).extension();
+    newFilename += "." + QFileInfo(filename).extension(false);
 
     return newFilename;
 }
