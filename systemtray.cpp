@@ -1,8 +1,8 @@
 /***************************************************************************
                           systray.cpp  -  description
                              -------------------
-    copyright            : (C) 2002 by Daniel Molkentin 
-    email                : molkentin@kde.org
+    copyright            : (C) 2002 by Daniel Molkentin <molkentin@kde.org>
+                           (C) 2002, 2003 Scott Wheeler <wheeler@kde.org>
  ***************************************************************************/
 
 /***************************************************************************
@@ -35,7 +35,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(parent, name),
-								m_popup(0)
+                                                                m_popup(0)
 
 {
     m_appPix = loadIcon("juk_dock");
@@ -101,12 +101,12 @@ void SystemTray::slotStop()
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void SystemTray::createPopup(const QString &songName, bool addButtons) 
+void SystemTray::createPopup(const QString &songName, bool addButtons)
 {
     // If the action exists and it's checked, do our stuff
     if(m_togglePopupsAction && m_togglePopupsAction->isChecked()) {
 
-	delete m_popup;
+        delete m_popup;
         m_popup = new KPassivePopup(this);
 
         QHBox *box = new QHBox(m_popup);
@@ -119,7 +119,7 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
         }
 
         QLabel *l = new QLabel(songName, box);
-	l->setMargin(3);
+        l->setMargin(3);
 
         if(addButtons) {
             QPushButton *forwardButton = new QPushButton (m_forwardPix, 0, box, "popup_forward");
@@ -151,8 +151,8 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
     QPainter p(&buffer);
     p.drawPixmap(0, 0, bgPix);
 
-    p.drawPixmap((buffer.width() - fgPix.width()) / 2, 
-	(buffer.height() - fgPix.height()) / 2, fgPix);
+    p.drawPixmap((buffer.width() - fgPix.width()) / 2,
+        (buffer.height() - fgPix.height()) / 2, fgPix);
 
     return buffer;
 }
@@ -171,7 +171,7 @@ void SystemTray::setToolTip(const QString &tip)
 void SystemTray::wheelEvent(QWheelEvent *e)
 {
     if(e->orientation() == Horizontal)
-	return;
+        return;
 
     // I already know the type here, but this file doesn't (and I don't want it
     // to) know about the JuK class, so a static_cast won't work, and I was told
@@ -182,19 +182,19 @@ void SystemTray::wheelEvent(QWheelEvent *e)
 
     switch(e->state()) {
     case ShiftButton:
-	if(juk) {
-	    if(e->delta() > 0)
-		juk->volumeUp();
-	    else
-		juk->volumeDown();
-	}
-	break;
+        if(juk) {
+            if(e->delta() > 0)
+                juk->volumeUp();
+            else
+                juk->volumeDown();
+        }
+        break;
     default:
-	if(e->delta() > 0)
-	    m_forwardAction->activate();
+        if(e->delta() > 0)
+            m_forwardAction->activate();
  	else
-	    m_backAction->activate();
-	break;
+            m_backAction->activate();
+        break;
     }
     e->accept();
 }
