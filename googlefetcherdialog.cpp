@@ -40,6 +40,8 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     m_newSearch(false),
     m_file(file)
 {
+    disableResize();
+
     QHBox *mainBox = new QHBox(this);
     m_iconWidget = new KIconView(mainBox);
     m_iconWidget->setResizeMode(QIconView::Adjust);
