@@ -70,7 +70,6 @@ private:
     QWidget *addHidden(QWidget *w) { m_hideList.append(w); return w; }
 
     virtual void showEvent(QShowEvent *e);
-
     virtual bool eventFilter(QObject *watched, QEvent *e);
 
 private slots:
@@ -99,7 +98,7 @@ private:
     PlaylistItemList m_items;
     Playlist *m_currentPlaylist;
     
-    bool m_dataChanged; 
+    bool m_dataChanged;
 };
 
 #endif
