@@ -32,6 +32,23 @@ struct Line : public QFrame
     Line(QWidget *parent) : QFrame(parent) { setFrameShape(VLine); }
 };
 
+struct CoverPopup : public QWidget
+{
+    CoverPopup(const QPixmap &image, int x, int y) : QWidget(0, 0, WX11BypassWM)
+    {
+        QHBoxLayout *layout = new QHBoxLayout(this);
+        QLabel *label = new QLabel(this);
+        layout->addWidget(label);
+
+        label->setFrameStyle(QFrame::Box | QFrame::Raised);
+        label->setLineWidth(1);
+
+        label->setPixmap(image);
+        setGeometry(x, y, label->width(), label->height());
+        show();
+    }
+};
+
 ////////////////////////////////////////////////////////////////////////////////
 // NowPlaying
 ////////////////////////////////////////////////////////////////////////////////
@@ -83,7 +100,8 @@ void NowPlaying::slotUpdate()
 
 CoverItem::CoverItem(NowPlaying *parent) :
     QLabel(parent, "CoverItem"),
-    NowPlayingItem(parent)
+    NowPlayingItem(parent),
+    m_popup(0)
 {
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setFrameStyle(Box | Plain);
@@ -93,6 +111,8 @@ CoverItem::CoverItem(NowPlaying *parent) :
 
 void CoverItem::update(const FileHandle &file)
 {
+    m_file = file;
+
     if(file.coverInfo()->hasCover()) {
         show();
         QImage image = file.coverInfo()->pixmap(CoverInfo::FullSize).convertToImage();
@@ -100,6 +120,33 @@ void CoverItem::update(const FileHandle &file)
     }
     else
         hide();
+}
+
+void CoverItem::mousePressEvent(QMouseEvent *event)
+{
+    if(event->button() == LeftButton &&
+       m_file.coverInfo()->hasCover())
+    {
+        if(m_popup)
+            delete m_popup;
+
+        m_popup = new CoverPopup(m_file.coverInfo()->pixmap(CoverInfo::FullSize),
+                                 event->globalX(), event->globalY());
+        m_popup->installEventFilter(this);
+    }
+    
+    QLabel::mousePressEvent(event);
+}
+
+bool CoverItem::eventFilter(QObject *object, QEvent *event)
+{
+    if(object == m_popup && event->type() == QEvent::MouseButtonPress) {
+        delete m_popup;
+        m_popup = 0;
+        return true;
+    }
+        
+    return QLabel::eventFilter(object, event);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -68,6 +68,12 @@ class CoverItem : public QLabel, public NowPlayingItem
 public:
     CoverItem(NowPlaying *parent);
     virtual void update(const FileHandle &file);
+    virtual void mousePressEvent(QMouseEvent *event);
+    virtual bool eventFilter(QObject *object, QEvent *event);
+
+private:
+    FileHandle m_file;
+    QWidget *m_popup;
 };
 
 /**
