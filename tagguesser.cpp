@@ -125,8 +125,8 @@ QStringList TagGuesser::schemeStrings()
 
     KConfig *cfg = kapp->config();
     {
-    KConfigGroupSaver(cfg, "TagGuesser");
-    schemes = cfg->readListEntry( "Filename schemes" );
+        KConfigGroupSaver(cfg, "TagGuesser");
+        schemes = cfg->readListEntry( "Filename schemes" );
     }
     if ( schemes.isEmpty() ) {
         schemes += "%a/%A/[%T] %t";
