@@ -31,8 +31,8 @@ static const char stephan[]     = I18N_NOOP("Track announcement popups");
 static const char frerich[]     = I18N_NOOP("Automagic track data guessing, bugfixes");
 static const char zack[]        = I18N_NOOP("More automagical things, now using MusicBrainz");
 static const char adam[]        = I18N_NOOP("Co-conspirator in MusicBrainz wizardry");
-static const char matthias[]    = I18N_NOOP("Friedly, neighborhood aRts guru");
-static const char maks[]        = I18N_NOOP("Making JuK friedlier to you weirdos with\n3 terabytes of music");
+static const char matthias[]    = I18N_NOOP("Friendly, neighborhood aRts guru");
+static const char maks[]        = I18N_NOOP("Making JuK friendlier to you weirdos with\n3 terabytes of music");
 static const char antonio[]     = I18N_NOOP("DCOP interface");
 
 static KCmdLineOptions options[] =
