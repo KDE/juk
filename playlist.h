@@ -261,6 +261,9 @@ signals:
 private:
     void setup();
     void loadFile(const QString &fileName, const QFileInfo &fileInfo);
+    /**
+     * Save the tag for an individual items.
+     */
     void applyTag(QListViewItem *item, const QString &text, int column);
     int leftMostVisibleColumn() const;
 
@@ -273,7 +276,16 @@ private:
 private slots:
     void slotEmitSelected() { emit signalSelectionChanged(selectedItems()); }
     void slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column);
-    void slotApplyModification(QListViewItem *item, const QString &text, int column);
+
+    /**
+     * This slot applys the tag for 
+     */
+    void slotApplyModification(QListViewItem *, const QString &text, int column);
+
+    /**
+     * This starts the renaming process by displaying a line edit if the mouse is in 
+     * an appropriate position.
+     */
     void slotRenameTag();
     void slotColumnOrderChanged(int, int from, int to);
     void slotToggleColumnVisible(int column);

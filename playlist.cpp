@@ -972,8 +972,6 @@ void Playlist::slotRenameTag()
 
 void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
 {
-    // kdDebug(65432) << "Applying " << text << " at column " << column << ", replacing \"" << item->text(column) << "\"" << endl;
-
     PlaylistItem *i = static_cast<PlaylistItem *>(item);
 
     switch(column)
@@ -1012,31 +1010,26 @@ void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
     i->slotRefresh();
 }
 
-void Playlist::slotApplyModification(QListViewItem *item, const QString &text, int column)
+void Playlist::slotApplyModification(QListViewItem *, const QString &text, int column)
 {
-    // kdDebug(65432) << "Playlist::slotApplyModification()" << endl;
-
-    if(text == m_editText)
-	return;
-
     QPtrList<QListViewItem> selectedSongs = KListView::selectedItems();
-    if (selectedSongs.count() > 1) {
-        if (KMessageBox::warningYesNo(0,
-				      i18n("This will edit multiple files! Are you sure?"),
-				      QString::null,
-				      KStdGuiItem::yes(),
-				      KStdGuiItem::no(),
-				      "DontWarnMultipleTags") == KMessageBox::No)
-	{
-	    return;
-	}
-
-        QPtrListIterator<QListViewItem> it(selectedSongs);
-        for(; it.current(); ++it)
-            applyTag((*it), text, column);
+    if(text == m_editText || 
+       (selectedSongs.count() > 1 && KMessageBox::warningYesNo(
+	    0,
+	    i18n("This will edit multiple files! Are you sure?"),
+	    QString::null,
+	    KStdGuiItem::yes(),
+	    KStdGuiItem::no(),
+	    "DontWarnMultipleTags") == KMessageBox::No))
+    {
+	return;
     }
-    else
-	applyTag(item, text, column);
+
+    QPtrListIterator<QListViewItem> it(selectedSongs);
+    for(; it.current(); ++it) {
+	applyTag((*it), text, column);
+	kapp->processEvents();
+    }
 }
 
 void Playlist::slotColumnOrderChanged(int, int from, int to)

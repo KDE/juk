@@ -495,6 +495,8 @@ void TagEditor::save(const PlaylistItemList &list)
 	    }
 	    else
 		errorFiles.append(item->fileName());
+
+	    kapp->processEvents();
 	}
 	
 	if(!errorFiles.isEmpty())
