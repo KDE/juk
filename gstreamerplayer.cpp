@@ -52,7 +52,7 @@ void GStreamerPlayer::play(const QString &fileName, float volume)
     m_positionNs = 0;
     m_durationNs = 0;
     if(!fileName.isEmpty()) {
-	m_player->setLocation(fileName);  
+	m_player->setLocation(fileName);
 
 	play(volume);
     }
@@ -152,11 +152,11 @@ void GStreamerPlayer::seekPosition(int position)
 void GStreamerPlayer::setupPlayer()
 {
     m_player = new Play(Play::PIPE_AUDIO_BUFFER_THREADED, this, "Play");
-    connect(m_player, SIGNAL(timeTick(long long)), 
+    connect(m_player, SIGNAL(timeTick(long long)),
 	    SLOT(slotSetPosition(long long)));
-    connect(m_player, SIGNAL(streamLength(long long)), 
+    connect(m_player, SIGNAL(streamLength(long long)),
 	    SLOT(slotSetDuration(long long)));
-    connect(m_player, SIGNAL(streamEnd()), SLOT(stopIfNotPlaying()));
+    connect(m_player, SIGNAL(streamEnd()), SLOT(slotStopIfNotPlaying()));
 }
 
 void GStreamerPlayer::slotStopIfNotPlaying()
