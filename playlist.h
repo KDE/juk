@@ -97,7 +97,6 @@ public:
      * both PlaylistItems and CollectionListItems.
      */
     virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *after = 0);
-
     void createItems(const PlaylistItemList &siblings);
 
     QString fileName() const { return m_fileName; }

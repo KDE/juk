@@ -258,6 +258,9 @@ void PlaylistBox::deleteItem(Item *item)
     
     m_names.remove(item->text());
     m_playlistDict.remove(item->playlist());
+
+    setCurrentItem(item->prev() ? item->prev() : item->next());
+
     delete item->playlist();
     delete item;
 }
@@ -358,6 +361,13 @@ QValueList<PlaylistBox::Item *> PlaylistBox::selectedItems() const
     return l;
 }
 
+void PlaylistBox::setCurrentItem(QListBoxItem *item)
+{
+    setSelectionMode(Single);
+    KListBox::setCurrentItem(item);
+    setSelectionMode(Extended);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -386,6 +396,8 @@ void PlaylistBox::slotShowContextMenu(QListBoxItem *item, const QPoint &point)
     m_contextMenuOn = i;
 
     if(i) {
+	setCurrentItem(i);
+
 	bool isCollection = i->playlist() == CollectionList::instance();
 	bool hasFile = !i->playlist()->fileName().isEmpty();
 	

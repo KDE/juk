@@ -609,7 +609,7 @@ void Playlist::createItems(const PlaylistItemList &siblings)
 
 	if(!m_members.insert(resolveSymLinks((*it)->absFilePath()))) {
 	    previous = new PlaylistItem((*it)->collectionItem(), this, previous);
-	    connect((*it), SIGNAL(destroyed()), (*it)->collectionItem(), SLOT(deleteLater()));
+	    connect((*it)->collectionItem(), SIGNAL(destroyed()), *it, SLOT(deleteLater()));
 	}
     }
 }

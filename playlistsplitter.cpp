@@ -52,9 +52,10 @@ void processEvents()
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *name) : QSplitter(Qt::Horizontal, parent, name), 
-										      m_playingItem(0), m_dynamicList(0),
-										      m_restore(restore), m_nextPlaylistItem(0)
+PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *name) : 
+    QSplitter(Qt::Horizontal, parent, name),
+    m_playingItem(0), m_searchWidget(0), m_dynamicList(0), m_restore(restore), 
+    m_nextPlaylistItem(0)
 {
     if(!m_mediaExtensions && !m_listExtensions) {
 	m_mediaExtensions = new QStringList();
@@ -602,7 +603,8 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 
     Playlist *current = m_dynamicList;
 
-    m_searchWidget->clear();
+    if(m_searchWidget)
+	m_searchWidget->clear();
 
     m_nextPlaylistItem = 0;
     if(l.count() == 1) {

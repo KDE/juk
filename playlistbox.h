@@ -91,6 +91,8 @@ private:
 
     QValueList<Item *> selectedItems() const;
 
+    void setCurrentItem(QListBoxItem *item);
+
 private slots:
     /** 
      * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
