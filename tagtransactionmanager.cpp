@@ -182,10 +182,10 @@ bool TagTransactionManager::processChangeList(bool undo)
         }
         else {
             Tag *errorTag = item->file().tag();
-            QString str = errorTag->artist() + " - " + errorTag->track();
+            QString str = errorTag->artist() + " - " + errorTag->title();
 
             if(errorTag->artist().isEmpty())
-                str = errorTag->track();
+                str = errorTag->title();
 
             errorItems.append(str);
         }
@@ -200,7 +200,7 @@ bool TagTransactionManager::processChangeList(bool undo)
         action("edit_undo")->setEnabled(false);
 
     if(!errorItems.isEmpty())
-        KMessageBox::informationList(static_cast<QWidget *>(parent()),
+        KMessageBox::errorList(static_cast<QWidget *>(parent()),
                 i18n("The following files were unable to be changed."),
                 errorItems,
                 i18n("Error"));

@@ -733,7 +733,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
     KApplication::restoreOverrideCursor();
 
     if(!errorFiles.isEmpty())
-        KMessageBox::error(0, i18n("The following rename operations failed:\n") + errorFiles.join("\n"));
+        KMessageBox::errorList(0, i18n("The following rename operations failed:\n"), errorFiles);
 }
 
 bool FileRenamer::moveFile(const QString &src, const QString &dest)
