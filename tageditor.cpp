@@ -216,9 +216,13 @@ void TagEditor::slotRefresh()
     setEnabled(true);
 
     PlaylistItem *item = m_items.first();
+    if(!item)
+	return;
 
     Tag *tag = item->file().tag();
-	
+    if(!tag)
+	return;
+
     QFileInfo fi(item->file().absFilePath());
     if(!fi.isWritable() && m_items.count() == 1)
 	setEnabled(false);
