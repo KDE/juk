@@ -506,14 +506,19 @@ void PlayerManager::slotPollPlay()
 void PlayerManager::slotSetOutput(const QString &system)
 {
     stop();
+    setOutput(system);
+    setup();
+}
+
+void PlayerManager::setOutput(const QString &system)
+{
     delete m_player;
     if(system == i18n("aRts"))
-	m_player = createPlayer(ArtsBackend);
+        m_player = createPlayer(ArtsBackend);
     else if(system == i18n("GStreamer"))
-	m_player = createPlayer(GStreamerBackend);
+        m_player = createPlayer(GStreamerBackend);
     else if(system == i18n("aKode"))
-	m_player = createPlayer(AkodeBackend);
-    setup();
+        m_player = createPlayer(AkodeBackend);
 }
 
 void PlayerManager::slotSetVolume(int volume)
@@ -598,12 +603,7 @@ void PlayerManager::setup()
     KAction *outputAction = actions()->action("outputSelect");
 
     if(outputAction) {
-        int mediaSystem = static_cast<KSelectAction *>(outputAction)->currentItem();
-#if (!HAVE_ARTS)
-        // Fix problem with position->enum
-        if (mediaSystem == ArtsBackend) mediaSystem = GStreamerBackend;
-#endif
-        m_player = createPlayer(mediaSystem);
+        setOutput(static_cast<KSelectAction *>(outputAction)->currentText());
         connect(outputAction, SIGNAL(activated(const QString &)), this, SLOT(slotSetOutput(const QString &)));
     }
     else

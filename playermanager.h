@@ -87,7 +87,8 @@ signals:
 private:
     Player *player() const;
     void setup();
-
+    void setOutput(const QString &);
+    
 private slots:
     void slotPollPlay();
     void slotUpdateTime(int position);
