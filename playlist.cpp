@@ -1283,18 +1283,23 @@ void Playlist::slotRenameTag()
 
     switch(m_currentColumn - columnOffset())
     {
-    case PlaylistItem::TrackColumn:
+    case PlaylistItem::ArtistColumn:
 	edit->completionObject()->setItems(list->uniqueSet(CollectionList::Artists));
 	break;
     case PlaylistItem::AlbumColumn:
 	edit->completionObject()->setItems(list->uniqueSet(CollectionList::Albums));
 	break;
     case PlaylistItem::GenreColumn:
+    {
 	QStringList genreStrings;
 	GenreList genres = GenreListList::ID3v1List();
 	for(GenreList::Iterator it = genres.begin(); it != genres.end(); ++it)
 	    genreStrings.append((*it).name());
 	edit->completionObject()->setItems(genreStrings);
+	break;
+    }
+    default:
+	edit->completionObject()->clear();
 	break;
     }
 
