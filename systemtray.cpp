@@ -42,8 +42,8 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     cm->insertItem(playPix, i18n("Play"), this, SIGNAL(play()));
     cm->insertItem(pausePix, i18n("Pause"), this, SIGNAL(pause()));
     cm->insertItem(SmallIcon("player_stop"), i18n("Stop"), this, SIGNAL(stop()));
-    cm->insertItem(SmallIcon("player_end" ), i18n("Forward"), this, SIGNAL(forward()));
     cm->insertItem(SmallIcon("player_start"), i18n("Back"), this, SIGNAL(back()));
+    cm->insertItem(SmallIcon("player_end" ), i18n("Forward"), this, SIGNAL(forward()));
     
     connect(blinkTimer, SIGNAL(timeout()), this, SLOT(slotBlink()));
 }
