@@ -132,35 +132,6 @@ void PlaylistCollection::createPlaylist(const QString &name)
     raise(new Playlist(this, name));
 }
 
-void PlaylistCollection::openFile(const QString &playlist, const QString &file)
-{
-    Playlist *p = playlistByName(playlist);
-
-    if(p)
-        p->addFiles(file, m_importPlaylists);
-}
-
-void PlaylistCollection::openFile(const QString &playlist, const QStringList &files)
-{
-    Playlist *p = playlistByName(playlist);
-
-    if(p)
-        p->addFiles(files, m_importPlaylists);
-}
-
-void PlaylistCollection::removeTrack(const QString &playlist, const QString &file)
-{
-    Playlist *p = playlistByName(playlist);
-    CollectionListItem *item = CollectionList::instance()->lookup(file);
-
-    if(!p || !item)
-        return;
-
-    PlaylistItem *playlistItem = item->itemForPlaylist(p);
-    if(playlistItem)
-        p->clearItem(item);
-}
-
 void PlaylistCollection::removeTrack(const QString &playlist, const QStringList &files)
 {
     Playlist *p = playlistByName(playlist);
@@ -210,9 +181,7 @@ QString PlaylistCollection::trackProperty(const QString &file, const QString &pr
     CollectionList *l = CollectionList::instance();
     CollectionListItem *item = l->lookup(file);
 
-    if(item)
-        return item->file().property(property);
-    return QString::null;
+    return item ? item->file().property(property) : QString::null;
 }
 
 void PlaylistCollection::open(const QStringList &l)
@@ -235,6 +204,14 @@ void PlaylistCollection::open(const QStringList &l)
     }
     else
         currentPlaylist()->addFiles(files, m_importPlaylists);
+}
+
+void PlaylistCollection::open(const QString &playlist, const QStringList &files)
+{
+    Playlist *p = playlistByName(playlist);
+
+    if(p)
+        p->addFiles(files, m_importPlaylists);
 }
 
 void PlaylistCollection::addFolder()

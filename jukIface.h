@@ -10,15 +10,14 @@ class CollectionIface : public DCOPObject
 k_dcop:
     void openFile(const QString &file) { open(file); }
     void openFile(const QStringList &files) { open(files); }
+    void openFile(const QString &playlist, const QString &file) { open(playlist, file); }
+    void openFile(const QString &playlist, const QStringList &files) { open(playlist, files); }
 
     virtual QStringList playlists() const = 0;
     virtual void createPlaylist(const QString &) = 0;
-    virtual void remove() = 0; // Removes current playlist
+    virtual void remove() = 0;
 
-    virtual void openFile(const QString &playlist, const QString &file) = 0;
-    virtual void openFile(const QString &playlist, const QStringList &files) = 0;
-
-    virtual void removeTrack(const QString &playlist, const QString &file) = 0;
+    virtual void removeTrack(const QString &playlist, const QString &file) { removeTrack(playlist, file); }
     virtual void removeTrack(const QString &playlist, const QStringList &files) = 0;
 
     virtual QString playlist() const = 0;
@@ -30,6 +29,7 @@ k_dcop:
 protected:
     CollectionIface() : DCOPObject("Collection") {}
     virtual void open(const QStringList &files) = 0;
+    virtual void open(const QString &playlist, const QStringList &files) = 0;
 };
 
 class PlayerIface : public DCOPObject
