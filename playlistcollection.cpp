@@ -703,14 +703,14 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     menu = new KActionMenu(i18n("Cover Manager"), QString::null, actions(), "coverManager");
     menu->setIconSet(SmallIconSet("image"));
-    menu->insert(createAction(i18n("View Cover"),       SLOT(slotViewCovers()),
-                        "viewCover", "viewmag"));
-    menu->insert(createAction(i18n("Set Cover from File Name"),       SLOT(slotAddLocalCover()),
-                        "addCover", "fileimport"));
-    menu->insert(createAction(i18n("Set Cover from Internet"),       SLOT(slotAddInternetCover()),
-                        "googleCover", "connect_established"));
-    menu->insert(createAction(i18n("Delete Cover"),       SLOT(slotRemoveCovers()),
-                        "removeCover", "editdelete"));
+    menu->insert(createAction(i18n("&View Cover"),
+        SLOT(slotViewCovers()), "viewCover", "viewmag"));
+    menu->insert(createAction(i18n("Get Cover from &File..."),
+        SLOT(slotAddLocalCover()), "addCover", "fileimport"));
+    menu->insert(createAction(i18n("Get Cover from &Internet..."), 
+        SLOT(slotAddInternetCover()), "googleCover", "connect_established"));
+    menu->insert(createAction(i18n("&Delete Cover"),
+        SLOT(slotRemoveCovers()), "removeCover", "editdelete"));
 
     KToggleAction *historyAction =
         new KToggleAction(i18n("Show &History"), "history",  0, actions(), "showHistory");
