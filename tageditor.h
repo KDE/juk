@@ -50,10 +50,13 @@ public slots:
     void slotRefresh();
     void slotClear();
     void slotPlaylistDestroyed(Playlist *p);
-    void slotUpdateCollection(); //Update collection if we're visible, or defer otherwise
+    /**
+     * Update collection if we're visible, or defer otherwise
+     */
+    void slotUpdateCollection();
 
 private:
-    void updateCollection();    //Update collection
+    void updateCollection();
 
     void setupActions();
     void setupLayout();
