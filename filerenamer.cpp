@@ -139,10 +139,10 @@ QString FileRenamer::expandToken(TokenType type, const QString &value_) const
     }
 
     if((type == Track) && needValue && (value.toUInt() == 0))
-        return QString();
+        return QString::null;
 
     if((needValue) && value.isEmpty())
-        return QString();
+        return QString::null;
 
     token.replace("%s", value);
     return token;
