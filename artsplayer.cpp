@@ -16,8 +16,11 @@
  ***************************************************************************/
 
 #include <kdebug.h>
+#include <kconfig.h>
+#include <kstandarddirs.h>
 
 #include <qfile.h>
+#include <qdir.h>
 
 #include <connect.h>
 #include <flowsystem.h>
@@ -58,6 +61,8 @@ void ArtsPlayer::play(const QString &fileName, float volume)
 
 void ArtsPlayer::play(float volume)
 {
+    if (!serverRunning() || (m_server && m_server->error()) ) restart();
+      
     if(serverRunning()) {
         if(m_media && m_media->state() == posPaused) {
             m_media->play();
@@ -228,10 +233,76 @@ void ArtsPlayer::setupVolumeControl()
     }
 }
 
+void ArtsPlayer::restart()
+{
+    delete m_volumeControl;
+    m_volumeControl=0;
+    delete m_server;
+    m_server=0;
+
+    // *** This piece of text was copied from Noatun's engine
+    // and slightly modified
+    KConfig config("kcmartsrc");
+    QCString cmdline;
+
+    config.setGroup("Arts");
+
+    bool rt = config.readBoolEntry("StartRealtime",false);
+    bool x11Comm = config.readBoolEntry("X11GlobalComm",false);
+
+    // put the value of x11Comm into .mcoprc
+    {
+      KConfig X11CommConfig(QDir::homeDirPath()+"/.mcoprc");
+
+      if(x11Comm)
+	X11CommConfig.writeEntry("GlobalComm", "Arts::X11GlobalComm");
+      else
+	X11CommConfig.writeEntry("GlobalComm", "Arts::TmpGlobalComm");
+
+      X11CommConfig.sync();
+    }
+
+    cmdline = QFile::encodeName(KStandardDirs::findExe(
+	  QString::fromLatin1("kdeinit_wrapper") ));
+    cmdline += " ";
+
+    if (rt)
+      cmdline += QFile::encodeName(KStandardDirs::findExe(
+	    QString::fromLatin1("artswrapper")));
+    else
+      cmdline += QFile::encodeName(KStandardDirs::findExe(
+	    QString::fromLatin1("artsd")));
+
+    cmdline += " ";
+    cmdline += config.readEntry("Arguments","-F 10 -S 4096 -s 60 -m artsmessage -l 3 -f").utf8();
+
+    int status=::system(cmdline);
+
+    if ( status!=-1 && WIFEXITED(status) )
+    {
+      // We could have a race-condition here.
+      // The correct way to do it is to make artsd fork-and-exit
+      // after starting to listen to connections (and running artsd
+      // directly instead of using kdeinit), but this is better
+      // than nothing.
+      int time = 0;
+      do
+      {
+	// every time it fails, we should wait a little longer
+	// between tries
+	::sleep(1+time/2);
+	delete m_server;
+	m_server = new SimpleSoundServer(Reference("global:Arts_SimpleSoundServer"));
+      } while(++time < 5 && (m_server->isNull()));
+    }
+    // *** Until here
+
+}
+
 bool ArtsPlayer::serverRunning() const
 {
     if(m_server)
         return !(m_server->isNull());
     else
-        return 0;
+        return false;
 }

@@ -54,6 +54,7 @@ private:
     void setupPlayer();
     void setupVolumeControl();
     bool serverRunning() const;
+    void restart();
 
     Dispatcher *m_dispatcher;
     SimpleSoundServer *m_server;
