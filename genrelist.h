@@ -28,7 +28,6 @@ class GenreList : public QValueList<Genre>
 public:
     GenreList(bool createIndex = false);
     GenreList(const QString &file, bool createIndex = false);
-    virtual ~GenreList();
 
     void load(const QString &file);
 

@@ -25,7 +25,8 @@ class Genre
 {
 public:
     Genre();
-    explicit Genre(const QString &name, int ID3v1 = 255);
+    explicit Genre(const QString &name);
+    explicit Genre(const QString &name, int ID3v1);
     
     QString name() const { return m_name; }
     void setName(const QString &name) { m_name = name; }

@@ -457,7 +457,7 @@ private:
     /**
      * Save the tag for an individual item.
      */
-    void applyTag(QListViewItem *item, const QString &text, int column);
+    void applyTag(PlaylistItem *item, const QString &text, int column);
 
     /**
      * Returns the index of the left most visible column in the playlist.

@@ -34,11 +34,6 @@ GenreList::GenreList(const QString &file, bool createIndex) : QValueList<Genre>(
     load(file);
 }
 
-GenreList::~GenreList()
-{
-
-}
-
 void GenreList::load(const QString &file)
 {
     GenreListReader handler(*this);

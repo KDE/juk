@@ -1290,64 +1290,61 @@ void Playlist::slotRenameTag()
     rename(currentItem(), m_currentColumn);
 }
 
-void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
+void Playlist::applyTag(PlaylistItem *item, const QString &text, int column)
 {
-    PlaylistItem *i = static_cast<PlaylistItem *>(item);
-
     switch(column - columnOffset())
     {
     case PlaylistItem::TrackColumn:
-	i->tag()->setTrack(text);
+	item->tag()->setTrack(text);
 	break;
     case PlaylistItem::ArtistColumn:
-	i->tag()->setArtist(text);
+	item->tag()->setArtist(text);
 	break;
     case PlaylistItem::AlbumColumn:
-	i->tag()->setAlbum(text);
+	item->tag()->setAlbum(text);
 	break;
     case PlaylistItem::TrackNumberColumn:
     {
 	bool ok;
 	int value = text.toInt(&ok);
 	if(ok)
-	    i->tag()->setTrackNumber(value);
+	    item->tag()->setTrackNumber(value);
 	break;
     }
     case PlaylistItem::GenreColumn:
-	i->tag()->setGenre(Genre(text));
+	item->tag()->setGenre(Genre(text));
 	break;
     case PlaylistItem::YearColumn:
     {
 	bool ok;
 	int value = text.toInt(&ok);
 	if(ok)
-	    i->tag()->setYear(value);
+	    item->tag()->setYear(value);
 	break;
     }
     }
 
-    i->tag()->save();
-    i->slotRefresh();
+    item->tag()->save();
+    item->slotRefresh();
 }
 
 void Playlist::slotApplyModification(QListViewItem *, const QString &text, int column)
 {
-    QPtrList<QListViewItem> selectedSongs = KListView::selectedItems();
+    PlaylistItemList l = selectedItems();
     if(text == m_editText || 
-       (selectedSongs.count() > 1 && KMessageBox::warningYesNo(
-	    0,
-	    i18n("This will edit multiple files! Are you sure?"),
-	    QString::null,
-	    KStdGuiItem::yes(),
-	    KStdGuiItem::no(),
-	    "DontWarnMultipleTags") == KMessageBox::No))
+       (l.count() > 1 && KMessageBox::warningYesNo(
+	   0,
+	   i18n("This will edit multiple files! Are you sure?"),
+	   QString::null,
+	   KStdGuiItem::yes(),
+	   KStdGuiItem::no(),
+	   "DontWarnMultipleTags") == KMessageBox::No))
     {
 	return;
     }
 
-    QPtrListIterator<QListViewItem> it(selectedSongs);
-    for(; it.current(); ++it) {
-	applyTag((*it), text, column);
+    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
+	applyTag(*it, text, column);
 	kapp->processEvents();
     }
     slotEmitSelected();

@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include "genre.h"
+#include "genrelistlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -25,6 +26,14 @@ Genre::Genre() :
     m_ID3v1(255)
 {
 
+}
+
+Genre::Genre(const QString &name) :
+    m_name(name)
+{
+    m_ID3v1 = GenreListList::ID3v1List().findIndex(name);
+    if(m_ID3v1 < 0)
+	m_ID3v1 = 255;
 }
 
 Genre::Genre(const QString &name, int ID3v1) :
