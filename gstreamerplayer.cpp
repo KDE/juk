@@ -62,8 +62,8 @@ void GStreamerPlayer::pause()
 
 void GStreamerPlayer::stop()
 {
-    if(m_player->getState() != Element::STATE_READY)
-        m_player->setState(Element::STATE_READY);
+    if(m_player->getState() != Element::STATE_NULL)
+        m_player->setState(Element::STATE_NULL);
 }
 
 void GStreamerPlayer::setVolume(float volume)
