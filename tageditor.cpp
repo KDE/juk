@@ -107,14 +107,10 @@ void TagEditor::slotRefresh()
     // If there is more than one item in the m_items that we're dealing with...
     
     if(it != m_items.end()) {
-	m_fileNameBox->clear();
-	m_fileNameBox->setEnabled(false);
-	
-	m_lengthBox->clear();
-	m_lengthBox->setEnabled(false);
-	
-	m_bitrateBox->clear();
-	m_bitrateBox->setEnabled(false);
+
+	QValueListIterator<QWidget *> hideIt = m_hideList.begin();
+	for(; hideIt != m_hideList.end(); ++hideIt)
+	    (*hideIt)->hide();
 
 	BoxMap::Iterator boxIt = m_enableBoxes.begin();
 	for(; boxIt != m_enableBoxes.end(); boxIt++) {
@@ -187,15 +183,10 @@ void TagEditor::slotRefresh()
     }
     else {
 	// Clean up in the case that we are only handling one item.
-	
-	m_fileNameBox->setText(item->fileName());
-	m_fileNameBox->setEnabled(true);
-	
-	m_lengthBox->setText(tag->lengthString());
-	m_lengthBox->setEnabled(true);
-	
-	m_bitrateBox->setText(tag->bitrateString());
-	m_bitrateBox->setEnabled(true);	    
+
+	QValueListIterator<QWidget *> showIt = m_hideList.begin();
+	for(; showIt != m_hideList.end(); ++showIt)
+	    (*showIt)->show();
 
 	BoxMap::iterator boxIt = m_enableBoxes.begin();
 	for(; boxIt != m_enableBoxes.end(); boxIt++) {
@@ -346,10 +337,10 @@ void TagEditor::setupLayout()
     // put stuff in the right column
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
-        rightColumnLayout->addWidget(new QLabel(i18n("File name:"), this));
+        rightColumnLayout->addWidget(addHidden(new QLabel(i18n("File name:"), this)));
 
         m_fileNameBox = new KLineEdit(this, "fileNameBox");
-        rightColumnLayout->addWidget(m_fileNameBox);
+        rightColumnLayout->addWidget(addHidden(m_fileNameBox));
 
         { // lay out the track row
             QHBoxLayout *trackRowLayout = new QHBoxLayout(rightColumnLayout,
@@ -367,20 +358,20 @@ void TagEditor::setupLayout()
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
 						    QSizePolicy::Minimum));
 
-            trackRowLayout->addWidget(new QLabel(i18n("Length:"), this));
+            trackRowLayout->addWidget(addHidden(new QLabel(i18n("Length:"), this)));
             m_lengthBox = new KLineEdit(this, "lengthBox");
             m_lengthBox->setMaximumWidth(50);
             m_lengthBox->setReadOnly(true);
-            trackRowLayout->addWidget(m_lengthBox);
+            trackRowLayout->addWidget(addHidden(m_lengthBox));
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
 						    QSizePolicy::Minimum));
 
-            trackRowLayout->addWidget(new QLabel(i18n("Bitrate:"), this));
+            trackRowLayout->addWidget(addHidden(new QLabel(i18n("Bitrate:"), this)));
             m_bitrateBox = new KLineEdit(this, "bitrateBox");
             m_bitrateBox->setMaximumWidth(50);
             m_bitrateBox->setReadOnly(true);
-            trackRowLayout->addWidget(m_bitrateBox);
+            trackRowLayout->addWidget(addHidden(m_bitrateBox));
         }
 
         m_commentBox = new KEdit(this, "commentBox");

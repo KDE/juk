@@ -63,6 +63,11 @@ private:
      */
     void addItem(const QString &text, QWidget *item, QBoxLayout *layout);
 
+    /**
+     * Adds a widget to m_hideList and returns that widget.
+     */
+    QWidget *addHidden(QWidget *w) { m_hideList.append(w); return w; }
+
     virtual void showEvent(QShowEvent *e);
 
 private slots:
@@ -84,6 +89,8 @@ private:
     KLineEdit *m_lengthBox;
     KLineEdit *m_bitrateBox;
     KEdit *m_commentBox;
+
+    QValueList<QWidget *> m_hideList;
 
     PlaylistItemList m_items;
     
