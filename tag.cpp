@@ -216,7 +216,7 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
     m_year  = file->tag()->year();
 
     m_seconds = file->audioProperties()->length();
-    m_bitrate = file->audioProperties()->length();
+    m_bitrate = file->audioProperties()->bitrate();
 
     const int seconds = m_seconds % 60;
     const int minutes = (m_seconds - seconds) / 60;
