@@ -28,11 +28,11 @@
 #include "collectionlist.h"
 #include "stringhash.h"
 #include "tageditor.h"
-#include "searchwidget.h"
 
 class KActionMenu;
 class KDirWatch;
 class PlaylistItem;
+class SearchWidget;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
@@ -205,7 +205,7 @@ public slots:
      */
     void slotSetEditorVisible(bool visible) { m_editor->setShown(visible); }
 
-    void slotSetSearchVisible(bool visible) { m_searchWidget->clear(); m_searchWidget->setShown(visible); }
+    void slotSetSearchVisible(bool visible);
 
     /**
      * Add the file to the playlist.
@@ -268,6 +268,12 @@ private:
      */
     QString play(PlaylistItem *item);
 
+    /**
+     * This should be called to update the shown items -- it does not restart the
+     * search.
+     */
+    void redisplaySearch();
+
 private slots:
     void slotChangePlaylist(const PlaylistList &l);
     void slotPlaylistCountChanged(Playlist *p);
@@ -292,7 +298,7 @@ private slots:
     void slotSetNextItem(PlaylistItem *item = 0) { m_nextPlaylistItem = item; }
     void slotDirChanged(const QString &dir) { slotAddToPlaylist(dir, m_collection); }
     void slotCreatePlaylist(const PlaylistItemList &items);
-    void slotShowSearchResults(const QString &query, bool caseSensitive = false, bool regExp = false);
+    void slotShowSearchResults();
     void slotVisibleColumnsChanged();
 
 private:

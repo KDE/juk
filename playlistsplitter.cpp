@@ -23,6 +23,7 @@
 #include <qpopupmenu.h>
 
 #include "playlistsplitter.h"
+#include "searchwidget.h"
 #include "directorylist.h"
 #include "playlistsearch.h"
 #include "dynamicplaylist.h"
@@ -349,6 +350,13 @@ void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *lis
 	m_editor->slotUpdateCollection();
 }
 
+void PlaylistSplitter::slotSetSearchVisible(bool visible)
+{
+    m_searchWidget->setShown(visible);
+    redisplaySearch();
+}
+
+
 void PlaylistSplitter::slotGuessTagInfoFile()
 {
     visiblePlaylist()->slotGuessTagInfoFile();
@@ -417,8 +425,7 @@ void PlaylistSplitter::setupLayout()
     // Create the search widget -- this must be done after the CollectionList is created.
     m_searchWidget = new SearchWidget(editorSplitter, CollectionList::instance(), "searchWidget");
     editorSplitter->moveToFirst(m_searchWidget);
-    connect(m_searchWidget, SIGNAL(signalQueryChanged(const QString &, bool, bool)),
-	    this, SLOT(slotShowSearchResults(const QString &, bool, bool)));
+    connect(m_searchWidget, SIGNAL(signalQueryChanged()), this, SLOT(slotShowSearchResults()));
     connect(CollectionList::instance(), SIGNAL(signalVisibleColumnsChanged()),
 	    this, SLOT(slotVisibleColumnsChanged()));
 
@@ -556,8 +563,11 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
     if(icon)
 	m_playlistBox->createItem(p, icon, raise);
 
-    if(raise)
-	m_playlistStack->raiseWidget(p);
+    if(raise) {
+	PlaylistList l;
+	l.append(p);
+	slotChangePlaylist(l);
+    }
 }
 
 Playlist *PlaylistSplitter::openPlaylist(const QString &file)
@@ -592,6 +602,16 @@ QString PlaylistSplitter::play(PlaylistItem *item)
     return item->absFilePath();
 }
 
+void PlaylistSplitter::redisplaySearch()
+{
+    if(!m_searchWidget->isVisible() || visiblePlaylist()->search().isEmpty())
+	visiblePlaylist()->setItemsVisible(visiblePlaylist()->items(), true);
+    else {
+	Playlist::setItemsVisible(visiblePlaylist()->search().matchedItems(), true);
+	Playlist::setItemsVisible(visiblePlaylist()->search().unmatchedItems(), false);
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -605,14 +625,16 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 
     Playlist *current = m_dynamicList;
 
-    if(m_searchWidget)
-	m_searchWidget->clear();
-
     m_nextPlaylistItem = 0;
     if(l.count() == 1) {
 	m_playlistStack->raiseWidget(l.first());
 	m_editor->slotSetItems(playlistSelection());
 	m_dynamicList = 0;
+
+	if(m_searchWidget) {
+	    m_searchWidget->setSearch(l.first()->search());
+	    redisplaySearch();
+	}
     }
     else {
 	m_dynamicList = new DynamicPlaylist(l, m_playlistStack, i18n("Dynamic List"));
@@ -654,31 +676,15 @@ void PlaylistSplitter::slotCreatePlaylist(const PlaylistItemList &items)
     m_playlistBox->initViewMode();
 }
 
-void PlaylistSplitter::slotShowSearchResults(const QString &query, bool caseSensitive, bool regExp)
+void PlaylistSplitter::slotShowSearchResults()
 {
-    if(query.isEmpty()) {
-	visiblePlaylist()->setItemsVisible(visiblePlaylist()->items(), true);
-	return;
-    }
-
     PlaylistList playlists;
     playlists.append(visiblePlaylist());
 
-    PlaylistSearch::Component *component;
+    PlaylistSearch search = m_searchWidget->search(playlists);
 
-    if(regExp)
-        component = new PlaylistSearch::Component(QRegExp(query, caseSensitive), m_searchWidget->searchedColumns(0));
-    else
-        component = new PlaylistSearch::Component(query, caseSensitive, m_searchWidget->searchedColumns(0));
-
-    PlaylistSearch::ComponentList components;
-    components.append(*component);
-
-    PlaylistSearch search(playlists, components);
-
-    Playlist::setItemsVisible(search.matchedItems(), true);
-    Playlist::setItemsVisible(search.unmatchedItems(), false);
-    delete component;
+    visiblePlaylist()->setSearch(search);
+    redisplaySearch();
 }
 
 void PlaylistSplitter::slotVisibleColumnsChanged()
@@ -686,7 +692,7 @@ void PlaylistSplitter::slotVisibleColumnsChanged()
     m_searchWidget->slotUpdateColumns();
     m_searchWidget->slotQueryChanged();
     if(m_searchWidget->searchedColumns(0).count() > 1)
-        slotShowSearchResults(m_searchWidget->query(), m_searchWidget->caseSensitive(), m_searchWidget->regExp());
+        slotShowSearchResults();
 }
 
 #include "playlistsplitter.moc"

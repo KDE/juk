@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+
 #include "playlistsearch.h"
 #include "playlist.h"
 #include "playlistitem.h"
@@ -32,7 +34,10 @@ PlaylistSearch::PlaylistSearch() :
 PlaylistSearch::PlaylistSearch(const PlaylistSearch &search) :
     m_playlists(search.m_playlists),
     m_components(search.m_components),
-    m_mode(search.m_mode)
+    m_mode(search.m_mode),
+    m_items(search.m_items),
+    m_matchedItems(search.m_matchedItems),
+    m_unmatchedItems(search.m_unmatchedItems)
 {
 
 }
@@ -45,6 +50,20 @@ PlaylistSearch::PlaylistSearch(const PlaylistList &playlists,
     m_mode(mode)
 {
     search();
+}
+
+bool PlaylistSearch::isEmpty() const
+{
+    if(isNull())
+	return true;
+
+    ComponentList::ConstIterator it = m_components.begin();
+    for(; it != m_components.end(); ++it) {
+	if(!(*it).query().isEmpty() || !(*it).pattern().isEmpty())
+	    return false;
+    }
+
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

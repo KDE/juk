@@ -18,6 +18,7 @@
 #include <klocale.h>
 #include <klineedit.h>
 #include <kcombobox.h>
+#include <kdebug.h>
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -26,7 +27,6 @@
 
 #include "searchwidget.h"
 #include "playlist.h"
-#include "playlistsearch.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -53,12 +53,12 @@ QString SearchWidget::query() const
 
 bool SearchWidget::caseSensitive() const
 {
-    return m_caseSensitive->currentItem() == 1;
+    return m_caseSensitive->currentItem() == CaseSensitive;
 }
 
 bool SearchWidget::regExp() const
 {
-    return m_caseSensitive->currentItem() == 2;
+    return m_caseSensitive->currentItem() == Pattern;
 }
 
 void SearchWidget::setSearch(const PlaylistSearch &search)
@@ -70,8 +70,10 @@ void SearchWidget::setSearch(const PlaylistSearch &search)
 
     PlaylistSearch::ComponentList::ConstIterator it = components.begin();
 
-    if(it == components.end())
+    if(it == components.end()) {
+	clear();
 	return;
+    }
 
     if(!(*it).isPatternSearch()) {
 	m_lineEdit->setText((*it).query());
@@ -81,6 +83,23 @@ void SearchWidget::setSearch(const PlaylistSearch &search)
 	m_lineEdit->setText((*it).pattern().pattern());
 	m_caseSensitive->setCurrentItem(Pattern);
     }
+}
+
+PlaylistSearch SearchWidget::search(const PlaylistList &playlists) const
+{
+    PlaylistSearch::ComponentList components;
+    PlaylistSearch::Component c;
+
+    if(m_caseSensitive->currentItem() != Pattern)
+	c = PlaylistSearch::Component(query(), caseSensitive(), searchedColumns());
+    else
+	c = PlaylistSearch::Component(QRegExp(query()), searchedColumns());
+
+    components.append(c);
+    
+    PlaylistSearch s(playlists, components);
+
+    return s;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -107,7 +126,7 @@ void SearchWidget::slotQueryChanged(int)
     else
 	m_searchedColumns[0].append(m_searchFieldsBox->currentItem() - 1);
     
-    emit signalQueryChanged(m_lineEdit->text(), caseSensitive(), regExp());
+    emit signalQueryChanged();
 }
 
 void SearchWidget::slotUpdateColumns()

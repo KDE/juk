@@ -51,6 +51,7 @@ public:
     ComponentList components() const { return m_components; }
 
     bool isNull() const { return m_components.isEmpty(); }
+    bool isEmpty() const;
 
 private:
     void search();

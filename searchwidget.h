@@ -20,13 +20,14 @@
 
 #include <qwidget.h>
 
+#include "playlistsearch.h"
+
 class QCheckBox;
 
 class KLineEdit;
 class KComboBox;
 
 class Playlist;
-class PlaylistSearch;
 
 class SearchWidget : public QWidget
 {
@@ -44,11 +45,13 @@ public:
     /**
      * Returns a list of searched columns for the given search row.
      */
-    QValueList<int> searchedColumns(int searchLine = 0) { return m_searchedColumns[searchLine]; }
+    QValueList<int> searchedColumns(int searchLine = 0) const { return m_searchedColumns[searchLine]; }
 
     QString query() const;
     bool caseSensitive() const;
     bool regExp() const;
+    
+    PlaylistSearch search(const PlaylistList &playlists) const;
     void setSearch(const PlaylistSearch &search);
 
 public slots:
@@ -57,7 +60,7 @@ public slots:
     void slotQueryChanged(int = 0);
 
 signals:
-    void signalQueryChanged(const QString &query, bool caseSensitive, bool regExp);
+    void signalQueryChanged();
 
 private:
     void setupLayout();
