@@ -653,11 +653,14 @@ void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
 
 void Playlist::slotApplyModification(QListViewItem *item, const QString &text, int column)
 {
+	if (item->text(column) == text)
+		return;
+
     QPtrList<QListViewItem> selectedSongs = KListView::selectedItems();
     if (selectedSongs.count() > 1)
     {
         if (KMessageBox::warningYesNo(0, i18n("This will rename multiple files! Are you sure?"), QString::null,
-					                  KStdGuiItem::yes(), KStdGuiItem::no(), "WarnMultipleTags") == KMessageBox::No)
+					                  KStdGuiItem::yes(), KStdGuiItem::no(), "DontWarnMultipleTags") == KMessageBox::No)
 			return;
 		
         QPtrListIterator<QListViewItem> it(selectedSongs);
