@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qfileinfo.h>
+
 #include "filehandle.h"
 #include "tag.h"
 
@@ -39,7 +41,9 @@ public:
     FileHandlePrivate() :
         tag(0) {}
 
-    Tag *tag;
+    mutable Tag *tag;
+    QFileInfo fileInfo;
+    mutable QString absFilePath;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -56,15 +60,51 @@ FileHandle::FileHandle(const FileHandle &f) : d(f.d)
     d->ref();
 }
 
+FileHandle::FileHandle(const QFileInfo &info, const QString &path)
+{
+    d = new FileHandlePrivate;
+    d->fileInfo = info;
+    d->absFilePath = path.isNull() ? info.absFilePath() : path;
+}
+
+FileHandle::FileHandle(const QString &path)
+{
+    d = new FileHandlePrivate;
+    d->absFilePath = path;
+    d->fileInfo.setFile(path);
+}
+
 FileHandle::~FileHandle()
 {
     if(d->deref())
         delete d;
 }
 
+void FileHandle::refresh()
+{
+    d->fileInfo.refresh();
+    delete d->tag;
+    d->tag = Tag::createTag(d->absFilePath);
+}
+
 Tag *FileHandle::tag() const
 {
+    if(!d->tag)
+        d->tag = Tag::createTag(d->absFilePath);
+
     return d->tag;
+}
+
+QString FileHandle::absFilePath() const
+{
+    if(d->absFilePath.isNull())
+        d->absFilePath = d->fileInfo.absFilePath();
+    return d->absFilePath;
+}
+
+const QFileInfo &FileHandle::fileInfo() const
+{
+    return d->fileInfo;
 }
 
 FileHandle &FileHandle::operator=(const FileHandle &f)

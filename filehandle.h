@@ -30,12 +30,20 @@ class FileHandle
 public:
     FileHandle();
     FileHandle(const FileHandle &f);
+    FileHandle(const QFileInfo &info, const QString &path = QString::null);
+    FileHandle(const QString &path);
     ~FileHandle();
 
+    /**
+     * Forces the FileHandle to reread its information from the disk.
+     */
+    void refresh();
+
     Tag *tag() const;
+    QString absFilePath() const;
+    const QFileInfo &fileInfo() const;
 
     FileHandle &operator=(const FileHandle &f);
-
     bool operator==(const FileHandle &f) const;
 
 private:
