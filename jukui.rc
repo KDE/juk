@@ -15,7 +15,7 @@
 		<Separator/>
 
 		<Action name="file_save"/>
-		<Action name="file_saveas"/>
+		<Action name="file_save_as"/>
 
 		<Separator/>
 
