@@ -73,7 +73,7 @@ void Playlist::SharedSettings::setColumnOrder(const Playlist *l)
     }
 }
 
-void Playlist::SharedSettings::restoreColumnOrder(const Playlist *l)
+void Playlist::SharedSettings::restoreColumnOrder(Playlist *l)
 {
     if(!l)
 	return;
@@ -81,6 +81,8 @@ void Playlist::SharedSettings::restoreColumnOrder(const Playlist *l)
     int i = 0;
     for(QValueListIterator<int> it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
 	l->header()->moveSection(i++, *it);
+
+    l->updateLeftColumn();
 }
 
 Playlist::SharedSettings::SharedSettings()
@@ -320,6 +322,19 @@ void Playlist::setName(const QString &n)
 {
     playlistName = n;
     emit(nameChanged(playlistName));
+}
+
+void Playlist::updateLeftColumn()
+{
+    int newLeftColumn = leftMostVisibleColumn();
+
+    if(leftColumn != newLeftColumn) {
+	if(playingItem) {
+	    playingItem->setPixmap(leftColumn, QPixmap(0, 0));
+	    playingItem->setPixmap(newLeftColumn, QPixmap(UserIcon("playing")));
+	}
+	leftColumn = newLeftColumn;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -711,7 +726,7 @@ void Playlist::applyTags(QListViewItem *item, const QString &text, int column)
 
 void Playlist::columnOrderChanged(int, int from, int to)
 {
-    // kdDebug() << /* "section: " << section << */ " from: " << from << " to: " << to << endl;
+    kdDebug() << /* "section: " << section << */ " from: " << from << " to: " << to << endl;
     
     if(from == 0 || to == 0) {
 	if(playingItem) {

@@ -138,6 +138,12 @@ public:
     KActionMenu *columnVisibleAction() const { return _columnVisibleAction; }
 
     void setPlaying(PlaylistItem *item, bool playing = true);
+    
+    /**
+     * This forces an update of the left most visible column, but does not save
+     * the settings for this.
+     */ 
+    void updateLeftColumn();
 
 public slots:
     /**
@@ -245,7 +251,7 @@ public:
     /**
      * Sets the columns of @param p to match the stored settings.
      */
-    void restoreColumnOrder(const Playlist *p);
+    void restoreColumnOrder(Playlist *p);
 
 protected:
     SharedSettings();
