@@ -38,7 +38,7 @@ TreeViewItemPlaylist::TreeViewItemPlaylist(PlaylistCollection *collection,
     m_columnType = static_cast<PlaylistItem::ColumnType>(*(component.columns().begin()));
 }
 
-void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *donorPlaylist)
+void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
 {
     CollectionList *collection = CollectionList::instance();
 
