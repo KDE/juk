@@ -17,6 +17,8 @@
 
 #include <kdebug.h>
 
+#include <qdatetime.h>
+
 #include "oggtag.h"
 #include "genrelistlist.h"
 
@@ -42,7 +44,7 @@ void OggTag::save()
 
 QString OggTag::track() const
 {
-    return readCommentString("Album");
+    return readCommentString("Title");
 }
 
 QString OggTag::artist() const
@@ -74,17 +76,26 @@ QString OggTag::trackNumberString() const
 
 int OggTag::year() const
 {
-    return readCommentInt("Year");
+    QDateTime d = QDateTime::fromString(readCommentString("Date"), Qt::ISODate);
+
+    if(d.isValid())
+	return(d.date().year());
+    else
+	return(0);
 }
 
 QString OggTag::yearString() const
 {
-    return readCommentString("Year");
+    QDateTime d = QDate::fromString(readCommentString("Date"), Qt::ISODate);
+    if(d.isValid())
+	return(QString::number(d.date().year()));
+    else
+	return(QString::null);
 }
 
 QString OggTag::comment() const
 {
-    return(QString::null);
+    return readCommentString("Description");
 }
 
 bool OggTag::hasTag() const
