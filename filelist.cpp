@@ -32,13 +32,11 @@
 
 FileList::FileList(QWidget *parent, const char *name) : KListView(parent, name)
 {
-  processed = 0;
   setup();
 }
 
 FileList::FileList(QString &item, QWidget *parent, const char *name) : KListView(parent, name)
 {
-  processed = 0;
   setup();
   append(item);
 }
@@ -51,6 +49,8 @@ FileList::FileList(QStringList &items, QWidget *parent, const char *name) : KLis
 
 FileList::~FileList()
 {
+  delete(artistList);
+  delete(albumList);
 }
 
 void FileList::append(QString item)
@@ -104,12 +104,26 @@ FileListItem *FileList::getSelectedItem()
   return(dynamic_cast<FileListItem *>(currentItem()));
 }
 
+QStringList *FileList::getArtistList()
+{
+  return(artistList);
+}
+
+QStringList *FileList::getAlbumList()
+{
+  return(albumList);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
 void FileList::setup()
 {
+  processed = 0;
+  artistList = new QStringList();
+  albumList = new QStringList();
+
   extensions.append("mp3");
 
   addColumn(i18n("Track Name"));

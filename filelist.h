@@ -41,6 +41,9 @@ public:
   void remove(QPtrList<QListViewItem> &items);
   
   FileListItem *getSelectedItem();
+  
+  QStringList *getArtistList();
+  QStringList *getAlbumList();
 
 private:
   void setup();
@@ -48,6 +51,8 @@ private:
   
   QStringList extensions;
   QStringList members;
+  QStringList *artistList;
+  QStringList *albumList;
   void processEvents();
   int processed;
 
