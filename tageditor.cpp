@@ -704,7 +704,7 @@ void TagEditor::saveChangesPrompt()
 
     QStringList files;
 
-    for(PlaylistItemList::Iterator it = m_items.begin(); it != m_items.end(); it++)
+    for(PlaylistItemList::Iterator it = m_items.begin(); it != m_items.end(); ++it)
 	files.append((*it)->file().absFilePath());
 
     if(KMessageBox::questionYesNoList(this,

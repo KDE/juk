@@ -207,7 +207,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     QByteArray data;
     QDataStream s(data, IO_WriteOnly);
 
-    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); it++) {
+    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it) {
         if(*it) {
             if(dynamic_cast<HistoryPlaylist *>(*it)) {
                 s << Q_INT32(History)

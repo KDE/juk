@@ -438,7 +438,7 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 
     if(KURLDrag::decode(s, urls) && !urls.isEmpty()) {
 	QStringList files;
-	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
+	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
 	    files.append((*it).path());
 
 	if(item) {
