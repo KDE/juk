@@ -50,6 +50,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     m_playlistNameLineEdit = new KLineEdit(defaultName, box);
 
     QVGroupBox *criteriaGroupBox = new QVGroupBox(i18n("Search Criteria"), mainWidget());
+    static_cast<QHBox *>(mainWidget())->setStretchFactor(criteriaGroupBox, 1);
 
     QHButtonGroup *group = new QHButtonGroup(criteriaGroupBox);
     m_matchAnyButton = new QRadioButton(i18n("Match any of the following"), group);
