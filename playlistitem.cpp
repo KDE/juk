@@ -206,10 +206,15 @@ int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
 	// Loop through the columns doing comparisons until something is differnt.
 	// If all else is the same, compare the track name.
 
-	for(int i = ArtistColumn; i <= TrackNumberColumn; i++) {
-	    c = compare(this, playlistItem, i, ascending);
-	    if(c != 0)
-		return c;
+	Playlist *p = static_cast<Playlist *>(listView());
+	int last = p->isColumnVisible(AlbumColumn) ? TrackNumberColumn : ArtistColumn;
+
+	for(int i = ArtistColumn; i <= last; i++) {
+	    if(p->isColumnVisible(i)) {
+		c = compare(this, playlistItem, i, ascending);
+		if(c != 0)
+		    return c;
+	    }
 	}
 	return compare(this, playlistItem, TrackColumn, ascending);
     }
