@@ -73,9 +73,9 @@ private:
      */
     void writeCommentItem(const QString &key, int value);
     
-    QFileInfo fileInfo;
-    KFileMetaInfo metaInfo;
-    KFileMetaInfoGroup commentGroup;
+    QFileInfo m_fileInfo;
+    KFileMetaInfo m_metaInfo;
+    KFileMetaInfoGroup m_commentGroup;
 };
 
 #endif

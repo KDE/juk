@@ -56,7 +56,7 @@ void GenreListEditor::loadLists()
     GenreListList lists = GenreListList::lists();
 
     for(GenreListList::Iterator it = lists.begin(); it != lists.end(); it++) {
-	listDict.insert((*it).name(), &(*it));
+	m_listDict.insert((*it).name(), &(*it));
 	selectListBox->insertItem((*it).name());
     }
     
@@ -65,7 +65,7 @@ void GenreListEditor::loadLists()
 
 void GenreListEditor::updateGenreList()
 {
-    GenreList *currentList = listDict[selectListBox->currentText()];
+    GenreList *currentList = m_listDict[selectListBox->currentText()];
     if(currentList) {
 	genreList->clear();
 

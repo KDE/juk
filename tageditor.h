@@ -70,24 +70,24 @@ private slots:
 
 private:
     typedef QMap<QWidget *, QCheckBox *> BoxMap;
-    BoxMap enableBoxes;
+    BoxMap m_enableBoxes;
 
-    GenreList genreList;
+    GenreList m_genreList;
 
-    KComboBox *artistNameBox;
-    KLineEdit *trackNameBox;
-    KComboBox *albumNameBox;
-    KComboBox *genreBox;
-    KLineEdit *fileNameBox;
-    KIntSpinBox *trackSpin;
-    KIntSpinBox *yearSpin;
-    KLineEdit *lengthBox;
-    KLineEdit *bitrateBox;
-    KEdit *commentBox;
+    KComboBox *m_artistNameBox;
+    KLineEdit *m_trackNameBox;
+    KComboBox *m_albumNameBox;
+    KComboBox *m_genreBox;
+    KLineEdit *m_fileNameBox;
+    KIntSpinBox *m_trackSpin;
+    KIntSpinBox *m_yearSpin;
+    KLineEdit *m_lengthBox;
+    KLineEdit *m_bitrateBox;
+    KEdit *m_commentBox;
 
-    PlaylistItemList items;
+    PlaylistItemList m_items;
     
-    bool dataChanged; 
+    bool m_dataChanged; 
 };
 
 #endif

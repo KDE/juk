@@ -38,7 +38,7 @@ public:
     QString ID3v1Name(int ID3v1);
 
     /**
-     * Do a "reverse" lookup.  Given an ID3v1 genre name, find the index.  Though
+     * Do a "reverse" lookup.  Given an ID3v1 genre name, find the m_index.  Though
      * I didn't realize it at the time that I wrote it, this is a 
      * reimplimentation from QValueList; ours however caches the last search so
      * it should speed things up a bit for "two in a row" searches that are 
@@ -48,8 +48,8 @@ public:
 
     QString name() const;
     void setName(const QString &n);
-    bool readOnly() const { return readOnlyList; }
-    void setReadOnly(bool ro) { readOnlyList = ro; }
+    bool readOnly() const { return m_readOnlyList; }
+    void setReadOnly(bool ro) { m_readOnlyList = ro; }
 
 private:
     /** 
@@ -59,10 +59,10 @@ private:
      */
     void initializeIndex();
 
-    QValueVector<QString> index;
-    bool hasIndex;
-    QString listName;
-    bool readOnlyList;
+    QValueVector<QString> m_index;
+    bool m_hasIndex;
+    QString m_listName;
+    bool m_readOnlyList;
 };
 
 #endif

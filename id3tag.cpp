@@ -1,5 +1,5 @@
 /***************************************************************************
-                          tag.cpp  -  description
+                          m_tag.cpp  -  description
                              -------------------
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 by Scott Wheeler
@@ -39,74 +39,74 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-ID3Tag::ID3Tag(const QString &file) : Tag(file), fileName(file), changed(false)
+ID3Tag::ID3Tag(const QString &file) : Tag(file), m_fileName(file), m_changed(false)
 {
-    metaInfo = KFileMetaInfo(file, QString::null, KFileMetaInfo::Fastest);
+    m_metaInfo = KFileMetaInfo(file, QString::null, KFileMetaInfo::Fastest);
 
-    tag.Link(fileName.latin1());
+    m_tag.Link(m_fileName.latin1());
 
     // the easy ones -- these are supported in the id3 class
 
     char *temp;
 
-    temp = ID3_GetArtist(&tag);
-    tagArtist = temp;
+    temp = ID3_GetArtist(&m_tag);
+    m_tagArtist = temp;
     delete [] temp;
 
-    temp = ID3_GetAlbum(&tag);
-    tagAlbum = temp;
+    temp = ID3_GetAlbum(&m_tag);
+    m_tagAlbum = temp;
     delete [] temp;
 
-    temp = ID3_GetTitle(&tag);
-    tagTrack = temp;
+    temp = ID3_GetTitle(&m_tag);
+    m_tagTrack = temp;
     delete [] temp;
 
-    temp = ID3_GetTrack(&tag);
-    tagTrackNumberString = temp;
+    temp = ID3_GetTrack(&m_tag);
+    m_tagTrackNumberString = temp;
     delete [] temp;
 
-    tagTrackNumberString.replace(QRegExp("^0+"), QString::null);
+    m_tagTrackNumberString.replace(QRegExp("^0+"), QString::null);
 
-    tagTrackNumber = ID3_GetTrackNum(&tag);
+    m_tagTrackNumber = ID3_GetTrackNum(&m_tag);
 
-    temp = ID3_GetComment(&tag);
-    tagComment = temp;
+    temp = ID3_GetComment(&m_tag);
+    m_tagComment = temp;
     delete [] temp;
 
-    temp = ID3_GetGenre(&tag);
-    tagGenre = temp;
+    temp = ID3_GetGenre(&m_tag);
+    m_tagGenre = temp;
     delete [] temp;
 
-    tagGenre.setID3v1(int(ID3_GetGenreNum(&tag)));
+    m_tagGenre.setID3v1(int(ID3_GetGenreNum(&m_tag)));
 
-    temp = ID3_GetYear(&tag);
-    tagYearString = temp;
+    temp = ID3_GetYear(&m_tag);
+    m_tagYearString = temp;
     delete [] temp;
 
-    tagExists = (tag.HasV2Tag() || tag.HasV1Tag());
+    m_tagExists = (m_tag.HasV2Tag() || m_tag.HasV1Tag());
 
-    if(tagTrack.length() <= 0) {
-        tagTrack = fileName;
+    if(m_tagTrack.length() <= 0) {
+        m_tagTrack = m_fileName;
 
-        while((tagTrack.right(4)).lower() == ".mp3")
-            tagTrack = tagTrack.left(tagTrack.length() - 4);
+        while((m_tagTrack.right(4)).lower() == ".mp3")
+            m_tagTrack = m_tagTrack.left(m_tagTrack.length() - 4);
 
-        tagTrack = tagTrack.right(tagTrack.length() - tagTrack.findRev(QDir::separator(), -1) -1);
+        m_tagTrack = m_tagTrack.right(m_tagTrack.length() - m_tagTrack.findRev(QDir::separator(), -1) -1);
     }
 
     // parse the genre string for (<ID3v1 number>)
 
-    if(tagGenre == "(" + QString::number(tagGenre.getID3v1()) + ")" || tagGenre == QString::null)
-        tagGenre = GenreListList::ID3v1List().ID3v1Name(tagGenre.getID3v1());
-    else if(tagGenre.find(QRegExp("\\([0-9]+\\)")) == 0)
-        tagGenre = tagGenre.mid(tagGenre.find(")") + 1);
+    if(m_tagGenre == "(" + QString::number(m_tagGenre.getID3v1()) + ")" || m_tagGenre == QString::null)
+        m_tagGenre = GenreListList::ID3v1List().ID3v1Name(m_tagGenre.getID3v1());
+    else if(m_tagGenre.find(QRegExp("\\([0-9]+\\)")) == 0)
+        m_tagGenre = m_tagGenre.mid(m_tagGenre.find(")") + 1);
 
     // convert the year
 
-    tagYear = tagYearString.toInt();
+    m_tagYear = m_tagYearString.toInt();
 
-    if(tagYear <= 0)
-        tagYearString = QString::null;
+    if(m_tagYear <= 0)
+        m_tagYearString = QString::null;
 }
 
 
@@ -118,102 +118,102 @@ ID3Tag::~ID3Tag()
 
 void ID3Tag::save()
 {
-    if(changed) {
-        if(tagArtist.length() > 0)
-            ID3_AddArtist(&tag, tagArtist.latin1(), REPLACE);
+    if(m_changed) {
+        if(m_tagArtist.length() > 0)
+            ID3_AddArtist(&m_tag, m_tagArtist.latin1(), REPLACE);
         else
-            ID3_RemoveArtists(&tag);
+            ID3_RemoveArtists(&m_tag);
 
-        if(tagAlbum.length() > 0)
-            ID3_AddAlbum(&tag, tagAlbum.latin1(), REPLACE);
+        if(m_tagAlbum.length() > 0)
+            ID3_AddAlbum(&m_tag, m_tagAlbum.latin1(), REPLACE);
         else
-            ID3_RemoveAlbums(&tag);
+            ID3_RemoveAlbums(&m_tag);
 
-        if(tagTrack.length() > 0)
-            ID3_AddTitle(&tag, tagTrack.latin1(), REPLACE);
+        if(m_tagTrack.length() > 0)
+            ID3_AddTitle(&m_tag, m_tagTrack.latin1(), REPLACE);
         else
-            ID3_RemoveTitles(&tag);
+            ID3_RemoveTitles(&m_tag);
 
-        if(tagTrackNumber > 0)
-            ID3_AddTrack(&tag,  uchar(tagTrackNumber),  uchar(0),  REPLACE);
+        if(m_tagTrackNumber > 0)
+            ID3_AddTrack(&m_tag,  uchar(m_tagTrackNumber),  uchar(0),  REPLACE);
         else
-            ID3_RemoveTracks(&tag);
+            ID3_RemoveTracks(&m_tag);
 
-        if(tagGenre.getID3v1() >= 0 && tagGenre.getID3v1() <  int(GenreListList::ID3v1List().count())) {
+        if(m_tagGenre.getID3v1() >= 0 && m_tagGenre.getID3v1() <  int(GenreListList::ID3v1List().count())) {
             QString genreString;
 
-            if(tagGenre != GenreListList::ID3v1List().ID3v1Name(tagGenre.getID3v1()))
-                genreString = "(" + QString::number(tagGenre.getID3v1()) + ")" + tagGenre;
+            if(m_tagGenre != GenreListList::ID3v1List().ID3v1Name(m_tagGenre.getID3v1()))
+                genreString = "(" + QString::number(m_tagGenre.getID3v1()) + ")" + m_tagGenre;
             else
-                genreString = "(" + QString::number(tagGenre.getID3v1()) + ")";
+                genreString = "(" + QString::number(m_tagGenre.getID3v1()) + ")";
 
-            ID3_AddGenre(&tag, genreString.latin1(), REPLACE);
+            ID3_AddGenre(&m_tag, genreString.latin1(), REPLACE);
         }
         else
-            ID3_RemoveGenres(&tag);
+            ID3_RemoveGenres(&m_tag);
 
-        if(tagYear > 0)
-            ID3_AddYear(&tag, tagYearString.latin1(), REPLACE);
+        if(m_tagYear > 0)
+            ID3_AddYear(&m_tag, m_tagYearString.latin1(), REPLACE);
         else
-            ID3_RemoveYears(&tag);
+            ID3_RemoveYears(&m_tag);
 
-        ID3_RemoveComments(&tag);
-        if(tagComment.length()>0)
-            ID3_AddComment(&tag, tagComment.latin1(), REPLACE);
+        ID3_RemoveComments(&m_tag);
+        if(m_tagComment.length()>0)
+            ID3_AddComment(&m_tag, m_tagComment.latin1(), REPLACE);
 
-        tag.Update();
-        changed = false;
+        m_tag.Update();
+        m_changed = false;
     }
 }
 
 bool ID3Tag::hasTag() const
 { 
-    return tagExists;
+    return m_tagExists;
 }
 
 QString ID3Tag::track() const  // The song's name, not it's track number
 { 
-    return tagTrack; 
+    return m_tagTrack; 
 }              
 
 QString ID3Tag::artist() const 
 { 
-    return tagArtist;
+    return m_tagArtist;
 }
 
 QString ID3Tag::album() const
 { 
-    return tagAlbum;
+    return m_tagAlbum;
 }
 
 Genre ID3Tag::genre() const 
 { 
-    return tagGenre;
+    return m_tagGenre;
 }
 
 int ID3Tag::trackNumber() const 
 { 
-    return tagTrackNumber;
+    return m_tagTrackNumber;
 }
 
 QString ID3Tag::trackNumberString() const
 { 
-    return tagTrackNumberString;
+    return m_tagTrackNumberString;
 }
 
 int ID3Tag::year() const
 { 
-    return tagYear;
+    return m_tagYear;
 }
 
 QString ID3Tag::yearString() const
 { 
-    return tagYearString;
+    return m_tagYearString;
 }
 
 QString ID3Tag::comment() const
 { 
-    return tagComment;
+    return m_tagComment;
 }
 
 /////////////////////////////////////////////////////
@@ -222,65 +222,65 @@ QString ID3Tag::comment() const
 
 void ID3Tag::setTrack(const QString &value)
 {
-    changed = true;
-    tagTrack = value;
+    m_changed = true;
+    m_tagTrack = value;
 };
 
 void ID3Tag::setArtist(const QString &value)
 {
-    changed = true;
-    tagArtist = value;
+    m_changed = true;
+    m_tagArtist = value;
 };
 
 void ID3Tag::setAlbum(const QString &value)
 {
-    changed = true;
-    tagAlbum = value;
+    m_changed = true;
+    m_tagAlbum = value;
 };
 
 void ID3Tag::setGenre(const Genre &value)
 {
-    changed = true;
-    tagGenre = value;
+    m_changed = true;
+    m_tagGenre = value;
 };
 
 void ID3Tag::setTrackNumber(int value)
 {
-    changed = true;
-    tagTrackNumber = value;
-    if(tagTrackNumber > 0)
-        tagTrackNumberString.setNum(value);
+    m_changed = true;
+    m_tagTrackNumber = value;
+    if(m_tagTrackNumber > 0)
+        m_tagTrackNumberString.setNum(value);
     else
-        tagTrackNumberString = QString::null;
+        m_tagTrackNumberString = QString::null;
 };
 
 void ID3Tag::setYear(int value)
 {
-    changed = true;
-    tagYear = value;
-    if(tagYear > 0)
-        tagYearString.setNum(value);
+    m_changed = true;
+    m_tagYear = value;
+    if(m_tagYear > 0)
+        m_tagYearString.setNum(value);
     else
-        tagYearString = QString::null;
+        m_tagYearString = QString::null;
 };
 
 void ID3Tag::setComment(const QString &value)
 {
-    changed = true;
-    tagComment = value;
+    m_changed = true;
+    m_tagComment = value;
 };
 
 QString ID3Tag::bitrateString() const
 {
-    return readBitrate(metaInfo);
+    return readBitrate(m_metaInfo);
 }
 
 QString ID3Tag::lengthString() const
 {
-    return readLength(metaInfo);
+    return readLength(m_metaInfo);
 }
 
 int ID3Tag::seconds() const
 {
-    return readSeconds(metaInfo);
+    return readSeconds(m_metaInfo);
 }

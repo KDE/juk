@@ -42,7 +42,7 @@ private slots:
     virtual void updateGenreName(const QString &name);
 
 private:
-    QDict<GenreList> listDict;
+    QDict<GenreList> m_listDict;
 };
 
 #endif

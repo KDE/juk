@@ -50,12 +50,12 @@ signals:
  */
     
 private:
-    QTimer *blinkTimer;
-    bool blinkStatus;
-    QPixmap playPix;
-    QPixmap pausePix;
-    QPixmap currentPix;
-    QPixmap appPix;
+    QTimer *m_blinkTimer;
+    bool m_blinkStatus;
+    QPixmap m_playPix;
+    QPixmap m_pausePix;
+    QPixmap m_currentPix;
+    QPixmap m_appPix;
     
     static const int blinkInterval = 1000;
 };

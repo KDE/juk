@@ -27,45 +27,45 @@
 
 PlaylistItem::~PlaylistItem()
 {
-    data->deleteUser();
+    m_data->deleteUser();
 }
 
 void PlaylistItem::setFile(const QString &file)
 {
-    data->setFile(file);
+    m_data->setFile(file);
     refresh();
 }
 
 Tag *PlaylistItem::tag() const
 {
-    return data->tag();
+    return m_data->tag();
 }
 
 // some forwarding methods
 
 QString PlaylistItem::fileName() const
 { 
-    return data->fileName(); 
+    return m_data->fileName(); 
 }
 
 QString PlaylistItem::filePath() const
 {
-    return data->filePath();
+    return m_data->filePath();
 }
 
 QString PlaylistItem::absFilePath() const
 {
-    return data->absFilePath();
+    return m_data->absFilePath();
 }
 
 QString PlaylistItem::dirPath(bool absPath) const
 {
-    return data->dirPath(absPath);
+    return m_data->dirPath(absPath);
 }
 
 bool PlaylistItem::isWritable() const 
 {
-    return data->isWritable();
+    return m_data->isWritable();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ void PlaylistItem::refresh()
 
 void PlaylistItem::refreshFromDisk()
 {
-    data->refresh();
+    m_data->refresh();
     refresh();
 }
 
@@ -106,12 +106,12 @@ PlaylistItem::PlaylistItem(Playlist *parent) : QObject(parent), KListViewItem(pa
 
 PlaylistItem::Data *PlaylistItem::getData()
 {
-    return data;
+    return m_data;
 }
 
 void PlaylistItem::setData(Data *d)
 {
-    data = d;
+    m_data = d;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -140,7 +140,7 @@ void PlaylistItem::refreshImpl()
 void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
 {
     if(item) {
-	data = item->getData()->newUser();
+	m_data = item->getData()->newUser();
 	item->addChildItem(this);
 	refreshImpl();
 	connect(this, SIGNAL(refreshed()), parent, SIGNAL(dataChanged()));
@@ -243,15 +243,15 @@ PlaylistItem::Data *PlaylistItem::Data::newUser(const QFileInfo &file, const QSt
 
 PlaylistItem::Data *PlaylistItem::Data::newUser()
 {
-    referenceCount++;
+    m_referenceCount++;
     return this;
 }
 
 void PlaylistItem::Data::refresh()
 {
-    delete dataTag;
-    dataTag = Tag::createTag(filePath());
-    absFileName = QFileInfo::absFilePath();
+    delete m_dataTag;
+    m_dataTag = Tag::createTag(filePath());
+    m_absFileName = QFileInfo::absFilePath();
 }
 
 void PlaylistItem::Data::deleteUser()
@@ -259,13 +259,13 @@ void PlaylistItem::Data::deleteUser()
     // The delete this is safe because we control object creation through a
     // protected constructor and the newUser() methods.
 
-    if(--referenceCount == 0)
+    if(--m_referenceCount == 0)
         delete this;
 }
 
 Tag *PlaylistItem::Data::tag() const
 {
-    return dataTag;
+    return m_dataTag;
 }
 
 void PlaylistItem::Data::setFile(const QString &file)
@@ -278,15 +278,15 @@ void PlaylistItem::Data::setFile(const QString &file)
 // PlaylistItem::Data protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::Data::Data(const QFileInfo &file, const QString &path) : QFileInfo(file), absFileName(path)
+PlaylistItem::Data::Data(const QFileInfo &file, const QString &path) : QFileInfo(file), m_absFileName(path)
 {
-    referenceCount = 1;
-    dataTag = Tag::createTag(path);
+    m_referenceCount = 1;
+    m_dataTag = Tag::createTag(path);
 }
 
 PlaylistItem::Data::~Data()
 {
-    delete dataTag;
+    delete m_dataTag;
 }
 
 #include "playlistitem.moc"

@@ -21,14 +21,14 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Genre::Genre() : QString(), ID3v1(255)
+Genre::Genre() : QString(), m_ID3v1(255)
 {
 
 }
 
 Genre::Genre(const QString &genreName, int ID3v1Number) : QString(genreName)
 {
-    ID3v1 = ID3v1Number;
+    m_ID3v1 = ID3v1Number;
 }
 
 // Ok, this just looks *really* ugly at first, but after thinking I must have
@@ -46,12 +46,12 @@ Genre &Genre::operator=(const QString &genreName)
 
 int Genre::getID3v1() const
 {
-    return ID3v1;
+    return m_ID3v1;
 }
 
 void Genre::setID3v1(int ID3v1Number)
 {
-    ID3v1 = ID3v1Number;
+    m_ID3v1 = ID3v1Number;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -65,14 +65,14 @@ private slots:
 private:
     void setupPlayer();
 
-    QGstPlay::Play *player;
+    QGstPlay::Play *m_player;
     unsigned long long duration;
 
     long long positionNs; // in ns
     long long durationNs; // in ns
 
-    QString currentFile;
-    float currentVolume;
+    QString m_currentFile;
+    float m_currentVolume;
 };
 
 #endif

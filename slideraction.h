@@ -45,9 +45,9 @@ private slots:
     void updateSize();
 
 private:
-    QBoxLayout *layout;
-    QSlider *trackPositionSlider;
-    QSlider *volumeSlider;
+    QBoxLayout *m_layout;
+    QSlider *m_trackPositionSlider;
+    QSlider *m_volumeSlider;
 
     static const int volumeMax = 50;
 };

@@ -33,7 +33,7 @@ class PlaylistItem;
 class PlaylistSplitter;
 
 /** 
- * This is the play list selection box that is by default on the right side of
+ * This is the play m_list selection box that is by default on the right side of
  * JuK's main widget (PlaylistSplitter). 
  */
 
@@ -84,7 +84,7 @@ private:
     virtual void mousePressEvent(QMouseEvent *e);
     /** 
      * This is used by PlaylistItemBox (a friend class) to add names to the name
-     * list returned by names(). 
+     * m_list returned by names(). 
      */
     void addName(const QString &name) { m_names.append(name); }
 
@@ -127,14 +127,14 @@ public:
     Item(PlaylistBox *listbox, const QString &text, Playlist *l = 0);
     virtual ~Item();
 
-    Playlist *playlist() const { return list; }
+    Playlist *playlist() const { return m_list; }
     PlaylistBox *listBox() const { return static_cast<PlaylistBox *>(ListBoxPixmap::listBox()); }
 
 public slots:
     void setName(const QString &name);
     
 private:
-    Playlist *list;
+    Playlist *m_list;
 };
 
 #endif

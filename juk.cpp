@@ -72,21 +72,21 @@ JuK::~JuK()
 
 void JuK::setupLayout()
 {
-    splitter = new PlaylistSplitter(this, restore, "playlistSplitter");
-    setCentralWidget(splitter);
+    m_splitter = new PlaylistSplitter(this, m_restore, "playlistSplitter");
+    setCentralWidget(m_splitter);
 
     // playlist item activation connection
-    connect(splitter, SIGNAL(signalDoubleClicked()), this, SLOT(playSelectedFile()));
-    connect(splitter, SIGNAL(signalListBoxDoubleClicked()), this, SLOT(playFirstFile()));
+    connect(m_splitter, SIGNAL(signalDoubleClicked()), this, SLOT(playSelectedFile()));
+    connect(m_splitter, SIGNAL(signalListBoxDoubleClicked()), this, SLOT(playFirstFile()));
 
     // create status bar
-    statusLabel = new StatusLabel(statusBar());
-    statusBar()->addWidget(statusLabel, 1);
+    m_statusLabel = new StatusLabel(statusBar());
+    statusBar()->addWidget(m_statusLabel, 1);
 
-    connect(splitter, SIGNAL(signalSelectedPlaylistCountChanged(int)), statusLabel, SLOT(setPlaylistCount(int)));
-    connect(statusLabel, SIGNAL(jumpButtonClicked()), splitter, SLOT(slotSelectPlaying()));
+    connect(m_splitter, SIGNAL(signalSelectedPlaylistCountChanged(int)), m_statusLabel, SLOT(setPlaylistCount(int)));
+    connect(m_statusLabel, SIGNAL(jumpButtonClicked()), m_splitter, SLOT(slotSelectPlaying()));
 
-    splitter->setFocus();
+    m_splitter->setFocus();
 
     resize(750, 500);
 }
@@ -94,17 +94,17 @@ void JuK::setupLayout()
 void JuK::setupActions()
 {
     // file menu
-    KStdAction::openNew(splitter, SLOT(slotCreatePlaylist()), actionCollection());
-    KStdAction::open(splitter, SLOT(slotOpen()), actionCollection());
-    new KAction(i18n("Open &Directory..."), "fileopen", 0, splitter, SLOT(slotOpenDirectory()), actionCollection(), "openDirectory");
+    KStdAction::openNew(m_splitter, SLOT(slotCreatePlaylist()), actionCollection());
+    KStdAction::open(m_splitter, SLOT(slotOpen()), actionCollection());
+    new KAction(i18n("Open &Directory..."), "fileopen", 0, m_splitter, SLOT(slotOpenDirectory()), actionCollection(), "openDirectory");
 
-    renamePlaylistAction = new KAction(i18n("Rename..."), 0, splitter, SLOT(slotRenamePlaylist()), 
+    m_renamePlaylistAction = new KAction(i18n("Rename..."), 0, m_splitter, SLOT(slotRenamePlaylist()), 
 				       actionCollection(), "renamePlaylist");
-    new KAction(i18n("Duplicate..."), "editcopy", 0, splitter, SLOT(slotDuplicatePlaylist()), actionCollection(), "duplicatePlaylist");
+    new KAction(i18n("Duplicate..."), "editcopy", 0, m_splitter, SLOT(slotDuplicatePlaylist()), actionCollection(), "duplicatePlaylist");
     
-    savePlaylistAction = KStdAction::save(splitter, SLOT(slotSavePlaylist()), actionCollection());
-    saveAsPlaylistAction = KStdAction::saveAs(splitter, SLOT(slotSaveAsPlaylist()), actionCollection());
-    deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, splitter, SLOT(slotDeletePlaylist()), 
+    m_savePlaylistAction = KStdAction::save(m_splitter, SLOT(slotSavePlaylist()), actionCollection());
+    m_saveAsPlaylistAction = KStdAction::saveAs(m_splitter, SLOT(slotSaveAsPlaylist()), actionCollection());
+    m_deleteItemPlaylistAction = new KAction(i18n("Remove"), "edittrash", 0, m_splitter, SLOT(slotDeletePlaylist()), 
 					   actionCollection(), "deleteItemPlaylist");
 
     KStdAction::quit(this, SLOT(close()), actionCollection());
@@ -117,105 +117,105 @@ void JuK::setupActions()
     KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
     // view menu
-    showEditorAction = new KToggleAction(i18n("Show Tag Editor"), "edit", 0, actionCollection(), "showEditor");
-    connect(showEditorAction, SIGNAL(toggled(bool)), splitter, SLOT(slotSetEditorVisible(bool)));
-    KStdAction::redisplay(splitter, SLOT(slotRefresh()), actionCollection());
-    actionCollection()->insert(splitter->columnVisibleAction());
+    m_showEditorAction = new KToggleAction(i18n("Show Tag Editor"), "edit", 0, actionCollection(), "showEditor");
+    connect(m_showEditorAction, SIGNAL(toggled(bool)), m_splitter, SLOT(slotSetEditorVisible(bool)));
+    KStdAction::redisplay(m_splitter, SLOT(slotRefresh()), actionCollection());
+    actionCollection()->insert(m_splitter->columnVisibleAction());
     
     // play menu
-    randomPlayAction = new KToggleAction(i18n("Random Play"), 0, actionCollection(), "randomPlay");
-    playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(play()), actionCollection(), "play");
-    pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pause()), actionCollection(), "pause");
-    stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stop()), actionCollection(), "stop");
-    backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(back()), actionCollection(), "back");
-    forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()), actionCollection(), "forward");
+    m_randomPlayAction = new KToggleAction(i18n("Random Play"), 0, actionCollection(), "randomPlay");
+    m_playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(play()), actionCollection(), "play");
+    m_pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pause()), actionCollection(), "pause");
+    m_stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stop()), actionCollection(), "stop");
+    m_backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(back()), actionCollection(), "back");
+    m_forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()), actionCollection(), "forward");
 
     // tagger menu
-    new KAction(i18n("Save"), "filesave", "CTRL+t", splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
-    new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
+    new KAction(i18n("Save"), "filesave", "CTRL+t", m_splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
+    new KAction(i18n("Delete"), "editdelete", 0, m_splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
     
     // settings menu
 
     new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this, SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
     new KToggleAction(i18n("Show Tool Bar"), "CTRL+b", this, SLOT(slotToggleToolBar()), actionCollection(), "toggleToolBar");
 
-    restoreOnLoadAction = new KToggleAction(i18n("Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
+    m_restoreOnLoadAction = new KToggleAction(i18n("Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
 
-    toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), 0, actionCollection(), "toggleSystemTray");
-    connect(toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(toggleSystemTray(bool)));
+    m_toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), 0, actionCollection(), "toggleSystemTray");
+    connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(toggleSystemTray(bool)));
 
     new KAction(i18n("Genre List Editor..."), 0, this, SLOT(showGenreListEditor()), actionCollection(), "showGenreListEditor");
 
 
-    outputSelectAction = Player::playerSelectAction(actionCollection());
-    if(outputSelectAction) {
-	outputSelectAction->setCurrentItem(0);
-	connect(outputSelectAction, SIGNAL(activated(int)), this, SLOT(setOutput(int)));
+    m_outputSelectAction = Player::playerSelectAction(actionCollection());
+    if(m_outputSelectAction) {
+	m_outputSelectAction->setCurrentItem(0);
+	connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(setOutput(int)));
     }
 
     // just in the toolbar
-    sliderAction = new SliderAction(i18n("Track Position"), actionCollection(), "trackPositionAction");
+    m_sliderAction = new SliderAction(i18n("Track Position"), actionCollection(), "trackPositionAction");
 
     createGUI();
 
     // set the slider to the proper orientation and make it stay that way
-    sliderAction->updateOrientation();
-    connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), sliderAction, SLOT(updateOrientation(QDockWindow *)));
+    m_sliderAction->updateOrientation();
+    connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), m_sliderAction, SLOT(updateOrientation(QDockWindow *)));
 
-    connect(splitter, SIGNAL(signalPlaylistChanged()), this, SLOT(playlistChanged()));
+    connect(m_splitter, SIGNAL(signalPlaylistChanged()), this, SLOT(playlistChanged()));
 }
 
 void JuK::setupSystemTray()
 {
-    if(toggleSystemTrayAction && toggleSystemTrayAction->isChecked()) {
-	systemTray = new SystemTray(this, "systemTray");
-	systemTray->show();
+    if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
+	m_systemTray = new SystemTray(this, "systemTray");
+	m_systemTray->show();
 	
-	connect(systemTray, SIGNAL(play()),    this, SLOT(play()));
-	connect(systemTray, SIGNAL(stop()),    this, SLOT(stop()));
-	connect(systemTray, SIGNAL(pause()),   this, SLOT(pause()));
-	connect(systemTray, SIGNAL(back()),    this, SLOT(back()));
-	connect(systemTray, SIGNAL(forward()), this, SLOT(forward()));
+	connect(m_systemTray, SIGNAL(play()),    this, SLOT(play()));
+	connect(m_systemTray, SIGNAL(stop()),    this, SLOT(stop()));
+	connect(m_systemTray, SIGNAL(pause()),   this, SLOT(pause()));
+	connect(m_systemTray, SIGNAL(back()),    this, SLOT(back()));
+	connect(m_systemTray, SIGNAL(forward()), this, SLOT(forward()));
 
-	connect(this, SIGNAL(newSongSignal(const QString&)), systemTray, SLOT(slotNewSong(const QString&)));
+	connect(this, SIGNAL(newSongSignal(const QString&)), m_systemTray, SLOT(slotNewSong(const QString&)));
 	
-	if(player && player->paused())
-	    systemTray->slotPause();
-	else if(player && player->playing())
-	    systemTray->slotPlay();
+	if(m_player && m_player->paused())
+	    m_systemTray->slotPause();
+	else if(m_player && m_player->playing())
+	    m_systemTray->slotPlay();
     }
     else
-	systemTray = 0;
+	m_systemTray = 0;
 }
 
 void JuK::setupPlayer()
 {
-    trackPositionDragging = false;
-    noSeek = false;
-    pauseAction->setEnabled(false);
-    stopAction->setEnabled(false);
-    backAction->setEnabled(false);
-    forwardAction->setEnabled(false);
+    m_trackPositionDragging = false;
+    m_noSeek = false;
+    m_pauseAction->setEnabled(false);
+    m_stopAction->setEnabled(false);
+    m_backAction->setEnabled(false);
+    m_forwardAction->setEnabled(false);
 
-    playTimer = new QTimer(this);
-    connect(playTimer, SIGNAL(timeout()), this, SLOT(pollPlay()));
+    m_playTimer = new QTimer(this);
+    connect(m_playTimer, SIGNAL(timeout()), this, SLOT(pollPlay()));
 
-    if(sliderAction && sliderAction->getTrackPositionSlider() && sliderAction->getVolumeSlider()) {
-        connect(sliderAction->getTrackPositionSlider(), SIGNAL(valueChanged(int)), this, SLOT(trackPositionSliderUpdate(int)));
-        connect(sliderAction->getTrackPositionSlider(), SIGNAL(sliderPressed()), this, SLOT(trackPositionSliderClick()));
-        connect(sliderAction->getTrackPositionSlider(), SIGNAL(sliderReleased()), this, SLOT(trackPositionSliderRelease()));
-        sliderAction->getTrackPositionSlider()->setEnabled(false);
+    if(m_sliderAction && m_sliderAction->getTrackPositionSlider() && m_sliderAction->getVolumeSlider()) {
+        connect(m_sliderAction->getTrackPositionSlider(), SIGNAL(valueChanged(int)), this, SLOT(trackPositionSliderUpdate(int)));
+        connect(m_sliderAction->getTrackPositionSlider(), SIGNAL(sliderPressed()), this, SLOT(trackPositionSliderClick()));
+        connect(m_sliderAction->getTrackPositionSlider(), SIGNAL(sliderReleased()), this, SLOT(trackPositionSliderRelease()));
+        m_sliderAction->getTrackPositionSlider()->setEnabled(false);
 
-        connect(sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
+        connect(m_sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
     }
     
     int playerType = 0;
-    if(outputSelectAction) {
-	playerType = outputSelectAction->currentItem();
-	connect(outputSelectAction, SIGNAL(activated(int)), this, SLOT(setOutput(int)));
+    if(m_outputSelectAction) {
+	playerType = m_outputSelectAction->currentItem();
+	connect(m_outputSelectAction, SIGNAL(activated(int)), this, SLOT(setOutput(int)));
     }
 
-    player = Player::createPlayer(playerType);
+    m_player = Player::createPlayer(playerType);
 }
 
 
@@ -227,7 +227,7 @@ void JuK::processArgs()
     for(int i = 0; i < args->count(); i++)
 	files.append(args->arg(i));
 
-    splitter->open(files);
+    m_splitter->open(files);
 }
 
 /**
@@ -239,80 +239,80 @@ void JuK::readSettings()
     KConfig *config = KGlobal::config();
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
-	restore = config->readBoolEntry("RestoreOnLoad", true);
+	m_restore = config->readBoolEntry("RestoreOnLoad", true);
     }
 }
 
 void JuK::readConfig()
 {
-    // Automagically save and restore many window settings.
+    // Automagically save and m_restore many window settings.
     setAutoSaveSettings();
 
     KConfig *config = KGlobal::config();
-    { // player settings
+    { // m_player settings
         KConfigGroupSaver saver(config, "Player");
-        if(sliderAction && sliderAction->getVolumeSlider()) {
-            int volume = config->readNumEntry("Volume", sliderAction->getVolumeSlider()->maxValue());
-            sliderAction->getVolumeSlider()->setValue(volume);
+        if(m_sliderAction && m_sliderAction->getVolumeSlider()) {
+            int volume = config->readNumEntry("Volume", m_sliderAction->getVolumeSlider()->maxValue());
+            m_sliderAction->getVolumeSlider()->setValue(volume);
         }
-	if(randomPlayAction) {
+	if(m_randomPlayAction) {
 	    bool randomPlay = config->readBoolEntry("RandomPlay", false);
-	    randomPlayAction->setChecked(randomPlay);
+	    m_randomPlayAction->setChecked(randomPlay);
 	}
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
 	bool showEditor = config->readBoolEntry("ShowEditor", false);
-	showEditorAction->setChecked(showEditor);
-	splitter->slotSetEditorVisible(showEditor);
+	m_showEditorAction->setChecked(showEditor);
+	m_splitter->slotSetEditorVisible(showEditor);
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
 	bool dockInSystemTray = config->readBoolEntry("DockInSystemTray", true);
-	toggleSystemTrayAction->setChecked(dockInSystemTray);
+	m_toggleSystemTrayAction->setChecked(dockInSystemTray);
 	
-	if(outputSelectAction)
-	    outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
+	if(m_outputSelectAction)
+	    m_outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
 	
     }
 
-    if(restoreOnLoadAction)
-	restoreOnLoadAction->setChecked(restore);
+    if(m_restoreOnLoadAction)
+	m_restoreOnLoadAction->setChecked(m_restore);
     
 }
 
 void JuK::saveConfig()
 {
     KConfig *config = KGlobal::config();
-    { // player settings
+    { // m_player settings
         KConfigGroupSaver saver(config, "Player");
-        if(sliderAction && sliderAction->getVolumeSlider())
-            config->writeEntry("Volume", sliderAction->getVolumeSlider()->value());
-	if(randomPlayAction)
-	    config->writeEntry("RandomPlay", randomPlayAction->isChecked());
+        if(m_sliderAction && m_sliderAction->getVolumeSlider())
+            config->writeEntry("Volume", m_sliderAction->getVolumeSlider()->value());
+	if(m_randomPlayAction)
+	    config->writeEntry("RandomPlay", m_randomPlayAction->isChecked());
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
-	config->writeEntry("ShowEditor", showEditorAction->isChecked());
+	config->writeEntry("ShowEditor", m_showEditorAction->isChecked());
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
-	if(restoreOnLoadAction)
-	    config->writeEntry("RestoreOnLoad", restoreOnLoadAction->isChecked());
-	if(toggleSystemTrayAction)
-	    config->writeEntry("DockInSystemTray", toggleSystemTrayAction->isChecked());
-	if(outputSelectAction)
-	    config->writeEntry("MediaSystem", outputSelectAction->currentItem());
+	if(m_restoreOnLoadAction)
+	    config->writeEntry("RestoreOnLoad", m_restoreOnLoadAction->isChecked());
+	if(m_toggleSystemTrayAction)
+	    config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
+	if(m_outputSelectAction)
+	    config->writeEntry("MediaSystem", m_outputSelectAction->currentItem());
     }
 }
 
 bool JuK::queryClose()
 {
     stop();
-    delete player;
+    delete m_player;
     Cache::instance()->save();
     saveConfig();
-    delete splitter;
+    delete m_splitter;
     return true;
 }
 
@@ -338,10 +338,10 @@ QString JuK::playingString() const
 {
     QString s;
     
-    if(splitter->playingArtist().isEmpty())
-	s = splitter->playingTrack().simplifyWhiteSpace();
+    if(m_splitter->playingArtist().isEmpty())
+	s = m_splitter->playingTrack().simplifyWhiteSpace();
     else
-	s = splitter->playingArtist().simplifyWhiteSpace() + " - " + splitter->playingTrack().simplifyWhiteSpace();
+	s = m_splitter->playingArtist().simplifyWhiteSpace() + " - " + m_splitter->playingTrack().simplifyWhiteSpace();
 
     return s;
 }
@@ -352,17 +352,17 @@ QString JuK::playingString() const
 
 void JuK::playlistChanged()
 {
-    if(splitter->collectionListSelected()) {
-	savePlaylistAction->setEnabled(false);
-	saveAsPlaylistAction->setEnabled(false);
-	renamePlaylistAction->setEnabled(false);
-	deleteItemPlaylistAction->setEnabled(false);	
+    if(m_splitter->collectionListSelected()) {
+	m_savePlaylistAction->setEnabled(false);
+	m_saveAsPlaylistAction->setEnabled(false);
+	m_renamePlaylistAction->setEnabled(false);
+	m_deleteItemPlaylistAction->setEnabled(false);	
     }
     else {
-	savePlaylistAction->setEnabled(true);
-	saveAsPlaylistAction->setEnabled(true);
-	renamePlaylistAction->setEnabled(true);
-	deleteItemPlaylistAction->setEnabled(true);
+	m_savePlaylistAction->setEnabled(true);
+	m_saveAsPlaylistAction->setEnabled(true);
+	m_renamePlaylistAction->setEnabled(true);
+	m_deleteItemPlaylistAction->setEnabled(true);
     }
 
     updatePlaylistInfo();
@@ -370,7 +370,7 @@ void JuK::playlistChanged()
 
 void JuK::updatePlaylistInfo()
 {
-    statusLabel->setPlaylistInfo(splitter->selectedPlaylistName(), splitter->selectedPlaylistCount());
+    m_statusLabel->setPlaylistInfo(m_splitter->selectedPlaylistName(), m_splitter->selectedPlaylistCount());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -403,78 +403,78 @@ void JuK::selectAll()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// player menu
+// m_player menu
 ////////////////////////////////////////////////////////////////////////////////
 
 void JuK::play()
 {
-    if(!player)
+    if(!m_player)
 	return;
 
-    if(player->paused()) {
-        player->play();
+    if(m_player->paused()) {
+        m_player->play();
 
-	// Here, before doing anything, we want to make sure that the player did
+	// Here, before doing anything, we want to make sure that the m_player did
 	// in fact start.
 
-        if(player->playing()) {
-            pauseAction->setEnabled(true);
-            stopAction->setEnabled(true);
-            playTimer->start(pollInterval);
-	    if(systemTray)
-		systemTray->slotPlay();
+        if(m_player->playing()) {
+            m_pauseAction->setEnabled(true);
+            m_stopAction->setEnabled(true);
+            m_playTimer->start(pollInterval);
+	    if(m_systemTray)
+		m_systemTray->slotPlay();
         }
     }
-    else if(player->playing())
-	player->seekPosition(0);
+    else if(m_player->playing())
+	m_player->seekPosition(0);
     else
-	play(splitter->playNextFile(randomPlayAction->isChecked()));
+	play(m_splitter->playNextFile(m_randomPlayAction->isChecked()));
 }
 
 void JuK::pause()
 {
-    if(!player)
+    if(!m_player)
 	return;
 
-    playTimer->stop();
-    player->pause();
-    pauseAction->setEnabled(false);
-    if(systemTray)
-	systemTray->slotPause();
+    m_playTimer->stop();
+    m_player->pause();
+    m_pauseAction->setEnabled(false);
+    if(m_systemTray)
+	m_systemTray->slotPause();
 }
 
 void JuK::stop()
 {
-    if(!player)
+    if(!m_player)
 	return;
 
-    playTimer->stop();
-    player->stop();
+    m_playTimer->stop();
+    m_player->stop();
 
-    pauseAction->setEnabled(false);
-    stopAction->setEnabled(false);
-    backAction->setEnabled(false);
-    forwardAction->setEnabled(false);
+    m_pauseAction->setEnabled(false);
+    m_stopAction->setEnabled(false);
+    m_backAction->setEnabled(false);
+    m_forwardAction->setEnabled(false);
 
-    sliderAction->getTrackPositionSlider()->setValue(0);
-    sliderAction->getTrackPositionSlider()->setEnabled(false);
+    m_sliderAction->getTrackPositionSlider()->setValue(0);
+    m_sliderAction->getTrackPositionSlider()->setEnabled(false);
 
-    splitter->stop();
+    m_splitter->stop();
 
-    statusLabel->clear();
+    m_statusLabel->clear();
     
-    if(systemTray)
-	systemTray->slotStop();
+    if(m_systemTray)
+	m_systemTray->slotStop();
 }
 
 void JuK::back()
 {
-    play(splitter->playPreviousFile(randomPlayAction->isChecked()));
+    play(m_splitter->playPreviousFile(m_randomPlayAction->isChecked()));
 }
 
 void JuK::forward()
 {
-    play(splitter->playNextFile(randomPlayAction->isChecked()));
+    play(m_splitter->playNextFile(m_randomPlayAction->isChecked()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -489,71 +489,71 @@ void JuK::showGenreListEditor()
 
 void JuK::toggleSystemTray(bool enabled)
 {
-    if(enabled && !systemTray)
+    if(enabled && !m_systemTray)
 	setupSystemTray();
-    else if(!enabled && systemTray) {
-	delete systemTray;
-	systemTray = 0;
+    else if(!enabled && m_systemTray) {
+	delete m_systemTray;
+	m_systemTray = 0;
     }
 }
 
 void JuK::setOutput(int output)
 {
     stop();
-    delete player;
-    player = Player::createPlayer(output);
+    delete m_player;
+    m_player = Player::createPlayer(output);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// additional player slots
+// additional m_player slots
 ////////////////////////////////////////////////////////////////////////////////
 
 void JuK::trackPositionSliderClick()
 {
-    trackPositionDragging = true;
+    m_trackPositionDragging = true;
 }
 
 void JuK::trackPositionSliderRelease()
 {
-    if(!player)
+    if(!m_player)
 	return;
 
-    trackPositionDragging = false;
-    player->seekPosition(sliderAction->getTrackPositionSlider()->value());
+    m_trackPositionDragging = false;
+    m_player->seekPosition(m_sliderAction->getTrackPositionSlider()->value());
 }
 
 void JuK::trackPositionSliderUpdate(int position)
 {
-    if(!player)
+    if(!m_player)
 	return;
 
-    if(player->playing() && !trackPositionDragging && !noSeek)
-        player->seekPosition(position);
+    if(m_player->playing() && !m_trackPositionDragging && !m_noSeek)
+        m_player->seekPosition(position);
 }
 
 // This method is called when the play timer has expired.
 
 void JuK::pollPlay()
 {
-    if(!player)
+    if(!m_player)
 	return;
 
     // Our locking mechanism.  Since this method adjusts the play slider, we 
     // want to make sure that our adjustments
-    noSeek = true;
+    m_noSeek = true;
 
-    if(!player->playing()) {
+    if(!m_player->playing()) {
 
-        playTimer->stop();
+        m_playTimer->stop();
 
-	if(!player->paused())
-	    play(splitter->playNextFile(randomPlayAction->isChecked()));
+	if(!m_player->paused())
+	    play(m_splitter->playNextFile(m_randomPlayAction->isChecked()));
 
     }
-    else if(!trackPositionDragging) {
-        sliderAction->getTrackPositionSlider()->setValue(player->position());
-	statusLabel->setItemTotalTime(player->totalTime());
-	statusLabel->setItemCurrentTime(player->currentTime());
+    else if(!m_trackPositionDragging) {
+        m_sliderAction->getTrackPositionSlider()->setValue(m_player->position());
+	m_statusLabel->setItemTotalTime(m_player->totalTime());
+	m_statusLabel->setItemCurrentTime(m_player->currentTime());
     }
 
     // Ok, this is weird stuff, but it works pretty well.  Ordinarily we don't
@@ -561,53 +561,53 @@ void JuK::pollPlay()
     // last interval, we want to check a lot -- to figure out that we've hit the
     // end of the song as soon as possible.
 
-    if(player->playing() && player->totalTime() > 0 && float(player->totalTime() - player->currentTime()) < pollInterval * 2)
-        playTimer->changeInterval(50);
+    if(m_player->playing() && m_player->totalTime() > 0 && float(m_player->totalTime() - m_player->currentTime()) < pollInterval * 2)
+        m_playTimer->changeInterval(50);
 
-    noSeek = false;
+    m_noSeek = false;
 }
 
 void JuK::setVolume(int volume)
 {
-    if(player && sliderAction && sliderAction->getVolumeSlider() &&
-       sliderAction->getVolumeSlider()->maxValue() > 0 &&
-       volume >= 0 && sliderAction->getVolumeSlider()->maxValue() >= volume)
+    if(m_player && m_sliderAction && m_sliderAction->getVolumeSlider() &&
+       m_sliderAction->getVolumeSlider()->maxValue() > 0 &&
+       volume >= 0 && m_sliderAction->getVolumeSlider()->maxValue() >= volume)
     {
-        player->setVolume(float(volume) / float(sliderAction->getVolumeSlider()->maxValue()));
+        m_player->setVolume(float(volume) / float(m_sliderAction->getVolumeSlider()->maxValue()));
     }
 }
 
 void JuK::play(const QString &file)
 {
-    if(!player)
+    if(!m_player)
 	return;
 
-    float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());
+    float volume = float(m_sliderAction->getVolumeSlider()->value()) / float(m_sliderAction->getVolumeSlider()->maxValue());
 
-    if(player->paused())
-	player->stop();
+    if(m_player->paused())
+	m_player->stop();
     
-    player->play(file, volume);
+    m_player->play(file, volume);
 
-    // Make sure that the player actually starts before doing anything.
+    // Make sure that the m_player actually starts before doing anything.
 
-    if(player->playing()) {
-	pauseAction->setEnabled(true);
-	stopAction->setEnabled(true);
+    if(m_player->playing()) {
+	m_pauseAction->setEnabled(true);
+	m_stopAction->setEnabled(true);
 	
-	backAction->setEnabled(true);
-	forwardAction->setEnabled(true);
+	m_backAction->setEnabled(true);
+	m_forwardAction->setEnabled(true);
 	
-	sliderAction->getTrackPositionSlider()->setValue(0);
-	sliderAction->getTrackPositionSlider()->setEnabled(true);
-	playTimer->start(pollInterval);
+	m_sliderAction->getTrackPositionSlider()->setValue(0);
+	m_sliderAction->getTrackPositionSlider()->setEnabled(true);
+	m_playTimer->start(pollInterval);
 
-	statusLabel->setPlayingItemInfo(playingString(), splitter->playingList());
+	m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
 
 	emit newSongSignal(playingString());
 
-	if(systemTray)
-	    systemTray->slotPlay();
+	if(m_systemTray)
+	    m_systemTray->slotPlay();
     }
     else
 	stop();

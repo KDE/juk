@@ -39,7 +39,7 @@ private slots:
     void removeDirectory();
 
 private:
-    QStringList dirList;
+    QStringList m_dirList;
 };
 
 #endif

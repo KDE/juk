@@ -86,9 +86,9 @@ protected:
     
 private:
     static CollectionList *list;
-    QDict<CollectionListItem> itemsDict;
-    SortedStringList artistList;
-    SortedStringList albumList;
+    QDict<CollectionListItem> m_itemsDict;
+    SortedStringList m_artistList;
+    SortedStringList m_albumList;
 };
 
 class CollectionListItem : public PlaylistItem

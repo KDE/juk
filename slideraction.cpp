@@ -71,16 +71,16 @@ SliderAction::~SliderAction()
 
 QSlider *SliderAction::getTrackPositionSlider() const
 {
-    if(trackPositionSlider)
-        return (trackPositionSlider);
+    if(m_trackPositionSlider)
+        return (m_trackPositionSlider);
     else
         return 0;
 }
 
 QSlider *SliderAction::getVolumeSlider() const
 {
-    if(volumeSlider)
-        return (volumeSlider);
+    if(m_volumeSlider)
+        return (m_volumeSlider);
     else
         return 0;
 }
@@ -94,14 +94,14 @@ void SliderAction::updateOrientation(QDockWindow *dockWindow)
     // if the toolbar is not null and either the dockWindow not defined or is the toolbar
     if(customWidget && toolbar && (!dockWindow || dockWindow == dynamic_cast<QDockWindow *>(toolbar))) {
         if(toolbar->barPos() == KToolBar::Right || toolbar->barPos() == KToolBar::Left) {
-            trackPositionSlider->setOrientation(Qt::Vertical);
-            volumeSlider->setOrientation(Qt::Vertical);
-            layout->setDirection(QBoxLayout::TopToBottom);
+            m_trackPositionSlider->setOrientation(Qt::Vertical);
+            m_volumeSlider->setOrientation(Qt::Vertical);
+            m_layout->setDirection(QBoxLayout::TopToBottom);
         }
         else {
-            trackPositionSlider->setOrientation(Qt::Horizontal);
-            volumeSlider->setOrientation(Qt::Horizontal);
-            layout->setDirection(QBoxLayout::LeftToRight);
+            m_trackPositionSlider->setOrientation(Qt::Horizontal);
+            m_volumeSlider->setOrientation(Qt::Horizontal);
+            m_layout->setDirection(QBoxLayout::LeftToRight);
         }
     }
     updateSize();
@@ -118,23 +118,23 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 	base->setName("kde toolbar widget");
 //	base->setSizePolicy(QSizePolicy(QSizePolicy::Expanding, QSizePolicy::Maximum));
 
-	layout = new QBoxLayout(base, QBoxLayout::TopToBottom, 5, 5);
+	m_layout = new QBoxLayout(base, QBoxLayout::TopToBottom, 5, 5);
 
-        trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
-        trackPositionSlider->setMaxValue(1000);
-        QToolTip::add(trackPositionSlider, i18n("Track position"));
-        layout->addWidget(trackPositionSlider);
+        m_trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
+        m_trackPositionSlider->setMaxValue(1000);
+        QToolTip::add(m_trackPositionSlider, i18n("Track position"));
+        m_layout->addWidget(m_trackPositionSlider);
 
-	volumeSlider = new QSlider(base, "volumeSlider" );
-        volumeSlider->setMaxValue(100);
-        QToolTip::add(volumeSlider, i18n("Volume"));
-        layout->addWidget(volumeSlider);
+	m_volumeSlider = new QSlider(base, "volumeSlider" );
+        m_volumeSlider->setMaxValue(100);
+        QToolTip::add(m_volumeSlider, i18n("Volume"));
+        m_layout->addWidget(m_volumeSlider);
 
-	volumeSlider->setName("kde toolbar widget");
-        trackPositionSlider->setName("kde toolbar widget");
+	m_volumeSlider->setName("kde toolbar widget");
+        m_trackPositionSlider->setName("kde toolbar widget");
 
-        layout->setStretchFactor(trackPositionSlider, 4);
-        layout->setStretchFactor(volumeSlider, 1);
+        m_layout->setStretchFactor(m_trackPositionSlider, 4);
+        m_layout->setStretchFactor(m_volumeSlider, 1);
 
 //        setWidget(base);
 
@@ -162,18 +162,18 @@ void SliderAction::updateSize()
 
     if(customWidget && toolbar) {
         if(toolbar->barPos() == KToolBar::Right || toolbar->barPos() == KToolBar::Left) {
-            volumeSlider->setMaximumWidth(toolbar->iconSize() - offset);
-            volumeSlider->setMaximumHeight(volumeMax);
+            m_volumeSlider->setMaximumWidth(toolbar->iconSize() - offset);
+            m_volumeSlider->setMaximumHeight(volumeMax);
 
-            trackPositionSlider->setMaximumWidth(toolbar->iconSize() - offset);
-            trackPositionSlider->setMaximumHeight(absoluteMax);
+            m_trackPositionSlider->setMaximumWidth(toolbar->iconSize() - offset);
+            m_trackPositionSlider->setMaximumHeight(absoluteMax);
         }
         else {
-            volumeSlider->setMaximumHeight(toolbar->iconSize() - offset);
-            volumeSlider->setMaximumWidth(volumeMax);
+            m_volumeSlider->setMaximumHeight(toolbar->iconSize() - offset);
+            m_volumeSlider->setMaximumWidth(volumeMax);
 
-            trackPositionSlider->setMaximumHeight(toolbar->iconSize() - offset);
-            trackPositionSlider->setMaximumWidth(absoluteMax);
+            m_trackPositionSlider->setMaximumHeight(toolbar->iconSize() - offset);
+            m_trackPositionSlider->setMaximumWidth(absoluteMax);
         }
         //    kdDebug() << "SliderAction::updateLabels()" << endl;
         //    kdDebug() << toolbar->iconSize() << endl;

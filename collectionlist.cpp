@@ -55,23 +55,23 @@ void CollectionList::initialize(PlaylistSplitter *s, QWidget *parent, bool resto
 
 QStringList CollectionList::artists() const
 {
-    return artistList.values();
+    return m_artistList.values();
 }
 
 QStringList CollectionList::albums() const
 {
-    return albumList.values();
+    return m_albumList.values();
 }
 
 CollectionListItem *CollectionList::lookup(const QString &file)
 {
-    return itemsDict.find(file);
+    return m_itemsDict.find(file);
 }
 
 PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
 {
     QString path = file.absFilePath();
-    if(itemsDict.find(path))
+    if(m_itemsDict.find(path))
 	return 0;
 
     return new CollectionListItem(file, path);
@@ -145,12 +145,12 @@ void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 
 void CollectionList::addToDict(const QString &file, CollectionListItem *item)
 {
-    itemsDict.replace(file, item);
+    m_itemsDict.replace(file, item);
 }
 
 void CollectionList::removeFromDict(const QString &file)
 {
-    itemsDict.remove(file);
+    m_itemsDict.remove(file);
 }
 
 void CollectionList::addArtist(const QString &artist)
@@ -158,7 +158,7 @@ void CollectionList::addArtist(const QString &artist)
     // Do a bit of caching since there will very often be "two in a row" insertions.
     static QString previousArtist;
 
-    if(artist != previousArtist && !artistList.insert(artist))
+    if(artist != previousArtist && !m_artistList.insert(artist))
 	previousArtist = artist;
 }
 
@@ -167,7 +167,7 @@ void CollectionList::addAlbum(const QString &album)
     // Do a bit of caching since there will very often be "two in a row" insertions.
     static QString previousAlbum;
 
-    if(album != previousAlbum && !albumList.insert(album))
+    if(album != previousAlbum && !m_albumList.insert(album))
 	previousAlbum = album;
 }
 

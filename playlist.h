@@ -97,17 +97,17 @@ public:
      */
     virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *after = 0);
 
-    QString fileName() const { return playlistFileName; }
-    void setFileName(const QString &n) { playlistFileName = n; }
+    QString fileName() const { return m_playlistFileName; }
+    void setFileName(const QString &n) { m_playlistFileName = n; }
 
     void hideColumn(int c);
     void showColumn(int c);
     bool isColumnVisible(int c) const;
 
     /**
-     * If playlistName has no value -- i.e. the name has not been set to 
+     * If m_playlistName has no value -- i.e. the name has not been set to 
      * something other than the filename, this returns the filename less the
-     * extension.  If playlistName does have a value, this returns that.
+     * extension.  If m_playlistName does have a value, this returns that.
      */
     QString name() const;
 
@@ -125,7 +125,7 @@ public:
     PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
     PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
 
-    KActionMenu *columnVisibleAction() const { return _columnVisibleAction; }
+    KActionMenu *columnVisibleAction() const { return m_columnVisibleAction; }
 
 public slots:
     /**
@@ -147,7 +147,7 @@ protected:
     virtual void decode(QMimeSource *s);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-    PlaylistSplitter *playlistSplitter() const { return splitter; }
+    PlaylistSplitter *playlistSplitter() const { return m_splitter; }
 
 signals:
     /** 
@@ -188,7 +188,7 @@ signals:
 
 private:
     void setup();
-    QPtrStack<PlaylistItem> history;
+    QPtrStack<PlaylistItem> m_history;
 
 private slots:
     void emitSelected() {  emit(selectionChanged(selectedItems())); }
@@ -198,26 +198,26 @@ private slots:
     void renameTag();
 
 private:
-    int currentColumn;
-    SortedStringList members;
-    int processed;
-    bool allowDuplicates;
+    int m_currentColumn;
+    SortedStringList m_members;
+    int m_processed;
+    bool m_allowDuplicates;
 
-    QString playlistFileName;
+    QString m_playlistFileName;
 
     /**
      * This is only defined if the playlist name is something other than the
      * file name.
      */
-    QString playlistName;
-    PlaylistSplitter *splitter;
+    QString m_playlistName;
+    PlaylistSplitter *m_splitter;
    
-    KPopupMenu *rmbMenu;
-    KPopupMenu *headerMenu;
-    KActionMenu *_columnVisibleAction;
+    KPopupMenu *m_rmbMenu;
+    KPopupMenu *m_headerMenu;
+    KActionMenu *m_columnVisibleAction;
 
-    int rmbPasteID;
-    int rmbEditID;
+    int m_rmbPasteID;
+    int m_rmbEditID;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);

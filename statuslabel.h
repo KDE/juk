@@ -53,8 +53,8 @@ public slots:
      * This just sets internal variables that are used by setItemCurrentTime().
      * Please call that method to display the time.
      */      
-    void setItemTotalTime(int time) { itemTotalTime = time; }
-    void setItemCurrentTime(int time) { itemCurrentTime = time; updateTime(); }
+    void setItemTotalTime(int time) { m_itemTotalTime = time; }
+    void setItemCurrentTime(int time) { m_itemCurrentTime = time; updateTime(); }
 
 signals:
     void jumpButtonClicked();
@@ -67,15 +67,15 @@ private:
 
     enum Mode { PlayingItemInfo, PlaylistInfo } mode;
 
-    QString playlistName;
-    int playlistCount;
-    int itemTotalTime;
-    int itemCurrentTime;
-    bool showTimeRemaining;
+    QString m_playlistName;
+    int m_playlistCount;
+    int m_itemTotalTime;
+    int m_itemCurrentTime;
+    bool m_showTimeRemaining;
 
-    QLabel *playlistLabel;
-    QLabel *trackLabel;
-    QLabel *itemTimeLabel;
+    QLabel *m_playlistLabel;
+    QLabel *m_trackLabel;
+    QLabel *m_itemTimeLabel;
 //    PlaylistItem *playingItem;
 };
 

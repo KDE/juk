@@ -55,8 +55,8 @@ protected:
 private:
     void init();
 
-    class ListBoxPixmapPrivate;
-    ListBoxPixmapPrivate *d;
+    class m_ListBoxPixmapPrivate;
+    m_ListBoxPixmapPrivate *m_d;
 };
 
 #endif

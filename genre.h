@@ -32,7 +32,7 @@ public:
     void setID3v1(int number);
     
 private:
-    int ID3v1;
+    int m_ID3v1;
 };
 
 QDataStream &operator<<(QDataStream &s, const Genre &g);

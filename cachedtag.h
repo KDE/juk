@@ -63,26 +63,26 @@ public:
 
 private:
     Tag *proxiedTag();
-    Tag *externalTag;
+    Tag *m_externalTag;
 
-    QString tagTrack;
-    QString tagArtist;
-    QString tagAlbum;
-    Genre tagGenre;
-    int tagTrackNumber;
-    QString tagTrackNumberString;
-    int tagYear;
-    QString tagYearString;
-    QString tagComment;
+    QString m_tagTrack;
+    QString m_tagArtist;
+    QString m_tagAlbum;
+    Genre m_tagGenre;
+    int m_tagTrackNumber;
+    QString m_tagTrackNumberString;
+    int m_tagYear;
+    QString m_tagYearString;
+    QString m_tagComment;
 
-    QString tagBitrateString;
-    QString tagLengthString;
-    int tagSeconds;
+    QString m_tagBitrateString;
+    QString m_tagLengthString;
+    int m_tagSeconds;
 
-    bool tagExists;
+    bool m_tagExists;
 
-    QString fileName;
-    QDateTime modificationTime;
+    QString m_fileName;
+    QDateTime m_modificationTime;
 };
 
 QDataStream &operator>>(QDataStream &s, CachedTag &t);

@@ -24,12 +24,12 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-GenreList::GenreList(bool createIndex) : QValueList<Genre>(), hasIndex(createIndex)
+GenreList::GenreList(bool createIndex) : QValueList<Genre>(), m_hasIndex(createIndex)
 {
 
 }
 
-GenreList::GenreList(const QString &file, bool createIndex) : QValueList<Genre>(), hasIndex(createIndex)
+GenreList::GenreList(const QString &file, bool createIndex) : QValueList<Genre>(), m_hasIndex(createIndex)
 {
     load(file);
 }
@@ -48,14 +48,14 @@ void GenreList::load(const QString &file)
     reader.setContentHandler(handler);
     reader.parse(source);
 
-    if(hasIndex)
+    if(m_hasIndex)
         initializeIndex();
 }
 
 QString GenreList::ID3v1Name(int ID3v1)
 {
-    if(hasIndex && ID3v1 >= 0 && ID3v1 < int(index.size()))
-        return index[ID3v1];
+    if(m_hasIndex && ID3v1 >= 0 && ID3v1 < int(m_index.size()))
+        return m_index[ID3v1];
     else
         return QString::null;
 }
@@ -88,12 +88,12 @@ int GenreList::findIndex(const QString &item)
 
 QString GenreList::name() const
 {
-    return listName;
+    return m_listName;
 }
 
 void GenreList::setName(const QString &n)
 {
-    listName = n;
+    m_listName = n;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -102,9 +102,9 @@ void GenreList::setName(const QString &n)
 
 void GenreList::initializeIndex()
 {
-    index.clear();
-    index.resize(size());
+    m_index.clear();
+    m_index.resize(size());
     for(GenreList::Iterator it = begin(); it != end(); ++it)
-        if((*it).getID3v1() >= 0 && (*it).getID3v1() < int(index.size()))
-            index[(*it).getID3v1()] = QString(*it);
+        if((*it).getID3v1() >= 0 && (*it).getID3v1() < int(m_index.size()))
+            m_index[(*it).getID3v1()] = QString(*it);
 }

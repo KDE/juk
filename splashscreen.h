@@ -51,7 +51,7 @@ private:
     static bool done;
     static int count;
 
-    QLabel *countLabel;
+    QLabel *m_countLabel;
 };
 
 #endif

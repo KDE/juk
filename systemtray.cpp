@@ -28,25 +28,25 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, name), blinkStatus(false)
+SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, name), m_blinkStatus(false)
 {
-    blinkTimer = new QTimer(this, "blinktimer");
+    m_blinkTimer = new QTimer(this, "blinktimer");
     
-    appPix   = SmallIcon("juk");
-    playPix  = SmallIcon("player_play");
-    pausePix = SmallIcon("player_pause");
+    m_appPix   = SmallIcon("juk");
+    m_playPix  = SmallIcon("player_play");
+    m_pausePix = SmallIcon("player_pause");
     
-    setPixmap(appPix);
+    setPixmap(m_appPix);
     
     KPopupMenu *cm = contextMenu();
     //cm->insertTitle(i18n("Playing"));
-    cm->insertItem(playPix, i18n("Play"), this, SIGNAL(play()));
-    cm->insertItem(pausePix, i18n("Pause"), this, SIGNAL(pause()));
+    cm->insertItem(m_playPix, i18n("Play"), this, SIGNAL(play()));
+    cm->insertItem(m_pausePix, i18n("Pause"), this, SIGNAL(pause()));
     cm->insertItem(SmallIcon("player_stop"), i18n("Stop"), this, SIGNAL(stop()));
     cm->insertItem(SmallIcon("player_start"), i18n("Back"), this, SIGNAL(back()));
     cm->insertItem(SmallIcon("player_end" ), i18n("Forward"), this, SIGNAL(forward()));
     
-//    connect(blinkTimer, SIGNAL(timeout()), this, SLOT(slotBlink()));
+//    connect(m_blinkTimer, SIGNAL(timeout()), this, SLOT(slotBlink()));
 }
 
 SystemTray::~SystemTray()
@@ -66,22 +66,22 @@ void SystemTray::slotNewSong(const QString& songName)
 
 void SystemTray::slotPlay()
 {
-    setPixmap(playPix);
-//    currentPix = playPix;
-//    blinkTimer->start(blinkInterval);
+    setPixmap(m_playPix);
+//    m_currentPix = m_playPix;
+//    m_blinkTimer->start(blinkInterval);
 }
 
 void SystemTray::slotPause()
 {
-    setPixmap(pausePix);
-//    currentPix = pausePix;
-//    blinkTimer->start(blinkInterval);
+    setPixmap(m_pausePix);
+//    m_currentPix = m_pausePix;
+//    m_blinkTimer->start(blinkInterval);
 }
 
 void SystemTray::slotStop()
 {
-    blinkTimer->stop();
-    setPixmap(appPix);
+    m_blinkTimer->stop();
+    setPixmap(m_appPix);
     QToolTip::remove(this);
 }
 
@@ -92,12 +92,12 @@ void SystemTray::slotStop()
 /*
 void SystemTray::slotBlink()
 {
-    if(blinkStatus)
-	setPixmap(currentPix);
+    if(m_blinkStatus)
+	setPixmap(m_currentPix);
     else
-	setPixmap(appPix);
+	setPixmap(m_appPix);
 
-    blinkStatus = !blinkStatus;
+    m_blinkStatus = !m_blinkStatus;
 }
 */
 

@@ -47,24 +47,24 @@
 #include "genrelistlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// public members
+// public m_members
 ////////////////////////////////////////////////////////////////////////////////
 
 Playlist::Playlist(PlaylistSplitter *s, QWidget *parent, const QString &name) : KListView(parent, name.latin1()), 
-										playlistName(name), 
-										splitter(s)
+										m_playlistName(name), 
+										m_splitter(s)
 {
     setup();
 }
 
 Playlist::Playlist(PlaylistSplitter *s, const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name), 
-													    playlistFileName(playlistFile.absFilePath()),
-													    splitter(s)
+													    m_playlistFileName(playlistFile.absFilePath()),
+													    m_splitter(s)
 													    
 {
     setup();
 
-    QFile file(playlistFileName);
+    QFile file(m_playlistFileName);
     if(!file.open(IO_ReadOnly))
 	return;
 
@@ -101,13 +101,13 @@ Playlist::~Playlist()
 
 void Playlist::save()
 {
-    if(playlistFileName.isEmpty())
+    if(m_playlistFileName.isEmpty())
 	return saveAs();
     
-    QFile file(playlistFileName);
+    QFile file(m_playlistFileName);
 
     if(!file.open(IO_WriteOnly))
-	return KMessageBox::error(this, i18n("Could not save to file %1.").arg(playlistFileName));
+	return KMessageBox::error(this, i18n("Could not save to file %1.").arg(m_playlistFileName));
     
     QTextStream stream(&file);
 
@@ -121,16 +121,16 @@ void Playlist::save()
 
 void Playlist::saveAs()
 {
-    QStringList extensions = splitter->playlistExtensions();
+    QStringList extensions = m_splitter->playlistExtensions();
 
-    playlistFileName = KFileDialog::getSaveFileName(QString::null, splitter->extensionsString(extensions, i18n("Playlists")));
-    playlistFileName = playlistFileName.stripWhiteSpace();
+    m_playlistFileName = KFileDialog::getSaveFileName(QString::null, m_splitter->extensionsString(extensions, i18n("Playlists")));
+    m_playlistFileName = m_playlistFileName.stripWhiteSpace();
 
-    if(playlistFileName != QString::null) {
-	if(extensions.find(playlistFileName.section('.', -1)) == extensions.end())
-	    playlistFileName.append('.' + extensions.first());
+    if(m_playlistFileName != QString::null) {
+	if(extensions.find(m_playlistFileName.section('.', -1)) == extensions.end())
+	    m_playlistFileName.append('.' + extensions.first());
 	
-	if(playlistName.isEmpty())
+	if(m_playlistName.isEmpty())
 	    emit(nameChanged(name()));
 	
 	save();
@@ -157,7 +157,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
     QPtrListIterator<PlaylistItem> it(items);
     while(it.current()) {
 	emit(aboutToRemove(it.current()));
-	members.remove(it.current()->absFilePath());
+	m_members.remove(it.current()->absFilePath());
         delete it.current();
         ++it;
     }
@@ -231,7 +231,7 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 
     if(random) {
 	if(count() > 1) {
-	    history.push(current);
+	    m_history.push(current);
 
 	    srand(time(0));
 	    i = current;
@@ -252,24 +252,24 @@ PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
     if(!current)
 	return 0;
 
-    if(random && !history.isEmpty())
-	return history.pop();
+    if(random && !m_history.isEmpty())
+	return m_history.pop();
     else
 	return static_cast<PlaylistItem *>(current->itemAbove());
 }
 
 QString Playlist::name() const
 {
-    if(playlistName == QString::null)
-	return playlistFileName.section(QDir::separator(), -1).section('.', 0, -2);
+    if(m_playlistName == QString::null)
+	return m_playlistFileName.section(QDir::separator(), -1).section('.', 0, -2);
     else
-	return playlistName;
+	return m_playlistName;
 }
 
 void Playlist::setName(const QString &n)
 {
-    playlistName = n;
-    emit(nameChanged(playlistName));
+    m_playlistName = n;
+    emit(nameChanged(m_playlistName));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -292,7 +292,7 @@ void Playlist::clear()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// protected members
+// protected m_members
 ////////////////////////////////////////////////////////////////////////////////
 
 QDragObject *Playlist::dragObject(QWidget *parent)
@@ -334,8 +334,8 @@ void Playlist::decode(QMimeSource *s)
     for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	fileList.append((*it).path());
     
-    if(splitter)
-	splitter->addToPlaylist(fileList, this);
+    if(m_splitter)
+	m_splitter->addToPlaylist(fileList, this);
 }
 
 bool Playlist::eventFilter(QObject* watched, QEvent* e)
@@ -347,7 +347,7 @@ bool Playlist::eventFilter(QObject* watched, QEvent* e)
 	    QMouseEvent *me = static_cast<QMouseEvent*>(e);
 
 	    if(me->button() == Qt::RightButton) {
-		headerMenu->popup(QCursor::pos());
+		m_headerMenu->popup(QCursor::pos());
 		return true;
 	    }
 	}
@@ -394,7 +394,7 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
     if(!item && CollectionList::instance())
 	item = new CollectionListItem(file, filePath);
     
-    if(item && !members.insert(filePath) || allowDuplicates) {
+    if(item && !m_members.insert(filePath) || m_allowDuplicates) {
 	PlaylistItem *i;
 	if(after)
 	    i = new PlaylistItem(item, this, after);
@@ -410,7 +410,7 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 
 void Playlist::hideColumn(int c)
 {
-    headerMenu->setItemChecked(c, false);
+    m_headerMenu->setItemChecked(c, false);
 
     setColumnWidthMode(c, Manual);
     setColumnWidth(c, 0);
@@ -420,7 +420,7 @@ void Playlist::hideColumn(int c)
 
 void Playlist::showColumn(int c)
 {
-    headerMenu->setItemChecked(c, true);
+    m_headerMenu->setItemChecked(c, true);
 
     setColumnWidthMode(c, Maximum);
     
@@ -442,7 +442,7 @@ bool Playlist::isColumnVisible(int c) const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// private members
+// private m_members
 ////////////////////////////////////////////////////////////////////////////////
 
 void Playlist::setup()
@@ -480,38 +480,38 @@ void Playlist::setup()
     // setup header RMB menu
     //////////////////////////////////////////////////
 
-    _columnVisibleAction = new KActionMenu(i18n("Show Columns"), this, "showColumns");
-    headerMenu = _columnVisibleAction->popupMenu();
-    headerMenu->insertTitle(i18n("Show"));
-    headerMenu->setCheckable(true);
+    m_columnVisibleAction = new KActionMenu(i18n("Show Columns"), this, "showColumns");
+    m_headerMenu = m_columnVisibleAction->popupMenu();
+    m_headerMenu->insertTitle(i18n("Show"));
+    m_headerMenu->setCheckable(true);
 
     for(int i =0; i < header()->count(); ++i) {
 
-	headerMenu->insertItem(header()->label(i), i);
+	m_headerMenu->insertItem(header()->label(i), i);
 
-	headerMenu->setItemChecked(i, true);
+	m_headerMenu->setItemChecked(i, true);
     }
 
-    connect(headerMenu, SIGNAL(activated(int)), this, SIGNAL(signalToggleColumnVisible(int)));
+    connect(m_headerMenu, SIGNAL(activated(int)), this, SIGNAL(signalToggleColumnVisible(int)));
 
     //////////////////////////////////////////////////
     // setup playlist RMB menu
     //////////////////////////////////////////////////
 
-    rmbMenu = new KPopupMenu(this);
+    m_rmbMenu = new KPopupMenu(this);
 
-    rmbMenu->insertItem(SmallIcon("editcut"), i18n("Cut"), this, SLOT(cut()));
-    rmbMenu->insertItem(SmallIcon("editcopy"), i18n("Copy"), this, SLOT(copy()));
-    rmbPasteID = rmbMenu->insertItem(SmallIcon("editpaste"), i18n("Paste"), this, SLOT(paste()));
-    rmbMenu->insertItem(SmallIcon("editclear"), i18n("Clear"), this, SLOT(clear()));
+    m_rmbMenu->insertItem(SmallIcon("editcut"), i18n("Cut"), this, SLOT(cut()));
+    m_rmbMenu->insertItem(SmallIcon("editcopy"), i18n("Copy"), this, SLOT(copy()));
+    m_rmbPasteID = m_rmbMenu->insertItem(SmallIcon("editpaste"), i18n("Paste"), this, SLOT(paste()));
+    m_rmbMenu->insertItem(SmallIcon("editclear"), i18n("Clear"), this, SLOT(clear()));
 
-    rmbMenu->insertSeparator();
+    m_rmbMenu->insertSeparator();
 
-    rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove From Disk"), this, SLOT(removeSelectedItems()));
+    m_rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove From Disk"), this, SLOT(removeSelectedItems()));
 
-    rmbMenu->insertSeparator();
+    m_rmbMenu->insertSeparator();
 
-    rmbEditID = rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(renameTag()));
+    m_rmbEditID = m_rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(renameTag()));
 
     connect(this, SIGNAL(selectionChanged()), this, SLOT(emitSelected()));
     connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(emitDoubleClicked(QListViewItem *)));
@@ -526,7 +526,7 @@ void Playlist::setup()
     setResizeMode(QListView::LastColumn);
 
     setAcceptDrops(true);
-    allowDuplicates = false;
+    m_allowDuplicates = false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -538,7 +538,7 @@ void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
     if(!item)
 	return;
 
-    rmbMenu->setItemEnabled(rmbPasteID, canDecode(kapp->clipboard()->data()));
+    m_rmbMenu->setItemEnabled(m_rmbPasteID, canDecode(kapp->clipboard()->data()));
 
     bool showEdit = 
 	(column == PlaylistItem::TrackColumn) || 
@@ -548,10 +548,10 @@ void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
 	(column == PlaylistItem::GenreColumn) ||
 	(column == PlaylistItem::YearColumn);
 
-    rmbMenu->setItemEnabled(rmbEditID, showEdit);
+    m_rmbMenu->setItemEnabled(m_rmbEditID, showEdit);
 
-    rmbMenu->popup(point);
-    currentColumn = column;
+    m_rmbMenu->popup(point);
+    m_currentColumn = column;
 }
 
 void Playlist::renameTag()
@@ -562,7 +562,7 @@ void Playlist::renameTag()
 
     KLineEdit *edit = renameLineEdit();
 
-    switch(currentColumn)
+    switch(m_currentColumn)
     {
     case PlaylistItem::TrackColumn:
 	edit->completionObject()->setItems(list->artists());
@@ -581,7 +581,7 @@ void Playlist::renameTag()
 	
     edit->setCompletionMode(KGlobalSettings::CompletionAuto);
 	
-    rename(currentItem(), currentColumn);
+    rename(currentItem(), m_currentColumn);
 }
 
 void Playlist::applyTags(QListViewItem *item, const QString &text, int column)

@@ -84,11 +84,11 @@ SplashScreen::SplashScreen() : QHBox(0 , "splashScreen", Qt::WStyle_Splash)
     textLabel->setFont(font);
     textLabel->setMinimumWidth(textLabel->fontMetrics().width("00000"));
 
-    countLabel = new QLabel(this);
-    countLabel->setText(QString::number(count));
-    countLabel->setFont(font);
+    m_countLabel = new QLabel(this);
+    m_countLabel->setText(QString::number(count));
+    m_countLabel->setFont(font);
     
-    setMaximumWidth(iconLabel->width() + textLabel->width() + countLabel->width() + 10);
+    setMaximumWidth(iconLabel->width() + textLabel->width() + m_countLabel->width() + 10);
     setMaximumHeight(QMAX(iconLabel->height(), textLabel->height()));
 
     QDesktopWidget *desktop = KApplication::desktop();
@@ -107,6 +107,6 @@ SplashScreen::~SplashScreen()
 
 void SplashScreen::processEvents()
 {
-    countLabel->setText(QString::number(count));
+    m_countLabel->setText(QString::number(count));
     kapp->processEvents();    
 }

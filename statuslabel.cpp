@@ -37,7 +37,7 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name), mode(PlaylistInfo), playlistCount(0), showTimeRemaining(false)
+StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name), mode(PlaylistInfo), m_playlistCount(0), m_showTimeRemaining(false)
 {
     QFrame *trackAndPlaylist = new QFrame(this);
     trackAndPlaylist->setFrameStyle(Box | Sunken);
@@ -48,27 +48,27 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name
     QHBoxLayout *trackAndPlaylistLayout = new QHBoxLayout(trackAndPlaylist, trackAndPlaylist->lineWidth() * 2, 5, "trackAndPlaylistLayout");
     trackAndPlaylistLayout->addSpacing(5);
 
-    playlistLabel = new QLabel(trackAndPlaylist, "playlistLabel");
-    trackAndPlaylistLayout->addWidget(playlistLabel);
-    playlistLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    playlistLabel->setTextFormat(PlainText);
-    playlistLabel->setAlignment(AlignLeft | AlignVCenter);
+    m_playlistLabel = new QLabel(trackAndPlaylist, "playlistLabel");
+    trackAndPlaylistLayout->addWidget(m_playlistLabel);
+    m_playlistLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_playlistLabel->setTextFormat(PlainText);
+    m_playlistLabel->setAlignment(AlignLeft | AlignVCenter);
 
-    trackLabel = new QLabel(trackAndPlaylist, "trackLabel");
-    trackAndPlaylistLayout->addWidget(trackLabel);
-    trackLabel->setAlignment(AlignRight | AlignVCenter);
-    trackLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    trackLabel->setTextFormat(PlainText);
+    m_trackLabel = new QLabel(trackAndPlaylist, "trackLabel");
+    trackAndPlaylistLayout->addWidget(m_trackLabel);
+    m_trackLabel->setAlignment(AlignRight | AlignVCenter);
+    m_trackLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_trackLabel->setTextFormat(PlainText);
 
     trackAndPlaylistLayout->addSpacing(5);
     
-    itemTimeLabel = new QLabel(this);
+    m_itemTimeLabel = new QLabel(this);
     QFontMetrics fontMetrics(font());
-    itemTimeLabel->setAlignment(AlignCenter);
-    itemTimeLabel->setMinimumWidth(fontMetrics.boundingRect("000:00 / 000:00").width());
-    itemTimeLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-    itemTimeLabel->setFrameStyle(Box | Sunken);
-    itemTimeLabel->installEventFilter(this);
+    m_itemTimeLabel->setAlignment(AlignCenter);
+    m_itemTimeLabel->setMinimumWidth(fontMetrics.boundingRect("000:00 / 000:00").width());
+    m_itemTimeLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
+    m_itemTimeLabel->setFrameStyle(Box | Sunken);
+    m_itemTimeLabel->installEventFilter(this);
 
     setItemTotalTime(0);
     setItemCurrentTime(0);
@@ -94,40 +94,40 @@ StatusLabel::~StatusLabel()
 
 void StatusLabel::setPlaylistInfo(const QString &name, int count)
 {
-    playlistName = name;
+    m_playlistName = name;
 
     if(mode == PlaylistInfo)
-	playlistLabel->setText(playlistName);
+	m_playlistLabel->setText(m_playlistName);
 
     setPlaylistCount(count);
 }
 
 void StatusLabel::setPlaylistCount(int c)
 {
-    playlistCount = c;
+    m_playlistCount = c;
 
     if(mode == PlaylistInfo)
-	trackLabel->setText(QString::number(c) + " " + i18n("Item(s)"));
+	m_trackLabel->setText(QString::number(c) + " " + i18n("Item(s)"));
 }
 
 void StatusLabel::setPlayingItemInfo(const QString &track, const QString &playlist)
 {
     mode = PlayingItemInfo;
 
-    trackLabel->setText(track);
-    playlistLabel->setText(playlist.simplifyWhiteSpace());
+    m_trackLabel->setText(track);
+    m_playlistLabel->setText(playlist.simplifyWhiteSpace());
 }
 
 void StatusLabel::clear()
 {
-    playlistLabel->clear();
-    trackLabel->clear();
+    m_playlistLabel->clear();
+    m_trackLabel->clear();
     setItemTotalTime(0);
     setItemCurrentTime(0);
     
     mode = PlaylistInfo;
 
-    setPlaylistInfo(playlistName, playlistCount);
+    setPlaylistInfo(m_playlistName, m_playlistCount);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -139,20 +139,20 @@ void StatusLabel::updateTime()
     int minutes;
     int seconds;
 
-    if(showTimeRemaining) {
-	minutes = int((itemTotalTime - itemCurrentTime) / 60);
-	seconds = (itemTotalTime - itemCurrentTime) % 60;
+    if(m_showTimeRemaining) {
+	minutes = int((m_itemTotalTime - m_itemCurrentTime) / 60);
+	seconds = (m_itemTotalTime - m_itemCurrentTime) % 60;
     }
     else {
-	minutes = int(itemCurrentTime / 60);
-	seconds = itemCurrentTime % 60;
+	minutes = int(m_itemCurrentTime / 60);
+	seconds = m_itemCurrentTime % 60;
     }
 
-    int totalMinutes = int(itemTotalTime / 60);
-    int totalSeconds = itemTotalTime % 60;
+    int totalMinutes = int(m_itemTotalTime / 60);
+    int totalSeconds = m_itemTotalTime % 60;
 
     QString timeString = formatTime(minutes, seconds) +  " / " + formatTime(totalMinutes, totalSeconds);
-    itemTimeLabel->setText(timeString);    
+    m_itemTimeLabel->setText(timeString);    
 }
 
 bool StatusLabel::eventFilter(QObject *o, QEvent *e)
@@ -163,8 +163,8 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
     QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
     if(mouseEvent && mouseEvent->state() == LeftButton) {
 
-	if(o == itemTimeLabel) {
-	    showTimeRemaining = !showTimeRemaining;
+	if(o == m_itemTimeLabel) {
+	    m_showTimeRemaining = !m_showTimeRemaining;
 	    updateTime();
 	}
 	else

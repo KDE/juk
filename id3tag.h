@@ -56,22 +56,22 @@ public:
     virtual int seconds() const;
 
 private:
-    ID3_Tag tag;
-    QString fileName;
-    bool changed;
+    ID3_Tag m_tag;
+    QString m_fileName;
+    bool m_changed;
 
-    QString tagTrack;
-    QString tagArtist;
-    QString tagAlbum;
-    Genre tagGenre;
-    int tagTrackNumber;
-    QString tagTrackNumberString;
-    int tagYear;
-    QString tagYearString;
-    QString tagComment;
-    bool tagExists;
+    QString m_tagTrack;
+    QString m_tagArtist;
+    QString m_tagAlbum;
+    Genre m_tagGenre;
+    int m_tagTrackNumber;
+    QString m_tagTrackNumberString;
+    int m_tagYear;
+    QString m_tagYearString;
+    QString m_tagComment;
+    bool m_tagExists;
 
-    KFileMetaInfo metaInfo;
+    KFileMetaInfo m_metaInfo;
 };
 
 #endif

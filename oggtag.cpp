@@ -29,9 +29,9 @@
 
 OggTag::OggTag(const QString &file) : Tag(file)
 {
-    fileInfo.setFile(file);
-    metaInfo = KFileMetaInfo(file);
-    commentGroup = KFileMetaInfoGroup(metaInfo.group("Comment"));
+    m_fileInfo.setFile(file);
+    m_metaInfo = KFileMetaInfo(file);
+    m_commentGroup = KFileMetaInfoGroup(m_metaInfo.group("Comment"));
 }
 
 OggTag::~OggTag()
@@ -41,12 +41,12 @@ OggTag::~OggTag()
 
 void OggTag::save()
 {
-    metaInfo.applyChanges();
+    m_metaInfo.applyChanges();
 }
 
 bool OggTag::hasTag() const
 {
-    if(metaInfo.isValid() && !metaInfo.isEmpty())
+    if(m_metaInfo.isValid() && !m_metaInfo.isEmpty())
 	return true;
     else
 	return false;
@@ -57,7 +57,7 @@ QString OggTag::track() const
     QString s = readCommentString("Title");
 
     if(s.stripWhiteSpace().isEmpty())
-	s = fileInfo.baseName();
+	s = m_fileInfo.baseName();
 
     return s;
 }
@@ -154,17 +154,17 @@ void OggTag::setComment(const QString &value)
 
 QString OggTag::bitrateString() const
 {
-    return readBitrate(metaInfo);
+    return readBitrate(m_metaInfo);
 }
 
 QString OggTag::lengthString() const
 {
-    return readLength(metaInfo);
+    return readLength(m_metaInfo);
 }
 
 int OggTag::seconds() const
 {
-    return readSeconds(metaInfo);
+    return readSeconds(m_metaInfo);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -173,23 +173,23 @@ int OggTag::seconds() const
 
 QString OggTag::readCommentString(const QString &key) const
 {
-    if(metaInfo.isValid() && !metaInfo.isEmpty() &&
-       commentGroup.isValid() && !commentGroup.isEmpty() &&
-       commentGroup.contains(key))
+    if(m_metaInfo.isValid() && !m_metaInfo.isEmpty() &&
+       m_commentGroup.isValid() && !m_commentGroup.isEmpty() &&
+       m_commentGroup.contains(key))
 	// I'm throwing in the stripWhiteSpace() here, because the IOSlave/KFMI
 	// stuff seems to be padding fields arbitrarily. 
-	return commentGroup.item(key).string().stripWhiteSpace();
+	return m_commentGroup.item(key).string().stripWhiteSpace();
     else
 	return QString::null;
 }
 
 int OggTag::readCommentInt(const QString &key) const
 {
-    if(metaInfo.isValid() && !metaInfo.isEmpty() &&
-       commentGroup.isValid() && !commentGroup.isEmpty() &&
-       commentGroup.contains(key)) {
+    if(m_metaInfo.isValid() && !m_metaInfo.isEmpty() &&
+       m_commentGroup.isValid() && !m_commentGroup.isEmpty() &&
+       m_commentGroup.contains(key)) {
 	bool ok;
-	int value = commentGroup.item(key).value().toInt(&ok);
+	int value = m_commentGroup.item(key).value().toInt(&ok);
 	if(ok)
 	    return value;
 	else
@@ -201,20 +201,20 @@ int OggTag::readCommentInt(const QString &key) const
 
 void OggTag::writeCommentItem(const QString &key, const QString &value)
 {
-    if(metaInfo.isValid() && commentGroup.isValid()) {
+    if(m_metaInfo.isValid() && m_commentGroup.isValid()) {
 	QVariant v(value);
-	if(!commentGroup.contains(key))
-	    commentGroup.addItem(key);
-	commentGroup.item(key).setValue(v);
+	if(!m_commentGroup.contains(key))
+	    m_commentGroup.addItem(key);
+	m_commentGroup.item(key).setValue(v);
     }
 }
 
 void OggTag::writeCommentItem(const QString &key, int value)
 {
-    if(metaInfo.isValid() && commentGroup.isValid()) {
+    if(m_metaInfo.isValid() && m_commentGroup.isValid()) {
 	QVariant v(QString::number(value));
-	if(!commentGroup.contains(key))
-	    commentGroup.addItem(key);
-	commentGroup.item(key).setValue(v);
+	if(!m_commentGroup.contains(key))
+	    m_commentGroup.addItem(key);
+	m_commentGroup.item(key).setValue(v);
     }
 }

@@ -57,7 +57,7 @@ Tag::~Tag()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Tag::Tag(const QString &file) : info(file), fileName(file)
+Tag::Tag(const QString &file) : m_info(file), m_fileName(file)
 {
     Cache::instance()->insert(file, this);
 }

@@ -84,7 +84,7 @@ private slots:
     void clear();
     void selectAll();
 
-    // player menu
+    // m_player menu
     void play();
     void pause();
     void stop();
@@ -96,19 +96,19 @@ private slots:
     void toggleSystemTray(bool enabled);
     void setOutput(int output);
 
-    // additional player slots
+    // additional m_player slots
     void trackPositionSliderClick();
     void trackPositionSliderRelease();
     void trackPositionSliderUpdate(int position);
 
     /**
      * This method is called to check our progress in the playing file.  It uses
-     * playTimer to know when to call itself again.
+     * m_playTimer to know when to call itself again.
      */
     void pollPlay();
 
     /**
-     * This method is called by the slider to set the volume of the player.  Its
+     * This method is called by the slider to set the volume of the m_player.  Its
      * value is relative to the maxValue() of the volume slider.
      */
     void setVolume(int volume);
@@ -119,43 +119,43 @@ private slots:
      */
     void play(const QString &file);
 
-    void playSelectedFile() { play(splitter->playSelectedFile()); }
-    void playFirstFile() { play(splitter->playFirstFile()); }
+    void playSelectedFile() { play(m_splitter->playSelectedFile()); }
+    void playFirstFile() { play(m_splitter->playFirstFile()); }
 
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
     void slotToggleToolBar() { toolBar()->isVisible() ? toolBar()->hide() : toolBar()->show(); }
 
 private:
     // layout objects
-    PlaylistSplitter *splitter;
-    StatusLabel *statusLabel;
-    SystemTray *systemTray;
+    PlaylistSplitter *m_splitter;
+    StatusLabel *m_statusLabel;
+    SystemTray *m_systemTray;
 
     // actions
-    KToggleAction *showEditorAction;
-    KToggleAction *restoreOnLoadAction;
-    SliderAction *sliderAction;
-    KToggleAction *randomPlayAction;
-    KToggleAction *toggleSystemTrayAction;
-    KSelectAction *outputSelectAction;
+    KToggleAction *m_showEditorAction;
+    KToggleAction *m_restoreOnLoadAction;
+    SliderAction *m_sliderAction;
+    KToggleAction *m_randomPlayAction;
+    KToggleAction *m_toggleSystemTrayAction;
+    KSelectAction *m_outputSelectAction;
 
-    KAction *playAction;
-    KAction *pauseAction;
-    KAction *stopAction;
-    KAction *backAction;
-    KAction *forwardAction;
+    KAction *m_playAction;
+    KAction *m_pauseAction;
+    KAction *m_stopAction;
+    KAction *m_backAction;
+    KAction *m_forwardAction;
 
-    KAction *savePlaylistAction;
-    KAction *saveAsPlaylistAction;
-    KAction *renamePlaylistAction;
-    KAction *deleteItemPlaylistAction;
+    KAction *m_savePlaylistAction;
+    KAction *m_saveAsPlaylistAction;
+    KAction *m_renamePlaylistAction;
+    KAction *m_deleteItemPlaylistAction;
 
-    QTimer *playTimer;
-    Player *player;
+    QTimer *m_playTimer;
+    Player *m_player;
 
-    bool trackPositionDragging;
-    bool noSeek;
-    bool restore;
+    bool m_trackPositionDragging;
+    bool m_noSeek;
+    bool m_restore;
 
     static const int pollInterval = 800;
 };

@@ -39,11 +39,11 @@ public:
     // QStringList values() const;
 
 private:
-    class Node;
+    class m_Node;
     int hash(const QString &key) const;
-    void deleteNode(Node *n);
+    void deleteNode(m_Node *n);
     
-    QPtrVector<Node> table;
+    QPtrVector<m_Node> m_table;
 };
 
 #endif

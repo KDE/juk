@@ -27,10 +27,10 @@
 
 #include "listboxpixmap.h"
 
-class ListBoxPixmap::ListBoxPixmapPrivate
+class ListBoxPixmap::m_ListBoxPixmapPrivate
 {
 public:
-    ListBoxPixmapPrivate() {
+    m_ListBoxPixmapPrivate() {
 	orientation = Qt::Horizontal;
 	lineCount = 1;
     }
@@ -77,12 +77,12 @@ ListBoxPixmap::ListBoxPixmap(QListBox *listbox, const QPixmap &pix, const QStrin
 
 ListBoxPixmap::~ListBoxPixmap()
 {
-    delete d;
+    delete m_d;
 }
 
 int ListBoxPixmap::width(const QListBox *listbox) const
 {
-    if(d->orientation == Qt::Horizontal)
+    if(m_d->orientation == Qt::Horizontal)
 	return QListBoxPixmap::width(listbox);
 
     return listbox->viewport()->width();
@@ -90,21 +90,21 @@ int ListBoxPixmap::width(const QListBox *listbox) const
 
 int ListBoxPixmap::height(const QListBox *listbox) const 
 {
-    if(d->orientation == Qt::Horizontal)
+    if(m_d->orientation == Qt::Horizontal)
 	return QListBoxPixmap::height(listbox);
 
-    int min = listbox->fontMetrics().lineSpacing() * d->lineCount + pixmap()->height() + 6;
+    int min = listbox->fontMetrics().lineSpacing() * m_d->lineCount + pixmap()->height() + 6;
     return min;
 }
 
 Qt::Orientation ListBoxPixmap::orientation() const
 {
-    return d->orientation;
+    return m_d->orientation;
 }
 
 void ListBoxPixmap::setOrientation(Qt::Orientation o)
 {
-    d->orientation = o;
+    m_d->orientation = o;
     listBox()->repaint();
 }
 
@@ -112,7 +112,7 @@ void ListBoxPixmap::paint(QPainter *painter)
 {
     // If we're using the default orientation, use the default paint method.
 
-    if( d->orientation == Qt::Horizontal ) {
+    if( m_d->orientation == Qt::Horizontal ) {
 	QListBoxPixmap::paint( painter );
 	return;
     }
@@ -152,8 +152,8 @@ void ListBoxPixmap::paint(QPainter *painter)
 	    lines.append( line.mid( 0, textLength ).stripWhiteSpace() );
 	    line = line.mid( textLength );
 	}
-	if( d->lineCount != lines.count() ) {
-	    d->lineCount = lines.count();
+	if( m_d->lineCount != lines.count() ) {
+	    m_d->lineCount = lines.count();
 	    listBox()->triggerUpdate( true );
 	}
 	
@@ -175,5 +175,5 @@ void ListBoxPixmap::paint(QPainter *painter)
 
 void ListBoxPixmap::init()
 {
-    d = new ListBoxPixmapPrivate();
+    m_d = new m_ListBoxPixmapPrivate();
 }

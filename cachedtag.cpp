@@ -22,100 +22,100 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-CachedTag::CachedTag(const QString &file) : Tag(file), externalTag(0), tagTrackNumber(0), tagYear(0), tagSeconds(0), tagExists(false)
+CachedTag::CachedTag(const QString &file) : Tag(file), m_externalTag(0), m_tagTrackNumber(0), m_tagYear(0), m_tagSeconds(0), m_tagExists(false)
 {
 
 }
 
 CachedTag::~CachedTag()
 {
-    delete externalTag;
+    delete m_externalTag;
 }
 
 void CachedTag::save()
 {
-    if(externalTag)
-	externalTag->save();
+    if(m_externalTag)
+	m_externalTag->save();
 }
 
 QString CachedTag::track() const
 {
-    if(externalTag)
-	return externalTag->track();
+    if(m_externalTag)
+	return m_externalTag->track();
     else
-	return tagTrack;
+	return m_tagTrack;
 }
 
 QString CachedTag::artist() const
 {
-    if(externalTag)
-	return externalTag->artist();
+    if(m_externalTag)
+	return m_externalTag->artist();
     else
-	return tagArtist;
+	return m_tagArtist;
 }
 
 QString CachedTag::album() const
 {
-    if(externalTag)
-	return externalTag->album();
+    if(m_externalTag)
+	return m_externalTag->album();
     else
-	return tagAlbum;
+	return m_tagAlbum;
 }
 
 Genre CachedTag::genre() const
 {
-    if(externalTag)
-	return externalTag->genre();
+    if(m_externalTag)
+	return m_externalTag->genre();
     else
-	return tagGenre;
+	return m_tagGenre;
 }
 
 int CachedTag::trackNumber() const
 {
-    if(externalTag)
-	return externalTag->trackNumber();
+    if(m_externalTag)
+	return m_externalTag->trackNumber();
     else
-	return tagTrackNumber;
+	return m_tagTrackNumber;
 }
 
 QString CachedTag::trackNumberString() const
 {
-    if(externalTag)
-	return externalTag->trackNumberString();
+    if(m_externalTag)
+	return m_externalTag->trackNumberString();
     else
-	return tagTrackNumberString;
+	return m_tagTrackNumberString;
 }
 
 int CachedTag::year() const
 {
-    if(externalTag)
-	return externalTag->year();
+    if(m_externalTag)
+	return m_externalTag->year();
     else
-	return tagYear;
+	return m_tagYear;
 }
 
 QString CachedTag::yearString() const
 {
-    if(externalTag)
-	return externalTag->yearString();
+    if(m_externalTag)
+	return m_externalTag->yearString();
     else
-	return tagYearString;
+	return m_tagYearString;
 }
 
 QString CachedTag::comment() const
 {
-    if(externalTag)
-	return externalTag->comment();
+    if(m_externalTag)
+	return m_externalTag->comment();
     else
-	return tagComment;
+	return m_tagComment;
 }
 
 bool CachedTag::hasTag() const
 {
-    if(externalTag)
-	return externalTag->hasTag();
+    if(m_externalTag)
+	return m_externalTag->hasTag();
     else
-	return tagExists;
+	return m_tagExists;
 }
 
 void CachedTag::setTrack(const QString &value)
@@ -155,47 +155,47 @@ void CachedTag::setComment(const QString &value)
 
 QString CachedTag::bitrateString() const
 {
-    return tagBitrateString;
+    return m_tagBitrateString;
 }
 
 QString CachedTag::lengthString() const
 {
-    return tagLengthString;
+    return m_tagLengthString;
 }
 
 int CachedTag::seconds() const
 {
-    return tagSeconds;
+    return m_tagSeconds;
 }
 
 bool CachedTag::current() const
 {
     return(fileExists() &&
-	   modificationTime.isValid() && 
+	   m_modificationTime.isValid() && 
 	   lastModified().isValid() &&
-	   modificationTime >= Tag::lastModified());
+	   m_modificationTime >= Tag::lastModified());
 }
 
 QDataStream &CachedTag::read(QDataStream &s)
 {
-    s >> int(tagExists)
+    s >> int(m_tagExists)
 
-      >> tagTrack
-      >> tagArtist
-      >> tagAlbum
-      >> tagGenre
-      >> tagTrackNumber
-      >> tagTrackNumberString
-      >> tagYear
-      >> tagYearString
-      >> tagComment
+      >> m_tagTrack
+      >> m_tagArtist
+      >> m_tagAlbum
+      >> m_tagGenre
+      >> m_tagTrackNumber
+      >> m_tagTrackNumberString
+      >> m_tagYear
+      >> m_tagYearString
+      >> m_tagComment
 
-      >> tagBitrateString
-      >> tagLengthString
-      >> tagSeconds
+      >> m_tagBitrateString
+      >> m_tagLengthString
+      >> m_tagSeconds
 
-      >> fileName
-      >> modificationTime;
+      >> m_fileName
+      >> m_modificationTime;
 
     return s;
 }
@@ -206,12 +206,12 @@ QDataStream &CachedTag::read(QDataStream &s)
 
 Tag *CachedTag::proxiedTag()
 {
-    if(!externalTag) {
+    if(!m_externalTag) {
 	Cache::instance()->remove(absFilePath());
-	externalTag = Tag::createTag(absFilePath(), true);
+	m_externalTag = Tag::createTag(absFilePath(), true);
     }
 
-    return externalTag;
+    return m_externalTag;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -120,7 +120,7 @@ QPtrList<Playlist> PlaylistBox::playlists() const
 {
     QPtrList<Playlist> l;
 
-    // skip the collection list
+    // skip the collection m_list
 
     for(uint j = 1; j < count(); j++) {
 	Item *i = static_cast<Item *>(item(j));
@@ -386,7 +386,7 @@ void PlaylistBox::slotContextDeleteItem()
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString &text, Playlist *l) 
     : QObject(listbox), ListBoxPixmap(listbox, pix, text),
-      list(l)
+      m_list(l)
 {
     setOrientation(Qt::Vertical);
     listbox->addName(text);
@@ -396,7 +396,7 @@ PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString 
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QString &text, Playlist *l) 
     : ListBoxPixmap(listbox, SmallIcon("midi", 32), text),
-      list(l)
+      m_list(l)
 {
     setOrientation(Qt::Vertical);
 }

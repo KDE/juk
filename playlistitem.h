@@ -60,9 +60,9 @@ public:
 
 public slots:
     /**
-     * This just refreshes from the in memory data.  This may seem pointless at 
-     * first, but this data is shared between all of the list view items that are
-     * based on the same file, so if another one of those items changes its data
+     * This just refreshes from the in memory m_data.  This may seem pointless at 
+     * first, but this m_data is shared between all of the list view items that are
+     * based on the same file, so if another one of those items changes its m_data
      * it is important to refresh the others.
      */
     virtual void refresh();
@@ -97,12 +97,12 @@ private:
     virtual int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
-    Data *data;
+    Data *m_data;
 };
 
 /**
- * This is the data class for PlaylistItems.  Several PlaylistItems that are 
- * based on the same file will share the data member.  This has both the 
+ * This is the m_data class for PlaylistItems.  Several PlaylistItems that are 
+ * based on the same file will share the m_data member.  This has both the 
  * advantages of being memory efficient and allowing the PlaylistItems to stay
  * synchronized.
  *
@@ -124,7 +124,7 @@ public:
 
     void setFile(const QString &file);
 
-    QString absFilePath() const { return absFileName; }
+    QString absFilePath() const { return m_absFileName; }
 
 protected:
     /**
@@ -138,9 +138,9 @@ protected:
     virtual ~Data();
 
 private:
-    int referenceCount;
-    Tag *dataTag;
-    QString absFileName;
+    int m_referenceCount;
+    Tag *m_dataTag;
+    QString m_absFileName;
 };
 
 #endif

@@ -43,7 +43,7 @@ TagEditor::TagEditor(QWidget *parent, const char *name) : QWidget(parent, name)
 {
     setupLayout();
     readConfig();
-    dataChanged = false;
+    m_dataChanged = false;
 }
 
 TagEditor::~TagEditor()
@@ -53,7 +53,7 @@ TagEditor::~TagEditor()
 
 void TagEditor::setGenreList(const GenreList &list)
 {
-    genreList = list;
+    m_genreList = list;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -63,57 +63,57 @@ void TagEditor::setGenreList(const GenreList &list)
 void TagEditor::setItems(const PlaylistItemList &list)
 {
     saveChangesPrompt();
-    items = list;
+    m_items = list;
     if(isVisible())
 	refresh();
 }
 
 void TagEditor::refresh()
 {
-    // This method takes the list of currently selected items and tries to 
+    // This method takes the list of currently selected m_items and tries to 
     // figure out how to show that in the tag editor.  The current strategy --
     // the most common case -- is to just process the first item.  Then we
-    // check after that to see if there are other items and adjust accordingly.
+    // check after that to see if there are other m_items and adjust accordingly.
 
-    PlaylistItem *item = items.getFirst();
+    PlaylistItem *item = m_items.getFirst();
 
     if(item) {
 	Tag *tag = item->tag();
 	
-	artistNameBox->setEditText(tag->artist());
-	trackNameBox->setText(tag->track());
-	albumNameBox->setEditText(tag->album());
+	m_artistNameBox->setEditText(tag->artist());
+	m_trackNameBox->setText(tag->track());
+	m_albumNameBox->setEditText(tag->album());
 	
-	if(genreList.findIndex(tag->genre()) >= 0)
-	    genreBox->setCurrentItem(genreList.findIndex(tag->genre()) + 1);
+	if(m_genreList.findIndex(tag->genre()) >= 0)
+	    m_genreBox->setCurrentItem(m_genreList.findIndex(tag->genre()) + 1);
 	else {
-	    genreBox->setCurrentItem(0);
-	    genreBox->setEditText(tag->genre());
+	    m_genreBox->setCurrentItem(0);
+	    m_genreBox->setEditText(tag->genre());
 	}
 	
-	trackSpin->setValue(tag->trackNumber());
-	yearSpin->setValue(tag->year());
+	m_trackSpin->setValue(tag->trackNumber());
+	m_yearSpin->setValue(tag->year());
 	
-	commentBox->setText(tag->comment());
+	m_commentBox->setText(tag->comment());
 	
 	// Start at the second item, since we've already processed the first.
 
-	QPtrListIterator<PlaylistItem> it(items);
+	QPtrListIterator<PlaylistItem> it(m_items);
 	++it;
 
-	// If there is more than one item in the items that we're dealing with...
+	// If there is more than one item in the m_items that we're dealing with...
 
 	if(it.current()) {
-	    fileNameBox->clear();
-	    fileNameBox->setEnabled(false);
+	    m_fileNameBox->clear();
+	    m_fileNameBox->setEnabled(false);
 
-	    lengthBox->clear();
-	    lengthBox->setEnabled(false);
+	    m_lengthBox->clear();
+	    m_lengthBox->setEnabled(false);
 	    
-	    bitrateBox->clear();
-	    bitrateBox->setEnabled(false);
+	    m_bitrateBox->clear();
+	    m_bitrateBox->setEnabled(false);
 	    
-	    for(BoxMap::iterator boxIt = enableBoxes.begin(); boxIt != enableBoxes.end(); boxIt++) {
+	    for(BoxMap::iterator boxIt = m_enableBoxes.begin(); boxIt != m_enableBoxes.end(); boxIt++) {
 		(*boxIt)->setChecked(true);
 		(*boxIt)->show();
 	    }
@@ -122,49 +122,49 @@ void TagEditor::refresh()
 	    // if their fields are the same.  If so, by default, enable their 
 	    // checkbox.
 	    
-	    // Also, if there are more than 50 items, don't scan all of them.
+	    // Also, if there are more than 50 m_items, don't scan all of them.
 	    
-	    if(items.count() > 50) {
-		enableBoxes[artistNameBox]->setChecked(false);
-		enableBoxes[trackNameBox]->setChecked(false);
-		enableBoxes[albumNameBox]->setChecked(false);
-		enableBoxes[genreBox]->setChecked(false);
-		enableBoxes[trackSpin]->setChecked(false);
-		enableBoxes[yearSpin]->setChecked(false);
-		enableBoxes[commentBox]->setChecked(false);
+	    if(m_items.count() > 50) {
+		m_enableBoxes[m_artistNameBox]->setChecked(false);
+		m_enableBoxes[m_trackNameBox]->setChecked(false);
+		m_enableBoxes[m_albumNameBox]->setChecked(false);
+		m_enableBoxes[m_genreBox]->setChecked(false);
+		m_enableBoxes[m_trackSpin]->setChecked(false);
+		m_enableBoxes[m_yearSpin]->setChecked(false);
+		m_enableBoxes[m_commentBox]->setChecked(false);
 	    }
 	    else {
 		for(; it.current(); ++it) {
 		    tag = (*it)->tag();
-		    if(artistNameBox->currentText() != tag->artist() && enableBoxes.contains(artistNameBox)) {
-			artistNameBox->lineEdit()->clear();
-			enableBoxes[artistNameBox]->setChecked(false);
+		    if(m_artistNameBox->currentText() != tag->artist() && m_enableBoxes.contains(m_artistNameBox)) {
+			m_artistNameBox->lineEdit()->clear();
+			m_enableBoxes[m_artistNameBox]->setChecked(false);
 		    }
-		    if(trackNameBox->text() != tag->track() && enableBoxes.contains(trackNameBox)) {
-			trackNameBox->clear();
-			enableBoxes[trackNameBox]->setChecked(false);
+		    if(m_trackNameBox->text() != tag->track() && m_enableBoxes.contains(m_trackNameBox)) {
+			m_trackNameBox->clear();
+			m_enableBoxes[m_trackNameBox]->setChecked(false);
 		    }
-		    if(albumNameBox->currentText() != tag->album() && enableBoxes.contains(albumNameBox)) {
-			albumNameBox->lineEdit()->clear();
-			enableBoxes[albumNameBox]->setChecked(false);
+		    if(m_albumNameBox->currentText() != tag->album() && m_enableBoxes.contains(m_albumNameBox)) {
+			m_albumNameBox->lineEdit()->clear();
+			m_enableBoxes[m_albumNameBox]->setChecked(false);
 		    }
-		    if(genreBox->currentText() != tag->genre() && enableBoxes.contains(genreBox)) {
-			genreBox->lineEdit()->clear();
-			enableBoxes[genreBox]->setChecked(false);
+		    if(m_genreBox->currentText() != tag->genre() && m_enableBoxes.contains(m_genreBox)) {
+			m_genreBox->lineEdit()->clear();
+			m_enableBoxes[m_genreBox]->setChecked(false);
 		    }		
 		    
-		    if(trackSpin->value() != tag->trackNumber() && enableBoxes.contains(trackSpin)) {
-			trackSpin->setValue(0);
-			enableBoxes[trackSpin]->setChecked(false);
+		    if(m_trackSpin->value() != tag->trackNumber() && m_enableBoxes.contains(m_trackSpin)) {
+			m_trackSpin->setValue(0);
+			m_enableBoxes[m_trackSpin]->setChecked(false);
 		    }		
-		    if(yearSpin->value() != tag->year() && enableBoxes.contains(yearSpin)) {
-			yearSpin->setValue(0);
-			enableBoxes[yearSpin]->setChecked(false);
+		    if(m_yearSpin->value() != tag->year() && m_enableBoxes.contains(m_yearSpin)) {
+			m_yearSpin->setValue(0);
+			m_enableBoxes[m_yearSpin]->setChecked(false);
 		    }
 		    
-		    if(commentBox->text() != tag->comment() && enableBoxes.contains(commentBox)) {
-			commentBox->clear();
-			enableBoxes[commentBox]->setChecked(false);
+		    if(m_commentBox->text() != tag->comment() && m_enableBoxes.contains(m_commentBox)) {
+			m_commentBox->clear();
+			m_enableBoxes[m_commentBox]->setChecked(false);
 		    }
 		}
 	    }
@@ -172,21 +172,21 @@ void TagEditor::refresh()
 	else {
 	    // Clean up in the case that we are only handling one item.
 	    
-	    fileNameBox->setText(item->fileName());
-	    fileNameBox->setEnabled(true);
+	    m_fileNameBox->setText(item->fileName());
+	    m_fileNameBox->setEnabled(true);
 	    
-	    lengthBox->setText(tag->lengthString());
-	    lengthBox->setEnabled(true);
+	    m_lengthBox->setText(tag->lengthString());
+	    m_lengthBox->setEnabled(true);
 	    
-	    bitrateBox->setText(tag->bitrateString());
-	    bitrateBox->setEnabled(true);	    
+	    m_bitrateBox->setText(tag->bitrateString());
+	    m_bitrateBox->setEnabled(true);	    
 
-	    for(BoxMap::iterator boxIt = enableBoxes.begin(); boxIt != enableBoxes.end(); boxIt++) {
+	    for(BoxMap::iterator boxIt = m_enableBoxes.begin(); boxIt != m_enableBoxes.end(); boxIt++) {
 		(*boxIt)->setChecked(true);
 		(*boxIt)->hide();
 	    }
 	}
-	dataChanged = false;
+	m_dataChanged = false;
     }
     else
 	clear();
@@ -194,21 +194,21 @@ void TagEditor::refresh()
 
 void TagEditor::clear()
 {
-    artistNameBox->lineEdit()->clear();
-    trackNameBox->clear();
-    albumNameBox->lineEdit()->clear();
-    genreBox->setCurrentItem(0);
-    fileNameBox->clear();
-    trackSpin->setValue(0);
-    yearSpin->setValue(0);
-    lengthBox->clear();
-    bitrateBox->clear();
-    commentBox->clear();    
+    m_artistNameBox->lineEdit()->clear();
+    m_trackNameBox->clear();
+    m_albumNameBox->lineEdit()->clear();
+    m_genreBox->setCurrentItem(0);
+    m_fileNameBox->clear();
+    m_trackSpin->setValue(0);
+    m_yearSpin->setValue(0);
+    m_lengthBox->clear();
+    m_bitrateBox->clear();
+    m_commentBox->clear();    
 }
 
 void TagEditor::save()
 {
-    save(items);
+    save(m_items);
 }
 
 void TagEditor::updateCollection()
@@ -218,8 +218,8 @@ void TagEditor::updateCollection()
     if(!list)
 	return;
     
-    if(artistNameBox->listBox()) {
-        artistNameBox->listBox()->clear();
+    if(m_artistNameBox->listBox()) {
+        m_artistNameBox->listBox()->clear();
 	
 	// This is another case where a sorted value list would be useful.  It's
 	// silly to build and maintain unsorted lists and have to call sort 
@@ -228,18 +228,18 @@ void TagEditor::updateCollection()
 	QStringList artistList = list->artists();
 	artistList.sort();
 
-        artistNameBox->listBox()->insertStringList(artistList);
-	artistNameBox->completionObject()->setItems(artistList);
+        m_artistNameBox->listBox()->insertStringList(artistList);
+	m_artistNameBox->completionObject()->setItems(artistList);
     }
 
-    if(albumNameBox->listBox()) {
-        albumNameBox->listBox()->clear();
+    if(m_albumNameBox->listBox()) {
+        m_albumNameBox->listBox()->clear();
 
 	QStringList albumList = list->albums();
 	albumList.sort();
 
-        albumNameBox->listBox()->insertStringList(albumList);
-	albumNameBox->completionObject()->setItems(albumList);
+        m_albumNameBox->listBox()->insertStringList(albumList);
+	m_albumNameBox->completionObject()->setItems(albumList);
     }    
 }
 
@@ -252,31 +252,31 @@ void TagEditor::readConfig()
     KConfig *config = KGlobal::config();
     { // combo box completion modes
         KConfigGroupSaver saver(config, "TagEditor");
-        if(artistNameBox && albumNameBox) {
+        if(m_artistNameBox && m_albumNameBox) {
             KGlobalSettings::Completion artistNameBoxMode = 
 		KGlobalSettings::Completion(config->readNumEntry("ArtistNameBoxMode", KGlobalSettings::CompletionAuto));
-	    artistNameBox->setCompletionMode(artistNameBoxMode);
+	    m_artistNameBox->setCompletionMode(artistNameBoxMode);
 	    
             KGlobalSettings::Completion albumNameBoxMode = 
 		KGlobalSettings::Completion(config->readNumEntry("AlbumNameBoxMode", KGlobalSettings::CompletionAuto));
-	    albumNameBox->setCompletionMode(albumNameBoxMode);
+	    m_albumNameBox->setCompletionMode(albumNameBoxMode);
         }
     }
 
     // Once the custom genre list editor is done, this is where we should read 
     // the genre list from the config file.
 
-    genreList = GenreListList::ID3v1List();
+    m_genreList = GenreListList::ID3v1List();
 
-    if(genreBox) {
-        genreBox->clear();
+    if(m_genreBox) {
+        m_genreBox->clear();
 
         // Add values to the genre box
 
-        genreBox->insertItem(QString::null);
+        m_genreBox->insertItem(QString::null);
 
-        for(GenreList::Iterator it = genreList.begin(); it != genreList.end(); ++it)
-            genreBox->insertItem((*it));
+        for(GenreList::Iterator it = m_genreList.begin(); it != m_genreList.end(); ++it)
+            m_genreBox->insertItem((*it));
     }
 }
 
@@ -285,9 +285,9 @@ void TagEditor::saveConfig()
     KConfig *config = KGlobal::config();
     { // combo box completion modes
         KConfigGroupSaver saver(config, "TagEditor");
-        if(artistNameBox && albumNameBox) {
-	    config->writeEntry("ArtistNameBoxMode", artistNameBox->completionMode());
-	    config->writeEntry("AlbumNameBoxMode", albumNameBox->completionMode());
+        if(m_artistNameBox && m_albumNameBox) {
+	    config->writeEntry("ArtistNameBoxMode", m_artistNameBox->completionMode());
+	    config->writeEntry("AlbumNameBoxMode", m_albumNameBox->completionMode());
         }
     }
 
@@ -313,19 +313,19 @@ void TagEditor::setupLayout()
     // put stuff in the left column -- all of the field names are class wide
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
-        artistNameBox = new KComboBox(true, this, "artistNameBox");
-	artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-	addItem(i18n("Artist name:"), artistNameBox, leftColumnLayout);
+        m_artistNameBox = new KComboBox(true, this, "artistNameBox");
+	m_artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
+	addItem(i18n("Artist name:"), m_artistNameBox, leftColumnLayout);
 
-        trackNameBox = new KLineEdit(this, "trackNameBox");
-	addItem(i18n("Track name:"), trackNameBox, leftColumnLayout);
+        m_trackNameBox = new KLineEdit(this, "trackNameBox");
+	addItem(i18n("Track name:"), m_trackNameBox, leftColumnLayout);
 
-        albumNameBox = new KComboBox(true, this, "albumNameBox");
-	albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-	addItem(i18n("Album name:"), albumNameBox, leftColumnLayout);
+        m_albumNameBox = new KComboBox(true, this, "albumNameBox");
+	m_albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
+	addItem(i18n("Album name:"), m_albumNameBox, leftColumnLayout);
 
-        genreBox = new KComboBox(true, this, "genreBox");
-	addItem(i18n("Genre:"), genreBox, leftColumnLayout);
+        m_genreBox = new KComboBox(true, this, "genreBox");
+	addItem(i18n("Genre:"), m_genreBox, leftColumnLayout);
 
         // this fills the space at the bottem of the left column
         leftColumnLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum, QSizePolicy::Expanding));
@@ -336,58 +336,58 @@ void TagEditor::setupLayout()
     { // just for organization
         rightColumnLayout->addWidget(new QLabel(i18n("File name:"), this));
 
-        fileNameBox = new KLineEdit(this, "fileNameBox");
-        rightColumnLayout->addWidget(fileNameBox);
+        m_fileNameBox = new KLineEdit(this, "fileNameBox");
+        rightColumnLayout->addWidget(m_fileNameBox);
 
         { // lay out the track row
             QHBoxLayout *trackRowLayout = new QHBoxLayout(rightColumnLayout, horizontalSpacing);
 
-            trackSpin = new KIntSpinBox(0, 255, 1, 0, 10, this, "trackSpin");
-	    addItem(i18n("Track:"), trackSpin, trackRowLayout);
+            m_trackSpin = new KIntSpinBox(0, 255, 1, 0, 10, this, "trackSpin");
+	    addItem(i18n("Track:"), m_trackSpin, trackRowLayout);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
-            yearSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "yearSpin");
-	    addItem(i18n("Year:"), yearSpin, trackRowLayout);
+            m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "yearSpin");
+	    addItem(i18n("Year:"), m_yearSpin, trackRowLayout);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
             trackRowLayout->addWidget(new QLabel(i18n("Length:"), this));
-            lengthBox = new KLineEdit(this, "lengthBox");
-            lengthBox->setMaximumWidth(50);
-            lengthBox->setReadOnly(true);
-            trackRowLayout->addWidget(lengthBox);
+            m_lengthBox = new KLineEdit(this, "lengthBox");
+            m_lengthBox->setMaximumWidth(50);
+            m_lengthBox->setReadOnly(true);
+            trackRowLayout->addWidget(m_lengthBox);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Minimum));
 
             trackRowLayout->addWidget(new QLabel(i18n("Bitrate:"), this));
-            bitrateBox = new KLineEdit(this, "bitrateBox");
-            bitrateBox->setMaximumWidth(50);
-            bitrateBox->setReadOnly(true);
-            trackRowLayout->addWidget(bitrateBox);
+            m_bitrateBox = new KLineEdit(this, "bitrateBox");
+            m_bitrateBox->setMaximumWidth(50);
+            m_bitrateBox->setReadOnly(true);
+            trackRowLayout->addWidget(m_bitrateBox);
         }
 
-        commentBox = new KEdit(this, "commentBox");
-	commentBox->setTextFormat(Qt::PlainText);
-	addItem(i18n("Comment:"), commentBox, rightColumnLayout);
+        m_commentBox = new KEdit(this, "commentBox");
+	m_commentBox->setTextFormat(Qt::PlainText);
+	addItem(i18n("Comment:"), m_commentBox, rightColumnLayout);
     }
 
-    connect(artistNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(trackNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(albumNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(genreBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
-    connect(genreBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(fileNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
-    connect(yearSpin, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
-    connect(trackSpin, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
-    connect(commentBox, SIGNAL(textChanged()), this, SIGNAL(changed()));
+    connect(m_artistNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
+    connect(m_trackNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
+    connect(m_albumNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
+    connect(m_genreBox, SIGNAL(activated(int)), this, SIGNAL(changed()));
+    connect(m_genreBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
+    connect(m_fileNameBox, SIGNAL(textChanged(const QString&)), this, SIGNAL(changed()));
+    connect(m_yearSpin, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
+    connect(m_trackSpin, SIGNAL(valueChanged(int)), this, SIGNAL(changed()));
+    connect(m_commentBox, SIGNAL(textChanged()), this, SIGNAL(changed()));
 
     connect(this, SIGNAL(changed()), this, SLOT(setDataChanged()));
 }
 
 void TagEditor::save(const PlaylistItemList &list)
 {
-    if(list.count() > 0 && dataChanged) {
+    if(list.count() > 0 && m_dataChanged) {
 	
 	KApplication::setOverrideCursor(Qt::waitCursor);
 
@@ -398,7 +398,7 @@ void TagEditor::save(const PlaylistItemList &list)
 	for(QPtrListIterator<PlaylistItem> it(list); it.current(); ++it) {
 	    PlaylistItem *item = *it;
 	    
-	    QFileInfo newFile(item->dirPath() + QDir::separator() + fileNameBox->text());
+	    QFileInfo newFile(item->dirPath() + QDir::separator() + m_fileNameBox->text());
 	    QFileInfo directory(item->dirPath());
 	    
 	    // If (the new file is writable or the new file doesn't exist and
@@ -432,24 +432,24 @@ void TagEditor::save(const PlaylistItemList &list)
 		// files.  We have to check to see if that is enabled before
 		// each field that we write.
 		
-		if(enableBoxes[artistNameBox]->isOn())
-		    item->tag()->setArtist(artistNameBox->currentText());
-		if(enableBoxes[trackNameBox]->isOn())
-		    item->tag()->setTrack(trackNameBox->text());
-		if(enableBoxes[albumNameBox]->isOn())
-		    item->tag()->setAlbum(albumNameBox->currentText());
-		if(enableBoxes[trackSpin]->isOn())
-		    item->tag()->setTrackNumber(trackSpin->value());
-		if(enableBoxes[yearSpin]->isOn())
-		    item->tag()->setYear(yearSpin->value());
-		if(enableBoxes[commentBox]->isOn())
-		    item->tag()->setComment(commentBox->text());
+		if(m_enableBoxes[m_artistNameBox]->isOn())
+		    item->tag()->setArtist(m_artistNameBox->currentText());
+		if(m_enableBoxes[m_trackNameBox]->isOn())
+		    item->tag()->setTrack(m_trackNameBox->text());
+		if(m_enableBoxes[m_albumNameBox]->isOn())
+		    item->tag()->setAlbum(m_albumNameBox->currentText());
+		if(m_enableBoxes[m_trackSpin]->isOn())
+		    item->tag()->setTrackNumber(m_trackSpin->value());
+		if(m_enableBoxes[m_yearSpin]->isOn())
+		    item->tag()->setYear(m_yearSpin->value());
+		if(m_enableBoxes[m_commentBox]->isOn())
+		    item->tag()->setComment(m_commentBox->text());
 		
-		if(enableBoxes[genreBox]->isOn()) {
-		    if(genreList.findIndex(genreBox->currentText()) >= 0)
-			item->tag()->setGenre(genreList[genreList.findIndex(genreBox->currentText())]);
+		if(m_enableBoxes[m_genreBox]->isOn()) {
+		    if(m_genreList.findIndex(m_genreBox->currentText()) >= 0)
+			item->tag()->setGenre(m_genreList[m_genreList.findIndex(m_genreBox->currentText())]);
 		    else
-			item->tag()->setGenre(Genre(genreBox->currentText(), item->tag()->genre().getID3v1()));
+			item->tag()->setGenre(Genre(m_genreBox->currentText(), item->tag()->genre().getID3v1()));
 		}
 		
 		item->tag()->save();
@@ -464,7 +464,7 @@ void TagEditor::save(const PlaylistItemList &list)
 	    KMessageBox::detailedSorry(this,
 				       i18n("Could not save to specified file(s)."), 
 				       i18n("Could Not Write to:\n") + errorFiles.join("\n"));
-	dataChanged = false;
+	m_dataChanged = false;
 
 	KApplication::restoreOverrideCursor();
     }
@@ -472,20 +472,20 @@ void TagEditor::save(const PlaylistItemList &list)
 
 void TagEditor::saveChangesPrompt()
 {
-    if(isVisible() && dataChanged && !items.isEmpty()) {
+    if(isVisible() && m_dataChanged && !m_items.isEmpty()) {
 
 	QStringList files;
-        PlaylistItem *item = items.first();
+        PlaylistItem *item = m_items.first();
         while(item) {
             files.append(item->fileName());
-            item = items.next();
+            item = m_items.next();
         }
 
         if(KMessageBox::questionYesNoList(this,
 					  i18n("Do you want to save your changes to:\n"), 
 					  files, 
 					  i18n("Save Changes")) == KMessageBox::Yes) {
-            save(items);
+            save(m_items);
 	}
     }
 }
@@ -524,7 +524,7 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
     enableBox->hide();
 
     connect(enableBox, SIGNAL(toggled(bool)), item, SLOT(setEnabled(bool)));
-    enableBoxes.insert(item, enableBox);
+    m_enableBoxes.insert(item, enableBox);
 }
 
 void TagEditor::showEvent(QShowEvent *e)
@@ -539,7 +539,7 @@ void TagEditor::showEvent(QShowEvent *e)
 
 void TagEditor::setDataChanged(bool c)
 {
-    dataChanged = c;
+    m_dataChanged = c;
 }
 
 #include "tageditor.moc"
