@@ -254,7 +254,7 @@ private:
     void readConfig();
     void saveConfig();
     void addImpl(const QString &file, Playlist *list);
-    void setupPlaylist(Playlist *p, const char *icon = "midi");
+    void setupPlaylist(Playlist *p, bool raise = false, const char *icon = "midi");
     void checkPlayingItemBeforeRemove(PlaylistItemList &items);
     
 private slots:

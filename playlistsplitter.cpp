@@ -280,7 +280,7 @@ Playlist *PlaylistSplitter::createPlaylist()
 Playlist *PlaylistSplitter::createPlaylist(const QString &name)
 {
     Playlist *p = new Playlist(this, playlistStack, name.latin1());
-    setupPlaylist(p);
+    setupPlaylist(p, true);
     return(p);
 }
 
@@ -427,7 +427,7 @@ void PlaylistSplitter::setupLayout()
 
     CollectionList::initialize(this, playlistStack, restore);
     collection = CollectionList::instance();
-    setupPlaylist(collection, "folder_sound");
+    setupPlaylist(collection, true, "folder_sound");
 
     // Show the collection on startup.
     playlistBox->setSelected(0, true);
@@ -509,7 +509,7 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
     }    
 }
 
-void PlaylistSplitter::setupPlaylist(Playlist *p, const char *icon)
+void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
 {
     PlaylistBoxItem *i = new PlaylistBoxItem(playlistBox, SmallIcon(icon, 32), p->name(), p);
     p->setPlaylistBoxItem(i);
@@ -519,6 +519,12 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, const char *icon)
     connect(p, SIGNAL(doubleClicked()), this, SIGNAL(doubleClicked()));
     connect(p, SIGNAL(collectionChanged()), editor, SLOT(updateCollection()));
     connect(p, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(playlistCountChanged(Playlist *)));
+
+    if(raise) {
+	playlistStack->raiseWidget(p);
+	playlistBox->setCurrentItem(i);
+	playlistBox->ensureCurrentVisible();
+    }
 }
 
 void PlaylistSplitter::checkPlayingItemBeforeRemove(PlaylistItemList &items)
