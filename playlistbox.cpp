@@ -222,7 +222,7 @@ void PlaylistBox::save(Item *item)
 
 void PlaylistBox::saveAs(Item *item)
 {
-    kdDebug(65432) << "saveAs() - " << bool(item) << endl;
+    // kdDebug(65432) << "saveAs() - " << bool(item) << endl;
     if(item)
         item->playlist()->saveAs();
 }
@@ -259,9 +259,9 @@ void PlaylistBox::duplicate(Item *item)
 
 	// If this text is changed, please also change it in PlaylistSplitter::createPlaylist().
 
-    QString name = KLineEditDlg::getText(i18n("New Playlist"), 
-        i18n("Please enter a name for the new playlist:"), 
-        m_splitter->uniquePlaylistName(item->text(0), true), &ok);
+	QString name = KLineEditDlg::getText(i18n("New Playlist"), 
+					     i18n("Please enter a name for the new playlist:"), 
+					     m_splitter->uniquePlaylistName(item->text(0), true), &ok);
 
 	if(ok) {
 	    Playlist *p = m_splitter->createPlaylist(name);

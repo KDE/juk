@@ -183,40 +183,40 @@ TreeViewMode::~TreeViewMode()
 
 void TreeViewMode::setShown(bool show)
 {
+    playlistBox()->setRootIsDecorated(show);
+
     if(show) {
-	updateIcons(16);
+        updateIcons(16);
 
-	PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
+        PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
 
-	if(!collectionItem)
-	    kdDebug(65432) << "TreeViewMode::setShown() - the CollectionList isn't initialized yet." << endl;
+        if(!collectionItem)
+            kdDebug(65432) << "TreeViewMode::setShown() - the CollectionList isn't initialized yet." << endl;
 	
-	if(collectionItem && m_categories.isEmpty()) {
+        if(collectionItem && m_categories.isEmpty()) {
 
-	    PlaylistBox::Item *i;
-	    
-	    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
-	    m_categories.insert("artists", i);
+            PlaylistBox::Item *i;
+
+            i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
+            m_categories.insert("artists", i);
             setupCategory(i, CollectionList::instance()->artists());
 
-	    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
-	    m_categories.insert("albums", i);
+            i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
+            m_categories.insert("albums", i);
             setupCategory(i, CollectionList::instance()->albums());
 
-	    for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
-		it.current()->setSortedFirst(true);
-	}
-	else {
-	    for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
-		it.current()->setVisible(true);
+            for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
+                it.current()->setSortedFirst(true);
+        }
+        else {
+            for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
+                it.current()->setVisible(true);
 	}
     }
     else {
-	for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
-	    it.current()->setVisible(false);
+        for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
+            it.current()->setVisible(false);
     }
-
-    playlistBox()->setRootIsDecorated(show);
 }
 
 void TreeViewMode::setupCategory(PlaylistBox::Item *parent, const QStringList &members) const
