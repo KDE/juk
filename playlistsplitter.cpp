@@ -114,7 +114,7 @@ QString PlaylistSplitter::extensionsString(const QStringList &extensions, const 
     QString s = l.join(" ");
 
     if(type != QString::null)
-	s =  + "|" + type;
+	s += "|" + type + " (" + l.join(", ") + ")";
 
     return(s);
 }
