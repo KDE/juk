@@ -15,6 +15,7 @@
 #include <kglobal.h>
 #include <kapplication.h>
 #include <kstandarddirs.h>
+#include <kdebug.h>
 
 #include <qregexp.h>
 #include <qlayout.h>
@@ -107,9 +108,10 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
 void CoverInfo::popup() const
 {
     QPixmap image = pixmap(FullSize);
-    QRect desktop = KApplication::desktop()->screenGeometry(kapp->mainWidget());
     QPoint mouse  = QCursor::pos();
-
+    QRect desktop = KApplication::desktop()->screenGeometry(mouse);
+    kdDebug(65432)<<desktop<<endl;
+    kdDebug(65432)<<mouse<<endl;
     int x = mouse.x();
     int y = mouse.y();
     int height = image.size().height() + 4;
@@ -121,15 +123,15 @@ void CoverInfo::popup() const
     // show it at the screen edge, accounting for the four pixels (two on each
     // side) for the window border.
 
-    if(x < desktop.width() / 2)
-        x = (x < 10) ? 0 : (x - 10);
+    if(x - desktop.x() < desktop.width() / 2)
+        x = (x - desktop.x() < 10) ? desktop.x() : (x - 10);
     else
-        x = (x > desktop.width() - 10) ? desktop.width() - width : (x - width + 10);
+        x = (x - desktop.x() > desktop.width() - 10) ? desktop.width() - width +desktop.x() : (x - width + 10);
 
-    if(y < desktop.height() / 2)
-        y = (y < 10) ? 0 : (y - 10);
+    if(y - desktop.y() < desktop.height() / 2)
+        y = (y - desktop.y() < 10) ? desktop.y() : (y - 10);
     else
-        y = (y > desktop.height() - 10) ? desktop.height() - height : (y - height + 10);
+        y = (y - desktop.y() > desktop.height() - 10) ? desktop.height() - height + desktop.y() : (y - height + 10);
 
     new CoverPopup(image, QPoint(x, y));
 }
