@@ -69,6 +69,11 @@ public:
     FileHandlePrivate() :
         tag(0) {}
 
+    ~FileHandlePrivate()
+    {
+        delete tag;
+    }
+
     mutable Tag *tag;
     mutable QString absFilePath;
     QFileInfo fileInfo;
