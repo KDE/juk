@@ -62,6 +62,7 @@ PlaylistCollection::~PlaylistCollection()
 {
     saveConfig();
     delete m_actionHandler;
+    PlayerManager::instance()->setPlaylistInterface(0);
 }
 
 QString PlaylistCollection::name() const
