@@ -16,6 +16,8 @@
 #ifndef HISTORYPLAYLIST_H
 #define HISTORYPLAYLIST_H
 
+#include <qtimer.h>
+
 #include "playlist.h"
 #include "playlistitem.h"
 
@@ -55,6 +57,11 @@ protected:
 
 private slots:
     void slotAddPlaying();
+    void slotCreateNewItem();
+
+private:
+    FileHandle m_file;
+    QTimer *m_timer;
 };
 
 QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p);
