@@ -689,7 +689,9 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
     if(l.count() == 1) {
 	m_playlistStack->raiseWidget(l.first());
 	m_editor->slotSetItems(playlistSelection());
-	m_dynamicList = 0;
+
+	if(m_dynamicList != l.first())
+	   m_dynamicList = 0;
 
 	if(m_searchWidget) {
 	    m_searchWidget->setSearch(l.first()->search());

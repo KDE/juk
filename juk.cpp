@@ -701,6 +701,7 @@ void JuK::slotPlaylistChanged()
         actionCollection()->action("file_save")->setEnabled(false);
         actionCollection()->action("file_save_as")->setEnabled(false);
         actionCollection()->action("renamePlaylist")->setEnabled(false);
+        actionCollection()->action("reloadPlaylist")->setEnabled(false);
         actionCollection()->action("deleteItemPlaylist")->setEnabled(false);
     }
     else {
@@ -708,6 +709,11 @@ void JuK::slotPlaylistChanged()
         actionCollection()->action("file_save_as")->setEnabled(true);
         actionCollection()->action("renamePlaylist")->setEnabled(true);
         actionCollection()->action("deleteItemPlaylist")->setEnabled(true);
+
+	if(m_splitter->fileBasedListSelected() || m_splitter->dynamicListSelected())
+	    actionCollection()->action("reloadPlaylist")->setEnabled(true);
+	else
+	    actionCollection()->action("reloadPlaylist")->setEnabled(false);
     }
     if(m_splitter->hasListSelected())
         actionCollection()->action("duplicatePlaylist")->setEnabled(true);

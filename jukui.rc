@@ -10,6 +10,7 @@
 
 		<Action name="renamePlaylist"/>
 		<Action name="duplicatePlaylist"/>
+		<Action name="reloadPlaylist"/>
 		<Action name="deleteItemPlaylist"/>
 
 		<Separator/>

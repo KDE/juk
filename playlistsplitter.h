@@ -130,6 +130,16 @@ public:
      */
     bool collectionListSelected() const { return visiblePlaylist() == m_collection; }
 
+    /**
+     * Returns true if the selected list has a file associated with it.
+     */
+    bool fileBasedListSelected() { return !visiblePlaylist()->fileName().isNull(); }
+
+    /**
+     * Returns true if the currently selected playlist is a dynamic list.
+     */
+    bool dynamicListSelected() { return m_dynamicList && visiblePlaylist() == m_dynamicList; }
+
     bool hasListSelected() const { return m_playlistBox->hasSelection(); }
 
     /**
