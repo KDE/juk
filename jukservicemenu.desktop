@@ -4,6 +4,7 @@ Actions=addToCollection
 
 [Desktop Action addToCollection]
 Name=Add to JuK Collection
+Name[bn]=জুক সংকলনে যোগ করো 
 Name[bs]=Dodaj u JuK kolekciju
 Name[ca]=Afegeix a la col·lecció JuK
 Name[cs]=Přidat do JuK kolekce
@@ -39,7 +40,6 @@ Name[tg]=Иловакунӣ ба Маҷмӯаи JuK
 Name[tr]=JuK Koleksiyonu Ekle
 Name[uk]=Додати до збірки JuK
 Name[uz]=JuK тўпламига қўшиш
-Name[xx]=xxAdd to JuK Collectionxx
 Name[zh_CN]=添加到 JuK 收藏
 Icon=juk
 Exec=dcop juk Player openFile %u
