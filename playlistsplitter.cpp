@@ -60,7 +60,7 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     m_restore = true;
 #endif
 
-    m_dirWatch = new KDirWatch();
+    m_dirWatch = new KDirWatch;
 
     setupLayout();
     readConfig();
@@ -668,6 +668,9 @@ void PlaylistSplitter::redisplaySearch()
 	Playlist::setItemsVisible(visiblePlaylist()->search().matchedItems(), true);
 	Playlist::setItemsVisible(visiblePlaylist()->search().unmatchedItems(), false);
     }
+
+    // kdDebug(65432) << k_funcinfo << "files().count() == "
+    //  << visiblePlaylist()->files().count() << endl;
 }
 
 void PlaylistSplitter::readPlaylists()
@@ -810,7 +813,9 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 	emit signalPlaylistChanged();
 	return;
     }
-
+    if(l.count() == 1 && l.first() == visiblePlaylist())
+	return;
+    
     // Save the current dynamic list so that we can delete it when we're done
     // showing the next list.  The two situations are that we're either showing
     // an existing, non-dynamic list or that we're creating a dynamic list; in 
@@ -915,7 +920,6 @@ void PlaylistSplitter::slotShowSearchResults()
 void PlaylistSplitter::slotVisibleColumnsChanged()
 {
     m_searchWidget->updateColumns();
-    // if(m_searchWidget->searchedColumns(0).count() > 1)
     slotShowSearchResults();
 }
 

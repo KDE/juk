@@ -164,8 +164,19 @@ public:
      */
     void setFileName(const QString &n) { m_fileName = n; }
 
-    void hideColumn(int c);
-    void showColumn(int c);
+    /**
+     * Hides column \a c.  If \a emitChanged is true then a signal that the
+     * visible columns have changed will be emitted and things like the search
+     * will be udated.
+     */
+    void hideColumn(int c, bool emitChanged = true);
+
+    /**
+     * Shows column \a c.  If \a emitChanged is true then a signal that the
+     * visible columns have changed will be emitted and things like the search
+     * will be udated.
+     */
+    void showColumn(int c, bool emitChanged = true);
     bool isColumnVisible(int c) const;
 
     /**

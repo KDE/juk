@@ -138,9 +138,9 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
     for(uint i = 0; i < m_columnsVisible.size(); i++) {
 	if(m_columnsVisible[i] && !l->isColumnVisible(i + offset))
-	    l->showColumn(i + offset);
+	    l->showColumn(i + offset, false);
 	else if(!m_columnsVisible[i] && l->isColumnVisible(i + offset))
-	    l->hideColumn(i + offset);
+	    l->hideColumn(i + offset, false);
     }
 
     l->updateLeftColumn();
@@ -777,7 +777,7 @@ void Playlist::createItems(const PlaylistItemList &siblings)
     createItems<CollectionListItem, PlaylistItem, PlaylistItem>(siblings);
 }
 
-void Playlist::hideColumn(int c)
+void Playlist::hideColumn(int c, bool emitChanged)
 {
     m_headerMenu->setItemChecked(c, false);
 
@@ -799,12 +799,13 @@ void Playlist::hideColumn(int c)
     triggerUpdate();
 
     if(this != CollectionList::instance())
-	CollectionList::instance()->hideColumn(c);
+	CollectionList::instance()->hideColumn(c, false);
 
-    CollectionList::instance()->emitVisibleColumnsChanged();
+    if(emitChanged)
+	CollectionList::instance()->emitVisibleColumnsChanged();
 }
 
-void Playlist::showColumn(int c)
+void Playlist::showColumn(int c, bool emitChanged)
 {
     m_headerMenu->setItemChecked(c, true);
 
@@ -828,9 +829,10 @@ void Playlist::showColumn(int c)
     triggerUpdate();
 
     if(this != CollectionList::instance())
-	CollectionList::instance()->showColumn(c);
+	CollectionList::instance()->showColumn(c, false);
 
-    CollectionList::instance()->emitVisibleColumnsChanged();
+    if(emitChanged)
+	CollectionList::instance()->emitVisibleColumnsChanged();
 }
 
 bool Playlist::isColumnVisible(int c) const
