@@ -17,10 +17,34 @@
 
 #include <qpixmap.h>
 #include <qstringlist.h>
+#include <qregexp.h>
 
 #include "filehandle.h"
 
 class KURL;
+
+class GoogleImage
+{
+public:
+    GoogleImage(QString thumbURL = QString::null, QString size = QString::null) :
+    m_thumbURL(thumbURL)
+    {
+        
+        // thumbURL is in the following format - and we can regex the imageURL
+        // images?q=tbn:hKSEWNB8aNcJ:www.styxnet.com/deyoung/styx/stygians/cp_portrait.jpg
+        
+        m_imageURL = "http://" + thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
+        m_size = size.replace("pixels - ","\n(")+")";
+    }
+    QString imageURL() const { return m_imageURL; }
+    QString thumbURL() const { return m_thumbURL; }
+    QString size() const { return m_size; }
+
+private:
+    QString m_imageURL;
+    QString m_thumbURL;
+    QString m_size;
+};
 
 class GoogleFetcher
 {
@@ -41,7 +65,7 @@ private:
     FileHandle m_file;
     QString m_searchString;
     QString m_loadedQuery;
-    QStringList m_urlList;
+    QValueList<GoogleImage> m_imageList;
     bool m_chosen;
     uint m_selectedIndex;
     QPixmap m_currentPixmap;

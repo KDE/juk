@@ -16,10 +16,14 @@
 #define GOOGLEFETCHERDIALOG_H
 
 #include <kdialogbase.h>
+#include <kiconview.h>
+#include <kio/job.h>
+#include <kio/jobclasses.h>
 
 #include <qpixmap.h>
 
 #include "filehandle.h"
+#include "googlefetcher.h"
 
 class KURL;
 
@@ -29,9 +33,9 @@ class GoogleFetcherDialog : public KDialogBase
 
 public:
     GoogleFetcherDialog(const QString &name,
-                        const QStringList &urlList,
+                        const QValueList<GoogleImage> &urlList,
                         uint selectedIndex,
-			const FileHandle &file,
+                        const FileHandle &file,
                         QWidget *parent = 0);
 
     virtual ~GoogleFetcherDialog();
@@ -46,23 +50,41 @@ public slots:
 protected slots:
     void slotOk();
     void slotCancel();
-    void slotUser3();
-    void slotUser2();
     void slotUser1();
 
 private:
     void setLayout();
 
+    QPixmap m_pixmap;
     QPixmap fetchedImage(uint index) const;
     QPixmap pixmapFromURL(const KURL &url) const;
 
-    QStringList m_urlList;
-    QPixmap m_pixmap;
-    QWidget *m_pixWidget;
+    QValueList<GoogleImage> m_imageList;
+    KIconView *m_iconWidget;
     bool m_takeIt;
     bool m_newSearch;
     uint m_index;
     FileHandle m_file;
+};
+
+class CoverIconViewItem : public QObject
+{
+    Q_OBJECT
+
+    public:
+        CoverIconViewItem(QIconView *parent, GoogleImage image);
+        ~CoverIconViewItem();
+
+    private slots:
+        void imageData(KIO::Job* job, const QByteArray& data);
+        void imageResult(KIO::Job* job);
+
+    private:
+        static const uint BUFFER_SIZE = 2000000;
+
+        KIconViewItem *m_iconViewItem;
+        uchar* m_buffer;
+        uint m_bufferIndex;
 };
 
 #endif

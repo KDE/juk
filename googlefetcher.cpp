@@ -38,7 +38,7 @@ void GoogleFetcher::loadImageURLs()
     if(m_loadedQuery == m_searchString)
         return;
 
-    m_urlList.clear();
+    m_imageList.clear();
 
     KURL url = "http://images.google.com/images?q=" + m_searchString;
 
@@ -46,30 +46,42 @@ void GoogleFetcher::loadImageURLs()
     search.setAsync(false);
     search.load(url.url());
 
-    DOM::HTMLCollection collection = search.links();
+    DOM::Node body = search.body();
+    DOM::NodeList topLevelNodes = body.childNodes();
 
-    for(uint i = 0; i < collection.length(); i++) {
+    // On google results, if the fifth (0-based) node is a "Font" node, 
+    // then there are results.  Otherwise, there are no results.
 
-        DOM::Node result = collection.item(i).attributes().getNamedItem("href");
+    DOM::Node fourthNode = topLevelNodes.item(4);
 
-        if(!result.isNull()) {
+    if (topLevelNodes.length() > 5 &&
+          topLevelNodes.item(4).nodeName().string() == "font") {
 
-            QString href = result.nodeValue().string();
+        // Go through each of the top (table) nodes
 
-            if(!href.isNull() && href.startsWith("/imgres")) {
+        for(uint i = 5; i < topLevelNodes.length(); i++) {
+            DOM::Node thisTopNode = topLevelNodes.item(i);
 
-                DOM::HTMLDocument resultDocument;
+            if(thisTopNode.nodeName().string() == "table") {
+                DOM::NodeList images = thisTopNode.firstChild().firstChild().childNodes();
 
-                resultDocument.setAsync(false);
-                resultDocument.load("http://images.google.com" + href + "&frame=small");
+                // For each table node, pull the images out of the first row
 
-                // The right link is always the first in the collection.
+                for(uint j = 0; j < images.length(); j++) {
+                    QString imageURL = "http://images.google.com" + images.item(j).firstChild().firstChild().attributes().getNamedItem("src").nodeValue().string();
+                    DOM::Node topFont = thisTopNode.firstChild().childNodes().item(1).childNodes().item(j).firstChild();
 
-                m_urlList.append(resultDocument.links().item(0).attributes()
-				 .getNamedItem("href").nodeValue().string());
+                    // And pull the size out of the second row
+
+                    for(uint k = 0; k < topFont.childNodes().length(); k++) {
+                        if(topFont.childNodes().item(k).nodeName().string() == "font") {
+                            m_imageList.append(GoogleImage(imageURL, topFont.childNodes().item(k).firstChild().nodeValue().string()));
+                        }
+                    }
+                }
             }
         }
-    }
+    } 
     m_loadedQuery = m_searchString;
 }
 
@@ -81,7 +93,7 @@ QPixmap GoogleFetcher::pixmap()
     displayWaitMessage();
 
     while(!m_chosen) {
-        if(m_urlList.size() == 0) {
+        if(m_imageList.size() == 0) {
             bool ok;
 
             m_searchString = 
@@ -97,7 +109,7 @@ QPixmap GoogleFetcher::pixmap()
             }
         }
         else {
-            GoogleFetcherDialog dialog("google", m_urlList, m_selectedIndex, m_file, 0);
+            GoogleFetcherDialog dialog("google", m_imageList, m_selectedIndex, m_file, 0);
             dialog.exec();
             m_currentPixmap = dialog.result();
             m_chosen = dialog.takeIt();

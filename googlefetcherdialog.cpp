@@ -15,6 +15,7 @@
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kmessagebox.h>
 
 #include <qhbox.h>
 #include <qimage.h>
@@ -23,13 +24,13 @@
 #include "tag.h"
 
 GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
-                                         const QStringList &urlList,
+                                         const QValueList<GoogleImage> &imageList,
                                          uint selectedIndex,
                                          const FileHandle &file,
                                          QWidget *parent) :
     KDialogBase(parent, name.latin1(), true, QString::null,
-                Ok | Cancel | User1 | User2 | User3, NoDefault, true),
-    m_urlList(urlList),
+                Ok | Cancel | User1 , NoDefault, true),
+    m_imageList(imageList),
     m_pixmap(QPixmap()),
     m_takeIt(false),
     m_newSearch(false),
@@ -37,10 +38,16 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     m_file(file)
 {
     QHBox *mainBox = new QHBox(this);
-    m_pixWidget = new QWidget(mainBox);
+    m_iconWidget = new KIconView(mainBox);
+    m_iconWidget->setResizeMode(QIconView::Adjust);
+    m_iconWidget->setSelectionMode(QIconView::Extended);
+    m_iconWidget->setSpacing(10);
+    m_iconWidget->setMode(KIconView::Select);
+    m_iconWidget->setFixedSize(500,550);
+    m_iconWidget->arrangeItemsInGrid();
+    m_iconWidget->setItemsMovable(FALSE);
+    
     setMainWidget(mainBox);
-    setButtonText(User3, i18n("Previous"));
-    setButtonText(User2, i18n("Next"));
     setButtonText(User1, i18n("New Search"));
 }
 
@@ -51,16 +58,14 @@ GoogleFetcherDialog::~GoogleFetcherDialog()
 
 void GoogleFetcherDialog::setLayout()
 {
-    m_pixmap = fetchedImage(m_index);
-
-    if(m_pixmap.size().width() > 500 || m_pixmap.size().height() > 500)
-        m_pixmap = QImage(m_pixmap.convertToImage()).smoothScale(500, 500);
-
-    setCaption(QString("(%1/%2) %3 - %4").arg(m_index+1).arg(m_urlList.size())
-               .arg(m_file.tag()->artist()).arg(m_file.tag()->album()));
-
-    m_pixWidget->setPaletteBackgroundPixmap(m_pixmap);
-    m_pixWidget->setFixedSize(m_pixmap.size());
+    setCaption(QString("%1 - %2 (%3)")
+              .arg(m_file.tag()->artist())
+              .arg(m_file.tag()->album())
+              .arg(m_imageList.size()));
+    m_iconWidget->clear();
+    for(uint i = 0; i < m_imageList.size(); i++) {
+        new CoverIconViewItem(m_iconWidget, m_imageList[i]);
+    }
 
     adjustSize();
 }
@@ -77,6 +82,16 @@ int GoogleFetcherDialog::exec()
 
 void GoogleFetcherDialog::slotOk()
 {
+    uint selectedIndex=m_iconWidget->index(m_iconWidget->currentItem());
+    m_pixmap=pixmapFromURL(m_imageList[selectedIndex].imageURL());
+    if (m_pixmap.isNull()) {
+        KMessageBox::sorry(this, i18n("The cover you have selected is unavailable.  Please select another."), i18n("Cover unavailable"));
+        QPixmap blankPix=QPixmap();
+        blankPix.resize(80,80);
+        blankPix.fill();
+        m_iconWidget->currentItem()->setPixmap(blankPix, TRUE, TRUE);
+        return;
+    }
     m_takeIt = true;
     m_newSearch = false;
     hide();
@@ -90,22 +105,6 @@ void GoogleFetcherDialog::slotCancel()
     hide();
 }
 
-void GoogleFetcherDialog::slotUser3()
-{
-    m_takeIt = false;
-    m_newSearch = false;
-    m_index = m_index == 0 ? m_urlList.size() - 1 : m_index - 1;
-    setLayout();
-}
-
-void GoogleFetcherDialog::slotUser2()
-{
-    m_takeIt = false;
-    m_newSearch = false;
-    m_index = (m_index >= m_urlList.size() - 1) ? 0 : m_index + 1;
-    setLayout();
-}
-
 void GoogleFetcherDialog::slotUser1()
 {
     m_takeIt = false;
@@ -117,13 +116,11 @@ void GoogleFetcherDialog::slotUser1()
 
 QPixmap GoogleFetcherDialog::fetchedImage(uint index) const
 {
-    return (index > m_urlList.count()) ? QPixmap() : pixmapFromURL(m_urlList[index]);
+    return (index > m_imageList.count()) ? QPixmap() : pixmapFromURL(m_imageList[index].imageURL());
 }
 
 QPixmap GoogleFetcherDialog::pixmapFromURL(const KURL &url) const
 {
-    kdDebug(65432) << "imageURL: " << url << endl;
-
     QString file;
 
     if(KIO::NetAccess::download(url, file, 0)) {
@@ -135,5 +132,54 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KURL &url) const
     return QPixmap();
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// CoverIconViewItem
+////////////////////////////////////////////////////////////////////////////////
+
+CoverIconViewItem::CoverIconViewItem(QIconView *parent, GoogleImage image) : 
+                   QObject(),m_buffer(0),m_bufferIndex(0)
+{
+    //Set up the iconViewItem
+    
+    m_iconViewItem=new KIconViewItem(parent, parent->lastItem(), image.size());
+    QPixmap mainMap=QPixmap();
+    mainMap.resize(80,80);
+    mainMap.fill();
+    m_iconViewItem->setPixmap(mainMap, TRUE, TRUE);    
+    
+    //Start downloading the image.
+    
+    m_buffer = new uchar[BUFFER_SIZE];
+
+    KIO::TransferJob* job = KIO::get(image.thumbURL(), false, false);
+    connect(job, SIGNAL(result(KIO::Job*)), this, SLOT(imageResult(KIO::Job*)));
+    connect(job, SIGNAL(data(KIO::Job*, const QByteArray&)), this, SLOT(imageData(KIO::Job*, const QByteArray&)));
+   
+}
+
+CoverIconViewItem::~CoverIconViewItem()
+{
+    delete m_buffer;
+}
+
+void CoverIconViewItem::imageData(KIO::Job* job, const QByteArray& data)
+{
+    if(m_bufferIndex + (uint) data.size() >= BUFFER_SIZE)
+        return;
+
+    memcpy(m_buffer + m_bufferIndex, data.data(), data.size());
+    m_bufferIndex += data.size();
+}
+
+void CoverIconViewItem::imageResult(KIO::Job* job)
+{
+    if(job->error())
+        return;
+    
+    QPixmap iconImage=QPixmap();
+    iconImage.loadFromData(m_buffer, m_bufferIndex);
+    iconImage=QImage(iconImage.convertToImage()).smoothScale(80,80);
+    m_iconViewItem->setPixmap(iconImage, TRUE, TRUE);
+}
 
 #include "googlefetcherdialog.moc"
