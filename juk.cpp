@@ -160,7 +160,7 @@ void JuK::setupActions()
 			"newPlaylist", "window_new", "CTRL+n"));
     newMenu->insert(createSplitterAction(
 			i18n("Playlist From Folder..."), SLOT(slotCreatePlaylistFromDir()),
-			"newDirectoryPlaylist", "file_open", "CTRL+d"));
+			"newDirectoryPlaylist", "fileopen", "CTRL+d"));
     newMenu->insert(createSplitterAction(
 			i18n("Search Playlist"), SLOT(slotAdvancedSearch()),
 			"newSearchPlaylist", "find", "CTRL+f"));
@@ -250,7 +250,7 @@ void JuK::setupActions()
     guessMenu->setIconSet(SmallIconSet("wizard"));
 
     guessMenu->insert(
-	new KAction(i18n("From &Filename"), "fileimport", "CTRL+f",
+	new KAction(i18n("From &Filename"), "fileimport", "CTRL+g",
 		    this, SLOT(slotGuessTagInfoFromFile()), actions(), "guessTagFile"));
 #if HAVE_MUSICBRAINZ
     guessMenu->insert(
