@@ -215,7 +215,7 @@ bool ConfigCategoryReader::isDisabled(TagType category) const
 
 FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     FileRenamerBase(parent), CategoryReaderInterface(),
-    m_exampleFromFile(false), m_exampleFile(0)
+    m_exampleFromFile(false)
 {
     QLabel *temp = new QLabel(0);
     m_exampleText->setPaletteBackgroundColor(temp->paletteBackgroundColor());
@@ -293,7 +293,6 @@ void FileRenamerWidget::saveConfig()
 
 FileRenamerWidget::~FileRenamerWidget()
 {
-    delete m_exampleFile;
 }
 
 void FileRenamerWidget::createTagRows()
@@ -398,9 +397,13 @@ void FileRenamerWidget::createTagRows()
 
 void FileRenamerWidget::exampleTextChanged()
 {
+    kdDebug(65432) << k_funcinfo << endl;
+
     // Just use .mp3 as an example
 
-    if(m_exampleFromFile && (!m_exampleFile || !m_exampleFile->file())) {
+    if(m_exampleFromFile && (m_exampleFile.isEmpty() || 
+                             !FileHandle(m_exampleFile).tag()->isValid()))
+    {
         m_exampleText->setText(i18n("No file selected, or selected file has no tags."));
         return;
     }
@@ -410,7 +413,8 @@ void FileRenamerWidget::exampleTextChanged()
 
 QString FileRenamerWidget::fileCategoryValue(TagType category) const
 {
-    TagLib::Tag *tag = m_exampleFile->tag();
+    FileHandle file(m_exampleFile);
+    Tag *tag = file.tag();
 
     switch(category) {
     case Track:
@@ -420,16 +424,16 @@ QString FileRenamerWidget::fileCategoryValue(TagType category) const
         return QString::number(tag->year());
 
     case Title:
-        return TStringToQString(tag->title());
+        return tag->title();
 
     case Artist:
-        return TStringToQString(tag->artist());
+        return tag->artist();
 
     case Album:
-        return TStringToQString(tag->album());
+        return tag->album();
 
     case Genre:
-        return TStringToQString(tag->genre());
+        return tag->genre();
 
     default:
         return QString::null;
@@ -641,9 +645,7 @@ void FileRenamerWidget::exampleDialogHidden()
 void FileRenamerWidget::fileSelected(const QString &file)
 {
     m_exampleFromFile = true;
-    delete m_exampleFile;
-    m_exampleFile = new TagLib::FileRef(QFile::encodeName(file));
-
+    m_exampleFile = file;
     exampleTextChanged();
 }
 

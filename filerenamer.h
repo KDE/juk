@@ -415,12 +415,7 @@ private:
 
     /// This is true if we're reading example tags from m_exampleFile.
     bool m_exampleFromFile;
-
-    /**
-     * This is a pointer to the FileRef holding the tags that were read from the
-     * user-specified file.
-     */
-    TagLib::FileRef *m_exampleFile;
+    QString m_exampleFile;
 };
 
 class PlaylistItem;
