@@ -61,6 +61,15 @@
 using namespace ActionCollection;
 
 /**
+ * Just a shortcut of sorts.
+ */
+
+static bool manualResize()
+{
+    return action<KToggleAction>("resizeColumnsManually")->isChecked();
+}
+
+/**
  * A tooltip specialized to show full filenames over the file name column.
  */
 
@@ -270,8 +279,7 @@ void Playlist::SharedSettings::writeConfig()
     config.writeEntry("VisibleColumns", l);
     config.writeEntry("InlineCompletionMode", m_inlineCompletion);
 
-    bool resizeColumnsManually = ActionCollection::action<KToggleAction>("resizeColumnsManually")->isChecked();
-    config.writeEntry("ResizeColumnsManually", resizeColumnsManually);
+    config.writeEntry("ResizeColumnsManually", manualResize());
 
     KGlobal::config()->sync();
 }
@@ -751,12 +759,12 @@ void Playlist::slotShowPlaying()
 
 void Playlist::slotColumnResizeModeChanged()
 {
-    if(action<KToggleAction>("resizeColumnsManually")->isChecked())
+    if(manualResize())
 	setHScrollBarMode(Auto);
     else
 	setHScrollBarMode(AlwaysOff);
 
-    if(!action<KToggleAction>("resizeColumnsManually")->isChecked())
+    if(!manualResize())
 	slotUpdateColumnWidths();
 
     SharedSettings::instance()->sync();
@@ -862,7 +870,7 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 	    if(static_cast<QMouseEvent *>(e)->button() == LeftButton)
 		m_mousePressed = false;
 
-	    if(!action<KToggleAction>("resizeColumnsManually")->isChecked() && m_widthsDirty)
+	    if(!manualResize() && m_widthsDirty)
 		QTimer::singleShot(0, this, SLOT(slotUpdateColumnWidths()));
 	    break;
 	}
@@ -962,7 +970,8 @@ void Playlist::viewportPaintEvent(QPaintEvent *pe)
 {
     // If there are columns that need to be updated, well, update them.
 
-    if(!m_weightDirty.isEmpty()) {
+    if(!m_weightDirty.isEmpty() && !manualResize())
+    {
 	calculateColumnWeights();
 	slotUpdateColumnWidths();
     }
@@ -975,7 +984,7 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
     // If the width of the view has changed, manually update the column
     // widths.
 
-    if(re->size().width() != re->oldSize().width())
+    if(re->size().width() != re->oldSize().width() && !manualResize())
 	slotUpdateColumnWidths();
 
     KListView::viewportResizeEvent(re);
@@ -1041,8 +1050,10 @@ void Playlist::hideColumn(int c, bool updateSearch)
 	m_leftColumn = leftMostVisibleColumn();
     }
 
-    slotUpdateColumnWidths();
-    triggerUpdate();
+    if(!manualResize()) {
+	slotUpdateColumnWidths();
+	triggerUpdate();
+    }
 
     if(this != CollectionList::instance())
 	CollectionList::instance()->hideColumn(c, false);
@@ -1073,8 +1084,10 @@ void Playlist::showColumn(int c, bool updateSearch)
 	m_leftColumn = leftMostVisibleColumn();
     }
 
-    slotUpdateColumnWidths();
-    triggerUpdate();
+    if(!manualResize()) {
+	slotUpdateColumnWidths();
+	triggerUpdate();
+    }
 
     if(this != CollectionList::instance())
 	CollectionList::instance()->showColumn(c, false);
@@ -1180,7 +1193,7 @@ void Playlist::setupItem(PlaylistItem *item)
     if(!m_search.isEmpty())
 	item->setVisible(m_search.checkItem(item));
 
-    if(childCount() <= 2) {
+    if(childCount() <= 2 && !manualResize()) {
 	slotWeightDirty();
 	slotUpdateColumnWidths();
 	triggerUpdate();
@@ -1446,7 +1459,7 @@ PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
 
 void Playlist::slotUpdateColumnWidths()
 {
-    if(m_disableColumnWidthUpdates)
+    if(m_disableColumnWidthUpdates || manualResize())
 	return;
 
     // Make sure that the column weights have been initialized before trying to

@@ -77,7 +77,9 @@ public:
     virtual void playPrevious();
     virtual void stop();
 
-    // Plays the top item of the playlist.
+    /**
+     * Plays the top item of the playlist.
+     */
     void playFirst();
 
     /**
@@ -446,11 +448,6 @@ private:
 
     PlaylistItem *nextItem(PlaylistItem *current = 0) const;
 
-    /** Sets up album random play to play songs with the same album as
-     * the given PlaylistItem.
-     */
-//    void initAlbumSearch(const PlaylistItem *item);
-
     /**
      * Load the playlist from a file.  \a fileName should be the absolute path.
      * \a fileInfo should point to the same file as \a fileName.  This is a
@@ -576,6 +573,7 @@ private:
 
     QValueList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;
+
     /**
      * The average minimum widths of columns to be used in balancing calculations.
      */
@@ -584,10 +582,8 @@ private:
     bool m_widthsDirty;
 
     PlaylistItemList m_randomList;
-    // PlaylistItemList m_history;
     static PlaylistItemList m_history;
     PlaylistSearch m_search;
-    // PlaylistSearch m_albumSearch;
 
     bool m_searchEnabled;
 
