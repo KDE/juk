@@ -598,7 +598,7 @@ private:
     static QMap<int, PlaylistItem *> m_backMenuItems;
 };
 
-void processEvents();
+bool processEvents();
 
 QDataStream &operator<<(QDataStream &s, Playlist &p);
 QDataStream &operator>>(QDataStream &s, Playlist &p);

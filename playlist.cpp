@@ -1414,7 +1414,8 @@ void Playlist::calculateColumnWeights()
 PlaylistItem *Playlist::addFile(const QString &file, bool importPlaylists,
 				PlaylistItem *after)
 {
-    processEvents();
+    if(processEvents())
+	m_collection->dataChanged();
 
     const QFileInfo fileInfo = QDir::cleanDirPath(file);
 
@@ -1893,14 +1894,16 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
     return s;
 }
 
-void processEvents()
+bool processEvents()
 {
     static QTime time = QTime::currentTime();
 
     if(time.elapsed() > 200) {
 	time.restart();
 	kapp->processEvents();
+	return true;
     }
+    return false;
 }
 
 #include "playlist.moc"
