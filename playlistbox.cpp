@@ -331,9 +331,11 @@ void PlaylistBox::deleteItems(const ItemList &items, bool confirm)
     QValueList< QPair<Item *, Playlist *> > removeQueue;
 
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-	m_names.remove((*it)->text(0));
-	m_playlistDict.remove((*it)->playlist());
-	removeQueue.append(qMakePair(*it, (*it)->playlist()));
+	if(*it != Item::collectionItem() && (*it)->playlist() && !(*it)->playlist()->readOnly()) {
+	    m_names.remove((*it)->text(0));
+	    m_playlistDict.remove((*it)->playlist());
+	    removeQueue.append(qMakePair(*it, (*it)->playlist()));
+	}
     }
 
     if(items.back()->nextSibling() && static_cast<Item *>(items.back()->nextSibling())->playlist())
