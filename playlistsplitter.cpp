@@ -321,7 +321,8 @@ void PlaylistSplitter::slotSelectPlaying()
     l->setSelected(m_playingItem, true);
     l->ensureItemVisible(m_playingItem);
 
-    m_playlistBox->raise(l);
+    if(l != visiblePlaylist())
+	m_playlistBox->raise(l);
 }
 
 void PlaylistSplitter::slotDeleteSelectedItems()
