@@ -108,7 +108,7 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     regExp = ".*" + regExp;
     regExp.replace(' ', "\\s+");
     regExp = KMacroExpander::expandMacros(regExp, substitutions);
-    regExp += ".*";
+    regExp += "[^/]*$";
     return regExp;
 }
 
