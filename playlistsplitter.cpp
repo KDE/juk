@@ -249,9 +249,9 @@ void PlaylistSplitter::setSelected(PlaylistItem *i) // static
 
 void PlaylistSplitter::open()
 {
-//    QStringList files = KFileDialog::getOpenFileNames(QString::null, 
-//						      extensionsString((mediaExtensions + listExtensions), i18n("Media Files")));
-    QStringList files = KFileDialog::getOpenFileNames();
+    QStringList files = KFileDialog::getOpenFileNames(QString::null, 
+						      extensionsString((mediaExtensions + listExtensions), i18n("Media Files")));
+//    QStringList files = KFileDialog::getOpenFileNames();
     open(files);
 }
 
