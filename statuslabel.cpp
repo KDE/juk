@@ -17,6 +17,7 @@
 
 #include <kpushbutton.h>
 #include <kiconloader.h>
+#include <klocale.h>
 #include <kdebug.h>
 
 #include <qlabel.h>
@@ -24,7 +25,6 @@
 #include <qlayout.h>
 
 #include "statuslabel.h"
-#include "playlistsplitter.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
