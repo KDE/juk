@@ -88,7 +88,7 @@ mbtest_LDFLAGS = $(all_libraries)
 SUBDIRS = pics
 
 rcdir = $(kde_datadir)/juk
-rc_DATA = jukui.rc
+rc_DATA = jukui.rc jukui-rtl.rc
 
 servicemenudir = $(kde_datadir)/konqueror/servicemenus
 servicemenu_DATA = jukservicemenu.desktop

@@ -1,0 +1,106 @@
+<!DOCTYPE kpartgui>
+<kpartgui name="juk" version="5">
+<MenuBar>
+	<Menu name="file" noMerge="1"><text>&amp;File</text>
+		<Action name="file_new"/>
+		<Action name="file_open"/>
+		<Action name="openDirectory"/>
+
+		<Separator/>
+
+		<Action name="renamePlaylist"/>
+		<Action name="editSearch"/>
+		<Action name="duplicatePlaylist"/>
+		<Action name="reloadPlaylist"/>
+		<Action name="deleteItemPlaylist"/>
+
+		<Separator/>
+
+		<Action name="file_save"/>
+		<Action name="file_save_as"/>
+
+		<Separator/>
+
+		<Action name="file_quit"/>
+	</Menu>
+	<Menu name="view" noMerge="1"><text>&amp;View</text>
+		<Action name="showSearch"/>
+		<Action name="showEditor"/>
+		<Action name="showHistory"/>
+		<Action name="showUpcoming"/>
+		<Action name="showColumns"/>
+
+		<Separator/>
+
+		<Action name="viewModeMenu"/>
+	</Menu>
+	<Menu name="player"><text>&amp;Player</text>
+		<Menu name="randomPlayMenu"><text>&amp;Random Play</text>
+			<Action name="disableRandomPlay"/>
+			<Action name="randomPlay"/>
+			<Action name="albumRandomPlay"/>
+		</Menu>
+
+		<Action name="loopPlaylist"/>
+
+		<Separator/>
+
+		<Action name="play"/>
+		<Action name="pause"/>
+		<Action name="stop"/>
+		<Action name="forward"/>
+		<Action name="back"/>
+	</Menu>
+	<Menu name="playlist"><text>&amp;Tagger</text>
+		<Action name="saveItem"/>
+		<Action name="removeItem"/>
+		<Action name="refresh"/>
+
+		<Separator/>
+
+		<Action name="guessTag"/>
+		<Action name="renameFile"/>
+	</Menu>
+	<Menu name="settings"><text>&amp;Settings</text>
+		<Action name="showSplashScreen" append="show_merge"/>
+		<Action name="toggleSystemTray" append="show_merge"/>
+		<Action name="dockOnClose" append="show_merge"/>
+		<Action name="togglePopups" append="show_merge"/>
+		<Action name="saveUpcomingTracks" append="show_merge"/>
+		<Action name="tagGuesserConfig" append="save_merge"/>
+		<Action name="fileRenamerConfig" append="save_merge"/>
+		<Action name="outputSelect" append="save_merge"/>
+	</Menu>
+</MenuBar>
+
+<ToolBar name="mainToolBar" hidden="true" noMerge="1"><text>Main Toolbar</text>
+	<Action name="file_new"/>
+	<Action name="file_open"/>
+	<Action name="file_save"/>
+
+	<Separator lineSeparator="true"/>
+
+	<Action name="edit_cut"/>
+	<Action name="edit_copy"/>
+	<Action name="edit_paste"/>
+
+	<Separator lineSeparator="true"/>
+
+	<Action name="showSearch"/>
+	<Action name="showEditor"/>
+</ToolBar>
+
+<ToolBar name="playToolBar" noMerge="1"><text>Play Toolbar</text>
+
+	<Action name="trackPositionAction"/>
+	<Action name="forward"/>
+	<Action name="back"/>
+	<Separator lineSeparator="false"/>	
+
+
+	<Action name="stop"/>
+	<Action name="pause"/>
+	<Action name="play"/>
+
+</ToolBar>
+</kpartgui>
