@@ -143,7 +143,7 @@ void JuK::setupActions()
     new KAction(i18n("&Next Track"), "player_end", KShortcut(), m_player, SLOT(forward()), actions(), "forward");
     new KToggleAction(i18n("&Loop Playlist"), 0, KShortcut(), actions(), "loopPlaylist");
     KToggleAction *resizeColumnAction =
-        new KToggleAction(i18n("&Resize Column Headers Manually"),
+        new KToggleAction(i18n("&Resize Playlist Columns Manually"),
 	                  KShortcut(), actions(), "resizeColumnsManually");
     resizeColumnAction->setCheckedState(i18n("&Resize Column Headers Automatically"));
 
