@@ -117,13 +117,13 @@ QString CoverInfo::coverLocation(int size) const
 
     QString dataDir = KGlobal::dirs()->saveLocation("appdata");
     QString subDir = QString::null;
+
     switch (size) {
     case FullSize:
-        subDir="large/";
-	break;
+        subDir = "large/";
+        break;
     default:
-        subDir="";
-	break;
+        break;
     }
     QString fileLocation = dataDir + "covers/" + subDir + fileName.lower();
 
