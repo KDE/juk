@@ -26,18 +26,14 @@
 
 namespace TagLib { class File; }
 
-/**
- * This class is an abstract base class for concrete Tag classes.  It provides
- * an API and a creation method to hide the differences between these.
- *
- * There are two parts here:  (1) those that are appropriately tag data, such as
- * the artist name or year recorded and (2) data that is not "tag" data but can 
- * benefit from the same abstraction mechanism used by the tag class.  This 
- * includes the track length and bitrate at the moment.
+/*!
+ * This should really be called "metadata" and may at some point be titled as
+ * such.  Right now it's mostly a Qt wrapper around TagLib.
  */
 
 class Tag
 {
+    friend class Cache;
 public:
     /**
      * All Tag objects should be instantiated through this method.  It determines
@@ -45,58 +41,58 @@ public:
      * as a mini-factory; a full blown abstract factory is an overkill here.
      */
     static Tag *createTag(const QString &fileName, bool ignoreCache = false);
-    virtual ~Tag();
 
-    virtual void save();
+    ~Tag();
 
-    virtual QString track() const { return m_title; }
-    virtual QString artist() const { return m_artist; }
-    virtual QString album() const { return m_album; }
-    virtual QString genre() const { return m_genre; }
-    virtual int trackNumber() const { return m_track; }
-    virtual QString trackNumberString() const { return QString::number(m_track); }
-    virtual int year() const { return m_year; }
-    virtual QString yearString() const { return QString::number(m_year); }
-    virtual QString comment() const { return m_comment; }
+    void save();
 
-    virtual void setTrack(const QString &value) { m_title = value; }
-    virtual void setArtist(const QString &value) { m_artist = value; }
-    virtual void setAlbum(const QString &value) { m_album = value; }
-    virtual void setGenre(const QString &value) { m_genre = value; }
-    virtual void setTrackNumber(int value) { m_track = value; }
-    virtual void setYear(int value) { m_year = value; }
-    virtual void setComment(const QString &value) { m_comment = value; }
+    QString track() const { return m_title; }
+    QString artist() const { return m_artist; }
+    QString album() const { return m_album; }
+    QString genre() const { return m_genre; }
+    int trackNumber() const { return m_track; }
+    QString trackNumberString() const { return QString::number(m_track); }
+    int year() const { return m_year; }
+    QString yearString() const { return QString::number(m_year); }
+    QString comment() const { return m_comment; }
 
-    virtual QString bitrateString() const { return QString::number(m_bitrate); }
-    virtual QString lengthString() const { return m_lengthString; }
-    virtual int seconds() const { return m_seconds; }
+    void setTrack(const QString &value) { m_title = value; }
+    void setArtist(const QString &value) { m_artist = value; }
+    void setAlbum(const QString &value) { m_album = value; }
+    void setGenre(const QString &value) { m_genre = value; }
+    void setTrackNumber(int value) { m_track = value; }
+    void setYear(int value) { m_year = value; }
+    void setComment(const QString &value) { m_comment = value; }
+
+    QString bitrateString() const { return m_bitrateString; }
+    QString lengthString() const { return m_lengthString; }
+    int seconds() const { return m_seconds; }
 
     /**
-     * Check to see if the item is up to date.  This defaults to true and should
-     * be reimplemented inf Tag types that are not directly mapped to the file
-     * system (specifically cached tags).
+     * Check to see if the item is up to date.
      */
-    virtual bool current() const { return true; }
+    bool current() const;
 
     // These functions are inlined because they are used on startup -- the most
     // performance critical section of JuK.
 
     inline QString absFilePath() const { return m_fileName; }
     inline QDateTime lastModified() const
-	{ if(m_lastModified.isNull()) m_lastModified = m_info.lastModified(); return m_lastModified; }
+    {
+        if(m_lastModified.isNull())
+            m_lastModified = m_info.lastModified();
+        return m_lastModified;
+    }
     inline bool fileExists() const { return m_info.exists() && m_info.isFile(); }
     inline QFileInfo fileInfo() const { return m_info; }
-    
-protected:
-    /**
-     * The constructor is procetected since this is an abstract class and as
-     * such it should not be instantiated directly.  createTag() should be
-     * used to instantiate a concrete subclass of Tag that can be manipulated
-     * though the public API.
-     */
-    Tag(const QString &file);
+
+    QDataStream &read(QDataStream &s);
 
 private:
+    /*!
+     * Creates an empty tag for use in Cache restoration.
+     */
+    Tag(const QString &file);
     Tag(const QString &fileName, TagLib::File *file);
 
     QFileInfo m_info;
@@ -113,8 +109,11 @@ private:
     int m_seconds;
     int m_bitrate;
     QString m_lengthString;
+    QString m_bitrateString;
+    QDateTime m_modificationTime;
 };
 
 QDataStream &operator<<(QDataStream &s, const Tag &t);
+QDataStream &operator>>(QDataStream &s, Tag &t);
 
 #endif

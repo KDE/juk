@@ -25,7 +25,7 @@
 #include <qbuffer.h>
 
 #include "cache.h"
-#include "cachedtag.h"
+#include "tag.h"
 
 Cache *Cache::m_cache = 0;
 
@@ -121,7 +121,7 @@ void Cache::load()
 	s >> fileName;
 	//fileName.squeeze();        
 
-	CachedTag *t = new CachedTag(fileName);
+	Tag *t = new Tag(fileName);
 	s >> *t;
 
 	// Just do a dumb read from the cache.  Originally cache concistancy was

@@ -27,6 +27,7 @@
 #include "tag.h"
 #include "cache.h"
 #include "mediafiles.h"
+#include "stringshare.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -51,7 +52,7 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
         TagLib::Vorbis::File file(QStringToTString(fileName));
         return new Tag(fileName, &file);
     }
-    
+
     kdError(65432) << "Couldn't resolve the mime type of \"" <<
         fileName << "\" -- this shouldn't happen." << endl;
 
@@ -68,21 +69,66 @@ void Tag::save()
 
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// protected methods
-////////////////////////////////////////////////////////////////////////////////
-
-Tag::Tag(const QString &file) : m_info(file), m_fileName(file)
+bool Tag::current() const
 {
-    Cache::instance()->insert(file, this);
+    return(m_modificationTime.isValid() &&
+           lastModified().isValid() &&
+           m_modificationTime >= Tag::lastModified());
+}
+
+QDataStream &Tag::read(QDataStream &s)
+{
+    static QString dummyString;
+    static int dummyInt;
+
+    // TODO: Use Q_UINT32 in place of all integers.
+
+    s >> dummyInt                // TODO: remove
+      >> m_title
+      >> m_artist
+      >> m_album
+      >> m_genre
+      >> dummyInt                // TODO: remove
+      >> m_track
+      >> dummyString             // TODO: remove
+      >> m_year
+      >> dummyString             // TODO: remove
+      >> m_comment
+      >> m_bitrateString         // TODO: remove and replace with int
+      >> m_lengthString
+      >> m_seconds
+      >> dummyString             // TODO: remove
+      >> m_modificationTime;
+
+    // Try to reduce memory usage: share tags that frequently repeat, squeeze others
+    m_title.squeeze();
+    m_comment       = StringShare::tryShare(m_comment);
+    m_artist        = StringShare::tryShare(m_artist);
+    m_album         = StringShare::tryShare(m_album);
+    m_genre         = StringShare::tryShare(m_genre);
+    m_bitrateString = StringShare::tryShare(m_bitrateString);
+    m_lengthString.squeeze();
+    return s;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
+Tag::Tag(const QString &file) :
+    m_info(file),
+    m_fileName(file),
+    m_track(0),
+    m_year(0),
+    m_seconds(0),
+    m_bitrate(0)
+{
+    Cache::instance()->insert(file, this);
+}
+
 Tag::Tag(const QString &fileName, TagLib::File *file) :
-    m_info(fileName), m_fileName(fileName)
+    m_info(fileName),
+    m_fileName(fileName)
 {
     m_title   = TStringToQString(file->tag()->title());
     m_artist  = TStringToQString(file->tag()->artist());
@@ -95,10 +141,11 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
 
     m_seconds = file->audioProperties()->length();
     m_bitrate = file->audioProperties()->length();
+    m_bitrateString = QString::number(m_bitrate);
 
     const int seconds = m_seconds % 60;
     const int minutes = (m_seconds - seconds) / 60;
-    
+
     m_lengthString = QString::number(minutes) + (seconds >= 10 ? ":" : ":0") + QString::number(seconds);
 
     Cache::instance()->insert(fileName, this);
@@ -119,15 +166,20 @@ QDataStream &operator<<(QDataStream &s, const Tag &t)
       << t.genre()
       << 0                         // TODO: remove
       << t.trackNumber()
-      << t.trackNumberString()
+      << QString::null             // TODO: remove
       << t.year()
-      << t.yearString()
+      << QString::null             // TODO: remove
       << t.comment()
-      << t.bitrateString()
+      << t.bitrateString()         // TODO: remove and replace with int
       << t.lengthString()
       << t.seconds()
       << QString::null             // TODO: remove
       << t.lastModified();
 
     return s;
+}
+
+QDataStream &operator>>(QDataStream &s, Tag &t)
+{
+    return t.read(s);
 }

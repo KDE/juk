@@ -4,7 +4,7 @@ check_PROGRAMS = tagguessertest mbtest
 juk_SOURCES = directorylistbase.ui \
 	gstreamerplayer.cpp artsplayer.cpp directorylist.cpp stringhash.cpp \
 	sortedstringlist.cpp systemtray.cpp splashscreen.cpp \
-	statuslabel.cpp cachedtag.cpp collectionlist.cpp \
+	statuslabel.cpp collectionlist.cpp \
 	playlistitem.cpp playlist.cpp playlistsplitter.cpp \
 	playlistbox.cpp tageditor.cpp cache.cpp \
 	player.cpp tag.cpp customaction.cpp \
