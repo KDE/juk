@@ -603,6 +603,8 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 
 	listView()->sort();
 	listView()->ensureItemVisible(listView()->currentItem());
+
+	listView()->viewMode()->queueRefresh();
     }
 }
 
