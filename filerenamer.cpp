@@ -121,6 +121,13 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
     m_separator = config.readEntry("Separator", " - ");
 
     checkedSeparators = config.readIntListEntry("CategoryOrder");
+
+    // Set a default:
+
+    if(checkedSeparators.isEmpty())
+        checkedSeparators << Artist << Album << Title << Track;
+
+
     for(it = checkedSeparators.begin(); it != checkedSeparators.end(); ++it)
         m_categoryOrder.append(static_cast<TagType>(*it));
 }
@@ -771,19 +778,18 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
     const QRegExp closeBracket("[])}]\\s*$");
     const QRegExp openBracket("^\\s*[[({]");
 
-    TagType category;
     unsigned i = 0;
-    QString value;
     QStringList list;
 
     for(QValueList<TagType>::ConstIterator it = categoryOrder.begin(); it != categoryOrder.end(); ++it) {
-        category = static_cast<TagType>(*it);
+
+        TagType category = static_cast<TagType>(*it);
         if(interface.isDisabled(category)) {
             ++i;
             continue;
         }
-        
-        value = interface.value(category);
+
+        QString value = interface.value(category);
 
         if(i < (NumTypes - 1) && interface.hasFolderSeparator(i))
             value.append("/");
@@ -797,6 +803,7 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
     // '/' specially
 
     QString result;
+
     for(QStringList::ConstIterator it = list.begin(); it != list.end(); /* Empty */) {
         result += *it;
         if((*it).find(closeBracket) != -1) {
@@ -812,6 +819,10 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
             result += separator;
         }
     }
+
+    // ??? This simplify whitespace here seems bogus to me.  That could
+    // potentially break the folder name "My  Music" which though odd wouldn't
+    // be invalid in any way.
     
     return QString(folder + QDir::separator() + result).simplifyWhiteSpace();
 }

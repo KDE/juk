@@ -43,6 +43,22 @@ TagRenamerOptions::TagRenamerOptions(const TagRenamerOptions &other) :
 TagRenamerOptions::TagRenamerOptions(TagType category)
     : m_category(category)
 {
+    // Set some defaults
+
+    bool disabled;
+
+    switch(category) {
+    case Title:
+    case Artist:
+    case Album:
+    case Track:
+	disabled = false;
+	kdDebug(65432) << "not disabled!!!" << endl;
+	break;
+    default:
+	disabled = true;
+    }
+
     // Make sure we don't use translated strings for the config file keys.
 
     const QString typeKey = getTagTypeText(category, false);
@@ -63,7 +79,7 @@ TagRenamerOptions::TagRenamerOptions(TagType category)
 
     setEmptyText(config.readEntry(QString("%1EmptyText").arg(typeKey)));
     setTrackWidth(config.readUnsignedNumEntry(QString("%1TrackWidth").arg(typeKey)));
-    setDisabled(config.readBoolEntry(QString("%1Disabled").arg(typeKey)));
+    setDisabled(config.readBoolEntry(QString("%1Disabled").arg(typeKey), disabled));
 }
 
 QString TagRenamerOptions::getTagTypeText(TagType type, bool translate)

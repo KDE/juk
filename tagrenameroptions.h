@@ -72,9 +72,9 @@ public:
         return getTagTypeText(category(), translate);
     }
 
-/**
- * This saves the options to the global KConfig object.
- */
+    /**
+     * This saves the options to the global KConfig object.
+     */
     void saveConfig() const;
 
 private:

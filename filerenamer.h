@@ -40,7 +40,7 @@ class QVBox;
 class PlaylistItem;
 
 // Used to decide what direction the FileRenamerWidget will move rows in.
-typedef enum { MoveUp, MoveDown } MovementDirection;
+enum MovementDirection { MoveUp, MoveDown };
 
 /**
  * This is used by FileRenamerWidget to store information about a particular
