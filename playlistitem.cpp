@@ -222,10 +222,8 @@ Tag *PlaylistItem::Data::tag() const
 
 void PlaylistItem::Data::setFile(const QString &file)
 {
-    delete(dataTag);
-    dataTag = 0;
-
     QFileInfo::setFile(file);
+    refresh();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
