@@ -14,8 +14,11 @@
 #include <klistview.h>
 #include <klocale.h>
 #include <kpushbutton.h>
+#include <klineedit.h>
+#include <kapplication.h>
 
 #include <qtoolbutton.h>
+#include <qevent.h>
 
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     : KDialogBase(parent, name, true, i18n("Tag Guesser Configuration"),
@@ -56,6 +59,11 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
 
 void TagGuesserConfigDlg::accept()
 {
+    if(m_child->lvSchemes->renameLineEdit()) {
+        QKeyEvent returnKeyPress(QEvent::KeyPress, Key_Return, 0, 0);
+        KApplication::sendEvent(m_child->lvSchemes->renameLineEdit(), &returnKeyPress);
+    }
+
     QStringList schemes;
     for (QListViewItem *it = m_child->lvSchemes->firstChild(); it; it = it->nextSibling())
         schemes += it->text(0);
