@@ -54,6 +54,7 @@
 #include "k3bexporter.h"
 #include "painteater.h"
 #include "upcomingplaylist.h"
+#include "deletedialog.h"
 
 using namespace ActionCollection;
 
@@ -746,7 +747,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 	else
 	    message = i18n("Do you really want to move these %1 items to the trash?").arg(QString::number(files.count()));
 
-	if(KMessageBox::warningContinueCancelList(this, message, files, i18n("Delete Items?"), KGuiItem(i18n("&Delete"),"editdelete")) == KMessageBox::Continue) {
+	if(DeleteDialog::confirmDeleteList(this, files)) {
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 		if(m_playingItem == *it)
 		    action("forward")->activate();
