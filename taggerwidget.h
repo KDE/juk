@@ -40,7 +40,9 @@ public:
   void add(QString item);
   void add(QStringList *items);
 
-  FileListItem *getSelectedItem();
+  FileList *getTaggerList();
+  
+  //  FileListItem *getSelectedItem();
   QPtrList<QListViewItem> *getSelectedItems();
 
 public slots:

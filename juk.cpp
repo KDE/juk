@@ -96,6 +96,8 @@ void JuK::setupLayout()
 
   // playlist item activation connection
   connect(playlist->getPlaylistList(), SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(playItem(QListViewItem *)));
+
+  tagger->getTaggerList()->setFocus();
 }
 
 void JuK::setupPlayer()

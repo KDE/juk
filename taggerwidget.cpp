@@ -53,12 +53,9 @@ void TaggerWidget::add(QStringList *items)
   taggerList->append(items);
 }
 
-FileListItem *TaggerWidget::getSelectedItem()
+FileList *TaggerWidget::getTaggerList()
 {
-  if(taggerList && taggerList->getSelectedItem())
-    return(taggerList->getSelectedItem());
-  else
-    return(0);
+  return(taggerList);
 }
 
 QPtrList<QListViewItem> *TaggerWidget::getSelectedItems()
