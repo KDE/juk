@@ -497,6 +497,7 @@ private:
 
 private slots:
 
+    void slotColumnResizeModeChanged();
     void slotUpdateColumnWidths();
 
     void slotAddToUpcoming();
@@ -570,6 +571,7 @@ private:
     bool m_allowDuplicates;
     bool m_polished;
     bool m_applySharedSettings;
+    bool m_mousePressed;
 
     QValueList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;
