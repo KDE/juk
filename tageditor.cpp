@@ -240,6 +240,28 @@ void TagEditor::slotUpdateCollection()
     }    
 }
 
+void TagEditor::slotGuessTagInfo()
+{
+    PlaylistItem *item = m_items.getFirst();
+    if(!item)
+        return;
+
+    Tag *tag = item->tag();
+    Q_ASSERT(tag);
+    TagGuesser guesser(tag->absFilePath());
+
+    if(!guesser.title().isNull())
+        m_trackNameBox->setText(guesser.title());
+    if(!guesser.artist().isNull())
+        m_artistNameBox->setEditText(guesser.artist());
+    if(!guesser.album().isNull())
+        m_albumNameBox->setEditText(guesser.album());
+    if(!guesser.track().isNull())
+        m_trackSpin->setValue(guesser.track().toInt());
+    if(!guesser.comment().isNull())
+        m_commentBox->setText(guesser.comment());
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
@@ -367,9 +389,6 @@ void TagEditor::setupLayout()
         m_commentBox = new KEdit(this, "commentBox");
 	m_commentBox->setTextFormat(Qt::PlainText);
 	addItem(i18n("Comment:"), m_commentBox, rightColumnLayout);
-
-        m_suggestButton = new KPushButton(i18n("S&uggest"), this, "suggestButton");
-        rightColumnLayout->addWidget(m_suggestButton, 0 /*no stretching */, Qt::AlignRight);
     }
 
     connect(m_artistNameBox, SIGNAL(textChanged(const QString&)), this, SLOT(slotDataChanged()));
@@ -381,7 +400,6 @@ void TagEditor::setupLayout()
     connect(m_yearSpin, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
     connect(m_trackSpin, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
     connect(m_commentBox, SIGNAL(textChanged()), this, SLOT(slotDataChanged()));
-    connect(m_suggestButton, SIGNAL(clicked()), this, SLOT(slotSuggestClicked()));
 }
 
 void TagEditor::save(const PlaylistItemList &list)
@@ -539,28 +557,6 @@ void TagEditor::showEvent(QShowEvent *e)
 void TagEditor::slotDataChanged(bool c)
 {
     m_dataChanged = c;
-}
-
-void TagEditor::slotSuggestClicked()
-{
-    PlaylistItem *item = m_items.getFirst();
-    if(!item)
-        return;
-
-    Tag *tag = item->tag();
-    Q_ASSERT(tag);
-    TagGuesser guesser(tag->absFilePath());
-
-    if(!guesser.title().isNull())
-        m_trackNameBox->setText(guesser.title());
-    if(!guesser.artist().isNull())
-        m_artistNameBox->setEditText(guesser.artist());
-    if(!guesser.album().isNull())
-        m_albumNameBox->setEditText(guesser.album());
-    if(!guesser.track().isNull())
-        m_trackSpin->setValue(guesser.track().toInt());
-    if(!guesser.comment().isNull())
-        m_commentBox->setText(guesser.comment());
 }
 
 #include "tageditor.moc"

@@ -48,7 +48,8 @@ public slots:
     void slotRefresh();
     void slotClear();
     void slotUpdateCollection();
-    
+    void slotGuessTagInfo();
+   
 private:
     void setupLayout();
     void readConfig();
@@ -65,7 +66,6 @@ private:
 
 private slots:
     void slotDataChanged(bool c = true);
-    void slotSuggestClicked();
 
 private:
     typedef QMap<QWidget *, QCheckBox *> BoxMap;
@@ -83,7 +83,6 @@ private:
     KLineEdit *m_lengthBox;
     KLineEdit *m_bitrateBox;
     KEdit *m_commentBox;
-    KPushButton *m_suggestButton;
 
     PlaylistItemList m_items;
     
