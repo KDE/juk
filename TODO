@@ -1,4 +1,0 @@
-- Make FileRenamer not actually move the file, and make it stop using
-  PlaylistItem *. It's job is to suggest an alternative filename, based on an
-  tag, so it should only do that. That means less coupling (and makes it easier
-  for me to re-use this together with TagGuesser).
