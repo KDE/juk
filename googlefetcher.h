@@ -26,16 +26,9 @@ class KURL;
 class GoogleImage
 {
 public:
-    GoogleImage(QString thumbURL = QString::null, QString size = QString::null) :
-    m_thumbURL(thumbURL)
-    {
-        
-        // thumbURL is in the following format - and we can regex the imageURL
-        // images?q=tbn:hKSEWNB8aNcJ:www.styxnet.com/deyoung/styx/stygians/cp_portrait.jpg
-        
-        m_imageURL = "http://" + thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
-        m_size = size.replace("pixels - ","\n(")+")";
-    }
+    GoogleImage(const QString &thumbURL = QString::null,
+                const QString &size = QString::null);
+
     QString imageURL() const { return m_imageURL; }
     QString thumbURL() const { return m_thumbURL; }
     QString size() const { return m_size; }
