@@ -113,6 +113,8 @@ void JuK::setupActions()
     new KToolBarPopupAction(i18n("Previous &Track"), "player_start", KShortcut(), m_player, SLOT(back()), actions(), "back");
     new KAction(i18n("&Next Track"), "player_end", KShortcut(), m_player, SLOT(forward()), actions(), "forward");
     new KToggleAction(i18n("&Loop Playlist"), 0, KShortcut(), actions(), "loopPlaylist");
+    KToggleAction *ka = new KToggleAction(i18n("Album Random Play"), 0, actions(), "albumRandomPlay");
+    connect (m_randomPlayAction, SIGNAL(toggled(bool)), ka, SLOT(setEnabled(bool)));
 
     // the following are not visible by default
 
@@ -249,6 +251,10 @@ void JuK::readConfig()
 
     bool randomPlay = playerConfig.readBoolEntry("RandomPlay", false);
     m_randomPlayAction->setChecked(randomPlay);
+    ActionCollection::action<KToggleAction>("albumRandomPlay")->setEnabled(randomPlay);
+
+    bool albumRandomPlay = playerConfig.readBoolEntry("AlbumRandomPlay", false);
+    ActionCollection::action<KToggleAction>("albumRandomPlay")->setChecked(albumRandomPlay);
 
     bool loopPlaylist = playerConfig.readBoolEntry("LoopPlaylist", false);
     ActionCollection::action<KToggleAction>("loopPlaylist")->setChecked(loopPlaylist);
@@ -282,6 +288,9 @@ void JuK::saveConfig()
 
     KToggleAction *a = ActionCollection::action<KToggleAction>("loopPlaylist");
     playerConfig.writeEntry("LoopPlaylist", a->isChecked());
+
+    a = ActionCollection::action<KToggleAction>("albumRandomPlay");
+    playerConfig.writeEntry("AlbumRandomPlay", a->isChecked() && a->isEnabled());
 
     // general settings
 

@@ -397,6 +397,7 @@ void Playlist::playNext()
 {
     bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
     bool loop = action("loopPlaylist") && action<KToggleAction>("loopPlaylist")->isChecked();
+    bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
 
     Playlist *list = m_playingItem ? m_playingItem->playlist() : this;
 
@@ -412,9 +413,27 @@ void Playlist::playNext()
 	m_playNextItem = 0;
     }
     else if(random) {
-	if(list->m_randomList.isEmpty())
+	if(list->m_randomList.isEmpty()) {
+	    m_randomAlbum = QString::null;
 	    list->m_randomList = list->visibleItems();
-	next = list->m_randomList[KApplication::random() % list->m_randomList.count()];
+	}
+
+	if(albumRandom) {
+	    PlaylistItemList albumMatches;
+	    PlaylistItemList::ConstIterator it;
+
+	    for(it = list->m_randomList.begin(); !m_randomAlbum.isNull() && it != list->m_randomList.end(); ++it)
+		if((*it) != m_playingItem && (*it)->file().tag()->album() == m_randomAlbum)
+		    albumMatches.append(*it);
+
+	    if(albumMatches.isEmpty())
+		next = list->m_randomList[KApplication::random() % list->m_randomList.count()];
+	    else
+		next = albumMatches[KApplication::random() % albumMatches.count()];
+	}
+	else
+	    next = list->m_randomList[KApplication::random() % list->m_randomList.count()];
+
 	list->m_randomList.remove(next);
     }
     else {
@@ -426,12 +445,17 @@ void Playlist::playNext()
 	}
     }
 
+    m_randomAlbum = QString::null;
+    if(next)
+	m_randomAlbum = next->file().tag()->album();
+
     setPlaying(next);
 }
 
 void Playlist::stop()
 {
     m_history.clear();
+    m_randomAlbum = QString::null;
     setPlaying(0);
 }
 

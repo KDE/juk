@@ -559,6 +559,7 @@ private:
     bool m_widthsDirty;
 
     PlaylistItemList m_randomList;
+    QString m_randomAlbum;
     PlaylistItemList m_history;
     PlaylistSearch m_search;
 
