@@ -24,12 +24,12 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-GenreList::GenreList(bool createIndex = false)
+GenreList::GenreList(bool createIndex = false) : QValueList<Genre>()
 {
   hasIndex = createIndex;
 }
 
-GenreList::GenreList(QString file, bool createIndex = false)
+GenreList::GenreList(QString file, bool createIndex = false) : QValueList<Genre>()
 {
   hasIndex = createIndex;
   load(file);
@@ -54,7 +54,7 @@ void GenreList::load(QString file)
 
 QString GenreList::name(int id3v1)
 {
-  if(hasIndex && id3v1 >= 0 && id3v1 < int(index.size()))
+  if(hasIndex && id3v1 >= 0 && id3v1 <= int(index.size()))
     return(index[id3v1]);
   else
     return(QString::null);
@@ -68,8 +68,12 @@ void GenreList::initializeIndex()
 {
   kdDebug() << "initializeIndex()" << endl;
   index.clear();
-  index.resize(count());
+  index.resize(count() + 1);
   for(GenreList::Iterator it = begin(); it != end(); ++it) {
-    index[(*it).getId3v1()] = static_cast<QString>(*it);
+    if((*it).getId3v1() >= 0 && (*it).getId3v1() <= int(index.size())) {
+      //      kdDebug() << "initializeIndex() - " << (*it).getId3v1()  << " - " 
+      //                << index.size() << " - " << count() << " - " << (*it) << endl;
+      index[(*it).getId3v1()] = QString(*it);
+    }
   }
 }
