@@ -143,7 +143,7 @@ public:
      */
     void open(const QString &file);
 
-    QStringList columnNames() const { return _columnNames; }
+    QStringList columnNames() const { return m_columnNames; }
     
     KActionMenu *columnVisibleAction() const { return collection->columnVisibleAction(); }
 
@@ -299,8 +299,8 @@ private:
     QStringList directoryQueue;
     QStringList directoryQueueRemove;
 
-    QValueVector<bool> _visibleColumns;
-    QStringList _columnNames;
+    QValueVector<bool> m_visibleColumns;
+    QStringList m_columnNames;
 
     bool showEditor;
     bool restore;
