@@ -68,12 +68,14 @@ void GenreList::initializeIndex()
 {
   kdDebug() << "initializeIndex()" << endl;
   index.clear();
-  index.resize(count());
+  kdDebug() << "Cleared size: " << index.size() << endl;
+  index.resize(count() + 1);
   for(GenreList::Iterator it = begin(); it != end(); ++it) {
     if((*it).getId3v1() >= 0 && (*it).getId3v1() <= int(index.size())) {
       //      kdDebug() << "initializeIndex() - " << (*it).getId3v1()  << " - " 
       //                << index.size() << " - " << count() << " - " << (*it) << endl;
       index[(*it).getId3v1()] = QString(*it);
+      //      kdDebug() << "id3v1 #" << (*it).getId3v1() << ", Size: " << index.size() << endl;
     }
   }
 }

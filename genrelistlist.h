@@ -28,10 +28,10 @@ public:
   GenreListList();
   ~GenreListList();
 
-  static GenreList id3v1List();
+  static GenreList *id3v1List();
   
 private:
-  static GenreList id3v1;
+  static GenreList *id3v1;
   static bool id3v1Loaded;
   
 };

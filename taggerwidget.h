@@ -26,6 +26,7 @@
 
 #include "filelist.h"
 #include "filelistitem.h"
+#include "genrelist.h"
 
 class TaggerWidget : public QWidget
 {
@@ -41,6 +42,7 @@ public:
 
 private:
   void setupLayout();
+  void readConfig();
 
   // main visual objects
   FileList *taggerList;
@@ -55,6 +57,8 @@ private:
   KLineEdit *lengthBox;
   KLineEdit *bitrateBox;
   KEdit *commentBox;
+
+  GenreList *genreList;
 
 private slots:
   void updateBoxes(FileListItem *item); 

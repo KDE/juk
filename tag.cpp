@@ -71,7 +71,7 @@ Tag::Tag(QString file)
   ///////////////////////////////////////////////////////
 
   if(genre == "(" + QString::number(genreNumber) + ")" || genre == QString::null) 
-    genre = GenreListList::id3v1List().name(genreNumber);
+    genre = GenreListList::id3v1List()->name(genreNumber);
   
   ///////////////////////////////////////////////////////
   // convert the year to a string                      

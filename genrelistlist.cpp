@@ -29,17 +29,17 @@
 // if it is, well, all hell will break loose and you'll get a strange segfault.
 
 // public
-GenreList GenreListList::id3v1List()
+GenreList *GenreListList::id3v1List()
 {
   if(!id3v1Loaded) {
-    id3v1.load(locate("data", "juk/id3v1.genreml"));
+    id3v1->load(locate("data", "juk/id3v1.genreml"));
     id3v1Loaded = true;
   }
   return(id3v1);
 }
 
 // private
-GenreList GenreListList::id3v1(true);
+GenreList *GenreListList::id3v1 = new GenreList(true);
 bool GenreListList::id3v1Loaded = false;
 
 ////////////////////////////////////////////////////////////////////////////////

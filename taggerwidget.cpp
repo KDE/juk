@@ -26,7 +26,7 @@
 #include <qlabel.h>
 
 #include "taggerwidget.h"
-//#include "genre.h"
+#include "genrelistlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -35,6 +35,7 @@
 TaggerWidget::TaggerWidget(QWidget *parent) : QWidget(parent)
 {
   setupLayout();
+  readConfig();
 }
 
 TaggerWidget::~TaggerWidget() {}
@@ -131,12 +132,6 @@ void TaggerWidget::setupLayout()
     
     genreBox = new KComboBox(false, bottem, "genreBox");
     
-    // add values to the genre box
-    genreBox->insertItem(QString::null);
-    //    for(int i = 0; i <= Genre::getGenreCount(); i++) 
-    //      genreBox->insertItem(Genre::getGenreName(i)); 
-   
-
     leftColumnLayout->addWidget(genreBox);
     
     // this fills the space at the bottem of the left column
@@ -185,6 +180,18 @@ void TaggerWidget::setupLayout()
     
     commentBox = new KEdit(bottem, "commentBox");
     rightColumnLayout->addWidget(commentBox);
+  }
+}
+
+void TaggerWidget::readConfig()
+{
+  genreList = GenreListList::id3v1List(); // this should later be read from a config file
+  if(genreList && genreBox) {
+    genreBox->clear();
+    // add values to the genre box
+    genreBox->insertItem(QString::null);
+    for(GenreList::Iterator it = genreList->begin(); it != genreList->end(); ++it)
+      genreBox->insertItem((*it));     
   }
 }
 
