@@ -1320,7 +1320,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	    action("edit_copy")->plug(m_rmbMenu);
 
 	m_rmbEditID = m_rmbMenu->insertItem(
-	    SmallIconSet("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
+	    SmallIconSet("editclear"), i18n("Edit"), this, SLOT(slotRenameTag()));
 	m_rmbMenu->insertItem(
 	    SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
 	m_rmbMenu->insertItem(
@@ -1334,7 +1334,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	m_rmbMenu->insertSeparator();
 
 	m_rmbMenu->insertItem(
-	    SmallIcon("new"), i18n("Create Playlist From Selected Items"), this, SLOT(slotCreateGroup()));
+	    SmallIcon("folder_new"), i18n("Create Playlist From Selected Items"), this, SLOT(slotCreateGroup()));
     }
 
     if(!readOnly())
