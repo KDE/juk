@@ -730,8 +730,8 @@ void Playlist::slotRemoveCover()
 				  i18n("&Delete Covers") );
     if (button == KMessageBox::Continue) {
         for(PlaylistItemList::Iterator it = items.begin(); it !=items.end(); ++it) {
-            QFile::remove((*it)->file().coverInfo()->coverLocation(true));
-            QFile::remove((*it)->file().coverInfo()->coverLocation(false));
+            QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::FullSize));
+            QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
         }
 
         slotRefresh();
@@ -762,9 +762,9 @@ void Playlist::slotAddCover(bool retrieveLocal)
         return;
 
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
-        QFile::remove((*it)->file().coverInfo()->coverLocation(true));
-        QFile::remove((*it)->file().coverInfo()->coverLocation(false));
-        image.save((*it)->file().coverInfo()->coverLocation(true), "PNG");
+        QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::FullSize));
+        QFile::remove((*it)->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
+        image.save((*it)->file().coverInfo()->coverLocation(CoverInfo::FullSize), "PNG");
         slotRefresh();
     }
     slotRefresh();
@@ -1043,10 +1043,10 @@ void Playlist::tryCoverSet(QDropEvent *e)
     if(image.isNull())
         return;
 
-    QFile::remove(coverItem->file().coverInfo()->coverLocation(true));
-    QFile::remove(coverItem->file().coverInfo()->coverLocation(false));
+    QFile::remove(coverItem->file().coverInfo()->coverLocation(CoverInfo::FullSize));
+    QFile::remove(coverItem->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
 
-    image.save(coverItem->file().coverInfo()->coverLocation(true), "PNG");
+    image.save(coverItem->file().coverInfo()->coverLocation(CoverInfo::FullSize), "PNG");
 
     slotRefresh();
 

@@ -72,7 +72,7 @@ CoverInfo::CoverInfo(const FileHandle &file) :
 
 QPixmap CoverInfo::coverPixmap() const
 {
-    QPixmap coverThumb = pixmap(false);
+    QPixmap coverThumb = pixmap(Thumbnail);
 
     if(!coverThumb.isNull())
         return coverThumb;
@@ -83,31 +83,31 @@ QPixmap CoverInfo::coverPixmap() const
     QPixmap largeCover = largeCoverPixmap();
     if(!largeCover.isNull()) {
         QImage image(largeCover.convertToImage());
-        image.smoothScale(80, 80).save(coverLocation(false), "PNG");
+        image.smoothScale(80, 80).save(coverLocation(Thumbnail), "PNG");
     }
 
-    return pixmap(false);
+    return pixmap(Thumbnail);
 }
 
 bool CoverInfo::hasCover() const
 {
-    return (QFile(coverLocation(false)).exists() || QFile(coverLocation(true)).exists());
+    return (QFile(coverLocation(Thumbnail)).exists() || QFile(coverLocation(FullSize)).exists());
 }
 
 QPixmap CoverInfo::largeCoverPixmap() const
 {
-    return pixmap(true);
+    return pixmap(FullSize);
 }
 
-QPixmap CoverInfo::pixmap(bool large) const
+QPixmap CoverInfo::pixmap(int size) const
 {
     if(m_file.tag()->artist().isEmpty() || m_file.tag()->album().isEmpty())
         return QPixmap();
 
-    return QPixmap(coverLocation(large));
+    return QPixmap(coverLocation(size));
 }
 
-QString CoverInfo::coverLocation(bool large) const
+QString CoverInfo::coverLocation(int size) const
 {
     QString fileName(QFile::encodeName(m_file.tag()->artist() + " - " + m_file.tag()->album()));
     QRegExp maskedFileNameChars("[ /?]");
@@ -116,7 +116,16 @@ QString CoverInfo::coverLocation(bool large) const
     fileName.append(".png");
 
     QString dataDir = KGlobal::dirs()->saveLocation("appdata");
-    QString fileLocation = dataDir + "covers/" + (large ? "large/" : QString::null) + fileName.lower();
+    QString subDir = QString::null;
+    switch (size) {
+    case FullSize:
+        subDir="large/";
+	break;
+    default:
+        subDir="";
+	break;
+    }
+    QString fileLocation = dataDir + "covers/" + subDir + fileName.lower();
 
     return fileLocation;
 }

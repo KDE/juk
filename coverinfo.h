@@ -29,11 +29,12 @@ public:
 
     QPixmap coverPixmap() const;
     bool hasCover() const;
-    QPixmap pixmap(bool large) const;
+    QPixmap pixmap(int size) const;
     QPixmap largeCoverPixmap() const;
-    QString coverLocation(bool large) const;
+    QString coverLocation(int size) const;
     void popupLargeCover();
-
+    enum CoverSizes { FullSize  = 0,
+                      Thumbnail = 1};
 
 private:
     class CoverPopupWindow;
