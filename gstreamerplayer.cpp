@@ -72,9 +72,9 @@ void GStreamerPlayer::setVolume(float volume)
 
 float GStreamerPlayer::volume() const
 {
-    gfloat value;
+    gdouble value;
     g_object_get(G_OBJECT(m_volume), "volume", &value, 0);
-    return value;
+    return (float) value;
 }
 
 bool GStreamerPlayer::playing() const
