@@ -167,6 +167,16 @@ void SystemTray::setToolTip(const QString &tip)
         QToolTip::add(this, tip);
 }
 
+void SystemTray::wheelEvent(QWheelEvent *e)
+{
+    if(e->delta() > 0)
+	m_backAction->activate();
+    else
+	m_forwardAction->activate();
+
+    e->accept();
+}
+
 #include "systemtray.moc"
 
 // vim: ts=8

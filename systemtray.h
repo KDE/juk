@@ -41,6 +41,7 @@ public slots:
     void slotStop();
 
 private:
+    virtual void wheelEvent( QWheelEvent *e);
     void createPopup(const QString &songName, bool addButtons = true);
     void setToolTip(const QString &tip = QString::null);
     QPixmap createPixmap(const QString &pixName);
