@@ -365,6 +365,7 @@ void JuK::slotShowHide()
 
 void JuK::slotQuit()
 {
+    m_shuttingDown = true;
     kapp->quit();
 }
 
