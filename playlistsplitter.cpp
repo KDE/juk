@@ -243,6 +243,9 @@ QString PlaylistSplitter::extensionsString(const QStringList &extensions, const 
 
 void PlaylistSplitter::open(const QString &file) 
 {
+    if(file.isEmpty())
+	return;
+
     if(visiblePlaylist() == collection || 
        KMessageBox::questionYesNo(this, i18n("Do you want to add this item to the current list or to the collection list?"), 
 				  QString::null, KGuiItem(i18n("Current")), KGuiItem(i18n("Collection"))) == KMessageBox::No)
@@ -253,6 +256,9 @@ void PlaylistSplitter::open(const QString &file)
 
 void PlaylistSplitter::open(const QStringList &files) 
 {
+    if(files.isEmpty())
+	return;
+    
     if(visiblePlaylist() == collection || 
        KMessageBox::questionYesNo(this, i18n("Do you want to add these items to the current list or to the collection list?"), 
 				  QString::null, KGuiItem(i18n("Current")), KGuiItem(i18n("Collection"))) == KMessageBox::No)
