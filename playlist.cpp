@@ -564,8 +564,14 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
-    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
+    int j = 0;
+    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
         (*it)->guessTagInfo(type);
+
+        j = j % 5 + 1;
+        if(j % 5 == 0)
+             kapp->processEvents();
+    }
     KApplication::restoreOverrideCursor();
 }
 
