@@ -347,8 +347,14 @@ void CollectionListItem::refresh()
     playlist()->dataChanged();
     CollectionList::instance()->dataChanged();
     emit CollectionList::instance()->signalCollectionChanged();
+
     if(listView()->isVisible())
 	repaint();
+
+    for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
+	if((*it)->listView()->isVisible())
+	    (*it)->repaint();
+    }
 }
 
 PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist) const
