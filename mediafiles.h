@@ -56,6 +56,6 @@ namespace MediaFiles
      * Returns true if fileName is an Ogg file.
      */
     bool isOgg(const QString &fileName);
-};
+}
 
 #endif

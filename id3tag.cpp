@@ -222,25 +222,25 @@ void ID3Tag::setTrack(const QString &value)
 {
     m_changed = true;
     m_tagTrack = value;
-};
+}
 
 void ID3Tag::setArtist(const QString &value)
 {
     m_changed = true;
     m_tagArtist = value;
-};
+}
 
 void ID3Tag::setAlbum(const QString &value)
 {
     m_changed = true;
     m_tagAlbum = value;
-};
+}
 
 void ID3Tag::setGenre(const Genre &value)
 {
     m_changed = true;
     m_tagGenre = value;
-};
+}
 
 void ID3Tag::setTrackNumber(int value)
 {
@@ -250,7 +250,7 @@ void ID3Tag::setTrackNumber(int value)
         m_tagTrackNumberString.setNum(value);
     else
         m_tagTrackNumberString = QString::null;
-};
+}
 
 void ID3Tag::setYear(int value)
 {
@@ -260,13 +260,13 @@ void ID3Tag::setYear(int value)
         m_tagYearString.setNum(value);
     else
         m_tagYearString = QString::null;
-};
+}
 
 void ID3Tag::setComment(const QString &value)
 {
     m_changed = true;
     m_tagComment = value;
-};
+}
 
 QString ID3Tag::bitrateString() const
 {
