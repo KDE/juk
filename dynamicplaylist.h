@@ -56,6 +56,9 @@ protected:
 protected slots:
     void slotSetDirty(bool d = true) { m_dirty = d; }
 
+private slots:
+    void slotUpdateItems();
+
 private:
     PlaylistItemList m_items;
     PlaylistList m_playlists;

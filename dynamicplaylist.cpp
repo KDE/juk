@@ -27,15 +27,17 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists, QWidget *parent,
     m_playlists(playlists),
     m_dirty(true)
 {
+    setSorting(columns() + 1);
+
     for(PlaylistList::ConstIterator it = m_playlists.begin(); it != m_playlists.end(); ++it) {
         if(*it) {
             connect(*it, SIGNAL(signalDataChanged()), this, SLOT(slotSetDirty()));
-            connect(*it, SIGNAL(signalNumberOfItemsChanged()), this, SLOT(slotSetDirty()));
+            connect(*it, SIGNAL(signalNumberOfItemsChanged(Playlist *)), this, SLOT(slotSetDirty()));
         }
         else
             m_playlists.remove(*it);
     }
-    connect(CollectionList::instance(), SIGNAL(collectionChanged()), this, SLOT(slotSetDirty()));
+    connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()), this, SLOT(slotSetDirty()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -58,13 +60,25 @@ void DynamicPlaylist::showEvent(QShowEvent *e)
         PlaylistItemList newItems = items();
         if(m_items != newItems) {
             m_items = newItems;
-            clear();
-            createItems(m_items);
-        }
+	    QTimer::singleShot(0, this, SLOT(slotUpdateItems()));
+	}
         m_dirty = false;
     }
 
     Playlist::showEvent(e);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private slots
+////////////////////////////////////////////////////////////////////////////////
+
+void DynamicPlaylist::slotUpdateItems()
+{
+    // This should be optimized to check to see which items are already in the
+    // list and just adding those and removing the ones that aren't.
+
+    clear();
+    createItems(m_items);
 }
 
 #include "dynamicplaylist.moc"

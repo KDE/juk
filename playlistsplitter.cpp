@@ -25,6 +25,7 @@
 #include "playlistsplitter.h"
 #include "directorylist.h"
 #include "playlistsearch.h"
+#include "dynamicplaylist.h"
 
 QStringList *PlaylistSplitter::m_mediaExtensions = 0;
 QStringList *PlaylistSplitter::m_listExtensions = 0;
@@ -636,15 +637,8 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 	emit signalPlaylistChanged();
     }
     else {
-	m_dynamicList = new Playlist(m_playlistStack, i18n("Dynamic List"));
+	m_dynamicList = new DynamicPlaylist(l, m_playlistStack, i18n("Dynamic List"));
 	setupPlaylist(m_dynamicList, true, 0);
-	// unsorted...
-	m_dynamicList->setSorting(m_dynamicList->columns() + 1);
-
-	for(PlaylistList::ConstIterator it = l.begin(); it != l.end(); ++it) {
-	    if(*it)
-		m_dynamicList->createItems((*it)->items());
-	}
     }
 
     if(current)
