@@ -124,8 +124,8 @@ void VolumeSlider::slotValueChanged(int value)
 ////////////////////////////////////////////////////////////////////////////////
 
 SliderAction::SliderAction(const QString &text, QObject *parent, const char *name)
-    : CustomAction(text, parent, name),
-      m_dragging(false)
+    : KAction(text, 0, parent, name),
+      m_toolBar(0), m_dragging(false)
 {
 
 }
@@ -135,6 +135,48 @@ SliderAction::~SliderAction()
 
 }
 
+int SliderAction::plug(QWidget *parent, int index)
+{
+    QWidget *w = createWidget(parent);
+
+    if(!w)
+	return -1;
+
+    // the check for null makes sure that there is only one toolbar that this is
+    // "plugged" in to
+
+    if(parent->inherits("KToolBar") && !m_toolBar) {
+	m_toolBar = static_cast<KToolBar *>(parent);
+	int id = KAction::getToolButtonID();
+
+	m_toolBar->insertWidget(id, w->width(), w, index);
+
+	addContainer(m_toolBar, id);
+
+	connect(m_toolBar, SIGNAL(destroyed()), this, SLOT(slotDestroyed()));
+
+	return (containerCount() - 1);
+    }
+
+    return -1;
+}
+
+
+void SliderAction::unplug(QWidget *parent)
+{
+    if (parent->inherits("KToolBar")) {
+        m_toolBar = static_cast<KToolBar *>(parent);
+
+        int index = findContainer(m_toolBar);
+        if (index != -1) {
+            m_toolBar->removeItem(itemId(index));
+            removeContainer(index);
+
+            m_toolBar = 0;
+        }
+    }
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -142,8 +184,8 @@ SliderAction::~SliderAction()
 void SliderAction::slotUpdateOrientation(QDockWindow *dockWindow)
 {
     // if the toolbar is not null and either the dockWindow not defined or is the toolbar
-    if((!dockWindow || dockWindow == dynamic_cast<QDockWindow *>(toolBar()))) {
-        if(toolBar()->barPos() == KToolBar::Right || toolBar()->barPos() == KToolBar::Left) {
+    if((!dockWindow || dockWindow == dynamic_cast<QDockWindow *>(m_toolBar))) {
+        if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
             m_trackPositionSlider->setOrientation(Vertical);
             m_volumeSlider->setOrientation(Vertical);
             m_layout->setDirection(QBoxLayout::TopToBottom);
@@ -233,18 +275,18 @@ void SliderAction::slotUpdateSize()
     static const int offset = 3;
     static const int absoluteMax = 10000;
 
-    if(toolBar()->barPos() == KToolBar::Right || toolBar()->barPos() == KToolBar::Left) {
-        m_volumeSlider->setMaximumWidth(toolBar()->iconSize() - offset);
+    if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
+        m_volumeSlider->setMaximumWidth(m_toolBar->iconSize() - offset);
         m_volumeSlider->setMaximumHeight(volumeMax);
 
-        m_trackPositionSlider->setMaximumWidth(toolBar()->iconSize() - offset);
+        m_trackPositionSlider->setMaximumWidth(m_toolBar->iconSize() - offset);
         m_trackPositionSlider->setMaximumHeight(absoluteMax);
     }
     else {
-        m_volumeSlider->setMaximumHeight(toolBar()->iconSize() - offset);
+        m_volumeSlider->setMaximumHeight(m_toolBar->iconSize() - offset);
         m_volumeSlider->setMaximumWidth(volumeMax);
 
-        m_trackPositionSlider->setMaximumHeight(toolBar()->iconSize() - offset);
+        m_trackPositionSlider->setMaximumHeight(m_toolBar->iconSize() - offset);
         m_trackPositionSlider->setMaximumWidth(absoluteMax);
     }
 }

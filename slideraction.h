@@ -18,10 +18,8 @@
 #ifndef SLIDERACTION_H
 #define SLIDERACTION_H
 
+#include <kaction.h>
 #include <qslider.h>
-
-#include "customaction.h"
-
 
 class QBoxLayout;
 class QDockWindow;
@@ -49,7 +47,7 @@ private slots:
     void slotValueChanged(int value);
 };
 
-class SliderAction : public CustomAction
+class SliderAction : public KAction
 {
     Q_OBJECT
 
@@ -61,6 +59,9 @@ public:
     QSlider *trackPositionSlider() const { return m_trackPositionSlider; }
 
     bool dragging() const { return m_dragging; }
+
+    virtual int plug(QWidget *parent, int index = -1);
+    virtual void unplug(QWidget *widget);
 
 public slots:
     void slotUpdateOrientation(QDockWindow *dockWindow = 0);
@@ -77,6 +78,7 @@ private slots:
     void slotSliderReleased();
 
 private:
+    KToolBar *m_toolBar;
     QBoxLayout *m_layout;
     QSlider *m_trackPositionSlider;
     VolumeSlider *m_volumeSlider;

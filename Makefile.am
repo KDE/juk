@@ -7,7 +7,6 @@ juk_SOURCES = \
 	artsplayer.cpp \
 	cache.cpp \
 	collectionlist.cpp \
-	customaction.cpp \
 	directorylist.cpp \
 	directorylistbase.ui \
 	dynamicplaylist.cpp \
