@@ -90,7 +90,7 @@ void FileHandle::refresh()
 {
     d->fileInfo.refresh();
     delete d->tag;
-    d->tag = Tag::createTag(d->absFilePath);
+    d->tag = new Tag(d->absFilePath);
 }
 
 void FileHandle::setFile(const QString &path)
@@ -106,7 +106,7 @@ void FileHandle::setFile(const QString &path)
 Tag *FileHandle::tag() const
 {
     if(!d->tag)
-        d->tag = Tag::createTag(d->absFilePath);
+        d->tag = new Tag(d->absFilePath);
 
     return d->tag;
 }
@@ -149,7 +149,7 @@ void FileHandle::read(CacheDataStream &s)
     case 1:
     default:
         if(!d->tag)
-            d->tag = new Tag(d->absFilePath);
+            d->tag = new Tag(d->absFilePath, true);
 
         s >> *(d->tag);
         s >> d->modificationTime;

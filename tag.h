@@ -31,15 +31,9 @@ class CacheDataStream;
 
 class Tag
 {
-    friend class Cache;
     friend class FileHandle;
 public:
-    /**
-     * All Tag objects should be instantiated through this method.  It determines
-     * the appropriate concrete subclass and instantiates that.  It's servering
-     * as a mini-factory; a full blown abstract factory is an overkill here.
-     */
-    static Tag *createTag(const QString &fileName);
+    Tag(const QString &fileName);
 
     void save();
 
@@ -62,6 +56,8 @@ public:
     int seconds() const { return m_seconds; }
     int bitrate() const { return m_bitrate; }
 
+    bool isValid() const { return m_isValid; }
+
     /**
      * As a convenience, since producing a length string from a number of second
      * isn't a one liner, provide the lenght in string form.
@@ -74,11 +70,11 @@ public:
     const QString &fileName() const { return m_fileName; }
 
 private:
-    /*!
-     * Creates an empty tag for use in Cache restoration.
+    /**
+     * Create an empty tag.  Used in FileHandle for cache restoration.
      */
-    Tag(const QString &file);
-    Tag(const QString &fileName, TagLib::File *file);
+    Tag(const QString &fileName, bool);
+    void setup(TagLib::File *file);
 
     // TODO -- remove m_info and prefer the one in the FileHandle
 
@@ -95,6 +91,7 @@ private:
     int m_bitrate;
     QDateTime m_modificationTime;
     QString m_lengthString;
+    bool m_isValid;
 };
 
 QDataStream &operator<<(QDataStream &s, const Tag &t);

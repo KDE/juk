@@ -36,33 +36,38 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Tag *Tag::createTag(const QString &fileName)
+
+Tag::Tag(const QString &fileName) :
+    m_info(fileName),
+    m_fileName(fileName),
+    m_track(0),
+    m_year(0),
+    m_seconds(0),
+    m_bitrate(0),
+    m_isValid(false)
 {
     if(MediaFiles::isMP3(fileName)) {
         TagLib::MPEG::File file(QFile::encodeName(fileName).data());
-        if(!file.isValid())
-            return 0;
-        return new Tag(fileName, &file);
+        if(file.isValid())
+	    setup(&file);
     }
 
-    if(MediaFiles::isOgg(fileName)) {
+    else if(MediaFiles::isOgg(fileName)) {
         TagLib::Vorbis::File file(QFile::encodeName(fileName).data());
-        if(!file.isValid())
-            return 0;
-        return new Tag(fileName, &file);
+        if(file.isValid())
+	    setup(&file);
     }
 
-    if(MediaFiles::isFLAC(fileName)) {
+    else if(MediaFiles::isFLAC(fileName)) {
         TagLib::FLAC::File file(QFile::encodeName(fileName).data());
-        if(!file.isOpen())
-            return 0;
-        return new Tag(fileName, &file);
+        if(file.isOpen())
+	    setup(&file);
     }
 
-    kdError(65432) << "Couldn't resolve the mime type of \"" <<
-        fileName << "\" -- this shouldn't happen." << endl;
-
-    return 0;
+    else {
+	kdError(65432) << "Couldn't resolve the mime type of \"" <<
+	    fileName << "\" -- this shouldn't happen." << endl;
+    }
 }
 
 void Tag::save()
@@ -168,20 +173,19 @@ CacheDataStream &Tag::read(CacheDataStream &s)
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Tag::Tag(const QString &file) :
-    m_info(file),
-    m_fileName(file),
+Tag::Tag(const QString &fileName, bool) :
+    m_info(fileName),
+    m_fileName(fileName),
     m_track(0),
     m_year(0),
     m_seconds(0),
-    m_bitrate(0)
+    m_bitrate(0),
+    m_isValid(true)
 {
 
 }
 
-Tag::Tag(const QString &fileName, TagLib::File *file) :
-    m_info(fileName),
-    m_fileName(fileName)
+void Tag::setup(TagLib::File *file)
 {
     m_title   = TStringToQString(file->tag()->title()).stripWhiteSpace();
     m_artist  = TStringToQString(file->tag()->artist()).stripWhiteSpace();
@@ -204,6 +208,8 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
 	int i = m_fileName.findRev('.');
         m_title = i > 0 ? m_fileName.left(i) : m_fileName;
     }
+
+    m_isValid = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
