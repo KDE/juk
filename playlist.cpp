@@ -439,6 +439,22 @@ void Playlist::playFirst()
     action("forward")->activate();
 }
 
+void Playlist::playNextAlbum()
+{
+    PlaylistItem *current = TrackSequenceManager::instance()->currentItem();
+    if(!current)
+	return; // No next album if we're not already playing.
+
+    QString currentAlbum = current->file().tag()->album();
+    current = TrackSequenceManager::instance()->nextItem();
+
+    while(current && current->file().tag()->album() == currentAlbum)
+	current = TrackSequenceManager::instance()->nextItem();
+
+    TrackSequenceManager::instance()->setNextItem(current);
+    action("forward")->activate();
+}
+
 void Playlist::playNext()
 {
     TrackSequenceManager::instance()->setCurrentPlaylist(this);

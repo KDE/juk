@@ -268,8 +268,8 @@ void PlayerManager::play(const FileHandle &file)
     action("pause")->setEnabled(true);
     action("stop")->setEnabled(true);
     action("forward")->setEnabled(true);
-//    if(action<KToggleAction>("albumRandomPlay")->isChecked())
-//        action("forwardAlbum")->setEnabled(true);
+    if(action<KToggleAction>("albumRandomPlay")->isChecked())
+        action("forwardAlbum")->setEnabled(true);
     action("back")->setEnabled(true);
 
     if(m_sliderAction->trackPositionSlider())
@@ -323,7 +323,7 @@ void PlayerManager::stop()
     action("stop")->setEnabled(false);
     action("back")->setEnabled(false);
     action("forward")->setEnabled(false);
-//    action("forwardAlbum")->setEnabled(false);
+    action("forwardAlbum")->setEnabled(false);
 
     if(m_sliderAction->trackPositionSlider()) {
         m_sliderAction->trackPositionSlider()->setValue(0);
@@ -560,7 +560,7 @@ void PlayerManager::setup()
     if(!action("pause") ||
        !action("stop") ||
        !action("back") ||
-//       !action("forwardAlbum") ||
+       !action("forwardAlbum") ||
        !action("forward") ||
        !action("trackPositionAction"))
     {
@@ -574,7 +574,7 @@ void PlayerManager::setup()
     action("stop")->setEnabled(false);
     action("back")->setEnabled(false);
     action("forward")->setEnabled(false);
-//    action("forwardAlbum")->setEnabled(false);
+    action("forwardAlbum")->setEnabled(false);
 
     // setup sliders
 

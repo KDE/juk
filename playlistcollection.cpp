@@ -99,6 +99,13 @@ void PlaylistCollection::playFirst()
     currentChanged();
 }
 
+void PlaylistCollection::playNextAlbum()
+{
+    m_playing = true;
+    currentPlaylist()->playNextAlbum();
+    currentChanged();
+}
+
 void PlaylistCollection::playPrevious()
 {
     m_playing = true;
@@ -754,7 +761,9 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 #endif
 
 
-    createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),    "playFirst");
+    createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),     "playFirst");
+    createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "next");
+
     createAction(i18n("Open..."),         SLOT(slotOpen()),         "file_open", "fileopen", "CTRL+o");
     createAction(i18n("Add &Folder..."),  SLOT(slotAddFolder()),    "openDirectory", "fileopen");
     createAction(i18n("&Rename..."),      SLOT(slotRename()),       "renamePlaylist", "lineedit");

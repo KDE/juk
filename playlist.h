@@ -83,6 +83,12 @@ public:
     void playFirst();
 
     /**
+     * Plays the next album in the playlist.  Only useful when in album random
+     * play mode.
+     */
+    void playNextAlbum();
+
+    /**
      * Saves the file to the currently set file name.  If there is no filename
      * currently set, the default behavior is to prompt the user for a file
      * name.

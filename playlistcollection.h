@@ -56,6 +56,7 @@ public:
     virtual bool playing() const;
 
     void playFirst();
+    void playNextAlbum();
 
     virtual QStringList playlists() const;
     virtual void createPlaylist(const QString &name);
@@ -196,7 +197,8 @@ private:
                           const QString &icon = QString::null,
                           const KShortcut &shortcut = KShortcut());
 private slots:
-    void slotPlayFirst()    { m_collection->playFirst(); }
+    void slotPlayFirst()     { m_collection->playFirst(); }
+    void slotPlayNextAlbum() { m_collection->playNextAlbum(); }
 
     void slotOpen()         { m_collection->open(); }
     void slotAddFolder()    { m_collection->addFolder(); }

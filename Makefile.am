@@ -80,7 +80,7 @@ mblibs = -lmusicbrainz -ltunepimp
 endif
 ##################################################
 
-juk_LDADD = $(LDADD_GST) $(mblibs) $(LIB_KIO) $(taglib_libs) $(LIB_KHTML) $(LIB_ARTS)
+juk_LDADD = -lm $(LDADD_GST) $(mblibs) $(LIB_KIO) $(taglib_libs) $(LIB_KHTML) $(LIB_ARTS)
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LDFLAGS_GST)
 
 tagguessertest_LDADD = $(LIB_KDECORE)

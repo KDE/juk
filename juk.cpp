@@ -135,6 +135,7 @@ void JuK::setupActions()
 
     ka = new KRadioAction(i18n("Use &Album Random Play"), "roll", 0, actions(), "albumRandomPlay");
     ka->setExclusiveGroup("randomPlayGroup");
+    connect(ka, SIGNAL(toggled(bool)), SLOT(slotCheckAlbumNextAction(bool)));
     actionMenu->insert(ka);
 
     new KAction(i18n("&Play"),  "player_play",  0, m_player, SLOT(play()),  actions(), "play");
@@ -241,6 +242,7 @@ void JuK::setupGlobalAccels()
     KeyDialog::insert(m_accel, "VolumeDown",  i18n("Volume Down"),  action("volumeDown"),  SLOT(activate()));
     KeyDialog::insert(m_accel, "Mute",        i18n("Mute"),         action("mute"),        SLOT(activate()));
     KeyDialog::insert(m_accel, "ShowHide",    i18n("Show / Hide"),  this,                  SLOT(slotShowHide()));
+    KeyDialog::insert(m_accel, "ForwardAlbum", i18n("Play Next Album"), action("forwardAlbum"), SLOT(activate()));
 
     m_accel->setConfigGroup("Shortcuts");
     m_accel->readSettings();
@@ -451,6 +453,17 @@ void JuK::slotConfigureFileRenamer()
 void JuK::slotUndo()
 {
     TagTransactionManager::instance()->undo();
+}
+
+void JuK::slotCheckAlbumNextAction(bool albumRandomEnabled)
+{
+    // If album random play is enabled, then enable the Play Next Album action
+    // unless we're not playing right now.
+
+    if(albumRandomEnabled && !m_player->playing())
+	albumRandomEnabled = false;
+
+    action("forwardAlbum")->setEnabled(albumRandomEnabled);
 }
 
 #include "juk.moc"

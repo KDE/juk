@@ -72,6 +72,7 @@ private slots:
     void slotConfigureTagGuesser();
     void slotConfigureFileRenamer();
     void slotUndo();
+    void slotCheckAlbumNextAction(bool albumRandomEnabled);
 
 private:
     PlaylistSplitter *m_splitter;
