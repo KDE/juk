@@ -275,8 +275,7 @@ void SystemTray::createPopup()
             // Another line, and the cover, if there's a cover, and if
             // it's selected to be shown
 
-            if(playingFile.coverInfo()->hasCover())
-            {
+            if(playingFile.coverInfo()->hasCover()) {
                 addSeparatorLine(box);
                 addCoverButton(box, playingFile.coverInfo()->coverPixmap());
             }
@@ -288,8 +287,7 @@ void SystemTray::createPopup()
             // Another line, and the cover, if there's a cover, and if
             // it's selected to be shown
 
-            if(playingFile.coverInfo()->hasCover())
-            {
+            if(playingFile.coverInfo()->hasCover()) {
                 addCoverButton(box, playingFile.coverInfo()->coverPixmap());
                 addSeparatorLine(box);
             }
@@ -398,12 +396,12 @@ void SystemTray::addSeparatorLine(QWidget *parent)
     line->setMinimumHeight(80);
 }
 
-void SystemTray::addCoverButton(QWidget *parent, const QPixmap *cover)
+void SystemTray::addCoverButton(QWidget *parent, const QPixmap &cover)
 {
     QPushButton *coverButton = new QPushButton(parent);
 
-    coverButton->setPixmap(*cover);
-    coverButton->setFixedSize(cover->size());
+    coverButton->setPixmap(cover);
+    coverButton->setFixedSize(cover.size());
     coverButton->setFlat(true);
 
     connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));

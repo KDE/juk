@@ -71,20 +71,20 @@ CoverInfo::CoverInfo(const Tag &tag) :
 {
 }
 
-QPixmap *CoverInfo::coverPixmap() const
+QPixmap CoverInfo::coverPixmap() const
 {
-    QPixmap *coverThumb = pixmap(false);
+    QPixmap coverThumb = pixmap(false);
 
-    if(!coverThumb->isNull())
+    if(!coverThumb.isNull())
         return coverThumb;
 
     // If the file doesn't exist, try to create the thumbnail from
     // the large image
 
-    QPixmap *largeCover = largeCoverPixmap();
-    if(!largeCover->isNull()) {
-        QImage img(largeCover->convertToImage());
-        img.smoothScale(80, 80).save(coverLocation(false), "PNG");
+    QPixmap largeCover = largeCoverPixmap();
+    if(!largeCover.isNull()) {
+        QImage image(largeCover.convertToImage());
+        image.smoothScale(80, 80).save(coverLocation(false), "PNG");
     }
 
     return pixmap(false);
@@ -95,17 +95,17 @@ bool CoverInfo::hasCover() const
     return (QFile(coverLocation(false)).exists() || QFile(coverLocation(true)).exists());
 }
 
-QPixmap *CoverInfo::largeCoverPixmap() const
+QPixmap CoverInfo::largeCoverPixmap() const
 {
     return pixmap(true);
 }
 
-QPixmap *CoverInfo::pixmap(bool large) const
+QPixmap CoverInfo::pixmap(bool large) const
 {
     if(m_tag.artist().isEmpty() || m_tag.album().isEmpty())
-        return new QPixmap();
+        return QPixmap();
 
-    return new QPixmap(coverLocation(large));
+    return QPixmap(coverLocation(large));
 }
 
 QString CoverInfo::coverLocation(bool large) const
@@ -124,12 +124,12 @@ QString CoverInfo::coverLocation(bool large) const
 
 void CoverInfo::popupLargeCover()
 {
-    QPixmap *largeCover = largeCoverPixmap();
-    if(largeCover->isNull())
+    QPixmap largeCover = largeCoverPixmap();
+    if(largeCover.isNull())
         return;
 
     if(!m_popupWindow)
-        m_popupWindow = new CoverPopupWindow(*this, *largeCover);
+        m_popupWindow = new CoverPopupWindow(*this, largeCover);
 
     m_popupWindow->show();
     KWin::activateWindow(m_popupWindow->winId());

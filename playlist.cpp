@@ -103,19 +103,17 @@ public:
 	    int headerPosition = m_playlist->header()->sectionPos(column);
 	    r.setLeft(headerPosition);
 	    r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
-	    if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
-	    {
+
+	    if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn) {
 		tip(r, item->file().absFilePath());
 	    }
-	    else if (column == m_playlist->columnOffset() + PlaylistItem::CoverColumn)
-	    {
-	        QMimeSourceFactory::defaultFactory()->setImage("coverThumb",QImage(item->file().coverInfo()->coverPixmap()->convertToImage()));
+	    else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
+		QMimeSourceFactory *f = QMimeSourceFactory::defaultFactory();
+	        f->setImage("coverThumb", QImage(item->file().coverInfo()->coverPixmap().convertToImage()));
 	        tip(r, "<center><img source=\"coverThumb\"/></center>");
 	    }
 	    else
-	    {
 		tip(r, item->text(column));
-	    }
 	}
     }
 

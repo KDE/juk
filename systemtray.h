@@ -44,7 +44,7 @@ private:
 
     void createButtonBox(QWidget *parent);
     void addSeparatorLine(QWidget *parent);
-    void addCoverButton(QWidget *parent, const QPixmap *cover);
+    void addCoverButton(QWidget *parent, const QPixmap &cover);
 
 private slots:
     void slotPlay();

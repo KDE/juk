@@ -69,7 +69,7 @@ void NowPlaying::slotRefresh()
     FileHandle playingFile = PlayerManager::instance()->playingFile();
 
     if(playingFile.coverInfo()->hasCover()){
-        QImage image = playingFile.coverInfo()->largeCoverPixmap()->convertToImage();
+        QImage image = playingFile.coverInfo()->largeCoverPixmap().convertToImage();
         QPixmap cover = image.smoothScale(size().width(), size().width());
         setPaletteBackgroundPixmap(cover);
     }
@@ -118,7 +118,7 @@ void NowPlaying::resizeEvent(QResizeEvent *ev)
     if((PlayerManager::instance()->playing() || PlayerManager::instance()->paused()) &&
        playingFile.coverInfo()->hasCover())
     {
-        QImage image = playingFile.coverInfo()->largeCoverPixmap()->convertToImage();
+        QImage image = playingFile.coverInfo()->largeCoverPixmap().convertToImage();
         setPaletteBackgroundPixmap(image.smoothScale(size().width(), size().width()));
     }
     setMaximumHeight(width());

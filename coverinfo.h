@@ -28,10 +28,10 @@ class CoverInfo
 public:
     CoverInfo(const Tag &tag);
 
-    QPixmap *coverPixmap() const;
+    QPixmap coverPixmap() const;
     bool hasCover() const;
-    QPixmap *pixmap(bool large) const;
-    QPixmap *largeCoverPixmap() const;
+    QPixmap pixmap(bool large) const;
+    QPixmap largeCoverPixmap() const;
     QString coverLocation(bool large) const;
     void popupLargeCover();
 
