@@ -2,7 +2,7 @@
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY package "kdemultimedia">
   <!ENTITY kappname "&juk;">
-  <!ENTITY juk "JuK">
+  <!ENTITY juk "<application>JuK</application>">
   <!ENTITY % addindex "IGNORE">
   <!ENTITY % English "INCLUDE">
 ]>
@@ -10,24 +10,37 @@
 <book lang="&language;">
 
 <bookinfo>
-<title>The JuK Handbook</title>
+<title>The &juk; Handbook</title>
 
 <authorgroup>
 <author>
+<firstname>Lauri</firstname>
+<surname>Watts</surname>
+<affiliation>
+<address><email>lauri@kde.org</email></address>
+</affiliation>
+</author>
+
+<othercredit role="developer">
 <firstname>Scott</firstname>
 <surname>Wheeler</surname>
 <affiliation>
 <address><email>wheeler@kde.org</email></address>
 </affiliation>
-</author>
+</othercredit>
+
+<!-- TRANS:ROLES_OF_TRANSLATORS -->
+
+
 </authorgroup>
+
 
 <copyright>
 <year>2001</year>
 <year>2002</year>
 <holder>Scott Wheeler</holder>
 </copyright>
-<!-- <legalnotice>&FDLNotice;</legalnotice> -->
+<legalnotice>&FDLNotice;</legalnotice>
 
 <date>12/07/2002</date>
 <releaseinfo>1.0</releaseinfo>
@@ -49,14 +62,14 @@
 <title>Introduction</title>
 
 <para>
-&juk; is well, a jukebox.  As is typical with many jukebox applications, &juk; 
-allows you to edit the &quot;tags&quot; of the audio files, and do some basic
-management of your collection and playlists.
+&juk; is well, a jukebox.  As is typical with many jukebox
+applications, &juk; allows you to edit the <quote>tags</quote> of the
+audio files, and manage your collection and playlists.
 </para>
 </chapter>
 
-<chapter id="using-kapp">
-<title>Using JuK</title>
+<chapter id="using-juk">
+<title>Using &juk;</title>
 
 <!--
 
@@ -76,15 +89,382 @@ management of your collection and playlists.
 
 -->
 
-<sect1 id="kapp-features">
-<title>More &juk; features</title>
+<para>&juk; maintains a list of all files that it knows about.  This
+is called the <guilabel>Collection List</guilabel>.  The collection
+list is specific to &juk; and is not shared with other
+applications.</para>
 
-<para>
-Nothing to see here, move along.  I thought I would actually try to get around
-to getting &juk; to a usable state before messing with documentation.  ;-)
-</para>
+<para>Independent of the Collection List, are playlists.  You can have
+as many playlists as you want. You can use &juk; created playlists
+with other media players (such as &noatun; or
+<application>xmms</application>) and you can manage playlists created
+in those applications from within &juk;.</para>
+
+<para>You can add files to the Collection List individually, using
+<menuchoice><guimenu>File</guimenu><guimenuitem>Open
+File...</guimenuitem></menuchoice> and selecting them from a standard
+&kde; file dialog.  You can add entire directories using
+<menuchoice><guimenu>File</guimenu><guimenuitem>Open
+Directory...</guimenuitem></menuchoice>.  Directories added this way
+will be rescanned every time you start &juk; and <!-- ask scott -->
+whenever you choose
+<menuchoice><guimenu>View</guimenu><guimenuitem>Redisplay</guimenuitem></menuchoice>.</para>
+
+<para>Adding a song to a playlist will automatically add it's file to
+the Collection List, but adding a file to the collection list won't
+automatically add the song to any playlists.</para>
+
+<para>You can quickly create a playlist from your entire Collection
+List, by &RMB; clicking on the <guilabel>Collection List</guilabel>
+icon, and choosing <guimenuitem>Duplicate</guimenuitem>.  The
+resulting playlist is a normal playlist, and editing it will not
+affect the <guilabel>Collection List</guilabel>.</para>
+
+<para>You can add playlist files created outside &juk; individually by
+selecting them with
+<menuchoice><guimenu>File</guimenu><guimenuitem>Open
+File...</guimenuitem></menuchoice>.  Any playlist files found in
+directories you add with
+<menuchoice><guimenu>File</guimenu><guimenuitem>Open
+Directory...</guimenuitem></menuchoice> will also be added
+automatically.</para>
+
+<para>You can create a new playlist by choosing
+<menuchoice><guimenu>File</guimenu><guimenuitem>New</guimenuitem></menuchoice>
+or the <guiicon>New</guiicon> icon on the toolbar.  You will be
+prompted for a name, and then an icon for that playlist will appear in
+the playlist pane.  You can now drag and drop files from the
+Collection List to your playlist.  Use the <guiicon>Save</guiicon>
+icon or
+<menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice> to
+save the playlist at any time.</para>
+
+
+
+<sect1 id="collection-list-gui">
+<title>The Song List</title>
+
+<para>When you are viewing the Collection List, the main pane contains
+all the files that &juk; knows about.  When you are viewing a
+playlist, only the songs that are in that playlist are shown.  In
+either case, the appearance and behavior of the list is the
+same.</para>
+
+<para>Each song takes one row in the display. There is a column for
+each metadata field that &juk; tracks.  These columns correspond to
+the fields available to edit in the tag editor.</para>
+
+<para>You can reorder the list at any time by &LMB; clicking on the
+column header.  This will first sort the files in ascending order
+based on the contents of that column.  If you &LMB; click again on the
+same header, the files will be re-sorted in descending order.</para>
+
+<para>The columns are initially sized wide enough to show the longest
+entry available. You can resize the columns by placing your mouse
+cursor on the divider between two columns.  When the cursor changes
+from a pointer, &LMB; click and drag in the direction you want to
+resize the columns.</para>
+
+<para>You can reorder the columns by &LMB; clicking on a header and
+dragging the header to the left or right.  You can't drag past the
+edge of the window when doing this however, so you may need to scroll
+a little to the left or right, and repeat dragging the header, until
+you have placed it in your preferred position.</para>
+
+<para>The
+<menuchoice><guimenu>View</guimenu><guisubmenu>Columns</guisubmenu></menuchoice>
+menu allows you to hide (and later unhide) columns you are not
+presently interested in.</para>
+
+<para>&LMB; double clicking on a file will play it with the inbuilt
+player.  If another song was already playing, it will stop, and the
+new song will play.</para>
+
+<para>&RMB; clicking on a file offers you several options:</para>
+
+<variablelist>
+<varlistentry>
+<term><guimenuitem>Cut</guimenuitem></term>
+<term><guimenuitem>Copy</guimenuitem></term>
+<term><guimenuitem>Paste</guimenuitem></term>
+<listitem>
+<para>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Clear</guimenuitem></term>
+<listitem>
+<para>If you are viewing the Collection List, choosing
+<guimenuitem>Clear</guimenuitem> will remove the file from the list,
+and will also remove all corresponding entries for this song from all
+playlists.  You should note that if this file is in a directory that
+&juk; scans on startup, it will be readded to the Collection List the
+next time you start up &juk; but it won't be automatically added to
+any playlists.</para>
+<para>If you are viewing a playlist, <guimenuitem>Clear</guimenuitem>
+will simply remove the song from the playlist.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Remove From Disk</guimenuitem></term>
+<listitem>
+<para>This will remove the file from the Collection List, remove all
+entries for the song in all playlists, and delete the file from your
+disk.  You cannot undo this, although you will be asked to confirm
+your choice.  Use this with caution.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Edit</guimenuitem></term>
+<listitem>
+<para>Will allow you to edit the currently highlighted song, in the
+column you clicked in.  For example, if you do not have the tag editor
+visible, and you are busy creating a playlist, but you notice a
+mis-spelling in an artist name, you can edit it directly with this
+menu item.</para>
+<para>Changes made in this manner are always saved immediately as soon
+as you click elsewhere and are finished editing.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
 
 </sect1>
+
+<sect1 id="juk-tagger">
+<title>The &juk; Tag Editor</title>
+
+<para>For many file formats, it is practical to use the filename to
+describe the contents of the file: <quote><filename>Report for the
+board - June 2003.doc</filename></quote> for example, may be all the
+information you need in order to find that file again.  Trying to
+capture all the useful information about a particular song however,
+could lead to filenames like this: <quote><filename>Type O Negative -
+The Glorious Liberation Of The Peoples Technocratic Republic Of
+Vinnland By The Combined Forces Of The United Territories Of
+Europa.mp3</filename></quote> or <quote><filename>Various
+Artists_15_The Smithsonian Collection of Classic Jazz Volume II_Jimmie
+Lunceford &amp; His Orchestra - Organ Grinder's
+Swing.mp3</filename></quote>.  These are neither very practical to
+use, nor do they contain all of the useful information that you might
+have collected about the song.  Adding the album, and track number,
+for example, to the first would make it even longer and more
+unmanageable, while still not telling you at a glance the year it was
+released, or what style of music it is, if you're not familiar with
+the artist.</para>
+
+<para>The solution then, is to store this kind of metadata inside the
+files themselves. Mp3 and ogg files can also contain small snippets of
+text which you can use to describe the content of the file.  There are
+several formats, but &juk; hides the details of the differences
+between them, and provides a standard way to edit a standard subset of
+well known tags for all your audio files.</para>
+
+<para>&juk;'s full featured tag editor allows you to edit the tags in
+both mp3 and ogg files.  You can edit single files or multiple files,
+and you can select a mix of mp3 and ogg files to edit.  The only
+requirement is that you have write access to the files themselves; you
+cannot edit the tags of a file that is mounted from a &CD-ROM; for
+example.</para>
+
+<sect2 id="tagging-a-single-file">
+<title>Editing the Tags in a Single File</title>
+
+<para>To edit the tag in a single file, select it in either the
+collection list or any entries it has in any playlist.  If the tag
+editor is not visible, enable it by choosing
+<menuchoice><guimenu>View</guimenu><guimenuitem>Show Tag
+Editor</guimenuitem></menuchoice>.  The tag editor displays in the
+bottom of the list view.</para>
+
+<para>Simply type into any of the editable fields to change the
+information.  When you are done, &LMB; click back in the list, and you
+will be prompted to save your changes.</para>
+
+<variablelist>
+<title>Tag Editor Fields</title>
+<varlistentry>
+<term><guilabel>Artist Name:</guilabel></term>
+<listitem>
+<para>The name of the Artist(s) who released the song.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Track name:</guilabel></term>
+<listitem>
+<para>The name of the song.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Album name:</guilabel></term>
+<listitem>
+<para>The name of the album the song was released on.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Genre:</guilabel></term>
+<listitem>
+<para>The <quote>Style</quote> of the music.  &juk; provides a list
+corresponding roughly to the informal id3 standard, but you are free
+to type your own entries in this list.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>File name:</guilabel></term>
+<listitem>
+<para>The file name of the actual file on disk.  You can edit this
+directly, and when you save, the file will be renamed.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Track:</guilabel></term>
+<listitem>
+<para>The position of the track on the original recording.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Year:</guilabel></term>
+<listitem>
+<para>The year the song was released.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Length:</guilabel></term>
+<listitem>
+<para>This is not editable, simply shown for information.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Bitrate:</guilabel></term>
+<listitem>
+<para>This is not editable.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guilabel>Comment:</guilabel></term>
+<listitem>
+<para>You can add your own free text comment here, with additional
+notes &etc;</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>You can explicitly and immediately save your changes at any time
+using the
+<menuchoice><guimenu>Tagger</guimenu><guimenuitem>Save</guimenuitem></menuchoice>
+menu entry or by pressing
+<keycombo>&Ctrl;<keycap>T</keycap></keycombo>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title>Editing the Tags in Multiple Files</title>
+
+<para>You can select multiple files in the list view, and edit one or
+more fields in the tags for all files at once.</para>
+
+<para>Use <keycap>Shift</keycap> and the &LMB; to select a contiguous
+list of files, and &Ctrl; and &LMB; to select individual
+non-contiguous files.</para>
+
+<para>If the tag editor is not visible, you can enable it by choosing
+<menuchoice><guimenu>View</guimenu><guimenuitem>Show Tag
+Editor</guimenuitem></menuchoice>.  The tag editor displays in the
+bottom of the list view.</para>
+
+<para>The tag editor behaves slightly differently when you have
+selected multiple files.</para>
+
+<para>Each field in the tag editor will now show an
+<guilabel>Enable</guilabel> checkbox next to it.  Any field that has
+exactly the same contents for all the files you selected, displays
+that content, and is enabled for editing, with the
+<guilabel>Enable</guilabel> checkbox checked.</para>
+
+<!-- put screeny here -->
+
+<para>Any field that does not have matching contents in all selected
+files is not initially editable, and does not display any contents at
+all.</para>
+
+<para>To change the content of any field, check the
+<guilabel>Enable</guilabel> checkbox if it is not already checked, and
+edit the field as you normally would.</para>
+
+<para>When you are done, &LMB; click back in the list view and you
+will be prompted to save your changes.  The prompt dialog will show
+you a list of the affected files, so you have a chance to check that
+you are indeed altering the files you intended to.</para>
+
+<para>You can explicitly and immediately save your changes at any time
+using the
+<menuchoice><guimenu>Tagger</guimenu><guimenuitem>Save</guimenuitem></menuchoice>
+menu entry or by pressing
+<keycombo>&Ctrl;<keycap>T</keycap></keycombo>.</para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title>Menu and Command Reference</title>
+
+<sect1 id="menus">
+<title>Menus</title>
+
+<para></para>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title>Keybinding Reference</title>
+
+<para></para>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-licenses">
+<title>Credits and Licenses</title>
+
+<para>&juk; Copyright &copy; 2002, 2003 Scott Wheeler.</para>
+
+<para>&juk; is developed and maintained by Scott Wheeler
+<email>wheeler@kde.org</email>.</para>
+
+<para>Many thanks to the following people who have contributed to &juk;:</para>
+
+<itemizedlist>
+<listitem><para>Daniel Molkentin <email>molkentin@kde.org</email> for system tray docking, <quote>inline</quote> tag
+editing, bug fixes, evangelism, moral support.</para>
+</listitem>
+<listitem><para>Tim Jansen <email>tim@tjansen.de</email> for
+the <application>GStreamer</application> port</para>
+</listitem>
+</itemizedlist>
+
+<para>Documentation Copyright &copy; 2003, Lauri Watts.</para>
+
+<!-- TRANS:CREDIT_FOR_TRANSLATORS -->
+
+&underFDL;
+&underGPL;
+
 </chapter>
 
 &documentation.index;
