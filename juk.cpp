@@ -266,7 +266,7 @@ void JuK::setupActions()
     setStandardToolBarMenuEnabled(true);
 
     m_toggleSplashAction =
-	new KToggleAction(i18n("Show Splash Screen on Startup"), "launch",
+	new KToggleAction(i18n("Show Splash Screen on Startup"),
 			  KShortcut(), actions(), "showSplashScreen");
     m_toggleSystemTrayAction =
 	new KToggleAction(i18n("&Dock in System Tray"),
@@ -275,7 +275,7 @@ void JuK::setupActions()
 	new KToggleAction(i18n("&Stay in System Tray on Close"),
 			  KShortcut(), actions(), "dockOnClose");
     m_togglePopupsAction =
-	new KToggleAction(i18n("Popup &Track Announcement"), "info",
+	new KToggleAction(i18n("Popup &Track Announcement"),
 			  KShortcut(), this, 0, actions(), "togglePopups");
 
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)),
