@@ -138,14 +138,15 @@ void JuK::setupActions()
     new KAction(i18n("Delete"), "editdelete", 0, m_splitter, SLOT(slotDeleteSelectedItems()), actionCollection(), "removeItem");
     
     // settings menu
-
     new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this, SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
     new KToggleAction(i18n("Show Tool Bar"), "CTRL+b", this, SLOT(slotToggleToolBar()), actionCollection(), "toggleToolBar");
 
     m_restoreOnLoadAction = new KToggleAction(i18n("Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
 
-    m_toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), 0, actionCollection(), "toggleSystemTray");
+    m_toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), KShortcut(), actionCollection(), "toggleSystemTray");
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(slotToggleSystemTray(bool)));
+
+    m_toggleDockOnCloseAction = new KToggleAction(i18n("Stay in System Tray on Close"), 0, actionCollection(), "dockOnClose");
 
     new KAction(i18n("Genre List Editor..."), 0, this, SLOT(slotShowGenreListEditor()), actionCollection(), "showGenreListEditor");
 
@@ -186,9 +187,13 @@ void JuK::setupSystemTray()
 	    m_systemTray->slotPause();
 	else if(m_player && m_player->playing())
 	    m_systemTray->slotPlay();
+	
+	m_toggleDockOnCloseAction->setEnabled(true);
     }
-    else
+    else {
 	m_systemTray = 0;
+	m_toggleDockOnCloseAction->setEnabled(false);
+    }
 }
 
 void JuK::setupPlayer()
@@ -271,9 +276,13 @@ void JuK::readConfig()
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
+
 	bool dockInSystemTray = config->readBoolEntry("DockInSystemTray", true);
 	m_toggleSystemTrayAction->setChecked(dockInSystemTray);
 	
+	bool dockOnClose = config->readBoolEntry("DockOnClose", true);
+	m_toggleDockOnCloseAction->setChecked(dockOnClose);
+
 	if(m_outputSelectAction)
 	    m_outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
 	
@@ -304,6 +313,8 @@ void JuK::saveConfig()
 	    config->writeEntry("RestoreOnLoad", m_restoreOnLoadAction->isChecked());
 	if(m_toggleSystemTrayAction)
 	    config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
+	if(m_toggleDockOnCloseAction)
+	    config->writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
 	if(m_outputSelectAction)
 	    config->writeEntry("MediaSystem", m_outputSelectAction->currentItem());
     }
@@ -321,7 +332,7 @@ bool JuK::queryExit()
 
 bool JuK::queryClose()
 {
-    if(m_systemTray) {
+    if(m_systemTray && m_toggleDockOnCloseAction->isChecked()) {
 	KMessageBox::information(this,
 				 i18n("<qt>Closing the main window will keep JuK running in the system tray. "
 				      "Use Quit from the File menu to quit the application.</qt>"), 
@@ -547,6 +558,7 @@ void JuK::slotToggleSystemTray(bool enabled)
     else if(!enabled && m_systemTray) {
 	delete m_systemTray;
 	m_systemTray = 0;
+	m_toggleDockOnCloseAction->setEnabled(false);
     }
 }
 
