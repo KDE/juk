@@ -53,7 +53,7 @@ void Cache::save()
 	return;
 
     QByteArray data;
-    CacheDataStream s(data, IO_WriteOnly);
+    QDataStream s(data, IO_WriteOnly);
 
     for(QDictIterator<Tag>it(*this); it.current(); ++it) {
 	s << it.current()->fileName();

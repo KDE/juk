@@ -111,7 +111,7 @@ private:
     QString m_lengthString;
 };
 
-CacheDataStream &operator<<(CacheDataStream &s, const Tag &t);
+QDataStream &operator<<(QDataStream &s, const Tag &t);
 CacheDataStream &operator>>(CacheDataStream &s, Tag &t);
 
 #endif

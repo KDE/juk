@@ -204,7 +204,7 @@ Tag::Tag(const QString &fileName, TagLib::File *file) :
 // related functions
 ////////////////////////////////////////////////////////////////////////////////
 
-CacheDataStream &operator<<(CacheDataStream &s, const Tag &t)
+QDataStream &operator<<(QDataStream &s, const Tag &t)
 {
     s << t.title()
       << t.artist()
