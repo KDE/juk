@@ -23,6 +23,7 @@
 #include <qheader.h>
 #include <qpainter.h>
 #include <qwidgetstack.h>
+#include <qtimer.h>
 
 #include "playlistbox.h"
 #include "playlist.h"
@@ -143,6 +144,9 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
     enableDirWatch(true);
+
+    // Auto-save playlists after 10 minutes
+    QTimer::singleShot(600000, this, SLOT(slotSavePlaylists()));
 }
 
 PlaylistBox::~PlaylistBox()
@@ -335,6 +339,22 @@ void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
     removeName(m_playlistDict[p]->text(0));
     delete m_playlistDict[p];
     m_playlistDict.remove(p);
+}
+
+void PlaylistBox::slotSavePlaylists()
+{
+    kdDebug(65432) << "Auto-saving playlists.\n";
+
+    PlaylistList l;
+    CollectionList *collection = CollectionList::instance();
+    for(QListViewItem *i = firstChild(); i; i = i->nextSibling()) {
+	Item *item = static_cast<Item *>(i);
+	if(item->playlist() && item->playlist() != collection)
+	    l.append(item->playlist());
+    }
+
+    Cache::savePlaylists(l);
+    QTimer::singleShot(600000, this, SLOT(slotSavePlaylists()));
 }
 
 // For the following two function calls, we can forward the slot*Item calls

@@ -105,6 +105,7 @@ private slots:
     void slotShowContextMenu(QListViewItem *, const QPoint &point, int);
     void slotSetViewMode(int index);
     void slotPlaylistDestroyed(Playlist*);
+    void slotSavePlaylists();
 
     void slotAddItem(const QString &tag, unsigned column);
     void slotRemoveItem(const QString &tag, unsigned column);
