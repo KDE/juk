@@ -26,12 +26,12 @@
 
 using namespace ActionCollection;
 
-UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection, int defaultSize, const QString &name) :
+UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection, int defaultSize) :
     Playlist(collection, true),
     m_oldIterator(0),
     m_defaultSize(defaultSize)
 {
-    setName(name);
+    setName(i18n("Play Queue"));
     setAllowDuplicates(true);
     setSorting(-1);
 }

@@ -441,8 +441,7 @@ void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
 
 	m_upcomingPlaylist->initialize();
 
-        setupPlaylist(m_upcomingPlaylist, "upcoming_playlist");
-	raise(m_upcomingPlaylist);
+        setupPlaylist(m_upcomingPlaylist, "today");
     }
     else {
 	action<KToggleAction>("showUpcoming")->setChecked(false);
@@ -673,8 +672,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     historyAction->setCheckedState(i18n("Hide &History"));
 
     KToggleAction *upcomingAction =
-        new KToggleAction(i18n("Show &Upcoming Playlist"), "upcoming_playlist", 0, actions(), "showUpcoming");
-    upcomingAction->setCheckedState(i18n("Hide &Upcoming Playlist"));
+        new KToggleAction(i18n("Show &Play Queue"), "today", 0, actions(), "showUpcoming");
+    upcomingAction->setCheckedState(i18n("Hide &Play Queue"));
 
     connect(action<KToggleAction>("showHistory"), SIGNAL(toggled(bool)),
             this, SLOT(slotSetHistoryPlaylistEnabled(bool)));

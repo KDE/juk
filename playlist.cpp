@@ -610,12 +610,6 @@ void Playlist::markItemSelected(PlaylistItem *item, bool selected)
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void Playlist::slotSetNext()
-{
-    QListViewItemIterator it(this, QListViewItemIterator::Selected);
-    TrackSequenceManager::instance()->setNextItem(static_cast<PlaylistItem *>(it.current()));
-}
-
 void Playlist::copy()
 {
     kapp->clipboard()->setData(dragObject(0), QClipboard::Clipboard);
@@ -1527,9 +1521,7 @@ void Playlist::slotUpdateColumnWidths()
 
 void Playlist::slotAddToUpcoming()
 {
-    if(!m_upcomingPlaylist)
-	return;
-
+    m_collection->setUpcomingPlaylistEnabled(true);
     m_upcomingPlaylist->appendItems(selectedItems());
 }
 
@@ -1547,10 +1539,8 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
 	m_rmbMenu = new KPopupMenu(this);
 
-	m_rmbMenu->insertItem(SmallIconSet("player_play"), i18n("Play Next"),
-			      this, SLOT(slotSetNext()));
-	m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("upcoming_playlist"),
-	    i18n("Add to upcoming tracks"), this, SLOT(slotAddToUpcoming()));
+	m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("today"),
+	    i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
 	m_rmbMenu->insertSeparator();
 
 	if(!readOnly()) {
@@ -1601,12 +1591,6 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 		i18n("Edit '%1'").arg(columnText(column)));
 
     m_rmbMenu->setItemVisible(m_rmbEditID, showEdit);
-    m_rmbMenu->setItemVisible(m_rmbUpcomingID, m_upcomingPlaylist != 0);
-
-    if(this == m_upcomingPlaylist)
-	action("removeItem")->setEnabled(false);
-    else
-	action("removeItem")->setEnabled(true);
 
     // Disable edit menu if only one file is selected, and it's read-only
 

@@ -151,7 +151,7 @@ void JuK::setupActions()
 	new KToggleAction(i18n("Popup &Track Announcement"),
 			  KShortcut(), this, 0, actions(), "togglePopups");
 
-    new KToggleAction(i18n("Save &Upcoming Tracks"),
+    new KToggleAction(i18n("Save &Play Queue"),
                       KShortcut(), this, 0, actions(), "saveUpcomingTracks");
 
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)),

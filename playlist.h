@@ -299,11 +299,6 @@ public slots:
      */
     void slotRemoveSelectedItems() { removeFromDisk(selectedItems()); };
 
-    /**
-     * Set the first selected item to be the next item returned by nextItem().
-     */
-    void slotSetNext();
-
     /*
      * The edit slots are required to use the canonical names so that they are
      * detected by the application wide framework.
@@ -575,7 +570,7 @@ private:
     bool m_widthsDirty;
 
     PlaylistItemList m_randomList;
-//    PlaylistItemList m_history;
+    // PlaylistItemList m_history;
     static PlaylistItemList m_history;
     PlaylistSearch m_search;
     // PlaylistSearch m_albumSearch;
