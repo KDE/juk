@@ -90,7 +90,7 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
 QString CoverInfo::coverLocation(CoverSize size) const
 {
     QString fileName(QFile::encodeName(m_file.tag()->artist() + " - " + m_file.tag()->album()));
-    QRegExp maskedFileNameChars("[ /?:]");
+    QRegExp maskedFileNameChars("[ /?:\"]");
 
     fileName.replace(maskedFileNameChars, "_");
     fileName.append(".png");
