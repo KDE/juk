@@ -1,7 +1,7 @@
 /***************************************************************************
     begin                : Tue Jun 1 2004
     copyright            : (C) 2004 by Michael Pyne
-    email                : pynm0001@comcast.net
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,7 +25,7 @@ class KActionCollection;
  * Abstract base class to define an interface for classes that export
  * PlaylistItem data.
  *
- * @author Michael Pyne <pynm0001@comcast.net>
+ * @author Michael Pyne <michael.pyne@kdemail.net>
  * @see K3bExporter
  */
 class PlaylistExporter : public QObject

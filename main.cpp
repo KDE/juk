@@ -60,7 +60,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit("Matthias Kretz", matthias, "kretz@kde.org");
     aboutData.addCredit("Maks Orlovich", maks, "maksim@kde.org");
     aboutData.addCredit("Antonio Larrosa Jimenez", antonio, "larrosa@kde.org");
-    aboutData.addCredit("Michael Pyne", michael, "pynm0001@comcast.net");
+    aboutData.addCredit("Michael Pyne", michael, "michael.pyne@kdemail.net");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
