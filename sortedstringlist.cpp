@@ -19,18 +19,18 @@
 
 #include "sortedstringlist.h"
 
-class SortedStringList::m_Node 
+class SortedStringList::Node 
 {
 public:
     enum Color { Red, Black };
     
-    m_Node(const QString &value) : key(value), parent(0), left(0), right(0), color(Black) {}
-    ~m_Node() {}
+    Node(const QString &value) : key(value), parent(0), left(0), right(0), color(Black) {}
+    ~Node() {}
     
     QString key;
-    m_Node *parent;
-    m_Node *left;
-    m_Node *right;
+    Node *parent;
+    Node *left;
+    Node *right;
     Color color;
 };
 
@@ -54,19 +54,19 @@ bool SortedStringList::contains(const QString &value) const
     return find(value);
 }
 
-SortedStringList::m_Node *SortedStringList::treeMinimum(m_Node *n) const
+SortedStringList::Node *SortedStringList::treeMinimum(Node *n) const
 {
     while(n->left)
 	n = n->left;
     return n;
 }
 
-SortedStringList::m_Node *SortedStringList::treeSuccessor(m_Node *n) const
+SortedStringList::Node *SortedStringList::treeSuccessor(Node *n) const
 {
     if(n->right)
 	return treeMinimum(n->right);
     
-    m_Node *p = n->parent;
+    Node *p = n->parent;
     
     while(p && n == p->right) {
 	n = p;
@@ -78,13 +78,13 @@ SortedStringList::m_Node *SortedStringList::treeSuccessor(m_Node *n) const
 
 bool SortedStringList::remove(const QString &value)
 {
-    m_Node *n = find(value);
+    Node *n = find(value);
 
     if(!n)
 	return false;
     
-    m_Node *y;
-    m_Node *x;
+    Node *y;
+    Node *x;
 
     if(!n->left || !n->right)
 	y = n;
@@ -127,9 +127,9 @@ QStringList SortedStringList::values() const
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SortedStringList::m_Node *SortedStringList::find(const QString &value) const
+SortedStringList::Node *SortedStringList::find(const QString &value) const
 {
-    m_Node *n = m_root;
+    Node *n = m_root;
     while(n && value != n->key) {
 	if(value < n->key)
 	    n = n->left;
@@ -142,8 +142,8 @@ SortedStringList::m_Node *SortedStringList::find(const QString &value) const
 
 bool SortedStringList::BSTInsert(const QString &value)
 {
-    m_Node *previousNode = 0;
-    m_Node *node = m_root;
+    Node *previousNode = 0;
+    Node *node = m_root;
     
     while(node) {
 	previousNode = node;
@@ -156,7 +156,7 @@ bool SortedStringList::BSTInsert(const QString &value)
     if(previousNode && value == previousNode->key)
 	return true;
 
-    m_Node *n = new m_Node(value);
+    Node *n = new Node(value);
 
     n->parent = previousNode;
 
@@ -172,7 +172,7 @@ bool SortedStringList::BSTInsert(const QString &value)
     return false;
 }
 
-void SortedStringList::traverse(const m_Node *n, QStringList &list) const
+void SortedStringList::traverse(const Node *n, QStringList &list) const
 {
     if(!n)
 	return;

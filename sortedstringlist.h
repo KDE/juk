@@ -39,21 +39,21 @@ public:
     QStringList values() const;
 
 private:
-    class m_Node;
+    class Node;
 
-    m_Node *find(const QString &value) const;
+    Node *find(const QString &value) const;
     /**
      * The insertion implementation.  Returns true if the item was already 
      * present in the list.
      */
     bool BSTInsert(const QString &value);
-    void traverse(const m_Node *n, QStringList &list) const;
+    void traverse(const Node *n, QStringList &list) const;
 
-    m_Node *treeMinimum(m_Node *n) const;
-    m_Node *treeSuccessor(m_Node *n) const;
+    Node *treeMinimum(Node *n) const;
+    Node *treeSuccessor(Node *n) const;
 
 
-    m_Node *m_root;
+    Node *m_root;
 };
 
 #endif
