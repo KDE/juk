@@ -73,8 +73,9 @@ signals:
     void currentChanged(Playlist *);
     void doubleClicked();
 
-private:
+public: // private: I hate you moc!
     class Item;
+private:
     friend class Item;
 
     void save(Item *item);
