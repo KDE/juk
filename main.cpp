@@ -49,7 +49,7 @@ static KCmdLineOptions options[] =
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", I18N_NOOP("JuK"),
-                         VERSION, description, KAboutData::License_GPL,
+                         "1.1", description, KAboutData::License_GPL,
                          "(c) 2002, 2003, Scott Wheeler", 0, 0, "wheeler@kde.org");
 
     aboutData.addAuthor("Scott Wheeler", scott, "wheeler@kde.org");
