@@ -324,6 +324,14 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
         else
             return 0;
 	break;
+    case CoverColumn:
+        if(firstItem->d->fileHandle.coverInfo()->hasCover() == secondItem->d->fileHandle.coverInfo()->hasCover())
+            return 0;
+        else if (firstItem->d->fileHandle.coverInfo()->hasCover())
+            return -1;
+        else
+            return 1;
+        break;
     default:
 	return strcoll(firstItem->d->local8Bit[column - offset],
 		       secondItem->d->local8Bit[column - offset]);
