@@ -27,7 +27,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *donorPlayli
     CollectionList *collection = CollectionList::instance();
 
     if(files.isEmpty())
-	return;
+        return;
 
     QString changedTag = i18n("artist");
     if(m_columnType == PlaylistItem::GenreColumn)
@@ -37,7 +37,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *donorPlayli
 
     if(KMessageBox::warningContinueCancelList(
            this,
-	   i18n("You are about to change the %1 on these files.").arg(changedTag),
+           i18n("You are about to change the %1 on these files.").arg(changedTag),
            files,
            i18n("Changing track tags"),
            KStdGuiItem::cont(),
@@ -72,18 +72,18 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *donorPlayli
         }
 
         tag->save();
-	item->refresh();
+        item->refresh();
 
-	DynamicPlaylist *dynPlaylist = dynamic_cast<DynamicPlaylist *>(donorPlaylist);
-	if(dynPlaylist) {
-	    dynPlaylist->slotSetDirty();
-	    static_cast<QWidget*>(dynPlaylist)->update();
-	}
-	else {
-	    PlaylistItem *donorItem = item->itemForPlaylist(donorPlaylist);
-	    if(donorItem)
-		donorItem->repaint();
-	}
+        DynamicPlaylist *dynPlaylist = dynamic_cast<DynamicPlaylist *>(donorPlaylist);
+        if(dynPlaylist) {
+            dynPlaylist->slotSetDirty();
+            static_cast<QWidget*>(dynPlaylist)->update();
+        }
+        else {
+            PlaylistItem *donorItem = item->itemForPlaylist(donorPlaylist);
+            if(donorItem)
+                donorItem->repaint();
+        }
 
         kapp->processEvents();
     }
