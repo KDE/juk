@@ -41,7 +41,7 @@ Tag *Tag::createTag(const QString &file, bool ignoreCache)
         return cachedItem;
 
     KMimeType::Ptr result = KMimeType::findByURL(file, 0, true /* local file */);
-    if(result->name() == "application/octet-stream")
+    if(result->name() == KMimeType::defaultMimeType())
         return 0;
 
     if(result->name() == "audio/x-mp3")
