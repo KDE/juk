@@ -104,6 +104,8 @@ private slots:
     void slotStop();
     void slotBack();
     void slotForward();
+    void slotSeekBack();
+    void slotSeekForward();
 
     // settings menu
     void slotShowGenreListEditor();

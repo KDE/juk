@@ -237,13 +237,15 @@ void JuK::setupPlayer()
 void JuK::setupGlobalAccels()
 {
     m_accel = new KGlobalAccel(this);
-    KeyDialog::insert(m_accel, "PlayPause",  i18n("Play/Pause"),   this, SLOT(slotPlayPause()));
-    KeyDialog::insert(m_accel, "Stop",       i18n("Stop Playing"), this, SLOT(slotStop()));
-    KeyDialog::insert(m_accel, "Back",       i18n("Back"),         this, SLOT(slotBack()));
-    KeyDialog::insert(m_accel, "Forward",    i18n("Forward"),      this, SLOT(slotForward()));
-    KeyDialog::insert(m_accel, "VolumeUp",   i18n("Volume Up"),    this, SLOT(slotVolumeUp()));
-    KeyDialog::insert(m_accel, "VolumeDown", i18n("Volume Down"),  this, SLOT(slotVolumeDown()));
-    KeyDialog::insert(m_accel, "Mute",       i18n("Mute"),         this, SLOT(slotVolumeMute()));
+    KeyDialog::insert(m_accel, "PlayPause",  i18n("Play/Pause"),        this, SLOT(slotPlayPause()));
+    KeyDialog::insert(m_accel, "Stop",       i18n("Stop Playing"),      this, SLOT(slotStop()));
+    KeyDialog::insert(m_accel, "Back",       i18n("Back"),              this, SLOT(slotBack()));
+    KeyDialog::insert(m_accel, "Forward",    i18n("Forward"),           this, SLOT(slotForward()));
+    KeyDialog::insert(m_accel, "SeekBack",   i18n("Seek Back"),         this, SLOT(slotSeekBack()));
+    KeyDialog::insert(m_accel, "SeekForward",i18n("Seek Forward"),      this, SLOT(slotSeekForward()));
+    KeyDialog::insert(m_accel, "VolumeUp",   i18n("Volume Up"),         this, SLOT(slotVolumeUp()));
+    KeyDialog::insert(m_accel, "VolumeDown", i18n("Volume Down"),       this, SLOT(slotVolumeDown()));
+    KeyDialog::insert(m_accel, "Mute",       i18n("Mute"),              this, SLOT(slotVolumeMute()));
 
     m_accel->setConfigGroup("Shortcuts");
     m_accel->readSettings();
@@ -572,6 +574,20 @@ void JuK::slotBack()
 void JuK::slotForward()
 {
     play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
+}
+
+void JuK::slotSeekBack()
+{
+    int position = m_sliderAction->getTrackPositionSlider()->value();
+    position = QMAX(m_sliderAction->getTrackPositionSlider()->minValue(), position - 10);
+    emit m_sliderAction->getTrackPositionSlider()->setValue(position);
+}
+
+void JuK::slotSeekForward()
+{
+    int position = m_sliderAction->getTrackPositionSlider()->value();
+    position = QMIN(m_sliderAction->getTrackPositionSlider()->maxValue(), position + 10);
+    emit m_sliderAction->getTrackPositionSlider()->setValue(position);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
