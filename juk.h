@@ -46,6 +46,7 @@ private:
     void setupActions();
     void setupLayout();
     void setupPlayer();
+    void processArgs();
     void readConfig();
     void saveConfig();
 

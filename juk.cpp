@@ -19,6 +19,7 @@
 #include <keditcl.h>
 #include <kfiledialog.h>
 #include <kiconloader.h>
+#include <kcmdlineargs.h>
 #include <kdebug.h>
 
 #include "juk.h"
@@ -33,6 +34,7 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name)
     setupLayout();
     setupPlayer();
     readConfig();
+    processArgs();
 }
 
 JuK::~JuK()
@@ -121,6 +123,18 @@ void JuK::setupPlayer()
 
         connect(sliderAction->getVolumeSlider(), SIGNAL(valueChanged(int)), this, SLOT(setVolume(int)));
     }
+}
+
+void JuK::processArgs()
+{
+    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    QStringList files;
+    
+    for(int i = 0; i < args->count(); i++)
+	files.append(args->arg(i));
+
+    if(tagger)
+	tagger->add(files);
 }
 
 void JuK::readConfig()

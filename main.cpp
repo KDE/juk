@@ -30,19 +30,19 @@ I18N_NOOP("JuK is a jukebox and tagger for KDE. \n"
 
 static KCmdLineOptions options[] =
 {
+    { "+[file(s)]", I18N_NOOP("File(s) to open"), 0 },
     { 0, 0, 0 }
-    // INSERT YOUR COMMANDLINE OPTIONS HERE
 };
 
 int main(int argc, char *argv[])
 {
-
     KAboutData aboutData("juk", I18N_NOOP("JuK"),
                          VERSION, description, KAboutData::License_GPL,
                          "(c) 2002, Scott Wheeler", 0, 0, "scott@slackorama.net");
+
     aboutData.addAuthor("Scott Wheeler", 0, "scott@slackorama.net");
-    KCmdLineArgs::init( argc, argv, &aboutData );
-    KCmdLineArgs::addCmdLineOptions( options ); // Add our own options.
+    KCmdLineArgs::init(argc, argv, &aboutData);
+    KCmdLineArgs::addCmdLineOptions(options);
 
     KApplication a;
     JuK *juk = new JuK();
