@@ -28,6 +28,7 @@
 #include "slideraction.h"
 #include "statuslabel.h"
 #include "actioncollection.h"
+#include "tag.h"
 
 #include "config.h"
 
@@ -146,6 +147,14 @@ int PlayerManager::position() const
     return player()->position();
 }
 
+QString PlayerManager::playingString() const
+{
+    if(!playing())
+        return QString::null;
+
+    return m_file.tag()->artist() + " - " + m_file.tag()->title();
+}
+
 void PlayerManager::setPlaylistInterface(PlaylistInterface *interface)
 {
     m_playlistInterface = interface;
@@ -187,15 +196,16 @@ void PlayerManager::play(const FileHandle &file)
             player()->seekPosition(0);
         }
         else {
-            FileHandle currentFile = m_playlistInterface->currentFile();
+            m_file = m_playlistInterface->currentFile();
 
-            if(!currentFile.isNull()) {
-                player()->play(currentFile);
-                m_statusLabel->setPlayingItemInfo(currentFile, m_playlistInterface);
+            if(!m_file.isNull()) {
+                player()->play(m_file);
+                m_statusLabel->setPlayingItemInfo(m_file, m_playlistInterface);
             }
         }
     }
     else {
+        m_file = file;
         player()->play(file);
         m_statusLabel->setPlayingItemInfo(file, m_playlistInterface);
     }
@@ -260,6 +270,8 @@ void PlayerManager::stop()
     m_statusLabel->clear();
 
     player()->stop();
+
+    m_file = FileHandle::null();
 
     emit signalStop();
 }

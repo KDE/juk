@@ -51,6 +51,8 @@ public:
     int currentTime() const;
     int position() const;
 
+    QString playingString() const;
+
     void setPlaylistInterface(PlaylistInterface *interface);
     void setStatusLabel(StatusLabel *label);
 
@@ -92,6 +94,7 @@ private slots:
 private:
     static PlayerManager *m_instance;
 
+    FileHandle m_file;
     SliderAction *m_sliderAction;
     PlaylistInterface *m_playlistInterface;
     StatusLabel *m_statusLabel;

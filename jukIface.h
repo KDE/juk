@@ -33,7 +33,7 @@ k_dcop:
     virtual void seek(int time) = 0;
     // virtual void startPlayingPlaylist() = 0;
 
-    // virtual QString playingString() const = 0;
+    virtual QString playingString() const = 0;
     virtual int currentTime() const = 0;
     virtual int totalTime() const = 0;
 };
