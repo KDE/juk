@@ -173,6 +173,13 @@ public:
      */
     Playlist *createPlaylist(const QString &name, bool raise = true);
 
+    /**
+     * This can be used to turn on or off scanning for new files.  This is
+     * presently used so that the file renamer can temporariy disable searching
+     * for new files while it performs the rename.
+     */
+    void setDirWatchEnabled(bool enabled);
+
 public slots:
 
 // File slots

@@ -44,6 +44,7 @@
 #include "mediafiles.h"
 #include "collectionlist.h"
 #include "filerenamer.h"
+#include "juk.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
@@ -537,13 +538,25 @@ void Playlist::slotRefresh()
 
 void Playlist::slotRenameFile()
 {
+    // TODO: find a less dirty hack for signaling disabling of the file
+    // renamer that doesn't involve going through these layers of indirection.
+
+    JuK *mainWindow = dynamic_cast<JuK *>(kapp->mainWidget());
+
+    Q_ASSERT(mainWindow);
+
+    if(mainWindow)
+	mainWindow->setDirWatchEnabled(false);
+
     FileRenamer renamer;
     PlaylistItemList items = selectedItems();
-    if(items.count() == 1) {
-        renamer.rename(items[0]);
-    } else {
-        renamer.rename(items);
-    }
+    if(items.count() == 1)
+	renamer.rename(items[0]);
+    else
+	renamer.rename(items);
+
+    if(mainWindow)
+	mainWindow->setDirWatchEnabled(true);
 }
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)

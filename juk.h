@@ -67,6 +67,12 @@ public slots:
     void volumeDown();
     void volumeMute();
 
+    /**
+     * This forwards on the request to enable or disable directory scanning for
+     * new files being added or removed.
+     */
+    void setDirWatchEnabled(bool enabled) { m_splitter->setDirWatchEnabled(enabled); }
+
 signals:
     void signalEdit();
     void signalNewSong(const QString& songTitle);

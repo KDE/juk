@@ -329,6 +329,14 @@ Playlist *PlaylistSplitter::createPlaylist(const QString &name, bool raise)
     return p;
 }
 
+void PlaylistSplitter::setDirWatchEnabled(bool enabled)
+{
+    if(enabled)
+	m_dirWatch.startScan();
+    else
+	m_dirWatch.stopScan();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
