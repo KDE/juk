@@ -45,7 +45,7 @@ static KCmdLineOptions options[] =
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", I18N_NOOP("JuK"),
-                         "2.0.99", description, KAboutData::License_GPL,
+                         "2.1", description, KAboutData::License_GPL,
                          "(c) 2002 - 2004, Scott Wheeler", 0,
                          "http://developer.kde.org/~wheeler/juk.html");
 
