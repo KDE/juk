@@ -380,7 +380,7 @@ PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
 
 QString Playlist::name() const
 {
-    if(m_playlistName == QString::null)
+    if(m_playlistName.isNull())
 	return m_playlistFileName.section(QDir::separator(), -1).section('.', 0, -2);
     else
 	return m_playlistName;
@@ -545,7 +545,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
 void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-    e->accept( KURLDrag::canDecode( e ) );
+    e->accept(KURLDrag::canDecode(e));
 }
 
 void Playlist::showEvent(QShowEvent *e)

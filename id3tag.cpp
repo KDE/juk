@@ -96,7 +96,7 @@ ID3Tag::ID3Tag(const QString &file) : Tag(file), m_fileName(file), m_changed(fal
 
     // parse the genre string for (<ID3v1 number>)
 
-    if(m_tagGenre == "(" + QString::number(m_tagGenre.getID3v1()) + ")" || m_tagGenre == QString::null)
+    if(m_tagGenre == "(" + QString::number(m_tagGenre.getID3v1()) + ")" || m_tagGenre.isNull())
         m_tagGenre = GenreListList::ID3v1List().ID3v1Name(m_tagGenre.getID3v1());
     else if(m_tagGenre.find(QRegExp("\\([0-9]+\\)")) == 0)
         m_tagGenre = m_tagGenre.mid(m_tagGenre.find(")") + 1);
