@@ -338,6 +338,9 @@ PlaylistItemList PlaylistCollection::selectedItems()
 void PlaylistCollection::scanFolders()
 {
     CollectionList::instance()->addFiles(m_folderList, m_importPlaylists);
+
+    if(CollectionList::instance()->count() == 0)
+        addFolder();
 }
 
 void PlaylistCollection::createPlaylist()
