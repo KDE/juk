@@ -162,7 +162,18 @@ void PlaylistCollection::rename()
 
 void PlaylistCollection::duplicate()
 {
+    bool ok;
 
+    QString name = KInputDialog::getText(
+        i18n("Duplicate"),
+        i18n("Please enter a name for this playlist:"),
+	uniquePlaylistName(currentPlaylist()->name()),
+	&ok);
+
+    if(!ok)
+        return;
+
+    raise(new Playlist(this, currentPlaylist()->items(), name));
 }
 
 void PlaylistCollection::save()
