@@ -155,7 +155,6 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
     copyImage(bgImage, fgImage, (bgImage.width() - fgImage.width()) / 2,
               (bgImage.height() - fgImage.height()) / 2);
 
-    bgImage.setAlphaBuffer (true);
     bgPix.convertFromImage (bgImage);
     return bgPix;
 }
