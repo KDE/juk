@@ -51,6 +51,32 @@ const Tag *PlaylistItem::tag() const
     return m_data->tag();
 }
 
+QString PlaylistItem::text(int column) const
+{
+    switch(column) {
+    case TrackColumn:
+	return m_data->tag()->track();
+    case ArtistColumn:
+	return m_data->tag()->artist();
+    case AlbumColumn:
+	return m_data->tag()->album();
+    case TrackNumberColumn:
+	return m_data->tag()->trackNumberString();
+    case GenreColumn:
+	return m_data->tag()->genre().name();
+    case YearColumn:
+	return m_data->tag()->yearString();
+    case LengthColumn:
+	return m_data->tag()->lengthString();
+    case CommentColumn:
+	return m_data->tag()->comment();
+    case FileNameColumn:
+	return m_data->tag()->absFilePath();
+    default:
+	return QString::null;
+    }
+}
+
 // Some forwarding methods - these can't be inlined because the Data class
 // isn't defined yet.
 
@@ -195,9 +221,8 @@ void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int
     QListViewItem::paintCell(p, colorGroup, column, width, align);
 }
 
-void PlaylistItem::setText(int column, const QString &text)
+void PlaylistItem::setText(int column, const QString &)
 {
-    KListViewItem::setText(column, text);
     emit signalColumnWidthChanged(column);
 }
 
@@ -273,26 +298,7 @@ bool PlaylistItem::isValid() const
 
 void PlaylistItem::slotRefreshImpl()
 {
-    // This should be the only function that needs to be rewritten if the structure of
-    // PlaylistItemData changes.
-
     int offset = static_cast<Playlist *>(listView())->columnOffset();
-
-    setText(TrackColumn + offset,       tag()->track());
-    setText(ArtistColumn + offset,      tag()->artist());
-    setText(AlbumColumn + offset,       tag()->album());
-    setText(TrackNumberColumn + offset, tag()->trackNumberString());
-    setText(GenreColumn + offset,       tag()->genre().name());
-    setText(YearColumn + offset,        tag()->yearString());
-    setText(LengthColumn + offset,      tag()->lengthString());
-    setText(FileNameColumn + offset,    filePath());
-
-    QString shortComment = tag()->comment().simplifyWhiteSpace();
-    if(shortComment.length() > 50)
-	shortComment = shortComment.left(47) + "...";
-
-    setText(CommentColumn + offset, shortComment);
-
     int columns = lastColumn() + offset + 1;
     m_data->setColumns(columns);
 

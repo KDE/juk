@@ -78,6 +78,7 @@ public:
     Tag *tag();
     const Tag *tag() const;
 
+    virtual QString text(int column) const;
 
     // These are just forwarding methods to PlaylistItem::Data, a QFileInfo
     // subclass.
