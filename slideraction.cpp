@@ -25,6 +25,24 @@
 #include "slideraction.h"
 
 ////////////////////////////////////////////////////////////////////////////////
+// convenience class
+////////////////////////////////////////////////////////////////////////////////
+
+class TrackPositionSlider : public QSlider
+{
+public:
+    TrackPositionSlider(QWidget *parent, const char *name) : QSlider(parent, name) {}
+    
+protected:
+    void mousePressEvent(QMouseEvent *e) {
+	if(e->button() == LeftButton)
+	    QSlider::mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, e->pos(), MidButton, e->state()));
+	else if(e->button() == MidButton)
+	    QSlider::mousePressEvent(new QMouseEvent(QEvent::MouseButtonPress, e->pos(), LeftButton, e->state()));
+    }
+};
+
+////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -90,7 +108,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 
 	layout = new QBoxLayout(base, QBoxLayout::TopToBottom, 5, 5);
 
-        trackPositionSlider = new QSlider(base, "trackPositionSlider");
+        trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
         trackPositionSlider->setMaxValue(1000);
         QToolTip::add(trackPositionSlider, i18n("Track Position"));
         layout->addWidget(trackPositionSlider);

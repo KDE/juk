@@ -296,12 +296,13 @@ void JuK::playFile()
     if(player.paused()) {
         player.play();
         if(player.playing()) {
-            playAction->setEnabled(false);
             pauseAction->setEnabled(true);
             stopAction->setEnabled(true);
             playTimer->start(pollInterval);
         }
     }
+    else if(player.playing())
+	player.seekPosition(0);
     else if(splitter) {
         PlaylistItemList items = splitter->playlistSelection();
         if(items.count() > 0)
@@ -315,7 +316,6 @@ void JuK::pauseFile()
 {
     playTimer->stop();
     player.pause();
-    playAction->setEnabled(true);
     pauseAction->setEnabled(false);
 }
 
@@ -323,7 +323,6 @@ void JuK::stopFile()
 {
     playTimer->stop();
     player.stop();
-    playAction->setEnabled(true);
     pauseAction->setEnabled(false);
     stopAction->setEnabled(false);
     sliderAction->getTrackPositionSlider()->setValue(0);
@@ -420,7 +419,6 @@ void JuK::playItem(PlaylistItem *item)
         float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());
         player.play(playingItem->absFilePath(), volume);
         if(player.playing()) {
-            playAction->setEnabled(false);
             pauseAction->setEnabled(true);
             stopAction->setEnabled(true);
             sliderAction->getTrackPositionSlider()->setEnabled(true);

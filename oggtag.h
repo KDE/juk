@@ -18,6 +18,8 @@
 #ifndef OGGTAG_H
 #define OGGTAG_H
 
+#include <qfileinfo.h>
+
 #include "tag.h"
 
 class OggTag : public Tag
@@ -71,6 +73,7 @@ private:
      */
     void writeCommentItem(const QString &key, int value);
     
+    QFileInfo fileInfo;
     KFileMetaInfo metaInfo;
     KFileMetaInfoGroup commentGroup;
 };

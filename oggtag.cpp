@@ -29,6 +29,7 @@
 
 OggTag::OggTag(const QString &file) : Tag(file)
 {
+    fileInfo.setFile(file);
     metaInfo = KFileMetaInfo(file);
     commentGroup = KFileMetaInfoGroup(metaInfo.group("Comment"));
 }
@@ -53,7 +54,12 @@ bool OggTag::hasTag() const
 
 QString OggTag::track() const
 {
-    return readCommentString("Title");
+    QString s = readCommentString("Title");
+
+    if(s.stripWhiteSpace().isEmpty())
+	s = fileInfo.baseName();
+
+    return(s);
 }
 
 QString OggTag::artist() const
