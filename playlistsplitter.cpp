@@ -422,6 +422,13 @@ void PlaylistSplitter::readConfig()
     { // block for Playlists group
 	KConfigGroupSaver saver(config, "Playlists");
 
+	QValueList<int> splitterSizes = config->readIntListEntry("PlaylistSplitterSizes");
+	if(splitterSizes.isEmpty()) {
+	    splitterSizes.append(100);
+	    splitterSizes.append(640);
+	}
+	setSizes(splitterSizes);
+	
 	if(restore) {
 
 	    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
@@ -510,6 +517,8 @@ void PlaylistSplitter::saveConfig()
 		l.append(int(_visibleColumns[i]));
 	    
 	    config->writeEntry("VisibleColumns", l);
+
+	    config->writeEntry("PlaylistSplitterSizes", sizes());
 	}
     }
 }

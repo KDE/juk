@@ -88,6 +88,8 @@ void JuK::setupLayout()
     updatePlaylistInfo();
 
     splitter->setFocus();
+
+    setFixedSize(750, 500);
 }
 
 void JuK::setupActions()
