@@ -46,6 +46,7 @@ FileNameScheme::FileNameScheme(const QString &s)
 
 bool FileNameScheme::matches(const QString &fileName) const
 {
+    if ( m_regExp.exactMatch( fileName ) ) qDebug( "'%s' matches", m_regExp.pattern().latin1() );
     return m_regExp.exactMatch(fileName);
 }
 
@@ -117,9 +118,6 @@ QStringList TagGuesser::schemeStrings()
         schemes = cfg->readListEntry( "Filename schemes" );
     }
     if ( schemes.isEmpty() ) {
-        schemes += "%a/%A/[%T] %t [%c]";
-        schemes += "%a/%A/[%T] %t (%c)";
-        schemes += "%a/%A/[%T] %t";
         schemes += "%a - (%T) - %t [%c]";
         schemes += "%a - (%T) - %t (%c)";
         schemes += "%a - (%T) - %t";
@@ -144,6 +142,9 @@ QStringList TagGuesser::schemeStrings()
         schemes += "%a - %t [%c]";
         schemes += "%a - %t (%c)";
         schemes += "%a - %t";
+        schemes += "%a/%A/[%T] %t [%c]";
+        schemes += "%a/%A/[%T] %t (%c)";
+        schemes += "%a/%A/[%T] %t";
     }
     return schemes;
 }
