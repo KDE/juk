@@ -487,73 +487,78 @@ int PlaylistBox::Item::compare(QListViewItem *i, int col, bool) const
 
 void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGroup, int column, int width, int align)
 {
-    if(width > pixmap(column)->width()) {
-	QFontMetrics fm = painter->fontMetrics();
-    
-	QString line = m_text;
-	int baseWidth = pixmap(column)->width() + listView()->itemMargin() * 4;
+    if(width < pixmap(column)->width())
+	return;
 
-	switch(static_cast<PlaylistBox *>(listView())->viewMode()) {
-	case Compact:
-	{
-	    if(baseWidth + fm.width(line) > width) {
-		int ellipsisLength = fm.width("...");
+    QFontMetrics fm = painter->fontMetrics();
+    
+    QString line = m_text;
+    
+    switch(static_cast<PlaylistBox *>(listView())->viewMode()) {
+    case Compact:
+    {
+	int baseWidth = pixmap(column)->width() + listView()->itemMargin() * 4;
+	if(baseWidth + fm.width(line) > width) {
+	    int ellipsisLength = fm.width("...");
+	    if(width > baseWidth + ellipsisLength) {
 		while(baseWidth + fm.width(line) + ellipsisLength > width)
 		    line.truncate(line.length() - 1);
 		line = line.append("...");
 	    }
-	    KListViewItem::setText(column, line);
-	    KListViewItem::paintCell(painter, colorGroup, column, width, align);
-	    break;
-	}
-	default:
-	{
-	    QStringList lines;
-	    while(!line.isEmpty()) {
-		int textLength = line.length();
-		while(textLength > 0 && 
-		      fm.width(line.mid(0, textLength).stripWhiteSpace()) + listView()->itemMargin() * 2 > width)
-		{
-		    int i = line.findRev(QRegExp( "\\W"), textLength - 1);
-		    if(i > 0)
-			textLength = i;
-		    else
-			textLength--;
-		}
-		
-		lines.append(line.mid(0, textLength).stripWhiteSpace());
-		line = line.mid(textLength);
-	    }
-
-	    int y = listView()->itemMargin();
-	    const QPixmap *pm = pixmap(column);
-
-	    int height = 3 * listView()->itemMargin() + pm->height() + 
-		(fm.height() - fm.descent()) * lines.count();
-
-	    if(isSelected()) {
-		painter->fillRect(0, 0, width, height, colorGroup.brush(QColorGroup::Highlight));
-		painter->setPen(colorGroup.highlightedText());
-	    }
 	    else
-		painter->eraseRect(0, 0, width, height);
+		line = "...";
+	}
+	KListViewItem::setText(column, line);
+	KListViewItem::paintCell(painter, colorGroup, column, width, align);
+	break;
+    }
+    default:
+    {
+	QStringList lines;
+	while(!line.isEmpty()) {
+	    int textLength = line.length();
+	    while(textLength > 0 && 
+		  fm.width(line.mid(0, textLength).stripWhiteSpace()) + listView()->itemMargin() * 2 > width)
+	    {
+		int i = line.findRev(QRegExp( "\\W"), textLength - 1);
+		if(i > 0)
+		    textLength = i;
+		else
+		    textLength--;
+	    }
 	    
-	    if (!pm->isNull()) {
-		int x = (width - pm->width()) / 2;
-		x = QMAX(x, listView()->itemMargin());
-		painter->drawPixmap(x, y, *pm);
-	    }
-	    y += pm->height() + fm.height() - fm.descent();
-	    for(QStringList::Iterator it = lines.begin(); it != lines.end(); ++it) {
-		int x = (width - fm.width(*it)) / 2;
-		x = QMAX(x, listView()->itemMargin());
-		painter->drawText(x, y, *it);
-		y += fm.height() - fm.descent();
-	    }
-	    setHeight(height);
-	    break;
+	    lines.append(line.mid(0, textLength).stripWhiteSpace());
+	    line = line.mid(textLength);
 	}
+	
+	int y = listView()->itemMargin();
+	const QPixmap *pm = pixmap(column);
+	
+	int height = 3 * listView()->itemMargin() + pm->height() + 
+	    (fm.height() - fm.descent()) * lines.count();
+	
+	if(isSelected()) {
+	    painter->fillRect(0, 0, width, height, colorGroup.brush(QColorGroup::Highlight));
+	    painter->setPen(colorGroup.highlightedText());
 	}
+	else
+	    painter->eraseRect(0, 0, width, height);
+	
+	if (!pm->isNull()) {
+	    int x = (width - pm->width()) / 2;
+	    x = QMAX(x, listView()->itemMargin());
+	    painter->drawPixmap(x, y, *pm);
+	}
+	y += pm->height() + fm.height() - fm.descent();
+	for(QStringList::Iterator it = lines.begin(); it != lines.end(); ++it) {
+	    int x = (width - fm.width(*it)) / 2;
+	    x = QMAX(x, listView()->itemMargin());
+	    painter->drawText(x, y, *it);
+	    y += fm.height() - fm.descent();
+	}
+	setHeight(height);
+	break;
+    }
     }
 }
 
