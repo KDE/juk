@@ -776,7 +776,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
 
     if(retrieveLocal) {
         KURL file = KFileDialog::getImageOpenURL(
-	    ":homedir", this, i18n("Select cover image file - JuK"));
+	    ":homedir", this, i18n("Select Cover Image File"));
         image = QImage(file.directory() + "/" + file.fileName());
     }
     else {

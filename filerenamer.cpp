@@ -368,7 +368,7 @@ void FileRenamerWidget::createTagRows()
         toggleMapper->connect(m_rows[i].enableButton, SIGNAL(toggled(bool)), SLOT(map()));
         toggleMapper->setMapping(m_rows[i].enableButton, m_rows[i].category);
 
-        KPushButton *optionsButton = new KPushButton(i18n("Options..."), options);
+        KPushButton *optionsButton = new KPushButton(i18n("Options"), options);
         mapper->connect(optionsButton, SIGNAL(clicked()), SLOT(map()));
         mapper->setMapping(optionsButton, m_rows[i].category);
 
@@ -379,7 +379,7 @@ void FileRenamerWidget::createTagRows()
             QWidget *temp = new QWidget(m_mainFrame);
             QHBoxLayout *l = new QHBoxLayout(temp);
 
-            m_folderSwitches[i] = new QCheckBox(i18n("Insert Folder Separator"), temp);
+            m_folderSwitches[i] = new QCheckBox(i18n("Insert folder separator"), temp);
             l->addWidget(m_folderSwitches[i], 0, AlignCenter);
 
             connect(m_folderSwitches[i], SIGNAL(toggled(bool)),

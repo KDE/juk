@@ -52,7 +52,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
 
     QHBox *imgSize = new QHBox(actionButton(User1)->parentWidget());
     QLabel *label = new QLabel(imgSize);
-    label->setText(i18n("Image Size: "));
+    label->setText(i18n("Image size:"));
 
     KComboBox *combo = new KComboBox(imgSize);
     combo->insertItem(i18n("All Sizes"));
@@ -193,18 +193,18 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KURL &url) const
 // CoverIconViewItem
 ////////////////////////////////////////////////////////////////////////////////
 
-CoverIconViewItem::CoverIconViewItem(QIconView *parent, const GoogleImage &image) : 
+CoverIconViewItem::CoverIconViewItem(QIconView *parent, const GoogleImage &image) :
     QObject(parent), KIconViewItem(parent, parent->lastItem(), image.size()), m_job(0)
 {
     // Set up the iconViewItem
-    
+
     QPixmap mainMap;
     mainMap.resize(80, 80);
     mainMap.fill();
     setPixmap(mainMap, true, true);
-    
+
     // Start downloading the image.
-    
+
     m_job = KIO::get(image.thumbURL(), false, false);
     connect(m_job, SIGNAL(result(KIO::Job *)), this, SLOT(imageResult(KIO::Job *)));
     connect(m_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
@@ -237,7 +237,7 @@ void CoverIconViewItem::imageResult(KIO::Job *job)
     m_job = 0; // Job has deleted itself
     if(job->error())
         return;
-    
+
     QPixmap iconImage(m_buffer);
     iconImage = QImage(iconImage.convertToImage()).smoothScale(80, 80);
     setPixmap(iconImage, true, true);
