@@ -19,7 +19,7 @@
 #define KEYDIALOG_H
 
 #include <kdeversion.h>
-#if KDE_VERSION > KDE_MAKE_VERSION(3,1,0)
+#if KDE_IS_VERSION(3,1,90)
 #    include <kactioncollection.h>
 #else
 #    include <kaction.h>
