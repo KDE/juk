@@ -157,7 +157,7 @@ void JuK::saveConfig()
 void JuK::openFile()
 {
   QStringList files = KFileDialog::getOpenFileNames(QString::null, "*.mp3|MPEG Audio (*.mp3)");
-  tagger->add(&files);
+  tagger->add(files);
 }
 
 void JuK::openDirectory()
@@ -212,12 +212,14 @@ void JuK::showPlaylist()
 
 void JuK::addToPlaylist()
 {
-  playlist->add(tagger->getSelectedItems());
+  QPtrList<QListViewItem> items(tagger->getSelectedItems());
+  playlist->add(items);
 }
 
 void JuK::removeFromPlaylist()
 {
-  playlist->remove(playlist->getSelectedItems());
+  QPtrList<QListViewItem> items(tagger->getSelectedItems());
+  playlist->remove(items);
 }
 
 void JuK::playFile()
@@ -232,8 +234,9 @@ void JuK::playFile()
     }
   }
   else if(playlist) {
-    if(playlist->getSelectedItems()->count() > 0)
-      playItem(dynamic_cast<FileListItem *>(playlist->getSelectedItems()->at(0)));
+    QPtrList<QListViewItem> items(tagger->getSelectedItems());
+    if(items.count() > 0)
+      playItem(dynamic_cast<FileListItem *>(items.at(0)));
     else
       playItem(playlist->firstItem());
   }

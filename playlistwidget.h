@@ -32,14 +32,14 @@ public:
   ~PlaylistWidget();
 
   void add(QString item);
-  void add(QStringList *items);
+  void add(QStringList &items);
   void add(FileListItem *item);
-  void add(QPtrList<QListViewItem> *items);
+  void add(QPtrList<QListViewItem> &items);
 
-  void remove(QPtrList<QListViewItem> *items);
+  void remove(QPtrList<QListViewItem> &items);
 
   FileList *getPlaylistList();
-  QPtrList<QListViewItem> *getSelectedItems();
+  QPtrList<QListViewItem> getSelectedItems();
   FileListItem *firstItem();
 private:
   void setupLayout();

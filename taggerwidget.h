@@ -33,17 +33,18 @@
 class TaggerWidget : public QWidget
 {
   Q_OBJECT
+
 public: 
   TaggerWidget(QWidget *parent);
   ~TaggerWidget();
 
   void add(QString item);
-  void add(QStringList *items);
+  void add(QStringList &items);
 
   FileList *getTaggerList();
   
   //  FileListItem *getSelectedItem();
-  QPtrList<QListViewItem> *getSelectedItems();
+  QPtrList<QListViewItem> getSelectedItems();
 
 public slots:
   void save();

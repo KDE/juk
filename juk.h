@@ -38,7 +38,7 @@ class JuK : public KMainWindow
 {
   Q_OBJECT 
 public:
-  JuK(QWidget* parent=0, const char *name=0);
+  JuK(QWidget* parent = 0, const char *name = 0);
   ~JuK();
 
 private: 
@@ -55,9 +55,15 @@ private:
 
   // actions
   SliderAction *sliderAction;  
-  KAction *playAction, *pauseAction, *stopAction;
-  KAction *showTaggerAction, *showPlaylistAction;
-  KAction *addToPlaylistAction, *removeFromPlaylistAction;
+  KAction *playAction;
+  KAction *pauseAction;
+  KAction *stopAction;
+
+  KAction *showTaggerAction;
+  KAction *showPlaylistAction;
+
+  KAction *addToPlaylistAction;
+  KAction *removeFromPlaylistAction;
 
   QTimer *playTimer;
   Player player;

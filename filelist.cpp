@@ -36,14 +36,14 @@ FileList::FileList(QWidget *parent, const char *name) : KListView(parent, name)
   setup();
 }
 
-FileList::FileList(QString item, QWidget *parent, const char *name) : KListView(parent, name)
+FileList::FileList(QString &item, QWidget *parent, const char *name) : KListView(parent, name)
 {
   processed = 0;
   setup();
   append(item);
 }
 
-FileList::FileList(QStringList *items, QWidget *parent, const char *name) : KListView(parent, name)
+FileList::FileList(QStringList &items, QWidget *parent, const char *name) : KListView(parent, name)
 {
   setup();
   append(items);
@@ -61,10 +61,10 @@ void FileList::append(QString item)
   emit(dataChanged());
 }
 
-void FileList::append(QStringList *items)
+void FileList::append(QStringList &items)
 {
   QApplication::setOverrideCursor(Qt::waitCursor);
-  for(QStringList::Iterator it = items->begin(); it != items->end(); ++it)
+  for(QStringList::Iterator it = items.begin(); it != items.end(); ++it)
     appendImpl(*it);
   QApplication::restoreOverrideCursor();
   emit(dataChanged());
@@ -79,9 +79,9 @@ void FileList::append(FileListItem *item)
   emit(dataChanged());
 }
 
-void FileList::append(QPtrList<QListViewItem> *items)
+void FileList::append(QPtrList<QListViewItem> &items)
 {
-  QPtrListIterator<QListViewItem> it(*items);
+  QPtrListIterator<QListViewItem> it(items);
   while(it.current()) {
     append(dynamic_cast<FileListItem *>(it.current()));
     ++it;
@@ -89,9 +89,9 @@ void FileList::append(QPtrList<QListViewItem> *items)
   // the emit(dataChanged()) is handled in the above function
 }
 
-void FileList::remove(QPtrList<QListViewItem> *items)
+void FileList::remove(QPtrList<QListViewItem> &items)
 {
-  QPtrListIterator<QListViewItem> it(*items);
+  QPtrListIterator<QListViewItem> it(items);
   while(it.current()) {
     members.remove(static_cast<FileListItem *>(it.current())->absFilePath());
     delete(it.current());    

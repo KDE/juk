@@ -41,14 +41,17 @@ TaggerWidget::TaggerWidget(QWidget *parent) : QWidget(parent)
   readConfig();
 }
 
-TaggerWidget::~TaggerWidget() {}
+TaggerWidget::~TaggerWidget()
+{
+
+}
 
 void TaggerWidget::add(QString item)
 {
   taggerList->append(item);
 }
 
-void TaggerWidget::add(QStringList *items)
+void TaggerWidget::add(QStringList &items)
 {
   taggerList->append(items);
 }
@@ -58,9 +61,9 @@ FileList *TaggerWidget::getTaggerList()
   return(taggerList);
 }
 
-QPtrList<QListViewItem> *TaggerWidget::getSelectedItems()
+QPtrList<QListViewItem> TaggerWidget::getSelectedItems()
 {
-  return(new QPtrList<QListViewItem>(taggerList->selectedItems()));
+  return(taggerList->selectedItems());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

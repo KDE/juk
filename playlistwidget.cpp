@@ -43,7 +43,7 @@ void PlaylistWidget::add(QString item)
   playlistList->append(item);
 }
 
-void PlaylistWidget::add(QStringList *items)
+void PlaylistWidget::add(QStringList &items)
 {
   playlistList->append(items);
 }
@@ -53,26 +53,24 @@ void PlaylistWidget::add(FileListItem *item)
   playlistList->append(item);
 }
 
-void PlaylistWidget::add(QPtrList<QListViewItem> *items)
+void PlaylistWidget::add(QPtrList<QListViewItem> &items)
 {
   playlistList->append(items);
 }
 
-void PlaylistWidget::remove(QPtrList<QListViewItem> *items)
+void PlaylistWidget::remove(QPtrList<QListViewItem> &items)
 {
   playlistList->remove(items);
 }
-
-
 
 FileList *PlaylistWidget::getPlaylistList()
 {
   return(playlistList);
 }
 
-QPtrList<QListViewItem> *PlaylistWidget::getSelectedItems()
+QPtrList<QListViewItem> PlaylistWidget::getSelectedItems()
 {
-  return(new QPtrList<QListViewItem>(playlistList->selectedItems()));
+  return(playlistList->selectedItems());
 }
 
 FileListItem *PlaylistWidget::firstItem()

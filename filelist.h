@@ -29,16 +29,16 @@ class FileList : public KListView
   Q_OBJECT
 public: 
   FileList(QWidget *parent = 0, const char *name = 0);
-  FileList(QString item, QWidget *parent = 0, const char *name = 0);
-  FileList(QStringList *items, QWidget *parent = 0, const char *name = 0);
+  FileList(QString &item, QWidget *parent = 0, const char *name = 0);
+  FileList(QStringList &items, QWidget *parent = 0, const char *name = 0);
   ~FileList();
 
   void append(QString item);
-  void append(QStringList *items);
+  void append(QStringList &items);
   void append(FileListItem *item);
-  void append(QPtrList<QListViewItem> *items);
+  void append(QPtrList<QListViewItem> &items);
 
-  void remove(QPtrList<QListViewItem> *items);
+  void remove(QPtrList<QListViewItem> &items);
   
   FileListItem *getSelectedItem();
 
