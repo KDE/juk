@@ -47,7 +47,6 @@ MusicBrainzQuery::MusicBrainzQuery(QueryType query, const QStringList &args,
 void MusicBrainzQuery::start()
 {
     if(m_query == File) {
-#if HAVE_TRM
 #if KDE_IS_VERSION(3,1,90)
         KProcess *process = new KProcess(this);
 #else
@@ -62,10 +61,11 @@ void MusicBrainzQuery::start()
         connect(process, SIGNAL(processExited(KProcess *)),
                 SLOT(slotTrmGenerationFinished(KProcess *)));
 
-        process->start(KProcess::NotifyOnExit, KProcess::AllOutput);
-#else
-        emit signalDone(TrackList());
-#endif
+        bool started = process->start(KProcess::NotifyOnExit, KProcess::AllOutput);
+	if(!started) {
+	    kdDebug(65432) << "trm utility could not be started." << endl;
+	    emit signalDone();
+	}
     }
     else
         QTimer::singleShot(0, this, SLOT(slotQuery()));

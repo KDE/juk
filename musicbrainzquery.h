@@ -103,8 +103,8 @@ public:
     void start();
 
 signals:
-    void signalDone(const MusicBrainzQuery::AlbumList &);
-    void signalDone(const MusicBrainzQuery::TrackList &);
+    void signalDone(const AlbumList & = AlbumList());
+    void signalDone(const TrackList &);
 
 private slots:
     void slotQuery();
