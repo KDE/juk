@@ -123,9 +123,8 @@ public:
 
     int count() const { return childCount(); }
 
-    /**
-     * This gets the next item to be played.  This is static because often we
-     * know about the playing item, but not to which list it belongs.
+    /** 
+     * This gets the next item to be played.
      */
     PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
     PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
@@ -253,6 +252,13 @@ private:
     QPtrStack<PlaylistItem> m_history;
 
     QString m_fileName;
+    
+    /**
+     * Used to store the text for inline editing before it is changed so that 
+     * we can know if something actually changed and as such if we need to save
+     * the tag.
+     */
+    QString m_editText;
 
     /**
      * This is only defined if the playlist name is something other than the

@@ -745,6 +745,7 @@ void Playlist::setup()
     // hide some columns by default
     //////////////////////////////////////////////////
 
+    
     hideColumn(PlaylistItem::CommentColumn);
     hideColumn(PlaylistItem::FileNameColumn);
 
@@ -860,6 +861,8 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
 void Playlist::slotRenameTag()
 {
+    // kdDebug(65432) << "Playlist::slotRenameTag()" << endl;
+
     // setup completions and validators
 
     CollectionList *list = CollectionList::instance();
@@ -885,12 +888,14 @@ void Playlist::slotRenameTag()
 
     edit->setCompletionMode(KGlobalSettings::CompletionAuto);
 
+    m_editText = currentItem()->text(m_currentColumn);
+
     rename(currentItem(), m_currentColumn);
 }
 
 void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
 {
-    //kdDebug(65432) << "Applying " << text << " at column " << column << ", replacing \"" << item->text(column) << "\"" << endl;
+    // kdDebug(65432) << "Applying " << text << " at column " << column << ", replacing \"" << item->text(column) << "\"" << endl;
 
     PlaylistItem *i = static_cast<PlaylistItem *>(item);
 
@@ -932,8 +937,10 @@ void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
 
 void Playlist::slotApplyModification(QListViewItem *item, const QString &text, int column)
 {
-	if (item->text(column) == text)
-		return;
+    // kdDebug(65432) << "Playlist::slotApplyModification()" << endl;
+    
+    if(text == m_editText)
+	return;
 
     QPtrList<QListViewItem> selectedSongs = KListView::selectedItems();
     if (selectedSongs.count() > 1)
