@@ -47,10 +47,12 @@ public:
     virtual FileHandle currentFile() const;
     virtual int count() const;
     virtual int time() const;
-    virtual void playFirst();
     virtual void playNext();
     virtual void playPrevious();
     virtual void stop();
+
+    // Play the top item of the current playlist
+    void playFirst();
 
     void open(const QStringList &files = QStringList());
     void addFolder();

@@ -35,7 +35,6 @@ public:
     virtual int time() const = 0;
     virtual int count() const = 0;
 
-    virtual void playFirst() = 0;
     virtual void playNext() = 0;
     virtual void playPrevious() = 0;
     virtual void stop() = 0;

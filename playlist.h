@@ -71,10 +71,12 @@ public:
     virtual FileHandle currentFile() const;
     virtual int count() const { return childCount(); }
     virtual int time() const;
-    virtual void playFirst();
     virtual void playNext();
     virtual void playPrevious();
     virtual void stop();
+
+    // Plays the top item of the playlist.
+    void playFirst();
 
     /**
      * Saves the file to the currently set file name.  If there is no filename
