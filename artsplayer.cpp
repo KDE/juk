@@ -152,7 +152,7 @@ bool ArtsPlayer::paused() const
         return false;
 }
 
-long ArtsPlayer::totalTime() const
+int ArtsPlayer::totalTime() const
 {
     if(serverRunning() && m_playobject)
         return m_playobject->overallTime().seconds;
@@ -160,7 +160,7 @@ long ArtsPlayer::totalTime() const
         return -1;
 }
 
-long ArtsPlayer::currentTime() const
+int ArtsPlayer::currentTime() const
 {
     if(serverRunning() && m_playobject &&
        (m_playobject->state() == Arts::posPlaying ||
@@ -190,7 +190,7 @@ int ArtsPlayer::position() const
 // player seek functions
 /////////////////////////////////////////////////////////////////////////////////
 
-void ArtsPlayer::seek(long seekTime)
+void ArtsPlayer::seek(int seekTime)
 {
     if(serverRunning() && m_playobject) {
         Arts::poTime poSeekTime;

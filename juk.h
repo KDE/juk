@@ -23,9 +23,9 @@
 #include <kmainwindow.h>
 #include <kpopupmenu.h>
 
-
 #include "playermanager.h"
 #include "playlistsplitter.h"
+#include "jukIface.h"
 
 class QTimer;
 class QListViewItem;
@@ -34,7 +34,7 @@ class SliderAction;
 class StatusLabel;
 class SystemTray;
 
-class JuK : public KMainWindow
+class JuK : public KMainWindow, public CollectionIface
 {
     Q_OBJECT
 

@@ -45,11 +45,11 @@ public:
     virtual bool playing() const;
     virtual bool paused() const;
 
-    virtual long totalTime() const;
-    virtual long currentTime() const;
+    virtual int totalTime() const;
+    virtual int currentTime() const;
     virtual int position() const; // in this case not really the percent
 
-    virtual void seek(long seekTime);
+    virtual void seek(int seekTime);
     virtual void seekPosition(int position);
 
 public slots:

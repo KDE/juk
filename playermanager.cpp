@@ -69,7 +69,8 @@ static Player *createPlayer(int system = ArtsBackend)
 ////////////////////////////////////////////////////////////////////////////////
 
 PlayerManager::PlayerManager() :
-    QObject(0, "PlayerManager"),
+    Player(),
+    DCOPObject("Player"),
     m_sliderAction(0),
     m_playlistInterface(0),
     m_statusLabel(0),
@@ -121,7 +122,7 @@ float PlayerManager::volume() const
     return player()->volume();
 }
 
-long PlayerManager::totalTime() const
+int PlayerManager::totalTime() const
 {
     if(!player())
         return 0;
@@ -129,7 +130,7 @@ long PlayerManager::totalTime() const
     return player()->totalTime();
 }
 
-long PlayerManager::currentTime() const
+int PlayerManager::currentTime() const
 {
     if(!player())
         return 0;
@@ -216,6 +217,11 @@ void PlayerManager::play(const FileHandle &file)
     m_timer->start(m_pollInterval);
 }
 
+void PlayerManager::play()
+{
+    play(FileHandle::null());
+}
+
 void PlayerManager::pause()
 {
     if(!player())
@@ -260,7 +266,7 @@ void PlayerManager::setVolume(float volume)
     player()->setVolume(volume);
 }
 
-void PlayerManager::seek(long seekTime)
+void PlayerManager::seek(int seekTime)
 {
     if(!player())
         return;
@@ -414,7 +420,7 @@ void PlayerManager::slotUpdateTime(int position)
 
     float positionFraction = float(position) / m_sliderAction->trackPositionSlider()->maxValue();
     float totalTime = float(player()->totalTime());
-    long seekTime = long(positionFraction * totalTime + 0.5); // "+0.5" for rounding
+    int seekTime = int(positionFraction * totalTime + 0.5); // "+0.5" for rounding
 
     m_statusLabel->setItemCurrentTime(seekTime);
 }

@@ -18,21 +18,22 @@
 #ifndef PLAYERMANAGER_H
 #define PLAYERMANAGER_H
 
+#include "player.h"
 #include "filehandle.h"
+#include "jukIface.h"
 
 class QTimer;
 class KSelectAction;
 class SliderAction;
 class StatusLabel;
 class PlaylistInterface;
-class Player;
 
 /**
  * This class serves as a proxy to the Player interface and handles managing
  * the actions from the top-level mainwindow.
  */
 
-class PlayerManager : public QObject
+class PlayerManager : public Player, public PlayerIface
 {
     Q_OBJECT
 
@@ -46,8 +47,8 @@ public:
     bool playing() const;
     bool paused() const;
     float volume() const;
-    long totalTime() const;
-    long currentTime() const;
+    int totalTime() const;
+    int currentTime() const;
     int position() const;
 
     void setPlaylistInterface(PlaylistInterface *interface);
@@ -57,11 +58,12 @@ public:
 
 public slots:
 
-    void play(const FileHandle &file = FileHandle::null());
+    void play(const FileHandle &file);
+    void play();
     void pause();
     void stop();
     void setVolume(float volume = 1.0);
-    void seek(long seekTime);
+    void seek(int seekTime);
     void seekPosition(int position);
     void seekForward();
     void seekBack();

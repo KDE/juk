@@ -38,11 +38,11 @@ public:
     virtual bool playing() const = 0;
     virtual bool paused() const = 0;
 
-    virtual long totalTime() const = 0;
-    virtual long currentTime() const = 0;
+    virtual int totalTime() const = 0;
+    virtual int currentTime() const = 0;
     virtual int position() const = 0; // in this case not really the percent
 
-    virtual void seek(long seekTime) = 0;
+    virtual void seek(int seekTime) = 0;
     virtual void seekPosition(int position) = 0;
 
 protected:

@@ -96,12 +96,12 @@ bool GStreamerPlayer::paused() const
     return m_player->getState() == Element::STATE_PAUSED;
 }
 
-long GStreamerPlayer::totalTime() const
+int GStreamerPlayer::totalTime() const
 {
     return m_durationNs / 1000000000L;
 }
 
-long GStreamerPlayer::currentTime() const
+int GStreamerPlayer::currentTime() const
 {
     return m_positionNs / 1000000000L;
 }
@@ -118,7 +118,7 @@ int GStreamerPlayer::position() const
 // m_player seek functions
 /////////////////////////////////////////////////////////////////////////////////
 
-void GStreamerPlayer::seek(long seekTime)
+void GStreamerPlayer::seek(int seekTime)
 {
     // seek time in seconds?
     m_player->seekToTime(seekTime*1000000000);
