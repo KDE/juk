@@ -193,6 +193,8 @@ void PlaylistCollection::open(const QStringList &l)
     if(files.isEmpty())
         files = MediaFiles::openDialog(widget);
 
+    if(files.isEmpty())
+        return;
 
     if(currentPlaylist() == CollectionList::instance() ||
        KMessageBox::questionYesNo(
