@@ -232,8 +232,12 @@ PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
 
     if(random && !m_history.isEmpty())
 	return m_history.pop();
-    else
-	return static_cast<PlaylistItem *>(current->itemAbove());
+    else {
+        if(!current->itemAbove())
+            return current;
+        else
+            return static_cast<PlaylistItem *>(current->itemAbove());
+    }
 }
 
 QString Playlist::name() const
