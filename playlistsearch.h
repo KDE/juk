@@ -46,7 +46,9 @@ public:
     PlaylistItemList searchedItems() const { return m_items; }
     PlaylistItemList matchedItems() const { return m_matchedItems; }
     PlaylistItemList unmatchedItems() const { return m_unmatchedItems; }
-    
+
+    PlaylistList playlists() const { return m_playlists; }
+
 private:
     void search();
 

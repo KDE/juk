@@ -10,7 +10,8 @@ juk_SOURCES = directorylistbase.ui genrelisteditorbase.ui \
 	genrelistlist.cpp genrelist.cpp genre.cpp player.cpp tag.cpp customaction.cpp \
 	slideraction.cpp keydialog.cpp juk.cpp main.cpp tagguesser.cpp \
 	tagguesserconfigdlgwidget.ui tagguesserconfigdlg.cpp jukIface.skel \
-	playlistsearch.cpp searchwidget.cpp filerenamer.cpp
+	playlistsearch.cpp searchwidget.cpp filerenamer.cpp dynamicplaylist.cpp \
+	searchplaylist.cpp
 
 tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp
 
