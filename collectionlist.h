@@ -70,6 +70,8 @@ public:
 
     void emitVisibleColumnsChanged() { emit signalVisibleColumnsChanged(); }
 
+    virtual void clearItems(const PlaylistItemList &items);
+
 public slots:
     virtual void paste() { decode(kapp->clipboard()->data()); }
     virtual void clear();

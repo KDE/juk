@@ -77,6 +77,16 @@ PlaylistItem *CollectionList::createItem(const FileHandle &file, QListViewItem *
     return item;
 }
 
+void CollectionList::clearItems(const PlaylistItemList &items)
+{
+    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+	Cache::instance()->remove((*it)->file());
+	clearItem(*it, false);
+    }
+
+    emit signalCountChanged(this);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,24 +99,7 @@ void CollectionList::clear()
 	     "Note, however, that if the directory that these files are in is in "
 	     "your \"scan on startup\" list, they will be readded on startup."));
     if(result == KMessageBox::Yes) {
-
-        // We're taking code from Playlist::clear() here.
-
-	PlaylistItemList l = selectedItems();
-
-	if(l.isEmpty())
-	    l = items();
-
-	// We need to remove the items from the Cache.  Rather ugly hack,
-	// unfortunately.
-
-	PlaylistItemList::Iterator it = l.begin();
-	for(; it != l.end(); ++it)
-	    Cache::instance()->remove((*it)->file());
-
-	// Now clear the items like normal.
-
-	clearItems(l);
+	Playlist::clear();
 	emit signalCollectionChanged();
     }
 }
