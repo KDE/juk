@@ -21,13 +21,13 @@
 #include <qstring.h>
 
 #include "player.h"
-
+#include <kdemacros.h>
 namespace aKode {
     class File;
     class Player;
 }
 
-class aKodePlayer : public Player
+class KDE_EXPORT aKodePlayer : public Player
 {
     Q_OBJECT
 
