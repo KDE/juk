@@ -62,6 +62,7 @@ public:
     virtual void setCanDeletePlaylist(bool canDelete);
 
     Item *dropItem() const { return m_dropItem; }
+    Playlist *visiblePlaylist() const;
 
 public slots:
     void paste();

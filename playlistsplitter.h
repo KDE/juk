@@ -55,7 +55,7 @@ private:
      * This returns a pointer to the first item in the playlist on the top
      * of the QWidgetStack of playlists.
      */
-    Playlist *visiblePlaylist() const { return m_playlistBox->currentPlaylist(); }
+    Playlist *visiblePlaylist() const { return m_playlistBox->visiblePlaylist(); }
 
     void setupActions();
     void setupLayout();
