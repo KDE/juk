@@ -1,0 +1,155 @@
+<!DOCTYPE UI><UI version="3.2" stdsetdef="1">
+<class>JukAppletBase</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>JukAppletBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>128</width>
+            <height>257</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>JuK Applet</string>
+    </property>
+    <vbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <property name="margin">
+            <number>2</number>
+        </property>
+        <property name="spacing">
+            <number>2</number>
+        </property>
+        <widget class="QLayoutWidget">
+            <property name="name">
+                <cstring>layout1</cstring>
+            </property>
+            <property name="font">
+                <font>
+                    <pointsize>8</pointsize>
+                </font>
+            </property>
+            <grid>
+                <property name="name">
+                    <cstring>unnamed</cstring>
+                </property>
+                <widget class="QToolButton" row="0" column="4">
+                    <property name="name">
+                        <cstring>toolButton5</cstring>
+                    </property>
+                    <property name="font">
+                        <font>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>&gt;</string>
+                    </property>
+                </widget>
+                <widget class="QToolButton" row="0" column="1">
+                    <property name="name">
+                        <cstring>toolButton3</cstring>
+                    </property>
+                    <property name="font">
+                        <font>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>&lt;</string>
+                    </property>
+                </widget>
+                <widget class="QToolButton" row="0" column="0">
+                    <property name="name">
+                        <cstring>toolButton2</cstring>
+                    </property>
+                    <property name="font">
+                        <font>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>|&lt;</string>
+                    </property>
+                </widget>
+                <widget class="QToolButton" row="0" column="2" rowspan="1" colspan="2">
+                    <property name="name">
+                        <cstring>toolButton4</cstring>
+                    </property>
+                    <property name="font">
+                        <font>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>|&gt;</string>
+                    </property>
+                </widget>
+                <widget class="QToolButton" row="0" column="5">
+                    <property name="name">
+                        <cstring>toolButton6</cstring>
+                    </property>
+                    <property name="font">
+                        <font>
+                        </font>
+                    </property>
+                    <property name="text">
+                        <string>&gt;|</string>
+                    </property>
+                </widget>
+            </grid>
+        </widget>
+        <widget class="QListBox">
+            <property name="name">
+                <cstring>m_playList</cstring>
+            </property>
+        </widget>
+    </vbox>
+</widget>
+<connections>
+    <connection>
+        <sender>toolButton2</sender>
+        <signal>clicked()</signal>
+        <receiver>JukAppletBase</receiver>
+        <slot>slotSkipFirst()</slot>
+    </connection>
+    <connection>
+        <sender>toolButton3</sender>
+        <signal>clicked()</signal>
+        <receiver>JukAppletBase</receiver>
+        <slot>slotSkipBack()</slot>
+    </connection>
+    <connection>
+        <sender>toolButton4</sender>
+        <signal>clicked()</signal>
+        <receiver>JukAppletBase</receiver>
+        <slot>slotPlayPause()</slot>
+    </connection>
+    <connection>
+        <sender>toolButton5</sender>
+        <signal>clicked()</signal>
+        <receiver>JukAppletBase</receiver>
+        <slot>slotSkipForward()</slot>
+    </connection>
+    <connection>
+        <sender>toolButton6</sender>
+        <signal>clicked()</signal>
+        <receiver>JukAppletBase</receiver>
+        <slot>slotSkipLast()</slot>
+    </connection>
+</connections>
+<includes>
+    <include location="local" impldecl="in implementation">juk_applet_base.ui.h</include>
+</includes>
+<slots>
+    <slot>slotSkipFirst()</slot>
+    <slot>slotSkipBack()</slot>
+    <slot>slotPlayPause()</slot>
+    <slot>slotSkipForward()</slot>
+    <slot>slotSkipLast()</slot>
+    <slot>slotToggleShuffle( bool )</slot>
+    <slot>slotToggleRepeat( bool )</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+</UI>
