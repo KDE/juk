@@ -177,7 +177,7 @@ void JuK::setupActions()
     createSplitterAction(i18n("Save As..."),      SLOT(slotSaveAsPlaylist()),    "file_save_as", "filesaveas");
     createSplitterAction(i18n("R&emove"),         SLOT(slotDeletePlaylist()),    "deleteItemPlaylist", "edittrash");
     createSplitterAction(i18n("Reload"),          SLOT(slotReloadPlaylist()),    "reloadPlaylist", "reload");
-    createSplitterAction(i18n("Edit Search"),     SLOT(slotEditSearch()),        "editSearch", "editclear");
+    createSplitterAction(i18n("Edit Search..."),  SLOT(slotEditSearch()),        "editSearch", "editclear");
 
     KStdAction::quit(this, SLOT(slotQuit()), actions());
 
