@@ -19,7 +19,6 @@
 #define SEARCHPLAYLIST_H
 
 #include "dynamicplaylist.h"
-#include "playlistsearch.h"
 
 class SearchPlaylist : public DynamicPlaylist
 {

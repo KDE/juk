@@ -18,7 +18,6 @@
 #ifndef PLAYLISTSEARCH_H
 #define PLAYLISTSEARCH_H
 
-#include <qvaluelist.h>
 #include <qregexp.h>
 
 class Playlist;

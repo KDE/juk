@@ -18,7 +18,6 @@
 #ifndef SORTEDSTRINGLIST_H
 #define SORTEDSTRINGLIST_H
 
-#include <qstring.h>
 #include <qstringlist.h>
 
 class SortedStringList 

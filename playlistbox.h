@@ -20,9 +20,7 @@
 
 #include <klistview.h>
 
-#include <qwidgetstack.h>
 #include <qptrdict.h>
-#include <qmap.h>
 
 class Playlist;
 class PlaylistItem;

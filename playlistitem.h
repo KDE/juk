@@ -22,8 +22,6 @@
 
 #include <klistview.h>
 
-#include <qfileinfo.h>
-#include <qobject.h>
 #include <qptrstack.h>
 #include <qptrdict.h>
 #include <qvaluevector.h>

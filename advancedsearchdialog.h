@@ -20,7 +20,6 @@
 
 #include <kdialogbase.h>
 
-#include "playlistsearch.h"
 
 class KLineEdit;
 class KPushButton;

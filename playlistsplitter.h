@@ -21,14 +21,11 @@
 #include <kfiledialog.h>
 #include <klocale.h>
 
-#include <qsplitter.h>
 #include <qwidgetstack.h>
 
 #include "playlistbox.h"
 #include "collectionlist.h"
-#include "stringhash.h"
 #include "tageditor.h"
-#include "tagguesser.h"
 #include "playlistinterface.h"
 
 class KActionMenu;

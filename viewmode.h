@@ -20,8 +20,6 @@
 
 #include <klocale.h>
 
-#include <qobject.h>
-#include <qstring.h>
 #include <qdict.h>
 
 #include "playlistbox.h"

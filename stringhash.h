@@ -18,7 +18,6 @@
 #ifndef STRINGHASH_H
 #define STRINGHASH_H
 
-#include <qstring.h>
 #include <qstringlist.h>
 #include <qptrvector.h>
 

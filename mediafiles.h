@@ -18,7 +18,6 @@
 #ifndef MEDIAFILES_H
 #define MEDIAFILES_H
 
-#include <qstringlist.h>
 
 /**
  * A namespace for file JuK's file related functions.  The goal is to hide

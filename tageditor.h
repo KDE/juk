@@ -18,8 +18,6 @@
 #ifndef TAGEDITOR_H
 #define TAGEDITOR_H
 
-#include <qwidget.h>
-#include <qmap.h>
 
 class KComboBox;
 class KLineEdit;

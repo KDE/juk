@@ -19,8 +19,6 @@
 #define KEYDIALOG_H
 
 #include <kdeversion.h>
-#include <kactioncollection.h>
-#include <kdialogbase.h>
 #include <kglobalaccel.h>
 #include <kkeydialog.h>
 

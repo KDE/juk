@@ -15,15 +15,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kaction.h>
 #include <kcmdlineargs.h>
 #include <kstatusbar.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 
-#include <qmetaobject.h>
 #include <qslider.h>
-#include <qmime.h>
 
 #include "juk.h"
 #include "slideraction.h"
@@ -33,7 +30,6 @@
 #include "keydialog.h"
 #include "tagguesserconfigdlg.h"
 #include "filerenamerconfigdlg.h"
-#include "playermanager.h"
 #include "actioncollection.h"
 
 using namespace ActionCollection;

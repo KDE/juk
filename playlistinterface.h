@@ -18,7 +18,6 @@
 #ifndef PLAYLISTINTERFACE_H
 #define PLAYLISTINTERFACE_H
 
-#include <qstring.h>
 
 /**
  * This is a simple interface that should be used by things that implement a

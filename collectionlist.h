@@ -22,7 +22,6 @@
 #include <kdirwatch.h>
 
 #include <qclipboard.h>
-#include <qdict.h>
 
 #include "playlist.h"
 #include "playlistitem.h"

@@ -8,7 +8,6 @@
 #ifndef JUK_MBTEST_H
 #define JUK_MBTEST_H
 
-#include "musicbrainzquery.h"
 
 class TestMB : public QObject {
   Q_OBJECT

@@ -10,7 +10,6 @@
 #define TAGGUESSER_H
 
 #include <qregexp.h>
-#include <qstringlist.h>
 
 class FileNameScheme
 {

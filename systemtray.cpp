@@ -15,19 +15,15 @@
  ***************************************************************************/
 
 #include <kiconloader.h>
-#include <kpopupmenu.h>
 #include <kpassivepopup.h>
-#include <kaction.h>
 #include <kiconeffect.h>
 #include <kdebug.h>
 
 #include <qhbox.h>
 #include <qpushbutton.h>
 #include <qtooltip.h>
-#include <qpainter.h>
 
 #include "systemtray.h"
-#include "playermanager.h"
 #include "actioncollection.h"
 #include "juk.h"
 

@@ -18,10 +18,7 @@
 #ifndef TAG_H
 #define TAG_H
 
-#include <kfilemetainfo.h>
 
-#include <qstring.h>
-#include <qdatetime.h>
 #include <qfileinfo.h>
 
 namespace TagLib { class File; }

@@ -20,7 +20,6 @@
 
 #include <kaction.h>
 
-#include <qobject.h>
 
 // Many months after writing this, despite having felt rather clever at the time
 // I am now rather convinced that this is The Wrong Way (tm) to have handled

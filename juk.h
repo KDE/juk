@@ -20,16 +20,12 @@
 
 #include <kaction.h>
 #include <kglobalaccel.h>
-#include <kstdaction.h>
 #include <kmainwindow.h>
-#include <kmenubar.h>
 #include <kpopupmenu.h>
 
-#include <qlabel.h>
 
 #include "playermanager.h"
 #include "playlistsplitter.h"
-#include "jukIface.h"
 
 class QTimer;
 class QListViewItem;

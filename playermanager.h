@@ -18,7 +18,6 @@
 #ifndef PLAYERMANAGER_H
 #define PLAYERMANAGER_H
 
-#include <qobject.h>
 
 #include "player.h"
 
