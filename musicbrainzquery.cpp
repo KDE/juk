@@ -57,7 +57,7 @@ void MusicBrainzLookup::collision()
 void MusicBrainzLookup::error()
 {
     KTRMLookup::error();
-    message(i18n("TRM generation failed"));
+    message(i18n("Error connecting to MusicBrainz server."));
 }
 
 void MusicBrainzLookup::message(const QString &s) const
