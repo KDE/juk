@@ -787,7 +787,7 @@ void Playlist::polish()
 	m_headerMenu->insertItem(header()->label(i), i);
 	m_headerMenu->setItemChecked(i, true);
 
-#if QT_VERSION <= 0x032000
+#if QT_VERSION >= 0x032000
 	adjustColumn(i);
 #endif
     }
