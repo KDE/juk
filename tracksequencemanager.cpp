@@ -95,6 +95,8 @@ PlaylistItem *TrackSequenceManager::nextItem()
     }
     else if(m_iterator->current())
         m_iterator->advance();
+    else if(currentPlaylist())
+        m_iterator->prepareToPlay(currentPlaylist());
     else
         m_iterator->prepareToPlay(CollectionList::instance());
 

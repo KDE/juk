@@ -1249,14 +1249,14 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 	m_playingItem = 0;
     }
 
+    TrackSequenceManager::instance()->setCurrent(item);
+
     if(!item)
 	return;
 
     m_playingItem = item;
     item->setPixmap(m_leftColumn, UserIcon("playing"));
     item->setPlaying(true);
-
-    TrackSequenceManager::instance()->setCurrent(item);
 
     bool enableBack = !m_history.isEmpty();
     action<KToolBarPopupAction>("back")->popupMenu()->setEnabled(enableBack);
