@@ -56,7 +56,8 @@ private:
   // actions
   SliderAction *sliderAction;  
   KAction *playAction, *pauseAction, *stopAction;
-
+  KAction *showTaggerAction, *showPlaylistAction;
+  KAction *addToPlaylistAction, *removeFromPlaylistAction;
 
   QTimer *playTimer;
   Player player;

@@ -61,16 +61,18 @@ void JuK::setupActions()
   KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
  
   // play menu
-  (void) new KAction(i18n("&Add to Playlist"), "enqueue", 0, this, SLOT(addToPlaylist()), actionCollection(), "addToPlaylist");
-  (void) new KAction(i18n("&Remove from Playlist"), "dequeue", 0, this, SLOT(removeFromPlaylist()), actionCollection(), "removeFromPlaylist");
+  addToPlaylistAction = new KAction(i18n("&Add to Playlist"), "enqueue", 0, this, 
+				    SLOT(addToPlaylist()), actionCollection(), "addToPlaylist");
+  removeFromPlaylistAction = new KAction(i18n("&Remove from Playlist"), "dequeue", 0, this, 
+					 SLOT(removeFromPlaylist()), actionCollection(), "removeFromPlaylist");
   playAction = new KAction(i18n("&Play"), "1rightarrow", 0, this, SLOT(playFile()), actionCollection(), "playFile");
   pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pauseFile()), actionCollection(), "pauseFile");
   stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stopFile()), actionCollection(), "stopFile");
 
   // function menu
 
-  (void) new KAction(i18n("Tagger"), "tag", 0, this, SLOT(showTagger()), actionCollection(), "showTagger");
-  (void) new KAction(i18n("Playlist Editor"), "edit", 0, this, SLOT(showPlaylist()), actionCollection(), "showPlaylist");
+  showTaggerAction = new KAction(i18n("Tagger"), "tag", 0, this, SLOT(showTagger()), actionCollection(), "showTagger");
+  showPlaylistAction = new KAction(i18n("Playlist Editor"), "edit", 0, this, SLOT(showPlaylist()), actionCollection(), "showPlaylist");
   
 
   // just in the toolbar
@@ -183,6 +185,12 @@ void JuK::showTagger()
   playlist->hide();
   tagger->show();
   setCentralWidget(tagger);
+
+  addToPlaylistAction->setEnabled(true);
+  removeFromPlaylistAction->setEnabled(false);
+
+  showTaggerAction->setEnabled(false);
+  showPlaylistAction->setEnabled(true);
 }
 
 void JuK::showPlaylist()
@@ -190,6 +198,12 @@ void JuK::showPlaylist()
   tagger->hide();
   playlist->show();
   setCentralWidget(playlist);
+
+  addToPlaylistAction->setEnabled(false);
+  removeFromPlaylistAction->setEnabled(true);
+
+  showTaggerAction->setEnabled(true);
+  showPlaylistAction->setEnabled(false);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -63,13 +63,6 @@ Tag *FileListItem::getTag()
   return(tag);
 }
 
-/*
-void FileListItem::setTag(Tag *itemTag)
-{
-  tag = itemTag;
-}
-*/
-
 MPEGHeader *FileListItem::getHeader()
 {
   if(!header) {
@@ -77,13 +70,6 @@ MPEGHeader *FileListItem::getHeader()
   }
   return(header);
 }
-
-/*
-void FileListItem::setHeader(MPEGHeader *itemHeader)
-{
-  header = itemHeader;
-}
-*/
 
 void FileListItem::setFile(QString fileName)
 {
@@ -101,13 +87,14 @@ void FileListItem::setFile(QString fileName)
 
 void FileListItem::refresh()
 {
-  setText(0, getTag()->getTrack());
-  setText(1, getTag()->getArtist());
-  setText(2, getTag()->getAlbum());
-  setText(3, getTag()->getTrackNumberString());
-  setText(4, getTag()->getGenre());
-  setText(5, getTag()->getYearString());
-  setText(6, filePath());
+  setText(TrackColumn,       getTag()->getTrack());
+  setText(ArtistColumn,      getTag()->getArtist());
+  setText(AlbumColumn,       getTag()->getAlbum());
+  setText(TrackNumberColumn, getTag()->getTrackNumberString());
+  setText(GenreColumn,       getTag()->getGenre());
+  setText(YearColumn,        getTag()->getYearString());
+  setText(LengthColumn,      getHeader()->getLengthChar());
+  setText(FileNameColumn,    filePath());
 
   emit(refreshed());
 }
@@ -149,12 +136,12 @@ int FileListItem::compare(QListViewItem *item, int column, bool ascending) const
       return(compare(thisFileListItem, fileListItem, column, ascending));
     }
     else {
-      for(int i = 1; i <= 3; i++) {
+      for(int i = ArtistColumn; i <= TrackNumberColumn; i++) {
 	if(compare(thisFileListItem, fileListItem, i, ascending) != 0)
 	  return(compare(thisFileListItem, fileListItem, i, ascending));
       }
-      if(compare(thisFileListItem, fileListItem, 0, ascending) != 0)
-	return(compare(thisFileListItem, fileListItem, 0, ascending));
+      if(compare(thisFileListItem, fileListItem, TrackColumn, ascending) != 0)
+	return(compare(thisFileListItem, fileListItem, TrackColumn, ascending));
       return(0);
     }
   }
@@ -164,13 +151,21 @@ int FileListItem::compare(QListViewItem *item, int column, bool ascending) const
 
 int FileListItem::compare(FileListItem *firstItem, FileListItem *secondItem, int column, bool ascending) const
 {
-  if(column == 3) {
+  if(column == TrackNumberColumn) {
     if(firstItem->getTag()->getTrackNumber() > secondItem->getTag()->getTrackNumber())
       return(1);
     else if(firstItem->getTag()->getTrackNumber() < secondItem->getTag()->getTrackNumber())
       return(-1);
     else
       return(0);
+  }
+  else if(column == LengthColumn) {
+    if(firstItem->getHeader()->getLength() > secondItem->getHeader()->getLength())
+      return(1);
+    else if(firstItem->getHeader()->getLength() < secondItem->getHeader()->getLength())
+      return(-1);
+    else
+      return(0);    
   }
   else {
     return(firstItem->key(column, ascending).compare(secondItem->key(column, ascending)));

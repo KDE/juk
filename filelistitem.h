@@ -29,15 +29,16 @@
 class FileListItem : public QObject, public KListViewItem, public QFileInfo {
   Q_OBJECT
 public: 
+  enum ColumnType { TrackColumn = 0, ArtistColumn = 1, AlbumColumn = 2, TrackNumberColumn = 3, 
+		    GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
+  
   FileListItem(QFileInfo *file, KListView *parent);
   FileListItem(FileListItem *item, KListView *parent);
   ~FileListItem();
 
   Tag *getTag();
-  //  void setTag(Tag *itemTag);
   MPEGHeader *getHeader();
-  //  void setHeader(MPEGHeader *itemHeader);
-  
+
   void setFile(QString fileName);
 
 public slots:
