@@ -420,7 +420,7 @@ void Playlist::playNext()
     }
     else if(random) {
 	if(list->m_randomList.isEmpty())
-	    list->m_randomList = list->items();
+	    list->m_randomList = list->visibleItems();
 	next = list->m_randomList[KApplication::random() % list->m_randomList.count()];
 	list->m_randomList.remove(next);
     }
@@ -631,6 +631,10 @@ void Playlist::setSearch(const PlaylistSearch &s)
 
     if(!m_searchEnabled)
 	return;
+
+    // Make sure that we only play visible items.
+
+    m_randomList.clear();
 
     setItemsVisible(s.matchedItems(), true);
     setItemsVisible(s.unmatchedItems(), false);
