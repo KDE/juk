@@ -87,13 +87,13 @@ QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool u
     // string...
 
     if(useParenthesis) {
-	while(names.contains(startingWith + " (" + QString::number(playlistNumber) + ")") != 0)
+	while(names.find(startingWith + " (" + QString::number(playlistNumber) + ")") != names.end())
 	    playlistNumber++;
 
 	return startingWith + " (" + QString::number(playlistNumber) + ")";
     }
     else {
-	while(names.contains(startingWith + ' ' + QString::number(playlistNumber)) != 0)
+	while(names.find(startingWith + ' ' + QString::number(playlistNumber)) != names.end())
 	    playlistNumber++;
 
 	return startingWith + " " + QString::number(playlistNumber);
