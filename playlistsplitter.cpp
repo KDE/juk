@@ -46,6 +46,69 @@ void processEvents()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// helper class
+////////////////////////////////////////////////////////////////////////////////
+
+// Painting is slow, so we want to be able to ignore the fact that QListView
+// likes to do it so much.  Specifically while loading -- when without a bit of
+// hackery it takes more time to paint the new items than it does to read them.
+// This helper class operates on a Playlist while loading items and throws out
+// most of the repaint events that are issued.
+
+class PaintEater : public QObject
+{
+public:
+    PaintEater(Playlist *list) : QObject(list), m_list(list),
+				 m_allowOne(false), m_previousHeight(0)
+    {
+        // We want to catch paint events for both the contents and the frame of
+        // our listview.
+
+	list->installEventFilter(this);
+	list->viewport()->installEventFilter(this);
+    }
+
+private:
+    virtual bool eventFilter(QObject *o, QEvent *e)
+    {
+	if(e->type() == QEvent::Paint) {
+
+            // There are two cases where we want to let our viewport repaint
+            // itself -- if the actual contents have changed as indicated by
+            // m_allowOne being true, or if the height has changed indicating
+            // that we've either scrolled or resized the widget.
+
+	    if(o == m_list->viewport()) {
+                if(m_allowOne) {
+                    m_allowOne = false;
+                    return false;
+                }
+
+                int newHeight = static_cast<QPaintEvent *>(e)->rect().top();
+
+                if(m_previousHeight != newHeight) {
+                    m_previousHeight = newHeight;
+                    return false;
+                }
+            }
+            else
+		m_allowOne = true;
+
+	    if(m_list->count() < 20)
+                m_list->slotWeightDirty();
+
+	    return true;
+	}
+
+	return false;
+    }
+
+    Playlist *m_list;
+    bool m_allowOne;
+    int m_previousHeight;
+};
+
+////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -362,6 +425,7 @@ void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list, Pl
 	after = static_cast<PlaylistItem *>(list->lastItem());
 
     KApplication::setOverrideCursor(Qt::waitCursor);
+    PaintEater pe(list);
     addImpl(file, list, after);
     list->slotWeightDirty();
     list->emitCountChanged();
@@ -385,6 +449,8 @@ void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *lis
 	after = static_cast<PlaylistItem *>(list->lastItem());
 
     KApplication::setOverrideCursor(Qt::waitCursor);
+
+    PaintEater pe(list);
 
     for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
         after = addImpl(*it, list, after);
