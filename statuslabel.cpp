@@ -119,25 +119,28 @@ void StatusLabel::updateData()
     if(!playlist()->playing()) {
         setItemTotalTime(0);
         setItemCurrentTime(0);
-        int days = playlist()->time() / (60 * 60 * 24);
-        int hours = playlist()->time() / (60 * 60) % 24;
-        int minutes = playlist()->time() / 60 % 60;
-        int seconds = playlist()->time() % 60;
 
-        QString time;
+	int time = playlist()->time();
+
+        int days = time / (60 * 60 * 24);
+        int hours = time / (60 * 60) % 24;
+        int minutes = time / 60 % 60;
+        int seconds = time % 60;
+
+        QString timeString;
 
         if(days > 0) {
-            time = i18n("1 day", "%n days", days);
-            time.append(" ");
+            timeString = i18n("1 day", "%n days", days);
+            timeString.append(" ");
         }
 
         if(days > 0 || hours > 0)
-            time.append(QString().sprintf("%1d:%02d:%02d", hours, minutes, seconds));
+            timeString.append(QString().sprintf("%1d:%02d:%02d", hours, minutes, seconds));
         else
-            time.append(QString().sprintf("%1d:%02d", minutes, seconds));
+            timeString.append(QString().sprintf("%1d:%02d", minutes, seconds));
 
         m_playlistLabel->setText(playlist()->name());
-        m_trackLabel->setText(i18n("1 item", "%n items", playlist()->count()) + " - " + time);
+        m_trackLabel->setText(i18n("1 item", "%n items", playlist()->count()) + " - " + timeString);
     }
 }
 
