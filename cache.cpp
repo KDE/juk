@@ -18,6 +18,8 @@
 #include <kstandarddirs.h>
 #include <kdebug.h>
 
+#include <qdir.h>
+
 #include "cache.h"
 #include "cachedtag.h"
 
@@ -38,7 +40,8 @@ Cache *Cache::instance()
 
 void Cache::save()
 {
-    QString cacheFileName = KGlobal::dirs()->saveLocation("appdata") + "cache";
+    QString dirName = KGlobal::dirs()->saveLocation("appdata");
+    QString cacheFileName =  dirName + "cache.new";
 
     QFile f(cacheFileName);
 
@@ -53,6 +56,8 @@ void Cache::save()
     }
 
     f.close();
+    QDir dir(dirName);
+    dir.rename("cache.new", "cache");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
