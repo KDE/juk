@@ -23,19 +23,28 @@
 #include <qfileinfo.h>
 
 #include "filehandle.h"
+#include "filehandleproperties.h"
 #include "tag.h"
 #include "cache.h"
+
+AddProperty(Title, tag()->title());
+AddProperty(Artist, tag()->artist());
+AddProperty(Album, tag()->album());
+AddProperty(Genre, tag()->genre());
+AddNumberProperty(Track, tag()->track());
+AddNumberProperty(Year, tag()->year());
+AddProperty(Comment, tag()->comment());
+AddProperty(Path, absFilePath());
 
 static QString resolveSymLinks(const QFileInfo &file) // static
 {
     char real[PATH_MAX];
 
     if(file.exists() && realpath(QFile::encodeName(file.absFilePath()).data(), real))
-	return QFile::decodeName(real);
+        return QFile::decodeName(real);
     else
-	return file.filePath();
+        return file.filePath();
 }
-
 
 /**
  * A simple reference counter -- pasted from TagLib.
@@ -195,6 +204,16 @@ bool FileHandle::operator!=(const FileHandle &f) const
     return d != f.d;
 }
 
+QStringList FileHandle::properties() // static
+{
+    return FileHandleProperties::properties();
+}
+
+QString FileHandle::property(const QString &name) const
+{
+    return FileHandleProperties::property(*this, name.latin1());
+}
+
 const FileHandle &FileHandle::null() // static
 {
     static FileHandle f;
@@ -222,7 +241,7 @@ void FileHandle::setup(const QFileInfo &info, const QString &path)
         d = new FileHandlePrivate;
         d->fileInfo = info;
         d->absFilePath = fileName;
-	Cache::instance()->insert(*this);
+        Cache::instance()->insert(*this);
     }
 }
 

@@ -18,7 +18,7 @@
 #ifndef JUK_FILEHANDLE_H
 #define JUK_FILEHANDLE_H
 
-#include <qvaluelist.h>
+#include <qstringlist.h>
 
 class QFileInfo;
 class QDateTime;
@@ -60,6 +60,9 @@ public:
     FileHandle &operator=(const FileHandle &f);
     bool operator==(const FileHandle &f) const;
     bool operator!=(const FileHandle &f) const;
+
+    static QStringList properties();
+    QString property(const QString &name) const;
 
     static const FileHandle &null();
 
