@@ -28,8 +28,8 @@
 
 #include "gstreamerplayer.h"
 
-using namespace QGst;
-using namespace QGstPlay;
+using namespace KDE::GST;
+using namespace KDE::GSTPlay;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods

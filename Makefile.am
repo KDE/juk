@@ -15,7 +15,7 @@ INCLUDES= $(all_includes) -I$(arts_includes)
 # check to see if GStreamer is available
 ##################################################
 if link_lib_GST
-gstlibs = -lqgst -lqgstplay
+gstlibs = -lkdegst -lkdegstplay
 else
 gstlibs =
 endif
