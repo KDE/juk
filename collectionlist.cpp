@@ -242,8 +242,10 @@ void CollectionListItem::refresh()
     }
     data()->shortFileName = file().fileInfo().fileName().lower().local8Bit();
 
-    repaint();
     playlist()->dataChanged();
+    CollectionList::instance()->dataChanged();
+    emit CollectionList::instance()->signalCollectionChanged();
+    repaint();
 }
 
 PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist) const

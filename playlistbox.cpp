@@ -30,6 +30,7 @@
 #include "dynamicplaylist.h"
 #include "viewmode.h"
 #include "searchplaylist.h"
+#include "treeviewitemplaylist.h"
 #include "actioncollection.h"
 #include "cache.h"
 #include "k3bexporter.h"
@@ -309,9 +310,18 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 
     if(KURLDrag::decode(s, urls) && !urls.isEmpty()) {
 	QStringList files;
-
 	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); it++)
 	    files.append((*it).path());
+
+	if(item) {
+	    TreeViewItemPlaylist *playlistItem;
+	    playlistItem = dynamic_cast<TreeViewItemPlaylist *>(item->playlist());
+	    if(playlistItem) {
+		playlistItem->retag(files, currentPlaylist());
+		currentPlaylist()->update();
+		return;
+	    }
+	}
 
 	if(item && item->playlist())
 	    item->playlist()->addFiles(files, true);

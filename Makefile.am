@@ -49,6 +49,7 @@ juk_SOURCES = \
 	tagguesserconfigdlgwidget.ui \
 	trackpickerdialog.cpp \
 	trackpickerdialogbase.ui \
+	treeviewitemplaylist.cpp \
 	viewmode.cpp
 
 tagguessertest_SOURCES = tagguessertest.cpp tagguesser.cpp

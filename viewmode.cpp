@@ -22,6 +22,7 @@
 #include "viewmode.h"
 #include "playlistbox.h"
 #include "searchplaylist.h"
+#include "treeviewitemplaylist.h"
 #include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -306,7 +307,7 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
         playlists.append(collection);
 
         PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
-        SearchPlaylist *p = new SearchPlaylist(playlistBox(), s, *it, false);
+        TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, *it, false);
         playlistBox()->setupPlaylist(p, "midi", m_searchCategories[searchCategory]);
 
         processEvents();

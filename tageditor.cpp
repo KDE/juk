@@ -527,6 +527,13 @@ void TagEditor::save(const PlaylistItemList &list)
 	QStringList errorFiles;
 	
 	for(PlaylistItemList::ConstIterator it = list.begin(); it != list.end(); ++it) {
+
+	    // Process items before we being modifying tags, as the dynamic
+	    // playlists will try to modify the file we edit if the tag changes
+	    // due to our alterations here.
+
+	    kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
+
 	    PlaylistItem *item = *it;
 	    
 	    QFileInfo newFile(item->file().fileInfo().dirPath() + QDir::separator() +
@@ -597,11 +604,10 @@ void TagEditor::save(const PlaylistItemList &list)
 		item->file().tag()->save();
 		
 		item->refresh();
+		item->playlist()->update();
 	    }
 	    else if(item)
 		errorFiles.append(item->file().absFilePath());
-
-	    kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
 	}
 	
 	if(!errorFiles.isEmpty())
@@ -610,6 +616,7 @@ void TagEditor::save(const PlaylistItemList &list)
 				       i18n("Could Not Write to:\n") + errorFiles.join("\n"));
 	m_dataChanged = false;
 
+	CollectionList::instance()->dataChanged();
 	KApplication::restoreOverrideCursor();
     }
 }

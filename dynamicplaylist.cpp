@@ -98,6 +98,12 @@ void DynamicPlaylist::showEvent(QShowEvent *e)
     Playlist::showEvent(e);
 }
 
+void DynamicPlaylist::paintEvent(QPaintEvent *e)
+{
+    checkUpdateItems();
+    Playlist::paintEvent(e);
+}
+
 void DynamicPlaylist::updateItems()
 {
     PlaylistItemList siblings;

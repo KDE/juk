@@ -65,6 +65,8 @@ protected:
      */
     virtual void showEvent(QShowEvent *e);
 
+    virtual void paintEvent(QPaintEvent *e);
+
     /**
      * Updates the items (unconditionally).  This should be reimplemented in
      * subclasses to refresh the items in the dynamic list (i.e. running a

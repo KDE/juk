@@ -711,6 +711,8 @@ void Playlist::slotRenameFile()
     else
 	renamer.rename(items);
 
+    dataChanged();
+
 #if 0
     if(mainWindow)
 	mainWindow->setDirWatchEnabled(true);
@@ -726,6 +728,7 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 
 	processEvents();
     }
+    dataChanged();
     KApplication::restoreOverrideCursor();
 }
 
@@ -904,6 +907,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     else
 	decode(e, moveAfter);
 
+    dataChanged();
     KListView::contentsDropEvent(e);
 }
 
@@ -1703,6 +1707,10 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 	editTag(*it, text, column);
 	processEvents();
     }
+
+    CollectionList::instance()->dataChanged();
+    dataChanged();
+    update();
 }
 
 void Playlist::slotColumnOrderChanged(int, int from, int to)
