@@ -167,6 +167,10 @@ void FileRenamer::rename(PlaylistItem *item)
        == KMessageBox::Continue) {
         if(moveFile(item->file().absFilePath(), newFilename))
             item->setFile(FileHandle(newFilename));
+        else
+            KMessageBox::error(0,
+                i18n("<qt>Failed to rename the file<br/><br/>'%1'<br/><br/>to<br/><br/>'%2'</qt>")
+                    .arg(item->file().absFilePath()).arg(newFilename));
     }
 }
 
@@ -193,6 +197,12 @@ void FileRenamer::rename(const PlaylistItemList &items)
         for(; it != map.end(); ++it, ++j) {
             if(moveFile(it.key(), it.data()))
                 itemMap[it.key()]->setFile(FileHandle(it.data()));
+            else
+                KMessageBox::queuedMessageBox(0, KMessageBox::Error,
+                    i18n("<qt>Failed to rename the file<br/><br/>'%1'<br/><br/>to<br/><br/>'%2'</qt>")
+                        .arg(it.key()).arg(it.data()),
+                    i18n("Renaming failed"),
+                    0);
 
             if(j % 5 == 0)
                 kapp->processEvents();
