@@ -44,7 +44,7 @@
 		<Action name="back"/>
 		<Action name="forward"/>
 	</Menu>
-	<Menu name="playlist"><text>Tagger</text>
+	<Menu name="playlist"><text>&amp;Tagger</text>
 		<Action name="saveItem"/>
 		<Action name="removeItem"/>
 		<Action name="guessTag"/>

@@ -45,11 +45,21 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
 
     m_playlistContextMenu = new KPopupMenu();
 
-    m_popupIndex["save"]      = m_playlistContextMenu->insertItem(SmallIcon("filesave"), i18n("Save"), this, SLOT(slotContextSave()));
-    m_popupIndex["saveas"]    = m_playlistContextMenu->insertItem(SmallIcon("filesaveas"), i18n("Save As..."), this, SLOT(slotContextSaveAs()));
-    m_popupIndex["rename"]    = m_playlistContextMenu->insertItem(i18n("Rename..."), this, SLOT(slotContextRename()));
-    m_popupIndex["duplicate"] = m_playlistContextMenu->insertItem(SmallIcon("editcopy"), i18n("Duplicate..."), this, SLOT(slotContextDuplicate()));
-    m_popupIndex["remove"]    = m_playlistContextMenu->insertItem(SmallIcon("edittrash"), i18n("Remove"), this, SLOT(slotContextDeleteItem()));
+    m_popupIndex["save"]      = m_playlistContextMenu->insertItem(
+        SmallIconSet("filesave"), i18n("Save"), this,
+        SLOT(slotContextSave()));
+    m_popupIndex["saveas"]    = m_playlistContextMenu->insertItem(
+        SmallIconSet("filesaveas"), i18n("Save As..."), this,
+        SLOT(slotContextSaveAs()));
+    m_popupIndex["rename"]    = m_playlistContextMenu->insertItem(
+        i18n("Rename..."), this,
+        SLOT(slotContextRename()));
+    m_popupIndex["duplicate"] = m_playlistContextMenu->insertItem(
+        SmallIconSet("editcopy"), i18n("Duplicate..."), this,
+        SLOT(slotContextDuplicate()));
+    m_popupIndex["remove"]    = m_playlistContextMenu->insertItem(
+        SmallIconSet("edittrash"), i18n("Remove"), this,
+        SLOT(slotContextDeleteItem()));
 
     setAcceptDrops(true);
 
@@ -111,7 +121,7 @@ void PlaylistBox::raise(Playlist *playlist)
 
     clearSelection();
     setSelected(i, true);
-    
+
     setCurrentItem(i);
     ensureCurrentVisible();
 }
