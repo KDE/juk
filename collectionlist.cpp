@@ -58,7 +58,15 @@ PlaylistItem *CollectionList::createItem(const QFileInfo &file, QListViewItem *)
     if(m_itemsDict.find(filePath))
 	return 0;
 
-    return new CollectionListItem(file, filePath);
+    PlaylistItem *item = new CollectionListItem(file, filePath);
+    
+    if(!item->isValid()) {
+	kdError() << "CollectinList::createItem() -- A valid tag was not created for \"" << file.filePath() << "\"" << endl;
+	delete item;
+	return 0;
+    }
+    
+    return item;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -195,10 +203,14 @@ CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &pat
     if(l) {
 	l->addToDict(m_path, this);
 	setData(Data::newUser(file, m_path));
-	slotRefresh();
-	connect(this, SIGNAL(signalRefreshed()), l, SIGNAL(signalDataChanged()));
-	l->emitNumberOfItemsChanged();
-//	l->addWatched(m_path);
+	if(data()->tag()) {
+	    slotRefresh();
+	    connect(this, SIGNAL(signalRefreshed()), l, SIGNAL(signalDataChanged()));
+	    l->emitNumberOfItemsChanged();
+	    // l->addWatched(m_path);
+	}
+	else
+	    kdError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
     }
     else
 	kdError() << "CollectionListItems should not be created before "
@@ -211,7 +223,7 @@ CollectionListItem::~CollectionListItem()
 {
     CollectionList *l = CollectionList::instance();
     if(l) {
-	QString path = Playlist::resolveSymLinks(*data());
+	QString path = Playlist::resolveSymLinks(*data()->fileInfo());
 //	l->removeWatched(m_path);
 	l->removeFromDict(m_path);
     }

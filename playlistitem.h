@@ -45,6 +45,7 @@ typedef QPtrList<PlaylistItem> PlaylistItemList;
 class PlaylistItem : public QObject, public KListViewItem 
 {
     friend class Playlist;
+    friend class CollectionList;
 
     /** 
      * Needs access to the destuctor, even though the destructor isn't used by QPtrList.
@@ -79,9 +80,9 @@ public:
 
 public slots:
     /**
-     * This just refreshes from the in memory m_data.  This may seem pointless at 
-     * first, but this m_data is shared between all of the list view items that are
-     * based on the same file, so if another one of those items changes its m_data
+     * This just refreshes from the in memory data.  This may seem pointless at 
+     * first, but this data is shared between all of the list view items that are
+     * based on the same file, so if another one of those items changes its data
      * it is important to refresh the others.
      */
     virtual void slotRefresh();
@@ -116,6 +117,8 @@ protected:
     virtual int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
+    bool isValid() const;
+
 protected slots:
     void slotRefreshImpl();
 
@@ -140,7 +143,7 @@ private:
  * free an instance using deleteUser().
  */
 
-class PlaylistItem::Data : public QFileInfo
+class PlaylistItem::Data
 {
 public:
     static Data *newUser(const QFileInfo &file, const QString &path);
@@ -152,6 +155,9 @@ public:
     Tag *tag() const;
 
     void setFile(const QString &file);
+    bool isFile() const { return m_fileInfo.isFile(); }
+    bool exists() const { return m_fileInfo.exists(); }
+    const QFileInfo *fileInfo() const { return &m_fileInfo; }
 
     QString absFilePath() const { return m_absFileName; }
 
@@ -164,9 +170,10 @@ protected:
      * and destructor protected ensures this.
      */
     Data(const QFileInfo &file, const QString &path);
-    virtual ~Data();
+    ~Data();
 
 private:
+    QFileInfo m_fileInfo;
     int m_referenceCount;
     Tag *m_dataTag;
     QString m_absFileName;

@@ -146,9 +146,11 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
     QPixmap bgPix = m_appPix;
     QPixmap fgPix = SmallIcon(pixName);
 
-    // Do it twice to make wheels happy
-    KIconEffect::semiTransparent( bgPix );
-    KIconEffect::semiTransparent( bgPix );
+    // Make this pretty close to invisible.  I'm certain there's a cleaner way to
+    // do this, but I am exceedingly lazy.
+    KIconEffect::semiTransparent(bgPix);
+    KIconEffect::semiTransparent(bgPix);
+    KIconEffect::semiTransparent(bgPix);
 
     QPainter p(&buffer);
     p.drawPixmap(0, 0, bgPix);

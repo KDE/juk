@@ -555,8 +555,16 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 
     CollectionListItem *item = CollectionList::instance()->lookup(filePath);
 
-    if(!item && CollectionList::instance())
+    if(!item) {
 	item = new CollectionListItem(file, filePath);
+	
+	// If a valid tag was not created, destroy the CollectionListItem.
+	if(!item->isValid()) {
+	    kdError() << "Playlist::createItem() -- A valid tag was not created for \"" << file.filePath() << "\"" << endl;
+	    delete item;
+	    return 0;
+	}
+    }
 
     if(item && !m_members.insert(filePath) || m_allowDuplicates) {
 	PlaylistItem *i;

@@ -46,12 +46,12 @@ Tag *PlaylistItem::tag() const
 
 QString PlaylistItem::fileName() const
 { 
-    return m_data->fileName(); 
+    return m_data->fileInfo()->fileName(); 
 }
 
 QString PlaylistItem::filePath() const
 {
-    return m_data->filePath();
+    return m_data->fileInfo()->filePath();
 }
 
 QString PlaylistItem::absFilePath() const
@@ -61,12 +61,12 @@ QString PlaylistItem::absFilePath() const
 
 QString PlaylistItem::dirPath(bool absPath) const
 {
-    return m_data->dirPath(absPath);
+    return m_data->fileInfo()->dirPath(absPath);
 }
 
 bool PlaylistItem::isWritable() const 
 {
-    return m_data->isWritable();
+    return m_data->fileInfo()->isWritable();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -177,9 +177,6 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
     previousFirstItem = firstItem;
     previousSecondItem = secondItem;
     previousColumn = column;
-
-	if(!firstItem->tag() || !secondItem->tag())
-		return 0;
     
     if(column == TrackNumberColumn) {
         if(firstItem->tag()->trackNumber() > secondItem->tag()->trackNumber()) {
@@ -215,6 +212,12 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
     }
 }
 
+bool PlaylistItem::isValid() const
+{ 
+    return m_data && m_data->tag();
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem protected slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -223,9 +226,6 @@ void PlaylistItem::slotRefreshImpl()
 {
     // This should be the only function that needs to be rewritten if the structure of    
     // PlaylistItemData changes.  
-
-    if(!tag())
-        return;
 
     setText(TrackColumn,       tag()->track());
     setText(ArtistColumn,      tag()->artist());
@@ -271,8 +271,9 @@ PlaylistItem::Data *PlaylistItem::Data::newUser()
 void PlaylistItem::Data::refresh()
 {
     delete m_dataTag;
-    m_dataTag = Tag::createTag(filePath());
-    m_absFileName = QFileInfo::absFilePath();
+    m_dataTag = Tag::createTag(m_fileInfo.filePath());
+    Q_ASSERT(m_dataTag);
+    m_absFileName = m_fileInfo.absFilePath();
 }
 
 void PlaylistItem::Data::deleteUser()
@@ -291,7 +292,7 @@ Tag *PlaylistItem::Data::tag() const
 
 void PlaylistItem::Data::setFile(const QString &file)
 {
-    QFileInfo::setFile(file);
+    m_fileInfo.setFile(file);
     refresh();
 }
 
@@ -299,7 +300,7 @@ void PlaylistItem::Data::setFile(const QString &file)
 // PlaylistItem::Data protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::Data::Data(const QFileInfo &file, const QString &path) : QFileInfo(file), m_absFileName(path)
+PlaylistItem::Data::Data(const QFileInfo &file, const QString &path) : m_fileInfo(file), m_absFileName(path)
 {
     m_referenceCount = 1;
     m_dataTag = Tag::createTag(path);

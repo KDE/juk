@@ -40,15 +40,15 @@ Tag *Tag::createTag(const QString &file, bool ignoreCache)
     if(cachedItem)
         return cachedItem;
 
-    KMimeType::Ptr result = KMimeType::findByURL(file, 0, true /* local file */);
-    if(result->name() == KMimeType::defaultMimeType())
-        return 0;
+    KMimeType::Ptr result = KMimeType::findByPath(file, 0, true);
 
     if(result->name() == "audio/x-mp3")
         return new ID3Tag(file);
 
     if(result->name() == "application/x-ogg")
         return new OggTag(file);
+
+    kdError() << "Couldn't resolve the mime type of \"" << file << "\" -- this shouldn't happen." << endl;
 
     return 0;
 }
