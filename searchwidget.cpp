@@ -102,6 +102,13 @@ void SearchLine::setSearchComponent(const PlaylistSearch::Component &component)
 	if(m_caseSensitive)
 	    m_caseSensitive->setCurrentItem(Pattern);
     }
+
+    if(!m_simple) {
+	if(component.columns().isEmpty() || component.columns().size() > 1)
+	    m_searchFieldsBox->setCurrentItem(0);
+	else
+	    m_searchFieldsBox->setCurrentItem(component.columns().front() + 1);
+    }
 }
 
 void SearchLine::clear()
