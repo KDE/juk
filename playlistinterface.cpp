@@ -40,9 +40,12 @@ void Watched::removeObserver(PlaylistObserver *observer)
 
 Watched::~Watched()
 {
-    QValueList<PlaylistObserver *> l = m_observers;
-    for(QValueList<PlaylistObserver *>::Iterator it = l.begin(); it != l.end(); ++it)
+    for(QValueList<PlaylistObserver *>::Iterator it = m_observers.begin();
+        it != m_observers.end();
+        ++it)
+    {
         (*it)->clearWatched();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
