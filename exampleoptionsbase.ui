@@ -114,7 +114,7 @@
                                 <cstring>textLabel1</cstring>
                             </property>
                             <property name="text">
-                                <string>Title</string>
+                                <string>Title:</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="1" column="0">
@@ -122,7 +122,7 @@
                                 <cstring>textLabel2</cstring>
                             </property>
                             <property name="text">
-                                <string>Artist</string>
+                                <string>Artist:</string>
                             </property>
                         </widget>
                         <widget class="QSpinBox" row="5" column="1">
@@ -144,7 +144,7 @@
                                 <cstring>textLabel3</cstring>
                             </property>
                             <property name="text">
-                                <string>Album</string>
+                                <string>Album:</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="3" column="0">
@@ -152,7 +152,7 @@
                                 <cstring>textLabel4</cstring>
                             </property>
                             <property name="text">
-                                <string>Genre</string>
+                                <string>Genre:</string>
                             </property>
                         </widget>
                         <widget class="QLabel" row="4" column="0">
@@ -160,7 +160,7 @@
                                 <cstring>textLabel5</cstring>
                             </property>
                             <property name="text">
-                                <string>Track Number</string>
+                                <string>Track number:</string>
                             </property>
                         </widget>
                         <widget class="QSpinBox" row="4" column="1">
@@ -184,7 +184,7 @@
                                 <cstring>textLabel6</cstring>
                             </property>
                             <property name="text">
-                                <string>Year</string>
+                                <string>Year:</string>
                             </property>
                         </widget>
                     </grid>

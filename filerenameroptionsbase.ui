@@ -138,7 +138,7 @@
                 <cstring>m_emptyTagGroup</cstring>
             </property>
             <property name="title">
-                <string>When the Track's %1 is Empty:</string>
+                <string>When the Track's %1 is Empty</string>
             </property>
             <vbox>
                 <property name="name">
@@ -249,7 +249,7 @@
                                         <cstring>textLabel5</cstring>
                                     </property>
                                     <property name="text">
-                                        <string>Minimum Track &amp;Width:</string>
+                                        <string>Minimum track &amp;width:</string>
                                     </property>
                                     <property name="buddy" stdset="0">
                                         <cstring>m_trackWidth</cstring>

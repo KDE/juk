@@ -40,7 +40,7 @@
                         <cstring>textLabel1_6</cstring>
                     </property>
                     <property name="text">
-                        <string>Music Folder</string>
+                        <string>Music folder:</string>
                     </property>
                 </widget>
                 <widget class="KComboBox" row="1" column="1">
@@ -71,7 +71,7 @@
                         <cstring>textLabel1_7</cstring>
                     </property>
                     <property name="text">
-                        <string>Separator</string>
+                        <string>Separator:</string>
                     </property>
                 </widget>
                 <widget class="KURLRequester" row="0" column="1">
