@@ -36,6 +36,7 @@
 #include <qdir.h>
 #include <qvalidator.h>
 #include <qtooltip.h>
+#include <qeventloop.h>
 
 #include <id3v1genres.h>
 
@@ -578,7 +579,7 @@ void TagEditor::save(const PlaylistItemList &list)
 	    else if(item)
 		errorFiles.append(item->file().absFilePath());
 
-	    kapp->processEvents();
+	    kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
 	}
 	
 	if(!errorFiles.isEmpty())
