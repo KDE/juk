@@ -196,6 +196,26 @@ void PlaylistBox::paste()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
+// PlaylistBox protected methods
+////////////////////////////////////////////////////////////////////////////////
+
+void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *)
+{
+    if(!m_hasSelection || !m_updatePlaylistStack)
+	return;
+
+    const ItemList items = selectedItems();
+
+    PlaylistList playlists;
+    for(ItemList::ConstIterator i = items.begin(); i != items.end(); ++i) {
+	if((*i)->playlist())
+	    playlists.append((*i)->playlist());
+    }
+
+    emit signalCurrentChanged(playlists);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox private methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -456,19 +476,7 @@ void PlaylistBox::setSingleItem(QListViewItem *item)
 
 void PlaylistBox::slotPlaylistChanged()
 {
-    ItemList items = selectedItems();
-    m_hasSelection = !items.isEmpty();
-
-    if(!m_updatePlaylistStack)
-	return;
-
-    PlaylistList playlists;
-    for(ItemList::ConstIterator i = items.begin(); i != items.end(); ++i) {
-	if((*i)->playlist())
-	    playlists.append((*i)->playlist());
-    }
-
-    emit signalCurrentChanged(playlists);
+    m_hasSelection = !selectedItems().isEmpty();
 }
 
 void PlaylistBox::slotDoubleClicked(QListViewItem *)

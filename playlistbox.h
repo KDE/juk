@@ -96,6 +96,9 @@ signals:
 				const QString &name);
     void signalCollectionInitialized();
 
+protected:
+    virtual void contentsMouseReleaseEvent(QMouseEvent *e);
+
 private:
     void readConfig();
     void saveConfig();
@@ -123,10 +126,6 @@ private:
     void setupItem(Item *item, Playlist *playlist);
 
 private slots:
-    /** 
-     * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
-     * the signal as currentChanged(Item *). 
-     */
     void slotPlaylistChanged();
     void slotDoubleClicked(QListViewItem *);
     void slotShowContextMenu(QListViewItem *, const QPoint &point, int);
