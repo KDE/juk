@@ -317,30 +317,33 @@ void PlaylistItem::slotTagGuessResults(const MusicBrainzQuery::TrackList &res)
     MusicBrainzQuery::Track track;
     KMainWindow *win = static_cast<KMainWindow *>(kapp->mainWidget());
 
-    if(res.count() == 0)
-    {
+    if(res.count() == 0) {
         win->statusBar()->message(i18n("No matches found."), 2000);
         return;
     }
-    else if(res.count() > 1)
+
+    if(res.count() > 1)
     {
-    	TrackPickerDialogBase *m_trpicker = new TrackPickerDialogBase( win, "trackPickerDialogBase" );
-	m_trpicker->fileLabel->setText(fileName());
+    	TrackPickerDialogBase *trackPicker =
+	    new TrackPickerDialogBase(win, "trackPickerDialogBase");
+	trackPicker->fileLabel->setText(fileName());
 
-    	for( MusicBrainzQuery::TrackList::ConstIterator itr = res.begin();
-    		itr != res.end(); ++itr )
-		{
-      			new MusicBrainzItem( m_trpicker->trackList, *itr, (*itr).name, (*itr).artist, (*itr).album );
-    		}
+	MusicBrainzQuery::TrackList::ConstIterator it = res.begin();
+    	for(; it != res.end(); ++it) {
+	    new MusicBrainzItem(trackPicker->trackList, *it, (*it).name,
+				(*it).artist, (*it).album);
+	}
+	
+    	if(trackPicker->exec() != QDialog::Accepted)
+	    return;
 
-    	if ( m_trpicker->exec() )
-	{
-		MusicBrainzItem *item = static_cast<MusicBrainzItem *>(m_trpicker->trackList->selectedItems().first());
-	        if(item)
-			track = (*item).m_track;
-		else
-			return;
-    	}
+	MusicBrainzItem *item =
+	    static_cast<MusicBrainzItem *>(trackPicker->trackList->selectedItem());
+	
+	if(!item)
+	    return;
+	
+	track = item->track();
     }
     else
     	track = res.first();

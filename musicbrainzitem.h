@@ -1,5 +1,5 @@
 /***************************************************************************
-                          musicbrainzitem.h  -  description
+                          musicbrainzitem.h
                              -------------------
     begin                : Thur Sep 04 2003
     copyright            : (C) 2003 by Adam Treat
@@ -20,35 +20,25 @@
 
 #include <klistview.h>
 
-#include <qobject.h>
-#include <qptrstack.h>
-#include <qvaluevector.h>
-
 #include "musicbrainzquery.h"
 
 /**
  * Items for the MusicBrainz queries.
  */
 
-class MusicBrainzItem : public QObject, public KListViewItem
+class MusicBrainzItem : public KListViewItem
 {
-    Q_OBJECT
-
 public:
-    MusicBrainzItem( KListView* parent, MusicBrainzQuery::Track track, const QString &name, const QString &artist, const QString &album );
-    MusicBrainzQuery::Track m_track;
-
-public slots:
-
-protected:
+    MusicBrainzItem(KListView *parent, MusicBrainzQuery::Track track,
+                    const QString &name, const QString &artist,
+                    const QString &album);
 
     virtual ~MusicBrainzItem();
 
-protected slots:
-
-signals:
+    MusicBrainzQuery::Track track() const { return m_track; }
 
 private:
+    MusicBrainzQuery::Track m_track;
 };
 
 #endif

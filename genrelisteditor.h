@@ -30,7 +30,7 @@ class GenreListEditor : public GenreListEditorBase
 
 public: 
     GenreListEditor(QWidget *parent = 0, const char *name = 0);
-    ~GenreListEditor();
+    virtual ~GenreListEditor();
 
 private:
     void loadID3v1Genres();
