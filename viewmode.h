@@ -101,7 +101,8 @@ public:
                                                 const QString &searchCategory);
 
 private:
-    void setupCategory(const QString &searchCategory, const QStringList &members, int column);
+    void setupCategory(const QString &searchCategory, const QStringList &members,
+		       int column, bool exact = true);
 
 private slots:
     /**

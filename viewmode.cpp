@@ -200,7 +200,7 @@ PlaylistBox::Item *TreeViewMode::createSearchItem(PlaylistBox *, SearchPlaylist 
     return new PlaylistBox::Item(m_searchCategories[searchCategory], "midi", playlist->name(), playlist);
 }
 
-void TreeViewMode::setupCategory(const QString &searchCategory, const QStringList &members, int column)
+void TreeViewMode::setupCategory(const QString &searchCategory, const QStringList &members, int column, bool exact)
 {
     CollectionList *collection = CollectionList::instance();
     QValueList<int> columns;
@@ -211,7 +211,14 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
     for(QStringList::ConstIterator it = members.begin(); it != members.end(); ++it) {
         
         PlaylistSearch::ComponentList components;
-        components.append(PlaylistSearch::Component(*it, true, columns, PlaylistSearch::Component::ContainsWord));
+
+	PlaylistSearch::Component::MatchMode mode;
+	if(exact)
+	    mode = PlaylistSearch::Component::Exact;
+	else
+	    mode = PlaylistSearch::Component::ContainsWord;
+
+        components.append(PlaylistSearch::Component(*it, true, columns, mode));
 
         PlaylistList playlists;
         playlists.append(collection);
@@ -236,15 +243,18 @@ void TreeViewMode::slotSetupCategories()
     
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
     m_searchCategories.insert("artists", i);
-    setupCategory("artists", CollectionList::instance()->viewModeItems(CollectionList::Artists), 1);
+    setupCategory("artists", CollectionList::instance()->viewModeItems(CollectionList::Artists),
+		  PlaylistItem::ArtistColumn, false);
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
     m_searchCategories.insert("albums", i);
-    setupCategory("albums", CollectionList::instance()->viewModeItems(CollectionList::Albums), 2);
+    setupCategory("albums", CollectionList::instance()->viewModeItems(CollectionList::Albums),
+		  PlaylistItem::AlbumColumn);
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Genres"));
     m_searchCategories.insert("genres", i);
-    setupCategory("genres", CollectionList::instance()->viewModeItems(CollectionList::Genres), 4);
+    setupCategory("genres", CollectionList::instance()->viewModeItems(CollectionList::Genres),
+		  PlaylistItem::GenreColumn);
 
     for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
         it.current()->setSortedFirst(true);
