@@ -82,6 +82,7 @@ private slots:
     // settings menu
     void showGenreListEditor();
     void toggleSystemTray(bool enabled);
+    void setOutput(int output);
 
     // additional player slots
     void trackPositionSliderClick();
@@ -109,7 +110,6 @@ private slots:
     void playSelectedFile() { playFile(splitter->playSelectedFile()); }
     void playFirstFile() { playFile(splitter->playFirstFile()); }
 
-
 private:
     // layout objects
     PlaylistSplitter *splitter;
@@ -122,6 +122,7 @@ private:
     SliderAction *sliderAction;
     KToggleAction *randomPlayAction;
     KToggleAction *toggleSystemTrayAction;
+    KSelectAction *outputSelectAction;
 
     KAction *playAction;
     KAction *pauseAction;

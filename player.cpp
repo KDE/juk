@@ -15,28 +15,50 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kaction.h>
+#include <klocale.h>
+
 #include "player.h"
 #include "artsplayer.h"
 #include "gstreamerplayer.h"
 
 #include "../config.h"
 
-Player *Player::createPlayer(SoundSystem s)
+/*
+ * The goal here is to contain all of the #if'ed ugliness in this file.
+ */
+
+
+Player *Player::createPlayer(int system)
 {
     Player *p = 0;
-    
 #if HAVE_GSTREAMER
-
-    if(s == Arts)
+    switch(system) {
+    case Arts:
 	p = new ArtsPlayer();
-    else if(s == GStreamer)
+	break;
+    case GStreamer:
 	p = new GStreamerPlayer();
-
+	break;
+    }
 #else
-
+    Q_UNUSED(s);
     p = new ArtsPlayer();
-
 #endif
 
     return p;
+}
+
+KSelectAction *Player::playerSelectAction(QObject *parent)
+{
+    KSelectAction *action = 0;
+#if HAVE_GSTREAMER
+    action = new KSelectAction(i18n("Ouput To"), 0, parent, "outputSelect");
+    QStringList l;
+    l << "aRts" << "GStreamer";
+    action->setItems(l);
+#else
+    Q_UNUSED(parent);
+#endif
+    return action;
 }

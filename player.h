@@ -22,13 +22,15 @@
  * Just an interface for concrete player implementations
  */
 
+class QObject;
 class QString;
+class KSelectAction;
 
 class Player
 {
 public:
 
-    enum SoundSystem { Arts, GStreamer };
+    enum SoundSystem { Arts = 0, GStreamer = 1 };
 
     virtual ~Player() {}
 
@@ -51,10 +53,10 @@ public:
     virtual void seekPosition(int position) = 0;
 
     /**
-     * Returns a pointer to a Player object.
+     * Returns a pointer to a Player object.  The user is responcible
      */
-
-    static Player *createPlayer(SoundSystem s = Arts);
+    static Player *createPlayer(int system = Arts);
+    static KSelectAction *playerSelectAction(QObject *parent);
 
 protected:
     Player() {}

@@ -50,8 +50,8 @@ JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestruc
     readSettings();
     setupLayout();
     setupActions();
-    setupPlayer();
     readConfig();
+    setupPlayer();
     setupSystemTray();
     processArgs();
 
@@ -98,7 +98,7 @@ void JuK::setupActions()
     renamePlaylistAction = new KAction(i18n("Rename..."), 0, splitter, SLOT(renamePlaylist()), 
 				       actionCollection(), "renamePlaylist");
     new KAction(i18n("Duplicate..."), "editcopy", 0, splitter, SLOT(duplicatePlaylist()), actionCollection(), "duplicatePlaylist");
-
+    
     savePlaylistAction = KStdAction::save(splitter, SLOT(savePlaylist()), actionCollection());
     saveAsPlaylistAction = KStdAction::saveAs(splitter, SLOT(saveAsPlaylist()), actionCollection());
     deleteItemPlaylistAction = new KAction(i18n("Delete"), "editdelete", 0, splitter, SLOT(deleteItemPlaylist()), 
@@ -131,12 +131,18 @@ void JuK::setupActions()
     
     // settings menu
     restoreOnLoadAction = new KToggleAction(i18n("Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
+
     toggleSystemTrayAction = new KToggleAction(i18n("Dock in System Tray"), 0, actionCollection(), "toggleSystemTray");
     connect(toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(toggleSystemTray(bool)));
+
     new KAction(i18n("Genre List Editor..."), 0, this, SLOT(showGenreListEditor()), actionCollection(), "showGenreListEditor");
 
-    connect(splitter, SIGNAL(playlistChanged()), this, SLOT(playlistChanged()));
 
+    outputSelectAction = Player::playerSelectAction(actionCollection());
+    if(outputSelectAction) {
+	outputSelectAction->setCurrentItem(0);
+	connect(outputSelectAction, SIGNAL(activated(int)), this, SLOT(setOutput(int)));
+    }
 
     // just in the toolbar
     sliderAction = new SliderAction(i18n("Track Position"), actionCollection(), "trackPositionAction");
@@ -146,6 +152,8 @@ void JuK::setupActions()
     // set the slider to the proper orientation and make it stay that way
     sliderAction->updateOrientation();
     connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)), sliderAction, SLOT(updateOrientation(QDockWindow *)));
+
+    connect(splitter, SIGNAL(playlistChanged()), this, SLOT(playlistChanged()));
 }
 
 void JuK::setupSystemTray()
@@ -403,6 +411,13 @@ void JuK::toggleSystemTray(bool enabled)
 	delete(systemTray);
 	systemTray = 0;
     }
+}
+
+void JuK::setOutput(int output)
+{
+    stopFile();
+    delete(player);
+    player = Player::createPlayer(output);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
