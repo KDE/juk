@@ -71,7 +71,7 @@ public:
      * Returns the file name of the next item to be played and advances the next
      * file.
      */
-    QString playNextFile(bool random = false);
+    QString playNextFile(bool random = false, bool loopPlaylist = false);
     
     /**
      * Returns the file name of the previous item and moves the playing indicator

@@ -159,6 +159,7 @@ private:
     KAction *m_stopAction;
     KAction *m_backAction;
     KAction *m_forwardAction;
+    KToggleAction *m_loopPlaylistAction;
 
     KAction *m_savePlaylistAction;
     KAction *m_saveAsPlaylistAction;

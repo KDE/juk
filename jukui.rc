@@ -42,6 +42,7 @@
 		<Action name="stop"/>
 		<Action name="back"/>
 		<Action name="forward"/>
+		<Action name="loopPlaylist"/>
 	</Menu>
 	<Menu name="playlist"><text>Tagger</text>
 		<Action name="saveItem"/>
@@ -86,4 +87,8 @@
 	<Action name="back"/>
 	<Action name="forward"/>
 	<Action name="trackPositionAction"/>
+
+	<Separator lineSeparator="false"/>
+
+	<Action name="loopPlaylist"/>
 </kpartgui>

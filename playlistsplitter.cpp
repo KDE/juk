@@ -102,7 +102,7 @@ QString PlaylistSplitter::uniquePlaylistName(const QString &startingWith, bool u
     }
 }
 
-QString PlaylistSplitter::playNextFile(bool random)
+QString PlaylistSplitter::playNextFile(bool random, bool loopPlaylist)
 {
     PlaylistItem *i;
 
@@ -117,6 +117,8 @@ QString PlaylistSplitter::playNextFile(bool random)
     else if(m_playingItem) {
         Playlist *p = static_cast<Playlist *>(m_playingItem->listView());
         i = p->nextItem(m_playingItem, random);
+        if(!i && loopPlaylist)
+            i = static_cast<PlaylistItem *>(visiblePlaylist()->firstChild());
     }
     else {
         i = playlistSelection().getFirst();

@@ -135,6 +135,7 @@ void JuK::setupActions()
     m_stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(slotStop()), actionCollection(), "stop");
     m_backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(slotBack()), actionCollection(), "back");
     m_forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(slotForward()), actionCollection(), "forward");
+    m_loopPlaylistAction = new KToggleAction(i18n("Loop Playlist"), "reload", 0, actionCollection(), "loopPlaylist");
 
     // tagger menu
     new KAction(i18n("Save"), "filesave", "CTRL+t", m_splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");
@@ -294,6 +295,8 @@ void JuK::readConfig()
         }
 	bool randomPlay = config->readBoolEntry("RandomPlay", false);
 	m_randomPlayAction->setChecked(randomPlay);
+    const bool loopPlaylist = config->readBoolEntry("LoopPlaylist", false);
+    m_loopPlaylistAction->setChecked(loopPlaylist);
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
@@ -331,6 +334,8 @@ void JuK::saveConfig()
             config->writeEntry("Volume", m_sliderAction->getVolumeSlider()->value());
 	if(m_randomPlayAction)
 	    config->writeEntry("RandomPlay", m_randomPlayAction->isChecked());
+    if(m_loopPlaylistAction)
+        config->writeEntry("LoopPlaylist", m_loopPlaylistAction->isChecked());
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
@@ -520,7 +525,7 @@ void JuK::slotPlay()
     else if(m_player->playing())
 	m_player->seekPosition(0);
     else
-	play(m_splitter->playNextFile(m_randomPlayAction->isChecked()));
+	play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
 }
 
 void JuK::slotPause()
@@ -566,7 +571,7 @@ void JuK::slotBack()
 
 void JuK::slotForward()
 {
-    play(m_splitter->playNextFile(m_randomPlayAction->isChecked()));
+    play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -686,7 +691,7 @@ void JuK::slotPollPlay()
 
         m_playTimer->stop();
 
-	play(m_splitter->playNextFile(m_randomPlayAction->isChecked()));
+	play(m_splitter->playNextFile(m_randomPlayAction->isChecked(), m_loopPlaylistAction->isChecked()));
     }
     else if(!m_trackPositionDragging) {
         m_sliderAction->getTrackPositionSlider()->setValue(m_player->position());
