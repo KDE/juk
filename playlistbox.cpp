@@ -506,8 +506,10 @@ void PlaylistBox::slotPlaylistChanged()
 
     action("editSearch")->setEnabled(searchList);
 
-    if(playlists.count() == 1)
+    if(playlists.count() == 1) {
 	playlistStack()->raiseWidget(playlists.front());
+	PlaylistInterface::update(); // Update the status bar
+    }
 }
 
 void PlaylistBox::slotDoubleClicked()

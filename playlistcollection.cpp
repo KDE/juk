@@ -320,6 +320,7 @@ void PlaylistCollection::raise(Playlist *playlist)
 {
     playlist->setSearchEnabled(m_searchEnabled);
     m_playlistStack->raiseWidget(playlist);
+    update(); // Update the status bar
 }
 
 void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
