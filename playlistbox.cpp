@@ -143,7 +143,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     connect(CollectionList::instance(), SIGNAL(signalRemovedTag(const QString &, unsigned)),
             this, SLOT(slotRemoveItem(const QString &, unsigned)));
     connect(m_viewModes[2], SIGNAL(signalPlaylistDestroyed(Playlist*)),
-            this, SLOT(slotPlaylistDestroyed(Playlist*)));
+            this, SLOT(slotTreeViewPlaylistDestroyed(Playlist*)));
 
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
     enableDirWatch(true);
@@ -319,7 +319,8 @@ void PlaylistBox::remove()
 	   (*it)->playlist() &&
 	   (!(*it)->playlist()->readOnly()))
 	{
-	    removeName((*it)->text(0));
+	    removeNameFromDict((*it)->text(0));
+	    removeFileFromDict((*it)->playlist()->fileName());
 	    m_playlistDict.remove((*it)->playlist());
 	    removeQueue.append((*it)->playlist());
 	}
@@ -356,11 +357,13 @@ void PlaylistBox::setCanDeletePlaylist(bool canDelete)
 	treeView->slotCanDeletePlaylist(canDelete);
 }
 
-void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
+void PlaylistBox::slotTreeViewPlaylistDestroyed(Playlist *p)
 {
     emit signalPlaylistDestroyed(p);
 
-    removeName(m_playlistDict[p]->text(0));
+    removeNameFromDict(m_playlistDict[p]->text(0));
+    removeFileFromDict(p->fileName());
+
     delete m_playlistDict[p];
     m_playlistDict.remove(p);
 }
@@ -792,7 +795,7 @@ void PlaylistBox::Item::init()
 
     int iconSize = list->viewModeIndex() == 0 ? 32 : 16;
     setPixmap(0, SmallIcon(m_iconName, iconSize));
-    list->addName(m_text);
+    list->addNameToDict(m_text);
 
     if(m_playlist) {
 	connect(m_playlist, SIGNAL(signalNameChanged(const QString &)),

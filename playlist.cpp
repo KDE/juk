@@ -514,8 +514,8 @@ void Playlist::playPrevious()
 
 void Playlist::setName(const QString &n)
 {
-    m_collection->addName(n);
-    m_collection->removeName(m_playlistName);
+    m_collection->addNameToDict(n);
+    m_collection->removeNameFromDict(m_playlistName);
 
     m_playlistName = n;
     emit signalNameChanged(m_playlistName);
@@ -543,13 +543,16 @@ void Playlist::save()
 
 void Playlist::saveAs()
 {
+    m_collection->removeFileFromDict(m_fileName);
+
     m_fileName = MediaFiles::savePlaylistDialog(name(), this);
 
     if(!m_fileName.isEmpty()) {
+	m_collection->addFileToDict(m_fileName);
+
 	// If there's no playlist name set, use the file name.
 	if(m_playlistName.isEmpty())
 	    emit signalNameChanged(name());
-
 	save();
     }
 }

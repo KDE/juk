@@ -78,7 +78,7 @@ public:
     virtual void duplicate();
     virtual void save();
     virtual void saveAs();
-    virtual void remove();
+    virtual void remove() = 0;
     virtual void reload();
     virtual void editSearch();
     virtual void setCanDeletePlaylist(bool);
@@ -94,7 +94,7 @@ public:
     void removeCovers();
     void viewCovers();
 
-    PlaylistItemList selectedItems();
+    virtual PlaylistItemList selectedItems();
 
     void scanFolders();
 
@@ -161,8 +161,10 @@ protected:
                                bool forceUnique = true) const;
     QString uniquePlaylistName(const QString &suggest = i18n("Playlist")) const;
 
-    void addName(const QString &name);
-    void removeName(const QString &name);
+    void addNameToDict(const QString &name);
+    void addFileToDict(const QString &file);
+    void removeNameFromDict(const QString &name);
+    void removeFileFromDict(const QString &file);
 
     Playlist *playlistByName(const QString &name) const;
 

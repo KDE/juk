@@ -267,7 +267,12 @@ void PlaylistCollection::open(const QStringList &l)
     if(files.isEmpty())
         return;
 
-    if(visiblePlaylist() == CollectionList::instance() ||
+    bool justPlaylists = true;
+
+    for(QStringList::ConstIterator it = l.begin(); it != l.end() && justPlaylists; ++it)
+        justPlaylists = !MediaFiles::isPlaylistFile(*it);
+
+    if(visiblePlaylist() == CollectionList::instance() || justPlaylists ||
        KMessageBox::questionYesNo(
            widget,
            i18n("Do you want to add these items to the current list or to the collection list?"),
@@ -275,10 +280,10 @@ void PlaylistCollection::open(const QStringList &l)
            KGuiItem(i18n("Current")),
            KGuiItem(i18n("Collection"))) == KMessageBox::No)
     {
-        CollectionList::instance()->addFiles(files, m_importPlaylists);
+        CollectionList::instance()->addFiles(files, true);
     }
     else
-        visiblePlaylist()->addFiles(files, m_importPlaylists);
+        visiblePlaylist()->addFiles(files, true);
 
     dataChanged();
 }
@@ -352,11 +357,6 @@ void PlaylistCollection::save()
 void PlaylistCollection::saveAs()
 {
     visiblePlaylist()->saveAs();
-}
-
-void PlaylistCollection::remove()
-{
-    // implemented in subclass
 }
 
 void PlaylistCollection::reload()
@@ -680,14 +680,24 @@ QString PlaylistCollection::uniquePlaylistName(const QString &suggest) const
     return s;
 }
 
-void PlaylistCollection::addName(const QString &name)
+void PlaylistCollection::addNameToDict(const QString &name)
 {
     m_playlistNames.insert(name);
 }
 
-void PlaylistCollection::removeName(const QString &name)
+void PlaylistCollection::addFileToDict(const QString &file)
+{
+    m_playlistFiles.insert(file);
+}
+
+void PlaylistCollection::removeNameFromDict(const QString &name)
 {
     m_playlistNames.remove(name);
+}
+
+void PlaylistCollection::removeFileFromDict(const QString &file)
+{
+    m_playlistFiles.remove(file);
 }
 
 void PlaylistCollection::dirChanged(const QString &path)
