@@ -59,7 +59,7 @@ void Cache::save()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Cache::Cache() : QDict<Tag>()
+Cache::Cache() : QDict<Tag>(cacheSize)
 {
 
 }

@@ -35,6 +35,11 @@ protected:
 
 private:
     static Cache *cache;
+    /**
+     * Note this number is a prime number that should be larger than the target
+     * size of the dict.
+     */
+    static const int cacheSize = 5003;
 };
 
 #endif
