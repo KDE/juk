@@ -92,11 +92,11 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     {
         KConfigGroupSaver saver(cfg, "TagGuesser");
 
-        substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&]+)");
-        substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&]+)");
-        substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&]+)");
+        substitutions[ 't' ] = cfg->readEntry("Title regexp", "([\\w\\s'&_]+)");
+        substitutions[ 'a' ] = cfg->readEntry("Artist regexp", "([\\w\\s'&_]+)");
+        substitutions[ 'A' ] = cfg->readEntry("Album regexp", "([\\w\\s'&_]+)");
         substitutions[ 'T' ] = cfg->readEntry("Track regexp", "(\\d+)");
-        substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s]+)");
+        substitutions[ 'c' ] = cfg->readEntry("Comment regexp", "([\\w\\s_]+)");
     }
 
     QString regExp = QRegExp::escape(s.simplifyWhiteSpace());
@@ -187,11 +187,11 @@ void TagGuesser::guess(const QString &absFileName)
     for (; it != end; ++it) {
         const FileNameScheme schema(*it);
         if(schema.matches(absFileName)) {
-            m_title = capitalizeWords(schema.title());
-            m_artist = capitalizeWords(schema.artist());
-            m_album = capitalizeWords(schema.album());
+            m_title = capitalizeWords(schema.title().replace('_', " "));
+            m_artist = capitalizeWords(schema.artist().replace('_', " "));
+            m_album = capitalizeWords(schema.album().replace('_', " "));
             m_track = schema.track();
-            m_comment = schema.comment();
+            m_comment = schema.comment().replace('_', " ");
             break;
         }
     }
