@@ -89,7 +89,11 @@ void TagEditor::slotRefresh()
     m_artistNameBox->setEditText(tag->artist());
     m_trackNameBox->setText(tag->track());
     m_albumNameBox->setEditText(tag->album());
-    
+
+    m_fileNameBox->setText(item->fileName());
+    m_bitrateBox->setText(tag->bitrateString());
+    m_lengthBox->setText(tag->lengthString());
+
     if(m_genreList.findIndex(tag->genre()) >= 0)
 	m_genreBox->setCurrentItem(m_genreList.findIndex(tag->genre()) + 1);
     else {
