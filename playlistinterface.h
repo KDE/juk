@@ -1,5 +1,5 @@
 /***************************************************************************
-                          playermanager.h
+                          playlistinterface.h
                              -------------------
     begin                : Fri Feb 27 2004
     copyright            : (C) 2004 by Scott Wheeler
