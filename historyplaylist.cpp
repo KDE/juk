@@ -16,6 +16,7 @@
  ***************************************************************************/
 
 #include <klocale.h>
+#include <kglobal.h>
 #include <kdebug.h>
 
 #include "historyplaylist.h"
@@ -59,14 +60,14 @@ HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *par
     PlaylistItem(item, parent, after),
     m_dateTime(QDateTime::currentDateTime())
 {
-    setText(0, m_dateTime.toString(LocalDate));
+    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
 }
 
 HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent) :
     PlaylistItem(item, parent),
     m_dateTime(QDateTime::currentDateTime())
 {
-    setText(0, m_dateTime.toString(LocalDate));
+    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
 }
 
 HistoryPlaylistItem::~HistoryPlaylistItem()
@@ -77,7 +78,7 @@ HistoryPlaylistItem::~HistoryPlaylistItem()
 void HistoryPlaylistItem::setDateTime(const QDateTime &dt)
 {
     m_dateTime = dt;
-    setText(0, m_dateTime.toString(LocalDate));
+    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
