@@ -3,6 +3,7 @@ check_PROGRAMS = tagguessertest mbtest
 
 juk_SOURCES = \
 	advancedsearchdialog.cpp \
+	actioncollection.cpp \
 	artsplayer.cpp \
 	cache.cpp \
 	collectionlist.cpp \

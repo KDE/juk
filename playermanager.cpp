@@ -15,9 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kactioncollection.h>
-#include <kmainwindow.h>
-#include <kapplication.h>
 #include <kdebug.h>
 
 #include <qslider.h>
@@ -27,6 +24,9 @@
 #include "playlistinterface.h"
 #include "slideraction.h"
 #include "statuslabel.h"
+#include "actioncollection.h"
+
+using namespace ActionCollection;
 
 PlayerManager *PlayerManager::m_instance = 0;
 
@@ -37,7 +37,6 @@ PlayerManager *PlayerManager::m_instance = 0;
 PlayerManager::PlayerManager() :
     QObject(0, "PlayerManager"),
     Player(),
-    m_actionCollection(0),
     m_sliderAction(0),
     m_playlistInterface(0),
     m_statusLabel(0),
@@ -152,10 +151,10 @@ void PlayerManager::play(const QString &fileName)
         return;
     }
 
-    m_actionCollection->action("pause")->setEnabled(true);
-    m_actionCollection->action("stop")->setEnabled(true);
-    m_actionCollection->action("forward")->setEnabled(true);
-    m_actionCollection->action("back")->setEnabled(true);
+    action("pause")->setEnabled(true);
+    action("stop")->setEnabled(true);
+    action("forward")->setEnabled(true);
+    action("back")->setEnabled(true);
 
     m_sliderAction->trackPositionSlider()->setValue(0);
     m_sliderAction->trackPositionSlider()->setEnabled(true);
@@ -174,7 +173,7 @@ void PlayerManager::pause()
     }
 
     m_timer->stop();
-    m_actionCollection->action("pause")->setEnabled(false);
+    action("pause")->setEnabled(false);
 
     player()->pause();
 }
@@ -186,10 +185,10 @@ void PlayerManager::stop()
 
     m_timer->stop();
 
-    m_actionCollection->action("pause")->setEnabled(false);
-    m_actionCollection->action("stop")->setEnabled(false);
-    m_actionCollection->action("back")->setEnabled(false);
-    m_actionCollection->action("forward")->setEnabled(false);
+    action("pause")->setEnabled(false);
+    action("stop")->setEnabled(false);
+    action("back")->setEnabled(false);
+    action("forward")->setEnabled(false);
 
     m_sliderAction->trackPositionSlider()->setValue(0);
     m_sliderAction->trackPositionSlider()->setEnabled(false);
@@ -326,31 +325,13 @@ Player *PlayerManager::player() const
 
 void PlayerManager::setup()
 {
-    // Since we're doing a little wizardry to keep the interaction and API
-    // requirements as light as possible we want to check everything we're
-    // going to need to make sure that everything's in order.
-
-    KMainWindow *mainWindow = dynamic_cast<KMainWindow *>(kapp->mainWidget());
-
-    if(!mainWindow) {
-        kdWarning(65432) << k_funcinfo << "Could not find main window." << endl;
-        return;
-    }
-
-    m_actionCollection = mainWindow->actionCollection();
-
-    if(!m_actionCollection) {
-        kdWarning(65432) << k_funcinfo << "Action collection is null." << endl;
-        return;
-    }
-
     // All of the actions required by this class should be listed here.
 
-    if(!m_actionCollection->action("pause") ||
-       !m_actionCollection->action("stop") ||
-       !m_actionCollection->action("back") ||
-       !m_actionCollection->action("forward") ||
-       !m_actionCollection->action("trackPositionAction"))
+    if(!action("pause") ||
+       !action("stop") ||
+       !action("back") ||
+       !action("forward") ||
+       !action("trackPositionAction"))
 
     {
         kdWarning(65432) << k_funcinfo << "Could not find all of the required actions." << endl;
@@ -359,14 +340,14 @@ void PlayerManager::setup()
 
     // initialize action states
 
-    m_actionCollection->action("pause")->setEnabled(false);
-    m_actionCollection->action("stop")->setEnabled(false);
-    m_actionCollection->action("back")->setEnabled(false);
-    m_actionCollection->action("forward")->setEnabled(false);
+    action("pause")->setEnabled(false);
+    action("stop")->setEnabled(false);
+    action("back")->setEnabled(false);
+    action("forward")->setEnabled(false);
 
     // setup sliders
 
-    m_sliderAction = static_cast<SliderAction *>(m_actionCollection->action("trackPositionAction"));
+    m_sliderAction = action<SliderAction>("trackPositionAction");
 
     connect(m_sliderAction, SIGNAL(signalPositionChanged(int)),
             this, SLOT(seekPosition(int)));
@@ -375,7 +356,7 @@ void PlayerManager::setup()
     connect(m_sliderAction->volumeSlider(), SIGNAL(valueChanged(int)),
             this, SLOT(slotSetVolume(int)));
 
-    KAction *outputAction = m_actionCollection->action("outputSelect");
+    KAction *outputAction = action("outputSelect");
 
     if(outputAction) {
         int mediaSystem = static_cast<KSelectAction *>(outputAction)->currentItem();

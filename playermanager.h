@@ -79,7 +79,6 @@ private slots:
 private:
     static PlayerManager *m_instance;
 
-    KActionCollection *m_actionCollection;
     SliderAction *m_sliderAction;
     PlaylistInterface *m_playlistInterface;
     StatusLabel *m_statusLabel;

@@ -45,6 +45,7 @@ class JuK : public KMainWindow, virtual public JuKIface
 public:
     JuK(QWidget* parent = 0, const char *name = 0);
     virtual ~JuK();
+    virtual KActionCollection *actionCollection() const;
 
 public slots:
     void play();
@@ -110,7 +111,7 @@ private:
     /**
      * Set the position in the currently playing track (in seconds).
      */
-    void setTime(int time) { m_player->seek(time); }
+    void setTime(int time);
 
     void updatePlaylistInfo();
 
@@ -141,7 +142,7 @@ private slots:
     void slotPlaylistChanged();
 
     // file menu
-    void slotQuit() { m_shuttingDown = true; kapp->quit(); }
+    void slotQuit();
 
     // settings menu
     void slotToggleSystemTray(bool enabled);

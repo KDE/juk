@@ -18,10 +18,11 @@
 #ifndef SLIDERACTION_H
 #define SLIDERACTION_H
 
+#include "customaction.h"
+
 class QSlider;
 class QBoxLayout;
-
-#include "customaction.h"
+class QDockWindow;
 
 class SliderAction : public CustomAction
 {

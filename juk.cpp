@@ -34,6 +34,7 @@
 #include "tagguesserconfigdlg.h"
 #include "filerenamerconfigdlg.h"
 #include "playermanager.h"
+#include "actioncollection.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -72,6 +73,11 @@ JuK::~JuK()
 
 }
 
+KActionCollection *JuK::actionCollection() const
+{
+    return ActionCollection::actions();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -85,6 +91,11 @@ void JuK::setVolume(float volume)
 	m_player->slotSetVolume(v);
 	m_sliderAction->volumeSlider()->setValue(v);
     }
+}
+
+void JuK::setTime(int time)
+{
+    m_player->seek(time);
 }
 
 void JuK::startPlayingPlaylist()
@@ -722,6 +733,11 @@ void JuK::slotPlaylistChanged()
         actionCollection()->action("duplicatePlaylist")->setEnabled(false);
 
     updatePlaylistInfo();
+}
+
+void JuK::slotQuit()
+{
+    kapp->quit();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
