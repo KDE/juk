@@ -416,11 +416,13 @@ void PlaylistCollection::renameItems()
 void PlaylistCollection::addCovers(bool fromFile)
 {
     visiblePlaylist()->slotAddCover(fromFile);
+    dataChanged();
 }
 
 void PlaylistCollection::removeCovers()
 {
     visiblePlaylist()->slotRemoveCover();
+    dataChanged();
 }
 
 void PlaylistCollection::viewCovers()
