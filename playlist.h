@@ -536,7 +536,7 @@ private slots:
      *
      * \see applyTag()
      */
-    void slotApplyModification(QListViewItem *, const QString &text, int column);
+    void slotApplyModification(QListViewItem *, const QString &, int column);
 
     /**
      * This starts the renaming process by displaying a line edit if the mouse is in 

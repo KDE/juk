@@ -1361,8 +1361,10 @@ void Playlist::applyTag(PlaylistItem *item, const QString &text, int column)
     item->slotRefresh();
 }
 
-void Playlist::slotApplyModification(QListViewItem *, const QString &text, int column)
+void Playlist::slotApplyModification(QListViewItem *, const QString &, int column)
 {
+    QString text = renameLineEdit()->text();
+
     PlaylistItemList l = selectedItems();
     if(text == m_editText || 
        (l.count() > 1 && KMessageBox::warningYesNo(
