@@ -63,7 +63,15 @@ const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
     { "Mute",
       { { KShortcut::null(),                        KShortcut::null() },
         { Qt::CTRL+Qt::ALT+Qt::Key_M,               KKey::QtWIN+Qt::ALT+Qt::Key_M },
-        { Qt::Key_VolumeMute,                       Qt::Key_VolumeMute } } }
+        { Qt::Key_VolumeMute,                       Qt::Key_VolumeMute } } },
+    { "Show",
+      { { KShortcut::null(),                        KShortcut::null() },
+        { KShortcut::null(),                        KShortcut::null() },
+        { KShortcut::null(),                        KShortcut::null() } } },
+    { "Hide",
+      { { KShortcut::null(),                        KShortcut::null() },
+        { KShortcut::null(),                        KShortcut::null() },
+        { KShortcut::null(),                        KShortcut::null() } } }
 };
 
 const uint KeyDialog::keyInfoCount = sizeof(KeyDialog::keyInfo) / sizeof(KeyDialog::keyInfo[0]);

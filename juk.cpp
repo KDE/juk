@@ -370,6 +370,8 @@ void JuK::setupGlobalAccels()
     KeyDialog::insert(m_accel, "VolumeUp",    i18n("Volume Up"),    action("volumeUp"),    SLOT(activate()));
     KeyDialog::insert(m_accel, "VolumeDown",  i18n("Volume Down"),  action("volumeDown"),  SLOT(activate()));
     KeyDialog::insert(m_accel, "Mute",        i18n("Mute"),         action("mute"),        SLOT(activate()));
+    KeyDialog::insert(m_accel, "Show",        i18n("Show"),         this,                  SLOT(show()));
+    KeyDialog::insert(m_accel, "Hide",        i18n("Hide"),         this,                  SLOT(hide()));
 
     m_accel->setConfigGroup("Shortcuts");
     m_accel->readSettings();
