@@ -156,6 +156,7 @@ void TagGuesser::setSchemeStrings(const QStringList &schemes)
     KConfig *cfg = kapp->config();
     cfg->setGroup("Tag guesser");
     cfg->writeEntry("Filename schemes", schemes);
+    cfg->sync();
 }
 
 TagGuesser::TagGuesser()
