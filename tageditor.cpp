@@ -19,6 +19,7 @@
 #include "collectionlist.h"
 #include "playlistitem.h"
 #include "tag.h"
+#include "actioncollection.h"
 
 #include <kcombobox.h>
 #include <klineedit.h>
@@ -29,6 +30,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kiconloader.h>
+#include <kactionclasses.h>
 
 #include <qlabel.h>
 #include <qcheckbox.h>
@@ -39,6 +41,8 @@
 #include <qeventloop.h>
 
 #include <id3v1genres.h>
+
+using namespace ActionCollection;
 
 class FileNameValidator : public QValidator
 {
@@ -104,6 +108,7 @@ TagEditor::TagEditor(QWidget *parent, const char *name) :
     QWidget(parent, name),
     m_currentPlaylist(0)
 {
+    setupActions();
     setupLayout();
     readConfig();
     m_dataChanged = false;
@@ -328,6 +333,10 @@ void TagEditor::readConfig()
 	    readCompletionMode(config, m_albumNameBox, "AlbumNameBoxMode");
 	    readCompletionMode(config, m_genreBox, "GenreBoxMode");
         }
+
+	bool show = config->readBoolEntry("Show", false);
+        action<KToggleAction>("showEditor")->setChecked(show);
+	setShown(show);
     }
 
     TagLib::StringList genres = TagLib::ID3v1::genreList();
@@ -360,8 +369,18 @@ void TagEditor::saveConfig()
 	    config->writeEntry("AlbumNameBoxMode", m_albumNameBox->completionMode());
 	    config->writeEntry("GenreBoxMode", m_genreBox->completionMode());
         }
+	config->writeEntry("Show", action<KToggleAction>("showEditor")->isChecked());
     }
 
+}
+
+void TagEditor::setupActions()
+{
+    KToggleAction *show = new KToggleAction(i18n("Show &Tag Editor"), "edit", 0, actions(), "showEditor");
+    show->setCheckedState(i18n("Hide &Tag Editor"));
+    connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
+
+    new KAction(i18n("&Save"), "filesave", "CTRL+t", this, SLOT(slotSave()), actions(), "saveItem");
 }
 
 void TagEditor::setupLayout()

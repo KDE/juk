@@ -62,8 +62,14 @@ void PlaylistSearch::search()
 
     PlaylistList::Iterator playlistIt = m_playlists.begin();
     for(; playlistIt != m_playlists.end(); ++playlistIt) {
-	for(QListViewItemIterator it(*playlistIt); it.current(); ++it)
-	    checkItem(static_cast<PlaylistItem *>(*it));
+	if(!isEmpty()) {
+	    for(QListViewItemIterator it(*playlistIt); it.current(); ++it)
+		checkItem(static_cast<PlaylistItem *>(*it));
+	}
+	else {
+	    m_items += (*playlistIt)->items();
+	    m_matchedItems += (*playlistIt)->items();
+	}
     }
 }
 

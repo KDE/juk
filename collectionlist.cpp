@@ -21,11 +21,17 @@
 #include <kdebug.h>
 #include <kpopupmenu.h>
 #include <kiconloader.h>
+#include <kconfig.h>
+#include <kaction.h>
 
 #include "collectionlist.h"
+#include "playlistcollection.h"
 #include "splashscreen.h"
 #include "stringshare.h"
 #include "cache.h"
+#include "actioncollection.h"
+
+using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
@@ -38,9 +44,18 @@ CollectionList *CollectionList::instance()
     return m_list;
 }
 
-void CollectionList::initialize(QWidget *parent, bool restoreOnLoad)
+void CollectionList::initialize(PlaylistCollection *collection, bool restoreOnLoad)
 {
-    m_list = new CollectionList(parent);
+    if(m_list)
+	return;
+
+    // We have to delay initilaization here because dynamic_cast or comparing to
+    // the collection instance won't work in the PlaylistBox::Item initialization
+    // won't work until the CollectionList is fully constructed.
+
+    m_list = new CollectionList(collection);
+    m_list->setName(i18n("Collection List"));
+    collection->setupPlaylist(m_list, "folder_sound");
 
     // TODO: don't fetch the fileInfo from the tag, but rather from the FileHandle
 
@@ -131,8 +146,8 @@ void CollectionList::slotRefreshItem(const QString &file)
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionList::CollectionList(QWidget *parent) :
-    Playlist(parent, i18n("Collection List")),
+CollectionList::CollectionList(PlaylistCollection *collection) :
+    Playlist(collection, true),
     m_itemsDict(5003),
     m_uniqueSets(m_uniqueSetCount, SortedStringList()),
     m_uniqueSetLast(m_uniqueSetCount, QString::null)
@@ -140,13 +155,20 @@ CollectionList::CollectionList(QWidget *parent) :
     m_dirWatch = new KDirWatch;
     connect(m_dirWatch, SIGNAL(deleted(const QString &)), this, SLOT(slotRemoveItem(const QString &)));
     connect(m_dirWatch, SIGNAL(dirty(const QString &)), this, SLOT(slotRefreshItem(const QString &)));
+    connect(action("showPlaying"), SIGNAL(activated()), this, SLOT(slotShowPlaying()));
     m_dirWatch->startScan();
+
+    KConfigGroup config(KGlobal::config(), "Playlists");
+    setSortColumn(config.readNumEntry("CollectionListSortColumn", 1));
 
     polish();
 }
 
 CollectionList::~CollectionList()
 {
+    KConfigGroup config(KGlobal::config(), "Playlists");
+    config.writeEntry("CollectionListSortColumn", sortColumn());
+
     delete m_dirWatch;
 }
 

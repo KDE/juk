@@ -26,13 +26,16 @@
 #include <qheader.h>
 #include <qpainter.h>
 #include <qregexp.h>
+#include <qwidgetstack.h>
 
 #include "playlistbox.h"
 #include "playlist.h"
-#include "playlistsplitter.h"
+#include "collectionlist.h"
+#include "dynamicplaylist.h"
 #include "viewmode.h"
 #include "searchplaylist.h"
 #include "actioncollection.h"
+#include "cache.h"
 
 using namespace ActionCollection;
 
@@ -40,14 +43,16 @@ using namespace ActionCollection;
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
+PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
+			 const QString &name) :
     KListView(parent, name.latin1()),
-    m_splitter(parent),
+    PlaylistCollection(playlistStack),
     m_updatePlaylistStack(true),
     m_viewModeIndex(0),
     m_hasSelection(false),
     m_doingMultiSelect(false),
-    m_dropItem(0)
+    m_dropItem(0),
+    m_dynamicPlaylist(0)
 {
     readConfig();
     addColumn("Playlists", width());
@@ -107,39 +112,21 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
 
     connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
 	    this, SLOT(slotShowContextMenu(QListViewItem *, const QPoint &, int)));
+
+    CollectionList::initialize(this);
+    Cache::loadPlaylists(this);
+    raise(CollectionList::instance());
 }
 
 PlaylistBox::~PlaylistBox()
 {
+    Cache::savePlaylists(playlists());
     saveConfig();
-}
-
-void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise, bool sortedFirst)
-{
-    if(!playlist)
-	return;
-
-    Item *i = new Item(this, icon, playlist->name(), playlist);
-
-    setupItem(i, playlist);
-    viewMode()->queueRefresh();
-
-    if(raise) {
-	setSingleItem(i);
-	ensureCurrentVisible();
-    }
-    i->setSortedFirst(sortedFirst);
-
-    if(playlist == CollectionList::instance()) {
-	slotPlaylistChanged();
-	emit signalCollectionInitialized();
-    }
 }
 
 void PlaylistBox::createSearchItem(SearchPlaylist *playlist, const QString &searchCategory)
 {
-    Item *i = m_viewModes[m_viewModeIndex]->createSearchItem(this, playlist, searchCategory);
-    setupItem(i, playlist);
+    m_viewModes[m_viewModeIndex]->createSearchItem(this, playlist, searchCategory);
 }
 
 void PlaylistBox::raise(Playlist *playlist)
@@ -170,21 +157,6 @@ PlaylistList PlaylistBox::playlists()
     return l;
 }
 
-void PlaylistBox::save()
-{
-    save(static_cast<Item *>(currentItem()));
-}
-
-void PlaylistBox::saveAs()
-{
-    saveAs(static_cast<Item *>(currentItem()));
-}
-
-void PlaylistBox::rename()
-{
-    rename(static_cast<Item *>(currentItem()));
-}
-
 void PlaylistBox::duplicate()
 {
     duplicate(static_cast<Item *>(currentItem()));
@@ -199,6 +171,26 @@ void PlaylistBox::paste()
     Item *i = static_cast<Item *>(currentItem());
     decode(kapp->clipboard()->data(), i);
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// PlaylistBox protected methods
+////////////////////////////////////////////////////////////////////////////////
+
+Playlist *PlaylistBox::currentPlaylist() const
+{
+    if(m_dynamicPlaylist)
+	return m_dynamicPlaylist;
+
+    return currentItem() ? static_cast<Item *>(currentItem())->playlist() : 0;
+}
+
+void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
+{
+    PlaylistCollection::setupPlaylist(playlist, iconName);
+
+    new Item(this, iconName, playlist->name(), playlist);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox private methods
@@ -223,46 +215,6 @@ void PlaylistBox::saveConfig()
     }
 }
 
-void PlaylistBox::save(Item *item)
-{
-    if(item)
-	item->playlist()->save();
-}
-
-void PlaylistBox::saveAs(Item *item)
-{
-    // kdDebug(65432) << "saveAs() - " << bool(item) << endl;
-    if(item)
-        item->playlist()->saveAs();
-}
-
-void PlaylistBox::rename(Item *item)
-{
-    if(!item)
-	return;
-
-    bool ok;
-
-    QString name = KInputDialog::getText(i18n("Rename"),
-        i18n("Please enter a name for this playlist:"), item->text(), &ok);
-
-    if(ok) {
-	item->setText(0, name);
-
-	// Telling the playlist to change it's name will emit a signal that
-	// is connected to Item::slotSetName().
-
-	if(item->playlist()) {
-	    item->playlist()->setName(name);
-	    viewMode()->queueRefresh();
-	}
-
-	sort();
-	setSelected(item, true);
-	ensureCurrentVisible();
-    }
-}
-
 void PlaylistBox::duplicate(Item *item)
 {
     if(item && item->playlist()) {
@@ -272,10 +224,10 @@ void PlaylistBox::duplicate(Item *item)
 
 	QString name = KInputDialog::getText(i18n("New Playlist"),
 					     i18n("Please enter a name for the new playlist:"),
-					     m_splitter->uniquePlaylistName(item->text(0), true), &ok);
+					     uniquePlaylistName(item->text(0)), &ok);
 
 	if(ok) {
-	    Playlist *p = m_splitter->createPlaylist(name);
+	    Playlist *p = new Playlist(this, name);
 	    p->createItems(item->playlist()->items());
 	}
     }
@@ -380,7 +332,7 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 	    files.append((*it).path());
 
 	if(item && item->playlist())
-	    m_splitter->slotAddToPlaylist(files, item->playlist());
+	    item->playlist()->addFiles(files, importPlaylists());
 	else
 	    emit signalCreatePlaylist(files);
     }
@@ -541,6 +493,7 @@ void PlaylistBox::slotPlaylistChanged()
 
     PlaylistList playlists;
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+
 	Playlist *p = (*it)->playlist();
 	if(p) {
 	    if(p == CollectionList::instance() || !p->fileName().isNull())
@@ -573,7 +526,8 @@ void PlaylistBox::slotPlaylistChanged()
 
     action("editSearch")->setEnabled(searchList);
 
-    emit signalCurrentChanged(playlists);
+    if(playlists.count() == 1)
+	playlistStack()->raiseWidget(playlists.front());
 }
 
 void PlaylistBox::slotDoubleClicked(QListViewItem *)
@@ -597,9 +551,10 @@ void PlaylistBox::slotSetViewMode(int index)
     viewMode()->setShown(true);
 }
 
-void PlaylistBox::setupItem(Item *item, Playlist *playlist)
+void PlaylistBox::setupItem(Item *item)
 {
-    m_playlistDict.insert(playlist, item);
+    m_playlistDict.insert(item->playlist(), item);
+    viewMode()->queueRefresh();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -608,16 +563,16 @@ void PlaylistBox::setupItem(Item *item, Playlist *playlist)
 
 PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 
-PlaylistBox::Item::Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l)
+PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l)
     : QObject(listBox), KListViewItem(listBox, text),
-      m_list(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
+      m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
     init();
 }
 
-PlaylistBox::Item::Item(Item *parent, const char *icon, const QString &text, Playlist *l)
+PlaylistBox::Item::Item(Item *parent, const QString &icon, const QString &text, Playlist *l)
     : QObject(parent->listView()), KListViewItem(parent, text),
-    m_list(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
+    m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
     init();
 }
@@ -662,6 +617,10 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 	listView()->m_names.append(name);
 
 	setText(0, name);
+	setSelected(true);
+
+	listView()->sort();
+	listView()->ensureCurrentVisible();
     }
 }
 
@@ -671,15 +630,22 @@ void PlaylistBox::Item::slotSetName(const QString &name)
 
 void PlaylistBox::Item::init()
 {
-    int iconSize = static_cast<PlaylistBox *>(listView())->viewModeIndex() == 0 ? 32 : 16;
+    PlaylistBox *list = static_cast<PlaylistBox *>(listView());
+
+    list->setupItem(this);
+
+    int iconSize = list->viewModeIndex() == 0 ? 32 : 16;
     setPixmap(0, SmallIcon(m_iconName, iconSize));
-    static_cast<PlaylistBox *>(listView())->addName(m_text);
+    list->addName(m_text);
 
-    if(m_list)
-	connect(m_list, SIGNAL(signalNameChanged(const QString &)), this, SLOT(slotSetName(const QString &)));
+    if(m_playlist)
+	connect(m_playlist, SIGNAL(signalNameChanged(const QString &)),
+		this, SLOT(slotSetName(const QString &)));
 
-    if(m_list == CollectionList::instance())
+    if(m_playlist == CollectionList::instance()) {
+	m_sortedFirst = true;
 	m_collectionItem = this;
+    }
 }
 
 #include "playlistbox.moc"

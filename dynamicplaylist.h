@@ -31,7 +31,10 @@ public:
     /**
      * Creates a dynamic playlist based on lists.
      */
-    DynamicPlaylist(const PlaylistList &lists, QWidget *parent, const QString &name = QString::null);
+    DynamicPlaylist(const PlaylistList &lists,
+                    PlaylistCollection *collection,
+                    const QString &name = QString::null,
+                    const QString &iconName = "midi");
 
 public slots:
     /**

@@ -27,8 +27,10 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SearchPlaylist::SearchPlaylist(QWidget *parent, const PlaylistSearch &search, const QString &name) :
-    DynamicPlaylist(search.playlists(), parent, name),
+SearchPlaylist::SearchPlaylist(PlaylistCollection *collection,
+                               const PlaylistSearch &search,
+                               const QString &name) :
+    DynamicPlaylist(search.playlists(), collection, name, "find"),
     m_search(search)
 {
 

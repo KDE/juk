@@ -26,7 +26,8 @@
 // HistoryPlayList public members
 ////////////////////////////////////////////////////////////////////////////////
 
-HistoryPlaylist::HistoryPlaylist(QWidget *parent) : Playlist(parent, i18n("History"))
+HistoryPlaylist::HistoryPlaylist(PlaylistCollection *collection) :
+    Playlist(collection, i18n("History"))
 {
     setAllowDuplicates(true);
 }

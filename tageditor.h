@@ -42,16 +42,17 @@ class TagEditor : public QWidget
 public: 
     TagEditor(QWidget *parent = 0, const char *name = 0);
     virtual ~TagEditor();
-    void save() { save(m_items); }
     PlaylistItemList items() const { return m_items; }
 
 public slots:
+    void slotSave() { save(m_items); }
     void slotSetItems(const PlaylistItemList &list);
     void slotRefresh();
     void slotClear();
     void slotUpdateCollection();
    
 private:
+    void setupActions();
     void setupLayout();
     void readConfig();
     void readCompletionMode(KConfig *config, KComboBox *box, const QString &key);

@@ -19,6 +19,8 @@
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
 #include <dcopclient.h>
+#include <kconfigbase.h>
+#include <kconfig.h>
 
 #include "juk.h"
 
@@ -37,9 +39,6 @@ static const char antonio[]     = I18N_NOOP("DCOP interface");
 
 static KCmdLineOptions options[] =
 {
-#ifndef NO_DEBUG
-    { "norestore", I18N_NOOP("Restore playlists.  Use --norestore for debugging."), 0 },
-#endif
     { "+[file(s)]", I18N_NOOP("File(s) to open"), 0 },
     KCmdLineLastOption
 };
@@ -81,11 +80,9 @@ int main(int argc, char *argv[])
 
     bool startDocked;
 
-    KConfig *config = KGlobal::config();
-    {
-        KConfigGroupSaver saver(config, "Settings");
-        startDocked = config->readBoolEntry("StartDocked", false);
-    }
+    KConfigGroup config(KGlobal::config(), "Settings");
+    startDocked = config.readBoolEntry("StartDocked", false);
+
     if(!startDocked)
         juk->show();
 

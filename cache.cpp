@@ -26,8 +26,12 @@
 
 #include "cache.h"
 #include "tag.h"
+#include "searchplaylist.h"
+#include "historyplaylist.h"
 
 Cache *Cache::m_cache = 0;
+static const int playlistCacheVersion = 2;
+enum PlaylistType { Normal = 0, Search = 1, History = 2 };
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -36,8 +40,8 @@ Cache *Cache::m_cache = 0;
 Cache *Cache::instance()
 {
     if(m_cache == 0) {
-	m_cache = new Cache;
-	m_cache->load();
+        m_cache = new Cache;
+        m_cache->load();
     }
     return m_cache;
 }
@@ -50,14 +54,14 @@ void Cache::save()
     QFile f(cacheFileName);
 
     if(!f.open(IO_WriteOnly))
-	return;
+        return;
 
     QByteArray data;
     QDataStream s(data, IO_WriteOnly);
 
     for(Iterator it = begin(); it != end(); ++it) {
-	s << (*it).absFilePath();
-	s << *it;
+        s << (*it).absFilePath();
+        s << *it;
     }
 
     QDataStream fs(&f);
@@ -71,6 +75,136 @@ void Cache::save()
     f.close();
 
     QDir(dirName).rename("cache.new", "cache");
+}
+
+void Cache::loadPlaylists(PlaylistCollection *collection) // static
+{
+    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
+
+    QFile f(playlistsFile);
+
+    if(!f.open(IO_ReadOnly))
+        return;
+
+    QDataStream fs(&f);
+
+    Q_INT32 version;
+    fs >> version;
+
+    switch(version) {
+    case 1:
+    case 2:
+    {
+        // Our checksum is only for the values after the version and checksum so
+        // we want to get a byte array with just the checksummed data.
+
+        QByteArray data;
+        Q_UINT16 checksum;
+        fs >> checksum >> data;
+
+        if(checksum != qChecksum(data.data(), data.size()))
+            return;
+
+        // Create a new stream just based on the data.
+
+        QDataStream s(data, IO_ReadOnly);
+
+        while(!s.atEnd()) {
+
+            Q_INT32 playlistType;
+            s >> playlistType;
+
+            Playlist *playlist;
+
+            switch(playlistType) {
+            case Search:
+            {
+                SearchPlaylist *p = new SearchPlaylist(collection);
+                s >> *p;
+                playlist = p;
+                break;
+            }
+            case History:
+            {
+                // slotSetHistoryVisible(true);
+		HistoryPlaylist *p = new HistoryPlaylist(collection);
+                s >> *p;
+                playlist = p;
+                break;
+            }
+            default:
+                Playlist *p = new Playlist(collection, true);
+		s >> *p;
+                playlist = p;
+
+                break;
+            }
+            if(version == 2) {
+                Q_INT32 sortColumn;
+                s >> sortColumn;
+                if(playlist)
+                    playlist->setSorting(sortColumn);
+            }
+        }
+        break;
+    }
+    default:
+    {
+        // Because the original version of the playlist cache did not contain a
+        // version number, we want to revert to the beginning of the file before
+        // reading the data.
+
+        f.reset();
+
+        while(!fs.atEnd()) {
+            Playlist *p = new Playlist(collection);
+            fs >> *p;
+        }
+        break;
+    }
+    }
+
+    f.close();
+}
+
+void Cache::savePlaylists(const PlaylistList &playlists)
+{
+    QString dirName = KGlobal::dirs()->saveLocation("appdata");
+    QString playlistsFile = dirName + "playlists.new";
+    QFile f(playlistsFile);
+
+    if(!f.open(IO_WriteOnly))
+	return;
+
+    QByteArray data;
+    QDataStream s(data, IO_WriteOnly);
+
+    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); it++) {
+	if(*it) {
+	    if(dynamic_cast<HistoryPlaylist *>(*it)) {
+		s << Q_INT32(History)
+		  << *static_cast<HistoryPlaylist *>(*it);
+	    }
+	    else if(dynamic_cast<SearchPlaylist *>(*it)) {
+		s << Q_INT32(Search)
+		  << *static_cast<SearchPlaylist *>(*it);
+	    }
+	    else {
+		s << Q_INT32(Normal)
+		  << *(*it);
+	    }
+	    s << Q_INT32((*it)->sortColumn());
+	}
+    }
+
+    QDataStream fs(&f);
+    fs << Q_INT32(playlistCacheVersion);
+    fs << qChecksum(data.data(), data.size());
+
+    fs << data;
+    f.close();
+
+    QDir(dirName).rename("playlists.new", "playlists");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,7 +223,7 @@ void Cache::load()
     QFile f(cacheFileName);
 
     if(!f.open(IO_ReadOnly))
-	return;
+        return;
 
     CacheDataStream s(&f);
 
@@ -102,40 +236,40 @@ void Cache::load()
 
     switch(version) {
     case 1: {
-	s.setCacheVersion(1);
+        s.setCacheVersion(1);
 
-	Q_INT32 checksum;
-	QByteArray data;
-	s >> checksum
-	  >> data;
+        Q_INT32 checksum;
+        QByteArray data;
+        s >> checksum
+          >> data;
 
-	buffer.setBuffer(data);
-	buffer.open(IO_ReadOnly);
-	s.setDevice(&buffer);
+        buffer.setBuffer(data);
+        buffer.open(IO_ReadOnly);
+        s.setDevice(&buffer);
 
-	if(checksum != qChecksum(data.data(), data.size())) {
-	    KMessageBox::sorry(0, i18n("The music data cache has been corrupted. JuK "
-				       "needs to rescan it now. This may take some time."));
-	    return;
-	}
-	break;
+        if(checksum != qChecksum(data.data(), data.size())) {
+            KMessageBox::sorry(0, i18n("The music data cache has been corrupted. JuK "
+                                       "needs to rescan it now. This may take some time."));
+            return;
+        }
+        break;
     }
     default: {
-	s.device()->reset();
-	s.setCacheVersion(0);
-	break;
+        s.device()->reset();
+        s.setCacheVersion(0);
+        break;
     }
     }
 
     // Read the cached tags.
 
     while(!s.atEnd()) {
-	QString fileName;
-	s >> fileName;
-	fileName.squeeze();        
+        QString fileName;
+        s >> fileName;
+        fileName.squeeze();        
 
-	FileHandle f(fileName);
-	s >> f;
-	// f.setFile(fileName);
+        FileHandle f(fileName);
+        s >> f;
+        // f.setFile(fileName);
     }
 }

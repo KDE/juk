@@ -214,6 +214,7 @@ void PlayerManager::play(const FileHandle &file)
             player()->seekPosition(0);
         }
         else {
+	    m_playlistInterface->playNext();
             m_file = m_playlistInterface->currentFile();
 
             if(!m_file.isNull()) {
@@ -288,6 +289,7 @@ void PlayerManager::stop()
     m_statusLabel->clear();
 
     player()->stop();
+    m_playlistInterface->stop();
 
     m_file = FileHandle::null();
 
@@ -342,7 +344,8 @@ void PlayerManager::playPause()
 
 void PlayerManager::forward()
 {
-    FileHandle file = m_playlistInterface->nextFile();
+    m_playlistInterface->playNext();
+    FileHandle file = m_playlistInterface->currentFile();
 
     if(!file.isNull())
         play(file);
@@ -352,7 +355,8 @@ void PlayerManager::forward()
 
 void PlayerManager::back()
 {
-    FileHandle file = m_playlistInterface->previousFile();
+    m_playlistInterface->playPrevious();
+    FileHandle file = m_playlistInterface->currentFile();
 
     if(!file.isNull())
         play(file);
@@ -407,7 +411,8 @@ void PlayerManager::slotPollPlay()
     if(!player()->playing()) {
         m_timer->stop();
 
-        FileHandle nextFile = m_playlistInterface->nextFile();
+        m_playlistInterface->playNext();
+        FileHandle nextFile = m_playlistInterface->currentFile();
         if(!nextFile.isNull())
             play(nextFile);
         else
@@ -482,7 +487,6 @@ void PlayerManager::setup()
        !action("back") ||
        !action("forward") ||
        !action("trackPositionAction"))
-
     {
         kdWarning(65432) << k_funcinfo << "Could not find all of the required actions." << endl;
         return;

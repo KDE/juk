@@ -23,12 +23,19 @@
 #include "stringhash.h"
 
 class Tag;
+class Playlist;
+class PlaylistCollection;
+
+typedef QValueList<Playlist *> PlaylistList;
 
 class Cache : public FileHandleHash
 {
 public:
     static Cache *instance();
     void save();
+
+    static void loadPlaylists(PlaylistCollection *collection);
+    static void savePlaylists(const PlaylistList &playlists);
 
 protected:
     Cache();

@@ -261,6 +261,7 @@ TreeViewMode::~TreeViewMode()
 
 void TreeViewMode::setShown(bool show)
 {
+    kdDebug(65432) << k_funcinfo << endl;
     CompactViewMode::setShown(show);
 
     playlistBox()->setRootIsDecorated(show);
@@ -317,8 +318,7 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
         playlists.append(collection);
 
         PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
-
-        emit signalCreateSearchList(s, searchCategory, *it);
+        new SearchPlaylist(playlistBox(), s, *it);
 
         static int i = 0;
         if(++i % 5 == 0)

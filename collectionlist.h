@@ -55,7 +55,7 @@ public:
     enum UniqueSetType { Artists = 0, Albums = 1, Genres = 2 };
 
     static CollectionList *instance();
-    static void initialize(QWidget *parent, bool restoreOnLoad = true);
+    static void initialize(PlaylistCollection *collection, bool restoreOnLoad = true);
 
     /**
      * Returns a unique set of values associated with the type specified.
@@ -81,7 +81,7 @@ public slots:
     void slotRefreshItem(const QString &file);
     
 protected:
-    CollectionList(QWidget *parent);
+    CollectionList(PlaylistCollection *collection);
     virtual ~CollectionList();
 
     virtual void contentsDropEvent(QDropEvent *e);

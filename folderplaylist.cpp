@@ -1,10 +1,7 @@
 /***************************************************************************
-                          actioncollection.cpp
-                             -------------------
-    begin                : Fri Feb 27 2004
     copyright            : (C) 2004 by Scott Wheeler
     email                : wheeler@kde.org
-***************************************************************************/
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,29 +12,24 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kactioncollection.h>
-#include <kdebug.h>
+#include "folderplaylist.h"
+#include "collectionlist.h"
 
-#include "actioncollection.h"
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+////////////////////////////////////////////////////////////////////////////////
 
-namespace ActionCollection
+FolderPlaylist::FolderPlaylist(PlaylistCollection *collection, const QString &folder,
+                               const QString &name) :
+    Playlist(collection, name),
+    m_folder(folder)
 {
-    KActionCollection *actions()
-    {
-        static KActionCollection *a =
-            new KActionCollection(static_cast<QWidget *>(0), "JuK Action Collection");
-        return a;
-    }
-
-    KAction *action(const char *key)
-    {
-#ifndef NO_DEBUG
-        KAction *a = actions()->action(key);
-        if(!a)
-            kdWarning(65432) << "KAction \"" << key << "\" is not defined yet." << endl;
-        return a;
-#else
-        return actions()->action(key);
-#endif
-    }
+    addFiles(folder, false);
 }
+
+FolderPlaylist::~FolderPlaylist()
+{
+
+}
+
+#include "folderplaylist.moc"

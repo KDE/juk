@@ -22,6 +22,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
+#include <kapplication.h>
 
 #include <qslider.h>
 
@@ -35,6 +36,8 @@
 #include "filerenamerconfigdlg.h"
 #include "actioncollection.h"
 #include "cache.h"
+#include "playlistsplitter.h"
+#include "collectionlist.h"
 
 using namespace ActionCollection;
 
@@ -43,7 +46,6 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent, const char *name) :
-    DCOPObject("Collection"),
     KMainWindow(parent, name, WDestructiveClose),
     m_player(PlayerManager::instance()),
     m_shuttingDown(false)
@@ -59,14 +61,11 @@ JuK::JuK(QWidget *parent, const char *name) :
 
     setupActions();
     setupLayout();
-    setupSplitterConnections();
-    slotPlaylistChanged();
+    createGUI();
     readConfig();
     setupSystemTray();
     setupGlobalAccels();
     processArgs();
-
-    m_player->setPlaylistInterface(m_splitter);
 
     SplashScreen::finishedLoading();
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
@@ -85,131 +84,36 @@ KActionCollection *JuK::actionCollection() const
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// public slots
-////////////////////////////////////////////////////////////////////////////////
-
-void JuK::slotGuessTagInfoFromFile()
-{
-    m_splitter->slotGuessTagInfo(TagGuesser::FileName);
-}
-
-void JuK::slotGuessTagInfoFromInternet()
-{
-    m_splitter->slotGuessTagInfo(TagGuesser::MusicBrainz);
-}
-
-void JuK::openFile(const QString &file)
-{
-    m_splitter->open(file);
-}
-
-void JuK::openFile(const QStringList &files)
-{
-    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
-	openFile(*it);
-}
-
-////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
 void JuK::setupLayout()
 {
+    m_statusLabel = new StatusLabel(statusBar());
+    statusBar()->addWidget(m_statusLabel, 1);
+
     m_splitter = new PlaylistSplitter(this, "playlistSplitter");
     setCentralWidget(m_splitter);
 
-    // create status bar
-
-    m_statusLabel = new StatusLabel(statusBar());
-
-    statusBar()->addWidget(m_statusLabel, 1);
-
-    connect(m_statusLabel, SIGNAL(jumpButtonClicked()),
-	    m_splitter, SLOT(slotSelectPlaying()));
-
     PlayerManager::instance()->setStatusLabel(m_statusLabel);
 
-    // Needs to be here because m_splitter is not called before setupActions
-    // (because PlaylistSplitter itself accesses the actionCollection)
-
-    new KAction(i18n("&Rename File"), "filesaveas", "CTRL+r", m_splitter,
-		SLOT(slotRenameFile()), actions(), "renameFile");
-
     m_splitter->setFocus();
-
     resize(750, 500);
 }
 
 void JuK::setupActions()
 {
-    //////////////////////////////////////////////////
-    // file menu
-    //////////////////////////////////////////////////
-
-    KActionMenu *newMenu = new KActionMenu(i18n("&New"), "filenew",
-					   actions(), "file_new");
-
-    // This connection will call the
-    // PlaylistSplitter::slotCreatePlaylist(const QString &) slot - this is
-    // possible because the QString parameter has a default value, so the
-    // slot can be called without arguments (as required by the signal's
-    // signature).
-
-    newMenu->insert(createSplitterAction(
-			i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
-			"newPlaylist", "window_new", "CTRL+n"));
-    newMenu->insert(createSplitterAction(
-			i18n("Playlist From &Folder..."), SLOT(slotCreatePlaylistFromDir()),
-			"newDirectoryPlaylist", "fileopen", "CTRL+d"));
-    newMenu->insert(createSplitterAction(
-			i18n("&Search Playlist"), SLOT(slotAdvancedSearch()),
-			"newSearchPlaylist", "find", "CTRL+f"));
-
-    createSplitterAction(i18n("Open..."),         SLOT(slotOpen()),              "file_open", "fileopen", "CTRL+o");
-    createSplitterAction(i18n("Add &Folder..."),  SLOT(slotOpenDirectory()),     "openDirectory", "fileopen");
-    createSplitterAction(i18n("&Rename..."),      SLOT(slotRenamePlaylist()),    "renamePlaylist", "lineedit");
-    createSplitterAction(i18n("D&uplicate..."),   SLOT(slotDuplicatePlaylist()), "duplicatePlaylist", "editcopy");
-    createSplitterAction(i18n("Save"),            SLOT(slotSavePlaylist()),      "file_save", "filesave", "CTRL+s");
-    createSplitterAction(i18n("Save As..."),      SLOT(slotSaveAsPlaylist()),    "file_save_as", "filesaveas");
-    createSplitterAction(i18n("R&emove"),         SLOT(slotDeletePlaylist()),    "deleteItemPlaylist", "edittrash");
-    createSplitterAction(i18n("Reload"),          SLOT(slotReloadPlaylist()),    "reloadPlaylist", "reload");
-    createSplitterAction(i18n("Edit Search..."),  SLOT(slotEditSearch()),        "editSearch", "editclear");
-
     KStdAction::quit(this, SLOT(slotQuit()), actions());
-
-    //////////////////////////////////////////////////
-    // edit menu
-    //////////////////////////////////////////////////
-
     KStdAction::cut(kapp,   SLOT(cut()),   actions());
     KStdAction::copy(kapp,  SLOT(copy()),  actions());
     KStdAction::paste(kapp, SLOT(paste()), actions());
     KStdAction::clear(kapp, SLOT(clear()), actions());
-
     KStdAction::selectAll(kapp, SLOT(selectAll()), actions());
 
-    //////////////////////////////////////////////////
-    // view menu
-    //////////////////////////////////////////////////
+    m_showHistoryAction = new KToggleAction(i18n("Show &History"),    "history",  0, actions(), "showHistory");
+    m_randomPlayAction =  new KToggleAction(i18n("&Random Play"),                 0, actions(), "randomPlay");
 
-    m_showSearchAction = new KToggleAction(i18n("Show &Search Bar"), "filefind",
-					   0, actions(), "showSearch");
-    m_showSearchAction->setCheckedState(i18n("Hide &Search Bar"));
-    m_showEditorAction = new KToggleAction(i18n("Show &Tag Editor"), "edit",
-					   0, actions(), "showEditor");
-    m_showEditorAction->setCheckedState(i18n("Hide &Tag Editor"));
-    m_showHistoryAction = new KToggleAction(i18n("Show &History"), "history",
-					   0, actions(), "showHistory");
     m_showHistoryAction->setCheckedState(i18n("Hide &History"));
-
-    createSplitterAction(i18n("Refresh Items"), SLOT(slotRefresh()), "refresh", "reload");
-
-    //////////////////////////////////////////////////
-    // play menu
-    //////////////////////////////////////////////////
-
-    m_randomPlayAction = new KToggleAction(i18n("&Random Play"), 0,
-					   actions(), "randomPlay");
 
     new KAction(i18n("&Play"),  "player_play",  0, m_player, SLOT(play()),  actions(), "play");
     new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()), actions(), "pause");
@@ -217,7 +121,6 @@ void JuK::setupActions()
 
     // m_backAction = new KToolBarPopupAction(i18n("Previous &Track"), "player_start", 0,
     //                                        this, SLOT(back()), actions(), "back");
-
     // TODO: switch this back to being a popup action
 
     new KAction(i18n("Previous &Track"), "player_start", 0, m_player, SLOT(back()),    actions(), "back");
@@ -234,29 +137,6 @@ void JuK::setupActions()
     new KAction(i18n("Seek Forward"), "seekForward", 0, m_player, SLOT(seekForward()), actions(), "seekForward");
     new KAction(i18n("Seek Back"),    "seekBack",    0, m_player, SLOT(seekBack()),    actions(), "seekBack");
 
-
-    //////////////////////////////////////////////////
-    // tagger menu
-    //////////////////////////////////////////////////
-
-    createSplitterAction(i18n("&Save"), SLOT(slotSaveTag()),
-			 "saveItem",   "filesave", "CTRL+t");
-    createSplitterAction(i18n("&Delete"), SLOT(slotDeleteSelectedItems()),
-			 "removeItem", "editdelete");
-
-    KActionMenu *guessMenu = new KActionMenu(i18n("&Guess Tag Information"),
-					     QString::null, actions(),
-					     "guessTag");
-    guessMenu->setIconSet(SmallIconSet("wizard"));
-
-    guessMenu->insert(
-	new KAction(i18n("From &Filename"), "fileimport", "CTRL+g",
-		    this, SLOT(slotGuessTagInfoFromFile()), actions(), "guessTagFile"));
-#if HAVE_MUSICBRAINZ
-    guessMenu->insert(
-	new KAction(i18n("From &Internet"), "connect_established", "CTRL+i",
-		    this, SLOT(slotGuessTagInfoFromInternet()), actions(), "guessTagInternet"));
-#endif
 
     //////////////////////////////////////////////////
     // settings menu
@@ -301,26 +181,6 @@ void JuK::setupActions()
 
     m_sliderAction = new SliderAction(i18n("Track Position"), actions(),
 				      "trackPositionAction");
-
-    createGUI();
-}
-
-void JuK::setupSplitterConnections()
-{
-    QValueListConstIterator<SplitterConnection> it = m_splitterConnections.begin();
-    for(; it != m_splitterConnections.end(); ++it)
-        connect((*it).first, SIGNAL(activated()), m_splitter, (*it).second);
-
-    connect(m_showSearchAction, SIGNAL(toggled(bool)),
-	    m_splitter, SLOT(slotSetSearchVisible(bool)));
-    connect(m_showEditorAction, SIGNAL(toggled(bool)),
-	    m_splitter, SLOT(slotSetEditorVisible(bool)));
-    connect(m_showHistoryAction, SIGNAL(toggled(bool)),
-	    m_splitter, SLOT(slotSetHistoryVisible(bool)));
-    connect(this, SIGNAL(dockWindowPositionChanged(QDockWindow *)),
-	    m_sliderAction, SLOT(slotUpdateOrientation(QDockWindow *)));
-    connect(m_splitter, SIGNAL(signalPlaylistChanged()),
-	    this, SLOT(slotPlaylistChanged()));
 }
 
 void JuK::setupSystemTray()
@@ -369,7 +229,8 @@ void JuK::processArgs()
     for(int i = 0; i < args->count(); i++)
         files.append(args->arg(i));
 
-    m_splitter->open(files);
+    // TODO: make this work again
+    // m_splitter->open(files);
 }
 
 void JuK::keyPressEvent(QKeyEvent *e)
@@ -415,14 +276,6 @@ void JuK::readConfig()
     { // view settings
         KConfigGroupSaver saver(config, "View");
 
-        bool showSearch = config->readBoolEntry("ShowSearch", true);
-        m_showSearchAction->setChecked(showSearch);
-        m_splitter->slotSetSearchVisible(showSearch);
-
-        bool showEditor = config->readBoolEntry("ShowEditor", false);
-        m_showEditorAction->setChecked(showEditor);
-        m_splitter->slotSetEditorVisible(showEditor);
-
 	// The history list will actually be created by the playlist restoration
 	// code, but we want to remember the checkbox's setting and hope that
 	// it's in synch with the code that does the real work.
@@ -462,9 +315,6 @@ void JuK::saveConfig()
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
-
-        config->writeEntry("ShowEditor", m_showEditorAction->isChecked());
-        config->writeEntry("ShowSearch", m_showSearchAction->isChecked());
 	config->writeEntry("ShowHistory", m_showHistoryAction->isChecked());
     }
     { // general settings
@@ -513,22 +363,6 @@ bool JuK::queryClose()
 	return true;
 }
 
-KAction *JuK::createSplitterAction(const QString &text, const char *slot,
-				   const char *name, const QString &pix,
-				   const KShortcut &shortcut)
-{
-    KAction *action;
-
-    if(pix.isNull())
-	action = new KAction(text, shortcut, actions(), name);
-    else
-	action = new KAction(text, pix, shortcut, actions(), name);
-
-    m_splitterConnections.append(SplitterConnection(action, slot));
-
-    return action;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // private slot definitions
 ////////////////////////////////////////////////////////////////////////////////
@@ -536,11 +370,6 @@ KAction *JuK::createSplitterAction(const QString &text, const char *slot,
 void JuK::slotShowHide()
 {
     setShown(!isShown());
-}
-
-void JuK::slotPlaylistChanged()
-{
-    m_statusLabel->setPlaylist(m_splitter);
 }
 
 void JuK::slotQuit()

@@ -22,7 +22,6 @@
 #include <kshortcut.h>
 
 #include "playermanager.h"
-#include "playlistsplitter.h"
 #include "jukIface.h"
 
 class QTimer;
@@ -37,8 +36,9 @@ class SliderAction;
 class StatusLabel;
 class SystemTray;
 class PlayerManager;
+class PlaylistSplitter;
 
-class JuK : public KMainWindow, public CollectionIface
+class JuK : public KMainWindow
 {
     Q_OBJECT
 
@@ -47,26 +47,13 @@ public:
     virtual ~JuK();
     virtual KActionCollection *actionCollection() const;
 
-    /**
-     * This forwards on the request to enable or disable directory scanning for
-     * new files being added or removed.
-     */
-    void setDirWatchEnabled(bool enabled) { m_splitter->setDirWatchEnabled(enabled); }
-
 private:
     void setupLayout();
     void setupActions();
-    /**
-     * Solves the problem of the splitter needing to use some of the actions from
-     * this class and as such them needing to be created before the
-     * PlaylistSplitter, but also needing to connect to the playlist splitter.
-     *
-     * @see createSplitterAction();
-     */
-    void setupSplitterConnections();
     void setupSystemTray();
     void setupGlobalAccels();
     void processArgs();
+
     void keyPressEvent(QKeyEvent *);
 
     /**
@@ -80,33 +67,13 @@ private:
     virtual bool queryExit();
     virtual bool queryClose();
 
-    void openFile(const QString &file);
-    void openFile(const QStringList &files);
-
-    /**
-     * Because we want to be able to reuse these actions in the main GUI classes,
-     * which are created by the PlaylistSplitter, it is useful to create them
-     * before creating the splitter.  This however creates a problem in that we
-     * also need to connect them to the splitter.  This method builds creates
-     * actions and builds a list of connections that can be set up after the
-     * splitter is created.
-     */
-    KAction *createSplitterAction(const QString &text,
-				  const char *slot,
-				  const char *name,
-				  const QString &pix = QString::null,
-				  const KShortcut &shortcut = KShortcut());
-
 private slots:
     void slotShowHide();
-    void slotPlaylistChanged();
     void slotQuit();
     void slotToggleSystemTray(bool enabled);
     void slotEditKeys();
     void slotConfigureTagGuesser();
     void slotConfigureFileRenamer();
-    void slotGuessTagInfoFromFile();
-    void slotGuessTagInfoFromInternet();
 
 private:
     PlaylistSplitter *m_splitter;
@@ -117,8 +84,6 @@ private:
     QValueList<SplitterConnection> m_splitterConnections;
 
     SliderAction *m_sliderAction;
-    KToggleAction *m_showSearchAction;
-    KToggleAction *m_showEditorAction;
     KToggleAction *m_showHistoryAction;
     KToggleAction *m_randomPlayAction;
     KToggleAction *m_toggleSystemTrayAction;

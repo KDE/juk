@@ -40,7 +40,7 @@ class HistoryPlaylist : public Playlist
     Q_OBJECT
 
 public:
-    HistoryPlaylist(QWidget *parent);
+    HistoryPlaylist(PlaylistCollection *collection);
     virtual ~HistoryPlaylist();
 
     virtual HistoryPlaylistItem *createItem(const FileHandle &file, QListViewItem *after = 0,

@@ -73,9 +73,14 @@ public:
 public slots:
     void clear();
 
+protected:
+    virtual void showEvent(QShowEvent *e);
+    virtual void hideEvent(QHideEvent *e);
+
 signals:
     void signalQueryChanged();
     void signalAdvancedSearchClicked();
+    void signalShown(bool shown);
 
 private:
     void updateColumns();

@@ -24,7 +24,7 @@ class SearchPlaylist : public DynamicPlaylist
 {
     Q_OBJECT
 public:
-    SearchPlaylist(QWidget *parent,
+    SearchPlaylist(PlaylistCollection *collection,
                    const PlaylistSearch &search = PlaylistSearch(),
                    const QString &name = QString::null);
 

@@ -1,10 +1,7 @@
 /***************************************************************************
-                          actioncollection.cpp
-                             -------------------
-    begin                : Fri Feb 27 2004
     copyright            : (C) 2004 by Scott Wheeler
     email                : wheeler@kde.org
-***************************************************************************/
+ ***************************************************************************/
 
 /***************************************************************************
  *                                                                         *
@@ -15,29 +12,32 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kactioncollection.h>
-#include <kdebug.h>
+#ifndef PAINTEATER_H
+#define PAINTEATER_H
 
-#include "actioncollection.h"
+#include <qobject.h>
 
-namespace ActionCollection
+class Playlist;
+
+/**
+ * This small class will block paint events on a Playlist until it passes out
+ * of scope.  This is a bit of a hack to get around the fact that while
+ * Playlists are loading items painting takes much more time than loading the
+ * PlaylistItems.
+ */
+
+class PaintEater : public QObject
 {
-    KActionCollection *actions()
-    {
-        static KActionCollection *a =
-            new KActionCollection(static_cast<QWidget *>(0), "JuK Action Collection");
-        return a;
-    }
+public:
+    PaintEater(Playlist *list);
 
-    KAction *action(const char *key)
-    {
-#ifndef NO_DEBUG
-        KAction *a = actions()->action(key);
-        if(!a)
-            kdWarning(65432) << "KAction \"" << key << "\" is not defined yet." << endl;
-        return a;
-#else
-        return actions()->action(key);
+protected:
+    virtual bool eventFilter(QObject *o, QEvent *e);
+
+private:
+    Playlist *m_list;
+    bool     m_allowOne;
+    int      m_previousHeight;
+};
+
 #endif
-    }
-}

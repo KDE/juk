@@ -10,6 +10,7 @@ juk_SOURCES = \
 	directorylist.cpp \
 	directorylistbase.ui \
 	dynamicplaylist.cpp \
+	folderplaylist.cpp \
 	filehandle.cpp \
 	filerenamer.cpp \
 	filerenamerconfigdlg.cpp \
@@ -23,9 +24,11 @@ juk_SOURCES = \
 	mediafiles.cpp \
 	musicbrainzitem.cpp \
 	musicbrainzquery.cpp \
+	painteater.cpp \
 	playermanager.cpp \
 	playlist.cpp \
 	playlistbox.cpp \
+	playlistcollection.cpp \
 	playlistitem.cpp \
 	playlistsearch.cpp \
 	playlistsplitter.cpp \

@@ -15,6 +15,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kaction.h>
 #include <kpushbutton.h>
 #include <kiconloader.h>
 #include <ksqueezedtextlabel.h> 
@@ -27,7 +28,10 @@
 #include "statuslabel.h"
 #include "filehandle.h"
 #include "playlistinterface.h"
+#include "actioncollection.h"
 #include "tag.h"
+
+using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -78,12 +82,14 @@ StatusLabel::StatusLabel(QWidget *parent, const char *name) :
     jumpBox->setFrameStyle(Box | Sunken);
     jumpBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
 
+    new KAction(i18n("Show Playing"), KShortcut(), actions(), "showPlaying");
+
     QPushButton *jumpButton = new QPushButton(jumpBox);
     jumpButton->setPixmap(SmallIcon("up"));
     jumpButton->setFlat(true);
 
     QToolTip::add(jumpButton, i18n("Jump to the currently playing item"));
-    connect(jumpButton, SIGNAL(clicked()), this, SIGNAL(jumpButtonClicked()));
+    connect(jumpButton, SIGNAL(clicked()), action("showPlaying"), SLOT(activate()));
 
     installEventFilter(this);
 }
@@ -184,7 +190,7 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
 	    updateTime();
 	}
 	else
-	    emit(jumpButtonClicked());
+	    action("showPlaying")->activate();
 
 	return true;
     }

@@ -18,13 +18,15 @@
 #ifndef PLAYLISTBOX_H
 #define PLAYLISTBOX_H
 
+#include "playlistcollection.h"
+
 #include <klistview.h>
 
 #include <qptrdict.h>
 
 class Playlist;
 class PlaylistItem;
-class PlaylistSplitter;
+class DynamicPlaylist;
 class ViewMode;
 class PlaylistSearch;
 class SearchPlaylist;
@@ -39,16 +41,15 @@ typedef QValueList<Playlist *> PlaylistList;
  * JuK's main widget (PlaylistSplitter). 
  */
 
-class PlaylistBox : public KListView
+class PlaylistBox : public KListView, public PlaylistCollection
 {
     Q_OBJECT
 
 public: 
-    PlaylistBox(PlaylistSplitter *parent = 0, const QString &name = QString::null);
-    virtual ~PlaylistBox();
+    PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
+		const QString &name = QString::null);
 
-    void createItem(Playlist *playlist, const char *icon = 0,
-		    bool raise = false, bool sortedFirst = false);
+    virtual ~PlaylistBox();
 
     void createSearchItem(SearchPlaylist *playlist, const QString &searchCategory);
 
@@ -61,10 +62,6 @@ public:
      */
     PlaylistList playlists();
 
-    // All of the methods use the selected item.
-    void save();
-    void saveAs();
-    void rename();
     void duplicate();
 
     /**
@@ -89,8 +86,12 @@ public slots:
     void paste();
     void clear() {} // override the (destructive) default
 
+    virtual Playlist *currentPlaylist() const;
+protected:
+    // virtual Playlist *currentPlaylist() const;
+    virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
+
 signals:
-    void signalCurrentChanged(const PlaylistList &);
     void signalDoubleClicked();
     void signalCreatePlaylist(const QStringList &files);
     void signalCreateSearchList(const PlaylistSearch &search,
@@ -102,9 +103,6 @@ private:
     void readConfig();
     void saveConfig();
 
-    void save(Item *item);
-    void saveAs(Item *item);
-    void rename(Item *item);
     void duplicate(Item *item);
     void deleteItems(const QValueList<Item *> &items, bool confirm = true);
 
@@ -126,7 +124,7 @@ private:
     QValueList<Item *> selectedItems();
 
     void setSingleItem(QListViewItem *item);
-    void setupItem(Item *item, Playlist *playlist);
+    void setupItem(Item *item);
 
 private slots:
     /** 
@@ -139,7 +137,6 @@ private slots:
     void slotSetViewMode(int index);
 
 private:
-    PlaylistSplitter *m_splitter;
     QStringList m_names;
     KPopupMenu *m_contextMenu;
     bool m_updatePlaylistStack;
@@ -150,6 +147,7 @@ private:
     bool m_hasSelection;
     bool m_doingMultiSelect;
     Item *m_dropItem;
+    DynamicPlaylist *m_dynamicPlaylist;
 };
 
 
@@ -171,14 +169,14 @@ public:
     virtual ~Item();
     
 protected:
-    Item(PlaylistBox *listBox, const char *icon, const QString &text, Playlist *l = 0);
-    Item(Item *parent, const char *icon, const QString &text, Playlist *l = 0);
+    Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0);
+    Item(Item *parent, const QString &icon, const QString &text, Playlist *l = 0);
 
-    Playlist *playlist() const { return m_list; }
+    Playlist *playlist() const { return m_playlist; }
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(KListViewItem::listView()); }
-    const char *iconName() const { return m_iconName; }
+    QString iconName() const { return m_iconName; }
     QString text() const { return m_text; }
-    void setSortedFirst(bool first) { m_sortedFirst = first; }
+    void setSortedFirst(bool first = true) { m_sortedFirst = first; }
 
     virtual int compare(QListViewItem *i, int col, bool) const;
     virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
@@ -188,6 +186,7 @@ protected:
     virtual QString text(int column) const { return KListViewItem::text(column); }
 
     static Item *collectionItem() { return m_collectionItem; }
+    static void setCollectionItem(Item *item) { m_collectionItem = item; }
 
 protected slots:
     void slotSetName(const QString &name);
@@ -196,9 +195,9 @@ private:
     // setup() was already taken.
     void init();
 
-    Playlist *m_list;
+    Playlist *m_playlist;
     QString m_text;
-    const char *m_iconName;
+    QString m_iconName;
     bool m_sortedFirst;
     static Item *m_collectionItem;
 };

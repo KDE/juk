@@ -24,8 +24,11 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists, QWidget *parent, const QString &name) :
-    Playlist(parent, name),
+DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
+                                 PlaylistCollection *collection,
+                                 const QString &name,
+                                 const QString &iconName) :
+    Playlist(collection, name, iconName),
     m_playlists(playlists),
     m_dirty(true)
 {

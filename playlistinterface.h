@@ -18,6 +18,9 @@
 #ifndef PLAYLISTINTERFACE_H
 #define PLAYLISTINTERFACE_H
 
+#include "filehandle.h"
+
+#include <qstring.h>
 
 /**
  * This is a simple interface that should be used by things that implement a
@@ -28,12 +31,13 @@ class PlaylistInterface
 {
 public:
     virtual QString name() const = 0;
-    virtual FileHandle nextFile() = 0;
-    virtual FileHandle currentFile() = 0;
-    virtual FileHandle previousFile() = 0;
-
+    virtual FileHandle currentFile() const = 0;
     virtual int time() const = 0;
     virtual int count() const = 0;
+
+    virtual void playNext() = 0;
+    virtual void playPrevious() = 0;
+    virtual void stop() = 0;
 };
 
 #endif

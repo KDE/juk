@@ -36,6 +36,7 @@ class KActionMenu;
 
 class QEvent;
 
+class PlaylistCollection;
 class PlaylistSearch;
 
 class PlaylistItem;
@@ -43,25 +44,36 @@ typedef QValueList<PlaylistItem *> PlaylistItemList;
 
 typedef QValueList<Playlist *> PlaylistList;
 
-class Playlist : public KListView /*, PlaylistInterface */
+class Playlist : public KListView, public PlaylistInterface
 {
     Q_OBJECT
 
 public:
 
+    Playlist(PlaylistCollection *collection, const QString &name = QString::null,
+	     const QString &iconName = "midi");
+    Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
+	     const QString &name = QString::null, const QString &iconName = "midi");
+    Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
+	     const QString &iconName = "midi");
     /**
-     * Before creating a playlist directly, please see
-     * PlaylistSplitter::createPlaylist().
+     * This constructor should just be used for creating playlists from the Playlist
+     * cache.
      */
-    Playlist(QWidget *parent, const QString &name = QString::null);
-
-    /**
-     * Before creating a playlist directly, please see
-     * PlaylistSplitter::openPlaylist().
-     */
-    Playlist(const QFileInfo &playlistFile, QWidget *parent, const QString &name);
+    Playlist(PlaylistCollection *collection, bool delaySetup);
 
     virtual ~Playlist();
+
+
+    // The following group of functions implement the PlaylistInterface API.
+
+    virtual QString name() const;
+    virtual FileHandle currentFile() const;
+    virtual int count() const { return childCount(); }
+    virtual int time() const;
+    virtual void playNext();
+    virtual void playPrevious();
+    virtual void stop();
 
     /**
      * Saves the file to the currently set file name.  If there is no filename
@@ -151,6 +163,14 @@ public:
     virtual void createItems(const PlaylistItemList &siblings);
 
     /**
+     * This handles adding files of various types -- music, playlist or directory
+     * files.  Music files that are found will be added to this playlist.  New
+     * playlist files that are found will result in new playlists being created.
+     */
+    void addFiles(const QStringList &files, bool importPlaylists,
+		  PlaylistItem *after = 0);
+
+    /**
      * Returns the file name associated with this playlist (an m3u file) or
      * QString::null if no such file exists.
      */
@@ -163,57 +183,24 @@ public:
     void setFileName(const QString &n) { m_fileName = n; }
 
     /**
-     * Hides column \a c.  If \a emitChanged is true then a signal that the
+     * Hides column \a c.  If \a updateSearch is true then a signal that the
      * visible columns have changed will be emitted and things like the search
      * will be udated.
      */
-    void hideColumn(int c, bool emitChanged = true);
+    void hideColumn(int c, bool updateSearch = true);
 
     /**
-     * Shows column \a c.  If \a emitChanged is true then a signal that the
+     * Shows column \a c.  If \a updateSearch is true then a signal that the
      * visible columns have changed will be emitted and things like the search
      * will be udated.
      */
-    void showColumn(int c, bool emitChanged = true);
+    void showColumn(int c, bool updateSearch = true);
     bool isColumnVisible(int c) const;
-
-    /**
-     * If m_playlistName has no value -- i.e. the name has not been set to
-     * something other than the filename, this returns the filename less the
-     * extension.  If m_playlistName does have a value, this returns that.
-     */
-    virtual QString name() const;
-
-    /**
-     * Returns the number of items in the playlist.
-     */
-    virtual int count() const { return childCount(); }
-    
-    /**
-     * Returns the combined time of all the itens.
-     */
-    virtual int time();
 
     /**
      * This sets a name for the playlist that is \e different from the file name.
      */
     void setName(const QString &n);
-
-    /**
-     * Returns the next item to be played.  If random is false this is just
-     * the next item in the playlist (or null if the current items is the last
-     * item in the list).  If random is true, then it will select an item at
-     * random from this list (and try to be a bit clever about it to not repeat
-     * items before everything has been played at least once).
-     */
-    PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
-
-    /**
-     * Returns the item played before the currently playing item.  If random is
-     * false, this is simply the item above the currently playing item in the
-     * list.  If random is true this checks the history of recently played items.
-     */
-    PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
 
     /**
      * Returns the KActionMenu that allows this to be embedded in menus outside
@@ -222,9 +209,10 @@ public:
     KActionMenu *columnVisibleAction() const { return m_columnVisibleAction; }
 
     /**
-     * Set item to be the playing item; also set this list to be the playing list.
+     * Set item to be the playing item.  If \a item is null then this will clear
+     * the playing indicator.
      */
-    static void setPlaying(PlaylistItem *item, bool p = true);
+    static void setPlaying(PlaylistItem *item);
 
     /**
      * Returns true if this playlist is currently playing.
@@ -251,10 +239,14 @@ public:
 
     /**
      * Set the search associtated with this playlist.
-     *
-     * \note This does not cause the search to be rerun.
      */
-    void setSearch(const PlaylistSearch &s) { m_search = s; }
+    void setSearch(const PlaylistSearch &s);
+
+    /**
+     * If the search is disabled then all items will be shown, not just those that
+     * match the current search.
+     */
+    void setSearchEnabled(bool searchEnabled);
 
     /**
      * Emits a signal indicating that the number of items have changed.  This
@@ -307,6 +299,8 @@ public:
      * \see fileColumnFullPathSort()
      */
     virtual void setSorting(int column, bool ascending = true);
+
+    void read(QDataStream &s);
 
 public slots:
     /**
@@ -372,6 +366,8 @@ public slots:
      */
     void slotWeightDirty(int column = -1);
 
+    void slotShowPlaying();
+
 protected:
     /**
      * Remove \a items from the playlist and disk.  This will ignore items that
@@ -420,17 +416,12 @@ protected:
     void createItems(const QValueList<SiblingType *> &siblings);
 
 signals:
-    /**
-     * This is emitted when the playlist selection is changed.  This is used
-     * primarily to notify the TagEditor of the new data.
-     */
-    void signalSelectionChanged(const PlaylistItemList &selection);
 
     /**
      * This is connected to the PlaylistBox::Item to let it know when the
      * playlist's name has changed.
      */
-    void signalNameChanged(const QString &fileName);
+    void signalNameChanged(const QString &name);
 
     /**
      * This signal is emitted when items are added to or removed from the list.
@@ -463,22 +454,6 @@ signals:
      * dangling pointers.
      */
     void signalAboutToRemove(PlaylistItem *item);
-
-    /**
-     * This is emitted when \a files are dropped on a specific playlist.
-     */
-    void signalFilesDropped(const QStringList &files, Playlist *, PlaylistItem *after);
-
-    /**
-     * Set the next item to be played in the current playlist.  This is used by
-     * the "Play Next" feature.
-     */
-    void signalSetNext(PlaylistItem *item);
-
-    /**
-     * Request creation of a playlist based on \a items.
-     */
-    void signalCreatePlaylist(const PlaylistItemList &items);
 
 private:
     void setup();
@@ -519,6 +494,10 @@ private:
      */
     void calculateColumnWeights();
 
+    PlaylistItem *addFile(const QString &file, bool importPlaylists, PlaylistItem *after);
+
+    void redisplaySearch() { setSearch(m_search); }
+
     /**
      * This class is used internally to store settings that are shared by all
      * of the playlists, such as column order.  It is implemented as a singleton.
@@ -528,12 +507,6 @@ private:
 private slots:
 
     void slotUpdateColumnWidths();
-
-    /**
-     * This is just used to emit the selection as a list of PlaylistItems when
-     * the selection changes.
-     */
-    void slotEmitSelected() { emit signalSelectionChanged(selectedItems()); }
 
     /**
      * Show the RMB menu.  Matches the signature for the signal 
@@ -572,7 +545,7 @@ private slots:
     /**
      * Prompts the user to create a new playlist with from the selected items.
      */
-    void slotCreateGroup() { emit signalCreatePlaylist(selectedItems()); }
+    void slotCreateGroup() { new Playlist(m_collection, selectedItems()); }
 
     /**
      * This slot is called when the user drags the slider in the listview header
@@ -588,7 +561,11 @@ private slots:
      */
     void slotInlineCompletionModeChanged(KGlobalSettings::Completion mode);
 
+    void slotPlayCurrent();
+
 private:
+    PlaylistCollection *m_collection;
+
     StringHash m_members;
 
     int m_currentColumn;
@@ -617,6 +594,8 @@ private:
     PlaylistItemList m_history;
     PlaylistSearch m_search;
 
+    bool m_searchEnabled;
+
     PlaylistItem *m_lastSelected;
 
     /**
@@ -644,6 +623,7 @@ private:
     static bool m_visibleChanged;
     static int m_leftColumn;
     static PlaylistItem *m_playingItem;
+    static PlaylistItem *m_playNextItem;
 };
 
 QDataStream &operator<<(QDataStream &s, Playlist &p);
