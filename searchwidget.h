@@ -60,10 +60,6 @@ class SearchWidget : public QWidget
     Q_OBJECT
 
 public:
-    /**
-     * Note that playlist here is just a playlist to get the columns from and
-     * has nothing to do with the results of a search.
-     */
     SearchWidget(QWidget *parent, const char *name = 0);
     virtual ~SearchWidget();
 
