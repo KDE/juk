@@ -158,7 +158,7 @@ PlaylistList PlaylistBox::playlists()
     CollectionList *collection = CollectionList::instance();
 
     Item *i = static_cast<Item *>(firstChild());
-    for(; i; i = static_cast<Item *>(i->itemBelow()))
+    for(; i; i = static_cast<Item *>(i->nextSibling()))
 	if(i->playlist() && i->playlist() != collection)
 	    l.append(i->playlist());
 
