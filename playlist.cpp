@@ -727,7 +727,8 @@ void Playlist::slotRenameFile()
 
     FileRenamer renamer;
     PlaylistItemList items = selectedItems();
-    if ( items.isEmpty() )
+
+    if(items.isEmpty())
         return;
 
     if(items.count() == 1)
