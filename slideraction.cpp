@@ -41,7 +41,10 @@
 class TrackPositionSlider : public QSlider
 {
 public:
-    TrackPositionSlider(QWidget *parent, const char *name) : QSlider(parent, name) {}
+    TrackPositionSlider(QWidget *parent, const char *name) : QSlider(parent, name)
+    {
+        setFocusPolicy(NoFocus);
+    }
 
 protected:
     virtual void mousePressEvent(QMouseEvent *e)
@@ -56,7 +59,6 @@ protected:
             QSlider::mousePressEvent(&reverse);
         }
     }
-    virtual void focusInEvent(QFocusEvent *) { clearFocus(); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
