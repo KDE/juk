@@ -26,9 +26,9 @@ SearchPlaylist::SearchPlaylist(const PlaylistSearch &search, QWidget *parent, co
     m_search(search),
     m_dirty(true)
 {
-    PlaylistList::Iterator it = search.playlists().begin();
-    for(; it != search.playlists().end(); ++it)
-	connect(*it, SIGNAL(signalChanged()), this, SLOT(slotSetDirty()));
+    // PlaylistList::Iterator it = search.playlists().begin();
+    // for(; it != search.playlists().end(); ++it)
+    //   connect(*it, SIGNAL(signalChanged()), this, SLOT(slotSetDirty()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

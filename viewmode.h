@@ -81,6 +81,8 @@ public:
     virtual void setShown(bool shown);
 
 private:
+    void setupCategory(PlaylistBox::Item *parent, const QStringList &members) const;
+
     QDict<PlaylistBox::Item> m_categories;
 };
 

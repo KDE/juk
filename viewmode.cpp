@@ -23,6 +23,8 @@
 
 #include "viewmode.h"
 #include "playlistbox.h"
+#include "searchplaylist.h"
+#include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // ViewMode
@@ -195,10 +197,11 @@ void TreeViewMode::setShown(bool show)
 	    
 	    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
 	    m_categories.insert("artists", i);
+            setupCategory(i, CollectionList::instance()->artists());
 
 	    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
 	    m_categories.insert("albums", i);
-
+            setupCategory(i, CollectionList::instance()->albums());
 
 	    for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
 		it.current()->setSortedFirst(true);
@@ -214,4 +217,23 @@ void TreeViewMode::setShown(bool show)
     }
 
     playlistBox()->setRootIsDecorated(show);
+}
+
+void TreeViewMode::setupCategory(PlaylistBox::Item *parent, const QStringList &members) const
+{
+    CollectionList *collection = CollectionList::instance();
+
+    for(QStringList::ConstIterator it = members.begin(); it != members.end(); ++it) {
+        
+        PlaylistSearch::ComponentList components;
+        components.append(PlaylistSearch::Component(*it));
+
+        PlaylistList playlists;
+        playlists.append(collection);
+
+        PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
+
+        SearchPlaylist *p = new SearchPlaylist(s, static_cast<QWidget *>(collection->parent()), *it);
+        new PlaylistBox::Item(parent, "midi", *it, p);
+    }
 }
