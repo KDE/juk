@@ -109,6 +109,7 @@ private slots:
      */
     void slotSetupCategories();
 
+private:
     QDict<PlaylistBox::Item> m_searchCategories;    
 };
 
