@@ -29,7 +29,7 @@ class DirectoryList : public KDialogBase
     Q_OBJECT
 
 public:
-    DirectoryList(QStringList &directories, QWidget* parent = 0, const char* name = 0);
+    DirectoryList(const QStringList &directories, QWidget *parent = 0, const char *name = 0);
     virtual ~DirectoryList();
 
 signals:

@@ -27,10 +27,10 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-DirectoryList::DirectoryList(QStringList &directories, QWidget* parent, 
-    const char* name) : KDialogBase(parent, name, true, 
-    i18n("Directory List"),  Ok|Cancel, Ok, true),
-	m_dirList(directories)
+DirectoryList::DirectoryList(const QStringList &directories, QWidget *parent,
+			     const char *name) :
+    KDialogBase(parent, name, true, i18n("Directory List"), Ok | Cancel, Ok, true),
+    m_dirList(directories)
 {
     m_base = new DirectoryListBase(this);
 
@@ -43,8 +43,8 @@ DirectoryList::DirectoryList(QStringList &directories, QWidget* parent,
     connect(m_base->removeDirectoryButton, SIGNAL(clicked()), 
 	SLOT(slotRemoveDirectory()));
 
-    for(QStringList::ConstIterator it = directories.begin(); 
-		it != directories.end(); ++it)
+    QStringList::ConstIterator it = directories.begin();
+    for(; it != directories.end(); ++it)
 	new KListViewItem(m_base->directoryListView, *it);
 
     QSize sz = sizeHint();
@@ -54,6 +54,7 @@ DirectoryList::DirectoryList(QStringList &directories, QWidget* parent,
 
 DirectoryList::~DirectoryList()
 {
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
