@@ -287,8 +287,6 @@ public:
      */
     virtual bool canReload() const { return !m_fileName.isNull(); }
 
-    void setColumnWidthUpdatesDisabled(bool disabled) { m_disableColumnWidthUpdates = disabled; }
-
     /**
      * Playlists have a common set of shared settings such as visible columns
      * that should be applied just before the playlist is shown.  Calling this
