@@ -27,6 +27,19 @@ static const char *scott = I18N_NOOP("Author, cheif dork and keeper of the funk"
 static const char *daniel = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
 static const char *tim = I18N_NOOP("GStreamer port");
 
+class Application : public KUniqueApplication
+{
+public:
+    Application() : KUniqueApplication(true, true, false) {}
+    virtual ~Application() {}
+    virtual int newInstance() {
+	QWidget *w = mainWidget();
+	if(w)
+	    w->setShown(true);
+	return KUniqueApplication::newInstance();
+    }
+};
+
 static KCmdLineOptions options[] =
 {
     { "+[file(s)]", I18N_NOOP("File(s) to open"), 0 },
@@ -46,7 +59,7 @@ int main(int argc, char *argv[])
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
 
-    KUniqueApplication a;
+    Application a;
     JuK *juk = new JuK();
     a.setMainWidget(juk);
     juk->show();
