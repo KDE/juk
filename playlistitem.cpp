@@ -90,6 +90,7 @@ void PlaylistItem::guessTagInfo()
     if(!guesser.comment().isNull())
         tag()->setComment(guesser.comment());
 
+    tag()->save();
     slotRefresh();
 }
 
