@@ -76,7 +76,11 @@ PlayerManager::PlayerManager() :
     m_noSeek(false),
     m_muted(false)
 {
-    setup();
+// This class is the first thing constructed during program startup, and
+// therefore has no access to the widgets needed by the setup() method.
+// Since the setup() method will be called indirectly by the player() method
+// later, just disable it here. -- mpyne
+//    setup();
 }
 
 PlayerManager::~PlayerManager()

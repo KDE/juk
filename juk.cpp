@@ -97,6 +97,8 @@ void JuK::setupLayout()
 
 void JuK::setupActions()
 {
+    ActionCollection::actions()->setWidget(this);
+
     KStdAction::quit(this, SLOT(slotQuit()), actions());
     KStdAction::cut(kapp,   SLOT(cut()),   actions());
     KStdAction::copy(kapp,  SLOT(copy()),  actions());
