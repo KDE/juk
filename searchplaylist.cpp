@@ -26,46 +26,23 @@
 
 SearchPlaylist::SearchPlaylist(const PlaylistSearch &search, QWidget *parent, const QString &name) :
     DynamicPlaylist(search.playlists(), parent, name),
-    m_search(search),
-    m_dirty(true)
+    m_search(search)
 {
-    // PlaylistList::Iterator it = search.playlists().begin();
-    // for(; it != search.playlists().end(); ++it)
-    //   connect(*it, SIGNAL(signalChanged()), this, SLOT(slotSetDirty()));
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void SearchPlaylist::showEvent(QShowEvent *e)
+void SearchPlaylist::updateItems()
 {
-    search();
-    Playlist::showEvent(e);
-}
+    // Here we don't simply use "clear" since that would involve a call to
+    // items() which would in turn call this method...
 
-PlaylistItemList SearchPlaylist::items()
-{
-    search();
-    return Playlist::items();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private methods
-////////////////////////////////////////////////////////////////////////////////
-
-void SearchPlaylist::search()
-{
-    if(m_dirty) {
-
-	// Here we don't simply use "clear" since that would involve a call to
-	// items() which would in turn call this method...
-
-        clearItems(Playlist::items());
-        m_search.search();
-        createItems(m_search.matchedItems());
-        m_dirty = false;
-    }
+    clearItems(Playlist::items());
+    m_search.search();
+    createItems(m_search.matchedItems());
 }
 
 #include "searchplaylist.moc"

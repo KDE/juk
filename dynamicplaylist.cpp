@@ -70,15 +70,8 @@ void DynamicPlaylist::showEvent(QShowEvent *e)
     Playlist::showEvent(e);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// private methods
-////////////////////////////////////////////////////////////////////////////////
-
-void DynamicPlaylist::checkUpdateItems()
+void DynamicPlaylist::updateItems()
 {
-    if(!m_dirty)
-	return;
-
     PlaylistItemList siblings;
 
     for(PlaylistList::ConstIterator it = m_playlists.begin(); it != m_playlists.end(); ++it)
@@ -90,6 +83,19 @@ void DynamicPlaylist::checkUpdateItems()
 	m_siblings = newSiblings;
         QTimer::singleShot(0, this, SLOT(slotUpdateItems()));
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void DynamicPlaylist::checkUpdateItems()
+{
+    if(!m_dirty)
+	return;
+
+    updateItems();
+
     m_dirty = false;
 }
 

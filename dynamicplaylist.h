@@ -60,8 +60,15 @@ protected:
      */
     virtual void showEvent(QShowEvent *e);
 
+    /**
+     * Updates the items (unconditionally).  This should be reimplemented in
+     * subclasses to refresh the items in the dynamic list (i.e. running a
+     * search).
+     */
+    virtual void updateItems();
+
 protected slots:
-    void slotSetDirty(bool d = true) { m_dirty = d; }
+    void slotSetDirty() { m_dirty = true; }
 
 private:
     /**

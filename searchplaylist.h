@@ -28,17 +28,12 @@ public:
     SearchPlaylist(const PlaylistSearch &search, QWidget *parent, const QString &name = QString::null);
     
 protected:
-    virtual void showEvent(QShowEvent *e);
-    virtual PlaylistItemList items();
-
-private slots:
-    void slotSetDirty() { m_dirty = true; }
-
-private:
-    void search();
+    /**
+     * Runs the search to update the current items.
+     */
+    void updateItems();
 
     PlaylistSearch m_search;
-    bool m_dirty;
 };
 
 #endif
