@@ -23,6 +23,7 @@
 #include <qimage.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
+#include <qeventloop.h>
 
 #include "googlefetcherdialog.h"
 #include "tag.h"
@@ -220,7 +221,7 @@ CoverIconViewItem::~CoverIconViewItem()
 
         // Drain results issued by KIO before being deleted,
         // and before deleting the job.
-        kapp->processEvents();
+        kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
 
         delete m_job;
     }
