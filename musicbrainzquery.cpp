@@ -128,7 +128,7 @@ QString MusicBrainzQuery::dataExtract(const QString &type, int i)
     if(s.empty())
         return QString::null;
 
-    return s.c_str();
+    return QString::fromUtf8(s.c_str());
 }
 
 void MusicBrainzQuery::queryStrings(std::string& query, std::string& result, std::string& extraction)
