@@ -18,6 +18,7 @@
 #include "artsplayer.h"
 
 #ifdef USE_ARTS
+
 #include <kdebug.h>
 #include <kconfig.h>
 #include <kstandarddirs.h>

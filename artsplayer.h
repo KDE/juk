@@ -19,11 +19,15 @@
 #define ARTSPLAYER_H
 
 #include <config.h>
+
+#ifdef USE_ARTS
+
 #include "player.h"
 
 #include <kurl.h>
-#ifdef USE_ARTS
+
 #include <qstring.h>
+#include <qobject.h>
 #include <artsflow.h>
 
 class KArtsDispatcher;
@@ -85,7 +89,6 @@ private:
 };
 
 #endif
-
 #endif
 
 // vim: sw=4 ts=8 et
