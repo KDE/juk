@@ -361,7 +361,7 @@ void PlaylistBox::deleteItems(const ItemList &items, bool confirm)
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
 {
-    if(!s || (item->playlist() && item->playlist()->readOnly()))
+    if(!s || (item && item->playlist() && item->playlist()->readOnly()))
 	return;
 
     KURL::List urls;
