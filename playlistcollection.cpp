@@ -341,19 +341,18 @@ void PlaylistCollection::renameItems()
 
 void PlaylistCollection::addCovers(bool fromFile)
 {
-   currentPlaylist()->slotAddCover(fromFile);
+    visiblePlaylist()->slotAddCover(fromFile);
 }
 
 void PlaylistCollection::removeCovers()
 {
-    currentPlaylist()->slotRemoveCover();
+    visiblePlaylist()->slotRemoveCover();
 }
 
 void PlaylistCollection::viewCovers()
 {
-    currentPlaylist()->slotViewCover();
+    visiblePlaylist()->slotViewCover();
 }
-
 
 PlaylistItemList PlaylistCollection::selectedItems()
 {
