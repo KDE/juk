@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <config.h>
+
+#if HAVE_MUSICBRAINZ
+
 #include <qlabel.h>
 
 #include <klocale.h>
@@ -78,3 +82,5 @@ int TrackPickerDialog::exec()
 }
 
 #include "trackpickerdialog.moc"
+
+#endif // HAVE_MUSICBRAINZ

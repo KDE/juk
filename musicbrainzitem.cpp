@@ -15,6 +15,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <config.h>
+
+#if HAVE_MUSICBRAINZ
+
 #include "musicbrainzitem.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -36,3 +40,5 @@ MusicBrainzItem::~MusicBrainzItem()
 }
 
 #include "musicbrainzitem.moc"
+
+#endif // HAVE_MUSICBRAINZ

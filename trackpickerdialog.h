@@ -18,6 +18,10 @@
 #ifndef TRACKPICKERDIALOG_H
 #define TRACKPICKERDIALOG_H
 
+#include <config.h>
+
+#if HAVE_MUSICBRAINZ
+
 #include <kdialogbase.h>
 
 #include "musicbrainzquery.h"
@@ -44,5 +48,7 @@ public slots:
 private:
     TrackPickerDialogBase *m_base;
 };
+
+#endif // HAVE_MUSICBRAINZ
 
 #endif

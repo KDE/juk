@@ -18,6 +18,10 @@
 #ifndef MUSICBRAINZITEM_H
 #define MUSICBRAINZITEM_H
 
+#include <config.h>
+
+#if HAVE_MUSICBRAINZ
+
 #include <klistview.h>
 
 #include "musicbrainzquery.h"
@@ -40,5 +44,7 @@ public:
 private:
     MusicBrainzQuery::Track m_track;
 };
+
+#endif // HAVE_MUSICBRAINZ
 
 #endif
