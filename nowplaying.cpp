@@ -245,7 +245,7 @@ HistoryItem::HistoryItem(NowPlaying *parent) :
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
     setLinkUnderline(false);
-    setText(QString("<b>%1</b><br />").arg(i18n("History")));
+    setText(QString("<b>%1</b>").arg(i18n("History")));
 }
 
 void HistoryItem::update(const FileHandle &file)
