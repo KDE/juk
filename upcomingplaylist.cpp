@@ -160,7 +160,7 @@ void UpcomingPlaylist::UpcomingSequenceIterator::advance()
         if(loop)
             m_playlist->addNewItem();
 
-        m_playlist->setPlaying(0, false);
+        m_playlist->setPlaying(0);
         m_playlist->clearItem(item);
     }
     else

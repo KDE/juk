@@ -1241,8 +1241,12 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 	m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
 	m_playingItem->setPlaying(false);
 
-	if(addToHistory && m_playingItem->playlist() != m_upcomingPlaylist)
-	    m_history.append(m_playingItem);
+	if(addToHistory) {
+	    if(m_playingItem->playlist() == m_upcomingPlaylist)
+		m_history.append(m_playingItem->collectionItem());
+	    else
+		m_history.append(m_playingItem);
+	}
 
 	m_playingItem = 0;
     }
