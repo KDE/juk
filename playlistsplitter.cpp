@@ -363,6 +363,14 @@ void PlaylistSplitter::slotAddToPlaylist(const QString &file, Playlist *list)
 	m_editor->slotUpdateCollection();
 }
 
+void PlaylistSplitter::slotDeletePlaylist()
+{
+    if(m_playingItem && m_playingItem->listView() == visiblePlaylist())
+	m_playingItem = 0;
+
+    m_playlistBox->deleteItem();
+}
+
 void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *list)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);

@@ -229,7 +229,7 @@ public slots:
     void slotSaveAsPlaylist() { m_playlistBox->saveAs(); }
     void slotRenamePlaylist() { m_playlistBox->rename(); }
     void slotDuplicatePlaylist() { m_playlistBox->duplicate(); }
-    void slotDeletePlaylist() { m_playlistBox->deleteItem(); }
+    void slotDeletePlaylist();
 
 signals:
     void signalActivated();
