@@ -131,8 +131,8 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 {
     if(e->source() == this)
 	return;
-
-
+    else
+	decode(e);
 }
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
