@@ -20,6 +20,7 @@
 #include <klocale.h>
 
 #include <qtimer.h>
+#include <qtooltip.h>
 
 #include "systemtray.h"
 
@@ -38,7 +39,7 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     setPixmap(appPix);
     
     KPopupMenu *cm = contextMenu();
-    cm->insertTitle(i18n("Playing"));
+    //cm->insertTitle(i18n("Playing"));
     cm->insertItem(playPix, i18n("Play"), this, SIGNAL(play()));
     cm->insertItem(pausePix, i18n("Pause"), this, SIGNAL(pause()));
     cm->insertItem(SmallIcon("player_stop"), i18n("Stop"), this, SIGNAL(stop()));
@@ -57,6 +58,12 @@ SystemTray::~SystemTray()
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
+void SystemTray::slotNewSong(const QString& songName)
+{
+    QToolTip::remove(this);
+    QToolTip::add(this, songName);
+}
+
 void SystemTray::slotPlay()
 {
     currentPix = playPix;
@@ -73,6 +80,7 @@ void SystemTray::slotStop()
 {
     blinkTimer->stop();
     setPixmap(appPix);
+    QToolTip::remove(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

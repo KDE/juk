@@ -110,11 +110,11 @@ void StatusLabel::setPlaylistCount(int c)
 	trackLabel->setText(QString::number(c) + " " + i18n("Item(s)"));
 }
 
-void StatusLabel::setPlayingItemInfo(const QString &name, const QString &artist, const QString &playlist)
+void StatusLabel::setPlayingItemInfo(const QString &track, const QString &playlist)
 {
     mode = PlayingItemInfo;
 
-    trackLabel->setText(artist.simplifyWhiteSpace() + " - " + name.simplifyWhiteSpace());
+    trackLabel->setText(track);
     playlistLabel->setText(playlist.simplifyWhiteSpace());
 }
 

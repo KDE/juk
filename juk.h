@@ -48,6 +48,7 @@ public:
 
 signals:
     void editSignal();
+    void newSongSignal(const QString& songTitle);
 
 private:
     // private methods
@@ -69,6 +70,7 @@ private:
     virtual bool queryClose();
 
     void invokeEditSlot(const char *slotName, const char *slot);
+    QString playingString() const;
 
 private slots:
     void playlistChanged();

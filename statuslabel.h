@@ -40,7 +40,7 @@ public slots:
      */ 
     void setPlaylistInfo(const QString &name, int count);
     void setPlaylistCount(int c);
-    void setPlayingItemInfo(const QString &name, const QString &artist, const QString &playlist);
+    void setPlayingItemInfo(const QString &track, const QString &playlist);
 
     /**
      * This clears the information about the playing items and frees that status

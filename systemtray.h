@@ -32,6 +32,7 @@ public:
     virtual ~SystemTray();
     
 public slots:
+    void slotNewSong(const QString& songName);
     void slotPlay();
     void slotStop();
     void slotPause();

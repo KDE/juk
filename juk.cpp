@@ -170,6 +170,8 @@ void JuK::setupSystemTray()
 	connect(systemTray, SIGNAL(pause()),   this, SLOT(pause()));
 	connect(systemTray, SIGNAL(back()),    this, SLOT(back()));
 	connect(systemTray, SIGNAL(forward()), this, SLOT(forward()));
+
+	connect(this, SIGNAL(newSongSignal(const QString&)), systemTray, SLOT(slotNewSong(const QString&)));
 	
 	if(player && player->paused())
 	    systemTray->slotPause();
@@ -324,6 +326,18 @@ void JuK::invokeEditSlot( const char *slotName, const char *slot )
     connect(this, SIGNAL( editSignal() ), object, slot);
     emit editSignal();
     disconnect(this, SIGNAL(editSignal()), object, slot);
+}
+
+QString JuK::playingString() const
+{
+    QString s;
+    
+    if(splitter->playingArtist().isEmpty())
+	s = splitter->playingTrack().simplifyWhiteSpace();
+    else
+	s = splitter->playingArtist().simplifyWhiteSpace() + " - " + splitter->playingTrack().simplifyWhiteSpace();
+
+    return s;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -582,7 +596,9 @@ void JuK::play(const QString &file)
 	sliderAction->getTrackPositionSlider()->setEnabled(true);
 	playTimer->start(pollInterval);
 
-	statusLabel->setPlayingItemInfo(splitter->playingTrack(), splitter->playingArtist(), splitter->playingList());
+	statusLabel->setPlayingItemInfo(playingString(), splitter->playingList());
+
+	emit newSongSignal(playingString());
 
 	if(systemTray)
 	    systemTray->slotPlay();
