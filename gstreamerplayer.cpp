@@ -16,34 +16,27 @@
 
 #if HAVE_GSTREAMER
 
-#include <kdebug.h>
 #include <kapplication.h>
+#include <kconfig.h>
+#include <kglobal.h>
+#include <kdebug.h>
 
 #include <qfile.h>
-
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-GStreamerPlayer::GStreamerPlayer() : Player()
+GStreamerPlayer::GStreamerPlayer() :
+    Player(),
+    m_pipeline(0),
+    m_source(0),
+    m_decoder(0),
+    m_volume(0),
+    m_sink(0)
 {
-    static bool initialized = false;
-    if(!initialized) {
-        int argc = kapp->argc();
-        char **argv = kapp->argv();
-        gst_init(&argc, &argv);
-        initialized = true;
-    }
-
-    m_pipeline = gst_thread_new("pipeline");
-    m_source   = gst_element_factory_make("filesrc", "source");
-    m_decoder  = gst_element_factory_make("spider", "decoder");
-    m_volume   = gst_element_factory_make("volume", "volume");
-    m_sink     = gst_element_factory_make("osssink", "sink");
-
-    gst_bin_add_many(GST_BIN(m_pipeline), m_source, m_decoder, m_volume, m_sink, 0);
-    gst_element_link_many(m_source, m_decoder, m_volume, m_sink, 0);
+    readConfig();
+    setupPipeline();
 }
 
 GStreamerPlayer::~GStreamerPlayer()
@@ -122,6 +115,36 @@ void GStreamerPlayer::seekPosition(int position)
     long long total = time(GST_QUERY_TOTAL);
     if(total > 0)
         seek(double(position) / double(1000) * double(totalTime()) + 0.5);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+void GStreamerPlayer::readConfig()
+{
+    KConfigGroup config(KGlobal::config(), "GStreamerPlayer");
+    m_sinkName = config.readEntry("SinkName", "osssink");
+}
+
+void GStreamerPlayer::setupPipeline()
+{
+    static bool initialized = false;
+    if(!initialized) {
+        int argc = kapp->argc();
+        char **argv = kapp->argv();
+        gst_init(&argc, &argv);
+        initialized = true;
+    }
+
+    m_pipeline = gst_thread_new("pipeline");
+    m_source   = gst_element_factory_make("filesrc", "source");
+    m_decoder  = gst_element_factory_make("spider", "decoder");
+    m_volume   = gst_element_factory_make("volume", "volume");
+    m_sink     = gst_element_factory_make(m_sinkName.utf8().data(), "sink");
+
+    gst_bin_add_many(GST_BIN(m_pipeline), m_source, m_decoder, m_volume, m_sink, 0);
+    gst_element_link_many(m_source, m_decoder, m_volume, m_sink, 0);
 }
 
 long long GStreamerPlayer::time(GstQueryType type) const

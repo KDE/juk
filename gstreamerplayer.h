@@ -21,9 +21,7 @@
 #if HAVE_GSTREAMER
 
 #include <gst/gst.h>
-
 #include <qstring.h>
-
 #include "player.h"
 
 class GStreamerPlayer : public Player
@@ -49,12 +47,15 @@ public:
     virtual void seek(int seekTime);
     virtual void seekPosition(int position);
 
-public slots:
     void pause();
     void stop();
 
 private:
+    void readConfig();
+    void setupPipeline();
     long long time(GstQueryType type) const;
+
+    QString m_sinkName;
 
     GstElement *m_pipeline;
     GstElement *m_source;
