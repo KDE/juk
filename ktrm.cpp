@@ -267,6 +267,86 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *, TPCallbackEnum type, int 
     }
 }
 
+////////////////////////////////////////////////////////////////////////////////
+// KTRMResult implementation
+////////////////////////////////////////////////////////////////////////////////
+
+class KTRMResult::KTRMResultPrivate
+{
+public:
+    KTRMResultPrivate() : track(0), year(0), relevance(0) {}
+    QString title;
+    QString artist;
+    QString album;
+    int track;
+    int year;
+    int relevance;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+// KTRMResult public methods
+////////////////////////////////////////////////////////////////////////////////
+
+KTRMResult::KTRMResult()
+{
+    d = new KTRMResultPrivate;
+}
+
+KTRMResult::KTRMResult(const KTRMResult &result)
+{
+    d = new KTRMResultPrivate(*result.d);
+}
+
+KTRMResult::~KTRMResult()
+{
+    delete d;
+}
+
+QString KTRMResult::title() const
+{
+    return d->title;
+}
+
+QString KTRMResult::artist() const
+{
+    return d->artist;
+}
+
+QString KTRMResult::album() const
+{
+    return d->album;
+}
+
+int KTRMResult::track() const
+{
+    return d->track;
+}
+
+int KTRMResult::year() const
+{
+    return d->year;
+}
+
+bool KTRMResult::operator<(const KTRMResult &r) const
+{
+    return r.d->relevance < d->relevance;
+}
+
+bool KTRMResult::operator>(const KTRMResult &r) const
+{
+    return r.d->relevance > d->relevance;
+}
+
+bool KTRMResult::isEmpty() const
+{
+    return d->title.isEmpty() && d->artist.isEmpty() && d->album.isEmpty() &&
+        d->track == 0 && d->year == 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// KTRMLookup implementation
+////////////////////////////////////////////////////////////////////////////////
+
 class KTRMLookup::KTRMLookupPrivate
 {
 public:
@@ -318,11 +398,11 @@ void KTRMLookup::recognized()
 
     KTRMResult result;
 
-    result.title = QString::fromUtf8(metaData->track);
-    result.artist = QString::fromUtf8(metaData->artist);
-    result.album = QString::fromUtf8(metaData->album);
-    result.track = metaData->trackNum;
-    result.year = metaData->releaseYear;
+    result.d->title = QString::fromUtf8(metaData->track);
+    result.d->artist = QString::fromUtf8(metaData->artist);
+    result.d->album = QString::fromUtf8(metaData->album);
+    result.d->track = metaData->trackNum;
+    result.d->year = metaData->releaseYear;
 
     d->results.append(result);
 
@@ -376,12 +456,12 @@ void KTRMLookup::collision()
             for(int i = 0; i < resultCount; i++) {
                 KTRMResult result;
 
-                result.title = QString::fromUtf8(tracks[i]->name);
-                result.artist = QString::fromUtf8(tracks[i]->artist->name);
-                result.album = QString::fromUtf8(tracks[i]->album->name);
-                result.track = tracks[i]->trackNum;
-                result.year = tracks[i]->album->releaseYear;
-                result.relevance = tracks[i]->relevance;
+                result.d->title = QString::fromUtf8(tracks[i]->name);
+                result.d->artist = QString::fromUtf8(tracks[i]->artist->name);
+                result.d->album = QString::fromUtf8(tracks[i]->album->name);
+                result.d->track = tracks[i]->trackNum;
+                result.d->year = tracks[i]->album->releaseYear;
+                result.d->relevance = tracks[i]->relevance;
 
                 d->results.append(result);
             }

@@ -92,16 +92,16 @@ void MusicBrainzLookup::confirmation()
 
             KTRMResult result = dialog.result();
 
-            if(!result.title.isEmpty())
-                file.tag()->setTitle(result.title);
-            if(!result.artist.isEmpty())
-                file.tag()->setArtist(result.artist);
-            if(!result.album.isEmpty())
-                file.tag()->setAlbum(result.album);
-            if(result.track != 0)
-                file.tag()->setTrack(result.track);
-            if(result.year != 0)
-                file.tag()->setYear(result.year);
+            if(!result.title().isEmpty())
+                file.tag()->setTitle(result.title());
+            if(!result.artist().isEmpty())
+                file.tag()->setArtist(result.artist());
+            if(!result.album().isEmpty())
+                file.tag()->setAlbum(result.album());
+            if(result.track() != 0)
+                file.tag()->setTrack(result.track());
+            if(result.year() != 0)
+                file.tag()->setYear(result.year());
 
             file.tag()->save();
 

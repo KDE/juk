@@ -36,49 +36,111 @@
 #include <qmap.h>
 
 /**
- * This struct represents the results of a TRM lookup and MusicBrainz
- * identification.
+ * This represents a potential match for a TRM lookup.  KTRMResultList is
+ * returned from KTRMLookup and will be sorted by relevance (better matches
+ * at the beginning of the list).
  */
 
-struct KTRMResult
+class KTRMResult
 {
-    KTRMResult() : track(0), year(0), relevance(0) {}
+    friend class KTRMLookup;
 
-    QString title;
-    QString artist;
-    QString album;
-    int track;
-    int year;
-    int relevance;
+public:
+    KTRMResult();
+    KTRMResult(const KTRMResult &result);
+    ~KTRMResult();
 
-    bool operator<(const KTRMResult &r) const
-    {
-	return r.relevance < relevance;
-    }
+    /**
+     * Returns the title of the track for the potential match.
+     */
+    QString title() const;
 
-    bool isEmpty()
-    {
-        return title.isEmpty() && artist.isEmpty() && album.isEmpty() &&
-            track == 0 && year == 0;
-    }
+    /**
+     * Returns the artist name of the track for the potential match.
+     */
+    QString artist() const;
+
+    /**
+     * Returns the album name of the track for the potential match.
+     */
+    QString album() const;
+
+    /**
+     * Returns the track number of the track for the potential match.
+     */
+    int track() const;
+
+    /**
+     * Returns the original release year of the track for the potential match.
+     */
+    int year() const;
+
+    /**
+     * Returns true if all of the values for the result are empty.
+     */
+    bool isEmpty() const;
+
+    /**
+     * Compares to \a r based on the relevance of the match.  Better matches
+     * will be greater than less accurate matches.
+     */
+    bool operator<(const KTRMResult &r) const;
+
+    /**
+     * Compares to \a r based on the relevance of the match.  Better matches
+     * will be greater than less accurate matches.
+     */
+    bool operator>(const KTRMResult &r) const;
+
+private:
+    class KTRMResultPrivate;
+    KTRMResultPrivate *d;
 };
 
 typedef QValueList<KTRMResult> KTRMResultList;
 
+/**
+ * An abstraction for libtunepimp's TRM based lookup and file recognition.
+ *
+ * A lookup is started when the object is created.  One of the virtual methods
+ * -- recognized(), unrecognized(), collision() or error().  Those methods
+ * should be reimplemented in subclasses to specify what behavior should happen
+ * for each result.
+ *
+ * The lookups themselves happen in a background thread, but the return calls
+ * are guaranteed to run in the GUI thread.
+ */
 class KTRMLookup
 {
 public:
+    /**
+     * Creates and starts a lookup for \a file.  If \a autoDelete is set to
+     * true the lookup will delete itself when it has finished.
+     */
     KTRMLookup(const QString &file, bool autoDelete = false);
+
     virtual ~KTRMLookup();
 
+    /**
+     * Returns the file name that was specified in the constructor.
+     */
     QString file() const;
 
+    /**
+     * Returns the TunePimp file ID for the file.  This is of no use to the
+     * public API.
+     * 
+     * @internal
+     */
     int fileId() const;
 
     /**
      * This method is called if the track was recognized by the TRM server.
      * results() will return just one value.  This may be reimplemented to
      * provide specific behavion in the case of the track being recognized.
+     *
+     * \note The base class call should happen at the beginning of the subclass
+     * reimplementation; it populates the values of results().
      */
     virtual void recognized();
 
@@ -94,6 +156,9 @@ public:
      * value.  results() will return a list of the potential matches, sorted by
      * liklihood.  This may be reimplemented to provide
      * specific behavion in the case of the track not being recognized.
+     *
+     * \note The base class call should happen at the beginning of the subclass
+     * reimplementation; it populates the values of results().
      */
     virtual void collision();
 

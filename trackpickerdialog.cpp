@@ -32,8 +32,8 @@ class TrackItem : public KListViewItem
 public:
     TrackItem(KListView *parent, const KTRMResult &result) :
         KListViewItem(parent, parent->lastChild(),
-                      result.title, result.artist, result.album,
-                      NUMBER(result.track), NUMBER(result.year)),
+                      result.title(), result.artist(), result.album(),
+                      NUMBER(result.track()), NUMBER(result.year())),
         m_result(result) {}
     KTRMResult result() const { return m_result; }
 
