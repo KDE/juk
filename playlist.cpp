@@ -214,7 +214,7 @@ void Playlist::remove(const PlaylistItemList &items)
 		    delete it.current();
 		}
 		else
-		    KMessageBox::sorry(this, i18n("Could not save delete ") + it.current()->fileName() + ".");
+		    KMessageBox::sorry(this, i18n("Could not delete ") + it.current()->fileName() + ".");
 	    }
 
 	}
