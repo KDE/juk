@@ -1726,8 +1726,6 @@ void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool i
 	const bool focus = hasFocus();
 	const bool visible = isVisible() && files.count() > 20;
 
-	kdDebug(65432) << k_funcinfo << name() << " - " << files.count() << " - " << visible << endl;
-
 	if(visible)
 	    m_collection->raiseDistraction();
 	const FileHandleList::ConstIterator filesEnd = files.end();
