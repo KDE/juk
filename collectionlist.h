@@ -133,7 +133,7 @@ class CollectionListItem : public PlaylistItem
     friend class PlaylistItem;
 
     /** 
-     * Needs access to the destuctor, even though the destructor isn't used by QDict.
+     * Needs access to the destructor, even though the destructor isn't used by QDict.
      */
     friend class QDict<CollectionListItem>;
 
