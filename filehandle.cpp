@@ -107,7 +107,7 @@ FileHandle::FileHandle(const QString &path, CacheDataStream &s)
 {
     d = new FileHandlePrivate;
     d->fileInfo = QFileInfo(path);
-    d->absFilePath = path;
+    d->absFilePath = resolveSymLinks(path);
     read(s);
     Cache::instance()->insert(*this);
 }
@@ -130,7 +130,7 @@ void FileHandle::setFile(const QString &path)
     if(!d || isNull())
         setup(QFileInfo(path), path);
     else {
-        d->absFilePath = path;
+        d->absFilePath = resolveSymLinks(path);
         d->fileInfo.setFile(path);
     }
 }
@@ -240,7 +240,7 @@ void FileHandle::setup(const QFileInfo &info, const QString &path)
 
     QString fileName = path.isNull() ? info.absFilePath() : path;
 
-    FileHandle cached = Cache::instance()->value(fileName);
+    FileHandle cached = Cache::instance()->value(resolveSymLinks(fileName));
 
     if(cached != null()) {
         d = cached.d;
@@ -249,7 +249,7 @@ void FileHandle::setup(const QFileInfo &info, const QString &path)
     else {
         d = new FileHandlePrivate;
         d->fileInfo = info;
-        d->absFilePath = fileName;
+        d->absFilePath = resolveSymLinks(fileName);
         d->modificationTime = info.lastModified();
         Cache::instance()->insert(*this);
     }
