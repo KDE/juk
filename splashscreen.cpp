@@ -55,7 +55,8 @@ void SplashScreen::increment()
 
 void SplashScreen::update()
 {
-    splash->processEvents();
+    if(splash)
+        splash->processEvents();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
