@@ -82,11 +82,11 @@ SplashScreen::SplashScreen() : QHBox(0 , "splashScreen", Qt::WStyle_Splash)
 
     QLabel *textLabel = new QLabel(i18n("Items loaded:"), this);
     textLabel->setFont(font);
-    textLabel->setMinimumWidth(textLabel->fontMetrics().width("00000"));
 
     m_countLabel = new QLabel(this);
     m_countLabel->setText(QString::number(count));
     m_countLabel->setFont(font);
+    m_countLabel->setMinimumWidth(m_countLabel->fontMetrics().width("00000"));
     
     setMaximumWidth(iconLabel->width() + textLabel->width() + m_countLabel->width() + 10);
     setMaximumHeight(QMAX(iconLabel->height(), textLabel->height()));
