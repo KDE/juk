@@ -29,7 +29,7 @@
 class MusicBrainzItem : public KListViewItem
 {
 public:
-    MusicBrainzItem(KListView *parent, MusicBrainzQuery::Track track,
+    MusicBrainzItem(KListView *parent, const MusicBrainzQuery::Track &track,
                     const QString &name, const QString &artist,
                     const QString &album);
 

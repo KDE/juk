@@ -21,7 +21,7 @@
 // MusicBrainzItem public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-MusicBrainzItem::MusicBrainzItem(KListView *parent, MusicBrainzQuery::Track track,
+MusicBrainzItem::MusicBrainzItem(KListView *parent, const MusicBrainzQuery::Track &track,
                                  const QString &name, const QString &artist,
                                  const QString &album) :
     KListViewItem(parent, name, artist, album),
