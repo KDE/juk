@@ -179,3 +179,5 @@ void KeyDialog::insert(KGlobalAccel* keys, const QString& action, const QString&
 	}
     keys->insert(action, label, QString::null, def3, def4, objSlot, methodSlot);
 }
+
+#include "keydialog.moc"
