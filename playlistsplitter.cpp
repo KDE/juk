@@ -708,28 +708,28 @@ void PlaylistSplitter::readPlaylists()
 	    Q_INT32 playlistType;
 	    s >> playlistType;
 
-	    Playlist *p;
-
 	    switch(playlistType) {
 	    case Search:
-		p = new SearchPlaylist(m_playlistStack);
+		// p = new SearchPlaylist(m_playlistStack);
 		break;
 	    case History:
-		p = new HistoryPlaylist(m_playlistStack);
+	    {
+		slotSetHistoryVisible(true);
+		s >> *m_history;
 		break;
+	    }
 	    default:
-		p = new Playlist(m_playlistStack);
+		Playlist *p = new Playlist(m_playlistStack);
 		s >> *p;
 
 		if(!p->fileName().isEmpty() && m_playlistFiles.insert(p->fileName())) {
 		    delete p;
 		    p = 0;
 		}
+		else
+		    setupPlaylist(p);
 		break;
 	    }
-
-	    if(p)
-		setupPlaylist(p);
 	}
 	break;
     }
@@ -778,7 +778,8 @@ void PlaylistSplitter::savePlaylists()
 	    // These first two aren't implemented yet.
 
 	    if(*it == m_history) {
-		// s << Q_INT32(History);
+		s << Q_INT32(History);
+		s << *m_history;
 	    }
 	    else if(dynamic_cast<SearchPlaylist *>(*it)) {
 		// s << Q_INT32(Search);
@@ -927,5 +928,6 @@ void PlaylistSplitter::slotCreateSearchList(const PlaylistSearch &search,
 }
 
 #include "playlistsplitter.moc"
+
 
 // vim:ts=8

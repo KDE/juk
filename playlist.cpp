@@ -39,8 +39,8 @@
 #include "playlistitem.h"
 #include "playlistsearch.h"
 #include "genrelistlist.h"
-#include "collectionlist.h"
 #include "mediafiles.h"
+#include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
@@ -682,45 +682,7 @@ void Playlist::showEvent(QShowEvent *e)
 PlaylistItem *Playlist::createItem(const QFileInfo &file, const QString &absFilePath,
 				   QListViewItem *after, bool emitChanged)
 {
-    QString filePath;
-
-    if(absFilePath.isNull())
-	filePath = resolveSymLinks(file);
-    else
-	filePath = absFilePath;
-
-    CollectionListItem *item = CollectionList::instance()->lookup(filePath);
-
-    if(!item) {
-	item = new CollectionListItem(file, filePath);
-
-	// If a valid tag was not created, destroy the CollectionListItem.
-	if(!item->isValid()) {
-	    kdError() << "Playlist::createItem() -- A valid tag was not created for \""
-		      << file.filePath() << "\"" << endl;
-	    delete item;
-	    return 0;
-	}
-    }
-
-    if(item && !m_members.insert(filePath) || m_allowDuplicates) {
-	PlaylistItem *i;
-	if(after)
-	    i = new PlaylistItem(item, this, after);
-	else
-	    i = new PlaylistItem(item, this);
-        if(!m_randomList.isEmpty() && !m_visibleChanged)
-            m_randomList.append(i);
-	emit signalCountChanged(this);
-	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
-
-	if(emitChanged)
-	    emit signalCountChanged(this);
-
-	return i;
-    }
-    else
-	return 0;
+    return createItem<PlaylistItem, CollectionListItem, CollectionList>(file, absFilePath, after, emitChanged);
 }
 
 void Playlist::createItems(const PlaylistItemList &siblings)

@@ -47,7 +47,17 @@ class HistoryPlaylistItem : public PlaylistItem
 {
 public:
     HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after);
+    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent);
     virtual ~HistoryPlaylistItem();
+
+    QDateTime dateTime() const { return m_dateTime; }
+    void setDateTime(const QDateTime &dt);
+
+private:
+    QDateTime m_dateTime;
 };
+
+QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p);
+QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p);
 
 #endif

@@ -621,9 +621,12 @@ void JuK::readConfig()
         m_showEditorAction->setChecked(showEditor);
         m_splitter->slotSetEditorVisible(showEditor);
 
-        bool showHistory = config->readBoolEntry("ShowHistory", false);
-        m_showHistoryAction->setChecked(showHistory);
-        m_splitter->slotSetHistoryVisible(showHistory);
+	// The history list will actually be created by the playlist restoration
+	// code, but we want to remember the checkbox's setting and hope that
+	// it's in synch with the code that does the real work.
+	
+	bool showHistory = config->readBoolEntry("ShowHistory", false);
+	m_showHistoryAction->setChecked(showHistory);
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
@@ -661,7 +664,7 @@ void JuK::saveConfig()
 
         config->writeEntry("ShowEditor", m_showEditorAction->isChecked());
         config->writeEntry("ShowSearch", m_showSearchAction->isChecked());
-        config->writeEntry("ShowHistory", m_showHistoryAction->isChecked());
+	config->writeEntry("ShowHistory", m_showHistoryAction->isChecked());
     }
     { // general settings
         KConfigGroupSaver saver(config, "Settings");

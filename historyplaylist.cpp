@@ -16,24 +16,10 @@
  ***************************************************************************/
 
 #include <klocale.h>
+#include <kdebug.h>
 
 #include "historyplaylist.h"
 #include "collectionlist.h"
-
-////////////////////////////////////////////////////////////////////////////////
-// HistoryPlaylistItem public members
-////////////////////////////////////////////////////////////////////////////////
-
-HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
-    PlaylistItem(item, parent, after)
-{
-    setText(0, QDateTime::currentDateTime().toString(LocalDate));
-}
-
-HistoryPlaylistItem::~HistoryPlaylistItem()
-{
-
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // HistoryPlayList public members
@@ -63,6 +49,77 @@ void HistoryPlaylist::polish()
     addColumn(i18n("Time"));
     Playlist::polish();
     setSorting(-1);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// HistoryPlaylistItem public members
+////////////////////////////////////////////////////////////////////////////////
+
+HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
+    PlaylistItem(item, parent, after),
+    m_dateTime(QDateTime::currentDateTime())
+{
+    setText(0, m_dateTime.toString(LocalDate));
+}
+
+HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent) :
+    PlaylistItem(item, parent),
+    m_dateTime(QDateTime::currentDateTime())
+{
+    setText(0, m_dateTime.toString(LocalDate));
+}
+
+HistoryPlaylistItem::~HistoryPlaylistItem()
+{
+
+}
+
+void HistoryPlaylistItem::setDateTime(const QDateTime &dt)
+{
+    m_dateTime = dt;
+    setText(0, m_dateTime.toString(LocalDate));
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// helper functions
+////////////////////////////////////////////////////////////////////////////////
+
+QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p)
+{
+    PlaylistItemList l = const_cast<HistoryPlaylist *>(&p)->items();
+
+    s << Q_INT32(l.count());
+
+    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
+	const HistoryPlaylistItem *i = static_cast<HistoryPlaylistItem *>(*it);
+	s << i->filePath();
+	s << i->dateTime();
+    }
+
+    return s;
+}
+
+QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
+{
+    Q_INT32 count;
+    s >> count;
+
+    HistoryPlaylistItem *after = 0;
+
+    QString fileName;
+    QDateTime dateTime;
+
+    for(int i = 0; i < count; i++) {
+	s >> fileName;
+	s >> dateTime;
+
+	after = p.createItem<HistoryPlaylistItem, CollectionListItem, CollectionList>(QFileInfo(fileName), fileName, after, false);
+	after->setDateTime(dateTime);
+    }
+
+    p.emitCountChanged();
+
+    return s;
 }
 
 #include "historyplaylist.moc"

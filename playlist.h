@@ -112,6 +112,12 @@ public:
 				     QListViewItem *after = 0,
 				     bool emitChanged = true);
 
+    template <class ItemType, class CollectionItemType, class CollectionListType>
+    ItemType *createItem(const QFileInfo &file,
+			 const QString &absFilePath = QString::null,
+			 QListViewItem *after = 0,
+			 bool emitChanged = true);
+
     virtual void createItems(const PlaylistItemList &siblings);
 
     /**
@@ -478,6 +484,51 @@ QDataStream &operator<<(QDataStream &s, const Playlist &p);
 QDataStream &operator>>(QDataStream &s, Playlist &p);
 
 // template method implementations
+
+template <class ItemType, class CollectionItemType, class CollectionListType>
+ItemType *Playlist::createItem(const QFileInfo &file, const QString &absFilePath,
+			       QListViewItem *after, bool emitChanged)
+{
+    QString filePath;
+
+    if(absFilePath.isNull())
+	filePath = resolveSymLinks(file);
+    else
+	filePath = absFilePath;
+
+    CollectionItemType *item = CollectionListType::instance()->lookup(filePath);
+
+    if(!item) {
+	item = new CollectionItemType(file, filePath);
+
+	// If a valid tag was not created, destroy the CollectionListItem.
+	if(!item->isValid()) {
+	    kdError(65432) << "Playlist::createItem() -- A valid tag was not created for \""
+			   << file.filePath() << "\"" << endl;
+	    delete item;
+	    return 0;
+	}
+    }
+
+    if(item && !m_members.insert(filePath) || m_allowDuplicates) {
+	ItemType *i;
+	if(after)
+	    i = new ItemType(item, this, after);
+	else
+	    i = new ItemType(item, this);
+        if(!m_randomList.isEmpty() && !m_visibleChanged)
+            m_randomList.append(i);
+	emit signalCountChanged(this);
+	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
+
+	if(emitChanged)
+	    emit signalCountChanged(this);
+
+	return i;
+    }
+    else
+	return 0;    
+}
 
 template <class CollectionItemType, class ItemType, class SiblingType>
 void Playlist::createItems(const QValueList<SiblingType *> &siblings)
