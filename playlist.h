@@ -439,15 +439,6 @@ signals:
     void signalSetNext(PlaylistItem *item);
 
     /**
-     * This is emitted when the set of columns that is visible is changed.
-     *
-     * \see hideColumn()
-     * \see showColumn()
-     * \see isColumnVisible()
-     */
-    void signalVisibleColumnsChanged();
-
-    /**
      * Request creation of a playlist based on \a items.
      */
     void signalCreatePlaylist(const PlaylistItemList &items);

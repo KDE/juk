@@ -75,6 +75,8 @@ public:
 				     QListViewItem * = 0,
 				     bool = false);
 
+    void emitVisibleColumnsChanged() { emit signalVisibleColumnsChanged(); }
+
 public slots:
     virtual void paste() { decode(kapp->clipboard()->data()); }
     virtual void clear();
@@ -102,6 +104,15 @@ protected:
 
 signals:
     void signalCollectionChanged();
+
+    /**
+     * This is emitted when the set of columns that is visible is changed.
+     *
+     * \see Playlist::hideColumn()
+     * \see Playlist::showColumn()
+     * \see Playlsit::isColumnVisible()
+     */
+    void signalVisibleColumnsChanged();
 
 private slots:
     void slotRemoveItem(const QString &file);

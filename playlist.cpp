@@ -769,6 +769,9 @@ void Playlist::hideColumn(int c)
 {
     m_headerMenu->setItemChecked(c, false);
 
+    if(!isColumnVisible(c))
+	return;
+
     setColumnWidthMode(c, Manual);
     setColumnWidth(c, 0);
 
@@ -782,12 +785,19 @@ void Playlist::hideColumn(int c)
 
     slotUpdateColumnWidths();
     triggerUpdate();
-    emit signalVisibleColumnsChanged();
+
+    if(this != CollectionList::instance())
+	CollectionList::instance()->hideColumn(c);
+
+    CollectionList::instance()->emitVisibleColumnsChanged();
 }
 
 void Playlist::showColumn(int c)
 {
     m_headerMenu->setItemChecked(c, true);
+
+    if(isColumnVisible(c))
+	return;
 
     // Just set the width to one to mark the column as visible -- we'll update
     // the real size in the next call.
@@ -804,7 +814,11 @@ void Playlist::showColumn(int c)
 
     slotUpdateColumnWidths();
     triggerUpdate();
-    emit signalVisibleColumnsChanged();
+
+    if(this != CollectionList::instance())
+	CollectionList::instance()->showColumn(c);
+
+    CollectionList::instance()->emitVisibleColumnsChanged();
 }
 
 bool Playlist::isColumnVisible(int c) const
