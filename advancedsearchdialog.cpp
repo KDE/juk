@@ -38,7 +38,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(QWidget *parent, const char *name) :
     QHBox *box = new QHBox(mainWidget());
     box->setSpacing(5);
 
-    new QLabel(i18n("Playlist name"), box);
+    new QLabel(i18n("Playlist name:"), box);
     new KLineEdit(box);
 
     QVGroupBox *criteriaGroupBox = new QVGroupBox(i18n("Search Criteria"), mainWidget());
