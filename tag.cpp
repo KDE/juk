@@ -26,9 +26,13 @@
 #include <taglib/id3v2framefactory.h>
 
 #if (TAGLIB_MAJOR_VERSION > 1) || \
-    ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 2))
+    ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 3))
 #include <taglib/mpcfile.h>
 #include <taglib/oggflacfile.h>
+#define TAGLIB_1_3
+#define TAGLIB_1_2
+#elif (TAGLIB_MAJOR_VERSION > 1) || \
+      ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 2))
 #define TAGLIB_1_2
 #endif
 
@@ -61,7 +65,7 @@ Tag::Tag(const QString &fileName) :
         if(file.isOpen())
 	    setup(&file);
     }
-#ifdef TAGLIB_1_2
+#ifdef TAGLIB_1_3
     else if(MediaFiles::isMPC(fileName)) {
 	kdDebug(65432) << "Trying to resolve Musepack file" << endl;
         TagLib::MPC::File file(QFile::encodeName(fileName).data());
@@ -98,7 +102,7 @@ bool Tag::save()
         file = new TagLib::MPEG::File(QFile::encodeName(m_fileName).data());
     else if(MediaFiles::isFLAC(m_fileName))
         file = new TagLib::FLAC::File(QFile::encodeName(m_fileName).data());
-#ifdef TAGLIB_1_2
+#ifdef TAGLIB_1_3
     else if(MediaFiles::isMPC(m_fileName))
         file = new TagLib::MPC::File(QFile::encodeName(m_fileName).data());
     else if(MediaFiles::isOggFLAC(m_fileName))
