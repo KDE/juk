@@ -237,9 +237,11 @@ void PlaylistSplitter::openPlaylist()
 Playlist *PlaylistSplitter::openPlaylist(const QString &playlistFile)
 {
     QFileInfo file(playlistFile);
-    if(!file.exists() || !file.isFile() || !file.isReadable())
+    if(!file.exists() || !file.isFile() || !file.isReadable() || playlistFiles.contains(file.absFilePath()))
 	return(0);
-	
+
+    playlistFiles.append(file.absFilePath());
+    
     QString name = file.baseName(true);
     Playlist *p = new Playlist(playlistFile, playlistStack, name.latin1());
     connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), editor, SLOT(setItems(const PlaylistItemList &)));

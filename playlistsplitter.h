@@ -140,6 +140,8 @@ private:
 
     CollectionList *collection;
 
+    QStringList playlistFiles;
+
     QStringList mediaExtensions;
     QStringList listExtensions;
 
