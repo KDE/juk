@@ -44,15 +44,52 @@ Tag::Tag(QString file)
   // the easy ones -- these are supported in the id3 class 
   ///////////////////////////////////////////////////////////
 
-  artistName = ID3_GetArtist(&tag);
-  albumName = ID3_GetAlbum(&tag);
-  trackName = ID3_GetTitle(&tag);
+  char *temp;
+
+  temp = ID3_GetArtist(&tag);
+  artistName = temp;
+  delete [] temp;
+
+  temp = ID3_GetAlbum(&tag);
+  albumName = temp;
+  delete [] temp;
+
+  temp = ID3_GetTitle(&tag);
+  trackName = temp;
+  delete [] temp;
+
+  temp = ID3_GetTrack(&tag);
+  trackNumberString = temp;
+  delete [] temp;
+
   trackNumber = ID3_GetTrackNum(&tag);
-  trackNumberString = ID3_GetTrack(&tag);
-  comment = ID3_GetComment(&tag);
-  genre = ID3_GetGenre(&tag);
+
+  temp = ID3_GetComment(&tag);
+  comment = temp;
+  delete [] temp;
+
+  temp = ID3_GetGenre(&tag);
+  genre = temp;
+  delete [] temp;
+
   genre.setId3v1(int(ID3_GetGenreNum(&tag)));
-  yearString = ID3_GetYear(&tag);
+
+  temp = ID3_GetYear(&tag);
+  yearString = temp;
+  delete [] temp;
+
+  // changed from the below scheme because of memory leaks
+  /*
+    artistName = ID3_GetArtist(&tag);
+    albumName = ID3_GetAlbum(&tag);
+    trackName = ID3_GetTitle(&tag);
+    trackNumberString = ID3_GetTrack(&tag);
+    trackNumber = ID3_GetTrackNum(&tag);
+    comment = ID3_GetComment(&tag);
+    genre = ID3_GetGenre(&tag);
+    genre.setId3v1(int(ID3_GetGenreNum(&tag)));
+    yearString = ID3_GetYear(&tag);
+  */
   
   hasTagBool = (tag.HasV2Tag() || tag.HasV1Tag());
   
