@@ -192,7 +192,7 @@ void TagGuesser::guess(const QString &absFileName)
             m_album = capitalizeWords(schema.album().replace('_', " ")).stripWhiteSpace();
             m_track = schema.track().stripWhiteSpace();
             m_comment = schema.comment().replace('_', " ").stripWhiteSpace();
-break;
+            break;
         }
     }
 }
