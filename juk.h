@@ -141,7 +141,6 @@ private slots:
     void slotPlaySelectedFile() { play(m_splitter->playSelectedFile()); }
     void playFirstFile() { play(m_splitter->playFirstFile()); }
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
-    void slotToggleToolBar() { toolBar()->isVisible() ? toolBar()->hide() : toolBar()->show(); }
 
 private:
     // layout objects

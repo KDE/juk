@@ -46,7 +46,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose),
-					      DCOPObject ( "Player" ),
+					      DCOPObject("Player"),
 					      m_shuttingDown(false)
 {
     // Expect segfaults if you change this order.
@@ -152,7 +152,7 @@ void JuK::setupActions()
 
     // settings menu
     new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this, SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
-    new KToggleAction(i18n("Show Tool Bar"), "CTRL+b", this, SLOT(slotToggleToolBar()), actionCollection(), "toggleToolBar");
+    setStandardToolBarMenuEnabled(true);
 
     m_restoreOnLoadAction = new KToggleAction(i18n("&Restore Playlists on Load"), 0, actionCollection(), "restoreOnLoad");
     m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startup"), 0, actionCollection(), "showSplashScreen");
