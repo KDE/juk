@@ -65,6 +65,13 @@ Tag::~Tag()
 Tag::Tag(const QString &file) : m_info(file), m_fileName(file)
 {
     Cache::instance()->insert(file, this);
+
+    // We want to stamp the file with the modified time when the tag is 
+    // created.  Otherwise the file can be modified while JuK is running and
+    // it will never be updated because the m_info.lastModifed() would return
+    // that timestamp when creating the cache.
+
+    m_lastModified = m_info.lastModified();
 }
 
 QString Tag::readBitrate(const KFileMetaInfo &metaInfo)

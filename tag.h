@@ -83,7 +83,7 @@ public:
     // performance critical section of JuK.
 
     inline QString absFilePath() const { return m_fileName; }
-    inline QDateTime lastModified() const { return m_info.lastModified(); }
+    inline QDateTime lastModified() const { return m_lastModified; }
     inline bool fileExists() const { return m_info.exists() && m_info.isFile(); }
     inline QFileInfo fileInfo() const { return m_info; }
     
@@ -103,6 +103,7 @@ protected:
 private:
     QFileInfo m_info;
     QString m_fileName;
+    QDateTime m_lastModified;
 };
 
 QDataStream &operator<<(QDataStream &s, const Tag &t);
