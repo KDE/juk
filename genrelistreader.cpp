@@ -24,7 +24,9 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-GenreListReader::GenreListReader(GenreList *genreList) : QXmlDefaultHandler(), list(genreList), inGenreTag(false)
+GenreListReader::GenreListReader(GenreList &genreList) : 
+    QXmlDefaultHandler(),
+    m_list(genreList), m_inGenreTag(false)
 {
 
 }
@@ -34,22 +36,23 @@ GenreListReader::~GenreListReader()
 
 }
 
-bool GenreListReader::startElement(const QString &, const QString &, const QString & element, const QXmlAttributes & attributes)
+bool GenreListReader::startElement(const QString &, const QString &,
+				   const QString &element,
+				   const QXmlAttributes &attributes)
 {
     if(element.lower() == "genre") {
-        inGenreTag = true;
+        m_inGenreTag = true;
         if(attributes.index("id3v1") != -1)
-            ID3v1 = attributes.value("id3v1").toInt();
+            m_ID3v1 = attributes.value("id3v1").toInt();
         else
-            ID3v1 = 255;
+            m_ID3v1 = 255;
     }
     else if(element.lower() == "genrelist") {
-	if(attributes.index("name") != -1) {
-	    list->setName(attributes.value("name"));
-	}
+	if(attributes.index("name") != -1)
+	    m_list.setName(attributes.value("name"));
     }
     else
-        ID3v1 = 255;
+        m_ID3v1 = 255;
 
     return true;
 }
@@ -57,15 +60,15 @@ bool GenreListReader::startElement(const QString &, const QString &, const QStri
 bool GenreListReader::endElement(const QString &, const QString &, const QString & element)
 {
     if(element.lower() == "genre")
-        inGenreTag = false;
+        m_inGenreTag = false;
 
     return true;
 }
 
 bool GenreListReader::characters(const QString &content)
 {
-    if(inGenreTag)
-        list->append(Genre(content, ID3v1));
+    if(m_inGenreTag)
+        m_list.append(Genre(content, m_ID3v1));
 
     return true;
 }

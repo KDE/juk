@@ -31,18 +31,20 @@ class GenreList;
 class GenreListReader : public QXmlDefaultHandler
 {
 public:
-    GenreListReader(GenreList *genreList);
+    GenreListReader(GenreList &genreList);
     virtual ~GenreListReader();
 
-    bool startElement(const QString &, const QString &, const QString & element, const QXmlAttributes & attributes);
+    bool startElement(const QString &, const QString &,
+		      const QString & element,
+		      const QXmlAttributes & attributes);
     bool endElement(const QString &, const QString &, const QString &);
 
     bool characters(const QString &content);
 
 private:
-    GenreList *list;
-    bool inGenreTag;
-    int ID3v1;
+    GenreList &m_list;
+    bool m_inGenreTag;
+    int m_ID3v1;
 };
 
 #endif
