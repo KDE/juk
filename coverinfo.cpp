@@ -111,6 +111,10 @@ void CoverInfo::popup(PopupCorner corner)
 {
     QPoint p = QCursor::pos();
 
+    int offset = corner == TopLeftCorner ? -10 : 10;
+    p.setX(p.x() + offset);
+    p.setY(p.y() + offset);
+
     QPixmap image = pixmap(FullSize);
 
     if(corner == BottomRightCorner) {
@@ -129,10 +133,6 @@ void CoverInfo::popup(PopupCorner corner)
         if(p.y() + image.height() > r.bottom())
             p.setX(r.bottom() - image.height());
     }
-
-    int offset = corner == TopLeftCorner ? -10 : 10;
-    p.setX(p.x() + offset);
-    p.setY(p.y() + offset);
 
     new CoverPopup(image, p);
 }
