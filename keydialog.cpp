@@ -87,6 +87,8 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
     vbox->setSpacing(KDialog::spacingHint());
     m_widgetStack = new QWidgetStack(vbox);
 
+    vbox->setStretchFactor(m_widgetStack, 1);
+
     // Create buttons to select key group
 
     m_group = new QHButtonGroup(i18n("Global Shortcuts"), vbox);
@@ -94,7 +96,7 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
     new QRadioButton(i18n("&Standard keys"), m_group);
     new QRadioButton(i18n("&Multimedia keys"), m_group);
     connect(m_group, SIGNAL(clicked(int)), this, SLOT(slotKeys(int)));
-    QWhatsThis::add( m_group,
+    QWhatsThis::add(m_group,
       i18n("Here you can select the keys used as global shortcuts to control the player"));
 
     // Create the key chooser
