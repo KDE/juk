@@ -136,8 +136,16 @@ void ViewMode::updateHeights(int width)
     }
 }
 
-QStringList ViewMode::lines(const PlaylistBox::Item *item, const QFontMetrics &fm, int width) const
+QStringList ViewMode::lines(const PlaylistBox::Item *item,
+			    const QFontMetrics &fm,
+			    int width) const
 {
+    // Here 32 is a bit arbitrary, but that's the width of the icons in this
+    // mode and seems to a reasonable lower bound.
+
+    if(width < 32)
+	return QStringList();
+
     QString line = item->text();
 
     QStringList l;
@@ -145,7 +153,8 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item, const QFontMetrics &f
     while(!line.isEmpty()) {
         int textLength = line.length();
         while(textLength > 0 && 
-              fm.width(line.mid(0, textLength).stripWhiteSpace()) + item->listView()->itemMargin() * 2 > width)
+              fm.width(line.mid(0, textLength).stripWhiteSpace()) +
+	      item->listView()->itemMargin() * 2 > width)
         {
             int i = line.findRev(QRegExp( "\\W"), textLength - 1);
             if(i > 0)
