@@ -69,7 +69,8 @@ void HistoryPlaylist::polish()
 
 void HistoryPlaylist::slotAddPlaying()
 {
-    createItem(PlayerManager::instance()->playingFile());
+    if(!isVisible())
+        createItem(PlayerManager::instance()->playingFile());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
