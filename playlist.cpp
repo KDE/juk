@@ -291,17 +291,6 @@ void Playlist::clear()
     clearItems(selectedItems());
 }
 
-void Playlist::slotToggleColumnVisible(int column, bool emitSignal)
-{
-    if(isColumnVisible(column))
-	hideColumn(column);
-    else
-	showColumn(column);
-
-    if(emitSignal)
-	emit signalToggleColumnVisible(column);
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
@@ -502,7 +491,7 @@ void Playlist::setup()
 	headerMenu->setItemChecked(i, true);
     }
 
-    connect(headerMenu, SIGNAL(activated(int)), this, SLOT(slotToggleColumnVisible(int)));
+    connect(headerMenu, SIGNAL(activated(int)), this, SIGNAL(signalToggleColumnVisible(int)));
 
     //////////////////////////////////////////////////
     // setup playlist RMB menu

@@ -607,6 +607,8 @@ void PlaylistSplitter::playlistItemRemoved(PlaylistItem *item)
 void PlaylistSplitter::slotToggleColumnVisible(int column)
 {
     _visibleColumns[column] = ! _visibleColumns[column];
+    if(visiblePlaylist())
+	setupColumns(visiblePlaylist());
 }
 
 #include "playlistsplitter.moc"

@@ -224,6 +224,8 @@ public slots:
     void duplicatePlaylist() { playlistBox->duplicate(); }
     void deleteItemPlaylist() { playlistBox->deleteItem(); }
 
+    void slotToggleColumnVisible(int column);
+
 signals:
     void doubleClicked();
     void listBoxDoubleClicked();
@@ -276,8 +278,6 @@ private slots:
      * This should be connected to Playlist::aboutToRemove()
      */
     void playlistItemRemoved(PlaylistItem *item);
-
-    void slotToggleColumnVisible(int column);
 
 private:
     PlaylistItem *playingItem;

@@ -197,7 +197,6 @@ private slots:
     void showRMBMenu(QListViewItem *item, const QPoint &point, int column);
     void applyTags(QListViewItem *item, const QString &text, int column);
     void renameTag();
-    void slotToggleColumnVisible(int column, bool emitSignal = true);
 
 private:
     int currentColumn;
