@@ -245,7 +245,7 @@ void Playlist::refresh()
 {
     PlaylistItemList l = selectedItems();
     if(l.isEmpty())
-	l = items();
+	l = visibleItems();
 
     KApplication::setOverrideCursor(Qt::waitCursor);
     int j = 0;
