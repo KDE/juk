@@ -261,14 +261,9 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch &search)
 
 QDataStream &operator<<(QDataStream &s, const PlaylistSearch::Component &c)
 {
-    s << c.isPatternSearch();
-
-    if(c.isPatternSearch())
-        s << c.pattern().pattern();
-    else
-        s << c.query();
-
-    s << c.isCaseSensitive()
+    s << c.isPatternSearch()
+      << (c.isPatternSearch() ? c.pattern().pattern() : c.query())
+      << c.isCaseSensitive()
       << c.columns()
       << Q_INT32(c.matchMode());
 
