@@ -84,7 +84,10 @@ PlaylistSearch::Component SearchLine::searchComponent() const
     else
 	searchedColumns.append(m_columnList[m_searchFieldsBox->currentItem() - 1]);
 
-    return PlaylistSearch::Component(query, caseSensitive, searchedColumns);
+    if(m_caseSensitive && m_caseSensitive->currentItem() == Pattern)
+	return PlaylistSearch::Component(QRegExp(query), searchedColumns);
+    else
+	return PlaylistSearch::Component(query, caseSensitive, searchedColumns);
 }
 
 void SearchLine::setSearchComponent(const PlaylistSearch::Component &component)
