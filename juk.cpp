@@ -56,7 +56,10 @@ JuK::JuK(QWidget *parent, const char *name) :
 
     setupActions();
     setupLayout();
-    setupGUI(ToolBar | Save | Create);
+    if (QApplication::reverseLayout())
+	setupGUI(ToolBar | Save | Create, "jukui-rtl.rc");
+    else    
+        setupGUI(ToolBar | Save | Create);
     readConfig();
     setupSystemTray();
     setupGlobalAccels();
