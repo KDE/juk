@@ -21,7 +21,7 @@
 #include <klocale.h>
 #include <kapplication.h>
 #include <klineeditdlg.h>
-#include <kdebug.h>
+#include <kpopupmenu.h>
 
 #include <qfile.h>
 #include <qdrawutil.h>

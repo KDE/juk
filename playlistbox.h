@@ -19,7 +19,6 @@
 #define PLAYLISTBOX_H
 
 #include <klistbox.h>
-#include <kpopupmenu.h>
 
 #include <qwidgetstack.h>
 #include <qptrlist.h>
@@ -30,8 +29,9 @@
 
 class Playlist;
 class PlaylistItem;
-
 class PlaylistSplitter;
+
+class KPopupMenu;
 
 /** 
  * This is the play list selection box that is by default on the right side of
