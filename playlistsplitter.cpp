@@ -383,17 +383,17 @@ void PlaylistSplitter::slotOpen()
 
 void PlaylistSplitter::slotOpenDirectory()
 {
-    DirectoryList *l = new DirectoryList(m_directoryList, this, "directoryList");
+    DirectoryList l(m_directoryList, this, "directoryList");
 
     m_directoryQueue.clear();
     m_directoryQueueRemove.clear();
 
-    connect(l, SIGNAL(signalDirectoryAdded(const QString &)),
+    connect(&l, SIGNAL(signalDirectoryAdded(const QString &)),
 	    this, SLOT(slotQueueDirectory(const QString &)));
-    connect(l, SIGNAL(signalDirectoryRemoved(const QString &)),
+    connect(&l, SIGNAL(signalDirectoryRemoved(const QString &)),
 	    this, SLOT(slotQueueDirectoryRemove(const QString &)));
 
-    if(l->exec() == QDialog::Accepted) {
+    if(l.exec() == QDialog::Accepted) {
 	open(m_directoryQueue);
 	for(QStringList::Iterator it = m_directoryQueue.begin(); it !=  m_directoryQueue.end(); it++)
 	    m_dirWatch.addDir(*it, false, true);
