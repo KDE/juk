@@ -524,19 +524,7 @@ void PlaylistCollection::removeName(const QString &name)
 
 void PlaylistCollection::dirChanged(const QString &path)
 {
-    // A file is either created or deleted in the directory.
-    QFileInfo fileInfo(path);
-
-    if(fileInfo.isDir()) {
-	QDir dir(path);
-	QString absPath = dir.absPath() + QDir::separator();
-	QStringList files = dir.entryList(QDir::Files | QDir::Readable);
-
-	for(QStringList::Iterator it = files.begin(); it != files.end(); ++it)
-	    (*it).prepend(absPath);
-
-	CollectionList::instance()->addFiles(files, m_importPlaylists);
-    }
+    CollectionList::instance()->addFiles(path, m_importPlaylists);
 }
 
 Playlist *PlaylistCollection::playlistByName(const QString &name) const
