@@ -44,6 +44,9 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     connect(m_child->bModify, SIGNAL(clicked()), this, SLOT(slotModifyClicked()));
     connect(m_child->bRemove, SIGNAL(clicked()), this, SLOT(slotRemoveClicked()));
 
+    m_child->lvSchemes->setSelected(m_child->lvSchemes->firstChild(), true);
+    slotCurrentChanged(m_child->lvSchemes->currentItem());
+
     resize( 400, 300 );
 }
 
