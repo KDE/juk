@@ -328,7 +328,7 @@ You can also check the checkbox at the right labelled "Need value" to indicate t
                         <string>Sample music file to test the above setup with</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>&lt;qt&gt;Here you can enter the path to a music file (or press the buttom at the right side to open a convenient file-selection dialog), to test the above configuration with. After selecting a file, you can see what the new filename would look like, if renamed according to the various token strings, and the filename scheme.&lt;br/&gt;
+                        <string>&lt;qt&gt;Here you can enter the path to a music file (or press the button at the right side to open a convenient file-selection dialog), to test the above configuration with. After selecting a file, you can see what the new filename would look like, if renamed according to the various token strings, and the filename scheme.&lt;br/&gt;
 &lt;br/&gt;
 Note that after selecting a file, you can change the token strings, the filename scheme, or the path to the file, and see the resulting impact on the new filename in realtime.&lt;/qt&gt;</string>
                     </property>
@@ -347,7 +347,7 @@ Note that after selecting a file, you can change the token strings, the filename
                         <string>Sample music file to test the above setup with</string>
                     </property>
                     <property name="whatsThis" stdset="0">
-                        <string>&lt;qt&gt;Here you can enter the path to a music file (or press the buttom at the right side to open a convenient file-selection dialog), to test the above configuration with. After selecting a file, you can see what the new filename would look like, if renamed according to the various token strings, and the filename scheme.&lt;br/&gt;
+                        <string>&lt;qt&gt;Here you can enter the path to a music file (or press the button at the right side to open a convenient file-selection dialog), to test the above configuration with. After selecting a file, you can see what the new filename would look like, if renamed according to the various token strings, and the filename scheme.&lt;br/&gt;
 &lt;br/&gt;
 Note that after selecting a file, you can change the token strings, the filename scheme, or the path to the file, and see the resulting impact on the new filename in realtime.&lt;/qt&gt;</string>
                     </property>
