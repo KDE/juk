@@ -318,6 +318,8 @@ void PlaylistCollection::addFolder()
             open(m_folderList);
         else if(!result.addedDirs.isEmpty())
             open(result.addedDirs);
+
+        saveConfig();
     }
 }
 
