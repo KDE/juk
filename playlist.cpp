@@ -394,7 +394,14 @@ void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 
 PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 {
-    QString filePath = file.absFilePath();
+    QString filePath;
+    
+    if(!file.isSymLink())
+	filePath = file.absFilePath();
+    else {
+	QFileInfo linkFile(file.readLink());
+	filePath = linkFile.absFilePath();
+    }
 
     CollectionListItem *item = CollectionList::instance()->lookup(filePath);
 
