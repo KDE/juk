@@ -344,9 +344,11 @@ void TagEditor::setupLayout()
     // put stuff in the right column
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
-        rightColumnLayout->addWidget(addHidden(new QLabel(i18n("&File name:"), this)));
 
         m_fileNameBox = new KLineEdit(this, "fileNameBox");
+	QWidget *fileNameLabel = addHidden(new QLabel(m_fileNameBox, i18n("&File name:"), this));
+
+        rightColumnLayout->addWidget(fileNameLabel);
         rightColumnLayout->addWidget(addHidden(m_fileNameBox));
 
         { // lay out the track row
