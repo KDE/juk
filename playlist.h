@@ -68,8 +68,32 @@ public:
      * name.
      */
     virtual void save();
+
+    /**
+     * Standard "save as".  Prompts the user for a location where to save the
+     * playlist to.
+     */
     virtual void saveAs();
+
+    /**
+     * Removes \a item from the Playlist, but not from the disk.  If
+     * \a emitChanged is true this will also notify relevant classes
+     * that the content of the list has changed.
+     *
+     * In some situations, for instance when removing items in a loop, it is
+     * preferable to delay this notification until after other operations have
+     * completed.  In those cases set \a emitChanged to false and call the
+     * signal directly.
+     *
+     * @see signalCountChanged()
+     * @see emitCountChanged()
+     */
     virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
+
+    /**
+     * Remove \a items from the playlist and emit a signal indicating
+     * that the number of items in the list has changed.
+     */
     virtual void clearItems(const PlaylistItemList &items);
 
     /**
@@ -112,6 +136,13 @@ public:
 				     QListViewItem *after = 0,
 				     bool emitChanged = true);
 
+    /**
+     * This is implemented as a template method to allow subclasses to
+     * instantiate their PlaylistItem subclasses using the same method.  Some
+     * of the types here are artificially templatized (i.e. CollectionListType and
+     * CollectionItemType) to avoid recursive includes, but in fact will always
+     * be the same.     
+     */
     template <class ItemType, class CollectionItemType, class CollectionListType>
     ItemType *createItem(const QFileInfo &file,
 			 const QString &absFilePath = QString::null,
@@ -219,9 +250,24 @@ public:
      */
     void emitCountChanged() { emit signalCountChanged(this); }
 
+    /**
+     * Marks \a item as either selected or deselected based.
+     */
     void markItemSelected(PlaylistItem *item, bool selected);
 
+    /**
+     * Subclasses of Playlist which add new columns will set this value to
+     * specify how many of those colums exist.  This allows the Playlist
+     * class to do some internal calculations on the number and positions
+     * of columns.
+     */
     virtual int columnOffset() const { return 0; }
+
+    /**
+     * Some subclasses of Playlist will be "read only" lists (i.e. the history
+     * playlist).  This is a way for those subclasses to indicate that to the
+     * Playlist internals.
+     */
     virtual bool readOnly() const { return false; }
 
 public slots:
@@ -229,6 +275,10 @@ public slots:
      * Remove the currently selected items from the playlist and disk.
      */
     void slotRemoveSelectedItems() { removeFromDisk(selectedItems()); };
+
+    /**
+     * Set the first selected item to be the next item returned by nextItem().
+     */
     void slotSetNext();
 
     /*
@@ -236,8 +286,24 @@ public slots:
      * detected by the application wide framework.
      */
     virtual void cut() { copy(); clear(); }
+
+    /**
+     * Puts a list of URLs pointing to the files in the current selection on the
+     * clipboard.
+     */
     virtual void copy();
+
+    /**
+     * Checks the clipboard for local URLs to be inserted into this playlist.
+     */
     virtual void paste();
+
+    /**
+     * Removes the selected items from the list, but not the disk.
+     *
+     * @see clearItem()
+     * @see clearItems()
+     */
     virtual void clear();
     virtual void selectAll() { KListView::selectAll(true); }
 
@@ -248,6 +314,12 @@ public slots:
     virtual void slotRefresh();
 
     void slotGuessTagInfo(TagGuesser::Type type);
+
+    /**
+     * Renames the selected items' files based on their tags contents.
+     *
+     * @see PlaylistItem::renameFile()
+     */
     void slotRenameFile();
 
     /**
@@ -272,6 +344,14 @@ protected:
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const { return KURLDrag::canDecode(e); }
+
+    /**
+     * Here I'm using delayed setup of some things that aren't quite intuitive.
+     * Creating columns and setting up connections are both time consuming if
+     * there are a lot of playlists to initialize.  This moves that cost from the
+     * startup time to the time when the widget is "polished" -- i.e. just before
+     * it's painted the first time.
+     */
     virtual void polish();
 
     /**
