@@ -936,7 +936,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	(column == PlaylistItem::GenreColumn) ||
 	(column == PlaylistItem::YearColumn);
 
-    if (showEdit)
+    if(showEdit)
 	m_rmbMenu->changeItem(m_rmbEditID,
 		i18n("Edit %1").arg(columnText(column)));
 
