@@ -48,8 +48,6 @@ extern "C"
 
 class KTRMRequestHandler
 {
-    typedef QMap<int, KTRMLookup *> LookupMap;
-
 public:
     static KTRMRequestHandler *instance()
     {
@@ -62,7 +60,16 @@ public:
 
     int KTRMRequestHandler::startLookup(KTRMLookup *lookup)
     {
-        int id = tp_AddFile(m_pimp, QFile::encodeName(lookup->file()));
+        int id;
+
+        if(!m_fileMap.contains(lookup->file())) {
+            id = tp_AddFile(m_pimp, QFile::encodeName(lookup->file()));
+            m_fileMap.insert(lookup->file(), id);
+        }
+        else {
+            id = m_fileMap[lookup->file()];
+            tp_IdentifyAgain(m_pimp, id);
+        }
         m_lookupMap[id] = lookup;
         return id;
     }
@@ -126,7 +133,8 @@ protected:
 
 private:
     tunepimp_t m_pimp;
-    LookupMap m_lookupMap;
+    QMap<int, KTRMLookup *> m_lookupMap;
+    QMap<QString, int> m_fileMap;
     mutable QMutex m_lookupMapMutex;
 };
 
