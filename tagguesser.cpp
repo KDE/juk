@@ -187,12 +187,12 @@ void TagGuesser::guess(const QString &absFileName)
     for (; it != end; ++it) {
         const FileNameScheme schema(*it);
         if(schema.matches(absFileName)) {
-            m_title = capitalizeWords(schema.title().replace('_', " "));
-            m_artist = capitalizeWords(schema.artist().replace('_', " "));
-            m_album = capitalizeWords(schema.album().replace('_', " "));
-            m_track = schema.track();
-            m_comment = schema.comment().replace('_', " ");
-            break;
+            m_title = capitalizeWords(schema.title().replace('_', " ")).stripWhiteSpace();
+            m_artist = capitalizeWords(schema.artist().replace('_', " ")).stripWhiteSpace();
+            m_album = capitalizeWords(schema.album().replace('_', " ")).stripWhiteSpace();
+            m_track = schema.track().stripWhiteSpace();
+            m_comment = schema.comment().replace('_', " ").stripWhiteSpace();
+break;
         }
     }
 }
