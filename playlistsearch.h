@@ -21,9 +21,10 @@
 #include <qvaluelist.h>
 #include <qregexp.h>
 
-#include "playlist.h"
-#include "playlistitem.h"
-
+class Playlist;
+typedef QValueList<Playlist *> PlaylistList;
+class PlaylistItem;
+typedef QValueList<PlaylistItem *> PlaylistItemList;
 typedef QValueList<int> ColumnList;
 
 class PlaylistSearch
@@ -34,11 +35,8 @@ public:
 
     enum SearchMode { MatchAny = 0, MatchAll = 1 };
 
-    /**
-     * Copy constructor.
-     */
+    PlaylistSearch();
     PlaylistSearch(const PlaylistSearch &search);
-
     PlaylistSearch(const PlaylistList &playlists,
 		   const ComponentList &components,
 		   SearchMode mode = MatchAny);
@@ -49,6 +47,10 @@ public:
     PlaylistItemList unmatchedItems() const { return m_unmatchedItems; }
 
     PlaylistList playlists() const { return m_playlists; }
+
+    ComponentList components() const { return m_components; }
+
+    bool isNull() const { return m_components.isEmpty(); }
 
 private:
     void search();
@@ -93,11 +95,12 @@ public:
     Component(const QRegExp &query, const ColumnList &columns = ColumnList());
 
     QString query() const { return m_query; }
+    QRegExp pattern() const { return m_queryRe; }
     ColumnList columns() const { return m_columns; }
 
     bool matches(PlaylistItem *item);
-
-protected:
+    bool isPatternSearch() const { return m_re; }
+    bool isCaseSensitive() const { return m_caseSensitive; }
     
 private:
     QString m_query;

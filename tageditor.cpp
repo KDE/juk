@@ -32,6 +32,7 @@
 #include "tageditor.h"
 #include "collectionlist.h"
 #include "genrelistlist.h"
+#include "playlistitem.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members

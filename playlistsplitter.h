@@ -32,7 +32,6 @@
 
 class KActionMenu;
 class KDirWatch;
-
 class PlaylistItem;
 
 /**

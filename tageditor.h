@@ -21,7 +21,6 @@
 #include <qwidget.h>
 #include <qmap.h>
 
-#include "playlistitem.h"
 #include "genrelist.h"
 
 class KComboBox;
@@ -32,6 +31,9 @@ class KPushButton;
 
 class QCheckBox;
 class QBoxLayout;
+
+class PlaylistItem;
+typedef QValueList<PlaylistItem *> PlaylistItemList;
 
 class TagEditor : public QWidget
 {

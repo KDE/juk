@@ -34,6 +34,8 @@
 #include <time.h>
 
 #include "playlist.h"
+#include "playlistitem.h"
+#include "playlistsearch.h"
 #include "genrelistlist.h"
 #include "collectionlist.h"
 #include "mediafiles.h"
@@ -320,20 +322,18 @@ PlaylistItemList Playlist::historyItems(PlaylistItem *current, bool random) cons
 {
     PlaylistItemList list;
 
-    if (random)
-    {
-        QPtrListIterator<PlaylistItem> it(m_history);
-        it.toLast();
-        for (int j = 0; it.current() && j < 10; --it, ++j)
-                list.append(it.current());
+    if (random) {
+        PlaylistItemList::ConstIterator it = m_history.end();
+
+        for(int j = 0; it != m_history.begin() && j < 10; --it, ++j)
+            list.append(*it);
     }
-    else if (current)
-    {
+    else if(current) {
         current = static_cast<PlaylistItem *>(current->itemAbove());
-        for (int j = 0;
-             current && j < 10;
-             ++j, current = static_cast<PlaylistItem *>(current->itemAbove()))
+        for(int j = 0; current && j < 10; ++j) {
+            current = static_cast<PlaylistItem *>(current->itemAbove());
             list.append(current);
+	}
     }
 
     return list;
@@ -376,11 +376,10 @@ PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
     if(!current)
         return 0;
 
-    if(random && !m_history.isEmpty())
-    {
-        PlaylistItem * item = m_history.take(m_history.count() - 1);
-        //should we add it to the random list ?
-        //m_randomList.append(item);
+    if(random && !m_history.isEmpty()) {
+        PlaylistItemList::Iterator last = m_history.fromLast();
+        PlaylistItem *item = *last;
+        m_history.remove(last);
         return item;
     }
 
@@ -873,6 +872,11 @@ void Playlist::setPlaying(PlaylistItem *item, bool p)
     item->setPlaying(p);
 }
 
+bool Playlist::playing() const
+{
+    return m_playingItem && this == static_cast<Playlist *>(m_playingItem->listView());
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -982,8 +986,7 @@ void Playlist::slotApplyModification(QListViewItem *item, const QString &text, i
 	return;
 
     QPtrList<QListViewItem> selectedSongs = KListView::selectedItems();
-    if (selectedSongs.count() > 1)
-    {
+    if (selectedSongs.count() > 1) {
         if (KMessageBox::warningYesNo(0,
 				      i18n("This will edit multiple files! Are you sure?"),
 				      QString::null,
@@ -996,7 +999,7 @@ void Playlist::slotApplyModification(QListViewItem *item, const QString &text, i
 
         QPtrListIterator<QListViewItem> it(selectedSongs);
         for(; it.current(); ++it)
-           applyTag((*it), text, column);
+            applyTag((*it), text, column);
     }
     else
 	applyTag(item, text, column);

@@ -24,15 +24,19 @@
 #include <qvaluevector.h>
 #include <qptrstack.h>
 
-#include "playlistitem.h"
 #include "sortedstringlist.h"
-
-class KPopupMenu;
+#include "playlistsearch.h"
 
 class KPopupMenu;
 class KActionMenu;
 
 class QEvent;
+class QFileInfo;
+
+class PlaylistSearch;
+
+class PlaylistItem;
+typedef QValueList<PlaylistItem *> PlaylistItemList;
 
 typedef QValueList<Playlist *> PlaylistList;
 
@@ -144,7 +148,7 @@ public:
     /**
      * Returns true if this playlist is currently playing.
      */
-    bool playing() const { return m_playingItem && this == static_cast<Playlist *>(m_playingItem->listView()); }
+    bool playing() const;
 
     /**
      * This forces an update of the left most visible column, but does not save
@@ -153,6 +157,9 @@ public:
     void updateLeftColumn();
 
     static void setItemsVisible(const PlaylistItemList &items, bool visible = true);
+
+    PlaylistSearch search() const { return m_search; }
+    void setSearch(const PlaylistSearch &s) { m_search = s; }
 
 public slots:
     /**
@@ -268,7 +275,7 @@ private:
      * call to setVisibleItems()) while random play is playing.
      */
     static bool m_visibleChanged;
-    QPtrList<PlaylistItem> m_history;
+    PlaylistItemList m_history;
 
     QString m_fileName;
 
@@ -296,6 +303,7 @@ private:
     static int m_leftColumn;
 
     PlaylistItemList m_randomList;
+    PlaylistSearch m_search;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);

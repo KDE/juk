@@ -26,6 +26,7 @@
 
 #include "searchwidget.h"
 #include "playlist.h"
+#include "playlistsearch.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -58,6 +59,28 @@ bool SearchWidget::caseSensitive() const
 bool SearchWidget::regExp() const
 {
     return m_caseSensitive->currentItem() == 2;
+}
+
+void SearchWidget::setSearch(const PlaylistSearch &search)
+{
+    PlaylistSearch::ComponentList components = search.components();
+
+    // This is intentionally written so that when multiple search lines are
+    // supported that it can be easily updated.
+
+    PlaylistSearch::ComponentList::ConstIterator it = components.begin();
+
+    if(it == components.end())
+	return;
+
+    if(!(*it).isPatternSearch()) {
+	m_lineEdit->setText((*it).query());
+	m_caseSensitive->setCurrentItem((*it).isCaseSensitive() ? CaseSensitive : Default);
+    }
+    else {
+	m_lineEdit->setText((*it).pattern().pattern());
+	m_caseSensitive->setCurrentItem(Pattern);
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -26,13 +26,15 @@ class KLineEdit;
 class KComboBox;
 
 class Playlist;
+class PlaylistSearch;
 
 class SearchWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    /** 
+    enum Mode { Default = 0, CaseSensitive = 1, Pattern = 2 };
+    /**
      * Note that playlist here is just a playlist to get the columns from and
      * has nothing to do with the results of a search.
      */
@@ -47,6 +49,7 @@ public:
     QString query() const;
     bool caseSensitive() const;
     bool regExp() const;
+    void setSearch(const PlaylistSearch &search);
 
 public slots:
     void clear();
@@ -66,6 +69,6 @@ private:
     KComboBox *m_caseSensitive;
     QStringList m_columnHeaders;
     QValueList< QValueList<int> > m_searchedColumns;
-} ;
+};
 
 #endif

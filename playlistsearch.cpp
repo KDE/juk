@@ -16,10 +16,18 @@
  ***************************************************************************/
 
 #include "playlistsearch.h"
+#include "playlist.h"
+#include "playlistitem.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
+
+PlaylistSearch::PlaylistSearch() :
+    m_mode(MatchAny)
+{
+
+}
 
 PlaylistSearch::PlaylistSearch(const PlaylistSearch &search) :
     m_playlists(search.m_playlists),
@@ -130,6 +138,7 @@ PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& col
     m_caseSensitive(false),
     m_re(true)
 {
+
 }
 
 bool PlaylistSearch::Component::matches(PlaylistItem *item)
