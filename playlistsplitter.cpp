@@ -83,7 +83,7 @@ void PlaylistSplitter::setupLayout()
 
     m_playlistStack = new QWidgetStack(top, "playlistStack");
 
-    connect(m_playlistStack, SIGNAL(aboutToShow(int)), this, SLOT(slotPlaylistChanged()));
+    connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)), this, SLOT(slotPlaylistChanged(QWidget *)));
 
     m_editor = new TagEditor(editorSplitter, "tagEditor");
 
@@ -160,9 +160,11 @@ void PlaylistSplitter::slotPlaylistSelectionChanged()
     m_editor->slotSetItems(static_cast<PlaylistCollection *>(m_playlistBox)->selectedItems());
 }
 
-void PlaylistSplitter::slotPlaylistChanged()
+void PlaylistSplitter::slotPlaylistChanged(QWidget *w)
 {
-    m_searchWidget->setSearch(visiblePlaylist()->search());
+    Playlist *p = dynamic_cast<Playlist *>(w);
+    if(p)
+        m_searchWidget->setSearch(p->search());
 }
 
 #include "playlistsplitter.moc"

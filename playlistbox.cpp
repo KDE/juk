@@ -329,6 +329,14 @@ void PlaylistBox::setCanDeletePlaylist(bool canDelete)
 	treeView->slotCanDeletePlaylist(canDelete);
 }
 
+Playlist *PlaylistBox::visiblePlaylist() const
+{
+    if ( m_dynamicPlaylist )
+	return m_dynamicPlaylist;
+
+    return PlaylistCollection::currentPlaylist();
+}
+
 void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
 {
     emit signalPlaylistDestroyed(p);
