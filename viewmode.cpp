@@ -252,7 +252,8 @@ void CompactViewMode::updateHeights()
 // TreeViewMode
 ////////////////////////////////////////////////////////////////////////////////
 
-TreeViewMode::TreeViewMode(PlaylistBox *b) : CompactViewMode(b), m_treeViewItems(5003, false)
+TreeViewMode::TreeViewMode(PlaylistBox *b) : CompactViewMode(b),
+    m_treeViewItems(5003, false), m_canDeletePlaylists(true)
 {
 
 }
@@ -305,6 +306,12 @@ void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
         return;
 
     TreeViewItemPlaylist *itemPlaylist = m_treeViewItems[itemKey];
+
+    if(!m_canDeletePlaylists) {
+	m_pendingItemsToRemove << itemKey;
+	return;
+    }
+
     m_treeViewItems.remove(itemKey);
     itemPlaylist->deleteLater();
     emit signalPlaylistDestroyed(itemPlaylist);
@@ -356,6 +363,25 @@ void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
 
 	m_treeViewItems.insert(itemKey, p);
     }
+}
+
+void TreeViewMode::slotCanDeletePlaylist(bool canDelete)
+{
+    m_canDeletePlaylists = canDelete;
+
+    if(!canDelete)
+	return;
+
+    QStringList categories;
+    categories << "artists" << "albums" << "genres";
+
+    for(QStringList::ConstIterator it = m_pendingItemsToRemove.begin(); it != m_pendingItemsToRemove.end(); ++it) {
+	m_treeViewItems[*it]->deleteLater();
+	emit signalPlaylistDestroyed(m_treeViewItems[*it]);
+	m_treeViewItems.remove(*it);
+    }
+
+    m_pendingItemsToRemove.clear();
 }
 
 void TreeViewMode::setupCategories()
