@@ -1,5 +1,7 @@
 #include <kapplication.h>
 #include <kdebug.h>
+#include <kmessagebox.h>
+#include <klocale.h>
 
 #include <qstringlist.h>
 #include <qlistview.h>
@@ -26,6 +28,24 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *donorPlayli
 
     if(files.isEmpty())
 	return;
+
+    QString changedTag = i18n("artist");
+    if(m_columnType == PlaylistItem::GenreColumn)
+        changedTag = i18n("genre");
+    else if (m_columnType == PlaylistItem::AlbumColumn)
+        changedTag = i18n("album");
+
+    if(KMessageBox::warningContinueCancelList(
+           this,
+	   i18n("You are about to change the %1 on these files.").arg(changedTag),
+           files,
+           i18n("Changing track tags"),
+           KStdGuiItem::cont(),
+           "dragDropRetagWarn"
+       ) == KMessageBox::Cancel)
+    {
+        return;
+    }
 
     QStringList::ConstIterator it;
     for(it = files.begin(); it != files.end(); ++it) {
