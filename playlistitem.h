@@ -75,6 +75,7 @@ public:
     QString absFilePath() const;
     QString dirPath(bool absPath = false) const;
     bool isWritable() const;
+    void setPlaying(bool playing = true) { m_playing = playing; }
 
 public slots:
     /**
@@ -110,6 +111,8 @@ protected:
     Data *data() { return m_data; }
     void setData(Data *d) { m_data = d; }
 
+    virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
+
     virtual int compare(QListViewItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
@@ -123,6 +126,7 @@ private:
     void setup(CollectionListItem *item, Playlist *parent);
 
     Data *m_data;
+    bool m_playing;
 };
 
 /**

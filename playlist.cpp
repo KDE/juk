@@ -728,6 +728,8 @@ void Playlist::setPlaying(PlaylistItem *item, bool playing)
 	m_playingItem = 0;
 	item->setPixmap(m_leftColumn, QPixmap(0, 0));
     }
+
+    item->setPlaying(playing);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

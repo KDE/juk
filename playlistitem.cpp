@@ -90,19 +90,42 @@ void PlaylistItem::slotRefreshFromDisk()
 // PlaylistItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) : QObject(parent), KListViewItem(parent)
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) : QObject(parent), KListViewItem(parent),
+									 m_playing(false)
 {
     setup(item, parent);
 }
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) : QObject(parent), KListViewItem(parent, after)
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) : QObject(parent), KListViewItem(parent, after),
+											       m_playing(false)
 {
     setup(item, parent);
 }
 
-PlaylistItem::PlaylistItem(Playlist *parent) : QObject(parent), KListViewItem(parent)
+PlaylistItem::PlaylistItem(Playlist *parent) : QObject(parent), KListViewItem(parent),
+					       m_playing(false)
 {
     setDragEnabled(true);
+}
+
+void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
+{
+    if(!m_playing)
+	return KListViewItem::paintCell(p, cg, column, width, align);
+    
+    QColorGroup colorGroup = cg;
+    
+    QColor base = colorGroup.base();
+    QColor selection = colorGroup.highlight();
+
+    int r = (base.red() + selection.red()) / 2;
+    int b = (base.blue() + selection.blue()) / 2;
+    int g = (base.green() + selection.green()) / 2;
+
+    QColor c(r, g, b);
+
+    colorGroup.setColor(QColorGroup::Base, c);
+    QListViewItem::paintCell(p, colorGroup, column, width, align);
 }
 
 int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
