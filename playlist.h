@@ -536,10 +536,7 @@ private:
 
     int m_currentColumn;
     int m_processed;
-
-    int m_rmbPasteID;
     int m_rmbEditID;
-
     int m_selectedCount;
 
     bool m_allowDuplicates;

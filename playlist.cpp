@@ -1534,10 +1534,9 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
 	m_rmbEditID = m_rmbMenu->insertItem(
 	    SmallIconSet("editclear"), i18n("Edit"), this, SLOT(slotRenameTag()));
-	m_rmbMenu->insertItem(
-	    SmallIconSet("reload"), i18n("Refresh Items"), this, SLOT(slotRefresh()));
-	m_rmbMenu->insertItem(
-	    SmallIconSet("editdelete"), i18n("Remove From Disk"), this, SLOT(slotRemoveSelectedItems()));
+
+	action("refresh")->plug(m_rmbMenu);
+	action("removeItem")->plug(m_rmbMenu);
 
 	m_rmbMenu->insertSeparator();
 
@@ -1554,9 +1553,6 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	if(k3bAction)
 	    k3bAction->plug(m_rmbMenu);
     }
-
-    if(!readOnly())
-	m_rmbMenu->setItemEnabled(m_rmbPasteID, canDecode(kapp->clipboard()->data()));
 
     // Ignore any columns added by subclasses.
 
