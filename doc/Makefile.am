@@ -1,4 +1,2 @@
 KDE_LANG = en
-KDE_DOCS = juk
-
-
+KDE_DOCS = AUTO
