@@ -124,6 +124,44 @@ QStringList PlaylistSplitter::playlistExtensions() const
     return(listExtensions);
 }
 
+void PlaylistSplitter::setSelected(PlaylistItem *i)
+{
+    // Hu hu!  See how much crap I can pack into just one pointer to a 
+    // PlaylistItem!  Sensitive viewers may want to close their eyes for the
+    // next few lines.
+    
+    if(i) {
+	
+	// Get the playlist associated with the playing item and make set the
+	// playing item to be both selected and visible.
+	
+	Playlist *l = dynamic_cast<Playlist *>(i->listView());
+	
+	if(l) {
+	    l->clearSelection();
+	    l->setSelected(i, true);
+	    l->ensureItemVisible(i);
+	    
+	    // Now move on to the PlaylistBox.  The Playlist knows which
+	    // PlaylistBoxItem that it is associated with, so we'll just get
+	    // that and then figure out the PlaylistBox from there.
+	    // 
+	    // Once we have that we can set the appropriate Playlist to be
+	    // visible.
+	    
+	    if(l->playlistBoxItem() && l->playlistBoxItem()->listBox()) {
+		QListBox *b = l->playlistBoxItem()->listBox();
+		
+		b->clearSelection();
+		b->setSelected(l->playlistBoxItem(), true);
+
+		b->setCurrentItem(l->playlistBoxItem());
+		b->ensureCurrentVisible();
+	    }
+	}
+    }    
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////

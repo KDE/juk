@@ -36,6 +36,8 @@ public:
     void clear();
 
 private:
+    virtual bool eventFilter(QObject *o, QEvent *e);
+
     QLabel *trackLabel;
     PlaylistItem *playingItem;
 };

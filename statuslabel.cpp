@@ -15,14 +15,24 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kdebug.h>
+
+#include <qevent.h>
+
 #include "statuslabel.h"
 #include "playlistitem.h"
 #include "playlist.h"
 #include "playlistbox.h"
+#include "playlistsplitter.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// public methods
+////////////////////////////////////////////////////////////////////////////////
 
 StatusLabel::StatusLabel(QWidget *parent, const char *name) : QHBox(parent, name) 
 {
     trackLabel = new QLabel(this, "trackLabel");
+    trackLabel->installEventFilter(this);
 }
 
 StatusLabel::~StatusLabel()
@@ -38,8 +48,8 @@ void StatusLabel::setPlayingItem(PlaylistItem *item)
 	Playlist *p = static_cast<Playlist *>(item->listView());
 	if(p && p->playlistBoxItem()) {
 	    QString label = p->playlistBoxItem()->text() 
-		+ " / " + item->text(PlaylistItem::ArtistColumn) 
-		+ " - " + item->text(PlaylistItem::TrackColumn);
+		+ " / " + item->text(PlaylistItem::ArtistColumn)
+		+ " - <i>" + item->text(PlaylistItem::TrackColumn) + "</i>";
 	    trackLabel->setText(label);
 	}
 	else
@@ -52,6 +62,22 @@ void StatusLabel::setPlayingItem(PlaylistItem *item)
 void StatusLabel::clear()
 {
     trackLabel->clear();
+    playingItem = 0;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+bool StatusLabel::eventFilter(QObject *o, QEvent *e)
+{
+    if(o && o == trackLabel &&
+       e && e->type() == QEvent::MouseButtonPress) {
+	PlaylistSplitter::setSelected(playingItem);
+	return(true);
+    }
+
+    return(false);
 }
 
 #include "statuslabel.moc"

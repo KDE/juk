@@ -66,18 +66,24 @@ public:
      */
     PlaylistItem *playlistFirstItem() const;
 
-    // static (non-initialization) methods
-
     /**
      * Returns a lif of the extensions that are used for playlists.
      */
     QStringList playlistExtensions() const;
+
+    // static methods
+
     /** 
      * Merges a list of file extensions, and a description of those types into a
      * format that makes sense to KFileDialog.  If type = QString::null then no
      * description is appended.
      */
     static QString extensionsString(const QStringList &extensions, const QString &type = QString::null);
+    /**
+     * Set the selection to the specified item (for both the PlaylistBox and
+     * Playlist) and ensure that those selections are visible.
+     */
+    static void setSelected(PlaylistItem *i);
 
 public slots:
     void open();
