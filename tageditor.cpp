@@ -60,15 +60,15 @@ void TagEditor::setGenreList(const GenreList &list)
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void TagEditor::setItems(const PlaylistItemList &list)
+void TagEditor::slotSetItems(const PlaylistItemList &list)
 {
     saveChangesPrompt();
     m_items = list;
     if(isVisible())
-	refresh();
+	slotRefresh();
 }
 
-void TagEditor::refresh()
+void TagEditor::slotRefresh()
 {
     // This method takes the list of currently selected m_items and tries to 
     // figure out how to show that in the tag editor.  The current strategy --
@@ -189,10 +189,10 @@ void TagEditor::refresh()
 	m_dataChanged = false;
     }
     else
-	clear();
+	slotClear();
 }
 
-void TagEditor::clear()
+void TagEditor::slotClear()
 {
     m_artistNameBox->lineEdit()->clear();
     m_trackNameBox->clear();
@@ -206,12 +206,7 @@ void TagEditor::clear()
     m_commentBox->clear();    
 }
 
-void TagEditor::save()
-{
-    save(m_items);
-}
-
-void TagEditor::updateCollection()
+void TagEditor::slotUpdateCollection()
 {
     CollectionList *list = CollectionList::instance();
 
@@ -452,7 +447,7 @@ void TagEditor::save(const PlaylistItemList &list)
 		
 		item->tag()->save();
 		
-		item->refresh();
+		item->slotRefresh();
 	    }
 	    else
 		errorFiles.append(item->fileName());
@@ -527,7 +522,7 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
 
 void TagEditor::showEvent(QShowEvent *e)
 {
-    refresh();
+    slotRefresh();
     QWidget::showEvent(e);
 }
 

@@ -391,7 +391,7 @@ PlaylistBox::Item::Item(PlaylistBox *listbox, const QPixmap &pix, const QString 
     setOrientation(Qt::Vertical);
     listbox->addName(text);
 
-    connect(l, SIGNAL(nameChanged(const QString &)), this, SLOT(setName(const QString &)));
+    connect(l, SIGNAL(signalNameChanged(const QString &)), this, SLOT(setName(const QString &)));
 }
 
 PlaylistBox::Item::Item(PlaylistBox *listbox, const QString &text, Playlist *l) 

@@ -33,7 +33,7 @@ PlaylistItem::~PlaylistItem()
 void PlaylistItem::setFile(const QString &file)
 {
     m_data->setFile(file);
-    refresh();
+    slotRefresh();
 }
 
 Tag *PlaylistItem::tag() const
@@ -41,7 +41,8 @@ Tag *PlaylistItem::tag() const
     return m_data->tag();
 }
 
-// some forwarding methods
+// some forwarding methods - these can't be inlined because the Data class
+// isn't defined yet
 
 QString PlaylistItem::fileName() const
 { 
@@ -72,17 +73,17 @@ bool PlaylistItem::isWritable() const
 // PlaylistItem public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistItem::refresh()
+void PlaylistItem::slotRefresh()
 {
     // This signal will be received by the "parent" CollectionListItem which will
-    // in turn call refreshImpl() for all of its children, including this item.
-    emit(refreshed());
+    // in turn call slotRefreshImpl() for all of its children, including this item.
+    emit(signalRefreshed());
 }
 
-void PlaylistItem::refreshFromDisk()
+void PlaylistItem::slotRefreshFromDisk()
 {
     m_data->refresh();
-    refresh();
+    slotRefresh();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -118,7 +119,7 @@ void PlaylistItem::setData(Data *d)
 // PlaylistItem protected slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistItem::refreshImpl()
+void PlaylistItem::slotRefreshImpl()
 {
     // This should be the only function that needs to be rewritten if the structure of    
     // PlaylistItemData changes.  
@@ -142,8 +143,8 @@ void PlaylistItem::setup(CollectionListItem *item, Playlist *parent)
     if(item) {
 	m_data = item->getData()->newUser();
 	item->addChildItem(this);
-	refreshImpl();
-	connect(this, SIGNAL(refreshed()), parent, SIGNAL(dataChanged()));
+	slotRefreshImpl();
+	connect(this, SIGNAL(signalRefreshed()), parent, SIGNAL(signalDataChanged()));
     }
 
     setDragEnabled(true);

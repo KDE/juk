@@ -65,13 +65,13 @@ public slots:
      * based on the same file, so if another one of those items changes its m_data
      * it is important to refresh the others.
      */
-    virtual void refresh();
+    virtual void slotRefresh();
 
     /**
      * This rereads the tag from disk.  This affects all PlaylistItems based on
      * the same file.
      */
-    virtual void refreshFromDisk();
+    virtual void slotRefreshFromDisk();
 
 protected:
     /** 
@@ -87,10 +87,10 @@ protected:
     void setData(Data *d);
 
 protected slots:
-    void refreshImpl();
+    void slotRefreshImpl();
 
 signals:
-    void refreshed();
+    void signalRefreshed();
 
 private:
     void setup(CollectionListItem *item, Playlist *parent);
@@ -101,7 +101,7 @@ private:
 };
 
 /**
- * This is the m_data class for PlaylistItems.  Several PlaylistItems that are 
+ * This is the data class for PlaylistItems.  Several PlaylistItems that are 
  * based on the same file will share the m_data member.  This has both the 
  * advantages of being memory efficient and allowing the PlaylistItems to stay
  * synchronized.

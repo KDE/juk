@@ -50,7 +50,7 @@ void processEvents()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistSplitter::PlaylistSplitter(QWidget *parent, bool restore, const char *name) : QSplitter(Qt::Horizontal, parent, name), 
-											    m_playingItem(0), m_restore(restore)
+										      m_playingItem(0), m_restore(restore)
 {
     if(!m_mediaExtensions && !m_listExtensions) {
 	m_mediaExtensions = new QStringList();
@@ -217,7 +217,7 @@ void PlaylistSplitter::addToPlaylist(const QString &file, Playlist *list)
     KApplication::restoreOverrideCursor();
     
     if(m_editor)
-	m_editor->updateCollection();
+	m_editor->slotUpdateCollection();
 }
 
 void PlaylistSplitter::addToPlaylist(const QStringList &files, Playlist *list)
@@ -228,7 +228,7 @@ void PlaylistSplitter::addToPlaylist(const QStringList &files, Playlist *list)
     KApplication::restoreOverrideCursor();
 
     if(m_editor)
-	m_editor->updateCollection();
+	m_editor->slotUpdateCollection();
 }
 
 QString PlaylistSplitter::extensionsString(const QStringList &extensions, const QString &type) // static
@@ -349,11 +349,9 @@ void PlaylistSplitter::slotSelectPlaying()
 
 void PlaylistSplitter::slotDeleteSelectedItems()
 {
-    PlaylistItemList items = playlistSelection();
-
     Playlist *p = visiblePlaylist();
     if(p)
-	p->remove(items);
+	p->slotDeleteSelectedItems();
 }
 
 void PlaylistSplitter::slotToggleColumnVisible(int column)
@@ -532,11 +530,11 @@ void PlaylistSplitter::addImpl(const QString &file, Playlist *list)
 
 void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
 {
-    connect(p, SIGNAL(selectionChanged(const PlaylistItemList &)), m_editor, SLOT(setItems(const PlaylistItemList &)));
-    connect(p, SIGNAL(doubleClicked()), this, SIGNAL(signalDoubleClicked()));
-    connect(p, SIGNAL(collectionChanged()), m_editor, SLOT(updateCollection()));
-    connect(p, SIGNAL(numberOfItemsChanged(Playlist *)), this, SLOT(slotPlaylistCountChanged(Playlist *)));
-    connect(p, SIGNAL(aboutToRemove(PlaylistItem *)), this, SLOT(slotPlaylistItemRemoved(PlaylistItem *)));
+    connect(p, SIGNAL(signalSelectionChanged(const PlaylistItemList &)), m_editor, SLOT(slotSetItems(const PlaylistItemList &)));
+    connect(p, SIGNAL(signalDoubleClicked()), this, SIGNAL(signalDoubleClicked()));
+    connect(p, SIGNAL(signalCollectionChanged()), m_editor, SLOT(slotUpdateCollection()));
+    connect(p, SIGNAL(signalNumberOfItemsChanged(Playlist *)), this, SLOT(slotPlaylistCountChanged(Playlist *)));
+    connect(p, SIGNAL(signalAboutToRemove(PlaylistItem *)), this, SLOT(slotPlaylistItemRemoved(PlaylistItem *)));
 
     connect(p, SIGNAL(signalToggleColumnVisible(int)), this, SLOT(slotToggleColumnVisible(int)));
 
@@ -582,7 +580,7 @@ void PlaylistSplitter::slotChangePlaylist(Playlist *p)
 	return;
     
     m_playlistStack->raiseWidget(p);
-    m_editor->setItems(playlistSelection());
+    m_editor->slotSetItems(playlistSelection());
     setupColumns(p);
     emit signalPlaylistChanged();
 }

@@ -40,17 +40,14 @@ public:
     TagEditor(QWidget *parent = 0, const char *name = 0);
     virtual ~TagEditor();
     void setGenreList(const GenreList &list);
+    void save() { save(m_items); }
 
 public slots:
-    void setItems(const PlaylistItemList &list);
-    void refresh();
-    void clear();
-    void save();
-    void updateCollection();
+    void slotSetItems(const PlaylistItemList &list);
+    void slotRefresh();
+    void slotClear();
+    void slotUpdateCollection();
     
-signals:
-//    void signalChanged();
-
 private:
     void setupLayout();
     void readConfig();

@@ -181,8 +181,8 @@ CollectionListItem::CollectionListItem(const QFileInfo &file, const QString &pat
     if(l) {
 	l->addToDict(path, this);
 	setData(Data::newUser(file, path));
-	refresh();
-	connect(this, SIGNAL(refreshed()), l, SIGNAL(dataChanged()));
+	slotRefresh();
+	connect(this, SIGNAL(signalRefreshed()), l, SIGNAL(signalDataChanged()));
 	l->emitNumberOfItemsChanged();
     }
     else
@@ -201,24 +201,24 @@ CollectionListItem::~CollectionListItem()
 
 void CollectionListItem::addChildItem(PlaylistItem *child)
 {
-    connect(child, SIGNAL(refreshed()), this, SLOT(refresh()));
-    connect(this, SIGNAL(refreshed()), child, SLOT(refreshImpl()));   
+    connect(child, SIGNAL(signalRefreshed()), this, SLOT(slotRefresh()));
+    connect(this, SIGNAL(signalRefreshed()), child, SLOT(slotRefreshImpl()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // CollectionListItem public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void CollectionListItem::refresh()
+void CollectionListItem::slotRefresh()
 {
-    refreshImpl();
+    slotRefreshImpl();
     
     if(CollectionList::instance()) {
 	CollectionList::instance()->addArtist(text(ArtistColumn));
 	CollectionList::instance()->addAlbum(text(AlbumColumn));	
     }
-    // This is connected to refreshImpl() for all of the items children.
-    emit(refreshed());
+    // This is connected to slotRefreshImpl() for all of the items children.
+    emit(signalRefreshed());
 }
 
 #include "collectionlist.moc"

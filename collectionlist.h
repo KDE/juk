@@ -82,7 +82,7 @@ protected:
      */
     void addAlbum(const QString &album);
 
-    void emitNumberOfItemsChanged() { emit(numberOfItemsChanged(this)); }
+    void emitNumberOfItemsChanged() { emit signalNumberOfItemsChanged(this); }
     
 private:
     static CollectionList *list;
@@ -103,7 +103,7 @@ public:
     virtual ~CollectionListItem();
 
 public slots:
-    virtual void refresh();
+    virtual void slotRefresh();
 
 protected:
     CollectionListItem(const QFileInfo &file, const QString &path);

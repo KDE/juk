@@ -71,7 +71,6 @@ public:
     /** 
      * Returns a list of all of the items in the playlist.
      */
-
     PlaylistItemList items() const;
     
     /**
@@ -79,12 +78,6 @@ public:
      */
     PlaylistItemList selectedItems() const;
     
-    /**
-     * Remove \a items from the playlist and disk.  This will ignore items that
-     * are not actually in the list.
-     */
-    void remove(const PlaylistItemList &items);
-
     /** 
      * Allow duplicate files in the playlist. 
      */
@@ -131,7 +124,7 @@ public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
      */ 
-    void removeSelectedItems() { remove(selectedItems()); };
+    void slotDeleteSelectedItems() { deleteFromDisk(selectedItems()); };
 
     virtual void cut() { copy(); clear(); }
     virtual void copy();
@@ -140,6 +133,12 @@ public slots:
     virtual void selectAll() { KListView::selectAll(true); }
 
 protected:
+    /**
+     * Remove \a items from the playlist and disk.  This will ignore items that
+     * are not actually in the list.
+     */
+    void deleteFromDisk(const PlaylistItemList &items);
+
     virtual bool eventFilter(QObject* watched, QEvent* e);
     virtual QDragObject *dragObject(QWidget *parent);
     virtual QDragObject *dragObject();
@@ -154,35 +153,35 @@ signals:
      * This signal is connected to PlaylistItem::refreshed() in the 
      * PlaylistItem class. 
      */
-    void dataChanged();
+    void signalDataChanged();
     /** 
      * This signal is emitted when items are added to the collection list.  
      * This happens in the createItem() method when items are added to the 
      * collection. 
      */
-    void collectionChanged();
+    void signalCollectionChanged();
 
     /** 
      * This is emitted when the playlist selection is changed.  This is used
      * primarily to notify the TagEditor of the new data. 
      */
-    void selectionChanged(const PlaylistItemList &selection);
+    void signalSelectionChanged(const PlaylistItemList &selection);
     
     /**
      * This is connected to the PlaylistBox::Item to let it know when the 
      * playlist's name has changed.
      */
-    void nameChanged(const QString &fileName);
+    void signalNameChanged(const QString &fileName);
     
-    void numberOfItemsChanged(Playlist *);
+    void signalNumberOfItemsChanged(Playlist *);
     
-    void doubleClicked();
+    void signalDoubleClicked();
 
     /**
      * This signal is emitted just before a playlist item is removed from the 
      * list.
      */
-    void aboutToRemove(PlaylistItem *item);
+    void signalAboutToRemove(PlaylistItem *item);
 
     void signalToggleColumnVisible(int column);
 
@@ -191,11 +190,11 @@ private:
     QPtrStack<PlaylistItem> m_history;
 
 private slots:
-    void emitSelected() {  emit(selectionChanged(selectedItems())); }
-    void emitDoubleClicked(QListViewItem *) { emit(doubleClicked()); }
-    void showRMBMenu(QListViewItem *item, const QPoint &point, int column);
-    void applyTags(QListViewItem *item, const QString &text, int column);
-    void renameTag();
+    void slotEmitSelected() { emit signalSelectionChanged(selectedItems()); }
+    void slotEmitDoubleClicked(QListViewItem *) { emit signalDoubleClicked(); }
+    void slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column);
+    void slotApplyTags(QListViewItem *item, const QString &text, int column);
+    void slotRenameTag();
 
 private:
     int m_currentColumn;

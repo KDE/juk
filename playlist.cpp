@@ -131,7 +131,7 @@ void Playlist::saveAs()
 	    m_playlistFileName.append('.' + extensions.first());
 	
 	if(m_playlistName.isEmpty())
-	    emit(nameChanged(name()));
+	    emit signalNameChanged(name());
 	
 	save();
     }
@@ -144,7 +144,7 @@ void Playlist::refresh()
     KApplication::setOverrideCursor(Qt::waitCursor);
     int j = 0;
     for(PlaylistItem *i = static_cast<PlaylistItem *>(firstChild()); i; i = static_cast<PlaylistItem *>(i->itemBelow())) {
-	i->refreshFromDisk();
+	i->slotRefreshFromDisk();
 	if(j % 5 == 0)
 	    kapp->processEvents();
 	j = j % 5 + 1;
@@ -156,12 +156,12 @@ void Playlist::clearItems(const PlaylistItemList &items)
 {
     QPtrListIterator<PlaylistItem> it(items);
     while(it.current()) {
-	emit(aboutToRemove(it.current()));
+	emit signalAboutToRemove(it.current());
 	m_members.remove(it.current()->absFilePath());
         delete it.current();
         ++it;
     }
-    emit(numberOfItemsChanged(this));
+    emit signalNumberOfItemsChanged(this);
 }
 
 QStringList Playlist::files() const
@@ -190,36 +190,6 @@ PlaylistItemList Playlist::selectedItems() const
             list.append(i);
     
     return list;
-}
-
-void Playlist::remove(const PlaylistItemList &items)
-{
-    if(isVisible() && !items.isEmpty()) {
-
-        QStringList files;
-	for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it)
-            files.append(it.current()->fileName());
-
-	QString message;
-
-	if(files.count() == 1)
-	    message = i18n("Do you really want to delete this item from your disk?");
-	else
-	    message = i18n("Do you really want to delete these %1 items from your disk?").arg(QString::number(files.count()));
-	
-	if(KMessageBox::questionYesNoList(this, message, files) == KMessageBox::Yes) {
-	    for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it) {
-		if(QFile::remove(it.current()->filePath())) {
-		    emit(aboutToRemove(it.current()));
-		    delete it.current();
-		}
-		else
-		    KMessageBox::sorry(this, i18n("Could not delete ") + it.current()->fileName() + ".");
-	    }
-
-	}
-	emit(numberOfItemsChanged(this));
-    }
 }
 
 PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
@@ -269,7 +239,7 @@ QString Playlist::name() const
 void Playlist::setName(const QString &n)
 {
     m_playlistName = n;
-    emit(nameChanged(m_playlistName));
+    emit signalNameChanged(m_playlistName);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -292,8 +262,38 @@ void Playlist::clear()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// protected m_members
+// protected members
 ////////////////////////////////////////////////////////////////////////////////
+
+void Playlist::deleteFromDisk(const PlaylistItemList &items)
+{
+    if(isVisible() && !items.isEmpty()) {
+
+        QStringList files;
+	for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it)
+            files.append(it.current()->fileName());
+
+	QString message;
+
+	if(files.count() == 1)
+	    message = i18n("Do you really want to delete this item from your disk?");
+	else
+	    message = i18n("Do you really want to delete these %1 items from your disk?").arg(QString::number(files.count()));
+	
+	if(KMessageBox::questionYesNoList(this, message, files) == KMessageBox::Yes) {
+	    for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it) {
+		if(QFile::remove(it.current()->filePath())) {
+		    emit signalAboutToRemove(it.current());
+		    delete it.current();
+		}
+		else
+		    KMessageBox::sorry(this, i18n("Could not delete ") + it.current()->fileName() + ".");
+	    }
+
+	}
+	emit signalNumberOfItemsChanged(this);
+    }
+}
 
 QDragObject *Playlist::dragObject(QWidget *parent)
 {
@@ -400,7 +400,7 @@ PlaylistItem *Playlist::createItem(const QFileInfo &file, QListViewItem *after)
 	    i = new PlaylistItem(item, this, after);
 	else
 	    i = new PlaylistItem(item, this);
-	emit(numberOfItemsChanged(this));
+	emit signalNumberOfItemsChanged(this);
 	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
 	return i;
     }
@@ -507,18 +507,20 @@ void Playlist::setup()
 
     m_rmbMenu->insertSeparator();
 
-    m_rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove From Disk"), this, SLOT(removeSelectedItems()));
+    m_rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove From Disk"), this, SLOT(slotDeleteSelectedItems()));
 
     m_rmbMenu->insertSeparator();
 
-    m_rmbEditID = m_rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(renameTag()));
+    m_rmbEditID = m_rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
 
-    connect(this, SIGNAL(selectionChanged()), this, SLOT(emitSelected()));
-    connect(this, SIGNAL(doubleClicked(QListViewItem *)), this, SLOT(emitDoubleClicked(QListViewItem *)));
+    connect(this, SIGNAL(selectionChanged()), 
+	    this, SLOT(slotEmitSelected()));
+    connect(this, SIGNAL(doubleClicked(QListViewItem *)), 
+	    this, SLOT(slotEmitDoubleClicked(QListViewItem *)));
     connect(this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int)),
-	    this, SLOT(showRMBMenu(QListViewItem *, const QPoint &, int)));
+	    this, SLOT(slotShowRMBMenu(QListViewItem *, const QPoint &, int)));
     connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
-	    this, SLOT(applyTags(QListViewItem *, const QString &, int)));
+	    this, SLOT(slotApplyTags(QListViewItem *, const QString &, int)));
 
     //////////////////////////////////////////////////
     
@@ -533,7 +535,7 @@ void Playlist::setup()
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
+void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column)
 {
     if(!item)
 	return;
@@ -554,7 +556,7 @@ void Playlist::showRMBMenu(QListViewItem *item, const QPoint &point, int column)
     m_currentColumn = column;
 }
 
-void Playlist::renameTag()
+void Playlist::slotRenameTag()
 {
     // setup completions and validators
     
@@ -584,7 +586,7 @@ void Playlist::renameTag()
     rename(currentItem(), m_currentColumn);
 }
 
-void Playlist::applyTags(QListViewItem *item, const QString &text, int column)
+void Playlist::slotApplyTags(QListViewItem *item, const QString &text, int column)
 {
     // kdDebug() << "Applying " << text << " at column " << column << ", replacing \"" << item->text(column) << "\"" << endl;
 
@@ -623,8 +625,12 @@ void Playlist::applyTags(QListViewItem *item, const QString &text, int column)
     }
 
     i->tag()->save();
-    i->refresh();
+    i->slotRefresh();
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// helper functions
+////////////////////////////////////////////////////////////////////////////////
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p)
 {
