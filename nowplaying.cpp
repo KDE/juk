@@ -119,7 +119,9 @@ void CoverItem::update(const FileHandle &file)
 
 void CoverItem::mouseReleaseEvent(QMouseEvent *event)
 {
-    if(event->button() == LeftButton &&
+    if(event->x() >= 0 && event->y() >= 0 &&
+       event->x() < width() && event->y() < height() &&
+       event->button() == LeftButton &&
        m_file.coverInfo()->hasCover())
     {
         m_file.coverInfo()->popup();
