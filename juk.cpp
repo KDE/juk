@@ -305,7 +305,7 @@ void JuK::playItem(QListViewItem *item)
 
 void JuK::playItem(FileListItem *item)
 {
-  if(player.playing())
+  if(player.playing() || player.paused())
     stopFile();
   
   if(item) {
