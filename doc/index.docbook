@@ -1,5 +1,5 @@
 <?xml version="1.0" ?>
-<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.1.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.2-Based Variant V1.1//EN" "dtd/kdex.dtd" [
   <!ENTITY package "kdemultimedia">
   <!ENTITY kappname "&juk;">
   <!ENTITY juk "<application>JuK</application>">
@@ -13,13 +13,7 @@
 <title>The &juk; Handbook</title>
 
 <authorgroup>
-<author>
-<firstname>Lauri</firstname>
-<surname>Watts</surname>
-<affiliation>
-<address><email>lauri@kde.org</email></address>
-</affiliation>
-</author>
+<author>&Lauri.Watts; &Lauri.Watts.mail;</author>
 
 <othercredit role="developer">
 <firstname>Scott</firstname>
@@ -31,9 +25,7 @@
 
 <!-- TRANS:ROLES_OF_TRANSLATORS -->
 
-
 </authorgroup>
-
 
 <copyright>
 <year>2001</year>
@@ -110,7 +102,7 @@ will be rescanned every time you start &juk; and <!-- ask scott -->
 whenever you choose
 <menuchoice><guimenu>View</guimenu><guimenuitem>Redisplay</guimenuitem></menuchoice>.</para>
 
-<para>Adding a song to a playlist will automatically add it's file to
+<para>Adding a song to a playlist will automatically add its file to
 the Collection List, but adding a file to the collection list won't
 automatically add the song to any playlists.</para>
 
@@ -138,8 +130,6 @@ Collection List to your playlist.  Use the <guiicon>Save</guiicon>
 icon or
 <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice> to
 save the playlist at any time.</para>
-
-
 
 <sect1 id="collection-list-gui">
 <title>The Song List</title>
@@ -174,7 +164,8 @@ you have placed it in your preferred position.</para>
 <para>The
 <menuchoice><guimenu>View</guimenu><guisubmenu>Columns</guisubmenu></menuchoice>
 menu allows you to hide (and later unhide) columns you are not
-presently interested in.</para>
+presently interested in.  You can also hide or unhide columns by &RMB;
+clicking on a column header.</para>
 
 <para>&LMB; double clicking on a file will play it with the inbuilt
 player.  If another song was already playing, it will stop, and the
@@ -421,20 +412,244 @@ menu entry or by pressing
 
 </chapter>
 
+<chapter id="toolbar-reference">
+<title>The &juk; Toolbar</title>
+
+<sect1 id="main-toolbar">
+<title>The Main Toolbar</title>
+
+<screenshot>
+<screeninfo>The &juk; toolbar.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png" />
+</imageobject>
+<textobject>
+<phrase>The &juk; toolbar.</phrase>
+</textobject>
+<caption><para>The &juk; toolbar.</para></caption>
+</mediaobject>
+</screenshot>
+
+<para>From left to right in the screenshot above, the icons on the
+default toolbar are:</para>
+
+<variablelist>
+<varlistentry>
+<term><guiicon>New</guiicon></term>
+<listitem><para>Create a new playlist</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guiicon>Open</guiicon></term>
+<listitem><para>Add a file to the collection list (if it's active) or
+to the currently selected playlist.  Adding a file to a playlist will
+add it to the collection list automatically, but not vice
+versa.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guiicon>Save</guiicon></term>
+<listitem><para>Save the currently selected playlist.  To save a tag
+you have edited, either select another item, or press <keycombo
+action="simul">&Ctrl;<keycap>T</keycap></keycombo>
+instead.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guiicon>Cut</guiicon></term>
+<listitem><para>If a playlist or song is selected, cut (remove) it from the
+list.  If the tag editor is active, this works like cut in any editor,
+removing the selected text, but keeping a copy on the
+clipboard.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guiicon>Copy</guiicon></term>
+<listitem><para>If the tag editor is active, this works like copy in
+any editor, placing a copy of the selected text on the
+clipboard.</para>
+<para>If you use copy on a song in the collection list, the url is
+placed on the clipboard, so you can paste it.  For example, you could
+paste the url into a text editor, &konqueror;, or another
+playlist.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guiicon>Paste</guiicon></term> 
+<listitem><para>If you previously either cut or copied a url from the
+collection list, you can paste the url back into a new playlist.  You
+could also paste a url you have copied from &konqueror; or any other
+application. If you are operating in the tag editor, paste will paste
+any text currently on the clipboard into the selected
+field.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guiicon>Show Search Bar</guiicon></term>
+<listitem><para>Show or hide <link linkend="search-bar">the search
+bar</link>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guiicon>Show Tag Editor</guiicon></term>
+<listitem><para>Show or hide <link linkend="tagging-a-single-file">the
+tag editor</link>.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Play controls</term>
+<listitem>
+<para>These work like any standard media player you may have come
+across.  The controls are <guiicon>Play</guiicon>,
+<guiicon>Pause</guiicon>, <guiicon>Stop</guiicon>, <guiicon>Skip to
+the previous song</guiicon> and <guiicon>Skip to the next
+song</guiicon>.</para>
+<para>There is also a tracking bar, showing how far along (relatively)
+in the current song you are.  You can drag this slider with the mouse
+in order to skip forwards or backwards within a track.</para>
+<para>Finally there is a volume slider.  As you may expect, this
+raises and lowers the volume.  <quote>Loud</quote> is on the right,
+and <quote>Quiet</quote> is on the left.</para></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title>The Search bar</title>
+
+<para>The search bar allows you to quickly search for a song in the
+collection list or a playlist.</para>
+
+<para>Simply typing text into the search bar will reduce the visible
+list of songs to those which contain that text in any visible
+column.</para>
+
+<para>You can refine the search in various ways.  You can have &juk;
+search only in a particular column by choosing it from the dropdown
+list.  The default is <guilabel>&lt;All Visible&gt;</guilabel>.  The
+dropdown list contains all the visible columns so that you can
+specify one in particular you are interested in.  You can also make
+the searching <guilabel>Case Sensitive</guilabel> by checking the box
+labelled so.  Finally there is a <guibutton>Clear</guibutton> to
+remove the search text.</para>
+
+<para>Searching begins instantly when text is entered into the search
+field.  Searching is incremental, that is, as you type each character
+into the text field, the search is narrowed further.  This is useful
+to find a song where you only remember part of a name, for
+instance.</para>
+
+</sect1>
+
+</chapter>
+
 <chapter id="menu-and-command-reference">
 <title>Menu and Command Reference</title>
 
 <sect1 id="menus">
 <title>Menus</title>
 
-<para></para>
+<sect2 id="menu-file">
+<title><guimenu>File</guimenu> Menu</title>
 
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu><guimenuitem>New</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Create a new playlist</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<shortcut>
+<keycombo action="simul">&Ctrl;<keycap>O</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu>
+<guimenuitem>Open...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Select a file (or files) to add to the collection list.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu><guimenuitem>Open Directory...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Select a directory (or directories) to add to the
+collection list.  These directories will also be rescanned whenever
+&juk; is started or
+<menuchoice><guimenu>View</guimenu><guimenuitem>Redisplay</guimenuitem>
+</menuchoice> is chosen.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu>
+<guimenuitem>Rename...</guimenuitem></menuchoice>
+</term>
+<listitem><para>Rename a playlist.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu><guimenuitem>Duplicate...</guimenuitem></menuchoice>
+</term>
+<listitem><para>Create a duplicate of the selected playlist, and
+prompt for a new name.<!-- File menu entry seems not to be working -->
+</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term><menuchoice><guimenu>File</guimenu><guimenuitem>Remove</guimenuitem></menuchoice></term>
+<listitem><para>Remove the selected item. <!-- File menu entry seems -->
+<!-- not to be working --></para></listitem>
+</varlistentry>
+</variablelist>
+</sect2>
 </sect1>
 
 <sect1 id="keybindings">
 <title>Keybinding Reference</title>
 
-<para></para>
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-g guess tag entries based on filename
+ctrl-n new playlist
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry>Key Combination</entry>
+<entry>Action</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry><keycombo
+action="simul">&Ctrl;<keycap>A</keycap></keycombo></entry>
+<entry>Select all</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
 
 </sect1>
 </chapter>
