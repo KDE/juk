@@ -128,6 +128,10 @@ public:
     int selectedPlaylistCount() const { return visiblePlaylist()->childCount(); }
 
     /**
+     * Returns the combined time of all the itens in the currently selected playlist.
+     */
+    int selectedPlaylistTotalTime() const { return visiblePlaylist()->totalTime(); }
+    /**
      * Returns true if the the collection list is the visible playlist.
      */
     bool collectionListSelected() const { return visiblePlaylist() == m_collection; }
@@ -274,6 +278,7 @@ signals:
     void signalListBoxDoubleClicked();
     void signalPlaylistChanged();
     void signalSelectedPlaylistCountChanged(int);
+    void signalSelectedPlaylistTimeChanged(int);
 
 private:
 

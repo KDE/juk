@@ -38,9 +38,10 @@ public slots:
      * Set the playlist name.  This text will only be used when there is not an
      * item playing.
      */ 
-    void setPlaylistInfo(const QString &name, int count);
     void setPlaylistCount(int c);
     void setPlayingItemInfo(const QString &track, const QString &playlist);
+    void setPlaylistInfo(const QString &name, int count, int totalTime);
+    void setPlaylistTime(int totalTime);
 
     /**
      * This clears the information about the playing items and frees that status
@@ -71,6 +72,7 @@ private:
     int m_playlistCount;
     int m_itemTotalTime;
     int m_itemCurrentTime;
+    int m_playlistTotalTime;
     bool m_showTimeRemaining;
 
     QLabel *m_playlistLabel;

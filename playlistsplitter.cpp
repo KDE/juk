@@ -980,8 +980,10 @@ void PlaylistSplitter::slotChangePlaylist(const PlaylistList &l)
 
 void PlaylistSplitter::slotPlaylistCountChanged(Playlist *p)
 {
-    if(p && p == m_playlistStack->visibleWidget())
+    if(p && p == m_playlistStack->visibleWidget()) {
 	emit signalSelectedPlaylistCountChanged(p->childCount());
+	emit signalSelectedPlaylistTimeChanged(p->totalTime());
+    }
 }
 
 void PlaylistSplitter::slotPlaylistItemRemoved(PlaylistItem *item)

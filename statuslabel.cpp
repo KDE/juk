@@ -91,22 +91,45 @@ StatusLabel::~StatusLabel()
 
 }
 
-void StatusLabel::setPlaylistInfo(const QString &name, int count)
+void StatusLabel::setPlaylistInfo(const QString &name, int count, int totalTime)
 {
     m_playlistName = name;
+    m_playlistCount = count;
+    m_playlistTotalTime = totalTime;
 
-    if(mode == PlaylistInfo)
-	m_playlistLabel->setText(m_playlistName);
+    if(mode != PlaylistInfo)
+	return;
 
-    setPlaylistCount(count);
+    m_playlistLabel->setText(m_playlistName);
+
+    int days = totalTime / (60 * 60 * 24);
+    int hours = totalTime / (60 * 60) % 24;
+    int minutes = totalTime / 60 % 60;
+    int seconds = totalTime % 60;
+
+    QString time;
+
+    if(days > 0) {
+	time = i18n("1 day", "%n days", days);
+	time.append(" ");
+    }
+
+    if(days > 0 || hours > 0)
+	time.append(QString().sprintf("%1d:%02d:%02d", hours, minutes, seconds));
+    else
+	time.append(QString().sprintf("%1d:%02d", minutes, seconds));
+
+    m_trackLabel->setText(i18n("1 item", "%n items", count) + " - " + time);
+}
+
+void StatusLabel::setPlaylistTime(int totalTime)
+{
+    setPlaylistInfo(m_playlistName, m_playlistCount, totalTime);
 }
 
 void StatusLabel::setPlaylistCount(int c)
 {
-    m_playlistCount = c;
-
-    if(mode == PlaylistInfo)
-	m_trackLabel->setText(i18n("1 item", "%n items", c));
+    setPlaylistInfo(m_playlistName, c, m_playlistTotalTime);
 }
 
 void StatusLabel::setPlayingItemInfo(const QString &track, const QString &playlist)
@@ -126,7 +149,7 @@ void StatusLabel::clear()
 
     mode = PlaylistInfo;
 
-    setPlaylistInfo(m_playlistName, m_playlistCount);
+    setPlaylistInfo(m_playlistName, m_playlistCount, m_playlistTotalTime);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

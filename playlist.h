@@ -196,6 +196,11 @@ public:
      * Returns the number of items in the playlist.
      */
     int count() const { return childCount(); }
+    
+    /**
+     * Returns the combined time of all the itens.
+     */
+    int totalTime();
 
     /**
      * Returns the next item to be played.  If random is false this is just

@@ -451,6 +451,19 @@ void Playlist::setName(const QString &n)
     emit signalNameChanged(m_playlistName);
 }
 
+int Playlist::totalTime()
+{
+    int time = 0;
+    QListViewItemIterator it(this);
+    while (it.current()) {
+	PlaylistItem *item = static_cast<PlaylistItem *>(it.current());
+	if (item->tag()->current())
+	    time += item->tag()->seconds();
+	it++;
+    }
+    return time;
+}
+
 void Playlist::updateLeftColumn()
 {
     int newLeftColumn = leftMostVisibleColumn();

@@ -278,6 +278,8 @@ void JuK::setupLayout()
 
     connect(m_splitter, SIGNAL(signalSelectedPlaylistCountChanged(int)),
 	    m_statusLabel, SLOT(setPlaylistCount(int)));
+    connect(m_splitter, SIGNAL(signalSelectedPlaylistTimeChanged(int)),
+	    m_statusLabel, SLOT(setPlaylistTime(int)));
     connect(m_statusLabel, SIGNAL(jumpButtonClicked()),
 	    m_splitter, SLOT(slotSelectPlaying()));
 
@@ -746,7 +748,8 @@ QString JuK::playingString() const
 void JuK::updatePlaylistInfo()
 {
     m_statusLabel->setPlaylistInfo(m_splitter->visiblePlaylistName(),
-				   m_splitter->selectedPlaylistCount());
+				   m_splitter->selectedPlaylistCount(),
+				   m_splitter->selectedPlaylistTotalTime());
 }
 
 void JuK::play(const QString &file)
