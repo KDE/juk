@@ -11,7 +11,7 @@
 #include <kapplication.h>
 #include <kconfig.h>
 #include <kdeversion.h>
-#if KDE_VERSION > KDE_MAKE_VERSION(3,1,0)
+#if KDE_IS_VERSION(3,1,90)
 #    include <kmacroexpander.h>
 #endif
 
@@ -104,7 +104,7 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     QString regExp = QRegExp::escape(s.simplifyWhiteSpace());
     regExp = ".*" + regExp;
     regExp.replace(' ', "\\s+");
-#if KDE_VERSION > KDE_MAKE_VERSION(3,1,0)
+#if KDE_IS_VERSION(3,1,90)
     KMacroExpander::expandMacros(regExp, substitutions);
 #else
     QMap<QChar, QString>::ConstIterator it = substitutions.begin();
