@@ -50,6 +50,7 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
 PlaylistSplitter::~PlaylistSplitter()
 {
     saveConfig();
+    delete m_playlistBox;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
