@@ -21,6 +21,7 @@
 #include <klistview.h>
 
 #include <qstringlist.h>
+#include <qptrstack.h>
 
 #include "playlistitem.h"
 
@@ -97,9 +98,11 @@ public:
     // static methods
 
     /** 
-     * This gets the next item to be played in the specified playlist.
+     * This gets the next item to be played.  This is static because often we 
+     * know about the playing item, but not to which list it belongs.
      */
     static PlaylistItem *nextItem(PlaylistItem *current, bool random = false);
+    static PlaylistItem *previousItem(PlaylistItem *current, bool random = false);
 
 protected:
     virtual QDragObject *dragObject();
@@ -125,6 +128,8 @@ private:
     QString playlistName;
     PlaylistSplitter *splitter;
     PlaylistBoxItem *boxItem;
+    
+    QPtrStack<PlaylistItem> history;
 
 private slots:
     void emitSelected();

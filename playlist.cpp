@@ -244,12 +244,14 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 	return(0);
 
     PlaylistItem *i;
+    Playlist *list = static_cast<Playlist *>(current->listView());
 
     if(random) {
-	Playlist *list = static_cast<Playlist *>(current->listView());
 	PlaylistItemList items = list->items();
 	
 	if(items.count() > 1) {
+	    list->history.push(current);
+
 	    srand(time(0));
 	    i = current;
 	    while(i == current)
@@ -262,6 +264,19 @@ PlaylistItem *Playlist::nextItem(PlaylistItem *current, bool random)
 	i = static_cast<PlaylistItem *>(current->itemBelow());	
 
     return(i);
+}
+
+PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
+{
+    if(!current)
+	return(0);
+
+    Playlist *list = static_cast<Playlist *>(current->listView());
+
+    if(random && !list->history.isEmpty())
+	return(list->history.pop());
+    else
+	return(static_cast<PlaylistItem *>(current->itemAbove()));
 }
 
 bool Playlist::isInternalFile() const

@@ -72,9 +72,12 @@ private:
     KToggleAction *restoreOnLoadAction;
     SliderAction *sliderAction;
     KToggleAction *randomPlayAction;
+
     KAction *playAction;
     KAction *pauseAction;
     KAction *stopAction;
+    KAction *backAction;
+    KAction *forwardAction;
 
     KAction *savePlaylistAction;
     KAction *saveAsPlaylistAction;
@@ -84,6 +87,7 @@ private:
     QTimer *playTimer;
     Player player;
     PlaylistItem *playingItem;
+
     bool trackPositionDragging;
     bool noSeek;
     bool restore;
@@ -106,6 +110,8 @@ private slots:
     void playFile();
     void pauseFile();
     void stopFile();
+    void backFile();
+    void forwardFile();
 
     // additional player slots
     void trackPositionSliderClick();
@@ -113,7 +119,14 @@ private slots:
     void trackPositionSliderUpdate(int position);
     void pollPlay();
     void setVolume(int volume);
+    /**
+     * This is just a wrapper around the below method to take a QListViewItem.
+     */
     void playItem(QListViewItem *item);
+    /**
+     * This is the main method to play stuff.  All of the other play related 
+     * members in this class ultimately call this method.
+     */
     void playItem(PlaylistItem *item);
 };
 

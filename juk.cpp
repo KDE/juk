@@ -93,9 +93,11 @@ void JuK::setupActions()
 
     // play menu
     randomPlayAction = new KToggleAction(i18n("Random Play"), 0, actionCollection(), "randomPlay");
-    playAction = new KAction(i18n("&Play"), "1rightarrow", 0, this, SLOT(playFile()), actionCollection(), "playFile");
+    playAction = new KAction(i18n("&Play"), "player_play", 0, this, SLOT(playFile()), actionCollection(), "playFile");
     pauseAction = new KAction(i18n("P&ause"), "player_pause", 0, this, SLOT(pauseFile()), actionCollection(), "pauseFile");
     stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stopFile()), actionCollection(), "stopFile");
+    backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(backFile()), actionCollection(), "backFile");
+    forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forwardFile()), actionCollection(), "forwardFile");
 
     // playlist menu
     new KAction(i18n("New..."), "filenew", 0, splitter, SLOT(createPlaylist()), actionCollection(), "createPlaylist");
@@ -129,10 +131,14 @@ void JuK::setupActions()
 
 void JuK::setupPlayer()
 {
+    playingItem = 0;
+
     trackPositionDragging = false;
     noSeek = false;
     pauseAction->setEnabled(false);
     stopAction->setEnabled(false);
+    backAction->setEnabled(false);
+    forwardAction->setEnabled(false);
 
     playTimer = new QTimer(this);
     connect(playTimer, SIGNAL(timeout()), this, SLOT(pollPlay()));
@@ -295,6 +301,10 @@ void JuK::playFile()
 {
     if(player.paused()) {
         player.play();
+
+	// Here, before doing anything, we want to make sure that the player did
+	// in fact start.
+
         if(player.playing()) {
             pauseAction->setEnabled(true);
             stopAction->setEnabled(true);
@@ -325,6 +335,8 @@ void JuK::stopFile()
     player.stop();
     pauseAction->setEnabled(false);
     stopAction->setEnabled(false);
+    backAction->setEnabled(false);
+    forwardAction->setEnabled(false);
     sliderAction->getTrackPositionSlider()->setValue(0);
     sliderAction->getTrackPositionSlider()->setEnabled(false);
     if(playingItem)
@@ -333,6 +345,20 @@ void JuK::stopFile()
 
     statusLabel->clear();
 }
+
+void JuK::backFile()
+{
+    PlaylistItem *i = Playlist::previousItem(playingItem, randomPlayAction->isChecked());
+    if(i)
+	playItem(i);
+}
+
+void JuK::forwardFile()
+{
+    PlaylistItem *i = Playlist::nextItem(playingItem, randomPlayAction->isChecked());
+    playItem(i);
+}
+
 
 ////////////////////////////////////////////////////////////////////////////////
 // additional player slots
@@ -371,6 +397,9 @@ void JuK::pollPlay()
 
 	    if(next) {
 		playingItem = next;
+		
+		backAction->setEnabled(true);
+		
 		sliderAction->getTrackPositionSlider()->setValue(0);
 		player.play(playingItem->absFilePath(), player.getVolume());
 		if(player.playing()) {
@@ -404,9 +433,7 @@ void JuK::setVolume(int volume)
 
 void JuK::playItem(QListViewItem *item)
 {
-    PlaylistItem *fileListItem = dynamic_cast<PlaylistItem *>(item);
-    if(fileListItem)
-        playItem(fileListItem);
+    playItem(dynamic_cast<PlaylistItem *>(item));
 }
 
 void JuK::playItem(PlaylistItem *item)
@@ -415,17 +442,25 @@ void JuK::playItem(PlaylistItem *item)
         stopFile();
 
     if(item) {
-        playingItem = item;
         float volume = float(sliderAction->getVolumeSlider()->value()) / float(sliderAction->getVolumeSlider()->maxValue());
-        player.play(playingItem->absFilePath(), volume);
+        player.play(item->absFilePath(), volume);
+
+	// Make sure that the player actually starts before doing anything.
+
         if(player.playing()) {
             pauseAction->setEnabled(true);
             stopAction->setEnabled(true);
+
+	    backAction->setEnabled(true);
+	    forwardAction->setEnabled(true);
+
+	    playingItem = item;
+
             sliderAction->getTrackPositionSlider()->setEnabled(true);
-            playingItem->setPixmap(0, QPixmap(UserIcon("playing")));
+            item->setPixmap(0, QPixmap(UserIcon("playing")));
             playTimer->start(pollInterval);
 
-	    statusLabel->setPlayingItem(playingItem);
+	    statusLabel->setPlayingItem(item);
         }
     }
 }

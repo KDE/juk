@@ -22,6 +22,8 @@
 		<Action name="playFile"/>
 		<Action name="pauseFile"/>
 		<Action name="stopFile"/>
+		<Action name="backFile"/>
+		<Action name="forwardFile"/>
 	</Menu>
 	<Menu name="playlist"><text>Play&amp;list</text>
 		<Action name="createPlaylist"/>
@@ -52,5 +54,8 @@
 	<Action name="playFile"/>
 	<Action name="pauseFile"/>
 	<Action name="stopFile"/>
+	<Separator lineSeparator="false"/>	
+	<Action name="backFile"/>
+	<Action name="forwardFile"/>
 	<Action name="trackPositionAction"/>
 </kpartgui>

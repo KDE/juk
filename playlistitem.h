@@ -43,26 +43,34 @@ public:
                       GenreColumn = 4, YearColumn = 5, LengthColumn = 6, FileNameColumn = 7 };
 
     // The constructors are in the protected secion.  See the note there.
-
     virtual ~PlaylistItem();
 
-    // These can't be const members because they fetch the data "on demand".
-
     Tag *tag() const;
-    AudioData *getAudioData();
 
     void setFile(const QString &file);
 
-    // QFileInfo-ish methods
+    // These are just forwarding methods to PlaylistItem::Data, a QFileInfo 
+    // subclass.
 
-    QString fileName() const;
-    QString filePath() const;
-    QString absFilePath() const;
-    QString dirPath(bool absPath = false) const;
-    bool isWritable() const;
+    inline QString fileName() const;
+    inline QString filePath() const;
+    inline QString absFilePath() const;
+    inline QString dirPath(bool absPath = false) const;
+    inline bool isWritable() const;
 
 public slots:
+    /**
+     * This just refreshes from the in memory data.  This may seem pointless at 
+     * first, but this data is shared between all of the list view items that are
+     * based on the same file, so if another one of those items changes its data
+     * it is important to refresh the others.
+     */
     virtual void refresh();
+
+    /**
+     * This rereads the tag from disk.  This affects all PlaylistItems based on
+     * the same file.
+     */
     virtual void refreshFromDisk();
 
 protected:
