@@ -203,24 +203,24 @@ void SystemTray::wheelEvent(QWheelEvent *e)
 /*
  * Reimplemented this in order to use the middle mouse button
  */
-void SystemTray::mousePressEvent( QMouseEvent *e )
+void SystemTray::mousePressEvent(QMouseEvent *e)
 {
-    switch ( e->button() ) {
+    switch(e->button()) {
     case LeftButton:
     case RightButton:
-        KSystemTray::mousePressEvent( e );
+        KSystemTray::mousePressEvent(e);
         break;
     case MidButton:
-        if ( !rect().contains( e->pos() ) )
-	    return;
-        if ( m_pauseAction->isEnabled() )
+        if(!rect().contains(e->pos()))
+            return;
+        if(m_pauseAction->isEnabled())
             m_pauseAction->activate();
         else
             m_playAction->activate();
         break;
     default:
-	// nothing
-	break;
+        // nothing
+        break;
     }
 }
 
