@@ -132,13 +132,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     // We need to wait until after Collection List is created to set this up.
 
     setupUpcomingPlaylist();
-
-    setSorting(-1); // Disable sorting for speed
-
     performTreeViewSetup();
-
-    setSorting(0);
-    sort();
 
     connect(CollectionList::instance(), SIGNAL(signalNewTag(const QString &, unsigned)),
             this, SLOT(slotAddItem(const QString &, unsigned)));
@@ -148,6 +142,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
             this, SLOT(slotPlaylistDestroyed(Playlist*)));
 
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
+    enableDirWatch(true);
 }
 
 PlaylistBox::~PlaylistBox()
@@ -349,7 +344,7 @@ void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
 {
     if(m_treeViewSetup)
-	static_cast<TreeViewMode*>(m_viewModes[2])->slotAddItem(tag, column);
+	static_cast<TreeViewMode*>(m_viewModes[2])->slotAddItems(tag, column);
 }
 
 void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
@@ -643,7 +638,11 @@ void PlaylistBox::performTreeViewSetup()
     if(m_treeViewSetup || m_viewModeIndex != 2)
 	return;
 
+    setSorting(-1);
     CollectionList::instance()->setupTreeViewEntries(m_viewModes[2]);
+    setSorting(0);
+    sort();
+
     m_treeViewSetup = true;
 }
 

@@ -12,6 +12,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kurl.h>
+
 #include <config.h>
 #include <qobjectlist.h>
 
@@ -236,14 +238,14 @@ void PlaylistCollection::addFolder()
         for(QStringList::Iterator it = result.addedDirs.begin();
             it != result.addedDirs.end(); it++)
         {
-            m_dirWatch.addDir(*it, false, true);
-	    m_folderList.append(*it);
+            m_dirLister.openURL(*it, true);
+            m_folderList.append(*it);
         }
 
         for(QStringList::Iterator it = result.removedDirs.begin();
             it !=  result.removedDirs.end(); it++)
         {
-            m_dirWatch.removeDir(*it);
+            m_dirLister.stop(*it);
             m_folderList.remove(*it);
         }
 
@@ -429,30 +431,30 @@ UpcomingPlaylist *PlaylistCollection::upcomingPlaylist() const
 void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
 {
     if((action<KToggleAction>("showUpcoming")->isChecked() && m_upcomingPlaylist) ||
-	(!enable && !m_upcomingPlaylist))
+        (!enable && !m_upcomingPlaylist))
     {
         return;
     }
 
     if(enable) {
         action<KToggleAction>("showUpcoming")->setChecked(true);
-	if(!m_upcomingPlaylist)
-	    m_upcomingPlaylist = new UpcomingPlaylist(this);
+        if(!m_upcomingPlaylist)
+            m_upcomingPlaylist = new UpcomingPlaylist(this);
 
-	m_upcomingPlaylist->initialize();
+        m_upcomingPlaylist->initialize();
 
         setupPlaylist(m_upcomingPlaylist, "today");
     }
     else {
-	action<KToggleAction>("showUpcoming")->setChecked(false);
-	bool raiseCollection = m_playlistStack->visibleWidget() == m_upcomingPlaylist;
+        action<KToggleAction>("showUpcoming")->setChecked(false);
+        bool raiseCollection = m_playlistStack->visibleWidget() == m_upcomingPlaylist;
         delete m_upcomingPlaylist;
         m_upcomingPlaylist = 0;
 
-	if(raiseCollection) {
-	    kapp->processEvents(); // Seems to stop a crash, weird.
-	    raise(CollectionList::instance());
-	}
+        if(raiseCollection) {
+            kapp->processEvents(); // Seems to stop a crash, weird.
+            raise(CollectionList::instance());
+        }
     }
 }
 
@@ -506,10 +508,17 @@ bool PlaylistCollection::containsPlaylistFile(const QString &file) const
 
 void PlaylistCollection::enableDirWatch(bool enable)
 {
-    if(enable)
-        m_dirWatch.startScan(false);
-    else
-        m_dirWatch.stopScan();
+    QObject *collection = CollectionList::instance();
+
+    m_dirLister.disconnect(object());
+    if(enable) {
+        QObject::connect(&m_dirLister, SIGNAL(newItems(const KFileItemList &)),
+                collection, SLOT(slotNewItems(const KFileItemList &)));
+        QObject::connect(&m_dirLister, SIGNAL(refreshItems(const KFileItemList &)),
+                collection, SLOT(slotRefreshItems(const KFileItemList &)));
+        QObject::connect(&m_dirLister, SIGNAL(deleteItem(KFileItem *)),
+                collection, SLOT(slotDeleteItem(KFileItem *)));
+    }
 }
 
 QString PlaylistCollection::playlistNameDialog(const QString &caption,
@@ -595,16 +604,8 @@ void PlaylistCollection::readConfig()
     m_importPlaylists  = config.readBoolEntry("ImportPlaylists", true);
     m_folderList       = config.readPathListEntry("DirectoryList");
 
-    QObject::connect(&m_dirWatch, SIGNAL(dirty(const QString &)),
-            object(), SLOT(slotDirChanged(const QString &)));
-
-    for(QStringList::ConstIterator it = m_folderList.begin();
-        it != m_folderList.end(); ++it)
-    {
-        m_dirWatch.addDir(*it, false, true);
-    }
-
-    m_dirWatch.startScan();
+    for(QStringList::ConstIterator it = m_folderList.begin(); it != m_folderList.end(); ++it)
+        m_dirLister.openURL(*it, true);
 }
 
 void PlaylistCollection::saveConfig()

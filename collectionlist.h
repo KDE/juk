@@ -18,6 +18,7 @@
 
 #include <kapplication.h>
 #include <kdirwatch.h>
+#include <kfileitem.h>
 
 #include <qdict.h>
 #include <qclipboard.h>
@@ -99,6 +100,10 @@ public slots:
     void slotRemoveItem(const QString &file);
     void slotRefreshItem(const QString &file);
     
+    void slotNewItems(const KFileItemList &items, bool importPlaylists);
+    void slotRefreshItems(const KFileItemList &items);
+    void slotDeleteItem(KFileItem *item);
+
 protected:
     CollectionList(PlaylistCollection *collection);
     virtual ~CollectionList();

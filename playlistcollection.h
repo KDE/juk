@@ -20,10 +20,9 @@
 #include "jukIface.h"
 
 #include <kshortcut.h>
-#include <kdirwatch.h>
 #include <kconfig.h>
 #include <klocale.h>
-
+#include <kdirlister.h>
 
 class QWidgetStack;
 class KAction;
@@ -142,7 +141,7 @@ private:
     UpcomingPlaylist *m_upcomingPlaylist;
     ActionHandler    *m_actionHandler;
 
-    KDirWatch   m_dirWatch;
+    KDirLister  m_dirLister;
     StringHash  m_playlistNames;
     StringHash  m_playlistFiles;
     QStringList m_folderList;

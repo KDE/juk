@@ -14,10 +14,14 @@
  ***************************************************************************/
 
 #include <kiconloader.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
 
 #include <qpixmap.h>
 #include <qpainter.h>
+#include <qfile.h>
+#include <qdir.h>
+#include <qdatastream.h>
 
 #include "viewmode.h"
 #include "playlistbox.h"
@@ -248,7 +252,7 @@ void CompactViewMode::updateHeights()
 // TreeViewMode
 ////////////////////////////////////////////////////////////////////////////////
 
-TreeViewMode::TreeViewMode(PlaylistBox *b) : CompactViewMode(b)
+TreeViewMode::TreeViewMode(PlaylistBox *b) : CompactViewMode(b), m_treeViewItems(5003, false)
 {
 
 }
@@ -287,17 +291,17 @@ void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
 {
     QString itemKey;
     if(column == PlaylistItem::ArtistColumn)
-        itemKey = "artists" + item.lower();
+        itemKey = "artists" + item;
     else if(column == PlaylistItem::GenreColumn)
-        itemKey = "genres" + item.lower();
+        itemKey = "genres" + item;
     else if(column == PlaylistItem::AlbumColumn)
-        itemKey = "albums" + item.lower();
+        itemKey = "albums" + item;
     else {
         kdWarning() << k_funcinfo << "Unhandled column type " << column << endl;
         return;
     }
 
-    if(!m_treeViewItems.contains(itemKey))
+    if(!m_treeViewItems.find(itemKey))
         return;
 
     TreeViewItemPlaylist *itemPlaylist = m_treeViewItems[itemKey];
@@ -306,12 +310,9 @@ void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
     emit signalPlaylistDestroyed(itemPlaylist);
 }
 
-void TreeViewMode::slotAddItem(const QString &item, unsigned column)
+void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
 {
-    QValueList<int> columns;
-    columns.append(column);
-
-    QString itemKey, searchCategory;
+    QString searchCategory;
     if(column == PlaylistItem::ArtistColumn)
         searchCategory = "artists";
     else if(column == PlaylistItem::GenreColumn)
@@ -323,28 +324,38 @@ void TreeViewMode::slotAddItem(const QString &item, unsigned column)
         return;
     }
 
-    itemKey = searchCategory + item.lower();
-
-    if(m_treeViewItems.contains(itemKey))
-        return;
-        
-    PlaylistSearch::ComponentList components;
+    QValueList<int> columns;
+    columns.append(column);
 
     PlaylistSearch::Component::MatchMode mode = PlaylistSearch::Component::ContainsWord;
     if(column != PlaylistItem::ArtistColumn)
-        mode = PlaylistSearch::Component::Exact;
+	mode = PlaylistSearch::Component::Exact;
 
-    components.append(PlaylistSearch::Component(item, true, columns, mode));
-
+    PlaylistSearch::ComponentList components;
     PlaylistList playlists;
     playlists.append(CollectionList::instance());
 
-    PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
+    QString itemKey, item;
 
-    TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, item, false);
-    playlistBox()->setupPlaylist(p, "midi", m_searchCategories[searchCategory]);
+    PlaylistBox::Item *itemParent = m_searchCategories[searchCategory];
 
-    m_treeViewItems[itemKey] = p;
+    for(QStringList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+	item = *it;
+	itemKey = searchCategory + item;
+
+	if(m_treeViewItems.find(itemKey))
+	    continue;
+	    
+	components.clear();
+	components.append(PlaylistSearch::Component(item, true, columns, mode));
+
+	PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
+
+	TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, item, false);
+	playlistBox()->setupPlaylist(p, "midi", itemParent);
+
+	m_treeViewItems.insert(itemKey, p);
+    }
 }
 
 void TreeViewMode::setupCategories()
@@ -360,9 +371,6 @@ void TreeViewMode::setupCategories()
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Genres"));
     m_searchCategories.insert("genres", i);
-
-    for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
-        it.current()->setSortedFirst(true);
 }
 
 #include "viewmode.moc"

@@ -21,6 +21,7 @@
 #include <kiconloader.h>
 #include <kconfig.h>
 #include <kaction.h>
+#include <kurl.h>
 
 #include "collectionlist.h"
 #include "playlistcollection.h"
@@ -124,9 +125,46 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
     columnList << PlaylistItem::GenreColumn;
     columnList << PlaylistItem::AlbumColumn;
 
-    for(QValueList<int>::Iterator colIt = columnList.begin(); colIt != columnList.end(); ++colIt)
+    QStringList items;
+    for(QValueList<int>::Iterator colIt = columnList.begin(); colIt != columnList.end(); ++colIt) {
+	items.clear();
 	for(TagCountDictIterator it(*m_columnTags[*colIt]); it.current(); ++it)
-	    treeViewMode->slotAddItem(it.currentKey(), *colIt);
+	    items << it.currentKey();
+
+	treeViewMode->slotAddItems(items, *colIt);
+    }
+}
+
+void CollectionList::slotNewItems(const KFileItemList &items, bool importPlaylists)
+{
+    QStringList files;
+
+    for(KFileItemListIterator it(items); it.current(); ++it)
+	files.append((*it)->url().path());
+
+    addFiles(files, importPlaylists);
+    update();
+}
+
+void CollectionList::slotRefreshItems(const KFileItemList &items)
+{
+    for(KFileItemListIterator it(items); it.current(); ++it) {
+	CollectionListItem *item = lookup((*it)->url().path());
+
+	if(item) {
+	    item->refreshFromDisk();
+	    item->repaint();
+	}
+    }
+
+    update();
+}
+
+void CollectionList::slotDeleteItem(KFileItem *item)
+{
+    CollectionListItem *listItem = lookup(item->url().path());
+    if(listItem)
+	clearItem(listItem);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -180,11 +218,7 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
 {
     new KAction(i18n("Show Playing"), KShortcut(), actions(), "showPlaying");
 
-    m_dirWatch = new KDirWatch;
-    connect(m_dirWatch, SIGNAL(deleted(const QString &)), this, SLOT(slotRemoveItem(const QString &)));
-    connect(m_dirWatch, SIGNAL(dirty(const QString &)), this, SLOT(slotRefreshItem(const QString &)));
     connect(action("showPlaying"), SIGNAL(activated()), this, SLOT(slotShowPlaying()));
-    m_dirWatch->startScan();
 
     connect(action<KToolBarPopupAction>("back")->popupMenu(), SIGNAL(aboutToShow()),
 	    this, SLOT(slotPopulateBackMenu()));
@@ -217,8 +251,6 @@ CollectionList::~CollectionList()
     clearItems(items());
     for(TagCountDicts::Iterator it = m_columnTags.begin(); it != m_columnTags.end(); ++it)
 	delete *it;
-
-    delete m_dirWatch;
 }
 
 void CollectionList::contentsDropEvent(QDropEvent *e)

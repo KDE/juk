@@ -106,14 +106,14 @@ public:
 
 public slots:
     void slotRemoveItem(const QString &item, unsigned column);
-    void slotAddItem(const QString &item, unsigned column);
+    void slotAddItems(const QStringList &items, unsigned column);
 
 signals:
     void signalPlaylistDestroyed(Playlist*);
 
 private:
     QDict<PlaylistBox::Item> m_searchCategories;    
-    QMap<QString, TreeViewItemPlaylist*> m_treeViewItems;
+    QDict<TreeViewItemPlaylist> m_treeViewItems;
 };
 
 #endif
