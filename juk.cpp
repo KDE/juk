@@ -108,7 +108,7 @@ void JuK::play()
 	return;
 
     if(m_player->paused()) {
-        m_player->play();
+        m_player->play(m_player->getVolume());
         m_statusLabel->setPlayingItemInfo(playingString(), m_splitter->playingList());
 
 	// Here, before doing anything, we want to make sure that the m_player did
