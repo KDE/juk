@@ -71,18 +71,12 @@ SliderAction::~SliderAction()
 
 QSlider *SliderAction::getTrackPositionSlider() const
 {
-    if(m_trackPositionSlider)
-        return (m_trackPositionSlider);
-    else
-        return 0;
+    return m_trackPositionSlider;
 }
 
 QSlider *SliderAction::getVolumeSlider() const
 {
-    if(m_volumeSlider)
-        return (m_volumeSlider);
-    else
-        return 0;
+    return m_volumeSlider;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
