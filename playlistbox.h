@@ -77,6 +77,7 @@ private:
     void rename(Item *item);
     void duplicate(Item *item);
     void deleteItem(Item *item);
+    void reload(Item *item);
 
     virtual void resizeEvent(QResizeEvent *e);
     virtual void decode(QMimeSource *s, Item *item);
@@ -106,6 +107,7 @@ private slots:
     void slotContextRename();
     void slotContextDuplicate();
     void slotContextDeleteItem();
+    void slotContextReload();
 
 private:
     PlaylistSplitter *m_splitter;

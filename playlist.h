@@ -91,8 +91,8 @@ public:
      */
     virtual PlaylistItem *createItem(const QFileInfo &file, QListViewItem *after = 0);
 
-    QString fileName() const { return m_playlistFileName; }
-    void setFileName(const QString &n) { m_playlistFileName = n; }
+    QString fileName() const { return m_fileName; }
+    void setFileName(const QString &n) { m_fileName = n; }
 
     void hideColumn(int c);
     void showColumn(int c);
@@ -147,6 +147,10 @@ public slots:
     virtual void selectAll() { KListView::selectAll(true); }
 
     void slotGuessTagInfo();
+    /**
+     * Reload the playlist contents from the m3u file.
+     */
+    void slotReload();
 
 protected:
     /**
@@ -199,6 +203,7 @@ signals:
 
 private:
     void setup();
+    void loadFile(const QString &fileName, const QFileInfo &fileInfo);
     void applyTag(QListViewItem *item, const QString &text, int column);
     int leftMostVisibleColumn() const;
 
@@ -224,7 +229,7 @@ private:
     bool m_allowDuplicates;
     QPtrStack<PlaylistItem> m_history;
 
-    QString m_playlistFileName;
+    QString m_fileName;
 
     /**
      * This is only defined if the playlist name is something other than the

@@ -198,39 +198,11 @@ Playlist::Playlist(QWidget *parent, const QString &name) : KListView(parent, nam
 }
 
 Playlist::Playlist(const QFileInfo &playlistFile, QWidget *parent, const char *name) : KListView(parent, name),
-										       m_playlistFileName(playlistFile.absFilePath()),
+										       m_fileName(playlistFile.absFilePath()),
 										       m_playingItem(0), m_leftColumn(0)
 {
     setup();
-
-    QFile file(m_playlistFileName);
-    if(!file.open(IO_ReadOnly))
-	return;
-
-    QTextStream stream(&file);
-
-    // turn off non-explicit sorting
-    setSorting(columns() + 1);
-
-    PlaylistItem *after = 0;
-
-    while(!stream.atEnd()) {
-	QString itemName = (stream.readLine()).stripWhiteSpace();
-
-	QFileInfo item(itemName);
-
-	if(item.isRelative())
-	    item.setFile(QDir::cleanDirPath(playlistFile.dirPath(true) + "/" + itemName));
-
-	if(item.exists() && item.isFile() && item.isReadable()) {
-	    if(after)
-		after = createItem(item, after);
-	    else
-		after = createItem(item);
-	}
-    }
-
-    file.close();
+    loadFile(m_fileName, playlistFile);
 }
 
 Playlist::~Playlist()
@@ -240,13 +212,13 @@ Playlist::~Playlist()
 
 void Playlist::save()
 {
-    if(m_playlistFileName.isEmpty())
+    if(m_fileName.isEmpty())
 	return saveAs();
 
-    QFile file(m_playlistFileName);
+    QFile file(m_fileName);
 
     if(!file.open(IO_WriteOnly))
-	return KMessageBox::error(this, i18n("Could not save to file %1.").arg(m_playlistFileName));
+	return KMessageBox::error(this, i18n("Could not save to file %1.").arg(m_fileName));
 
     QTextStream stream(&file);
 
@@ -262,13 +234,13 @@ void Playlist::saveAs()
 {
     QStringList extensions = PlaylistSplitter::playlistExtensions();
 
-    m_playlistFileName = KFileDialog::getSaveFileName(name() + "." + PlaylistSplitter::playlistExtensions().first(),
+    m_fileName = KFileDialog::getSaveFileName(name() + "." + PlaylistSplitter::playlistExtensions().first(),
 						      PlaylistSplitter::extensionsString(extensions, i18n("Playlists")));
-    m_playlistFileName = m_playlistFileName.stripWhiteSpace();
+    m_fileName = m_fileName.stripWhiteSpace();
 
-    if(m_playlistFileName != QString::null) {
-	if(extensions.find(m_playlistFileName.section('.', -1)) == extensions.end())
-	    m_playlistFileName.append('.' + extensions.first());
+    if(m_fileName != QString::null) {
+	if(extensions.find(m_fileName.section('.', -1)) == extensions.end())
+	    m_fileName.append('.' + extensions.first());
 
 	if(m_playlistName.isEmpty())
 	    emit signalNameChanged(name());
@@ -383,7 +355,7 @@ PlaylistItem *Playlist::previousItem(PlaylistItem *current, bool random)
 QString Playlist::name() const
 {
     if(m_playlistName.isNull())
-	return m_playlistFileName.section(QDir::separator(), -1).section('.', 0, -2);
+	return m_fileName.section(QDir::separator(), -1).section('.', 0, -2);
     else
 	return m_playlistName;
 }
@@ -423,7 +395,11 @@ void Playlist::paste()
 
 void Playlist::clear()
 {
-    clearItems(selectedItems());
+    PlaylistItemList l = selectedItems();
+    if(l.isEmpty())
+	l = items();
+
+    clearItems(l);
 }
 
 void Playlist::slotGuessTagInfo()
@@ -433,6 +409,16 @@ void Playlist::slotGuessTagInfo()
     for(PlaylistItem *item = items.first(); item != 0; item = items.next())
         item->guessTagInfo();
     KApplication::restoreOverrideCursor();
+}
+
+void Playlist::slotReload()
+{
+    QFileInfo fileInfo(m_fileName);
+    if(!fileInfo.exists() || !fileInfo.isFile() || !fileInfo.isReadable())
+	return;
+    
+    clear();
+    loadFile(m_fileName, fileInfo);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -740,6 +726,38 @@ void Playlist::setup()
     m_allowDuplicates = false;
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
+}
+
+void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
+{
+    QFile file(fileName);
+    if(!file.open(IO_ReadOnly))
+	return;
+
+    QTextStream stream(&file);
+
+    // turn off non-explicit sorting
+    setSorting(columns() + 1);
+
+    PlaylistItem *after = 0;
+
+    while(!stream.atEnd()) {
+	QString itemName = (stream.readLine()).stripWhiteSpace();
+
+	QFileInfo item(itemName);
+
+	if(item.isRelative())
+	    item.setFile(QDir::cleanDirPath(fileInfo.dirPath(true) + "/" + itemName));
+
+	if(item.exists() && item.isFile() && item.isReadable()) {
+	    if(after)
+		after = createItem(item, after);
+	    else
+		after = createItem(item);
+	}
+    }
+
+    file.close();
 }
 
 void Playlist::setPlaying(PlaylistItem *item, bool playing)

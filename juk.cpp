@@ -139,7 +139,7 @@ void JuK::setupActions()
     m_stopAction = new KAction(i18n("&Stop"), "player_stop", 0, this, SLOT(stop()), actionCollection(), "stop");
     m_backAction = new KAction(i18n("Skip &Back"), "player_start", 0, this, SLOT(back()), actionCollection(), "back");
     m_forwardAction = new KAction(i18n("Skip &Forward"), "player_end", 0, this, SLOT(forward()), actionCollection(), "forward");
-    m_loopPlaylistAction = new KToggleAction(i18n("&Loop Playlist"), "reload", 0, actionCollection(), "loopPlaylist");
+    m_loopPlaylistAction = new KToggleAction(i18n("&Loop Playlist"), 0, 0, actionCollection(), "loopPlaylist");
 
     // tagger menu
     new KAction(i18n("&Save"), "filesave", "CTRL+t", m_splitter, SLOT(slotSaveTag()), actionCollection(), "saveItem");

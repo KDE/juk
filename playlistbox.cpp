@@ -45,21 +45,23 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
 
     m_playlistContextMenu = new KPopupMenu();
 
-    m_popupIndex["save"]      = m_playlistContextMenu->insertItem(
-        SmallIconSet("filesave"), i18n("Save"), this,
-        SLOT(slotContextSave()));
-    m_popupIndex["saveas"]    = m_playlistContextMenu->insertItem(
-        SmallIconSet("filesaveas"), i18n("Save As..."), this,
-        SLOT(slotContextSaveAs()));
-    m_popupIndex["rename"]    = m_playlistContextMenu->insertItem(
-        i18n("Rename..."), this,
-        SLOT(slotContextRename()));
+    m_popupIndex["save"] = m_playlistContextMenu->insertItem(
+	SmallIconSet("filesave"), i18n("Save"), this, SLOT(slotContextSave()));
+
+    m_popupIndex["saveas"] = m_playlistContextMenu->insertItem(
+        SmallIconSet("filesaveas"), i18n("Save As..."), this, SLOT(slotContextSaveAs()));
+
+    m_popupIndex["rename"] = m_playlistContextMenu->insertItem(
+	i18n("Rename..."), this, SLOT(slotContextRename()));
+
     m_popupIndex["duplicate"] = m_playlistContextMenu->insertItem(
-        SmallIconSet("editcopy"), i18n("Duplicate..."), this,
-        SLOT(slotContextDuplicate()));
-    m_popupIndex["remove"]    = m_playlistContextMenu->insertItem(
-        SmallIconSet("edittrash"), i18n("Remove"), this,
-        SLOT(slotContextDeleteItem()));
+	SmallIconSet("editcopy"), i18n("Duplicate..."), this, SLOT(slotContextDuplicate()));
+
+    m_popupIndex["remove"] = m_playlistContextMenu->insertItem( 
+	SmallIconSet("edittrash"), i18n("Remove"), this, SLOT(slotContextDeleteItem()));
+
+    m_popupIndex["reload"] = m_playlistContextMenu->insertItem(
+	SmallIconSet("reload"), i18n("Reload Playlist File"), this, SLOT(slotContextReload()));
 
     setAcceptDrops(true);
     setSelectionMode(Extended);
@@ -261,6 +263,12 @@ void PlaylistBox::deleteItem(Item *item)
     delete item;
 }
 
+void PlaylistBox::reload(Item *item)
+{
+    if(item && item->playlist())
+	item->playlist()->slotReload();
+}
+
 void PlaylistBox::resizeEvent(QResizeEvent *e)
 {
     triggerUpdate(true);
@@ -379,18 +387,16 @@ void PlaylistBox::slotShowContextMenu(QListBoxItem *item, const QPoint &point)
     m_contextMenuOn = i;
 
     if(i) {
-	if(i->playlist() == CollectionList::instance()) {
-	    m_playlistContextMenu->setItemEnabled(m_popupIndex["save"], false);
-	    m_playlistContextMenu->setItemEnabled(m_popupIndex["saveas"], false);
-	    m_playlistContextMenu->setItemEnabled(m_popupIndex["rename"], false);
-	    m_playlistContextMenu->setItemEnabled(m_popupIndex["remove"], false);
-	}
-	else {
-	    m_playlistContextMenu->setItemEnabled(m_popupIndex["save"], true);
-	    m_playlistContextMenu->setItemEnabled(m_popupIndex["saveas"], true);
-	    m_playlistContextMenu->setItemEnabled(m_popupIndex["rename"], true);
-	    m_playlistContextMenu->setItemEnabled(m_popupIndex["remove"], true);	    
-	}
+	bool isCollection = i->playlist() == CollectionList::instance();
+	bool hasFile = !i->playlist()->fileName().isEmpty();
+	
+	m_playlistContextMenu->setItemEnabled(m_popupIndex["save"], !isCollection);
+	m_playlistContextMenu->setItemEnabled(m_popupIndex["saveas"], !isCollection);
+	m_playlistContextMenu->setItemEnabled(m_popupIndex["rename"], !isCollection);
+	m_playlistContextMenu->setItemEnabled(m_popupIndex["remove"], !isCollection);
+	m_playlistContextMenu->setItemEnabled(m_popupIndex["reload"], !isCollection);
+	m_playlistContextMenu->setItemEnabled(m_popupIndex["reload"], hasFile);
+
 	m_playlistContextMenu->popup(point);
     }
 }
@@ -418,6 +424,12 @@ void PlaylistBox::slotContextDuplicate()
 void PlaylistBox::slotContextDeleteItem()
 {
     deleteItem(m_contextMenuOn);
+    m_contextMenuOn = 0;
+}
+
+void PlaylistBox::slotContextReload()
+{
+    reload(m_contextMenuOn);
     m_contextMenuOn = 0;
 }
 
