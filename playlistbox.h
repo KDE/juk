@@ -29,6 +29,8 @@
 class PlaylistItem;
 class PlaylistSplitter;
 class ViewMode;
+class PlaylistSearch;
+class SearchPlaylist;
 
 class KPopupMenu;
 class KSelectAction;
@@ -48,6 +50,8 @@ public:
 
     void createItem(Playlist *playlist, const char *icon = 0,
 		    bool raise = false, bool sortedFirst = false);
+
+    void createSearchItem(SearchPlaylist *playlist, const QString &searchCategory);
 
     void raise(Playlist *playlist);
     QStringList names() const { return m_names; }
@@ -80,6 +84,9 @@ public slots:
 signals:
     void signalCurrentChanged(const PlaylistList &);
     void signalDoubleClicked();
+    void signalCreateSearchList(const PlaylistSearch &search,
+				const QString &searchCategory,
+				const QString &name);
 
 private:
     void readConfig();
@@ -105,6 +112,8 @@ private:
 
     void setSingleItem(QListViewItem *item);
     void ensureCurrentVisible() { ensureItemVisible(currentItem()); }
+
+    void setupItem(Item *item, Playlist *playlist);
 
 private slots:
     /** 

@@ -30,11 +30,12 @@
 // ViewMode
 ////////////////////////////////////////////////////////////////////////////////
 
-ViewMode::ViewMode(PlaylistBox *b) :
+ViewMode::ViewMode(PlaylistBox *b) : QObject(b),
     m_playlistBox(b),
     m_visible(false)
 {
-
+    connect(this, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)),
+            b, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)));
 }
 
 ViewMode::~ViewMode()
@@ -100,6 +101,12 @@ void ViewMode::paintCell(PlaylistBox::Item *i,
         y += fm.height() - fm.descent();
     }
     item->setHeight(height);
+}
+
+PlaylistBox::Item *ViewMode::createSearchItem(PlaylistBox *box, SearchPlaylist *playlist,
+                                              const QString &)
+{
+    return new PlaylistBox::Item(box, "midi", playlist->name(), playlist);
 }
 
 void ViewMode::setShown(bool shown)
@@ -193,55 +200,64 @@ void TreeViewMode::setShown(bool show)
         if(!collectionItem)
             kdDebug(65432) << "TreeViewMode::setShown() - the CollectionList isn't initialized yet." << endl;
 	
-        if(collectionItem && m_categories.isEmpty()) {
+        if(collectionItem && m_searchCategories.isEmpty()) {
 
             PlaylistBox::Item *i;
 
             i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
-            m_categories.insert("artists", i);
-            setupCategory(i, CollectionList::instance()->viewModeItems()["artists"].values());
+            m_searchCategories.insert("artists", i);
+            setupCategory("artists", CollectionList::instance()->viewModeItems()["artists"].values(), 1);
 
             i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
-            m_categories.insert("albums", i);
-            setupCategory(i, CollectionList::instance()->viewModeItems()["albums"].values());
+            m_searchCategories.insert("albums", i);
+            setupCategory("albums", CollectionList::instance()->viewModeItems()["albums"].values(), 2);
 
-            for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
+            for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
                 it.current()->setSortedFirst(true);
         }
         else {
-            for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
+            for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
                 it.current()->setVisible(true);
 	}
     }
     else {
-        for(QDictIterator<PlaylistBox::Item> it(m_categories); it.current(); ++it)
+        for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
             it.current()->setVisible(false);
     }
 }
 
-void TreeViewMode::setupCategory(PlaylistBox::Item *parent, const QStringList &members) const
+PlaylistBox::Item *TreeViewMode::createSearchItem(PlaylistBox *, SearchPlaylist *playlist,
+						  const QString &searchCategory)
+{
+    return new PlaylistBox::Item(m_searchCategories[searchCategory], "midi", playlist->name(), playlist);
+}
+
+void TreeViewMode::setupCategory(const QString &searchCategory, const QStringList &members, int column)
 {
     CollectionList *collection = CollectionList::instance();
+    QValueList<int> columns;
+    columns.append(column);
 
     KApplication::setOverrideCursor(Qt::waitCursor);
 
     for(QStringList::ConstIterator it = members.begin(); it != members.end(); ++it) {
         
         PlaylistSearch::ComponentList components;
-        components.append(PlaylistSearch::Component(*it));
+        components.append(PlaylistSearch::Component(*it, false, columns));
 
         PlaylistList playlists;
         playlists.append(collection);
 
         PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
 
-        SearchPlaylist *p = new SearchPlaylist(s, static_cast<QWidget *>(collection->parent()), *it);
-        new PlaylistBox::Item(parent, "midi", *it, p);
+        emit signalCreateSearchList(s, searchCategory, *it);
 
-	static int i = 0;
-	if(++i % 5 == 0)
-	    kapp->processEvents();
+        static int i = 0;
+        if(++i % 5 == 0)
+            kapp->processEvents();
     }
 
     KApplication::restoreOverrideCursor();
 }
+
+#include "viewmode.moc"

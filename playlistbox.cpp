@@ -31,6 +31,7 @@
 #include "playlistbox.h"
 #include "playlistsplitter.h"
 #include "viewmode.h"
+#include "searchplaylist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox public methods
@@ -107,10 +108,6 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
 PlaylistBox::~PlaylistBox()
 {
     saveConfig();
-
-    QValueListIterator<ViewMode *> it = m_viewModes.begin();
-    for(; it != m_viewModes.end(); ++it)
-	delete(*it);
 }
 
 void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise, bool sortedFirst)
@@ -119,13 +116,20 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise, b
 	return;
 
     Item *i = new Item(this, icon, playlist->name(), playlist);
-    m_playlistDict.insert(playlist, i);
+    
+    setupItem(i, playlist);
 
     if(raise) {
 	setSingleItem(i);
 	ensureCurrentVisible();
     }
     i->setSortedFirst(sortedFirst);
+}
+
+void PlaylistBox::createSearchItem(SearchPlaylist *playlist, const QString &searchCategory)
+{
+    Item *i = m_viewModes[m_viewModeIndex]->createSearchItem(this, playlist, searchCategory);
+    setupItem(i, playlist);
 }
 
 void PlaylistBox::raise(Playlist *playlist)
@@ -415,6 +419,11 @@ void PlaylistBox::slotSetViewMode(int index)
     viewMode()->setShown(false);
     m_viewModeIndex = index;
     viewMode()->setShown(true);    
+}
+
+void PlaylistBox::setupItem(Item *item, Playlist *playlist)
+{
+    m_playlistDict.insert(playlist, item);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -20,6 +20,7 @@
 
 #include <klocale.h>
 
+#include <qobject.h>
 #include <qstring.h>
 #include <qdict.h>
 
@@ -28,8 +29,12 @@
 class QPainter;
 class QColorGroup;
 
-class ViewMode
+class SearchPlaylist;
+
+class ViewMode : public QObject
 {
+    Q_OBJECT
+
 public:
     ViewMode(PlaylistBox *b);
     virtual ~ViewMode();
@@ -41,12 +46,21 @@ public:
                            QPainter *painter, 
                            const QColorGroup &colorGroup,
                            int column, int width, int align);
+
+    virtual PlaylistBox::Item *createSearchItem(PlaylistBox *box,
+                                                SearchPlaylist *playlist,
+                                                const QString &searchCategory);
     
 protected:
     PlaylistBox *playlistBox() const { return m_playlistBox; }
     bool visible() const             { return m_visible; }
     void updateIcons(int size);
 
+signals:
+    void signalCreateSearchList(const PlaylistSearch &search,
+                                const QString &searchCategory,
+                                const QString &name);
+    
 private:
     PlaylistBox *m_playlistBox;
     bool m_visible;
@@ -80,10 +94,14 @@ public:
     virtual QString name() const { return i18n("Tree"); }
     virtual void setShown(bool shown);
 
-private:
-    void setupCategory(PlaylistBox::Item *parent, const QStringList &members) const;
+    virtual PlaylistBox::Item *createSearchItem(PlaylistBox *box,
+                                                SearchPlaylist *playlist,
+                                                const QString &searchCategory);
 
-    QDict<PlaylistBox::Item> m_categories;
+private:
+    void setupCategory(const QString &searchCategory, const QStringList &members, int column);
+
+    QDict<PlaylistBox::Item> m_searchCategories;    
 };
 
 #endif

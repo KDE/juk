@@ -300,6 +300,8 @@ private slots:
     void slotCreatePlaylist(const PlaylistItemList &items);
     void slotShowSearchResults();
     void slotVisibleColumnsChanged();
+    void slotCreateSearchList(const PlaylistSearch &search, const QString &searchCategory,
+			      const QString &name);
 
 private:
     PlaylistItem *m_playingItem;

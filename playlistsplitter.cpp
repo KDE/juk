@@ -28,6 +28,7 @@
 #include "directorylist.h"
 #include "playlistsearch.h"
 #include "dynamicplaylist.h"
+#include "searchplaylist.h"
 #include "mediafiles.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -395,6 +396,9 @@ void PlaylistSplitter::setupLayout()
 
     m_playlistBox = new PlaylistBox(this, "playlistBox");
 
+    connect(m_playlistBox, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)),
+            this, SLOT(slotCreateSearchList(const PlaylistSearch &, const QString &, const QString &)));
+
     // Create a splitter to go between the playlists and the editor.
 
     QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this, "editorSplitter");
@@ -706,6 +710,15 @@ void PlaylistSplitter::slotVisibleColumnsChanged()
     m_searchWidget->slotQueryChanged();
     if(m_searchWidget->searchedColumns(0).count() > 1)
         slotShowSearchResults();
+}
+
+void PlaylistSplitter::slotCreateSearchList(const PlaylistSearch &search, 
+					    const QString &searchCategory,
+					    const QString &name)
+{
+    SearchPlaylist *p = new SearchPlaylist(search, m_playlistStack, name);
+    m_playlistBox->createSearchItem(p, searchCategory);
+    setupPlaylist(p, false, 0);
 }
 
 #include "playlistsplitter.moc"
