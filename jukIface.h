@@ -25,6 +25,6 @@ k_dcop:
    virtual void volumeMute()=0;
    virtual void setVolume(int volume)=0;
 
-   virtual void playFirstFile()=0;
+   virtual void startPlayingPlaylist()=0;
 };
 #endif

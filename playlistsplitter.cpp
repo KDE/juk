@@ -157,6 +157,15 @@ QString PlaylistSplitter::playFirstFile()
     return play(i);
 }
 
+QString PlaylistSplitter::playRandomFile()
+{
+    Playlist *p = visiblePlaylist();
+    PlaylistItem *i = static_cast<PlaylistItem *>(p->firstChild());
+
+    // Not exactly random (the first item won't be taken into account)
+    return play(p->nextItem(i, true));
+}
+
 void PlaylistSplitter::stop()
 {
     m_nextPlaylistItem = 0;

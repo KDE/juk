@@ -78,7 +78,7 @@ void JuK::setupLayout()
 
     // playlist item activation connection
     connect(m_splitter, SIGNAL(signalDoubleClicked()), this, SLOT(slotPlaySelectedFile()));
-    connect(m_splitter, SIGNAL(signalListBoxDoubleClicked()), this, SLOT(playFirstFile()));
+    connect(m_splitter, SIGNAL(signalListBoxDoubleClicked()), this, SLOT(startPlayingPlaylist()));
 
     // create status bar
     m_statusLabel = new StatusLabel(statusBar());
@@ -480,6 +480,14 @@ void JuK::slotPlaylistChanged()
     }
 
     updatePlaylistInfo();
+}
+
+void JuK::startPlayingPlaylist()
+{
+    if(m_randomPlayAction->isChecked())
+        play(m_splitter->playRandomFile());
+    else
+        play(m_splitter->playFirstFile());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -139,7 +139,7 @@ private slots:
     void setVolume(int volume);
 
     void slotPlaySelectedFile() { play(m_splitter->playSelectedFile()); }
-    void playFirstFile() { play(m_splitter->playFirstFile()); }
+    void startPlayingPlaylist();
     void slotToggleMenuBar() { menuBar()->isVisible() ? menuBar()->hide() : menuBar()->show(); }
 
 private:

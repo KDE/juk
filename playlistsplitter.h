@@ -94,6 +94,12 @@ public:
     QString playFirstFile();
 
     /**
+     * Plays a random file in the currently visible playlist and returns it's
+     * name.
+     */
+    QString playRandomFile();
+
+    /**
      * Since the player is handled at a higher level, this just clears the 
      * pointer to the currently playing item and updates the icon.
      */
