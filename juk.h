@@ -18,10 +18,8 @@
 #ifndef JUK_H
 #define JUK_H
 
-#include <kaction.h>
-#include <kglobalaccel.h>
 #include <kmainwindow.h>
-#include <kpopupmenu.h>
+#include <kshortcut.h>
 
 #include "playermanager.h"
 #include "playlistsplitter.h"
@@ -30,9 +28,15 @@
 class QTimer;
 class QListViewItem;
 
+class KToggleAction;
+class KSelectAction;
+class KToolBarPopupAction;
+class KGlobalAccel;
+
 class SliderAction;
 class StatusLabel;
 class SystemTray;
+class PlayerManager;
 
 class JuK : public KMainWindow, public CollectionIface
 {
@@ -66,9 +70,7 @@ private:
     void setupSplitterConnections();
     void setupSystemTray();
     void setupGlobalAccels();
-
     void processArgs();
-
     void keyPressEvent(QKeyEvent *);
 
     /**
@@ -103,11 +105,8 @@ private:
 
 private slots:
     void slotShowHide();
-
     void slotPlaylistChanged();
-
     void slotQuit();
-
     void slotToggleSystemTray(bool enabled);
     void slotEditKeys();
     void slotConfigureTagGuesser();
