@@ -92,6 +92,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
 
     m_viewModeAction->setItems(modeNames);
     m_viewModeAction->setCurrentItem(m_viewModeIndex);
+    m_viewModes[m_viewModeIndex]->setShown(true);
     
     m_viewModeAction->plug(m_contextMenu);
     connect(m_viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
@@ -125,6 +126,9 @@ void PlaylistBox::createItem(Playlist *playlist, const char *icon, bool raise, b
 	ensureCurrentVisible();
     }
     i->setSortedFirst(sortedFirst);
+
+    if(playlist == CollectionList::instance())
+	emit signalCollectionInitialized();
 }
 
 void PlaylistBox::createSearchItem(SearchPlaylist *playlist, const QString &searchCategory)

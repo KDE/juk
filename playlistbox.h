@@ -88,6 +88,7 @@ signals:
     void signalCreateSearchList(const PlaylistSearch &search,
 				const QString &searchCategory,
 				const QString &name);
+    void signalCollectionInitialized();
 
 private:
     void readConfig();

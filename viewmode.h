@@ -87,6 +87,8 @@ public:
 
 class TreeViewMode : public CompactViewMode
 {
+    Q_OBJECT
+
 public:
     TreeViewMode(PlaylistBox *l);
     virtual ~TreeViewMode();
@@ -100,6 +102,12 @@ public:
 
 private:
     void setupCategory(const QString &searchCategory, const QStringList &members, int column);
+
+private slots:
+    /**
+     * Setup all of the categories.
+     */
+    void slotSetupCategories();
 
     QDict<PlaylistBox::Item> m_searchCategories;    
 };

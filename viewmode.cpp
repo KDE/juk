@@ -197,24 +197,14 @@ void TreeViewMode::setShown(bool show)
 
         PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
 
-        if(!collectionItem)
-            kdDebug(65432) << "TreeViewMode::setShown() - the CollectionList isn't initialized yet." << endl;
-	
-        if(collectionItem && m_searchCategories.isEmpty()) {
-
-            PlaylistBox::Item *i;
-
-            i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
-            m_searchCategories.insert("artists", i);
-            setupCategory("artists", CollectionList::instance()->viewModeItems()["artists"].values(), 1);
-
-            i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
-            m_searchCategories.insert("albums", i);
-            setupCategory("albums", CollectionList::instance()->viewModeItems()["albums"].values(), 2);
-
-            for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
-                it.current()->setSortedFirst(true);
+        if(!collectionItem) {
+            connect(playlistBox(), SIGNAL(signalCollectionInitialized()),
+                    this, SLOT(slotSetupCategories()));
+            return;
         }
+
+        if(collectionItem && m_searchCategories.isEmpty())
+            slotSetupCategories();
         else {
             for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
                 it.current()->setVisible(true);
@@ -258,6 +248,25 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
     }
 
     KApplication::restoreOverrideCursor();
+}
+
+void TreeViewMode::slotSetupCategories()
+{
+    PlaylistBox::Item *i;
+    
+    PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
+    
+    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
+    m_searchCategories.insert("artists", i);
+    setupCategory("artists", CollectionList::instance()->viewModeItems()["artists"].values(), 1);
+
+    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
+    m_searchCategories.insert("albums", i);
+    setupCategory("albums", CollectionList::instance()->viewModeItems()["albums"].values(), 2);
+
+    for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
+        it.current()->setSortedFirst(true);
+    
 }
 
 #include "viewmode.moc"
