@@ -279,6 +279,11 @@ void JuK::setupLayout()
     connect(m_statusLabel, SIGNAL(jumpButtonClicked()),
 	    m_splitter, SLOT(slotSelectPlaying()));
 
+    // Needs to be here because m_splitter is not called before setupActions
+    // (because PlaylistSplitter itself accesses the actionCollection)
+    new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()),
+                actionCollection(), "renameFile"); // 4
+
     m_splitter->setFocus();
 
     resize(750, 500);
@@ -404,9 +409,6 @@ void JuK::setupActions()
     m_guessMenu->insert(a);
 
     connect(m_guessMenu->popupMenu(), SIGNAL(activated(int)), this, SLOT(slotGuessTagInfo(int)));
-
-    new KAction(i18n("&Rename File"), 0, "CTRL+r", m_splitter, SLOT(slotRenameFile()),
-                actionCollection(), "renameFile"); // 4
 
     //////////////////////////////////////////////////
     // settings menu
