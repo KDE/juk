@@ -39,7 +39,7 @@ public:
     ViewMode(PlaylistBox *b);
     virtual ~ViewMode();
 
-    virtual QString name() const      { return i18n("Default"); }
+    virtual QString name() const { return i18n("Default"); }
     virtual void setShown(bool shown);
 
     virtual void paintCell(PlaylistBox::Item *item,
@@ -50,11 +50,16 @@ public:
     virtual PlaylistBox::Item *createSearchItem(PlaylistBox *box,
                                                 SearchPlaylist *playlist,
                                                 const QString &searchCategory);
+
+    virtual bool eventFilter(QObject *watched, QEvent *e);
     
 protected:
     PlaylistBox *playlistBox() const { return m_playlistBox; }
-    bool visible() const             { return m_visible; }
+    bool visible() const { return m_visible; }
     void updateIcons(int size);
+
+protected:
+    virtual void updateHeights(int width = 0);
 
 signals:
     void signalCreateSearchList(const PlaylistSearch &search,
@@ -62,8 +67,11 @@ signals:
                                 const QString &name);
     
 private:
+    QStringList lines(const PlaylistBox::Item *item, const QFontMetrics &fm, int width) const;
+
     PlaylistBox *m_playlistBox;
     bool m_visible;
+    QMap<PlaylistBox::Item *, QStringList> m_lines;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -81,6 +89,11 @@ public:
                            QPainter *painter,
                            const QColorGroup &colorGroup,
                            int column, int width, int align);
+protected:
+    /**
+     * Override the implementation from the base class.  This isn't needed here.
+     */
+    virtual void updateHeights(int = 0) {}
 };
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -36,6 +36,8 @@ ViewMode::ViewMode(PlaylistBox *b) : QObject(b),
 {
     connect(this, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)),
             b, SIGNAL(signalCreateSearchList(const PlaylistSearch &, const QString &, const QString &)));
+
+    m_playlistBox->viewport()->installEventFilter(this);
 }
 
 ViewMode::~ViewMode()
@@ -56,9 +58,90 @@ void ViewMode::paintCell(PlaylistBox::Item *i,
     PlaylistBox::Item *item = static_cast<PlaylistBox::Item *>(i);
 
     QFontMetrics fm = painter->fontMetrics();
+
+    int y = item->listView()->itemMargin();
+    const QPixmap *pm = item->pixmap(column);
+
+    if(item->isSelected()) {
+        painter->fillRect(0, 0, width, item->height(), colorGroup.brush(QColorGroup::Highlight));
+        painter->setPen(colorGroup.highlightedText());
+    }
+    else
+        painter->eraseRect(0, 0, width, item->height());
+
+    if (!pm->isNull()) {
+        int x = (width - pm->width()) / 2;
+        x = QMAX(x, item->listView()->itemMargin());
+        painter->drawPixmap(x, y, *pm);
+    }
+    y += pm->height() + fm.height() - fm.descent();
+    for(QStringList::Iterator it = m_lines[i].begin(); it != m_lines[i].end(); ++it) {
+        int x = (width - fm.width(*it)) / 2;
+        x = QMAX(x, item->listView()->itemMargin());
+        painter->drawText(x, y, *it);
+        y += fm.height() - fm.descent();
+    }
+}
+
+PlaylistBox::Item *ViewMode::createSearchItem(PlaylistBox *box, SearchPlaylist *playlist,
+                                              const QString &)
+{
+    return new PlaylistBox::Item(box, "midi", playlist->name(), playlist);
+}
+
+bool ViewMode::eventFilter(QObject *watched, QEvent *e)
+{
+    if(watched == m_playlistBox->viewport() && e->type() == QEvent::Resize)
+        updateHeights(static_cast<QResizeEvent *>(e)->size().width());
+
+    return QObject::eventFilter(watched, e);
+}
+
+void ViewMode::setShown(bool shown)
+{
+    m_visible = shown;
+    if(shown) {
+        updateIcons(32);
+        updateHeights();
+    }
+}
+
+void ViewMode::updateIcons(int size)
+{
+    for(QListViewItemIterator it(m_playlistBox); it.current(); ++it) {
+        PlaylistBox::Item *i = static_cast<PlaylistBox::Item *>(*it);
+        i->setPixmap(0, SmallIcon(i->iconName(), size));
+    }
+}
+
+void ViewMode::updateHeights(int width)
+{
+    static int oldWidth = 0;
+    if(width == 0)
+        width = m_playlistBox->visibleWidth();
+
+    if(oldWidth == width)
+        return;
+    oldWidth = width;
+
+    const int baseHeight = 3 * m_playlistBox->itemMargin() + 32;
+    const QFontMetrics fm = m_playlistBox->fontMetrics();
+
+    for(QListViewItemIterator it(m_playlistBox); it.current(); ++it) {
+        PlaylistBox::Item *i = static_cast<PlaylistBox::Item *>(it.current());
+        m_lines[i] = lines(i, fm, width);
+        const int height = baseHeight + (fm.height() - fm.descent()) * m_lines[i].count();
+        i->setHeight(height);
+        i->invalidateHeight();
+    }
+}
+
+QStringList ViewMode::lines(const PlaylistBox::Item *item, const QFontMetrics &fm, int width) const
+{
     QString line = item->text();
 
-    QStringList lines;
+    QStringList l;
+
     while(!line.isEmpty()) {
         int textLength = line.length();
         while(textLength > 0 && 
@@ -71,57 +154,10 @@ void ViewMode::paintCell(PlaylistBox::Item *i,
                 textLength--;
         }
         
-        lines.append(line.mid(0, textLength).stripWhiteSpace());
+        l.append(line.mid(0, textLength).stripWhiteSpace());
         line = line.mid(textLength);
     }
-
-    int y = item->listView()->itemMargin();
-    const QPixmap *pm = item->pixmap(column);
-
-    int height = 3 * item->listView()->itemMargin() + pm->height() + 
-        (fm.height() - fm.descent()) * lines.count();
-	
-    if(item->isSelected()) {
-        painter->fillRect(0, 0, width, height, colorGroup.brush(QColorGroup::Highlight));
-        painter->setPen(colorGroup.highlightedText());
-    }
-    else
-        painter->eraseRect(0, 0, width, height);
-
-    if (!pm->isNull()) {
-        int x = (width - pm->width()) / 2;
-        x = QMAX(x, item->listView()->itemMargin());
-        painter->drawPixmap(x, y, *pm);
-    }
-    y += pm->height() + fm.height() - fm.descent();
-    for(QStringList::Iterator it = lines.begin(); it != lines.end(); ++it) {
-        int x = (width - fm.width(*it)) / 2;
-        x = QMAX(x, item->listView()->itemMargin());
-        painter->drawText(x, y, *it);
-        y += fm.height() - fm.descent();
-    }
-    item->setHeight(height);
-}
-
-PlaylistBox::Item *ViewMode::createSearchItem(PlaylistBox *box, SearchPlaylist *playlist,
-                                              const QString &)
-{
-    return new PlaylistBox::Item(box, "midi", playlist->name(), playlist);
-}
-
-void ViewMode::setShown(bool shown)
-{
-    m_visible = shown;
-    if(shown)
-        updateIcons(32);
-}
-
-void ViewMode::updateIcons(int size)
-{
-    for(QListViewItemIterator it(m_playlistBox); it.current(); ++it) {
-        PlaylistBox::Item *i = static_cast<PlaylistBox::Item *>(*it);
-        i->setPixmap(0, SmallIcon(i->iconName(), size));
-    }
+    return l;
 }
 
 ///////////////////////////////////////////////////////////////////////////////

@@ -450,7 +450,7 @@ void PlaylistSplitter::slotRenameFile()
 
 void PlaylistSplitter::setupLayout()
 {
-    setOpaqueResize(true);
+    setOpaqueResize(false);
 
     m_playlistBox = new PlaylistBox(this, "playlistBox");
 
