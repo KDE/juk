@@ -156,14 +156,12 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
             }
             case Folder:
             {
-                kdDebug(65432) << "reading folder" << endl;
                 FolderPlaylist *p = new FolderPlaylist(collection);
                 s >> *p;
                 playlist = p;
                 break;
             }
             default:
-                kdDebug(65432) << "reading playlist" << endl;
                 Playlist *p = new Playlist(collection, true);
                 s >> *p;
                 playlist = p;
@@ -226,12 +224,10 @@ void Cache::savePlaylists(const PlaylistList &playlists)
                   << *static_cast<UpcomingPlaylist *>(*it);
             }
             else if(dynamic_cast<FolderPlaylist *>(*it)) {
-                kdDebug(65432) << "saving folder " << (*it)->name() << endl;
                 s << Q_INT32(Folder)
                   << *static_cast<FolderPlaylist *>(*it);
             }
             else {
-                kdDebug(65432) << "saving playlist " << (*it)->name() << endl;
                 s << Q_INT32(Normal)
                   << *(*it);
             }
