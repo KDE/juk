@@ -31,51 +31,51 @@
 ArtsPlayer::ArtsPlayer() : Player()
 {
     // set pointers to null
-    server = 0;
-    volumeControl = 0;
-    media = 0;
-    dispatcher = 0;
+    m_server = 0;
+    m_volumeControl = 0;
+    m_media = 0;
+    m_dispatcher = 0;
 
     // startup volume of "full" volume
-    currentVolume = 1.0;
+    m_currentVolume = 1.0;
 
     setupPlayer();
 }
 
 ArtsPlayer::~ArtsPlayer()
 {
-    delete volumeControl;
-    delete media;
-    delete server;
-    delete dispatcher;
+    delete m_volumeControl;
+    delete m_media;
+    delete m_server;
+    delete m_dispatcher;
 }
 
 void ArtsPlayer::play(const QString &fileName, float volume)
 {
-    currentFile = fileName;
+    m_currentFile = fileName;
     play(volume);
 }
 
 void ArtsPlayer::play(float volume)
 {
     if(serverRunning()) {
-        if(media && media->state() == posPaused) {
-            media->play();
+        if(m_media && m_media->state() == posPaused) {
+            m_media->play();
         }
         else {
-            if(media)
+            if(m_media)
                 stop();
 
-            media = new PlayObject(server->createPlayObject(QFile::encodeName(currentFile).data()));
-            //      media = new PlayObject(server->createPlayObject(currentFile.latin1()));
-            if(!media->isNull()) {
+            m_media = new PlayObject(m_server->createPlayObject(QFile::encodeName(m_currentFile).data()));
+            //      m_media = new PlayObject(m_server->createPlayObject(m_currentFile.latin1()));
+            if(!m_media->isNull()) {
                 setVolume(volume);
-                media->play();
+                m_media->play();
             }
             else {
-                kdDebug() << "Media did not initialize properly! (" << currentFile << ")" << endl;
-                delete media;
-                media = 0;
+                kdDebug() << "Media did not initialize properly! (" << m_currentFile << ")" << endl;
+                delete m_media;
+                m_media = 0;
             }
         }
     }
@@ -83,40 +83,40 @@ void ArtsPlayer::play(float volume)
 
 void ArtsPlayer::pause()
 {
-    if(serverRunning() && media)
-	media->pause();
+    if(serverRunning() && m_media)
+	m_media->pause();
 }
 
 void ArtsPlayer::stop()
 {
     if(serverRunning()) {
-        if(media) {
-            media->halt();
-            delete media;
-            media = 0;
+        if(m_media) {
+            m_media->halt();
+            delete m_media;
+            m_media = 0;
         }
-        if(volumeControl) {
-            delete volumeControl;
-            volumeControl = 0;
+        if(m_volumeControl) {
+            delete m_volumeControl;
+            m_volumeControl = 0;
         }
     }
 }
 
 void ArtsPlayer::setVolume(float volume)
 {
-    if(serverRunning() && media && !media->isNull()) {
-        if(!volumeControl)
+    if(serverRunning() && m_media && !m_media->isNull()) {
+        if(!m_volumeControl)
             setupVolumeControl();
-        if(volumeControl) {
-            currentVolume = volume;
-            volumeControl->scaleFactor(volume);
+        if(m_volumeControl) {
+            m_currentVolume = volume;
+            m_volumeControl->scaleFactor(volume);
         }
     }
 }
 
 float ArtsPlayer::getVolume() const
 {
-    return currentVolume;
+    return m_currentVolume;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
@@ -125,7 +125,7 @@ float ArtsPlayer::getVolume() const
 
 bool ArtsPlayer::playing() const
 {
-    if(serverRunning() && media && media->state() == posPlaying)
+    if(serverRunning() && m_media && m_media->state() == posPlaying)
         return true;
     else
         return false;
@@ -133,7 +133,7 @@ bool ArtsPlayer::playing() const
 
 bool ArtsPlayer::paused() const
 {
-    if(serverRunning() && media && media->state() == posPaused)
+    if(serverRunning() && m_media && m_media->state() == posPaused)
         return true;
     else
         return false;
@@ -141,27 +141,27 @@ bool ArtsPlayer::paused() const
 
 long ArtsPlayer::totalTime() const
 {
-    if(serverRunning() && media)
-        return media->overallTime().seconds;
+    if(serverRunning() && m_media)
+        return m_media->overallTime().seconds;
     else
         return -1;
 }
 
 long ArtsPlayer::currentTime() const
 {
-    if(serverRunning() && media && media->state() == posPlaying)
-        return media->currentTime().seconds;
+    if(serverRunning() && m_media && m_media->state() == posPlaying)
+        return m_media->currentTime().seconds;
     else
         return -1;
 }
 
 int ArtsPlayer::position() const
 {
-    if(serverRunning() && media && media->state() == posPlaying) {
-        //    long total=media->overallTime().ms;
-        //    long current=media->currentTime().ms;
-        long total = media->overallTime().seconds * 1000 + media->overallTime().ms;
-        long current = media->currentTime().seconds * 1000 + media->currentTime().ms;
+    if(serverRunning() && m_media && m_media->state() == posPlaying) {
+        //    long total=m_media->overallTime().ms;
+        //    long current=m_media->currentTime().ms;
+        long total = m_media->overallTime().seconds * 1000 + m_media->overallTime().ms;
+        long current = m_media->currentTime().seconds * 1000 + m_media->currentTime().ms;
         // add .5 to make rounding happen properly
         return int(double(current) * 1000 / total + .5);
     }
@@ -175,20 +175,20 @@ int ArtsPlayer::position() const
 
 void ArtsPlayer::seek(long seekTime)
 {
-    if(serverRunning() && media) {
+    if(serverRunning() && m_media) {
         poTime poSeekTime;
         poSeekTime.seconds = seekTime;
-        media->seek(poSeekTime);
+        m_media->seek(poSeekTime);
     }
 }
 
 void ArtsPlayer::seekPosition(int position)
 {
-    if(serverRunning() && media) {
+    if(serverRunning() && m_media) {
         poTime poSeekTime;
-        long total = media->overallTime().seconds;
+        long total = m_media->overallTime().seconds;
         poSeekTime.seconds = long(double(total) * position / 1000 + .5);
-        media->seek(poSeekTime);
+        m_media->seek(poSeekTime);
     }
 }
 
@@ -198,40 +198,40 @@ void ArtsPlayer::seekPosition(int position)
 
 void ArtsPlayer::setupPlayer()
 {
-    dispatcher = new Dispatcher;
-    server = new SimpleSoundServer(Reference("global:Arts_SimpleSoundServer"));
+    m_dispatcher = new Dispatcher;
+    m_server = new SimpleSoundServer(Reference("global:Arts_SimpleSoundServer"));
 }
 
 void ArtsPlayer::setupVolumeControl()
 {
-    volumeControl = new StereoVolumeControl(DynamicCast(server->createObject("Arts::StereoVolumeControl")));
-    if(volumeControl && media && !volumeControl->isNull() && !media->isNull()) {
+    m_volumeControl = new StereoVolumeControl(DynamicCast(m_server->createObject("Arts::StereoVolumeControl")));
+    if(m_volumeControl && m_media && !m_volumeControl->isNull() && !m_media->isNull()) {
 
-        Synth_BUS_UPLINK uplink = Arts::DynamicCast(media->_getChild( "uplink" ));
+        Synth_BUS_UPLINK uplink = Arts::DynamicCast(m_media->_getChild( "uplink" ));
         uplink.stop();
-        Arts::disconnect(*media, "left", uplink, "left");
-        Arts::disconnect(*media, "right", uplink, "right");
+        Arts::disconnect(*m_media, "left", uplink, "left");
+        Arts::disconnect(*m_media, "right", uplink, "right");
 
-        volumeControl->start();
+        m_volumeControl->start();
         uplink.start();
-        media->_addChild(*volumeControl, "volume" );
+        m_media->_addChild(*m_volumeControl, "volume" );
 
-        Arts::connect(*media, "left", *volumeControl, "inleft");
-        Arts::connect(*media, "right", *volumeControl, "inright");
-        Arts::connect(*volumeControl, "outleft", uplink, "left");
-        Arts::connect(*volumeControl, "outright", uplink, "right");
+        Arts::connect(*m_media, "left", *m_volumeControl, "inleft");
+        Arts::connect(*m_media, "right", *m_volumeControl, "inright");
+        Arts::connect(*m_volumeControl, "outleft", uplink, "left");
+        Arts::connect(*m_volumeControl, "outright", uplink, "right");
     }
     else {
-        delete volumeControl;
-        volumeControl = 0;
+        delete m_volumeControl;
+        m_volumeControl = 0;
         kdDebug() << "Could not initialize volume control!" << endl;
     }
 }
 
 bool ArtsPlayer::serverRunning() const
 {
-    if(server)
-        return !(server->isNull());
+    if(m_server)
+        return !(m_server->isNull());
     else
         return 0;
 }

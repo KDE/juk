@@ -55,13 +55,13 @@ private:
     void setupVolumeControl();
     bool serverRunning() const;
 
-    Dispatcher *dispatcher;
-    SimpleSoundServer *server;
-    PlayObject *media;
-    StereoVolumeControl *volumeControl;
+    Dispatcher *m_dispatcher;
+    SimpleSoundServer *m_server;
+    PlayObject *m_media;
+    StereoVolumeControl *m_volumeControl;
 
-    QString currentFile;
-    float currentVolume;
+    QString m_currentFile;
+    float m_currentVolume;
 };
 
 #endif
