@@ -482,7 +482,7 @@ void Playlist::setup()
 
     _columnVisibleAction = new KActionMenu(i18n("Show Columns"), this, "showColumns");
     headerMenu = _columnVisibleAction->popupMenu();
-    headerMenu->insertTitle(i18n("Show..."));
+    headerMenu->insertTitle(i18n("Show"));
     headerMenu->setCheckable(true);
 
     for(int i =0; i < header()->count(); ++i) {
@@ -507,7 +507,7 @@ void Playlist::setup()
 
     rmbMenu->insertSeparator();
 
-    rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove from disk"), this, SLOT(removeSelectedItems()));
+    rmbMenu->insertItem(SmallIcon("editdelete"), i18n("Remove From Disk"), this, SLOT(removeSelectedItems()));
 
     rmbMenu->insertSeparator();
 

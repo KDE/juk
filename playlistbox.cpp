@@ -191,7 +191,7 @@ void PlaylistBox::rename(Item *item)
 
     bool ok;
 
-    QString name = QInputDialog::getText(i18n("Rename..."), i18n("Please enter a name for this playlist:"),
+    QString name = QInputDialog::getText(i18n("Rename"), i18n("Please enter a name for this playlist:"),
 					 QLineEdit::Normal, item->text(), &ok);
     if(ok) {
 	item->setText(name);
@@ -215,7 +215,7 @@ void PlaylistBox::duplicate(Item *item)
 
 	// If this text is changed, please also change it in PlaylistSplitter::createPlaylist().
 
-	QString name = QInputDialog::getText(i18n("New Playlist..."), i18n("Please enter a name for the new playlist:"),
+	QString name = QInputDialog::getText(i18n("New Playlist"), i18n("Please enter a name for the new playlist:"),
 					     QLineEdit::Normal, splitter->uniquePlaylistName(item->text(), true), &ok);
 	if(ok) {
 	    Playlist *p = splitter->createPlaylist(name);
