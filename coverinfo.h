@@ -25,26 +25,25 @@ class CoverInfo
     friend class FileHandle;
 
 public:
+    enum CoverSize { FullSize, Thumbnail };
+
     CoverInfo(const FileHandle &file);
 
     QPixmap coverPixmap() const;
-    bool hasCover() const;
-    void resetHasCover() const;
-    QPixmap pixmap(int size) const;
+    bool hasCover();
+    void resetHasCover();
+    QPixmap pixmap(CoverSize size) const;
     QPixmap largeCoverPixmap() const;
-    QString coverLocation(int size) const;
+    QString coverLocation(CoverSize size) const;
     void popupLargeCover();
-    enum CoverSizes { FullSize  = 0,
-                      Thumbnail = 1};
 
 private:
     class CoverPopupWindow;
     friend class CoverPopupWindow;
-    bool checkHasCover() const;
 
     FileHandle m_file;
-    mutable bool m_haveCheckedForCover;
-    mutable bool m_hasCover;
+    bool m_hasCover;
+    bool m_haveCheckedForCover;
     CoverPopupWindow *m_popupWindow;
 };
 #endif

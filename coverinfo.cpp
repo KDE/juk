@@ -66,8 +66,12 @@ private:
 
 
 CoverInfo::CoverInfo(const FileHandle &file) :
-    m_file(file), m_haveCheckedForCover(false), m_hasCover(false), m_popupWindow(0)
+    m_file(file),
+    m_hasCover(false),
+    m_haveCheckedForCover(false),
+    m_popupWindow(0)
 {
+
 }
 
 QPixmap CoverInfo::coverPixmap() const
@@ -89,17 +93,13 @@ QPixmap CoverInfo::coverPixmap() const
     return pixmap(Thumbnail);
 }
 
-bool CoverInfo::hasCover() const
+bool CoverInfo::hasCover()
 {
-    if (!m_haveCheckedForCover)
-        checkHasCover();
+    if(!m_haveCheckedForCover) {
+        m_hasCover = QFile(coverLocation(FullSize)).exists();
+        m_haveCheckedForCover = true;
+    }
     return m_hasCover;
-}
-
-bool CoverInfo::checkHasCover() const 
-{
-    m_hasCover=QFile(coverLocation(FullSize)).exists();
-    m_haveCheckedForCover=true;
 }
 
 QPixmap CoverInfo::largeCoverPixmap() const
@@ -107,12 +107,12 @@ QPixmap CoverInfo::largeCoverPixmap() const
     return pixmap(FullSize);
 }
 
-void CoverInfo::resetHasCover() const
+void CoverInfo::resetHasCover()
 {
-    m_haveCheckedForCover=false;
+    m_haveCheckedForCover = false;
 }
 
-QPixmap CoverInfo::pixmap(int size) const
+QPixmap CoverInfo::pixmap(CoverSize size) const
 {
     if(m_file.tag()->artist().isEmpty() || m_file.tag()->album().isEmpty())
         return QPixmap();
@@ -120,7 +120,7 @@ QPixmap CoverInfo::pixmap(int size) const
     return QPixmap(coverLocation(size));
 }
 
-QString CoverInfo::coverLocation(int size) const
+QString CoverInfo::coverLocation(CoverSize size) const
 {
     QString fileName(QFile::encodeName(m_file.tag()->artist() + " - " + m_file.tag()->album()));
     QRegExp maskedFileNameChars("[ /?:]");

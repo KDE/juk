@@ -934,13 +934,11 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 
 	KMimeType::Ptr mimeType = KMimeType::findByPath(file);
 
-	kdDebug(65432) << k_funcinfo << mimeType->name() << endl;
-
 	if(item && mimeType->name().startsWith("image/")) {
-	    QFile::remove(item->file().coverInfo()->coverLocation(true));
-	    QFile::remove(item->file().coverInfo()->coverLocation(false));
-	    QImage(file).save(item->file().coverInfo()->coverLocation(true), "PNG");
-            item->file().coverInfo()->resetHasCover();
+	    QFile::remove(item->file().coverInfo()->coverLocation(CoverInfo::FullSize));
+	    QFile::remove(item->file().coverInfo()->coverLocation(CoverInfo::Thumbnail));
+	    QImage(file).save(item->file().coverInfo()->coverLocation(CoverInfo::FullSize), "PNG");
+	    item->file().coverInfo()->resetHasCover();
 	    refreshAlbum(item->file().tag()->artist(),
 			 item->file().tag()->album());
 
