@@ -28,6 +28,7 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <kiconloader.h>
 
 #include <qlabel.h>
 #include <qcheckbox.h>
@@ -304,10 +305,10 @@ void TagEditor::saveConfig()
 
 void TagEditor::setupLayout()
 {
-    static const int horizontalSpacing = 10;
+    static const int horizontalSpacing = 12;
     static const int verticalSpacing = 2;
 
-    QHBoxLayout *layout = new QHBoxLayout(this, 2, horizontalSpacing);
+    QHBoxLayout *layout = new QHBoxLayout(this, 6, horizontalSpacing);
 
     //////////////////////////////////////////////////////////////////////////////
     // define two columns of the bottem layout
@@ -322,19 +323,20 @@ void TagEditor::setupLayout()
     // put stuff in the left column -- all of the field names are class wide
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
-        m_artistNameBox = new KComboBox(true, this, "artistNameBox");
+    	
+	m_artistNameBox = new KComboBox(true, this, "artistNameBox");
 	m_artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-	addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout);
+	addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout, "personal");
 
         m_trackNameBox = new KLineEdit(this, "trackNameBox");
-	addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout);
+	addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout, "player_play");
 
-        m_albumNameBox = new KComboBox(true, this, "albumNameBox");
+	m_albumNameBox = new KComboBox(true, this, "albumNameBox");
 	m_albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-	addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout);
+	addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout, "cdrom_unmount");
 
         m_genreBox = new KComboBox(true, this, "genreBox");
-	addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout);
+	addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout, "knotify");
 
         // this fills the space at the bottem of the left column
         leftColumnLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
@@ -344,50 +346,65 @@ void TagEditor::setupLayout()
     // put stuff in the right column
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
+	
+	QHBoxLayout *fileNameLayout = new QHBoxLayout(rightColumnLayout,
+							horizontalSpacing);
 
-        m_fileNameBox = new KLineEdit(this, "fileNameBox");
+	m_fileNameBox = new KLineEdit(this, "fileNameBox");
+	QLabel *fileNameIcon = new QLabel(this);
+	fileNameIcon->setPixmap(SmallIcon("sound"));
 	QWidget *fileNameLabel = addHidden(new QLabel(m_fileNameBox, i18n("&File name:"), this));
 
-        rightColumnLayout->addWidget(fileNameLabel);
-        rightColumnLayout->addWidget(addHidden(m_fileNameBox));
+	fileNameLayout->addWidget(addHidden(fileNameIcon));
+	fileNameLayout->addWidget(fileNameLabel);
+	fileNameLayout->setStretchFactor(fileNameIcon, 0);
+	fileNameLayout->setStretchFactor(fileNameLabel, 0);
+	fileNameLayout->insertStretch(-1, 1);
+	rightColumnLayout->addWidget(addHidden(m_fileNameBox));
 
         { // lay out the track row
             QHBoxLayout *trackRowLayout = new QHBoxLayout(rightColumnLayout,
 							  horizontalSpacing);
 
-            m_trackSpin = new KIntSpinBox(0, 255, 1, 0, 10, this, "trackSpin");
+	    m_trackSpin = new KIntSpinBox(0, 255, 1, 0, 10, this, "trackSpin");
 	    addItem(i18n("T&rack:"), m_trackSpin, trackRowLayout);
 	    m_trackSpin->installEventFilter(this);
 
-            trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+	    trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
 						    QSizePolicy::Minimum));
 
-            m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "yearSpin");
+	    m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "yearSpin");
 	    addItem(i18n("&Year:"), m_yearSpin, trackRowLayout);
 	    m_yearSpin->installEventFilter(this);
 
-            trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+	    trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
 						    QSizePolicy::Minimum));
 
-            trackRowLayout->addWidget(addHidden(new QLabel(i18n("Length:"), this)));
-            m_lengthBox = new KLineEdit(this, "lengthBox");
-            m_lengthBox->setMaximumWidth(50);
-            m_lengthBox->setReadOnly(true);
-            trackRowLayout->addWidget(addHidden(m_lengthBox));
+	    trackRowLayout->addWidget(addHidden(new QLabel(i18n("Length:"), this)));
+	    m_lengthBox = new KLineEdit(this, "lengthBox");
+	    // addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
+	    m_lengthBox->setMaximumWidth(50);
+	    m_lengthBox->setAlignment(Qt::AlignRight);
+	    m_lengthBox->setReadOnly(true);
+	    trackRowLayout->addWidget(addHidden(m_lengthBox));
 
-            trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+	    trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
 						    QSizePolicy::Minimum));
 
-            trackRowLayout->addWidget(addHidden(new QLabel(i18n("Bitrate:"), this)));
-            m_bitrateBox = new KLineEdit(this, "bitrateBox");
-            m_bitrateBox->setMaximumWidth(50);
-            m_bitrateBox->setReadOnly(true);
-            trackRowLayout->addWidget(addHidden(m_bitrateBox));
+	    trackRowLayout->addWidget(addHidden(new QLabel(i18n("Bitrate:"), this)));
+	    m_bitrateBox = new KLineEdit(this, "bitrateBox");
+	    // addItem(i18n("Bitrate:"), m_bitrateBox, trackRowLayout);
+	    m_bitrateBox->setMaximumWidth(50);
+	    m_bitrateBox->setAlignment(Qt::AlignRight);
+	    m_bitrateBox->setReadOnly(true);
+	    trackRowLayout->addWidget(addHidden(m_bitrateBox));
         }
 
         m_commentBox = new KEdit(this, "commentBox");
 	m_commentBox->setTextFormat(Qt::PlainText);
-	addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout);
+	addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "edit");
+    	fileNameLabel->setMinimumHeight(m_trackSpin->height());
+
     }
 
     connect(m_artistNameBox, SIGNAL(textChanged(const QString&)),
@@ -530,26 +547,32 @@ void TagEditor::saveChangesPrompt()
     }
 }
 
-void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
+void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, QString iconName)
 {
     if(!item || !layout)
 	return;
 
     QLabel *label = new QLabel(item, text, this);
-
+    QLabel *iconLabel = new QLabel(item, 0, this);
+    
+    if(!iconName.isNull())
+	iconLabel->setPixmap(SmallIcon(iconName));
+    
     QCheckBox *enableBox = new QCheckBox(i18n("Enable"), this);
     enableBox->setChecked(true);
 
     label->setMinimumHeight(enableBox->height());
 
     if(layout->direction() == QBoxLayout::LeftToRight) {
+    	layout->addWidget(iconLabel);
 	layout->addWidget(label);
 	layout->addWidget(item);
 	layout->addWidget(enableBox);
     }
     else {
 	QHBoxLayout *l = new QHBoxLayout(layout);
-
+	
+	l->addWidget(iconLabel);
 	l->addWidget(label);
 	l->setStretchFactor(label, 1);
 
