@@ -549,7 +549,7 @@ void TagEditor::setupLayout()
             FixedHLayout *trackRowLayout = new FixedHLayout(rightColumnLayout,
 							    horizontalSpacing);
 
-	    m_trackSpin = new KIntSpinBox(0, 255, 1, 0, 10, this, "trackSpin");
+	    m_trackSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "trackSpin");
 	    addItem(i18n("T&rack:"), m_trackSpin, trackRowLayout);
 	    m_trackSpin->installEventFilter(this);
 
