@@ -15,15 +15,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kcmdlineargs.h>
-#include <kstatusbar.h>
-#include <kdebug.h>
-#include <kmessagebox.h>
-
-#include <qmetaobject.h>
-#include <qslider.h>
-#include <qmime.h>
-
 #include "juk.h"
 #include "slideraction.h"
 #include "statuslabel.h"
@@ -32,6 +23,16 @@
 #include "systemtray.h"
 #include "keydialog.h"
 #include "tagguesserconfigdlg.h"
+
+#include <kaction.h>
+#include <kcmdlineargs.h>
+#include <kstatusbar.h>
+#include <kdebug.h>
+#include <kmessagebox.h>
+
+#include <qmetaobject.h>
+#include <qslider.h>
+#include <qmime.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -325,9 +326,7 @@ void JuK::setupActions()
     KStdAction::cut(this,   SLOT(cut()),   actionCollection());
     KStdAction::copy(this,  SLOT(copy()),  actionCollection());
     KStdAction::paste(this, SLOT(paste()), actionCollection());
-
-    new KAction(i18n("C&lear"), "editclear", 0, this, SLOT(clear()),
-		actionCollection(), "clear");
+    KStdAction::clear(this, SLOT(clear()), actionCollection());
 
     KStdAction::selectAll(this, SLOT(selectAll()), actionCollection());
 
@@ -710,11 +709,10 @@ QString JuK::playingString() const
     if(!m_player->playing() && !m_player->paused())
 	return i18n("No song playing");
 
-    if(m_splitter->playingArtist().isEmpty())
-        s = m_splitter->playingTrack().simplifyWhiteSpace();
-    else
-        s = m_splitter->playingArtist().simplifyWhiteSpace() + " - " +
-	    m_splitter->playingTrack().simplifyWhiteSpace();
+    if(!m_splitter->playingArtist().isEmpty())
+	s = m_splitter->playingArtist().simplifyWhiteSpace() + " - ";
+
+    s += m_splitter->playingTrack().simplifyWhiteSpace();
 
     return s;
 }
