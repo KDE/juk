@@ -86,11 +86,6 @@ Cache::Cache() : QDict<Tag>(m_cacheSize)
 
 }
 
-Cache::~Cache()
-{
-    delete m_cache;
-}
-
 void Cache::load()
 {
     QString cacheFileName = KGlobal::dirs()->saveLocation("appdata") + "cache";

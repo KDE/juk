@@ -30,7 +30,6 @@ public:
 
 protected:
     Cache();
-    virtual ~Cache();
     void load();
 
 private:
