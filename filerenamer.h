@@ -49,6 +49,8 @@ typedef enum { MoveUp, MoveDown } MovementDirection;
  */
 struct Row
 {
+    Row() : widget(0), upButton(0), downButton(0), enableButton(0) {}
+
     QWidget *widget;
     QPushButton *upButton, *downButton;
     QCheckBox *enableButton;

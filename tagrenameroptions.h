@@ -20,10 +20,10 @@
 
 // Insert all new tag types before NumTypes, that way NumTypes will always be
 // the count of valid tag types.
-typedef enum {
+enum TagType {
     StartTag, Title = StartTag, Artist, Album,
     Track, Genre, Year, NumTypes, Unknown
-} TagType;
+};
 
 /**
  * Defines options for a tag type.  Used by FileRenamerTagOptions as its
@@ -34,7 +34,7 @@ typedef enum {
 class TagRenamerOptions
 {
 public:
-    typedef enum { ForceEmptyInclude, IgnoreEmptyTag, UseReplacementValue } EmptyActions;
+    enum EmptyActions { ForceEmptyInclude, IgnoreEmptyTag, UseReplacementValue };
 
     TagRenamerOptions();
     TagRenamerOptions(TagType category);
