@@ -42,7 +42,7 @@
 // Playlist::SharedSettings definition
 ////////////////////////////////////////////////////////////////////////////////
 
-static bool Playlist::m_visibleChanged = false;
+bool Playlist::m_visibleChanged = false;
 
 /**
  * Shared settings between the playlists.
