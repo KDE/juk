@@ -14,6 +14,13 @@
 
 <authorgroup>
 <author>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author>
+<firstname>Michael</firstname>
+<surname>Pyne</surname>
+<affiliation>
+<address><email>mpyne@grammarian.homelinux.net</email></address>
+</affiliation>
+</author>
 
 <othercredit role="developer">
 <firstname>Scott</firstname>
@@ -30,12 +37,13 @@
 <copyright>
 <year>2001</year>
 <year>2002</year>
+<year>2004</year>
 <holder>Scott Wheeler</holder>
 </copyright>
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>12/07/2002</date>
-<releaseinfo>1.0</releaseinfo>
+<date>2004-05-06</date>
+<releaseinfo>2.1</releaseinfo>
 
 <abstract>
 <para>
@@ -46,6 +54,11 @@
 <keywordset>
 <keyword>KDE</keyword>
 <keyword>kdemultimedia</keyword>
+<keyword>audio</keyword>
+<keyword>tagger</keyword>
+<keyword>player</keyword>
+<keyword>jukebox</keyword>
+<keyword>JuK</keyword>
 </keywordset>
 
 </bookinfo>
@@ -54,8 +67,8 @@
 <title>Introduction</title>
 
 <para>
-&juk; is well, a jukebox.  As is typical with many jukebox
-applications, &juk; allows you to edit the <quote>tags</quote> of the
+&juk; is, well, a jukebox.  As is typical with many jukebox
+applications, &juk; allows you to edit the <quote>tags</quote> of your
 audio files, and manage your collection and playlists.
 </para>
 </chapter>
@@ -63,23 +76,19 @@ audio files, and manage your collection and playlists.
 <chapter id="using-juk">
 <title>Using &juk;</title>
 
-<!--
-
 <para>
 <screenshot>
 <screeninfo>Here's a screenshot of &juk;</screeninfo>
 	<mediaobject>
 	  <imageobject>
-	    <imagedata fileref="screenshot.png" format="PNG"/>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
 	  </imageobject>
 	  <textobject>
-	    <phrase>Screenshot</phrase>
+	    <phrase>Screenshot of &juk; in action.</phrase>
 	  </textobject>
 	</mediaobject>
 </screenshot>
 </para>
-
--->
 
 <para>&juk; maintains a list of all files that it knows about.  This
 is called the <guilabel>Collection List</guilabel>.  The collection
@@ -98,12 +107,16 @@ File...</guimenuitem></menuchoice> and selecting them from a standard
 &kde; file dialog.  You can add entire folders using
 <menuchoice><guimenu>File</guimenu><guimenuitem>Open
 Folder...</guimenuitem></menuchoice>.  Folders added this way
-will be rescanned every time you start &juk; and <!-- ask scott -->
-whenever you choose
-<menuchoice><guimenu>View</guimenu><guimenuitem>Redisplay</guimenuitem></menuchoice>.</para>
+will be rescanned every time you start &juk; 
+<!-- ask scott:
+     Asked 2004-04-27 (mpyne), Choosing Reload from the Collection
+     List context menu will result in a rescan.  Also, a KDirWatch
+     watches the folders, but is apparently not recursive. -->
+.  You can force the folders to be rescanned by right-clicking on the <guilabel>Collection List</guilabel>
+icon, and selecting <guimenuitem>Reload</guimenuitem>.</para>
 
 <para>Adding a song to a playlist will automatically add its file to
-the Collection List, but adding a file to the collection list won't
+the Collection List, but adding a file to the Collection List won't
 automatically add the song to any playlists.</para>
 
 <para>You can quickly create a playlist from your entire Collection
@@ -126,7 +139,7 @@ automatically.</para>
 or the <guiicon>New</guiicon> icon on the toolbar.  You will be
 prompted for a name, and then an icon for that playlist will appear in
 the playlist pane.  You can now drag and drop files from the
-Collection List to your playlist.  Use the <guiicon>Save</guiicon>
+Collection List, or from other playlists, to your playlist.  Use the <guiicon>Save</guiicon>
 icon or
 <menuchoice><guimenu>File</guimenu><guimenuitem>Save</guimenuitem></menuchoice> to
 save the playlist at any time.</para>
@@ -161,19 +174,27 @@ edge of the window when doing this however, so you may need to scroll
 a little to the left or right, and repeat dragging the header, until
 you have placed it in your preferred position.</para>
 
-<para>The
-<menuchoice><guimenu>View</guimenu><guisubmenu>Columns</guisubmenu></menuchoice>
-menu allows you to hide (and later unhide) columns you are not
-presently interested in.  You can also hide or unhide columns by &RMB;
-clicking on a column header.</para>
+<para>You can hide or unhide columns by &RMB; clicking on a column header,
+and clicking on the name of the column to change.</para>
 
-<para>&LMB; double clicking on a file will play it with the inbuilt
+<para>&LMB; double clicking on a file will play it with the built-in
 player.  If another song was already playing, it will stop, and the
 new song will play.</para>
 
 <para>&RMB; clicking on a file offers you several options:</para>
 
 <variablelist>
+<varlistentry>
+<term><guimenuitem>Play Next</guimenuitem></term>
+<listitem>
+<para>This will start playing the file as soon as the current
+song is over.  If no song is playing, the file will be played when
+you next hit the <guiicon>Play</guiicon> button.  If you have already
+chosen the Play Next option on a different file, then this file will
+override that selection.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry>
 <term><guimenuitem>Cut</guimenuitem></term>
 <term><guimenuitem>Copy</guimenuitem></term>
@@ -200,16 +221,6 @@ will simply remove the song from the playlist.</para>
 </varlistentry>
 
 <varlistentry>
-<term><guimenuitem>Remove From Disk</guimenuitem></term>
-<listitem>
-<para>This will remove the file from the Collection List, remove all
-entries for the song in all playlists, and delete the file from your
-disk.  You cannot undo this, although you will be asked to confirm
-your choice.  Use this with caution.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
 <term><guimenuitem>Edit</guimenuitem></term>
 <listitem>
 <para>Will allow you to edit the currently highlighted song, in the
@@ -220,6 +231,116 @@ menu item.</para>
 <para>Changes made in this manner are always saved immediately as soon
 as you click elsewhere and are finished editing.</para>
 </listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Refresh Items</guimenuitem></term>
+<listitem>
+<para>This will reload the tag information of the selected files, in
+case the files have been changed while &juk; was running.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Remove From Disk</guimenuitem></term>
+<listitem>
+<para>This will remove the file from the Collection List, remove all
+entries for the song in all playlists, and delete the file from your
+disk.  You cannot undo this, although you will be asked to confirm
+your choice.  Use this with caution.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guisubmenu>Guess Tag Information</guisubmenu></term>
+<listitem>
+<para>This will make &juk; try to guess information such as the 
+Artist and Title of a song.  &juk; employs different methods of guessing:
+  <variablelist>
+  
+  <varlistentry><term><guimenuitem>From File Name</guimenuitem></term>
+  <listitem><para>&juk; will try to guess the tags of the song based on its filename.
+  For example, a song name such as <filename>Roxette - You've Got the Look.mp3</filename>
+  would guess Roxette for the artist and You've Got the Look as the title.  You
+  can adjust the way &juk; guesses for tags by selecting <menuchoice><guimenu>Settings
+  </guimenu><guimenuitem>Tag Guesser...</guimenuitem></menuchoice>, which will open the
+  <link linkend="juk-tag-guesser-configuration">Tag Guesser dialog</link>. &juk; will not
+  replace tags that it did not guess from the file name.</para>
+  </listitem>
+  </varlistentry>
+  
+  <varlistentry><term><guimenuitem>From Internet</guimenuitem></term>
+  <listitem><para>&juk; will try to guess the tags of the song by using the
+  MusicBrainz program.  You must have MusicBrainz installed for this command to work.
+  </para>
+  </listitem>
+  </varlistentry>
+  
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Rename File</guimenuitem></term>
+<listitem>
+<para>This will rename the selected files to conform to a given format.  You must
+choose the way you want the files renamed first by selecting <menuchoice>
+<guimenu>Settings</guimenu><guimenuitem>File Renamer...</guimenuitem></menuchoice>.
+The resulting name of each file is based on its metadata tags.  For example,
+the Ogg Vorbis song <quote>The Theme (Metroid)</quote> by Stemage could result in
+<filename>/usr/share/music/Stemage/The Theme (Metroid).ogg</filename>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><guimenuitem>Create Playlist From Selected Items</guimenuitem></term>
+<listitem>
+<para>This allows you to quickly create a playlist from songs in your Collection List.
+This function will prompt you for a name for the new playlist, and will then insert all of
+the songs that are selected into the new playlist.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title>&juk; Playlists</title>
+<para>A playlist is simply a collection of songs grouped by some category.  For example, you
+may have a playlist of songs that you listen to while coding, while trying to sleep, or even
+when you need a laugh.  &juk; supports several different types of playlists.
+</para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists">Normal playlists</term>
+<listitem><para><inlinemediaobject><imageobject><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject></inlinemediaobject>
+This is the most common kind of playlist.  It is a playlist composed of files, just
+like the Collection List.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists">The history playlist</term>
+<listitem><para><inlinemediaobject><imageobject><imagedata format="PNG" fileref="history-playlist.png"/></imageobject></inlinemediaobject>
+If you enable this playlist (by enabling <menuchoice><guimenu>View</guimenu><guimenuitem>Show History</guimenuitem></menuchoice>,
+this playlist will record every song that &juk; plays.  The playlist will have an extra column, <guilabel>Time</guilabel>, which
+records the exact time and date the song played.  The playlist doesn't start tracking the history until it is enabled, however.
+</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists">Search playlists</term>
+<listitem><para><inlinemediaobject><imageobject><imagedata format="PNG" fileref="search-playlist.png"/></imageobject></inlinemediaobject>
+This is a playlist which is based off of a search.  You can create a playlist like this by clicking <menuchoice>
+<guimenu>File</guimenu><guisubmenu>New</guisubmenu><guimenuitem>Search Playlist</guimenuitem></menuchoice>, or by clicking on the
+<link linkend="juk-advanced-search-dialog">Advanced Search</link>
+ button on the Search Bar.</para>
+<para>After creating this playlist, it will keep track of which songs in the Collection List match your criteria, and automatically update itself accordingly whenever the 
+Collection List changes.</para></listitem>
 </varlistentry>
 
 </variablelist>
@@ -333,14 +454,14 @@ directly, and when you save, the file will be renamed.</para>
 <varlistentry>
 <term><guilabel>Length:</guilabel></term>
 <listitem>
-<para>This is not editable, simply shown for information.</para>
+<para>This is not editable, it is simply shown for information.</para>
 </listitem>
 </varlistentry>
 
 <varlistentry>
 <term><guilabel>Bitrate:</guilabel></term>
 <listitem>
-<para>This is not editable.</para>
+<para>This is not editable, it is simply shown for information.</para>
 </listitem>
 </varlistentry>
 
@@ -357,7 +478,7 @@ notes &etc;</para>
 using the
 <menuchoice><guimenu>Tagger</guimenu><guimenuitem>Save</guimenuitem></menuchoice>
 menu entry or by pressing
-<keycombo>&Ctrl;<keycap>T</keycap></keycombo>.</para>
+<keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>.</para>
 
 </sect2>
 
@@ -404,10 +525,210 @@ you are indeed altering the files you intended to.</para>
 using the
 <menuchoice><guimenu>Tagger</guimenu><guimenuitem>Save</guimenuitem></menuchoice>
 menu entry or by pressing
-<keycombo>&Ctrl;<keycap>T</keycap></keycombo>.</para>
+<keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo>.</para>
 
 </sect2>
 
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title>The Rename File dialog</title>
+<para>
+<screenshot>
+<screeninfo>The Rename File dialog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Screenshot of the Rename File dialog.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para>The File Renamer Configuration dialog box is used to configure the
+Rename File action, which renames a song's based on the information contained
+within its metadata tags.  First the tags are altered according to the different
+tokens you can alter, and then the tokens are used to generate the filename
+according to the <guilabel>Filename scheme</guilabel>.
+</para>
+
+<para>The most important part of the dialog is the <guilabel>Filename
+scheme</guilabel> section.  You can type a file name scheme here which &juk;
+will use to rename the files.  The way it works is that some characters are
+special.
+</para>
+
+<para><variablelist>
+<varlistentry>
+<term>%t</term>
+<listitem><para>This will be replaced with the Title token upon evaluation.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>%a</term>
+<listitem><para>This will be replaced with the Artist token upon evaluation.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>%A</term>
+<listitem><para>This will be replaced with the Album token upon evaluation.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>%T</term>
+<listitem><para>This will be replaced with the Track token upon evaluation.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>%c</term>
+<listitem><para>This will be replaced with the Comment token upon evaluation.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+<para>Every token can contain %s, which is replaced with the actual tag,
+and any text you want, including slashes (/).  If a token has a slash, then
+that will indicate a directory separator.  Of course, it would be possible to
+simply type directory separators in the <guilabel>Filename scheme</guilabel>
+line.</para>
+
+<para>Using the tokens, however, allows us to completely ignore tags that are empty.
+If you check the <guilabel>Need value</guilabel> checkbox, then the token will be
+ignored if the corresponding tag is empty.  For example, you could use this to separate
+files with comments from those without by placing something such as 
+<replaceable>has-comment/%s</replaceable> in the <guilabel>Comment token</guilabel>
+editor.</para>
+
+<para>You can test your filename scheme by using the <guilabel>Current filename</guilabel> editor
+at the bottom of the dialog.  Type in a filename of a music file, and the <guilabel>New
+filename</guilabel> area will display would &juk; would rename the file as given the current
+settings.
+</para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title>The Tag Guesser Configuration dialog</title>
+<para>
+<screenshot>
+<screeninfo>The Tag Guesser Configuration dialog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Screenshot of the Tag Guesser Configuration dialog.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para>The Tag Guesser Configuration dialog is used to configure the
+Guess from Filename command.</para>
+
+<para>In the dialog you will see a list on the left of different filename scheme patterns.
+&juk; includes an extensive set of defaults patterns to match most common filenaming styles.
+If you'd like to add a new scheme, click on the <guibutton>Add</guibutton> button, and type
+in your scheme and click on <guibutton>OK</guibutton>.  You may use the same percent
+tokens as defined in the <link linkend="juk-rename-dialog">Rename Dialog Configuration</link>.
+</para>
+
+<para>&juk; will try the schemes you have listed one at a time, starting at the top of the list.
+The first scheme which results in a match will be the scheme used to guess the song's tags.
+Some songs may match more than one scheme.  You can make sure that the correct scheme matches
+first by selecting the scheme in the list box and then using the arrow buttons to move it to the
+top of the list.
+</para>
+
+<para>You can also edit or remove a scheme from the list.  Just select the scheme in the list,
+and use the <guibutton>Modify</guibutton> button to change the scheme, or the 
+<guibutton>Remove</guibutton> button to remove the scheme from the list.
+</para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title>The Advanced Search dialog</title>
+<para>
+<screenshot>
+<screeninfo>The Advanced Search dialog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Screenshot of the Advanced Search Dialog.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para>The Advanced Search dialog is used to create <link linkend="juk-search-playlists">Search
+Playlists</link>.  It allows you create a fine-grained search among the different tags of
+your song collection.</para>
+
+<para>At the top of the dialog, you can type in the name of your search playlist.  Then, you
+can define your search criteria in the <guilabel>Search Criteria</guilabel> group.
+</para>
+
+<para>The top of the <guilabel>Search Criteria</guilabel> group has two radio buttons,
+<guilabel>Match any of the following</guilabel> and <guilabel>Match all of the 
+following</guilabel>.  If you select <guilabel>Match any of the following</guilabel>, then
+a match by any of the conditions you define will include the song in the playlist.  Otherwise,
+every condition you define must match in order to include the song in the playlist.
+</para>
+
+<para>Below the radio buttons are the condition definitions.  You can add more conditions
+by using the <guibutton>More</guibutton> button, and remove conditions by using the
+<guibutton>Fewer</guibutton> button.  Any conditions you leave blank are ignored, so you do
+not have to use <guibutton>Fewer</guibutton> to eliminate empty conditions.
+</para>
+
+<para>Every condition definition has three parts:  The tag chooser list on the left, the
+matching style list on the right, and the search text in the middle.  The tag chooser
+lets &juk; know what tag you want to search for the text in.  If you choose the special
+tag "&lt;All Visible&gt;", then any tag that you can see in the Collection List listing
+is fair game to match the search text.
+</para>
+
+<para>The match style list lets &juk; know which search method to use.  
+The search methods you can use are as follows:
+<variablelist>
+<varlistentry>
+<term>Normal Matching</term>
+<listitem><para>This is the default matching style.  It searches for the given
+text anywhere in the chosen tag, ignoring case differences.  For example a
+search for mode in the Artist tag would match Depeche Mode.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Case Sensitive</term>
+<listitem><para>This search is just like Normal Matching, except that
+the search must match the exact case of the text.</para></listitem>
+</varlistentry>
+
+<varlistentry>
+<term>Pattern Matching</term>
+<listitem><para>This is the most powerful search method.  The search
+text you type in will define a regular expression used to search within
+the tag.  Regular expressions are beyond the scope of this documentation, but
+the application &kregexpeditor; can help you form a regular expression.
+&juk; uses the Qt regular expression style.</para></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para>Simply choose the conditions you want to include in your search, and
+click <guibutton>OK</guibutton> to create your search playlist!
+</para>
 </sect1>
 
 </chapter>
@@ -437,7 +758,34 @@ default toolbar are:</para>
 <variablelist>
 <varlistentry>
 <term><guiicon>New</guiicon></term>
-<listitem><para>Create a new playlist</para></listitem>
+<listitem><para>Create a new playlist.  If you hold down the button, a
+menu will pop up allowing you to select the different kinds of playlists
+to create.
+</para>
+  <variablelist>
+  <varlistentry><term><guimenuitem>Empty Playlist...</guimenuitem></term>
+  <listitem><para>This prompts you for a playlist name, and then inserts it into the
+    Playlist view.  The playlist starts out completely empty.</para></listitem>
+  </varlistentry>
+  
+  <varlistentry><term><guimenuitem>Playlist From Folder...</guimenuitem></term>
+  <listitem><para>This prompts you for a directory to open, and then creates a playlist
+    containing the music within the folder and any sub-folders.  The name of the created
+    playlist is the same as the name of the selected folder.</para></listitem>
+  </varlistentry>
+  
+  <varlistentry><term><guimenuitem>Search Playlist...</guimenuitem></term>
+  <listitem><para>This brings up the Advanced Search Dialog, allowing you to create a
+  <quote>virtual playlist</quote>.  Any songs in your Collection List that match the search
+  criteria that you specify in the Advanced Search Dialog will be added to the new playlist.
+  As your Collection List changes, the new playlist will as well.  For example, if you create a playlist
+  of all of your Depeche Mode songs, and then add another Depeche Mode song to your Collection List,
+  it will show up in the Depeche Mode playlist with no special action required on your part.
+  </para></listitem>
+  </varlistentry>
+  
+  </variablelist>
+</listitem>
 </varlistentry>
 
 <varlistentry>
@@ -497,7 +845,7 @@ bar</link>.</para></listitem>
 tag editor</link>.</para></listitem>
 </varlistentry>
 
-<varlistentry>
+<varlistentry id="play-toolbar">
 <term>Play controls</term>
 <listitem>
 <para>These work like any standard media player you may have come
@@ -526,20 +874,16 @@ collection list or a playlist.</para>
 list of songs to those which contain that text in any visible
 column.</para>
 
-<para>You can refine the search in various ways.  You can have &juk;
-search only in a particular column by choosing it from the dropdown
-list.  The default is <guilabel>&lt;All Visible&gt;</guilabel>.  The
-dropdown list contains all the visible columns so that you can
-specify one in particular you are interested in.  You can also make
-the searching <guilabel>Case Sensitive</guilabel> by checking the box
-labelled so.  Finally there is a <guibutton>Clear</guibutton> to
-remove the search text.</para>
-
 <para>Searching begins instantly when text is entered into the search
 field.  Searching is incremental, that is, as you type each character
 into the text field, the search is narrowed further.  This is useful
 to find a song where you only remember part of a name, for
 instance.</para>
+
+<para>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
 
 </sect1>
 
@@ -559,12 +903,38 @@ instance.</para>
 <term><menuchoice>
 <shortcut><keycombo action="simul">&Ctrl;<keycap>N</keycap></keycombo>
 </shortcut>
-<guimenu>File</guimenu><guimenuitem>New</guimenuitem>
+<guimenu>File</guimenu><guisubmenu>New</guisubmenu><guimenuitem>Empty Playlist...</guimenuitem>
 </menuchoice>
 </term>
 <listitem><para>Create a new playlist</para>
 </listitem>
 </varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>D</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu><guisubmenu>New</guisubmenu><guimenuitem>Playlist From
+Folder...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Creates a new playlist, containing all music files
+in a folder and any sub-folders.  Any music within playlists files that
+&juk; recognizes will also be added.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu><guisubmenu>New</guisubmenu><guimenuitem>Search Playlist...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Creates a new <link linkend="juk-search-playlists">search playlist</link>.</para>
+</listitem>
+</varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <shortcut>
@@ -574,21 +944,24 @@ instance.</para>
 <guimenuitem>Open...</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>Select a file (or files) to add to the collection list.</para>
+<listitem><para>Select a file (or files) to add to the collection list.  If you select
+a playlist file, every file in the playlist will be added.</para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term><menuchoice>
-<guimenu>File</guimenu><guimenuitem>Open Folder...</guimenuitem>
+<guimenu>File</guimenu><guimenuitem>Add Folder...</guimenuitem>
 </menuchoice>
 </term>
 <listitem><para>Select a folder (or folders) to add to the
 collection list.  These folders will also be rescanned whenever
 &juk; is started or
-<menuchoice><guimenu>View</guimenu><guimenuitem>Redisplay</guimenuitem>
+<menuchoice><guimenu>File</guimenu><guimenuitem>Reload</guimenuitem>
 </menuchoice> is chosen.</para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <guimenu>File</guimenu>
@@ -597,22 +970,378 @@ collection list.  These folders will also be rescanned whenever
 <listitem><para>Rename a playlist.</para>
 </listitem>
 </varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <guimenu>File</guimenu><guimenuitem>Duplicate...</guimenuitem></menuchoice>
 </term>
 <listitem><para>Create a duplicate of the selected playlist, and
-prompt for a new name.<!-- File menu entry seems not to be working -->
+prompt for a new name.
 </para>
 </listitem>
 </varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu><guimenuitem>Reload</guimenuitem></menuchoice>
+</term>
+<listitem><para>Reloads the tag information on every file in the selected
+playlist.
+</para>
+</listitem>
+</varlistentry>
+
 <varlistentry>
 <term><menuchoice><guimenu>File</guimenu><guimenuitem>Remove</guimenuitem></menuchoice></term>
-<listitem><para>Remove the selected item. <!-- File menu entry seems -->
-<!-- not to be working --></para></listitem>
+<listitem><para>Remove the selected playlist.</para></listitem>
 </varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>S</keycap></keycombo>
+</shortcut>
+<guimenu>File</guimenu><guimenuitem>Save</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Save the selected playlist.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>File</guimenu><guimenuitem>Save As...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Save the selected playlist, with a different name.</para>
+</listitem>
+</varlistentry>
+
 </variablelist>
 </sect2>
+
+<sect2 id="menu-edit">
+<title><guimenu>Edit</guimenu> Menu</title>
+
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Edit</guimenu><guimenuitem>Clear</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>Removes the selected songs from the playlist.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title><guimenu>View</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu><guimenuitem>Show Search Bar</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This is a toggle action that sets whether or not the
+<interface>Search Bar</interface> is shown.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu><guimenuitem>Show Tag Editor</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This is a toggle action that sets whether or not the
+<interface>Tag Editor</interface> is shown.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu><guimenuitem>Show History</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This is a toggle action that sets whether or not the
+<link linkend="juk-history-playlists">History Playlist</link> is shown.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>View</guimenu><guimenuitem>Refresh Items</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command causes the tags of the selected songs to be
+reloaded from disk.  This doesn't check for new music files within a
+folder, use <menuchoice><guimenu>File</guimenu><guimenuitem>Reload</guimenuitem>
+</menuchoice> after selecting the Collection List playlist instead.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title><guimenu>Player</guimenu> Menu</title>
+
+<variablelist>
+<varlistentry>
+<term><menuchoice>
+<guimenu>Player</guimenu><guimenuitem>Random Play</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This is a toggle option which controls the Random Play setting.
+If Random Play is enabled, then &juk; will randomly select a random song from the
+current playlist when the currently playing song is over.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Player</guimenu><guimenuitem>Loop Playlist</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This is a toggle option which controls the Loop Playlist setting.
+If Loop Playlist is enabled, then &juk; will start playing from the beginning when
+it has finished playing every song in the current playlist.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Player</guimenu><guimenuitem>Play</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command starts playing the currently selected song, or resumes
+playback of the song if it was paused.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Player</guimenu><guimenuitem>Pause</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command pauses the currently playing song.  Use the
+Play command to restart playback.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Player</guimenu><guimenuitem>Stop</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command stops the playback of the currently playing song.
+You cannot resume playback from its current position after that.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Player</guimenu><guimenuitem>Previous Track</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command plays the song that was playing before
+the currently playing song.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Player</guimenu><guimenuitem>Next Track</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command skips to the next song to play in the
+playlist.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title><guimenu>Tagger</guimenu> Menu</title>
+
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo action="simul"><keycap>Ctrl</keycap><keycap>T</keycap></keycombo></shortcut>
+<guimenu>Tagger</guimenu><guimenuitem>Save</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command saves any changes to the tags that you are
+editing.  Normally, changes are not saved until you deselect the file you
+are editing.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tagger</guimenu><guimenuitem>Delete</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command deletes the currently selected files from
+the Collection List and any playlists containing it, and then deletes
+the selected file from the disk.
+<!-- God this is a dumb place to put this particular command --></para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo action="simul"><keycap>Ctrl</keycap><keycap>F</keycap></keycombo></shortcut>
+<guimenu>Tagger</guimenu><guisubmenu>Guess Tag
+Information</guisubmenu><guimenuitem>From Filename</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command tries to guess the tags of the selected files
+by scanning the filename.  You can configure the patterns used for guessing
+by selecting <menuchoice><guimenu>Settings</guimenu>
+<guimenuitem>Tag Guesser...</guimenuitem></menuchoice>, which opens the
+<link linkend="juk-tag-guesser-configuration">Tag Guesser Configuration dialog</link>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo action="simul"><keycap>Ctrl</keycap><keycap>I</keycap></keycombo></shortcut>
+<guimenu>Tagger</guimenu><guisubmenu>Guess Tag
+Information</guisubmenu><guimenuitem>From Internet</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command tries to guess the tags of the selected files
+by using the <application>trm</application> provided with
+<ulink url="http://www.musicbrainz.org/">MusicBrainz</ulink>.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title><guimenu>Settings</guimenu> Menu</title>
+
+<variablelist>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu><guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Show Main Toolbar</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command shows or hide the <link linkend="main-toolbar">Main
+Toolbar</link>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu><guisubmenu>Toolbars</guisubmenu>
+<guimenuitem>Show Play Toolbar</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command shows or hide the <link linkend="play-toolbar">Play
+Toolbar</link>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Show Splash Screen on Startup</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This is a toggle option.  If enabled, &juk; will display
+an informational screen upon startup as it loads your music collection.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Dock in System Tray</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This is a toggle option.  If enabled, &juk; will display an
+icon in your system tray.  You can use the system
+tray icon to tell if &juk; is playing, and control playback.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Stay in System Tray on Close</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This is a toggle option.  If enabled, &juk; will remain
+running if you close the main window.  The Dock in System Tray option must
+also be enabled.  To quit &juk;, use the <menuchoice><guimenu>File</guimenu>
+<guimenuitem>Quit</guimenuitem></menuchoice> command from the main window, or
+the <guimenuitem>Quit</guimenuitem> command from the system tray's context
+menu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Popup Track Announcement</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This is a toggle option.  If enabled, &juk; will display
+an indicator whenever a song starts playing, with information on the artist and
+title, and with buttons allowing you to quickly switch to a different song.  The
+Dock in System Tray option must also be enabled.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Tag Guesser...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command brings up the <link linkend="juk-tag-guesser-configuration">Tag Guesser Configuration
+dialog box</link>, where you can alter the patterns used to guess tag information
+from filenames.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>File Renamer...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command brings up the <link linkend="juk-rename-dialog">File Renamer Configuration
+dialog box</link>, where you can alter the way &juk; renames files for you.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Settings</guimenu>
+<guimenuitem>Configure Shortcuts...</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This brings up the standard KDE dialog box where you can configure
+keyboard shortcuts for &juk;.  Some reasonable defaults are included as well, including
+Multimedia keys for people who have multimedia keyboards.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
 </sect1>
 
 <sect1 id="keybindings">
@@ -621,8 +1350,12 @@ prompt for a new name.<!-- File menu entry seems not to be working -->
 <!--
 ctrl-a select all
 ctrl-c copy
-ctrl-g guess tag entries based on filename
-ctrl-n new playlist
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
 ctrl-o open file (add to the collection or a playlist)
 ctrl-q quit
 ctrl-s save
@@ -652,13 +1385,43 @@ action="simul">&Ctrl;<keycap>A</keycap></keycombo></entry>
 <entry>Copy</entry>
 </row>
 <row>
+<entry><keycombo
+action="simul">&Ctrl;<keycap>R</keycap></keycombo></entry>
+<entry>Rename file</entry>
+</row>
+<row>
+<entry><keycombo
+action="simul">&Ctrl;<keycap>I</keycap></keycombo></entry>
+<entry>Guess tags from the Internet.</entry>
+</row>
+<row>
+<entry><keycombo
+action="simul">&Ctrl;<keycap>F</keycap></keycombo></entry>
+<entry>Guess tags from the filename.</entry>
+</row>
+<row>
+<entry><keycombo
+action="simul">&Ctrl;<keycap>F</keycap></keycombo></entry>
+<entry>New <link linkend="juk-search-playlists">search playlist</link>.</entry>
+</row>
+<row>
 <entry><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo></entry>
 <entry>Guess tag entries based on filename</entry>
 </row>
 <row>
 <entry><keycombo
 action="simul">&Ctrl;<keycap>N</keycap></keycombo></entry>
-<entry>New Playlist</entry>
+<entry>New empty Playlist</entry>
+</row>
+<row>
+<entry><keycombo
+action="simul">&Ctrl;<keycap>D</keycap></keycombo></entry>
+<entry>New playlist from folder.</entry>
+</row>
+<row>
+<entry><keycombo
+action="simul">&Ctrl;<keycap>T</keycap></keycombo></entry>
+<entry>Save changes to edited tags.</entry>
 </row>
 </tbody>
 </tgroup>
@@ -670,7 +1433,7 @@ action="simul">&Ctrl;<keycap>N</keycap></keycombo></entry>
 <chapter id="credits-and-licenses">
 <title>Credits and Licenses</title>
 
-<para>&juk; Copyright &copy; 2002, 2003 Scott Wheeler.</para>
+<para>&juk; Copyright &copy; 2002, 2003, 2004 Scott Wheeler.</para>
 
 <para>&juk; is developed and maintained by Scott Wheeler
 <email>wheeler@kde.org</email>.</para>
@@ -684,9 +1447,43 @@ editing, bug fixes, evangelism, moral support.</para>
 <listitem><para>Tim Jansen <email>tim@tjansen.de</email> for
 the <application>GStreamer</application> port</para>
 </listitem>
+
+<listitem><para>Stefan Asserh&auml;ll <email>stefan.asserhall@telia.com</email>
+for global keybindings support.</para>
+</listitem>
+
+<listitem><para>Stephen Douglas <email>stephen_douglas@yahoo.com</email>
+for track announcement popups.</para>
+</listitem>
+
+<listitem><para>Frerich Raabe <email>raabe@kde.org</email>
+for automagical track data guessing, and bugfixes.</para>
+</listitem>
+
+<listitem><para>Zack Rusin <email>zack@kde.org</email>
+for more automagical things, including MusicBrainz support.</para>
+</listitem>
+
+<listitem><para>Adam Treat <email>manyoso@yahoo.com</email>
+for co-conspiring in MusicBrainz wizardry.</para>
+</listitem>
+
+<listitem><para>Matthias Kretz <email>kretz@kde.org</email>
+for being the friendly neighborhood aRts guru.</para>
+</listitem>
+
+<listitem><para>Maks Orlovich <email>maksim@kde.org</email>
+for making &juk; friendlier to people with terabytes of music.</para>
+</listitem>
+
+<listitem><para>Antonio Larrosa Jimenez <email>larrosa@kde.org</email>
+for the DCOP interface.</para>
+</listitem>
+
 </itemizedlist>
 
-<para>Documentation Copyright &copy; 2003, Lauri Watts.</para>
+<para>Documentation Copyright &copy; 2003, Lauri Watts, and copyright
+&copy; 2004 Michael Pyne.</para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
@@ -707,16 +1504,3 @@ sgml-indent-step:0
 sgml-indent-data:nil
 End:
 -->
-
-
-
-
-
-
-
-
-
-
-
-
-
