@@ -29,6 +29,7 @@
 #include <qtooltip.h>
 #include <qlayout.h>
 #include <qfileinfo.h>
+#include <qvaluevector.h>
 
 #include "tag.h"
 #include "systemtray.h"
@@ -129,7 +130,7 @@ void SystemTray::slotStop()
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void SystemTray::createPopup(bool addButtons)
+void SystemTray::createPopup()
 {
     FileHandle playingFile = PlayerManager::instance()->playingFile();
     Tag *playingInfo = playingFile.tag();
@@ -167,76 +168,27 @@ void SystemTray::createPopup(bool addButtons)
         infoBox->setSpacing(3);
         infoBox->setMargin(3);
         
-        // We need to add QLabels to replace any missing labels.
+        // This should be initialized to the number of labels that are used.
 
-        int numSpacers = 0;
-        
-        QString titleStr = playingInfo->title();
-        QLabel *title = new QLabel(titleStr, infoBox);
-        title->setAlignment(AlignRight | AlignVCenter);
-
-        // Give the title a bold, bigger font to make it look better.
-
-        QFont f = title->font();
-        f.setBold(true);
-        f.setPointSize(f.pointSize() + 4);
-        title->setFont(f);
-        
-        // Artist info
-
-        QString artistStr = playingInfo->artist();
-        QLabel *artist = 0;
-        if(!artistStr.isEmpty()) {
-            artist = new QLabel(infoBox);
-            artist->setAlignment(AlignRight | AlignVCenter);
-        }
-        else
-            ++numSpacers;
-                
-        // Album info
-
-        QString albumStr = playingInfo->album();
-        QLabel *album = 0;
-        if(!albumStr.isEmpty()) {
-            int year = playingInfo->year();
-            
-            // See if there is a year.
-
-            if(year > 0)
-                albumStr = i18n("%1 (%2)").arg(albumStr).arg(year);
-            
-            album = new QLabel(infoBox);
-            album->setAlignment(AlignRight | AlignVCenter);
-        }
-        else
-            ++numSpacers;
-
-        for(; numSpacers != 0; --numSpacers) {
-            // Add an empty label.  QSpacerItems weren't working for
-            // me for some reason.  QBoxLayout->addSpacing() wasn't
-            // either. mpyne :-(
-            new QLabel(" ", infoBox);
+        QValueVector<QLabel *> labels(3, 0);
+        for(QValueVector<QLabel *>::Iterator it = labels.begin(); it != labels.end(); ++it) {
+            *it = new QLabel(" ", infoBox);
+            (*it)->setAlignment(AlignRight | AlignVCenter);
         }
 
-        if(addButtons) {
-            if(!onLeft) {
-                // Add separator line
-                QFrame *line = new QFrame(box);
-                line->setFrameShape(QFrame::VLine);
+        QFrame *line = new QFrame(box);
+        line->setFrameShape(QFrame::VLine);
 
-                buttonBox = new QVBox(box);
-                buttonBox->setSpacing(3);
-            }
+        buttonBox = new QVBox(box);
+        buttonBox->setSpacing(3);
  
-            QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
-            forwardButton->setFlat(true);
-            connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
+        QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
+        forwardButton->setFlat(true);
+        connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
 
-            QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
-            backButton->setFlat(true);
-            connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
-
-        }
+        QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
+        backButton->setFlat(true);
+        connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
 
         // We don't want an autodelete popup.  There are times when it will need
         // to be hidden before the timeout.
@@ -247,13 +199,20 @@ void SystemTray::createPopup(bool addButtons)
         // widgets have been added in order for the width to be calculated
         // correctly.
 
-        title->setText(playingInfo->title());
+        int labelCount = 0;
 
-        if(artist)
-            artist->setText(artistStr);
-        if(album)
-            album->setText(albumStr);
-        
+        labels[labelCount++]->setText(QString("<nobr><h2>%1</h2></nobr>").arg(playingInfo->title()));
+
+        if(!playingInfo->artist().isEmpty())
+            labels[labelCount++]->setText(playingInfo->artist());
+
+        if(!playingInfo->album().isEmpty()) {
+            QString s = playingInfo->year() > 0
+                ? QString("%1 (%2)").arg(playingInfo->album()).arg(playingInfo->year())
+                : playingInfo->album();
+            labels[labelCount++]->setText(s);
+        }
+
         m_popup->setView(box);
         m_popup->show();
     }
