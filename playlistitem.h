@@ -122,6 +122,11 @@ public slots:
      */
     virtual void slotRefreshFromDisk();
 
+    /**
+     * Asks the item's playlist to remove the item (which uses deleteLater()).
+     */
+    virtual void slotClear();
+
 protected:
     /**
      * Items should always be created using Playlist::createItem() or through a
@@ -162,6 +167,7 @@ protected slots:
 signals:
     void signalRefreshed();
     void signalColumnWidthChanged(int column);
+    void signalAboutToDelete();
 
 private:
     void setup(CollectionListItem *item, Playlist *parent);

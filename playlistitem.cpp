@@ -33,6 +33,7 @@
 
 PlaylistItem::~PlaylistItem()
 {
+    emit signalAboutToDelete();
     m_data->deleteUser();
 }
 
@@ -190,6 +191,12 @@ void PlaylistItem::slotRefreshFromDisk()
 {
     m_data->refresh();
     slotRefresh();
+}
+
+void PlaylistItem::slotClear()
+{
+    // deleteLater();
+    static_cast<Playlist *>(listView())->clearItem(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

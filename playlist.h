@@ -680,7 +680,7 @@ ItemType *Playlist::createItem(const QFileInfo &file, const QString &absFilePath
             m_randomList.append(i);
 
 	emit signalCountChanged(this);
-	connect(item, SIGNAL(destroyed()), i, SLOT(deleteLater()));
+	connect(item, SIGNAL(signalAboutToDelete()), i, SLOT(slotClear()));
 
 	if(emitChanged)
 	    emit signalCountChanged(this);
@@ -704,7 +704,7 @@ void Playlist::createItems(const QValueList<SiblingType *> &siblings)
     for(; it != siblings.end(); ++it) {
 	if(!m_members.insert(resolveSymLinks((*it)->absFilePath())) || m_allowDuplicates) {
 	    previous = new ItemType((*it)->collectionItem(), this, previous);
-	    connect((*it)->collectionItem(), SIGNAL(destroyed()), (*it), SLOT(deleteLater()));
+	    connect((*it)->collectionItem(), SIGNAL(signalAboutToDelete()), (*it), SLOT(slotClear()));
 	}
     }
 

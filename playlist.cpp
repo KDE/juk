@@ -299,7 +299,7 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 {
     emit signalAboutToRemove(item);
     m_members.remove(item->absFilePath());
-    if (!m_randomList.isEmpty() && !m_visibleChanged)
+    if(!m_randomList.isEmpty() && !m_visibleChanged)
         m_randomList.remove(item);
     item->deleteLater();
     if(emitChanged)
@@ -346,9 +346,9 @@ PlaylistItemList Playlist::selectedItems()
     switch(m_selectedCount) {
     case 0:
 	break;
-    case 1:
-	list.append(m_lastSelected);
-	break;
+	// case 1:
+	// list.append(m_lastSelected);
+	// break;
     default:
 	list = items(QListViewItemIterator::IteratorFlag(QListViewItemIterator::Selected |
 							 QListViewItemIterator::Visible));
@@ -602,7 +602,6 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 	if(KMessageBox::questionYesNoList(this, message, files) == KMessageBox::Yes) {
 	    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 		if(QFile::remove((*it)->filePath())) {
-		    emit signalAboutToRemove(*it);
                     if(!m_randomList.isEmpty() && !m_visibleChanged)
                         m_randomList.remove(*it);
 		    CollectionList::instance()->clearItem((*it)->collectionItem());

@@ -39,7 +39,8 @@
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-TagEditor::TagEditor(QWidget *parent, const char *name) : QWidget(parent, name) 
+TagEditor::TagEditor(QWidget *parent, const char *name) : QWidget(parent, name),
+							  m_currentPlaylist(0)
 {
     setupLayout();
     readConfig();
@@ -58,7 +59,21 @@ TagEditor::~TagEditor()
 void TagEditor::slotSetItems(const PlaylistItemList &list)
 {
     saveChangesPrompt();
+
+    if(m_currentPlaylist) {
+	disconnect(m_currentPlaylist, SIGNAL(signalAboutToRemove(PlaylistItem *)),
+		   this, SLOT(slotItemRemoved(PlaylistItem *)));
+    }
+
+    m_currentPlaylist = list.isEmpty() ? 0 : static_cast<Playlist *>(list.first()->listView());
+
+    if(m_currentPlaylist) {
+	connect(m_currentPlaylist, SIGNAL(signalAboutToRemove(PlaylistItem *)),
+		this, SLOT(slotItemRemoved(PlaylistItem *)));
+    }
+
     m_items = list;
+
     if(isVisible())
 	slotRefresh();
 }
@@ -70,7 +85,7 @@ void TagEditor::slotRefresh()
     // the most common case -- is to just process the first item.  Then we
     // check after that to see if there are other m_items and adjust accordingly.
 
-    if(m_items.isEmpty()) {
+    if(m_items.isEmpty() || !m_items.first()->tag()) {
 	slotClear();
 	setEnabled(false);
 	return;
@@ -139,47 +154,51 @@ void TagEditor::slotRefresh()
 	else {
 	    for(; it != m_items.end(); ++it) {
 		tag = (*it)->tag();
-		if(m_artistNameBox->currentText() != tag->artist() &&
-		   m_enableBoxes.contains(m_artistNameBox))
-		{
-		    m_artistNameBox->lineEdit()->clear();
-		    m_enableBoxes[m_artistNameBox]->setChecked(false);
-		}
-		if(m_trackNameBox->text() != tag->title() &&
-		   m_enableBoxes.contains(m_trackNameBox))
-		{
-		    m_trackNameBox->clear();
-		    m_enableBoxes[m_trackNameBox]->setChecked(false);
-		}
-		if(m_albumNameBox->currentText() != tag->album() &&
-		   m_enableBoxes.contains(m_albumNameBox))
-		{
-		    m_albumNameBox->lineEdit()->clear();
-		    m_enableBoxes[m_albumNameBox]->setChecked(false);
-		}
-		if(m_genreBox->currentText() != tag->genre() &&
-		   m_enableBoxes.contains(m_genreBox))
-		{
-		    m_genreBox->lineEdit()->clear();
-		    m_enableBoxes[m_genreBox]->setChecked(false);
-		}		
-		if(m_trackSpin->value() != tag->track() &&
-		   m_enableBoxes.contains(m_trackSpin))
-		{
-		    m_trackSpin->setValue(0);
-		    m_enableBoxes[m_trackSpin]->setChecked(false);
-		}		
-		if(m_yearSpin->value() != tag->year() &&
-		   m_enableBoxes.contains(m_yearSpin))
-		{
-		    m_yearSpin->setValue(0);
-		    m_enableBoxes[m_yearSpin]->setChecked(false);
-		}
-		if(m_commentBox->text() != tag->comment() &&
-		   m_enableBoxes.contains(m_commentBox))
-		{
-		    m_commentBox->clear();
-		    m_enableBoxes[m_commentBox]->setChecked(false);
+
+		if(tag) {
+
+		    if(m_artistNameBox->currentText() != tag->artist() &&
+		       m_enableBoxes.contains(m_artistNameBox))
+		    {
+			m_artistNameBox->lineEdit()->clear();
+			m_enableBoxes[m_artistNameBox]->setChecked(false);
+		    }
+		    if(m_trackNameBox->text() != tag->title() &&
+		       m_enableBoxes.contains(m_trackNameBox))
+		    {
+			m_trackNameBox->clear();
+			m_enableBoxes[m_trackNameBox]->setChecked(false);
+		    }
+		    if(m_albumNameBox->currentText() != tag->album() &&
+		       m_enableBoxes.contains(m_albumNameBox))
+		    {
+			m_albumNameBox->lineEdit()->clear();
+			m_enableBoxes[m_albumNameBox]->setChecked(false);
+		    }
+		    if(m_genreBox->currentText() != tag->genre() &&
+		       m_enableBoxes.contains(m_genreBox))
+		    {
+			m_genreBox->lineEdit()->clear();
+			m_enableBoxes[m_genreBox]->setChecked(false);
+		    }		
+		    if(m_trackSpin->value() != tag->track() &&
+		       m_enableBoxes.contains(m_trackSpin))
+		    {
+			m_trackSpin->setValue(0);
+			m_enableBoxes[m_trackSpin]->setChecked(false);
+		    }		
+		    if(m_yearSpin->value() != tag->year() &&
+		       m_enableBoxes.contains(m_yearSpin))
+		    {
+			m_yearSpin->setValue(0);
+			m_enableBoxes[m_yearSpin]->setChecked(false);
+		    }
+		    if(m_commentBox->text() != tag->comment() &&
+		       m_enableBoxes.contains(m_commentBox))
+		    {
+			m_commentBox->clear();
+			m_enableBoxes[m_commentBox]->setChecked(false);
+		    }
 		}
 	    }
 	}
@@ -427,7 +446,8 @@ void TagEditor::save(const PlaylistItemList &list)
 	    // If not we'll append it to errorFiles to tell the user which
 	    // files we couldn't write to.
 	    
-	    if((newFile.isWritable() || (!newFile.exists() && directory.isWritable())) &&
+	    if(item->tag() &&
+	       (newFile.isWritable() || (!newFile.exists() && directory.isWritable())) &&
 	       item->isWritable())
 	    {
 		
@@ -495,23 +515,23 @@ void TagEditor::save(const PlaylistItemList &list)
 
 void TagEditor::saveChangesPrompt()
 {
-    if(isVisible() && m_dataChanged && !m_items.isEmpty()) {
+    if(!isVisible() || !m_dataChanged || m_items.isEmpty())
+	return;
 
-	QStringList files;
+    QStringList files;
 
-	for(PlaylistItemList::Iterator it = m_items.begin(); it != m_items.end(); it++)
-            files.append((*it)->fileName());
+    for(PlaylistItemList::Iterator it = m_items.begin(); it != m_items.end(); it++)
+	files.append((*it)->fileName());
 
-        if(KMessageBox::questionYesNoList(this,
-					  i18n("Do you want to save your changes to:\n"), 
-					  files, 
-					  i18n("Save Changes"),
-					  KStdGuiItem::yes(),
-					  KStdGuiItem::no(),
-					  "tagEditor_showSaveChangesBox") == KMessageBox::Yes)
-	{
-            save(m_items);
-	}
+    if(KMessageBox::questionYesNoList(this,
+				      i18n("Do you want to save your changes to:\n"), 
+				      files, 
+				      i18n("Save Changes"),
+				      KStdGuiItem::yes(),
+				      KStdGuiItem::no(),
+				      "tagEditor_showSaveChangesBox") == KMessageBox::Yes)
+    {
+	save(m_items);
     }
 }
 
@@ -565,6 +585,13 @@ void TagEditor::showEvent(QShowEvent *e)
 void TagEditor::slotDataChanged(bool c)
 {
     m_dataChanged = c;
+}
+
+void TagEditor::slotItemRemoved(PlaylistItem *item)
+{
+    m_items.remove(item);
+    if(m_items.isEmpty())
+	slotRefresh();
 }
 
 #include "tageditor.moc"

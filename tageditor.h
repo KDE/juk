@@ -30,6 +30,7 @@ class KPushButton;
 class QCheckBox;
 class QBoxLayout;
 
+class Playlist;
 class PlaylistItem;
 typedef QValueList<PlaylistItem *> PlaylistItemList;
 
@@ -69,6 +70,7 @@ private:
 
 private slots:
     void slotDataChanged(bool c = true);
+    void slotItemRemoved(PlaylistItem *item);
 
 private:
     typedef QMap<QWidget *, QCheckBox *> BoxMap;
@@ -90,6 +92,7 @@ private:
     QValueList<QWidget *> m_hideList;
 
     PlaylistItemList m_items;
+    Playlist *m_currentPlaylist;
     
     bool m_dataChanged; 
 };
