@@ -276,7 +276,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_fileColumnFullPathSort(true),
+    m_fileColumnFullPathSort(false),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_searchEnabled(true),
@@ -297,7 +297,7 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_fileColumnFullPathSort(true),
+    m_fileColumnFullPathSort(false),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_searchEnabled(true),
@@ -319,7 +319,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_fileColumnFullPathSort(true),
+    m_fileColumnFullPathSort(false),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_searchEnabled(true),
@@ -340,7 +340,7 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_fileColumnFullPathSort(true),
+    m_fileColumnFullPathSort(false),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_searchEnabled(true),
@@ -915,8 +915,13 @@ void Playlist::applySharedSettings()
 void Playlist::setSorting(int column, bool ascending)
 {
     if(column == columnOffset() + PlaylistItem::FileNameColumn) {
-	if(sortColumn() == column && ascending)
+	if(sortColumn() == column && ascending) {
 	    m_fileColumnFullPathSort = !m_fileColumnFullPathSort;
+
+	    // We have to redo the search since the contents of the column changed
+	    m_search.search();
+	    redisplaySearch();
+	}
 
 	setColumnText(column, m_fileColumnFullPathSort
 		      ? i18n("File Name (full path)")

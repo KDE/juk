@@ -80,7 +80,10 @@ QString PlaylistItem::text(int column) const
     case CommentColumn:
 	return d->fileHandle.tag()->comment();
     case FileNameColumn:
-	return d->fileHandle.fileInfo().fileName();
+	if(playlist()->fileColumnFullPathSort())
+	   return d->fileHandle.fileInfo().absFilePath();
+        else
+	   return d->fileHandle.fileInfo().fileName();
     default:
 	return KListViewItem::text(column);
     }
