@@ -75,6 +75,8 @@ public:
     virtual void reload();
     virtual void editSearch();
 
+    void enableDirWatch(bool enable);
+
     void removeItems();
     void refreshItems();
     void renameItems();
@@ -109,8 +111,6 @@ protected:
 
     bool importPlaylists() const;
     bool containsPlaylistFile(const QString &file) const;
-
-    void enableDirWatch(bool enable);
 
     QString playlistNameDialog(const QString &caption = i18n("Create New Playlist"),
                                const QString &suggest = QString::null,
