@@ -121,7 +121,7 @@ void Playlist::saveAs()
 {
     QStringList extensions = PlaylistSplitter::playlistExtensions();
 
-    m_playlistFileName = KFileDialog::getSaveFileName(QString::null, PlaylistSplitter::extensionsString(extensions, i18n("Playlists")));
+    m_playlistFileName = KFileDialog::getSaveFileName(name(), PlaylistSplitter::extensionsString(extensions, i18n("Playlists")));
     m_playlistFileName = m_playlistFileName.stripWhiteSpace();
 
     if(m_playlistFileName != QString::null) {
