@@ -21,10 +21,9 @@
 #include <qimage.h>
 #include <qvbox.h>
 #include <qregexp.h>
-#include <qwidget.h>
-#include <qnamespace.h>
 
 #include "coverinfo.h"
+#include "tag.h"
 
 /**
  * QVBox subclass to show a window for the track cover, and update the parent
@@ -39,7 +38,7 @@ public:
     CoverPopupWindow(CoverInfo &coverInfo, const QPixmap &pixmap, QWidget *parent = 0) :
         QVBox(parent, 0, WDestructiveClose), m_coverInfo(coverInfo)
     {
-        QString caption = coverInfo.m_tag.artist() + " - " + coverInfo.m_tag.album();
+        QString caption = coverInfo.m_file.tag()->artist() + " - " + coverInfo.m_file.tag()->album();
         setCaption(kapp->makeStdCaption(caption));
 
         QWidget *widget = new QWidget(this);
@@ -66,8 +65,8 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 
-CoverInfo::CoverInfo(const Tag &tag) :
-    m_tag(tag), m_popupWindow(0)
+CoverInfo::CoverInfo(const FileHandle &file) :
+    m_file(file), m_popupWindow(0)
 {
 }
 
@@ -102,7 +101,7 @@ QPixmap CoverInfo::largeCoverPixmap() const
 
 QPixmap CoverInfo::pixmap(bool large) const
 {
-    if(m_tag.artist().isEmpty() || m_tag.album().isEmpty())
+    if(m_file.tag()->artist().isEmpty() || m_file.tag()->album().isEmpty())
         return QPixmap();
 
     return QPixmap(coverLocation(large));
@@ -110,7 +109,7 @@ QPixmap CoverInfo::pixmap(bool large) const
 
 QString CoverInfo::coverLocation(bool large) const
 {
-    QString fileName(QFile::encodeName(m_tag.artist() + " - " + m_tag.album()));
+    QString fileName(QFile::encodeName(m_file.tag()->artist() + " - " + m_file.tag()->album()));
     QRegExp maskedFileNameChars("[ /?]");
 
     fileName.replace(maskedFileNameChars, "_");

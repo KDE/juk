@@ -17,16 +17,15 @@
 
 
 #include <qpixmap.h>
-#include <qfile.h>
 
-#include "tag.h"
+#include "filehandle.h"
 
 class CoverInfo
 {
     friend class FileHandle;
 
 public:
-    CoverInfo(const Tag &tag);
+    CoverInfo(const FileHandle &file);
 
     QPixmap coverPixmap() const;
     bool hasCover() const;
@@ -40,7 +39,7 @@ private:
     class CoverPopupWindow;
     friend class CoverPopupWindow;
 
-    Tag m_tag;
+    FileHandle m_file;
     CoverPopupWindow *m_popupWindow;
 };
 #endif

@@ -158,7 +158,7 @@ Tag *FileHandle::tag() const
 CoverInfo *FileHandle::coverInfo() const
 {
     if(!d->coverInfo)
-        d->coverInfo = new CoverInfo(*tag());
+        d->coverInfo = new CoverInfo(*this);
 
     return d->coverInfo;
 }
