@@ -22,7 +22,6 @@
 
 #include <qheader.h>
 #include <qpainter.h>
-#include <qwidgetstack.h>
 #include <qtimer.h>
 
 #include "playlistbox.h"
@@ -50,7 +49,6 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 			 const char *name) :
     KListView(parent, name),
     PlaylistCollection(playlistStack),
-    m_updatePlaylistStack(true),
     m_viewModeIndex(0),
     m_hasSelection(false),
     m_doingMultiSelect(false),
@@ -595,9 +593,6 @@ void PlaylistBox::slotPlaylistChanged()
     ItemList items = selectedItems();
     m_hasSelection = !items.isEmpty();
 
-    if(!m_updatePlaylistStack)
-	return;
-
     bool allowReload = false;
 
     PlaylistList playlists;
@@ -639,10 +634,7 @@ void PlaylistBox::slotPlaylistChanged()
 				     playlists.front()->searchIsEditable());
 
     if(singlePlaylist) {
-	playlists.front()->applySharedSettings();
-	playlistStack()->raiseWidget(playlists.front());
-	TrackSequenceManager::instance()->setCurrentPlaylist(playlists.front());
-	dataChanged(); // Update the status bar
+	PlaylistCollection::raise(playlists.front());
 
 	if(playlists.front() == upcomingPlaylist())
 	    action("deleteItemPlaylist")->setText(i18n("Hid&e"));

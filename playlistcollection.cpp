@@ -58,6 +58,7 @@ PlaylistCollection::PlaylistCollection(QWidgetStack *playlistStack) :
     m_searchEnabled(true),
     m_playing(false),
     m_showMorePlaylist(0),
+    m_belowShowMorePlaylist(0),
     m_dynamicPlaylist(0)
 {
     m_actionHandler = new ActionHandler(this);
@@ -160,12 +161,7 @@ void PlaylistCollection::createDynamicPlaylist(const PlaylistList &playlists)
         m_dynamicPlaylist =
             new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "midi", false, true);
 
-    m_dynamicPlaylist->applySharedSettings();
-    playlistStack()->raiseWidget(m_dynamicPlaylist);
-    // TrackSequenceManager::instance()->setCurrentPlaylist(m_dynamicPlaylist);
-
-    QObject::connect(m_playlistStack, SIGNAL(aboutToShow(int)),
-                     m_dynamicPlaylist, SLOT(lower()));
+    PlaylistCollection::raise(m_dynamicPlaylist);
 }
 
 void PlaylistCollection::showMore(const QString &artist, const QString &album)
@@ -205,12 +201,8 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
     else
         m_showMorePlaylist = new SearchPlaylist(this, search, i18n("Now Playing"), false, true);
 
-    m_showMorePlaylist->applySharedSettings();
-    m_playlistStack->raiseWidget(m_showMorePlaylist);
-    TrackSequenceManager::instance()->setCurrentPlaylist(m_showMorePlaylist);
-
-    QObject::connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)),
-                     m_showMorePlaylist, SLOT(lower(QWidget *)));
+    m_belowShowMorePlaylist = visiblePlaylist();
+    PlaylistCollection::raise(m_showMorePlaylist);
 }
 
 void PlaylistCollection::removeTrack(const QString &playlist, const QStringList &files)
@@ -569,6 +561,13 @@ Playlist *PlaylistCollection::visiblePlaylist() const
 
 void PlaylistCollection::raise(Playlist *playlist)
 {
+    if(m_showMorePlaylist && currentPlaylist() == m_showMorePlaylist)
+        m_showMorePlaylist->lower(playlist);
+    if(m_dynamicPlaylist && currentPlaylist() == m_dynamicPlaylist)
+        m_dynamicPlaylist->lower(playlist);
+
+    TrackSequenceManager::instance()->setCurrentPlaylist(playlist);
+    playlist->applySharedSettings();
     playlist->setSearchEnabled(m_searchEnabled);
     m_playlistStack->raiseWidget(playlist);
     dataChanged();
@@ -608,6 +607,21 @@ bool PlaylistCollection::containsPlaylistFile(const QString &file) const
 bool PlaylistCollection::showMoreActive() const
 {
     return visiblePlaylist() == m_showMorePlaylist;
+}
+
+void PlaylistCollection::clearShowMore(bool raisePlaylist)
+{
+    if(!m_showMorePlaylist)
+        return;
+
+    if(raisePlaylist) {
+        if(m_belowShowMorePlaylist)
+            raise(m_belowShowMorePlaylist);
+        else
+            raise(CollectionList::instance());
+    }
+
+    m_belowShowMorePlaylist = 0;
 }
 
 void PlaylistCollection::enableDirWatch(bool enable)

@@ -23,6 +23,7 @@
 #include <klocale.h>
 #include <kdirlister.h>
 
+#include <qguardedptr.h>
 
 class QWidgetStack;
 class KAction;
@@ -83,7 +84,7 @@ public:
     virtual void setCanDeletePlaylist(bool);
 
     bool showMoreActive() const;
-
+    void clearShowMore(bool raise = true);
     void enableDirWatch(bool enable);
 
     void removeItems();
@@ -179,8 +180,9 @@ private:
     bool        m_searchEnabled;
     bool        m_playing;
 
-    SearchPlaylist *m_showMorePlaylist;
-    DynamicPlaylist *m_dynamicPlaylist;
+    QGuardedPtr<SearchPlaylist> m_showMorePlaylist;
+    QGuardedPtr<Playlist> m_belowShowMorePlaylist;
+    QGuardedPtr<DynamicPlaylist> m_dynamicPlaylist;
 };
 
 /**

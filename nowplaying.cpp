@@ -203,7 +203,12 @@ void TrackItem::update(const FileHandle &file)
     QString format =
         "<font size=\"+%1\"><b>%2</b></font>"
         "<br />"
-        "<font size=\"+%3\"><b><a href=\"artist\">%4</a>%5<a href=\"album\">%6</a></b></font>";
+        "<font size=\"+%3\"><b><a href=\"artist\">%4</a>%5<a href=\"album\">%6</a></b>";
+
+    if(NowPlayingItem::parent()->collection()->showMoreActive())
+        format.append(QString(" (<a href=\"clear\">%1</a>)").arg(i18n("back to playlist")));
+
+    format.append("</font>");
 
     do {
         m_label->setText(format.arg(size).arg(title).arg(size - 2)
@@ -222,6 +227,10 @@ void TrackItem::slotOpenLink(const QString &link)
         collection->showMore(m_file.tag()->artist());
     else if(link == "album")
         collection->showMore(m_file.tag()->artist(), m_file.tag()->album());
+    else if(link == "clear")
+        collection->clearShowMore();
+
+    update(m_file);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

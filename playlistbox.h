@@ -118,7 +118,6 @@ private slots:
 
 private:
     KPopupMenu *m_contextMenu;
-    bool m_updatePlaylistStack;
     QPtrDict<Item> m_playlistDict;
     int m_viewModeIndex;
     QValueList<ViewMode *> m_viewModes;

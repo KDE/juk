@@ -45,7 +45,7 @@ public:
     PlaylistCollection *collection() const;
 
 private slots:
-    void slotUpdate();    
+    void slotUpdate();
 
 private:
     PlaylistCollection *m_collection;
