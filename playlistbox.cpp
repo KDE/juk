@@ -28,8 +28,6 @@
 #include <qpainter.h>
 #include <qregexp.h>
 
-#include <assert.h>
-
 #include "playlistbox.h"
 #include "playlistsplitter.h"
 #include "viewmode.h"
@@ -348,7 +346,8 @@ void PlaylistBox::deleteItems(const ItemList &items, bool confirm)
 	while(i && !i->playlist())
 	    i = static_cast<Item *>(i->itemAbove());
 
-	assert(i);
+	if(!i)
+	    i = Item::collectionItem();
 
 	setSingleItem(i);
     }
