@@ -127,17 +127,17 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     setSorting(-1); // Disable sorting for speed
 
-    CollectionList::instance()->setupTreeViewEntries(m_viewModes[2]);
+    performTreeViewSetup();
 
     setSorting(0);
     sort();
     
     connect(CollectionList::instance(), SIGNAL(signalNewTag(const QString &, unsigned)),
-            m_viewModes[2], SLOT(slotAddItem(const QString &, unsigned)));
+            this, SLOT(slotAddItem(const QString &, unsigned)));
+    connect(CollectionList::instance(), SIGNAL(signalRemovedTag(const QString &, unsigned)),
+            this, SLOT(slotRemoveItem(const QString &, unsigned)));
     connect(m_viewModes[2], SIGNAL(signalPlaylistDestroyed(Playlist*)),
             this, SLOT(slotPlaylistDestroyed(Playlist*)));
-    connect(CollectionList::instance(), SIGNAL(signalRemovedTag(const QString &, unsigned)),
-            m_viewModes[2], SLOT(slotRemoveItem(const QString &, unsigned)));
 
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
 }
@@ -320,6 +320,22 @@ void PlaylistBox::slotPlaylistDestroyed(Playlist *p)
     removeName(m_playlistDict[p]->text(0));
     delete m_playlistDict[p];
     m_playlistDict.remove(p);
+}
+
+// For the following two function calls, we can forward the slot*Item calls
+// to the tree view mode as long as it has already been setup, whether or
+// not it's actually visible.
+
+void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
+{
+    if(m_treeViewSetup)
+	static_cast<TreeViewMode*>(m_viewModes[2])->slotAddItem(tag, column);
+}
+
+void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
+{
+    if(m_treeViewSetup)
+	static_cast<TreeViewMode*>(m_viewModes[2])->slotRemoveItem(tag, column);
 }
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
@@ -581,12 +597,26 @@ void PlaylistBox::slotSetViewMode(int index)
     viewMode()->setShown(false);
     m_viewModeIndex = index;
     viewMode()->setShown(true);
+
+    // The following call only does anything if the setup
+    // hasn't already been performed.
+
+    performTreeViewSetup();
 }
 
 void PlaylistBox::setupItem(Item *item)
 {
     m_playlistDict.insert(item->playlist(), item);
     viewMode()->queueRefresh();
+}
+
+void PlaylistBox::performTreeViewSetup()
+{
+    if(m_treeViewSetup || m_viewModeIndex != 2)
+	return;
+
+    CollectionList::instance()->setupTreeViewEntries(m_viewModes[2]);
+    m_treeViewSetup = true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

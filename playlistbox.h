@@ -90,6 +90,7 @@ private:
     void setSingleItem(QListViewItem *item);
 
     void setupItem(Item *item);
+    void performTreeViewSetup();
     int viewModeIndex() const { return m_viewModeIndex; }
     ViewMode *viewMode() const { return m_viewModes[m_viewModeIndex]; }
 
@@ -104,6 +105,9 @@ private slots:
     void slotSetViewMode(int index);
     void slotPlaylistDestroyed(Playlist*);
 
+    void slotAddItem(const QString &tag, unsigned column);
+    void slotRemoveItem(const QString &tag, unsigned column);
+
 private:
     KPopupMenu *m_contextMenu;
     bool m_updatePlaylistStack;
@@ -113,6 +117,7 @@ private:
     KAction *m_k3bAction;
     bool m_hasSelection;
     bool m_doingMultiSelect;
+    bool m_treeViewSetup;
     Item *m_dropItem;
     DynamicPlaylist *m_dynamicPlaylist;
 };
