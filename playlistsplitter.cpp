@@ -678,19 +678,24 @@ void PlaylistSplitter::readPlaylists()
 
     QFile f(playlistsFile);
 
-    if(f.open(IO_ReadOnly)) {
-	QDataStream s(&f);
-	while(!s.atEnd()) {
-	    Playlist *p = new Playlist(m_playlistStack);
-	    s >> *p;
+    if(!f.open(IO_ReadOnly))
+	return;
 
-	    // check to see if we've alredy loaded this item before continuing
+    QByteArray data = f.readAll();
+    f.close();
 
-	    if(p->fileName().isEmpty() || !m_playlistFiles.insert(p->fileName()))
-		setupPlaylist(p);
-	    else
-		delete p;
-	}
+    QDataStream s(data, IO_ReadOnly);
+
+    while(!s.atEnd()) {
+	Playlist *p = new Playlist(m_playlistStack);
+	s >> *p;
+
+	// check to see if we've alredy loaded this item before continuing
+
+	if(p->fileName().isEmpty() || !m_playlistFiles.insert(p->fileName()))
+	    setupPlaylist(p);
+	else
+	    delete p;
     }
 }
 
@@ -699,19 +704,21 @@ void PlaylistSplitter::savePlaylists()
     QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
     QFile f(playlistsFile);
 
-    if(f.open(IO_WriteOnly)) {
+    if(!f.open(IO_WriteOnly))
+	return;
 
-	QDataStream s(&f);
+    QByteArray data;
+    QDataStream s(data, IO_WriteOnly);
 
-	PlaylistList l = m_playlistBox->playlists();
+    PlaylistList l = m_playlistBox->playlists();
 
-	for(PlaylistList::Iterator it = l.begin(); it != l.end(); it++) {
-	    if(*it && *it != m_history)
-		s << *(*it);
-	}
-
-	f.close();
+    for(PlaylistList::Iterator it = l.begin(); it != l.end(); it++) {
+	if(*it && *it != m_history)
+	    s << *(*it);
     }
+
+    f.writeBlock(data);
+    f.close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
