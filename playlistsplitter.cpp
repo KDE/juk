@@ -127,6 +127,9 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     readConfig();
 
     m_editor->slotUpdateCollection();
+
+    if(m_collection->childCount() == 0)
+	QTimer::singleShot(0, this, SLOT(slotOpenDirectory()));
 }
 
 PlaylistSplitter::~PlaylistSplitter()
