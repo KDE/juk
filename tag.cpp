@@ -18,6 +18,7 @@
 #include <kdebug.h>
 
 #include <qregexp.h>
+#include <qfile.h>
 
 #include <taglib/tag.h>
 #include <taglib/mpegfile.h>
@@ -44,14 +45,14 @@ Tag *Tag::createTag(const QString &fileName, bool ignoreCache)
         return cachedItem;
 
     if(MediaFiles::isMP3(fileName)) {
-        TagLib::MPEG::File file(QStringToTString(fileName));
+        TagLib::MPEG::File file(QFile::encodeName(fileName).data());
         if(!file.isOpen())
             return 0;
         return new Tag(fileName, &file);
     }
 
     if(MediaFiles::isOgg(fileName)) {
-        TagLib::Vorbis::File file(QStringToTString(fileName));
+        TagLib::Vorbis::File file(QFile::encodeName(fileName).data());
         if(!file.isOpen())
             return 0;
         return new Tag(fileName, &file);
@@ -76,10 +77,10 @@ void Tag::save()
     TagLib::File *file = 0;
 
     if(MediaFiles::isMP3(m_fileName))
-        file = new TagLib::MPEG::File(QStringToTString(m_fileName));
+        file = new TagLib::MPEG::File(QFile::encodeName(m_fileName).data());
 #if defined TAGLIB_MINOR_VERSION && TAGLIB_MINOR_VERSION >= 95
     else if(MediaFiles::isOgg(m_fileName))
-        file = new TagLib::Vorbis::File(QStringToTString(m_fileName));
+        file = new TagLib::Vorbis::File(QFile::encodeName(m_fileName).data());
 #else
 #ifdef _GNUC
 #warning "Your TagLib is too old for saving Vorbis files.  It is being disabled for now."
