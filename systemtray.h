@@ -43,6 +43,7 @@ public slots:
 private:
     void createPopup(const QString &songName, bool addButtons = true);
     void setToolTip( const QString&tip = QString::null );
+    QPixmap createPixmap( const QString& );
 
     QPixmap m_playPix;
     QPixmap m_pausePix;

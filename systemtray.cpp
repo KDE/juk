@@ -21,12 +21,14 @@
 #include <kpassivepopup.h>
 #include <kaction.h>
 #include <kmainwindow.h>
+#include <kiconeffect.h>
 
 #include <qhbox.h>
 #include <qpushbutton.h>
 #include <qlabel.h>
 #include <qtimer.h>
 #include <qtooltip.h>
+#include <qpainter.h>
 
 #include "systemtray.h"
 
@@ -39,8 +41,10 @@ SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(pare
 
 {
     m_appPix     = UserIcon("juk_dock");
-    m_playPix    = SmallIcon("player_play");
-    m_pausePix   = SmallIcon("player_pause");
+
+    m_playPix = createPixmap( "player_play" );
+    m_pausePix = createPixmap( "player_pause" );
+
     m_backPix    = SmallIcon("player_start");
     m_forwardPix = SmallIcon("player_end");
 
@@ -132,6 +136,25 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
         m_popup->setAutoDelete(false);
         m_popup->show();
     }
+}
+
+QPixmap SystemTray::createPixmap( const QString &pixName )
+{
+    QPixmap buffer( 22, 22 );
+    buffer.fill( this, 0, 0 );
+
+    QPixmap bgPix = m_appPix;
+    QPixmap fgPix = SmallIcon( pixName );
+
+    KIconEffect effect;
+    bgPix = effect.apply( bgPix, KIconEffect::DeSaturate, 0.8, QColor(), true );
+
+    QPainter p( &buffer );
+    p.drawPixmap( 0, 0, bgPix );
+    p.drawPixmap( ( buffer.width()-fgPix.width() )/2, 
+        ( buffer.height()-fgPix.height() )/2, fgPix );
+
+    return buffer;
 }
 
 void SystemTray::setToolTip( const QString &tip )
