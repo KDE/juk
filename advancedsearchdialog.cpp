@@ -96,6 +96,8 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     m_fewerButton = new KPushButton(i18n("Fewer"), buttons);
     connect(m_fewerButton, SIGNAL(clicked()), SLOT(fewer()));
     l->addWidget(m_fewerButton);
+
+    m_playlistNameLineEdit->setFocus();
 }
 
 AdvancedSearchDialog::~AdvancedSearchDialog()
