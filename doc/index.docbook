@@ -230,6 +230,8 @@ mis-spelling in an artist name, you can edit it directly with this
 menu item.</para>
 <para>Changes made in this manner are always saved immediately as soon
 as you click elsewhere and are finished editing.</para>
+<para>This menu item will be disabled if &juk; detects that the track you
+have selected is read-only.</para>
 </listitem>
 </varlistentry>
 
@@ -450,6 +452,10 @@ bottom of the list view.</para>
 <para>Simply type into any of the editable fields to change the
 information.  When you are done, &LMB; click back in the list, and you
 will be prompted to save your changes.</para>
+
+<para>You may find that the tag editor remains disabled when you've
+clicked on a file.  This happens when &juk; has detected that the track
+is read-only.</para>
 
 <variablelist>
 <title>Tag Editor Fields</title>
