@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
     aboutData.addAuthor("Scott Wheeler", scott, "wheeler@kde.org");
     aboutData.addCredit("Daniel Molkentin", daniel, "molkentin@kde.org");
     aboutData.addCredit("Tim Jansen", tim, "tim@tjansen.de");
-    aboutData.addCredit("Stefan Asserhäl", stefan, "stefan.asserhall@telia.com");
+    aboutData.addCredit("Stefan Asserhäll", stefan, "stefan.asserhall@telia.com");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);
