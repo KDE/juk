@@ -63,6 +63,8 @@ private:
      */
     void addItem(const QString &text, QWidget *item, QBoxLayout *layout);
 
+    virtual void showEvent(QShowEvent *e);
+
 private slots:
     void setDataChanged(bool c = true);
 

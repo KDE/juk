@@ -64,7 +64,8 @@ void TagEditor::setItems(const PlaylistItemList &list)
 {
     saveChangesPrompt();
     items = list;
-    refresh();
+    if(isVisible())
+	refresh();
 }
 
 void TagEditor::refresh()
@@ -511,6 +512,12 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
 
     connect(enableBox, SIGNAL(toggled(bool)), item, SLOT(setEnabled(bool)));
     enableBoxes.insert(item, enableBox);
+}
+
+void TagEditor::showEvent(QShowEvent *e)
+{
+    refresh();
+    QWidget::showEvent(e);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
