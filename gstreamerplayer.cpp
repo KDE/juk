@@ -40,7 +40,7 @@ GStreamerPlayer::GStreamerPlayer() : Player()
     m_source   = gst_element_factory_make("filesrc", "source");
     m_decoder  = gst_element_factory_make("spider", "decoder");
     m_volume   = gst_element_factory_make("volume", "volume");
-    m_sink     = gst_element_factory_make("alsasink", "sink");
+    m_sink     = gst_element_factory_make("osssink", "sink");
 
     gst_bin_add_many(GST_BIN(m_pipeline), m_source, m_decoder, m_volume, m_sink, 0);
     gst_element_link_many(m_source, m_decoder, m_volume, m_sink, 0);
@@ -105,7 +105,7 @@ int GStreamerPlayer::position() const
 {
     long long total   = time(GST_QUERY_TOTAL);
     long long current = time(GST_QUERY_POSITION);
-    return total > 0 ? int((double(current) / double(total)) * double(1000)) : 0;
+    return total > 0 ? int((double(current) / double(total)) * double(1000) + 0.5) : 0;
 }
 
 void GStreamerPlayer::seek(int seekTime)
