@@ -154,6 +154,7 @@ private:
     KToggleAction *m_toggleSystemTrayAction;
     KToggleAction *m_toggleDockOnCloseAction;
     KToggleAction *m_togglePopupsAction;
+    KToggleAction *m_toggleSplashAction;
     KSelectAction *m_outputSelectAction;
 
     KAction *m_playAction;
@@ -175,6 +176,7 @@ private:
     bool m_trackPositionDragging;
     bool m_noSeek;
     bool m_restore;
+    bool m_showSplash;
     bool m_shuttingDown;
     bool m_volmute;
 

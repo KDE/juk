@@ -52,6 +52,7 @@
 	<Menu name="settings"><text>&amp;Settings</text>
 		<!-- <Action name="showGenreListEditor"/> -->
 		<Action name="restoreOnLoad"/>
+		<Action name="showSplashScreen"/>
 		<Action name="toggleSystemTray"/>
 		<Action name="dockOnClose"/>
 		<Action name="togglePopups"/>

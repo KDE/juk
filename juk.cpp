@@ -48,12 +48,15 @@
 JuK::JuK(QWidget *parent, const char *name) : KMainWindow(parent, name, WDestructiveClose),
 					      m_shuttingDown(false)
 {
-    SplashScreen::instance()->show();
-    kapp->processEvents();
-
     // Expect segfaults if you change this order.
 
     readSettings();
+
+    if(m_showSplash) {
+	SplashScreen::instance()->show();
+	kapp->processEvents();
+    }
+
     setupLayout();
     setupActions();
     slotPlaylistChanged();
@@ -146,7 +149,8 @@ void JuK::setupActions()
     new KToggleAction(i18n("Show Menu Bar"), "CTRL+m", this, SLOT(slotToggleMenuBar()), actionCollection(), "toggleMenuBar");
     new KToggleAction(i18n("Show Tool Bar"), "CTRL+b", this, SLOT(slotToggleToolBar()), actionCollection(), "toggleToolBar");
 
-    m_restoreOnLoadAction = new KToggleAction(i18n("&Restore Playlists on Load"),  0, actionCollection(), "restoreOnLoad");
+    m_restoreOnLoadAction = new KToggleAction(i18n("&Restore Playlists on Load"), 0, actionCollection(), "restoreOnLoad");
+    m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startup"), 0, actionCollection(), "showSplashScreen");
 
     m_toggleSystemTrayAction = new KToggleAction(i18n("&Dock in System Tray"), KShortcut(), actionCollection(), "toggleSystemTray");
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)), this, SLOT(slotToggleSystemTray(bool)));
@@ -281,6 +285,7 @@ void JuK::readSettings()
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
 	m_restore = config->readBoolEntry("RestoreOnLoad", true);
+	m_showSplash = config->readBoolEntry("ShowSplashScreen", true);
     }
 }
 
@@ -290,7 +295,7 @@ void JuK::readConfig()
     setAutoSaveSettings();
 
     KConfig *config = KGlobal::config();
-    { // m_player settings
+    { // player settings
         KConfigGroupSaver saver(config, "Player");
         if(m_sliderAction->getVolumeSlider()) {
             int volume = config->readNumEntry("Volume", m_sliderAction->getVolumeSlider()->maxValue());
@@ -298,8 +303,9 @@ void JuK::readConfig()
         }
 	bool randomPlay = config->readBoolEntry("RandomPlay", false);
 	m_randomPlayAction->setChecked(randomPlay);
-    const bool loopPlaylist = config->readBoolEntry("LoopPlaylist", false);
-    m_loopPlaylistAction->setChecked(loopPlaylist);
+
+	bool loopPlaylist = config->readBoolEntry("LoopPlaylist", false);
+	m_loopPlaylistAction->setChecked(loopPlaylist);
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
@@ -321,11 +327,10 @@ void JuK::readConfig()
 
 	if(m_outputSelectAction)
 	    m_outputSelectAction->setCurrentItem(config->readNumEntry("MediaSystem", 0));
-
     }
 
     m_restoreOnLoadAction->setChecked(m_restore);
-
+    m_toggleSplashAction->setChecked(m_showSplash);
 }
 
 void JuK::saveConfig()
@@ -337,8 +342,8 @@ void JuK::saveConfig()
             config->writeEntry("Volume", m_sliderAction->getVolumeSlider()->value());
 	if(m_randomPlayAction)
 	    config->writeEntry("RandomPlay", m_randomPlayAction->isChecked());
-    if(m_loopPlaylistAction)
-        config->writeEntry("LoopPlaylist", m_loopPlaylistAction->isChecked());
+	if(m_loopPlaylistAction)
+	    config->writeEntry("LoopPlaylist", m_loopPlaylistAction->isChecked());
     }
     { // view settings
         KConfigGroupSaver saver(config, "View");
@@ -347,13 +352,14 @@ void JuK::saveConfig()
     { // general settings
         KConfigGroupSaver saver(config, "Settings");
 	config->writeEntry("RestoreOnLoad", m_restoreOnLoadAction->isChecked());
+	config->writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
 	config->writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
 	config->writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
 	config->writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
 	if(m_outputSelectAction)
 	    config->writeEntry("MediaSystem", m_outputSelectAction->currentItem());
     }
-	config->sync();
+    config->sync();
 }
 
 bool JuK::queryExit()
