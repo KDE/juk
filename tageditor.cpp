@@ -76,121 +76,122 @@ void TagEditor::slotRefresh()
     // the most common case -- is to just process the first item.  Then we
     // check after that to see if there are other m_items and adjust accordingly.
 
+    if(m_items.isEmpty()) {
+	slotClear();
+	return;
+    }
+    
     PlaylistItem *item = m_items.first();
 
-    if(item) {
-	Tag *tag = item->tag();
+    Tag *tag = item->tag();
 	
-	m_artistNameBox->setEditText(tag->artist());
-	m_trackNameBox->setText(tag->track());
-	m_albumNameBox->setEditText(tag->album());
+    m_artistNameBox->setEditText(tag->artist());
+    m_trackNameBox->setText(tag->track());
+    m_albumNameBox->setEditText(tag->album());
+    
+    if(m_genreList.findIndex(tag->genre()) >= 0)
+	m_genreBox->setCurrentItem(m_genreList.findIndex(tag->genre()) + 1);
+    else {
+	m_genreBox->setCurrentItem(0);
+	m_genreBox->setEditText(tag->genre());
+    }
+    
+    m_trackSpin->setValue(tag->trackNumber());
+    m_yearSpin->setValue(tag->year());
+    
+    m_commentBox->setText(tag->comment());
+    
+    // Start at the second item, since we've already processed the first.
+    
+    PlaylistItemList::Iterator it = m_items.begin();
+    ++it;
+
+    // If there is more than one item in the m_items that we're dealing with...
+    
+    if(it != m_items.end()) {
+	m_fileNameBox->clear();
+	m_fileNameBox->setEnabled(false);
 	
-	if(m_genreList.findIndex(tag->genre()) >= 0)
-	    m_genreBox->setCurrentItem(m_genreList.findIndex(tag->genre()) + 1);
-	else {
-	    m_genreBox->setCurrentItem(0);
-	    m_genreBox->setEditText(tag->genre());
+	m_lengthBox->clear();
+	m_lengthBox->setEnabled(false);
+	
+	m_bitrateBox->clear();
+	m_bitrateBox->setEnabled(false);
+	
+	for(BoxMap::Iterator boxIt = m_enableBoxes.begin(); boxIt != m_enableBoxes.end(); boxIt++) {
+	    (*boxIt)->setChecked(true);
+	    (*boxIt)->show();
 	}
 	
-	m_trackSpin->setValue(tag->trackNumber());
-	m_yearSpin->setValue(tag->year());
+	// Yep, this is ugly.  Loop through all of the files checking to see
+	// if their fields are the same.  If so, by default, enable their 
+	// checkbox.
 	
-	m_commentBox->setText(tag->comment());
+	// Also, if there are more than 50 m_items, don't scan all of them.
 	
-	// Start at the second item, since we've already processed the first.
-
-	PlaylistItemList::Iterator it = m_items.begin();
-	++it;
-
-	// If there is more than one item in the m_items that we're dealing with...
-
-	if(it != m_items.end()) {
-	    m_fileNameBox->clear();
-	    m_fileNameBox->setEnabled(false);
-
-	    m_lengthBox->clear();
-	    m_lengthBox->setEnabled(false);
-	    
-	    m_bitrateBox->clear();
-	    m_bitrateBox->setEnabled(false);
-	    
-	    for(BoxMap::Iterator boxIt = m_enableBoxes.begin(); boxIt != m_enableBoxes.end(); boxIt++) {
-		(*boxIt)->setChecked(true);
-		(*boxIt)->show();
-	    }
-
-	    // Yep, this is ugly.  Loop through all of the files checking to see
-	    // if their fields are the same.  If so, by default, enable their 
-	    // checkbox.
-	    
-	    // Also, if there are more than 50 m_items, don't scan all of them.
-	    
-	    if(m_items.count() > 50) {
-		m_enableBoxes[m_artistNameBox]->setChecked(false);
-		m_enableBoxes[m_trackNameBox]->setChecked(false);
-		m_enableBoxes[m_albumNameBox]->setChecked(false);
-		m_enableBoxes[m_genreBox]->setChecked(false);
-		m_enableBoxes[m_trackSpin]->setChecked(false);
-		m_enableBoxes[m_yearSpin]->setChecked(false);
-		m_enableBoxes[m_commentBox]->setChecked(false);
-	    }
-	    else {
-		for(; it != m_items.end(); ++it) {
-		    tag = (*it)->tag();
-		    if(m_artistNameBox->currentText() != tag->artist() && m_enableBoxes.contains(m_artistNameBox)) {
-			m_artistNameBox->lineEdit()->clear();
-			m_enableBoxes[m_artistNameBox]->setChecked(false);
-		    }
-		    if(m_trackNameBox->text() != tag->track() && m_enableBoxes.contains(m_trackNameBox)) {
-			m_trackNameBox->clear();
-			m_enableBoxes[m_trackNameBox]->setChecked(false);
-		    }
-		    if(m_albumNameBox->currentText() != tag->album() && m_enableBoxes.contains(m_albumNameBox)) {
-			m_albumNameBox->lineEdit()->clear();
-			m_enableBoxes[m_albumNameBox]->setChecked(false);
-		    }
-		    if(m_genreBox->currentText() != tag->genre() && m_enableBoxes.contains(m_genreBox)) {
-			m_genreBox->lineEdit()->clear();
-			m_enableBoxes[m_genreBox]->setChecked(false);
-		    }		
-		    
-		    if(m_trackSpin->value() != tag->trackNumber() && m_enableBoxes.contains(m_trackSpin)) {
-			m_trackSpin->setValue(0);
-			m_enableBoxes[m_trackSpin]->setChecked(false);
-		    }		
-		    if(m_yearSpin->value() != tag->year() && m_enableBoxes.contains(m_yearSpin)) {
-			m_yearSpin->setValue(0);
-			m_enableBoxes[m_yearSpin]->setChecked(false);
-		    }
-		    
-		    if(m_commentBox->text() != tag->comment() && m_enableBoxes.contains(m_commentBox)) {
-			m_commentBox->clear();
-			m_enableBoxes[m_commentBox]->setChecked(false);
-		    }
+	if(m_items.count() > 50) {
+	    m_enableBoxes[m_artistNameBox]->setChecked(false);
+	    m_enableBoxes[m_trackNameBox]->setChecked(false);
+	    m_enableBoxes[m_albumNameBox]->setChecked(false);
+	    m_enableBoxes[m_genreBox]->setChecked(false);
+	    m_enableBoxes[m_trackSpin]->setChecked(false);
+	    m_enableBoxes[m_yearSpin]->setChecked(false);
+	    m_enableBoxes[m_commentBox]->setChecked(false);
+	}
+	else {
+	    for(; it != m_items.end(); ++it) {
+		tag = (*it)->tag();
+		if(m_artistNameBox->currentText() != tag->artist() && m_enableBoxes.contains(m_artistNameBox)) {
+		    m_artistNameBox->lineEdit()->clear();
+		    m_enableBoxes[m_artistNameBox]->setChecked(false);
+		}
+		if(m_trackNameBox->text() != tag->track() && m_enableBoxes.contains(m_trackNameBox)) {
+		    m_trackNameBox->clear();
+		    m_enableBoxes[m_trackNameBox]->setChecked(false);
+		}
+		if(m_albumNameBox->currentText() != tag->album() && m_enableBoxes.contains(m_albumNameBox)) {
+		    m_albumNameBox->lineEdit()->clear();
+		    m_enableBoxes[m_albumNameBox]->setChecked(false);
+		}
+		if(m_genreBox->currentText() != tag->genre() && m_enableBoxes.contains(m_genreBox)) {
+		    m_genreBox->lineEdit()->clear();
+		    m_enableBoxes[m_genreBox]->setChecked(false);
+		}		
+		
+		if(m_trackSpin->value() != tag->trackNumber() && m_enableBoxes.contains(m_trackSpin)) {
+		    m_trackSpin->setValue(0);
+		    m_enableBoxes[m_trackSpin]->setChecked(false);
+		}		
+		if(m_yearSpin->value() != tag->year() && m_enableBoxes.contains(m_yearSpin)) {
+		    m_yearSpin->setValue(0);
+		    m_enableBoxes[m_yearSpin]->setChecked(false);
+		}
+		
+		if(m_commentBox->text() != tag->comment() && m_enableBoxes.contains(m_commentBox)) {
+		    m_commentBox->clear();
+		    m_enableBoxes[m_commentBox]->setChecked(false);
 		}
 	    }
 	}
-	else {
-	    // Clean up in the case that we are only handling one item.
-	    
-	    m_fileNameBox->setText(item->fileName());
-	    m_fileNameBox->setEnabled(true);
-	    
-	    m_lengthBox->setText(tag->lengthString());
-	    m_lengthBox->setEnabled(true);
-	    
-	    m_bitrateBox->setText(tag->bitrateString());
-	    m_bitrateBox->setEnabled(true);	    
-
-	    for(BoxMap::iterator boxIt = m_enableBoxes.begin(); boxIt != m_enableBoxes.end(); boxIt++) {
-		(*boxIt)->setChecked(true);
-		(*boxIt)->hide();
-	    }
-	}
-	m_dataChanged = false;
     }
-    else
-	slotClear();
+    else {
+	// Clean up in the case that we are only handling one item.
+	
+	m_fileNameBox->setText(item->fileName());
+	m_fileNameBox->setEnabled(true);
+	
+	m_lengthBox->setText(tag->lengthString());
+	m_lengthBox->setEnabled(true);
+	
+	m_bitrateBox->setText(tag->bitrateString());
+	m_bitrateBox->setEnabled(true);	    
+	
+	for(BoxMap::iterator boxIt = m_enableBoxes.begin(); boxIt != m_enableBoxes.end(); boxIt++) {
+	    (*boxIt)->setChecked(true);
+	    (*boxIt)->hide();
+	}
+    }
+    m_dataChanged = false;
 }
 
 void TagEditor::slotClear()

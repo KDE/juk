@@ -380,6 +380,12 @@ void Playlist::updateLeftColumn()
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
+void Playlist::slotSetNext()
+{ 
+    if(!selectedItems().isEmpty())
+	emit signalSetNext(selectedItems().first());
+}
+    
 void Playlist::copy()
 {
     kapp->clipboard()->setData(dragObject(0), QClipboard::Clipboard);

@@ -83,7 +83,7 @@ public:
      * Returns the name of the currently selected file and moves the playing 
      * indicator to that file.
      */
-    QString playSelectedFile() { return play(playlistSelection().first()); }
+    QString playSelectedFile();
 
     /**
      * Returns the name of the first item in the playlist and moves the playing

@@ -140,6 +140,14 @@ QString PlaylistSplitter::playPreviousFile(bool random)
     return play(i);
 }
 
+QString PlaylistSplitter::playSelectedFile()
+{
+    if(playlistSelection().isEmpty())
+	return QString::null;
+    else
+	return play(playlistSelection().first());
+}
+
 QString PlaylistSplitter::playFirstFile()
 {
     Playlist *p = visiblePlaylist();

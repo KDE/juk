@@ -136,8 +136,8 @@ public slots:
      * Remove the currently selected items from the playlist and disk.
      */ 
     void slotDeleteSelectedItems() { deleteFromDisk(selectedItems()); };
-    virtual void slotSetNext() { emit signalSetNext(selectedItems().first()); }
-    
+    void slotSetNext();
+
     /*
      * The edit slots are required to use the canonical names so that they are
      * detected by the application wide framework.
