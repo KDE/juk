@@ -31,7 +31,7 @@ class KAudioManagerPlay;
 namespace KDE {
     class PlayObjectFactory;
     class PlayObject;
-};
+}
 
 class ArtsPlayer : public QObject, public Player
 {
