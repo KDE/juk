@@ -211,7 +211,7 @@ void TreeViewMode::setupCategory(const QString &searchCategory, const QStringLis
     for(QStringList::ConstIterator it = members.begin(); it != members.end(); ++it) {
         
         PlaylistSearch::ComponentList components;
-        components.append(PlaylistSearch::Component(*it, false, columns, PlaylistSearch::Component::ContainsWord));
+        components.append(PlaylistSearch::Component(*it, true, columns, PlaylistSearch::Component::ContainsWord));
 
         PlaylistList playlists;
         playlists.append(collection);
@@ -248,7 +248,6 @@ void TreeViewMode::slotSetupCategories()
 
     for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
         it.current()->setSortedFirst(true);
-    
 }
 
 #include "viewmode.moc"
