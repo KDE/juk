@@ -57,9 +57,10 @@ public:
 		      LengthColumn      = 6,
 		      BitrateColumn     = 7,
 		      CommentColumn     = 8,
-		      FileNameColumn    = 9 };
+		      FileNameColumn    = 9,
+		      FullPathColumn    = 10 };
 
-    static int lastColumn() { return FileNameColumn; }
+    static int lastColumn() { return FullPathColumn; }
 
     void setFile(const FileHandle &file);
     FileHandle file() const;
@@ -137,7 +138,6 @@ protected:
 	FileHandle fileHandle;
 	QValueVector<QCString> local8Bit;
 	QValueVector<int> cachedWidths;
-	QCString shortFileName;
     };
 
     KSharedPtr<Data> data() const { return d; }

@@ -71,7 +71,6 @@ void CollectionList::initialize(PlaylistCollection *collection)
 	order = Ascending;
 
     m_list->setSortOrder(order);
-    m_list->setFileColumnFullPathSort(config.readBoolEntry("CollectionListFullPathSort", false));
     m_list->setSortColumn(config.readNumEntry("CollectionListSortColumn", 1));
 
     m_list->sort();
@@ -209,7 +208,6 @@ CollectionList::~CollectionList()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
     config.writeEntry("CollectionListSortColumn", sortColumn());
-    config.writeEntry("CollectionListFullPathSort", fileColumnFullPathSort());
     config.writeEntry("CollectionListSortAscending", sortOrder() == Ascending);
 
     // The CollectionListItems will try to remove themselves from the
@@ -320,9 +318,7 @@ void CollectionListItem::refresh()
 	if(id != TrackNumberColumn && id != LengthColumn) {        
 	    // All columns other than track num and length need local-encoded data for sorting        
 
-	    QCString lower = id == FileNameColumn
-		? file().absFilePath().lower().local8Bit()
-		: text(i).lower().local8Bit();
+	    QCString lower = text(i).lower().local8Bit();
 
 	    // For some columns, we may be able to share some strings
 
@@ -347,7 +343,6 @@ void CollectionListItem::refresh()
 	if(newWidth != data()->cachedWidths[i])
 	    playlist()->slotWeightDirty(i);
     }
-    data()->shortFileName = file().fileInfo().fileName().lower().local8Bit();
 
     playlist()->dataChanged();
     CollectionList::instance()->dataChanged();

@@ -284,23 +284,6 @@ public:
      */
     void applySharedSettings();
 
-    /**
-     * Returns true if full path sort is currently enabled for the file column.
-     */
-    bool fileColumnFullPathSort() const { return m_fileColumnFullPathSort; }
-
-    /**
-     * Sets whether or not the file column sorts using the full path.
-     */
-    void setFileColumnFullPathSort(bool enable);
-
-    /**
-     * Reimplemented to add toggling of the file column sorting mode.
-     *
-     * \see fileColumnFullPathSort()
-     */
-    virtual void setSorting(int column, bool ascending = true);
-
     void read(QDataStream &s);
 
 public slots:
@@ -566,7 +549,6 @@ private:
     bool m_allowDuplicates;
     bool m_polished;
     bool m_applySharedSettings;
-    bool m_fileColumnFullPathSort;
 
     QValueList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;

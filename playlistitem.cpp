@@ -95,10 +95,9 @@ QString PlaylistItem::text(int column) const
     case CommentColumn:
 	return d->fileHandle.tag()->comment();
     case FileNameColumn:
-	if(playlist()->fileColumnFullPathSort())
-	   return d->fileHandle.fileInfo().absFilePath();
-        else
-	   return d->fileHandle.fileInfo().fileName();
+	return d->fileHandle.fileInfo().fileName();
+    case FullPathColumn:
+	return d->fileHandle.fileInfo().absFilePath();
     default:
 	return KListViewItem::text(column);
     }
@@ -303,14 +302,6 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
             return -1;
         else
             return 0;
-	break;
-    case FileNameColumn:
-	if(playlist()->fileColumnFullPathSort())
-	    return strcoll(firstItem->d->local8Bit[column - offset],
-			   secondItem->d->local8Bit[column - offset]);
-	else
-	    return strcoll(firstItem->d->shortFileName,
-			   secondItem->d->shortFileName);
 	break;
     default:
 	return strcoll(firstItem->d->local8Bit[column - offset],

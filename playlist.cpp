@@ -277,7 +277,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_fileColumnFullPathSort(false),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_searchEnabled(true),
@@ -298,7 +297,6 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_fileColumnFullPathSort(false),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_searchEnabled(true),
@@ -320,7 +318,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_fileColumnFullPathSort(false),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_searchEnabled(true),
@@ -341,7 +338,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_fileColumnFullPathSort(false),
     m_disableColumnWidthUpdates(true),
     m_widthsDirty(true),
     m_searchEnabled(true),
@@ -964,36 +960,6 @@ void Playlist::applySharedSettings()
     m_applySharedSettings = true;
 }
 
-void Playlist::setFileColumnFullPathSort(bool enable)
-{
-    m_fileColumnFullPathSort = enable;
-    setColumnText(columnOffset() + PlaylistItem::FileNameColumn, enable
-		  ? i18n("File Name (full path)")
-		  : i18n("File Name"));
-}
-
-void Playlist::setSorting(int column, bool ascending)
-{
-    if(column == columnOffset() + PlaylistItem::FileNameColumn) {
-	if(sortColumn() == column && ascending) {
-	    m_fileColumnFullPathSort = !m_fileColumnFullPathSort;
-
-	    // We have to redo the search since the contents of the column changed
-	    m_search.search();
-	    redisplaySearch();
-	}
-
-	setColumnText(column, m_fileColumnFullPathSort
-		      ? i18n("File Name (full path)")
-		      : i18n("File Name"));
-    }
-    else if(sortColumn() == columnOffset() + PlaylistItem::FileNameColumn)
-	setColumnText(sortColumn(), i18n("File Name"));
-
-    KListView::setSorting(column, ascending);
-}
-
-
 void Playlist::read(QDataStream &s)
 {
     QString buffer;
@@ -1153,6 +1119,7 @@ void Playlist::polish()
     addColumn(i18n("Bitrate"));
     addColumn(i18n("Comment"));
     addColumn(i18n("File Name"));
+    addColumn(i18n("File Name (full path)"));
 
     setRenameable(PlaylistItem::TrackColumn, true);
     setRenameable(PlaylistItem::ArtistColumn, true);
@@ -1179,6 +1146,8 @@ void Playlist::polish()
     m_headerMenu->setCheckable(true);
 
     for(int i = 0; i < header()->count(); ++i) {
+	if(i == PlaylistItem::FileNameColumn)
+	    m_headerMenu->insertSeparator();
 	m_headerMenu->insertItem(header()->label(i), i);
 	m_headerMenu->setItemChecked(i, true);
 	adjustColumn(i);
@@ -1857,6 +1826,20 @@ void Playlist::slotColumnOrderChanged(int, int from, int to)
 
 void Playlist::slotToggleColumnVisible(int column)
 {
+    if(!isColumnVisible(column)) {
+	int fileNameColumn = PlaylistItem::FileNameColumn + columnOffset();
+	int fullPathColumn = PlaylistItem::FullPathColumn + columnOffset();
+
+	if(column == fileNameColumn && isColumnVisible(fullPathColumn)) {
+	    hideColumn(fullPathColumn, false);
+	    SharedSettings::instance()->toggleColumnVisible(fullPathColumn);
+	}
+	if(column == fullPathColumn && isColumnVisible(fileNameColumn)) {
+	    hideColumn(fileNameColumn, false);
+	    SharedSettings::instance()->toggleColumnVisible(fileNameColumn);
+	}
+    }
+
     if(isColumnVisible(column))
 	hideColumn(column);
     else
