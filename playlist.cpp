@@ -434,7 +434,7 @@ void Playlist::updateLeftColumn()
     if(m_leftColumn != newLeftColumn) {
 	if(m_playingItem) {
 	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
-	    m_playingItem->setPixmap(newLeftColumn, QPixmap(UserIcon("playing")));
+	    m_playingItem->setPixmap(newLeftColumn, UserIcon("playing"));
 	}
 	m_leftColumn = newLeftColumn;
     }
@@ -702,7 +702,7 @@ void Playlist::hideColumn(int c)
     if(c == m_leftColumn) {
 	if(m_playingItem) {
 	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
-	    m_playingItem->setPixmap(leftMostVisibleColumn(), QPixmap(UserIcon("playing")));
+	    m_playingItem->setPixmap(leftMostVisibleColumn(), UserIcon("playing"));
 	}
 	m_leftColumn = leftMostVisibleColumn();
     }
@@ -726,7 +726,7 @@ void Playlist::showColumn(int c)
     if(c == leftMostVisibleColumn()) {
 	if(m_playingItem) {
 	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
-	    m_playingItem->setPixmap(leftMostVisibleColumn(), QPixmap(UserIcon("playing")));
+	    m_playingItem->setPixmap(leftMostVisibleColumn(), UserIcon("playing"));
 	}
 	m_leftColumn = leftMostVisibleColumn();
     }
@@ -882,7 +882,7 @@ void Playlist::setPlaying(PlaylistItem *item, bool p)
 {
     if(p) {
 	m_playingItem = item;
-	item->setPixmap(m_leftColumn, QPixmap(UserIcon("playing")));
+	item->setPixmap(m_leftColumn, UserIcon("playing"));
     }
     else {
 	m_playingItem = 0;
@@ -1073,7 +1073,7 @@ void Playlist::slotColumnOrderChanged(int, int from, int to)
     if(from == 0 || to == 0) {
 	if(m_playingItem) {
 	    m_playingItem->setPixmap(m_leftColumn, QPixmap(0, 0));
-	    m_playingItem->setPixmap(header()->mapToSection(0), QPixmap(UserIcon("playing")));
+	    m_playingItem->setPixmap(header()->mapToSection(0), UserIcon("playing"));
 	}
 	m_leftColumn = header()->mapToSection(0);
     }

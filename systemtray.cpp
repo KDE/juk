@@ -38,13 +38,13 @@ SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(pare
 								m_popup(0)
 
 {
-    m_appPix = UserIcon("juk_dock");
+    m_appPix = loadIcon("juk_dock");
 
     m_playPix = createPixmap("player_play");
     m_pausePix = createPixmap("player_pause");
 
-    m_backPix = SmallIcon("player_start");
-    m_forwardPix = SmallIcon("player_end");
+    m_backPix = loadIcon("player_start");
+    m_forwardPix = loadIcon("player_end");
 
     setPixmap(m_appPix);
 
@@ -137,11 +137,11 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
 {
-    QPixmap buffer(22, 22);
+    QPixmap buffer(m_appPix.width(), m_appPix.height());
     buffer.fill(this, 0, 0);
 
     QPixmap bgPix = m_appPix;
-    QPixmap fgPix = SmallIcon(pixName);
+    QPixmap fgPix = loadIcon(pixName);
 
     // Make this pretty close to invisible.  I'm certain there's a cleaner way to
     // do this, but I am exceedingly lazy.
