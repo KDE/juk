@@ -21,7 +21,6 @@
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <kaction.h>
-#include <kmainwindow.h>
 #include <kpopupmenu.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -44,6 +43,7 @@
 #include "mediafiles.h"
 #include "collectionlist.h"
 #include "filerenamer.h"
+#include "actioncollection.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
@@ -1238,9 +1238,6 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	// A bit of a hack to get a pointer to the action collection.
 	// Probably more of these actions should be ported over to using KActions.
 
-	KActionCollection *actionCollection =
-	    static_cast<KMainWindow *>(kapp->mainWidget())->actionCollection();
-
 	m_rmbMenu = new KPopupMenu(this);
 
 	m_rmbMenu->insertItem(SmallIconSet("player_play"), i18n("Play Next"), this, SLOT(slotSetNext()));
@@ -1266,9 +1263,10 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	}
 
 	m_rmbMenu->insertSeparator();
-	actionCollection->action("guessTag")->plug(m_rmbMenu);
+	ActionCollection::action("guessTag")->plug(m_rmbMenu);
+
     if(!readOnly())
-	actionCollection->action("renameFile")->plug(m_rmbMenu);
+	ActionCollection::action("renameFile")->plug(m_rmbMenu);
 
 	m_rmbMenu->insertSeparator();
 	m_rmbMenu->insertItem(SmallIcon("new"), i18n("Create Playlist From Selected Items"), this, SLOT(slotCreateGroup()));

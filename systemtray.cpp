@@ -18,7 +18,6 @@
 #include <kpopupmenu.h>
 #include <kpassivepopup.h>
 #include <kaction.h>
-#include <kmainwindow.h>
 #include <kiconeffect.h>
 #include <kdebug.h>
 
@@ -29,7 +28,10 @@
 
 #include "systemtray.h"
 #include "playermanager.h"
+#include "actioncollection.h"
 #include "jukIface.h"
+
+using namespace ActionCollection;
 
 static bool copyImage(QImage &dest, QImage &src, int x, int y);
 
@@ -37,7 +39,7 @@ static bool copyImage(QImage &dest, QImage &src, int x, int y);
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(parent, name),
+SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, name),
                                                                 m_popup(0)
 
 {
@@ -55,29 +57,19 @@ SystemTray::SystemTray(KMainWindow *parent, const char *name) : KSystemTray(pare
 
     KPopupMenu *cm = contextMenu();
 
-    m_actionCollection = parent->actionCollection();
+    connect(action("play"), SIGNAL(activated()), this, SLOT(slotPlay()));
+    connect(action("pause"), SIGNAL(activated()), this, SLOT(slotPause()));
+    connect(action("stop"), SIGNAL(activated()), this, SLOT(slotStop()));
 
-    m_playAction    = m_actionCollection->action("play");
-    m_pauseAction   = m_actionCollection->action("pause");
-    m_stopAction    = m_actionCollection->action("stop");
-    m_backAction    = m_actionCollection->action("back");
-    m_forwardAction = m_actionCollection->action("forward");
-
-    connect(m_playAction, SIGNAL(activated()), this, SLOT(slotPlay()));
-    connect(m_pauseAction, SIGNAL(activated()), this, SLOT(slotPause()));
-    connect(m_stopAction, SIGNAL(activated()), this, SLOT(slotStop()));
-
-    m_togglePopupsAction = static_cast<KToggleAction *>(m_actionCollection->action("togglePopups"));
-
-    m_playAction->plug(cm);
-    m_pauseAction->plug(cm);
-    m_stopAction->plug(cm);
-    m_backAction->plug(cm);
-    m_forwardAction->plug(cm);
+    action("play")->plug(cm);
+    action("pause")->plug(cm);
+    action("stop")->plug(cm);
+    action("back")->plug(cm);
+    action("forward")->plug(cm);
 
     cm->insertSeparator();
 
-    m_togglePopupsAction->plug(cm);
+    action("togglePopups")->plug(cm);
 
     if(PlayerManager::instance()->playing())
 	slotPlay();
@@ -116,7 +108,7 @@ void SystemTray::slotStop()
 void SystemTray::createPopup(const QString &songName, bool addButtons)
 {
     // If the action exists and it's checked, do our stuff
-    if(m_togglePopupsAction && m_togglePopupsAction->isChecked()) {
+    if(action<KToggleAction>("togglePopups")->isChecked()) {
 
         delete m_popup;
         m_popup = new KPassivePopup(this);
@@ -127,7 +119,7 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
         if(addButtons) {
             QPushButton *backButton = new QPushButton(m_backPix, 0, box, "popup_back");
             backButton->setFlat(true);
-            connect(backButton, SIGNAL(clicked()), m_backAction, SLOT(activate()));
+            connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
         }
 
         QLabel *l = new QLabel(songName, box);
@@ -136,7 +128,7 @@ void SystemTray::createPopup(const QString &songName, bool addButtons)
         if(addButtons) {
             QPushButton *forwardButton = new QPushButton (m_forwardPix, 0, box, "popup_forward");
             forwardButton->setFlat(true);
-            connect(forwardButton, SIGNAL(clicked()), m_forwardAction, SLOT(activate()));
+            connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
         }
 
         m_popup->setView(box);
@@ -202,9 +194,9 @@ void SystemTray::wheelEvent(QWheelEvent *e)
         break;
     default:
         if(e->delta() > 0)
-            m_forwardAction->activate();
+            action("forward")->activate();
         else
-            m_backAction->activate();
+            action("back")->activate();
         break;
     }
     e->accept();
@@ -218,18 +210,16 @@ void SystemTray::mousePressEvent(QMouseEvent *e)
     switch(e->button()) {
     case LeftButton:
     case RightButton:
+    default:
         KSystemTray::mousePressEvent(e);
         break;
     case MidButton:
         if(!rect().contains(e->pos()))
             return;
-        if(m_pauseAction->isEnabled())
-            m_pauseAction->activate();
+        if(action("pause")->isEnabled())
+            action("pause")->activate();
         else
-            m_playAction->activate();
-        break;
-    default:
-        // nothing
+            action("play")->activate();
         break;
     }
 }

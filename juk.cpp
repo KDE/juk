@@ -36,6 +36,8 @@
 #include "playermanager.h"
 #include "actioncollection.h"
 
+using namespace ActionCollection;
+
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
@@ -710,27 +712,27 @@ void JuK::slotPlaylistChanged()
        !m_splitter->hasListSelected() ||
        m_splitter->readOnlyListSelected())
     {
-        actionCollection()->action("file_save")->setEnabled(false);
-        actionCollection()->action("file_save_as")->setEnabled(false);
-        actionCollection()->action("renamePlaylist")->setEnabled(false);
-        actionCollection()->action("reloadPlaylist")->setEnabled(false);
-        actionCollection()->action("deleteItemPlaylist")->setEnabled(false);
+        action("file_save")->setEnabled(false);
+        action("file_save_as")->setEnabled(false);
+        action("renamePlaylist")->setEnabled(false);
+        action("reloadPlaylist")->setEnabled(false);
+        action("deleteItemPlaylist")->setEnabled(false);
     }
     else {
-        actionCollection()->action("file_save")->setEnabled(true);
-        actionCollection()->action("file_save_as")->setEnabled(true);
-        actionCollection()->action("renamePlaylist")->setEnabled(true);
-        actionCollection()->action("deleteItemPlaylist")->setEnabled(true);
+        action("file_save")->setEnabled(true);
+        action("file_save_as")->setEnabled(true);
+        action("renamePlaylist")->setEnabled(true);
+        action("deleteItemPlaylist")->setEnabled(true);
 
 	if(m_splitter->fileBasedListSelected() || m_splitter->dynamicListSelected())
-	    actionCollection()->action("reloadPlaylist")->setEnabled(true);
+	    action("reloadPlaylist")->setEnabled(true);
 	else
-	    actionCollection()->action("reloadPlaylist")->setEnabled(false);
+	    action("reloadPlaylist")->setEnabled(false);
     }
     if(m_splitter->hasListSelected())
-        actionCollection()->action("duplicatePlaylist")->setEnabled(true);
+        action("duplicatePlaylist")->setEnabled(true);
     else
-        actionCollection()->action("duplicatePlaylist")->setEnabled(false);
+        action("duplicatePlaylist")->setEnabled(false);
 
     updatePlaylistInfo();
 }

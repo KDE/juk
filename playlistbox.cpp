@@ -21,7 +21,6 @@
 #include <kinputdialog.h>
 #include <kpopupmenu.h>
 #include <kaction.h>
-#include <kmainwindow.h>
 #include <kdebug.h>
 
 #include <qheader.h>
@@ -33,6 +32,9 @@
 #include "playlistsplitter.h"
 #include "viewmode.h"
 #include "searchplaylist.h"
+#include "actioncollection.h"
+
+using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox public methods
@@ -58,29 +60,17 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const QString &name) :
 
     m_contextMenu = new KPopupMenu(this);
 
-    // Find the main window and then get the associated KActionCollection.
-
-    QObject *w = parent;
-
-    while(w && !dynamic_cast<KMainWindow *>(w))
-	w = w->parent();
-
-    if(!w)
-	return;
-
-    KActionCollection *actions = static_cast<KMainWindow *>(w)->actionCollection();
-
-    actions->action("file_new")->plug(m_contextMenu);
-    actions->action("renamePlaylist")->plug(m_contextMenu);
-    actions->action("duplicatePlaylist")->plug(m_contextMenu);
-    actions->action("reloadPlaylist")->plug(m_contextMenu);
-    actions->action("deleteItemPlaylist")->plug(m_contextMenu);
-    actions->action("file_save")->plug(m_contextMenu);
-    actions->action("file_save_as")->plug(m_contextMenu);
+    action("file_new")->plug(m_contextMenu);
+    action("renamePlaylist")->plug(m_contextMenu);
+    action("duplicatePlaylist")->plug(m_contextMenu);
+    action("reloadPlaylist")->plug(m_contextMenu);
+    action("deleteItemPlaylist")->plug(m_contextMenu);
+    action("file_save")->plug(m_contextMenu);
+    action("file_save_as")->plug(m_contextMenu);
 
     // add the view modes stuff
 
-    m_viewModeAction = new KSelectAction(actions, "viewModeMenu");
+    m_viewModeAction = new KSelectAction(actions(), "viewModeMenu");
     m_viewModeAction->setText(i18n("View Modes"));
 
     m_viewModes.append(new ViewMode(this));

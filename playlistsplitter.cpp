@@ -19,8 +19,7 @@
 #include <kmessagebox.h>
 #include <kinputdialog.h>
 #include <kcmdlineargs.h>
-#include <kmainwindow.h>
-#include <kactioncollection.h>
+#include <kaction.h>
 #include <kdebug.h>
 
 #include <qpopupmenu.h>
@@ -35,6 +34,9 @@
 #include "historyplaylist.h"
 #include "mediafiles.h"
 #include "advancedsearchdialog.h"
+#include "actioncollection.h"
+
+using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
 // helper functions
@@ -173,11 +175,8 @@ QString PlaylistSplitter::nextFile()
     }
     else if(m_playingItem) {
 
-	KMainWindow *w = dynamic_cast<KMainWindow *>(kapp->mainWidget());
-	KAction *randomAction = w ? w->actionCollection()->action("randomPlay") : 0;
-	KAction *loopAction = w ? w->actionCollection()->action("loopPlaylist") : 0;
-	bool random = w && randomAction && static_cast<KToggleAction *>(randomAction)->isChecked();
-	bool loop = w && loopAction && static_cast<KToggleAction *>(loopAction)->isChecked();
+	bool random = action("randomPlay") && action<KToggleAction>("randomePlay")->isChecked();
+	bool loop = action("loopPlaylist") && action<KToggleAction>("loopPlaylist")->isChecked();
 
         i = m_playingItem->playlist()->nextItem(m_playingItem, random);
 

@@ -22,16 +22,13 @@
 
 class QTimer;
 class KPassivePopup;
-class KMainWindow;
-class KAction;
-class KToggleAction;
 
 class SystemTray : public KSystemTray
 {
     Q_OBJECT
 
 public:
-    SystemTray(KMainWindow *parent = 0, const char *name = 0);
+    SystemTray(QWidget *parent = 0, const char *name = 0);
     virtual ~SystemTray();
 
 public slots:
@@ -60,14 +57,6 @@ private:
 
     KPassivePopup *m_popup;
     QLabel *m_currentLabel;
-
-    KActionCollection *m_actionCollection;
-    KAction *m_playAction;
-    KAction *m_pauseAction;
-    KAction *m_stopAction;
-    KAction *m_backAction;
-    KAction *m_forwardAction;
-    KToggleAction *m_togglePopupsAction;
 };
 
 #endif // SYSTEMTRAY_H
