@@ -97,8 +97,8 @@ void PlaylistSplitter::setupLayout()
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));
-    connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist*)),
-            m_editor, SLOT(slotPlaylistDestroyed(Playlist*)));
+    connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist *)),
+            m_editor, SLOT(slotPlaylistDestroyed(Playlist *)));
 
     moveToFirst(m_playlistBox);
 
@@ -157,7 +157,7 @@ void PlaylistSplitter::slotShowSearchResults()
 
 void PlaylistSplitter::slotPlaylistSelectionChanged()
 {
-    m_editor->slotSetItems(static_cast<PlaylistCollection *>(m_playlistBox)->selectedItems());
+    m_editor->slotSetItems(visiblePlaylist()->selectedItems());
 }
 
 void PlaylistSplitter::slotPlaylistChanged(QWidget *w)

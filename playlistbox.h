@@ -92,7 +92,7 @@ private:
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void keyReleaseEvent(QKeyEvent *e);
 
-    QValueList<Item *> selectedItems();
+    QValueList<Item *> selectedItems() const;
     void setSingleItem(QListViewItem *item);
 
     void setupItem(Item *item);
