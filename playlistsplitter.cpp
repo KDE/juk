@@ -668,9 +668,6 @@ void PlaylistSplitter::redisplaySearch()
 	Playlist::setItemsVisible(visiblePlaylist()->search().matchedItems(), true);
 	Playlist::setItemsVisible(visiblePlaylist()->search().unmatchedItems(), false);
     }
-
-    // kdDebug(65432) << k_funcinfo << "files().count() == "
-    //  << visiblePlaylist()->files().count() << endl;
 }
 
 void PlaylistSplitter::readPlaylists()

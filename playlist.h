@@ -100,7 +100,7 @@ public:
     /**
      * All of the (media) files in the list.
      */
-    QStringList files() const;
+    QStringList files();
 
     /**
      * Returns a list of all of the \e visible items in the playlist.
@@ -607,7 +607,7 @@ private:
     static PlaylistItem *m_playingItem;
 };
 
-QDataStream &operator<<(QDataStream &s, const Playlist &p);
+QDataStream &operator<<(QDataStream &s, Playlist &p);
 QDataStream &operator>>(QDataStream &s, Playlist &p);
 
 // template method implementations

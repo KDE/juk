@@ -315,12 +315,12 @@ void Playlist::clearItems(const PlaylistItemList &items)
     emit signalCountChanged(this);
 }
 
-QStringList Playlist::files() const
+QStringList Playlist::files()
 {
     QStringList list;
-    PlaylistItem *i = static_cast<PlaylistItem *>(firstChild());
-    for(; i; i = static_cast<PlaylistItem *>(i->itemBelow()))
-	list.append(i->absFilePath());
+
+    for(QListViewItemIterator it(this); it.current(); ++it)
+	list.append(static_cast<PlaylistItem *>(*it)->absFilePath());
 
     return list;
 }
@@ -1408,7 +1408,7 @@ void Playlist::slotInlineCompletionModeChanged(KGlobalSettings::Completion mode)
 // helper functions
 ////////////////////////////////////////////////////////////////////////////////
 
-QDataStream &operator<<(QDataStream &s, const Playlist &p)
+QDataStream &operator<<(QDataStream &s, Playlist &p)
 {
     s << p.name();
     s << p.fileName();
