@@ -56,8 +56,6 @@ public:
     void setDisabled(bool disabled) { m_disabled = disabled; }
     void setCategory(TagType category) { m_category = category; }
 
-    TagRenamerOptions &operator=(const TagRenamerOptions &other);
-
     /**
      * Maps \p type to a textual representation of its name.  E.g. Track => "Track"
      *

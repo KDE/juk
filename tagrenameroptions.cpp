@@ -137,20 +137,4 @@ void TagRenamerOptions::saveConfig() const
     config.sync();
 }
 
-TagRenamerOptions &TagRenamerOptions::operator=(const TagRenamerOptions &other)
-{
-    if(this == &other)
-        return *this;
-
-    setPrefix(other.prefix());
-    setSuffix(other.suffix());
-    setEmptyText(other.emptyText());
-    setEmptyAction(other.emptyAction());
-    setTrackWidth(other.trackWidth());
-    setDisabled(other.disabled());
-    setCategory(other.category());
-
-    return *this;
-}
-
 // vim: set et ts=4 sw=4:
