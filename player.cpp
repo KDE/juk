@@ -42,7 +42,7 @@ Player *Player::createPlayer(int system)
 	break;
     }
 #else
-    Q_UNUSED(s);
+    Q_UNUSED(system);
     p = new ArtsPlayer();
 #endif
 
