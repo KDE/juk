@@ -47,7 +47,46 @@
 #include "tag.h"
 #include "genrelistlist.h"
 
+////////////////////////////////////////////////////////////////////////////////
+// Playlist::SharedSettings definition
+////////////////////////////////////////////////////////////////////////////////
+
+/**
+ * Shared settings between the playlists.
+ */
+
+class Playlist::SharedSettings
+{
+public:
+    static SharedSettings *instance();
+    /**
+     * Sets the default column order to that of Playlist @param p.
+     */
+    void setColumnOrder(const Playlist *l);
+    void toggleColumnVisible(int column);
+
+    /**
+     * Apply the settings.
+     */ 
+    void apply(Playlist *l) const;
+
+protected:
+    SharedSettings();
+    ~SharedSettings() {}
+
+private:
+    void writeConfig();
+
+    static SharedSettings *m_instance;
+    QValueList<int> m_columnOrder;
+    QValueVector<bool> m_columnsVisible;
+};
+
 Playlist::SharedSettings *Playlist::SharedSettings::m_instance = 0;
+
+////////////////////////////////////////////////////////////////////////////////
+// Playlist::SharedSettings public members
+////////////////////////////////////////////////////////////////////////////////
 
 Playlist::SharedSettings *Playlist::SharedSettings::instance()
 {
@@ -66,31 +105,82 @@ void Playlist::SharedSettings::setColumnOrder(const Playlist *l)
     for(int i = 0; i < l->columns(); ++i)
 	m_columnOrder.append(l->header()->mapToIndex(i));
 
-    KConfig *config = kapp->config();
-    {
-	KConfigGroupSaver(config, "PlaylistShared");
-	config->writeEntry("ColumnOrder", m_columnOrder);
-	config->sync();
-    }
+    writeConfig();
 }
 
-void Playlist::SharedSettings::restoreColumnOrder(const Playlist *l)
+void Playlist::SharedSettings::toggleColumnVisible(int column)
+{
+    if(column >= int(m_columnsVisible.size()))
+	m_columnsVisible.resize(column + 1, true);
+
+    m_columnsVisible[column] = !m_columnsVisible[column];
+
+    writeConfig();
+}
+
+void Playlist::SharedSettings::apply(Playlist *l) const
 {
     if(!l)
 	return;
 
     int i = 0;
-    for(QValueListIterator<int> it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
+    for(QValueListConstIterator<int> it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
 	l->header()->moveSection(i++, *it);
+
+    for(uint i = 0; i < m_columnsVisible.size(); i++) {
+	if(m_columnsVisible[i] && ! l->isColumnVisible(i))
+	    l->showColumn(i);
+	else if(! m_columnsVisible[i] && l->isColumnVisible(i))
+	    l->hideColumn(i);
+    }
 }
+
+////////////////////////////////////////////////////////////////////////////////
+// Playlist::ShareSettings protected members
+////////////////////////////////////////////////////////////////////////////////
 
 Playlist::SharedSettings::SharedSettings()
 {
     KConfig *config = kapp->config();
     {
 	KConfigGroupSaver(config, "PlaylistShared");
+
+	// save column order
 	m_columnOrder = config->readIntListEntry("ColumnOrder");
+
+	QValueList<int> l = config->readIntListEntry("VisibleColumns");
+	m_columnsVisible.resize(l.size(), true);
+
+	// save visible columns
+	uint i = 0;
+	for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
+	    if(! bool(*it))
+		m_columnsVisible[i] = bool(*it);
+	    i++;
+	}
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Playlist::SharedSettings private members
+////////////////////////////////////////////////////////////////////////////////
+
+void Playlist::SharedSettings::writeConfig()
+{
+    KConfig *config = kapp->config();
+
+    {
+	KConfigGroupSaver(config, "PlaylistShared");
+	config->writeEntry("ColumnOrder", m_columnOrder);
+
+	QValueList<int> l;
+	for(uint i = 0; i < m_columnsVisible.size(); i++)
+	    l.append(int(m_columnsVisible[i]));
+	
+	config->writeEntry("VisibleColumns", l);
+    }
+
+    config->sync();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -439,7 +529,7 @@ void Playlist::contentsDragMoveEvent(QDragMoveEvent *e)
 
 void Playlist::showEvent(QShowEvent *e)
 {
-    SharedSettings::instance()->restoreColumnOrder(this);
+    SharedSettings::instance()->apply(this);
     KListView::showEvent(e);
 }
 
@@ -572,7 +662,7 @@ void Playlist::setup()
 	m_headerMenu->setItemChecked(i, true);
     }
 
-    connect(m_headerMenu, SIGNAL(activated(int)), this, SIGNAL(signalToggleColumnVisible(int)));
+    connect(m_headerMenu, SIGNAL(activated(int)), this, SLOT(slotToggleColumnVisible(int)));
 
     //////////////////////////////////////////////////
     // setup playlist RMB menu
@@ -755,6 +845,16 @@ void Playlist::slotColumnOrderChanged(int, int from, int to)
     }
 
     SharedSettings::instance()->setColumnOrder(this);
+}
+
+void Playlist::slotToggleColumnVisible(int column)
+{
+    if(isColumnVisible(column))
+	hideColumn(column);
+    else
+	showColumn(column);
+
+    SharedSettings::instance()->toggleColumnVisible(column);
 }
 
 int Playlist::leftMostVisibleColumn() const

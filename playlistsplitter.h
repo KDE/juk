@@ -221,8 +221,6 @@ public slots:
     void slotDuplicatePlaylist() { m_playlistBox->duplicate(); }
     void slotDeletePlaylist() { m_playlistBox->deleteItem(); }
 
-    void slotToggleColumnVisible(int column);
-
 signals:
     void signalDoubleClicked();
     void signalListBoxDoubleClicked();
@@ -304,7 +302,6 @@ private:
     QStringList m_directoryQueue;
     QStringList m_directoryQueueRemove;
 
-    QValueVector<bool> m_visibleColumns;
     QStringList m_columnNames;
 
     bool m_restore;

@@ -335,13 +335,6 @@ void PlaylistSplitter::slotAddToPlaylist(const QStringList &files, Playlist *lis
 	m_editor->slotUpdateCollection();
 }
 
-void PlaylistSplitter::slotToggleColumnVisible(int column)
-{
-    m_visibleColumns[column] = ! m_visibleColumns[column];
-    if(visiblePlaylist())
-	setupColumns(visiblePlaylist());
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
@@ -433,27 +426,10 @@ void PlaylistSplitter::readConfig()
 
 	// restore the list of hidden and shown columns
 
-	if(m_collection) {
-	    // the last column is just a filler
-	    m_visibleColumns.resize(m_collection->columns() - 1, true);
-	    QValueList<int> l = config->readIntListEntry("VisibleColumns");
-	    m_collection->setSorting(config->readNumEntry("SortColumn", 1));
-
-	    uint i = 0;
-	    for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
-		if(! bool(*it)) {
-		    m_visibleColumns[i] = bool(*it);
-		    m_collection->hideColumn(i);
-		}
-
-		// while we're looping go ahead and populate m_columnNames
-		
+	if(m_collection)
+	    for(int i = 0; i < m_collection->columns(); i++)
 		m_columnNames.append(m_collection->columnText(i));
 
-		i++;
-	    }
-	    setupColumns(m_collection);
-	}
     }
 }
 
@@ -484,14 +460,7 @@ void PlaylistSplitter::saveConfig()
 	{ // block for Playlists group
 	    KConfigGroupSaver saver(config, "Playlists");
 	    config->writeEntry("DirectoryList", m_directoryList);
-
-	    QValueList<int> l;
-	    for(uint i = 0; i < m_visibleColumns.size(); i++)
-		l.append(int(m_visibleColumns[i]));
-	    
-	    config->writeEntry("VisibleColumns", l);
 	    config->writeEntry("SortColumn", m_collection->sortColumn());
-
 	    config->writeEntry("PlaylistSplitterSizes", sizes());
 	}
     }
@@ -528,14 +497,10 @@ void PlaylistSplitter::setupPlaylist(Playlist *p, bool raise, const char *icon)
     connect(p, SIGNAL(signalFilesDropped(const QStringList &, Playlist *)), this, SLOT(slotAddToPlaylist(const QStringList &, Playlist *)));
     connect(p, SIGNAL(signalSetNext(PlaylistItem *)), this, SLOT(slotSetNextItem(PlaylistItem *)));
 
-    connect(p, SIGNAL(signalToggleColumnVisible(int)), this, SLOT(slotToggleColumnVisible(int)));
-
     m_playlistBox->createItem(p, icon, raise);
 
-    if(raise) {
+    if(raise)
 	m_playlistStack->raiseWidget(p);
-	setupColumns(p);
-    }
 }
 
 Playlist *PlaylistSplitter::openPlaylist(const QString &file)
@@ -547,19 +512,6 @@ Playlist *PlaylistSplitter::openPlaylist(const QString &file)
     Playlist *p = new Playlist(file, m_playlistStack, fileInfo.baseName(true).latin1());
     setupPlaylist(p);
     return p;
-}
-
-void PlaylistSplitter::setupColumns(Playlist *p)
-{
-    if(!p)
-	return;
-    
-    for(uint i = 0; i < m_visibleColumns.size(); i++) {
-	if(m_visibleColumns[i] && ! p->isColumnVisible(i))
-	    p->showColumn(i);
-	else if(! m_visibleColumns[i] && p->isColumnVisible(i))
-	    p->hideColumn(i);
-    }
 }
 
 QString PlaylistSplitter::play(PlaylistItem *item)
@@ -590,7 +542,6 @@ void PlaylistSplitter::slotChangePlaylist(Playlist *p)
     m_nextPlaylistItem = 0; 
     m_playlistStack->raiseWidget(p);
     m_editor->slotSetItems(playlistSelection());
-    setupColumns(p);
     emit signalPlaylistChanged();
 }
 

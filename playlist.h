@@ -21,6 +21,7 @@
 #include <klistview.h>
 
 #include <qstringlist.h>
+#include <qvaluevector.h>
 #include <qptrstack.h>
 
 #include "playlistitem.h"
@@ -141,12 +142,6 @@ public slots:
 
 protected:
     /**
-     * This class is used internally to store settings that are shared by all
-     * of the playlists, such as column order.  It is implemented as a singleton.
-     */
-    class SharedSettings;
-
-    /**
      * Remove \a items from the playlist and disk.  This will ignore items that
      * are not actually in the list.
      */
@@ -191,7 +186,6 @@ signals:
      * list.
      */
     void signalAboutToRemove(PlaylistItem *item);
-    void signalToggleColumnVisible(int column);
     void signalFilesDropped(const QStringList &files, Playlist *);
     void signalSetNext(PlaylistItem *item);    
 
@@ -200,6 +194,12 @@ private:
     void applyTag(QListViewItem *item, const QString &text, int column);
     int leftMostVisibleColumn() const;
 
+    /**
+     * This class is used internally to store settings that are shared by all
+     * of the playlists, such as column order.  It is implemented as a singleton.
+     */
+    class SharedSettings;
+
 private slots:
     void slotEmitSelected() { emit signalSelectionChanged(selectedItems()); }
     void slotEmitDoubleClicked(QListViewItem *) { emit signalDoubleClicked(); }
@@ -207,6 +207,7 @@ private slots:
     void slotApplyModification(QListViewItem *item, const QString &text, int column);
     void slotRenameTag();
     void slotColumnOrderChanged(int, int from, int to);
+    void slotToggleColumnVisible(int column);
 
 private:
     int m_currentColumn;
@@ -232,28 +233,6 @@ private:
 
     PlaylistItem *m_playingItem;
     int m_leftColumn;
-};
-
-class Playlist::SharedSettings
-{
-public:
-    static SharedSettings *instance();
-    /**
-     * Sets the default column order to that of Playlist @param p.
-     */
-    void setColumnOrder(const Playlist *p);
-    /**
-     * Sets the columns of @param p to match the stored settings.
-     */
-    void restoreColumnOrder(const Playlist *p);
-
-protected:
-    SharedSettings();
-    ~SharedSettings() {}
-
-private:
-    static SharedSettings *m_instance;
-    QValueList<int> m_columnOrder;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);
