@@ -424,7 +424,7 @@ void JuK::setupActions()
 
     setStandardToolBarMenuEnabled(true);
 
-    m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startp"),
+    m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startup"),
 					     0, actionCollection(), "showSplashScreen");
 
     m_toggleSystemTrayAction = new KToggleAction(i18n("&Dock in System Tray"),
