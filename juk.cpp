@@ -656,6 +656,16 @@ void JuK::slotTrackPositionSliderUpdate(int position)
 
     if(m_player->playing() && !m_trackPositionDragging && !m_noSeek)
         m_player->seekPosition(position);
+
+    // The dragging flag is set, so just update the status label, rather than seeking
+    if(m_player->playing() && m_trackPositionDragging && !m_noSeek) {
+	// position from 0 to 1
+	float positionFraction = float(position) / m_sliderAction->getTrackPositionSlider()->maxValue();
+	float totalTime = float(m_player->totalTime());
+	long seekTime = long(positionFraction * totalTime + 0.5); // "+0.5" for rounding
+
+	m_statusLabel->setItemCurrentTime(seekTime);
+    }
 }
 
 void JuK::playPause()
