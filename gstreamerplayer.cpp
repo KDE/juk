@@ -1,6 +1,4 @@
 /***************************************************************************
-                          gstreamerplayer.cpp  -  description
-                             -------------------
     begin                : Sat Feb 9 2003
     copyright            : (C) 2003 by Tim Jansen
     email                : tim@tjansen.de

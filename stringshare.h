@@ -1,6 +1,4 @@
 /***************************************************************************
-                          stringshare.h - string memory usage optimization
-                             -------------------
     begin                : Sat Oct 25 2003
     copyright            : (C) 2003 by Maksim Orlovich
     email                : maksim.orlovich@kdemail.net

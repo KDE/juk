@@ -1,6 +1,4 @@
 /***************************************************************************
-                         k3bexporter.h  -  description
-                             -------------------
     begin                : Mon May 31 2004
     copyright            : (C) 2004 by Michael Pyne
     email                : pynm0001@comcast.net

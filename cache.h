@@ -1,8 +1,6 @@
 /***************************************************************************
-                          cache.h  -  description
-                             -------------------
     begin                : Sat Sep 7 2002
-    copyright            : (C) 2002 by Scott Wheeler
+    copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 

@@ -1,8 +1,6 @@
 /***************************************************************************
-                          playlistbox.cpp  -  description
-                             -------------------
     begin                : Thu Sep 12 2002
-    copyright            : (C) 2002, 2003 by Scott Wheeler,
+    copyright            : (C) 2002 - 2004 by Scott Wheeler,
     email                : wheeler@kde.org
  ***************************************************************************/
 
@@ -18,14 +16,12 @@
 #include <kiconloader.h>
 #include <kurldrag.h>
 #include <kmessagebox.h>
-#include <kinputdialog.h>
 #include <kpopupmenu.h>
 #include <kaction.h>
 #include <kdebug.h>
 
 #include <qheader.h>
 #include <qpainter.h>
-#include <qregexp.h>
 #include <qwidgetstack.h>
 
 #include "playlistbox.h"

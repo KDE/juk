@@ -1,6 +1,4 @@
 /***************************************************************************
-                          actioncollection.h
-                             -------------------
     begin                : Fri Feb 27 2004
     copyright            : (C) 2004 by Scott Wheeler
     email                : wheeler@kde.org

@@ -1,8 +1,6 @@
 /***************************************************************************
-                          directorylist.cpp  -  description
-                             -------------------
     begin                : Tue Feb 4 2003
-    copyright            : (C) 2003 by Scott Wheeler
+    copyright            : (C) 2003 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 

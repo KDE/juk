@@ -1,9 +1,10 @@
 /***************************************************************************
-                          artsplayer.h  -  description
-                             -------------------
     begin                : Sun Feb 17 2002
-    copyright            : (C) 2002 by Scott Wheeler <wheeler@kde.org>
-                           (C) 2003 by Matthias Kretz <kretz@kde.org>
+    copyright            : (C) 2002 - 2004 by Scott Wheeler
+    email                : wheeler@kde.org
+
+    copyright            : (C) 2003 by Matthias Kretz
+    email                : kretz@kde.org
 ***************************************************************************/
 
 /***************************************************************************

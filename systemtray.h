@@ -1,9 +1,9 @@
 /***************************************************************************
-                          systray.cpp  -  description
-                             -------------------
-
-    copyright            : (C) 2002 by Daniel Molkentin,
+    copyright            : (C) 2002 by Daniel Molkentin
     email                : molkentin@kde.org
+
+    copyright            : (C) 2002 - 2004 by Scott Wheeler
+    email                : wheeler@kde.org
  ***************************************************************************/
 
 /***************************************************************************

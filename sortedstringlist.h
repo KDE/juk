@@ -1,8 +1,6 @@
 /***************************************************************************
-                          sortedstringlist.h  -  description
-                             -------------------
     begin                : Wed Jan 29 2003
-    copyright            : (C) 2003 by Scott Wheeler
+    copyright            : (C) 2003 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
  ***************************************************************************/
 

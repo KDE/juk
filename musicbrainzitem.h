@@ -1,6 +1,4 @@
 /***************************************************************************
-                          musicbrainzitem.h
-                             -------------------
     begin                : Thur Sep 04 2003
     copyright            : (C) 2003 by Adam Treat
     email                : manyoso@yahoo.com

@@ -1,6 +1,4 @@
 /***************************************************************************
-                          key-dialog.cpp  -  description
-                             -------------------
     begin                : Tue Mar 11 19:00:00 CET 2003
     copyright            : (C) 2003 by Stefan Asserhall
     email                : stefan.asserhall@telia.com
