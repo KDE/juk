@@ -31,17 +31,6 @@ PlaylistSearch::PlaylistSearch() :
 
 }
 
-PlaylistSearch::PlaylistSearch(const PlaylistSearch &search) :
-    m_playlists(search.m_playlists),
-    m_components(search.m_components),
-    m_mode(search.m_mode),
-    m_items(search.m_items),
-    m_matchedItems(search.m_matchedItems),
-    m_unmatchedItems(search.m_unmatchedItems)
-{
-
-}
-
 PlaylistSearch::PlaylistSearch(const PlaylistList &playlists,
 			       const ComponentList &components,
 			       SearchMode mode,
@@ -126,17 +115,6 @@ void PlaylistSearch::search()
 PlaylistSearch::Component::Component() :
     m_searchAllVisible(true),
     m_caseSensitive(false)
-{
-
-}
-
-PlaylistSearch::Component::Component(const Component &component) :
-    m_query(component.m_query),
-    m_queryRe(component.m_queryRe),
-    m_columns(component.m_columns),
-    m_searchAllVisible(component.m_searchAllVisible),
-    m_caseSensitive(component.m_caseSensitive),
-    m_re(component.m_re)
 {
 
 }

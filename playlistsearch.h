@@ -36,7 +36,6 @@ public:
     enum SearchMode { MatchAny = 0, MatchAll = 1 };
 
     PlaylistSearch();
-    PlaylistSearch(const PlaylistSearch &search);
     PlaylistSearch(const PlaylistList &playlists,
 		   const ComponentList &components,
 		   SearchMode mode = MatchAny,
@@ -79,11 +78,6 @@ public:
      * QValueList and should not be used in any other context.
      */
     Component();
-
-    /**
-     * Copy constructor.
-     */
-    Component(const Component &component);
 
     /**
      * Create a query component.  This defaults to searching all visible coulumns.
