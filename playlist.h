@@ -190,13 +190,14 @@ signals:
 
 private:
     void setup();
+    void applyTag(QListViewItem *item, const QString &text, int column);
     QPtrStack<PlaylistItem> m_history;
 
 private slots:
     void slotEmitSelected() { emit signalSelectionChanged(selectedItems()); }
     void slotEmitDoubleClicked(QListViewItem *) { emit signalDoubleClicked(); }
     void slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column);
-    void slotApplyTags(QListViewItem *item, const QString &text, int column);
+    void slotApplyModification(QListViewItem *item, const QString &text, int column);
     void slotRenameTag();
 
 private:
@@ -220,6 +221,7 @@ private:
 
     int m_rmbPasteID;
     int m_rmbEditID;
+    int m_rmbEditMultipleID;
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);

@@ -535,7 +535,7 @@ void Playlist::setup()
     m_rmbMenu->insertSeparator();
 
     m_rmbEditID = m_rmbMenu->insertItem(SmallIcon("edittool"), i18n("Edit"), this, SLOT(slotRenameTag()));
-
+    
     connect(this, SIGNAL(selectionChanged()), 
 	    this, SLOT(slotEmitSelected()));
     connect(this, SIGNAL(doubleClicked(QListViewItem *)), 
@@ -543,7 +543,7 @@ void Playlist::setup()
     connect(this, SIGNAL(contextMenuRequested( QListViewItem *, const QPoint&, int)),
 	    this, SLOT(slotShowRMBMenu(QListViewItem *, const QPoint &, int)));
     connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
-	    this, SLOT(slotApplyTags(QListViewItem *, const QString &, int)));
+	    this, SLOT(slotApplyModification(QListViewItem *, const QString &, int)));
 
     //////////////////////////////////////////////////
     
@@ -582,7 +582,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 void Playlist::slotRenameTag()
 {
     // setup completions and validators
-    
+
     CollectionList *list = CollectionList::instance();
 
     KLineEdit *edit = renameLineEdit();
@@ -609,9 +609,9 @@ void Playlist::slotRenameTag()
     rename(currentItem(), m_currentColumn);
 }
 
-void Playlist::slotApplyTags(QListViewItem *item, const QString &text, int column)
+void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
 {
-    // kdDebug() << "Applying " << text << " at column " << column << ", replacing \"" << item->text(column) << "\"" << endl;
+    //kdDebug() << "Applying " << text << " at column " << column << ", replacing \"" << item->text(column) << "\"" << endl;
 
     PlaylistItem *i = static_cast<PlaylistItem *>(item);
 
@@ -649,6 +649,23 @@ void Playlist::slotApplyTags(QListViewItem *item, const QString &text, int colum
 
     i->tag()->save();
     i->slotRefresh();
+}
+
+void Playlist::slotApplyModification(QListViewItem *item, const QString &text, int column)
+{
+    QPtrList<QListViewItem> selectedSongs = KListView::selectedItems();
+    if (selectedSongs.count() > 1)
+    {
+        if (KMessageBox::warningYesNo(0, i18n("This will rename multiple files! Are you sure?"), QString::null,
+					                  KStdGuiItem::yes(), KStdGuiItem::no(), "WarnMultipleTags") == KMessageBox::No)
+			return;
+		
+        QPtrListIterator<QListViewItem> it(selectedSongs);
+        for(; it.current(); ++it)
+           applyTag((*it), text, column);
+	}
+	else
+		applyTag(item, text, column);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
