@@ -44,7 +44,7 @@ SplashScreen *SplashScreen::instance()
 void SplashScreen::finishedLoading()
 {
     done = true;
-    delete(splash);
+    delete splash;
     splash = 0;
 }
 

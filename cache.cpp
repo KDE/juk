@@ -66,7 +66,7 @@ Cache::Cache() : QDict<Tag>()
 
 Cache::~Cache()
 {
-    delete(cache);
+    delete cache;
 }
 
 void Cache::load()
@@ -92,7 +92,7 @@ void Cache::load()
 	// the cache is current.
 
 	if(!t->current())
-	    delete(t);
+	    delete t;
     }
 
     f.close();

@@ -249,18 +249,18 @@ PlaylistItem::Data *PlaylistItem::Data::newUser()
 
 void PlaylistItem::Data::refresh()
 {
-    delete(dataTag);
+    delete dataTag;
     dataTag = Tag::createTag(filePath());
     absFileName = absFilePath();
 }
 
 void PlaylistItem::Data::deleteUser()
 {
-    // The delete(this) is safe because we control object creation through a
+    // The delete this is safe because we control object creation through a
     // protected constructor and the newUser() methods.
 
     if(--referenceCount == 0)
-        delete(this);
+        delete this;
 }
 
 Tag *PlaylistItem::Data::tag() const
@@ -286,7 +286,7 @@ PlaylistItem::Data::Data(const QFileInfo &file, const QString &path) : QFileInfo
 
 PlaylistItem::Data::~Data()
 {
-    delete(dataTag);
+    delete dataTag;
 }
 
 #include "playlistitem.moc"

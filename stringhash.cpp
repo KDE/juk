@@ -123,6 +123,6 @@ void StringHash::deleteNode(Node *n)
 {
     if(n) {
 	deleteNode(n->next);
-	delete(n);
+	delete n;
     }
 }

@@ -298,10 +298,10 @@ void JuK::saveConfig()
 bool JuK::queryClose()
 {
     stop();
-    delete(player);
+    delete player;
     Cache::instance()->save();
     saveConfig();
-    delete(splitter);
+    delete splitter;
     return true;
 }
 
@@ -422,7 +422,7 @@ void JuK::toggleSystemTray(bool enabled)
     if(enabled && !systemTray)
 	setupSystemTray();
     else if(!enabled && systemTray) {
-	delete(systemTray);
+	delete systemTray;
 	systemTray = 0;
     }
 }
@@ -430,7 +430,7 @@ void JuK::toggleSystemTray(bool enabled)
 void JuK::setOutput(int output)
 {
     stop();
-    delete(player);
+    delete player;
     player = Player::createPlayer(output);
 }
 

@@ -44,10 +44,10 @@ ArtsPlayer::ArtsPlayer() : Player()
 
 ArtsPlayer::~ArtsPlayer()
 {
-    delete(volumeControl);
-    delete(media);
-    delete(server);
-    delete(dispatcher);
+    delete volumeControl;
+    delete media;
+    delete server;
+    delete dispatcher;
 }
 
 void ArtsPlayer::play(const QString &fileName, float volume)
@@ -74,7 +74,7 @@ void ArtsPlayer::play(float volume)
             }
             else {
                 kdDebug() << "Media did not initialize properly! (" << currentFile << ")" << endl;
-                delete(media);
+                delete media;
                 media = 0;
             }
         }
@@ -92,11 +92,11 @@ void ArtsPlayer::stop()
     if(serverRunning()) {
         if(media) {
             media->halt();
-            delete(media);
+            delete media;
             media = 0;
         }
         if(volumeControl) {
-            delete(volumeControl);
+            delete volumeControl;
             volumeControl = 0;
         }
     }
@@ -222,7 +222,7 @@ void ArtsPlayer::setupVolumeControl()
         Arts::connect(*volumeControl, "outright", uplink, "right");
     }
     else {
-        delete(volumeControl);
+        delete volumeControl;
         volumeControl = 0;
         kdDebug() << "Could not initialize volume control!" << endl;
     }

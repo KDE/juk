@@ -29,7 +29,7 @@ CachedTag::CachedTag(const QString &file) : Tag(file), externalTag(0), tagTrackN
 
 CachedTag::~CachedTag()
 {
-    delete(externalTag);
+    delete externalTag;
 }
 
 void CachedTag::save()

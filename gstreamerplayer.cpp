@@ -46,7 +46,7 @@ GStreamerPlayer::GStreamerPlayer() : QObject(0), Player()
 
 GStreamerPlayer::~GStreamerPlayer()
 {
-    delete(player);
+    delete player;
 }
 
 void GStreamerPlayer::play(const QString &fileName, float volume)

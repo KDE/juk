@@ -188,7 +188,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
     while(it.current()) {
 	emit(aboutToRemove(it.current()));
 //      members.remove(it.current()->absFilePath()); // TODO: fix this for the new sorted class
-        delete(it.current());
+        delete it.current();
         ++it;
     }
     emit(numberOfItemsChanged(this));
@@ -241,7 +241,7 @@ void Playlist::remove(const PlaylistItemList &items)
 	    for(QPtrListIterator<PlaylistItem> it(items); it.current(); ++it) {
 		if(QFile::remove(it.current()->filePath())) {
 		    emit(aboutToRemove(it.current()));
-		    delete(it.current());
+		    delete it.current();
 		}
 		else
 		    KMessageBox::sorry(this, i18n("Could not save delete ") + it.current()->fileName() + ".");

@@ -63,7 +63,7 @@ void DirectoryList::removeDirectory()
     QString dir = directoryListView->selectedItem()->text(0); 
     dirList.remove(dir);
     emit(directoryRemoved(dir));
-    delete(directoryListView->selectedItem());
+    delete directoryListView->selectedItem();
 }
 
 #include "directorylist.moc"

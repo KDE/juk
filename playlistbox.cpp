@@ -60,7 +60,7 @@ PlaylistBox::PlaylistBox(PlaylistSplitter *parent, const char *name) : KListBox(
 
 PlaylistBox::~PlaylistBox()
 {
-    delete(playlistContextMenu);
+    delete playlistContextMenu;
 }
 
 void PlaylistBox::sort()
@@ -190,8 +190,8 @@ void PlaylistBox::deleteItem(PlaylistBoxItem *item)
 	}
 
 	nameList.remove(item->text());
-	delete(item->playlist());
-	delete(item);
+	delete item->playlist();
+	delete item;
     }
 }
 
