@@ -35,7 +35,7 @@
 
 #define widget (kapp->mainWidget())
 
-using ActionCollection::actions;
+using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -73,6 +73,11 @@ int PlaylistCollection::count() const
 int PlaylistCollection::time() const
 {
     return currentPlaylist()->time();
+}
+
+void PlaylistCollection::playFirst()
+{
+    currentPlaylist()->playFirst();
 }
 
 void PlaylistCollection::playPrevious()
@@ -437,6 +442,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 #endif
 
 
+    createAction(i18n("Play First Song"), SLOT(slotPlayFirst()),    "playFirst");
     createAction(i18n("Open..."),         SLOT(slotOpen()),         "file_open", "fileopen", "CTRL+o");
     createAction(i18n("Add &Folder..."),  SLOT(slotAddFolder()),    "openDirectory", "fileopen");
     createAction(i18n("&Rename..."),      SLOT(slotRename()),       "renamePlaylist", "lineedit");

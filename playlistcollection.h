@@ -47,6 +47,7 @@ public:
     virtual FileHandle currentFile() const;
     virtual int count() const;
     virtual int time() const;
+    virtual void playFirst();
     virtual void playNext();
     virtual void playPrevious();
     virtual void stop();
@@ -126,6 +127,8 @@ private:
                           const QString &icon = QString::null,
                           const KShortcut &shortcut = KShortcut());
 private slots:
+    void slotPlayFirst()    { m_collection->playFirst(); }
+
     void slotOpen()         { m_collection->open(); }
     void slotAddFolder()    { m_collection->addFolder(); }
     void slotRename()       { m_collection->rename(); }

@@ -20,6 +20,7 @@
 #include <kiconloader.h>
 #include <kcombobox.h>
 #include <kdebug.h>
+#include <kaction.h>
 
 #include <qlayout.h>
 #include <qlabel.h>
@@ -29,6 +30,9 @@
 
 #include "searchwidget.h"
 #include "collectionlist.h"
+#include "actioncollection.h"
+
+using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
 // SearchLine public methods
@@ -50,6 +54,8 @@ SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
     m_lineEdit = new KLineEdit(this, "searchLineEdit");
     connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
             this, SIGNAL(signalQueryChanged()));
+    connect(m_lineEdit, SIGNAL(returnPressed()),
+            action("playFirst"), SLOT(activate()));
 
     if(!m_simple) {
 	m_caseSensitive = new KComboBox(this);

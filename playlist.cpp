@@ -386,6 +386,15 @@ int Playlist::time() const
     return time;
 }
 
+void Playlist::playFirst()
+{
+    m_playNextItem = static_cast<PlaylistItem*>(QListViewItemIterator(
+        this, QListViewItemIterator::Visible).current());
+
+    action("stop")->activate();
+    action("play")->activate();
+}
+
 void Playlist::playNext()
 {
     bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();

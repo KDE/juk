@@ -71,6 +71,7 @@ public:
     virtual FileHandle currentFile() const;
     virtual int count() const { return childCount(); }
     virtual int time() const;
+    virtual void playFirst();
     virtual void playNext();
     virtual void playPrevious();
     virtual void stop();
