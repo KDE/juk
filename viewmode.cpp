@@ -59,11 +59,26 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
 
     QFontMetrics fm = painter->fontMetrics();
 
-    int y = item->listView()->itemMargin();
+    int y = item->listView()->itemMargin() + border;
     const QPixmap *pm = item->pixmap(column);
 
     if(item->isSelected()) {
-        painter->fillRect(0, 0, width, item->height(), colorGroup.brush(QColorGroup::Highlight));
+
+        painter->eraseRect(0, 0, width, item->height());
+
+        QPen oldPen = painter->pen();
+        QPen newPen = oldPen;
+
+        newPen.setWidth(5);
+        newPen.setJoinStyle(RoundJoin);
+        newPen.setColor(QColorGroup::Highlight);
+
+        painter->setPen(newPen);
+        painter->drawRect(border, border, width - border * 2, item->height() - border * 2 + 1);
+        painter->setPen(oldPen);
+
+        painter->fillRect(border, border, width - border * 2, item->height() - border * 2 + 1,
+                          colorGroup.brush(QColorGroup::Highlight));
         painter->setPen(colorGroup.highlightedText());
     }
     else
@@ -123,13 +138,11 @@ void ViewMode::updateIcons(int size)
     }
 }
 
-
-
 void ViewMode::updateHeights()
 {
-    const int width = m_playlistBox->viewport()->width();
+    const int width = m_playlistBox->viewport()->width() - border * 2;
 
-    const int baseHeight = 3 * m_playlistBox->itemMargin() + 32;
+    const int baseHeight = 2 * m_playlistBox->itemMargin() + 32 + border * 2;
     const QFontMetrics fm = m_playlistBox->fontMetrics();
 
     for(QListViewItemIterator it(m_playlistBox); it.current(); ++it) {

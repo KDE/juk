@@ -182,6 +182,7 @@ protected:
 
     virtual int compare(QListViewItem *i, int col, bool) const;
     virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
+    virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}
     virtual void setText(int column, const QString &text);
 
     virtual QString text(int column) const { return KListViewItem::text(column); }

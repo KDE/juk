@@ -74,6 +74,7 @@ private:
     bool m_visible;
     bool m_needsRefresh;
     QMap<PlaylistBox::Item *, QStringList> m_lines;
+    static const int border = 4;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
