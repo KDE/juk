@@ -63,7 +63,7 @@ void ArtsPlayer::play(const QString &fileName, float volume)
 void ArtsPlayer::play(float volume)
 {
     if (!serverRunning() || (m_server && m_server->error()) ) restart();
-      
+
     if(serverRunning()) {
         if(m_media && m_media->state() == posPaused) {
             m_media->play();
@@ -79,7 +79,7 @@ void ArtsPlayer::play(float volume)
                 m_media->play();
             }
             else {
-                kdDebug() << "Media did not initialize properly! (" << m_currentFile << ")" << endl;
+                kdDebug(65432) << "Media did not initialize properly! (" << m_currentFile << ")" << endl;
                 delete m_media;
                 m_media = 0;
             }
@@ -230,7 +230,7 @@ void ArtsPlayer::setupVolumeControl()
     else {
         delete m_volumeControl;
         m_volumeControl = 0;
-        kdDebug() << "Could not initialize volume control!" << endl;
+        kdDebug(65432) << "Could not initialize volume control!" << endl;
     }
 }
 

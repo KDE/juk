@@ -301,7 +301,7 @@ PlaylistItemList Playlist::visibleItems() const
         if(i->isVisible())
             list.append(i);
         else
-            kdDebug()<<"File shouldn't be in the list"<< i->fileName()<<endl;
+            kdDebug(65432)<<"File shouldn't be in the list"<< i->fileName()<<endl;
     }
 
     return list;
@@ -890,7 +890,7 @@ void Playlist::slotRenameTag()
 
 void Playlist::applyTag(QListViewItem *item, const QString &text, int column)
 {
-    //kdDebug() << "Applying " << text << " at column " << column << ", replacing \"" << item->text(column) << "\"" << endl;
+    //kdDebug(65432) << "Applying " << text << " at column " << column << ", replacing \"" << item->text(column) << "\"" << endl;
 
     PlaylistItem *i = static_cast<PlaylistItem *>(item);
 

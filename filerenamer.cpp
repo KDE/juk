@@ -94,7 +94,7 @@ void FileRenamer::rename(const PlaylistItem *item)
 
 void FileRenamer::moveFile(const QString &src, const QString &dest)
 {
-    kdDebug() << "Moving file " << src << " to " << dest << endl;
+    kdDebug(65432) << "Moving file " << src << " to " << dest << endl;
 
     if(src == dest)
         return;
@@ -107,10 +107,10 @@ void FileRenamer::moveFile(const QString &src, const QString &dest)
         QString processedComponents;
         for(; it != end; ++it) {
             processedComponents += "/" + *it;
-            kdDebug() << "Checking path " << processedComponents << endl;
+            kdDebug(65432) << "Checking path " << processedComponents << endl;
             QDir dir(processedComponents);
             if (!dir.exists())
-                kdDebug() << "Need to create " << processedComponents << endl;
+                kdDebug(65432) << "Need to create " << processedComponents << endl;
         }
     }
 
