@@ -56,7 +56,7 @@ JuK::JuK(QWidget *parent, const char *name) :
 
     setupActions();
     setupLayout();
-    createGUI();
+    setupGUI(ToolBar | Save | Create);
     readConfig();
     setupSystemTray();
     setupGlobalAccels();
@@ -135,8 +135,6 @@ void JuK::setupActions()
     //////////////////////////////////////////////////
     // settings menu
     //////////////////////////////////////////////////
-
-    setStandardToolBarMenuEnabled(true);
 
     m_toggleSplashAction =
 	new KToggleAction(i18n("Show Splash Screen on Startup"),
@@ -247,8 +245,6 @@ void JuK::readSettings()
 
 void JuK::readConfig()
 {
-    setAutoSaveSettings();
-
     // player settings
 
     KConfigGroup playerConfig(KGlobal::config(), "Player");
