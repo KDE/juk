@@ -55,9 +55,9 @@
 		<Action name="dockOnClose"/>
 		<Action name="togglePopups"/>
 		<Action name="outputSelect"/>
-		<Action name="tagGuesserConfig"/>
 		<Separator/>
 		<Action name="options_configure_keybinding"/>
+		<Action name="tagGuesserConfig"/>
 	</Menu>
 </MenuBar>
 
