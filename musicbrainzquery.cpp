@@ -41,24 +41,28 @@ void MusicBrainzLookup::recognized()
 {
     KTRMLookup::recognized();
     confirmation();
+    delete this;
 }
 
 void MusicBrainzLookup::unrecognized()
 {
     KTRMLookup::unrecognized();
     message(i18n("No matches found."));
+    delete this;
 }
 
 void MusicBrainzLookup::collision()
 {
     KTRMLookup::collision();
     confirmation();
+    delete this;
 }
 
 void MusicBrainzLookup::error()
 {
     KTRMLookup::error();
     message(i18n("Error connecting to MusicBrainz server."));
+    delete this;
 }
 
 void MusicBrainzLookup::message(const QString &s) const
