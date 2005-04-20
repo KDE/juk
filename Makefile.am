@@ -76,7 +76,7 @@ INCLUDES= $(all_includes) $(taglib_includes) $(GST_CFLAGS) $(ARTS_CFLAGS)
 # check to see if MusicBrainz is available
 ##################################################
 if link_lib_MB
-mblibs = -lmusicbrainz -ltunepimp
+mblibs = -ltunepimp
 endif
 ##################################################
 
