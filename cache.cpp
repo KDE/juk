@@ -127,7 +127,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
             Q_INT32 playlistType;
             s >> playlistType;
 
-            Playlist *playlist;
+            Playlist *playlist = 0;
 
             switch(playlistType) {
             case Search:
