@@ -45,12 +45,12 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     QHBox *mainBox = new QHBox(this);
     m_iconWidget = new KIconView(mainBox);
     m_iconWidget->setResizeMode(QIconView::Adjust);
-    m_iconWidget->setSelectionMode(QIconView::Extended);
     m_iconWidget->setSpacing(10);
-    m_iconWidget->setMode(KIconView::Select);
     m_iconWidget->setFixedSize(500,550);
     m_iconWidget->arrangeItemsInGrid();
     m_iconWidget->setItemsMovable(FALSE);
+    connect(m_iconWidget, SIGNAL(executed(QIconViewItem *)),
+	    this, SLOT(slotOk()));
 
     QHBox *imgSize = new QHBox(actionButton(User1)->parentWidget());
     QLabel *label = new QLabel(imgSize);
