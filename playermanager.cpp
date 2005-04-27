@@ -30,6 +30,7 @@
 #include "statuslabel.h"
 #include "actioncollection.h"
 #include "collectionlist.h"
+#include "coverinfo.h"
 #include "tag.h"
 
 #include "config.h"
@@ -183,10 +184,23 @@ QStringList PlayerManager::trackProperties()
 
 QString PlayerManager::trackProperty(const QString &property) const
 {
-    if(!playing())
+    if(!playing() && !paused())
         return QString::null;
 
     return m_file.property(property);
+}
+
+QPixmap PlayerManager::trackCover(const QString &size) const
+{
+    if(!playing() && !paused())
+        return QPixmap();
+
+    if(size.lower() == "small")
+        return m_file.coverInfo()->pixmap(CoverInfo::Thumbnail);
+    if(size.lower() == "large")
+        return m_file.coverInfo()->pixmap(CoverInfo::FullSize);
+
+    return QPixmap();
 }
 
 FileHandle PlayerManager::playingFile() const
@@ -623,6 +637,25 @@ void PlayerManager::setup()
 
     m_timer = new QTimer(this, "play timer");
     connect(m_timer, SIGNAL(timeout()), this, SLOT(slotPollPlay()));
+}
+
+QString PlayerManager::randomPlayMode() const
+{
+    if(action<KToggleAction>("randomPlay")->isChecked())
+        return "Random";
+    if(action<KToggleAction>("albumRandomPlay")->isChecked())
+        return "AlbumRandom";
+    return "NoRandom";
+}
+
+void PlayerManager::setRandomPlayMode(const QString &randomMode)
+{
+    if(randomMode.lower() == "random")
+        action<KToggleAction>("randomPlay")->setChecked(true);
+    if(randomMode.lower() == "albumrandom")
+        action<KToggleAction>("albumRandomPlay")->setChecked(true);
+    if(randomMode.lower() == "norandom")
+        action<KToggleAction>("disableRandomPlay")->setChecked(true);
 }
 
 #include "playermanager.moc"

@@ -24,6 +24,7 @@
 #include "playlistcollection.h"
 #include "actioncollection.h"
 #include "advancedsearchdialog.h"
+#include "coverinfo.h"
 #include "searchplaylist.h"
 #include "folderplaylist.h"
 #include "historyplaylist.h"
@@ -263,6 +264,23 @@ QString PlaylistCollection::trackProperty(const QString &file, const QString &pr
     CollectionListItem *item = l->lookup(file);
 
     return item ? item->file().property(property) : QString::null;
+}
+
+QPixmap PlaylistCollection::trackCover(const QString &file, const QString &size) const
+{
+    if(size.lower() != "small" && size.lower() != "large")
+        return QPixmap();
+
+    CollectionList *l = CollectionList::instance();
+    CollectionListItem *item = l->lookup(file);
+
+    if(!item)
+        return QPixmap();
+
+    if(size.lower() == "small")
+        return item->file().coverInfo()->pixmap(CoverInfo::Thumbnail);
+    else
+        return item->file().coverInfo()->pixmap(CoverInfo::FullSize);
 }
 
 void PlaylistCollection::open(const QStringList &l)

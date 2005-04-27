@@ -71,6 +71,7 @@ public:
 
     virtual QStringList playlistTracks(const QString &playlist) const;
     virtual QString trackProperty(const QString &file, const QString &property) const;
+    virtual QPixmap trackCover(const QString &file, const QString &size = "Small") const;
 
     virtual void open(const QStringList &files = QStringList());
     virtual void open(const QString &playlist, const QStringList &files);

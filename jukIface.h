@@ -3,6 +3,7 @@
 
 #include <dcopobject.h>
 #include <qstringlist.h>
+#include <qpixmap.h>
 
 class CollectionIface : public DCOPObject
 {
@@ -27,6 +28,8 @@ k_dcop:
     virtual QStringList playlistTracks(const QString &playlist) const = 0;
     virtual QString trackProperty(const QString &file, const QString &property) const = 0;
 
+    virtual QPixmap trackCover(const QString &file, const QString &size = "Small") const = 0;
+
 protected:
     CollectionIface() : DCOPObject("Collection") {}
     virtual void open(const QStringList &files) = 0;
@@ -44,6 +47,12 @@ k_dcop:
     
     virtual QStringList trackProperties() = 0;
     virtual QString trackProperty(const QString &property) const = 0;
+    virtual QPixmap trackCover(const QString &size = "Small") const = 0;
+
+    virtual QString currentFile() const
+    {
+        return trackProperty("Path");
+    }
 
     virtual void play() = 0;
     virtual void play(const QString &file) = 0;
@@ -65,6 +74,21 @@ k_dcop:
     virtual QString playingString() const = 0;
     virtual int currentTime() const = 0;
     virtual int totalTime() const = 0;
+
+    /**
+     * @return The current player mode.
+     * @see setRandomPlayMode()
+     */
+    virtual QString randomPlayMode() const = 0;
+
+    /**
+     * Sets the player mode to one of normal, random play, or album
+     * random play, depending on @p randomMode.
+     * "NoRandom" -> Normal
+     * "Random" -> Random
+     * "AlbumRandom" -> Album Random
+     */
+    virtual void setRandomPlayMode(const QString &randomMode) = 0;
 
 protected:
     PlayerIface() : DCOPObject("Player") {}

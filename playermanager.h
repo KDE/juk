@@ -51,12 +51,15 @@ public:
 
     QStringList trackProperties();
     QString trackProperty(const QString &property) const;
+    QPixmap trackCover(const QString &size) const;
 
     FileHandle playingFile() const;
     QString playingString() const;
 
     void setPlaylistInterface(PlaylistInterface *interface);
     void setStatusLabel(StatusLabel *label);
+
+    QString randomPlayMode() const;
 
     static KSelectAction *playerSelectAction(QObject *parent);
 
@@ -78,6 +81,8 @@ public slots:
     void volumeUp();
     void volumeDown();
     void mute();
+
+    void setRandomPlayMode(const QString &randomMode);
 
 signals:
     void signalPlay();
