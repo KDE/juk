@@ -28,6 +28,7 @@
 #include <kurl.h>
 #include <kio/netaccess.h>
 #include <kio/job.h>
+#include <dcopclient.h>
 
 #include <qheader.h>
 #include <qcursor.h>
@@ -1571,6 +1572,8 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
     }
 
     TrackSequenceManager::instance()->setCurrent(item);
+    QByteArray data;
+    kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
 
     if(!item)
 	return;
