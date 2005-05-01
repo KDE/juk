@@ -537,6 +537,13 @@ private:
     void refreshAlbums(const PlaylistItemList &items, const QImage &image = QImage());
     void refreshAlbum(const QString &artist, const QString &album);
 
+    /**
+     * Returns the number of PlaylistItems in @p items that can be assigned a
+     * cover.  Used to avoid wasting the users' time setting the cover for 20
+     * items when none are eligible.
+     */
+    int eligibleCoverItems(const PlaylistItemList &items);
+
     void updatePlaying() const;
 
     /**

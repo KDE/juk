@@ -800,12 +800,39 @@ void Playlist::slotRemoveCover()
 	refreshAlbums(items);
 }
 
+int Playlist::eligibleCoverItems(const PlaylistItemList &items)
+{
+    PlaylistItemList::ConstIterator it = items.begin();
+    int numEligible = 0;
+
+    for(; it != items.end(); ++it) {
+	if(!(*it)->file().tag()->artist().isEmpty() &&
+	   !(*it)->file().tag()->album().isEmpty())
+	{
+	    ++numEligible;
+	}
+    }
+
+    return numEligible;
+}
+
 void Playlist::slotAddCover(bool retrieveLocal)
 {
     PlaylistItemList items = selectedItems();
 
     if(items.isEmpty())
         return;
+
+    if(eligibleCoverItems(items) == 0) {
+	// No items in the list can be assigned a cover, inform the user and
+	// bail.
+
+	KMessageBox::sorry(this, i18n("None of the items you have selected can "
+		    "be assigned a cover.  A track must have both the Artist "
+		    "and Album tags set to be assigned a cover."));
+
+	return;
+    }
 
     QImage image;
 
@@ -1233,13 +1260,26 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 void Playlist::refreshAlbums(const PlaylistItemList &items, const QImage &image)
 {
     QValueList< QPair<QString, QString> > albums;
+    QStringList ignoredItems;
 
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-	if(albums.find(qMakePair((*it)->file().tag()->artist(),
-				 (*it)->file().tag()->album())) == albums.end())
+	QString artist = (*it)->file().tag()->artist();
+	QString album = (*it)->file().tag()->album();
+
+	// Right now JuK requires that the artist and album tags be assigned
+	// for the cover art, double check here.
+
+	if(!image.isNull() && (artist.isEmpty() || album.isEmpty())) {
+	    QString title = (*it)->file().tag()->title();
+	    QString mid = title.isEmpty() || artist.isEmpty() ? "" : " - ";
+
+	    ignoredItems.append(artist + mid + title);
+	    continue;
+	}
+
+	if(albums.find(qMakePair(artist, album)) == albums.end())
 	{
-	    albums.append(qMakePair((*it)->file().tag()->artist(),
-				    (*it)->file().tag()->album()));				    
+	    albums.append(qMakePair(artist, album));
 	    if(image.isNull())
 		(*it)->file().coverInfo()->clearCover();
 	    else
@@ -1253,6 +1293,12 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, const QImage &image)
 	it != albums.end(); ++it)
     {
 	refreshAlbum((*it).first, (*it).second);
+    }
+
+    if(!ignoredItems.isEmpty()) {
+	KMessageBox::informationList(this, i18n("The following songs were "
+		    "ignored because they don't have both their Artist and "
+		    "Album tags filled in."), ignoredItems);
     }
 }
 
