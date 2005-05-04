@@ -32,6 +32,7 @@
 #include <qpainter.h>
 #include <qvaluevector.h>
 #include <qstylesheet.h>
+#include <qpalette.h>
 
 #include <netwm.h>
 
@@ -82,30 +83,57 @@ protected:
     QColor m_textColor;
 };
 
-class PassiveInfo : public KPassivePopup
+PassiveInfo::PassiveInfo(QWidget *parent, const char *name) :
+    KPassivePopup(parent, name), m_timer(new QTimer), m_justDie(false)
 {
-public:
-    PassiveInfo(QWidget *parent = 0, const char *name = 0) :
-        KPassivePopup(parent, name) {}
+    // I'm so sick and tired of KPassivePopup screwing this up
+    // that I'll just handle the timeout myself, thank you very much.
+    KPassivePopup::setTimeout(0);
 
-protected:
-    virtual void enterEvent(QEvent *)
-    {
-        setTimeout(3000000); // Make timeout damn near infinite
-    }
-    
-    virtual void leaveEvent(QEvent *)
-    {
-        setTimeout(250); // Close quickly
-    }
-};
+    connect(m_timer, SIGNAL(timeout()), SLOT(timerExpired()));
+}
+
+void PassiveInfo::setTimeout(int delay)
+{
+    m_timer->changeInterval(delay);
+}
+
+void PassiveInfo::show()
+{
+    KPassivePopup::show();
+    m_timer->start(3500);
+}
+
+void PassiveInfo::timerExpired()
+{
+    // If m_justDie is set, we should just go, otherwise we should emit the
+    // signal and wait for the system tray to delete us.
+    if(m_justDie)
+        hide();
+    else
+        emit timeExpired();
+}
+
+void PassiveInfo::enterEvent(QEvent *)
+{
+    m_timer->stop();
+    emit mouseEntered();
+}
+
+void PassiveInfo::leaveEvent(QEvent *)
+{
+    m_justDie = true;
+    m_timer->start(50);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
 SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, name),
-                                                            m_popup(0)
+                                                            m_popup(0),
+                                                            m_fadeTimer(0),
+                                                            m_fade(true)
 
 {
     // This should be initialized to the number of labels that are used.
@@ -153,6 +181,9 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     menu->plug(cm);
 
     action("togglePopups")->plug(cm);
+
+    m_fadeTimer = new QTimer(this, "systrayFadeTimer");
+    connect(m_fadeTimer, SIGNAL(timeout()), SLOT(slotNextStep()));
 
     if(PlayerManager::instance()->playing())
         slotPlay();
@@ -205,7 +236,7 @@ void SystemTray::slotStop()
     m_popup = 0;
 }
 
-void SystemTray::slotClearLabels()
+void SystemTray::slotPopupDestroyed()
 {
     for(unsigned i = 0; i < m_labels.capacity(); ++i)
         m_labels[i] = 0;
@@ -213,32 +244,92 @@ void SystemTray::slotClearLabels()
 
 void SystemTray::slotNextStep()
 {
-    static const int steps = 20;
-    QColor result, start, end;
-    int r, g, b;
+    QColor result;
 
     ++m_step;
-    for(unsigned i = 0; i < m_labels.capacity() && m_labels[i]; ++i) {
-        start = m_labels[i]->paletteBackgroundColor();
-        result = end = m_labels[i]->textColor();
 
-        if(m_step < steps) {
-            r = (m_step * end.red() + (steps - m_step) * start.red()) / steps;
-            g = (m_step * end.green() + (steps - m_step) * start.green()) / steps;
-            b = (m_step * end.blue() + (steps - m_step) * start.blue()) / steps;
-            result = QColor(r, g, b);
-        }
+    // If we're not fading, immediately show the labels
+    if(!m_fade)
+        m_step = STEPS;
 
+    result = interpolateColor(m_step);
+
+    for(unsigned i = 0; i < m_labels.capacity() && m_labels[i]; ++i)
         m_labels[i]->setPaletteForegroundColor(result);
-    }
 
-    if(m_step < steps)
-        QTimer::singleShot(1500 / steps, this, SLOT(slotNextStep()));
+    if(m_step == STEPS) {
+        m_step = 0;
+        m_fadeTimer->stop();
+        emit fadeDone();
+    }
+}
+
+void SystemTray::slotFadeOut()
+{
+    m_startColor = m_labels[0]->textColor();
+    m_endColor = m_labels[0]->paletteBackgroundColor();
+
+    connect(this, SIGNAL(fadeDone()), m_popup, SLOT(hide()));
+    connect(m_popup, SIGNAL(mouseEntered()), this, SLOT(slotMouseInPopup()));
+    m_fadeTimer->start(1500 / STEPS);
+}
+
+// If we receive this signal, it's because we were called during fade out.
+// That means there is a single shot timer about to call slotNextStep, so we
+// don't have to do it ourselves.
+void SystemTray::slotMouseInPopup()
+{
+    m_endColor = m_labels[0]->textColor();
+    disconnect(SIGNAL(fadeDone()));
+
+    m_step = STEPS - 1; // Simulate end of fade to solid text
+    slotNextStep();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
+
+QVBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
+{
+    QVBox *infoBox = 0;
+
+    if(buttonsToLeft()) {
+
+        // They go to the left because JuK is on that side
+
+        createButtonBox(parent);
+        addSeparatorLine(parent);
+
+        infoBox = new QVBox(parent);
+
+        // Another line, and the cover, if there's a cover, and if
+        // it's selected to be shown
+
+        if(file.coverInfo()->hasCover()) {
+            addSeparatorLine(parent);
+            addCoverButton(parent, file.coverInfo()->pixmap(CoverInfo::Thumbnail));
+        }
+    }
+    else {
+
+        // Like above, but reversed.
+
+        if(file.coverInfo()->hasCover()) {
+            addCoverButton(parent, file.coverInfo()->pixmap(CoverInfo::Thumbnail));
+            addSeparatorLine(parent);
+        }
+
+        infoBox = new QVBox(parent);
+
+        addSeparatorLine(parent);
+        createButtonBox(parent);
+    }
+
+    infoBox->setSpacing(3);
+    infoBox->setMargin(3);
+    return infoBox;
+}
 
 void SystemTray::createPopup()
 {
@@ -247,95 +338,65 @@ void SystemTray::createPopup()
     
     // If the action exists and it's checked, do our stuff
 
-    if(action<KToggleAction>("togglePopups")->isChecked()) {
+    if(!action<KToggleAction>("togglePopups")->isChecked())
+        return;
 
-        delete m_popup;
-        m_popup = new PassiveInfo(this);
+    delete m_popup;
+    m_popup = 0;
+    m_fadeTimer->stop();
 
-        connect(m_popup, SIGNAL(destroyed()), SLOT(slotClearLabels()));
-        m_step = 0;
+    // This will be reset after this function call by slot(Forward|Back)
+    // so it's safe to set it true here.
+    m_fade = true;
+    m_step = 0;
 
-        QHBox *box = new QHBox(m_popup);
-        box->setSpacing(15); // Add space between text and buttons
+    m_popup = new PassiveInfo(this);
+    connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
+    connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
 
-        // See where to put the buttons
+    QHBox *box = new QHBox(m_popup, "popupMainLayout");
+    box->setSpacing(15); // Add space between text and buttons
 
-        bool onLeft = buttonsToLeft();
-        QVBox *infoBox;
+    QVBox *infoBox = createPopupLayout(box, playingFile);
 
-        if(onLeft) {
-
-            // They go to the left because JuK is on that side
-
-            createButtonBox(box);
-            addSeparatorLine(box);
-
-            infoBox = new QVBox(box);
-
-            // Another line, and the cover, if there's a cover, and if
-            // it's selected to be shown
-
-            if(playingFile.coverInfo()->hasCover()) {
-                addSeparatorLine(box);
-                addCoverButton(box, playingFile.coverInfo()->pixmap(CoverInfo::Thumbnail));
-            }
-        }
-        else {
-
-            // Buttons go on right because JuK is there
-
-            // Another line, and the cover, if there's a cover, and if
-            // it's selected to be shown
-
-            if(playingFile.coverInfo()->hasCover()) {
-                addCoverButton(box, playingFile.coverInfo()->pixmap(CoverInfo::Thumbnail));
-                addSeparatorLine(box);
-            }
-
-            infoBox = new QVBox(box);
-
-            addSeparatorLine(box);
-            createButtonBox(box);
-        }
-
-        infoBox->setSpacing(3);
-        infoBox->setMargin(3);
-        
-        for(unsigned i = 0; i < m_labels.capacity(); ++i) {
-            m_labels[i] = new FlickerFreeLabel(" ", infoBox);
-            m_labels[i]->setAlignment(AlignRight | AlignVCenter);
-        }
-
-        // We don't want an autodelete popup.  There are times when it will need
-        // to be hidden before the timeout.
-
-        m_popup->setAutoDelete(false);
-
-        // We have to set the text of the labels after all of the
-        // widgets have been added in order for the width to be calculated
-        // correctly.
-
-        int labelCount = 0;
-
-        QString title = QStyleSheet::escape(playingInfo->title());
-        m_labels[labelCount++]->setText(QString("<qt><nobr><h2>%1</h2></nobr><qt>").arg(title));
-
-        if(!playingInfo->artist().isEmpty())
-            m_labels[labelCount++]->setText(playingInfo->artist());
-
-        if(!playingInfo->album().isEmpty()) {
-            QString album = QStyleSheet::escape(playingInfo->album());
-            QString s = playingInfo->year() > 0
-                ? QString("<qt><nobr>%1 (%2)</nobr></qt>").arg(album).arg(playingInfo->year())
-                : QString("<qt><nobr>%1</nobr></qt>").arg(album);
-            m_labels[labelCount++]->setText(s);
-        }
-
-        slotNextStep();
-
-        m_popup->setView(box);
-        m_popup->show();
+    for(unsigned i = 0; i < m_labels.capacity(); ++i) {
+        m_labels[i] = new FlickerFreeLabel(" ", infoBox);
+        m_labels[i]->setAlignment(AlignRight | AlignVCenter);
     }
+
+    // We don't want an autodelete popup.  There are times when it will need
+    // to be hidden before the timeout.
+
+    m_popup->setAutoDelete(false);
+
+    // We have to set the text of the labels after all of the
+    // widgets have been added in order for the width to be calculated
+    // correctly.
+
+    int labelCount = 0;
+
+    QString title = QStyleSheet::escape(playingInfo->title());
+    m_labels[labelCount++]->setText(QString("<qt><nobr><h2>%1</h2></nobr><qt>").arg(title));
+
+    if(!playingInfo->artist().isEmpty())
+        m_labels[labelCount++]->setText(playingInfo->artist());
+
+    if(!playingInfo->album().isEmpty()) {
+        QString album = QStyleSheet::escape(playingInfo->album());
+        QString s = playingInfo->year() > 0
+            ? QString("<qt><nobr>%1 (%2)</nobr></qt>").arg(album).arg(playingInfo->year())
+            : QString("<qt><nobr>%1</nobr></qt>").arg(album);
+        m_labels[labelCount++]->setText(s);
+    }
+
+    m_startColor = m_labels[0]->paletteBackgroundColor();
+    m_endColor = m_labels[0]->textColor();
+
+    slotNextStep();
+    m_fadeTimer->start(1500 / STEPS);
+
+    m_popup->setView(box);
+    m_popup->show();
 }
 
 bool SystemTray::buttonsToLeft() const
@@ -378,11 +439,28 @@ void SystemTray::createButtonBox(QWidget *parent)
 
     QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
     forwardButton->setFlat(true);
-    connect(forwardButton, SIGNAL(clicked()), action("forward"), SLOT(activate()));
+    connect(forwardButton, SIGNAL(clicked()), SLOT(slotForward()));
 
     QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
     backButton->setFlat(true);
-    connect(backButton, SIGNAL(clicked()), action("back"), SLOT(activate()));
+    connect(backButton, SIGNAL(clicked()), SLOT(slotBack()));
+}
+
+/**
+ * What happens here is that the action->activate() call will end up invoking
+ * createPopup(), which sets m_fade to true.  Before the text starts fading
+ * control returns to this function, which resets m_fade to false.
+ */
+void SystemTray::slotBack()
+{
+    action("back")->activate();
+    m_fade = false;
+}
+
+void SystemTray::slotForward()
+{
+    action("forward")->activate();
+    m_fade = false;
 }
 
 void SystemTray::addSeparatorLine(QWidget *parent)
@@ -405,6 +483,23 @@ void SystemTray::addCoverButton(QWidget *parent, const QPixmap &cover)
     coverButton->setFlat(true);
 
     connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));
+}
+
+QColor SystemTray::interpolateColor(int step, int steps)
+{
+    if(step < 0)
+        return m_startColor;
+    if(step >= steps)
+        return m_endColor;
+
+    // TODO: Perhaps the algorithm here could be better?  For example, it might
+    // make sense to go rather quickly from start to end and then slow down
+    // the progression.
+    return QColor(
+            (step * m_endColor.red() + (steps - step) * m_startColor.red()) / steps,
+            (step * m_endColor.green() + (steps - step) * m_startColor.green()) / steps,
+            (step * m_endColor.blue() + (steps - step) * m_startColor.blue()) / steps
+           );
 }
 
 void SystemTray::setToolTip(const QString &tip)
