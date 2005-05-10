@@ -41,17 +41,17 @@ aKodePlayer::~aKodePlayer()
 void aKodePlayer::play(const FileHandle &file)
 {
     kdDebug( 65432 ) << k_funcinfo << endl;
-    
+
     if (file.isNull()) { // null FileHandle file means unpause
         if (paused())
-            m_player->play();
+            m_player->resume();
         else
             stop();
         return;
     }
-    
+
     QString filename = file.absFilePath();
-    
+
     kdDebug( 65432 ) << "Opening: " << filename << endl;
 
     if (m_player)
