@@ -218,7 +218,7 @@ void CoverManagerPrivate::loadCovers()
         Q_UINT32 id;
 
         in >> path >> id;
-        setIdForTrack(path, (coverKey)id);
+        m_trackMapping.insert(path, new coverKey(id));
     }
 }
 
@@ -248,9 +248,9 @@ coverKey CoverManager::idFromMetadata(const QString &artist, const QString &albu
     // Search for the string, yay!  It might make sense to use a cache here,
     // if so it's not hard to add a QCache.
     CoverDataMap::ConstIterator it = begin();
-    CoverDataMap::ConstIterator end = end();
+    CoverDataMap::ConstIterator endIt = end();
 
-    for(; it != end; ++it) {
+    for(; it != endIt; ++it) {
         if(it.data()->album == album.lower() && it.data()->artist == artist.lower())
             return it.key();
     }
