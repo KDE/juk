@@ -96,6 +96,7 @@ Tag *TagTransactionManager::duplicateTag(const Tag *tag, const QString &fileName
 
 bool TagTransactionManager::commit()
 {
+    m_undoList.clear();
     bool result = processChangeList();
 
     m_list.clear();
@@ -110,6 +111,10 @@ void TagTransactionManager::forget()
 bool TagTransactionManager::undo()
 {
     kdDebug(65432) << "Undoing " << m_undoList.count() << " changes.\n";
+
+    forget();  // Scrap our old changes (although the list should be empty
+               // anyways.
+
     bool result = processChangeList(true);
 
     m_undoList.clear();
