@@ -54,12 +54,18 @@ public:
         QLabel(text, parent, name)
     {
         m_textColor = paletteForegroundColor();
+        m_bgColor = paletteBackgroundColor();
         setBackgroundMode(NoBackground);
     }
 
     QColor textColor() const
     {
         return m_textColor;
+    }
+
+    QColor backgroundColor() const
+    {
+        return m_bgColor;
     }
 
 protected:
@@ -73,7 +79,7 @@ protected:
         QPixmap pix(size());
         QPainter pixPainter(&pix);
 
-        pixPainter.fillRect(rect(), paletteBackgroundColor());
+        pixPainter.fillRect(rect(), m_bgColor);
         QLabel::drawContents(&pixPainter);
 
         bitBlt(p->device(), QPoint(0, 0), &pix, rect(), CopyROP);
@@ -81,6 +87,7 @@ protected:
 
     private:
     QColor m_textColor;
+    QColor m_bgColor;
 };
 
 PassiveInfo::PassiveInfo(QWidget *parent, const char *name) :
@@ -267,7 +274,7 @@ void SystemTray::slotNextStep()
 void SystemTray::slotFadeOut()
 {
     m_startColor = m_labels[0]->textColor();
-    m_endColor = m_labels[0]->paletteBackgroundColor();
+    m_endColor = m_labels[0]->backgroundColor();
 
     connect(this, SIGNAL(fadeDone()), m_popup, SLOT(hide()));
     connect(m_popup, SIGNAL(mouseEntered()), this, SLOT(slotMouseInPopup()));
@@ -389,7 +396,7 @@ void SystemTray::createPopup()
         m_labels[labelCount++]->setText(s);
     }
 
-    m_startColor = m_labels[0]->paletteBackgroundColor();
+    m_startColor = m_labels[0]->backgroundColor();
     m_endColor = m_labels[0]->textColor();
 
     slotNextStep();
