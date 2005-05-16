@@ -39,11 +39,13 @@ public:
 
 private:
     QString coverLocation(CoverSize size) const;
+    bool convertOldStyleCover() const;
 
     FileHandle m_file;
     bool m_hasCover;
     bool m_haveCheckedForCover;
-    coverKey m_coverKey;
+    mutable coverKey m_coverKey;
+    mutable bool m_needsConverting;
 };
 #endif
 

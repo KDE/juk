@@ -54,7 +54,8 @@ CoverInfo::CoverInfo(const FileHandle &file) :
     m_file(file),
     m_hasCover(false),
     m_haveCheckedForCover(false),
-    m_coverKey(CoverManager::NoMatch)
+    m_coverKey(CoverManager::NoMatch),
+    m_needsConverting(false)
 {
 
 }
@@ -98,19 +99,8 @@ bool CoverInfo::hasCover()
     if(!m_hasCover) {
         m_hasCover = QFile(coverLocation(FullSize)).exists();
 
-        if(m_hasCover) {
-            // Ah, old-style cover.  Let's transfer it to the new system.
-            kdDebug() << "Found old style cover for " << m_file.absFilePath() << endl;
-
-            QString artist = m_file.tag()->artist();
-            QString album = m_file.tag()->album();
-            m_coverKey = CoverManager::addCover(coverLocation(FullSize), artist, album);
-
-            if(m_coverKey != CoverManager::NoMatch)
-                CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
-            else
-                kdDebug() << "We were unable to replace the old style cover.\n";
-        }
+        if(m_hasCover)
+            m_needsConverting = true;
     }
 
     return m_hasCover;
@@ -152,6 +142,9 @@ void CoverInfo::setCover(const QImage &image)
 
 QPixmap CoverInfo::pixmap(CoverSize size) const
 {
+    if(m_needsConverting)
+        convertOldStyleCover();
+
     if(m_coverKey == CoverManager::NoMatch)
         return QPixmap();
 
@@ -215,6 +208,27 @@ QString CoverInfo::coverLocation(CoverSize size) const
     QString fileLocation = dataDir + "covers/" + subDir + fileName.lower();
 
     return fileLocation;
+}
+
+bool CoverInfo::convertOldStyleCover() const
+{
+    // Ah, old-style cover.  Let's transfer it to the new system.
+    kdDebug() << "Found old style cover for " << m_file.absFilePath() << endl;
+
+    QString artist = m_file.tag()->artist();
+    QString album = m_file.tag()->album();
+    m_coverKey = CoverManager::addCover(coverLocation(FullSize), artist, album);
+
+    m_needsConverting = false;
+
+    if(m_coverKey != CoverManager::NoMatch) {
+        CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
+        return true;
+    }
+    else {
+        kdDebug() << "We were unable to replace the old style cover.\n";
+        return false;
+    }
 }
 
 // vim: set et sw=4 ts=8:
