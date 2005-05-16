@@ -77,6 +77,8 @@ void PlaylistSplitter::setupActions()
     KToggleAction *showSearch =
         new KToggleAction(i18n("Show &Search Bar"), "filefind", 0, actions(), "showSearch");
     showSearch->setCheckedState(i18n("Hide &Search Bar"));
+
+    new KAction(i18n("Edit Track Search"), "edit_clear", "F6", this, SLOT(setFocus()), actions(), "editTrackSearch");
 }
 
 void PlaylistSplitter::setupLayout()
