@@ -383,6 +383,11 @@ public slots:
     void slotRemoveCover();
 
     /**
+     * Shows the cover manager GUI dialog
+     */
+    void slotShowCoverManager();
+
+    /**
      * Reload the playlist contents from the m3u file.
      */
     virtual void slotReload();

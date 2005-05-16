@@ -1,0 +1,107 @@
+<!DOCTYPE UI><UI version="3.3" stdsetdef="1">
+<class>CoverDialogBase</class>
+<widget class="QWidget">
+    <property name="name">
+        <cstring>CoverDialogBase</cstring>
+    </property>
+    <property name="geometry">
+        <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>652</width>
+            <height>525</height>
+        </rect>
+    </property>
+    <property name="caption">
+        <string>Cover Manager</string>
+    </property>
+    <hbox>
+        <property name="name">
+            <cstring>unnamed</cstring>
+        </property>
+        <widget class="KListView">
+            <column>
+                <property name="text">
+                    <string>Artist</string>
+                </property>
+                <property name="clickable">
+                    <bool>false</bool>
+                </property>
+                <property name="resizable">
+                    <bool>false</bool>
+                </property>
+            </column>
+        <item>
+            <property name="text">
+                <string>&lt;All&gt;</string>
+            </property>
+            <property name="pixmap">
+                <pixmap></pixmap>
+            </property>
+        </item>
+            <property name="name">
+                <cstring>m_artists</cstring>
+            </property>
+            <property name="sizePolicy">
+                <sizepolicy>
+                    <hsizetype>5</hsizetype>
+                    <vsizetype>7</vsizetype>
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                </sizepolicy>
+            </property>
+            <property name="minimumSize">
+                <size>
+                    <width>164</width>
+                    <height>0</height>
+                </size>
+            </property>
+            <property name="resizeMode">
+                <enum>LastColumn</enum>
+            </property>
+            <property name="shadeSortColumn">
+                <bool>false</bool>
+            </property>
+        </widget>
+        <widget class="KIconView">
+            <property name="name">
+                <cstring>m_covers</cstring>
+            </property>
+            <property name="gridX">
+                <number>140</number>
+            </property>
+            <property name="gridY">
+                <number>150</number>
+            </property>
+            <property name="resizeMode">
+                <enum>Adjust</enum>
+            </property>
+        </widget>
+    </hbox>
+</widget>
+<customwidgets>
+</customwidgets>
+<connections>
+    <connection>
+        <sender>m_artists</sender>
+        <signal>clicked(QListViewItem*)</signal>
+        <receiver>CoverDialogBase</receiver>
+        <slot>slotArtistClicked(QListViewItem*)</slot>
+    </connection>
+    <connection>
+        <sender>m_covers</sender>
+        <signal>contextMenuRequested(QIconViewItem*,const QPoint&amp;)</signal>
+        <receiver>CoverDialogBase</receiver>
+        <slot>slotContextRequested(QIconViewItem*,const QPoint&amp;)</slot>
+    </connection>
+</connections>
+<slots>
+    <slot>slotArtistClicked(QListViewItem *item)</slot>
+    <slot>slotContextRequested(QIconViewItem *, const QPoint &amp;pt)</slot>
+</slots>
+<layoutdefaults spacing="6" margin="11"/>
+<includehints>
+    <includehint>klistview.h</includehint>
+    <includehint>kiconview.h</includehint>
+</includehints>
+</UI>

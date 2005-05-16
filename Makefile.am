@@ -9,7 +9,10 @@ juk_SOURCES = \
 	cache.cpp \
 	categoryreaderinterface.cpp \
 	collectionlist.cpp \
+	coverdialog.cpp \
+	coverdialogbase.ui \
 	coverinfo.cpp \
+	covermanager.cpp \
 	deletedialog.cpp \
 	deletedialogbase.ui \
 	directorylist.cpp \

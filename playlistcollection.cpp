@@ -448,6 +448,11 @@ void PlaylistCollection::viewCovers()
     visiblePlaylist()->slotViewCover();
 }
 
+void PlaylistCollection::showCoverManager()
+{
+    visiblePlaylist()->slotShowCoverManager();
+}
+
 PlaylistItemList PlaylistCollection::selectedItems()
 {
     return visiblePlaylist()->selectedItems();
@@ -869,6 +874,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
         SLOT(slotAddInternetCover()), "googleCover", "connect_established", "CTRL+SHIFT+g"));
     menu->insert(createAction(i18n("&Delete Cover"),
         SLOT(slotRemoveCovers()), "removeCover", "editdelete"));
+    menu->insert(createAction(i18n("Show Cover &Manager"),
+        SLOT(slotShowCoverManager()), "showCoverManager"));
 
     KToggleAction *historyAction =
         new KToggleAction(i18n("Show &History"), "history",  0, actions(), "showHistory");

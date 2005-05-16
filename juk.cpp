@@ -34,6 +34,7 @@
 #include "cache.h"
 #include "playlistsplitter.h"
 #include "collectionlist.h"
+#include "covermanager.h"
 #include "tagtransactionmanager.h"
 
 using namespace ActionCollection;
@@ -155,7 +156,6 @@ void JuK::setupActions()
     new KAction(i18n("Play / Pause"), "playPause",   0, m_player, SLOT(playPause()),   actions(), "playPause");
     new KAction(i18n("Seek Forward"), "seekForward", 0, m_player, SLOT(seekForward()), actions(), "seekForward");
     new KAction(i18n("Seek Back"),    "seekBack",    0, m_player, SLOT(seekBack()),    actions(), "seekBack");
-
 
     //////////////////////////////////////////////////
     // settings menu
@@ -421,6 +421,8 @@ void JuK::slotQuit()
 {
     kdDebug(65432) << k_funcinfo << endl;
     m_shuttingDown = true;
+
+    CoverManager::shutdown();
     kapp->quit();
 }
 

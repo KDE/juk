@@ -53,16 +53,64 @@ struct CoverPopup : public QWidget
 CoverInfo::CoverInfo(const FileHandle &file) :
     m_file(file),
     m_hasCover(false),
-    m_haveCheckedForCover(false)
+    m_haveCheckedForCover(false),
+    m_coverKey(CoverManager::NoMatch)
 {
 
 }
 
 bool CoverInfo::hasCover()
 {
-    if(!m_haveCheckedForCover) {
+    if(m_haveCheckedForCover)
+        return m_hasCover;
+
+    m_haveCheckedForCover = true;
+
+    // Check for new-style covers.  First let's determine what our coverKey is
+    // if it's not already set, as that's also tracked by the CoverManager.
+    if(m_coverKey == CoverManager::NoMatch)
+        m_coverKey = CoverManager::idForTrack(m_file.absFilePath());
+
+    // We were assigned a key, let's see if we already have a cover.  Notice
+    // that due to the way the CoverManager is structured, we should have a
+    // cover if we have a cover key.  If we don't then either there's a logic
+    // error, or the user has been mucking around where they shouldn't.
+    if(m_coverKey != CoverManager::NoMatch)
+        m_hasCover = CoverManager::hasCover(m_coverKey);
+
+    // If we don't have a cover, first check if the CoverManager
+    // has one matching our album and artist.
+    if(!m_hasCover) {
+        QString artist = m_file.tag()->artist();
+        QString album = m_file.tag()->album();
+        coverKey match = CoverManager::idFromMetadata(artist, album);
+
+        if(match != CoverManager::NoMatch) {
+            m_hasCover = true;
+            m_coverKey = match;
+
+            // Make CoverManager remember this association
+            CoverManager::setIdForTrack(m_file.absFilePath(), match);
+        }
+    }
+
+    // We *still* don't have it?  Check the old-style covers then.
+    if(!m_hasCover) {
         m_hasCover = QFile(coverLocation(FullSize)).exists();
-        m_haveCheckedForCover = true;
+
+        if(m_hasCover) {
+            // Ah, old-style cover.  Let's transfer it to the new system.
+            kdDebug() << "Found old style cover for " << m_file.absFilePath() << endl;
+
+            QString artist = m_file.tag()->artist();
+            QString album = m_file.tag()->album();
+            m_coverKey = CoverManager::addCover(coverLocation(FullSize), artist, album);
+
+            if(m_coverKey != CoverManager::NoMatch)
+                CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
+            else
+                kdDebug() << "We were unable to replace the old style cover.\n";
+        }
     }
 
     return m_hasCover;
@@ -74,6 +122,10 @@ void CoverInfo::clearCover()
     QFile::remove(coverLocation(Thumbnail));
     m_hasCover = false;
     m_haveCheckedForCover = false;
+
+    CoverManager::setIdForTrack(m_file.absFilePath(), CoverManager::NoMatch);
+    CoverManager::removeCover(m_coverKey);
+    m_coverKey = CoverManager::NoMatch;
 }
 
 void CoverInfo::setCover(const QImage &image)
@@ -86,23 +138,27 @@ void CoverInfo::setCover(const QImage &image)
     if(m_hasCover)
         clearCover();
 
-    image.save(coverLocation(FullSize), "PNG");
+    QPixmap cover;
+    cover.convertFromImage(image);
+
+    if(m_coverKey != CoverManager::NoMatch)
+        CoverManager::replaceCover(m_coverKey, cover);
+    else {
+        m_coverKey = CoverManager::addCover(cover, m_file.tag()->artist(), m_file.tag()->album());
+        if(m_coverKey != CoverManager::NoMatch)
+            CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
+    }
 }
 
 QPixmap CoverInfo::pixmap(CoverSize size) const
 {
-    if(m_file.tag()->artist().isEmpty() || m_file.tag()->album().isEmpty())
+    if(m_coverKey == CoverManager::NoMatch)
         return QPixmap();
 
-    if(size == Thumbnail && !QFile(coverLocation(Thumbnail)).exists()) {
-        QPixmap large = pixmap(FullSize);
-        if(!large.isNull()) {
-            QImage image(large.convertToImage());
-            image.smoothScale(80, 80).save(coverLocation(Thumbnail), "PNG");
-        }
-    }
-
-    return QPixmap(coverLocation(size));
+    if(size == Thumbnail)
+        return CoverManager::coverFromId(m_coverKey, CoverManager::Thumbnail);
+    else
+        return CoverManager::coverFromId(m_coverKey, CoverManager::FullSize);
 }
 
 void CoverInfo::popup() const
@@ -135,6 +191,9 @@ void CoverInfo::popup() const
     new CoverPopup(image, QPoint(x, y));
 }
 
+/**
+ * DEPRECATED
+ */
 QString CoverInfo::coverLocation(CoverSize size) const
 {
     QString fileName(QFile::encodeName(m_file.tag()->artist() + " - " + m_file.tag()->album()));

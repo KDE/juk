@@ -61,6 +61,7 @@
 #include "deletedialog.h"
 #include "googlefetcher.h"
 #include "coverinfo.h"
+#include "coverdialog.h"
 #include "tagtransactionmanager.h"
 #include "cache.h"
 
@@ -798,6 +799,16 @@ void Playlist::slotRemoveCover()
 						    i18n("&Delete Covers"));
     if(button == KMessageBox::Continue)
 	refreshAlbums(items);
+}
+
+void Playlist::slotShowCoverManager()
+{
+    static CoverDialog *managerDialog = 0;
+
+    if(!managerDialog)
+	managerDialog = new CoverDialog(this);
+
+    managerDialog->show();
 }
 
 int Playlist::eligibleCoverItems(const PlaylistItemList &items)

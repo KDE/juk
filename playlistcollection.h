@@ -95,6 +95,7 @@ public:
     void addCovers(bool fromFile);
     void removeCovers();
     void viewCovers();
+    void showCoverManager();
 
     virtual PlaylistItemList selectedItems();
 
@@ -247,6 +248,7 @@ private slots:
     void slotSetSearchEnabled(bool enable)           { m_collection->setSearchEnabled(enable); }
     void slotSetHistoryPlaylistEnabled(bool enable)  { m_collection->setHistoryPlaylistEnabled(enable); }
     void slotSetUpcomingPlaylistEnabled(bool enable) { m_collection->setUpcomingPlaylistEnabled(enable); }
+    void slotShowCoverManager()                      { m_collection->showCoverManager(); }
     void slotEnableDirWatch(bool enable)             { m_collection->enableDirWatch(enable); }
     void slotDirChanged(const QString &path)         { m_collection->dirChanged(path); }
 

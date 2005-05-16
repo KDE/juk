@@ -1,6 +1,7 @@
 /***************************************************************************
-    copyright            : (C) 2004 Nathan Toone
-    email                : nathan@toonetown.com
+    begin                : Sun May 15 2005 
+    copyright            : (C) 2005 by Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -12,38 +13,29 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COVERINFO_H
-#define COVERINFO_H
+#ifndef JUK_COVERDIALOG_H
+#define JUK_COVERDIALOG_H
 
-#include <qimage.h>
+#include "coverdialogbase.h"
 
-#include "filehandle.h"
-#include "covermanager.h"
-
-class CoverInfo
+class CoverDialog : public CoverDialogBase
 {
-    friend class FileHandle;
-
+    Q_OBJECT
 public:
-    enum CoverSize { FullSize, Thumbnail };
+    CoverDialog(QWidget *parent);
+    ~CoverDialog();
 
-    CoverInfo(const FileHandle &file);
+    virtual void show();
 
-    bool hasCover();
+public slots:
+    void slotArtistClicked(QListViewItem *item);
+    void slotContextRequested(QIconViewItem *item, const QPoint &pt);
 
-    void clearCover();
-    void setCover(const QImage &image = QImage());
-
-    QPixmap pixmap(CoverSize size) const;
-    void popup() const;
-
-private:
-    QString coverLocation(CoverSize size) const;
-
-    FileHandle m_file;
-    bool m_hasCover;
-    bool m_haveCheckedForCover;
-    coverKey m_coverKey;
+private slots:
+    void loadCovers();
+    void removeSelectedCover();
 };
-#endif
 
+#endif /* JUK_COVERDIALOG_H */
+
+// vim: set et ts=4 sw=4:
