@@ -93,11 +93,8 @@ public:
         saveCovers();
     }
 
-    CoverDataMap covers() const { return m_covers; }
-    CoverDataMap covers() { return m_covers; }
-
-    TrackLookupMap tracks() const { return m_trackMapping; }
-    TrackLookupMap tracks() { return m_trackMapping; }
+    CoverDataMap &covers() { return m_covers; }
+    TrackLookupMap &tracks() { return m_trackMapping; }
 
     /**
      * Creates the data directory for the covers if it doesn't already exist.
@@ -262,6 +259,9 @@ QPixmap CoverManager::coverFromId(coverKey id, Size size)
 {
     CoverDataPtr info = coverInfo(id);
 
+    if(!info)
+        return QPixmap();
+
     if(size == Thumbnail)
         return info->thumbnail();
 
@@ -298,6 +298,9 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
     coverData->album = album.lower();
 
     data()->covers()[id] = coverData;
+    if(!data()->covers().contains(id))
+        kdError(65432) << "coverData should have: " << id << endl;
+
     return id;
 }
 
