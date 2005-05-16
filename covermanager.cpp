@@ -83,7 +83,14 @@ QPixmap CoverData::thumbnail() const
 class CoverManagerPrivate
 {
 public:
-    CoverManagerPrivate() : m_trackMapping(1301)
+
+    /// Maps coverKey id's to CoverDataPtrs
+    CoverDataMap covers;
+
+    /// Maps file names to coverKey id's.
+    TrackLookupMap tracks;
+
+    CoverManagerPrivate() : tracks(1301)
     {
         loadCovers();
     }
@@ -92,9 +99,6 @@ public:
     {
         saveCovers();
     }
-
-    CoverDataMap &covers() { return m_covers; }
-    TrackLookupMap &tracks() { return m_trackMapping; }
 
     /**
      * Creates the data directory for the covers if it doesn't already exist.
@@ -119,9 +123,6 @@ public:
      * lookup map and the translations between pathnames and ids.
      */
     QString coverLocation() const;
-
-    CoverDataMap m_covers;
-    TrackLookupMap m_trackMapping;
 };
 
 //
@@ -154,18 +155,18 @@ void CoverManagerPrivate::saveCovers() const
     QDataStream out(&file);
 
     // Write out the version and count
-    out << Q_UINT32(0) << Q_UINT32(m_covers.count());
+    out << Q_UINT32(0) << Q_UINT32(covers.count());
 
     // Write out the data
-    for(CoverDataMap::ConstIterator it = m_covers.begin(); it != m_covers.end(); ++it) {
+    for(CoverDataMap::ConstIterator it = covers.begin(); it != covers.end(); ++it) {
         out << Q_UINT32(it.key());
         out << *it.data();
     }
 
     // Now write out the track mapping.
-    out << Q_UINT32(m_trackMapping.count());
+    out << Q_UINT32(tracks.count());
 
-    QDictIterator<coverKey> trackMapIt(m_trackMapping);
+    QDictIterator<coverKey> trackMapIt(tracks);
     while(trackMapIt.current()) {
         out << trackMapIt.currentKey() << Q_UINT32(*trackMapIt.current());
         ++trackMapIt;
@@ -206,7 +207,7 @@ void CoverManagerPrivate::loadCovers()
         in >> id;
         in >> *data;
 
-        m_covers[(coverKey) id] = data;
+        covers[(coverKey) id] = data;
     }
 
     in >> count;
@@ -215,7 +216,7 @@ void CoverManagerPrivate::loadCovers()
         Q_UINT32 id;
 
         in >> path >> id;
-        m_trackMapping.insert(path, new coverKey(id));
+        tracks.insert(path, new coverKey(id));
     }
 }
 
@@ -231,7 +232,7 @@ coverKey CoverManagerPrivate::nextId() const
     // Start from 1...
     coverKey key = 1;
 
-    while(m_covers.contains(key))
+    while(covers.contains(key))
         ++key;
 
     return key;
@@ -297,9 +298,7 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
     coverData->artist = artist.lower();
     coverData->album = album.lower();
 
-    data()->covers()[id] = coverData;
-    if(!data()->covers().contains(id))
-        kdError(65432) << "coverData should have: " << id << endl;
+    data()->covers[id] = coverData;
 
     return id;
 }
@@ -311,7 +310,7 @@ coverKey CoverManager::addCover(const QString &path, const QString &artist, cons
 
 bool CoverManager::hasCover(coverKey id)
 {
-    return data()->covers().contains(id);
+    return data()->covers.contains(id);
 }
 
 bool CoverManager::removeCover(coverKey id)
@@ -319,14 +318,14 @@ bool CoverManager::removeCover(coverKey id)
     if(!hasCover(id))
         return false;
 
-    data()->covers().remove(id);
+    data()->covers.remove(id);
 
-    QDictIterator<coverKey> it(data()->tracks());
+    QDictIterator<coverKey> it(data()->tracks);
 
     // Remove references to files that had that track ID.
     for(; it.current(); ++it)
         if(*it.current() == id)
-            data()->tracks().remove(it.currentKey());
+            data()->tracks.remove(it.currentKey());
 
     return true;
 }
@@ -358,30 +357,30 @@ void CoverManager::shutdown()
 
 CoverDataMap::ConstIterator CoverManager::begin()
 {
-    return data()->covers().constBegin();
+    return data()->covers.constBegin();
 }
 
 CoverDataMap::ConstIterator CoverManager::end()
 {
-    return data()->covers().constEnd();
+    return data()->covers.constEnd();
 }
 
 QValueList<coverKey> CoverManager::keys()
 {
-    return data()->covers().keys();
+    return data()->covers.keys();
 }
 
 void CoverManager::setIdForTrack(const QString &path, coverKey id)
 {
     if(id == NoMatch)
-        data()->tracks().remove(path);
+        data()->tracks.remove(path);
     else
-        data()->tracks().insert(path, new coverKey(id));
+        data()->tracks.insert(path, new coverKey(id));
 }
 
 coverKey CoverManager::idForTrack(const QString &path)
 {
-    coverKey *coverPtr = data()->tracks().find(path);
+    coverKey *coverPtr = data()->tracks.find(path);
 
     if(!coverPtr)
         return NoMatch;
@@ -391,8 +390,8 @@ coverKey CoverManager::idForTrack(const QString &path)
 
 CoverDataPtr CoverManager::coverInfo(coverKey id)
 {
-    if(data()->covers().contains(id))
-        return data()->covers()[id];
+    if(data()->covers.contains(id))
+        return data()->covers[id];
 
     return CoverDataPtr(0);
 }
