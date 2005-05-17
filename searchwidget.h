@@ -51,8 +51,12 @@ public slots:
     void clear();
     virtual void setFocus();
 
+protected:
+    virtual bool eventFilter(QObject *watched, QEvent *e);
+
 signals:
     void signalQueryChanged();
+    void signalDownPressed();
 
 private slots:
     void slotActivate();
@@ -92,6 +96,8 @@ signals:
     // Minimizing/closing the JuK window will not trigger this signal.
 
     void signalShown(bool shown);
+
+    void signalDownPressed();
 
 private:
     void updateColumns();

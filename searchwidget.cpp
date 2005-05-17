@@ -53,6 +53,7 @@ SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
     }
 
     m_lineEdit = new KLineEdit(this, "searchLineEdit");
+    m_lineEdit->installEventFilter(this);
     connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
             this, SIGNAL(signalQueryChanged()));
     connect(m_lineEdit, SIGNAL(returnPressed()),
@@ -131,6 +132,18 @@ void SearchLine::clear()
 void SearchLine::setFocus()
 {
     m_lineEdit->setFocus();
+}
+
+bool SearchLine::eventFilter(QObject *watched, QEvent *e)
+{
+    if(watched != m_lineEdit || e->type() != QEvent::KeyPress)
+	return QHBox::eventFilter(watched, e);
+
+    QKeyEvent *key = static_cast<QKeyEvent *>(e);
+    if(key->key() == Qt::Key_Down)
+	emit signalDownPressed();
+
+    return QHBox::eventFilter(watched, e);
 }
 
 void SearchLine::slotActivate()
@@ -258,6 +271,7 @@ void SearchWidget::setupLayout()
 
     m_searchLine = new SearchLine(this, true, "kde toolbar widget");
     connect(m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
+    connect(m_searchLine, SIGNAL(signalDownPressed()), this, SIGNAL(signalDownPressed()));
     connect(clearSearchButton, SIGNAL(pressed()), m_searchLine, SLOT(clear()));
     setStretchableWidget(m_searchLine);
 

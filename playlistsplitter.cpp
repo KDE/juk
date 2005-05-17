@@ -17,6 +17,7 @@
 #include <kdebug.h>
 
 #include <qlayout.h>
+#include <qevent.h>
 
 #include "playlistsplitter.h"
 #include "searchwidget.h"
@@ -66,6 +67,39 @@ PlaylistSplitter::~PlaylistSplitter()
 void PlaylistSplitter::setFocus()
 {
     m_searchWidget->setFocus();
+}
+
+void PlaylistSplitter::slotFocusCurrentPlaylist()
+{
+    kdDebug() << k_funcinfo << endl;
+
+    Playlist *playlist = m_playlistBox->visiblePlaylist();
+
+    if(playlist) {
+	playlist->setFocus();
+	playlist->KListView::selectAll(false);
+
+	// Select top item.
+	PlaylistItem *item = playlist->visibleItems().first();
+	playlist->markItemSelected(item, true);
+	playlist->setCurrentItem(item);
+
+	// STUPID FREAKING EVIL HACK because QListView hates me and you.
+	// Apparently all of the selecting items and setting current items
+	// that we just did works, but doesn't update the GUI (even after
+	// calling repaint).  So let's simulate some user interaction.
+	QKeyEvent downP(QEvent::KeyPress, Qt::Key_Down, 32, 0);
+	QKeyEvent downR(QEvent::KeyRelease, Qt::Key_Down, 32, 0);
+	QKeyEvent upP  (QEvent::KeyPress, Qt::Key_Up,   32, 0);
+	QKeyEvent upR  (QEvent::KeyRelease, Qt::Key_Up,   32, 0);
+
+	KApplication::sendEvent(playlist, &downP);
+	KApplication::sendEvent(playlist, &downR);
+	KApplication::sendEvent(playlist, &upP);
+	KApplication::sendEvent(playlist, &upR);
+
+	kapp->processEvents();
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -125,6 +159,8 @@ void PlaylistSplitter::setupLayout()
     m_searchWidget = new SearchWidget(top, "searchWidget");
     connect(m_searchWidget, SIGNAL(signalQueryChanged()),
             this, SLOT(slotShowSearchResults()));
+    connect(m_searchWidget, SIGNAL(signalDownPressed()),
+            this, SLOT(slotFocusCurrentPlaylist()));
     connect(m_searchWidget, SIGNAL(signalAdvancedSearchClicked()),
             m_playlistBox->object(), SLOT(slotCreateSearchPlaylist()));
     connect(m_searchWidget, SIGNAL(signalShown(bool)),
