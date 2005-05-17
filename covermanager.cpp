@@ -21,6 +21,7 @@
 #include <qdir.h>
 #include <qdatastream.h>
 #include <qdict.h>
+#include <qcache.h>
 
 #include <kdebug.h>
 #include <kstaticdeleter.h>
@@ -38,6 +39,10 @@ typedef QDict<coverKey> TrackLookupMap;
 // gets properly destructed on shutdown.
 static KStaticDeleter<CoverManagerPrivate> sd;
 
+// Caches the QPixmaps for the covers so that the covers are not all kept in
+// memory for no reason.
+typedef QCache<QPixmap> CoverPixmapCache;
+
 CoverManagerPrivate *CoverManager::m_data = 0;
 
 // Used to save and load CoverData from a QDataStream
@@ -50,26 +55,12 @@ QDataStream &operator>>(QDataStream &in, CoverData &data);
 
 QPixmap CoverData::pixmap() const
 {
-    if(m_pixmap.isNull())
-        m_pixmap = QPixmap(path);
-
-    return m_pixmap;
+    return CoverManager::coverFromData(*this, CoverManager::FullSize);
 }
 
 QPixmap CoverData::thumbnail() const
 {
-    if(!m_thumbnail.isNull())
-        return m_thumbnail;
-
-    QPixmap base = pixmap();
-    if(base.isNull())
-        return QPixmap();
-
-    // Convert to image for smoothScale()
-    QImage image = base.convertToImage();
-    m_thumbnail.convertFromImage(image.smoothScale(80, 80));
-
-    return m_thumbnail;
+    return CoverManager::coverFromData(*this, CoverManager::Thumbnail);
 }
 
 /**
@@ -90,9 +81,15 @@ public:
     /// Maps file names to coverKey id's.
     TrackLookupMap tracks;
 
-    CoverManagerPrivate() : tracks(1301)
+    /// A cache of the cover representations.  The key format is:
+    /// 'f' followed by the pathname for FullSize covers, and
+    /// 't' followed by the pathname for Thumbnail covers.
+    CoverPixmapCache pixmapCache;
+
+    CoverManagerPrivate() : tracks(1301), pixmapCache(2 * 1024 * 768)
     {
         loadCovers();
+        pixmapCache.setAutoDelete(true);
     }
 
     ~CoverManagerPrivate()
@@ -269,6 +266,43 @@ QPixmap CoverManager::coverFromId(coverKey id, Size size)
     return info->pixmap();
 }
 
+QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
+{
+    QString path = coverData.path;
+
+    // Prepend a tag to the path to separate in the cache between full size
+    // and thumbnail pixmaps.  If we add a different kind of pixmap in the
+    // future we also need to add a tag letter for it.
+    if(size == FullSize)
+        path.prepend('f');
+    else
+        path.prepend('t');
+
+    // Check in cache for the pixmap.
+    QPixmap *pix = data()->pixmapCache[path];
+    if(pix) {
+        kdDebug(65432) << "Found pixmap in cover cache.\n";
+        return *pix;
+    }
+
+    // Not in cache, load it and add it.
+    pix = new QPixmap(coverData.path);
+    if(pix->isNull())
+        return QPixmap();
+
+    if(size == Thumbnail) {
+        // Convert to image for smoothScale()
+        QImage image = pix->convertToImage();
+        pix->convertFromImage(image.smoothScale(80, 80));
+    }
+
+    QPixmap returnValue = *pix; // Save it early.
+    if(!data()->pixmapCache.insert(path, pix, pix->height() * pix->width()))
+        delete pix;
+
+    return returnValue;
+}
+
 coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, const QString &album)
 {
     kdDebug() << k_funcinfo << endl;
@@ -294,7 +328,6 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
         return NoMatch;
     }
 
-    coverData->setPixmap(large);
     coverData->artist = artist.lower();
     coverData->album = album.lower();
 
@@ -336,7 +369,10 @@ bool CoverManager::replaceCover(coverKey id, const QPixmap &large)
         return false;
 
     CoverDataPtr coverData = coverInfo(id);
-    coverData->setPixmap(large);
+
+    // Empty old pixmaps from cache.
+    data()->pixmapCache.remove(QString("%1%2").arg("t", coverData->path));
+    data()->pixmapCache.remove(QString("%1%2").arg("f", coverData->path));
 
     large.save(coverData->path, "PNG");
     return true;

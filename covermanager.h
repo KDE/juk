@@ -38,19 +38,9 @@ public:
     QPixmap pixmap() const;
     QPixmap thumbnail() const;
 
-    void setPixmap(const QPixmap &pixmap)
-    {
-        m_pixmap = pixmap;
-        m_thumbnail = QPixmap();
-    }
-
     QString artist;
     QString album;
     QString path;
-
-private:
-    mutable QPixmap m_pixmap;
-    mutable QPixmap m_thumbnail;
 };
 
 typedef KSharedPtr<CoverData> CoverDataPtr;
@@ -98,6 +88,17 @@ public:
      *         cover art.
      */
     static QPixmap coverFromId(coverKey id, Size size = Thumbnail);
+
+    /**
+     * Returns the cover art for @p ptr.  This function is intended for use
+     * by CoverData.
+     *
+     * @param ptr The CoverData to get the cover of.  Note that it is a
+     *            CoverData, not CoverDataPtr.
+     * @param size The size to return it as.
+     * @see CoverData
+     */
+    static QPixmap coverFromData(const CoverData &coverData, Size size = Thumbnail);
 
     /**
      * Returns the full suite of information known about the cover given by
