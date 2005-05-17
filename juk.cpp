@@ -376,6 +376,7 @@ bool JuK::queryExit()
     delete m_systemTray;
     m_systemTray = 0;
 
+    CoverManager::shutdown();
     Cache::instance()->save();
     saveConfig();
 
@@ -422,7 +423,6 @@ void JuK::slotQuit()
     kdDebug(65432) << k_funcinfo << endl;
     m_shuttingDown = true;
 
-    CoverManager::shutdown();
     kapp->quit();
 }
 
