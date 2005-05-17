@@ -32,6 +32,7 @@
 #include <kpushbutton.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
+#include <ksimpleconfig.h>
 
 #include <qfile.h>
 #include <qhbox.h>
@@ -53,6 +54,7 @@
 #include "exampleoptions.h"
 #include "playlistitem.h"
 #include "playlist.h"
+#include "coverinfo.h"
 
 class ConfirmationDialog : public KDialogBase
 {
@@ -729,6 +731,8 @@ void FileRenamer::rename(const PlaylistItemList &items)
         if(moveFile(it.key(), it.data())) {
             itemMap[it.key()]->setFile(it.data());
             itemMap[it.key()]->refresh();
+
+            setFolderIcon(it.data(), itemMap[it.key()]);
         }
         else
             errorFiles << i18n("%1 to %2").arg(it.key()).arg(it.data());
@@ -773,6 +777,48 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
 
     // Move the file.
     return KIO::NetAccess::file_move(srcURL, dstURL);
+}
+
+void FileRenamer::setFolderIcon(const KURL &dst, const PlaylistItem *item)
+{
+    if(item->file().tag()->album().isEmpty() ||
+       !item->file().coverInfo()->hasCover())
+    {
+        return;
+    }
+
+    KURL dstURL = dst;
+    dstURL.cleanPath();
+
+    // Split path, and go through each path element.  If a path element has
+    // the album information, set its folder icon.
+    QStringList elements = QStringList::split("/", dstURL.directory());
+    QString path;
+
+    for(QStringList::ConstIterator it = elements.begin(); it != elements.end(); ++it) {
+        path.append("/" + (*it));
+
+        kdDebug() << "Checking path: " << path << endl;
+        if((*it).find(item->file().tag()->album()) != -1 &&
+           !QFile::exists(path + "/.directory"))
+        {
+            // Seems to be a match, let's set the folder icon for the current
+            // path.  First we should write out the file.
+            
+            QPixmap thumb = item->file().coverInfo()->pixmap(CoverInfo::Thumbnail);
+            thumb.save(path + "/.juk-thumbnail.png", "PNG");
+
+            KSimpleConfig config(path + "/.directory");
+            config.setGroup("Desktop Entry");
+
+            if(!config.hasKey("Icon")) {
+                config.writeEntry("Icon", QString("%1/.juk-thumbnail.png").arg(path));
+                config.sync();
+            }
+
+            return;
+        }
+    }
 }
 
 QString FileRenamer::fileName(const CategoryReaderInterface &interface)
