@@ -28,6 +28,7 @@
 
 class Playlist;
 class PlaylistItem;
+class CollectionList;
 class CollectionListItem;
 
 typedef QValueList<PlaylistItem *> PlaylistItemList;
