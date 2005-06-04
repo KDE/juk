@@ -36,6 +36,7 @@ using namespace ActionCollection;
 
 PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     QSplitter(Qt::Horizontal, parent, name),
+    m_newVisible(0),
     m_playlistBox(0),
     m_searchWidget(0),
     m_playlistStack(0),
@@ -99,6 +100,11 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
+
+Playlist *PlaylistSplitter::visiblePlaylist() const
+{
+    return m_newVisible ? m_newVisible : m_playlistBox->visiblePlaylist();
+}
 
 void PlaylistSplitter::setupActions()
 {
@@ -210,8 +216,12 @@ void PlaylistSplitter::slotPlaylistChanged(QWidget *w)
 {
     Playlist *p = dynamic_cast<Playlist *>(w);
 
-    if(p)
-        m_searchWidget->setSearch(p->search());
+    if(!p)
+	return;
+
+    m_newVisible = p;
+    m_searchWidget->setSearch(p->search());
+    m_newVisible = 0;
 }
 
 #include "playlistsplitter.moc"
