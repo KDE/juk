@@ -77,30 +77,22 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
 	playlist->setFocus();
 	playlist->KListView::selectAll(false);
 
-	// Select top item.
+	// Select the top visible (and matching) item.
+
 	PlaylistItem *item = static_cast<PlaylistItem *>(playlist->itemAt(QPoint(0, 0)));
 
 	if(!item)
 	    return;
 
+	// A little bit of a hack to make QListView repaint things properly.  Switch
+	// to single selection mode, set the selection and then switch back.
+
+	playlist->setSelectionMode(QListView::Single);
+
 	playlist->markItemSelected(item, true);
 	playlist->setCurrentItem(item);
 
-	// STUPID FREAKING EVIL HACK because QListView hates me and you.
-	// Apparently all of the selecting items and setting current items
-	// that we just did works, but doesn't update the GUI (even after
-	// calling repaint).  So let's simulate some user interaction.
-	QKeyEvent downP(QEvent::KeyPress, Qt::Key_Down, 32, 0);
-	QKeyEvent downR(QEvent::KeyRelease, Qt::Key_Down, 32, 0);
-	QKeyEvent upP  (QEvent::KeyPress, Qt::Key_Up,   32, 0);
-	QKeyEvent upR  (QEvent::KeyRelease, Qt::Key_Up,   32, 0);
-
-	KApplication::sendEvent(playlist, &downP);
-	KApplication::sendEvent(playlist, &downR);
-	KApplication::sendEvent(playlist, &upP);
-	KApplication::sendEvent(playlist, &upR);
-
-	kapp->processEvents();
+	playlist->setSelectionMode(QListView::Extended);
     }
 }
 
