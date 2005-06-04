@@ -71,8 +71,6 @@ void PlaylistSplitter::setFocus()
 
 void PlaylistSplitter::slotFocusCurrentPlaylist()
 {
-    kdDebug() << k_funcinfo << endl;
-
     Playlist *playlist = m_playlistBox->visiblePlaylist();
 
     if(playlist) {
@@ -80,7 +78,11 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
 	playlist->KListView::selectAll(false);
 
 	// Select top item.
-	PlaylistItem *item = playlist->visibleItems().first();
+	PlaylistItem *item = static_cast<PlaylistItem *>(playlist->itemAt(QPoint(0, 0)));
+
+	if(!item)
+	    return;
+
 	playlist->markItemSelected(item, true);
 	playlist->setCurrentItem(item);
 
