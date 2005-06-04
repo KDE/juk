@@ -659,8 +659,6 @@ void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible) // s
 
 void Playlist::setSearch(const PlaylistSearch &s)
 {
-    kdDebug(65432) << k_funcinfo << name() << " - " << s.components().first().query() << endl;    
-
     m_search = s;
 
     if(!m_searchEnabled)
