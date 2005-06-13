@@ -415,6 +415,7 @@ protected:
     // the following are all reimplemented from base classes
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
+    virtual void keyPressEvent(QKeyEvent *e);
     virtual QDragObject *dragObject(QWidget *parent);
     virtual QDragObject *dragObject() { return dragObject(this); }
     virtual bool canDecode(QMimeSource *s);
@@ -687,6 +688,13 @@ private:
 };
 
 bool processEvents();
+
+class FocusUpEvent : public QCustomEvent
+{
+public:
+    FocusUpEvent() : QCustomEvent(id) {}
+    static const int id = 999;
+};
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);
 QDataStream &operator>>(QDataStream &s, Playlist &p);

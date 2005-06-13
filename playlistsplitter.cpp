@@ -61,6 +61,15 @@ PlaylistSplitter::~PlaylistSplitter()
     delete m_playlistBox;
 }
 
+bool PlaylistSplitter::eventFilter(QObject *, QEvent *event)
+{
+    if(event->type() == FocusUpEvent::id) {
+        m_searchWidget->setFocus();
+        return true;
+    }
+    return false;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,25 +84,25 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
     Playlist *playlist = m_playlistBox->visiblePlaylist();
 
     if(playlist) {
-	playlist->setFocus();
-	playlist->KListView::selectAll(false);
+        playlist->setFocus();
+        playlist->KListView::selectAll(false);
 
-	// Select the top visible (and matching) item.
+        // Select the top visible (and matching) item.
 
-	PlaylistItem *item = static_cast<PlaylistItem *>(playlist->itemAt(QPoint(0, 0)));
+        PlaylistItem *item = static_cast<PlaylistItem *>(playlist->itemAt(QPoint(0, 0)));
 
-	if(!item)
-	    return;
+        if(!item)
+            return;
 
-	// A little bit of a hack to make QListView repaint things properly.  Switch
-	// to single selection mode, set the selection and then switch back.
+        // A little bit of a hack to make QListView repaint things properly.  Switch
+        // to single selection mode, set the selection and then switch back.
 
-	playlist->setSelectionMode(QListView::Single);
+        playlist->setSelectionMode(QListView::Single);
 
-	playlist->markItemSelected(item, true);
-	playlist->setCurrentItem(item);
+        playlist->markItemSelected(item, true);
+        playlist->setCurrentItem(item);
 
-	playlist->setSelectionMode(QListView::Extended);
+        playlist->setSelectionMode(QListView::Extended);
     }
 }
 
@@ -129,6 +138,7 @@ void PlaylistSplitter::setupLayout()
     QVBoxLayout *topLayout = new QVBoxLayout(top);
 
     m_playlistStack = new QWidgetStack(top, "playlistStack");
+    m_playlistStack->installEventFilter(this);
 
     connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)), this, SLOT(slotPlaylistChanged(QWidget *)));
 
@@ -217,7 +227,7 @@ void PlaylistSplitter::slotPlaylistChanged(QWidget *w)
     Playlist *p = dynamic_cast<Playlist *>(w);
 
     if(!p)
-	return;
+        return;
 
     m_newVisible = p;
     m_searchWidget->setSearch(p->search());

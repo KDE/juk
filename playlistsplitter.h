@@ -48,6 +48,8 @@ public:
 
     PlaylistInterface *playlist() const { return m_playlistBox; }
 
+    virtual bool eventFilter(QObject *watched, QEvent *event);
+
 public slots:
     virtual void setFocus();
     virtual void slotFocusCurrentPlaylist();

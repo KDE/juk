@@ -1086,13 +1086,30 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 		QTimer::singleShot(0, this, SLOT(slotUpdateColumnWidths()));
 	    break;
 	}
-
 	default:
 	    break;
 	}
     }
 
     return KListView::eventFilter(watched, e);
+}
+
+void Playlist::keyPressEvent(QKeyEvent *event)
+{
+    if(event->key() == Key_Up) {
+	QListViewItemIterator selected(this, QListViewItemIterator::IteratorFlag(
+					   QListViewItemIterator::Selected |
+					   QListViewItemIterator::Visible));
+	if(selected.current()) {
+	    QListViewItemIterator visible(this, QListViewItemIterator::IteratorFlag(
+					      QListViewItemIterator::Visible));
+	    if(selected.current() == visible.current())
+		KApplication::postEvent(parent(), new FocusUpEvent);
+	}
+	
+    }
+
+    KListView::keyPressEvent(event);
 }
 
 void Playlist::contentsDropEvent(QDropEvent *e)
