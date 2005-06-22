@@ -2005,7 +2005,8 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 	    action("edit_cut")->plug(m_rmbMenu);
 	    action("edit_copy")->plug(m_rmbMenu);
 	    action("edit_paste")->plug(m_rmbMenu);
-	    action("edit_clear")->plug(m_rmbMenu);
+	    m_rmbMenu->insertSeparator();
+	    action("removeFromPlaylist")->plug(m_rmbMenu);
 	}
 	else
 	    action("edit_copy")->plug(m_rmbMenu);

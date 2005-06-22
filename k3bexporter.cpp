@@ -44,7 +44,7 @@ KAction *K3bExporter::action()
 {
     if(!KStandardDirs::findExe("k3b").isNull()) {
         return new KAction(
-            i18n("Add Selected Items to K3b Project"),
+            i18n("Add to an Audio or Data CD"),
             SmallIconSet("k3b"),
             0,
             this,
@@ -206,7 +206,7 @@ KAction *K3bPlaylistExporter::action()
 {
     if(!KStandardDirs::findExe("k3b").isNull()) {
         return new KAction(
-            i18n("Add Playlist to K3b Project"),
+            i18n("Add to an Audio or Data CD"),
             SmallIconSet("k3b"),
             0,
             this,
