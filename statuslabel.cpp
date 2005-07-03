@@ -175,12 +175,10 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
     if(!o || !e)
         return false;
 
-    QMouseEvent *mouseEvent = dynamic_cast<QMouseEvent *>(e);
-    if(mouseEvent &&
-       mouseEvent->state() == LeftButton &&
+    QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(e);
+    if(e->type() == QEvent::MouseButtonRelease &&
        mouseEvent->button() == LeftButton)
     {
-
         if(o == m_itemTimeLabel) {
             m_showTimeRemaining = !m_showTimeRemaining;
             updateTime();
