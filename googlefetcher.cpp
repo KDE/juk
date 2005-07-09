@@ -14,6 +14,9 @@
 
 #include <dom/html_document.h>
 #include <dom/html_misc.h>
+#include <dom/html_table.h>
+#include <dom/dom_exception.h>
+#include <dom/dom2_traversal.h>
 
 #include <kapplication.h>
 #include <kstatusbar.h>
@@ -77,62 +80,99 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     m_loadedQuery = m_searchString;
     m_loadedSize = size;
 
+    // We don't normally like exceptions but missing DOMException will kill
+    // JuK rather abruptly whether we like it or not so we don't really have a
+    // choice if we're going to screen-scrape Google.
+    try {
+
     DOM::HTMLDocument search;
-    search.setAsync(false);
+    search.setAsync(false); // Grab the document before proceeding.
     search.load(url.url());
 
-    DOM::Node body = search.body();
-    DOM::NodeList topLevelNodes = body.childNodes();
+    DOM::HTMLElement body = search.body();
+    DOM::NodeList topLevelNodes = body.getElementsByTagName("table");
 
-    // On google results, if the fifth (0-based) node is a "Script" node, 
-    // then there are no results.  Otherwise, there are results.
-
-    DOM::Node fourthNode = topLevelNodes.item(4);
-
-    if(topLevelNodes.length() <= 5 ||
-       topLevelNodes.item(4).nodeName().string() == "script")
+    if(!hasImageResults(search))
     {
+	kdDebug(65432) << "Search returned no results.\n";
         emit signalNewSearch(m_imageList);
         return;
     }
 
     // Go through each of the top (table) nodes
 
-    for(uint i = 5; i < topLevelNodes.length(); i++) {
+    for(uint i = 0; i < topLevelNodes.length(); i++) {
         DOM::Node thisTopNode = topLevelNodes.item(i);
 
-        if(thisTopNode.nodeName().string() == "table") {
+	// The get named item test seems to accurately determine whether a
+	// <TABLE> tag contains the actual images or is just layout filler.
+	// The parent node check is due to the fact that we only want top-level
+	// tables, but the getElementsByTagName returns all tables in the
+	// tree.
+	DOM::HTMLTableElement table = thisTopNode;
+	if(table.isNull() || table.parentNode() != body || table.getAttribute("align").isEmpty())
+	    continue;
 
-            uint imageIndex = 0;
-            if(!thisTopNode.firstChild().firstChild().firstChild()
-               .attributes().getNamedItem("colspan").isNull())
-            {
-                imageIndex = 1;
-            }
+	DOM::HTMLCollection rows = table.rows();
+	uint imageIndex = 0;
 
-            DOM::NodeList images = thisTopNode.firstChild().childNodes().item(imageIndex).childNodes();
+	// Some tables will have an extra row saying "Displaying only foo-size
+	// images".  These tables have three rows, so we need to have
+	// increment imageIndex for these.
+	if(rows.length() > 2)
+	    imageIndex = 1;
 
-            // For each table node, pull the images out of the first row
-                
-            for(uint j = 0; j < images.length(); j++) {
-                QString imageURL = "http://images.google.com" +
-                    images.item(j).firstChild().firstChild().attributes()
-                    .getNamedItem("src").nodeValue().string();
+	// A list of <TDs> containing the hyperlink to the site, with image.
+	DOM::NodeList images = rows.item(imageIndex).childNodes();
 
-                DOM::Node topFont = thisTopNode.firstChild().childNodes()
-                    .item(imageIndex + 1).childNodes().item(j).firstChild();
+	// For each table node, pull the images out of the first row
+	    
+	for(uint j = 0; j < images.length(); j++) {
+	    DOM::Element tdElement = images.item(j);
+	    if(tdElement.isNull()) {
+		// Whoops....
+		kdError(65432) << "Expecting a <TD> in a <TR> parsing Google Images!\n";
+		continue;
+	    }
 
-                // And pull the size out of the second row
+	    // Grab first item out of list of images.  There should only be
+	    // one anyways.
+	    DOM::Element imgElement = tdElement.getElementsByTagName("img").item(0);
+	    if(imgElement.isNull()) {
+		kdError(65432) << "Expecting a <IMG> in a <TD> parsing Google Images!\n";
+		continue;
+	    }
 
-                for(uint k = 0; k < topFont.childNodes().length(); k++) {
-                    if(topFont.childNodes().item(k).nodeName().string() == "font") {
-                        m_imageList.append(GoogleImage(imageURL, topFont.childNodes().item(k)
-                                                       .firstChild().nodeValue().string()));
-                    }
-                }
-            }
-        }
+	    QString imageURL = "http://images.google.com" +
+		imgElement.getAttribute("src").string();
+
+	    // Pull the matching <TD> node for the row under the one we've
+	    // got.
+	    tdElement = rows.item(imageIndex + 1).childNodes().item(j);
+
+	    // Iterate over it until we find a string with "pixels".
+	    unsigned long whatToShow = DOM::NodeFilter::SHOW_TEXT;
+	    DOM::NodeIterator it = search.createNodeIterator(tdElement, whatToShow, 0, false);
+	    DOM::Node node;
+
+	    for(node = it.nextNode(); !node.isNull(); node = it.nextNode()) {
+		if(node.nodeValue().string().contains("pixels")) {
+		    m_imageList.append(GoogleImage(imageURL, node.nodeValue().string()));
+		    break;
+		}
+	    }
+	}
     }
+    } // try
+    catch (DOM::DOMException &e)
+    {
+	kdError(65432) << "Caught DOM Exception: " << e.code << endl;
+    }
+    catch (...)
+    {
+	kdError(65432) << "Caught unknown exception.\n";
+    }
+
     emit signalNewSearch(m_imageList);
 }
 
@@ -188,6 +228,22 @@ bool GoogleFetcher::requestNewSearchTerms(bool noResults)
         m_searchString = m_loadedQuery;
 
     return ok;
+}
+
+bool GoogleFetcher::hasImageResults(DOM::HTMLDocument &search)
+{
+    unsigned long typesToShow = DOM::NodeFilter::SHOW_TEXT;
+    
+    DOM::NodeIterator it = search.createNodeIterator(search.body(), typesToShow, 0, false);
+    DOM::Node node;
+
+    for(node = it.nextNode(); !node.isNull(); node = it.nextNode()) {
+	// node should be a text node.
+	if(node.nodeValue().string().contains("did not match any"))
+	    return false;
+    }
+
+    return true;
 }
 
 #include "googlefetcher.moc"

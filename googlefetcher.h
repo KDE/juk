@@ -23,6 +23,10 @@
 
 #include "filehandle.h"
 
+namespace DOM {
+    class HTMLDocument;
+}
+
 class KURL;
 
 class GoogleImage
@@ -58,6 +62,9 @@ signals:
 private:
     void displayWaitMessage();
     bool requestNewSearchTerms(bool noResults = false);
+
+    // Returns true if there are results in the search, otherwise returns false.
+    bool hasImageResults(DOM::HTMLDocument &search);
 
 private slots:
     void slotLoadImageURLs(GoogleFetcher::ImageSize size = All);
