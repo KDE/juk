@@ -83,6 +83,8 @@ endif
 juk_LDADD = -lm $(LDADD_GST) $(mblibs) $(LIB_KIO) $(taglib_libs) $(LIB_KHTML) $(LIB_ARTS) ../akode/lib/libakode.la
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LDFLAGS_GST)
 
+KDE_CXXFLAGS = $(USE_EXCEPTIONS)
+
 tagguessertest_LDADD = $(LIB_KDECORE)
 tagguessertest_LDFLAGS = $(all_libraries)
 
