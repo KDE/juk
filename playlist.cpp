@@ -1050,20 +1050,6 @@ bool Playlist::canDecode(QMimeSource *s)
 void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 {
     KURL::List urls;
-    coverKey id;
-
-    if(CoverDrag::decode(s, id)) {
-
-	// Apply cover to selected items.
-
-	PlaylistItemList selItems = selectedItems();
-	for(PlaylistItemList::Iterator it = selItems.begin(); it != selItems.end(); ++it) {
-	    (*it)->file().coverInfo()->setCoverId(id);
-	    (*it)->refresh();
-	}
-
-	return;
-    }
 
     if(!KURLDrag::decode(s, urls) || urls.isEmpty())
 	return;
@@ -1155,6 +1141,30 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 {
     QPoint vp = contentsToViewport(e->pos());
     PlaylistItem *item = static_cast<PlaylistItem *>(itemAt(vp));
+
+    // First see if we're dropping a cover, if so we can get it out of the
+    // way early.
+    if(item && CoverDrag::canDecode(e)) {
+	coverKey id;
+	CoverDrag::decode(e, id);
+
+	// If the item we dropped on is selected, apply cover to all selected
+	// items, otherwise just apply to the dropped item.
+
+	if(item->isSelected()) {
+	    PlaylistItemList selItems = selectedItems();
+	    for(PlaylistItemList::Iterator it = selItems.begin(); it != selItems.end(); ++it) {
+		(*it)->file().coverInfo()->setCoverId(id);
+		(*it)->refresh();
+	    }
+	}
+	else {
+	    item->file().coverInfo()->setCoverId(id);
+	    item->refresh();
+	}
+	
+	return;
+    }
 
     // When dropping on the upper half of an item, insert before this item.
     // This is what the user expects, and also allows the insertion at
