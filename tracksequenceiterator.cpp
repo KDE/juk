@@ -45,6 +45,14 @@ void TrackSequenceIterator::setCurrent(PlaylistItem *current)
     m_current = current;
 }
 
+void TrackSequenceIterator::playlistChanged()
+{
+}
+
+void TrackSequenceIterator::itemAboutToDie(const PlaylistItem *)
+{
+}
+
 DefaultSequenceIterator::DefaultSequenceIterator() :
     TrackSequenceIterator()
 {
@@ -168,6 +176,18 @@ void DefaultSequenceIterator::reset()
     m_albumSearch.clearComponents();
     m_albumSearch.search();
     setCurrent(0);
+}
+
+void DefaultSequenceIterator::playlistChanged()
+{
+    refillRandomList();
+}
+
+void DefaultSequenceIterator::itemAboutToDie(const PlaylistItem *item)
+{
+    PlaylistItem *stfu_gcc = const_cast<PlaylistItem *>(item);
+    kdDebug(65432) << "Removing " << item << " from random list.\n";
+    m_randomItems.remove(stfu_gcc);
 }
 
 void DefaultSequenceIterator::setCurrent(PlaylistItem *current)

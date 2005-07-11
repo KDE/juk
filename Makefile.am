@@ -11,6 +11,7 @@ juk_SOURCES = \
 	collectionlist.cpp \
 	coverdialog.cpp \
 	coverdialogbase.ui \
+	covericonview.cpp \
 	coverinfo.cpp \
 	covermanager.cpp \
 	deletedialog.cpp \

@@ -120,7 +120,12 @@ void TrackSequenceManager::setNextItem(PlaylistItem *item)
 
 void TrackSequenceManager::setCurrentPlaylist(Playlist *list)
 {
+    if(m_playlist)
+        m_playlist->disconnect(this);
     m_playlist = list;
+
+    connect(m_playlist, SIGNAL(signalAboutToRemove(PlaylistItem *)),
+            this,       SLOT(slotItemAboutToDie(PlaylistItem *)));
 }
 
 void TrackSequenceManager::setCurrent(PlaylistItem *item)
@@ -172,6 +177,8 @@ void TrackSequenceManager::slotItemAboutToDie(PlaylistItem *item)
 {
     if(item == m_playNextItem)
         m_playNextItem = 0;
+
+    m_iterator->itemAboutToDie(item);
 }
 
 #include "tracksequencemanager.moc"

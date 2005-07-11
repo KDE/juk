@@ -422,8 +422,9 @@ protected:
     virtual void decode(QMimeSource *s, PlaylistItem *item = 0);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);
+    virtual void contentsDragEnterEvent(QDragEnterEvent *e);
     virtual void showEvent(QShowEvent *e);
-    virtual bool acceptDrag(QDropEvent *e) const { return KURLDrag::canDecode(e); }
+    virtual bool acceptDrag(QDropEvent *e) const;
     virtual void viewportPaintEvent(QPaintEvent *pe);
     virtual void viewportResizeEvent(QResizeEvent *re);
 
@@ -649,7 +650,6 @@ private:
     QValueVector<int> m_columnFixedWidths;
     bool m_widthsDirty;
 
-    PlaylistItemList m_randomList;
     static PlaylistItemList m_history;
     PlaylistSearch m_search;
 
@@ -726,9 +726,6 @@ ItemType *Playlist::createItem(const FileHandle &file, QListViewItem *after,
 	ItemType *i = after ? new ItemType(item, this, after) : new ItemType(item, this);
 	setupItem(i);
 
-        if(!m_randomList.isEmpty() && !m_visibleChanged)
-            m_randomList.append(i);
-
 	if(emitChanged)
 	    dataChanged();
 
@@ -746,8 +743,6 @@ ItemType *Playlist::createItem(SiblingType *sibling, ItemType *after)
     if(!m_members.insert(sibling->file().absFilePath()) || m_allowDuplicates) {
 	after = new ItemType(sibling->collectionItem(), this, after);
 	setupItem(after);
-	if(!m_randomList.isEmpty() && !m_visibleChanged)
-	    m_randomList.append(after);
     }
 
     m_disableColumnWidthUpdates = false;

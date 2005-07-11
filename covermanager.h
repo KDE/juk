@@ -13,9 +13,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#ifndef JUK_COVERMANAGER_H
+#define JUK_COVERMANAGER_H
+
 #include <ksharedptr.h>
 
 #include <qmap.h>
+#include <qdragobject.h>
 
 class CoverManagerPrivate;
 class QString;
@@ -46,6 +50,39 @@ public:
 typedef KSharedPtr<CoverData> CoverDataPtr;
 typedef unsigned long coverKey; ///< Type of the id for a cover.
 typedef QMap<coverKey, CoverDataPtr> CoverDataMap;
+
+/**
+ * This class is used to drag covers in JuK.  It adds a special mimetype that
+ * contains the cover ID used for this cover, and also supports an image/png
+ * mimetype for dragging to other applications.
+ *
+ * As of this writing the mimetype is application/x-juk-coverid
+ *
+ * @author Michael Pyne <michael.pyne@kdemail.net>
+ */
+class CoverDrag : public QDragObject
+{
+public:
+    CoverDrag(coverKey id, QWidget *src);
+
+    virtual const char *format(int i) const;
+    virtual QByteArray encodedData(const char *mimetype) const;
+
+    void setId(coverKey id) { m_id = id; }
+
+    /**
+     * Returns true if CoverDrag can decode the given mime source.  Note that
+     * true is returned only if \p e contains a cover id, even though
+     * CoverDrag can convert it to an image.
+     */
+    static bool canDecode(const QMimeSource *e);
+    static bool decode(const QMimeSource *e, coverKey &id);
+
+    static const char* mimetype;
+
+private:
+    coverKey m_id;
+};
 
 /**
  * This class holds all of the cover art, and manages looking it up by artist
@@ -209,5 +246,7 @@ public:
     static CoverManagerPrivate *data();
     static QPixmap createThumbnail(const QPixmap &base);
 };
+
+#endif /* JUK_COVERMANAGER_H */
 
 // vim: set et sw=4 ts=4:

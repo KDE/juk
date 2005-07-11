@@ -22,6 +22,7 @@
 #include <qdatastream.h>
 #include <qdict.h>
 #include <qcache.h>
+#include <qmime.h>
 
 #include <kdebug.h>
 #include <kstaticdeleter.h>
@@ -39,6 +40,7 @@ typedef QDict<coverKey> TrackLookupMap;
 // gets properly destructed on shutdown.
 static KStaticDeleter<CoverManagerPrivate> sd;
 
+const char *CoverDrag::mimetype = "application/x-juk-coverid";
 // Caches the QPixmaps for the covers so that the covers are not all kept in
 // memory for no reason.
 typedef QCache<QPixmap> CoverPixmapCache;
@@ -236,6 +238,61 @@ coverKey CoverManagerPrivate::nextId() const
 }
 
 //
+// Implementation of CoverDrag
+//
+CoverDrag::CoverDrag(coverKey id, QWidget *src) : QDragObject(src, "coverDrag"),
+                                                  m_id(id)
+{
+}
+
+const char *CoverDrag::format(int i) const
+{
+    if(i == 0)
+        return mimetype;
+    if(i == 1)
+        return "image/png";
+
+    return 0;
+}
+
+QByteArray CoverDrag::encodedData(const char *mimetype) const
+{
+    if(qstrcmp(CoverDrag::mimetype, mimetype) == 0) {
+        QByteArray data;
+        QDataStream ds(data, IO_WriteOnly);
+
+        ds << Q_UINT32(m_id);
+        return data;
+    }
+    else if(qstrcmp(mimetype, "image/png") == 0) {
+        // TODO: Implement.
+        ;
+    }
+
+    return QByteArray();
+}
+
+bool CoverDrag::canDecode(const QMimeSource *e)
+{
+    return e->provides(mimetype);
+}
+
+bool CoverDrag::decode(const QMimeSource *e, coverKey &id)
+{
+    if(!canDecode(e))
+        return false;
+
+    QByteArray data = e->encodedData(mimetype);
+    QDataStream ds(data, IO_ReadOnly);
+    Q_UINT32 i;
+
+    ds >> i;
+    id = (coverKey) i;
+
+    return true;
+}
+
+//
 // Implementation of CoverManager methods.
 //
 coverKey CoverManager::idFromMetadata(const QString &artist, const QString &album)
@@ -333,6 +390,10 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
 
     data()->covers[id] = coverData;
 
+    // Make sure the new cover isn't inadvertently cached.
+    data()->pixmapCache.remove(QString("f%1").arg(coverData->path));
+    data()->pixmapCache.remove(QString("t%1").arg(coverData->path));
+
     return id;
 }
 
@@ -351,14 +412,22 @@ bool CoverManager::removeCover(coverKey id)
     if(!hasCover(id))
         return false;
 
-    data()->covers.remove(id);
-
-    QDictIterator<coverKey> it(data()->tracks);
+    // Remove cover from cache.
+    CoverDataPtr coverData = coverInfo(id);
+    data()->pixmapCache.remove(QString("f%1").arg(coverData->path));
+    data()->pixmapCache.remove(QString("t%1").arg(coverData->path));
 
     // Remove references to files that had that track ID.
+    QDictIterator<coverKey> it(data()->tracks);
     for(; it.current(); ++it)
         if(*it.current() == id)
             data()->tracks.remove(it.currentKey());
+
+    // Remove covers from disk.
+    QFile::remove(coverData->path);
+
+    // Finally, forget that we ever knew about this cover.
+    data()->covers.remove(id);
 
     return true;
 }
@@ -408,8 +477,12 @@ QValueList<coverKey> CoverManager::keys()
 
 void CoverManager::setIdForTrack(const QString &path, coverKey id)
 {
-    if(id == NoMatch)
+    if(id == NoMatch) {
         data()->tracks.remove(path);
+
+        if(data()->tracks.isEmpty())
+            removeCover(id);
+    }
     else
         data()->tracks.insert(path, new coverKey(id));
 }

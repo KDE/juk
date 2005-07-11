@@ -34,6 +34,9 @@ public:
     void clearCover();
     void setCover(const QImage &image = QImage());
 
+    // Use this to assign to a specific cover id.
+    void setCoverId(coverKey id);
+
     QPixmap pixmap(CoverSize size) const;
     void popup() const;
 

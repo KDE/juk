@@ -273,7 +273,7 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-    if(KURLDrag::canDecode(e) && e->source() != this)
+    if(canDecode(e) && e->source() != this)
 	e->accept(true);
     else
 	e->accept(false);

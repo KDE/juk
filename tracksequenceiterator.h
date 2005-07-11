@@ -93,6 +93,23 @@ public:
     virtual void prepareToPlay(Playlist *playlist) = 0;
 
     /**
+     * This function is called whenever the current playlist changes, such as
+     * having a new search applied, items added/removed, etc.  If you need to
+     * update internal state, you should do so without affecting the current
+     * playing item. Default implementation does nothing.
+     */
+    virtual void playlistChanged();
+
+    /**
+     * This function is called by the manager when \p item is about to be
+     * removed.  Subclasses should ensure that they're not still holding a
+     * pointer to the item.  The default implementation does nothing.
+     *
+     * @param item the item about to be removed.
+     */
+    virtual void itemAboutToDie(const PlaylistItem *item);
+
+    /**
      * This function is called by the TrackSequenceManager is some situations,
      * such as when playback is being stopped.  If you subclass needs to reset
      * any internal data members, do so in this function.  This function must
@@ -163,6 +180,18 @@ public:
      * and what the current album is.
      */
     virtual void reset();
+
+    /**
+     * This function recalculates the random lists, and is should be called
+     * whenever its current playlist changes (at least for searches).
+     */
+    virtual void playlistChanged();
+
+    /**
+     * Called when \p item is about to be removed.  This function ensures that
+     * it isn't remaining in the random play list.
+     */
+    virtual void itemAboutToDie(const PlaylistItem *item);
 
     /**
      * This function sets the current item, and initializes any internal lists

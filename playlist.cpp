@@ -570,8 +570,6 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     m_members.remove(item->file().absFilePath());
     m_search.clearItem(item);
 
-    if(!m_randomList.isEmpty() && !m_visibleChanged)
-        m_randomList.remove(item);
     m_history.remove(item);
 
     delete item;
@@ -664,9 +662,7 @@ void Playlist::setSearch(const PlaylistSearch &s)
     if(!m_searchEnabled)
 	return;
 
-    // Make sure that we only play visible items.
-
-    m_randomList.clear();
+    TrackSequenceManager::instance()->iterator()->playlistChanged();
 
     setItemsVisible(s.matchedItems(), true);
     setItemsVisible(s.unmatchedItems(), false);
@@ -973,14 +969,9 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
 		QString removePath = (*it)->file().absFilePath();
 		if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removePath), this)) ||
-		   (shouldDelete && QFile::remove(removePath))) {
-                    if(!m_randomList.isEmpty() && !m_visibleChanged)
-                        m_randomList.remove(*it);
+		   (shouldDelete && QFile::remove(removePath)))
+		{
 		    CollectionList::instance()->clearItem((*it)->collectionItem());
-
-		    // Get Orwellian and erase the song from history. :-)
-
-		    m_history.remove(*it);
 		}
 		else
 		    errorFiles.append((*it)->file().absFilePath());
@@ -1016,15 +1007,63 @@ QDragObject *Playlist::dragObject(QWidget *parent)
     return drag;
 }
 
+void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
+{
+    KListView::contentsDragEnterEvent(e);
+
+    if(CoverDrag::canDecode(e)) {
+	setDropHighlighter(true);
+	setDropVisualizer(false);
+
+	e->accept();
+	return;
+    }
+
+    setDropHighlighter(false);
+    setDropVisualizer(true);
+
+    KURL::List urls;
+    if(!KURLDrag::decode(e, urls) || urls.isEmpty()) {
+	e->ignore();
+	return;
+    }
+
+    e->accept();
+    return;
+}
+
+bool Playlist::acceptDrag(QDropEvent *e) const
+{
+    return CoverDrag::canDecode(e) || KURLDrag::canDecode(e);
+}
+
 bool Playlist::canDecode(QMimeSource *s)
 {
     KURL::List urls;
+
+    if(CoverDrag::canDecode(s))
+	return true;
+
     return KURLDrag::decode(s, urls) && !urls.isEmpty();
 }
 
 void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 {
     KURL::List urls;
+    coverKey id;
+
+    if(CoverDrag::decode(s, id)) {
+
+	// Apply cover to selected items.
+
+	PlaylistItemList selItems = selectedItems();
+	for(PlaylistItemList::Iterator it = selItems.begin(); it != selItems.end(); ++it) {
+	    (*it)->file().coverInfo()->setCoverId(id);
+	    (*it)->refresh();
+	}
+
+	return;
+    }
 
     if(!KURLDrag::decode(s, urls) || urls.isEmpty())
 	return;

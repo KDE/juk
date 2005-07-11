@@ -1,5 +1,6 @@
 /***************************************************************************
     copyright            : (C) 2004 Nathan Toone
+                         : (C) 2005 Michael Pyne <michael.pyne@kdemail.net>
     email                : nathan@toonetown.com
 ***************************************************************************/
 
@@ -108,36 +109,47 @@ bool CoverInfo::hasCover()
 
 void CoverInfo::clearCover()
 {
-    QFile::remove(coverLocation(FullSize));
-    QFile::remove(coverLocation(Thumbnail));
     m_hasCover = false;
-    m_haveCheckedForCover = false;
 
+    // Yes, we have checked, and we don't have it. ;)
+    m_haveCheckedForCover = true;
+
+    // We don't need to call removeCover because the CoverManager will
+    // automatically unlink the cover if we were the last track to use it.
     CoverManager::setIdForTrack(m_file.absFilePath(), CoverManager::NoMatch);
-    CoverManager::removeCover(m_coverKey);
     m_coverKey = CoverManager::NoMatch;
 }
 
 void CoverInfo::setCover(const QImage &image)
 {
-    m_haveCheckedForCover = false;
-
     if(image.isNull())
         return;
 
-    if(m_hasCover)
-        clearCover();
+    m_haveCheckedForCover = true;
+    m_hasCover = true;
 
     QPixmap cover;
     cover.convertFromImage(image);
 
+    // If we use replaceCover we'll change the cover for every other track
+    // with the same coverKey, which we don't want since that case will be
+    // handled by Playlist.  Instead just replace this track's cover.
+    m_coverKey = CoverManager::addCover(cover, m_file.tag()->artist(), m_file.tag()->album());
     if(m_coverKey != CoverManager::NoMatch)
-        CoverManager::replaceCover(m_coverKey, cover);
-    else {
-        m_coverKey = CoverManager::addCover(cover, m_file.tag()->artist(), m_file.tag()->album());
-        if(m_coverKey != CoverManager::NoMatch)
-            CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
-    }
+        CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
+}
+
+void CoverInfo::setCoverId(coverKey id)
+{
+    m_coverKey = id;
+    m_haveCheckedForCover = true;
+
+    // We assume this is true, this would make a good spot for an
+    // assertion though.
+    m_hasCover = true;
+
+    // Inform CoverManager of the change.
+    CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
 }
 
 QPixmap CoverInfo::pixmap(CoverSize size) const

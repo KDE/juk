@@ -15,39 +15,21 @@
 
 #include <klistview.h>
 #include <kiconview.h>
+#include <kiconviewsearchline.h>
+#include <kiconloader.h>
 #include <kapplication.h>
 #include <kpopupmenu.h>
 #include <klocale.h>
 
 #include <qtimer.h>
+#include <qtoolbutton.h>
 
 #include "coverdialog.h"
+#include "covericonview.h"
 #include "covermanager.h"
 #include "collectionlist.h"
 
-namespace CoverDialogPrivate
-{
-    class CoverIconViewItem;
-};
-
-class CoverDialogPrivate::CoverIconViewItem : public KIconViewItem
-{
-public:
-    CoverIconViewItem(coverKey id, QIconView *parent) :
-        KIconViewItem(parent), m_id(id)
-    {
-        CoverDataPtr data = CoverManager::coverInfo(id);
-        setText(QString("%1 - %2").arg(data->artist, data->album));
-        setPixmap(data->thumbnail());
-    }
-
-    coverKey id() const { return m_id; }
-
-private:
-    coverKey m_id;
-};
-
-using CoverDialogPrivate::CoverIconViewItem;
+using CoverUtility::CoverIconViewItem;
 
 class AllArtistsListViewItem : public KListViewItem
 {
@@ -69,6 +51,9 @@ CoverDialog::CoverDialog(QWidget *parent) :
     m_covers->setResizeMode(QIconView::Adjust);
     m_covers->setGridX(140);
     m_covers->setGridY(150);
+
+    m_searchLine->setIconView(m_covers);
+    m_clearSearch->setIconSet(SmallIconSet("locationbar_erase"));
 }
 
 CoverDialog::~CoverDialog()
@@ -150,7 +135,7 @@ void CoverDialog::slotContextRequested(QIconViewItem *item, const QPoint &pt)
 
 void CoverDialog::removeSelectedCover()
 {
-    CoverIconViewItem *coverItem = static_cast<CoverIconViewItem *>(m_covers->currentItem());
+    CoverIconViewItem *coverItem = m_covers->currentItem();
 
     if(!coverItem || !coverItem->isSelected()) {
         kdWarning(65432) << "No item selected for removeSelectedCover.\n";
