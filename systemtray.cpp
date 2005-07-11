@@ -212,8 +212,10 @@ void SystemTray::slotPlay()
     if(!PlayerManager::instance()->playing())
         return;
 
+    QPixmap cover = PlayerManager::instance()->playingFile().coverInfo()->pixmap(CoverInfo::Thumbnail);
+
     setPixmap(m_playPix);
-    setToolTip(PlayerManager::instance()->playingString());
+    setToolTip(PlayerManager::instance()->playingString(), cover);
     createPopup();
 }
 
@@ -509,14 +511,31 @@ QColor SystemTray::interpolateColor(int step, int steps)
            );
 }
 
-void SystemTray::setToolTip(const QString &tip)
+void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 {
     QToolTip::remove(this);
 
     if(tip.isNull())
-        QToolTip::add(this, "JuK");
-    else
-        QToolTip::add(this, tip);
+        QToolTip::add(this, i18n("JuK"));
+    else {
+        QPixmap myCover = cover;
+        if(cover.isNull())
+            myCover = DesktopIcon("juk");
+
+        QImage coverImage = myCover.convertToImage();
+        if(coverImage.size().width() > 32 || coverImage.size().height() > 32)
+            coverImage = coverImage.smoothScale(32, 32);
+
+        QMimeSourceFactory::defaultFactory()->setImage("tipCover", coverImage);
+
+        QString html = i18n("%1 is Cover Art, %2 is the playing track, %3 is the appname",
+                            "<center><table cellspacing=\"2\"><tr><td valign=\"middle\">%1</td>"
+                            "<td valign=\"middle\">%2</td></tr></table><em>%3</em></center>");
+        html = html.arg("<img valign=\"middle\" src=\"tipCover\"");
+        html = html.arg(QString("<nobr>%1</nobr>").arg(tip), i18n("JuK"));
+
+        QToolTip::add(this, html);
+    }
 }
 
 void SystemTray::wheelEvent(QWheelEvent *e)
