@@ -213,7 +213,11 @@ QString PlayerManager::playingString() const
     if(!playing())
         return QString::null;
 
-    return m_file.tag()->artist() + " - " + m_file.tag()->title();
+    QString str = m_file.tag()->artist() + " - " + m_file.tag()->title();
+    if(m_file.tag()->artist().isEmpty())
+        str = m_file.tag()->title();
+
+    return str;
 }
 
 void PlayerManager::setPlaylistInterface(PlaylistInterface *interface)
