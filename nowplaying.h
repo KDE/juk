@@ -26,6 +26,7 @@
 #include "playlist.h"
 
 class QTimer;
+class QPoint;
 
 class NowPlayingItem;
 class PlaylistCollection;
@@ -97,8 +98,13 @@ protected:
     virtual void dragEnterEvent(QDragEnterEvent *e);
     virtual void dropEvent(QDropEvent *e);
 
+    virtual void mousePressEvent(QMouseEvent *e);
+    virtual void mouseMoveEvent(QMouseEvent *e);
+
 private:
     FileHandle m_file;
+    bool m_dragging;
+    QPoint m_dragStart;
 };
 
 /**

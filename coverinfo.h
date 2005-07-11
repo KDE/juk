@@ -37,6 +37,8 @@ public:
     // Use this to assign to a specific cover id.
     void setCoverId(coverKey id);
 
+    coverKey coverId() const { return m_coverKey; }
+
     QPixmap pixmap(CoverSize size) const;
     void popup() const;
 

@@ -243,6 +243,9 @@ coverKey CoverManagerPrivate::nextId() const
 CoverDrag::CoverDrag(coverKey id, QWidget *src) : QDragObject(src, "coverDrag"),
                                                   m_id(id)
 {
+    QPixmap cover = CoverManager::coverFromId(id);
+    if(!cover.isNull())
+        setPixmap(cover);
 }
 
 const char *CoverDrag::format(int i) const

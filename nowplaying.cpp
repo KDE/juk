@@ -25,11 +25,13 @@
 #include <qdragobject.h>
 #include <qimage.h>
 #include <qtimer.h>
+#include <qpoint.h>
 
 #include "nowplaying.h"
 #include "playlistcollection.h"
 #include "playermanager.h"
 #include "coverinfo.h"
+#include "covermanager.h"
 #include "tag.h"
 #include "playlistitem.h"
 #include "collectionlist.h"
@@ -124,6 +126,11 @@ void CoverItem::update(const FileHandle &file)
 
 void CoverItem::mouseReleaseEvent(QMouseEvent *event)
 {
+    if(m_dragging) {
+        m_dragging = false;
+        return;
+    }
+
     if(event->x() >= 0 && event->y() >= 0 &&
        event->x() < width() && event->y() < height() &&
        event->button() == LeftButton &&
@@ -135,18 +142,49 @@ void CoverItem::mouseReleaseEvent(QMouseEvent *event)
     QLabel::mousePressEvent(event);
 }
 
+void CoverItem::mousePressEvent(QMouseEvent *e)
+{
+    m_dragging = false;
+    m_dragStart = e->globalPos();
+}
+
+void CoverItem::mouseMoveEvent(QMouseEvent *e)
+{
+    if(m_dragging)
+        return;
+
+    QPoint diff = m_dragStart - e->globalPos();
+    if(QABS(diff.x()) > 1 || QABS(diff.y()) > 1) {
+
+        // Start a drag.
+
+        m_dragging = true;
+
+        CoverDrag *drag = new CoverDrag(m_file.coverInfo()->coverId(), this);
+        drag->drag();
+    }
+}
+
 void CoverItem::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->accept(QImageDrag::canDecode(e) || KURLDrag::canDecode(e));
+    e->accept(QImageDrag::canDecode(e) || KURLDrag::canDecode(e) || CoverDrag::canDecode(e));
 }
 
 void CoverItem::dropEvent(QDropEvent *e)
 {
     QImage image;
     KURL::List urls;
+    coverKey key;
+
+    if(e->source() == this)
+        return;
 
     if(QImageDrag::decode(e, image)) {
         m_file.coverInfo()->setCover(image);
+        update(m_file);
+    }
+    else if(CoverDrag::decode(e, key)) {
+        m_file.coverInfo()->setCoverId(key);
         update(m_file);
     }
     else if(KURLDrag::decode(e, urls)) {
