@@ -1,4 +1,4 @@
-if test "x$have_taglib" = "xfalse"; then
+if test "x$with_taglib" = xcheck && test "x$have_taglib" != xyes; then
 	echo "**************************************************"
 	echo "*"
 	echo "* JuK will not be built without TagLib." 
@@ -7,7 +7,7 @@ if test "x$have_taglib" = "xfalse"; then
 	echo "**************************************************"
 fi
 
-if test "x$have_gst" = "xno"; then
+if test "x$with_gstreamer" = xcheck && test "x$have_gst" = xno; then
 	echo "**************************************************"
 	echo "*"
 	echo "* You do not seem to have GStreamer >= 0.8 installed."
@@ -19,7 +19,7 @@ if test "x$have_gst" = "xno"; then
 	echo "**************************************************"
 fi
 
-if test "x$have_musicbrainz" = "xfalse"; then
+if test "x$with_musicbrainz" = xcheck && test "x$have_musicbrainz" = xno; then
 	echo "**************************************************"
 	echo "*"
 	echo "* You do not seem to have libmusicbrainz and"

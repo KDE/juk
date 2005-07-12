@@ -20,39 +20,60 @@ fi
 AC_SUBST(LIB_ARTS)
 AC_SUBST(ARTS_CFLAGS)
 
-KDE_CHECK_HEADER(tunepimp/tp_c.h,
-[
-	AC_DEFINE(HAVE_MUSICBRAINZ, 1, [have MusicBrainz])
-	have_musicbrainz=true
-], [
-	AC_DEFINE(HAVE_MUSICBRAINZ, 0, [have MusicBrainz])
-	have_musicbrainz=false
-])
+AC_ARG_WITH(musicbrainz,
+  [AS_HELP_STRING(--with-musicbrainz,
+    [enable support for MusicBrainz @<:@default=check@:>@])],
+  [], with_musicbrainz=check)
 
-AM_CONDITIONAL(link_lib_MB, test x$have_musicbrainz = xtrue)
+have_musicbrainz=no
+if test "x$with_musicbrainz" != xno; then
+  KDE_CHECK_HEADER(tunepimp/tp_c.h, have_musicbrainz=yes)
 
-# pkg-config seems to have a bug where it masks needed -L entries when it
-# shouldn't, so disable that.
+  if test "x$with_musicbrainz" != xcheck && test "x$have_musicbrainz" != xyes; then
+    AC_MSG_FAILURE([--with-musicbrainz was given, but test for MusicBrainz failed])
+  fi
+fi
 
-PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
-export PKG_CONFIG_ALLOW_SYSTEM_LIBS
+if test "x$have_musicbrainz" = xyes; then
+  AC_DEFINE(HAVE_MUSICBRAINZ, 1, [have MusicBrainz])
+else
+  AC_DEFINE(HAVE_MUSICBRAINZ, 0, [have MusicBrainz])
+fi
 
-dnl start with 0.8
-GST_MAJORMINOR=0.8
-GST_REQ=0.8.0
+AM_CONDITIONAL(link_lib_MB, test "x$have_musicbrainz" = xyes)
 
-PKG_CHECK_MODULES(GST, \
-	gstreamer-$GST_MAJORMINOR >= $GST_REQ \
-	gstreamer-control-$GST_MAJORMINOR >= $GST_REQ \
-	gstreamer-libs-$GST_MAJORMINOR >= $GST_REQ,
-	have_gst=yes, have_gst=no)
+AC_ARG_WITH(gstreamer,
+  [AS_HELP_STRING(--with-gstreamer,
+    [enable support for GStreamer @<:@default=check@:>@])],
+  [], with_gstreamer=check)
 
-dnl Give error if we don't have gstreamer
+have_gst=no
+if test "x$with_gstreamer" != xno; then
+  # pkg-config seems to have a bug where it masks needed -L entries when it
+  # shouldn't, so disable that.
+
+  PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+  export PKG_CONFIG_ALLOW_SYSTEM_LIBS
+
+  dnl start with 0.8
+  GST_MAJORMINOR=0.8
+  GST_REQ=0.8.0
+
+  PKG_CHECK_MODULES(GST, \
+    gstreamer-$GST_MAJORMINOR >= $GST_REQ \
+    gstreamer-control-$GST_MAJORMINOR >= $GST_REQ \
+    gstreamer-libs-$GST_MAJORMINOR >= $GST_REQ,
+    have_gst=yes, have_gst=no)
+
+  if test "x$with_gstreamer" != xcheck && test "x$have_gst" != xyes; then
+    AC_MSG_FAILURE([--with-gstreamer was given, but test for GStreamer failed])
+  fi
+fi
+
 if test "x$have_gst" = "xno"; then
 	GST_CFLAGS=""
 	LDADD_GST=""
 	LDFLAGS_GST=""
-	AC_MSG_WARN([GStreamer version >= $GST_REQ required.])
 	AC_DEFINE(HAVE_GSTREAMER, 0, [have GStreamer])
 else
 	LDADD_GST=`$PKG_CONFIG --libs-only-l gstreamer-$GST_MAJORMINOR`
@@ -63,13 +84,14 @@ else
 	LIBDIRS_GST=`$PKG_CONFIG --libs-only-L gstreamer-$GST_MAJORMINOR`
 	LDADD_GST="$LDADD_GST $LIBDIRS_GST"
 
-	AC_SUBST(GST_CFLAGS)
-	AC_SUBST(LDADD_GST)
-	AC_SUBST(LDFLAGS_GST)
 	AC_MSG_NOTICE([GStreamer version >= $GST_REQ found.])
 	AC_DEFINE(HAVE_GSTREAMER, 1, [have GStreamer])
 fi
 
-if test "x$have_taglib" = "xfalse" || ( test "x$build_arts" = "xno" && test "x$have_gst" = "xno" ) ; then
+AC_SUBST(GST_CFLAGS)
+AC_SUBST(LDADD_GST)
+AC_SUBST(LDFLAGS_GST)
+
+if test "x$have_taglib" != xyes || ( test "x$build_arts" = "xno" && test "x$have_gst" = "xno" ) ; then
 	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
 fi
