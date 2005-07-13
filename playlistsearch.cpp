@@ -102,6 +102,26 @@ bool PlaylistSearch::checkItem(PlaylistItem *item)
     return match;
 }
 
+void PlaylistSearch::addComponent(const Component &c)
+{
+    m_components.append(c);
+}
+
+void PlaylistSearch::clearComponents()
+{
+    m_components.clear();
+}
+
+PlaylistSearch::ComponentList PlaylistSearch::components() const
+{
+    return m_components;
+}
+
+bool PlaylistSearch::isNull() const
+{
+    return m_components.isEmpty();
+}
+
 bool PlaylistSearch::isEmpty() const
 {
     if(isNull())
