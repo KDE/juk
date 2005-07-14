@@ -18,10 +18,13 @@
 
 #include <config.h>
 
+#if HAVE_AKODE
+
 #include <qstring.h>
 
 #include "player.h"
 #include <kdemacros.h>
+
 namespace aKode {
     class File;
     class Player;
@@ -58,4 +61,5 @@ private:
     aKode::Player *m_player;
 };
 
+#endif
 #endif

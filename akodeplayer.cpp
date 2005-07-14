@@ -14,12 +14,14 @@
 
 #include <config.h>
 
+#if HAVE_AKODE
+
 #include <kdebug.h>
 
 #include <qfile.h>
 
-#include "../akode/lib/player.h"
-#include "../akode/lib/decoder.h"
+#include <akode/player.h>
+#include <akode/decoder.h>
 
 #include "akodeplayer.h"
 
@@ -163,3 +165,5 @@ void aKodePlayer::seekPosition(int position)
 }
 
 #include "akodeplayer.moc"
+
+#endif
