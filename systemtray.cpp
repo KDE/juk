@@ -54,7 +54,7 @@ public:
         QLabel(text, parent, name)
     {
         m_textColor = paletteForegroundColor();
-        m_bgColor = paletteBackgroundColor();
+        m_bgColor = parentWidget()->paletteBackgroundColor();
         setBackgroundMode(NoBackground);
     }
 
