@@ -92,6 +92,6 @@ AC_SUBST(GST_CFLAGS)
 AC_SUBST(LDADD_GST)
 AC_SUBST(LDFLAGS_GST)
 
-if test "x$have_taglib" != xyes || ( test "x$build_arts" = "xno" && test "x$have_gst" = "xno" ) ; then
+if test "x$have_taglib" != xyes || ( test "x$build_arts" = "xno" && test "x$have_gst" = "xno" && test "x$have_akode" = "xno") ; then
 	DO_NOT_COMPILE="$DO_NOT_COMPILE juk"
 fi
