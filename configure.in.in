@@ -21,7 +21,7 @@ AC_SUBST(LIB_ARTS)
 AC_SUBST(ARTS_CFLAGS)
 
 AC_ARG_WITH(musicbrainz,
-  [AS_HELP_STRING(--with-musicbrainz,
+  [AC_HELP_STRING(--with-musicbrainz,
     [enable support for MusicBrainz @<:@default=check@:>@])],
   [], with_musicbrainz=check)
 
@@ -30,7 +30,7 @@ if test "x$with_musicbrainz" != xno; then
   KDE_CHECK_HEADER(tunepimp/tp_c.h, have_musicbrainz=yes)
 
   if test "x$with_musicbrainz" != xcheck && test "x$have_musicbrainz" != xyes; then
-    AC_MSG_FAILURE([--with-musicbrainz was given, but test for MusicBrainz failed])
+    AC_MSG_ERROR([--with-musicbrainz was given, but test for MusicBrainz failed])
   fi
 fi
 
@@ -43,7 +43,7 @@ fi
 AM_CONDITIONAL(link_lib_MB, test "x$have_musicbrainz" = xyes)
 
 AC_ARG_WITH(gstreamer,
-  [AS_HELP_STRING(--with-gstreamer,
+  [AC_HELP_STRING(--with-gstreamer,
     [enable support for GStreamer @<:@default=check@:>@])],
   [], with_gstreamer=check)
 
@@ -66,7 +66,7 @@ if test "x$with_gstreamer" != xno; then
     have_gst=yes, have_gst=no)
 
   if test "x$with_gstreamer" != xcheck && test "x$have_gst" != xyes; then
-    AC_MSG_FAILURE([--with-gstreamer was given, but test for GStreamer failed])
+    AC_MSG_ERROR([--with-gstreamer was given, but test for GStreamer failed])
   fi
 fi
 
