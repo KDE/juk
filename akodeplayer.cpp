@@ -14,7 +14,7 @@
 
 #include <config.h>
 
-#if HAVE_AKODE
+#ifdef HAVE_AKODE
 
 #include <kdebug.h>
 
