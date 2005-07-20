@@ -52,21 +52,23 @@ static Player *createPlayer(int system = ArtsBackend)
 
     Player *p = 0;
     switch(system) {
+#ifdef HAVE_AKODE
     case AkodeBackend:
         p = new aKodePlayer;
         break;
-#if HAVE_ARTS
+#endif HAVE_AKODE
+#ifdef HAVE_ARTS
     case ArtsBackend:
         p = new ArtsPlayer;
         break;
 #endif
-#if HAVE_GSTREAMER
+#ifdef HAVE_GSTREAMER
     case GStreamerBackend:
         p = new GStreamerPlayer;
         break;
 #endif
     default:
-#if HAVE_ARTS
+#ifdef HAVE_ARTS
         p = new ArtsPlayer;
 #elif HAVE_GSTREAMER
         p = new GStreamerPlayer;
@@ -236,10 +238,10 @@ KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
     action = new KSelectAction(i18n("&Output To"), 0, parent, "outputSelect");
     QStringList l;
     l <<
-#if HAVE_ARTS
+#ifdef HAVE_ARTS
         i18n("aRts") <<
 #endif
-#if HAVE_GSTREAMER
+#ifdef HAVE_GSTREAMER
         i18n("GStreamer") <<
 #endif
         i18n("aKode");
