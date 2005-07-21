@@ -51,14 +51,14 @@ public:
     void clearPlaylists() { m_playlists.clear(); }
     PlaylistList playlists() const { return m_playlists; }
 
-    void addComponent(const Component &c) { m_components.append(c); }
-    void clearComponents() { m_components.clear(); }
-    ComponentList components() const { return m_components; }
+    void addComponent(const Component &c);
+    void clearComponents();
+    ComponentList components() const;
 
     void setSearchMode(SearchMode m) { m_mode = m; }
     SearchMode searchMode() const { return m_mode; }
 
-    bool isNull() const { return m_components.isEmpty(); }
+    bool isNull() const;
     bool isEmpty() const;
 
     /**
