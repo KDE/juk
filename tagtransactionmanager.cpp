@@ -134,10 +134,10 @@ bool TagTransactionManager::renameFile(const QFileInfo &from, const QFileInfo &t
        return false;
 
    if(!to.exists() ||
-       KMessageBox::warningYesNo(
+       KMessageBox::warningContinueCancel(
            static_cast<QWidget *>(parent()),
            i18n("This file already exists.\nDo you want to replace it?"),
-           i18n("File Exists")) == KMessageBox::Yes)
+           i18n("File Exists"),i18n("Replace")) == KMessageBox::Continue)
    {
        kdDebug(65432) << "Renaming " << from.absFilePath() << " to " << to.absFilePath() << endl;
        QDir currentDir;

@@ -2207,13 +2207,12 @@ void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
 	    changed = true;
 
     if(!changed ||
-       (l.count() > 1 && KMessageBox::warningYesNo(
+       (l.count() > 1 && KMessageBox::warningContinueCancel(
 	   0,
 	   i18n("This will edit multiple files. Are you sure?"),
 	   QString::null,
-	   KStdGuiItem::yes(),
-	   KStdGuiItem::no(),
-	   "DontWarnMultipleTags") == KMessageBox::No))
+	   i18n("Edit"),
+	   "DontWarnMultipleTags") == KMessageBox::Cancel))
     {
 	return;
     }

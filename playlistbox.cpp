@@ -285,7 +285,7 @@ void PlaylistBox::remove()
 
     if(!files.isEmpty()) {
 	int remove = KMessageBox::warningYesNoCancelList(
-	    this, i18n("Do you want to delete these files from the disk as well?"), files);
+	    this, i18n("Do you want to delete these files from the disk as well?"), files, QString::null, KStdGuiItem::del(), i18n("Keep"));
 
 	if(remove == KMessageBox::Yes) {
 	    QStringList couldNotDelete;
