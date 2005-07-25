@@ -57,7 +57,7 @@ static Player *createPlayer(int system = ArtsBackend)
         p = new aKodePlayer;
         break;
 #endif
-#ifdef HAVE_ARTS
+#if HAVE_ARTS
     case ArtsBackend:
         p = new ArtsPlayer;
         break;
@@ -68,7 +68,7 @@ static Player *createPlayer(int system = ArtsBackend)
         break;
 #endif 
     default:
-#ifdef HAVE_ARTS
+#if HAVE_ARTS
         p = new ArtsPlayer;
 #elif HAVE_GSTREAMER
         p = new GStreamerPlayer;
