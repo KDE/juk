@@ -110,7 +110,7 @@
                 <cstring>ddShouldDelete</cstring>
             </property>
             <property name="text">
-                <string>&amp;Delete files instead of moving them to the Trash Bin.</string>
+                <string>&amp;Delete files instead of moving them to the trash</string>
             </property>
             <property name="toolTip" stdset="0">
                 <string>If checked, files will be permanently removed instead of being placed in the Trash Bin</string>
