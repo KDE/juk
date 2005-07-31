@@ -10,7 +10,7 @@ fi
 if test "x$with_gstreamer" = xcheck && test "x$have_gst" = xno; then
 	echo "**************************************************"
 	echo "*"
-	echo "* You do not seem to have GStreamer >= 0.8 installed."
+	echo "* You do not seem to have GStreamer 0.8.x installed."
 	echo "* Without this aRts output will be used exclusively."
 	echo "*"
 	echo "* JuK supports GStreamer output but will also"
