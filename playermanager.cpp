@@ -237,14 +237,17 @@ KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
     KSelectAction *action = 0;
     action = new KSelectAction(i18n("&Output To"), 0, parent, "outputSelect");
     QStringList l;
-    l <<
-#ifdef HAVE_ARTS
-        i18n("aRts") <<
+
+#if HAVE_ARTS
+    l.append(i18n("aRts"));
 #endif
-#ifdef HAVE_GSTREAMER
-        i18n("GStreamer") <<
+#if HAVE_GSTREAMER
+    l.append(i18n("GStreamer"));
 #endif
-        i18n("aKode");
+#ifdef HAVE_AKODE
+    l.append(i18n("aKode"));
+#endif
+
     action->setItems(l);
     return action;
 }
