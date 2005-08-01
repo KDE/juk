@@ -127,7 +127,7 @@ void CoverDialog::slotContextRequested(QIconViewItem *item, const QPoint &pt)
 
     if(!menu) {
         menu = new KPopupMenu(this);
-        menu->insertItem(i18n("Remove cover"), this, SLOT(removeSelectedCover()));
+        menu->insertItem(i18n("Remove Cover"), this, SLOT(removeSelectedCover()));
     }
 
     menu->popup(pt);
