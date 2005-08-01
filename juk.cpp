@@ -120,7 +120,7 @@ void JuK::setupActions()
     KStdAction::clear(kapp, SLOT(clear()), actions());
     KStdAction::selectAll(kapp, SLOT(selectAll()), actions());
 
-    new KAction(i18n("Remove from Playlist"), "edit_remove", 0, kapp, SLOT(clear()), actions(), "removeFromPlaylist");
+    new KAction(i18n("Remove From Playlist"), "edit_remove", 0, kapp, SLOT(clear()), actions(), "removeFromPlaylist");
 
     KActionMenu *actionMenu = new KActionMenu(i18n("&Random Play"), "roll", actions(), "actionMenu");
     actionMenu->setDelayed(false);
