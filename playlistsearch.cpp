@@ -221,7 +221,7 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
 	case ContainsWord:
 	{
 	    QString s = item->text(*it);
-	    int i = s.find(m_query);
+	    int i = s.find(m_query, 0, m_caseSensitive);
 
 	    if(i >= 0) {
 
