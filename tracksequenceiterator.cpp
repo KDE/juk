@@ -186,7 +186,7 @@ void DefaultSequenceIterator::playlistChanged()
 void DefaultSequenceIterator::itemAboutToDie(const PlaylistItem *item)
 {
     PlaylistItem *stfu_gcc = const_cast<PlaylistItem *>(item);
-    kdDebug(65432) << "Removing " << item << " from random list.\n";
+
     m_randomItems.remove(stfu_gcc);
 }
 
