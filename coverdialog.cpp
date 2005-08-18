@@ -45,6 +45,21 @@ public:
     }
 };
 
+class CaseInsensitiveItem : public KListViewItem
+{
+public:
+    CaseInsensitiveItem(QListView *parent, const QString &text) :
+        KListViewItem(parent, text)
+    {
+    }
+
+    int compare(QListViewItem *item, int column, bool ascending) const
+    {
+        Q_UNUSED(ascending);
+        return text(column).lower().localeAwareCompare(item->text(column).lower());
+    }
+};
+
 CoverDialog::CoverDialog(QWidget *parent) :
     CoverDialogBase(parent, "juk_cover_dialog", WType_Dialog)
 {
@@ -70,7 +85,7 @@ void CoverDialog::show()
     m_artists->setSorting(-1);
     new AllArtistsListViewItem(m_artists);
     for(QStringList::ConstIterator it = artists.begin(); it != artists.end(); ++it)
-        new KListViewItem(m_artists, *it);
+        new CaseInsensitiveItem(m_artists, *it);
 
     m_artists->setSorting(0);
 
