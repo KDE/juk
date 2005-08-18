@@ -14,9 +14,8 @@
  ***************************************************************************/
 
 #include <kaction.h>
+#include <kapplication.h>
 #include <kdebug.h>
-
-#include <stdlib.h>
 
 #include "tracksequenceiterator.h"
 #include "playlist.h"
@@ -81,7 +80,7 @@ void DefaultSequenceIterator::advance()
 
         if(albumRandom) {
             if(m_albumSearch.isNull() || m_albumSearch.matchedItems().isEmpty()) {
-                item = m_randomItems[::random() % m_randomItems.count()];
+                item = m_randomItems[KApplication::random() % m_randomItems.count()];
                 initAlbumSearch(item);
             }
 
@@ -107,7 +106,7 @@ void DefaultSequenceIterator::advance()
             }
         }
         else
-            item = m_randomItems[::random() % m_randomItems.count()];
+            item = m_randomItems[KApplication::random() % m_randomItems.count()];
 
         setCurrent(item);
         m_randomItems.remove(item);
@@ -148,7 +147,7 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
 
         PlaylistItem *newItem = 0;
         if(!items.isEmpty())
-            newItem = items[::random() % items.count()];
+            newItem = items[KApplication::random() % items.count()];
 
         setCurrent(newItem);
         refillRandomList();
