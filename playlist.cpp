@@ -662,10 +662,10 @@ void Playlist::setSearch(const PlaylistSearch &s)
     if(!m_searchEnabled)
 	return;
 
-    TrackSequenceManager::instance()->iterator()->playlistChanged();
-
     setItemsVisible(s.matchedItems(), true);
     setItemsVisible(s.unmatchedItems(), false);
+
+    TrackSequenceManager::instance()->iterator()->playlistChanged();
 }
 
 void Playlist::setSearchEnabled(bool enabled)
