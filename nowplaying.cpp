@@ -117,7 +117,7 @@ void CoverItem::update(const FileHandle &file)
 
     if(file.coverInfo()->hasCover()) {
         show();
-        QImage image = file.coverInfo()->pixmap(CoverInfo::FullSize).convertToImage();
+        QImage image = file.coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage();
         setPixmap(image.smoothScale(imageSize, imageSize, QImage::ScaleMax));
     }
     else
