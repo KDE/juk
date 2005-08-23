@@ -143,10 +143,7 @@ void CoverInfo::setCoverId(coverKey id)
 {
     m_coverKey = id;
     m_haveCheckedForCover = true;
-
-    // We assume this is true, this would make a good spot for an
-    // assertion though.
-    m_hasCover = true;
+    m_hasCover = id != CoverManager::NoMatch;
 
     // Inform CoverManager of the change.
     CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);

@@ -480,13 +480,14 @@ QValueList<coverKey> CoverManager::keys()
 
 void CoverManager::setIdForTrack(const QString &path, coverKey id)
 {
-    if(id == NoMatch) {
+    // Remove any prior reference to this track.
+    // Uses the weird find/remove thingy because I made a coding error and so
+    // there's a possibility that users have multiple entries in the dictionary
+    // with the same path. :-(
+    while(data()->tracks.find(path))
         data()->tracks.remove(path);
 
-        if(data()->tracks.isEmpty())
-            removeCover(id);
-    }
-    else
+    if(id != NoMatch)
         data()->tracks.insert(path, new coverKey(id));
 }
 
