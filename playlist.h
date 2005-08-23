@@ -24,6 +24,7 @@
 #include <qvaluevector.h>
 #include <qfileinfo.h>
 
+#include "covermanager.h"
 #include "stringhash.h"
 #include "playlistsearch.h"
 #include "tagguesser.h"
@@ -541,7 +542,11 @@ private:
 
     void redisplaySearch() { setSearch(m_search); }
 
-    void refreshAlbums(const PlaylistItemList &items, const QImage &image = QImage());
+    /**
+     * Sets the cover for items to the cover identified by id.
+     */
+    void refreshAlbums(const PlaylistItemList &items, coverKey id = CoverManager::NoMatch);
+
     void refreshAlbum(const QString &artist, const QString &album);
 
     /**
@@ -549,7 +554,7 @@ private:
      * cover.  Used to avoid wasting the users' time setting the cover for 20
      * items when none are eligible.
      */
-    int eligibleCoverItems(const PlaylistItemList &items);
+    unsigned int eligibleCoverItems(const PlaylistItemList &items);
 
     void updatePlaying() const;
 
