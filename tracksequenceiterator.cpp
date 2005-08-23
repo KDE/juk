@@ -76,8 +76,17 @@ void DefaultSequenceIterator::advance()
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
 
     if(isRandom || albumRandom) {
-        if(m_randomItems.isEmpty() && loop)
-            refillRandomList();
+        if(m_randomItems.isEmpty() && loop) {
+
+            // Since refillRandomList will remove the currently playing item,
+            // we should clear it out first since that's not good for e.g.
+            // lists with 1-2 items.  We need to remember the Playlist though.
+
+            Playlist *playlist = current()->playlist();
+            setCurrent(0);
+
+            refillRandomList(playlist);
+        }
 
         if(m_randomItems.isEmpty()) {
             setCurrent(0);
@@ -222,16 +231,18 @@ DefaultSequenceIterator *DefaultSequenceIterator::clone() const
     return new DefaultSequenceIterator(*this);
 }
 
-void DefaultSequenceIterator::refillRandomList()
+void DefaultSequenceIterator::refillRandomList(Playlist *p)
 {
-    if(!current())
-        return;
-
-    Playlist *p = current()->playlist();
-
     if(!p) {
-        kdError(65432) << k_funcinfo << "Item has no playlist!\n";
-        return;
+        if (!current())
+            return;
+
+        p = current()->playlist();
+
+        if(!p) {
+            kdError(65432) << k_funcinfo << "Item has no playlist!\n";
+            return;
+        }
     }
 
     m_randomItems = p->visibleItems();
