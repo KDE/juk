@@ -1009,6 +1009,11 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 
         QString value = interface.value(*it);
 
+        // The user can use the folder separator checkbox to add folders, so don't allow
+        // slashes that slip in to accidentally create new folders.  Should we filter this
+        // back out when showing it in the GUI?
+        value.replace('/', "%2f");
+
         if(!pastLast && interface.hasFolderSeparator(i))
             value.append(QDir::separator());
 
@@ -1021,20 +1026,14 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 
     QString result;
 
-    for(QStringList::ConstIterator it = list.begin(); it != list.end(); /* Empty */) {
+    for(QStringList::ConstIterator it = list.constBegin(); it != list.constEnd(); /* Empty */) {
         result += *it;
-        if((*it).find(closeBracket) != -1) {
-            ++it;
-            continue;
-        }
 
-        ++it;
-        if(it != list.end() &&
-           !result.endsWith(QChar(QDir::separator())) &&
-           (*it).find(openBracket) == -1)
-        {
+        ++it; // Manually advance iterator to check for end-of-list.
+
+        // Add separator unless at a directory boundary.
+        if(it != list.constEnd() && !result.endsWith(QChar(QDir::separator())))
             result += separator;
-        }
     }
 
     return QString(folder + QDir::separator() + result);
