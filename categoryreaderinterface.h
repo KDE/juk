@@ -16,7 +16,9 @@
 #ifndef JUK_CATEGORYREADERINTERFACE_H
 #define JUK_CATEGORYREADERINTERFACE_H
 
+#include "tagrenameroptions.h"
 
+enum TagType;
 class QString;
 
 template<class T> class QValueList;
@@ -35,9 +37,10 @@ public:
     /**
      * Returns the textual representation of \p type, without any processing done
      * on it.  For example, track values shouldn't be expanded out to the minimum
-     * width from this function.
+     * width from this function.  No CategoryID is needed since the value is constant
+     * for a category.
      *
-     * @param category to retrieve the value of.
+     * @param type, The category to retrieve the value of.
      * @return textual representation of that category's value.
      */
     virtual QString categoryValue(TagType type) const = 0;
@@ -48,7 +51,7 @@ public:
      * @param category the category to retrieve the value for.
      * @return user-specified prefix string for \p category.
      */
-    virtual QString prefix(TagType category) const = 0;
+    virtual QString prefix(const CategoryID &category) const = 0;
 
     /**
      * Returns the user-specified suffix string for \p category.
@@ -56,7 +59,7 @@ public:
      * @param category the category to retrieve the value for.
      * @return user-specified suffix string for \p category.
      */
-    virtual QString suffix(TagType category) const = 0;
+    virtual QString suffix(const CategoryID &category) const = 0;
 
     /**
      * Returns the user-specified empty action for \p category.
@@ -64,7 +67,7 @@ public:
      * @param category the category to retrieve the value for.
      * @return user-specified empty action for \p category.
      */
-    virtual TagRenamerOptions::EmptyActions emptyAction(TagType category) const = 0;
+    virtual TagRenamerOptions::EmptyActions emptyAction(const CategoryID &category) const = 0;
 
     /**
      * Returns the user-specified empty text for \p category.  This text might
@@ -73,28 +76,45 @@ public:
      * @param category the category to retrieve the value for.
      * @return the user-specified empty text for \p category.
      */
-    virtual QString emptyText(TagType category) const = 0;
+    virtual QString emptyText(const CategoryID &category) const = 0;
 
-    virtual QValueList<TagType> categoryOrder() const = 0;
+    /**
+     * @return the categories in the order the user has chosen.  Categories may
+     * be repeated (which is why CategoryID has the categoryNumber value to
+     * disambiguate duplicates).
+     */
+    virtual QValueList<CategoryID> categoryOrder() const = 0;
+
+    /**
+     * @return track width for the Track item identified by categoryNum.
+     */
+    virtual int trackWidth(unsigned categoryNum) const = 0;
 
     // You probably shouldn't reimplement this
-    virtual QString value(TagType category) const;
+    virtual QString value(const CategoryID &category) const;
 
     virtual QString separator() const = 0;
 
     virtual QString musicFolder() const = 0;
 
-    virtual int trackWidth() const = 0;
+    /**
+     * @param index the zero-based index of the item just before the
+     *        separator in question.
+     * @return true if a folder separator should be placed between the tags
+     * at index and index + 1.
+     */
+    virtual bool hasFolderSeparator(unsigned index) const = 0;
 
-    virtual bool hasFolderSeparator(int index) const = 0;
-
-    virtual bool isDisabled(TagType category) const = 0;
+    virtual bool isDisabled(const CategoryID &category) const = 0;
 
     // You probably shouldn't reimplement this
-    virtual bool isRequired(TagType category) const;
+    virtual bool isRequired(const CategoryID &category) const;
 
     // You probably shouldn't reimplement this
     virtual bool isEmpty(TagType category) const;
+
+    // You probably shouldn't reimplement this
+    virtual QString fixupTrack(const QString &track, unsigned categoryNum) const;
 };
 
 #endif /* JUK_CATEGORYREADERINTERFACE_H */

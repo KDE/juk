@@ -16,12 +16,63 @@
 #ifndef JUK_TAGRENAMEROPTIONS_H
 #define JUK_TAGRENAMEROPTIONS_H
 
-
 // Insert all new tag types before NumTypes, that way NumTypes will always be
 // the count of valid tag types.
 enum TagType {
     StartTag, Title = StartTag, Artist, Album,
     Track, Genre, Year, NumTypes, Unknown
+};
+
+/**
+ * Class that uniquely identifies a user's category (since the user may have
+ * the same category more than once in their file renaming structure).
+ */
+struct CategoryID
+{
+    CategoryID() : category(Unknown), categoryNumber(0)
+    {
+    }
+
+    CategoryID(const CategoryID &other) : category(other.category),
+                                          categoryNumber(other.categoryNumber)
+    {
+    }
+
+    CategoryID(TagType cat, unsigned num) : category(cat), categoryNumber(num)
+    {
+    }
+
+    CategoryID &operator=(const CategoryID &other)
+    {
+        if(this == &other)
+            return *this;
+
+        category = other.category;
+        categoryNumber = other.categoryNumber;
+
+        return *this;
+    }
+
+    bool operator==(const CategoryID &other) const
+    {
+        return category == other.category && categoryNumber == other.categoryNumber;
+    }
+
+    bool operator!=(const CategoryID &other) const
+    {
+        return !(*this == other);
+    }
+
+    bool operator<(const CategoryID &other) const
+    {
+        if(category == other.category)
+            return categoryNumber < other.categoryNumber;
+
+        return category < other.category;
+    }
+
+    TagType category;
+    unsigned categoryNumber;
 };
 
 /**
@@ -36,7 +87,13 @@ public:
     enum EmptyActions { ForceEmptyInclude, IgnoreEmptyTag, UseReplacementValue };
 
     TagRenamerOptions();
-    TagRenamerOptions(TagType category);
+
+    /**
+     * Construct the options by loading from KConfig.
+     *
+     * @param category The category to load the options for.
+     */
+    TagRenamerOptions(const CategoryID &category);
     TagRenamerOptions(const TagRenamerOptions &other);
 
     QString prefix() const { return m_prefix; }
@@ -70,9 +127,22 @@ public:
     }
 
     /**
-     * This saves the options to the global KConfig object.
+     * Function that tries to match a string back to its category.  Uses only
+     * the untranslated and case-sensitive form of the string.  If it fails it
+     * will return Unknown.
      */
-    void saveConfig() const;
+    static TagType tagFromCategoryText(const QString &text);
+
+    /**
+     * This saves the options to the global KConfig object.
+     *
+     * @param categoryNum The zero-based count of the number of this type of
+     *           category.  For example, this would be 1 for the
+     *           second category of this type.  The stored category
+     *           number is not used in order to allow you to save with
+     *           a different one (for compaction purposes perhaps).
+     */
+    void saveConfig(unsigned categoryNum) const;
 
 private:
 
