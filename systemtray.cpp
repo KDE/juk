@@ -35,6 +35,7 @@
 #include <qpalette.h>
 
 #include <netwm.h>
+#include <QX11Info>
 
 #include "tag.h"
 #include "systemtray.h"
@@ -412,7 +413,7 @@ bool SystemTray::buttonsToLeft() const
 {
     // The following code was nicked from kpassivepopup.cpp
 
-    NETWinInfo ni(qt_xdisplay(), winId(), qt_xrootwin(), 
+    NETWinInfo ni(QX11Info::display(), winId(), QX11Info::appRootWindow(), 
                   NET::WMIconGeometry | NET::WMKDESystemTrayWinFor);
     NETRect frame, win;
     ni.kdeGeometry(frame, win);
