@@ -37,6 +37,7 @@ static const char maks[]        = I18N_NOOP("Making JuK friendlier to people wit
 static const char antonio[]     = I18N_NOOP("DCOP interface");
 static const char allan[]       = I18N_NOOP("FLAC and MPC support");
 static const char nathan[]      = I18N_NOOP("Album cover manager");
+static const char pascal[]      = I18N_NOOP("Gimper of splash screen");
 
 static KCmdLineOptions options[] =
 {
@@ -65,6 +66,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit("Antonio Larrosa Jimenez", antonio, "larrosa@kde.org");
     aboutData.addCredit("Allan Sandfeld Jensen", allan, "kde@carewolf.com");
     aboutData.addCredit("Nathan Toone", nathan, "nathan@toonetown.com");
+    aboutData.addCredit("Pascal Klein", pascal, "4pascal@tpg.com.au");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
     KCmdLineArgs::addCmdLineOptions(options);

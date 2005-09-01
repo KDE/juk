@@ -16,9 +16,7 @@
 #ifndef SPLASHSCREEN_H
 #define SPLASHSCREEN_H
 
-#include <qhbox.h>
-
-class QLabel;
+#include <qlabel.h>
 
 /**
  * Well, all of this session restoration sure is fun, but it's starting to take
@@ -31,7 +29,7 @@ class QLabel;
  * methods.
  */
 
-class SplashScreen : public QHBox
+class SplashScreen : public QLabel
 {
 public:
     static SplashScreen *instance();
@@ -49,8 +47,6 @@ private:
     static SplashScreen *splash;
     static bool done;
     static int count;
-
-    QLabel *m_countLabel;
 };
 
 #endif

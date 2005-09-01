@@ -16,15 +16,22 @@
 #include <kapplication.h>
 #include <kiconloader.h>
 #include <klocale.h>
+#include <kstandarddirs.h>
 #include <kdebug.h>
 
-#include <qlabel.h>
+#include <qpainter.h>
 
 #include "splashscreen.h"
 
 SplashScreen *SplashScreen::splash = 0;
 bool SplashScreen::done = false;
 int SplashScreen::count = 0;
+
+static QString loadedText(int i)
+{
+    static QString loading = i18n("Loading").upper();
+    return loading + ": " + QString::number(i);;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // pubic members
@@ -63,39 +70,22 @@ void SplashScreen::update()
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-SplashScreen::SplashScreen() : QHBox(0 , "splashScreen", Qt::WStyle_Splash)
+SplashScreen::SplashScreen() : QLabel(0 , "splashScreen", Qt::WStyle_Splash)
 {
-    setMargin(10);
-    setSpacing(5);
+    QPixmap background = UserIcon("splash");
+    resize(background.size());
+    setPaletteBackgroundPixmap(background);
 
-    setLineWidth(5);
-    setFrameShape(Box);
-    setFrameShadow(Plain);
+    setMargin(7);
+    setAlignment(AlignLeft | AlignBottom);
 
-    QFont font = QWidget::font();
+    setPaletteForegroundColor(QColor(107, 158, 194));
 
-    if(font.pixelSize() > 0)
-        font.setPixelSize(font.pixelSize() * 2);
-    else
-        font.setPointSize(font.pointSize() * 2);
+    QFont f = font();
+    f.setPixelSize(10);
+    setFont(f);
 
-    QLabel *iconLabel = new QLabel(this);
-    iconLabel->setPixmap(DesktopIcon("juk"));
-
-    QLabel *textLabel = new QLabel(i18n("Items loaded:"), this);
-    textLabel->setFont(font);
-
-    m_countLabel = new QLabel(this);
-    m_countLabel->setText(QString::number(count));
-    m_countLabel->setFont(font);
-    m_countLabel->setMinimumWidth(m_countLabel->fontMetrics().width("00000"));
-
-    setMaximumWidth(iconLabel->width() + textLabel->width() + m_countLabel->width() + 10);
-    setMaximumHeight(QMAX(iconLabel->height(), textLabel->height()));
-
-    QDesktopWidget *desktop = KApplication::desktop();
-    QRect r = desktop->screenGeometry(desktop->primaryScreen());
-    setGeometry((r.width() / 2) - (width() / 2), (r.height() / 2) - (height() / 2), width(), height());
+    setText(loadedText(0));
 }
 
 SplashScreen::~SplashScreen()
@@ -109,6 +99,6 @@ SplashScreen::~SplashScreen()
 
 void SplashScreen::processEvents()
 {
-    m_countLabel->setText(QString::number(count));
+    setText(loadedText(count));
     kapp->processEvents();
 }
