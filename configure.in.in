@@ -20,27 +20,27 @@ fi
 AC_SUBST(LIB_ARTS)
 AC_SUBST(ARTS_CFLAGS)
 
-AC_ARG_WITH(musicbrainz,
-  [AC_HELP_STRING(--with-musicbrainz,
-    [enable support for MusicBrainz @<:@default=check@:>@])],
-  [], with_musicbrainz=check)
+AC_ARG_WITH(tunepimp,
+  [AC_HELP_STRING(--with-tunepimp,
+    [enable support for TunePimp @<:@default=check@:>@])],
+  [], with_tunepimp=check)
 
-have_musicbrainz=no
-if test "x$with_musicbrainz" != xno; then
-  KDE_CHECK_HEADER(tunepimp/tp_c.h, have_musicbrainz=yes)
+have_tunepimp=no
+if test "x$with_tunepimp" != xno; then
+  KDE_CHECK_HEADER(tunepimp/tp_c.h, have_tunepimp=yes)
 
-  if test "x$with_musicbrainz" != xcheck && test "x$have_musicbrainz" != xyes; then
-    AC_MSG_ERROR([--with-musicbrainz was given, but test for MusicBrainz failed])
+  if test "x$with_tunepimp" != xcheck && test "x$have_tunepimp" != xyes; then
+    AC_MSG_ERROR([--with-tunepimp was given, but test for TunePimp failed])
   fi
 fi
 
-if test "x$have_musicbrainz" = xyes; then
-  AC_DEFINE(HAVE_MUSICBRAINZ, 1, [have MusicBrainz])
+if test "x$have_tunepimp" = xyes; then
+  AC_DEFINE(HAVE_TUNEPIMP, 1, [have TunePimp])
 else
-  AC_DEFINE(HAVE_MUSICBRAINZ, 0, [have MusicBrainz])
+  AC_DEFINE(HAVE_TUNEPIMP, 0, [have TunePimp])
 fi
 
-AM_CONDITIONAL(link_lib_MB, test "x$have_musicbrainz" = xyes)
+AM_CONDITIONAL(link_lib_TP, test "x$have_tunepimp" = xyes)
 
 AC_ARG_WITH(gstreamer,
   [AC_HELP_STRING(--with-gstreamer,

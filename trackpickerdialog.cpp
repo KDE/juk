@@ -15,7 +15,7 @@
 
 #include <config.h>
 
-#if HAVE_MUSICBRAINZ
+#if HAVE_TUNEPIMP
 
 #include <qlabel.h>
 
@@ -98,4 +98,4 @@ int TrackPickerDialog::exec()
 
 #include "trackpickerdialog.moc"
 
-#endif // HAVE_MUSICBRAINZ
+#endif // HAVE_TUNEPIMP

@@ -15,7 +15,7 @@
 
 #include "musicbrainzquery.h"
 
-#if HAVE_MUSICBRAINZ
+#if HAVE_TUNEPIMP
 
 #include "trackpickerdialog.h"
 #include "tag.h"

@@ -21,7 +21,7 @@
 
 #include "ktrm.h"
 
-#if HAVE_MUSICBRAINZ
+#if HAVE_TUNEPIMP
 
 #include <kapplication.h>
 #include <kprotocolmanager.h>

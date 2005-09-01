@@ -833,7 +833,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // Guess tag info menu
 
-#if HAVE_MUSICBRAINZ
+#if HAVE_TUNEPIMP
     menu = new KActionMenu(i18n("&Guess Tag Information"), QString::null, actions(), "guessTag");
     menu->setIconSet(SmallIconSet("wizard"));
 

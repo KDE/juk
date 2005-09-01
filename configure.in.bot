@@ -19,7 +19,7 @@ if test "x$with_gstreamer" = xcheck && test "x$have_gst" = xno; then
 	echo "**************************************************"
 fi
 
-if test "x$with_musicbrainz" = xcheck && test "x$have_musicbrainz" = xno; then
+if test "x$with_tunepimp" = xcheck && test "x$have_tunepimp" = xno; then
 	echo "**************************************************"
 	echo "*"
 	echo "* You do not seem to have libmusicbrainz and"

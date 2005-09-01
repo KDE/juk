@@ -79,12 +79,12 @@ INCLUDES= $(all_includes) $(taglib_includes) $(akode_includes) $(GST_CFLAGS) $(A
 ##################################################
 # check to see if MusicBrainz is available
 ##################################################
-if link_lib_MB
-mblibs = -ltunepimp
+if link_lib_TP
+tplibs = -ltunepimp
 endif
 ##################################################
 
-juk_LDADD = -lm $(LDADD_GST) $(mblibs) $(LIB_KIO) $(taglib_libs) $(akode_libs) $(LIB_KHTML) $(LIB_ARTS)
+juk_LDADD = -lm $(LDADD_GST) $(tplibs) $(LIB_KIO) $(taglib_libs) $(akode_libs) $(LIB_KHTML) $(LIB_ARTS)
 juk_LDFLAGS = $(all_libraries) $(KDE_RPATH) $(LDFLAGS_GST)
 
 KDE_CXXFLAGS = $(USE_EXCEPTIONS)
