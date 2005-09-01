@@ -66,11 +66,11 @@ void Cache::save()
 
     QFile f(cacheFileName);
 
-    if(!f.open(IO_WriteOnly))
+    if(!f.open(QIODevice::WriteOnly))
         return;
 
     QByteArray data;
-    QDataStream s(data, IO_WriteOnly);
+    QDataStream s(data, QIODevice::WriteOnly);
 
     for(Iterator it = begin(); it != end(); ++it) {
         s << (*it).absFilePath();
@@ -96,7 +96,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
     QFile f(playlistsFile);
 
-    if(!f.open(IO_ReadOnly))
+    if(!f.open(QIODevice::ReadOnly))
         return;
 
     QDataStream fs(&f);
@@ -120,7 +120,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
         // Create a new stream just based on the data.
 
-        QDataStream s(data, IO_ReadOnly);
+        QDataStream s(data, QIODevice::ReadOnly);
 
         while(!s.atEnd()) {
 
@@ -203,11 +203,11 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     QString playlistsFile = dirName + "playlists.new";
     QFile f(playlistsFile);
 
-    if(!f.open(IO_WriteOnly))
+    if(!f.open(QIODevice::WriteOnly))
         return;
 
     QByteArray data;
-    QDataStream s(data, IO_WriteOnly);
+    QDataStream s(data, QIODevice::WriteOnly);
 
     for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it) {
         if(*it) {
@@ -267,7 +267,7 @@ void Cache::load()
 
     QFile f(cacheFileName);
 
-    if(!f.open(IO_ReadOnly))
+    if(!f.open(QIODevice::ReadOnly))
         return;
 
     CacheDataStream s(&f);
@@ -289,7 +289,7 @@ void Cache::load()
           >> data;
 
         buffer.setBuffer(data);
-        buffer.open(IO_ReadOnly);
+        buffer.open(QIODevice::ReadOnly);
         s.setDevice(&buffer);
 
         if(checksum != qChecksum(data.data(), data.size())) {

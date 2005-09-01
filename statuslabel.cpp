@@ -22,6 +22,12 @@
 
 #include <qtooltip.h>
 #include <qlayout.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QLabel>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QEvent>
 
 #include "statuslabel.h"
 #include "filehandle.h"
@@ -36,11 +42,11 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const char *name) :
-    QHBox(parent, name),
+    Q3HBox(parent, name),
     PlaylistObserver(playlist),
     m_showTimeRemaining(false)
 {
-    QFrame *trackAndPlaylist = new QFrame(this);
+    Q3Frame *trackAndPlaylist = new Q3Frame(this);
     trackAndPlaylist->setFrameStyle(Box | Sunken);
     trackAndPlaylist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
@@ -76,7 +82,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const cha
     setItemTotalTime(0);
     setItemCurrentTime(0);
 
-    QHBox *jumpBox = new QHBox(this);
+    Q3HBox *jumpBox = new Q3HBox(this);
     jumpBox->setFrameStyle(Box | Sunken);
     jumpBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
 

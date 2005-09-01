@@ -19,7 +19,7 @@
 #include <klocale.h>
 
 #include <qstringlist.h>
-#include <qlistview.h>
+#include <q3listview.h>
 
 #include "collectionlist.h"
 #include "treeviewitemplaylist.h"

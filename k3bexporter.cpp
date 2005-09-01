@@ -23,7 +23,9 @@
 #include <kiconloader.h>
 #include <kapplication.h>
 
-#include <qcstring.h>
+#include <q3cstring.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include <dcopref.h>
 #include <dcopclient.h>
@@ -63,7 +65,7 @@ void K3bExporter::exportPlaylistItems(const PlaylistItemList &items)
         return;
 
     DCOPClient *client = DCOPClient::mainClient();
-    QCString appId, appObj;
+    Q3CString appId, appObj;
     QByteArray data;
 
     if(!client->findObject("k3b-*", "K3bInterface", "", data, appId, appObj))
@@ -83,7 +85,7 @@ void K3bExporter::slotExport()
 void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
 {
     K3bOpenMode mode = openMode();
-    QCString cmdOption;
+    Q3CString cmdOption;
 
     switch(mode) {
     case AudioCD:
@@ -113,10 +115,10 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
 
 void K3bExporter::exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref)
 {
-    QValueList<DCOPRef> projectList;
+    Q3ValueList<DCOPRef> projectList;
     DCOPReply projectListReply = ref.call("projects()");
 
-    if(!projectListReply.get<QValueList<DCOPRef> >(projectList, "QValueList<DCOPRef>")) {
+    if(!projectListReply.get<Q3ValueList<DCOPRef> >(projectList, "QValueList<DCOPRef>")) {
         DCOPErrorMessage();
         return;
     }
@@ -147,7 +149,7 @@ void K3bExporter::DCOPErrorMessage()
 
 bool K3bExporter::startNewK3bProject(DCOPRef &ref)
 {
-    QCString request;
+    Q3CString request;
     K3bOpenMode mode = openMode();
 
     switch(mode) {

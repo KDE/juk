@@ -20,9 +20,11 @@
 #include <qimage.h>
 #include <qdir.h>
 #include <qdatastream.h>
-#include <qdict.h>
-#include <qcache.h>
+#include <q3dict.h>
+#include <q3cache.h>
 #include <qmime.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include <kdebug.h>
 #include <kstaticdeleter.h>
@@ -34,7 +36,7 @@
 // This is a dictionary to map the track path to their ID.  Otherwise we'd have
 // to store this info with each CollectionListItem, which would break the cache
 // of users who upgrade, and would just generally be a big mess.
-typedef QDict<coverKey> TrackLookupMap;
+typedef Q3Dict<coverKey> TrackLookupMap;
 
 // This is responsible for making sure that the CoverManagerPrivate class
 // gets properly destructed on shutdown.
@@ -43,7 +45,7 @@ static KStaticDeleter<CoverManagerPrivate> sd;
 const char *CoverDrag::mimetype = "application/x-juk-coverid";
 // Caches the QPixmaps for the covers so that the covers are not all kept in
 // memory for no reason.
-typedef QCache<QPixmap> CoverPixmapCache;
+typedef Q3Cache<QPixmap> CoverPixmapCache;
 
 CoverManagerPrivate *CoverManager::m_data = 0;
 
@@ -146,7 +148,7 @@ void CoverManagerPrivate::saveCovers() const
 
     kdDebug() << "Opening covers db: " << coverLocation() << endl;
 
-    if(!file.open(IO_WriteOnly)) {
+    if(!file.open(QIODevice::WriteOnly)) {
         kdError() << "Unable to save covers to disk!\n";
         return;
     }
@@ -165,7 +167,7 @@ void CoverManagerPrivate::saveCovers() const
     // Now write out the track mapping.
     out << Q_UINT32(tracks.count());
 
-    QDictIterator<coverKey> trackMapIt(tracks);
+    Q3DictIterator<coverKey> trackMapIt(tracks);
     while(trackMapIt.current()) {
         out << trackMapIt.currentKey() << Q_UINT32(*trackMapIt.current());
         ++trackMapIt;
@@ -178,7 +180,7 @@ void CoverManagerPrivate::loadCovers()
 
     QFile file(coverLocation());
 
-    if(!file.open(IO_ReadOnly)) {
+    if(!file.open(QIODevice::ReadOnly)) {
         // Guess we don't have any covers yet.
         return;
     }
@@ -240,7 +242,7 @@ coverKey CoverManagerPrivate::nextId() const
 //
 // Implementation of CoverDrag
 //
-CoverDrag::CoverDrag(coverKey id, QWidget *src) : QDragObject(src, "coverDrag"),
+CoverDrag::CoverDrag(coverKey id, QWidget *src) : Q3DragObject(src, "coverDrag"),
                                                   m_id(id)
 {
     QPixmap cover = CoverManager::coverFromId(id);
@@ -262,7 +264,7 @@ QByteArray CoverDrag::encodedData(const char *mimetype) const
 {
     if(qstrcmp(CoverDrag::mimetype, mimetype) == 0) {
         QByteArray data;
-        QDataStream ds(data, IO_WriteOnly);
+        QDataStream ds(data, QIODevice::WriteOnly);
 
         ds << Q_UINT32(m_id);
         return data;
@@ -286,7 +288,7 @@ bool CoverDrag::decode(const QMimeSource *e, coverKey &id)
         return false;
 
     QByteArray data = e->encodedData(mimetype);
-    QDataStream ds(data, IO_ReadOnly);
+    QDataStream ds(data, QIODevice::ReadOnly);
     Q_UINT32 i;
 
     ds >> i;
@@ -421,7 +423,7 @@ bool CoverManager::removeCover(coverKey id)
     data()->pixmapCache.remove(QString("t%1").arg(coverData->path));
 
     // Remove references to files that had that track ID.
-    QDictIterator<coverKey> it(data()->tracks);
+    Q3DictIterator<coverKey> it(data()->tracks);
     for(; it.current(); ++it)
         if(*it.current() == id)
             data()->tracks.remove(it.currentKey());
@@ -473,7 +475,7 @@ CoverDataMap::ConstIterator CoverManager::end()
     return data()->covers.constEnd();
 }
 
-QValueList<coverKey> CoverManager::keys()
+Q3ValueList<coverKey> CoverManager::keys()
 {
     return data()->covers.keys();
 }

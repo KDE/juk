@@ -24,15 +24,22 @@
 #include <kglobalsettings.h>
 #include <kdebug.h>
 
-#include <qvbox.h>
+#include <q3vbox.h>
 #include <qtimer.h>
 #include <qcolor.h>
 #include <qpushbutton.h>
 #include <qtooltip.h>
 #include <qpainter.h>
-#include <qvaluevector.h>
-#include <qstylesheet.h>
+#include <q3valuevector.h>
+#include <q3stylesheet.h>
 #include <qpalette.h>
+//Added by qt3to4:
+#include <QWheelEvent>
+#include <QPixmap>
+#include <QEvent>
+#include <Q3Frame>
+#include <QLabel>
+#include <QMouseEvent>
 
 #include <netwm.h>
 #include <QX11Info>
@@ -300,9 +307,9 @@ void SystemTray::slotMouseInPopup()
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-QVBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
+Q3VBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
 {
-    QVBox *infoBox = 0;
+    Q3VBox *infoBox = 0;
 
     if(buttonsToLeft()) {
 
@@ -311,7 +318,7 @@ QVBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
         createButtonBox(parent);
         addSeparatorLine(parent);
 
-        infoBox = new QVBox(parent);
+        infoBox = new Q3VBox(parent);
 
         // Another line, and the cover, if there's a cover, and if
         // it's selected to be shown
@@ -330,7 +337,7 @@ QVBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
             addSeparatorLine(parent);
         }
 
-        infoBox = new QVBox(parent);
+        infoBox = new Q3VBox(parent);
 
         addSeparatorLine(parent);
         createButtonBox(parent);
@@ -364,10 +371,10 @@ void SystemTray::createPopup()
     connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
     connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
 
-    QHBox *box = new QHBox(m_popup, "popupMainLayout");
+    Q3HBox *box = new Q3HBox(m_popup, "popupMainLayout");
     box->setSpacing(15); // Add space between text and buttons
 
-    QVBox *infoBox = createPopupLayout(box, playingFile);
+    Q3VBox *infoBox = createPopupLayout(box, playingFile);
 
     for(unsigned i = 0; i < m_labels.capacity(); ++i) {
         m_labels[i] = new FlickerFreeLabel(" ", infoBox);
@@ -385,14 +392,14 @@ void SystemTray::createPopup()
 
     int labelCount = 0;
 
-    QString title = QStyleSheet::escape(playingInfo->title());
+    QString title = Q3StyleSheet::escape(playingInfo->title());
     m_labels[labelCount++]->setText(QString("<qt><nobr><h2>%1</h2></nobr><qt>").arg(title));
 
     if(!playingInfo->artist().isEmpty())
         m_labels[labelCount++]->setText(playingInfo->artist());
 
     if(!playingInfo->album().isEmpty()) {
-        QString album = QStyleSheet::escape(playingInfo->album());
+        QString album = Q3StyleSheet::escape(playingInfo->album());
         QString s = playingInfo->year() > 0
             ? QString("<qt><nobr>%1 (%2)</nobr></qt>").arg(album).arg(playingInfo->year())
             : QString("<qt><nobr>%1</nobr></qt>").arg(album);
@@ -443,7 +450,7 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
 
 void SystemTray::createButtonBox(QWidget *parent)
 {
-    QVBox *buttonBox = new QVBox(parent);
+    Q3VBox *buttonBox = new Q3VBox(parent);
     
     buttonBox->setSpacing(3);
 
@@ -475,8 +482,8 @@ void SystemTray::slotForward()
 
 void SystemTray::addSeparatorLine(QWidget *parent)
 {
-    QFrame *line = new QFrame(parent);
-    line->setFrameShape(QFrame::VLine);
+    Q3Frame *line = new Q3Frame(parent);
+    line->setFrameShape(Q3Frame::VLine);
 
     // Cover art takes up 80 pixels, make sure we take up at least 80 pixels
     // even if we don't show the cover art for consistency.
@@ -527,7 +534,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
         if(coverImage.size().width() > 32 || coverImage.size().height() > 32)
             coverImage = coverImage.smoothScale(32, 32);
 
-        QMimeSourceFactory::defaultFactory()->setImage("tipCover", coverImage);
+        Q3MimeSourceFactory::defaultFactory()->setImage("tipCover", coverImage);
 
         QString html = i18n("%1 is Cover Art, %2 is the playing track, %3 is the appname",
                             "<center><table cellspacing=\"2\"><tr><td valign=\"middle\">%1</td>"

@@ -22,6 +22,10 @@
 #include <qfile.h>
 #include <qdir.h>
 #include <qdatastream.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QResizeEvent>
+#include <QEvent>
 
 #include "viewmode.h"
 #include "playlistbox.h"
@@ -71,7 +75,7 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
         QPen newPen = oldPen;
 
         newPen.setWidth(5);
-        newPen.setJoinStyle(RoundJoin);
+        newPen.setJoinStyle(Qt::RoundJoin);
         newPen.setColor(QColorGroup::Highlight);
 
         painter->setPen(newPen);
@@ -127,7 +131,7 @@ void ViewMode::setShown(bool shown)
 
 void ViewMode::updateIcons(int size)
 {
-    for(QListViewItemIterator it(m_playlistBox); it.current(); ++it) {
+    for(Q3ListViewItemIterator it(m_playlistBox); it.current(); ++it) {
         PlaylistBox::Item *i = static_cast<PlaylistBox::Item *>(*it);
         i->setPixmap(0, SmallIcon(i->iconName(), size));
     }
@@ -149,7 +153,7 @@ void ViewMode::updateHeights()
     const int baseHeight = 2 * m_playlistBox->itemMargin() + 32 + border * 2;
     const QFontMetrics fm = m_playlistBox->fontMetrics();
 
-    for(QListViewItemIterator it(m_playlistBox); it.current(); ++it) {
+    for(Q3ListViewItemIterator it(m_playlistBox); it.current(); ++it) {
         PlaylistBox::Item *i = static_cast<PlaylistBox::Item *>(it.current());
         m_lines[i] = lines(i, fm, width);
         const int height = baseHeight + (fm.height() - fm.descent()) * m_lines[i].count();
@@ -244,7 +248,7 @@ void CompactViewMode::setShown(bool shown)
 
 void CompactViewMode::updateHeights()
 {
-    for(QListViewItemIterator it(playlistBox()); it.current(); ++it)
+    for(Q3ListViewItemIterator it(playlistBox()); it.current(); ++it)
 	it.current()->setup();
 }
 
@@ -278,12 +282,12 @@ void TreeViewMode::setShown(bool show)
         if(collectionItem && m_searchCategories.isEmpty())
             setupCategories();
         else {
-            for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
+            for(Q3DictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
                 it.current()->setVisible(true);
         }
     }
     else {
-        for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
+        for(Q3DictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
             it.current()->setVisible(false);
     }
 }
@@ -331,7 +335,7 @@ void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
         return;
     }
 
-    QValueList<int> columns;
+    Q3ValueList<int> columns;
     columns.append(column);
 
     PlaylistSearch::Component::MatchMode mode = PlaylistSearch::Component::ContainsWord;

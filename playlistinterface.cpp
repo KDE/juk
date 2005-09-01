@@ -13,6 +13,8 @@
  ***************************************************************************/
 
 #include "playlistinterface.h"
+//Added by qt3to4:
+#include <Q3ValueList>
 
 ////////////////////////////////////////////////////////////////////////////////
 // Watched implementation
@@ -20,7 +22,7 @@
 
 void Watched::currentChanged()
 {
-    for(QValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
+    for(Q3ValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
 	it != m_observers.end();
 	++it)
     {
@@ -30,7 +32,7 @@ void Watched::currentChanged()
 
 void Watched::dataChanged()
 {
-    for(QValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
+    for(Q3ValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
 	it != m_observers.end();
 	++it)
     {
@@ -50,7 +52,7 @@ void Watched::removeObserver(PlaylistObserver *observer)
 
 Watched::~Watched()
 {
-    for(QValueList<PlaylistObserver *>::Iterator it = m_observers.begin();
+    for(Q3ValueList<PlaylistObserver *>::Iterator it = m_observers.begin();
         it != m_observers.end();
         ++it)
     {

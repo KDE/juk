@@ -36,6 +36,8 @@
 #include "collectionlist.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
+//Added by qt3to4:
+#include <QKeyEvent>
 
 using namespace ActionCollection;
 
@@ -44,7 +46,7 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent, const char *name) :
-    KMainWindow(parent, name, WDestructiveClose),
+    KMainWindow(parent, name, Qt::WDestructiveClose),
     m_player(PlayerManager::instance()),
     m_shuttingDown(false)
 {

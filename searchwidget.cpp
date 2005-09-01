@@ -28,6 +28,10 @@
 #include <qcheckbox.h>
 #include <qpushbutton.h>
 #include <qtoolbutton.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QKeyEvent>
+#include <QEvent>
 
 #include "searchwidget.h"
 #include "collectionlist.h"
@@ -40,7 +44,7 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
-    QHBox(parent, name),
+    Q3HBox(parent, name),
     m_simple(simple),
     m_searchFieldsBox(0)
 {
@@ -80,10 +84,10 @@ PlaylistSearch::Component SearchLine::searchComponent() const
 
     Playlist *playlist = CollectionList::instance();
 
-    QValueList<int> searchedColumns;
+    Q3ValueList<int> searchedColumns;
 
     if(!m_searchFieldsBox || m_searchFieldsBox->currentItem() == 0) {
-	QValueListConstIterator<int> it = m_columnList.begin();
+	Q3ValueListConstIterator<int> it = m_columnList.begin();
 	for(; it != m_columnList.end(); ++it) {
 	    if(playlist->isColumnVisible(*it))
 		searchedColumns.append(*it);
@@ -137,13 +141,13 @@ void SearchLine::setFocus()
 bool SearchLine::eventFilter(QObject *watched, QEvent *e)
 {
     if(watched != m_lineEdit || e->type() != QEvent::KeyPress)
-	return QHBox::eventFilter(watched, e);
+	return Q3HBox::eventFilter(watched, e);
 
     QKeyEvent *key = static_cast<QKeyEvent *>(e);
     if(key->key() == Qt::Key_Down)
 	emit signalDownPressed();
 
-    return QHBox::eventFilter(watched, e);
+    return Q3HBox::eventFilter(watched, e);
 }
 
 void SearchLine::slotActivate()

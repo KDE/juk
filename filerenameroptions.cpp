@@ -21,7 +21,7 @@
 #include <qlabel.h>
 #include <qradiobutton.h>
 #include <qlineedit.h>
-#include <qbuttongroup.h>
+#include <q3buttongroup.h>
 
 #include "filerenameroptions.h"
 

@@ -17,10 +17,12 @@
 #define ADVANCEDSEARCHDIALOG_H
 
 #include <kdialogbase.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class KLineEdit;
 class KPushButton;
-class QGroupBox;
+class Q3GroupBox;
 class QRadioButton;
 class SearchLine;
 
@@ -58,7 +60,7 @@ private:
     QWidget *m_criteria;
     PlaylistSearch m_search;
     QString m_playlistName;
-    QValueList<SearchLine *> m_searchLines;
+    Q3ValueList<SearchLine *> m_searchLines;
     KLineEdit *m_playlistNameLineEdit;
     QRadioButton *m_matchAnyButton;
     QRadioButton *m_matchAllButton;

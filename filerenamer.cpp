@@ -35,10 +35,10 @@
 #include <ksimpleconfig.h>
 
 #include <qfile.h>
-#include <qhbox.h>
-#include <qvbox.h>
-#include <qscrollview.h>
-#include <qobjectlist.h>
+#include <q3hbox.h>
+#include <q3vbox.h>
+#include <q3scrollview.h>
+#include <qobject.h>
 #include <qtimer.h>
 #include <qregexp.h>
 #include <qcheckbox.h>
@@ -46,7 +46,13 @@
 #include <qlabel.h>
 #include <qlayout.h>
 #include <qsignalmapper.h>
-#include <qheader.h>
+#include <q3header.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QBoxLayout>
+#include <Q3ValueList>
 
 #include "tag.h"
 #include "filehandle.h"
@@ -63,8 +69,8 @@ public:
                        QWidget *parent = 0, const char *name = 0)
         : KDialogBase(parent, name, true, i18n("Warning"), Ok | Cancel)
     {
-        QVBox *vbox = makeVBoxMainWidget();
-        QHBox *hbox = new QHBox(vbox);
+        Q3VBox *vbox = makeVBoxMainWidget();
+        Q3HBox *hbox = new Q3HBox(vbox);
 
         QLabel *l = new QLabel(hbox);
         l->setPixmap(SmallIcon("messagebox_warning", 32));
@@ -109,8 +115,8 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
     for(unsigned i = 0; i < (NumTypes - 1); ++i)
         m_folderSeparators[i] = false;
 
-    QValueList<int> checkedSeparators = config.readIntListEntry("CheckedDirSeparators");
-    QValueList<int>::ConstIterator it = checkedSeparators.begin();
+    Q3ValueList<int> checkedSeparators = config.readIntListEntry("CheckedDirSeparators");
+    Q3ValueList<int>::ConstIterator it = checkedSeparators.begin();
     for(; it != checkedSeparators.end(); ++it)
         if(*it >= 0 && *it < (NumTypes - 1))
             m_folderSeparators[*it] = true;
@@ -181,7 +187,7 @@ QString ConfigCategoryReader::emptyText(TagType category) const
     return m_options[category].emptyText();
 }
 
-QValueList<TagType> ConfigCategoryReader::categoryOrder() const
+Q3ValueList<TagType> ConfigCategoryReader::categoryOrder() const
 {
     return m_categoryOrder;
 }
@@ -244,7 +250,7 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
 
 void FileRenamerWidget::loadConfig()
 {
-    QValueList<int> checkedSeparators;
+    Q3ValueList<int> checkedSeparators;
     KConfigGroup config(KGlobal::config(), "FileRenamer");
 
     for(unsigned i = StartTag; i < NumTypes; ++i)
@@ -252,7 +258,7 @@ void FileRenamerWidget::loadConfig()
 
     checkedSeparators = config.readIntListEntry("CheckedDirSeparators");
 
-    QValueList<int>::ConstIterator it = checkedSeparators.begin();
+    Q3ValueList<int>::ConstIterator it = checkedSeparators.begin();
     for(; it != checkedSeparators.end(); ++it) {
         if(*it < (NumTypes - 1) && *it >= 0)
             m_folderSwitches[*it]->setChecked(true);
@@ -267,8 +273,8 @@ void FileRenamerWidget::loadConfig()
 void FileRenamerWidget::saveConfig()
 {
     KConfigGroup config(KGlobal::config(), "FileRenamer");
-    QValueList<int> checkedSeparators;
-    QValueList<int> categoryOrder;
+    Q3ValueList<int> checkedSeparators;
+    Q3ValueList<int> categoryOrder;
 
     for(unsigned i = StartTag; i < NumTypes; ++i)
         m_rows[i].options.saveConfig();
@@ -296,7 +302,7 @@ FileRenamerWidget::~FileRenamerWidget()
 void FileRenamerWidget::createTagRows()
 {
     KConfigGroup config(KGlobal::config(), "FileRenamer");
-    QValueList<int> categoryOrder = config.readIntListEntry("CategoryOrder");
+    Q3ValueList<int> categoryOrder = config.readIntListEntry("CategoryOrder");
     if(categoryOrder.isEmpty())
         for(int i = 0; i < NumTypes; ++i)
             categoryOrder += i;
@@ -314,12 +320,12 @@ void FileRenamerWidget::createTagRows()
     connect(upMapper,     SIGNAL(mapped(int)), SLOT(moveItemUp(int)));
     connect(downMapper,   SIGNAL(mapped(int)), SLOT(moveItemDown(int)));
 
-    m_mainFrame = new QVBox(m_mainView->viewport());
+    m_mainFrame = new Q3VBox(m_mainView->viewport());
     m_mainFrame->setMargin(10);
     m_mainFrame->setSpacing(5);
 
     m_mainView->addChild(m_mainFrame);
-    m_mainView->setResizePolicy(QScrollView::AutoOneFit);
+    m_mainView->setResizePolicy(Q3ScrollView::AutoOneFit);
 
     // OK, the deal with the categoryOrder variable is that we need to create
     // the rows in the order that they were saved in.  Or at least, this is
@@ -332,18 +338,18 @@ void FileRenamerWidget::createTagRows()
         m_rows[i].category = static_cast<TagType>(categoryOrder.front());
         categoryOrder.pop_front();
 
-        QHBox *frame = new QHBox(m_mainFrame);
+        Q3HBox *frame = new Q3HBox(m_mainFrame);
         frame->setPaletteBackgroundColor(frame->paletteBackgroundColor().dark(110));
 
         m_rows[i].widget = frame;
-        frame->setFrameShape(QFrame::Box);
+        frame->setFrameShape(Q3Frame::Box);
         frame->setLineWidth(1);
         frame->setMargin(3);
 
         m_mainFrame->setStretchFactor(frame, 1);
 
-        QVBox *buttons = new QVBox(frame);
-        buttons->setFrameStyle(QFrame::Plain | QFrame::Box);
+        Q3VBox *buttons = new Q3VBox(frame);
+        buttons->setFrameStyle(Q3Frame::Plain | Q3Frame::Box);
         buttons->setLineWidth(1);
 
         m_rows[i].upButton = new KPushButton(buttons);
@@ -364,7 +370,7 @@ void FileRenamerWidget::createTagRows()
         frame->setStretchFactor(label, 1);
         label->setAlignment(AlignCenter);
 
-        QVBox *options = new QVBox(frame);
+        Q3VBox *options = new Q3VBox(frame);
         m_rows[i].enableButton = new QCheckBox(i18n("Enabled"), options);
         m_rows[i].enableButton->setChecked(true);
         toggleMapper->connect(m_rows[i].enableButton, SIGNAL(toggled(bool)), SLOT(map()));
@@ -474,9 +480,9 @@ QString FileRenamerWidget::categoryValue(TagType category) const
     }
 }
 
-QValueList<TagType> FileRenamerWidget::categoryOrder() const
+Q3ValueList<TagType> FileRenamerWidget::categoryOrder() const
 {
-    QValueList<TagType> list;
+    Q3ValueList<TagType> list;
 
     for(unsigned i = 0; i < NumTypes; ++i)
         list.append(m_rows[i].category);
@@ -823,7 +829,7 @@ void FileRenamer::setFolderIcon(const KURL &dst, const PlaylistItem *item)
 
 QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 {
-    const QValueList<TagType> categoryOrder = interface.categoryOrder();
+    const Q3ValueList<TagType> categoryOrder = interface.categoryOrder();
     const QString separator = interface.separator();
     const QString folder = interface.musicFolder();
     const QRegExp closeBracket("[])}]\\s*$");
@@ -832,7 +838,7 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
     unsigned i = 0;
     QStringList list;
 
-    for(QValueList<TagType>::ConstIterator it = categoryOrder.begin(); it != categoryOrder.end(); ++it) {
+    for(Q3ValueList<TagType>::ConstIterator it = categoryOrder.begin(); it != categoryOrder.end(); ++it) {
 
         TagType category = static_cast<TagType>(*it);
         if(interface.isDisabled(category)) {

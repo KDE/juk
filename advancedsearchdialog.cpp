@@ -19,12 +19,14 @@
 #include <klocale.h>
 
 #include <qradiobutton.h>
-#include <qvgroupbox.h>
 #include <qlabel.h>
-#include <qhbox.h>
-#include <qvbox.h>
+#include <q3hbox.h>
+#include <q3vbox.h>
 #include <qlayout.h>
 #include <qhbuttongroup.h>
+//Added by qt3to4:
+#include <QHBoxLayout>
+#include <QBoxLayout>
 
 #include "collectionlist.h"
 #include "advancedsearchdialog.h"
@@ -42,20 +44,20 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
 {
     makeVBoxMainWidget();
 
-    QHBox *box = new QHBox(mainWidget());
+    Q3HBox *box = new Q3HBox(mainWidget());
     box->setSpacing(5);
 
     new QLabel(i18n("Playlist name:"), box);
     m_playlistNameLineEdit = new KLineEdit(defaultName, box);
 
     QVGroupBox *criteriaGroupBox = new QVGroupBox(i18n("Search Criteria"), mainWidget());
-    static_cast<QHBox *>(mainWidget())->setStretchFactor(criteriaGroupBox, 1);
+    static_cast<Q3HBox *>(mainWidget())->setStretchFactor(criteriaGroupBox, 1);
 
-    QHButtonGroup *group = new QHButtonGroup(criteriaGroupBox);
+    Q3HButtonGroup *group = new Q3HButtonGroup(criteriaGroupBox);
     m_matchAnyButton = new QRadioButton(i18n("Match any of the following"), group);
     m_matchAllButton = new QRadioButton(i18n("Match all of the following"), group);
 
-    m_criteria = new QVBox(criteriaGroupBox);
+    m_criteria = new Q3VBox(criteriaGroupBox);
 
     if(defaultSearch.isNull()) {
         m_searchLines.append(new SearchLine(m_criteria));
@@ -127,7 +129,7 @@ void AdvancedSearchDialog::accept()
 
     m_search.addPlaylist(CollectionList::instance());
 
-    QValueListConstIterator<SearchLine *> it = m_searchLines.begin();
+    Q3ValueListConstIterator<SearchLine *> it = m_searchLines.begin();
     for(; it != m_searchLines.end(); ++it)
         m_search.addComponent((*it)->searchComponent());
 
@@ -141,7 +143,7 @@ void AdvancedSearchDialog::accept()
 
 void AdvancedSearchDialog::clear()
 {
-    QValueListConstIterator<SearchLine *> it = m_searchLines.begin();
+    Q3ValueListConstIterator<SearchLine *> it = m_searchLines.begin();
     for(; it != m_searchLines.end(); ++it)
         (*it)->clear();
 }

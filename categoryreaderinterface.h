@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3ValueList>
 /***************************************************************************
     begin                : Sun Oct 31 2004
     copyright            : (C) 2004 by Michael Pyne
@@ -19,7 +21,7 @@
 
 class QString;
 
-template<class T> class QValueList;
+template<class T> class Q3ValueList;
 
 /**
  * This class is used to map categories into values.  You should implement the
@@ -75,7 +77,7 @@ public:
      */
     virtual QString emptyText(TagType category) const = 0;
 
-    virtual QValueList<TagType> categoryOrder() const = 0;
+    virtual Q3ValueList<TagType> categoryOrder() const = 0;
 
     // You probably shouldn't reimplement this
     virtual QString value(TagType category) const;

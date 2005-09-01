@@ -18,7 +18,7 @@
 
 using CoverUtility::CoverIconViewItem;
 
-CoverIconViewItem::CoverIconViewItem(coverKey id, QIconView *parent) :
+CoverIconViewItem::CoverIconViewItem(coverKey id, Q3IconView *parent) :
     KIconViewItem(parent), m_id(id)
 {
     CoverDataPtr data = CoverManager::coverInfo(id);
@@ -36,7 +36,7 @@ CoverIconViewItem *CoverIconView::currentItem() const
     return static_cast<CoverIconViewItem *>(KIconView::currentItem());
 }
 
-QDragObject *CoverIconView::dragObject()
+Q3DragObject *CoverIconView::dragObject()
 {
     CoverIconViewItem *item = currentItem();
     if(item)

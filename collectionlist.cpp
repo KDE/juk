@@ -32,6 +32,11 @@
 #include "tag.h"
 #include "viewmode.h"
 #include "coverinfo.h"
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QDragMoveEvent>
+#include <Q3CString>
+#include <QDropEvent>
 
 using namespace ActionCollection;
 
@@ -84,7 +89,7 @@ void CollectionList::initialize(PlaylistCollection *collection)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem *CollectionList::createItem(const FileHandle &file, QListViewItem *, bool)
+PlaylistItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem *, bool)
 {
     // It's probably possible to optimize the line below away, but, well, right
     // now it's more important to not load duplicate items.
@@ -124,13 +129,13 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
 	return;
     }
 
-    QValueList<int> columnList;
+    Q3ValueList<int> columnList;
     columnList << PlaylistItem::ArtistColumn;
     columnList << PlaylistItem::GenreColumn;
     columnList << PlaylistItem::AlbumColumn;
 
     QStringList items;
-    for(QValueList<int>::Iterator colIt = columnList.begin(); colIt != columnList.end(); ++colIt) {
+    for(Q3ValueList<int>::Iterator colIt = columnList.begin(); colIt != columnList.end(); ++colIt) {
 	items.clear();
 	for(TagCountDictIterator it(*m_columnTags[*colIt]); it.current(); ++it)
 	    items << it.currentKey();
@@ -198,7 +203,7 @@ void CollectionList::slotCheckCache()
 {
     PlaylistItemList invalidItems;
 
-    for(QDictIterator<CollectionListItem>it(m_itemsDict); it.current(); ++it) {
+    for(Q3DictIterator<CollectionListItem>it(m_itemsDict); it.current(); ++it) {
 	if(!it.current()->checkCurrent())
 	    invalidItems.append(*it);
 	processEvents();
@@ -361,7 +366,7 @@ void CollectionListItem::refresh()
 	if(id != TrackNumberColumn && id != LengthColumn) {        
 	    // All columns other than track num and length need local-encoded data for sorting        
 
-	    QCString lower = text(i).lower().local8Bit();
+	    Q3CString lower = text(i).lower().local8Bit();
 
 	    // For some columns, we may be able to share some strings
 
@@ -428,7 +433,7 @@ void CollectionListItem::updateCollectionDict(const QString &oldPath, const QStr
 
 void CollectionListItem::repaint() const
 {
-    QListViewItem::repaint();
+    Q3ListViewItem::repaint();
     for(PlaylistItemList::ConstIterator it = m_children.begin(); it != m_children.end(); ++it)
 	(*it)->repaint();
 }

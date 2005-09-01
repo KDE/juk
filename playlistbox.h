@@ -20,7 +20,14 @@
 
 #include <klistview.h>
 
-#include <qptrdict.h>
+#include <q3ptrdict.h>
+//Added by qt3to4:
+#include <QDragLeaveEvent>
+#include <QDragMoveEvent>
+#include <QKeyEvent>
+#include <QDropEvent>
+#include <Q3ValueList>
+#include <QMouseEvent>
 
 class Playlist;
 class PlaylistItem;
@@ -31,7 +38,7 @@ class SearchPlaylist;
 class KPopupMenu;
 class KSelectAction;
 
-typedef QValueList<Playlist *> PlaylistList;
+typedef Q3ValueList<Playlist *> PlaylistList;
 
 /** 
  * This is the play list selection box that is by default on the right side of
@@ -44,12 +51,12 @@ class PlaylistBox : public KListView, public PlaylistCollection
 
 public: 
     class Item;
-    typedef QValueList<Item *> ItemList;
+    typedef Q3ValueList<Item *> ItemList;
 
     friend class Item;
     friend class TreeViewMode;
 
-    PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
+    PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
 		const char *name = 0);
 
     virtual ~PlaylistBox();
@@ -89,8 +96,8 @@ private:
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void keyReleaseEvent(QKeyEvent *e);
 
-    QValueList<Item *> selectedItems() const;
-    void setSingleItem(QListViewItem *item);
+    Q3ValueList<Item *> selectedItems() const;
+    void setSingleItem(Q3ListViewItem *item);
 
     void setupItem(Item *item);
     void performTreeViewSetup();
@@ -105,7 +112,7 @@ private slots:
      */
     void slotPlaylistChanged();
     void slotDoubleClicked();
-    void slotShowContextMenu(QListViewItem *, const QPoint &point, int);
+    void slotShowContextMenu(Q3ListViewItem *, const QPoint &point, int);
     void slotSetViewMode(int index);
     void slotTreeViewPlaylistDestroyed(Playlist*);
     void slotSavePlaylists();
@@ -118,9 +125,9 @@ private slots:
 
 private:
     KPopupMenu *m_contextMenu;
-    QPtrDict<Item> m_playlistDict;
+    Q3PtrDict<Item> m_playlistDict;
     int m_viewModeIndex;
-    QValueList<ViewMode *> m_viewModes;
+    Q3ValueList<ViewMode *> m_viewModes;
     KAction *m_k3bAction;
     bool m_hasSelection;
     bool m_doingMultiSelect;
@@ -157,7 +164,7 @@ protected:
     QString text() const { return m_text; }
     void setSortedFirst(bool first = true) { m_sortedFirst = first; }
 
-    virtual int compare(QListViewItem *i, int col, bool) const;
+    virtual int compare(Q3ListViewItem *i, int col, bool) const;
     virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
     virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}
     virtual void setText(int column, const QString &text);

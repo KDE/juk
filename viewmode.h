@@ -17,7 +17,9 @@
 #define VIEWMODE_H
 
 
-#include <qdict.h>
+#include <q3dict.h>
+//Added by qt3to4:
+#include <QEvent>
 
 #include "playlistbox.h"
 
@@ -114,8 +116,8 @@ signals:
     void signalPlaylistDestroyed(Playlist*);
 
 private:
-    QDict<PlaylistBox::Item> m_searchCategories;    
-    QDict<TreeViewItemPlaylist> m_treeViewItems;
+    Q3Dict<PlaylistBox::Item> m_searchCategories;    
+    Q3Dict<TreeViewItemPlaylist> m_treeViewItems;
     QStringList m_pendingItemsToRemove;
     bool m_canDeletePlaylists;
 };

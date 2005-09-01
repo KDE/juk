@@ -116,7 +116,7 @@ void UpcomingPlaylist::addFiles(const QStringList &files, PlaylistItem *after)
     appendItems(l);
 }
 
-QMap< PlaylistItem::Pointer, QGuardedPtr<Playlist> > &UpcomingPlaylist::playlistIndex()
+QMap< PlaylistItem::Pointer, QPointer<Playlist> > &UpcomingPlaylist::playlistIndex()
 {
     return m_playlistIndex;
 }

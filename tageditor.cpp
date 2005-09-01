@@ -38,7 +38,14 @@
 #include <qvalidator.h>
 #include <qtooltip.h>
 #include <qeventloop.h>
-#include <qdict.h>
+#include <q3dict.h>
+//Added by qt3to4:
+#include <QEvent>
+#include <QKeyEvent>
+#include <QHBoxLayout>
+#include <QBoxLayout>
+#include <QShowEvent>
+#include <QVBoxLayout>
 
 #include <id3v1genres.h>
 
@@ -255,7 +262,7 @@ void TagEditor::slotRefresh()
     
     if(it != m_items.end()) {
 
-	QValueListIterator<QWidget *> hideIt = m_hideList.begin();
+	Q3ValueListIterator<QWidget *> hideIt = m_hideList.begin();
 	for(; hideIt != m_hideList.end(); ++hideIt)
 	    (*hideIt)->hide();
 
@@ -335,7 +342,7 @@ void TagEditor::slotRefresh()
     else {
 	// Clean up in the case that we are only handling one item.
 
-	QValueListIterator<QWidget *> showIt = m_hideList.begin();
+	Q3ValueListIterator<QWidget *> showIt = m_hideList.begin();
 	for(; showIt != m_hideList.end(); ++showIt)
 	    (*showIt)->show();
 

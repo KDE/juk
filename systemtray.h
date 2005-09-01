@@ -21,12 +21,17 @@
 #include <ksystemtray.h>
 #include <kpassivepopup.h>
 
-#include <qvaluevector.h>
+#include <q3valuevector.h>
 #include <qcolor.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <QWheelEvent>
+#include <QEvent>
 
 class FlickerFreeLabel;
 class QTimer;
-class QVBox;
+class Q3VBox;
 class FileHandle;
 
 /**
@@ -91,7 +96,7 @@ private:
     // Creates the widget layout for the popup, returning the QVBox that
     // holds the text labels.  Uses buttonsToLeft() to figure out which
     // order to create them in.  @p file is used to grab the cover.
-    QVBox *createPopupLayout(QWidget *parent, const FileHandle &file);
+    Q3VBox *createPopupLayout(QWidget *parent, const FileHandle &file);
 
     void addSeparatorLine(QWidget *parent);
     void addCoverButton(QWidget *parent, const QPixmap &cover);
@@ -124,7 +129,7 @@ private:
     QColor m_startColor, m_endColor;
 
     PassiveInfo *m_popup;
-    QValueVector<FlickerFreeLabel *> m_labels;
+    Q3ValueVector<FlickerFreeLabel *> m_labels;
     QTimer *m_fadeTimer;
     int m_step;
     bool m_fade;

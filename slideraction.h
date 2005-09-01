@@ -18,21 +18,25 @@
 
 #include <kaction.h>
 #include <qslider.h>
+//Added by qt3to4:
+#include <QWheelEvent>
+#include <QFocusEvent>
+#include <QBoxLayout>
 
 class QBoxLayout;
-class QDockWindow;
+class Q3DockWindow;
 
 class VolumeSlider : public QSlider
 {
     Q_OBJECT
 
 public:
-    VolumeSlider(Orientation o, QWidget *parent, const char *name);
+    VolumeSlider(Qt::Orientation o, QWidget *parent, const char *name);
 
     int volume() const;
     void setVolume(int value);
 
-    void setOrientation(Orientation o);
+    void setOrientation(Qt::Orientation o);
 
 signals:
     void signalVolumeChanged(int value);

@@ -20,6 +20,8 @@
 #include <qpixmap.h>
 #include <qstringlist.h>
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include "filehandle.h"
 
@@ -44,7 +46,7 @@ private:
     QString m_size;
 };
 
-typedef QValueList<GoogleImage> GoogleImageList;
+typedef Q3ValueList<GoogleImage> GoogleImageList;
 
 class GoogleFetcher : public QObject
 {

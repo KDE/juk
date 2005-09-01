@@ -21,7 +21,10 @@
 
 #include <ktoolbar.h>
 
-#include <qhbox.h>
+#include <q3hbox.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <QEvent>
 
 #include "playlistsearch.h"
 #include "jukIface.h"
@@ -32,7 +35,7 @@ class KComboBox;
 
 class Playlist;
 
-class SearchLine : public QHBox
+class SearchLine : public Q3HBox
 {
     Q_OBJECT
 
@@ -66,7 +69,7 @@ private:
     KLineEdit *m_lineEdit;
     KComboBox *m_searchFieldsBox;
     KComboBox *m_caseSensitive;
-    QValueList<int> m_columnList;
+    Q3ValueList<int> m_columnList;
 };
 
 class SearchWidget : public KToolBar, public SearchIface

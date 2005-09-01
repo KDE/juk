@@ -32,7 +32,7 @@
 #if HAVE_TUNEPIMP
 
 #include <qstring.h>
-#include <qvaluelist.h>
+#include <q3valuelist.h>
 #include <qmap.h>
 
 /**
@@ -97,7 +97,7 @@ private:
     KTRMResultPrivate *d;
 };
 
-typedef QValueList<KTRMResult> KTRMResultList;
+typedef Q3ValueList<KTRMResult> KTRMResultList;
 
 /**
  * An abstraction for libtunepimp's TRM based lookup and file recognition.

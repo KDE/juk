@@ -41,7 +41,7 @@ HistoryPlaylist::~HistoryPlaylist()
 }
 
 HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file,
-                                                 QListViewItem *after, bool emitChanged)
+                                                 Q3ListViewItem *after, bool emitChanged)
 {
     if(!after)
         after = lastItem();
@@ -90,7 +90,7 @@ void HistoryPlaylist::slotCreateNewItem()
 // HistoryPlaylistItem public members
 ////////////////////////////////////////////////////////////////////////////////
 
-HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
+HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
     PlaylistItem(item, parent, after),
     m_dateTime(QDateTime::currentDateTime())
 {

@@ -17,6 +17,8 @@
 #define JUK_FILEHANDLE_H
 
 #include <qstringlist.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class QFileInfo;
 class QDateTime;
@@ -74,7 +76,7 @@ private:
     void setup(const QFileInfo &info, const QString &path);
 };
 
-typedef QValueList<FileHandle> FileHandleList;
+typedef Q3ValueList<FileHandle> FileHandleList;
 
 QDataStream &operator<<(QDataStream &s, const FileHandle &f);
 CacheDataStream &operator>>(CacheDataStream &s, FileHandle &f);

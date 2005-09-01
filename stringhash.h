@@ -16,7 +16,10 @@
 #ifndef STRINGHASH_H
 #define STRINGHASH_H
 
-#include <qptrvector.h>
+#include <q3ptrvector.h>
+//Added by qt3to4:
+#include <Q3ValueList>
+#include <Q3CString>
 
 #include "filehandle.h"
 
@@ -49,7 +52,7 @@ public:
      */
     bool remove(T value);
 
-    QValueList<T> values() const;
+    Q3ValueList<T> values() const;
 
     int hash(T key) const;
 
@@ -108,7 +111,7 @@ protected:
 
     void deleteNode(Node *n);
     
-    QPtrVector<Node> m_table;
+    Q3PtrVector<Node> m_table;
     static const int m_tableSize = 5003;
 };
 
@@ -121,7 +124,7 @@ inline char hashStringAccess(const QString &in, int index)
     return in.unicode()[index].cell();
 }
 
-inline char hashStringAccess(const QCString &in, int index)
+inline char hashStringAccess(const Q3CString &in, int index)
 {
     return in[index];
 }
@@ -268,9 +271,9 @@ bool Hash<T>::remove(T value)
 }
 
 template <class T>
-QValueList<T> Hash<T>::values() const
+Q3ValueList<T> Hash<T>::values() const
 {
-    QValueList<T> l;
+    Q3ValueList<T> l;
 
     Node *n;
 

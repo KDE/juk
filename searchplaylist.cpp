@@ -15,7 +15,7 @@
 
 #include <kdebug.h>
 
-#include <qptrdict.h>
+#include <q3ptrdict.h>
 
 #include "searchplaylist.h"
 #include "playlistitem.h"
@@ -55,7 +55,7 @@ void SearchPlaylist::updateItems()
 
     PlaylistItemList l = Playlist::items();
 
-    QPtrDict<PlaylistItem> oldItems(503);
+    Q3PtrDict<PlaylistItem> oldItems(503);
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it)
         oldItems.insert((*it)->collectionItem(), *it);
@@ -71,7 +71,7 @@ void SearchPlaylist::updateItems()
 
     // kdDebug(65432) << k_funcinfo << "newItems.size() == " << newItems.size() << endl;
 
-    for(QPtrDictIterator<PlaylistItem> it(oldItems); it.current(); ++it)
+    for(Q3PtrDictIterator<PlaylistItem> it(oldItems); it.current(); ++it)
         clearItem(it.current(), false);
 
     if(!oldItems.isEmpty() && newItems.isEmpty())

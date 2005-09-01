@@ -28,8 +28,8 @@ public:
     virtual void show();
 
 public slots:
-    void slotArtistClicked(QListViewItem *item);
-    void slotContextRequested(QIconViewItem *item, const QPoint &pt);
+    void slotArtistClicked(Q3ListViewItem *item);
+    void slotContextRequested(Q3IconViewItem *item, const QPoint &pt);
 
 private slots:
     void loadCovers();

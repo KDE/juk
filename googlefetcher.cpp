@@ -28,6 +28,8 @@
 #include "googlefetcher.h"
 #include "googlefetcherdialog.h"
 #include "tag.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 GoogleImage::GoogleImage(QString thumbURL, QString size) :
     m_thumbURL(thumbURL)

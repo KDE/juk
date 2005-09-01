@@ -15,7 +15,9 @@
 #include <kurl.h>
 
 #include <config.h>
-#include <qobjectlist.h>
+#include <qobject.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -41,8 +43,8 @@
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 
-#include <qwidgetstack.h>
-#include <qhbox.h>
+#include <q3widgetstack.h>
+#include <q3hbox.h>
 
 #define widget (kapp->mainWidget())
 
@@ -52,7 +54,7 @@ using namespace ActionCollection;
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistCollection::PlaylistCollection(QWidgetStack *playlistStack) :
+PlaylistCollection::PlaylistCollection(Q3WidgetStack *playlistStack) :
     m_playlistStack(playlistStack),
     m_historyPlaylist(0),
     m_upcomingPlaylist(0),
@@ -617,7 +619,7 @@ void PlaylistCollection::raiseDistraction()
     m_belowDistraction = currentPlaylist();
 
     if(!m_distraction) {
-        m_distraction = new QHBox(m_playlistStack);
+        m_distraction = new Q3HBox(m_playlistStack);
         m_playlistStack->addWidget(m_distraction);
     }
 
@@ -639,7 +641,7 @@ void PlaylistCollection::lowerDistraction()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-QWidgetStack *PlaylistCollection::playlistStack() const
+Q3WidgetStack *PlaylistCollection::playlistStack() const
 {
     return m_playlistStack;
 }

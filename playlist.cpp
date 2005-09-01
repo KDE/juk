@@ -30,14 +30,26 @@
 #include <kio/job.h>
 #include <dcopclient.h>
 
-#include <qheader.h>
+#include <q3header.h>
 #include <qcursor.h>
 #include <qdir.h>
 #include <qeventloop.h>
 #include <qtooltip.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 #include <qfile.h>
-#include <qhbox.h>
+#include <q3hbox.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QResizeEvent>
+#include <QMouseEvent>
+#include <QShowEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QTextStream>
+#include <Q3ValueList>
+#include <QDropEvent>
+#include <QDragEnterEvent>
+#include <Q3PtrList>
 
 #include <id3v1genres.h>
 
@@ -110,7 +122,7 @@ public:
 	    if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
 		tip(r, item->file().absFilePath());
 	    else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
-		QMimeSourceFactory *f = QMimeSourceFactory::defaultFactory();
+		Q3MimeSourceFactory *f = Q3MimeSourceFactory::defaultFactory();
 	        f->setImage("coverThumb",
 			    QImage(item->file().coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage()));
 	        tip(r, "<center><img source=\"coverThumb\"/></center>");
@@ -159,8 +171,8 @@ private:
     void writeConfig();
 
     static SharedSettings *m_instance;
-    QValueList<int> m_columnOrder;
-    QValueVector<bool> m_columnsVisible;
+    Q3ValueList<int> m_columnOrder;
+    Q3ValueVector<bool> m_columnsVisible;
     KGlobalSettings::Completion m_inlineCompletion;
 };
 
@@ -214,7 +226,7 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
     int offset = l->columnOffset();
     int i = 0;
-    for(QValueListConstIterator<int> it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
+    for(Q3ValueListConstIterator<int> it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
 	l->header()->moveSection(i++ + offset, *it + offset);
 
     for(uint i = 0; i < m_columnsVisible.size(); i++) {
@@ -243,7 +255,7 @@ Playlist::SharedSettings::SharedSettings()
     // save column order
     m_columnOrder = config.readIntListEntry("ColumnOrder");
 
-    QValueList<int> l = config.readIntListEntry("VisibleColumns");
+    Q3ValueList<int> l = config.readIntListEntry("VisibleColumns");
 
     if(l.isEmpty()) {
 
@@ -268,7 +280,7 @@ Playlist::SharedSettings::SharedSettings()
 
 	m_columnsVisible.resize(l.size(), true);
 	uint i = 0;
-	for(QValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
+	for(Q3ValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
 	    if(! bool(*it))
 		m_columnsVisible[i] = bool(*it);
 	    i++;
@@ -288,7 +300,7 @@ void Playlist::SharedSettings::writeConfig()
     KConfigGroup config(KGlobal::config(), "PlaylistShared");
     config.writeEntry("ColumnOrder", m_columnOrder);
 
-    QValueList<int> l;
+    Q3ValueList<int> l;
     for(uint i = 0; i < m_columnsVisible.size(); i++)
 	l.append(int(m_columnsVisible[i]));
 
@@ -435,7 +447,7 @@ int Playlist::time() const
     // Since this method gets a lot of traffic, let's optimize for such.
 
     if(!m_addTime.isEmpty()) {
-	for(QValueList<PlaylistItem::Pointer>::ConstIterator it = m_addTime.begin();
+	for(Q3ValueList<PlaylistItem::Pointer>::ConstIterator it = m_addTime.begin();
 	    it != m_addTime.end(); ++it)
 	{
 	    if(*it)
@@ -446,7 +458,7 @@ int Playlist::time() const
     }
 
     if(!m_subtractTime.isEmpty()) {
-	for(QValueList<PlaylistItem::Pointer>::ConstIterator it = m_subtractTime.begin();
+	for(Q3ValueList<PlaylistItem::Pointer>::ConstIterator it = m_subtractTime.begin();
 	    it != m_subtractTime.end(); ++it)
 	{
 	    if(*it)
@@ -462,7 +474,7 @@ int Playlist::time() const
 void Playlist::playFirst()
 {
     TrackSequenceManager::instance()->setNextItem(static_cast<PlaylistItem *>(
-	QListViewItemIterator(const_cast<Playlist *>(this), QListViewItemIterator::Visible).current()));
+	Q3ListViewItemIterator(const_cast<Playlist *>(this), Q3ListViewItemIterator::Visible).current()));
     action("forward")->activate();
 }
 
@@ -535,7 +547,7 @@ void Playlist::save()
 
     QFile file(m_fileName);
 
-    if(!file.open(IO_WriteOnly))
+    if(!file.open(QIODevice::WriteOnly))
 	return KMessageBox::error(this, i18n("Could not save to file %1.").arg(m_fileName));
 
     QTextStream stream(&file);
@@ -598,7 +610,7 @@ QStringList Playlist::files() const
 {
     QStringList list;
 
-    for(QListViewItemIterator it(const_cast<Playlist *>(this)); it.current(); ++it)
+    for(Q3ListViewItemIterator it(const_cast<Playlist *>(this)); it.current(); ++it)
 	list.append(static_cast<PlaylistItem *>(*it)->file().absFilePath());
 
     return list;
@@ -606,12 +618,12 @@ QStringList Playlist::files() const
 
 PlaylistItemList Playlist::items()
 {
-    return items(QListViewItemIterator::IteratorFlag(0));
+    return items(Q3ListViewItemIterator::IteratorFlag(0));
 }
 
 PlaylistItemList Playlist::visibleItems()
 {
-    return items(QListViewItemIterator::Visible);
+    return items(Q3ListViewItemIterator::Visible);
 }
 
 PlaylistItemList Playlist::selectedItems()
@@ -625,8 +637,8 @@ PlaylistItemList Playlist::selectedItems()
 	// list.append(m_lastSelected);
 	// break;
     default:
-	list = items(QListViewItemIterator::IteratorFlag(QListViewItemIterator::Selected |
-							 QListViewItemIterator::Visible));
+	list = items(Q3ListViewItemIterator::IteratorFlag(Q3ListViewItemIterator::Selected |
+							 Q3ListViewItemIterator::Visible));
 	break;
     }
 
@@ -698,7 +710,7 @@ void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMast
     for(PlaylistList::ConstIterator it = sources.begin(); it != sources.end(); ++it) {
         if((*it)->playing()) {
             CollectionListItem *base = playingItem()->collectionItem();
-            for(QListViewItemIterator itemIt(this); itemIt.current(); ++itemIt) {
+            for(Q3ListViewItemIterator itemIt(this); itemIt.current(); ++itemIt) {
                 PlaylistItem *item = static_cast<PlaylistItem *>(itemIt.current());
                 if(base == item->collectionItem()) {
                     item->setPlaying(true, setMaster);
@@ -991,7 +1003,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     }
 }
 
-QDragObject *Playlist::dragObject(QWidget *parent)
+Q3DragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
     KURL::List urls;
@@ -1122,12 +1134,12 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 void Playlist::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Key_Up) {
-	QListViewItemIterator selected(this, QListViewItemIterator::IteratorFlag(
-					   QListViewItemIterator::Selected |
-					   QListViewItemIterator::Visible));
+	Q3ListViewItemIterator selected(this, Q3ListViewItemIterator::IteratorFlag(
+					   Q3ListViewItemIterator::Selected |
+					   Q3ListViewItemIterator::Visible));
 	if(selected.current()) {
-	    QListViewItemIterator visible(this, QListViewItemIterator::IteratorFlag(
-					      QListViewItemIterator::Visible));
+	    Q3ListViewItemIterator visible(this, Q3ListViewItemIterator::IteratorFlag(
+					      Q3ListViewItemIterator::Visible));
 	    if(selected.current() == visible.current())
 		KApplication::postEvent(parent(), new FocusUpEvent);
 	}
@@ -1183,9 +1195,9 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
 	setSorting(columns() + 1);
 
-	QPtrList<QListViewItem> items = KListView::selectedItems();
+	Q3PtrList<Q3ListViewItem> items = KListView::selectedItems();
 
-	for(QPtrListIterator<QListViewItem> it(items); it.current(); ++it) {
+	for(Q3PtrListIterator<Q3ListViewItem> it(items); it.current(); ++it) {
 	    if(!item) {
 
 		// Insert the item at the top of the list.  This is a bit ugly,
@@ -1243,7 +1255,7 @@ void Playlist::read(QDataStream &s)
     QStringList files;
     s >> files;
 
-    QListViewItem *after = 0;
+    Q3ListViewItem *after = 0;
 
     m_blockDataChanged = true;
 
@@ -1280,13 +1292,13 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
     KListView::viewportResizeEvent(re);
 }
 
-void Playlist::insertItem(QListViewItem *item)
+void Playlist::insertItem(Q3ListViewItem *item)
 {
     m_addTime.append(static_cast<PlaylistItem *>(item));
     KListView::insertItem(item);
 }
 
-void Playlist::takeItem(QListViewItem *item)
+void Playlist::takeItem(Q3ListViewItem *item)
 {
     m_subtractTime.append(static_cast<PlaylistItem *>(item));
     KListView::takeItem(item);
@@ -1299,7 +1311,7 @@ void Playlist::addColumn(const QString &label)
 }
 
 PlaylistItem *Playlist::createItem(const FileHandle &file,
-				   QListViewItem *after, bool emitChanged)
+				   Q3ListViewItem *after, bool emitChanged)
 {
     return createItem<PlaylistItem, CollectionListItem, CollectionList>(file, after, emitChanged);
 }
@@ -1336,7 +1348,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 
 void Playlist::refreshAlbums(const PlaylistItemList &items, const QImage &image)
 {
-    QValueList< QPair<QString, QString> > albums;
+    Q3ValueList< QPair<QString, QString> > albums;
     QStringList ignoredItems;
 
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
@@ -1366,7 +1378,7 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, const QImage &image)
 	    (*it)->file().coverInfo()->setCover();
     }
 
-    for(QValueList< QPair<QString, QString> >::ConstIterator it = albums.begin();
+    for(Q3ValueList< QPair<QString, QString> >::ConstIterator it = albums.begin();
 	it != albums.end(); ++it)
     {
 	refreshAlbum((*it).first, (*it).second);
@@ -1513,7 +1525,7 @@ void Playlist::polish()
     setRenameable(PlaylistItem::YearColumn, true);
 
     setAllColumnsShowFocus(true);
-    setSelectionMode(QListView::Extended);
+    setSelectionMode(Q3ListView::Extended);
     setShowSortIndicator(true);
     setDropVisualizer(true);
 
@@ -1539,13 +1551,13 @@ void Playlist::polish()
 
     connect(m_headerMenu, SIGNAL(activated(int)), this, SLOT(slotToggleColumnVisible(int)));
 
-    connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
-	    this, SLOT(slotShowRMBMenu(QListViewItem *, const QPoint &, int)));
-    connect(this, SIGNAL(itemRenamed(QListViewItem *, const QString &, int)),
-	    this, SLOT(slotInlineEditDone(QListViewItem *, const QString &, int)));
-    connect(this, SIGNAL(doubleClicked(QListViewItem *)),
+    connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)),
+	    this, SLOT(slotShowRMBMenu(Q3ListViewItem *, const QPoint &, int)));
+    connect(this, SIGNAL(itemRenamed(Q3ListViewItem *, const QString &, int)),
+	    this, SLOT(slotInlineEditDone(Q3ListViewItem *, const QString &, int)));
+    connect(this, SIGNAL(doubleClicked(Q3ListViewItem *)),
 	    this, SLOT(slotPlayCurrent()));
-    connect(this, SIGNAL(returnPressed(QListViewItem *)),
+    connect(this, SIGNAL(returnPressed(Q3ListViewItem *)),
 	    this, SLOT(slotPlayCurrent()));
 
     connect(header(), SIGNAL(sizeChange(int, int, int)),
@@ -1636,7 +1648,7 @@ void Playlist::setup()
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 {
     QFile file(fileName);
-    if(!file.open(IO_ReadOnly))
+    if(!file.open(QIODevice::ReadOnly))
 	return;
 
     QTextStream stream(&file);
@@ -1721,11 +1733,11 @@ int Playlist::leftMostVisibleColumn() const
     return header()->mapToSection(i);
 }
 
-PlaylistItemList Playlist::items(QListViewItemIterator::IteratorFlag flags)
+PlaylistItemList Playlist::items(Q3ListViewItemIterator::IteratorFlag flags)
 {
     PlaylistItemList list;
 
-    for(QListViewItemIterator it(this, flags); it.current(); ++it)
+    for(Q3ListViewItemIterator it(this, flags); it.current(); ++it)
 	list.append(static_cast<PlaylistItem *>(it.current()));
 
     return list;
@@ -1737,12 +1749,12 @@ void Playlist::calculateColumnWeights()
 	return;
 
     PlaylistItemList l = items();
-    QValueListConstIterator<int> columnIt;
+    Q3ValueListConstIterator<int> columnIt;
 
-    QValueVector<double> averageWidth(columns(), 0);
+    Q3ValueVector<double> averageWidth(columns(), 0);
     double itemCount = l.size();
 
-    QValueVector<int> cachedWidth;
+    Q3ValueVector<int> cachedWidth;
 
     // Here we're not using a real average, but averaging the squares of the
     // column widths and then using the square root of that value.  This gives
@@ -1883,13 +1895,13 @@ void Playlist::slotUpdateColumnWidths()
     // Make sure that the column weights have been initialized before trying to
     // update the columns.
 
-    QValueList<int> visibleColumns;
+    Q3ValueList<int> visibleColumns;
     for(int i = 0; i < columns(); i++) {
 	if(isColumnVisible(i))
 	    visibleColumns.append(i);
     }
 
-    QValueListConstIterator<int> it;
+    Q3ValueListConstIterator<int> it;
 
     if(count() == 0) {
 	for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it)
@@ -1904,13 +1916,13 @@ void Playlist::slotUpdateColumnWidths()
     // First build a list of minimum widths based on the strings in the listview
     // header.  We won't let the width of the column go below this width.
 
-    QValueVector<int> minimumWidth(columns(), 0);
+    Q3ValueVector<int> minimumWidth(columns(), 0);
     int minimumWidthTotal = 0;
 
     // Also build a list of either the minimum *or* the fixed width -- whichever is
     // greater.
 
-    QValueVector<int> minimumFixedWidth(columns(), 0);
+    Q3ValueVector<int> minimumFixedWidth(columns(), 0);
     int minimumFixedWidthTotal = 0;
 
     for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
@@ -1947,7 +1959,7 @@ void Playlist::slotUpdateColumnWidths()
     // Computed a "weighted width" for each visible column.  This would be the
     // width if we didn't have to handle the cases of minimum and maximum widths.
 
-    QValueVector<int> weightedWidth(columns(), 0);
+    Q3ValueVector<int> weightedWidth(columns(), 0);
     for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it)
 	weightedWidth[*it] = int(double(m_columnWeights[*it]) / totalWeight * visibleWidth() + 0.5);
 
@@ -1955,7 +1967,7 @@ void Playlist::slotUpdateColumnWidths()
     // minimum width or zero if the minimum width is greater than the weighted
     // width.
 
-    QValueVector<int> extraWidth(columns(), 0);
+    Q3ValueVector<int> extraWidth(columns(), 0);
 
     // This is used as an indicator if we have any columns where the weighted
     // width is less than the minimum width.  If this is false then we can
@@ -2032,7 +2044,7 @@ void Playlist::slotAddToUpcoming()
     m_collection->upcomingPlaylist()->appendItems(selectedItems());
 }
 
-void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column)
+void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int column)
 {
     if(!item)
 	return;
@@ -2193,7 +2205,7 @@ bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
     return true;
 }
 
-void Playlist::slotInlineEditDone(QListViewItem *, const QString &, int column)
+void Playlist::slotInlineEditDone(Q3ListViewItem *, const QString &, int column)
 {
     QString text = renameLineEdit()->text();
     bool changed = false;
@@ -2294,7 +2306,7 @@ void Playlist::slotInlineCompletionModeChanged(KGlobalSettings::Completion mode)
 
 void Playlist::slotPlayCurrent()
 {
-    QListViewItemIterator it(this, QListViewItemIterator::Selected);
+    Q3ListViewItemIterator it(this, Q3ListViewItemIterator::Selected);
     PlaylistItem *next = static_cast<PlaylistItem *>(it.current());
     TrackSequenceManager::instance()->setNextItem(next);
     action("forward")->activate();

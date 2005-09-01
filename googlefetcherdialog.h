@@ -20,6 +20,8 @@
 
 
 #include "googlefetcher.h"
+//Added by qt3to4:
+#include <QPixmap>
 
 class KURL;
 
@@ -77,7 +79,7 @@ class CoverIconViewItem : public QObject, public KIconViewItem
     Q_OBJECT
 
 public:
-    CoverIconViewItem(QIconView *parent, const GoogleImage &image);
+    CoverIconViewItem(Q3IconView *parent, const GoogleImage &image);
     ~CoverIconViewItem();
 
 private slots:
@@ -86,7 +88,7 @@ private slots:
 
 private:
     QByteArray m_buffer;
-    QGuardedPtr<KIO::TransferJob> m_job;
+    QPointer<KIO::TransferJob> m_job;
 };
 
 #endif

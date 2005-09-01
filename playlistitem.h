@@ -20,8 +20,12 @@
 #include <ksharedptr.h>
 #include <kdebug.h>
 
-#include <qvaluevector.h>
-#include <qptrdict.h>
+#include <q3valuevector.h>
+#include <q3ptrdict.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3ValueList>
+#include <Q3CString>
 
 #include "tagguesser.h"
 #include "filehandle.h"
@@ -31,7 +35,7 @@ class PlaylistItem;
 class CollectionListItem;
 class CollectionList;
 
-typedef QValueList<PlaylistItem *> PlaylistItemList;
+typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
 /**
  * Items for the Playlist and the baseclass for CollectionListItem.
@@ -48,7 +52,7 @@ class PlaylistItem : public KListViewItem
     friend class UpcomingPlaylist;
     friend class CollectionList;
     friend class CollectionListItem;
-    friend class QPtrDict<PlaylistItem>;
+    friend class Q3PtrDict<PlaylistItem>;
     friend class Pointer;
 
 public:
@@ -86,7 +90,7 @@ public:
 
     private:
 	PlaylistItem *m_item;
-	static QMap<PlaylistItem *, QValueList<Pointer *> > m_map;
+	static QMap<PlaylistItem *, Q3ValueList<Pointer *> > m_map;
     };
     friend class Pointer;
 
@@ -113,7 +117,7 @@ public:
      * The widths of items are cached when they're updated for us in computations
      * in the "weighted" listview column width mode.
      */
-    QValueVector<int> cachedWidths() const;
+    Q3ValueVector<int> cachedWidths() const;
 
     /**
      * This just refreshes from the in memory data.  This may seem pointless at
@@ -157,7 +161,7 @@ protected:
      * subclss or friend class.
      */
     PlaylistItem(CollectionListItem *item, Playlist *parent);
-    PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after);
+    PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after);
 
     /**
      * This is the constructor that shold be used by subclasses.
@@ -173,7 +177,7 @@ protected:
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
     virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}
 
-    virtual int compare(QListViewItem *item, int column, bool ascending) const;
+    virtual int compare(Q3ListViewItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
     bool isValid() const;
@@ -185,8 +189,8 @@ protected:
 	Data(const QString &path) : fileHandle(path) {}
 
 	FileHandle fileHandle;
-	QValueVector<QCString> local8Bit;
-	QValueVector<int> cachedWidths;
+	Q3ValueVector<Q3CString> local8Bit;
+	Q3ValueVector<int> cachedWidths;
     };
 
     KSharedPtr<Data> data() const { return d; }

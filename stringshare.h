@@ -17,6 +17,8 @@
 #define STRING_SHARE_H
 
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3CString>
 
 /**
  This class attempts to normalize repeated occurances of strings to use
@@ -27,7 +29,7 @@ class StringShare
     struct Data;
 public:
     static QString  tryShare(const QString& in);
-    static QCString tryShare(const QCString& in);
+    static Q3CString tryShare(const Q3CString& in);
 
 private:
     static Data* data();

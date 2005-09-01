@@ -27,6 +27,9 @@
 #include "ktrm.h"
 #include "coverinfo.h"
 #include "tagtransactionmanager.h"
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3ValueList>
 
 PlaylistItemList PlaylistItem::m_playingItems; // static
 
@@ -214,7 +217,7 @@ Playlist *PlaylistItem::playlist() const
     return static_cast<Playlist *>(listView());
 }
 
-QValueVector<int> PlaylistItem::cachedWidths() const
+Q3ValueVector<int> PlaylistItem::cachedWidths() const
 {
     return d->cachedWidths;
 }
@@ -247,7 +250,7 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
     setup(item);
 }
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QListViewItem *after) :
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
     KListViewItem(parent, after),
     d(0),
     m_watched(0)
@@ -284,10 +287,10 @@ void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int
     QColor c(r, g, b);
 
     colorGroup.setColor(QColorGroup::Base, c);
-    QListViewItem::paintCell(p, colorGroup, column, width, align);
+    Q3ListViewItem::paintCell(p, colorGroup, column, width, align);
 }
 
-int PlaylistItem::compare(QListViewItem *item, int column, bool ascending) const
+int PlaylistItem::compare(Q3ListViewItem *item, int column, bool ascending) const
 {
     // reimplemented from QListViewItem
 
@@ -398,7 +401,7 @@ void PlaylistItem::setup(CollectionListItem *item)
 // PlaylistItem::Pointer implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-QMap<PlaylistItem *, QValueList<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_map; // static
+QMap<PlaylistItem *, Q3ValueList<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_map; // static
 
 PlaylistItem::Pointer::Pointer(PlaylistItem *item) :
     m_item(item)
@@ -456,8 +459,8 @@ void PlaylistItem::Pointer::clear(PlaylistItem *item) // static
     if(!item)
 	return;
 
-    QValueList<Pointer *> l = m_map[item];
-    for(QValueList<Pointer *>::Iterator it = l.begin(); it != l.end(); ++it)
+    Q3ValueList<Pointer *> l = m_map[item];
+    for(Q3ValueList<Pointer *>::Iterator it = l.begin(); it != l.end(); ++it)
 	(*it)->m_item = 0;
     m_map.remove(item);
     item->m_watched = false;

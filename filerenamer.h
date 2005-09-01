@@ -18,6 +18,8 @@
 #define JUK_FILERENAMER_H
 
 #include <qstring.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include "filerenamerbase.h"
 #include "filerenameroptions.h"
@@ -30,7 +32,7 @@ class QCheckBox;
 class QLayout;
 class QLayoutItem;
 class QPushButton;
-class QVBox;
+class Q3VBox;
 class PlaylistItem;
 
 // Used to decide what direction the FileRenamerWidget will move rows in.
@@ -78,7 +80,7 @@ public:
     virtual QString suffix(TagType category) const;
     virtual TagRenamerOptions::EmptyActions emptyAction(TagType category) const;
     virtual QString emptyText(TagType category) const;
-    virtual QValueList<TagType> categoryOrder() const;
+    virtual Q3ValueList<TagType> categoryOrder() const;
     virtual QString separator() const;
     virtual QString musicFolder() const;
     virtual int trackWidth() const;
@@ -88,7 +90,7 @@ public:
 private:
     const PlaylistItem *m_currentItem;
     TagRenamerOptions m_options[NumTypes];
-    QValueList<TagType> m_categoryOrder;
+    Q3ValueList<TagType> m_categoryOrder;
     QString m_separator;
     QString m_musicFolder;
     bool m_folderSeparators[NumTypes - 1];
@@ -231,7 +233,7 @@ private:
     /**
      * @return list of TagTypes corresponding to the user-specified category order.
      */
-    virtual QValueList<TagType> categoryOrder() const;
+    virtual Q3ValueList<TagType> categoryOrder() const;
 
     /**
      * @return string that separates the tag values in the file name.
@@ -389,7 +391,7 @@ private slots:
 
 private:
     /// This is the frame that holds all of the category widgets and checkboxes.
-    QVBox *m_mainFrame;
+    Q3VBox *m_mainFrame;
 
     /**
      * This array should always be accessed using integer indices, as the index

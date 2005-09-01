@@ -29,6 +29,8 @@
 #include <kdebug.h>
 
 #include <qfileinfo.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 MusicBrainzLookup::MusicBrainzLookup(const FileHandle &file) :
     KTRMLookup(file.absFilePath()),
@@ -76,7 +78,7 @@ void MusicBrainzLookup::confirmation()
     // Here we do a bit of queuing to make sure that we don't pop up multiple
     // instances of the confirmation dialog at once.
 
-    static QValueList< QPair<FileHandle, KTRMResultList> > queue;
+    static Q3ValueList< QPair<FileHandle, KTRMResultList> > queue;
 
     if(results().isEmpty())
         return;

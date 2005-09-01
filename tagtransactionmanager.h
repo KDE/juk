@@ -1,3 +1,5 @@
+//Added by qt3to4:
+#include <Q3ValueList>
 /***************************************************************************
     begin                : Wed Sep 22 2004
     copyright            : (C) 2004 by Michael Pyne
@@ -89,7 +91,7 @@ class TagTransactionAtom
     mutable Tag *m_tag;
 };
 
-typedef QValueList<TagTransactionAtom> TagAlterationList;
+typedef Q3ValueList<TagTransactionAtom> TagAlterationList;
 
 /**
  * This class manages alterations of a group of PlaylistItem's FileHandles.  What this

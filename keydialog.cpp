@@ -19,8 +19,8 @@
 #include <klocale.h>
 
 #include <qradiobutton.h>
-#include <qvbox.h>
-#include <qwhatsthis.h>
+#include <q3vbox.h>
+
 
 
 // Table of shortcut keys for each action, key group and three or four button modifier
@@ -37,7 +37,7 @@ const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
     { "Back",
       { { KShortcut::null(),                        KShortcut::null() },
         { Qt::CTRL+Qt::ALT+Qt::Key_Left,            KKey::QtWIN+Qt::ALT+Qt::Key_Left },
-        { Qt::Key_MediaPrev,                        Qt::Key_MediaPrev } } },
+        { Qt::Key_MediaPrevious,                        Qt::Key_MediaPrevious } } },
     { "Forward",
       { { KShortcut::null(),                        KShortcut::null() },
         { Qt::CTRL+Qt::ALT+Qt::Key_Right,           KKey::QtWIN+Qt::ALT+Qt::Key_Right },
@@ -49,7 +49,7 @@ const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
     { "SeekBack",
       { { KShortcut::null(),                        KShortcut::null() },
         { Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Left,  KKey::QtWIN+Qt::SHIFT+Qt::ALT+Qt::Key_Left },
-        { Qt::SHIFT+Qt::Key_MediaPrev,              Qt::SHIFT+Qt::Key_MediaPrev } } },
+        { Qt::SHIFT+Qt::Key_MediaPrevious,              Qt::SHIFT+Qt::Key_MediaPrevious } } },
     { "SeekForward",
       { { KShortcut::null(),                        KShortcut::null() },
         { Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Right, KKey::QtWIN+Qt::SHIFT+Qt::ALT+Qt::Key_Right },
@@ -87,20 +87,20 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
 
     // Create widgets for key chooser - widget stack used to replace key chooser
 
-    QVBox *vbox = new QVBox(this);
+    Q3VBox *vbox = new Q3VBox(this);
     vbox->setSpacing(KDialog::spacingHint());
-    m_widgetStack = new QWidgetStack(vbox);
+    m_widgetStack = new Q3WidgetStack(vbox);
 
     vbox->setStretchFactor(m_widgetStack, 1);
 
     // Create buttons to select key group
 
-    m_group = new QHButtonGroup(i18n("Global Shortcuts"), vbox);
+    m_group = new Q3HButtonGroup(i18n("Global Shortcuts"), vbox);
     new QRadioButton(i18n("&No keys"), m_group);
     new QRadioButton(i18n("&Standard keys"), m_group);
     new QRadioButton(i18n("&Multimedia keys"), m_group);
     connect(m_group, SIGNAL(clicked(int)), this, SLOT(slotKeys(int)));
-    QWhatsThis::add(m_group,
+    m_group->setWhatsThis(
       i18n("Here you can select the keys used as global shortcuts to control the player"));
 
     // Create the key chooser

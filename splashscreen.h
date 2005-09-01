@@ -16,7 +16,9 @@
 #ifndef SPLASHSCREEN_H
 #define SPLASHSCREEN_H
 
-#include <qhbox.h>
+#include <q3hbox.h>
+//Added by qt3to4:
+#include <QLabel>
 
 class QLabel;
 
@@ -31,7 +33,7 @@ class QLabel;
  * methods.
  */
 
-class SplashScreen : public QHBox
+class SplashScreen : public Q3HBox
 {
 public:
     static SplashScreen *instance();

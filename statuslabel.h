@@ -18,14 +18,17 @@
 
 #include "playlistinterface.h"
 
-#include <qhbox.h>
+#include <q3hbox.h>
+//Added by qt3to4:
+#include <QLabel>
+#include <QEvent>
 
 class QLabel;
 class KSqueezedTextLabel;
 
 class FileHandle;
 
-class StatusLabel : public QHBox, public PlaylistObserver
+class StatusLabel : public Q3HBox, public PlaylistObserver
 {
     Q_OBJECT
 

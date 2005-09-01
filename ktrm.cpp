@@ -32,6 +32,8 @@
 #include <qevent.h>
 #include <qobject.h>
 #include <qfile.h>
+//Added by qt3to4:
+#include <QCustomEvent>
 
 #include <tunepimp/tp_c.h>
 #include <fixx11h.h>

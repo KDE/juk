@@ -22,10 +22,18 @@
 #include <qimage.h>
 #include <qlayout.h>
 #include <qevent.h>
-#include <qdragobject.h>
+#include <q3dragobject.h>
 #include <qimage.h>
 #include <qtimer.h>
 #include <qpoint.h>
+//Added by qt3to4:
+#include <Q3Frame>
+#include <QDropEvent>
+#include <QLabel>
+#include <Q3ValueList>
+#include <QVBoxLayout>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
 
 #include "nowplaying.h"
 #include "playlistcollection.h"
@@ -39,9 +47,9 @@
 
 static const int imageSize = 64;
 
-struct Line : public QFrame
+struct Line : public Q3Frame
 {
-    Line(QWidget *parent) : QFrame(parent) { setFrameShape(VLine); }
+    Line(QWidget *parent) : Q3Frame(parent) { setFrameShape(VLine); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +57,7 @@ struct Line : public QFrame
 ////////////////////////////////////////////////////////////////////////////////
 
 NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection, const char *name) :
-    QHBox(parent, name),
+    Q3HBox(parent, name),
     m_observer(this, collection),
     m_collection(collection)
 {
@@ -89,7 +97,7 @@ void NowPlaying::slotUpdate()
     else
         show();
 
-    for(QValueList<NowPlayingItem *>::Iterator it = m_items.begin();
+    for(Q3ValueList<NowPlayingItem *>::Iterator it = m_items.begin();
         it != m_items.end(); ++it)
     {
         (*it)->update(file);
@@ -167,7 +175,7 @@ void CoverItem::mouseMoveEvent(QMouseEvent *e)
 
 void CoverItem::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->accept(QImageDrag::canDecode(e) || KURLDrag::canDecode(e) || CoverDrag::canDecode(e));
+    e->accept(Q3ImageDrag::canDecode(e) || KURLDrag::canDecode(e) || CoverDrag::canDecode(e));
 }
 
 void CoverItem::dropEvent(QDropEvent *e)
@@ -179,7 +187,7 @@ void CoverItem::dropEvent(QDropEvent *e)
     if(e->source() == this)
         return;
 
-    if(QImageDrag::decode(e, image)) {
+    if(Q3ImageDrag::decode(e, image)) {
         m_file.coverInfo()->setCover(image);
         update(m_file);
     }
@@ -251,9 +259,9 @@ void TrackItem::slotOpenLink(const QString &link)
 
 void TrackItem::slotUpdate()
 {
-    QString title  = QStyleSheet::escape(m_file.tag()->title());
-    QString artist = QStyleSheet::escape(m_file.tag()->artist());
-    QString album  = QStyleSheet::escape(m_file.tag()->album());
+    QString title  = Q3StyleSheet::escape(m_file.tag()->title());
+    QString artist = Q3StyleSheet::escape(m_file.tag()->artist());
+    QString album  = Q3StyleSheet::escape(m_file.tag()->album());
     QString separator = (artist.isNull() || album.isNull()) ? QString::null : QString(" - ");
 
     // This block-o-nastiness makes the font smaller and smaller until it actually fits.
@@ -307,11 +315,11 @@ void HistoryItem::update(const FileHandle &file)
     QString current = QString("<b>%1</b>").arg(i18n("History"));
     QString previous;
 
-    for(QValueList<Item>::ConstIterator it = m_history.begin();
+    for(Q3ValueList<Item>::ConstIterator it = m_history.begin();
         it != m_history.end(); ++it)
     {
         previous = current;
-        current.append(format.arg((*it).anchor).arg(QStyleSheet::escape((*it).file.tag()->title())));
+        current.append(format.arg((*it).anchor).arg(Q3StyleSheet::escape((*it).file.tag()->title())));
         setText(current);
         if(heightForWidth(width()) > imageSize) {
             setText(previous);
@@ -326,7 +334,7 @@ void HistoryItem::update(const FileHandle &file)
 
 void HistoryItem::openLink(const QString &link)
 {
-    for(QValueList<Item>::ConstIterator it = m_history.begin();
+    for(Q3ValueList<Item>::ConstIterator it = m_history.begin();
         it != m_history.end(); ++it)
     {
         if((*it).anchor == link) {

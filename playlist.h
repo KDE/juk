@@ -21,8 +21,19 @@
 #include <kdebug.h>
 #include <kglobalsettings.h>
 
-#include <qvaluevector.h>
+#include <q3valuevector.h>
 #include <qfileinfo.h>
+//Added by qt3to4:
+#include <QPaintEvent>
+#include <QKeyEvent>
+#include <QEvent>
+#include <QDropEvent>
+#include <Q3ValueList>
+#include <QShowEvent>
+#include <QResizeEvent>
+#include <QDragEnterEvent>
+#include <QMouseEvent>
+#include <QCustomEvent>
 
 #include "stringhash.h"
 #include "playlistsearch.h"
@@ -40,7 +51,7 @@ class PlaylistCollection;
 class PlaylistToolTip;
 class UpcomingPlaylist;
 
-typedef QValueList<PlaylistItem *> PlaylistItemList;
+typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
 class Playlist : public KListView, public PlaylistInterface
 {
@@ -161,7 +172,7 @@ public:
      * both PlaylistItems and CollectionListItems.
      */
     virtual PlaylistItem *createItem(const FileHandle &file,
-				     QListViewItem *after = 0,
+				     Q3ListViewItem *after = 0,
 				     bool emitChanged = true);
 
     /**
@@ -173,7 +184,7 @@ public:
      */
     template <class ItemType, class CollectionItemType, class CollectionListType>
     ItemType *createItem(const FileHandle &file,
-			 QListViewItem *after = 0,
+			 Q3ListViewItem *after = 0,
 			 bool emitChanged = true);
 
     virtual void createItems(const PlaylistItemList &siblings, PlaylistItem *after = 0);
@@ -416,8 +427,8 @@ protected:
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
-    virtual QDragObject *dragObject(QWidget *parent);
-    virtual QDragObject *dragObject() { return dragObject(this); }
+    virtual Q3DragObject *dragObject(QWidget *parent);
+    virtual Q3DragObject *dragObject() { return dragObject(this); }
     virtual bool canDecode(QMimeSource *s);
     virtual void decode(QMimeSource *s, PlaylistItem *item = 0);
     virtual void contentsDropEvent(QDropEvent *e);
@@ -428,8 +439,8 @@ protected:
     virtual void viewportPaintEvent(QPaintEvent *pe);
     virtual void viewportResizeEvent(QResizeEvent *re);
 
-    virtual void insertItem(QListViewItem *item);
-    virtual void takeItem(QListViewItem *item);
+    virtual void insertItem(Q3ListViewItem *item);
+    virtual void takeItem(Q3ListViewItem *item);
 
     virtual bool hasItem(const QString &file) const { return m_members.contains(file); }
 
@@ -467,7 +478,7 @@ protected:
      * ItemType should be a PlaylistItem subclass.
      */
     template <class CollectionItemType, class ItemType, class SiblingType>
-    void createItems(const QValueList<SiblingType *> &siblings, ItemType *after = 0);
+    void createItems(const Q3ValueList<SiblingType *> &siblings, ItemType *after = 0);
 
 protected slots:
     void slotPopulateBackMenu() const;
@@ -527,7 +538,7 @@ private:
      * \see visibleItems()
      * \see selectedItems()
      */
-    PlaylistItemList items(QListViewItemIterator::IteratorFlag flags);
+    PlaylistItemList items(Q3ListViewItemIterator::IteratorFlag flags);
 
     /**
      * Build the column "weights" for the weighted width mode.
@@ -569,7 +580,7 @@ private slots:
      * Show the RMB menu.  Matches the signature for the signal 
      * QListView::contextMenuRequested().
      */
-    void slotShowRMBMenu(QListViewItem *item, const QPoint &point, int column);
+    void slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int column);
 
     /**
      * This slot is called when the inline tag editor has completed its editing
@@ -577,7 +588,7 @@ private slots:
      *
      * \see editTag()
      */
-    void slotInlineEditDone(QListViewItem *, const QString &, int column);
+    void slotInlineEditDone(Q3ListViewItem *, const QString &, int column);
 
     /**
      * This starts the renaming process by displaying a line edit if the mouse is in 
@@ -636,18 +647,18 @@ private:
     bool m_applySharedSettings;
     bool m_mousePressed;
 
-    QValueList<int> m_weightDirty;
+    Q3ValueList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;
 
     mutable int m_time;
-    mutable QValueList<PlaylistItem::Pointer> m_addTime;
-    mutable QValueList<PlaylistItem::Pointer> m_subtractTime;
+    mutable Q3ValueList<PlaylistItem::Pointer> m_addTime;
+    mutable Q3ValueList<PlaylistItem::Pointer> m_subtractTime;
 
     /**
      * The average minimum widths of columns to be used in balancing calculations.
      */
-    QValueVector<int> m_columnWeights;
-    QValueVector<int> m_columnFixedWidths;
+    Q3ValueVector<int> m_columnWeights;
+    Q3ValueVector<int> m_columnFixedWidths;
     bool m_widthsDirty;
 
     static PlaylistItemList m_history;
@@ -702,7 +713,7 @@ QDataStream &operator>>(QDataStream &s, Playlist &p);
 // template method implementations
 
 template <class ItemType, class CollectionItemType, class CollectionListType>
-ItemType *Playlist::createItem(const FileHandle &file, QListViewItem *after,
+ItemType *Playlist::createItem(const FileHandle &file, Q3ListViewItem *after,
 			       bool emitChanged)
 {
     CollectionItemType *item = CollectionListType::instance()->lookup(file.absFilePath());
@@ -751,12 +762,12 @@ ItemType *Playlist::createItem(SiblingType *sibling, ItemType *after)
 }
 
 template <class CollectionItemType, class ItemType, class SiblingType>
-void Playlist::createItems(const QValueList<SiblingType *> &siblings, ItemType *after)
+void Playlist::createItems(const Q3ValueList<SiblingType *> &siblings, ItemType *after)
 {
     if(siblings.isEmpty())
 	return;
 
-    QValueListConstIterator<SiblingType *> it = siblings.begin();
+    Q3ValueListConstIterator<SiblingType *> it = siblings.begin();
     for(; it != siblings.end(); ++it)
 	after = createItem(*it, after);
 

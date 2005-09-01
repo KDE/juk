@@ -20,9 +20,16 @@
 #include <kaction.h>
 #include <kdebug.h>
 
-#include <qheader.h>
+#include <q3header.h>
 #include <qpainter.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QDragLeaveEvent>
+#include <QDragMoveEvent>
+#include <QKeyEvent>
+#include <QDropEvent>
+#include <Q3PopupMenu>
+#include <QMouseEvent>
 
 #include "playlistbox.h"
 #include "playlist.h"
@@ -45,7 +52,7 @@ using namespace ActionCollection;
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
+PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
 			 const char *name) :
     KListView(parent, name),
     PlaylistCollection(playlistStack),
@@ -99,12 +106,12 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 
     QStringList modeNames;
 
-    for(QValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
+    for(Q3ValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
 	modeNames.append((*it)->name());
 
     viewModeAction->setItems(modeNames);
 
-    QPopupMenu *p = viewModeAction->popupMenu();
+    Q3PopupMenu *p = viewModeAction->popupMenu();
     p->changeItem(0, SmallIconSet("view_detailed"), modeNames[0]);
     p->changeItem(1, SmallIconSet("view_text"), modeNames[1]);
     p->changeItem(2, SmallIconSet("view_tree"), modeNames[2]);
@@ -118,11 +125,11 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     connect(this, SIGNAL(selectionChanged()),
 	    this, SLOT(slotPlaylistChanged()));
 
-    connect(this, SIGNAL(doubleClicked(QListViewItem *)),
+    connect(this, SIGNAL(doubleClicked(Q3ListViewItem *)),
 	    this, SLOT(slotDoubleClicked()));
 
-    connect(this, SIGNAL(contextMenuRequested(QListViewItem *, const QPoint &, int)),
-	    this, SLOT(slotShowContextMenu(QListViewItem *, const QPoint &, int)));
+    connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)),
+	    this, SLOT(slotShowContextMenu(Q3ListViewItem *, const QPoint &, int)));
 
     TagTransactionManager *tagManager = TagTransactionManager::instance();
     connect(tagManager, SIGNAL(signalAboutToModifyTags()), SLOT(slotFreezePlaylists()));
@@ -159,7 +166,7 @@ PlaylistBox::~PlaylistBox()
 {
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
-    for(QListViewItem *i = firstChild(); i; i = i->nextSibling()) {
+    for(Q3ListViewItem *i = firstChild(); i; i = i->nextSibling()) {
 	Item *item = static_cast<Item *>(i);
 	if(item->playlist() && item->playlist() != collection)
 	    l.append(item->playlist());
@@ -374,7 +381,7 @@ void PlaylistBox::slotSavePlaylists()
 
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
-    for(QListViewItem *i = firstChild(); i; i = i->nextSibling()) {
+    for(Q3ListViewItem *i = firstChild(); i; i = i->nextSibling()) {
 	Item *item = static_cast<Item *>(i);
 	if(item->playlist() && item->playlist() != collection)
 	    l.append(item->playlist());
@@ -568,14 +575,14 @@ PlaylistBox::ItemList PlaylistBox::selectedItems() const
 {
     ItemList l;
 
-    for(QListViewItemIterator it(const_cast<PlaylistBox *>(this),
-				 QListViewItemIterator::Selected); it.current(); ++it)
+    for(Q3ListViewItemIterator it(const_cast<PlaylistBox *>(this),
+				 Q3ListViewItemIterator::Selected); it.current(); ++it)
 	l.append(static_cast<Item *>(*it));
 
     return l;
 }
 
-void PlaylistBox::setSingleItem(QListViewItem *item)
+void PlaylistBox::setSingleItem(Q3ListViewItem *item)
 {
     setSelectionModeExt(Single);
     KListView::setCurrentItem(item);
@@ -654,7 +661,7 @@ void PlaylistBox::slotDoubleClicked()
     action("play")->activate();
 }
 
-void PlaylistBox::slotShowContextMenu(QListViewItem *, const QPoint &point, int)
+void PlaylistBox::slotShowContextMenu(Q3ListViewItem *, const QPoint &point, int)
 {
     m_contextMenu->popup(point);
 }
@@ -732,7 +739,7 @@ PlaylistBox::Item::~Item()
 
 }
 
-int PlaylistBox::Item::compare(QListViewItem *i, int col, bool) const
+int PlaylistBox::Item::compare(Q3ListViewItem *i, int col, bool) const
 {
     Item *otherItem = static_cast<Item *>(i);
     PlaylistBox *playlistBox = static_cast<PlaylistBox *>(listView());

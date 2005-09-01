@@ -17,20 +17,22 @@
 #define PLAYLISTSEARCH_H
 
 #include <qregexp.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class Playlist;
-typedef QValueList<Playlist *> PlaylistList;
+typedef Q3ValueList<Playlist *> PlaylistList;
 
 class PlaylistItem;
-typedef QValueList<PlaylistItem *> PlaylistItemList;
+typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
-typedef QValueList<int> ColumnList;
+typedef Q3ValueList<int> ColumnList;
 
 class PlaylistSearch
 {
 public:
     class Component;
-    typedef QValueList<Component> ComponentList;
+    typedef Q3ValueList<Component> ComponentList;
 
     enum SearchMode { MatchAny = 0, MatchAll = 1 };
 

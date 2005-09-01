@@ -22,6 +22,12 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qcursor.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <QMouseEvent>
+#include <Q3Frame>
+#include <QHBoxLayout>
+#include <QEvent>
 
 #include "coverinfo.h"
 #include "tag.h"
@@ -29,13 +35,13 @@
 struct CoverPopup : public QWidget
 {
     CoverPopup(const QPixmap &image, const QPoint &p) :
-        QWidget(0, 0, WDestructiveClose | WX11BypassWM)
+        QWidget(0, 0, Qt::WDestructiveClose | Qt::WX11BypassWM)
     {
         QHBoxLayout *layout = new QHBoxLayout(this);
         QLabel *label = new QLabel(this);
 
         layout->addWidget(label);
-        label->setFrameStyle(QFrame::Box | QFrame::Raised);
+        label->setFrameStyle(Q3Frame::Box | Q3Frame::Raised);
         label->setLineWidth(1);
         label->setPixmap(image);
 

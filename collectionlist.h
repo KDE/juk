@@ -20,9 +20,12 @@
 #include <kdirwatch.h>
 #include <kfileitem.h>
 
-#include <qdict.h>
+#include <q3dict.h>
 #include <qclipboard.h>
-#include <qvaluevector.h>
+#include <q3valuevector.h>
+//Added by qt3to4:
+#include <QDragMoveEvent>
+#include <QDropEvent>
 
 #include "playlist.h"
 #include "playlistitem.h"
@@ -37,8 +40,8 @@ class ViewMode;
  * that hold the string.
  */
 
-typedef QDict<int> TagCountDict;
-typedef QDictIterator<int> TagCountDictIterator;
+typedef Q3Dict<int> TagCountDict;
+typedef Q3DictIterator<int> TagCountDictIterator;
 
 /**
  * We then have an array of dicts, one for each column in the list view.  We
@@ -46,7 +49,7 @@ typedef QDictIterator<int> TagCountDictIterator;
  * doesn't copy the case sensitivity setting.
  */
 
-typedef QValueVector<TagCountDict*> TagCountDicts;
+typedef Q3ValueVector<TagCountDict*> TagCountDicts;
 
 /** 
  * This is the "collection", or all of the music files that have been opened
@@ -83,7 +86,7 @@ public:
     CollectionListItem *lookup(const QString &file) { return m_itemsDict.find(file); }
     
     virtual PlaylistItem *createItem(const FileHandle &file,
-				     QListViewItem * = 0,
+				     Q3ListViewItem * = 0,
 				     bool = false);
 
     void emitVisibleColumnsChanged() { emit signalVisibleColumnsChanged(); }
@@ -151,7 +154,7 @@ private:
     static const int m_uniqueSetCount = 3;
 
     static CollectionList *m_list;
-    QDict<CollectionListItem> m_itemsDict;
+    Q3Dict<CollectionListItem> m_itemsDict;
     KDirWatch *m_dirWatch;
     TagCountDicts m_columnTags;
 };
@@ -165,7 +168,7 @@ class CollectionListItem : public PlaylistItem
     /** 
      * Needs access to the destructor, even though the destructor isn't used by QDict.
      */
-    friend class QDict<CollectionListItem>;
+    friend class Q3Dict<CollectionListItem>;
 
 public:
     virtual void refresh();

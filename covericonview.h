@@ -29,7 +29,7 @@ namespace CoverUtility
     class CoverIconViewItem : public KIconViewItem
     {
     public:
-	CoverIconViewItem(coverKey id, QIconView *parent);
+	CoverIconViewItem(coverKey id, Q3IconView *parent);
 
 	coverKey id() const { return m_id; }
 
@@ -54,7 +54,7 @@ public:
     CoverIconViewItem *currentItem() const;
 
 protected:
-    virtual QDragObject *dragObject();
+    virtual Q3DragObject *dragObject();
 };
 
 #endif /* JUK_COVERICONVIEW_H */

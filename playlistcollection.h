@@ -23,9 +23,12 @@
 #include <klocale.h>
 #include <kdirlister.h>
 
-#include <qguardedptr.h>
+#include <qpointer.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3ValueList>
 
-class QWidgetStack;
+class Q3WidgetStack;
 class KAction;
 class Playlist;
 class PlaylistItem;
@@ -34,8 +37,8 @@ class UpcomingPlaylist;
 class SearchPlaylist;
 class DynamicPlaylist;
 
-typedef QValueList<Playlist *> PlaylistList;
-typedef QValueList<PlaylistItem *> PlaylistItemList;
+typedef Q3ValueList<Playlist *> PlaylistList;
+typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
 class PlaylistCollection : public PlaylistInterface, CollectionIface
 {
@@ -44,7 +47,7 @@ class PlaylistCollection : public PlaylistInterface, CollectionIface
     friend class DynamicPlaylist;
 
 public:
-    PlaylistCollection(QWidgetStack *playlistStack);
+    PlaylistCollection(Q3WidgetStack *playlistStack);
     virtual ~PlaylistCollection();
 
     virtual QString name() const;
@@ -154,7 +157,7 @@ public:
     class ActionHandler;
 
 protected:
-    virtual QWidgetStack *playlistStack() const;
+    virtual Q3WidgetStack *playlistStack() const;
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
 
     bool importPlaylists() const;
@@ -176,7 +179,7 @@ private:
     void readConfig();
     void saveConfig();
 
-    QWidgetStack     *m_playlistStack;
+    Q3WidgetStack     *m_playlistStack;
     HistoryPlaylist  *m_historyPlaylist;
     UpcomingPlaylist *m_upcomingPlaylist;
     ActionHandler    *m_actionHandler;
@@ -189,10 +192,10 @@ private:
     bool        m_searchEnabled;
     bool        m_playing;
 
-    QGuardedPtr<SearchPlaylist> m_showMorePlaylist;
-    QGuardedPtr<Playlist> m_belowShowMorePlaylist;
-    QGuardedPtr<DynamicPlaylist> m_dynamicPlaylist;
-    QGuardedPtr<Playlist> m_belowDistraction;
+    QPointer<SearchPlaylist> m_showMorePlaylist;
+    QPointer<Playlist> m_belowShowMorePlaylist;
+    QPointer<DynamicPlaylist> m_dynamicPlaylist;
+    QPointer<Playlist> m_belowDistraction;
 
     QWidget *m_distraction;
 };

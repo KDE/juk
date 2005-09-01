@@ -19,9 +19,11 @@
 #include <kmainwindow.h>
 
 #include "playermanager.h"
+//Added by qt3to4:
+#include <QKeyEvent>
 
 class QTimer;
-class QListViewItem;
+class Q3ListViewItem;
 
 class KToggleAction;
 class KSelectAction;

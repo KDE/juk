@@ -11,7 +11,7 @@
 
 #include <kdialogbase.h>
 
-class QListViewItem;
+class Q3ListViewItem;
 
 class TagGuesserConfigDlgWidget;
 class TagGuesserConfigDlg : public KDialogBase
@@ -24,8 +24,8 @@ class TagGuesserConfigDlg : public KDialogBase
         virtual void accept();
 
     private slots:
-        void slotCurrentChanged(QListViewItem *item);
-        void slotRenameItem(QListViewItem *item, const QPoint &p, int c);
+        void slotCurrentChanged(Q3ListViewItem *item);
+        void slotRenameItem(Q3ListViewItem *item, const QPoint &p, int c);
         void slotMoveUpClicked();
         void slotMoveDownClicked();
         void slotAddClicked();

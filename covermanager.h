@@ -19,7 +19,10 @@
 #include <ksharedptr.h>
 
 #include <qmap.h>
-#include <qdragobject.h>
+#include <q3dragobject.h>
+//Added by qt3to4:
+#include <QPixmap>
+#include <Q3ValueList>
 
 class CoverManagerPrivate;
 class QString;
@@ -60,7 +63,7 @@ typedef QMap<coverKey, CoverDataPtr> CoverDataMap;
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class CoverDrag : public QDragObject
+class CoverDrag : public Q3DragObject
 {
 public:
     CoverDrag(coverKey id, QWidget *src);
@@ -214,7 +217,7 @@ public:
     /**
      * @return A list of all of the id's listed in the database.
      */
-    static QValueList<coverKey> keys();
+    static Q3ValueList<coverKey> keys();
 
     /**
      * Associates @p path with the cover identified by @id.  No comparison of

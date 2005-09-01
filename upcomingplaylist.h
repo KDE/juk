@@ -17,7 +17,7 @@
 #define _UPCOMINGPLAYLIST_H
 
 
-#include <qguardedptr.h>
+#include <qpointer.h>
 
 #include "playlist.h"
 #include "tracksequenceiterator.h"
@@ -97,7 +97,7 @@ public:
      * playlist that they came from.  This is used to remap the currently
      * playing item to the source playlist.
      */
-    QMap<PlaylistItem::Pointer, QGuardedPtr<Playlist> > &playlistIndex();
+    QMap<PlaylistItem::Pointer, QPointer<Playlist> > &playlistIndex();
 
     bool active() const { return m_active; }
 
@@ -125,7 +125,7 @@ private:
     bool m_active;
     TrackSequenceIterator *m_oldIterator;
     int m_defaultSize;
-    QMap<PlaylistItem::Pointer, QGuardedPtr<Playlist> > m_playlistIndex;
+    QMap<PlaylistItem::Pointer, QPointer<Playlist> > m_playlistIndex;
 };
 
 /**

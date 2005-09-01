@@ -18,7 +18,9 @@
 
 #include <kfiledialog.h>
 
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
+//Added by qt3to4:
+#include <QEvent>
 
 #include "playlistbox.h"
 
@@ -81,7 +83,7 @@ private:
     Playlist *m_newVisible;
     PlaylistBox *m_playlistBox;
     SearchWidget *m_searchWidget;
-    QWidgetStack *m_playlistStack;
+    Q3WidgetStack *m_playlistStack;
     TagEditor *m_editor;
 };
 

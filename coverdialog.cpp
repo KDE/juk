@@ -23,6 +23,8 @@
 
 #include <qtimer.h>
 #include <qtoolbutton.h>
+//Added by qt3to4:
+#include <Q3ValueList>
 
 #include "coverdialog.h"
 #include "covericonview.h"
@@ -34,21 +36,21 @@ using CoverUtility::CoverIconViewItem;
 class AllArtistsListViewItem : public KListViewItem
 {
 public:
-    AllArtistsListViewItem(QListView *parent) :
+    AllArtistsListViewItem(Q3ListView *parent) :
         KListViewItem(parent, i18n("<All Artists>"))
     {
     }
 
-    int compare(QListViewItem *, int, bool) const
+    int compare(Q3ListViewItem *, int, bool) const
     {
         return -1; // Always be at the top.
     }
 };
 
 CoverDialog::CoverDialog(QWidget *parent) :
-    CoverDialogBase(parent, "juk_cover_dialog", WType_Dialog)
+    CoverDialogBase(parent, "juk_cover_dialog", Qt::WType_Dialog)
 {
-    m_covers->setResizeMode(QIconView::Adjust);
+    m_covers->setResizeMode(Q3IconView::Adjust);
     m_covers->setGridX(140);
     m_covers->setGridY(150);
 
@@ -82,8 +84,8 @@ void CoverDialog::show()
 // covers.
 void CoverDialog::loadCovers()
 {
-    QValueList<coverKey> keys = CoverManager::keys();
-    QValueList<coverKey>::ConstIterator it;
+    Q3ValueList<coverKey> keys = CoverManager::keys();
+    Q3ValueList<coverKey>::ConstIterator it;
     int i = 0;
 
     for(it = keys.begin(); it != keys.end(); ++it) {
@@ -97,7 +99,7 @@ void CoverDialog::loadCovers()
 }
 
 // TODO: Add a way to show cover art for tracks with no artist.
-void CoverDialog::slotArtistClicked(QListViewItem *item)
+void CoverDialog::slotArtistClicked(Q3ListViewItem *item)
 {
     m_covers->clear();
 
@@ -107,8 +109,8 @@ void CoverDialog::slotArtistClicked(QListViewItem *item)
     }
     else {
         QString artist = item->text(0).lower();
-        QValueList<coverKey> keys = CoverManager::keys();
-        QValueList<coverKey>::ConstIterator it;
+        Q3ValueList<coverKey> keys = CoverManager::keys();
+        Q3ValueList<coverKey>::ConstIterator it;
 
         for(it = keys.begin(); it != keys.end(); ++it) {
             CoverDataPtr data = CoverManager::coverInfo(*it);
@@ -118,7 +120,7 @@ void CoverDialog::slotArtistClicked(QListViewItem *item)
     }
 }
 
-void CoverDialog::slotContextRequested(QIconViewItem *item, const QPoint &pt)
+void CoverDialog::slotContextRequested(Q3IconViewItem *item, const QPoint &pt)
 {
     static KPopupMenu *menu = 0;
 

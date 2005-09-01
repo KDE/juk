@@ -162,9 +162,9 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
         refillRandomList();
     }
     else {
-        QListViewItemIterator it(playlist, QListViewItemIterator::Visible | QListViewItemIterator::Selected);
+        Q3ListViewItemIterator it(playlist, Q3ListViewItemIterator::Visible | Q3ListViewItemIterator::Selected);
         if(!it.current())
-            it = QListViewItemIterator(playlist, QListViewItemIterator::Visible);
+            it = Q3ListViewItemIterator(playlist, Q3ListViewItemIterator::Visible);
 
         setCurrent(static_cast<PlaylistItem *>(it.current()));
     }

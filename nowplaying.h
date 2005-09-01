@@ -18,9 +18,14 @@
 
 #include <kactivelabel.h>
 
-#include <qhbox.h>
+#include <q3hbox.h>
 #include <qlabel.h>
-#include <qguardedptr.h>
+#include <qpointer.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QDragEnterEvent>
+#include <Q3ValueList>
+#include <QDropEvent>
 
 #include "filehandle.h"
 #include "playlist.h"
@@ -37,7 +42,7 @@ class Playlist;
  * when the playing item changes.
  */
 
-class NowPlaying : public QHBox
+class NowPlaying : public Q3HBox
 {
     Q_OBJECT
 
@@ -64,7 +69,7 @@ private:
 
     Observer m_observer;
     PlaylistCollection *m_collection;
-    QValueList<NowPlayingItem *> m_items;
+    Q3ValueList<NowPlayingItem *> m_items;
 };
 
 /**
@@ -165,10 +170,10 @@ private:
 
         QString anchor;
         FileHandle file;
-        QGuardedPtr<Playlist> playlist;
+        QPointer<Playlist> playlist;
     };
 
-    QValueList<Item> m_history;
+    Q3ValueList<Item> m_history;
     LinkLabel *m_label;
     QTimer *m_timer;
     FileHandle m_file;

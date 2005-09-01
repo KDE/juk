@@ -18,6 +18,9 @@
 
 #include <qlayout.h>
 #include <qevent.h>
+//Added by qt3to4:
+#include <QVBoxLayout>
+#include <Q3ValueList>
 
 #include "playlistsplitter.h"
 #include "searchwidget.h"
@@ -97,12 +100,12 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
         // A little bit of a hack to make QListView repaint things properly.  Switch
         // to single selection mode, set the selection and then switch back.
 
-        playlist->setSelectionMode(QListView::Single);
+        playlist->setSelectionMode(Q3ListView::Single);
 
         playlist->markItemSelected(item, true);
         playlist->setCurrentItem(item);
 
-        playlist->setSelectionMode(QListView::Extended);
+        playlist->setSelectionMode(Q3ListView::Extended);
     }
 }
 
@@ -137,7 +140,7 @@ void PlaylistSplitter::setupLayout()
     QWidget *top = new QWidget(editorSplitter);
     QVBoxLayout *topLayout = new QVBoxLayout(top);
 
-    m_playlistStack = new QWidgetStack(top, "playlistStack");
+    m_playlistStack = new Q3WidgetStack(top, "playlistStack");
     m_playlistStack->installEventFilter(this);
 
     connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)), this, SLOT(slotPlaylistChanged(QWidget *)));
@@ -190,7 +193,7 @@ void PlaylistSplitter::readConfig()
 {
     KConfigGroup config(KGlobal::config(), "Splitter");
 
-    QValueList<int> splitterSizes = config.readIntListEntry("PlaylistSplitterSizes");
+    Q3ValueList<int> splitterSizes = config.readIntListEntry("PlaylistSplitterSizes");
     if(splitterSizes.isEmpty()) {
         splitterSizes.append(100);
         splitterSizes.append(640);

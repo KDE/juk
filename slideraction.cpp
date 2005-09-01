@@ -22,6 +22,12 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qtimer.h>
+//Added by qt3to4:
+#include <QMouseEvent>
+#include <QWheelEvent>
+#include <QFocusEvent>
+#include <QEvent>
+#include <QBoxLayout>
 
 #include "slideraction.h"
 
@@ -48,12 +54,12 @@ protected:
     virtual void mousePressEvent(QMouseEvent *e)
     {
         if(e->button() == LeftButton) {
-            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), MidButton, e->state());
+            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::MidButton, e->state());
             QSlider::mousePressEvent(&reverse);
             emit sliderPressed();
         }
         else if(e->button() == MidButton) {
-            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), LeftButton, e->state());
+            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::LeftButton, e->state());
             QSlider::mousePressEvent(&reverse);
         }
     }
@@ -63,7 +69,7 @@ protected:
 // VolumeSlider implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-VolumeSlider::VolumeSlider(Orientation o, QWidget *parent, const char *name) :
+VolumeSlider::VolumeSlider(Qt::Orientation o, QWidget *parent, const char *name) :
     QSlider(o, parent, name)
 {
     connect(this, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
@@ -100,7 +106,7 @@ void VolumeSlider::setVolume(int value)
         setValue(maxValue() - value); 
 }
 
-void VolumeSlider::setOrientation(Orientation o)
+void VolumeSlider::setOrientation(Qt::Orientation o)
 {
     if(o == orientation())
         return;
@@ -113,7 +119,7 @@ void VolumeSlider::setOrientation(Orientation o)
 
 void VolumeSlider::slotValueChanged(int value)
 {
-    if(orientation() == Horizontal)
+    if(orientation() == Qt::Horizontal)
         emit signalVolumeChanged(value);
     else
         emit signalVolumeChanged(maxValue() - value);
@@ -165,7 +171,7 @@ int SliderAction::plug(QWidget *parent, int index)
         connect(m_toolBar, SIGNAL(destroyed()), this, SLOT(slotToolbarDestroyed()));
         connect(m_toolBar, SIGNAL(orientationChanged(Orientation)),
                 this, SLOT(slotUpdateOrientation()));
-        connect(m_toolBar, SIGNAL(placeChanged(QDockWindow::Place)),
+        connect(m_toolBar, SIGNAL(placeChanged(Q3DockWindow::Place)),
                 this, SLOT(slotUpdateOrientation()));
 
         slotUpdateOrientation();

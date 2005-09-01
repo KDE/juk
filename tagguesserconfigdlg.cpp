@@ -19,6 +19,8 @@
 
 #include <qtoolbutton.h>
 #include <qevent.h>
+//Added by qt3to4:
+#include <QKeyEvent>
 
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     : KDialogBase(parent, name, true, i18n("Tag Guesser Configuration"),
@@ -29,7 +31,7 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
 
     m_child->lvSchemes->setItemsRenameable(true);
     m_child->lvSchemes->setSorting(-1);
-    m_child->lvSchemes->setDefaultRenameAction(QListView::Accept);
+    m_child->lvSchemes->setDefaultRenameAction(Q3ListView::Accept);
     m_child->bMoveUp->setIconSet(BarIconSet("1uparrow"));
     m_child->bMoveDown->setIconSet(BarIconSet("1downarrow"));
 
@@ -41,10 +43,10 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
         item->moveItem(m_child->lvSchemes->lastItem());
     }
 
-    connect(m_child->lvSchemes, SIGNAL(currentChanged(QListViewItem *)),
-            this, SLOT(slotCurrentChanged(QListViewItem *)));
-    connect(m_child->lvSchemes, SIGNAL(doubleClicked(QListViewItem *, const QPoint &, int)),
-            this, SLOT(slotRenameItem(QListViewItem *, const QPoint &, int)));
+    connect(m_child->lvSchemes, SIGNAL(currentChanged(Q3ListViewItem *)),
+            this, SLOT(slotCurrentChanged(Q3ListViewItem *)));
+    connect(m_child->lvSchemes, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)),
+            this, SLOT(slotRenameItem(Q3ListViewItem *, const QPoint &, int)));
     connect(m_child->bMoveUp, SIGNAL(clicked()), this, SLOT(slotMoveUpClicked()));
     connect(m_child->bMoveDown, SIGNAL(clicked()), this, SLOT(slotMoveDownClicked()));
     connect(m_child->bAdd, SIGNAL(clicked()), this, SLOT(slotAddClicked()));
@@ -65,13 +67,13 @@ void TagGuesserConfigDlg::accept()
     }
 
     QStringList schemes;
-    for (QListViewItem *it = m_child->lvSchemes->firstChild(); it; it = it->nextSibling())
+    for (Q3ListViewItem *it = m_child->lvSchemes->firstChild(); it; it = it->nextSibling())
         schemes += it->text(0);
     TagGuesser::setSchemeStrings(schemes);
     KDialogBase::accept();
 }
 
-void TagGuesserConfigDlg::slotCurrentChanged(QListViewItem *item)
+void TagGuesserConfigDlg::slotCurrentChanged(Q3ListViewItem *item)
 {
     m_child->bMoveUp->setEnabled(item != 0 && item->itemAbove() != 0);
     m_child->bMoveDown->setEnabled(item != 0 && item->itemBelow() != 0);
@@ -79,14 +81,14 @@ void TagGuesserConfigDlg::slotCurrentChanged(QListViewItem *item)
     m_child->bRemove->setEnabled(item != 0);
 }
 
-void TagGuesserConfigDlg::slotRenameItem(QListViewItem *item, const QPoint &, int c)
+void TagGuesserConfigDlg::slotRenameItem(Q3ListViewItem *item, const QPoint &, int c)
 {
     m_child->lvSchemes->rename(item, c);
 }
 
 void TagGuesserConfigDlg::slotMoveUpClicked()
 {
-    QListViewItem *item = m_child->lvSchemes->currentItem();
+    Q3ListViewItem *item = m_child->lvSchemes->currentItem();
     if(item->itemAbove() == m_child->lvSchemes->firstChild())
         item->itemAbove()->moveItem(item);
     else
@@ -97,7 +99,7 @@ void TagGuesserConfigDlg::slotMoveUpClicked()
 
 void TagGuesserConfigDlg::slotMoveDownClicked()
 {
-    QListViewItem *item = m_child->lvSchemes->currentItem();
+    Q3ListViewItem *item = m_child->lvSchemes->currentItem();
     item->moveItem(item->itemBelow());
     m_child->lvSchemes->ensureItemVisible(item);
     slotCurrentChanged(item);

@@ -18,13 +18,15 @@
 
 
 #include <qcheckbox.h>
+//Added by qt3to4:
+#include <QLabel>
 
 #include "deletedialogbase.h"
 
 class QStringList;
 class KListBox;
 class QLabel;
-class QWidgetStack;
+class Q3WidgetStack;
 
 class DeleteWidget : public DeleteDialogBase
 {

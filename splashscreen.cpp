@@ -63,7 +63,7 @@ void SplashScreen::update()
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-SplashScreen::SplashScreen() : QHBox(0 , "splashScreen", Qt::WStyle_Splash)
+SplashScreen::SplashScreen() : Q3HBox(0 , "splashScreen", Qt::WStyle_Splash)
 {
     setMargin(10);
     setSpacing(5);

@@ -17,6 +17,9 @@
 #define JUK_EXAMPLEOPTIONS_H
 
 #include <qdialog.h>
+//Added by qt3to4:
+#include <QHideEvent>
+#include <QShowEvent>
 #include "exampleoptionsbase.h"
 
 class ExampleOptions : public ExampleOptionsBase

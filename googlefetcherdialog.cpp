@@ -19,11 +19,13 @@
 #include <kmessagebox.h>
 #include <kcombobox.h>
 
-#include <qhbox.h>
+#include <q3hbox.h>
 #include <qimage.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
 #include <qeventloop.h>
+//Added by qt3to4:
+#include <QPixmap>
 
 #include "googlefetcherdialog.h"
 #include "tag.h"
@@ -42,17 +44,17 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
 {
     disableResize();
 
-    QHBox *mainBox = new QHBox(this);
+    Q3HBox *mainBox = new Q3HBox(this);
     m_iconWidget = new KIconView(mainBox);
-    m_iconWidget->setResizeMode(QIconView::Adjust);
+    m_iconWidget->setResizeMode(Q3IconView::Adjust);
     m_iconWidget->setSpacing(10);
     m_iconWidget->setFixedSize(500,550);
     m_iconWidget->arrangeItemsInGrid();
     m_iconWidget->setItemsMovable(FALSE);
-    connect(m_iconWidget, SIGNAL(executed(QIconViewItem *)),
+    connect(m_iconWidget, SIGNAL(executed(Q3IconViewItem *)),
 	    this, SLOT(slotOk()));
 
-    QHBox *imgSize = new QHBox(actionButton(User1)->parentWidget());
+    Q3HBox *imgSize = new Q3HBox(actionButton(User1)->parentWidget());
     QLabel *label = new QLabel(imgSize);
     label->setText(i18n("Image size:"));
 
@@ -195,7 +197,7 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KURL &url) const
 // CoverIconViewItem
 ////////////////////////////////////////////////////////////////////////////////
 
-CoverIconViewItem::CoverIconViewItem(QIconView *parent, const GoogleImage &image) :
+CoverIconViewItem::CoverIconViewItem(Q3IconView *parent, const GoogleImage &image) :
     QObject(parent), KIconViewItem(parent, parent->lastItem(), image.size()), m_job(0)
 {
     // Set up the iconViewItem
@@ -229,7 +231,7 @@ CoverIconViewItem::~CoverIconViewItem()
 void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
 {
     int currentSize = m_buffer.size();
-    m_buffer.resize(currentSize + data.size(), QGArray::SpeedOptim);
+    m_buffer.resize(currentSize + data.size(), Q3GArray::SpeedOptim);
     memcpy(&(m_buffer.data()[currentSize]), data.data(), data.size());
 }
 

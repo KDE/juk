@@ -18,12 +18,14 @@
 
 
 #include "stringhash.h"
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class Tag;
 class Playlist;
 class PlaylistCollection;
 
-typedef QValueList<Playlist *> PlaylistList;
+typedef Q3ValueList<Playlist *> PlaylistList;
 
 class Cache : public FileHandleHash
 {
@@ -54,7 +56,7 @@ class CacheDataStream : public QDataStream
 {
 public:
     CacheDataStream(QIODevice *d) : QDataStream(d), m_cacheVersion(0) {}
-    CacheDataStream(QByteArray a, int mode) : QDataStream(a, mode), m_cacheVersion(0) {}
+    CacheDataStream(QByteArray &a, int mode) : QDataStream(a, mode), m_cacheVersion(0) {}
 
     virtual ~CacheDataStream() {}
 

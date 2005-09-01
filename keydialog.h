@@ -21,7 +21,7 @@
 #include <kkeydialog.h>
 
 #include <qhbuttongroup.h>
-#include <qwidgetstack.h>
+#include <q3widgetstack.h>
 
 class KeyDialog : public KDialogBase
 {
@@ -75,8 +75,8 @@ private:
     KActionCollection *m_actionCollection;
     KGlobalAccel      *m_keys;
     KKeyChooser       *m_pKeyChooser;
-    QHButtonGroup     *m_group;
-    QWidgetStack      *m_widgetStack;
+    Q3HButtonGroup     *m_group;
+    Q3WidgetStack      *m_widgetStack;
 
     static const KeyInfo keyInfo[];
     static const uint    keyInfoCount;
