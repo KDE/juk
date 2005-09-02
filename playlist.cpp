@@ -1078,7 +1078,7 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
     QStringList fileList;
 
     for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
-	fileList.append((*it).path());
+	fileList += MediaFiles::convertURLsToLocal((*it).path(), this);
 
     addFiles(fileList, item);
 }

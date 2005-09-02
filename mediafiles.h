@@ -73,6 +73,17 @@ namespace MediaFiles
      * Returns true if fileName is an Ogg/FLAC file.
      */
     bool isOggFLAC(const QString &fileName);
+
+    /**
+     * Returns a list of absolute local filenames, mapped from \p urlList.
+     * Any URLs in urlList that aren't really local files will be stripped
+     * from the result (so result.size() may be < urlList.size()).
+     *
+     * @param urlList list of file names or URLs to convert.
+     * @param w KIO may need the widget to handle user interaction.
+     * @return list of all local files in urlList, converted to absolute paths.
+     */
+    QStringList convertURLsToLocal(const QStringList &urlList, QWidget *w = 0);
 }
 
 #endif
