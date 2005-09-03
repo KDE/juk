@@ -138,7 +138,7 @@
                         <cstring>textLabel1</cstring>
                     </property>
                     <property name="text">
-                        <string>Add Category:</string>
+                        <string>Add category:</string>
                     </property>
                     <property name="buddy" stdset="0">
                         <cstring>m_category</cstring>
