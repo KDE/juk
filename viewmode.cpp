@@ -53,10 +53,10 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
                          int column, int width, int)
 {
     if(width < item->pixmap(column)->width())
-	return;
+        return;
 
     if(m_needsRefresh)
-	updateHeights();
+        updateHeights();
 
     QFontMetrics fm = painter->fontMetrics();
 
@@ -111,7 +111,7 @@ bool ViewMode::eventFilter(QObject *watched, QEvent *e)
     }
 
     if(e->type() == QEvent::Hide)
-	m_needsRefresh = true;
+        m_needsRefresh = true;
 
     return QObject::eventFilter(watched, e);
 }
@@ -121,7 +121,7 @@ void ViewMode::setShown(bool shown)
     m_visible = shown;
     if(shown) {
         updateIcons(32);
-	m_needsRefresh = true;
+        m_needsRefresh = true;
     }
 }
 
@@ -176,14 +176,14 @@ void ViewMode::paintDropIndicator(QPainter *painter, int width, int height) // s
 }
 
 QStringList ViewMode::lines(const PlaylistBox::Item *item,
-			    const QFontMetrics &fm,
-			    int width)
+                            const QFontMetrics &fm,
+                            int width)
 {
     // Here 32 is a bit arbitrary, but that's the width of the icons in this
     // mode and seems to a reasonable lower bound.
 
     if(width < 32)
-	return QStringList();
+        return QStringList();
 
     QString line = item->text();
 
@@ -193,7 +193,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
         int textLength = line.length();
         while(textLength > 0 && 
               fm.width(line.mid(0, textLength).stripWhiteSpace()) +
-	      item->listView()->itemMargin() * 2 > width)
+              item->listView()->itemMargin() * 2 > width)
         {
             int i = line.findRev(QRegExp( "\\W"), textLength - 1);
             if(i > 0)
@@ -238,14 +238,14 @@ void CompactViewMode::setShown(bool shown)
 
     if(shown) {
         updateIcons(16);
-	updateHeights();
+        updateHeights();
     }
 }
 
 void CompactViewMode::updateHeights()
 {
     for(QListViewItemIterator it(playlistBox()); it.current(); ++it)
-	it.current()->setup();
+        it.current()->setup();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -308,8 +308,8 @@ void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
     TreeViewItemPlaylist *itemPlaylist = m_treeViewItems[itemKey];
 
     if(!m_canDeletePlaylists) {
-	m_pendingItemsToRemove << itemKey;
-	return;
+        m_pendingItemsToRemove << itemKey;
+        return;
     }
 
     m_treeViewItems.remove(itemKey);
@@ -336,7 +336,7 @@ void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
 
     PlaylistSearch::Component::MatchMode mode = PlaylistSearch::Component::ContainsWord;
     if(column != PlaylistItem::ArtistColumn)
-	mode = PlaylistSearch::Component::Exact;
+        mode = PlaylistSearch::Component::Exact;
 
     PlaylistSearch::ComponentList components;
     PlaylistList playlists;
@@ -347,21 +347,21 @@ void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
     PlaylistBox::Item *itemParent = m_searchCategories[searchCategory];
 
     for(QStringList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-	item = *it;
-	itemKey = searchCategory + item;
+        item = *it;
+        itemKey = searchCategory + item;
 
-	if(m_treeViewItems.find(itemKey))
-	    continue;
-	    
-	components.clear();
-	components.append(PlaylistSearch::Component(item, false, columns, mode));
+        if(m_treeViewItems.find(itemKey))
+            continue;
+            
+        components.clear();
+        components.append(PlaylistSearch::Component(item, false, columns, mode));
 
-	PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
+        PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
 
-	TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, item, false);
-	playlistBox()->setupPlaylist(p, "midi", itemParent);
+        TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, item, false);
+        playlistBox()->setupPlaylist(p, "midi", itemParent);
 
-	m_treeViewItems.insert(itemKey, p);
+        m_treeViewItems.insert(itemKey, p);
     }
 }
 
@@ -370,15 +370,15 @@ void TreeViewMode::slotCanDeletePlaylist(bool canDelete)
     m_canDeletePlaylists = canDelete;
 
     if(!canDelete)
-	return;
+        return;
 
     QStringList categories;
     categories << "artists" << "albums" << "genres";
 
     for(QStringList::ConstIterator it = m_pendingItemsToRemove.begin(); it != m_pendingItemsToRemove.end(); ++it) {
-	m_treeViewItems[*it]->deleteLater();
-	emit signalPlaylistDestroyed(m_treeViewItems[*it]);
-	m_treeViewItems.remove(*it);
+        m_treeViewItems[*it]->deleteLater();
+        emit signalPlaylistDestroyed(m_treeViewItems[*it]);
+        m_treeViewItems.remove(*it);
     }
 
     m_pendingItemsToRemove.clear();
