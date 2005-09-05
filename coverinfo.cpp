@@ -23,6 +23,9 @@
 #include <qlabel.h>
 #include <qcursor.h>
 
+#include "collectionlist.h"
+#include "playlistsearch.h"
+#include "playlistitem.h"
 #include "coverinfo.h"
 #include "tag.h"
 
@@ -80,22 +83,6 @@ bool CoverInfo::hasCover()
     if(m_coverKey != CoverManager::NoMatch)
         m_hasCover = CoverManager::hasCover(m_coverKey);
 
-    // If we don't have a cover, first check if the CoverManager
-    // has one matching our album and artist.
-    if(!m_hasCover) {
-        QString artist = m_file.tag()->artist();
-        QString album = m_file.tag()->album();
-        coverKey match = CoverManager::idFromMetadata(artist, album);
-
-        if(match != CoverManager::NoMatch) {
-            m_hasCover = true;
-            m_coverKey = match;
-
-            // Make CoverManager remember this association
-            CoverManager::setIdForTrack(m_file.absFilePath(), match);
-        }
-    }
-
     // We *still* don't have it?  Check the old-style covers then.
     if(!m_hasCover) {
         m_hasCover = QFile(coverLocation(FullSize)).exists();
@@ -114,6 +101,8 @@ void CoverInfo::clearCover()
     // Yes, we have checked, and we don't have it. ;)
     m_haveCheckedForCover = true;
 
+    m_needsConverting = false;
+
     // We don't need to call removeCover because the CoverManager will
     // automatically unlink the cover if we were the last track to use it.
     CoverManager::setIdForTrack(m_file.absFilePath(), CoverManager::NoMatch);
@@ -126,6 +115,7 @@ void CoverInfo::setCover(const QImage &image)
         return;
 
     m_haveCheckedForCover = true;
+    m_needsConverting = false;
     m_hasCover = true;
 
     QPixmap cover;
@@ -143,6 +133,7 @@ void CoverInfo::setCoverId(coverKey id)
 {
     m_coverKey = id;
     m_haveCheckedForCover = true;
+    m_needsConverting = false;
     m_hasCover = id != CoverManager::NoMatch;
 
     // Inform CoverManager of the change.
@@ -226,12 +217,53 @@ bool CoverInfo::convertOldStyleCover() const
 
     QString artist = m_file.tag()->artist();
     QString album = m_file.tag()->album();
-    m_coverKey = CoverManager::addCover(coverLocation(FullSize), artist, album);
+    QString oldLocation = coverLocation(FullSize);
+    m_coverKey = CoverManager::addCover(oldLocation, artist, album);
 
     m_needsConverting = false;
 
     if(m_coverKey != CoverManager::NoMatch) {
         CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
+
+        // Now let's also set the ID for the tracks matching the track and
+        // artist at this point so that the conversion is complete, otherwise
+        // we can't tell apart the "No cover on purpose" and "Has no cover yet"
+        // possibilities.
+
+        PlaylistSearch::ComponentList components;
+        ColumnList columns;
+
+        columns.append(PlaylistItem::ArtistColumn);
+        components.append(PlaylistSearch::Component(artist, false, columns, PlaylistSearch::Component::Exact));
+
+        columns.clear();
+        columns.append(PlaylistItem::AlbumColumn);
+        components.append(PlaylistSearch::Component(album, false, columns, PlaylistSearch::Component::Exact));
+
+        PlaylistList playlists;
+        playlists.append(CollectionList::instance());
+
+        PlaylistSearch search(playlists, components, PlaylistSearch::MatchAll);
+
+        // Search done, iterate through results.
+
+        PlaylistItemList results = search.matchedItems();
+        PlaylistItemList::ConstIterator it = results.constBegin();
+        for(; it != results.constEnd(); ++it) {
+
+            // Don't worry about files that somehow already have a tag.
+            if(!(*it)->file().coverInfo()->m_needsConverting)
+                continue;
+
+            kdDebug(65432) << "Converting cover for " << *it << endl;
+            (*it)->file().coverInfo()->setCoverId(m_coverKey);
+        }
+
+        // If we convert we need to remove the old cover otherwise we'll find
+        // it later if the user un-sets the new cover.
+        if(!QFile::remove(oldLocation))
+            kdError(65432) << "Unable to remove converted cover at " << oldLocation << endl;
+
         return true;
     }
     else {
