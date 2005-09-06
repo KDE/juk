@@ -205,6 +205,7 @@ void CoverManagerPrivate::loadCovers()
 
         in >> id;
         in >> *data;
+        data->refCount = 0;
 
         covers[(coverKey) id] = data;
     }
@@ -215,7 +216,15 @@ void CoverManagerPrivate::loadCovers()
         Q_UINT32 id;
 
         in >> path >> id;
-        tracks.insert(path, new coverKey(id));
+
+        // If we somehow already managed to load a cover id with this path,
+        // don't do so again.  Possible due to a coding error during 3.5
+        // development.
+
+        if(!tracks.find(path)) {
+            ++covers[(coverKey) id]->refCount; // Another track using this.
+            tracks.insert(path, new coverKey(id));
+        }
     }
 }
 
@@ -390,6 +399,7 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
 
     coverData->artist = artist.lower();
     coverData->album = album.lower();
+    coverData->refCount = 0;
 
     data()->covers[id] = coverData;
 
@@ -480,15 +490,24 @@ QValueList<coverKey> CoverManager::keys()
 
 void CoverManager::setIdForTrack(const QString &path, coverKey id)
 {
-    // Remove any prior reference to this track.
-    // Uses the weird find/remove thingy because I made a coding error and so
-    // there's a possibility that users have multiple entries in the dictionary
-    // with the same path. :-(
-    while(data()->tracks.find(path))
+    coverKey *oldId = data()->tracks.find(path);
+    if(oldId && (id == *oldId))
+        return; // We're already done.
+
+    if(oldId && *oldId != NoMatch) {
+        data()->covers[*oldId]->refCount--;
         data()->tracks.remove(path);
 
-    if(id != NoMatch)
+        if(data()->covers[*oldId]->refCount == 0) {
+            kdDebug(65432) << "Cover " << *oldId << " is unused, removing.\n";
+            removeCover(*oldId);
+        }
+    }
+
+    if(id != NoMatch) {
+        data()->covers[id]->refCount++;
         data()->tracks.insert(path, new coverKey(id));
+    }
 }
 
 coverKey CoverManager::idForTrack(const QString &path)

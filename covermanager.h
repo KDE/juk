@@ -45,6 +45,8 @@ public:
     QString artist;
     QString album;
     QString path;
+
+    unsigned refCount; // Refers to number of tracks using this.
 };
 
 typedef KSharedPtr<CoverData> CoverDataPtr;
