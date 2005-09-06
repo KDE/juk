@@ -23,6 +23,7 @@
 #include <qdict.h>
 #include <qcache.h>
 #include <qmime.h>
+#include <qbuffer.h>
 
 #include <kdebug.h>
 #include <kstaticdeleter.h>
@@ -277,8 +278,15 @@ QByteArray CoverDrag::encodedData(const char *mimetype) const
         return data;
     }
     else if(qstrcmp(mimetype, "image/png") == 0) {
-        // TODO: Implement.
-        ;
+        QPixmap large = CoverManager::coverFromId(m_id, CoverManager::FullSize);
+        QImage img = large.convertToImage();
+        QByteArray data;
+        QBuffer buffer(data);
+
+        buffer.open(IO_WriteOnly);
+        img.save(&buffer, "PNG"); // Write in PNG format.
+
+        return data;
     }
 
     return QByteArray();
