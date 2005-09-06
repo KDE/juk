@@ -253,7 +253,7 @@ void CompactViewMode::updateHeights()
 ////////////////////////////////////////////////////////////////////////////////
 
 TreeViewMode::TreeViewMode(PlaylistBox *b) : CompactViewMode(b),
-    m_treeViewItems(5003, false), m_canDeletePlaylists(true), m_setup(false)
+    m_treeViewItems(5003, false), m_dynamicListsFrozen(false), m_setup(false)
 {
 
 }
@@ -276,7 +276,7 @@ void TreeViewMode::setShown(bool show)
             return;
 
         if(collectionItem && m_searchCategories.isEmpty())
-            setupCategories();
+            setupDynamicPlaylists();
         else {
             for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
                 it.current()->setVisible(true);
@@ -296,7 +296,7 @@ void TreeViewMode::setShown(bool show)
     }
 }
 
-void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
+void TreeViewMode::removeItem(const QString &item, unsigned column)
 {
     if(!m_setup)
         return;
@@ -318,7 +318,7 @@ void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
 
     TreeViewItemPlaylist *itemPlaylist = m_treeViewItems[itemKey];
 
-    if(!m_canDeletePlaylists) {
+    if(m_dynamicListsFrozen) {
         m_pendingItemsToRemove << itemKey;
         return;
     }
@@ -328,7 +328,7 @@ void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
     emit signalPlaylistDestroyed(itemPlaylist);
 }
 
-void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
+void TreeViewMode::addItems(const QStringList &items, unsigned column)
 {
     if(!m_setup)
         return;
@@ -357,7 +357,6 @@ void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
     playlists.append(CollectionList::instance());
 
     QString itemKey, item;
-
     PlaylistBox::Item *itemParent = m_searchCategories[searchCategory];
 
     for(QStringList::ConstIterator it = items.begin(); it != items.end(); ++it) {
@@ -372,33 +371,34 @@ void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
 
         PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
 
-        TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, item, false);
+        TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, item);
         playlistBox()->setupPlaylist(p, "midi", itemParent);
-
         m_treeViewItems.insert(itemKey, p);
     }
 }
 
-void TreeViewMode::slotCanDeletePlaylist(bool canDelete)
+void TreeViewMode::setDynamicListsFrozen(bool frozen)
 {
-    m_canDeletePlaylists = canDelete;
+    m_dynamicListsFrozen = frozen;
 
-    if(!canDelete)
+    if(frozen)
         return;
 
     QStringList categories;
     categories << "artists" << "albums" << "genres";
 
-    for(QStringList::ConstIterator it = m_pendingItemsToRemove.begin(); it != m_pendingItemsToRemove.end(); ++it) {
+    for(QStringList::ConstIterator it = m_pendingItemsToRemove.begin();
+        it != m_pendingItemsToRemove.end();
+        ++it)
+    {
         m_treeViewItems[*it]->deleteLater();
-        emit signalPlaylistDestroyed(m_treeViewItems[*it]);
         m_treeViewItems.remove(*it);
     }
 
     m_pendingItemsToRemove.clear();
 }
 
-void TreeViewMode::setupCategories()
+void TreeViewMode::setupDynamicPlaylists()
 {
     PlaylistBox::Item *i;
     PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
@@ -411,6 +411,15 @@ void TreeViewMode::setupCategories()
 
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Genres"));
     m_searchCategories.insert("genres", i);
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// CoverManagerMode
+////////////////////////////////////////////////////////////////////////////////
+
+CoverManagerMode::CoverManagerMode(PlaylistBox *b) : ViewMode(b)
+{
+
 }
 
 #include "viewmode.moc"

@@ -47,7 +47,6 @@ public:
     typedef QValueList<Item *> ItemList;
 
     friend class Item;
-    friend class TreeViewMode;
 
     PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
 		const char *name = 0);
@@ -58,9 +57,15 @@ public:
     virtual void duplicate();
     virtual void remove();
 
-    virtual void setCanDeletePlaylist(bool canDelete);
+    /**
+     * For view modes that have dynamic playlists, this freezes them from
+     * removing playlists.
+     */
+    virtual void setDynamicListsFrozen(bool frozen);
 
     Item *dropItem() const { return m_dropItem; }
+
+    void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem = 0);
 
 public slots:
     void paste();
@@ -71,7 +76,7 @@ public slots:
 
 protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
-    virtual void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem);
+    virtual void removePlaylist(Playlist *playlist);
 
 signals:
     void signalPlaylistDestroyed(Playlist *);
@@ -106,7 +111,6 @@ private slots:
     void slotDoubleClicked();
     void slotShowContextMenu(QListViewItem *, const QPoint &point, int);
     void slotSetViewMode(int index);
-    void slotTreeViewPlaylistDestroyed(Playlist*);
     void slotSavePlaylists();
     void slotShowDropTarget();
 
@@ -146,7 +150,7 @@ public:
     virtual ~Item();
     
 protected:
-    Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0, Item *after = 0);
+    Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0);
     Item(Item *parent, const QString &icon, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_playlist; }

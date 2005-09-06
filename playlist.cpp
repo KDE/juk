@@ -129,6 +129,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 bool Playlist::m_visibleChanged = false;
+bool Playlist::m_shuttingDown = false;
 
 /**
  * Shared settings between the playlists.
@@ -415,6 +416,9 @@ Playlist::~Playlist()
 
     if(isVisible() && this != CollectionList::instance())
 	m_collection->raise(CollectionList::instance());
+
+    if(!m_shuttingDown)
+	m_collection->removePlaylist(this);
 }
 
 QString Playlist::name() const
@@ -862,7 +866,7 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
-    setCanDeletePlaylist(false);
+    setDynamicListsFrozen(true);
 
     m_blockDataChanged = true;
 
@@ -880,7 +884,7 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
     m_blockDataChanged = false;
 
     dataChanged();
-    setCanDeletePlaylist(true);
+    setDynamicListsFrozen(false);
     KApplication::restoreOverrideCursor();
 }
 
@@ -1558,9 +1562,9 @@ void Playlist::setupItem(PlaylistItem *item)
     }
 }
 
-void Playlist::setCanDeletePlaylist(bool canDelete)
+void Playlist::setDynamicListsFrozen(bool frozen)
 {
-    m_collection->setCanDeletePlaylist(canDelete);
+    m_collection->setDynamicListsFrozen(frozen);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

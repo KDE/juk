@@ -95,6 +95,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     m_viewModes.append(new ViewMode(this));
     m_viewModes.append(new CompactViewMode(this));
     m_viewModes.append(new TreeViewMode(this));
+    // m_viewModes.append(new CoverManagerMode(this));
 
     QStringList modeNames;
 
@@ -139,8 +140,6 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
             this, SLOT(slotAddItem(const QString &, unsigned)));
     connect(CollectionList::instance(), SIGNAL(signalRemovedTag(const QString &, unsigned)),
             this, SLOT(slotRemoveItem(const QString &, unsigned)));
-    connect(m_viewModes[2], SIGNAL(signalPlaylistDestroyed(Playlist*)),
-            this, SLOT(slotTreeViewPlaylistDestroyed(Playlist*)));
 
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
     enableDirWatch(true);
@@ -217,30 +216,37 @@ void PlaylistBox::paste()
 
 void PlaylistBox::slotFreezePlaylists()
 {
-    setCanDeletePlaylist(false);
+    setDynamicListsFrozen(true);
 }
 
 void PlaylistBox::slotUnfreezePlaylists()
 {
-    setCanDeletePlaylist(true);
+    setDynamicListsFrozen(false);
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
 {
-    PlaylistCollection::setupPlaylist(playlist, iconName);
-    connect(playlist, SIGNAL(signalPlaylistItemsDropped(Playlist *)), SLOT(slotPlaylistItemsDropped(Playlist *)));
-    if(iconName == "today") {
-	kdDebug(65432) << "Setting up upcoming playlist after Collection List\n";
-	new Item(this, iconName, playlist->name(), playlist, m_playlistDict[CollectionList::instance()]);
-    }
-    else
-	new Item(this, iconName, playlist->name(), playlist);
+    setupPlaylist(playlist, iconName, 0);
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem)
 {
+    connect(playlist, SIGNAL(signalPlaylistItemsDropped(Playlist *)),
+	    SLOT(slotPlaylistItemsDropped(Playlist *)));
+
     PlaylistCollection::setupPlaylist(playlist, iconName);
-    new Item(parentItem, iconName, playlist->name(), playlist);
+
+    if(parentItem)
+	new Item(parentItem, iconName, playlist->name(), playlist);
+    else
+	new Item(this, iconName, playlist->name(), playlist);
+}
+
+void PlaylistBox::removePlaylist(Playlist *playlist)
+{
+    removeNameFromDict(m_playlistDict[playlist]->text(0));
+    removeFileFromDict(playlist->fileName());
+    m_playlistDict.remove(playlist);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -316,9 +322,6 @@ void PlaylistBox::remove()
 	   (*it)->playlist() &&
 	   (!(*it)->playlist()->readOnly()))
 	{
-	    removeNameFromDict((*it)->text(0));
-	    removeFileFromDict((*it)->playlist()->fileName());
-	    m_playlistDict.remove((*it)->playlist());
 	    removeQueue.append((*it)->playlist());
 	}
     }
@@ -346,23 +349,14 @@ void PlaylistBox::remove()
     }
 }
 
-void PlaylistBox::setCanDeletePlaylist(bool canDelete)
+void PlaylistBox::setDynamicListsFrozen(bool frozen)
 {
-    TreeViewMode *treeView = dynamic_cast<TreeViewMode *>(m_viewModes[2]);
-
-    if(treeView)
-	treeView->slotCanDeletePlaylist(canDelete);
-}
-
-void PlaylistBox::slotTreeViewPlaylistDestroyed(Playlist *p)
-{
-    emit signalPlaylistDestroyed(p);
-
-    removeNameFromDict(m_playlistDict[p]->text(0));
-    removeFileFromDict(p->fileName());
-
-    delete m_playlistDict[p];
-    m_playlistDict.remove(p);
+    for(QValueList<ViewMode *>::Iterator it = m_viewModes.begin();
+	it != m_viewModes.end();
+	++it)
+    {
+	(*it)->setDynamicListsFrozen(frozen);
+    }
 }
 
 void PlaylistBox::slotSavePlaylists()
@@ -397,12 +391,12 @@ void PlaylistBox::slotShowDropTarget()
 
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
 {
-    static_cast<TreeViewMode*>(m_viewModes[2])->slotAddItems(tag, column);
+    static_cast<TreeViewMode*>(m_viewModes[2])->addItems(tag, column);
 }
 
 void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
 {
-    static_cast<TreeViewMode*>(m_viewModes[2])->slotRemoveItem(tag, column);
+    static_cast<TreeViewMode*>(m_viewModes[2])->removeItem(tag, column);
 }
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
@@ -690,8 +684,8 @@ void PlaylistBox::setupUpcomingPlaylist()
 
 PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 
-PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l, Item *after)
-    : QObject(listBox), KListViewItem(listBox, after, text),
+PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l)
+    : QObject(listBox), KListViewItem(listBox, 0, text),
       m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
     init();
@@ -785,9 +779,7 @@ void PlaylistBox::Item::init()
     if(m_playlist == CollectionList::instance()) {
 	m_sortedFirst = true;
 	m_collectionItem = this;
-
-	if(dynamic_cast<TreeViewMode *>(list->viewMode()))
-	    static_cast<TreeViewMode *>(list->viewMode())->setupCategories();
+	list->viewMode()->setupDynamicPlaylists();
     }
 
     if(m_playlist == list->historyPlaylist() || m_playlist == list->upcomingPlaylist())

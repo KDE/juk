@@ -135,7 +135,7 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
 	for(TagCountDictIterator it(*m_columnTags[*colIt]); it.current(); ++it)
 	    items << it.currentKey();
 
-	treeViewMode->slotAddItems(items, *colIt);
+	treeViewMode->addItems(items, *colIt);
     }
 }
 

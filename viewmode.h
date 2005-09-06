@@ -47,6 +47,14 @@ public:
 
     virtual void setupItem(PlaylistBox::Item *item) const;
 
+    virtual void setupDynamicPlaylists() {}
+    /**
+     * If the view mode has dynamic lists, this function is used to temporarily
+     * freeze them to prevent them from deleting dynamic elements.
+     */
+    virtual void setDynamicListsFrozen(bool /* frozen */) {}
+
+
 protected:
     PlaylistBox *playlistBox() const { return m_playlistBox; }
     bool visible() const { return m_visible; }
@@ -100,13 +108,11 @@ public:
 
     virtual QString name() const { return i18n("Tree"); }
     virtual void setShown(bool shown);
-    void setupCategories();
+    virtual void setupDynamicPlaylists();
+    virtual void setDynamicListsFrozen(bool frozen);
 
-public slots:
-    void slotRemoveItem(const QString &item, unsigned column);
-    void slotAddItems(const QStringList &items, unsigned column);
-
-    void slotCanDeletePlaylist(bool canDelete);
+    void removeItem(const QString &item, unsigned column);
+    void addItems(const QStringList &items, unsigned column);
 
 signals:
     void signalPlaylistDestroyed(Playlist*);
@@ -115,8 +121,20 @@ private:
     QDict<PlaylistBox::Item> m_searchCategories;    
     QDict<TreeViewItemPlaylist> m_treeViewItems;
     QStringList m_pendingItemsToRemove;
-    bool m_canDeletePlaylists;
+    bool m_dynamicListsFrozen;
     bool m_setup;
+};
+
+////////////////////////////////////////////////////////////////////////////////
+
+class CoverManagerMode : public ViewMode
+{
+    Q_OBJECT
+
+public:
+    CoverManagerMode(PlaylistBox *b);
+    virtual QString name() const { return i18n("Cover Manager"); }
+    //virtual void setShown(bool shown);
 };
 
 #endif

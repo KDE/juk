@@ -28,8 +28,7 @@ class TreeViewItemPlaylist : public SearchPlaylist
 public:
     TreeViewItemPlaylist(PlaylistCollection *collection,
                          const PlaylistSearch &search = PlaylistSearch(),
-                         const QString &name = QString::null,
-                         bool setupPlaylist = true);
+                         const QString &name = QString::null);
 
     virtual bool searchIsEditable() const { return false; }
     void retag(const QStringList &files, Playlist *donorPlaylist);

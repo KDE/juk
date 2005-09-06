@@ -30,9 +30,8 @@
 
 TreeViewItemPlaylist::TreeViewItemPlaylist(PlaylistCollection *collection,
                                            const PlaylistSearch &search,
-                                           const QString &name,
-                                           bool setupPlaylist) :
-    SearchPlaylist(collection, search, name, setupPlaylist)
+                                           const QString &name) :
+    SearchPlaylist(collection, search, name, false)
 {
     PlaylistSearch::Component component = *(search.components().begin());
     m_columnType = static_cast<PlaylistItem::ColumnType>(*(component.columns().begin()));

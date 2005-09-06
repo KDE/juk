@@ -320,6 +320,8 @@ public:
 
     void read(QDataStream &s);
 
+    static void setShuttingDown() { m_shuttingDown = true; }
+
 public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
@@ -457,7 +459,7 @@ protected:
      * Forwards the call to the parent to enable or disable automatic deletion
      * of tree view playlists.  Used by CollectionListItem.
      */
-    void setCanDeletePlaylist(bool canDelete);
+    void setDynamicListsFrozen(bool frozen);
 
     template <class ItemType, class SiblingType>
     ItemType *createItem(SiblingType *sibling, ItemType *after = 0);
@@ -686,6 +688,7 @@ private:
      * call to setVisibleItems()) while random play is playing.
      */
     static bool m_visibleChanged;
+    static bool m_shuttingDown;
     static int m_leftColumn;
     static QMap<int, PlaylistItem *> m_backMenuItems;
 

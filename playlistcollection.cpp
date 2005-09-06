@@ -75,6 +75,7 @@ PlaylistCollection::~PlaylistCollection()
     saveConfig();
     delete m_actionHandler;
     PlayerManager::instance()->setPlaylistInterface(0);
+    Playlist::setShuttingDown();
 }
 
 QString PlaylistCollection::name() const
