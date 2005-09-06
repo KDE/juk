@@ -54,6 +54,25 @@ public:
      */
     virtual void setDynamicListsFrozen(bool /* frozen */) {}
 
+    /**
+     * Used for dynamic view modes.  This function will be called when \p items
+     * are added to \p column (even if the view mode hasn't been shown yet).
+     */
+    virtual void addItems(const QStringList &items, unsigned column)
+    {
+	(void) items;
+	(void) column;
+    }
+
+    /**
+     * Used for dynamic view modes.  This function will be called when \p item
+     * is removed from \p column (even if the view mode hasn't been shown yet).
+     */
+    virtual void removeItem(const QString &item, unsigned column)
+    {
+	(void) item;
+	(void) column;
+    }
 
 protected:
     PlaylistBox *playlistBox() const { return m_playlistBox; }
@@ -111,8 +130,8 @@ public:
     virtual void setupDynamicPlaylists();
     virtual void setDynamicListsFrozen(bool frozen);
 
-    void removeItem(const QString &item, unsigned column);
-    void addItems(const QStringList &items, unsigned column);
+    virtual void removeItem(const QString &item, unsigned column);
+    virtual void addItems(const QStringList &items, unsigned column);
 
 signals:
     void signalPlaylistDestroyed(Playlist*);

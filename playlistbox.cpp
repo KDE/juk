@@ -385,18 +385,16 @@ void PlaylistBox::slotShowDropTarget()
     raise(m_dropItem->playlist());
 }
 
-// For the following two function calls, we can forward the slot*Item calls
-// to the tree view mode as long as it has already been setup, whether or
-// not it's actually visible.
-
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
 {
-    static_cast<TreeViewMode*>(m_viewModes[2])->addItems(tag, column);
+    for(QValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
+	(*it)->addItems(tag, column);
 }
 
 void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
 {
-    static_cast<TreeViewMode*>(m_viewModes[2])->removeItem(tag, column);
+    for(QValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
+	(*it)->removeItem(tag, column);
 }
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
