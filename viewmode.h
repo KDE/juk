@@ -43,8 +43,6 @@ public:
                            int column, int width, int align);
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
-    
-
     void queueRefresh() { m_needsRefresh = true; }
 
     virtual void setupItem(PlaylistBox::Item *item) const;
@@ -118,6 +116,7 @@ private:
     QDict<TreeViewItemPlaylist> m_treeViewItems;
     QStringList m_pendingItemsToRemove;
     bool m_canDeletePlaylists;
+    bool m_setup;
 };
 
 #endif

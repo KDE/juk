@@ -52,7 +52,6 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     m_viewModeIndex(0),
     m_hasSelection(false),
     m_doingMultiSelect(false),
-    m_treeViewSetup(false),
     m_dropItem(0),
     m_showTimer(0)
 {
@@ -109,8 +108,14 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     p->changeItem(1, SmallIconSet("view_text"), modeNames[1]);
     p->changeItem(2, SmallIconSet("view_tree"), modeNames[2]);
 
+    CollectionList::initialize(this);
+    Cache::loadPlaylists(this);
+
     viewModeAction->setCurrentItem(m_viewModeIndex);
     m_viewModes[m_viewModeIndex]->setShown(true);
+
+    TrackSequenceManager::instance()->setCurrentPlaylist(CollectionList::instance());
+    raise(CollectionList::instance());
 
     viewModeAction->plug(m_contextMenu);
     connect(viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
@@ -128,15 +133,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QWidgetStack *playlistStack,
     connect(tagManager, SIGNAL(signalAboutToModifyTags()), SLOT(slotFreezePlaylists()));
     connect(tagManager, SIGNAL(signalDoneModifyingTags()), SLOT(slotUnfreezePlaylists()));
 
-    CollectionList::initialize(this);
-    Cache::loadPlaylists(this);
-    TrackSequenceManager::instance()->setCurrentPlaylist(CollectionList::instance());
-    raise(CollectionList::instance());
-
-    // We need to wait until after Collection List is created to set this up.
-
     setupUpcomingPlaylist();
-    performTreeViewSetup();
 
     connect(CollectionList::instance(), SIGNAL(signalNewTag(const QString &, unsigned)),
             this, SLOT(slotAddItem(const QString &, unsigned)));
@@ -400,14 +397,12 @@ void PlaylistBox::slotShowDropTarget()
 
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
 {
-    if(m_treeViewSetup)
-	static_cast<TreeViewMode*>(m_viewModes[2])->slotAddItems(tag, column);
+    static_cast<TreeViewMode*>(m_viewModes[2])->slotAddItems(tag, column);
 }
 
 void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
 {
-    if(m_treeViewSetup)
-	static_cast<TreeViewMode*>(m_viewModes[2])->slotRemoveItem(tag, column);
+    static_cast<TreeViewMode*>(m_viewModes[2])->slotRemoveItem(tag, column);
 }
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
@@ -672,30 +667,12 @@ void PlaylistBox::slotSetViewMode(int index)
     viewMode()->setShown(false);
     m_viewModeIndex = index;
     viewMode()->setShown(true);
-
-    // The following call only does anything if the setup
-    // hasn't already been performed.
-
-    performTreeViewSetup();
 }
 
 void PlaylistBox::setupItem(Item *item)
 {
     m_playlistDict.insert(item->playlist(), item);
     viewMode()->queueRefresh();
-}
-
-void PlaylistBox::performTreeViewSetup()
-{
-    if(m_treeViewSetup || m_viewModeIndex != 2)
-	return;
-
-    setSorting(-1);
-    CollectionList::instance()->setupTreeViewEntries(m_viewModes[2]);
-    setSorting(0);
-    sort();
-
-    m_treeViewSetup = true;
 }
 
 void PlaylistBox::setupUpcomingPlaylist()

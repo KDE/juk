@@ -253,7 +253,7 @@ void CompactViewMode::updateHeights()
 ////////////////////////////////////////////////////////////////////////////////
 
 TreeViewMode::TreeViewMode(PlaylistBox *b) : CompactViewMode(b),
-    m_treeViewItems(5003, false), m_canDeletePlaylists(true)
+    m_treeViewItems(5003, false), m_canDeletePlaylists(true), m_setup(false)
 {
 
 }
@@ -281,6 +281,14 @@ void TreeViewMode::setShown(bool show)
             for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
                 it.current()->setVisible(true);
         }
+
+        if(!m_setup) {
+            m_setup = true;
+            playlistBox()->setSorting(-1);
+            CollectionList::instance()->setupTreeViewEntries(this);
+            playlistBox()->setSorting(0);
+            playlistBox()->sort();
+        }
     }
     else {
         for(QDictIterator<PlaylistBox::Item> it(m_searchCategories); it.current(); ++it)
@@ -290,6 +298,9 @@ void TreeViewMode::setShown(bool show)
 
 void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
 {
+    if(!m_setup)
+        return;
+
     QString itemKey;
     if(column == PlaylistItem::ArtistColumn)
         itemKey = "artists" + item;
@@ -319,6 +330,9 @@ void TreeViewMode::slotRemoveItem(const QString &item, unsigned column)
 
 void TreeViewMode::slotAddItems(const QStringList &items, unsigned column)
 {
+    if(!m_setup)
+        return;
+
     QString searchCategory;
     if(column == PlaylistItem::ArtistColumn)
         searchCategory = "artists";
