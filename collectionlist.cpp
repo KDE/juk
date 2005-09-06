@@ -32,6 +32,7 @@
 #include "tag.h"
 #include "viewmode.h"
 #include "coverinfo.h"
+#include "covermanager.h"
 
 using namespace ActionCollection;
 
@@ -95,7 +96,7 @@ PlaylistItem *CollectionList::createItem(const FileHandle &file, QListViewItem *
     PlaylistItem *item = new CollectionListItem(file);
     
     if(!item->isValid()) {
-	kdError() << "CollectinList::createItem() -- A valid tag was not created for \""
+	kdError() << "CollectionList::createItem() -- A valid tag was not created for \""
 		  << file.absFilePath() << "\"" << endl;
 	delete item;
 	return 0;
@@ -266,9 +267,9 @@ CollectionList::~CollectionList()
 void CollectionList::contentsDropEvent(QDropEvent *e)
 {
     if(e->source() == this)
-	return;
+	return; // Don't rearrange in the CollectionList.
     else 
-	decode(e, static_cast<PlaylistItem *>(itemAt(contentsToViewport(e->pos()))));
+	Playlist::contentsDropEvent(e);
 }
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
