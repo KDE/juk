@@ -59,7 +59,7 @@ public:
         return &handler;
     }
 
-    int KTRMRequestHandler::startLookup(KTRMLookup *lookup)
+    int startLookup(KTRMLookup *lookup)
     {
         int id;
 
