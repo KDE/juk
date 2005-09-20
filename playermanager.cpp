@@ -92,7 +92,8 @@ PlayerManager::PlayerManager() :
     m_player(0),
     m_timer(0),
     m_noSeek(false),
-    m_muted(false)
+    m_muted(false),
+    m_setup(false)
 {
 // This class is the first thing constructed during program startup, and
 // therefore has no access to the widgets needed by the setup() method.
@@ -599,6 +600,10 @@ void PlayerManager::setup()
         kdWarning(65432) << k_funcinfo << "Could not find all of the required actions." << endl;
         return;
     }
+
+    if(m_setup)
+        return;
+    m_setup = true;
 
     // initialize action states
 
