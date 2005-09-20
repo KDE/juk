@@ -207,7 +207,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
         return;
 
     QByteArray data;
-    QDataStream s(data, QIODevice::WriteOnly);
+    QDataStream s(&data, QIODevice::WriteOnly);
 
     for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it) {
         if(*it) {

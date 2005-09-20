@@ -23,7 +23,6 @@
 #include <q3hbox.h>
 #include <q3vbox.h>
 #include <qlayout.h>
-#include <qhbuttongroup.h>
 //Added by qt3to4:
 #include <QHBoxLayout>
 #include <QBoxLayout>
