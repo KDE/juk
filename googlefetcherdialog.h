@@ -47,7 +47,7 @@ public slots:
     void refreshScreen(GoogleImageList &list);
 
 signals:
-    int sizeChanged(GoogleFetcher::ImageSize);
+    void sizeChanged(GoogleFetcher::ImageSize);
 
 protected slots:
     void slotOk();
