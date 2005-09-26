@@ -67,6 +67,11 @@ PlaylistCollection::PlaylistCollection(QWidgetStack *playlistStack) :
 {
     m_actionHandler = new ActionHandler(this);
     PlayerManager::instance()->setPlaylistInterface(this);
+
+    // KDirLister's auto error handling seems to crash JuK during startup in
+    // readConfig().
+
+    m_dirLister.setAutoErrorHandlingEnabled(false, playlistStack);
     readConfig();
 }
 
