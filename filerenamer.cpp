@@ -987,11 +987,10 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
     const QValueList<CategoryID> categoryOrder = interface.categoryOrder();
     const QString separator = interface.separator();
     const QString folder = interface.musicFolder();
-    const QRegExp closeBracket("[])}]\\s*$");
-    const QRegExp openBracket("^\\s*[[({]");
     QValueList<CategoryID>::ConstIterator lastEnabled;
     unsigned i = 0;
     QStringList list;
+    QChar dirSeparator = QChar(QDir::separator());
 
     // Use lastEnabled to properly handle folder separators.
     lastEnabled = lastEnabledItem(categoryOrder, interface);
@@ -1015,9 +1014,9 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
         value.replace('/', "%2f");
 
         if(!pastLast && interface.hasFolderSeparator(i))
-            value.append(QDir::separator());
+            value.append(dirSeparator);
 
-        if(interface.isRequired(*it) || !interface.isEmpty((*it).category))
+        if(interface.isRequired(*it) || !value.isEmpty())
             list.append(value);
     }
 
@@ -1031,12 +1030,16 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 
         ++it; // Manually advance iterator to check for end-of-list.
 
-        // Add separator unless at a directory boundary.
-        if(it != list.constEnd() && !result.endsWith(QChar(QDir::separator())))
+        // Add separator unless at a directory boundary
+        if(it != list.constEnd() &&
+           !(*it).startsWith(dirSeparator) && // Check beginning of next item.
+           !result.endsWith(dirSeparator))
+        {
             result += separator;
+        }
     }
 
-    return QString(folder + QDir::separator() + result);
+    return QString(folder + dirSeparator + result);
 }
 
 #include "filerenamer.moc"
