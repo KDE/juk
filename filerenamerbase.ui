@@ -353,6 +353,13 @@
         <slot>insertCategory()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>m_musicFolder</tabstop>
+    <tabstop>m_separator</tabstop>
+    <tabstop>m_category</tabstop>
+    <tabstop>m_insertCategory</tabstop>
+    <tabstop>m_showExample</tabstop>
+</tabstops>
 <slots>
     <slot access="protected">exampleTextChanged()</slot>
     <slot access="protected">toggleExampleDialog()</slot>
