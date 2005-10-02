@@ -370,7 +370,7 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
     if(size == Thumbnail) {
         // Convert to image for smoothScale()
         QImage image = pix->convertToImage();
-        pix->convertFromImage(image.smoothScale(80, 80));
+        pix->convertFromImage(image.smoothScale(80, 80, QImage::ScaleMin));
     }
 
     QPixmap returnValue = *pix; // Save it early.
