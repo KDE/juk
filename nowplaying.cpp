@@ -51,6 +51,11 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection, const ch
     m_observer(this, collection),
     m_collection(collection)
 {
+    // m_observer is set to watch the PlaylistCollection, also watch for
+    // changes that come from CollectionList.
+
+    CollectionList::instance()->addObserver(&m_observer);
+
     layout()->setMargin(5);
     layout()->setSpacing(3);
     setFixedHeight(imageSize + 2 + layout()->margin() * 2);

@@ -106,6 +106,7 @@ private:
     QTimer *m_timer;
     bool m_noSeek;
     bool m_muted;
+    bool m_setup;
 
     static const int m_pollInterval = 800;
 };
