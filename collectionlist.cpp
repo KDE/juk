@@ -183,12 +183,13 @@ void CollectionList::slotDeleteItem(KFileItem *item)
 
 void CollectionList::clear()
 {
-    int result = KMessageBox::warningYesNo(this, 
+    int result = KMessageBox::warningContinueCancel(this, 
 	i18n("Removing an item from the collection will also remove it from "
 	     "all of your playlists. Are you sure you want to continue?\n\n"
 	     "Note, however, that if the directory that these files are in is in "
 	     "your \"scan on startup\" list, they will be readded on startup."));
-    if(result == KMessageBox::Yes) {
+
+    if(result == KMessageBox::Continue) {
 	Playlist::clear();
 	emit signalCollectionChanged();
     }
