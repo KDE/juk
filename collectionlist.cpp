@@ -188,8 +188,9 @@ void CollectionList::clear()
 	i18n("Removing an item from the collection will also remove it from "
 	     "all of your playlists. Are you sure you want to continue?\n\n"
 	     "Note, however, that if the directory that these files are in is in "
-	     "your \"scan on startup\" list, they will be readded on startup."),QString::null, KStdGuiItem::del());
-    if(result == KMessageBox::Yes) {
+	     "your \"scan on startup\" list, they will be readded on startup."));
+
+    if(result == KMessageBox::Continue) {
 	Playlist::clear();
 	emit signalCollectionChanged();
     }
