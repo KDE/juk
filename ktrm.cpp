@@ -24,11 +24,13 @@
 #if HAVE_MUSICBRAINZ
 
 #include <kapplication.h>
+#include <kresolver.h>
 #include <kprotocolmanager.h>
 #include <kurl.h>
 #include <kdebug.h>
 
 #include <qmutex.h>
+#include <qregexp.h>
 #include <qevent.h>
 #include <qobject.h>
 #include <qfile.h>
@@ -121,9 +123,52 @@ protected:
         tp_SetUseUTF8(m_pimp, true);
         tp_SetNotifyCallback(m_pimp, TRMNotifyCallback, 0);
 
+        // Re-read proxy config.
+        KProtocolManager::reparseConfiguration();
+
         if(KProtocolManager::useProxy()) {
-            KURL proxy = KProtocolManager::proxyFor("http");
-            tp_SetProxy(m_pimp, proxy.host().latin1(), short(proxy.port()));
+            // split code copied from kcm_kio.
+            QString noProxiesFor = KProtocolManager::noProxyFor();
+            QStringList noProxies = QStringList::split(QRegExp("[',''\t'' ']"), noProxiesFor);
+            bool useProxy = true;
+
+            // Host that libtunepimp will contact.
+            QString tunepimpHost = "www.musicbrainz.org";
+            QString tunepimpHostWithPort = "www.musicbrainz.org:80";
+
+            // Check what hosts are allowed to proceed without being proxied,
+            // or is using reversed proxy, what hosts must be proxied.
+            for(QStringList::ConstIterator it = noProxies.constBegin(); it != noProxies.constEnd(); ++it) {
+                QString normalizedHost = KNetwork::KResolver::normalizeDomain(*it);
+
+                if(normalizedHost == tunepimpHost ||
+                   tunepimpHost.endsWith("." + normalizedHost))
+                {
+                    useProxy = false;
+                    break;
+                }
+
+                // KDE's proxy mechanism also supports exempting a specific
+                // host/port combo, check that also.
+                if(normalizedHost == tunepimpHostWithPort ||
+                   tunepimpHostWithPort.endsWith("." + normalizedHost))
+                {
+                    useProxy = false;
+                    break;
+                }
+            }
+
+            // KDE supports a reverse proxy mechanism.  Uh, yay.
+            if(KProtocolManager::useReverseProxy())
+                useProxy = !useProxy;
+
+            if(useProxy) {
+                KURL proxy = KProtocolManager::proxyFor("http");
+                QString proxyHost = proxy.host();
+
+                kdDebug(65432) << "Using proxy server " << proxyHost << " for www.musicbrainz.org.\n";
+                tp_SetProxy(m_pimp, proxyHost.latin1(), short(proxy.port()));
+            }
         }
     }
 
@@ -505,3 +550,5 @@ void KTRMLookup::finished()
 }
 
 #endif
+
+// vim: set et ts=8 sw=4:
