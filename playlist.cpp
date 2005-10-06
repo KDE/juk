@@ -1436,7 +1436,11 @@ void Playlist::showColumn(int c, bool updateSearch)
     // Just set the width to one to mark the column as visible -- we'll update
     // the real size in the next call.
 
-    setColumnWidth(c, 1);
+    if(manualResize())
+	setColumnWidth(c, 35); // Make column at least slightly visible.
+    else
+	setColumnWidth(c, 1);
+
     header()->setResizeEnabled(true, c);
     header()->moveSection(c, c); // Approximate old position
 
