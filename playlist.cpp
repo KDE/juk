@@ -921,9 +921,16 @@ void Playlist::slotShowPlaying()
     Playlist *l = playingItem()->playlist();
 
     l->clearSelection();
+
+    // Raise the playlist before selecting the items otherwise the tag editor
+    // will not update when it gets the selectionChanged() notification
+    // because it will think the user is choosing a different playlist but not
+    // selecting a different item.
+
+    m_collection->raise(l);
+
     l->setSelected(playingItem(), true);
     l->ensureItemVisible(playingItem());
-    m_collection->raise(l);
 }
 
 void Playlist::slotColumnResizeModeChanged()
