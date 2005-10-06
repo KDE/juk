@@ -197,6 +197,14 @@ public:
     static bool replaceCover(coverKey id, const QPixmap &large);
 
     /**
+     * Saves the current CoverManager information to disk.  Changes are not
+     * automatically written to disk due to speed issues, so you can
+     * periodically call this function while running to reduce the chance of
+     * lost data in the event of a crash.
+     */
+    static void saveCovers();
+
+    /**
      * This is a hack, as we should be shut down automatically by
      * KStaticDeleter, but JuK is crashing for me on shutdown before
      * KStaticDeleter gets a chance to run, which is cramping my testing.

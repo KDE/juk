@@ -114,9 +114,10 @@ public:
      */
     coverKey nextId() const;
 
+    void saveCovers() const;
+
     private:
     void loadCovers();
-    void saveCovers() const;
 
     /**
      * @return the full path and filename of the file storing the cover
@@ -474,6 +475,11 @@ CoverManagerPrivate *CoverManager::data()
         sd.setObject(m_data, new CoverManagerPrivate);
 
     return m_data;
+}
+
+void CoverManager::saveCovers()
+{
+    data()->saveCovers();
 }
 
 void CoverManager::shutdown()

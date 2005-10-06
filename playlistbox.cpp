@@ -27,6 +27,7 @@
 #include "playlistbox.h"
 #include "playlist.h"
 #include "collectionlist.h"
+#include "covermanager.h"
 #include "dynamicplaylist.h"
 #include "historyplaylist.h"
 #include "upcomingplaylist.h"
@@ -361,7 +362,7 @@ void PlaylistBox::setDynamicListsFrozen(bool frozen)
 
 void PlaylistBox::slotSavePlaylists()
 {
-    kdDebug(65432) << "Auto-saving playlists.\n";
+    kdDebug(65432) << "Auto-saving playlists and covers.\n";
 
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
@@ -372,6 +373,8 @@ void PlaylistBox::slotSavePlaylists()
     }
 
     Cache::savePlaylists(l);
+    CoverManager::saveCovers();
+
     QTimer::singleShot(600000, this, SLOT(slotSavePlaylists()));
 }
 
