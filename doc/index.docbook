@@ -791,6 +791,87 @@ click <guibutton>OK</guibutton> to create your search playlist!
 </para>
 </sect1>
 
+<sect1 id="juk-cover-manager">
+
+<title>The &juk; Cover Manager</title>
+
+<para>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title>How Covers Worked in &juk; 2.2</title>
+
+<para>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel>Artist</guilabel> and <guilabel>Album</guilabel> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel>Artist</guilabel> or <guilabel>Album</guilabel> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title>How Covers work in &juk; 2.3</title>
+
+<para>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title>Examples of adding covers</title>
+
+<para>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your CD. We'll use <quote>Alabama - Greatest Hits III</quote> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice><guimenu>Tagger</guimenu> <guisubmenu>Cover Manager</guisubmenu> <guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis>all</emphasis> of the <quote>Alabama - Greatest Hits III</quote> tracks, <emphasis>whether you wanted that or not</emphasis></para>
+
+<para>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote>Alabama - Greatest Hits III</quote> tracks before using the <menuchoice><guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice><guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension">.png</literal> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title>Reusing Old Covers</title>
+
+<para>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; can't quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para>There are two ways of doing this:</para>
+
+<para>1. Open the <guilabel>Cover Manager</guilabel> dialog using the <guimenu>Tagger</guimenu> menu (<menuchoice><guimenu>Tagger Cover</guimenu> <guisubmenu>Manager</guisubmenu> <guimenuitem>Show Cover Manager</guimenuitem></menuchoice>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface>Now Playing bar</interface>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title>Dragging covers to more than one track at once</title>
+
+<para>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title>What happens to my old covers?</title>
+
+<para>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title>Removing Covers</title>
+
+<para>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel>Artist</guilabel> and <guilabel>Album</guilabel>.</para>
+
+<para>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title>Suggested Uses:</title>
+
+<para>1. You can now apply the same cover to tracks with Albums that have <quote>Disc 1</quote>, <quote>Disc 2</quote>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+
 </chapter>
 
 <chapter id="toolbar-reference">
@@ -1410,7 +1491,7 @@ dialog box</link>, where you can alter the way &juk; renames files for you.</par
 <guimenuitem>Configure Shortcuts...</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>This brings up the standard KDE dialog box where you can configure
+<listitem><para>This brings up the standard &kde; dialog box where you can configure
 keyboard shortcuts for &juk;.  Some reasonable defaults are included as well, including
 Multimedia keys for people who have multimedia keyboards.</para>
 </listitem>
