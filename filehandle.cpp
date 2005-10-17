@@ -69,12 +69,12 @@ class FileHandle::FileHandlePrivate : public RefCounter
 public:
     FileHandlePrivate() :
         tag(0),
-	coverInfo(0) {}
+        coverInfo(0) {}
 
     ~FileHandlePrivate()
     {
         delete tag;
-	delete coverInfo;
+        delete coverInfo;
     }
 
     mutable Tag *tag;
@@ -91,8 +91,8 @@ public:
 
 FileHandle::FileHandle()
 {
-    static FileHandlePrivate *nullPrivate = new FileHandlePrivate;
-    d = nullPrivate;
+    static FileHandlePrivate nullPrivate;
+    d = &nullPrivate;
     d->ref();
 }
 

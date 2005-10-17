@@ -101,8 +101,6 @@ private slots:
     void slotSetVolume(int volume);
 
 private:
-    static PlayerManager *m_instance;
-
     FileHandle m_file;
     SliderAction *m_sliderAction;
     PlaylistInterface *m_playlistInterface;

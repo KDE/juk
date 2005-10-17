@@ -27,8 +27,6 @@
 #include "filehandle.h"
 #include "collectionlist.h"
 
-TrackSequenceManager *TrackSequenceManager::m_instance(0);
-
 /////////////////////////////////////////////////////////////////////////////
 // public functions
 /////////////////////////////////////////////////////////////////////////////
@@ -74,13 +72,12 @@ TrackSequenceIterator *TrackSequenceManager::takeIterator()
 
 TrackSequenceManager *TrackSequenceManager::instance()
 {
-    if(!m_instance)
-        m_instance = new TrackSequenceManager;
+    static TrackSequenceManager manager;
 
-    if(!m_instance->m_initialized)
-        m_instance->initialize();
+    if(!manager.m_initialized)
+        manager.initialize();
 
-    return m_instance;
+    return &manager;
 }
 
 PlaylistItem *TrackSequenceManager::nextItem()
@@ -133,9 +130,9 @@ void TrackSequenceManager::setCurrent(PlaylistItem *item)
     if(item != m_iterator->current()) {
         m_iterator->setCurrent(item);
         if(item)
-	    setCurrentPlaylist(item->playlist());
-	else
-            m_iterator->reset();	    
+        setCurrentPlaylist(item->playlist());
+    else
+            m_iterator->reset();        
     }
 }
 

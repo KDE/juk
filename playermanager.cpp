@@ -37,8 +37,6 @@
 
 using namespace ActionCollection;
 
-PlayerManager *PlayerManager::m_instance = 0;
-
 enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying = 2 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -113,9 +111,8 @@ PlayerManager::~PlayerManager()
 
 PlayerManager *PlayerManager::instance() // static
 {
-    if(!m_instance)
-        m_instance = new PlayerManager;
-    return m_instance;
+    static PlayerManager manager;
+    return &manager;
 }
 
 bool PlayerManager::playing() const

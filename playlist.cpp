@@ -173,9 +173,8 @@ Playlist::SharedSettings *Playlist::SharedSettings::m_instance = 0;
 
 Playlist::SharedSettings *Playlist::SharedSettings::instance()
 {
-    if(!m_instance)
-	m_instance = new SharedSettings;
-    return m_instance;
+    static SharedSettings settings;
+    return &settings;
 }
 
 void Playlist::SharedSettings::setColumnOrder(const Playlist *l)

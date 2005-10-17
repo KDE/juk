@@ -34,7 +34,6 @@
 
 using namespace ActionCollection;
 
-Cache *Cache::m_cache = 0;
 static const int playlistCacheVersion = 2;
 
 enum PlaylistType
@@ -52,11 +51,17 @@ enum PlaylistType
 
 Cache *Cache::instance()
 {
-    if(m_cache == 0) {
-        m_cache = new Cache;
-        m_cache->load();
+    static Cache cache;
+
+    // load() indirectly calls instance() so we have to protect against recursion.
+    static bool loaded = false;
+
+    if (!loaded) {
+        loaded = true;
+        cache.load();
     }
-    return m_cache;
+
+    return &cache;
 }
 
 void Cache::save()
