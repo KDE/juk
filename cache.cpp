@@ -56,7 +56,7 @@ Cache *Cache::instance()
     // load() indirectly calls instance() so we have to protect against recursion.
     static bool loaded = false;
 
-    if (!loaded) {
+    if(!loaded) {
         loaded = true;
         cache.load();
     }
