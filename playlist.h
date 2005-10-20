@@ -41,7 +41,7 @@
 #include "playlistinterface.h"
 #include "playlistitem.h"
 
-class KPopupMenu;
+class KMenu;
 class KActionMenu;
 
 class QEvent;
@@ -682,8 +682,8 @@ private:
     QString m_playlistName;
     QString m_fileName;
 
-    KPopupMenu *m_rmbMenu;
-    KPopupMenu *m_headerMenu;
+    KMenu *m_rmbMenu;
+    KMenu *m_headerMenu;
     KActionMenu *m_columnVisibleAction;
     PlaylistToolTip *m_toolTip;
 

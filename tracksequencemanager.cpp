@@ -16,7 +16,7 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <kaction.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 
 #include "actioncollection.h"
 #include "tracksequencemanager.h"

@@ -18,7 +18,7 @@
 #include <kiconviewsearchline.h>
 #include <kiconloader.h>
 #include <kapplication.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <klocale.h>
 
 #include <qtimer.h>
@@ -122,13 +122,13 @@ void CoverDialog::slotArtistClicked(Q3ListViewItem *item)
 
 void CoverDialog::slotContextRequested(Q3IconViewItem *item, const QPoint &pt)
 {
-    static KPopupMenu *menu = 0;
+    static KMenu *menu = 0;
 
     if(!item)
         return;
 
     if(!menu) {
-        menu = new KPopupMenu(this);
+        menu = new KMenu(this);
         menu->insertItem(i18n("Remove Cover"), this, SLOT(removeSelectedCover()));
     }
 

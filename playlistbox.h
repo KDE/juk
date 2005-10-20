@@ -35,7 +35,7 @@ class ViewMode;
 class PlaylistSearch;
 class SearchPlaylist;
 
-class KPopupMenu;
+class KMenu;
 class KSelectAction;
 
 typedef Q3ValueList<Playlist *> PlaylistList;
@@ -124,7 +124,7 @@ private slots:
     void slotRemoveItem(const QString &tag, unsigned column);
 
 private:
-    KPopupMenu *m_contextMenu;
+    KMenu *m_contextMenu;
     Q3PtrDict<Item> m_playlistDict;
     int m_viewModeIndex;
     Q3ValueList<ViewMode *> m_viewModes;

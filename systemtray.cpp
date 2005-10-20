@@ -20,7 +20,7 @@
 #include <kpassivepopup.h>
 #include <kiconeffect.h>
 #include <kaction.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kglobalsettings.h>
 #include <kdebug.h>
 
@@ -173,7 +173,7 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     new KAction(i18n("Redisplay Popup"), KShortcut(), this,
                 SLOT(slotPlay()), actions(), "showPopup");
     
-    KPopupMenu *cm = contextMenu();
+    KMenu *cm = contextMenu();
 
     connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotPlay()));
     connect(PlayerManager::instance(), SIGNAL(signalPause()), this, SLOT(slotPause()));

@@ -34,6 +34,7 @@
 #include <QVBoxLayout>
 #include <QDragEnterEvent>
 #include <QMouseEvent>
+#include <krandom.h>
 
 #include "nowplaying.h"
 #include "playlistcollection.h"
@@ -359,7 +360,7 @@ void HistoryItem::slotAddPlaying()
     PlayerManager *manager = PlayerManager::instance();
 
     if(manager->playing() && manager->playingFile() == m_file) {
-        m_history.prepend(Item(KApplication::randomString(20),
+        m_history.prepend(Item(KRandom::randomString(20),
                                m_file, Playlist::playingItem()->playlist()));
     }
 

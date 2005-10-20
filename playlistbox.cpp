@@ -16,7 +16,7 @@
 #include <kiconloader.h>
 #include <kurldrag.h>
 #include <kmessagebox.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <kaction.h>
 #include <kdebug.h>
 
@@ -77,7 +77,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
     setAcceptDrops(true);
     setSelectionModeExt(Extended);
 
-    m_contextMenu = new KPopupMenu(this);
+    m_contextMenu = new KMenu(this);
 
     K3bPlaylistExporter *exporter = new K3bPlaylistExporter(this);
     m_k3bAction = exporter->action();

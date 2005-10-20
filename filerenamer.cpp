@@ -69,7 +69,7 @@ public:
                        QWidget *parent = 0, const char *name = 0)
         : KDialogBase(parent, name, true, i18n("Warning"), Ok | Cancel)
     {
-        Q3VBox *vbox = makeVBoxMainWidget();
+        KVBox *vbox = makeVBoxMainWidget();
         Q3HBox *hbox = new Q3HBox(vbox);
 
         QLabel *l = new QLabel(hbox);

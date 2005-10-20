@@ -19,7 +19,7 @@
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <kaction.h>
-#include <kpopupmenu.h>
+#include <kmenu.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
@@ -1609,7 +1609,7 @@ void Playlist::slotPopulateBackMenu() const
     if(!playingItem())
 	return;
 
-    KPopupMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
+    KMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
     menu->clear();
     m_backMenuItems.clear();
 
@@ -2056,7 +2056,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 	// A bit of a hack to get a pointer to the action collection.
 	// Probably more of these actions should be ported over to using KActions.
 
-	m_rmbMenu = new KPopupMenu(this);
+	m_rmbMenu = new KMenu(this);
 
 	m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("today"),
 	    i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));

@@ -18,7 +18,7 @@
 
 #include <qobject.h>
 
-class KPopupMenu;
+class KMenu;
 class TrackSequenceIterator;
 class PlaylistItem;
 class Playlist;
@@ -109,10 +109,10 @@ public:
     PlaylistItem *currentItem() const;
 
     /**
-     * @return the current KPopupMenu used by the manager, or 0 if none is
+     * @return the current KMenu used by the manager, or 0 if none is
      * set
      */
-    KPopupMenu *popupMenu() const { return m_popupMenu; }
+    KMenu *popupMenu() const { return m_popupMenu; }
 
     /**
      * @return the TrackSequenceManager's idea of the current playlist
@@ -181,7 +181,7 @@ protected slots:
 private:
     Playlist *m_playlist;
     PlaylistItem *m_curItem, *m_playNextItem;
-    KPopupMenu *m_popupMenu;
+    KMenu *m_popupMenu;
     TrackSequenceIterator *m_iterator;
     TrackSequenceIterator *m_defaultIterator;
     bool m_initialized;
