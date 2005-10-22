@@ -51,7 +51,7 @@ DirectoryList::DirectoryList(const QStringList &directories, bool importPlaylist
     m_base->importPlaylistsCheckBox->setChecked(importPlaylists);
 
     QSize sz = sizeHint();
-    setMinimumSize(kMax(350, sz.width()), kMax(250, sz.height()));
+    setMinimumSize(qMax(350, sz.width()), qMax(250, sz.height()));
     resize(sizeHint());
 }
 

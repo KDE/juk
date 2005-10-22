@@ -397,12 +397,12 @@ void PlayerManager::seekPosition(int position)
 
 void PlayerManager::seekForward()
 {
-    seekPosition(kMin(SliderAction::maxPosition, position() + 10));
+    seekPosition(qMin(SliderAction::maxPosition, position() + 10));
 }
 
 void PlayerManager::seekBack()
 {
-    seekPosition(kMax(SliderAction::minPosition, position() - 10));
+    seekPosition(qMax(SliderAction::minPosition, position() - 10));
 }
 
 void PlayerManager::playPause()
@@ -554,7 +554,7 @@ void PlayerManager::slotSetVolume(int volume)
         scaledVolume = float(volume) / m_sliderAction->volumeSlider()->maxValue();
     else {
         scaledVolume = float(volume) / 100.0; // Hopefully this is accurate
-        scaledVolume = kMin(1.0f, scaledVolume);
+        scaledVolume = qMin(1.0f, scaledVolume);
     }
 
     // Perform exponential scaling to counteract the fact that humans perceive

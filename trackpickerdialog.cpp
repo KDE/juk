@@ -64,7 +64,7 @@ TrackPickerDialog::TrackPickerDialog(const QString &name,
     connect(m_base->trackList, SIGNAL(doubleClicked(Q3ListViewItem *, const QPoint &, int)),
             this, SLOT(accept()));
 
-    setMinimumWidth(kMax(400, width()));
+    setMinimumWidth(qMax(400, width()));
 }
 
 TrackPickerDialog::~TrackPickerDialog()
