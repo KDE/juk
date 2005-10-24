@@ -26,18 +26,18 @@
 #include "cache.h"
 #include "coverinfo.h"
 
-AddProperty(Title, tag()->title());
-AddProperty(Artist, tag()->artist());
-AddProperty(Album, tag()->album());
-AddProperty(Genre, tag()->genre());
-AddNumberProperty(Track, tag()->track());
-AddNumberProperty(Year, tag()->year());
-AddProperty(Comment, tag()->comment());
-AddNumberProperty(Seconds, tag()->seconds());
-AddNumberProperty(Bitrate, tag()->bitrate());
-AddProperty(Path, absFilePath());
-AddNumberProperty(Size, fileInfo().size());
-AddProperty(Extension, fileInfo().extension(false));
+AddProperty(Title, tag()->title())
+AddProperty(Artist, tag()->artist())
+AddProperty(Album, tag()->album())
+AddProperty(Genre, tag()->genre())
+AddNumberProperty(Track, tag()->track())
+AddNumberProperty(Year, tag()->year())
+AddProperty(Comment, tag()->comment())
+AddNumberProperty(Seconds, tag()->seconds())
+AddNumberProperty(Bitrate, tag()->bitrate())
+AddProperty(Path, absFilePath())
+AddNumberProperty(Size, fileInfo().size())
+AddProperty(Extension, fileInfo().extension(false))
 
 static QString resolveSymLinks(const QFileInfo &file) // static
 {
