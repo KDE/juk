@@ -13,6 +13,15 @@
  *                                                                         *
  ***************************************************************************/
 
+/**
+ * Note to those who work here.  The preprocessor variables HAVE_ARTS and HAVE_GSTREAMER
+ * are ::ALWAYS DEFINED::.  You can't use #ifdef to see if they're present, you should just
+ * use #if.
+ *
+ * However, HAVE_AKODE is #define'd if present, and undefined if not present.
+ * - mpyne
+ */
+
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -235,14 +244,22 @@ KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
     KSelectAction *action = 0;
     action = new KSelectAction(i18n("&Output To"), 0, parent, "outputSelect");
     QStringList l;
-    l <<
-#ifdef HAVE_ARTS
-        i18n("aRts") <<
+
+#if HAVE_ARTS
+    l << i18n("aRts");
 #endif
-#ifdef HAVE_GSTREAMER
-        i18n("GStreamer") <<
+#if HAVE_GSTREAMER
+    l << i18n("GStreamer");
 #endif
-        i18n("aKode");
+#ifdef HAVE_AKODE
+    l << i18n("aKode");
+#endif
+
+    if(l.isEmpty()) {
+        kdError(65432) << "Your JuK seems to have no output backend possibilities.\n";
+        l << i18n("aKode"); // Looks like akode is the default backend.
+    }
+
     action->setItems(l);
     return action;
 }
