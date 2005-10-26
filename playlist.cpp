@@ -1346,6 +1346,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 {
     QValueList< QPair<QString, QString> > albums;
+    bool setAlbumCovers = items.count() == 1;
 
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 	QString artist = (*it)->file().tag()->artist();
@@ -1355,6 +1356,8 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 	    albums.append(qMakePair(artist, album));
 
 	(*it)->file().coverInfo()->setCoverId(id);
+	if(setAlbumCovers)
+	    (*it)->file().coverInfo()->applyCoverToWholeAlbum(true);
     }
 
     for(QValueList< QPair<QString, QString> >::ConstIterator it = albums.begin();

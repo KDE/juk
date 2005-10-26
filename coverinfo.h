@@ -37,6 +37,17 @@ public:
     // Use this to assign to a specific cover id.
     void setCoverId(coverKey id);
 
+    /**
+     * This function sets the cover identifier for all tracks that have the
+     * same Artist and Album as this track, to the cover identifier of this
+     * track.
+     *
+     * @param overwriteExistingCovers If set to true, this function will always
+     *        apply the new cover to a track even if the track already had
+     *        a different cover set.
+     */
+    void applyCoverToWholeAlbum(bool overwriteExistingCovers = false) const;
+
     coverKey coverId() const { return m_coverKey; }
 
     QPixmap pixmap(CoverSize size) const;

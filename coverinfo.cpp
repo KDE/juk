@@ -140,6 +140,41 @@ void CoverInfo::setCoverId(coverKey id)
     CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
 }
 
+void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
+{
+    QString artist = m_file.tag()->artist();
+    QString album = m_file.tag()->album();
+    PlaylistSearch::ComponentList components;
+    ColumnList columns;
+
+    columns.append(PlaylistItem::ArtistColumn);
+    components.append(PlaylistSearch::Component(artist, false, columns, PlaylistSearch::Component::Exact));
+
+    columns.clear();
+    columns.append(PlaylistItem::AlbumColumn);
+    components.append(PlaylistSearch::Component(album, false, columns, PlaylistSearch::Component::Exact));
+
+    PlaylistList playlists;
+    playlists.append(CollectionList::instance());
+
+    PlaylistSearch search(playlists, components, PlaylistSearch::MatchAll);
+
+    // Search done, iterate through results.
+
+    PlaylistItemList results = search.matchedItems();
+    PlaylistItemList::ConstIterator it = results.constBegin();
+    for(; it != results.constEnd(); ++it) {
+
+        // Don't worry about files that somehow already have a tag,
+        // unless the coversion is forced.
+        if(!overwriteExistingCovers && !(*it)->file().coverInfo()->m_needsConverting)
+            continue;
+
+        kdDebug(65432) << "Setting cover for: " << *it << endl;
+        (*it)->file().coverInfo()->setCoverId(m_coverKey);
+    }
+}
+
 QPixmap CoverInfo::pixmap(CoverSize size) const
 {
     if(m_needsConverting)
@@ -230,34 +265,7 @@ bool CoverInfo::convertOldStyleCover() const
         // we can't tell apart the "No cover on purpose" and "Has no cover yet"
         // possibilities.
 
-        PlaylistSearch::ComponentList components;
-        ColumnList columns;
-
-        columns.append(PlaylistItem::ArtistColumn);
-        components.append(PlaylistSearch::Component(artist, false, columns, PlaylistSearch::Component::Exact));
-
-        columns.clear();
-        columns.append(PlaylistItem::AlbumColumn);
-        components.append(PlaylistSearch::Component(album, false, columns, PlaylistSearch::Component::Exact));
-
-        PlaylistList playlists;
-        playlists.append(CollectionList::instance());
-
-        PlaylistSearch search(playlists, components, PlaylistSearch::MatchAll);
-
-        // Search done, iterate through results.
-
-        PlaylistItemList results = search.matchedItems();
-        PlaylistItemList::ConstIterator it = results.constBegin();
-        for(; it != results.constEnd(); ++it) {
-
-            // Don't worry about files that somehow already have a tag.
-            if(!(*it)->file().coverInfo()->m_needsConverting)
-                continue;
-
-            kdDebug(65432) << "Converting cover for " << *it << endl;
-            (*it)->file().coverInfo()->setCoverId(m_coverKey);
-        }
+        applyCoverToWholeAlbum();
 
         // If we convert we need to remove the old cover otherwise we'll find
         // it later if the user un-sets the new cover.
