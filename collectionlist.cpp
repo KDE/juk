@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>

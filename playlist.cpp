@@ -15,7 +15,7 @@
 
 #include <kconfig.h>
 #include <kmessagebox.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <kaction.h>

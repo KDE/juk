@@ -90,7 +90,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const cha
     jumpButton->setPixmap(SmallIcon("up"));
     jumpButton->setFlat(true);
 
-    QToolTip::add(jumpButton, i18n("Jump to the currently playing item"));
+    jumpButton->setToolTip( i18n("Jump to the currently playing item"));
     connect(jumpButton, SIGNAL(clicked()), action("showPlaying"), SLOT(activate()));
 
     installEventFilter(this);

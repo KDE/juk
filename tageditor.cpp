@@ -504,18 +504,21 @@ void TagEditor::setupLayout()
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
     	
-	m_artistNameBox = new KComboBox(true, this, "artistNameBox");
+	m_artistNameBox = new KComboBox( true, this );
+	m_artistNameBox->setObjectName( "artistNameBox" );
 	m_artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
 	addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout, "personal");
 
         m_trackNameBox = new KLineEdit(this, "trackNameBox");
 	addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout, "player_play");
 
-	m_albumNameBox = new KComboBox(true, this, "albumNameBox");
+	m_albumNameBox = new KComboBox( true, this );
+	m_albumNameBox->setObjectName( "albumNameBox" );
 	m_albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
 	addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout, "cdrom_unmount");
 
-        m_genreBox = new KComboBox(true, this, "genreBox");
+        m_genreBox = new KComboBox( true, this );
+        m_genreBox->setObjectName( "genreBox" );
 	addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout, "knotify");
 
         // this fills the space at the bottem of the left column

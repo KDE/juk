@@ -17,7 +17,7 @@
 #define PLAYLIST_H
 
 #include <klistview.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
 

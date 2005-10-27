@@ -253,12 +253,12 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         QLabel *trackPositionLabel = new QLabel(base);
         trackPositionLabel->setName("kde toolbar widget");
         trackPositionLabel->setPixmap(SmallIcon("player_time"));
-        QToolTip::add(trackPositionLabel, i18n("Track position"));
+        trackPositionLabel->setToolTip( i18n("Track position"));
         m_layout->addWidget(trackPositionLabel);
 
         m_trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
         m_trackPositionSlider->setMaxValue(maxPosition);
-        QToolTip::add(m_trackPositionSlider, i18n("Track position"));
+        m_trackPositionSlider->setToolTip( i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
         connect(m_trackPositionSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()));
         connect(m_trackPositionSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()));
@@ -268,12 +268,12 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         QLabel *volumeLabel = new QLabel(base);
         volumeLabel->setName("kde toolbar widget");
         volumeLabel->setPixmap(SmallIcon("player_volume"));
-        QToolTip::add(volumeLabel, i18n("Volume"));
+        volumeLabel->setToolTip( i18n("Volume"));
         m_layout->addWidget(volumeLabel);
 
         m_volumeSlider = new VolumeSlider(orientation, base, "volumeSlider");
         m_volumeSlider->setMaxValue(100);
-        QToolTip::add(m_volumeSlider, i18n("Volume"));
+        m_volumeSlider->setToolTip( i18n("Volume"));
         m_layout->addWidget(m_volumeSlider);
         connect(m_volumeSlider, SIGNAL(signalVolumeChanged(int)), SIGNAL(signalVolumeChanged(int)));
         connect(m_volumeSlider, SIGNAL(sliderPressed()), this, SLOT(slotVolumeSliderPressed()));

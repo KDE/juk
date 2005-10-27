@@ -14,7 +14,7 @@
  ***************************************************************************/
 
 #include <kiconloader.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kmessagebox.h>
 #include <kmenu.h>
 #include <kaction.h>

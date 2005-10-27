@@ -16,7 +16,7 @@
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kio/netaccess.h>
 
 #include <qimage.h>
