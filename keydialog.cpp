@@ -37,7 +37,7 @@ const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
     { "Back",
       { { KShortcut::null(),                        KShortcut::null() },
         { Qt::CTRL+Qt::ALT+Qt::Key_Left,            Qt::META+Qt::ALT+Qt::Key_Left },
-        { Qt::Key_MediaPrevious,                        Qt::Key_MediaPrevious } } },
+        { Qt::Key_MediaPrevious   ,                        Qt::Key_MediaPrevious } } },
     { "Forward",
       { { KShortcut::null(),                        KShortcut::null() },
         { Qt::CTRL+Qt::ALT+Qt::Key_Right,           Qt::META+Qt::ALT+Qt::Key_Right },

@@ -753,7 +753,7 @@ void Playlist::slotRefresh()
     if(l.isEmpty())
 	l = visibleItems();
 
-    KApplication::setOverrideCursor(Qt::waitCursor);
+    KApplication::setOverrideCursor(Qt::WaitCursor);
     for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
 	(*it)->refreshFromDisk();
 
@@ -873,7 +873,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
-    KApplication::setOverrideCursor(Qt::waitCursor);
+    KApplication::setOverrideCursor(Qt::WaitCursor);
     PlaylistItemList items = selectedItems();
     setCanDeletePlaylist(false);
 
@@ -1326,7 +1326,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     if(!after)
 	after = static_cast<PlaylistItem *>(lastItem());
 
-    KApplication::setOverrideCursor(Qt::waitCursor);
+    KApplication::setOverrideCursor(Qt::WaitCursor);
 
     m_blockDataChanged = true;
 
