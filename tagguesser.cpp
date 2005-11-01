@@ -150,7 +150,7 @@ QStringList TagGuesser::schemeStrings()
 
 void TagGuesser::setSchemeStrings(const QStringList &schemes)
 {
-    KConfig *cfg = kapp->config();
+    KConfig *cfg = KGlobal::config();
     {
         KConfigGroupSaver saver(cfg, "TagGuesser");
         cfg->writeEntry("Filename schemes", schemes);
