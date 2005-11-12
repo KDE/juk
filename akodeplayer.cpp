@@ -102,7 +102,7 @@ float aKodePlayer::volume() const
 
 bool aKodePlayer::playing() const
 {
-    if (m_player && m_player->decoder())
+    if (m_player && m_player->decoder() && m_player->state() == aKode::Player::Playing)
         return !m_player->decoder()->eof();
     else
         return false;
