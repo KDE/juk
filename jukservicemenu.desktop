@@ -45,7 +45,6 @@ Name[tg]=Иловакунӣ ба Маҷмӯаи JuK
 Name[tr]=JuK Koleksiyonu Ekle
 Name[uk]=Додати до збірки JuK
 Name[uz]=JuK тўпламига қўшиш
-Name[xx]=xxAdd to JuK Collectionxx
 Name[zh_CN]=添加到 JuK 收藏
 Icon=juk
 Exec=dcop juk Player openFile %u
