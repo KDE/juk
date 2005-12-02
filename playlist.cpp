@@ -1293,12 +1293,19 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
 
 void Playlist::insertItem(QListViewItem *item)
 {
+    // Because we're called from the PlaylistItem ctor, item may not be a
+    // PlaylistItem yet (it would be QListViewItem when being inserted.  But,
+    // it will be a PlaylistItem by the time it matters, but be careful if
+    // you need to use the PlaylistItem from here.
+
     m_addTime.append(static_cast<PlaylistItem *>(item));
     KListView::insertItem(item);
 }
 
 void Playlist::takeItem(QListViewItem *item)
 {
+    // See the warning in Playlist::insertItem.
+
     m_subtractTime.append(static_cast<PlaylistItem *>(item));
     KListView::takeItem(item);
 }
