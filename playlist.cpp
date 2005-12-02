@@ -438,7 +438,7 @@ int Playlist::time() const
     // Since this method gets a lot of traffic, let's optimize for such.
 
     if(!m_addTime.isEmpty()) {
-	for(QValueList<PlaylistItem::Pointer>::ConstIterator it = m_addTime.begin();
+	for(PlaylistItemList::ConstIterator it = m_addTime.begin();
 	    it != m_addTime.end(); ++it)
 	{
 	    if(*it)
@@ -449,7 +449,7 @@ int Playlist::time() const
     }
 
     if(!m_subtractTime.isEmpty()) {
-	for(QValueList<PlaylistItem::Pointer>::ConstIterator it = m_subtractTime.begin();
+	for(PlaylistItemList::ConstIterator it = m_subtractTime.begin();
 	    it != m_subtractTime.end(); ++it)
 	{
 	    if(*it)
@@ -574,6 +574,8 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     m_search.clearItem(item);
 
     m_history.remove(item);
+    m_addTime.remove(item);
+    m_subtractTime.remove(item);
 
     delete item;
     if(emitChanged)

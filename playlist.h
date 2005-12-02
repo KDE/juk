@@ -647,8 +647,8 @@ private:
     bool m_disableColumnWidthUpdates;
 
     mutable int m_time;
-    mutable QValueList<PlaylistItem::Pointer> m_addTime;
-    mutable QValueList<PlaylistItem::Pointer> m_subtractTime;
+    mutable PlaylistItemList m_addTime;
+    mutable PlaylistItemList m_subtractTime;
 
     /**
      * The average minimum widths of columns to be used in balancing calculations.
