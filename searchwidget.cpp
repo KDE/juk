@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Sun Mar 6 2003
-    copyright            : (C) 2003 by Richard L‰rk‰ng
+    copyright            : (C) 2003 by Richard L√§rk√§ng
     email                : nouseforaname@home.se
 
     copyright            : (C) 2003 - 2004 by Scott Wheeler
