@@ -23,7 +23,7 @@ namespace ActionCollection
     KActionCollection *actions()
     {
         static KActionCollection *a =
-            new KActionCollection(static_cast<QWidget *>(0), "JuK Action Collection");
+            new KActionCollection(static_cast<QWidget *>(0));
         return a;
     }
 
