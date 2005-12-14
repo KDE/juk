@@ -59,6 +59,7 @@ public slots:
 
 private:
     aKode::Player *m_player;
+    float m_volume;
 };
 
 #endif

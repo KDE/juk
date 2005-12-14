@@ -32,7 +32,8 @@ using namespace aKode;
 ////////////////////////////////////////////////////////////////////////////////
 
 aKodePlayer::aKodePlayer() : Player(),
-                             m_player(0)
+                             m_player(0),
+                             m_volume(1.0)
 {}
 
 aKodePlayer::~aKodePlayer()
@@ -61,6 +62,7 @@ void aKodePlayer::play(const FileHandle &file)
     else {
         m_player = new aKode::Player();
         m_player->open("auto");
+        m_player->setVolume(m_volume);
     }
 
     if (m_player->load(filename.local8Bit().data()))
@@ -84,16 +86,15 @@ void aKodePlayer::stop()
 
 void aKodePlayer::setVolume(float volume)
 {
+    m_volume = volume;
+
     if (m_player)
-        m_player->setVolume(volume);
+        m_player->setVolume(m_volume);
 }
 
 float aKodePlayer::volume() const
 {
-    if (m_player)
-        return m_player->volume();
-    // 1.0 is full volume
-    return 1.0;
+    return m_volume;
 }
 
 /////////////////////////////////////////////////////////////////////////////////
