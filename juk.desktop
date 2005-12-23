@@ -55,4 +55,5 @@ GenericName[tr]=Müzik Yürütücüsü
 GenericName[uk]=Програвач музики
 GenericName[uz]=Мусиқа плейер
 GenericName[zh_CN]=音乐播放器
+MimeType=application/x-ogg;audio/aac;audio/ac3;audio/basic;audio/mp4;audio/mpeg;audio/mpegurl;audio/vnd.rn-realaudio;audio/vorbis;audio/x-adpcm;audio/x-aac;audio/x-flac;audio/x-m4a;audio/x-matroska;audio/x-mp2;audio/x-mp3;audio/x-mpegurl;audio/x-musepack;audio/x-oggflac;audio/x-pn-realaudio; audio/x-speex;audio/x-vorbis;audio/x-wav;
 Categories=Qt;KDE;AudioVideo;
