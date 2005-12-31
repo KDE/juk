@@ -43,6 +43,7 @@
 
 #include <netwm.h>
 #include <QX11Info>
+#include <QTextDocument>
 
 #include "tag.h"
 #include "systemtray.h"
@@ -392,14 +393,14 @@ void SystemTray::createPopup()
 
     int labelCount = 0;
 
-    QString title = Q3StyleSheet::escape(playingInfo->title());
+    QString title = Qt::escape(playingInfo->title());
     m_labels[labelCount++]->setText(QString("<qt><nobr><h2>%1</h2></nobr><qt>").arg(title));
 
     if(!playingInfo->artist().isEmpty())
         m_labels[labelCount++]->setText(playingInfo->artist());
 
     if(!playingInfo->album().isEmpty()) {
-        QString album = Q3StyleSheet::escape(playingInfo->album());
+        QString album = Qt::escape(playingInfo->album());
         QString s = playingInfo->year() > 0
             ? QString("<qt><nobr>%1 (%2)</nobr></qt>").arg(album).arg(playingInfo->year())
             : QString("<qt><nobr>%1</nobr></qt>").arg(album);

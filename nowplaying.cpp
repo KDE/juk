@@ -35,6 +35,7 @@
 #include <QDragEnterEvent>
 #include <QMouseEvent>
 #include <krandom.h>
+#include <QTextDocument>
 
 #include "nowplaying.h"
 #include "playlistcollection.h"
@@ -260,9 +261,9 @@ void TrackItem::slotOpenLink(const QString &link)
 
 void TrackItem::slotUpdate()
 {
-    QString title  = Q3StyleSheet::escape(m_file.tag()->title());
-    QString artist = Q3StyleSheet::escape(m_file.tag()->artist());
-    QString album  = Q3StyleSheet::escape(m_file.tag()->album());
+    QString title  = Qt::escape(m_file.tag()->title());
+    QString artist = Qt::escape(m_file.tag()->artist());
+    QString album  = Qt::escape(m_file.tag()->album());
     QString separator = (artist.isNull() || album.isNull()) ? QString::null : QString(" - ");
 
     // This block-o-nastiness makes the font smaller and smaller until it actually fits.
@@ -320,7 +321,7 @@ void HistoryItem::update(const FileHandle &file)
         it != m_history.end(); ++it)
     {
         previous = current;
-        current.append(format.arg((*it).anchor).arg(Q3StyleSheet::escape((*it).file.tag()->title())));
+        current.append(format.arg((*it).anchor).arg(Qt::escape((*it).file.tag()->title())));
         setText(current);
         if(heightForWidth(width()) > imageSize) {
             setText(previous);
