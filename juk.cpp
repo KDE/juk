@@ -68,11 +68,11 @@ JuK::JuK(QWidget *parent, const char *name) :
     readConfig();
     setupSystemTray();
     setupGlobalAccels();
-    processArgs();
     createDirs();
 
     SplashScreen::finishedLoading();
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
+    QTimer::singleShot(0, this, SLOT(slotProcessArgs()));
 
     m_sliderAction->slotUpdateOrientation();
 }
@@ -244,7 +244,7 @@ void JuK::setupGlobalAccels()
     m_accel->updateConnections();
 }
 
-void JuK::processArgs()
+void JuK::slotProcessArgs()
 {
     KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     QStringList files;
@@ -252,8 +252,7 @@ void JuK::processArgs()
     for(int i = 0; i < args->count(); i++)
         files.append(args->arg(i));
 
-    // TODO: make this work again
-    // m_splitter->open(files);
+    CollectionList::instance()->addFiles(files);
 }
 
 void JuK::createDirs()
