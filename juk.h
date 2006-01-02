@@ -50,7 +50,6 @@ private:
     void setupActions();
     void setupSystemTray();
     void setupGlobalAccels();
-    void processArgs();
     void createDirs();
 
     void keyPressEvent(QKeyEvent *);
@@ -76,6 +75,7 @@ private slots:
     void slotConfigureFileRenamer();
     void slotUndo();
     void slotCheckAlbumNextAction(bool albumRandomEnabled);
+    void slotProcessArgs();
 
 private:
     PlaylistSplitter *m_splitter;
