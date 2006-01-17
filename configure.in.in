@@ -35,7 +35,9 @@ if test "x$with_tunepimp" != xno; then
 fi
 
 if test "x$have_tunepimp" = xyes; then
-  AC_DEFINE(HAVE_TUNEPIMP, 1, [have TunePimp])
+   AC_CHECK_LIB(tunepimp, tp_SetFileNameEncoding,
+     AC_DEFINE(HAVE_TUNEPIMP, 4, [have MusicBrainz 0.4.x]), 
+     AC_DEFINE(HAVE_TUNEPIMP, 1, [have MusicBrainz]))
 else
   AC_DEFINE(HAVE_TUNEPIMP, 0, [have TunePimp])
 fi
