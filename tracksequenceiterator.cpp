@@ -102,14 +102,21 @@ void DefaultSequenceIterator::advance()
             }
 
             // This can be null if initAlbumSearch() left the m_albumSearch
-            // empty because the album text was empty.
+            // empty because the album text was empty.  Since we initAlbumSearch()
+            // with an item, the matchedItems() should never be empty.
 
             if(!m_albumSearch.isNull()) {
                 PlaylistItemList albumMatches = m_albumSearch.matchedItems();
+                if(albumMatches.isEmpty()) {
+                    kdError(65432) << "Unable to initialize album random play.\n";
+                    kdError(65432) << "List of potential results is empty.\n";
+
+                    return; // item is still set to random song from a few lines earlier.
+                }
 
                 item = albumMatches[0];
 
-                // Pick first song
+                // Pick first song remaining in list.
 
                 for(unsigned i = 0; i < albumMatches.count(); ++i)
                     if(albumMatches[i]->file().tag()->track() < item->file().tag()->track())
@@ -121,6 +128,8 @@ void DefaultSequenceIterator::advance()
                     m_albumSearch.search();
                 }
             }
+            else
+                kdError(65432) << "Unable to perform album random play on " << *item << endl;
         }
         else
             item = m_randomItems[KApplication::random() % m_randomItems.count()];
@@ -278,6 +287,22 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
         columns,
         PlaylistSearch::Component::Exact)
     );
+
+    // If there is an Artist tag with the track, match against it as well
+    // to avoid things like multiple "Greatest Hits" albums matching the
+    // search.
+
+    if(!searchItem->file().tag()->artist().isEmpty()) {
+        kdDebug(65432) << "Searching both artist and album.\n";
+        columns[0] = PlaylistItem::ArtistColumn;
+
+        m_albumSearch.addComponent(PlaylistSearch::Component(
+            searchItem->file().tag()->artist(),
+            true,
+            columns,
+            PlaylistSearch::Component::Exact)
+        );
+    }
 
     m_albumSearch.search();
 }
