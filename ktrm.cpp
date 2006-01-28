@@ -136,7 +136,7 @@ protected:
         tp_SetNotifyCallback(m_pimp, TRMNotifyCallback, 0);
 
         if(KProtocolManager::useProxy()) {
-            KURL proxy = KProtocolManager::proxyFor("http");
+            KUrl proxy = KProtocolManager::proxyFor("http");
             tp_SetProxy(m_pimp, proxy.host().latin1(), short(proxy.port()));
         }
     }

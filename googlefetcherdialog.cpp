@@ -180,7 +180,7 @@ QPixmap GoogleFetcherDialog::fetchedImage(uint index) const
     return (index > m_imageList.count()) ? QPixmap() : pixmapFromURL(m_imageList[index].imageURL());
 }
 
-QPixmap GoogleFetcherDialog::pixmapFromURL(const KURL &url) const
+QPixmap GoogleFetcherDialog::pixmapFromURL(const KUrl &url) const
 {
     QString file;
 

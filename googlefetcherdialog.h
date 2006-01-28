@@ -23,7 +23,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 
-class KURL;
+class KUrl;
 
 class GoogleFetcherDialog : public KDialogBase
 {
@@ -59,7 +59,7 @@ protected slots:
 
 private:
     QPixmap fetchedImage(uint index) const;
-    QPixmap pixmapFromURL(const KURL &url) const;
+    QPixmap pixmapFromURL(const KUrl &url) const;
 
     QPixmap m_pixmap;
     GoogleImageList m_imageList;

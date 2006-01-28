@@ -183,7 +183,7 @@ void CoverItem::dragEnterEvent(QDragEnterEvent *e)
 void CoverItem::dropEvent(QDropEvent *e)
 {
     QImage image;
-    KURL::List urls;
+    KUrl::List urls;
     coverKey key;
 
     if(e->source() == this)

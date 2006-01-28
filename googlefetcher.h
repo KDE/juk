@@ -29,7 +29,7 @@ namespace DOM {
     class HTMLDocument;
 }
 
-class KURL;
+class KUrl;
 
 class GoogleImage
 {

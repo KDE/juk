@@ -856,7 +856,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
     QImage image;
 
     if(retrieveLocal) {
-        KURL file = KFileDialog::getImageOpenURL(
+        KUrl file = KFileDialog::getImageOpenURL(
 	    ":homedir", this, i18n("Select Cover Image File"));
         image = QImage(file.directory() + "/" + file.fileName());
     }
@@ -1006,9 +1006,9 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 Q3DragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
-    KURL::List urls;
+    KUrl::List urls;
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
-	KURL url;
+	KUrl url;
 	url.setPath((*it)->file().absFilePath());
 	urls.append(url);
     }
@@ -1034,7 +1034,7 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
     setDropHighlighter(false);
     setDropVisualizer(true);
 
-    KURL::List urls;
+    KUrl::List urls;
     if(!KURLDrag::decode(e, urls) || urls.isEmpty()) {
 	e->ignore();
 	return;
@@ -1051,7 +1051,7 @@ bool Playlist::acceptDrag(QDropEvent *e) const
 
 bool Playlist::canDecode(QMimeSource *s)
 {
-    KURL::List urls;
+    KUrl::List urls;
 
     if(CoverDrag::canDecode(s))
 	return true;
@@ -1061,7 +1061,7 @@ bool Playlist::canDecode(QMimeSource *s)
 
 void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 {
-    KURL::List urls;
+    KUrl::List urls;
 
     if(!KURLDrag::decode(s, urls) || urls.isEmpty())
 	return;
@@ -1090,7 +1090,7 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 
     QStringList fileList;
 
-    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
+    for(KUrl::List::Iterator it = urls.begin(); it != urls.end(); ++it)
 	fileList.append((*it).path());
 
     addFiles(fileList, item);

@@ -443,7 +443,7 @@ private:
      * there is not already a folder icon set, and if the folder's name has
      * the album name.
      */
-    void setFolderIcon(const KURL &dst, const PlaylistItem *item);
+    void setFolderIcon(const KUrl &dst, const PlaylistItem *item);
 
     /**
      * Attempts to rename the file from \a src to \a dest.  Returns true if the

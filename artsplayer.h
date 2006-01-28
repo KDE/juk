@@ -85,7 +85,7 @@ private:
 
     Arts::StereoVolumeControl m_volumeControl;
 
-    KURL m_currentURL;
+    KUrl m_currentURL;
     float m_currentVolume;
 };
 

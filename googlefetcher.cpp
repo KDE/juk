@@ -56,7 +56,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
 
     m_imageList.clear();
 
-    KURL url("http://images.google.com/images");
+    KUrl url("http://images.google.com/images");
     url.addQueryItem("q", m_searchString);
     
     switch (size) {

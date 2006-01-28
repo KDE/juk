@@ -759,8 +759,8 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
         return false;
 
     // Escape URL.
-    KURL srcURL = KURL::fromPathOrURL(src);
-    KURL dstURL = KURL::fromPathOrURL(dest);
+    KUrl srcURL = KUrl::fromPathOrURL(src);
+    KUrl dstURL = KUrl::fromPathOrURL(dest);
 
     // Clean it.
     srcURL.cleanPath();
@@ -771,7 +771,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
         return false;
 
     // Get just the directory.
-    KURL dir = dstURL;
+    KUrl dir = dstURL;
     dir.setFileName(QString::null);
 
     // Create the directory.
@@ -785,7 +785,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     return KIO::NetAccess::file_move(srcURL, dstURL);
 }
 
-void FileRenamer::setFolderIcon(const KURL &dst, const PlaylistItem *item)
+void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
 {
     if(item->file().tag()->album().isEmpty() ||
        !item->file().coverInfo()->hasCover())
@@ -793,7 +793,7 @@ void FileRenamer::setFolderIcon(const KURL &dst, const PlaylistItem *item)
         return;
     }
 
-    KURL dstURL = dst;
+    KUrl dstURL = dst;
     dstURL.cleanPath();
 
     // Split path, and go through each path element.  If a path element has

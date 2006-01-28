@@ -126,17 +126,17 @@ void K3bExporter::exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref)
     if(projectList.count() == 0 && !startNewK3bProject(ref))
         return;
 
-    KURL::List urlList;
+    KUrl::List urlList;
     PlaylistItemList::ConstIterator it;
 
     for(it = items.begin(); it != items.end(); ++it) {
-        KURL item;
+        KUrl item;
 
         item.setPath((*it)->file().absFilePath());
         urlList.append(item);
     }
 
-    if(!ref.send("addUrls(KURL::List)", DCOPArg(urlList, "KURL::List"))) {
+    if(!ref.send("addUrls(KUrl::List)", DCOPArg(urlList, "KUrl::List"))) {
         DCOPErrorMessage();
         return;
     }
