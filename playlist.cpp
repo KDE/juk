@@ -316,7 +316,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_mousePressed(false),
+    m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
     m_widthsDirty(true),
@@ -339,7 +339,7 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_mousePressed(false),
+    m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
     m_widthsDirty(true),
@@ -363,7 +363,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_mousePressed(false),
+    m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
     m_widthsDirty(true),
@@ -386,7 +386,7 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_mousePressed(false),
+    m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
     m_widthsDirty(true),
@@ -1099,24 +1099,32 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 {
     if(watched == header()) {
 	switch(e->type()) {
+	case QEvent::MouseMove:
+	{
+	    if((static_cast<QMouseEvent *>(e)->state() & LeftButton) == LeftButton &&
+		!action<KToggleAction>("resizeColumnsManually")->isChecked())
+	    {
+		m_columnWidthModeChanged = true;
+
+		action<KToggleAction>("resizeColumnsManually")->setChecked(true);
+		slotColumnResizeModeChanged();
+	    }
+
+	    break;
+	}
 	case QEvent::MouseButtonPress:
 	{
-	    switch(static_cast<QMouseEvent *>(e)->button()) {
-	    case RightButton:
+	    if(static_cast<QMouseEvent *>(e)->button() == RightButton)
 		m_headerMenu->popup(QCursor::pos());
-		break;
-	    case LeftButton:
-		m_mousePressed = true;
-		break;
-	    default:
-		break;
-	    }
+
 	    break;
 	}
 	case QEvent::MouseButtonRelease:
 	{
-	    if(static_cast<QMouseEvent *>(e)->button() == LeftButton)
-		m_mousePressed = false;
+	    if(m_columnWidthModeChanged) {
+		m_columnWidthModeChanged = false;
+		notifyUserColumnWidthModeChanged();
+	    }
 
 	    if(!manualResize() && m_widthsDirty)
 		QTimer::singleShot(0, this, SLOT(slotUpdateColumnWidths()));
@@ -2270,22 +2278,20 @@ void Playlist::slotCreateGroup()
 	new Playlist(m_collection, selectedItems(), name);
 }
 
+void Playlist::notifyUserColumnWidthModeChanged()
+{
+    KMessageBox::information(this,
+			     i18n("Manual column widths have been enabled.  You can "
+				  "switch back to automatic column sizes in the view "
+				  "menu."),
+			     i18n("Manual Column Widths Enabled"),
+			     "ShowManualColumnWidthInformation");
+}
+
 void Playlist::slotColumnSizeChanged(int column, int, int newSize)
 {
     m_widthsDirty = true;
     m_columnFixedWidths[column] = newSize;
-
-    if(m_mousePressed && !action<KToggleAction>("resizeColumnsManually")->isChecked()) {
-	KMessageBox::information(this,
-				 i18n("Manual column widths have been enabled.  You can "
-				      "switch back to automatic column sizes in the view "
-				      "menu."),
-				 i18n("Manual Column Widths Enabled"),
-				 "ShowManualColumnWidthInformation");
-	
-	action<KToggleAction>("resizeColumnsManually")->setChecked(true);
-	slotColumnResizeModeChanged();
-    }
 }
 
 void Playlist::slotInlineCompletionModeChanged(KGlobalSettings::Completion mode)

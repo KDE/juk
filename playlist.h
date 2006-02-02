@@ -502,6 +502,12 @@ private:
     void setup();
 
     /**
+     * This function is called to let the user know that JuK has automatically enabled
+     * manual column width adjust mode.
+     */
+    void notifyUserColumnWidthModeChanged();
+
+    /**
      * Load the playlist from a file.  \a fileName should be the absolute path.
      * \a fileInfo should point to the same file as \a fileName.  This is a
      * little awkward API-wise, but keeps us from throwing away useful
@@ -641,7 +647,7 @@ private:
     bool m_allowDuplicates;
     bool m_polished;
     bool m_applySharedSettings;
-    bool m_mousePressed;
+    bool m_columnWidthModeChanged;
 
     QValueList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;
