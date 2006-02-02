@@ -124,6 +124,7 @@ protected:
     KTRMRequestHandler()
     {
         m_pimp = tp_New("KTRM", "0.1");
+        //tp_SetDebug(m_pimp, true);
         tp_SetTRMCollisionThreshold(m_pimp, 100);
         tp_SetAutoSaveThreshold(m_pimp, -1);
         tp_SetMoveFiles(m_pimp, false);
@@ -231,7 +232,10 @@ protected:
         }
 
         KTRMLookup *lookup = KTRMRequestHandler::instance()->lookup(e->fileId());
-        KTRMRequestHandler::instance()->removeFromLookupMap(e->fileId());
+#if HAVE_TUNEPIMP >= 4
+        if ( e->status() != KTRMEvent::Unrecognized)
+#endif
+            KTRMRequestHandler::instance()->removeFromLookupMap(e->fileId());
 
         mutex.unlock();
 
@@ -256,7 +260,7 @@ protected:
  * Callback fuction for TunePimp lookup events.
  */
 #if HAVE_TUNEPIMP >= 4
-static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, int fileId, TPFileStatus status)
+static void TRMNotifyCallback(tunepimp_t /*pimp*/, void* /*data*/, TPCallbackEnum type, int fileId, TPFileStatus status)
 #else
 static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, int fileId)
 #endif
@@ -264,8 +268,8 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
     if(type != tpFileChanged)
         return;
 
-    track_t track = tp_GetTrack(pimp, fileId);
 #if HAVE_TUNEPIMP < 4
+    track_t track = tp_GetTrack(pimp, fileId);
     TPFileStatus status = tr_GetStatus(track);
 #endif
 
@@ -277,6 +281,9 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
         KTRMEventHandler::send(fileId, KTRMEvent::Unrecognized);
         break;
     case eTRMCollision:
+#if HAVE_TUNEPIMP >= 4
+    case eUserSelection:
+#endif
         KTRMEventHandler::send(fileId, KTRMEvent::Collision);
         break;
     case eError:
@@ -285,6 +292,9 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
     default:
         break;
     }
+#if HAVE_TUNEPIMP < 4
+    tp_ReleaseTrack(pimp, track);
+#endif
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -414,6 +424,7 @@ void KTRMLookup::recognized()
 
     metadata_t *metaData = md_New();
     track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
+    tr_Lock(track);
     tr_GetServerMetadata(track, metaData);
 
     KTRMResult result;
@@ -427,13 +438,31 @@ void KTRMLookup::recognized()
     d->results.append(result);
 
     md_Delete(metaData);
-
+    tr_Unlock(track);
     finished();
 }
 
 void KTRMLookup::unrecognized()
 {
     kdDebug() << k_funcinfo << d->file << endl;
+#if HAVE_TUNEPIMP >= 4
+    char trm[255];
+    bool finish = false;
+    trm[0] = 0;
+    track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
+    tr_Lock(track);
+    tr_GetTRM(track, trm, 255);
+    if ( !trm[0] ) {
+        tr_SetStatus(track, ePending);
+        tp_Wake(KTRMRequestHandler::instance()->tunePimp(), track);
+    }
+    else
+        finish = true;
+    tr_Unlock(track);
+    tp_ReleaseTrack(KTRMRequestHandler::instance()->tunePimp(), track);
+    if ( !finish )
+       return;
+#endif
     d->results.clear();
     finished();
 }
