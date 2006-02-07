@@ -758,7 +758,7 @@ void Playlist::slotRefresh()
 	(*it)->refreshFromDisk();
 
 	if(!(*it)->file().tag() || !(*it)->file().fileInfo().exists()) {
-	    kdDebug(65432) << "Error while trying to refresh the tag.  "
+	    kDebug(65432) << "Error while trying to refresh the tag.  "
 			   << "This file has probably been removed."
 			   << endl;
 	    delete (*it)->collectionItem();
@@ -1772,7 +1772,7 @@ void Playlist::calculateColumnWeights()
     for(columnIt = m_weightDirty.begin(); columnIt != m_weightDirty.end(); ++columnIt) {
 	m_columnWeights[*columnIt] = int(sqrt(averageWidth[*columnIt]) + 0.5);
 
-	//  kdDebug(65432) << k_funcinfo << "m_columnWeights[" << *columnIt << "] == "
+	//  kDebug(65432) << k_funcinfo << "m_columnWeights[" << *columnIt << "] == "
 	//                 << m_columnWeights[*columnIt] << endl;
     }
 
@@ -1844,7 +1844,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
 	    ::closedir(dir);
 	}
 	else {
-	    kdWarning(65432) << "Unable to open directory "
+	    kWarning(65432) << "Unable to open directory "
 	                     << fileInfo.filePath()
 			     << ", make sure it is readable.\n";
 	}
@@ -2130,7 +2130,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
 void Playlist::slotRenameTag()
 {
-    // kdDebug(65432) << "Playlist::slotRenameTag()" << endl;
+    // kDebug(65432) << "Playlist::slotRenameTag()" << endl;
 
     // setup completions and validators
 

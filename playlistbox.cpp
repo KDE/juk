@@ -240,7 +240,7 @@ void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
     PlaylistCollection::setupPlaylist(playlist, iconName);
     connect(playlist, SIGNAL(signalPlaylistItemsDropped(Playlist *)), SLOT(slotPlaylistItemsDropped(Playlist *)));
     if(iconName == "today") {
-	kdDebug(65432) << "Setting up upcoming playlist after Collection List\n";
+	kDebug(65432) << "Setting up upcoming playlist after Collection List\n";
 	new Item(this, iconName, playlist->name(), playlist, m_playlistDict[CollectionList::instance()]);
     }
     else
@@ -377,7 +377,7 @@ void PlaylistBox::slotTreeViewPlaylistDestroyed(Playlist *p)
 
 void PlaylistBox::slotSavePlaylists()
 {
-    kdDebug(65432) << "Auto-saving playlists.\n";
+    kDebug(65432) << "Auto-saving playlists.\n";
 
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
@@ -394,7 +394,7 @@ void PlaylistBox::slotSavePlaylists()
 void PlaylistBox::slotShowDropTarget()
 {
     if(!m_dropItem) {
-	kdError(65432) << "Trying to show the playlist of a null item!\n";
+	kError(65432) << "Trying to show the playlist of a null item!\n";
 	return;
     }
 

@@ -100,7 +100,7 @@ PlaylistItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem 
     PlaylistItem *item = new CollectionListItem(file);
     
     if(!item->isValid()) {
-	kdError() << "CollectinList::createItem() -- A valid tag was not created for \""
+	kError() << "CollectinList::createItem() -- A valid tag was not created for \""
 		  << file.absFilePath() << "\"" << endl;
 	delete item;
 	return 0;
@@ -125,7 +125,7 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
 {
     TreeViewMode *treeViewMode = dynamic_cast<TreeViewMode *>(viewMode);
     if(!treeViewMode) {
-	kdWarning(65432) << "Can't setup entries on a non-tree-view mode!\n";
+	kWarning(65432) << "Can't setup entries on a non-tree-view mode!\n";
 	return;
     }
 
@@ -458,10 +458,10 @@ CollectionListItem::CollectionListItem(const FileHandle &file) :
 	    // l->addWatched(m_path);
 	}
 	else
-	    kdError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
+	    kError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
     }
     else
-	kdError(65432) << "CollectionListItems should not be created before "
+	kError(65432) << "CollectionListItems should not be created before "
 		       << "CollectionList::initialize() has been called." << endl;
 
     SplashScreen::increment();

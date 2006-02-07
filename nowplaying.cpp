@@ -206,12 +206,12 @@ void CoverItem::dropEvent(QDropEvent *e)
                 update(m_file);
             }
             else
-                kdError(65432) << "Unable to load image from " << urls.front() << endl;
+                kError(65432) << "Unable to load image from " << urls.front() << endl;
 
             KIO::NetAccess::removeTempFile(fileName);
         }
         else
-            kdError(65432) << "Unable to download " << urls.front() << endl;
+            kError(65432) << "Unable to download " << urls.front() << endl;
     }
 }
 

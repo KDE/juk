@@ -32,7 +32,7 @@ namespace ActionCollection
 #ifndef NO_DEBUG
         KAction *a = actions()->action(key);
         if(!a)
-            kdWarning(65432) << "KAction \"" << key << "\" is not defined yet." << endl;
+            kWarning(65432) << "KAction \"" << key << "\" is not defined yet." << endl;
         return a;
 #else
         return actions()->action(key);

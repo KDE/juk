@@ -406,7 +406,7 @@ void FileRenamerWidget::createTagRows()
 
 void FileRenamerWidget::exampleTextChanged()
 {
-    kdDebug(65432) << k_funcinfo << endl;
+    kDebug(65432) << k_funcinfo << endl;
 
     // Just use .mp3 as an example
 
@@ -500,7 +500,7 @@ void FileRenamerWidget::moveItem(QWidget *l, MovementDirection direction)
     int pos = findIndex(l);
 
     if(pos < 0) {
-        kdError() << "Unable to find index for " << l << endl;
+        kError() << "Unable to find index for " << l << endl;
         return;
     }
 
@@ -688,7 +688,7 @@ void FileRenamerWidget::toggleCategory(int category)
     }
 
     if(!b) {
-        kdError() << "Unable to match category " << category << " to a check box!\n";
+        kError() << "Unable to match category " << category << " to a check box!\n";
         return;
     }
 
@@ -753,7 +753,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
 
 bool FileRenamer::moveFile(const QString &src, const QString &dest)
 {
-    kdDebug(65432) << "Moving file " << src << " to " << dest << endl;
+    kDebug(65432) << "Moving file " << src << " to " << dest << endl;
 
     if(src == dest)
         return false;
@@ -777,7 +777,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     // Create the directory.
     if(!KStandardDirs::exists(dir.path()))
         if(!KStandardDirs::makeDir(dir.path())) {
-            kdError() << "Unable to create directory " << dir.path() << endl;
+            kError() << "Unable to create directory " << dir.path() << endl;
             return false;
         }
 
@@ -804,7 +804,7 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
     for(QStringList::ConstIterator it = elements.begin(); it != elements.end(); ++it) {
         path.append("/" + (*it));
 
-        kdDebug() << "Checking path: " << path << endl;
+        kDebug() << "Checking path: " << path << endl;
         if((*it).find(item->file().tag()->album()) != -1 &&
            !QFile::exists(path + "/.directory"))
         {

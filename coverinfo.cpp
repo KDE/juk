@@ -231,7 +231,7 @@ QString CoverInfo::coverLocation(CoverSize size) const
 bool CoverInfo::convertOldStyleCover() const
 {
     // Ah, old-style cover.  Let's transfer it to the new system.
-    kdDebug() << "Found old style cover for " << m_file.absFilePath() << endl;
+    kDebug() << "Found old style cover for " << m_file.absFilePath() << endl;
 
     QString artist = m_file.tag()->artist();
     QString album = m_file.tag()->album();
@@ -244,7 +244,7 @@ bool CoverInfo::convertOldStyleCover() const
         return true;
     }
     else {
-        kdDebug() << "We were unable to replace the old style cover.\n";
+        kDebug() << "We were unable to replace the old style cover.\n";
         return false;
     }
 }

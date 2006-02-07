@@ -71,7 +71,7 @@ TagTransactionManager *TagTransactionManager::instance()
 void TagTransactionManager::changeTagOnItem(PlaylistItem *item, Tag *newTag)
 {
     if(!item) {
-        kdWarning(65432) << "Trying to change tag on null PlaylistItem.\n";
+        kWarning(65432) << "Trying to change tag on null PlaylistItem.\n";
         return;
     }
 
@@ -110,7 +110,7 @@ void TagTransactionManager::forget()
 
 bool TagTransactionManager::undo()
 {
-    kdDebug(65432) << "Undoing " << m_undoList.count() << " changes.\n";
+    kDebug(65432) << "Undoing " << m_undoList.count() << " changes.\n";
 
     forget();  // Scrap our old changes (although the list should be empty
                // anyways.
@@ -139,7 +139,7 @@ bool TagTransactionManager::renameFile(const QFileInfo &from, const QFileInfo &t
            i18n("This file already exists.\nDo you want to replace it?"),
            i18n("File Exists"),i18n("Replace")) == KMessageBox::Continue)
    {
-       kdDebug(65432) << "Renaming " << from.absFilePath() << " to " << to.absFilePath() << endl;
+       kDebug(65432) << "Renaming " << from.absFilePath() << " to " << to.absFilePath() << endl;
        QDir currentDir;
        return currentDir.rename(from.absFilePath(), to.absFilePath());
    }

@@ -42,7 +42,7 @@ aKodePlayer::~aKodePlayer()
 
 void aKodePlayer::play(const FileHandle &file)
 {
-    kdDebug( 65432 ) << k_funcinfo << endl;
+    kDebug( 65432 ) << k_funcinfo << endl;
 
     if (file.isNull()) { // null FileHandle file means unpause
         if (paused())
@@ -54,7 +54,7 @@ void aKodePlayer::play(const FileHandle &file)
 
     QString filename = file.absFilePath();
 
-    kdDebug( 65432 ) << "Opening: " << filename << endl;
+    kDebug( 65432 ) << "Opening: " << filename << endl;
 
     if (m_player)
         m_player->stop();

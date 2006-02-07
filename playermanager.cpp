@@ -600,7 +600,7 @@ void PlayerManager::setup()
        !action("forward") ||
        !action("trackPositionAction"))
     {
-        kdWarning(65432) << k_funcinfo << "Could not find all of the required actions." << endl;
+        kWarning(65432) << k_funcinfo << "Could not find all of the required actions." << endl;
         return;
     }
 

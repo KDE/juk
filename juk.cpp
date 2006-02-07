@@ -81,7 +81,7 @@ JuK::JuK(QWidget *parent, const char *name) :
 
 JuK::~JuK()
 {
-    kdDebug(65432) << k_funcinfo << endl;
+    kDebug(65432) << k_funcinfo << endl;
 }
 
 KActionCollection *JuK::actionCollection() const
@@ -371,7 +371,7 @@ bool JuK::queryExit()
 {
     m_startDocked = !isVisible();
 
-    kdDebug(65432) << k_funcinfo << endl;
+    kDebug(65432) << k_funcinfo << endl;
 
     hide();
 
@@ -389,7 +389,7 @@ bool JuK::queryExit()
 
 bool JuK::queryClose()
 {
-    kdDebug(65432) << k_funcinfo << endl;
+    kDebug(65432) << k_funcinfo << endl;
 
     if(!m_shuttingDown &&
        !kapp->sessionSaving() &&
@@ -423,7 +423,7 @@ void JuK::slotAboutToQuit()
 
 void JuK::slotQuit()
 {
-    kdDebug(65432) << k_funcinfo << endl;
+    kDebug(65432) << k_funcinfo << endl;
     m_shuttingDown = true;
 
     kapp->quit();

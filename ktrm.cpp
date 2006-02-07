@@ -418,7 +418,7 @@ int KTRMLookup::fileId() const
 
 void KTRMLookup::recognized()
 {
-    kdDebug() << k_funcinfo << d->file << endl;
+    kDebug() << k_funcinfo << d->file << endl;
 
     d->results.clear();
 
@@ -444,7 +444,7 @@ void KTRMLookup::recognized()
 
 void KTRMLookup::unrecognized()
 {
-    kdDebug() << k_funcinfo << d->file << endl;
+    kDebug() << k_funcinfo << d->file << endl;
 #if HAVE_TUNEPIMP >= 4
     char trm[255];
     bool finish = false;
@@ -469,12 +469,12 @@ void KTRMLookup::unrecognized()
 
 void KTRMLookup::collision()
 {
-    kdDebug() << k_funcinfo << d->file << endl;
+    kDebug() << k_funcinfo << d->file << endl;
 
     track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
 
     if(track <= 0) {
-        kdDebug() << "invalid track number" << endl;
+        kDebug() << "invalid track number" << endl;
         return;
     }
 
@@ -488,17 +488,17 @@ void KTRMLookup::collision()
 
         switch(type) {
         case eNone:
-            kdDebug() << k_funcinfo << "eNone" << endl;
+            kDebug() << k_funcinfo << "eNone" << endl;
             break;
         case eArtistList:
-            kdDebug() << "eArtistList" << endl;
+            kDebug() << "eArtistList" << endl;
             break;
         case eAlbumList:
-            kdDebug() << "eAlbumList" << endl;
+            kDebug() << "eAlbumList" << endl;
             break;
         case eTrackList:
         {
-            kdDebug() << "eTrackList" << endl;
+            kDebug() << "eTrackList" << endl;
             albumtrackresult_t **tracks = (albumtrackresult_t **) results;
             d->results.clear();
 
@@ -523,7 +523,7 @@ void KTRMLookup::collision()
             break;
         }
         case eMatchedTrack:
-            kdDebug() << k_funcinfo << "eMatchedTrack" << endl;
+            kDebug() << k_funcinfo << "eMatchedTrack" << endl;
             break;
         }
 
@@ -537,7 +537,7 @@ void KTRMLookup::collision()
 
 void KTRMLookup::error()
 {
-    kdDebug() << k_funcinfo << d->file << endl;
+    kDebug() << k_funcinfo << d->file << endl;
 
     d->results.clear();
     finished();

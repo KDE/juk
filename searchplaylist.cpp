@@ -69,7 +69,7 @@ void SearchPlaylist::updateItems()
             newItems.append((*it)->collectionItem());
     }
 
-    // kdDebug(65432) << k_funcinfo << "newItems.size() == " << newItems.size() << endl;
+    // kDebug(65432) << k_funcinfo << "newItems.size() == " << newItems.size() << endl;
 
     for(Q3PtrDictIterator<PlaylistItem> it(oldItems); it.current(); ++it)
         clearItem(it.current(), false);
@@ -80,7 +80,7 @@ void SearchPlaylist::updateItems()
     createItems(newItems);
 
     if(synchronizePlaying()) {
-        kdDebug(65432) << k_funcinfo << "synchronizing playing" << endl;
+        kDebug(65432) << k_funcinfo << "synchronizing playing" << endl;
         synchronizePlayingItems(m_search.playlists(), true);
     }
 }

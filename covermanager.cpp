@@ -139,17 +139,17 @@ void CoverManagerPrivate::createDataDir() const
 
 void CoverManagerPrivate::saveCovers() const
 {
-    kdDebug() << k_funcinfo << endl;
+    kDebug() << k_funcinfo << endl;
 
     // Make sure the directory exists first.
     createDataDir();
 
     QFile file(coverLocation());
 
-    kdDebug() << "Opening covers db: " << coverLocation() << endl;
+    kDebug() << "Opening covers db: " << coverLocation() << endl;
 
     if(!file.open(QIODevice::WriteOnly)) {
-        kdError() << "Unable to save covers to disk!\n";
+        kError() << "Unable to save covers to disk!\n";
         return;
     }
 
@@ -176,7 +176,7 @@ void CoverManagerPrivate::saveCovers() const
 
 void CoverManagerPrivate::loadCovers()
 {
-    kdDebug() << k_funcinfo << endl;
+    kDebug() << k_funcinfo << endl;
 
     QFile file(coverLocation());
 
@@ -192,8 +192,8 @@ void CoverManagerPrivate::loadCovers()
     // Only version 0 is defined for now.
     in >> version;
     if(version > 0) {
-        kdError() << "Cover database was created by a higher version of JuK,\n";
-        kdError() << "I don't know what to do with it.\n";
+        kError() << "Cover database was created by a higher version of JuK,\n";
+        kError() << "I don't know what to do with it.\n";
 
         return;
     }
@@ -343,7 +343,7 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
     // Check in cache for the pixmap.
     QPixmap *pix = data()->pixmapCache[path];
     if(pix) {
-        kdDebug(65432) << "Found pixmap in cover cache.\n";
+        kDebug(65432) << "Found pixmap in cover cache.\n";
         return *pix;
     }
 
@@ -367,13 +367,13 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
 
 coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, const QString &album)
 {
-    kdDebug() << k_funcinfo << endl;
+    kDebug() << k_funcinfo << endl;
 
     coverKey id = data()->nextId();
     CoverDataPtr coverData(new CoverData);
 
     if(large.isNull()) {
-        kdDebug() << "The pixmap you're trying to add is NULL!\n";
+        kDebug() << "The pixmap you're trying to add is NULL!\n";
         return NoMatch;
     }
 
@@ -382,11 +382,11 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
     QString ext = QString("/coverdb/coverID-%1.png").arg(id);
     coverData->path = KGlobal::dirs()->saveLocation("appdata") + ext;
 
-    kdDebug() << "Saving pixmap to " << coverData->path << endl;
+    kDebug() << "Saving pixmap to " << coverData->path << endl;
     data()->createDataDir();
 
     if(!large.save(coverData->path, "PNG")) {
-        kdError() << "Unable to save pixmap to " << coverData->path << endl;
+        kError() << "Unable to save pixmap to " << coverData->path << endl;
         return NoMatch;
     }
 

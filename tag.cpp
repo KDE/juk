@@ -67,7 +67,7 @@ Tag::Tag(const QString &fileName) :
     }
 #ifdef TAGLIB_1_3
     else if(MediaFiles::isMPC(fileName)) {
-        kdDebug(65432) << "Trying to resolve Musepack file" << endl;
+        kDebug(65432) << "Trying to resolve Musepack file" << endl;
         TagLib::MPC::File file(QFile::encodeName(fileName).data());
         if(file.isOpen())
             setup(&file);
@@ -87,7 +87,7 @@ Tag::Tag(const QString &fileName) :
     }
 
     else {
-        kdError(65432) << "Couldn't resolve the mime type of \"" <<
+        kError(65432) << "Couldn't resolve the mime type of \"" <<
             fileName << "\" -- this shouldn't happen." << endl;
     }
 }
@@ -130,7 +130,7 @@ bool Tag::save()
 #endif
     }
     else {
-        kdError(65432) << "Couldn't save file." << endl;
+        kError(65432) << "Couldn't save file." << endl;
         result = false;
     }
 

@@ -96,7 +96,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
 
     if(!hasImageResults(search))
     {
-	kdDebug(65432) << "Search returned no results.\n";
+	kDebug(65432) << "Search returned no results.\n";
         emit signalNewSearch(m_imageList);
         return;
     }
@@ -133,7 +133,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
 	    DOM::Element tdElement = images.item(j);
 	    if(tdElement.isNull()) {
 		// Whoops....
-		kdError(65432) << "Expecting a <TD> in a <TR> parsing Google Images!\n";
+		kError(65432) << "Expecting a <TD> in a <TR> parsing Google Images!\n";
 		continue;
 	    }
 
@@ -141,7 +141,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
 	    // one anyways.
 	    DOM::Element imgElement = tdElement.getElementsByTagName("img").item(0);
 	    if(imgElement.isNull()) {
-		kdError(65432) << "Expecting a <IMG> in a <TD> parsing Google Images!\n";
+		kError(65432) << "Expecting a <IMG> in a <TD> parsing Google Images!\n";
 		continue;
 	    }
 
@@ -168,11 +168,11 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     } // try
     catch (DOM::DOMException &e)
     {
-	kdError(65432) << "Caught DOM Exception: " << e.code << endl;
+	kError(65432) << "Caught DOM Exception: " << e.code << endl;
     }
     catch (...)
     {
-	kdError(65432) << "Caught unknown exception.\n";
+	kError(65432) << "Caught unknown exception.\n";
     }
 
     emit signalNewSearch(m_imageList);
