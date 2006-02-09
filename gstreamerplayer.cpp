@@ -23,6 +23,14 @@
 
 #include <qfile.h>
 
+// Defined because recent versions of glib add support for having gcc check
+// whether the sentinel used on g_object_{set,get} is correct.  Although 0
+// is a valid NULL pointer in C++, when used in a C function call g++ doesn't
+// know to turn it into a pointer so it leaves it as an int instead (which is
+// wrong for 64-bit arch).  So, use the handy define below instead.
+
+#define JUK_GLIB_NULL static_cast<gpointer>(0)
+
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -49,7 +57,7 @@ void GStreamerPlayer::play(const FileHandle &file)
 {
     if(!file.isNull()) {
         stop();
-        g_object_set(G_OBJECT(m_source), "location", file.absFilePath().local8Bit().data(), 0);
+        g_object_set(G_OBJECT(m_source), "location", file.absFilePath().local8Bit().data(), JUK_GLIB_NULL);
     }
 
     gst_element_set_state(m_pipeline, GST_STATE_PLAYING);
@@ -67,13 +75,13 @@ void GStreamerPlayer::stop()
 
 void GStreamerPlayer::setVolume(float volume)
 {
-    g_object_set(G_OBJECT(m_volume), "volume", volume, 0);
+    g_object_set(G_OBJECT(m_volume), "volume", volume, JUK_GLIB_NULL);
 }
 
 float GStreamerPlayer::volume() const
 {
     gdouble value;
-    g_object_get(G_OBJECT(m_volume), "volume", &value, 0);
+    g_object_get(G_OBJECT(m_volume), "volume", &value, JUK_GLIB_NULL);
     return (float) value;
 }
 
