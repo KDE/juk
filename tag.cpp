@@ -54,6 +54,10 @@ Tag::Tag(const QString &fileName) :
     m_bitrate(0),
     m_isValid(false)
 {
+    // using qDebug here since we want this to show up in non-debug builds as well
+
+    qDebug("Reading tag for %s", fileName.local8Bit().data());
+
     if(MediaFiles::isMP3(fileName)) {
         TagLib::MPEG::File file(QFile::encodeName(fileName).data());
         if(file.isValid())
