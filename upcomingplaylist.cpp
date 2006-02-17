@@ -44,6 +44,8 @@ UpcomingPlaylist::~UpcomingPlaylist()
 
 void UpcomingPlaylist::initialize()
 {
+    // Prevent duplicate initialization.
+
     if(m_active)
         return;
 
@@ -126,16 +128,26 @@ void UpcomingPlaylist::removeIteratorOverride()
     if(!m_active)
         return;
 
-    m_active = false;
+    m_active = false; // Allow re-initialization.
 
-    if(!m_oldIterator || !playingItem())
+    if(!m_oldIterator)
         return;
 
-    m_oldIterator->reset();
-    m_oldIterator->setCurrent(playingItem()->collectionItem());
+    // Install the old track iterator.
+
     manager()->installIterator(m_oldIterator);
-    manager()->nextItem();
-    setPlaying(manager()->nextItem(), true);
+
+    // If we have an item that is currently playing, allow it to keep playing.
+    // Otherwise, just reset to the default iterator (probably not playing
+    // anything.)
+    // XXX: Reset to the last playing playlist?
+
+    m_oldIterator->reset();
+    if(playingItem())
+        m_oldIterator->setCurrent(playingItem()->collectionItem());
+
+    setPlaying(manager()->currentItem(), true);
+
     Watched::currentChanged();
 }
 
