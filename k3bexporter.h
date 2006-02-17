@@ -22,6 +22,7 @@
 class QWidget;
 class DCOPRef;
 class PlaylistBox;
+class PlaylistAction;
 
 /**
  * Class that will export the selected items of a playlist to K3b.
@@ -61,6 +62,10 @@ private:
 
     // Private member variable declarations
     Playlist *m_parent;
+
+    // Static member used to avoid adding more than one action to KDE's
+    // action list.
+    static PlaylistAction *m_action;
 };
 
 /**

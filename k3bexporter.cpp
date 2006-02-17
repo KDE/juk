@@ -24,6 +24,7 @@
 #include <kapplication.h>
 
 #include <qcstring.h>
+#include <qmap.h>
 
 #include <dcopref.h>
 #include <dcopclient.h>
@@ -36,25 +37,90 @@
 
 using ActionCollection::actions;
 
+// static member variable definition
+
+PlaylistAction *K3bExporter::m_action = 0;
+
+// Special KAction subclass used to automatically call a slot when activated,
+// depending on the visible playlist at the time.  In other words, use *one*
+// instance of this action for many playlists.
+//
+// This is used to handle some actions in the Playlist context menu.
+class PlaylistAction : public KAction
+{
+    public:
+    PlaylistAction(const char *name,
+                   const QString &userText,
+                   const QIconSet &pix,
+                   const char *slot,
+                   const KShortcut &cut = 0) :
+        KAction(userText, pix, cut, 0 /* receiver */, 0 /* slot */, actions(), name),
+        m_slot(slot)
+    {
+    }
+
+    typedef QMap<const Playlist *, QObject *> PlaylistRecipientMap;
+
+    /**
+     * Defines a QObject to call (using the m_slot SLOT) when an action is
+     * emitted from a Playlist.
+     */
+    void addCallMapping(const Playlist *p, QObject *obj)
+    {
+        m_playlistRecipient[p] = obj;
+    }
+
+    protected slots:
+    void slotActivated()
+    {
+        kdDebug(65432) << k_funcinfo << endl;
+
+        // Determine current playlist, and call its slot.
+        Playlist *p = PlaylistCollection::instance()->visiblePlaylist();
+        if(!p)
+            return;
+
+        // Make sure we're supposed to notify someone about this playlist.
+        QObject *recipient = m_playlistRecipient[p];
+        if(!recipient)
+            return;
+
+        // Invoke the slot using some trickery.
+        // XXX: Use the QMetaObject to do this in Qt 4.
+        connect(this, SIGNAL(activated()), recipient, m_slot);
+        emit(activated());
+        disconnect(this, SIGNAL(activated()), recipient, m_slot);
+    }
+
+    private:
+    QCString m_slot;
+    PlaylistRecipientMap m_playlistRecipient;
+};
+
 K3bExporter::K3bExporter(Playlist *parent) : PlaylistExporter(parent), m_parent(parent)
 {
 }
 
 KAction *K3bExporter::action()
 {
-    if(!KStandardDirs::findExe("k3b").isNull()) {
-        return new KAction(
+    if(!m_action && !KStandardDirs::findExe("k3b").isNull()) {
+        m_action = new PlaylistAction(
+            "export_to_k3b",
             i18n("Add Selected Items to Audio or Data CD"),
             SmallIconSet("k3b"),
-            0,
-            this,
-            SLOT(slotExport()),
-            actions(),
-            "export_to_k3b"
+            SLOT(slotExport())
         );
+
+        m_action->setShortcutConfigurable(false);
     }
 
-    return 0;
+    // Tell the action to let us know when it is activated when
+    // m_parent is the visible playlist.  This allows us to reuse the
+    // action to avoid duplicate entries in KActionCollection.
+    if(m_action)
+        m_action->addCallMapping(m_parent, this);
+
+    return m_action;
 }
 
 void K3bExporter::exportPlaylistItems(const PlaylistItemList &items)

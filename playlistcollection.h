@@ -43,9 +43,13 @@ class PlaylistCollection : public PlaylistInterface, CollectionIface
     friend class CollectionList;
     friend class DynamicPlaylist;
 
+    static PlaylistCollection *m_instance;
+
 public:
     PlaylistCollection(QWidgetStack *playlistStack);
     virtual ~PlaylistCollection();
+
+    static PlaylistCollection *instance() { return m_instance; }
 
     virtual QString name() const;
     virtual FileHandle currentFile() const;
