@@ -21,55 +21,66 @@ AC_SUBST(LIB_ARTS)
 AC_SUBST(ARTS_CFLAGS)
 
 AC_ARG_WITH(musicbrainz,
-  [AC_HELP_STRING(--with-musicbrainz,
-    [enable support for MusicBrainz @<:@default=check@:>@])],
-  [], with_musicbrainz=check)
+  	[AC_HELP_STRING(--with-musicbrainz,
+	[enable support for MusicBrainz @<:@default=check@:>@])],
+	[], with_musicbrainz=check)
 
 have_musicbrainz=no
-if test "x$with_musicbrainz" != xno; then
-  KDE_CHECK_HEADER(tunepimp/tp_c.h, have_musicbrainz=yes)
 
-  if test "x$with_musicbrainz" != xcheck && test "x$have_musicbrainz" != xyes; then
-    AC_MSG_ERROR([--with-musicbrainz was given, but test for MusicBrainz failed])
-  fi
+if test "x$with_musicbrainz" != xno; then
+  	KDE_CHECK_HEADER(tunepimp/tp_c.h, have_musicbrainz=yes)
+
+  	if test "x$with_musicbrainz" != xcheck && test "x$have_musicbrainz" != xyes; then
+    		AC_MSG_ERROR([--with-musicbrainz was given, but test for MusicBrainz failed])
+  	fi
 fi
 
 if test "x$have_musicbrainz" = xyes; then
-  AC_CHECK_LIB(tunepimp, tp_SetFileNameEncoding,
-    AC_DEFINE(HAVE_MUSICBRAINZ, 4, [have MusicBrainz 0.4.x]), 
-    AC_DEFINE(HAVE_MUSICBRAINZ, 1, [have MusicBrainz]))
+  	AC_CHECK_LIB(tunepimp, tp_SetFileNameEncoding,
+	AC_DEFINE(HAVE_MUSICBRAINZ, 4, [have MusicBrainz 0.4.x]), 
+	AC_DEFINE(HAVE_MUSICBRAINZ, 1, [have MusicBrainz]))
 else
-  AC_DEFINE(HAVE_MUSICBRAINZ, 0, [have MusicBrainz])
+  	AC_DEFINE(HAVE_MUSICBRAINZ, 0, [have MusicBrainz])
 fi
 
 AM_CONDITIONAL(link_lib_MB, test "x$have_musicbrainz" = xyes)
 
 AC_ARG_WITH(gstreamer,
-  [AC_HELP_STRING(--with-gstreamer,
-    [enable support for GStreamer @<:@default=check@:>@])],
-  [], with_gstreamer=check)
+  	[AC_HELP_STRING(--with-gstreamer,
+    	[enable support for GStreamer @<:@default=check@:>@])],
+	[], with_gstreamer=check)
 
 have_gst=no
+
 if test "x$with_gstreamer" != xno; then
-  # pkg-config seems to have a bug where it masks needed -L entries when it
-  # shouldn't, so disable that.
+  	# pkg-config seems to have a bug where it masks needed -L entries when it
+	# shouldn't, so disable that.
 
-  PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
-  export PKG_CONFIG_ALLOW_SYSTEM_LIBS
+  	PKG_CONFIG_ALLOW_SYSTEM_LIBS=1
+	export PKG_CONFIG_ALLOW_SYSTEM_LIBS
 
-  dnl start with 0.8
-  GST_MAJORMINOR=0.8
-  GST_REQ=0.8.0
+	GST_MAJORMINOR=0.10
+	GST_REQ=0.10.0
+	GST_VERSION=10
 
-  PKG_CHECK_MODULES(GST, \
-    gstreamer-$GST_MAJORMINOR >= $GST_REQ \
-    gstreamer-control-$GST_MAJORMINOR >= $GST_REQ \
-    gstreamer-libs-$GST_MAJORMINOR >= $GST_REQ,
-    have_gst=yes, have_gst=no)
+	PKG_CHECK_MODULES(GST, \
+		gstreamer-$GST_MAJORMINOR >= $GST_REQ, \
+		have_gst=yes, have_gst=no)
 
-  if test "x$with_gstreamer" != xcheck && test "x$have_gst" != xyes; then
-    AC_MSG_ERROR([--with-gstreamer was given, but test for GStreamer failed])
-  fi
+	if test "x$have_gst" != xyes; then
+
+		GST_MAJORMINOR=0.8
+		GST_REQ=0.8.0
+		GST_VERSION=8
+
+		PKG_CHECK_MODULES(GST, \
+			gstreamer-$GST_MAJORMINOR >= $GST_REQ, \
+			have_gst=yes, have_gst=no)
+	fi
+
+	if test "x$with_gstreamer" != xcheck && test "x$have_gst" != xyes; then
+		AC_MSG_ERROR([--with-gstreamer was given, but test for GStreamer failed])
+	fi
 fi
 
 if test "x$have_gst" = "xno"; then
@@ -88,6 +99,7 @@ else
 
 	AC_MSG_NOTICE([GStreamer version >= $GST_REQ found.])
 	AC_DEFINE(HAVE_GSTREAMER, 1, [have GStreamer])
+	AC_DEFINE_UNQUOTED(GSTREAMER_VERSION, $GST_VERSION, [GStreamer Version])
 fi
 
 AC_SUBST(GST_CFLAGS)

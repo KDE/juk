@@ -47,21 +47,34 @@ public:
     virtual void seek(int seekTime);
     virtual void seekPosition(int position);
 
-    void pause();
-    void stop();
+    virtual void pause();
+public slots:
+    virtual void stop();
 
 private:
-    void readConfig();
     void setupPipeline();
+
+#if GSTREAMER_VERSION == 8
+
+    void readConfig();
     long long time(GstQueryType type) const;
 
     QString m_sinkName;
-
     GstElement *m_pipeline;
     GstElement *m_source;
     GstElement *m_decoder;
     GstElement *m_volume;
     GstElement *m_sink;
+
+#else
+
+    enum TimeQuery { CurrentPosition, TotalLength };
+    long long time(TimeQuery type) const;
+
+    GstState state() const;
+    GstElement *m_playbin;
+
+#endif
 };
 
 #endif
