@@ -931,6 +931,7 @@ void Playlist::slotShowPlaying()
     m_collection->raise(l);
 
     l->setSelected(playingItem(), true);
+    l->setCurrentItem(playingItem());
     l->ensureItemVisible(playingItem());
 }
 
