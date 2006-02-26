@@ -370,7 +370,7 @@ void PlaylistBox::setDynamicListsFrozen(bool frozen)
 
 void PlaylistBox::slotSavePlaylists()
 {
-    kdDebug(65432) << "Auto-saving playlists and covers.\n";
+    kDebug(65432) << "Auto-saving playlists and covers.\n";
 
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();

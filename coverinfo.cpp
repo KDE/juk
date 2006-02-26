@@ -176,7 +176,7 @@ void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
         if(!overwriteExistingCovers && !(*it)->file().coverInfo()->m_needsConverting)
             continue;
 
-        kdDebug(65432) << "Setting cover for: " << *it << endl;
+        kDebug(65432) << "Setting cover for: " << *it << endl;
         (*it)->file().coverInfo()->setCoverId(m_coverKey);
     }
 }

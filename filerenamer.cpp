@@ -892,7 +892,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
 
 bool FileRenamer::moveFile(const QString &src, const QString &dest)
 {
-    kdDebug(65432) << "Moving file " << src << " to " << dest << endl;
+    kDebug(65432) << "Moving file " << src << " to " << dest << endl;
 
     if(src == dest)
         return false;
@@ -943,7 +943,7 @@ void FileRenamer::setFolderIcon(const KURL &dst, const PlaylistItem *item)
     for(QStringList::ConstIterator it = elements.begin(); it != elements.end(); ++it) {
         path.append("/" + (*it));
 
-        kdDebug() << "Checking path: " << path << endl;
+        kDebug() << "Checking path: " << path << endl;
         if((*it).find(item->file().tag()->album()) != -1 &&
            !QFile::exists(path + "/.directory"))
         {

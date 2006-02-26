@@ -100,7 +100,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     DOM::HTMLDocument search = part.htmlDocument();
     search.setAsync(false); // Grab the document before proceeding.
 
-    kdDebug(65432) << "Performing Google Search: " << url << endl;
+    kDebug(65432) << "Performing Google Search: " << url << endl;
 
     search.load(url.url());
 

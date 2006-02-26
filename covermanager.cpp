@@ -514,7 +514,7 @@ void CoverManager::setIdForTrack(const QString &path, coverKey id)
         data()->tracks.remove(path);
 
         if(data()->covers[*oldId]->refCount == 0) {
-            kdDebug(65432) << "Cover " << *oldId << " is unused, removing.\n";
+            kDebug(65432) << "Cover " << *oldId << " is unused, removing.\n";
             removeCover(*oldId);
         }
     }
