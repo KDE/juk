@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_FILERENAMER_H
-#define JUK_FILERENAMER_H
+#ifndef FILERENAMER_H
+#define FILERENAMER_H
 
 #include <qstring.h>
 #include <q3valuevector.h>
@@ -540,6 +540,6 @@ private:
     bool moveFile(const QString &src, const QString &dest);
 };
 
-#endif /* JUK_FILERENAMER_H */
+#endif /* FILERENAMER_H */
 
 // vim: set et sw=4 tw=0 sta:

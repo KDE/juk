@@ -110,6 +110,24 @@ same order of function declarations as the header files.
 Virtual functions should always be marked as such even in derrived classes where
 it is not strictly necessary.
 
+Header guards should be of the form FILENAME_H, as below (for an example file
+foo.h:
+
+/* copyright/license stuff
+ * blah
+ */
+
+#ifndef FOO_H
+#define FOO_H
+
+#include <qt stuff>
+
+// classes
+
+#endif
+
+// vim modeline (see below)
+
 ================================================================================
 Whitespace
 ================================================================================

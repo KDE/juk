@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_FILEHANDLE_H
-#define JUK_FILEHANDLE_H
+#ifndef FILEHANDLE_H
+#define FILEHANDLE_H
 
 #include <qstringlist.h>
 //Added by qt3to4:

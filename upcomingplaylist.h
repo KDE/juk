@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _UPCOMINGPLAYLIST_H
-#define _UPCOMINGPLAYLIST_H
+#ifndef UPCOMINGPLAYLIST_H
+#define UPCOMINGPLAYLIST_H
 
 
 #include <qpointer.h>
@@ -208,6 +208,6 @@ private:
 QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p);
 QDataStream &operator>>(QDataStream &s, UpcomingPlaylist &p);
 
-#endif /* _UPCOMINGPLAYLIST_H */
+#endif /* UPCOMINGPLAYLIST_H */
 
 // vim: set et sw=4 tw=0 sta:

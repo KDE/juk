@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_FILERENAMERCONFIGDLG_H
-#define JUK_FILERENAMERCONFIGDLG_H
+#ifndef FILERENAMERCONFIGDLG_H
+#define FILERENAMERCONFIGDLG_H
 
 
 class FileRenamerWidget;

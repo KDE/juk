@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_FILERENAMEROPTIONS_H
-#define JUK_FILERENAMEROPTIONS_H
+#ifndef FILERENAMEROPTIONS_H
+#define FILERENAMEROPTIONS_H
 
 #include <kdialogbase.h>
 #include "filerenameroptionsbase.h"
@@ -74,6 +74,6 @@ private:
     unsigned m_categoryNumber;
 };
 
-#endif /* JUK_FILERENAMEROPTIONS_H */
+#endif /* FILERENAMEROPTIONS_H */
 
 // vim: set et sw=4 tw=0 sta:

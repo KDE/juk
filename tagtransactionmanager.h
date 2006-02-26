@@ -1,5 +1,3 @@
-//Added by qt3to4:
-#include <Q3ValueList>
 /***************************************************************************
     begin                : Wed Sep 22 2004
     copyright            : (C) 2004 by Michael Pyne
@@ -15,10 +13,11 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _TAGTRANSACTIONMANAGER_H
-#define _TAGTRANSACTIONMANAGER_H
+#ifndef TAGTRANSACTIONMANAGER_H
+#define TAGTRANSACTIONMANAGER_H
 
-
+//Added by qt3to4:
+#include <Q3ValueList>
 
 class PlaylistItem;
 class QWidget;
@@ -210,6 +209,6 @@ class TagTransactionManager : public QObject
     static TagTransactionManager *m_manager; ///< used by instance()
 };
 
-#endif /* _TAGTRANSACTIONMANAGER_H */
+#endif /* TAGTRANSACTIONMANAGER_H */
 
 // vim: set et sw=4 tw=0 sta:

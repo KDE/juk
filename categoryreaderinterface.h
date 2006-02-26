@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_CATEGORYREADERINTERFACE_H
-#define JUK_CATEGORYREADERINTERFACE_H
+#ifndef CATEGORYREADERINTERFACE_H
+#define CATEGORYREADERINTERFACE_H
 
 #include "tagrenameroptions.h"
 //Added by qt3to4:
@@ -119,6 +119,6 @@ public:
     virtual QString fixupTrack(const QString &track, unsigned categoryNum) const;
 };
 
-#endif /* JUK_CATEGORYREADERINTERFACE_H */
+#endif /* CATEGORYREADERINTERFACE_H */
 
 // vim: set et sw=4 tw=0 sta:

@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_TAGRENAMEROPTIONS_H
-#define JUK_TAGRENAMEROPTIONS_H
+#ifndef TAGRENAMEROPTIONS_H
+#define TAGRENAMEROPTIONS_H
 
 // Insert all new tag types before NumTypes, that way NumTypes will always be
 // the count of valid tag types.
@@ -168,6 +168,6 @@ private:
     TagType m_category;
 };
 
-#endif /* JUK_TAGRENAMEROPTIONS_H */
+#endif /* TAGRENAMEROPTIONS_H */
 
 // vim: set et sw=4 tw=0 sta:

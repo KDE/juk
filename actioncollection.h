@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_ACTIONCOLLECTION_H
-#define JUK_ACTIONCOLLECTION_H
+#ifndef ACTIONCOLLECTION_H
+#define ACTIONCOLLECTION_H
 
 class KActionCollection;
 class KAction;

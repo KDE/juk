@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_COVERMANAGER_H
-#define JUK_COVERMANAGER_H
+#ifndef COVERMANAGER_H
+#define COVERMANAGER_H
 
 #include <ksharedptr.h>
 
@@ -260,6 +260,6 @@ public:
     static QPixmap createThumbnail(const QPixmap &base);
 };
 
-#endif /* JUK_COVERMANAGER_H */
+#endif /* COVERMANAGER_H */
 
 // vim: set et sw=4 tw=0 sta:

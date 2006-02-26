@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _TRACKSEQUENCEITERATOR_H
-#define _TRACKSEQUENCEITERATOR_H
+#ifndef TRACKSEQUENCEITERATOR_H
+#define TRACKSEQUENCEITERATOR_H
 
 #include "playlistitem.h"
 #include "playlistsearch.h"
@@ -227,6 +227,6 @@ private:
     PlaylistSearch m_albumSearch;
 };
 
-#endif /* _TRACKSEQUENCEITERATOR_H */
+#endif /* TRACKSEQUENCEITERATOR_H */
 
 // vim: set et sw=4 tw=0 sta:

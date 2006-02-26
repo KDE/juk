@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_COVERICONVIEW_H
-#define JUK_COVERICONVIEW_H
+#ifndef COVERICONVIEW_H
+#define COVERICONVIEW_H
 
 #include <kiconview.h>
 
@@ -58,6 +58,6 @@ protected:
     virtual Q3DragObject *dragObject();
 };
 
-#endif /* JUK_COVERICONVIEW_H */
+#endif /* COVERICONVIEW_H */
 
 // vim: set et sw=4 tw=0 sta:

@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_EXAMPLEOPTIONS_H
-#define JUK_EXAMPLEOPTIONS_H
+#ifndef EXAMPLEOPTIONS_H
+#define EXAMPLEOPTIONS_H
 
 #include <qdialog.h>
 //Added by qt3to4:
@@ -61,6 +61,6 @@ class ExampleOptionsDialog : public QDialog
     ExampleOptions *m_options;
 };
 
-#endif /* JUK_EXAMPLEOPTIONS_H */
+#endif /* EXAMPLEOPTIONS_H */
 
 // vim: set et sw=4 tw=0 sta:

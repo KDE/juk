@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef JUK_COVERDIALOG_H
-#define JUK_COVERDIALOG_H
+#ifndef COVERDIALOG_H
+#define COVERDIALOG_H
 
 #include "coverdialogbase.h"
 
@@ -36,6 +36,6 @@ private slots:
     void removeSelectedCover();
 };
 
-#endif /* JUK_COVERDIALOG_H */
+#endif /* COVERDIALOG_H */
 
 // vim: set et sw=4 tw=0 sta:

@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef _TRACKSEQUENCEMANAGER_H
-#define _TRACKSEQUENCEMANAGER_H
+#ifndef TRACKSEQUENCEMANAGER_H
+#define TRACKSEQUENCEMANAGER_H
 
 #include <qobject.h>
 
@@ -187,6 +187,6 @@ private:
     bool m_initialized;
 };
 
-#endif /* _TRACKSEQUENCEMANAGER_H */
+#endif /* TRACKSEQUENCEMANAGER_H */
 
 // vim: set et sw=4 tw=0 sta:
