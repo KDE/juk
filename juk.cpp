@@ -55,17 +55,17 @@ JuK::JuK(QWidget *parent, const char *name) :
     readSettings();
 
     if(m_showSplash && !m_startDocked && Cache::cacheFileExists()) {
-	SplashScreen::instance()->show();
-	kapp->processEvents();
+        SplashScreen::instance()->show();
+        kapp->processEvents();
     }
 
     setupActions();
     setupLayout();
-	 
+
     if(QApplication::reverseLayout())
-	setupGUI(ToolBar | Save | Create, "jukui-rtl.rc");
+        setupGUI(ToolBar | Save | Create, "jukui-rtl.rc");
     else
-	setupGUI(ToolBar | Save | Create);
+        setupGUI(ToolBar | Save | Create);
 
     readConfig();
     setupSystemTray();
@@ -149,7 +149,7 @@ void JuK::setupActions()
     new KToggleAction(i18n("&Loop Playlist"), 0, KShortcut(), actions(), "loopPlaylist");
     KToggleAction *resizeColumnAction =
         new KToggleAction(i18n("&Resize Playlist Columns Manually"),
-	                  KShortcut(), actions(), "resizeColumnsManually");
+                          KShortcut(), actions(), "resizeColumnsManually");
     resizeColumnAction->setCheckedState(i18n("&Resize Column Headers Automatically"));
 
     // the following are not visible by default
@@ -166,23 +166,23 @@ void JuK::setupActions()
     //////////////////////////////////////////////////
 
     m_toggleSplashAction =
-	new KToggleAction(i18n("Show Splash Screen on Startup"),
-			  KShortcut(), actions(), "showSplashScreen");
+        new KToggleAction(i18n("Show Splash Screen on Startup"),
+                          KShortcut(), actions(), "showSplashScreen");
     m_toggleSplashAction->setCheckedState(i18n("Hide Splash Screen on Startup"));
     m_toggleSystemTrayAction =
-	new KToggleAction(i18n("&Dock in System Tray"),
-			  KShortcut(), actions(), "toggleSystemTray");
+        new KToggleAction(i18n("&Dock in System Tray"),
+                          KShortcut(), actions(), "toggleSystemTray");
     m_toggleDockOnCloseAction =
-	new KToggleAction(i18n("&Stay in System Tray on Close"),
-			  KShortcut(), actions(), "dockOnClose");
+        new KToggleAction(i18n("&Stay in System Tray on Close"),
+                          KShortcut(), actions(), "dockOnClose");
     m_togglePopupsAction =
-	new KToggleAction(i18n("Popup &Track Announcement"),
-			  KShortcut(), this, 0, actions(), "togglePopups");
+        new KToggleAction(i18n("Popup &Track Announcement"),
+                          KShortcut(), this, 0, actions(), "togglePopups");
     new KToggleAction(i18n("Save &Play Queue on Exit"),
                       KShortcut(), this, 0, actions(), "saveUpcomingTracks");
 
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)),
-	    this, SLOT(slotToggleSystemTray(bool)));
+            this, SLOT(slotToggleSystemTray(bool)));
 
 
     m_outputSelectAction = PlayerManager::playerSelectAction(actions());
@@ -191,10 +191,10 @@ void JuK::setupActions()
         m_outputSelectAction->setCurrentItem(0);
 
     new KAction(i18n("&Tag Guesser..."), 0, 0, this, SLOT(slotConfigureTagGuesser()),
-		actions(), "tagGuesserConfig");
+                actions(), "tagGuesserConfig");
 
     new KAction(i18n("&File Renamer..."), 0, 0, this, SLOT(slotConfigureFileRenamer()),
-		actions(), "fileRenamerConfig");
+                actions(), "fileRenamerConfig");
 
     KStdAction::keyBindings(this, SLOT(slotEditKeys()), actions());
 
@@ -203,24 +203,24 @@ void JuK::setupActions()
     //////////////////////////////////////////////////
 
     m_sliderAction = new SliderAction(i18n("Track Position"), actions(),
-				      "trackPositionAction");
+                                      "trackPositionAction");
 }
 
 void JuK::setupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
-	m_systemTray = new SystemTray(this, "systemTray");
-	m_systemTray->show();
+        m_systemTray = new SystemTray(this, "systemTray");
+        m_systemTray->show();
 
-	m_toggleDockOnCloseAction->setEnabled(true);
-	m_togglePopupsAction->setEnabled(true);
+        m_toggleDockOnCloseAction->setEnabled(true);
+        m_togglePopupsAction->setEnabled(true);
 
-	connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotAboutToQuit()));
+        connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotAboutToQuit()));
     }
     else {
-	m_systemTray = 0;
-	m_toggleDockOnCloseAction->setEnabled(false);
-	m_togglePopupsAction->setEnabled(false);
+        m_systemTray = 0;
+        m_toggleDockOnCloseAction->setEnabled(false);
+        m_togglePopupsAction->setEnabled(false);
     }
 }
 
@@ -292,9 +292,9 @@ void JuK::readConfig()
     KConfigGroup playerConfig(KGlobal::config(), "Player");
 
     if(m_sliderAction->volumeSlider()) {
-	int maxVolume = m_sliderAction->volumeSlider()->maxValue();
-	int volume = playerConfig.readNumEntry("Volume", maxVolume);
-	m_sliderAction->volumeSlider()->setVolume(volume);
+        int maxVolume = m_sliderAction->volumeSlider()->maxValue();
+        int volume = playerConfig.readNumEntry("Volume", maxVolume);
+        m_sliderAction->volumeSlider()->setVolume(volume);
     }
 
     // Default to no random play
@@ -303,15 +303,15 @@ void JuK::readConfig()
 
     QString randomPlayMode = playerConfig.readEntry("RandomPlay", "Disabled");
     if(randomPlayMode == "true" || randomPlayMode == "Normal")
-	m_randomPlayAction->setChecked(true);
+        m_randomPlayAction->setChecked(true);
     else if(randomPlayMode == "AlbumRandomPlay")
-	ActionCollection::action<KToggleAction>("albumRandomPlay")->setChecked(true);
+        ActionCollection::action<KToggleAction>("albumRandomPlay")->setChecked(true);
 
     bool loopPlaylist = playerConfig.readBoolEntry("LoopPlaylist", false);
     ActionCollection::action<KToggleAction>("loopPlaylist")->setChecked(loopPlaylist);
 
     // general settings
-    
+
     KConfigGroup settingsConfig(KGlobal::config(), "Settings");
 
     bool dockInSystemTray = settingsConfig.readBoolEntry("DockInSystemTray", true);
@@ -324,7 +324,7 @@ void JuK::readConfig()
     m_togglePopupsAction->setChecked(showPopups);
 
     if(m_outputSelectAction)
-	m_outputSelectAction->setCurrentItem(settingsConfig.readNumEntry("MediaSystem", 0));
+        m_outputSelectAction->setCurrentItem(settingsConfig.readNumEntry("MediaSystem", 0));
 
     m_toggleSplashAction->setChecked(m_showSplash);
 }
@@ -332,7 +332,7 @@ void JuK::readConfig()
 void JuK::saveConfig()
 {
     // player settings
-    
+
     KConfigGroup playerConfig(KGlobal::config(), "Player");
 
     if (m_sliderAction->volumeSlider())
@@ -347,11 +347,11 @@ void JuK::saveConfig()
 
     a = ActionCollection::action<KToggleAction>("albumRandomPlay");
     if(a->isChecked())
-	playerConfig.writeEntry("RandomPlay", "AlbumRandomPlay");
+        playerConfig.writeEntry("RandomPlay", "AlbumRandomPlay");
     else if(m_randomPlayAction->isChecked())
-	playerConfig.writeEntry("RandomPlay", "Normal");
+        playerConfig.writeEntry("RandomPlay", "Normal");
     else
-	playerConfig.writeEntry("RandomPlay", "Disabled");
+        playerConfig.writeEntry("RandomPlay", "Disabled");
 
     // general settings
 
@@ -362,7 +362,7 @@ void JuK::saveConfig()
     settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
     settingsConfig.writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
     if(m_outputSelectAction)
-	settingsConfig.writeEntry("MediaSystem", m_outputSelectAction->currentItem());
+        settingsConfig.writeEntry("MediaSystem", m_outputSelectAction->currentItem());
 
     KGlobal::config()->sync();
 }
@@ -396,15 +396,15 @@ bool JuK::queryClose()
        m_systemTray &&
        m_toggleDockOnCloseAction->isChecked())
     {
-	KMessageBox::information(this,
-	    i18n("<qt>Closing the main window will keep JuK running in the system tray. "
-		 "Use Quit from the File menu to quit the application.</qt>"),
-	    i18n("Docking in System Tray"), "hideOnCloseInfo");
-	hide();
-	return false;
+        KMessageBox::information(this,
+            i18n("<qt>Closing the main window will keep JuK running in the system tray. "
+                 "Use Quit from the File menu to quit the application.</qt>"),
+            i18n("Docking in System Tray"), "hideOnCloseInfo");
+        hide();
+        return false;
     }
     else
-	return true;
+        return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -436,12 +436,12 @@ void JuK::slotQuit()
 void JuK::slotToggleSystemTray(bool enabled)
 {
     if(enabled && !m_systemTray)
-	setupSystemTray();
+        setupSystemTray();
     else if(!enabled && m_systemTray) {
-	delete m_systemTray;
-	m_systemTray = 0;
-	m_toggleDockOnCloseAction->setEnabled(false);
-	m_togglePopupsAction->setEnabled(false);
+        delete m_systemTray;
+        m_systemTray = 0;
+        m_toggleDockOnCloseAction->setEnabled(false);
+        m_togglePopupsAction->setEnabled(false);
     }
 }
 
@@ -471,7 +471,7 @@ void JuK::slotCheckAlbumNextAction(bool albumRandomEnabled)
     // unless we're not playing right now.
 
     if(albumRandomEnabled && !m_player->playing())
-	albumRandomEnabled = false;
+        albumRandomEnabled = false;
 
     action("forwardAlbum")->setEnabled(albumRandomEnabled);
 }

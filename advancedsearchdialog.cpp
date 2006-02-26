@@ -39,7 +39,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
-					   const PlaylistSearch &defaultSearch,
+                                           const PlaylistSearch &defaultSearch,
                                            QWidget *parent,
                                            const char *name) :
     KDialogBase(parent, name, true, i18n("Create Search Playlist"), Ok|Cancel)

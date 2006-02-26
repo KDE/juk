@@ -25,8 +25,8 @@ public:
     SearchPlaylist(PlaylistCollection *collection,
                    const PlaylistSearch &search = PlaylistSearch(),
                    const QString &name = QString::null,
-		   bool setupPlaylist = true,
-		   bool synchronizePlaying = false);
+                   bool setupPlaylist = true,
+                   bool synchronizePlaying = false);
 
     PlaylistSearch playlistSearch() const { return m_search; }
     void setPlaylistSearch(const PlaylistSearch &s, bool update = true);

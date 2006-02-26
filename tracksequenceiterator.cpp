@@ -1,5 +1,5 @@
 /***************************************************************************
-    begin                : Thu Aug 19 2004 
+    begin                : Thu Aug 19 2004
     copyright            : (C) 2002 - 2004 by Michael Pyne
     email                : michael.pyne@kde.org
 ***************************************************************************/
@@ -165,7 +165,7 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
 {
     bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
-    
+
     if(random || albumRandom) {
         PlaylistItemList items = playlist->selectedItems();
         if(items.isEmpty())
@@ -214,7 +214,7 @@ void DefaultSequenceIterator::setCurrent(PlaylistItem *current)
 
     bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
-    
+
     if((albumRandom || random) && current && m_randomItems.isEmpty()) {
 
         // We're setting a current item, refill the random list now, and remove
@@ -268,7 +268,7 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
     m_albumSearch.addPlaylist(searchItem->playlist());
 
     ColumnList columns;
-    
+
     m_albumSearch.setSearchMode(PlaylistSearch::MatchAll);
     m_albumSearch.clearComponents();
 

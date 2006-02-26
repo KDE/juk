@@ -315,7 +315,7 @@ private:
         CategoryID id(Track, categoryNum);
         return m_rows[findIdentifier(id)].options.trackWidth();
     }
-    
+
     /**
      * @param  index, the 0-based index for the folder boundary.
      * @return true if there should be a folder separator between category
@@ -467,7 +467,7 @@ private:
      */
     Rows m_rows;
 
-    /** 
+    /**
      * This holds an array of checkboxes that allow the user to insert folder
      * separators in between categories.
      */

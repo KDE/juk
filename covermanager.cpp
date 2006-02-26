@@ -1,5 +1,5 @@
 /***************************************************************************
-    begin                : Sun May 15 2005 
+    begin                : Sun May 15 2005
     copyright            : (C) 2005 by Michael Pyne
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
@@ -198,7 +198,7 @@ void CoverManagerPrivate::loadCovers()
 
         return;
     }
-    
+
     // Read in the count next, then the data.
     in >> count;
     for(Q_UINT32 i = 0; i < count; ++i) {

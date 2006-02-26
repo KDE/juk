@@ -21,7 +21,7 @@
 class KAction;
 class KActionCollection;
 
-/** 
+/**
  * Abstract base class to define an interface for classes that export
  * PlaylistItem data.
  *

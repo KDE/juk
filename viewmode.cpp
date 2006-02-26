@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Sat Jun 7 2003
-    copyright            : (C) 2003 - 2004 by Scott Wheeler, 
+    copyright            : (C) 2003 - 2004 by Scott Wheeler,
     email                : wheeler@kde.org
  ***************************************************************************/
 
@@ -52,7 +52,7 @@ ViewMode::~ViewMode()
 }
 
 void ViewMode::paintCell(PlaylistBox::Item *item,
-                         QPainter *painter, 
+                         QPainter *painter,
                          const QColorGroup &colorGroup,
                          int column, int width, int)
 {
@@ -195,7 +195,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
 
     while(!line.isEmpty()) {
         int textLength = line.length();
-        while(textLength > 0 && 
+        while(textLength > 0 &&
               fm.width(line.mid(0, textLength).stripWhiteSpace()) +
               item->listView()->itemMargin() * 2 > width)
         {
@@ -205,7 +205,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
             else
                 textLength--;
         }
-        
+
         l.append(line.mid(0, textLength).stripWhiteSpace());
         line = line.mid(textLength);
     }
@@ -227,7 +227,7 @@ CompactViewMode::~CompactViewMode()
 }
 
 void CompactViewMode::paintCell(PlaylistBox::Item *item,
-                                QPainter *painter, 
+                                QPainter *painter,
                                 const QColorGroup &colorGroup,
                                 int column, int width, int align)
 {
@@ -368,7 +368,7 @@ void TreeViewMode::addItems(const QStringList &items, unsigned column)
 
         if(m_treeViewItems.find(itemKey))
             continue;
-            
+
         components.clear();
         components.append(PlaylistSearch::Component(item, false, columns, mode));
 
@@ -405,7 +405,7 @@ void TreeViewMode::setupDynamicPlaylists()
 {
     PlaylistBox::Item *i;
     PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
-    
+
     i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
     m_searchCategories.insert("artists", i);
 

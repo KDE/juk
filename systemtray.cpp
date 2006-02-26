@@ -173,7 +173,7 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
 
     new KAction(i18n("Redisplay Popup"), KShortcut(), this,
                 SLOT(slotPlay()), actions(), "showPopup");
-    
+
     KMenu *cm = contextMenu();
 
     connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotPlay()));
@@ -353,7 +353,7 @@ void SystemTray::createPopup()
 {
     FileHandle playingFile = PlayerManager::instance()->playingFile();
     Tag *playingInfo = playingFile.tag();
-    
+
     // If the action exists and it's checked, do our stuff
 
     if(!action<KToggleAction>("togglePopups")->isChecked())
@@ -421,11 +421,11 @@ bool SystemTray::buttonsToLeft() const
 {
     // The following code was nicked from kpassivepopup.cpp
 
-    NETWinInfo ni(QX11Info::display(), winId(), QX11Info::appRootWindow(), 
+    NETWinInfo ni(QX11Info::display(), winId(), QX11Info::appRootWindow(),
                   NET::WMIconGeometry | NET::WMKDESystemTrayWinFor);
     NETRect frame, win;
     ni.kdeGeometry(frame, win);
-    
+
     QRect bounds = KGlobalSettings::desktopGeometry(QPoint(win.pos.x, win.pos.y));
 
     // This seems to accurately guess what side of the icon that
@@ -452,7 +452,7 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
 void SystemTray::createButtonBox(QWidget *parent)
 {
     Q3VBox *buttonBox = new Q3VBox(parent);
-    
+
     buttonBox->setSpacing(3);
 
     QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");

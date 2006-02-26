@@ -16,7 +16,7 @@
 #include <kaction.h>
 #include <kpushbutton.h>
 #include <kiconloader.h>
-#include <ksqueezedtextlabel.h> 
+#include <ksqueezedtextlabel.h>
 #include <klocale.h>
 #include <kdebug.h>
 

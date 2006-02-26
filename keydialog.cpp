@@ -137,9 +137,9 @@ int KeyDialog::configure()
     int retcode = exec();
     if(retcode == Accepted) {
 
-	KConfigGroup config(KGlobal::config(), "Shortcuts");
-	config.writeEntry("GlobalKeys", m_group->id(m_group->selected()));
-	KGlobal::config()->sync();
+        KConfigGroup config(KGlobal::config(), "Shortcuts");
+        config.writeEntry("GlobalKeys", m_group->id(m_group->selected()));
+        KGlobal::config()->sync();
 
         m_pKeyChooser->save();
     }

@@ -1,5 +1,5 @@
 /***************************************************************************
-    begin                : Thu Aug 19 2004 
+    begin                : Thu Aug 19 2004
     copyright            : (C) 2002 - 2004 by Michael Pyne
     email                : michael.pyne@kde.org
 ***************************************************************************/
@@ -66,7 +66,7 @@ public:
      * then removes the TrackSequenceManager's pointer to the iterator without
      * deleting the iterator.  You should only do this if you are going to be
      * using @see installIterator to give control of the iterator back to the
-     * TrackSequenceManager at some point.  Also, you must install a 
+     * TrackSequenceManager at some point.  Also, you must install a
      * replacement iterator before the TrackSequenceManager is otherwise
      * used.  If you use this function, you must manually set the current
      * item of the iterator you replace the old one with (if you want).
@@ -158,7 +158,7 @@ private:
      */
     void initialize();
 
-    /** 
+    /**
      * Constructs the sequence manager.  The constructor will work even before
      * the GUI has been created.  Note that you can't actually construct an
      * object with this function, use instance().
@@ -168,7 +168,7 @@ private:
     TrackSequenceManager();
 
 protected slots:
-    
+
     /**
      * This slot should be called when @a item is about to be deleted, so that
      * the TrackSequenceManager can make sure that any pointers held pointing

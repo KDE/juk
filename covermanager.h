@@ -1,5 +1,5 @@
 /***************************************************************************
-    begin                : Sun May 15 2005 
+    begin                : Sun May 15 2005
     copyright            : (C) 2005 by Michael Pyne
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
@@ -35,7 +35,7 @@ class QDataStream;
  * Don't assume that the artist or album information is filled out, it is
  * there to allow the CoverManager to try to automatically assign covers to
  * new tracks.
- * 
+ *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  * @see CoverManager
  */
@@ -174,7 +174,7 @@ public:
 
     /**
      * Function to determine if @p id matches any covers in the database.
-     * 
+     *
      * @param id The id of the cover to search for.
      * @return true if the database has a cover identified by @p id, false
      *         otherwise.

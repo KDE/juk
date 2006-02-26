@@ -49,7 +49,7 @@ protected:
 
 private slots:
     void slotExport();
-    
+
 private:
     enum K3bOpenMode { AudioCD, DataCD, Abort };
 
@@ -85,7 +85,7 @@ public:
 private slots:
     void slotExport();
 
-private:    
+private:
     PlaylistBox *m_playlistBox;
 };
 

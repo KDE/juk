@@ -109,7 +109,7 @@ public:
 protected:
 
     void deleteNode(Node *n);
-    
+
     Q3PtrVector<Node> m_table;
     static const int m_tableSize = 5003;
 };
@@ -144,7 +144,7 @@ inline int hashString(const StringType &s)
     int index = h;
     if(index < 0)
         index = -index;
-    return index;        
+    return index;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -210,7 +210,7 @@ bool Hash<T>::insert(T value)
     int h = hash(value);
     Node *i = m_table[h];
     Node *j = 0;
-    
+
     while(i) {
         if(i->key == value)
             return true;

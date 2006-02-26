@@ -38,9 +38,9 @@ public:
 
     PlaylistSearch();
     PlaylistSearch(const PlaylistList &playlists,
-		   const ComponentList &components,
-		   SearchMode mode = MatchAny,
-		   bool searchNow = true);
+                   const ComponentList &components,
+                   SearchMode mode = MatchAny,
+                   bool searchNow = true);
 
     void search();
     bool checkItem(PlaylistItem *item);
@@ -91,7 +91,7 @@ public:
     enum MatchMode { Contains = 0, Exact = 1, ContainsWord = 2 };
 
     /**
-     * Create an empty search component.  This is only provided for use by 
+     * Create an empty search component.  This is only provided for use by
      * QValueList and should not be used in any other context.
      */
     Component();
@@ -100,9 +100,9 @@ public:
      * Create a query component.  This defaults to searching all visible coulumns.
      */
     Component(const QString &query,
-	      bool caseSensitive = false,
-	      const ColumnList &columns = ColumnList(),
-	      MatchMode mode = Contains);
+              bool caseSensitive = false,
+              const ColumnList &columns = ColumnList(),
+              MatchMode mode = Contains);
 
     /**
      * Create a query component.  This defaults to searching all visible coulumns.
@@ -119,7 +119,7 @@ public:
     MatchMode matchMode() const { return m_mode; }
 
     bool operator==(const Component &v) const;
-    
+
 private:
     QString m_query;
     QRegExp m_queryRe;

@@ -52,7 +52,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     m_iconWidget->arrangeItemsInGrid();
     m_iconWidget->setItemsMovable(FALSE);
     connect(m_iconWidget, SIGNAL(executed(Q3IconViewItem *)),
-	    this, SLOT(slotOk()));
+            this, SLOT(slotOk()));
 
     Q3HBox *imgSize = new Q3HBox(actionButton(User1)->parentWidget());
     QLabel *label = new QLabel(imgSize);

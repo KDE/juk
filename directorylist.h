@@ -27,14 +27,14 @@ class DirectoryList : public KDialogBase
 public:
     struct Result
     {
-	QStringList addedDirs;
-	QStringList removedDirs;
-	DialogCode status;
-	bool addPlaylists;
+        QStringList addedDirs;
+        QStringList removedDirs;
+        DialogCode status;
+        bool addPlaylists;
     };
 
     DirectoryList(const QStringList &directories, bool importPlaylists,
-		  QWidget *parent = 0, const char *name = 0);
+                  QWidget *parent = 0, const char *name = 0);
     virtual ~DirectoryList();
 
 public slots:

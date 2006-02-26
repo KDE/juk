@@ -54,7 +54,7 @@ class GoogleFetcher : public QObject
 
 public:
     enum ImageSize { All, Icon, Small, Medium, Large, XLarge };
-    
+
     GoogleFetcher(const FileHandle &file);
     QPixmap pixmap();
 

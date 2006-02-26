@@ -129,7 +129,7 @@ public:
     /**
      * Returns the TunePimp file ID for the file.  This is of no use to the
      * public API.
-     * 
+     *
      * @internal
      */
     int fileId() const;

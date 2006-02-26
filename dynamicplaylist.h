@@ -38,7 +38,7 @@ public:
                     const QString &name = QString::null,
                     const QString &iconName = "midi",
                     bool setupPlaylist = true,
-		    bool synchronizePlaying = false);
+                    bool synchronizePlaying = false);
 
     virtual ~DynamicPlaylist();
 

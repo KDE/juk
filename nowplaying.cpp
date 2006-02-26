@@ -153,7 +153,7 @@ void CoverItem::mouseReleaseEvent(QMouseEvent *event)
     {
         m_file.coverInfo()->popup();
     }
-    
+
     QLabel::mousePressEvent(event);
 }
 
@@ -346,7 +346,7 @@ void HistoryItem::openLink(const QString &link)
     {
         if((*it).anchor == link) {
             if((*it).playlist) {
-                CollectionListItem *collectionItem = 
+                CollectionListItem *collectionItem =
                     CollectionList::instance()->lookup((*it).file.absFilePath());
                 PlaylistItem *item = collectionItem->itemForPlaylist((*it).playlist);
                 (*it).playlist->clearSelection();

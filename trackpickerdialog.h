@@ -32,7 +32,7 @@ class TrackPickerDialog : public KDialogBase
 
 public:
     TrackPickerDialog(const QString &name,
-		      const KTRMResultList &results,
+                      const KTRMResultList &results,
                       QWidget *parent = 0);
 
     virtual ~TrackPickerDialog();

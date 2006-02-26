@@ -1,7 +1,7 @@
 /***************************************************************************
     begin                : Sat Oct 25 2003
     copyright            : (C) 2003 by Maksim Orlovich
-    email                : maksim.orlovich@kdemail.net    
+    email                : maksim.orlovich@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -28,7 +28,7 @@ StringShare::Data* StringShare::s_data = 0;
  * really use 40K or so.
  *
  * The end result is that many strings end up pointing to the same underlying data
- * object, instead of each one having its own little copy. 
+ * object, instead of each one having its own little copy.
  */
 
 struct StringShare::Data
@@ -41,13 +41,13 @@ StringShare::Data* StringShare::data()
 {
     if (!s_data)
         s_data = new Data;
-    return s_data;        
+    return s_data;
 }
 
 QString StringShare::tryShare(const QString& in)
 {
     int index = hashString(in) % SIZE;
-    
+
     Data* dat = data();
     if (dat->qstringHash[index] == in) //Match
         return dat->qstringHash[index];
@@ -56,13 +56,13 @@ QString StringShare::tryShare(const QString& in)
         //Else replace whatever was there before
         dat->qstringHash[index] = in;
         return in;
-    }    
+    }
 }
 
 Q3CString StringShare::tryShare(const Q3CString& in)
 {
     int index = hashString(in) % SIZE;
- 
+
     Data* dat = data();
     if (dat->qcstringHash[index] == in) //Match
         return dat->qcstringHash[index];
@@ -71,5 +71,5 @@ Q3CString StringShare::tryShare(const Q3CString& in)
         //Else replace whatever was there before
         dat->qcstringHash[index] = in;
         return in;
-    }        
+    }
 }

@@ -75,7 +75,7 @@ static Player *createPlayer(int system = ArtsBackend)
     case GStreamerBackend:
         p = new GStreamerPlayer;
         break;
-#endif 
+#endif
     default:
 #if HAVE_ARTS
         p = new ArtsPlayer;
@@ -652,9 +652,9 @@ void PlayerManager::setup()
         m_player = createPlayer();
 
     float volume;
-    
+
     if(m_sliderAction->volumeSlider()) {
-        volume = 
+        volume =
             float(m_sliderAction->volumeSlider()->volume()) /
             float(m_sliderAction->volumeSlider()->maxValue());
     }

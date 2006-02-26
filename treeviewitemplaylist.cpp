@@ -73,7 +73,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
         case PlaylistItem::ArtistColumn:
             tag->setArtist(name());
             break;
- 
+
         case PlaylistItem::AlbumColumn:
             tag->setAlbum(name());
             break;
@@ -86,7 +86,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
             kDebug() << "Unhandled column type editing " << *it << endl;
         }
 
-	TagTransactionManager::instance()->changeTagOnItem(item, tag);
+        TagTransactionManager::instance()->changeTagOnItem(item, tag);
     }
 }
 

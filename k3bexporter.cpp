@@ -167,14 +167,14 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
     }
 
     KProcess *process = new KProcess;
-    
+
     *process << "k3b";
     *process << cmdOption;
 
     PlaylistItemList::ConstIterator it;
     for(it = items.begin(); it != items.end(); ++it)
         *process << (*it)->file().absFilePath();
-    
+
     if(!process->start(KProcess::DontCare))
         KMessageBox::error(m_parent, i18n("Unable to start K3b."));
 }
@@ -222,11 +222,11 @@ bool K3bExporter::startNewK3bProject(DCOPRef &ref)
     case AudioCD:
         request = "createAudioCDProject()";
         break;
-        
+
     case DataCD:
         request = "createDataCDProject()";
         break;
-        
+
     case Abort:
         return false;
     }

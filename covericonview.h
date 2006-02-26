@@ -1,5 +1,5 @@
 /***************************************************************************
-    begin                : Sat Jul 9 2005 
+    begin                : Sat Jul 9 2005
     copyright            : (C) 2005 by Michael Pyne
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
@@ -30,12 +30,12 @@ namespace CoverUtility
     class CoverIconViewItem : public KIconViewItem
     {
     public:
-	CoverIconViewItem(coverKey id, Q3IconView *parent);
+        CoverIconViewItem(coverKey id, Q3IconView *parent);
 
-	coverKey id() const { return m_id; }
+        coverKey id() const { return m_id; }
 
     private:
-	coverKey m_id;
+        coverKey m_id;
     };
 }
 

@@ -61,7 +61,7 @@ public:
 
     int cacheVersion() const { return m_cacheVersion; }
     void setCacheVersion(int v) { m_cacheVersion = v; }
-    
+
 private:
     int m_cacheVersion;
 };

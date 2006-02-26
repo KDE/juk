@@ -32,15 +32,15 @@ PlaylistSearch::PlaylistSearch() :
 }
 
 PlaylistSearch::PlaylistSearch(const PlaylistList &playlists,
-			       const ComponentList &components,
-			       SearchMode mode,
-			       bool searchNow) :
+                               const ComponentList &components,
+                               SearchMode mode,
+                               bool searchNow) :
     m_playlists(playlists),
     m_components(components),
     m_mode(mode)
 {
     if(searchNow)
-	search();
+        search();
 }
 
 void PlaylistSearch::search()
@@ -60,14 +60,14 @@ void PlaylistSearch::search()
 
     PlaylistList::Iterator playlistIt = m_playlists.begin();
     for(; playlistIt != m_playlists.end(); ++playlistIt) {
-	if(!isEmpty()) {
-	    for(Q3ListViewItemIterator it(*playlistIt); it.current(); ++it)
-		checkItem(static_cast<PlaylistItem *>(*it));
-	}
-	else {
-	    m_items += (*playlistIt)->items();
-	    m_matchedItems += (*playlistIt)->items();
-	}
+        if(!isEmpty()) {
+            for(Q3ListViewItemIterator it(*playlistIt); it.current(); ++it)
+                checkItem(static_cast<PlaylistItem *>(*it));
+        }
+        else {
+            m_items += (*playlistIt)->items();
+            m_matchedItems += (*playlistIt)->items();
+        }
     }
 }
 
@@ -81,23 +81,23 @@ bool PlaylistSearch::checkItem(PlaylistItem *item)
     ComponentList::Iterator componentIt = m_components.begin();
     for(; componentIt != m_components.end(); ++componentIt) {
 
-	bool componentMatches = (*componentIt).matches(item);
+        bool componentMatches = (*componentIt).matches(item);
 
-	if(componentMatches && m_mode == MatchAny) {
-	    match = true;
-	    break;
-	}
+        if(componentMatches && m_mode == MatchAny) {
+            match = true;
+            break;
+        }
 
-	if(!componentMatches && m_mode == MatchAll) {
-	    match = false;
-	    break;
-	}
+        if(!componentMatches && m_mode == MatchAll) {
+            match = false;
+            break;
+        }
     }
 
     if(match)
-	m_matchedItems.append(item);
+        m_matchedItems.append(item);
     else
-	m_unmatchedItems.append(item);
+        m_unmatchedItems.append(item);
 
     return match;
 }
@@ -125,12 +125,12 @@ bool PlaylistSearch::isNull() const
 bool PlaylistSearch::isEmpty() const
 {
     if(isNull())
-	return true;
+        return true;
 
     ComponentList::ConstIterator it = m_components.begin();
     for(; it != m_components.end(); ++it) {
-	if(!(*it).query().isEmpty() || !(*it).pattern().isEmpty())
-	    return false;
+        if(!(*it).query().isEmpty() || !(*it).pattern().isEmpty())
+            return false;
     }
 
     return true;
@@ -156,9 +156,9 @@ PlaylistSearch::Component::Component() :
 }
 
 PlaylistSearch::Component::Component(const QString &query,
-				     bool caseSensitive,
-				     const ColumnList &columns,
-				     MatchMode mode) :
+                                     bool caseSensitive,
+                                     const ColumnList &columns,
+                                     MatchMode mode) :
     m_query(query),
     m_columns(columns),
     m_mode(mode),
@@ -183,71 +183,71 @@ PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& col
 bool PlaylistSearch::Component::matches(PlaylistItem *item) const
 {
     if((m_re && m_queryRe.isEmpty()) || (!m_re && m_query.isEmpty()))
-	return false;
+        return false;
 
     if(m_columns.isEmpty()) {
-	Playlist *p = static_cast<Playlist *>(item->listView());
-	for(int i = 0; i < p->columns(); i++) {
-	    if(p->isColumnVisible(i))
-		m_columns.append(i);
-	}
+        Playlist *p = static_cast<Playlist *>(item->listView());
+        for(int i = 0; i < p->columns(); i++) {
+            if(p->isColumnVisible(i))
+                m_columns.append(i);
+        }
     }
 
 
     for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
 
-	if(m_re) {
-	    if(item->text(*it).find(m_queryRe) > -1)
-		return true;
-	    else
-		break;
-	}
+        if(m_re) {
+            if(item->text(*it).find(m_queryRe) > -1)
+                return true;
+            else
+                break;
+        }
 
-	switch(m_mode) {
-	case Contains:
-	    if(item->text(*it).find(m_query, 0, m_caseSensitive) > -1)
-		return true;
-	    break;
-	case Exact:
-	    if(item->text(*it).length() == m_query.length()) {
-		if(m_caseSensitive) {
-		    if(item->text(*it) == m_query)
-			return true;
-		}
-		else if(item->text(*it).lower() == m_query.lower())
-		    return true;
-	    }
-	    break;
-	case ContainsWord:
-	{
-	    QString s = item->text(*it);
-	    int i = s.find(m_query, 0, m_caseSensitive);
+        switch(m_mode) {
+        case Contains:
+            if(item->text(*it).find(m_query, 0, m_caseSensitive) > -1)
+                return true;
+            break;
+        case Exact:
+            if(item->text(*it).length() == m_query.length()) {
+                if(m_caseSensitive) {
+                    if(item->text(*it) == m_query)
+                        return true;
+                }
+                else if(item->text(*it).lower() == m_query.lower())
+                    return true;
+            }
+            break;
+        case ContainsWord:
+        {
+            QString s = item->text(*it);
+            int i = s.find(m_query, 0, m_caseSensitive);
 
-	    if(i >= 0) {
+            if(i >= 0) {
 
-		// If we found the pattern and the lengths are the same, then
-		// this is a match.
+                // If we found the pattern and the lengths are the same, then
+                // this is a match.
 
-		if(s.length() == m_query.length())
-		    return true;
+                if(s.length() == m_query.length())
+                    return true;
 
-		// First: If the match starts at the beginning of the text or the
-		// character before the match is not a word character
+                // First: If the match starts at the beginning of the text or the
+                // character before the match is not a word character
 
-		// AND
+                // AND
 
-		// Second: Either the pattern was found at the end of the text,
-		// or the text following the match is a non-word character
+                // Second: Either the pattern was found at the end of the text,
+                // or the text following the match is a non-word character
 
-		// ...then we have a match
+                // ...then we have a match
 
-		if((i == 0 || !s.at(i - 1).isLetterOrNumber()) &&
-		   (i + m_query.length() == s.length() || !s.at(i + m_query.length()).isLetterOrNumber()))
-		    return true;
-		break;
-	    }
-	}
-	}
+                if((i == 0 || !s.at(i - 1).isLetterOrNumber()) &&
+                   (i + m_query.length() == s.length() || !s.at(i + m_query.length()).isLetterOrNumber()))
+                    return true;
+                break;
+            }
+        }
+        }
     }
     return false;
 }
@@ -255,12 +255,12 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
 bool PlaylistSearch::Component::operator==(const Component &v) const
 {
     return m_query == v.m_query &&
-	m_queryRe == v.m_queryRe &&
-	m_columns == v.m_columns &&
-	m_mode == v.m_mode &&
-	m_searchAllVisible == v.m_searchAllVisible &&
-	m_caseSensitive == v.m_caseSensitive &&
-	m_re == v.m_re;
+        m_queryRe == v.m_queryRe &&
+        m_columns == v.m_columns &&
+        m_mode == v.m_mode &&
+        m_searchAllVisible == v.m_searchAllVisible &&
+        m_caseSensitive == v.m_caseSensitive &&
+        m_re == v.m_re;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -290,7 +290,7 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch &search)
     Q_INT32 mode;
     s >> mode;
     search.setSearchMode(PlaylistSearch::SearchMode(mode));
-    
+
     return s;
 }
 

@@ -165,9 +165,9 @@ void GStreamerPlayer::setupPipeline()
     else {
         m_sink = gst_element_factory_make("alsasink", "sink");
         if(!m_sink)
-            m_sink = gst_element_factory_make("osssink", "sink");            
+            m_sink = gst_element_factory_make("osssink", "sink");
     }
-    
+
 
     gst_bin_add_many(GST_BIN(m_pipeline), m_source, m_decoder, m_volume, m_sink, 0);
     gst_element_link_many(m_source, m_decoder, m_volume, m_sink, 0);

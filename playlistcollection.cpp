@@ -890,7 +890,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
         SLOT(slotViewCovers()), "viewCover", "viewmag"));
     menu->insert(createAction(i18n("Get Cover From &File..."),
         SLOT(slotAddLocalCover()), "addCover", "fileimport", "CTRL+SHIFT+f"));
-    menu->insert(createAction(i18n("Get Cover From &Internet..."), 
+    menu->insert(createAction(i18n("Get Cover From &Internet..."),
         SLOT(slotAddInternetCover()), "googleCover", "connect_established", "CTRL+SHIFT+g"));
     menu->insert(createAction(i18n("&Delete Cover"),
         SLOT(slotRemoveCovers()), "removeCover", "editdelete"));

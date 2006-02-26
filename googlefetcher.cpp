@@ -61,7 +61,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     KUrl url("http://images.google.com/images");
     url.addQueryItem("q", m_searchString);
     url.addQueryItem("hl", "en");
-    
+
     switch (size) {
         case XLarge:
             url.addQueryItem("imgsz", "xlarge|xxlarge");
@@ -81,7 +81,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
         default:
             break;
     }
-    
+
     m_loadedQuery = m_searchString;
     m_loadedSize = size;
 
@@ -109,7 +109,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
 
     if(!hasImageResults(search))
     {
-	kDebug(65432) << "Search returned no results.\n";
+        kDebug(65432) << "Search returned no results.\n";
         emit signalNewSearch(m_imageList);
         return;
     }
@@ -119,73 +119,73 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     for(uint i = 0; i < topLevelNodes.length(); i++) {
         DOM::Node thisTopNode = topLevelNodes.item(i);
 
-	// The get named item test seems to accurately determine whether a
-	// <TABLE> tag contains the actual images or is just layout filler.
-	// The parent node check is due to the fact that we only want top-level
-	// tables, but the getElementsByTagName returns all tables in the
-	// tree.
-	DOM::HTMLTableElement table = thisTopNode;
-	if(table.isNull() || table.parentNode() != body || table.getAttribute("align").isEmpty())
-	    continue;
+        // The get named item test seems to accurately determine whether a
+        // <TABLE> tag contains the actual images or is just layout filler.
+        // The parent node check is due to the fact that we only want top-level
+        // tables, but the getElementsByTagName returns all tables in the
+        // tree.
+        DOM::HTMLTableElement table = thisTopNode;
+        if(table.isNull() || table.parentNode() != body || table.getAttribute("align").isEmpty())
+            continue;
 
-	DOM::HTMLCollection rows = table.rows();
-	uint imageIndex = 0;
+        DOM::HTMLCollection rows = table.rows();
+        uint imageIndex = 0;
 
-	// Some tables will have an extra row saying "Displaying only foo-size
-	// images".  These tables have three rows, so we need to have
-	// increment imageIndex for these.
-	if(rows.length() > 2)
-	    imageIndex = 1;
+        // Some tables will have an extra row saying "Displaying only foo-size
+        // images".  These tables have three rows, so we need to have
+        // increment imageIndex for these.
+        if(rows.length() > 2)
+            imageIndex = 1;
 
-	// A list of <TDs> containing the hyperlink to the site, with image.
-	DOM::NodeList images = rows.item(imageIndex).childNodes();
+        // A list of <TDs> containing the hyperlink to the site, with image.
+        DOM::NodeList images = rows.item(imageIndex).childNodes();
 
-	// For each table node, pull the images out of the first row
-	    
-	for(uint j = 0; j < images.length(); j++) {
-	    DOM::Element tdElement = images.item(j);
-	    if(tdElement.isNull()) {
-		// Whoops....
-		kError(65432) << "Expecting a <TD> in a <TR> parsing Google Images!\n";
-		continue;
-	    }
+        // For each table node, pull the images out of the first row
 
-	    // Grab first item out of list of images.  There should only be
-	    // one anyways.
-	    DOM::Element imgElement = tdElement.getElementsByTagName("img").item(0);
-	    if(imgElement.isNull()) {
-		kError(65432) << "Expecting a <IMG> in a <TD> parsing Google Images!\n";
-		continue;
-	    }
+        for(uint j = 0; j < images.length(); j++) {
+            DOM::Element tdElement = images.item(j);
+            if(tdElement.isNull()) {
+                // Whoops....
+                kError(65432) << "Expecting a <TD> in a <TR> parsing Google Images!\n";
+                continue;
+            }
 
-	    QString imageURL = "http://images.google.com" +
-		imgElement.getAttribute("src").string();
+            // Grab first item out of list of images.  There should only be
+            // one anyways.
+            DOM::Element imgElement = tdElement.getElementsByTagName("img").item(0);
+            if(imgElement.isNull()) {
+                kError(65432) << "Expecting a <IMG> in a <TD> parsing Google Images!\n";
+                continue;
+            }
 
-	    // Pull the matching <TD> node for the row under the one we've
-	    // got.
-	    tdElement = rows.item(imageIndex + 1).childNodes().item(j);
+            QString imageURL = "http://images.google.com" +
+                imgElement.getAttribute("src").string();
 
-	    // Iterate over it until we find a string with "pixels".
-	    unsigned long whatToShow = DOM::NodeFilter::SHOW_TEXT;
-	    DOM::NodeIterator it = search.createNodeIterator(tdElement, whatToShow, 0, false);
-	    DOM::Node node;
+            // Pull the matching <TD> node for the row under the one we've
+            // got.
+            tdElement = rows.item(imageIndex + 1).childNodes().item(j);
 
-	    for(node = it.nextNode(); !node.isNull(); node = it.nextNode()) {
-		if(node.nodeValue().string().contains("pixels")) {
-		    m_imageList.append(GoogleImage(imageURL, node.nodeValue().string()));
-		    break;
-		}
-	    }
-	}
+            // Iterate over it until we find a string with "pixels".
+            unsigned long whatToShow = DOM::NodeFilter::SHOW_TEXT;
+            DOM::NodeIterator it = search.createNodeIterator(tdElement, whatToShow, 0, false);
+            DOM::Node node;
+
+            for(node = it.nextNode(); !node.isNull(); node = it.nextNode()) {
+                if(node.nodeValue().string().contains("pixels")) {
+                    m_imageList.append(GoogleImage(imageURL, node.nodeValue().string()));
+                    break;
+                }
+            }
+        }
     }
     } // try
     catch (DOM::DOMException &e)
     {
-	kError(65432) << "Caught DOM Exception: " << e.code << endl;
+        kError(65432) << "Caught DOM Exception: " << e.code << endl;
     }
     catch (...)
     {
-	kError(65432) << "Caught unknown exception.\n";
+        kError(65432) << "Caught unknown exception.\n";
     }
 
     emit signalNewSearch(m_imageList);
@@ -248,14 +248,14 @@ bool GoogleFetcher::requestNewSearchTerms(bool noResults)
 bool GoogleFetcher::hasImageResults(DOM::HTMLDocument &search)
 {
     unsigned long typesToShow = DOM::NodeFilter::SHOW_TEXT;
-    
+
     DOM::NodeIterator it = search.createNodeIterator(search.body(), typesToShow, 0, false);
     DOM::Node node;
 
     for(node = it.nextNode(); !node.isNull(); node = it.nextNode()) {
-	// node should be a text node.
-	if(node.nodeValue().string().contains("did not match any"))
-	    return false;
+        // node should be a text node.
+        if(node.nodeValue().string().contains("did not match any"))
+            return false;
     }
 
     return true;

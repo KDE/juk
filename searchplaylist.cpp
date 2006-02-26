@@ -28,10 +28,10 @@
 SearchPlaylist::SearchPlaylist(PlaylistCollection *collection,
                                const PlaylistSearch &search,
                                const QString &name,
-			       bool setupPlaylist,
-			       bool synchronizePlaying) :
+                               bool setupPlaylist,
+                               bool synchronizePlaying) :
     DynamicPlaylist(search.playlists(), collection, name, "find",
-		    setupPlaylist, synchronizePlaying),
+                    setupPlaylist, synchronizePlaying),
     m_search(search)
 {
 
@@ -75,7 +75,7 @@ void SearchPlaylist::updateItems()
         clearItem(it.current(), false);
 
     if(!oldItems.isEmpty() && newItems.isEmpty())
-	dataChanged();
+        dataChanged();
 
     createItems(newItems);
 

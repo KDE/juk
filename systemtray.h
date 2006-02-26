@@ -111,7 +111,7 @@ private slots:
     void slotTogglePopup();
     void slotPause() { setPixmap(m_pausePix); }
     void slotStop();
-    void slotPopupDestroyed(); 
+    void slotPopupDestroyed();
     void slotNextStep(); ///< This is the fading routine.
     void slotPopupLargeCover();
     void slotForward();

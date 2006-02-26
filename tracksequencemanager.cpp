@@ -1,5 +1,5 @@
 /***************************************************************************
-    begin                : Thu Aug 19 2004 
+    begin                : Thu Aug 19 2004
     copyright            : (C) 2002 - 2004 by Michael Pyne
     email                : michael.pyne@kde.org
 ***************************************************************************/
@@ -44,7 +44,7 @@ TrackSequenceManager::~TrackSequenceManager()
 bool TrackSequenceManager::installIterator(TrackSequenceIterator *iterator)
 {
     PlaylistItem *oldItem = m_iterator ? m_iterator->current() : 0;
-    
+
     if(m_iterator != m_defaultIterator)
         delete m_iterator;
 
@@ -83,10 +83,10 @@ TrackSequenceManager *TrackSequenceManager::instance()
 PlaylistItem *TrackSequenceManager::nextItem()
 {
     if(m_playNextItem) {
-        
+
         // Force the iterator to reset state (such as random item lists)
 
-        m_iterator->reset();        
+        m_iterator->reset();
         m_iterator->setCurrent(m_playNextItem);
         m_playNextItem = 0;
     }
@@ -132,7 +132,7 @@ void TrackSequenceManager::setCurrent(PlaylistItem *item)
         if(item)
         setCurrentPlaylist(item->playlist());
     else
-            m_iterator->reset();        
+            m_iterator->reset();
     }
 }
 

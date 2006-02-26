@@ -57,17 +57,17 @@ class PlaylistItem : public KListViewItem
 
 public:
     enum ColumnType { TrackColumn       = 0,
-		      ArtistColumn      = 1,
-		      AlbumColumn       = 2,
-		      CoverColumn       = 3,
-		      TrackNumberColumn = 4,
-		      GenreColumn       = 5,
-		      YearColumn        = 6,
-		      LengthColumn      = 7,
-		      BitrateColumn     = 8,
-		      CommentColumn     = 9,
-		      FileNameColumn    = 10,
-		      FullPathColumn    = 11 };
+                      ArtistColumn      = 1,
+                      AlbumColumn       = 2,
+                      CoverColumn       = 3,
+                      TrackNumberColumn = 4,
+                      GenreColumn       = 5,
+                      YearColumn        = 6,
+                      LengthColumn      = 7,
+                      BitrateColumn     = 8,
+                      CommentColumn     = 9,
+                      FileNameColumn    = 10,
+                      FullPathColumn    = 11 };
 
     /**
      * A helper class to implement guarded pointer semantics.
@@ -76,21 +76,21 @@ public:
     class Pointer
     {
     public:
-	Pointer() : m_item(0) {}
-	Pointer(PlaylistItem *item);
-	Pointer(const Pointer &p);
-	~Pointer();
-	Pointer &operator=(PlaylistItem *item);
-	bool operator==(const Pointer &p) const { return m_item == p.m_item; }
-	bool operator!=(const Pointer &p) const { return m_item != p.m_item; }
-	PlaylistItem *operator->() const { return m_item; }
-	PlaylistItem &operator*() const { return *m_item; }
-	operator PlaylistItem*() const { return m_item; }
-	static void clear(PlaylistItem *item);
+        Pointer() : m_item(0) {}
+        Pointer(PlaylistItem *item);
+        Pointer(const Pointer &p);
+        ~Pointer();
+        Pointer &operator=(PlaylistItem *item);
+        bool operator==(const Pointer &p) const { return m_item == p.m_item; }
+        bool operator!=(const Pointer &p) const { return m_item != p.m_item; }
+        PlaylistItem *operator->() const { return m_item; }
+        PlaylistItem &operator*() const { return *m_item; }
+        operator PlaylistItem*() const { return m_item; }
+        static void clear(PlaylistItem *item);
 
     private:
-	PlaylistItem *m_item;
-	static QMap<PlaylistItem *, Q3ValueList<Pointer *> > m_map;
+        PlaylistItem *m_item;
+        static QMap<PlaylistItem *, Q3ValueList<Pointer *> > m_map;
     };
     friend class Pointer;
 
@@ -184,13 +184,13 @@ protected:
 
     struct Data : public KShared
     {
-	Data() {}
-	Data(const QFileInfo &info, const QString &path) : fileHandle(info, path) {}
-	Data(const QString &path) : fileHandle(path) {}
+        Data() {}
+        Data(const QFileInfo &info, const QString &path) : fileHandle(info, path) {}
+        Data(const QString &path) : fileHandle(path) {}
 
-	FileHandle fileHandle;
-	Q3ValueVector<Q3CString> local8Bit;
-	Q3ValueVector<int> cachedWidths;
+        FileHandle fileHandle;
+        Q3ValueVector<Q3CString> local8Bit;
+        Q3ValueVector<int> cachedWidths;
     };
 
     KSharedPtr<Data> data() const { return d; }
@@ -207,9 +207,9 @@ private:
 inline kdbgstream &operator<<(kdbgstream &s, const PlaylistItem &item)
 {
     if(&item == 0)
-	s << "(nil)";
+        s << "(nil)";
     else
-	s << item.text(PlaylistItem::TrackColumn);
+        s << item.text(PlaylistItem::TrackColumn);
 
     return s;
 }

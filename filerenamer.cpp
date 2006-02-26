@@ -238,7 +238,7 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     delete temp;
 
     layout()->setMargin(0); // We'll be wrapped by KDialogBase
-    
+
     // This must be created before createTagRows() is called.
 
     m_exampleDialog = new ExampleOptionsDialog(this);
@@ -480,7 +480,7 @@ void FileRenamerWidget::createTagRows()
 
     if(categoryOrder.isEmpty())
         categoryOrder << Artist << Album << Artist << Title << Track;
-    
+
     // Setup arrays.
     m_rows.reserve(categoryOrder.count());
     m_folderSwitches.reserve(categoryOrder.count() - 1);
@@ -548,7 +548,7 @@ void FileRenamerWidget::exampleTextChanged()
 {
     // Just use .mp3 as an example
 
-    if(m_exampleFromFile && (m_exampleFile.isEmpty() || 
+    if(m_exampleFromFile && (m_exampleFile.isEmpty() ||
                              !FileHandle(m_exampleFile).tag()->isValid()))
     {
         m_exampleText->setText(i18n("No file selected, or selected file has no tags."));
@@ -949,7 +949,7 @@ void FileRenamer::setFolderIcon(const KURL &dst, const PlaylistItem *item)
         {
             // Seems to be a match, let's set the folder icon for the current
             // path.  First we should write out the file.
-            
+
             QPixmap thumb = item->file().coverInfo()->pixmap(CoverInfo::Thumbnail);
             thumb.save(path + "/.juk-thumbnail.png", "PNG");
 

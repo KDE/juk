@@ -289,6 +289,6 @@ bool ArtsPlayer::serverRunning() const
 
 #include "artsplayer.moc"
 
-#endif 
+#endif
 
 // vim: sw=4 ts=8 et

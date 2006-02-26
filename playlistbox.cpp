@@ -55,7 +55,7 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
-			 const char *name) :
+                         const char *name) :
     KListView(parent, name),
     PlaylistCollection(playlistStack),
     m_viewModeIndex(0),
@@ -92,14 +92,14 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
     action("file_save")->plug(m_contextMenu);
     action("file_save_as")->plug(m_contextMenu);
     if(m_k3bAction)
-	m_k3bAction->plug(m_contextMenu);
+        m_k3bAction->plug(m_contextMenu);
 
     m_contextMenu->insertSeparator();
 
     // add the view modes stuff
 
     KSelectAction *viewModeAction =
-	new KSelectAction(i18n("View Modes"), "view_choose", KShortcut(), actions(), "viewModeMenu");
+        new KSelectAction(i18n("View Modes"), "view_choose", KShortcut(), actions(), "viewModeMenu");
 
     m_viewModes.append(new ViewMode(this));
     m_viewModes.append(new CompactViewMode(this));
@@ -109,7 +109,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
     QStringList modeNames;
 
     for(Q3ValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
-	modeNames.append((*it)->name());
+        modeNames.append((*it)->name());
 
     viewModeAction->setItems(modeNames);
 
@@ -131,13 +131,13 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
     connect(viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
 
     connect(this, SIGNAL(selectionChanged()),
-	    this, SLOT(slotPlaylistChanged()));
+            this, SLOT(slotPlaylistChanged()));
 
     connect(this, SIGNAL(doubleClicked(Q3ListViewItem *)),
-	    this, SLOT(slotDoubleClicked()));
+            this, SLOT(slotDoubleClicked()));
 
     connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)),
-	    this, SLOT(slotShowContextMenu(Q3ListViewItem *, const QPoint &, int)));
+            this, SLOT(slotShowContextMenu(Q3ListViewItem *, const QPoint &, int)));
 
     TagTransactionManager *tagManager = TagTransactionManager::instance();
     connect(tagManager, SIGNAL(signalAboutToModifyTags()), SLOT(slotFreezePlaylists()));
@@ -165,9 +165,9 @@ PlaylistBox::~PlaylistBox()
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
     for(Q3ListViewItem *i = firstChild(); i; i = i->nextSibling()) {
-	Item *item = static_cast<Item *>(i);
-	if(item->playlist() && item->playlist() != collection)
-	    l.append(item->playlist());
+        Item *item = static_cast<Item *>(i);
+        if(item->playlist() && item->playlist() != collection)
+            l.append(item->playlist());
     }
 
     Cache::savePlaylists(l);
@@ -177,20 +177,20 @@ PlaylistBox::~PlaylistBox()
 void PlaylistBox::raise(Playlist *playlist)
 {
     if(!playlist)
-	return;
+        return;
 
     Item *i = m_playlistDict.find(playlist);
 
     if(i) {
-	clearSelection();
-	setSelected(i, true);
+        clearSelection();
+        setSelected(i, true);
 
-	setSingleItem(i);
-	ensureItemVisible(currentItem());
+        setSingleItem(i);
+        ensureItemVisible(currentItem());
     }
     else
-	PlaylistCollection::raise(playlist);
-    
+        PlaylistCollection::raise(playlist);
+
     slotPlaylistChanged();
 }
 
@@ -198,12 +198,12 @@ void PlaylistBox::duplicate()
 {
     Item *item = static_cast<Item *>(currentItem());
     if(!item || !item->playlist())
-	return;
+        return;
 
     QString name = playlistNameDialog(i18n("Duplicate"), item->text(0));
 
     if(name.isNull())
-	return;
+        return;
 
     Playlist *p = new Playlist(this, name);
     p->createItems(item->playlist()->items());
@@ -241,14 +241,14 @@ void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem)
 {
     connect(playlist, SIGNAL(signalPlaylistItemsDropped(Playlist *)),
-	    SLOT(slotPlaylistItemsDropped(Playlist *)));
+            SLOT(slotPlaylistItemsDropped(Playlist *)));
 
     PlaylistCollection::setupPlaylist(playlist, iconName);
 
     if(parentItem)
-	new Item(parentItem, iconName, playlist->name(), playlist);
+        new Item(parentItem, iconName, playlist->name(), playlist);
     else
-	new Item(this, iconName, playlist->name(), playlist);
+        new Item(this, iconName, playlist->name(), playlist);
 }
 
 void PlaylistBox::removePlaylist(Playlist *playlist)
@@ -280,91 +280,91 @@ void PlaylistBox::remove()
     ItemList items = selectedItems();
 
     if(items.isEmpty())
-	return;
+        return;
 
     QStringList files;
     QStringList names;
 
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-	if(*it && (*it)->playlist() &&
-	   !(*it)->playlist()->fileName().isEmpty() &&
-	   QFileInfo((*it)->playlist()->fileName()).exists())
-	{
-	    files.append((*it)->playlist()->fileName());
-	}
-	names.append((*it)->playlist()->name());
+        if(*it && (*it)->playlist() &&
+           !(*it)->playlist()->fileName().isEmpty() &&
+           QFileInfo((*it)->playlist()->fileName()).exists())
+        {
+            files.append((*it)->playlist()->fileName());
+        }
+        names.append((*it)->playlist()->name());
     }
 
     if(!files.isEmpty()) {
-	int remove = KMessageBox::warningYesNoCancelList(
-	    this, i18n("Do you want to delete these files from the disk as well?"), files, QString::null, KStdGuiItem::del(), i18n("Keep"));
+        int remove = KMessageBox::warningYesNoCancelList(
+            this, i18n("Do you want to delete these files from the disk as well?"), files, QString::null, KStdGuiItem::del(), i18n("Keep"));
 
-	if(remove == KMessageBox::Yes) {
-	    QStringList couldNotDelete;
-	    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
-		if(!QFile::remove(*it))
-		    couldNotDelete.append(*it);
-	    }
+        if(remove == KMessageBox::Yes) {
+            QStringList couldNotDelete;
+            for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
+                if(!QFile::remove(*it))
+                    couldNotDelete.append(*it);
+            }
 
-	    if(!couldNotDelete.isEmpty())
-		KMessageBox::errorList(this, i18n("Could not delete these files."), couldNotDelete);
-	}
-	else if(remove == KMessageBox::Cancel)
-	    return;
+            if(!couldNotDelete.isEmpty())
+                KMessageBox::errorList(this, i18n("Could not delete these files."), couldNotDelete);
+        }
+        else if(remove == KMessageBox::Cancel)
+            return;
     }
     else if(items.count() > 1 || items.front()->playlist() != upcomingPlaylist()) {
-	if(KMessageBox::warningContinueCancelList(this,
-						  i18n("Are you sure you want to remove these "
-						       "playlists from your collection?"),
-						  names,
-						  i18n("Remove Items?"),
-						  KGuiItem(i18n("&Remove"), "edittrash")) == KMessageBox::Cancel)
-	{
-	    return;
-	}
+        if(KMessageBox::warningContinueCancelList(this,
+                                                  i18n("Are you sure you want to remove these "
+                                                       "playlists from your collection?"),
+                                                  names,
+                                                  i18n("Remove Items?"),
+                                                  KGuiItem(i18n("&Remove"), "edittrash")) == KMessageBox::Cancel)
+        {
+            return;
+        }
     }
 
     PlaylistList removeQueue;
 
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-	if(*it != Item::collectionItem() &&
-	   (*it)->playlist() &&
-	   (!(*it)->playlist()->readOnly()))
-	{
-	    removeQueue.append((*it)->playlist());
-	}
+        if(*it != Item::collectionItem() &&
+           (*it)->playlist() &&
+           (!(*it)->playlist()->readOnly()))
+        {
+            removeQueue.append((*it)->playlist());
+        }
     }
 
     if(items.back()->nextSibling() && static_cast<Item *>(items.back()->nextSibling())->playlist())
-	setSingleItem(items.back()->nextSibling());
+        setSingleItem(items.back()->nextSibling());
     else {
-	Item *i = static_cast<Item *>(items.front()->itemAbove());
-	while(i && !i->playlist())
-	    i = static_cast<Item *>(i->itemAbove());
+        Item *i = static_cast<Item *>(items.front()->itemAbove());
+        while(i && !i->playlist())
+            i = static_cast<Item *>(i->itemAbove());
 
-	if(!i)
-	    i = Item::collectionItem();
+        if(!i)
+            i = Item::collectionItem();
 
-	setSingleItem(i);
+        setSingleItem(i);
     }
 
     for(PlaylistList::ConstIterator it = removeQueue.begin(); it != removeQueue.end(); ++it) {
-	if(*it != upcomingPlaylist())
-	    delete *it;
-	else {
-	    action<KToggleAction>("showUpcoming")->setChecked(false);
-	    setUpcomingPlaylistEnabled(false);
-	}
+        if(*it != upcomingPlaylist())
+            delete *it;
+        else {
+            action<KToggleAction>("showUpcoming")->setChecked(false);
+            setUpcomingPlaylistEnabled(false);
+        }
     }
 }
 
 void PlaylistBox::setDynamicListsFrozen(bool frozen)
 {
     for(Q3ValueList<ViewMode *>::Iterator it = m_viewModes.begin();
-	it != m_viewModes.end();
-	++it)
+        it != m_viewModes.end();
+        ++it)
     {
-	(*it)->setDynamicListsFrozen(frozen);
+        (*it)->setDynamicListsFrozen(frozen);
     }
 }
 
@@ -375,9 +375,9 @@ void PlaylistBox::slotSavePlaylists()
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
     for(Q3ListViewItem *i = firstChild(); i; i = i->nextSibling()) {
-	Item *item = static_cast<Item *>(i);
-	if(item->playlist() && item->playlist() != collection)
-	    l.append(item->playlist());
+        Item *item = static_cast<Item *>(i);
+        if(item->playlist() && item->playlist() != collection)
+            l.append(item->playlist());
     }
 
     Cache::savePlaylists(l);
@@ -389,8 +389,8 @@ void PlaylistBox::slotSavePlaylists()
 void PlaylistBox::slotShowDropTarget()
 {
     if(!m_dropItem) {
-	kError(65432) << "Trying to show the playlist of a null item!\n";
-	return;
+        kError(65432) << "Trying to show the playlist of a null item!\n";
+        return;
     }
 
     raise(m_dropItem->playlist());
@@ -399,47 +399,47 @@ void PlaylistBox::slotShowDropTarget()
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
 {
     for(Q3ValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
-	(*it)->addItems(tag, column);
+        (*it)->addItems(tag, column);
 }
 
 void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
 {
     for(Q3ValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
-	(*it)->removeItem(tag, column);
+        (*it)->removeItem(tag, column);
 }
 
 void PlaylistBox::decode(QMimeSource *s, Item *item)
 {
     if(!s || (item && item->playlist() && item->playlist()->readOnly()))
-	return;
+        return;
 
     KURL::List urls;
 
     if(KURLDrag::decode(s, urls) && !urls.isEmpty()) {
-	QStringList files;
-	for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
-	    files.append((*it).path());
+        QStringList files;
+        for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
+            files.append((*it).path());
 
-	if(item) {
-	    TreeViewItemPlaylist *playlistItem;
-	    playlistItem = dynamic_cast<TreeViewItemPlaylist *>(item->playlist());
-	    if(playlistItem) {
-		playlistItem->retag(files, currentPlaylist());
-		TagTransactionManager::instance()->commit();
-		currentPlaylist()->update();
-		return;
-	    }
-	}
+        if(item) {
+            TreeViewItemPlaylist *playlistItem;
+            playlistItem = dynamic_cast<TreeViewItemPlaylist *>(item->playlist());
+            if(playlistItem) {
+                playlistItem->retag(files, currentPlaylist());
+                TagTransactionManager::instance()->commit();
+                currentPlaylist()->update();
+                return;
+            }
+        }
 
-	if(item && item->playlist())
-	    item->playlist()->addFiles(files);
-	else {
-	    QString name = playlistNameDialog();
-	    if(!name.isNull()) {
-		Playlist *p = new Playlist(this, name);
-		p->addFiles(files);
-	    }
-	}
+        if(item && item->playlist())
+            item->playlist()->addFiles(files);
+        else {
+            QString name = playlistNameDialog();
+            if(!name.isNull()) {
+                Playlist *p = new Playlist(this, name);
+                p->addFiles(files);
+            }
+        }
     }
 }
 
@@ -451,9 +451,9 @@ void PlaylistBox::contentsDropEvent(QDropEvent *e)
     decode(e, i);
 
     if(m_dropItem) {
-	Item *old = m_dropItem;
-	m_dropItem = 0;
-	old->repaint();
+        Item *old = m_dropItem;
+        m_dropItem = 0;
+        old->repaint();
     }
 }
 
@@ -466,66 +466,66 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
     // Otherwise, do not accept the event.
 
     if(!KURLDrag::canDecode(e)) {
-	e->accept(false);
-	return;
+        e->accept(false);
+        return;
     }
 
     Item *target = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
 
     if(target) {
 
-	if(target->playlist() && target->playlist()->readOnly())
-	    return;
+        if(target->playlist() && target->playlist()->readOnly())
+            return;
 
-	// This is a semi-dirty hack to check if the items are coming from within
-	// JuK.  If they are not coming from a Playlist (or subclass) then the
-	// dynamic_cast will fail and we can safely assume that the item is
-	// coming from outside of JuK.
+        // This is a semi-dirty hack to check if the items are coming from within
+        // JuK.  If they are not coming from a Playlist (or subclass) then the
+        // dynamic_cast will fail and we can safely assume that the item is
+        // coming from outside of JuK.
 
-	if(dynamic_cast<Playlist *>(e->source())) {
-	    if(target->playlist() &&
-	       target->playlist() != CollectionList::instance() &&
-	       !target->isSelected())
-	    {
-		e->accept(true);
-	    }
-	    else
-		e->accept(false);
-	}
-	else // the dropped items are coming from outside of JuK
-	    e->accept(true);
+        if(dynamic_cast<Playlist *>(e->source())) {
+            if(target->playlist() &&
+               target->playlist() != CollectionList::instance() &&
+               !target->isSelected())
+            {
+                e->accept(true);
+            }
+            else
+                e->accept(false);
+        }
+        else // the dropped items are coming from outside of JuK
+            e->accept(true);
 
-	if(m_dropItem != target) {
-	    Item *old = m_dropItem;
-	    m_showTimer->stop();
+        if(m_dropItem != target) {
+            Item *old = m_dropItem;
+            m_showTimer->stop();
 
-	    if(e->isAccepted()) {
-		m_dropItem = target;
-		target->repaint();
-		m_showTimer->start(1500, true);
-	    }
-	    else
-		m_dropItem = 0;
+            if(e->isAccepted()) {
+                m_dropItem = target;
+                target->repaint();
+                m_showTimer->start(1500, true);
+            }
+            else
+                m_dropItem = 0;
 
-	    if(old)
-		old->repaint();
-	}
+            if(old)
+                old->repaint();
+        }
     }
     else {
 
-	// We're dragging over the whitespace.  We'll use this case to make it
-	// possible to create new lists.
+        // We're dragging over the whitespace.  We'll use this case to make it
+        // possible to create new lists.
 
-	e->accept(true);
+        e->accept(true);
     }
 }
 
 void PlaylistBox::contentsDragLeaveEvent(QDragLeaveEvent *e)
 {
     if(m_dropItem) {
-	Item *old = m_dropItem;
-	m_dropItem = 0;
-	old->repaint();
+        Item *old = m_dropItem;
+        m_dropItem = 0;
+        old->repaint();
     }
     KListView::contentsDragLeaveEvent(e);
 }
@@ -533,15 +533,15 @@ void PlaylistBox::contentsDragLeaveEvent(QDragLeaveEvent *e)
 void PlaylistBox::contentsMousePressEvent(QMouseEvent *e)
 {
     if(e->button() == LeftButton)
-	m_doingMultiSelect = true;
+        m_doingMultiSelect = true;
     KListView::contentsMousePressEvent(e);
 }
 
 void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
 {
     if(e->button() == LeftButton) {
-	m_doingMultiSelect = false;
-	slotPlaylistChanged();
+        m_doingMultiSelect = false;
+        slotPlaylistChanged();
     }
     KListView::contentsMouseReleaseEvent(e);
 }
@@ -549,15 +549,15 @@ void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
 void PlaylistBox::keyPressEvent(QKeyEvent *e)
 {
     if((e->key() == Key_Up || e->key() == Key_Down) && e->state() == ShiftButton)
-	m_doingMultiSelect = true;
+        m_doingMultiSelect = true;
     KListView::keyPressEvent(e);
 }
 
 void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
 {
     if(m_doingMultiSelect && e->key() == Key_Shift) {
-	m_doingMultiSelect = false;
-	slotPlaylistChanged();
+        m_doingMultiSelect = false;
+        slotPlaylistChanged();
     }
     KListView::keyReleaseEvent(e);
 }
@@ -567,8 +567,8 @@ PlaylistBox::ItemList PlaylistBox::selectedItems() const
     ItemList l;
 
     for(Q3ListViewItemIterator it(const_cast<PlaylistBox *>(this),
-				 Q3ListViewItemIterator::Selected); it.current(); ++it)
-	l.append(static_cast<Item *>(*it));
+                                 Q3ListViewItemIterator::Selected); it.current(); ++it)
+        l.append(static_cast<Item *>(*it));
 
     return l;
 }
@@ -589,7 +589,7 @@ void PlaylistBox::slotPlaylistChanged()
     // Don't update while the mouse is pressed down.
 
     if(m_doingMultiSelect)
-	return;
+        return;
 
     ItemList items = selectedItems();
     m_hasSelection = !items.isEmpty();
@@ -599,20 +599,20 @@ void PlaylistBox::slotPlaylistChanged()
     PlaylistList playlists;
     for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 
-	Playlist *p = (*it)->playlist();
-	if(p) {
-	    if(p->canReload())
-		allowReload = true;
-	    playlists.append(p);
-	}
+        Playlist *p = (*it)->playlist();
+        if(p) {
+            if(p->canReload())
+                allowReload = true;
+            playlists.append(p);
+        }
     }
 
     bool singlePlaylist = playlists.count() == 1;
 
     if(playlists.isEmpty() ||
        (singlePlaylist &&
-	(playlists.front() == CollectionList::instance() ||
-	 playlists.front()->readOnly())))
+        (playlists.front() == CollectionList::instance() ||
+         playlists.front()->readOnly())))
     {
         action("file_save")->setEnabled(false);
         action("file_save_as")->setEnabled(false);
@@ -629,21 +629,21 @@ void PlaylistBox::slotPlaylistChanged()
     action("duplicatePlaylist")->setEnabled(!playlists.isEmpty());
 
     if(m_k3bAction)
-	m_k3bAction->setEnabled(!playlists.isEmpty());
+        m_k3bAction->setEnabled(!playlists.isEmpty());
 
     action("editSearch")->setEnabled(singlePlaylist &&
-				     playlists.front()->searchIsEditable());
+                                     playlists.front()->searchIsEditable());
 
     if(singlePlaylist) {
-	PlaylistCollection::raise(playlists.front());
+        PlaylistCollection::raise(playlists.front());
 
-	if(playlists.front() == upcomingPlaylist())
-	    action("deleteItemPlaylist")->setText(i18n("Hid&e"));
-	else
-	    action("deleteItemPlaylist")->setText(i18n("R&emove"));
+        if(playlists.front() == upcomingPlaylist())
+            action("deleteItemPlaylist")->setText(i18n("Hid&e"));
+        else
+            action("deleteItemPlaylist")->setText(i18n("R&emove"));
     }
     else if(!playlists.isEmpty())
-	createDynamicPlaylist(playlists);
+        createDynamicPlaylist(playlists);
 }
 
 void PlaylistBox::slotDoubleClicked()
@@ -665,7 +665,7 @@ void PlaylistBox::slotPlaylistItemsDropped(Playlist *p)
 void PlaylistBox::slotSetViewMode(int index)
 {
     if(index == m_viewModeIndex)
-	return;
+        return;
 
     viewMode()->setShown(false);
     m_viewModeIndex = index;
@@ -718,14 +718,14 @@ int PlaylistBox::Item::compare(Q3ListViewItem *i, int col, bool) const
     PlaylistBox *playlistBox = static_cast<PlaylistBox *>(listView());
 
     if(m_playlist == playlistBox->upcomingPlaylist() && otherItem->m_playlist != CollectionList::instance())
-	return -1;
+        return -1;
     if(otherItem->m_playlist == playlistBox->upcomingPlaylist() && m_playlist != CollectionList::instance())
-	return 1;
+        return 1;
 
     if(m_sortedFirst && !otherItem->m_sortedFirst)
-	return -1;
+        return -1;
     else if(otherItem->m_sortedFirst && !m_sortedFirst)
-	return 1;
+        return 1;
 
     return text(col).lower().localeAwareCompare(i->text(col).lower());
 }
@@ -754,12 +754,12 @@ void PlaylistBox::Item::setup()
 void PlaylistBox::Item::slotSetName(const QString &name)
 {
     if(listView()) {
-	setText(0, name);
-	setSelected(true);
+        setText(0, name);
+        setSelected(true);
 
-	listView()->sort();
-	listView()->ensureItemVisible(listView()->currentItem());
-	listView()->viewMode()->queueRefresh();
+        listView()->sort();
+        listView()->ensureItemVisible(listView()->currentItem());
+        listView()->viewMode()->queueRefresh();
     }
 }
 
@@ -778,21 +778,21 @@ void PlaylistBox::Item::init()
     list->addNameToDict(m_text);
 
     if(m_playlist) {
-	connect(m_playlist, SIGNAL(signalNameChanged(const QString &)),
-		this, SLOT(slotSetName(const QString &)));
-	connect(m_playlist, SIGNAL(destroyed()), this, SLOT(deleteLater()));
-	connect(m_playlist, SIGNAL(signalEnableDirWatch(bool)),
-	        list->object(), SLOT(slotEnableDirWatch(bool)));
+        connect(m_playlist, SIGNAL(signalNameChanged(const QString &)),
+                this, SLOT(slotSetName(const QString &)));
+        connect(m_playlist, SIGNAL(destroyed()), this, SLOT(deleteLater()));
+        connect(m_playlist, SIGNAL(signalEnableDirWatch(bool)),
+                list->object(), SLOT(slotEnableDirWatch(bool)));
     }
 
     if(m_playlist == CollectionList::instance()) {
-	m_sortedFirst = true;
-	m_collectionItem = this;
-	list->viewMode()->setupDynamicPlaylists();
+        m_sortedFirst = true;
+        m_collectionItem = this;
+        list->viewMode()->setupDynamicPlaylists();
     }
 
     if(m_playlist == list->historyPlaylist() || m_playlist == list->upcomingPlaylist())
-	m_sortedFirst = true;
+        m_sortedFirst = true;
 }
 
 #include "playlistbox.moc"

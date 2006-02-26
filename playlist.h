@@ -61,11 +61,11 @@ class Playlist : public KListView, public PlaylistInterface
 public:
 
     Playlist(PlaylistCollection *collection, const QString &name = QString::null,
-	     const QString &iconName = "midi");
+             const QString &iconName = "midi");
     Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
-	     const QString &name = QString::null, const QString &iconName = "midi");
+             const QString &name = QString::null, const QString &iconName = "midi");
     Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
-	     const QString &iconName = "midi");
+             const QString &iconName = "midi");
 
     /**
      * This constructor should generally only be used either by the cache
@@ -173,20 +173,20 @@ public:
      * both PlaylistItems and CollectionListItems.
      */
     virtual PlaylistItem *createItem(const FileHandle &file,
-				     Q3ListViewItem *after = 0,
-				     bool emitChanged = true);
+                                     Q3ListViewItem *after = 0,
+                                     bool emitChanged = true);
 
     /**
      * This is implemented as a template method to allow subclasses to
      * instantiate their PlaylistItem subclasses using the same method.  Some
      * of the types here are artificially templatized (i.e. CollectionListType and
      * CollectionItemType) to avoid recursive includes, but in fact will always
-     * be the same.     
+     * be the same.
      */
     template <class ItemType, class CollectionItemType, class CollectionListType>
     ItemType *createItem(const FileHandle &file,
-			 Q3ListViewItem *after = 0,
-			 bool emitChanged = true);
+                         Q3ListViewItem *after = 0,
+                         bool emitChanged = true);
 
     virtual void createItems(const PlaylistItemList &siblings, PlaylistItem *after = 0);
 
@@ -555,9 +555,9 @@ private:
     void calculateColumnWeights();
 
     void addFile(const QString &file, FileHandleList &files, bool importPlaylists,
-		 PlaylistItem **after);
+                 PlaylistItem **after);
     void addFileHelper(FileHandleList &files, PlaylistItem **after,
-		       bool ignoreTimer = false);
+                       bool ignoreTimer = false);
 
     void redisplaySearch() { setSearch(m_search); }
 
@@ -590,7 +590,7 @@ private slots:
     void slotAddToUpcoming();
 
     /**
-     * Show the RMB menu.  Matches the signature for the signal 
+     * Show the RMB menu.  Matches the signature for the signal
      * QListView::contextMenuRequested().
      */
     void slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int column);
@@ -604,7 +604,7 @@ private slots:
     void slotInlineEditDone(Q3ListViewItem *, const QString &, int column);
 
     /**
-     * This starts the renaming process by displaying a line edit if the mouse is in 
+     * This starts the renaming process by displaying a line edit if the mouse is in
      * an appropriate position.
      */
     void slotRenameTag();
@@ -701,7 +701,7 @@ private:
     PlaylistToolTip *m_toolTip;
 
     /**
-     * This is used to indicate if the list of visible items has changed (via a 
+     * This is used to indicate if the list of visible items has changed (via a
      * call to setVisibleItems()) while random play is playing.
      */
     static bool m_visibleChanged;
@@ -728,46 +728,46 @@ QDataStream &operator>>(QDataStream &s, Playlist &p);
 
 template <class ItemType, class CollectionItemType, class CollectionListType>
 ItemType *Playlist::createItem(const FileHandle &file, Q3ListViewItem *after,
-			       bool emitChanged)
+                               bool emitChanged)
 {
     CollectionItemType *item = CollectionListType::instance()->lookup(file.absFilePath());
 
     if(!item) {
-	item = new CollectionItemType(file);
-	setupItem(item);
+        item = new CollectionItemType(file);
+        setupItem(item);
 
-	// If a valid tag was not created, destroy the CollectionListItem.
+        // If a valid tag was not created, destroy the CollectionListItem.
 
-	if(!item->isValid()) {
-	    kError(65432) << "Playlist::createItem() -- A valid tag was not created for \""
-			   << file.absFilePath() << "\"" << endl;
-	    delete item;
-	    return 0;
-	}
+        if(!item->isValid()) {
+            kError(65432) << "Playlist::createItem() -- A valid tag was not created for \""
+                           << file.absFilePath() << "\"" << endl;
+            delete item;
+            return 0;
+        }
     }
 
     if(item && !m_members.insert(file.absFilePath()) || m_allowDuplicates) {
 
-	ItemType *i = after ? new ItemType(item, this, after) : new ItemType(item, this);
-	setupItem(i);
+        ItemType *i = after ? new ItemType(item, this, after) : new ItemType(item, this);
+        setupItem(i);
 
-	if(emitChanged)
-	    dataChanged();
+        if(emitChanged)
+            dataChanged();
 
-	return i;
+        return i;
     }
     else
-	return 0;
+        return 0;
 }
 
 template <class ItemType, class SiblingType>
 ItemType *Playlist::createItem(SiblingType *sibling, ItemType *after)
 {
     m_disableColumnWidthUpdates = true;
-    
+
     if(!m_members.insert(sibling->file().absFilePath()) || m_allowDuplicates) {
-	after = new ItemType(sibling->collectionItem(), this, after);
-	setupItem(after);
+        after = new ItemType(sibling->collectionItem(), this, after);
+        setupItem(after);
     }
 
     m_disableColumnWidthUpdates = false;
@@ -779,11 +779,11 @@ template <class CollectionItemType, class ItemType, class SiblingType>
 void Playlist::createItems(const Q3ValueList<SiblingType *> &siblings, ItemType *after)
 {
     if(siblings.isEmpty())
-	return;
+        return;
 
     Q3ValueListConstIterator<SiblingType *> it = siblings.begin();
     for(; it != siblings.end(); ++it)
-	after = createItem(*it, after);
+        after = createItem(*it, after);
 
     dataChanged();
     slotWeightDirty();

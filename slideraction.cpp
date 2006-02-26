@@ -95,7 +95,7 @@ int VolumeSlider::volume() const
     if(orientation() == Horizontal)
         return value();
     else
-        return maxValue() - value();    
+        return maxValue() - value();
 }
 
 void VolumeSlider::setVolume(int value)
@@ -103,7 +103,7 @@ void VolumeSlider::setVolume(int value)
     if(orientation() == Horizontal)
         setValue(value);
     else
-        setValue(maxValue() - value); 
+        setValue(maxValue() - value);
 }
 
 void VolumeSlider::setOrientation(Qt::Orientation o)

@@ -28,8 +28,8 @@ class PlaylistDirtyObserver : public PlaylistObserver
 {
 public:
     PlaylistDirtyObserver(DynamicPlaylist *parent, Playlist *playlist) :
-	PlaylistObserver(playlist),
-        m_parent(parent) 
+        PlaylistObserver(playlist),
+        m_parent(parent)
     {
 
     }
@@ -100,7 +100,7 @@ void DynamicPlaylist::slotReload()
 void DynamicPlaylist::lower(QWidget *top)
 {
     if(top == this)
-	return;
+        return;
 
     if(playing()) {
         PlaylistList l;

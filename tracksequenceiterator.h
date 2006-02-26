@@ -1,5 +1,5 @@
 /***************************************************************************
-    begin                : Thu Aug 19 2004 
+    begin                : Thu Aug 19 2004
     copyright            : (C) 2002 - 2004 by Michael Pyne
     email                : michael.pyne@kde.org
 ***************************************************************************/
@@ -45,7 +45,7 @@ public:
      * @param other the TrackSequenceIterator we are copying
      */
     TrackSequenceIterator(const TrackSequenceIterator & other);
-    
+
     /**
      * Default destructor.
      */

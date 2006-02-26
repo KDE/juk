@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 DirectoryList::DirectoryList(const QStringList &directories, bool importPlaylists,
-			     QWidget *parent, const char *name) :
+                             QWidget *parent, const char *name) :
     KDialogBase(parent, name, true, i18n("Folder List"), Ok | Cancel, Ok, true),
     m_dirList(directories),
     m_importPlaylists(importPlaylists)
@@ -81,7 +81,7 @@ void DirectoryList::slotAddDirectory()
     if(!dir.isEmpty() && m_dirList.find(dir) == m_dirList.end()) {
         m_dirList.append(dir);
         new KListViewItem(m_base->directoryListView, dir);
-	m_result.addedDirs.append(dir);
+        m_result.addedDirs.append(dir);
     }
 }
 

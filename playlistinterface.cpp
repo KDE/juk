@@ -23,21 +23,21 @@
 void Watched::currentChanged()
 {
     for(Q3ValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
-	it != m_observers.end();
-	++it)
+        it != m_observers.end();
+        ++it)
     {
         (*it)->updateCurrent();
-    }    
+    }
 }
 
 void Watched::dataChanged()
 {
     for(Q3ValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
-	it != m_observers.end();
-	++it)
+        it != m_observers.end();
+        ++it)
     {
         (*it)->updateData();
-    }    
+    }
 }
 
 void Watched::addObserver(PlaylistObserver *observer)

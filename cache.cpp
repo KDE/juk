@@ -316,7 +316,7 @@ void Cache::load()
     while(!s.atEnd()) {
         QString fileName;
         s >> fileName;
-        fileName.squeeze();        
+        fileName.squeeze();
 
         FileHandle f(fileName, s);
     }

@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Sat Jun 7 2003
-    copyright            : (C) 2003 - 2004 by Scott Wheeler, 
+    copyright            : (C) 2003 - 2004 by Scott Wheeler,
     email                : wheeler@kde.org
  ***************************************************************************/
 
@@ -40,7 +40,7 @@ public:
     virtual void setShown(bool shown);
 
     virtual void paintCell(PlaylistBox::Item *item,
-                           QPainter *painter, 
+                           QPainter *painter,
                            const QColorGroup &colorGroup,
                            int column, int width, int align);
 
@@ -62,8 +62,8 @@ public:
      */
     virtual void addItems(const QStringList &items, unsigned column)
     {
-	(void) items;
-	(void) column;
+        (void) items;
+        (void) column;
     }
 
     /**
@@ -72,8 +72,8 @@ public:
      */
     virtual void removeItem(const QString &item, unsigned column)
     {
-	(void) item;
-	(void) column;
+        (void) item;
+        (void) column;
     }
 
 protected:
@@ -101,7 +101,7 @@ class CompactViewMode : public ViewMode
 public:
     CompactViewMode(PlaylistBox *b);
     virtual ~CompactViewMode();
-    
+
     virtual QString name() const { return i18n("Compact"); }
     virtual void setShown(bool shown);
 
@@ -139,7 +139,7 @@ signals:
     void signalPlaylistDestroyed(Playlist*);
 
 private:
-    Q3Dict<PlaylistBox::Item> m_searchCategories;    
+    Q3Dict<PlaylistBox::Item> m_searchCategories;
     Q3Dict<TreeViewItemPlaylist> m_treeViewItems;
     QStringList m_pendingItemsToRemove;
     bool m_dynamicListsFrozen;

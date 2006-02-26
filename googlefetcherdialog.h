@@ -40,7 +40,7 @@ public:
     QPixmap result() const { return m_pixmap; }
     bool takeIt() const { return m_takeIt; }
     bool newSearch() const { return m_newSearch; }
-    
+
     void setLayout();
     void setImageList(const GoogleImageList &urlList);
 

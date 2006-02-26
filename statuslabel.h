@@ -41,7 +41,7 @@ public slots:
     /**
      * This just sets internal variables that are used by setItemCurrentTime().
      * Please call that method to display the time.
-     */      
+     */
     void setItemTotalTime(int time) { m_itemTotalTime = time; }
     void setItemCurrentTime(int time) { m_itemCurrentTime = time; updateTime(); }
     virtual void updateData();

@@ -555,7 +555,7 @@ void KTRMLookup::collision()
                 result.d->artist = QString::fromUtf8(tracks[i]->artist.name);
                 result.d->album = QString::fromUtf8(tracks[i]->album.name);
                 result.d->year = tracks[i]->album.releaseYear;
-#else 
+#else
                 result.d->artist = QString::fromUtf8(tracks[i]->artist->name);
                 result.d->album = QString::fromUtf8(tracks[i]->album->name);
                 result.d->year = tracks[i]->album->releaseYear;

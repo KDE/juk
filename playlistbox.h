@@ -40,23 +40,23 @@ class KSelectAction;
 
 typedef Q3ValueList<Playlist *> PlaylistList;
 
-/** 
+/**
  * This is the play list selection box that is by default on the right side of
- * JuK's main widget (PlaylistSplitter). 
+ * JuK's main widget (PlaylistSplitter).
  */
 
 class PlaylistBox : public KListView, public PlaylistCollection
 {
     Q_OBJECT
 
-public: 
+public:
     class Item;
     typedef Q3ValueList<Item *> ItemList;
 
     friend class Item;
 
     PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
-		const char *name = 0);
+                const char *name = 0);
 
     virtual ~PlaylistBox();
 
@@ -110,9 +110,9 @@ private:
     ViewMode *viewMode() const { return m_viewModes[m_viewModeIndex]; }
 
 private slots:
-    /** 
+    /**
      * Catches QListBox::currentChanged(QListBoxItem *), does a cast and then re-emits
-     * the signal as currentChanged(Item *). 
+     * the signal as currentChanged(Item *).
      */
     void slotPlaylistChanged();
     void slotDoubleClicked();
@@ -155,7 +155,7 @@ class PlaylistBox::Item : public QObject, public KListViewItem
 
 public:
     virtual ~Item();
-    
+
 protected:
     Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0);
     Item(Item *parent, const QString &icon, const QString &text, Playlist *l = 0);

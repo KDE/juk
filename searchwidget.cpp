@@ -51,9 +51,9 @@ SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
     setSpacing(5);
 
     if(!m_simple) {
-	m_searchFieldsBox = new KComboBox(this, "searchFields");
-	connect(m_searchFieldsBox, SIGNAL(activated(int)),
-		this, SIGNAL(signalQueryChanged()));
+        m_searchFieldsBox = new KComboBox(this, "searchFields");
+        connect(m_searchFieldsBox, SIGNAL(activated(int)),
+                this, SIGNAL(signalQueryChanged()));
     }
 
     m_lineEdit = new KLineEdit(this, "searchLineEdit");
@@ -64,15 +64,15 @@ SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
             this, SLOT(slotActivate()));
 
     if(!m_simple) {
-	m_caseSensitive = new KComboBox(this);
-	m_caseSensitive->insertItem(i18n("Normal Matching"), 0);
-	m_caseSensitive->insertItem(i18n("Case Sensitive"), 1);
-	m_caseSensitive->insertItem(i18n("Pattern Matching"), 2);
-	connect(m_caseSensitive, SIGNAL(activated(int)),
-		this, SIGNAL(signalQueryChanged()));
+        m_caseSensitive = new KComboBox(this);
+        m_caseSensitive->insertItem(i18n("Normal Matching"), 0);
+        m_caseSensitive->insertItem(i18n("Case Sensitive"), 1);
+        m_caseSensitive->insertItem(i18n("Pattern Matching"), 2);
+        connect(m_caseSensitive, SIGNAL(activated(int)),
+                this, SIGNAL(signalQueryChanged()));
     }
     else
-	m_caseSensitive = 0;
+        m_caseSensitive = 0;
 
     updateColumns();
 }
@@ -87,42 +87,42 @@ PlaylistSearch::Component SearchLine::searchComponent() const
     Q3ValueList<int> searchedColumns;
 
     if(!m_searchFieldsBox || m_searchFieldsBox->currentItem() == 0) {
-	Q3ValueListConstIterator<int> it = m_columnList.begin();
-	for(; it != m_columnList.end(); ++it) {
-	    if(playlist->isColumnVisible(*it))
-		searchedColumns.append(*it);
-	}
+        Q3ValueListConstIterator<int> it = m_columnList.begin();
+        for(; it != m_columnList.end(); ++it) {
+            if(playlist->isColumnVisible(*it))
+                searchedColumns.append(*it);
+        }
     }
     else
-	searchedColumns.append(m_columnList[m_searchFieldsBox->currentItem() - 1]);
+        searchedColumns.append(m_columnList[m_searchFieldsBox->currentItem() - 1]);
 
     if(m_caseSensitive && m_caseSensitive->currentItem() == Pattern)
-	return PlaylistSearch::Component(QRegExp(query), searchedColumns);
+        return PlaylistSearch::Component(QRegExp(query), searchedColumns);
     else
-	return PlaylistSearch::Component(query, caseSensitive, searchedColumns);
+        return PlaylistSearch::Component(query, caseSensitive, searchedColumns);
 }
 
 void SearchLine::setSearchComponent(const PlaylistSearch::Component &component)
 {
     if(component == searchComponent())
-	return;
+        return;
 
     if(m_simple || !component.isPatternSearch()) {
-	m_lineEdit->setText(component.query());
-	if(m_caseSensitive)
-	    m_caseSensitive->setCurrentItem(component.isCaseSensitive() ? CaseSensitive : Default);
+        m_lineEdit->setText(component.query());
+        if(m_caseSensitive)
+            m_caseSensitive->setCurrentItem(component.isCaseSensitive() ? CaseSensitive : Default);
     }
     else {
-	m_lineEdit->setText(component.pattern().pattern());
-	if(m_caseSensitive)
-	    m_caseSensitive->setCurrentItem(Pattern);
+        m_lineEdit->setText(component.pattern().pattern());
+        if(m_caseSensitive)
+            m_caseSensitive->setCurrentItem(Pattern);
     }
 
     if(!m_simple) {
-	if(component.columns().isEmpty() || component.columns().size() > 1)
-	    m_searchFieldsBox->setCurrentItem(0);
-	else
-	    m_searchFieldsBox->setCurrentItem(component.columns().front() + 1);
+        if(component.columns().isEmpty() || component.columns().size() > 1)
+            m_searchFieldsBox->setCurrentItem(0);
+        else
+            m_searchFieldsBox->setCurrentItem(component.columns().front() + 1);
     }
 }
 
@@ -130,7 +130,7 @@ void SearchLine::clear()
 {
     // We don't want to emit the signal if it's already empty.
     if(!m_lineEdit->text().isEmpty())
-	m_lineEdit->clear();
+        m_lineEdit->clear();
 }
 
 void SearchLine::setFocus()
@@ -141,11 +141,11 @@ void SearchLine::setFocus()
 bool SearchLine::eventFilter(QObject *watched, QEvent *e)
 {
     if(watched != m_lineEdit || e->type() != QEvent::KeyPress)
-	return Q3HBox::eventFilter(watched, e);
+        return Q3HBox::eventFilter(watched, e);
 
     QKeyEvent *key = static_cast<QKeyEvent *>(e);
     if(key->key() == Qt::Key_Down)
-	emit signalDownPressed();
+        emit signalDownPressed();
 
     return Q3HBox::eventFilter(watched, e);
 }
@@ -161,8 +161,8 @@ void SearchLine::updateColumns()
     QString currentText;
 
     if(m_searchFieldsBox) {
-	currentText = m_searchFieldsBox->currentText();
-	m_searchFieldsBox->clear();
+        currentText = m_searchFieldsBox->currentText();
+        m_searchFieldsBox->clear();
     }
 
     QStringList columnHeaders;
@@ -175,16 +175,16 @@ void SearchLine::updateColumns()
     m_columnList.clear();
 
     for(int i = 0; i < playlist->columns(); i++) {
-	m_columnList.append(i);
-	QString text = playlist->columnText(i);
-	columnHeaders.append(text);
-	if(currentText == text)
-	    selection = m_columnList.size() - 1;
+        m_columnList.append(i);
+        QString text = playlist->columnText(i);
+        columnHeaders.append(text);
+        if(currentText == text)
+            selection = m_columnList.size() - 1;
     }
 
     if(m_searchFieldsBox) {
-	m_searchFieldsBox->insertStringList(columnHeaders);
-	m_searchFieldsBox->setCurrentItem(selection + 1);
+        m_searchFieldsBox->insertStringList(columnHeaders);
+        m_searchFieldsBox->setCurrentItem(selection + 1);
     }
 }
 
@@ -208,8 +208,8 @@ void SearchWidget::setSearch(const PlaylistSearch &search)
     PlaylistSearch::ComponentList components = search.components();
 
     if(components.isEmpty()) {
-	clear();
-	return;
+        clear();
+        return;
     }
 
     m_searchLine->setSearchComponent(*components.begin());

@@ -1,5 +1,5 @@
 /***************************************************************************
-    begin                : Sat Jul 9 2005 
+    begin                : Sat Jul 9 2005
     copyright            : (C) 2005 by Michael Pyne
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
@@ -40,7 +40,7 @@ Q3DragObject *CoverIconView::dragObject()
 {
     CoverIconViewItem *item = currentItem();
     if(item)
-	return new CoverDrag(item->id(), this);
+        return new CoverDrag(item->id(), this);
 
     return 0;
 }

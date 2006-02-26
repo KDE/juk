@@ -18,9 +18,9 @@
 
 #include <qstringlist.h>
 
-class SortedStringList 
+class SortedStringList
 {
-public: 
+public:
     SortedStringList();
     ~SortedStringList();
 
@@ -34,7 +34,7 @@ public:
 
     /**
      * Returns a sorted list of the values.
-     * Warning, this method is expensive and shouldn't be used except when 
+     * Warning, this method is expensive and shouldn't be used except when
      * necessary.
      */
     QStringList values() const;
@@ -44,7 +44,7 @@ private:
 
     Node *find(const QString &value) const;
     /**
-     * The insertion implementation.  Returns true if the item was already 
+     * The insertion implementation.  Returns true if the item was already
      * present in the list.
      */
     bool BSTInsert(const QString &value);
