@@ -54,27 +54,11 @@ public slots:
 private:
     void setupPipeline();
 
-#if GSTREAMER_VERSION == 8
-
-    void readConfig();
-    long long time(GstQueryType type) const;
-
-    QString m_sinkName;
-    GstElement *m_pipeline;
-    GstElement *m_source;
-    GstElement *m_decoder;
-    GstElement *m_volume;
-    GstElement *m_sink;
-
-#else
-
     enum TimeQuery { CurrentPosition, TotalLength };
     long long time(TimeQuery type) const;
 
     GstState state() const;
     GstElement *m_playbin;
-
-#endif
 };
 
 #endif /* HAVE_GSTREAMER */
