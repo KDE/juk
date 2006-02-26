@@ -64,4 +64,4 @@ QString CategoryReaderInterface::fixupTrack(const QString &track, unsigned categ
     return str;
 }
 
-// vim: set et sw=4 ts=4:
+// vim: set et sw=4 tw=0 sta:

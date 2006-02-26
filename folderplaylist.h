@@ -42,3 +42,5 @@ QDataStream &operator<<(QDataStream &s, const FolderPlaylist &p);
 QDataStream &operator>>(QDataStream &s, FolderPlaylist &p);
 
 #endif
+
+// vim: set et sw=4 tw=0 sta:

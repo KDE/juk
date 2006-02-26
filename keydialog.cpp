@@ -202,3 +202,5 @@ void KeyDialog::insert(KGlobalAccel *keys, const QString &action, const QString 
 }
 
 #include "keydialog.moc"
+
+// vim: set et sw=4 tw=0 sta:

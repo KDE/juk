@@ -73,3 +73,5 @@ Q3CString StringShare::tryShare(const Q3CString& in)
         return in;
     }
 }
+
+// vim: set et sw=4 tw=0 sta:

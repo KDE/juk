@@ -80,3 +80,5 @@ const PlaylistInterface *PlaylistObserver::playlist() const
 {
     return m_playlist;
 }
+
+// vim: set et sw=4 tw=0 sta:

@@ -229,4 +229,4 @@ private:
 
 #endif /* _TRACKSEQUENCEITERATOR_H */
 
-// vim: set et sw=4:
+// vim: set et sw=4 tw=0 sta:

@@ -360,4 +360,4 @@ void SliderAction::slotToolbarDestroyed()
 
 #include "slideraction.moc"
 
-// vim: set et sw=4 ts=4:
+// vim: set et sw=4 tw=0 sta:

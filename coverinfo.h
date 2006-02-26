@@ -65,5 +65,7 @@ private:
     mutable coverKey m_coverKey;
     mutable bool m_needsConverting;
 };
+
 #endif
 
+// vim: set et sw=4 tw=0 sta:

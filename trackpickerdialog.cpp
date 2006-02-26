@@ -99,3 +99,5 @@ int TrackPickerDialog::exec()
 #include "trackpickerdialog.moc"
 
 #endif // HAVE_TUNEPIMP
+
+// vim: set et sw=4 tw=0 sta:

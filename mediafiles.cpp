@@ -156,3 +156,5 @@ QStringList MediaFiles::convertURLsToLocal(const QStringList &urlList, QWidget *
 
     return result;
 }
+
+// vim: set et sw=4 tw=0 sta:

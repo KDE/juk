@@ -150,3 +150,5 @@ QDataStream &operator<<(QDataStream &s, const PlaylistSearch::Component &c);
 QDataStream &operator>>(QDataStream &s, PlaylistSearch::Component &c);
 
 #endif
+
+// vim: set et sw=4 tw=0 sta:

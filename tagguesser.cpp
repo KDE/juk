@@ -215,4 +215,4 @@ QString TagGuesser::capitalizeWords(const QString &s)
     return result;
 }
 
-// vim:ts=4:sw=4:noet
+// vim: set et sw=4 tw=0 sta:

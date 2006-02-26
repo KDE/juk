@@ -1049,4 +1049,4 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 
 #include "filerenamer.moc"
 
-// vim: set et sw=4 ts=8:
+// vim: set et sw=4 tw=0 sta:

@@ -796,3 +796,5 @@ void PlaylistBox::Item::init()
 }
 
 #include "playlistbox.moc"
+
+// vim: set et sw=4 tw=0 sta:

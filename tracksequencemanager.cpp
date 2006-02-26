@@ -180,4 +180,4 @@ void TrackSequenceManager::slotItemAboutToDie(PlaylistItem *item)
 
 #include "tracksequencemanager.moc"
 
-// vim: set et sw=4 tw=0:
+// vim: set et sw=4 tw=0 sta:

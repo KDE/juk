@@ -277,3 +277,5 @@ CacheDataStream &operator>>(CacheDataStream &s, Tag &t)
 {
     return t.read(s);
 }
+
+// vim: set et sw=4 tw=0 sta:

@@ -70,3 +70,5 @@ QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p);
 QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p);
 
 #endif
+
+// vim: set et sw=4 tw=0 sta:

@@ -296,3 +296,5 @@ CacheDataStream &operator>>(CacheDataStream &s, FileHandle &f)
     f.read(s);
     return s;
 }
+
+// vim: set et sw=4 tw=0 sta:

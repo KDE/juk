@@ -167,4 +167,4 @@ void CoverDialog::removeSelectedCover()
 
 #include "coverdialog.moc"
 
-// vim: set et ts=4 sw=4:
+// vim: set et sw=4 tw=0 sta:

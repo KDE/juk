@@ -326,3 +326,5 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch::Component &c)
 
     return s;
 }
+
+// vim: set et sw=4 tw=0 sta:

@@ -91,3 +91,5 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
 }
 
 #include "treeviewitemplaylist.moc"
+
+// vim: set et sw=4 tw=0 sta:

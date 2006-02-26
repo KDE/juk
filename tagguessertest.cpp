@@ -126,3 +126,5 @@ int main( int argc, char **argv )
     cout << "All OK" << endl;
     return 0;
 }
+
+// vim: set et sw=4 tw=0 sta:

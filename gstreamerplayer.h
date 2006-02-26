@@ -77,5 +77,7 @@ private:
 #endif
 };
 
-#endif
-#endif
+#endif /* HAVE_GSTREAMER */
+#endif /* GSTREAMER_PLAYER_H */
+
+// vim: set et sw=4 tw=0 sta:

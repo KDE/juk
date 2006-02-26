@@ -6,18 +6,8 @@ save us both time when processing patches.
 Indentation
 ================================================================================
 
-The older files in JuK are indented using Qt-style.  The first level was 4
-spaces, the second one tab, the third one tab followed by 4 spaces.  I'm not
-particularly fond of this style anymore, but it used to be the Emacs default
-when using the KDE Emacs scripts.
-
-static void foo()
-{
-    if(bar()) // <-- 4 spaces
-        baz() // <-- 1 tab
-}
-
-Newer files simply use 4 spaces at all levels.  In most cases the style of the
+Older versions of JuK had two different indenting schemes.  Now all JuK source
+code files simply use 4 spaces at all levels.  In most cases the style of the
 file currently being worked in should be followed.  So:
 
 static void foo()
@@ -137,6 +127,36 @@ Pointer and Reference Operators
 
 This one is pretty simple.  I prefer "Foo *f" to "Foo* f" in function signatures
 and declarations.  The same goes for "Foo &f" over "Foo& f".
+
+================================================================================
+Editor Support
+================================================================================
+
+Most JuK files that Michael Pyne has touched will eventually have a vim modeline
+at the bottom of the file (after any moc #includes).  The current vim modeline
+is the following:
+
+// vim: set et sw=4 tw=0 sta:
+
+The vim: ... : part encloses the commands to automatically use when opening the
+file in vim.  The following commands are set:
+  et     : Uses spaces instead of the <TAB> when the Tab key is pressed.  No
+           JuK source should have tab characters anymore, this helps enforce
+	   that.  Full name is expandtab.
+  sw = 4 : Makes indenting levels 4 spaces wide, for use with the vim indenting
+           features.  Full name is shiftwidth.
+  tw = 0 : Prevents vim from wrapping lines as you are typing.  Full name is
+           textwidth.
+  sta    : Use shiftwidth to determine tab size at the beginning of the line,
+           instead of tabstop (which is normally 8 spaces wide).  Full name is
+	   smarttab.
+
+Also, vim users will want to have the command "let c_space_errors=1" in their
+.vimrc in order to flag extra whitespace at the end of lines, which is also a
+no-no in source code.
+
+There are vim and emacs scripts for KDE developers in kdesdk/scripts, you may
+also want to see what is available there.
 
 ================================================================================
 

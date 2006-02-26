@@ -209,3 +209,5 @@ QString StatusLabel::formatTime(int minutes, int seconds) // static
 }
 
 #include "statuslabel.moc"
+
+// vim: set et sw=4 tw=0 sta:

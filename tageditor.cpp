@@ -592,7 +592,7 @@ void TagEditor::setupLayout()
         m_commentBox = new KEdit(this, "commentBox");
         m_commentBox->setTextFormat(Qt::PlainText);
         addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "edit");
-    	fileNameLabel->setMinimumHeight(m_trackSpin->height());
+        fileNameLabel->setMinimumHeight(m_trackSpin->height());
 
     }
 
@@ -738,7 +738,7 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, 
     label->setMinimumHeight(enableBox->height());
 
     if(layout->direction() == QBoxLayout::LeftToRight) {
-    	layout->addWidget(iconLabel);
+        layout->addWidget(iconLabel);
         layout->addWidget(label);
         layout->addWidget(item);
         layout->addWidget(enableBox);
@@ -808,3 +808,5 @@ void TagEditor::slotPlaylistDestroyed(Playlist *p)
 }
 
 #include "tageditor.moc"
+
+// vim: set et sw=4 tw=0 sta:

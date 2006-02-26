@@ -82,3 +82,5 @@ QDataStream &operator<<(QDataStream &s, const FileHandle &f);
 CacheDataStream &operator>>(CacheDataStream &s, FileHandle &f);
 
 #endif
+
+// vim: set et sw=4 tw=0 sta:

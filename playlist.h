@@ -790,3 +790,5 @@ void Playlist::createItems(const Q3ValueList<SiblingType *> &siblings, ItemType 
 }
 
 #endif
+
+// vim: set et sw=4 tw=0 sta:

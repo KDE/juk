@@ -212,4 +212,4 @@ class TagTransactionManager : public QObject
 
 #endif /* _TAGTRANSACTIONMANAGER_H */
 
-// vim: set et ts=4 sw=4 tw=0:
+// vim: set et sw=4 tw=0 sta:

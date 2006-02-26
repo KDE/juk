@@ -211,4 +211,4 @@ bool TagTransactionManager::processChangeList(bool undo)
 
 #include "tagtransactionmanager.moc"
 
-// vim: set et ts=4 sw=4 tw=0:
+// vim: set et sw=4 tw=0 sta:

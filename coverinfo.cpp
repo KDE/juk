@@ -287,4 +287,4 @@ bool CoverInfo::convertOldStyleCover() const
     }
 }
 
-// vim: set et sw=4 ts=8:
+// vim: set et sw=4 tw=0 sta:

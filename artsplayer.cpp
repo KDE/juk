@@ -291,4 +291,4 @@ bool ArtsPlayer::serverRunning() const
 
 #endif
 
-// vim: sw=4 ts=8 et
+// vim: set et sw=4 tw=0 sta:

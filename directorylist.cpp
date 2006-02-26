@@ -98,4 +98,4 @@ void DirectoryList::slotRemoveDirectory()
 
 #include "directorylist.moc"
 
-// vim: ts=8
+// vim: set et sw=4 tw=0 sta:

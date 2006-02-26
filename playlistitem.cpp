@@ -465,3 +465,5 @@ void PlaylistItem::Pointer::clear(PlaylistItem *item) // static
     m_map.remove(item);
     item->m_watched = false;
 }
+
+// vim: set et sw=4 tw=0 sta:

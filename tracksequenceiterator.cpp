@@ -306,4 +306,4 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
     m_albumSearch.search();
 }
 
-// vim: set et sw=4 tw=0:
+// vim: set et sw=4 tw=0 sta:

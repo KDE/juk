@@ -926,4 +926,4 @@ KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
 #undef widget
 #include "playlistcollection.moc"
 
-// vim: set et sw=4:
+// vim: set et sw=4 tw=0 sta:

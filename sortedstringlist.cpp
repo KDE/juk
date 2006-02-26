@@ -178,3 +178,5 @@ void SortedStringList::traverse(const Node *n, QStringList &list) const
     list.append(n->key);
     traverse(n->right, list);
 }
+
+// vim: set et sw=4 tw=0 sta:

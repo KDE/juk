@@ -94,3 +94,5 @@ int main(int argc, char *argv[])
 
     return a.exec();
 }
+
+// vim: set et sw=4 tw=0 sta:

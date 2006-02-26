@@ -158,3 +158,5 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
 }
 
 #include "historyplaylist.moc"
+
+// vim: set et sw=4 tw=0 sta:
