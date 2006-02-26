@@ -108,7 +108,7 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
 {
     KConfigGroup config(KGlobal::config(), "FileRenamer");
 
-    Q3ValueList<int> categoryOrder = config.readIntListEntry("CategoryOrder");
+    Q3ValueList<int> categoryOrder = config.readEntry("CategoryOrder");
     unsigned categoryCount[NumTypes] = { 0 }; // Keep track of each category encountered.
 
     // Set a default:
@@ -129,7 +129,7 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
 
     m_folderSeparators.resize(m_categoryOrder.count() - 1, false);
 
-    Q3ValueList<int> checkedSeparators = config.readIntListEntry("CheckedDirSeparators");
+    Q3ValueList<int> checkedSeparators = config.readEntry("CheckedDirSeparators");
 
     Q3ValueList<int>::ConstIterator it = checkedSeparators.constBegin();
     for(; it != checkedSeparators.constEnd(); ++it) {
@@ -138,7 +138,7 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
             m_folderSeparators[index] = true;
     }
 
-    m_musicFolder = config.readPathEntry("MusicFolder", "${HOME}/music");
+    m_musicFolder = config.readEntry("MusicFolder", "${HOME}/music");
     m_separator = config.readEntry("Separator", " - ");
 }
 
@@ -270,7 +270,7 @@ void FileRenamerWidget::loadConfig()
     for(unsigned i = 0; i < m_rows.count(); ++i)
         m_rows[i].options = TagRenamerOptions(m_rows[i].category);
 
-    checkedSeparators = config.readIntListEntry("CheckedDirSeparators");
+    checkedSeparators = config.readEntry("CheckedDirSeparators");
 
     Q3ValueList<int>::ConstIterator it = checkedSeparators.begin();
     for(; it != checkedSeparators.end(); ++it) {
@@ -279,7 +279,7 @@ void FileRenamerWidget::loadConfig()
             m_folderSwitches[separator]->setChecked(true);
     }
 
-    QString url = config.readPathEntry("MusicFolder", "${HOME}/music");
+    QString url = config.readEntry("MusicFolder", "${HOME}/music");
     m_musicFolder->setURL(url);
 
     m_separator->setCurrentText(config.readEntry("Separator", " - "));
@@ -476,7 +476,7 @@ void FileRenamerWidget::addFolderSeparatorCheckbox()
 void FileRenamerWidget::createTagRows()
 {
     KConfigGroup config(KGlobal::config(), "FileRenamer");
-    Q3ValueList<int> categoryOrder = config.readIntListEntry("CategoryOrder");
+    Q3ValueList<int> categoryOrder = config.readEntry("CategoryOrder");
 
     if(categoryOrder.isEmpty())
         categoryOrder << Artist << Album << Artist << Title << Track;

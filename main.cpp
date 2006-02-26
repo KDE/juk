@@ -87,7 +87,7 @@ int main(int argc, char *argv[])
     bool startDocked;
 
     KConfigGroup config(KGlobal::config(), "Settings");
-    startDocked = config.readBoolEntry("StartDocked", false);
+    startDocked = config.readEntry("StartDocked", false);
 
     if(!startDocked)
         juk->show();

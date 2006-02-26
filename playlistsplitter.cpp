@@ -193,14 +193,14 @@ void PlaylistSplitter::readConfig()
 {
     KConfigGroup config(KGlobal::config(), "Splitter");
 
-    Q3ValueList<int> splitterSizes = config.readIntListEntry("PlaylistSplitterSizes");
+    Q3ValueList<int> splitterSizes = config.readEntry("PlaylistSplitterSizes");
     if(splitterSizes.isEmpty()) {
         splitterSizes.append(100);
         splitterSizes.append(640);
     }
     setSizes(splitterSizes);
 
-    bool showSearch = config.readBoolEntry("ShowSearch", true);
+    bool showSearch = config.readEntry("ShowSearch", true);
     action<KToggleAction>("showSearch")->setChecked(showSearch);
     m_searchWidget->setShown(showSearch);
 }

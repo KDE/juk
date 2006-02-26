@@ -114,7 +114,7 @@ QStringList TagGuesser::schemeStrings()
     QStringList schemes;
 
     KConfigGroup config(KGlobal::config(), "TagGuesser");
-    schemes = config.readListEntry("Filename schemes");
+    schemes = config.readEntry("Filename schemes");
 
     if ( schemes.isEmpty() ) {
         schemes += "%a - (%T) - %t [%c]";

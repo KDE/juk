@@ -265,7 +265,7 @@ void PlaylistBox::removePlaylist(Playlist *playlist)
 void PlaylistBox::readConfig()
 {
     KConfigGroup config(KGlobal::config(), "PlaylistBox");
-    m_viewModeIndex = config.readNumEntry("ViewMode", 0);
+    m_viewModeIndex = config.readEntry("ViewMode", 0);
 }
 
 void PlaylistBox::saveConfig()
@@ -681,7 +681,7 @@ void PlaylistBox::setupItem(Item *item)
 void PlaylistBox::setupUpcomingPlaylist()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
-    bool enable = config.readBoolEntry("showUpcoming", false);
+    bool enable = config.readEntry("showUpcoming", false);
 
     setUpcomingPlaylistEnabled(enable);
     action<KToggleAction>("showUpcoming")->setChecked(enable);

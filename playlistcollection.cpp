@@ -815,8 +815,8 @@ void PlaylistCollection::readConfig()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
 
-    m_importPlaylists  = config.readBoolEntry("ImportPlaylists", true);
-    m_folderList       = config.readPathListEntry("DirectoryList");
+    m_importPlaylists  = config.readEntry("ImportPlaylists", true);
+    m_folderList       = config.readEntry("DirectoryList");
 
     for(QStringList::ConstIterator it = m_folderList.begin(); it != m_folderList.end(); ++it)
         m_dirLister.openURL(*it, true);

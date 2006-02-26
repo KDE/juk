@@ -436,7 +436,7 @@ void TagEditor::readConfig()
         readCompletionMode(&config, m_genreBox, "GenreBoxMode");
     }
 
-    bool show = config.readBoolEntry("Show", false);
+    bool show = config.readEntry("Show", false);
     action<KToggleAction>("showEditor")->setChecked(show);
     setShown(show);
 
@@ -455,7 +455,7 @@ void TagEditor::readConfig()
 void TagEditor::readCompletionMode(KConfigBase *config, KComboBox *box, const QString &key)
 {
     KGlobalSettings::Completion mode =
-        KGlobalSettings::Completion(config->readNumEntry(key, KGlobalSettings::CompletionAuto));
+        KGlobalSettings::Completion(config->readEntry(key, KGlobalSettings::CompletionAuto));
 
     box->setCompletionMode(mode);
 }

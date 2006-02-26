@@ -83,7 +83,7 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
     int selectedButton;
 
     KConfigGroup config(KGlobal::config(), "Shortcuts");
-    selectedButton = config.readNumEntry("GlobalKeys", StandardKeys);
+    selectedButton = config.readEntry("GlobalKeys", StandardKeys);
 
     // Create widgets for key chooser - widget stack used to replace key chooser
 

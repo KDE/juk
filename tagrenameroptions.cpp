@@ -81,8 +81,8 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
         setEmptyAction(UseReplacementValue);
 
     setEmptyText(config.readEntry(QString("%1EmptyText").arg(typeKey)));
-    setTrackWidth(config.readUnsignedNumEntry(QString("%1TrackWidth").arg(typeKey)));
-    setDisabled(config.readBoolEntry(QString("%1Disabled").arg(typeKey), disabled));
+    setTrackWidth(config.readEntry(QString("%1TrackWidth").arg(typeKey)));
+    setDisabled(config.readEntry(QString("%1Disabled").arg(typeKey), disabled));
 }
 
 QString TagRenamerOptions::tagTypeText(TagType type, bool translate)

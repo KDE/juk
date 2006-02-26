@@ -281,8 +281,8 @@ void JuK::keyPressEvent(QKeyEvent *e)
 void JuK::readSettings()
 {
     KConfigGroup config(KGlobal::config(), "Settings");
-    m_showSplash = config.readBoolEntry("ShowSplashScreen", true);
-    m_startDocked = config.readBoolEntry("StartDocked", false);
+    m_showSplash = config.readEntry("ShowSplashScreen", true);
+    m_startDocked = config.readEntry("StartDocked", false);
 }
 
 void JuK::readConfig()
@@ -293,7 +293,7 @@ void JuK::readConfig()
 
     if(m_sliderAction->volumeSlider()) {
         int maxVolume = m_sliderAction->volumeSlider()->maxValue();
-        int volume = playerConfig.readNumEntry("Volume", maxVolume);
+        int volume = playerConfig.readEntry("Volume", maxVolume);
         m_sliderAction->volumeSlider()->setVolume(volume);
     }
 
@@ -307,24 +307,24 @@ void JuK::readConfig()
     else if(randomPlayMode == "AlbumRandomPlay")
         ActionCollection::action<KToggleAction>("albumRandomPlay")->setChecked(true);
 
-    bool loopPlaylist = playerConfig.readBoolEntry("LoopPlaylist", false);
+    bool loopPlaylist = playerConfig.readEntry("LoopPlaylist", false);
     ActionCollection::action<KToggleAction>("loopPlaylist")->setChecked(loopPlaylist);
 
     // general settings
 
     KConfigGroup settingsConfig(KGlobal::config(), "Settings");
 
-    bool dockInSystemTray = settingsConfig.readBoolEntry("DockInSystemTray", true);
+    bool dockInSystemTray = settingsConfig.readEntry("DockInSystemTray", true);
     m_toggleSystemTrayAction->setChecked(dockInSystemTray);
 
-    bool dockOnClose = settingsConfig.readBoolEntry("DockOnClose", true);
+    bool dockOnClose = settingsConfig.readEntry("DockOnClose", true);
     m_toggleDockOnCloseAction->setChecked(dockOnClose);
 
-    bool showPopups = settingsConfig.readBoolEntry("TrackPopup", false);
+    bool showPopups = settingsConfig.readEntry("TrackPopup", false);
     m_togglePopupsAction->setChecked(showPopups);
 
     if(m_outputSelectAction)
-        m_outputSelectAction->setCurrentItem(settingsConfig.readNumEntry("MediaSystem", 0));
+        m_outputSelectAction->setCurrentItem(settingsConfig.readEntry("MediaSystem", 0));
 
     m_toggleSplashAction->setChecked(m_showSplash);
 }

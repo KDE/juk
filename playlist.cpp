@@ -250,13 +250,13 @@ Playlist::SharedSettings::SharedSettings()
 {
     KConfigGroup config(KGlobal::config(), "PlaylistShared");
 
-    bool resizeColumnsManually = config.readBoolEntry("ResizeColumnsManually", false);
+    bool resizeColumnsManually = config.readEntry("ResizeColumnsManually", false);
     action<KToggleAction>("resizeColumnsManually")->setChecked(resizeColumnsManually);
 
     // save column order
-    m_columnOrder = config.readIntListEntry("ColumnOrder");
+    m_columnOrder = config.readEntry("ColumnOrder");
 
-    Q3ValueList<int> l = config.readIntListEntry("VisibleColumns");
+    Q3ValueList<int> l = config.readEntry("VisibleColumns");
 
     if(l.isEmpty()) {
 
@@ -289,7 +289,7 @@ Playlist::SharedSettings::SharedSettings()
     }
 
     m_inlineCompletion = KGlobalSettings::Completion(
-        config.readNumEntry("InlineCompletionMode", KGlobalSettings::CompletionAuto));
+        config.readEntry("InlineCompletionMode", KGlobalSettings::CompletionAuto));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
