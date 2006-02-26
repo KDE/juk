@@ -274,7 +274,7 @@ QByteArray CoverDrag::encodedData(const char *mimetype) const
 {
     if(qstrcmp(CoverDrag::mimetype, mimetype) == 0) {
         QByteArray data;
-        QDataStream ds(data, QIODevice::WriteOnly);
+        QDataStream ds(&data, QIODevice::WriteOnly);
 
         ds << Q_UINT32(m_id);
         return data;
@@ -283,7 +283,7 @@ QByteArray CoverDrag::encodedData(const char *mimetype) const
         QPixmap large = CoverManager::coverFromId(m_id, CoverManager::FullSize);
         QImage img = large.convertToImage();
         QByteArray data;
-        QBuffer buffer(data);
+        QBuffer buffer(&data);
 
         buffer.open(IO_WriteOnly);
         img.save(&buffer, "PNG"); // Write in PNG format.
@@ -305,7 +305,7 @@ bool CoverDrag::decode(const QMimeSource *e, coverKey &id)
         return false;
 
     QByteArray data = e->encodedData(mimetype);
-    QDataStream ds(data, QIODevice::ReadOnly);
+    QDataStream ds(&data, QIODevice::ReadOnly);
     Q_UINT32 i;
 
     ds >> i;
@@ -358,24 +358,25 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
         path.prepend('t');
 
     // Check in cache for the pixmap.
+
     QPixmap *pix = data()->pixmapCache[path];
+
     if(pix) {
         kDebug(65432) << "Found pixmap in cover cache.\n";
         return *pix;
     }
 
     // Not in cache, load it and add it.
+
     pix = new QPixmap(coverData.path);
     if(pix->isNull())
         return QPixmap();
 
-    if(size == Thumbnail) {
-        // Convert to image for smoothScale()
-        QImage image = pix->convertToImage();
-        pix->convertFromImage(image.smoothScale(80, 80, QImage::ScaleMin));
-    }
+    if(size == Thumbnail)
+        pix->scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     QPixmap returnValue = *pix; // Save it early.
+
     if(!data()->pixmapCache.insert(path, pix, pix->height() * pix->width()))
         delete pix;
 

@@ -52,7 +52,7 @@ void FolderPlaylist::setFolder(const QString &s)
 void FolderPlaylist::slotReload()
 {
     if(!m_folder.isNull())
-        addFiles(m_folder);
+        addFiles(QStringList(m_folder));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

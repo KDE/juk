@@ -27,18 +27,26 @@
 
 FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
                                              const TagRenamerOptions &options) :
-    FileRenamerTagOptionsBase(parent), m_options(options)
+    QWidget(parent),
+    Ui::FileRenamerTagOptionsBase(),
+    m_options(options)
 {
+    setupUi(this);
+
     layout()->setSpacing(KDialog::spacingHint());
     layout()->setMargin(0);
 
     m_emptyTagGroup->layout()->setSpacing(KDialog::spacingHint());
     m_trackGroup->layout()->setSpacing(KDialog::spacingHint());
+
+#warning Just commenting these out for now.
+/*
     m_emptyValueLayout->setSpacing(KDialog::spacingHint());
     m_exampleLayout->setSpacing(KDialog::spacingHint());
     m_spinLayout->setSpacing(KDialog::spacingHint());
     m_widthLayout->setSpacing(KDialog::spacingHint());
     m_tagLayout->setSpacing(KDialog::spacingHint());
+*/
     m_tagFormatGroup->layout()->setSpacing(KDialog::spacingHint());
 
     if(m_options.category() != Track)
@@ -78,7 +86,7 @@ void FileRenamerTagOptions::slotBracketsChanged()
 
 void FileRenamerTagOptions::slotTrackWidthChanged()
 {
-    unsigned width = m_trackWidth->value();
+    int width = m_trackWidth->value();
 
     m_options.setTrackWidth(width);
 

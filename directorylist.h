@@ -16,6 +16,7 @@
 #ifndef DIRECTORYLIST_H
 #define DIRECTORYLIST_H
 
+#include <kdialogbase.h>
 
 class DirectoryListBase;
 

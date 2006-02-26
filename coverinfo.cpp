@@ -22,12 +22,13 @@
 #include <qlayout.h>
 #include <qlabel.h>
 #include <qcursor.h>
-//Added by qt3to4:
+
 #include <QPixmap>
 #include <QMouseEvent>
 #include <Q3Frame>
 #include <QHBoxLayout>
 #include <QEvent>
+#include <QDesktopWidget>
 
 #include "collectionlist.h"
 #include "playlistsearch.h"
@@ -199,7 +200,7 @@ void CoverInfo::popup() const
 {
     QPixmap image = pixmap(FullSize);
     QPoint mouse  = QCursor::pos();
-    QRect desktop = QApplication::desktop()->screenGeometry(mouse);
+    QRect desktop = KApplication::desktop()->screenGeometry(mouse);
     
     int x = mouse.x();
     int y = mouse.y();

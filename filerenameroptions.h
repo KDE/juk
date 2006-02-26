@@ -25,17 +25,16 @@
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class FileRenamerTagOptions : public Ui_FileRenamerTagOptionsBase
+class FileRenamerTagOptions : public QWidget, public Ui::FileRenamerTagOptionsBase
 {
     Q_OBJECT
-
 public:
     FileRenamerTagOptions(QWidget *parent, const TagRenamerOptions &options);
     virtual ~FileRenamerTagOptions() {}
 
     const TagRenamerOptions &options() const { return m_options; }
 
-    protected slots:
+protected slots:
     virtual void slotBracketsChanged();
     virtual void slotTrackWidthChanged();
     virtual void slotEmptyActionChanged();
