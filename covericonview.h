@@ -24,6 +24,7 @@
 // don't like the idea of naming it "CoverIVI" or something, so just namespace
 // it out.  I would merge them except for googlefetcher's dependence on KIO
 // and such.
+
 namespace CoverUtility
 {
     class CoverIconViewItem : public KIconViewItem
@@ -49,7 +50,7 @@ using CoverUtility::CoverIconViewItem;
 class CoverIconView : public KIconView
 {
 public:
-    CoverIconView(QWidget *parent, const char *name);
+    CoverIconView(QWidget *parent, const char *name = 0);
 
     CoverIconViewItem *currentItem() const;
 

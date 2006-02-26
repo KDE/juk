@@ -50,12 +50,12 @@ public:
 class CaseInsensitiveItem : public KListViewItem
 {
 public:
-    CaseInsensitiveItem(QListView *parent, const QString &text) :
+    CaseInsensitiveItem(Q3ListView *parent, const QString &text) :
         KListViewItem(parent, text)
     {
     }
 
-    int compare(QListViewItem *item, int column, bool ascending) const
+    int compare(Q3ListViewItem *item, int column, bool ascending) const
     {
         Q_UNUSED(ascending);
         return text(column).lower().localeAwareCompare(item->text(column).lower());
