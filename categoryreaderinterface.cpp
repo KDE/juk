@@ -53,7 +53,7 @@ QString CategoryReaderInterface::fixupTrack(const QString &track, unsigned categ
             return QString::null;
     }
 
-    unsigned minimumWidth = trackWidth(categoryNum);
+    int minimumWidth = trackWidth(categoryNum);
 
     if(str.length() < minimumWidth) {
         QString prefix;

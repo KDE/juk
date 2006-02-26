@@ -16,7 +16,8 @@
 #ifndef TAG_H
 #define TAG_H
 
-#include <qfileinfo.h>
+#include <QFileInfo>
+#include <QDateTime>
 
 namespace TagLib { class File; }
 

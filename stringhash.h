@@ -17,7 +17,6 @@
 #define STRINGHASH_H
 
 #include <q3ptrvector.h>
-//Added by qt3to4:
 #include <Q3ValueList>
 #include <Q3CString>
 
@@ -136,8 +135,7 @@ inline int hashString(const StringType &s)
 {
     uint h = 0;
     uint g;
-    for(uint i = 0; i < s.length(); i++)
-    {
+    for(int i = 0; i < s.length(); i++) {
         h = (h << 4) + hashStringAccess(s, i);
         if((g = h & 0xf0000000))
             h ^= g >> 24;
@@ -159,6 +157,7 @@ template<> inline int Hash<QString>::hash(QString key) const
 {
     return hashString(key) % tableSize();
 }
+
 typedef Hash<QString> StringHash;
 
 // PtrHash

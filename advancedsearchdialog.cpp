@@ -23,9 +23,12 @@
 #include <q3hbox.h>
 #include <q3vbox.h>
 #include <qlayout.h>
-//Added by qt3to4:
+
 #include <QHBoxLayout>
 #include <QBoxLayout>
+#include <QGroupBox>
+
+#include <Q3HButtonGroup>
 
 #include "collectionlist.h"
 #include "advancedsearchdialog.h"
@@ -49,7 +52,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     new QLabel(i18n("Playlist name:"), box);
     m_playlistNameLineEdit = new KLineEdit(defaultName, box);
 
-    QVGroupBox *criteriaGroupBox = new QVGroupBox(i18n("Search Criteria"), mainWidget());
+    QGroupBox *criteriaGroupBox = new QGroupBox(i18n("Search Criteria"), mainWidget());
     static_cast<Q3HBox *>(mainWidget())->setStretchFactor(criteriaGroupBox, 1);
 
     Q3HButtonGroup *group = new Q3HButtonGroup(criteriaGroupBox);

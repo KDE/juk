@@ -25,12 +25,13 @@
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class FileRenamerTagOptions : public FileRenamerTagOptionsBase
+class FileRenamerTagOptions : public Ui_FileRenamerTagOptionsBase
 {
     Q_OBJECT
 
-    public:
+public:
     FileRenamerTagOptions(QWidget *parent, const TagRenamerOptions &options);
+    virtual ~FileRenamerTagOptions() {}
 
     const TagRenamerOptions &options() const { return m_options; }
 
@@ -39,7 +40,7 @@ class FileRenamerTagOptions : public FileRenamerTagOptionsBase
     virtual void slotTrackWidthChanged();
     virtual void slotEmptyActionChanged();
 
-    private:
+private:
     TagRenamerOptions m_options;
 };
 
@@ -52,7 +53,7 @@ class TagOptionsDialog : public KDialogBase
 {
     Q_OBJECT
 
-    public:
+public:
     TagOptionsDialog(QWidget *parent, const TagRenamerOptions &options, unsigned categoryNumber);
 
     const TagRenamerOptions &options() const { return m_options; }
@@ -60,7 +61,7 @@ class TagOptionsDialog : public KDialogBase
     protected slots:
     virtual void accept();
 
-    private:
+private:
 
     // Private methods
 

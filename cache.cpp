@@ -75,7 +75,7 @@ void Cache::save()
         return;
 
     QByteArray data;
-    QDataStream s(data, QIODevice::WriteOnly);
+    QDataStream s(&data, QIODevice::WriteOnly);
 
     for(Iterator it = begin(); it != end(); ++it) {
         s << (*it).absFilePath();
@@ -125,7 +125,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
         // Create a new stream just based on the data.
 
-        QDataStream s(data, QIODevice::ReadOnly);
+        QDataStream s(&data, QIODevice::ReadOnly);
 
         while(!s.atEnd()) {
 
@@ -293,7 +293,7 @@ void Cache::load()
         s >> checksum
           >> data;
 
-        buffer.setBuffer(data);
+        buffer.setBuffer(&data);
         buffer.open(QIODevice::ReadOnly);
         s.setDevice(&buffer);
 

@@ -9,9 +9,9 @@ class CollectionIface : public DCOPObject
 {
     K_DCOP
 k_dcop:
-    void openFile(const QString &file) { open(file); }
+    void openFile(const QString &file) { open(QStringList(file)); }
     void openFile(const QStringList &files) { open(files); }
-    void openFile(const QString &playlist, const QString &file) { open(playlist, file); }
+    void openFile(const QString &playlist, const QString &file) { open(playlist, QStringList(file)); }
     void openFile(const QString &playlist, const QStringList &files) { open(playlist, files); }
 
     virtual QStringList playlists() const = 0;
