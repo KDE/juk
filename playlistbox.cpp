@@ -389,7 +389,7 @@ void PlaylistBox::slotSavePlaylists()
 void PlaylistBox::slotShowDropTarget()
 {
     if(!m_dropItem) {
-	kdError(65432) << "Trying to show the playlist of a null item!\n";
+	kError(65432) << "Trying to show the playlist of a null item!\n";
 	return;
     }
 

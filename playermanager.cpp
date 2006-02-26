@@ -258,7 +258,7 @@ KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
 #endif
 
     if(l.isEmpty()) {
-        kdError(65432) << "Your JuK seems to have no output backend possibilities.\n";
+        kError(65432) << "Your JuK seems to have no output backend possibilities.\n";
         l.append(i18n("aKode")); // Looks like akode is the default backend.
     }
 

@@ -397,7 +397,7 @@ bool FileRenamerWidget::removeRow(unsigned id)
     }
 
     if(m_rows.count() == 1) {
-        kdError(65432) << "Can't remove last row of File Renamer.\n";
+        kError(65432) << "Can't remove last row of File Renamer.\n";
         return false;
     }
 
@@ -512,12 +512,12 @@ void FileRenamerWidget::createTagRows()
 
     for(; it != categoryOrder.constEnd(); ++it) {
         if(*it < StartTag || *it >= NumTypes) {
-            kdError(65432) << "Invalid category encountered in file renamer configuration.\n";
+            kError(65432) << "Invalid category encountered in file renamer configuration.\n";
             continue;
         }
 
         if(m_rows.count() == MAX_CATEGORIES) {
-            kdError(65432) << "Maximum number of File Renamer tags reached, bailing.\n";
+            kError(65432) << "Maximum number of File Renamer tags reached, bailing.\n";
             break;
         }
 
@@ -698,7 +698,7 @@ void FileRenamerWidget::moveItem(unsigned id, MovementDirection direction)
 unsigned FileRenamerWidget::idOfPosition(unsigned position) const
 {
     if(position >= m_rows.count()) {
-        kdError(65432) << "Search for position " << position << " out-of-range.\n";
+        kError(65432) << "Search for position " << position << " out-of-range.\n";
         return static_cast<unsigned>(-1);
     }
 
@@ -706,7 +706,7 @@ unsigned FileRenamerWidget::idOfPosition(unsigned position) const
         if(m_rows[i].position == position)
             return i;
 
-    kdError(65432) << "Unable to find identifier for position " << position << endl;
+    kError(65432) << "Unable to find identifier for position " << position << endl;
     return static_cast<unsigned>(-1);
 }
 
@@ -716,7 +716,7 @@ unsigned FileRenamerWidget::findIdentifier(const CategoryID &category) const
         if(m_rows[index].category == category)
             return index;
 
-    kdError(65432) << "Unable to find match for category " <<
+    kError(65432) << "Unable to find match for category " <<
         TagRenamerOptions::tagTypeText(category.category) <<
         ", number " << category.categoryNumber << endl;
 
@@ -766,7 +766,7 @@ void FileRenamerWidget::insertCategory()
 {
     TagType category = TagRenamerOptions::tagFromCategoryText(m_category->currentText());
     if(category == Unknown) {
-        kdError(65432) << "Trying to add unknown category somehow.\n";
+        kError(65432) << "Trying to add unknown category somehow.\n";
         return;
     }
 
@@ -828,7 +828,7 @@ void FileRenamerWidget::slotRemoveRow(int id)
 {
     // Remove the given identified row.
     if(!removeRow(id))
-        kdError(65432) << "Unable to remove row " << id << endl;
+        kError(65432) << "Unable to remove row " << id << endl;
 }
 
 //
@@ -916,7 +916,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     // Create the directory.
     if(!KStandardDirs::exists(dir.path()))
         if(!KStandardDirs::makeDir(dir.path())) {
-            kdError() << "Unable to create directory " << dir.path() << endl;
+            kError() << "Unable to create directory " << dir.path() << endl;
             return false;
         }
 

@@ -108,8 +108,8 @@ void DefaultSequenceIterator::advance()
             if(!m_albumSearch.isNull()) {
                 PlaylistItemList albumMatches = m_albumSearch.matchedItems();
                 if(albumMatches.isEmpty()) {
-                    kdError(65432) << "Unable to initialize album random play.\n";
-                    kdError(65432) << "List of potential results is empty.\n";
+                    kError(65432) << "Unable to initialize album random play.\n";
+                    kError(65432) << "List of potential results is empty.\n";
 
                     return; // item is still set to random song from a few lines earlier.
                 }
@@ -129,7 +129,7 @@ void DefaultSequenceIterator::advance()
                 }
             }
             else
-                kdError(65432) << "Unable to perform album random play on " << *item << endl;
+                kError(65432) << "Unable to perform album random play on " << *item << endl;
         }
         else
             item = m_randomItems[KApplication::random() % m_randomItems.count()];
@@ -248,7 +248,7 @@ void DefaultSequenceIterator::refillRandomList(Playlist *p)
         p = current()->playlist();
 
         if(!p) {
-            kdError(65432) << k_funcinfo << "Item has no playlist!\n";
+            kError(65432) << k_funcinfo << "Item has no playlist!\n";
             return;
         }
     }

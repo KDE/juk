@@ -276,7 +276,7 @@ bool CoverInfo::convertOldStyleCover() const
         // If we convert we need to remove the old cover otherwise we'll find
         // it later if the user un-sets the new cover.
         if(!QFile::remove(oldLocation))
-            kdError(65432) << "Unable to remove converted cover at " << oldLocation << endl;
+            kError(65432) << "Unable to remove converted cover at " << oldLocation << endl;
 
         return true;
     }
