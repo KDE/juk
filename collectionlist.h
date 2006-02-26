@@ -124,8 +124,8 @@ protected:
     // These methods are also used by CollectionListItem, to manage the
     // strings used in generating the unique sets and tree view mode playlists.
 
-    QString addStringToDict(const QString &value, unsigned column);
-    void removeStringFromDict(const QString &value, unsigned column);
+    QString addStringToDict(const QString &value, int column);
+    void removeStringFromDict(const QString &value, int column);
 
     void addWatched(const QString &file) { m_dirWatch->addFile(file); }
     void removeWatched(const QString &file) { m_dirWatch->removeFile(file); }

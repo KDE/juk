@@ -199,7 +199,7 @@ void CoverInfo::popup() const
 {
     QPixmap image = pixmap(FullSize);
     QPoint mouse  = QCursor::pos();
-    QRect desktop = KApplication::desktop()->screenGeometry(mouse);
+    QRect desktop = QApplication::desktop()->screenGeometry(mouse);
     
     int x = mouse.x();
     int y = mouse.y();

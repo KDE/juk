@@ -39,7 +39,7 @@
 #include <Q3CString>
 #include <QDropEvent>
 
-using namespace ActionCollection;
+using ActionCollection::action;
 
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
@@ -74,12 +74,12 @@ void CollectionList::initialize(PlaylistCollection *collection)
     // it here, and perform the sort.
     KConfigGroup config(KGlobal::config(), "Playlists");
     
-    SortOrder order = Descending;
-    if(config.readBoolEntry("CollectionListSortAscending", true))
-	order = Ascending;
+    Qt::SortOrder order = Qt::DescendingOrder;
+    if(config.readEntry("CollectionListSortAscending", true))
+	order = Qt::AscendingOrder;
 
     m_list->setSortOrder(order);
-    m_list->setSortColumn(config.readNumEntry("CollectionListSortColumn", 1));
+    m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
 
     m_list->sort();
 
@@ -149,7 +149,7 @@ void CollectionList::slotNewItems(const KFileItemList &items)
 {
     QStringList files;
 
-    for(KFileItemListIterator it(items); it.current(); ++it)
+    for(KFileItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
 	files.append((*it)->url().path());
 
     addFiles(files);
@@ -158,7 +158,7 @@ void CollectionList::slotNewItems(const KFileItemList &items)
 
 void CollectionList::slotRefreshItems(const KFileItemList &items)
 {
-    for(KFileItemListIterator it(items); it.current(); ++it) {
+    for(KFileItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 	CollectionListItem *item = lookup((*it)->url().path());
 
 	if(item) {
@@ -233,9 +233,8 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
     m_itemsDict(5003),
     m_columnTags(15, 0)
 {
-    new KAction(i18n("Show Playing"), KShortcut(), actions(), "showPlaying");
-
-    connect(action("showPlaying"), SIGNAL(activated()), this, SLOT(slotShowPlaying()));
+    new KAction(i18n("Show Playing"), KShortcut(), this, SLOT(slotShowPlaying()),
+		ActionCollection::actions(), "showPlaying");
 
     connect(action<KToolBarPopupAction>("back")->popupMenu(), SIGNAL(aboutToShow()),
 	    this, SLOT(slotPopulateBackMenu()));
@@ -259,7 +258,7 @@ CollectionList::~CollectionList()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
     config.writeEntry("CollectionListSortColumn", sortColumn());
-    config.writeEntry("CollectionListSortAscending", sortOrder() == Ascending);
+    config.writeEntry("CollectionListSortAscending", sortOrder() == Qt::AscendingOrder);
 
     // The CollectionListItems will try to remove themselves from the
     // m_columnTags member, so we must make sure they're gone before we
@@ -286,7 +285,7 @@ void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 	e->accept(false);
 }
 
-QString CollectionList::addStringToDict(const QString &value, unsigned column)
+QString CollectionList::addStringToDict(const QString &value, int column)
 {
     if(column > m_columnTags.count() || value.stripWhiteSpace().isEmpty())
 	return QString::null;
@@ -324,7 +323,7 @@ QStringList CollectionList::uniqueSet(UniqueSetType t) const
 	return QStringList();
     }
 
-    if((unsigned) column >= m_columnTags.count())
+    if(column >= m_columnTags.count())
 	return QStringList();
 
     TagCountDictIterator it(*m_columnTags[column]);
@@ -336,7 +335,7 @@ QStringList CollectionList::uniqueSet(UniqueSetType t) const
     return list;
 }
 
-void CollectionList::removeStringFromDict(const QString &value, unsigned column)
+void CollectionList::removeStringFromDict(const QString &value, int column)
 {
     if(column > m_columnTags.count() || value.isEmpty())
 	return;
