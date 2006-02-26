@@ -18,6 +18,8 @@
 #define JUK_FILERENAMER_H
 
 #include <qstring.h>
+#include <q3valuevector.h>
+#include <qmap.h>
 //Added by qt3to4:
 #include <Q3ValueList>
 
@@ -34,6 +36,7 @@ class QLayoutItem;
 class QPushButton;
 class Q3VBox;
 class PlaylistItem;
+class QSignalMapper;
 
 // Used to decide what direction the FileRenamerWidget will move rows in.
 enum MovementDirection { MoveUp, MoveDown };
@@ -48,12 +51,38 @@ struct Row
     Row() : widget(0), upButton(0), downButton(0), enableButton(0) {}
 
     QWidget *widget;
-    QPushButton *upButton, *downButton;
-    QCheckBox *enableButton;
+
+    QPushButton *upButton, *downButton, *optionsButton, *enableButton;
+
     TagRenamerOptions options;
-    TagType category;
+    CategoryID category; // Includes category and a disambiguation id.
+    unsigned position; ///< Position in the GUI (0 == top)
     QString name;
 };
+
+/**
+ * A list of rows, each of which may have its own category options and other
+ * associated data.  There is no relation between the order of rows in the vector and their
+ * GUI layout.  Instead, each Row has a position member which indicates what GUI position it
+ * takes up.  The index into the vector is known as the row identifier (which is unique but
+ * not necessarily constant).
+ */
+typedef Q3ValueVector<Row> Rows;
+
+/**
+ * Holds a list directory separator checkboxes which separate a row.  There
+ * should always be 1 less than the number of rows in the GUI.
+ *
+ * Used for ConfigCategoryReader.
+ */
+typedef Q3ValueVector<QCheckBox *> DirSeparatorCheckBoxes;
+
+/**
+ * Associates a CategoryID combination with a set of options.
+ *
+ * Used for ConfigCategoryReader
+ */
+typedef QMap<CategoryID, TagRenamerOptions> CategoryOptionsMap;
 
 /**
  * An implementation of CategoryReaderInterface that reads the user's settings
@@ -76,24 +105,24 @@ public:
     // CategoryReaderInterface reimplementations
 
     virtual QString categoryValue(TagType type) const;
-    virtual QString prefix(TagType category) const;
-    virtual QString suffix(TagType category) const;
-    virtual TagRenamerOptions::EmptyActions emptyAction(TagType category) const;
-    virtual QString emptyText(TagType category) const;
-    virtual Q3ValueList<TagType> categoryOrder() const;
+    virtual QString prefix(const CategoryID &category) const;
+    virtual QString suffix(const CategoryID &category) const;
+    virtual TagRenamerOptions::EmptyActions emptyAction(const CategoryID &category) const;
+    virtual QString emptyText(const CategoryID &category) const;
+    virtual Q3ValueList<CategoryID> categoryOrder() const;
     virtual QString separator() const;
     virtual QString musicFolder() const;
-    virtual int trackWidth() const;
-    virtual bool hasFolderSeparator(int index) const;
-    virtual bool isDisabled(TagType category) const;
+    virtual int trackWidth(unsigned categoryNum) const;
+    virtual bool hasFolderSeparator(unsigned index) const;
+    virtual bool isDisabled(const CategoryID &category) const;
 
 private:
     const PlaylistItem *m_currentItem;
-    TagRenamerOptions m_options[NumTypes];
-    Q3ValueList<TagType> m_categoryOrder;
+    CategoryOptionsMap m_options;
+    Q3ValueList<CategoryID> m_categoryOrder;
     QString m_separator;
     QString m_musicFolder;
-    bool m_folderSeparators[NumTypes - 1];
+    Q3ValueVector<bool> m_folderSeparators;
 };
 
 /**
@@ -118,6 +147,9 @@ public:
     FileRenamerWidget(QWidget *parent);
     ~FileRenamerWidget();
 
+    /// Maximum number of total categories the widget will allow.
+    static unsigned const MAX_CATEGORIES = 16;
+
     /**
      * This function saves all of the category options to the global KConfig
      * object.  You must call this manually, FileRenamerWidget doesn't call it
@@ -140,6 +172,12 @@ protected slots:
      */
     virtual void toggleExampleDialog();
 
+    /**
+     * This function inserts the currently selected category, so that the
+     * user can use duplicate tags in the file renamer.
+     */
+    virtual void insertCategory();
+
 private:
     /**
      * This function initializes the category options by loading the data from
@@ -148,22 +186,45 @@ private:
     void loadConfig();
 
     /**
+     * This function adds a "Insert Folder separator" checkbox to the end of
+     * the current layout.  The setting defaults to being unchecked.
+     */
+    void addFolderSeparatorCheckbox();
+
+    /**
+     * This function creates a row in the main view for category, appending it
+     * to the end.  It handles connecting signals to the mapper and such as
+     * well.
+     *
+     * @param category Type of row to append.
+     * @return identifier of newly added row.
+     */
+    unsigned addRowCategory(TagType category);
+
+    /**
+     * Removes the given row, updating the other rows to have the correct
+     * number of categoryNumber.
+     *
+     * @param id The identifier of the row to remove.
+     * @return true if the delete succeeded, false otherwise.
+     */
+    bool removeRow(unsigned id);
+
+    /**
+     * Updates the mappings currently set for the row identified by oldId so
+     * that they emit newId instead.  Does not actually delete the row given
+     * by oldId.
+     *
+     * @param oldId The identifier of the row to change mappings for.
+     * @param newId The identifier to use instead.
+     */
+    void moveSignalMappings(unsigned oldId, unsigned newId);
+
+    /**
      * This function sets up the internal view by creating the checkboxes and
      * the rows for each category.
      */
     void createTagRows();
-
-    /**
-     * This function returns the container widget that holds the row for
-     * \p category.
-     *
-     * @param category the category to retrieve the widget for.
-     * @return the widget holding the row for the category.
-     */
-    QWidget *widgetForCategory(TagType category) const
-    {
-        return m_rows[findIndex(category)].widget;
-    }
 
     /**
      * Returns the value for \p category by retrieving the tag from m_exampleFile.
@@ -191,9 +252,9 @@ private:
      * @param category the category to retrieve the value for.
      * @return user-specified prefix string for \p category.
      */
-    virtual QString prefix(TagType category) const
+    virtual QString prefix(const CategoryID &category) const
     {
-        return m_rows[findIndex(category)].options.prefix();
+        return m_rows[findIdentifier(category)].options.prefix();
     }
 
     /**
@@ -202,9 +263,9 @@ private:
      * @param category the category to retrieve the value for.
      * @return user-specified suffix string for \p category.
      */
-    virtual QString suffix(TagType category) const
+    virtual QString suffix(const CategoryID &category) const
     {
-        return m_rows[findIndex(category)].options.suffix();
+        return m_rows[findIdentifier(category)].options.suffix();
     }
 
     /**
@@ -213,9 +274,9 @@ private:
      * @param category the category to retrieve the value for.
      * @return user-specified empty action for \p category.
      */
-    virtual TagRenamerOptions::EmptyActions emptyAction(TagType category) const
+    virtual TagRenamerOptions::EmptyActions emptyAction(const CategoryID &category) const
     {
-        return m_rows[findIndex(category)].options.emptyAction();
+        return m_rows[findIdentifier(category)].options.emptyAction();
     }
 
     /**
@@ -225,15 +286,15 @@ private:
      * @param category the category to retrieve the value for.
      * @return the user-specified empty text for \p category.
      */
-    virtual QString emptyText(TagType category) const
+    virtual QString emptyText(const CategoryID &category) const
     {
-        return m_rows[findIndex(category)].options.emptyText();
+        return m_rows[findIdentifier(category)].options.emptyText();
     }
 
     /**
-     * @return list of TagTypes corresponding to the user-specified category order.
+     * @return list of CategoryIDs corresponding to the user-specified category order.
      */
-    virtual Q3ValueList<TagType> categoryOrder() const;
+    virtual Q3ValueList<CategoryID> categoryOrder() const;
 
     /**
      * @return string that separates the tag values in the file name.
@@ -246,11 +307,13 @@ private:
     virtual QString musicFolder() const;
 
     /**
+     * @param categoryNum Zero-based number of category to get results for (if more than one).
      * @return the minimum width of the track category.
      */
-    virtual int trackWidth() const
+    virtual int trackWidth(unsigned categoryNum) const
     {
-        return m_rows[findIndex(Track)].options.trackWidth();
+        CategoryID id(Track, categoryNum);
+        return m_rows[findIdentifier(id)].options.trackWidth();
     }
     
     /**
@@ -260,15 +323,15 @@ private:
      *         of this function, only categories that are required or non-empty
      *         should count.
      */
-    virtual bool hasFolderSeparator(int index) const;
+    virtual bool hasFolderSeparator(unsigned index) const;
 
     /**
      * @param category The category to get the status of.
      * @return true if \p category is disabled by the user, and false otherwise.
      */
-    virtual bool isDisabled(TagType category) const
+    virtual bool isDisabled(const CategoryID &category) const
     {
-        return m_rows[findIndex(category)].options.disabled();
+        return m_rows[findIdentifier(category)].options.disabled();
     }
 
     /**
@@ -277,10 +340,10 @@ private:
      * enabled or disabled as appropriate for the new layout, and that the up and
      * down buttons are also adjusted as necessary.
      *
-     * @param l the widget to move
+     * @param id the identifier of the row to move
      * @param direction the direction to move
      */
-    void moveItem(QWidget *l, MovementDirection direction);
+    void moveItem(unsigned id, MovementDirection direction);
 
     /**
      * This function actually performs the work of showing the options dialog for
@@ -291,16 +354,16 @@ private:
     void showCategoryOptions(TagType category);
 
     /**
-     * This function enables or disables the widget in the row indexed by \p index,
+     * This function enables or disables the widget in the row identified by \p id,
      * controlled by \p enable.  This function also makes sure that checkboxes are
      * enabled or disabled as appropriate if they no longer make sense due to the
      * adjacent category being enabled or disabled.
      *
-     * @param index the index of the row to change.  This is *not* the category to
+     * @param id the identifier of the row to change.  This is *not* the category to
      *        change.
      * @param enable enables the category if true, disables if false.
      */
-    void setCategoryEnabled(int index, bool enable);
+    void setCategoryEnabled(int id, bool enable);
 
     /**
      * This function enables all of the up buttons.
@@ -313,22 +376,22 @@ private:
     void enableAllDownButtons();
 
     /**
-     * This function returns the position in the m_rows index that contains
-     * \p item.
+     * This function returns the identifier of the row at \p position.
      *
-     * @param item the widget to find.
-     * @return the indexed position of the widget, or -1 if it couldn't be found.
+     * @param position The position to find the identifier of.
+     * @return The unique id of the row at \p position.
      */
-    int findIndex(QWidget *item) const;
+    unsigned idOfPosition(unsigned position) const;
 
     /**
-     * This function returns the position in the m_rows index that contains
-     * \p category.
+     * This function returns the identifier of the row in the m_rows index that
+     * contains \p category and matches \p categoryNum.
      *
      * @param category the category to find.
-     * @return the indexed position of the category, or -1 if it couldn't be found.
+     * @return the identifier of the category, or MAX_CATEGORIES if it couldn't
+     *         be found.
      */
-    int findIndex(TagType category) const;
+    unsigned findIdentifier(const CategoryID &category) const;
 
 private slots:
     /**
@@ -349,35 +412,34 @@ private slots:
 
     /**
      * This function brings up a dialog that allows the user to edit the options
-     * for \p category.  \p category is an int so make using it with QSignalMapper
-     * easier.
+     * for \p id.
      *
-     * @param category the category to bring up the options for.
+     * @param id the unique id to bring up the options for.
      */
-    virtual void showCategoryOption(int category);
+    virtual void showCategoryOption(int id);
 
     /**
-     * This function updates the information for the given category to match
-     * whatever state its match check box is in.  This roundabout way is done due
-     * to QSignalMapper, and the call is forwarded to setCategoryEnabled().
+     * This function removes the row identified by id and updates the internal data to be
+     * consistent again, by forwarding the call to removeRow().
+     * This roundabout way is done due to QSignalMapper.
      *
-     * @param category The category to update
+     * @param id The unique id to update
      */
-    virtual void toggleCategory(int category);
+    virtual void slotRemoveRow(int id);
 
     /**
      * This function moves \p category up in the layout.
      *
-     * @param category the category of the widget to move up.
+     * @param id the unique id of the widget to move up.
      */
-    virtual void moveItemUp(int category);
+    virtual void moveItemUp(int id);
 
     /**
      * This function moves \p category down in the layout.
      *
-     * @param category the category of the widget to move down.
+     * @param id the unique id of the widget to move down.
      */
-    virtual void moveItemDown(int category);
+    virtual void moveItemDown(int id);
 
     /**
      * This slot should be called whenever the example input dialog is shown.
@@ -394,48 +456,74 @@ private:
     Q3VBox *m_mainFrame;
 
     /**
-     * This array should always be accessed using integer indices, as the index
-     * represents the physical position of each entry.  m_rows[0] is the top entry,
-     * and m_rows[NumTypes - 1] is the bottom.  You can use findIndex() to get the
-     * m_rows index for a given category.
+     * This is the meat of the widget, it holds the rows for the user configuration.  It is
+     * initially created such that m_rows[0] is the top and row + 1 is the row just below.
+     * However, this is NOT NECESSARILY true, so don't rely on this.  As soon as the user
+     * clicks an arrow to move a row then the order will be messed up.  Use row.position to
+     * determine where the row is in the GUI.
+     *
+     * @see idOfPosition
+     * @see findIdentifier
      */
-    Row m_rows[NumTypes];
+    Rows m_rows;
 
     /** 
      * This holds an array of checkboxes that allow the user to insert folder
      * separators in between categories.
      */
-    QCheckBox *m_folderSwitches[NumTypes - 1];
+    DirSeparatorCheckBoxes m_folderSwitches;
 
     ExampleOptionsDialog *m_exampleDialog;
 
     /// This is true if we're reading example tags from m_exampleFile.
     bool m_exampleFromFile;
     QString m_exampleFile;
+
+    // Used to map signals from rows to the correct widget.
+    QSignalMapper *mapper;
+    QSignalMapper *toggleMapper;
+    QSignalMapper *upMapper;
+    QSignalMapper *downMapper;
 };
 
-class PlaylistItem;
-
+/**
+ * This class contains the backend code to actually implement the file renaming.  It performs
+ * the function of moving the files from one location to another, constructing the file name
+ * based off of the user's options (see ConfigCategoryReader) and of setting folder icons
+ * if appropriate.
+ *
+ * @author Michael Pyne <michael.pyne@kdemail.net>
+ */
 class FileRenamer
 {
 public:
     FileRenamer();
 
+    /**
+     * Renames the filename on disk of the file represented by item according
+     * to the user configuration stored in KConfig.
+     *
+     * @param item The item to rename.
+     */
     void rename(PlaylistItem *item);
-    void rename(const PlaylistItemList &items);
-
-    static QString fileName(const CategoryReaderInterface &interface);
 
     /**
-     * Adjusts \p track if necessary in order to make it at least the minimum
-     * number of characters specified by the user.
+     * Renames the filenames on disk of the files given in items according to
+     * the user configuration stored in KConfig.
      *
-     * @param track the string representation of the track value.
-     * @param interface the CategoryReaderInterface to read information from.
-     * @return track padding with zeroes so that it fits the user's requirements
-     *         for minimum width.
+     * @param items The items to rename.
      */
-    static QString fixupTrack(const QString &track, const CategoryReaderInterface &interface);
+    void rename(const PlaylistItemList &items);
+
+    /**
+     * Returns the file name that would be generated based on the options read from
+     * interface, which must implement CategoryReaderInterface.  (A whole interface is used
+     * so that we can re-use the code to generate filenames from a in-memory GUI and from
+     * KConfig).
+     *
+     * @param interface object to read options/data from.
+     */
+    static QString fileName(const CategoryReaderInterface &interface);
 
 private:
     /**
@@ -443,7 +531,7 @@ private:
      * there is not already a folder icon set, and if the folder's name has
      * the album name.
      */
-    void setFolderIcon(const KUrl &dst, const PlaylistItem *item);
+    void setFolderIcon(const KURL &dst, const PlaylistItem *item);
 
     /**
      * Attempts to rename the file from \a src to \a dest.  Returns true if the

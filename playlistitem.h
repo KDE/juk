@@ -206,7 +206,11 @@ private:
 
 inline kdbgstream &operator<<(kdbgstream &s, const PlaylistItem &item)
 {
-    s << item.text(PlaylistItem::TrackColumn);
+    if(&item == 0)
+	s << "(nil)";
+    else
+	s << item.text(PlaylistItem::TrackColumn);
+
     return s;
 }
 

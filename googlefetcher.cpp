@@ -18,6 +18,8 @@
 #include <dom/dom_exception.h>
 #include <dom/dom2_traversal.h>
 
+#include <khtml_part.h>
+
 #include <kapplication.h>
 #include <kstatusbar.h>
 #include <kmainwindow.h>
@@ -88,8 +90,18 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     // choice if we're going to screen-scrape Google.
     try {
 
-    DOM::HTMLDocument search;
+    KHTMLPart part;
+
+    // Create empty document.
+
+    part.begin();
+    part.end();
+
+    DOM::HTMLDocument search = part.htmlDocument();
     search.setAsync(false); // Grab the document before proceeding.
+
+    kdDebug(65432) << "Performing Google Search: " << url << endl;
+
     search.load(url.url());
 
     DOM::HTMLElement body = search.body();

@@ -40,28 +40,32 @@ TagRenamerOptions::TagRenamerOptions(const TagRenamerOptions &other) :
 {
 }
 
-TagRenamerOptions::TagRenamerOptions(TagType category)
-    : m_category(category)
+TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
+    : m_category(category.category)
 {
     // Set some defaults
 
     bool disabled;
+    unsigned categoryNum = category.categoryNumber;
 
-    switch(category) {
+    switch(category.category) {
     case Title:
     case Artist:
     case Album:
     case Track:
-	disabled = false;
-	break;
+        disabled = false;
+        break;
     default:
-	disabled = true;
+        disabled = true;
     }
 
     // Make sure we don't use translated strings for the config file keys.
 
-    const QString typeKey = tagTypeText(category, false);
+    QString typeKey = tagTypeText(category.category, false);
     KConfigGroup config(KGlobal::config(), "FileRenamer");
+
+    if(categoryNum > 0)
+        typeKey.append(QString::number(categoryNum));
 
     setSuffix(config.readEntry(QString("%1Suffix").arg(typeKey)));
     setPrefix(config.readEntry(QString("%1Prefix").arg(typeKey)));
@@ -101,11 +105,14 @@ QString TagRenamerOptions::tagTypeText(TagType type, bool translate)
     return translate ? i18n(tags[type]) : tags[type];
 }
 
-void TagRenamerOptions::saveConfig() const
+void TagRenamerOptions::saveConfig(unsigned categoryNum) const
 {
     // Make sure we don't use translated strings for the config file keys.
 
-    const QString typeKey = tagTypeText(false);
+    QString typeKey = tagTypeText(false);
+    if(categoryNum > 0)
+        typeKey.append(QString::number(categoryNum));
+
     KConfigGroup config(KGlobal::config(), "FileRenamer");
 
     config.writeEntry(QString("%1Suffix").arg(typeKey), suffix());
@@ -135,6 +142,15 @@ void TagRenamerOptions::saveConfig() const
         config.writeEntry(QString("%1TrackWidth").arg(typeKey), trackWidth());
 
     config.sync();
+}
+
+TagType TagRenamerOptions::tagFromCategoryText(const QString &text)
+{
+    for(unsigned i = StartTag; i < NumTypes; ++i)
+        if(tagTypeText(static_cast<TagType>(i), false) == text)
+            return static_cast<TagType>(i);
+
+    return Unknown;
 }
 
 // vim: set et ts=4 sw=4:

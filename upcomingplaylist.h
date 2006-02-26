@@ -195,7 +195,7 @@ public:
     virtual void reset();
 
     /**
-     * This function readys the UpcomingSequenceIterator for playback, by
+     * This function readies the UpcomingSequenceIterator for playback, by
      * making sure the parent UpcomingPlaylist has items to play if it is
      * empty.
      */

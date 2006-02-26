@@ -241,7 +241,7 @@ void CoverIconViewItem::imageResult(KIO::Job *job)
         return;
 
     QPixmap iconImage(m_buffer);
-    iconImage = QImage(iconImage.convertToImage()).smoothScale(80, 80);
+    iconImage = QImage(iconImage.convertToImage()).smoothScale(80, 80, QImage::ScaleMin);
     setPixmap(iconImage, true, true);
 }
 

@@ -36,7 +36,7 @@ namespace CoverUtility
     private:
 	coverKey m_id;
     };
-};
+}
 
 using CoverUtility::CoverIconViewItem;
 

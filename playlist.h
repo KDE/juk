@@ -35,6 +35,7 @@
 #include <QMouseEvent>
 #include <QCustomEvent>
 
+#include "covermanager.h"
 #include "stringhash.h"
 #include "playlistsearch.h"
 #include "tagguesser.h"
@@ -330,6 +331,8 @@ public:
 
     void read(QDataStream &s);
 
+    static void setShuttingDown() { m_shuttingDown = true; }
+
 public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
@@ -467,7 +470,7 @@ protected:
      * Forwards the call to the parent to enable or disable automatic deletion
      * of tree view playlists.  Used by CollectionListItem.
      */
-    void setCanDeletePlaylist(bool canDelete);
+    void setDynamicListsFrozen(bool frozen);
 
     template <class ItemType, class SiblingType>
     ItemType *createItem(SiblingType *sibling, ItemType *after = 0);
@@ -508,6 +511,12 @@ signals:
 
 private:
     void setup();
+
+    /**
+     * This function is called to let the user know that JuK has automatically enabled
+     * manual column width adjust mode.
+     */
+    void notifyUserColumnWidthModeChanged();
 
     /**
      * Load the playlist from a file.  \a fileName should be the absolute path.
@@ -552,7 +561,11 @@ private:
 
     void redisplaySearch() { setSearch(m_search); }
 
-    void refreshAlbums(const PlaylistItemList &items, const QImage &image = QImage());
+    /**
+     * Sets the cover for items to the cover identified by id.
+     */
+    void refreshAlbums(const PlaylistItemList &items, coverKey id = CoverManager::NoMatch);
+
     void refreshAlbum(const QString &artist, const QString &album);
 
     /**
@@ -560,7 +573,7 @@ private:
      * cover.  Used to avoid wasting the users' time setting the cover for 20
      * items when none are eligible.
      */
-    int eligibleCoverItems(const PlaylistItemList &items);
+    unsigned int eligibleCoverItems(const PlaylistItemList &items);
 
     void updatePlaying() const;
 
@@ -645,14 +658,14 @@ private:
     bool m_allowDuplicates;
     bool m_polished;
     bool m_applySharedSettings;
-    bool m_mousePressed;
+    bool m_columnWidthModeChanged;
 
     Q3ValueList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;
 
     mutable int m_time;
-    mutable Q3ValueList<PlaylistItem::Pointer> m_addTime;
-    mutable Q3ValueList<PlaylistItem::Pointer> m_subtractTime;
+    mutable PlaylistItemList m_addTime;
+    mutable PlaylistItemList m_subtractTime;
 
     /**
      * The average minimum widths of columns to be used in balancing calculations.
@@ -692,6 +705,7 @@ private:
      * call to setVisibleItems()) while random play is playing.
      */
     static bool m_visibleChanged;
+    static bool m_shuttingDown;
     static int m_leftColumn;
     static QMap<int, PlaylistItem *> m_backMenuItems;
 

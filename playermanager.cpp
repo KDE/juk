@@ -13,6 +13,15 @@
  *                                                                         *
  ***************************************************************************/
 
+/**
+ * Note to those who work here.  The preprocessor variables HAVE_ARTS and HAVE_GSTREAMER
+ * are ::ALWAYS DEFINED::.  You can't use #ifdef to see if they're present, you should just
+ * use #if.
+ *
+ * However, HAVE_AKODE is #define'd if present, and undefined if not present.
+ * - mpyne
+ */
+
 #include <kdebug.h>
 #include <klocale.h>
 
@@ -38,8 +47,6 @@
 #include "config.h"
 
 using namespace ActionCollection;
-
-PlayerManager *PlayerManager::m_instance = 0;
 
 enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying = 2 };
 
@@ -94,7 +101,8 @@ PlayerManager::PlayerManager() :
     m_player(0),
     m_timer(0),
     m_noSeek(false),
-    m_muted(false)
+    m_muted(false),
+    m_setup(false)
 {
 // This class is the first thing constructed during program startup, and
 // therefore has no access to the widgets needed by the setup() method.
@@ -114,9 +122,8 @@ PlayerManager::~PlayerManager()
 
 PlayerManager *PlayerManager::instance() // static
 {
-    if(!m_instance)
-        m_instance = new PlayerManager;
-    return m_instance;
+    static PlayerManager manager;
+    return &manager;
 }
 
 bool PlayerManager::playing() const
@@ -250,6 +257,11 @@ KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
     l.append(i18n("aKode"));
 #endif
 
+    if(l.isEmpty()) {
+        kdError(65432) << "Your JuK seems to have no output backend possibilities.\n";
+        l.append(i18n("aKode")); // Looks like akode is the default backend.
+    }
+
     action->setItems(l);
     return action;
 }
@@ -287,6 +299,7 @@ void PlayerManager::play(const FileHandle &file)
     // Make sure that the player() actually starts before doing anything.
 
     if(!player()->playing()) {
+        kdWarning(65432) << "Unable to play " << file.absFilePath() << endl;
         stop();
         return;
     }
@@ -603,6 +616,10 @@ void PlayerManager::setup()
         kWarning(65432) << k_funcinfo << "Could not find all of the required actions." << endl;
         return;
     }
+
+    if(m_setup)
+        return;
+    m_setup = true;
 
     // initialize action states
 

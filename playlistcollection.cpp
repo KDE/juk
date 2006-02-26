@@ -51,6 +51,12 @@
 using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
+// static methods
+////////////////////////////////////////////////////////////////////////////////
+
+PlaylistCollection *PlaylistCollection::m_instance = 0;
+
+////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
@@ -67,8 +73,15 @@ PlaylistCollection::PlaylistCollection(Q3WidgetStack *playlistStack) :
     m_belowDistraction(0),
     m_distraction(0)
 {
+    m_instance = this;
+
     m_actionHandler = new ActionHandler(this);
     PlayerManager::instance()->setPlaylistInterface(this);
+
+    // KDirLister's auto error handling seems to crash JuK during startup in
+    // readConfig().
+
+    m_dirLister.setAutoErrorHandlingEnabled(false, playlistStack);
     readConfig();
 }
 
@@ -77,6 +90,7 @@ PlaylistCollection::~PlaylistCollection()
     saveConfig();
     delete m_actionHandler;
     PlayerManager::instance()->setPlaylistInterface(0);
+    Playlist::setShuttingDown();
 }
 
 QString PlaylistCollection::name() const
@@ -207,10 +221,14 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
     else
         m_showMorePlaylist = new SearchPlaylist(this, search, i18n("Now Playing"), false, true);
 
-    m_belowShowMorePlaylist = visiblePlaylist();
+    // The call to raise() below will end up clearing m_belowShowMorePlaylist,
+    // so cache the value we want it to have now.
+    Playlist *belowShowMore = visiblePlaylist();
 
     PlaylistCollection::setupPlaylist(m_showMorePlaylist, QString::null);
     PlaylistCollection::raise(m_showMorePlaylist);
+
+    m_belowShowMorePlaylist = belowShowMore;
 }
 
 void PlaylistCollection::removeTrack(const QString &playlist, const QStringList &files)

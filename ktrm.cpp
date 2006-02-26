@@ -15,20 +15,22 @@
  *                                                                         *
  *   You should have received a copy of the GNU Lesser General Public      *
  *   License along with this library; if not, write to the Free Software   *
- *   Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  *
+ *   Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  *
  *   USA                                                                   *
  ***************************************************************************/
 
 #include "ktrm.h"
 
-#if HAVE_TUNEPIMP
+#if HAVE_MUSICBRAINZ
 
 #include <kapplication.h>
+#include <kresolver.h>
 #include <kprotocolmanager.h>
 #include <kurl.h>
 #include <kdebug.h>
 
 #include <qmutex.h>
+#include <qregexp.h>
 #include <qevent.h>
 #include <qobject.h>
 #include <qfile.h>
@@ -42,7 +44,7 @@ class KTRMLookup;
 
 extern "C"
 {
-#if HAVE_TUNEPIMP >= 4
+#if HAVE_MUSICBRAINZ >= 4
     static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, int fileId, TPFileStatus status);
 #else
     static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, int fileId);
@@ -65,12 +67,12 @@ public:
         return &handler;
     }
 
-    int KTRMRequestHandler::startLookup(KTRMLookup *lookup)
+    int startLookup(KTRMLookup *lookup)
     {
         int id;
 
         if(!m_fileMap.contains(lookup->file())) {
-#if HAVE_TUNEPIMP >= 4
+#if HAVE_MUSICBRAINZ >= 4
             id = tp_AddFile(m_pimp, QFile::encodeName(lookup->file()), 0);
 #else
             id = tp_AddFile(m_pimp, QFile::encodeName(lookup->file()));
@@ -129,16 +131,59 @@ protected:
         tp_SetAutoSaveThreshold(m_pimp, -1);
         tp_SetMoveFiles(m_pimp, false);
         tp_SetRenameFiles(m_pimp, false);
-#if HAVE_TUNEPIMP >= 4
+#if HAVE_MUSICBRAINZ >= 4
         tp_SetFileNameEncoding(m_pimp, "UTF-8");
 #else
         tp_SetUseUTF8(m_pimp, true);
 #endif
         tp_SetNotifyCallback(m_pimp, TRMNotifyCallback, 0);
 
+        // Re-read proxy config.
+        KProtocolManager::reparseConfiguration();
+
         if(KProtocolManager::useProxy()) {
-            KUrl proxy = KProtocolManager::proxyFor("http");
-            tp_SetProxy(m_pimp, proxy.host().latin1(), short(proxy.port()));
+            // split code copied from kcm_kio.
+            QString noProxiesFor = KProtocolManager::noProxyFor();
+            QStringList noProxies = QStringList::split(QRegExp("[',''\t'' ']"), noProxiesFor);
+            bool useProxy = true;
+
+            // Host that libtunepimp will contact.
+            QString tunepimpHost = "www.musicbrainz.org";
+            QString tunepimpHostWithPort = "www.musicbrainz.org:80";
+
+            // Check what hosts are allowed to proceed without being proxied,
+            // or is using reversed proxy, what hosts must be proxied.
+            for(QStringList::ConstIterator it = noProxies.constBegin(); it != noProxies.constEnd(); ++it) {
+                QString normalizedHost = KNetwork::KResolver::normalizeDomain(*it);
+
+                if(normalizedHost == tunepimpHost ||
+                   tunepimpHost.endsWith("." + normalizedHost))
+                {
+                    useProxy = false;
+                    break;
+                }
+
+                // KDE's proxy mechanism also supports exempting a specific
+                // host/port combo, check that also.
+                if(normalizedHost == tunepimpHostWithPort ||
+                   tunepimpHostWithPort.endsWith("." + normalizedHost))
+                {
+                    useProxy = false;
+                    break;
+                }
+            }
+
+            // KDE supports a reverse proxy mechanism.  Uh, yay.
+            if(KProtocolManager::useReverseProxy())
+                useProxy = !useProxy;
+
+            if(useProxy) {
+                KURL proxy = KProtocolManager::proxyFor("http");
+                QString proxyHost = proxy.host();
+
+                kdDebug(65432) << "Using proxy server " << proxyHost << " for www.musicbrainz.org.\n";
+                tp_SetProxy(m_pimp, proxyHost.latin1(), short(proxy.port()));
+            }
         }
     }
 
@@ -232,7 +277,7 @@ protected:
         }
 
         KTRMLookup *lookup = KTRMRequestHandler::instance()->lookup(e->fileId());
-#if HAVE_TUNEPIMP >= 4
+#if HAVE_MUSICBRAINZ >= 4
         if ( e->status() != KTRMEvent::Unrecognized)
 #endif
             KTRMRequestHandler::instance()->removeFromLookupMap(e->fileId());
@@ -259,8 +304,8 @@ protected:
 /**
  * Callback fuction for TunePimp lookup events.
  */
-#if HAVE_TUNEPIMP >= 4
-static void TRMNotifyCallback(tunepimp_t /*pimp*/, void* /*data*/, TPCallbackEnum type, int fileId, TPFileStatus status)
+#if HAVE_MUSICBRAINZ >= 4
+static void TRMNotifyCallback(tunepimp_t /*pimp*/, void * /*data*/, TPCallbackEnum type, int fileId, TPFileStatus status)
 #else
 static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, int fileId)
 #endif
@@ -268,7 +313,7 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
     if(type != tpFileChanged)
         return;
 
-#if HAVE_TUNEPIMP < 4
+#if HAVE_MUSICBRAINZ < 4
     track_t track = tp_GetTrack(pimp, fileId);
     TPFileStatus status = tr_GetStatus(track);
 #endif
@@ -281,7 +326,7 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
         KTRMEventHandler::send(fileId, KTRMEvent::Unrecognized);
         break;
     case eTRMCollision:
-#if HAVE_TUNEPIMP >= 4
+#if HAVE_MUSICBRAINZ >= 4
     case eUserSelection:
 #endif
         KTRMEventHandler::send(fileId, KTRMEvent::Collision);
@@ -292,7 +337,7 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
     default:
         break;
     }
-#if HAVE_TUNEPIMP < 4
+#if HAVE_MUSICBRAINZ < 4
     tp_ReleaseTrack(pimp, track);
 #endif
 }
@@ -418,7 +463,7 @@ int KTRMLookup::fileId() const
 
 void KTRMLookup::recognized()
 {
-    kDebug() << k_funcinfo << d->file << endl;
+    kdDebug() << k_funcinfo << d->file << endl;
 
     d->results.clear();
 
@@ -444,8 +489,8 @@ void KTRMLookup::recognized()
 
 void KTRMLookup::unrecognized()
 {
-    kDebug() << k_funcinfo << d->file << endl;
-#if HAVE_TUNEPIMP >= 4
+    kdDebug() << k_funcinfo << d->file << endl;
+#if HAVE_MUSICBRAINZ >= 4
     char trm[255];
     bool finish = false;
     trm[0] = 0;
@@ -469,12 +514,12 @@ void KTRMLookup::unrecognized()
 
 void KTRMLookup::collision()
 {
-    kDebug() << k_funcinfo << d->file << endl;
+    kdDebug() << k_funcinfo << d->file << endl;
 
     track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
 
     if(track <= 0) {
-        kDebug() << "invalid track number" << endl;
+        kdDebug() << "invalid track number" << endl;
         return;
     }
 
@@ -488,17 +533,17 @@ void KTRMLookup::collision()
 
         switch(type) {
         case eNone:
-            kDebug() << k_funcinfo << "eNone" << endl;
+            kdDebug() << k_funcinfo << "eNone" << endl;
             break;
         case eArtistList:
-            kDebug() << "eArtistList" << endl;
+            kdDebug() << "eArtistList" << endl;
             break;
         case eAlbumList:
-            kDebug() << "eAlbumList" << endl;
+            kdDebug() << "eAlbumList" << endl;
             break;
         case eTrackList:
         {
-            kDebug() << "eTrackList" << endl;
+            kdDebug() << "eTrackList" << endl;
             albumtrackresult_t **tracks = (albumtrackresult_t **) results;
             d->results.clear();
 
@@ -506,7 +551,7 @@ void KTRMLookup::collision()
                 KTRMResult result;
 
                 result.d->title = QString::fromUtf8(tracks[i]->name);
-#if HAVE_TUNEPIMP >= 4
+#if HAVE_MUSICBRAINZ >= 4
                 result.d->artist = QString::fromUtf8(tracks[i]->artist.name);
                 result.d->album = QString::fromUtf8(tracks[i]->album.name);
                 result.d->year = tracks[i]->album.releaseYear;
@@ -523,7 +568,7 @@ void KTRMLookup::collision()
             break;
         }
         case eMatchedTrack:
-            kDebug() << k_funcinfo << "eMatchedTrack" << endl;
+            kdDebug() << k_funcinfo << "eMatchedTrack" << endl;
             break;
         }
 
@@ -537,7 +582,7 @@ void KTRMLookup::collision()
 
 void KTRMLookup::error()
 {
-    kDebug() << k_funcinfo << d->file << endl;
+    kdDebug() << k_funcinfo << d->file << endl;
 
     d->results.clear();
     finished();
@@ -559,3 +604,5 @@ void KTRMLookup::finished()
 }
 
 #endif
+
+// vim: set et ts=8 sw=4:

@@ -15,11 +15,11 @@
 
 #include <kconfig.h>
 #include <kmessagebox.h>
-#include <k3urldrag.h>
+#include <kurldrag.h>
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <kaction.h>
-#include <kmenu.h>
+#include <kpopupmenu.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
@@ -50,6 +50,7 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 #include <Q3PtrList>
+#include <QPixmap>
 
 #include <id3v1genres.h>
 
@@ -141,6 +142,7 @@ private:
 ////////////////////////////////////////////////////////////////////////////////
 
 bool Playlist::m_visibleChanged = false;
+bool Playlist::m_shuttingDown = false;
 
 /**
  * Shared settings between the playlists.
@@ -184,9 +186,8 @@ Playlist::SharedSettings *Playlist::SharedSettings::m_instance = 0;
 
 Playlist::SharedSettings *Playlist::SharedSettings::instance()
 {
-    if(!m_instance)
-	m_instance = new SharedSettings;
-    return m_instance;
+    static SharedSettings settings;
+    return &settings;
 }
 
 void Playlist::SharedSettings::setColumnOrder(const Playlist *l)
@@ -328,7 +329,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_mousePressed(false),
+    m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
     m_widthsDirty(true),
@@ -351,7 +352,7 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_mousePressed(false),
+    m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
     m_widthsDirty(true),
@@ -375,7 +376,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_mousePressed(false),
+    m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
     m_widthsDirty(true),
@@ -398,7 +399,7 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_allowDuplicates(false),
     m_polished(false),
     m_applySharedSettings(true),
-    m_mousePressed(false),
+    m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
     m_widthsDirty(true),
@@ -427,6 +428,9 @@ Playlist::~Playlist()
 
     if(isVisible() && this != CollectionList::instance())
 	m_collection->raise(CollectionList::instance());
+
+    if(!m_shuttingDown)
+	m_collection->removePlaylist(this);
 }
 
 QString Playlist::name() const
@@ -447,7 +451,7 @@ int Playlist::time() const
     // Since this method gets a lot of traffic, let's optimize for such.
 
     if(!m_addTime.isEmpty()) {
-	for(Q3ValueList<PlaylistItem::Pointer>::ConstIterator it = m_addTime.begin();
+	for(PlaylistItemList::ConstIterator it = m_addTime.begin();
 	    it != m_addTime.end(); ++it)
 	{
 	    if(*it)
@@ -458,7 +462,7 @@ int Playlist::time() const
     }
 
     if(!m_subtractTime.isEmpty()) {
-	for(Q3ValueList<PlaylistItem::Pointer>::ConstIterator it = m_subtractTime.begin();
+	for(PlaylistItemList::ConstIterator it = m_subtractTime.begin();
 	    it != m_subtractTime.end(); ++it)
 	{
 	    if(*it)
@@ -583,6 +587,8 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     m_search.clearItem(item);
 
     m_history.remove(item);
+    m_addTime.remove(item);
+    m_subtractTime.remove(item);
 
     delete item;
     if(emitChanged)
@@ -674,10 +680,10 @@ void Playlist::setSearch(const PlaylistSearch &s)
     if(!m_searchEnabled)
 	return;
 
-    TrackSequenceManager::instance()->iterator()->playlistChanged();
-
     setItemsVisible(s.matchedItems(), true);
     setItemsVisible(s.unmatchedItems(), false);
+
+    TrackSequenceManager::instance()->iterator()->playlistChanged();
 }
 
 void Playlist::setSearchEnabled(bool enabled)
@@ -753,12 +759,12 @@ void Playlist::slotRefresh()
     if(l.isEmpty())
 	l = visibleItems();
 
-    KApplication::setOverrideCursor(Qt::WaitCursor);
+    KApplication::setOverrideCursor(Qt::waitCursor);
     for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
 	(*it)->refreshFromDisk();
 
 	if(!(*it)->file().tag() || !(*it)->file().fileInfo().exists()) {
-	    kDebug(65432) << "Error while trying to refresh the tag.  "
+	    kdDebug(65432) << "Error while trying to refresh the tag.  "
 			   << "This file has probably been removed."
 			   << endl;
 	    delete (*it)->collectionItem();
@@ -819,20 +825,14 @@ void Playlist::slotShowCoverManager()
     managerDialog->show();
 }
 
-int Playlist::eligibleCoverItems(const PlaylistItemList &items)
+unsigned int Playlist::eligibleCoverItems(const PlaylistItemList &items)
 {
-    PlaylistItemList::ConstIterator it = items.begin();
-    int numEligible = 0;
+    // This used to count the number of tracks with an artist and album, that
+    // is not strictly required anymore.  This may prove useful in the future
+    // so I'm leaving it in for now, right now we just mark every item as
+    // eligible.
 
-    for(; it != items.end(); ++it) {
-	if(!(*it)->file().tag()->artist().isEmpty() &&
-	   !(*it)->file().tag()->album().isEmpty())
-	{
-	    ++numEligible;
-	}
-    }
-
-    return numEligible;
+    return items.count();
 }
 
 void Playlist::slotAddCover(bool retrieveLocal)
@@ -846,6 +846,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
 	// No items in the list can be assigned a cover, inform the user and
 	// bail.
 
+	// KDE 4.0 Fix this string.
 	KMessageBox::sorry(this, i18n("None of the items you have selected can "
 		    "be assigned a cover.  A track must have both the Artist "
 		    "and Album tags set to be assigned a cover."));
@@ -853,29 +854,33 @@ void Playlist::slotAddCover(bool retrieveLocal)
 	return;
     }
 
-    QImage image;
+    QPixmap newCover;
 
     if(retrieveLocal) {
-        KUrl file = KFileDialog::getImageOpenURL(
+        KURL file = KFileDialog::getImageOpenURL(
 	    ":homedir", this, i18n("Select Cover Image File"));
-        image = QImage(file.directory() + "/" + file.fileName());
+        newCover = QPixmap(file.directory() + "/" + file.fileName());
     }
     else {
         PlaylistItemList::Iterator it=items.begin();
-        image = GoogleFetcher((*it)->file()).pixmap().convertToImage();;
+        newCover = GoogleFetcher((*it)->file()).pixmap();
     }
 
-    if(image.isNull())
+    if(newCover.isNull())
         return;
 
-    refreshAlbums(items, image);
+    QString artist = items.front()->file().tag()->artist();
+    QString album = items.front()->file().tag()->album();
+
+    coverKey newId = CoverManager::addCover(newCover, artist, album);
+    refreshAlbums(items, newId);
 }
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
-    KApplication::setOverrideCursor(Qt::WaitCursor);
+    KApplication::setOverrideCursor(Qt::waitCursor);
     PlaylistItemList items = selectedItems();
-    setCanDeletePlaylist(false);
+    setDynamicListsFrozen(true);
 
     m_blockDataChanged = true;
 
@@ -893,7 +898,7 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
     m_blockDataChanged = false;
 
     dataChanged();
-    setCanDeletePlaylist(true);
+    setDynamicListsFrozen(false);
     KApplication::restoreOverrideCursor();
 }
 
@@ -930,9 +935,16 @@ void Playlist::slotShowPlaying()
     Playlist *l = playingItem()->playlist();
 
     l->clearSelection();
+
+    // Raise the playlist before selecting the items otherwise the tag editor
+    // will not update when it gets the selectionChanged() notification
+    // because it will think the user is choosing a different playlist but not
+    // selecting a different item.
+
+    m_collection->raise(l);
+
     l->setSelected(playingItem(), true);
     l->ensureItemVisible(playingItem());
-    m_collection->raise(l);
 }
 
 void Playlist::slotColumnResizeModeChanged()
@@ -1006,9 +1018,9 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 Q3DragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
-    KUrl::List urls;
+    KURL::List urls;
     for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
-	KUrl url;
+	KURL url;
 	url.setPath((*it)->file().absFilePath());
 	urls.append(url);
     }
@@ -1034,7 +1046,7 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
     setDropHighlighter(false);
     setDropVisualizer(true);
 
-    KUrl::List urls;
+    KURL::List urls;
     if(!KURLDrag::decode(e, urls) || urls.isEmpty()) {
 	e->ignore();
 	return;
@@ -1051,7 +1063,7 @@ bool Playlist::acceptDrag(QDropEvent *e) const
 
 bool Playlist::canDecode(QMimeSource *s)
 {
-    KUrl::List urls;
+    KURL::List urls;
 
     if(CoverDrag::canDecode(s))
 	return true;
@@ -1061,7 +1073,7 @@ bool Playlist::canDecode(QMimeSource *s)
 
 void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 {
-    KUrl::List urls;
+    KURL::List urls;
 
     if(!KURLDrag::decode(s, urls) || urls.isEmpty())
 	return;
@@ -1090,8 +1102,8 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 
     QStringList fileList;
 
-    for(KUrl::List::Iterator it = urls.begin(); it != urls.end(); ++it)
-	fileList.append((*it).path());
+    for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
+	fileList += MediaFiles::convertURLsToLocal((*it).path(), this);
 
     addFiles(fileList, item);
 }
@@ -1100,24 +1112,32 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 {
     if(watched == header()) {
 	switch(e->type()) {
+	case QEvent::MouseMove:
+	{
+	    if((static_cast<QMouseEvent *>(e)->state() & LeftButton) == LeftButton &&
+		!action<KToggleAction>("resizeColumnsManually")->isChecked())
+	    {
+		m_columnWidthModeChanged = true;
+
+		action<KToggleAction>("resizeColumnsManually")->setChecked(true);
+		slotColumnResizeModeChanged();
+	    }
+
+	    break;
+	}
 	case QEvent::MouseButtonPress:
 	{
-	    switch(static_cast<QMouseEvent *>(e)->button()) {
-	    case RightButton:
+	    if(static_cast<QMouseEvent *>(e)->button() == RightButton)
 		m_headerMenu->popup(QCursor::pos());
-		break;
-	    case LeftButton:
-		m_mousePressed = true;
-		break;
-	    default:
-		break;
-	    }
+
 	    break;
 	}
 	case QEvent::MouseButtonRelease:
 	{
-	    if(static_cast<QMouseEvent *>(e)->button() == LeftButton)
-		m_mousePressed = false;
+	    if(m_columnWidthModeChanged) {
+		m_columnWidthModeChanged = false;
+		notifyUserColumnWidthModeChanged();
+	    }
 
 	    if(!manualResize() && m_widthsDirty)
 		QTimer::singleShot(0, this, SLOT(slotUpdateColumnWidths()));
@@ -1294,12 +1314,19 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
 
 void Playlist::insertItem(Q3ListViewItem *item)
 {
+    // Because we're called from the PlaylistItem ctor, item may not be a
+    // PlaylistItem yet (it would be QListViewItem when being inserted.  But,
+    // it will be a PlaylistItem by the time it matters, but be careful if
+    // you need to use the PlaylistItem from here.
+
     m_addTime.append(static_cast<PlaylistItem *>(item));
     KListView::insertItem(item);
 }
 
 void Playlist::takeItem(Q3ListViewItem *item)
 {
+    // See the warning in Playlist::insertItem.
+
     m_subtractTime.append(static_cast<PlaylistItem *>(item));
     KListView::takeItem(item);
 }
@@ -1326,7 +1353,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     if(!after)
 	after = static_cast<PlaylistItem *>(lastItem());
 
-    KApplication::setOverrideCursor(Qt::WaitCursor);
+    KApplication::setOverrideCursor(Qt::waitCursor);
 
     m_blockDataChanged = true;
 
@@ -1346,48 +1373,27 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     KApplication::restoreOverrideCursor();
 }
 
-void Playlist::refreshAlbums(const PlaylistItemList &items, const QImage &image)
+void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 {
     Q3ValueList< QPair<QString, QString> > albums;
-    QStringList ignoredItems;
+    bool setAlbumCovers = items.count() == 1;
 
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
 	QString artist = (*it)->file().tag()->artist();
 	QString album = (*it)->file().tag()->album();
 
-	// Right now JuK requires that the artist and album tags be assigned
-	// for the cover art, double check here.
-
-	if(!image.isNull() && (artist.isEmpty() || album.isEmpty())) {
-	    QString title = (*it)->file().tag()->title();
-	    QString mid = title.isEmpty() || artist.isEmpty() ? "" : " - ";
-
-	    ignoredItems.append(artist + mid + title);
-	    continue;
-	}
-
 	if(albums.find(qMakePair(artist, album)) == albums.end())
-	{
 	    albums.append(qMakePair(artist, album));
-	    if(image.isNull())
-		(*it)->file().coverInfo()->clearCover();
-	    else
-		(*it)->file().coverInfo()->setCover(image);
-	}
-	else
-	    (*it)->file().coverInfo()->setCover();
+
+	(*it)->file().coverInfo()->setCoverId(id);
+	if(setAlbumCovers)
+	    (*it)->file().coverInfo()->applyCoverToWholeAlbum(true);
     }
 
     for(Q3ValueList< QPair<QString, QString> >::ConstIterator it = albums.begin();
 	it != albums.end(); ++it)
     {
 	refreshAlbum((*it).first, (*it).second);
-    }
-
-    if(!ignoredItems.isEmpty()) {
-	KMessageBox::informationList(this, i18n("The following songs were "
-		    "ignored because they don't have both their Artist and "
-		    "Album tags filled in."), ignoredItems);
     }
 }
 
@@ -1469,7 +1475,11 @@ void Playlist::showColumn(int c, bool updateSearch)
     // Just set the width to one to mark the column as visible -- we'll update
     // the real size in the next call.
 
-    setColumnWidth(c, 1);
+    if(manualResize())
+	setColumnWidth(c, 35); // Make column at least slightly visible.
+    else
+	setColumnWidth(c, 1);
+
     header()->setResizeEnabled(true, c);
     header()->moveSection(c, c); // Approximate old position
 
@@ -1595,9 +1605,9 @@ void Playlist::setupItem(PlaylistItem *item)
     }
 }
 
-void Playlist::setCanDeletePlaylist(bool canDelete)
+void Playlist::setDynamicListsFrozen(bool frozen)
 {
-    m_collection->setCanDeletePlaylist(canDelete);
+    m_collection->setDynamicListsFrozen(frozen);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1609,7 +1619,7 @@ void Playlist::slotPopulateBackMenu() const
     if(!playingItem())
 	return;
 
-    KMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
+    KPopupMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
     menu->clear();
     m_backMenuItems.clear();
 
@@ -1772,7 +1782,7 @@ void Playlist::calculateColumnWeights()
     for(columnIt = m_weightDirty.begin(); columnIt != m_weightDirty.end(); ++columnIt) {
 	m_columnWeights[*columnIt] = int(sqrt(averageWidth[*columnIt]) + 0.5);
 
-	//  kDebug(65432) << k_funcinfo << "m_columnWeights[" << *columnIt << "] == "
+	//  kdDebug(65432) << k_funcinfo << "m_columnWeights[" << *columnIt << "] == "
 	//                 << m_columnWeights[*columnIt] << endl;
     }
 
@@ -1844,7 +1854,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
 	    ::closedir(dir);
 	}
 	else {
-	    kWarning(65432) << "Unable to open directory "
+	    kdWarning(65432) << "Unable to open directory "
 	                     << fileInfo.filePath()
 			     << ", make sure it is readable.\n";
 	}
@@ -2056,7 +2066,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 	// A bit of a hack to get a pointer to the action collection.
 	// Probably more of these actions should be ported over to using KActions.
 
-	m_rmbMenu = new KMenu(this);
+	m_rmbMenu = new KPopupMenu(this);
 
 	m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("today"),
 	    i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
@@ -2130,7 +2140,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
 void Playlist::slotRenameTag()
 {
-    // kDebug(65432) << "Playlist::slotRenameTag()" << endl;
+    // kdDebug(65432) << "Playlist::slotRenameTag()" << endl;
 
     // setup completions and validators
 
@@ -2281,22 +2291,20 @@ void Playlist::slotCreateGroup()
 	new Playlist(m_collection, selectedItems(), name);
 }
 
+void Playlist::notifyUserColumnWidthModeChanged()
+{
+    KMessageBox::information(this,
+			     i18n("Manual column widths have been enabled.  You can "
+				  "switch back to automatic column sizes in the view "
+				  "menu."),
+			     i18n("Manual Column Widths Enabled"),
+			     "ShowManualColumnWidthInformation");
+}
+
 void Playlist::slotColumnSizeChanged(int column, int, int newSize)
 {
     m_widthsDirty = true;
     m_columnFixedWidths[column] = newSize;
-
-    if(m_mousePressed && !action<KToggleAction>("resizeColumnsManually")->isChecked()) {
-	KMessageBox::information(this,
-				 i18n("Manual column widths have been enabled.  You can "
-				      "switch back to automatic column sizes in the view "
-				      "menu."),
-				 i18n("Manual Column Widths Enabled"),
-				 "ShowManualColumnWidthInformation");
-	
-	action<KToggleAction>("resizeColumnsManually")->setChecked(true);
-	slotColumnResizeModeChanged();
-    }
 }
 
 void Playlist::slotInlineCompletionModeChanged(KGlobalSettings::Completion mode)

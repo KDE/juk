@@ -23,7 +23,7 @@
 #include <q3dict.h>
 #include <q3cache.h>
 #include <qmime.h>
-//Added by qt3to4:
+#include <qbuffer.h>
 #include <Q3ValueList>
 
 #include <kdebug.h>
@@ -115,9 +115,10 @@ public:
      */
     coverKey nextId() const;
 
+    void saveCovers() const;
+
     private:
     void loadCovers();
-    void saveCovers() const;
 
     /**
      * @return the full path and filename of the file storing the cover
@@ -207,6 +208,7 @@ void CoverManagerPrivate::loadCovers()
 
         in >> id;
         in >> *data;
+        data->refCount = 0;
 
         covers[(coverKey) id] = data;
     }
@@ -217,7 +219,15 @@ void CoverManagerPrivate::loadCovers()
         Q_UINT32 id;
 
         in >> path >> id;
-        tracks.insert(path, new coverKey(id));
+
+        // If we somehow already managed to load a cover id with this path,
+        // don't do so again.  Possible due to a coding error during 3.5
+        // development.
+
+        if(!tracks.find(path)) {
+            ++covers[(coverKey) id]->refCount; // Another track using this.
+            tracks.insert(path, new coverKey(id));
+        }
     }
 }
 
@@ -270,8 +280,15 @@ QByteArray CoverDrag::encodedData(const char *mimetype) const
         return data;
     }
     else if(qstrcmp(mimetype, "image/png") == 0) {
-        // TODO: Implement.
-        ;
+        QPixmap large = CoverManager::coverFromId(m_id, CoverManager::FullSize);
+        QImage img = large.convertToImage();
+        QByteArray data;
+        QBuffer buffer(data);
+
+        buffer.open(IO_WriteOnly);
+        img.save(&buffer, "PNG"); // Write in PNG format.
+
+        return data;
     }
 
     return QByteArray();
@@ -355,7 +372,7 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
     if(size == Thumbnail) {
         // Convert to image for smoothScale()
         QImage image = pix->convertToImage();
-        pix->convertFromImage(image.smoothScale(80, 80));
+        pix->convertFromImage(image.smoothScale(80, 80, QImage::ScaleMin));
     }
 
     QPixmap returnValue = *pix; // Save it early.
@@ -392,6 +409,7 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
 
     coverData->artist = artist.lower();
     coverData->album = album.lower();
+    coverData->refCount = 0;
 
     data()->covers[id] = coverData;
 
@@ -460,6 +478,11 @@ CoverManagerPrivate *CoverManager::data()
     return m_data;
 }
 
+void CoverManager::saveCovers()
+{
+    data()->saveCovers();
+}
+
 void CoverManager::shutdown()
 {
     sd.destructObject();
@@ -482,14 +505,24 @@ Q3ValueList<coverKey> CoverManager::keys()
 
 void CoverManager::setIdForTrack(const QString &path, coverKey id)
 {
-    if(id == NoMatch) {
+    coverKey *oldId = data()->tracks.find(path);
+    if(oldId && (id == *oldId))
+        return; // We're already done.
+
+    if(oldId && *oldId != NoMatch) {
+        data()->covers[*oldId]->refCount--;
         data()->tracks.remove(path);
 
-        if(data()->tracks.isEmpty())
-            removeCover(id);
+        if(data()->covers[*oldId]->refCount == 0) {
+            kdDebug(65432) << "Cover " << *oldId << " is unused, removing.\n";
+            removeCover(*oldId);
+        }
     }
-    else
+
+    if(id != NoMatch) {
+        data()->covers[id]->refCount++;
         data()->tracks.insert(path, new coverKey(id));
+    }
 }
 
 coverKey CoverManager::idForTrack(const QString &path)

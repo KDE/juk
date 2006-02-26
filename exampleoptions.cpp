@@ -14,6 +14,8 @@
  ***************************************************************************/
 
 #include <kurlrequester.h>
+#include <klocale.h>
+
 #include <qradiobutton.h>
 #include <qlayout.h>
 //Added by qt3to4:
@@ -49,6 +51,7 @@ void ExampleOptions::exampleFileChanged()
 ExampleOptionsDialog::ExampleOptionsDialog(QWidget *parent) :
     QDialog(parent, "example options dialog")
 {
+    setCaption(i18n("JuK"));
     QVBoxLayout *l = new QVBoxLayout(this);
 
     m_options = new ExampleOptions(this);

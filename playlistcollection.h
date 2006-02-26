@@ -50,6 +50,8 @@ public:
     PlaylistCollection(Q3WidgetStack *playlistStack);
     virtual ~PlaylistCollection();
 
+    static PlaylistCollection *instance() { return m_instance; }
+
     virtual QString name() const;
     virtual FileHandle currentFile() const;
     virtual int count() const;
@@ -86,7 +88,7 @@ public:
     virtual void remove() = 0;
     virtual void reload();
     virtual void editSearch();
-    virtual void setCanDeletePlaylist(bool) = 0;
+    virtual void setDynamicListsFrozen(bool) = 0;
 
     bool showMoreActive() const;
     void clearShowMore(bool raise = true);
@@ -159,6 +161,7 @@ public:
 protected:
     virtual Q3WidgetStack *playlistStack() const;
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
+    virtual void removePlaylist(Playlist *playlist) = 0;
 
     bool importPlaylists() const;
     bool containsPlaylistFile(const QString &file) const;
@@ -198,6 +201,8 @@ private:
     QPointer<Playlist> m_belowDistraction;
 
     QWidget *m_distraction;
+
+    static PlaylistCollection *m_instance;
 };
 
 /**

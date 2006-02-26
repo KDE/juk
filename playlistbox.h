@@ -54,7 +54,6 @@ public:
     typedef Q3ValueList<Item *> ItemList;
 
     friend class Item;
-    friend class TreeViewMode;
 
     PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
 		const char *name = 0);
@@ -65,9 +64,15 @@ public:
     virtual void duplicate();
     virtual void remove();
 
-    virtual void setCanDeletePlaylist(bool canDelete);
+    /**
+     * For view modes that have dynamic playlists, this freezes them from
+     * removing playlists.
+     */
+    virtual void setDynamicListsFrozen(bool frozen);
 
     Item *dropItem() const { return m_dropItem; }
+
+    void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem = 0);
 
 public slots:
     void paste();
@@ -78,7 +83,7 @@ public slots:
 
 protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
-    virtual void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem);
+    virtual void removePlaylist(Playlist *playlist);
 
 signals:
     void signalPlaylistDestroyed(Playlist *);
@@ -100,7 +105,6 @@ private:
     void setSingleItem(Q3ListViewItem *item);
 
     void setupItem(Item *item);
-    void performTreeViewSetup();
     void setupUpcomingPlaylist();
     int viewModeIndex() const { return m_viewModeIndex; }
     ViewMode *viewMode() const { return m_viewModes[m_viewModeIndex]; }
@@ -114,7 +118,6 @@ private slots:
     void slotDoubleClicked();
     void slotShowContextMenu(Q3ListViewItem *, const QPoint &point, int);
     void slotSetViewMode(int index);
-    void slotTreeViewPlaylistDestroyed(Playlist*);
     void slotSavePlaylists();
     void slotShowDropTarget();
 
@@ -131,7 +134,6 @@ private:
     KAction *m_k3bAction;
     bool m_hasSelection;
     bool m_doingMultiSelect;
-    bool m_treeViewSetup;
     Item *m_dropItem;
     QTimer *m_showTimer;
 };
@@ -155,7 +157,7 @@ public:
     virtual ~Item();
     
 protected:
-    Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0, Item *after = 0);
+    Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0);
     Item(Item *parent, const QString &icon, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_playlist; }

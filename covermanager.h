@@ -48,6 +48,8 @@ public:
     QString artist;
     QString album;
     QString path;
+
+    unsigned refCount; // Refers to number of tracks using this.
 };
 
 typedef KSharedPtr<CoverData> CoverDataPtr;
@@ -196,6 +198,14 @@ public:
      * @param large The full size cover art for the new cover.
      */
     static bool replaceCover(coverKey id, const QPixmap &large);
+
+    /**
+     * Saves the current CoverManager information to disk.  Changes are not
+     * automatically written to disk due to speed issues, so you can
+     * periodically call this function while running to reduce the chance of
+     * lost data in the event of a crash.
+     */
+    static void saveCovers();
 
     /**
      * This is a hack, as we should be shut down automatically by

@@ -14,7 +14,9 @@
  ***************************************************************************/
 
 #include <kfiledialog.h>
+#include <kdebug.h>
 #include <klocale.h>
+#include <kio/netaccess.h>
 
 #include "mediafiles.h"
 
@@ -55,7 +57,7 @@ QStringList MediaFiles::openDialog(QWidget *parent)
 
     dialog.exec();
 
-    return dialog.selectedFiles();
+    return convertURLsToLocal(dialog.selectedFiles());
 }
 
 QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *parent)
@@ -136,4 +138,21 @@ QStringList MediaFiles::mimeTypes()
 #endif
     ;
     return l;
+}
+
+QStringList MediaFiles::convertURLsToLocal(const QStringList &urlList, QWidget *w)
+{
+    QStringList result;
+    KURL localUrl;
+
+    for(QStringList::ConstIterator it = urlList.constBegin(); it != urlList.constEnd(); ++it) {
+	localUrl = KIO::NetAccess::mostLocalURL(KURL::fromPathOrURL(*it), w);
+
+	if(!localUrl.isLocalFile())
+	    kdDebug(65432) << localUrl << " is not a local file, skipping.\n";
+	else
+	    result.append(localUrl.path());
+    }
+
+    return result;
 }

@@ -23,7 +23,7 @@
 
 #include <qtimer.h>
 #include <qtoolbutton.h>
-//Added by qt3to4:
+
 #include <Q3ValueList>
 
 #include "coverdialog.h"
@@ -44,6 +44,21 @@ public:
     int compare(Q3ListViewItem *, int, bool) const
     {
         return -1; // Always be at the top.
+    }
+};
+
+class CaseInsensitiveItem : public KListViewItem
+{
+public:
+    CaseInsensitiveItem(QListView *parent, const QString &text) :
+        KListViewItem(parent, text)
+    {
+    }
+
+    int compare(QListViewItem *item, int column, bool ascending) const
+    {
+        Q_UNUSED(ascending);
+        return text(column).lower().localeAwareCompare(item->text(column).lower());
     }
 };
 
@@ -72,7 +87,7 @@ void CoverDialog::show()
     m_artists->setSorting(-1);
     new AllArtistsListViewItem(m_artists);
     for(QStringList::ConstIterator it = artists.begin(); it != artists.end(); ++it)
-        new KListViewItem(m_artists, *it);
+        new CaseInsensitiveItem(m_artists, *it);
 
     m_artists->setSorting(0);
 

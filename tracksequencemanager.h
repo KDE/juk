@@ -185,8 +185,6 @@ private:
     TrackSequenceIterator *m_iterator;
     TrackSequenceIterator *m_defaultIterator;
     bool m_initialized;
-
-    static TrackSequenceManager *m_instance;
 };
 
 #endif /* _TRACKSEQUENCEMANAGER_H */

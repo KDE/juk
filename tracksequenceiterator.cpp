@@ -14,9 +14,8 @@
  ***************************************************************************/
 
 #include <kaction.h>
+#include <kapplication.h>
 #include <kdebug.h>
-
-#include <stdlib.h>
 
 #include "tracksequenceiterator.h"
 #include "playlist.h"
@@ -77,8 +76,17 @@ void DefaultSequenceIterator::advance()
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
 
     if(isRandom || albumRandom) {
-        if(m_randomItems.isEmpty() && loop)
-            refillRandomList();
+        if(m_randomItems.isEmpty() && loop) {
+
+            // Since refillRandomList will remove the currently playing item,
+            // we should clear it out first since that's not good for e.g.
+            // lists with 1-2 items.  We need to remember the Playlist though.
+
+            Playlist *playlist = current()->playlist();
+            setCurrent(0);
+
+            refillRandomList(playlist);
+        }
 
         if(m_randomItems.isEmpty()) {
             setCurrent(0);
@@ -89,19 +97,26 @@ void DefaultSequenceIterator::advance()
 
         if(albumRandom) {
             if(m_albumSearch.isNull() || m_albumSearch.matchedItems().isEmpty()) {
-                item = m_randomItems[::random() % m_randomItems.count()];
+                item = m_randomItems[KApplication::random() % m_randomItems.count()];
                 initAlbumSearch(item);
             }
 
             // This can be null if initAlbumSearch() left the m_albumSearch
-            // empty because the album text was empty.
+            // empty because the album text was empty.  Since we initAlbumSearch()
+            // with an item, the matchedItems() should never be empty.
 
             if(!m_albumSearch.isNull()) {
                 PlaylistItemList albumMatches = m_albumSearch.matchedItems();
+                if(albumMatches.isEmpty()) {
+                    kdError(65432) << "Unable to initialize album random play.\n";
+                    kdError(65432) << "List of potential results is empty.\n";
+
+                    return; // item is still set to random song from a few lines earlier.
+                }
 
                 item = albumMatches[0];
 
-                // Pick first song
+                // Pick first song remaining in list.
 
                 for(unsigned i = 0; i < albumMatches.count(); ++i)
                     if(albumMatches[i]->file().tag()->track() < item->file().tag()->track())
@@ -113,9 +128,11 @@ void DefaultSequenceIterator::advance()
                     m_albumSearch.search();
                 }
             }
+            else
+                kdError(65432) << "Unable to perform album random play on " << *item << endl;
         }
         else
-            item = m_randomItems[::random() % m_randomItems.count()];
+            item = m_randomItems[KApplication::random() % m_randomItems.count()];
 
         setCurrent(item);
         m_randomItems.remove(item);
@@ -156,7 +173,7 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
 
         PlaylistItem *newItem = 0;
         if(!items.isEmpty())
-            newItem = items[::random() % items.count()];
+            newItem = items[KApplication::random() % items.count()];
 
         setCurrent(newItem);
         refillRandomList();
@@ -186,7 +203,6 @@ void DefaultSequenceIterator::playlistChanged()
 void DefaultSequenceIterator::itemAboutToDie(const PlaylistItem *item)
 {
     PlaylistItem *stfu_gcc = const_cast<PlaylistItem *>(item);
-    kDebug(65432) << "Removing " << item << " from random list.\n";
     m_randomItems.remove(stfu_gcc);
 }
 
@@ -223,16 +239,18 @@ DefaultSequenceIterator *DefaultSequenceIterator::clone() const
     return new DefaultSequenceIterator(*this);
 }
 
-void DefaultSequenceIterator::refillRandomList()
+void DefaultSequenceIterator::refillRandomList(Playlist *p)
 {
-    if(!current())
-        return;
-
-    Playlist *p = current()->playlist();
-
     if(!p) {
-        kError(65432) << k_funcinfo << "Item has no playlist!\n";
-        return;
+        if (!current())
+            return;
+
+        p = current()->playlist();
+
+        if(!p) {
+            kdError(65432) << k_funcinfo << "Item has no playlist!\n";
+            return;
+        }
     }
 
     m_randomItems = p->visibleItems();
@@ -268,6 +286,22 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
         columns,
         PlaylistSearch::Component::Exact)
     );
+
+    // If there is an Artist tag with the track, match against it as well
+    // to avoid things like multiple "Greatest Hits" albums matching the
+    // search.
+
+    if(!searchItem->file().tag()->artist().isEmpty()) {
+        kdDebug(65432) << "Searching both artist and album.\n";
+        columns[0] = PlaylistItem::ArtistColumn;
+
+        m_albumSearch.addComponent(PlaylistSearch::Component(
+            searchItem->file().tag()->artist(),
+            true,
+            columns,
+            PlaylistSearch::Component::Exact)
+        );
+    }
 
     m_albumSearch.search();
 }

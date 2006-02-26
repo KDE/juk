@@ -210,7 +210,16 @@ public:
     virtual DefaultSequenceIterator *clone() const;
 
 private:
-    void refillRandomList();
+
+    /**
+     * Reinitializes the internal random play list based on the playlist given
+     * by \p p.  The currently playing item, if any, is automatically removed
+     * from the list.
+     *
+     * @param p The Playlist to read items from.  If p is 0, the playlist of
+     *        the currently playing item is used instead.
+     */
+    void refillRandomList(Playlist *p = 0);
     void initAlbumSearch(PlaylistItem *searchItem);
 
 private:

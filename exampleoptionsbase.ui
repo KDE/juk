@@ -9,7 +9,7 @@
             <x>0</x>
             <y>0</y>
             <width>308</width>
-            <height>330</height>
+            <height>334</height>
         </rect>
     </property>
     <property name="caption">
@@ -257,6 +257,16 @@
         <slot>exampleDataChanged()</slot>
     </connection>
 </connections>
+<tabstops>
+    <tabstop>m_exampleFile</tabstop>
+    <tabstop>m_manualTagsButton</tabstop>
+    <tabstop>m_exampleTitle</tabstop>
+    <tabstop>m_exampleArtist</tabstop>
+    <tabstop>m_exampleAlbum</tabstop>
+    <tabstop>m_exampleGenre</tabstop>
+    <tabstop>m_exampleTrack</tabstop>
+    <tabstop>m_exampleYear</tabstop>
+</tabstops>
 <signals>
     <signal>dataChanged()</signal>
     <signal>fileChanged()</signal>

@@ -115,8 +115,12 @@ void FileRenamerTagOptions::slotEmptyActionChanged()
         m_options.setEmptyAction(TagRenamerOptions::ForceEmptyInclude);
 }
 
-TagOptionsDialog::TagOptionsDialog(QWidget *parent, const TagRenamerOptions &options) :
-    KDialogBase(parent, 0, true, i18n("File Renamer"), Ok | Cancel), m_options(options)
+TagOptionsDialog::TagOptionsDialog(QWidget *parent,
+                                   const TagRenamerOptions &options,
+                                   unsigned categoryNumber) :
+    KDialogBase(parent, 0, true, i18n("File Renamer"), Ok | Cancel),
+    m_options(options),
+    m_categoryNumber(categoryNumber)
 {
     loadConfig();
 
@@ -139,12 +143,13 @@ void TagOptionsDialog::loadConfig()
     // Our m_options may not have been loaded from KConfig, force that to
     // happen.
 
-    m_options = TagRenamerOptions(m_options.category());
+    CategoryID category(m_options.category(), m_categoryNumber);
+    m_options = TagRenamerOptions(category);
 }
 
 void TagOptionsDialog::saveConfig()
 {
-    m_options.saveConfig();
+    m_options.saveConfig(m_categoryNumber);
 }
 
 #include "filerenameroptions.moc"

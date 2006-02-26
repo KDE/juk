@@ -43,7 +43,6 @@ protected:
     void load();
 
 private:
-    static Cache *m_cache;
     static const int m_currentVersion = 1;
 };
 

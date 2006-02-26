@@ -23,7 +23,7 @@ file currently being worked in should be followed.  So:
 static void foo()
 {
     if(bar()) // <-- 4 spaces
-        baz() // <-- 1 tab
+        baz() // <-- 8 spaces
 }
 
 ================================================================================

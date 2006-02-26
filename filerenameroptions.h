@@ -53,7 +53,7 @@ class TagOptionsDialog : public KDialogBase
     Q_OBJECT
 
     public:
-    TagOptionsDialog(QWidget *parent, const TagRenamerOptions &options);
+    TagOptionsDialog(QWidget *parent, const TagRenamerOptions &options, unsigned categoryNumber);
 
     const TagRenamerOptions &options() const { return m_options; }
 
@@ -71,6 +71,7 @@ class TagOptionsDialog : public KDialogBase
 
     FileRenamerTagOptions *m_widget;
     TagRenamerOptions m_options;
+    unsigned m_categoryNumber;
 };
 
 #endif /* JUK_FILERENAMEROPTIONS_H */
