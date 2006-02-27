@@ -19,7 +19,8 @@
 #include <kfiledialog.h>
 
 #include <q3widgetstack.h>
-//Added by qt3to4:
+
+#include <QSplitter>
 #include <QEvent>
 
 #include "playlistbox.h"

@@ -36,7 +36,7 @@
 #include "collectionlist.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
-//Added by qt3to4:
+
 #include <QKeyEvent>
 
 using namespace ActionCollection;
@@ -114,52 +114,52 @@ void JuK::setupActions()
 {
     ActionCollection::actions()->setWidget(this);
 
-    KStdAction::quit(this, SLOT(slotQuit()), actions());
-    KStdAction::undo(this, SLOT(slotUndo()), actions());
-    KStdAction::cut(kapp,   SLOT(cut()),   actions());
-    KStdAction::copy(kapp,  SLOT(copy()),  actions());
-    KStdAction::paste(kapp, SLOT(paste()), actions());
-    KStdAction::clear(kapp, SLOT(clear()), actions());
-    KStdAction::selectAll(kapp, SLOT(selectAll()), actions());
+    KStdAction::quit(this, SLOT(slotQuit()), ActionCollection::actions());
+    KStdAction::undo(this, SLOT(slotUndo()), ActionCollection::actions());
+    KStdAction::cut(kapp,   SLOT(cut()),   ActionCollection::actions());
+    KStdAction::copy(kapp,  SLOT(copy()),  ActionCollection::actions());
+    KStdAction::paste(kapp, SLOT(paste()), ActionCollection::actions());
+    KStdAction::clear(kapp, SLOT(clear()), ActionCollection::actions());
+    KStdAction::selectAll(kapp, SLOT(selectAll()), ActionCollection::actions());
 
-    new KAction(i18n("Remove From Playlist"), "edit_remove", 0, kapp, SLOT(clear()), actions(), "removeFromPlaylist");
+    new KAction(i18n("Remove From Playlist"), "edit_remove", 0, kapp, SLOT(clear()), ActionCollection::actions(), "removeFromPlaylist");
 
-    KActionMenu *actionMenu = new KActionMenu(i18n("&Random Play"), "roll", actions(), "actionMenu");
+    KActionMenu *actionMenu = new KActionMenu(i18n("&Random Play"), "roll", ActionCollection::actions(), "actionMenu");
     actionMenu->setDelayed(false);
 
-    KRadioAction *ka = new KRadioAction(i18n("&Disable Random Play"), "player_playlist", 0, actions(), "disableRandomPlay");
+    KRadioAction *ka = new KRadioAction(i18n("&Disable Random Play"), "player_playlist", 0, ActionCollection::actions(), "disableRandomPlay");
     ka->setExclusiveGroup("randomPlayGroup");
     actionMenu->insert(ka);
 
-    m_randomPlayAction = new KRadioAction(i18n("Use &Random Play"), "roll", 0, actions(), "randomPlay");
+    m_randomPlayAction = new KRadioAction(i18n("Use &Random Play"), "roll", 0, ActionCollection::actions(), "randomPlay");
     m_randomPlayAction->setExclusiveGroup("randomPlayGroup");
     actionMenu->insert(m_randomPlayAction);
 
-    ka = new KRadioAction(i18n("Use &Album Random Play"), "roll", 0, actions(), "albumRandomPlay");
+    ka = new KRadioAction(i18n("Use &Album Random Play"), "roll", 0, ActionCollection::actions(), "albumRandomPlay");
     ka->setExclusiveGroup("randomPlayGroup");
     connect(ka, SIGNAL(toggled(bool)), SLOT(slotCheckAlbumNextAction(bool)));
     actionMenu->insert(ka);
 
-    new KAction(i18n("&Play"),  "player_play",  0, m_player, SLOT(play()),  actions(), "play");
-    new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()), actions(), "pause");
-    new KAction(i18n("&Stop"),  "player_stop",  0, m_player, SLOT(stop()),  actions(), "stop");
+    new KAction(i18n("&Play"),  "player_play",  0, m_player, SLOT(play()),  ActionCollection::actions(), "play");
+    new KAction(i18n("P&ause"), "player_pause", 0, m_player, SLOT(pause()), ActionCollection::actions(), "pause");
+    new KAction(i18n("&Stop"),  "player_stop",  0, m_player, SLOT(stop()),  ActionCollection::actions(), "stop");
 
-    new KToolBarPopupAction(i18n("previous track", "Previous"), "player_start", KShortcut(), m_player, SLOT(back()), actions(), "back");
-    new KAction(i18n("next track", "&Next"), "player_end", KShortcut(), m_player, SLOT(forward()), actions(), "forward");
-    new KToggleAction(i18n("&Loop Playlist"), 0, KShortcut(), actions(), "loopPlaylist");
+    new KToolBarPopupAction(i18n("previous track", "Previous"), "player_start", KShortcut(), m_player, SLOT(back()), ActionCollection::actions(), "back");
+    new KAction(i18n("next track", "&Next"), "player_end", KShortcut(), m_player, SLOT(forward()), ActionCollection::actions(), "forward");
+    new KToggleAction(i18n("&Loop Playlist"), 0, KShortcut(), ActionCollection::actions(), "loopPlaylist");
     KToggleAction *resizeColumnAction =
         new KToggleAction(i18n("&Resize Playlist Columns Manually"),
-                          KShortcut(), actions(), "resizeColumnsManually");
+                          KShortcut(), ActionCollection::actions(), "resizeColumnsManually");
     resizeColumnAction->setCheckedState(i18n("&Resize Column Headers Automatically"));
 
     // the following are not visible by default
 
-    new KAction(i18n("Mute"),         "mute",        0, m_player, SLOT(mute()),        actions(), "mute");
-    new KAction(i18n("Volume Up"),    "volumeUp",    0, m_player, SLOT(volumeUp()),    actions(), "volumeUp");
-    new KAction(i18n("Volume Down"),  "volumeDown",  0, m_player, SLOT(volumeDown()),  actions(), "volumeDown");
-    new KAction(i18n("Play / Pause"), "playPause",   0, m_player, SLOT(playPause()),   actions(), "playPause");
-    new KAction(i18n("Seek Forward"), "seekForward", 0, m_player, SLOT(seekForward()), actions(), "seekForward");
-    new KAction(i18n("Seek Back"),    "seekBack",    0, m_player, SLOT(seekBack()),    actions(), "seekBack");
+    new KAction(i18n("Mute"),         "mute",        0, m_player, SLOT(mute()),        ActionCollection::actions(), "mute");
+    new KAction(i18n("Volume Up"),    "volumeUp",    0, m_player, SLOT(volumeUp()),    ActionCollection::actions(), "volumeUp");
+    new KAction(i18n("Volume Down"),  "volumeDown",  0, m_player, SLOT(volumeDown()),  ActionCollection::actions(), "volumeDown");
+    new KAction(i18n("Play / Pause"), "playPause",   0, m_player, SLOT(playPause()),   ActionCollection::actions(), "playPause");
+    new KAction(i18n("Seek Forward"), "seekForward", 0, m_player, SLOT(seekForward()), ActionCollection::actions(), "seekForward");
+    new KAction(i18n("Seek Back"),    "seekBack",    0, m_player, SLOT(seekBack()),    ActionCollection::actions(), "seekBack");
 
     //////////////////////////////////////////////////
     // settings menu
@@ -167,42 +167,42 @@ void JuK::setupActions()
 
     m_toggleSplashAction =
         new KToggleAction(i18n("Show Splash Screen on Startup"),
-                          KShortcut(), actions(), "showSplashScreen");
+                          KShortcut(), ActionCollection::actions(), "showSplashScreen");
     m_toggleSplashAction->setCheckedState(i18n("Hide Splash Screen on Startup"));
     m_toggleSystemTrayAction =
         new KToggleAction(i18n("&Dock in System Tray"),
-                          KShortcut(), actions(), "toggleSystemTray");
+                          KShortcut(), ActionCollection::actions(), "toggleSystemTray");
     m_toggleDockOnCloseAction =
         new KToggleAction(i18n("&Stay in System Tray on Close"),
-                          KShortcut(), actions(), "dockOnClose");
+                          KShortcut(), ActionCollection::actions(), "dockOnClose");
     m_togglePopupsAction =
         new KToggleAction(i18n("Popup &Track Announcement"),
-                          KShortcut(), this, 0, actions(), "togglePopups");
+                          KShortcut(), this, 0, ActionCollection::actions(), "togglePopups");
     new KToggleAction(i18n("Save &Play Queue on Exit"),
-                      KShortcut(), this, 0, actions(), "saveUpcomingTracks");
+                      KShortcut(), this, 0, ActionCollection::actions(), "saveUpcomingTracks");
 
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)),
             this, SLOT(slotToggleSystemTray(bool)));
 
 
-    m_outputSelectAction = PlayerManager::playerSelectAction(actions());
+    m_outputSelectAction = PlayerManager::playerSelectAction(ActionCollection::actions());
 
     if(m_outputSelectAction)
         m_outputSelectAction->setCurrentItem(0);
 
     new KAction(i18n("&Tag Guesser..."), 0, 0, this, SLOT(slotConfigureTagGuesser()),
-                actions(), "tagGuesserConfig");
+                ActionCollection::actions(), "tagGuesserConfig");
 
     new KAction(i18n("&File Renamer..."), 0, 0, this, SLOT(slotConfigureFileRenamer()),
-                actions(), "fileRenamerConfig");
+                ActionCollection::actions(), "fileRenamerConfig");
 
-    KStdAction::keyBindings(this, SLOT(slotEditKeys()), actions());
+    KStdAction::keyBindings(this, SLOT(slotEditKeys()), ActionCollection::actions());
 
     //////////////////////////////////////////////////
     // just in the toolbar
     //////////////////////////////////////////////////
 
-    m_sliderAction = new SliderAction(i18n("Track Position"), actions(),
+    m_sliderAction = new SliderAction(i18n("Track Position"), ActionCollection::actions(),
                                       "trackPositionAction");
 }
 
@@ -260,11 +260,14 @@ void JuK::slotProcessArgs()
 void JuK::createDirs()
 {
     QDir dir(KGlobal::dirs()->saveLocation("data", kapp->instanceName() + '/'));
-    if (!dir.exists("covers", false))
-        dir.mkdir("covers", false);
+
+    if(!dir.exists("covers"))
+       dir.mkdir("covers");
+
     dir.cd("covers");
-    if (!dir.exists("large", false))
-        dir.mkdir("large", false);
+
+    if(!dir.exists("large"))
+        dir.mkdir("large");
 }
 
 void JuK::keyPressEvent(QKeyEvent *e)
@@ -447,7 +450,7 @@ void JuK::slotToggleSystemTray(bool enabled)
 
 void JuK::slotEditKeys()
 {
-    KeyDialog::configure(m_accel, actions(), this);
+    KeyDialog::configure(m_accel, ActionCollection::actions(), this);
 }
 
 void JuK::slotConfigureTagGuesser()

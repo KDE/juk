@@ -178,7 +178,7 @@ protected:
                 useProxy = !useProxy;
 
             if(useProxy) {
-                KURL proxy = KProtocolManager::proxyFor("http");
+                KUrl proxy = KProtocolManager::proxyFor("http");
                 QString proxyHost = proxy.host();
 
                 kDebug(65432) << "Using proxy server " << proxyHost << " for www.musicbrainz.org.\n";

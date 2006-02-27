@@ -413,11 +413,11 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
     if(!s || (item && item->playlist() && item->playlist()->readOnly()))
         return;
 
-    KURL::List urls;
+    KUrl::List urls;
 
-    if(KURLDrag::decode(s, urls) && !urls.isEmpty()) {
+    if(KUrlDrag::decode(s, urls) && !urls.isEmpty()) {
         QStringList files;
-        for(KURL::List::Iterator it = urls.begin(); it != urls.end(); ++it)
+        for(KUrl::List::Iterator it = urls.begin(); it != urls.end(); ++it)
             files.append((*it).path());
 
         if(item) {
@@ -465,7 +465,7 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
     //
     // Otherwise, do not accept the event.
 
-    if(!KURLDrag::canDecode(e)) {
+    if(!KUrlDrag::canDecode(e)) {
         e->accept(false);
         return;
     }

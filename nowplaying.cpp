@@ -182,7 +182,7 @@ void CoverItem::mouseMoveEvent(QMouseEvent *e)
 
 void CoverItem::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->accept(Q3ImageDrag::canDecode(e) || KURLDrag::canDecode(e) || CoverDrag::canDecode(e));
+    e->accept(Q3ImageDrag::canDecode(e) || KUrlDrag::canDecode(e) || CoverDrag::canDecode(e));
 }
 
 void CoverItem::dropEvent(QDropEvent *e)
@@ -202,7 +202,7 @@ void CoverItem::dropEvent(QDropEvent *e)
         m_file.coverInfo()->setCoverId(key);
         update(m_file);
     }
-    else if(KURLDrag::decode(e, urls)) {
+    else if(KUrlDrag::decode(e, urls)) {
         QString fileName;
 
         if(KIO::NetAccess::download(urls.front(), fileName, this)) {
