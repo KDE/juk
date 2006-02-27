@@ -23,7 +23,7 @@
 
 #include <q3valuevector.h>
 #include <qfileinfo.h>
-//Added by qt3to4:
+
 #include <QPaintEvent>
 #include <QKeyEvent>
 #include <QEvent>

@@ -15,11 +15,11 @@
 
 #include <kconfig.h>
 #include <kmessagebox.h>
-#include <kurldrag.h>
+#include <k3urldrag.h>
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <kaction.h>
-#include <kpopupmenu.h>
+#include <k3popupmenu.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kinputdialog.h>
@@ -29,6 +29,7 @@
 #include <kio/netaccess.h>
 #include <kio/job.h>
 #include <dcopclient.h>
+#include <kmenu.h>
 
 #include <q3header.h>
 #include <qcursor.h>
@@ -38,7 +39,7 @@
 #include <q3widgetstack.h>
 #include <qfile.h>
 #include <q3hbox.h>
-//Added by qt3to4:
+
 #include <QPaintEvent>
 #include <QResizeEvent>
 #include <QMouseEvent>
@@ -93,6 +94,8 @@ static bool manualResize()
  * A tooltip specialized to show full filenames over the file name column.
  */
 
+#warning disabling the tooltip for now
+#if 0
 class PlaylistToolTip : public QToolTip
 {
 public:
@@ -136,6 +139,7 @@ public:
 private:
     Playlist *m_playlist;
 };
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
@@ -173,7 +177,7 @@ private:
     void writeConfig();
 
     static SharedSettings *m_instance;
-    Q3ValueList<int> m_columnOrder;
+    QList<int> m_columnOrder;
     Q3ValueVector<bool> m_columnsVisible;
     KGlobalSettings::Completion m_inlineCompletion;
 };
@@ -227,10 +231,10 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
     int offset = l->columnOffset();
     int i = 0;
-    for(Q3ValueListConstIterator<int> it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
+    for(QList<int>::ConstIterator it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
         l->header()->moveSection(i++ + offset, *it + offset);
 
-    for(uint i = 0; i < m_columnsVisible.size(); i++) {
+    for(int i = 0; i < m_columnsVisible.size(); i++) {
         if(m_columnsVisible[i] && !l->isColumnVisible(i + offset))
             l->showColumn(i + offset, false);
         else if(!m_columnsVisible[i] && l->isColumnVisible(i + offset))
@@ -254,9 +258,9 @@ Playlist::SharedSettings::SharedSettings()
     action<KToggleAction>("resizeColumnsManually")->setChecked(resizeColumnsManually);
 
     // save column order
-    m_columnOrder = config.readEntry("ColumnOrder");
+    m_columnOrder = config.readEntry("ColumnOrder", QList<int>());
 
-    Q3ValueList<int> l = config.readEntry("VisibleColumns");
+    QList<int> l = config.readEntry("VisibleColumns", QList<int>());
 
     if(l.isEmpty()) {
 
@@ -281,7 +285,7 @@ Playlist::SharedSettings::SharedSettings()
 
         m_columnsVisible.resize(l.size(), true);
         uint i = 0;
-        for(Q3ValueList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
+        for(QList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
             if(! bool(*it))
                 m_columnsVisible[i] = bool(*it);
             i++;
@@ -289,7 +293,7 @@ Playlist::SharedSettings::SharedSettings()
     }
 
     m_inlineCompletion = KGlobalSettings::Completion(
-        config.readEntry("InlineCompletionMode", KGlobalSettings::CompletionAuto));
+        config.readEntry("InlineCompletionMode", int(KGlobalSettings::CompletionAuto)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -301,12 +305,12 @@ void Playlist::SharedSettings::writeConfig()
     KConfigGroup config(KGlobal::config(), "PlaylistShared");
     config.writeEntry("ColumnOrder", m_columnOrder);
 
-    Q3ValueList<int> l;
-    for(uint i = 0; i < m_columnsVisible.size(); i++)
+    QList<int> l;
+    for(int i = 0; i < m_columnsVisible.size(); i++)
         l.append(int(m_columnsVisible[i]));
 
     config.writeEntry("VisibleColumns", l);
-    config.writeEntry("InlineCompletionMode", m_inlineCompletion);
+    config.writeEntry("InlineCompletionMode", int(m_inlineCompletion));
 
     config.writeEntry("ResizeColumnsManually", manualResize());
 
@@ -323,7 +327,7 @@ int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
                    const QString &iconName) :
-    KListView(collection->playlistStack(), name.latin1()),
+    KListView(collection->playlistStack()),
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
@@ -346,7 +350,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
 
 Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
                    const QString &name, const QString &iconName) :
-    KListView(collection->playlistStack(), name.latin1()),
+    KListView(collection->playlistStack()),
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
@@ -422,7 +426,7 @@ Playlist::~Playlist()
 
     clearItems(items());
 
-    delete m_toolTip;
+    /* delete m_toolTip; */
 
     // Select a different playlist if we're the selected one
 
@@ -1025,7 +1029,7 @@ Q3DragObject *Playlist::dragObject(QWidget *parent)
         urls.append(url);
     }
 
-    KUrlDrag *drag = new KUrlDrag(urls, parent, "Playlist Items");
+    K3URLDrag *drag = new K3URLDrag(urls, parent);
     drag->setPixmap(BarIcon("sound"));
 
     return drag;
@@ -1047,7 +1051,7 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
     setDropVisualizer(true);
 
     KUrl::List urls;
-    if(!KUrlDrag::decode(e, urls) || urls.isEmpty()) {
+    if(!K3URLDrag::decode(e, urls) || urls.isEmpty()) {
         e->ignore();
         return;
     }
@@ -1058,7 +1062,7 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
 
 bool Playlist::acceptDrag(QDropEvent *e) const
 {
-    return CoverDrag::canDecode(e) || KUrlDrag::canDecode(e);
+    return CoverDrag::canDecode(e) || K3URLDrag::canDecode(e);
 }
 
 bool Playlist::canDecode(QMimeSource *s)
@@ -1068,14 +1072,14 @@ bool Playlist::canDecode(QMimeSource *s)
     if(CoverDrag::canDecode(s))
         return true;
 
-    return KUrlDrag::decode(s, urls) && !urls.isEmpty();
+    return K3URLDrag::decode(s, urls) && !urls.isEmpty();
 }
 
 void Playlist::decode(QMimeSource *s, PlaylistItem *item)
 {
     KUrl::List urls;
 
-    if(!KUrlDrag::decode(s, urls) || urls.isEmpty())
+    if(!K3URLDrag::decode(s, urls) || urls.isEmpty())
         return;
 
     // handle dropped images
@@ -1103,7 +1107,7 @@ void Playlist::decode(QMimeSource *s, PlaylistItem *item)
     QStringList fileList;
 
     for(KUrl::List::Iterator it = urls.begin(); it != urls.end(); ++it)
-        fileList += MediaFiles::convertURLsToLocal((*it).path(), this);
+        fileList += MediaFiles::convertURLsToLocal(QStringList((*it).path()), this);
 
     addFiles(fileList, item);
 }
@@ -1114,7 +1118,7 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
         switch(e->type()) {
         case QEvent::MouseMove:
         {
-            if((static_cast<QMouseEvent *>(e)->state() & LeftButton) == LeftButton &&
+            if((static_cast<QMouseEvent *>(e)->state() & Qt::LeftButton) == Qt::LeftButton &&
                 !action<KToggleAction>("resizeColumnsManually")->isChecked())
             {
                 m_columnWidthModeChanged = true;
@@ -1127,7 +1131,7 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
         }
         case QEvent::MouseButtonPress:
         {
-            if(static_cast<QMouseEvent *>(e)->button() == RightButton)
+            if(static_cast<QMouseEvent *>(e)->button() == Qt::RightButton)
                 m_headerMenu->popup(QCursor::pos());
 
             break;
@@ -1153,7 +1157,7 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 
 void Playlist::keyPressEvent(QKeyEvent *event)
 {
-    if(event->key() == Key_Up) {
+    if(event->key() == Qt::Key_Up) {
         Q3ListViewItemIterator selected(this, Q3ListViewItemIterator::IteratorFlag(
                                            Q3ListViewItemIterator::Selected |
                                            Q3ListViewItemIterator::Visible));
@@ -1215,21 +1219,21 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
         setSorting(columns() + 1);
 
-        Q3PtrList<Q3ListViewItem> items = KListView::selectedItems();
+        QList<Q3ListViewItem *> items = KListView::selectedItems();
 
-        for(Q3PtrListIterator<Q3ListViewItem> it(items); it.current(); ++it) {
+        for(QList<Q3ListViewItem *>::Iterator it = items.begin(); it != items.end(); ++it) {
             if(!item) {
 
                 // Insert the item at the top of the list.  This is a bit ugly,
                 // but I don't see another way.
 
-                takeItem(it.current());
-                insertItem(it.current());
+                takeItem(*it);
+                insertItem(*it);
             }
             else
-                it.current()->moveItem(item);
+                (*it)->moveItem(item);
 
-            item = static_cast<PlaylistItem *>(it.current());
+            item = static_cast<PlaylistItem *>(*it);
         }
     }
     else
@@ -1247,7 +1251,7 @@ void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
     // Filter out non left button double clicks, that way users don't have the
     // weird experience of switching songs from a double right-click.
 
-    if(e->button() == LeftButton)
+    if(e->button() == Qt::LeftButton)
         KListView::contentsMouseDoubleClickEvent(e);
 }
 
@@ -1545,10 +1549,12 @@ void Playlist::polish()
     // setup header RMB menu
     //////////////////////////////////////////////////
 
-    m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), this, "showColumns");
+    m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), ActionCollection::actions(), "showColumns");
 
     m_headerMenu = m_columnVisibleAction->popupMenu();
-    m_headerMenu->insertTitle(i18n("Show"));
+
+    #warning should be fixed...
+    /* m_headerMenu->insertTitle(i18n("Show")); */
     m_headerMenu->setCheckable(true);
 
     for(int i = 0; i < header()->count(); ++i) {
@@ -1590,7 +1596,7 @@ void Playlist::polish()
     m_disableColumnWidthUpdates = false;
 
     setShowToolTips(false);
-    m_toolTip = new PlaylistToolTip(viewport(), this);
+    /* m_toolTip = new PlaylistToolTip(viewport(), this); */
 }
 
 void Playlist::setupItem(PlaylistItem *item)
@@ -1619,7 +1625,7 @@ void Playlist::slotPopulateBackMenu() const
     if(!playingItem())
         return;
 
-    KPopupMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
+    KMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
     menu->clear();
     m_backMenuItems.clear();
 
@@ -2066,7 +2072,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
         // A bit of a hack to get a pointer to the action collection.
         // Probably more of these actions should be ported over to using KActions.
 
-        m_rmbMenu = new KPopupMenu(this);
+        m_rmbMenu = new KMenu(this);
 
         m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("today"),
             i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
