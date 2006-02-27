@@ -56,7 +56,7 @@ struct Row
 
     TagRenamerOptions options;
     CategoryID category; // Includes category and a disambiguation id.
-    unsigned position; ///< Position in the GUI (0 == top)
+    int position; ///< Position in the GUI (0 == top)
     QString name;
 };
 
@@ -112,8 +112,8 @@ public:
     virtual Q3ValueList<CategoryID> categoryOrder() const;
     virtual QString separator() const;
     virtual QString musicFolder() const;
-    virtual int trackWidth(unsigned categoryNum) const;
-    virtual bool hasFolderSeparator(unsigned index) const;
+    virtual int trackWidth(int categoryNum) const;
+    virtual bool hasFolderSeparator(int index) const;
     virtual bool isDisabled(const CategoryID &category) const;
 
 private:
@@ -139,7 +139,7 @@ private:
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class FileRenamerWidget : public FileRenamerBase, public CategoryReaderInterface
+class FileRenamerWidget : public QWidget, Ui::FileRenamerBase, public CategoryReaderInterface
 {
     Q_OBJECT
 
@@ -148,7 +148,7 @@ public:
     ~FileRenamerWidget();
 
     /// Maximum number of total categories the widget will allow.
-    static unsigned const MAX_CATEGORIES = 16;
+    static int const MAX_CATEGORIES = 16;
 
     /**
      * This function saves all of the category options to the global KConfig
@@ -199,7 +199,7 @@ private:
      * @param category Type of row to append.
      * @return identifier of newly added row.
      */
-    unsigned addRowCategory(TagType category);
+    int addRowCategory(TagType category);
 
     /**
      * Removes the given row, updating the other rows to have the correct
@@ -208,7 +208,7 @@ private:
      * @param id The identifier of the row to remove.
      * @return true if the delete succeeded, false otherwise.
      */
-    bool removeRow(unsigned id);
+    bool removeRow(int id);
 
     /**
      * Updates the mappings currently set for the row identified by oldId so
@@ -218,7 +218,7 @@ private:
      * @param oldId The identifier of the row to change mappings for.
      * @param newId The identifier to use instead.
      */
-    void moveSignalMappings(unsigned oldId, unsigned newId);
+    void moveSignalMappings(int oldId, int newId);
 
     /**
      * This function sets up the internal view by creating the checkboxes and
@@ -310,7 +310,7 @@ private:
      * @param categoryNum Zero-based number of category to get results for (if more than one).
      * @return the minimum width of the track category.
      */
-    virtual int trackWidth(unsigned categoryNum) const
+    virtual int trackWidth(int categoryNum) const
     {
         CategoryID id(Track, categoryNum);
         return m_rows[findIdentifier(id)].options.trackWidth();
@@ -323,7 +323,7 @@ private:
      *         of this function, only categories that are required or non-empty
      *         should count.
      */
-    virtual bool hasFolderSeparator(unsigned index) const;
+    virtual bool hasFolderSeparator(int index) const;
 
     /**
      * @param category The category to get the status of.
@@ -343,7 +343,7 @@ private:
      * @param id the identifier of the row to move
      * @param direction the direction to move
      */
-    void moveItem(unsigned id, MovementDirection direction);
+    void moveItem(int id, MovementDirection direction);
 
     /**
      * This function actually performs the work of showing the options dialog for
@@ -381,7 +381,7 @@ private:
      * @param position The position to find the identifier of.
      * @return The unique id of the row at \p position.
      */
-    unsigned idOfPosition(unsigned position) const;
+    int idOfPosition(int position) const;
 
     /**
      * This function returns the identifier of the row in the m_rows index that
@@ -391,7 +391,7 @@ private:
      * @return the identifier of the category, or MAX_CATEGORIES if it couldn't
      *         be found.
      */
-    unsigned findIdentifier(const CategoryID &category) const;
+    int findIdentifier(const CategoryID &category) const;
 
 private slots:
     /**
@@ -531,7 +531,7 @@ private:
      * there is not already a folder icon set, and if the folder's name has
      * the album name.
      */
-    void setFolderIcon(const KURL &dst, const PlaylistItem *item);
+    void setFolderIcon(const KUrl &dst, const PlaylistItem *item);
 
     /**
      * Attempts to rename the file from \a src to \a dest.  Returns true if the

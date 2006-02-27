@@ -17,7 +17,7 @@
 #define EXAMPLEOPTIONS_H
 
 #include <qdialog.h>
-//Added by qt3to4:
+
 #include <QHideEvent>
 #include <QShowEvent>
 #include "exampleoptionsbase.h"
@@ -25,10 +25,10 @@
 class ExampleOptions : public ExampleOptionsBase
 {
     Q_OBJECT
-    public:
+public:
     ExampleOptions(QWidget *parent);
 
-    protected slots:
+protected slots:
     virtual void exampleSelectionChanged();
     virtual void exampleDataChanged();
     virtual void exampleFileChanged();
@@ -39,7 +39,7 @@ class ExampleOptions : public ExampleOptionsBase
 class ExampleOptionsDialog : public QDialog
 {
     Q_OBJECT
-    public:
+public:
     ExampleOptionsDialog(QWidget *parent);
 
     const ExampleOptions *widget() const { return m_options; }
@@ -48,16 +48,16 @@ class ExampleOptionsDialog : public QDialog
     virtual void hideEvent(QHideEvent *);
     virtual void showEvent(QShowEvent *);
 
-    protected slots:
+protected slots:
     void fileModeSelected();
 
-    signals:
+signals:
     void fileChanged(const QString &);
     void dataChanged();
     void signalHidden();
     void signalShown();
 
-    private:
+private:
     ExampleOptions *m_options;
 };
 

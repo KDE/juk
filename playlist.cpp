@@ -1854,9 +1854,9 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
             ::closedir(dir);
         }
         else {
-            kdWarning(65432) << "Unable to open directory "
-                             << fileInfo.filePath()
-                             << ", make sure it is readable.\n";
+            kWarning(65432) << "Unable to open directory "
+                            << fileInfo.filePath()
+                            << ", make sure it is readable.\n";
         }
     }
 }

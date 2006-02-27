@@ -47,7 +47,7 @@
 #include <qlayout.h>
 #include <qsignalmapper.h>
 #include <q3header.h>
-//Added by qt3to4:
+
 #include <QPixmap>
 #include <Q3Frame>
 #include <Q3ValueList>
@@ -68,8 +68,8 @@ public:
                        QWidget *parent = 0, const char *name = 0)
         : KDialogBase(parent, name, true, i18n("Warning"), Ok | Cancel)
     {
-        Q3VBox *vbox = makeVBoxMainWidget();
-        Q3HBox *hbox = new Q3HBox(vbox);
+        KVBox *vbox = makeVBoxMainWidget();
+        KVBox *hbox = new KVBox(vbox);
 
         QLabel *l = new QLabel(hbox);
         l->setPixmap(SmallIcon("messagebox_warning", 32));
@@ -108,18 +108,18 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
 {
     KConfigGroup config(KGlobal::config(), "FileRenamer");
 
-    Q3ValueList<int> categoryOrder = config.readEntry("CategoryOrder");
-    unsigned categoryCount[NumTypes] = { 0 }; // Keep track of each category encountered.
+    QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
+    int categoryCount[NumTypes] = { 0 }; // Keep track of each category encountered.
 
     // Set a default:
 
     if(categoryOrder.isEmpty())
         categoryOrder << Artist << Album << Title << Track;
 
-    Q3ValueList<int>::ConstIterator catIt = categoryOrder.constBegin();
+    QList<int>::ConstIterator catIt = categoryOrder.constBegin();
     for(; catIt != categoryOrder.constEnd(); ++catIt)
     {
-        unsigned catCount = categoryCount[*catIt]++;
+        int catCount = categoryCount[*catIt]++;
         TagType category = static_cast<TagType>(*catIt);
         CategoryID catId(category, catCount);
 
@@ -129,13 +129,12 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
 
     m_folderSeparators.resize(m_categoryOrder.count() - 1, false);
 
-    Q3ValueList<int> checkedSeparators = config.readEntry("CheckedDirSeparators");
+    QList<int> checkedSeparators = config.readEntry("CheckedDirSeparators", QList<int>());
 
-    Q3ValueList<int>::ConstIterator it = checkedSeparators.constBegin();
+    QList<int>::ConstIterator it = checkedSeparators.constBegin();
     for(; it != checkedSeparators.constEnd(); ++it) {
-        unsigned index = static_cast<unsigned>(*it);
-        if(index < m_folderSeparators.count())
-            m_folderSeparators[index] = true;
+        if(*it < m_folderSeparators.count())
+            m_folderSeparators[*it] = true;
     }
 
     m_musicFolder = config.readEntry("MusicFolder", "${HOME}/music");
@@ -208,12 +207,12 @@ QString ConfigCategoryReader::musicFolder() const
     return m_musicFolder;
 }
 
-int ConfigCategoryReader::trackWidth(unsigned categoryNum) const
+int ConfigCategoryReader::trackWidth(int categoryNum) const
 {
     return m_options[CategoryID(Track, categoryNum)].trackWidth();
 }
 
-bool ConfigCategoryReader::hasFolderSeparator(unsigned index) const
+bool ConfigCategoryReader::hasFolderSeparator(int index) const
 {
     if(index >= m_folderSeparators.count())
         return false;
@@ -230,14 +229,17 @@ bool ConfigCategoryReader::isDisabled(const CategoryID &category) const
 //
 
 FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
-    FileRenamerBase(parent), CategoryReaderInterface(),
+    QWidget(parent),
+    Ui::FileRenamerBase(),
+    CategoryReaderInterface(),
     m_exampleFromFile(false)
 {
     QLabel *temp = new QLabel(0);
     m_exampleText->setPaletteBackgroundColor(temp->paletteBackgroundColor());
     delete temp;
 
-    layout()->setMargin(0); // We'll be wrapped by KDialogBase
+    #warning Repair this.
+    /* layout()->setMargin(0); */ // We'll be wrapped by KDialogBase
 
     // This must be created before createTagRows() is called.
 
@@ -248,7 +250,7 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
 
     // Add correct text to combo box.
     m_category->clear();
-    for(unsigned i = StartTag; i < NumTypes; ++i) {
+    for(int i = StartTag; i < NumTypes; ++i) {
         QString category = TagRenamerOptions::tagTypeText(static_cast<TagType>(i));
         m_category->insertItem(category);
     }
@@ -264,17 +266,19 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
 
 void FileRenamerWidget::loadConfig()
 {
-    Q3ValueList<int> checkedSeparators;
+    QList<int> checkedSeparators;
     KConfigGroup config(KGlobal::config(), "FileRenamer");
 
-    for(unsigned i = 0; i < m_rows.count(); ++i)
+    for(int i = 0; i < m_rows.count(); ++i)
         m_rows[i].options = TagRenamerOptions(m_rows[i].category);
 
-    checkedSeparators = config.readEntry("CheckedDirSeparators");
+    checkedSeparators = config.readEntry("CheckedDirSeparators", QList<int>());
 
-    Q3ValueList<int>::ConstIterator it = checkedSeparators.begin();
-    for(; it != checkedSeparators.end(); ++it) {
-        unsigned separator = static_cast<unsigned>(*it);
+    
+    for(QList<int>::ConstIterator it = checkedSeparators.begin();
+        it != checkedSeparators.end(); ++it)
+    {
+        int separator = *it;
         if(separator < m_folderSwitches.count())
             m_folderSwitches[separator]->setChecked(true);
     }
@@ -288,16 +292,16 @@ void FileRenamerWidget::loadConfig()
 void FileRenamerWidget::saveConfig()
 {
     KConfigGroup config(KGlobal::config(), "FileRenamer");
-    Q3ValueList<int> checkedSeparators;
-    Q3ValueList<int> categoryOrder;
+    QList<int> checkedSeparators;
+    QList<int> categoryOrder;
 
-    for(unsigned i = 0; i < m_rows.count(); ++i) {
-        unsigned rowId = idOfPosition(i); // Write out in GUI order, not m_rows order
+    for(int i = 0; i < m_rows.count(); ++i) {
+        int rowId = idOfPosition(i); // Write out in GUI order, not m_rows order
         m_rows[rowId].options.saveConfig(m_rows[rowId].category.categoryNumber);
         categoryOrder += m_rows[rowId].category.category;
     }
 
-    for(unsigned i = 0; i < m_folderSwitches.count(); ++i)
+    for(int i = 0; i < m_folderSwitches.count(); ++i)
         if(m_folderSwitches[i]->isChecked() == true)
             checkedSeparators += i;
 
@@ -313,14 +317,14 @@ FileRenamerWidget::~FileRenamerWidget()
 {
 }
 
-unsigned FileRenamerWidget::addRowCategory(TagType category)
+int FileRenamerWidget::addRowCategory(TagType category)
 {
     static QPixmap up   = SmallIcon("up");
     static QPixmap down = SmallIcon("down");
 
     // Find number of categories already of this type.
-    unsigned categoryCount = 0;
-    for(unsigned i = 0; i < m_rows.count(); ++i)
+    int categoryCount = 0;
+    for(int i = 0; i < m_rows.count(); ++i)
         if(m_rows[i].category.category == category)
             ++categoryCount;
 
@@ -328,7 +332,7 @@ unsigned FileRenamerWidget::addRowCategory(TagType category)
 
     row.category = CategoryID(category, categoryCount);
     row.position = m_rows.count();
-    unsigned id = row.position;
+    int id = row.position;
 
     Q3HBox *frame = new Q3HBox(m_mainFrame);
     frame->setPaletteBackgroundColor(frame->paletteBackgroundColor().dark(110));
@@ -360,7 +364,7 @@ unsigned FileRenamerWidget::addRowCategory(TagType category)
     QString labelText = QString("<b>%1</b>").arg(TagRenamerOptions::tagTypeText(category));
     QLabel *label = new QLabel(labelText, frame);
     frame->setStretchFactor(label, 1);
-    label->setAlignment(AlignCenter);
+    label->setAlignment(Qt::AlignCenter);
 
     Q3VBox *options = new Q3VBox(frame);
     row.enableButton = new KPushButton(i18n("Remove"), options);
@@ -381,7 +385,7 @@ unsigned FileRenamerWidget::addRowCategory(TagType category)
     return id;
 }
 
-void FileRenamerWidget::moveSignalMappings(unsigned oldId, unsigned newId)
+void FileRenamerWidget::moveSignalMappings(int oldId, int newId)
 {
     mapper->setMapping(m_rows[oldId].optionsButton, newId);
     downMapper->setMapping(m_rows[oldId].downButton, newId);
@@ -389,10 +393,10 @@ void FileRenamerWidget::moveSignalMappings(unsigned oldId, unsigned newId)
     toggleMapper->setMapping(m_rows[oldId].enableButton, newId);
 }
 
-bool FileRenamerWidget::removeRow(unsigned id)
+bool FileRenamerWidget::removeRow(int id)
 {
     if(id >= m_rows.count()) {
-        kdWarning(65432) << "Trying to remove row, but " << id << " is out-of-range.\n";
+        kWarning(65432) << "Trying to remove row, but " << id << " is out-of-range.\n";
         return false;
     }
 
@@ -409,7 +413,7 @@ bool FileRenamerWidget::removeRow(unsigned id)
     m_rows[id].optionsButton = 0;
     m_rows[id].downButton = 0;
 
-    unsigned checkboxPosition = 0; // Remove first checkbox.
+    int checkboxPosition = 0; // Remove first checkbox.
 
     // If not the first row, remove the checkbox before it.
     if(m_rows[id].position > 0)
@@ -423,7 +427,7 @@ bool FileRenamerWidget::removeRow(unsigned id)
     // Go through all the rows and if they have the same category and a
     // higher categoryNumber, decrement the number.  Also update the
     // position identifier.
-    for(unsigned i = 0; i < m_rows.count(); ++i) {
+    for(int i = 0; i < m_rows.count(); ++i) {
         if(i == id)
             continue; // Don't mess with ourself.
 
@@ -441,7 +445,7 @@ bool FileRenamerWidget::removeRow(unsigned id)
     // Every row after the one we delete will have a different identifier, since
     // the identifier is simply its index into m_rows.  So we need to re-do the
     // signal mappings for the affected rows.
-    for(unsigned i = id + 1; i < m_rows.count(); ++i)
+    for(int i = id + 1; i < m_rows.count(); ++i)
         moveSignalMappings(i, i - 1);
 
     m_rows.erase(&m_rows[id]);
@@ -464,7 +468,7 @@ void FileRenamerWidget::addFolderSeparatorCheckbox()
 
     QCheckBox *cb = new QCheckBox(i18n("Insert folder separator"), temp);
     m_folderSwitches.append(cb);
-    l->addWidget(cb, 0, AlignCenter);
+    l->addWidget(cb, 0, Qt::AlignCenter);
     cb->setChecked(false);
 
     connect(cb, SIGNAL(toggled(bool)),
@@ -476,7 +480,7 @@ void FileRenamerWidget::addFolderSeparatorCheckbox()
 void FileRenamerWidget::createTagRows()
 {
     KConfigGroup config(KGlobal::config(), "FileRenamer");
-    Q3ValueList<int> categoryOrder = config.readEntry("CategoryOrder");
+    QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
 
     if(categoryOrder.isEmpty())
         categoryOrder << Artist << Album << Artist << Title << Track;
@@ -508,7 +512,7 @@ void FileRenamerWidget::createTagRows()
     // a row given the identifier, use m_rows[id].position.  To find the id of a given
     // position, use idOfPosition(position).
 
-    Q3ValueList<int>::ConstIterator it = categoryOrder.constBegin();
+    QList<int>::ConstIterator it = categoryOrder.constBegin();
 
     for(; it != categoryOrder.constEnd(); ++it) {
         if(*it < StartTag || *it >= NumTypes) {
@@ -528,7 +532,7 @@ void FileRenamerWidget::createTagRows()
         // Insert the directory separator checkbox if this isn't the last
         // item.
 
-        Q3ValueList<int>::ConstIterator dup(it);
+        QList<int>::ConstIterator dup(it);
 
         // Check for last item
         if(++dup != categoryOrder.constEnd())
@@ -623,36 +627,35 @@ Q3ValueList<CategoryID> FileRenamerWidget::categoryOrder() const
     Q3ValueList<CategoryID> list;
 
     // Iterate in GUI row order.
-    for(unsigned i = 0; i < m_rows.count(); ++i) {
-        unsigned rowId = idOfPosition(i);
-
+    for(int i = 0; i < m_rows.count(); ++i) {
+        int rowId = idOfPosition(i);
         list += m_rows[rowId].category;
     }
 
     return list;
 }
 
-bool FileRenamerWidget::hasFolderSeparator(unsigned index) const
+bool FileRenamerWidget::hasFolderSeparator(int index) const
 {
     if(index >= m_folderSwitches.count())
         return false;
     return m_folderSwitches[index]->isChecked();
 }
 
-void FileRenamerWidget::moveItem(unsigned id, MovementDirection direction)
+void FileRenamerWidget::moveItem(int id, MovementDirection direction)
 {
     QWidget *l = m_rows[id].widget;
-    unsigned bottom = m_rows.count() - 1;
-    unsigned pos = m_rows[id].position;
-    unsigned newPos = (direction == MoveUp) ? pos - 1 : pos + 1;
+    int bottom = m_rows.count() - 1;
+    int pos = m_rows[id].position;
+    int newPos = (direction == MoveUp) ? pos - 1 : pos + 1;
 
     // Item we're moving can't go further down after this.
 
     if((pos == (bottom - 1) && direction == MoveDown) ||
        (pos == bottom && direction == MoveUp))
     {
-        unsigned idBottomRow = idOfPosition(bottom);
-        unsigned idAboveBottomRow = idOfPosition(bottom - 1);
+        int idBottomRow = idOfPosition(bottom);
+        int idAboveBottomRow = idOfPosition(bottom - 1);
 
         m_rows[idBottomRow].downButton->setEnabled(true);
         m_rows[idAboveBottomRow].downButton->setEnabled(false);
@@ -661,8 +664,8 @@ void FileRenamerWidget::moveItem(unsigned id, MovementDirection direction)
     // We're moving the top item, do some button switching.
 
     if((pos == 0 && direction == MoveDown) || (pos == 1 && direction == MoveUp)) {
-        unsigned idTopItem = idOfPosition(0);
-        unsigned idBelowTopItem = idOfPosition(1);
+        int idTopItem = idOfPosition(0);
+        int idBelowTopItem = idOfPosition(1);
 
         m_rows[idTopItem].upButton->setEnabled(true);
         m_rows[idBelowTopItem].upButton->setEnabled(false);
@@ -670,7 +673,7 @@ void FileRenamerWidget::moveItem(unsigned id, MovementDirection direction)
 
     // This is the item we're swapping with.
 
-    unsigned idSwitchWith = idOfPosition(newPos);
+    int idSwitchWith = idOfPosition(newPos);
     QWidget *w = m_rows[idSwitchWith].widget;
 
     // Update the table of widget rows.
@@ -695,24 +698,24 @@ void FileRenamerWidget::moveItem(unsigned id, MovementDirection direction)
     QTimer::singleShot(0, this, SLOT(exampleTextChanged()));
 }
 
-unsigned FileRenamerWidget::idOfPosition(unsigned position) const
+int FileRenamerWidget::idOfPosition(int position) const
 {
     if(position >= m_rows.count()) {
         kError(65432) << "Search for position " << position << " out-of-range.\n";
-        return static_cast<unsigned>(-1);
+        return -1;
     }
 
-    for(unsigned i = 0; i < m_rows.count(); ++i)
+    for(int i = 0; i < m_rows.count(); ++i)
         if(m_rows[i].position == position)
             return i;
 
     kError(65432) << "Unable to find identifier for position " << position << endl;
-    return static_cast<unsigned>(-1);
+    return -1;
 }
 
-unsigned FileRenamerWidget::findIdentifier(const CategoryID &category) const
+int FileRenamerWidget::findIdentifier(const CategoryID &category) const
 {
-    for(unsigned index = 0; index < m_rows.count(); ++index)
+    for(int index = 0; index < m_rows.count(); ++index)
         if(m_rows[index].category == category)
             return index;
 
@@ -725,13 +728,13 @@ unsigned FileRenamerWidget::findIdentifier(const CategoryID &category) const
 
 void FileRenamerWidget::enableAllUpButtons()
 {
-    for(unsigned i = 0; i < m_rows.count(); ++i)
+    for(int i = 0; i < m_rows.count(); ++i)
         m_rows[i].upButton->setEnabled(true);
 }
 
 void FileRenamerWidget::enableAllDownButtons()
 {
-    for(unsigned i = 0; i < m_rows.count(); ++i)
+    for(int i = 0; i < m_rows.count(); ++i)
         m_rows[i].downButton->setEnabled(true);
 }
 
@@ -749,12 +752,12 @@ void FileRenamerWidget::showCategoryOption(int id)
 
 void FileRenamerWidget::moveItemUp(int id)
 {
-    moveItem(static_cast<unsigned>(id), MoveUp);
+    moveItem(id, MoveUp);
 }
 
 void FileRenamerWidget::moveItemDown(int id)
 {
-    moveItem(static_cast<unsigned>(id), MoveDown);
+    moveItem(id, MoveDown);
 }
 
 void FileRenamerWidget::toggleExampleDialog()
@@ -772,13 +775,13 @@ void FileRenamerWidget::insertCategory()
 
     // We need to enable the down button of the current bottom row since it
     // can now move down.
-    unsigned idBottom = idOfPosition(m_rows.count() - 1);
+    int idBottom = idOfPosition(m_rows.count() - 1);
     m_rows[idBottom].downButton->setEnabled(true);
 
     addFolderSeparatorCheckbox();
 
     // Identifier of new row.
-    unsigned id = addRowCategory(category);
+    int id = addRowCategory(category);
 
     // Set its down button to be disabled.
     m_rows[id].downButton->setEnabled(false);
@@ -898,8 +901,8 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
         return false;
 
     // Escape URL.
-    KURL srcURL = KURL::fromPathOrURL(src);
-    KURL dstURL = KURL::fromPathOrURL(dest);
+    KUrl srcURL = KUrl::fromPathOrURL(src);
+    KUrl dstURL = KUrl::fromPathOrURL(dest);
 
     // Clean it.
     srcURL.cleanPath();
@@ -910,7 +913,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
         return false;
 
     // Get just the directory.
-    KURL dir = dstURL;
+    KUrl dir = dstURL;
     dir.setFileName(QString::null);
 
     // Create the directory.
@@ -924,7 +927,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     return KIO::NetAccess::file_move(srcURL, dstURL);
 }
 
-void FileRenamer::setFolderIcon(const KURL &dst, const PlaylistItem *item)
+void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
 {
     if(item->file().tag()->album().isEmpty() ||
        !item->file().coverInfo()->hasCover())
@@ -932,7 +935,7 @@ void FileRenamer::setFolderIcon(const KURL &dst, const PlaylistItem *item)
         return;
     }
 
-    KURL dstURL = dst;
+    KUrl dstURL = dst;
     dstURL.cleanPath();
 
     // Split path, and go through each path element.  If a path element has
@@ -993,7 +996,7 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
     const QString separator = interface.separator();
     const QString folder = interface.musicFolder();
     Q3ValueList<CategoryID>::ConstIterator lastEnabled;
-    unsigned i = 0;
+    int i = 0;
     QStringList list;
     QChar dirSeparator = QChar(QDir::separator());
 

@@ -90,7 +90,7 @@ public:
     /**
      * @return track width for the Track item identified by categoryNum.
      */
-    virtual int trackWidth(unsigned categoryNum) const = 0;
+    virtual int trackWidth(int categoryNum) const = 0;
 
     // You probably shouldn't reimplement this
     virtual QString value(const CategoryID &category) const;
@@ -105,7 +105,7 @@ public:
      * @return true if a folder separator should be placed between the tags
      * at index and index + 1.
      */
-    virtual bool hasFolderSeparator(unsigned index) const = 0;
+    virtual bool hasFolderSeparator(int index) const = 0;
 
     virtual bool isDisabled(const CategoryID &category) const = 0;
 
@@ -116,7 +116,7 @@ public:
     virtual bool isEmpty(TagType category) const;
 
     // You probably shouldn't reimplement this
-    virtual QString fixupTrack(const QString &track, unsigned categoryNum) const;
+    virtual QString fixupTrack(const QString &track, int categoryNum) const;
 };
 
 #endif /* CATEGORYREADERINTERFACE_H */

@@ -41,7 +41,7 @@ bool CategoryReaderInterface::isEmpty(TagType category) const
     return categoryValue(category).isEmpty();
 }
 
-QString CategoryReaderInterface::fixupTrack(const QString &track, unsigned categoryNum) const
+QString CategoryReaderInterface::fixupTrack(const QString &track, int categoryNum) const
 {
     QString str(track);
     CategoryID trackId(Track, categoryNum);

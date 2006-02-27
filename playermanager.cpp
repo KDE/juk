@@ -299,7 +299,7 @@ void PlayerManager::play(const FileHandle &file)
     // Make sure that the player() actually starts before doing anything.
 
     if(!player()->playing()) {
-        kdWarning(65432) << "Unable to play " << file.absFilePath() << endl;
+        kWarning(65432) << "Unable to play " << file.absFilePath() << endl;
         stop();
         return;
     }
