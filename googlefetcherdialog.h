@@ -58,7 +58,7 @@ protected slots:
     void imgSizeChanged(int index);
 
 private:
-    QPixmap fetchedImage(uint index) const;
+    QPixmap fetchedImage(int index) const;
     QPixmap pixmapFromURL(const KUrl &url) const;
 
     QPixmap m_pixmap;

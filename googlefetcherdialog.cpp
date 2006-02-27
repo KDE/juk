@@ -54,7 +54,9 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     connect(m_iconWidget, SIGNAL(executed(Q3IconViewItem *)),
             this, SLOT(slotOk()));
 
-    Q3HBox *imgSize = new Q3HBox(actionButton(User1)->parentWidget());
+    #warning This is probably wrong.
+
+    Q3HBox *imgSize = new Q3HBox(parent /*actionButton(User1)->parentWidget()*/);
     QLabel *label = new QLabel(imgSize);
     label->setText(i18n("Image size:"));
 
@@ -86,7 +88,7 @@ void GoogleFetcherDialog::setLayout()
               .arg(m_imageList.size()));
 
     m_iconWidget->clear();
-    for(uint i = 0; i < m_imageList.size(); i++)
+    for(int i = 0; i < m_imageList.size(); i++)
         new CoverIconViewItem(m_iconWidget, m_imageList[i]);
 
     adjustSize();
@@ -115,7 +117,7 @@ int GoogleFetcherDialog::exec()
 
 void GoogleFetcherDialog::slotOk()
 {
-    uint selectedIndex = m_iconWidget->index(m_iconWidget->currentItem());
+    int selectedIndex = m_iconWidget->index(m_iconWidget->currentItem());
     m_pixmap = pixmapFromURL(m_imageList[selectedIndex].imageURL());
 
     if(m_pixmap.isNull()) {
@@ -175,7 +177,7 @@ void GoogleFetcherDialog::imgSizeChanged(int index)
     emit sizeChanged(imageSize);
 }
 
-QPixmap GoogleFetcherDialog::fetchedImage(uint index) const
+QPixmap GoogleFetcherDialog::fetchedImage(int index) const
 {
     return (index > m_imageList.count()) ? QPixmap() : pixmapFromURL(m_imageList[index].imageURL());
 }
@@ -222,7 +224,7 @@ CoverIconViewItem::~CoverIconViewItem()
 
         // Drain results issued by KIO before being deleted,
         // and before deleting the job.
-        kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
+        kapp->processEvents(QEventLoop::ExcludeUserInput);
 
         delete m_job;
     }
@@ -231,7 +233,7 @@ CoverIconViewItem::~CoverIconViewItem()
 void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
 {
     int currentSize = m_buffer.size();
-    m_buffer.resize(currentSize + data.size(), Q3GArray::SpeedOptim);
+    m_buffer.resize(currentSize + data.size());
     memcpy(&(m_buffer.data()[currentSize]), data.data(), data.size());
 }
 
@@ -241,8 +243,7 @@ void CoverIconViewItem::imageResult(KIO::Job *job)
         return;
 
     QPixmap iconImage(m_buffer);
-    iconImage = QImage(iconImage.convertToImage()).smoothScale(80, 80, QImage::ScaleMin);
-    setPixmap(iconImage, true, true);
+    setPixmap(iconImage.scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
 }
 
 #include "googlefetcherdialog.moc"
