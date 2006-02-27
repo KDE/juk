@@ -21,7 +21,7 @@
 #include <klistview.h>
 
 #include <q3ptrdict.h>
-//Added by qt3to4:
+
 #include <QDragLeaveEvent>
 #include <QDragMoveEvent>
 #include <QKeyEvent>
@@ -55,9 +55,7 @@ public:
 
     friend class Item;
 
-    PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
-                const char *name = 0);
-
+    PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack);
     virtual ~PlaylistBox();
 
     virtual void raise(Playlist *playlist);
@@ -130,7 +128,7 @@ private:
     KMenu *m_contextMenu;
     Q3PtrDict<Item> m_playlistDict;
     int m_viewModeIndex;
-    Q3ValueList<ViewMode *> m_viewModes;
+    QList<ViewMode *> m_viewModes;
     KAction *m_k3bAction;
     bool m_hasSelection;
     bool m_doingMultiSelect;

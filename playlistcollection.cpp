@@ -157,14 +157,12 @@ QStringList PlaylistCollection::playlists() const
 {
     QStringList l;
 
-    QObjectList *childList = m_playlistStack->queryList("Playlist");
-    QObject *obj;
-    for(obj = childList->first(); obj; obj = childList->next()) {
-        Playlist *p = static_cast<Playlist *>(obj);
+    QObjectList childList = m_playlistStack->queryList("Playlist");
+    for(QObjectList::Iterator it = childList.begin(); it != childList.end(); ++it) {
+        Playlist *p = static_cast<Playlist *>(*it);
         l.append(p->name());
     }
 
-    delete childList;
     return l;
 }
 
@@ -781,24 +779,22 @@ void PlaylistCollection::removeFileFromDict(const QString &file)
 
 void PlaylistCollection::dirChanged(const QString &path)
 {
-    CollectionList::instance()->addFiles(path);
+    CollectionList::instance()->addFiles(QStringList(path));
 }
 
 Playlist *PlaylistCollection::playlistByName(const QString &name) const
 {
-    QObjectList *l = m_playlistStack->queryList("Playlist");
+    QObjectList l = m_playlistStack->queryList("Playlist");
     Playlist *list = 0;
-    QObject *obj;
 
-    for(obj = l->first(); obj; obj = l->next()) {
-        Playlist *p = static_cast<Playlist*>(obj);
+    for(QObjectList::Iterator it  = l.begin(); it != l.end(); ++it) {
+        Playlist *p = static_cast<Playlist*>(*it);
         if(p->name() == name) {
             list = p;
             break;
         }
     }
 
-    delete l;
     return list;
 }
 
@@ -816,7 +812,7 @@ void PlaylistCollection::readConfig()
     KConfigGroup config(KGlobal::config(), "Playlists");
 
     m_importPlaylists  = config.readEntry("ImportPlaylists", true);
-    m_folderList       = config.readEntry("DirectoryList");
+    m_folderList       = config.readEntry("DirectoryList", QStringList());
 
     for(QStringList::ConstIterator it = m_folderList.begin(); it != m_folderList.end(); ++it)
         m_dirLister.openURL(*it, true);
@@ -853,9 +849,9 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // Guess tag info menu
 
-#if HAVE_TUNEPIMP
+#if HAVE_MUSICBRAINZ
     menu = new KActionMenu(i18n("&Guess Tag Information"), QString::null, actions(), "guessTag");
-    menu->setIconSet(SmallIconSet("wizard"));
+    /* menu->setIconSet(SmallIconSet("wizard")); */
 
     menu->insert(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
                               "guessTagFile", "fileimport", "CTRL+g"));
@@ -885,7 +881,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", "CTRL+r");
 
     menu = new KActionMenu(i18n("Cover Manager"), QString::null, actions(), "coverManager");
-    menu->setIconSet(SmallIconSet("image"));
+    /* menu->setIconSet(SmallIconSet("image")); */
     menu->insert(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "viewmag"));
     menu->insert(createAction(i18n("Get Cover From &File..."),

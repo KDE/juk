@@ -23,7 +23,7 @@
 #include <q3header.h>
 #include <qpainter.h>
 #include <qtimer.h>
-//Added by qt3to4:
+
 #include <QDragLeaveEvent>
 #include <QDragMoveEvent>
 #include <QKeyEvent>
@@ -54,9 +54,8 @@ using namespace ActionCollection;
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
-                         const char *name) :
-    KListView(parent, name),
+PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
+    KListView(parent),
     PlaylistCollection(playlistStack),
     m_viewModeIndex(0),
     m_hasSelection(false),
@@ -78,7 +77,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
     setAcceptDrops(true);
     setSelectionModeExt(Extended);
 
-    m_contextMenu = new KPopupMenu(this);
+    m_contextMenu = new KMenu(this);
 
     K3bPlaylistExporter *exporter = new K3bPlaylistExporter(this);
     m_k3bAction = exporter->action();
@@ -99,7 +98,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
     // add the view modes stuff
 
     KSelectAction *viewModeAction =
-        new KSelectAction(i18n("View Modes"), "view_choose", KShortcut(), actions(), "viewModeMenu");
+        new KSelectAction(i18n("View Modes"), "view_choose", KShortcut(), ActionCollection::actions(), "viewModeMenu");
 
     m_viewModes.append(new ViewMode(this));
     m_viewModes.append(new CompactViewMode(this));
@@ -108,12 +107,12 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack,
 
     QStringList modeNames;
 
-    for(Q3ValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
+    for(QList<ViewMode *>::Iterator it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
         modeNames.append((*it)->name());
 
     viewModeAction->setItems(modeNames);
 
-    Q3PopupMenu *p = viewModeAction->popupMenu();
+    QMenu *p = viewModeAction->popupMenu();
     p->changeItem(0, SmallIconSet("view_detailed"), modeNames[0]);
     p->changeItem(1, SmallIconSet("view_text"), modeNames[1]);
     p->changeItem(2, SmallIconSet("view_tree"), modeNames[2]);
@@ -360,7 +359,7 @@ void PlaylistBox::remove()
 
 void PlaylistBox::setDynamicListsFrozen(bool frozen)
 {
-    for(Q3ValueList<ViewMode *>::Iterator it = m_viewModes.begin();
+    for(QList<ViewMode *>::Iterator it = m_viewModes.begin();
         it != m_viewModes.end();
         ++it)
     {
@@ -398,13 +397,13 @@ void PlaylistBox::slotShowDropTarget()
 
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
 {
-    for(Q3ValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
-        (*it)->addItems(tag, column);
+    for(QList<ViewMode *>::Iterator it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
+        (*it)->addItems(QStringList(tag), column);
 }
 
 void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
 {
-    for(Q3ValueListIterator<ViewMode *> it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
+    for(QList<ViewMode *>::Iterator it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
         (*it)->removeItem(tag, column);
 }
 
@@ -415,7 +414,7 @@ void PlaylistBox::decode(QMimeSource *s, Item *item)
 
     KUrl::List urls;
 
-    if(KUrlDrag::decode(s, urls) && !urls.isEmpty()) {
+    if(K3URLDrag::decode(s, urls) && !urls.isEmpty()) {
         QStringList files;
         for(KUrl::List::Iterator it = urls.begin(); it != urls.end(); ++it)
             files.append((*it).path());
@@ -465,7 +464,7 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
     //
     // Otherwise, do not accept the event.
 
-    if(!KUrlDrag::canDecode(e)) {
+    if(!K3URLDrag::canDecode(e)) {
         e->accept(false);
         return;
     }
@@ -532,14 +531,14 @@ void PlaylistBox::contentsDragLeaveEvent(QDragLeaveEvent *e)
 
 void PlaylistBox::contentsMousePressEvent(QMouseEvent *e)
 {
-    if(e->button() == LeftButton)
+    if(e->button() == Qt::LeftButton)
         m_doingMultiSelect = true;
     KListView::contentsMousePressEvent(e);
 }
 
 void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
 {
-    if(e->button() == LeftButton) {
+    if(e->button() == Qt::LeftButton) {
         m_doingMultiSelect = false;
         slotPlaylistChanged();
     }
@@ -548,14 +547,14 @@ void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
 
 void PlaylistBox::keyPressEvent(QKeyEvent *e)
 {
-    if((e->key() == Key_Up || e->key() == Key_Down) && e->state() == ShiftButton)
+    if((e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) && e->state() == Qt::ShiftButton)
         m_doingMultiSelect = true;
     KListView::keyPressEvent(e);
 }
 
 void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
 {
-    if(m_doingMultiSelect && e->key() == Key_Shift) {
+    if(m_doingMultiSelect && e->key() == Qt::Key_Shift) {
         m_doingMultiSelect = false;
         slotPlaylistChanged();
     }
