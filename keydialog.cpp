@@ -80,10 +80,8 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
 {
     // Read key group from configuration
 
-    int selectedButton;
-
     KConfigGroup config(KGlobal::config(), "Shortcuts");
-    selectedButton = config.readEntry("GlobalKeys", StandardKeys);
+    int selectedButton = config.readEntry("GlobalKeys", int(StandardKeys));
 
     // Create widgets for key chooser - widget stack used to replace key chooser
 
@@ -95,13 +93,15 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
 
     // Create buttons to select key group
 
-    m_group = new Q3HButtonGroup(i18n("Global Shortcuts"), vbox);
-    new QRadioButton(i18n("&No keys"), m_group);
-    new QRadioButton(i18n("&Standard keys"), m_group);
-    new QRadioButton(i18n("&Multimedia keys"), m_group);
+    #warning Another place that probably needs some post-mortem analysis.
+
+    m_group = new QButtonGroup(/* i18n("Global Shortcuts"), */ vbox);
+    new QRadioButton(i18n("&No keys"), /* m_group */ vbox);
+    new QRadioButton(i18n("&Standard keys"), /* m_group */ vbox);
+    new QRadioButton(i18n("&Multimedia keys"), /* m_group */ vbox);
     connect(m_group, SIGNAL(clicked(int)), this, SLOT(slotKeys(int)));
-    m_group->setWhatsThis(
-      i18n("Here you can select the keys used as global shortcuts to control the player"));
+    /*m_group*/ vbox->setWhatsThis(
+	i18n("Here you can select the keys used as global shortcuts to control the player"));
 
     // Create the key chooser
 
@@ -125,7 +125,9 @@ void KeyDialog::newDialog(KGlobalAccel *keys, KActionCollection *actionCollectio
     m_pKeyChooser->insert(actionCollection);
     m_widgetStack->addWidget(m_pKeyChooser);
     m_widgetStack->raiseWidget(m_pKeyChooser);
-    m_group->setButton(selectedButton);
+
+    #warning More broken code
+    /* m_group->setButton(selectedButton); */
 
     connect(this, SIGNAL(defaultClicked()), this, SLOT(slotDefault()));
 }
@@ -138,7 +140,8 @@ int KeyDialog::configure()
     if(retcode == Accepted) {
 
         KConfigGroup config(KGlobal::config(), "Shortcuts");
-        config.writeEntry("GlobalKeys", m_group->id(m_group->selected()));
+	#warning All of the stuff related to the group selection needs to be rewritten
+        /* config.writeEntry("GlobalKeys", m_group->id(m_group->selected())); */
         KGlobal::config()->sync();
 
         m_pKeyChooser->save();
@@ -148,7 +151,8 @@ int KeyDialog::configure()
 
 void KeyDialog::slotKeys(int group)
 {
-    bool fourModKeys = KGlobalAccel::useFourModifierKeys();
+    #warning bleh
+    bool fourModKeys = /* KGlobalAccel::useFourModifierKeys()*/ true;
 
     // Set modifier keys according to key group and modifier keys
 
@@ -167,7 +171,8 @@ void KeyDialog::slotDefault()
 {
     // Select default keys - standard key group
 
-    m_group->setButton(StandardKeys);
+    #warning More of the same
+    /* m_group->setButton(StandardKeys); */
     m_pKeyChooser->allDefault();
 }
 
@@ -198,7 +203,7 @@ void KeyDialog::insert(KGlobalAccel *keys, const QString &action, const QString 
             break;
         }
     }
-    keys->insert(action, label, QString::null, def3, def4, objSlot, methodSlot);
+    keys->insert(action, label, QString::null, def3, objSlot, methodSlot);
 }
 
 #include "keydialog.moc"

@@ -47,7 +47,7 @@ namespace MediaFiles {
 
 QStringList MediaFiles::openDialog(QWidget *parent)
 {
-    KFileDialog dialog(QString::null, QString::null, parent, "filedialog", true);
+    KFileDialog dialog(QString::null, QString::null, parent);
     dialog.setOperationMode(KFileDialog::Opening);
 
     dialog.setCaption(i18n("Open"));

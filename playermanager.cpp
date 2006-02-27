@@ -241,10 +241,10 @@ void PlayerManager::setStatusLabel(StatusLabel *label)
     m_statusLabel = label;
 }
 
-KSelectAction *PlayerManager::playerSelectAction(QObject *parent) // static
+KSelectAction *PlayerManager::playerSelectAction() // static
 {
-    KSelectAction *action = 0;
-    action = new KSelectAction(i18n("&Output To"), 0, parent, "outputSelect");
+    KSelectAction *action =
+	new KSelectAction(i18n("&Output To"), 0, ActionCollection::actions(), "outputSelect");
     QStringList l;
 
 #if HAVE_ARTS
@@ -642,7 +642,7 @@ void PlayerManager::setup()
 
     // Call this method manually to avoid warnings.
 
-    KAction *outputAction = actions()->action("outputSelect");
+    KAction *outputAction = ActionCollection::actions()->action("outputSelect");
 
     if(outputAction) {
         setOutput(static_cast<KSelectAction *>(outputAction)->currentText());

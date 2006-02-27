@@ -185,7 +185,7 @@ void JuK::setupActions()
             this, SLOT(slotToggleSystemTray(bool)));
 
 
-    m_outputSelectAction = PlayerManager::playerSelectAction(ActionCollection::actions());
+    m_outputSelectAction = PlayerManager::playerSelectAction();
 
     if(m_outputSelectAction)
         m_outputSelectAction->setCurrentItem(0);

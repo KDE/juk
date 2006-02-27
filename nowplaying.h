@@ -119,7 +119,7 @@ private:
 class LinkLabel : public KActiveLabel
 {
 public:
-    LinkLabel(QWidget *parent, const char *name = 0) : KActiveLabel(parent, name) {}
+    LinkLabel(QWidget *parent) : KActiveLabel(parent) {}
     virtual void openLink(const QString &) {}
 };
 

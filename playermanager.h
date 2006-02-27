@@ -63,7 +63,7 @@ public:
 
     QString randomPlayMode() const;
 
-    static KSelectAction *playerSelectAction(QObject *parent);
+    static KSelectAction *playerSelectAction();
 
 public slots:
 

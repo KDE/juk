@@ -26,7 +26,7 @@
 #include <qimage.h>
 #include <qtimer.h>
 #include <qpoint.h>
-//Added by qt3to4:
+
 #include <Q3Frame>
 #include <QDropEvent>
 #include <QLabel>
@@ -132,8 +132,9 @@ void CoverItem::update(const FileHandle &file)
 
     if(file.coverInfo()->hasCover()) {
         show();
-        QImage image = file.coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage();
-        setPixmap(image.smoothScale(imageSize, imageSize, QImage::ScaleMin));
+        setPixmap(
+	    file.coverInfo()->pixmap(CoverInfo::Thumbnail)
+	    .scaled(imageSize, imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
     else
         hide();
@@ -148,7 +149,7 @@ void CoverItem::mouseReleaseEvent(QMouseEvent *event)
 
     if(event->x() >= 0 && event->y() >= 0 &&
        event->x() < width() && event->y() < height() &&
-       event->button() == LeftButton &&
+       event->button() == Qt::LeftButton &&
        m_file.coverInfo()->hasCover())
     {
         m_file.coverInfo()->popup();
@@ -182,7 +183,7 @@ void CoverItem::mouseMoveEvent(QMouseEvent *e)
 
 void CoverItem::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->accept(Q3ImageDrag::canDecode(e) || KUrlDrag::canDecode(e) || CoverDrag::canDecode(e));
+    e->accept(Q3ImageDrag::canDecode(e) || K3URLDrag::canDecode(e) || CoverDrag::canDecode(e));
 }
 
 void CoverItem::dropEvent(QDropEvent *e)
@@ -202,7 +203,7 @@ void CoverItem::dropEvent(QDropEvent *e)
         m_file.coverInfo()->setCoverId(key);
         update(m_file);
     }
-    else if(KUrlDrag::decode(e, urls)) {
+    else if(K3URLDrag::decode(e, urls)) {
         QString fileName;
 
         if(KIO::NetAccess::download(urls.front(), fileName, this)) {
@@ -234,7 +235,9 @@ TrackItem::TrackItem(NowPlaying *parent) :
     QVBoxLayout *layout = new QVBoxLayout(this);
 
     m_label = new LinkLabel(this);
-    m_label->setLinkUnderline(false);
+
+    #warning We should potentially check on URL underlining.
+    /* m_label->setLinkUnderline(false); */
 
     layout->addStretch();
     layout->addWidget(m_label);
@@ -298,12 +301,12 @@ void TrackItem::slotUpdate()
 ////////////////////////////////////////////////////////////////////////////////
 
 HistoryItem::HistoryItem(NowPlaying *parent) :
-    LinkLabel(parent, "HistoryItem"),
+    LinkLabel(parent),
     NowPlayingItem(parent)
 {
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    setLinkUnderline(false);
+    /* setLinkUnderline(false); */
     setText(QString("<b>%1</b>").arg(i18n("History")));
 
     m_timer = new QTimer(this);

@@ -19,6 +19,8 @@
 #include <dcopclient.h>
 #include <kconfigbase.h>
 #include <kconfig.h>
+#include <klocale.h>
+#include <kglobal.h>
 
 #include "juk.h"
 
