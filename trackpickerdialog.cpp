@@ -15,7 +15,7 @@
 
 #include <config.h>
 
-#if HAVE_TUNEPIMP
+#if HAVE_MUSICBRAINZ
 
 #include <qlabel.h>
 
@@ -98,6 +98,6 @@ int TrackPickerDialog::exec()
 
 #include "trackpickerdialog.moc"
 
-#endif // HAVE_TUNEPIMP
+#endif // HAVE_MUSICBRAINZ
 
 // vim: set et sw=4 tw=0 sta:

@@ -18,7 +18,7 @@
 
 #include <config.h>
 
-#if HAVE_TUNEPIMP
+#if HAVE_MUSICBRAINZ
 
 #include "ktrm.h"
 #include "filehandle.h"
