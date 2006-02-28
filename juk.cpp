@@ -209,7 +209,8 @@ void JuK::setupActions()
 void JuK::setupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
-        m_systemTray = new SystemTray(this, "systemTray");
+        m_systemTray = new SystemTray(this);
+        m_systemTray->setObjectName( "systemTray" );
         m_systemTray->show();
 
         m_toggleDockOnCloseAction->setEnabled(true);

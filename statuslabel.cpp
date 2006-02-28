@@ -57,23 +57,23 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const cha
                                                           5, "trackAndPlaylistLayout");
     trackAndPlaylistLayout->addSpacing(5);
 
-    m_playlistLabel = new KSqueezedTextLabel(trackAndPlaylist, "playlistLabel");
+    m_playlistLabel = new KSqueezedTextLabel(trackAndPlaylist);
     trackAndPlaylistLayout->addWidget(m_playlistLabel);
     m_playlistLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_playlistLabel->setTextFormat(PlainText);
-    m_playlistLabel->setAlignment(AlignLeft | AlignVCenter);
+    m_playlistLabel->setTextFormat(Qt::PlainText);
+    m_playlistLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
 
-    m_trackLabel = new KSqueezedTextLabel(trackAndPlaylist, "trackLabel");
+    m_trackLabel = new KSqueezedTextLabel(trackAndPlaylist);
     trackAndPlaylistLayout->addWidget(m_trackLabel);
-    m_trackLabel->setAlignment(AlignRight | AlignVCenter);
+    m_trackLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     m_trackLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_trackLabel->setTextFormat(PlainText);
+    m_trackLabel->setTextFormat(Qt::PlainText);
 
     trackAndPlaylistLayout->addSpacing(5);
 
     m_itemTimeLabel = new QLabel(this);
     QFontMetrics fontMetrics(font());
-    m_itemTimeLabel->setAlignment(AlignCenter);
+    m_itemTimeLabel->setAlignment(Qt::AlignCenter);
     m_itemTimeLabel->setMinimumWidth(fontMetrics.boundingRect("000:00 / 000:00").width());
     m_itemTimeLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     m_itemTimeLabel->setFrameStyle(Box | Sunken);
@@ -183,7 +183,7 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
 
     QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(e);
     if(e->type() == QEvent::MouseButtonRelease &&
-       mouseEvent->button() == LeftButton)
+       mouseEvent->button() == Qt::LeftButton)
     {
         if(o == m_itemTimeLabel) {
             m_showTimeRemaining = !m_showTimeRemaining;

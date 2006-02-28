@@ -23,6 +23,8 @@
 #include "tag.h"
 #include "filehandle.h"
 
+#include <krandom.h>
+
 using namespace ActionCollection;
 
 TrackSequenceIterator::TrackSequenceIterator() :
@@ -97,7 +99,7 @@ void DefaultSequenceIterator::advance()
 
         if(albumRandom) {
             if(m_albumSearch.isNull() || m_albumSearch.matchedItems().isEmpty()) {
-                item = m_randomItems[KApplication::random() % m_randomItems.count()];
+                item = m_randomItems[KRandom::random() % m_randomItems.count()];
                 initAlbumSearch(item);
             }
 
@@ -132,7 +134,7 @@ void DefaultSequenceIterator::advance()
                 kError(65432) << "Unable to perform album random play on " << *item << endl;
         }
         else
-            item = m_randomItems[KApplication::random() % m_randomItems.count()];
+            item = m_randomItems[KRandom::random() % m_randomItems.count()];
 
         setCurrent(item);
         m_randomItems.remove(item);
@@ -173,7 +175,7 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
 
         PlaylistItem *newItem = 0;
         if(!items.isEmpty())
-            newItem = items[KApplication::random() % items.count()];
+            newItem = items[KRandom::random() % items.count()];
 
         setCurrent(newItem);
         refillRandomList();

@@ -51,12 +51,14 @@ SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
     setSpacing(5);
 
     if(!m_simple) {
-        m_searchFieldsBox = new KComboBox(this, "searchFields");
+        m_searchFieldsBox = new KComboBox(this);
+        m_searchFieldsBox->setObjectName( "searchFields" );
         connect(m_searchFieldsBox, SIGNAL(activated(int)),
                 this, SIGNAL(signalQueryChanged()));
     }
 
-    m_lineEdit = new KLineEdit(this, "searchLineEdit");
+    m_lineEdit = new KLineEdit(this);
+    m_lineEdit->setObjectName( "searchLineEdit" );
     m_lineEdit->installEventFilter(this);
     connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
             this, SIGNAL(signalQueryChanged()));

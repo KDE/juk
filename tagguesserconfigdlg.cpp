@@ -62,7 +62,7 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
 void TagGuesserConfigDlg::accept()
 {
     if(m_child->lvSchemes->renameLineEdit()) {
-        QKeyEvent returnKeyPress(QEvent::KeyPress, Key_Return, 0, 0);
+        QKeyEvent returnKeyPress(QEvent::KeyPress, Qt::Key_Return, 0, 0);
         KApplication::sendEvent(m_child->lvSchemes->renameLineEdit(), &returnKeyPress);
     }
 

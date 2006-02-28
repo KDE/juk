@@ -32,6 +32,7 @@
 #include <kactionclasses.h>
 
 #include <qlabel.h>
+#include <qapplication.h>
 #include <qcheckbox.h>
 #include <qlayout.h>
 #include <qdir.h>
@@ -50,8 +51,6 @@
 #include <id3v1genres.h>
 
 #undef KeyRelease
-
-using namespace ActionCollection;
 
 class FileNameValidator : public QValidator
 {
@@ -72,6 +71,7 @@ public:
     }
 };
 
+#if 0 // Qt4 porting: this needs to be in the ::event() for m_fileNameBox (i.e. it needs a KLineEdit-derived class)
 class FileBoxToolTip : public QToolTip
 {
 public:
@@ -85,6 +85,7 @@ protected:
 private:
     TagEditor *m_editor;
 };
+#endif
 
 class FixedHLayout : public QHBoxLayout
 {
@@ -237,7 +238,8 @@ void TagEditor::slotRefresh()
     m_albumNameBox->setEditText(tag->album());
 
     m_fileNameBox->setText(item->file().fileInfo().fileName());
-    new FileBoxToolTip(this, m_fileNameBox);
+    //// TODO: new FileBoxToolTip(this, m_fileNameBox);
+
     m_bitrateBox->setText(QString::number(tag->bitrate()));
     m_lengthBox->setText(tag->lengthString());
 
@@ -388,14 +390,14 @@ void TagEditor::updateCollection()
 
     QStringList artistList = list->uniqueSet(CollectionList::Artists);
     artistList.sort();
-    m_artistNameBox->listBox()->clear();
-    m_artistNameBox->listBox()->insertStringList(artistList);
+    m_artistNameBox->clear();
+    m_artistNameBox->insertStringList(artistList);
     m_artistNameBox->completionObject()->setItems(artistList);
 
     QStringList albumList = list->uniqueSet(CollectionList::Albums);
     albumList.sort();
-    m_albumNameBox->listBox()->clear();
-    m_albumNameBox->listBox()->insertStringList(albumList);
+    m_albumNameBox->clear();
+    m_albumNameBox->insertStringList(albumList);
     m_albumNameBox->completionObject()->setItems(albumList);
 
     // Merge the list of genres found in tags with the standard ID3v1 set.
@@ -415,9 +417,9 @@ void TagEditor::updateCollection()
     m_genreList = genreHash.values();
     m_genreList.sort();
 
-    m_genreBox->listBox()->clear();
-    m_genreBox->listBox()->insertItem(QString::null);
-    m_genreBox->listBox()->insertStringList(m_genreList);
+    m_genreBox->clear();
+    m_genreBox->insertItem(QString::null);
+    m_genreBox->insertStringList(m_genreList);
     m_genreBox->completionObject()->setItems(m_genreList);
 }
 
@@ -437,7 +439,7 @@ void TagEditor::readConfig()
     }
 
     bool show = config.readEntry("Show", false);
-    action<KToggleAction>("showEditor")->setChecked(show);
+    ActionCollection::action<KToggleAction>("showEditor")->setChecked(show);
     setShown(show);
 
     TagLib::StringList genres = TagLib::ID3v1::genreList();
@@ -455,7 +457,7 @@ void TagEditor::readConfig()
 void TagEditor::readCompletionMode(KConfigBase *config, KComboBox *box, const QString &key)
 {
     KGlobalSettings::Completion mode =
-        KGlobalSettings::Completion(config->readEntry(key, KGlobalSettings::CompletionAuto));
+        KGlobalSettings::Completion(config->readEntry(key, (int)KGlobalSettings::CompletionAuto));
 
     box->setCompletionMode(mode);
 }
@@ -467,20 +469,20 @@ void TagEditor::saveConfig()
     KConfigGroup config(KGlobal::config(), "TagEditor");
 
     if(m_artistNameBox && m_albumNameBox) {
-        config.writeEntry("ArtistNameBoxMode", m_artistNameBox->completionMode());
-        config.writeEntry("AlbumNameBoxMode", m_albumNameBox->completionMode());
-        config.writeEntry("GenreBoxMode", m_genreBox->completionMode());
+        config.writeEntry("ArtistNameBoxMode", (int)m_artistNameBox->completionMode());
+        config.writeEntry("AlbumNameBoxMode", (int)m_albumNameBox->completionMode());
+        config.writeEntry("GenreBoxMode", (int)m_genreBox->completionMode());
     }
-    config.writeEntry("Show", action<KToggleAction>("showEditor")->isChecked());
+    config.writeEntry("Show", ActionCollection::action<KToggleAction>("showEditor")->isChecked());
 }
 
 void TagEditor::setupActions()
 {
-    KToggleAction *show = new KToggleAction(i18n("Show &Tag Editor"), "edit", 0, actions(), "showEditor");
+    KToggleAction *show = new KToggleAction(i18n("Show &Tag Editor"), "edit", 0, ActionCollection::actions(), "showEditor");
     show->setCheckedState(i18n("Hide &Tag Editor"));
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
 
-    new KAction(i18n("&Save"), "filesave", "CTRL+t", this, SLOT(slotSave()), actions(), "saveItem");
+    new KAction(i18n("&Save"), "filesave", "CTRL+t", this, SLOT(slotSave()), ActionCollection::actions(), "saveItem");
 }
 
 void TagEditor::setupLayout()
@@ -509,7 +511,8 @@ void TagEditor::setupLayout()
         m_artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
         addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout, "personal");
 
-        m_trackNameBox = new KLineEdit(this, "trackNameBox");
+        m_trackNameBox = new KLineEdit(this);
+        m_trackNameBox->setObjectName( "trackNameBox" );
         addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout, "player_play");
 
         m_albumNameBox = new KComboBox( true, this );
@@ -533,7 +536,8 @@ void TagEditor::setupLayout()
         QHBoxLayout *fileNameLayout = new QHBoxLayout(rightColumnLayout,
                                                       horizontalSpacing);
 
-        m_fileNameBox = new KLineEdit(this, "fileNameBox");
+        m_fileNameBox = new KLineEdit(this);
+        m_fileNameBox->setObjectName( "fileNameBox" );
         m_fileNameBox->setValidator(new FileNameValidator(m_fileNameBox));
 
         QLabel *fileNameIcon = new QLabel(this);
@@ -551,14 +555,16 @@ void TagEditor::setupLayout()
             FixedHLayout *trackRowLayout = new FixedHLayout(rightColumnLayout,
                                                             horizontalSpacing);
 
-            m_trackSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "trackSpin");
+            m_trackSpin = new KIntSpinBox(0, 9999, 1, 0, this);
+            m_trackSpin->setObjectName( "trackSpin" );
             addItem(i18n("T&rack:"), m_trackSpin, trackRowLayout);
             m_trackSpin->installEventFilter(this);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                                                     QSizePolicy::Minimum));
 
-            m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, 10, this, "yearSpin");
+            m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, this );
+            m_yearSpin->setObjectName( "yearSpin" );
             addItem(i18n("&Year:"), m_yearSpin, trackRowLayout);
             m_yearSpin->installEventFilter(this);
 
@@ -566,7 +572,8 @@ void TagEditor::setupLayout()
                                                     QSizePolicy::Minimum));
 
             trackRowLayout->addWidget(addHidden(new QLabel(i18n("Length:"), this)));
-            m_lengthBox = new KLineEdit(this, "lengthBox");
+            m_lengthBox = new KLineEdit(this);
+            m_lengthBox->setObjectName( "lengthBox" );
             // addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
             m_lengthBox->setMinimumWidth(fontMetrics().width("00:00") + trackRowLayout->spacing());
             m_lengthBox->setMaximumWidth(50);
@@ -578,7 +585,8 @@ void TagEditor::setupLayout()
                                                     QSizePolicy::Minimum));
 
             trackRowLayout->addWidget(addHidden(new QLabel(i18n("Bitrate:"), this)));
-            m_bitrateBox = new KLineEdit(this, "bitrateBox");
+            m_bitrateBox = new KLineEdit(this);
+            m_bitrateBox->setObjectName( "bitrateBox" );
             // addItem(i18n("Bitrate:"), m_bitrateBox, trackRowLayout);
             m_bitrateBox->setMinimumWidth(fontMetrics().width("000") + trackRowLayout->spacing());
             m_bitrateBox->setMaximumWidth(50);
@@ -644,7 +652,7 @@ void TagEditor::save(const PlaylistItemList &list)
             // playlists will try to modify the file we edit if the tag changes
             // due to our alterations here.
 
-            kapp->eventLoop()->processEvents(QEventLoop::ExcludeUserInput);
+            qApp->processEvents(QEventLoop::ExcludeUserInput);
 
             PlaylistItem *item = *it;
 

@@ -20,7 +20,7 @@
 #include <qevent.h>
 
 #include <QVBoxLayout>
-#include <Q3ValueList>
+#include <QList>
 
 #include "playlistsplitter.h"
 #include "searchwidget.h"
@@ -30,8 +30,6 @@
 #include "collectionlist.h"
 #include "playermanager.h"
 #include "nowplaying.h"
-
-using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -121,10 +119,10 @@ Playlist *PlaylistSplitter::visiblePlaylist() const
 void PlaylistSplitter::setupActions()
 {
     KToggleAction *showSearch =
-        new KToggleAction(i18n("Show &Search Bar"), "filefind", 0, actions(), "showSearch");
+        new KToggleAction(i18n("Show &Search Bar"), "filefind", 0, ActionCollection::actions(), "showSearch");
     showSearch->setCheckedState(i18n("Hide &Search Bar"));
 
-    new KAction(i18n("Edit Track Search"), "edit_clear", "F6", this, SLOT(setFocus()), actions(), "editTrackSearch");
+    new KAction(i18n("Edit Track Search"), "edit_clear", "F6", this, SLOT(setFocus()), ActionCollection::actions(), "editTrackSearch");
 }
 
 void PlaylistSplitter::setupLayout()
@@ -153,7 +151,8 @@ void PlaylistSplitter::setupLayout()
 
     // Create the PlaylistBox
 
-    m_playlistBox = new PlaylistBox(this, m_playlistStack, "playlistBox");
+    m_playlistBox = new PlaylistBox(this, m_playlistStack);
+    m_playlistStack->setObjectName( "playlistBox" );
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));
@@ -178,7 +177,7 @@ void PlaylistSplitter::setupLayout()
             m_playlistBox->object(), SLOT(slotCreateSearchPlaylist()));
     connect(m_searchWidget, SIGNAL(signalShown(bool)),
             m_playlistBox->object(), SLOT(slotSetSearchEnabled(bool)));
-    connect(action<KToggleAction>("showSearch"), SIGNAL(toggled(bool)),
+    connect(ActionCollection::action<KToggleAction>("showSearch"), SIGNAL(toggled(bool)),
             m_searchWidget, SLOT(setEnabled(bool)));
 
     topLayout->addWidget(nowPlaying);
@@ -193,7 +192,7 @@ void PlaylistSplitter::readConfig()
 {
     KConfigGroup config(KGlobal::config(), "Splitter");
 
-    Q3ValueList<int> splitterSizes = config.readEntry("PlaylistSplitterSizes");
+    QList<int> splitterSizes = config.readEntry("PlaylistSplitterSizes",QList<int>());
     if(splitterSizes.isEmpty()) {
         splitterSizes.append(100);
         splitterSizes.append(640);
@@ -201,7 +200,7 @@ void PlaylistSplitter::readConfig()
     setSizes(splitterSizes);
 
     bool showSearch = config.readEntry("ShowSearch", true);
-    action<KToggleAction>("showSearch")->setChecked(showSearch);
+    ActionCollection::action<KToggleAction>("showSearch")->setChecked(showSearch);
     m_searchWidget->setShown(showSearch);
 }
 
@@ -209,7 +208,7 @@ void PlaylistSplitter::saveConfig()
 {
     KConfigGroup config(KGlobal::config(), "Splitter");
     config.writeEntry("PlaylistSplitterSizes", sizes());
-    config.writeEntry("ShowSearch", action<KToggleAction>("showSearch")->isChecked());
+    config.writeEntry("ShowSearch", ActionCollection::action<KToggleAction>("showSearch")->isChecked());
 }
 
 void PlaylistSplitter::slotShowSearchResults()

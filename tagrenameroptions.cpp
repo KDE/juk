@@ -67,12 +67,12 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
     if(categoryNum > 0)
         typeKey.append(QString::number(categoryNum));
 
-    setSuffix(config.readEntry(QString("%1Suffix").arg(typeKey)));
-    setPrefix(config.readEntry(QString("%1Prefix").arg(typeKey)));
+    setSuffix(config.readEntry(QString("%1Suffix").arg(typeKey), QString()));
+    setPrefix(config.readEntry(QString("%1Prefix").arg(typeKey), QString()));
 
     // Default the emptyAction to ignoring the empty tag.
 
-    const QString emptyAction = config.readEntry(QString("%1EmptyAction").arg(typeKey)).lower();
+    const QString emptyAction = config.readEntry(QString("%1EmptyAction").arg(typeKey), QString()).lower();
     setEmptyAction(IgnoreEmptyTag);
 
     if(emptyAction == "forceemptyinclude")
@@ -80,9 +80,9 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
     else if(emptyAction == "usereplacementvalue")
         setEmptyAction(UseReplacementValue);
 
-    setEmptyText(config.readEntry(QString("%1EmptyText").arg(typeKey)));
-    setTrackWidth(config.readEntry(QString("%1TrackWidth").arg(typeKey)));
-    setDisabled(config.readEntry(QString("%1Disabled").arg(typeKey), disabled));
+    setEmptyText(config.readEntry(QString("%1EmptyText").arg(typeKey), QString()));
+    setTrackWidth(config.readEntry(QString("%1TrackWidth").arg(typeKey), 0));
+    setDisabled(config.readEntry(QString("%1Disabled").arg(typeKey, QString()), disabled));
 }
 
 QString TagRenamerOptions::tagTypeText(TagType type, bool translate)

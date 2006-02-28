@@ -44,7 +44,7 @@ class PassiveInfo : public KPassivePopup
 {
     Q_OBJECT
 public:
-    PassiveInfo(QWidget *parent = 0, const char *name = 0);
+    PassiveInfo(QWidget *parent = 0);
 
 public slots:
     void setTimeout(int delay);
@@ -71,7 +71,7 @@ class SystemTray : public KSystemTray
     Q_OBJECT
 
 public:
-    SystemTray(QWidget *parent = 0, const char *name = 0);
+    SystemTray(QWidget *parent = 0);
     virtual ~SystemTray();
 
 signals:
@@ -129,7 +129,7 @@ private:
     QColor m_startColor, m_endColor;
 
     PassiveInfo *m_popup;
-    Q3ValueVector<FlickerFreeLabel *> m_labels;
+    Q3ValueVector<QLabel /*FlickerFreeLabel*/ *> m_labels;
     QTimer *m_fadeTimer;
     int m_step;
     bool m_fade;

@@ -172,7 +172,7 @@ void ViewMode::paintDropIndicator(QPainter *painter, int width, int height) // s
     QPen newPen = oldPen;
 
     newPen.setWidth(lineWidth);
-    newPen.setStyle(DotLine);
+    newPen.setStyle(Qt::DotLine);
 
     painter->setPen(newPen);
     painter->drawRect(border, border, width - border * 2, height - border * 2);

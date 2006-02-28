@@ -13,6 +13,7 @@
 #include <kdebug.h>
 #include <kglobal.h>
 #include <kmacroexpander.h>
+#include <qhash.h>
 
 FileNameScheme::FileNameScheme(const QString &s)
     : m_regExp(),
@@ -25,7 +26,7 @@ FileNameScheme::FileNameScheme(const QString &s)
     int fieldNumber = 1;
     int i = s.find('%');
     while (i > -1) {
-        switch (s[ i + 1 ]) {
+        switch (s[ i + 1 ].toLatin1()) {
             case 't': m_titleField = fieldNumber++;
                       break;
             case 'a': m_artistField = fieldNumber++;
@@ -91,7 +92,7 @@ QString FileNameScheme::comment() const
 
 QString FileNameScheme::composeRegExp(const QString &s) const
 {
-    QMap<QChar, QString> substitutions;
+    QHash<QChar, QString> substitutions;
 
     KConfigGroup config(KGlobal::config(), "TagGuesser");
 
@@ -114,7 +115,7 @@ QStringList TagGuesser::schemeStrings()
     QStringList schemes;
 
     KConfigGroup config(KGlobal::config(), "TagGuesser");
-    schemes = config.readEntry("Filename schemes");
+    schemes = config.readEntry("Filename schemes", QStringList());
 
     if ( schemes.isEmpty() ) {
         schemes += "%a - (%T) - %t [%c]";
@@ -151,10 +152,8 @@ QStringList TagGuesser::schemeStrings()
 void TagGuesser::setSchemeStrings(const QStringList &schemes)
 {
     KConfig *cfg = KGlobal::config();
-    {
-        KConfigGroupSaver saver(cfg, "TagGuesser");
-        cfg->writeEntry("Filename schemes", schemes);
-    }
+    KConfigGroup group(cfg, "TagGuesser");
+    group.writeEntry("Filename schemes", schemes);
     cfg->sync();
 }
 

@@ -47,18 +47,18 @@ class TrackPositionSlider : public QSlider
 public:
     TrackPositionSlider(QWidget *parent, const char *name) : QSlider(parent, name)
     {
-        setFocusPolicy(NoFocus);
+        setFocusPolicy(Qt::NoFocus);
     }
 
 protected:
     virtual void mousePressEvent(QMouseEvent *e)
     {
-        if(e->button() == LeftButton) {
+        if(e->button() == Qt::LeftButton) {
             QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::MidButton, e->state());
             QSlider::mousePressEvent(&reverse);
             emit sliderPressed();
         }
-        else if(e->button() == MidButton) {
+        else if(e->button() == Qt::MidButton) {
             QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::LeftButton, e->state());
             QSlider::mousePressEvent(&reverse);
         }
@@ -77,7 +77,7 @@ VolumeSlider::VolumeSlider(Qt::Orientation o, QWidget *parent, const char *name)
 
 void VolumeSlider::wheelEvent(QWheelEvent *e)
 {
-    if(orientation() == Horizontal) {
+    if(orientation() == Qt::Horizontal) {
         QWheelEvent transposed(e->pos(), -(e->delta()), e->state(), e->orientation());
         QSlider::wheelEvent(&transposed);
     }
@@ -92,7 +92,7 @@ void VolumeSlider::focusInEvent(QFocusEvent *)
 
 int VolumeSlider::volume() const
 {
-    if(orientation() == Horizontal)
+    if(orientation() == Qt::Horizontal)
         return value();
     else
         return maxValue() - value();
@@ -100,7 +100,7 @@ int VolumeSlider::volume() const
 
 void VolumeSlider::setVolume(int value)
 {
-    if(orientation() == Horizontal)
+    if(orientation() == Qt::Horizontal)
         setValue(value);
     else
         setValue(maxValue() - value);
@@ -132,8 +132,8 @@ void VolumeSlider::slotValueChanged(int value)
 const int SliderAction::minPosition = 0;
 const int SliderAction::maxPosition = 1000;
 
-SliderAction::SliderAction(const QString &text, QObject *parent, const char *name)
-    : KAction(text, 0, parent, name),
+SliderAction::SliderAction(const QString &text, KActionCollection* collection, const char *name)
+    : KAction(text, 0, 0, 0, collection, name),
       m_toolBar(0),
       m_layout(0),
       m_trackPositionSlider(0),
@@ -211,13 +211,13 @@ void SliderAction::slotUpdateOrientation()
         return;
 
     if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
-        m_trackPositionSlider->setOrientation(Vertical);
-        m_volumeSlider->setOrientation(Vertical);
+        m_trackPositionSlider->setOrientation(Qt::Vertical);
+        m_volumeSlider->setOrientation(Qt::Vertical);
         m_layout->setDirection(QBoxLayout::TopToBottom);
     }
     else {
-        m_trackPositionSlider->setOrientation(Horizontal);
-        m_volumeSlider->setOrientation(Horizontal);
+        m_trackPositionSlider->setOrientation(Qt::Horizontal);
+        m_volumeSlider->setOrientation(Qt::Horizontal);
         m_layout->setDirection(QBoxLayout::LeftToRight);
     }
     slotUpdateSize();
@@ -239,12 +239,12 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         if(toolBar)
             toolBar->setStretchableWidget(base);
 
-        Orientation orientation;
+        Qt::Orientation orientation;
 
         if(toolBar && toolBar->barPos() == KToolBar::Right || toolBar->barPos() == KToolBar::Left)
-            orientation = Vertical;
+            orientation = Qt::Vertical;
         else
-            orientation = Horizontal;
+            orientation = Qt::Horizontal;
 
         m_layout = new QBoxLayout(base, QBoxLayout::TopToBottom, 5, 5);
 

@@ -17,7 +17,7 @@
 #define STRINGHASH_H
 
 #include <q3ptrvector.h>
-#include <Q3ValueList>
+#include <QList>
 #include <Q3CString>
 
 #include "filehandle.h"
@@ -51,7 +51,7 @@ public:
      */
     bool remove(T value);
 
-    Q3ValueList<T> values() const;
+    QList<T> values() const;
 
     int hash(T key) const;
 
@@ -270,9 +270,9 @@ bool Hash<T>::remove(T value)
 }
 
 template <class T>
-Q3ValueList<T> Hash<T>::values() const
+QList<T> Hash<T>::values() const
 {
-    Q3ValueList<T> l;
+    QList<T> l;
 
     Node *n;
 

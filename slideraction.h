@@ -54,7 +54,7 @@ class SliderAction : public KAction
     Q_OBJECT
 
 public:
-    SliderAction(const QString &text, QObject *parent, const char *name);
+    SliderAction(const QString &text, KActionCollection* collection, const char *name);
     virtual ~SliderAction();
 
     VolumeSlider *volumeSlider() const { return m_volumeSlider; }

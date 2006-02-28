@@ -37,6 +37,7 @@
 #include <QWheelEvent>
 #include <QPixmap>
 #include <QEvent>
+#include <Q3MimeSourceFactory>
 #include <Q3Frame>
 #include <QLabel>
 #include <QMouseEvent>
@@ -56,6 +57,7 @@ using namespace ActionCollection;
 
 static bool copyImage(QImage &dest, QImage &src, int x, int y);
 
+#if 0  // not necessary in Qt-4.1
 class FlickerFreeLabel : public QLabel
 {
 public:
@@ -64,7 +66,7 @@ public:
     {
         m_textColor = paletteForegroundColor();
         m_bgColor = parentWidget()->paletteBackgroundColor();
-        setBackgroundMode(NoBackground);
+        //setBackgroundMode(Qt::NoBackground);
     }
 
     QColor textColor() const
@@ -98,9 +100,10 @@ protected:
     QColor m_textColor;
     QColor m_bgColor;
 };
+#endif
 
-PassiveInfo::PassiveInfo(QWidget *parent, const char *name) :
-    KPassivePopup(parent, name), m_timer(new QTimer), m_justDie(false)
+PassiveInfo::PassiveInfo(QWidget *parent) :
+    KPassivePopup(parent), m_timer(new QTimer), m_justDie(false)
 {
     // I'm so sick and tired of KPassivePopup screwing this up
     // that I'll just handle the timeout myself, thank you very much.
@@ -146,10 +149,10 @@ void PassiveInfo::leaveEvent(QEvent *)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, name),
-                                                            m_popup(0),
-                                                            m_fadeTimer(0),
-                                                            m_fade(true)
+SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
+                                          m_popup(0),
+                                          m_fadeTimer(0),
+                                          m_fade(true)
 
 {
     // This should be initialized to the number of labels that are used.
@@ -172,7 +175,7 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
     // bindings dialog.
 
     new KAction(i18n("Redisplay Popup"), KShortcut(), this,
-                SLOT(slotPlay()), actions(), "showPopup");
+                SLOT(slotPlay()), ActionCollection::actions(), "showPopup");
 
     KMenu *cm = contextMenu();
 
@@ -190,7 +193,7 @@ SystemTray::SystemTray(QWidget *parent, const char *name) : KSystemTray(parent, 
 
     // Pity the actionCollection doesn't keep track of what sub-menus it has.
 
-    KActionMenu *menu = new KActionMenu(i18n("&Random Play"), this);
+    KActionMenu *menu = new KActionMenu(i18n("&Random Play"), actionCollection(), "randomplay");
     menu->insert(action("disableRandomPlay"));
     menu->insert(action("randomPlay"));
     menu->insert(action("albumRandomPlay"));
@@ -256,7 +259,7 @@ void SystemTray::slotStop()
 
 void SystemTray::slotPopupDestroyed()
 {
-    for(unsigned i = 0; i < m_labels.capacity(); ++i)
+    for(int i = 0; i < m_labels.capacity(); ++i)
         m_labels[i] = 0;
 }
 
@@ -272,7 +275,7 @@ void SystemTray::slotNextStep()
 
     result = interpolateColor(m_step);
 
-    for(unsigned i = 0; i < m_labels.capacity() && m_labels[i]; ++i)
+    for(int i = 0; i < m_labels.capacity() && m_labels[i]; ++i)
         m_labels[i]->setPaletteForegroundColor(result);
 
     if(m_step == STEPS) {
@@ -284,8 +287,8 @@ void SystemTray::slotNextStep()
 
 void SystemTray::slotFadeOut()
 {
-    m_startColor = m_labels[0]->textColor();
-    m_endColor = m_labels[0]->backgroundColor();
+    m_startColor = m_labels[0]->palette().color( QPalette::Text ); //textColor();
+    m_endColor = m_labels[0]->palette().color( QPalette::Window ); //backgroundColor();
 
     connect(this, SIGNAL(fadeDone()), m_popup, SLOT(hide()));
     connect(m_popup, SIGNAL(mouseEntered()), this, SLOT(slotMouseInPopup()));
@@ -297,7 +300,7 @@ void SystemTray::slotFadeOut()
 // don't have to do it ourselves.
 void SystemTray::slotMouseInPopup()
 {
-    m_endColor = m_labels[0]->textColor();
+    m_endColor = m_labels[0]->palette().color( QPalette::Text ); //textColor();
     disconnect(SIGNAL(fadeDone()));
 
     m_step = STEPS - 1; // Simulate end of fade to solid text
@@ -356,7 +359,7 @@ void SystemTray::createPopup()
 
     // If the action exists and it's checked, do our stuff
 
-    if(!action<KToggleAction>("togglePopups")->isChecked())
+    if(!ActionCollection::action<KToggleAction>("togglePopups")->isChecked())
         return;
 
     delete m_popup;
@@ -377,9 +380,9 @@ void SystemTray::createPopup()
 
     Q3VBox *infoBox = createPopupLayout(box, playingFile);
 
-    for(unsigned i = 0; i < m_labels.capacity(); ++i) {
-        m_labels[i] = new FlickerFreeLabel(" ", infoBox);
-        m_labels[i]->setAlignment(AlignRight | AlignVCenter);
+    for(int i = 0; i < m_labels.capacity(); ++i) {
+        m_labels[i] = new QLabel /*FlickerFreeLabel*/(" ", infoBox);
+        m_labels[i]->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
 
     // We don't want an autodelete popup.  There are times when it will need
@@ -407,8 +410,10 @@ void SystemTray::createPopup()
         m_labels[labelCount++]->setText(s);
     }
 
-    m_startColor = m_labels[0]->backgroundColor();
-    m_endColor = m_labels[0]->textColor();
+    m_startColor = m_labels[0]->palette().color( QPalette::Window ); //backgroundColor();
+    m_endColor = m_labels[0]->palette().color( QPalette::Text ); //textColor();
+    //m_startColor = m_labels[0]->backgroundColor();
+    //m_endColor = m_labels[0]->textColor();
 
     slotNextStep();
     m_fadeTimer->start(1500 / STEPS);
@@ -549,7 +554,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 
 void SystemTray::wheelEvent(QWheelEvent *e)
 {
-    if(e->orientation() == Horizontal)
+    if(e->orientation() == Qt::Horizontal)
         return;
 
     // I already know the type here, but this file doesn't (and I don't want it
@@ -558,7 +563,7 @@ void SystemTray::wheelEvent(QWheelEvent *e)
     // inheritance.  (This is why I don't check the result.)
 
     switch(e->state()) {
-    case ShiftButton:
+    case Qt::ShiftButton:
         if(e->delta() > 0)
             action("volumeUp")->activate();
         else
@@ -580,12 +585,12 @@ void SystemTray::wheelEvent(QWheelEvent *e)
 void SystemTray::mousePressEvent(QMouseEvent *e)
 {
     switch(e->button()) {
-    case LeftButton:
-    case RightButton:
+    case Qt::LeftButton:
+    case Qt::RightButton:
     default:
         KSystemTray::mousePressEvent(e);
         break;
-    case MidButton:
+    case Qt::MidButton:
         if(!rect().contains(e->pos()))
             return;
         if(action("pause")->isEnabled())

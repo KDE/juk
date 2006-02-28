@@ -79,6 +79,7 @@ private:
 class NowPlayingItem
 {
 public:
+    virtual ~NowPlayingItem() {}
     virtual void update(const FileHandle &file) = 0;
     NowPlaying *parent() const { return m_parent; }
 protected:
