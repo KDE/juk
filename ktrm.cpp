@@ -21,7 +21,7 @@
 
 #include "ktrm.h"
 
-#if HAVE_MUSICBRAINZ
+#if HAVE_TUNEPIMP
 
 #include <kapplication.h>
 #include <kresolver.h>
@@ -44,7 +44,7 @@ class KTRMLookup;
 
 extern "C"
 {
-#if HAVE_MUSICBRAINZ >= 4
+#if HAVE_TUNEPIMP >= 4
     static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, int fileId, TPFileStatus status);
 #else
     static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, int fileId);
@@ -72,7 +72,7 @@ public:
         int id;
 
         if(!m_fileMap.contains(lookup->file())) {
-#if HAVE_MUSICBRAINZ >= 4
+#if HAVE_TUNEPIMP >= 4
             id = tp_AddFile(m_pimp, QFile::encodeName(lookup->file()), 0);
 #else
             id = tp_AddFile(m_pimp, QFile::encodeName(lookup->file()));
@@ -131,7 +131,7 @@ protected:
         tp_SetAutoSaveThreshold(m_pimp, -1);
         tp_SetMoveFiles(m_pimp, false);
         tp_SetRenameFiles(m_pimp, false);
-#if HAVE_MUSICBRAINZ >= 4
+#if HAVE_TUNEPIMP >= 4
         tp_SetFileNameEncoding(m_pimp, "UTF-8");
 #else
         tp_SetUseUTF8(m_pimp, true);
@@ -277,7 +277,7 @@ protected:
         }
 
         KTRMLookup *lookup = KTRMRequestHandler::instance()->lookup(e->fileId());
-#if HAVE_MUSICBRAINZ >= 4
+#if HAVE_TUNEPIMP >= 4
         if ( e->status() != KTRMEvent::Unrecognized)
 #endif
             KTRMRequestHandler::instance()->removeFromLookupMap(e->fileId());
@@ -304,7 +304,7 @@ protected:
 /**
  * Callback fuction for TunePimp lookup events.
  */
-#if HAVE_MUSICBRAINZ >= 4
+#if HAVE_TUNEPIMP >= 4
 static void TRMNotifyCallback(tunepimp_t /*pimp*/, void * /*data*/, TPCallbackEnum type, int fileId, TPFileStatus status)
 #else
 static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, int fileId)
@@ -313,7 +313,7 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
     if(type != tpFileChanged)
         return;
 
-#if HAVE_MUSICBRAINZ < 4
+#if HAVE_TUNEPIMP < 4
     track_t track = tp_GetTrack(pimp, fileId);
     TPFileStatus status = tr_GetStatus(track);
 #endif
@@ -326,7 +326,7 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
         KTRMEventHandler::send(fileId, KTRMEvent::Unrecognized);
         break;
     case eTRMCollision:
-#if HAVE_MUSICBRAINZ >= 4
+#if HAVE_TUNEPIMP >= 4
     case eUserSelection:
 #endif
         KTRMEventHandler::send(fileId, KTRMEvent::Collision);
@@ -337,7 +337,7 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
     default:
         break;
     }
-#if HAVE_MUSICBRAINZ < 4
+#if HAVE_TUNEPIMP < 4
     tp_ReleaseTrack(pimp, track);
 #endif
 }
@@ -490,7 +490,7 @@ void KTRMLookup::recognized()
 void KTRMLookup::unrecognized()
 {
     kDebug() << k_funcinfo << d->file << endl;
-#if HAVE_MUSICBRAINZ >= 4
+#if HAVE_TUNEPIMP >= 4
     char trm[255];
     bool finish = false;
     trm[0] = 0;
@@ -551,7 +551,7 @@ void KTRMLookup::collision()
                 KTRMResult result;
 
                 result.d->title = QString::fromUtf8(tracks[i]->name);
-#if HAVE_MUSICBRAINZ >= 4
+#if HAVE_TUNEPIMP >= 4
                 result.d->artist = QString::fromUtf8(tracks[i]->artist.name);
                 result.d->album = QString::fromUtf8(tracks[i]->album.name);
                 result.d->year = tracks[i]->album.releaseYear;

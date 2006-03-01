@@ -79,7 +79,7 @@ INCLUDES= $(all_includes) $(taglib_includes) $(akode_includes) $(GST_CFLAGS) $(A
 ##################################################
 # check to see if MusicBrainz is available
 ##################################################
-if link_lib_MB
+if link_lib_TP
 tplibs = -ltunepimp
 endif
 ##################################################
