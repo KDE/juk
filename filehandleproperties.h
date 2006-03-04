@@ -61,6 +61,7 @@ namespace FileHandleProperties
 {
     struct Property
     {
+        virtual ~Property() {}
         virtual QString value(const FileHandle &) const
         {
             return QString::null;
