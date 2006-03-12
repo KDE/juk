@@ -4,7 +4,7 @@ add_subdirectory( pics )
 
 include_directories( ${KDE4_INCLUDE_DIR} ${QT_INCLUDES} ${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_BINARY_DIR}  )
 
-
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 ########### next target ###############
 
 set(juk_SRCS 
@@ -71,13 +71,16 @@ set(juk_SRCS
 
 kde4_automoc(${juk_SRCS})
 
-kde4_add_ui_files(juk_SRCS 
+kde4_add_ui_files(juk_SRCS
+	filerenamerbase.ui
+	filerenameroptionsbase.ui
+)
+
+kde4_add_ui3_files(juk_SRCS 
    coverdialogbase.ui 
    deletedialogbase.ui 
    directorylistbase.ui 
    exampleoptionsbase.ui 
-   filerenamerbase.ui 
-   filerenameroptionsbase.ui 
    tagguesserconfigdlgwidget.ui 
    trackpickerdialogbase.ui )
 
