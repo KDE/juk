@@ -100,7 +100,7 @@ const QPixmap *PlaylistItem::pixmap(int column) const
        m_playingItems.contains(const_cast<PlaylistItem *>(this)))
         return &playing;
 
-    return KListViewItem::pixmap(column);
+    return K3ListViewItem::pixmap(column);
 }
 
 QString PlaylistItem::text(int column) const
@@ -140,7 +140,7 @@ QString PlaylistItem::text(int column) const
     case FullPathColumn:
         return d->fileHandle.fileInfo().absFilePath();
     default:
-        return KListViewItem::text(column);
+        return K3ListViewItem::text(column);
     }
 }
 
@@ -148,11 +148,11 @@ void PlaylistItem::setText(int column, const QString &text)
 {
     int offset = playlist()->columnOffset();
     if(column - offset >= 0 && column + offset <= lastColumn()) {
-        KListViewItem::setText(column, QString::null);
+        K3ListViewItem::setText(column, QString::null);
         return;
     }
 
-    KListViewItem::setText(column, text);
+    K3ListViewItem::setText(column, text);
     playlist()->slotWeightDirty(column);
 }
 
@@ -181,7 +181,7 @@ void PlaylistItem::setPlaying(bool playing, bool master)
 void PlaylistItem::setSelected(bool selected)
 {
     playlist()->markItemSelected(this, selected);
-    KListViewItem::setSelected(selected);
+    K3ListViewItem::setSelected(selected);
 }
 
 void PlaylistItem::guessTagInfo(TagGuesser::Type type)
@@ -243,7 +243,7 @@ void PlaylistItem::clear()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
-    KListViewItem(parent),
+    K3ListViewItem(parent),
     d(0),
     m_watched(0)
 {
@@ -251,7 +251,7 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
 }
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
-    KListViewItem(parent, after),
+    K3ListViewItem(parent, after),
     d(0),
     m_watched(0)
 {
@@ -262,7 +262,7 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListVie
 // This constructor should only be used by the CollectionList subclass.
 
 PlaylistItem::PlaylistItem(CollectionList *parent) :
-    KListViewItem(parent),
+    K3ListViewItem(parent),
     m_watched(0)
 {
     d = new Data;
@@ -273,7 +273,7 @@ PlaylistItem::PlaylistItem(CollectionList *parent) :
 void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
 {
     if(!m_playingItems.contains(this))
-        return KListViewItem::paintCell(p, cg, column, width, align);
+        return K3ListViewItem::paintCell(p, cg, column, width, align);
 
     QColorGroup colorGroup = cg;
 

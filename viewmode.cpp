@@ -231,7 +231,7 @@ void CompactViewMode::paintCell(PlaylistBox::Item *item,
                                 const QColorGroup &colorGroup,
                                 int column, int width, int align)
 {
-    item->KListViewItem::paintCell(painter, colorGroup, column, width, align);
+    item->K3ListViewItem::paintCell(painter, colorGroup, column, width, align);
     if(item == item->listView()->dropItem())
         paintDropIndicator(painter, width, item->height());
 }

@@ -13,8 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klistview.h>
-#include <kiconview.h>
+#include <k3listview.h>
+#include <k3iconview.h>
 #include <kiconviewsearchline.h>
 #include <kiconloader.h>
 #include <kapplication.h>
@@ -33,11 +33,11 @@
 
 using CoverUtility::CoverIconViewItem;
 
-class AllArtistsListViewItem : public KListViewItem
+class AllArtistsListViewItem : public K3ListViewItem
 {
 public:
     AllArtistsListViewItem(Q3ListView *parent) :
-        KListViewItem(parent, i18n("<All Artists>"))
+        K3ListViewItem(parent, i18n("<All Artists>"))
     {
     }
 
@@ -47,11 +47,11 @@ public:
     }
 };
 
-class CaseInsensitiveItem : public KListViewItem
+class CaseInsensitiveItem : public K3ListViewItem
 {
 public:
     CaseInsensitiveItem(Q3ListView *parent, const QString &text) :
-        KListViewItem(parent, text)
+        K3ListViewItem(parent, text)
     {
     }
 

@@ -16,7 +16,7 @@
 #ifndef COVERICONVIEW_H
 #define COVERICONVIEW_H
 
-#include <kiconview.h>
+#include <k3iconview.h>
 
 #include "covermanager.h"
 
@@ -27,7 +27,7 @@
 
 namespace CoverUtility
 {
-    class CoverIconViewItem : public KIconViewItem
+    class CoverIconViewItem : public K3IconViewItem
     {
     public:
         CoverIconViewItem(coverKey id, Q3IconView *parent);
@@ -42,12 +42,12 @@ namespace CoverUtility
 using CoverUtility::CoverIconViewItem;
 
 /**
- * This class subclasses KIconView in order to provide cover drag-and-drop
+ * This class subclasses K3IconView in order to provide cover drag-and-drop
  * support.
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class CoverIconView : public KIconView
+class CoverIconView : public K3IconView
 {
 public:
     CoverIconView(QWidget *parent, const char *name = 0);

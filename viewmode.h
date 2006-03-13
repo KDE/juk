@@ -110,7 +110,7 @@ public:
                            const QColorGroup &colorGroup,
                            int column, int width, int align);
 
-    virtual void setupItem(PlaylistBox::Item *item) const { item->KListViewItem::setup(); }
+    virtual void setupItem(PlaylistBox::Item *item) const { item->K3ListViewItem::setup(); }
 protected:
     virtual void updateHeights();
 };

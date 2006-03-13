@@ -327,7 +327,7 @@ int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
                    const QString &iconName) :
-    KListView(collection->playlistStack()),
+    K3ListView(collection->playlistStack()),
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
@@ -350,7 +350,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
 
 Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
                    const QString &name, const QString &iconName) :
-    KListView(collection->playlistStack()),
+    K3ListView(collection->playlistStack()),
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
@@ -374,7 +374,7 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
 
 Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
                    const QString &iconName) :
-    KListView(collection->playlistStack()),
+    K3ListView(collection->playlistStack()),
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
@@ -397,7 +397,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
 }
 
 Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
-    KListView(collection->playlistStack()),
+    K3ListView(collection->playlistStack()),
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
@@ -657,7 +657,7 @@ PlaylistItemList Playlist::selectedItems()
 
 PlaylistItem *Playlist::firstChild() const
 {
-    return static_cast<PlaylistItem *>(KListView::firstChild());
+    return static_cast<PlaylistItem *>(K3ListView::firstChild());
 }
 
 void Playlist::updateLeftColumn()
@@ -1037,7 +1037,7 @@ Q3DragObject *Playlist::dragObject(QWidget *parent)
 
 void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
 {
-    KListView::contentsDragEnterEvent(e);
+    K3ListView::contentsDragEnterEvent(e);
 
     if(CoverDrag::canDecode(e)) {
         setDropHighlighter(true);
@@ -1152,7 +1152,7 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
         }
     }
 
-    return KListView::eventFilter(watched, e);
+    return K3ListView::eventFilter(watched, e);
 }
 
 void Playlist::keyPressEvent(QKeyEvent *event)
@@ -1170,7 +1170,7 @@ void Playlist::keyPressEvent(QKeyEvent *event)
 
     }
 
-    KListView::keyPressEvent(event);
+    K3ListView::keyPressEvent(event);
 }
 
 void Playlist::contentsDropEvent(QDropEvent *e)
@@ -1219,7 +1219,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
         setSorting(columns() + 1);
 
-        QList<Q3ListViewItem *> items = KListView::selectedItems();
+        QList<Q3ListViewItem *> items = K3ListView::selectedItems();
 
         for(QList<Q3ListViewItem *>::Iterator it = items.begin(); it != items.end(); ++it) {
             if(!item) {
@@ -1243,7 +1243,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
     dataChanged();
     emit signalPlaylistItemsDropped(this);
-    KListView::contentsDropEvent(e);
+    K3ListView::contentsDropEvent(e);
 }
 
 void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
@@ -1252,7 +1252,7 @@ void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
     // weird experience of switching songs from a double right-click.
 
     if(e->button() == Qt::LeftButton)
-        KListView::contentsMouseDoubleClickEvent(e);
+        K3ListView::contentsMouseDoubleClickEvent(e);
 }
 
 void Playlist::showEvent(QShowEvent *e)
@@ -1261,7 +1261,7 @@ void Playlist::showEvent(QShowEvent *e)
         SharedSettings::instance()->apply(this);
         m_applySharedSettings = false;
     }
-    KListView::showEvent(e);
+    K3ListView::showEvent(e);
 }
 
 void Playlist::applySharedSettings()
@@ -1302,7 +1302,7 @@ void Playlist::viewportPaintEvent(QPaintEvent *pe)
         slotUpdateColumnWidths();
     }
 
-    KListView::viewportPaintEvent(pe);
+    K3ListView::viewportPaintEvent(pe);
 }
 
 void Playlist::viewportResizeEvent(QResizeEvent *re)
@@ -1313,7 +1313,7 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
     if(re->size().width() != re->oldSize().width() && !manualResize())
         slotUpdateColumnWidths();
 
-    KListView::viewportResizeEvent(re);
+    K3ListView::viewportResizeEvent(re);
 }
 
 void Playlist::insertItem(Q3ListViewItem *item)
@@ -1324,7 +1324,7 @@ void Playlist::insertItem(Q3ListViewItem *item)
     // you need to use the PlaylistItem from here.
 
     m_addTime.append(static_cast<PlaylistItem *>(item));
-    KListView::insertItem(item);
+    K3ListView::insertItem(item);
 }
 
 void Playlist::takeItem(Q3ListViewItem *item)
@@ -1332,13 +1332,13 @@ void Playlist::takeItem(Q3ListViewItem *item)
     // See the warning in Playlist::insertItem.
 
     m_subtractTime.append(static_cast<PlaylistItem *>(item));
-    KListView::takeItem(item);
+    K3ListView::takeItem(item);
 }
 
 void Playlist::addColumn(const QString &label)
 {
     slotWeightDirty(columns());
-    KListView::addColumn(label, 30);
+    K3ListView::addColumn(label, 30);
 }
 
 PlaylistItem *Playlist::createItem(const FileHandle &file,
@@ -1511,7 +1511,7 @@ bool Playlist::isColumnVisible(int c) const
 
 void Playlist::polish()
 {
-    KListView::polish();
+    K3ListView::polish();
 
     if(m_polished)
         return;

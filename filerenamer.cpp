@@ -78,7 +78,7 @@ public:
                             "Are you sure you want to continue?"), hbox);
         hbox->setStretchFactor(l, 1);
 
-        KListView *lv = new KListView(vbox);
+        K3ListView *lv = new K3ListView(vbox);
 
         lv->addColumn(i18n("Original Name"));
         lv->addColumn(i18n("New Name"));
@@ -87,9 +87,9 @@ public:
 
         QMap<QString, QString>::ConstIterator it = files.begin();
         for(; it != files.end(); ++it) {
-            KListViewItem *i = it.key() != it.data()
-                ? new KListViewItem(lv, it.key(), it.data())
-                : new KListViewItem(lv, it.key(), i18n("No Change"));
+            K3ListViewItem *i = it.key() != it.data()
+                ? new K3ListViewItem(lv, it.key(), it.data())
+                : new K3ListViewItem(lv, it.key(), i18n("No Change"));
             lvHeight += i->height();
         }
 

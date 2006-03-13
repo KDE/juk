@@ -15,7 +15,7 @@
 
 #include <kfiledialog.h>
 #include <klocale.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <kpushbutton.h>
 
 #include <qcheckbox.h>
@@ -46,7 +46,7 @@ DirectoryList::DirectoryList(const QStringList &directories, bool importPlaylist
 
     QStringList::ConstIterator it = directories.begin();
     for(; it != directories.end(); ++it)
-        new KListViewItem(m_base->directoryListView, *it);
+        new K3ListViewItem(m_base->directoryListView, *it);
 
     m_base->importPlaylistsCheckBox->setChecked(importPlaylists);
 
@@ -80,7 +80,7 @@ void DirectoryList::slotAddDirectory()
     QString dir = KFileDialog::getExistingDirectory();
     if(!dir.isEmpty() && m_dirList.find(dir) == m_dirList.end()) {
         m_dirList.append(dir);
-        new KListViewItem(m_base->directoryListView, dir);
+        new K3ListViewItem(m_base->directoryListView, dir);
         m_result.addedDirs.append(dir);
     }
 }

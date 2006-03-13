@@ -45,7 +45,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     disableResize();
 
     Q3HBox *mainBox = new Q3HBox(this);
-    m_iconWidget = new KIconView(mainBox);
+    m_iconWidget = new K3IconView(mainBox);
     m_iconWidget->setResizeMode(Q3IconView::Adjust);
     m_iconWidget->setSpacing(10);
     m_iconWidget->setFixedSize(500,550);
@@ -200,7 +200,7 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KUrl &url) const
 ////////////////////////////////////////////////////////////////////////////////
 
 CoverIconViewItem::CoverIconViewItem(Q3IconView *parent, const GoogleImage &image) :
-    QObject(parent), KIconViewItem(parent, parent->lastItem(), image.size()), m_job(0)
+    QObject(parent), K3IconViewItem(parent, parent->lastItem(), image.size()), m_job(0)
 {
     // Set up the iconViewItem
 

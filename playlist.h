@@ -16,7 +16,7 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <k3urldrag.h>
 #include <kdebug.h>
 #include <kglobalsettings.h>
@@ -54,7 +54,7 @@ class UpcomingPlaylist;
 
 typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
-class Playlist : public KListView, public PlaylistInterface
+class Playlist : public K3ListView, public PlaylistInterface
 {
     Q_OBJECT
 
@@ -363,7 +363,7 @@ public slots:
      * @see clearItems()
      */
     virtual void clear();
-    virtual void selectAll() { KListView::selectAll(true); }
+    virtual void selectAll() { K3ListView::selectAll(true); }
 
     /**
      * Refreshes the tags of the selection from disk, or all of the files in the

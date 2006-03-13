@@ -55,7 +55,7 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
-    KListView(parent),
+    K3ListView(parent),
     PlaylistCollection(playlistStack),
     m_viewModeIndex(0),
     m_hasSelection(false),
@@ -526,14 +526,14 @@ void PlaylistBox::contentsDragLeaveEvent(QDragLeaveEvent *e)
         m_dropItem = 0;
         old->repaint();
     }
-    KListView::contentsDragLeaveEvent(e);
+    K3ListView::contentsDragLeaveEvent(e);
 }
 
 void PlaylistBox::contentsMousePressEvent(QMouseEvent *e)
 {
     if(e->button() == Qt::LeftButton)
         m_doingMultiSelect = true;
-    KListView::contentsMousePressEvent(e);
+    K3ListView::contentsMousePressEvent(e);
 }
 
 void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
@@ -542,14 +542,14 @@ void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
         m_doingMultiSelect = false;
         slotPlaylistChanged();
     }
-    KListView::contentsMouseReleaseEvent(e);
+    K3ListView::contentsMouseReleaseEvent(e);
 }
 
 void PlaylistBox::keyPressEvent(QKeyEvent *e)
 {
     if((e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) && e->state() == Qt::ShiftButton)
         m_doingMultiSelect = true;
-    KListView::keyPressEvent(e);
+    K3ListView::keyPressEvent(e);
 }
 
 void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
@@ -558,7 +558,7 @@ void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
         m_doingMultiSelect = false;
         slotPlaylistChanged();
     }
-    KListView::keyReleaseEvent(e);
+    K3ListView::keyReleaseEvent(e);
 }
 
 PlaylistBox::ItemList PlaylistBox::selectedItems() const
@@ -575,7 +575,7 @@ PlaylistBox::ItemList PlaylistBox::selectedItems() const
 void PlaylistBox::setSingleItem(Q3ListViewItem *item)
 {
     setSelectionModeExt(Single);
-    KListView::setCurrentItem(item);
+    K3ListView::setCurrentItem(item);
     setSelectionModeExt(Extended);
 }
 
@@ -693,14 +693,14 @@ void PlaylistBox::setupUpcomingPlaylist()
 PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 
 PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l)
-    : QObject(listBox), KListViewItem(listBox, 0, text),
+    : QObject(listBox), K3ListViewItem(listBox, 0, text),
       m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
     init();
 }
 
 PlaylistBox::Item::Item(Item *parent, const QString &icon, const QString &text, Playlist *l)
-    : QObject(parent->listView()), KListViewItem(parent, text),
+    : QObject(parent->listView()), K3ListViewItem(parent, text),
     m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
     init();
@@ -738,7 +738,7 @@ void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGro
 void PlaylistBox::Item::setText(int column, const QString &text)
 {
     m_text = text;
-    KListViewItem::setText(column, text);
+    K3ListViewItem::setText(column, text);
 }
 
 void PlaylistBox::Item::setup()

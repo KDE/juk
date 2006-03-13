@@ -11,7 +11,7 @@
 #include "tagguesserconfigdlgwidget.h"
 
 #include <kiconloader.h>
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 #include <kpushbutton.h>
 #include <klineedit.h>
@@ -39,7 +39,7 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     QStringList::ConstIterator it = schemes.begin();
     QStringList::ConstIterator end = schemes.end();
     for (; it != end; ++it) {
-        KListViewItem *item = new KListViewItem(m_child->lvSchemes, *it);
+        K3ListViewItem *item = new K3ListViewItem(m_child->lvSchemes, *it);
         item->moveItem(m_child->lvSchemes->lastItem());
     }
 
@@ -107,7 +107,7 @@ void TagGuesserConfigDlg::slotMoveDownClicked()
 
 void TagGuesserConfigDlg::slotAddClicked()
 {
-    KListViewItem *item = new KListViewItem(m_child->lvSchemes);
+    K3ListViewItem *item = new K3ListViewItem(m_child->lvSchemes);
     m_child->lvSchemes->rename(item, 0);
 }
 

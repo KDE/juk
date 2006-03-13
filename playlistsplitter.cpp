@@ -86,7 +86,7 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
 
     if(playlist) {
         playlist->setFocus();
-        playlist->KListView::selectAll(false);
+        playlist->K3ListView::selectAll(false);
 
         // Select the top visible (and matching) item.
 

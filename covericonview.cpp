@@ -19,21 +19,21 @@
 using CoverUtility::CoverIconViewItem;
 
 CoverIconViewItem::CoverIconViewItem(coverKey id, Q3IconView *parent) :
-    KIconViewItem(parent), m_id(id)
+    K3IconViewItem(parent), m_id(id)
 {
     CoverDataPtr data = CoverManager::coverInfo(id);
     setText(QString("%1 - %2").arg(data->artist, data->album));
     setPixmap(data->thumbnail());
 }
 
-CoverIconView::CoverIconView(QWidget *parent, const char *name) : KIconView(parent, name)
+CoverIconView::CoverIconView(QWidget *parent, const char *name) : K3IconView(parent, name)
 {
     setResizeMode(Adjust);
 }
 
 CoverIconViewItem *CoverIconView::currentItem() const
 {
-    return static_cast<CoverIconViewItem *>(KIconView::currentItem());
+    return static_cast<CoverIconViewItem *>(K3IconView::currentItem());
 }
 
 Q3DragObject *CoverIconView::dragObject()

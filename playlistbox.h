@@ -18,7 +18,7 @@
 
 #include "playlistcollection.h"
 
-#include <klistview.h>
+#include <k3listview.h>
 
 #include <q3ptrdict.h>
 
@@ -45,7 +45,7 @@ typedef Q3ValueList<Playlist *> PlaylistList;
  * JuK's main widget (PlaylistSplitter).
  */
 
-class PlaylistBox : public KListView, public PlaylistCollection
+class PlaylistBox : public K3ListView, public PlaylistCollection
 {
     Q_OBJECT
 
@@ -138,7 +138,7 @@ private:
 
 
 
-class PlaylistBox::Item : public QObject, public KListViewItem
+class PlaylistBox::Item : public QObject, public K3ListViewItem
 {
     friend class PlaylistBox;
     friend class ViewMode;
@@ -159,7 +159,7 @@ protected:
     Item(Item *parent, const QString &icon, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_playlist; }
-    PlaylistBox *listView() const { return static_cast<PlaylistBox *>(KListViewItem::listView()); }
+    PlaylistBox *listView() const { return static_cast<PlaylistBox *>(K3ListViewItem::listView()); }
     QString iconName() const { return m_iconName; }
     QString text() const { return m_text; }
     void setSortedFirst(bool first = true) { m_sortedFirst = first; }
@@ -169,7 +169,7 @@ protected:
     virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}
     virtual void setText(int column, const QString &text);
 
-    virtual QString text(int column) const { return KListViewItem::text(column); }
+    virtual QString text(int column) const { return K3ListViewItem::text(column); }
 
     virtual void setup();
 

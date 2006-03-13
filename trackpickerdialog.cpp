@@ -19,7 +19,7 @@
 
 #include <qlabel.h>
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <klocale.h>
 
 #include "trackpickerdialog.h"
@@ -27,11 +27,11 @@
 
 #define NUMBER(x) (x == 0 ? QString::null : QString::number(x))
 
-class TrackPickerItem : public KListViewItem
+class TrackPickerItem : public K3ListViewItem
 {
 public:
-    TrackPickerItem(KListView *parent, const KTRMResult &result) :
-        KListViewItem(parent, parent->lastChild(),
+    TrackPickerItem(K3ListView *parent, const KTRMResult &result) :
+        K3ListViewItem(parent, parent->lastChild(),
                       result.title(), result.artist(), result.album(),
                       NUMBER(result.track()), NUMBER(result.year())),
         m_result(result) {}

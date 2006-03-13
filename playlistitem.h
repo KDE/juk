@@ -16,7 +16,7 @@
 #ifndef PLAYLISTITEM_H
 #define PLAYLISTITEM_H
 
-#include <klistview.h>
+#include <k3listview.h>
 #include <ksharedptr.h>
 #include <kdebug.h>
 
@@ -45,7 +45,7 @@ typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
  * Playlist::clearItem().
  */
 
-class PlaylistItem : public KListViewItem
+class PlaylistItem : public K3ListViewItem
 {
     friend class Playlist;
     friend class SearchPlaylist;
@@ -141,12 +141,12 @@ public:
     /**
      * Returns properly casted item below this one.
      */
-    PlaylistItem *itemBelow() { return static_cast<PlaylistItem *>(KListViewItem::itemBelow()); }
+    PlaylistItem *itemBelow() { return static_cast<PlaylistItem *>(K3ListViewItem::itemBelow()); }
 
     /**
      * Returns properly casted item above this one.
      */
-    PlaylistItem *itemAbove() { return static_cast<PlaylistItem *>(KListViewItem::itemAbove()); }
+    PlaylistItem *itemAbove() { return static_cast<PlaylistItem *>(K3ListViewItem::itemAbove()); }
 
     /**
      * Returns a reference to the list of the currnetly playing items, with the

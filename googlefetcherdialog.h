@@ -15,7 +15,7 @@
 #ifndef GOOGLEFETCHERDIALOG_H
 #define GOOGLEFETCHERDIALOG_H
 
-#include <kiconview.h>
+#include <k3iconview.h>
 #include <kio/job.h>
 
 
@@ -63,7 +63,7 @@ private:
 
     QPixmap m_pixmap;
     GoogleImageList m_imageList;
-    KIconView *m_iconWidget;
+    K3IconView *m_iconWidget;
     bool m_takeIt;
     bool m_newSearch;
     FileHandle m_file;
@@ -74,7 +74,7 @@ namespace KIO
     class TransferJob;
 }
 
-class CoverIconViewItem : public QObject, public KIconViewItem
+class CoverIconViewItem : public QObject, public K3IconViewItem
 {
     Q_OBJECT
 
