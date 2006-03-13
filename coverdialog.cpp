@@ -15,7 +15,7 @@
 
 #include <k3listview.h>
 #include <k3iconview.h>
-#include <kiconviewsearchline.h>
+#include <k3iconviewsearchline.h>
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <kmenu.h>

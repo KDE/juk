@@ -93,7 +93,7 @@
                                 <string>Clear the current cover search.</string>
                             </property>
                         </widget>
-                        <widget class="KIconViewSearchLine">
+                        <widget class="K3IconViewSearchLine">
                             <property name="name">
                                 <cstring>m_searchLine</cstring>
                             </property>
@@ -133,8 +133,8 @@
 </widget>
 <customwidgets>
     <customwidget>
-        <class>KIconViewSearchLine</class>
-        <header location="global">kiconviewsearchline.h</header>
+        <class>K3IconViewSearchLine</class>
+        <header location="global">k3iconviewsearchline.h</header>
         <sizehint>
             <width>100</width>
             <height>-1</height>
@@ -203,8 +203,8 @@
     <forward>class QIconViewItem;</forward>
 </forwards>
 <includehints>
-    <includehint>klistview.h</includehint>
-    <includehint>kiconviewsearchline.h</includehint>
+    <includehint>k3listview.h</includehint>
+    <includehint>k3iconviewsearchline.h</includehint>
     <includehint>covericonview.h</includehint>
 </includehints>
 </UI>
