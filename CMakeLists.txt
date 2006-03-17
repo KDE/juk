@@ -1,4 +1,5 @@
 kde4_header()
+project(juk)
 
 add_subdirectory( pics ) 
 
