@@ -89,7 +89,7 @@ kde4_add_dcop_skels(juk_SRCS jukIface.h )
 
 kde4_add_executable(juk ${juk_SRCS})
 
-target_link_libraries(juk  ${QT_AND_KDECORE_LIBS} m kio khtml )
+target_link_libraries(juk  ${KDE4_KDECORE_LIBS} m kio khtml )
 
 install_targets(/bin juk )
 
@@ -104,7 +104,7 @@ if(KDE4_BUILD_TESTS)
 
 kde4_add_executable(tagguessertest ${tagguessertest_SRCS})
 
-target_link_libraries(tagguessertest  ${QT_AND_KDECORE_LIBS} )
+target_link_libraries(tagguessertest  ${KDE4_KDECORE_LIBS} )
 
 endif(KDE4_BUILD_TESTS)
 
