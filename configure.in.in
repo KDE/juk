@@ -2,24 +2,6 @@
 
 AM_INIT_AUTOMAKE(juk,1.0)
 
-artsc_config_test_path=$prefix/bin:$exec_prefix/bin:$KDEDIR/bin:$PATH
-AC_PATH_PROG(ARTSCCONFIG, artsc-config, no, $artsc_config_test_path)
-
-if test "x$build_arts" = "xyes" && test "x$ARTSCCONFIG" != "xno" ; then
-	LIB_ARTS="-lartskde"
-	ARTS_PREFIX=[`$ARTSCCONFIG --arts-prefix`]
-	ARTS_CFLAGS="-I$ARTS_PREFIX/include/arts"
-	AC_DEFINE(HAVE_ARTS, 1, [have arts support in juk])
-else
-	build_arts="no"
-	LIB_ARTS=""
-	ARTS_CFLAGS=""
-	AC_DEFINE(HAVE_ARTS, 0, [no arts support in juk])
-fi
-
-AC_SUBST(LIB_ARTS)
-AC_SUBST(ARTS_CFLAGS)
-
 AC_ARG_WITH(musicbrainz,
   	[AC_HELP_STRING(--with-musicbrainz,
 	[enable support for MusicBrainz @<:@default=check@:>@])],
