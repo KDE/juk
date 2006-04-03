@@ -483,7 +483,7 @@ void Playlist::playFirst()
 {
     TrackSequenceManager::instance()->setNextItem(static_cast<PlaylistItem *>(
         Q3ListViewItemIterator(const_cast<Playlist *>(this), Q3ListViewItemIterator::Visible).current()));
-    action("forward")->activate();
+    action("forward")->trigger();
 }
 
 void Playlist::playNextAlbum()
@@ -499,7 +499,7 @@ void Playlist::playNextAlbum()
         current = TrackSequenceManager::instance()->nextItem();
 
     TrackSequenceManager::instance()->setNextItem(current);
-    action("forward")->activate();
+    action("forward")->trigger();
 }
 
 void Playlist::playNext()
@@ -993,7 +993,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
             for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
                 if(playingItem() == *it)
-                    action("forward")->activate();
+                    action("forward")->trigger();
 
                 QString removePath = (*it)->file().absFilePath();
                 if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removePath), this)) ||
@@ -1646,7 +1646,7 @@ void Playlist::slotPlayFromBackMenu(int number) const
         return;
 
     TrackSequenceManager::instance()->setNextItem(m_backMenuItems[number]);
-    action("forward")->activate();
+    action("forward")->trigger();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -2323,7 +2323,7 @@ void Playlist::slotPlayCurrent()
     Q3ListViewItemIterator it(this, Q3ListViewItemIterator::Selected);
     PlaylistItem *next = static_cast<PlaylistItem *>(it.current());
     TrackSequenceManager::instance()->setNextItem(next);
-    action("forward")->activate();
+    action("forward")->trigger();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

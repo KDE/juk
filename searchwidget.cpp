@@ -154,8 +154,8 @@ bool SearchLine::eventFilter(QObject *watched, QEvent *e)
 
 void SearchLine::slotActivate()
 {
-    action("stop")->activate();
-    action("playFirst")->activate();
+    action("stop")->trigger();
+    action("playFirst")->trigger();
 }
 
 void SearchLine::updateColumns()
@@ -267,7 +267,7 @@ void SearchWidget::updateColumns()
 
 void SearchWidget::setupLayout()
 {
-    boxLayout()->setSpacing(5);
+    /// Qt4 porting: disabled this: boxLayout()->setSpacing(5);
 
     QToolButton *clearSearchButton = new QToolButton(this);
     clearSearchButton->setTextLabel(i18n("Clear Search"), true);
@@ -282,7 +282,11 @@ void SearchWidget::setupLayout()
     connect(m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
     connect(m_searchLine, SIGNAL(signalDownPressed()), this, SIGNAL(signalDownPressed()));
     connect(clearSearchButton, SIGNAL(pressed()), m_searchLine, SLOT(clear()));
-    setStretchableWidget(m_searchLine);
+
+#ifdef __GNUC__
+#warning TODO Find replacement for KToolBar::setStretchableWidget
+#endif
+    //setStretchableWidget(m_searchLine);
 
     // I've decided that I think this is ugly, for now.
 

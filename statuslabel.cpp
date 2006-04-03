@@ -91,7 +91,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const cha
     jumpButton->setFlat(true);
 
     jumpButton->setToolTip( i18n("Jump to the currently playing item"));
-    connect(jumpButton, SIGNAL(clicked()), action("showPlaying"), SLOT(activate()));
+    connect(jumpButton, SIGNAL(clicked()), action("showPlaying"), SLOT(trigger()));
 
     installEventFilter(this);
 
@@ -190,7 +190,7 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
             updateTime();
         }
         else
-            action("showPlaying")->activate();
+            action("showPlaying")->trigger();
 
         return true;
     }

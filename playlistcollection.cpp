@@ -838,7 +838,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // "New" menu
 
-    menu = new KActionMenu(i18n("&New"), "filenew", actions(), "file_new");
+    menu = new KActionMenu(KIcon("filenew"), i18n("&New"), actions(), "file_new");
 
     menu->insert(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
                               "newPlaylist", "window_new", "CTRL+n"));
@@ -880,7 +880,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "reload");
     createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", "CTRL+r");
 
-    menu = new KActionMenu(i18n("Cover Manager"), QString::null, actions(), "coverManager");
+    menu = new KActionMenu(i18n("Cover Manager"), actions(), "coverManager");
     /* menu->setIconSet(SmallIconSet("image")); */
     menu->insert(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "viewmag"));

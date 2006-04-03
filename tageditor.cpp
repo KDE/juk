@@ -597,7 +597,8 @@ void TagEditor::setupLayout()
             trackRowLayout->setWidth();
         }
 
-        m_commentBox = new KEdit(this, "commentBox");
+        m_commentBox = new KEdit(this);
+        m_commentBox->setObjectName( "commentBox" );
         m_commentBox->setTextFormat(Qt::PlainText);
         addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "edit");
         fileNameLabel->setMinimumHeight(m_trackSpin->height());

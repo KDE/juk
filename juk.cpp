@@ -112,7 +112,7 @@ void JuK::setupLayout()
 
 void JuK::setupActions()
 {
-    ActionCollection::actions()->setWidget(this);
+    ActionCollection::actions()->setAssociatedWidget(this);
 
     KStdAction::quit(this, SLOT(slotQuit()), ActionCollection::actions());
     KStdAction::undo(this, SLOT(slotUndo()), ActionCollection::actions());
@@ -124,19 +124,21 @@ void JuK::setupActions()
 
     new KAction(i18n("Remove From Playlist"), "edit_remove", 0, kapp, SLOT(clear()), ActionCollection::actions(), "removeFromPlaylist");
 
-    KActionMenu *actionMenu = new KActionMenu(i18n("&Random Play"), "roll", ActionCollection::actions(), "actionMenu");
+    KActionMenu *actionMenu = new KActionMenu(KIcon("roll"), i18n("&Random Play"), ActionCollection::actions(), "actionMenu");
     actionMenu->setDelayed(false);
 
-    KRadioAction *ka = new KRadioAction(i18n("&Disable Random Play"), "player_playlist", 0, ActionCollection::actions(), "disableRandomPlay");
-    ka->setExclusiveGroup("randomPlayGroup");
+    QActionGroup* randomPlayGroup = new QActionGroup( this );
+
+    KAction *ka = new KAction(KIcon("player_playlist"), i18n("&Disable Random Play"), ActionCollection::actions(), "disableRandomPlay");
+    ka->setActionGroup(randomPlayGroup);
     actionMenu->insert(ka);
 
-    m_randomPlayAction = new KRadioAction(i18n("Use &Random Play"), "roll", 0, ActionCollection::actions(), "randomPlay");
-    m_randomPlayAction->setExclusiveGroup("randomPlayGroup");
+    m_randomPlayAction = new KAction(KIcon("roll"), i18n("Use &Random Play"), ActionCollection::actions(), "randomPlay");
+    m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->insert(m_randomPlayAction);
 
-    ka = new KRadioAction(i18n("Use &Album Random Play"), "roll", 0, ActionCollection::actions(), "albumRandomPlay");
-    ka->setExclusiveGroup("randomPlayGroup");
+    ka = new KAction(i18n("Use &Album Random Play"), "roll", ActionCollection::actions(), "albumRandomPlay");
+    ka->setActionGroup(randomPlayGroup);
     connect(ka, SIGNAL(toggled(bool)), SLOT(slotCheckAlbumNextAction(bool)));
     actionMenu->insert(ka);
 
@@ -229,18 +231,18 @@ void JuK::setupGlobalAccels()
 {
     m_accel = new KGlobalAccel(this);
 
-    KeyDialog::insert(m_accel, "Play",        i18n("Play"),         action("play"),        SLOT(activate()));
-    KeyDialog::insert(m_accel, "PlayPause",   i18n("Play / Pause"), action("playPause"),   SLOT(activate()));
-    KeyDialog::insert(m_accel, "Stop",        i18n("Stop Playing"), action("stop"),        SLOT(activate()));
-    KeyDialog::insert(m_accel, "Back",        i18n("Back"),         action("back"),        SLOT(activate()));
-    KeyDialog::insert(m_accel, "Forward",     i18n("Forward"),      action("forward"),     SLOT(activate()));
-    KeyDialog::insert(m_accel, "SeekBack",    i18n("Seek Back"),    action("seekBack"),    SLOT(activate()));
-    KeyDialog::insert(m_accel, "SeekForward", i18n("Seek Forward"), action("seekForward"), SLOT(activate()));
-    KeyDialog::insert(m_accel, "VolumeUp",    i18n("Volume Up"),    action("volumeUp"),    SLOT(activate()));
-    KeyDialog::insert(m_accel, "VolumeDown",  i18n("Volume Down"),  action("volumeDown"),  SLOT(activate()));
-    KeyDialog::insert(m_accel, "Mute",        i18n("Mute"),         action("mute"),        SLOT(activate()));
+    KeyDialog::insert(m_accel, "Play",        i18n("Play"),         action("play"),        SLOT(trigger()));
+    KeyDialog::insert(m_accel, "PlayPause",   i18n("Play / Pause"), action("playPause"),   SLOT(trigger()));
+    KeyDialog::insert(m_accel, "Stop",        i18n("Stop Playing"), action("stop"),        SLOT(trigger()));
+    KeyDialog::insert(m_accel, "Back",        i18n("Back"),         action("back"),        SLOT(trigger()));
+    KeyDialog::insert(m_accel, "Forward",     i18n("Forward"),      action("forward"),     SLOT(trigger()));
+    KeyDialog::insert(m_accel, "SeekBack",    i18n("Seek Back"),    action("seekBack"),    SLOT(trigger()));
+    KeyDialog::insert(m_accel, "SeekForward", i18n("Seek Forward"), action("seekForward"), SLOT(trigger()));
+    KeyDialog::insert(m_accel, "VolumeUp",    i18n("Volume Up"),    action("volumeUp"),    SLOT(trigger()));
+    KeyDialog::insert(m_accel, "VolumeDown",  i18n("Volume Down"),  action("volumeDown"),  SLOT(trigger()));
+    KeyDialog::insert(m_accel, "Mute",        i18n("Mute"),         action("mute"),        SLOT(trigger()));
     KeyDialog::insert(m_accel, "ShowHide",    i18n("Show / Hide"),  this,                  SLOT(slotShowHide()));
-    KeyDialog::insert(m_accel, "ForwardAlbum", i18n("Play Next Album"), action("forwardAlbum"), SLOT(activate()));
+    KeyDialog::insert(m_accel, "ForwardAlbum", i18n("Play Next Album"), action("forwardAlbum"), SLOT(trigger()));
 
     m_accel->setConfigGroup("Shortcuts");
     m_accel->readSettings();
@@ -379,7 +381,7 @@ bool JuK::queryExit()
 
     hide();
 
-    action("stop")->activate();
+    action("stop")->trigger();
     delete m_systemTray;
     m_systemTray = 0;
 

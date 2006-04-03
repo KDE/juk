@@ -470,19 +470,19 @@ void SystemTray::createButtonBox(QWidget *parent)
 }
 
 /**
- * What happens here is that the action->activate() call will end up invoking
+ * What happens here is that the action->trigger() call will end up invoking
  * createPopup(), which sets m_fade to true.  Before the text starts fading
  * control returns to this function, which resets m_fade to false.
  */
 void SystemTray::slotBack()
 {
-    action("back")->activate();
+    action("back")->trigger();
     m_fade = false;
 }
 
 void SystemTray::slotForward()
 {
-    action("forward")->activate();
+    action("forward")->trigger();
     m_fade = false;
 }
 
@@ -565,15 +565,15 @@ void SystemTray::wheelEvent(QWheelEvent *e)
     switch(e->state()) {
     case Qt::ShiftButton:
         if(e->delta() > 0)
-            action("volumeUp")->activate();
+            action("volumeUp")->trigger();
         else
-            action("volumeDown")->activate();
+            action("volumeDown")->trigger();
         break;
     default:
         if(e->delta() > 0)
-            action("forward")->activate();
+            action("forward")->trigger();
         else
-            action("back")->activate();
+            action("back")->trigger();
         break;
     }
     e->accept();
@@ -594,9 +594,9 @@ void SystemTray::mousePressEvent(QMouseEvent *e)
         if(!rect().contains(e->pos()))
             return;
         if(action("pause")->isEnabled())
-            action("pause")->activate();
+            action("pause")->trigger();
         else
-            action("play")->activate();
+            action("play")->trigger();
         break;
     }
 }

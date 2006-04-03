@@ -244,7 +244,7 @@ void PlayerManager::setStatusLabel(StatusLabel *label)
 KSelectAction *PlayerManager::playerSelectAction() // static
 {
     KSelectAction *action =
-	new KSelectAction(i18n("&Output To"), 0, ActionCollection::actions(), "outputSelect");
+	new KSelectAction(i18n("&Output To"), ActionCollection::actions(), "outputSelect");
     QStringList l;
 
 #if HAVE_ARTS
@@ -420,7 +420,7 @@ void PlayerManager::seekBack()
 
 void PlayerManager::playPause()
 {
-    playing() ? action("pause")->activate() : action("play")->activate();
+    playing() ? action("pause")->trigger() : action("play")->trigger();
 }
 
 void PlayerManager::forward()

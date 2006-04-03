@@ -23,7 +23,8 @@ namespace ActionCollection
     KActionCollection *actions()
     {
         static KActionCollection *a =
-            new KActionCollection(static_cast<QWidget *>(0));
+            new KActionCollection(static_cast<QObject *>(0));
+        // The widget of the action collection is set in Juk::setupActions().
         return a;
     }
 
