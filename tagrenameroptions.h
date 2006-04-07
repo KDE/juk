@@ -127,11 +127,14 @@ public:
     }
 
     /**
-     * Function that tries to match a string back to its category.  Uses only
-     * the untranslated and case-sensitive form of the string.  If it fails it
-     * will return Unknown.
+     * Function that tries to match a string back to its category.  Uses
+     * the case-sensitive form of the string.  If it fails it will return
+     * Unknown.
+     *
+     * @param translated If true, @p text is translated, if false, it is the untranslated
+     *                   version.
      */
-    static TagType tagFromCategoryText(const QString &text);
+    static TagType tagFromCategoryText(const QString &text, bool translate = true);
 
     /**
      * This saves the options to the global KConfig object.

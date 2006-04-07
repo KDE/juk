@@ -144,10 +144,10 @@ void TagRenamerOptions::saveConfig(unsigned categoryNum) const
     config.sync();
 }
 
-TagType TagRenamerOptions::tagFromCategoryText(const QString &text)
+TagType TagRenamerOptions::tagFromCategoryText(const QString &text, bool translate)
 {
     for(unsigned i = StartTag; i < NumTypes; ++i)
-        if(tagTypeText(static_cast<TagType>(i), false) == text)
+        if(tagTypeText(static_cast<TagType>(i), translate) == text)
             return static_cast<TagType>(i);
 
     return Unknown;
