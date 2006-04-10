@@ -17,7 +17,7 @@
 #define FILERENAMEROPTIONS_H
 
 #include <kdialogbase.h>
-#include "filerenameroptionsbase.h"
+#include "ui_filerenameroptionsbase.h"
 #include "tagrenameroptions.h"
 
 /**

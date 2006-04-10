@@ -23,7 +23,7 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 
-#include "filerenamerbase.h"
+#include "ui_filerenamerbase.h"
 #include "filerenameroptions.h"
 #include "categoryreaderinterface.h"
 #include "tagrenameroptions.h"
