@@ -556,7 +556,7 @@ void Playlist::save()
     QFile file(m_fileName);
 
     if(!file.open(QIODevice::WriteOnly))
-        return KMessageBox::error(this, i18n("Could not save to file %1.").arg(m_fileName));
+        return KMessageBox::error(this, i18n("Could not save to file %1.", m_fileName));
 
     QTextStream stream(&file);
 
@@ -2126,7 +2126,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
     if(showEdit)
         m_rmbMenu->changeItem(m_rmbEditID,
-                i18n("Edit '%1'").arg(columnText(column)));
+                i18n("Edit '%1'", columnText(column)));
 
     m_rmbMenu->setItemVisible(m_rmbEditID, showEdit);
 

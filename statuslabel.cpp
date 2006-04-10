@@ -136,7 +136,7 @@ void StatusLabel::updateData()
         QString timeString;
 
         if(days > 0) {
-            timeString = i18n("1 day", "%n days", days);
+            timeString = i18np("1 day", "%n days", days);
             timeString.append(" ");
         }
 
@@ -146,7 +146,7 @@ void StatusLabel::updateData()
             timeString.append(QString().sprintf("%1d:%02d", minutes, seconds));
 
         m_playlistLabel->setText(playlist()->name());
-        m_trackLabel->setText(i18n("1 item", "%n items", playlist()->count()) + " - " + timeString);
+        m_trackLabel->setText(i18np("1 item", "%n items", playlist()->count()) + " - " + timeString);
     }
 }
 

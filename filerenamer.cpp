@@ -883,7 +883,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
             setFolderIcon(it.data(), itemMap[it.key()]);
         }
         else
-            errorFiles << i18n("%1 to %2").arg(it.key()).arg(it.data());
+            errorFiles << i18n("%1 to %2", it.key(), it.data());
 
         processEvents();
     }

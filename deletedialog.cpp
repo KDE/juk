@@ -47,7 +47,7 @@ void DeleteWidget::setFiles(const QStringList &files)
 {
     ddFileList->clear();
     ddFileList->insertStringList(files);
-    ddNumFiles->setText(i18n("<b>1</b> file selected.", "<b>%n</b> files selected.", files.count()));
+    ddNumFiles->setText(i18np("<b>1</b> file selected.", "<b>%n</b> files selected.", files.count()));
 }
 
 void DeleteWidget::slotShouldDelete(bool shouldDelete)
