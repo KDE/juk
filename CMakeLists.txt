@@ -3,10 +3,12 @@ project(juk)
 
 add_subdirectory( pics ) 
 
-include_directories( ${KDE4_INCLUDE_DIR}/taglib ${KDE4_INCLUDES} )
+include_directories( ${KDE4_INCLUDES} )
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 ########### next target ###############
+
+add_definitions(${TAGLIB_CFLAGS})
 
 set(juk_SRCS 
    advancedsearchdialog.cpp 
