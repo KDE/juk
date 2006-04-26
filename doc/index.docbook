@@ -26,7 +26,7 @@
 <firstname>Scott</firstname>
 <surname>Wheeler</surname>
 <affiliation>
-<address><email>wheeler@kde.org</email></address>
+<address>&Scott.Wheeler.mail;</address>
 </affiliation>
 </othercredit>
 
@@ -38,7 +38,7 @@
 <year>2001</year>
 <year>2002</year>
 <year>2004</year>
-<holder>Scott Wheeler</holder>
+<holder>&Scott.Wheeler;</holder>
 </copyright>
 <legalnotice>&FDLNotice;</legalnotice>
 
@@ -169,7 +169,7 @@ from a pointer, &LMB; click and drag in the direction you want to
 resize the columns.</para>
 
 <para>You can reorder the columns by &LMB; clicking on a header and
-dragging the header to the left or right.  You can't drag past the
+dragging the header to the left or right.  You cannot drag past the
 edge of the window when doing this however, so you may need to scroll
 a little to the left or right, and repeat dragging the header, until
 you have placed it in your preferred position.</para>
@@ -308,9 +308,9 @@ the songs that are selected into the new playlist.</para>
 <varlistentry>
 <term><guimenuitem>Add Selected Items to K3b Project</guimenuitem></term>
 <listitem>
-<para>This allows you to quickly create a K3b CD-burning project from your selected songs.  &juk; will ask you if you would like an Audio CD project or a Data CD project, unless K3b already has a project open.</para>
+<para>This allows you to quickly create a K3b &CD;-burning project from your selected songs.  &juk; will ask you if you would like an Audio &CD; project or a Data &CD; project, unless K3b already has a project open.</para>
 
-<para>If K3b is not already running, &juk; will start it up for you.  After that, &juk; will add your selected files to the current K3b project.  You can then save the project in K3b for burning later, or burn the CD right away.
+<para>If K3b is not already running, &juk; will start it up for you.  After that, &juk; will add your selected files to the current K3b project.  You can then save the project in K3b for burning later, or burn the &CD; right away.
 </para>
 
 </listitem>
@@ -561,10 +561,10 @@ bottom of the list view.</para>
 selected multiple files.</para>
 
 <para>Each field in the tag editor will now show an
-<guilabel>Enable</guilabel> checkbox next to it.  Any field that has
+<guilabel>Enable</guilabel> check box next to it.  Any field that has
 exactly the same contents for all the files you selected, displays
 that content, and is enabled for editing, with the
-<guilabel>Enable</guilabel> checkbox checked.</para>
+<guilabel>Enable</guilabel> check box checked.</para>
 
 <!-- put screeny here -->
 
@@ -573,7 +573,7 @@ files is not initially editable, and does not display any contents at
 all.</para>
 
 <para>To change the content of any field, check the
-<guilabel>Enable</guilabel> checkbox if it is not already checked, and
+<guilabel>Enable</guilabel> check box if it is not already checked, and
 edit the field as you normally would.</para>
 
 <para>When you are done, &LMB; click back in the list view and you
@@ -656,12 +656,12 @@ special.
 
 <para>Every token can contain %s, which is replaced with the actual tag,
 and any text you want, including slashes (/).  If a token has a slash, then
-that will indicate a directory separator.  Of course, it would be possible to
-simply type directory separators in the <guilabel>Filename scheme</guilabel>
+that will indicate a folder separator.  Of course, it would be possible to
+simply type folder separators in the <guilabel>Filename scheme</guilabel>
 line.</para>
 
 <para>Using the tokens, however, allows us to completely ignore tags that are empty.
-If you check the <guilabel>Need value</guilabel> checkbox, then the token will be
+If you check the <guilabel>Need value</guilabel> check box, then the token will be
 ignored if the corresponding tag is empty.  For example, you could use this to separate
 files with comments from those without by placing something such as
 <replaceable>has-comment/%s</replaceable> in the <guilabel>Comment token</guilabel>
@@ -779,7 +779,7 @@ the search must match the exact case of the text.</para></listitem>
 text you type in will define a regular expression used to search within
 the tag.  Regular expressions are beyond the scope of this documentation, but
 the application &kregexpeditor; can help you form a regular expression.
-&juk; uses the Qt regular expression style.</para></listitem>
+&juk; uses the &Qt; regular expression style.</para></listitem>
 </varlistentry>
 
 </variablelist>
@@ -814,7 +814,7 @@ click <guibutton>OK</guibutton> to create your search playlist!
 
 <title>Examples of adding covers</title>
 
-<para>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your CD. We'll use <quote>Alabama - Greatest Hits III</quote> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice><guimenu>Tagger</guimenu> <guisubmenu>Cover Manager</guisubmenu> <guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis>all</emphasis> of the <quote>Alabama - Greatest Hits III</quote> tracks, <emphasis>whether you wanted that or not</emphasis></para>
+<para>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote>Alabama - Greatest Hits III</quote> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice><guimenu>Tagger</guimenu> <guisubmenu>Cover Manager</guisubmenu> <guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis>all</emphasis> of the <quote>Alabama - Greatest Hits III</quote> tracks, <emphasis>whether you wanted that or not</emphasis></para>
 
 <para>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote>Alabama - Greatest Hits III</quote> tracks before using the <menuchoice><guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice><guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension">.png</literal> images cluttering your hard drive.</para>
 </sect3>
@@ -823,7 +823,7 @@ click <guibutton>OK</guibutton> to create your search playlist!
 
 <title>Reusing Old Covers</title>
 
-<para>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; can't quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+<para>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
 
 <para>There are two ways of doing this:</para>
 
@@ -910,7 +910,7 @@ to create.
   </varlistentry>
 
   <varlistentry><term><guimenuitem>Playlist From Folder...</guimenuitem></term>
-  <listitem><para>This prompts you for a directory to open, and then creates a playlist
+  <listitem><para>This prompts you for a folder to open, and then creates a playlist
     containing the music within the folder and any sub-folders.  The name of the created
     playlist is the same as the name of the selected folder.</para></listitem>
   </varlistentry>
@@ -1592,15 +1592,15 @@ action="simul">&Ctrl;<keycap>T</keycap></keycombo></entry>
 <chapter id="credits-and-licenses">
 <title>Credits and Licenses</title>
 
-<para>&juk; Copyright &copy; 2002, 2003, 2004 Scott Wheeler.</para>
+<para>&juk; Copyright &copy; 2002, 2003, 2004 &Scott.Wheeler;.</para>
 
-<para>&juk; is developed and maintained by Scott Wheeler
-<email>wheeler@kde.org</email>.</para>
+<para>&juk; is developed and maintained by &Scott.Wheeler;
+&Scott.Wheeler.mail;.</para>
 
 <para>Many thanks to the following people who have contributed to &juk;:</para>
 
 <itemizedlist>
-<listitem><para>Daniel Molkentin <email>molkentin@kde.org</email> for system tray docking, <quote>inline</quote> tag
+<listitem><para>&Daniel.Molkentin; &Daniel.Molkentin.mail; for system tray docking, <quote>inline</quote> tag
 editing, bug fixes, evangelism, moral support.</para>
 </listitem>
 <listitem><para>Tim Jansen <email>tim@tjansen.de</email> for
@@ -1608,14 +1608,14 @@ the <application>GStreamer</application> port</para>
 </listitem>
 
 <listitem><para>Stefan Asserh&auml;ll <email>stefan.asserhall@telia.com</email>
-for global keybindings support.</para>
+for global shortcut support.</para>
 </listitem>
 
 <listitem><para>Stephen Douglas <email>stephen_douglas@yahoo.com</email>
 for track announcement popups.</para>
 </listitem>
 
-<listitem><para>Frerich Raabe <email>raabe@kde.org</email>
+<listitem><para>&Frerich.Raabe; &Frerich.Raabe.mail;
 for automagical track data guessing, and bugfixes.</para>
 </listitem>
 
@@ -1628,7 +1628,7 @@ for co-conspiring in MusicBrainz wizardry.</para>
 </listitem>
 
 <listitem><para>Matthias Kretz <email>kretz@kde.org</email>
-for being the friendly neighborhood aRts guru.</para>
+for being the friendly neighborhood &arts; guru.</para>
 </listitem>
 
 <listitem><para>Maks Orlovich <email>maksim@kde.org</email>
@@ -1636,12 +1636,12 @@ for making &juk; friendlier to people with terabytes of music.</para>
 </listitem>
 
 <listitem><para>Antonio Larrosa Jimenez <email>larrosa@kde.org</email>
-for the DCOP interface.</para>
+for the &DCOP; interface.</para>
 </listitem>
 
 </itemizedlist>
 
-<para>Documentation Copyright &copy; 2003, Lauri Watts, and copyright
+<para>Documentation Copyright &copy; 2003, &Lauri.Watts;, and copyright
 &copy; 2004 Michael Pyne.</para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
