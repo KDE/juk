@@ -125,8 +125,7 @@ void CoverInfo::setCover(const QImage &image)
     m_needsConverting = false;
     m_hasCover = true;
 
-    QPixmap cover;
-    cover.convertFromImage(image);
+    QPixmap cover = QPixmap::fromImage(image);
 
     // If we use replaceCover we'll change the cover for every other track
     // with the same coverKey, which we don't want since that case will be

@@ -124,8 +124,7 @@ void GoogleFetcherDialog::slotOk()
         KMessageBox::sorry(this,
                            i18n("The cover you have selected is unavailable. Please select another."),
                            i18n("Cover Unavailable"));
-        QPixmap blankPix;
-        blankPix.resize(80, 80);
+        QPixmap blankPix(80,80);
         blankPix.fill();
         m_iconWidget->currentItem()->setPixmap(blankPix, true, true);
         return;
@@ -204,8 +203,7 @@ CoverIconViewItem::CoverIconViewItem(Q3IconView *parent, const GoogleImage &imag
 {
     // Set up the iconViewItem
 
-    QPixmap mainMap;
-    mainMap.resize(80, 80);
+    QPixmap mainMap(80,80);
     mainMap.fill();
     setPixmap(mainMap, true, true);
 

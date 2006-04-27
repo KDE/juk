@@ -440,18 +440,14 @@ bool SystemTray::buttonsToLeft() const
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
 {
-    QPixmap bgPix = m_appPix;
-    QPixmap fgPix = SmallIcon(pixName);
-
-    QImage bgImage = bgPix.convertToImage(); // Probably 22x22
-    QImage fgImage = fgPix.convertToImage(); // Should be 16x16
+    QImage bgImage = m_appPix.toImage(); // Probably 22x22
+    QImage fgImage = SmallIcon(pixName).toImage(); // Should be 16x16
 
     KIconEffect::semiTransparent(bgImage);
     copyImage(bgImage, fgImage, (bgImage.width() - fgImage.width()) / 2,
               (bgImage.height() - fgImage.height()) / 2);
 
-    bgPix.convertFromImage(bgImage);
-    return bgPix;
+    return QPixmap::fromImage(bgImage);
 }
 
 void SystemTray::createButtonBox(QWidget *parent)
@@ -536,7 +532,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
         if(cover.isNull())
             myCover = DesktopIcon("juk");
 
-        QImage coverImage = myCover.convertToImage();
+        QImage coverImage = myCover.toImage();
         if(coverImage.size().width() > 32 || coverImage.size().height() > 32)
             coverImage = coverImage.smoothScale(32, 32);
 

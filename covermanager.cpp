@@ -281,7 +281,7 @@ QByteArray CoverDrag::encodedData(const char *mimetype) const
     }
     else if(qstrcmp(mimetype, "image/png") == 0) {
         QPixmap large = CoverManager::coverFromId(m_id, CoverManager::FullSize);
-        QImage img = large.convertToImage();
+        QImage img = large.toImage();
         QByteArray data;
         QBuffer buffer(&data);
 

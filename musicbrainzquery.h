@@ -18,7 +18,7 @@
 
 #include <config.h>
 
-#if HAVE_TUNEPIMP
+#ifdef HAVE_TUNEPIMP
 
 #include "ktrm.h"
 #include "filehandle.h"
