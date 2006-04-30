@@ -76,14 +76,14 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
 
         newPen.setWidth(5);
         newPen.setJoinStyle(Qt::RoundJoin);
-        newPen.setColor(QColorGroup::Highlight);
+        newPen.setColor(QPalette::Highlight);
 
         painter->setPen(newPen);
         painter->drawRect(border, border, width - border * 2, item->height() - border * 2 + 1);
         painter->setPen(oldPen);
 
         painter->fillRect(border, border, width - border * 2, item->height() - border * 2 + 1,
-                          colorGroup.brush(QColorGroup::Highlight));
+                          colorGroup.brush(QPalette::Highlight));
         painter->setPen(colorGroup.highlightedText());
     }
     else

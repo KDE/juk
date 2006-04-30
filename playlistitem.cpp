@@ -286,7 +286,7 @@ void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int
 
     QColor c(r, g, b);
 
-    colorGroup.setColor(QColorGroup::Base, c);
+    colorGroup.setColor(QPalette::Base, c);
     Q3ListViewItem::paintCell(p, colorGroup, column, width, align);
 }
 
