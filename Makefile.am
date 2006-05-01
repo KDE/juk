@@ -106,8 +106,4 @@ POFILES = AUTO
 
 xdg_apps_DATA = juk.desktop
 
-messages: rc.cpp
-	$(EXTRACTRC) *.rc >> rc.cpp
-	$(XGETTEXT) *.rc *.cpp *.h -o $(podir)/juk.pot
-	-rm rc.cpp
 KDE_OPTIONS=nofinal
