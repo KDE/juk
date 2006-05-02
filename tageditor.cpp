@@ -29,6 +29,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kiconloader.h>
+#include <kicon.h>
+#include <kshortcut.h>
 #include <kactionclasses.h>
 
 #include <qlabel.h>
@@ -482,7 +484,9 @@ void TagEditor::setupActions()
     show->setCheckedState(i18n("Hide &Tag Editor"));
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
 
-    new KAction(i18n("&Save"), "filesave", "CTRL+t", this, SLOT(slotSave()), ActionCollection::actions(), "saveItem");
+    KAction *act = new KAction(KIcon("filesave"), i18n("&Save"), ActionCollection::actions(), "saveItem");
+    act->setShortcut(Qt::CTRL + Qt::Key_T);
+    connect(act, SIGNAL(triggered(bool)), SLOT(slotSave()));
 }
 
 void TagEditor::setupLayout()

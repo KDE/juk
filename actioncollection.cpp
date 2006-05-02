@@ -28,7 +28,7 @@ namespace ActionCollection
         return a;
     }
 
-    KAction *action(const char *key)
+    KAction *action(const QString &key)
     {
 #ifndef NO_DEBUG
         KAction *a = actions()->action(key);

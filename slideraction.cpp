@@ -135,6 +135,7 @@ const int SliderAction::maxPosition = 1000;
 SliderAction::SliderAction(const QString &text, KActionCollection* collection, const char *name)
     : KAction(text, 0, 0, 0, collection, name),
       m_toolBar(0),
+      m_widget(0),
       m_layout(0),
       m_trackPositionSlider(0),
       m_volumeSlider(0),
@@ -151,9 +152,9 @@ SliderAction::~SliderAction()
 
 int SliderAction::plug(QWidget *parent, int index)
 {
-    QWidget *w = createWidget(parent);
+    m_widget = createWidget(parent);
 
-    if(!w)
+    if(!m_widget)
         return -1;
 
     // the check for null makes sure that there is only one toolbar that this is
@@ -162,11 +163,8 @@ int SliderAction::plug(QWidget *parent, int index)
     if(parent->inherits("KToolBar") && !m_toolBar) {
         m_toolBar = static_cast<KToolBar *>(parent);
 
-        int id = KAction::getToolButtonID();
-
-        m_toolBar->insertWidget(id, w->width(), w, index);
-
-        addContainer(m_toolBar, id);
+//        m_toolBar->insertWidget(id, m_widget->width(), m_widget, index);
+        m_toolBar->addWidget(m_widget);
 
         connect(m_toolBar, SIGNAL(destroyed()), this, SLOT(slotToolbarDestroyed()));
         connect(m_toolBar, SIGNAL(orientationChanged(Orientation)),
@@ -187,15 +185,9 @@ int SliderAction::plug(QWidget *parent, int index)
 void SliderAction::unplug(QWidget *parent)
 {
     if (parent->inherits("KToolBar")) {
-        m_toolBar = static_cast<KToolBar *>(parent);
-
-        int index = findContainer(m_toolBar);
-        if (index != -1) {
-            m_toolBar->removeItem(itemId(index));
-            removeContainer(index);
-
-            m_toolBar = 0;
-        }
+        delete m_widget;
+        m_widget = 0;
+        m_toolBar = 0;
     }
 }
 
@@ -210,7 +202,7 @@ void SliderAction::slotUpdateOrientation()
     if(!m_toolBar)
         return;
 
-    if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
+    if(m_toolBar->orientation() == Qt::Vertical) {
         m_trackPositionSlider->setOrientation(Qt::Vertical);
         m_volumeSlider->setOrientation(Qt::Vertical);
         m_layout->setDirection(QBoxLayout::TopToBottom);
@@ -236,15 +228,12 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 
         KToolBar *toolBar = dynamic_cast<KToolBar *>(parent);
 
-        if(toolBar)
-            toolBar->setStretchableWidget(base);
+        Qt::Orientation orientation = Qt::Horizontal;
 
-        Qt::Orientation orientation;
-
-        if(toolBar && toolBar->barPos() == KToolBar::Right || toolBar->barPos() == KToolBar::Left)
-            orientation = Qt::Vertical;
-        else
-            orientation = Qt::Horizontal;
+        if(toolBar) {
+//            toolBar->setStretchableWidget(base);
+            orientation = toolBar->orientation();
+        }
 
         m_layout = new QBoxLayout(base, QBoxLayout::TopToBottom, 5, 5);
 
@@ -305,18 +294,18 @@ void SliderAction::slotUpdateSize()
     if(!m_toolBar)
         return;
 
-    if(m_toolBar->barPos() == KToolBar::Right || m_toolBar->barPos() == KToolBar::Left) {
-        m_volumeSlider->setMaximumWidth(m_toolBar->iconSize() - offset);
+    if(m_toolBar->orientation() == Qt::Vertical) {
+        m_volumeSlider->setMaximumWidth(m_toolBar->iconSize().width() - offset);
         m_volumeSlider->setMaximumHeight(volumeMax);
 
-        m_trackPositionSlider->setMaximumWidth(m_toolBar->iconSize() - offset);
+        m_trackPositionSlider->setMaximumWidth(m_toolBar->iconSize().width() - offset);
         m_trackPositionSlider->setMaximumHeight(absoluteMax);
     }
     else {
-        m_volumeSlider->setMaximumHeight(m_toolBar->iconSize() - offset);
+        m_volumeSlider->setMaximumHeight(m_toolBar->iconSize().height() - offset);
         m_volumeSlider->setMaximumWidth(volumeMax);
 
-        m_trackPositionSlider->setMaximumHeight(m_toolBar->iconSize() - offset);
+        m_trackPositionSlider->setMaximumHeight(m_toolBar->iconSize().height() - offset);
         m_trackPositionSlider->setMaximumWidth(absoluteMax);
     }
 }
@@ -345,10 +334,12 @@ void SliderAction::slotVolumeSliderReleased()
 
 void SliderAction::slotToolbarDestroyed()
 {
+#if 0 // what's going on here?
     int index = findContainer(m_toolBar);
     if(index != -1)
         removeContainer(index);
 
+#endif
     m_toolBar = 0;
 
     // This is probably a leak, but this code path hardly ever occurs, and it's

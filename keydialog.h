@@ -23,7 +23,7 @@
 #include <qbuttongroup.h>
 #include <q3widgetstack.h>
 
-class KeyDialog : public KDialogBase
+class KeyDialog : public KDialog
 {
     Q_OBJECT
 
@@ -31,7 +31,7 @@ public:
     /**
      * Constructs a KeyDialog called @p name as a child of @p parent.
      */
-    KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection, QWidget *parent = 0, const char* name = 0);
+    KeyDialog(KActionCollection *actionCollection, QWidget *parent = 0);
 
     /**
      * Destructor. Deletes all resources used by a KeyDialog object.
@@ -40,17 +40,15 @@ public:
 
     /**
      * This is a member function, provided to allow inserting both global
-     * accelerators and actions. It behaves essentially like the functions
-     * in KKeyDialog.
+     * accelerators and actions.
      */
-    static int configure(KGlobalAccel *keys, KActionCollection *actionCollection, QWidget *parent = 0);
+    static int configure(KActionCollection *actionCollection, QWidget *parent = 0);
 
     /**
      * This is a member function, provided to create a global accelerator with
-     * standard keys. It behaves like the function in KGlobalAccel.
+     * standard keys.
      */
-    static void insert(KGlobalAccel *keys, const QString &action, const QString &label,
-                       const QObject *objSlot, const char *methodSlot);
+    static void setupActionShortcut(const QString &actionName);
 
 private:
 
@@ -61,10 +59,10 @@ private:
 
     struct KeyInfo {
         QString action;
-        KShortcut shortcut[3][2];
+        KShortcut shortcut[3];
     };
 
-    void newDialog(KGlobalAccel *keys, KActionCollection *actionCollection, int selectedButton = 0);
+    void newDialog(KActionCollection *actionCollection, int selectedButton = 0);
     int configure();
 
 private slots:
@@ -73,7 +71,6 @@ private slots:
 
 private:
     KActionCollection *m_actionCollection;
-    KGlobalAccel      *m_keys;
     KKeyChooser       *m_pKeyChooser;
     QButtonGroup      *m_group;
     Q3WidgetStack     *m_widgetStack;

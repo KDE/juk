@@ -89,6 +89,7 @@ private slots:
 
 private:
     KToolBar *m_toolBar;
+    QWidget *m_widget;
     QBoxLayout *m_layout;
     QSlider *m_trackPositionSlider;
     VolumeSlider *m_volumeSlider;

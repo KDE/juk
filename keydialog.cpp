@@ -14,11 +14,14 @@
  ***************************************************************************/
 
 #include "keydialog.h"
+#include "actioncollection.h"
 
 #include <kconfig.h>
 #include <klocale.h>
+#include <kaction.h>
 
-#include <qradiobutton.h>
+#include <QRadioButton>
+#include <QGroupBox>
 #include <q3vbox.h>
 
 
@@ -26,57 +29,56 @@
 // Table of shortcut keys for each action, key group and three or four button modifier
 
 const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
-    { "PlayPause",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::ALT+Qt::Key_P,               Qt::META+Qt::ALT+Qt::Key_P },
-        { Qt::Key_MediaPlay,                        Qt::Key_MediaPlay } } },
-    { "Stop",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::ALT+Qt::Key_S,               Qt::META+Qt::ALT+Qt::Key_S },
-        { Qt::Key_MediaStop,                        Qt::Key_MediaStop } } },
-    { "Back",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::ALT+Qt::Key_Left,            Qt::META+Qt::ALT+Qt::Key_Left },
-        { Qt::Key_MediaPrevious   ,                        Qt::Key_MediaPrevious } } },
-    { "Forward",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::ALT+Qt::Key_Right,           Qt::META+Qt::ALT+Qt::Key_Right },
-        { Qt::Key_MediaNext,                        Qt::Key_MediaNext } } },
-    { "ForwardAlbum",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::ALT+Qt::Key_Up,              Qt::META+Qt::ALT+Qt::Key_Up },
-        { Qt::CTRL+Qt::Key_MediaNext,               Qt::CTRL+Qt::Key_MediaNext } } },
-    { "SeekBack",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Left,  Qt::META+Qt::SHIFT+Qt::ALT+Qt::Key_Left },
-        { Qt::SHIFT+Qt::Key_MediaPrevious,              Qt::SHIFT+Qt::Key_MediaPrevious } } },
-    { "SeekForward",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Right, Qt::META+Qt::SHIFT+Qt::ALT+Qt::Key_Right },
-        { Qt::SHIFT+Qt::Key_MediaNext,              Qt::SHIFT+Qt::Key_MediaNext } } },
-    { "VolumeUp",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Up,    Qt::META+Qt::ALT+Qt::SHIFT+Qt::Key_Up },
-        { Qt::Key_VolumeUp,                         Qt::Key_VolumeUp } } },
-    { "VolumeDown",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Down,  Qt::META+Qt::ALT+Qt::SHIFT+Qt::Key_Down },
-        { Qt::Key_VolumeDown,                       Qt::Key_VolumeDown } } },
-    { "Mute",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { Qt::CTRL+Qt::ALT+Qt::Key_M,               Qt::META+Qt::ALT+Qt::Key_M },
-        { Qt::Key_VolumeMute,                       Qt::Key_VolumeMute } } },
-    { "ShowHide",
-      { { KShortcut::null(),                        KShortcut::null() },
-        { KShortcut::null(),                        KShortcut::null() },
-        { KShortcut::null(),                        KShortcut::null() } } }
+    { "playPause",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::ALT+Qt::Key_P,
+        Qt::Key_MediaPlay } },
+    { "stop",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::ALT+Qt::Key_S,
+        Qt::Key_MediaStop } },
+    { "back",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::ALT+Qt::Key_Left,
+        Qt::Key_MediaPrevious } },
+    { "forward",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::ALT+Qt::Key_Right,
+        Qt::Key_MediaNext } },
+    { "forwardAlbum",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::ALT+Qt::Key_Up,
+        Qt::CTRL+Qt::Key_MediaNext } },
+    { "seekBack",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Left,
+        Qt::SHIFT+Qt::Key_MediaPrevious } },
+    { "seekForward",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Right,
+        Qt::SHIFT+Qt::Key_MediaNext } },
+    { "volumeUp",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Up,
+        Qt::Key_VolumeUp } },
+    { "volumeDown",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Down,
+        Qt::Key_VolumeDown } },
+    { "mute",
+      { KShortcut::null(),
+        Qt::CTRL+Qt::ALT+Qt::Key_M,
+        Qt::Key_VolumeMute } },
+    { "showHide",
+      { KShortcut::null(),
+        KShortcut::null(),
+        KShortcut::null() } }
 };
 
 const uint KeyDialog::keyInfoCount = sizeof(KeyDialog::keyInfo) / sizeof(KeyDialog::keyInfo[0]);
 
-KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
-                     QWidget *parent, const char *name)
-    : KDialogBase(parent, name, true, i18n("Configure Shortcuts"), Default | Ok | Cancel, Ok)
+KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
+    : KDialog(parent, i18n("Configure Shortcuts"), Default | Ok | Cancel)
 {
     // Read key group from configuration
 
@@ -93,20 +95,21 @@ KeyDialog::KeyDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
 
     // Create buttons to select key group
 
-    #warning Another place that probably needs some post-mortem analysis.
+    m_group = new QButtonGroup(vbox);
+    QGroupBox *buttonBox = new QGroupBox(i18n("Global Shortcuts"), vbox);
 
-    m_group = new QButtonGroup(/* i18n("Global Shortcuts"), */ vbox);
-    new QRadioButton(i18n("&No keys"), /* m_group */ vbox);
-    new QRadioButton(i18n("&Standard keys"), /* m_group */ vbox);
-    new QRadioButton(i18n("&Multimedia keys"), /* m_group */ vbox);
-    connect(m_group, SIGNAL(clicked(int)), this, SLOT(slotKeys(int)));
-    /*m_group*/ vbox->setWhatsThis(
+    m_group->addButton(new QRadioButton(i18n("&No keys"), buttonBox), NoKeys);
+    m_group->addButton(new QRadioButton(i18n("&Standard keys"), buttonBox), StandardKeys);
+    m_group->addButton(new QRadioButton(i18n("&Multimedia keys"), buttonBox), MultimediaKeys);
+
+    connect(m_group, SIGNAL(buttonClicked(int)), this, SLOT(slotKeys(int)));
+    buttonBox->setWhatsThis(
 	i18n("Here you can select the keys used as global shortcuts to control the player"));
 
     // Create the key chooser
 
     setMainWidget(vbox);
-    newDialog(keys, actionCollection, selectedButton);
+    newDialog(actionCollection, selectedButton);
 }
 
 KeyDialog::~KeyDialog()
@@ -114,20 +117,16 @@ KeyDialog::~KeyDialog()
 
 }
 
-void KeyDialog::newDialog(KGlobalAccel *keys, KActionCollection *actionCollection,
-                          int selectedButton)
+void KeyDialog::newDialog(KActionCollection *actionCollection, int selectedButton)
 {
-    m_keys = keys;
     m_actionCollection = actionCollection;
 
     // Create key chooser and show it in the widget stack
-    m_pKeyChooser = new KKeyChooser(keys, this);
-    m_pKeyChooser->insert(actionCollection);
+    m_pKeyChooser = new KKeyChooser(actionCollection, this);
     m_widgetStack->addWidget(m_pKeyChooser);
     m_widgetStack->raiseWidget(m_pKeyChooser);
 
-    #warning More broken code
-    /* m_group->setButton(selectedButton); */
+    m_group->button(selectedButton)->setChecked(true);
 
     connect(this, SIGNAL(defaultClicked()), this, SLOT(slotDefault()));
 }
@@ -138,10 +137,9 @@ int KeyDialog::configure()
 
     int retcode = exec();
     if(retcode == Accepted) {
-
         KConfigGroup config(KGlobal::config(), "Shortcuts");
-	#warning All of the stuff related to the group selection needs to be rewritten
-        /* config.writeEntry("GlobalKeys", m_group->id(m_group->selected())); */
+
+        config.writeEntry("GlobalKeys", m_group->checkedId());
         KGlobal::config()->sync();
 
         m_pKeyChooser->save();
@@ -151,18 +149,18 @@ int KeyDialog::configure()
 
 void KeyDialog::slotKeys(int group)
 {
-    #warning bleh
-    bool fourModKeys = /* KGlobalAccel::useFourModifierKeys()*/ true;
-
     // Set modifier keys according to key group and modifier keys
 
-    for(uint i = 0; i < keyInfoCount; i++)
-        m_keys->setShortcut(keyInfo[i].action, keyInfo[i].shortcut[group][fourModKeys]);
+    for(uint i = 0; i < keyInfoCount; i++) {
+        KAction *a = ActionCollection::action(keyInfo[i].action);
+        if(a)
+            a->setGlobalShortcut(keyInfo[i].shortcut[group]);
+    }
 
     // Create a new key chooser to show the keys, and delete the old one
 
     QWidget *w = m_widgetStack->visibleWidget();
-    newDialog(m_keys, m_actionCollection, group);
+    newDialog(m_actionCollection, group);
     m_widgetStack->removeWidget(w);
     delete w;
 }
@@ -171,39 +169,35 @@ void KeyDialog::slotDefault()
 {
     // Select default keys - standard key group
 
-    #warning More of the same
-    /* m_group->setButton(StandardKeys); */
+    m_group->button(StandardKeys)->setChecked(true);
     m_pKeyChooser->allDefault();
 }
 
-int KeyDialog::configure(KGlobalAccel *keys, KActionCollection *actionCollection,
-                         QWidget *parent)
+int KeyDialog::configure(KActionCollection *actionCollection, QWidget *parent)
 {
     // Create and show dialog - update connections if accepted
 
-    int retcode = KeyDialog(keys, actionCollection, parent).configure();
-
-    if(retcode == Accepted)
-        keys->updateConnections();
-    return retcode;
+    return KeyDialog(actionCollection, parent).configure();
 }
 
-void KeyDialog::insert(KGlobalAccel *keys, const QString &action, const QString &label,
-                       const QObject *objSlot, const char *methodSlot)
+void KeyDialog::setupActionShortcut(const QString &actionName)
 {
-    KShortcut def3 = KShortcut::null();
-    KShortcut def4 = KShortcut::null();
-
     // Find and insert a standard key
+    KShortcut shortcut = KShortcut::null();
 
     for(uint i = 0; i < keyInfoCount; i++) {
-        if(keyInfo[i].action == action) {
-            def3 = keyInfo[i].shortcut[StandardKeys][0];
-            def4 = keyInfo[i].shortcut[StandardKeys][1];
+        if(keyInfo[i].action == actionName) {
+            shortcut = keyInfo[i].shortcut[StandardKeys];
             break;
         }
     }
-    keys->insert(action, label, QString::null, def3, objSlot, methodSlot);
+
+    if(shortcut.isNull())
+        return; // We have no shortcut to set.
+
+    KAction *a = ActionCollection::action(actionName);
+    if(a)
+        a->setGlobalShortcut(shortcut);
 }
 
 #include "keydialog.moc"

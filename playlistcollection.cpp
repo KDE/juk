@@ -841,11 +841,11 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu = new KActionMenu(KIcon("filenew"), i18n("&New"), actions(), "file_new");
 
     menu->insert(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
-                              "newPlaylist", "window_new", "CTRL+n"));
+                              "newPlaylist", "window_new", Qt::CTRL + Qt::Key_N));
     menu->insert(createAction(i18n("&Search Playlist..."), SLOT(slotCreateSearchPlaylist()),
-                              "newSearchPlaylist", "find", "CTRL+f"));
+                              "newSearchPlaylist", "find", Qt::CTRL + Qt::Key_F));
     menu->insert(createAction(i18n("Playlist From &Folder..."), SLOT(slotCreateFolderPlaylist()),
-                              "newDirectoryPlaylist", "fileopen", "CTRL+d"));
+                              "newDirectoryPlaylist", "fileopen", Qt::CTRL + Qt::Key_D));
 
     // Guess tag info menu
 
@@ -854,23 +854,23 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     /* menu->setIconSet(SmallIconSet("wizard")); */
 
     menu->insert(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
-                              "guessTagFile", "fileimport", "CTRL+g"));
+                              "guessTagFile", "fileimport", Qt::CTRL + Qt::Key_G));
     menu->insert(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
-                              "guessTagInternet", "connect_established", "CTRL+i"));
+                              "guessTagInternet", "connect_established", Qt::CTRL + Qt::Key_I));
 #else
     createAction(i18n("Guess Tag Information From &File Name"), SLOT(slotGuessTagFromFile()),
-                 "guessTag", "fileimport", "CTRL+f");
+                 "guessTag", "fileimport", Qt::CTRL + Qt::Key_F);
 #endif
 
 
     createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),     "playFirst");
     createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "next");
 
-    createAction(i18n("Open..."),         SLOT(slotOpen()),         "file_open", "fileopen", "CTRL+o");
+    createAction(i18n("Open..."),         SLOT(slotOpen()),         "file_open", "fileopen", Qt::CTRL + Qt::Key_O);
     createAction(i18n("Add &Folder..."),  SLOT(slotAddFolder()),    "openDirectory", "fileopen");
     createAction(i18n("&Rename..."),      SLOT(slotRename()),       "renamePlaylist", "lineedit");
     createAction(i18n("D&uplicate..."),   SLOT(slotDuplicate()),    "duplicatePlaylist", "editcopy");
-    createAction(i18n("Save"),            SLOT(slotSave()),         "file_save", "filesave", "CTRL+s");
+    createAction(i18n("Save"),            SLOT(slotSave()),         "file_save", "filesave", Qt::CTRL + Qt::Key_S);
     createAction(i18n("Save As..."),      SLOT(slotSaveAs()),       "file_save_as", "filesaveas");
     createAction(i18n("R&emove"),         SLOT(slotRemove()),       "deleteItemPlaylist", "edittrash");
     createAction(i18n("Reload"),          SLOT(slotReload()),       "reloadPlaylist", "reload");
@@ -878,16 +878,16 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     createAction(i18n("&Delete"),         SLOT(slotRemoveItems()),  "removeItem", "editdelete");
     createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "reload");
-    createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", "CTRL+r");
+    createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", Qt::CTRL + Qt::Key_R);
 
     menu = new KActionMenu(i18n("Cover Manager"), actions(), "coverManager");
     /* menu->setIconSet(SmallIconSet("image")); */
     menu->insert(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "viewmag"));
     menu->insert(createAction(i18n("Get Cover From &File..."),
-        SLOT(slotAddLocalCover()), "addCover", "fileimport", "CTRL+SHIFT+f"));
+        SLOT(slotAddLocalCover()), "addCover", "fileimport", Qt::CTRL + Qt::SHIFT + Qt::Key_F));
     menu->insert(createAction(i18n("Get Cover From &Internet..."),
-        SLOT(slotAddInternetCover()), "googleCover", "connect_established", "CTRL+SHIFT+g"));
+        SLOT(slotAddInternetCover()), "googleCover", "connect_established", Qt::CTRL + Qt::SHIFT + Qt::Key_G));
     menu->insert(createAction(i18n("&Delete Cover"),
         SLOT(slotRemoveCovers()), "removeCover", "editdelete"));
     menu->insert(createAction(i18n("Show Cover &Manager"),

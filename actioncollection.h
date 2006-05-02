@@ -30,13 +30,13 @@ namespace ActionCollection
      * Returns the action for the associated key from the global action
      * collection.
      */
-    KAction *action(const char *key);
+    KAction *action(const QString &key);
 
     /**
      * Returns the action for the associated key but includes a cast to the
      * type \a T.  i.e. KSelectAction *a = action<KSelectAction>("chooser");
      */
-    template <class T> T *action(const char *key)
+    template <class T> T *action(const QString &key)
     {
         return dynamic_cast<T *>(action(key));
     }
