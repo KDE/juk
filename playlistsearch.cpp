@@ -197,7 +197,7 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
     for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
 
         if(m_re) {
-            if(item->text(*it).find(m_queryRe) > -1)
+            if(item->text(*it).contains(m_queryRe))
                 return true;
             else
                 break;
@@ -205,7 +205,7 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
 
         switch(m_mode) {
         case Contains:
-            if(item->text(*it).find(m_query, 0, m_caseSensitive) > -1)
+            if(item->text(*it).contains(m_query, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive))
                 return true;
             break;
         case Exact:
@@ -221,7 +221,7 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
         case ContainsWord:
         {
             QString s = item->text(*it);
-            int i = s.find(m_query, 0, m_caseSensitive);
+            int i = s.indexOf(m_query, 0, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive );
 
             if(i >= 0) {
 

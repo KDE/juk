@@ -24,7 +24,7 @@ FileNameScheme::FileNameScheme(const QString &s)
     m_commentField(-1)
 {
     int fieldNumber = 1;
-    int i = s.find('%');
+    int i = s.indexOf('%');
     while (i > -1) {
         switch (s[ i + 1 ].toLatin1()) {
             case 't': m_titleField = fieldNumber++;
@@ -40,7 +40,7 @@ FileNameScheme::FileNameScheme(const QString &s)
             default:
                       break;
         }
-        i = s.find('%', i + 1);
+        i = s.indexOf('%', i + 1);
     }
     m_regExp.setPattern(composeRegExp(s));
 }
@@ -51,7 +51,7 @@ bool FileNameScheme::matches(const QString &fileName) const
      * does not work as a separator.
      */
     QString stripped = fileName;
-    stripped.truncate(stripped.findRev('.'));
+    stripped.truncate(stripped.lastIndexOf('.'));
     return m_regExp.exactMatch(stripped);
 }
 
@@ -205,10 +205,10 @@ QString TagGuesser::capitalizeWords(const QString &s)
     result[ 0 ] = result[ 0 ].upper();
 
     const QRegExp wordRegExp("\\s\\w");
-    int i = result.find( wordRegExp );
+    int i = result.indexOf( wordRegExp );
     while ( i > -1 ) {
         result[ i + 1 ] = result[ i + 1 ].upper();
-        i = result.find( wordRegExp, ++i );
+        i = result.indexOf( wordRegExp, ++i );
     }
 
     return result;

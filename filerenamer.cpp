@@ -274,7 +274,7 @@ void FileRenamerWidget::loadConfig()
 
     checkedSeparators = config.readEntry("CheckedDirSeparators", QList<int>());
 
-    
+
     for(QList<int>::ConstIterator it = checkedSeparators.begin();
         it != checkedSeparators.end(); ++it)
     {
@@ -947,7 +947,7 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
         path.append("/" + (*it));
 
         kDebug() << "Checking path: " << path << endl;
-        if((*it).find(item->file().tag()->album()) != -1 &&
+        if((*it).contains(item->file().tag()->album() ) &&
            !QFile::exists(path + "/.directory"))
         {
             // Seems to be a match, let's set the folder icon for the current

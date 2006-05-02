@@ -275,10 +275,10 @@ void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int
     if(!m_playingItems.contains(this))
         return K3ListViewItem::paintCell(p, cg, column, width, align);
 
-    QColorGroup colorGroup = cg;
+    QPalette colorGroup = cg;
 
-    QColor base = colorGroup.base();
-    QColor selection = colorGroup.highlight();
+    QColor base = colorGroup.color( QPalette::Base );
+    QColor selection = colorGroup.color( QPalette::Highlight );
 
     int r = (base.red() + selection.red()) / 2;
     int b = (base.blue() + selection.blue()) / 2;

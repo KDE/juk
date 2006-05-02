@@ -18,7 +18,7 @@
 
 #include "config.h"
 
-#if HAVE_GSTREAMER
+#ifdef HAVE_GSTREAMER
 
 #include <gst/gst.h>
 #include <qstring.h>

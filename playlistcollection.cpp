@@ -509,7 +509,7 @@ void PlaylistCollection::createFolderPlaylist()
     if(folder.isEmpty())
         return;
 
-    QString name = uniquePlaylistName(folder.mid(folder.findRev('/') + 1));
+    QString name = uniquePlaylistName(folder.mid(folder.lastIndexOf('/') + 1));
     name = playlistNameDialog(i18n("Create Folder Playlist"), name);
 
     if(!name.isNull())

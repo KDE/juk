@@ -84,7 +84,7 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
 
         painter->fillRect(border, border, width - border * 2, item->height() - border * 2 + 1,
                           colorGroup.brush(QPalette::Highlight));
-        painter->setPen(colorGroup.highlightedText());
+        painter->setPen(colorGroup.color( QPalette::HighlightedText));
     }
     else
         painter->eraseRect(0, 0, width, item->height());
@@ -199,7 +199,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
               fm.width(line.mid(0, textLength).stripWhiteSpace()) +
               item->listView()->itemMargin() * 2 > width)
         {
-            int i = line.findRev(QRegExp( "\\W"), textLength - 1);
+            int i = line.lastIndexOf(QRegExp( "\\W"), textLength - 1);
             if(i > 0)
                 textLength = i;
             else

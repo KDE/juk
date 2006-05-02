@@ -29,7 +29,7 @@
 
 #include <config.h>
 
-#if HAVE_TUNEPIMP
+#ifdef HAVE_TUNEPIMP
 
 #include <qstring.h>
 #include <q3valuelist.h>

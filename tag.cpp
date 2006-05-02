@@ -245,8 +245,8 @@ void Tag::setup(TagLib::File *file)
     m_lengthString = QString::number(minutes) + (seconds >= 10 ? ":" : ":0") + QString::number(seconds);
 
     if(m_title.isEmpty()) {
-        int i = m_fileName.findRev('/');
-        int j = m_fileName.findRev('.');
+        int i = m_fileName.lastIndexOf('/');
+        int j = m_fileName.lastIndexOf('.');
         m_title = i > 0 ? m_fileName.mid(i + 1, j - i - 1) : m_fileName;
     }
 

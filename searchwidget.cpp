@@ -273,9 +273,11 @@ void SearchWidget::setupLayout()
     clearSearchButton->setTextLabel(i18n("Clear Search"), true);
     clearSearchButton->setIconSet(SmallIconSet("locationbar_erase"));
 
-    QLabel *label = new QLabel(i18n("Search:"), this, "kde toolbar widget");
+    QLabel *label = new QLabel(i18n("Search:"), this );
+    label->setObjectName( "kde toolbar widget" );
 
-    m_searchLine = new SearchLine(this, true, "kde toolbar widget");
+    m_searchLine = new SearchLine(this, true );
+    m_searchLine->setObjectName( "kde toolbar widget" );
 
     label->setBuddy(m_searchLine);
 

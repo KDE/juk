@@ -223,7 +223,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 {
     if(parent) {
         QWidget *base = new QWidget(parent);
-        base->setBackgroundMode(parent->backgroundMode());
+        base->setBackgroundRole(parent->backgroundRole());
         base->setName("kde toolbar widget");
 
         KToolBar *toolBar = dynamic_cast<KToolBar *>(parent);

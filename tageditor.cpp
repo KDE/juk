@@ -67,7 +67,7 @@ public:
 
     virtual State validate(QString &s, int &) const
     {
-        if(s.find('/') != -1)
+        if(s.contains('/'))
            return Invalid;
         return Acceptable;
     }
@@ -546,7 +546,9 @@ void TagEditor::setupLayout()
 
         QLabel *fileNameIcon = new QLabel(this);
         fileNameIcon->setPixmap(SmallIcon("sound"));
-        QWidget *fileNameLabel = addHidden(new QLabel(m_fileNameBox, i18n("&File name:"), this));
+        QLabel * tmp = new QLabel(i18n("&File name:"), this);
+        tmp->setBuddy( m_fileNameBox );
+        QWidget *fileNameLabel = addHidden(tmp);
 
         fileNameLayout->addWidget(addHidden(fileNameIcon));
         fileNameLayout->addWidget(fileNameLabel);
@@ -739,8 +741,10 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, 
     if(!item || !layout)
         return;
 
-    QLabel *label = new QLabel(item, text, this);
-    QLabel *iconLabel = new QLabel(item, 0, this);
+    QLabel *label = new QLabel(text, this);
+    label->setBuddy( item );
+    QLabel *iconLabel = new QLabel(0, this);
+    iconLabel->setBuddy( item );
 
     if(!iconName.isNull())
         iconLabel->setPixmap(SmallIcon(iconName));
