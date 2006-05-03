@@ -526,7 +526,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
     QToolTip::remove(this);
 
     if(tip.isNull())
-        this->setToolTip( i18n("JuK"));
+        KSystemTray::setToolTip( i18n("JuK"));
     else {
         QPixmap myCover = cover;
         if(cover.isNull())
@@ -544,7 +544,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
                             QString("<img valign=\"middle\" src=\"tipCover\""),
                             QString("<nobr>%1</nobr>").arg(tip), i18n("JuK"));
 
-        this->setToolTip( html);
+        KSystemTray::setToolTip( html);
     }
 }
 
