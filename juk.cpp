@@ -165,7 +165,9 @@ void JuK::setupActions()
     act = new KAction(KIcon("player_end"), i18nc("next track", "&Next"), collection, "forward");
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(forward()));
 
-    new KToggleAction(i18n("&Loop Playlist"), collection, "loopPlaylist");
+    act = new KAction(i18n("&Loop Playlist"), collection, "loopPlaylist");
+    act->setCheckable(true);
+
     KToggleAction *resizeColumnAction =
         new KToggleAction(i18n("&Resize Playlist Columns Manually"),
                           collection, "resizeColumnsManually");
@@ -333,16 +335,16 @@ void JuK::readConfig()
 
     // Default to no random play
 
-    ActionCollection::action<KToggleAction>("disableRandomPlay")->setChecked(true);
+    ActionCollection::action<KAction>("disableRandomPlay")->setChecked(true);
 
     QString randomPlayMode = playerConfig.readEntry("RandomPlay", "Disabled");
     if(randomPlayMode == "true" || randomPlayMode == "Normal")
         m_randomPlayAction->setChecked(true);
     else if(randomPlayMode == "AlbumRandomPlay")
-        ActionCollection::action<KToggleAction>("albumRandomPlay")->setChecked(true);
+        ActionCollection::action<KAction>("albumRandomPlay")->setChecked(true);
 
     bool loopPlaylist = playerConfig.readEntry("LoopPlaylist", false);
-    ActionCollection::action<KToggleAction>("loopPlaylist")->setChecked(loopPlaylist);
+    ActionCollection::action<KAction>("loopPlaylist")->setChecked(loopPlaylist);
 
     // general settings
 
@@ -376,10 +378,10 @@ void JuK::saveConfig()
 
     playerConfig.writeEntry("RandomPlay", m_randomPlayAction->isChecked());
 
-    KToggleAction *a = ActionCollection::action<KToggleAction>("loopPlaylist");
+    KAction *a = ActionCollection::action<KAction>("loopPlaylist");
     playerConfig.writeEntry("LoopPlaylist", a->isChecked());
 
-    a = ActionCollection::action<KToggleAction>("albumRandomPlay");
+    a = ActionCollection::action<KAction>("albumRandomPlay");
     if(a->isChecked())
         playerConfig.writeEntry("RandomPlay", "AlbumRandomPlay");
     else if(m_randomPlayAction->isChecked())
