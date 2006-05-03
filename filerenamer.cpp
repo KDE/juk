@@ -762,7 +762,7 @@ void FileRenamerWidget::moveItemDown(int id)
 
 void FileRenamerWidget::toggleExampleDialog()
 {
-    m_exampleDialog->setShown(!m_exampleDialog->isShown());
+    m_exampleDialog->setHidden(!m_exampleDialog->isHidden());
 }
 
 void FileRenamerWidget::insertCategory()

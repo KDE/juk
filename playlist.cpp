@@ -1511,7 +1511,7 @@ bool Playlist::isColumnVisible(int c) const
 
 void Playlist::polish()
 {
-    K3ListView::polish();
+    K3ListView::ensurePolished();
 
     if(m_polished)
         return;

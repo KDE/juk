@@ -54,7 +54,7 @@ FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
 
     QString tagText = m_options.tagTypeText();
 
-    setCaption(caption().arg(tagText));
+    setWindowTitle(windowTitle().arg(tagText));
     m_tagFormatGroup->setTitle(m_tagFormatGroup->title().arg(tagText));
     m_emptyTagGroup->setTitle(m_emptyTagGroup->title().arg(tagText));
     m_description->setText(m_description->text().arg(tagText));

@@ -449,7 +449,7 @@ bool JuK::queryClose()
 
 void JuK::slotShowHide()
 {
-    setShown(!isShown());
+    setHidden(!isHidden());
 }
 
 void JuK::slotAboutToQuit()
