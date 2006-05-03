@@ -13,8 +13,6 @@ add_definitions(${TAGLIB_CFLAGS})
 set(juk_SRCS 
    advancedsearchdialog.cpp 
    actioncollection.cpp 
-   akodeplayer.cpp 
-   artsplayer.cpp 
    cache.cpp 
    categoryreaderinterface.cpp 
    collectionlist.cpp 
@@ -31,7 +29,6 @@ set(juk_SRCS
    filerenamer.cpp 
    filerenameroptions.cpp 
    filerenamerconfigdlg.cpp 
-   gstreamerplayer.cpp 
    googlefetcher.cpp 
    googlefetcherdialog.cpp 
    historyplaylist.cpp 
@@ -43,6 +40,7 @@ set(juk_SRCS
    musicbrainzquery.cpp 
    nowplaying.cpp 
    playermanager.cpp 
+   player.cpp
    playlist.cpp 
    playlistbox.cpp 
    playlistcollection.cpp 
@@ -94,7 +92,7 @@ kde4_add_executable(juk ${juk_SRCS})
 # Add gstreamer here too...
 SET(backendLibs ${AKODE_LIBRARIES})
 
-target_link_libraries(juk  ${KDE4_KDECORE_LIBS} m kio khtml kdeui tag
+target_link_libraries(juk  ${KDE4_KDECORE_LIBS} m kio khtml kdeui tag phononcore
     ${backendLibs})
 
 install_targets(/bin juk )

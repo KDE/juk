@@ -83,13 +83,12 @@ private:
     SystemTray *m_systemTray;
 
     SliderAction *m_sliderAction;
-    KAction *m_randomPlayAction;
+    KToggleAction *m_randomPlayAction;
     KToggleAction *m_toggleSystemTrayAction;
     KToggleAction *m_toggleDockOnCloseAction;
     KToggleAction *m_togglePopupsAction;
     KToggleAction *m_toggleSplashAction;
     KToggleAction *m_loopPlaylistAction;
-    KSelectAction *m_outputSelectAction;
 
     PlayerManager *m_player;
     KGlobalAccel *m_accel;

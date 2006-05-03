@@ -32,9 +32,6 @@
 
 #include <math.h>
 
-#include "artsplayer.h"
-#include "akodeplayer.h"
-#include "gstreamerplayer.h"
 #include "playermanager.h"
 #include "playlistinterface.h"
 #include "slideraction.h"
@@ -49,45 +46,6 @@
 using namespace ActionCollection;
 
 enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying = 2 };
-
-////////////////////////////////////////////////////////////////////////////////
-// helper functions
-////////////////////////////////////////////////////////////////////////////////
-
-enum SoundSystem { ArtsBackend = 0, GStreamerBackend = 1, AkodeBackend = 2 };
-
-static Player *createPlayer(int system = ArtsBackend)
-{
-
-    Player *p = 0;
-    switch(system) {
-#ifdef HAVE_AKODE
-    case AkodeBackend:
-        p = new aKodePlayer;
-        break;
-#endif
-#ifdef HAVE_ARTS
-    case ArtsBackend:
-        p = new ArtsPlayer;
-        break;
-#endif
-#ifdef HAVE_GSTREAMER
-    case GStreamerBackend:
-        p = new GStreamerPlayer;
-        break;
-#endif
-    default:
-#ifdef HAVE_ARTS
-        p = new ArtsPlayer;
-#elif HAVE_GSTREAMER
-        p = new GStreamerPlayer;
-#else
-        p = new aKodePlayer;
-#endif
-        break;
-    }
-    return p;
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
@@ -239,31 +197,6 @@ void PlayerManager::setPlaylistInterface(PlaylistInterface *interface)
 void PlayerManager::setStatusLabel(StatusLabel *label)
 {
     m_statusLabel = label;
-}
-
-KSelectAction *PlayerManager::playerSelectAction() // static
-{
-    KSelectAction *action =
-	new KSelectAction(i18n("&Output To"), ActionCollection::actions(), "outputSelect");
-    QStringList l;
-
-#ifdef HAVE_ARTS
-    l.append(i18n("aRts"));
-#endif
-#ifdef HAVE_GSTREAMER
-    l.append(i18n("GStreamer"));
-#endif
-#ifdef HAVE_AKODE
-    l.append(i18n("aKode"));
-#endif
-
-    if(l.isEmpty()) {
-        kError(65432) << "Your JuK seems to have no output backend possibilities.\n";
-        l.append(i18n("aKode")); // Looks like akode is the default backend.
-    }
-
-    action->setItems(l);
-    return action;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -551,12 +484,7 @@ void PlayerManager::slotSetOutput(const QString &system)
 void PlayerManager::setOutput(const QString &system)
 {
     delete m_player;
-    if(system == i18n("aRts"))
-        m_player = createPlayer(ArtsBackend);
-    else if(system == i18n("GStreamer"))
-        m_player = createPlayer(GStreamerBackend);
-    else if(system == i18n("aKode"))
-        m_player = createPlayer(AkodeBackend);
+    m_player = new Player;
 }
 
 void PlayerManager::slotSetVolume(int volume)
@@ -649,7 +577,7 @@ void PlayerManager::setup()
         connect(outputAction, SIGNAL(activated(const QString &)), this, SLOT(slotSetOutput(const QString &)));
     }
     else
-        m_player = createPlayer();
+        m_player = new Player;
 
     float volume;
 

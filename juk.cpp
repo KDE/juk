@@ -20,6 +20,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <kactionclasses.h>
 
 
 #include "juk.h"
@@ -134,15 +135,15 @@ void JuK::setupActions()
     // ### KDE4: Investigate how QActionGroups integrate into menus now.
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
-    KAction *act = new KAction(KIcon("player_playlist"), i18n("&Disable Random Play"), collection, "disableRandomPlay");
+    KAction *act = new KToggleAction(KIcon("player_playlist"), i18n("&Disable Random Play"), collection, "disableRandomPlay");
     act->setActionGroup(randomPlayGroup);
     actionMenu->insert(act);
 
-    m_randomPlayAction = new KAction(KIcon("roll"), i18n("Use &Random Play"), collection, "randomPlay");
+    m_randomPlayAction = new KToggleAction(KIcon("roll"), i18n("Use &Random Play"), collection, "randomPlay");
     m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->insert(m_randomPlayAction);
 
-    act = new KAction(KIcon("roll"), i18n("Use &Album Random Play"), collection, "albumRandomPlay");
+    act = new KToggleAction(KIcon("roll"), i18n("Use &Album Random Play"), collection, "albumRandomPlay");
     act->setActionGroup(randomPlayGroup);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotCheckAlbumNextAction(bool)));
     actionMenu->insert(act);
@@ -219,11 +220,6 @@ void JuK::setupActions()
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)),
             this, SLOT(slotToggleSystemTray(bool)));
 
-
-    m_outputSelectAction = PlayerManager::playerSelectAction();
-
-    if(m_outputSelectAction)
-        m_outputSelectAction->setCurrentItem(0);
 
     act = new KAction(i18n("&Tag Guesser..."), collection, "tagGuesserConfig");
     connect(act, SIGNAL(triggered(bool)), SLOT(slotConfigureTagGuesser()));
@@ -335,7 +331,7 @@ void JuK::readConfig()
 
     // Default to no random play
 
-    ActionCollection::action<KAction>("disableRandomPlay")->setChecked(true);
+    ActionCollection::action<KToggleAction>("disableRandomPlay")->setChecked(true);
 
     QString randomPlayMode = playerConfig.readEntry("RandomPlay", "Disabled");
     if(randomPlayMode == "true" || randomPlayMode == "Normal")
@@ -358,9 +354,6 @@ void JuK::readConfig()
 
     bool showPopups = settingsConfig.readEntry("TrackPopup", false);
     m_togglePopupsAction->setChecked(showPopups);
-
-    if(m_outputSelectAction)
-        m_outputSelectAction->setCurrentItem(settingsConfig.readEntry("MediaSystem", 0));
 
     m_toggleSplashAction->setChecked(m_showSplash);
 }
@@ -397,8 +390,6 @@ void JuK::saveConfig()
     settingsConfig.writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
     settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
     settingsConfig.writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
-    if(m_outputSelectAction)
-        settingsConfig.writeEntry("MediaSystem", m_outputSelectAction->currentItem());
 
     KGlobal::config()->sync();
 }

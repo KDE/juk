@@ -63,8 +63,6 @@ public:
 
     QString randomPlayMode() const;
 
-    static KSelectAction *playerSelectAction();
-
 public slots:
 
     void play(const FileHandle &file);

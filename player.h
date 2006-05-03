@@ -2,6 +2,7 @@
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+                           (C) 2006 Matthias Kretz <kretz@kde.org>
 ***************************************************************************/
 
 /***************************************************************************
@@ -16,35 +17,45 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-#include <qobject.h>
+#include <QObject>
 
 #include "filehandle.h"
 
+namespace Phonon
+{
+    class MediaObject;
+    class AudioPath;
+    class AudioOutput;
+}
+
 class Player : public QObject
 {
+    Q_OBJECT
 public:
-    virtual ~Player() {}
+    Player( QObject* parent = 0 );
+    ~Player();
 
-    virtual void play(const FileHandle &file = FileHandle::null()) = 0;
-    virtual void pause() = 0;
-    virtual void stop() = 0;
+    void play(const FileHandle &file = FileHandle::null());
+    void pause();
+    void stop();
 
-    virtual void setVolume(float volume = 1.0) = 0;
-    virtual float volume() const = 0;
+    void setVolume( float volume = 1.0 );
+    float volume() const;
 
-    virtual bool playing() const = 0;
-    virtual bool paused() const = 0;
+    bool playing() const;
+    bool paused() const;
 
-    virtual int totalTime() const = 0;
-    virtual int currentTime() const = 0;
-    virtual int position() const = 0; // in this case not really the percent
+    int totalTime() const;
+    int currentTime() const;
+    int position() const; // in this case not really the percent
 
-    virtual void seek(int seekTime) = 0;
-    virtual void seekPosition(int position) = 0;
+    void seek( int seekTime );
+    void seekPosition( int position );
 
-protected:
-    Player() : QObject() {}
-
+private:
+    Phonon::MediaObject* m_media;
+    Phonon::AudioPath* m_path;
+    Phonon::AudioOutput* m_output;
 };
 
 #endif
