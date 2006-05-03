@@ -494,13 +494,19 @@ void TagEditor::setupLayout()
     static const int horizontalSpacing = 12;
     static const int verticalSpacing = 2;
 
-    QHBoxLayout *layout = new QHBoxLayout(this, 6, horizontalSpacing);
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setSpacing(horizontalSpacing);
+    layout->setMargin(6);
 
     //////////////////////////////////////////////////////////////////////////////
     // define two columns of the bottem layout
     //////////////////////////////////////////////////////////////////////////////
-    QVBoxLayout *leftColumnLayout = new QVBoxLayout(layout, verticalSpacing);
-    QVBoxLayout *rightColumnLayout = new QVBoxLayout(layout, verticalSpacing);
+    QVBoxLayout *leftColumnLayout = new QVBoxLayout();
+    layout->addItem( leftColumnLayout );
+    leftColumnLayout->setSpacing(verticalSpacing);
+    QVBoxLayout *rightColumnLayout = new QVBoxLayout();
+    layout->addItem( rightColumnLayout );
+    rightColumnLayout->setSpacing(verticalSpacing);
 
     layout->setStretchFactor(leftColumnLayout, 2);
     layout->setStretchFactor(rightColumnLayout, 3);

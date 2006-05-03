@@ -83,7 +83,9 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     }
 
     QWidget *buttons = new QWidget(criteriaGroupBox);
-    QBoxLayout *l = new QHBoxLayout(buttons, 0, 5);
+    QBoxLayout *l = new QHBoxLayout(buttons);
+    l->setSpacing(5);
+    l->setMargin(0);
 
     KPushButton *clearButton = new KPushButton(KStdGuiItem::clear(), buttons);
     connect(clearButton, SIGNAL(clicked()), SLOT(clear()));
