@@ -281,6 +281,7 @@ void Cache::load()
     s >> version;
 
     QBuffer buffer;
+    QByteArray data;
 
     // Do the version specific stuff.
 
@@ -289,7 +290,6 @@ void Cache::load()
         s.setCacheVersion(1);
 
         Q_INT32 checksum;
-        QByteArray data;
         s >> checksum
           >> data;
 
