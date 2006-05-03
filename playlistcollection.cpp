@@ -356,14 +356,14 @@ void PlaylistCollection::addFolder()
         for(QStringList::Iterator it = result.addedDirs.begin();
             it != result.addedDirs.end(); it++)
         {
-            m_dirLister.openURL(*it, true);
+            m_dirLister.openURL(KUrl::fromPath(*it), true);
             m_folderList.append(*it);
         }
 
         for(QStringList::Iterator it = result.removedDirs.begin();
             it !=  result.removedDirs.end(); it++)
         {
-            m_dirLister.stop(*it);
+            m_dirLister.stop(KUrl::fromPath(*it));
             m_folderList.remove(*it);
         }
 
