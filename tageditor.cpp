@@ -767,7 +767,8 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, 
         layout->addWidget(enableBox);
     }
     else {
-        QHBoxLayout *l = new QHBoxLayout(layout);
+        QHBoxLayout *l = new QHBoxLayout();
+        layout->addItem(l);
 
         l->addWidget(iconLabel);
         l->addWidget(label);
