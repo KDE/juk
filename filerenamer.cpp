@@ -51,7 +51,6 @@
 #include <QPixmap>
 #include <Q3Frame>
 #include <Q3ValueList>
-#include <Q3HBoxLayout>
 
 #include "tag.h"
 #include "filehandle.h"
@@ -464,7 +463,7 @@ bool FileRenamerWidget::removeRow(int id)
 void FileRenamerWidget::addFolderSeparatorCheckbox()
 {
     QWidget *temp = new QWidget(m_mainFrame);
-    Q3HBoxLayout *l = new Q3HBoxLayout(temp);
+    QHBoxLayout *l = new QHBoxLayout(temp);
 
     QCheckBox *cb = new QCheckBox(i18n("Insert folder separator"), temp);
     m_folderSwitches.append(cb);
@@ -683,7 +682,10 @@ void FileRenamerWidget::moveItem(int id, MovementDirection direction)
     // Move the item two spaces above/below its previous position.  It has to
     // be 2 spaces because of the checkbox.
 
-    Q3BoxLayout *layout = dynamic_cast<Q3BoxLayout *>(m_mainFrame->layout());
+    QBoxLayout *layout = dynamic_cast<QBoxLayout *>(m_mainFrame->layout());
+    if ( layout )
+        return;
+#warning double check if that still works with Qt4s layout
 
     layout->remove(l);
     layout->insertWidget(2 * newPos, l);

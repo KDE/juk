@@ -93,11 +93,21 @@ class FixedHLayout : public QHBoxLayout
 {
 public:
     FixedHLayout(QWidget *parent, int margin = 0, int spacing = -1, const char *name = 0) :
-        QHBoxLayout(parent, margin, spacing, name),
-        m_width(-1) {}
+        QHBoxLayout(parent),
+        m_width(-1)
+    {
+        setMargin( margin );
+        setSpacing( spacing );
+        setObjectName( name );
+    }
     FixedHLayout(QLayout *parentLayout, int spacing = -1, const char *name = 0) :
-        QHBoxLayout(parentLayout, spacing, name),
-        m_width(-1) {}
+        QHBoxLayout(),
+        m_width(-1)
+    {
+        parentLayout->addItem( this );
+        setSpacing( spacing );
+        setObjectName( name );
+    }
     void setWidth(int w = -1)
     {
         m_width = w == -1 ? QHBoxLayout::minimumSize().width() : w;
@@ -543,8 +553,9 @@ void TagEditor::setupLayout()
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
 
-        QHBoxLayout *fileNameLayout = new QHBoxLayout(rightColumnLayout,
-                                                      horizontalSpacing);
+        QHBoxLayout *fileNameLayout = new QHBoxLayout();
+	rightColumnLayout->addItem(fileNameLayout);
+	fileNameLayout->setSpacing(horizontalSpacing);
 
         m_fileNameBox = new KLineEdit(this);
         m_fileNameBox->setObjectName( "fileNameBox" );
