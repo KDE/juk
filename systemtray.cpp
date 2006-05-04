@@ -174,8 +174,8 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
     // Just create this here so that it show up in the DCOP interface and the key
     // bindings dialog.
 
-    new KAction(i18n("Redisplay Popup"), KShortcut(), this,
-                SLOT(slotPlay()), ActionCollection::actions(), "showPopup");
+    KAction *rpaction = new KAction(i18n("Redisplay Popup"), ActionCollection::actions(), "showPopup");
+    connect(rpaction, SIGNAL(triggered(bool) ), SLOT(slotPlay()));
 
     KMenu *cm = contextMenu();
 

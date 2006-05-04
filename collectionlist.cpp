@@ -233,8 +233,8 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
     m_itemsDict(5003),
     m_columnTags(15, 0)
 {
-    new KAction(i18n("Show Playing"), KShortcut(), this, SLOT(slotShowPlaying()),
-                ActionCollection::actions(), "showPlaying");
+    KAction *spaction = new KAction(i18n("Show Playing"), ActionCollection::actions(), "showPlaying");
+    connect(spaction, SIGNAL(triggered(bool) ), SLOT(slotShowPlaying()));
 
     connect(action<KToolBarPopupAction>("back")->popupMenu(), SIGNAL(aboutToShow()),
             this, SLOT(slotPopulateBackMenu()));
