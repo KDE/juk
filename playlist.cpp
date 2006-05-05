@@ -2109,7 +2109,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
         K3bExporter *exporter = new K3bExporter(this);
         KAction *k3bAction = exporter->action();
         if(k3bAction)
-            k3bAction->plug(m_rmbMenu);
+            m_rmbMenu->addAction( k3bAction );
     }
 
     // Ignore any columns added by subclasses.

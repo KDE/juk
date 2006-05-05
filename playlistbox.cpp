@@ -91,7 +91,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
     action("file_save")->plug(m_contextMenu);
     action("file_save_as")->plug(m_contextMenu);
     if(m_k3bAction)
-        m_k3bAction->plug(m_contextMenu);
+        m_contextMenu->addAction( m_k3bAction );
 
     m_contextMenu->insertSeparator();
 
@@ -131,7 +131,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
     TrackSequenceManager::instance()->setCurrentPlaylist(CollectionList::instance());
     raise(CollectionList::instance());
 
-    viewModeAction->plug(m_contextMenu);
+    m_contextMenu->addAction( viewModeAction );
     connect(viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
 
     connect(this, SIGNAL(selectionChanged()),

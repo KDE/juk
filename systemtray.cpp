@@ -197,7 +197,7 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
     menu->insert(action("disableRandomPlay"));
     menu->insert(action("randomPlay"));
     menu->insert(action("albumRandomPlay"));
-    menu->plug(cm);
+    cm->addAction( menu );
 
     action("togglePopups")->plug(cm);
 
