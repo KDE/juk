@@ -82,14 +82,14 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
     K3bPlaylistExporter *exporter = new K3bPlaylistExporter(this);
     m_k3bAction = exporter->action();
 
-    action("file_new")->plug(m_contextMenu);
-    action("renamePlaylist")->plug(m_contextMenu);
-    action("editSearch")->plug(m_contextMenu);
-    action("duplicatePlaylist")->plug(m_contextMenu);
-    action("reloadPlaylist")->plug(m_contextMenu);
-    action("deleteItemPlaylist")->plug(m_contextMenu);
-    action("file_save")->plug(m_contextMenu);
-    action("file_save_as")->plug(m_contextMenu);
+    m_contextMenu->addAction( action("file_new") );
+    m_contextMenu->addAction( action("renamePlaylist") );
+    m_contextMenu->addAction( action("editSearch") );
+    m_contextMenu->addAction( action("duplicatePlaylist") );
+    m_contextMenu->addAction( action("reloadPlaylist") );
+    m_contextMenu->addAction( action("deleteItemPlaylist") );
+    m_contextMenu->addAction( action("file_save") );
+    m_contextMenu->addAction( action("file_save_as") );
     if(m_k3bAction)
         m_contextMenu->addAction( m_k3bAction );
 

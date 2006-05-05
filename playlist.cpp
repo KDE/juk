@@ -2079,27 +2079,27 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
         m_rmbMenu->insertSeparator();
 
         if(!readOnly()) {
-            action("edit_cut")->plug(m_rmbMenu);
-            action("edit_copy")->plug(m_rmbMenu);
-            action("edit_paste")->plug(m_rmbMenu);
+            m_rmbMenu->addAction( action("edit_cut") );
+            m_rmbMenu->addAction( action("edit_copy") );
+            m_rmbMenu->addAction( action("edit_paste") );
             m_rmbMenu->insertSeparator();
-            action("removeFromPlaylist")->plug(m_rmbMenu);
+            m_rmbMenu->addAction( action("removeFromPlaylist") );
         }
         else
-            action("edit_copy")->plug(m_rmbMenu);
+            m_rmbMenu->addAction( action("edit_copy") );
 
         m_rmbEditID = m_rmbMenu->insertItem(
             i18n("Edit"), this, SLOT(slotRenameTag()));
 
-        action("refresh")->plug(m_rmbMenu);
-        action("removeItem")->plug(m_rmbMenu);
+        m_rmbMenu->addAction( action("refresh") );
+        m_rmbMenu->addAction( action("removeItem") );
 
         m_rmbMenu->insertSeparator();
 
-        action("guessTag")->plug(m_rmbMenu);
-        action("renameFile")->plug(m_rmbMenu);
+        m_rmbMenu->addAction( action("guessTag") );
+        m_rmbMenu->addAction( action("renameFile") );
 
-        action("coverManager")->plug(m_rmbMenu);
+        m_rmbMenu->addAction( action("coverManager") );
 
         m_rmbMenu->insertSeparator();
 

@@ -183,11 +183,11 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
     connect(PlayerManager::instance(), SIGNAL(signalPause()), this, SLOT(slotPause()));
     connect(PlayerManager::instance(), SIGNAL(signalStop()), this, SLOT(slotStop()));
 
-    action("play")->plug(cm);
-    action("pause")->plug(cm);
-    action("stop")->plug(cm);
-    action("forward")->plug(cm);
-    action("back")->plug(cm);
+    cm->addAction( action("play") );
+    cm->addAction( action("pause") );
+    cm->addAction( action("stop") );
+    cm->addAction( action("forward") );
+    cm->addAction( action("back") );
 
     cm->insertSeparator();
 
@@ -199,7 +199,7 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
     menu->insert(action("albumRandomPlay"));
     cm->addAction( menu );
 
-    action("togglePopups")->plug(cm);
+    cm->addAction( action("togglePopups") );
 
     m_fadeTimer = new QTimer(this, "systrayFadeTimer");
     connect(m_fadeTimer, SIGNAL(timeout()), SLOT(slotNextStep()));
