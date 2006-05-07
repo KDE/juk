@@ -142,7 +142,7 @@ SliderAction::SliderAction(const QString &text, KActionCollection* collection, c
       m_dragging(false),
       m_volumeDragging(false)
 {
-
+    setToolBarWidgetFactory(this);
 }
 
 SliderAction::~SliderAction()
@@ -189,6 +189,73 @@ void SliderAction::unplug(QWidget *parent)
         m_widget = 0;
         m_toolBar = 0;
     }
+}
+
+QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
+{
+    if(parent) {
+        QWidget *base = new QWidget(parent);
+        base->setBackgroundRole(parent->backgroundRole());
+        base->setName("kde toolbar widget");
+
+        KToolBar *toolBar = dynamic_cast<KToolBar *>(parent);
+
+        Qt::Orientation orientation = Qt::Horizontal;
+
+        if(toolBar) {
+//            toolBar->setStretchableWidget(base);
+            orientation = toolBar->orientation();
+        }
+
+        m_layout = new QHBoxLayout(base);
+        //m_layout->setDirection(QBoxLayout::TopToBottom);
+	m_layout->setMargin(5);
+        m_layout->setSpacing(5);
+
+        m_layout->addItem(new QSpacerItem(20, 1));
+
+        QLabel *trackPositionLabel = new QLabel(base);
+        trackPositionLabel->setName("kde toolbar widget");
+        trackPositionLabel->setPixmap(SmallIcon("player_time"));
+        trackPositionLabel->setToolTip( i18n("Track position"));
+        m_layout->addWidget(trackPositionLabel);
+
+        m_trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
+        m_trackPositionSlider->setOrientation(orientation);
+        m_trackPositionSlider->setMaxValue(maxPosition);
+        m_trackPositionSlider->setToolTip( i18n("Track position"));
+        m_layout->addWidget(m_trackPositionSlider);
+        connect(m_trackPositionSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()));
+        connect(m_trackPositionSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()));
+
+        m_layout->addItem(new QSpacerItem(10, 1));
+
+        QLabel *volumeLabel = new QLabel(base);
+        volumeLabel->setName("kde toolbar widget");
+        volumeLabel->setPixmap(SmallIcon("player_volume"));
+        volumeLabel->setToolTip( i18n("Volume"));
+        m_layout->addWidget(volumeLabel);
+
+        m_volumeSlider = new VolumeSlider(orientation, base, "volumeSlider");
+        m_volumeSlider->setMaxValue(100);
+        m_volumeSlider->setToolTip( i18n("Volume"));
+        m_layout->addWidget(m_volumeSlider);
+        connect(m_volumeSlider, SIGNAL(signalVolumeChanged(int)), SIGNAL(signalVolumeChanged(int)));
+        connect(m_volumeSlider, SIGNAL(sliderPressed()), this, SLOT(slotVolumeSliderPressed()));
+        connect(m_volumeSlider, SIGNAL(sliderReleased()), this, SLOT(slotVolumeSliderReleased()));
+
+        m_volumeSlider->setName("kde toolbar widget");
+        m_trackPositionSlider->setName("kde toolbar widget");
+
+        m_layout->setStretchFactor(m_trackPositionSlider, 4);
+        m_layout->setStretchFactor(m_volumeSlider, 1);
+
+        connect(parent, SIGNAL(modechange()), this, SLOT(slotUpdateSize()));
+
+        return base;
+    }
+    else
+        return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

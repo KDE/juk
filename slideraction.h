@@ -49,7 +49,7 @@ private slots:
     void slotValueChanged(int value);
 };
 
-class SliderAction : public KAction
+class SliderAction : public KAction, public QActionWidgetFactory
 {
     Q_OBJECT
 
@@ -68,6 +68,8 @@ public:
 
     static const int minPosition;
     static const int maxPosition;
+
+    virtual QWidget* createToolBarWidget(QToolBar* parent);
 
 public slots:
     void slotUpdateOrientation();
