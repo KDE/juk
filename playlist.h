@@ -714,11 +714,13 @@ private:
 
 bool processEvents();
 
-class FocusUpEvent : public QCustomEvent
+class FocusUpEvent : public QEvent
 {
 public:
-    FocusUpEvent() : QCustomEvent(id) {}
-    static const int id = 999;
+    FocusUpEvent() : QEvent(id) {}
+    Type type() const { return id; }
+
+    static const Type id = static_cast<Type>(QEvent::User + 1);
 };
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);
