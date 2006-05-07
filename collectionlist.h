@@ -98,7 +98,7 @@ public:
     virtual bool canReload() const { return true; }
 
 public slots:
-    virtual void paste() { decode(kapp->clipboard()->data()); }
+    virtual void paste() { decode(kapp->clipboard()->mimeData()); }
     virtual void clear();
     void slotCheckCache();
 

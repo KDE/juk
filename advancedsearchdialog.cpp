@@ -17,14 +17,14 @@
 #include <klineedit.h>
 #include <kpushbutton.h>
 #include <klocale.h>
+#include <kvbox.h>
 
 #include <qradiobutton.h>
 #include <qlabel.h>
-#include <q3hbox.h>
-#include <q3vbox.h>
 #include <qlayout.h>
 
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QBoxLayout>
 #include <QGroupBox>
 
@@ -42,28 +42,37 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
                                            const PlaylistSearch &defaultSearch,
                                            QWidget *parent,
                                            const char *name) :
-    KDialogBase(parent, name, true, i18n("Create Search Playlist"), Ok|Cancel)
+    KDialog(parent, i18n("Create Search Playlist"), Ok|Cancel)
 {
-    makeVBoxMainWidget();
+    setObjectName(name);
+    setModal(true);
 
-    Q3HBox *box = new Q3HBox(mainWidget());
+    KVBox *mw = new KVBox(this);
+    setMainWidget(mw);
+
+    KHBox *box = new KHBox(mw);
     box->setSpacing(5);
 
     new QLabel(i18n("Playlist name:"), box);
     m_playlistNameLineEdit = new KLineEdit(defaultName, box);
 
-    QGroupBox *criteriaGroupBox = new QGroupBox(i18n("Search Criteria"), mainWidget());
-    static_cast<Q3HBox *>(mainWidget())->setStretchFactor(criteriaGroupBox, 1);
+    QGroupBox *criteriaGroupBox = new QGroupBox(i18n("Search Criteria"), mw);
+    mw->setStretchFactor(criteriaGroupBox, 1);
 
-    Q3HButtonGroup *group = new Q3HButtonGroup(criteriaGroupBox);
+    QVBoxLayout *criteriaLayout = new QVBoxLayout;
+
+    Q3HButtonGroup *group = new Q3HButtonGroup();
     m_matchAnyButton = new QRadioButton(i18n("Match any of the following"), group);
     m_matchAllButton = new QRadioButton(i18n("Match all of the following"), group);
-
-    m_criteria = new Q3VBox(criteriaGroupBox);
+    criteriaLayout->addWidget(group);
 
     if(defaultSearch.isNull()) {
-        m_searchLines.append(new SearchLine(m_criteria));
-        m_searchLines.append(new SearchLine(m_criteria));
+        SearchLine *newSearchLine = new SearchLine(0);
+        m_searchLines.append(newSearchLine);
+        criteriaLayout->addWidget(newSearchLine);
+        newSearchLine = new SearchLine(0);
+        m_searchLines.append(newSearchLine);
+        criteriaLayout->addWidget(newSearchLine);
         m_matchAnyButton->setChecked(true);
     }
     else {
@@ -72,9 +81,10 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
             it != components.end();
             ++it)
         {
-            SearchLine *s = new SearchLine(m_criteria);
+            SearchLine *s = new SearchLine(0);
             s->setSearchComponent(*it);
             m_searchLines.append(s);
+            criteriaLayout->addWidget(s);
         }
         if(defaultSearch.searchMode() == PlaylistSearch::MatchAny)
             m_matchAnyButton->setChecked(true);
@@ -82,8 +92,8 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
             m_matchAllButton->setChecked(true);
     }
 
-    QWidget *buttons = new QWidget(criteriaGroupBox);
-    QBoxLayout *l = new QHBoxLayout(buttons);
+    QWidget *buttons = new QWidget();
+    QHBoxLayout *l = new QHBoxLayout(buttons);
     l->setSpacing(5);
     l->setMargin(0);
 
@@ -101,6 +111,10 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     connect(m_fewerButton, SIGNAL(clicked()), SLOT(fewer()));
     l->addWidget(m_fewerButton);
 
+    criteriaLayout->addWidget(buttons);
+
+    criteriaGroupBox->setLayout(criteriaLayout);
+
     m_playlistNameLineEdit->setFocus();
 }
 
@@ -116,7 +130,7 @@ AdvancedSearchDialog::~AdvancedSearchDialog()
 AdvancedSearchDialog::Result AdvancedSearchDialog::exec()
 {
     Result r;
-    r.result = DialogCode(KDialogBase::exec());
+    r.result = DialogCode(KDialog::exec());
     r.search = m_search;
     r.playlistName = m_playlistName;
     return r;
@@ -142,7 +156,7 @@ void AdvancedSearchDialog::accept()
 
     m_playlistName = m_playlistNameLineEdit->text();
 
-    KDialogBase::accept();
+    KDialog::accept();
 }
 
 void AdvancedSearchDialog::clear()

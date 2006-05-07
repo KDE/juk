@@ -745,7 +745,7 @@ void Playlist::copy()
 
 void Playlist::paste()
 {
-    decode(kapp->clipboard()->data(), static_cast<PlaylistItem *>(currentItem()));
+    decode(kapp->clipboard()->mimeData(), static_cast<PlaylistItem *>(currentItem()));
 }
 
 void Playlist::clear()
@@ -1075,11 +1075,16 @@ bool Playlist::canDecode(QMimeSource *s)
     return K3URLDrag::decode(s, urls) && !urls.isEmpty();
 }
 
-void Playlist::decode(QMimeSource *s, PlaylistItem *item)
+void Playlist::decode(const QMimeData *s, PlaylistItem *item)
 {
     KUrl::List urls;
 
-    if(!K3URLDrag::decode(s, urls) || urls.isEmpty())
+    if(!KUrl::List::canDecode(s))
+        return;
+
+    urls = KUrl::List::fromMimeData(s);
+
+    if(urls.isEmpty())
         return;
 
     // handle dropped images
@@ -1237,7 +1242,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
         }
     }
     else
-        decode(e, item);
+        decode(e->mimeData(), item);
 
     m_blockDataChanged = false;
 

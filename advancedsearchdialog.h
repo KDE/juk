@@ -16,17 +16,18 @@
 #ifndef ADVANCEDSEARCHDIALOG_H
 #define ADVANCEDSEARCHDIALOG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 //Added by qt3to4:
 #include <Q3ValueList>
+#include "searchwidget.h"
 
 class KLineEdit;
 class KPushButton;
 class Q3GroupBox;
 class QRadioButton;
-class SearchLine;
 
-class AdvancedSearchDialog : public KDialogBase
+
+class AdvancedSearchDialog : public KDialog
 {
     Q_OBJECT
 
