@@ -21,7 +21,8 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kactionclasses.h>
-
+#include <kactioncollection.h>
+#include <kstdaction.h>
 
 #include "juk.h"
 #include "slideraction.h"

@@ -23,6 +23,8 @@
 #include <kmenu.h>
 #include <kglobalsettings.h>
 #include <kdebug.h>
+#include <kactionmenu.h>
+#include <ktoggleaction.h>
 
 #include <q3vbox.h>
 #include <qtimer.h>

@@ -19,6 +19,8 @@
 #include <kmenu.h>
 #include <kaction.h>
 #include <kdebug.h>
+#include <ktoggleaction.h>
+#include <kselectaction.h>
 
 #include <q3header.h>
 #include <qpainter.h>

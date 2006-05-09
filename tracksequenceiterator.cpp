@@ -24,6 +24,7 @@
 #include "filehandle.h"
 
 #include <krandom.h>
+#include <ktoggleaction.h>
 
 using namespace ActionCollection;
 

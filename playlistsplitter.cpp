@@ -15,6 +15,7 @@
 
 #include <kaction.h>
 #include <kdebug.h>
+#include <ktoggleaction.h>
 
 #include <qlayout.h>
 #include <qevent.h>

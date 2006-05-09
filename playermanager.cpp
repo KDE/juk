@@ -29,7 +29,9 @@
 #include <qtimer.h>
 //Added by qt3to4:
 #include <QPixmap>
-
+#include <ktoggleaction.h>
+#include <kactioncollection.h>
+#include <kselectaction.h>
 #include <math.h>
 
 #include "playermanager.h"

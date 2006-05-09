@@ -30,7 +30,9 @@
 #include <kio/job.h>
 #include <dcopclient.h>
 #include <kmenu.h>
-
+#include <kactionmenu.h>
+#include <ktoggleaction.h>
+#include <kselectaction.h>
 #include <q3header.h>
 #include <qcursor.h>
 #include <qdir.h>

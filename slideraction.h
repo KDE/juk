@@ -22,7 +22,7 @@
 #include <QWheelEvent>
 #include <QFocusEvent>
 #include <QBoxLayout>
-
+#include <ktoolbar.h>
 class QBoxLayout;
 class Q3DockWindow;
 

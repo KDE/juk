@@ -22,6 +22,7 @@
 #include <kconfig.h>
 #include <kaction.h>
 #include <kurl.h>
+#include <ktoolbarpopupaction.h>
 
 #include "collectionlist.h"
 #include "playlistcollection.h"

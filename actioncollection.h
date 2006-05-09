@@ -16,6 +16,7 @@
 #ifndef ACTIONCOLLECTION_H
 #define ACTIONCOLLECTION_H
 
+#include <ktoolbarpopupaction.h>
 class KActionCollection;
 class KAction;
 
