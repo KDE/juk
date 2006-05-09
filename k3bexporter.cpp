@@ -24,7 +24,7 @@
 #include <kapplication.h>
 
 #include <q3cstring.h>
-#include <qmap.h>
+#include <QMap>
 //Added by qt3to4:
 #include <Q3ValueList>
 

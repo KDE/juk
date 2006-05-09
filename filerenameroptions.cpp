@@ -17,10 +17,10 @@
 #include <kdebug.h>
 #include <knuminput.h>
 
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QLayout>
+#include <QLabel>
 #include <qradiobutton.h>
-#include <qlineedit.h>
+#include <QLineEdit>
 #include <q3buttongroup.h>
 
 #include "filerenameroptions.h"

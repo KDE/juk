@@ -14,7 +14,7 @@
 #ifndef FILEHANDLEPROPERTIES_H
 #define FILEHANDLEPROPERTIES_H
 
-#include <qmap.h>
+#include <QMap>
 //Added by qt3to4:
 #include <Q3CString>
 

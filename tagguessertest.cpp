@@ -25,7 +25,7 @@
 #include <kaboutdata.h>
 #include <kcmdlineargs.h>
 #include <kapplication.h>
-#include <qdir.h>
+#include <QDir>
 #include <iostream>
 
 #include <stdlib.h>

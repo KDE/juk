@@ -34,17 +34,17 @@
 #include <kmessagebox.h>
 #include <ksimpleconfig.h>
 
-#include <qfile.h>
+#include <QFile>
 #include <q3hbox.h>
 #include <q3vbox.h>
 #include <q3scrollview.h>
 #include <qobject.h>
 #include <qtimer.h>
-#include <qregexp.h>
-#include <qcheckbox.h>
-#include <qdir.h>
-#include <qlabel.h>
-#include <qlayout.h>
+#include <QRegExp>
+#include <QCheckBox>
+#include <QDir>
+#include <QLabel>
+#include <QLayout>
 #include <qsignalmapper.h>
 #include <q3header.h>
 

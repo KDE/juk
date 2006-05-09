@@ -17,9 +17,9 @@
 #ifndef FILERENAMER_H
 #define FILERENAMER_H
 
-#include <qstring.h>
+#include <QString>
 #include <q3valuevector.h>
-#include <qmap.h>
+#include <QMap>
 //Added by qt3to4:
 #include <Q3ValueList>
 

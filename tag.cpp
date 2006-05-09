@@ -15,8 +15,8 @@
 
 #include <kdebug.h>
 
-#include <qregexp.h>
-#include <qfile.h>
+#include <QRegExp>
+#include <QFile>
 
 #include <taglib/tag.h>
 #include <taglib/mpegfile.h>

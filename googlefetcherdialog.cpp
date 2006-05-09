@@ -21,8 +21,8 @@
 
 #include <q3hbox.h>
 #include <qimage.h>
-#include <qlabel.h>
-#include <qpushbutton.h>
+#include <QLabel>
+#include <QPushButton>
 #include <qeventloop.h>
 //Added by qt3to4:
 #include <QPixmap>

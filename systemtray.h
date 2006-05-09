@@ -22,7 +22,7 @@
 #include <kpassivepopup.h>
 
 #include <q3valuevector.h>
-#include <qcolor.h>
+#include <QColor>
 //Added by qt3to4:
 #include <QPixmap>
 #include <QMouseEvent>

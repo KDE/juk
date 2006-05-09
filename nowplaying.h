@@ -19,7 +19,7 @@
 #include <kactivelabel.h>
 
 #include <q3hbox.h>
-#include <qlabel.h>
+#include <QLabel>
 #include <qpointer.h>
 //Added by qt3to4:
 #include <QMouseEvent>

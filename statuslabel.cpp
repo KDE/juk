@@ -20,8 +20,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-#include <qtooltip.h>
-#include <qlayout.h>
+#include <QToolTip>
+#include <QLayout>
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QLabel>

@@ -19,7 +19,7 @@
 
 #include <qpixmap.h>
 #include <qstringlist.h>
-#include <qregexp.h>
+#include <QRegExp>
 //Added by qt3to4:
 #include <Q3ValueList>
 

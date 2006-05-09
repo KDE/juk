@@ -19,9 +19,9 @@
 
 #include <qpixmap.h>
 #include <qpainter.h>
-#include <qfile.h>
-#include <qdir.h>
-#include <qdatastream.h>
+#include <QFile>
+#include <QDir>
+#include <QDataStream>
 //Added by qt3to4:
 #include <Q3ValueList>
 #include <QResizeEvent>

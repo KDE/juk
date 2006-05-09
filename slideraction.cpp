@@ -18,9 +18,9 @@
 #include <kiconloader.h>
 #include <kdebug.h>
 
-#include <qtooltip.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QToolTip>
+#include <QLayout>
+#include <QLabel>
 #include <qtimer.h>
 //Added by qt3to4:
 #include <QMouseEvent>

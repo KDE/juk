@@ -20,7 +20,7 @@
 #include <kapplication.h>
 
 #include <qfileinfo.h>
-#include <qdir.h>
+#include <QDir>
 
 #include "tagtransactionmanager.h"
 #include "playlistitem.h"

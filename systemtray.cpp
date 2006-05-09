@@ -28,9 +28,9 @@
 
 #include <q3vbox.h>
 #include <qtimer.h>
-#include <qcolor.h>
-#include <qpushbutton.h>
-#include <qtooltip.h>
+#include <QColor>
+#include <QPushButton>
+#include <QToolTip>
 #include <qpainter.h>
 #include <q3valuevector.h>
 #include <q3stylesheet.h>

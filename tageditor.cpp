@@ -33,13 +33,13 @@
 #include <kshortcut.h>
 #include <kactionclasses.h>
 
-#include <qlabel.h>
+#include <QLabel>
 #include <qapplication.h>
-#include <qcheckbox.h>
-#include <qlayout.h>
-#include <qdir.h>
+#include <QCheckBox>
+#include <QLayout>
+#include <QDir>
 #include <qvalidator.h>
-#include <qtooltip.h>
+#include <QToolTip>
 #include <qeventloop.h>
 #include <q3dict.h>
 //Added by qt3to4:

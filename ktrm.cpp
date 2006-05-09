@@ -30,10 +30,10 @@
 #include <kdebug.h>
 
 #include <qmutex.h>
-#include <qregexp.h>
+#include <QRegExp>
 #include <qevent.h>
 #include <qobject.h>
-#include <qfile.h>
+#include <QFile>
 //Added by qt3to4:
 #include <QCustomEvent>
 

@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qstring.h>
+#include <QString>
 
 #include "filerenameroptions.h"
 #include "categoryreaderinterface.h"

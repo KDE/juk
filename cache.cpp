@@ -20,7 +20,7 @@
 #include <kactionclasses.h>
 #include <kdebug.h>
 
-#include <qdir.h>
+#include <QDir>
 #include <qbuffer.h>
 
 #include "cache.h"

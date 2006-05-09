@@ -14,12 +14,12 @@
  ***************************************************************************/
 
 #include <qpixmap.h>
-#include <qmap.h>
-#include <qstring.h>
-#include <qfile.h>
+#include <QMap>
+#include <QString>
+#include <QFile>
 #include <qimage.h>
-#include <qdir.h>
-#include <qdatastream.h>
+#include <QDir>
+#include <QDataStream>
 #include <q3dict.h>
 #include <q3cache.h>
 #include <qmime.h>

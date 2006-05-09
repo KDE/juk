@@ -23,10 +23,10 @@
 #include <kdebug.h>
 #include <kaction.h>
 
-#include <qlayout.h>
-#include <qlabel.h>
-#include <qcheckbox.h>
-#include <qpushbutton.h>
+#include <QLayout>
+#include <QLabel>
+#include <QCheckBox>
+#include <QPushButton>
 #include <qtoolbutton.h>
 //Added by qt3to4:
 #include <Q3ValueList>

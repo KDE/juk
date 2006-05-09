@@ -21,9 +21,9 @@
 #include <kconfig.h>
 
 #include <qstringlist.h>
-#include <qcheckbox.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QCheckBox>
+#include <QLayout>
+#include <QLabel>
 #include <q3vbox.h>
 #include <q3hbox.h>
 

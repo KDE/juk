@@ -20,12 +20,12 @@
 #include <kio/netaccess.h>
 
 #include <qimage.h>
-#include <qlayout.h>
+#include <QLayout>
 #include <qevent.h>
 #include <q3dragobject.h>
 #include <qimage.h>
 #include <qtimer.h>
-#include <qpoint.h>
+#include <QPoint>
 
 #include <Q3Frame>
 #include <QDropEvent>

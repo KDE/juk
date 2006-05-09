@@ -18,9 +18,9 @@
 #include <kstandarddirs.h>
 #include <kdebug.h>
 
-#include <qregexp.h>
-#include <qlayout.h>
-#include <qlabel.h>
+#include <QRegExp>
+#include <QLayout>
+#include <QLabel>
 #include <qcursor.h>
 
 #include <QPixmap>

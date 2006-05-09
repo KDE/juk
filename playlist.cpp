@@ -35,11 +35,11 @@
 #include <kselectaction.h>
 #include <q3header.h>
 #include <qcursor.h>
-#include <qdir.h>
+#include <QDir>
 #include <qeventloop.h>
-#include <qtooltip.h>
+#include <QToolTip>
 #include <q3widgetstack.h>
-#include <qfile.h>
+#include <QFile>
 #include <q3hbox.h>
 
 #include <QPaintEvent>

@@ -17,7 +17,7 @@
 #include <kdebug.h>
 #include <ktoggleaction.h>
 
-#include <qlayout.h>
+#include <QLayout>
 #include <qevent.h>
 
 #include <QVBoxLayout>

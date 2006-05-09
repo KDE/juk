@@ -18,7 +18,7 @@
 #include <k3listview.h>
 #include <kpushbutton.h>
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 
 #include "directorylistbase.h"
 #include "directorylist.h"

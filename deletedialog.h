@@ -16,7 +16,7 @@
 #ifndef DELETEDIALOG_H
 #define DELETEDIALOG_H
 
-#include <qcheckbox.h>
+#include <QCheckBox>
 //Added by qt3to4:
 #include <QLabel>
 

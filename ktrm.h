@@ -31,9 +31,9 @@
 
 #ifdef HAVE_TUNEPIMP
 
-#include <qstring.h>
+#include <QString>
 #include <q3valuelist.h>
-#include <qmap.h>
+#include <QMap>
 
 /**
  * This represents a potential match for a TRM lookup.  KTRMResultList is

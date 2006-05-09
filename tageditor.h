@@ -16,7 +16,7 @@
 #ifndef TAGEDITOR_H
 #define TAGEDITOR_H
 
-#include <qwidget.h>
+#include <QWidget>
 //Added by qt3to4:
 #include <QShowEvent>
 #include <Q3ValueList>

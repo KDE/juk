@@ -16,7 +16,7 @@
 #ifndef SPLASHSCREEN_H
 #define SPLASHSCREEN_H
 
-#include <qlabel.h>
+#include <QLabel>
 
 /**
  * Well, all of this session restoration sure is fun, but it's starting to take

@@ -18,7 +18,7 @@
 
 #include <ksharedptr.h>
 
-#include <qmap.h>
+#include <QMap>
 #include <q3dragobject.h>
 //Added by qt3to4:
 #include <QPixmap>
