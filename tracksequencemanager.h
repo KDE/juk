@@ -16,7 +16,7 @@
 #ifndef TRACKSEQUENCEMANAGER_H
 #define TRACKSEQUENCEMANAGER_H
 
-#include <qobject.h>
+#include <QObject>
 
 class KMenu;
 class TrackSequenceIterator;

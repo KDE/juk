@@ -24,7 +24,7 @@
 
 #include <q3header.h>
 #include <qpainter.h>
-#include <qtimer.h>
+#include <QTimer>
 
 #include <QDragLeaveEvent>
 #include <QDragMoveEvent>

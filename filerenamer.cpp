@@ -38,8 +38,8 @@
 #include <q3hbox.h>
 #include <q3vbox.h>
 #include <q3scrollview.h>
-#include <qobject.h>
-#include <qtimer.h>
+#include <QObject>
+#include <QTimer>
 #include <QRegExp>
 #include <QCheckBox>
 #include <QDir>

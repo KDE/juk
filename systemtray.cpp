@@ -27,7 +27,7 @@
 #include <ktoggleaction.h>
 
 #include <q3vbox.h>
-#include <qtimer.h>
+#include <QTimer>
 #include <QColor>
 #include <QPushButton>
 #include <QToolTip>

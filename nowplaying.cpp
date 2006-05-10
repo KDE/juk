@@ -24,7 +24,7 @@
 #include <qevent.h>
 #include <q3dragobject.h>
 #include <qimage.h>
-#include <qtimer.h>
+#include <QTimer>
 #include <QPoint>
 
 #include <Q3Frame>

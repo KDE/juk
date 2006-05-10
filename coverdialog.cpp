@@ -21,7 +21,7 @@
 #include <kmenu.h>
 #include <klocale.h>
 
-#include <qtimer.h>
+#include <QTimer>
 #include <qtoolbutton.h>
 
 #include <Q3ValueList>

@@ -15,7 +15,7 @@
 #include "folderplaylist.h"
 #include "playlistcollection.h"
 
-#include <qtimer.h>
+#include <QTimer>
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods

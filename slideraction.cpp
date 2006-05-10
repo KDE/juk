@@ -21,7 +21,7 @@
 #include <QToolTip>
 #include <QLayout>
 #include <QLabel>
-#include <qtimer.h>
+#include <QTimer>
 //Added by qt3to4:
 #include <QMouseEvent>
 #include <QWheelEvent>

@@ -32,7 +32,7 @@
 #include <qmutex.h>
 #include <QRegExp>
 #include <qevent.h>
-#include <qobject.h>
+#include <QObject>
 #include <QFile>
 //Added by qt3to4:
 #include <QCustomEvent>

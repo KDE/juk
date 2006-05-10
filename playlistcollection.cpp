@@ -15,7 +15,7 @@
 #include <kurl.h>
 
 #include <config.h>
-#include <qobject.h>
+#include <QObject>
 //Added by qt3to4:
 #include <QPixmap>
 
