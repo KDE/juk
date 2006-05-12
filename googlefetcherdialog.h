@@ -84,7 +84,7 @@ public:
 
 private slots:
     void imageData(KIO::Job *job, const QByteArray &data);
-    void imageResult(KIO::Job* job);
+    void imageResult(KJob* job);
 
 private:
     QByteArray m_buffer;

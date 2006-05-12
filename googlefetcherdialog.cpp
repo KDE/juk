@@ -210,7 +210,7 @@ CoverIconViewItem::CoverIconViewItem(Q3IconView *parent, const GoogleImage &imag
     // Start downloading the image.
 
     m_job = KIO::get(image.thumbURL(), false, false);
-    connect(m_job, SIGNAL(result(KIO::Job *)), this, SLOT(imageResult(KIO::Job *)));
+    connect(m_job, SIGNAL(result(KJob *)), this, SLOT(imageResult(KJob *)));
     connect(m_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
             this, SLOT(imageData(KIO::Job *, const QByteArray &)));
 }
@@ -235,7 +235,7 @@ void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
     memcpy(&(m_buffer.data()[currentSize]), data.data(), data.size());
 }
 
-void CoverIconViewItem::imageResult(KIO::Job *job)
+void CoverIconViewItem::imageResult(KJob *job)
 {
     if(job->error())
         return;
