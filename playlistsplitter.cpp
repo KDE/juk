@@ -120,7 +120,7 @@ Playlist *PlaylistSplitter::visiblePlaylist() const
 void PlaylistSplitter::setupActions()
 {
     KToggleAction *showSearch =
-        new KToggleAction(i18n("Show &Search Bar"), "filefind", 0, ActionCollection::actions(), "showSearch");
+	 new KToggleAction(KIcon("filefind"), i18n("Show &Search Bar"), ActionCollection::actions(), "showSearch");
     showSearch->setCheckedState(i18n("Hide &Search Bar"));
 
     KAction *act = new KAction(KIcon("edit_clear"), i18n("Edit Track Search"), ActionCollection::actions(), "editTrackSearch");
@@ -204,7 +204,7 @@ void PlaylistSplitter::readConfig()
 
     bool showSearch = config.readEntry("ShowSearch", true);
     ActionCollection::action<KToggleAction>("showSearch")->setChecked(showSearch);
-    m_searchWidget->setShown(showSearch);
+    m_searchWidget->setHidden(!showSearch);
 }
 
 void PlaylistSplitter::saveConfig()

@@ -490,7 +490,7 @@ void TagEditor::saveConfig()
 
 void TagEditor::setupActions()
 {
-    KToggleAction *show = new KToggleAction(i18n("Show &Tag Editor"), "edit", 0, ActionCollection::actions(), "showEditor");
+    KToggleAction *show = new KToggleAction(KIcon("edit"), i18n("Show &Tag Editor"), ActionCollection::actions(), "showEditor");
     show->setCheckedState(i18n("Hide &Tag Editor"));
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
 
