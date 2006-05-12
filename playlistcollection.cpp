@@ -343,7 +343,7 @@ void PlaylistCollection::open(const QString &playlist, const QStringList &files)
 void PlaylistCollection::addFolder()
 {
     kDebug(65432) << k_funcinfo << endl;
-    DirectoryList l(m_folderList, m_importPlaylists, widget, "directoryList");
+    DirectoryList l(m_folderList, m_importPlaylists, widget);
     DirectoryList::Result result = l.exec();
 
     if(result.status == QDialog::Accepted) {

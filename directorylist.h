@@ -16,11 +16,11 @@
 #ifndef DIRECTORYLIST_H
 #define DIRECTORYLIST_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class DirectoryListBase;
 
-class DirectoryList : public KDialogBase
+class DirectoryList : public KDialog
 {
     Q_OBJECT
 
@@ -34,7 +34,7 @@ public:
     };
 
     DirectoryList(const QStringList &directories, bool importPlaylists,
-                  QWidget *parent = 0, const char *name = 0);
+                  QWidget *parent = 0);
     virtual ~DirectoryList();
 
 public slots:

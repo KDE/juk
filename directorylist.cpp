@@ -27,12 +27,16 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-DirectoryList::DirectoryList(const QStringList &directories, bool importPlaylists,
-                             QWidget *parent, const char *name) :
-    KDialogBase(parent, name, true, i18n("Folder List"), Ok | Cancel, Ok, true),
+DirectoryList::DirectoryList(const QStringList &directories, 
+                            bool importPlaylists,
+                             QWidget *parent) :
+    KDialog(parent, i18n("Folder List"), KDialog::Ok | KDialog::Cancel),
     m_dirList(directories),
     m_importPlaylists(importPlaylists)
 {
+    setModal( true );
+    enableButtonSeparator( true );
+
     m_base = new DirectoryListBase(this);
 
     setMainWidget(m_base);
@@ -66,7 +70,7 @@ DirectoryList::~DirectoryList()
 
 DirectoryList::Result DirectoryList::exec()
 {
-    m_result.status = static_cast<DialogCode>(KDialogBase::exec());
+    m_result.status = static_cast<DialogCode>(KDialog::exec());
     m_result.addPlaylists = m_base->importPlaylistsCheckBox->isChecked();
     return m_result;
 }
