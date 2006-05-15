@@ -75,7 +75,7 @@ void DefaultSequenceIterator::advance()
         return;
 
     bool isRandom = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
-    bool loop = action("loopPlaylist") && action<KToggleAction>("loopPlaylist")->isChecked();
+    bool loop = action<KAction>("loopPlaylist") && action<KAction>("loopPlaylist")->isChecked();
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
 
     if(isRandom || albumRandom) {
