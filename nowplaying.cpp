@@ -23,7 +23,6 @@
 #include <QLayout>
 #include <qevent.h>
 #include <q3dragobject.h>
-#include <qimage.h>
 #include <QTimer>
 #include <QPoint>
 
