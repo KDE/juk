@@ -903,8 +903,8 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
         return false;
 
     // Escape URL.
-    KUrl srcURL = KUrl::fromPathOrURL(src);
-    KUrl dstURL = KUrl::fromPathOrURL(dest);
+    KUrl srcURL = KUrl::fromPathOrUrl(src);
+    KUrl dstURL = KUrl::fromPathOrUrl(dest);
 
     // Clean it.
     srcURL.cleanPath();
