@@ -283,7 +283,7 @@ void FileRenamerWidget::loadConfig()
     }
 
     QString url = config.readEntry("MusicFolder", "${HOME}/music");
-    m_musicFolder->setURL(url);
+    m_musicFolder->setUrl(url);
 
     m_separator->setCurrentText(config.readEntry("Separator", " - "));
 }
