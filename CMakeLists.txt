@@ -89,10 +89,8 @@ kde4_add_dcop_skels(juk_SRCS jukIface.h )
 kde4_add_executable(juk ${juk_SRCS})
 
 # Add gstreamer here too...
-SET(backendLibs ${AKODE_LIBRARIES})
 
-target_link_libraries(juk  ${KDE4_KDECORE_LIBS} m kio khtml kdeui tag phononcore
-    ${backendLibs})
+target_link_libraries(juk  ${KDE4_KDECORE_LIBS} m kio khtml kdeui tag phononcore)
 
 install_targets(/bin juk )
 
