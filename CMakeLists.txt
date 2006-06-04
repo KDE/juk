@@ -1,4 +1,6 @@
 project(juk)
+configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
+
 
 add_subdirectory( pics ) 
 
