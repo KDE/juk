@@ -13,7 +13,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdatastream.h>
 #include <kdebug.h>
 
 #include "playlistsearch.h"
