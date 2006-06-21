@@ -20,13 +20,13 @@
 
 #if HAVE_TUNEPIMP
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include "musicbrainzquery.h"
 
 class TrackPickerDialogBase;
 
-class TrackPickerDialog : public KDialogBase
+class TrackPickerDialog : public KDialog
 {
     Q_OBJECT
 

@@ -20,7 +20,7 @@
 
 class FileRenamerWidget;
 
-class FileRenamerConfigDlg : public KDialogBase
+class FileRenamerConfigDlg : public KDialog
 {
     Q_OBJECT
     public:

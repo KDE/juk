@@ -78,8 +78,11 @@ const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
 const uint KeyDialog::keyInfoCount = sizeof(KeyDialog::keyInfo) / sizeof(KeyDialog::keyInfo[0]);
 
 KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
-    : KDialog(parent, i18n("Configure Shortcuts"), Default | Ok | Cancel)
+    : KDialog(parent)
 {
+    setCaption(i18n("Configure Shortcuts"));
+    setButtons(Default | Ok | Cancel);
+
     // Read key group from configuration
 
     KConfigGroup config(KGlobal::config(), "Shortcuts");

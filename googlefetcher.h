@@ -15,7 +15,7 @@
 #ifndef GOOGLEFETCHER_H
 #define GOOGLEFETCHER_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 #include <qpixmap.h>
 #include <qstringlist.h>

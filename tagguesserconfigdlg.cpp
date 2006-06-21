@@ -23,9 +23,15 @@
 #include <QKeyEvent>
 
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
-    : KDialogBase(parent, name, true, i18n("Tag Guesser Configuration"),
-                  Ok | Cancel, Ok, true)
+    : KDialog(parent)
 {
+    setObjectName(name);
+    setModal(true);
+    setCaption(i18n("Tag Guesser Configuration"));
+    setButtons(Ok | Cancel);
+    setDefaultButton(Ok);
+    enableButtonSeparator(true);
+
     m_child = new TagGuesserConfigDlgWidget(this, "child");
     setMainWidget(m_child);
 
@@ -70,7 +76,7 @@ void TagGuesserConfigDlg::accept()
     for (Q3ListViewItem *it = m_child->lvSchemes->firstChild(); it; it = it->nextSibling())
         schemes += it->text(0);
     TagGuesser::setSchemeStrings(schemes);
-    KDialogBase::accept();
+    KDialog::accept();
 }
 
 void TagGuesserConfigDlg::slotCurrentChanged(Q3ListViewItem *item)

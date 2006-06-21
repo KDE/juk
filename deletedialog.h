@@ -40,7 +40,7 @@ protected slots:
     virtual void slotShouldDelete(bool shouldDelete);
 };
 
-class DeleteDialog : public KDialogBase
+class DeleteDialog : public KDialog
 {
     Q_OBJECT
 

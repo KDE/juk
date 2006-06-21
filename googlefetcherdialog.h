@@ -25,7 +25,7 @@
 
 class KUrl;
 
-class GoogleFetcherDialog : public KDialogBase
+class GoogleFetcherDialog : public KDialog
 {
     Q_OBJECT
 

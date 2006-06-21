@@ -48,8 +48,14 @@ private:
 TrackPickerDialog::TrackPickerDialog(const QString &name,
                                      const KTRMResultList &results,
                                      QWidget *parent) :
-    KDialogBase(parent, name.latin1(), true, i18n("Internet Tag Guesser"), Ok | Cancel, Ok, true)
+    KDialog(parent)
 {
+    setObjectName(name.latin1());
+    setModal(true);
+    setCaption(i18n("Internet Tag Guesser"));
+    setButtons(Ok | Cancel);
+    enableButtonSeparator(true);
+
     m_base = new TrackPickerDialogBase(this);
     setMainWidget(m_base);
 
@@ -86,7 +92,7 @@ KTRMResult TrackPickerDialog::result() const
 
 int TrackPickerDialog::exec()
 {
-    int dialogCode = KDialogBase::exec();
+    int dialogCode = KDialog::exec();
 
     // Only return true if an item was selected.
 

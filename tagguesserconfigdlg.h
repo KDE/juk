@@ -9,12 +9,12 @@
 #ifndef TAGGUESSERCONFIGDLG_H
 #define TAGGUESSERCONFIGDLG_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 
 class Q3ListViewItem;
 
 class TagGuesserConfigDlgWidget;
-class TagGuesserConfigDlg : public KDialogBase
+class TagGuesserConfigDlg : public KDialog
 {
     Q_OBJECT
     public:

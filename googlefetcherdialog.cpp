@@ -34,15 +34,22 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
                                          const GoogleImageList &imageList,
                                          const FileHandle &file,
                                          QWidget *parent) :
-    KDialogBase(parent, name.latin1(), true, QString::null,
-                Ok | Cancel | User1 , NoDefault, true),
+    KDialog(parent),
     m_pixmap(QPixmap()),
     m_imageList(imageList),
     m_takeIt(false),
     m_newSearch(false),
     m_file(file)
 {
-    disableResize();
+    setObjectName(name.latin1());
+    setModal(true);
+    setCaption(QString::null);
+    setButtons(Ok | Cancel | User1);
+    setDefaultButton(NoDefault);
+    enableButtonSeparator(true);
+
+    #warning KDE4 How to port this?
+    //disableResize();
 
     Q3HBox *mainBox = new Q3HBox(this);
     m_iconWidget = new K3IconView(mainBox);
@@ -112,7 +119,7 @@ void GoogleFetcherDialog::refreshScreen(GoogleImageList &imageList)
 int GoogleFetcherDialog::exec()
 {
     setLayout();
-    return KDialogBase::exec();
+    return KDialog::exec();
 }
 
 void GoogleFetcherDialog::slotOk()

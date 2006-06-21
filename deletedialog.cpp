@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include <kglobal.h>
 #include <kstdguiitem.h>
 #include <klocale.h>
@@ -70,11 +70,16 @@ void DeleteWidget::slotShouldDelete(bool shouldDelete)
 //////////////////////////////////////////////////////////////////////////////
 
 DeleteDialog::DeleteDialog(QWidget *parent, const char *name) :
-    KDialogBase(Swallow, Qt::WStyle_DialogBorder, parent, name,
-        true /* modal */, i18n("About to delete selected files"),
-        Ok | Cancel, Cancel /* Default */, true /* separator */),
+    KDialog(parent, Qt::WStyle_DialogBorder),
     m_trashGuiItem(i18n("&Send to Trash"), "trashcan_full")
 {
+    setObjectName(name);
+    setModal(true);
+    setCaption(i18n("About to delete selected files"));
+    setButtons(Ok | Cancel);
+    setDefaultButton(Cancel);
+    enableButtonSeparator(true);
+
     m_widget = new DeleteWidget(this, "delete_dialog_widget");
     setMainWidget(m_widget);
 
@@ -108,7 +113,7 @@ void DeleteDialog::accept()
     messageGroup.writeEntry("deleteInsteadOfTrash", shouldDelete());
     messageGroup.sync();
 
-    KDialogBase::accept();
+    KDialog::accept();
 }
 
 void DeleteDialog::slotShouldDelete(bool shouldDelete)

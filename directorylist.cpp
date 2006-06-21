@@ -27,15 +27,17 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-DirectoryList::DirectoryList(const QStringList &directories, 
+DirectoryList::DirectoryList(const QStringList &directories,
                             bool importPlaylists,
                              QWidget *parent) :
-    KDialog(parent, i18n("Folder List"), KDialog::Ok | KDialog::Cancel),
+    KDialog(parent),
     m_dirList(directories),
     m_importPlaylists(importPlaylists)
 {
+    setCaption(i18n("Folder List"));
     setModal( true );
     enableButtonSeparator( true );
+    setButtons(KDialog::Ok | KDialog::Cancel);
 
     m_base = new DirectoryListBase(this);
 

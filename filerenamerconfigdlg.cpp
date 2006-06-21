@@ -20,10 +20,14 @@
 #include "filerenamerconfigdlg.h"
 
 FileRenamerConfigDlg::FileRenamerConfigDlg(QWidget *parent) :
-    KDialogBase(parent, "file renamer dialog", true,
-                i18n("File Renamer Options"), Ok | Cancel),
+    KDialog(parent),
     m_renamerWidget(new FileRenamerWidget(this))
 {
+    setObjectName("file renamer dialog");
+    setModal(true);
+    setCaption(i18n("File Renamer Options"));
+    setButtons(Ok | Cancel);
+
     m_renamerWidget->setMinimumSize(400, 300);
 
     setMainWidget(m_renamerWidget);
@@ -35,7 +39,7 @@ void FileRenamerConfigDlg::accept()
 
     m_renamerWidget->saveConfig();
 
-    KDialogBase::accept();
+    KDialog::accept();
 }
 
 #include "filerenamerconfigdlg.moc"

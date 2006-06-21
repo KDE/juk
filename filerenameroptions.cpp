@@ -126,10 +126,14 @@ void FileRenamerTagOptions::slotEmptyActionChanged()
 TagOptionsDialog::TagOptionsDialog(QWidget *parent,
                                    const TagRenamerOptions &options,
                                    unsigned categoryNumber) :
-    KDialogBase(parent, 0, true, i18n("File Renamer"), Ok | Cancel),
+    KDialog(parent, 0),
     m_options(options),
     m_categoryNumber(categoryNumber)
 {
+    setModal(true);
+    setCaption(i18n("File Renamer"));
+    setButtons(Ok|Cancel);
+
     loadConfig();
 
     m_widget = new FileRenamerTagOptions(this, m_options);
@@ -143,7 +147,7 @@ void TagOptionsDialog::accept()
     m_options = m_widget->options();
 
     saveConfig();
-    KDialogBase::accept();
+    KDialog::accept();
 }
 
 void TagOptionsDialog::loadConfig()

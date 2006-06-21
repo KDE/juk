@@ -60,14 +60,20 @@
 #include "playlist.h"
 #include "coverinfo.h"
 
-class ConfirmationDialog : public KDialogBase
+class ConfirmationDialog : public KDialog
 {
 public:
     ConfirmationDialog(const QMap<QString, QString> &files,
                        QWidget *parent = 0, const char *name = 0)
-        : KDialogBase(parent, name, true, i18n("Warning"), Ok | Cancel)
+        : KDialog(parent)
     {
-        KVBox *vbox = makeVBoxMainWidget();
+        setObjectName(name);
+        setModal(true);
+        setCaption(i18n("Warning"));
+        setButtons(Ok | Cancel);
+
+        KVBox *vbox = new KVBox(this);
+        setMainWidget(vbox);
         KVBox *hbox = new KVBox(vbox);
 
         QLabel *l = new QLabel(hbox);

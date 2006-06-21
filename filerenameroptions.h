@@ -16,7 +16,7 @@
 #ifndef FILERENAMEROPTIONS_H
 #define FILERENAMEROPTIONS_H
 
-#include <kdialogbase.h>
+#include <kdialog.h>
 #include "ui_filerenameroptionsbase.h"
 #include "tagrenameroptions.h"
 
@@ -48,7 +48,7 @@ private:
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class TagOptionsDialog : public KDialogBase
+class TagOptionsDialog : public KDialog
 {
     Q_OBJECT
 
