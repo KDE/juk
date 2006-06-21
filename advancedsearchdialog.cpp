@@ -42,8 +42,11 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
                                            const PlaylistSearch &defaultSearch,
                                            QWidget *parent,
                                            const char *name) :
-    KDialog(parent, i18n("Create Search Playlist"), Ok|Cancel)
+    KDialog(parent)
 {
+    setCaption( i18n("Create Search Playlist") );
+    setButtons( Ok|Cancel );
+    setDefaultButton( Ok );
     setObjectName(name);
     setModal(true);
 
