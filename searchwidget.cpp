@@ -32,7 +32,7 @@
 #include <Q3ValueList>
 #include <QKeyEvent>
 #include <QEvent>
-
+#include <dbus/qdbus.h>
 #include "searchwidget.h"
 #include "collectionlist.h"
 #include "actioncollection.h"
@@ -196,6 +196,8 @@ void SearchLine::updateColumns()
 
 SearchWidget::SearchWidget(QWidget *parent, const char *name) : KToolBar(parent, name)
 {
+    new SearchAdaptor(this);
+    QDBus::sessionBus().registerObject("/Search", this);
     setupLayout();
     updateColumns();
 }

@@ -27,7 +27,6 @@
 #include <QEvent>
 
 #include "playlistsearch.h"
-#include "jukIface.h"
 
 class QCheckBox;
 
@@ -72,7 +71,7 @@ private:
     Q3ValueList<int> m_columnList;
 };
 
-class SearchWidget : public KToolBar, public SearchIface
+class SearchWidget : public KToolBar
 {
     Q_OBJECT
 
