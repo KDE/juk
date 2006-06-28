@@ -28,7 +28,6 @@
 #include <kurl.h>
 #include <kio/netaccess.h>
 #include <kio/job.h>
-#include <dcopclient.h>
 #include <kmenu.h>
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
@@ -1730,8 +1729,8 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
     }
 
     TrackSequenceManager::instance()->setCurrent(item);
-    QByteArray data;
-    kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
+#warning "kde4: port it"
+    //kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
 
     if(!item)
         return;

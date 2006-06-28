@@ -46,6 +46,8 @@
 #include <q3widgetstack.h>
 #include <q3hbox.h>
 
+#include <dbus/qdbus.h>
+#include "collectionadaptor.h"
 #define widget (kapp->mainWidget())
 
 using namespace ActionCollection;
@@ -73,6 +75,8 @@ PlaylistCollection::PlaylistCollection(Q3WidgetStack *playlistStack) :
     m_belowDistraction(0),
     m_distraction(0)
 {
+    new CollectionAdaptor(this );
+    QDBus::sessionBus().registerObject("/Collection",this );
     m_instance = this;
 
     m_actionHandler = new ActionHandler(this);

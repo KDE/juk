@@ -15,9 +15,7 @@
 #ifndef PLAYLIST_COLLECTION_H
 #define PLAYLIST_COLLECTION_H
 
-#include "playlistinterface.h"
 #include "stringhash.h"
-#include "jukIface.h"
 
 #include <kshortcut.h>
 #include <klocale.h>
@@ -27,7 +25,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <Q3ValueList>
-
+#include "playlistinterface.h"
 class Q3WidgetStack;
 class KAction;
 class Playlist;
@@ -40,8 +38,9 @@ class DynamicPlaylist;
 typedef Q3ValueList<Playlist *> PlaylistList;
 typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
-class PlaylistCollection : public PlaylistInterface, CollectionIface
+class PlaylistCollection : public PlaylistInterface
 {
+    Q_OBJECT
     friend class Playlist;
     friend class CollectionList;
     friend class DynamicPlaylist;

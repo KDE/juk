@@ -17,7 +17,6 @@
 #define PLAYERMANAGER_H
 
 #include "player.h"
-#include "jukIface.h"
 //Added by qt3to4:
 #include <QPixmap>
 
@@ -32,7 +31,7 @@ class PlaylistInterface;
  * the actions from the top-level mainwindow.
  */
 
-class PlayerManager : public Player, public PlayerIface
+class PlayerManager : public Player
 {
     Q_OBJECT
 

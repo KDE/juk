@@ -16,7 +16,6 @@
 #include <kuniqueapplication.h>
 #include <kcmdlineargs.h>
 #include <kaboutdata.h>
-#include <dcopclient.h>
 #include <kconfigbase.h>
 #include <kconfig.h>
 #include <klocale.h>
@@ -80,9 +79,10 @@ int main(int argc, char *argv[])
     // Here we do some DCOP locking of sorts to prevent incoming DCOP calls
     // before JuK has finished its initialization.
 
-    a.dcopClient()->suspend();
+#warning "kde4: port it"
+    //a.dcopClient()->suspend();
     JuK *juk = new JuK;
-    a.dcopClient()->resume();
+    //a.dcopClient()->resume();
 
     a.setMainWidget(juk);
 

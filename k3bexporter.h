@@ -20,7 +20,6 @@
 #include "playlistitem.h"
 
 class QWidget;
-class DCOPRef;
 class PlaylistBox;
 class PlaylistAction;
 
@@ -55,9 +54,11 @@ private:
 
     // Private method declarations
     void exportViaCmdLine(const PlaylistItemList &items);
+#if 0
     void exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref);
     void DCOPErrorMessage();
     bool startNewK3bProject(DCOPRef &ref);
+#endif
     K3bOpenMode openMode();
 
     // Private member variable declarations

@@ -45,6 +45,9 @@
 
 #include "config.h"
 
+#include <dbus/qdbus.h>
+#include "playeradaptor.h"
+
 using namespace ActionCollection;
 
 enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying = 2 };
@@ -69,6 +72,9 @@ PlayerManager::PlayerManager() :
 // Since the setup() method will be called indirectly by the player() method
 // later, just disable it here. -- mpyne
 //    setup();
+    new PlayerAdaptor( this );
+    QDBus::sessionBus().registerObject("/Player", this);
+
 }
 
 PlayerManager::~PlayerManager()

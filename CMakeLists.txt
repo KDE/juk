@@ -86,8 +86,6 @@ kde4_add_ui3_files(juk_SRCS
    tagguesserconfigdlgwidget.ui 
    trackpickerdialogbase.ui )
 
-kde4_add_dcop_skels(juk_SRCS jukIface.h )
-
 kde4_add_executable(juk ${juk_SRCS})
 
 # Add gstreamer here too...

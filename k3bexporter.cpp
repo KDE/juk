@@ -28,9 +28,6 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 
-#include <dcopref.h>
-#include <dcopclient.h>
-
 #include "k3bexporter.h"
 #include "playlistitem.h"
 #include "playlist.h"
@@ -129,7 +126,8 @@ void K3bExporter::exportPlaylistItems(const PlaylistItemList &items)
 {
     if(items.empty())
         return;
-
+#warning "kde4: port it when k3b will port"
+#if 0
     DCOPClient *client = DCOPClient::mainClient();
     DCOPCString appId, appObj;
     QByteArray data;
@@ -140,6 +138,7 @@ void K3bExporter::exportPlaylistItems(const PlaylistItemList &items)
         DCOPRef ref(appId, appObj);
         exportViaDCOP(items, ref);
     }
+#endif
 }
 
 void K3bExporter::slotExport()
@@ -179,6 +178,7 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
         KMessageBox::error(m_parent, i18n("Unable to start K3b."));
 }
 
+#if 0
 void K3bExporter::exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref)
 {
     Q3ValueList<DCOPRef> projectList;
@@ -238,7 +238,7 @@ bool K3bExporter::startNewK3bProject(DCOPRef &ref)
 
     return true;
 }
-
+#endif
 K3bExporter::K3bOpenMode K3bExporter::openMode()
 {
     int reply = KMessageBox::questionYesNoCancel(
