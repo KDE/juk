@@ -9,8 +9,8 @@
  * before re-generating it.
  */
 
-#ifndef COLLECTIONADAPTOR_H_115251151478382
-#define COLLECTIONADAPTOR_H_115251151478382
+#ifndef COLLECTIONADAPTOR_H_279911151493756
+#define COLLECTIONADAPTOR_H_279911151493756
 
 #include <QtCore/QObject>
 #include <dbus/qdbus.h>
@@ -32,6 +32,20 @@ class CollectionAdaptor: public QDBusAbstractAdaptor
 "  <interface name=\"org.kde.juk.collection\" >\n"
 "    <method name=\"playlists\" >\n"
 "      <arg direction=\"out\" type=\"as\" />\n"
+"    </method>\n"
+"    <method name=\"openFile\" >\n"
+"      <arg direction=\"in\" type=\"s\" name=\"file\" />\n"
+"    </method>\n"
+"    <method name=\"openFile\" >\n"
+"      <arg direction=\"in\" type=\"as\" name=\"files\" />\n"
+"    </method>\n"
+"    <method name=\"openFile\" >\n"
+"      <arg direction=\"in\" type=\"s\" name=\"playlist\" />\n"
+"      <arg direction=\"in\" type=\"s\" name=\"file\" />\n"
+"    </method>\n"
+"    <method name=\"openFile\" >\n"
+"      <arg direction=\"in\" type=\"s\" name=\"playlist\" />\n"
+"      <arg direction=\"in\" type=\"as\" name=\"files\" />\n"
 "    </method>\n"
 "    <method name=\"createPlaylist\" >\n"
 "      <arg direction=\"in\" type=\"s\" name=\"list\" />\n"
@@ -77,6 +91,10 @@ public Q_SLOTS: // METHODS
     void createPlaylist(const QString &list);
     void open(const QString &playlist, const QStringList &files);
     void open(const QStringList &files);
+    void openFile(const QString &playlist, const QStringList &files);
+    void openFile(const QString &playlist, const QString &file);
+    void openFile(const QStringList &files);
+    void openFile(const QString &file);
     QString playingPlaylist();
     QString playlist();
     QStringList playlistTracks(const QString &playlist);

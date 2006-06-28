@@ -5,6 +5,20 @@
     <method name="playlists">
       <arg type="as" direction="out"/>
     </method>
+    <method name="openFile">
+      <arg name="file" type="s" direction="in"/>
+    </method>
+    <method name="openFile">
+      <arg name="files" type="as" direction="in"/>
+    </method>
+    <method name="openFile">
+      <arg name="playlist" type="s" direction="in"/>
+      <arg name="file" type="s" direction="in"/>
+    </method>
+    <method name="openFile">
+      <arg name="playlist" type="s" direction="in"/>
+      <arg name="files" type="as" direction="in"/>
+    </method>
     <method name="createPlaylist">
       <arg name="list" type="s" direction="in"/>
     </method>
