@@ -9,8 +9,8 @@
  * before re-generating it.
  */
 
-#ifndef COLLECTIONADAPTOR_H_279911151493756
-#define COLLECTIONADAPTOR_H_279911151493756
+#ifndef COLLECTIONADAPTOR_H_272971151656658
+#define COLLECTIONADAPTOR_H_272971151656658
 
 #include <QtCore/QObject>
 #include <dbus/qdbus.h>

@@ -36,7 +36,7 @@
 #include "searchwidget.h"
 #include "collectionlist.h"
 #include "actioncollection.h"
-
+#include "searchadaptor.h"
 using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////

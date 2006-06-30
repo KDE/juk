@@ -11,7 +11,7 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 
 add_definitions(${TAGLIB_CFLAGS})
 
-set(juk_SRCS searchadaptor.cpp  
+set(juk_SRCS searchadaptor.cpp collectionadaptor.cpp playeradaptor.cpp
    advancedsearchdialog.cpp 
    actioncollection.cpp 
    cache.cpp 

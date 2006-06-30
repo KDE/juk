@@ -17,6 +17,10 @@
     <method name="trackProperties">
       <arg type="as" direction="out"/>
     </method>
+    <method name="trackProperty">
+      <arg type="s" direction="out"/>
+      <arg name="property" type="s" direction="in"/>
+    </method>
     <method name="currentFile">
       <arg type="s" direction="out"/>
     </method>

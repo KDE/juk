@@ -9,8 +9,8 @@
  * before re-generating it.
  */
 
-#ifndef PLAYERADAPTOR_H_92751151417811
-#define PLAYERADAPTOR_H_92751151417811
+#ifndef PLAYERADAPTOR_H_275541151657197
+#define PLAYERADAPTOR_H_275541151657197
 
 #include <QtCore/QObject>
 #include <dbus/qdbus.h>
@@ -44,6 +44,10 @@ class PlayerAdaptor: public QDBusAbstractAdaptor
 "    </method>\n"
 "    <method name=\"trackProperties\" >\n"
 "      <arg direction=\"out\" type=\"as\" />\n"
+"    </method>\n"
+"    <method name=\"trackProperty\" >\n"
+"      <arg direction=\"out\" type=\"s\" />\n"
+"      <arg direction=\"in\" type=\"s\" name=\"property\" />\n"
 "    </method>\n"
 "    <method name=\"currentFile\" >\n"
 "      <arg direction=\"out\" type=\"s\" />\n"
@@ -113,6 +117,7 @@ public Q_SLOTS: // METHODS
     void stop();
     int totalTime();
     QStringList trackProperties();
+    QString trackProperty(const QString &property);
     double volume();
     void volumeDown();
     void volumeUp();

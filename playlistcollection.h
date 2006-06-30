@@ -40,7 +40,6 @@ typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
 class PlaylistCollection : public PlaylistInterface
 {
-    Q_OBJECT
     friend class Playlist;
     friend class CollectionList;
     friend class DynamicPlaylist;

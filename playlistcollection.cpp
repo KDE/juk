@@ -75,8 +75,8 @@ PlaylistCollection::PlaylistCollection(Q3WidgetStack *playlistStack) :
     m_belowDistraction(0),
     m_distraction(0)
 {
-    new CollectionAdaptor(this );
-    QDBus::sessionBus().registerObject("/Collection",this );
+    //new CollectionAdaptor( this );
+    //QDBus::sessionBus().registerObject("/Collection",this );
     m_instance = this;
 
     m_actionHandler = new ActionHandler(this);
