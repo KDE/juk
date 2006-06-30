@@ -46,7 +46,7 @@ void PlayerAdaptor::back()
 
 QString PlayerAdaptor::currentFile()
 {
-    return trackProperties( "Trash" );
+    return trackProperty( "Trash" );
 }
 
 int PlayerAdaptor::currentTime()
