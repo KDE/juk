@@ -32,7 +32,7 @@
 #include <Q3ValueList>
 #include <QKeyEvent>
 #include <QEvent>
-#include <dbus/qdbus.h>
+#include <QtDBus>
 #include "searchwidget.h"
 #include "collectionlist.h"
 #include "actioncollection.h"

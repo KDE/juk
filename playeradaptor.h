@@ -13,7 +13,7 @@
 #define PLAYERADAPTOR_H_275541151657197
 
 #include <QtCore/QObject>
-#include <dbus/qdbus.h>
+#include <QtDBus>
 class QByteArray;
 template<class T> class QList;
 template<class Key, class Value> class QMap;

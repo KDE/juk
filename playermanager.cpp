@@ -45,7 +45,7 @@
 
 #include "config.h"
 
-#include <dbus/qdbus.h>
+#include <QtDBus>
 #include "playeradaptor.h"
 
 using namespace ActionCollection;

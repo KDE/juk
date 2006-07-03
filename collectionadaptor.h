@@ -13,7 +13,7 @@
 #define COLLECTIONADAPTOR_H_272971151656658
 
 #include <QtCore/QObject>
-#include <dbus/qdbus.h>
+#include <QtDBus>
 class QByteArray;
 template<class T> class QList;
 template<class Key, class Value> class QMap;

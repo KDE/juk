@@ -46,7 +46,7 @@
 #include <q3widgetstack.h>
 #include <q3hbox.h>
 
-#include <dbus/qdbus.h>
+#include <QtDBus>
 #include "collectionadaptor.h"
 #define widget (kapp->mainWidget())
 
