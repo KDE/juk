@@ -30,7 +30,7 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     setCaption(i18n("Tag Guesser Configuration"));
     setButtons(Ok | Cancel);
     setDefaultButton(Ok);
-    enableButtonSeparator(true);
+    showButtonSeparator(true);
 
     m_child = new TagGuesserConfigDlgWidget(this, "child");
     setMainWidget(m_child);

@@ -46,7 +46,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     setCaption(QString::null);
     setButtons(Ok | Cancel | User1);
     setDefaultButton(NoDefault);
-    enableButtonSeparator(true);
+    showButtonSeparator(true);
 
     #warning KDE4 How to port this?
     //disableResize();

@@ -36,7 +36,7 @@ DirectoryList::DirectoryList(const QStringList &directories,
 {
     setCaption(i18n("Folder List"));
     setModal( true );
-    enableButtonSeparator( true );
+    showButtonSeparator( true );
     setButtons(KDialog::Ok | KDialog::Cancel);
 
     m_base = new DirectoryListBase(this);

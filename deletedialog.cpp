@@ -78,7 +78,7 @@ DeleteDialog::DeleteDialog(QWidget *parent, const char *name) :
     setCaption(i18n("About to delete selected files"));
     setButtons(Ok | Cancel);
     setDefaultButton(Cancel);
-    enableButtonSeparator(true);
+    showButtonSeparator(true);
 
     m_widget = new DeleteWidget(this, "delete_dialog_widget");
     setMainWidget(m_widget);

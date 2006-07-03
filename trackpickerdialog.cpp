@@ -54,7 +54,7 @@ TrackPickerDialog::TrackPickerDialog(const QString &name,
     setModal(true);
     setCaption(i18n("Internet Tag Guesser"));
     setButtons(Ok | Cancel);
-    enableButtonSeparator(true);
+    showButtonSeparator(true);
 
     m_base = new TrackPickerDialogBase(this);
     setMainWidget(m_base);
