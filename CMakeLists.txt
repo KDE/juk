@@ -92,7 +92,7 @@ kde4_add_executable(juk ${juk_SRCS})
 
 target_link_libraries(juk  ${KDE4_KDECORE_LIBS} m kio khtml kdeui tag phononcore)
 
-install_targets(/bin juk )
+install(TARGETS juk  DESTINATION ${BIN_INSTALL_DIR} )
 
 
 ########### next target ###############
@@ -111,9 +111,9 @@ endif(KDE4_BUILD_TESTS)
 
 ########### install files ###############
 
-install_files( ${XDG_APPS_DIR} FILES juk.desktop )
-install_files( ${DATA_INSTALL_DIR}/juk FILES jukui.rc jukui-rtl.rc )
-install_files( ${DATA_INSTALL_DIR}/konqueror/servicemenus FILES jukservicemenu.desktop )
+install( FILES juk.desktop  DESTINATION  ${XDG_APPS_DIR} )
+install( FILES jukui.rc jukui-rtl.rc  DESTINATION  ${DATA_INSTALL_DIR}/juk )
+install( FILES jukservicemenu.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqueror/servicemenus )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
 

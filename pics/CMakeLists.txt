@@ -4,7 +4,7 @@
 
 ########### install files ###############
 
-install_files( ${DATA_INSTALL_DIR}/juk/pics FILES playing.png splash.png )
+install( FILES playing.png splash.png  DESTINATION  ${DATA_INSTALL_DIR}/juk/pics )
 
 
 
