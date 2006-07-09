@@ -179,7 +179,7 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
     KAction *rpaction = new KAction(i18n("Redisplay Popup"), ActionCollection::actions(), "showPopup");
     connect(rpaction, SIGNAL(triggered(bool) ), SLOT(slotPlay()));
 
-    KMenu *cm = contextMenu();
+    QMenu *cm = contextMenu();
 
     connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotPlay()));
     connect(PlayerManager::instance(), SIGNAL(signalPause()), this, SLOT(slotPause()));
