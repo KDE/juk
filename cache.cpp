@@ -17,11 +17,11 @@
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
-#include <kactionclasses.h>
 #include <kdebug.h>
 
 #include <QDir>
 #include <qbuffer.h>
+#include <ktoggleaction.h>
 
 #include "cache.h"
 #include "tag.h"

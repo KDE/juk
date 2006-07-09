@@ -31,7 +31,6 @@
 #include <kiconloader.h>
 #include <kicon.h>
 #include <kshortcut.h>
-#include <kactionclasses.h>
 
 #include <QLabel>
 #include <qapplication.h>
@@ -49,6 +48,7 @@
 #include <QBoxLayout>
 #include <QShowEvent>
 #include <QVBoxLayout>
+#include <ktoggleaction.h>
 
 #include <id3v1genres.h>
 
