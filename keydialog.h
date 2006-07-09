@@ -19,6 +19,7 @@
 #include <kdeversion.h>
 #include <kglobalaccel.h>
 #include <kkeydialog.h>
+#include <kshortcut.h>
 
 #include <qbuttongroup.h>
 #include <q3widgetstack.h>
