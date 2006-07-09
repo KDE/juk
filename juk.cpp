@@ -40,6 +40,7 @@
 #include "tagtransactionmanager.h"
 
 #include <QKeyEvent>
+#include <kaction.h>
 
 using namespace ActionCollection;
 

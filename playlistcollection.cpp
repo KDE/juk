@@ -47,6 +47,7 @@
 #include <q3hbox.h>
 
 #include <QtDBus>
+#include <kaction.h>
 #include "collectionadaptor.h"
 #define widget (kapp->mainWidget())
 
