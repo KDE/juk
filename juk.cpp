@@ -20,10 +20,10 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <kactionclasses.h>
 #include <kactioncollection.h>
 #include <kstdaction.h>
-
+#include <ktoggleaction.h>
+#include <kactionmenu.h>
 #include "juk.h"
 #include "slideraction.h"
 #include "statuslabel.h"
