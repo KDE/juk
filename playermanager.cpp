@@ -25,8 +25,11 @@
 #include <kdebug.h>
 #include <klocale.h>
 
+#include <phonon/mediaobject.h>
+#include <phonon/audiopath.h>
+#include <phonon/audiooutput.h>
+
 #include <qslider.h>
-#include <QTimer>
 //Added by qt3to4:
 #include <QPixmap>
 #include <ktoggleaction.h>
@@ -57,15 +60,16 @@ enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying =
 ////////////////////////////////////////////////////////////////////////////////
 
 PlayerManager::PlayerManager() :
-    Player(),
+    QObject(),
     m_sliderAction(0),
     m_playlistInterface(0),
     m_statusLabel(0),
-    m_player(0),
-    m_timer(0),
     m_noSeek(false),
     m_muted(false),
-    m_setup(false)
+    m_setup(false),
+    m_output(0),
+    m_audioPath(0),
+    m_media(0)
 {
 // This class is the first thing constructed during program startup, and
 // therefore has no access to the widgets needed by the setup() method.
@@ -79,7 +83,6 @@ PlayerManager::PlayerManager() :
 
 PlayerManager::~PlayerManager()
 {
-    delete m_player;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -94,37 +97,37 @@ PlayerManager *PlayerManager::instance() // static
 
 bool PlayerManager::playing() const
 {
-    if(!player())
+    if(!m_media)
         return false;
 
-    return player()->playing();
+    return m_media->state() == Phonon::PlayingState;
 }
 
 bool PlayerManager::paused() const
 {
-    if(!player())
+    if(!m_media)
         return false;
 
-    return player()->paused();
+    return m_media->state() == Phonon::PausedState;
 }
 
 float PlayerManager::volume() const
 {
-    if(!player())
+    if(!m_output)
         return 0;
 
-    return player()->volume();
+    return m_output->volume();
 }
 
 int PlayerManager::status() const
 {
-    if(!player())
+    if(!m_media)
         return StatusStopped;
 
-    if(player()->paused())
+    if(paused())
         return StatusPaused;
 
-    if(player()->playing())
+    if(playing())
         return StatusPlaying;
 
     return 0;
@@ -132,26 +135,29 @@ int PlayerManager::status() const
 
 int PlayerManager::totalTime() const
 {
-    if(!player())
+    if(!m_media)
         return 0;
 
-    return player()->totalTime();
+    return m_media->totalTime() / 1000;
 }
 
 int PlayerManager::currentTime() const
 {
-    if(!player())
+    if(!m_media)
         return 0;
 
-    return player()->currentTime();
+    return m_media->currentTime() / 1000;
 }
 
 int PlayerManager::position() const
 {
-    if(!player())
+    if(!m_media)
         return 0;
 
-    return player()->position();
+    long curr = m_media->currentTime();
+    if( curr > 0 )
+        return static_cast<int>( curr / 1000.0f / m_media->totalTime() + 0.5f );
+    return -1;
 }
 
 QStringList PlayerManager::trackProperties()
@@ -172,9 +178,9 @@ QPixmap PlayerManager::trackCover(const QString &size) const
     if(!playing() && !paused())
         return QPixmap();
 
-    if(size.lower() == "small")
+    if(size.toLower() == "small")
         return m_file.coverInfo()->pixmap(CoverInfo::Thumbnail);
-    if(size.lower() == "large")
+    if(size.toLower() == "large")
         return m_file.coverInfo()->pixmap(CoverInfo::FullSize);
 
     return QPixmap();
@@ -213,33 +219,40 @@ void PlayerManager::setStatusLabel(StatusLabel *label)
 
 void PlayerManager::play(const FileHandle &file)
 {
-    if(!player() || !m_playlistInterface)
+    if(!m_media)
+        setup();
+
+    if(!m_media || !m_playlistInterface)
         return;
 
     if(file.isNull()) {
-        if(player()->paused())
-            player()->play();
-        else if(player()->playing()) {
+        if(paused())
+            m_media->play();
+        else if(playing()) {
             if(m_sliderAction->trackPositionSlider())
                 m_sliderAction->trackPositionSlider()->setValue(0);
-            player()->seekPosition(0);
+            m_media->seek(0);
         }
         else {
             m_playlistInterface->playNext();
             m_file = m_playlistInterface->currentFile();
 
             if(!m_file.isNull())
-                player()->play(m_file);
+            {
+                m_media->setUrl(KUrl::fromPath(m_file.absFilePath()));
+                m_media->play();
+            }
         }
     }
     else {
         m_file = file;
-        player()->play(file);
+        m_media->setUrl(KUrl::fromPath(m_file.absFilePath()));
+        m_media->play();
     }
 
     // Make sure that the player() actually starts before doing anything.
 
-    if(!player()->playing()) {
+    if(!playing()) {
         kWarning(65432) << "Unable to play " << file.absFilePath() << endl;
         stop();
         return;
@@ -254,8 +267,6 @@ void PlayerManager::play(const FileHandle &file)
 
     if(m_sliderAction->trackPositionSlider())
         m_sliderAction->trackPositionSlider()->setEnabled(true);
-
-    m_timer->start(m_pollInterval);
 
     emit signalPlay();
 }
@@ -276,28 +287,25 @@ void PlayerManager::play()
 
 void PlayerManager::pause()
 {
-    if(!player())
+    if(!m_media)
         return;
 
-    if(player()->paused()) {
+    if(paused()) {
         play();
         return;
     }
 
-    m_timer->stop();
     action("pause")->setEnabled(false);
 
-    player()->pause();
+    m_media->pause();
 
     emit signalPause();
 }
 
 void PlayerManager::stop()
 {
-    if(!player() || !m_playlistInterface)
+    if(!m_media || !m_playlistInterface)
         return;
-
-    m_timer->stop();
 
     action("pause")->setEnabled(false);
     action("stop")->setEnabled(false);
@@ -310,7 +318,7 @@ void PlayerManager::stop()
         m_sliderAction->trackPositionSlider()->setEnabled(false);
     }
 
-    player()->stop();
+    m_media->stop();
     m_playlistInterface->stop();
 
     m_file = FileHandle::null();
@@ -320,30 +328,29 @@ void PlayerManager::stop()
 
 void PlayerManager::setVolume(float volume)
 {
-    if(!player())
-        return;
-
-    player()->setVolume(volume);
+    if(!m_output)
+        setup();
+    m_output->setVolume(volume);
 }
 
 void PlayerManager::seek(int seekTime)
 {
-    if(!player())
+    if(!m_media)
         return;
 
-    player()->seek(seekTime);
+    m_media->seek(seekTime);
 }
 
 void PlayerManager::seekPosition(int position)
 {
-    if(!player())
+    if(!m_media)
         return;
 
-    if(!player()->playing() || m_noSeek)
+    if(!playing() || m_noSeek)
         return;
 
     slotUpdateTime(position);
-    player()->seekPosition(position);
+    m_media->seek( static_cast<long>( m_media->totalTime() / 1000.0f * position + 0.5f ) );
 
     if(m_sliderAction->trackPositionSlider())
         m_sliderAction->trackPositionSlider()->setValue(position);
@@ -388,11 +395,11 @@ void PlayerManager::back()
 
 void PlayerManager::volumeUp()
 {
-    if(!player() || !m_sliderAction || !m_sliderAction->volumeSlider())
+    if(!m_media || !m_sliderAction || !m_sliderAction->volumeSlider())
         return;
 
     int volume = m_sliderAction->volumeSlider()->volume() +
-        m_sliderAction->volumeSlider()->maxValue() / 25; // 4% up
+        m_sliderAction->volumeSlider()->maximum() / 25; // 4% up
 
     slotSetVolume(volume);
     m_sliderAction->volumeSlider()->setVolume(volume);
@@ -400,11 +407,11 @@ void PlayerManager::volumeUp()
 
 void PlayerManager::volumeDown()
 {
-    if(!player() || !m_sliderAction || !m_sliderAction->volumeSlider())
+    if(!m_media || !m_sliderAction || !m_sliderAction->volumeSlider())
         return;
 
     int volume = m_sliderAction->volumeSlider()->value() -
-        m_sliderAction->volumeSlider()->maxValue() / 25; // 4% down
+        m_sliderAction->volumeSlider()->maximum() / 25; // 4% down
 
     slotSetVolume(volume);
     m_sliderAction->volumeSlider()->setVolume(volume);
@@ -412,7 +419,7 @@ void PlayerManager::volumeDown()
 
 void PlayerManager::mute()
 {
-    if(!player() || !m_sliderAction || !m_sliderAction->volumeSlider())
+    if(!m_media || !m_sliderAction || !m_sliderAction->volumeSlider())
         return;
 
     slotSetVolume(m_muted ? m_sliderAction->volumeSlider()->value() : 0);
@@ -423,30 +430,32 @@ void PlayerManager::mute()
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlayerManager::slotPollPlay()
+void PlayerManager::slotFinished()
 {
-    if(!player() || !m_playlistInterface)
+    m_playlistInterface->playNext();
+    FileHandle nextFile = m_playlistInterface->currentFile();
+    if(!nextFile.isNull())
+        play(nextFile);
+    else
+        stop();
+    m_statusLabel->setItemTotalTime(totalTime());
+}
+
+void PlayerManager::slotTick(qint64 msec)
+{
+    if(!m_media || !m_playlistInterface)
         return;
 
     m_noSeek = true;
 
-    if(!player()->playing()) {
-        m_timer->stop();
-
-        m_playlistInterface->playNext();
-        FileHandle nextFile = m_playlistInterface->currentFile();
-        if(!nextFile.isNull())
-            play(nextFile);
-        else
-            stop();
-    }
-    else if(!m_sliderAction->dragging()) {
-        if(m_sliderAction->trackPositionSlider())
-            m_sliderAction->trackPositionSlider()->setValue(player()->position());
+    if(!m_sliderAction->dragging()) {
+        if(m_sliderAction->trackPositionSlider()) {
+            int position = static_cast<int>(msec / 1000.0f / m_media->totalTime() + 0.5f);
+            m_sliderAction->trackPositionSlider()->setValue(position);
+        }
 
         if(m_statusLabel) {
-            m_statusLabel->setItemTotalTime(player()->totalTime());
-            m_statusLabel->setItemCurrentTime(player()->currentTime());
+            m_statusLabel->setItemCurrentTime(msec / 1000);
         }
     }
 
@@ -459,7 +468,7 @@ void PlayerManager::slotPollPlay()
 
     if(!m_sliderAction->volumeDragging() && m_sliderAction->volumeSlider())
     {
-        int maxV = m_sliderAction->volumeSlider()->maxValue();
+        int maxV = m_sliderAction->volumeSlider()->maximum();
         float v = sqrt(sqrt(volume())); // Cancel out exponential scaling
 
         m_sliderAction->volumeSlider()->blockSignals(true);
@@ -467,32 +476,7 @@ void PlayerManager::slotPollPlay()
         m_sliderAction->volumeSlider()->blockSignals(false);
     }
 
-    // Ok, this is weird stuff, but it works pretty well.  Ordinarily we don't
-    // need to check up on our playing time very often, but in the span of the
-    // last interval, we want to check a lot -- to figure out that we've hit the
-    // end of the song as soon as possible.
-
-    if(player()->playing() &&
-       player()->totalTime() > 0 &&
-       float(player()->totalTime() - player()->currentTime()) < m_pollInterval * 2)
-    {
-        m_timer->changeInterval(50);
-    }
-
     m_noSeek = false;
-}
-
-void PlayerManager::slotSetOutput(const QString &system)
-{
-    stop();
-    setOutput(system);
-    setup();
-}
-
-void PlayerManager::setOutput(const QString &system)
-{
-    delete m_player;
-    m_player = new Player;
 }
 
 void PlayerManager::slotSetVolume(int volume)
@@ -500,7 +484,7 @@ void PlayerManager::slotSetVolume(int volume)
     float scaledVolume;
 
     if(m_sliderAction->volumeSlider())
-        scaledVolume = float(volume) / m_sliderAction->volumeSlider()->maxValue();
+        scaledVolume = float(volume) / m_sliderAction->volumeSlider()->maximum();
     else {
         scaledVolume = float(volume) / 100.0; // Hopefully this is accurate
         scaledVolume = qMin(1.0f, scaledVolume);
@@ -511,7 +495,7 @@ void PlayerManager::slotSetVolume(int volume)
 
     scaledVolume *= scaledVolume;
     scaledVolume *= scaledVolume;
-    setVolume(scaledVolume); // scaledVolume ^ 4
+    m_output->setVolume(scaledVolume); // scaledVolume ^ 4
 }
 
 void PlayerManager::slotUpdateTime(int position)
@@ -520,7 +504,7 @@ void PlayerManager::slotUpdateTime(int position)
         return;
 
     float positionFraction = float(position) / SliderAction::maxPosition;
-    float totalTime = float(player()->totalTime());
+    float totalTime = float(m_media->totalTime()) / 1000.0f;
     int seekTime = int(positionFraction * totalTime + 0.5); // "+0.5" for rounding
 
     m_statusLabel->setItemCurrentTime(seekTime);
@@ -529,14 +513,6 @@ void PlayerManager::slotUpdateTime(int position)
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
-
-Player *PlayerManager::player() const
-{
-    if(!m_player)
-        instance()->setup();
-
-    return m_player;
-}
 
 void PlayerManager::setup()
 {
@@ -557,6 +533,12 @@ void PlayerManager::setup()
         return;
     m_setup = true;
 
+    m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+    m_audioPath = new Phonon::AudioPath(this);
+    m_media = new Phonon::MediaObject(this);
+    m_audioPath->addOutput(m_output);
+    m_media->addAudioPath(m_audioPath);
+
     // initialize action states
 
     action("pause")->setEnabled(false);
@@ -576,31 +558,20 @@ void PlayerManager::setup()
     connect(m_sliderAction, SIGNAL(signalVolumeChanged(int)),
             this, SLOT(slotSetVolume(int)));
 
-    // Call this method manually to avoid warnings.
-
-    KAction *outputAction = ActionCollection::actions()->action("outputSelect");
-
-    if(outputAction) {
-        setOutput(static_cast<KSelectAction *>(outputAction)->currentText());
-        connect(outputAction, SIGNAL(activated(const QString &)), this, SLOT(slotSetOutput(const QString &)));
-    }
-    else
-        m_player = new Player;
-
     float volume;
 
     if(m_sliderAction->volumeSlider()) {
         volume =
             float(m_sliderAction->volumeSlider()->volume()) /
-            float(m_sliderAction->volumeSlider()->maxValue());
+            float(m_sliderAction->volumeSlider()->maximum());
     }
     else
-        volume = 1; // Assume user wants full volume
+        volume = 1.0f; // Assume user wants full volume
 
-    m_player->setVolume(volume);
+    m_output->setVolume(volume);
 
-    m_timer = new QTimer(this, "play timer");
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(slotPollPlay()));
+    connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick()));
+    connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
 }
 
 QString PlayerManager::randomPlayMode() const
@@ -614,11 +585,11 @@ QString PlayerManager::randomPlayMode() const
 
 void PlayerManager::setRandomPlayMode(const QString &randomMode)
 {
-    if(randomMode.lower() == "random")
+    if(randomMode.toLower() == "random")
         action<KToggleAction>("randomPlay")->setChecked(true);
-    if(randomMode.lower() == "albumrandom")
+    if(randomMode.toLower() == "albumrandom")
         action<KToggleAction>("albumRandomPlay")->setChecked(true);
-    if(randomMode.lower() == "norandom")
+    if(randomMode.toLower() == "norandom")
         action<KToggleAction>("disableRandomPlay")->setChecked(true);
 }
 

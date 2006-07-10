@@ -121,7 +121,7 @@ void DefaultSequenceIterator::advance()
 
                 // Pick first song remaining in list.
 
-                for(unsigned i = 0; i < albumMatches.count(); ++i)
+                for(int i = 0; i < albumMatches.count(); ++i)
                     if(albumMatches[i]->file().tag()->track() < item->file().tag()->track())
                         item = albumMatches[i];
                 m_albumSearch.clearItem(item);

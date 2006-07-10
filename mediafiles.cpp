@@ -21,6 +21,7 @@
 #include "mediafiles.h"
 
 #include <taglib/tag.h>
+#include <kurl.h>
 #if (TAGLIB_MAJOR_VERSION>1) ||  \
    ((TAGLIB_MAJOR_VERSION==1) && (TAGLIB_MINOR_VERSION>=2))
 #define TAGLIB_1_2
@@ -47,7 +48,7 @@ namespace MediaFiles {
 
 QStringList MediaFiles::openDialog(QWidget *parent)
 {
-    KFileDialog dialog(QString::null, QString::null, parent);
+    KFileDialog dialog(KUrl(), QString::null, parent);
     dialog.setOperationMode(KFileDialog::Opening);
 
     dialog.setCaption(i18n("Open"));

@@ -49,7 +49,7 @@ private slots:
     void slotValueChanged(int value);
 };
 
-class SliderAction : public KAction, public QActionWidgetFactory
+class SliderAction : public KAction
 {
     Q_OBJECT
 

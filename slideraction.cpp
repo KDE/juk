@@ -142,7 +142,6 @@ SliderAction::SliderAction(const QString &text, KActionCollection* collection, c
       m_dragging(false),
       m_volumeDragging(false)
 {
-    setToolBarWidgetFactory(this);
 }
 
 SliderAction::~SliderAction()

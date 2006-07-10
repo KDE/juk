@@ -20,10 +20,10 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
-#include <kactionclasses.h>
 #include <kactioncollection.h>
 #include <kstdaction.h>
-
+#include <ktoggleaction.h>
+#include <kactionmenu.h>
 #include "juk.h"
 #include "slideraction.h"
 #include "statuslabel.h"
@@ -40,6 +40,9 @@
 #include "tagtransactionmanager.h"
 
 #include <QKeyEvent>
+#include <kaction.h>
+#include <ktoggleaction.h>
+#include <kactionmenu.h>
 
 using namespace ActionCollection;
 
@@ -48,7 +51,7 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent, const char *name) :
-    KMainWindow(parent, name, Qt::WDestructiveClose),
+    KMainWindow(parent, Qt::WDestructiveClose),
     m_player(PlayerManager::instance()),
     m_shuttingDown(false)
 {
@@ -64,7 +67,7 @@ JuK::JuK(QWidget *parent, const char *name) :
     setupActions();
     setupLayout();
 
-    if(QApplication::reverseLayout())
+    if(QApplication::isRightToLeft())
         setupGUI(ToolBar | Save | Create, "jukui-rtl.rc");
     else
         setupGUI(ToolBar | Save | Create);
@@ -325,7 +328,7 @@ void JuK::readConfig()
     KConfigGroup playerConfig(KGlobal::config(), "Player");
 
     if(m_sliderAction->volumeSlider()) {
-        int maxVolume = m_sliderAction->volumeSlider()->maxValue();
+        int maxVolume = m_sliderAction->volumeSlider()->maximum();
         int volume = playerConfig.readEntry("Volume", maxVolume);
         m_sliderAction->volumeSlider()->setVolume(volume);
     }
