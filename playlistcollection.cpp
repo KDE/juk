@@ -49,6 +49,8 @@
 #include <QtDBus>
 #include <kaction.h>
 #include "collectionadaptor.h"
+#include <ktoggleaction.h>
+#include <kactionmenu.h>
 #define widget (kapp->mainWidget())
 
 using namespace ActionCollection;
@@ -291,7 +293,7 @@ QString PlaylistCollection::trackProperty(const QString &file, const QString &pr
 
 QPixmap PlaylistCollection::trackCover(const QString &file, const QString &size) const
 {
-    if(size.lower() != "small" && size.lower() != "large")
+    if(size.toLower() != "small" && size.toLower() != "large")
         return QPixmap();
 
     CollectionList *l = CollectionList::instance();
@@ -300,7 +302,7 @@ QPixmap PlaylistCollection::trackCover(const QString &file, const QString &size)
     if(!item)
         return QPixmap();
 
-    if(size.lower() == "small")
+    if(size.toLower() == "small")
         return item->file().coverInfo()->pixmap(CoverInfo::Thumbnail);
     else
         return item->file().coverInfo()->pixmap(CoverInfo::FullSize);

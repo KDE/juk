@@ -16,22 +16,29 @@
 #ifndef PLAYERMANAGER_H
 #define PLAYERMANAGER_H
 
-#include "player.h"
 //Added by qt3to4:
 #include <QPixmap>
+#include <QObject>
+#include "filehandle.h"
 
-class QTimer;
 class KSelectAction;
 class SliderAction;
 class StatusLabel;
 class PlaylistInterface;
+
+namespace Phonon
+{
+    class AudioOutput;
+    class AudioPath;
+    class MediaObject;
+}
 
 /**
  * This class serves as a proxy to the Player interface and handles managing
  * the actions from the top-level mainwindow.
  */
 
-class PlayerManager : public Player
+class PlayerManager : public QObject
 {
     Q_OBJECT
 
@@ -56,6 +63,8 @@ public:
 
     FileHandle playingFile() const;
     QString playingString() const;
+
+    KSelectAction* outputDeviceSelectAction();
 
     void setPlaylistInterface(PlaylistInterface *interface);
     void setStatusLabel(StatusLabel *label);
@@ -89,14 +98,12 @@ signals:
     void signalStop();
 
 private:
-    Player *player() const;
     void setup();
-    void setOutput(const QString &);
 
 private slots:
-    void slotPollPlay();
+    void slotFinished();
+    void slotTick(qint64);
     void slotUpdateTime(int position);
-    void slotSetOutput(const QString &);
     void slotSetVolume(int volume);
 
 private:
@@ -104,13 +111,15 @@ private:
     SliderAction *m_sliderAction;
     PlaylistInterface *m_playlistInterface;
     StatusLabel *m_statusLabel;
-    Player *m_player;
-    QTimer *m_timer;
     bool m_noSeek;
     bool m_muted;
     bool m_setup;
 
     static const int m_pollInterval = 800;
+
+    Phonon::AudioOutput *m_output;
+    Phonon::AudioPath *m_audioPath;
+    Phonon::MediaObject *m_media;
 };
 
 #endif

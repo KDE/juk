@@ -116,7 +116,7 @@ PassiveInfo::PassiveInfo(QWidget *parent) :
 
 void PassiveInfo::setTimeout(int delay)
 {
-    m_timer->changeInterval(delay);
+    m_timer->start(delay);
 }
 
 void PassiveInfo::show()
