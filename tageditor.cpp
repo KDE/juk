@@ -31,7 +31,7 @@
 #include <kiconloader.h>
 #include <kicon.h>
 #include <kshortcut.h>
-#include <kactionclasses.h>
+
 
 #include <QLabel>
 #include <qapplication.h>

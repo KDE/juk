@@ -37,7 +37,7 @@
 #include "tracksequencemanager.h"
 
 #include <kiconloader.h>
-#include <kactionclasses.h>
+
 #include <kapplication.h>
 #include <kinputdialog.h>
 #include <kmessagebox.h>
