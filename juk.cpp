@@ -41,6 +41,8 @@
 
 #include <QKeyEvent>
 #include <kaction.h>
+#include <ktoggleaction.h>
+#include <kactionmenu.h>
 
 using namespace ActionCollection;
 

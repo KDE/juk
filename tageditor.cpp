@@ -49,6 +49,7 @@
 #include <QBoxLayout>
 #include <QShowEvent>
 #include <QVBoxLayout>
+#include <ktoggleaction.h>
 
 #include <id3v1genres.h>
 
