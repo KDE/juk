@@ -20,6 +20,7 @@
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
+#include <kactionclasses.h>
 #include <kactioncollection.h>
 #include <kstdaction.h>
 
@@ -39,8 +40,6 @@
 #include "tagtransactionmanager.h"
 
 #include <QKeyEvent>
-#include <ktoggleaction.h>
-#include <kactionmenu.h>
 
 using namespace ActionCollection;
 

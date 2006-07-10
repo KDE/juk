@@ -862,8 +862,8 @@ void Playlist::slotAddCover(bool retrieveLocal)
     QPixmap newCover;
 
     if(retrieveLocal) {
-        KUrl file = KFileDialog::getImageOpenUrl(
-            KUrl( "kfiledialog://homedir" ), this, i18n("Select Cover Image File"));
+        KUrl file = KFileDialog::getImageOpenURL(
+            ":homedir", this, i18n("Select Cover Image File"));
         newCover = QPixmap(file.directory() + "/" + file.fileName());
     }
     else {

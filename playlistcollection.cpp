@@ -37,6 +37,7 @@
 #include "tracksequencemanager.h"
 
 #include <kiconloader.h>
+#include <kactionclasses.h>
 #include <kapplication.h>
 #include <kinputdialog.h>
 #include <kmessagebox.h>
@@ -46,8 +47,6 @@
 #include <q3hbox.h>
 
 #include <QtDBus>
-#include <kactionmenu.h>
-#include <ktoggleaction.h>
 #include "collectionadaptor.h"
 #define widget (kapp->mainWidget())
 
