@@ -18,7 +18,6 @@
 
 #include <q3ptrvector.h>
 #include <QList>
-#include <Q3CString>
 
 #include "filehandle.h"
 
@@ -123,7 +122,7 @@ inline char hashStringAccess(const QString &in, int index)
     return in.unicode()[index].cell();
 }
 
-inline char hashStringAccess(const Q3CString &in, int index)
+inline char hashStringAccess(const QByteArray &in, int index)
 {
     return in[index];
 }

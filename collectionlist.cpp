@@ -37,7 +37,6 @@
 
 #include <Q3ValueList>
 #include <QDragMoveEvent>
-#include <Q3CString>
 #include <QDropEvent>
 
 using ActionCollection::action;
@@ -368,7 +367,7 @@ void CollectionListItem::refresh()
         if(id != TrackNumberColumn && id != LengthColumn) {
             // All columns other than track num and length need local-encoded data for sorting
 
-            Q3CString lower = text(i).lower().local8Bit();
+            QByteArray lower = text(i).lower().local8Bit();
 
             // For some columns, we may be able to share some strings
 

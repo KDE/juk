@@ -92,7 +92,7 @@ class PlaylistAction : public KAction
     }
 
     private:
-    Q3CString m_slot;
+    QByteArray m_slot;
     PlaylistRecipientMap m_playlistRecipient;
 };
 
@@ -150,7 +150,7 @@ void K3bExporter::slotExport()
 void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
 {
     K3bOpenMode mode = openMode();
-    Q3CString cmdOption;
+    QByteArray cmdOption;
 
     switch(mode) {
     case AudioCD:

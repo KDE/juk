@@ -25,7 +25,6 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <Q3ValueList>
-#include <Q3CString>
 
 #include "tagguesser.h"
 #include "filehandle.h"
@@ -189,7 +188,7 @@ protected:
         Data(const QString &path) : fileHandle(path) {}
 
         FileHandle fileHandle;
-        Q3ValueVector<Q3CString> local8Bit;
+        Q3ValueVector<QByteArray> local8Bit;
         Q3ValueVector<int> cachedWidths;
     };
 

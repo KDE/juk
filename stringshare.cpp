@@ -14,8 +14,6 @@
  ***************************************************************************/
 #include "stringshare.h"
 #include "stringhash.h"
-//Added by qt3to4:
-#include <Q3CString>
 
 const int SIZE = 5003;
 
@@ -34,7 +32,7 @@ StringShare::Data* StringShare::s_data = 0;
 struct StringShare::Data
 {
     QString  qstringHash [SIZE];
-    Q3CString qcstringHash[SIZE];
+    QByteArray qcstringHash[SIZE];
 };
 
 StringShare::Data* StringShare::data()
@@ -59,7 +57,7 @@ QString StringShare::tryShare(const QString& in)
     }
 }
 
-Q3CString StringShare::tryShare(const Q3CString& in)
+QByteArray StringShare::tryShare(const QByteArray& in)
 {
     int index = hashString(in) % SIZE;
 

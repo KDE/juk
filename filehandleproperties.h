@@ -15,8 +15,6 @@
 #define FILEHANDLEPROPERTIES_H
 
 #include <QMap>
-//Added by qt3to4:
-#include <Q3CString>
 
 /*
  * These ugly macros make possible a property registration system that makes it
@@ -68,15 +66,15 @@ namespace FileHandleProperties
         }
     };
 
-    static QMap<Q3CString, const Property *> propertyMap;
+    static QMap<QByteArray, const Property *> propertyMap;
 
-    static int addToPropertyMap(const Q3CString &name, Property *property)
+    static int addToPropertyMap(const QByteArray &name, Property *property)
     {
         propertyMap[name] = property;
         return 0;
     }
 
-    static QString property(const FileHandle &file, const Q3CString &key)
+    static QString property(const FileHandle &file, const QByteArray &key)
     {
         return propertyMap.contains(key) ? propertyMap[key]->value(file) : QString::null;
     }
@@ -86,7 +84,7 @@ namespace FileHandleProperties
         static QStringList l;
 
         if(l.isEmpty()) {
-            QMap<Q3CString, const Property *>::ConstIterator it = propertyMap.begin();
+            QMap<QByteArray, const Property *>::ConstIterator it = propertyMap.begin();
             for(; it != propertyMap.end(); ++it)
                 l.append(QString(it.key()));
         }
