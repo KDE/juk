@@ -133,7 +133,7 @@ const int SliderAction::minPosition = 0;
 const int SliderAction::maxPosition = 1000;
 
 SliderAction::SliderAction(const QString &text, KActionCollection* collection, const char *name)
-    : KAction(text, 0, 0, 0, collection, name),
+    : KAction(text, collection, name),
       m_toolBar(0),
       m_widget(0),
       m_layout(0),
