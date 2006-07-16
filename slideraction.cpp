@@ -45,7 +45,7 @@
 class TrackPositionSlider : public QSlider
 {
 public:
-    TrackPositionSlider(QWidget *parent, const char *name) : QSlider(parent, name)
+    TrackPositionSlider(QWidget *parent) : QSlider(parent)
     {
         setFocusPolicy(Qt::NoFocus);
     }
@@ -69,8 +69,8 @@ protected:
 // VolumeSlider implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-VolumeSlider::VolumeSlider(Qt::Orientation o, QWidget *parent, const char *name) :
-    QSlider(o, parent, name)
+VolumeSlider::VolumeSlider(Qt::Orientation o, QWidget *parent) :
+    QSlider(o, parent)
 {
     connect(this, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
 }
@@ -95,7 +95,7 @@ int VolumeSlider::volume() const
     if(orientation() == Qt::Horizontal)
         return value();
     else
-        return maxValue() - value();
+        return maximum() - value();
 }
 
 void VolumeSlider::setVolume(int value)
@@ -103,7 +103,7 @@ void VolumeSlider::setVolume(int value)
     if(orientation() == Qt::Horizontal)
         setValue(value);
     else
-        setValue(maxValue() - value);
+        setValue(maximum() - value);
 }
 
 void VolumeSlider::setOrientation(Qt::Orientation o)
@@ -112,7 +112,7 @@ void VolumeSlider::setOrientation(Qt::Orientation o)
         return;
 
     blockSignals(true);
-    setValue(maxValue() - value());
+    setValue(maximum() - value());
     blockSignals(false);
     QSlider::setOrientation(o);
 }
@@ -122,7 +122,7 @@ void VolumeSlider::slotValueChanged(int value)
     if(orientation() == Qt::Horizontal)
         emit signalVolumeChanged(value);
     else
-        emit signalVolumeChanged(maxValue() - value);
+        emit signalVolumeChanged(maximum() - value);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -219,9 +219,10 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
         trackPositionLabel->setToolTip( i18n("Track position"));
         m_layout->addWidget(trackPositionLabel);
 
-        m_trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
+        m_trackPositionSlider = new TrackPositionSlider(base);
+        m_trackPositionSlider->setObjectName("trackPositionSlider");
         m_trackPositionSlider->setOrientation(orientation);
-        m_trackPositionSlider->setMaxValue(maxPosition);
+        m_trackPositionSlider->setMaximum(maxPosition);
         m_trackPositionSlider->setToolTip( i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
         connect(m_trackPositionSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()));
@@ -235,8 +236,9 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
         volumeLabel->setToolTip( i18n("Volume"));
         m_layout->addWidget(volumeLabel);
 
-        m_volumeSlider = new VolumeSlider(orientation, base, "volumeSlider");
-        m_volumeSlider->setMaxValue(100);
+        m_volumeSlider = new VolumeSlider(orientation, base);
+        m_volumeSlider->setObjectName("volumeSlider");
+        m_volumeSlider->setMaximum(100);
         m_volumeSlider->setToolTip( i18n("Volume"));
         m_layout->addWidget(m_volumeSlider);
         connect(m_volumeSlider, SIGNAL(signalVolumeChanged(int)), SIGNAL(signalVolumeChanged(int)));
@@ -313,8 +315,9 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         trackPositionLabel->setToolTip( i18n("Track position"));
         m_layout->addWidget(trackPositionLabel);
 
-        m_trackPositionSlider = new TrackPositionSlider(base, "trackPositionSlider");
-        m_trackPositionSlider->setMaxValue(maxPosition);
+        m_trackPositionSlider = new TrackPositionSlider(base);
+        m_trackPositionSlider->setObjectName("trackPositionSlider");
+        m_trackPositionSlider->setMaximum(maxPosition);
         m_trackPositionSlider->setToolTip( i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
         connect(m_trackPositionSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()));
@@ -328,8 +331,9 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         volumeLabel->setToolTip( i18n("Volume"));
         m_layout->addWidget(volumeLabel);
 
-        m_volumeSlider = new VolumeSlider(orientation, base, "volumeSlider");
-        m_volumeSlider->setMaxValue(100);
+        m_volumeSlider = new VolumeSlider(orientation, base);
+        m_volumeSlider->setObjectName("volumeSlider");
+        m_volumeSlider->setMaximum(100);
         m_volumeSlider->setToolTip( i18n("Volume"));
         m_layout->addWidget(m_volumeSlider);
         connect(m_volumeSlider, SIGNAL(signalVolumeChanged(int)), SIGNAL(signalVolumeChanged(int)));

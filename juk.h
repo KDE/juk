@@ -41,7 +41,7 @@ class JuK : public KMainWindow
     Q_OBJECT
 
 public:
-    JuK(QWidget* parent = 0, const char *name = 0);
+    JuK(QWidget* parent = 0);
     virtual ~JuK();
     virtual KActionCollection *actionCollection() const;
 

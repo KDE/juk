@@ -23,7 +23,7 @@
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <knuminput.h>
-#include <keditcl.h>
+#include <ktextedit.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
@@ -266,7 +266,7 @@ void TagEditor::slotRefresh()
     m_trackSpin->setValue(tag->track());
     m_yearSpin->setValue(tag->year());
 
-    m_commentBox->setText(tag->comment());
+    m_commentBox->setPlainText(tag->comment());
 
     // Start at the second item, since we've already processed the first.
 
@@ -344,7 +344,7 @@ void TagEditor::slotRefresh()
                         m_yearSpin->setValue(0);
                         m_enableBoxes[m_yearSpin]->setChecked(false);
                     }
-                    if(m_commentBox->text() != tag->comment() &&
+                    if(m_commentBox->toPlainText() != tag->comment() &&
                        m_enableBoxes.contains(m_commentBox))
                     {
                         m_commentBox->clear();
@@ -621,9 +621,8 @@ void TagEditor::setupLayout()
             trackRowLayout->setWidth();
         }
 
-        m_commentBox = new KEdit(this);
+        m_commentBox = new KTextEdit(this);
         m_commentBox->setObjectName( "commentBox" );
-        m_commentBox->setTextFormat(Qt::PlainText);
         addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "edit");
         fileNameLabel->setMinimumHeight(m_trackSpin->height());
 
@@ -717,7 +716,7 @@ void TagEditor::save(const PlaylistItemList &list)
                 tag->setYear(m_yearSpin->value());
             }
             if(m_enableBoxes[m_commentBox]->isOn())
-                tag->setComment(m_commentBox->text());
+                tag->setComment(m_commentBox->toPlainText());
 
             if(m_enableBoxes[m_genreBox]->isOn())
                 tag->setGenre(m_genreBox->currentText());

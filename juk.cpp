@@ -50,7 +50,7 @@ using namespace ActionCollection;
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-JuK::JuK(QWidget *parent, const char *name) :
+JuK::JuK(QWidget *parent) :
     KMainWindow(parent, Qt::WDestructiveClose),
     m_player(PlayerManager::instance()),
     m_shuttingDown(false)
@@ -124,11 +124,11 @@ void JuK::setupActions()
 
     KStdAction::quit(this, SLOT(slotQuit()), collection);
     KStdAction::undo(this, SLOT(slotUndo()), collection);
-    KStdAction::cut(kapp,   SLOT(cut()),   collection);
-    KStdAction::copy(kapp,  SLOT(copy()),  collection);
-    KStdAction::paste(kapp, SLOT(paste()), collection);
-    KStdAction::clear(kapp, SLOT(clear()), collection);
-    KStdAction::selectAll(kapp, SLOT(selectAll()), collection);
+    KStdAction::cut(collection);
+    KStdAction::copy(collection);
+    KStdAction::paste(collection);
+    KAction *clear = KStdAction::clear(collection);
+    KStdAction::selectAll(collection);
     KStdAction::keyBindings(this, SLOT(slotEditKeys()), collection);
 
 
@@ -153,7 +153,7 @@ void JuK::setupActions()
     actionMenu->addAction(act);
 
     act = new KAction(KIcon("edit_remove"), i18n("Remove From Playlist"), collection, "removeFromPlaylist");
-    connect(act, SIGNAL(triggered(bool)), kapp, SLOT(clear()));
+    connect(act, SIGNAL(triggered(bool)), clear, SLOT(clear()));
 
     act = new KAction(KIcon("player_play"), i18n("&Play"), collection, "play");
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(play()));

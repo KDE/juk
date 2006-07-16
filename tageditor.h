@@ -26,7 +26,7 @@
 class KComboBox;
 class KLineEdit;
 class KIntSpinBox;
-class KEdit;
+class KTextEdit;
 class KPushButton;
 class KConfigBase;
 
@@ -104,7 +104,7 @@ private:
     KIntSpinBox *m_yearSpin;
     KLineEdit *m_lengthBox;
     KLineEdit *m_bitrateBox;
-    KEdit *m_commentBox;
+    KTextEdit *m_commentBox;
 
     Q3ValueList<QWidget *> m_hideList;
 

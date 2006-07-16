@@ -31,7 +31,7 @@ class VolumeSlider : public QSlider
     Q_OBJECT
 
 public:
-    VolumeSlider(Qt::Orientation o, QWidget *parent, const char *name);
+    VolumeSlider(Qt::Orientation o, QWidget *parent);
 
     int volume() const;
     void setVolume(int value);
