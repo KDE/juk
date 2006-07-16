@@ -920,10 +920,14 @@ KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
                                                          const QString &icon,
                                                          const KShortcut &shortcut)
 {
+    KAction *action;
     if(icon.isNull())
-        return new KAction(text, shortcut, this, slot, actions(), name);
+        action = new KAction(text, actions(), name);
     else
-        return new KAction(text, icon, shortcut, this, slot, actions(), name);
+        action = new KAction(KIcon(icon), text, actions(), name);
+    connect( action, SIGNAL(triggered(bool)), slot);
+    action->setShortcut(shortcut);
+    return action;
 }
 
 #undef widget
