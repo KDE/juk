@@ -195,7 +195,7 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
     if(parent) {
         QWidget *base = new QWidget(parent);
         base->setBackgroundRole(parent->backgroundRole());
-        base->setName("kde toolbar widget");
+        base->setObjectName("kde toolbar widget");
 
         KToolBar *toolBar = dynamic_cast<KToolBar *>(parent);
 
@@ -214,7 +214,7 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
         m_layout->addItem(new QSpacerItem(20, 1));
 
         QLabel *trackPositionLabel = new QLabel(base);
-        trackPositionLabel->setName("kde toolbar widget");
+        trackPositionLabel->setObjectName("kde toolbar widget");
         trackPositionLabel->setPixmap(SmallIcon("player_time"));
         trackPositionLabel->setToolTip( i18n("Track position"));
         m_layout->addWidget(trackPositionLabel);
@@ -230,7 +230,7 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
         m_layout->addItem(new QSpacerItem(10, 1));
 
         QLabel *volumeLabel = new QLabel(base);
-        volumeLabel->setName("kde toolbar widget");
+        volumeLabel->setObjectName("kde toolbar widget");
         volumeLabel->setPixmap(SmallIcon("player_volume"));
         volumeLabel->setToolTip( i18n("Volume"));
         m_layout->addWidget(volumeLabel);
@@ -243,8 +243,8 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
         connect(m_volumeSlider, SIGNAL(sliderPressed()), this, SLOT(slotVolumeSliderPressed()));
         connect(m_volumeSlider, SIGNAL(sliderReleased()), this, SLOT(slotVolumeSliderReleased()));
 
-        m_volumeSlider->setName("kde toolbar widget");
-        m_trackPositionSlider->setName("kde toolbar widget");
+        m_volumeSlider->setObjectName("kde toolbar widget");
+        m_trackPositionSlider->setObjectName("kde toolbar widget");
 
         m_layout->setStretchFactor(m_trackPositionSlider, 4);
         m_layout->setStretchFactor(m_volumeSlider, 1);
@@ -290,7 +290,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
     if(parent) {
         QWidget *base = new QWidget(parent);
         base->setBackgroundRole(parent->backgroundRole());
-        base->setName("kde toolbar widget");
+        base->setObjectName("kde toolbar widget");
 
         KToolBar *toolBar = dynamic_cast<KToolBar *>(parent);
 
@@ -308,7 +308,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         m_layout->addItem(new QSpacerItem(20, 1));
 
         QLabel *trackPositionLabel = new QLabel(base);
-        trackPositionLabel->setName("kde toolbar widget");
+        trackPositionLabel->setObjectName("kde toolbar widget");
         trackPositionLabel->setPixmap(SmallIcon("player_time"));
         trackPositionLabel->setToolTip( i18n("Track position"));
         m_layout->addWidget(trackPositionLabel);
@@ -323,7 +323,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         m_layout->addItem(new QSpacerItem(10, 1));
 
         QLabel *volumeLabel = new QLabel(base);
-        volumeLabel->setName("kde toolbar widget");
+        volumeLabel->setObjectName("kde toolbar widget");
         volumeLabel->setPixmap(SmallIcon("player_volume"));
         volumeLabel->setToolTip( i18n("Volume"));
         m_layout->addWidget(volumeLabel);
@@ -336,8 +336,8 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         connect(m_volumeSlider, SIGNAL(sliderPressed()), this, SLOT(slotVolumeSliderPressed()));
         connect(m_volumeSlider, SIGNAL(sliderReleased()), this, SLOT(slotVolumeSliderReleased()));
 
-        m_volumeSlider->setName("kde toolbar widget");
-        m_trackPositionSlider->setName("kde toolbar widget");
+        m_volumeSlider->setObjectName("kde toolbar widget");
+        m_trackPositionSlider->setObjectName("kde toolbar widget");
 
         m_layout->setStretchFactor(m_trackPositionSlider, 4);
         m_layout->setStretchFactor(m_volumeSlider, 1);
