@@ -141,16 +141,16 @@ void JuK::setupActions()
 
     KAction *act = new KToggleAction(KIcon("player_playlist"), i18n("&Disable Random Play"), collection, "disableRandomPlay");
     act->setActionGroup(randomPlayGroup);
-    actionMenu->insert(act);
+    actionMenu->addAction(act);
 
     m_randomPlayAction = new KToggleAction(KIcon("roll"), i18n("Use &Random Play"), collection, "randomPlay");
     m_randomPlayAction->setActionGroup(randomPlayGroup);
-    actionMenu->insert(m_randomPlayAction);
+    actionMenu->addAction(m_randomPlayAction);
 
     act = new KToggleAction(KIcon("roll"), i18n("Use &Album Random Play"), collection, "albumRandomPlay");
     act->setActionGroup(randomPlayGroup);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotCheckAlbumNextAction(bool)));
-    actionMenu->insert(act);
+    actionMenu->addAction(act);
 
     act = new KAction(KIcon("edit_remove"), i18n("Remove From Playlist"), collection, "removeFromPlaylist");
     connect(act, SIGNAL(triggered(bool)), kapp, SLOT(clear()));

@@ -196,9 +196,9 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
     // Pity the actionCollection doesn't keep track of what sub-menus it has.
 
     KActionMenu *menu = new KActionMenu(i18n("&Random Play"), actionCollection(), "randomplay");
-    menu->insert(action("disableRandomPlay"));
-    menu->insert(action("randomPlay"));
-    menu->insert(action("albumRandomPlay"));
+    menu->addAction(action("disableRandomPlay"));
+    menu->addAction(action("randomPlay"));
+    menu->addAction(action("albumRandomPlay"));
     cm->addAction( menu );
 
     cm->addAction( action("togglePopups") );

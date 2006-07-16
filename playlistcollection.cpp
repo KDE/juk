@@ -847,11 +847,11 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     menu = new KActionMenu(KIcon("filenew"), i18n("&New"), actions(), "file_new");
 
-    menu->insert(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
+    menu->addAction(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
                               "newPlaylist", "window_new", Qt::CTRL + Qt::Key_N));
-    menu->insert(createAction(i18n("&Search Playlist..."), SLOT(slotCreateSearchPlaylist()),
+    menu->addAction(createAction(i18n("&Search Playlist..."), SLOT(slotCreateSearchPlaylist()),
                               "newSearchPlaylist", "find", Qt::CTRL + Qt::Key_F));
-    menu->insert(createAction(i18n("Playlist From &Folder..."), SLOT(slotCreateFolderPlaylist()),
+    menu->addAction(createAction(i18n("Playlist From &Folder..."), SLOT(slotCreateFolderPlaylist()),
                               "newDirectoryPlaylist", "fileopen", Qt::CTRL + Qt::Key_D));
 
     // Guess tag info menu
@@ -860,9 +860,9 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu = new KActionMenu(i18n("&Guess Tag Information"), QString::null, actions(), "guessTag");
     /* menu->setIconSet(SmallIconSet("wizard")); */
 
-    menu->insert(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
+    menu->addAction(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
                               "guessTagFile", "fileimport", Qt::CTRL + Qt::Key_G));
-    menu->insert(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
+    menu->addAction(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
                               "guessTagInternet", "connect_established", Qt::CTRL + Qt::Key_I));
 #else
     createAction(i18n("Guess Tag Information From &File Name"), SLOT(slotGuessTagFromFile()),
@@ -889,15 +889,15 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     menu = new KActionMenu(i18n("Cover Manager"), actions(), "coverManager");
     /* menu->setIconSet(SmallIconSet("image")); */
-    menu->insert(createAction(i18n("&View Cover"),
+    menu->addAction(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "viewmag"));
-    menu->insert(createAction(i18n("Get Cover From &File..."),
+    menu->addAction(createAction(i18n("Get Cover From &File..."),
         SLOT(slotAddLocalCover()), "addCover", "fileimport", Qt::CTRL + Qt::SHIFT + Qt::Key_F));
-    menu->insert(createAction(i18n("Get Cover From &Internet..."),
+    menu->addAction(createAction(i18n("Get Cover From &Internet..."),
         SLOT(slotAddInternetCover()), "googleCover", "connect_established", Qt::CTRL + Qt::SHIFT + Qt::Key_G));
-    menu->insert(createAction(i18n("&Delete Cover"),
+    menu->addAction(createAction(i18n("&Delete Cover"),
         SLOT(slotRemoveCovers()), "removeCover", "editdelete"));
-    menu->insert(createAction(i18n("Show Cover &Manager"),
+    menu->addAction(createAction(i18n("Show Cover &Manager"),
         SLOT(slotShowCoverManager()), "showCoverManager"));
 
     KToggleAction *historyAction =
