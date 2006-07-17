@@ -67,9 +67,9 @@ SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
 
     if(!m_simple) {
         m_caseSensitive = new KComboBox(this);
-        m_caseSensitive->insertItem(i18n("Normal Matching"), 0);
-        m_caseSensitive->insertItem(i18n("Case Sensitive"), 1);
-        m_caseSensitive->insertItem(i18n("Pattern Matching"), 2);
+        m_caseSensitive->addItem(i18n("Normal Matching"));
+        m_caseSensitive->addItem(i18n("Case Sensitive"));
+        m_caseSensitive->addItem(i18n("Pattern Matching"));
         connect(m_caseSensitive, SIGNAL(activated(int)),
                 this, SIGNAL(signalQueryChanged()));
     }
@@ -185,7 +185,7 @@ void SearchLine::updateColumns()
     }
 
     if(m_searchFieldsBox) {
-        m_searchFieldsBox->insertStringList(columnHeaders);
+        m_searchFieldsBox->addItems(columnHeaders);
         m_searchFieldsBox->setCurrentItem(selection + 1);
     }
 }

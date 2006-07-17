@@ -404,13 +404,13 @@ void TagEditor::updateCollection()
     QStringList artistList = list->uniqueSet(CollectionList::Artists);
     artistList.sort();
     m_artistNameBox->clear();
-    m_artistNameBox->insertStringList(artistList);
+    m_artistNameBox->addItems(artistList);
     m_artistNameBox->completionObject()->setItems(artistList);
 
     QStringList albumList = list->uniqueSet(CollectionList::Albums);
     albumList.sort();
     m_albumNameBox->clear();
-    m_albumNameBox->insertStringList(albumList);
+    m_albumNameBox->addItems(albumList);
     m_albumNameBox->completionObject()->setItems(albumList);
 
     // Merge the list of genres found in tags with the standard ID3v1 set.
@@ -432,7 +432,7 @@ void TagEditor::updateCollection()
 
     m_genreBox->clear();
     m_genreBox->addItem(QString::null);
-    m_genreBox->insertStringList(m_genreList);
+    m_genreBox->addItems(m_genreList);
     m_genreBox->completionObject()->setItems(m_genreList);
 }
 
@@ -463,7 +463,7 @@ void TagEditor::readConfig()
 
     m_genreBox->clear();
     m_genreBox->addItem(QString::null);
-    m_genreBox->insertStringList(m_genreList);
+    m_genreBox->addItems(m_genreList);
     m_genreBox->completionObject()->setItems(m_genreList);
 }
 
