@@ -257,7 +257,7 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     m_category->clear();
     for(int i = StartTag; i < NumTypes; ++i) {
         QString category = TagRenamerOptions::tagTypeText(static_cast<TagType>(i));
-        m_category->insertItem(category);
+        m_category->addItem(category);
     }
 
     connect(m_exampleDialog, SIGNAL(signalShown()), SLOT(exampleDialogShown()));

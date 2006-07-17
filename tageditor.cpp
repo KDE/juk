@@ -431,7 +431,7 @@ void TagEditor::updateCollection()
     m_genreList.sort();
 
     m_genreBox->clear();
-    m_genreBox->insertItem(QString::null);
+    m_genreBox->addItem(QString::null);
     m_genreBox->insertStringList(m_genreList);
     m_genreBox->completionObject()->setItems(m_genreList);
 }
@@ -462,7 +462,7 @@ void TagEditor::readConfig()
     m_genreList.sort();
 
     m_genreBox->clear();
-    m_genreBox->insertItem(QString::null);
+    m_genreBox->addItem(QString::null);
     m_genreBox->insertStringList(m_genreList);
     m_genreBox->completionObject()->setItems(m_genreList);
 }

@@ -68,12 +68,12 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     label->setText(i18n("Image size:"));
 
     KComboBox *combo = new KComboBox(imgSize);
-    combo->insertItem(i18n("All Sizes"));
-    combo->insertItem(i18n("Very Small"));
-    combo->insertItem(i18n("Small"));
-    combo->insertItem(i18n("Medium"));
-    combo->insertItem(i18n("Large"));
-    combo->insertItem(i18n("Very Large"));
+    combo->addItem(i18n("All Sizes"));
+    combo->addItem(i18n("Very Small"));
+    combo->addItem(i18n("Small"));
+    combo->addItem(i18n("Medium"));
+    combo->addItem(i18n("Large"));
+    combo->addItem(i18n("Very Large"));
     combo->setCurrentItem(0);
     connect(combo, SIGNAL(activated(int)), this, SLOT(imgSizeChanged(int)));
 
