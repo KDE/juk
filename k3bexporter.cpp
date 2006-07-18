@@ -53,9 +53,11 @@ class PlaylistAction : public KAction
                    const QIcon &pix,
                    const char *slot,
                    const KShortcut &cut = 0) :
-        KAction(userText, pix, cut, 0 /* receiver */, 0 /* slot */, actions(), name),
+        KAction(userText, actions(), name),
         m_slot(slot)
     {
+	setShortcut(cut);
+	QAction::setIcon(pix);
     }
 
     typedef QMap<const Playlist *, QObject *> PlaylistRecipientMap;
@@ -273,15 +275,13 @@ K3bPlaylistExporter::K3bPlaylistExporter(PlaylistBox *parent) : K3bExporter(0),
 KAction *K3bPlaylistExporter::action()
 {
     if(!KStandardDirs::findExe("k3b").isNull()) {
-        return new KAction(
+        KAction *action = new KAction(KIcon("k3b"),
             i18n("Add Playlist to Audio or Data CD"),
-            SmallIconSet("k3b"),
-            0,
-            this,
-            SLOT(slotExport()),
             actions(),
             "export_playlist_to_k3b"
         );
+        connect(action, SIGNAL(triggered(bool)), SLOT(slotExport()));
+        return action;
     }
 
     return 0;
