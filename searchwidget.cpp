@@ -82,13 +82,13 @@ SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
 PlaylistSearch::Component SearchLine::searchComponent() const
 {
     QString query = m_lineEdit->text();
-    bool caseSensitive = m_caseSensitive && m_caseSensitive->currentItem() == CaseSensitive;
+    bool caseSensitive = m_caseSensitive && m_caseSensitive->currentIndex() == CaseSensitive;
 
     Playlist *playlist = CollectionList::instance();
 
     Q3ValueList<int> searchedColumns;
 
-    if(!m_searchFieldsBox || m_searchFieldsBox->currentItem() == 0) {
+    if(!m_searchFieldsBox || m_searchFieldsBox->currentIndex() == 0) {
         Q3ValueListConstIterator<int> it = m_columnList.begin();
         for(; it != m_columnList.end(); ++it) {
             if(playlist->isColumnVisible(*it))
@@ -96,9 +96,9 @@ PlaylistSearch::Component SearchLine::searchComponent() const
         }
     }
     else
-        searchedColumns.append(m_columnList[m_searchFieldsBox->currentItem() - 1]);
+        searchedColumns.append(m_columnList[m_searchFieldsBox->currentIndex() - 1]);
 
-    if(m_caseSensitive && m_caseSensitive->currentItem() == Pattern)
+    if(m_caseSensitive && m_caseSensitive->currentIndex() == Pattern)
         return PlaylistSearch::Component(QRegExp(query), searchedColumns);
     else
         return PlaylistSearch::Component(query, caseSensitive, searchedColumns);
@@ -112,19 +112,19 @@ void SearchLine::setSearchComponent(const PlaylistSearch::Component &component)
     if(m_simple || !component.isPatternSearch()) {
         m_lineEdit->setText(component.query());
         if(m_caseSensitive)
-            m_caseSensitive->setCurrentItem(component.isCaseSensitive() ? CaseSensitive : Default);
+            m_caseSensitive->setCurrentIndex(component.isCaseSensitive() ? CaseSensitive : Default);
     }
     else {
         m_lineEdit->setText(component.pattern().pattern());
         if(m_caseSensitive)
-            m_caseSensitive->setCurrentItem(Pattern);
+            m_caseSensitive->setCurrentIndex(Pattern);
     }
 
     if(!m_simple) {
         if(component.columns().isEmpty() || component.columns().size() > 1)
-            m_searchFieldsBox->setCurrentItem(0);
+            m_searchFieldsBox->setCurrentIndex(0);
         else
-            m_searchFieldsBox->setCurrentItem(component.columns().front() + 1);
+            m_searchFieldsBox->setCurrentIndex(component.columns().front() + 1);
     }
 }
 
@@ -186,7 +186,7 @@ void SearchLine::updateColumns()
 
     if(m_searchFieldsBox) {
         m_searchFieldsBox->addItems(columnHeaders);
-        m_searchFieldsBox->setCurrentItem(selection + 1);
+        m_searchFieldsBox->setCurrentIndex(selection + 1);
     }
 }
 
