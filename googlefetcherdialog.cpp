@@ -74,7 +74,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     combo->addItem(i18n("Medium"));
     combo->addItem(i18n("Large"));
     combo->addItem(i18n("Very Large"));
-    combo->setCurrentItem(0);
+    combo->setCurrentIndex(0);
     connect(combo, SIGNAL(activated(int)), this, SLOT(imgSizeChanged(int)));
 
     imgSize->adjustSize();

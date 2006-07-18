@@ -257,9 +257,9 @@ void TagEditor::slotRefresh()
     m_lengthBox->setText(tag->lengthString());
 
     if(m_genreList.findIndex(tag->genre()) >= 0)
-        m_genreBox->setCurrentItem(m_genreList.findIndex(tag->genre()) + 1);
+        m_genreBox->setCurrentIndex(m_genreList.findIndex(tag->genre()) + 1);
     else {
-        m_genreBox->setCurrentItem(0);
+        m_genreBox->setCurrentIndex(0);
         m_genreBox->setEditText(tag->genre());
     }
 
@@ -375,7 +375,7 @@ void TagEditor::slotClear()
     m_artistNameBox->lineEdit()->clear();
     m_trackNameBox->clear();
     m_albumNameBox->lineEdit()->clear();
-    m_genreBox->setCurrentItem(0);
+    m_genreBox->setCurrentIndex(0);
     m_fileNameBox->clear();
     m_trackSpin->setValue(0);
     m_yearSpin->setValue(0);
