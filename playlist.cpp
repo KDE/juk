@@ -1557,7 +1557,7 @@ void Playlist::polish()
 
     m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), ActionCollection::actions(), "showColumns");
 
-    m_headerMenu = m_columnVisibleAction->popupMenu();
+    m_headerMenu = m_columnVisibleAction->menu();
 
     #warning should be fixed...
     /* m_headerMenu->insertTitle(i18n("Show")); */
