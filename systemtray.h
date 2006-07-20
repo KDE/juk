@@ -28,6 +28,7 @@
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QEvent>
+#include <QIcon>
 
 class FlickerFreeLabel;
 class QTimer;
@@ -84,7 +85,8 @@ private:
     virtual void wheelEvent(QWheelEvent *e);
     void createPopup();
     void setToolTip(const QString &tip = QString::null, const QPixmap &cover = QPixmap());
-    void mousePressEvent(QMouseEvent *e);
+    void slotActivated(QSystemTrayIcon::ActivationReason reason);
+    void ousePressEvent(QMouseEvent *e);
     QPixmap createPixmap(const QString &pixName);
 
     // Returns true if the popup will need to have its buttons on the left
@@ -109,7 +111,7 @@ private:
 private slots:
     void slotPlay();
     void slotTogglePopup();
-    void slotPause() { setPixmap(m_pausePix); }
+    void slotPause() { setIcon(m_pausePix); }
     void slotStop();
     void slotPopupDestroyed();
     void slotNextStep(); ///< This is the fading routine.
@@ -125,7 +127,7 @@ private:
     QPixmap m_currentPix;
     QPixmap m_backPix;
     QPixmap m_forwardPix;
-    QPixmap m_appPix;
+    QIcon   m_appPix;
     QColor m_startColor, m_endColor;
 
     PassiveInfo *m_popup;
