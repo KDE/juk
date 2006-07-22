@@ -89,7 +89,7 @@ kde4_add_executable(juk ${juk_SRCS})
 
 # Add gstreamer here too...
 
-target_link_libraries(juk  ${KDE4_KDECORE_LIBS} m kio khtml kdeui tag phononcore)
+target_link_libraries(juk  ${KDE4_KDECORE_LIBS} m ${KDE4_KIO_LIBS} khtml ${KDE4_KDEUI_LIBS} tag phononcore)
 
 install(TARGETS juk  DESTINATION ${BIN_INSTALL_DIR} )
 
