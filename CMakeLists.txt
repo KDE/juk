@@ -95,12 +95,10 @@ install(TARGETS juk  DESTINATION ${BIN_INSTALL_DIR} )
 
 
 ########### next target ###############
-
+if(KDE4_BUILD_TESTS)
 set(tagguessertest_SRCS tagguessertest.cpp tagguesser.cpp )
 
 kde4_automoc(${tagguessertest_SRCS})
-
-if(KDE4_BUILD_TESTS)
 
 kde4_add_executable(tagguessertest ${tagguessertest_SRCS})
 
