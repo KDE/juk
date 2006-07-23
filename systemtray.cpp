@@ -151,7 +151,7 @@ void PassiveInfo::leaveEvent(QEvent *)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
+SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
                                           m_popup(0),
                                           m_fadeTimer(0),
                                           m_fade(true)
@@ -429,7 +429,7 @@ bool SystemTray::buttonsToLeft() const
 {
     // The following code was nicked from kpassivepopup.cpp
 
-#warning the systray is no longer a widget 
+#warning the systray is no longer a widget
     NETWinInfo ni(QX11Info::display(), /* winId() */ 0, QX11Info::appRootWindow(),
                   NET::WMIconGeometry | NET::WMKDESystemTrayWinFor);
     NETRect frame, win;
@@ -528,7 +528,7 @@ QColor SystemTray::interpolateColor(int step, int steps)
 void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 {
     if(tip.isNull())
-        KSystemTray::setToolTip( i18n("JuK"));
+        KSystemTrayIcon::setToolTip( i18n("JuK"));
     else {
         QPixmap myCover = cover;
         if(cover.isNull())
@@ -546,7 +546,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
                             QString("<img valign=\"middle\" src=\"tipCover\""),
                             QString("<nobr>%1</nobr>").arg(tip), i18n("JuK"));
 
-        KSystemTray::setToolTip( html);
+        KSystemTrayIcon::setToolTip( html);
     }
 }
 

@@ -18,7 +18,7 @@
 #ifndef SYSTEMTRAY_H
 #define SYSTEMTRAY_H
 
-#include <ksystemtray.h>
+#include <ksystemtrayicon.h>
 #include <kpassivepopup.h>
 
 #include <q3valuevector.h>
@@ -67,7 +67,7 @@ private:
     bool m_justDie;
 };
 
-class SystemTray : public KSystemTray
+class SystemTray : public KSystemTrayIcon
 {
     Q_OBJECT
 
