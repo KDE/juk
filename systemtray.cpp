@@ -151,7 +151,7 @@ void PassiveInfo::leaveEvent(QEvent *)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
+SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
                                           m_popup(0),
                                           m_fadeTimer(0),
                                           m_fade(true)
@@ -166,10 +166,10 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTray(parent),
     m_playPix = createPixmap("player_play");
     m_pausePix = createPixmap("player_pause");
 
-    m_forwardPix = loadIcon("player_end");
-    m_backPix = loadIcon("player_start");
+    m_forwardPix = loadIcon("player_end").pixmap();
+    m_backPix = loadIcon("player_start").pixmap();
 
-    setPixmap(m_appPix);
+    setIcon(m_appPix);
 
     setToolTip();
 
@@ -228,7 +228,7 @@ void SystemTray::slotPlay()
 
     QPixmap cover = PlayerManager::instance()->playingFile().coverInfo()->pixmap(CoverInfo::Thumbnail);
 
-    setPixmap(m_playPix);
+    setIcon(m_playPix);
     setToolTip(PlayerManager::instance()->playingString(), cover);
     createPopup();
 }
@@ -252,7 +252,7 @@ void  SystemTray::slotPopupLargeCover()
 
 void SystemTray::slotStop()
 {
-    setPixmap(m_appPix);
+    setIcon(m_appPix);
     setToolTip();
 
     delete m_popup;
@@ -373,7 +373,8 @@ void SystemTray::createPopup()
     m_fade = true;
     m_step = 0;
 
-    m_popup = new PassiveInfo(this);
+#warning FIXME: this won't be associated with the systray any longer
+    m_popup = new PassiveInfo(0);
     connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
     connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
 
@@ -428,7 +429,8 @@ bool SystemTray::buttonsToLeft() const
 {
     // The following code was nicked from kpassivepopup.cpp
 
-    NETWinInfo ni(QX11Info::display(), winId(), QX11Info::appRootWindow(),
+#warning the systray is no longer a widget
+    NETWinInfo ni(QX11Info::display(), /* winId() */ 0, QX11Info::appRootWindow(),
                   NET::WMIconGeometry | NET::WMKDESystemTrayWinFor);
     NETRect frame, win;
     ni.kdeGeometry(frame, win);
@@ -442,7 +444,7 @@ bool SystemTray::buttonsToLeft() const
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
 {
-    QImage bgImage = m_appPix.toImage(); // Probably 22x22
+    QImage bgImage = m_appPix.pixmap().toImage(); // Probably 22x22
     QImage fgImage = SmallIcon(pixName).toImage(); // Should be 16x16
 
     KIconEffect::semiTransparent(bgImage);
@@ -525,10 +527,8 @@ QColor SystemTray::interpolateColor(int step, int steps)
 
 void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 {
-    QToolTip::remove(this);
-
     if(tip.isNull())
-        KSystemTray::setToolTip( i18n("JuK"));
+        KSystemTrayIcon::setToolTip( i18n("JuK"));
     else {
         QPixmap myCover = cover;
         if(cover.isNull())
@@ -546,7 +546,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
                             QString("<img valign=\"middle\" src=\"tipCover\""),
                             QString("<nobr>%1</nobr>").arg(tip), i18n("JuK"));
 
-        KSystemTray::setToolTip( html);
+        KSystemTrayIcon::setToolTip( html);
     }
 }
 
@@ -580,23 +580,15 @@ void SystemTray::wheelEvent(QWheelEvent *e)
 /*
  * Reimplemented this in order to use the middle mouse button
  */
-void SystemTray::mousePressEvent(QMouseEvent *e)
+void SystemTray::slotActivated(QSystemTrayIcon::ActivationReason reason)
 {
-    switch(e->button()) {
-    case Qt::LeftButton:
-    case Qt::RightButton:
-    default:
-        KSystemTray::mousePressEvent(e);
-        break;
-    case Qt::MidButton:
-        if(!rect().contains(e->pos()))
-            return;
+     if (reason != MiddleClick)
+        return;
+
         if(action("pause")->isEnabled())
             action("pause")->trigger();
         else
             action("play")->trigger();
-        break;
-    }
 }
 
 /*
