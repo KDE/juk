@@ -118,7 +118,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
 #warning This needs to be ported to proper QActions
 #endif
 #if 0
-    QMenu *p = viewModeAction->popupMenu();
+    QMenu *p = viewModeAction->menu();
     p->changeItem(0, SmallIconSet("view_detailed"), modeNames[0]);
     p->changeItem(1, SmallIconSet("view_text"), modeNames[1]);
     p->changeItem(2, SmallIconSet("view_tree"), modeNames[2]);

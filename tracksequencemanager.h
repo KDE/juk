@@ -112,7 +112,7 @@ public:
      * @return the current KMenu used by the manager, or 0 if none is
      * set
      */
-    KMenu *popupMenu() const { return m_popupMenu; }
+    KMenu *menu() const { return m_popupMenu; }
 
     /**
      * @return the TrackSequenceManager's idea of the current playlist
