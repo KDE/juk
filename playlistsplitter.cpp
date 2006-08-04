@@ -13,6 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kicon.h>
 #include <kaction.h>
 #include <kdebug.h>
 #include <ktoggleaction.h>

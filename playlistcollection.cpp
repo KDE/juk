@@ -36,6 +36,7 @@
 #include "playermanager.h"
 #include "tracksequencemanager.h"
 
+#include <kicon.h>
 #include <kiconloader.h>
 
 #include <kapplication.h>

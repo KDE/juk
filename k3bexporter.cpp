@@ -20,6 +20,7 @@
 #include <kaction.h>
 #include <kactioncollection.h>
 #include <kstandarddirs.h>
+#include <kicon.h>
 #include <kiconloader.h>
 #include <kapplication.h>
 

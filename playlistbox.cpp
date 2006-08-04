@@ -13,6 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <kicon.h>
 #include <kiconloader.h>
 #include <k3urldrag.h>
 #include <kmessagebox.h>

@@ -24,6 +24,7 @@
 #include <kstdaction.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
+#include <kicon.h>
 #include "juk.h"
 #include "slideraction.h"
 #include "statuslabel.h"
