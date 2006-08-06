@@ -61,10 +61,15 @@ ExampleOptionsDialog::ExampleOptionsDialog(QWidget *parent) :
 
     connect(m_options, SIGNAL(fileChanged()), SLOT(fileModeSelected()));
     connect(m_options, SIGNAL(dataChanged()), SIGNAL(dataChanged()));
-    connect(m_options->m_exampleFile, SIGNAL(urlSelected(const QString &)),
+    connect(m_options->m_exampleFile, SIGNAL(urlSelected(const KUrl &)),
+            this,                     SLOT(fileChanged(const KUrl &)));
+    connect(m_options->m_exampleFile, SIGNAL(returnPressed(const KUrl &)),
             this,                     SIGNAL(fileChanged(const QString &)));
-    connect(m_options->m_exampleFile, SIGNAL(returnPressed(const QString &)),
-            this,                     SIGNAL(fileChanged(const QString &)));
+}
+
+void ExampleOptionsDialog::fileChanged(const KUrl &url)
+{
+    emit fileChanged(url.path());
 }
 
 void ExampleOptionsDialog::hideEvent(QHideEvent *)

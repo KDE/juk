@@ -50,7 +50,7 @@ public:
 
 protected slots:
     void fileModeSelected();
-
+    void fileChanged(const KUrl &);
 signals:
     void fileChanged(const QString &);
     void dataChanged();
