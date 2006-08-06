@@ -373,7 +373,7 @@ void SystemTray::createPopup()
     m_fade = true;
     m_step = 0;
 
-#warning FIXME: this won't be associated with the systray any longer
+#warning FIXME: this will not be associated with the systray any longer
     m_popup = new PassiveInfo(0);
     connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
     connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
