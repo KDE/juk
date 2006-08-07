@@ -1565,7 +1565,7 @@ void Playlist::polish()
 
     for(int i = 0; i < header()->count(); ++i) {
         if(i == PlaylistItem::FileNameColumn)
-            m_headerMenu->insertSeparator();
+            m_headerMenu->addSeparator();
         m_headerMenu->insertItem(header()->label(i), i);
         m_headerMenu->setItemChecked(i, true);
         adjustColumn(i);
@@ -2082,13 +2082,13 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
         m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("today"),
             i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
-        m_rmbMenu->insertSeparator();
+        m_rmbMenu->addSeparator();
 
         if(!readOnly()) {
             m_rmbMenu->addAction( action("edit_cut") );
             m_rmbMenu->addAction( action("edit_copy") );
             m_rmbMenu->addAction( action("edit_paste") );
-            m_rmbMenu->insertSeparator();
+            m_rmbMenu->addSeparator();
             m_rmbMenu->addAction( action("removeFromPlaylist") );
         }
         else
@@ -2100,14 +2100,14 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
         m_rmbMenu->addAction( action("refresh") );
         m_rmbMenu->addAction( action("removeItem") );
 
-        m_rmbMenu->insertSeparator();
+        m_rmbMenu->addSeparator();
 
         m_rmbMenu->addAction( action("guessTag") );
         m_rmbMenu->addAction( action("renameFile") );
 
         m_rmbMenu->addAction( action("coverManager") );
 
-        m_rmbMenu->insertSeparator();
+        m_rmbMenu->addSeparator();
 
         m_rmbMenu->insertItem(
             SmallIcon("folder_new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
