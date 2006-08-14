@@ -112,5 +112,5 @@ install( FILES juk.desktop  DESTINATION  ${XDG_APPS_DIR} )
 install( FILES jukui.rc jukui-rtl.rc  DESTINATION  ${DATA_INSTALL_DIR}/juk )
 install( FILES jukservicemenu.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqueror/servicemenus )
 
-kde4_install_icons( ${ICON_INSTALL_DIR}  hicolor )
-kde4_install_icons( ${ICON_INSTALL_DIR}  crystalsvg )
+kde4_install_icons( ${ICON_INSTALL_DIR}   )
+kde4_install_icons( ${ICON_INSTALL_DIR}   )
