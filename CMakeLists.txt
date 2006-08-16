@@ -113,4 +113,3 @@ install( FILES jukui.rc jukui-rtl.rc  DESTINATION  ${DATA_INSTALL_DIR}/juk )
 install( FILES jukservicemenu.desktop  DESTINATION  ${DATA_INSTALL_DIR}/konqueror/servicemenus )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )
-kde4_install_icons( ${ICON_INSTALL_DIR}   )
