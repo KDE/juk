@@ -18,7 +18,7 @@ if test "x$with_musicbrainz" != xno; then
 fi
 
 if test "x$have_musicbrainz" = xyes; then
-  	AC_CHECK_LIB(tunepimp, tp_SetFileNameEncoding,
+  	KDE_CHECK_LIB(tunepimp, tp_SetFileNameEncoding,
 	AC_DEFINE(HAVE_MUSICBRAINZ, 4, [have MusicBrainz 0.4.x]), 
 	AC_DEFINE(HAVE_MUSICBRAINZ, 1, [have MusicBrainz]))
 else
