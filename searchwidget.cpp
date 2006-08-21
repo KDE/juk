@@ -197,7 +197,7 @@ void SearchLine::updateColumns()
 SearchWidget::SearchWidget(QWidget *parent, const char *name) : KToolBar(parent, name)
 {
     new SearchAdaptor(this);
-    QDBus::sessionBus().registerObject("/Search", this);
+    QDBusConnection::sessionBus().registerObject("/Search", this);
     setupLayout();
     updateColumns();
 }

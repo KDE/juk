@@ -77,7 +77,7 @@ PlayerManager::PlayerManager() :
 // later, just disable it here. -- mpyne
 //    setup();
     new PlayerAdaptor( this );
-    QDBus::sessionBus().registerObject("/Player", this);
+    QDBusConnection::sessionBus().registerObject("/Player", this);
 
 }
 
