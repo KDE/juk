@@ -125,9 +125,7 @@ protected:
     {
         m_pimp = tp_New("KTRM", "0.1");
         //tp_SetDebug(m_pimp, true);
-#if HAVE_MUSICBRAINZ < 5
         tp_SetTRMCollisionThreshold(m_pimp, 100);
-#endif
         tp_SetAutoSaveThreshold(m_pimp, -1);
         tp_SetMoveFiles(m_pimp, false);
         tp_SetRenameFiles(m_pimp, false);
@@ -325,9 +323,7 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
     case eUnrecognized:
         KTRMEventHandler::send(fileId, KTRMEvent::Unrecognized);
         break;
-#if HAVE_MUSICBRAINZ < 5
     case eTRMCollision:
-#endif
 #if HAVE_MUSICBRAINZ >= 4
     case eUserSelection:
 #endif
@@ -492,7 +488,7 @@ void KTRMLookup::recognized()
 void KTRMLookup::unrecognized()
 {
     kdDebug() << k_funcinfo << d->file << endl;
-#if HAVE_MUSICBRAINZ == 4
+#if HAVE_MUSICBRAINZ >= 4
     char trm[255];
     bool finish = false;
     trm[0] = 0;
@@ -518,7 +514,6 @@ void KTRMLookup::collision()
 {
     kdDebug() << k_funcinfo << d->file << endl;
 
-#if HAVE_MUSICBRAINZ < 5
     track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
 
     if(track <= 0) {
@@ -579,7 +574,6 @@ void KTRMLookup::collision()
     }
 
     tr_Unlock(track);
-#endif
 
     finished();
 }
