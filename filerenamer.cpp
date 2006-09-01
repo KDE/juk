@@ -288,8 +288,8 @@ void FileRenamerWidget::loadConfig()
             m_folderSwitches[separator]->setChecked(true);
     }
 
-    QString url = config.readEntry("MusicFolder", "${HOME}/music");
-    m_musicFolder->setUrl(url);
+    QString path = config.readEntry("MusicFolder", "${HOME}/music");
+    m_musicFolder->setPath(path);
 
     m_separator->setCurrentText(config.readEntry("Separator", " - "));
 }
@@ -312,7 +312,7 @@ void FileRenamerWidget::saveConfig()
 
     config.writeEntry("CheckedDirSeparators", checkedSeparators);
     config.writeEntry("CategoryOrder", categoryOrder);
-    config.writePathEntry("MusicFolder", m_musicFolder->url());
+    config.writePathEntry("MusicFolder", m_musicFolder->url().path());
     config.writeEntry("Separator", m_separator->currentText());
 
     config.sync();
@@ -832,7 +832,7 @@ QString FileRenamerWidget::separator() const
 
 QString FileRenamerWidget::musicFolder() const
 {
-    return m_musicFolder->url();
+    return m_musicFolder->url().path();
 }
 
 void FileRenamerWidget::slotRemoveRow(int id)
