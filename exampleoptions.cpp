@@ -55,6 +55,7 @@ ExampleOptionsDialog::ExampleOptionsDialog(QWidget *parent) :
     QVBoxLayout *l = new QVBoxLayout(this);
 
     m_options = new ExampleOptions(this);
+    m_options->m_exampleFile->setMode(KFile::ExistingOnly|KFile::LocalOnly);
     l->addWidget(m_options);
 
     // Forward signals

@@ -56,9 +56,6 @@
                             <verstretch>0</verstretch>
                         </sizepolicy>
                     </property>
-                    <property name="mode">
-                        <number>24</number>
-                    </property>
                 </widget>
                 <widget class="QRadioButton">
                     <property name="name">
