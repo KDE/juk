@@ -18,21 +18,21 @@
 #include <QRegExp>
 #include <QFile>
 
-#include <taglib/tag.h>
-#include <taglib/mpegfile.h>
-#include <taglib/vorbisfile.h>
-#include <taglib/flacfile.h>
-#include <taglib/xiphcomment.h>
-#include <taglib/id3v2framefactory.h>
+#include <tag.h>
+#include <mpegfile.h>
+#include <vorbisfile.h>
+#include <flacfile.h>
+#include <xiphcomment.h>
+#include <id3v2framefactory.h>
 
 #if (TAGLIB_MAJOR_VERSION > 1) || \
       ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 2))
-#include <taglib/oggflacfile.h>
+#include <oggflacfile.h>
 #define TAGLIB_1_2
 #endif
 #if (TAGLIB_MAJOR_VERSION > 1) || \
     ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 3))
-#include <taglib/mpcfile.h>
+#include <mpcfile.h>
 #define TAGLIB_1_3
 #endif
 

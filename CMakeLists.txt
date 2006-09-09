@@ -9,6 +9,7 @@ add_subdirectory( pics )
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 ########### next target ###############
 
+MESSAGE(STATUS "taglib <${TAGLIB_CFLAGS}>")
 add_definitions(${TAGLIB_CFLAGS})
 
 set(juk_SRCS searchadaptor.cpp collectionadaptor.cpp playeradaptor.cpp

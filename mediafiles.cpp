@@ -20,7 +20,7 @@
 
 #include "mediafiles.h"
 
-#include <taglib/tag.h>
+#include <tag.h>
 #include <kurl.h>
 #if (TAGLIB_MAJOR_VERSION>1) ||  \
    ((TAGLIB_MAJOR_VERSION==1) && (TAGLIB_MINOR_VERSION>=2))
