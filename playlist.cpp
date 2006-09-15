@@ -815,7 +815,7 @@ void Playlist::slotRemoveCover()
     int button = KMessageBox::warningContinueCancel(this,
                                                     i18n("Are you sure you want to delete these covers?"),
                                                     QString::null,
-                                                    i18n("&Delete Covers"));
+                                                    KGuiItem(i18n("&Delete Covers")));
     if(button == KMessageBox::Continue)
         refreshAlbums(items);
 }
@@ -2245,7 +2245,7 @@ void Playlist::slotInlineEditDone(Q3ListViewItem *, const QString &, int column)
            0,
            i18n("This will edit multiple files. Are you sure?"),
            QString::null,
-           i18n("Edit"),
+           KGuiItem(i18n("Edit")),
            "DontWarnMultipleTags") == KMessageBox::Cancel))
     {
         return;

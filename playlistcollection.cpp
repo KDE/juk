@@ -903,11 +903,11 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     KToggleAction *historyAction =
         new KToggleAction(KIcon("history"), i18n("Show &History"), actions(), "showHistory");
-    historyAction->setCheckedState(i18n("Hide &History"));
+    historyAction->setCheckedState(KGuiItem(i18n("Hide &History")));
 
     KToggleAction *upcomingAction =
         new KToggleAction(KIcon("today"), i18n("Show &Play Queue"), actions(), "showUpcoming");
-    upcomingAction->setCheckedState(i18n("Hide &Play Queue"));
+    upcomingAction->setCheckedState(KGuiItem(i18n("Hide &Play Queue")));
 
     connect(action<KToggleAction>("showHistory"), SIGNAL(toggled(bool)),
             this, SLOT(slotSetHistoryPlaylistEnabled(bool)));

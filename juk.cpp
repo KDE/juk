@@ -177,7 +177,7 @@ void JuK::setupActions()
     KToggleAction *resizeColumnAction =
         new KToggleAction(i18n("&Resize Playlist Columns Manually"),
                           collection, "resizeColumnsManually");
-    resizeColumnAction->setCheckedState(i18n("&Resize Column Headers Automatically"));
+    resizeColumnAction->setCheckedState(KGuiItem(i18n("&Resize Column Headers Automatically")));
 
     // the following are not visible by default
 
@@ -209,7 +209,7 @@ void JuK::setupActions()
     m_toggleSplashAction =
         new KToggleAction(i18n("Show Splash Screen on Startup"),
                           collection, "showSplashScreen");
-    m_toggleSplashAction->setCheckedState(i18n("Hide Splash Screen on Startup"));
+    m_toggleSplashAction->setCheckedState(KGuiItem(i18n("Hide Splash Screen on Startup")));
     m_toggleSystemTrayAction =
         new KToggleAction(i18n("&Dock in System Tray"),
                           collection, "toggleSystemTray");

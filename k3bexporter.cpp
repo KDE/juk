@@ -250,8 +250,8 @@ K3bExporter::K3bOpenMode K3bExporter::openMode()
              "mode CD suitable for computers and other digital music "
              "players?"),
         i18n("Create K3b Project"),
-        i18n("Audio Mode"),
-        i18n("Data Mode")
+        KGuiItem(i18n("Audio Mode")),
+        KGuiItem(i18n("Data Mode"))
     );
 
     switch(reply) {

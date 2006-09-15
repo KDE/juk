@@ -122,7 +122,7 @@ void PlaylistSplitter::setupActions()
 {
     KToggleAction *showSearch =
 	 new KToggleAction(KIcon("filefind"), i18n("Show &Search Bar"), ActionCollection::actions(), "showSearch");
-    showSearch->setCheckedState(i18n("Hide &Search Bar"));
+    showSearch->setCheckedState(KGuiItem(i18n("Hide &Search Bar")));
 
     KAction *act = new KAction(KIcon("edit_clear"), i18n("Edit Track Search"), ActionCollection::actions(), "editTrackSearch");
     act->setShortcut(Qt::Key_F6);
