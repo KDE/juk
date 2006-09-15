@@ -148,8 +148,8 @@ private:
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-TagEditor::TagEditor(QWidget *parent, const char *name) :
-    QWidget(parent, name),
+TagEditor::TagEditor(QWidget *parent) :
+    QWidget(parent),
     m_currentPlaylist(0),
     m_observer(0),
     m_performingSave(false)
@@ -492,7 +492,7 @@ void TagEditor::saveConfig()
 void TagEditor::setupActions()
 {
     KToggleAction *show = new KToggleAction(KIcon("edit"), i18n("Show &Tag Editor"), ActionCollection::actions(), "showEditor");
-    show->setCheckedState(i18n("Hide &Tag Editor"));
+    show->setCheckedState(KGuiItem(i18n("Hide &Tag Editor")));
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
 
     KAction *act = new KAction(KIcon("filesave"), i18n("&Save"), ActionCollection::actions(), "saveItem");
@@ -699,26 +699,26 @@ void TagEditor::save(const PlaylistItemList &list)
             // files.  We have to check to see if that is enabled before
             // each field that we write.
 
-            if(m_enableBoxes[m_artistNameBox]->isOn())
+            if(m_enableBoxes[m_artistNameBox]->isChecked())
                 tag->setArtist(m_artistNameBox->currentText());
-            if(m_enableBoxes[m_trackNameBox]->isOn())
+            if(m_enableBoxes[m_trackNameBox]->isChecked())
                 tag->setTitle(m_trackNameBox->text());
-            if(m_enableBoxes[m_albumNameBox]->isOn())
+            if(m_enableBoxes[m_albumNameBox]->isChecked())
                 tag->setAlbum(m_albumNameBox->currentText());
-            if(m_enableBoxes[m_trackSpin]->isOn()) {
+            if(m_enableBoxes[m_trackSpin]->isChecked()) {
                 if(m_trackSpin->text().isEmpty())
                     m_trackSpin->setValue(0);
                 tag->setTrack(m_trackSpin->value());
             }
-            if(m_enableBoxes[m_yearSpin]->isOn()) {
+            if(m_enableBoxes[m_yearSpin]->isChecked()) {
                 if(m_yearSpin->text().isEmpty())
                     m_yearSpin->setValue(0);
                 tag->setYear(m_yearSpin->value());
             }
-            if(m_enableBoxes[m_commentBox]->isOn())
+            if(m_enableBoxes[m_commentBox]->isChecked())
                 tag->setComment(m_commentBox->toPlainText());
 
-            if(m_enableBoxes[m_genreBox]->isOn())
+            if(m_enableBoxes[m_genreBox]->isChecked())
                 tag->setGenre(m_genreBox->currentText());
 
             TagTransactionManager::instance()->changeTagOnItem(item, tag);

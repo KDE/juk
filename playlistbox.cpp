@@ -734,7 +734,7 @@ int PlaylistBox::Item::compare(Q3ListViewItem *i, int col, bool) const
     else if(otherItem->m_sortedFirst && !m_sortedFirst)
         return 1;
 
-    return text(col).lower().localeAwareCompare(i->text(col).lower());
+    return text(col).toLower().localeAwareCompare(i->text(col).toLower());
 }
 
 void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGroup, int column, int width, int align)

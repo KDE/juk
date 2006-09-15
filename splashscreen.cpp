@@ -32,7 +32,7 @@ int SplashScreen::count = 0;
 
 static QString loadedText(int i)
 {
-    static QString loading = i18n("Loading").upper();
+    static QString loading = i18n("Loading").toUpper();
     return loading + ": " + QString::number(i);;
 }
 

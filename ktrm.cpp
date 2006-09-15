@@ -182,7 +182,7 @@ protected:
                 QString proxyHost = proxy.host();
 
                 kDebug(65432) << "Using proxy server " << proxyHost << " for www.musicbrainz.org.\n";
-                tp_SetProxy(m_pimp, proxyHost.latin1(), short(proxy.port()));
+                tp_SetProxy(m_pimp, proxyHost.toAscii(), short(proxy.port()));
             }
         }
     }

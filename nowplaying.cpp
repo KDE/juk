@@ -225,9 +225,10 @@ void CoverItem::dropEvent(QDropEvent *e)
 ////////////////////////////////////////////////////////////////////////////////
 
 TrackItem::TrackItem(NowPlaying *parent) :
-    QWidget(parent, "TrackItem"),
+    QWidget(parent),
     NowPlayingItem(parent)
 {
+    setObjectName("TrackItem");
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 

@@ -147,7 +147,8 @@ void PlaylistSplitter::setupLayout()
 
     connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)), this, SLOT(slotPlaylistChanged(QWidget *)));
 
-    m_editor = new TagEditor(editorSplitter, "tagEditor");
+    m_editor = new TagEditor(editorSplitter);
+    m_editor->setObjectName("TagEditor");
 
     // Make the editor as small as possible (or at least as small as recommended)
 

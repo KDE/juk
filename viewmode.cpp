@@ -184,7 +184,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
                             int width)
 {
     // Here 32 is a bit arbitrary, but that's the width of the icons in this
-    // mode and seems to a reasonable lower bound.
+    // mode and seems to a reasonable toLower bound.
 
     if(width < 32)
         return QStringList();

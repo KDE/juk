@@ -1208,7 +1208,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
         return;
     }
 
-    // When dropping on the upper half of an item, insert before this item.
+    // When dropping on the toUpper half of an item, insert before this item.
     // This is what the user expects, and also allows the insertion at
     // top of the list
 
@@ -1856,7 +1856,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
 
                     // We set importPlaylists to the value from the add directories
                     // dialog as we want to load all of the ones that the user has
-                    // explicitly asked for, but not those that we find in lower
+                    // explicitly asked for, but not those that we find in toLower
                     // directories.
 
                     addFile(fileInfo.filePath() + QDir::separator() + QFile::decodeName(dirEntry->d_name),
@@ -1958,7 +1958,7 @@ void Playlist::slotUpdateColumnWidths()
 
     // Make sure that the width won't get any smaller than this.  We have to
     // account for the scrollbar as well.  Since this method is called from the
-    // resize event this will set a pretty hard lower bound on the size.
+    // resize event this will set a pretty hard toLower bound on the size.
 
     setMinimumWidth(minimumWidthTotal + verticalScrollBar()->width());
 

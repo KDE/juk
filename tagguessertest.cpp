@@ -37,26 +37,31 @@ void check( const QString &filename, const QString &title,
             const QString &artist, const QString &track,
             const QString &comment, const QString &album = QString::null )
 {
-    cout << "Checking " << filename.latin1() << "...";
+    cout << "Checking " << qPrintable(filename) << "...";
     TagGuesser guesser( filename );
     if ( guesser.title() != title ) {
-        cout << "Error: In filename " << filename.latin1() << ", expected title " << title.latin1() << ", got title " << guesser.title().latin1() << endl;
+        cout << "Error: In filename " << qPrintable(filename) << ", expected title " <<
+            qPrintable(title) << ", got title " << qPrintable(guesser.title()) << endl;
         exit( 1 );
     }
     if ( guesser.artist() != artist ) {
-        cout << "Error: In filename " << filename.latin1() << ", expected artist " << artist.latin1() << ", got artist " << guesser.artist().latin1() << endl;
+        cout << "Error: In filename " << qPrintable(filename) << ", expected artist " <<
+            qPrintable(artist) << ", got artist " << qPrintable(guesser.artist()) << endl;
         exit( 1 );
     }
     if ( guesser.track() != track ) {
-        cout << "Error: In filename " << filename.latin1() << ", expected track " << track.latin1() << ", got track " << guesser.track().latin1() << endl;
+        cout << "Error: In filename " << qPrintable(filename) << ", expected track " <<
+            qPrintable(track) << ", got track " << qPrintable(guesser.track()) << endl;
         exit( 1 );
     }
     if ( guesser.comment() != comment ) {
-        cout << "Error: In filename " << filename.latin1() << ", expected comment " << comment.latin1() << ", got comment " << guesser.comment().latin1() << endl;
+        cout << "Error: In filename " << qPrintable(filename) << ", expected comment " <<
+            qPrintable(comment) << ", got comment " << qPrintable(guesser.comment()) << endl;
         exit( 1 );
     }
     if ( guesser.album() != album ) {
-        cout << "Error: In filename " << filename.latin1() << ", expected album " << album.latin1() << ", got album " << guesser.album().latin1() << endl;
+        cout << "Error: In filename " << qPrintable(filename) << ", expected album " <<
+            qPrintable(album) << ", got album " << qPrintable(guesser.album()) << endl;
         exit( 1 );
     }
     cout << "OK" << endl;

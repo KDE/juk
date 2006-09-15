@@ -58,7 +58,7 @@ public:
     int compare(Q3ListViewItem *item, int column, bool ascending) const
     {
         Q_UNUSED(ascending);
-        return text(column).lower().localeAwareCompare(item->text(column).lower());
+        return text(column).toLower().localeAwareCompare(item->text(column).toLower());
     }
 };
 
@@ -123,7 +123,7 @@ void CoverDialog::slotArtistClicked(Q3ListViewItem *item)
         loadCovers();
     }
     else {
-        QString artist = item->text(0).lower();
+        QString artist = item->text(0).toLower();
         Q3ValueList<coverKey> keys = CoverManager::keys();
         Q3ValueList<coverKey>::ConstIterator it;
 

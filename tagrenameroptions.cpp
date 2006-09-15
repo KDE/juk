@@ -72,7 +72,7 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
 
     // Default the emptyAction to ignoring the empty tag.
 
-    const QString emptyAction = config.readEntry(QString("%1EmptyAction").arg(typeKey), QString()).lower();
+    const QString emptyAction = config.readEntry(QString("%1EmptyAction").arg(typeKey), QString()).toLower();
     setEmptyAction(IgnoreEmptyTag);
 
     if(emptyAction == "forceemptyinclude")

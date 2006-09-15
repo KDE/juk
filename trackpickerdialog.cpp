@@ -50,7 +50,7 @@ TrackPickerDialog::TrackPickerDialog(const QString &name,
                                      QWidget *parent) :
     KDialog(parent)
 {
-    setObjectName(name.latin1());
+    setObjectName(name.toAscii());
     setModal(true);
     setCaption(i18n("Internet Tag Guesser"));
     setButtons(Ok | Cancel);

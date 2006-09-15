@@ -41,7 +41,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     m_newSearch(false),
     m_file(file)
 {
-    setObjectName(name.latin1());
+    setObjectName(name.toAscii());
     setModal(true);
     setCaption(QString::null);
     setButtons(Ok | Cancel | User1);

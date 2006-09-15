@@ -367,7 +367,7 @@ void CollectionListItem::refresh()
         if(id != TrackNumberColumn && id != LengthColumn) {
             // All columns other than track num and length need local-encoded data for sorting
 
-            QByteArray lower = text(i).lower().local8Bit();
+            QByteArray toLower = text(i).toLower().local8Bit();
 
             // For some columns, we may be able to share some strings
 
@@ -375,15 +375,15 @@ void CollectionListItem::refresh()
                (id == GenreColumn)  || (id == YearColumn)  ||
                (id == CommentColumn))
             {
-                lower = StringShare::tryShare(lower);
+                toLower = StringShare::tryShare(toLower);
 
-                if(id != YearColumn && id != CommentColumn && data()->local8Bit[id] != lower) {
+                if(id != YearColumn && id != CommentColumn && data()->local8Bit[id] != toLower) {
                     CollectionList::instance()->removeStringFromDict(data()->local8Bit[id], id);
                     CollectionList::instance()->addStringToDict(text(i), id);
                 }
             }
 
-            data()->local8Bit[id] = lower;
+            data()->local8Bit[id] = toLower;
         }
 
         int newWidth = width(listView()->fontMetrics(), listView(), i);

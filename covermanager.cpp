@@ -325,7 +325,7 @@ coverKey CoverManager::idFromMetadata(const QString &artist, const QString &albu
     CoverDataMap::ConstIterator endIt = end();
 
     for(; it != endIt; ++it) {
-        if(it.data()->album == album.lower() && it.data()->artist == artist.lower())
+        if(it.data()->album == album.toLower() && it.data()->artist == artist.toLower())
             return it.key();
     }
 
@@ -408,8 +408,8 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
         return NoMatch;
     }
 
-    coverData->artist = artist.lower();
-    coverData->album = album.lower();
+    coverData->artist = artist.toLower();
+    coverData->album = album.toLower();
     coverData->refCount = 0;
 
     data()->covers[id] = coverData;

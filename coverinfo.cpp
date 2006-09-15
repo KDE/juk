@@ -39,7 +39,7 @@
 struct CoverPopup : public QWidget
 {
     CoverPopup(const QPixmap &image, const QPoint &p) :
-        QWidget(0, 0, Qt::WDestructiveClose | Qt::WX11BypassWM)
+        QWidget(0, Qt::WDestructiveClose | Qt::WX11BypassWM)
     {
         QHBoxLayout *layout = new QHBoxLayout(this);
         QLabel *label = new QLabel(this);
@@ -246,7 +246,7 @@ QString CoverInfo::coverLocation(CoverSize size) const
     default:
         break;
     }
-    QString fileLocation = dataDir + "covers/" + subDir + fileName.lower();
+    QString fileLocation = dataDir + "covers/" + subDir + fileName.toLower();
 
     return fileLocation;
 }

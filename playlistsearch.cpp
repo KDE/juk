@@ -213,7 +213,7 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
                     if(item->text(*it) == m_query)
                         return true;
                 }
-                else if(item->text(*it).lower() == m_query.lower())
+                else if(item->text(*it).toLower() == m_query.toLower())
                     return true;
             }
             break;

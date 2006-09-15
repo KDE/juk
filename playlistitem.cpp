@@ -335,8 +335,8 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
         return 0;
 
     if(column < offset) {
-        QString first = firstItem->text(column).lower();
-        QString second = secondItem->text(column).lower();
+        QString first = firstItem->text(column).toLower();
+        QString second = secondItem->text(column).toLower();
         return first.localeAwareCompare(second);
     }
 
