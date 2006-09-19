@@ -45,7 +45,7 @@
 class TrackPositionSlider : public QSlider
 {
 public:
-    TrackPositionSlider(QWidget *parent) : QSlider(parent)
+    TrackPositionSlider(QWidget *parent) : QSlider(Qt::Horizontal, parent)
     {
         setFocusPolicy(Qt::NoFocus);
     }
