@@ -26,6 +26,7 @@
 #include <klocale.h>
 
 #include <phonon/mediaobject.h>
+#include <phonon/mediaqueue.h>
 #include <phonon/audiopath.h>
 #include <phonon/audiooutput.h>
 
@@ -67,8 +68,10 @@ PlayerManager::PlayerManager() :
     m_noSeek(false),
     m_muted(false),
     m_setup(false),
+    m_ignoreFinished(false),
     m_output(0),
     m_audioPath(0),
+    m_mqueue(0),
     m_media(0)
 {
 // This class is the first thing constructed during program startup, and
@@ -155,8 +158,8 @@ int PlayerManager::position() const
         return 0;
 
     long curr = m_media->currentTime();
-    if( curr > 0 )
-        return static_cast<int>( curr / 1000.0f / m_media->totalTime() + 0.5f );
+    if(curr > 0)
+        return static_cast<int>(static_cast<float>(curr * SliderAction::maxPosition) / m_media->totalTime() + 0.5f);
     return -1;
 }
 
@@ -350,7 +353,7 @@ void PlayerManager::seekPosition(int position)
         return;
 
     slotUpdateTime(position);
-    m_media->seek( static_cast<long>( m_media->totalTime() / 1000.0f * position + 0.5f ) );
+    m_media->seek(static_cast<qint64>(static_cast<float>(m_media->totalTime() * position) / SliderAction::maxPosition + 0.5f));
 
     if(m_sliderAction->trackPositionSlider())
         m_sliderAction->trackPositionSlider()->setValue(position);
@@ -430,8 +433,28 @@ void PlayerManager::mute()
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
+void PlayerManager::slotNeedNextUrl()
+{
+    m_playlistInterface->playNext();
+    FileHandle nextFile = m_playlistInterface->currentFile();
+    if(!nextFile.isNull())
+    {
+        //kDebug() << k_funcinfo << m_file.absFilePath() << endl;
+        m_file = nextFile;
+        m_mqueue->setNextUrl(KUrl::fromPath(m_file.absFilePath()));
+        m_ignoreFinished = true;
+    }
+    // at this point the new totalTime is not known, but the length signal will tell us
+}
+
 void PlayerManager::slotFinished()
 {
+    if(m_ignoreFinished)
+    {
+        //kDebug() << k_funcinfo << "ignoring finished signal" << endl;
+        m_ignoreFinished = false;
+        return;
+    }
     m_playlistInterface->playNext();
     FileHandle nextFile = m_playlistInterface->currentFile();
     if(!nextFile.isNull())
@@ -439,6 +462,11 @@ void PlayerManager::slotFinished()
     else
         stop();
     m_statusLabel->setItemTotalTime(totalTime());
+}
+
+void PlayerManager::slotLength(qint64 msec)
+{
+    m_statusLabel->setItemTotalTime(msec / 1000);
 }
 
 void PlayerManager::slotTick(qint64 msec)
@@ -450,7 +478,7 @@ void PlayerManager::slotTick(qint64 msec)
 
     if(!m_sliderAction->dragging()) {
         if(m_sliderAction->trackPositionSlider()) {
-            int position = static_cast<int>(msec / 1000.0f / m_media->totalTime() + 0.5f);
+            int position = static_cast<int>(static_cast<float>(msec * SliderAction::maxPosition) / m_media->totalTime() + 0.5f);
             m_sliderAction->trackPositionSlider()->setValue(position);
         }
 
@@ -535,9 +563,19 @@ void PlayerManager::setup()
 
     m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
     m_audioPath = new Phonon::AudioPath(this);
-    m_media = new Phonon::MediaObject(this);
     m_audioPath->addOutput(m_output);
+
+    m_mqueue = new Phonon::MediaQueue(this);
+    if(m_mqueue->isValid())
+        m_media = m_mqueue;
+    else
+    {
+        delete m_mqueue;
+        m_mqueue = 0;
+        m_media = new Phonon::MediaObject(this);
+    }
     m_media->addAudioPath(m_audioPath);
+    m_media->setTickInterval(200);
 
     // initialize action states
 
@@ -570,8 +608,10 @@ void PlayerManager::setup()
 
     m_output->setVolume(volume);
 
-    connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick()));
+    connect(m_media, SIGNAL(length(qint64)), SLOT(slotLength(qint64)));
+    connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
     connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
+    connect(m_mqueue, SIGNAL(needNextUrl()), SLOT(slotNeedNextUrl()));
 }
 
 QString PlayerManager::randomPlayMode() const

@@ -31,6 +31,7 @@ namespace Phonon
     class AudioOutput;
     class AudioPath;
     class MediaObject;
+    class MediaQueue;
 }
 
 /**
@@ -101,7 +102,9 @@ private:
     void setup();
 
 private slots:
+    void slotNeedNextUrl();
     void slotFinished();
+    void slotLength(qint64);
     void slotTick(qint64);
     void slotUpdateTime(int position);
     void slotSetVolume(int volume);
@@ -114,11 +117,13 @@ private:
     bool m_noSeek;
     bool m_muted;
     bool m_setup;
+    bool m_ignoreFinished;
 
     static const int m_pollInterval = 800;
 
     Phonon::AudioOutput *m_output;
     Phonon::AudioPath *m_audioPath;
+    Phonon::MediaQueue *m_mqueue;
     Phonon::MediaObject *m_media;
 };
 
