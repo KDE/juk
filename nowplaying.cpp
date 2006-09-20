@@ -243,7 +243,7 @@ TrackItem::TrackItem(NowPlaying *parent) :
     layout->addWidget(m_label);
     layout->addStretch();
 
-    connect(m_label, SIGNAL(linkClicked(const QString &)), this,
+    connect(m_label, SIGNAL(urlClick(const QString &)), this,
             SLOT(slotOpenLink(const QString &)));
 }
 
