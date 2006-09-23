@@ -58,35 +58,35 @@ bool FileNameScheme::matches(const QString &fileName) const
 QString FileNameScheme::title() const
 {
     if(m_titleField == -1)
-        return QString::null;
+        return QString();
     return m_regExp.capturedTexts()[ m_titleField ];
 }
 
 QString FileNameScheme::artist() const
 {
     if(m_artistField == -1)
-        return QString::null;
+        return QString();
     return m_regExp.capturedTexts()[ m_artistField ];
 }
 
 QString FileNameScheme::album() const
 {
     if(m_albumField == -1)
-        return QString::null;
+        return QString();
     return m_regExp.capturedTexts()[ m_albumField ];
 }
 
 QString FileNameScheme::track() const
 {
     if(m_trackField == -1)
-        return QString::null;
+        return QString();
     return m_regExp.capturedTexts()[ m_trackField ];
 }
 
 QString FileNameScheme::comment() const
 {
     if(m_commentField == -1)
-        return QString::null;
+        return QString();
     return m_regExp.capturedTexts()[ m_commentField ];
 }
 
@@ -179,7 +179,7 @@ void TagGuesser::loadSchemes()
 
 void TagGuesser::guess(const QString &absFileName)
 {
-    m_title = m_artist = m_album = m_track = m_comment = QString::null;
+    m_title = m_artist = m_album = m_track = m_comment.clear();
 
     FileNameScheme::List::ConstIterator it = m_schemes.begin();
     FileNameScheme::List::ConstIterator end = m_schemes.end();

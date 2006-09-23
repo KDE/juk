@@ -62,7 +62,7 @@ namespace FileHandleProperties
         virtual ~Property() {}
         virtual QString value(const FileHandle &) const
         {
-            return QString::null;
+            return QString();
         }
     };
 
@@ -76,7 +76,7 @@ namespace FileHandleProperties
 
     static QString property(const FileHandle &file, const QByteArray &key)
     {
-        return propertyMap.contains(key) ? propertyMap[key]->value(file) : QString::null;
+        return propertyMap.contains(key) ? propertyMap[key]->value(file) : QString();
     }
 
     static QStringList properties()

@@ -260,12 +260,12 @@ void PlaylistCollection::removeTrack(const QString &playlist, const QStringList 
 
 QString PlaylistCollection::playlist() const
 {
-    return visiblePlaylist() ? visiblePlaylist()->name() : QString::null;
+    return visiblePlaylist() ? visiblePlaylist()->name() : QString();
 }
 
 QString PlaylistCollection::playingPlaylist() const
 {
-    return currentPlaylist() && m_playing ? currentPlaylist()->name() : QString::null;
+    return currentPlaylist() && m_playing ? currentPlaylist()->name() : QString();
 }
 
 void PlaylistCollection::setPlaylist(const QString &playlist)
@@ -289,7 +289,7 @@ QString PlaylistCollection::trackProperty(const QString &file, const QString &pr
     CollectionList *l = CollectionList::instance();
     CollectionListItem *item = l->lookup(file);
 
-    return item ? item->file().property(property) : QString::null;
+    return item ? item->file().property(property) : QString();
 }
 
 QPixmap PlaylistCollection::trackCover(const QString &file, const QString &size) const
@@ -739,7 +739,7 @@ QString PlaylistCollection::playlistNameDialog(const QString &caption,
         forceUnique ? uniquePlaylistName(suggest) : suggest,
         &ok);
 
-    return ok ? uniquePlaylistName(name) : QString::null;
+    return ok ? uniquePlaylistName(name) : QString();
 }
 
 

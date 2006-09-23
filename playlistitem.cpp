@@ -106,7 +106,7 @@ const QPixmap *PlaylistItem::pixmap(int column) const
 QString PlaylistItem::text(int column) const
 {
     if(!d->fileHandle.tag())
-        return QString::null;
+        return QString();
 
     int offset = playlist()->columnOffset();
 
@@ -118,7 +118,7 @@ QString PlaylistItem::text(int column) const
     case AlbumColumn:
         return d->fileHandle.tag()->album();
     case CoverColumn:
-        return QString::null;
+        return QString();
     case TrackNumberColumn:
         return d->fileHandle.tag()->track() > 0
             ? QString::number(d->fileHandle.tag()->track())

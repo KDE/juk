@@ -149,7 +149,7 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
 QString ConfigCategoryReader::categoryValue(TagType type) const
 {
     if(!m_currentItem)
-        return QString::null;
+        return QString();
 
     Tag *tag = m_currentItem->file().tag();
 
@@ -173,7 +173,7 @@ QString ConfigCategoryReader::categoryValue(TagType type) const
         return tag->genre();
 
     default:
-        return QString::null;
+        return QString();
     }
 }
 
@@ -592,7 +592,7 @@ QString FileRenamerWidget::fileCategoryValue(TagType category) const
         return tag->genre();
 
     default:
-        return QString::null;
+        return QString();
     }
 }
 
@@ -623,7 +623,7 @@ QString FileRenamerWidget::categoryValue(TagType category) const
         return example->m_exampleGenre->text();
 
     default:
-        return QString::null;
+        return QString();
     }
 }
 

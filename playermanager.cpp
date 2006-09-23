@@ -171,7 +171,7 @@ QStringList PlayerManager::trackProperties()
 QString PlayerManager::trackProperty(const QString &property) const
 {
     if(!playing() && !paused())
-        return QString::null;
+        return QString();
 
     return m_file.property(property);
 }
@@ -197,7 +197,7 @@ FileHandle PlayerManager::playingFile() const
 QString PlayerManager::playingString() const
 {
     if(!playing())
-        return QString::null;
+        return QString();
 
     QString str = m_file.tag()->artist() + " - " + m_file.tag()->title();
     if(m_file.tag()->artist().isEmpty())

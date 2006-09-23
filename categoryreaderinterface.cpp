@@ -50,7 +50,7 @@ QString CategoryReaderInterface::fixupTrack(const QString &track, int categoryNu
         if(emptyAction(trackId) == TagRenamerOptions::UseReplacementValue)
             str = emptyText(trackId);
         else
-            return QString::null;
+            return QString();
     }
 
     int minimumWidth = trackWidth(categoryNum);
