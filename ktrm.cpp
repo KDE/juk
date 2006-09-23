@@ -157,7 +157,7 @@ protected:
                 QString normalizedHost = KNetwork::KResolver::normalizeDomain(*it);
 
                 if(normalizedHost == tunepimpHost ||
-                   tunepimpHost.endsWith("." + normalizedHost))
+                   tunepimpHost.endsWith('.' + normalizedHost))
                 {
                     useProxy = false;
                     break;
@@ -166,7 +166,7 @@ protected:
                 // KDE's proxy mechanism also supports exempting a specific
                 // host/port combo, check that also.
                 if(normalizedHost == tunepimpHostWithPort ||
-                   tunepimpHostWithPort.endsWith("." + normalizedHost))
+                   tunepimpHostWithPort.endsWith('.' + normalizedHost))
                 {
                     useProxy = false;
                     break;

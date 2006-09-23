@@ -40,7 +40,7 @@ GoogleImage::GoogleImage(QString thumbURL, QString size) :
     // images?q=tbn:hKSEWNB8aNcJ:www.styxnet.com/deyoung/styx/stygians/cp_portrait.jpg
 
     m_imageURL = "http://" + thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
-    m_size = size.replace("pixels - ", "\n(") + ")";
+    m_size = size.replace("pixels - ", "\n(") + ')';
 }
 
 

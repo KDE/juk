@@ -869,7 +869,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
         reader.setPlaylistItem(*it);
         QString oldFile = (*it)->file().absFilePath();
         QString extension = (*it)->file().fileInfo().extension(false);
-        QString newFile = fileName(reader) + "." + extension;
+        QString newFile = fileName(reader) + '.' + extension;
 
         if(oldFile != newFile) {
             map[oldFile] = newFile;
@@ -952,7 +952,7 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
     QString path;
 
     for(QStringList::ConstIterator it = elements.begin(); it != elements.end(); ++it) {
-        path.append("/" + (*it));
+        path.append('/' + (*it));
 
         kDebug() << "Checking path: " << path << endl;
         if((*it).contains(item->file().tag()->album() ) &&

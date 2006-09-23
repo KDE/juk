@@ -202,11 +202,11 @@ QString StatusLabel::formatTime(int minutes, int seconds) // static
 {
     QString m = QString::number(minutes);
     if(m.length() == 1)
-        m = "0" + m;
+        m = '0' + m;
     QString s = QString::number(seconds);
     if(s.length() == 1)
-        s = "0" + s;
-    return m + ":" + s;
+        s = '0' + s;
+    return m + ':' + s;
 }
 
 #include "statuslabel.moc"
