@@ -67,7 +67,7 @@ public:
 
     /**
      * As a convenience, since producing a length string from a number of second
-     * isn't a one liner, provide the lenght in string form.
+     * isn't a one liner, provide the length in string form.
      */
     QString lengthString() const { return m_lengthString; }
     CacheDataStream &read(CacheDataStream &s);

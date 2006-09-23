@@ -19,7 +19,7 @@
 #include <QString>
 
 /**
- This class attempts to normalize repeated occurances of strings to use
+ This class attempts to normalize repeated occurrences of strings to use
  the same shared object, if possible, by using a small hash
 */
 class StringShare

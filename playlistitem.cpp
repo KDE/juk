@@ -303,7 +303,7 @@ int PlaylistItem::compare(Q3ListViewItem *item, int column, bool ascending) cons
 
     // The following statments first check to see if you can sort based on the
     // specified column.  If the values for the two PlaylistItems are the same
-    // in that column it then trys to sort based on columns 1, 2, 3 and 0,
+    // in that column it then tries to sort based on columns 1, 2, 3 and 0,
     // (artist, album, track number, track name) in that order.
 
     int c = compare(this, playlistItem, column, ascending);

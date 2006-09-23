@@ -488,7 +488,7 @@ void PlayerManager::slotTick(qint64 msec)
     }
 
     // This call is done because when the user adds the slider to the toolbar
-    // while playback is occuring the volume slider generally defaults to 0,
+    // while playback is occurring the volume slider generally defaults to 0,
     // and doesn't get updated to the correct volume.  It might be better to
     // have the SliderAction class fill in the correct volume, but I'm trying
     // to avoid having it depend on PlayerManager since it may not be
