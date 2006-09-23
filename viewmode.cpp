@@ -91,13 +91,13 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
 
     if (!pm->isNull()) {
         int x = (width - pm->width()) / 2;
-        x = QMAX(x, item->listView()->itemMargin());
+        x = qMax(x, item->listView()->itemMargin());
         painter->drawPixmap(x, y, *pm);
     }
     y += pm->height() + fm.height() - fm.descent();
     for(QStringList::Iterator it = m_lines[item].begin(); it != m_lines[item].end(); ++it) {
         int x = (width - fm.width(*it)) / 2;
-        x = QMAX(x, item->listView()->itemMargin());
+        x = qMax(x, item->listView()->itemMargin());
         painter->drawText(x, y, *it);
         y += fm.height() - fm.descent();
     }

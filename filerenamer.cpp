@@ -99,8 +99,8 @@ public:
         }
 
         lvHeight += lv->horizontalScrollBar()->height() + lv->header()->height();
-        lv->setMinimumHeight(QMIN(lvHeight, 400));
-        resize(QMIN(width(), 500), QMIN(minimumHeight(), 400));
+        lv->setMinimumHeight(qMin(lvHeight, 400));
+        resize(qMin(width(), 500), qMin(minimumHeight(), 400));
     }
 };
 

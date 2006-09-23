@@ -293,7 +293,7 @@ void TrackItem::slotUpdate()
         --size;
     } while(m_label->heightForWidth(m_label->width()) > imageSize && size >= 0);
 
-    m_label->setFixedHeight(QMIN(imageSize, m_label->heightForWidth(m_label->width())));
+    m_label->setFixedHeight(qMin(imageSize, m_label->heightForWidth(m_label->width())));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
