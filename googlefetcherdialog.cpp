@@ -57,7 +57,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     m_iconWidget->setSpacing(10);
     m_iconWidget->setFixedSize(500,550);
     m_iconWidget->arrangeItemsInGrid();
-    m_iconWidget->setItemsMovable(FALSE);
+    m_iconWidget->setItemsMovable(false);
     connect(m_iconWidget, SIGNAL(executed(Q3IconViewItem *)),
             this, SLOT(slotOk()));
 
