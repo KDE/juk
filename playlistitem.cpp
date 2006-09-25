@@ -14,7 +14,7 @@
  ***************************************************************************/
 
 #include <config.h>
-
+#include <config-juk.h>
 #include <kdebug.h>
 #include <kaction.h>
 #include <kiconloader.h>

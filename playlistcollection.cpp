@@ -15,6 +15,7 @@
 #include <kurl.h>
 
 #include <config.h>
+#include <config-juk.h>
 #include <QObject>
 //Added by qt3to4:
 #include <QPixmap>
@@ -858,7 +859,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     // Guess tag info menu
 
 #ifdef HAVE_TUNEPIMP
-    menu = new KActionMenu(i18n("&Guess Tag Information"), QString::null, actions(), "guessTag");
+    menu = new KActionMenu(i18n("&Guess Tag Information"), actions(), "guessTag");
     /* menu->setIconSet(SmallIconSet("wizard")); */
 
     menu->addAction(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),

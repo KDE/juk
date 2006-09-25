@@ -17,8 +17,7 @@
 #define TRACKPICKERDIALOG_H
 
 #include <config.h>
-
-#if HAVE_TUNEPIMP
+#include <config-juk.h>
 
 #include <kdialog.h>
 
@@ -46,7 +45,6 @@ private:
     TrackPickerDialogBase *m_base;
 };
 
-#endif // HAVE_TUNEPIMP
 
 #endif
 

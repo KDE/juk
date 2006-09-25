@@ -5,14 +5,17 @@ configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 add_subdirectory( pics ) 
 
 
-
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 ########### next target ###############
 
-MESSAGE(STATUS "taglib <${TAGLIB_CFLAGS}>")
 add_definitions(${TAGLIB_CFLAGS})
 
-set(juk_SRCS searchadaptor.cpp collectionadaptor.cpp playeradaptor.cpp
+set(tunepimp_SRCS)
+if(TUNEPIMP_FOUND)
+	set(tunepimp_SRCS trackpickerdialog.cpp)
+endif(TUNEPIMP_FOUND)	
+
+set(juk_SRCS searchadaptor.cpp collectionadaptor.cpp playeradaptor.cpp ${tunepimp_SRCS}
    advancedsearchdialog.cpp 
    actioncollection.cpp 
    cache.cpp 
@@ -63,7 +66,6 @@ set(juk_SRCS searchadaptor.cpp collectionadaptor.cpp playeradaptor.cpp
    tagguesserconfigdlg.cpp 
    tagrenameroptions.cpp 
    tagtransactionmanager.cpp 
-   trackpickerdialog.cpp 
    tracksequenceiterator.cpp 
    tracksequencemanager.cpp 
    treeviewitemplaylist.cpp 
@@ -90,7 +92,11 @@ kde4_add_executable(juk ${juk_SRCS})
 
 # Add gstreamer here too...
 
-target_link_libraries(juk  m ${KDE4_KIO_LIBS} ${KDE4_KHTML_LIBS} tag phononcore)
+target_link_libraries(juk  m ${KDE4_KIO_LIBS} ${KDE4_KHTML_LIBS} ${TAGLIB_LIBRARIES} phononcore)
+if(TUNEPIMP_FOUND)
+	target_link_libraries(juk ${TUNEPIMP_LIBRARIES})
+endif(TUNEPIMP_FOUND)
+
 
 install(TARGETS juk  DESTINATION ${BIN_INSTALL_DIR} )
 

@@ -14,7 +14,7 @@
  ***************************************************************************/
 
 #include <config.h>
-
+#include <config-juk.h>
 #if HAVE_TUNEPIMP
 
 #include <QLabel>

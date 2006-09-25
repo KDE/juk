@@ -20,7 +20,7 @@
  ***************************************************************************/
 
 #include "ktrm.h"
-
+#include <config-juk.h>
 #if HAVE_TUNEPIMP
 
 #include <kapplication.h>

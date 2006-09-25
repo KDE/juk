@@ -16,7 +16,7 @@
 #ifndef MUSICBRAINZQUERY_H
 #define MUSICBRAINZQUERY_H
 
-#include <config.h>
+#include <config-juk.h>
 
 #ifdef HAVE_TUNEPIMP
 

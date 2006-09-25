@@ -28,7 +28,7 @@
 #define KTRM_H
 
 #include <config.h>
-
+#include <config-juk.h>
 #ifdef HAVE_TUNEPIMP
 
 #include <QString>
