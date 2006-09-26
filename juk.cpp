@@ -53,6 +53,7 @@ using namespace ActionCollection;
 
 JuK::JuK(QWidget *parent) :
     KMainWindow(parent, Qt::WDestructiveClose),
+    m_systemTray(0),
     m_player(PlayerManager::instance()),
     m_shuttingDown(false)
 {
