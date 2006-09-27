@@ -191,7 +191,7 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
     cm->addAction( action("forward") );
     cm->addAction( action("back") );
 
-    cm->insertSeparator();
+    cm->addSeparator();
 
     // Pity the actionCollection doesn't keep track of what sub-menus it has.
 

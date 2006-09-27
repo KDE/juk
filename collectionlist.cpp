@@ -287,7 +287,7 @@ void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 
 QString CollectionList::addStringToDict(const QString &value, int column)
 {
-    if(column > m_columnTags.count() || value.stripWhiteSpace().isEmpty())
+    if(column > m_columnTags.count() || value.trimmed().isEmpty())
         return QString();
 
     int *refCountPtr = m_columnTags[column]->find(value);
