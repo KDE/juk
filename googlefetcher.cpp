@@ -46,7 +46,7 @@ GoogleImage::GoogleImage(QString thumbURL, QString size) :
 
 GoogleFetcher::GoogleFetcher(const FileHandle &file)
     : m_file(file),
-      m_searchString(file.tag()->artist() + " " + file.tag()->album())
+      m_searchString(file.tag()->artist() + ' ' + file.tag()->album())
 {
 
 }
