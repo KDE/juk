@@ -70,7 +70,6 @@ CoverDialog::CoverDialog(QWidget *parent) :
     m_covers->setGridY(150);
 
     m_searchLine->setIconView(m_covers);
-    m_clearSearch->setIconSet(SmallIconSet("locationbar_erase"));
 }
 
 CoverDialog::~CoverDialog()

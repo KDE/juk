@@ -79,20 +79,6 @@
                         <property name="name">
                             <cstring>unnamed</cstring>
                         </property>
-                        <widget class="QToolButton">
-                            <property name="name">
-                                <cstring>m_clearSearch</cstring>
-                            </property>
-                            <property name="text">
-                                <string>Clear Search</string>
-                            </property>
-                            <property name="toolTip" stdset="0">
-                                <string>Clear Search</string>
-                            </property>
-                            <property name="whatsThis" stdset="0">
-                                <string>Clear the current cover search.</string>
-                            </property>
-                        </widget>
                         <widget class="K3IconViewSearchLine">
                             <property name="name">
                                 <cstring>m_searchLine</cstring>

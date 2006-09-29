@@ -271,10 +271,6 @@ void SearchWidget::setupLayout()
 {
     /// Qt4 porting: disabled this: boxLayout()->setSpacing(5);
 
-    QToolButton *clearSearchButton = new QToolButton(this);
-    clearSearchButton->setTextLabel(i18n("Clear Search"), true);
-    clearSearchButton->setIconSet(SmallIconSet("locationbar_erase"));
-
     QLabel *label = new QLabel(i18n("Search:"), this );
     label->setObjectName( "kde toolbar widget" );
 
@@ -285,7 +281,6 @@ void SearchWidget::setupLayout()
 
     connect(m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
     connect(m_searchLine, SIGNAL(signalDownPressed()), this, SIGNAL(signalDownPressed()));
-    connect(clearSearchButton, SIGNAL(pressed()), m_searchLine, SLOT(clear()));
 
 #ifdef __GNUC__
 #warning TODO Find replacement for KToolBar::setStretchableWidget
