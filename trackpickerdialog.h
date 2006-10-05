@@ -22,8 +22,15 @@
 #include <kdialog.h>
 
 #include "musicbrainzquery.h"
+#include "ui_trackpickerdialogbase.h"
 
-class TrackPickerDialogBase;
+class TrackPickerDialogBase : public QWidget, public Ui::TrackPickerDialogBase
+{
+public:
+  TrackPickerDialogBase( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
 
 class TrackPickerDialog : public KDialog
 {

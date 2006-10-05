@@ -17,8 +17,15 @@
 #define DIRECTORYLIST_H
 
 #include <kdialog.h>
+#include "ui_directorylistbase.h"
 
-class DirectoryListBase;
+class DirectoryListBase : public QWidget, public Ui::DirectoryListBase
+{
+public:
+  DirectoryListBase( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
 
 class DirectoryList : public KDialog
 {

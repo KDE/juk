@@ -23,7 +23,6 @@
 #include <klocale.h>
 
 #include "trackpickerdialog.h"
-#include "trackpickerdialogbase.h"
 
 #define NUMBER(x) (x == 0 ? QString::null : QString::number(x))
 

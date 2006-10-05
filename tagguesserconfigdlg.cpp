@@ -8,7 +8,6 @@
  */
 #include "tagguesser.h"
 #include "tagguesserconfigdlg.h"
-#include "tagguesserconfigdlgwidget.h"
 
 #include <kiconloader.h>
 #include <k3listview.h>
@@ -32,7 +31,7 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     setDefaultButton(Ok);
     showButtonSeparator(true);
 
-    m_child = new TagGuesserConfigDlgWidget(this, "child");
+    m_child = new TagGuesserConfigDlgWidget(this);
     setMainWidget(m_child);
 
     m_child->lvSchemes->setItemsRenameable(true);

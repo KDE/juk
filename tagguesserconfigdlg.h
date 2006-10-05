@@ -10,10 +10,19 @@
 #define TAGGUESSERCONFIGDLG_H
 
 #include <kdialog.h>
+#include "ui_tagguesserconfigdlgwidget.h"
 
 class Q3ListViewItem;
 
-class TagGuesserConfigDlgWidget;
+
+class TagGuesserConfigDlgWidget : public QWidget, public Ui::TagGuesserConfigDlgWidget
+{
+public:
+  TagGuesserConfigDlgWidget( QWidget *parent ) : QWidget( parent ) {
+    setupUi( this );
+  }
+};
+
 class TagGuesserConfigDlg : public KDialog
 {
     Q_OBJECT

@@ -78,15 +78,15 @@ kde4_automoc(${juk_SRCS})
 kde4_add_ui_files(juk_SRCS
 	filerenamerbase.ui
 	filerenameroptionsbase.ui
+	directorylistbase.ui
+	trackpickerdialogbase.ui
+	tagguesserconfigdlgwidget.ui
 )
 
 kde4_add_ui3_files(juk_SRCS 
    coverdialogbase.ui 
    deletedialogbase.ui 
-   directorylistbase.ui 
-   exampleoptionsbase.ui 
-   tagguesserconfigdlgwidget.ui 
-   trackpickerdialogbase.ui )
+   exampleoptionsbase.ui )
 
 kde4_add_executable(juk ${juk_SRCS})
 
