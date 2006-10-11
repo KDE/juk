@@ -32,7 +32,7 @@
 #include <QKeyEvent>
 #include <QDropEvent>
 #include <Q3ValueList>
-#include <Q3PopupMenu>
+#include <QMenu>
 #include <QMouseEvent>
 
 #include "playlistbox.h"
