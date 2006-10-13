@@ -73,7 +73,7 @@ set(juk_SRCS searchadaptor.cpp collectionadaptor.cpp playeradaptor.cpp ${tunepim
    ktrm.cpp 
    viewmode.cpp )
 
-kde4_automoc(${juk_SRCS})
+kde4_automoc(juk ${juk_SRCS})
 
 kde4_add_ui_files(juk_SRCS
 	filerenamerbase.ui
@@ -105,7 +105,7 @@ install(TARGETS juk  DESTINATION ${BIN_INSTALL_DIR} )
 if(KDE4_BUILD_TESTS)
 set(tagguessertest_SRCS tagguessertest.cpp tagguesser.cpp )
 
-kde4_automoc(${tagguessertest_SRCS})
+kde4_automoc(tagguessertest ${tagguessertest_SRCS})
 
 kde4_add_executable(tagguessertest ${tagguessertest_SRCS})
 
