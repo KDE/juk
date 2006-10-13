@@ -13,6 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
+#include <qwidget.h>
 #include <kfiledialog.h>
 #include <kdebug.h>
 #include <klocale.h>
@@ -20,14 +21,17 @@
 
 #include "mediafiles.h"
 
+#include <taglib.h>
 #include <tag.h>
 #include <kurl.h>
-#if (TAGLIB_MAJOR_VERSION>1) ||  \
-   ((TAGLIB_MAJOR_VERSION==1) && (TAGLIB_MINOR_VERSION>=2))
+
+#if (TAGLIB_MAJOR_VERSION > 1) || \
+    ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 2))
 #define TAGLIB_1_2
 #endif
-#if (TAGLIB_MAJOR_VERSION>1) ||  \
-   ((TAGLIB_MAJOR_VERSION==1) && (TAGLIB_MINOR_VERSION>=3))
+
+#if (TAGLIB_MAJOR_VERSION > 1) || \
+    ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 3))
 #define TAGLIB_1_3
 #endif
 
@@ -48,17 +52,22 @@ namespace MediaFiles {
 
 QStringList MediaFiles::openDialog(QWidget *parent)
 {
-    KFileDialog dialog(KUrl(), QString::null, parent);
-    dialog.setOperationMode(KFileDialog::Opening);
+    KFileDialog *dialog = new KFileDialog(KUrl(), QString(), parent);
 
-    dialog.setCaption(i18n("Open"));
-    dialog.setMode(KFile::Files | KFile::LocalOnly);
+    dialog->setOperationMode(KFileDialog::Opening);
+
+    dialog->setCaption(i18n("Open"));
+    dialog->setMode(KFile::Files | KFile::LocalOnly);
     // dialog.ops->clearHistory();
-    dialog.setMimeFilter(mimeTypes());
+    dialog->setMimeFilter(mimeTypes());
 
-    dialog.exec();
+    dialog->exec();
 
-    return convertURLsToLocal(dialog.selectedFiles());
+    QStringList selectedFiles = dialog->selectedFiles();
+
+    delete dialog;
+
+    return convertURLsToLocal(selectedFiles);
 }
 
 QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *parent)
