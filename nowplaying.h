@@ -117,6 +117,7 @@ private:
  * A link label that doesn't automatically open Konqueror.
  */
 
+#warning port KActiveLabel to QLabel and see where LinkLabel is used in Juk.
 class LinkLabel : public KActiveLabel
 {
 public:

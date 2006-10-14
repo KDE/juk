@@ -387,7 +387,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_lastSelected(0),
-    m_fileName(playlistFile.absFilePath()),
+    m_fileName(playlistFile.absoluteFilePath()),
     m_rmbMenu(0),
     m_toolTip(0),
     m_blockDataChanged(false)
@@ -928,7 +928,7 @@ void Playlist::slotWeightDirty(int column)
         return;
     }
 
-    if(m_weightDirty.find(column) == m_weightDirty.end())
+    if(!m_weightDirty.contains(column))
         m_weightDirty.append(column);
 }
 
@@ -1020,6 +1020,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     }
 }
 
+ #warning Port Q3DragObject to QMimeData
 Q3DragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
@@ -1124,7 +1125,7 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
         switch(e->type()) {
         case QEvent::MouseMove:
         {
-            if((static_cast<QMouseEvent *>(e)->state() & Qt::LeftButton) == Qt::LeftButton &&
+            if((static_cast<QMouseEvent *>(e)->modifiers() & Qt::LeftButton) == Qt::LeftButton &&
                 !action<KToggleAction>("resizeColumnsManually")->isChecked())
             {
                 m_columnWidthModeChanged = true;
@@ -1385,14 +1386,14 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 
 void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 {
-    Q3ValueList< QPair<QString, QString> > albums;
+    QList< QPair<QString, QString> > albums;
     bool setAlbumCovers = items.count() == 1;
 
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
         QString artist = (*it)->file().tag()->artist();
         QString album = (*it)->file().tag()->album();
 
-        if(albums.find(qMakePair(artist, album)) == albums.end())
+        if(!albums.contains(qMakePair(artist, album)))
             albums.append(qMakePair(artist, album));
 
         (*it)->file().coverInfo()->setCoverId(id);
@@ -1400,7 +1401,7 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
             (*it)->file().coverInfo()->applyCoverToWholeAlbum(true);
     }
 
-    for(Q3ValueList< QPair<QString, QString> >::ConstIterator it = albums.begin();
+    for(QList< QPair<QString, QString> >::ConstIterator it = albums.begin();
         it != albums.end(); ++it)
     {
         refreshAlbum((*it).first, (*it).second);
@@ -1444,6 +1445,7 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
 
 void Playlist::hideColumn(int c, bool updateSearch)
 {
+    #warning Port to QAction
     m_headerMenu->setItemChecked(c, false);
 
     if(!isColumnVisible(c))
@@ -1631,7 +1633,7 @@ void Playlist::slotPopulateBackMenu() const
     if(!playingItem())
         return;
 
-    KMenu *menu = action<KToolBarPopupAction>("back")->popupMenu();
+    QMenu *menu = action<KToolBarPopupAction>("back")->menu();
     menu->clear();
     m_backMenuItems.clear();
 
@@ -1686,20 +1688,20 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     m_blockDataChanged = true;
 
     while(!stream.atEnd()) {
-        QString itemName = stream.readLine().stripWhiteSpace();
+        QString itemName = stream.readLine().trimmed();
 
         QFileInfo item(itemName);
 
         if(item.isRelative())
-            item.setFile(QDir::cleanDirPath(fileInfo.dirPath(true) + '/' + itemName));
+            item.setFile(QDir::cleanPath(fileInfo.absolutePath() + '/' + itemName));
 
         if(item.exists() && item.isFile() && item.isReadable() &&
            MediaFiles::isMediaFile(item.fileName()))
         {
             if(after)
-                after = createItem(FileHandle(item, item.absFilePath()), after, false);
+                after = createItem(FileHandle(item, item.absoluteFilePath()), after, false);
             else
-                after = createItem(FileHandle(item, item.absFilePath()), 0, false);
+                after = createItem(FileHandle(item, item.absoluteFilePath()), 0, false);
         }
     }
 
@@ -1738,7 +1740,7 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
     item->setPlaying(true);
 
     bool enableBack = !m_history.isEmpty();
-    action<KToolBarPopupAction>("back")->popupMenu()->setEnabled(enableBack);
+    action<KToolBarPopupAction>("back")->menu()->setEnabled(enableBack);
 }
 
 bool Playlist::playing() const
@@ -1822,20 +1824,20 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
     }
 
 
-    const QFileInfo fileInfo = QDir::cleanDirPath(file);
+    const QFileInfo fileInfo = QDir::cleanPath(file);
     if(!fileInfo.exists())
         return;
 
     if(fileInfo.isFile() && fileInfo.isReadable()) {
         if(MediaFiles::isMediaFile(file)) {
-            FileHandle f(fileInfo, fileInfo.absFilePath());
+            FileHandle f(fileInfo, fileInfo.absoluteFilePath());
             f.tag();
             files.append(f);
         }
     }
 
     if(importPlaylists && MediaFiles::isPlaylistFile(file) &&
-       !m_collection->containsPlaylistFile(fileInfo.absFilePath()))
+       !m_collection->containsPlaylistFile(fileInfo.absoluteFilePath()))
     {
         new Playlist(m_collection, fileInfo);
         return;

@@ -38,13 +38,15 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
-    QSplitter(Qt::Horizontal, parent, name),
+    QSplitter(Qt::Horizontal, parent),
     m_newVisible(0),
     m_playlistBox(0),
     m_searchWidget(0),
     m_playlistStack(0),
     m_editor(0)
 {
+    setObjectName(name);
+
     setupActions();
     setupLayout();
     readConfig();
@@ -135,7 +137,8 @@ void PlaylistSplitter::setupLayout()
 
     // Create a splitter to go between the playlists and the editor.
 
-    QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this, "editorSplitter");
+    QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this);
+    editorSplitter->setObjectName("editorSplitter");
 
     // Create the playlist and the editor.
 
@@ -152,7 +155,7 @@ void PlaylistSplitter::setupLayout()
 
     // Make the editor as small as possible (or at least as small as recommended)
 
-    editorSplitter->setResizeMode(m_editor, QSplitter::FollowSizeHint);
+    editorSplitter->setStretchFactor(editorSplitter->indexOf(m_editor), 2);
 
     // Create the PlaylistBox
 
@@ -164,7 +167,7 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist *)),
             m_editor, SLOT(slotPlaylistDestroyed(Playlist *)));
 
-    moveToFirst(m_playlistBox);
+    insertWidget(0, m_playlistBox);
 
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_editor, SLOT(slotUpdateCollection()));

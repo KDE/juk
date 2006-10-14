@@ -73,7 +73,8 @@ void HistoryPlaylist::slotAddPlaying()
 {
     m_file = PlayerManager::instance()->playingFile();
     m_timer->stop();
-    m_timer->start(delay(), true);
+    m_timer->setSingleShot(true);
+    m_timer->start(delay());
 }
 
 void HistoryPlaylist::slotCreateNewItem()

@@ -17,7 +17,6 @@
 #include <config.h>
 #include <config-juk.h>
 #include <QObject>
-//Added by qt3to4:
 #include <QPixmap>
 
 #include <sys/types.h>
@@ -53,6 +52,8 @@
 #include "collectionadaptor.h"
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
+
+#warning QApplication::mainWidget() is deprecated. Maybe it's a good idea to create Juk::instance()?
 #define widget (kapp->mainWidget())
 
 using namespace ActionCollection;
@@ -166,8 +167,9 @@ QStringList PlaylistCollection::playlists() const
 {
     QStringList l;
 
-    QObjectList childList = m_playlistStack->queryList("Playlist");
-    for(QObjectList::Iterator it = childList.begin(); it != childList.end(); ++it) {
+    //(or qFindChildren() if you need MSVC 6 compatibility)
+    QList<Playlist *> childList = m_playlistStack->findChildren<Playlist *>("Playlist");
+    for(QList<Playlist *>::Iterator it = childList.begin(); it != childList.end(); ++it) {
         Playlist *p = static_cast<Playlist *>(*it);
         l.append(p->name());
     }
@@ -373,7 +375,7 @@ void PlaylistCollection::addFolder()
             it !=  result.removedDirs.end(); it++)
         {
             m_dirLister.stop(KUrl::fromPath(*it));
-            m_folderList.remove(*it);
+            m_folderList.removeAll(*it);
         }
 
         if(reload)
@@ -793,10 +795,10 @@ void PlaylistCollection::dirChanged(const QString &path)
 
 Playlist *PlaylistCollection::playlistByName(const QString &name) const
 {
-    QObjectList l = m_playlistStack->queryList("Playlist");
+    QList<Playlist *> l = m_playlistStack->findChildren<Playlist *>("Playlist");
     Playlist *list = 0;
 
-    for(QObjectList::Iterator it  = l.begin(); it != l.end(); ++it) {
+    for(QList<Playlist *>::Iterator it  = l.begin(); it != l.end(); ++it) {
         Playlist *p = static_cast<Playlist*>(*it);
         if(p->name() == name) {
             list = p;
@@ -840,9 +842,11 @@ void PlaylistCollection::saveConfig()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection) :
-    QObject(0, "ActionHandler"),
+    QObject(0),
     m_collection(collection)
 {
+    setObjectName("ActionHandler");
+
     KActionMenu *menu;
 
     // "New" menu

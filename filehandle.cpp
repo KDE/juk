@@ -37,13 +37,13 @@ AddNumberProperty(Seconds, tag()->seconds())
 AddNumberProperty(Bitrate, tag()->bitrate())
 AddProperty(Path, absFilePath())
 AddNumberProperty(Size, fileInfo().size())
-AddProperty(Extension, fileInfo().extension(false))
+AddProperty(Extension, fileInfo().suffix())
 
 static QString resolveSymLinks(const QFileInfo &file) // static
 {
     char real[PATH_MAX];
 
-    if(file.exists() && realpath(QFile::encodeName(file.absFilePath()).data(), real))
+    if(file.exists() && realpath(QFile::encodeName(file.absoluteFilePath()).data(), real))
         return QFile::decodeName(real);
     else
         return file.filePath();
@@ -170,7 +170,7 @@ CoverInfo *FileHandle::coverInfo() const
 QString FileHandle::absFilePath() const
 {
     if(d->absFilePath.isNull())
-        d->absFilePath = resolveSymLinks(d->fileInfo.absFilePath());
+        d->absFilePath = resolveSymLinks(d->fileInfo.absoluteFilePath());
     return d->absFilePath;
 }
 
@@ -262,7 +262,7 @@ void FileHandle::setup(const QFileInfo &info, const QString &path)
     if(d && !isNull())
         return;
 
-    QString fileName = path.isNull() ? info.absFilePath() : path;
+    QString fileName = path.isNull() ? info.absoluteFilePath() : path;
 
     FileHandle cached = Cache::instance()->value(resolveSymLinks(fileName));
 

@@ -30,7 +30,7 @@
 #include "googlefetcher.h"
 #include "googlefetcherdialog.h"
 #include "tag.h"
-//Added by qt3to4:
+
 #include <QPixmap>
 
 GoogleImage::GoogleImage(QString thumbURL, QString size) :
@@ -224,9 +224,9 @@ QPixmap GoogleFetcher::pixmap()
 void GoogleFetcher::displayWaitMessage()
 {
     KStatusBar *statusBar = static_cast<KMainWindow *>(kapp->mainWidget())->statusBar();
-    statusBar->message(i18n("Searching for Images. Please Wait..."));
+    statusBar->showMessage(i18n("Searching for Images. Please Wait..."));
     slotLoadImageURLs();
-    statusBar->clear();
+    statusBar->clearMessage();
 }
 
 bool GoogleFetcher::requestNewSearchTerms(bool noResults)

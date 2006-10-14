@@ -115,9 +115,10 @@ void NowPlaying::slotUpdate()
 ////////////////////////////////////////////////////////////////////////////////
 
 CoverItem::CoverItem(NowPlaying *parent) :
-    QLabel(parent, "CoverItem"),
+    QLabel(parent),
     NowPlayingItem(parent)
 {
+    setObjectName("CoverItem");
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setFrameStyle(Box | Plain);
     setLineWidth(1);
@@ -182,7 +183,7 @@ void CoverItem::mouseMoveEvent(QMouseEvent *e)
 
 void CoverItem::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->accept(Q3ImageDrag::canDecode(e) || K3URLDrag::canDecode(e) || CoverDrag::canDecode(e));
+    e->setAccepted(Q3ImageDrag::canDecode(e) || K3URLDrag::canDecode(e) || CoverDrag::canDecode(e));
 }
 
 void CoverItem::dropEvent(QDropEvent *e)
@@ -339,7 +340,8 @@ void HistoryItem::update(const FileHandle &file)
 
     m_file = file;
     m_timer->stop();
-    m_timer->start(HistoryPlaylist::delay(), true);
+    m_timer->setSingleShot(true);
+    m_timer->start(HistoryPlaylist::delay());
 }
 
 void HistoryItem::openLink(const QString &link)

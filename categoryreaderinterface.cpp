@@ -20,10 +20,10 @@
 
 QString CategoryReaderInterface::value(const CategoryID &category) const
 {
-    QString value = categoryValue(category.category).stripWhiteSpace();
+    QString value = categoryValue(category.category).trimmed();
 
     if(category.category == Track)
-        value = fixupTrack(value, category.categoryNumber).stripWhiteSpace();
+        value = fixupTrack(value, category.categoryNumber).trimmed();
 
     if(value.isEmpty() && emptyAction(category) == TagRenamerOptions::UseReplacementValue)
         value = emptyText(category);

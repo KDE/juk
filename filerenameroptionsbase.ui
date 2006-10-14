@@ -1,7 +1,4 @@
 <ui version="4.0" >
- <author></author>
- <comment></comment>
- <exportmacro></exportmacro>
  <class>FileRenamerTagOptionsBase</class>
  <widget class="QWidget" name="FileRenamerTagOptionsBase" >
   <property name="geometry" >
@@ -17,22 +14,19 @@
   </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
-    <number>11</number>
+    <number>9</number>
    </property>
    <property name="spacing" >
     <number>6</number>
    </property>
    <item>
-    <widget class="Q3GroupBox" name="m_tagFormatGroup" >
+    <widget class="QGroupBox" name="m_tagFormatGroup" >
      <property name="title" >
       <string>%1 Format</string>
      </property>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
      <layout class="QVBoxLayout" >
       <property name="margin" >
-       <number>11</number>
+       <number>9</number>
       </property>
       <property name="spacing" >
        <number>6</number>
@@ -138,16 +132,13 @@
     </widget>
    </item>
    <item>
-    <widget class="Q3ButtonGroup" name="m_emptyTagGroup" >
+    <widget class="QGroupBox" name="m_emptyTagGroup" >
      <property name="title" >
       <string>When the Track's %1 is Empty</string>
      </property>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
-     </property>
      <layout class="QVBoxLayout" >
       <property name="margin" >
-       <number>11</number>
+       <number>9</number>
       </property>
       <property name="spacing" >
        <number>6</number>
@@ -200,16 +191,13 @@
     </widget>
    </item>
    <item>
-    <widget class="Q3GroupBox" name="m_trackGroup" >
+    <widget class="QGroupBox" name="m_trackGroup" >
      <property name="title" >
-      <string>Track Width Options</string>
-     </property>
-     <property name="orientation" >
-      <enum>Qt::Vertical</enum>
+      <string>GroupBox</string>
      </property>
      <layout class="QVBoxLayout" >
       <property name="margin" >
-       <number>11</number>
+       <number>9</number>
       </property>
       <property name="spacing" >
        <number>6</number>
@@ -339,8 +327,8 @@
      </property>
      <property name="sizeHint" >
       <size>
-       <width>20</width>
-       <height>0</height>
+       <width>546</width>
+       <height>16</height>
       </size>
      </property>
     </spacer>
@@ -349,22 +337,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11" />
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
-  <customwidget>
-   <class>Q3ButtonGroup</class>
-   <extends></extends>
-   <header>Qt3Support/Q3ButtonGroup</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
-  <customwidget>
-   <class>Q3GroupBox</class>
-   <extends></extends>
-   <header>Qt3Support/Q3GroupBox</header>
-   <container>1</container>
-   <pixmap></pixmap>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -27,7 +27,6 @@
 #include "ktrm.h"
 #include "coverinfo.h"
 #include "tagtransactionmanager.h"
-//Added by qt3to4:
 #include <QPixmap>
 #include <Q3ValueList>
 
@@ -56,7 +55,7 @@ PlaylistItem::~PlaylistItem()
 
     m_collectionItem->removeChildItem(this);
 
-    if(m_playingItems.find(this) != m_playingItems.end()) {
+    if(m_playingItems.contains(this)) {
         m_playingItems.remove(this);
         if(m_playingItems.isEmpty())
             playlist()->setPlaying(0);
@@ -138,7 +137,7 @@ QString PlaylistItem::text(int column) const
     case FileNameColumn:
         return d->fileHandle.fileInfo().fileName();
     case FullPathColumn:
-        return d->fileHandle.fileInfo().absFilePath();
+        return d->fileHandle.fileInfo().absoluteFilePath();
     default:
         return K3ListViewItem::text(column);
     }

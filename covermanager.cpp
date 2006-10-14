@@ -133,7 +133,7 @@ public:
 void CoverManagerPrivate::createDataDir() const
 {
     QDir dir;
-    QString dirPath(QDir::cleanDirPath(coverLocation() + "/.."));
+    QString dirPath(QDir::cleanPath(coverLocation() + "/.."));
     if(!dir.exists(dirPath))
         KStandardDirs::makeDir(dirPath);
 }
@@ -162,7 +162,7 @@ void CoverManagerPrivate::saveCovers() const
     // Write out the data
     for(CoverDataMap::ConstIterator it = covers.begin(); it != covers.end(); ++it) {
         out << Q_UINT32(it.key());
-        out << *it.data();
+        out << *it.value();
     }
 
     // Now write out the track mapping.
@@ -325,7 +325,7 @@ coverKey CoverManager::idFromMetadata(const QString &artist, const QString &albu
     CoverDataMap::ConstIterator endIt = end();
 
     for(; it != endIt; ++it) {
-        if(it.data()->album == album.toLower() && it.data()->artist == artist.toLower())
+        if(it.value()->album == album.toLower() && it.value()->artist == artist.toLower())
             return it.key();
     }
 

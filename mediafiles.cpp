@@ -156,7 +156,7 @@ QStringList MediaFiles::convertURLsToLocal(const QStringList &urlList, QWidget *
     KUrl localUrl;
 
     for(QStringList::ConstIterator it = urlList.constBegin(); it != urlList.constEnd(); ++it) {
-        localUrl = KIO::NetAccess::mostLocalUrl(KUrl::fromPathOrUrl(*it), w);
+        localUrl = KIO::NetAccess::mostLocalUrl(KUrl(*it), w);
 
         if(!localUrl.isLocalFile())
             kDebug(65432) << localUrl << " is not a local file, skipping.\n";

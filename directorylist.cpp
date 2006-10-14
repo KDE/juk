@@ -83,7 +83,7 @@ DirectoryList::Result DirectoryList::exec()
 void DirectoryList::slotAddDirectory()
 {
     QString dir = KFileDialog::getExistingDirectory();
-    if(!dir.isEmpty() && m_dirList.find(dir) == m_dirList.end()) {
+    if(!dir.isEmpty() && !m_dirList.contains(dir)) {
         m_dirList.append(dir);
         new K3ListViewItem(m_base->directoryListView, dir);
         m_result.addedDirs.append(dir);
@@ -96,7 +96,7 @@ void DirectoryList::slotRemoveDirectory()
         return;
 
     QString dir = m_base->directoryListView->selectedItem()->text(0);
-    m_dirList.remove(dir);
+    m_dirList.removeAll(dir);
     m_result.removedDirs.append(dir);
     delete m_base->directoryListView->selectedItem();
 }

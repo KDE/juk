@@ -26,7 +26,7 @@
 
 #include <q3cstring.h>
 #include <QMap>
-//Added by qt3to4:
+
 #include <Q3ValueList>
 
 #include "k3bexporter.h"
@@ -90,7 +90,7 @@ class PlaylistAction : public KAction
         // Invoke the slot using some trickery.
         // XXX: Use the QMetaObject to do this in Qt 4.
         connect(this, SIGNAL(activated()), recipient, m_slot);
-        emit(activated());
+        emit(QAction::triggered());
         disconnect(this, SIGNAL(activated()), recipient, m_slot);
     }
 

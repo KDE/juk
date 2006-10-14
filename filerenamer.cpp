@@ -47,6 +47,7 @@
 #include <QLayout>
 #include <qsignalmapper.h>
 #include <q3header.h>
+#include <qpalette.h>
 
 #include <QPixmap>
 #include <Q3Frame>
@@ -92,8 +93,8 @@ public:
 
         QMap<QString, QString>::ConstIterator it = files.begin();
         for(; it != files.end(); ++it) {
-            K3ListViewItem *i = it.key() != it.data()
-                ? new K3ListViewItem(lv, it.key(), it.data())
+            K3ListViewItem *i = it.key() != it.value()
+                ? new K3ListViewItem(lv, it.key(), it.value())
                 : new K3ListViewItem(lv, it.key(), i18n("No Change"));
             lvHeight += i->height();
         }
@@ -240,7 +241,9 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     m_exampleFromFile(false)
 {
     QLabel *temp = new QLabel(0);
-    m_exampleText->setPaletteBackgroundColor(temp->paletteBackgroundColor());
+    QPalette palette;
+    palette.setColor(m_exampleText->backgroundRole(), temp->palette().color(backgroundRole()));
+    m_exampleText->setPalette(palette);
     delete temp;
 
     #warning Repair this.
@@ -291,7 +294,7 @@ void FileRenamerWidget::loadConfig()
     QString path = config.readEntry("MusicFolder", "${HOME}/music");
     m_musicFolder->setPath(path);
 
-    m_separator->setCurrentText(config.readEntry("Separator", " - "));
+    m_separator->setItemText(m_separator->currentIndex(), config.readEntry("Separator", " - "));
 }
 
 void FileRenamerWidget::saveConfig()
@@ -324,8 +327,8 @@ FileRenamerWidget::~FileRenamerWidget()
 
 int FileRenamerWidget::addRowCategory(TagType category)
 {
-    static QPixmap up   = SmallIcon("up");
-    static QPixmap down = SmallIcon("down");
+    static QIcon up   = SmallIcon("up");
+    static QIcon down = SmallIcon("down");
 
     // Find number of categories already of this type.
     int categoryCount = 0;
@@ -340,7 +343,9 @@ int FileRenamerWidget::addRowCategory(TagType category)
     int id = row.position;
 
     Q3HBox *frame = new Q3HBox(m_mainFrame);
-    frame->setPaletteBackgroundColor(frame->paletteBackgroundColor().dark(110));
+    QPalette palette;
+    palette.setColor(frame->backgroundRole(), frame->palette().color(backgroundRole()).dark(110));
+    frame->setPalette(palette);
 
     row.widget = frame;
     frame->setFrameShape(Q3Frame::Box);
@@ -356,8 +361,8 @@ int FileRenamerWidget::addRowCategory(TagType category)
     row.upButton = new KPushButton(buttons);
     row.downButton = new KPushButton(buttons);
 
-    row.upButton->setPixmap(up);
-    row.downButton->setPixmap(down);
+    row.upButton->setIcon(up);
+    row.downButton->setIcon(down);
     row.upButton->setFlat(true);
     row.downButton->setFlat(true);
 
@@ -494,10 +499,14 @@ void FileRenamerWidget::createTagRows()
     m_rows.reserve(categoryOrder.count());
     m_folderSwitches.reserve(categoryOrder.count() - 1);
 
-    mapper       = new QSignalMapper(this, "signal mapper");
-    toggleMapper = new QSignalMapper(this, "toggle mapper");
-    upMapper     = new QSignalMapper(this, "up button mapper");
-    downMapper   = new QSignalMapper(this, "down button mapper");
+    mapper       = new QSignalMapper(this);
+    mapper->setObjectName("signal mapper");
+    toggleMapper = new QSignalMapper(this);
+    toggleMapper->setObjectName("toggle mapper");
+    upMapper     = new QSignalMapper(this);
+    upMapper->setObjectName("up button mapper");
+    downMapper   = new QSignalMapper(this);
+    downMapper->setObjectName("down button mapper");
 
     connect(mapper,       SIGNAL(mapped(int)), SLOT(showCategoryOption(int)));
     connect(toggleMapper, SIGNAL(mapped(int)), SLOT(slotRemoveRow(int)));
@@ -693,13 +702,13 @@ void FileRenamerWidget::moveItem(int id, MovementDirection direction)
         return;
 #warning double check if that still works with Qt4s layout
 
-    layout->remove(l);
+    layout->removeWidget(l);
     layout->insertWidget(2 * newPos, l);
 
     // Move the top item two spaces in the opposite direction, for a similar
     // reason.
 
-    layout->remove(w);
+    layout->removeWidget(w);
     layout->insertWidget(2 * pos, w);
     layout->invalidate();
 
@@ -868,7 +877,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
     for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
         reader.setPlaylistItem(*it);
         QString oldFile = (*it)->file().absFilePath();
-        QString extension = (*it)->file().fileInfo().extension(false);
+        QString extension = (*it)->file().fileInfo().suffix();
         QString newFile = fileName(reader) + '.' + extension;
 
         if(oldFile != newFile) {
@@ -884,14 +893,14 @@ void FileRenamer::rename(const PlaylistItemList &items)
     for(QMap<QString, QString>::ConstIterator it = map.begin();
         it != map.end(); ++it)
     {
-        if(moveFile(it.key(), it.data())) {
-            itemMap[it.key()]->setFile(it.data());
+        if(moveFile(it.key(), it.value())) {
+            itemMap[it.key()]->setFile(it.value());
             itemMap[it.key()]->refresh();
 
-            setFolderIcon(it.data(), itemMap[it.key()]);
+            setFolderIcon(it.value(), itemMap[it.key()]);
         }
         else
-            errorFiles << i18n("%1 to %2", it.key(), it.data());
+            errorFiles << i18n("%1 to %2", it.key(), it.value());
 
         processEvents();
     }
@@ -909,8 +918,8 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
         return false;
 
     // Escape URL.
-    KUrl srcURL = KUrl::fromPathOrUrl(src);
-    KUrl dstURL = KUrl::fromPathOrUrl(dest);
+    KUrl srcURL = KUrl(src);
+    KUrl dstURL = KUrl(dest);
 
     // Clean it.
     srcURL.cleanPath();
@@ -948,7 +957,7 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
 
     // Split path, and go through each path element.  If a path element has
     // the album information, set its folder icon.
-    QStringList elements = QStringList::split("/", dstURL.directory());
+    QStringList elements = dstURL.directory().split("/", QString::SkipEmptyParts);
     QString path;
 
     for(QStringList::ConstIterator it = elements.begin(); it != elements.end(); ++it) {

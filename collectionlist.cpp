@@ -280,9 +280,9 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 {
     if(canDecode(e) && e->source() != this)
-        e->accept(true);
+        e->setAccepted(true);
     else
-        e->accept(false);
+        e->setAccepted(false);
 }
 
 QString CollectionList::addStringToDict(const QString &value, int column)
@@ -367,7 +367,7 @@ void CollectionListItem::refresh()
         if(id != TrackNumberColumn && id != LengthColumn) {
             // All columns other than track num and length need local-encoded data for sorting
 
-            QByteArray toLower = text(i).toLower().local8Bit();
+            QByteArray toLower = text(i).toLower().toLocal8Bit();
 
             // For some columns, we may be able to share some strings
 

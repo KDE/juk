@@ -28,7 +28,7 @@
 #include <QCheckBox>
 #include <QPushButton>
 #include <qtoolbutton.h>
-//Added by qt3to4:
+
 #include <Q3ValueList>
 #include <QKeyEvent>
 #include <QEvent>
@@ -250,7 +250,7 @@ void SearchWidget::clear()
 void SearchWidget::setEnabled(bool enable)
 {
     emit signalShown(enable);
-    setShown(enable);
+    setVisible(enable);
 }
 
 void SearchWidget::setFocus()

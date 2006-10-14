@@ -84,8 +84,6 @@ int main(int argc, char *argv[])
     JuK *juk = new JuK;
     //a.dcopClient()->resume();
 
-    a.setMainWidget(juk);
-
     bool startDocked;
 
     KConfigGroup config(KGlobal::config(), "Settings");

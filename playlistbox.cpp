@@ -96,7 +96,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
     if(m_k3bAction)
         m_contextMenu->addAction( m_k3bAction );
 
-    m_contextMenu->insertSeparator();
+    m_contextMenu->addSeparator();
 
     // add the view modes stuff
 
@@ -223,6 +223,7 @@ void PlaylistBox::duplicate()
 void PlaylistBox::paste()
 {
     Item *i = static_cast<Item *>(currentItem());
+    #warning port to QMimeData (from QMimeSource) (need to know the mimetype though to use data())
     decode(kapp->clipboard()->data(), i);
 }
 
@@ -473,7 +474,7 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
     // Otherwise, do not accept the event.
 
     if(!K3URLDrag::canDecode(e)) {
-        e->accept(false);
+        e->setAccepted(false);
         return;
     }
 
@@ -494,13 +495,13 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
                target->playlist() != CollectionList::instance() &&
                !target->isSelected())
             {
-                e->accept(true);
+                e->setAccepted(true);
             }
             else
-                e->accept(false);
+                e->setAccepted(false);
         }
         else // the dropped items are coming from outside of JuK
-            e->accept(true);
+            e->setAccepted(true);
 
         if(m_dropItem != target) {
             Item *old = m_dropItem;
@@ -509,7 +510,8 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
             if(e->isAccepted()) {
                 m_dropItem = target;
                 target->repaint();
-                m_showTimer->start(1500, true);
+                m_showTimer->setSingleShot(true);
+                m_showTimer->start(1500);
             }
             else
                 m_dropItem = 0;
@@ -523,7 +525,7 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
         // We're dragging over the whitespace.  We'll use this case to make it
         // possible to create new lists.
 
-        e->accept(true);
+        e->setAccepted(true);
     }
 }
 
@@ -555,7 +557,7 @@ void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
 
 void PlaylistBox::keyPressEvent(QKeyEvent *e)
 {
-    if((e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) && e->state() == Qt::ShiftButton)
+    if((e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) && e->modifiers() == Qt::ShiftButton)
         m_doingMultiSelect = true;
     K3ListView::keyPressEvent(e);
 }
