@@ -92,7 +92,11 @@
         </widget>
        </item>
        <item>
-        <widget class="KPushButton" name="m_insertCategory" />
+        <widget class="KPushButton" name="m_insertCategory" >
+         <property name="text" >
+          <string>Insert Category</string>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -254,25 +258,25 @@
  <layoutdefault spacing="6" margin="11" />
  <customwidgets>
   <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KComboBox</class>
-   <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
-  </customwidget>
-  <customwidget>
    <class>Q3ScrollView</class>
    <extends>QWidget</extends>
    <header>q3scrollview.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+  <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
    <header>kurlrequester.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

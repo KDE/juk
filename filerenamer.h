@@ -138,7 +138,7 @@ private:
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class FileRenamerWidget : public QWidget, Ui::FileRenamerBase, public CategoryReaderInterface
+class FileRenamerWidget : public QWidget, public Ui::FileRenamerBase, public CategoryReaderInterface
 {
     Q_OBJECT
 
