@@ -28,6 +28,7 @@
 #include <QDropEvent>
 #include <Q3ValueList>
 #include <QMouseEvent>
+#include <QMimeData>
 
 class Playlist;
 class PlaylistItem;
@@ -90,7 +91,7 @@ private:
     void readConfig();
     void saveConfig();
 
-    virtual void decode(QMimeSource *s, Item *item);
+    virtual void decode(const QMimeData *s, Item *item);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     virtual void contentsDragLeaveEvent(QDragLeaveEvent *e);

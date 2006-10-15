@@ -223,8 +223,7 @@ void PlaylistBox::duplicate()
 void PlaylistBox::paste()
 {
     Item *i = static_cast<Item *>(currentItem());
-    #warning port to QMimeData (from QMimeSource) (need to know the mimetype though to use data())
-    decode(kapp->clipboard()->data(), i);
+    decode(kapp->clipboard()->mimeData(), i);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -416,14 +415,14 @@ void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
         (*it)->removeItem(tag, column);
 }
 
-void PlaylistBox::decode(QMimeSource *s, Item *item)
+void PlaylistBox::decode(const QMimeData *s, Item *item)
 {
     if(!s || (item && item->playlist() && item->playlist()->readOnly()))
         return;
 
-    KUrl::List urls;
+    KUrl::List urls = KUrl::List::fromMimeData(s);
 
-    if(K3URLDrag::decode(s, urls) && !urls.isEmpty()) {
+    if(!urls.isEmpty()) {
         QStringList files;
         for(KUrl::List::Iterator it = urls.begin(); it != urls.end(); ++it)
             files.append((*it).path());
@@ -456,7 +455,7 @@ void PlaylistBox::contentsDropEvent(QDropEvent *e)
     m_showTimer->stop();
 
     Item *i = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
-    decode(e, i);
+    decode(e->mimeData(), i);
 
     if(m_dropItem) {
         Item *old = m_dropItem;
