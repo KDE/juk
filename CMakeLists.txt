@@ -82,10 +82,11 @@ kde4_add_ui_files(juk_SRCS
 	trackpickerdialogbase.ui
 	tagguesserconfigdlgwidget.ui
 	exampleoptionsbase.ui
+	coverdialogbase.ui
 )
 
 kde4_add_ui3_files(juk_SRCS 
-   coverdialogbase.ui 
+    
    deletedialogbase.ui  )
 
 kde4_add_executable(juk ${juk_SRCS})

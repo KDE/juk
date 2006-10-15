@@ -16,9 +16,11 @@
 #ifndef COVERDIALOG_H
 #define COVERDIALOG_H
 
-#include "coverdialogbase.h"
+#include "ui_coverdialogbase.h"
 
-class CoverDialog : public CoverDialogBase
+#include <QWidget>
+
+class CoverDialog : public QWidget, public Ui::CoverDialogBase
 {
     Q_OBJECT
 public:

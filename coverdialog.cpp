@@ -63,8 +63,12 @@ public:
 };
 
 CoverDialog::CoverDialog(QWidget *parent) :
-    CoverDialogBase(parent, "juk_cover_dialog", Qt::WType_Dialog)
+    QWidget(parent, Qt::WType_Dialog)
 {
+    setupUi(this);
+
+    setObjectName("juk_cover_dialog");
+
     m_covers->setResizeMode(Q3IconView::Adjust);
     m_covers->setGridX(140);
     m_covers->setGridY(150);
@@ -91,7 +95,7 @@ void CoverDialog::show()
     m_artists->setSorting(0);
 
     QTimer::singleShot(0, this, SLOT(loadCovers()));
-    CoverDialogBase::show();
+    QWidget::show();
 }
 
 // Here we try to keep the GUI from freezing for too long while we load the
