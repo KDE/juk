@@ -20,7 +20,6 @@
 #include <QString>
 #include <q3valuevector.h>
 #include <QMap>
-//Added by qt3to4:
 #include <Q3ValueList>
 
 #include "ui_filerenamerbase.h"
