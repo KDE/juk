@@ -45,7 +45,10 @@
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
 
+
 using namespace ActionCollection;
+
+JuK* JuK::m_instance;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -58,6 +61,8 @@ JuK::JuK(QWidget *parent) :
     m_shuttingDown(false)
 {
     // Expect segfaults if you change this order.
+
+    m_instance = this;
 
     readSettings();
 
@@ -94,6 +99,11 @@ JuK::~JuK()
 KActionCollection *JuK::actionCollection() const
 {
     return ActionCollection::actions();
+}
+
+JuK* JuK::JuKInstance()
+{
+    return m_instance;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

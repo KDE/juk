@@ -30,6 +30,7 @@
 #include "googlefetcher.h"
 #include "googlefetcherdialog.h"
 #include "tag.h"
+#include "juk.h"
 
 #include <QPixmap>
 
@@ -223,7 +224,7 @@ QPixmap GoogleFetcher::pixmap()
 
 void GoogleFetcher::displayWaitMessage()
 {
-    KStatusBar *statusBar = static_cast<KMainWindow *>(kapp->mainWidget())->statusBar();
+    KStatusBar *statusBar = JuK::JuKInstance()->statusBar();
     statusBar->showMessage(i18n("Searching for Images. Please Wait..."));
     slotLoadImageURLs();
     statusBar->clearMessage();

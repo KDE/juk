@@ -19,7 +19,6 @@
 #include <kmainwindow.h>
 
 #include "playermanager.h"
-//Added by qt3to4:
 #include <QKeyEvent>
 
 class QTimer;
@@ -44,6 +43,8 @@ public:
     JuK(QWidget* parent = 0);
     virtual ~JuK();
     virtual KActionCollection *actionCollection() const;
+
+    static JuK* JuKInstance();
 
 private:
     void setupLayout();
@@ -96,6 +97,8 @@ private:
     bool m_startDocked;
     bool m_showSplash;
     bool m_shuttingDown;
+
+    static JuK* m_instance;
 };
 
 #endif

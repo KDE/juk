@@ -35,6 +35,7 @@
 #include "mediafiles.h"
 #include "playermanager.h"
 #include "tracksequencemanager.h"
+#include "juk.h"
 
 #include <kicon.h>
 #include <kiconloader.h>
@@ -53,7 +54,6 @@
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
 
-#warning QApplication::mainWidget() is deprecated. Maybe it's a good idea to create Juk::instance()?
 #define widget (kapp->mainWidget())
 
 using namespace ActionCollection;
@@ -317,7 +317,7 @@ void PlaylistCollection::open(const QStringList &l)
     QStringList files = l;
 
     if(files.isEmpty())
-        files = MediaFiles::openDialog(widget);
+        files = MediaFiles::openDialog(JuK::JuKInstance());
 
     if(files.isEmpty())
         return;
@@ -329,7 +329,7 @@ void PlaylistCollection::open(const QStringList &l)
 
     if(visiblePlaylist() == CollectionList::instance() || justPlaylists ||
        KMessageBox::questionYesNo(
-           widget,
+           JuK::JuKInstance(),
            i18n("Do you want to add these items to the current list or to the collection list?"),
            QString::null,
            KGuiItem(i18n("Current")),
@@ -354,7 +354,7 @@ void PlaylistCollection::open(const QString &playlist, const QStringList &files)
 void PlaylistCollection::addFolder()
 {
     kDebug(65432) << k_funcinfo << endl;
-    DirectoryList l(m_folderList, m_importPlaylists, widget);
+    DirectoryList l(m_folderList, m_importPlaylists, JuK::JuKInstance());
     DirectoryList::Result result = l.exec();
 
     if(result.status == QDialog::Accepted) {
@@ -437,7 +437,7 @@ void PlaylistCollection::editSearch()
         return;
 
     AdvancedSearchDialog::Result r =
-        AdvancedSearchDialog(p->name(), p->playlistSearch(), widget).exec();
+        AdvancedSearchDialog(p->name(), p->playlistSearch(), JuK::JuKInstance()).exec();
 
     if(r.result == AdvancedSearchDialog::Accepted) {
         p->setPlaylistSearch(r.search);
@@ -507,7 +507,7 @@ void PlaylistCollection::createSearchPlaylist()
     QString name = uniquePlaylistName(i18n("Search Playlist"));
 
     AdvancedSearchDialog::Result r =
-        AdvancedSearchDialog(name, PlaylistSearch(), widget).exec();
+        AdvancedSearchDialog(name, PlaylistSearch(), JuK::JuKInstance()).exec();
 
     if(r.result == AdvancedSearchDialog::Accepted)
         raise(new SearchPlaylist(this, r.search, r.playlistName));
