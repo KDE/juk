@@ -240,6 +240,8 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     CategoryReaderInterface(),
     m_exampleFromFile(false)
 {
+    setupUi(this);
+
     QLabel *temp = new QLabel(0);
     QPalette palette;
     palette.setColor(m_exampleText->backgroundRole(), temp->palette().color(backgroundRole()));
