@@ -237,6 +237,8 @@ TrackItem::TrackItem(NowPlaying *parent) :
 
     m_label = new LinkLabel(this);
 
+    m_label->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::LinksAccessibleByKeyboard);
+
     #warning We should potentially check on URL underlining.
     /* m_label->setLinkUnderline(false); */
 
@@ -244,7 +246,7 @@ TrackItem::TrackItem(NowPlaying *parent) :
     layout->addWidget(m_label);
     layout->addStretch();
 
-    connect(m_label, SIGNAL(urlClick(const QString &)), this,
+    connect(m_label, SIGNAL(linkActivated(const QString &)), this,
             SLOT(slotOpenLink(const QString &)));
 }
 

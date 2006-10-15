@@ -21,7 +21,6 @@
 #include <q3hbox.h>
 #include <QLabel>
 #include <qpointer.h>
-//Added by qt3to4:
 #include <QMouseEvent>
 #include <QDragEnterEvent>
 #include <Q3ValueList>
@@ -117,11 +116,10 @@ private:
  * A link label that doesn't automatically open Konqueror.
  */
 
-#warning port KActiveLabel to QLabel and see where LinkLabel is used in Juk.
-class LinkLabel : public KActiveLabel
+class LinkLabel : public QLabel
 {
 public:
-    LinkLabel(QWidget *parent) : KActiveLabel(parent) {}
+    LinkLabel(QWidget *parent) : QLabel(parent) {}
     virtual void openLink(const QString &) {}
 };
 
