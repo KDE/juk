@@ -348,7 +348,11 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         m_layout->setStretchFactor(m_trackPositionSlider, 4);
         m_layout->setStretchFactor(m_volumeSlider, 1);
 
-        connect(parent, SIGNAL(modechange()), this, SLOT(slotUpdateSize()));
+        // Style changes like icon only, text only, icon + text
+        connect(parent, SIGNAL(toolButtonStyleChanged(Qt::ToolButtonStyle)), this, SLOT(slotUpdateSize()));
+
+        // Icon size changed
+        connect(parent, SIGNAL(iconSizeChanged(const QSize &)), this, SLOT(slotUpdateSize()));
 
         return base;
     }
