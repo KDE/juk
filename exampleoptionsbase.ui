@@ -274,7 +274,7 @@
   </connection>
   <connection>
    <sender>m_fileTagsButton</sender>
-   <signal>stateChanged(int)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>ExampleOptionsBase</receiver>
    <slot>exampleSelectionChanged()</slot>
    <hints>
@@ -290,7 +290,7 @@
   </connection>
   <connection>
    <sender>m_manualTagsButton</sender>
-   <signal>stateChanged(int)</signal>
+   <signal>toggled(bool)</signal>
    <receiver>ExampleOptionsBase</receiver>
    <slot>exampleSelectionChanged()</slot>
    <hints>
