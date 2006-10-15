@@ -26,8 +26,11 @@
 #include "exampleoptions.h"
 
 ExampleOptions::ExampleOptions(QWidget *parent) :
-    ExampleOptionsBase(parent, "example options widget")
+    QWidget(parent)
 {
+    setupUi(this);
+
+    setObjectName("example options widget");
 }
 
 void ExampleOptions::exampleSelectionChanged()
@@ -49,8 +52,9 @@ void ExampleOptions::exampleFileChanged()
 }
 
 ExampleOptionsDialog::ExampleOptionsDialog(QWidget *parent) :
-    QDialog(parent, "example options dialog")
+    QDialog(parent)
 {
+    setObjectName("example options dialog");
     setWindowTitle(i18n("JuK"));
     QVBoxLayout *l = new QVBoxLayout(this);
 

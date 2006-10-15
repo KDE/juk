@@ -20,9 +20,10 @@
 
 #include <QHideEvent>
 #include <QShowEvent>
-#include "exampleoptionsbase.h"
+#include <QWidget>
+#include "ui_exampleoptionsbase.h"
 
-class ExampleOptions : public ExampleOptionsBase
+class ExampleOptions : public QWidget, public Ui::ExampleOptionsBase
 {
     Q_OBJECT
 public:
@@ -32,6 +33,10 @@ protected slots:
     virtual void exampleSelectionChanged();
     virtual void exampleDataChanged();
     virtual void exampleFileChanged();
+
+signals:
+    void dataChanged();
+    void fileChanged();
 };
 
 // We're not using KDialog(Base) because this dialog won't have any push
