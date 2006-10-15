@@ -20,14 +20,14 @@
 //Added by qt3to4:
 #include <QLabel>
 
-#include "deletedialogbase.h"
+#include "ui_deletedialogbase.h"
 
 class QStringList;
 class KListBox;
 class QLabel;
 class Q3WidgetStack;
 
-class DeleteWidget : public DeleteDialogBase
+class DeleteWidget : public QWidget, public Ui::DeleteDialogBase
 {
     Q_OBJECT
 

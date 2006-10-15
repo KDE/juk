@@ -34,8 +34,12 @@
 //////////////////////////////////////////////////////////////////////////////
 
 DeleteWidget::DeleteWidget(QWidget *parent, const char *name)
-    : DeleteDialogBase(parent, name)
+    : QWidget(parent)
 {
+    setupUi(this);
+
+    setObjectName(name);
+
     KConfigGroup messageGroup(KGlobal::config(), "FileRemover");
 
     bool deleteInstead = messageGroup.readEntry("deleteInsteadOfTrash", false);
