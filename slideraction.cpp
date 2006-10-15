@@ -54,12 +54,12 @@ protected:
     virtual void mousePressEvent(QMouseEvent *e)
     {
         if(e->button() == Qt::LeftButton) {
-            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::MidButton, e->state());
+            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::MidButton, e->buttons(), e->modifiers());
             QSlider::mousePressEvent(&reverse);
             emit sliderPressed();
         }
         else if(e->button() == Qt::MidButton) {
-            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::LeftButton, e->state());
+            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::LeftButton, e->buttons(), e->modifiers());
             QSlider::mousePressEvent(&reverse);
         }
     }
@@ -78,7 +78,7 @@ VolumeSlider::VolumeSlider(Qt::Orientation o, QWidget *parent) :
 void VolumeSlider::wheelEvent(QWheelEvent *e)
 {
     if(orientation() == Qt::Horizontal) {
-        QWheelEvent transposed(e->pos(), -(e->delta()), e->state(), e->orientation());
+        QWheelEvent transposed(e->pos(), -(e->delta()), e->buttons(), e->modifiers(), e->orientation());
         QSlider::wheelEvent(&transposed);
     }
     else
@@ -151,6 +151,8 @@ SliderAction::~SliderAction()
 
 int SliderAction::plug(QWidget *parent, int index)
 {
+    Q_UNUSED(index)
+
     m_widget = createWidget(parent);
 
     if(!m_widget)
@@ -172,7 +174,7 @@ int SliderAction::plug(QWidget *parent, int index)
                 this, SLOT(slotUpdateOrientation()));
 
         slotUpdateOrientation();
-        return (containerCount() - 1);
+        return (associatedWidgets().count() - 1);
     }
     else
         slotUpdateOrientation();

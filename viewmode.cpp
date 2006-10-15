@@ -22,7 +22,6 @@
 #include <QFile>
 #include <QDir>
 #include <QDataStream>
-//Added by qt3to4:
 #include <Q3ValueList>
 #include <QResizeEvent>
 #include <QEvent>
@@ -196,7 +195,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
     while(!line.isEmpty()) {
         int textLength = line.length();
         while(textLength > 0 &&
-              fm.width(line.mid(0, textLength).stripWhiteSpace()) +
+              fm.width(line.mid(0, textLength).trimmed()) +
               item->listView()->itemMargin() * 2 > width)
         {
             int i = line.lastIndexOf(QRegExp( "\\W"), textLength - 1);
@@ -206,7 +205,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
                 textLength--;
         }
 
-        l.append(line.mid(0, textLength).stripWhiteSpace());
+        l.append(line.mid(0, textLength).trimmed());
         line = line.mid(textLength);
     }
     return l;

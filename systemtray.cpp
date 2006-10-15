@@ -35,7 +35,7 @@
 #include <q3valuevector.h>
 #include <q3stylesheet.h>
 #include <qpalette.h>
-//Added by qt3to4:
+
 #include <QWheelEvent>
 #include <QPixmap>
 #include <QEvent>
@@ -166,8 +166,8 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
     m_playPix = createPixmap("player_play");
     m_pausePix = createPixmap("player_pause");
 
-    m_forwardPix = loadIcon("player_end").pixmap();
-    m_backPix = loadIcon("player_start").pixmap();
+    m_forwardPix = SmallIcon("player_end");
+    m_backPix = SmallIcon("player_start");
 
     setIcon(m_appPix);
 
@@ -203,7 +203,8 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
 
     cm->addAction( action("togglePopups") );
 
-    m_fadeTimer = new QTimer(this, "systrayFadeTimer");
+    m_fadeTimer = new QTimer(this);
+    m_fadeTimer->setObjectName("systrayFadeTimer");
     connect(m_fadeTimer, SIGNAL(timeout()), SLOT(slotNextStep()));
 
     if(PlayerManager::instance()->playing())
@@ -277,8 +278,11 @@ void SystemTray::slotNextStep()
 
     result = interpolateColor(m_step);
 
-    for(int i = 0; i < m_labels.capacity() && m_labels[i]; ++i)
-        m_labels[i]->setPaletteForegroundColor(result);
+    for(int i = 0; i < m_labels.capacity() && m_labels[i]; ++i) {
+        QPalette palette;
+        palette.setColor(m_labels[i]->foregroundRole(), result);
+        m_labels[i]->setPalette(palette);
+    }
 
     if(m_step == STEPS) {
         m_step = 0;
@@ -444,7 +448,7 @@ bool SystemTray::buttonsToLeft() const
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
 {
-    QImage bgImage = m_appPix.pixmap().toImage(); // Probably 22x22
+    QImage bgImage = m_appPix.pixmap(22).toImage(); // 22x22
     QImage fgImage = SmallIcon(pixName).toImage(); // Should be 16x16
 
     KIconEffect::semiTransparent(bgImage);
@@ -460,11 +464,13 @@ void SystemTray::createButtonBox(QWidget *parent)
 
     buttonBox->setSpacing(3);
 
-    QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox, "popup_forward");
+    QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox);
+    forwardButton->setObjectName("popup_forward");
     forwardButton->setFlat(true);
     connect(forwardButton, SIGNAL(clicked()), SLOT(slotForward()));
 
-    QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox, "popup_back");
+    QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox);
+    backButton->setObjectName("popup_back");
     backButton->setFlat(true);
     connect(backButton, SIGNAL(clicked()), SLOT(slotBack()));
 }
@@ -501,7 +507,7 @@ void SystemTray::addCoverButton(QWidget *parent, const QPixmap &cover)
 {
     QPushButton *coverButton = new QPushButton(parent);
 
-    coverButton->setPixmap(cover);
+    coverButton->setIcon(cover);
     coverButton->setFixedSize(cover.size());
     coverButton->setFlat(true);
 
@@ -536,7 +542,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 
         QImage coverImage = myCover.toImage();
         if(coverImage.size().width() > 32 || coverImage.size().height() > 32)
-            coverImage = coverImage.smoothScale(32, 32);
+            coverImage = coverImage.scaled(32, 32, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
 
         Q3MimeSourceFactory::defaultFactory()->setImage("tipCover", coverImage);
 
@@ -560,7 +566,7 @@ void SystemTray::wheelEvent(QWheelEvent *e)
     // that a reinterpret_cast isn't portable when combined with multiple
     // inheritance.  (This is why I don't check the result.)
 
-    switch(e->state()) {
+    switch(e->modifiers()) {
     case Qt::ShiftButton:
         if(e->delta() > 0)
             action("volumeUp")->trigger();
@@ -620,9 +626,9 @@ static bool copyImage(QImage &dest, QImage &src, int x, int y)
     // However, we do have to specifically ensure that setAlphaBuffer is set
     // to false
 
-    large_src.setAlphaBuffer(false);
+    large_src.convertToFormat(QImage::Format_RGB32); // Turn off alpha
     large_src.fill(0); // All transparent pixels
-    large_src.setAlphaBuffer(true);
+    large_src.convertToFormat(QImage::Format_ARGB32); // Turn on alpha
 
     int w = src.width();
     int h = src.height();

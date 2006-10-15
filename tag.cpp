@@ -227,11 +227,11 @@ Tag::Tag(const QString &fileName, bool) :
 
 void Tag::setup(TagLib::File *file)
 {
-    m_title   = TStringToQString(file->tag()->title()).stripWhiteSpace();
-    m_artist  = TStringToQString(file->tag()->artist()).stripWhiteSpace();
-    m_album   = TStringToQString(file->tag()->album()).stripWhiteSpace();
-    m_genre   = TStringToQString(file->tag()->genre()).stripWhiteSpace();
-    m_comment = TStringToQString(file->tag()->comment()).stripWhiteSpace();
+    m_title   = TStringToQString(file->tag()->title()).trimmed();
+    m_artist  = TStringToQString(file->tag()->artist()).trimmed();
+    m_album   = TStringToQString(file->tag()->album()).trimmed();
+    m_genre   = TStringToQString(file->tag()->genre()).trimmed();
+    m_comment = TStringToQString(file->tag()->comment()).trimmed();
 
     m_track = file->tag()->track();
     m_year  = file->tag()->year();

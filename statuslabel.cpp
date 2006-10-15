@@ -22,7 +22,6 @@
 
 #include <QToolTip>
 #include <QLayout>
-//Added by qt3to4:
 #include <QMouseEvent>
 #include <QLabel>
 #include <Q3Frame>
@@ -88,7 +87,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const cha
     jumpBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
 
     QPushButton *jumpButton = new QPushButton(jumpBox);
-    jumpButton->setPixmap(SmallIcon("up"));
+    jumpButton->setIcon(SmallIcon("up"));
     jumpButton->setFlat(true);
 
     jumpButton->setToolTip( i18n("Jump to the currently playing item"));
@@ -115,7 +114,7 @@ void StatusLabel::updateCurrent()
         QString text = file.tag()->artist() + mid + file.tag()->title();
 
         m_trackLabel->setText(text);
-        m_playlistLabel->setText(playlist()->name().simplifyWhiteSpace());
+        m_playlistLabel->setText(playlist()->name().simplified());
     }
 }
 

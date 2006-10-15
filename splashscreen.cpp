@@ -20,9 +20,9 @@
 #include <kdebug.h>
 
 #include <qpainter.h>
-//Added by qt3to4:
 #include <QPixmap>
 #include <QLabel>
+#include <QPalette>
 
 #include "splashscreen.h"
 
@@ -73,16 +73,20 @@ void SplashScreen::update()
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-SplashScreen::SplashScreen() : QLabel(0 , "splashScreen", Qt::WStyle_Splash)
+SplashScreen::SplashScreen() : QLabel(0, Qt::WStyle_Splash)
 {
+    setObjectName("splashScreen");
+
     QPixmap background = UserIcon("splash");
     resize(background.size());
-    setPaletteBackgroundPixmap(background);
+    QPalette palette;
+    palette.setBrush(backgroundRole(), QBrush(background));
 
     setMargin(7);
     setAlignment(Qt::AlignLeft | Qt::AlignBottom);
 
-    setPaletteForegroundColor(QColor(107, 158, 194));
+    palette.setColor(foregroundRole(), QColor(107, 158, 194));
+    setPalette(palette);
 
     QFont f = font();
     f.setPixelSize(10);

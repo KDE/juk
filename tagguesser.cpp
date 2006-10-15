@@ -102,7 +102,7 @@ QString FileNameScheme::composeRegExp(const QString &s) const
     substitutions[ 'T' ] = config.readEntry("Track regexp", "(\\d+)");
     substitutions[ 'c' ] = config.readEntry("Comment regexp", "([\\w\\s_]+)");
 
-    QString regExp = QRegExp::escape(s.simplifyWhiteSpace());
+    QString regExp = QRegExp::escape(s.simplified());
     regExp = ".*" + regExp;
     regExp.replace(' ', "\\s+");
     regExp = KMacroExpander::expandMacros(regExp, substitutions);
@@ -186,11 +186,11 @@ void TagGuesser::guess(const QString &absFileName)
     for (; it != end; ++it) {
         const FileNameScheme schema(*it);
         if(schema.matches(absFileName)) {
-            m_title = capitalizeWords(schema.title().replace('_', " ")).stripWhiteSpace();
-            m_artist = capitalizeWords(schema.artist().replace('_', " ")).stripWhiteSpace();
-            m_album = capitalizeWords(schema.album().replace('_', " ")).stripWhiteSpace();
-            m_track = schema.track().stripWhiteSpace();
-            m_comment = schema.comment().replace('_', " ").stripWhiteSpace();
+            m_title = capitalizeWords(schema.title().replace('_', " ")).trimmed();
+            m_artist = capitalizeWords(schema.artist().replace('_', " ")).trimmed();
+            m_album = capitalizeWords(schema.album().replace('_', " ")).trimmed();
+            m_track = schema.track().trimmed();
+            m_comment = schema.comment().replace('_', " ").trimmed();
             break;
         }
     }

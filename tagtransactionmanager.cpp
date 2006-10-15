@@ -123,14 +123,15 @@ bool TagTransactionManager::undo()
     return result;
 }
 
-TagTransactionManager::TagTransactionManager(QWidget *parent) : QObject(parent, "tagmanager")
+TagTransactionManager::TagTransactionManager(QWidget *parent) : QObject(parent)
 {
+    setObjectName("tagmanager");
     m_manager = this;
 }
 
 bool TagTransactionManager::renameFile(const QFileInfo &from, const QFileInfo &to) const
 {
-   if(!QFileInfo(to.dirPath()).isWritable() || !from.exists())
+   if(!QFileInfo(to.path()).isWritable() || !from.exists())
        return false;
 
    if(!to.exists() ||
@@ -139,9 +140,9 @@ bool TagTransactionManager::renameFile(const QFileInfo &from, const QFileInfo &t
            i18n("This file already exists.\nDo you want to replace it?"),
            i18n("File Exists"),KGuiItem(i18n("Replace"))) == KMessageBox::Continue)
    {
-       kDebug(65432) << "Renaming " << from.absFilePath() << " to " << to.absFilePath() << endl;
+       kDebug(65432) << "Renaming " << from.absoluteFilePath() << " to " << to.absoluteFilePath() << endl;
        QDir currentDir;
-       return currentDir.rename(from.absFilePath(), to.absFilePath());
+       return currentDir.rename(from.absoluteFilePath(), to.absoluteFilePath());
    }
 
    return false;

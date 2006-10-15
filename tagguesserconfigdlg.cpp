@@ -18,7 +18,6 @@
 
 #include <qtoolbutton.h>
 #include <qevent.h>
-//Added by qt3to4:
 #include <QKeyEvent>
 
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
@@ -37,8 +36,8 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     m_child->lvSchemes->setItemsRenameable(true);
     m_child->lvSchemes->setSorting(-1);
     m_child->lvSchemes->setDefaultRenameAction(Q3ListView::Accept);
-    m_child->bMoveUp->setIconSet(BarIconSet("1uparrow"));
-    m_child->bMoveDown->setIconSet(BarIconSet("1downarrow"));
+    m_child->bMoveUp->setIcon(BarIconSet("1uparrow"));
+    m_child->bMoveDown->setIcon(BarIconSet("1downarrow"));
 
     const QStringList schemes = TagGuesser::schemeStrings();
     QStringList::ConstIterator it = schemes.begin();
@@ -67,7 +66,7 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
 void TagGuesserConfigDlg::accept()
 {
     if(m_child->lvSchemes->renameLineEdit()) {
-        QKeyEvent returnKeyPress(QEvent::KeyPress, Qt::Key_Return, 0, 0);
+        QKeyEvent returnKeyPress(QEvent::KeyPress, Qt::Key_Return, Qt::NoModifier);
         KApplication::sendEvent(m_child->lvSchemes->renameLineEdit(), &returnKeyPress);
     }
 

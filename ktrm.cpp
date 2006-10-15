@@ -21,6 +21,7 @@
 
 #include "ktrm.h"
 #include <config-juk.h>
+#ifdef HAVE_TUNEPIMP //Silence warning about HAVE_TUNEPIMP not being defined.
 #if HAVE_TUNEPIMP
 
 #include <kapplication.h>
@@ -34,7 +35,6 @@
 #include <qevent.h>
 #include <QObject>
 #include <QFile>
-//Added by qt3to4:
 #include <QCustomEvent>
 
 #include <tunepimp/tp_c.h>
@@ -603,6 +603,7 @@ void KTRMLookup::finished()
         delete this;
 }
 
+#endif
 #endif
 
 // vim: set et sw=4 tw=0 sta:

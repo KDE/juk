@@ -42,7 +42,6 @@
 #include <QToolTip>
 #include <qeventloop.h>
 #include <q3dict.h>
-//Added by qt3to4:
 #include <QEvent>
 #include <QKeyEvent>
 #include <QHBoxLayout>
@@ -59,7 +58,10 @@ class FileNameValidator : public QValidator
 {
 public:
     FileNameValidator(QObject *parent, const char *name = 0) :
-        QValidator(parent, name) {}
+        QValidator(parent) 
+    {
+        setObjectName(name);
+    }
 
     virtual void fixup(QString &s) const
     {
@@ -256,8 +258,8 @@ void TagEditor::slotRefresh()
     m_bitrateBox->setText(QString::number(tag->bitrate()));
     m_lengthBox->setText(tag->lengthString());
 
-    if(m_genreList.findIndex(tag->genre()) >= 0)
-        m_genreBox->setCurrentIndex(m_genreList.findIndex(tag->genre()) + 1);
+    if(m_genreList.indexOf(tag->genre()) >= 0)
+        m_genreBox->setCurrentIndex(m_genreList.indexOf(tag->genre()) + 1);
     else {
         m_genreBox->setCurrentIndex(0);
         m_genreBox->setEditText(tag->genre());
@@ -453,7 +455,7 @@ void TagEditor::readConfig()
 
     bool show = config.readEntry("Show", false);
     ActionCollection::action<KToggleAction>("showEditor")->setChecked(show);
-    setShown(show);
+    setVisible(show);
 
     TagLib::StringList genres = TagLib::ID3v1::genreList();
 
@@ -686,10 +688,10 @@ void TagEditor::save(const PlaylistItemList &list)
 
             ++it;
 
-            QString fileName = item->file().fileInfo().dirPath() + QDir::separator() +
+            QString fileName = item->file().fileInfo().path() + QDir::separator() +
                                m_fileNameBox->text();
             if(list.count() > 1)
-                fileName = item->file().fileInfo().absFilePath();
+                fileName = item->file().fileInfo().absoluteFilePath();
 
             Tag *tag = TagTransactionManager::duplicateTag(item->file().tag(), fileName);
 
@@ -812,7 +814,7 @@ void TagEditor::showEvent(QShowEvent *e)
 bool TagEditor::eventFilter(QObject *watched, QEvent *e)
 {
     QKeyEvent *ke = static_cast<QKeyEvent*>(e);
-    if(watched->inherits("QSpinBox") && e->type() == QEvent::KeyRelease && ke->state() == 0)
+    if(watched->inherits("QSpinBox") && e->type() == QEvent::KeyRelease && ke->modifiers() == 0)
         slotDataChanged();
 
     return false;
