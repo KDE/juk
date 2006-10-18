@@ -119,11 +119,11 @@ bool Tag::save()
         file = new TagLib::Vorbis::File(QFile::encodeName(m_fileName).data());
 
     if(file && file->isValid() && file->tag() && !file->readOnly()) {
-        file->tag()->setTitle(QStringToTString(m_title));
-        file->tag()->setArtist(QStringToTString(m_artist));
-        file->tag()->setAlbum(QStringToTString(m_album));
-        file->tag()->setGenre(QStringToTString(m_genre));
-        file->tag()->setComment(QStringToTString(m_comment));
+        file->tag()->setTitle(TagLib::String(m_title.toUtf8().data(), TagLib::String::UTF8));
+        file->tag()->setArtist(TagLib::String(m_artist.toUtf8().data(), TagLib::String::UTF8));
+        file->tag()->setAlbum(TagLib::String(m_album.toUtf8().data(), TagLib::String::UTF8));
+        file->tag()->setGenre(TagLib::String(m_genre.toUtf8().data(), TagLib::String::UTF8));
+        file->tag()->setComment(TagLib::String(m_comment.toUtf8().data(), TagLib::String::UTF8));
         file->tag()->setTrack(m_track);
         file->tag()->setYear(m_year);
 #ifdef TAGLIB_1_2
