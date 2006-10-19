@@ -108,7 +108,7 @@ public:
     virtual QString suffix(const CategoryID &category) const;
     virtual TagRenamerOptions::EmptyActions emptyAction(const CategoryID &category) const;
     virtual QString emptyText(const CategoryID &category) const;
-    virtual Q3ValueList<CategoryID> categoryOrder() const;
+    virtual QList<CategoryID> categoryOrder() const;
     virtual QString separator() const;
     virtual QString musicFolder() const;
     virtual int trackWidth(int categoryNum) const;
@@ -118,7 +118,7 @@ public:
 private:
     const PlaylistItem *m_currentItem;
     CategoryOptionsMap m_options;
-    Q3ValueList<CategoryID> m_categoryOrder;
+    QList<CategoryID> m_categoryOrder;
     QString m_separator;
     QString m_musicFolder;
     Q3ValueVector<bool> m_folderSeparators;
@@ -293,7 +293,7 @@ private:
     /**
      * @return list of CategoryIDs corresponding to the user-specified category order.
      */
-    virtual Q3ValueList<CategoryID> categoryOrder() const;
+    virtual QList<CategoryID> categoryOrder() const;
 
     /**
      * @return string that separates the tag values in the file name.

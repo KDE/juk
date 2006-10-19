@@ -17,13 +17,14 @@
 #define CATEGORYREADERINTERFACE_H
 
 #include "tagrenameroptions.h"
-//Added by qt3to4:
-#include <Q3ValueList>
+
+#include <QList>
 
 enum TagType;
+
 class QString;
 
-template<class T> class Q3ValueList;
+template<class T> class QList;
 
 /**
  * This class is used to map categories into values.  You should implement the
@@ -85,7 +86,7 @@ public:
      * be repeated (which is why CategoryID has the categoryNumber value to
      * disambiguate duplicates).
      */
-    virtual Q3ValueList<CategoryID> categoryOrder() const = 0;
+    virtual QList<CategoryID> categoryOrder() const = 0;
 
     /**
      * @return track width for the Track item identified by categoryNum.

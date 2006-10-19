@@ -198,7 +198,7 @@ QString ConfigCategoryReader::emptyText(const CategoryID &category) const
     return m_options[category].emptyText();
 }
 
-Q3ValueList<CategoryID> ConfigCategoryReader::categoryOrder() const
+QList<CategoryID> ConfigCategoryReader::categoryOrder() const
 {
     return m_categoryOrder;
 }
@@ -656,10 +656,10 @@ QString FileRenamerWidget::categoryValue(TagType category) const
     }
 }
 
-Q3ValueList<CategoryID> FileRenamerWidget::categoryOrder() const
+QList<CategoryID> FileRenamerWidget::categoryOrder() const
 {
     kDebug(65432) << k_funcinfo << endl;
-    Q3ValueList<CategoryID> list;
+    QList<CategoryID> list;
 
     // Iterate in GUI row order.
     for(int i = 0; i < m_rows.count(); ++i) {
@@ -1033,12 +1033,12 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
  * Returns iterator pointing to the last item enabled in the given list with
  * a non-empty value (or is required to be included).
  */
-Q3ValueList<CategoryID>::ConstIterator lastEnabledItem(const Q3ValueList<CategoryID> &list,
+QList<CategoryID>::ConstIterator lastEnabledItem(const QList<CategoryID> &list,
                                                    const CategoryReaderInterface &interface)
 {
     kDebug(65432) << k_funcinfo << endl;
-    Q3ValueList<CategoryID>::ConstIterator it = list.constBegin();
-    Q3ValueList<CategoryID>::ConstIterator last = list.constEnd();
+    QList<CategoryID>::ConstIterator it = list.constBegin();
+    QList<CategoryID>::ConstIterator last = list.constEnd();
 
     for(; it != list.constEnd(); ++it) {
         if(interface.isRequired(*it) || (!interface.isDisabled(*it) &&
@@ -1054,10 +1054,10 @@ Q3ValueList<CategoryID>::ConstIterator lastEnabledItem(const Q3ValueList<Categor
 QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 {
     kDebug(65432) << k_funcinfo << endl;
-    const Q3ValueList<CategoryID> categoryOrder = interface.categoryOrder();
+    const QList<CategoryID> categoryOrder = interface.categoryOrder();
     const QString separator = interface.separator();
     const QString folder = interface.musicFolder();
-    Q3ValueList<CategoryID>::ConstIterator lastEnabled;
+    QList<CategoryID>::ConstIterator lastEnabled;
     int i = 0;
     QStringList list;
     QChar dirSeparator = QChar(QDir::separator());
@@ -1066,7 +1066,7 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
     lastEnabled = lastEnabledItem(categoryOrder, interface);
     bool pastLast = false; // Toggles to true once we've passed lastEnabled.
 
-    for(Q3ValueList<CategoryID>::ConstIterator it = categoryOrder.begin();
+    for(QList<CategoryID>::ConstIterator it = categoryOrder.begin();
             it != categoryOrder.end();
             ++it, ++i)
     {
