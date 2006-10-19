@@ -19,9 +19,10 @@
 #include <QRegExp>
 //Added by qt3to4:
 #include <Q3ValueList>
+#include <QList>
 
 class Playlist;
-typedef Q3ValueList<Playlist *> PlaylistList;
+typedef QList<Playlist *> PlaylistList;
 
 class PlaylistItem;
 typedef Q3ValueList<PlaylistItem *> PlaylistItemList;

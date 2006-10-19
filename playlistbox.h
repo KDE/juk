@@ -27,6 +27,7 @@
 #include <QKeyEvent>
 #include <QDropEvent>
 #include <Q3ValueList>
+#include <QList>
 #include <QMouseEvent>
 #include <QMimeData>
 
@@ -39,7 +40,7 @@ class SearchPlaylist;
 class KMenu;
 class KSelectAction;
 
-typedef Q3ValueList<Playlist *> PlaylistList;
+typedef QList<Playlist *> PlaylistList;
 
 /**
  * This is the play list selection box that is by default on the right side of

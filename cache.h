@@ -18,14 +18,14 @@
 
 
 #include "stringhash.h"
-//Added by qt3to4:
-#include <Q3ValueList>
+
+#include <QList>
 
 class Tag;
 class Playlist;
 class PlaylistCollection;
 
-typedef Q3ValueList<Playlist *> PlaylistList;
+typedef QList<Playlist *> PlaylistList;
 
 class Cache : public FileHandleHash
 {

@@ -18,10 +18,11 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <ktoggleaction.h>
 
 #include <QDir>
-#include <qbuffer.h>
-#include <ktoggleaction.h>
+#include <QBuffer>
+
 #include "cache.h"
 #include "tag.h"
 #include "searchplaylist.h"

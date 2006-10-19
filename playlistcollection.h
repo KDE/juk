@@ -25,6 +25,7 @@
 //Added by qt3to4:
 #include <QPixmap>
 #include <Q3ValueList>
+#include <QList>
 #include "playlistinterface.h"
 class Q3WidgetStack;
 class KAction;
@@ -35,7 +36,7 @@ class UpcomingPlaylist;
 class SearchPlaylist;
 class DynamicPlaylist;
 
-typedef Q3ValueList<Playlist *> PlaylistList;
+typedef QList<Playlist *> PlaylistList;
 typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
 class PlaylistCollection : public PlaylistInterface
