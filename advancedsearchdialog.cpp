@@ -19,7 +19,7 @@
 #include <klocale.h>
 #include <kvbox.h>
 
-#include <qradiobutton.h>
+#include <QRadioButton>
 #include <QLabel>
 #include <QLayout>
 
@@ -27,8 +27,6 @@
 #include <QVBoxLayout>
 #include <QBoxLayout>
 #include <QGroupBox>
-
-#include <Q3HButtonGroup>
 
 #include "collectionlist.h"
 #include "advancedsearchdialog.h"
@@ -64,9 +62,18 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
 
     QVBoxLayout *criteriaLayout = new QVBoxLayout;
 
-    Q3HButtonGroup *group = new Q3HButtonGroup();
-    m_matchAnyButton = new QRadioButton(i18n("Match any of the following"), group);
-    m_matchAllButton = new QRadioButton(i18n("Match all of the following"), group);
+    QGroupBox *group = new QGroupBox();
+
+    
+    m_matchAnyButton = new QRadioButton(i18n("Match any of the following"));
+    m_matchAllButton = new QRadioButton(i18n("Match all of the following"));
+
+    QHBoxLayout *hgroupbox = new QHBoxLayout;
+    hgroupbox->addWidget(m_matchAnyButton);
+    hgroupbox->addWidget(m_matchAllButton);
+
+    group->setLayout(hgroupbox);
+
     criteriaLayout->addWidget(group);
 
     if(defaultSearch.isNull()) {
@@ -116,6 +123,8 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
 
     criteriaLayout->addWidget(buttons);
 
+    criteriaLayout->addStretch(1);
+
     criteriaGroupBox->setLayout(criteriaLayout);
 
     m_playlistNameLineEdit->setFocus();
@@ -150,7 +159,7 @@ void AdvancedSearchDialog::accept()
 
     m_search.addPlaylist(CollectionList::instance());
 
-    Q3ValueListConstIterator<SearchLine *> it = m_searchLines.begin();
+    QList<SearchLine *>::const_iterator it = m_searchLines.begin();
     for(; it != m_searchLines.end(); ++it)
         m_search.addComponent((*it)->searchComponent());
 
@@ -164,7 +173,7 @@ void AdvancedSearchDialog::accept()
 
 void AdvancedSearchDialog::clear()
 {
-    Q3ValueListConstIterator<SearchLine *> it = m_searchLines.begin();
+    QList<SearchLine *>::const_iterator it = m_searchLines.begin();
     for(; it != m_searchLines.end(); ++it)
         (*it)->clear();
 }
@@ -180,7 +189,7 @@ void AdvancedSearchDialog::more()
 void AdvancedSearchDialog::fewer()
 {
     SearchLine *searchLine = m_searchLines.last();
-    m_searchLines.remove(searchLine);
+    m_searchLines.removeAll(searchLine);
     delete searchLine;
     updateButtons();
 }
