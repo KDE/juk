@@ -22,9 +22,9 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "tagguesser.h"
-#include <kaboutdata.h>
-#include <kcmdlineargs.h>
-#include <kapplication.h>
+//#include <kaboutdata.h>
+//#include <kcmdlineargs.h>
+#include <QCoreApplication>
 #include <QDir>
 #include <iostream>
 
@@ -69,9 +69,10 @@ void check( const QString &filename, const QString &title,
 
 int main( int argc, char **argv )
 {
-    KAboutData aboutData("tagguessertest", "tagguessertest", "0.1");
-    KCmdLineArgs::init(argc, argv, &aboutData);
-    KApplication app;
+    //KAboutData aboutData("tagguessertest", "tagguessertest", "0.1");
+    //KInstance instance(&aboutData);
+    QCoreApplication app( argc, argv );
+
     check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats [Live].mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats (Live).mp3",
