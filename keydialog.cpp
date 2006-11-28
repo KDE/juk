@@ -30,49 +30,49 @@
 
 const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
     { "playPause",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::ALT+Qt::Key_P,
-        Qt::Key_MediaPlay } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_P),
+        KShortcut(Qt::Key_MediaPlay) } },
     { "stop",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::ALT+Qt::Key_S,
-        Qt::Key_MediaStop } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_S),
+        KShortcut(Qt::Key_MediaStop) } },
     { "back",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::ALT+Qt::Key_Left,
-        Qt::Key_MediaPrevious } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_Left),
+        KShortcut(Qt::Key_MediaPrevious) } },
     { "forward",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::ALT+Qt::Key_Right,
-        Qt::Key_MediaNext } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_Right),
+        KShortcut(Qt::Key_MediaNext) } },
     { "forwardAlbum",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::ALT+Qt::Key_Up,
-        Qt::CTRL+Qt::Key_MediaNext } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_Up),
+        KShortcut(Qt::CTRL+Qt::Key_MediaNext) } },
     { "seekBack",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Left,
-        Qt::SHIFT+Qt::Key_MediaPrevious } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Left),
+        KShortcut(Qt::SHIFT+Qt::Key_MediaPrevious) } },
     { "seekForward",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Right,
-        Qt::SHIFT+Qt::Key_MediaNext } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Right),
+        KShortcut(Qt::SHIFT+Qt::Key_MediaNext) } },
     { "volumeUp",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Up,
-        Qt::Key_VolumeUp } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Up),
+        KShortcut(Qt::Key_VolumeUp) } },
     { "volumeDown",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Down,
-        Qt::Key_VolumeDown } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Down),
+        KShortcut(Qt::Key_VolumeDown) } },
     { "mute",
-      { KShortcut::null(),
-        Qt::CTRL+Qt::ALT+Qt::Key_M,
-        Qt::Key_VolumeMute } },
+      { KShortcut(),
+        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_M),
+        KShortcut(Qt::Key_VolumeMute) } },
     { "showHide",
-      { KShortcut::null(),
-        KShortcut::null(),
-        KShortcut::null() } }
+      { KShortcut(),
+        KShortcut(),
+        KShortcut() } }
 };
 
 const uint KeyDialog::keyInfoCount = sizeof(KeyDialog::keyInfo) / sizeof(KeyDialog::keyInfo[0]);
@@ -186,7 +186,7 @@ int KeyDialog::configure(KActionCollection *actionCollection, QWidget *parent)
 void KeyDialog::setupActionShortcut(const QString &actionName)
 {
     // Find and insert a standard key
-    KShortcut shortcut = KShortcut::null();
+    KShortcut shortcut = KShortcut();
 
     for(uint i = 0; i < keyInfoCount; i++) {
         if(keyInfo[i].action == actionName) {
@@ -195,7 +195,7 @@ void KeyDialog::setupActionShortcut(const QString &actionName)
         }
     }
 
-    if(shortcut.isNull())
+    if(shortcut.isEmpty())
         return; // We have no shortcut to set.
 
     KAction *a = ActionCollection::action(actionName);

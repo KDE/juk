@@ -53,7 +53,7 @@ class PlaylistAction : public KAction
                    const QString &userText,
                    const QIcon &pix,
                    const char *slot,
-                   const KShortcut &cut = 0) :
+                   const KShortcut &cut = KShortcut()) :
         KAction(userText, actions(), name),
         m_slot(slot)
     {
