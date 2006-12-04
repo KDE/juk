@@ -80,6 +80,9 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     imgSize->adjustSize();
     setMainWidget(mainBox);
     setButtonText(User1, i18n("New Search"));
+    connect(this,SIGNAL(user1Clicked()),this,SLOT(slotUser1()));
+    connect(this,SIGNAL(okClicked()),this,SLOT(slotOk()));
+    connect(this,SIGNAL(cancelClicked()),this,SLOT(slotCancel()));
 }
 
 GoogleFetcherDialog::~GoogleFetcherDialog()
