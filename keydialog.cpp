@@ -155,7 +155,7 @@ void KeyDialog::slotKeys(int group)
     // Set modifier keys according to key group and modifier keys
 
     for(uint i = 0; i < keyInfoCount; i++) {
-        KAction *a = ActionCollection::action(keyInfo[i].action);
+        KAction *a = dynamic_cast<KAction*>(ActionCollection::action(keyInfo[i].action));
         if(a)
             a->setGlobalShortcut(keyInfo[i].shortcut[group]);
     }
@@ -198,7 +198,7 @@ void KeyDialog::setupActionShortcut(const QString &actionName)
     if(shortcut.isEmpty())
         return; // We have no shortcut to set.
 
-    KAction *a = ActionCollection::action(actionName);
+    KAction *a = dynamic_cast<KAction*>(ActionCollection::action(actionName));
     if(a)
         a->setGlobalShortcut(shortcut);
 }
