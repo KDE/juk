@@ -28,10 +28,10 @@ namespace ActionCollection
         return a;
     }
 
-    KAction *action(const QString &key)
+    QAction *action(const QString &key)
     {
 #ifndef NO_DEBUG
-        KAction *a = actions()->action(key);
+        QAction *a = actions()->action(key);
         if(!a)
             kWarning(65432) << "KAction \"" << key << "\" is not defined yet." << endl;
         return a;

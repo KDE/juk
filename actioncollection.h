@@ -31,7 +31,7 @@ namespace ActionCollection
      * Returns the action for the associated key from the global action
      * collection.
      */
-    KAction *action(const QString &key);
+    QAction *action(const QString &key);
 
     /**
      * Returns the action for the associated key but includes a cast to the
