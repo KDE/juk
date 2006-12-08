@@ -26,15 +26,14 @@
 
 #ifndef KTRM_H
 #define KTRM_H
-
+#include <qobject.h>
 #include <config.h>
 #include <config-juk.h>
-#ifdef HAVE_TUNEPIMP
 
 #include <QString>
 #include <q3valuelist.h>
 #include <QMap>
-
+class KJob;
 /**
  * This represents a potential match for a TRM lookup.  KTRMResultList is
  * returned from KTRMLookup and will be sorted by relevance (better matches
@@ -110,8 +109,15 @@ typedef Q3ValueList<KTRMResult> KTRMResultList;
  * The lookups themselves happen in a background thread, but the return calls
  * are guaranteed to run in the GUI thread.
  */
-class KTRMLookup
+class KTRMLookup : public QObject
 {
+Q_OBJECT
+
+signals:
+    void sigResult( KTRMResultList, QString );
+
+protected slots:
+    virtual void lookupResult( KJob* );
 public:
     /**
      * Creates and starts a lookup for \a file.  If \a autoDelete is set to
@@ -133,6 +139,12 @@ public:
      * @internal
      */
     int fileId() const;
+    /**
+     * This method is called when the puid was already generated. It will then do
+     * the lookup with MusicBrainz's server. This may be reimplemented to provide
+     * specific behavion for the lookup.
+     */
+    virtual void puidGenerated();
 
     /**
      * This method is called if the track was recognized by the TRM server.
@@ -192,8 +204,13 @@ private:
     class KTRMLookupPrivate;
     KTRMLookupPrivate *d;
 };
+/**
+ *  * Helper Functions used for sorting MusicBrainz results
+ *   */
+double stringSimilarity(QString s1, QString s2);
+double stringSimilarity(QStringList &l, QString &s);
 
-#endif
+
 #endif
 
 // vim: set et sw=4 tw=0 sta:

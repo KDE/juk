@@ -14,7 +14,6 @@
  ***************************************************************************/
 
 #include "musicbrainzquery.h"
-
 #ifdef HAVE_TUNEPIMP // Silence warning when HAVE_TUNEPIMP is not defined.
 #if HAVE_TUNEPIMP
 

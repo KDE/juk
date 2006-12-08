@@ -29,16 +29,24 @@
 #include <kprotocolmanager.h>
 #include <kurl.h>
 #include <kdebug.h>
-
+#include <kio/job.h>
 #include <qmutex.h>
 #include <QRegExp>
 #include <qevent.h>
 #include <QObject>
 #include <QFile>
 #include <QCustomEvent>
+#include <QDomDocument>
 
+#if HAVE_TUNEPIMP >= 5
+#include <tunepimp-0.5/tp_c.h>
+#else
 #include <tunepimp/tp_c.h>
+#endif
 #include <fixx11h.h>
+
+#include "ktrm.moc"
+#include <q3tl.h>
 
 class KTRMLookup;
 
@@ -127,7 +135,10 @@ protected:
     {
         m_pimp = tp_New("KTRM", "0.1");
         //tp_SetDebug(m_pimp, true);
+#if HAVE_TUNEPIMP < 5
         tp_SetTRMCollisionThreshold(m_pimp, 100);
+        tp_SetAutoFileLookup(m_pimp,true);
+#endif        
         tp_SetAutoSaveThreshold(m_pimp, -1);
         tp_SetMoveFiles(m_pimp, false);
         tp_SetRenameFiles(m_pimp, false);
@@ -137,7 +148,7 @@ protected:
         tp_SetUseUTF8(m_pimp, true);
 #endif
         tp_SetNotifyCallback(m_pimp, TRMNotifyCallback, 0);
-
+#if HAVE_TUNEPIMP < 5
         // Re-read proxy config.
         KProtocolManager::reparseConfiguration();
 
@@ -185,6 +196,9 @@ protected:
                 tp_SetProxy(m_pimp, proxyHost.toAscii(), short(proxy.port()));
             }
         }
+#else
+        tp_SetMusicDNSClientId(m_pimp, "0c6019606b1d8a54d0985e448f3603ca");
+#endif
     }
 
     ~KTRMRequestHandler()
@@ -211,6 +225,7 @@ public:
         Recognized,
         Unrecognized,
         Collision,
+        PuidGenerated,
         Error
     };
 
@@ -325,12 +340,20 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
     case eUnrecognized:
         KTRMEventHandler::send(fileId, KTRMEvent::Unrecognized);
         break;
+#if HAVE_TUNEPIMP >= 5
+    case ePUIDLookup:
+    case ePUIDCollision:
+    case eFileLookup:
+        KTRMEventHandler::send(fileId, KTRMEvent::PuidGenerated);
+        break;
+#else       
     case eTRMCollision:
 #if HAVE_TUNEPIMP >= 4
     case eUserSelection:
 #endif
         KTRMEventHandler::send(fileId, KTRMEvent::Collision);
         break;
+#endif
     case eError:
         KTRMEventHandler::send(fileId, KTRMEvent::Error);
         break;
@@ -496,7 +519,12 @@ void KTRMLookup::unrecognized()
     trm[0] = 0;
     track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
     tr_Lock(track);
+#if HAVE_TUNEPIMP >= 5
+    tr_GetPUID(track, trm, 255);
+#else
     tr_GetTRM(track, trm, 255);
+#endif
+
     if ( !trm[0] ) {
         tr_SetStatus(track, ePending);
         tp_Wake(KTRMRequestHandler::instance()->tunePimp(), track);
@@ -514,6 +542,7 @@ void KTRMLookup::unrecognized()
 
 void KTRMLookup::collision()
 {
+#if HAVE_TUNEPIMP && HAVE_TUNEPIMP < 5
     kDebug() << k_funcinfo << d->file << endl;
 
     track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
@@ -578,7 +607,87 @@ void KTRMLookup::collision()
     tr_Unlock(track);
 
     finished();
+#endif
 }
+
+void KTRMLookup::puidGenerated()
+{
+#if HAVE_TUNEPIMP >= 5
+    char puid[255] = {0};
+    track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
+    tr_Lock(track);
+
+    tr_GetPUID(track, puid, 255);
+    tr_Unlock(track);
+    tp_ReleaseTrack(KTRMRequestHandler::instance()->tunePimp(), track);
+    d->results.clear();
+
+    KIO::Job *job = KIO::storedGet( QString( "http://musicbrainz.org/ws/1/track/?type=xml&puid=%1" ).arg( puid ) , false, false );
+    connect( job, SIGNAL( result( KIO::Job* ) ), SLOT( lookupResult( KIO::Job* ) ) );
+#endif
+}
+
+void KTRMLookup::lookupResult( KJob* job )
+{
+#if HAVE_TUNEPIMP >= 5
+    if ( !job->error() == 0 ) {
+        finished();
+        return;
+    }
+    KIO::StoredTransferJob* const storedJob = static_cast<KIO::StoredTransferJob*>( job );
+    QString xml = QString::fromUtf8( storedJob->data().data(), storedJob->data().size() );
+
+    QDomDocument doc;
+    QDomElement e;
+
+    if( !doc.setContent( xml ) ) {
+        finished();
+        return;
+    }
+
+    e = doc.namedItem( "metadata" ).toElement().namedItem( "track-list" ).toElement();
+
+    QStringList strList = QStringList::split ( '/', d->file );
+
+    QDomNode n = e.namedItem("track");
+    for( ; !n.isNull();  n = n.nextSibling() ) {
+        QDomElement track = n.toElement();
+        KTRMResult result;
+
+        result.d->title = track.namedItem( "title" ).toElement().text();
+        result.d->artist = track.namedItem( "artist" ).toElement().namedItem( "name" ).toElement().text();
+        QDomNode releaseNode = track.namedItem("release-list").toElement().namedItem("release");
+        for( ; !releaseNode.isNull();  releaseNode = releaseNode.nextSibling() ) {
+            KTRMResult tmpResult( result );
+            QDomElement release = releaseNode.toElement();
+
+            tmpResult.d->album = release.namedItem( "title" ).toElement().text();
+            QDomNode tracklistN = release.namedItem( "track-list" );
+            if ( !tracklistN.isNull() ) {
+                QDomElement tracklist = tracklistN.toElement();
+                if ( !tracklist.attribute( "offset" ).isEmpty() )
+                    tmpResult.d->track = tracklist.attribute( "offset" ).toInt() + 1;
+            }
+            //tmpResult.d->year = ???;
+            tmpResult.d->relevance =
+                4 * stringSimilarity(strList,tmpResult.d->title) +
+                2 * stringSimilarity(strList,tmpResult.d->artist) +
+                1 * stringSimilarity(strList,tmpResult.d->album);
+/*            
+            if( !d->results.contains( tmpResult ) )
+                d->results.append( tmpResult );
+                */
+        }
+     }
+
+     qHeapSort(d->results);
+
+     finished();
+#else
+    Q_UNUSED( job );
+#endif
+}
+
 
 void KTRMLookup::error()
 {
@@ -601,6 +710,47 @@ void KTRMLookup::finished()
 {
     if(d->autoDelete)
         delete this;
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// Helper Functions used for sorting MusicBrainz results
+////////////////////////////////////////////////////////////////////////////////
+double stringSimilarity(QStringList &l, QString &s)
+{
+    double max = 0, current = 0;
+    for ( QStringList::Iterator it = l.begin(); it != l.end(); ++it ) {
+       if( max < (current = stringSimilarity((*it),s)))
+            max = current;
+    }
+    return max;
+}
+double stringSimilarity(QString s1, QString s2)
+{
+    s1.remove( QRegExp("[\\s\\t\\r\\n]") );
+    s2.remove( QRegExp("[\\s\\t\\r\\n]") );
+
+    double nCommon = 0;
+    int p1 = 0, p2 = 0, x1 = 0, x2 = 0;
+    int l1 = s1.length(), l2 = s2.length(), l3 = l1 + l2;
+    QChar c1 = 0, c2 = 0;
+
+    while(p1 < l1 && p2 < l2) {
+        c1 = s1.at(p1); c2 = s2.at(p2);
+        if( c1.upper() == c2.upper()) {
+            ++nCommon;
+            ++p1; ++p2;
+        }
+        else {
+            x1 = s1.find(c2,p1,false);
+            x2 = s2.find(c1,p2,false);
+
+            if( (x1 == x2 || -1 == x1) || (-1 != x2 && x1 > x2) )
+                ++p2;
+            else
+                ++p1;
+        }
+    }
+    return l3 ? (double)(nCommon*2) / (double)(l3) : 1;
 }
 
 #endif
