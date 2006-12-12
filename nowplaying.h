@@ -16,7 +16,6 @@
 #ifndef NOWPLAYING_H
 #define NOWPLAYING_H
 
-#include <kactivelabel.h>
 
 #include <q3hbox.h>
 #include <QLabel>
