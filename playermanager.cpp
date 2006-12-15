@@ -103,7 +103,7 @@ bool PlayerManager::playing() const
     if(!m_media)
         return false;
 
-    return m_media->state() == Phonon::PlayingState;
+    return (m_media->state() == Phonon::PlayingState || m_media->state() == Phonon::BufferingState);
 }
 
 bool PlayerManager::paused() const
