@@ -15,6 +15,7 @@
 
 #include <kicon.h>
 #include <kaction.h>
+#include <kglobal.h>
 #include <kdebug.h>
 #include <ktoggleaction.h>
 

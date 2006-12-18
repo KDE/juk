@@ -18,6 +18,7 @@
 
 #include <kconfig.h>
 #include <klocale.h>
+#include <kglobal.h>
 #include <kaction.h>
 
 #include <QRadioButton>
