@@ -21,7 +21,7 @@
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kactioncollection.h>
-#include <kstdaction.h>
+#include <kstandardaction.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
 #include <kicon.h>
@@ -134,14 +134,14 @@ void JuK::setupActions()
 
     // Setup KDE standard actions that JuK uses.
 
-    KStdAction::quit(this, SLOT(slotQuit()), collection);
-    KStdAction::undo(this, SLOT(slotUndo()), collection);
-    KStdAction::cut(collection);
-    KStdAction::copy(collection);
-    KStdAction::paste(collection);
-    KAction *clear = KStdAction::clear(collection);
-    KStdAction::selectAll(collection);
-    KStdAction::keyBindings(this, SLOT(slotEditKeys()), collection);
+    KStandardAction::quit(this, SLOT(slotQuit()), collection);
+    KStandardAction::undo(this, SLOT(slotUndo()), collection);
+    KStandardAction::cut(collection);
+    KStandardAction::copy(collection);
+    KStandardAction::paste(collection);
+    KAction *clear = KStandardAction::clear(collection);
+    KStandardAction::selectAll(collection);
+    KStandardAction::keyBindings(this, SLOT(slotEditKeys()), collection);
 
 
     // Setup the menu which handles the random play options.
