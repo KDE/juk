@@ -747,8 +747,8 @@ void TagEditor::saveChangesPrompt()
                                       i18n("Do you want to save your changes to:\n"),
                                       files,
                                       i18n("Save Changes"),
-                                      KStdGuiItem::save(),
-                                      KStdGuiItem::discard(),
+                                      KStandardGuiItem::save(),
+                                      KStandardGuiItem::discard(),
                                       "tagEditor_showSaveChangesBox") == KMessageBox::Yes)
     {
         save(m_items);

@@ -107,7 +107,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     l->setSpacing(5);
     l->setMargin(0);
 
-    KPushButton *clearButton = new KPushButton(KStdGuiItem::clear(), buttons);
+    KPushButton *clearButton = new KPushButton(KStandardGuiItem::clear(), buttons);
     connect(clearButton, SIGNAL(clicked()), SLOT(clear()));
     l->addWidget(clearButton);
 

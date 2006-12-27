@@ -15,7 +15,7 @@
 
 #include <kdialog.h>
 #include <kglobal.h>
-#include <kstdguiitem.h>
+#include <KStandardGuiItem>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kconfig.h>
@@ -122,7 +122,7 @@ void DeleteDialog::accept()
 
 void DeleteDialog::slotShouldDelete(bool shouldDelete)
 {
-    setButtonGuiItem(Ok, shouldDelete ? KStdGuiItem::del() : m_trashGuiItem);
+    setButtonGuiItem(Ok, shouldDelete ? KStandardGuiItem::del() : m_trashGuiItem);
 }
 
 #include "deletedialog.moc"
