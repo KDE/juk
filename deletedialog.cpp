@@ -14,7 +14,7 @@
  ***************************************************************************/
 
 #include <kdialog.h>
-#include <kglobal.h>
+#include <KApplication>
 #include <KStandardGuiItem>
 #include <klocale.h>
 #include <kiconloader.h>
