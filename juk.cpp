@@ -145,17 +145,21 @@ void JuK::setupActions()
 
 
     // Setup the menu which handles the random play options.
-    KActionMenu *actionMenu = new KActionMenu(KIcon("roll"), i18n("&Random Play"), collection, "actionMenu");
+    KActionMenu *actionMenu = new KActionMenu(KIcon("roll"), i18n("&Random Play"), collection);
+    collection->addAction("actionMenu",actionMenu);
     actionMenu->setDelayed(false);
 
     // ### KDE4: Investigate how QActionGroups integrate into menus now.
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
     KAction *act = new KToggleAction(KIcon("player_playlist"), i18n("&Disable Random Play"), collection, "disableRandomPlay");
+
     act->setActionGroup(randomPlayGroup);
     actionMenu->addAction(act);
 
-    m_randomPlayAction = new KToggleAction(KIcon("roll"), i18n("Use &Random Play"), collection, "randomPlay");
+    m_randomPlayAction = collection->add<KToggleAction>("randomPlay");
+    m_randomPlayAction->setText(i18n("Use &Random Play"));
+    m_randomPlayAction->setIcon(KIcon("roll"));
     m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->addAction(m_randomPlayAction);
 
@@ -164,7 +168,10 @@ void JuK::setupActions()
     connect(act, SIGNAL(triggered(bool)), SLOT(slotCheckAlbumNextAction(bool)));
     actionMenu->addAction(act);
 
-    act = new KAction(KIcon("edit_remove"), i18n("Remove From Playlist"), collection, "removeFromPlaylist");
+    act = collection->addAction("removeFromPlaylist");
+    act->setText(i18n("Remove From Playlist"));
+    act->setIcon(KIcon("edit_remove"));
+
     connect(act, SIGNAL(triggered(bool)), clear, SLOT(clear()));
 
     act = new KAction(KIcon("player_play"), i18n("&Play"), collection, "play");
