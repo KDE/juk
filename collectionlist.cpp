@@ -34,7 +34,7 @@
 #include "viewmode.h"
 #include "coverinfo.h"
 #include "covermanager.h"
-
+#include <kactioncollection.h>
 #include <Q3ValueList>
 #include <QDragMoveEvent>
 #include <QDropEvent>
@@ -233,7 +233,8 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
     m_itemsDict(5003),
     m_columnTags(15, 0)
 {
-    KAction *spaction = new KAction(i18n("Show Playing"), ActionCollection::actions(), "showPlaying");
+    QAction *spaction = ActionCollection::actions()->addAction("showPlaying");
+    spaction->setText(i18n("Show Playing"));
     connect(spaction, SIGNAL(triggered(bool) ), SLOT(slotShowPlaying()));
 
     connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(aboutToShow()),
