@@ -152,7 +152,8 @@ void JuK::setupActions()
     // ### KDE4: Investigate how QActionGroups integrate into menus now.
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
-    KAction *act = new KToggleAction(KIcon("player_playlist"), i18n("&Disable Random Play"), collection, "disableRandomPlay");
+    QAction *act = new KToggleAction(KIcon("player_playlist"), i18n("&Disable Random Play"), collection);
+    collection->addAction("disableRandomPlay", act);
 
     act->setActionGroup(randomPlayGroup);
     actionMenu->addAction(act);
@@ -163,7 +164,8 @@ void JuK::setupActions()
     m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->addAction(m_randomPlayAction);
 
-    act = new KToggleAction(KIcon("roll"), i18n("Use &Album Random Play"), collection, "albumRandomPlay");
+    act = new KToggleAction(KIcon("roll"), i18n("Use &Album Random Play"), collection);
+    collection->addAction("albumRandomPlay", act);
     act->setActionGroup(randomPlayGroup);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotCheckAlbumNextAction(bool)));
     actionMenu->addAction(act);
@@ -174,88 +176,100 @@ void JuK::setupActions()
 
     connect(act, SIGNAL(triggered(bool)), clear, SLOT(clear()));
 
-    act = new KAction(KIcon("player_play"), i18n("&Play"), collection, "play");
+    act = new KAction(KIcon("player_play"), i18n("&Play"), collection);
+    collection->addAction("play", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(play()));
 
-    act = new KAction(KIcon("player_pause"), i18n("P&ause"), collection, "pause");
+    act = new KAction(KIcon("player_pause"), i18n("P&ause"), collection);
+    collection->addAction("pause", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(pause()));
 
-    act = new KAction(KIcon("player_stop"), i18n("&Stop"), collection, "stop");
+    act = new KAction(KIcon("player_stop"), i18n("&Stop"), collection);
+    collection->addAction("stop", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(stop()));
 
-    act = new KToolBarPopupAction(KIcon("player_start"), i18nc("previous track", "Previous"), collection, "back");
+    act = new KToolBarPopupAction(KIcon("player_start"), i18nc("previous track", "Previous"), collection);
+    collection->addAction("back", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(back()));
 
-    act = new KAction(KIcon("player_end"), i18nc("next track", "&Next"), collection, "forward");
+    act = new KAction(KIcon("player_end"), i18nc("next track", "&Next"), collection);
+    collection->addAction("forward", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(forward()));
 
-    act = new KAction(i18n("&Loop Playlist"), collection, "loopPlaylist");
+    act = new KAction(i18n("&Loop Playlist"), collection);
+    collection->addAction("loopPlaylist", act);
     act->setCheckable(true);
 
     KToggleAction *resizeColumnAction =
         new KToggleAction(i18n("&Resize Playlist Columns Manually"),
-                          collection, "resizeColumnsManually");
+                          collection);
+    collection->addAction("resizeColumnsManually", resizeColumnAction);
     resizeColumnAction->setCheckedState(KGuiItem(i18n("&Resize Column Headers Automatically")));
 
     // the following are not visible by default
 
-    act = new KAction(KIcon("mute"),        i18n("Mute"),         collection, "mute");
+    act = new KAction(KIcon("mute"),        i18n("Mute"),         collection);
+    collection->addAction("mute", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(mute()));
 
-    act = new KAction(KIcon("volumeUp"),    i18n("Volume Up"),    collection, "volumeUp");
+    act = new KAction(KIcon("volumeUp"),    i18n("Volume Up"),    collection);
+    collection->addAction("volumeUp", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(volumeUp()));
 
-    act = new KAction(KIcon("volumeDown"),  i18n("Volume Down"),  collection, "volumeDown");
+    act = new KAction(KIcon("volumeDown"),  i18n("Volume Down"),  collection);
+    collection->addAction("volumeDown", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(volumeDown()));
 
-    act = new KAction(KIcon("playPause"),   i18n("Play / Pause"), collection, "playPause");
+    act = new KAction(KIcon("playPause"),   i18n("Play / Pause"), collection);
+    collection->addAction("playPause", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(playPause()));
 
-    act = new KAction(KIcon("seekForward"), i18n("Seek Forward"), collection, "seekForward");
+    act = new KAction(KIcon("seekForward"), i18n("Seek Forward"), collection);
+    collection->addAction("seekForward", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(seekForward()));
 
-    act = new KAction(KIcon("seekBack"),    i18n("Seek Back"),    collection, "seekBack");
+    act = new KAction(KIcon("seekBack"),    i18n("Seek Back"),    collection);
+    collection->addAction("seekBack", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(seekBack()));
 
-    act = new KAction(i18n("Show / Hide"), collection, "showHide");
+    act = new KAction(i18n("Show / Hide"), collection);
+    collection->addAction("showHide", act);
     connect(act, SIGNAL(triggered(bool)), this,     SLOT(slotShowHide()));
 
     //////////////////////////////////////////////////
     // settings menu
     //////////////////////////////////////////////////
 
-    m_toggleSplashAction =
-        new KToggleAction(i18n("Show Splash Screen on Startup"),
-                          collection, "showSplashScreen");
+    m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startup"), collection);
+    collection->addAction("showSplashScreen", m_toggleSplashAction);
     m_toggleSplashAction->setCheckedState(KGuiItem(i18n("Hide Splash Screen on Startup")));
-    m_toggleSystemTrayAction =
-        new KToggleAction(i18n("&Dock in System Tray"),
-                          collection, "toggleSystemTray");
-    m_toggleDockOnCloseAction =
-        new KToggleAction(i18n("&Stay in System Tray on Close"),
-                          collection, "dockOnClose");
-    m_togglePopupsAction =
-        new KToggleAction(i18n("Popup &Track Announcement"),
-                          collection, "togglePopups");
-    new KToggleAction(i18n("Save &Play Queue on Exit"),
-                      collection, "saveUpcomingTracks");
+    m_toggleSystemTrayAction = new KToggleAction(i18n("&Dock in System Tray"), collection);
+    collection->addAction("toggleSystemTray", m_toggleSystemTrayAction);
+    m_toggleDockOnCloseAction = new KToggleAction(i18n("&Stay in System Tray on Close"), collection);
+    collection->addAction("dockOnClose", m_toggleDockOnCloseAction);
+    m_togglePopupsAction = new KToggleAction(i18n("Popup &Track Announcement"), collection);
+    collection->addAction("togglePopups", m_togglePopupsAction);
+    act = new KToggleAction(i18n("Save &Play Queue on Exit"), collection);
+    collection->addAction("saveUpcomingTracks", act);
 
     connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)),
             this, SLOT(slotToggleSystemTray(bool)));
 
 
-    act = new KAction(i18n("&Tag Guesser..."), collection, "tagGuesserConfig");
+    act = new KAction(i18n("&Tag Guesser..."), collection);
+    collection->addAction("tagGuesserConfig", act);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotConfigureTagGuesser()));
 
-    act = new KAction(i18n("&File Renamer..."), collection, "fileRenamerConfig");
+    act = new KAction(i18n("&File Renamer..."), collection);
+    collection->addAction("fileRenamerConfig", act);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotConfigureFileRenamer()));
 
     //////////////////////////////////////////////////
     // just in the toolbar
     //////////////////////////////////////////////////
 
-    m_sliderAction = new SliderAction(i18n("Track Position"), collection,
-                                      "trackPositionAction");
+    m_sliderAction = new SliderAction(i18n("Track Position"), this);
+    collection->addAction("trackPositionAction", m_sliderAction);
 }
 
 void JuK::setupSystemTray()

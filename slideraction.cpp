@@ -30,6 +30,7 @@
 #include <QBoxLayout>
 
 #include "slideraction.h"
+#include <kactioncollection.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // convenience class
@@ -132,8 +133,8 @@ void VolumeSlider::slotValueChanged(int value)
 const int SliderAction::minPosition = 0;
 const int SliderAction::maxPosition = 1000;
 
-SliderAction::SliderAction(const QString &text, KActionCollection* collection, const char *name)
-    : KAction(text, collection, name),
+SliderAction::SliderAction(const QString &text, QObject* parent)
+    : KAction(text, parent),
       m_toolBar(0),
       m_widget(0),
       m_layout(0),

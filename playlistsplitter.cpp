@@ -16,6 +16,7 @@
 #include <kicon.h>
 #include <kaction.h>
 #include <kglobal.h>
+#include <kactioncollection.h>
 #include <kdebug.h>
 #include <ktoggleaction.h>
 
@@ -123,11 +124,15 @@ Playlist *PlaylistSplitter::visiblePlaylist() const
 
 void PlaylistSplitter::setupActions()
 {
+    KActionCollection* coll = ActionCollection::actions();
     KToggleAction *showSearch =
-	 new KToggleAction(KIcon("filefind"), i18n("Show &Search Bar"), ActionCollection::actions(), "showSearch");
+	 new KToggleAction(KIcon("filefind"), i18n("Show &Search Bar"), this);
+    coll->addAction("showSearch", showSearch);
     showSearch->setCheckedState(KGuiItem(i18n("Hide &Search Bar")));
 
-    KAction *act = new KAction(KIcon("edit_clear"), i18n("Edit Track Search"), ActionCollection::actions(), "editTrackSearch");
+
+    KAction *act = new KAction(KIcon("edit_clear"), i18n("Edit Track Search"), this);
+    coll->addAction("editTrackSearch", act);
     act->setShortcut(Qt::Key_F6);
     connect(act, SIGNAL(triggered(bool)), SLOT(setFocus()));
 }

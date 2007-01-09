@@ -54,6 +54,7 @@
 #include "playermanager.h"
 #include "collectionlist.h"
 #include "coverinfo.h"
+#include <kactioncollection.h>
 
 using namespace ActionCollection;
 
@@ -176,7 +177,8 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
     // Just create this here so that it show up in the DCOP interface and the key
     // bindings dialog.
 
-    KAction *rpaction = new KAction(i18n("Redisplay Popup"), ActionCollection::actions(), "showPopup");
+    KAction *rpaction = new KAction(i18n("Redisplay Popup"), this);
+    ActionCollection::actions()->addAction("showPopup", rpaction);
     connect(rpaction, SIGNAL(triggered(bool) ), SLOT(slotPlay()));
 
     QMenu *cm = contextMenu();
@@ -195,7 +197,8 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
 
     // Pity the actionCollection doesn't keep track of what sub-menus it has.
 
-    KActionMenu *menu = new KActionMenu(i18n("&Random Play"), actionCollection(), "randomplay");
+    KActionMenu *menu = new KActionMenu(i18n("&Random Play"), this);
+    actionCollection()->addAction("randomplay", menu);
     menu->addAction(action("disableRandomPlay"));
     menu->addAction(action("randomPlay"));
     menu->addAction(action("albumRandomPlay"));

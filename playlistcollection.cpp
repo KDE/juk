@@ -50,9 +50,10 @@
 
 #include <QtDBus>
 #include <kaction.h>
-#include "collectionadaptor.h"
+#include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
+#include "collectionadaptor.h"
 
 #define widget (kapp->mainWidget())
 
@@ -851,7 +852,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // "New" menu
 
-    menu = new KActionMenu(KIcon("filenew"), i18n("&New"), actions(), "file_new");
+    menu = new KActionMenu(KIcon("filenew"), i18n("&New"), actions());
+    actions()->addAction("file_new", menu);
 
     menu->addAction(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
                               "newPlaylist", "window_new", KShortcut(Qt::CTRL + Qt::Key_N)));
@@ -863,7 +865,9 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     // Guess tag info menu
 
 #ifdef HAVE_TUNEPIMP
-    menu = new KActionMenu(i18n("&Guess Tag Information"), actions(), "guessTag");
+    menu = new KActionMenu(i18n("&Guess Tag Information"), actions());
+    actions()->addAction("guessTag", menu);
+
     /* menu->setIconSet(SmallIconSet("wizard")); */
 
     menu->addAction(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
@@ -893,7 +897,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "reload");
     createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", KShortcut(Qt::CTRL + Qt::Key_R));
 
-    menu = new KActionMenu(i18n("Cover Manager"), actions(), "coverManager");
+    menu = new KActionMenu(i18n("Cover Manager"), actions());
+    actions()->addAction("coverManager", menu);
     /* menu->setIconSet(SmallIconSet("image")); */
     menu->addAction(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "viewmag"));
@@ -907,16 +912,18 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
         SLOT(slotShowCoverManager()), "showCoverManager"));
 
     KToggleAction *historyAction =
-        new KToggleAction(KIcon("history"), i18n("Show &History"), actions(), "showHistory");
+        new KToggleAction(KIcon("history"), i18n("Show &History"), actions());
+    actions()->addAction("showHistory", historyAction);
     historyAction->setCheckedState(KGuiItem(i18n("Hide &History")));
 
     KToggleAction *upcomingAction =
-        new KToggleAction(KIcon("today"), i18n("Show &Play Queue"), actions(), "showUpcoming");
+        new KToggleAction(KIcon("today"), i18n("Show &Play Queue"), actions());
+    actions()->addAction("showUpcoming", upcomingAction);
     upcomingAction->setCheckedState(KGuiItem(i18n("Hide &Play Queue")));
 
-    connect(action<KToggleAction>("showHistory"), SIGNAL(toggled(bool)),
+    connect(historyAction, SIGNAL(toggled(bool)),
             this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
-    connect(action<KToggleAction>("showUpcoming"), SIGNAL(toggled(bool)),
+    connect(upcomingAction, SIGNAL(toggled(bool)),
             this, SLOT(slotSetUpcomingPlaylistEnabled(bool)));
 }
 
@@ -928,9 +935,10 @@ KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
 {
     KAction *action;
     if(icon.isNull())
-        action = new KAction(text, actions(), name);
+        action = new KAction(text, actions());
     else
-        action = new KAction(KIcon(icon), text, actions(), name);
+        action = new KAction(KIcon(icon), text, actions());
+    actions()->addAction(name, action);
     connect( action, SIGNAL(triggered(bool)), slot);
     action->setShortcut(shortcut);
     return action;

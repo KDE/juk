@@ -51,6 +51,7 @@
 #include <ktoggleaction.h>
 
 #include <id3v1genres.h>
+#include <kactioncollection.h>
 
 #undef KeyRelease
 
@@ -58,7 +59,7 @@ class FileNameValidator : public QValidator
 {
 public:
     FileNameValidator(QObject *parent, const char *name = 0) :
-        QValidator(parent) 
+        QValidator(parent)
     {
         setObjectName(name);
     }
@@ -493,11 +494,13 @@ void TagEditor::saveConfig()
 
 void TagEditor::setupActions()
 {
-    KToggleAction *show = new KToggleAction(KIcon("edit"), i18n("Show &Tag Editor"), ActionCollection::actions(), "showEditor");
+    KToggleAction *show = new KToggleAction(KIcon("edit"), i18n("Show &Tag Editor"), this);
+    ActionCollection::actions()->addAction("showEditor", show);
     show->setCheckedState(KGuiItem(i18n("Hide &Tag Editor")));
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
 
-    KAction *act = new KAction(KIcon("filesave"), i18n("&Save"), ActionCollection::actions(), "saveItem");
+    KAction *act = new KAction(KIcon("filesave"), i18n("&Save"), this);
+    ActionCollection::actions()->addAction("saveItem", act);
     act->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotSave()));
 }

@@ -79,6 +79,7 @@
 #include "coverdialog.h"
 #include "tagtransactionmanager.h"
 #include "cache.h"
+#include <kactioncollection.h>
 
 using namespace ActionCollection;
 
@@ -1557,7 +1558,8 @@ void Playlist::polish()
     // setup header RMB menu
     //////////////////////////////////////////////////
 
-    m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), ActionCollection::actions(), "showColumns");
+    m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), this);
+    ActionCollection::actions()->addAction("showColumns", m_columnVisibleAction);
 
     m_headerMenu = m_columnVisibleAction->menu();
 
@@ -2077,7 +2079,6 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
     if(!m_rmbMenu) {
 
-        // A bit of a hack to get a pointer to the action collection.
         // Probably more of these actions should be ported over to using KActions.
 
         m_rmbMenu = new KMenu(this);

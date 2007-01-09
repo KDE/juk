@@ -49,12 +49,11 @@ PlaylistAction *K3bExporter::m_action = 0;
 class PlaylistAction : public KAction
 {
     public:
-    PlaylistAction(const char *name,
-                   const QString &userText,
+    PlaylistAction(const QString &userText,
                    const QIcon &pix,
                    const char *slot,
                    const KShortcut &cut = KShortcut()) :
-        KAction(userText, actions(), name),
+        KAction(userText, actions()),
         m_slot(slot)
     {
 	setShortcut(cut);
@@ -107,7 +106,6 @@ KAction *K3bExporter::action()
 {
     if(!m_action && !KStandardDirs::findExe("k3b").isNull()) {
         m_action = new PlaylistAction(
-            "export_to_k3b",
             i18n("Add Selected Items to Audio or Data CD"),
             SmallIconSet("k3b"),
             SLOT(slotExport())
@@ -278,8 +276,7 @@ KAction *K3bPlaylistExporter::action()
     if(!KStandardDirs::findExe("k3b").isNull()) {
         KAction *action = new KAction(KIcon("k3b"),
             i18n("Add Playlist to Audio or Data CD"),
-            actions(),
-            "export_playlist_to_k3b"
+            actions()
         );
         connect(action, SIGNAL(triggered(bool)), SLOT(slotExport()));
         return action;
