@@ -48,7 +48,9 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     setDefaultButton(NoDefault);
     showButtonSeparator(true);
 
+#ifdef __GNUC__
     #warning KDE4 How to port this?
+#endif
     //disableResize();
 
     Q3HBox *mainBox = new Q3HBox(this);
@@ -61,7 +63,9 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     connect(m_iconWidget, SIGNAL(executed(Q3IconViewItem *)),
             this, SLOT(slotOk()));
 
+#ifdef __GNUC__
     #warning This is probably wrong.
+#endif
 
     Q3HBox *imgSize = new Q3HBox(parent /*actionButton(User1)->parentWidget()*/);
     QLabel *label = new QLabel(imgSize);

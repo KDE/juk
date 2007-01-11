@@ -96,7 +96,9 @@ static bool manualResize()
  * A tooltip specialized to show full filenames over the file name column.
  */
 
+#ifdef __GNUC__
 #warning disabling the tooltip for now
+#endif
 #if 0
 class PlaylistToolTip : public QToolTip
 {
@@ -1021,7 +1023,9 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     }
 }
 
+#ifdef __GNUC__
  #warning Port Q3DragObject to QMimeData
+#endif
 Q3DragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
@@ -1446,7 +1450,9 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
 
 void Playlist::hideColumn(int c, bool updateSearch)
 {
+#ifdef __GNUC__
     #warning Port to QAction
+#endif
     m_headerMenu->setItemChecked(c, false);
 
     if(!isColumnVisible(c))
@@ -1563,7 +1569,9 @@ void Playlist::polish()
 
     m_headerMenu = m_columnVisibleAction->menu();
 
+#ifdef __GNUC__
     #warning should be fixed...
+#endif
     /* m_headerMenu->insertTitle(i18n("Show")); */
     m_headerMenu->setCheckable(true);
 
@@ -1733,7 +1741,9 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
     }
 
     TrackSequenceManager::instance()->setCurrent(item);
+#ifdef __GNUC__
 #warning "kde4: port it"
+#endif
     //kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
 
     if(!item)

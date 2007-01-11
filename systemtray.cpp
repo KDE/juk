@@ -380,7 +380,9 @@ void SystemTray::createPopup()
     m_fade = true;
     m_step = 0;
 
+#ifdef __GNUC__
 #warning FIXME: this will not be associated with the systray any longer
+#endif
     m_popup = new PassiveInfo(0);
     connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
     connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
@@ -436,7 +438,9 @@ bool SystemTray::buttonsToLeft() const
 {
     // The following code was nicked from kpassivepopup.cpp
 
+#ifdef __GNUC__
 #warning the systray is no longer a widget
+#endif
     NETWinInfo ni(QX11Info::display(), /* winId() */ 0, QX11Info::appRootWindow(),
                   NET::WMIconGeometry | NET::WMKDESystemTrayWinFor);
     NETRect frame, win;

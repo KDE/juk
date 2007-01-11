@@ -250,7 +250,9 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     m_exampleText->setPalette(palette);
     delete temp;
 
+#ifdef __GNUC__
     #warning Repair this.
+#endif
     /* layout()->setMargin(0); */ // We'll be wrapped by KDialogBase
 
     // This must be created before createTagRows() is called.
@@ -723,7 +725,9 @@ void FileRenamerWidget::moveItem(int id, MovementDirection direction)
     QBoxLayout *layout = dynamic_cast<QBoxLayout *>(m_mainFrame->layout());
     if ( layout )
         return;
+#ifdef __GNUC__
 #warning double check if that still works with Qt4s layout
+#endif
 
     layout->removeWidget(l);
     layout->insertWidget(2 * newPos, l);

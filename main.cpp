@@ -79,7 +79,9 @@ int main(int argc, char *argv[])
     // Here we do some DCOP locking of sorts to prevent incoming DCOP calls
     // before JuK has finished its initialization.
 
+#ifdef __GNUC__
 #warning "kde4: port it"
+#endif
     //a.dcopClient()->suspend();
     JuK *juk = new JuK;
     //a.dcopClient()->resume();

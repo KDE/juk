@@ -39,7 +39,9 @@ FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
     m_emptyTagGroup->layout()->setSpacing(KDialog::spacingHint());
     m_trackGroup->layout()->setSpacing(KDialog::spacingHint());
 
+#ifdef __GNUC__
 #warning Just commenting these out for now.
+#endif
 /*
     m_emptyValueLayout->setSpacing(KDialog::spacingHint());
     m_exampleLayout->setSpacing(KDialog::spacingHint());

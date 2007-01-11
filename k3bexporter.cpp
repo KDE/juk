@@ -127,7 +127,9 @@ void K3bExporter::exportPlaylistItems(const PlaylistItemList &items)
 {
     if(items.empty())
         return;
+#ifdef __GNUC__
 #warning "kde4: port it when k3b will port"
+#endif
 #if 0
     DCOPClient *client = DCOPClient::mainClient();
     DCOPCString appId, appObj;

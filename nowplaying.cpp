@@ -239,7 +239,9 @@ TrackItem::TrackItem(NowPlaying *parent) :
 
     m_label->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::LinksAccessibleByKeyboard);
 
+#ifdef __GNUC__
     #warning We should potentially check on URL underlining.
+#endif
     /* m_label->setLinkUnderline(false); */
 
     layout->addStretch();
