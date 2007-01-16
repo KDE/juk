@@ -4,6 +4,7 @@ Actions=addToCollection
 
 [Desktop Action addToCollection]
 Name=Add to JuK Collection
+Name[el]=Προσθήκη στη συλλογή του JuK
 Name[fr]=Ajouter à la collection de JuK
 Name[x-test]=xxAdd to JuK Collectionxx
 Icon=juk

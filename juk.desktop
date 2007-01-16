@@ -10,6 +10,7 @@ Terminal=false
 Name=JuK
 Name[x-test]=xxJuKxx
 GenericName=Music Player
+GenericName[el]=Αναπαραγωγέας μουσικής
 GenericName[fr]=Lecteur multimédia
 GenericName[x-test]=xxMusic Playerxx
 Categories=Qt;KDE;AudioVideo;
