@@ -82,7 +82,7 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
 
     setEmptyText(config.readEntry(QString("%1EmptyText").arg(typeKey), QString()));
     setTrackWidth(config.readEntry(QString("%1TrackWidth").arg(typeKey), 0));
-    setDisabled(config.readEntry(QString("%1Disabled").arg(typeKey, QString()), disabled));
+    setDisabled(config.readEntry(QString("%1Disabled").arg(typeKey), disabled));
 }
 
 QString TagRenamerOptions::tagTypeText(TagType type, bool translate)
