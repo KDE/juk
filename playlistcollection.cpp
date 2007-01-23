@@ -53,7 +53,8 @@
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
-#include "collectionadaptor.h"
+//Laurent: readd it
+//#include "collectionadaptor.h"
 
 #define widget (kapp->mainWidget())
 

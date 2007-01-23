@@ -25,7 +25,7 @@
 //Added by qt3to4:
 #include <Q3ValueList>
 #include <QEvent>
-
+#include <klineedit.h>
 #include "playlistsearch.h"
 
 class QCheckBox;

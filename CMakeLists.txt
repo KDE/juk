@@ -15,7 +15,7 @@ if(TUNEPIMP_FOUND)
 	set(tunepimp_SRCS trackpickerdialog.cpp)
 endif(TUNEPIMP_FOUND)	
 
-set(juk_SRCS searchadaptor.cpp collectionadaptor.cpp playeradaptor.cpp ${tunepimp_SRCS}
+set(juk_SRCS  ${tunepimp_SRCS}
    advancedsearchdialog.cpp 
    actioncollection.cpp 
    cache.cpp 
@@ -72,6 +72,11 @@ set(juk_SRCS searchadaptor.cpp collectionadaptor.cpp playeradaptor.cpp ${tunepim
    upcomingplaylist.cpp 
    ktrm.cpp 
    viewmode.cpp )
+
+#Laurent reactivate it
+#qt4_add_dbus_adaptor( juk_SRCS org.kde.juk.collection.xml playlistcollection.h PlaylistCollection)
+qt4_add_dbus_adaptor( juk_SRCS org.kde.juk.player.xml playermanager.h PlayerManager)
+qt4_add_dbus_adaptor( juk_SRCS org.kde.juk.search.xml searchwidget.h SearchWidget)
 
 kde4_automoc(${juk_SRCS})
 

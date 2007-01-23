@@ -21,9 +21,6 @@
       <arg type="s" direction="out"/>
       <arg name="property" type="s" direction="in"/>
     </method>
-    <method name="currentFile">
-      <arg type="s" direction="out"/>
-    </method>
     <method name="play"/>
     <method name="play">
       <arg name="file" type="s" direction="in"/>
@@ -57,7 +54,7 @@
       <arg type="s" direction="out"/>
     </method>
     <method name="setRandomPlayMode">
-      <arg name="randomMode" type="i" direction="in"/>
+      <arg name="randomMode" type="s" direction="in"/>
     </method>
   </interface>
 </node>
