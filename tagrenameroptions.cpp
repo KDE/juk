@@ -18,6 +18,7 @@
 #include <klocale.h>
 #include <kconfig.h>
 #include <kconfigbase.h>
+#include <kconfiggroup.h>
 
 #include "tagrenameroptions.h"
 

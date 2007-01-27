@@ -44,6 +44,7 @@
 #include <kaction.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
+#include <kconfiggroup.h>
 
 
 using namespace ActionCollection;
@@ -325,7 +326,7 @@ void JuK::slotProcessArgs()
 
 void JuK::createDirs()
 {
-    QDir dir(KGlobal::dirs()->saveLocation("data", kapp->instanceName() + '/'));
+    QDir dir(KGlobal::dirs()->saveLocation("data", KGlobal::mainComponent().componentName() + '/'));
 
     if(!dir.exists("covers"))
        dir.mkdir("covers");

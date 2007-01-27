@@ -14,6 +14,7 @@
 #include <kglobal.h>
 #include <kmacroexpander.h>
 #include <qhash.h>
+#include <kconfiggroup.h>
 
 FileNameScheme::FileNameScheme(const QString &s)
     : m_regExp(),

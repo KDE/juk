@@ -18,7 +18,7 @@
 #include <QRegExp>
 #include <QFile>
 
-#include <tag.h>
+#include <taglib/tag.h>
 #include <mpegfile.h>
 #include <vorbisfile.h>
 #include <flacfile.h>

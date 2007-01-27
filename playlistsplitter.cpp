@@ -25,6 +25,7 @@
 
 #include <QVBoxLayout>
 #include <QList>
+#include <kconfiggroup.h>
 
 #include "playlistsplitter.h"
 #include "searchwidget.h"

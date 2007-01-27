@@ -20,6 +20,7 @@
 #include <kconfig.h>
 #include <klocale.h>
 #include <kglobal.h>
+#include <kconfiggroup.h>
 
 #include "juk.h"
 

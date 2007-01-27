@@ -35,6 +35,7 @@
 #include <Q3ValueList>
 #include <QMenu>
 #include <QMouseEvent>
+#include <kconfiggroup.h>
 
 #include "playlistbox.h"
 #include "playlist.h"

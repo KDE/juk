@@ -80,6 +80,7 @@
 #include "tagtransactionmanager.h"
 #include "cache.h"
 #include <kactioncollection.h>
+#include <kconfiggroup.h>
 
 using namespace ActionCollection;
 

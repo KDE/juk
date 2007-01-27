@@ -52,6 +52,7 @@
 
 #include <id3v1genres.h>
 #include <kactioncollection.h>
+#include <kconfiggroup.h>
 
 #undef KeyRelease
 

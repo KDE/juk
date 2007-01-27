@@ -53,6 +53,7 @@
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
+#include <kconfiggroup.h>
 //Laurent: readd it
 //#include "collectionadaptor.h"
 
