@@ -24,6 +24,7 @@
 #include <QRadioButton>
 #include <QGroupBox>
 #include <q3vbox.h>
+#include <kconfiggroup.h>
 
 
 

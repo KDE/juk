@@ -38,6 +38,7 @@
 #include <Q3ValueList>
 #include <QDragMoveEvent>
 #include <QDropEvent>
+#include <kconfiggroup.h>
 
 using ActionCollection::action;
 

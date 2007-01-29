@@ -53,6 +53,7 @@
 #include <QPixmap>
 #include <Q3Frame>
 #include <Q3ValueList>
+#include <kconfiggroup.h>
 
 #include "tag.h"
 #include "filehandle.h"

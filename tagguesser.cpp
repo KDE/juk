@@ -14,6 +14,7 @@
 #include <kglobal.h>
 #include <kmacroexpander.h>
 #include <qhash.h>
+#include <kconfiggroup.h>
 
 FileNameScheme::FileNameScheme(const QString &s)
     : m_regExp(),
@@ -151,7 +152,7 @@ QStringList TagGuesser::schemeStrings()
 
 void TagGuesser::setSchemeStrings(const QStringList &schemes)
 {
-    KConfig *cfg = KGlobal::config();
+    KSharedConfig::Ptr cfg = KGlobal::config();
     KConfigGroup group(cfg, "TagGuesser");
     group.writeEntry("Filename schemes", schemes);
     cfg->sync();

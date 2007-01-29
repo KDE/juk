@@ -26,6 +26,7 @@
 #include <QLabel>
 #include <q3vbox.h>
 #include <q3hbox.h>
+#include <kconfiggroup.h>
 
 #include "deletedialog.h"
 
