@@ -1,6 +1,6 @@
 /***************************************************************************
-    copyright            : (C) 2004 Nathan Toone
-    email                : nathan@toonetown.com
+    copyright            : (C) 2004 Nathan Toone <nathan@toonetown.com>
+    copyright            : (C) 2007 Michael Pyne <michael.pyne@kdemail.com>
 ***************************************************************************/
 
 /***************************************************************************
@@ -37,7 +37,12 @@ GoogleImage::GoogleImage(QString thumbURL, QString size) :
     // thumbURL is in the following format - and we can regex the imageURL
     // images?q=tbn:hKSEWNB8aNcJ:www.styxnet.com/deyoung/styx/stygians/cp_portrait.jpg
 
-    m_imageURL = "http://" + thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
+    m_imageURL = thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
+
+    // Ensure that the image url starts with http if it doesn't already.
+    if(!m_imageURL.startsWith("http://"))
+        m_imageURL.prepend("http://");
+
     m_size = size.replace("pixels - ", "\n(") + ")";
 }
 
@@ -59,7 +64,8 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     KURL url("http://images.google.com/images");
     url.addQueryItem("q", m_searchString);
     url.addQueryItem("hl", "en");
-    
+    url.addQueryItem("nojs", "1");
+
     switch (size) {
         case XLarge:
             url.addQueryItem("imgsz", "xlarge|xxlarge");
@@ -79,7 +85,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
         default:
             break;
     }
-    
+
     m_loadedQuery = m_searchString;
     m_loadedSize = size;
 
@@ -139,7 +145,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
 	DOM::NodeList images = rows.item(imageIndex).childNodes();
 
 	// For each table node, pull the images out of the first row
-	    
+
 	for(uint j = 0; j < images.length(); j++) {
 	    DOM::Element tdElement = images.item(j);
 	    if(tdElement.isNull()) {
@@ -246,7 +252,7 @@ bool GoogleFetcher::requestNewSearchTerms(bool noResults)
 bool GoogleFetcher::hasImageResults(DOM::HTMLDocument &search)
 {
     unsigned long typesToShow = DOM::NodeFilter::SHOW_TEXT;
-    
+
     DOM::NodeIterator it = search.createNodeIterator(search.body(), typesToShow, 0, false);
     DOM::Node node;
 

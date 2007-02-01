@@ -1,7 +1,7 @@
 /***************************************************************************
     begin                : Mon Feb  4 23:40:41 EST 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
-                         : (C) 2006 by Michael Pyne
+                         : (C) 2006 - 2007 by Michael Pyne
     email                : wheeler@kde.org
                          : michael.pyne@kdemail.net
 ***************************************************************************/
@@ -50,8 +50,8 @@ static KCmdLineOptions options[] =
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", I18N_NOOP("JuK"),
-                         "2.3.3", description, KAboutData::License_GPL,
-                         "© 2002 - 2006, Scott Wheeler", 0,
+                         "2.3.4", description, KAboutData::License_GPL,
+                         "© 2002 - 2007, Scott Wheeler", 0,
                          "http://developer.kde.org/~wheeler/juk.html");
 
     aboutData.addAuthor("Scott Wheeler", scott, "wheeler@kde.org");
