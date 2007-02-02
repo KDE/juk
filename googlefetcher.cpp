@@ -1,6 +1,6 @@
 /***************************************************************************
-    copyright            : (C) 2004 Nathan Toone
-    email                : nathan@toonetown.com
+    copyright            : (C) 2004 Nathan Toone <nathan@toonetown.com>
+    copyright            : (C) 2007 Michael Pyne <michael.pyne@kdemail.com>
 ***************************************************************************/
 
 /***************************************************************************
@@ -40,7 +40,12 @@ GoogleImage::GoogleImage(QString thumbURL, QString size) :
     // thumbURL is in the following format - and we can regex the imageURL
     // images?q=tbn:hKSEWNB8aNcJ:www.styxnet.com/deyoung/styx/stygians/cp_portrait.jpg
 
-    m_imageURL = "http://" + thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
+    m_imageURL = thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
+
+    // Ensure that the image url starts with http if it doesn't already.
+    if(!m_imageURL.startsWith("http://"))
+        m_imageURL.prepend("http://");
+
     m_size = size.replace("pixels - ", "\n(") + ')';
 }
 
@@ -62,6 +67,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     KUrl url("http://images.google.com/images");
     url.addQueryItem("q", m_searchString);
     url.addQueryItem("hl", "en");
+    url.addQueryItem("nojs", "1");
 
     switch (size) {
         case XLarge:
