@@ -306,8 +306,11 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
             orientation = toolBar->orientation();
         }
 
-        m_layout = new QBoxLayout(QBoxLayout::TopToBottom, base );
-	m_layout->setMargin(5);
+        if(orientation == Qt::Horizontal)
+            m_layout = new QHBoxLayout(base);
+        else
+            m_layout = new QVBoxLayout(base);
+        m_layout->setMargin(5);
         m_layout->setSpacing(5);
 
         m_layout->addItem(new QSpacerItem(20, 1));
