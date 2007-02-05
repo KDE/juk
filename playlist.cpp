@@ -27,6 +27,7 @@
 #include <kglobalsettings.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
+#include <kio/copyjob.h>
 #include <kio/job.h>
 #include <kmenu.h>
 #include <kactionmenu.h>
