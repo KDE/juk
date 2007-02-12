@@ -56,7 +56,7 @@ public:
     int status() const;
     int totalTime() const;
     int currentTime() const;
-    int position() const;
+    //int position() const;
 
     QStringList trackProperties();
     QString trackProperty(const QString &property) const;
@@ -81,7 +81,7 @@ public slots:
     void stop();
     void setVolume(float volume = 1.0);
     void seek(int seekTime);
-    void seekPosition(int position);
+    //void seekPosition(int position);
     void seekForward();
     void seekBack();
     void playPause();
@@ -106,8 +106,7 @@ private slots:
     void slotFinished();
     void slotLength(qint64);
     void slotTick(qint64);
-    void slotUpdateTime(int position);
-    void slotSetVolume(int volume);
+    //void slotUpdateTime(int position);
 
 private:
     FileHandle m_file;

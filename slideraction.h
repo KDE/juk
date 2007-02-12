@@ -17,37 +17,26 @@
 #define SLIDERACTION_H
 
 #include <kaction.h>
-#include <qslider.h>
 //Added by qt3to4:
 #include <QWheelEvent>
 #include <QFocusEvent>
 #include <QBoxLayout>
 #include <ktoolbar.h>
+#include <phonon/ui/volumeslider.h>
+#include <phonon/ui/seekslider.h>
+
 class KActionCollection;
 class QBoxLayout;
 class Q3DockWindow;
 
-class VolumeSlider : public QSlider
+class VolumeSlider : public Phonon::VolumeSlider
 {
     Q_OBJECT
-
 public:
     VolumeSlider(Qt::Orientation o, QWidget *parent);
 
-    int volume() const;
-    void setVolume(int value);
-
-    void setOrientation(Qt::Orientation o);
-
-signals:
-    void signalVolumeChanged(int value);
-
 protected:
-    virtual void wheelEvent(QWheelEvent *e);
     virtual void focusInEvent(QFocusEvent *);
-
-private slots:
-    void slotValueChanged(int value);
 };
 
 class SliderAction : public KAction
@@ -59,45 +48,29 @@ public:
     virtual ~SliderAction();
 
     VolumeSlider *volumeSlider() const { return m_volumeSlider; }
-    QSlider *trackPositionSlider() const { return m_trackPositionSlider; }
-
-    bool dragging() const { return m_dragging; }
-    bool volumeDragging() const { return m_volumeDragging; }
+    Phonon::SeekSlider *trackPositionSlider() const { return m_trackPositionSlider; }
 
     virtual int plug(QWidget *parent, int index = -1);
     virtual void unplug(QWidget *widget);
-
-    static const int minPosition;
-    static const int maxPosition;
 
     virtual QWidget* createToolBarWidget(QToolBar* parent);
 
 public slots:
     void slotUpdateOrientation();
 
-signals:
-    void signalPositionChanged(int position);
-    void signalVolumeChanged(int volume);
-
 private:
     QWidget *createWidget(QWidget *parent);
 
 private slots:
     void slotUpdateSize();
-    void slotVolumeSliderPressed();
-    void slotVolumeSliderReleased();
-    void slotSliderPressed();
-    void slotSliderReleased();
     void slotToolbarDestroyed();
 
 private:
     KToolBar *m_toolBar;
     QWidget *m_widget;
     QBoxLayout *m_layout;
-    QSlider *m_trackPositionSlider;
+    Phonon::SeekSlider *m_trackPositionSlider;
     VolumeSlider *m_volumeSlider;
-    bool m_dragging;
-    bool m_volumeDragging;
 
     static const int volumeMax = 50;
 };

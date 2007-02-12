@@ -96,7 +96,8 @@ kde4_add_executable(juk ${juk_SRCS})
 
 # Add gstreamer here too...
 
-target_link_libraries(juk  m ${KDE4_KIO_LIBS} ${KDE4_KHTML_LIBS} ${TAGLIB_LIBRARIES} phononcore)
+target_link_libraries(juk  m ${KDE4_KIO_LIBS} ${KDE4_KHTML_LIBS} ${TAGLIB_LIBRARIES}
+    ${KDE4_PHONONUI_LIBS})
 if(TUNEPIMP_FOUND)
 	target_link_libraries(juk ${TUNEPIMP_LIBRARIES})
 endif(TUNEPIMP_FOUND)

@@ -361,10 +361,11 @@ void JuK::readConfig()
 
     KConfigGroup playerConfig(KGlobal::config(), "Player");
 
-    if(m_sliderAction->volumeSlider()) {
-        int maxVolume = m_sliderAction->volumeSlider()->maximum();
-        int volume = playerConfig.readEntry("Volume", maxVolume);
-        m_sliderAction->volumeSlider()->setVolume(volume);
+    if(m_player)
+    {
+        const int maxVolume = 100;
+        const int volume = playerConfig.readEntry("Volume", maxVolume);
+        m_player->setVolume(volume * 0.01);
     }
 
     // Default to no random play
@@ -402,9 +403,9 @@ void JuK::saveConfig()
 
     KConfigGroup playerConfig(KGlobal::config(), "Player");
 
-    if (m_sliderAction->volumeSlider())
+    if (m_player)
     {
-        playerConfig.writeEntry("Volume", m_sliderAction->volumeSlider()->volume());
+        playerConfig.writeEntry("Volume", static_cast<int>(100.0 * m_player->volume()));
     }
 
     playerConfig.writeEntry("RandomPlay", m_randomPlayAction->isChecked());

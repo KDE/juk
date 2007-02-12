@@ -43,6 +43,7 @@
  * to the left mouse button.
  */
 
+#if 0
 class TrackPositionSlider : public QSlider
 {
 public:
@@ -65,25 +66,16 @@ protected:
         }
     }
 };
+#endif
 
 ////////////////////////////////////////////////////////////////////////////////
 // VolumeSlider implementation
 ////////////////////////////////////////////////////////////////////////////////
 
 VolumeSlider::VolumeSlider(Qt::Orientation o, QWidget *parent) :
-    QSlider(o, parent)
+    Phonon::VolumeSlider(parent)
 {
-    connect(this, SIGNAL(valueChanged(int)), this, SLOT(slotValueChanged(int)));
-}
-
-void VolumeSlider::wheelEvent(QWheelEvent *e)
-{
-    if(orientation() == Qt::Horizontal) {
-        QWheelEvent transposed(e->pos(), -(e->delta()), e->buttons(), e->modifiers(), e->orientation());
-        QSlider::wheelEvent(&transposed);
-    }
-    else
-        QSlider::wheelEvent(e);
+    setOrientation(o);
 }
 
 void VolumeSlider::focusInEvent(QFocusEvent *)
@@ -91,47 +83,9 @@ void VolumeSlider::focusInEvent(QFocusEvent *)
     clearFocus();
 }
 
-int VolumeSlider::volume() const
-{
-    if(orientation() == Qt::Horizontal)
-        return value();
-    else
-        return maximum() - value();
-}
-
-void VolumeSlider::setVolume(int value)
-{
-    if(orientation() == Qt::Horizontal)
-        setValue(value);
-    else
-        setValue(maximum() - value);
-}
-
-void VolumeSlider::setOrientation(Qt::Orientation o)
-{
-    if(o == orientation())
-        return;
-
-    blockSignals(true);
-    setValue(maximum() - value());
-    blockSignals(false);
-    QSlider::setOrientation(o);
-}
-
-void VolumeSlider::slotValueChanged(int value)
-{
-    if(orientation() == Qt::Horizontal)
-        emit signalVolumeChanged(value);
-    else
-        emit signalVolumeChanged(maximum() - value);
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
-
-const int SliderAction::minPosition = 0;
-const int SliderAction::maxPosition = 1000;
 
 SliderAction::SliderAction(const QString &text, QObject* parent)
     : KAction(text, parent),
@@ -139,9 +93,7 @@ SliderAction::SliderAction(const QString &text, QObject* parent)
       m_widget(0),
       m_layout(0),
       m_trackPositionSlider(0),
-      m_volumeSlider(0),
-      m_dragging(false),
-      m_volumeDragging(false)
+      m_volumeSlider(0)
 {
 }
 
@@ -162,7 +114,7 @@ int SliderAction::plug(QWidget *parent, int index)
     // the check for null makes sure that there is only one toolbar that this is
     // "plugged" in to
 
-    if(parent->inherits("KToolBar") && !m_toolBar) {
+    if(!m_toolBar && qobject_cast<KToolBar *>(parent)) {
         m_toolBar = static_cast<KToolBar *>(parent);
 
 //        m_toolBar->insertWidget(id, m_widget->width(), m_widget, index);
@@ -173,6 +125,13 @@ int SliderAction::plug(QWidget *parent, int index)
                 this, SLOT(slotUpdateOrientation()));
         connect(m_toolBar, SIGNAL(placeChanged(Q3DockWindow::Place)),
                 this, SLOT(slotUpdateOrientation()));
+        if(m_volumeSlider)
+        {
+            connect(m_toolBar, SIGNAL(iconSizeChanged(QSize)), m_volumeSlider,
+                    SLOT(setIconSize(QSize)));
+            connect(m_toolBar, SIGNAL(iconSizeChanged(QSize)), m_trackPositionSlider,
+                    SLOT(setIconSize(QSize)));
+        }
 
         slotUpdateOrientation();
         return (associatedWidgets().count() - 1);
@@ -216,37 +175,21 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
 
         m_layout->addItem(new QSpacerItem(20, 1));
 
-        QLabel *trackPositionLabel = new QLabel(base);
-        trackPositionLabel->setObjectName("kde toolbar widget");
-        trackPositionLabel->setPixmap(SmallIcon("player_time"));
-        trackPositionLabel->setToolTip( i18n("Track position"));
-        m_layout->addWidget(trackPositionLabel);
-
-        m_trackPositionSlider = new TrackPositionSlider(base);
+        m_trackPositionSlider = new Phonon::SeekSlider(base);
         m_trackPositionSlider->setObjectName("trackPositionSlider");
         m_trackPositionSlider->setOrientation(orientation);
-        m_trackPositionSlider->setMaximum(maxPosition);
-        m_trackPositionSlider->setToolTip( i18n("Track position"));
+        //m_trackPositionSlider->setToolTip( i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
-        connect(m_trackPositionSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()));
-        connect(m_trackPositionSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()));
+        connect(parent, SIGNAL(iconSizeChanged(QSize)), m_trackPositionSlider,
+                SLOT(setIconSize(QSize)));
 
         m_layout->addItem(new QSpacerItem(10, 1));
 
-        QLabel *volumeLabel = new QLabel(base);
-        volumeLabel->setObjectName("kde toolbar widget");
-        volumeLabel->setPixmap(SmallIcon("player_volume"));
-        volumeLabel->setToolTip( i18n("Volume"));
-        m_layout->addWidget(volumeLabel);
-
         m_volumeSlider = new VolumeSlider(orientation, base);
         m_volumeSlider->setObjectName("volumeSlider");
-        m_volumeSlider->setMaximum(100);
-        m_volumeSlider->setToolTip( i18n("Volume"));
         m_layout->addWidget(m_volumeSlider);
-        connect(m_volumeSlider, SIGNAL(signalVolumeChanged(int)), SIGNAL(signalVolumeChanged(int)));
-        connect(m_volumeSlider, SIGNAL(sliderPressed()), this, SLOT(slotVolumeSliderPressed()));
-        connect(m_volumeSlider, SIGNAL(sliderReleased()), this, SLOT(slotVolumeSliderReleased()));
+        connect(parent, SIGNAL(iconSizeChanged(QSize)), m_volumeSlider,
+                SLOT(setIconSize(QSize)));
 
         m_volumeSlider->setObjectName("kde toolbar widget");
         m_trackPositionSlider->setObjectName("kde toolbar widget");
@@ -315,36 +258,20 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
 
         m_layout->addItem(new QSpacerItem(20, 1));
 
-        QLabel *trackPositionLabel = new QLabel(base);
-        trackPositionLabel->setObjectName("kde toolbar widget");
-        trackPositionLabel->setPixmap(SmallIcon("player_time"));
-        trackPositionLabel->setToolTip( i18n("Track position"));
-        m_layout->addWidget(trackPositionLabel);
-
-        m_trackPositionSlider = new TrackPositionSlider(base);
+        m_trackPositionSlider = new Phonon::SeekSlider(base);
         m_trackPositionSlider->setObjectName("trackPositionSlider");
-        m_trackPositionSlider->setMaximum(maxPosition);
-        m_trackPositionSlider->setToolTip( i18n("Track position"));
+        //m_trackPositionSlider->setToolTip( i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
-        connect(m_trackPositionSlider, SIGNAL(sliderPressed()), this, SLOT(slotSliderPressed()));
-        connect(m_trackPositionSlider, SIGNAL(sliderReleased()), this, SLOT(slotSliderReleased()));
+        connect(parent, SIGNAL(iconSizeChanged(QSize)), m_trackPositionSlider,
+                SLOT(setIconSize(QSize)));
 
         m_layout->addItem(new QSpacerItem(10, 1));
 
-        QLabel *volumeLabel = new QLabel(base);
-        volumeLabel->setObjectName("kde toolbar widget");
-        volumeLabel->setPixmap(SmallIcon("player_volume"));
-        volumeLabel->setToolTip( i18n("Volume"));
-        m_layout->addWidget(volumeLabel);
-
         m_volumeSlider = new VolumeSlider(orientation, base);
         m_volumeSlider->setObjectName("volumeSlider");
-        m_volumeSlider->setMaximum(100);
-        m_volumeSlider->setToolTip( i18n("Volume"));
         m_layout->addWidget(m_volumeSlider);
-        connect(m_volumeSlider, SIGNAL(signalVolumeChanged(int)), SIGNAL(signalVolumeChanged(int)));
-        connect(m_volumeSlider, SIGNAL(sliderPressed()), this, SLOT(slotVolumeSliderPressed()));
-        connect(m_volumeSlider, SIGNAL(sliderReleased()), this, SLOT(slotVolumeSliderReleased()));
+        connect(parent, SIGNAL(iconSizeChanged(QSize)), m_volumeSlider,
+                SLOT(setIconSize(QSize)));
 
         m_volumeSlider->setObjectName("kde toolbar widget");
         m_trackPositionSlider->setObjectName("kde toolbar widget");
@@ -390,28 +317,6 @@ void SliderAction::slotUpdateSize()
         m_trackPositionSlider->setMaximumHeight(m_toolBar->iconSize().height() - offset);
         m_trackPositionSlider->setMaximumWidth(absoluteMax);
     }
-}
-
-void SliderAction::slotSliderPressed()
-{
-    m_dragging = true;
-}
-
-void SliderAction::slotSliderReleased()
-{
-    m_dragging = false;
-    emit signalPositionChanged(m_trackPositionSlider->value());
-}
-
-void SliderAction::slotVolumeSliderPressed()
-{
-    m_volumeDragging = true;
-}
-
-void SliderAction::slotVolumeSliderReleased()
-{
-    m_volumeDragging = false;
-    emit signalVolumeChanged(m_volumeSlider->value());
 }
 
 void SliderAction::slotToolbarDestroyed()

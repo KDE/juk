@@ -117,7 +117,7 @@ bool PlayerManager::paused() const
 float PlayerManager::volume() const
 {
     if(!m_output)
-        return 0;
+        return 1.0;
 
     return m_output->volume();
 }
@@ -152,6 +152,7 @@ int PlayerManager::currentTime() const
     return m_media->currentTime() / 1000;
 }
 
+/*
 int PlayerManager::position() const
 {
     if(!m_media)
@@ -162,6 +163,7 @@ int PlayerManager::position() const
         return static_cast<int>(static_cast<float>(curr * SliderAction::maxPosition) / m_media->totalTime() + 0.5f);
     return -1;
 }
+*/
 
 QStringList PlayerManager::trackProperties()
 {
@@ -232,8 +234,6 @@ void PlayerManager::play(const FileHandle &file)
         if(paused())
             m_media->play();
         else if(playing()) {
-            if(m_sliderAction->trackPositionSlider())
-                m_sliderAction->trackPositionSlider()->setValue(0);
             m_media->seek(0);
         }
         else {
@@ -267,9 +267,6 @@ void PlayerManager::play(const FileHandle &file)
     if(action<KToggleAction>("albumRandomPlay")->isChecked())
         action("forwardAlbum")->setEnabled(true);
     action("back")->setEnabled(true);
-
-    if(m_sliderAction->trackPositionSlider())
-        m_sliderAction->trackPositionSlider()->setEnabled(true);
 
     emit signalPlay();
 }
@@ -316,11 +313,6 @@ void PlayerManager::stop()
     action("forward")->setEnabled(false);
     action("forwardAlbum")->setEnabled(false);
 
-    if(m_sliderAction->trackPositionSlider()) {
-        m_sliderAction->trackPositionSlider()->setValue(0);
-        m_sliderAction->trackPositionSlider()->setEnabled(false);
-    }
-
     m_media->stop();
     m_playlistInterface->stop();
 
@@ -344,6 +336,7 @@ void PlayerManager::seek(int seekTime)
     m_media->seek(seekTime);
 }
 
+/*
 void PlayerManager::seekPosition(int position)
 {
     if(!m_media)
@@ -354,19 +347,21 @@ void PlayerManager::seekPosition(int position)
 
     slotUpdateTime(position);
     m_media->seek(static_cast<qint64>(static_cast<float>(m_media->totalTime() * position) / SliderAction::maxPosition + 0.5f));
-
-    if(m_sliderAction->trackPositionSlider())
-        m_sliderAction->trackPositionSlider()->setValue(position);
 }
+*/
 
 void PlayerManager::seekForward()
 {
-    seekPosition(qMin(SliderAction::maxPosition, position() + 10));
+    const qint64 total = m_media->totalTime();
+    const qint64 newtime = m_media->currentTime() + total / 100;
+    m_media->seek(qMin(total, newtime));
 }
 
 void PlayerManager::seekBack()
 {
-    seekPosition(qMax(SliderAction::minPosition, position() - 10));
+    const qint64 total = m_media->totalTime();
+    const qint64 newtime = m_media->currentTime() - total / 100;
+    m_media->seek(qMax(qint64(0), newtime));
 }
 
 void PlayerManager::playPause()
@@ -398,35 +393,28 @@ void PlayerManager::back()
 
 void PlayerManager::volumeUp()
 {
-    if(!m_media || !m_sliderAction || !m_sliderAction->volumeSlider())
+    if(!m_output)
         return;
 
-    int volume = m_sliderAction->volumeSlider()->volume() +
-        m_sliderAction->volumeSlider()->maximum() / 25; // 4% up
-
-    slotSetVolume(volume);
-    m_sliderAction->volumeSlider()->setVolume(volume);
+    float volume = m_output->volume() + 0.04; // 4% up
+    m_output->setVolume(volume);
 }
 
 void PlayerManager::volumeDown()
 {
-    if(!m_media || !m_sliderAction || !m_sliderAction->volumeSlider())
+    if(!m_output)
         return;
 
-    int volume = m_sliderAction->volumeSlider()->value() -
-        m_sliderAction->volumeSlider()->maximum() / 25; // 4% down
-
-    slotSetVolume(volume);
-    m_sliderAction->volumeSlider()->setVolume(volume);
+    float volume = m_output->volume() - 0.04; // 4% up
+    m_output->setVolume(volume);
 }
 
 void PlayerManager::mute()
 {
-    if(!m_media || !m_sliderAction || !m_sliderAction->volumeSlider())
+    if(!m_output)
         return;
 
-    slotSetVolume(m_muted ? m_sliderAction->volumeSlider()->value() : 0);
-    m_muted = !m_muted;
+    m_output->setMuted(!m_output->isMuted());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -476,56 +464,14 @@ void PlayerManager::slotTick(qint64 msec)
 
     m_noSeek = true;
 
-    if(!m_sliderAction->dragging()) {
-        if(m_sliderAction->trackPositionSlider()) {
-            int position = static_cast<int>(static_cast<float>(msec * SliderAction::maxPosition) / m_media->totalTime() + 0.5f);
-            m_sliderAction->trackPositionSlider()->setValue(position);
-        }
-
-        if(m_statusLabel) {
-            m_statusLabel->setItemCurrentTime(msec / 1000);
-        }
-    }
-
-    // This call is done because when the user adds the slider to the toolbar
-    // while playback is occurring the volume slider generally defaults to 0,
-    // and doesn't get updated to the correct volume.  It might be better to
-    // have the SliderAction class fill in the correct volume, but I'm trying
-    // to avoid having it depend on PlayerManager since it may not be
-    // constructed in time during startup. -mpyne
-
-    if(!m_sliderAction->volumeDragging() && m_sliderAction->volumeSlider())
-    {
-        int maxV = m_sliderAction->volumeSlider()->maximum();
-        float v = sqrt(sqrt(volume())); // Cancel out exponential scaling
-
-        m_sliderAction->volumeSlider()->blockSignals(true);
-        m_sliderAction->volumeSlider()->setVolume((int)((v) * maxV));
-        m_sliderAction->volumeSlider()->blockSignals(false);
+    if(m_statusLabel) {
+        m_statusLabel->setItemCurrentTime(msec / 1000);
     }
 
     m_noSeek = false;
 }
 
-void PlayerManager::slotSetVolume(int volume)
-{
-    float scaledVolume;
-
-    if(m_sliderAction->volumeSlider())
-        scaledVolume = float(volume) / m_sliderAction->volumeSlider()->maximum();
-    else {
-        scaledVolume = float(volume) / 100.0; // Hopefully this is accurate
-        scaledVolume = qMin(1.0f, scaledVolume);
-    }
-
-    // Perform exponential scaling to counteract the fact that humans perceive
-    // volume changes logarithmically.
-
-    scaledVolume *= scaledVolume;
-    scaledVolume *= scaledVolume;
-    m_output->setVolume(scaledVolume); // scaledVolume ^ 4
-}
-
+/*
 void PlayerManager::slotUpdateTime(int position)
 {
     if(!m_statusLabel)
@@ -537,6 +483,7 @@ void PlayerManager::slotUpdateTime(int position)
 
     m_statusLabel->setItemCurrentTime(seekTime);
 }
+*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members
@@ -589,24 +536,21 @@ void PlayerManager::setup()
 
     m_sliderAction = action<SliderAction>("trackPositionAction");
 
+    /*
     connect(m_sliderAction, SIGNAL(signalPositionChanged(int)),
             this, SLOT(seekPosition(int)));
     connect(m_sliderAction->trackPositionSlider(), SIGNAL(valueChanged(int)),
             this, SLOT(slotUpdateTime(int)));
-    connect(m_sliderAction, SIGNAL(signalVolumeChanged(int)),
-            this, SLOT(slotSetVolume(int)));
+            */
 
-    float volume;
-
-    if(m_sliderAction->volumeSlider()) {
-        volume =
-            float(m_sliderAction->volumeSlider()->volume()) /
-            float(m_sliderAction->volumeSlider()->maximum());
+    if(m_sliderAction->trackPositionSlider())
+    {
+        m_sliderAction->trackPositionSlider()->setMediaProducer(m_media);
     }
-    else
-        volume = 1.0f; // Assume user wants full volume
-
-    m_output->setVolume(volume);
+    if(m_sliderAction->volumeSlider())
+    {
+        m_sliderAction->volumeSlider()->setAudioOutput(m_output);
+    }
 
     connect(m_media, SIGNAL(length(qint64)), SLOT(slotLength(qint64)));
     connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
