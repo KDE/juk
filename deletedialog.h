@@ -23,7 +23,7 @@
 #include "ui_deletedialogbase.h"
 
 class QStringList;
-class KListBox;
+class K3ListBox;
 class QLabel;
 class Q3WidgetStack;
 

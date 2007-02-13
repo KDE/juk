@@ -139,7 +139,7 @@
   </customwidget>
  </customwidgets>
  <includes>
-  <include location="local" >klistbox.h</include>
+  <include location="local" >k3listbox.h</include>
  </includes>
  <resources/>
  <connections>
