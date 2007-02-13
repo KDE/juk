@@ -87,7 +87,7 @@
     </layout>
    </item>
    <item>
-    <widget class="KListBox" name="ddFileList" >
+    <widget class="K3ListBox" name="ddFileList" >
      <property name="toolTip" >
       <string>List of files that are about to be deleted.</string>
      </property>
@@ -133,9 +133,9 @@
  <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
  <customwidgets>
   <customwidget>
-   <class>KListBox</class>
+   <class>K3ListBox</class>
    <extends>Q3ListBox</extends>
-   <header>klistbox.h</header>
+   <header>k3listbox.h</header>
   </customwidget>
  </customwidgets>
  <includes>
