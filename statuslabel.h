@@ -18,7 +18,7 @@
 
 #include "playlistinterface.h"
 
-#include <q3hbox.h>
+#include <khbox.h>
 //Added by qt3to4:
 #include <QLabel>
 #include <QEvent>
@@ -28,12 +28,12 @@ class KSqueezedTextLabel;
 
 class FileHandle;
 
-class StatusLabel : public Q3HBox, public PlaylistObserver
+class StatusLabel : public KHBox, public PlaylistObserver
 {
     Q_OBJECT
 
 public:
-    StatusLabel(PlaylistInterface *playlist, QWidget *parent = 0, const char *name = 0);
+    StatusLabel(PlaylistInterface *playlist, QWidget *parent = 0);
     virtual ~StatusLabel();
     virtual void updateCurrent();
 

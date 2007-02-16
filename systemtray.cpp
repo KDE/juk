@@ -26,7 +26,7 @@
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
 
-#include <q3vbox.h>
+#include <kvbox.h>
 #include <QTimer>
 #include <QColor>
 #include <QPushButton>
@@ -320,9 +320,9 @@ void SystemTray::slotMouseInPopup()
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Q3VBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
+KVBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
 {
-    Q3VBox *infoBox = 0;
+    KVBox *infoBox = 0;
 
     if(buttonsToLeft()) {
 
@@ -331,7 +331,7 @@ Q3VBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
         createButtonBox(parent);
         addSeparatorLine(parent);
 
-        infoBox = new Q3VBox(parent);
+        infoBox = new KVBox(parent);
 
         // Another line, and the cover, if there's a cover, and if
         // it's selected to be shown
@@ -350,7 +350,7 @@ Q3VBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
             addSeparatorLine(parent);
         }
 
-        infoBox = new Q3VBox(parent);
+        infoBox = new KVBox(parent);
 
         addSeparatorLine(parent);
         createButtonBox(parent);
@@ -387,10 +387,10 @@ void SystemTray::createPopup()
     connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
     connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
 
-    Q3HBox *box = new Q3HBox(m_popup, "popupMainLayout");
+    KHBox *box = new KHBox(m_popup);
     box->setSpacing(15); // Add space between text and buttons
 
-    Q3VBox *infoBox = createPopupLayout(box, playingFile);
+    KVBox *infoBox = createPopupLayout(box, playingFile);
 
     for(int i = 0; i < m_labels.capacity(); ++i) {
         m_labels[i] = new QLabel /*FlickerFreeLabel*/(" ", infoBox);
@@ -467,7 +467,7 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
 
 void SystemTray::createButtonBox(QWidget *parent)
 {
-    Q3VBox *buttonBox = new Q3VBox(parent);
+    KVBox *buttonBox = new KVBox(parent);
 
     buttonBox->setSpacing(3);
 

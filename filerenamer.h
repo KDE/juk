@@ -33,7 +33,7 @@ class QCheckBox;
 class QLayout;
 class QLayoutItem;
 class QPushButton;
-class Q3VBox;
+class KVBox;
 class PlaylistItem;
 class QSignalMapper;
 
@@ -452,7 +452,7 @@ private slots:
 
 private:
     /// This is the frame that holds all of the category widgets and checkboxes.
-    Q3VBox *m_mainFrame;
+    KVBox *m_mainFrame;
 
     /**
      * This is the meat of the widget, it holds the rows for the user configuration.  It is

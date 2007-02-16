@@ -32,7 +32,7 @@
 
 class FlickerFreeLabel;
 class QTimer;
-class Q3VBox;
+class KVBox;
 class FileHandle;
 
 /**
@@ -98,7 +98,7 @@ private:
     // Creates the widget layout for the popup, returning the QVBox that
     // holds the text labels.  Uses buttonsToLeft() to figure out which
     // order to create them in.  @p file is used to grab the cover.
-    Q3VBox *createPopupLayout(QWidget *parent, const FileHandle &file);
+    KVBox *createPopupLayout(QWidget *parent, const FileHandle &file);
 
     void addSeparatorLine(QWidget *parent);
     void addCoverButton(QWidget *parent, const QPixmap &cover);

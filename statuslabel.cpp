@@ -40,8 +40,8 @@ using namespace ActionCollection;
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const char *name) :
-    Q3HBox(parent, name),
+StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
+    KHBox(parent),
     PlaylistObserver(playlist),
     m_showTimeRemaining(false)
 {
@@ -82,7 +82,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent, const cha
     setItemTotalTime(0);
     setItemCurrentTime(0);
 
-    Q3HBox *jumpBox = new Q3HBox(this);
+    KHBox *jumpBox = new KHBox(this);
     jumpBox->setFrameStyle(Box | Sunken);
     jumpBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
 

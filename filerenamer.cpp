@@ -36,8 +36,8 @@
 #include <kvbox.h>
 
 #include <QFile>
-#include <q3hbox.h>
-#include <q3vbox.h>
+#include <khbox.h>
+#include <kvbox.h>
 #include <q3scrollview.h>
 #include <QObject>
 #include <QTimer>
@@ -358,7 +358,7 @@ int FileRenamerWidget::addRowCategory(TagType category)
     row.position = m_rows.count();
     int id = row.position;
 
-    Q3HBox *frame = new Q3HBox(m_mainFrame);
+    KHBox *frame = new KHBox(m_mainFrame);
     QPalette palette;
     palette.setColor(frame->backgroundRole(), frame->palette().color(backgroundRole()).dark(110));
     frame->setPalette(palette);
@@ -370,7 +370,7 @@ int FileRenamerWidget::addRowCategory(TagType category)
 
     m_mainFrame->setStretchFactor(frame, 1);
 
-    Q3VBox *buttons = new Q3VBox(frame);
+    KVBox *buttons = new KVBox(frame);
     buttons->setFrameStyle(Q3Frame::Plain | Q3Frame::Box);
     buttons->setLineWidth(1);
 
@@ -392,7 +392,7 @@ int FileRenamerWidget::addRowCategory(TagType category)
     frame->setStretchFactor(label, 1);
     label->setAlignment(Qt::AlignCenter);
 
-    Q3VBox *options = new Q3VBox(frame);
+    KVBox *options = new KVBox(frame);
     row.enableButton = new KPushButton(i18n("Remove"), options);
     toggleMapper->connect(row.enableButton, SIGNAL(clicked()), SLOT(map()));
     toggleMapper->setMapping(row.enableButton, id);
@@ -533,7 +533,7 @@ void FileRenamerWidget::createTagRows()
     connect(upMapper,     SIGNAL(mapped(int)), SLOT(moveItemUp(int)));
     connect(downMapper,   SIGNAL(mapped(int)), SLOT(moveItemDown(int)));
 
-    m_mainFrame = new Q3VBox(m_mainView->viewport());
+    m_mainFrame = new KVBox(m_mainView->viewport());
     m_mainFrame->setMargin(10);
     m_mainFrame->setSpacing(5);
 
