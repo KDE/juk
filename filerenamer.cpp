@@ -32,7 +32,6 @@
 #include <kpushbutton.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
-#include <ksimpleconfig.h>
 #include <kvbox.h>
 
 #include <QFile>
