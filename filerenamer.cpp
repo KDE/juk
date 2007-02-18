@@ -1021,8 +1021,8 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
             QPixmap thumb = item->file().coverInfo()->pixmap(CoverInfo::Thumbnail);
             thumb.save(path + "/.juk-thumbnail.png", "PNG");
 
-            KConfig config(path + "/.directory", KConfig::OnlyLocal);
-            config.setGroup("Desktop Entry");
+            KConfig _config( path + "/.directory", KConfig::OnlyLocal );
+            KConfigGroup config(&_config, "Desktop Entry");
 
             if(!config.hasKey("Icon")) {
                 config.writeEntry("Icon", QString("%1/.juk-thumbnail.png").arg(path));
