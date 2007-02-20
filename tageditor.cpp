@@ -450,9 +450,9 @@ void TagEditor::readConfig()
 
     KConfigGroup config(KGlobal::config(), "TagEditor");
     if(m_artistNameBox && m_albumNameBox) {
-        readCompletionMode(&config, m_artistNameBox, "ArtistNameBoxMode");
-        readCompletionMode(&config, m_albumNameBox, "AlbumNameBoxMode");
-        readCompletionMode(&config, m_genreBox, "GenreBoxMode");
+        readCompletionMode(config, m_artistNameBox, "ArtistNameBoxMode");
+        readCompletionMode(config, m_albumNameBox, "AlbumNameBoxMode");
+        readCompletionMode(config, m_genreBox, "GenreBoxMode");
     }
 
     bool show = config.readEntry("Show", false);
@@ -471,10 +471,10 @@ void TagEditor::readConfig()
     m_genreBox->completionObject()->setItems(m_genreList);
 }
 
-void TagEditor::readCompletionMode(KConfigBase *config, KComboBox *box, const QString &key)
+void TagEditor::readCompletionMode(const KConfigGroup &config, KComboBox *box, const QString &key)
 {
     KGlobalSettings::Completion mode =
-        KGlobalSettings::Completion(config->readEntry(key, (int)KGlobalSettings::CompletionAuto));
+        KGlobalSettings::Completion(config.readEntry(key, (int)KGlobalSettings::CompletionAuto));
 
     box->setCompletionMode(mode);
 }
