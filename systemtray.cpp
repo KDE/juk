@@ -44,8 +44,11 @@
 #include <QLabel>
 #include <QMouseEvent>
 
+#ifdef Q_WS_X11
 #include <netwm.h>
 #include <QX11Info>
+#endif
+
 #include <QTextDocument>
 
 #include "tag.h"
@@ -437,6 +440,7 @@ void SystemTray::createPopup()
 bool SystemTray::buttonsToLeft() const
 {
     // The following code was nicked from kpassivepopup.cpp
+#ifdef Q_WS_X11
 
 #ifdef __GNUC__
 #warning the systray is no longer a widget
@@ -451,6 +455,9 @@ bool SystemTray::buttonsToLeft() const
     // This seems to accurately guess what side of the icon that
     // KPassivePopup will popup on.
     return(win.pos.x < bounds.center().x());
+#else
+    return false;
+#endif
 }
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
