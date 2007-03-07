@@ -640,9 +640,9 @@ static bool copyImage(QImage &dest, QImage &src, int x, int y)
     // However, we do have to specifically ensure that setAlphaBuffer is set
     // to false
 
-    large_src.convertToFormat(QImage::Format_RGB32); // Turn off alpha
+    large_src = large_src.convertToFormat(QImage::Format_RGB32); // Turn off alpha
     large_src.fill(0); // All transparent pixels
-    large_src.convertToFormat(QImage::Format_ARGB32); // Turn on alpha
+    large_src = large_src.convertToFormat(QImage::Format_ARGB32); // Turn on alpha
 
     int w = src.width();
     int h = src.height();
