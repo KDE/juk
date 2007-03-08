@@ -167,11 +167,11 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
 
     m_appPix = loadIcon("juk_dock");
 
-    m_playPix = createPixmap("player_play");
-    m_pausePix = createPixmap("player_pause");
+    m_playPix = createPixmap("media-playback-start");
+    m_pausePix = createPixmap("media-playback-pause");
 
-    m_forwardPix = SmallIcon("player_end");
-    m_backPix = SmallIcon("player_start");
+    m_forwardPix = SmallIcon("media-skip-forward");
+    m_backPix = SmallIcon("media-skip-backward");
 
     setIcon(m_appPix);
 

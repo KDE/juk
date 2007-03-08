@@ -87,7 +87,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
     jumpBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
 
     QPushButton *jumpButton = new QPushButton(jumpBox);
-    jumpButton->setIcon(SmallIcon("up"));
+    jumpButton->setIcon(SmallIcon("go-up"));
     jumpButton->setFlat(true);
 
     jumpButton->setToolTip( i18n("Jump to the currently playing item"));

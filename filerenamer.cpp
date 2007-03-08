@@ -79,7 +79,7 @@ public:
         KVBox *hbox = new KVBox(vbox);
 
         QLabel *l = new QLabel(hbox);
-        l->setPixmap(SmallIcon("messagebox_warning", 32));
+        l->setPixmap(SmallIcon("dialog-warning", 32));
 
         l = new QLabel(i18n("You are about to rename the following files. "
                             "Are you sure you want to continue?"), hbox);
@@ -342,8 +342,8 @@ FileRenamerWidget::~FileRenamerWidget()
 int FileRenamerWidget::addRowCategory(TagType category)
 {
     kDebug(65432) << k_funcinfo << endl;
-    static QIcon up   = SmallIcon("up");
-    static QIcon down = SmallIcon("down");
+    static QIcon up   = SmallIcon("go-up");
+    static QIcon down = SmallIcon("go-down");
 
     // Find number of categories already of this type.
     int categoryCount = 0;

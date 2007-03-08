@@ -500,7 +500,7 @@ void TagEditor::setupActions()
     show->setCheckedState(KGuiItem(i18n("Hide &Tag Editor")));
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
 
-    KAction *act = new KAction(KIcon("filesave"), i18n("&Save"), this);
+    KAction *act = new KAction(KIcon("document-save"), i18n("&Save"), this);
     ActionCollection::actions()->addAction("saveItem", act);
     act->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotSave()));
@@ -540,7 +540,7 @@ void TagEditor::setupLayout()
 
         m_trackNameBox = new KLineEdit(this);
         m_trackNameBox->setObjectName( "trackNameBox" );
-        addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout, "player_play");
+        addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout, "media-playback-start");
 
         m_albumNameBox = new KComboBox( true, this );
         m_albumNameBox->setObjectName( "albumNameBox" );

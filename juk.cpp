@@ -177,23 +177,23 @@ void JuK::setupActions()
 
     connect(act, SIGNAL(triggered(bool)), clear, SLOT(clear()));
 
-    act = new KAction(KIcon("player_play"), i18n("&Play"), collection);
+    act = new KAction(KIcon("media-playback-start"), i18n("&Play"), collection);
     collection->addAction("play", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(play()));
 
-    act = new KAction(KIcon("player_pause"), i18n("P&ause"), collection);
+    act = new KAction(KIcon("media-playback-pause"), i18n("P&ause"), collection);
     collection->addAction("pause", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(pause()));
 
-    act = new KAction(KIcon("player_stop"), i18n("&Stop"), collection);
+    act = new KAction(KIcon("media-playback-stop"), i18n("&Stop"), collection);
     collection->addAction("stop", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(stop()));
 
-    act = new KToolBarPopupAction(KIcon("player_start"), i18nc("previous track", "Previous"), collection);
+    act = new KToolBarPopupAction(KIcon("media-skip-backward"), i18nc("previous track", "Previous"), collection);
     collection->addAction("back", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(back()));
 
-    act = new KAction(KIcon("player_end"), i18nc("next track", "&Next"), collection);
+    act = new KAction(KIcon("media-skip-forward"), i18nc("next track", "&Next"), collection);
     collection->addAction("forward", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(forward()));
 

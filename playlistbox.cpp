@@ -123,8 +123,8 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
 #endif
 #if 0
     QMenu *p = viewModeAction->menu();
-    p->changeItem(0, SmallIconSet("view_detailed"), modeNames[0]);
-    p->changeItem(1, SmallIconSet("view_text"), modeNames[1]);
+    p->changeItem(0, SmallIconSet("fileview-detailed"), modeNames[0]);
+    p->changeItem(1, SmallIconSet("fileview-text"), modeNames[1]);
     p->changeItem(2, SmallIconSet("view_tree"), modeNames[2]);
 #endif
 
@@ -328,7 +328,7 @@ void PlaylistBox::remove()
                                                        "playlists from your collection?"),
                                                   names,
                                                   i18n("Remove Items?"),
-                                                  KGuiItem(i18n("&Remove"), "edittrash")) == KMessageBox::Cancel)
+                                                  KGuiItem(i18n("&Remove"), "edit-trash")) == KMessageBox::Cancel)
         {
             return;
         }

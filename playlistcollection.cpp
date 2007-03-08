@@ -854,15 +854,15 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // "New" menu
 
-    menu = new KActionMenu(KIcon("filenew"), i18n("&New"), actions());
+    menu = new KActionMenu(KIcon("document-new"), i18n("&New"), actions());
     actions()->addAction("file_new", menu);
 
     menu->addAction(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
-                              "newPlaylist", "window_new", KShortcut(Qt::CTRL + Qt::Key_N)));
+                              "newPlaylist", "window-new", KShortcut(Qt::CTRL + Qt::Key_N)));
     menu->addAction(createAction(i18n("&Search Playlist..."), SLOT(slotCreateSearchPlaylist()),
-                              "newSearchPlaylist", "find", KShortcut(Qt::CTRL + Qt::Key_F)));
+                              "newSearchPlaylist", "edit-find", KShortcut(Qt::CTRL + Qt::Key_F)));
     menu->addAction(createAction(i18n("Playlist From &Folder..."), SLOT(slotCreateFolderPlaylist()),
-                              "newDirectoryPlaylist", "fileopen", KShortcut(Qt::CTRL + Qt::Key_D)));
+                              "newDirectoryPlaylist", "document-open", KShortcut(Qt::CTRL + Qt::Key_D)));
 
     // Guess tag info menu
 
@@ -873,43 +873,43 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     /* menu->setIconSet(SmallIconSet("wizard")); */
 
     menu->addAction(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
-                              "guessTagFile", "fileimport", KShortcut(Qt::CTRL + Qt::Key_G)));
+                              "guessTagFile", "file-import", KShortcut(Qt::CTRL + Qt::Key_G)));
     menu->addAction(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
-                              "guessTagInternet", "connect_established", KShortcut(Qt::CTRL + Qt::Key_I)));
+                              "guessTagInternet", "connection-established", KShortcut(Qt::CTRL + Qt::Key_I)));
 #else
     createAction(i18n("Guess Tag Information From &File Name"), SLOT(slotGuessTagFromFile()),
-                 "guessTag", "fileimport", KShortcut(Qt::CTRL + Qt::Key_F));
+                 "guessTag", "file-import", KShortcut(Qt::CTRL + Qt::Key_F));
 #endif
 
 
     createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),     "playFirst");
-    createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "next");
+    createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "find-next");
 
-    createAction(i18n("Open..."),         SLOT(slotOpen()),         "file_open", "fileopen", KShortcut(Qt::CTRL + Qt::Key_O));
-    createAction(i18n("Add &Folder..."),  SLOT(slotAddFolder()),    "openDirectory", "fileopen");
+    createAction(i18n("Open..."),         SLOT(slotOpen()),         "file_open", "document-open", KShortcut(Qt::CTRL + Qt::Key_O));
+    createAction(i18n("Add &Folder..."),  SLOT(slotAddFolder()),    "openDirectory", "document-open");
     createAction(i18n("&Rename..."),      SLOT(slotRename()),       "renamePlaylist", "lineedit");
-    createAction(i18n("D&uplicate..."),   SLOT(slotDuplicate()),    "duplicatePlaylist", "editcopy");
-    createAction(i18n("Save"),            SLOT(slotSave()),         "file_save", "filesave", KShortcut(Qt::CTRL + Qt::Key_S));
-    createAction(i18n("Save As..."),      SLOT(slotSaveAs()),       "file_save_as", "filesaveas");
-    createAction(i18n("R&emove"),         SLOT(slotRemove()),       "deleteItemPlaylist", "edittrash");
-    createAction(i18n("Reload"),          SLOT(slotReload()),       "reloadPlaylist", "reload");
-    createAction(i18n("Edit Search..."),  SLOT(slotEditSearch()),   "editSearch", "editclear");
+    createAction(i18n("D&uplicate..."),   SLOT(slotDuplicate()),    "duplicatePlaylist", "edit-copy");
+    createAction(i18n("Save"),            SLOT(slotSave()),         "file_save", "document-save", KShortcut(Qt::CTRL + Qt::Key_S));
+    createAction(i18n("Save As..."),      SLOT(slotSaveAs()),       "file_save_as", "document-save-as");
+    createAction(i18n("R&emove"),         SLOT(slotRemove()),       "deleteItemPlaylist", "edit-trash");
+    createAction(i18n("Reload"),          SLOT(slotReload()),       "reloadPlaylist", "view-refresh");
+    createAction(i18n("Edit Search..."),  SLOT(slotEditSearch()),   "editSearch", "edit-clear");
 
-    createAction(i18n("&Delete"),         SLOT(slotRemoveItems()),  "removeItem", "editdelete");
-    createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "reload");
-    createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "filesaveas", KShortcut(Qt::CTRL + Qt::Key_R));
+    createAction(i18n("&Delete"),         SLOT(slotRemoveItems()),  "removeItem", "edit-delete");
+    createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "view-refresh");
+    createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "document-save-as", KShortcut(Qt::CTRL + Qt::Key_R));
 
     menu = new KActionMenu(i18n("Cover Manager"), actions());
     actions()->addAction("coverManager", menu);
     /* menu->setIconSet(SmallIconSet("image")); */
     menu->addAction(createAction(i18n("&View Cover"),
-        SLOT(slotViewCovers()), "viewCover", "viewmag"));
+        SLOT(slotViewCovers()), "viewCover", "zoom-original"));
     menu->addAction(createAction(i18n("Get Cover From &File..."),
-        SLOT(slotAddLocalCover()), "addCover", "fileimport", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
+        SLOT(slotAddLocalCover()), "addCover", "file-import", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
     menu->addAction(createAction(i18n("Get Cover From &Internet..."),
-        SLOT(slotAddInternetCover()), "googleCover", "connect_established", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
+        SLOT(slotAddInternetCover()), "googleCover", "connection-established", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
     menu->addAction(createAction(i18n("&Delete Cover"),
-        SLOT(slotRemoveCovers()), "removeCover", "editdelete"));
+        SLOT(slotRemoveCovers()), "removeCover", "edit-delete"));
     menu->addAction(createAction(i18n("Show Cover &Manager"),
         SLOT(slotShowCoverManager()), "showCoverManager"));
 
@@ -919,7 +919,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     historyAction->setCheckedState(KGuiItem(i18n("Hide &History")));
 
     KToggleAction *upcomingAction =
-        new KToggleAction(KIcon("today"), i18n("Show &Play Queue"), actions());
+        new KToggleAction(KIcon("calendar-today"), i18n("Show &Play Queue"), actions());
     actions()->addAction("showUpcoming", upcomingAction);
     upcomingAction->setCheckedState(KGuiItem(i18n("Hide &Play Queue")));
 

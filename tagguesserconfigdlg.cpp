@@ -36,8 +36,8 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     m_child->lvSchemes->setItemsRenameable(true);
     m_child->lvSchemes->setSorting(-1);
     m_child->lvSchemes->setDefaultRenameAction(Q3ListView::Accept);
-    m_child->bMoveUp->setIcon(BarIconSet("1uparrow"));
-    m_child->bMoveDown->setIcon(BarIconSet("1downarrow"));
+    m_child->bMoveUp->setIcon(BarIconSet("arrow-up"));
+    m_child->bMoveDown->setIcon(BarIconSet("arrow-down"));
 
     const QStringList schemes = TagGuesser::schemeStrings();
     QStringList::ConstIterator it = schemes.begin();

@@ -2095,7 +2095,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
         m_rmbMenu = new KMenu(this);
 
-        m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("today"),
+        m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("calendar-today"),
             i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
         m_rmbMenu->addSeparator();
 
@@ -2125,7 +2125,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
         m_rmbMenu->addSeparator();
 
         m_rmbMenu->insertItem(
-            SmallIcon("folder_new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
+            SmallIcon("folder-new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
 
         K3bExporter *exporter = new K3bExporter(this);
         KAction *k3bAction = exporter->action();
