@@ -1453,10 +1453,12 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
 
 void Playlist::hideColumn(int c, bool updateSearch)
 {
-#ifdef __GNUC__
-    #warning Port to QAction
-#endif
-    m_headerMenu->setItemChecked(c, false);
+    foreach (QAction *action, m_headerMenu->actions()) {
+        if (action->data().toInt() == c) {
+            action->setChecked(false);
+            break;
+        }
+    }
 
     if(!isColumnVisible(c))
         return;
@@ -1489,7 +1491,12 @@ void Playlist::hideColumn(int c, bool updateSearch)
 
 void Playlist::showColumn(int c, bool updateSearch)
 {
-    m_headerMenu->setItemChecked(c, true);
+    foreach (QAction *action, m_headerMenu->actions()) {
+        if (action->data().toInt() == c) {
+            action->setChecked(true);
+            break;
+        }
+    }
 
     if(isColumnVisible(c))
         return;
@@ -1576,17 +1583,23 @@ void Playlist::polish()
     #warning should be fixed...
 #endif
     /* m_headerMenu->insertTitle(i18n("Show")); */
-    m_headerMenu->setCheckable(true);
+
+    QAction *showAction;
 
     for(int i = 0; i < header()->count(); ++i) {
         if(i == PlaylistItem::FileNameColumn)
             m_headerMenu->addSeparator();
-        m_headerMenu->insertItem(header()->label(i), i);
-        m_headerMenu->setItemChecked(i, true);
+
+        showAction = new QAction(header()->label(i), m_headerMenu);
+        showAction->setData(i);
+        showAction->setCheckable(true);
+        showAction->setChecked(true);
+        m_headerMenu->addAction(showAction);
+
         adjustColumn(i);
     }
 
-    connect(m_headerMenu, SIGNAL(activated(int)), this, SLOT(slotToggleColumnVisible(int)));
+    connect(m_headerMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotToggleColumnVisible(QAction *)));
 
     connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)),
             this, SLOT(slotShowRMBMenu(Q3ListViewItem *, const QPoint &, int)));
@@ -2287,8 +2300,10 @@ void Playlist::slotColumnOrderChanged(int, int from, int to)
     SharedSettings::instance()->setColumnOrder(this);
 }
 
-void Playlist::slotToggleColumnVisible(int column)
+void Playlist::slotToggleColumnVisible(QAction *action)
 {
+    int column = action->data().toInt();
+
     if(!isColumnVisible(column)) {
         int fileNameColumn = PlaylistItem::FileNameColumn + columnOffset();
         int fullPathColumn = PlaylistItem::FullPathColumn + columnOffset();

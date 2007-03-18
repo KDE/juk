@@ -623,7 +623,7 @@ private slots:
      * \see hideColumn()
      * \see showColumn()
      */
-    void slotToggleColumnVisible(int column);
+    void slotToggleColumnVisible(QAction *action);
 
     /**
      * Prompts the user to create a new playlist with from the selected items.
