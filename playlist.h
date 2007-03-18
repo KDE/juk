@@ -487,7 +487,7 @@ protected:
 
 protected slots:
     void slotPopulateBackMenu() const;
-    void slotPlayFromBackMenu(int number) const;
+    void slotPlayFromBackMenu(QAction *) const;
 
 signals:
 

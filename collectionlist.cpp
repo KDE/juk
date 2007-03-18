@@ -242,6 +242,8 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
             this, SLOT(slotPopulateBackMenu()));
     connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(activated(int)),
             this, SLOT(slotPlayFromBackMenu(int)));
+    connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(triggered(QAction *)),
+            this, SLOT(slotPlayFromBackMenu(QAction *)));
     setSorting(-1); // Temporarily disable sorting to add items faster.
 
     m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict(5001, false);

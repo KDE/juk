@@ -1666,16 +1666,22 @@ void Playlist::slotPopulateBackMenu() const
     int count = 0;
     PlaylistItemList::ConstIterator it = m_history.end();
 
+    QAction *action;
+
     while(it != m_history.begin() && count < 10) {
         ++count;
         --it;
-        int index = menu->insertItem((*it)->file().tag()->title());
-        m_backMenuItems[index] = *it;
+        action = new QAction((*it)->file().tag()->title(), menu);
+        action->setData(count);
+        menu->addAction(action);
+        m_backMenuItems[count] = *it;
     }
 }
 
-void Playlist::slotPlayFromBackMenu(int number) const
+void Playlist::slotPlayFromBackMenu(QAction *backAction) const
 {
+    int number = backAction->data().toInt();
+
     if(!m_backMenuItems.contains(number))
         return;
 
