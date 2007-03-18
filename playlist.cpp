@@ -746,7 +746,7 @@ void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMast
 
 void Playlist::copy()
 {
-    kapp->clipboard()->setData(dragObject(0), QClipboard::Clipboard);
+    kapp->clipboard()->setMimeData(drag(0)->mimeData(), QClipboard::Clipboard);
 }
 
 void Playlist::paste()
@@ -1025,10 +1025,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     }
 }
 
-#ifdef __GNUC__
- #warning Port Q3DragObject to QMimeData
-#endif
-Q3DragObject *Playlist::dragObject(QWidget *parent)
+QDrag *Playlist::drag(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
     KUrl::List urls;
@@ -1038,7 +1035,11 @@ Q3DragObject *Playlist::dragObject(QWidget *parent)
         urls.append(url);
     }
 
-    K3URLDrag *drag = new K3URLDrag(urls, parent);
+    QDrag *drag = new QDrag( parent );
+    QMimeData *md = new QMimeData;
+    drag->setMimeData( md );
+    urls.populateMimeData( md );
+
     drag->setPixmap(BarIcon("sound"));
 
     return drag;

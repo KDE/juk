@@ -35,6 +35,7 @@
 #include <QMouseEvent>
 #include <QCustomEvent>
 #include <QMimeData>
+#include <QDrag>
 
 #include "covermanager.h"
 #include "stringhash.h"
@@ -431,8 +432,8 @@ protected:
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
-    virtual Q3DragObject *dragObject(QWidget *parent);
-    virtual Q3DragObject *dragObject() { return dragObject(this); }
+    virtual QDrag *drag(QWidget *parent);
+    virtual QDrag *drag() { return drag(this); }
     virtual bool canDecode(QMimeSource *s);
     virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
     virtual void contentsDropEvent(QDropEvent *e);

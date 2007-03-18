@@ -107,7 +107,7 @@ KAction *K3bExporter::action()
     if(!m_action && !KStandardDirs::findExe("k3b").isNull()) {
         m_action = new PlaylistAction(
             i18n("Add Selected Items to Audio or Data CD"),
-            SmallIconSet("k3b"),
+            KIcon("k3b"),
             SLOT(slotExport())
         );
 
