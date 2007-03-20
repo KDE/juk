@@ -1,5 +1,5 @@
 [Desktop Entry]
-ServiceTypes=application/ogg,audio/vorbis,audio/x-mp3,audio/x-flac,audio/x-oggflac,audio/x-musepack
+ServiceTypes=application/ogg,audio/x-vorbis+ogg,audio/mpeg,audio/x-flac,audio/x-flac+ogg,audio/x-musepack
 Actions=addToCollection
 
 [Desktop Action addToCollection]
