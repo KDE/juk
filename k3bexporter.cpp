@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kprocess.h>
+#include <k3process.h>
 #include <kmessagebox.h>
 #include <kurl.h>
 #include <klocale.h>
@@ -168,7 +168,7 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
         return;
     }
 
-    KProcess *process = new KProcess;
+    K3Process *process = new K3Process;
 
     *process << "k3b";
     *process << cmdOption;
@@ -177,7 +177,7 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
     for(it = items.begin(); it != items.end(); ++it)
         *process << (*it)->file().absFilePath();
 
-    if(!process->start(KProcess::DontCare))
+    if(!process->start(K3Process::DontCare))
         KMessageBox::error(m_parent, i18n("Unable to start K3b."));
 }
 
