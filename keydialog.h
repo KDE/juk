@@ -18,7 +18,7 @@
 
 #include <kdeversion.h>
 #include <kglobalaccel.h>
-#include <kkeydialog.h>
+#include <kshortcutsdialog.h>
 #include <kshortcut.h>
 
 #include <qbuttongroup.h>
@@ -72,7 +72,7 @@ private slots:
 
 private:
     KActionCollection *m_actionCollection;
-    KKeyChooser       *m_pKeyChooser;
+    KShortcutsEditor       *m_pKeyChooser;
     QButtonGroup      *m_group;
     Q3WidgetStack     *m_widgetStack;
 

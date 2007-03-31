@@ -127,7 +127,7 @@ void KeyDialog::newDialog(KActionCollection *actionCollection, int selectedButto
     m_actionCollection = actionCollection;
 
     // Create key chooser and show it in the widget stack
-    m_pKeyChooser = new KKeyChooser(actionCollection, this);
+    m_pKeyChooser = new KShortcutsEditor(actionCollection, this);
     m_widgetStack->addWidget(m_pKeyChooser);
     m_widgetStack->raiseWidget(m_pKeyChooser);
 
