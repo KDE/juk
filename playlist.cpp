@@ -2281,6 +2281,7 @@ void Playlist::slotInlineEditDone(Q3ListViewItem *, const QString &, int column)
            i18n("This will edit multiple files. Are you sure?"),
            QString::null,
            KGuiItem(i18n("Edit")),
+           KStandardGuiItem::cancel(),
            "DontWarnMultipleTags") == KMessageBox::Cancel))
     {
         return;

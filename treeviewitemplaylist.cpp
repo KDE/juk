@@ -56,6 +56,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
            files,
            i18n("Changing Track Tags"),
            KStandardGuiItem::cont(),
+           KStandardGuiItem::cancel(),
            "dragDropRetagWarn"
        ) == KMessageBox::Cancel)
     {
