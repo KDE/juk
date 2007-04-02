@@ -31,6 +31,7 @@
 #include <kplayobject.h>
 #include <kplayobjectfactory.h>
 
+#include <cstdlib>
 #include <sys/wait.h>
 
 #include <kmessagebox.h>
