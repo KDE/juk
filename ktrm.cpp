@@ -25,7 +25,7 @@
 #if HAVE_TUNEPIMP
 
 #include <kapplication.h>
-#include <kresolver.h>
+#include <k3resolver.h>
 #include <kprotocolmanager.h>
 #include <kurl.h>
 #include <kdebug.h>
