@@ -123,9 +123,9 @@ int main( int argc, char **argv )
             "Block Rockin' Beats", "Chemical Brothers", QString::null, QString::null );
     check( "/home/frerich/mp3/Chemical Brothers/Dig your own hole/[01] Block rockin' beats.mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", QString::null, "Dig Your Own Hole");
-    check( QDir::homeDirPath() + "/[01] Randy - Religion, religion.mp3",
+    check( QDir::homePath() + "/[01] Randy - Religion, religion.mp3",
             "Religion, Religion", "Randy", "01", QString::null, QString::null );
-    check( QDir::homeDirPath() + "/(3) Mr. Doe - Punk.mp3",
+    check( QDir::homePath() + "/(3) Mr. Doe - Punk.mp3",
             "Punk", "Mr. Doe", "3", QString::null, QString::null );
     check( "c:\\music\\mp3s\\(3) Mr. Doe - Punk.mp3",
             "Punk", "Mr. Doe", "3", QString::null, QString::null );

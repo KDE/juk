@@ -9,7 +9,7 @@
 #include "tagguesser.h"
 #include "tagguesserconfigdlg.h"
 
-#include <kiconloader.h>
+#include <kicon.h>
 #include <k3listview.h>
 #include <klocale.h>
 #include <kpushbutton.h>
@@ -36,8 +36,8 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     m_child->lvSchemes->setItemsRenameable(true);
     m_child->lvSchemes->setSorting(-1);
     m_child->lvSchemes->setDefaultRenameAction(Q3ListView::Accept);
-    m_child->bMoveUp->setIcon(BarIconSet("arrow-up"));
-    m_child->bMoveDown->setIcon(BarIconSet("arrow-down"));
+    m_child->bMoveUp->setIcon(KIcon("arrow-up"));
+    m_child->bMoveDown->setIcon(KIcon("arrow-down"));
 
     const QStringList schemes = TagGuesser::schemeStrings();
     QStringList::ConstIterator it = schemes.begin();

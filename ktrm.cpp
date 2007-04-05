@@ -155,7 +155,7 @@ protected:
         if(KProtocolManager::useProxy()) {
             // split code copied from kcm_kio.
             QString noProxiesFor = KProtocolManager::noProxyFor();
-            QStringList noProxies = QStringList::split(QRegExp("[',''\t'' ']"), noProxiesFor);
+            QStringList noProxies = noProxiesFor.split(QRegExp("[',''\t'' ']"), QString::SkipEmptyParts);
             bool useProxy = true;
 
             // Host that libtunepimp will contact.
@@ -736,13 +736,13 @@ double stringSimilarity(QString s1, QString s2)
 
     while(p1 < l1 && p2 < l2) {
         c1 = s1.at(p1); c2 = s2.at(p2);
-        if( c1.upper() == c2.upper()) {
+        if( c1.toUpper() == c2.toUpper()) {
             ++nCommon;
             ++p1; ++p2;
         }
         else {
-            x1 = s1.find(c2,p1,false);
-            x2 = s2.find(c1,p2,false);
+            x1 = s1.indexOf(c2,p1,Qt::CaseInsensitive);
+            x2 = s2.indexOf(c1,p2,Qt::CaseInsensitive);
 
             if( (x1 == x2 || -1 == x1) || (-1 != x2 && x1 > x2) )
                 ++p2;
