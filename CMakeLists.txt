@@ -10,6 +10,8 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 
 add_definitions(${TAGLIB_CFLAGS})
 
+add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
+
 set(tunepimp_SRCS)
 if(TUNEPIMP_FOUND)
 	set(tunepimp_SRCS trackpickerdialog.cpp)
