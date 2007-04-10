@@ -50,7 +50,7 @@
 #include <qpalette.h>
 
 #include <QPixmap>
-#include <Q3Frame>
+#include <QFrame>
 #include <Q3ValueList>
 #include <kconfiggroup.h>
 
@@ -363,14 +363,14 @@ int FileRenamerWidget::addRowCategory(TagType category)
     frame->setPalette(palette);
 
     row.widget = frame;
-    frame->setFrameShape(Q3Frame::Box);
+    frame->setFrameShape(QFrame::Box);
     frame->setLineWidth(1);
     frame->setMargin(3);
 
     m_mainFrame->setStretchFactor(frame, 1);
 
     KVBox *buttons = new KVBox(frame);
-    buttons->setFrameStyle(Q3Frame::Plain | Q3Frame::Box);
+    buttons->setFrameStyle(QFrame::Plain | QFrame::Box);
     buttons->setLineWidth(1);
 
     row.upButton = new KPushButton(buttons);

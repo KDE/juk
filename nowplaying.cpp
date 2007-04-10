@@ -26,7 +26,7 @@
 #include <QTimer>
 #include <QPoint>
 
-#include <Q3Frame>
+#include <QFrame>
 #include <QDropEvent>
 #include <QLabel>
 #include <Q3ValueList>
@@ -48,9 +48,9 @@
 
 static const int imageSize = 64;
 
-struct Line : public Q3Frame
+struct Line : public QFrame
 {
-    Line(QWidget *parent) : Q3Frame(parent) { setFrameShape(VLine); }
+    Line(QWidget *parent) : QFrame(parent) { setFrameShape(VLine); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////

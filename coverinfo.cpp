@@ -25,7 +25,7 @@
 
 #include <QPixmap>
 #include <QMouseEvent>
-#include <Q3Frame>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QEvent>
 #include <QDesktopWidget>
@@ -45,7 +45,7 @@ struct CoverPopup : public QWidget
         QLabel *label = new QLabel(this);
 
         layout->addWidget(label);
-        label->setFrameStyle(Q3Frame::Box | Q3Frame::Raised);
+        label->setFrameStyle(QFrame::Box | QFrame::Raised);
         label->setLineWidth(1);
         label->setPixmap(image);
 

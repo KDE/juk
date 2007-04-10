@@ -40,7 +40,7 @@
 #include <QPixmap>
 #include <QEvent>
 #include <Q3MimeSourceFactory>
-#include <Q3Frame>
+#include <QFrame>
 #include <QLabel>
 #include <QMouseEvent>
 
@@ -508,8 +508,8 @@ void SystemTray::slotForward()
 
 void SystemTray::addSeparatorLine(QWidget *parent)
 {
-    Q3Frame *line = new Q3Frame(parent);
-    line->setFrameShape(Q3Frame::VLine);
+    QFrame *line = new QFrame(parent);
+    line->setFrameShape(QFrame::VLine);
 
     // Cover art takes up 80 pixels, make sure we take up at least 80 pixels
     // even if we don't show the cover art for consistency.

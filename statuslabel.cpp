@@ -24,7 +24,7 @@
 #include <QLayout>
 #include <QMouseEvent>
 #include <QLabel>
-#include <Q3Frame>
+#include <QFrame>
 #include <QHBoxLayout>
 #include <QEvent>
 
@@ -45,7 +45,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
     PlaylistObserver(playlist),
     m_showTimeRemaining(false)
 {
-    Q3Frame *trackAndPlaylist = new Q3Frame(this);
+    QFrame *trackAndPlaylist = new QFrame(this);
     trackAndPlaylist->setFrameStyle(Box | Sunken);
     trackAndPlaylist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
