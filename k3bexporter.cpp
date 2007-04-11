@@ -24,7 +24,6 @@
 #include <kiconloader.h>
 #include <kapplication.h>
 
-#include <q3cstring.h>
 #include <QMap>
 
 #include <Q3ValueList>

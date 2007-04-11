@@ -23,7 +23,7 @@
 
 #include <QRadioButton>
 #include <QGroupBox>
-#include <q3vbox.h>
+#include <kvbox.h>
 #include <kconfiggroup.h>
 
 
@@ -92,7 +92,7 @@ KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
 
     // Create widgets for key chooser - widget stack used to replace key chooser
 
-    Q3VBox *vbox = new Q3VBox(this);
+    KVBox *vbox = new KVBox(this);
     vbox->setSpacing(KDialog::spacingHint());
     m_widgetStack = new Q3WidgetStack(vbox);
 

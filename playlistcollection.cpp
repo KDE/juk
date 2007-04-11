@@ -47,7 +47,6 @@
 #include <kfiledialog.h>
 
 #include <q3widgetstack.h>
-#include <q3hbox.h>
 
 #include <QtDBus>
 #include <kaction.h>
