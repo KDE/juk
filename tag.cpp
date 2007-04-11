@@ -147,10 +147,10 @@ CacheDataStream &Tag::read(CacheDataStream &s)
 {
     switch(s.cacheVersion()) {
     case 1: {
-        Q_INT32 track;
-        Q_INT32 year;
-        Q_INT32 bitrate;
-        Q_INT32 seconds;
+        qint32 track;
+        qint32 year;
+        qint32 bitrate;
+        qint32 seconds;
 
         s >> m_title
           >> m_artist
@@ -264,12 +264,12 @@ QDataStream &operator<<(QDataStream &s, const Tag &t)
       << t.artist()
       << t.album()
       << t.genre()
-      << Q_INT32(t.track())
-      << Q_INT32(t.year())
+      << qint32(t.track())
+      << qint32(t.year())
       << t.comment()
-      << Q_INT32(t.bitrate())
+      << qint32(t.bitrate())
       << t.lengthString()
-      << Q_INT32(t.seconds());
+      << qint32(t.seconds());
 
     return s;
 }

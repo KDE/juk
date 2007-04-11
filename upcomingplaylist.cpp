@@ -240,7 +240,7 @@ QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p)
 {
     PlaylistItemList l = const_cast<UpcomingPlaylist *>(&p)->items();
 
-    s << Q_INT32(l.count());
+    s << qint32(l.count());
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it)
         s << (*it)->file().absFilePath();
@@ -252,11 +252,11 @@ QDataStream &operator>>(QDataStream &s, UpcomingPlaylist &p)
 {
     QString fileName;
     PlaylistItem *newItem = 0;
-    Q_INT32 count;
+    qint32 count;
 
     s >> count;
 
-    for(Q_INT32 i = 0; i < count; ++i) {
+    for(qint32 i = 0; i < count; ++i) {
         s >> fileName;
         newItem = p.createItem(FileHandle(fileName), newItem, false);
     }

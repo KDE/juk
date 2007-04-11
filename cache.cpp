@@ -84,9 +84,9 @@ void Cache::save()
 
     QDataStream fs(&f);
 
-    Q_INT32 checksum = qChecksum(data.data(), data.size());
+    qint32 checksum = qChecksum(data.data(), data.size());
 
-    fs << Q_INT32(m_currentVersion)
+    fs << qint32(m_currentVersion)
        << checksum
        << data;
 
@@ -106,7 +106,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
     QDataStream fs(&f);
 
-    Q_INT32 version;
+    qint32 version;
     fs >> version;
 
     switch(version) {
@@ -117,7 +117,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
         // we want to get a byte array with just the checksummed data.
 
         QByteArray data;
-        Q_UINT16 checksum;
+        quint16 checksum;
         fs >> checksum >> data;
 
         if(checksum != qChecksum(data.data(), data.size()))
@@ -129,7 +129,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
         while(!s.atEnd()) {
 
-            Q_INT32 playlistType;
+            qint32 playlistType;
             s >> playlistType;
 
             Playlist *playlist = 0;
@@ -175,7 +175,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                 break;
             }
             if(version == 2) {
-                Q_INT32 sortColumn;
+                qint32 sortColumn;
                 s >> sortColumn;
                 if(playlist)
                     playlist->setSorting(sortColumn);
@@ -217,33 +217,33 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it) {
         if(*it) {
             if(dynamic_cast<HistoryPlaylist *>(*it)) {
-                s << Q_INT32(History)
+                s << qint32(History)
                   << *static_cast<HistoryPlaylist *>(*it);
             }
             else if(dynamic_cast<SearchPlaylist *>(*it)) {
-                s << Q_INT32(Search)
+                s << qint32(Search)
                   << *static_cast<SearchPlaylist *>(*it);
             }
             else if(dynamic_cast<UpcomingPlaylist *>(*it)) {
                 if(!action<KToggleAction>("saveUpcomingTracks")->isChecked())
                     continue;
-                s << Q_INT32(Upcoming)
+                s << qint32(Upcoming)
                   << *static_cast<UpcomingPlaylist *>(*it);
             }
             else if(dynamic_cast<FolderPlaylist *>(*it)) {
-                s << Q_INT32(Folder)
+                s << qint32(Folder)
                   << *static_cast<FolderPlaylist *>(*it);
             }
             else {
-                s << Q_INT32(Normal)
+                s << qint32(Normal)
                   << *(*it);
             }
-            s << Q_INT32((*it)->sortColumn());
+            s << qint32((*it)->sortColumn());
         }
     }
 
     QDataStream fs(&f);
-    fs << Q_INT32(playlistCacheVersion);
+    fs << qint32(playlistCacheVersion);
     fs << qChecksum(data.data(), data.size());
 
     fs << data;
@@ -277,7 +277,7 @@ void Cache::load()
 
     CacheDataStream s(&f);
 
-    Q_INT32 version;
+    qint32 version;
     s >> version;
 
     QBuffer buffer;
@@ -289,7 +289,7 @@ void Cache::load()
     case 1: {
         s.setCacheVersion(1);
 
-        Q_INT32 checksum;
+        qint32 checksum;
         s >> checksum
           >> data;
 

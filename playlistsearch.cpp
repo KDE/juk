@@ -269,7 +269,7 @@ bool PlaylistSearch::Component::operator==(const Component &v) const
 QDataStream &operator<<(QDataStream &s, const PlaylistSearch &search)
 {
     s << search.components()
-      << Q_INT32(search.searchMode());
+      << qint32(search.searchMode());
 
     return s;
 }
@@ -286,7 +286,7 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch &search)
     for(; it != components.end(); ++it)
         search.addComponent(*it);
 
-    Q_INT32 mode;
+    qint32 mode;
     s >> mode;
     search.setSearchMode(PlaylistSearch::SearchMode(mode));
 
@@ -299,7 +299,7 @@ QDataStream &operator<<(QDataStream &s, const PlaylistSearch::Component &c)
       << (c.isPatternSearch() ? c.pattern().pattern() : c.query())
       << c.isCaseSensitive()
       << c.columns()
-      << Q_INT32(c.matchMode());
+      << qint32(c.matchMode());
 
     return s;
 }
@@ -310,7 +310,7 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch::Component &c)
     QString pattern;
     bool caseSensitive;
     ColumnList columns;
-    Q_INT32 mode;
+    qint32 mode;
 
     s >> patternSearch
       >> pattern

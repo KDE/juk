@@ -124,7 +124,7 @@ QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p)
 {
     PlaylistItemList l = const_cast<HistoryPlaylist *>(&p)->items();
 
-    s << Q_INT32(l.count());
+    s << qint32(l.count());
 
     for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
         const HistoryPlaylistItem *i = static_cast<HistoryPlaylistItem *>(*it);
@@ -137,7 +137,7 @@ QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p)
 
 QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
 {
-    Q_INT32 count;
+    qint32 count;
     s >> count;
 
     HistoryPlaylistItem *after = 0;

@@ -157,20 +157,20 @@ void CoverManagerPrivate::saveCovers() const
     QDataStream out(&file);
 
     // Write out the version and count
-    out << Q_UINT32(0) << Q_UINT32(covers.count());
+    out << quint32(0) << quint32(covers.count());
 
     // Write out the data
     for(CoverDataMap::ConstIterator it = covers.begin(); it != covers.end(); ++it) {
-        out << Q_UINT32(it.key());
+        out << quint32(it.key());
         out << *it.value();
     }
 
     // Now write out the track mapping.
-    out << Q_UINT32(tracks.count());
+    out << quint32(tracks.count());
 
     Q3DictIterator<coverKey> trackMapIt(tracks);
     while(trackMapIt.current()) {
-        out << trackMapIt.currentKey() << Q_UINT32(*trackMapIt.current());
+        out << trackMapIt.currentKey() << quint32(*trackMapIt.current());
         ++trackMapIt;
     }
 }
@@ -187,7 +187,7 @@ void CoverManagerPrivate::loadCovers()
     }
 
     QDataStream in(&file);
-    Q_UINT32 count, version;
+    quint32 count, version;
 
     // First thing we'll read in will be the version.
     // Only version 0 is defined for now.
@@ -201,9 +201,9 @@ void CoverManagerPrivate::loadCovers()
 
     // Read in the count next, then the data.
     in >> count;
-    for(Q_UINT32 i = 0; i < count; ++i) {
+    for(quint32 i = 0; i < count; ++i) {
         // Read the id, and 3 QStrings for every 1 of the count.
-        Q_UINT32 id;
+        quint32 id;
         CoverDataPtr data(new CoverData);
 
         in >> id;
@@ -214,9 +214,9 @@ void CoverManagerPrivate::loadCovers()
     }
 
     in >> count;
-    for(Q_UINT32 i = 0; i < count; ++i) {
+    for(quint32 i = 0; i < count; ++i) {
         QString path;
-        Q_UINT32 id;
+        quint32 id;
 
         in >> path >> id;
 
@@ -276,7 +276,7 @@ QByteArray CoverDrag::encodedData(const char *mimetype) const
         QByteArray data;
         QDataStream ds(&data, QIODevice::WriteOnly);
 
-        ds << Q_UINT32(m_id);
+        ds << quint32(m_id);
         return data;
     }
     else if(qstrcmp(mimetype, "image/png") == 0) {
@@ -306,7 +306,7 @@ bool CoverDrag::decode(const QMimeSource *e, coverKey &id)
 
     QByteArray data = e->encodedData(mimetype);
     QDataStream ds(&data, QIODevice::ReadOnly);
-    Q_UINT32 i;
+    quint32 i;
 
     ds >> i;
     id = (coverKey) i;
