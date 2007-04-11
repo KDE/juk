@@ -38,6 +38,7 @@
 #include "juk.h"
 
 #include <kicon.h>
+#include <khbox.h>
 #include <kiconloader.h>
 
 #include <kapplication.h>
@@ -649,7 +650,7 @@ void PlaylistCollection::raiseDistraction()
     m_belowDistraction = currentPlaylist();
 
     if(!m_distraction) {
-        m_distraction = new Q3HBox(m_playlistStack);
+        m_distraction = new KHBox(m_playlistStack);
         m_playlistStack->addWidget(m_distraction);
     }
 

@@ -19,7 +19,7 @@
 #include <kmessagebox.h>
 #include <kcombobox.h>
 
-#include <q3hbox.h>
+#include <khbox.h>
 #include <qimage.h>
 #include <QLabel>
 #include <QPushButton>
@@ -53,7 +53,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
 #endif
     //disableResize();
 
-    Q3HBox *mainBox = new Q3HBox(this);
+    KHBox *mainBox = new KHBox(this);
     m_iconWidget = new K3IconView(mainBox);
     m_iconWidget->setResizeMode(Q3IconView::Adjust);
     m_iconWidget->setSpacing(10);
@@ -67,7 +67,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
     #warning This is probably wrong.
 #endif
 
-    Q3HBox *imgSize = new Q3HBox(parent /*actionButton(User1)->parentWidget()*/);
+    KHBox *imgSize = new KHBox(parent /*actionButton(User1)->parentWidget()*/);
     QLabel *label = new QLabel(imgSize);
     label->setText(i18n("Image size:"));
 

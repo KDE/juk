@@ -40,7 +40,6 @@
 #include <QToolTip>
 #include <q3widgetstack.h>
 #include <QFile>
-#include <q3hbox.h>
 
 #include <QPaintEvent>
 #include <QResizeEvent>
