@@ -170,7 +170,7 @@ void CoverItem::mouseMoveEvent(QMouseEvent *e)
         return;
 
     QPoint diff = m_dragStart - e->globalPos();
-    if(QABS(diff.x()) > 1 || QABS(diff.y()) > 1) {
+    if(qAbs(diff.x()) > 1 || qAbs(diff.y()) > 1) {
 
         // Start a drag.
 
