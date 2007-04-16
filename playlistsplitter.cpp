@@ -132,7 +132,7 @@ void PlaylistSplitter::setupActions()
     showSearch->setCheckedState(KGuiItem(i18n("Hide &Search Bar")));
 
 
-    KAction *act = new KAction(KIcon("edit_clear"), i18n("Edit Track Search"), this);
+    KAction *act = new KAction(KIcon("edit-clear"), i18n("Edit Track Search"), this);
     coll->addAction("editTrackSearch", act);
     act->setShortcut(Qt::Key_F6);
     connect(act, SIGNAL(triggered(bool)), SLOT(setFocus()));
