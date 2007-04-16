@@ -22,7 +22,7 @@
 
 #include <kapplication.h>
 #include <kstatusbar.h>
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <klocale.h>
 #include <kinputdialog.h>
 #include <kurl.h>
