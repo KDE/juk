@@ -16,7 +16,7 @@
 #ifndef JUK_H
 #define JUK_H
 
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 
 #include "playermanager.h"
 #include <QKeyEvent>
@@ -35,7 +35,7 @@ class SystemTray;
 class PlayerManager;
 class PlaylistSplitter;
 
-class JuK : public KMainWindow
+class JuK : public KXmlGuiWindow
 {
     Q_OBJECT
 

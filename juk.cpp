@@ -56,7 +56,7 @@ JuK* JuK::m_instance;
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent) :
-    KMainWindow(parent, Qt::WDestructiveClose),
+    KXmlGuiWindow(parent, Qt::WDestructiveClose),
     m_systemTray(0),
     m_player(PlayerManager::instance()),
     m_shuttingDown(false)
@@ -341,7 +341,7 @@ void JuK::keyPressEvent(QKeyEvent *e)
 {
     if (e->key() >= Qt::Key_Back && e->key() <= Qt::Key_MediaLast)
         e->accept();
-    KMainWindow::keyPressEvent(e);
+    KXmlGuiWindow::keyPressEvent(e);
 }
 
 /**

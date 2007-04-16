@@ -22,7 +22,7 @@
 #include "collectionlist.h"
 #include "tagtransactionmanager.h"
 
-#include <kmainwindow.h>
+#include <kxmlguiwindow.h>
 #include <kapplication.h>
 #include <kstatusbar.h>
 #include <klocale.h>
@@ -69,7 +69,7 @@ void MusicBrainzLookup::error()
 
 void MusicBrainzLookup::message(const QString &s) const
 {
-    KMainWindow *w = static_cast<KMainWindow *>(kapp->mainWidget());
+    KXmlGuiWindow *w = static_cast<KXmlGuiWindow *>(kapp->mainWidget());
     w->statusBar()->message(QString("%1 (%2)").arg(s).arg(m_file.fileInfo().fileName()), 3000);
 }
 
