@@ -26,9 +26,9 @@
 #include <klocale.h>
 
 #include <phonon/mediaobject.h>
-#include <phonon/mediaqueue.h>
 #include <phonon/audiopath.h>
 #include <phonon/audiooutput.h>
+#include <phonon/volumefadereffect.h>
 
 #include <qslider.h>
 //Added by qt3to4:
@@ -51,6 +51,7 @@
 
 #include <QtDBus>
 #include "playeradaptor.h"
+#include <QTimer>
 
 using namespace ActionCollection;
 
@@ -68,10 +69,8 @@ PlayerManager::PlayerManager() :
     m_noSeek(false),
     m_muted(false),
     m_setup(false),
-    m_ignoreFinished(false),
     m_output(0),
     m_audioPath(0),
-    m_mqueue(0),
     m_media(0)
 {
 // This class is the first thing constructed during program startup, and
@@ -242,15 +241,49 @@ void PlayerManager::play(const FileHandle &file)
 
             if(!m_file.isNull())
             {
-                m_media->setUrl(KUrl::fromPath(m_file.absFilePath()));
+                m_media->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
                 m_media->play();
             }
         }
     }
     else {
         m_file = file;
-        m_media->setUrl(KUrl::fromPath(m_file.absFilePath()));
-        m_media->play();
+        if(m_media->state() == Phonon::PlayingState)
+        {
+            // do a crossfade
+            Phonon::VolumeFaderEffect *fader1 = new Phonon::VolumeFaderEffect(m_audioPath);
+            m_audioPath->insertEffect(fader1);
+            Phonon::MediaObject *mo = m_media;
+            Phonon::AudioPath *ap = m_audioPath;
+
+            m_audioPath = new Phonon::AudioPath(this);
+            m_audioPath->addOutput(m_output);
+            Phonon::VolumeFaderEffect *fader2 = new Phonon::VolumeFaderEffect(m_audioPath);
+            m_audioPath->insertEffect(fader2);
+
+            m_media = new Phonon::MediaObject(this);
+            connect(m_media, SIGNAL(aboutToFinsh()), SLOT(slotNeedNextUrl()));
+            m_media->addAudioPath(m_audioPath);
+            m_media->setTickInterval(200);
+            if(m_sliderAction->trackPositionSlider())
+                m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
+            connect(m_media, SIGNAL(length(qint64)), SLOT(slotLength(qint64)));
+            connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
+            connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
+            m_media->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
+
+            fader2->setVolume(0.0f);
+            fader1->fadeOut(2000);
+            fader2->fadeIn(2000);
+            m_media->play();
+            QTimer::singleShot(3000, mo, SLOT(deleteLater()));
+            QTimer::singleShot(3000, ap, SLOT(deleteLater()));
+        }
+        else
+        {
+            m_media->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
+            m_media->play();
+        }
     }
 
     // Make sure that the player() actually starts before doing anything.
@@ -313,7 +346,12 @@ void PlayerManager::stop()
     action("forward")->setEnabled(false);
     action("forwardAlbum")->setEnabled(false);
 
-    m_media->stop();
+    Phonon::VolumeFaderEffect *fader = new Phonon::VolumeFaderEffect(m_media);
+    m_audioPath->insertEffect(fader);
+    fader->setFadeCurve(Phonon::VolumeFaderEffect::Fade9Decibel);
+    fader->fadeOut(2000);
+    QTimer::singleShot(3000, m_media, SLOT(stop()));
+    QTimer::singleShot(3000, fader, SLOT(deleteLater()));
     m_playlistInterface->stop();
 
     m_file = FileHandle::null();
@@ -423,24 +461,26 @@ void PlayerManager::mute()
 
 void PlayerManager::slotNeedNextUrl()
 {
+    if(m_file.isNull())
+    {
+        return;
+    }
     m_playlistInterface->playNext();
     FileHandle nextFile = m_playlistInterface->currentFile();
     if(!nextFile.isNull())
     {
         //kDebug() << k_funcinfo << m_file.absFilePath() << endl;
         m_file = nextFile;
-        m_mqueue->setNextUrl(KUrl::fromPath(m_file.absFilePath()));
-        m_ignoreFinished = true;
+        m_media->enqueue(KUrl::fromPath(m_file.absFilePath()));
     }
     // at this point the new totalTime is not known, but the length signal will tell us
 }
 
 void PlayerManager::slotFinished()
 {
-    if(m_ignoreFinished)
+    if(m_file.isNull())
     {
         //kDebug() << k_funcinfo << "ignoring finished signal" << endl;
-        m_ignoreFinished = false;
         return;
     }
     m_playlistInterface->playNext();
@@ -512,15 +552,8 @@ void PlayerManager::setup()
     m_audioPath = new Phonon::AudioPath(this);
     m_audioPath->addOutput(m_output);
 
-    m_mqueue = new Phonon::MediaQueue(this);
-    if(m_mqueue->isValid())
-        m_media = m_mqueue;
-    else
-    {
-        delete m_mqueue;
-        m_mqueue = 0;
-        m_media = new Phonon::MediaObject(this);
-    }
+    m_media = new Phonon::MediaObject(this);
+    connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
     m_media->addAudioPath(m_audioPath);
     m_media->setTickInterval(200);
 
@@ -545,7 +578,7 @@ void PlayerManager::setup()
 
     if(m_sliderAction->trackPositionSlider())
     {
-        m_sliderAction->trackPositionSlider()->setMediaProducer(m_media);
+        m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
     }
     if(m_sliderAction->volumeSlider())
     {
@@ -555,7 +588,6 @@ void PlayerManager::setup()
     connect(m_media, SIGNAL(length(qint64)), SLOT(slotLength(qint64)));
     connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
     connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
-    connect(m_mqueue, SIGNAL(needNextUrl()), SLOT(slotNeedNextUrl()));
 }
 
 QString PlayerManager::randomPlayMode() const
