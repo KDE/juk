@@ -294,8 +294,6 @@ void JuK::setupSystemTray()
 
 void JuK::setupGlobalAccels()
 {
-    m_accel = KGlobalAccel::self();
-
     KeyDialog::setupActionShortcut("play");
     KeyDialog::setupActionShortcut("playPause");
     KeyDialog::setupActionShortcut("stop");
@@ -309,8 +307,7 @@ void JuK::setupGlobalAccels()
     KeyDialog::setupActionShortcut("showHide");
     KeyDialog::setupActionShortcut("forwardAlbum");
 
-    m_accel->setConfigGroup("Shortcuts");
-    m_accel->readSettings();
+    KGlobalAccel::self()->readSettings();
 }
 
 void JuK::slotProcessArgs()
