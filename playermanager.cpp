@@ -267,7 +267,7 @@ void PlayerManager::play(const FileHandle &file)
             m_media->setTickInterval(200);
             if(m_sliderAction->trackPositionSlider())
                 m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
-            connect(m_media, SIGNAL(length(qint64)), SLOT(slotLength(qint64)));
+            connect(m_media, SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
             connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
             connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
             m_media->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
@@ -473,7 +473,7 @@ void PlayerManager::slotNeedNextUrl()
         m_file = nextFile;
         m_media->enqueue(KUrl::fromPath(m_file.absFilePath()));
     }
-    // at this point the new totalTime is not known, but the length signal will tell us
+    // at this point the new totalTime is not known, but the totalTimeChanged signal will tell us
 }
 
 void PlayerManager::slotFinished()
@@ -585,7 +585,7 @@ void PlayerManager::setup()
         m_sliderAction->volumeSlider()->setAudioOutput(m_output);
     }
 
-    connect(m_media, SIGNAL(length(qint64)), SLOT(slotLength(qint64)));
+    connect(m_media, SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
     connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
     connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
 }

@@ -22,8 +22,8 @@
 #include <QFocusEvent>
 #include <QBoxLayout>
 #include <ktoolbar.h>
-#include <phonon/ui/volumeslider.h>
-#include <phonon/ui/seekslider.h>
+#include <phonon/volumeslider.h>
+#include <phonon/seekslider.h>
 
 class KActionCollection;
 class QBoxLayout;
