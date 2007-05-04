@@ -339,7 +339,7 @@ public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
      */
-    void slotRemoveSelectedItems() { removeFromDisk(selectedItems()); };
+    void slotRemoveSelectedItems() { removeFromDisk(selectedItems()); }
 
     /*
      * The edit slots are required to use the canonical names so that they are
