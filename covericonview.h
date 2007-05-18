@@ -50,7 +50,7 @@ using CoverUtility::CoverIconViewItem;
 class CoverIconView : public K3IconView
 {
 public:
-    CoverIconView(QWidget *parent, const char *name = 0);
+    explicit CoverIconView(QWidget *parent, const char *name = 0);
 
     CoverIconViewItem *currentItem() const;
 

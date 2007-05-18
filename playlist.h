@@ -62,7 +62,7 @@ class Playlist : public K3ListView, public PlaylistInterface
 
 public:
 
-    Playlist(PlaylistCollection *collection, const QString &name = QString::null,
+    explicit Playlist(PlaylistCollection *collection, const QString &name = QString::null,
              const QString &iconName = "midi");
     Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
              const QString &name = QString::null, const QString &iconName = "midi");

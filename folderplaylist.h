@@ -22,7 +22,7 @@ class FolderPlaylist : public Playlist
     Q_OBJECT
 
 public:
-    FolderPlaylist(PlaylistCollection *collection, const QString &folder = QString::null,
+    explicit FolderPlaylist(PlaylistCollection *collection, const QString &folder = QString::null,
                    const QString &name = QString::null);
     virtual ~FolderPlaylist();
 

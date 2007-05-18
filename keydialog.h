@@ -32,7 +32,7 @@ public:
     /**
      * Constructs a KeyDialog called @p name as a child of @p parent.
      */
-    KeyDialog(KActionCollection *actionCollection, QWidget *parent = 0);
+    explicit KeyDialog(KActionCollection *actionCollection, QWidget *parent = 0);
 
     /**
      * Destructor. Deletes all resources used by a KeyDialog object.

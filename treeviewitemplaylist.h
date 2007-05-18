@@ -26,7 +26,7 @@ class TreeViewItemPlaylist : public SearchPlaylist
     Q_OBJECT
 
 public:
-    TreeViewItemPlaylist(PlaylistCollection *collection,
+    explicit TreeViewItemPlaylist(PlaylistCollection *collection,
                          const PlaylistSearch &search = PlaylistSearch(),
                          const QString &name = QString::null);
 

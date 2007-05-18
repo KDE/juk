@@ -27,7 +27,7 @@ class TagGuesserConfigDlg : public KDialog
 {
     Q_OBJECT
     public:
-        TagGuesserConfigDlg(QWidget *parent, const char *name = 0);
+        explicit TagGuesserConfigDlg(QWidget *parent, const char *name = 0);
 
     protected slots:
         virtual void accept();

@@ -34,7 +34,7 @@ class KUrl;
 class GoogleImage
 {
 public:
-    GoogleImage(QString thumbURL = QString::null, QString size = QString::null);
+    explicit GoogleImage(QString thumbURL = QString::null, QString size = QString::null);
 
     QString imageURL() const { return m_imageURL; }
     QString thumbURL() const { return m_thumbURL; }

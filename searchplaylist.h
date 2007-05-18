@@ -22,7 +22,7 @@ class SearchPlaylist : public DynamicPlaylist
 {
     Q_OBJECT
 public:
-    SearchPlaylist(PlaylistCollection *collection,
+    explicit SearchPlaylist(PlaylistCollection *collection,
                    const PlaylistSearch &search = PlaylistSearch(),
                    const QString &name = QString::null,
                    bool setupPlaylist = true,

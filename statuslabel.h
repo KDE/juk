@@ -33,7 +33,7 @@ class StatusLabel : public KHBox, public PlaylistObserver
     Q_OBJECT
 
 public:
-    StatusLabel(PlaylistInterface *playlist, QWidget *parent = 0);
+    explicit StatusLabel(PlaylistInterface *playlist, QWidget *parent = 0);
     virtual ~StatusLabel();
     virtual void updateCurrent();
 

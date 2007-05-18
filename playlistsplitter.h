@@ -46,7 +46,7 @@ class PlaylistSplitter : public QSplitter
     Q_OBJECT
 
 public:
-    PlaylistSplitter(QWidget *parent, const char *name = 0);
+    explicit PlaylistSplitter(QWidget *parent, const char *name = 0);
     virtual ~PlaylistSplitter();
 
     PlaylistInterface *playlist() const { return m_playlistBox; }

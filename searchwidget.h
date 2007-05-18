@@ -41,7 +41,7 @@ class SearchLine : public Q3HBox
 public:
     enum Mode { Default = 0, CaseSensitive = 1, Pattern = 2 };
 
-    SearchLine(QWidget *parent, bool simple = false, const char *name = 0);
+    explicit SearchLine(QWidget *parent, bool simple = false, const char *name = 0);
     virtual ~SearchLine() {}
 
     PlaylistSearch::Component searchComponent() const;
@@ -76,7 +76,7 @@ class SearchWidget : public KToolBar
     Q_OBJECT
 
 public:
-    SearchWidget(QWidget *parent, const char *name = 0);
+    explicit SearchWidget(QWidget *parent, const char *name = 0);
     virtual ~SearchWidget();
 
     PlaylistSearch search(const PlaylistList &playlists) const;

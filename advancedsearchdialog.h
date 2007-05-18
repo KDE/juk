@@ -37,7 +37,7 @@ public:
         QString playlistName;
     };
 
-    AdvancedSearchDialog(const QString &defaultName,
+    explicit AdvancedSearchDialog(const QString &defaultName,
                          const PlaylistSearch &defaultSearch = PlaylistSearch(),
                          QWidget *parent = 0,
                          const char *name = 0);
