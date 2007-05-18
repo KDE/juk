@@ -724,7 +724,7 @@ void FileRenamerWidget::moveItem(int id, MovementDirection direction)
     // be 2 spaces because of the checkbox.
 
     QBoxLayout *layout = dynamic_cast<QBoxLayout *>(m_mainFrame->layout());
-    if ( layout )
+    if ( !layout )
         return;
 #ifdef __GNUC__
 #warning double check if that still works with Qt4s layout
