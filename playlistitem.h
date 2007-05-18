@@ -110,7 +110,7 @@ public:
 
     Playlist *playlist() const;
 
-    virtual CollectionListItem *collectionItem() const { return m_collectionItem; }
+    virtual CollectionListItem *collectionItem() { return m_collectionItem; }
 
     /**
      * The widths of items are cached when they're updated for us in computations

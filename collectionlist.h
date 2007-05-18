@@ -190,7 +190,7 @@ protected:
      */
     bool checkCurrent();
 
-    virtual CollectionListItem *collectionItem() const { return this; }
+    virtual CollectionListItem *collectionItem() { return this; }
 
 private:
     bool m_shuttingDown;
