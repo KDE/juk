@@ -1,5 +1,5 @@
 /*
- * tagguesserconfigdlg.h - (c) 2003 Frerich Raabe <raabe@kde.org>
+ * tagguesserconfigdlg.h - Copyright (c) 2003 Frerich Raabe <raabe@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
