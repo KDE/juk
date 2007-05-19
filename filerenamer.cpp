@@ -977,7 +977,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
 
     // Get just the directory.
     KUrl dir = dstURL;
-    dir.setFileName(QString::null);
+    dir.setFileName(QString());
 
     // Create the directory.
     if(!KStandardDirs::exists(dir.path()))

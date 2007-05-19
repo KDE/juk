@@ -16,17 +16,17 @@
 #define PLAYLIST_COLLECTION_H
 
 #include "stringhash.h"
+#include "playlistinterface.h"
 
 #include <kshortcut.h>
 #include <klocale.h>
 #include <kdirlister.h>
 
-#include <qpointer.h>
-//Added by qt3to4:
-#include <QPixmap>
+#include <QPointer>
 #include <Q3ValueList>
 #include <QList>
-#include "playlistinterface.h"
+
+class QPixmap;
 class Q3WidgetStack;
 class KAction;
 class Playlist;
@@ -166,7 +166,7 @@ protected:
     bool containsPlaylistFile(const QString &file) const;
 
     QString playlistNameDialog(const QString &caption = i18n("Create New Playlist"),
-                               const QString &suggest = QString::null,
+                               const QString &suggest = QString(),
                                bool forceUnique = true) const;
     QString uniquePlaylistName(const QString &suggest = i18n("Playlist")) const;
 
@@ -219,7 +219,7 @@ private:
     KAction *createAction(const QString &text,
                           const char *slot,
                           const char *name,
-                          const QString &icon = QString::null,
+                          const QString &icon = QString(),
                           const KShortcut &shortcut = KShortcut());
 private slots:
     void slotPlayFirst()     { m_collection->playFirst(); }

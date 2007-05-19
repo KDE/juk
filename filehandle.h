@@ -16,15 +16,14 @@
 #ifndef FILEHANDLE_H
 #define FILEHANDLE_H
 
-#include <qstringlist.h>
-//Added by qt3to4:
 #include <Q3ValueList>
 
 class QFileInfo;
 class QDateTime;
 class QDataStream;
-class CoverInfo;
+class QStringList;
 
+class CoverInfo;
 class Tag;
 class CacheDataStream;
 
@@ -38,7 +37,7 @@ class FileHandle
 public:
     FileHandle();
     FileHandle(const FileHandle &f);
-    explicit FileHandle(const QFileInfo &info, const QString &path = QString::null);
+    explicit FileHandle(const QFileInfo &info, const QString &path = QString());
     explicit FileHandle(const QString &path);
     FileHandle(const QString &path, CacheDataStream &s);
     ~FileHandle();

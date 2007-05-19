@@ -17,10 +17,6 @@
 
 #include <kdialog.h>
 
-#include <qpixmap.h>
-#include <qstringlist.h>
-#include <QRegExp>
-//Added by qt3to4:
 #include <Q3ValueList>
 
 #include "filehandle.h"
@@ -29,12 +25,14 @@ namespace DOM {
     class HTMLDocument;
 }
 
+class QPixmap;
+
 class KUrl;
 
 class GoogleImage
 {
 public:
-    explicit GoogleImage(QString thumbURL = QString::null, QString size = QString::null);
+    explicit GoogleImage(QString thumbURL = QString(), QString size = QString());
 
     QString imageURL() const { return m_imageURL; }
     QString thumbURL() const { return m_thumbURL; }

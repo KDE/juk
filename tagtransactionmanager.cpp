@@ -88,7 +88,7 @@ Tag *TagTransactionManager::duplicateTag(const Tag *tag, const QString &fileName
 {
     Q_ASSERT(tag);
 
-    QString name = fileName.isNull() ? tag->fileName() : fileName;
+    QString name = fileName.isEmpty() ? tag->fileName() : fileName;
     Tag *newTag = new Tag(*tag);
 
     newTag->setFileName(name);

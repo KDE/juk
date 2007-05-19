@@ -85,7 +85,7 @@ private:
 
     virtual void wheelEvent(QWheelEvent *e);
     void createPopup();
-    void setToolTip(const QString &tip = QString::null, const QPixmap &cover = QPixmap());
+    void setToolTip(const QString &tip = QString(), const QPixmap &cover = QPixmap());
     void slotActivated(QSystemTrayIcon::ActivationReason reason);
     void ousePressEvent(QMouseEvent *e);
     QPixmap createPixmap(const QString &pixName);

@@ -17,10 +17,11 @@
 #define DYNAMICPLAYLIST_H
 
 #include "playlist.h"
-//Added by qt3to4:
-#include <QShowEvent>
+
 #include <Q3ValueList>
-#include <QPaintEvent>
+
+class QPaintEvent;
+class QShowEvent;
 
 /**
  * A Playlist that is a union of other playlists that is created dynamically.
@@ -35,7 +36,7 @@ public:
      */
     DynamicPlaylist(const PlaylistList &lists,
                     PlaylistCollection *collection,
-                    const QString &name = QString::null,
+                    const QString &name = QString(),
                     const QString &iconName = "midi",
                     bool setupPlaylist = true,
                     bool synchronizePlaying = false);

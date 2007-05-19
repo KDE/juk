@@ -74,7 +74,7 @@ private:
      * Adds an item to JuK's tagging layout.  This handles the creation and
      * placement of the "enable" box as well.
      */
-    void addItem(const QString &text, QWidget *item, QBoxLayout *layout, const QString &iconName = QString::null);
+    void addItem(const QString &text, QWidget *item, QBoxLayout *layout, const QString &iconName = QString());
 
     /**
      * Adds a widget to m_hideList and returns that widget.

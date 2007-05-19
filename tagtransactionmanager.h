@@ -139,13 +139,13 @@ class TagTransactionManager : public QObject
      * object doesn't have a decent copy constructor.
      *
      * @param tag The Tag to duplicate.
-     * @param fileName The filename to assign to the tag.  If QString::null
+     * @param fileName The filename to assign to the tag.  If an empty QString
      *        (the default) is passed, the filename of the existing tag is
      *        used.
      * @bug Tag should have a correct copy ctor and assignment operator.
      * @return The duplicate Tag.
      */
-    static Tag *duplicateTag(const Tag *tag, const QString &fileName = QString::null);
+    static Tag *duplicateTag(const Tag *tag, const QString &fileName = QString());
 
     /**
      * Commits the changes to the PlaylistItems.  It is important that the

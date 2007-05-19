@@ -236,7 +236,7 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
     // so cache the value we want it to have now.
     Playlist *belowShowMore = visiblePlaylist();
 
-    PlaylistCollection::setupPlaylist(m_showMorePlaylist, QString::null);
+    PlaylistCollection::setupPlaylist(m_showMorePlaylist, QString());
     PlaylistCollection::raise(m_showMorePlaylist);
 
     m_belowShowMorePlaylist = belowShowMore;
@@ -333,7 +333,7 @@ void PlaylistCollection::open(const QStringList &l)
        KMessageBox::questionYesNo(
            JuK::JuKInstance(),
            i18n("Do you want to add these items to the current list or to the collection list?"),
-           QString::null,
+           QString(),
            KGuiItem(i18n("Current")),
            KGuiItem(i18n("Collection"))) == KMessageBox::No)
     {
@@ -398,7 +398,7 @@ void PlaylistCollection::rename()
 
     m_playlistNames.remove(old);
 
-    if(name.isNull())
+    if(name.isEmpty())
         return;
 
     visiblePlaylist()->setName(name);
@@ -407,7 +407,7 @@ void PlaylistCollection::rename()
 void PlaylistCollection::duplicate()
 {
     QString name = playlistNameDialog(i18n("Duplicate"), visiblePlaylist()->name());
-    if(name.isNull())
+    if(name.isEmpty())
         return;
     raise(new Playlist(this, visiblePlaylist()->items(), name));
 }
@@ -500,7 +500,7 @@ void PlaylistCollection::scanFolders()
 void PlaylistCollection::createPlaylist()
 {
     QString name = playlistNameDialog();
-    if(!name.isNull())
+    if(!name.isEmpty())
         raise(new Playlist(this, name));
 }
 
@@ -525,7 +525,7 @@ void PlaylistCollection::createFolderPlaylist()
     QString name = uniquePlaylistName(folder.mid(folder.lastIndexOf('/') + 1));
     name = playlistNameDialog(i18n("Create Folder Playlist"), name);
 
-    if(!name.isNull())
+    if(!name.isEmpty())
         raise(new FolderPlaylist(this, folder, name));
 }
 
@@ -677,10 +677,10 @@ Q3WidgetStack *PlaylistCollection::playlistStack() const
 
 void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
 {
-    if(!playlist->fileName().isNull())
+    if(!playlist->fileName().isEmpty())
         m_playlistFiles.insert(playlist->fileName());
 
-    if(!playlist->name().isNull())
+    if(!playlist->name().isEmpty())
         m_playlistNames.insert(playlist->name());
 
     QObject::connect(playlist, SIGNAL(selectionChanged()),

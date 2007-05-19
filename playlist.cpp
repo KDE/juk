@@ -445,7 +445,7 @@ Playlist::~Playlist()
 
 QString Playlist::name() const
 {
-    if(m_playlistName.isNull())
+    if(m_playlistName.isEmpty())
         return m_fileName.section(QDir::separator(), -1).section('.', 0, -2);
     else
         return m_playlistName;
@@ -819,7 +819,7 @@ void Playlist::slotRemoveCover()
         return;
     int button = KMessageBox::warningContinueCancel(this,
                                                     i18n("Are you sure you want to delete these covers?"),
-                                                    QString::null,
+                                                    QString(),
                                                     KGuiItem(i18n("&Delete Covers")));
     if(button == KMessageBox::Continue)
         refreshAlbums(items);
@@ -2279,7 +2279,7 @@ void Playlist::slotInlineEditDone(Q3ListViewItem *, const QString &, int column)
        (l.count() > 1 && KMessageBox::warningContinueCancel(
            0,
            i18n("This will edit multiple files. Are you sure?"),
-           QString::null,
+           QString(),
            KGuiItem(i18n("Edit")),
            KStandardGuiItem::cancel(),
            "DontWarnMultipleTags") == KMessageBox::Cancel))

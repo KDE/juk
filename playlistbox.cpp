@@ -37,6 +37,7 @@
 #include <Q3ValueList>
 #include <QMenu>
 #include <QMouseEvent>
+#include <QFileInfo>
 
 #include "playlist.h"
 #include "collectionlist.h"
@@ -307,7 +308,7 @@ void PlaylistBox::remove()
 
     if(!files.isEmpty()) {
         int remove = KMessageBox::warningYesNoCancelList(
-            this, i18n("Do you want to delete these files from the disk as well?"), files, QString::null, KStandardGuiItem::del(), KGuiItem(i18n("Keep")));
+            this, i18n("Do you want to delete these files from the disk as well?"), files, QString(), KStandardGuiItem::del(), KGuiItem(i18n("Keep")));
 
         if(remove == KMessageBox::Yes) {
             QStringList couldNotDelete;

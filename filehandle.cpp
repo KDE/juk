@@ -170,7 +170,7 @@ CoverInfo *FileHandle::coverInfo() const
 
 QString FileHandle::absFilePath() const
 {
-    if(d->absFilePath.isNull())
+    if(d->absFilePath.isEmpty())
         d->absFilePath = resolveSymLinks(d->fileInfo.absoluteFilePath());
     return d->absFilePath;
 }
@@ -263,7 +263,7 @@ void FileHandle::setup(const QFileInfo &info, const QString &path)
     if(d && !isNull())
         return;
 
-    QString fileName = path.isNull() ? info.absoluteFilePath() : path;
+    QString fileName = path.isEmpty() ? info.absoluteFilePath() : path;
 
     FileHandle cached = Cache::instance()->value(resolveSymLinks(fileName));
 

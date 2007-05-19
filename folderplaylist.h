@@ -22,8 +22,8 @@ class FolderPlaylist : public Playlist
     Q_OBJECT
 
 public:
-    explicit FolderPlaylist(PlaylistCollection *collection, const QString &folder = QString::null,
-                   const QString &name = QString::null);
+    explicit FolderPlaylist(PlaylistCollection *collection, const QString &folder = QString(),
+                   const QString &name = QString());
     virtual ~FolderPlaylist();
 
     QString folder() const;

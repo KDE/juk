@@ -43,7 +43,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
 {
     setObjectName(name.toAscii());
     setModal(true);
-    setCaption(QString::null);
+//  setCaption(QString());
     setButtons(Ok | Cancel | User1);
     setDefaultButton(NoDefault);
     showButtonSeparator(true);

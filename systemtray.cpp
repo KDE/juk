@@ -546,7 +546,7 @@ QColor SystemTray::interpolateColor(int step, int steps)
 
 void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 {
-    if(tip.isNull())
+    if(tip.isEmpty())
         KSystemTrayIcon::setToolTip( i18n("JuK"));
     else {
         QPixmap myCover = cover;

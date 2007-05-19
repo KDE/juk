@@ -15,6 +15,7 @@
 #define FILEHANDLEPROPERTIES_H
 
 #include <QMap>
+#include <QStringList>
 
 /*
  * These ugly macros make possible a property registration system that makes it

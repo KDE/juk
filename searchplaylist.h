@@ -24,7 +24,7 @@ class SearchPlaylist : public DynamicPlaylist
 public:
     explicit SearchPlaylist(PlaylistCollection *collection,
                    const PlaylistSearch &search = PlaylistSearch(),
-                   const QString &name = QString::null,
+                   const QString &name = QString(),
                    bool setupPlaylist = true,
                    bool synchronizePlaying = false);
 

@@ -21,21 +21,9 @@
 #include <kdebug.h>
 #include <kglobalsettings.h>
 
-#include <q3valuevector.h>
-#include <qfileinfo.h>
-
-#include <QPaintEvent>
-#include <QKeyEvent>
-#include <QEvent>
-#include <QDropEvent>
+#include <Q3ValueVector>
 #include <Q3ValueList>
-#include <QShowEvent>
-#include <QResizeEvent>
-#include <QDragEnterEvent>
-#include <QMouseEvent>
-#include <QCustomEvent>
-#include <QMimeData>
-#include <QDrag>
+#include <QEvent>
 
 #include "covermanager.h"
 #include "stringhash.h"
@@ -47,10 +35,11 @@
 class KMenu;
 class KActionMenu;
 
-class QEvent;
+class QFileInfo;
+class QMimeData;
+class QDrag;
 
 class PlaylistCollection;
-
 class PlaylistToolTip;
 class UpcomingPlaylist;
 
@@ -62,10 +51,10 @@ class Playlist : public K3ListView, public PlaylistInterface
 
 public:
 
-    explicit Playlist(PlaylistCollection *collection, const QString &name = QString::null,
+    explicit Playlist(PlaylistCollection *collection, const QString &name = QString(),
              const QString &iconName = "midi");
     Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
-             const QString &name = QString::null, const QString &iconName = "midi");
+             const QString &name = QString(), const QString &iconName = "midi");
     Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
              const QString &iconName = "midi");
 
@@ -205,7 +194,7 @@ public:
 
     /**
      * Returns the file name associated with this playlist (an m3u file) or
-     * QString::null if no such file exists.
+     * an empty QString if no such file exists.
      */
     QString fileName() const { return m_fileName; }
 
@@ -309,7 +298,7 @@ public:
     /**
      * Returns true if it's possible to reload this playlist.
      */
-    virtual bool canReload() const { return !m_fileName.isNull(); }
+    virtual bool canReload() const { return !m_fileName.isEmpty(); }
 
     /**
      * Returns true if the playlist is a search playlist and the search should be
