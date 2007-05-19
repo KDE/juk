@@ -13,14 +13,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "tagrenameroptions.h"
+
 #include <kdebug.h>
 #include <kglobal.h>
 #include <klocale.h>
 #include <kconfig.h>
 #include <kconfigbase.h>
 #include <kconfiggroup.h>
-
-#include "tagrenameroptions.h"
 
 TagRenamerOptions::TagRenamerOptions() :
     m_emptyAction(IgnoreEmptyTag),

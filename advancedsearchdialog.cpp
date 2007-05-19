@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "advancedsearchdialog.h"
+
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <kpushbutton.h>
@@ -22,14 +24,11 @@
 #include <QRadioButton>
 #include <QLabel>
 #include <QLayout>
-
 #include <QHBoxLayout>
 #include <QVBoxLayout>
-#include <QBoxLayout>
 #include <QGroupBox>
 
 #include "collectionlist.h"
-#include "advancedsearchdialog.h"
 #include "searchwidget.h"
 
 ////////////////////////////////////////////////////////////////////////////////

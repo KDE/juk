@@ -13,14 +13,14 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "directorylist.h"
+
+#include <QCheckBox>
+
 #include <kfiledialog.h>
 #include <klocale.h>
 #include <k3listview.h>
 #include <kpushbutton.h>
-
-#include <QCheckBox>
-
-#include "directorylist.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods

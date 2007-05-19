@@ -13,10 +13,10 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "actioncollection.h"
+
 #include <kactioncollection.h>
 #include <kdebug.h>
-
-#include "actioncollection.h"
 
 namespace ActionCollection
 {

@@ -13,13 +13,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdebug.h>
-
 #include "dynamicplaylist.h"
 #include "collectionlist.h"
 #include "playlistcollection.h"
 #include "tracksequencemanager.h"
-//Added by qt3to4:
+
+#include <kdebug.h>
+
 #include <QShowEvent>
 #include <Q3ValueList>
 #include <QPaintEvent>

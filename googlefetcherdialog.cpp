@@ -12,23 +12,23 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "googlefetcherdialog.h"
+#include "tag.h"
+
 #include <kapplication.h>
 #include <kio/netaccess.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <k3iconview.h>
 #include <kmessagebox.h>
 #include <kcombobox.h>
-
 #include <khbox.h>
-#include <qimage.h>
+
+#include <QImage>
 #include <QLabel>
 #include <QPushButton>
-#include <qeventloop.h>
-//Added by qt3to4:
+#include <QEventLoop>
 #include <QPixmap>
-
-#include "googlefetcherdialog.h"
-#include "tag.h"
 
 GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
                                          const GoogleImageList &imageList,
@@ -224,7 +224,7 @@ CoverIconViewItem::CoverIconViewItem(Q3IconView *parent, const GoogleImage &imag
     // Start downloading the image.
 
     m_job = KIO::get(image.thumbURL(), false, false);
-    connect(m_job, SIGNAL(result(KJob *)), this, SLOT(imageResult(KJob *)));
+    connect(m_job, SIGNAL(result(KIO::Job *)), this, SLOT(imageResult(KIO::Job *)));
     connect(m_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
             this, SLOT(imageData(KIO::Job *, const QByteArray &)));
 }
@@ -249,7 +249,7 @@ void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
     memcpy(&(m_buffer.data()[currentSize]), data.data(), data.size());
 }
 
-void CoverIconViewItem::imageResult(KJob *job)
+void CoverIconViewItem::imageResult(KIO::Job *job)
 {
     if(job->error())
         return;

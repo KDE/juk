@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "collectionlist.h"
+
 #include <k3urldrag.h>
 #include <klocale.h>
 #include <kmessagebox.h>
@@ -22,9 +24,14 @@
 #include <kconfig.h>
 #include <kaction.h>
 #include <kurl.h>
+#include <kactioncollection.h>
+#include <kconfiggroup.h>
 #include <ktoolbarpopupaction.h>
 
-#include "collectionlist.h"
+#include <Q3ValueList>
+#include <QDragMoveEvent>
+#include <QDropEvent>
+
 #include "playlistcollection.h"
 #include "splashscreen.h"
 #include "stringshare.h"
@@ -34,11 +41,6 @@
 #include "viewmode.h"
 #include "coverinfo.h"
 #include "covermanager.h"
-#include <kactioncollection.h>
-#include <Q3ValueList>
-#include <QDragMoveEvent>
-#include <QDropEvent>
-#include <kconfiggroup.h>
 
 using ActionCollection::action;
 

@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "playlist.h"
+
 #include <kconfig.h>
 #include <kmessagebox.h>
 #include <k3urldrag.h>
@@ -33,14 +35,14 @@
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
 #include <kselectaction.h>
-#include <q3header.h>
-#include <qcursor.h>
-#include <QDir>
-#include <qeventloop.h>
-#include <QToolTip>
-#include <q3widgetstack.h>
-#include <QFile>
 
+#include <Q3Header>
+#include <QCursor>
+#include <QDir>
+#include <QEventLoop>
+#include <QToolTip>
+#include <Q3WidgetStack>
+#include <QFile>
 #include <QPaintEvent>
 #include <QResizeEvent>
 #include <QMouseEvent>
@@ -60,7 +62,6 @@
 #include <math.h>
 #include <dirent.h>
 
-#include "playlist.h"
 #include "playlistitem.h"
 #include "playlistcollection.h"
 #include "playlistsearch.h"

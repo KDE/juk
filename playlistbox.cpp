@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "playlistbox.h"
+
 #include <kicon.h>
 #include <kiconloader.h>
 #include <k3urldrag.h>
@@ -23,11 +25,11 @@
 #include <kdebug.h>
 #include <ktoggleaction.h>
 #include <kselectaction.h>
+#include <kconfiggroup.h>
 
-#include <q3header.h>
-#include <qpainter.h>
+#include <Q3Header>
+#include <QPainter>
 #include <QTimer>
-
 #include <QDragLeaveEvent>
 #include <QDragMoveEvent>
 #include <QKeyEvent>
@@ -35,9 +37,7 @@
 #include <Q3ValueList>
 #include <QMenu>
 #include <QMouseEvent>
-#include <kconfiggroup.h>
 
-#include "playlistbox.h"
 #include "playlist.h"
 #include "collectionlist.h"
 #include "covermanager.h"

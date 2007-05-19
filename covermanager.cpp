@@ -13,25 +13,25 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qpixmap.h>
+#include "covermanager.h"
+
+#include <QPixmap>
 #include <QMap>
 #include <QString>
 #include <QFile>
-#include <qimage.h>
+#include <QImage>
 #include <QDir>
 #include <QDataStream>
-#include <q3dict.h>
-#include <q3cache.h>
-#include <qmime.h>
-#include <qbuffer.h>
+#include <Q3Dict>
+#include <Q3Cache>
+#include <QMimeSource>
+#include <QBuffer>
 #include <Q3ValueList>
 
 #include <kdebug.h>
 #include <kstaticdeleter.h>
 #include <kstandarddirs.h>
 #include <kglobal.h>
-
-#include "covermanager.h"
 
 // This is a dictionary to map the track path to their ID.  Otherwise we'd have
 // to store this info with each CollectionListItem, which would break the cache

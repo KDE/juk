@@ -13,21 +13,21 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "playlistsplitter.h"
+
 #include <kicon.h>
 #include <kaction.h>
 #include <kglobal.h>
 #include <kactioncollection.h>
 #include <kdebug.h>
 #include <ktoggleaction.h>
-
-#include <QLayout>
-#include <qevent.h>
-
-#include <QVBoxLayout>
-#include <QList>
 #include <kconfiggroup.h>
 
-#include "playlistsplitter.h"
+#include <QLayout>
+#include <QEvent>
+#include <QVBoxLayout>
+#include <QList>
+
 #include "searchwidget.h"
 #include "playlistsearch.h"
 #include "actioncollection.h"

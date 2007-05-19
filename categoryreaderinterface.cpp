@@ -13,10 +13,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <QString>
-
-#include "filerenameroptions.h"
 #include "categoryreaderinterface.h"
+#include "filerenameroptions.h"
+
+#include <QString>
 
 QString CategoryReaderInterface::value(const CategoryID &category) const
 {

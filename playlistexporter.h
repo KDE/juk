@@ -16,7 +16,7 @@
 #ifndef PLAYLISTEXPORTER_H
 #define PLAYLISTEXPORTER_H
 
-
+#include <QtCore/QObject>
 
 class KAction;
 class KActionCollection;
@@ -31,7 +31,7 @@ class KActionCollection;
 class PlaylistExporter : public QObject
 {
 public:
-    PlaylistExporter(QWidget *parent = 0) : QObject(parent) { }
+    PlaylistExporter(QObject *parent = 0) : QObject(parent) { }
     virtual ~PlaylistExporter() { }
 
     /**

@@ -16,6 +16,9 @@
 #ifndef MEDIAFILES_H
 #define MEDIAFILES_H
 
+class QWidget;
+class QString;
+class QStringList;
 
 /**
  * A namespace for file JuK's file related functions.  The goal is to hide

@@ -17,6 +17,7 @@
 #ifndef FILERENAMERCONFIGDLG_H
 #define FILERENAMERCONFIGDLG_H
 
+#include <kdialog.h>
 
 class FileRenamerWidget;
 

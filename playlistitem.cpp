@@ -13,13 +13,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "playlistitem.h"
+
 #include <config.h>
 #include <config-juk.h>
 #include <kdebug.h>
 #include <kaction.h>
 #include <kiconloader.h>
 
-#include "playlistitem.h"
+#include <QPixmap>
+#include <Q3ValueList>
+
 #include "collectionlist.h"
 #include "musicbrainzquery.h"
 #include "tag.h"
@@ -27,8 +31,6 @@
 #include "ktrm.h"
 #include "coverinfo.h"
 #include "tagtransactionmanager.h"
-#include <QPixmap>
-#include <Q3ValueList>
 
 PlaylistItemList PlaylistItem::m_playingItems; // static
 

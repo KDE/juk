@@ -13,18 +13,18 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "tracksequenceiterator.h"
+
 #include <kaction.h>
 #include <kapplication.h>
 #include <kdebug.h>
+#include <krandom.h>
+#include <ktoggleaction.h>
 
-#include "tracksequenceiterator.h"
 #include "playlist.h"
 #include "actioncollection.h"
 #include "tag.h"
 #include "filehandle.h"
-
-#include <krandom.h>
-#include <ktoggleaction.h>
 
 using namespace ActionCollection;
 

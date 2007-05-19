@@ -15,6 +15,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "systemtray.h"
+
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kpassivepopup.h>
@@ -23,19 +25,19 @@
 #include <kmenu.h>
 #include <kglobalsettings.h>
 #include <kdebug.h>
+#include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
-
 #include <kvbox.h>
+
 #include <QTimer>
 #include <QColor>
 #include <QPushButton>
 #include <QToolTip>
-#include <qpainter.h>
-#include <q3valuevector.h>
-#include <q3stylesheet.h>
-#include <qpalette.h>
-
+#include <QPainter>
+#include <Q3ValueVector>
+#include <Q3StyleSheet>
+#include <QPalette>
 #include <QWheelEvent>
 #include <QPixmap>
 #include <QEvent>
@@ -43,21 +45,18 @@
 #include <QFrame>
 #include <QLabel>
 #include <QMouseEvent>
+#include <QTextDocument>
 
 #ifdef Q_WS_X11
 #include <netwm.h>
 #include <QX11Info>
 #endif
 
-#include <QTextDocument>
-
 #include "tag.h"
-#include "systemtray.h"
 #include "actioncollection.h"
 #include "playermanager.h"
 #include "collectionlist.h"
 #include "coverinfo.h"
-#include <kactioncollection.h>
 
 using namespace ActionCollection;
 

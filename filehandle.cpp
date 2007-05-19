@@ -13,14 +13,15 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <limits.h>
-#include <stdlib.h>
+#include "filehandle.h"
 
 #include <kdebug.h>
 
-#include <qfileinfo.h>
+#include <QFileInfo>
 
-#include "filehandle.h"
+#include <limits.h>
+#include <stdlib.h>
+
 #include "filehandleproperties.h"
 #include "tag.h"
 #include "cache.h"

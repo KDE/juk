@@ -12,18 +12,34 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "playlistcollection.h"
+
 #include <kurl.h>
+#include <kicon.h>
+#include <khbox.h>
+#include <kiconloader.h>
+#include <kapplication.h>
+#include <kinputdialog.h>
+#include <kmessagebox.h>
+#include <kfiledialog.h>
+#include <kaction.h>
+#include <kactioncollection.h>
+#include <ktoggleaction.h>
+#include <kactionmenu.h>
+#include <kconfiggroup.h>
 
 #include <config.h>
 #include <config-juk.h>
+
 #include <QObject>
 #include <QPixmap>
+#include <Q3WidgetStack>
+#include <QtDBus>
 
 #include <sys/types.h>
 #include <dirent.h>
 
 #include "collectionlist.h"
-#include "playlistcollection.h"
 #include "actioncollection.h"
 #include "advancedsearchdialog.h"
 #include "coverinfo.h"
@@ -37,23 +53,6 @@
 #include "tracksequencemanager.h"
 #include "juk.h"
 
-#include <kicon.h>
-#include <khbox.h>
-#include <kiconloader.h>
-
-#include <kapplication.h>
-#include <kinputdialog.h>
-#include <kmessagebox.h>
-#include <kfiledialog.h>
-
-#include <q3widgetstack.h>
-
-#include <QtDBus>
-#include <kaction.h>
-#include <kactioncollection.h>
-#include <ktoggleaction.h>
-#include <kactionmenu.h>
-#include <kconfiggroup.h>
 //Laurent: readd it
 //#include "collectionadaptor.h"
 

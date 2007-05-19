@@ -13,20 +13,20 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "viewmode.h"
+
 #include <kiconloader.h>
 #include <kstandarddirs.h>
 #include <kdebug.h>
 
-#include <qpixmap.h>
-#include <qpainter.h>
+#include <QPixmap>
+#include <QPainter>
 #include <QFile>
 #include <QDir>
 #include <QDataStream>
 #include <Q3ValueList>
 #include <QResizeEvent>
-#include <QEvent>
 
-#include "viewmode.h"
 #include "playlistbox.h"
 #include "searchplaylist.h"
 #include "treeviewitemplaylist.h"

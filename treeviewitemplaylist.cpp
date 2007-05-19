@@ -13,16 +13,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "treeviewitemplaylist.h"
+
 #include <kapplication.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
-#include <qstringlist.h>
-#include <q3listview.h>
+#include <QStringList>
+#include <Q3ListView>
 
 #include "collectionlist.h"
-#include "treeviewitemplaylist.h"
 #include "tag.h"
 #include "playlistitem.h"
 #include "playlistsearch.h"

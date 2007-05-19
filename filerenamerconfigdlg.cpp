@@ -14,10 +14,10 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
-
-#include "filerenamer.h"
 #include "filerenamerconfigdlg.h"
+#include "filerenamer.h"
+
+#include <klocale.h>
 
 FileRenamerConfigDlg::FileRenamerConfigDlg(QWidget *parent) :
     KDialog(parent),

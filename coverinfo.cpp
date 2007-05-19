@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "coverinfo.h"
+
 #include <kglobal.h>
 #include <kapplication.h>
 #include <kstandarddirs.h>
@@ -21,8 +23,7 @@
 #include <QRegExp>
 #include <QLayout>
 #include <QLabel>
-#include <qcursor.h>
-
+#include <QCursor>
 #include <QPixmap>
 #include <QMouseEvent>
 #include <QFrame>
@@ -33,7 +34,6 @@
 #include "collectionlist.h"
 #include "playlistsearch.h"
 #include "playlistitem.h"
-#include "coverinfo.h"
 #include "tag.h"
 
 struct CoverPopup : public QWidget

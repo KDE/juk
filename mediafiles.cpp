@@ -13,17 +13,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <qwidget.h>
+#include "mediafiles.h"
+
 #include <kfiledialog.h>
 #include <kdebug.h>
 #include <klocale.h>
+#include <kurl.h>
 #include <kio/netaccess.h>
 
-#include "mediafiles.h"
+#include <QWidget>
 
 #include <taglib.h>
 #include <tag.h>
-#include <kurl.h>
 
 #if (TAGLIB_MAJOR_VERSION > 1) || \
     ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 2))

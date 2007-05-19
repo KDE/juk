@@ -13,19 +13,21 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "nowplaying.h"
+
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kdebug.h>
+#include <krandom.h>
 #include <k3urldrag.h>
 #include <kio/netaccess.h>
 
-#include <qimage.h>
+#include <QImage>
 #include <QLayout>
-#include <qevent.h>
-#include <q3dragobject.h>
+#include <QEvent>
+#include <Q3DragObject>
 #include <QTimer>
 #include <QPoint>
-
 #include <QFrame>
 #include <QDropEvent>
 #include <QLabel>
@@ -33,10 +35,8 @@
 #include <QVBoxLayout>
 #include <QDragEnterEvent>
 #include <QMouseEvent>
-#include <krandom.h>
 #include <QTextDocument>
 
-#include "nowplaying.h"
 #include "playlistcollection.h"
 #include "playermanager.h"
 #include "coverinfo.h"

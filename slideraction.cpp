@@ -13,24 +13,22 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "slideraction.h"
+
 #include <ktoolbar.h>
 #include <klocale.h>
 #include <kiconloader.h>
+#include <kactioncollection.h>
 #include <kdebug.h>
 
 #include <QToolTip>
 #include <QLayout>
 #include <QLabel>
 #include <QTimer>
-//Added by qt3to4:
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QFocusEvent>
-#include <QEvent>
 #include <QBoxLayout>
-
-#include "slideraction.h"
-#include <kactioncollection.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // convenience class

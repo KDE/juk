@@ -13,16 +13,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "tagtransactionmanager.h"
+
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kaction.h>
 #include <kapplication.h>
 
-#include <qfileinfo.h>
+#include <QFileInfo>
 #include <QDir>
 
-#include "tagtransactionmanager.h"
 #include "playlistitem.h"
 #include "collectionlist.h"
 #include "tag.h"

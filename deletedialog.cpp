@@ -13,20 +13,20 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "deletedialog.h"
+
 #include <kdialog.h>
 #include <KApplication>
 #include <KStandardGuiItem>
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kconfig.h>
+#include <kconfiggroup.h>
 
-#include <qstringlist.h>
+#include <QStringList>
 #include <QCheckBox>
 #include <QLayout>
 #include <QLabel>
-#include <kconfiggroup.h>
-
-#include "deletedialog.h"
 
 //////////////////////////////////////////////////////////////////////////////
 // DeleteWidget implementation

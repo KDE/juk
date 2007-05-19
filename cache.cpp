@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "cache.h"
+
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
@@ -23,7 +25,6 @@
 #include <QDir>
 #include <QBuffer>
 
-#include "cache.h"
 #include "tag.h"
 #include "searchplaylist.h"
 #include "historyplaylist.h"

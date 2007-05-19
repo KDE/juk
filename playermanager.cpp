@@ -22,36 +22,35 @@
  * - mpyne
  */
 
+#include "playermanager.h"
+#include <config.h>
+
 #include <kdebug.h>
 #include <klocale.h>
+#include <kactioncollection.h>
+#include <kselectaction.h>
+#include <ktoggleaction.h>
 
 #include <phonon/mediaobject.h>
 #include <phonon/audiopath.h>
 #include <phonon/audiooutput.h>
 #include <phonon/volumefadereffect.h>
 
-#include <qslider.h>
-//Added by qt3to4:
+#include <QSlider>
 #include <QPixmap>
-#include <ktoggleaction.h>
-#include <kactioncollection.h>
-#include <kselectaction.h>
+#include <QtDBus>
+#include <QTimer>
+
 #include <math.h>
 
-#include "playermanager.h"
 #include "playlistinterface.h"
+#include "playeradaptor.h"
 #include "slideraction.h"
 #include "statuslabel.h"
 #include "actioncollection.h"
 #include "collectionlist.h"
 #include "coverinfo.h"
 #include "tag.h"
-
-#include "config.h"
-
-#include <QtDBus>
-#include "playeradaptor.h"
-#include <QTimer>
 
 using namespace ActionCollection;
 

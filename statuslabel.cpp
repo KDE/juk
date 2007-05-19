@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "statuslabel.h"
+
 #include <kaction.h>
 #include <kpushbutton.h>
 #include <kiconloader.h>
@@ -28,7 +30,6 @@
 #include <QHBoxLayout>
 #include <QEvent>
 
-#include "statuslabel.h"
 #include "filehandle.h"
 #include "playlistinterface.h"
 #include "actioncollection.h"

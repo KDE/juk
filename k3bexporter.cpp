@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "k3bexporter.h"
+
 #include <k3process.h>
 #include <kmessagebox.h>
 #include <kurl.h>
@@ -25,10 +27,8 @@
 #include <kapplication.h>
 
 #include <QMap>
-
 #include <Q3ValueList>
 
-#include "k3bexporter.h"
 #include "playlistitem.h"
 #include "playlist.h"
 #include "playlistbox.h"

@@ -22,6 +22,7 @@
 class PlaylistItem;
 class QWidget;
 class Tag;
+class QFileInfo;
 
 /**
  * Class to encapsulate a change to the tag, and optionally the file name, of

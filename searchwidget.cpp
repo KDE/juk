@@ -16,6 +16,11 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "searchwidget.h"
+#include "collectionlist.h"
+#include "actioncollection.h"
+#include "searchadaptor.h"
+
 #include <klocale.h>
 #include <klineedit.h>
 #include <kiconloader.h>
@@ -27,16 +32,11 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
-#include <qtoolbutton.h>
-
+#include <QToolButton>
 #include <Q3ValueList>
 #include <QKeyEvent>
-#include <QEvent>
 #include <QtDBus>
-#include "searchwidget.h"
-#include "collectionlist.h"
-#include "actioncollection.h"
-#include "searchadaptor.h"
+
 using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////

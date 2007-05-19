@@ -15,13 +15,14 @@
 #ifndef GOOGLEFETCHERDIALOG_H
 #define GOOGLEFETCHERDIALOG_H
 
-#include <k3iconview.h>
+#include <kdialog.h>
 #include <kio/job.h>
-
+#include <k3iconview.h>
 
 #include "googlefetcher.h"
-//Added by qt3to4:
+
 #include <QPixmap>
+#include <QPointer>
 
 class KUrl;
 
@@ -72,6 +73,7 @@ private:
 namespace KIO
 {
     class TransferJob;
+    class Job;
 }
 
 class CoverIconViewItem : public QObject, public K3IconViewItem
@@ -84,7 +86,7 @@ public:
 
 private slots:
     void imageData(KIO::Job *job, const QByteArray &data);
-    void imageResult(KJob* job);
+    void imageResult(KIO::Job *job);
 
 private:
     QByteArray m_buffer;

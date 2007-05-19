@@ -6,8 +6,8 @@
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
  */
-#include "tagguesser.h"
 #include "tagguesserconfigdlg.h"
+#include "tagguesser.h"
 
 #include <kicon.h>
 #include <k3listview.h>
@@ -16,8 +16,7 @@
 #include <klineedit.h>
 #include <kapplication.h>
 
-#include <qtoolbutton.h>
-#include <qevent.h>
+#include <QToolButton>
 #include <QKeyEvent>
 
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)

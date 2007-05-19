@@ -13,12 +13,13 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "tag.h"
+
 #include <kdebug.h>
 
 #include <QRegExp>
 #include <QFile>
 
-#include "tag.h"
 #include <taglib/tag.h>
 #include <mpegfile.h>
 #include <vorbisfile.h>
@@ -38,7 +39,6 @@
 #endif
 
 #include "cache.h"
-#include "tag.h"
 #include "mediafiles.h"
 #include "stringshare.h"
 

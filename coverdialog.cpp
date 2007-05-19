@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "coverdialog.h"
+
 #include <k3listview.h>
 #include <k3iconview.h>
 #include <k3iconviewsearchline.h>
@@ -22,11 +24,9 @@
 #include <klocale.h>
 
 #include <QTimer>
-#include <qtoolbutton.h>
-
+#include <QToolButton>
 #include <Q3ValueList>
 
-#include "coverdialog.h"
 #include "covericonview.h"
 #include "covermanager.h"
 #include "collectionlist.h"

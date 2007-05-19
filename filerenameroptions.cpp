@@ -13,17 +13,17 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "filerenameroptions.h"
+
 #include <klocale.h>
 #include <kdebug.h>
 #include <knuminput.h>
 
 #include <QLayout>
 #include <QLabel>
-#include <qradiobutton.h>
+#include <QRadioButton>
 #include <QLineEdit>
-#include <q3buttongroup.h>
-
-#include "filerenameroptions.h"
+#include <Q3ButtonGroup>
 
 FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
                                              const TagRenamerOptions &options) :

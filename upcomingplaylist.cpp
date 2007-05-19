@@ -13,11 +13,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "upcomingplaylist.h"
+
 #include <kdebug.h>
 #include <kapplication.h>
 #include <kaction.h>
 
-#include "upcomingplaylist.h"
 #include "playlistitem.h"
 #include "playlistcollection.h"
 #include "tracksequencemanager.h"

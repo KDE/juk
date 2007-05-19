@@ -14,6 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "filerenamer.h"
+
 #include <algorithm>
 
 #include <kdebug.h>
@@ -29,15 +31,15 @@
 #include <kglobal.h>
 #include <klineedit.h>
 #include <klocale.h>
+#include <kconfiggroup.h>
 #include <kpushbutton.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <kvbox.h>
-
-#include <QFile>
 #include <khbox.h>
-#include <kvbox.h>
-#include <q3scrollview.h>
+
+#include <Q3ScrollView>
+#include <QFile>
 #include <QObject>
 #include <QTimer>
 #include <QRegExp>
@@ -45,18 +47,15 @@
 #include <QDir>
 #include <QLabel>
 #include <QLayout>
-#include <qsignalmapper.h>
-#include <q3header.h>
-#include <qpalette.h>
-
+#include <QSignalMapper>
+#include <Q3Header>
+#include <QPalette>
 #include <QPixmap>
 #include <QFrame>
 #include <Q3ValueList>
-#include <kconfiggroup.h>
 
 #include "tag.h"
 #include "filehandle.h"
-#include "filerenamer.h"
 #include "exampleoptions.h"
 #include "playlistitem.h"
 #include "playlist.h"

@@ -12,6 +12,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "googlefetcher.h"
+
 #include <dom/html_document.h>
 #include <dom/html_misc.h>
 #include <dom/html_table.h>
@@ -19,7 +21,6 @@
 #include <dom/dom2_traversal.h>
 
 #include <khtml_part.h>
-
 #include <kapplication.h>
 #include <kstatusbar.h>
 #include <kxmlguiwindow.h>
@@ -27,7 +28,6 @@
 #include <kinputdialog.h>
 #include <kurl.h>
 
-#include "googlefetcher.h"
 #include "googlefetcherdialog.h"
 #include "tag.h"
 #include "juk.h"

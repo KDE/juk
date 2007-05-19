@@ -13,17 +13,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kurlrequester.h>
-#include <klocale.h>
+#include "exampleoptions.h"
 
-#include <qradiobutton.h>
+#include <QRadioButton>
 #include <QLayout>
-
 #include <QHideEvent>
 #include <QShowEvent>
 #include <QVBoxLayout>
 
-#include "exampleoptions.h"
+#include <kurlrequester.h>
+#include <klocale.h>
 
 ExampleOptions::ExampleOptions(QWidget *parent) :
     QWidget(parent)

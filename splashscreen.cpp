@@ -13,18 +13,18 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "splashscreen.h"
+
 #include <kapplication.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
 #include <kdebug.h>
 
-#include <qpainter.h>
+#include <QPainter>
 #include <QPixmap>
 #include <QLabel>
 #include <QPalette>
-
-#include "splashscreen.h"
 
 SplashScreen *SplashScreen::splash = 0;
 bool SplashScreen::done = false;

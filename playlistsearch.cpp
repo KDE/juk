@@ -13,12 +13,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdebug.h>
-
 #include "playlistsearch.h"
 #include "playlist.h"
 #include "playlistitem.h"
 #include "collectionlist.h"
+
+#include <kdebug.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods

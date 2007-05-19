@@ -13,6 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "juk.h"
+
 #include <config.h>
 
 #include <kcmdlineargs.h>
@@ -25,7 +27,11 @@
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
 #include <kicon.h>
-#include "juk.h"
+#include <kaction.h>
+#include <kconfiggroup.h>
+
+#include <QKeyEvent>
+
 #include "slideraction.h"
 #include "statuslabel.h"
 #include "splashscreen.h"
@@ -39,13 +45,6 @@
 #include "collectionlist.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
-
-#include <QKeyEvent>
-#include <kaction.h>
-#include <ktoggleaction.h>
-#include <kactionmenu.h>
-#include <kconfiggroup.h>
-
 
 using namespace ActionCollection;
 

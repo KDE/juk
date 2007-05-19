@@ -13,13 +13,13 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <klocale.h>
-#include <kglobal.h>
-#include <kdebug.h>
-
 #include "historyplaylist.h"
 #include "collectionlist.h"
 #include "playermanager.h"
+
+#include <klocale.h>
+#include <kglobal.h>
+#include <kdebug.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // HistoryPlayList public members

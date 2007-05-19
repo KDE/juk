@@ -13,9 +13,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <kdebug.h>
-
 #include "sortedstringlist.h"
+
+#include <kdebug.h>
 
 class SortedStringList::Node
 {

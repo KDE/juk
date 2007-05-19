@@ -4,6 +4,9 @@
 
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2007 by Michael Pyne
+    email                : michael.pyne@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,16 +24,14 @@
 #include <ksystemtrayicon.h>
 #include <kpassivepopup.h>
 
-#include <q3valuevector.h>
+#include <Q3ValueVector>
 #include <QColor>
-//Added by qt3to4:
 #include <QPixmap>
-#include <QMouseEvent>
-#include <QWheelEvent>
-#include <QEvent>
 #include <QIcon>
 
-class FlickerFreeLabel;
+class QMouseEvent;
+class QWheelEvent;
+class QLabel;
 class QTimer;
 class KVBox;
 class FileHandle;
@@ -131,7 +132,7 @@ private:
     QColor m_startColor, m_endColor;
 
     PassiveInfo *m_popup;
-    Q3ValueVector<QLabel /*FlickerFreeLabel*/ *> m_labels;
+    Q3ValueVector<QLabel *> m_labels;
     QTimer *m_fadeTimer;
     int m_step;
     bool m_fade;
