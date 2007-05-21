@@ -19,7 +19,7 @@
             <number>0</number>
           </property>
           <item>
-            <widget class="Q3GroupBox" name="fileInfoGroup" >
+            <widget class="QGroupBox" name="fileInfoGroup" >
               <property name="title" >
                 <string>File Name</string>
               </property>
@@ -62,7 +62,7 @@
             <number>0</number>
           </property>
           <item>
-            <widget class="Q3GroupBox" name="trackInfoGroup" >
+            <widget class="QGroupBox" name="trackInfoGroup" >
               <property name="title" >
                 <string>Select Best Possible Match</string>
               </property>
