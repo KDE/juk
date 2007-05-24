@@ -16,23 +16,17 @@
 #ifndef COLLECTIONLIST_H
 #define COLLECTIONLIST_H
 
-#include <kapplication.h>
-#include <kdirwatch.h>
-#include <kfileitem.h>
-
-#include <q3dict.h>
-#include <qclipboard.h>
-#include <q3valuevector.h>
-//Added by qt3to4:
-#include <QDragMoveEvent>
-#include <QDropEvent>
+#include <QHash>
+#include <QVector>
 
 #include "playlist.h"
 #include "playlistitem.h"
-#include "sortedstringlist.h"
 
 class CollectionListItem;
 class ViewMode;
+class KFileItem;
+class KFileItemList;
+class KDirWatch;
 
 /**
  * This type is for mapping QString track attributes like the album, artist
@@ -40,16 +34,16 @@ class ViewMode;
  * that hold the string.
  */
 
-typedef Q3Dict<int> TagCountDict;
-typedef Q3DictIterator<int> TagCountDictIterator;
+typedef QHash<QString, int> TagCountDict;
+typedef QHashIterator<QString, int> TagCountDictIterator;
 
 /**
- * We then have an array of dicts, one for each column in the list view.  We
- * use pointers to TagCountDicts because QDict has a broken copy ctor, which
- * doesn't copy the case sensitivity setting.
+ * We then have an array of dicts, one for each column in the list view.
+ * The array is sparse (not every vector will have a TagCountDict so we use
+ * pointers.
  */
 
-typedef Q3ValueVector<TagCountDict*> TagCountDicts;
+typedef QVector<TagCountDict *> TagCountDicts;
 
 /**
  * This is the "collection", or all of the music files that have been opened
@@ -83,7 +77,7 @@ public:
      */
     QStringList uniqueSet(UniqueSetType t) const;
 
-    CollectionListItem *lookup(const QString &file) { return m_itemsDict.find(file); }
+    CollectionListItem *lookup(const QString &file) const;
 
     virtual PlaylistItem *createItem(const FileHandle &file,
                                      Q3ListViewItem * = 0,
@@ -98,7 +92,7 @@ public:
     virtual bool canReload() const { return true; }
 
 public slots:
-    virtual void paste() { decode(kapp->clipboard()->mimeData()); }
+    virtual void paste();
     virtual void clear();
     void slotCheckCache();
 
@@ -118,7 +112,7 @@ protected:
 
     // These methods are used by CollectionListItem, which is a friend class.
 
-    void addToDict(const QString &file, CollectionListItem *item) { m_itemsDict.replace(file, item); }
+    void addToDict(const QString &file, CollectionListItem *item) { m_itemsDict.insert(file, item); }
     void removeFromDict(const QString &file) { m_itemsDict.remove(file); }
 
     // These methods are also used by CollectionListItem, to manage the
@@ -127,10 +121,10 @@ protected:
     QString addStringToDict(const QString &value, int column);
     void removeStringFromDict(const QString &value, int column);
 
-    void addWatched(const QString &file) { m_dirWatch->addFile(file); }
-    void removeWatched(const QString &file) { m_dirWatch->removeFile(file); }
+    void addWatched(const QString &file);
+    void removeWatched(const QString &file);
 
-    virtual bool hasItem(const QString &file) const { return m_itemsDict.find(file); }
+    virtual bool hasItem(const QString &file) const { return m_itemsDict.contains(file); }
 
 signals:
     void signalCollectionChanged();
@@ -154,7 +148,7 @@ private:
     static const int m_uniqueSetCount = 3;
 
     static CollectionList *m_list;
-    Q3Dict<CollectionListItem> m_itemsDict;
+    QHash<QString, CollectionListItem *> m_itemsDict;
     KDirWatch *m_dirWatch;
     TagCountDicts m_columnTags;
 };
@@ -164,11 +158,6 @@ class CollectionListItem : public PlaylistItem
     friend class Playlist;
     friend class CollectionList;
     friend class PlaylistItem;
-
-    /**
-     * Needs access to the destructor, even though the destructor isn't used by QDict.
-     */
-    friend class Q3Dict<CollectionListItem>;
 
 public:
     virtual void refresh();

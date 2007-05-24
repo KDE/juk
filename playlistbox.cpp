@@ -31,20 +31,21 @@
 #include <QPainter>
 #include <QTimer>
 #include <QDragLeaveEvent>
+#include <QList>
 #include <QDragMoveEvent>
 #include <QKeyEvent>
 #include <QDropEvent>
-#include <Q3ValueList>
-#include <QMenu>
 #include <QMouseEvent>
 #include <QFileInfo>
+#include <QApplication>
+#include <QClipboard>
 
 #include "playlist.h"
 #include "collectionlist.h"
 #include "covermanager.h"
 #include "dynamicplaylist.h"
-#include "historyplaylist.h"
 #include "upcomingplaylist.h"
+#include "historyplaylist.h"
 #include "viewmode.h"
 #include "searchplaylist.h"
 #include "treeviewitemplaylist.h"
@@ -190,7 +191,7 @@ void PlaylistBox::raise(Playlist *playlist)
     if(!playlist)
         return;
 
-    Item *i = m_playlistDict.find(playlist);
+    Item *i = m_playlistDict.value(playlist, 0);
 
     if(i) {
         clearSelection();
@@ -227,7 +228,7 @@ void PlaylistBox::duplicate()
 void PlaylistBox::paste()
 {
     Item *i = static_cast<Item *>(currentItem());
-    decode(kapp->clipboard()->mimeData(), i);
+    decode(QApplication::clipboard()->mimeData(), i);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -296,14 +297,15 @@ void PlaylistBox::remove()
     QStringList files;
     QStringList names;
 
-    for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-        if(*it && (*it)->playlist() &&
-           !(*it)->playlist()->fileName().isEmpty() &&
-           QFileInfo((*it)->playlist()->fileName()).exists())
+    foreach(Item *item, items) {
+        if(item && item->playlist() &&
+           !item->playlist()->fileName().isEmpty() &&
+           QFileInfo(item->playlist()->fileName()).exists())
         {
-            files.append((*it)->playlist()->fileName());
+            files.append(item->playlist()->fileName());
         }
-        names.append((*it)->playlist()->name());
+
+        names.append(item->playlist()->name());
     }
 
     if(!files.isEmpty()) {

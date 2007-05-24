@@ -18,12 +18,13 @@
 
 #include <kdialog.h>
 #include <QList>
-#include "searchwidget.h"
+
+#include "playlistsearch.h"
 
 class KLineEdit;
 class KPushButton;
 class QRadioButton;
-
+class SearchLine;
 
 class AdvancedSearchDialog : public KDialog
 {

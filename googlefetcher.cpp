@@ -29,10 +29,12 @@
 #include <kurl.h>
 
 #include "googlefetcherdialog.h"
+#include "filehandle.h"
 #include "tag.h"
 #include "juk.h"
 
 #include <QPixmap>
+#include <QList>
 
 GoogleImage::GoogleImage(QString thumbURL, QString size) :
     m_thumbURL(thumbURL)
@@ -49,23 +51,38 @@ GoogleImage::GoogleImage(QString thumbURL, QString size) :
     m_size = size.replace("pixels - ", "\n(") + ')';
 }
 
+class GoogleFetcher::Private
+{
+    friend class GoogleFetcher;
+
+    Private() : selectedIndex(0)
+    {
+    }
+
+    FileHandle file;
+    QString searchString;
+    QString loadedQuery;
+    ImageSize loadedSize;
+    GoogleImageList imageList;
+    uint selectedIndex;
+};
 
 GoogleFetcher::GoogleFetcher(const FileHandle &file)
-    : m_file(file),
-      m_searchString(file.tag()->artist() + ' ' + file.tag()->album())
+    : d(new Private)
 {
-
+    d->file = file;
+    d->searchString = file.tag()->artist() + ' ' + file.tag()->album();
 }
 
-void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
+void GoogleFetcher::slotLoadImageURLs(ImageSize size)
 {
-    if(m_loadedQuery == m_searchString && m_loadedSize == size)
+    if(d->loadedQuery == d->searchString && d->loadedSize == size)
         return;
 
-    m_imageList.clear();
+    d->imageList.clear();
 
     KUrl url("http://images.google.com/images");
-    url.addQueryItem("q", m_searchString);
+    url.addQueryItem("q", d->searchString);
     url.addQueryItem("hl", "en");
     url.addQueryItem("nojs", "1");
 
@@ -89,8 +106,8 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
             break;
     }
 
-    m_loadedQuery = m_searchString;
-    m_loadedSize = size;
+    d->loadedQuery = d->searchString;
+    d->loadedSize = size;
 
     // We don't normally like exceptions but missing DOMException will kill
     // JuK rather abruptly whether we like it or not so we don't really have a
@@ -117,7 +134,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
     if(!hasImageResults(search))
     {
         kDebug(65432) << "Search returned no results.\n";
-        emit signalNewSearch(m_imageList);
+        emit signalNewSearch(d->imageList);
         return;
     }
 
@@ -179,7 +196,7 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
 
             for(node = it.nextNode(); !node.isNull(); node = it.nextNode()) {
                 if(node.nodeValue().string().contains("pixels")) {
-                    m_imageList.append(GoogleImage(imageURL, node.nodeValue().string()));
+                    d->imageList.append(GoogleImage(imageURL, node.nodeValue().string()));
                     break;
                 }
             }
@@ -195,13 +212,13 @@ void GoogleFetcher::slotLoadImageURLs(GoogleFetcher::ImageSize size)
         kError(65432) << "Caught unknown exception.\n";
     }
 
-    emit signalNewSearch(m_imageList);
+    emit signalNewSearch(d->imageList);
 }
 
 QPixmap GoogleFetcher::pixmap()
 {
     bool chosen = false;
-    m_loadedSize = All;
+    d->loadedSize = All;
 
     displayWaitMessage();
 
@@ -209,10 +226,10 @@ QPixmap GoogleFetcher::pixmap()
 
     while(!chosen) {
 
-        if(m_imageList.isEmpty())
+        if(d->imageList.isEmpty())
             chosen = !requestNewSearchTerms(true);
         else {
-            GoogleFetcherDialog dialog("google", m_imageList, m_file, 0);
+            GoogleFetcherDialog dialog("google", d->imageList, d->file, 0);
             connect(&dialog, SIGNAL(sizeChanged(GoogleFetcher::ImageSize)),
                     this, SLOT(slotLoadImageURLs(GoogleFetcher::ImageSize)));
             connect(this, SIGNAL(signalNewSearch(GoogleImageList &)),
@@ -239,15 +256,15 @@ void GoogleFetcher::displayWaitMessage()
 bool GoogleFetcher::requestNewSearchTerms(bool noResults)
 {
     bool ok;
-    m_searchString = KInputDialog::getText(i18n("Cover Downloader"),
+    d->searchString = KInputDialog::getText(i18n("Cover Downloader"),
                                            noResults ?
                                              i18n("No matching images found, please enter new search terms:") :
                                              i18n("Enter new search terms:"),
-                                           m_searchString, &ok);
-    if(ok && !m_searchString.isEmpty())
+                                           d->searchString, &ok);
+    if(ok && !d->searchString.isEmpty())
         displayWaitMessage();
     else
-        m_searchString = m_loadedQuery;
+        d->searchString = d->loadedQuery;
 
     return ok;
 }

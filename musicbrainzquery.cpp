@@ -28,9 +28,8 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-#include <qfileinfo.h>
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
+#include <QFileInfo>
 
 MusicBrainzLookup::MusicBrainzLookup(const FileHandle &file) :
     KTRMLookup(file.absFilePath()),
@@ -78,7 +77,7 @@ void MusicBrainzLookup::confirmation()
     // Here we do a bit of queuing to make sure that we don't pop up multiple
     // instances of the confirmation dialog at once.
 
-    static Q3ValueList< QPair<FileHandle, KTRMResultList> > queue;
+    static QList< QPair<FileHandle, KTRMResultList> > queue;
 
     if(results().isEmpty())
         return;
@@ -115,6 +114,7 @@ void MusicBrainzLookup::confirmation()
             TagTransactionManager::instance()->changeTagOnItem(item, tag);
             TagTransactionManager::instance()->commit();
         }
+
         queue.pop_front();
     }
 }

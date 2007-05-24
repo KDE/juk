@@ -18,11 +18,7 @@
 #include "playlistcollection.h"
 #include "tracksequencemanager.h"
 
-#include <kdebug.h>
-
-#include <QShowEvent>
-#include <Q3ValueList>
-#include <QPaintEvent>
+#include <QTimer>
 
 class PlaylistDirtyObserver : public PlaylistObserver
 {
@@ -71,12 +67,8 @@ DynamicPlaylist::~DynamicPlaylist()
 {
     lower();
 
-    for(Q3ValueList<PlaylistObserver *>::ConstIterator it = m_observers.begin();
-        it != m_observers.end();
-        ++it)
-    {
-        delete *it;
-    }
+    foreach(PlaylistObserver *observer, m_observers)
+        delete observer;
 }
 
 void DynamicPlaylist::setPlaylists(const PlaylistList &playlists)
@@ -115,7 +107,7 @@ void DynamicPlaylist::lower(QWidget *top)
     PlaylistItemList list = PlaylistItem::playingItems();
     for(PlaylistItemList::Iterator it = list.begin(); it != list.end(); ++it) {
         if((*it)->playlist() == this) {
-            list.remove(it);
+            list.erase(it);
             break;
         }
     }

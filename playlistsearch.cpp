@@ -57,15 +57,14 @@ void PlaylistSearch::search()
     // should only search the current list.  If one is removed it should
     // pop the previous search results off of a stack.
 
-    PlaylistList::Iterator playlistIt = m_playlists.begin();
-    for(; playlistIt != m_playlists.end(); ++playlistIt) {
+    foreach(Playlist *playlist, m_playlists) {
         if(!isEmpty()) {
-            for(Q3ListViewItemIterator it(*playlistIt); it.current(); ++it)
+            for(Q3ListViewItemIterator it(playlist); it.current(); ++it)
                 checkItem(static_cast<PlaylistItem *>(*it));
         }
         else {
-            m_items += (*playlistIt)->items();
-            m_matchedItems += (*playlistIt)->items();
+            m_items += playlist->items();
+            m_matchedItems += playlist->items();
         }
     }
 }
@@ -137,9 +136,9 @@ bool PlaylistSearch::isEmpty() const
 
 void PlaylistSearch::clearItem(PlaylistItem *item)
 {
-    m_items.remove(item);
-    m_matchedItems.remove(item);
-    m_unmatchedItems.remove(item);
+    m_items.removeAll(item);
+    m_matchedItems.removeAll(item);
+    m_unmatchedItems.removeAll(item);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

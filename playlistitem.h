@@ -20,11 +20,9 @@
 #include <ksharedptr.h>
 #include <kdebug.h>
 
-#include <q3valuevector.h>
-#include <q3ptrdict.h>
-//Added by qt3to4:
+#include <QVector>
 #include <QPixmap>
-#include <Q3ValueList>
+#include <QList>
 
 #include "tagguesser.h"
 #include "filehandle.h"
@@ -34,7 +32,7 @@ class PlaylistItem;
 class CollectionListItem;
 class CollectionList;
 
-typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
+typedef QList<PlaylistItem *> PlaylistItemList;
 
 /**
  * Items for the Playlist and the baseclass for CollectionListItem.
@@ -51,7 +49,6 @@ class PlaylistItem : public K3ListViewItem
     friend class UpcomingPlaylist;
     friend class CollectionList;
     friend class CollectionListItem;
-    friend class Q3PtrDict<PlaylistItem>;
     friend class Pointer;
 
 public:
@@ -89,7 +86,7 @@ public:
 
     private:
         PlaylistItem *m_item;
-        static QMap<PlaylistItem *, Q3ValueList<Pointer *> > m_map;
+        static QMap<PlaylistItem *, QList<Pointer *> > m_map;
     };
     friend class Pointer;
 
@@ -116,7 +113,7 @@ public:
      * The widths of items are cached when they're updated for us in computations
      * in the "weighted" listview column width mode.
      */
-    Q3ValueVector<int> cachedWidths() const;
+    QVector<int> cachedWidths() const;
 
     /**
      * This just refreshes from the in memory data.  This may seem pointless at
@@ -188,8 +185,8 @@ protected:
         Data(const QString &path) : fileHandle(path) {}
 
         FileHandle fileHandle;
-        Q3ValueVector<QByteArray> local8Bit;
-        Q3ValueVector<int> cachedWidths;
+        QVector<QByteArray> local8Bit;
+        QVector<int> cachedWidths;
     };
 
     KSharedPtr<Data> data() const { return d; }

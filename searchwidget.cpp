@@ -33,7 +33,6 @@
 #include <QCheckBox>
 #include <QPushButton>
 #include <QToolButton>
-#include <Q3ValueList>
 #include <QKeyEvent>
 #include <QtDBus>
 
@@ -86,13 +85,12 @@ PlaylistSearch::Component SearchLine::searchComponent() const
 
     Playlist *playlist = CollectionList::instance();
 
-    Q3ValueList<int> searchedColumns;
+    QList<int> searchedColumns;
 
     if(!m_searchFieldsBox || m_searchFieldsBox->currentIndex() == 0) {
-        Q3ValueListConstIterator<int> it = m_columnList.begin();
-        for(; it != m_columnList.end(); ++it) {
-            if(playlist->isColumnVisible(*it))
-                searchedColumns.append(*it);
+        foreach(int column, m_columnList) {
+            if(playlist->isColumnVisible(column))
+                searchedColumns.append(column);
         }
     }
     else

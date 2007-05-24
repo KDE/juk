@@ -15,11 +15,9 @@
 #ifndef PLAYLISTINTERFACE_H
 #define PLAYLISTINTERFACE_H
 
-#include "filehandle.h"
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QList>
 
-
+class FileHandle;
 class PlaylistObserver;
 
 /**
@@ -49,7 +47,7 @@ protected:
     virtual ~Watched();
 
 private:
-    Q3ValueList<PlaylistObserver *> m_observers;
+    QList<PlaylistObserver *> m_observers;
 };
 
 /**

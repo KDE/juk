@@ -2,6 +2,8 @@
     begin                : Tue Mar 11 19:00:00 CET 2003
     copyright            : (C) 2003 by Stefan Asserhall
     email                : stefan.asserhall@telia.com
+    copyright            : (c) 2007 by Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -18,15 +20,16 @@
 
 #include <kconfig.h>
 #include <klocale.h>
+#include <kshortcutseditor.h>
 #include <kglobal.h>
 #include <kaction.h>
-
-#include <QRadioButton>
-#include <QGroupBox>
 #include <kvbox.h>
 #include <kconfiggroup.h>
 
-
+#include <QButtonGroup>
+#include <QRadioButton>
+#include <QGroupBox>
+#include <Q3WidgetStack>
 
 // Table of shortcut keys for each action, key group and three or four button modifier
 

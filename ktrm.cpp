@@ -1,6 +1,8 @@
 /***************************************************************************
     copyright            : (C) 2004 by Scott Wheeler
     email                : wheeler@kde.org
+    copyright            : (c) 2007 by Michael Pyne
+    email                : michael.pyne@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -21,23 +23,24 @@
 
 #include "ktrm.h"
 #include <config-juk.h>
+
 #ifdef HAVE_TUNEPIMP //Silence warning about HAVE_TUNEPIMP not being defined.
 #if HAVE_TUNEPIMP
 
-#include <kapplication.h>
 #include <k3resolver.h>
 #include <kprotocolmanager.h>
 #include <kurl.h>
 #include <kdebug.h>
 #include <kio/job.h>
 
+#include <QCoreApplication>
+#include <QtAlgorithms>
 #include <QMutex>
 #include <QRegExp>
-#include <QEvent>
-#include <QObject>
 #include <QFile>
-#include <QCustomEvent>
+#include <QEvent>
 #include <QDomDocument>
+#include <QList>
 
 #if HAVE_TUNEPIMP >= 5
 #include <tunepimp-0.5/tp_c.h>
@@ -47,7 +50,6 @@
 #include <fixx11h.h>
 
 #include "ktrm.moc"
-#include <q3tl.h>
 
 class KTRMLookup;
 
@@ -164,9 +166,9 @@ protected:
             QString tunepimpHostWithPort = "www.musicbrainz.org:80";
 
             // Check what hosts are allowed to proceed without being proxied,
-            // or is using reversed proxy, what hosts must be proxied.
-            for(QStringList::ConstIterator it = noProxies.constBegin(); it != noProxies.constEnd(); ++it) {
-                QString normalizedHost = KNetwork::KResolver::normalizeDomain(*it);
+            // or if using reversed proxy, what hosts must be proxied.
+            foreach(QString host, noProxies) {
+                QString normalizedHost = KNetwork::KResolver::normalizeDomain(host);
 
                 if(normalizedHost == tunepimpHost ||
                    tunepimpHost.endsWith('.' + normalizedHost))
@@ -219,7 +221,7 @@ private:
  * A custom event type used for signalling that a TRM lookup is finished.
  */
 
-class KTRMEvent : public QCustomEvent
+class KTRMEvent : public QEvent
 {
 public:
     enum Status {
@@ -231,9 +233,11 @@ public:
     };
 
     KTRMEvent(int fileId, Status status) :
-        QCustomEvent(id),
+        QEvent(static_cast<QEvent::Type>(id)),
         m_fileId(fileId),
-        m_status(status) {}
+        m_status(status)
+    {
+    }
 
     int fileId() const
     {
@@ -262,7 +266,7 @@ class KTRMEventHandler : public QObject
 public:
     static void send(int fileId, KTRMEvent::Status status)
     {
-        KApplication::postEvent(instance(), new KTRMEvent(fileId, status));
+        QCoreApplication::postEvent(instance(), new KTRMEvent(fileId, status));
     }
 
 protected:
@@ -277,7 +281,7 @@ protected:
         return &handler;
     }
 
-    virtual void customEvent(QCustomEvent *event)
+    virtual void customEvent(QEvent *event)
     {
         if(!event->type() == KTRMEvent::id)
             return;
@@ -313,6 +317,8 @@ protected:
         case KTRMEvent::Error:
             lookup->error();
             break;
+        case KTRMEvent::PuidGenerated:
+            break; // XXX: Does anything special need done here?
         }
     }
 };
@@ -347,7 +353,7 @@ static void TRMNotifyCallback(tunepimp_t pimp, void *data, TPCallbackEnum type, 
     case eFileLookup:
         KTRMEventHandler::send(fileId, KTRMEvent::PuidGenerated);
         break;
-#else       
+#else
     case eTRMCollision:
 #if HAVE_TUNEPIMP >= 4
     case eUserSelection:
@@ -648,7 +654,7 @@ void KTRMLookup::lookupResult( KJob* job )
 
     e = doc.namedItem( "metadata" ).toElement().namedItem( "track-list" ).toElement();
 
-    QStringList strList = QStringList::split ( '/', d->file );
+    QStringList strList = d->file.split('/');
 
     QDomNode n = e.namedItem("track");
     for( ; !n.isNull();  n = n.nextSibling() ) {
@@ -670,18 +676,19 @@ void KTRMLookup::lookupResult( KJob* job )
                     tmpResult.d->track = tracklist.attribute( "offset" ).toInt() + 1;
             }
             //tmpResult.d->year = ???;
-            tmpResult.d->relevance =
+            tmpResult.d->relevance = static_cast<int>(
                 4 * stringSimilarity(strList,tmpResult.d->title) +
                 2 * stringSimilarity(strList,tmpResult.d->artist) +
-                1 * stringSimilarity(strList,tmpResult.d->album);
-/*            
+                1 * stringSimilarity(strList,tmpResult.d->album)
+                );
+/*
             if( !d->results.contains( tmpResult ) )
                 d->results.append( tmpResult );
                 */
         }
      }
 
-     qHeapSort(d->results);
+     qSort(d->results);
 
      finished();
 #else
@@ -716,19 +723,25 @@ void KTRMLookup::finished()
 ////////////////////////////////////////////////////////////////////////////////
 // Helper Functions used for sorting MusicBrainz results
 ////////////////////////////////////////////////////////////////////////////////
-double stringSimilarity(QStringList &l, QString &s)
+
+double stringSimilarity(const QStringList &l, const QString &s)
 {
     double max = 0, current = 0;
-    for ( QStringList::Iterator it = l.begin(); it != l.end(); ++it ) {
-       if( max < (current = stringSimilarity((*it),s)))
+
+    foreach(QString string, l) {
+        if(max < (current = stringSimilarity(string, s)))
             max = current;
     }
+
     return max;
 }
+
 double stringSimilarity(QString s1, QString s2)
 {
-    s1.remove( QRegExp("[\\s\\t\\r\\n]") );
-    s2.remove( QRegExp("[\\s\\t\\r\\n]") );
+    QRegExp whiteSpace("[\\s\\t\\r\\n]");
+
+    s1.remove(whiteSpace);
+    s2.remove(whiteSpace);
 
     double nCommon = 0;
     int p1 = 0, p2 = 0, x1 = 0, x2 = 0;
@@ -737,13 +750,14 @@ double stringSimilarity(QString s1, QString s2)
 
     while(p1 < l1 && p2 < l2) {
         c1 = s1.at(p1); c2 = s2.at(p2);
-        if( c1.toUpper() == c2.toUpper()) {
+
+        if(c1.toUpper() == c2.toUpper()) {
             ++nCommon;
             ++p1; ++p2;
         }
         else {
-            x1 = s1.indexOf(c2,p1,Qt::CaseInsensitive);
-            x2 = s2.indexOf(c1,p2,Qt::CaseInsensitive);
+            x1 = s1.indexOf(c2, p1, Qt::CaseInsensitive);
+            x2 = s2.indexOf(c1, p2, Qt::CaseInsensitive);
 
             if( (x1 == x2 || -1 == x1) || (-1 != x2 && x1 > x2) )
                 ++p2;
@@ -751,7 +765,8 @@ double stringSimilarity(QString s1, QString s2)
                 ++p1;
         }
     }
-    return l3 ? (double)(nCommon*2) / (double)(l3) : 1;
+
+    return l3 ? nCommon * 2.0 / l3 : 1.0;
 }
 
 #endif

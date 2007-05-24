@@ -16,17 +16,13 @@
 #ifndef NOWPLAYING_H
 #define NOWPLAYING_H
 
-
-#include <q3hbox.h>
+#include <Q3HBox>
 #include <QLabel>
-#include <qpointer.h>
-#include <QMouseEvent>
-#include <QDragEnterEvent>
-#include <Q3ValueList>
-#include <QDropEvent>
+#include <QPointer>
+#include <QList>
 
 #include "filehandle.h"
-#include "playlist.h"
+#include "playlistinterface.h"
 
 class QTimer;
 class QPoint;
@@ -67,7 +63,7 @@ private:
 
     Observer m_observer;
     PlaylistCollection *m_collection;
-    Q3ValueList<NowPlayingItem *> m_items;
+    QList<NowPlayingItem *> m_items;
 };
 
 /**
@@ -172,7 +168,7 @@ private:
         QPointer<Playlist> playlist;
     };
 
-    Q3ValueList<Item> m_history;
+    QList<Item> m_history;
     LinkLabel *m_label;
     QTimer *m_timer;
     FileHandle m_file;

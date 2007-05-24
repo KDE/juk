@@ -16,7 +16,7 @@
 #ifndef STRINGHASH_H
 #define STRINGHASH_H
 
-#include <q3ptrvector.h>
+#include <QVector>
 #include <QList>
 
 #include "filehandle.h"
@@ -109,7 +109,7 @@ protected:
 
     void deleteNode(Node *n);
 
-    Q3PtrVector<Node> m_table;
+    QVector<Node *> m_table;
     static const int m_tableSize = 5003;
 };
 

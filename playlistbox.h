@@ -20,16 +20,7 @@
 
 #include <k3listview.h>
 
-#include <q3ptrdict.h>
-
-#include <QDragLeaveEvent>
-#include <QDragMoveEvent>
-#include <QKeyEvent>
-#include <QDropEvent>
-#include <Q3ValueList>
-#include <QList>
-#include <QMouseEvent>
-#include <QMimeData>
+#include <QHash>
 
 class Playlist;
 class PlaylistItem;
@@ -40,10 +31,13 @@ class SearchPlaylist;
 class KMenu;
 class KSelectAction;
 
+template<class T>
+class QList;
+
 typedef QList<Playlist *> PlaylistList;
 
 /**
- * This is the play list selection box that is by default on the right side of
+ * This is the play list selection box that is by default on the left side of
  * JuK's main widget (PlaylistSplitter).
  */
 
@@ -53,7 +47,7 @@ class PlaylistBox : public K3ListView, public PlaylistCollection
 
 public:
     class Item;
-    typedef Q3ValueList<Item *> ItemList;
+    typedef QList<Item *> ItemList;
 
     friend class Item;
 
@@ -101,7 +95,7 @@ private:
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void keyReleaseEvent(QKeyEvent *e);
 
-    Q3ValueList<Item *> selectedItems() const;
+    ItemList selectedItems() const;
     void setSingleItem(Q3ListViewItem *item);
 
     void setupItem(Item *item);
@@ -128,7 +122,7 @@ private slots:
 
 private:
     KMenu *m_contextMenu;
-    Q3PtrDict<Item> m_playlistDict;
+    QHash<Playlist *, Item*> m_playlistDict;
     int m_viewModeIndex;
     QList<ViewMode *> m_viewModes;
     KAction *m_k3bAction;
@@ -137,8 +131,6 @@ private:
     Item *m_dropItem;
     QTimer *m_showTimer;
 };
-
-
 
 class PlaylistBox::Item : public QObject, public K3ListViewItem
 {

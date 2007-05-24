@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Thu Oct 28 2004
-    copyright            : (C) 2004 by Michael Pyne
+    copyright            : (C) 2004, 2007 by Michael Pyne
                          : (c) 2003 Frerich Raabe <raabe@kde.org>
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
@@ -19,19 +19,17 @@
 #include <algorithm>
 
 #include <kdebug.h>
-#include <kcombobox.h>
 #include <kurl.h>
-#include <kurlrequester.h>
+//#include <kurlrequester.h>
 #include <kiconloader.h>
-#include <knuminput.h>
+//#include <knuminput.h>
 #include <kstandarddirs.h>
 #include <kio/netaccess.h>
-#include <kconfigbase.h>
-#include <kconfig.h>
-#include <kglobal.h>
-#include <klineedit.h>
-#include <klocale.h>
+#include <kdesktopfile.h>
 #include <kconfiggroup.h>
+#include <kglobal.h>
+//#include <klineedit.h>
+#include <klocale.h>
 #include <kpushbutton.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
@@ -40,25 +38,22 @@
 
 #include <Q3ScrollView>
 #include <QFile>
-#include <QObject>
 #include <QTimer>
-#include <QRegExp>
 #include <QCheckBox>
 #include <QDir>
 #include <QLabel>
-#include <QLayout>
 #include <QSignalMapper>
 #include <Q3Header>
 #include <QPalette>
 #include <QPixmap>
 #include <QFrame>
-#include <Q3ValueList>
 
 #include "tag.h"
+#include "filerenameroptions.h"
 #include "filehandle.h"
 #include "exampleoptions.h"
 #include "playlistitem.h"
-#include "playlist.h"
+#include "playlist.h" // processEvents()
 #include "coverinfo.h"
 
 class ConfirmationDialog : public KDialog
@@ -133,7 +128,7 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
         m_categoryOrder << catId;
     }
 
-    m_folderSeparators.resize(m_categoryOrder.count() - 1, false);
+    m_folderSeparators.fill(false, m_categoryOrder.count() - 1);
 
     QList<int> checkedSeparators = config.readEntry("CheckedDirSeparators", QList<int>());
 
@@ -143,7 +138,7 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
             m_folderSeparators[*it] = true;
     }
 
-    m_musicFolder = config.readEntry("MusicFolder", "${HOME}/music");
+    m_musicFolder = config.readPathEntry("MusicFolder", "${HOME}/music");
     m_separator = config.readEntry("Separator", " - ");
 }
 
@@ -1020,12 +1015,12 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
             QPixmap thumb = item->file().coverInfo()->pixmap(CoverInfo::Thumbnail);
             thumb.save(path + "/.juk-thumbnail.png", "PNG");
 
-            KConfig _config( path + "/.directory", KConfig::OnlyLocal );
-            KConfigGroup config(&_config, "Desktop Entry");
+            KDesktopFile dirFile(path + "/.directory");
+            KConfigGroup desktopGroup(dirFile.desktopGroup());
 
-            if(!config.hasKey("Icon")) {
-                config.writeEntry("Icon", QString("%1/.juk-thumbnail.png").arg(path));
-                config.sync();
+            if(!desktopGroup.hasKey("Icon")) {
+                desktopGroup.writePathEntry("Icon", QString("%1/.juk-thumbnail.png").arg(path));
+                dirFile.sync();
             }
 
             return;

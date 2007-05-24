@@ -18,16 +18,17 @@
 
 #include <ksharedptr.h>
 
-#include <QMap>
-#include <q3dragobject.h>
-//Added by qt3to4:
-#include <QPixmap>
-#include <Q3ValueList>
+#include <Q3DragObject>
+#include <QString>
 
 class CoverManagerPrivate;
-class QString;
 class QPixmap;
-class QDataStream;
+
+template<class Key, class Value>
+class QMap;
+
+template<class T>
+class QList;
 
 /**
  * This class holds the data on a cover.  This includes the path to the cover
@@ -54,7 +55,13 @@ public:
 
 typedef KSharedPtr<CoverData> CoverDataPtr;
 typedef unsigned long coverKey; ///< Type of the id for a cover.
+
 typedef QMap<coverKey, CoverDataPtr> CoverDataMap;
+
+// I can't believe this actually works...
+typedef CoverDataMap::const_iterator CoverDataMapIterator;
+
+typedef QList<coverKey> CoverList;
 
 /**
  * This class is used to drag covers in JuK.  It adds a special mimetype that
@@ -217,17 +224,17 @@ public:
     /**
      * @return Iterator pointing to the first element in the cover database.
      */
-    static CoverDataMap::ConstIterator begin();
+    static CoverDataMapIterator begin();
 
     /**
      * @return Iterator pointing after the last element in the cover database.
      */
-    static CoverDataMap::ConstIterator end();
+    static CoverDataMapIterator end();
 
     /**
      * @return A list of all of the id's listed in the database.
      */
-    static Q3ValueList<coverKey> keys();
+    static CoverList keys();
 
     /**
      * Associates @p path with the cover identified by @id.  No comparison of

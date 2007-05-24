@@ -2,6 +2,8 @@
     begin                : Tue Mar 11 19:00:00 CET 2003
     copyright            : (C) 2003 by Stefan Asserhall
     email                : stefan.asserhall@telia.com
+    copyright            : (c) 2007 by Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -16,13 +18,16 @@
 #ifndef KEYDIALOG_H
 #define KEYDIALOG_H
 
-#include <kdeversion.h>
-#include <kglobalaccel.h>
-#include <kshortcutsdialog.h>
 #include <kshortcut.h>
+#include <kdialog.h>
 
-#include <qbuttongroup.h>
-#include <q3widgetstack.h>
+#include <QString>
+
+class QButtonGroup;
+class Q3WidgetStack;
+
+class KActionCollection;
+class KShortcutsEditor;
 
 class KeyDialog : public KDialog
 {

@@ -16,7 +16,6 @@
 #include "covermanager.h"
 
 #include <QPixmap>
-#include <QMap>
 #include <QString>
 #include <QFile>
 #include <QImage>
@@ -26,7 +25,8 @@
 #include <Q3Cache>
 #include <QMimeSource>
 #include <QBuffer>
-#include <Q3ValueList>
+#include <QList>
+#include <QMap>
 
 #include <kdebug.h>
 #include <kstaticdeleter.h>
@@ -160,7 +160,7 @@ void CoverManagerPrivate::saveCovers() const
     out << quint32(0) << quint32(covers.count());
 
     // Write out the data
-    for(CoverDataMap::ConstIterator it = covers.begin(); it != covers.end(); ++it) {
+    for(CoverDataMap::const_iterator it = covers.begin(); it != covers.end(); ++it) {
         out << quint32(it.key());
         out << *it.value();
     }
@@ -321,8 +321,8 @@ coverKey CoverManager::idFromMetadata(const QString &artist, const QString &albu
 {
     // Search for the string, yay!  It might make sense to use a cache here,
     // if so it's not hard to add a QCache.
-    CoverDataMap::ConstIterator it = begin();
-    CoverDataMap::ConstIterator endIt = end();
+    CoverDataMap::const_iterator it = begin();
+    CoverDataMap::const_iterator endIt = end();
 
     for(; it != endIt; ++it) {
         if(it.value()->album == album.toLower() && it.value()->artist == artist.toLower())
@@ -489,17 +489,17 @@ void CoverManager::shutdown()
     sd.destructObject();
 }
 
-CoverDataMap::ConstIterator CoverManager::begin()
+CoverDataMapIterator CoverManager::begin()
 {
     return data()->covers.constBegin();
 }
 
-CoverDataMap::ConstIterator CoverManager::end()
+CoverDataMapIterator CoverManager::end()
 {
     return data()->covers.constEnd();
 }
 
-Q3ValueList<coverKey> CoverManager::keys()
+CoverList CoverManager::keys()
 {
     return data()->covers.keys();
 }

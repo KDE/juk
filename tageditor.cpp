@@ -20,39 +20,34 @@
 #include "actioncollection.h"
 #include "tagtransactionmanager.h"
 
+#include <kactioncollection.h>
+#include <kconfiggroup.h>
 #include <kcombobox.h>
 #include <klineedit.h>
 #include <knuminput.h>
 #include <ktextedit.h>
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kiconloader.h>
 #include <kicon.h>
+#include <ktoggleaction.h>
 #include <kshortcut.h>
 
-
 #include <QLabel>
-#include <qapplication.h>
+#include <QApplication>
 #include <QCheckBox>
-#include <QLayout>
 #include <QDir>
-#include <qvalidator.h>
+#include <QValidator>
 #include <QToolTip>
-#include <qeventloop.h>
-#include <q3dict.h>
-#include <QEvent>
+#include <QEventLoop>
 #include <QKeyEvent>
 #include <QHBoxLayout>
-#include <QBoxLayout>
-#include <QShowEvent>
 #include <QVBoxLayout>
-#include <ktoggleaction.h>
 
 #include <id3v1genres.h>
-#include <kactioncollection.h>
-#include <kconfiggroup.h>
 
 #undef KeyRelease
 
@@ -281,14 +276,12 @@ void TagEditor::slotRefresh()
 
     if(it != m_items.end()) {
 
-        Q3ValueListIterator<QWidget *> hideIt = m_hideList.begin();
-        for(; hideIt != m_hideList.end(); ++hideIt)
-            (*hideIt)->hide();
+        foreach(QWidget *w, m_hideList)
+            w->hide();
 
-        BoxMap::Iterator boxIt = m_enableBoxes.begin();
-        for(; boxIt != m_enableBoxes.end(); boxIt++) {
-            (*boxIt)->setChecked(true);
-            (*boxIt)->show();
+        foreach(QCheckBox *box, m_enableBoxes) {
+            box->setChecked(true);
+            box->show();
         }
 
         // Yep, this is ugly.  Loop through all of the files checking to see
@@ -361,14 +354,12 @@ void TagEditor::slotRefresh()
     else {
         // Clean up in the case that we are only handling one item.
 
-        Q3ValueListIterator<QWidget *> showIt = m_hideList.begin();
-        for(; showIt != m_hideList.end(); ++showIt)
-            (*showIt)->show();
+        foreach(QWidget *w, m_hideList)
+            w->show();
 
-        BoxMap::iterator boxIt = m_enableBoxes.begin();
-        for(; boxIt != m_enableBoxes.end(); boxIt++) {
-            (*boxIt)->setChecked(true);
-            (*boxIt)->hide();
+        foreach(QCheckBox *box, m_enableBoxes) {
+            box->setChecked(true);
+            box->hide();
         }
     }
     m_dataChanged = false;
@@ -835,7 +826,7 @@ void TagEditor::slotDataChanged(bool c)
 
 void TagEditor::slotItemRemoved(PlaylistItem *item)
 {
-    m_items.remove(item);
+    m_items.removeAll(item);
     if(m_items.isEmpty())
         slotRefresh();
 }

@@ -16,9 +16,9 @@
 #ifndef ACTIONCOLLECTION_H
 #define ACTIONCOLLECTION_H
 
-#include <ktoolbarpopupaction.h>
 class KActionCollection;
-class KAction;
+class QAction;
+class QString;
 
 namespace ActionCollection
 {

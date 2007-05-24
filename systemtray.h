@@ -24,7 +24,7 @@
 #include <ksystemtrayicon.h>
 #include <kpassivepopup.h>
 
-#include <Q3ValueVector>
+#include <QVector>
 #include <QColor>
 #include <QPixmap>
 #include <QIcon>
@@ -132,7 +132,7 @@ private:
     QColor m_startColor, m_endColor;
 
     PassiveInfo *m_popup;
-    Q3ValueVector<QLabel *> m_labels;
+    QVector<QLabel *> m_labels;
     QTimer *m_fadeTimer;
     int m_step;
     bool m_fade;

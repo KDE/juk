@@ -15,22 +15,21 @@
 
 #include "collectionlist.h"
 
-#include <k3urldrag.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <kdebug.h>
 #include <kmenu.h>
-#include <kiconloader.h>
 #include <kconfig.h>
-#include <kaction.h>
-#include <kurl.h>
-#include <kactioncollection.h>
 #include <kconfiggroup.h>
+#include <kactioncollection.h>
 #include <ktoolbarpopupaction.h>
+#include <kdirwatch.h>
 
-#include <Q3ValueList>
+#include <QList>
 #include <QDragMoveEvent>
 #include <QDropEvent>
+#include <QApplication>
+#include <QClipboard>
 
 #include "playlistcollection.h"
 #include "splashscreen.h"
@@ -98,7 +97,7 @@ PlaylistItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem 
     // It's probably possible to optimize the line below away, but, well, right
     // now it's more important to not load duplicate items.
 
-    if(m_itemsDict.find(file.absFilePath()))
+    if(m_itemsDict.contains(file.absFilePath()))
         return 0;
 
     PlaylistItem *item = new CollectionListItem(file);
@@ -133,19 +132,13 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
         return;
     }
 
-    Q3ValueList<int> columnList;
+    QList<int> columnList;
     columnList << PlaylistItem::ArtistColumn;
     columnList << PlaylistItem::GenreColumn;
     columnList << PlaylistItem::AlbumColumn;
 
-    QStringList items;
-    for(Q3ValueList<int>::Iterator colIt = columnList.begin(); colIt != columnList.end(); ++colIt) {
-        items.clear();
-        for(TagCountDictIterator it(*m_columnTags[*colIt]); it.current(); ++it)
-            items << it.currentKey();
-
-        treeViewMode->addItems(items, *colIt);
-    }
+    foreach(int column, columnList)
+        treeViewMode->addItems(m_columnTags[column]->keys(), column);
 }
 
 void CollectionList::slotNewItems(const KFileItemList &items)
@@ -190,6 +183,11 @@ void CollectionList::slotDeleteItem(KFileItem *item)
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
+void CollectionList::paste()
+{
+    decode(QApplication::clipboard()->mimeData());
+}
+
 void CollectionList::clear()
 {
     int result = KMessageBox::warningContinueCancel(this,
@@ -208,9 +206,9 @@ void CollectionList::slotCheckCache()
 {
     PlaylistItemList invalidItems;
 
-    for(Q3DictIterator<CollectionListItem>it(m_itemsDict); it.current(); ++it) {
-        if(!it.current()->checkCurrent())
-            invalidItems.append(*it);
+    foreach(CollectionListItem *item, m_itemsDict) {
+        if(!item->checkCurrent())
+            invalidItems.append(item);
         processEvents();
     }
 
@@ -224,7 +222,8 @@ void CollectionList::slotRemoveItem(const QString &file)
 
 void CollectionList::slotRefreshItem(const QString &file)
 {
-    m_itemsDict[file]->refresh();
+    if(m_itemsDict[file])
+        m_itemsDict[file]->refresh();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -233,7 +232,6 @@ void CollectionList::slotRefreshItem(const QString &file)
 
 CollectionList::CollectionList(PlaylistCollection *collection) :
     Playlist(collection, true),
-    m_itemsDict(5003),
     m_columnTags(15, 0)
 {
     QAction *spaction = ActionCollection::actions()->addAction("showPlaying");
@@ -242,22 +240,15 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
 
     connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(aboutToShow()),
             this, SLOT(slotPopulateBackMenu()));
-    connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(activated(int)),
-            this, SLOT(slotPlayFromBackMenu(int)));
+    connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(activated(QAction *)),
+            this, SLOT(slotPlayFromBackMenu(QAction *)));
     connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(triggered(QAction *)),
             this, SLOT(slotPlayFromBackMenu(QAction *)));
     setSorting(-1); // Temporarily disable sorting to add items faster.
 
-    m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict(5001, false);
-    m_columnTags[PlaylistItem::ArtistColumn]->setAutoDelete(true);
-
-    m_columnTags[PlaylistItem::AlbumColumn] = new TagCountDict(5001, false);
-    m_columnTags[PlaylistItem::AlbumColumn]->setAutoDelete(true);
-
-    m_columnTags[PlaylistItem::GenreColumn] = new TagCountDict(5001, false);
-    m_columnTags[PlaylistItem::GenreColumn]->setAutoDelete(true);
-
-    polish();
+    m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict;
+    m_columnTags[PlaylistItem::AlbumColumn] = new TagCountDict;
+    m_columnTags[PlaylistItem::GenreColumn] = new TagCountDict;
 }
 
 CollectionList::~CollectionList()
@@ -271,8 +262,9 @@ CollectionList::~CollectionList()
     // are.
 
     clearItems(items());
-    for(TagCountDicts::Iterator it = m_columnTags.begin(); it != m_columnTags.end(); ++it)
-        delete *it;
+
+    qDeleteAll(m_columnTags);
+    m_columnTags.clear();
 }
 
 void CollectionList::contentsDropEvent(QDropEvent *e)
@@ -296,11 +288,10 @@ QString CollectionList::addStringToDict(const QString &value, int column)
     if(column > m_columnTags.count() || value.trimmed().isEmpty())
         return QString();
 
-    int *refCountPtr = m_columnTags[column]->find(value);
-    if(refCountPtr)
-        ++(*refCountPtr);
+    if(m_columnTags[column]->contains(value))
+        ++((*m_columnTags[column])[value]);
     else {
-        m_columnTags[column]->insert(value, new int(1));
+        m_columnTags[column]->insert(value, 1);
         emit signalNewTag(value, column);
     }
 
@@ -329,31 +320,35 @@ QStringList CollectionList::uniqueSet(UniqueSetType t) const
         return QStringList();
     }
 
-    if(column >= m_columnTags.count())
-        return QStringList();
+    return m_columnTags[column]->keys();
+}
 
-    TagCountDictIterator it(*m_columnTags[column]);
-    QStringList list;
-
-    for(; it.current(); ++it)
-        list += it.currentKey();
-
-    return list;
+CollectionListItem *CollectionList::lookup(const QString &file) const
+{
+    return m_itemsDict.value(file, 0);
 }
 
 void CollectionList::removeStringFromDict(const QString &value, int column)
 {
-    if(column > m_columnTags.count() || value.isEmpty())
+    if(column > m_columnTags.count() || value.trimmed().isEmpty())
         return;
 
-    int *refCountPtr = m_columnTags[column]->find(value);
-    if(refCountPtr) {
-        --(*refCountPtr);
-        if(*refCountPtr == 0) {
-            emit signalRemovedTag(value, column);
-            m_columnTags[column]->remove(value);
-        }
+    if(m_columnTags[column]->contains(value) &&
+       --((*m_columnTags[column])[value])) // If the decrement goes to 0...
+    {
+        emit signalRemovedTag(value, column);
+        m_columnTags[column]->remove(value);
     }
+}
+
+void CollectionList::addWatched(const QString &file)
+{
+    m_dirWatch->addFile(file);
+}
+
+void CollectionList::removeWatched(const QString &file)
+{
+    m_dirWatch->removeFile(file);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -502,7 +497,7 @@ void CollectionListItem::addChildItem(PlaylistItem *child)
 void CollectionListItem::removeChildItem(PlaylistItem *child)
 {
     if(!m_shuttingDown)
-        m_children.remove(child);
+        m_children.removeAll(child);
 }
 
 bool CollectionListItem::checkCurrent()

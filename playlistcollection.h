@@ -23,21 +23,24 @@
 #include <kdirlister.h>
 
 #include <QPointer>
-#include <Q3ValueList>
-#include <QList>
 
 class QPixmap;
 class Q3WidgetStack;
+
 class KAction;
-class Playlist;
-class PlaylistItem;
+
 class HistoryPlaylist;
 class UpcomingPlaylist;
 class SearchPlaylist;
 class DynamicPlaylist;
+class PlaylistItem;
+class Playlist;
 
+template<class T>
+class QList;
+
+typedef QList<PlaylistItem *> PlaylistItemList;
 typedef QList<Playlist *> PlaylistList;
-typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
 class PlaylistCollection : public PlaylistInterface
 {

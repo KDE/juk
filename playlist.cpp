@@ -16,22 +16,23 @@
 #include "playlist.h"
 
 #include <kconfig.h>
+#include <kapplication.h>
 #include <kmessagebox.h>
 #include <k3urldrag.h>
 #include <kiconloader.h>
 #include <klineedit.h>
-#include <kaction.h>
 #include <k3popupmenu.h>
 #include <klocale.h>
 #include <kdebug.h>
-#include <kinputdialog.h>
 #include <kfiledialog.h>
 #include <kglobalsettings.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
 #include <kio/copyjob.h>
-#include <kio/job.h>
 #include <kmenu.h>
+#include <kactioncollection.h>
+#include <kconfiggroup.h>
+#include <ktoolbarpopupaction.h>
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
 #include <kselectaction.h>
@@ -39,21 +40,18 @@
 #include <Q3Header>
 #include <QCursor>
 #include <QDir>
-#include <QEventLoop>
 #include <QToolTip>
-#include <Q3WidgetStack>
 #include <QFile>
-#include <QPaintEvent>
+#include <Q3WidgetStack>
 #include <QResizeEvent>
 #include <QMouseEvent>
-#include <QShowEvent>
 #include <QKeyEvent>
-#include <QEvent>
+#include <QMimeData>
+#include <QTimer>
+#include <QClipboard>
 #include <QTextStream>
-#include <Q3ValueList>
 #include <QDropEvent>
 #include <QDragEnterEvent>
-#include <Q3PtrList>
 #include <QPixmap>
 
 #include <id3v1genres.h>
@@ -70,7 +68,6 @@
 #include "filerenamer.h"
 #include "actioncollection.h"
 #include "tracksequencemanager.h"
-#include "juk.h"
 #include "tag.h"
 #include "k3bexporter.h"
 #include "upcomingplaylist.h"
@@ -80,8 +77,6 @@
 #include "coverdialog.h"
 #include "tagtransactionmanager.h"
 #include "cache.h"
-#include <kactioncollection.h>
-#include <kconfiggroup.h>
 
 using namespace ActionCollection;
 
@@ -184,7 +179,7 @@ private:
 
     static SharedSettings *m_instance;
     QList<int> m_columnOrder;
-    Q3ValueVector<bool> m_columnsVisible;
+    QVector<bool> m_columnsVisible;
     KGlobalSettings::Completion m_inlineCompletion;
 };
 
@@ -215,8 +210,8 @@ void Playlist::SharedSettings::setColumnOrder(const Playlist *l)
 
 void Playlist::SharedSettings::toggleColumnVisible(int column)
 {
-    if(column >= int(m_columnsVisible.size()))
-        m_columnsVisible.resize(column + 1, true);
+    if(column >= m_columnsVisible.size())
+        m_columnsVisible.fill(true, column + 1);
 
     m_columnsVisible[column] = !m_columnsVisible[column];
 
@@ -263,6 +258,9 @@ Playlist::SharedSettings::SharedSettings()
     bool resizeColumnsManually = config.readEntry("ResizeColumnsManually", false);
     action<KToggleAction>("resizeColumnsManually")->setChecked(resizeColumnsManually);
 
+    // Preallocate spaces so we don't need to check later.
+    m_columnsVisible.fill(true, PlaylistItem::lastColumn() + 1);
+
     // save column order
     m_columnOrder = config.readEntry("ColumnOrder", QList<int>());
 
@@ -273,29 +271,17 @@ Playlist::SharedSettings::SharedSettings()
         // Provide some default values for column visibility if none were
         // read from the configuration file.
 
-        for(int i = 0; i <= PlaylistItem::lastColumn(); i++) {
-            switch(i) {
-            case PlaylistItem::BitrateColumn:
-            case PlaylistItem::CommentColumn:
-            case PlaylistItem::FileNameColumn:
-            case PlaylistItem::FullPathColumn:
-                m_columnsVisible.append(false);
-                break;
-            default:
-                m_columnsVisible.append(true);
-            }
-        }
+        m_columnsVisible[PlaylistItem::BitrateColumn] = false;
+        m_columnsVisible[PlaylistItem::CommentColumn] = false;
+        m_columnsVisible[PlaylistItem::FileNameColumn] = false;
+        m_columnsVisible[PlaylistItem::FullPathColumn] = false;
     }
     else {
         // Convert the int list into a bool list.
 
-        m_columnsVisible.resize(l.size(), true);
-        uint i = 0;
-        for(QList<int>::Iterator it = l.begin(); it != l.end(); ++it) {
-            if(! bool(*it))
-                m_columnsVisible[i] = bool(*it);
-            i++;
-        }
+        m_columnsVisible.fill(false);
+        foreach(int column, l)
+            m_columnsVisible[column] = true;
     }
 
     m_inlineCompletion = KGlobalSettings::Completion(
@@ -337,7 +323,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
-    m_polished(false),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
@@ -360,7 +345,6 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
-    m_polished(false),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
@@ -384,7 +368,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
-    m_polished(false),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
@@ -407,7 +390,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_collection(collection),
     m_selectedCount(0),
     m_allowDuplicates(false),
-    m_polished(false),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
@@ -530,9 +512,9 @@ void Playlist::playPrevious()
     PlaylistItem *previous = 0;
 
     if(random && !m_history.isEmpty()) {
-        PlaylistItemList::Iterator last = m_history.fromLast();
+        PlaylistItemList::Iterator last = --m_history.end();
         previous = *last;
-        m_history.remove(last);
+        m_history.erase(last);
     }
     else {
         m_history.clear();
@@ -596,9 +578,9 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     m_members.remove(item->file().absFilePath());
     m_search.clearItem(item);
 
-    m_history.remove(item);
-    m_addTime.remove(item);
-    m_subtractTime.remove(item);
+    m_history.removeAll(item);
+    m_addTime.removeAll(item);
+    m_subtractTime.removeAll(item);
 
     delete item;
     if(emitChanged)
@@ -746,12 +728,12 @@ void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMast
 
 void Playlist::copy()
 {
-    kapp->clipboard()->setMimeData(drag(0)->mimeData(), QClipboard::Clipboard);
+    QApplication::clipboard()->setMimeData(drag(0)->mimeData(), QClipboard::Clipboard);
 }
 
 void Playlist::paste()
 {
-    decode(kapp->clipboard()->mimeData(), static_cast<PlaylistItem *>(currentItem()));
+    decode(QApplication::clipboard()->mimeData(), static_cast<PlaylistItem *>(currentItem()));
 }
 
 void Playlist::clear()
@@ -1276,6 +1258,7 @@ void Playlist::showEvent(QShowEvent *e)
         SharedSettings::instance()->apply(this);
         m_applySharedSettings = false;
     }
+
     K3ListView::showEvent(e);
 }
 
@@ -1534,15 +1517,8 @@ bool Playlist::isColumnVisible(int c) const
     return columnWidth(c) != 0;
 }
 
-void Playlist::polish()
+void Playlist::slotInitialize()
 {
-    K3ListView::ensurePolished();
-
-    if(m_polished)
-        return;
-
-    m_polished = true;
-
     addColumn(i18n("Track Name"));
     addColumn(i18n("Artist"));
     addColumn(i18n("Album"));
@@ -1568,7 +1544,7 @@ void Playlist::polish()
     setShowSortIndicator(true);
     setDropVisualizer(true);
 
-    m_columnFixedWidths.resize(columns(), 0);
+    m_columnFixedWidths.resize(columns());
 
     //////////////////////////////////////////////////
     // setup header RMB menu
@@ -1699,6 +1675,9 @@ void Playlist::setup()
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
     setSorting(1);
+
+    // TODO: Determine if other stuff in setup must happen before slotInitialize().
+    QTimer::singleShot(0, this, SLOT(slotInitialize()));
 }
 
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
@@ -1807,31 +1786,31 @@ void Playlist::calculateColumnWeights()
         return;
 
     PlaylistItemList l = items();
-    Q3ValueListConstIterator<int> columnIt;
+    QList<int>::Iterator columnIt;
 
-    Q3ValueVector<double> averageWidth(columns(), 0);
+    QVector<double> averageWidth(columns());
     double itemCount = l.size();
 
-    Q3ValueVector<int> cachedWidth;
+    QVector<int> cachedWidth;
 
     // Here we're not using a real average, but averaging the squares of the
     // column widths and then using the square root of that value.  This gives
     // a nice weighting to the longer columns without doing something arbitrary
     // like adding a fixed amount of padding.
 
-    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
-        cachedWidth = (*it)->cachedWidths();
-        for(columnIt = m_weightDirty.begin(); columnIt != m_weightDirty.end(); ++columnIt)
-            averageWidth[*columnIt] += pow(double(cachedWidth[*columnIt]), 2.0) / itemCount;
+    foreach(PlaylistItem *item, l) {
+        cachedWidth = item->cachedWidths();
+        foreach(int column, m_weightDirty)
+            averageWidth[column] += pow(double(cachedWidth[column]), 2.0) / itemCount;
     }
 
-    m_columnWeights.resize(columns(), -1);
+    m_columnWeights.fill(-1, columns());
 
-    for(columnIt = m_weightDirty.begin(); columnIt != m_weightDirty.end(); ++columnIt) {
-        m_columnWeights[*columnIt] = int(sqrt(averageWidth[*columnIt]) + 0.5);
+    foreach(int column, m_weightDirty) {
+        m_columnWeights[column] = int(sqrt(averageWidth[column]) + 0.5);
 
-        //  kDebug(65432) << k_funcinfo << "m_columnWeights[" << *columnIt << "] == "
-        //                 << m_columnWeights[*columnIt] << endl;
+        //  kDebug(65432) << k_funcinfo << "m_columnWeights[" << column << "] == "
+        //                 << m_columnWeights[column] << endl;
     }
 
     m_weightDirty.clear();
@@ -1953,17 +1932,15 @@ void Playlist::slotUpdateColumnWidths()
     // Make sure that the column weights have been initialized before trying to
     // update the columns.
 
-    Q3ValueList<int> visibleColumns;
+    QList<int> visibleColumns;
     for(int i = 0; i < columns(); i++) {
         if(isColumnVisible(i))
             visibleColumns.append(i);
     }
 
-    Q3ValueListConstIterator<int> it;
-
     if(count() == 0) {
-        for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it)
-            setColumnWidth(*it, header()->fontMetrics().width(header()->label(*it)) + 10);
+        foreach(int column, visibleColumns)
+            setColumnWidth(column, header()->fontMetrics().width(header()->label(column)) + 10);
 
         return;
     }
@@ -1974,17 +1951,16 @@ void Playlist::slotUpdateColumnWidths()
     // First build a list of minimum widths based on the strings in the listview
     // header.  We won't let the width of the column go below this width.
 
-    Q3ValueVector<int> minimumWidth(columns(), 0);
+    QVector<int> minimumWidth(columns(), 0);
     int minimumWidthTotal = 0;
 
     // Also build a list of either the minimum *or* the fixed width -- whichever is
     // greater.
 
-    Q3ValueVector<int> minimumFixedWidth(columns(), 0);
+    QVector<int> minimumFixedWidth(columns(), 0);
     int minimumFixedWidthTotal = 0;
 
-    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
-        int column = *it;
+    foreach(int column, visibleColumns) {
         minimumWidth[column] = header()->fontMetrics().width(header()->label(column)) + 10;
         minimumWidthTotal += minimumWidth[column];
 
@@ -2011,21 +1987,21 @@ void Playlist::slotUpdateColumnWidths()
     // useful weight to use as a divisor for each column's weight.
 
     double totalWeight = 0;
-    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it)
-        totalWeight += m_columnWeights[*it];
+    foreach(int column, visibleColumns)
+        totalWeight += m_columnWeights[column];
 
     // Computed a "weighted width" for each visible column.  This would be the
     // width if we didn't have to handle the cases of minimum and maximum widths.
 
-    Q3ValueVector<int> weightedWidth(columns(), 0);
-    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it)
-        weightedWidth[*it] = int(double(m_columnWeights[*it]) / totalWeight * visibleWidth() + 0.5);
+    QVector<int> weightedWidth(columns(), 0);
+    foreach(int column, visibleColumns)
+        weightedWidth[column] = int(double(m_columnWeights[column]) / totalWeight * visibleWidth() + 0.5);
 
     // The "extra" width for each column.  This is the weighted width less the
     // minimum width or zero if the minimum width is greater than the weighted
     // width.
 
-    Q3ValueVector<int> extraWidth(columns(), 0);
+    QVector<int> extraWidth(columns(), 0);
 
     // This is used as an indicator if we have any columns where the weighted
     // width is less than the minimum width.  If this is false then we can
@@ -2049,15 +2025,15 @@ void Playlist::slotUpdateColumnWidths()
 
     // Fill in the values discussed above.
 
-    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
-        if(weightedWidth[*it] < minimumWidth[*it]) {
+    foreach(int column, visibleColumns) {
+        if(weightedWidth[column] < minimumWidth[column]) {
             readjust = true;
-            extraWidth[*it] = 0;
-            neededWidth += minimumWidth[*it] - weightedWidth[*it];
+            extraWidth[column] = 0;
+            neededWidth += minimumWidth[column] - weightedWidth[column];
         }
         else {
-            extraWidth[*it] = weightedWidth[*it] - minimumWidth[*it];
-            availableWidth += extraWidth[*it];
+            extraWidth[column] = weightedWidth[column] - minimumWidth[column];
+            availableWidth += extraWidth[column];
         }
     }
 
@@ -2075,16 +2051,16 @@ void Playlist::slotUpdateColumnWidths()
     // than the minimum widths, just use those, otherwise use the "reajusted
     // weighted width".
 
-    for(it = visibleColumns.begin(); it != visibleColumns.end(); ++it) {
+    foreach(int column, visibleColumns) {
         int width;
         if(readjust) {
-            int adjustedExtraWidth = int(double(extraWidth[*it]) * adjustmentRatio + 0.5);
-            width = minimumWidth[*it] + adjustedExtraWidth;
+            int adjustedExtraWidth = int(double(extraWidth[column]) * adjustmentRatio + 0.5);
+            width = minimumWidth[column] + adjustedExtraWidth;
         }
         else
-            width = weightedWidth[*it];
+            width = weightedWidth[column];
 
-        setColumnWidth(*it, width);
+        setColumnWidth(column, width);
         usedWidth += width;
     }
 

@@ -17,6 +17,8 @@
 #include "collectionlist.h"
 #include "playermanager.h"
 
+#include <QTimer>
+
 #include <klocale.h>
 #include <kglobal.h>
 #include <kdebug.h>

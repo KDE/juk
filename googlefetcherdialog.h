@@ -16,10 +16,10 @@
 #define GOOGLEFETCHERDIALOG_H
 
 #include <kdialog.h>
-#include <kio/job.h>
 #include <k3iconview.h>
 
 #include "googlefetcher.h"
+#include "filehandle.h"
 
 #include <QPixmap>
 #include <QPointer>

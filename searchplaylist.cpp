@@ -13,11 +13,12 @@
  *                                                                         *
  ***************************************************************************/
 
+#include "searchplaylist.h"
+
 #include <kdebug.h>
 
-#include <q3ptrdict.h>
+#include <QHash>
 
-#include "searchplaylist.h"
 #include "playlistitem.h"
 #include "collectionlist.h"
 
@@ -55,24 +56,25 @@ void SearchPlaylist::updateItems()
 
     PlaylistItemList l = Playlist::items();
 
-    Q3PtrDict<PlaylistItem> oldItems(503);
+    QHash<CollectionListItem *, PlaylistItem *> oldItems;
+    oldItems.reserve(503);
 
-    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it)
-        oldItems.insert((*it)->collectionItem(), *it);
+    foreach(PlaylistItem *item, l)
+        oldItems.insert(item->collectionItem(), item);
 
     m_search.search();
     PlaylistItemList matched = m_search.matchedItems();
     PlaylistItemList newItems;
 
-    for(PlaylistItemList::ConstIterator it = matched.begin(); it != matched.end(); ++it) {
-        if(!oldItems.remove((*it)->collectionItem()))
-            newItems.append((*it)->collectionItem());
+    foreach(PlaylistItem *item, matched) {
+        if(oldItems.remove(item->collectionItem()) == 0)
+            newItems.append(item->collectionItem());
     }
 
     // kDebug(65432) << k_funcinfo << "newItems.size() == " << newItems.size() << endl;
 
-    for(Q3PtrDictIterator<PlaylistItem> it(oldItems); it.current(); ++it)
-        clearItem(it.current(), false);
+    foreach(PlaylistItem *item, oldItems)
+        clearItem(item, false);
 
     if(!oldItems.isEmpty() && newItems.isEmpty())
         dataChanged();

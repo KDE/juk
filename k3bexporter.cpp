@@ -27,7 +27,6 @@
 #include <kapplication.h>
 
 #include <QMap>
-#include <Q3ValueList>
 
 #include "playlistitem.h"
 #include "playlist.h"

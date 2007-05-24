@@ -31,13 +31,13 @@
 #include <QFrame>
 #include <QDropEvent>
 #include <QLabel>
-#include <Q3ValueList>
 #include <QVBoxLayout>
 #include <QDragEnterEvent>
 #include <QMouseEvent>
 #include <QTextDocument>
 
 #include "playlistcollection.h"
+#include "playlistitem.h"
 #include "playermanager.h"
 #include "coverinfo.h"
 #include "covermanager.h"
@@ -103,11 +103,8 @@ void NowPlaying::slotUpdate()
     else
         show();
 
-    for(Q3ValueList<NowPlayingItem *>::Iterator it = m_items.begin();
-        it != m_items.end(); ++it)
-    {
-        (*it)->update(file);
-    }
+    foreach(NowPlayingItem *item, m_items)
+        item->update(file);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -324,17 +321,15 @@ void HistoryItem::update(const FileHandle &file)
         return;
 
     if(m_history.count() >= 10)
-        m_history.remove(m_history.fromLast());
+        m_history.removeLast();
 
     QString format = "<br /><a href=\"%1\"><font size=\"-1\">%2</font></a>";
     QString current = QString("<b>%1</b>").arg(i18n("History"));
     QString previous;
 
-    for(Q3ValueList<Item>::ConstIterator it = m_history.begin();
-        it != m_history.end(); ++it)
-    {
+    foreach(Item historyItem, m_history) {
         previous = current;
-        current.append(format.arg((*it).anchor).arg(Qt::escape((*it).file.tag()->title())));
+        current.append(format.arg(historyItem.anchor).arg(Qt::escape(historyItem.file.tag()->title())));
         setText(current);
         if(heightForWidth(width()) > imageSize) {
             setText(previous);
@@ -350,18 +345,16 @@ void HistoryItem::update(const FileHandle &file)
 
 void HistoryItem::openLink(const QString &link)
 {
-    for(Q3ValueList<Item>::ConstIterator it = m_history.begin();
-        it != m_history.end(); ++it)
-    {
-        if((*it).anchor == link) {
-            if((*it).playlist) {
+    foreach(Item historyItem, m_history) {
+        if(historyItem.anchor == link) {
+            if(historyItem.playlist) {
                 CollectionListItem *collectionItem =
-                    CollectionList::instance()->lookup((*it).file.absFilePath());
-                PlaylistItem *item = collectionItem->itemForPlaylist((*it).playlist);
-                (*it).playlist->clearSelection();
-                (*it).playlist->setSelected(item, true);
-                (*it).playlist->ensureItemVisible(item);
-                NowPlayingItem::parent()->collection()->raise((*it).playlist);
+                    CollectionList::instance()->lookup(historyItem.file.absFilePath());
+                PlaylistItem *item = collectionItem->itemForPlaylist(historyItem.playlist);
+                historyItem.playlist->clearSelection();
+                historyItem.playlist->setSelected(item, true);
+                historyItem.playlist->ensureItemVisible(item);
+                NowPlayingItem::parent()->collection()->raise(historyItem.playlist);
             }
             break;
         }

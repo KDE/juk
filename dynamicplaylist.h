@@ -18,10 +18,7 @@
 
 #include "playlist.h"
 
-#include <Q3ValueList>
-
-class QPaintEvent;
-class QShowEvent;
+#include <QList>
 
 /**
  * A Playlist that is a union of other playlists that is created dynamically.
@@ -105,7 +102,7 @@ private slots:
     void slotUpdateItems();
 
 private:
-    Q3ValueList<PlaylistObserver *> m_observers;
+    QList<PlaylistObserver *> m_observers;
     PlaylistItemList m_siblings;
     PlaylistList m_playlists;
     bool m_dirty;

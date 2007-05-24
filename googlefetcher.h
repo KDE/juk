@@ -15,19 +15,22 @@
 #ifndef GOOGLEFETCHER_H
 #define GOOGLEFETCHER_H
 
-#include <kdialog.h>
+#include <QObject>
+#include <QString>
 
-#include <Q3ValueList>
+// Predeclare some classes.
 
-#include "filehandle.h"
+class QPixmap;
 
+template<class T>
+class QList;
+
+class KUrl;
 namespace DOM {
     class HTMLDocument;
 }
 
-class QPixmap;
-
-class KUrl;
+class FileHandle;
 
 class GoogleImage
 {
@@ -44,7 +47,7 @@ private:
     QString m_size;
 };
 
-typedef Q3ValueList<GoogleImage> GoogleImageList;
+typedef QList<GoogleImage> GoogleImageList;
 
 class GoogleFetcher : public QObject
 {
@@ -70,12 +73,8 @@ private slots:
     void slotLoadImageURLs(GoogleFetcher::ImageSize size = All);
 
 private:
-    FileHandle m_file;
-    QString m_searchString;
-    QString m_loadedQuery;
-    ImageSize m_loadedSize;
-    GoogleImageList m_imageList;
-    uint m_selectedIndex;
+    class Private;
+    Private *d;
 };
 #endif
 

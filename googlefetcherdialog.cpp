@@ -17,6 +17,7 @@
 
 #include <kapplication.h>
 #include <kio/netaccess.h>
+#include <kio/job.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <k3iconview.h>

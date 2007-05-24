@@ -138,7 +138,7 @@ void DefaultSequenceIterator::advance()
             item = m_randomItems[KRandom::random() % m_randomItems.count()];
 
         setCurrent(item);
-        m_randomItems.remove(item);
+        m_randomItems.removeAll(item);
     }
     else {
         PlaylistItem *next = current()->itemBelow();
@@ -206,7 +206,7 @@ void DefaultSequenceIterator::playlistChanged()
 void DefaultSequenceIterator::itemAboutToDie(const PlaylistItem *item)
 {
     PlaylistItem *stfu_gcc = const_cast<PlaylistItem *>(item);
-    m_randomItems.remove(stfu_gcc);
+    m_randomItems.removeAll(stfu_gcc);
 }
 
 void DefaultSequenceIterator::setCurrent(PlaylistItem *current)
@@ -226,7 +226,7 @@ void DefaultSequenceIterator::setCurrent(PlaylistItem *current)
         refillRandomList();
     }
 
-    m_randomItems.remove(current);
+    m_randomItems.removeAll(current);
 
     if(albumRandom && current && !oldCurrent) {
 
@@ -257,7 +257,7 @@ void DefaultSequenceIterator::refillRandomList(Playlist *p)
     }
 
     m_randomItems = p->visibleItems();
-    m_randomItems.remove(current());
+    m_randomItems.removeAll(current());
     m_albumSearch.clearComponents();
     m_albumSearch.search();
 }

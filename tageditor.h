@@ -17,11 +17,8 @@
 #define TAGEDITOR_H
 
 #include <QWidget>
-//Added by qt3to4:
-#include <QShowEvent>
-#include <Q3ValueList>
-#include <QEvent>
-#include <QBoxLayout>
+#include <QList>
+#include <QMap>
 
 class KComboBox;
 class KLineEdit;
@@ -33,11 +30,11 @@ class KConfigGroup;
 class QCheckBox;
 class QBoxLayout;
 
+class CollectionObserver;
 class Playlist;
 class PlaylistItem;
-typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
 
-class CollectionObserver;
+typedef QList<PlaylistItem *> PlaylistItemList;
 
 class TagEditor : public QWidget
 {
@@ -106,7 +103,7 @@ private:
     KLineEdit *m_bitrateBox;
     KTextEdit *m_commentBox;
 
-    Q3ValueList<QWidget *> m_hideList;
+    QList<QWidget *> m_hideList;
 
     PlaylistItemList m_items;
     Playlist *m_currentPlaylist;

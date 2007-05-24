@@ -16,21 +16,17 @@
 #ifndef PLAYLISTSPLITTER_H
 #define PLAYLISTSPLITTER_H
 
-#include <kfiledialog.h>
-
-#include <q3widgetstack.h>
-
 #include <QSplitter>
-#include <QEvent>
 
-#include "playlistbox.h"
+class Q3WidgetStack;
 
-class KActionMenu;
+class Playlist;
 class PlaylistItem;
 class SearchWidget;
 class HistoryPlaylist;
 class PlaylistInterface;
 class TagEditor;
+class PlaylistBox;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
@@ -49,7 +45,7 @@ public:
     explicit PlaylistSplitter(QWidget *parent, const char *name = 0);
     virtual ~PlaylistSplitter();
 
-    PlaylistInterface *playlist() const { return m_playlistBox; }
+    PlaylistInterface *playlist() const;
 
     virtual bool eventFilter(QObject *watched, QEvent *event);
 

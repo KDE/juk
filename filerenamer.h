@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Thu Oct 28 2004
-    copyright            : (C) 2004 by Michael Pyne
+    copyright            : (C) 2004, 2007 by Michael Pyne
                          : (C) 2003 Frerich Raabe <raabe@kde.org>
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
@@ -18,24 +18,26 @@
 #define FILERENAMER_H
 
 #include <QString>
-#include <q3valuevector.h>
+#include <QVector>
 #include <QMap>
-#include <Q3ValueList>
 
 #include "ui_filerenamerbase.h"
-#include "filerenameroptions.h"
 #include "categoryreaderinterface.h"
 #include "tagrenameroptions.h"
-#include "playlistitem.h"
+
+class KVBox;
+
+class QCheckBox;
+class QPushButton;
+class QSignalMapper;
 
 class ExampleOptionsDialog;
-class QCheckBox;
-class QLayout;
-class QLayoutItem;
-class QPushButton;
-class KVBox;
 class PlaylistItem;
-class QSignalMapper;
+
+template<class T>
+class QList;
+
+typedef QList<PlaylistItem *> PlaylistItemList;
 
 // Used to decide what direction the FileRenamerWidget will move rows in.
 enum MovementDirection { MoveUp, MoveDown };
@@ -66,7 +68,7 @@ struct Row
  * takes up.  The index into the vector is known as the row identifier (which is unique but
  * not necessarily constant).
  */
-typedef Q3ValueVector<Row> Rows;
+typedef QVector<Row> Rows;
 
 /**
  * Holds a list directory separator checkboxes which separate a row.  There
@@ -74,7 +76,7 @@ typedef Q3ValueVector<Row> Rows;
  *
  * Used for ConfigCategoryReader.
  */
-typedef Q3ValueVector<QCheckBox *> DirSeparatorCheckBoxes;
+typedef QVector<QCheckBox *> DirSeparatorCheckBoxes;
 
 /**
  * Associates a CategoryID combination with a set of options.
@@ -121,7 +123,7 @@ private:
     QList<CategoryID> m_categoryOrder;
     QString m_separator;
     QString m_musicFolder;
-    Q3ValueVector<bool> m_folderSeparators;
+    QVector<bool> m_folderSeparators;
 };
 
 /**

@@ -4,6 +4,9 @@
 
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2004 - 2007 by Michael Pyne
+    email                : michael.pyne@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -35,7 +38,6 @@
 #include <QPushButton>
 #include <QToolTip>
 #include <QPainter>
-#include <Q3ValueVector>
 #include <Q3StyleSheet>
 #include <QPalette>
 #include <QWheelEvent>
@@ -61,51 +63,6 @@
 using namespace ActionCollection;
 
 static bool copyImage(QImage &dest, QImage &src, int x, int y);
-
-#if 0  // not necessary in Qt-4.1
-class FlickerFreeLabel : public QLabel
-{
-public:
-    FlickerFreeLabel(const QString &text, QWidget *parent, const char *name = 0) :
-        QLabel(text, parent, name)
-    {
-        m_textColor = paletteForegroundColor();
-        m_bgColor = parentWidget()->paletteBackgroundColor();
-        //setBackgroundMode(Qt::NoBackground);
-    }
-
-    QColor textColor() const
-    {
-        return m_textColor;
-    }
-
-    QColor backgroundColor() const
-    {
-        return m_bgColor;
-    }
-
-protected:
-    virtual void drawContents(QPainter *p)
-    {
-        // We want to intercept the drawContents call and draw on a pixmap
-        // instead of the window to keep flicker to an absolute minimum.
-        // Since Qt doesn't refresh the background, we need to do so
-        // ourselves.
-
-        QPixmap pix(size());
-        QPainter pixPainter(&pix);
-
-        pixPainter.fillRect(rect(), m_bgColor);
-        QLabel::drawContents(&pixPainter);
-
-        bitBlt(p->device(), QPoint(0, 0), &pix, rect(), CopyROP);
-    }
-
-    private:
-    QColor m_textColor;
-    QColor m_bgColor;
-};
-#endif
 
 PassiveInfo::PassiveInfo(QWidget *parent) :
     KPassivePopup(parent), m_timer(new QTimer), m_justDie(false)
@@ -161,8 +118,7 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
 
 {
     // This should be initialized to the number of labels that are used.
-
-    m_labels.reserve(3);
+    m_labels.fill(0, 3);
 
     m_appPix = loadIcon("juk_dock");
 
@@ -395,7 +351,7 @@ void SystemTray::createPopup()
     KVBox *infoBox = createPopupLayout(box, playingFile);
 
     for(int i = 0; i < m_labels.capacity(); ++i) {
-        m_labels[i] = new QLabel /*FlickerFreeLabel*/(" ", infoBox);
+        m_labels[i] = new QLabel(" ", infoBox);
         m_labels[i]->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
     }
 

@@ -18,8 +18,6 @@
 
 #include "tagrenameroptions.h"
 
-#include <QList>
-
 enum TagType;
 
 class QString;

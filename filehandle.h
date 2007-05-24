@@ -16,7 +16,7 @@
 #ifndef FILEHANDLE_H
 #define FILEHANDLE_H
 
-#include <Q3ValueList>
+#include <QString>
 
 class QFileInfo;
 class QDateTime;
@@ -26,6 +26,9 @@ class QStringList;
 class CoverInfo;
 class Tag;
 class CacheDataStream;
+
+template<class T>
+class QList;
 
 /**
  * An value based, explicitly shared wrapper around file related information
@@ -75,7 +78,7 @@ private:
     void setup(const QFileInfo &info, const QString &path);
 };
 
-typedef Q3ValueList<FileHandle> FileHandleList;
+typedef QList<FileHandle> FileHandleList;
 
 QDataStream &operator<<(QDataStream &s, const FileHandle &f);
 CacheDataStream &operator>>(CacheDataStream &s, FileHandle &f);

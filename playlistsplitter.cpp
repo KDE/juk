@@ -27,6 +27,7 @@
 #include <QEvent>
 #include <QVBoxLayout>
 #include <QList>
+#include <Q3WidgetStack>
 
 #include "searchwidget.h"
 #include "playlistsearch.h"
@@ -35,6 +36,7 @@
 #include "collectionlist.h"
 #include "playermanager.h"
 #include "nowplaying.h"
+#include "playlistbox.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -67,6 +69,11 @@ PlaylistSplitter::~PlaylistSplitter()
     // before they are deleted we're explicitly deleting the PlaylistBox here.
 
     delete m_playlistBox;
+}
+
+PlaylistInterface *PlaylistSplitter::playlist() const
+{
+    return m_playlistBox;
 }
 
 bool PlaylistSplitter::eventFilter(QObject *, QEvent *event)

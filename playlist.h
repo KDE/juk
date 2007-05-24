@@ -2,6 +2,8 @@
     begin                : Sat Feb 16 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+    copyright            : (c) 2007 Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -17,20 +19,18 @@
 #define PLAYLIST_H
 
 #include <k3listview.h>
-#include <k3urldrag.h>
-#include <kdebug.h>
 #include <kglobalsettings.h>
+#include <kdebug.h>
 
-#include <Q3ValueVector>
-#include <Q3ValueList>
+#include <QVector>
 #include <QEvent>
+#include <QList>
 
 #include "covermanager.h"
 #include "stringhash.h"
 #include "playlistsearch.h"
 #include "tagguesser.h"
 #include "playlistinterface.h"
-#include "playlistitem.h"
 
 class KMenu;
 class KActionMenu;
@@ -39,11 +39,12 @@ class QFileInfo;
 class QMimeData;
 class QDrag;
 
+class PlaylistItem;
 class PlaylistCollection;
 class PlaylistToolTip;
 class UpcomingPlaylist;
 
-typedef Q3ValueList<PlaylistItem *> PlaylistItemList;
+typedef QList<PlaylistItem *> PlaylistItemList;
 
 class Playlist : public K3ListView, public PlaylistInterface
 {
@@ -441,15 +442,6 @@ protected:
     void addColumn(const QString &label);
 
     /**
-     * Here I'm using delayed setup of some things that aren't quite intuitive.
-     * Creating columns and setting up connections are both time consuming if
-     * there are a lot of playlists to initialize.  This moves that cost from the
-     * startup time to the time when the widget is "polished" -- i.e. just before
-     * it's painted the first time.
-     */
-    virtual void polish();
-
-    /**
      * Do some finial initialization of created items.  Notably ensure that they
      * are shown or hidden based on the contents of the current PlaylistSearch.
      *
@@ -472,7 +464,7 @@ protected:
      * ItemType should be a PlaylistItem subclass.
      */
     template <class CollectionItemType, class ItemType, class SiblingType>
-    void createItems(const Q3ValueList<SiblingType *> &siblings, ItemType *after = 0);
+    void createItems(const QList<SiblingType *> &siblings, ItemType *after = 0);
 
 protected slots:
     void slotPopulateBackMenu() const;
@@ -576,6 +568,16 @@ private:
 
 private slots:
 
+    /**
+     * Handle the necessary tasks needed to create and setup the playlist that
+     * don't need to happen in the ctor, such as setting up the columns,
+     * initializing the RMB menu, and setting up signal/slot connections.
+     *
+     * Used to be a subclass of K3ListView::polish() but the timing of the
+     * call is not consistent and therefore lead to crashes.
+     */
+    void slotInitialize();
+
     void slotUpdateColumnWidths();
 
     void slotAddToUpcoming();
@@ -647,11 +649,10 @@ private:
     int m_selectedCount;
 
     bool m_allowDuplicates;
-    bool m_polished;
     bool m_applySharedSettings;
     bool m_columnWidthModeChanged;
 
-    Q3ValueList<int> m_weightDirty;
+    QList<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;
 
     mutable int m_time;
@@ -661,8 +662,8 @@ private:
     /**
      * The average minimum widths of columns to be used in balancing calculations.
      */
-    Q3ValueVector<int> m_columnWeights;
-    Q3ValueVector<int> m_columnFixedWidths;
+    QVector<int> m_columnWeights;
+    QVector<int> m_columnFixedWidths;
     bool m_widthsDirty;
 
     static PlaylistItemList m_history;
@@ -702,6 +703,8 @@ private:
 
     bool m_blockDataChanged;
 };
+
+typedef QList<Playlist *> PlaylistList;
 
 bool processEvents();
 
@@ -769,14 +772,13 @@ ItemType *Playlist::createItem(SiblingType *sibling, ItemType *after)
 }
 
 template <class CollectionItemType, class ItemType, class SiblingType>
-void Playlist::createItems(const Q3ValueList<SiblingType *> &siblings, ItemType *after)
+void Playlist::createItems(const QList<SiblingType *> &siblings, ItemType *after)
 {
     if(siblings.isEmpty())
         return;
 
-    Q3ValueListConstIterator<SiblingType *> it = siblings.begin();
-    for(; it != siblings.end(); ++it)
-        after = createItem(*it, after);
+    foreach(SiblingType *sibling, siblings)
+        after = createItem(sibling, after);
 
     dataChanged();
     slotWeightDirty();

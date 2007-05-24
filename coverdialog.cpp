@@ -24,8 +24,7 @@
 #include <klocale.h>
 
 #include <QTimer>
-#include <QToolButton>
-#include <Q3ValueList>
+#include <QList>
 
 #include "covericonview.h"
 #include "covermanager.h"
@@ -102,13 +101,12 @@ void CoverDialog::show()
 // covers.
 void CoverDialog::loadCovers()
 {
-    Q3ValueList<coverKey> keys = CoverManager::keys();
-    Q3ValueList<coverKey>::ConstIterator it;
     int i = 0;
 
-    for(it = keys.begin(); it != keys.end(); ++it) {
-        new CoverIconViewItem(*it, m_covers);
+    foreach(coverKey cover, CoverManager::keys()) {
+        (void) new CoverIconViewItem(cover, m_covers);
 
+        // TODO: Threading!
         if(++i == 10) {
             i = 0;
             kapp->processEvents();
@@ -127,13 +125,11 @@ void CoverDialog::slotArtistClicked(Q3ListViewItem *item)
     }
     else {
         QString artist = item->text(0).toLower();
-        Q3ValueList<coverKey> keys = CoverManager::keys();
-        Q3ValueList<coverKey>::ConstIterator it;
 
-        for(it = keys.begin(); it != keys.end(); ++it) {
-            CoverDataPtr data = CoverManager::coverInfo(*it);
+        foreach(coverKey cover, CoverManager::keys()) {
+            CoverDataPtr data = CoverManager::coverInfo(cover);
             if(data->artist == artist)
-                new CoverIconViewItem(*it, m_covers);
+                (void) new CoverIconViewItem(cover, m_covers);
         }
     }
 }

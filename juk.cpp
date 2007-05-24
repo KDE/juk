@@ -29,8 +29,13 @@
 #include <kicon.h>
 #include <kaction.h>
 #include <kconfiggroup.h>
+#include <kapplication.h>
+#include <kglobalaccel.h>
+#include <ktoolbarpopupaction.h>
 
 #include <QKeyEvent>
+#include <QDir>
+#include <QTimer>
 
 #include "slideraction.h"
 #include "statuslabel.h"

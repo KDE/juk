@@ -16,8 +16,8 @@
 #ifndef TAGTRANSACTIONMANAGER_H
 #define TAGTRANSACTIONMANAGER_H
 
-//Added by qt3to4:
-#include <Q3ValueList>
+#include <QObject>
+#include <QList>
 
 class PlaylistItem;
 class QWidget;
@@ -91,7 +91,7 @@ class TagTransactionAtom
     mutable Tag *m_tag;
 };
 
-typedef Q3ValueList<TagTransactionAtom> TagAlterationList;
+typedef QList<TagTransactionAtom> TagAlterationList;
 
 /**
  * This class manages alterations of a group of PlaylistItem's FileHandles.  What this

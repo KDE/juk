@@ -15,20 +15,15 @@
 
 #include "playlistitem.h"
 
-#include <config.h>
 #include <config-juk.h>
 #include <kdebug.h>
-#include <kaction.h>
 #include <kiconloader.h>
 
 #include <QPixmap>
-#include <Q3ValueList>
 
 #include "collectionlist.h"
 #include "musicbrainzquery.h"
 #include "tag.h"
-#include "actioncollection.h"
-#include "ktrm.h"
 #include "coverinfo.h"
 #include "tagtransactionmanager.h"
 
@@ -58,7 +53,7 @@ PlaylistItem::~PlaylistItem()
     m_collectionItem->removeChildItem(this);
 
     if(m_playingItems.contains(this)) {
-        m_playingItems.remove(this);
+        m_playingItems.removeAll(this);
         if(m_playingItems.isEmpty())
             playlist()->setPlaying(0);
     }
@@ -159,7 +154,7 @@ void PlaylistItem::setText(int column, const QString &text)
 
 void PlaylistItem::setPlaying(bool playing, bool master)
 {
-    m_playingItems.remove(this);
+    m_playingItems.removeAll(this);
 
     if(playing) {
         if(master)
@@ -218,7 +213,7 @@ Playlist *PlaylistItem::playlist() const
     return static_cast<Playlist *>(listView());
 }
 
-Q3ValueVector<int> PlaylistItem::cachedWidths() const
+QVector<int> PlaylistItem::cachedWidths() const
 {
     return d->cachedWidths;
 }
@@ -402,7 +397,7 @@ void PlaylistItem::setup(CollectionListItem *item)
 // PlaylistItem::Pointer implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-QMap<PlaylistItem *, Q3ValueList<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_map; // static
+QMap<PlaylistItem *, QList<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_map; // static
 
 PlaylistItem::Pointer::Pointer(PlaylistItem *item) :
     m_item(item)
@@ -425,7 +420,7 @@ PlaylistItem::Pointer::~Pointer()
     if(!m_item)
         return;
 
-    m_map[m_item].remove(this);
+    m_map[m_item].removeAll(this);
     if(m_map[m_item].isEmpty()) {
         m_map.remove(m_item);
         m_item->m_watched = false;
@@ -438,7 +433,7 @@ PlaylistItem::Pointer &PlaylistItem::Pointer::operator=(PlaylistItem *item)
         return *this;
 
     if(m_item) {
-        m_map[m_item].remove(this);
+        m_map[m_item].removeAll(this);
         if(m_map[m_item].isEmpty()) {
             m_map.remove(m_item);
             m_item->m_watched = false;
@@ -460,9 +455,9 @@ void PlaylistItem::Pointer::clear(PlaylistItem *item) // static
     if(!item)
         return;
 
-    Q3ValueList<Pointer *> l = m_map[item];
-    for(Q3ValueList<Pointer *>::Iterator it = l.begin(); it != l.end(); ++it)
-        (*it)->m_item = 0;
+    QList<Pointer *> l = m_map[item];
+    foreach(Pointer *pointer, l)
+        pointer->m_item = 0;
     m_map.remove(item);
     item->m_watched = false;
 }

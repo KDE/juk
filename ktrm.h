@@ -26,14 +26,17 @@
 
 #ifndef KTRM_H
 #define KTRM_H
-#include <qobject.h>
-#include <config.h>
-#include <config-juk.h>
 
-#include <QString>
-#include <q3valuelist.h>
-#include <QMap>
+#include <QObject>
+
+template<class T>
+class QList;
+
+class QString;
+class QStringList;
+
 class KJob;
+
 /**
  * This represents a potential match for a TRM lookup.  KTRMResultList is
  * returned from KTRMLookup and will be sorted by relevance (better matches
@@ -96,7 +99,7 @@ private:
     KTRMResultPrivate *d;
 };
 
-typedef Q3ValueList<KTRMResult> KTRMResultList;
+typedef QList<KTRMResult> KTRMResultList;
 
 /**
  * An abstraction for libtunepimp's TRM based lookup and file recognition.
@@ -113,11 +116,6 @@ class KTRMLookup : public QObject
 {
 Q_OBJECT
 
-signals:
-    void sigResult( KTRMResultList, QString );
-
-protected slots:
-    virtual void lookupResult( KJob* );
 public:
     /**
      * Creates and starts a lookup for \a file.  If \a autoDelete is set to
@@ -200,16 +198,22 @@ protected:
      */
     virtual void finished();
 
+protected slots:
+    virtual void lookupResult( KJob* );
+
+signals:
+    void sigResult( KTRMResultList, QString );
+
 private:
     class KTRMLookupPrivate;
     KTRMLookupPrivate *d;
 };
-/**
- *  * Helper Functions used for sorting MusicBrainz results
- *   */
-double stringSimilarity(QString s1, QString s2);
-double stringSimilarity(QStringList &l, QString &s);
 
+/*
+ * Helper Functions used for sorting MusicBrainz results
+ */
+double stringSimilarity(QString s1, QString s2);
+double stringSimilarity(const QStringList &l, const QString &s);
 
 #endif
 

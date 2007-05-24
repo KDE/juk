@@ -16,14 +16,16 @@
 #ifndef CACHE_H
 #define CACHE_H
 
+#include <QDataStream>
 
 #include "stringhash.h"
-
-#include <QList>
 
 class Tag;
 class Playlist;
 class PlaylistCollection;
+
+template<class T>
+class QList;
 
 typedef QList<Playlist *> PlaylistList;
 
