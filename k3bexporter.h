@@ -19,7 +19,6 @@
 #include "playlistexporter.h"
 #include "playlistitem.h"
 
-class QWidget;
 class PlaylistBox;
 class PlaylistAction;
 

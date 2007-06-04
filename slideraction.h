@@ -25,9 +25,7 @@
 #include <phonon/volumeslider.h>
 #include <phonon/seekslider.h>
 
-class KActionCollection;
 class QBoxLayout;
-class Q3DockWindow;
 
 class VolumeSlider : public Phonon::VolumeSlider
 {

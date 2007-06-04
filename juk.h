@@ -21,12 +21,8 @@
 #include "playermanager.h"
 #include <QKeyEvent>
 
-class QTimer;
-class Q3ListViewItem;
 
 class KToggleAction;
-class KSelectAction;
-class KToolBarPopupAction;
 class KGlobalAccel;
 
 class SliderAction;

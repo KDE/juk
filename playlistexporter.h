@@ -19,7 +19,6 @@
 #include <QtCore/QObject>
 
 class KAction;
-class KActionCollection;
 
 /**
  * Abstract base class to define an interface for classes that export

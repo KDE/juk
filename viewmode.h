@@ -27,7 +27,6 @@
 class QPainter;
 class QColorGroup;
 
-class SearchPlaylist;
 
 class ViewMode : public QObject
 {

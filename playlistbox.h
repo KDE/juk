@@ -25,11 +25,8 @@
 class Playlist;
 class PlaylistItem;
 class ViewMode;
-class PlaylistSearch;
-class SearchPlaylist;
 
 class KMenu;
-class KSelectAction;
 
 template<class T>
 class QList;

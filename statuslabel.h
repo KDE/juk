@@ -26,7 +26,6 @@
 class QLabel;
 class KSqueezedTextLabel;
 
-class FileHandle;
 
 class StatusLabel : public KHBox, public PlaylistObserver
 {

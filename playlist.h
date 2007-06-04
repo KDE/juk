@@ -42,7 +42,6 @@ class QDrag;
 class PlaylistItem;
 class PlaylistCollection;
 class PlaylistToolTip;
-class UpcomingPlaylist;
 
 typedef QList<PlaylistItem *> PlaylistItemList;
 

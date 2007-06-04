@@ -20,7 +20,6 @@
 
 #include "stringhash.h"
 
-class Tag;
 class Playlist;
 class PlaylistCollection;
 

@@ -21,9 +21,7 @@
 class Q3WidgetStack;
 
 class Playlist;
-class PlaylistItem;
 class SearchWidget;
-class HistoryPlaylist;
 class PlaylistInterface;
 class TagEditor;
 class PlaylistBox;

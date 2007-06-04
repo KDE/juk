@@ -24,7 +24,6 @@ class KComboBox;
 class KLineEdit;
 class KIntSpinBox;
 class KTextEdit;
-class KPushButton;
 class KConfigGroup;
 
 class QCheckBox;

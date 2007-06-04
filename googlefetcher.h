@@ -25,7 +25,6 @@ class QPixmap;
 template<class T>
 class QList;
 
-class KUrl;
 namespace DOM {
     class HTMLDocument;
 }
