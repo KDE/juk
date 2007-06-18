@@ -401,7 +401,7 @@ bool SystemTray::buttonsToLeft() const
 #warning the systray is no longer a widget
 #endif
     NETWinInfo ni(QX11Info::display(), /* winId() */ 0, QX11Info::appRootWindow(),
-                  NET::WMIconGeometry | NET::WMKDESystemTrayWinFor);
+                  NET::WMIconGeometry );
     NETRect frame, win;
     ni.kdeGeometry(frame, win);
 
