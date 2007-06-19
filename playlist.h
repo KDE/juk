@@ -37,7 +37,7 @@ class KActionMenu;
 class QEvent;
 
 class PlaylistCollection;
-
+class GoogleFetcher;
 class PlaylistToolTip;
 class UpcomingPlaylist;
 
@@ -170,7 +170,7 @@ public:
      * instantiate their PlaylistItem subclasses using the same method.  Some
      * of the types here are artificially templatized (i.e. CollectionListType and
      * CollectionItemType) to avoid recursive includes, but in fact will always
-     * be the same.     
+     * be the same.
      */
     template <class ItemType, class CollectionItemType, class CollectionListType>
     ItemType *createItem(const FileHandle &file,
@@ -599,6 +599,12 @@ private slots:
     void slotRenameTag();
 
     /**
+     * The image fetcher will update the cover asynchronously, this internal
+     * slot is called when it happens.
+     */
+    void slotCoverChanged(int coverId);
+
+    /**
      * Moves the column \a from to the position \a to.  This matches the signature
      * for the signal QHeader::indexChange().
      */
@@ -637,6 +643,8 @@ private:
     PlaylistCollection *m_collection;
 
     StringHash m_members;
+
+    GoogleFetcher *m_fetcher;
 
     int m_currentColumn;
     int m_processed;
@@ -690,7 +698,7 @@ private:
     PlaylistToolTip *m_toolTip;
 
     /**
-     * This is used to indicate if the list of visible items has changed (via a 
+     * This is used to indicate if the list of visible items has changed (via a
      * call to setVisibleItems()) while random play is playing.
      */
     static bool m_visibleChanged;

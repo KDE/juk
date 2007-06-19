@@ -312,6 +312,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
 		   const QString &iconName) :
     KListView(collection->playlistStack(), name.latin1()),
     m_collection(collection),
+    m_fetcher(new GoogleFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_polished(false),
@@ -335,6 +336,7 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
 		   const QString &name, const QString &iconName) :
     KListView(collection->playlistStack(), name.latin1()),
     m_collection(collection),
+    m_fetcher(new GoogleFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_polished(false),
@@ -359,6 +361,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
 		   const QString &iconName) :
     KListView(collection->playlistStack()),
     m_collection(collection),
+    m_fetcher(new GoogleFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_polished(false),
@@ -382,6 +385,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
 Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     KListView(collection->playlistStack()),
     m_collection(collection),
+    m_fetcher(new GoogleFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_polished(false),
@@ -849,8 +853,9 @@ void Playlist::slotAddCover(bool retrieveLocal)
         newCover = QPixmap(file.directory() + "/" + file.fileName());
     }
     else {
-        PlaylistItemList::Iterator it=items.begin();
-        newCover = GoogleFetcher((*it)->file()).pixmap();
+        m_fetcher->setFile((*items.begin())->file());
+        m_fetcher->chooseCover();
+        return;
     }
 
     if(newCover.isNull())
@@ -861,6 +866,13 @@ void Playlist::slotAddCover(bool retrieveLocal)
 
     coverKey newId = CoverManager::addCover(newCover, artist, album);
     refreshAlbums(items, newId);
+}
+
+// Called when image fetcher has added a new cover.
+void Playlist::slotCoverChanged(int coverId)
+{
+    kdDebug(65432) << "Refreshing information for newly changed covers.\n";
+    refreshAlbums(selectedItems(), coverId);
 }
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
@@ -1640,6 +1652,13 @@ void Playlist::setup()
     setItemMargin(3);
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
+
+    connect(m_fetcher, SIGNAL(signalCoverChanged(int)), this, SLOT(slotCoverChanged(int)));
+
+    // Prevent list of selected items from changing while internet search is in
+    // progress.
+    connect(this, SIGNAL(selectionChanged()), m_fetcher, SLOT(abortSearch()));
+
     setSorting(1);
 }
 

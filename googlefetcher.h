@@ -1,6 +1,8 @@
 /***************************************************************************
     copyright            : (C) 2004 Nathan Toone
     email                : nathan@toonetown.com
+    copyright            : (C) 2007 Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -23,16 +25,20 @@
 
 #include "filehandle.h"
 
-namespace DOM {
-    class HTMLDocument;
-}
-
 class KURL;
+
+class QHttp;
+
+class GoogleFetcherDialog;
 
 class GoogleImage
 {
 public:
-    GoogleImage(QString thumbURL = QString::null, QString size = QString::null);
+    GoogleImage();
+
+    GoogleImage(const QString &imageURL,
+                const QString &thumbURL,
+		int width, int height);
 
     QString imageURL() const { return m_imageURL; }
     QString thumbURL() const { return m_thumbURL; }
@@ -51,30 +57,37 @@ class GoogleFetcher : public QObject
     Q_OBJECT
 
 public:
-    enum ImageSize { All, Icon, Small, Medium, Large, XLarge };
-    
-    GoogleFetcher(const FileHandle &file);
-    QPixmap pixmap();
+    GoogleFetcher(QObject *parent);
+    ~GoogleFetcher();
+
+    void setFile(const FileHandle &file);
+    void chooseCover();
+
+public slots:
+    void abortSearch();
 
 signals:
     void signalNewSearch(GoogleImageList &images);
+    void signalCoverChanged(int coverId);
 
 private:
     void displayWaitMessage();
-    bool requestNewSearchTerms(bool noResults = false);
-
-    // Returns true if there are results in the search, otherwise returns false.
-    bool hasImageResults(DOM::HTMLDocument &search);
+    void requestNewSearchTerms(bool noResults = false);
 
 private slots:
-    void slotLoadImageURLs(GoogleFetcher::ImageSize size = All);
+    void slotLoadImageURLs();
+    void slotWebRequestFinished(int id, bool error);
+    void slotCoverChosen();
+    void slotNewSearch();
 
 private:
     FileHandle m_file;
     QString m_searchString;
     QString m_loadedQuery;
-    ImageSize m_loadedSize;
     GoogleImageList m_imageList;
     uint m_selectedIndex;
+    QHttp *m_connection;
+    int m_connectionId;
+    GoogleFetcherDialog *m_dialog;
 };
 #endif

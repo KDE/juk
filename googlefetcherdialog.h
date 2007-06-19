@@ -1,6 +1,8 @@
 /***************************************************************************
     copyright            : (C) 2004 Nathan Toone
     email                : nathan@toonetown.com
+    copyright            : (C) 2007 Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -18,7 +20,6 @@
 #include <kiconview.h>
 #include <kio/job.h>
 
-
 #include "googlefetcher.h"
 
 class KURL;
@@ -28,32 +29,31 @@ class GoogleFetcherDialog : public KDialogBase
     Q_OBJECT
 
 public:
-    GoogleFetcherDialog(const QString &name,
-                        const GoogleImageList &urlList,
+    GoogleFetcherDialog(const GoogleImageList &urlList,
                         const FileHandle &file,
                         QWidget *parent = 0);
 
     virtual ~GoogleFetcherDialog();
 
     QPixmap result() const { return m_pixmap; }
-    bool takeIt() const { return m_takeIt; }
-    bool newSearch() const { return m_newSearch; }
-    
+
     void setLayout();
     void setImageList(const GoogleImageList &urlList);
+    void setFile(const FileHandle &file);
+
+signals:
+    void coverSelected();
+    void newSearchRequested();
 
 public slots:
     int exec();
     void refreshScreen(GoogleImageList &list);
 
-signals:
-    void sizeChanged(GoogleFetcher::ImageSize);
-
 protected slots:
     void slotOk();
     void slotCancel();
     void slotUser1();
-    void imgSizeChanged(int index);
+    void showCreditURL(const QString &url);
 
 private:
     QPixmap fetchedImage(uint index) const;
@@ -62,8 +62,6 @@ private:
     QPixmap m_pixmap;
     GoogleImageList m_imageList;
     KIconView *m_iconWidget;
-    bool m_takeIt;
-    bool m_newSearch;
     FileHandle m_file;
 };
 

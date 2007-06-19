@@ -1,6 +1,8 @@
 /***************************************************************************
     copyright            : (C) 2004 Nathan Toone
     email                : nathan@toonetown.com
+    copyright            : (C) 2007 Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -17,9 +19,13 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
+#include <krun.h>
 #include <kcombobox.h>
+#include <kiconloader.h>
+#include <kurllabel.h>
 
-#include <qhbox.h>
+#include <qvbox.h>
+#include <qlayout.h>
 #include <qimage.h>
 #include <qlabel.h>
 #include <qpushbutton.h>
@@ -28,52 +34,59 @@
 #include "googlefetcherdialog.h"
 #include "tag.h"
 
-GoogleFetcherDialog::GoogleFetcherDialog(const QString &name,
-                                         const GoogleImageList &imageList,
+GoogleFetcherDialog::GoogleFetcherDialog(const GoogleImageList &imageList,
                                          const FileHandle &file,
                                          QWidget *parent) :
-    KDialogBase(parent, name.latin1(), true, QString::null,
+    KDialogBase(parent, "internet_image_fetcher", true, QString::null,
                 Ok | Cancel | User1 , NoDefault, true),
     m_pixmap(QPixmap()),
     m_imageList(imageList),
-    m_takeIt(false),
-    m_newSearch(false),
     m_file(file)
 {
     disableResize();
 
-    QHBox *mainBox = new QHBox(this);
+    QWidget *mainBox = new QWidget(this);
+    QBoxLayout *mainLayout = new QVBoxLayout(mainBox);
+
     m_iconWidget = new KIconView(mainBox);
     m_iconWidget->setResizeMode(QIconView::Adjust);
     m_iconWidget->setSpacing(10);
     m_iconWidget->setFixedSize(500,550);
     m_iconWidget->arrangeItemsInGrid();
-    m_iconWidget->setItemsMovable(FALSE);
+    m_iconWidget->setItemsMovable(false);
+    mainLayout->addWidget(m_iconWidget);
     connect(m_iconWidget, SIGNAL(executed(QIconViewItem *)),
 	    this, SLOT(slotOk()));
 
-    QHBox *imgSize = new QHBox(actionButton(User1)->parentWidget());
-    QLabel *label = new QLabel(imgSize);
-    label->setText(i18n("Image size:"));
+    // Before changing the code below be sure to check the attribution terms
+    // of the Yahoo Image Search API.
+    // http://developer.yahoo.com/attribution/
+    KURLLabel *logoLabel = new KURLLabel(mainBox);
+    logoLabel->setURL("http://developer.yahoo.com/about/");
+    logoLabel->setPixmap(UserIcon("yahoo_credit"));
+    logoLabel->setMargin(15);    // Allow large margin per attribution terms.
+    logoLabel->setUseTips(true); // Show URL in tooltip.
+    connect(logoLabel, SIGNAL(leftClickedURL(const QString &)),
+                       SLOT(showCreditURL(const QString &)));
 
-    KComboBox *combo = new KComboBox(imgSize);
-    combo->insertItem(i18n("All Sizes"));
-    combo->insertItem(i18n("Very Small"));
-    combo->insertItem(i18n("Small"));
-    combo->insertItem(i18n("Medium"));
-    combo->insertItem(i18n("Large"));
-    combo->insertItem(i18n("Very Large"));
-    combo->setCurrentItem(0);
-    connect(combo, SIGNAL(activated(int)), this, SLOT(imgSizeChanged(int)));
+    QBoxLayout *creditLayout = new QHBoxLayout(mainLayout);
+    creditLayout->addStretch(); // Left spacer
+    creditLayout->addWidget(logoLabel);
+    creditLayout->addStretch(); // Right spacer
 
-    imgSize->adjustSize();
     setMainWidget(mainBox);
     setButtonText(User1, i18n("New Search"));
 }
 
 GoogleFetcherDialog::~GoogleFetcherDialog()
 {
+}
 
+void GoogleFetcherDialog::showCreditURL(const QString &url)
+{
+    // Don't use static member since I'm sure that someday knowing my luck
+    // Yahoo will change their mimetype they serve.
+    (void) new KRun(KURL(url), topLevelWidget());
 }
 
 void GoogleFetcherDialog::setLayout()
@@ -92,7 +105,12 @@ void GoogleFetcherDialog::setLayout()
 
 void GoogleFetcherDialog::setImageList(const GoogleImageList &imageList)
 {
-    m_imageList=imageList;
+    m_imageList = imageList;
+}
+
+void GoogleFetcherDialog::setFile(const FileHandle &file)
+{
+    m_file = file;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -127,50 +145,21 @@ void GoogleFetcherDialog::slotOk()
         return;
     }
 
-    m_takeIt = true;
-    m_newSearch = false;
-    hide();
+    accept();
+    emit coverSelected();
 }
 
 void GoogleFetcherDialog::slotCancel()
 {
-    m_takeIt = true;
-    m_newSearch = false;
     m_pixmap = QPixmap();
-    hide();
+    reject();
 }
 
 void GoogleFetcherDialog::slotUser1()
 {
-    m_takeIt = false;
-    m_newSearch = true;
     m_pixmap = QPixmap();
-    hide();
-}
-
-void GoogleFetcherDialog::imgSizeChanged(int index)
-{
-    GoogleFetcher::ImageSize imageSize = GoogleFetcher::All;
-    switch (index) {
-        case 1:
-            imageSize = GoogleFetcher::Icon;
-            break;
-        case 2:
-            imageSize = GoogleFetcher::Small;
-            break;
-        case 3:
-            imageSize = GoogleFetcher::Medium;
-            break;
-        case 4:
-            imageSize=GoogleFetcher::Large;
-            break;
-        case 5:
-            imageSize=GoogleFetcher::XLarge;
-            break;
-        default:
-            break;
-    }
-    emit sizeChanged(imageSize);
+    accept();
+    emit newSearchRequested();
 }
 
 QPixmap GoogleFetcherDialog::fetchedImage(uint index) const
