@@ -29,8 +29,8 @@ juk_SOURCES = \
 	filerenameroptionsbase.ui \
 	filerenamerconfigdlg.cpp \
 	gstreamerplayer.cpp \
-	googlefetcher.cpp \
-	googlefetcherdialog.cpp \
+	webimagefetcher.cpp \
+	webimagefetcherdialog.cpp \
 	historyplaylist.cpp \
 	juk.cpp \
 	jukIface.skel \

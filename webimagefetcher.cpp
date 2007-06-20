@@ -25,15 +25,15 @@
 #include <kurl.h>
 
 #include "covermanager.h"
-#include "googlefetcher.h"
-#include "googlefetcherdialog.h"
+#include "webimagefetcher.h"
+#include "webimagefetcherdialog.h"
 #include "tag.h"
 
-GoogleImage::GoogleImage()
+WebImage::WebImage()
 {
 }
 
-GoogleImage::GoogleImage(const QString &imageURL, const QString &thumbURL,
+WebImage::WebImage(const QString &imageURL, const QString &thumbURL,
                          int width, int height) :
     m_imageURL(imageURL),
     m_thumbURL(thumbURL),
@@ -42,7 +42,7 @@ GoogleImage::GoogleImage(const QString &imageURL, const QString &thumbURL,
 }
 
 
-GoogleFetcher::GoogleFetcher(QObject *parent)
+WebImageFetcher::WebImageFetcher(QObject *parent)
     : QObject(parent),
       m_connection(new QHttp(this)),
       m_connectionId(-1),
@@ -51,12 +51,12 @@ GoogleFetcher::GoogleFetcher(QObject *parent)
     connect(m_connection, SIGNAL(requestFinished(int,bool)), SLOT(slotWebRequestFinished(int,bool)));
 }
 
-GoogleFetcher::~GoogleFetcher()
+WebImageFetcher::~WebImageFetcher()
 {
     delete m_dialog;
 }
 
-void GoogleFetcher::setFile(const FileHandle &file)
+void WebImageFetcher::setFile(const FileHandle &file)
 {
     m_file = file;
     m_searchString = QString(file.tag()->artist() + ' ' + file.tag()->album());
@@ -65,17 +65,17 @@ void GoogleFetcher::setFile(const FileHandle &file)
 	m_dialog->setFile(file);
 }
 
-void GoogleFetcher::abortSearch()
+void WebImageFetcher::abortSearch()
 {
     m_connection->abort();
 }
 
-void GoogleFetcher::chooseCover()
+void WebImageFetcher::chooseCover()
 {
     slotLoadImageURLs();
 }
 
-void GoogleFetcher::slotLoadImageURLs()
+void WebImageFetcher::slotLoadImageURLs()
 {
     m_imageList.clear();
 
@@ -92,7 +92,7 @@ void GoogleFetcher::slotLoadImageURLs()
     // Wait for the results...
 }
 
-void GoogleFetcher::slotWebRequestFinished(int id, bool error)
+void WebImageFetcher::slotWebRequestFinished(int id, bool error)
 {
     if(id != m_connectionId)
 	return;
@@ -158,7 +158,7 @@ void GoogleFetcher::slotWebRequestFinished(int id, bool error)
 	}
 
 	m_imageList.append(
-	    GoogleImage(
+	    WebImage(
 	        resultUrl.toElement().text(),
 		thumbnail.namedItem("Url").toElement().text(),
 		width.toElement().text().toInt(),
@@ -170,7 +170,7 @@ void GoogleFetcher::slotWebRequestFinished(int id, bool error)
     // Have results, show them and pick one.
 
     if(!m_dialog) {
-        m_dialog = new GoogleFetcherDialog(m_imageList, m_file, 0);
+        m_dialog = new WebImageFetcherDialog(m_imageList, m_file, 0);
 	m_dialog->setModal(true);
 
 	connect(m_dialog, SIGNAL(coverSelected()), SLOT(slotCoverChosen()));
@@ -181,7 +181,7 @@ void GoogleFetcher::slotWebRequestFinished(int id, bool error)
     m_dialog->show();
 }
 
-void GoogleFetcher::slotCoverChosen()
+void WebImageFetcher::slotCoverChosen()
 {
     QPixmap pixmap = m_dialog->result();
     if(pixmap.isNull()) {
@@ -194,12 +194,12 @@ void GoogleFetcher::slotCoverChosen()
     emit signalCoverChanged(newId);
 }
 
-void GoogleFetcher::slotNewSearch()
+void WebImageFetcher::slotNewSearch()
 {
     requestNewSearchTerms();
 }
 
-void GoogleFetcher::displayWaitMessage()
+void WebImageFetcher::displayWaitMessage()
 {
     KStatusBar *statusBar = static_cast<KMainWindow *>(kapp->mainWidget())->statusBar();
     statusBar->message(i18n("Searching for Images. Please Wait..."));
@@ -207,7 +207,7 @@ void GoogleFetcher::displayWaitMessage()
     statusBar->clear();
 }
 
-void GoogleFetcher::requestNewSearchTerms(bool noResults)
+void WebImageFetcher::requestNewSearchTerms(bool noResults)
 {
     bool ok;
     QString search = KInputDialog::getText(i18n("Cover Downloader"),
@@ -221,4 +221,4 @@ void GoogleFetcher::requestNewSearchTerms(bool noResults)
     }
 }
 
-#include "googlefetcher.moc"
+#include "webimagefetcher.moc"

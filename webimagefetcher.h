@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GOOGLEFETCHER_H
-#define GOOGLEFETCHER_H
+#ifndef WEBIMAGEFETCHER_H
+#define WEBIMAGEFETCHER_H
 
 #include <kdialogbase.h>
 
@@ -29,14 +29,14 @@ class KURL;
 
 class QHttp;
 
-class GoogleFetcherDialog;
+class WebImageFetcherDialog;
 
-class GoogleImage
+class WebImage
 {
 public:
-    GoogleImage();
+    WebImage();
 
-    GoogleImage(const QString &imageURL,
+    WebImage(const QString &imageURL,
                 const QString &thumbURL,
 		int width, int height);
 
@@ -50,15 +50,15 @@ private:
     QString m_size;
 };
 
-typedef QValueList<GoogleImage> GoogleImageList;
+typedef QValueList<WebImage> WebImageList;
 
-class GoogleFetcher : public QObject
+class WebImageFetcher : public QObject
 {
     Q_OBJECT
 
 public:
-    GoogleFetcher(QObject *parent);
-    ~GoogleFetcher();
+    WebImageFetcher(QObject *parent);
+    ~WebImageFetcher();
 
     void setFile(const FileHandle &file);
     void chooseCover();
@@ -67,7 +67,7 @@ public slots:
     void abortSearch();
 
 signals:
-    void signalNewSearch(GoogleImageList &images);
+    void signalNewSearch(WebImageList &images);
     void signalCoverChanged(int coverId);
 
 private:
@@ -84,10 +84,10 @@ private:
     FileHandle m_file;
     QString m_searchString;
     QString m_loadedQuery;
-    GoogleImageList m_imageList;
+    WebImageList m_imageList;
     uint m_selectedIndex;
     QHttp *m_connection;
     int m_connectionId;
-    GoogleFetcherDialog *m_dialog;
+    WebImageFetcherDialog *m_dialog;
 };
 #endif

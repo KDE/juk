@@ -37,7 +37,7 @@ class KActionMenu;
 class QEvent;
 
 class PlaylistCollection;
-class GoogleFetcher;
+class WebImageFetcher;
 class PlaylistToolTip;
 class UpcomingPlaylist;
 
@@ -644,7 +644,7 @@ private:
 
     StringHash m_members;
 
-    GoogleFetcher *m_fetcher;
+    WebImageFetcher *m_fetcher;
 
     int m_currentColumn;
     int m_processed;
