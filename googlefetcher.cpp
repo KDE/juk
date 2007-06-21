@@ -14,235 +14,220 @@
 
 #include "googlefetcher.h"
 
-#include <dom/html_document.h>
-#include <dom/html_misc.h>
-#include <dom/html_table.h>
-#include <dom/dom_exception.h>
-#include <dom/dom2_traversal.h>
-
-#include <khtml_part.h>
 #include <kapplication.h>
 #include <kstatusbar.h>
 #include <kxmlguiwindow.h>
 #include <klocale.h>
 #include <kinputdialog.h>
 #include <kurl.h>
+#include <kdebug.h>
+#include <kio/job.h>
 
+#include "covermanager.h"
 #include "googlefetcherdialog.h"
 #include "filehandle.h"
 #include "tag.h"
 #include "juk.h"
 
 #include <QPixmap>
+#include <QDomDocument>
+#include <QDomElement>
+#include <QPointer>
 #include <QList>
 
-GoogleImage::GoogleImage(QString thumbURL, QString size) :
-    m_thumbURL(thumbURL)
+GoogleImage::GoogleImage()
 {
-    // thumbURL is in the following format - and we can regex the imageURL
-    // images?q=tbn:hKSEWNB8aNcJ:www.styxnet.com/deyoung/styx/stygians/cp_portrait.jpg
+}
 
-    m_imageURL = thumbURL.remove(QRegExp("^.*q=tbn:[^:]*:"));
-
-    // Ensure that the image url starts with http if it doesn't already.
-    if(!m_imageURL.startsWith("http://"))
-        m_imageURL.prepend("http://");
-
-    m_size = size.replace("pixels - ", "\n(") + ')';
+GoogleImage::GoogleImage(const QString &imageURL, const QString &thumbURL,
+                         int width, int height) :
+    m_imageURL(imageURL),
+    m_thumbURL(thumbURL),
+    m_size(QString("\n%1 x %2").arg(width).arg(height))
+{
 }
 
 class GoogleFetcher::Private
 {
     friend class GoogleFetcher;
 
-    Private() : selectedIndex(0)
+    Private() : selectedIndex(0), connection(0), dialog(0)
     {
     }
 
     FileHandle file;
     QString searchString;
     QString loadedQuery;
-    ImageSize loadedSize;
     GoogleImageList imageList;
     uint selectedIndex;
+    QPointer<KIO::StoredTransferJob> connection;
+    GoogleFetcherDialog *dialog;
 };
 
-GoogleFetcher::GoogleFetcher(const FileHandle &file)
-    : d(new Private)
+GoogleFetcher::GoogleFetcher(QObject *parent)
+    : QObject(parent), d(new Private)
+{
+}
+
+GoogleFetcher::~GoogleFetcher()
+{
+    delete d->connection;
+    delete d;
+}
+
+void GoogleFetcher::setFile(const FileHandle &file)
 {
     d->file = file;
-    d->searchString = file.tag()->artist() + ' ' + file.tag()->album();
+    d->searchString = QString(file.tag()->artist() + ' ' + file.tag()->album());
+
+    if(d->dialog)
+	d->dialog->setFile(file);
 }
 
-void GoogleFetcher::slotLoadImageURLs(ImageSize size)
+void GoogleFetcher::abortSearch()
 {
-    if(d->loadedQuery == d->searchString && d->loadedSize == size)
-        return;
+    if(d->connection)
+        d->connection->kill();
+}
 
+void GoogleFetcher::chooseCover()
+{
+    slotLoadImageURLs();
+}
+
+void GoogleFetcher::slotLoadImageURLs()
+{
     d->imageList.clear();
 
-    KUrl url("http://images.google.com/images");
-    url.addQueryItem("q", d->searchString);
-    url.addQueryItem("hl", "en");
-    url.addQueryItem("nojs", "1");
+    KUrl url("http://search.yahooapis.com/ImageSearchService/V1/imageSearch");
+    url.addQueryItem("appid", "org.kde.juk/kde4");
+    url.addQueryItem("query", d->searchString);
+    url.addQueryItem("results", "25");
 
-    switch (size) {
-        case XLarge:
-            url.addQueryItem("imgsz", "xlarge|xxlarge");
-            break;
-        case Large:
-            url.addQueryItem("imgsz", "large");
-            break;
-        case Medium:
-            url.addQueryItem("imgsz", "medium");
-            break;
-        case Small:
-            url.addQueryItem("imgsz", "small");
-            break;
-        case Icon:
-            url.addQueryItem("imgsz", "icon");
-            break;
-        default:
-            break;
+    kDebug(65432) << "Using request " << url.encodedPathAndQuery() << endl;
+
+    d->connection = KIO::storedGet(url, true /* reload always */);
+    connect(d->connection, SIGNAL(result(KJob *)), SLOT(slotWebRequestFinished(KJob *)));
+
+    // Wait for the results...
+}
+
+void GoogleFetcher::slotWebRequestFinished(KJob *job)
+{
+    kDebug(65432) << k_funcinfo << endl;
+
+    if(job != d->connection)
+        return;
+
+    if(!job || job->error()) {
+	kError(65432) << "Error reading image results from Yahoo!\n";
+	kError(65432) << d->connection->errorString() << endl;
+	return;
     }
 
-    d->loadedQuery = d->searchString;
-    d->loadedSize = size;
-
-    // We don't normally like exceptions but missing DOMException will kill
-    // JuK rather abruptly whether we like it or not so we don't really have a
-    // choice if we're going to screen-scrape Google.
-    try {
-
-    KHTMLPart part;
-
-    // Create empty document.
-
-    part.begin();
-    part.end();
-
-    DOM::HTMLDocument search = part.htmlDocument();
-    search.setAsync(false); // Grab the document before proceeding.
-
-    kDebug(65432) << "Performing Google Search: " << url << endl;
-
-    search.load(url.url());
-
-    DOM::HTMLElement body = search.body();
-    DOM::NodeList topLevelNodes = body.getElementsByTagName("table");
-
-    if(!hasImageResults(search))
-    {
-        kDebug(65432) << "Search returned no results.\n";
-        emit signalNewSearch(d->imageList);
+    kDebug(65432) << "Checking for data!!\n";
+    if(d->connection->data().isEmpty()) {
+        kError(65432) << "Yahoo image search returned an empty result!\n";
         return;
     }
 
-    // Go through each of the top (table) nodes
+    QDomDocument results("ResultSet");
 
-    for(uint i = 0; i < topLevelNodes.length(); i++) {
-        DOM::Node thisTopNode = topLevelNodes.item(i);
+    QString errorStr;
+    int errorCol, errorLine;
+    if(!results.setContent(d->connection->data(), &errorStr, &errorLine, &errorCol)) {
+	kError(65432) << "Unable to create XML document from Yahoo results.\n";
+	kError(65432) << "Line " << errorLine << ", " << errorStr << endl;
 
-        // The get named item test seems to accurately determine whether a
-        // <TABLE> tag contains the actual images or is just layout filler.
-        // The parent node check is due to the fact that we only want top-level
-        // tables, but the getElementsByTagName returns all tables in the
-        // tree.
-        DOM::HTMLTableElement table = thisTopNode;
-        if(table.isNull() || table.parentNode() != body || table.getAttribute("align").isEmpty())
-            continue;
-
-        DOM::HTMLCollection rows = table.rows();
-        uint imageIndex = 0;
-
-        // Some tables will have an extra row saying "Displaying only foo-size
-        // images".  These tables have three rows, so we need to have
-        // increment imageIndex for these.
-        if(rows.length() > 2)
-            imageIndex = 1;
-
-        // A list of <TDs> containing the hyperlink to the site, with image.
-        DOM::NodeList images = rows.item(imageIndex).childNodes();
-
-        // For each table node, pull the images out of the first row
-
-        for(uint j = 0; j < images.length(); j++) {
-            DOM::Element tdElement = images.item(j);
-            if(tdElement.isNull()) {
-                // Whoops....
-                kError(65432) << "Expecting a <TD> in a <TR> parsing Google Images!\n";
-                continue;
-            }
-
-            // Grab first item out of list of images.  There should only be
-            // one anyways.
-            DOM::Element imgElement = tdElement.getElementsByTagName("img").item(0);
-            if(imgElement.isNull()) {
-                kError(65432) << "Expecting a <IMG> in a <TD> parsing Google Images!\n";
-                continue;
-            }
-
-            QString imageURL = "http://images.google.com" +
-                imgElement.getAttribute("src").string();
-
-            // Pull the matching <TD> node for the row under the one we've
-            // got.
-            tdElement = rows.item(imageIndex + 1).childNodes().item(j);
-
-            // Iterate over it until we find a string with "pixels".
-            unsigned long whatToShow = DOM::NodeFilter::SHOW_TEXT;
-            DOM::NodeIterator it = search.createNodeIterator(tdElement, whatToShow, 0, false);
-            DOM::Node node;
-
-            for(node = it.nextNode(); !node.isNull(); node = it.nextNode()) {
-                if(node.nodeValue().string().contains("pixels")) {
-                    d->imageList.append(GoogleImage(imageURL, node.nodeValue().string()));
-                    break;
-                }
-            }
-        }
+        delete d->connection;
+	return;
     }
-    } // try
-    catch (DOM::DOMException &e)
+
+    delete d->connection;
+    QDomNode n = results.documentElement();
+
+    bool hasNoResults = false;
+
+    if(n.isNull()) {
+	kDebug(65432) << "No document root in XML results??\n";
+	hasNoResults = true;
+    }
+    else {
+	QDomElement result = n.toElement();
+	if(result.attribute("totalResultsReturned").toInt() == 0)
+	    kDebug(65432) << "Search returned " << result.attribute("totalResultsAvailable") << " results.\n";
+
+	if(result.isNull() || !result.hasAttribute("totalResultsReturned") ||
+	    result.attribute("totalResultsReturned").toInt() == 0)
+	{
+	    hasNoResults = true;
+	}
+    }
+
+    if(hasNoResults)
     {
-        kError(65432) << "Caught DOM Exception: " << e.code << endl;
-    }
-    catch (...)
-    {
-        kError(65432) << "Caught unknown exception.\n";
+	kDebug(65432) << "Search returned no results.\n";
+	requestNewSearchTerms(true /* no results */);
+        return;
     }
 
-    emit signalNewSearch(d->imageList);
+    // Go through each of the top (result) nodes
+
+    n = n.firstChild();
+    while(!n.isNull()) {
+	QDomNode resultUrl = n.namedItem("Url");
+	QDomNode thumbnail = n.namedItem("Thumbnail");
+	QDomNode height = n.namedItem("Height");
+	QDomNode width = n.namedItem("Width");
+
+	// We have the necessary info, move to next node before we forget.
+	n = n.nextSibling();
+
+	if(resultUrl.isNull() || thumbnail.isNull() || height.isNull() || width.isNull()) {
+	    kError(65432) << "Invalid result returned, skipping.\n";
+	    continue;
+	}
+
+	d->imageList.append(
+	    GoogleImage(
+	        resultUrl.toElement().text(),
+		thumbnail.namedItem("Url").toElement().text(),
+		width.toElement().text().toInt(),
+		height.toElement().text().toInt()
+	    )
+	);
+    }
+
+    // Have results, show them and pick one.
+
+    if(!d->dialog) {
+        d->dialog = new GoogleFetcherDialog(d->imageList, d->file, 0);
+	d->dialog->setModal(true);
+
+	connect(d->dialog, SIGNAL(coverSelected()), SLOT(slotCoverChosen()));
+	connect(d->dialog, SIGNAL(newSearchRequested()), SLOT(slotNewSearch()));
+    }
+
+    d->dialog->refreshScreen(d->imageList);
+    d->dialog->show();
 }
 
-QPixmap GoogleFetcher::pixmap()
+void GoogleFetcher::slotCoverChosen()
 {
-    bool chosen = false;
-    d->loadedSize = All;
-
-    displayWaitMessage();
-
-    QPixmap pixmap;
-
-    while(!chosen) {
-
-        if(d->imageList.isEmpty())
-            chosen = !requestNewSearchTerms(true);
-        else {
-            GoogleFetcherDialog dialog("google", d->imageList, d->file, 0);
-            connect(&dialog, SIGNAL(sizeChanged(GoogleFetcher::ImageSize)),
-                    this, SLOT(slotLoadImageURLs(GoogleFetcher::ImageSize)));
-            connect(this, SIGNAL(signalNewSearch(GoogleImageList &)),
-                    &dialog, SLOT(refreshScreen(GoogleImageList &)));
-            dialog.exec();
-            pixmap = dialog.result();
-            chosen = dialog.takeIt();
-
-            if(dialog.newSearch())
-                requestNewSearchTerms();
-        }
+    QPixmap pixmap = d->dialog->result();
+    if(pixmap.isNull()) {
+	kError(65432) << "Selected pixmap is null for some reason.\n";
+	return;
     }
-    return pixmap;
+
+    kDebug(65432) << "Adding new cover for " << d->file.tag()->fileName() << endl;
+    coverKey newId = CoverManager::addCover(pixmap, d->file.tag()->artist(), d->file.tag()->album());
+    emit signalCoverChanged(newId);
+}
+
+void GoogleFetcher::slotNewSearch()
+{
+    requestNewSearchTerms();
 }
 
 void GoogleFetcher::displayWaitMessage()
@@ -253,36 +238,18 @@ void GoogleFetcher::displayWaitMessage()
     statusBar->clearMessage();
 }
 
-bool GoogleFetcher::requestNewSearchTerms(bool noResults)
+void GoogleFetcher::requestNewSearchTerms(bool noResults)
 {
     bool ok;
-    d->searchString = KInputDialog::getText(i18n("Cover Downloader"),
+    QString search = KInputDialog::getText(i18n("Cover Downloader"),
                                            noResults ?
                                              i18n("No matching images found, please enter new search terms:") :
                                              i18n("Enter new search terms:"),
                                            d->searchString, &ok);
-    if(ok && !d->searchString.isEmpty())
-        displayWaitMessage();
-    else
-        d->searchString = d->loadedQuery;
-
-    return ok;
-}
-
-bool GoogleFetcher::hasImageResults(DOM::HTMLDocument &search)
-{
-    unsigned long typesToShow = DOM::NodeFilter::SHOW_TEXT;
-
-    DOM::NodeIterator it = search.createNodeIterator(search.body(), typesToShow, 0, false);
-    DOM::Node node;
-
-    for(node = it.nextNode(); !node.isNull(); node = it.nextNode()) {
-        // node should be a text node.
-        if(node.nodeValue().string().contains("did not match any"))
-            return false;
+    if(ok && !search.isEmpty()) {
+        d->searchString = search;
+        displayWaitMessage(); // This kicks off the new search
     }
-
-    return true;
 }
 
 #include "googlefetcher.moc"

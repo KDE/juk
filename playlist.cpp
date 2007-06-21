@@ -321,6 +321,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
                    const QString &iconName) :
     K3ListView(collection->playlistStack()),
     m_collection(collection),
+    m_fetcher(new GoogleFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_applySharedSettings(true),
@@ -343,6 +344,7 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
                    const QString &name, const QString &iconName) :
     K3ListView(collection->playlistStack()),
     m_collection(collection),
+    m_fetcher(new GoogleFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_applySharedSettings(true),
@@ -366,6 +368,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
                    const QString &iconName) :
     K3ListView(collection->playlistStack()),
     m_collection(collection),
+    m_fetcher(new GoogleFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_applySharedSettings(true),
@@ -388,6 +391,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
 Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     K3ListView(collection->playlistStack()),
     m_collection(collection),
+    m_fetcher(new GoogleFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_applySharedSettings(true),
@@ -854,8 +858,9 @@ void Playlist::slotAddCover(bool retrieveLocal)
         newCover = QPixmap(file.directory() + '/' + file.fileName());
     }
     else {
-        PlaylistItemList::Iterator it=items.begin();
-        newCover = GoogleFetcher((*it)->file()).pixmap();
+        m_fetcher->setFile((*items.begin())->file());
+        m_fetcher->chooseCover();
+        return;
     }
 
     if(newCover.isNull())
@@ -866,6 +871,13 @@ void Playlist::slotAddCover(bool retrieveLocal)
 
     coverKey newId = CoverManager::addCover(newCover, artist, album);
     refreshAlbums(items, newId);
+}
+
+// Called when image fetcher has added a new cover.
+void Playlist::slotCoverChanged(int coverId)
+{
+    kDebug(65432) << "Refreshing information for newly changed covers.\n";
+    refreshAlbums(selectedItems(), coverId);
 }
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
@@ -1437,6 +1449,9 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
 void Playlist::hideColumn(int c, bool updateSearch)
 {
     foreach (QAction *action, m_headerMenu->actions()) {
+        if(!action)
+            continue;
+
         if (action->data().toInt() == c) {
             action->setChecked(false);
             break;
@@ -1475,6 +1490,9 @@ void Playlist::hideColumn(int c, bool updateSearch)
 void Playlist::showColumn(int c, bool updateSearch)
 {
     foreach (QAction *action, m_headerMenu->actions()) {
+        if(!action)
+            continue;
+
         if (action->data().toInt() == c) {
             action->setChecked(true);
             break;
@@ -1549,11 +1567,6 @@ void Playlist::slotInitialize()
     //////////////////////////////////////////////////
     // setup header RMB menu
     //////////////////////////////////////////////////
-
-    m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), this);
-    ActionCollection::actions()->addAction("showColumns", m_columnVisibleAction);
-
-    m_headerMenu = m_columnVisibleAction->menu();
 
 #ifdef __GNUC__
     #warning should be fixed...
@@ -1674,7 +1687,21 @@ void Playlist::setup()
     setItemMargin(3);
 
     connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
+
+    connect(m_fetcher, SIGNAL(signalCoverChanged(int)), this, SLOT(slotCoverChanged(int)));
+
+    // Prevent list of selected items from changing while internet search is in
+    // progress.
+    connect(this, SIGNAL(selectionChanged()), m_fetcher, SLOT(abortSearch()));
+
     setSorting(1);
+
+    // This apparently must be created very early in initialization for other
+    // Playlist code requiring m_headerMenu.
+    m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), this);
+    ActionCollection::actions()->addAction("showColumns", m_columnVisibleAction);
+
+    m_headerMenu = m_columnVisibleAction->menu();
 
     // TODO: Determine if other stuff in setup must happen before slotInitialize().
     QTimer::singleShot(0, this, SLOT(slotInitialize()));

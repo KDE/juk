@@ -1,6 +1,8 @@
 /***************************************************************************
     copyright            : (C) 2004 Nathan Toone
     email                : nathan@toonetown.com
+    copyright            : (C) 2007 Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -25,16 +27,19 @@ class QPixmap;
 template<class T>
 class QList;
 
-namespace DOM {
-    class HTMLDocument;
-}
+class KJob;
 
 class FileHandle;
+class GoogleFetcherDialog;
 
 class GoogleImage
 {
 public:
-    explicit GoogleImage(QString thumbURL = QString(), QString size = QString());
+    GoogleImage();
+
+    GoogleImage(const QString &imageURL,
+                const QString &thumbURL,
+		int width, int height);
 
     QString imageURL() const { return m_imageURL; }
     QString thumbURL() const { return m_thumbURL; }
@@ -53,23 +58,28 @@ class GoogleFetcher : public QObject
     Q_OBJECT
 
 public:
-    enum ImageSize { All, Icon, Small, Medium, Large, XLarge };
+    GoogleFetcher(QObject *parent);
+    ~GoogleFetcher();
 
-    GoogleFetcher(const FileHandle &file);
-    QPixmap pixmap();
+    void setFile(const FileHandle &file);
+    void chooseCover();
+
+public slots:
+    void abortSearch();
 
 signals:
     void signalNewSearch(GoogleImageList &images);
+    void signalCoverChanged(int coverId);
 
 private:
     void displayWaitMessage();
-    bool requestNewSearchTerms(bool noResults = false);
-
-    // Returns true if there are results in the search, otherwise returns false.
-    bool hasImageResults(DOM::HTMLDocument &search);
+    void requestNewSearchTerms(bool noResults = false);
 
 private slots:
-    void slotLoadImageURLs(GoogleFetcher::ImageSize size = All);
+    void slotLoadImageURLs();
+    void slotWebRequestFinished(KJob *job);
+    void slotCoverChosen();
+    void slotNewSearch();
 
 private:
     class Private;

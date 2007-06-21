@@ -39,6 +39,7 @@ class QFileInfo;
 class QMimeData;
 class QDrag;
 
+class GoogleFetcher;
 class PlaylistItem;
 class PlaylistCollection;
 class PlaylistToolTip;
@@ -602,6 +603,12 @@ private slots:
     void slotRenameTag();
 
     /**
+     * The image fetcher will update the cover asynchronously, this internal
+     * slot is called when it happens.
+     */
+    void slotCoverChanged(int coverId);
+
+    /**
      * Moves the column \a from to the position \a to.  This matches the signature
      * for the signal QHeader::indexChange().
      */
@@ -640,6 +647,8 @@ private:
     PlaylistCollection *m_collection;
 
     StringHash m_members;
+
+    GoogleFetcher *m_fetcher;
 
     int m_currentColumn;
     int m_processed;
