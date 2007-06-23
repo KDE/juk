@@ -1,6 +1,7 @@
 project(juk)
 configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 
+add_subdirectory( tests )
 
 add_subdirectory( pics ) 
 
@@ -108,15 +109,6 @@ endif(TUNEPIMP_FOUND)
 
 install(TARGETS juk  DESTINATION ${BIN_INSTALL_DIR} )
 
-
-########### next target ###############
-set(tagguessertest_SRCS tagguessertest.cpp tagguesser.cpp )
-
-kde4_automoc(${tagguessertest_SRCS})
-
-kde4_add_test_executable(tagguessertest ${tagguessertest_SRCS})
-
-target_link_libraries(tagguessertest  ${KDE4_KDECORE_LIBS} )
 
 ########### install files ###############
 
