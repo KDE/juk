@@ -14,12 +14,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GOOGLEFETCHERDIALOG_H
-#define GOOGLEFETCHERDIALOG_H
+#ifndef WEBIMAGEFETCHERDIALOG_H
+#define WEBIMAGEFETCHERDIALOG_H
 
 #include <kdialog.h>
 
-#include "googlefetcher.h"
+#include "webimagefetcher.h"
 #include "filehandle.h"
 
 #include <QPixmap>
@@ -31,21 +31,21 @@ class KUrl;
 
 class QListView;
 
-class GoogleFetcherDialog : public KDialog
+class WebImageFetcherDialog : public KDialog
 {
     Q_OBJECT
 
 public:
-    GoogleFetcherDialog(const GoogleImageList &urlList,
+    WebImageFetcherDialog(const WebImageList &urlList,
                         const FileHandle &file,
                         QWidget *parent = 0);
 
-    virtual ~GoogleFetcherDialog();
+    virtual ~WebImageFetcherDialog();
 
     QPixmap result() const { return m_pixmap; }
 
     void setLayout();
-    void setImageList(const GoogleImageList &urlList);
+    void setImageList(const WebImageList &urlList);
     void setFile(const FileHandle &file);
 
 signals:
@@ -54,7 +54,7 @@ signals:
 
 public slots:
     int exec();
-    void refreshScreen(GoogleImageList &list);
+    void refreshScreen(WebImageList &list);
 
 protected slots:
     void slotActivated(const QModelIndex &);
@@ -68,7 +68,7 @@ private:
     QPixmap pixmapFromURL(const KUrl &url) const;
 
     QPixmap m_pixmap;
-    GoogleImageList m_imageList;
+    WebImageList m_imageList;
     QListView *m_iconWidget;
     bool m_takeIt;
     bool m_newSearch;
@@ -88,7 +88,7 @@ class CoverIconViewItem : public QObject, public QStandardItem
     Q_OBJECT
 
 public:
-    CoverIconViewItem(QWidget *parent, const GoogleImage &image);
+    CoverIconViewItem(QWidget *parent, const WebImage &image);
     ~CoverIconViewItem();
 
 private slots:

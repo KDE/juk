@@ -14,7 +14,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "googlefetcherdialog.h"
+#include "webimagefetcherdialog.h"
 #include "tag.h"
 
 #include <kapplication.h>
@@ -35,7 +35,7 @@
 #include <QListView>
 #include <QPixmap>
 
-GoogleFetcherDialog::GoogleFetcherDialog(const GoogleImageList &imageList,
+WebImageFetcherDialog::WebImageFetcherDialog(const WebImageList &imageList,
                                          const FileHandle &file,
                                          QWidget *parent) :
     KDialog(parent),
@@ -96,18 +96,18 @@ GoogleFetcherDialog::GoogleFetcherDialog(const GoogleImageList &imageList,
     setInitialSize(QSize(500, 480));
 }
 
-GoogleFetcherDialog::~GoogleFetcherDialog()
+WebImageFetcherDialog::~WebImageFetcherDialog()
 {
 }
 
-void GoogleFetcherDialog::showCreditURL(const QString &url)
+void WebImageFetcherDialog::showCreditURL(const QString &url)
 {
     // Don't use static member since I'm sure that someday knowing my luck
     // Yahoo will change their mimetype they serve.
     (void) new KRun(KUrl(url), topLevelWidget());
 }
 
-void GoogleFetcherDialog::setLayout()
+void WebImageFetcherDialog::setLayout()
 {
     setCaption(QString("%1 - %2 (%3)")
               .arg(m_file.tag()->artist())
@@ -117,7 +117,7 @@ void GoogleFetcherDialog::setLayout()
     QStandardItemModel *model = new QStandardItemModel(m_iconWidget);
     QAbstractItemModel *oldModel = m_iconWidget->model();
 
-    foreach(GoogleImage image, m_imageList) {
+    foreach(WebImage image, m_imageList) {
         CoverIconViewItem *item = new CoverIconViewItem(m_iconWidget, image);
         model->appendRow(item);
     }
@@ -128,12 +128,12 @@ void GoogleFetcherDialog::setLayout()
     adjustSize();
 }
 
-void GoogleFetcherDialog::setImageList(const GoogleImageList &imageList)
+void WebImageFetcherDialog::setImageList(const WebImageList &imageList)
 {
     m_imageList = imageList;
 }
 
-void GoogleFetcherDialog::setFile(const FileHandle &file)
+void WebImageFetcherDialog::setFile(const FileHandle &file)
 {
     m_file = file;
 }
@@ -142,24 +142,24 @@ void GoogleFetcherDialog::setFile(const FileHandle &file)
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void GoogleFetcherDialog::refreshScreen(GoogleImageList &imageList)
+void WebImageFetcherDialog::refreshScreen(WebImageList &imageList)
 {
     setImageList(imageList);
     setLayout();
 }
 
-int GoogleFetcherDialog::exec()
+int WebImageFetcherDialog::exec()
 {
     setLayout();
     return KDialog::exec();
 }
 
-void GoogleFetcherDialog::slotOk()
+void WebImageFetcherDialog::slotOk()
 {
     slotActivated(m_iconWidget->currentIndex());
 }
 
-void GoogleFetcherDialog::slotActivated(const QModelIndex &index)
+void WebImageFetcherDialog::slotActivated(const QModelIndex &index)
 {
     m_pixmap = pixmapFromURL(m_imageList[index.row()].imageURL());
 
@@ -176,7 +176,7 @@ void GoogleFetcherDialog::slotActivated(const QModelIndex &index)
     emit coverSelected();
 }
 
-void GoogleFetcherDialog::selectedItemIsBad()
+void WebImageFetcherDialog::selectedItemIsBad()
 {
     QModelIndex index = m_iconWidget->currentIndex();
 
@@ -188,18 +188,18 @@ void GoogleFetcherDialog::selectedItemIsBad()
     item->setIcon(DesktopIcon("dialog-error"));
 }
 
-void GoogleFetcherDialog::slotCancel()
+void WebImageFetcherDialog::slotCancel()
 {
     m_pixmap = QPixmap();
     reject();
 }
 
-QPixmap GoogleFetcherDialog::fetchedImage(int index) const
+QPixmap WebImageFetcherDialog::fetchedImage(int index) const
 {
     return (index > m_imageList.count()) ? QPixmap() : pixmapFromURL(m_imageList[index].imageURL());
 }
 
-QPixmap GoogleFetcherDialog::pixmapFromURL(const KUrl &url) const
+QPixmap WebImageFetcherDialog::pixmapFromURL(const KUrl &url) const
 {
     QString file;
 
@@ -217,7 +217,7 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KUrl &url) const
 // CoverIconViewItem
 ////////////////////////////////////////////////////////////////////////////////
 
-CoverIconViewItem::CoverIconViewItem(QWidget *parent, const GoogleImage &image) :
+CoverIconViewItem::CoverIconViewItem(QWidget *parent, const WebImage &image) :
     QObject(parent), QStandardItem(image.size()), m_job(0)
 {
     // Set up the iconViewItem
@@ -293,6 +293,6 @@ void CoverIconViewItem::imageResult(KJob *job)
     setIcon(realImage);
 }
 
-#include "googlefetcherdialog.moc"
+#include "webimagefetcherdialog.moc"
 
 // vim: set et sw=4 tw=0 sta:

@@ -38,8 +38,8 @@ set(juk_SRCS  ${tunepimp_SRCS}
    filerenamer.cpp 
    filerenameroptions.cpp 
    filerenamerconfigdlg.cpp 
-   googlefetcher.cpp 
-   googlefetcherdialog.cpp 
+   webimagefetcher.cpp 
+   webimagefetcherdialog.cpp 
    historyplaylist.cpp 
    juk.cpp 
    k3bexporter.cpp 

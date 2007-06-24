@@ -14,8 +14,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef GOOGLEFETCHER_H
-#define GOOGLEFETCHER_H
+#ifndef WEBIMAGEFETCHER_H
+#define WEBIMAGEFETCHER_H
 
 #include <QObject>
 #include <QString>
@@ -30,16 +30,16 @@ class QList;
 class KJob;
 
 class FileHandle;
-class GoogleFetcherDialog;
+class WebImageFetcherDialog;
 
-class GoogleImage
+class WebImage
 {
 public:
-    GoogleImage();
+    WebImage();
 
-    GoogleImage(const QString &imageURL,
+    WebImage(const QString &imageURL,
                 const QString &thumbURL,
-		int width, int height);
+                int width, int height);
 
     QString imageURL() const { return m_imageURL; }
     QString thumbURL() const { return m_thumbURL; }
@@ -51,15 +51,15 @@ private:
     QString m_size;
 };
 
-typedef QList<GoogleImage> GoogleImageList;
+typedef QList<WebImage> WebImageList;
 
-class GoogleFetcher : public QObject
+class WebImageFetcher : public QObject
 {
     Q_OBJECT
 
 public:
-    GoogleFetcher(QObject *parent);
-    ~GoogleFetcher();
+    WebImageFetcher(QObject *parent);
+    ~WebImageFetcher();
 
     void setFile(const FileHandle &file);
     void chooseCover();
@@ -68,7 +68,7 @@ public slots:
     void abortSearch();
 
 signals:
-    void signalNewSearch(GoogleImageList &images);
+    void signalNewSearch(WebImageList &images);
     void signalCoverChanged(int coverId);
 
 private:

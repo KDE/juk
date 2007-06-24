@@ -20,9 +20,9 @@
 
 #include "covermanager.h"
 
-// The Google Fetcher dialog also has a class named CoverIconViewItem and I
+// The WebImageFetcher dialog also has a class named CoverIconViewItem and I
 // don't like the idea of naming it "CoverIVI" or something, so just namespace
-// it out.  I would merge them except for googlefetcher's dependence on KIO
+// it out.  I would merge them except for webimagefetcher's dependence on KIO
 // and such.
 
 namespace CoverUtility

@@ -39,7 +39,7 @@ class QFileInfo;
 class QMimeData;
 class QDrag;
 
-class GoogleFetcher;
+class WebImageFetcher;
 class PlaylistItem;
 class PlaylistCollection;
 class PlaylistToolTip;
@@ -641,7 +641,7 @@ private:
 
     StringHash m_members;
 
-    GoogleFetcher *m_fetcher;
+    WebImageFetcher *m_fetcher;
 
     int m_currentColumn;
     int m_processed;

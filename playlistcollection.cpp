@@ -906,7 +906,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu->addAction(createAction(i18n("Get Cover From &File..."),
         SLOT(slotAddLocalCover()), "addCover", "file-import", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
     menu->addAction(createAction(i18n("Get Cover From &Internet..."),
-        SLOT(slotAddInternetCover()), "googleCover", "connection-established", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
+        SLOT(slotAddInternetCover()), "webImageCover", "connection-established", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
     menu->addAction(createAction(i18n("&Delete Cover"),
         SLOT(slotRemoveCovers()), "removeCover", "edit-delete"));
     menu->addAction(createAction(i18n("Show Cover &Manager"),

@@ -72,7 +72,7 @@
 #include "k3bexporter.h"
 #include "upcomingplaylist.h"
 #include "deletedialog.h"
-#include "googlefetcher.h"
+#include "webimagefetcher.h"
 #include "coverinfo.h"
 #include "coverdialog.h"
 #include "tagtransactionmanager.h"
@@ -321,7 +321,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
                    const QString &iconName) :
     K3ListView(collection->playlistStack()),
     m_collection(collection),
-    m_fetcher(new GoogleFetcher(this)),
+    m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_applySharedSettings(true),
@@ -344,7 +344,7 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
                    const QString &name, const QString &iconName) :
     K3ListView(collection->playlistStack()),
     m_collection(collection),
-    m_fetcher(new GoogleFetcher(this)),
+    m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_applySharedSettings(true),
@@ -368,7 +368,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
                    const QString &iconName) :
     K3ListView(collection->playlistStack()),
     m_collection(collection),
-    m_fetcher(new GoogleFetcher(this)),
+    m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_applySharedSettings(true),
@@ -391,7 +391,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
 Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     K3ListView(collection->playlistStack()),
     m_collection(collection),
-    m_fetcher(new GoogleFetcher(this)),
+    m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
     m_allowDuplicates(false),
     m_applySharedSettings(true),
