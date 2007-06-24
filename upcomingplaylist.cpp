@@ -94,8 +94,18 @@ void UpcomingPlaylist::playNext()
             source->synchronizePlayingItems(l, false);
         }
     }
-    else
+    else {
         removeIteratorOverride();
+
+        // Normally we continue to play the currently playing item that way
+        // a user can continue to hear their song when deselecting Play Queue.
+        // However we're technically still "playing" when the queue empties and
+        // we reinstall the old iterator so in this situation manually advance
+        // to the next track. (Otherwise we hear the same song twice in a row
+        // during the transition)
+
+        setPlaying(manager()->nextItem());
+    }
 }
 
 void UpcomingPlaylist::clearItem(PlaylistItem *item, bool emitChanged)
