@@ -2127,7 +2127,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
 
     if(showEdit)
 	m_rmbMenu->changeItem(m_rmbEditID,
-		i18n("Edit '%1'").arg(columnText(column)));
+		i18n("Edit '%1'").arg(columnText(column + columnOffset())));
 
     m_rmbMenu->setItemVisible(m_rmbEditID, showEdit);
 
@@ -2142,7 +2142,7 @@ void Playlist::slotShowRMBMenu(QListViewItem *item, const QPoint &point, int col
     action("removeCover")->setEnabled(file.coverInfo()->hasCover());
 
     m_rmbMenu->popup(point);
-    m_currentColumn = column;
+    m_currentColumn = column + columnOffset();
 }
 
 void Playlist::slotRenameTag()
