@@ -18,15 +18,18 @@
 #define GOOGLEFETCHERDIALOG_H
 
 #include <kdialog.h>
-#include <k3iconview.h>
 
 #include "googlefetcher.h"
 #include "filehandle.h"
 
 #include <QPixmap>
+#include <QStandardItem>
+#include <QByteArray>
 #include <QPointer>
 
 class KUrl;
+
+class QListView;
 
 class GoogleFetcherDialog : public KDialog
 {
@@ -54,9 +57,11 @@ public slots:
     void refreshScreen(GoogleImageList &list);
 
 protected slots:
+    void slotActivated(const QModelIndex &);
     void slotOk();
     void slotCancel();
     void showCreditURL(const QString &url);
+    void selectedItemIsBad();
 
 private:
     QPixmap fetchedImage(int index) const;
@@ -64,7 +69,7 @@ private:
 
     QPixmap m_pixmap;
     GoogleImageList m_imageList;
-    K3IconView *m_iconWidget;
+    QListView *m_iconWidget;
     bool m_takeIt;
     bool m_newSearch;
     FileHandle m_file;
@@ -72,25 +77,26 @@ private:
 
 namespace KIO
 {
-    class TransferJob;
+    class StoredTransferJob;
     class Job;
 }
 
-class CoverIconViewItem : public QObject, public K3IconViewItem
+class KJob;
+
+class CoverIconViewItem : public QObject, public QStandardItem
 {
     Q_OBJECT
 
 public:
-    CoverIconViewItem(Q3IconView *parent, const GoogleImage &image);
+    CoverIconViewItem(QWidget *parent, const GoogleImage &image);
     ~CoverIconViewItem();
 
 private slots:
-    void imageData(KIO::Job *job, const QByteArray &data);
-    void imageResult(KIO::Job *job);
+    void imageResult(KJob *job);
 
 private:
     QByteArray m_buffer;
-    QPointer<KIO::TransferJob> m_job;
+    QPointer<KIO::StoredTransferJob> m_job;
 };
 
 #endif

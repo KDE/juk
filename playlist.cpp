@@ -821,34 +821,12 @@ void Playlist::slotShowCoverManager()
     managerDialog->show();
 }
 
-unsigned int Playlist::eligibleCoverItems(const PlaylistItemList &items)
-{
-    // This used to count the number of tracks with an artist and album, that
-    // is not strictly required anymore.  This may prove useful in the future
-    // so I'm leaving it in for now, right now we just mark every item as
-    // eligible.
-
-    return items.count();
-}
-
 void Playlist::slotAddCover(bool retrieveLocal)
 {
     PlaylistItemList items = selectedItems();
 
     if(items.isEmpty())
         return;
-
-    if(eligibleCoverItems(items) == 0) {
-        // No items in the list can be assigned a cover, inform the user and
-        // bail.
-
-        // KDE 4.0 Fix this string.
-        KMessageBox::sorry(this, i18n("None of the items you have selected can "
-                    "be assigned a cover.  A track must have both the Artist "
-                    "and Album tags set to be assigned a cover."));
-
-        return;
-    }
 
     QPixmap newCover;
 

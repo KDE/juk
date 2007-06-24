@@ -22,19 +22,17 @@
 #include <kio/job.h>
 #include <klocale.h>
 #include <kdebug.h>
-#include <k3iconview.h>
 #include <kmessagebox.h>
 #include <krun.h>
-#include <kcombobox.h>
 #include <kiconloader.h>
 #include <kurllabel.h>
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <QImage>
-#include <QLabel>
-#include <QPushButton>
+#include <QPainter>
+#include <QIcon>
 #include <QEventLoop>
+#include <QListView>
 #include <QPixmap>
 
 GoogleFetcherDialog::GoogleFetcherDialog(const GoogleImageList &imageList,
@@ -51,23 +49,24 @@ GoogleFetcherDialog::GoogleFetcherDialog(const GoogleImageList &imageList,
     setDefaultButton(NoDefault);
     showButtonSeparator(true);
 
-#ifdef __GNUC__
-    #warning KDE4 How to port this?
-#endif
-    //disableResize();
-
     QWidget *mainBox = new QWidget(this);
     QBoxLayout *mainLayout = new QVBoxLayout(mainBox);
+    mainLayout->setMargin(0); // No extra padding needed.
+    mainLayout->setSpacing(spacingHint());
 
-    m_iconWidget = new K3IconView(mainBox);
-    m_iconWidget->setResizeMode(Q3IconView::Adjust);
-    m_iconWidget->setSpacing(10);
-    m_iconWidget->setFixedSize(500,550);
-    m_iconWidget->arrangeItemsInGrid();
-    m_iconWidget->setItemsMovable(false);
+    m_iconWidget = new QListView(mainBox);
+    m_iconWidget->setGridSize(QSize(100, 120));
+    m_iconWidget->setViewMode(QListView::IconMode);
+    m_iconWidget->setResizeMode(QListView::Adjust);
+    m_iconWidget->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    m_iconWidget->setVerticalScrollMode(QListView::ScrollPerItem);
+    m_iconWidget->setMovement(QListView::Static);
+    m_iconWidget->setSelectionMode(QListView::SingleSelection);
+    m_iconWidget->setIconSize(QSize(80, 80));
+
     mainLayout->addWidget(m_iconWidget);
-    connect(m_iconWidget, SIGNAL(executed(Q3IconViewItem *)),
-            this, SLOT(slotOk()));
+    connect(m_iconWidget, SIGNAL(activated(const QModelIndex &)),
+            this, SLOT(slotActivated(const QModelIndex &)));
 
     // Before changing the code below be sure to check the attribution terms
     // of the Yahoo Image Search API.
@@ -77,7 +76,7 @@ GoogleFetcherDialog::GoogleFetcherDialog(const GoogleImageList &imageList,
     logoLabel->setPixmap(UserIcon("yahoo_credit"));
     logoLabel->setMargin(15);    // Allow large margin per attribution terms.
     logoLabel->setUseTips(true); // Show URL in tooltip.
-    connect(logoLabel, SIGNAL(leftClickedURL(const QString &)),
+    connect(logoLabel, SIGNAL(leftClickedUrl(const QString &)),
                        SLOT(showCreditURL(const QString &)));
 
     QBoxLayout *creditLayout = new QHBoxLayout;
@@ -93,6 +92,8 @@ GoogleFetcherDialog::GoogleFetcherDialog(const GoogleImageList &imageList,
     connect(this, SIGNAL(user1Clicked()),  SIGNAL(newSearchRequested()));
     connect(this, SIGNAL(okClicked()),     SLOT(slotOk()));
     connect(this, SIGNAL(cancelClicked()), SLOT(slotCancel()));
+
+    setInitialSize(QSize(500, 480));
 }
 
 GoogleFetcherDialog::~GoogleFetcherDialog()
@@ -113,9 +114,16 @@ void GoogleFetcherDialog::setLayout()
               .arg(m_file.tag()->album())
               .arg(m_imageList.size()));
 
-    m_iconWidget->clear();
-    for(int i = 0; i < m_imageList.size(); i++)
-        new CoverIconViewItem(m_iconWidget, m_imageList[i]);
+    QStandardItemModel *model = new QStandardItemModel(m_iconWidget);
+    QAbstractItemModel *oldModel = m_iconWidget->model();
+
+    foreach(GoogleImage image, m_imageList) {
+        CoverIconViewItem *item = new CoverIconViewItem(m_iconWidget, image);
+        model->appendRow(item);
+    }
+
+    m_iconWidget->setModel(model);
+    delete oldModel;
 
     adjustSize();
 }
@@ -148,21 +156,36 @@ int GoogleFetcherDialog::exec()
 
 void GoogleFetcherDialog::slotOk()
 {
-    int selectedIndex = m_iconWidget->index(m_iconWidget->currentItem());
-    m_pixmap = pixmapFromURL(m_imageList[selectedIndex].imageURL());
+    slotActivated(m_iconWidget->currentIndex());
+}
+
+void GoogleFetcherDialog::slotActivated(const QModelIndex &index)
+{
+    m_pixmap = pixmapFromURL(m_imageList[index.row()].imageURL());
 
     if(m_pixmap.isNull()) {
         KMessageBox::sorry(this,
                            i18n("The cover you have selected is unavailable. Please select another."),
                            i18n("Cover Unavailable"));
-        QPixmap blankPix(80,80);
-        blankPix.fill();
-        m_iconWidget->currentItem()->setPixmap(blankPix, true, true);
+
+        QTimer::singleShot(0, this, SLOT(selectedItemIsBad()));
         return;
     }
 
     accept();
     emit coverSelected();
+}
+
+void GoogleFetcherDialog::selectedItemIsBad()
+{
+    QModelIndex index = m_iconWidget->currentIndex();
+
+    QStandardItemModel *model = static_cast<QStandardItemModel *>(m_iconWidget->model());
+    QStandardItem *item = model->itemFromIndex(index);
+    if(!item)
+        return;
+
+    item->setIcon(DesktopIcon("dialog-error"));
 }
 
 void GoogleFetcherDialog::slotCancel()
@@ -185,6 +208,7 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KUrl &url) const
         KIO::NetAccess::removeTempFile(file);
         return pixmap;
     }
+
     KIO::NetAccess::removeTempFile(file);
     return QPixmap();
 }
@@ -193,21 +217,17 @@ QPixmap GoogleFetcherDialog::pixmapFromURL(const KUrl &url) const
 // CoverIconViewItem
 ////////////////////////////////////////////////////////////////////////////////
 
-CoverIconViewItem::CoverIconViewItem(Q3IconView *parent, const GoogleImage &image) :
-    QObject(parent), K3IconViewItem(parent, parent->lastItem(), image.size()), m_job(0)
+CoverIconViewItem::CoverIconViewItem(QWidget *parent, const GoogleImage &image) :
+    QObject(parent), QStandardItem(image.size()), m_job(0)
 {
     // Set up the iconViewItem
 
-    QPixmap mainMap(80,80);
-    mainMap.fill();
-    setPixmap(mainMap, true, true);
+    setIcon(DesktopIcon("system-search"));
 
     // Start downloading the image.
 
-    m_job = KIO::get(image.thumbURL(), false, false);
-    connect(m_job, SIGNAL(result(KIO::Job *)), this, SLOT(imageResult(KIO::Job *)));
-    connect(m_job, SIGNAL(data(KIO::Job *, const QByteArray &)),
-            this, SLOT(imageData(KIO::Job *, const QByteArray &)));
+    m_job = KIO::storedGet(image.thumbURL());
+    connect(m_job, SIGNAL(result(KJob *)), this, SLOT(imageResult(KJob *)));
 }
 
 CoverIconViewItem::~CoverIconViewItem()
@@ -223,20 +243,54 @@ CoverIconViewItem::~CoverIconViewItem()
     }
 }
 
-void CoverIconViewItem::imageData(KIO::Job *, const QByteArray &data)
+void CoverIconViewItem::imageResult(KJob *job)
 {
-    int currentSize = m_buffer.size();
-    m_buffer.resize(currentSize + data.size());
-    memcpy(&(m_buffer.data()[currentSize]), data.data(), data.size());
-}
-
-void CoverIconViewItem::imageResult(KIO::Job *job)
-{
-    if(job->error())
+    if(job != m_job) {
+        kError() << "Wrong slot called.\n";
+        setIcon(DesktopIcon("dialog-error"));
         return;
+    }
 
-    QPixmap iconImage(m_buffer);
-    setPixmap(iconImage.scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+    if(job->error()) {
+        kError() << "Unable to grab image\n";
+        setIcon(DesktopIcon("dialog-error"));
+        return;
+    }
+
+    // Create thumbnail to show on icon.  At least by Qt 4.3 the standard
+    // item delegate is still retarded when it comes to drawing uneven sized
+    // items in a grid, as shorter items (in height) have the corresponding
+    // text shoved up below meaning the text doesn't line up.  So, force every
+    // icon to be the exact same size manually...
+
+    QPixmap iconImage, realImage(80, 80);
+    iconImage.loadFromData(m_job->data());
+    realImage.fill(Qt::transparent);
+
+    if(iconImage.isNull()) {
+        kError() << "Thumbnail image is not of a supported format\n";
+        setIcon(DesktopIcon("dialog-error"));
+        return;
+    }
+
+    // Scale down if necesssary
+    if(iconImage.width() > 80 || iconImage.height() > 80)
+        iconImage = iconImage.scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+    QPainter p;
+    QRect targetRect(QPoint(0, 0), iconImage.size());
+    p.begin(&realImage);
+
+    // Center thumbnail in 80x80 pixmap
+    targetRect.setWidth(iconImage.width());
+    targetRect.moveLeft((realImage.width() - iconImage.width()) / 2);
+    targetRect.setHeight(iconImage.height());
+    targetRect.moveTop((realImage.height() - iconImage.height()) / 2);
+
+    p.drawPixmap(targetRect, iconImage, iconImage.rect());
+    p.end();
+
+    setIcon(realImage);
 }
 
 #include "googlefetcherdialog.moc"
