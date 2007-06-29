@@ -17,6 +17,7 @@ add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 set(tunepimp_SRCS)
 if(TUNEPIMP_FOUND)
 	set(tunepimp_SRCS trackpickerdialog.cpp)
+	include_directories( ${TUNEPIMP_INCLUDE_DIR} )
 endif(TUNEPIMP_FOUND)	
 
 set(juk_SRCS  ${tunepimp_SRCS}
