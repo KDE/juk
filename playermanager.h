@@ -20,6 +20,7 @@
 #include <QPixmap>
 #include <QObject>
 #include "filehandle.h"
+#include <Phonon/Global>
 
 class KSelectAction;
 class SliderAction;
@@ -105,6 +106,7 @@ private slots:
     void slotFinished();
     void slotLength(qint64);
     void slotTick(qint64);
+    void slotStateChanged(Phonon::State);
     //void slotUpdateTime(int position);
 
 private:

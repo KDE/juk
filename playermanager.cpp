@@ -26,6 +26,7 @@
 #include <config.h>
 
 #include <kdebug.h>
+#include <kmessagebox.h>
 #include <klocale.h>
 #include <kactioncollection.h>
 #include <kselectaction.h>
@@ -261,6 +262,7 @@ void PlayerManager::play(const FileHandle &file)
             m_audioPath->insertEffect(fader2);
 
             m_media = new Phonon::MediaObject(this);
+            connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State)));
             connect(m_media, SIGNAL(aboutToFinsh()), SLOT(slotNeedNextUrl()));
             m_media->addAudioPath(m_audioPath);
             m_media->setTickInterval(200);
@@ -510,6 +512,25 @@ void PlayerManager::slotTick(qint64 msec)
     m_noSeek = false;
 }
 
+void PlayerManager::slotStateChanged(Phonon::State newstate)
+{
+    if(newstate == Phonon::ErrorState)
+    {
+        switch(m_media->errorType())
+        {
+            case Phonon::NormalError:
+                forward();
+                KMessageBox::information(0, m_media->errorString());
+                break;
+            case Phonon::FatalError:
+                // stop playback
+                stop();
+                KMessageBox::sorry(0, m_media->errorString());
+                break;
+        }
+    }
+}
+
 /*
 void PlayerManager::slotUpdateTime(int position)
 {
@@ -552,6 +573,7 @@ void PlayerManager::setup()
     m_audioPath->addOutput(m_output);
 
     m_media = new Phonon::MediaObject(this);
+    connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State)));
     connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
     m_media->addAudioPath(m_audioPath);
     m_media->setTickInterval(200);
