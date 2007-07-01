@@ -350,9 +350,9 @@ void PlayerManager::stop()
     Phonon::VolumeFaderEffect *fader = new Phonon::VolumeFaderEffect(m_media);
     m_audioPath->insertEffect(fader);
     fader->setFadeCurve(Phonon::VolumeFaderEffect::Fade9Decibel);
-    fader->fadeOut(2000);
-    QTimer::singleShot(3000, m_media, SLOT(stop()));
-    QTimer::singleShot(3000, fader, SLOT(deleteLater()));
+    fader->fadeOut(200);
+    QTimer::singleShot(1000, m_media, SLOT(stop()));
+    QTimer::singleShot(1200, fader, SLOT(deleteLater()));
     m_playlistInterface->stop();
 
     m_file = FileHandle::null();
