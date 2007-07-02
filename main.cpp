@@ -41,36 +41,33 @@ static const char allan[]       = I18N_NOOP("FLAC and MPC support");
 static const char nathan[]      = I18N_NOOP("Album cover manager");
 static const char pascal[]      = I18N_NOOP("Gimper of splash screen");
 
-static KCmdLineOptions options[] =
-{
-    { "+[file(s)]", I18N_NOOP("File(s) to open"), 0 },
-    KCmdLineLastOption
-};
-
 int main(int argc, char *argv[])
 {
-    KAboutData aboutData("juk", I18N_NOOP("JuK"),
-                         "2.3.2", description, KAboutData::License_GPL,
-                         "(c) 2002 - 2005, Scott Wheeler", 0,
+    KAboutData aboutData("juk", 0, ki18n("JuK"),
+                         "2.3.2", ki18n(description), KAboutData::License_GPL,
+                         ki18n("(c) 2002 - 2005, Scott Wheeler"), KLocalizedString(),
                          "http://developer.kde.org/~wheeler/juk.html");
 
-    aboutData.addAuthor("Scott Wheeler", scott, "wheeler@kde.org");
-    aboutData.addAuthor("Michael Pyne", michael, "michael.pyne@kdemail.net");
-    aboutData.addCredit("Daniel Molkentin", daniel, "molkentin@kde.org");
-    aboutData.addCredit("Tim Jansen", tim, "tim@tjansen.de");
-    aboutData.addCredit("Stefan Asserhäll", stefan, "stefan.asserhall@telia.com");
-    aboutData.addCredit("Stephen Douglas", stephen, "stephen_douglas@yahoo.com");
-    aboutData.addCredit("Frerich Raabe", frerich, "raabe@kde.org");
-    aboutData.addCredit("Zack Rusin", zack, "zack@kde.org");
-    aboutData.addCredit("Adam Treat", adam, "manyoso@yahoo.com");
-    aboutData.addCredit("Matthias Kretz", matthias, "kretz@kde.org");
-    aboutData.addCredit("Maks Orlovich", maks, "maksim@kde.org");
-    aboutData.addCredit("Antonio Larrosa Jimenez", antonio, "larrosa@kde.org");
-    aboutData.addCredit("Allan Sandfeld Jensen", allan, "kde@carewolf.com");
-    aboutData.addCredit("Nathan Toone", nathan, "nathan@toonetown.com");
-    aboutData.addCredit("Pascal Klein", pascal, "4pascal@tpg.com.au");
+    aboutData.addAuthor(ki18n("Scott Wheeler"), ki18n(scott), "wheeler@kde.org");
+    aboutData.addAuthor(ki18n("Michael Pyne"), ki18n(michael), "michael.pyne@kdemail.net");
+    aboutData.addCredit(ki18n("Daniel Molkentin"), ki18n(daniel), "molkentin@kde.org");
+    aboutData.addCredit(ki18n("Tim Jansen"), ki18n(tim), "tim@tjansen.de");
+    aboutData.addCredit(ki18n("Stefan Asserhäll"), ki18n(stefan), "stefan.asserhall@telia.com");
+    aboutData.addCredit(ki18n("Stephen Douglas"), ki18n(stephen), "stephen_douglas@yahoo.com");
+    aboutData.addCredit(ki18n("Frerich Raabe"), ki18n(frerich), "raabe@kde.org");
+    aboutData.addCredit(ki18n("Zack Rusin"), ki18n(zack), "zack@kde.org");
+    aboutData.addCredit(ki18n("Adam Treat"), ki18n(adam), "manyoso@yahoo.com");
+    aboutData.addCredit(ki18n("Matthias Kretz"), ki18n(matthias), "kretz@kde.org");
+    aboutData.addCredit(ki18n("Maks Orlovich"), ki18n(maks), "maksim@kde.org");
+    aboutData.addCredit(ki18n("Antonio Larrosa Jimenez"), ki18n(antonio), "larrosa@kde.org");
+    aboutData.addCredit(ki18n("Allan Sandfeld Jensen"), ki18n(allan), "kde@carewolf.com");
+    aboutData.addCredit(ki18n("Nathan Toone"), ki18n(nathan), "nathan@toonetown.com");
+    aboutData.addCredit(ki18n("Pascal Klein"), ki18n(pascal), "4pascal@tpg.com.au");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
+
+    KCmdLineOptions options;
+    options.add("+[file(s)]", ki18n("File(s) to open"));
     KCmdLineArgs::addCmdLineOptions(options);
 
     KUniqueApplication::addCmdLineOptions();

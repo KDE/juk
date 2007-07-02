@@ -69,7 +69,7 @@ void check( const QString &filename, const QString &title,
 
 int main( int argc, char **argv )
 {
-    //KAboutData aboutData("tagguessertest", "tagguessertest", "0.1");
+    //KAboutData aboutData("tagguessertest", 0, ki18n("tagguessertest"), "0.1");
     //KComponentData componentData(&aboutData);
     QCoreApplication app( argc, argv );
 
