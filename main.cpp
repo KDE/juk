@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Mon Feb  4 23:40:41 EST 2002
-    copyright            : (C) 2002 - 2004 by Scott Wheeler
+    copyright            : (C) 2002 - 2007 by Scott Wheeler
     email                : wheeler@kde.org
 ***************************************************************************/
 
@@ -44,8 +44,8 @@ static const char pascal[]      = I18N_NOOP("Gimper of splash screen");
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", 0, ki18n("JuK"),
-                         "2.3.2", ki18n(description), KAboutData::License_GPL,
-                         ki18n("(c) 2002 - 2005, Scott Wheeler"), KLocalizedString(),
+                         "3.0", ki18n(description), KAboutData::License_GPL,
+                         ki18n("© 2002 - 2007, Scott Wheeler"), KLocalizedString(),
                          "http://developer.kde.org/~wheeler/juk.html");
 
     aboutData.addAuthor(ki18n("Scott Wheeler"), ki18n(scott), "wheeler@kde.org");
@@ -95,4 +95,4 @@ int main(int argc, char *argv[])
     return a.exec();
 }
 
-// vim: set et sw=4 tw=0 sta:
+// vim: set et sw=4 tw=0 sta fileencoding=utf8:
