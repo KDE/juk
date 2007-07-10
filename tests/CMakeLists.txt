@@ -13,7 +13,6 @@ add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 ########### next target ###############
 set(tagguessertest_SRCS tagguessertest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../tagguesser.cpp )
 
-kde4_automoc(${tagguessertest_SRCS})
 
 kde4_add_test_executable(tagguessertest ${tagguessertest_SRCS})
 

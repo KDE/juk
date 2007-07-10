@@ -83,7 +83,6 @@ set(juk_SRCS  ${tunepimp_SRCS}
 qt4_add_dbus_adaptor( juk_SRCS org.kde.juk.player.xml playermanager.h PlayerManager)
 qt4_add_dbus_adaptor( juk_SRCS org.kde.juk.search.xml searchwidget.h SearchWidget)
 
-kde4_automoc(${juk_SRCS})
 
 kde4_add_ui_files(juk_SRCS
 	filerenamerbase.ui
