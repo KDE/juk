@@ -310,8 +310,6 @@ void JuK::setupGlobalAccels()
     KeyDialog::setupActionShortcut("mute");
     KeyDialog::setupActionShortcut("showHide");
     KeyDialog::setupActionShortcut("forwardAlbum");
-
-    KGlobalAccel::self()->readSettings();
 }
 
 void JuK::slotProcessArgs()
