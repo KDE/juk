@@ -2168,7 +2168,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
 void Playlist::slotRenameTag()
 {
-    // kDebug(65432) << "Playlist::slotRenameTag()" << endl;
+    // kDebug(65432) << "Playlist::slotRenameTag()";
 
     // setup completions and validators
 

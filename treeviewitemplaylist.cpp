@@ -85,7 +85,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
             break;
 
         default:
-            kDebug() << "Unhandled column type editing " << *it << endl;
+            kDebug() << "Unhandled column type editing " << *it;
         }
 
         TagTransactionManager::instance()->changeTagOnItem(item, tag);

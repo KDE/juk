@@ -98,8 +98,8 @@ QString TagRenamerOptions::tagTypeText(TagType type, bool translate)
     };
 
     if(type < StartTag || type >= NumTypes) {
-        kWarning() << "I don't know what category we're looking up, this is a problem." << endl;
-        kWarning() << "The category ID is " << (unsigned) type << endl;
+        kWarning() << "I don't know what category we're looking up, this is a problem.";
+        kWarning() << "The category ID is " << (unsigned) type;
         return translate ? i18n("Unknown") : "Unknown";
     }
 

@@ -176,7 +176,7 @@ void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
         if(!overwriteExistingCovers && !(*it)->file().coverInfo()->m_needsConverting)
             continue;
 
-        kDebug(65432) << "Setting cover for: " << *it << endl;
+        kDebug(65432) << "Setting cover for: " << *it;
         (*it)->file().coverInfo()->setCoverId(m_coverKey);
     }
 }
@@ -254,7 +254,7 @@ QString CoverInfo::coverLocation(CoverSize size) const
 bool CoverInfo::convertOldStyleCover() const
 {
     // Ah, old-style cover.  Let's transfer it to the new system.
-    kDebug() << "Found old style cover for " << m_file.absFilePath() << endl;
+    kDebug() << "Found old style cover for " << m_file.absFilePath();
 
     QString artist = m_file.tag()->artist();
     QString album = m_file.tag()->album();

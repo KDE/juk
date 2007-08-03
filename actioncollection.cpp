@@ -33,7 +33,7 @@ namespace ActionCollection
 #ifndef NO_DEBUG
         QAction *a = actions()->action(key);
         if(!a)
-            kWarning(65432) << "KAction \"" << key << "\" is not defined yet." << endl;
+            kWarning(65432) << "KAction \"" << key << "\" is not defined yet.";
         return a;
 #else
         return actions()->action(key);

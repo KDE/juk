@@ -328,7 +328,7 @@ void TreeViewMode::removeItem(const QString &item, unsigned column)
     else if(column == PlaylistItem::AlbumColumn)
         itemKey = "albums" + item;
     else {
-        kWarning() << k_funcinfo << "Unhandled column type " << column << endl;
+        kWarning() << k_funcinfo << "Unhandled column type " << column;
         return;
     }
 
@@ -360,7 +360,7 @@ void TreeViewMode::addItems(const QStringList &items, unsigned column)
     else if(column == PlaylistItem::AlbumColumn)
         searchCategory = "albums";
     else {
-        kWarning() << k_funcinfo << "Unhandled column type " << column << endl;
+        kWarning() << k_funcinfo << "Unhandled column type " << column;
         return;
     }
 

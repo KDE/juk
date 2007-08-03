@@ -141,7 +141,7 @@ bool TagTransactionManager::renameFile(const QFileInfo &from, const QFileInfo &t
            i18n("This file already exists.\nDo you want to replace it?"),
            i18n("File Exists"),KGuiItem(i18n("Replace"))) == KMessageBox::Continue)
    {
-       kDebug(65432) << "Renaming " << from.absoluteFilePath() << " to " << to.absoluteFilePath() << endl;
+       kDebug(65432) << "Renaming " << from.absoluteFilePath() << " to " << to.absoluteFilePath();
        QDir currentDir;
        return currentDir.rename(from.absoluteFilePath(), to.absoluteFilePath());
    }

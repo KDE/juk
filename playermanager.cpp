@@ -290,7 +290,7 @@ void PlayerManager::play(const FileHandle &file)
     // Make sure that the player() actually starts before doing anything.
 
     if(!playing()) {
-        kWarning(65432) << "Unable to play " << file.absFilePath() << endl;
+        kWarning(65432) << "Unable to play " << file.absFilePath();
         stop();
         return;
     }
@@ -470,7 +470,7 @@ void PlayerManager::slotNeedNextUrl()
     FileHandle nextFile = m_playlistInterface->currentFile();
     if(!nextFile.isNull())
     {
-        //kDebug() << k_funcinfo << m_file.absFilePath() << endl;
+        //kDebug() << k_funcinfo << m_file.absFilePath();
         m_file = nextFile;
         m_media->enqueue(KUrl::fromPath(m_file.absFilePath()));
     }
@@ -481,7 +481,7 @@ void PlayerManager::slotFinished()
 {
     if(m_file.isNull())
     {
-        //kDebug() << k_funcinfo << "ignoring finished signal" << endl;
+        //kDebug() << k_funcinfo << "ignoring finished signal";
         return;
     }
     m_playlistInterface->playNext();
@@ -560,7 +560,7 @@ void PlayerManager::setup()
        !action("forward") ||
        !action("trackPositionAction"))
     {
-        kWarning(65432) << k_funcinfo << "Could not find all of the required actions." << endl;
+        kWarning(65432) << k_funcinfo << "Could not find all of the required actions.";
         return;
     }
 

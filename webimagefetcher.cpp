@@ -104,7 +104,7 @@ void WebImageFetcher::slotLoadImageURLs()
     url.addQueryItem("query", d->searchString);
     url.addQueryItem("results", "25");
 
-    kDebug(65432) << "Using request " << url.encodedPathAndQuery() << endl;
+    kDebug(65432) << "Using request " << url.encodedPathAndQuery();
 
     d->connection = KIO::storedGet(url, true /* reload always */);
     connect(d->connection, SIGNAL(result(KJob *)), SLOT(slotWebRequestFinished(KJob *)));
@@ -114,7 +114,7 @@ void WebImageFetcher::slotLoadImageURLs()
 
 void WebImageFetcher::slotWebRequestFinished(KJob *job)
 {
-    kDebug(65432) << k_funcinfo << endl;
+    kDebug(65432) << k_funcinfo;
 
     if(job != d->connection)
         return;
@@ -220,7 +220,7 @@ void WebImageFetcher::slotCoverChosen()
 	return;
     }
 
-    kDebug(65432) << "Adding new cover for " << d->file.tag()->fileName() << endl;
+    kDebug(65432) << "Adding new cover for " << d->file.tag()->fileName();
     coverKey newId = CoverManager::addCover(pixmap, d->file.tag()->artist(), d->file.tag()->album());
     emit signalCoverChanged(newId);
 }

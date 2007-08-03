@@ -140,14 +140,14 @@ void CoverManagerPrivate::createDataDir() const
 
 void CoverManagerPrivate::saveCovers() const
 {
-    kDebug() << k_funcinfo << endl;
+    kDebug() << k_funcinfo;
 
     // Make sure the directory exists first.
     createDataDir();
 
     QFile file(coverLocation());
 
-    kDebug() << "Opening covers db: " << coverLocation() << endl;
+    kDebug() << "Opening covers db: " << coverLocation();
 
     if(!file.open(QIODevice::WriteOnly)) {
         kError() << "Unable to save covers to disk!\n";
@@ -177,7 +177,7 @@ void CoverManagerPrivate::saveCovers() const
 
 void CoverManagerPrivate::loadCovers()
 {
-    kDebug() << k_funcinfo << endl;
+    kDebug() << k_funcinfo;
 
     QFile file(coverLocation());
 
@@ -385,7 +385,7 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
 
 coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, const QString &album)
 {
-    kDebug() << k_funcinfo << endl;
+    kDebug() << k_funcinfo;
 
     coverKey id = data()->nextId();
     CoverDataPtr coverData(new CoverData);
@@ -400,7 +400,7 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
     QString ext = QString("/coverdb/coverID-%1.png").arg(id);
     coverData->path = KGlobal::dirs()->saveLocation("appdata") + ext;
 
-    kDebug() << "Saving pixmap to " << coverData->path << endl;
+    kDebug() << "Saving pixmap to " << coverData->path;
     data()->createDataDir();
 
     if(!large.save(coverData->path, "PNG")) {
