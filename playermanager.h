@@ -21,6 +21,7 @@
 #include <QObject>
 #include "filehandle.h"
 #include <Phonon/Global>
+#include <Phonon/Path>
 
 class KSelectAction;
 class SliderAction;
@@ -30,7 +31,6 @@ class PlaylistInterface;
 namespace Phonon
 {
     class AudioOutput;
-    class AudioPath;
     class MediaObject;
 }
 
@@ -121,7 +121,7 @@ private:
     static const int m_pollInterval = 800;
 
     Phonon::AudioOutput *m_output;
-    Phonon::AudioPath *m_audioPath;
+    Phonon::Path m_audioPath;
     Phonon::MediaObject *m_media;
 };
 

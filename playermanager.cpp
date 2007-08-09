@@ -32,10 +32,9 @@
 #include <kselectaction.h>
 #include <ktoggleaction.h>
 
-#include <phonon/mediaobject.h>
-#include <phonon/audiopath.h>
-#include <phonon/audiooutput.h>
-#include <phonon/volumefadereffect.h>
+#include <Phonon/AudioOutput>
+#include <Phonon/MediaObject>
+#include <Phonon/VolumeFaderEffect>
 
 #include <QSlider>
 #include <QPixmap>
@@ -70,7 +69,6 @@ PlayerManager::PlayerManager() :
     m_muted(false),
     m_setup(false),
     m_output(0),
-    m_audioPath(0),
     m_media(0)
 {
 // This class is the first thing constructed during program startup, and
@@ -251,20 +249,19 @@ void PlayerManager::play(const FileHandle &file)
         if(m_media->state() == Phonon::PlayingState)
         {
             // do a crossfade
-            Phonon::VolumeFaderEffect *fader1 = new Phonon::VolumeFaderEffect(m_audioPath);
-            m_audioPath->insertEffect(fader1);
+            Phonon::VolumeFaderEffect *fader1 = new Phonon::VolumeFaderEffect(m_media);
+            m_audioPath.insertEffect(fader1);
             Phonon::MediaObject *mo = m_media;
-            Phonon::AudioPath *ap = m_audioPath;
-
-            m_audioPath = new Phonon::AudioPath(this);
-            m_audioPath->addOutput(m_output);
-            Phonon::VolumeFaderEffect *fader2 = new Phonon::VolumeFaderEffect(m_audioPath);
-            m_audioPath->insertEffect(fader2);
+            Phonon::AudioOutput *out = m_output;
 
             m_media = new Phonon::MediaObject(this);
+            m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+            Phonon::VolumeFaderEffect *fader2 = new Phonon::VolumeFaderEffect(m_media);
+            m_audioPath.insertEffect(fader2);
+
             connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State)));
             connect(m_media, SIGNAL(aboutToFinsh()), SLOT(slotNeedNextUrl()));
-            m_media->addAudioPath(m_audioPath);
+            m_audioPath = Phonon::createPath(m_media, m_output);
             m_media->setTickInterval(200);
             if(m_sliderAction->trackPositionSlider())
                 m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
@@ -278,7 +275,7 @@ void PlayerManager::play(const FileHandle &file)
             fader2->fadeIn(2000);
             m_media->play();
             QTimer::singleShot(3000, mo, SLOT(deleteLater()));
-            QTimer::singleShot(3000, ap, SLOT(deleteLater()));
+            QTimer::singleShot(3000, out, SLOT(deleteLater()));
         }
         else
         {
@@ -348,7 +345,7 @@ void PlayerManager::stop()
     action("forwardAlbum")->setEnabled(false);
 
     Phonon::VolumeFaderEffect *fader = new Phonon::VolumeFaderEffect(m_media);
-    m_audioPath->insertEffect(fader);
+    m_audioPath.insertEffect(fader);
     fader->setFadeCurve(Phonon::VolumeFaderEffect::Fade9Decibel);
     fader->fadeOut(200);
     QTimer::singleShot(1000, m_media, SLOT(stop()));
@@ -569,13 +566,11 @@ void PlayerManager::setup()
     m_setup = true;
 
     m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-    m_audioPath = new Phonon::AudioPath(this);
-    m_audioPath->addOutput(m_output);
 
     m_media = new Phonon::MediaObject(this);
     connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State)));
     connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
-    m_media->addAudioPath(m_audioPath);
+    m_audioPath = Phonon::createPath(m_media, m_output);
     m_media->setTickInterval(200);
 
     // initialize action states
