@@ -24,7 +24,7 @@
 
 #include "trackpickerdialog.h"
 
-#define NUMBER(x) (x == 0 ? QString::null : QString::number(x))
+#define NUMBER(x) (x == 0 ? QString::null : QString::number(x))	//krazy:exclude=nullstrassign for old broken gcc
 
 class TrackPickerItem : public K3ListViewItem
 {

@@ -274,7 +274,7 @@ void TrackItem::slotUpdate()
     QString title  = Qt::escape(m_file.tag()->title());
     QString artist = Qt::escape(m_file.tag()->artist());
     QString album  = Qt::escape(m_file.tag()->album());
-    QString separator = (artist.isNull() || album.isNull()) ? QString::null : QString(" - ");
+    QString separator = (artist.isNull() || album.isNull()) ? QString::null : QString(" - ");	//krazy:exclude=nullstrassign for old broken gcc
 
     // This block-o-nastiness makes the font smaller and smaller until it actually fits.
 

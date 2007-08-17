@@ -69,7 +69,7 @@ public:
     virtual QStringList playlists() const;
     virtual void createPlaylist(const QString &name);
     virtual void createDynamicPlaylist(const PlaylistList &playlists);
-    virtual void showMore(const QString &artist, const QString &album = QString::null);
+    virtual void showMore(const QString &artist, const QString &album = QString::null);	//krazy:excludestrassign for old broken gcc
     virtual void removeTrack(const QString &playlist, const QStringList &files);
 
     virtual QString playlist() const;

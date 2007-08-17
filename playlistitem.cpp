@@ -118,13 +118,13 @@ QString PlaylistItem::text(int column) const
     case TrackNumberColumn:
         return d->fileHandle.tag()->track() > 0
             ? QString::number(d->fileHandle.tag()->track())
-            : QString::null;
+            : QString();
     case GenreColumn:
         return d->fileHandle.tag()->genre();
     case YearColumn:
         return d->fileHandle.tag()->year() > 0
             ? QString::number(d->fileHandle.tag()->year())
-            : QString::null;
+            : QString();
     case LengthColumn:
         return d->fileHandle.tag()->lengthString();
     case BitrateColumn:
@@ -144,7 +144,7 @@ void PlaylistItem::setText(int column, const QString &text)
 {
     int offset = playlist()->columnOffset();
     if(column - offset >= 0 && column + offset <= lastColumn()) {
-        K3ListViewItem::setText(column, QString::null);
+        K3ListViewItem::setText(column, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
         return;
     }
 

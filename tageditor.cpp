@@ -457,7 +457,7 @@ void TagEditor::readConfig()
     m_genreList.sort();
 
     m_genreBox->clear();
-    m_genreBox->addItem(QString::null);
+    m_genreBox->addItem(QString::null);	//krazy:exclude=nullstrassign for old broken gcc
     m_genreBox->addItems(m_genreList);
     m_genreBox->completionObject()->setItems(m_genreList);
 }

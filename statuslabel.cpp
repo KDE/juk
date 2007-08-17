@@ -110,7 +110,7 @@ void StatusLabel::updateCurrent()
         FileHandle file = playlist()->currentFile();
 
         QString mid =  file.tag()->artist().isEmpty() || file.tag()->title().isEmpty()
-            ? QString::null : QString(" - ");
+            ? QString::null : QString(" - ");	//krazy:exclude=nullstrassign for old broken gcc
 
         QString text = file.tag()->artist() + mid + file.tag()->title();
 
