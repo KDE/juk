@@ -144,7 +144,7 @@ void PlaylistItem::setText(int column, const QString &text)
 {
     int offset = playlist()->columnOffset();
     if(column - offset >= 0 && column + offset <= lastColumn()) {
-        K3ListViewItem::setText(column, QString::null);	//krazy:exclude=nullstrassign for old broken gcc
+        K3ListViewItem::setText(column, QString());
         return;
     }
 

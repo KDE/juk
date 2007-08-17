@@ -35,7 +35,7 @@ using std::endl;
 
 void check( const QString &filename, const QString &title,
             const QString &artist, const QString &track,
-            const QString &comment, const QString &album = QString::null )	//krazy:exclude=nullstrassign for old broken gcc
+            const QString &comment, const QString &album = QString() )
 {
     cout << "Checking " << qPrintable(filename) << "...";
     TagGuesser guesser( filename );
@@ -78,57 +78,57 @@ int main( int argc, char **argv )
     check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats (Live).mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
     check( "/home/frerich/Chemical Brothers - [01] - Block rockin' beats [Live].mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - [01] - Block rockin' beats (Live).mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - [01] - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
     check( "/home/frerich/Chemical Brothers - 01 - Block rockin' beats [Live].mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - 01 - Block rockin' beats (Live).mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/Chemical Brothers - 01 - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
     check( "/home/frerich/(01) Chemical Brothers - Block rockin' beats [Live].mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/(01) Chemical Brothers - Block rockin' beats (Live).mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/(01) Chemical Brothers - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
     check( "/home/frerich/[01] Chemical Brothers - Block rockin' beats [Live].mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/[01] Chemical Brothers - Block rockin' beats (Live).mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/[01] Chemical Brothers - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
     check( "/home/frerich/01 Chemical Brothers - Block rockin' beats [Live].mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/01 Chemical Brothers - Block rockin' beats (Live).mp3",
             "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
     check( "/home/frerich/01 Chemical Brothers - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
     check( "/home/frerich/(Chemical Brothers) Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString::null, "Live" );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", QString(), "Live" );
     check( "/home/frerich/(Chemical Brothers) Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString::null, "Live" );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", QString(), "Live" );
     check( "/home/frerich/(Chemical Brothers) Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", QString(), QString() );
     check( "/home/frerich/Chemical Brothers - Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString::null, "Live" );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", QString(), "Live" );
     check( "/home/frerich/Chemical Brothers - Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString::null, "Live" );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", QString(), "Live" );
     check( "/home/frerich/Chemical Brothers - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", QString(), QString() );
     check( "/home/frerich/mp3/Chemical Brothers/Dig your own hole/[01] Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString::null, "Dig Your Own Hole");	//krazy:exclude=nullstrassign for old broken gcc
+            "Block Rockin' Beats", "Chemical Brothers", "01", QString(), "Dig Your Own Hole");
     check( QDir::homePath() + "/[01] Randy - Religion, religion.mp3",
-            "Religion, Religion", "Randy", "01", QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Religion, Religion", "Randy", "01", QString(), QString() );
     check( QDir::homePath() + "/(3) Mr. Doe - Punk.mp3",
-            "Punk", "Mr. Doe", "3", QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Punk", "Mr. Doe", "3", QString(), QString() );
     check( "c:\\music\\mp3s\\(3) Mr. Doe - Punk.mp3",
-            "Punk", "Mr. Doe", "3", QString::null, QString::null );	//krazy:exclude=nullstrassign for old broken gcc
+            "Punk", "Mr. Doe", "3", QString(), QString() );
     cout << "All OK" << endl;
     return 0;
 }
