@@ -13,38 +13,6 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef PLAYLISTEXPORTER_H
-#define PLAYLISTEXPORTER_H
+// Just a quick hack to get Q_OBJECT to work in playlistexporter.h --amth
 
-#include <QtCore/QObject>
-
-class KAction;
-
-/**
- * Abstract base class to define an interface for classes that export
- * PlaylistItem data.
- *
- * @author Michael Pyne <michael.pyne@kdemail.net>
- * @see K3bExporter
- */
-class PlaylistExporter : public QObject
-{
-    Q_OBJECT
-
-public:
-    PlaylistExporter(QObject *parent = 0) : QObject(parent) { }
-    virtual ~PlaylistExporter() { }
-
-    /**
-     * Returns a KAction that can be used to invoke the export.
-     * Returns 0 if it is not possible.
-     *
-     * @return pointer to a KAction that can invoke the export, or 0 on
-     *         failure.
-     */
-    virtual KAction *action() = 0;
-};
-
-#endif /* PLAYLISTEXPORTER_H */
-
-// vim: set et sw=4 tw=0 sta:
+#include "playlistexporter.h"
