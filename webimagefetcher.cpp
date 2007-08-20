@@ -114,7 +114,7 @@ void WebImageFetcher::slotLoadImageURLs()
 
 void WebImageFetcher::slotWebRequestFinished(KJob *job)
 {
-    kDebug(65432) << k_funcinfo;
+    kDebug(65432) ;
 
     if(job != d->connection)
         return;

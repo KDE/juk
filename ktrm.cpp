@@ -493,7 +493,7 @@ int KTRMLookup::fileId() const
 
 void KTRMLookup::recognized()
 {
-    kDebug() << k_funcinfo << d->file;
+    kDebug() << d->file;
 
     d->results.clear();
 
@@ -519,7 +519,7 @@ void KTRMLookup::recognized()
 
 void KTRMLookup::unrecognized()
 {
-    kDebug() << k_funcinfo << d->file;
+    kDebug() << d->file;
 #if HAVE_TUNEPIMP >= 4
     char trm[255];
     bool finish = false;
@@ -550,7 +550,7 @@ void KTRMLookup::unrecognized()
 void KTRMLookup::collision()
 {
 #if HAVE_TUNEPIMP && HAVE_TUNEPIMP < 5
-    kDebug() << k_funcinfo << d->file;
+    kDebug() << d->file;
 
     track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
 
@@ -569,7 +569,7 @@ void KTRMLookup::collision()
 
         switch(type) {
         case eNone:
-            kDebug() << k_funcinfo << "eNone";
+            kDebug() << "eNone";
             break;
         case eArtistList:
             kDebug() << "eArtistList";
@@ -604,7 +604,7 @@ void KTRMLookup::collision()
             break;
         }
         case eMatchedTrack:
-            kDebug() << k_funcinfo << "eMatchedTrack";
+            kDebug() << "eMatchedTrack";
             break;
         }
 
@@ -699,7 +699,7 @@ void KTRMLookup::lookupResult( KJob* job )
 
 void KTRMLookup::error()
 {
-    kDebug() << k_funcinfo << d->file;
+    kDebug() << d->file;
 
     d->results.clear();
     finished();

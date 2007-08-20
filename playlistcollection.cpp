@@ -355,7 +355,7 @@ void PlaylistCollection::open(const QString &playlist, const QStringList &files)
 
 void PlaylistCollection::addFolder()
 {
-    kDebug(65432) << k_funcinfo;
+    kDebug(65432) ;
     DirectoryList l(m_folderList, m_importPlaylists, JuK::JuKInstance());
     DirectoryList::Result result = l.exec();
 

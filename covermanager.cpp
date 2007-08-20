@@ -140,7 +140,7 @@ void CoverManagerPrivate::createDataDir() const
 
 void CoverManagerPrivate::saveCovers() const
 {
-    kDebug() << k_funcinfo;
+    kDebug() ;
 
     // Make sure the directory exists first.
     createDataDir();
@@ -177,7 +177,7 @@ void CoverManagerPrivate::saveCovers() const
 
 void CoverManagerPrivate::loadCovers()
 {
-    kDebug() << k_funcinfo;
+    kDebug() ;
 
     QFile file(coverLocation());
 
@@ -385,7 +385,7 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
 
 coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, const QString &album)
 {
-    kDebug() << k_funcinfo;
+    kDebug() ;
 
     coverKey id = data()->nextId();
     CoverDataPtr coverData(new CoverData);

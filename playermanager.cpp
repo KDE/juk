@@ -467,7 +467,7 @@ void PlayerManager::slotNeedNextUrl()
     FileHandle nextFile = m_playlistInterface->currentFile();
     if(!nextFile.isNull())
     {
-        //kDebug() << k_funcinfo << m_file.absFilePath();
+        //kDebug() << m_file.absFilePath();
         m_file = nextFile;
         m_media->enqueue(KUrl::fromPath(m_file.absFilePath()));
     }
@@ -478,7 +478,7 @@ void PlayerManager::slotFinished()
 {
     if(m_file.isNull())
     {
-        //kDebug() << k_funcinfo << "ignoring finished signal";
+        //kDebug() << "ignoring finished signal";
         return;
     }
     m_playlistInterface->playNext();
@@ -557,7 +557,7 @@ void PlayerManager::setup()
        !action("forward") ||
        !action("trackPositionAction"))
     {
-        kWarning(65432) << k_funcinfo << "Could not find all of the required actions.";
+        kWarning(65432) << "Could not find all of the required actions.";
         return;
     }
 

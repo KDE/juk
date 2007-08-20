@@ -1814,7 +1814,7 @@ void Playlist::calculateColumnWeights()
     foreach(int column, m_weightDirty) {
         m_columnWeights[column] = int(sqrt(averageWidth[column]) + 0.5);
 
-        //  kDebug(65432) << k_funcinfo << "m_columnWeights[" << column << "] == "
+        //  kDebug(65432) << "m_columnWeights[" << column << "] == "
         //                 << m_columnWeights[column] << endl;
     }
 

@@ -251,7 +251,7 @@ void DefaultSequenceIterator::refillRandomList(Playlist *p)
         p = current()->playlist();
 
         if(!p) {
-            kError(65432) << k_funcinfo << "Item has no playlist!\n";
+            kError(65432) << "Item has no playlist!\n";
             return;
         }
     }
