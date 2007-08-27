@@ -29,7 +29,7 @@
 #include <QMap>
 
 #include <kdebug.h>
-#include <kstaticdeleter.h>
+#include <k3staticdeleter.h>
 #include <kstandarddirs.h>
 #include <kglobal.h>
 
@@ -40,7 +40,7 @@ typedef Q3Dict<coverKey> TrackLookupMap;
 
 // This is responsible for making sure that the CoverManagerPrivate class
 // gets properly destructed on shutdown.
-static KStaticDeleter<CoverManagerPrivate> sd;
+static K3StaticDeleter<CoverManagerPrivate> sd;
 
 const char *CoverDrag::mimetype = "application/x-juk-coverid";
 // Caches the QPixmaps for the covers so that the covers are not all kept in
