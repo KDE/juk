@@ -24,6 +24,7 @@
 #include <kiconloader.h>
 //#include <knuminput.h>
 #include <kstandarddirs.h>
+#include <kio/job.h>
 #include <kio/netaccess.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
@@ -982,7 +983,8 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
         }
 
     // Move the file.
-    return KIO::NetAccess::file_move(srcURL, dstURL);
+    KIO::Job *job = KIO::file_move(srcURL, dstURL);
+    return KIO::NetAccess::synchronousRun(job, 0);
 }
 
 void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
