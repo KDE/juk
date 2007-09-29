@@ -13,15 +13,6 @@
  *                                                                         *
  ***************************************************************************/
 
-/**
- * Note to those who work here.  The preprocessor variables HAVE_ARTS and HAVE_GSTREAMER
- * are ::ALWAYS DEFINED::.  You can't use #ifdef to see if they're present, you should just
- * use #if.
- *
- * However, HAVE_AKODE is #define'd if present, and undefined if not present.
- * - mpyne
- */
-
 #include "playermanager.h"
 #include <config.h>
 
