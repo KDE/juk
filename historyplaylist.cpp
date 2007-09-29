@@ -63,7 +63,7 @@ void HistoryPlaylist::createItems(const PlaylistItemList &siblings)
 void HistoryPlaylist::polish()
 {
     addColumn(i18n("Time"));
-    Playlist::polish();
+    Playlist::ensurePolished();
     setSorting(-1);
 }
 
