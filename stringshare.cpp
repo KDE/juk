@@ -44,7 +44,7 @@ StringShare::Data* StringShare::data()
 
 QString StringShare::tryShare(const QString& in)
 {
-    int index = hashString(in) % SIZE;
+    uint index = qHash(in) % SIZE;
 
     Data* dat = data();
     if (dat->qstringHash[index] == in) //Match
@@ -59,7 +59,7 @@ QString StringShare::tryShare(const QString& in)
 
 QByteArray StringShare::tryShare(const QByteArray& in)
 {
-    int index = hashString(in) % SIZE;
+    uint index = qHash(in) % SIZE;
 
     Data* dat = data();
     if (dat->qcstringHash[index] == in) //Match
