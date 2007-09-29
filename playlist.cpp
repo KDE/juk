@@ -2096,7 +2096,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
         m_rmbMenu = new KMenu(this);
 
-        m_rmbUpcomingID = m_rmbMenu->insertItem(SmallIcon("calendar-today"),
+        m_rmbMenu->addAction(SmallIcon("calendar-today"),
             i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
         m_rmbMenu->addSeparator();
 
@@ -2110,8 +2110,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
         else
             m_rmbMenu->addAction( action("edit_copy") );
 
-        m_rmbEditID = m_rmbMenu->insertItem(
-            i18n("Edit"), this, SLOT(slotRenameTag()));
+        m_rmbEdit = m_rmbMenu->addAction(i18n("Edit"), this, SLOT(slotRenameTag()));
 
         m_rmbMenu->addAction( action("refresh") );
         m_rmbMenu->addAction( action("removeItem") );
@@ -2125,7 +2124,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
         m_rmbMenu->addSeparator();
 
-        m_rmbMenu->insertItem(
+        m_rmbMenu->addAction(
             SmallIcon("folder-new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
 
         K3bExporter *exporter = new K3bExporter(this);
@@ -2147,17 +2146,15 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
         (column == PlaylistItem::YearColumn);
 
     if(showEdit)
-        m_rmbMenu->changeItem(m_rmbEditID,
-                i18n("Edit '%1'", columnText(column + columnOffset())));
+        m_rmbEdit->setText(i18n("Edit '%1'", columnText(column + columnOffset())));
 
-    m_rmbMenu->setItemVisible(m_rmbEditID, showEdit);
+    m_rmbEdit->setVisible(showEdit);
 
     // Disable edit menu if only one file is selected, and it's read-only
 
     FileHandle file = static_cast<PlaylistItem*>(item)->file();
 
-    m_rmbMenu->setItemEnabled(m_rmbEditID, file.fileInfo().isWritable() ||
-                              selectedItems().count() > 1);
+    m_rmbEdit->setEnabled(file.fileInfo().isWritable() || selectedItems().count() > 1);
 
     action("viewCover")->setEnabled(file.coverInfo()->hasCover());
     action("removeCover")->setEnabled(file.coverInfo()->hasCover());

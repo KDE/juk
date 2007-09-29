@@ -38,6 +38,7 @@ class KActionMenu;
 class QFileInfo;
 class QMimeData;
 class QDrag;
+class QAction;
 
 class WebImageFetcher;
 class PlaylistItem;
@@ -645,8 +646,7 @@ private:
 
     int m_currentColumn;
     int m_processed;
-    int m_rmbEditID;
-    int m_rmbUpcomingID;
+    QAction *m_rmbEdit;
     int m_selectedCount;
 
     bool m_allowDuplicates;
