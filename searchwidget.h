@@ -21,7 +21,7 @@
 
 #include <ktoolbar.h>
 
-#include <Q3HBox>
+#include <QtGui/QFrame>
 #include <QList>
 
 #include "playlistsearch.h"
@@ -31,15 +31,14 @@ class QEvent;
 class KComboBox;
 class KLineEdit;
 
-class SearchLine : public Q3HBox
+class SearchLine : public QFrame
 {
     Q_OBJECT
 
 public:
     enum Mode { Default = 0, CaseSensitive = 1, Pattern = 2 };
 
-    explicit SearchLine(QWidget *parent, bool simple = false, const char *name = 0);
-    virtual ~SearchLine() {}
+    explicit SearchLine(QWidget *parent, bool simple = false);
 
     PlaylistSearch::Component searchComponent() const;
     void setSearchComponent(const PlaylistSearch::Component &component);
@@ -73,8 +72,7 @@ class SearchWidget : public KToolBar
     Q_OBJECT
 
 public:
-    explicit SearchWidget(QWidget *parent, const char *name = 0);
-    virtual ~SearchWidget();
+    explicit SearchWidget(QWidget *parent);
 
     PlaylistSearch search(const PlaylistList &playlists) const;
     void setSearch(const PlaylistSearch &search);
@@ -100,10 +98,9 @@ signals:
 
 private:
     void updateColumns();
-    void setupLayout();
 
 private:
-    SearchLine *m_searchLine;
+    SearchLine m_searchLine;
     QStringList m_columnHeaders;
 };
 

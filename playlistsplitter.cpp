@@ -190,7 +190,7 @@ void PlaylistSplitter::setupLayout()
 
     // Create the search widget -- this must be done after the CollectionList is created.
 
-    m_searchWidget = new SearchWidget(top, "searchWidget");
+    m_searchWidget = new SearchWidget(top);
     connect(m_searchWidget, SIGNAL(signalQueryChanged()),
             this, SLOT(slotShowSearchResults()));
     connect(m_searchWidget, SIGNAL(signalDownPressed()),

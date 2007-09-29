@@ -42,21 +42,24 @@ using namespace ActionCollection;
 // SearchLine public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
-    Q3HBox(parent, name),
+SearchLine::SearchLine(QWidget *parent, bool simple)
+    : QFrame(parent),
     m_simple(simple),
     m_searchFieldsBox(0)
 {
-    setSpacing(5);
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setSpacing(5);
 
     if(!m_simple) {
         m_searchFieldsBox = new KComboBox(this);
+        layout->addWidget(m_searchFieldsBox);
         m_searchFieldsBox->setObjectName( "searchFields" );
         connect(m_searchFieldsBox, SIGNAL(activated(int)),
                 this, SIGNAL(signalQueryChanged()));
     }
 
     m_lineEdit = new KLineEdit(this);
+    layout->addWidget(m_lineEdit);
     m_lineEdit->setObjectName( "searchLineEdit" );
     m_lineEdit->installEventFilter(this);
     connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
@@ -66,6 +69,7 @@ SearchLine::SearchLine(QWidget *parent, bool simple, const char *name) :
 
     if(!m_simple) {
         m_caseSensitive = new KComboBox(this);
+        layout->addWidget(m_caseSensitive);
         m_caseSensitive->addItem(i18n("Normal Matching"));
         m_caseSensitive->addItem(i18n("Case Sensitive"));
         m_caseSensitive->addItem(i18n("Pattern Matching"));
@@ -141,13 +145,13 @@ void SearchLine::setFocus()
 bool SearchLine::eventFilter(QObject *watched, QEvent *e)
 {
     if(watched != m_lineEdit || e->type() != QEvent::KeyPress)
-        return Q3HBox::eventFilter(watched, e);
+        return QFrame::eventFilter(watched, e);
 
     QKeyEvent *key = static_cast<QKeyEvent *>(e);
     if(key->key() == Qt::Key_Down)
         emit signalDownPressed();
 
-    return Q3HBox::eventFilter(watched, e);
+    return QFrame::eventFilter(watched, e);
 }
 
 void SearchLine::slotActivate()
@@ -192,17 +196,30 @@ void SearchLine::updateColumns()
 // SearchWidget public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SearchWidget::SearchWidget(QWidget *parent, const char *name) : KToolBar(parent, name)
+SearchWidget::SearchWidget(QWidget *parent)
+    : KToolBar(parent),
+    m_searchLine(this, true)
 {
     new SearchAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/Search", this);
-    setupLayout();
+
+    QLabel *label = new QLabel(i18n("Search:"), this );
+    label->setBuddy(&m_searchLine);
+    addWidget(label);
+    addWidget(&m_searchLine);
+
+    connect(&m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
+    connect(&m_searchLine, SIGNAL(signalDownPressed()), this, SIGNAL(signalDownPressed()));
+
+    // I've decided that I think this is ugly, for now.
+    /*
+      QToolButton *b = new QToolButton(this);
+      b->setTextLabel(i18n("Advanced Search"), true);
+      b->setIconSet(SmallIconSet("wizard"));
+
+      connect(b, SIGNAL(clicked()), this, SIGNAL(signalAdvancedSearchClicked()));
+    */
     updateColumns();
-}
-
-SearchWidget::~SearchWidget()
-{
-
 }
 
 void SearchWidget::setSearch(const PlaylistSearch &search)
@@ -214,23 +231,23 @@ void SearchWidget::setSearch(const PlaylistSearch &search)
         return;
     }
 
-    m_searchLine->setSearchComponent(*components.begin());
+    m_searchLine.setSearchComponent(*components.begin());
 }
 
 QString SearchWidget::searchText() const
 {
-    return m_searchLine->searchComponent().query();
+    return m_searchLine.searchComponent().query();
 }
 
 void SearchWidget::setSearchText(const QString &text)
 {
-    m_searchLine->setSearchComponent(PlaylistSearch::Component(text));
+    m_searchLine.setSearchComponent(PlaylistSearch::Component(text));
 }
 
 PlaylistSearch SearchWidget::search(const PlaylistList &playlists) const
 {
     PlaylistSearch::ComponentList components;
-    components.append(m_searchLine->searchComponent());
+    components.append(m_searchLine.searchComponent());
     return PlaylistSearch(playlists, components);
 }
 
@@ -242,7 +259,7 @@ PlaylistSearch SearchWidget::search(const PlaylistList &playlists) const
 
 void SearchWidget::clear()
 {
-    m_searchLine->clear();
+    m_searchLine.clear();
 }
 
 void SearchWidget::setEnabled(bool enable)
@@ -253,7 +270,7 @@ void SearchWidget::setEnabled(bool enable)
 
 void SearchWidget::setFocus()
 {
-    m_searchLine->setFocus();
+    m_searchLine.setFocus();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -262,38 +279,7 @@ void SearchWidget::setFocus()
 
 void SearchWidget::updateColumns()
 {
-    m_searchLine->updateColumns();
-}
-
-void SearchWidget::setupLayout()
-{
-    /// Qt4 porting: disabled this: boxLayout()->setSpacing(5);
-
-    QLabel *label = new QLabel(i18n("Search:"), this );
-    label->setObjectName( "kde toolbar widget" );
-
-    m_searchLine = new SearchLine(this, true );
-    m_searchLine->setObjectName( "kde toolbar widget" );
-
-    label->setBuddy(m_searchLine);
-
-    connect(m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
-    connect(m_searchLine, SIGNAL(signalDownPressed()), this, SIGNAL(signalDownPressed()));
-
-#ifdef __GNUC__
-#warning TODO Find replacement for KToolBar::setStretchableWidget
-#endif
-    //setStretchableWidget(m_searchLine);
-
-    // I've decided that I think this is ugly, for now.
-
-    /*
-      QToolButton *b = new QToolButton(this);
-      b->setTextLabel(i18n("Advanced Search"), true);
-      b->setIconSet(SmallIconSet("wizard"));
-
-      connect(b, SIGNAL(clicked()), this, SIGNAL(signalAdvancedSearchClicked()));
-    */
+    m_searchLine.updateColumns();
 }
 
 #include "searchwidget.moc"
