@@ -93,7 +93,9 @@ void Cache::save()
 
     f.close();
 
-    QDir(dirName).rename("cache.new", "cache");
+    QDir dir(dirName);
+    dir.remove("cache");
+    dir.rename("cache.new", "cache");
 }
 
 void Cache::loadPlaylists(PlaylistCollection *collection) // static
