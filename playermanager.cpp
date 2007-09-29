@@ -256,6 +256,7 @@ void PlayerManager::play(const FileHandle &file)
 
             m_media = new Phonon::MediaObject(this);
             m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+            m_output->setVolume(out->volume());
             Phonon::VolumeFaderEffect *fader2 = new Phonon::VolumeFaderEffect(m_media);
             m_audioPath.insertEffect(fader2);
 
@@ -276,6 +277,13 @@ void PlayerManager::play(const FileHandle &file)
             m_media->play();
             QTimer::singleShot(3000, mo, SLOT(deleteLater()));
             QTimer::singleShot(3000, out, SLOT(deleteLater()));
+
+            if(m_sliderAction->trackPositionSlider()) {
+                m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
+            }
+            if(m_sliderAction->volumeSlider()) {
+                m_sliderAction->volumeSlider()->setAudioOutput(m_output);
+            }
         }
         else
         {
@@ -515,6 +523,9 @@ void PlayerManager::slotStateChanged(Phonon::State newstate)
     {
         switch(m_media->errorType())
         {
+            case Phonon::NoError:
+                kDebug() << "received a state change to ErrorState but errorType is NoError!?";
+                break;
             case Phonon::NormalError:
                 forward();
                 KMessageBox::information(0, m_media->errorString());
