@@ -146,7 +146,7 @@ void CollectionList::slotNewItems(const KFileItemList &items)
     QStringList files;
 
     for(KFileItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
-        files.append((*it)->url().path());
+        files.append((*it).url().path());
 
     addFiles(files);
     update();
