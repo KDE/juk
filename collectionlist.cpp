@@ -152,10 +152,11 @@ void CollectionList::slotNewItems(const KFileItemList &items)
     update();
 }
 
-void CollectionList::slotRefreshItems(const KFileItemList &items)
+void CollectionList::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > &items)
 {
-    for(KFileItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
-        CollectionListItem *item = lookup((*it)->url().path());
+    for(int i = 0; i < items.count(); ++i) {
+        const KFileItem fileItem = items[i].second;
+        CollectionListItem *item = lookup(fileItem.url().path());
 
         if(item) {
             item->refreshFromDisk();
@@ -172,9 +173,9 @@ void CollectionList::slotRefreshItems(const KFileItemList &items)
     update();
 }
 
-void CollectionList::slotDeleteItem(KFileItem *item)
+void CollectionList::slotDeleteItem(const KFileItem &item)
 {
-    CollectionListItem *listItem = lookup(item->url().path());
+    CollectionListItem *listItem = lookup(item.url().path());
     if(listItem)
         clearItem(listItem);
 }

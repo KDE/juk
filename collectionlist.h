@@ -100,8 +100,8 @@ public slots:
     void slotRefreshItem(const QString &file);
 
     void slotNewItems(const KFileItemList &items);
-    void slotRefreshItems(const KFileItemList &items);
-    void slotDeleteItem(KFileItem *item);
+    void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > &items);
+    void slotDeleteItem(const KFileItem &item);
 
 protected:
     CollectionList(PlaylistCollection *collection);
