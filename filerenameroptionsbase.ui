@@ -9,9 +9,6 @@
     <height>377</height>
    </rect>
   </property>
-  <property name="windowTitle" >
-   <string>%1 Options</string>
-  </property>
   <layout class="QVBoxLayout" >
    <property name="margin" >
     <number>9</number>
@@ -21,9 +18,6 @@
    </property>
    <item>
     <widget class="QGroupBox" name="m_tagFormatGroup" >
-     <property name="title" >
-      <string>%1 Format</string>
-     </property>
      <layout class="QVBoxLayout" >
       <property name="margin" >
        <number>9</number>
@@ -33,10 +27,7 @@
       </property>
       <item>
        <widget class="QLabel" name="m_description" >
-        <property name="text" >
-         <string>When using the file renamer your files will be renamed to the values that you have in your track's %1 tag, plus any additional text that you specify below.</string>
-        </property>
-        <property name="textFormat" >
+       <property name="textFormat" >
          <enum>Qt::RichText</enum>
         </property>
         <property name="alignment" >
@@ -77,9 +68,6 @@
         </item>
         <item>
          <widget class="QLabel" name="m_tagLabel" >
-          <property name="text" >
-           <string>%1</string>
-          </property>
          </widget>
         </item>
         <item>
@@ -133,9 +121,6 @@
    </item>
    <item>
     <widget class="QGroupBox" name="m_emptyTagGroup" >
-     <property name="title" >
-      <string>When the Track's %1 is Empty</string>
-     </property>
      <layout class="QVBoxLayout" >
       <property name="margin" >
        <number>9</number>

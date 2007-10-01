@@ -56,11 +56,11 @@ FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
 
     QString tagText = m_options.tagTypeText();
 
-    setWindowTitle(windowTitle().arg(tagText));
-    m_tagFormatGroup->setTitle(m_tagFormatGroup->title().arg(tagText));
-    m_emptyTagGroup->setTitle(m_emptyTagGroup->title().arg(tagText));
-    m_description->setText(m_description->text().arg(tagText));
-    m_tagLabel->setText(m_tagLabel->text().arg(tagText));
+    setWindowTitle(i18n("%1 Options",tagText));
+    m_tagFormatGroup->setTitle(i18n("%1 Format",tagText));
+    m_emptyTagGroup->setTitle(i18n("When the Track's %1 is Empty",tagText));
+    m_description->setText(i18n("When using the file renamer your files will be renamed to the values that you have in your track's %1 tag, plus any additional text that you specify below.",tagText));
+    m_tagLabel->setText(QString("%1").arg(tagText));
 
     m_prefixText->setText(options.prefix());
     m_suffixText->setText(options.suffix());
