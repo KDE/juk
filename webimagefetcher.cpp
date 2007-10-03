@@ -106,7 +106,7 @@ void WebImageFetcher::slotLoadImageURLs()
 
     kDebug(65432) << "Using request " << url.encodedPathAndQuery();
 
-    d->connection = KIO::storedGet(url, true /* reload always */);
+    d->connection = KIO::storedGet(url, KIO::Reload /* reload always */);
     connect(d->connection, SIGNAL(result(KJob *)), SLOT(slotWebRequestFinished(KJob *)));
 
     // Wait for the results...
