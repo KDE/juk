@@ -223,7 +223,7 @@ void SystemTray::slotStop()
 
 void SystemTray::slotPopupDestroyed()
 {
-    for(int i = 0; i < m_labels.capacity(); ++i)
+    for(int i = 0; i < m_labels.size(); ++i)
         m_labels[i] = 0;
 }
 
@@ -239,7 +239,7 @@ void SystemTray::slotNextStep()
 
     result = interpolateColor(m_step);
 
-    for(int i = 0; i < m_labels.capacity() && m_labels[i]; ++i) {
+    for(int i = 0; i < m_labels.size() && m_labels[i]; ++i) {
         QPalette palette;
         palette.setColor(m_labels[i]->foregroundRole(), result);
         m_labels[i]->setPalette(palette);
@@ -350,9 +350,10 @@ void SystemTray::createPopup()
 
     KVBox *infoBox = createPopupLayout(box, playingFile);
 
-    for(int i = 0; i < m_labels.capacity(); ++i) {
-        m_labels[i] = new QLabel(" ", infoBox);
-        m_labels[i]->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    for(int i = 0; i < m_labels.size(); ++i) {
+        QLabel *l = new QLabel(" ", infoBox);
+        l->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        m_labels[i] = l;
     }
 
     // We don't want an autodelete popup.  There are times when it will need
