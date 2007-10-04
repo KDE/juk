@@ -369,7 +369,7 @@ void PlaylistCollection::addFolder()
         for(QStringList::Iterator it = result.addedDirs.begin();
             it != result.addedDirs.end(); it++)
         {
-            m_dirLister.openUrl(KUrl::fromPath(*it), true);
+            m_dirLister.openUrl(KUrl::fromPath(*it), KDirLister::Keep);
             m_folderList.append(*it);
         }
 
@@ -828,7 +828,7 @@ void PlaylistCollection::readConfig()
     m_folderList       = config.readEntry("DirectoryList", QStringList());
 
     for(QStringList::ConstIterator it = m_folderList.begin(); it != m_folderList.end(); ++it)
-        m_dirLister.openUrl(*it, true);
+        m_dirLister.openUrl(*it, KDirLister::Keep);
 }
 
 void PlaylistCollection::saveConfig()
