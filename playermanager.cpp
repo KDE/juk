@@ -22,6 +22,7 @@
 #include <kactioncollection.h>
 #include <kselectaction.h>
 #include <ktoggleaction.h>
+#include <kurl.h>
 
 #include <Phonon/AudioOutput>
 #include <Phonon/MediaObject>
