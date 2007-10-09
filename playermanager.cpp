@@ -246,16 +246,19 @@ void PlayerManager::play(const FileHandle &file)
             Phonon::MediaObject *mo = m_media;
             Phonon::AudioOutput *out = m_output;
 
+            mo->disconnect(this);
+
             m_media = new Phonon::MediaObject(this);
             m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-            m_output->setVolume(out->volume());
             Phonon::VolumeFaderEffect *fader2 = new Phonon::VolumeFaderEffect(m_media);
+            m_audioPath = Phonon::createPath(m_media, m_output);
             m_audioPath.insertEffect(fader2);
+            m_output->setVolume(out->volume());
+            m_output->setMuted(out->isMuted());
+            m_media->setTickInterval(200);
 
             connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State)));
-            connect(m_media, SIGNAL(aboutToFinsh()), SLOT(slotNeedNextUrl()));
-            m_audioPath = Phonon::createPath(m_media, m_output);
-            m_media->setTickInterval(200);
+            connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
             if(m_sliderAction->trackPositionSlider())
                 m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
             connect(m_media, SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
@@ -269,6 +272,7 @@ void PlayerManager::play(const FileHandle &file)
             m_media->play();
             QTimer::singleShot(3000, mo, SLOT(deleteLater()));
             QTimer::singleShot(3000, out, SLOT(deleteLater()));
+            QTimer::singleShot(3000, fader2, SLOT(deleteLater()));
 
             if(m_sliderAction->trackPositionSlider()) {
                 m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
@@ -344,12 +348,22 @@ void PlayerManager::stop()
     action("forward")->setEnabled(false);
     action("forwardAlbum")->setEnabled(false);
 
-    Phonon::VolumeFaderEffect *fader = new Phonon::VolumeFaderEffect(m_media);
-    m_audioPath.insertEffect(fader);
-    fader->setFadeCurve(Phonon::VolumeFaderEffect::Fade9Decibel);
-    fader->fadeOut(200);
-    QTimer::singleShot(1000, m_media, SLOT(stop()));
-    QTimer::singleShot(1200, fader, SLOT(deleteLater()));
+    switch(m_media->state())
+    {
+    case Phonon::PlayingState:
+    case Phonon::BufferingState:
+        {
+            Phonon::VolumeFaderEffect *fader = new Phonon::VolumeFaderEffect(m_media);
+            m_audioPath.insertEffect(fader);
+            fader->setFadeCurve(Phonon::VolumeFaderEffect::Fade9Decibel);
+            fader->fadeOut(200);
+            QTimer::singleShot(1000, m_media, SLOT(stop()));
+            QTimer::singleShot(1200, fader, SLOT(deleteLater()));
+            break;
+        }
+    default:
+        m_media->stop();
+    }
     m_playlistInterface->stop();
 
     m_file = FileHandle::null();
@@ -470,24 +484,24 @@ void PlayerManager::slotNeedNextUrl()
         //kDebug() << m_file.absFilePath();
         m_file = nextFile;
         m_media->enqueue(KUrl::fromPath(m_file.absFilePath()));
+
+        emit signalPlay();
     }
-    // at this point the new totalTime is not known, but the totalTimeChanged signal will tell us
 }
 
 void PlayerManager::slotFinished()
 {
-    if(m_file.isNull())
-    {
-        //kDebug() << "ignoring finished signal";
-        return;
-    }
-    m_playlistInterface->playNext();
-    FileHandle nextFile = m_playlistInterface->currentFile();
-    if(!nextFile.isNull())
-        play(nextFile);
-    else
-        stop();
-    m_statusLabel->setItemTotalTime(totalTime());
+    action("pause")->setEnabled(false);
+    action("stop")->setEnabled(false);
+    action("back")->setEnabled(false);
+    action("forward")->setEnabled(false);
+    action("forwardAlbum")->setEnabled(false);
+
+    m_playlistInterface->stop();
+
+    m_file = FileHandle::null();
+
+    emit signalStop();
 }
 
 void PlayerManager::slotLength(qint64 msec)
