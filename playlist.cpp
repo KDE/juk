@@ -2096,7 +2096,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
         m_rmbMenu = new KMenu(this);
 
-        m_rmbMenu->addAction(SmallIcon("calendar-today"),
+        m_rmbMenu->addAction(SmallIcon("go-jump-today"),
             i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
         m_rmbMenu->addSeparator();
 

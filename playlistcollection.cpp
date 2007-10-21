@@ -918,7 +918,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     historyAction->setCheckedState(KGuiItem(i18n("Hide &History")));
 
     KToggleAction *upcomingAction =
-        new KToggleAction(KIcon("calendar-today"), i18n("Show &Play Queue"), actions());
+        new KToggleAction(KIcon("go-jump-today"), i18n("Show &Play Queue"), actions());
     actions()->addAction("showUpcoming", upcomingAction);
     upcomingAction->setCheckedState(KGuiItem(i18n("Hide &Play Queue")));
 
