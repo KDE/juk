@@ -882,7 +882,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
 
     createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),     "playFirst");
-    createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "find-next");
+    createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "edit-find-next");
 
     createAction(i18n("Open..."),         SLOT(slotOpen()),         "file_open", "document-open", KShortcut(Qt::CTRL + Qt::Key_O));
     createAction(i18n("Add &Folder..."),  SLOT(slotAddFolder()),    "openDirectory", "document-open");
