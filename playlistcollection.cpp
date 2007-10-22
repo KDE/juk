@@ -890,7 +890,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("D&uplicate..."),   SLOT(slotDuplicate()),    "duplicatePlaylist", "edit-copy");
     createAction(i18n("Save"),            SLOT(slotSave()),         "file_save", "document-save", KShortcut(Qt::CTRL + Qt::Key_S));
     createAction(i18n("Save As..."),      SLOT(slotSaveAs()),       "file_save_as", "document-save-as");
-    createAction(i18n("R&emove"),         SLOT(slotRemove()),       "deleteItemPlaylist", "edit-trash");
+    createAction(i18n("R&emove"),         SLOT(slotRemove()),       "deleteItemPlaylist", "user-trash");
     createAction(i18n("Reload"),          SLOT(slotReload()),       "reloadPlaylist", "view-refresh");
     createAction(i18n("Edit Search..."),  SLOT(slotEditSearch()),   "editSearch", "edit-clear");
 

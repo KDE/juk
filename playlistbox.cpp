@@ -331,7 +331,7 @@ void PlaylistBox::remove()
                                                        "playlists from your collection?"),
                                                   names,
                                                   i18n("Remove Items?"),
-                                                  KGuiItem(i18n("&Remove"), "edit-trash")) == KMessageBox::Cancel)
+                                                  KGuiItem(i18n("&Remove"), "user-trash")) == KMessageBox::Cancel)
         {
             return;
         }
