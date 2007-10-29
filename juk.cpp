@@ -134,7 +134,6 @@ void JuK::setupLayout()
 
 void JuK::setupActions()
 {
-    ActionCollection::actions()->setAssociatedWidget(this);
     KActionCollection *collection = ActionCollection::actions();
 
     // Setup KDE standard actions that JuK uses.
@@ -275,6 +274,8 @@ void JuK::setupActions()
 
     m_sliderAction = new SliderAction(i18n("Track Position"), this);
     collection->addAction("trackPositionAction", m_sliderAction);
+
+    ActionCollection::actions()->associateWidget(this);
 }
 
 void JuK::setupSystemTray()
