@@ -33,7 +33,7 @@
 namespace MediaFiles {
     QStringList mimeTypes();
 
-    static const char mp3Type[]  = "audio/x-mp3";
+    static const char mp3Type[]  = "audio/mpeg";
     static const char oggType[]  = "application/ogg";
     static const char flacType[] = "audio/x-flac";
     static const char mpcType[]  = "audio/x-musepack";
