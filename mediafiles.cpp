@@ -87,11 +87,7 @@ bool MediaFiles::isMediaFile(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
 
-    return result->is(mp3Type) || result->is(oggType) || result->is(flacType)
-#ifdef TAGLIB_1_3
-                               || result->is(mpcType)
-#endif
-    ;
+    return result->is(mp3Type) || result->is(oggType) || result->is(flacType) || result->is(mpcType);
 }
 
 bool MediaFiles::isPlaylistFile(const QString &fileName)
@@ -140,14 +136,8 @@ QStringList MediaFiles::mimeTypes()
 {
     QStringList l;
 
-    l << mp3Type << oggType << flacType << m3uType << vorbisType
-#ifdef TAGLIB_1_2
-    << oggflacType
-#endif
-#ifdef TAGLIB_1_3
-    << mpcType
-#endif
-    ;
+    l << mp3Type << oggType << flacType << m3uType << vorbisType << oggflacType << mpcType;
+
     return l;
 }
 
