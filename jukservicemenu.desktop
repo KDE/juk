@@ -1,6 +1,6 @@
 [Desktop Entry]
 Encoding=UTF-8
-ServiceTypes=application/ogg,audio/x-vorbis+ogg,audio/mpeg,audio/x-flac,audio/x-flac+ogg,audio/x-musepack
+ServiceTypes=KonqPopupMenu/Plugin,application/ogg,audio/x-vorbis+ogg,audio/mpeg,audio/x-flac,audio/x-flac+ogg,audio/x-musepack
 Type=Service
 Actions=addToCollection;
 
