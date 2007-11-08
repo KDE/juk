@@ -22,7 +22,6 @@
 
 // Predeclare some classes.
 
-class QPixmap;
 
 template<class T>
 class QList;
@@ -30,7 +29,6 @@ class QList;
 class KJob;
 
 class FileHandle;
-class WebImageFetcherDialog;
 
 class WebImage
 {
