@@ -120,7 +120,7 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
     // This should be initialized to the number of labels that are used.
     m_labels.fill(0, 3);
 
-    m_appPix = loadIcon("juk_dock");
+    m_appPix = loadIcon("juk");
 
     m_playPix = createPixmap("media-playback-start");
     m_pausePix = createPixmap("media-playback-pause");
