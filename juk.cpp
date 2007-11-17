@@ -256,7 +256,7 @@ void JuK::setupActions()
     act = new KToggleAction(i18n("Save &Play Queue on Exit"), collection);
     collection->addAction("saveUpcomingTracks", act);
 
-    connect(m_toggleSystemTrayAction, SIGNAL(toggled(bool)),
+    connect(m_toggleSystemTrayAction, SIGNAL(triggered(bool)),
             this, SLOT(slotToggleSystemTray(bool)));
 
 
