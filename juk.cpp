@@ -32,6 +32,7 @@
 #include <kapplication.h>
 #include <kglobalaccel.h>
 #include <ktoolbarpopupaction.h>
+#include <kdeversion.h>
 
 #include <QKeyEvent>
 #include <QDir>
@@ -275,7 +276,13 @@ void JuK::setupActions()
     m_sliderAction = new SliderAction(i18n("Track Position"), this);
     collection->addAction("trackPositionAction", m_sliderAction);
 
-    ActionCollection::actions()->associateWidget(this);
+    ActionCollection::actions()->addAssociatedWidget(this);
+    foreach (QAction* action, ActionCollection::actions()->actions())
+#if QT_VERSION < KDE_MAKE_VERSION(4,4,0)
+        action->setShortcutContext(Qt::WidgetShortcut); // remove after Qt4.4 becomes mandatory
+#else
+        action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+#endif
 }
 
 void JuK::setupSystemTray()
