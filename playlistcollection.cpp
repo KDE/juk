@@ -563,7 +563,7 @@ void PlaylistCollection::setHistoryPlaylistEnabled(bool enable)
         action<KToggleAction>("showHistory")->setChecked(true);
         m_historyPlaylist = new HistoryPlaylist(this);
         m_historyPlaylist->setName(i18n("History"));
-        setupPlaylist(m_historyPlaylist, "history");
+        setupPlaylist(m_historyPlaylist, "view-history");
     }
     else {
         delete m_historyPlaylist;
@@ -586,7 +586,7 @@ void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
         if(!m_upcomingPlaylist)
             m_upcomingPlaylist = new UpcomingPlaylist(this);
 
-        setupPlaylist(m_upcomingPlaylist, "today");
+        setupPlaylist(m_upcomingPlaylist, "go-jump-today");
     }
     else {
         action<KToggleAction>("showUpcoming")->setChecked(false);

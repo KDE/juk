@@ -527,7 +527,7 @@ void TagEditor::setupLayout()
         m_artistNameBox = new KComboBox( true, this );
         m_artistNameBox->setObjectName( "artistNameBox" );
         m_artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-        addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout, "personal");
+        addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout, "view-media-artist");
 
         m_trackNameBox = new KLineEdit(this);
         m_trackNameBox->setObjectName( "trackNameBox" );
@@ -536,7 +536,7 @@ void TagEditor::setupLayout()
         m_albumNameBox = new KComboBox( true, this );
         m_albumNameBox->setObjectName( "albumNameBox" );
         m_albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-        addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout, "cdrom_unmount");
+        addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout, "media-optical");
 
         m_genreBox = new KComboBox( true, this );
         m_genreBox->setObjectName( "genreBox" );
@@ -560,7 +560,7 @@ void TagEditor::setupLayout()
         m_fileNameBox->setValidator(new FileNameValidator(m_fileNameBox));
 
         QLabel *fileNameIcon = new QLabel(this);
-        fileNameIcon->setPixmap(SmallIcon("sound"));
+        fileNameIcon->setPixmap(SmallIcon("audio-x-generic"));
         QLabel * tmp = new QLabel(i18n("&File name:"), this);
         tmp->setBuddy( m_fileNameBox );
         QWidget *fileNameLabel = addHidden(tmp);
@@ -620,7 +620,7 @@ void TagEditor::setupLayout()
 
         m_commentBox = new KTextEdit(this);
         m_commentBox->setObjectName( "commentBox" );
-        addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "edit");
+        addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "object-edit");
         fileNameLabel->setMinimumHeight(m_trackSpin->height());
 
     }
