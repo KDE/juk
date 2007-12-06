@@ -134,7 +134,7 @@ void PlaylistSplitter::setupActions()
 {
     KActionCollection* coll = ActionCollection::actions();
     KToggleAction *showSearch =
-	 new KToggleAction(KIcon("file-find"), i18n("Show &Search Bar"), this);
+	 new KToggleAction(KIcon("edit-find"), i18n("Show &Search Bar"), this);
     coll->addAction("showSearch", showSearch);
     showSearch->setCheckedState(KGuiItem(i18n("Hide &Search Bar")));
 

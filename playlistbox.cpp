@@ -105,7 +105,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
     // add the view modes stuff
 
     KSelectAction *viewModeAction =
-        new KSelectAction( KIcon("view_choose"), i18n("View Modes"), ActionCollection::actions());
+        new KSelectAction( KIcon("view-choose"), i18n("View Modes"), ActionCollection::actions());
     ActionCollection::actions()->addAction("viewModeMenu", viewModeAction);
 
     m_viewModes.append(new ViewMode(this));

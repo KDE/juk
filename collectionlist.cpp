@@ -85,7 +85,7 @@ void CollectionList::initialize(PlaylistCollection *collection)
 
     m_list->sort();
 
-    collection->setupPlaylist(m_list, "folder_sound");
+    collection->setupPlaylist(m_list, "folder-sound");
 }
 
 ////////////////////////////////////////////////////////////////////////////////
