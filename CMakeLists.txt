@@ -1,12 +1,25 @@
 project(juk)
-configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 
 add_subdirectory( tests )
-
 add_subdirectory( pics ) 
 
+macro_optional_find_package(TunePimp)
+macro_log_feature(TUNEPIMP_FOUND "TunePimp" "A library for developing MusicBrainz enabled tagging applications" " http://www.musicbrainz.org/products/tunepimp" FALSE "" "Provides MusicBrainz tagging in Juk.")
+if(TUNEPIMP_FOUND)
+	set(HAVE_TUNEPIMP 1)
+	if(TUNEPIMP_FOUND_VERSION_4)
+		set(HAVE_TUNEPIMP 4)
+        endif(TUNEPIMP_FOUND_VERSION_4)	
+        if(TUNEPIMP_FOUND_VERSION_5)
+                set(HAVE_TUNEPIMP 5)
+        endif(TUNEPIMP_FOUND_VERSION_5) 	
+else(TUNEPIMP_FOUND)
+	set(HAVE_TUNEPIMP 0)
+endif(TUNEPIMP_FOUND)	
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
+
+configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 ########### next target ###############
 
 # hack, should taglib maybe give the .. directory as well in it's config file?
