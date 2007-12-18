@@ -36,7 +36,7 @@
     <method name="volumeDown"/>
     <method name="mute"/>
     <method name="setVolume">
-      <arg name="volume" type="i" direction="in"/>
+      <arg name="volume" type="d" direction="in"/>
     </method>
     <method name="seek">
       <arg name="time" type="i" direction="in"/>
