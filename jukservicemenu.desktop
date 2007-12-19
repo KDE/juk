@@ -6,6 +6,7 @@ Actions=addToCollection;
 
 [Desktop Action addToCollection]
 Name=Add to JuK Collection
+Name[bn]=জুক সংকলনে যোগ করো 
 Name[br]=Ouzhpennañ d'an dastumad JuK
 Name[ca]=Afegeix a la col·lecció JuK
 Name[cs]=Přidat do JuK kolekce
@@ -45,6 +46,7 @@ Name[pt]=Adicionar à Colecção do JuK
 Name[pt_BR]=Adicionar à Coleção do Juk
 Name[ro]=Adaugă în colecţia JuK
 Name[ru]=Добавить в коллекцию JuK
+Name[sk]=Pridať do kolekcie JuK
 Name[sl]=Dodaj v zbirko JuK
 Name[sr]=Додај у JuK колекцију
 Name[sr@latin]=Dodaj u JuK kolekciju
