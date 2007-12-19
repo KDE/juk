@@ -38,7 +38,6 @@
 #include <QPushButton>
 #include <QToolTip>
 #include <QPainter>
-#include <Q3StyleSheet>
 #include <QPalette>
 #include <QWheelEvent>
 #include <QPixmap>
