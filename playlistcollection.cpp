@@ -34,7 +34,6 @@
 #include <QObject>
 #include <QPixmap>
 #include <Q3WidgetStack>
-#include <QtDBus>
 
 #include <sys/types.h>
 #include <dirent.h>

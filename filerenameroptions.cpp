@@ -19,11 +19,6 @@
 #include <kdebug.h>
 #include <knuminput.h>
 
-#include <QLayout>
-#include <QLabel>
-#include <QRadioButton>
-#include <QLineEdit>
-#include <Q3ButtonGroup>
 
 FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
                                              const TagRenamerOptions &options) :

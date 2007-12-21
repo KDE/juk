@@ -21,7 +21,6 @@
 #include <klocale.h>
 
 #include <QStringList>
-#include <Q3ListView>
 
 #include "collectionlist.h"
 #include "tag.h"

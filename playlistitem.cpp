@@ -20,7 +20,7 @@
 #include <kiconloader.h>
 
 #include <QPixmap>
-
+#include <QFileInfo>
 #include "collectionlist.h"
 #include "musicbrainzquery.h"
 #include "tag.h"

@@ -28,13 +28,12 @@
 #include <kdebug.h>
 #include <kaction.h>
 
-#include <QLayout>
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
 #include <QToolButton>
 #include <QKeyEvent>
-#include <QtDBus>
+#include <QHBoxLayout>
 
 using namespace ActionCollection;
 

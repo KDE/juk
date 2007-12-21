@@ -40,7 +40,6 @@
 #include <QFile>
 #include <QEvent>
 #include <QDomDocument>
-#include <QList>
 
 #if HAVE_TUNEPIMP >= 5
 #include <tunepimp-0.5/tp_c.h>

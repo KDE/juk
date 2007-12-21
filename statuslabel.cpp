@@ -22,8 +22,6 @@
 #include <klocale.h>
 #include <kdebug.h>
 
-#include <QToolTip>
-#include <QLayout>
 #include <QMouseEvent>
 #include <QLabel>
 #include <QFrame>

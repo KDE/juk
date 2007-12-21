@@ -28,9 +28,7 @@
 #include <Phonon/MediaObject>
 #include <Phonon/VolumeFaderEffect>
 
-#include <QSlider>
 #include <QPixmap>
-#include <QtDBus>
 #include <QTimer>
 
 #include <math.h>

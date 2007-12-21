@@ -21,9 +21,6 @@
 
 #include <QPixmap>
 #include <QPainter>
-#include <QFile>
-#include <QDir>
-#include <QDataStream>
 #include <QResizeEvent>
 
 #include "playlistbox.h"

@@ -37,12 +37,10 @@
 #include <ktoggleaction.h>
 #include <kselectaction.h>
 
-#include <Q3Header>
 #include <QCursor>
 #include <QDir>
 #include <QToolTip>
 #include <QFile>
-#include <Q3WidgetStack>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -53,7 +51,7 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 #include <QPixmap>
-
+#include <Q3WidgetStack>
 #include <id3v1genres.h>
 
 #include <time.h>

@@ -25,8 +25,6 @@
 #include <Q3Cache>
 #include <QMimeSource>
 #include <QBuffer>
-#include <QList>
-#include <QMap>
 
 #include <kdebug.h>
 #include <k3staticdeleter.h>

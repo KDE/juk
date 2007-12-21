@@ -24,7 +24,6 @@
 #include <klocale.h>
 
 #include <QTimer>
-#include <QList>
 
 #include "covericonview.h"
 #include "covermanager.h"

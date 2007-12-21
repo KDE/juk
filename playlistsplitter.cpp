@@ -23,7 +23,6 @@
 #include <ktoggleaction.h>
 #include <kconfiggroup.h>
 
-#include <QLayout>
 #include <QEvent>
 #include <QVBoxLayout>
 #include <QList>

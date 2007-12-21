@@ -21,10 +21,6 @@
 #include <kactioncollection.h>
 #include <kdebug.h>
 
-#include <QToolTip>
-#include <QLayout>
-#include <QLabel>
-#include <QTimer>
 #include <QMouseEvent>
 #include <QWheelEvent>
 #include <QFocusEvent>

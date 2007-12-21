@@ -23,7 +23,6 @@
 
 #include <QRadioButton>
 #include <QLabel>
-#include <QLayout>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGroupBox>

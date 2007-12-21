@@ -25,8 +25,6 @@
 
 #include <QStringList>
 #include <QCheckBox>
-#include <QLayout>
-#include <QLabel>
 
 //////////////////////////////////////////////////////////////////////////////
 // DeleteWidget implementation

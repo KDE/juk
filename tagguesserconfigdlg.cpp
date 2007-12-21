@@ -16,7 +16,6 @@
 #include <klineedit.h>
 #include <kapplication.h>
 
-#include <QToolButton>
 #include <QKeyEvent>
 
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)

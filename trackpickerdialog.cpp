@@ -17,7 +17,6 @@
 #include <config-juk.h>
 #if HAVE_TUNEPIMP
 
-#include <QLabel>
 
 #include <k3listview.h>
 #include <klocale.h>

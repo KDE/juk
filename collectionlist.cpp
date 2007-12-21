@@ -30,6 +30,7 @@
 #include <QDropEvent>
 #include <QApplication>
 #include <QClipboard>
+#include <QFileInfo>
 
 #include "playlistcollection.h"
 #include "splashscreen.h"

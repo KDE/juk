@@ -21,7 +21,6 @@
 #include <kstandarddirs.h>
 #include <kdebug.h>
 
-#include <QPainter>
 #include <QPixmap>
 #include <QLabel>
 #include <QPalette>

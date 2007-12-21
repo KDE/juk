@@ -17,7 +17,6 @@
 
 #include <kdebug.h>
 
-#include <QRegExp>
 #include <QFile>
 
 #include <taglib/tag.h>

@@ -30,7 +30,6 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPainter>
-#include <QIcon>
 #include <QEventLoop>
 #include <QListView>
 #include <QPixmap>

@@ -15,8 +15,6 @@
 
 #include "exampleoptions.h"
 
-#include <QRadioButton>
-#include <QLayout>
 #include <QHideEvent>
 #include <QShowEvent>
 #include <QVBoxLayout>

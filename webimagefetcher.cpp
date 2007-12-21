@@ -33,7 +33,6 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QPointer>
-#include <QList>
 
 WebImage::WebImage()
 {
