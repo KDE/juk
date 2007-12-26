@@ -536,11 +536,11 @@ void TagEditor::setupLayout()
         m_albumNameBox = new KComboBox( true, this );
         m_albumNameBox->setObjectName( "albumNameBox" );
         m_albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-        addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout, "media-optical");
+        addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout, "media-optical-audio");
 
         m_genreBox = new KComboBox( true, this );
         m_genreBox->setObjectName( "genreBox" );
-        addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout, "knotify");
+        addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout, "help-about");
 
         // this fills the space at the bottem of the left column
         leftColumnLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
@@ -620,7 +620,7 @@ void TagEditor::setupLayout()
 
         m_commentBox = new KTextEdit(this);
         m_commentBox->setObjectName( "commentBox" );
-        addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "object-edit");
+        addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "document-properties");
         fileNameLabel->setMinimumHeight(m_trackSpin->height());
 
     }
