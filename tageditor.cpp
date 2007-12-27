@@ -578,7 +578,7 @@ void TagEditor::setupLayout()
 
             m_trackSpin = new KIntSpinBox(0, 9999, 1, 0, this);
             m_trackSpin->setObjectName( "trackSpin" );
-            addItem(i18n("T&rack:"), m_trackSpin, trackRowLayout);
+            addItem(i18nc("cd track number", "T&rack:"), m_trackSpin, trackRowLayout);
             m_trackSpin->installEventFilter(this);
 
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,

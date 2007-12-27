@@ -88,22 +88,46 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
 
 QString TagRenamerOptions::tagTypeText(TagType type, bool translate)
 {
-    // These must be declared in the same order that they are defined in
-    // the TagType enum in test.h.  We can dynamically translate these strings,
-    // so make sure that I18N_NOOP() is used instead of i18n().
+    const char *msg = 0, *context = 0;
 
-    const char *tags[] = {
-        I18N_NOOP("Title"), I18N_NOOP("Artist"), I18N_NOOP("Album"),
-        I18N_NOOP("Track"), I18N_NOOP("Genre"), I18N_NOOP("Year")
-    };
+    switch(type) {
+        case Title:
+            msg = I18N_NOOP2("song title", "Title");
+            context = "song title";
+        break;
 
-    if(type < StartTag || type >= NumTypes) {
-        kWarning() << "I don't know what category we're looking up, this is a problem.";
-        kWarning() << "The category ID is " << (unsigned) type;
-        return translate ? i18n("Unknown") : "Unknown";
+        case Artist:
+            msg = I18N_NOOP("Artist");
+        break;
+
+        case Album:
+            msg = I18N_NOOP("Album");
+        break;
+
+        case Track:
+            msg = I18N_NOOP2("cd track number", "Track");
+            context = "cd track number";
+        break;
+
+        case Genre:
+            msg = I18N_NOOP("Genre");
+        break;
+
+        case Year:
+            msg = I18N_NOOP("Year");
+        break;
+
+        default:
+            kWarning() << "I don't know what category we're looking up, this is a problem.";
+            kWarning() << "The category ID is " << (unsigned) type;
+            msg = I18N_NOOP2("unknown renamer category", "Unknown");
+            context = "unknown renamer category";
     }
 
-    return translate ? i18n(tags[type]) : tags[type];
+    if(translate)
+        return context ? i18n(msg) : i18nc(context, msg);
+    else
+        return msg;
 }
 
 void TagRenamerOptions::saveConfig(unsigned categoryNum) const

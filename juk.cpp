@@ -213,7 +213,7 @@ void JuK::setupActions()
 
     // the following are not visible by default
 
-    act = new KAction(KIcon("mute"),        i18n("Mute"),         collection);
+    act = new KAction(KIcon("mute"), i18nc("silence playback", "Mute"), collection);
     collection->addAction("mute", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(mute()));
 

@@ -333,7 +333,7 @@ void PlaylistCollection::open(const QStringList &l)
            JuK::JuKInstance(),
            i18n("Do you want to add these items to the current list or to the collection list?"),
            QString(),
-           KGuiItem(i18n("Current")),
+           KGuiItem(i18nc("current playlist", "Current")),
            KGuiItem(i18n("Collection"))) == KMessageBox::No)
     {
         CollectionList::instance()->addFiles(files);
@@ -405,7 +405,8 @@ void PlaylistCollection::rename()
 
 void PlaylistCollection::duplicate()
 {
-    QString name = playlistNameDialog(i18n("Duplicate"), visiblePlaylist()->name());
+    QString name = playlistNameDialog(i18nc("verb, copy the playlist", "Duplicate"),
+                                      visiblePlaylist()->name());
     if(name.isEmpty())
         return;
     raise(new Playlist(this, visiblePlaylist()->items(), name));
@@ -852,7 +853,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // "New" menu
 
-    menu = new KActionMenu(KIcon("document-new"), i18n("&New"), actions());
+    menu = new KActionMenu(KIcon("document-new"), i18nc("new playlist", "&New"), actions());
     actions()->addAction("file_new", menu);
 
     menu->addAction(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
@@ -883,12 +884,14 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),     "playFirst");
     createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "edit-find-next");
 
-    createAction(i18n("Open..."),         SLOT(slotOpen()),         "file_open", "document-open", KShortcut(Qt::CTRL + Qt::Key_O));
+    KStandardAction::open(this, SLOT(slotOpen()), actions());
+    KStandardAction::save(this, SLOT(slotSave()), actions());
+    KStandardAction::saveAs(this, SLOT(slotSaveAs()), actions());
+
     createAction(i18n("Add &Folder..."),  SLOT(slotAddFolder()),    "openDirectory", "folder-new");
     createAction(i18n("&Rename..."),      SLOT(slotRename()),       "renamePlaylist", "edit-rename");
-    createAction(i18n("D&uplicate..."),   SLOT(slotDuplicate()),    "duplicatePlaylist", "edit-copy");
-    createAction(i18n("Save"),            SLOT(slotSave()),         "file_save", "document-save", KShortcut(Qt::CTRL + Qt::Key_S));
-    createAction(i18n("Save As..."),      SLOT(slotSaveAs()),       "file_save_as", "document-save-as");
+    createAction(i18nc("verb, copy the playlist", "D&uplicate..."),
+                 SLOT(slotDuplicate()),    "duplicatePlaylist", "edit-copy");
     createAction(i18n("R&emove"),         SLOT(slotRemove()),       "deleteItemPlaylist", "user-trash");
     createAction(i18n("Reload"),          SLOT(slotReload()),       "reloadPlaylist", "view-refresh");
     createAction(i18n("Edit Search..."),  SLOT(slotEditSearch()),   "editSearch");

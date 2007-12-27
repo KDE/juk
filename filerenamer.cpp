@@ -66,7 +66,7 @@ public:
     {
         setObjectName(name);
         setModal(true);
-        setCaption(i18n("Warning"));
+        setCaption(i18nc("warning about mass file rename", "Warning"));
         setButtons(Ok | Cancel);
 
         KVBox *vbox = new KVBox(this);

@@ -111,7 +111,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
 
     l->addStretch(1);
 
-    m_moreButton = new KPushButton(i18n("More"), buttons);
+    m_moreButton = new KPushButton(i18nc("additional search options", "More"), buttons);
     connect(m_moreButton, SIGNAL(clicked()), SLOT(more()));
     l->addWidget(m_moreButton);
 

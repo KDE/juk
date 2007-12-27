@@ -35,7 +35,7 @@ class AllArtistsListViewItem : public K3ListViewItem
 {
 public:
     AllArtistsListViewItem(Q3ListView *parent) :
-        K3ListViewItem(parent, i18n("<All Artists>"))
+        K3ListViewItem(parent, i18n("&lt;All Artists&gt;"))
     {
     }
 

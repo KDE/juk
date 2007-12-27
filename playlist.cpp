@@ -1517,7 +1517,7 @@ void Playlist::slotInitialize()
     addColumn(i18n("Artist"));
     addColumn(i18n("Album"));
     addColumn(i18n("Cover"));
-    addColumn(i18n("Track"));
+    addColumn(i18nc("cd track number", "Track"));
     addColumn(i18n("Genre"));
     addColumn(i18n("Year"));
     addColumn(i18n("Length"));

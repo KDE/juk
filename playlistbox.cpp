@@ -212,7 +212,7 @@ void PlaylistBox::duplicate()
     if(!item || !item->playlist())
         return;
 
-    QString name = playlistNameDialog(i18n("Duplicate"), item->text(0));
+    QString name = playlistNameDialog(i18nc("verb, copy the playlist", "Duplicate"), item->text(0));
 
     if(name.isNull())
         return;

@@ -119,7 +119,7 @@ bool ViewMode::eventFilter(QObject *watched, QEvent *e)
 
 QString ViewMode::name() const
 {
-    return i18n("Default");
+    return i18nc("the normal viewing mode", "Default");
 }
 
 void ViewMode::setShown(bool shown)
@@ -240,7 +240,7 @@ void CompactViewMode::paintCell(PlaylistBox::Item *item,
 
 QString CompactViewMode::name() const
 {
-    return i18n("Compact");
+    return i18nc("compact viewing mode", "Compact");
 }
 
 void CompactViewMode::setShown(bool shown)

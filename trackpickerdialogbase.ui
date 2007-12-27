@@ -130,7 +130,7 @@
                     </column>
                     <column>
                       <property name="text" >
-                        <string>Track</string>
+                        <string comment="cd track number" >Track</string>
                       </property>
                       <property name="clickable" >
                         <bool>true</bool>

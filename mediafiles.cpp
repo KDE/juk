@@ -57,7 +57,7 @@ QStringList MediaFiles::openDialog(QWidget *parent)
 
     dialog->setOperationMode(KFileDialog::Opening);
 
-    dialog->setCaption(i18n("Open"));
+    dialog->setCaption(i18nc("open audio file", "Open"));
     dialog->setMode(KFile::Files | KFile::LocalOnly);
     // dialog.ops->clearHistory();
     dialog->setMimeFilter(mimeTypes());
