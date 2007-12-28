@@ -25,6 +25,7 @@ class KLineEdit;
 class KPushButton;
 class QRadioButton;
 class SearchLine;
+class QBoxLayout;
 
 class AdvancedSearchDialog : public KDialog
 {
@@ -57,7 +58,7 @@ protected slots:
 private:
     void updateButtons();
 
-    QWidget *m_criteria;
+    QBoxLayout *m_criteriaLayout;
     PlaylistSearch m_search;
     QString m_playlistName;
     QList<SearchLine *> m_searchLines;

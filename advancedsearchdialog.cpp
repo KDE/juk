@@ -58,11 +58,10 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     QGroupBox *criteriaGroupBox = new QGroupBox(i18n("Search Criteria"), mw);
     mw->setStretchFactor(criteriaGroupBox, 1);
 
-    QVBoxLayout *criteriaLayout = new QVBoxLayout;
+    m_criteriaLayout = new QVBoxLayout;
 
     QGroupBox *group = new QGroupBox();
 
-    
     m_matchAnyButton = new QRadioButton(i18n("Match any of the following"));
     m_matchAllButton = new QRadioButton(i18n("Match all of the following"));
 
@@ -72,15 +71,15 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
 
     group->setLayout(hgroupbox);
 
-    criteriaLayout->addWidget(group);
+    m_criteriaLayout->addWidget(group);
 
     if(defaultSearch.isNull()) {
-        SearchLine *newSearchLine = new SearchLine(0);
+        SearchLine *newSearchLine = new SearchLine(this);
         m_searchLines.append(newSearchLine);
-        criteriaLayout->addWidget(newSearchLine);
-        newSearchLine = new SearchLine(0);
+        m_criteriaLayout->addWidget(newSearchLine);
+        newSearchLine = new SearchLine(this);
         m_searchLines.append(newSearchLine);
-        criteriaLayout->addWidget(newSearchLine);
+        m_criteriaLayout->addWidget(newSearchLine);
         m_matchAnyButton->setChecked(true);
     }
     else {
@@ -89,10 +88,10 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
             it != components.end();
             ++it)
         {
-            SearchLine *s = new SearchLine(0);
+            SearchLine *s = new SearchLine(this);
             s->setSearchComponent(*it);
             m_searchLines.append(s);
-            criteriaLayout->addWidget(s);
+            m_criteriaLayout->addWidget(s);
         }
         if(defaultSearch.searchMode() == PlaylistSearch::MatchAny)
             m_matchAnyButton->setChecked(true);
@@ -100,7 +99,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
             m_matchAllButton->setChecked(true);
     }
 
-    QWidget *buttons = new QWidget();
+    QWidget *buttons = new QWidget(mw);
     QHBoxLayout *l = new QHBoxLayout(buttons);
     l->setSpacing(5);
     l->setMargin(0);
@@ -119,11 +118,9 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     connect(m_fewerButton, SIGNAL(clicked()), SLOT(fewer()));
     l->addWidget(m_fewerButton);
 
-    criteriaLayout->addWidget(buttons);
+    m_criteriaLayout->addStretch(1);
 
-    criteriaLayout->addStretch(1);
-
-    criteriaGroupBox->setLayout(criteriaLayout);
+    criteriaGroupBox->setLayout(m_criteriaLayout);
 
     m_playlistNameLineEdit->setFocus();
 }
@@ -178,7 +175,8 @@ void AdvancedSearchDialog::clear()
 
 void AdvancedSearchDialog::more()
 {
-    SearchLine *searchLine = new SearchLine(m_criteria);
+    SearchLine *searchLine = new SearchLine(this);
+    m_criteriaLayout->addWidget(searchLine);
     m_searchLines.append(searchLine);
     searchLine->show();
     updateButtons();
