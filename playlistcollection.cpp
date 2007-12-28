@@ -869,12 +869,12 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu = new KActionMenu(i18n("&Guess Tag Information"), actions());
     actions()->addAction("guessTag", menu);
 
-    /* menu->setIconSet(SmallIconSet("wizard")); */
+    /* menu->setIcon(SmallIcon("wizard")); */
 
     menu->addAction(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
                               "guessTagFile", "document-import", KShortcut(Qt::CTRL + Qt::Key_G)));
     menu->addAction(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
-                              "guessTagInternet", "connection-established", KShortcut(Qt::CTRL + Qt::Key_I)));
+                              "guessTagInternet", "network-server", KShortcut(Qt::CTRL + Qt::Key_I)));
 #else
     createAction(i18n("Guess Tag Information From &File Name"), SLOT(slotGuessTagFromFile()),
                  "guessTag", "file-import", KShortcut(Qt::CTRL + Qt::Key_F));
@@ -882,7 +882,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
 
     createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),     "playFirst");
-    createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "edit-find-next");
+    createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "go-down-search");
 
     KStandardAction::open(this, SLOT(slotOpen()), actions());
     KStandardAction::save(this, SLOT(slotSave()), actions());
@@ -902,13 +902,13 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     menu = new KActionMenu(i18n("Cover Manager"), actions());
     actions()->addAction("coverManager", menu);
-    /* menu->setIconSet(SmallIconSet("image")); */
+    /* menu->setIcon(SmallIcon("image-x-generic")); */
     menu->addAction(createAction(i18n("&View Cover"),
-        SLOT(slotViewCovers()), "viewCover", "zoom-original"));
+        SLOT(slotViewCovers()), "viewCover", "document-preview"));
     menu->addAction(createAction(i18n("Get Cover From &File..."),
         SLOT(slotAddLocalCover()), "addCover", "document-import", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
     menu->addAction(createAction(i18n("Get Cover From &Internet..."),
-        SLOT(slotAddInternetCover()), "webImageCover", "connection-established", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
+        SLOT(slotAddInternetCover()), "webImageCover", "network-server", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
     menu->addAction(createAction(i18n("&Delete Cover"),
         SLOT(slotRemoveCovers()), "removeCover", "edit-delete"));
     menu->addAction(createAction(i18n("Show Cover &Manager"),
