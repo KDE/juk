@@ -157,7 +157,7 @@ void JuK::setupActions()
     // ### KDE4: Investigate how QActionGroups integrate into menus now.
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
-    QAction *act = new KToggleAction(KIcon("player_playlist"), i18n("&Disable Random Play"), collection);
+    QAction *act = new KToggleAction(KIcon("media-playlist"), i18n("&Disable Random Play"), collection);
     collection->addAction("disableRandomPlay", act);
 
     act->setActionGroup(randomPlayGroup);
