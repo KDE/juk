@@ -150,14 +150,14 @@ void JuK::setupActions()
 
 
     // Setup the menu which handles the random play options.
-    KActionMenu *actionMenu = new KActionMenu(KIcon("roll"), i18n("&Random Play"), collection);
+    KActionMenu *actionMenu = new KActionMenu(KIcon("media-playlist-shuffle"), i18n("&Random Play"), collection);
     collection->addAction("actionMenu",actionMenu);
     actionMenu->setDelayed(false);
 
     // ### KDE4: Investigate how QActionGroups integrate into menus now.
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
-    QAction *act = new KToggleAction(KIcon("media-playlist"), i18n("&Disable Random Play"), collection);
+    QAction *act = new KToggleAction(KIcon("go-down"), i18n("&Disable Random Play"), collection);
     collection->addAction("disableRandomPlay", act);
 
     act->setActionGroup(randomPlayGroup);
@@ -165,11 +165,11 @@ void JuK::setupActions()
 
     m_randomPlayAction = collection->add<KToggleAction>("randomPlay");
     m_randomPlayAction->setText(i18n("Use &Random Play"));
-    m_randomPlayAction->setIcon(KIcon("roll"));
+    m_randomPlayAction->setIcon(KIcon("media-playlist-shuffle"));
     m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->addAction(m_randomPlayAction);
 
-    act = new KToggleAction(KIcon("roll"), i18n("Use &Album Random Play"), collection);
+    act = new KToggleAction(KIcon("media-playlist-shuffle"), i18n("Use &Album Random Play"), collection);
     collection->addAction("albumRandomPlay", act);
     act->setActionGroup(randomPlayGroup);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotCheckAlbumNextAction(bool)));
@@ -177,7 +177,7 @@ void JuK::setupActions()
 
     act = collection->addAction("removeFromPlaylist");
     act->setText(i18n("Remove From Playlist"));
-    act->setIcon(KIcon("edit_remove"));
+    act->setIcon(KIcon("list-remove"));
 
     connect(act, SIGNAL(triggered(bool)), clear, SLOT(clear()));
 
@@ -213,27 +213,27 @@ void JuK::setupActions()
 
     // the following are not visible by default
 
-    act = new KAction(KIcon("mute"), i18nc("silence playback", "Mute"), collection);
+    act = new KAction(KIcon("audio-volume-mute"), i18nc("silence playback", "Mute"), collection);
     collection->addAction("mute", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(mute()));
 
-    act = new KAction(KIcon("volumeUp"),    i18n("Volume Up"),    collection);
+    act = new KAction(KIcon("audio-volume-high"),    i18n("Volume Up"),    collection);
     collection->addAction("volumeUp", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(volumeUp()));
 
-    act = new KAction(KIcon("volumeDown"),  i18n("Volume Down"),  collection);
+    act = new KAction(KIcon("audio-volume-low"),  i18n("Volume Down"),  collection);
     collection->addAction("volumeDown", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(volumeDown()));
 
-    act = new KAction(KIcon("playPause"),   i18n("Play / Pause"), collection);
+    act = new KAction(KIcon("media-playback-play"),   i18n("Play / Pause"), collection);
     collection->addAction("playPause", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(playPause()));
 
-    act = new KAction(KIcon("seekForward"), i18n("Seek Forward"), collection);
+    act = new KAction(KIcon("media-seek-forward"), i18n("Seek Forward"), collection);
     collection->addAction("seekForward", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(seekForward()));
 
-    act = new KAction(KIcon("seekBack"),    i18n("Seek Back"),    collection);
+    act = new KAction(KIcon("media-seek-backward"),    i18n("Seek Back"),    collection);
     collection->addAction("seekBack", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(seekBack()));
 
