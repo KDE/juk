@@ -125,9 +125,9 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
 #endif
 #if 0
     QMenu *p = viewModeAction->menu();
-    p->changeItem(0, SmallIconSet("fileview-detailed"), modeNames[0]);
-    p->changeItem(1, SmallIconSet("fileview-text"), modeNames[1]);
-    p->changeItem(2, SmallIconSet("view_tree"), modeNames[2]);
+    p->changeItem(0, SmallIconSet("view-list-details"), modeNames[0]);
+    p->changeItem(1, SmallIconSet("view-list-text"), modeNames[1]);
+    p->changeItem(2, SmallIconSet("view-list-tree"), modeNames[2]);
 #endif
 
     CollectionList::initialize(this);
