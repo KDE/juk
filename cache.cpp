@@ -2,6 +2,9 @@
     begin                : Sat Sep 7 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2008 by Michael Pyne
+    email                : michael.pyne@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -35,7 +38,7 @@
 
 using namespace ActionCollection;
 
-static const int playlistCacheVersion = 2;
+static const int playlistCacheVersion = 3;
 
 enum PlaylistType
 {
@@ -72,11 +75,14 @@ void Cache::save()
 
     QFile f(cacheFileName);
 
+    // TODO: Investigate KSaveFile
+
     if(!f.open(QIODevice::WriteOnly))
         return;
 
     QByteArray data;
     QDataStream s(&data, QIODevice::WriteOnly);
+    s.setVersion(QDataStream::Qt_4_3);
 
     for(Iterator it = begin(); it != end(); ++it) {
         s << (*it).absFilePath();
@@ -108,11 +114,16 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
         return;
 
     QDataStream fs(&f);
+    int dataStreamVersion = QDataStream::Qt_3_3;
 
     qint32 version;
     fs >> version;
 
     switch(version) {
+    case 3:
+        dataStreamVersion = QDataStream::Qt_4_3;
+        // Fall-through
+
     case 1:
     case 2:
     {
@@ -129,6 +140,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
         // Create a new stream just based on the data.
 
         QDataStream s(&data, QIODevice::ReadOnly);
+        s.setVersion(dataStreamVersion);
 
         while(!s.atEnd()) {
 
@@ -177,7 +189,8 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                 playlist = p;
                 break;
             }
-            if(version == 2) {
+
+            if(version >= 2) {
                 qint32 sortColumn;
                 s >> sortColumn;
                 if(playlist)
@@ -211,11 +224,14 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     QString playlistsFile = dirName + "playlists.new";
     QFile f(playlistsFile);
 
+    // TODO: Investigate KSaveFile
+
     if(!f.open(QIODevice::WriteOnly))
         return;
 
     QByteArray data;
     QDataStream s(&data, QIODevice::WriteOnly);
+    s.setVersion(QDataStream::Qt_4_3);
 
     for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it) {
         if(*it) {
@@ -279,6 +295,7 @@ void Cache::load()
         return;
 
     CacheDataStream s(&f);
+    int dataStreamVersion = CacheDataStream::Qt_3_3;
 
     qint32 version;
     s >> version;
@@ -289,8 +306,15 @@ void Cache::load()
     // Do the version specific stuff.
 
     switch(version) {
+    case 2:
+        dataStreamVersion = CacheDataStream::Qt_4_3;
+
+        // Other than that we're compatible with cache v1, so fallthrough
+        // to setCacheVersion
+
     case 1: {
         s.setCacheVersion(1);
+        s.setVersion(dataStreamVersion);
 
         qint32 checksum;
         s >> checksum
@@ -300,16 +324,23 @@ void Cache::load()
         buffer.open(QIODevice::ReadOnly);
         s.setDevice(&buffer);
 
-        if(checksum != qChecksum(data.data(), data.size())) {
+        if(s.status() != CacheDataStream::Ok ||
+            checksum != qChecksum(data.data(), data.size()))
+        {
             KMessageBox::sorry(0, i18n("The music data cache has been corrupted. JuK "
                                        "needs to rescan it now. This may take some time."));
             return;
         }
+
         break;
     }
     default: {
         s.device()->reset();
         s.setCacheVersion(0);
+
+        // This cache is so old that this is just a wild guess here that 3.3
+        // is compatible.
+        s.setVersion(CacheDataStream::Qt_3_3);
         break;
     }
     }
