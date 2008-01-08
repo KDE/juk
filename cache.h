@@ -44,7 +44,9 @@ protected:
     void load();
 
 private:
-    static const int m_currentVersion = 1;
+    // 1: Original cache version
+    // 2: KDE 4.0.1+, explicitly sets QDataStream encoding.
+    static const int m_currentVersion = 2;
 };
 
 /**
