@@ -34,7 +34,7 @@ public:
     DynamicPlaylist(const PlaylistList &lists,
                     PlaylistCollection *collection,
                     const QString &name = QString(),
-                    const QString &iconName = "midi",
+                    const QString &iconName = "audio-midi",
                     bool setupPlaylist = true,
                     bool synchronizePlaying = false);
 

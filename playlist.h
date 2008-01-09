@@ -54,11 +54,11 @@ class Playlist : public K3ListView, public PlaylistInterface
 public:
 
     explicit Playlist(PlaylistCollection *collection, const QString &name = QString(),
-             const QString &iconName = "midi");
+             const QString &iconName = "audio-midi");
     Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
-             const QString &name = QString(), const QString &iconName = "midi");
+             const QString &name = QString(), const QString &iconName = "audio-midi");
     Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
-             const QString &iconName = "midi");
+             const QString &iconName = "audio-midi");
 
     /**
      * This constructor should generally only be used either by the cache
