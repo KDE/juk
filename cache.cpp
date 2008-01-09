@@ -17,6 +17,7 @@
  ***************************************************************************/
 
 #include "cache.h"
+#include "juk-exception.h"
 
 #include <kstandarddirs.h>
 #include <kmessagebox.h>
@@ -118,6 +119,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
     qint32 version;
     fs >> version;
+    kDebug(65432) << "Playlists file is version" << version;
 
     switch(version) {
     case 3:
@@ -137,66 +139,112 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
         if(checksum != qChecksum(data.data(), data.size()))
             return;
 
-        // Create a new stream just based on the data.
+        // If we chose the wrong QDataStream version we may have to back out
+        // and try again, so get ready by noting the playlists we have made.
 
-        QDataStream s(&data, QIODevice::ReadOnly);
-        s.setVersion(dataStreamVersion);
+        QList<Playlist *> createdPlaylists;
+        bool errorOccurred = true;
 
-        while(!s.atEnd()) {
+        while(errorOccurred) {
+            // Create a new stream just based on the data.
 
-            qint32 playlistType;
-            s >> playlistType;
+            QDataStream s(&data, QIODevice::ReadOnly);
+            s.setVersion(dataStreamVersion);
 
-            Playlist *playlist = 0;
+            try { // Failure due to wrong version can be indicated by an exception
 
-            switch(playlistType) {
-            case Search:
-            {
-                SearchPlaylist *p = new SearchPlaylist(collection);
-                s >> *p;
-                playlist = p;
-                break;
-            }
-            case History:
-            {
-                action<KToggleAction>("showHistory")->setChecked(true);
-                collection->setHistoryPlaylistEnabled(true);
-                s >> *collection->historyPlaylist();
-                playlist = collection->historyPlaylist();
-                break;
-            }
-            case Upcoming:
-            {
-                /*
-                collection->setUpcomingPlaylistEnabled(true);
-                Playlist *p = collection->upcomingPlaylist();
-                action<KToggleAction>("saveUpcomingTracks")->setChecked(true);
-                s >> *p;
-                playlist = p;
-                */
-                break;
-            }
-            case Folder:
-            {
-                FolderPlaylist *p = new FolderPlaylist(collection);
-                s >> *p;
-                playlist = p;
-                break;
-            }
-            default:
-                Playlist *p = new Playlist(collection, true);
-                s >> *p;
-                playlist = p;
-                break;
-            }
+            while(!s.atEnd()) {
 
-            if(version >= 2) {
-                qint32 sortColumn;
-                s >> sortColumn;
-                if(playlist)
-                    playlist->setSorting(sortColumn);
-            }
-        }
+                qint32 playlistType;
+                s >> playlistType;
+
+                Playlist *playlist = 0;
+
+                switch(playlistType) {
+                case Search:
+                {
+                    SearchPlaylist *p = new SearchPlaylist(collection);
+                    createdPlaylists.append(p);
+                    s >> *p;
+                    playlist = p;
+                    break;
+                }
+                case History:
+                {
+                    action<KToggleAction>("showHistory")->setChecked(true);
+                    collection->setHistoryPlaylistEnabled(true);
+                    s >> *collection->historyPlaylist();
+                    playlist = collection->historyPlaylist();
+                    break;
+                }
+                case Upcoming:
+                {
+                    /*
+                    collection->setUpcomingPlaylistEnabled(true);
+                    Playlist *p = collection->upcomingPlaylist();
+                    action<KToggleAction>("saveUpcomingTracks")->setChecked(true);
+                    s >> *p;
+                    playlist = p;
+                    */
+                    break;
+                }
+                case Folder:
+                {
+                    FolderPlaylist *p = new FolderPlaylist(collection);
+                    createdPlaylists.append(p);
+                    s >> *p;
+                    playlist = p;
+                    break;
+                }
+                default:
+                    Playlist *p = new Playlist(collection, true);
+                    createdPlaylists.append(p);
+                    s >> *p;
+                    playlist = p;
+                    break;
+                } // switch
+
+                if(version >= 2) {
+                    qint32 sortColumn;
+                    s >> sortColumn;
+                    if(playlist)
+                        playlist->setSorting(sortColumn);
+                }
+
+            } // while !s.atEnd()
+
+            // Must be ok if we got this far, break out of loop.
+            errorOccurred = false;
+
+            } // try
+            catch(BICStreamException &) {
+                kError(65432) << "Exception loading playlists - binary incompatible stream.";
+
+                // Delete created playlists which probably have junk now.
+                foreach(Playlist *p, createdPlaylists)
+                    delete p;
+                createdPlaylists.clear();
+
+                if(dataStreamVersion == QDataStream::Qt_3_3) {
+                    kError(65432) << "Attempting other binary protocol - Qt 4.3";
+                    dataStreamVersion = QDataStream::Qt_4_3;
+
+                    break; // escape from while(!s.atEnd()) to try again
+                }
+#if QT_VERSION >= 0x040400
+                // Unlikely, but maybe user had Qt 4.4 with KDE 4.0.0?
+                else if(dataStreamVersion == QDataStream::Qt_4_3) {
+                    kError(65432) << "Attempting other binary protocol - Qt 4.4";
+                    dataStreamVersion = QDataStream::Qt_4_4;
+
+                    break;
+                }
+#endif
+                // We tried 3.3 first, if 4.3/4.4 doesn't work who knows...
+                kError(65432) << "Unable to recover, no playlists will be loaded.";
+                return;
+            } // catch
+        } // while dataStreamVersion != -1
         break;
     }
     default:

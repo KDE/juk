@@ -14,6 +14,7 @@
 
 #include "folderplaylist.h"
 #include "playlistcollection.h"
+#include "juk-exception.h"
 
 #include <QTimer>
 
@@ -72,6 +73,9 @@ QDataStream &operator>>(QDataStream &s, FolderPlaylist &p)
     QString folder;
     s >> name
       >> folder;
+
+    if(folder.isEmpty() || name.isEmpty())
+        throw BICStreamException();
 
     p.setFolder(folder);
     p.setName(name);

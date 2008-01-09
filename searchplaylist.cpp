@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 #include "searchplaylist.h"
+#include "juk-exception.h"
 
 #include <kdebug.h>
 
@@ -107,6 +108,9 @@ QDataStream &operator>>(QDataStream &s, SearchPlaylist &p)
 
     s >> name
       >> search;
+
+    if(name.isEmpty())
+        throw BICStreamException();
 
     p.setName(name);
     p.setPlaylistSearch(search, false);

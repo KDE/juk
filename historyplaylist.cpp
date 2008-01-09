@@ -16,6 +16,7 @@
 #include "historyplaylist.h"
 #include "collectionlist.h"
 #include "playermanager.h"
+#include "juk-exception.h"
 
 #include <QTimer>
 
@@ -150,6 +151,9 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
     for(int i = 0; i < count; i++) {
         s >> fileName;
         s >> dateTime;
+
+        if(fileName.isEmpty() || !dateTime.isValid())
+            throw BICStreamException();
 
         after = p.createItem(FileHandle(fileName), after, false);
         after->setDateTime(dateTime);

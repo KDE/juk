@@ -17,6 +17,7 @@
 #include "playlist.h"
 #include "playlistitem.h"
 #include "collectionlist.h"
+#include "juk-exception.h"
 
 #include <kdebug.h>
 
@@ -316,6 +317,9 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch::Component &c)
       >> caseSensitive
       >> columns
       >> mode;
+
+    if(pattern.isEmpty())
+        throw BICStreamException();
 
     if(patternSearch)
         c = PlaylistSearch::Component(QRegExp(pattern), columns);
