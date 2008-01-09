@@ -20,6 +20,7 @@
 #include "juk-exception.h"
 
 #include <kstandarddirs.h>
+#include <ksavefile.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
@@ -72,14 +73,14 @@ Cache *Cache::instance()
 void Cache::save()
 {
     QString dirName = KGlobal::dirs()->saveLocation("appdata");
-    QString cacheFileName =  dirName + "cache.new";
+    QString cacheFileName =  dirName + "cache";
 
-    QFile f(cacheFileName);
+    KSaveFile f(cacheFileName);
 
-    // TODO: Investigate KSaveFile
-
-    if(!f.open(QIODevice::WriteOnly))
+    if(!f.open(QIODevice::WriteOnly)) {
+        kError(65432) << "Error saving cache:" << f.errorString();
         return;
+    }
 
     QByteArray data;
     QDataStream s(&data, QIODevice::WriteOnly);
@@ -100,9 +101,8 @@ void Cache::save()
 
     f.close();
 
-    QDir dir(dirName);
-    dir.remove("cache");
-    dir.rename("cache.new", "cache");
+    if(!f.finalize())
+        kError(65432) << "Error saving cache:" << f.errorString();
 }
 
 void Cache::loadPlaylists(PlaylistCollection *collection) // static
@@ -269,13 +269,13 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 void Cache::savePlaylists(const PlaylistList &playlists)
 {
     QString dirName = KGlobal::dirs()->saveLocation("appdata");
-    QString playlistsFile = dirName + "playlists.new";
-    QFile f(playlistsFile);
+    QString playlistsFile = dirName + "playlists";
+    KSaveFile f(playlistsFile);
 
-    // TODO: Investigate KSaveFile
-
-    if(!f.open(QIODevice::WriteOnly))
+    if(!f.open(QIODevice::WriteOnly)) {
+        kError(65432) << "Error saving collection:" << f.errorString();
         return;
+    }
 
     QByteArray data;
     QDataStream s(&data, QIODevice::WriteOnly);
@@ -316,7 +316,8 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     fs << data;
     f.close();
 
-    QDir(dirName).rename("playlists.new", "playlists");
+    if(!f.finalize())
+        kError(65432) << "Error saving collection:" << f.errorString();
 }
 
 bool Cache::cacheFileExists() // static
