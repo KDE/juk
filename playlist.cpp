@@ -410,7 +410,7 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     setup();
 
     if(!delaySetup)
-        collection->setupPlaylist(this, "midi");
+        collection->setupPlaylist(this, "audio-midi");
 }
 
 Playlist::~Playlist()
@@ -1287,7 +1287,7 @@ void Playlist::read(QDataStream &s)
     m_blockDataChanged = false;
 
     dataChanged();
-    m_collection->setupPlaylist(this, "midi");
+    m_collection->setupPlaylist(this, "audio-midi");
 }
 
 void Playlist::viewportPaintEvent(QPaintEvent *pe)
