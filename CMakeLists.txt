@@ -24,8 +24,8 @@ configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 
 # hack, should taglib maybe give the .. directory as well in it's config file?
 add_definitions(${TAGLIB_CFLAGS} "${TAGLIB_CFLAGS}/..")
-
-add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
+add_definitions(-DKDE_DEFAULT_DEBUG_AREA=65432)
+add_definitions(-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
 set(tunepimp_SRCS)
 if(TUNEPIMP_FOUND)
@@ -111,8 +111,6 @@ kde4_add_ui_files(juk_SRCS
 
 
 kde4_add_executable(juk ${juk_SRCS})
-
-# Add gstreamer here too...
 
 target_link_libraries(juk  m ${KDE4_KHTML_LIBS} ${TAGLIB_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_PHONON_LIBS})
 if(TUNEPIMP_FOUND)
