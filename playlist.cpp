@@ -2,6 +2,9 @@
     begin                : Sat Feb 16 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2008 by Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -14,6 +17,7 @@
  ***************************************************************************/
 
 #include "playlist.h"
+#include "juk-exception.h"
 
 #include <kconfig.h>
 #include <kapplication.h>
@@ -1262,6 +1266,10 @@ void Playlist::read(QDataStream &s)
     s >> m_playlistName
       >> m_fileName;
 
+    // m_fileName is probably empty.
+    if(m_playlistName.isEmpty())
+        throw BICStreamException();
+
     QStringList files;
     s >> files;
 
@@ -1269,8 +1277,12 @@ void Playlist::read(QDataStream &s)
 
     m_blockDataChanged = true;
 
-    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it)
-        after = createItem(FileHandle(*it), after, false);
+    foreach(QString file, files) {
+        if(file.isEmpty())
+            throw BICStreamException();
+
+        after = createItem(FileHandle(file), after, false);
+    }
 
     m_blockDataChanged = false;
 

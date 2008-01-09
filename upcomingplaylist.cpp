@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Thu Aug 19 2004
-    copyright            : (C) 2002 - 2004 by Michael Pyne
+    copyright            : (C) 2002 - 2004, 2008 by Michael Pyne
     email                : michael.pyne@kde.org
 ***************************************************************************/
 
@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 #include "upcomingplaylist.h"
+#include "juk-exception.h"
 
 #include <kdebug.h>
 #include <kapplication.h>
@@ -269,6 +270,9 @@ QDataStream &operator>>(QDataStream &s, UpcomingPlaylist &p)
 
     for(qint32 i = 0; i < count; ++i) {
         s >> fileName;
+        if(fileName.isEmpty())
+            throw BICStreamException();
+
         newItem = p.createItem(FileHandle(fileName), newItem, false);
     }
 

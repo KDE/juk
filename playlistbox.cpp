@@ -265,7 +265,10 @@ void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName, Ite
 
 void PlaylistBox::removePlaylist(Playlist *playlist)
 {
-    removeNameFromDict(m_playlistDict[playlist]->text(0));
+    // Could be false if setup() wasn't run yet.
+    if(m_playlistDict.contains(playlist))
+        removeNameFromDict(m_playlistDict[playlist]->text(0));
+
     removeFileFromDict(playlist->fileName());
     m_playlistDict.remove(playlist);
 }
