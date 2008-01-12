@@ -282,8 +282,8 @@ Playlist::SharedSettings::SharedSettings()
         // Convert the int list into a bool list.
 
         m_columnsVisible.fill(false);
-        foreach(int column, l)
-            m_columnsVisible[column] = true;
+        for(int i = 0; i < l.size() && i < m_columnsVisible.size(); ++i)
+            m_columnsVisible[i] = bool(l[i]);
     }
 
     m_inlineCompletion = KGlobalSettings::Completion(
@@ -301,8 +301,7 @@ void Playlist::SharedSettings::writeConfig()
 
     QList<int> l;
     for(int i = 0; i < m_columnsVisible.size(); i++)
-        if(m_columnsVisible[i])
-            l.append(i);
+        l.append(int(m_columnsVisible[i]));
 
     config.writeEntry("VisibleColumns", l);
     config.writeEntry("InlineCompletionMode", int(m_inlineCompletion));
