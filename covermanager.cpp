@@ -371,7 +371,7 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
         return QPixmap();
 
     if(size == Thumbnail)
-        pix->scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        *pix = pix->scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
     QPixmap returnValue = *pix; // Save it early.
 

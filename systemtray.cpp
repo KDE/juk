@@ -471,6 +471,7 @@ void SystemTray::addCoverButton(QWidget *parent, const QPixmap &cover)
 {
     QPushButton *coverButton = new QPushButton(parent);
 
+    coverButton->setIconSize(cover.size());
     coverButton->setIcon(cover);
     coverButton->setFixedSize(cover.size());
     coverButton->setFlat(true);
