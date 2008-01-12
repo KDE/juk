@@ -258,7 +258,7 @@ Playlist::SharedSettings::SharedSettings()
     KConfigGroup config(KGlobal::config(), "PlaylistShared");
 
     bool resizeColumnsManually = config.readEntry("ResizeColumnsManually", false);
-    action<KToggleAction>("resizeColumnsManually")->setChecked(resizeColumnsManually);
+    action("resizeColumnsManually")->setChecked(resizeColumnsManually);
 
     // Preallocate spaces so we don't need to check later.
     m_columnsVisible.fill(true, PlaylistItem::lastColumn() + 1);
@@ -282,8 +282,8 @@ Playlist::SharedSettings::SharedSettings()
         // Convert the int list into a bool list.
 
         m_columnsVisible.fill(false);
-        foreach(int column, l)
-            m_columnsVisible[column] = true;
+        for(int i = 0; i < l.size() && i < m_columnsVisible.size(); ++i)
+            m_columnsVisible[i] = bool(l[i]);
     }
 
     m_inlineCompletion = KGlobalSettings::Completion(
