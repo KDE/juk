@@ -258,7 +258,7 @@ Playlist::SharedSettings::SharedSettings()
     KConfigGroup config(KGlobal::config(), "PlaylistShared");
 
     bool resizeColumnsManually = config.readEntry("ResizeColumnsManually", false);
-    action<KToggleAction>("resizeColumnsManually")->setChecked(resizeColumnsManually);
+    action("resizeColumnsManually")->setChecked(resizeColumnsManually);
 
     // Preallocate spaces so we don't need to check later.
     m_columnsVisible.fill(true, PlaylistItem::lastColumn() + 1);
@@ -301,7 +301,8 @@ void Playlist::SharedSettings::writeConfig()
 
     QList<int> l;
     for(int i = 0; i < m_columnsVisible.size(); i++)
-        l.append(int(m_columnsVisible[i]));
+        if(m_columnsVisible[i])
+            l.append(i);
 
     config.writeEntry("VisibleColumns", l);
     config.writeEntry("InlineCompletionMode", int(m_inlineCompletion));
