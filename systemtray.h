@@ -47,6 +47,7 @@ class PassiveInfo : public KPassivePopup
     Q_OBJECT
 public:
     PassiveInfo(QWidget *parent = 0);
+    using KPassivePopup::moveNear;
 
 public slots:
     void setTimeout(int delay);
