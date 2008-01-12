@@ -835,8 +835,10 @@ void PlaylistCollection::saveConfig()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
     config.writeEntry("ImportPlaylists", m_importPlaylists);
-    config.writeEntry("showUpcoming", action<KToggleAction>("showUpcoming")->isChecked());
+    config.writeEntry("showUpcoming", action("showUpcoming")->isChecked());
     config.writePathEntry("DirectoryList", m_folderList);
+
+    config.sync();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -924,9 +926,9 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     actions()->addAction("showUpcoming", upcomingAction);
     upcomingAction->setCheckedState(KGuiItem(i18n("Hide &Play Queue")));
 
-    connect(historyAction, SIGNAL(toggled(bool)),
+    connect(historyAction, SIGNAL(triggered(bool)),
             this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
-    connect(upcomingAction, SIGNAL(toggled(bool)),
+    connect(upcomingAction, SIGNAL(triggered(bool)),
             this, SLOT(slotSetUpcomingPlaylistEnabled(bool)));
 }
 
