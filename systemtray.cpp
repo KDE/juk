@@ -5,7 +5,7 @@
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
 
-    copyright            : (C) 2004 - 2007 by Michael Pyne
+    copyright            : (C) 2004 - 2008 by Michael Pyne
     email                : michael.pyne@kdemail.net
  ***************************************************************************/
 
@@ -337,10 +337,7 @@ void SystemTray::createPopup()
     m_fade = true;
     m_step = 0;
 
-#ifdef __GNUC__
-#warning FIXME: this will not be associated with the systray any longer
-#endif
-    m_popup = new PassiveInfo(0);
+    m_popup = new PassiveInfo(parentWidget());
     connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
     connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
 
@@ -389,6 +386,7 @@ void SystemTray::createPopup()
     m_fadeTimer->start(1500 / STEPS);
 
     m_popup->setView(box);
+    m_popup->moveNear(geometry());
     m_popup->show();
 }
 
@@ -397,9 +395,6 @@ bool SystemTray::buttonsToLeft() const
     // The following code was nicked from kpassivepopup.cpp
 #ifdef Q_WS_X11
 
-#ifdef __GNUC__
-#warning the systray is no longer a widget
-#endif
     NETWinInfo ni(QX11Info::display(), /* winId() */ 0, QX11Info::appRootWindow(),
                   NET::WMIconGeometry );
     NETRect frame, win;
@@ -557,13 +552,13 @@ void SystemTray::wheelEvent(QWheelEvent *e)
  */
 void SystemTray::slotActivated(QSystemTrayIcon::ActivationReason reason)
 {
-     if (reason != MiddleClick)
+    if (reason != MiddleClick)
         return;
 
-        if(action("pause")->isEnabled())
-            action("pause")->trigger();
-        else
-            action("play")->trigger();
+    if(action("pause")->isEnabled())
+        action("pause")->trigger();
+    else
+        action("play")->trigger();
 }
 
 /*
