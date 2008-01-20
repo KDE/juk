@@ -301,14 +301,16 @@ void PlaylistBox::remove()
     QStringList names;
 
     foreach(Item *item, items) {
-        if(item && item->playlist() &&
-           !item->playlist()->fileName().isEmpty() &&
-           QFileInfo(item->playlist()->fileName()).exists())
+        if(item && item->playlist()) 
         {
+           if (!item->playlist()->fileName().isEmpty() &&
+               QFileInfo(item->playlist()->fileName()).exists())
+           {
             files.append(item->playlist()->fileName());
-        }
+           }
 
-        names.append(item->playlist()->name());
+           names.append(item->playlist()->name());
+        }
     }
 
     if(!files.isEmpty()) {
