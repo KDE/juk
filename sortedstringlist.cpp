@@ -150,9 +150,6 @@ bool SortedStringList::BSTInsert(const QString &value)
             node = node->right;
     }
 
-    if(previousNode && value == previousNode->key)
-        return true;
-
     Node *n = new Node(value);
 
     n->parent = previousNode;
