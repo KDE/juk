@@ -27,6 +27,8 @@ add_definitions(${TAGLIB_CFLAGS} "${TAGLIB_CFLAGS}/..")
 
 add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 
+remove_definitions(-DQT_NO_STL)
+
 set(tunepimp_SRCS)
 if(TUNEPIMP_FOUND)
 	set(tunepimp_SRCS trackpickerdialog.cpp)
