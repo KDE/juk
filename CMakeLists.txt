@@ -25,9 +25,7 @@ configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 # hack, should taglib maybe give the .. directory as well in it's config file?
 add_definitions(${TAGLIB_CFLAGS} "${TAGLIB_CFLAGS}/..")
 
-add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
-
-remove_definitions(-DQT_NO_STL)
+add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS -DQT_STL)
 
 set(tunepimp_SRCS)
 if(TUNEPIMP_FOUND)
