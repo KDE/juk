@@ -46,7 +46,9 @@
 #else
 #include <tunepimp/tp_c.h>
 #endif
+#ifdef Q_WS_X11
 #include <fixx11h.h>
+#endif
 
 #include "ktrm.moc"
 
