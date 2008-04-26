@@ -116,7 +116,7 @@ void WebImageFetcherDialog::setLayout()
     QStandardItemModel *model = new QStandardItemModel(m_iconWidget);
     QAbstractItemModel *oldModel = m_iconWidget->model();
 
-    foreach(WebImage image, m_imageList) {
+    foreach(const WebImage &image, m_imageList) {
         CoverIconViewItem *item = new CoverIconViewItem(m_iconWidget, image);
         model->appendRow(item);
     }

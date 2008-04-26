@@ -168,7 +168,7 @@ protected:
 
             // Check what hosts are allowed to proceed without being proxied,
             // or if using reversed proxy, what hosts must be proxied.
-            foreach(QString host, noProxies) {
+            foreach(const QString &host, noProxies) {
                 QString normalizedHost = KNetwork::KResolver::normalizeDomain(host);
 
                 if(normalizedHost == tunepimpHost ||
@@ -729,7 +729,7 @@ double stringSimilarity(const QStringList &l, const QString &s)
 {
     double max = 0, current = 0;
 
-    foreach(QString string, l) {
+    foreach(const QString &string, l) {
         if(max < (current = stringSimilarity(string, s)))
             max = current;
     }

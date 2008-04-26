@@ -102,7 +102,7 @@ void CoverDialog::loadCovers()
 {
     int i = 0;
 
-    foreach(coverKey cover, CoverManager::keys()) {
+    foreach(const coverKey &cover, CoverManager::keys()) {
         (void) new CoverIconViewItem(cover, m_covers);
 
         // TODO: Threading!
@@ -125,7 +125,7 @@ void CoverDialog::slotArtistClicked(Q3ListViewItem *item)
     else {
         QString artist = item->text(0).toLower();
 
-        foreach(coverKey cover, CoverManager::keys()) {
+        foreach(const coverKey &cover, CoverManager::keys()) {
             CoverDataPtr data = CoverManager::coverInfo(cover);
             if(data->artist == artist)
                 (void) new CoverIconViewItem(cover, m_covers);

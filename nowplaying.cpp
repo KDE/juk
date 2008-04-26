@@ -327,7 +327,7 @@ void HistoryItem::update(const FileHandle &file)
     QString current = QString("<b>%1</b>").arg(i18n("History"));
     QString previous;
 
-    foreach(Item historyItem, m_history) {
+    foreach(const Item &historyItem, m_history) {
         previous = current;
         current.append(format.arg(historyItem.anchor).arg(Qt::escape(historyItem.file.tag()->title())));
         setText(current);
@@ -345,7 +345,7 @@ void HistoryItem::update(const FileHandle &file)
 
 void HistoryItem::openLink(const QString &link)
 {
-    foreach(Item historyItem, m_history) {
+    foreach(const Item &historyItem, m_history) {
         if(historyItem.anchor == link) {
             if(historyItem.playlist) {
                 CollectionListItem *collectionItem =

@@ -1277,7 +1277,7 @@ void Playlist::read(QDataStream &s)
 
     m_blockDataChanged = true;
 
-    foreach(QString file, files) {
+    foreach(const QString &file, files) {
         if(file.isEmpty())
             throw BICStreamException();
 

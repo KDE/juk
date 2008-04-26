@@ -92,7 +92,7 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
 
     y += pm->height() + fm.height() - fm.descent();
 
-    foreach(QString line, m_lines[item]) {
+    foreach(const QString &line, m_lines[item]) {
         int x = (width - fm.width(line)) / 2;
         x = qMax(x, item->listView()->itemMargin());
         painter->drawText(x, y, line);
@@ -372,10 +372,10 @@ void TreeViewMode::addItems(const QStringList &items, unsigned column)
     PlaylistList playlists;
     playlists.append(CollectionList::instance());
 
-    QString itemKey, item;
+    QString itemKey;
     PlaylistBox::Item *itemParent = m_searchCategories.value(searchCategory, 0);
 
-    foreach(item, items) {
+    foreach(const QString &item, items) {
         itemKey = searchCategory + item;
 
         if(m_treeViewItems.contains(itemKey))
@@ -399,7 +399,7 @@ void TreeViewMode::setDynamicListsFrozen(bool frozen)
     if(frozen)
         return;
 
-    foreach(QString pendingItem, m_pendingItemsToRemove) {
+    foreach(const QString &pendingItem, m_pendingItemsToRemove) {
         m_treeViewItems[pendingItem]->deleteLater();
         m_treeViewItems.remove(pendingItem);
     }
