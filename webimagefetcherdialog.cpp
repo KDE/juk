@@ -225,7 +225,7 @@ CoverIconViewItem::CoverIconViewItem(QWidget *parent, const WebImage &image) :
 
     // Start downloading the image.
 
-    m_job = KIO::storedGet(image.thumbURL());
+    m_job = KIO::storedGet(image.thumbURL(), KIO::NoReload, KIO::HideProgressInfo);
     connect(m_job, SIGNAL(result(KJob *)), this, SLOT(imageResult(KJob *)));
 }
 
