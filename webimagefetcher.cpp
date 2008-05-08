@@ -70,7 +70,7 @@ WebImageFetcher::WebImageFetcher(QObject *parent)
 
 WebImageFetcher::~WebImageFetcher()
 {
-    delete d->connection;
+    delete d->dialog;
     delete d;
 }
 
@@ -113,7 +113,7 @@ void WebImageFetcher::slotLoadImageURLs()
 
 void WebImageFetcher::slotWebRequestFinished(KJob *job)
 {
-    kDebug(65432) ;
+    kDebug(65432) << "Results received.\n";
 
     if(job != d->connection)
         return;
@@ -138,11 +138,9 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
 	kError(65432) << "Unable to create XML document from Yahoo results.\n";
 	kError(65432) << "Line " << errorLine << ", " << errorStr << endl;
 
-        delete d->connection;
 	return;
     }
 
-    delete d->connection;
     QDomNode n = results.documentElement();
 
     bool hasNoResults = false;
