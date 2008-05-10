@@ -28,8 +28,11 @@
 
 #include <kdebug.h>
 #include <k3staticdeleter.h>
+#include <ktemporaryfile.h>
+#include <kurl.h>
 #include <kstandarddirs.h>
 #include <kglobal.h>
+#include <kio/netaccess.h>
 
 // This is a dictionary to map the track path to their ID.  Otherwise we'd have
 // to store this info with each CollectionListItem, which would break the cache
@@ -383,26 +386,56 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
 
 coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, const QString &album)
 {
-    kDebug() ;
-
-    coverKey id = data()->nextId();
-    CoverDataPtr coverData(new CoverData);
+    kDebug() << "Adding new pixmap to cover database.\n";
 
     if(large.isNull()) {
         kDebug() << "The pixmap you're trying to add is NULL!\n";
         return NoMatch;
     }
 
-    // Save it to file first!
+    KTemporaryFile tempFile;
+    if(!tempFile.open()) {
+        kError() << "Unable to open file for pixmap cover, unable to add cover to DB\n";
+        return NoMatch;
+    }
 
-    QString ext = QString("/coverdb/coverID-%1.png").arg(id);
+    // Now that file is open, file name will be available, which is where we want
+    // to save the pixmap as a .png.
+
+    if(!large.save(tempFile.fileName(), "PNG")) {
+        kError() << "Unable to save pixmap to " << tempFile.fileName() << endl;
+        return NoMatch;
+    }
+
+    return addCover(KUrl::fromPath(tempFile.fileName()), artist, album);
+}
+
+coverKey CoverManager::addCover(const KUrl &path, const QString &artist, const QString &album)
+{
+    coverKey id = data()->nextId();
+    CoverDataPtr coverData(new CoverData);
+
+    QString fileNameExt = path.fileName();
+    int extPos = fileNameExt.lastIndexOf('.');
+
+    fileNameExt = fileNameExt.mid(extPos);
+    if(extPos == -1)
+        fileNameExt = "";
+
+    // Copy it to a local file first.
+
+    QString ext = QString("/coverdb/coverID-%1%2").arg(id).arg(fileNameExt);
     coverData->path = KGlobal::dirs()->saveLocation("appdata") + ext;
 
     kDebug() << "Saving pixmap to " << coverData->path;
     data()->createDataDir();
 
-    if(!large.save(coverData->path, "PNG")) {
-        kError() << "Unable to save pixmap to " << coverData->path << endl;
+    // Can't use NetAccess::download() since if path is already a local file
+    // (which is possible) then that function will return without copying, since
+    // it assumes we merely want the file on the hard disk somewhere.
+
+    if(!KIO::NetAccess::file_copy(path, KUrl::fromPath(coverData->path))) {
+        kError() << "Failed to download cover from " << path << endl;
         return NoMatch;
     }
 
@@ -417,11 +450,6 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
     data()->pixmapCache.remove(QString("t%1").arg(coverData->path));
 
     return id;
-}
-
-coverKey CoverManager::addCover(const QString &path, const QString &artist, const QString &album)
-{
-    return addCover(QPixmap(path), artist, album);
 }
 
 bool CoverManager::hasCover(coverKey id)

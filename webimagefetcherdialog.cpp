@@ -160,19 +160,7 @@ void WebImageFetcherDialog::slotOk()
 
 void WebImageFetcherDialog::slotActivated(const QModelIndex &index)
 {
-    m_pixmap = pixmapFromURL(m_imageList[index.row()].imageURL());
-
-    if(m_pixmap.isNull()) {
-        KMessageBox::sorry(this,
-                           i18n("The cover you have selected is unavailable. Please select another."),
-                           i18n("Cover Unavailable"));
-
-        QTimer::singleShot(0, this, SLOT(selectedItemIsBad()));
-        return;
-    }
-
-    accept();
-    emit coverSelected();
+    emit coverSelected(m_imageList[index.row()].imageURL());
 }
 
 void WebImageFetcherDialog::selectedItemIsBad()

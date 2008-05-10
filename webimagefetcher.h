@@ -27,6 +27,7 @@ template<class T>
 class QList;
 
 class KJob;
+class KUrl;
 
 class FileHandle;
 
@@ -76,7 +77,7 @@ private:
 private slots:
     void slotLoadImageURLs();
     void slotWebRequestFinished(KJob *job);
-    void slotCoverChosen();
+    void slotCoverChosen(const KUrl &);
     void slotNewSearch();
 
 private:

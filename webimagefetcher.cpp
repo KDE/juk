@@ -201,7 +201,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
         d->dialog = new WebImageFetcherDialog(d->imageList, d->file, 0);
 	d->dialog->setModal(true);
 
-	connect(d->dialog, SIGNAL(coverSelected()), SLOT(slotCoverChosen()));
+	connect(d->dialog, SIGNAL(coverSelected(const KUrl &)), SLOT(slotCoverChosen(const KUrl &)));
 	connect(d->dialog, SIGNAL(newSearchRequested()), SLOT(slotNewSearch()));
     }
 
@@ -209,17 +209,17 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     d->dialog->show();
 }
 
-void WebImageFetcher::slotCoverChosen()
+void WebImageFetcher::slotCoverChosen(const KUrl &path)
 {
-    QPixmap pixmap = d->dialog->result();
-    if(pixmap.isNull()) {
-	kError(65432) << "Selected pixmap is null for some reason.\n";
-	return;
-    }
+    kDebug(65432) << "Adding new cover for " << d->file.tag()->fileName()
+                  << "from URL" << path << endl;
 
-    kDebug(65432) << "Adding new cover for " << d->file.tag()->fileName();
-    coverKey newId = CoverManager::addCover(pixmap, d->file.tag()->artist(), d->file.tag()->album());
-    emit signalCoverChanged(newId);
+    coverKey newId = CoverManager::addCover(path, d->file.tag()->artist(), d->file.tag()->album());
+
+    if(newId != CoverManager::NoMatch) {
+        emit signalCoverChanged(newId);
+        d->dialog->close();
+    }
 }
 
 void WebImageFetcher::slotNewSearch()

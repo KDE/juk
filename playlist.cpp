@@ -830,27 +830,22 @@ void Playlist::slotAddCover(bool retrieveLocal)
     if(items.isEmpty())
         return;
 
-    QPixmap newCover;
-
-    if(retrieveLocal) {
-        KUrl file = KFileDialog::getImageOpenUrl(
-            KUrl( "kfiledialog://homedir" ), this, i18n("Select Cover Image File"));
-        newCover = QPixmap(file.directory() + '/' + file.fileName());
-    }
-    else {
+    if(!retrieveLocal) {
         m_fetcher->setFile((*items.begin())->file());
         m_fetcher->chooseCover();
         return;
     }
 
-    if(newCover.isNull())
-        return;
+    KUrl file = KFileDialog::getImageOpenUrl(
+        KUrl( "kfiledialog://homedir" ), this, i18n("Select Cover Image File"));
 
     QString artist = items.front()->file().tag()->artist();
     QString album = items.front()->file().tag()->album();
 
-    coverKey newId = CoverManager::addCover(newCover, artist, album);
-    refreshAlbums(items, newId);
+    coverKey newId = CoverManager::addCover(file, artist, album);
+
+    if(newId != CoverManager::NoMatch)
+        refreshAlbums(items, newId);
 }
 
 // Called when image fetcher has added a new cover.
