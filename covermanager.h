@@ -30,6 +30,8 @@ class QMap;
 template<class T>
 class QList;
 
+class KUrl;
+
 /**
  * This class holds the data on a cover.  This includes the path to the cover
  * representation on-disk, and the artist and album associated with the cover.
@@ -177,7 +179,7 @@ public:
      * @param artist The artist of the new cover.
      * @param album  The album of the new cover.
      */
-    static coverKey addCover(const QString &path, const QString &artist = "", const QString &album = "");
+    static coverKey addCover(const KUrl &path, const QString &artist = "", const QString &album = "");
 
     /**
      * Function to determine if @p id matches any covers in the database.

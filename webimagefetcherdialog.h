@@ -49,7 +49,7 @@ public:
     void setFile(const FileHandle &file);
 
 signals:
-    void coverSelected();
+    void coverSelected(const KUrl &);
     void newSearchRequested();
 
 public slots:
