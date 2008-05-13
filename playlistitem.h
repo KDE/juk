@@ -195,6 +195,8 @@ private:
     KSharedPtr<Data> d;
 
     void setup(CollectionListItem *item);
+    using Q3ListViewItem::setup; // Avoid warning about hidden function.
+
     CollectionListItem *m_collectionItem;
     bool m_watched;
     static PlaylistItemList m_playingItems;

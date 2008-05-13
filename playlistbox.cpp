@@ -292,7 +292,7 @@ void PlaylistBox::saveConfig()
 
 void PlaylistBox::remove()
 {
-    ItemList items = selectedItems();
+    ItemList items = selectedBoxItems();
 
     if(items.isEmpty())
         return;
@@ -581,7 +581,7 @@ void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
     K3ListView::keyReleaseEvent(e);
 }
 
-PlaylistBox::ItemList PlaylistBox::selectedItems() const
+PlaylistBox::ItemList PlaylistBox::selectedBoxItems() const
 {
     ItemList l;
 
@@ -610,7 +610,7 @@ void PlaylistBox::slotPlaylistChanged()
     if(m_doingMultiSelect)
         return;
 
-    ItemList items = selectedItems();
+    ItemList items = selectedBoxItems();
     m_hasSelection = !items.isEmpty();
 
     bool allowReload = false;

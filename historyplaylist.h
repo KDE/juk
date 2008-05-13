@@ -63,6 +63,8 @@ private slots:
     void slotCreateNewItem();
 
 private:
+    using Playlist::createItems;
+
     FileHandle m_file;
     QTimer *m_timer;
 };

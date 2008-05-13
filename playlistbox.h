@@ -92,7 +92,9 @@ private:
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void keyReleaseEvent(QKeyEvent *e);
 
-    ItemList selectedItems() const;
+    // selectedItems already used for something different
+
+    ItemList selectedBoxItems() const;
     void setSingleItem(Q3ListViewItem *item);
 
     void setupItem(Item *item);

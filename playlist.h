@@ -440,7 +440,8 @@ protected:
 
     virtual bool hasItem(const QString &file) const { return m_members.contains(file); }
 
-    void addColumn(const QString &label);
+    virtual int addColumn(const QString &label, int width = -1);
+    using K3ListView::addColumn;
 
     /**
      * Do some finial initialization of created items.  Notably ensure that they
@@ -559,6 +560,8 @@ private:
      * of the playlists, such as column order.  It is implemented as a singleton.
      */
     class SharedSettings;
+
+    using K3ListView::selectAll; // Avoid warning about hiding this function.
 
 private slots:
 

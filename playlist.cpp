@@ -1328,10 +1328,10 @@ void Playlist::takeItem(Q3ListViewItem *item)
     K3ListView::takeItem(item);
 }
 
-void Playlist::addColumn(const QString &label)
+int Playlist::addColumn(const QString &label, int)
 {
     slotWeightDirty(columns());
-    K3ListView::addColumn(label, 30);
+    return K3ListView::addColumn(label, 30);
 }
 
 PlaylistItem *Playlist::createItem(const FileHandle &file,
