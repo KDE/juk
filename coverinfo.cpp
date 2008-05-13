@@ -1,6 +1,6 @@
 /***************************************************************************
     copyright            : (C) 2004 Nathan Toone
-                         : (C) 2005 Michael Pyne <michael.pyne@kdemail.net>
+                         : (C) 2005, 2008 Michael Pyne <michael.pyne@kdemail.net>
     email                : nathan@toonetown.com
 ***************************************************************************/
 
@@ -29,12 +29,20 @@
 #include <QHBoxLayout>
 #include <QEvent>
 #include <QFile>
+#include <QFileInfo>
 #include <QDesktopWidget>
+
+#include <taglib/mpegfile.h>
+#include <taglib/tstring.h>
+#include <taglib/id3v2tag.h>
+#include <taglib/attachedpictureframe.h>
 
 #include "collectionlist.h"
 #include "playlistsearch.h"
 #include "playlistitem.h"
 #include "tag.h"
+
+using namespace TagLib;
 
 struct CoverPopup : public QWidget
 {
@@ -64,6 +72,7 @@ struct CoverPopup : public QWidget
 CoverInfo::CoverInfo(const FileHandle &file) :
     m_file(file),
     m_hasCover(false),
+    m_hasAttachedCover(false),
     m_haveCheckedForCover(false),
     m_coverKey(CoverManager::NoMatch),
     m_needsConverting(false)
@@ -74,7 +83,7 @@ CoverInfo::CoverInfo(const FileHandle &file) :
 bool CoverInfo::hasCover()
 {
     if(m_haveCheckedForCover)
-        return m_hasCover;
+        return m_hasCover || m_hasAttachedCover;
 
     m_haveCheckedForCover = true;
 
@@ -98,15 +107,39 @@ bool CoverInfo::hasCover()
             m_needsConverting = true;
     }
 
+    // Check if it's embedded in the file itself.
+
+    QByteArray filePath = QFile::encodeName(m_file.absFilePath());
+    MPEG::File mpegFile(filePath.constData(), true, AudioProperties::Accurate);
+    ID3v2::Tag *id3tag = mpegFile.ID3v2Tag(false);
+
+    if(!id3tag)
+        return m_hasCover;
+
+    // Look for attached picture frames.
+    ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
+    m_hasAttachedCover = !frames.isEmpty();
+
+    if(m_hasAttachedCover)
+        return true;
+
+    // Look for cover.jpg or cover.png in the directory.
+    if(QFile::exists(m_file.fileInfo().absolutePath() + "/cover.jpg") ||
+       QFile::exists(m_file.fileInfo().absolutePath() + "/cover.png"))
+    {
+        m_hasCover = true;
+    }
+
     return m_hasCover;
 }
 
 void CoverInfo::clearCover()
 {
     m_hasCover = false;
+    m_hasAttachedCover = false;
 
-    // Yes, we have checked, and we don't have it. ;)
-    m_haveCheckedForCover = true;
+    // Re-search for cover since we may still have a different type of cover.
+    m_haveCheckedForCover = false;
 
     m_needsConverting = false;
 
@@ -186,13 +219,86 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
     if(m_needsConverting)
         convertOldStyleCover();
 
-    if(m_coverKey == CoverManager::NoMatch)
+    if(m_hasCover && m_coverKey != CoverManager::NoMatch) {
+        return CoverManager::coverFromId(m_coverKey,
+            size == Thumbnail
+               ? CoverManager::Thumbnail
+               : CoverManager::FullSize);
+    }
+
+    // If m_hasCover is still true we must have a directory cover image.
+    if(m_hasCover) {
+        QString fileName = m_file.fileInfo().absolutePath() + "/cover.jpg";
+
+        QImage cover;
+        if(!cover.load(fileName)) {
+            fileName = m_file.fileInfo().absolutePath() + "/cover.png";
+
+            if(!cover.load(fileName))
+                return QPixmap();
+        }
+
+        if(size == Thumbnail)
+            cover = scaleCoverToThumbnail(cover);
+
+        return QPixmap::fromImage(cover);
+    }
+
+    // If we get here, see if there is an embedded cover.
+
+    QByteArray filePath = QFile::encodeName(m_file.absFilePath());
+    MPEG::File mpegFile(filePath.constData(), true, AudioProperties::Accurate);
+    ID3v2::Tag *id3tag = mpegFile.ID3v2Tag(false);
+
+    if(!id3tag)
         return QPixmap();
 
+    // Look for attached picture frames.
+    ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
+
+    if(frames.isEmpty())
+        return QPixmap();
+
+    // According to the spec attached picture frames have different types.
+    // So we should look for the corresponding picture depending on what
+    // type of image (i.e. front cover, file info) we want.  If only 1
+    // frame, just return that (scaled if necessary).
+
+    ID3v2::AttachedPictureFrame *selectedFrame = 0;
+
+    if(frames.size() != 1) {
+        ID3v2::FrameList::Iterator it = frames.begin();
+        for(; it != frames.end(); ++it) {
+            ID3v2::AttachedPictureFrame *frame =
+                static_cast<ID3v2::AttachedPictureFrame *>(*it);
+
+            // Both thumbnail and full size should use FrontCover, as
+            // FileIcon may be too small even for thumbnail.
+            if(frame->type() != ID3v2::AttachedPictureFrame::FrontCover)
+                continue;
+
+            selectedFrame = frame;
+            break;
+        }
+    }
+
+    // If we get here we failed to pick a picture, or there was only one,
+    // so just use the first picture.
+
+    if(!selectedFrame)
+        selectedFrame = static_cast<ID3v2::AttachedPictureFrame *>(frames.front());
+
+    QByteArray pictureData = QByteArray(selectedFrame->picture().data(),
+                                        selectedFrame->picture().size());
+    QImage attachedImage = QImage::fromData(pictureData);
+
+    kDebug() << "Embedded cover art of size" << attachedImage.size();
+
     if(size == Thumbnail)
-        return CoverManager::coverFromId(m_coverKey, CoverManager::Thumbnail);
-    else
-        return CoverManager::coverFromId(m_coverKey, CoverManager::FullSize);
+        attachedImage = scaleCoverToThumbnail(attachedImage);
+
+    QPixmap returnValue = QPixmap::fromImage(attachedImage);
+    return QPixmap::fromImage(attachedImage);
 }
 
 void CoverInfo::popup() const
@@ -223,6 +329,11 @@ void CoverInfo::popup() const
         y = (y - desktop.y() > desktop.height() - 10) ? desktop.height() - height + desktop.y() : (y - height + 10);
 
     new CoverPopup(image, QPoint(x, y));
+}
+
+QImage CoverInfo::scaleCoverToThumbnail(const QImage &image) const
+{
+    return image.scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 }
 
 /**

@@ -2161,8 +2161,12 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
     m_rmbEdit->setEnabled(file.fileInfo().isWritable() || selectedItems().count() > 1);
 
+    // View cover is based on if there is a cover to see.  We should only have
+    // the remove cover option if the cover is in our database (and not directly
+    // embedded in the file, for instance).
+
     action("viewCover")->setEnabled(file.coverInfo()->hasCover());
-    action("removeCover")->setEnabled(file.coverInfo()->hasCover());
+    action("removeCover")->setEnabled(file.coverInfo()->coverId() != CoverManager::NoMatch);
 
     m_rmbMenu->popup(point);
     m_currentColumn = column + columnOffset();

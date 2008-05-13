@@ -1,6 +1,9 @@
 /***************************************************************************
     copyright            : (C) 2004 Nathan Toone
     email                : nathan@toonetown.com
+
+    copyright            : (C) 2008 Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -15,12 +18,11 @@
 #ifndef COVERINFO_H
 #define COVERINFO_H
 
-#include <qimage.h>
-//Added by qt3to4:
-#include <QPixmap>
-
 #include "filehandle.h"
 #include "covermanager.h"
+
+class QImage;
+class QPixmap;
 
 class CoverInfo
 {
@@ -58,9 +60,11 @@ public:
 private:
     QString coverLocation(CoverSize size) const;
     bool convertOldStyleCover() const;
+    QImage scaleCoverToThumbnail(const QImage &image) const;
 
     FileHandle m_file;
     bool m_hasCover;
+    bool m_hasAttachedCover;
     bool m_haveCheckedForCover;
     mutable coverKey m_coverKey;
     mutable bool m_needsConverting;

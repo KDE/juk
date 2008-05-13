@@ -21,10 +21,12 @@
 
 #include <QPixmap>
 #include <QFileInfo>
+
 #include "collectionlist.h"
 #include "musicbrainzquery.h"
 #include "tag.h"
 #include "coverinfo.h"
+#include "covermanager.h"
 #include "tagtransactionmanager.h"
 
 PlaylistItemList PlaylistItem::m_playingItems; // static
@@ -89,8 +91,15 @@ const QPixmap *PlaylistItem::pixmap(int column) const
 
     int offset = playlist()->columnOffset();
 
-    if((column - offset) == CoverColumn && d->fileHandle.coverInfo()->hasCover())
+    // Don't use hasCover here because that may dig into the track itself.
+    // Besides, we really just want to know if the cover manager has a cover
+    // for the track.
+
+    if((column - offset) == CoverColumn &&
+        d->fileHandle.coverInfo()->coverId() != CoverManager::NoMatch)
+    {
         return &image;
+    }
 
     if(column == playlist()->leftColumn() &&
        m_playingItems.contains(const_cast<PlaylistItem *>(this)))
