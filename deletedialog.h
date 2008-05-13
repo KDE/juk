@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Tue Aug 31 21:54:20 EST 2004
-    copyright            : (C) 2004 by Michael Pyne
+    copyright            : (C) 2004, 2008 by Michael Pyne
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
@@ -16,26 +16,35 @@
 #ifndef DELETEDIALOG_H
 #define DELETEDIALOG_H
 
-#include <QCheckBox>
-//Added by qt3to4:
-#include <QLabel>
-
-#include "ui_deletedialogbase.h"
-
 class QStringList;
-class QLabel;
 
-class DeleteWidget : public QWidget, public Ui::DeleteDialogBase
+#include <QWidget>
+
+#include <KDialog>
+
+namespace Ui
+{
+    class DeleteDialogBase;
+}
+
+class DeleteWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit DeleteWidget(QWidget *parent = 0, const char *name = 0);
+    DeleteWidget(QWidget *parent);
 
     void setFiles(const QStringList &files);
+    bool shouldDelete() const;
+
+signals:
+    void signalShouldDelete(bool);
 
 protected slots:
     virtual void slotShouldDelete(bool shouldDelete);
+
+private:
+    Ui::DeleteDialogBase *m_ui;
 };
 
 class DeleteDialog : public KDialog
@@ -43,11 +52,11 @@ class DeleteDialog : public KDialog
     Q_OBJECT
 
 public:
-    explicit DeleteDialog(QWidget *parent, const char *name = "delete_dialog");
+    DeleteDialog(QWidget *parent);
 
     bool confirmDeleteList(const QStringList &condemnedFiles);
     void setFiles(const QStringList &files);
-    bool shouldDelete() const { return m_widget->ddShouldDelete->isChecked(); }
+    bool shouldDelete() const { return m_widget->shouldDelete(); }
 
 protected slots:
     virtual void accept();
