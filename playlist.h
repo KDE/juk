@@ -423,9 +423,8 @@ protected:
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
-    virtual QDrag *drag(QWidget *parent);
-    virtual QDrag *drag() { return drag(this); }
-    virtual bool canDecode(QMimeSource *s);
+    virtual Q3DragObject *dragObject(QWidget *parent);
+    virtual Q3DragObject *dragObject() { return dragObject(this); }
     virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);

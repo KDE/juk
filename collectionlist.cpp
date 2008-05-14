@@ -277,8 +277,8 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-    if(canDecode(e) && e->source() != this)
-        e->setAccepted(true);
+    if(e->source() != this)
+        Playlist::contentsDragMoveEvent(e);
     else
         e->setAccepted(false);
 }
