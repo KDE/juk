@@ -734,7 +734,17 @@ void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMast
 
 void Playlist::copy()
 {
-    QApplication::clipboard()->setMimeData(drag(0)->mimeData(), QClipboard::Clipboard);
+    PlaylistItemList items = selectedItems();
+    KUrl::List urls;
+
+    foreach(PlaylistItem *item, items) {
+        urls << KUrl::fromPath(item->file().absFilePath());
+    }
+
+    QMimeData *mimeData = new QMimeData;
+    urls.populateMimeData(mimeData);
+
+    QApplication::clipboard()->setMimeData(mimeData, QClipboard::Clipboard);
 }
 
 void Playlist::paste()
@@ -994,24 +1004,20 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     }
 }
 
-QDrag *Playlist::drag(QWidget *parent)
+Q3DragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
     KUrl::List urls;
-    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
-        KUrl url;
-        url.setPath((*it)->file().absFilePath());
-        urls.append(url);
+
+    foreach(PlaylistItem *item, items) {
+        urls << KUrl::fromPath(item->file().absFilePath());
     }
 
-    QDrag *drag = new QDrag( parent );
-    QMimeData *md = new QMimeData;
-    drag->setMimeData( md );
-    urls.populateMimeData( md );
+    K3URLDrag *urlDrag = new K3URLDrag(urls, parent);
 
-    drag->setPixmap(BarIcon("sound"));
+    urlDrag->setPixmap(BarIcon("sound"));
 
-    return drag;
+    return urlDrag;
 }
 
 void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
@@ -1042,16 +1048,6 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
 bool Playlist::acceptDrag(QDropEvent *e) const
 {
     return CoverDrag::canDecode(e) || K3URLDrag::canDecode(e);
-}
-
-bool Playlist::canDecode(QMimeSource *s)
-{
-    KUrl::List urls;
-
-    if(CoverDrag::canDecode(s))
-        return true;
-
-    return K3URLDrag::decode(s, urls) && !urls.isEmpty();
 }
 
 void Playlist::decode(const QMimeData *s, PlaylistItem *item)
