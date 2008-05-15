@@ -2,7 +2,7 @@
     begin                : Tue Mar 11 19:00:00 CET 2003
     copyright            : (C) 2003 by Stefan Asserhall
     email                : stefan.asserhall@telia.com
-    copyright            : (c) 2007 by Michael Pyne
+    copyright            : (c) 2007, 2008 by Michael Pyne
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
@@ -18,13 +18,9 @@
 #ifndef KEYDIALOG_H
 #define KEYDIALOG_H
 
-#include <kshortcut.h>
-#include <kdialog.h>
-
-#include <QString>
+#include <KDialog>
 
 class QButtonGroup;
-class Q3WidgetStack;
 
 class KActionCollection;
 class KShortcutsEditor;
@@ -59,16 +55,12 @@ public:
 private:
 
     /**
-     * Groups of keys that can be selected in the dialog.
+     * Groups of keys that can be selected in the dialog.  If you add or remove
+     * a group you must also adjust struct KeyInfo::shortcut to have enough
+     * entries for all groups, and then adjust the keyInfo[] array.
      */
     enum KeyGroup { NoKeys = 0, StandardKeys = 1, MultimediaKeys = 2 };
 
-    struct KeyInfo {
-        QString action;
-        KShortcut shortcut[3];
-    };
-
-    void newDialog(KActionCollection *actionCollection, int selectedButton = 0);
     int configure();
 
 private slots:
@@ -77,9 +69,10 @@ private slots:
 
 private:
     KActionCollection *m_actionCollection;
-    KShortcutsEditor       *m_pKeyChooser;
+    KShortcutsEditor  *m_pKeyChooser;
     QButtonGroup      *m_group;
-    Q3WidgetStack     *m_widgetStack;
+
+    struct KeyInfo;
 
     static const KeyInfo keyInfo[];
     static const uint    keyInfoCount;
