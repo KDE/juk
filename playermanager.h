@@ -2,6 +2,12 @@
     begin                : Sat Feb 14 2004
     copyright            : (C) 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2007 by Matthias Kretz
+    email                : kretz@kde.org
+
+    copyright            : (C) 2008 by Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -16,10 +22,10 @@
 #ifndef PLAYERMANAGER_H
 #define PLAYERMANAGER_H
 
-//Added by qt3to4:
-#include <QPixmap>
 #include <QObject>
+
 #include "filehandle.h"
+
 #include <Phonon/Global>
 #include <Phonon/Path>
 
@@ -27,6 +33,7 @@ class KSelectAction;
 class SliderAction;
 class StatusLabel;
 class PlaylistInterface;
+class QPixmap;
 
 namespace Phonon
 {
@@ -100,6 +107,7 @@ signals:
 
 private:
     void setup();
+    void crossfadeToFile(const FileHandle &newFile);
 
 private slots:
     void slotNeedNextUrl();
@@ -107,7 +115,7 @@ private slots:
     void slotLength(qint64);
     void slotTick(qint64);
     void slotStateChanged(Phonon::State);
-    //void slotUpdateTime(int position);
+    void slotKillSender(); // Used to auto-delete media objects at EOF
 
 private:
     FileHandle m_file;

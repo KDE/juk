@@ -2,6 +2,12 @@
     begin                : Sat Feb 14 2004
     copyright            : (C) 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2007 by Matthias Kretz
+    email                : kretz@kde.org
+
+    copyright            : (C) 2008 by Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -236,51 +242,10 @@ void PlayerManager::play(const FileHandle &file)
     }
     else {
         m_file = file;
+
         if(m_media->state() == Phonon::PlayingState)
-        {
-            // do a crossfade
-            Phonon::VolumeFaderEffect *fader1 = new Phonon::VolumeFaderEffect(m_media);
-            m_audioPath.insertEffect(fader1);
-            Phonon::MediaObject *mo = m_media;
-            Phonon::AudioOutput *out = m_output;
-
-            mo->disconnect(this);
-
-            m_media = new Phonon::MediaObject(this);
-            m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-            Phonon::VolumeFaderEffect *fader2 = new Phonon::VolumeFaderEffect(m_media);
-            m_audioPath = Phonon::createPath(m_media, m_output);
-            m_audioPath.insertEffect(fader2);
-            m_output->setVolume(out->volume());
-            m_output->setMuted(out->isMuted());
-            m_media->setTickInterval(200);
-
-            connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State)));
-            connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
-            if(m_sliderAction->trackPositionSlider())
-                m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
-            connect(m_media, SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
-            connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
-            connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
-            m_media->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
-
-            fader2->setVolume(0.0f);
-            fader1->fadeOut(2000);
-            fader2->fadeIn(2000);
-            m_media->play();
-            QTimer::singleShot(3000, mo, SLOT(deleteLater()));
-            QTimer::singleShot(3000, out, SLOT(deleteLater()));
-            QTimer::singleShot(3000, fader2, SLOT(deleteLater()));
-
-            if(m_sliderAction->trackPositionSlider()) {
-                m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
-            }
-            if(m_sliderAction->volumeSlider()) {
-                m_sliderAction->volumeSlider()->setAudioOutput(m_output);
-            }
-        }
-        else
-        {
+            crossfadeToFile(m_file);
+        else {
             m_media->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
             m_media->play();
         }
@@ -349,24 +314,26 @@ void PlayerManager::stop()
     switch(m_media->state())
     {
     case Phonon::PlayingState:
+        // Fall through
+
     case Phonon::BufferingState:
-        {
-            Phonon::VolumeFaderEffect *fader = new Phonon::VolumeFaderEffect(m_media);
-            m_audioPath.insertEffect(fader);
-            fader->setFadeCurve(Phonon::VolumeFaderEffect::Fade9Decibel);
-            fader->fadeOut(200);
-            QTimer::singleShot(1000, m_media, SLOT(stop()));
-            QTimer::singleShot(1200, fader, SLOT(deleteLater()));
-            break;
-        }
+    {
+        // Effect will be deleted once we actually stop playbackk.
+        kDebug() << "Fading out playback.\n";
+        Phonon::VolumeFaderEffect *fader = new Phonon::VolumeFaderEffect(m_media);
+
+        fader->setFadeCurve(Phonon::VolumeFaderEffect::Fade9Decibel);
+        fader->fadeOut(2000);
+
+        m_audioPath.insertEffect(fader);
+        QTimer::singleShot(2000, m_media, SLOT(stop()));
+    }
+
+    break;
+
     default:
         m_media->stop();
     }
-    m_playlistInterface->stop();
-
-    m_file = FileHandle::null();
-
-    emit signalStop();
 }
 
 void PlayerManager::setVolume(float volume)
@@ -523,17 +490,17 @@ void PlayerManager::slotTick(qint64 msec)
 
 void PlayerManager::slotStateChanged(Phonon::State newstate)
 {
-    if(newstate == Phonon::ErrorState)
-    {
-        switch(m_media->errorType())
-        {
+    if(newstate == Phonon::ErrorState) {
+        switch(m_media->errorType()) {
             case Phonon::NoError:
                 kDebug() << "received a state change to ErrorState but errorType is NoError!?";
                 break;
+
             case Phonon::NormalError:
                 forward();
                 KMessageBox::information(0, m_media->errorString());
                 break;
+
             case Phonon::FatalError:
                 // stop playback
                 stop();
@@ -541,6 +508,28 @@ void PlayerManager::slotStateChanged(Phonon::State newstate)
                 break;
         }
     }
+    else if(newstate == Phonon::StoppedState) {
+        // Remove all effects from the current path.
+        QList<Phonon::Effect *> effects = m_audioPath.effects();
+        foreach(Phonon::Effect *effect, effects)
+            delete effect;
+
+        m_playlistInterface->stop();
+
+        m_file = FileHandle::null();
+
+        emit signalStop();
+    }
+}
+
+void PlayerManager::slotKillSender()
+{
+    // When called as a slot the sender() property has a QObject that called us.
+    // If it's a MediaObject we should delete it to clean up from crossfading.
+    // Note: This is not a good general practice (deleting our senders) and is dependant on what
+    // MediaObject does.  So we use deleteLater() to delete at some later time.
+    if(qobject_cast<Phonon::MediaObject *>(sender()))
+        sender()->deleteLater();
 }
 
 /*
@@ -619,6 +608,75 @@ void PlayerManager::setup()
     connect(m_media, SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
     connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
     connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
+}
+
+void PlayerManager::crossfadeToFile(const FileHandle &newFile)
+{
+    // Crossfade by introducting a second MediaObject, inserting appropriate effects in the new
+    // and old MediaObject, and letting the old MediaObject die a graceful death afterwards.
+
+    Phonon::VolumeFaderEffect *fader1 = new Phonon::VolumeFaderEffect(m_media);
+    Phonon::Path oldPath(m_audioPath);
+    Phonon::MediaObject *mo = m_media;
+    Phonon::AudioOutput *out = m_output;
+
+    mo->disconnect(this);
+    connect(mo, SIGNAL(finished()), SLOT(slotKillSender()));
+
+    m_media = new Phonon::MediaObject(this);
+    m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+
+    // Have the old MediaObject own this to control its lifetime.
+    Phonon::VolumeFaderEffect *fader2 = new Phonon::VolumeFaderEffect(mo);
+    out->setParent(mo); // Likewise change parent
+
+    m_audioPath = Phonon::createPath(m_media, m_output);
+    m_output->setVolume(out->volume());
+    m_output->setMuted(out->isMuted());
+    m_media->setTickInterval(200);
+
+    // Reconnect everything
+    connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State)));
+    connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
+    if(m_sliderAction->trackPositionSlider())
+        m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
+    connect(m_media, SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
+    connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
+    connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
+
+    // If we're already fading in (VolumeFaderEffect present in out->effects()) then start from there.
+    QList<Phonon::Effect *> effects(oldPath.effects());
+
+    float initialVolume = out->volume();
+    if(!effects.isEmpty()) {
+        Phonon::VolumeFaderEffect *fader = qobject_cast<Phonon::VolumeFaderEffect *>(effects.front());
+        if(fader)
+            initialVolume = fader->volume();
+
+        foreach(Phonon::Effect *effect, effects)
+            delete effect; // Sayonara
+    }
+
+    fader1->setVolume(initialVolume);
+    fader1->fadeTo(0.0f, 2000);
+
+    fader2->setVolume(0.0f);
+    fader2->fadeTo(m_output->volume(), 2000);
+
+    QTimer::singleShot(2500, fader2, SLOT(deleteLater()));
+
+    m_audioPath.insertEffect(fader2);
+    oldPath.insertEffect(fader1);
+
+    m_media->setCurrentSource(newFile.absFilePath());
+
+    m_media->play();
+
+    if(m_sliderAction->trackPositionSlider())
+        m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
+
+    if(m_sliderAction->volumeSlider())
+        m_sliderAction->volumeSlider()->setAudioOutput(m_output);
 }
 
 QString PlayerManager::randomPlayMode() const
