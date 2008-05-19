@@ -251,22 +251,8 @@ void PlayerManager::play(const FileHandle &file)
         }
     }
 
-    // Make sure that the player() actually starts before doing anything.
-
-    if(!playing()) {
-        kWarning(65432) << "Unable to play " << file.absFilePath();
-        stop();
-        return;
-    }
-
-    action("pause")->setEnabled(true);
-    action("stop")->setEnabled(true);
-    action("forward")->setEnabled(true);
-    if(action<KToggleAction>("albumRandomPlay")->isChecked())
-        action("forwardAlbum")->setEnabled(true);
-    action("back")->setEnabled(true);
-
-    emit signalPlay();
+    // Our state changed handler will perform the follow up actions necessary
+    // once we actually start playing.
 }
 
 void PlayerManager::play(const QString &file)
@@ -519,6 +505,16 @@ void PlayerManager::slotStateChanged(Phonon::State newstate)
         m_file = FileHandle::null();
 
         emit signalStop();
+    }
+    else if(newstate == Phonon::PlayingState) {
+        action("pause")->setEnabled(true);
+        action("stop")->setEnabled(true);
+        action("forward")->setEnabled(true);
+        if(action<KToggleAction>("albumRandomPlay")->isChecked())
+            action("forwardAlbum")->setEnabled(true);
+        action("back")->setEnabled(true);
+
+        emit signalPlay();
     }
 }
 
