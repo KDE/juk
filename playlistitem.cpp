@@ -84,7 +84,7 @@ FileHandle PlaylistItem::file() const
 
 const QPixmap *PlaylistItem::pixmap(int column) const
 {
-    static QPixmap image(SmallIcon("image"));
+    static QPixmap image(SmallIcon("image-x-generic"));
     static QPixmap playing(UserIcon("playing"));
 
     int offset = playlist()->columnOffset();
