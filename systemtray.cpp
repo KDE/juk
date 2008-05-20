@@ -499,22 +499,27 @@ QColor SystemTray::interpolateColor(int step, int steps)
 void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 {
     if(tip.isEmpty())
-        KSystemTrayIcon::setToolTip( i18n("JuK"));
+        KSystemTrayIcon::setToolTip(i18n("JuK"));
     else {
         QPixmap myCover = cover;
         if(cover.isNull())
             myCover = DesktopIcon("juk");
 
         QImage coverImage = myCover.toImage();
-        if(coverImage.size().width() > 32 || coverImage.size().height() > 32)
-            coverImage = coverImage.scaled(32, 32, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+        QSize iconSize(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop));
+        QSize newIconSize = coverImage.size();
+        newIconSize.scale(iconSize, Qt::KeepAspectRatio);
+
+        if(newIconSize != iconSize)
+            coverImage = coverImage.scaled(newIconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
         Q3MimeSourceFactory::defaultFactory()->setImage("tipCover", coverImage);
 
         QString html = i18nc("%1 is Cover Art, %2 is the playing track, %3 is the appname",
-                            "<center><table cellspacing=\"2\"><tr><td valign=\"middle\">%1</td>"
-                            "<td valign=\"middle\">%2</td></tr></table><em>%3</em></center>",
-                            QString("<img valign=\"middle\" src=\"tipCover\""),
+                            "<table style=\"font-size:14pt;\" cellspacing=\"2em\">"
+                            "<tr><td rowspan=\"2\">%1</td><td align=\"center\" valign=\"middle\">%2</td></tr>"
+                            "<tr><td align=\"center\" valign=\"middle\"><em>%3</em></td></tr></table>",
+                            QString("<img valign=\"middle\" src=\"tipCover\">"),
                             QString("<nobr>%1</nobr>").arg(tip), i18n("JuK"));
 
         KSystemTrayIcon::setToolTip( html);
