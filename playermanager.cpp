@@ -664,14 +664,15 @@ void PlayerManager::crossfadeToFile(const FileHandle &newFile)
     m_audioPath.insertEffect(fader2);
     oldPath.insertEffect(fader1);
 
+    m_media->setCurrentSource(newFile.absFilePath());
+
+    m_media->play();
+
     if(m_sliderAction->trackPositionSlider())
         m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
 
     if(m_sliderAction->volumeSlider())
         m_sliderAction->volumeSlider()->setAudioOutput(m_output);
-    
-    m_media->setCurrentSource(newFile.absFilePath());
-    m_media->play();
 }
 
 QString PlayerManager::randomPlayMode() const
