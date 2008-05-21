@@ -269,8 +269,11 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
     if(frames.size() != 1) {
         ID3v2::FrameList::Iterator it = frames.begin();
         for(; it != frames.end(); ++it) {
+
+            // This must be dynamic_cast<>, TagLib will return UnknownFrame in APIC for
+            // encrypted frames.
             ID3v2::AttachedPictureFrame *frame =
-                static_cast<ID3v2::AttachedPictureFrame *>(*it);
+                dynamic_cast<ID3v2::AttachedPictureFrame *>(*it);
 
             // Both thumbnail and full size should use FrontCover, as
             // FileIcon may be too small even for thumbnail.
