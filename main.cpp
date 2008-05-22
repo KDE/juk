@@ -74,6 +74,11 @@ int main(int argc, char *argv[])
 
     KUniqueApplication a;
 
+    // If this flag gets set then JuK will quit if you click the cover on the track
+    // announcement popup when JuK is only in the system tray (the systray has no widget).
+
+    a.setQuitOnLastWindowClosed(false);
+
     // Here we do some DCOP locking of sorts to prevent incoming DCOP calls
     // before JuK has finished its initialization.
 
