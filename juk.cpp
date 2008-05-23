@@ -2,6 +2,9 @@
     begin                : Mon Feb  4 23:40:41 EST 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2008 by Michael Pyne
+    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -34,6 +37,7 @@
 #include <ktoolbarpopupaction.h>
 #include <kdeversion.h>
 
+#include <QCoreApplication>
 #include <QKeyEvent>
 #include <QDir>
 #include <QTimer>
@@ -99,7 +103,6 @@ JuK::JuK(QWidget *parent) :
 
 JuK::~JuK()
 {
-    kDebug(65432) ;
 }
 
 KActionCollection *JuK::actionCollection() const
@@ -285,13 +288,14 @@ void JuK::setupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
         m_systemTray = new SystemTray(this);
-        m_systemTray->setObjectName( "systemTray" );
+        m_systemTray->setObjectName("systemTray");
         m_systemTray->show();
 
         m_toggleDockOnCloseAction->setEnabled(true);
         m_togglePopupsAction->setEnabled(true);
 
-        connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotAboutToQuit()));
+        connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), SLOT(slotAboutToQuit()));
+        connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
     }
     else {
         m_systemTray = 0;
@@ -438,28 +442,18 @@ void JuK::saveConfig()
 
 bool JuK::queryExit()
 {
+    // This may actually be sent more than once in practice, but we're not
+    // supposed to do end of execution destruction yet anyways, use
+    // slotAboutToQuit for that.
+
     m_startDocked = !isVisible();
-
-    kDebug(65432) ;
-
-    hide();
-
-    action("stop")->trigger();
-    delete m_systemTray;
-    m_systemTray = 0;
-
-    CoverManager::shutdown();
-    Cache::instance()->save();
     saveConfig();
 
-    delete m_splitter;
     return true;
 }
 
 bool JuK::queryClose()
 {
-    kDebug(65432) ;
-
     if(!m_shuttingDown &&
        !kapp->sessionSaving() &&
        m_systemTray &&
@@ -488,11 +482,21 @@ void JuK::slotShowHide()
 void JuK::slotAboutToQuit()
 {
     m_shuttingDown = true;
+
+    action("stop")->trigger();
+    delete m_systemTray;
+    m_systemTray = 0;
+
+    CoverManager::shutdown();
+    Cache::instance()->save();
+    saveConfig();
+
+    delete m_splitter;
+    m_splitter = 0;
 }
 
 void JuK::slotQuit()
 {
-    kDebug(65432) ;
     m_shuttingDown = true;
 
     kapp->quit();
