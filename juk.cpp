@@ -382,6 +382,7 @@ bool JuK::queryExit()
     saveConfig();
 
     delete m_splitter;
+    m_splitter = 0;
     return true;
 }
 
