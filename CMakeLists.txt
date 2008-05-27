@@ -118,7 +118,7 @@ if(TUNEPIMP_FOUND)
 endif(TUNEPIMP_FOUND)
 
 
-install(TARGETS juk  DESTINATION ${BIN_INSTALL_DIR} )
+install(TARGETS juk  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 
 ########### install files ###############
