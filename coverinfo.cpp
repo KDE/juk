@@ -42,8 +42,6 @@
 #include "playlistitem.h"
 #include "tag.h"
 
-using namespace TagLib;
-
 struct CoverPopup : public QWidget
 {
     CoverPopup(const QPixmap &image, const QPoint &p) :
@@ -110,14 +108,14 @@ bool CoverInfo::hasCover()
     // Check if it's embedded in the file itself.
 
     QByteArray filePath = QFile::encodeName(m_file.absFilePath());
-    MPEG::File mpegFile(filePath.constData(), true, AudioProperties::Accurate);
-    ID3v2::Tag *id3tag = mpegFile.ID3v2Tag(false);
+    TagLib::MPEG::File mpegFile(filePath.constData(), true, TagLib::AudioProperties::Accurate);
+    TagLib::ID3v2::Tag *id3tag = mpegFile.ID3v2Tag(false);
 
     if(!id3tag)
         return m_hasCover;
 
     // Look for attached picture frames.
-    ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
+    TagLib::ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
     m_hasAttachedCover = !frames.isEmpty();
 
     if(m_hasAttachedCover)
@@ -247,14 +245,14 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
     // If we get here, see if there is an embedded cover.
 
     QByteArray filePath = QFile::encodeName(m_file.absFilePath());
-    MPEG::File mpegFile(filePath.constData(), true, AudioProperties::Accurate);
-    ID3v2::Tag *id3tag = mpegFile.ID3v2Tag(false);
+    TagLib::MPEG::File mpegFile(filePath.constData(), true, TagLib::AudioProperties::Accurate);
+    TagLib::ID3v2::Tag *id3tag = mpegFile.ID3v2Tag(false);
 
     if(!id3tag)
         return QPixmap();
 
     // Look for attached picture frames.
-    ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
+    TagLib::ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
 
     if(frames.isEmpty())
         return QPixmap();
@@ -264,20 +262,20 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
     // type of image (i.e. front cover, file info) we want.  If only 1
     // frame, just return that (scaled if necessary).
 
-    ID3v2::AttachedPictureFrame *selectedFrame = 0;
+    TagLib::ID3v2::AttachedPictureFrame *selectedFrame = 0;
 
     if(frames.size() != 1) {
-        ID3v2::FrameList::Iterator it = frames.begin();
+        TagLib::ID3v2::FrameList::Iterator it = frames.begin();
         for(; it != frames.end(); ++it) {
 
             // This must be dynamic_cast<>, TagLib will return UnknownFrame in APIC for
             // encrypted frames.
-            ID3v2::AttachedPictureFrame *frame =
-                dynamic_cast<ID3v2::AttachedPictureFrame *>(*it);
+            TagLib::ID3v2::AttachedPictureFrame *frame =
+                dynamic_cast<TagLib::ID3v2::AttachedPictureFrame *>(*it);
 
             // Both thumbnail and full size should use FrontCover, as
             // FileIcon may be too small even for thumbnail.
-            if(frame->type() != ID3v2::AttachedPictureFrame::FrontCover)
+            if(frame->type() != TagLib::ID3v2::AttachedPictureFrame::FrontCover)
                 continue;
 
             selectedFrame = frame;
@@ -289,7 +287,7 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
     // so just use the first picture.
 
     if(!selectedFrame)
-        selectedFrame = static_cast<ID3v2::AttachedPictureFrame *>(frames.front());
+        selectedFrame = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(frames.front());
 
     QByteArray pictureData = QByteArray(selectedFrame->picture().data(),
                                         selectedFrame->picture().size());

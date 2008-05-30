@@ -112,7 +112,11 @@ kde4_add_ui_files(juk_SRCS
 
 kde4_add_executable(juk ${juk_SRCS})
 
-target_link_libraries(juk  m ${KDE4_KHTML_LIBS} ${TAGLIB_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_PHONON_LIBS})
+if(NOT MSVC)
+    set( LIBMATH m )
+endif(NOT MSVC)
+
+target_link_libraries(juk ${LIBMATH} ${KDE4_KHTML_LIBS} ${TAGLIB_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_PHONON_LIBS})
 if(TUNEPIMP_FOUND)
 	target_link_libraries(juk ${TUNEPIMP_LIBRARIES})
 endif(TUNEPIMP_FOUND)
