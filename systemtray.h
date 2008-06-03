@@ -5,7 +5,7 @@
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
 
-    copyright            : (C) 2007 by Michael Pyne
+    copyright            : (C) 2007, 2008 by Michael Pyne
     email                : michael.pyne@kdemail.net
  ***************************************************************************/
 
@@ -22,12 +22,12 @@
 #define SYSTEMTRAY_H
 
 #include <ksystemtrayicon.h>
-#include <kpassivepopup.h>
 
 #include <QVector>
 #include <QColor>
 #include <QPixmap>
 #include <QIcon>
+#include <QFrame>
 
 class QMouseEvent;
 class QWheelEvent;
@@ -35,22 +35,31 @@ class QLabel;
 class QTimer;
 class KVBox;
 class FileHandle;
+class QVBoxLayout;
 
 /**
- * Subclass of KPassivePopup intended to more easily support JuK's particular
+ * Workalike of KPassivePopup intended to more easily support JuK's particular
  * usage pattern, including things like staying open while under the mouse.
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class PassiveInfo : public KPassivePopup
+class PassiveInfo : public QFrame
 {
     Q_OBJECT
 public:
-    PassiveInfo(QWidget *parent = 0);
-    using KPassivePopup::moveNear;
+    PassiveInfo(QSystemTrayIcon *parent = 0);
+
+    // Sets view as a child widget to show in the popup window.
+    // This widget does not take ownership of the widget.  If you want it auto-deleted,
+    // either re-parent it or create it using this widget as its parent.
+    void setView(QWidget *view);
+
+    QWidget *view() const;
 
 public slots:
-    void setTimeout(int delay);
+    // Starts a timer to show the popup.  The popup will not automatically delete itself
+    // once hidden.
+    void startTimer(int delay);
     virtual void show();
 
 signals:
@@ -60,12 +69,20 @@ signals:
 protected:
     virtual void enterEvent(QEvent *);
     virtual void leaveEvent(QEvent *);
+    virtual void hideEvent(QHideEvent *);
+
+private:
+    // Move us near the system tray icon.
+    void positionSelf();
 
 private slots:
     void timerExpired();
 
 private:
+    QSystemTrayIcon *m_icon;
     QTimer *m_timer;
+    QVBoxLayout *m_layout;
+    QWidget *m_view;
     bool m_justDie;
 };
 

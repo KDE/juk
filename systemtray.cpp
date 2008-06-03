@@ -22,11 +22,8 @@
 
 #include <klocale.h>
 #include <kiconloader.h>
-#include <kpassivepopup.h>
 #include <kiconeffect.h>
 #include <kaction.h>
-#include <kmenu.h>
-#include <kglobalsettings.h>
 #include <kdebug.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
@@ -36,17 +33,17 @@
 #include <QTimer>
 #include <QColor>
 #include <QPushButton>
-#include <QToolTip>
-#include <QPainter>
 #include <QPalette>
 #include <QWheelEvent>
 #include <QPixmap>
-#include <QEvent>
+#include <QMenu>
 #include <Q3MimeSourceFactory>
-#include <QFrame>
 #include <QLabel>
+#include <QVBoxLayout>
 #include <QMouseEvent>
-#include <QTextDocument>
+#include <QDesktopWidget>
+#include <QApplication>
+#include <QTextDocument> // Qt::escape()
 
 #ifdef Q_WS_X11
 #include <netwm.h>
@@ -63,25 +60,46 @@ using namespace ActionCollection;
 
 static bool copyImage(QImage &dest, QImage &src, int x, int y);
 
-PassiveInfo::PassiveInfo(QWidget *parent) :
-    KPassivePopup(parent), m_timer(new QTimer), m_justDie(false)
+PassiveInfo::PassiveInfo(QSystemTrayIcon *parent) :
+    QFrame(static_cast<QWidget *>(0), 
+        Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
+    ),
+    m_icon(parent),
+    m_timer(new QTimer),
+    m_layout(new QVBoxLayout(this)),
+    m_view(0),
+    m_justDie(false)
 {
-    // I'm so sick and tired of KPassivePopup screwing this up
-    // that I'll just handle the timeout myself, thank you very much.
-    KPassivePopup::setTimeout(0);
-
     connect(m_timer, SIGNAL(timeout()), SLOT(timerExpired()));
+    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
+
+    // I'd like StyledPanel but it doesn't work in the default KDE style...
+    setFrameStyle(Box | Plain);
+    setLineWidth(3);
 }
 
-void PassiveInfo::setTimeout(int delay)
+void PassiveInfo::startTimer(int delay)
 {
     m_timer->start(delay);
 }
 
 void PassiveInfo::show()
 {
-    KPassivePopup::show();
     m_timer->start(3500);
+    QFrame::show();
+}
+
+QWidget *PassiveInfo::view() const
+{
+    return m_view;
+}
+
+void PassiveInfo::setView(QWidget *view)
+{
+    m_layout->addWidget(view);
+    view->show(); // We are still hidden though.
+    adjustSize();
+    positionSelf();
 }
 
 void PassiveInfo::timerExpired()
@@ -104,6 +122,52 @@ void PassiveInfo::leaveEvent(QEvent *)
 {
     m_justDie = true;
     m_timer->start(50);
+}
+
+void PassiveInfo::hideEvent(QHideEvent *)
+{
+}
+
+void PassiveInfo::positionSelf()
+{
+    // Start with a QRect of our size, move it to the right spot.
+    QRect r(rect());
+    QPoint iconCenter(m_icon->geometry().center());
+    QRect iconRect(m_icon->geometry());
+    QRect curScreen(QApplication::desktop()->availableGeometry(iconCenter));
+
+    // Decide if going on left or right.  We will be somewhere in availableGeometry, we want
+    // to be on the side that opposite the systray icon.  i.e. if icon on right side of
+    // screen, we go left and have our right side flush with the left edge.
+    bool onRight = iconCenter.x() < curScreen.center().x();
+
+    // For top or bottom, we want to be near the systray icon.  Assume that the systray icon
+    // is near an edge and therefore it's on the top if its y() is less than the center.
+    bool onTop = iconCenter.y() < curScreen.center().y();
+
+    QPoint anchor;
+
+    if(onRight)
+        anchor.setX(iconRect.right());
+    else
+        anchor.setX(iconRect.left());
+
+    if(onTop)
+        anchor.setY(qMax(iconRect.bottom(), curScreen.top()));
+    else
+        anchor.setY(qMax(iconRect.top(), curScreen.bottom()));
+
+    // Now make our rect hit that anchor.
+    if(onTop and onRight)
+        r.moveTopLeft(anchor);
+    else if(onTop and !onRight)
+        r.moveTopRight(anchor);
+    else if(!onTop and onRight)
+        r.moveBottomLeft(anchor);
+    else
+        r.moveBottomRight(anchor);
+
+    move(r.topLeft());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,7 +261,7 @@ void SystemTray::slotPlay()
 void SystemTray::slotTogglePopup()
 {
     if(m_popup && m_popup->view()->isVisible())
-        m_popup->setTimeout(50);
+        m_popup->startTimer(50);
     else
         slotPlay();
 }
@@ -337,7 +401,7 @@ void SystemTray::createPopup()
     m_fade = true;
     m_step = 0;
 
-    m_popup = new PassiveInfo(parentWidget());
+    m_popup = new PassiveInfo(this);
     connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
     connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
 
@@ -352,11 +416,6 @@ void SystemTray::createPopup()
         m_labels[i] = l;
     }
 
-    // We don't want an autodelete popup.  There are times when it will need
-    // to be hidden before the timeout.
-
-    m_popup->setAutoDelete(false);
-
     // We have to set the text of the labels after all of the
     // widgets have been added in order for the width to be calculated
     // correctly.
@@ -364,7 +423,7 @@ void SystemTray::createPopup()
     int labelCount = 0;
 
     QString title = Qt::escape(playingInfo->title());
-    m_labels[labelCount++]->setText(QString("<qt><nobr><h2>%1</h2></nobr><qt>").arg(title));
+    m_labels[labelCount++]->setText(QString("<qt><nobr><h2>%1</h2></nobr></qt>").arg(title));
 
     if(!playingInfo->artist().isEmpty())
         m_labels[labelCount++]->setText(playingInfo->artist());
@@ -386,28 +445,16 @@ void SystemTray::createPopup()
     m_fadeTimer->start(1500 / STEPS);
 
     m_popup->setView(box);
-    m_popup->moveNear(geometry());
     m_popup->show();
 }
 
 bool SystemTray::buttonsToLeft() const
 {
-    // The following code was nicked from kpassivepopup.cpp
-#ifdef Q_WS_X11
+    QPoint iconCenter(geometry().center());
+    QRect curScreen(QApplication::desktop()->availableGeometry(iconCenter));
 
-    NETWinInfo ni(QX11Info::display(), /* winId() */ 0, QX11Info::appRootWindow(),
-                  NET::WMIconGeometry );
-    NETRect frame, win;
-    ni.kdeGeometry(frame, win);
-
-    QRect bounds = KGlobalSettings::desktopGeometry(QPoint(win.pos.x, win.pos.y));
-
-    // This seems to accurately guess what side of the icon that
-    // KPassivePopup will popup on.
-    return(win.pos.x < bounds.center().x());
-#else
-    return false;
-#endif
+    // See PassivePopup::positionSelf()
+    return iconCenter.x() < curScreen.center().x();
 }
 
 QPixmap SystemTray::createPixmap(const QString &pixName)
@@ -430,12 +477,10 @@ void SystemTray::createButtonBox(QWidget *parent)
 
     QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox);
     forwardButton->setObjectName("popup_forward");
-    forwardButton->setFlat(true);
     connect(forwardButton, SIGNAL(clicked()), SLOT(slotForward()));
 
     QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox);
     backButton->setObjectName("popup_back");
-    backButton->setFlat(true);
     connect(backButton, SIGNAL(clicked()), SLOT(slotBack()));
 }
 
