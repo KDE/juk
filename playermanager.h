@@ -39,6 +39,7 @@ namespace Phonon
 {
     class AudioOutput;
     class MediaObject;
+    class VolumeFaderEffect;
 }
 
 /**
@@ -131,6 +132,7 @@ private:
     Phonon::AudioOutput *m_output;
     Phonon::Path m_audioPath;
     Phonon::MediaObject *m_media;
+    Phonon::VolumeFaderEffect *m_fader;
 };
 
 #endif
