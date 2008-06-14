@@ -4,7 +4,7 @@ add_subdirectory( tests )
 add_subdirectory( pics ) 
 
 macro_optional_find_package(TunePimp)
-macro_log_feature(TUNEPIMP_FOUND "TunePimp" "A library for developing MusicBrainz enabled tagging applications" " http://www.musicbrainz.org/products/tunepimp" FALSE "" "Provides MusicBrainz tagging in Juk.")
+macro_log_feature(TUNEPIMP_FOUND "TunePimp" "A library for developing MusicBrainz enabled tagging applications" "http://www.musicbrainz.org/products/tunepimp" FALSE "" "Provides MusicBrainz tagging in Juk.")
 if(TUNEPIMP_FOUND)
 	set(HAVE_TUNEPIMP 1)
 	if(TUNEPIMP_FOUND_VERSION_4)
