@@ -919,12 +919,10 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     KToggleAction *historyAction =
         new KToggleAction(KIcon("view-history"), i18n("Show &History"), actions());
     actions()->addAction("showHistory", historyAction);
-    historyAction->setCheckedState(KGuiItem(i18n("Hide &History")));
 
     KToggleAction *upcomingAction =
         new KToggleAction(KIcon("go-jump-today"), i18n("Show &Play Queue"), actions());
     actions()->addAction("showUpcoming", upcomingAction);
-    upcomingAction->setCheckedState(KGuiItem(i18n("Hide &Play Queue")));
 
     connect(historyAction, SIGNAL(triggered(bool)),
             this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
