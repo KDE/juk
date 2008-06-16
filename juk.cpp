@@ -216,7 +216,7 @@ void JuK::setupActions()
 
     // the following are not visible by default
 
-    act = new KAction(KIcon("audio-volume-mute"), i18nc("silence playback", "Mute"), collection);
+    act = new KAction(KIcon("audio-volume-muted"), i18nc("silence playback", "Mute"), collection);
     collection->addAction("mute", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(mute()));
 
@@ -228,7 +228,7 @@ void JuK::setupActions()
     collection->addAction("volumeDown", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(volumeDown()));
 
-    act = new KAction(KIcon("media-playback-play"),   i18n("Play / Pause"), collection);
+    act = new KAction(KIcon("media-playback-start"),   i18n("Play / Pause"), collection);
     collection->addAction("playPause", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(playPause()));
 
