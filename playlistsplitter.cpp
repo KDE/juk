@@ -174,7 +174,7 @@ void PlaylistSplitter::setupLayout()
     // Create the PlaylistBox
 
     m_playlistBox = new PlaylistBox(this, m_playlistStack);
-    m_playlistStack->setObjectName( "playlistBox" );
+    m_playlistBox->setObjectName( "playlistBox" );
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));
