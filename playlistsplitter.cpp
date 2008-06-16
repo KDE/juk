@@ -27,6 +27,7 @@
 #include <QVBoxLayout>
 #include <QList>
 #include <Q3WidgetStack>
+#include <QSizePolicy>
 
 #include "searchwidget.h"
 #include "playlistsearch.h"
@@ -158,6 +159,7 @@ void PlaylistSplitter::setupLayout()
 
     m_playlistStack = new Q3WidgetStack(top, "playlistStack");
     m_playlistStack->installEventFilter(this);
+    m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)), this, SLOT(slotPlaylistChanged(QWidget *)));
 
@@ -166,7 +168,8 @@ void PlaylistSplitter::setupLayout()
 
     // Make the editor as small as possible (or at least as small as recommended)
 
-    editorSplitter->setStretchFactor(editorSplitter->indexOf(m_editor), 2);
+    editorSplitter->setStretchFactor(editorSplitter->indexOf(m_editor), 0);
+    editorSplitter->setStretchFactor(editorSplitter->indexOf(top), 1);
 
     // Create the PlaylistBox
 
@@ -201,7 +204,7 @@ void PlaylistSplitter::setupLayout()
 
     topLayout->addWidget(nowPlaying);
     topLayout->addWidget(m_searchWidget);
-    topLayout->addWidget(m_playlistStack);
+    topLayout->addWidget(m_playlistStack, 1);
 
     // Show the collection on startup.
     m_playlistBox->setSelected(0, true);

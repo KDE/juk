@@ -46,6 +46,7 @@
 #include <QKeyEvent>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QSizePolicy>
 
 #include <id3v1genres.h>
 
@@ -158,6 +159,8 @@ TagEditor::TagEditor(QWidget *parent) :
     readConfig();
     m_dataChanged = false;
     m_collectionChanged = false;
+
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
 }
 
 TagEditor::~TagEditor()
@@ -551,8 +554,8 @@ void TagEditor::setupLayout()
     { // just for organization
 
         QHBoxLayout *fileNameLayout = new QHBoxLayout();
-	rightColumnLayout->addItem(fileNameLayout);
-	fileNameLayout->setSpacing(horizontalSpacing);
+        rightColumnLayout->addItem(fileNameLayout);
+        fileNameLayout->setSpacing(horizontalSpacing);
 
         m_fileNameBox = new KLineEdit(this);
         m_fileNameBox->setObjectName( "fileNameBox" );
