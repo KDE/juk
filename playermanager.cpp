@@ -436,7 +436,6 @@ void PlayerManager::slotNeedNextUrl()
     {
         //kDebug() << m_file.absFilePath();
         m_file = nextFile;
-        m_media->enqueue(KUrl::fromPath(m_file.absFilePath()));
         crossfadeToFile(m_file);
     }
 }
