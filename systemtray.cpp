@@ -50,10 +50,6 @@
 #include <QX11Info>
 #endif
 
-#ifdef Q_CC_MSVC
-#include <iso646.h> // For logical "and" instead of "&&"
-#endif
-
 #include "tag.h"
 #include "actioncollection.h"
 #include "playermanager.h"
@@ -162,11 +158,11 @@ void PassiveInfo::positionSelf()
         anchor.setY(qMax(iconRect.top(), curScreen.bottom()));
 
     // Now make our rect hit that anchor.
-    if(onTop and onRight)
+    if(onTop && onRight)
         r.moveTopLeft(anchor);
-    else if(onTop and !onRight)
+    else if(onTop && !onRight)
         r.moveTopRight(anchor);
-    else if(!onTop and onRight)
+    else if(!onTop && onRight)
         r.moveBottomLeft(anchor);
     else
         r.moveBottomRight(anchor);
