@@ -50,6 +50,10 @@
 #include <QX11Info>
 #endif
 
+#ifdef Q_CC_MSVC
+#include <iso646.h> // For logical "and" instead of "&&"
+#endif
+
 #include "tag.h"
 #include "actioncollection.h"
 #include "playermanager.h"
