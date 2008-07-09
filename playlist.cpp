@@ -422,11 +422,6 @@ Playlist::~Playlist()
 
     /* delete m_toolTip; */
 
-    // Select a different playlist if we're the selected one
-
-    if(isVisible() && this != CollectionList::instance())
-        m_collection->raise(CollectionList::instance());
-
     if(!m_shuttingDown)
         m_collection->removePlaylist(this);
 }
