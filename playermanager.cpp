@@ -477,6 +477,15 @@ void PlayerManager::slotTick(qint64 msec)
 void PlayerManager::slotStateChanged(Phonon::State newstate)
 {
     if(newstate == Phonon::ErrorState) {
+        QString errorMessage =
+            i18nc(
+              "%1 will be the /path/to/file, %2 will be some string from Phonon describing the error",
+              "JuK is unable to play the audio file<nl><filename>%1</filename><nl>"
+                "for the following reason:<nl><message>%2</message>",
+              m_file.absFilePath(),
+              m_media->errorString()
+            );
+
         switch(m_media->errorType()) {
             case Phonon::NoError:
                 kDebug() << "received a state change to ErrorState but errorType is NoError!?";
@@ -484,13 +493,13 @@ void PlayerManager::slotStateChanged(Phonon::State newstate)
 
             case Phonon::NormalError:
                 forward();
-                KMessageBox::information(0, m_media->errorString());
+                KMessageBox::information(0, errorMessage);
                 break;
 
             case Phonon::FatalError:
                 // stop playback
                 stop();
-                KMessageBox::sorry(0, m_media->errorString());
+                KMessageBox::sorry(0, errorMessage);
                 break;
         }
     }
