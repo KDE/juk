@@ -92,7 +92,7 @@ public:
     static bool canDecode(const QMimeSource *e);
     static bool decode(const QMimeSource *e, coverKey &id);
 
-    static const char* mimetype;
+    static const char* mimetype();
 
 private:
     coverKey m_id;
@@ -263,8 +263,6 @@ public:
     static const coverKey NoMatch = 0;
 
     private:
-    static CoverManagerPrivate *m_data;
-
     static CoverManagerPrivate *data();
     static QPixmap createThumbnail(const QPixmap &base);
 };
