@@ -617,6 +617,7 @@ void PlayerManager::crossfadeToFile(const FileHandle &newFile)
     Phonon::AudioOutput *out = m_output;
 
     mo->disconnect(this);
+    out->setParent(mo); // Allow mo's death to also kill out
     connect(mo, SIGNAL(finished()), SLOT(slotKillSender()));
 
     m_media = new Phonon::MediaObject(this);
@@ -651,6 +652,9 @@ void PlayerManager::crossfadeToFile(const FileHandle &newFile)
 
     m_fader->setVolume(0.0f);
     m_fader->fadeTo(m_output->volume(), 2000);
+
+    // Give the media object some extra time for good measure but then kill it.
+    QTimer::singleShot(4000, mo, SLOT(deleteLater()));
 }
 
 QString PlayerManager::randomPlayMode() const
