@@ -21,7 +21,8 @@
 #include "filehandle.h"
 #include "covermanager.h"
 
-class QImage;
+#include <QImage>
+
 class QPixmap;
 
 class CoverInfo

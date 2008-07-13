@@ -275,7 +275,7 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
 
             // Both thumbnail and full size should use FrontCover, as
             // FileIcon may be too small even for thumbnail.
-            if(frame->type() != TagLib::ID3v2::AttachedPictureFrame::FrontCover)
+            if(frame && frame->type() != TagLib::ID3v2::AttachedPictureFrame::FrontCover)
                 continue;
 
             selectedFrame = frame;
@@ -287,7 +287,10 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
     // so just use the first picture.
 
     if(!selectedFrame)
-        selectedFrame = static_cast<TagLib::ID3v2::AttachedPictureFrame *>(frames.front());
+        selectedFrame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame *>(frames.front());
+
+    if(!selectedFrame) // Could occur for encrypted picture frames.
+        return QPixmap();
 
     QByteArray pictureData = QByteArray(selectedFrame->picture().data(),
                                         selectedFrame->picture().size());
