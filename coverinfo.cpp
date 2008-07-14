@@ -291,7 +291,6 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
     if(size == Thumbnail)
         attachedImage = scaleCoverToThumbnail(attachedImage);
 
-    QPixmap returnValue = QPixmap::fromImage(attachedImage);
     return QPixmap::fromImage(attachedImage);
 }
 
