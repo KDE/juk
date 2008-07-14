@@ -275,7 +275,7 @@ public:
      * This identifier is used to indicate that no cover was found in the
      * database.
      */
-    static const coverKey NoMatch = 0;
+    static const coverKey NoMatch;
 
     private:
     static CoverManagerPrivate *data();
