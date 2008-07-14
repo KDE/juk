@@ -41,6 +41,8 @@ typedef QHash<QString, coverKey> TrackLookupMap;
 
 static const char dragMimetype[] = "application/x-juk-coverid";
 
+const coverKey CoverManager::NoMatch;
+
 // Used to save and load CoverData from a QDataStream
 QDataStream &operator<<(QDataStream &out, const CoverData &data);
 QDataStream &operator>>(QDataStream &in, CoverData &data);
