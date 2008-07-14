@@ -22,7 +22,7 @@
 #include <QDir>
 #include <QDataStream>
 #include <QHash>
-#include <Q3Cache>
+#include <QPixmapCache>
 #include <QBuffer>
 #include <QByteArray>
 
@@ -40,10 +40,6 @@
 typedef QHash<QString, coverKey> TrackLookupMap;
 
 static const char dragMimetype[] = "application/x-juk-coverid";
-
-// Caches the QPixmaps for the covers so that the covers are not all kept in
-// memory for no reason.
-typedef Q3Cache<QPixmap> CoverPixmapCache;
 
 // Used to save and load CoverData from a QDataStream
 QDataStream &operator<<(QDataStream &out, const CoverData &data);
@@ -81,15 +77,14 @@ public:
     /// Maps file names to coverKey id's.
     TrackLookupMap tracks;
 
-    /// A cache of the cover representations.  The key format is:
+    /// A static pixmap cache is maintained for covers, with key format of:
     /// 'f' followed by the pathname for FullSize covers, and
     /// 't' followed by the pathname for Thumbnail covers.
-    CoverPixmapCache pixmapCache;
+    /// However only thumbnails are currently cached.
 
-    CoverManagerPrivate() : pixmapCache(2 * 1024 * 768)
+    CoverManagerPrivate()
     {
         loadCovers();
-        pixmapCache.setAutoDelete(true);
     }
 
     ~CoverManagerPrivate()
@@ -330,28 +325,24 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
 
     // Check in cache for the pixmap.
 
-    QPixmap *pix = data()->pixmapCache[path];
-
-    if(pix) {
-        kDebug(65432) << "Found pixmap in cover cache.\n";
-        return *pix;
-    }
+    QPixmap pix;
+    if(QPixmapCache::find(path, pix))
+        return pix;
 
     // Not in cache, load it and add it.
 
-    pix = new QPixmap(coverData.path);
-    if(pix->isNull())
+    if(!pix.load(coverData.path))
         return QPixmap();
 
-    if(size == Thumbnail)
-        *pix = pix->scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+    // Only thumbnails are cached to avoid depleting global cache.  Caching
+    // full size pics is not really useful as they are infrequently shown.
 
-    QPixmap returnValue = *pix; // Save it early.
+    if(size == Thumbnail) {
+        pix = pix.scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        QPixmapCache::insert(path, pix);
+    }
 
-    if(!data()->pixmapCache.insert(path, pix, pix->height() * pix->width()))
-        delete pix;
-
-    return returnValue;
+    return pix;
 }
 
 coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, const QString &album)
@@ -416,8 +407,8 @@ coverKey CoverManager::addCover(const KUrl &path, const QString &artist, const Q
     data()->covers[id] = coverData;
 
     // Make sure the new cover isn't inadvertently cached.
-    data()->pixmapCache.remove(QString("f%1").arg(coverData->path));
-    data()->pixmapCache.remove(QString("t%1").arg(coverData->path));
+    QPixmapCache::remove(QString("f%1").arg(coverData->path));
+    QPixmapCache::remove(QString("t%1").arg(coverData->path));
 
     return id;
 }
@@ -434,8 +425,8 @@ bool CoverManager::removeCover(coverKey id)
 
     // Remove cover from cache.
     CoverDataPtr coverData = coverInfo(id);
-    data()->pixmapCache.remove(QString("f%1").arg(coverData->path));
-    data()->pixmapCache.remove(QString("t%1").arg(coverData->path));
+    QPixmapCache::remove(QString("f%1").arg(coverData->path));
+    QPixmapCache::remove(QString("t%1").arg(coverData->path));
 
     // Remove references to files that had that track ID.
     QList<QString> affectedFiles = data()->tracks.keys(id);
@@ -460,8 +451,8 @@ bool CoverManager::replaceCover(coverKey id, const QPixmap &large)
     CoverDataPtr coverData = coverInfo(id);
 
     // Empty old pixmaps from cache.
-    data()->pixmapCache.remove(QString("t%1").arg(coverData->path));
-    data()->pixmapCache.remove(QString("f%1").arg(coverData->path));
+    QPixmapCache::remove(QString("t%1").arg(coverData->path));
+    QPixmapCache::remove(QString("f%1").arg(coverData->path));
 
     large.save(coverData->path, "PNG");
     return true;
