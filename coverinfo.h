@@ -34,7 +34,7 @@ public:
 
     CoverInfo(const FileHandle &file);
 
-    bool hasCover();
+    bool hasCover() const;
 
     void clearCover();
     void setCover(const QImage &image = QImage());
@@ -53,22 +53,21 @@ public:
      */
     void applyCoverToWholeAlbum(bool overwriteExistingCovers = false) const;
 
-    coverKey coverId() const { return m_coverKey; }
+    coverKey coverId() const;
 
     QPixmap pixmap(CoverSize size) const;
     void popup() const;
 
 private:
-    QString coverLocation(CoverSize size) const;
-    bool convertOldStyleCover() const;
     QImage scaleCoverToThumbnail(const QImage &image) const;
 
     FileHandle m_file;
-    bool m_hasCover;
-    bool m_hasAttachedCover;
-    bool m_haveCheckedForCover;
+
+    // Mutable to allow this info to be cached.
+    mutable bool m_hasCover;
+    mutable bool m_hasAttachedCover;
+    mutable bool m_haveCheckedForCover;
     mutable coverKey m_coverKey;
-    mutable bool m_needsConverting;
 };
 
 #endif

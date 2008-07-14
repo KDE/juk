@@ -19,13 +19,13 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <krandom.h>
-#include <k3urldrag.h>
+#include <kglobalsettings.h>
 #include <kio/netaccess.h>
 
 #include <QImage>
 #include <QLayout>
 #include <QEvent>
-#include <Q3DragObject>
+#include <QDrag>
 #include <QTimer>
 #include <QPoint>
 #include <QFrame>
@@ -34,6 +34,8 @@
 #include <QVBoxLayout>
 #include <QDragEnterEvent>
 #include <QMouseEvent>
+#include <QUrl>
+#include <QList>
 #include <QTextDocument>
 
 #include "playlistcollection.h"
@@ -167,40 +169,48 @@ void CoverItem::mouseMoveEvent(QMouseEvent *e)
         return;
 
     QPoint diff = m_dragStart - e->globalPos();
-    if(qAbs(diff.x()) > 1 || qAbs(diff.y()) > 1) {
+    if(diff.manhattanLength() > KGlobalSettings::dndEventDelay()) {
 
         // Start a drag.
 
         m_dragging = true;
 
-        CoverDrag *drag = new CoverDrag(m_file.coverInfo()->coverId(), this);
-        drag->drag();
+        QDrag *drag = new QDrag(this);
+        CoverDrag *data = new CoverDrag(m_file.coverInfo()->coverId());
+
+        drag->setMimeData(data);
+        drag->exec(Qt::CopyAction);
     }
 }
 
 void CoverItem::dragEnterEvent(QDragEnterEvent *e)
 {
-    e->setAccepted(Q3ImageDrag::canDecode(e) || K3URLDrag::canDecode(e) || CoverDrag::canDecode(e));
+    e->setAccepted(CoverDrag::isCover(e->mimeData()) || e->mimeData()->hasUrls());
 }
 
 void CoverItem::dropEvent(QDropEvent *e)
 {
     QImage image;
-    KUrl::List urls;
+    QList<QUrl> urls;
     coverKey key;
 
     if(e->source() == this)
         return;
 
-    if(Q3ImageDrag::decode(e, image)) {
-        m_file.coverInfo()->setCover(image);
-        update(m_file);
-    }
-    else if(CoverDrag::decode(e, key)) {
+    key = CoverDrag::idFromData(e->mimeData());
+    if(key != CoverManager::NoMatch) {
         m_file.coverInfo()->setCoverId(key);
         update(m_file);
     }
-    else if(K3URLDrag::decode(e, urls)) {
+    else if(e->mimeData()->hasImage()) {
+        m_file.coverInfo()->setCover(qvariant_cast<QImage>(e->mimeData()->imageData()));
+        update(m_file);
+    }
+    else {
+        urls = e->mimeData()->urls();
+        if(urls.isEmpty())
+            return;
+
         QString fileName;
 
         if(KIO::NetAccess::download(urls.front(), fileName, this)) {

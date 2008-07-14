@@ -1019,7 +1019,7 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
 {
     K3ListView::contentsDragEnterEvent(e);
 
-    if(CoverDrag::canDecode(e)) {
+    if(CoverDrag::isCover(e->mimeData())) {
         setDropHighlighter(true);
         setDropVisualizer(false);
 
@@ -1042,7 +1042,7 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
 
 bool Playlist::acceptDrag(QDropEvent *e) const
 {
-    return CoverDrag::canDecode(e) || K3URLDrag::canDecode(e);
+    return CoverDrag::isCover(e->mimeData()) || K3URLDrag::canDecode(e);
 }
 
 void Playlist::decode(const QMimeData *s, PlaylistItem *item)
@@ -1155,9 +1155,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
     // First see if we're dropping a cover, if so we can get it out of the
     // way early.
-    if(item && CoverDrag::canDecode(e)) {
-        coverKey id;
-        CoverDrag::decode(e, id);
+    if(item && CoverDrag::isCover(e->mimeData())) {
+        coverKey id = CoverDrag::idFromData(e->mimeData());
 
         // If the item we dropped on is selected, apply cover to all selected
         // items, otherwise just apply to the dropped item.

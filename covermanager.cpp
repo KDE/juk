@@ -23,8 +23,8 @@
 #include <QDataStream>
 #include <QHash>
 #include <Q3Cache>
-#include <QMimeSource>
 #include <QBuffer>
+#include <QByteArray>
 
 #include <kdebug.h>
 #include <ktemporaryfile.h>
@@ -237,7 +237,8 @@ QString CoverManagerPrivate::coverLocation() const
 }
 
 // XXX: This could probably use some improvement, I don't like the linear
-// search for ID idea.
+// search for ID idea.  Linear search is used instead of covers.size() since we want to
+// re-use old IDs if possible.
 coverKey CoverManagerPrivate::nextId() const
 {
     // Start from 1...
@@ -252,66 +253,31 @@ coverKey CoverManagerPrivate::nextId() const
 //
 // Implementation of CoverDrag
 //
-CoverDrag::CoverDrag(coverKey id, QWidget *src) : Q3DragObject(src, "coverDrag"),
-                                                  m_id(id)
+CoverDrag::CoverDrag(coverKey id) :
+    QMimeData()
 {
     QPixmap cover = CoverManager::coverFromId(id);
-    if(!cover.isNull())
-        setPixmap(cover);
+    setImageData(cover.toImage());
+    setData(dragMimetype, QByteArray::number(qulonglong(id), 10));
 }
 
-const char *CoverDrag::format(int i) const
+bool CoverDrag::isCover(const QMimeData *data)
 {
-    if(i == 0)
-        return dragMimetype;
-    if(i == 1)
-        return "image/png";
-
-    return 0;
+    return data->hasImage() || data->hasFormat(dragMimetype);
 }
 
-QByteArray CoverDrag::encodedData(const char *mimetype) const
+coverKey CoverDrag::idFromData(const QMimeData *data)
 {
-    if(qstrcmp(dragMimetype, mimetype) == 0) {
-        QByteArray data;
-        QDataStream ds(&data, QIODevice::WriteOnly);
+    bool ok = false;
 
-        ds << quint32(m_id);
-        return data;
-    }
-    else if(qstrcmp(dragMimetype, "image/png") == 0) {
-        QPixmap large = CoverManager::coverFromId(m_id, CoverManager::FullSize);
-        QImage img = large.toImage();
-        QByteArray data;
-        QBuffer buffer(&data);
+    if(!data->hasFormat(dragMimetype))
+        return CoverManager::NoMatch;
 
-        buffer.open(IO_WriteOnly);
-        img.save(&buffer, "PNG"); // Write in PNG format.
+    coverKey id = data->data(dragMimetype).toULong(&ok);
+    if(!ok)
+        return CoverManager::NoMatch;
 
-        return data;
-    }
-
-    return QByteArray();
-}
-
-bool CoverDrag::canDecode(const QMimeSource *e)
-{
-    return e->provides(dragMimetype);
-}
-
-bool CoverDrag::decode(const QMimeSource *e, coverKey &id)
-{
-    if(!canDecode(e))
-        return false;
-
-    QByteArray data = e->encodedData(dragMimetype);
-    QDataStream ds(&data, QIODevice::ReadOnly);
-    quint32 i;
-
-    ds >> i;
-    id = (coverKey) i;
-
-    return true;
+    return id;
 }
 
 const char *CoverDrag::mimetype()

@@ -31,6 +31,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QDesktopWidget>
+#include <QImage>
 
 #include <taglib/mpegfile.h>
 #include <taglib/tstring.h>
@@ -72,13 +73,12 @@ CoverInfo::CoverInfo(const FileHandle &file) :
     m_hasCover(false),
     m_hasAttachedCover(false),
     m_haveCheckedForCover(false),
-    m_coverKey(CoverManager::NoMatch),
-    m_needsConverting(false)
+    m_coverKey(CoverManager::NoMatch)
 {
 
 }
 
-bool CoverInfo::hasCover()
+bool CoverInfo::hasCover() const
 {
     if(m_haveCheckedForCover)
         return m_hasCover || m_hasAttachedCover;
@@ -96,14 +96,6 @@ bool CoverInfo::hasCover()
     // error, or the user has been mucking around where they shouldn't.
     if(m_coverKey != CoverManager::NoMatch)
         m_hasCover = CoverManager::hasCover(m_coverKey);
-
-    // We *still* don't have it?  Check the old-style covers then.
-    if(!m_hasCover) {
-        m_hasCover = QFile(coverLocation(FullSize)).exists();
-
-        if(m_hasCover)
-            m_needsConverting = true;
-    }
 
     // Check if it's embedded in the file itself.
 
@@ -139,8 +131,6 @@ void CoverInfo::clearCover()
     // Re-search for cover since we may still have a different type of cover.
     m_haveCheckedForCover = false;
 
-    m_needsConverting = false;
-
     // We don't need to call removeCover because the CoverManager will
     // automatically unlink the cover if we were the last track to use it.
     CoverManager::setIdForTrack(m_file.absFilePath(), CoverManager::NoMatch);
@@ -153,7 +143,6 @@ void CoverInfo::setCover(const QImage &image)
         return;
 
     m_haveCheckedForCover = true;
-    m_needsConverting = false;
     m_hasCover = true;
 
     QPixmap cover = QPixmap::fromImage(image);
@@ -170,7 +159,6 @@ void CoverInfo::setCoverId(coverKey id)
 {
     m_coverKey = id;
     m_haveCheckedForCover = true;
-    m_needsConverting = false;
     m_hasCover = id != CoverManager::NoMatch;
 
     // Inform CoverManager of the change.
@@ -203,21 +191,23 @@ void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
     for(; it != results.constEnd(); ++it) {
 
         // Don't worry about files that somehow already have a tag,
-        // unless the coversion is forced.
-        if(!overwriteExistingCovers && !(*it)->file().coverInfo()->m_needsConverting)
+        // unless the conversion is forced.
+        if(!overwriteExistingCovers && (*it)->file().coverInfo()->coverId() != CoverManager::NoMatch)
             continue;
 
-        kDebug(65432) << "Setting cover for: " << *it;
         (*it)->file().coverInfo()->setCoverId(m_coverKey);
     }
 }
 
+coverKey CoverInfo::coverId() const
+{
+    hasCover(); // Force check for cover.
+    return m_coverKey;
+}
+
 QPixmap CoverInfo::pixmap(CoverSize size) const
 {
-    if(m_needsConverting)
-        convertOldStyleCover();
-
-    if(m_hasCover && m_coverKey != CoverManager::NoMatch) {
+    if(hasCover() && m_coverKey != CoverManager::NoMatch) {
         return CoverManager::coverFromId(m_coverKey,
             size == Thumbnail
                ? CoverManager::Thumbnail
@@ -338,67 +328,6 @@ void CoverInfo::popup() const
 QImage CoverInfo::scaleCoverToThumbnail(const QImage &image) const
 {
     return image.scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-}
-
-/**
- * DEPRECATED
- */
-QString CoverInfo::coverLocation(CoverSize size) const
-{
-    QString fileName(QFile::encodeName(m_file.tag()->artist() + " - " + m_file.tag()->album()));
-    QRegExp maskedFileNameChars("[ /?:\"]");
-
-    fileName.replace(maskedFileNameChars, "_");
-    fileName.append(".png");
-
-    QString dataDir = KGlobal::dirs()->saveLocation("appdata");
-    QString subDir;
-
-    switch (size) {
-    case FullSize:
-        subDir = "large/";
-        break;
-    default:
-        break;
-    }
-    QString fileLocation = dataDir + "covers/" + subDir + fileName.toLower();
-
-    return fileLocation;
-}
-
-bool CoverInfo::convertOldStyleCover() const
-{
-    // Ah, old-style cover.  Let's transfer it to the new system.
-    kDebug() << "Found old style cover for " << m_file.absFilePath();
-
-    QString artist = m_file.tag()->artist();
-    QString album = m_file.tag()->album();
-    QString oldLocation = coverLocation(FullSize);
-    m_coverKey = CoverManager::addCover(oldLocation, artist, album);
-
-    m_needsConverting = false;
-
-    if(m_coverKey != CoverManager::NoMatch) {
-        CoverManager::setIdForTrack(m_file.absFilePath(), m_coverKey);
-
-        // Now let's also set the ID for the tracks matching the track and
-        // artist at this point so that the conversion is complete, otherwise
-        // we can't tell apart the "No cover on purpose" and "Has no cover yet"
-        // possibilities.
-
-        applyCoverToWholeAlbum();
-
-        // If we convert we need to remove the old cover otherwise we'll find
-        // it later if the user un-sets the new cover.
-        if(!QFile::remove(oldLocation))
-            kError(65432) << "Unable to remove converted cover at " << oldLocation << endl;
-
-        return true;
-    }
-    else {
-        kDebug() << "We were unable to replace the old style cover.\n";
-        return false;
-    }
 }
 
 // vim: set et sw=4 tw=0 sta:

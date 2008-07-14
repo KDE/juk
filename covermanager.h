@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Sun May 15 2005
-    copyright            : (C) 2005 by Michael Pyne
+    copyright            : (C) 2005, 2008 by Michael Pyne
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
@@ -13,12 +13,12 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef COVERMANAGER_H
-#define COVERMANAGER_H
+#ifndef JUK_COVERMANAGER_H
+#define JUK_COVERMANAGER_H
 
 #include <ksharedptr.h>
 
-#include <Q3DragObject>
+#include <QMimeData>
 #include <QString>
 
 class CoverManagerPrivate;
@@ -74,28 +74,20 @@ typedef QList<coverKey> CoverList;
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class CoverDrag : public Q3DragObject
+class CoverDrag : public QMimeData
 {
+    Q_OBJECT
+
 public:
-    CoverDrag(coverKey id, QWidget *src);
-
-    virtual const char *format(int i) const;
-    virtual QByteArray encodedData(const char *mimetype) const;
-
-    void setId(coverKey id) { m_id = id; }
-
-    /**
-     * Returns true if CoverDrag can decode the given mime source.  Note that
-     * true is returned only if \p e contains a cover id, even though
-     * CoverDrag can convert it to an image.
-     */
-    static bool canDecode(const QMimeSource *e);
-    static bool decode(const QMimeSource *e, coverKey &id);
+    CoverDrag(coverKey id);
 
     static const char* mimetype();
 
-private:
-    coverKey m_id;
+    static bool isCover(const QMimeData *data);
+
+    // CoverDrag stores QByteArray data for the cover id, this can convert it
+    // back.
+    static coverKey idFromData(const QMimeData *data);
 };
 
 /**
@@ -267,6 +259,6 @@ public:
     static QPixmap createThumbnail(const QPixmap &base);
 };
 
-#endif /* COVERMANAGER_H */
+#endif /* JUK_COVERMANAGER_H */
 
 // vim: set et sw=4 tw=0 sta:

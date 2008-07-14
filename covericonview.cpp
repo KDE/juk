@@ -38,10 +38,13 @@ CoverIconViewItem *CoverIconView::currentItem() const
 
 Q3DragObject *CoverIconView::dragObject()
 {
+#if 0
+    // Temporarily disabled pending conversion of the cover manager icon view
+    // to Qt 4 ish stuff.
     CoverIconViewItem *item = currentItem();
     if(item)
         return new CoverDrag(item->id(), this);
-
+#endif
     return 0;
 }
 
