@@ -15,6 +15,7 @@
 
 #include "covermanager.h"
 
+#include <QTimer>
 #include <QPixmap>
 #include <QString>
 #include <QFile>
@@ -23,7 +24,6 @@
 #include <QDataStream>
 #include <QHash>
 #include <QPixmapCache>
-#include <QBuffer>
 #include <QByteArray>
 
 #include <kdebug.h>
@@ -44,6 +44,33 @@ static const char dragMimetype[] = "application/x-juk-coverid";
 // Used to save and load CoverData from a QDataStream
 QDataStream &operator<<(QDataStream &out, const CoverData &data);
 QDataStream &operator>>(QDataStream &in, CoverData &data);
+
+//
+// Implementation of CoverSaveHelper class
+//
+
+CoverSaveHelper::CoverSaveHelper(QObject *parent) :
+    QObject(parent),
+    m_timer(new QTimer(this))
+{
+    connect(m_timer, SIGNAL(timeout()), SLOT(commitChanges()));
+
+    // Wait 5 seconds before committing to avoid lots of disk activity for
+    // rapid changes.
+
+    m_timer->setSingleShot(true);
+    m_timer->setInterval(5000);
+}
+
+void CoverSaveHelper::saveCovers()
+{
+    m_timer->start(); // Restarts if already triggered.
+}
+
+void CoverSaveHelper::commitChanges()
+{
+    CoverManager::saveCovers();
+}
 
 //
 // Implementation of CoverData struct
@@ -82,14 +109,20 @@ public:
     /// 't' followed by the pathname for Thumbnail covers.
     /// However only thumbnails are currently cached.
 
-    CoverManagerPrivate()
+    CoverManagerPrivate() : m_timer(new CoverSaveHelper(0))
     {
         loadCovers();
     }
 
     ~CoverManagerPrivate()
     {
+        delete m_timer;
         saveCovers();
+    }
+
+    void requestSave()
+    {
+        m_timer->saveCovers();
     }
 
     /**
@@ -116,6 +149,8 @@ public:
      * lookup map and the translations between pathnames and ids.
      */
     QString coverLocation() const;
+
+    CoverSaveHelper *m_timer;
 };
 
 // This is responsible for making sure that the CoverManagerPrivate class
@@ -154,6 +189,8 @@ void CoverManagerPrivate::saveCovers() const
     // Write out the version and count
     out << quint32(0) << quint32(covers.count());
 
+    kDebug() << "Writing out" << covers.count() << "covers.";
+
     // Write out the data
     for(CoverDataMap::const_iterator it = covers.begin(); it != covers.end(); ++it) {
         out << quint32(it.key());
@@ -162,6 +199,8 @@ void CoverManagerPrivate::saveCovers() const
 
     // Now write out the track mapping.
     out << quint32(tracks.count());
+
+    kDebug() << "Writing out" << tracks.count() << "tracks.";
 
     TrackLookupMap::ConstIterator trackMapIt = tracks.constBegin();
     while(trackMapIt != tracks.constEnd()) {
@@ -196,6 +235,8 @@ void CoverManagerPrivate::loadCovers()
 
     // Read in the count next, then the data.
     in >> count;
+
+    kDebug() << "Loading" << count << "covers.";
     for(quint32 i = 0; i < count; ++i) {
         // Read the id, and 3 QStrings for every 1 of the count.
         quint32 id;
@@ -209,6 +250,7 @@ void CoverManagerPrivate::loadCovers()
     }
 
     in >> count;
+    kDebug() << "Loading" << count << "tracks";
     for(quint32 i = 0; i < count; ++i) {
         QString path;
         quint32 id;
@@ -224,6 +266,8 @@ void CoverManagerPrivate::loadCovers()
             tracks.insert(path, id);
         }
     }
+
+    kDebug() << "Tracks hash table has" << tracks.size() << "entries.";
 }
 
 QString CoverManagerPrivate::coverLocation() const
@@ -410,6 +454,8 @@ coverKey CoverManager::addCover(const KUrl &path, const QString &artist, const Q
     QPixmapCache::remove(QString("f%1").arg(coverData->path));
     QPixmapCache::remove(QString("t%1").arg(coverData->path));
 
+    data()->requestSave(); // Save changes when possible.
+
     return id;
 }
 
@@ -439,6 +485,7 @@ bool CoverManager::removeCover(coverKey id)
 
     // Finally, forget that we ever knew about this cover.
     data()->covers.remove(id);
+    data()->requestSave();
 
     return true;
 }
@@ -455,6 +502,10 @@ bool CoverManager::replaceCover(coverKey id, const QPixmap &large)
     QPixmapCache::remove(QString("f%1").arg(coverData->path));
 
     large.save(coverData->path, "PNG");
+
+    // No save is needed, as all that has changed is the on-disk cover data,
+    // not the list of tracks or covers.
+
     return true;
 }
 
@@ -508,6 +559,8 @@ void CoverManager::setIdForTrack(const QString &path, coverKey id)
         data()->covers[id]->refCount++;
         data()->tracks.insert(path, id);
     }
+
+    data()->requestSave();
 }
 
 coverKey CoverManager::idForTrack(const QString &path)

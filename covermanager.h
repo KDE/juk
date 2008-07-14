@@ -18,11 +18,13 @@
 
 #include <ksharedptr.h>
 
+#include <QObject>
 #include <QMimeData>
 #include <QString>
 
 class CoverManagerPrivate;
 class QPixmap;
+class QTimer;
 
 template<class Key, class Value>
 class QMap;
@@ -31,6 +33,27 @@ template<class T>
 class QList;
 
 class KUrl;
+
+/**
+ * This class saves the covers when its saveCovers() slot is called to avoid
+ * making CoverManager a QObject and avoid moving the actual implementation
+ * class (CoverManagerPrivate) to this .h file.  Used with a QTimer to save
+ * the covers after changes are made.
+ */
+class CoverSaveHelper : public QObject
+{
+    Q_OBJECT
+
+public:
+    CoverSaveHelper(QObject *parent);
+    void saveCovers();
+
+private slots:
+    void commitChanges();
+
+private:
+    QTimer *m_timer;
+};
 
 /**
  * This class holds the data on a cover.  This includes the path to the cover

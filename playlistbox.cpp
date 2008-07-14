@@ -42,7 +42,6 @@
 
 #include "playlist.h"
 #include "collectionlist.h"
-#include "covermanager.h"
 #include "dynamicplaylist.h"
 #include "upcomingplaylist.h"
 #include "historyplaylist.h"
@@ -111,7 +110,6 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
     m_viewModes.append(new ViewMode(this));
     m_viewModes.append(new CompactViewMode(this));
     m_viewModes.append(new TreeViewMode(this));
-    // m_viewModes.append(new CoverManagerMode(this));
 
     QStringList modeNames;
 
@@ -399,7 +397,6 @@ void PlaylistBox::slotSavePlaylists()
     }
 
     Cache::savePlaylists(l);
-    CoverManager::saveCovers();
 
     QTimer::singleShot(600000, this, SLOT(slotSavePlaylists()));
 }
