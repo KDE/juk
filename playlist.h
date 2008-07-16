@@ -745,7 +745,7 @@ ItemType *Playlist::createItem(const FileHandle &file, Q3ListViewItem *after,
         }
     }
 
-    if(item && !m_members.insert(file.absFilePath()) || m_allowDuplicates) {
+    if(item && (!m_members.insert(file.absFilePath()) || m_allowDuplicates)) {
 
         ItemType *i = after ? new ItemType(item, this, after) : new ItemType(item, this);
         setupItem(i);
