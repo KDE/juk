@@ -157,7 +157,7 @@ public:
 
 // This is responsible for making sure that the CoverManagerPrivate class
 // gets properly destructed on shutdown.
-K_GLOBAL_STATIC(CoverManagerPrivate, sd);
+K_GLOBAL_STATIC(CoverManagerPrivate, sd)
 
 //
 // Implementation of CoverManagerPrivate methods.
