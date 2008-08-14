@@ -33,6 +33,12 @@ public:
     void removeObserver(PlaylistObserver *observer);
 
     /**
+     * Call this to remove all objects observing this class unconditionally (for example, when
+     * you're being destructed).
+     */
+    void clearObservers();
+
+    /**
      * This is triggered when the currently playing item has been changed.
      */
     virtual void currentChanged();

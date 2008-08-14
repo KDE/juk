@@ -257,6 +257,12 @@ CollectionList::~CollectionList()
     config.writeEntry("CollectionListSortColumn", sortColumn());
     config.writeEntry("CollectionListSortAscending", sortOrder() == Qt::AscendingOrder);
 
+    // In some situations the dataChanged signal from clearItems will cause observers to
+    // subsequently try to access a deleted item.  Since we're going away just remove all
+    // observers.
+
+    clearObservers();
+
     // The CollectionListItems will try to remove themselves from the
     // m_columnTags member, so we must make sure they're gone before we
     // are.
