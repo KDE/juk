@@ -39,6 +39,7 @@
 #include <QMenu>
 #include <Q3MimeSourceFactory>
 #include <QLabel>
+#include <QPainter>
 #include <QVBoxLayout>
 #include <QMouseEvent>
 #include <QDesktopWidget>
@@ -57,8 +58,6 @@
 #include "coverinfo.h"
 
 using namespace ActionCollection;
-
-static bool copyImage(QImage &dest, QImage &src, int x, int y);
 
 PassiveInfo::PassiveInfo(QSystemTrayIcon *parent) :
     QFrame(static_cast<QWidget *>(0), 
@@ -463,8 +462,17 @@ QPixmap SystemTray::createPixmap(const QString &pixName)
     QImage fgImage = SmallIcon(pixName).toImage(); // Should be 16x16
 
     KIconEffect::semiTransparent(bgImage);
-    copyImage(bgImage, fgImage, (bgImage.width() - fgImage.width()) / 2,
-              (bgImage.height() - fgImage.height()) / 2);
+
+    // Center smaller image inside larger one.
+    QRect rect = fgImage.rect();
+    rect.moveCenter(bgImage.rect().center());
+
+    // Must use begin()/end() (or scope in this case) to avoid returning a
+    // QPixmap constructed from a QImage being painted on.
+    {
+        QPainter painter(&bgImage);
+        painter.drawImage(rect.topLeft(), fgImage);
+    }
 
     return QPixmap::fromImage(bgImage);
 }
@@ -611,53 +619,6 @@ void SystemTray::slotActivated(QSystemTrayIcon::ActivationReason reason)
     else
         action("play")->trigger();
 }
-
-/*
- * This function copies the entirety of src into dest, starting in
- * dest at x and y.  This function exists because I was unable to find
- * a function like it in either QImage or kdefx
- */
-
-static bool copyImage(QImage &dest, QImage &src, int x, int y)
-{
-    if(dest.depth() != src.depth())
-        return false;
-    if((x + src.width()) >= dest.width())
-        return false;
-    if((y + src.height()) >= dest.height())
-        return false;
-
-    // We want to use KIconEffect::overlay to do this, since it handles
-    // alpha, but the images need to be the same size.  We can handle that.
-
-    QImage large_src(dest);
-
-    // It would perhaps be better to create large_src based on a size, but
-    // this is the easiest way to make a new image with the same depth, size,
-    // etc.
-
-    large_src.detach();
-
-    // However, we do have to specifically ensure that setAlphaBuffer is set
-    // to false
-
-    large_src = large_src.convertToFormat(QImage::Format_RGB32); // Turn off alpha
-    large_src.fill(0); // All transparent pixels
-    large_src = large_src.convertToFormat(QImage::Format_ARGB32); // Turn on alpha
-
-    int w = src.width();
-    int h = src.height();
-    for(int dx = 0; dx < w; dx++)
-        for(int dy = 0; dy < h; dy++)
-            large_src.setPixel(dx + x, dy + y, src.pixel(dx, dy));
-
-    // Apply effect to image
-
-    KIconEffect::overlay(dest, large_src);
-
-    return true;
-}
-
 
 #include "systemtray.moc"
 
