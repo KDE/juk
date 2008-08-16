@@ -548,7 +548,7 @@ menu entry or by pressing
 <para>You can select multiple files in the list view, and edit one or
 more fields in the tags for all files at once.</para>
 
-<para>Use <keycap>Shift</keycap> and the &LMB; to select a contiguous
+<para>Use &Shift; and the &LMB; to select a contiguous
 list of files, and &Ctrl; and &LMB; to select individual
 non-contiguous files.</para>
 
