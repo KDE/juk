@@ -4,6 +4,7 @@ Type=Application
 Exec=juk -caption "%c" %i
 Icon=juk
 X-DocPath=juk/index.html
+X-DBUS-StartupType=Unique
 Comment=
 Terminal=false
 Name=JuK

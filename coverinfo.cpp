@@ -72,7 +72,7 @@ CoverInfo::CoverInfo(const FileHandle &file) :
     m_hasCover(false),
     m_hasAttachedCover(false),
     m_haveCheckedForCover(false),
-    m_coverKey(CoverManager::NoMatch),
+    m_coverKey(CoverManager::idForTrack(file.absFilePath())),
     m_needsConverting(false)
 {
 
