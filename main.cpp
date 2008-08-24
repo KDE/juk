@@ -40,6 +40,7 @@ static const char antonio[]     = I18N_NOOP("DCOP interface");
 static const char allan[]       = I18N_NOOP("FLAC and MPC support");
 static const char nathan[]      = I18N_NOOP("Album cover manager");
 static const char pascal[]      = I18N_NOOP("Gimper of splash screen");
+static const char laurent[]     = I18N_NOOP("Porting to KDE 4 when no one else was around");
 
 int main(int argc, char *argv[])
 {
@@ -63,6 +64,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(ki18n("Allan Sandfeld Jensen"), ki18n(allan), "kde@carewolf.com");
     aboutData.addCredit(ki18n("Nathan Toone"), ki18n(nathan), "nathan@toonetown.com");
     aboutData.addCredit(ki18n("Pascal Klein"), ki18n(pascal), "4pascal@tpg.com.au");
+    aboutData.addCredit(ki18n("Laurent Montel"), ki18n(laurent), "montel@kde.org");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
 
