@@ -129,7 +129,6 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
 #endif
 
     CollectionList::initialize(this);
-    Cache::loadPlaylists(this);
 
     viewModeAction->setCurrentItem(m_viewModeIndex);
     m_viewModes[m_viewModeIndex]->setShown(true);
@@ -160,6 +159,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
     connect(CollectionList::instance(), SIGNAL(signalRemovedTag(const QString &, unsigned)),
             this, SLOT(slotRemoveItem(const QString &, unsigned)));
 
+    QTimer::singleShot(0, this, SLOT(slotLoadCachedPlaylists()));
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
     enableDirWatch(true);
 
@@ -703,6 +703,12 @@ void PlaylistBox::setupUpcomingPlaylist()
     action<KToggleAction>("showUpcoming")->setChecked(enable);
 }
 
+
+void PlaylistBox::slotLoadCachedPlaylists()
+{
+    Cache::loadPlaylists(this);
+    emit startupComplete();
+}
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox::Item protected methods
 ////////////////////////////////////////////////////////////////////////////////

@@ -50,6 +50,7 @@ public:
 public slots:
     virtual void setFocus();
     virtual void slotFocusCurrentPlaylist();
+    void slotEnable();
 
 private:
 

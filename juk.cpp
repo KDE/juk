@@ -93,7 +93,8 @@ JuK::JuK(QWidget *parent) :
     setupSystemTray();
     setupGlobalAccels();
 
-    SplashScreen::finishedLoading();
+    // slotCheckCache loads the cached entries first to populate the collection list
+
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
     QTimer::singleShot(0, this, SLOT(slotProcessArgs()));
 

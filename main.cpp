@@ -42,6 +42,41 @@ static const char nathan[]      = I18N_NOOP("Album cover manager");
 static const char pascal[]      = I18N_NOOP("Gimper of splash screen");
 static const char laurent[]     = I18N_NOOP("Porting to KDE 4 when no one else was around");
 
+/**
+ * Loading from the cache can take forever, so subclass KUniqueApplication to use a quicker
+ * newInstance() function.
+ */
+class JuKApplication : public KUniqueApplication
+{
+    public:
+    JuKApplication() : KUniqueApplication(), m_juk(0)
+    {
+    }
+
+    virtual ~JuKApplication()
+    {
+        delete m_juk;
+        m_juk = 0;
+    }
+
+    // Reimplementation
+    virtual int newInstance()
+    {
+        m_juk = new JuK;
+
+        KConfigGroup config(KGlobal::config(), "Settings");
+        if(!config.readEntry("StartDocked", false))
+            m_juk->show();
+
+        // Some single shots will allow startup to continue at this point so we can
+        // return.
+        return 0;
+    }
+
+    private:
+    JuK *m_juk;
+};
+
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", 0, ki18n("JuK"),
@@ -74,30 +109,16 @@ int main(int argc, char *argv[])
 
     KUniqueApplication::addCmdLineOptions();
 
-    KUniqueApplication a;
+    JuKApplication a;
 
     // If this flag gets set then JuK will quit if you click the cover on the track
     // announcement popup when JuK is only in the system tray (the systray has no widget).
 
     a.setQuitOnLastWindowClosed(false);
 
-    // Here we do some DCOP locking of sorts to prevent incoming DCOP calls
-    // before JuK has finished its initialization.
+    // Create the main window and such
 
-#ifdef __GNUC__
-#warning "kde4: port it"
-#endif
-    //a.dcopClient()->suspend();
-    JuK *juk = new JuK;
-    //a.dcopClient()->resume();
-
-    bool startDocked;
-
-    KConfigGroup config(KGlobal::config(), "Settings");
-    startDocked = config.readEntry("StartDocked", false);
-
-    if(!startDocked)
-        juk->show();
+    a.start();
 
     return a.exec();
 }

@@ -78,6 +78,7 @@ protected:
 
 signals:
     void signalPlaylistDestroyed(Playlist *);
+    void startupComplete(); ///< Emitted after playlists are loaded.
 
 private:
     void readConfig();
@@ -118,6 +119,9 @@ private slots:
 
     void slotAddItem(const QString &tag, unsigned column);
     void slotRemoveItem(const QString &tag, unsigned column);
+
+    // Used to load the playlists after GUI setup.
+    void slotLoadCachedPlaylists();
 
 private:
     KMenu *m_contextMenu;

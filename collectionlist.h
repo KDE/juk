@@ -140,6 +140,13 @@ signals:
     void signalNewTag(const QString &, unsigned);
     void signalRemovedTag(const QString &, unsigned);
 
+public slots:
+    /**
+     * Loads the CollectionListItems from the Cache.  Should be called after program
+     * initialization.
+     */
+    void loadCachedItems();
+
 private:
     /**
      * Just the size of the above enum to keep from hard coding it in several

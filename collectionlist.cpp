@@ -55,21 +55,17 @@ CollectionList *CollectionList::instance()
     return m_list;
 }
 
-void CollectionList::initialize(PlaylistCollection *collection)
+void CollectionList::loadCachedItems()
 {
-    if(m_list)
+    if(!m_list)
         return;
 
-    // We have to delay initilaization here because dynamic_cast or comparing to
-    // the collection instance won't work in the PlaylistBox::Item initialization
-    // won't work until the CollectionList is fully constructed.
-
-    m_list = new CollectionList(collection);
-    m_list->setName(i18n("Collection List"));
-
-    FileHandleHash::Iterator end = Cache::instance()->end();
-    for(FileHandleHash::Iterator it = Cache::instance()->begin(); it != end; ++it)
-        new CollectionListItem(*it);
+    FileHandleHash::ConstIterator end = Cache::instance()->constEnd();
+    for(FileHandleHash::ConstIterator it = Cache::instance()->constBegin(); it != end; ++it) {
+        // This may have already been created via a loaded playlist.
+        if(!m_itemsDict.contains(it.key()))
+            new CollectionListItem(*it);
+    }
 
     SplashScreen::update();
 
@@ -85,6 +81,21 @@ void CollectionList::initialize(PlaylistCollection *collection)
     m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
 
     m_list->sort();
+
+    SplashScreen::finishedLoading();
+}
+
+void CollectionList::initialize(PlaylistCollection *collection)
+{
+    if(m_list)
+        return;
+
+    // We have to delay initialization here because dynamic_cast or comparing to
+    // the collection instance won't work in the PlaylistBox::Item initialization
+    // won't work until the CollectionList is fully constructed.
+
+    m_list = new CollectionList(collection);
+    m_list->setName(i18n("Collection List"));
 
     collection->setupPlaylist(m_list, "folder-sound");
 }
@@ -206,6 +217,8 @@ void CollectionList::clear()
 
 void CollectionList::slotCheckCache()
 {
+    loadCachedItems();
+
     PlaylistItemList invalidItems;
 
     foreach(CollectionListItem *item, m_itemsDict) {

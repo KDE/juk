@@ -147,6 +147,10 @@ void PlaylistSplitter::setupLayout()
 {
     setOpaqueResize(false);
 
+    // Disable the GUI until startup is complete (as indicated by PlaylistBox)
+
+    setEnabled(false);
+
     // Create a splitter to go between the playlists and the editor.
 
     QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this);
@@ -180,6 +184,7 @@ void PlaylistSplitter::setupLayout()
             this, SLOT(slotPlaylistSelectionChanged()));
     connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist *)),
             m_editor, SLOT(slotPlaylistDestroyed(Playlist *)));
+    connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
 
     insertWidget(0, m_playlistBox);
 
@@ -256,6 +261,11 @@ void PlaylistSplitter::slotPlaylistChanged(QWidget *w)
     m_newVisible = p;
     m_searchWidget->setSearch(p->search());
     m_newVisible = 0;
+}
+
+void PlaylistSplitter::slotEnable()
+{
+    setEnabled(true); // Ready to go.
 }
 
 #include "playlistsplitter.moc"

@@ -371,9 +371,9 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
             return 0;
         break;
     case CoverColumn:
-        if(firstItem->d->fileHandle.coverInfo()->hasCover() == secondItem->d->fileHandle.coverInfo()->hasCover())
+        if(firstItem->d->fileHandle.coverInfo()->coverId() == secondItem->d->fileHandle.coverInfo()->coverId())
             return 0;
-        else if (firstItem->d->fileHandle.coverInfo()->hasCover())
+        else if (firstItem->d->fileHandle.coverInfo()->coverId() != CoverManager::NoMatch)
             return -1;
         else
             return 1;

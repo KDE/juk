@@ -201,7 +201,9 @@ void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
 
 coverKey CoverInfo::coverId() const
 {
-    hasCover(); // Force check for cover.
+    if(m_coverKey == CoverManager::NoMatch)
+        m_coverKey = CoverManager::idForTrack(m_file.absFilePath());
+
     return m_coverKey;
 }
 
