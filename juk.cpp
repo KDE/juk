@@ -153,16 +153,16 @@ void JuK::setupActions()
 
 
     // Setup the menu which handles the random play options.
-    KActionMenu *actionMenu = new KActionMenu(KIcon("media-playlist-shuffle"), i18n("&Random Play"), collection);
-    collection->addAction("actionMenu",actionMenu);
+    KActionMenu *actionMenu = collection->add<KActionMenu>("actionMenu");
+    actionMenu->setText(i18n("&Random Play"));
+    actionMenu->setIcon(KIcon("media-playlist-shuffle"));
     actionMenu->setDelayed(false);
 
-    // ### KDE4: Investigate how QActionGroups integrate into menus now.
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
-    QAction *act = new KToggleAction(KIcon("go-down"), i18n("&Disable Random Play"), collection);
-    collection->addAction("disableRandomPlay", act);
-
+    QAction *act = collection->add<KToggleAction>("disableRandomPlay");
+    act->setText(i18n("&Disable Random Play"));
+    act->setIcon(KIcon("go-down"));
     act->setActionGroup(randomPlayGroup);
     actionMenu->addAction(act);
 
@@ -172,103 +172,98 @@ void JuK::setupActions()
     m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->addAction(m_randomPlayAction);
 
-    act = new KToggleAction(KIcon("media-playlist-shuffle"), i18n("Use &Album Random Play"), collection);
-    collection->addAction("albumRandomPlay", act);
+    act = collection->add<KToggleAction>("albumRandomPlay");
+    act->setText(i18n("Use &Album Random Play"));
+    act->setIcon(KIcon("media-playlist-shuffle"));
     act->setActionGroup(randomPlayGroup);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotCheckAlbumNextAction(bool)));
     actionMenu->addAction(act);
 
-    act = collection->addAction("removeFromPlaylist");
+    act = collection->addAction("removeFromPlaylist", clear, SLOT(clear()));
     act->setText(i18n("Remove From Playlist"));
     act->setIcon(KIcon("list-remove"));
 
-    connect(act, SIGNAL(triggered(bool)), clear, SLOT(clear()));
+    act = collection->addAction("play", m_player, SLOT(play()));
+    act->setText(i18n("&Play"));
+    act->setIcon(KIcon("media-playback-start"));
 
-    act = new KAction(KIcon("media-playback-start"), i18n("&Play"), collection);
-    collection->addAction("play", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(play()));
+    act = collection->addAction("pause", m_player, SLOT(pause()));
+    act->setText(i18n("P&ause"));
+    act->setIcon(KIcon("media-playback-pause"));
 
-    act = new KAction(KIcon("media-playback-pause"), i18n("P&ause"), collection);
-    collection->addAction("pause", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(pause()));
-
-    act = new KAction(KIcon("media-playback-stop"), i18n("&Stop"), collection);
-    collection->addAction("stop", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(stop()));
+    act = collection->addAction("stop", m_player, SLOT(stop()));
+    act->setText(i18n("&Stop"));
+    act->setIcon(KIcon("media-playback-stop"));
 
     act = new KToolBarPopupAction(KIcon("media-skip-backward"), i18nc("previous track", "Previous"), collection);
     collection->addAction("back", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(back()));
 
-    act = new KAction(KIcon("media-skip-forward"), i18nc("next track", "&Next"), collection);
-    collection->addAction("forward", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(forward()));
+    act = collection->addAction("forward", m_player, SLOT(forward()));
+    act->setText(i18nc("next track", "&Next"));
+    act->setIcon(KIcon("media-skip-forward"));
 
-    act = new KAction(i18n("&Loop Playlist"), collection);
-    collection->addAction("loopPlaylist", act);
+    act = collection->addAction("loopPlaylist");
+    act->setText(i18n("&Loop Playlist"));
     act->setCheckable(true);
 
-    KToggleAction *resizeColumnAction =
-        new KToggleAction(i18n("&Resize Playlist Columns Manually"),
-                          collection);
-    collection->addAction("resizeColumnsManually", resizeColumnAction);
+    act = collection->add<KToggleAction>("resizeColumnsManually");
+    act->setText(i18n("&Resize Playlist Columns Manually"));
 
     // the following are not visible by default
 
-    act = new KAction(KIcon("audio-volume-muted"), i18nc("silence playback", "Mute"), collection);
-    collection->addAction("mute", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(mute()));
+    act = collection->addAction("mute", m_player, SLOT(mute()));
+    act->setText(i18nc("silence playback", "Mute"));
+    act->setIcon(KIcon("audio-volume-muted"));
 
-    act = new KAction(KIcon("audio-volume-high"),    i18n("Volume Up"),    collection);
-    collection->addAction("volumeUp", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(volumeUp()));
+    act = collection->addAction("volumeUp", m_player, SLOT(volumeUp()));
+    act->setText(i18n("Volume Up"));
+    act->setIcon(KIcon("audio-volume-high"));
 
-    act = new KAction(KIcon("audio-volume-low"),  i18n("Volume Down"),  collection);
-    collection->addAction("volumeDown", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(volumeDown()));
+    act = collection->addAction("volumeDown", m_player, SLOT(volumeDown()));
+    act->setText(i18n("Volume Down"));
+    act->setIcon(KIcon("audio-volume-low"));
 
-    act = new KAction(KIcon("media-playback-start"),   i18n("Play / Pause"), collection);
-    collection->addAction("playPause", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(playPause()));
+    act = collection->addAction("playPause", m_player, SLOT(playPause()));
+    act->setText(i18n("Play / Pause"));
+    act->setIcon(KIcon("media-playback-start"));
 
-    act = new KAction(KIcon("media-seek-forward"), i18n("Seek Forward"), collection);
-    collection->addAction("seekForward", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(seekForward()));
+    act = collection->addAction("seekForward", m_player, SLOT(seekForward()));
+    act->setText(i18n("Seek Forward"));
+    act->setIcon(KIcon("media-seek-forward"));
 
-    act = new KAction(KIcon("media-seek-backward"),    i18n("Seek Back"),    collection);
-    collection->addAction("seekBack", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(seekBack()));
+    act = collection->addAction("seekBack", m_player, SLOT(seekBack()));
+    act->setText(i18n("Seek Back"));
+    act->setIcon(KIcon("media-seek-backward"));
 
-    act = new KAction(i18n("Show / Hide"), collection);
-    collection->addAction("showHide", act);
-    connect(act, SIGNAL(triggered(bool)), this,     SLOT(slotShowHide()));
+    act = collection->addAction("showHide", this, SLOT(slotShowHide()));
+    act->setText(i18n("Show / Hide"));
 
     //////////////////////////////////////////////////
     // settings menu
     //////////////////////////////////////////////////
 
-    m_toggleSplashAction = new KToggleAction(i18n("Show Splash Screen on Startup"), collection);
-    collection->addAction("showSplashScreen", m_toggleSplashAction);
-    m_toggleSystemTrayAction = new KToggleAction(i18n("&Dock in System Tray"), collection);
-    collection->addAction("toggleSystemTray", m_toggleSystemTrayAction);
-    m_toggleDockOnCloseAction = new KToggleAction(i18n("&Stay in System Tray on Close"), collection);
-    collection->addAction("dockOnClose", m_toggleDockOnCloseAction);
-    m_togglePopupsAction = new KToggleAction(i18n("Popup &Track Announcement"), collection);
-    collection->addAction("togglePopups", m_togglePopupsAction);
-    act = new KToggleAction(i18n("Save &Play Queue on Exit"), collection);
-    collection->addAction("saveUpcomingTracks", act);
+    m_toggleSplashAction = collection->add<KToggleAction>("showSplashScreen");
+    m_toggleSplashAction->setText(i18n("Show Splash Screen on Startup"));
 
-    connect(m_toggleSystemTrayAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotToggleSystemTray(bool)));
+    m_toggleSystemTrayAction = collection->add<KToggleAction>("toggleSystemTray");
+    m_toggleSystemTrayAction->setText(i18n("&Dock in System Tray"));
+    connect(m_toggleSystemTrayAction, SIGNAL(triggered(bool)), SLOT(slotToggleSystemTray(bool)));
 
+    m_toggleDockOnCloseAction = collection->add<KToggleAction>("dockOnClose");
+    m_toggleDockOnCloseAction->setText(i18n("&Stay in System Tray on Close"));
 
-    act = new KAction(i18n("&Tag Guesser..."), collection);
-    collection->addAction("tagGuesserConfig", act);
-    connect(act, SIGNAL(triggered(bool)), SLOT(slotConfigureTagGuesser()));
+    m_togglePopupsAction = collection->add<KToggleAction>("togglePopups");
+    m_togglePopupsAction->setText(i18n("Popup &Track Announcement"));
 
-    act = new KAction(i18n("&File Renamer..."), collection);
-    collection->addAction("fileRenamerConfig", act);
-    connect(act, SIGNAL(triggered(bool)), SLOT(slotConfigureFileRenamer()));
+    act = collection->add<KToggleAction>("saveUpcomingTracks");
+    act->setText(i18n("Save &Play Queue on Exit"));
+
+    act = collection->addAction("tagGuesserConfig", this, SLOT(slotConfigureTagGuesser()));
+    act->setText(i18n("&Tag Guesser..."));
+
+    act = collection->addAction("fileRenamerConfig", this, SLOT(slotConfigureFileRenamer()));
+    act->setText(i18n("&File Renamer..."));
 
     //////////////////////////////////////////////////
     // just in the toolbar
