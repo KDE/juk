@@ -47,7 +47,6 @@ private:
     void setupActions();
     void setupSystemTray();
     void setupGlobalAccels();
-    void createDirs();
 
     void keyPressEvent(QKeyEvent *);
 

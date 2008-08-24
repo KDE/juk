@@ -92,7 +92,6 @@ JuK::JuK(QWidget *parent) :
     readConfig();
     setupSystemTray();
     setupGlobalAccels();
-    createDirs();
 
     SplashScreen::finishedLoading();
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
@@ -322,19 +321,6 @@ void JuK::slotProcessArgs()
         files.append(args->arg(i));
 
     CollectionList::instance()->addFiles(files);
-}
-
-void JuK::createDirs()
-{
-    QDir dir(KGlobal::dirs()->saveLocation("data", KGlobal::mainComponent().componentName() + '/'));
-
-    if(!dir.exists("covers"))
-       dir.mkdir("covers");
-
-    dir.cd("covers");
-
-    if(!dir.exists("large"))
-        dir.mkdir("large");
 }
 
 void JuK::keyPressEvent(QKeyEvent *e)
