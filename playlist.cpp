@@ -1333,12 +1333,12 @@ int Playlist::addColumn(const QString &label, int)
 PlaylistItem *Playlist::createItem(const FileHandle &file,
                                    Q3ListViewItem *after, bool emitChanged)
 {
-    return createItem<PlaylistItem, CollectionListItem, CollectionList>(file, after, emitChanged);
+    return createItem<PlaylistItem>(file, after, emitChanged);
 }
 
 void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after)
 {
-    createItems<CollectionListItem, PlaylistItem, PlaylistItem>(siblings, after);
+    createItems<PlaylistItem, PlaylistItem>(siblings, after);
 }
 
 void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
@@ -1616,6 +1616,32 @@ void Playlist::setupItem(PlaylistItem *item)
 void Playlist::setDynamicListsFrozen(bool frozen)
 {
     m_collection->setDynamicListsFrozen(frozen);
+}
+
+CollectionListItem *Playlist::collectionListItem(const FileHandle &file)
+{
+    if(!QFile::exists(file.absFilePath())) {
+        kError() << "File" << file.absFilePath() << "does not exist.";
+        return 0;
+    }
+
+    CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
+
+    if(!item) {
+        item = new CollectionListItem(file);
+        setupItem(item);
+
+        // If a valid tag was not created, destroy the CollectionListItem.
+
+        if(!item->isValid()) {
+            kError(65432) << "Playlist::createItem() -- A valid tag was not created for \""
+                           << file.absFilePath() << "\"" << endl;
+            delete item;
+            return 0;
+        }
+    }
+
+    return item;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

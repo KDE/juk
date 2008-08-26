@@ -48,13 +48,12 @@ HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file,
 {
     if(!after)
         after = lastItem();
-    return Playlist::createItem<HistoryPlaylistItem, CollectionListItem,
-        CollectionList>(file, after, emitChanged);
+    return Playlist::createItem<HistoryPlaylistItem>(file, after, emitChanged);
 }
 
 void HistoryPlaylist::createItems(const PlaylistItemList &siblings)
 {
-    Playlist::createItems<CollectionListItem, HistoryPlaylistItem, PlaylistItem>(siblings);
+    Playlist::createItems<HistoryPlaylistItem, PlaylistItem>(siblings);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -44,6 +44,7 @@ class WebImageFetcher;
 class PlaylistItem;
 class PlaylistCollection;
 class PlaylistToolTip;
+class CollectionListItem;
 
 typedef QList<PlaylistItem *> PlaylistItemList;
 
@@ -171,12 +172,9 @@ public:
 
     /**
      * This is implemented as a template method to allow subclasses to
-     * instantiate their PlaylistItem subclasses using the same method.  Some
-     * of the types here are artificially templatized (i.e. CollectionListType and
-     * CollectionItemType) to avoid recursive includes, but in fact will always
-     * be the same.
+     * instantiate their PlaylistItem subclasses using the same method.
      */
-    template <class ItemType, class CollectionItemType, class CollectionListType>
+    template <class ItemType>
     ItemType *createItem(const FileHandle &file,
                          Q3ListViewItem *after = 0,
                          bool emitChanged = true);
@@ -461,10 +459,9 @@ protected:
 
     /**
      * As a template this allows us to use the same code to initialize the items
-     * in subclasses.  CollectionItemType should always be CollectionListItem and
-     * ItemType should be a PlaylistItem subclass.
+     * in subclasses. ItemType should be a PlaylistItem subclass.
      */
-    template <class CollectionItemType, class ItemType, class SiblingType>
+    template <class ItemType, class SiblingType>
     void createItems(const QList<SiblingType *> &siblings, ItemType *after = 0);
 
 protected slots:
@@ -553,6 +550,14 @@ private:
     void refreshAlbum(const QString &artist, const QString &album);
 
     void updatePlaying() const;
+
+    /**
+     * Used as a helper to implement template<> createItem().  This grabs the
+     * CollectionListItem for file if it exists, otherwise it creates a new one and
+     * returns that.  If 0 is returned then some kind of error occurred, such as file not
+     * found and probably nothing should be done with the FileHandle you have.
+     */
+    CollectionListItem *collectionListItem(const FileHandle &file);
 
     /**
      * This class is used internally to store settings that are shared by all
@@ -725,26 +730,11 @@ QDataStream &operator>>(QDataStream &s, Playlist &p);
 
 // template method implementations
 
-template <class ItemType, class CollectionItemType, class CollectionListType>
+template <class ItemType>
 ItemType *Playlist::createItem(const FileHandle &file, Q3ListViewItem *after,
                                bool emitChanged)
 {
-    CollectionItemType *item = CollectionListType::instance()->lookup(file.absFilePath());
-
-    if(!item) {
-        item = new CollectionItemType(file);
-        setupItem(item);
-
-        // If a valid tag was not created, destroy the CollectionListItem.
-
-        if(!item->isValid()) {
-            kError(65432) << "Playlist::createItem() -- A valid tag was not created for \""
-                           << file.absFilePath() << "\"" << endl;
-            delete item;
-            return 0;
-        }
-    }
-
+    CollectionListItem *item = collectionListItem(file);
     if(item && (!m_members.insert(file.absFilePath()) || m_allowDuplicates)) {
 
         ItemType *i = after ? new ItemType(item, this, after) : new ItemType(item, this);
@@ -774,7 +764,7 @@ ItemType *Playlist::createItem(SiblingType *sibling, ItemType *after)
     return after;
 }
 
-template <class CollectionItemType, class ItemType, class SiblingType>
+template <class ItemType, class SiblingType>
 void Playlist::createItems(const QList<SiblingType *> &siblings, ItemType *after)
 {
     if(siblings.isEmpty())
