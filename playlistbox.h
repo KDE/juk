@@ -71,6 +71,7 @@ public slots:
 
     void slotFreezePlaylists();
     void slotUnfreezePlaylists();
+    void slotPlaylistDataChanged();
 
 protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
@@ -133,9 +134,10 @@ private:
     bool m_doingMultiSelect;
     Item *m_dropItem;
     QTimer *m_showTimer;
+    QTimer *m_savePlaylistTimer;
 };
 
-class PlaylistBox::Item : public QObject, public K3ListViewItem
+class PlaylistBox::Item : public QObject, public K3ListViewItem, public PlaylistObserver
 {
     friend class PlaylistBox;
     friend class ViewMode;
@@ -172,6 +174,15 @@ protected:
 
     static Item *collectionItem() { return m_collectionItem; }
     static void setCollectionItem(Item *item) { m_collectionItem = item; }
+
+    //
+    // Reimplemented from PlaylistObserver
+    //
+
+    virtual void updateCurrent();
+
+    // Used to post a timer in PlaylistBox to save playlists.
+    virtual void updateData();
 
 
 protected slots:

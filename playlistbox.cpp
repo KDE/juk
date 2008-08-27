@@ -163,8 +163,11 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
     enableDirWatch(true);
 
-    // Auto-save playlists after 10 minutes
-    QTimer::singleShot(600000, this, SLOT(slotSavePlaylists()));
+    // Auto-save playlists after they change.
+    m_savePlaylistTimer = new QTimer(this);
+    m_savePlaylistTimer->setInterval(3000); // 3 seconds with no change? -> commit
+    m_savePlaylistTimer->setSingleShot(true);
+    connect(m_savePlaylistTimer, SIGNAL(timeout()), SLOT(slotSavePlaylists()));
 
     m_showTimer = new QTimer(this);
     connect(m_showTimer, SIGNAL(timeout()), SLOT(slotShowDropTarget()));
@@ -241,6 +244,11 @@ void PlaylistBox::slotFreezePlaylists()
 void PlaylistBox::slotUnfreezePlaylists()
 {
     setDynamicListsFrozen(false);
+}
+
+void PlaylistBox::slotPlaylistDataChanged()
+{
+    m_savePlaylistTimer->start(); // Restarts the timer if it's already running.
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
@@ -386,7 +394,7 @@ void PlaylistBox::setDynamicListsFrozen(bool frozen)
 
 void PlaylistBox::slotSavePlaylists()
 {
-    kDebug(65432) << "Auto-saving playlists and covers.\n";
+    kDebug(65432) << "Auto-saving playlists.\n";
 
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
@@ -397,8 +405,6 @@ void PlaylistBox::slotSavePlaylists()
     }
 
     Cache::savePlaylists(l);
-
-    QTimer::singleShot(600000, this, SLOT(slotSavePlaylists()));
 }
 
 void PlaylistBox::slotShowDropTarget()
@@ -717,6 +723,7 @@ PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 
 PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l)
     : QObject(listBox), K3ListViewItem(listBox, 0, text),
+      PlaylistObserver(l),
       m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
     init();
@@ -724,6 +731,7 @@ PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString
 
 PlaylistBox::Item::Item(Item *parent, const QString &icon, const QString &text, Playlist *l)
     : QObject(parent->listView()), K3ListViewItem(parent, text),
+    PlaylistObserver(l),
     m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
     init();
@@ -783,6 +791,15 @@ void PlaylistBox::Item::slotSetName(const QString &name)
         listView()->ensureItemVisible(listView()->currentItem());
         listView()->viewMode()->queueRefresh();
     }
+}
+
+void PlaylistBox::Item::updateCurrent()
+{
+}
+
+void PlaylistBox::Item::updateData()
+{
+    listView()->slotPlaylistDataChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
