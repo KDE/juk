@@ -164,6 +164,7 @@ void PlaylistSplitter::setupLayout()
     m_playlistStack = new Q3WidgetStack(top, "playlistStack");
     m_playlistStack->installEventFilter(this);
     m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_playlistStack->hide(); // Will be shown after CollectionList filled.
 
     connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)), this, SLOT(slotPlaylistChanged(QWidget *)));
 
@@ -266,6 +267,7 @@ void PlaylistSplitter::slotPlaylistChanged(QWidget *w)
 void PlaylistSplitter::slotEnable()
 {
     setEnabled(true); // Ready to go.
+    m_playlistStack->show();
 }
 
 #include "playlistsplitter.moc"
