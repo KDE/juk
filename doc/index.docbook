@@ -548,7 +548,7 @@ menu entry or by pressing
 <para>You can select multiple files in the list view, and edit one or
 more fields in the tags for all files at once.</para>
 
-<para>Use <keycap>Shift</keycap> and the &LMB; to select a contiguous
+<para>Use &Shift; and the &LMB; to select a contiguous
 list of files, and &Ctrl; and &LMB; to select individual
 non-contiguous files.</para>
 
@@ -669,7 +669,7 @@ editor.</para>
 
 <para>You can test your filename scheme by using the <guilabel>Current filename</guilabel> editor
 at the bottom of the dialog.  Type in a filename of a music file, and the <guilabel>New
-filename</guilabel> area will display would &juk; would rename the file as given the current
+filename</guilabel> area will display how &juk; would rename the file as given the current
 settings.
 </para>
 </sect1>
@@ -729,7 +729,7 @@ and use the <guibutton>Modify</guibutton> button to change the scheme, or the
 </screenshot>
 </para>
 
-<para>The Advanced Search dialog is used to create <link linkend="juk-search-playlists">Search
+<para>The Advanced Search dialog is used to makee <link linkend="juk-search-playlists">Search
 Playlists</link>.  It allows you create a fine-grained search among the different tags of
 your song collection.</para>
 
@@ -814,7 +814,7 @@ click <guibutton>OK</guibutton> to create your search playlist!
 
 <title>Examples of adding covers</title>
 
-<para>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote>Alabama - Greatest Hits III</quote> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice><guimenu>Tagger</guimenu> <guisubmenu>Cover Manager</guisubmenu> <guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis>all</emphasis> of the <quote>Alabama - Greatest Hits III</quote> tracks, <emphasis>whether you wanted that or not</emphasis></para>
+<para>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote>Alabama - Greatest Hits III</quote> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice><guimenu>Tagger</guimenu> <guisubmenu>Cover Manager</guisubmenu> <guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis>all</emphasis> of the <quote>Alabama - Greatest Hits III</quote> tracks, <emphasis>whether you wanted that or not</emphasis>.</para>
 
 <para>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote>Alabama - Greatest Hits III</quote> tracks before using the <menuchoice><guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice><guimenuitem>Get Cover From Internet</guimenuitem></menuchoice> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension">.png</literal> images cluttering your hard drive.</para>
 </sect3>
