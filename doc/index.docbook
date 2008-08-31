@@ -729,8 +729,8 @@ and use the <guibutton>Modify</guibutton> button to change the scheme, or the
 </screenshot>
 </para>
 
-<para>The Advanced Search dialog is used to makee <link linkend="juk-search-playlists">Search
-Playlists</link>.  It allows you create a fine-grained search among the different tags of
+<para>The Advanced Search dialog is used to create <link linkend="juk-search-playlists">Search
+Playlists</link>.  It allows you to make a fine-grained search among the different tags of
 your song collection.</para>
 
 <para>At the top of the dialog, you can type in the name of your search playlist.  Then, you
