@@ -30,10 +30,13 @@ class QEvent;
 
 class KComboBox;
 class KLineEdit;
+class SearchWidget;
 
 class SearchLine : public QFrame
 {
     Q_OBJECT
+
+    friend class SearchWidget;
 
 public:
     enum Mode { Default = 0, CaseSensitive = 1, Pattern = 2 };
@@ -88,6 +91,7 @@ public slots:
 signals:
     void signalQueryChanged();
     void signalAdvancedSearchClicked();
+    void returnPressed();
 
     // This signal is only emitted when the Show/Hide action is triggered.
     // Minimizing/closing the JuK window will not trigger this signal.

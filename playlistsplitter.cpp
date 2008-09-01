@@ -205,6 +205,8 @@ void PlaylistSplitter::setupLayout()
             m_playlistBox->object(), SLOT(slotCreateSearchPlaylist()));
     connect(m_searchWidget, SIGNAL(signalShown(bool)),
             m_playlistBox->object(), SLOT(slotSetSearchEnabled(bool)));
+    connect(m_searchWidget, SIGNAL(returnPressed()),
+            m_playlistBox->object(), SLOT(slotPlayFirst()));
     connect(ActionCollection::action<KToggleAction>("showSearch"), SIGNAL(toggled(bool)),
             m_searchWidget, SLOT(setEnabled(bool)));
 

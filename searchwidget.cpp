@@ -209,6 +209,7 @@ SearchWidget::SearchWidget(QWidget *parent)
 
     connect(&m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
     connect(&m_searchLine, SIGNAL(signalDownPressed()), this, SIGNAL(signalDownPressed()));
+    connect(m_searchLine.m_lineEdit, SIGNAL(returnPressed()), this, SIGNAL(returnPressed()));
 
     // I've decided that I think this is ugly, for now.
     /*
