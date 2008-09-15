@@ -199,7 +199,7 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
                    this, SLOT(slotItemRemoved(PlaylistItem *)));
     }
 
-    if(hadPlaylist && !m_currentPlaylist || !itemPlaylist) {
+    if((hadPlaylist && !m_currentPlaylist) || !itemPlaylist) {
         m_currentPlaylist = 0;
         m_items.clear();
     }
