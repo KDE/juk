@@ -365,14 +365,14 @@ void PlaylistCollection::addFolder()
         const bool reload = m_importPlaylists != result.addPlaylists;
         m_importPlaylists = result.addPlaylists;
 
-        for(QStringList::Iterator it = result.addedDirs.begin();
+        for(QStringList::const_iterator it = result.addedDirs.begin();
             it != result.addedDirs.end(); it++)
         {
             m_dirLister.openUrl(KUrl::fromPath(*it), KDirLister::Keep);
             m_folderList.append(*it);
         }
 
-        for(QStringList::Iterator it = result.removedDirs.begin();
+        for(QStringList::const_iterator it = result.removedDirs.begin();
             it !=  result.removedDirs.end(); it++)
         {
             m_dirLister.stop(KUrl::fromPath(*it));

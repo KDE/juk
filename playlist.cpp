@@ -557,7 +557,7 @@ void Playlist::save()
 
     QStringList fileList = files();
 
-    for(QStringList::Iterator it = fileList.begin(); it != fileList.end(); ++it)
+    for(QStringList::const_iterator it = fileList.begin(); it != fileList.end(); ++it)
         stream << *it << endl;
 
     file.close();
