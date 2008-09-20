@@ -804,10 +804,10 @@ void Playlist::slotRenameFile()
 
 void Playlist::slotViewCover()
 {
-    PlaylistItemList items = selectedItems();
+    const PlaylistItemList items = selectedItems();
     if (items.isEmpty())
         return;
-    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it)
+    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
         (*it)->file().coverInfo()->popup();
 }
 
@@ -869,12 +869,12 @@ void Playlist::slotCoverChanged(int coverId)
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
     KApplication::setOverrideCursor(Qt::waitCursor);
-    PlaylistItemList items = selectedItems();
+    const PlaylistItemList items = selectedItems();
     setDynamicListsFrozen(true);
 
     m_blockDataChanged = true;
 
-    for(PlaylistItemList::Iterator it = items.begin(); it != items.end(); ++it) {
+    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
         (*it)->guessTagInfo(type);
         processEvents();
     }
@@ -1053,12 +1053,10 @@ bool Playlist::acceptDrag(QDropEvent *e) const
 
 void Playlist::decode(const QMimeData *s, PlaylistItem *item)
 {
-    KUrl::List urls;
-
     if(!KUrl::List::canDecode(s))
         return;
 
-    urls = KUrl::List::fromMimeData(s);
+    const KUrl::List urls = KUrl::List::fromMimeData(s);
 
     if(urls.isEmpty())
         return;
@@ -1087,7 +1085,7 @@ void Playlist::decode(const QMimeData *s, PlaylistItem *item)
 
     QStringList fileList;
 
-    for(KUrl::List::Iterator it = urls.begin(); it != urls.end(); ++it)
+    for(KUrl::List::ConstIterator it = urls.begin(); it != urls.end(); ++it)
         fileList += MediaFiles::convertURLsToLocal(QStringList((*it).path()), this);
 
     addFiles(fileList, item);
@@ -1168,8 +1166,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
         // items, otherwise just apply to the dropped item.
 
         if(item->isSelected()) {
-            PlaylistItemList selItems = selectedItems();
-            for(PlaylistItemList::Iterator it = selItems.begin(); it != selItems.end(); ++it) {
+            const PlaylistItemList selItems = selectedItems();
+            for(PlaylistItemList::ConstIterator it = selItems.begin(); it != selItems.end(); ++it) {
                 (*it)->file().coverInfo()->setCoverId(id);
                 (*it)->refresh();
             }
@@ -1199,9 +1197,9 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
         setSorting(columns() + 1);
 
-        QList<Q3ListViewItem *> items = K3ListView::selectedItems();
+        const QList<Q3ListViewItem *> items = K3ListView::selectedItems();
 
-        for(QList<Q3ListViewItem *>::Iterator it = items.begin(); it != items.end(); ++it) {
+        for(QList<Q3ListViewItem *>::ConstIterator it = items.begin(); it != items.end(); ++it) {
             if(!item) {
 
                 // Insert the item at the top of the list.  This is a bit ugly,
@@ -1419,9 +1417,9 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
     playlists.append(CollectionList::instance());
 
     PlaylistSearch search(playlists, components);
-    PlaylistItemList matches = search.matchedItems();
+    const PlaylistItemList matches = search.matchedItems();
 
-    for(PlaylistItemList::Iterator it = matches.begin(); it != matches.end(); ++it)
+    for(PlaylistItemList::ConstIterator it = matches.begin(); it != matches.end(); ++it)
         (*it)->refresh();
 }
 

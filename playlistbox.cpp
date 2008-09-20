@@ -434,11 +434,11 @@ void PlaylistBox::decode(const QMimeData *s, Item *item)
     if(!s || (item && item->playlist() && item->playlist()->readOnly()))
         return;
 
-    KUrl::List urls = KUrl::List::fromMimeData(s);
+    const KUrl::List urls = KUrl::List::fromMimeData(s);
 
     if(!urls.isEmpty()) {
         QStringList files;
-        for(KUrl::List::Iterator it = urls.begin(); it != urls.end(); ++it)
+        for(KUrl::List::ConstIterator it = urls.begin(); it != urls.end(); ++it)
             files.append((*it).path());
 
         if(item) {
