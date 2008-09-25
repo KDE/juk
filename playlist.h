@@ -307,7 +307,7 @@ public:
     virtual bool searchIsEditable() const { return false; }
 
     /**
-     * Synchronizes the the playing item in this playlist with the playing item
+     * Synchronizes the playing item in this playlist with the playing item
      * in \a sources.  If \a setMaster is true, this list will become the source
      * for determining the next item.
      */
