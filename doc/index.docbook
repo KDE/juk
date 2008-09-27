@@ -1330,7 +1330,7 @@ playlist.</para>
 
 <varlistentry>
 <term><menuchoice>
-<shortcut><keycombo action="simul"><keycap>Ctrl</keycap><keycap>T</keycap></keycombo></shortcut>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>T</keycap></keycombo></shortcut>
 <guimenu>Tagger</guimenu><guimenuitem>Save</guimenuitem>
 </menuchoice>
 </term>
@@ -1354,7 +1354,7 @@ the selected file from the disk.
 
 <varlistentry>
 <term><menuchoice>
-<shortcut><keycombo action="simul"><keycap>Ctrl</keycap><keycap>F</keycap></keycombo></shortcut>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>F</keycap></keycombo></shortcut>
 <guimenu>Tagger</guimenu><guisubmenu>Guess Tag
 Information</guisubmenu><guimenuitem>From Filename</guimenuitem>
 </menuchoice>
@@ -1369,7 +1369,7 @@ by selecting <menuchoice><guimenu>Settings</guimenu>
 
 <varlistentry>
 <term><menuchoice>
-<shortcut><keycombo action="simul"><keycap>Ctrl</keycap><keycap>I</keycap></keycombo></shortcut>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>I</keycap></keycombo></shortcut>
 <guimenu>Tagger</guimenu><guisubmenu>Guess Tag
 Information</guisubmenu><guimenuitem>From Internet</guimenuitem>
 </menuchoice>
