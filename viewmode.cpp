@@ -412,13 +412,13 @@ void TreeViewMode::setupDynamicPlaylists()
     PlaylistBox::Item *i;
     PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
 
-    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Artists"));
+    i = new PlaylistBox::Item(collectionItem, "media-optical-audio", i18n("Artists"));
     m_searchCategories.insert("artists", i);
 
-    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Albums"));
+    i = new PlaylistBox::Item(collectionItem, "media-optical-audio", i18n("Albums"));
     m_searchCategories.insert("albums", i);
 
-    i = new PlaylistBox::Item(collectionItem, "cdimage", i18n("Genres"));
+    i = new PlaylistBox::Item(collectionItem, "media-optical-audio", i18n("Genres"));
     m_searchCategories.insert("genres", i);
 }
 

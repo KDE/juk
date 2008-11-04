@@ -64,7 +64,8 @@ PlaylistObserver::~PlaylistObserver()
 PlaylistObserver::PlaylistObserver(PlaylistInterface *playlist) :
     m_playlist(playlist)
 {
-    playlist->addObserver(this);
+    if(m_playlist)
+        playlist->addObserver(this);
 }
 
 const PlaylistInterface *PlaylistObserver::playlist() const

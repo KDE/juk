@@ -107,26 +107,17 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
         new KSelectAction( KIcon("view-choose"), i18n("View Modes"), ActionCollection::actions());
     ActionCollection::actions()->addAction("viewModeMenu", viewModeAction);
 
-    m_viewModes.append(new ViewMode(this));
-    m_viewModes.append(new CompactViewMode(this));
-    m_viewModes.append(new TreeViewMode(this));
+    ViewMode* viewmode = new ViewMode(this);
+    m_viewModes.append(viewmode);
+    viewModeAction->addAction(KIcon("view-list-details"), viewmode->name());
 
-    QStringList modeNames;
+    CompactViewMode* compactviewmode = new CompactViewMode(this);
+    m_viewModes.append(compactviewmode);
+    viewModeAction->addAction(KIcon("view-list-text"), compactviewmode->name());
 
-    for(QList<ViewMode *>::Iterator it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
-        modeNames.append((*it)->name());
-
-    viewModeAction->setItems(modeNames);
-
-#ifdef __GNUC__
-#warning This needs to be ported to proper QActions
-#endif
-#if 0
-    QMenu *p = viewModeAction->menu();
-    p->changeItem(0, SmallIconSet("view-list-details"), modeNames[0]);
-    p->changeItem(1, SmallIconSet("view-list-text"), modeNames[1]);
-    p->changeItem(2, SmallIconSet("view-list-tree"), modeNames[2]);
-#endif
+    TreeViewMode* treeviewmode = new TreeViewMode(this);
+    m_viewModes.append(treeviewmode);
+    viewModeAction->addAction(KIcon("view-list-tree"), treeviewmode->name());
 
     CollectionList::initialize(this);
 
@@ -137,7 +128,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
     raise(CollectionList::instance());
 
     m_contextMenu->addAction( viewModeAction );
-    connect(viewModeAction, SIGNAL(activated(int)), this, SLOT(slotSetViewMode(int)));
+    connect(viewModeAction, SIGNAL(triggered(int)), this, SLOT(slotSetViewMode(int)));
 
     connect(this, SIGNAL(selectionChanged()),
             this, SLOT(slotPlaylistChanged()));

@@ -77,8 +77,10 @@ JuK::JuK(QWidget *parent) :
     readSettings();
 
     if(m_showSplash && !m_startDocked && Cache::cacheFileExists()) {
-        SplashScreen::instance()->show();
-        kapp->processEvents();
+        if(SplashScreen* splash = SplashScreen::instance()) {
+            SplashScreen::instance()->show();
+            kapp->processEvents();
+        }
     }
 
     setupActions();
