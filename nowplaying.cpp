@@ -242,7 +242,8 @@ TrackItem::TrackItem(NowPlaying *parent) :
 
     QVBoxLayout *layout = new QVBoxLayout(this);
 
-    m_label = new LinkLabel(this);
+    m_label = new QLabel(this);
+    m_label->setWordWrap(true);
 
     m_label->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::LinksAccessibleByKeyboard);
 
@@ -313,7 +314,7 @@ void TrackItem::slotUpdate()
 ////////////////////////////////////////////////////////////////////////////////
 
 HistoryItem::HistoryItem(NowPlaying *parent) :
-    LinkLabel(parent),
+    QLabel(parent),
     NowPlayingItem(parent)
 {
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);

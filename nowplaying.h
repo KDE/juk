@@ -108,17 +108,6 @@ private:
 };
 
 /**
- * A link label that doesn't automatically open Konqueror.
- */
-
-class LinkLabel : public QLabel
-{
-public:
-    LinkLabel(QWidget *parent) : QLabel(parent) {}
-    virtual void openLink(const QString &) {}
-};
-
-/**
  * Show the text information on the current track and provides links to the
  * album and artist of the currently playing item.
  */
@@ -137,14 +126,14 @@ private slots:
 
 private:
     FileHandle m_file;
-    LinkLabel *m_label;
+    QLabel *m_label;
 };
 
 /**
  * Shows up to 10 items of history and links to those items.
  */
 
-class HistoryItem : public LinkLabel, public NowPlayingItem
+class HistoryItem : public QLabel, public NowPlayingItem
 {
     Q_OBJECT
 
@@ -169,7 +158,7 @@ private:
     };
 
     QList<Item> m_history;
-    LinkLabel *m_label;
+    QLabel *m_label;
     QTimer *m_timer;
     FileHandle m_file;
 };
