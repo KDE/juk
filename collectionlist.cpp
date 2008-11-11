@@ -128,7 +128,7 @@ PlaylistItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem 
 
 void CollectionList::clearItems(const PlaylistItemList &items)
 {
-    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
         Cache::instance()->remove((*it)->file());
         clearItem(*it, false);
     }
@@ -157,7 +157,7 @@ void CollectionList::slotNewItems(const KFileItemList &items)
 {
     QStringList files;
 
-    for(KFileItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
+    for(KFileItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
         files.append((*it).url().path());
 
     addFiles(files);
@@ -435,7 +435,7 @@ PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist)
         return this;
 
     PlaylistItemList::ConstIterator it;
-    for(it = m_children.begin(); it != m_children.end(); ++it)
+    for(it = m_children.constBegin(); it != m_children.constEnd(); ++it)
         if((*it)->playlist() == playlist)
             return *it;
     return 0;
@@ -455,7 +455,7 @@ void CollectionListItem::updateCollectionDict(const QString &oldPath, const QStr
 void CollectionListItem::repaint() const
 {
     Q3ListViewItem::repaint();
-    for(PlaylistItemList::ConstIterator it = m_children.begin(); it != m_children.end(); ++it)
+    for(PlaylistItemList::ConstIterator it = m_children.constBegin(); it != m_children.constEnd(); ++it)
         (*it)->repaint();
 }
 
@@ -492,8 +492,8 @@ CollectionListItem::~CollectionListItem()
 {
     m_shuttingDown = true;
 
-    for(PlaylistItemList::ConstIterator it = m_children.begin();
-        it != m_children.end();
+    for(PlaylistItemList::ConstIterator it = m_children.constBegin();
+        it != m_children.constEnd();
         ++it)
     {
         delete *it;

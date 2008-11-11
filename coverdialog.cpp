@@ -87,7 +87,7 @@ void CoverDialog::show()
 
     m_artists->setSorting(-1);
     new AllArtistsListViewItem(m_artists);
-    for(QStringList::ConstIterator it = artists.begin(); it != artists.end(); ++it)
+    for(QStringList::ConstIterator it = artists.constBegin(); it != artists.constEnd(); ++it)
         new CaseInsensitiveItem(m_artists, *it);
 
     m_artists->setSorting(0);

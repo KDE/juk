@@ -282,8 +282,8 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch &search)
     search.clearComponents();
     PlaylistSearch::ComponentList components;
     s >> components;
-    PlaylistSearch::ComponentList::ConstIterator it = components.begin();
-    for(; it != components.end(); ++it)
+    PlaylistSearch::ComponentList::ConstIterator it = components.constBegin();
+    for(; it != components.constEnd(); ++it)
         search.addComponent(*it);
 
     qint32 mode;

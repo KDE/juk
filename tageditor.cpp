@@ -417,12 +417,12 @@ void TagEditor::updateCollection()
 
     m_genreList = list->uniqueSet(CollectionList::Genres);
 
-    for(QStringList::ConstIterator it = m_genreList.begin(); it != m_genreList.end(); ++it)
+    for(QStringList::ConstIterator it = m_genreList.constBegin(); it != m_genreList.constEnd(); ++it)
         genreHash.insert(*it);
 
     TagLib::StringList genres = TagLib::ID3v1::genreList();
 
-    for(TagLib::StringList::ConstIterator it = genres.begin(); it != genres.end(); ++it)
+    for(TagLib::StringList::Iterator it = genres.begin(); it != genres.end(); ++it)
         genreHash.insert(TStringToQString((*it)));
 
     m_genreList = genreHash.values();

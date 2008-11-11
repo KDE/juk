@@ -128,7 +128,7 @@ QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p)
 
     s << qint32(l.count());
 
-    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it) {
+    for(PlaylistItemList::ConstIterator it = l.constBegin(); it != l.constEnd(); ++it) {
         const HistoryPlaylistItem *i = static_cast<HistoryPlaylistItem *>(*it);
         s << i->file().absFilePath();
         s << i->dateTime();

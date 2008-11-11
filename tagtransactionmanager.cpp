@@ -154,8 +154,8 @@ bool TagTransactionManager::processChangeList(bool undo)
     TagAlterationList::ConstIterator it, end;
     QStringList errorItems;
 
-    it = undo ? m_undoList.begin() : m_list.begin();
-    end = undo ? m_undoList.end() : m_list.end();
+    it = undo ? m_undoList.constBegin() : m_list.constBegin();
+    end = undo ? m_undoList.constEnd() : m_list.constEnd();
 
     emit signalAboutToModifyTags();
 

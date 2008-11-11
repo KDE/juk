@@ -57,7 +57,7 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
 
     setSorting(columns() + 1);
 
-    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it)
+    for(PlaylistList::ConstIterator it = playlists.constBegin(); it != playlists.constEnd(); ++it)
         m_observers.append(new PlaylistDirtyObserver(this, *it));
 
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()), this, SLOT(slotSetDirty()));
@@ -142,7 +142,7 @@ void DynamicPlaylist::updateItems()
 {
     PlaylistItemList siblings;
 
-    for(PlaylistList::ConstIterator it = m_playlists.begin(); it != m_playlists.end(); ++it)
+    for(PlaylistList::ConstIterator it = m_playlists.constBegin(); it != m_playlists.constEnd(); ++it)
         siblings += (*it)->items();
 
 

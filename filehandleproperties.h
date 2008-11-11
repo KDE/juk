@@ -85,8 +85,8 @@ namespace FileHandleProperties
         static QStringList l;
 
         if(l.isEmpty()) {
-            QMap<QByteArray, const Property *>::ConstIterator it = propertyMap.begin();
-            for(; it != propertyMap.end(); ++it)
+            QMap<QByteArray, const Property *>::ConstIterator it = propertyMap.constBegin();
+            for(; it != propertyMap.constEnd(); ++it)
                 l.append(QString(it.key()));
         }
         return l;

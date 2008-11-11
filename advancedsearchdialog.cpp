@@ -84,8 +84,8 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     }
     else {
         PlaylistSearch::ComponentList components = defaultSearch.components();
-        for(PlaylistSearch::ComponentList::ConstIterator it = components.begin();
-            it != components.end();
+        for(PlaylistSearch::ComponentList::ConstIterator it = components.constBegin();
+            it != components.constEnd();
             ++it)
         {
             SearchLine *s = new SearchLine(this);
@@ -154,8 +154,8 @@ void AdvancedSearchDialog::accept()
 
     m_search.addPlaylist(CollectionList::instance());
 
-    QList<SearchLine *>::const_iterator it = m_searchLines.begin();
-    for(; it != m_searchLines.end(); ++it)
+    QList<SearchLine *>::const_iterator it = m_searchLines.constBegin();
+    for(; it != m_searchLines.constEnd(); ++it)
         m_search.addComponent((*it)->searchComponent());
 
     PlaylistSearch::SearchMode m = PlaylistSearch::SearchMode(!m_matchAnyButton->isChecked());
@@ -168,8 +168,8 @@ void AdvancedSearchDialog::accept()
 
 void AdvancedSearchDialog::clear()
 {
-    QList<SearchLine *>::const_iterator it = m_searchLines.begin();
-    for(; it != m_searchLines.end(); ++it)
+    QList<SearchLine *>::const_iterator it = m_searchLines.constBegin();
+    for(; it != m_searchLines.constEnd(); ++it)
         (*it)->clear();
 }
 

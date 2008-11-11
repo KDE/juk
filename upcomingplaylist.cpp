@@ -254,7 +254,7 @@ QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p)
 
     s << qint32(l.count());
 
-    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it)
+    for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it)
         s << (*it)->file().absFilePath();
 
     return s;

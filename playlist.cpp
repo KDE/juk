@@ -234,7 +234,7 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
     int offset = l->columnOffset();
     int i = 0;
-    for(QList<int>::ConstIterator it = m_columnOrder.begin(); it != m_columnOrder.end(); ++it)
+    for(QList<int>::ConstIterator it = m_columnOrder.constBegin(); it != m_columnOrder.constEnd(); ++it)
         l->header()->moveSection(i++ + offset, *it + offset);
 
     for(int i = 0; i < m_columnsVisible.size(); i++) {
@@ -450,8 +450,8 @@ int Playlist::time() const
     // Since this method gets a lot of traffic, let's optimize for such.
 
     if(!m_addTime.isEmpty()) {
-        for(PlaylistItemList::ConstIterator it = m_addTime.begin();
-            it != m_addTime.end(); ++it)
+        for(PlaylistItemList::ConstIterator it = m_addTime.constBegin();
+            it != m_addTime.constEnd(); ++it)
         {
             if(*it)
                 m_time += (*it)->file().tag()->seconds();
@@ -461,8 +461,8 @@ int Playlist::time() const
     }
 
     if(!m_subtractTime.isEmpty()) {
-        for(PlaylistItemList::ConstIterator it = m_subtractTime.begin();
-            it != m_subtractTime.end(); ++it)
+        for(PlaylistItemList::ConstIterator it = m_subtractTime.constBegin();
+            it != m_subtractTime.constEnd(); ++it)
         {
             if(*it)
                 m_time -= (*it)->file().tag()->seconds();
@@ -557,7 +557,7 @@ void Playlist::save()
 
     QStringList fileList = files();
 
-    for(QStringList::const_iterator it = fileList.begin(); it != fileList.end(); ++it)
+    for(QStringList::const_iterator it = fileList.constBegin(); it != fileList.constEnd(); ++it)
         stream << *it << endl;
 
     file.close();
@@ -598,7 +598,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
 {
     m_blockDataChanged = true;
 
-    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
+    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
         clearItem(*it, false);
 
     m_blockDataChanged = false;
@@ -668,7 +668,7 @@ void Playlist::updateLeftColumn()
 void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible) // static
 {
     m_visibleChanged = true;
-    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
+    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
         (*it)->setVisible(visible);
 }
 
@@ -712,7 +712,7 @@ void Playlist::markItemSelected(PlaylistItem *item, bool selected)
 
 void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMaster)
 {
-    for(PlaylistList::ConstIterator it = sources.begin(); it != sources.end(); ++it) {
+    for(PlaylistList::ConstIterator it = sources.constBegin(); it != sources.constEnd(); ++it) {
         if((*it)->playing()) {
             CollectionListItem *base = playingItem()->collectionItem();
             for(Q3ListViewItemIterator itemIt(this); itemIt.current(); ++itemIt) {
@@ -807,7 +807,7 @@ void Playlist::slotViewCover()
     const PlaylistItemList items = selectedItems();
     if (items.isEmpty())
         return;
-    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
+    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
         (*it)->file().coverInfo()->popup();
 }
 
@@ -874,7 +874,7 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 
     m_blockDataChanged = true;
 
-    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
         (*it)->guessTagInfo(type);
         processEvents();
     }
@@ -966,7 +966,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     if(isVisible() && !items.isEmpty()) {
 
         QStringList files;
-        for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it)
+        for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
             files.append((*it)->file().absFilePath());
 
         DeleteDialog dialog(this);
@@ -977,7 +977,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
             bool shouldDelete = dialog.shouldDelete();
             QStringList errorFiles;
 
-            for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+            for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
                 if(playingItem() == *it)
                     action("forward")->trigger();
 
@@ -1085,7 +1085,7 @@ void Playlist::decode(const QMimeData *s, PlaylistItem *item)
 
     QStringList fileList;
 
-    for(KUrl::List::ConstIterator it = urls.begin(); it != urls.end(); ++it)
+    for(KUrl::List::ConstIterator it = urls.constBegin(); it != urls.constEnd(); ++it)
         fileList += MediaFiles::convertURLsToLocal(QStringList((*it).path()), this);
 
     addFiles(fileList, item);
@@ -1167,7 +1167,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
         if(item->isSelected()) {
             const PlaylistItemList selItems = selectedItems();
-            for(PlaylistItemList::ConstIterator it = selItems.begin(); it != selItems.end(); ++it) {
+            for(PlaylistItemList::ConstIterator it = selItems.constBegin(); it != selItems.constEnd(); ++it) {
                 (*it)->file().coverInfo()->setCoverId(id);
                 (*it)->refresh();
             }
@@ -1199,7 +1199,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
         const QList<Q3ListViewItem *> items = K3ListView::selectedItems();
 
-        for(QList<Q3ListViewItem *>::ConstIterator it = items.begin(); it != items.end(); ++it) {
+        for(QList<Q3ListViewItem *>::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
             if(!item) {
 
                 // Insert the item at the top of the list.  This is a bit ugly,
@@ -1350,8 +1350,8 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 
     FileHandleList queue;
 
-    const QStringList::ConstIterator filesEnd = files.end();
-    for(QStringList::ConstIterator it = files.begin(); it != filesEnd; ++it)
+    const QStringList::ConstIterator filesEnd = files.constEnd();
+    for(QStringList::ConstIterator it = files.constBegin(); it != filesEnd; ++it)
         addFile(*it, queue, true, &after);
 
     addFileHelper(queue, &after, true);
@@ -1369,7 +1369,7 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
     QList< QPair<QString, QString> > albums;
     bool setAlbumCovers = items.count() == 1;
 
-    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
         QString artist = (*it)->file().tag()->artist();
         QString album = (*it)->file().tag()->album();
 
@@ -1381,8 +1381,8 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
             (*it)->file().coverInfo()->applyCoverToWholeAlbum(true);
     }
 
-    for(QList< QPair<QString, QString> >::ConstIterator it = albums.begin();
-        it != albums.end(); ++it)
+    for(QList< QPair<QString, QString> >::ConstIterator it = albums.constBegin();
+        it != albums.constEnd(); ++it)
     {
         refreshAlbum((*it).first, (*it).second);
     }
@@ -1390,8 +1390,8 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 
 void Playlist::updatePlaying() const
 {
-    for(PlaylistItemList::ConstIterator it = PlaylistItem::playingItems().begin();
-        it != PlaylistItem::playingItems().end(); ++it)
+    for(PlaylistItemList::ConstIterator it = PlaylistItem::playingItems().constBegin();
+        it != PlaylistItem::playingItems().constEnd(); ++it)
     {
         (*it)->listView()->triggerUpdate();
     }
@@ -1419,7 +1419,7 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
     PlaylistSearch search(playlists, components);
     const PlaylistItemList matches = search.matchedItems();
 
-    for(PlaylistItemList::ConstIterator it = matches.begin(); it != matches.end(); ++it)
+    for(PlaylistItemList::ConstIterator it = matches.constBegin(); it != matches.constEnd(); ++it)
         (*it)->refresh();
 }
 
@@ -1656,11 +1656,11 @@ void Playlist::slotPopulateBackMenu() const
     m_backMenuItems.clear();
 
     int count = 0;
-    PlaylistItemList::ConstIterator it = m_history.end();
+    PlaylistItemList::ConstIterator it = m_history.constEnd();
 
     QAction *action;
 
-    while(it != m_history.begin() && count < 10) {
+    while(it != m_history.constBegin() && count < 10) {
         ++count;
         --it;
         action = new QAction((*it)->file().tag()->title(), menu);
@@ -1935,8 +1935,8 @@ void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool i
 
         if(visible)
             m_collection->raiseDistraction();
-        const FileHandleList::ConstIterator filesEnd = files.end();
-        for(FileHandleList::ConstIterator it = files.begin(); it != filesEnd; ++it)
+        const FileHandleList::ConstIterator filesEnd = files.constEnd();
+        for(FileHandleList::ConstIterator it = files.constBegin(); it != filesEnd; ++it)
             *after = createItem(*it, *after, false);
         files.clear();
 
@@ -2214,7 +2214,7 @@ void Playlist::slotRenameTag()
     {
         QStringList genreList;
         TagLib::StringList genres = TagLib::ID3v1::genreList();
-        for(TagLib::StringList::ConstIterator it = genres.begin(); it != genres.end(); ++it)
+        for(TagLib::StringList::Iterator it = genres.begin(); it != genres.end(); ++it)
             genreList.append(TStringToQString((*it)));
         edit->completionObject()->setItems(genreList);
         break;
@@ -2278,7 +2278,7 @@ void Playlist::slotInlineEditDone(Q3ListViewItem *, const QString &, int column)
 
     // See if any of the files have a tag different from the input.
 
-    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end() && !changed; ++it)
+    for(PlaylistItemList::ConstIterator it = l.constBegin(); it != l.constEnd() && !changed; ++it)
         if((*it)->text(column - columnOffset()) != text)
             changed = true;
 
@@ -2294,7 +2294,7 @@ void Playlist::slotInlineEditDone(Q3ListViewItem *, const QString &, int column)
         return;
     }
 
-    for(PlaylistItemList::ConstIterator it = l.begin(); it != l.end(); ++it)
+    for(PlaylistItemList::ConstIterator it = l.constBegin(); it != l.constEnd(); ++it)
         editTag(*it, text, column);
 
     TagTransactionManager::instance()->commit();

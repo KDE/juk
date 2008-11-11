@@ -87,8 +87,8 @@ public:
 
         int lvHeight = 0;
 
-        QMap<QString, QString>::ConstIterator it = files.begin();
-        for(; it != files.end(); ++it) {
+        QMap<QString, QString>::ConstIterator it = files.constBegin();
+        for(; it != files.constEnd(); ++it) {
             K3ListViewItem *i = it.key() != it.value()
                 ? new K3ListViewItem(lv, it.key(), it.value())
                 : new K3ListViewItem(lv, it.key(), i18n("No Change"));
@@ -291,8 +291,8 @@ void FileRenamerWidget::loadConfig()
     checkedSeparators = config.readEntry("CheckedDirSeparators", QList<int>());
 
 
-    for(QList<int>::ConstIterator it = checkedSeparators.begin();
-        it != checkedSeparators.end(); ++it)
+    for(QList<int>::ConstIterator it = checkedSeparators.constBegin();
+        it != checkedSeparators.constEnd(); ++it)
     {
         int separator = *it;
         if(separator < m_folderSwitches.count())
@@ -915,7 +915,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
     QMap<QString, QString> map;
     QMap<QString, PlaylistItem *> itemMap;
 
-    for(PlaylistItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
         reader.setPlaylistItem(*it);
         QString oldFile = (*it)->file().absFilePath();
         QString extension = (*it)->file().fileInfo().suffix();
@@ -931,8 +931,8 @@ void FileRenamer::rename(const PlaylistItemList &items)
         return;
 
     KApplication::setOverrideCursor(Qt::waitCursor);
-    for(QMap<QString, QString>::ConstIterator it = map.begin();
-        it != map.end(); ++it)
+    for(QMap<QString, QString>::ConstIterator it = map.constBegin();
+        it != map.constEnd(); ++it)
     {
         if(moveFile(it.key(), it.value())) {
             itemMap[it.key()]->setFile(it.value());
@@ -1004,7 +1004,7 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
     QStringList elements = dstURL.directory().split("/", QString::SkipEmptyParts);
     QString path;
 
-    for(QStringList::ConstIterator it = elements.begin(); it != elements.end(); ++it) {
+    for(QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) {
         path.append('/' + (*it));
 
         kDebug() << "Checking path: " << path;
@@ -1067,8 +1067,8 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
     lastEnabled = lastEnabledItem(categoryOrder, interface);
     bool pastLast = false; // Toggles to true once we've passed lastEnabled.
 
-    for(QList<CategoryID>::ConstIterator it = categoryOrder.begin();
-            it != categoryOrder.end();
+    for(QList<CategoryID>::ConstIterator it = categoryOrder.constBegin();
+            it != categoryOrder.constEnd();
             ++it, ++i)
     {
         if(it == lastEnabled)

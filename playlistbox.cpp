@@ -316,7 +316,7 @@ void PlaylistBox::remove()
 
         if(remove == KMessageBox::Yes) {
             QStringList couldNotDelete;
-            for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
+            for(QStringList::ConstIterator it = files.constBegin(); it != files.constEnd(); ++it) {
                 if(!QFile::remove(*it))
                     couldNotDelete.append(*it);
             }
@@ -341,7 +341,7 @@ void PlaylistBox::remove()
 
     PlaylistList removeQueue;
 
-    for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+    for(ItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
         if(*it != Item::collectionItem() &&
            (*it)->playlist() &&
            (!(*it)->playlist()->readOnly()))
@@ -363,7 +363,7 @@ void PlaylistBox::remove()
         setSingleItem(i);
     }
 
-    for(PlaylistList::ConstIterator it = removeQueue.begin(); it != removeQueue.end(); ++it) {
+    for(PlaylistList::ConstIterator it = removeQueue.constBegin(); it != removeQueue.constEnd(); ++it) {
         if(*it != upcomingPlaylist())
             delete *it;
         else {
@@ -429,7 +429,7 @@ void PlaylistBox::decode(const QMimeData *s, Item *item)
 
     if(!urls.isEmpty()) {
         QStringList files;
-        for(KUrl::List::ConstIterator it = urls.begin(); it != urls.end(); ++it)
+        for(KUrl::List::ConstIterator it = urls.constBegin(); it != urls.constEnd(); ++it)
             files.append((*it).path());
 
         if(item) {
@@ -610,7 +610,7 @@ void PlaylistBox::slotPlaylistChanged()
     bool allowReload = false;
 
     PlaylistList playlists;
-    for(ItemList::ConstIterator it = items.begin(); it != items.end(); ++it) {
+    for(ItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
 
         Playlist *p = (*it)->playlist();
         if(p) {
