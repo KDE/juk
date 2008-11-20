@@ -160,10 +160,12 @@ void PlaylistSplitter::setupLayout()
 
     QWidget *top = new QWidget(editorSplitter);
     QVBoxLayout *topLayout = new QVBoxLayout(top);
+    topLayout->setMargin(0);
+    topLayout->setSpacing(0);
 
     m_playlistStack = new Q3WidgetStack(top, "playlistStack");
     m_playlistStack->installEventFilter(this);
-    m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::MinimumExpanding);
     m_playlistStack->hide(); // Will be shown after CollectionList filled.
 
     connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)), this, SLOT(slotPlaylistChanged(QWidget *)));

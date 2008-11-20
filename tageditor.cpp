@@ -506,7 +506,7 @@ void TagEditor::setupLayout()
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     layout->setSpacing(horizontalSpacing);
-    layout->setMargin(6);
+    layout->setMargin(0);
 
     //////////////////////////////////////////////////////////////////////////////
     // define two columns of the bottem layout

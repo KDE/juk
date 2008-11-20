@@ -69,7 +69,7 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection, const ch
 
     CollectionList::instance()->addObserver(&m_observer);
 
-    layout()->setMargin(5);
+    layout()->setMargin(0);
     layout()->setSpacing(3);
     setFixedHeight(imageSize + 2 + layout()->margin() * 2);
 
@@ -119,8 +119,6 @@ CoverItem::CoverItem(NowPlaying *parent) :
 {
     setObjectName("CoverItem");
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
-    setFrameStyle(Box | Plain);
-    setLineWidth(1);
     setMargin(1);
     setAcceptDrops(true);
 }

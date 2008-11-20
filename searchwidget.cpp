@@ -47,6 +47,7 @@ SearchLine::SearchLine(QWidget *parent, bool simple)
     m_searchFieldsBox(0)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
+    layout->setMargin(0);
     layout->setSpacing(5);
 
     if(!m_simple) {
