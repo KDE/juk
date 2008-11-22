@@ -501,7 +501,7 @@ void TagEditor::setupActions()
 
 void TagEditor::setupLayout()
 {
-    static const int horizontalSpacing = 12;
+    static const int horizontalSpacing = 2;
     static const int verticalSpacing = 2;
 
     QHBoxLayout *layout = new QHBoxLayout(this);
@@ -514,9 +514,11 @@ void TagEditor::setupLayout()
     QVBoxLayout *leftColumnLayout = new QVBoxLayout();
     layout->addItem( leftColumnLayout );
     leftColumnLayout->setSpacing(verticalSpacing);
+    leftColumnLayout->setMargin(0);
     QVBoxLayout *rightColumnLayout = new QVBoxLayout();
     layout->addItem( rightColumnLayout );
     rightColumnLayout->setSpacing(verticalSpacing);
+    rightColumnLayout->setMargin(0);
 
     layout->setStretchFactor(leftColumnLayout, 2);
     layout->setStretchFactor(rightColumnLayout, 3);
@@ -583,9 +585,6 @@ void TagEditor::setupLayout()
             addItem(i18nc("cd track number", "T&rack:"), m_trackSpin, trackRowLayout);
             m_trackSpin->installEventFilter(this);
 
-            trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                                                    QSizePolicy::Minimum));
-
             m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, this );
             m_yearSpin->setObjectName( "yearSpin" );
             addItem(i18n("&Year:"), m_yearSpin, trackRowLayout);
@@ -594,28 +593,32 @@ void TagEditor::setupLayout()
             trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
                                                     QSizePolicy::Minimum));
 
-            trackRowLayout->addWidget(addHidden(new QLabel(i18n("Length:"), this)));
+            trackRowLayout->setWidth();
+        }
+        {
+            FixedHLayout *trackRowLayout = new FixedHLayout(rightColumnLayout,
+                                                            horizontalSpacing);
+
             m_lengthBox = new KLineEdit(this);
             m_lengthBox->setObjectName( "lengthBox" );
             // addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
             m_lengthBox->setMinimumWidth(fontMetrics().width("00:00") + trackRowLayout->spacing());
-            m_lengthBox->setMaximumWidth(50);
+            m_lengthBox->setMaximumWidth(60);
             m_lengthBox->setAlignment(Qt::AlignRight);
             m_lengthBox->setReadOnly(true);
-            trackRowLayout->addWidget(addHidden(m_lengthBox));
+            addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
 
-            trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                                                    QSizePolicy::Minimum));
-
-            trackRowLayout->addWidget(addHidden(new QLabel(i18n("Bitrate:"), this)));
             m_bitrateBox = new KLineEdit(this);
             m_bitrateBox->setObjectName( "bitrateBox" );
             // addItem(i18n("Bitrate:"), m_bitrateBox, trackRowLayout);
             m_bitrateBox->setMinimumWidth(fontMetrics().width("000") + trackRowLayout->spacing());
-            m_bitrateBox->setMaximumWidth(50);
+            m_bitrateBox->setMaximumWidth(60);
             m_bitrateBox->setAlignment(Qt::AlignRight);
             m_bitrateBox->setReadOnly(true);
-            trackRowLayout->addWidget(addHidden(m_bitrateBox));
+            addItem(i18n("Bitrate:"), m_bitrateBox, trackRowLayout);
+
+            trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
+                                                    QSizePolicy::Minimum));
 
             trackRowLayout->setWidth();
         }
@@ -778,6 +781,7 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, 
     }
     else {
         QHBoxLayout *l = new QHBoxLayout();
+        l->setMargin(0);
         layout->addItem(l);
 
         l->addWidget(iconLabel);
