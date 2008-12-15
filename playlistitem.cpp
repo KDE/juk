@@ -84,11 +84,11 @@ FileHandle PlaylistItem::file() const
     return d->fileHandle;
 }
 
+K_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalGenericImage, (SmallIcon("image-x-generic")))
+K_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalPlayingImage, (UserIcon("playing")))
+
 const QPixmap *PlaylistItem::pixmap(int column) const
 {
-    static QPixmap image(SmallIcon("image-x-generic"));
-    static QPixmap playing(UserIcon("playing"));
-
     int offset = playlist()->columnOffset();
 
     // Don't use hasCover here because that may dig into the track itself.
@@ -98,12 +98,14 @@ const QPixmap *PlaylistItem::pixmap(int column) const
     if((column - offset) == CoverColumn &&
         d->fileHandle.coverInfo()->coverId() != CoverManager::NoMatch)
     {
-        return &image;
+        return globalGenericImage;
     }
 
     if(column == playlist()->leftColumn() &&
-       m_playingItems.contains(const_cast<PlaylistItem *>(this)))
-        return &playing;
+        m_playingItems.contains(const_cast<PlaylistItem *>(this)))
+    {
+        return globalPlayingImage;
+    }
 
     return K3ListViewItem::pixmap(column);
 }
