@@ -17,13 +17,13 @@
 #ifdef HAVE_TUNEPIMP // Silence warning when HAVE_TUNEPIMP is not defined.
 #if HAVE_TUNEPIMP
 
+#include "juk.h"
 #include "trackpickerdialog.h"
 #include "tag.h"
 #include "collectionlist.h"
 #include "tagtransactionmanager.h"
 
 #include <kxmlguiwindow.h>
-#include <kapplication.h>
 #include <kstatusbar.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -68,8 +68,8 @@ void MusicBrainzLookup::error()
 
 void MusicBrainzLookup::message(const QString &s) const
 {
-    KXmlGuiWindow *w = static_cast<KXmlGuiWindow *>(kapp->mainWidget());
-    w->statusBar()->message(QString("%1 (%2)").arg(s).arg(m_file.fileInfo().fileName()), 3000);
+    QString message = QString("%1 (%2)").arg(s).arg(m_file.fileInfo().fileName());
+    JuK::JuKInstance()->statusBar()->message(message, 3000);
 }
 
 void MusicBrainzLookup::confirmation()
