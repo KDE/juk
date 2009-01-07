@@ -83,13 +83,13 @@ namespace KIO
 
 class KJob;
 
-class CoverIconViewItem : public QObject, public QStandardItem
+class WebCoverIconViewItem : public QObject, public QStandardItem
 {
     Q_OBJECT
 
 public:
-    CoverIconViewItem(QWidget *parent, const WebImage &image);
-    ~CoverIconViewItem();
+    WebCoverIconViewItem(QWidget *parent, const WebImage &image);
+    ~WebCoverIconViewItem();
 
 private slots:
     void imageResult(KJob *job);

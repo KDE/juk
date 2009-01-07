@@ -117,7 +117,7 @@ void WebImageFetcherDialog::setLayout()
     QAbstractItemModel *oldModel = m_iconWidget->model();
 
     foreach(const WebImage &image, m_imageList) {
-        CoverIconViewItem *item = new CoverIconViewItem(m_iconWidget, image);
+        WebCoverIconViewItem *item = new WebCoverIconViewItem(m_iconWidget, image);
         model->appendRow(item);
     }
 
@@ -204,7 +204,7 @@ QPixmap WebImageFetcherDialog::pixmapFromURL(const KUrl &url) const
 // CoverIconViewItem
 ////////////////////////////////////////////////////////////////////////////////
 
-CoverIconViewItem::CoverIconViewItem(QWidget *parent, const WebImage &image) :
+WebCoverIconViewItem::WebCoverIconViewItem(QWidget *parent, const WebImage &image) :
     QObject(parent), QStandardItem(image.size()), m_job(0)
 {
     // Set up the iconViewItem
@@ -217,7 +217,7 @@ CoverIconViewItem::CoverIconViewItem(QWidget *parent, const WebImage &image) :
     connect(m_job, SIGNAL(result(KJob *)), this, SLOT(imageResult(KJob *)));
 }
 
-CoverIconViewItem::~CoverIconViewItem()
+WebCoverIconViewItem::~WebCoverIconViewItem()
 {
     if(m_job) {
         m_job->kill();
@@ -230,7 +230,7 @@ CoverIconViewItem::~CoverIconViewItem()
     }
 }
 
-void CoverIconViewItem::imageResult(KJob *job)
+void WebCoverIconViewItem::imageResult(KJob *job)
 {
     if(job != m_job) {
         kError() << "Wrong slot called.\n";
