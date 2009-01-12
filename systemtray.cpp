@@ -291,6 +291,10 @@ void SystemTray::slotPopupDestroyed()
 
 void SystemTray::slotNextStep()
 {
+    // Could happen if the widget were deleted at the same time the timeout() signal is queued.
+    if(m_popup == 0)
+        return;
+
     QColor result;
 
     ++m_step;
