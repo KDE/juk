@@ -85,6 +85,7 @@ void PassiveInfo::startTimer(int delay)
 void PassiveInfo::show()
 {
     m_timer->start(3500);
+    setWindowOpacity(1.0);
     QFrame::show();
 }
 
@@ -176,7 +177,8 @@ void PassiveInfo::positionSelf()
 SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
                                           m_popup(0),
                                           m_fadeTimer(0),
-                                          m_fade(true)
+                                          m_fade(true),
+                                          m_hasCompositionManager(false)
 
 {
     // This should be initialized to the number of labels that are used.
@@ -281,6 +283,7 @@ void SystemTray::slotStop()
 
     delete m_popup;
     m_popup = 0;
+    m_fadeTimer->stop();
 }
 
 void SystemTray::slotPopupDestroyed()
@@ -291,26 +294,31 @@ void SystemTray::slotPopupDestroyed()
 
 void SystemTray::slotNextStep()
 {
-    QColor result;
+    // Could happen I guess if the timeout event were queued while we're deleting m_popup
+    if(!m_popup)
+        return;
 
     ++m_step;
 
-    // If we're not fading, immediately show the labels
-    if(!m_fade)
-        m_step = STEPS;
-
-    result = interpolateColor(m_step);
-
-    for(int i = 0; i < m_labels.size() && m_labels[i]; ++i) {
-        QPalette palette;
-        palette.setColor(m_labels[i]->foregroundRole(), result);
-        m_labels[i]->setPalette(palette);
-    }
-
-    if(m_step == STEPS) {
+    // If we're not fading, immediately stop the fadeout
+    if(!m_fade || m_step == STEPS) {
         m_step = 0;
         m_fadeTimer->stop();
         emit fadeDone();
+        return;
+    }
+
+    if(m_hasCompositionManager) {
+        m_popup->setWindowOpacity((1.0 * STEPS - m_step) / STEPS);
+    }
+    else {
+        QColor result = interpolateColor(m_step);
+
+        for(int i = 0; i < m_labels.size() && m_labels[i]; ++i) {
+            QPalette palette;
+            palette.setColor(m_labels[i]->foregroundRole(), result);
+            m_labels[i]->setPalette(palette);
+        }
     }
 }
 
@@ -318,6 +326,12 @@ void SystemTray::slotFadeOut()
 {
     m_startColor = m_labels[0]->palette().color( QPalette::Text ); //textColor();
     m_endColor = m_labels[0]->palette().color( QPalette::Window ); //backgroundColor();
+
+#ifdef Q_WS_X11
+    m_hasCompositionManager = QX11Info::isCompositingManagerRunning();
+#else
+    m_hasCompositionManager = true; // Assume yes for non-X11
+#endif
 
     connect(this, SIGNAL(fadeDone()), m_popup, SLOT(hide()));
     connect(m_popup, SIGNAL(mouseEntered()), this, SLOT(slotMouseInPopup()));
@@ -331,6 +345,9 @@ void SystemTray::slotMouseInPopup()
 {
     m_endColor = m_labels[0]->palette().color( QPalette::Text ); //textColor();
     disconnect(SIGNAL(fadeDone()));
+
+    if(m_hasCompositionManager)
+        m_popup->setWindowOpacity(1.0);
 
     m_step = STEPS - 1; // Simulate end of fade to solid text
     slotNextStep();
@@ -434,14 +451,6 @@ void SystemTray::createPopup()
             : QString("<qt><nobr>%1</nobr></qt>").arg(album);
         m_labels[labelCount++]->setText(s);
     }
-
-    m_startColor = m_labels[0]->palette().color( QPalette::Window ); //backgroundColor();
-    m_endColor = m_labels[0]->palette().color( QPalette::Text ); //textColor();
-    //m_startColor = m_labels[0]->backgroundColor();
-    //m_endColor = m_labels[0]->textColor();
-
-    slotNextStep();
-    m_fadeTimer->start(1500 / STEPS);
 
     m_popup->setView(box);
     m_popup->show();

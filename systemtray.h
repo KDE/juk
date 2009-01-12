@@ -154,6 +154,9 @@ private:
     QTimer *m_fadeTimer;
     int m_step;
     bool m_fade;
+
+    /// Used to choose between manual fade and windowOpacity
+    bool m_hasCompositionManager;
 };
 
 #endif // SYSTEMTRAY_H
