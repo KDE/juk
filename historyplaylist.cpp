@@ -154,9 +154,11 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
         if(fileName.isEmpty() || !dateTime.isValid())
             throw BICStreamException();
 
-        after = p.createItem(FileHandle(fileName), after, false);
-        if(after)
+        HistoryPlaylistItem *a = p.createItem(FileHandle(fileName), after, false);
+        if(a) {
+            after = a;
             after->setDateTime(dateTime);
+        }
     }
 
     p.dataChanged();
