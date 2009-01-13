@@ -155,7 +155,8 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
             throw BICStreamException();
 
         after = p.createItem(FileHandle(fileName), after, false);
-        after->setDateTime(dateTime);
+        if(after)
+            after->setDateTime(dateTime);
     }
 
     p.dataChanged();
