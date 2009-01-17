@@ -130,8 +130,8 @@ void TrackSequenceManager::setCurrent(PlaylistItem *item)
     if(item != m_iterator->current()) {
         m_iterator->setCurrent(item);
         if(item)
-        setCurrentPlaylist(item->playlist());
-    else
+            setCurrentPlaylist(item->playlist());
+        else
             m_iterator->reset();
     }
 }
