@@ -16,7 +16,7 @@
 #ifndef NOWPLAYING_H
 #define NOWPLAYING_H
 
-#include <Q3HBox>
+#include <QWidget>
 #include <QLabel>
 #include <QPointer>
 #include <QList>
@@ -36,13 +36,12 @@ class Playlist;
  * when the playing item changes.
  */
 
-class NowPlaying : public Q3HBox
+class NowPlaying : public QWidget
 {
     Q_OBJECT
 
 public:
-    NowPlaying(QWidget *parent, PlaylistCollection *collection,
-               const char *name = 0);
+    NowPlaying(QWidget *parent, PlaylistCollection *collection);
     void addItem(NowPlayingItem *item);
     PlaylistCollection *collection() const;
 

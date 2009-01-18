@@ -59,24 +59,29 @@ struct Line : public QFrame
 // NowPlaying
 ////////////////////////////////////////////////////////////////////////////////
 
-NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection, const char *name) :
-    Q3HBox(parent, name),
+NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
+    QWidget(parent),
     m_observer(this, collection),
     m_collection(collection)
 {
+    setObjectName("NowPlaying");
+
     // m_observer is set to watch the PlaylistCollection, also watch for
     // changes that come from CollectionList.
 
     CollectionList::instance()->addObserver(&m_observer);
 
-    layout()->setMargin(0);
-    layout()->setSpacing(3);
-    setFixedHeight(imageSize + 2 + layout()->margin() * 2);
+    QHBoxLayout *layout = new QHBoxLayout(this);
+    setLayout(layout);
 
-    setStretchFactor(new CoverItem(this), 0);
-    setStretchFactor(new TrackItem(this), 2);
-    setStretchFactor(new Line(this), 0);
-    setStretchFactor(new HistoryItem(this), 1);
+    layout->setMargin(0);
+    layout->setSpacing(3);
+    setFixedHeight(imageSize + 2);
+
+    layout->addWidget(new CoverItem(this), 0);
+    layout->addWidget(new TrackItem(this), 2);
+    layout->addWidget(new Line(this), 0);
+    layout->addWidget(new HistoryItem(this), 1);
 
     connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotUpdate()));
     connect(PlayerManager::instance(), SIGNAL(signalStop()), this, SLOT(slotUpdate()));
