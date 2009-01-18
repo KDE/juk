@@ -147,6 +147,16 @@ void FileHandle::refresh()
 
 void FileHandle::setFile(const QString &path)
 {
+    if(path.isEmpty()) {
+        kError() << "trying to set an empty path" << endl;
+        return;
+    }
+
+    if(!QFile::exists(path)) {
+        kError() << "trying to set non-existant file: " << path << endl;
+        return;
+    }
+
     if(!d || isNull())
         setup(QFileInfo(path), path);
     else {
