@@ -110,7 +110,7 @@ private slots:
      * the signal as currentChanged(Item *).
      */
     void slotPlaylistChanged();
-    void slotDoubleClicked();
+    void slotDoubleClicked(Q3ListViewItem *);
     void slotShowContextMenu(Q3ListViewItem *, const QPoint &point, int);
     void slotSetViewMode(int index);
     void slotSavePlaylists();

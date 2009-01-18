@@ -53,6 +53,7 @@
 #include "k3bexporter.h"
 #include "tracksequencemanager.h"
 #include "tagtransactionmanager.h"
+#include "playermanager.h"
 
 using namespace ActionCollection;
 
@@ -134,7 +135,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
             this, SLOT(slotPlaylistChanged()));
 
     connect(this, SIGNAL(doubleClicked(Q3ListViewItem *)),
-            this, SLOT(slotDoubleClicked()));
+            this, SLOT(slotDoubleClicked(Q3ListViewItem *)));
 
     connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)),
             this, SLOT(slotShowContextMenu(Q3ListViewItem *, const QPoint &, int)));
@@ -659,10 +660,23 @@ void PlaylistBox::slotPlaylistChanged()
         createDynamicPlaylist(playlists);
 }
 
-void PlaylistBox::slotDoubleClicked()
+void PlaylistBox::slotDoubleClicked(Q3ListViewItem *item)
 {
-    action("stop")->trigger();
-    action("play")->trigger();
+    TrackSequenceManager *manager = TrackSequenceManager::instance();
+    Item *playlistItem = static_cast<Item *>(item);
+
+    if(item)
+        manager->setCurrentPlaylist(playlistItem->playlist());
+
+    manager->setCurrent(0); // Reset playback
+    PlaylistItem *next = manager->nextItem(); // Allow manager to choose
+
+    if(next) {
+        PlayerManager::instance()->play(next->file());
+        playlistItem->playlist()->setPlaying(next);
+    }
+    else
+        action("stop")->trigger();
 }
 
 void PlaylistBox::slotShowContextMenu(Q3ListViewItem *, const QPoint &point, int)
