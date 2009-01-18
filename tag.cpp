@@ -56,6 +56,12 @@ Tag::Tag(const QString &fileName) :
 {
     // using qDebug here since we want this to show up in non-debug builds as well
 
+    if(fileName.isEmpty()) {
+        kError() << "Trying to add empty file, backtrace follows:" << endl;
+        kError() << kBacktrace(10) << endl;
+        return;
+    }
+
     qDebug("Reading tag for %s", fileName.toLocal8Bit().data());
 
     if(MediaFiles::isMP3(fileName)) {
@@ -91,8 +97,9 @@ Tag::Tag(const QString &fileName) :
     }
 
     else {
-        kError(65432) << "Couldn't resolve the mime type of \"" <<
+        kError() << "Couldn't resolve the mime type of \"" <<
             fileName << "\" -- this shouldn't happen." << endl;
+        kError() << kBacktrace(10) << endl;
     }
 }
 
