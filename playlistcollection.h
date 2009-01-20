@@ -25,7 +25,7 @@
 #include <QPointer>
 
 class QPixmap;
-class Q3WidgetStack;
+class QStackedWidget;
 
 class KAction;
 
@@ -49,7 +49,7 @@ class PlaylistCollection : public PlaylistInterface
     friend class DynamicPlaylist;
 
 public:
-    PlaylistCollection(Q3WidgetStack *playlistStack);
+    PlaylistCollection(QStackedWidget *playlistStack);
     virtual ~PlaylistCollection();
 
     static PlaylistCollection *instance() { return m_instance; }
@@ -161,7 +161,7 @@ public:
     class ActionHandler;
 
 protected:
-    virtual Q3WidgetStack *playlistStack() const;
+    virtual QStackedWidget *playlistStack() const;
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
     virtual void removePlaylist(Playlist *playlist) = 0;
 
@@ -184,7 +184,7 @@ private:
     void readConfig();
     void saveConfig();
 
-    Q3WidgetStack     *m_playlistStack;
+    QStackedWidget   *m_playlistStack;
     HistoryPlaylist  *m_historyPlaylist;
     UpcomingPlaylist *m_upcomingPlaylist;
     ActionHandler    *m_actionHandler;

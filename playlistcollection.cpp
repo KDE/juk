@@ -1,6 +1,9 @@
 /***************************************************************************
     copyright            : (C) 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2009 by Michael Pyne
+    email                : michael.pyne@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -16,7 +19,6 @@
 
 #include <kurl.h>
 #include <kicon.h>
-#include <khbox.h>
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <kinputdialog.h>
@@ -33,7 +35,7 @@
 
 #include <QObject>
 #include <QPixmap>
-#include <Q3WidgetStack>
+#include <QStackedWidget>
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -55,8 +57,6 @@
 //Laurent: readd it
 //#include "collectionadaptor.h"
 
-#define widget (kapp->mainWidget())
-
 using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ PlaylistCollection *PlaylistCollection::m_instance = 0;
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistCollection::PlaylistCollection(Q3WidgetStack *playlistStack) :
+PlaylistCollection::PlaylistCollection(QStackedWidget *playlistStack) :
     m_playlistStack(playlistStack),
     m_historyPlaylist(0),
     m_upcomingPlaylist(0),
@@ -170,8 +170,7 @@ QStringList PlaylistCollection::playlists() const
 
     //(or qFindChildren() if you need MSVC 6 compatibility)
     const QList<Playlist *> childList = m_playlistStack->findChildren<Playlist *>("Playlist");
-    for(QList<Playlist *>::ConstIterator it = childList.begin(); it != childList.end(); ++it) {
-        Playlist *p = static_cast<Playlist *>(*it);
+    foreach(Playlist *p, childList) {
         l.append(p->name());
     }
 
@@ -409,6 +408,7 @@ void PlaylistCollection::duplicate()
                                       visiblePlaylist()->name());
     if(name.isEmpty())
         return;
+
     raise(new Playlist(this, visiblePlaylist()->items(), name));
 }
 
@@ -590,7 +590,7 @@ void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
     }
     else {
         action<KToggleAction>("showUpcoming")->setChecked(false);
-        bool raiseCollection = m_playlistStack->visibleWidget() == m_upcomingPlaylist;
+        bool raiseCollection = visiblePlaylist() == m_upcomingPlaylist;
         delete m_upcomingPlaylist;
         m_upcomingPlaylist = 0;
 
@@ -622,7 +622,7 @@ Playlist *PlaylistCollection::currentPlaylist() const
 
 Playlist *PlaylistCollection::visiblePlaylist() const
 {
-    return static_cast<Playlist *>(m_playlistStack->visibleWidget());
+    return qobject_cast<Playlist *>(m_playlistStack->currentWidget());
 }
 
 void PlaylistCollection::raise(Playlist *playlist)
@@ -635,7 +635,7 @@ void PlaylistCollection::raise(Playlist *playlist)
     TrackSequenceManager::instance()->setCurrentPlaylist(playlist);
     playlist->applySharedSettings();
     playlist->setSearchEnabled(m_searchEnabled);
-    m_playlistStack->raiseWidget(playlist);
+    m_playlistStack->setCurrentWidget(playlist);
     clearShowMore(false);
     dataChanged();
 }
@@ -648,11 +648,11 @@ void PlaylistCollection::raiseDistraction()
     m_belowDistraction = currentPlaylist();
 
     if(!m_distraction) {
-        m_distraction = new KHBox(m_playlistStack);
+        m_distraction = new QWidget(m_playlistStack);
         m_playlistStack->addWidget(m_distraction);
     }
 
-    m_playlistStack->raiseWidget(m_distraction);
+    m_playlistStack->setCurrentWidget(m_distraction);
 }
 
 void PlaylistCollection::lowerDistraction()
@@ -661,7 +661,7 @@ void PlaylistCollection::lowerDistraction()
         return;
 
     if(m_belowDistraction)
-        m_playlistStack->raiseWidget(m_belowDistraction);
+        m_playlistStack->setCurrentWidget(m_belowDistraction);
 
     m_belowDistraction = 0;
 }
@@ -670,7 +670,7 @@ void PlaylistCollection::lowerDistraction()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Q3WidgetStack *PlaylistCollection::playlistStack() const
+QStackedWidget *PlaylistCollection::playlistStack() const
 {
     return m_playlistStack;
 }
@@ -683,6 +683,7 @@ void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
     if(!playlist->name().isEmpty())
         m_playlistNames.insert(playlist->name());
 
+    m_playlistStack->addWidget(playlist);
     QObject::connect(playlist, SIGNAL(selectionChanged()),
                      object(), SIGNAL(signalSelectedItemsChanged()));
 }
@@ -797,18 +798,13 @@ void PlaylistCollection::dirChanged(const QString &path)
 
 Playlist *PlaylistCollection::playlistByName(const QString &name) const
 {
-    QList<Playlist *> l = m_playlistStack->findChildren<Playlist *>("Playlist");
-    Playlist *list = 0;
-
-    for(QList<Playlist *>::Iterator it  = l.begin(); it != l.end(); ++it) {
-        Playlist *p = static_cast<Playlist*>(*it);
-        if(p->name() == name) {
-            list = p;
-            break;
-        }
+    for(int i = 0; i < m_playlistStack->count(); ++i) {
+        Playlist *p = qobject_cast<Playlist *>(m_playlistStack->widget(i));
+        if(p && p->name() == name)
+            return p;
     }
 
-    return list;
+    return 0;
 }
 
 void PlaylistCollection::newItems(const KFileItemList &list) const
@@ -947,7 +943,6 @@ KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
     return action;
 }
 
-#undef widget
 #include "playlistcollection.moc"
 
 // vim: set et sw=4 tw=0 sta:

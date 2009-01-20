@@ -55,7 +55,7 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 #include <QPixmap>
-#include <Q3WidgetStack>
+#include <QStackedWidget>
 #include <id3v1genres.h>
 
 #include <time.h>

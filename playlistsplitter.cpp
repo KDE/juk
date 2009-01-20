@@ -26,7 +26,7 @@
 #include <QEvent>
 #include <QVBoxLayout>
 #include <QList>
-#include <Q3WidgetStack>
+#include <QStackedWidget>
 #include <QSizePolicy>
 
 #include "searchwidget.h"
@@ -163,12 +163,11 @@ void PlaylistSplitter::setupLayout()
     topLayout->setMargin(0);
     topLayout->setSpacing(0);
 
-    m_playlistStack = new Q3WidgetStack(top, "playlistStack");
+    m_playlistStack = new QStackedWidget(top);
+    m_playlistStack->setObjectName("playlistStack");
     m_playlistStack->installEventFilter(this);
     m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_playlistStack->hide(); // Will be shown after CollectionList filled.
-
-    connect(m_playlistStack, SIGNAL(aboutToShow(QWidget *)), this, SLOT(slotPlaylistChanged(QWidget *)));
 
     m_editor = new TagEditor(editorSplitter);
     m_editor->setObjectName("TagEditor");
@@ -191,9 +190,6 @@ void PlaylistSplitter::setupLayout()
 
     insertWidget(0, m_playlistBox);
 
-    connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
-            m_editor, SLOT(slotUpdateCollection()));
-
     NowPlaying *nowPlaying = new NowPlaying(top, m_playlistBox);
 
     // Create the search widget -- this must be done after the CollectionList is created.
@@ -215,6 +211,11 @@ void PlaylistSplitter::setupLayout()
     topLayout->addWidget(nowPlaying);
     topLayout->addWidget(m_searchWidget);
     topLayout->addWidget(m_playlistStack, 1);
+
+    // Now that GUI setup is complete, add some auto-update signals.
+    connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
+            m_editor, SLOT(slotUpdateCollection()));
+    connect(m_playlistStack, SIGNAL(currentChanged(int)), this, SLOT(slotPlaylistChanged(int)));
 
     // Show the collection on startup.
     m_playlistBox->setSelected(0, true);
@@ -256,9 +257,9 @@ void PlaylistSplitter::slotPlaylistSelectionChanged()
     m_editor->slotSetItems(visiblePlaylist()->selectedItems());
 }
 
-void PlaylistSplitter::slotPlaylistChanged(QWidget *w)
+void PlaylistSplitter::slotPlaylistChanged(int i)
 {
-    Playlist *p = dynamic_cast<Playlist *>(w);
+    Playlist *p = qobject_cast<Playlist *>(m_playlistStack->widget(i));
 
     if(!p)
         return;

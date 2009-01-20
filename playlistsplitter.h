@@ -18,7 +18,7 @@
 
 #include <QSplitter>
 
-class Q3WidgetStack;
+class QStackedWidget;
 
 class Playlist;
 class SearchWidget;
@@ -28,7 +28,7 @@ class PlaylistBox;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
- * a QWidgetStack of the Playlists.
+ * a QStackedWidget of the Playlists.
  *
  * This class serves as a "mediator" (see "Design Patterns") between the JuK
  * class and the playlist classes.  Thus all access to the playlist classes from
@@ -56,7 +56,7 @@ private:
 
     /**
      * This returns a pointer to the first item in the playlist on the top
-     * of the QWidgetStack of playlists.
+     * of the QStackedWidget of playlists.
      */
     Playlist *visiblePlaylist() const;
 
@@ -73,13 +73,13 @@ private slots:
      */
     void slotShowSearchResults();
     void slotPlaylistSelectionChanged();
-    void slotPlaylistChanged(QWidget *w);
+    void slotPlaylistChanged(int i);
 
 private:
     Playlist *m_newVisible;
     PlaylistBox *m_playlistBox;
     SearchWidget *m_searchWidget;
-    Q3WidgetStack *m_playlistStack;
+    QStackedWidget *m_playlistStack;
     TagEditor *m_editor;
 };
 

@@ -61,7 +61,7 @@ using namespace ActionCollection;
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(QWidget *parent, Q3WidgetStack *playlistStack) :
+PlaylistBox::PlaylistBox(QWidget *parent, QStackedWidget *playlistStack) :
     K3ListView(parent),
     PlaylistCollection(playlistStack),
     m_viewModeIndex(0),
