@@ -115,7 +115,7 @@ private slots:
     void slotFinished();
     void slotLength(qint64);
     void slotTick(qint64);
-    void slotStateChanged(Phonon::State);
+    void slotStateChanged(Phonon::State, Phonon::State);
     void slotKillSender(); // Used to auto-delete media objects at EOF
 
 private:
