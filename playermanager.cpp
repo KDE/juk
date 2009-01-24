@@ -474,7 +474,7 @@ void PlayerManager::slotTick(qint64 msec)
     m_noSeek = false;
 }
 
-void PlayerManager::slotStateChanged(Phonon::State newstate)
+void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldstate)
 {
     if(newstate == Phonon::ErrorState) {
         QString errorMessage =
@@ -503,7 +503,7 @@ void PlayerManager::slotStateChanged(Phonon::State newstate)
                 break;
         }
     }
-    else if(newstate == Phonon::StoppedState) {
+    else if(newstate == Phonon::StoppedState && oldstate != Phonon::LoadingState) {
         m_playlistInterface->stop();
 
         m_file = FileHandle::null();
@@ -572,7 +572,7 @@ void PlayerManager::setup()
     m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
 
     m_media = new Phonon::MediaObject(this);
-    connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State)));
+    connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State, Phonon::State)));
     connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
     m_audioPath = Phonon::createPath(m_media, m_output);
     m_media->setTickInterval(200);
@@ -640,7 +640,7 @@ void PlayerManager::crossfadeToFile(const FileHandle &newFile)
     m_audioPath.insertEffect(m_fader);
 
     // Reconnect everything
-    connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State)));
+    connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State, Phonon::State)));
     connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
     if(m_sliderAction->trackPositionSlider())
         m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
