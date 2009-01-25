@@ -109,6 +109,7 @@ signals:
 private:
     void setup();
     void crossfadeToFile(const FileHandle &newFile);
+    void stopCrossfade();
 
 private slots:
     void slotNeedNextUrl();
@@ -116,7 +117,9 @@ private slots:
     void slotLength(qint64);
     void slotTick(qint64);
     void slotStateChanged(Phonon::State, Phonon::State);
-    void slotKillSender(); // Used to auto-delete media objects at EOF
+    void slotUpdateSliders();
+    /// Updates the GUI to reflect stopped playback if we're stopped at this point.
+    void slotUpdateGuiIfStopped();
 
 private:
     FileHandle m_file;
@@ -129,10 +132,11 @@ private:
 
     static const int m_pollInterval = 800;
 
-    Phonon::AudioOutput *m_output;
-    Phonon::Path m_audioPath;
-    Phonon::MediaObject *m_media;
-    Phonon::VolumeFaderEffect *m_fader;
+    int m_curOutputPath; ///< Either 0 or 1 depending on which output path is in use.
+    Phonon::AudioOutput *m_output[2];
+    Phonon::Path m_audioPath[2];
+    Phonon::MediaObject *m_media[2];
+    Phonon::VolumeFaderEffect *m_fader[2];
 };
 
 #endif

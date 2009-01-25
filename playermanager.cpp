@@ -6,7 +6,7 @@
     copyright            : (C) 2007 by Matthias Kretz
     email                : kretz@kde.org
 
-    copyright            : (C) 2008 by Michael Pyne
+    copyright            : (C) 2008, 2009 by Michael Pyne
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
@@ -64,9 +64,7 @@ PlayerManager::PlayerManager() :
     m_noSeek(false),
     m_muted(false),
     m_setup(false),
-    m_output(0),
-    m_media(0),
-    m_fader(0)
+    m_curOutputPath(0)
 {
 // This class is the first thing constructed during program startup, and
 // therefore has no access to the widgets needed by the setup() method.
@@ -75,7 +73,6 @@ PlayerManager::PlayerManager() :
 //    setup();
     new PlayerAdaptor( this );
     QDBusConnection::sessionBus().registerObject("/Player", this);
-
 }
 
 PlayerManager::~PlayerManager()
@@ -94,31 +91,32 @@ PlayerManager *PlayerManager::instance() // static
 
 bool PlayerManager::playing() const
 {
-    if(!m_media)
+    if(!m_setup)
         return false;
 
-    return (m_media->state() == Phonon::PlayingState || m_media->state() == Phonon::BufferingState);
+    Phonon::State state = m_media[m_curOutputPath]->state();
+    return (state == Phonon::PlayingState || state == Phonon::BufferingState);
 }
 
 bool PlayerManager::paused() const
 {
-    if(!m_media)
+    if(!m_setup)
         return false;
 
-    return m_media->state() == Phonon::PausedState;
+    return m_media[m_curOutputPath]->state() == Phonon::PausedState;
 }
 
 float PlayerManager::volume() const
 {
-    if(!m_output)
+    if(!m_setup)
         return 1.0;
 
-    return m_output->volume();
+    return m_output[m_curOutputPath]->volume();
 }
 
 int PlayerManager::status() const
 {
-    if(!m_media)
+    if(!m_setup)
         return StatusStopped;
 
     if(paused())
@@ -132,32 +130,19 @@ int PlayerManager::status() const
 
 int PlayerManager::totalTime() const
 {
-    if(!m_media)
+    if(!m_setup)
         return 0;
 
-    return m_media->totalTime() / 1000;
+    return m_media[m_curOutputPath]->totalTime() / 1000;
 }
 
 int PlayerManager::currentTime() const
 {
-    if(!m_media)
+    if(!m_setup)
         return 0;
 
-    return m_media->currentTime() / 1000;
+    return m_media[m_curOutputPath]->currentTime() / 1000;
 }
-
-/*
-int PlayerManager::position() const
-{
-    if(!m_media)
-        return 0;
-
-    long curr = m_media->currentTime();
-    if(curr > 0)
-        return static_cast<int>(static_cast<float>(curr * SliderAction::maxPosition) / m_media->totalTime() + 0.5f);
-    return -1;
-}
-*/
 
 QStringList PlayerManager::trackProperties()
 {
@@ -218,21 +203,22 @@ void PlayerManager::setStatusLabel(StatusLabel *label)
 
 void PlayerManager::play(const FileHandle &file)
 {
-    if(!m_media)
+    if(!m_setup)
         setup();
 
-    if(!m_media || !m_playlistInterface)
+    if(!m_media[0] || !m_media[1] || !m_playlistInterface)
         return;
 
-    // Ensure we're not trying to fade if we were previously stopped or end
-    // up not crossfading.
-    m_fader->setVolume(volume());
+    stopCrossfade();
+
+    // The "currently playing" media object.
+    Phonon::MediaObject *mediaObject = m_media[m_curOutputPath];
 
     if(file.isNull()) {
         if(paused())
-            m_media->play();
+            mediaObject->play();
         else if(playing()) {
-            m_media->seek(0);
+            mediaObject->seek(0);
         }
         else {
             m_playlistInterface->playNext();
@@ -240,20 +226,16 @@ void PlayerManager::play(const FileHandle &file)
 
             if(!m_file.isNull())
             {
-                m_media->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
-                m_media->play();
+                mediaObject->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
+                mediaObject->play();
             }
         }
     }
     else {
         m_file = file;
 
-        if(m_media->state() == Phonon::PlayingState)
-            crossfadeToFile(m_file);
-        else {
-            m_media->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
-            m_media->play();
-        }
+        mediaObject->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
+        mediaObject->play();
     }
 
     // Our state changed handler will perform the follow up actions necessary
@@ -276,7 +258,7 @@ void PlayerManager::play()
 
 void PlayerManager::pause()
 {
-    if(!m_media)
+    if(!m_setup)
         return;
 
     if(paused()) {
@@ -286,14 +268,14 @@ void PlayerManager::pause()
 
     action("pause")->setEnabled(false);
 
-    m_media->pause();
+    m_media[m_curOutputPath]->pause();
 
     emit signalPause();
 }
 
 void PlayerManager::stop()
 {
-    if(!m_media || !m_playlistInterface)
+    if(!m_setup || !m_playlistInterface)
         return;
 
     action("pause")->setEnabled(false);
@@ -302,69 +284,50 @@ void PlayerManager::stop()
     action("forward")->setEnabled(false);
     action("forwardAlbum")->setEnabled(false);
 
-    switch(m_media->state())
-    {
-    case Phonon::PlayingState:
-        // Fall through
+    // Fading out playback is for chumps.
+    stopCrossfade();
+    m_media[0]->stop();
+    m_media[1]->stop();
 
-    case Phonon::BufferingState:
-    {
-        // Effect will be deleted once we actually stop playbackk.
-        kDebug() << "Fading out playback.\n";
-
-        m_fader->setFadeCurve(Phonon::VolumeFaderEffect::Fade12Decibel);
-        m_fader->fadeOut(2000);
-        QTimer::singleShot(2000, m_media, SLOT(stop()));
-    }
-
-    break;
-
-    default:
-        m_media->stop();
-    }
+    emit signalStop();
 }
 
 void PlayerManager::setVolume(float volume)
 {
-    if(!m_output)
+    if(!m_setup)
         setup();
-    m_output->setVolume(volume);
+
+    m_output[0]->setVolume(volume);
+    m_output[1]->setVolume(volume);
 }
 
 void PlayerManager::seek(int seekTime)
 {
-    if(!m_media)
+    if(!m_setup)
         return;
 
-    m_media->seek(seekTime);
+    stopCrossfade();
+    m_media[m_curOutputPath]->seek(seekTime);
 }
-
-/*
-void PlayerManager::seekPosition(int position)
-{
-    if(!m_media)
-        return;
-
-    if(!playing() || m_noSeek)
-        return;
-
-    slotUpdateTime(position);
-    m_media->seek(static_cast<qint64>(static_cast<float>(m_media->totalTime() * position) / SliderAction::maxPosition + 0.5f));
-}
-*/
 
 void PlayerManager::seekForward()
 {
-    const qint64 total = m_media->totalTime();
-    const qint64 newtime = m_media->currentTime() + total / 100;
-    m_media->seek(qMin(total, newtime));
+    Phonon::MediaObject *mediaObject = m_media[m_curOutputPath];
+    const qint64 total = mediaObject->totalTime();
+    const qint64 newtime = mediaObject->currentTime() + total / 100;
+
+    stopCrossfade();
+    mediaObject->seek(qMin(total, newtime));
 }
 
 void PlayerManager::seekBack()
 {
-    const qint64 total = m_media->totalTime();
-    const qint64 newtime = m_media->currentTime() - total / 100;
-    m_media->seek(qMax(qint64(0), newtime));
+    Phonon::MediaObject *mediaObject = m_media[m_curOutputPath];
+    const qint64 total = mediaObject->totalTime();
+    const qint64 newtime = mediaObject->currentTime() - total / 100;
+
+    stopCrossfade();
+    mediaObject->seek(qMax(qint64(0), newtime));
 }
 
 void PlayerManager::playPause()
@@ -396,11 +359,10 @@ void PlayerManager::back()
 
 void PlayerManager::volumeUp()
 {
-    if(!m_output)
+    if(!m_setup)
         return;
 
-    float volume = m_output->volume() + 0.04; // 4% up
-    m_output->setVolume(volume);
+    setVolume(volume() + 0.04); // 4% up
 }
 
 void PlayerManager::volumeDown()
@@ -408,16 +370,15 @@ void PlayerManager::volumeDown()
     if(!m_output)
         return;
 
-    float volume = m_output->volume() - 0.04; // 4% up
-    m_output->setVolume(volume);
+    setVolume(volume() - 0.04); // 4% down
 }
 
 void PlayerManager::mute()
 {
-    if(!m_output)
+    if(!m_setup)
         return;
 
-    m_output->setMuted(!m_output->isMuted());
+    m_output[m_curOutputPath]->setMuted(!m_output[m_curOutputPath]->isMuted());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -427,14 +388,12 @@ void PlayerManager::mute()
 void PlayerManager::slotNeedNextUrl()
 {
     if(m_file.isNull())
-    {
         return;
-    }
+
     m_playlistInterface->playNext();
     FileHandle nextFile = m_playlistInterface->currentFile();
-    if(!nextFile.isNull())
-    {
-        //kDebug() << m_file.absFilePath();
+
+    if(!nextFile.isNull()) {
         m_file = nextFile;
         crossfadeToFile(m_file);
     }
@@ -442,17 +401,22 @@ void PlayerManager::slotNeedNextUrl()
 
 void PlayerManager::slotFinished()
 {
-    action("pause")->setEnabled(false);
-    action("stop")->setEnabled(false);
-    action("back")->setEnabled(false);
-    action("forward")->setEnabled(false);
-    action("forwardAlbum")->setEnabled(false);
+    // It is possible to end up in this function if a file simply fails to play or if the
+    // user moves the slider all the way to the end, therefore see if we can keep playing
+    // and if we can, do so.  Otherwise, stop.  Note that this slot should
+    // only be called by the currently "main" output path (i.e. not from the
+    // crossfading one)
 
-    m_playlistInterface->stop();
+    m_playlistInterface->playNext();
+    m_file = m_playlistInterface->currentFile();
 
-    m_file = FileHandle::null();
-
-    emit signalStop();
+    if(m_file.isNull()) {
+        stop();
+    }
+    else {
+        m_media[m_curOutputPath]->setCurrentSource(m_file.absFilePath());
+        m_media[m_curOutputPath]->play();
+    }
 }
 
 void PlayerManager::slotLength(qint64 msec)
@@ -462,20 +426,25 @@ void PlayerManager::slotLength(qint64 msec)
 
 void PlayerManager::slotTick(qint64 msec)
 {
-    if(!m_media || !m_playlistInterface)
+    if(!m_setup || !m_playlistInterface)
         return;
 
     m_noSeek = true;
 
-    if(m_statusLabel) {
+    if(m_statusLabel)
         m_statusLabel->setItemCurrentTime(msec / 1000);
-    }
 
     m_noSeek = false;
 }
 
 void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldstate)
 {
+    // Use sender() since either media object may have sent the signal.
+    Phonon::MediaObject *mediaObject = qobject_cast<Phonon::MediaObject *>(sender());
+    if(!mediaObject)
+        return;
+
+    // Handle errors for either media object
     if(newstate == Phonon::ErrorState) {
         QString errorMessage =
             i18nc(
@@ -483,10 +452,10 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
               "JuK is unable to play the audio file<nl><filename>%1</filename><nl>"
                 "for the following reason:<nl><message>%2</message>",
               m_file.absFilePath(),
-              m_media->errorString()
+              mediaObject->errorString()
             );
 
-        switch(m_media->errorType()) {
+        switch(mediaObject->errorType()) {
             case Phonon::NoError:
                 kDebug() << "received a state change to ErrorState but errorType is NoError!?";
                 break;
@@ -503,12 +472,19 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
                 break;
         }
     }
-    else if(newstate == Phonon::StoppedState && oldstate != Phonon::LoadingState) {
-        m_playlistInterface->stop();
 
-        m_file = FileHandle::null();
+    // Now bail out if we're not dealing with the currently playing media
+    // object.
 
-        emit signalStop();
+    if(mediaObject != m_media[m_curOutputPath])
+        return;
+
+    // Handle state changes for the playing media object.
+    if(newstate == Phonon::StoppedState && oldstate != Phonon::LoadingState) {
+        // If this occurs it should be due to a transitory shift (i.e. playing a different
+        // song when one is playing now), since it didn't occur in the error handler.  Just
+        // in case we really did abruptly stop, handle that case in a couple of seconds.
+        QTimer::singleShot(2000, this, SLOT(slotUpdateGuiIfStopped()));
     }
     else if(newstate == Phonon::PlayingState) {
         action("pause")->setEnabled(true);
@@ -521,30 +497,6 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
         emit signalPlay();
     }
 }
-
-void PlayerManager::slotKillSender()
-{
-    // When called as a slot the sender() property has a QObject that called us.
-    // If it's a MediaObject we should delete it to clean up from crossfading.
-    // Note: This is not a good general practice (deleting our senders) and is dependant on what
-    // MediaObject does.  So we use deleteLater() to delete at some later time.
-    if(qobject_cast<Phonon::MediaObject *>(sender()))
-        sender()->deleteLater();
-}
-
-/*
-void PlayerManager::slotUpdateTime(int position)
-{
-    if(!m_statusLabel)
-        return;
-
-    float positionFraction = float(position) / SliderAction::maxPosition;
-    float totalTime = float(m_media->totalTime()) / 1000.0f;
-    int seekTime = int(positionFraction * totalTime + 0.5); // "+0.5" for rounding
-
-    m_statusLabel->setItemCurrentTime(seekTime);
-}
-*/
 
 ////////////////////////////////////////////////////////////////////////////////
 // private members
@@ -569,18 +521,28 @@ void PlayerManager::setup()
         return;
     m_setup = true;
 
-    m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+    // We use two audio paths at all times to make cross fading easier (and to also easily
+    // support not using cross fading with the same code).  The currently playing audio
+    // path is controlled using m_curOutputPath.
 
-    m_media = new Phonon::MediaObject(this);
-    connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State, Phonon::State)));
-    connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
-    m_audioPath = Phonon::createPath(m_media, m_output);
-    m_media->setTickInterval(200);
+    for(int i = 0; i < 2; ++i) {
+        m_output[i] = new Phonon::AudioOutput(Phonon::MusicCategory, this);
 
-    // Pre-cache a volume fader object
-    m_fader = new Phonon::VolumeFaderEffect(m_media);
-    m_audioPath.insertEffect(m_fader);
-    m_fader->setVolume(volume());
+        m_media[i] = new Phonon::MediaObject(this);
+        m_audioPath[i] = Phonon::createPath(m_media[i], m_output[i]);
+        m_media[i]->setTickInterval(200);
+
+        // Pre-cache a volume fader object
+        m_fader[i] = new Phonon::VolumeFaderEffect(m_media[i]);
+        m_audioPath[i].insertEffect(m_fader[i]);
+        m_fader[i]->setVolume(1.0f);
+
+        connect(m_media[i], SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State, Phonon::State)));
+        connect(m_media[i], SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
+        connect(m_media[i], SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
+        connect(m_media[i], SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
+        connect(m_media[i], SIGNAL(finished()), SLOT(slotFinished()));
+    }
 
     // initialize action states
 
@@ -590,80 +552,67 @@ void PlayerManager::setup()
     action("forward")->setEnabled(false);
     action("forwardAlbum")->setEnabled(false);
 
-    // setup sliders
+    // setup sliders (a separate slot is used to switch as needed)
 
     m_sliderAction = action<SliderAction>("trackPositionAction");
 
-    /*
-    connect(m_sliderAction, SIGNAL(signalPositionChanged(int)),
-            this, SLOT(seekPosition(int)));
-    connect(m_sliderAction->trackPositionSlider(), SIGNAL(valueChanged(int)),
-            this, SLOT(slotUpdateTime(int)));
-            */
-
     if(m_sliderAction->trackPositionSlider())
-    {
-        m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
-    }
-    if(m_sliderAction->volumeSlider())
-    {
-        m_sliderAction->volumeSlider()->setAudioOutput(m_output);
-    }
+        m_sliderAction->trackPositionSlider()->setMediaObject(m_media[0]);
 
-    connect(m_media, SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
-    connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
-    connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
+    if(m_sliderAction->volumeSlider())
+        m_sliderAction->volumeSlider()->setAudioOutput(m_output[0]);
+}
+
+void PlayerManager::slotUpdateSliders()
+{
+    m_sliderAction->trackPositionSlider()->setMediaObject(m_media[m_curOutputPath]);
+    m_sliderAction->volumeSlider()->setAudioOutput(m_output[m_curOutputPath]);
+
+    disconnect(m_media[1 - m_curOutputPath], 0, this, SLOT(slotUpdateSliders()));
+    connect(m_media[1 - m_curOutputPath], SIGNAL(finished()), SLOT(slotFinished()));
+}
+
+void PlayerManager::slotUpdateGuiIfStopped()
+{
+    if(m_media[0]->state() == Phonon::StoppedState && m_media[1]->state() == Phonon::StoppedState)
+        stop();
 }
 
 void PlayerManager::crossfadeToFile(const FileHandle &newFile)
 {
-    // Crossfade by introducting a second MediaObject, inserting appropriate effects in the new
-    // and old MediaObject, and letting the old MediaObject die a graceful death afterwards.
+    int nextOutputPath = 1 - m_curOutputPath;
 
-    Phonon::VolumeFaderEffect *oldFader = m_fader;
-    Phonon::Path oldPath(m_audioPath);
-    Phonon::MediaObject *mo = m_media;
-    Phonon::AudioOutput *out = m_output;
+    // Don't need this anymore
+    disconnect(m_media[m_curOutputPath], SIGNAL(finished()), this, 0);
+    connect(m_media[nextOutputPath], SIGNAL(finished()), SLOT(slotFinished()));
 
-    mo->disconnect(this);
-    out->setParent(mo); // Allow mo's death to also kill out
-    connect(mo, SIGNAL(finished()), SLOT(slotKillSender()));
+    // Wait a couple of seconds and switch slider objects.  (We would simply
+    // handle this when finished() is emitted but phonon-gst is buggy).
+    QTimer::singleShot(2000, this, SLOT(slotUpdateSliders()));
 
-    m_media = new Phonon::MediaObject(this);
-    m_output = new Phonon::AudioOutput(Phonon::MusicCategory, this);
-    m_fader = new Phonon::VolumeFaderEffect(m_media);
+    m_fader[nextOutputPath]->setVolume(0.0f);
 
-    m_audioPath = Phonon::createPath(m_media, m_output);
-    m_output->setVolume(out->volume());
-    m_output->setMuted(out->isMuted());
-    m_media->setTickInterval(200);
-    m_audioPath.insertEffect(m_fader);
+    m_media[nextOutputPath]->setCurrentSource(newFile.absFilePath());
+    m_media[nextOutputPath]->play();
 
-    // Reconnect everything
-    connect(m_media, SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State, Phonon::State)));
-    connect(m_media, SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
-    if(m_sliderAction->trackPositionSlider())
-        m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
-    connect(m_media, SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
-    connect(m_media, SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
-    connect(m_media, SIGNAL(finished()), SLOT(slotFinished()));
+    m_fader[m_curOutputPath]->setVolume(1.0f);
+    m_fader[m_curOutputPath]->fadeTo(0.0f, 2000);
 
-    if(m_sliderAction->trackPositionSlider())
-        m_sliderAction->trackPositionSlider()->setMediaObject(m_media);
+    m_fader[nextOutputPath]->fadeTo(1.0f, 2000);
 
-    if(m_sliderAction->volumeSlider())
-        m_sliderAction->volumeSlider()->setAudioOutput(m_output);
+    m_curOutputPath = nextOutputPath;
+}
 
-    m_media->setCurrentSource(newFile.absFilePath());
-    m_media->play();
+void PlayerManager::stopCrossfade()
+{
+    // According to the Phonon docs, setVolume immediately takes effect,
+    // which is "good enough for government work" ;)
 
-    oldFader->fadeTo(0.0f, 2000);
+    // 1 - curOutputPath is the other output path...
+    m_fader[m_curOutputPath]->setVolume(1.0f);
+    m_fader[1 - m_curOutputPath]->setVolume(0.0f);
 
-    m_fader->setVolume(0.0f);
-    m_fader->fadeTo(m_output->volume(), 2000);
-
-    // Give the media object some extra time for good measure but then kill it.
-    QTimer::singleShot(4000, mo, SLOT(deleteLater()));
+    m_media[1 - m_curOutputPath]->stop();
 }
 
 QString PlayerManager::randomPlayMode() const
