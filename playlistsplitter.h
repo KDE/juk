@@ -25,6 +25,7 @@ class SearchWidget;
 class PlaylistInterface;
 class TagEditor;
 class PlaylistBox;
+class NowPlaying;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
@@ -81,6 +82,7 @@ private:
     SearchWidget *m_searchWidget;
     Q3WidgetStack *m_playlistStack;
     TagEditor *m_editor;
+    NowPlaying *m_nowPlaying;
 };
 
 #endif
