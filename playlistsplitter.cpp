@@ -48,7 +48,8 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
     m_playlistBox(0),
     m_searchWidget(0),
     m_playlistStack(0),
-    m_editor(0)
+    m_editor(0),
+    m_nowPlaying(0)
 {
     setObjectName(name);
 
@@ -63,6 +64,12 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
 PlaylistSplitter::~PlaylistSplitter()
 {
     saveConfig();
+
+    // NowPlaying depends on the PlaylistCollection, so kill it now.
+    delete m_nowPlaying;
+    m_nowPlaying = 0;
+
+    delete m_searchWidget; // Take no chances here either.
 
     // Since we want to ensure that the shutdown process for the PlaylistCollection
     // (a base class for PlaylistBox) has a chance to write the playlists to disk
@@ -190,7 +197,7 @@ void PlaylistSplitter::setupLayout()
 
     insertWidget(0, m_playlistBox);
 
-    NowPlaying *nowPlaying = new NowPlaying(top, m_playlistBox);
+    m_nowPlaying = new NowPlaying(top, m_playlistBox);
 
     // Create the search widget -- this must be done after the CollectionList is created.
 
@@ -208,7 +215,7 @@ void PlaylistSplitter::setupLayout()
     connect(ActionCollection::action<KToggleAction>("showSearch"), SIGNAL(toggled(bool)),
             m_searchWidget, SLOT(setEnabled(bool)));
 
-    topLayout->addWidget(nowPlaying);
+    topLayout->addWidget(m_nowPlaying);
     topLayout->addWidget(m_searchWidget);
     topLayout->addWidget(m_playlistStack, 1);
 
