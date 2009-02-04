@@ -45,7 +45,6 @@ public:
 private:
     void setupLayout();
     void setupActions();
-    void setupSystemTray();
     void setupGlobalAccels();
 
     void keyPressEvent(QKeyEvent *);
@@ -62,9 +61,11 @@ private:
     virtual bool queryClose();
 
 private slots:
+    void slotSetupSystemTray();
     void slotShowHide();
     void slotAboutToQuit();
     void slotQuit();
+    void slotPlaybackStopped();
     void slotToggleSystemTray(bool enabled);
     void slotEditKeys();
     void slotConfigureTagGuesser();

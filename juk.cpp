@@ -3,7 +3,7 @@
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
 
-    copyright            : (C) 2008 by Michael Pyne
+    copyright            : (C) 2008, 2009 by Michael Pyne
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
@@ -91,8 +91,8 @@ JuK::JuK(QWidget *parent) :
     else
         setupGUI(ToolBar | Save | Create);
 
+    connect(m_splitter, SIGNAL(guiReady()), SLOT(slotSetupSystemTray()));
     readConfig();
-    setupSystemTray();
     setupGlobalAccels();
 
     // slotCheckCache loads the cached entries first to populate the collection list
@@ -279,7 +279,7 @@ void JuK::setupActions()
         action->setShortcutContext(Qt::WidgetWithChildrenShortcut);
 }
 
-void JuK::setupSystemTray()
+void JuK::slotSetupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
         m_systemTray = new SystemTray(this);
@@ -465,13 +465,10 @@ void JuK::slotAboutToQuit()
 {
     m_shuttingDown = true;
 
-    action("stop")->trigger();
     delete m_systemTray;
     m_systemTray = 0;
 
     CoverManager::shutdown();
-    Cache::instance()->save();
-    saveConfig();
 
     delete m_splitter;
     m_splitter = 0;
@@ -481,6 +478,22 @@ void JuK::slotQuit()
 {
     m_shuttingDown = true;
 
+    // Some phonon backends will crash on shutdown unless we're deep in the middle of the StoppedState.
+    // So have the PlayerManager tell us when we're stopped and we'll continue.
+    if(m_player->playing()) {
+        connect(m_player, SIGNAL(signalStop()), SLOT(slotPlaybackStopped()));
+        m_player->stop();
+    }
+    else
+        QTimer::singleShot(0, this, SLOT(slotPlaybackStopped()));
+
+    // Get these started since they don't involve deleting any running objects.
+    Cache::instance()->save();
+    saveConfig();
+}
+
+void JuK::slotPlaybackStopped()
+{
     kapp->quit();
 }
 
@@ -491,7 +504,7 @@ void JuK::slotQuit()
 void JuK::slotToggleSystemTray(bool enabled)
 {
     if(enabled && !m_systemTray)
-        setupSystemTray();
+        slotSetupSystemTray();
     else if(!enabled && m_systemTray) {
         delete m_systemTray;
         m_systemTray = 0;

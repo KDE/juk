@@ -288,8 +288,6 @@ void PlayerManager::stop()
     stopCrossfade();
     m_media[0]->stop();
     m_media[1]->stop();
-
-    emit signalStop();
 }
 
 void PlayerManager::setVolume(float volume)
@@ -485,6 +483,7 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
         // song when one is playing now), since it didn't occur in the error handler.  Just
         // in case we really did abruptly stop, handle that case in a couple of seconds.
         QTimer::singleShot(2000, this, SLOT(slotUpdateGuiIfStopped()));
+        emit signalStop();
     }
     else if(newstate == Phonon::PlayingState) {
         action("pause")->setEnabled(true);

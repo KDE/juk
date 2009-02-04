@@ -2,6 +2,9 @@
     begin                : Fri Sep 13 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2009 by Michael Pyne
+    email                : michael.pyne@kdemail.net
  ***************************************************************************/
 
 /***************************************************************************
@@ -194,6 +197,9 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist *)),
             m_editor, SLOT(slotPlaylistDestroyed(Playlist *)));
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
+
+    // Let interested parties know we're ready
+    connect(m_playlistBox, SIGNAL(startupComplete()), SIGNAL(guiReady()));
 
     insertWidget(0, m_playlistBox);
 

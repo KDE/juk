@@ -48,6 +48,14 @@ public:
 
     virtual bool eventFilter(QObject *watched, QEvent *event);
 
+signals:
+    /**
+     * Emitted when GUI is created and the cache is loaded.  Is kind of a hack
+     * until we move the time-intensive parts to a separate thread but then
+     * again at least this works.
+     */
+    void guiReady();
+
 public slots:
     virtual void setFocus();
     virtual void slotFocusCurrentPlaylist();
