@@ -1,10 +1,6 @@
-<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN"
-"http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
+<!DOCTYPE node PUBLIC "-//freedesktop//DTD D-BUS Object Introspection 1.0//EN" "http://www.freedesktop.org/standards/dbus/1.0/introspect.dtd">
 <node>
   <interface name="org.kde.juk.collection">
-    <method name="playlists">
-      <arg type="as" direction="out"/>
-    </method>
     <method name="openFile">
       <arg name="file" type="s" direction="in"/>
     </method>
@@ -16,14 +12,6 @@
       <arg name="file" type="s" direction="in"/>
     </method>
     <method name="openFile">
-      <arg name="playlist" type="s" direction="in"/>
-      <arg name="files" type="as" direction="in"/>
-    </method>
-    <method name="createPlaylist">
-      <arg name="list" type="s" direction="in"/>
-    </method>
-    <method name="remove"/>
-    <method name="removeTrack">
       <arg name="playlist" type="s" direction="in"/>
       <arg name="files" type="as" direction="in"/>
     </method>
@@ -33,17 +21,33 @@
     <method name="playingPlaylist">
       <arg type="s" direction="out"/>
     </method>
-    <method name="setPlaylist">
-      <arg name="playlist" type="s" direction="in"/>
-    </method>
-    <method name="playlistTracks">
-      <arg name="playlist" type="s" direction="in"/>
+    <method name="playlists">
       <arg type="as" direction="out"/>
     </method>
+    <method name="playlistTracks">
+      <arg type="as" direction="out"/>
+      <arg name="playlist" type="s" direction="in"/>
+    </method>
     <method name="trackProperty">
+      <arg type="s" direction="out"/>
       <arg name="file" type="s" direction="in"/>
       <arg name="property" type="s" direction="in"/>
+    </method>
+    <method name="createPlaylist">
+      <arg name="name" type="s" direction="in"/>
+    </method>
+    <method name="setPlaylist">
+      <arg name="name" type="s" direction="in"/>
+    </method>
+    <method name="remove">
+    </method>
+    <method name="removeTrack">
+      <arg name="playlist" type="s" direction="in"/>
+      <arg name="files" type="as" direction="in"/>
+    </method>
+    <method name="trackCover">
       <arg type="s" direction="out"/>
+      <arg name="track" type="s" direction="in"/>
     </method>
   </interface>
 </node>

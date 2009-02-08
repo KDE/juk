@@ -46,6 +46,14 @@ public slots: // Expose to D-Bus
     void remove();
     void removeTrack(const QString &playlist, const QStringList &files);
 
+    /**
+     * Returns the path to the cover art for the given file.  Returns the empty
+     * string if the track has no cover art.  Some tracks have embedded cover
+     * art -- in this case JuK returns the path to a temporary file with the
+     * extracted cover art.
+     */
+    QString trackCover(const QString &track);
+
 private:
     PlaylistCollection *m_collection;
 };

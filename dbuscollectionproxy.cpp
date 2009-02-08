@@ -15,10 +15,19 @@
 #include "dbuscollectionproxy.h"
 
 #include <QtCore/QStringList>
+#include <QtCore/QFile>
+#include <QtGui/QPixmap>
 #include <QtDBus/QDBusConnection>
+
+#include <KTemporaryFile>
+#include <kdebug.h>
 
 #include "collectionadaptor.h"
 #include "playlistcollection.h"
+#include "covermanager.h"
+#include "collectionlist.h"
+#include "coverinfo.h"
+#include "filehandle.h"
 
 DBusCollectionProxy::DBusCollectionProxy (QObject *parent, PlaylistCollection *collection) :
     QObject(parent), m_collection(collection)
@@ -93,3 +102,42 @@ void DBusCollectionProxy::removeTrack(const QString &playlist, const QStringList
 {
     m_collection->removeTrack(playlist, files);
 }
+
+QString DBusCollectionProxy::trackCover(const QString &track)
+{
+    coverKey id = CoverManager::idForTrack(track);
+    if(id != CoverManager::NoMatch) {
+        CoverDataPtr coverData = CoverManager::coverInfo(id);
+        return coverData->path;
+    }
+
+    // No cover, let's see if one is embedded.
+    CollectionListItem *collectionItem = CollectionList::instance()->lookup(track);
+
+    if(!collectionItem)
+        return QString();
+
+    CoverInfo *coverInfo = collectionItem->file().coverInfo();
+    if(!coverInfo)
+        return QString();
+
+    QPixmap cover = coverInfo->pixmap(CoverInfo::FullSize);
+    if(cover.isNull())
+        return QString();
+
+    // We have a cover, extract it and save it to a temporary file.
+    KTemporaryFile tempFile;
+
+    tempFile.setSuffix(".png");
+    tempFile.setAutoRemove(false);
+
+    if(!tempFile.open()) {
+        kError() << "Unable to open temporary file for embedded cover art.";
+        return QString();
+    }
+
+    cover.save(&tempFile, "PNG");
+    return tempFile.fileName();
+}
+
+// vim: set et sw=4 tw=0 sta:
