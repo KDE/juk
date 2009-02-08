@@ -54,6 +54,7 @@
 #include "tracksequencemanager.h"
 #include "tagtransactionmanager.h"
 #include "playermanager.h"
+#include "dbuscollectionproxy.h"
 
 using namespace ActionCollection;
 
@@ -163,6 +164,9 @@ PlaylistBox::PlaylistBox(QWidget *parent, QStackedWidget *playlistStack) :
 
     m_showTimer = new QTimer(this);
     connect(m_showTimer, SIGNAL(timeout()), SLOT(slotShowDropTarget()));
+
+    // hook up to the D-Bus
+    (void) new DBusCollectionProxy(this, this);
 }
 
 PlaylistBox::~PlaylistBox()

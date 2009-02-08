@@ -1,7 +1,7 @@
 project(juk)
 
 add_subdirectory( tests )
-add_subdirectory( pics ) 
+add_subdirectory( pics )
 
 macro_optional_find_package(TunePimp)
 macro_log_feature(TUNEPIMP_FOUND "TunePimp" "A library for developing MusicBrainz enabled tagging applications" "http://www.musicbrainz.org/products/tunepimp" FALSE "" "Provides MusicBrainz tagging in Juk.")
@@ -35,66 +35,67 @@ if(TUNEPIMP_FOUND)
 endif(TUNEPIMP_FOUND)	
 
 set(juk_SRCS  ${tunepimp_SRCS}
-   advancedsearchdialog.cpp 
-   actioncollection.cpp 
-   cache.cpp 
-   categoryreaderinterface.cpp 
-   collectionlist.cpp 
-   coverdialog.cpp 
-   covericonview.cpp 
-   coverinfo.cpp 
-   covermanager.cpp 
-   deletedialog.cpp 
-   directorylist.cpp 
-   dynamicplaylist.cpp 
-   exampleoptions.cpp 
-   folderplaylist.cpp 
-   filehandle.cpp 
-   filerenamer.cpp 
-   filerenameroptions.cpp 
-   filerenamerconfigdlg.cpp 
-   webimagefetcher.cpp 
-   webimagefetcherdialog.cpp 
-   historyplaylist.cpp 
-   juk.cpp 
-   k3bexporter.cpp 
-   keydialog.cpp 
-   main.cpp 
-   mediafiles.cpp 
-   musicbrainzquery.cpp 
-   nowplaying.cpp 
-   playermanager.cpp 
-   playlist.cpp 
-   playlistbox.cpp 
-   playlistcollection.cpp 
-   playlistexporter.cpp 
-   playlistinterface.cpp 
-   playlistitem.cpp 
-   playlistsearch.cpp 
-   playlistsplitter.cpp 
-   searchplaylist.cpp 
-   searchwidget.cpp 
-   slideraction.cpp 
-   sortedstringlist.cpp 
-   splashscreen.cpp 
-   statuslabel.cpp 
-   stringshare.cpp 
-   systemtray.cpp 
-   tag.cpp 
-   tageditor.cpp 
-   tagguesser.cpp 
-   tagguesserconfigdlg.cpp 
-   tagrenameroptions.cpp 
-   tagtransactionmanager.cpp 
-   tracksequenceiterator.cpp 
-   tracksequencemanager.cpp 
-   treeviewitemplaylist.cpp 
-   upcomingplaylist.cpp 
-   ktrm.cpp 
+   advancedsearchdialog.cpp
+   actioncollection.cpp
+   cache.cpp
+   categoryreaderinterface.cpp
+   collectionlist.cpp
+   coverdialog.cpp
+   covericonview.cpp
+   coverinfo.cpp
+   covermanager.cpp
+   dbuscollectionproxy.cpp
+   deletedialog.cpp
+   directorylist.cpp
+   dynamicplaylist.cpp
+   exampleoptions.cpp
+   folderplaylist.cpp
+   filehandle.cpp
+   filerenamer.cpp
+   filerenameroptions.cpp
+   filerenamerconfigdlg.cpp
+   webimagefetcher.cpp
+   webimagefetcherdialog.cpp
+   historyplaylist.cpp
+   juk.cpp
+   k3bexporter.cpp
+   keydialog.cpp
+   main.cpp
+   mediafiles.cpp
+   musicbrainzquery.cpp
+   nowplaying.cpp
+   playermanager.cpp
+   playlist.cpp
+   playlistbox.cpp
+   playlistcollection.cpp
+   playlistexporter.cpp
+   playlistinterface.cpp
+   playlistitem.cpp
+   playlistsearch.cpp
+   playlistsplitter.cpp
+   searchplaylist.cpp
+   searchwidget.cpp
+   slideraction.cpp
+   sortedstringlist.cpp
+   splashscreen.cpp
+   statuslabel.cpp
+   stringshare.cpp
+   systemtray.cpp
+   tag.cpp
+   tageditor.cpp
+   tagguesser.cpp
+   tagguesserconfigdlg.cpp
+   tagrenameroptions.cpp
+   tagtransactionmanager.cpp
+   tracksequenceiterator.cpp
+   tracksequencemanager.cpp
+   treeviewitemplaylist.cpp
+   upcomingplaylist.cpp
+   ktrm.cpp
    viewmode.cpp )
 
-#Laurent reactivate it
-#qt4_add_dbus_adaptor( juk_SRCS org.kde.juk.collection.xml playlistcollection.h PlaylistCollection)
+qt4_add_dbus_adaptor( juk_SRCS org.kde.juk.collection.xml
+    dbuscollectionproxy.h DBusCollectionProxy )
 qt4_add_dbus_adaptor( juk_SRCS org.kde.juk.player.xml playermanager.h PlayerManager)
 qt4_add_dbus_adaptor( juk_SRCS org.kde.juk.search.xml searchwidget.h SearchWidget)
 
