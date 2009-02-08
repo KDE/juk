@@ -38,6 +38,13 @@ DBusCollectionProxy::DBusCollectionProxy (QObject *parent, PlaylistCollection *c
     QDBusConnection::sessionBus().registerObject("/Collection",this);
 }
 
+DBusCollectionProxy::~DBusCollectionProxy()
+{
+    // Clean's the way to be
+    if(!m_lastCover.isEmpty())
+        QFile::remove(m_lastCover);
+}
+
 void DBusCollectionProxy::openFile(const QString &file)
 {
     m_collection->open(QStringList(file));
@@ -135,6 +142,12 @@ QString DBusCollectionProxy::trackCover(const QString &track)
         kError() << "Unable to open temporary file for embedded cover art.";
         return QString();
     }
+
+    // Save last file name cover, remove it if it's there so that we don't fill
+    // the temp directory with pixmaps.
+    if(!m_lastCover.isEmpty())
+        QFile::remove(m_lastCover);
+    m_lastCover = tempFile.fileName();
 
     cover.save(&tempFile, "PNG");
     return tempFile.fileName();

@@ -19,7 +19,6 @@
 #include <QtCore/QStringList> // Required for Q_CLASSINFO ?
 
 class PlaylistCollection;
-class QString;
 
 class DBusCollectionProxy : public QObject
 {
@@ -28,6 +27,7 @@ class DBusCollectionProxy : public QObject
 
 public:
     DBusCollectionProxy (QObject *parent, PlaylistCollection *collection);
+    ~DBusCollectionProxy();
 
 public slots: // Expose to D-Bus
     void openFile(const QString &file);
@@ -56,6 +56,7 @@ public slots: // Expose to D-Bus
 
 private:
     PlaylistCollection *m_collection;
+    QString m_lastCover;
 };
 
 #endif /* DBUS_COLLECTION_PROXY_H */
