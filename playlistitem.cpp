@@ -381,8 +381,8 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
             return 1;
         break;
     default:
-        return strcoll(firstItem->d->local8Bit[column - offset],
-                       secondItem->d->local8Bit[column - offset]);
+        return QString::localeAwareCompare(firstItem->d->metadata[column - offset],
+                                           secondItem->d->metadata[column - offset]);
     }
 }
 

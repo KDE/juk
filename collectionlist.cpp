@@ -379,7 +379,7 @@ void CollectionListItem::refresh()
     int offset = static_cast<Playlist *>(listView())->columnOffset();
     int columns = lastColumn() + offset + 1;
 
-    data()->local8Bit.resize(columns);
+    data()->metadata.resize(columns);
     data()->cachedWidths.resize(columns);
 
     for(int i = offset; i < columns; i++) {
@@ -387,7 +387,7 @@ void CollectionListItem::refresh()
         if(id != TrackNumberColumn && id != LengthColumn) {
             // All columns other than track num and length need local-encoded data for sorting
 
-            QByteArray toLower = text(i).toLower().toLocal8Bit();
+            QString toLower = text(i).toLower();
 
             // For some columns, we may be able to share some strings
 
@@ -397,13 +397,13 @@ void CollectionListItem::refresh()
             {
                 toLower = StringShare::tryShare(toLower);
 
-                if(id != YearColumn && id != CommentColumn && data()->local8Bit[id] != toLower) {
-                    CollectionList::instance()->removeStringFromDict(data()->local8Bit[id], id);
+                if(id != YearColumn && id != CommentColumn && data()->metadata[id] != toLower) {
+                    CollectionList::instance()->removeStringFromDict(data()->metadata[id], id);
                     CollectionList::instance()->addStringToDict(text(i), id);
                 }
             }
 
-            data()->local8Bit[id] = toLower;
+            data()->metadata[id] = toLower;
         }
 
         int newWidth = width(listView()->fontMetrics(), listView(), i);

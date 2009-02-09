@@ -16,18 +16,17 @@
 #ifndef STRING_SHARE_H
 #define STRING_SHARE_H
 
-#include <QString>
+class QString;
 
 /**
- This class attempts to normalize repeated occurrences of strings to use
- the same shared object, if possible, by using a small hash
-*/
+ * This class attempts to normalize repeated occurrences of strings to use
+ *the same shared object, if possible, by using a small hash
+ */
 class StringShare
 {
     struct Data;
 public:
-    static QString  tryShare(const QString& in);
-    static QByteArray tryShare(const QByteArray& in);
+    static QString tryShare(const QString& in);
 
 private:
     static Data* data();

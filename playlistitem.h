@@ -178,6 +178,10 @@ protected:
 
     bool isValid() const;
 
+    /**
+     * Shared data between all PlaylistItems from the same track (incl. the CollectionItem
+     * representing said track.
+     */
     struct Data : public KShared
     {
         Data() {}
@@ -185,7 +189,7 @@ protected:
         Data(const QString &path) : fileHandle(path) {}
 
         FileHandle fileHandle;
-        QVector<QByteArray> local8Bit;
+        QVector<QString> metadata; ///< Artist, album, or genre tags.  Other columns unfilled
         QVector<int> cachedWidths;
     };
 
