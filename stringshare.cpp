@@ -2,9 +2,6 @@
     begin                : Sat Oct 25 2003
     copyright            : (C) 2003 by Maksim Orlovich
     email                : maksim.orlovich@kdemail.net
-
-    copyright            : (C) 2009 by Michael Pyne
-    email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
 /***************************************************************************
@@ -15,9 +12,8 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
+#include <QHash>
 #include "stringshare.h"
-
-#include <QSet>
 
 const int SIZE = 5003;
 
@@ -25,16 +21,23 @@ StringShare::Data* StringShare::s_data = 0;
 
 /**
  * We store the strings in a simple direct-mapped (i.e. no collision handling,
- * just replace) hash, which contains strings.  We limit the number of entries
- * in the set to SIZE to avoid excessive growth.
+ * just replace) hash, which contain strings or null objects. This costs only
+ * 4 bytes per slot on 32-bit archs, so with the default constant size we only
+ * really use 40K or so.
  *
  * The end result is that many strings end up pointing to the same underlying data
  * object, instead of each one having its own little copy.
+ *
+ * More importantly, the way the tryShare function is coded ensures that
+ * most-recently inserted text stays in the cache, which gives a better chance
+ * of continuing to share data. (Even if something old ("foo") that was shared
+ * gets kicked out, all the other "foo"s will still be sharing each other's
+ * data.
  */
 
 struct StringShare::Data
 {
-    QSet<QString> qstringHash;
+    QString  qstringHash [SIZE];
 };
 
 StringShare::Data* StringShare::data()
@@ -46,16 +49,17 @@ StringShare::Data* StringShare::data()
 
 QString StringShare::tryShare(const QString& in)
 {
+    uint index = qHash(in) % SIZE;
+
     Data* dat = data();
-
-    QSet<QString>::const_iterator found = dat->qstringHash.constFind(in);
-    if(found != dat->qstringHash.constEnd())
-        return *found;
-
-    // Insert if we have room and now this one is the standard
-    if(dat->qstringHash.size() < SIZE)
-        dat->qstringHash.insert(in);
-    return in;
+    if (dat->qstringHash[index] == in) //Match
+        return dat->qstringHash[index];
+    else
+    {
+        //Else replace whatever was there before
+        dat->qstringHash[index] = in;
+        return in;
+    }
 }
 
 // vim: set et sw=4 tw=0 sta:
