@@ -776,7 +776,7 @@ void Playlist::slotRefresh()
             kDebug(65432) << "Error while trying to refresh the tag.  "
                            << "This file has probably been removed."
                            << endl;
-            delete (*it)->collectionItem();
+            clearItem((*it)->collectionItem());
         }
 
         processEvents();

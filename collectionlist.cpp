@@ -178,7 +178,7 @@ void CollectionList::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > 
             if(item->file().fileInfo().exists())
                 item->repaint();
             else
-                delete item;
+                clearItem(item);
         }
     }
 
@@ -492,11 +492,9 @@ CollectionListItem::~CollectionListItem()
 {
     m_shuttingDown = true;
 
-    for(PlaylistItemList::ConstIterator it = m_children.constBegin();
-        it != m_children.constEnd();
-        ++it)
-    {
-        delete *it;
+    foreach(PlaylistItem *item, m_children) {
+        if(item->playlist())
+            item->playlist()->clearItem(item);
     }
 
     CollectionList *l = CollectionList::instance();
