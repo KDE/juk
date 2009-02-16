@@ -128,9 +128,9 @@ PlaylistItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem 
 
 void CollectionList::clearItems(const PlaylistItemList &items)
 {
-    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
-        Cache::instance()->remove((*it)->file());
-        clearItem(*it, false);
+    foreach(PlaylistItem *item, items) {
+        Cache::instance()->remove(item->file());
+        delete item;
     }
 
     dataChanged();
@@ -178,7 +178,7 @@ void CollectionList::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > 
             if(item->file().fileInfo().exists())
                 item->repaint();
             else
-                clearItem(item);
+                delete item;
         }
     }
 
@@ -187,9 +187,7 @@ void CollectionList::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > 
 
 void CollectionList::slotDeleteItem(const KFileItem &item)
 {
-    CollectionListItem *listItem = lookup(item.url().path());
-    if(listItem)
-        clearItem(listItem);
+    delete lookup(item.url().path());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -232,7 +230,7 @@ void CollectionList::slotCheckCache()
 
 void CollectionList::slotRemoveItem(const QString &file)
 {
-    clearItem(m_itemsDict[file]);
+    delete m_itemsDict[file];
 }
 
 void CollectionList::slotRefreshItem(const QString &file)
@@ -492,10 +490,8 @@ CollectionListItem::~CollectionListItem()
 {
     m_shuttingDown = true;
 
-    foreach(PlaylistItem *item, m_children) {
-        if(item->playlist())
-            item->playlist()->clearItem(item);
-    }
+    foreach(PlaylistItem *item, m_children)
+        delete item;
 
     CollectionList *l = CollectionList::instance();
     if(l) {

@@ -579,29 +579,28 @@ void Playlist::saveAs()
     }
 }
 
-void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
+void Playlist::updateDeletedItem(PlaylistItem *item)
 {
-    emit signalAboutToRemove(item);
     m_members.remove(item->file().absFilePath());
     m_search.clearItem(item);
 
     m_history.removeAll(item);
     m_addTime.removeAll(item);
     m_subtractTime.removeAll(item);
+}
 
+void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
+{
+    // Automatically updates internal structs via updateDeletedItem
     delete item;
-    if(emitChanged)
-        dataChanged();
+
+    dataChanged();
 }
 
 void Playlist::clearItems(const PlaylistItemList &items)
 {
-    m_blockDataChanged = true;
-
-    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
-        clearItem(*it, false);
-
-    m_blockDataChanged = false;
+    foreach(PlaylistItem *item, items)
+        delete item;
 
     dataChanged();
 }
@@ -985,7 +984,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
                 if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removePath), this)) ||
                    (shouldDelete && QFile::remove(removePath)))
                 {
-                    CollectionList::instance()->clearItem((*it)->collectionItem());
+                    delete (*it)->collectionItem();
                 }
                 else
                     errorFiles.append((*it)->file().absFilePath());

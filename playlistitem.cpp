@@ -60,6 +60,9 @@ PlaylistItem::~PlaylistItem()
             playlist()->setPlaying(0);
     }
 
+    playlist()->updateDeletedItem(this);
+    emit playlist()->signalAboutToRemove(this);
+
     if(m_watched)
         Pointer::clear(this);
 }

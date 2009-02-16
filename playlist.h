@@ -552,6 +552,13 @@ private:
     void updatePlaying() const;
 
     /**
+     * This function should be called when item is deleted to ensure that any
+     * internal bookkeeping is performed.  It is automatically called by
+     * PlaylistItem::~PlaylistItem and by clearItem() and clearItems().
+     */
+    void updateDeletedItem(PlaylistItem *item);
+
+    /**
      * Used as a helper to implement template<> createItem().  This grabs the
      * CollectionListItem for file if it exists, otherwise it creates a new one and
      * returns that.  If 0 is returned then some kind of error occurred, such as file not
@@ -645,6 +652,8 @@ private slots:
     void slotPlayCurrent();
 
 private:
+    friend class PlaylistItem;
+
     PlaylistCollection *m_collection;
 
     StringHash m_members;
