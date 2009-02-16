@@ -288,8 +288,6 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
                                         selectedFrame->picture().size());
     QImage attachedImage = QImage::fromData(pictureData);
 
-    kDebug() << "Embedded cover art of size" << attachedImage.size();
-
     if(size == Thumbnail)
         attachedImage = scaleCoverToThumbnail(attachedImage);
 
