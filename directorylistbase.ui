@@ -103,8 +103,7 @@
  </widget>
  <layoutdefault spacing="6" margin="0" />
  <layoutfunction spacing="KDialog::spacingHint" />
- <pixmapfunction>qPixmapFromMimeSource</pixmapfunction>
- <customwidgets>
+  <customwidgets>
   <customwidget>
    <class>K3ListView</class>
    <extends>Q3ListView</extends>
