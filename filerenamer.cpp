@@ -1,6 +1,6 @@
 /***************************************************************************
     begin                : Thu Oct 28 2004
-    copyright            : (C) 2004, 2007 by Michael Pyne
+    copyright            : (C) 2004, 2007, 2009 by Michael Pyne
                          : (c) 2003 Frerich Raabe <raabe@kde.org>
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
@@ -20,34 +20,31 @@
 
 #include <kdebug.h>
 #include <kurl.h>
-//#include <kurlrequester.h>
+#include <kurlrequester.h>
 #include <kiconloader.h>
-//#include <knuminput.h>
+#include <knuminput.h>
 #include <kstandarddirs.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
 #include <kglobal.h>
-//#include <klineedit.h>
+#include <klineedit.h>
 #include <klocale.h>
 #include <kpushbutton.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <kvbox.h>
-#include <khbox.h>
 
-#include <Q3ScrollView>
 #include <QFile>
 #include <QTimer>
 #include <QCheckBox>
 #include <QDir>
 #include <QLabel>
 #include <QSignalMapper>
-#include <Q3Header>
-#include <QPalette>
 #include <QPixmap>
 #include <QFrame>
+#include <Q3Header>
 
 #include "tag.h"
 #include "filerenameroptions.h"
@@ -232,24 +229,11 @@ bool ConfigCategoryReader::isDisabled(const CategoryID &category) const
 
 FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     QWidget(parent),
-    Ui::FileRenamerBase(),
     CategoryReaderInterface(),
+    m_ui(new Ui::FileRenamerBase),
     m_exampleFromFile(false)
 {
-    kDebug(65432) ;
-
-    setupUi(this);
-
-    QLabel *temp = new QLabel(0);
-    QPalette palette;
-    palette.setColor(m_exampleText->backgroundRole(), temp->palette().color(backgroundRole()));
-    m_exampleText->setPalette(palette);
-    delete temp;
-
-#ifdef __GNUC__
-    #warning Repair this.
-#endif
-    /* layout()->setMargin(0); */ // We'll be wrapped by KDialogBase
+    m_ui->setupUi(this);
 
     // This must be created before createTagRows() is called.
 
@@ -259,10 +243,10 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     loadConfig();
 
     // Add correct text to combo box.
-    m_category->clear();
+    m_ui->m_category->clear();
     for(int i = StartTag; i < NumTypes; ++i) {
         QString category = TagRenamerOptions::tagTypeText(static_cast<TagType>(i));
-        m_category->addItem(category);
+        m_ui->m_category->addItem(category);
     }
 
     connect(m_exampleDialog, SIGNAL(signalShown()), SLOT(exampleDialogShown()));
@@ -271,17 +255,11 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     connect(m_exampleDialog, SIGNAL(fileChanged(const QString &)),
             this,            SLOT(fileSelected(const QString &)));
 
-    connect(m_separator, SIGNAL(textChanged(const QString &)), this, SLOT(exampleTextChanged()));
-    connect(m_musicFolder, SIGNAL(textChanged(const QString &)), this, SLOT(exampleTextChanged()));
-    connect(m_showExample, SIGNAL(clicked()), this, SLOT(toggleExampleDialog()));
-    connect(m_insertCategory, SIGNAL(clicked()), this, SLOT(insertCategory()));
-
     exampleTextChanged();
 }
 
 void FileRenamerWidget::loadConfig()
 {
-    kDebug(65432) ;
     QList<int> checkedSeparators;
     KConfigGroup config(KGlobal::config(), "FileRenamer");
 
@@ -290,24 +268,19 @@ void FileRenamerWidget::loadConfig()
 
     checkedSeparators = config.readEntry("CheckedDirSeparators", QList<int>());
 
-
-    for(QList<int>::ConstIterator it = checkedSeparators.constBegin();
-        it != checkedSeparators.constEnd(); ++it)
-    {
-        int separator = *it;
+    foreach(int separator, checkedSeparators) {
         if(separator < m_folderSwitches.count())
             m_folderSwitches[separator]->setChecked(true);
     }
 
     QString path = config.readEntry("MusicFolder", "${HOME}/music");
-    m_musicFolder->setPath(path);
+    m_ui->m_musicFolder->setPath(path);
 
-    m_separator->setItemText(m_separator->currentIndex(), config.readEntry("Separator", " - "));
+    m_ui->m_separator->setEditText(config.readEntry("Separator", " - "));
 }
 
 void FileRenamerWidget::saveConfig()
 {
-    kDebug(65432) ;
     KConfigGroup config(KGlobal::config(), "FileRenamer");
     QList<int> checkedSeparators;
     QList<int> categoryOrder;
@@ -324,8 +297,8 @@ void FileRenamerWidget::saveConfig()
 
     config.writeEntry("CheckedDirSeparators", checkedSeparators);
     config.writeEntry("CategoryOrder", categoryOrder);
-    config.writePathEntry("MusicFolder", m_musicFolder->url().path());
-    config.writeEntry("Separator", m_separator->currentText());
+    config.writePathEntry("MusicFolder", m_ui->m_musicFolder->url().path());
+    config.writeEntry("Separator", m_ui->m_separator->currentText());
 
     config.sync();
 }
@@ -336,7 +309,6 @@ FileRenamerWidget::~FileRenamerWidget()
 
 int FileRenamerWidget::addRowCategory(TagType category)
 {
-    kDebug(65432) ;
     static QIcon up   = SmallIcon("go-up");
     static QIcon down = SmallIcon("go-down");
 
@@ -352,19 +324,20 @@ int FileRenamerWidget::addRowCategory(TagType category)
     row.position = m_rows.count();
     int id = row.position;
 
-    KHBox *frame = new KHBox(m_mainFrame);
-    QPalette palette;
-    palette.setColor(frame->backgroundRole(), frame->palette().color(backgroundRole()).dark(110));
-    frame->setPalette(palette);
+    QFrame *frame = new QFrame(m_mainFrame);
+    QHBoxLayout *frameLayout = new QHBoxLayout(frame);
+    frameLayout->setMargin(3);
 
     row.widget = frame;
     frame->setFrameShape(QFrame::Box);
     frame->setLineWidth(1);
-    frame->setMargin(3);
 
-    m_mainFrame->setStretchFactor(frame, 1);
+    QBoxLayout *mainFrameLayout = static_cast<QBoxLayout *>(m_mainFrame->layout());
+    mainFrameLayout->addWidget(frame, 1);
 
-    KVBox *buttons = new KVBox(frame);
+    QFrame *buttons = new QFrame(frame);
+    QVBoxLayout *buttonLayout = new QVBoxLayout(buttons);
+    frameLayout->addWidget(buttons);
     buttons->setFrameStyle(QFrame::Plain | QFrame::Box);
     buttons->setLineWidth(1);
 
@@ -381,17 +354,24 @@ int FileRenamerWidget::addRowCategory(TagType category)
     downMapper->connect(row.downButton, SIGNAL(clicked()), SLOT(map()));
     downMapper->setMapping(row.downButton, id);
 
+    buttonLayout->addWidget(row.upButton);
+    buttonLayout->addWidget(row.downButton);
+
     QString labelText = QString("<b>%1</b>").arg(TagRenamerOptions::tagTypeText(category));
     QLabel *label = new QLabel(labelText, frame);
-    frame->setStretchFactor(label, 1);
+    frameLayout->addWidget(label, 1);
     label->setAlignment(Qt::AlignCenter);
 
-    KVBox *options = new KVBox(frame);
-    row.enableButton = new KPushButton(i18n("Remove"), options);
+    QVBoxLayout *optionLayout = new QVBoxLayout;
+    frameLayout->addLayout(optionLayout);
+
+    row.enableButton = new KPushButton(i18nc("remove music genre from file renamer", "Remove"), frame);
+    optionLayout->addWidget(row.enableButton);
     toggleMapper->connect(row.enableButton, SIGNAL(clicked()), SLOT(map()));
     toggleMapper->setMapping(row.enableButton, id);
 
-    row.optionsButton = new KPushButton(i18n("Options"), options);
+    row.optionsButton = new KPushButton(i18nc("file renamer genre options", "Options"), frame);
+    optionLayout->addWidget(row.optionsButton);
     mapper->connect(row.optionsButton, SIGNAL(clicked()), SLOT(map()));
     mapper->setMapping(row.optionsButton, id);
 
@@ -400,14 +380,13 @@ int FileRenamerWidget::addRowCategory(TagType category)
 
     // Disable add button if there's too many rows.
     if(m_rows.count() == MAX_CATEGORIES)
-        m_insertCategory->setEnabled(false);
+        m_ui->m_insertCategory->setEnabled(false);
 
     return id;
 }
 
 void FileRenamerWidget::moveSignalMappings(int oldId, int newId)
 {
-    kDebug(65432) ;
     mapper->setMapping(m_rows[oldId].optionsButton, newId);
     downMapper->setMapping(m_rows[oldId].downButton, newId);
     upMapper->setMapping(m_rows[oldId].upButton, newId);
@@ -416,7 +395,6 @@ void FileRenamerWidget::moveSignalMappings(int oldId, int newId)
 
 bool FileRenamerWidget::removeRow(int id)
 {
-    kDebug(65432) ;
     if(id >= m_rows.count()) {
         kWarning(65432) << "Trying to remove row, but " << id << " is out-of-range.\n";
         return false;
@@ -477,7 +455,7 @@ bool FileRenamerWidget::removeRow(int id)
     m_rows[idOfPosition(m_rows.count() - 1)].downButton->setEnabled(false);
 
     // We can insert another row now, make sure GUI is updated to match.
-    m_insertCategory->setEnabled(true);
+    m_ui->m_insertCategory->setEnabled(true);
 
     QTimer::singleShot(0, this, SLOT(exampleTextChanged()));
     return true;
@@ -485,8 +463,9 @@ bool FileRenamerWidget::removeRow(int id)
 
 void FileRenamerWidget::addFolderSeparatorCheckbox()
 {
-    kDebug(65432) ;
     QWidget *temp = new QWidget(m_mainFrame);
+    m_mainFrame->layout()->addWidget(temp);
+
     QHBoxLayout *l = new QHBoxLayout(temp);
 
     QCheckBox *cb = new QCheckBox(i18n("Insert folder separator"), temp);
@@ -502,7 +481,6 @@ void FileRenamerWidget::addFolderSeparatorCheckbox()
 
 void FileRenamerWidget::createTagRows()
 {
-    kDebug(65432) ;
     KConfigGroup config(KGlobal::config(), "FileRenamer");
     QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
 
@@ -527,12 +505,13 @@ void FileRenamerWidget::createTagRows()
     connect(upMapper,     SIGNAL(mapped(int)), SLOT(moveItemUp(int)));
     connect(downMapper,   SIGNAL(mapped(int)), SLOT(moveItemDown(int)));
 
-    m_mainFrame = new KVBox(m_mainView->viewport());
-    m_mainFrame->setMargin(10);
-    m_mainFrame->setSpacing(5);
+    m_mainFrame = new QFrame(m_ui->m_mainView);
+    m_ui->m_mainView->setWidget(m_mainFrame);
+    m_ui->m_mainView->setWidgetResizable(true);
 
-    m_mainView->addChild(m_mainFrame);
-    m_mainView->setResizePolicy(Q3ScrollView::AutoOneFit);
+    QVBoxLayout *frameLayout = new QVBoxLayout(m_mainFrame);
+    frameLayout->setMargin(10);
+    frameLayout->setSpacing(5);
 
     // OK, the deal with the categoryOrder variable is that we need to create
     // the rows in the order that they were saved in (the order given by categoryOrder).
@@ -573,28 +552,24 @@ void FileRenamerWidget::createTagRows()
     // If we have maximum number of categories already, don't let the user
     // add more.
     if(m_rows.count() >= MAX_CATEGORIES)
-        m_insertCategory->setEnabled(false);
+        m_ui->m_insertCategory->setEnabled(false);
 }
 
 void FileRenamerWidget::exampleTextChanged()
 {
-    kDebug(65432) ;
     // Just use .mp3 as an example
-#if 0
     if(m_exampleFromFile && (m_exampleFile.isEmpty() ||
                              !FileHandle(m_exampleFile).tag()->isValid()))
     {
-        m_exampleText->setText(i18n("No file selected, or selected file has no tags."));
+        m_ui->m_exampleText->setText(i18n("No file selected, or selected file has no tags."));
         return;
     }
 
-    m_exampleText->setText(FileRenamer::fileName(*this) + ".mp3");
-#endif
+    m_ui->m_exampleText->setText(FileRenamer::fileName(*this) + ".mp3");
 }
 
 QString FileRenamerWidget::fileCategoryValue(TagType category) const
 {
-    kDebug(65432) ;
     FileHandle file(m_exampleFile);
     Tag *tag = file.tag();
 
@@ -624,7 +599,6 @@ QString FileRenamerWidget::fileCategoryValue(TagType category) const
 
 QString FileRenamerWidget::categoryValue(TagType category) const
 {
-    kDebug(65432) ;
     if(m_exampleFromFile)
         return fileCategoryValue(category);
 
@@ -656,7 +630,6 @@ QString FileRenamerWidget::categoryValue(TagType category) const
 
 QList<CategoryID> FileRenamerWidget::categoryOrder() const
 {
-    kDebug(65432) ;
     QList<CategoryID> list;
 
     // Iterate in GUI row order.
@@ -670,7 +643,6 @@ QList<CategoryID> FileRenamerWidget::categoryOrder() const
 
 bool FileRenamerWidget::hasFolderSeparator(int index) const
 {
-    kDebug(65432) ;
     if(index >= m_folderSwitches.count())
         return false;
     return m_folderSwitches[index]->isChecked();
@@ -678,7 +650,6 @@ bool FileRenamerWidget::hasFolderSeparator(int index) const
 
 void FileRenamerWidget::moveItem(int id, MovementDirection direction)
 {
-    kDebug(65432) ;
     QWidget *l = m_rows[id].widget;
     int bottom = m_rows.count() - 1;
     int pos = m_rows[id].position;
@@ -721,9 +692,6 @@ void FileRenamerWidget::moveItem(int id, MovementDirection direction)
     QBoxLayout *layout = dynamic_cast<QBoxLayout *>(m_mainFrame->layout());
     if ( !layout )
         return;
-#ifdef __GNUC__
-#warning double check if that still works with Qt4s layout
-#endif
 
     layout->removeWidget(l);
     layout->insertWidget(2 * newPos, l);
@@ -740,7 +708,6 @@ void FileRenamerWidget::moveItem(int id, MovementDirection direction)
 
 int FileRenamerWidget::idOfPosition(int position) const
 {
-    kDebug(65432) ;
     if(position >= m_rows.count()) {
         kError(65432) << "Search for position " << position << " out-of-range.\n";
         return -1;
@@ -756,7 +723,6 @@ int FileRenamerWidget::idOfPosition(int position) const
 
 int FileRenamerWidget::findIdentifier(const CategoryID &category) const
 {
-    kDebug(65432) ;
     for(int index = 0; index < m_rows.count(); ++index)
         if(m_rows[index].category == category)
             return index;
@@ -770,21 +736,18 @@ int FileRenamerWidget::findIdentifier(const CategoryID &category) const
 
 void FileRenamerWidget::enableAllUpButtons()
 {
-    kDebug(65432) ;
     for(int i = 0; i < m_rows.count(); ++i)
         m_rows[i].upButton->setEnabled(true);
 }
 
 void FileRenamerWidget::enableAllDownButtons()
 {
-    kDebug(65432) ;
     for(int i = 0; i < m_rows.count(); ++i)
         m_rows[i].downButton->setEnabled(true);
 }
 
 void FileRenamerWidget::showCategoryOption(int id)
 {
-    kDebug(65432) ;
     TagOptionsDialog *dialog = new TagOptionsDialog(this, m_rows[id].options, m_rows[id].category.categoryNumber);
 
     if(dialog->exec() == QDialog::Accepted) {
@@ -797,26 +760,22 @@ void FileRenamerWidget::showCategoryOption(int id)
 
 void FileRenamerWidget::moveItemUp(int id)
 {
-    kDebug(65432) ;
     moveItem(id, MoveUp);
 }
 
 void FileRenamerWidget::moveItemDown(int id)
 {
-    kDebug(65432) ;
     moveItem(id, MoveDown);
 }
 
 void FileRenamerWidget::toggleExampleDialog()
 {
-    kDebug(65432) ;
     m_exampleDialog->setHidden(!m_exampleDialog->isHidden());
 }
 
 void FileRenamerWidget::insertCategory()
 {
-    kDebug(65432) ;
-    TagType category = TagRenamerOptions::tagFromCategoryText(m_category->currentText());
+    TagType category = TagRenamerOptions::tagFromCategoryText(m_ui->m_category->currentText());
     if(category == Unknown) {
         kError(65432) << "Trying to add unknown category somehow.\n";
         return;
@@ -836,7 +795,7 @@ void FileRenamerWidget::insertCategory()
     m_rows[id].downButton->setEnabled(false);
 
     m_mainFrame->layout()->invalidate();
-    m_mainView->update();
+    m_ui->m_mainView->update();
 
     // Now update according to the code in loadConfig().
     m_rows[id].options = TagRenamerOptions(m_rows[id].category);
@@ -845,19 +804,16 @@ void FileRenamerWidget::insertCategory()
 
 void FileRenamerWidget::exampleDialogShown()
 {
-    kDebug(65432) ;
-    m_showExample->setText(i18n("Hide Renamer Test Dialog"));
+    m_ui->m_showExample->setText(i18n("Hide Renamer Test Dialog"));
 }
 
 void FileRenamerWidget::exampleDialogHidden()
 {
-    kDebug(65432) ;
-    m_showExample->setText(i18n("Show Renamer Test Dialog"));
+    m_ui->m_showExample->setText(i18n("Show Renamer Test Dialog"));
 }
 
 void FileRenamerWidget::fileSelected(const QString &file)
 {
-    kDebug(65432) ;
     m_exampleFromFile = true;
     m_exampleFile = file;
     exampleTextChanged();
@@ -865,26 +821,22 @@ void FileRenamerWidget::fileSelected(const QString &file)
 
 void FileRenamerWidget::dataSelected()
 {
-    kDebug(65432) ;
     m_exampleFromFile = false;
     exampleTextChanged();
 }
 
 QString FileRenamerWidget::separator() const
 {
-    kDebug(65432) ;
-    return m_separator->currentText();
+    return m_ui->m_separator->currentText();
 }
 
 QString FileRenamerWidget::musicFolder() const
 {
-    kDebug(65432) ;
-    return m_musicFolder->url().path();
+    return m_ui->m_musicFolder->url().path();
 }
 
 void FileRenamerWidget::slotRemoveRow(int id)
 {
-    kDebug(65432) ;
     // Remove the given identified row.
     if(!removeRow(id))
         kError(65432) << "Unable to remove row " << id << endl;
@@ -900,7 +852,6 @@ FileRenamer::FileRenamer()
 
 void FileRenamer::rename(PlaylistItem *item)
 {
-    kDebug(65432) ;
     PlaylistItemList list;
     list.append(item);
 
@@ -909,7 +860,6 @@ void FileRenamer::rename(PlaylistItem *item)
 
 void FileRenamer::rename(const PlaylistItemList &items)
 {
-    kDebug(65432) ;
     ConfigCategoryReader reader;
     QStringList errorFiles;
     QMap<QString, QString> map;
@@ -953,7 +903,6 @@ void FileRenamer::rename(const PlaylistItemList &items)
 
 bool FileRenamer::moveFile(const QString &src, const QString &dest)
 {
-    kDebug(65432) ;
     kDebug(65432) << "Moving file " << src << " to " << dest;
 
     if(src == dest)
@@ -989,7 +938,6 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
 
 void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
 {
-    kDebug(65432) ;
     if(item->file().tag()->album().isEmpty() ||
        !item->file().coverInfo()->hasCover())
     {
@@ -1035,9 +983,8 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
  * a non-empty value (or is required to be included).
  */
 QList<CategoryID>::ConstIterator lastEnabledItem(const QList<CategoryID> &list,
-                                                   const CategoryReaderInterface &interface)
+                                                 const CategoryReaderInterface &interface)
 {
-    kDebug(65432) ;
     QList<CategoryID>::ConstIterator it = list.constBegin();
     QList<CategoryID>::ConstIterator last = list.constEnd();
 
@@ -1054,14 +1001,13 @@ QList<CategoryID>::ConstIterator lastEnabledItem(const QList<CategoryID> &list,
 
 QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 {
-    kDebug(65432) ;
     const QList<CategoryID> categoryOrder = interface.categoryOrder();
     const QString separator = interface.separator();
     const QString folder = interface.musicFolder();
     QList<CategoryID>::ConstIterator lastEnabled;
     int i = 0;
     QStringList list;
-    QChar dirSeparator = QChar(QDir::separator());
+    QChar dirSeparator (QDir::separator());
 
     // Use lastEnabled to properly handle folder separators.
     lastEnabled = lastEnabledItem(categoryOrder, interface);

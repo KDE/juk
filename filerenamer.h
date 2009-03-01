@@ -25,8 +25,7 @@
 #include "categoryreaderinterface.h"
 #include "tagrenameroptions.h"
 
-class KVBox;
-
+class QScrollArea;
 class QCheckBox;
 class QPushButton;
 class QSignalMapper;
@@ -140,7 +139,7 @@ private:
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class FileRenamerWidget : public QWidget, public Ui::FileRenamerBase, public CategoryReaderInterface
+class FileRenamerWidget : public QWidget, public CategoryReaderInterface
 {
     Q_OBJECT
 
@@ -454,7 +453,9 @@ private slots:
 
 private:
     /// This is the frame that holds all of the category widgets and checkboxes.
-    KVBox *m_mainFrame;
+    QFrame *m_mainFrame;
+
+    Ui::FileRenamerBase *m_ui;
 
     /**
      * This is the meat of the widget, it holds the rows for the user configuration.  It is

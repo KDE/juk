@@ -1,87 +1,61 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>FileRenamerTagOptionsBase</class>
- <widget class="QWidget" name="FileRenamerTagOptionsBase" >
-  <property name="geometry" >
+ <widget class="QWidget" name="FileRenamerTagOptionsBase">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>568</width>
+    <width>915</width>
     <height>377</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" >
-   <property name="spacing" >
+  <layout class="QVBoxLayout">
+   <property name="spacing">
     <number>6</number>
    </property>
-   <property name="leftMargin" >
-    <number>9</number>
-   </property>
-   <property name="topMargin" >
-    <number>9</number>
-   </property>
-   <property name="rightMargin" >
-    <number>9</number>
-   </property>
-   <property name="bottomMargin" >
+   <property name="margin">
     <number>9</number>
    </property>
    <item>
-    <widget class="QGroupBox" name="m_tagFormatGroup" >
-     <layout class="QVBoxLayout" >
-      <property name="spacing" >
+    <widget class="QGroupBox" name="m_tagFormatGroup">
+     <layout class="QVBoxLayout">
+      <property name="spacing">
        <number>6</number>
       </property>
-      <property name="leftMargin" >
-       <number>9</number>
-      </property>
-      <property name="topMargin" >
-       <number>9</number>
-      </property>
-      <property name="rightMargin" >
-       <number>9</number>
-      </property>
-      <property name="bottomMargin" >
+      <property name="margin">
        <number>9</number>
       </property>
       <item>
-       <widget class="QLabel" name="m_description" >
-        <property name="textFormat" >
+       <widget class="QLabel" name="m_description">
+        <property name="textFormat">
          <enum>Qt::RichText</enum>
         </property>
-        <property name="wordWrap" >
-         <bool>true</bool>
-        </property>
-        <property name="alignment" >
+        <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -90,31 +64,31 @@
          </spacer>
         </item>
         <item>
-         <widget class="QLineEdit" name="m_prefixText" >
-          <property name="alignment" >
+         <widget class="QLineEdit" name="m_prefixText">
+          <property name="alignment">
            <set>Qt::AlignRight</set>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLabel" name="m_tagLabel" />
+         <widget class="QLabel" name="m_tagLabel"/>
         </item>
         <item>
-         <widget class="QLineEdit" name="m_suffixText" >
-          <property name="alignment" >
+         <widget class="QLineEdit" name="m_suffixText">
+          <property name="alignment">
            <set>Qt::AlignLeading</set>
           </property>
          </widget>
         </item>
         <item>
          <spacer>
-          <property name="orientation" >
+          <property name="orientation">
            <enum>Qt::Horizontal</enum>
           </property>
-          <property name="sizeType" >
+          <property name="sizeType">
            <enum>QSizePolicy::Expanding</enum>
           </property>
-          <property name="sizeHint" >
+          <property name="sizeHint" stdset="0">
            <size>
             <width>40</width>
             <height>20</height>
@@ -125,8 +99,8 @@
        </layout>
       </item>
       <item>
-       <widget class="QLabel" name="m_substitution" >
-        <property name="font" >
+       <widget class="QLabel" name="m_substitution">
+        <property name="font">
          <font>
           <family>Sans Serif</family>
           <pointsize>9</pointsize>
@@ -137,10 +111,10 @@
           <strikeout>false</strikeout>
          </font>
         </property>
-        <property name="text" >
+        <property name="text">
          <string>Substitution Example</string>
         </property>
-        <property name="alignment" >
+        <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
@@ -149,71 +123,53 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="m_emptyTagGroup" >
-     <layout class="QVBoxLayout" >
-      <property name="spacing" >
+    <widget class="QGroupBox" name="m_emptyTagGroup">
+     <layout class="QVBoxLayout">
+      <property name="spacing">
        <number>6</number>
       </property>
-      <property name="leftMargin" >
-       <number>9</number>
-      </property>
-      <property name="topMargin" >
-       <number>9</number>
-      </property>
-      <property name="rightMargin" >
-       <number>9</number>
-      </property>
-      <property name="bottomMargin" >
+      <property name="margin">
        <number>9</number>
       </property>
       <item>
-       <widget class="QRadioButton" name="m_includeEmptyButton" >
-        <property name="text" >
+       <widget class="QRadioButton" name="m_includeEmptyButton">
+        <property name="text">
          <string>Include in the &amp;filename anyways</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QRadioButton" name="m_ignoreTagButton" >
-        <property name="text" >
+       <widget class="QRadioButton" name="m_ignoreTagButton">
+        <property name="text">
          <string>&amp;Ignore this tag when renaming the file</string>
         </property>
-        <property name="checked" >
+        <property name="checked">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <widget class="QRadioButton" name="m_useValueButton" >
-          <property name="text" >
+         <widget class="QRadioButton" name="m_useValueButton">
+          <property name="text">
            <string>Use &amp;this value:</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QLineEdit" name="m_emptyTagValue" >
-          <property name="enabled" >
+         <widget class="QLineEdit" name="m_emptyTagValue">
+          <property name="enabled">
            <bool>false</bool>
           </property>
-          <property name="text" >
-           <string comment="value to use in replacement when source tag empty" >Empty</string>
+          <property name="text">
+           <string comment="value to use in replacement when source tag empty">Empty</string>
           </property>
          </widget>
         </item>
@@ -223,79 +179,52 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="m_trackGroup" >
-     <property name="title" >
+    <widget class="QGroupBox" name="m_trackGroup">
+     <property name="title">
       <string>GroupBox</string>
      </property>
-     <layout class="QVBoxLayout" >
-      <property name="spacing" >
+     <layout class="QVBoxLayout">
+      <property name="spacing">
        <number>6</number>
       </property>
-      <property name="leftMargin" >
-       <number>9</number>
-      </property>
-      <property name="topMargin" >
-       <number>9</number>
-      </property>
-      <property name="rightMargin" >
-       <number>9</number>
-      </property>
-      <property name="bottomMargin" >
+      <property name="margin">
        <number>9</number>
       </property>
       <item>
-       <widget class="QLabel" name="textLabel10" >
-        <property name="text" >
+       <widget class="QLabel" name="textLabel10">
+        <property name="text">
          <string>JuK can force the track used in a file name to have a minimum number of digits.  You may want to do this for better sorting in file managers.</string>
         </property>
-        <property name="textFormat" >
+        <property name="textFormat">
          <enum>Qt::RichText</enum>
         </property>
-        <property name="alignment" >
+        <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" >
-        <property name="spacing" >
+       <layout class="QHBoxLayout">
+        <property name="spacing">
          <number>6</number>
         </property>
-        <property name="leftMargin" >
-         <number>0</number>
-        </property>
-        <property name="topMargin" >
-         <number>0</number>
-        </property>
-        <property name="rightMargin" >
-         <number>0</number>
-        </property>
-        <property name="bottomMargin" >
+        <property name="margin">
          <number>0</number>
         </property>
         <item>
-         <layout class="QHBoxLayout" >
-          <property name="spacing" >
+         <layout class="QHBoxLayout">
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="leftMargin" >
-           <number>0</number>
-          </property>
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <property name="rightMargin" >
-           <number>0</number>
-          </property>
-          <property name="bottomMargin" >
+          <property name="margin">
            <number>0</number>
           </property>
           <item>
-           <widget class="QLabel" name="textLabel5" >
-            <property name="text" >
+           <widget class="QLabel" name="textLabel5">
+            <property name="text">
              <string>Minimum track &amp;width:</string>
             </property>
-            <property name="buddy" >
+            <property name="buddy">
              <cstring>m_trackWidth</cstring>
             </property>
            </widget>
@@ -303,31 +232,19 @@
          </layout>
         </item>
         <item>
-         <widget class="QSpinBox" name="m_trackWidth" />
+         <widget class="QSpinBox" name="m_trackWidth"/>
         </item>
         <item>
-         <layout class="QGridLayout" >
-          <property name="leftMargin" >
+         <layout class="QGridLayout">
+          <property name="margin">
            <number>0</number>
           </property>
-          <property name="topMargin" >
-           <number>0</number>
-          </property>
-          <property name="rightMargin" >
-           <number>0</number>
-          </property>
-          <property name="bottomMargin" >
-           <number>0</number>
-          </property>
-          <property name="horizontalSpacing" >
+          <property name="spacing">
            <number>6</number>
           </property>
-          <property name="verticalSpacing" >
-           <number>6</number>
-          </property>
-          <item row="1" column="1" >
-           <widget class="QLabel" name="m_doubleDigitExample" >
-            <property name="font" >
+          <item row="1" column="1">
+           <widget class="QLabel" name="m_doubleDigitExample">
+            <property name="font">
              <font>
               <family>Sans Serif</family>
               <pointsize>9</pointsize>
@@ -338,14 +255,14 @@
               <strikeout>false</strikeout>
              </font>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>014</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="1" >
-           <widget class="QLabel" name="m_singleDigitExample" >
-            <property name="font" >
+          <item row="0" column="1">
+           <widget class="QLabel" name="m_singleDigitExample">
+            <property name="font">
              <font>
               <family>Sans Serif</family>
               <pointsize>9</pointsize>
@@ -356,27 +273,27 @@
               <strikeout>false</strikeout>
              </font>
             </property>
-            <property name="text" >
+            <property name="text">
              <string>003</string>
             </property>
            </widget>
           </item>
-          <item row="0" column="0" >
-           <widget class="QLabel" name="m_singleDigit" >
-            <property name="text" >
-             <string>3 -></string>
+          <item row="0" column="0">
+           <widget class="QLabel" name="m_singleDigit">
+            <property name="text">
+             <string>3 -&gt;</string>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
           </item>
-          <item row="1" column="0" >
-           <widget class="QLabel" name="m_doubleDigit" >
-            <property name="text" >
-             <string>14 -></string>
+          <item row="1" column="0">
+           <widget class="QLabel" name="m_doubleDigit">
+            <property name="text">
+             <string>14 -&gt;</string>
             </property>
-            <property name="alignment" >
+            <property name="alignment">
              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
             </property>
            </widget>
@@ -390,13 +307,13 @@
    </item>
    <item>
     <spacer>
-     <property name="orientation" >
+     <property name="orientation">
       <enum>Qt::Vertical</enum>
      </property>
-     <property name="sizeType" >
+     <property name="sizeType">
       <enum>QSizePolicy::Expanding</enum>
      </property>
-     <property name="sizeHint" >
+     <property name="sizeHint" stdset="0">
       <size>
        <width>546</width>
        <height>16</height>
@@ -406,7 +323,141 @@
    </item>
   </layout>
  </widget>
- <layoutdefault spacing="6" margin="11" />
-  <resources/>
- <connections/>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>m_trackWidth</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>FileRenamerTagOptionsBase</receiver>
+   <slot>slotTrackWidthChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>395</x>
+     <y>301</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>394</x>
+     <y>227</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_prefixText</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>FileRenamerTagOptionsBase</receiver>
+   <slot>slotBracketsChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>356</x>
+     <y>63</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>356</x>
+     <y>5</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_suffixText</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>FileRenamerTagOptionsBase</receiver>
+   <slot>slotBracketsChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>497</x>
+     <y>57</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>490</x>
+     <y>2</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_emptyTagValue</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>FileRenamerTagOptionsBase</receiver>
+   <slot>slotEmptyActionChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>163</x>
+     <y>197</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>163</x>
+     <y>225</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_useValueButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>FileRenamerTagOptionsBase</receiver>
+   <slot>slotEmptyActionChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>79</x>
+     <y>195</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>80</x>
+     <y>224</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_ignoreTagButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>FileRenamerTagOptionsBase</receiver>
+   <slot>slotEmptyActionChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>56</x>
+     <y>165</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>6</x>
+     <y>167</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_includeEmptyButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>FileRenamerTagOptionsBase</receiver>
+   <slot>slotEmptyActionChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>41</x>
+     <y>140</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>1</x>
+     <y>141</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_useValueButton</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>m_emptyTagValue</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>40</x>
+     <y>192</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>199</x>
+     <y>193</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+ <slots>
+  <slot>slotBracketsChanged()</slot>
+  <slot>slotTrackWidthChanged()</slot>
+  <slot>slotEmptyActionChanged()</slot>
+ </slots>
 </ui>

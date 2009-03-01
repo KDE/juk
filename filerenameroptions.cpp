@@ -28,34 +28,18 @@ FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
 {
     setupUi(this);
 
-    layout()->setSpacing(KDialog::spacingHint());
     layout()->setMargin(0);
-
-    m_emptyTagGroup->layout()->setSpacing(KDialog::spacingHint());
-    m_trackGroup->layout()->setSpacing(KDialog::spacingHint());
-
-#ifdef __GNUC__
-#warning Just commenting these out for now.
-#endif
-/*
-    m_emptyValueLayout->setSpacing(KDialog::spacingHint());
-    m_exampleLayout->setSpacing(KDialog::spacingHint());
-    m_spinLayout->setSpacing(KDialog::spacingHint());
-    m_widthLayout->setSpacing(KDialog::spacingHint());
-    m_tagLayout->setSpacing(KDialog::spacingHint());
-*/
-    m_tagFormatGroup->layout()->setSpacing(KDialog::spacingHint());
 
     if(m_options.category() != Track)
         m_trackGroup->hide();
 
     QString tagText = m_options.tagTypeText();
 
-    setWindowTitle(i18n("%1 Options",tagText));
+    setWindowTitle(i18nc("%1 will be a music tag category like Artist or Album", "%1 Options",tagText));
     m_tagFormatGroup->setTitle(i18n("%1 Format",tagText));
     m_emptyTagGroup->setTitle(i18n("When the Track's %1 is Empty",tagText));
     m_description->setText(i18n("When using the file renamer your files will be renamed to the values that you have in your track's %1 tag, plus any additional text that you specify below.",tagText));
-    m_tagLabel->setText(QString("%1").arg(tagText));
+    m_tagLabel->setText(tagText);
 
     m_prefixText->setText(options.prefix());
     m_suffixText->setText(options.suffix());
