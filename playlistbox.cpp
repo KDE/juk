@@ -156,11 +156,7 @@ PlaylistBox::PlaylistBox(QWidget *parent, QStackedWidget *playlistStack) :
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
     enableDirWatch(true);
 
-    // Auto-save playlists after they change.
-    m_savePlaylistTimer = new QTimer(this);
-    m_savePlaylistTimer->setInterval(3000); // 3 seconds with no change? -> commit
-    m_savePlaylistTimer->setSingleShot(true);
-    connect(m_savePlaylistTimer, SIGNAL(timeout()), SLOT(slotSavePlaylists()));
+    m_savePlaylistTimer = 0;
 
     m_showTimer = new QTimer(this);
     connect(m_showTimer, SIGNAL(timeout()), SLOT(slotShowDropTarget()));
@@ -244,7 +240,8 @@ void PlaylistBox::slotUnfreezePlaylists()
 
 void PlaylistBox::slotPlaylistDataChanged()
 {
-    m_savePlaylistTimer->start(); // Restarts the timer if it's already running.
+    if(m_savePlaylistTimer)
+        m_savePlaylistTimer->start(); // Restarts the timer if it's already running.
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
@@ -722,6 +719,13 @@ void PlaylistBox::setupUpcomingPlaylist()
 void PlaylistBox::slotLoadCachedPlaylists()
 {
     Cache::loadPlaylists(this);
+
+    // Auto-save playlists after they change.
+    m_savePlaylistTimer = new QTimer(this);
+    m_savePlaylistTimer->setInterval(3000); // 3 seconds with no change? -> commit
+    m_savePlaylistTimer->setSingleShot(true);
+    connect(m_savePlaylistTimer, SIGNAL(timeout()), SLOT(slotSavePlaylists()));
+
     emit startupComplete();
 }
 ////////////////////////////////////////////////////////////////////////////////
