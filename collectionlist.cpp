@@ -164,7 +164,7 @@ void CollectionList::slotRefreshItems(const KFileItemList &items)
 	    if(item->file().fileInfo().exists())
 		item->repaint();
 	    else
-		delete item;
+		clearItem(item);
 	}
     }
 
@@ -472,7 +472,7 @@ CollectionListItem::~CollectionListItem()
 	it != m_children.end();
 	++it)
     {
-	delete *it;
+	clearItem(*it);
     }
 
     CollectionList *l = CollectionList::instance();
