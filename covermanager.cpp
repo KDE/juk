@@ -25,6 +25,7 @@
 #include <QHash>
 #include <QPixmapCache>
 #include <QByteArray>
+#include <QMap>
 
 #include <kdebug.h>
 #include <ktemporaryfile.h>
@@ -32,7 +33,10 @@
 #include <kurl.h>
 #include <kstandarddirs.h>
 #include <kglobal.h>
-#include <kio/netaccess.h>
+#include <kio/job.h>
+
+#include "juk.h"
+#include "coverproxy.h"
 
 // This is a dictionary to map the track path to their ID.  Otherwise we'd have
 // to store this info with each CollectionListItem, which would break the cache
@@ -106,12 +110,15 @@ public:
     /// Maps file names to coverKey id's.
     TrackLookupMap tracks;
 
+    /// A map of outstanding download KJobs to their coverKey
+    QMap<KJob*, coverKey> downloadJobs;
+
     /// A static pixmap cache is maintained for covers, with key format of:
     /// 'f' followed by the pathname for FullSize covers, and
     /// 't' followed by the pathname for Thumbnail covers.
     /// However only thumbnails are currently cached.
 
-    CoverManagerPrivate() : m_timer(new CoverSaveHelper(0))
+    CoverManagerPrivate() : m_timer(new CoverSaveHelper(0)), m_coverProxy(0)
     {
         loadCovers();
     }
@@ -119,6 +126,7 @@ public:
     ~CoverManagerPrivate()
     {
         delete m_timer;
+        delete m_coverProxy;
         saveCovers();
     }
 
@@ -143,6 +151,12 @@ public:
 
     void saveCovers() const;
 
+    CoverProxy *coverProxy() {
+        if(!m_coverProxy)
+            m_coverProxy = new CoverProxy;
+        return m_coverProxy;
+    }
+
     private:
     void loadCovers();
 
@@ -153,6 +167,8 @@ public:
     QString coverLocation() const;
 
     CoverSaveHelper *m_timer;
+
+    CoverProxy *m_coverProxy;
 };
 
 // This is responsible for making sure that the CoverManagerPrivate class
@@ -384,7 +400,11 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
     // full size pics is not really useful as they are infrequently shown.
 
     if(size == Thumbnail) {
-        pix = pix.scaled(80, 80, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        // Double scale is faster and 99% as accurate
+        QSize newSize(pix.size());
+        newSize.scale(80, 80, Qt::KeepAspectRatio);
+        pix = pix.scaled(2 * newSize)
+                 .scaled(newSize, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
         QPixmapCache::insert(path, pix);
     }
 
@@ -437,28 +457,65 @@ coverKey CoverManager::addCover(const KUrl &path, const QString &artist, const Q
     kDebug() << "Saving pixmap to " << coverData->path;
     data()->createDataDir();
 
-    // Can't use NetAccess::download() since if path is already a local file
-    // (which is possible) then that function will return without copying, since
-    // it assumes we merely want the file on the hard disk somewhere.
-
-    if(!KIO::NetAccess::file_copy(path, KUrl::fromPath(coverData->path))) {
-        kError() << "Failed to download cover from " << path << endl;
-        return NoMatch;
-    }
-
     coverData->artist = artist.toLower();
     coverData->album = album.toLower();
     coverData->refCount = 0;
 
     data()->covers[id] = coverData;
 
-    // Make sure the new cover isn't inadvertently cached.
-    QPixmapCache::remove(QString("f%1").arg(coverData->path));
-    QPixmapCache::remove(QString("t%1").arg(coverData->path));
+    // Can't use NetAccess::download() since if path is already a local file
+    // (which is possible) then that function will return without copying, since
+    // it assumes we merely want the file on the hard disk somewhere.
+
+    KIO::FileCopyJob *job = KIO::file_copy(
+         path, KUrl::fromPath(coverData->path),
+         -1 /* perms */,KIO::HideProgressInfo | KIO::Overwrite
+         );
+    QObject::connect(job, SIGNAL(result(KJob*)),
+                     data()->coverProxy(), SLOT(handleResult(KJob*)));
+    data()->downloadJobs.insert(job, id);
+
+    job->start();
 
     data()->requestSave(); // Save changes when possible.
 
     return id;
+}
+
+/**
+ * This is called when our cover downloader has completed.  Typically there
+ * should be no issues so we just need to ensure that the newly downloaded
+ * cover is picked up by invalidating any cache entry for it.  If it didn't
+ * download successfully we're in kind of a pickle as we've already assigned
+ * a coverKey, which we need to go and erase.
+ */
+void CoverManager::jobComplete(KJob *job, bool completedSatisfactory)
+{
+    coverKey id = NoMatch;
+    if(data()->downloadJobs.contains(job))
+        id = data()->downloadJobs[job];
+
+    if(id == NoMatch) {
+        kError() << "No information on what download job" << job << "is.";
+        data()->downloadJobs.remove(job);
+        return;
+    }
+
+    if(!completedSatisfactory) {
+        kError() << "Job" << job << "failed, but not handled yet.";
+        removeCover(id);
+        data()->downloadJobs.remove(job);
+        JuK::JuKInstance()->coverDownloaded(QPixmap());
+        return;
+    }
+
+    CoverDataPtr coverData = data()->covers[id];
+
+    // Make sure the new cover isn't inadvertently cached.
+    QPixmapCache::remove(QString("f%1").arg(coverData->path));
+    QPixmapCache::remove(QString("t%1").arg(coverData->path));
+
+    JuK::JuKInstance()->coverDownloaded(coverFromData(*coverData, CoverManager::Thumbnail));
 }
 
 bool CoverManager::hasCover(coverKey id)

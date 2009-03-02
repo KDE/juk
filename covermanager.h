@@ -23,8 +23,10 @@
 #include <QString>
 
 class CoverManagerPrivate;
+class CoverProxy;
 class QPixmap;
 class QTimer;
+class KJob;
 
 template<class Key, class Value>
 class QMap;
@@ -278,6 +280,10 @@ public:
     static const coverKey NoMatch;
 
     private:
+    friend class CoverProxy; // Our QObject-wielding friend.
+
+    /// Called by CoverProxy to notify of a completed job.
+    static void jobComplete(KJob *job, bool completedSatisfactory);
     static CoverManagerPrivate *data();
     static QPixmap createThumbnail(const QPixmap &base);
 };

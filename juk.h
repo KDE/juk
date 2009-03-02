@@ -42,6 +42,9 @@ public:
 
     static JuK* JuKInstance();
 
+    // Use a null cover for failure
+    void coverDownloaded(const QPixmap &cover);
+
 private:
     void setupLayout();
     void setupActions();

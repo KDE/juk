@@ -18,7 +18,6 @@
 #include "tag.h"
 
 #include <kapplication.h>
-#include <kio/netaccess.h>
 #include <kio/job.h>
 #include <klocale.h>
 #include <kdebug.h>
@@ -248,6 +247,7 @@ void WebCoverIconViewItem::imageResult(KJob *job)
     QPainter p;
     QRect targetRect(QPoint(0, 0), iconImage.size());
     p.begin(&realImage);
+    p.setCompositionMode(QPainter::CompositionMode_Source);
 
     // Center thumbnail in 80x80 pixmap
     targetRect.setWidth(iconImage.width());

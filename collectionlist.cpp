@@ -39,8 +39,6 @@
 #include "actioncollection.h"
 #include "tag.h"
 #include "viewmode.h"
-#include "coverinfo.h"
-#include "covermanager.h"
 
 using ActionCollection::action;
 
@@ -410,8 +408,6 @@ void CollectionListItem::refresh()
         if(newWidth != data()->cachedWidths[i])
             playlist()->slotWeightDirty(i);
     }
-
-    file().coverInfo()->setCover();
 
     if(listView()->isVisible())
         repaint();

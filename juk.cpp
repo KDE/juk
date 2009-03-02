@@ -35,6 +35,7 @@
 #include <kapplication.h>
 #include <kglobalaccel.h>
 #include <ktoolbarpopupaction.h>
+#include <knotification.h>
 #include <kdeversion.h>
 
 #include <QCoreApplication>
@@ -115,6 +116,21 @@ KActionCollection *JuK::actionCollection() const
 JuK* JuK::JuKInstance()
 {
     return m_instance;
+}
+
+void JuK::coverDownloaded(const QPixmap &cover)
+{
+    QString event(cover.isNull() ? "coverFailed" : "coverDownloaded");
+    KNotification *notification = new KNotification(event, this);
+    notification->setPixmap(cover);
+    notification->setFlags(KNotification::CloseOnTimeout);
+
+    if(cover.isNull())
+        notification->setText(i18n("Your album art failed to download."));
+    else
+        notification->setText(i18n("Your album art has finished downloading."));
+
+    notification->sendEvent();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
