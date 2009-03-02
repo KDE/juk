@@ -2,6 +2,14 @@
 IconName=juk
 Comment=Music Player
 Name=JuK
+Name[bn]=জুক
+Name[hi]=ज्यूक
+Name[ne]=जुक
+Name[pa]=ਜੂਕ
+Name[sr]=Џук
+Name[sr@latin]=Juk
+Name[sv]=Juk
+Name[x-test]=xxJuKxx
 
 [Event/coverDownloaded]
 Name=Cover Successfully Downloaded
