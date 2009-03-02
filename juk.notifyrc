@@ -1,0 +1,14 @@
+[Global]
+IconName=juk
+Comment=Music Player
+Name=JuK
+
+[Event/coverDownloaded]
+Name=Cover Successfully Downloaded
+Comment=A requested cover has been downloaded
+Action=Popup
+
+[Event/coverFailed]
+Name=Cover Failed to Download
+Comment=A requested cover has failed to download
+Action=Popup
