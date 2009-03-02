@@ -64,9 +64,6 @@ protected slots:
     void selectedItemIsBad();
 
 private:
-    QPixmap fetchedImage(int index) const;
-    QPixmap pixmapFromURL(const KUrl &url) const;
-
     QPixmap m_pixmap;
     WebImageList m_imageList;
     QListView *m_iconWidget;

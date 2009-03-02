@@ -181,25 +181,6 @@ void WebImageFetcherDialog::slotCancel()
     reject();
 }
 
-QPixmap WebImageFetcherDialog::fetchedImage(int index) const
-{
-    return (index > m_imageList.count()) ? QPixmap() : pixmapFromURL(m_imageList[index].imageURL());
-}
-
-QPixmap WebImageFetcherDialog::pixmapFromURL(const KUrl &url) const
-{
-    QString file;
-
-    if(KIO::NetAccess::download(url, file, 0)) {
-        QPixmap pixmap = QPixmap(file);
-        KIO::NetAccess::removeTempFile(file);
-        return pixmap;
-    }
-
-    KIO::NetAccess::removeTempFile(file);
-    return QPixmap();
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // CoverIconViewItem
 ////////////////////////////////////////////////////////////////////////////////
