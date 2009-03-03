@@ -1,6 +1,11 @@
 [Global]
 IconName=juk
 Comment=Music Player
+Comment[ga]=Seinnteoir Ceoil
+Comment[pt]=Leitor de Música
+Comment[pt_BR]=Leitor de Música
+Comment[sv]=Musikspelare
+Comment[uk]=Програвач музики
 Name=JuK
 Name[bn]=জুক
 Name[hi]=ज्यूक
@@ -13,10 +18,30 @@ Name[x-test]=xxJuKxx
 
 [Event/coverDownloaded]
 Name=Cover Successfully Downloaded
+Name[ga]=D'éirigh le híosluchtú an chlúdaigh
+Name[pt]=A Capa Foi Obtida com Sucesso
+Name[pt_BR]=A Capa Foi Obtida com Sucesso
+Name[sv]=Omslag nerladdat med lyckat resultat
+Name[uk]=Обкладинку успішно звантажено
 Comment=A requested cover has been downloaded
+Comment[ga]=Íosluchtaíodh clúdach iarrtha
+Comment[pt]=Foi obtida uma cópia pedida
+Comment[pt_BR]=Foi obtida uma cópia pedida
+Comment[sv]=Ett begärt omslag har laddats ner
+Comment[uk]=Потрібну обкладинку було звантажено
 Action=Popup
 
 [Event/coverFailed]
 Name=Cover Failed to Download
+Name[ga]=Theip ar Íosluchtú Clúdaigh
+Name[pt]=Não Foi Possível Obter a Capa
+Name[pt_BR]=Não Foi Possível Obter a Capa
+Name[sv]=Nerladdning av omslag misslyckades
+Name[uk]=Невдала спроба звантаження обкладинки
 Comment=A requested cover has failed to download
+Comment[ga]=Níorbh fhéidir clúdach iarrtha a íosluchtú
+Comment[pt]=Não foi possível obter uma dada capa
+Comment[pt_BR]=Não foi possível obter uma dada capa
+Comment[sv]=Nerladdning av ett begärt omslag har misslyckats
+Comment[uk]=Потрібну обкладинку не вдалося звантажити
 Action=Popup
