@@ -301,9 +301,11 @@ void PlayerManager::setVolume(float volume)
 
 void PlayerManager::seek(int seekTime)
 {
-    if(!m_setup)
+    if(!m_setup || m_media[m_curOutputPath]->currentTime() == seekTime)
         return;
 
+    kDebug() << "Stopping crossfade to seek from" << m_media[m_curOutputPath]->currentTime()
+             << "to" << seekTime;
     stopCrossfade();
     m_media[m_curOutputPath]->seek(seekTime);
 }
@@ -437,6 +439,19 @@ void PlayerManager::slotTick(qint64 msec)
 
 void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldstate)
 {
+    const char *const states[] = {
+        "LoadingState",
+        "StoppedState",
+        "PlayingState",
+        "BufferingState",
+        "PausedState",
+        "ErrorState",
+    };
+
+    kDebug() << "called by media_" << ((sender() == m_media[0]) ? "0" : "1")
+             << "cur Output path:" << m_curOutputPath;
+    kDebug() << "Old state:" << states[oldstate] << "New state:" << states[newstate];
+
     // Use sender() since either media object may have sent the signal.
     Phonon::MediaObject *mediaObject = qobject_cast<Phonon::MediaObject *>(sender());
     if(!mediaObject)
@@ -464,7 +479,6 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
                 break;
 
             case Phonon::FatalError:
-                // stop playback
                 stop();
                 KMessageBox::sorry(0, errorMessage);
                 break;
@@ -530,6 +544,7 @@ void PlayerManager::setup()
         m_media[i] = new Phonon::MediaObject(this);
         m_audioPath[i] = Phonon::createPath(m_media[i], m_output[i]);
         m_media[i]->setTickInterval(200);
+        m_media[i]->setPrefinishMark(2000);
 
         // Pre-cache a volume fader object
         m_fader[i] = new Phonon::VolumeFaderEffect(m_media[i]);
@@ -537,7 +552,7 @@ void PlayerManager::setup()
         m_fader[i]->setVolume(1.0f);
 
         connect(m_media[i], SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State, Phonon::State)));
-        connect(m_media[i], SIGNAL(aboutToFinish()), SLOT(slotNeedNextUrl()));
+        connect(m_media[i], SIGNAL(prefinishMarkReached(qint32)), SLOT(slotNeedNextUrl()));
         connect(m_media[i], SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
         connect(m_media[i], SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
         connect(m_media[i], SIGNAL(finished()), SLOT(slotFinished()));
@@ -611,7 +626,14 @@ void PlayerManager::stopCrossfade()
     m_fader[m_curOutputPath]->setVolume(1.0f);
     m_fader[1 - m_curOutputPath]->setVolume(0.0f);
 
-    m_media[1 - m_curOutputPath]->stop();
+    // We don't actually need to physically stop crossfading as the playback
+    // code will call ->play() when necessary anyways.  If we hit stop()
+    // here instead of pause() then we will trick our stateChanged handler
+    // into thinking Phonon had a spurious stop and we'll switch tracks
+    // unnecessarily.  (This isn't a problem after crossfade completes due to
+    // the signals being disconnected).
+
+    m_media[1 - m_curOutputPath]->pause();
 }
 
 QString PlayerManager::randomPlayMode() const
