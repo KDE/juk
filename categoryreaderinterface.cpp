@@ -25,8 +25,20 @@ QString CategoryReaderInterface::value(const CategoryID &category) const
     if(category.category == Track)
         value = fixupTrack(value, category.categoryNumber).trimmed();
 
-    if(value.isEmpty() && emptyAction(category) == TagRenamerOptions::UseReplacementValue)
-        value = emptyText(category);
+    if(value.isEmpty()) {
+        switch(emptyAction(category)) {
+            case TagRenamerOptions::UseReplacementValue:
+                value = emptyText(category);
+                break;
+
+            case TagRenamerOptions::IgnoreEmptyTag:
+                return QString();
+
+            default:
+                // No extra action needed.
+                break;
+        }
+    }
 
     return prefix(category) + value + suffix(category);
 }
