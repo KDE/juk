@@ -126,7 +126,6 @@ private:
     SliderAction *m_sliderAction;
     PlaylistInterface *m_playlistInterface;
     StatusLabel *m_statusLabel;
-    bool m_noSeek;
     bool m_muted;
     bool m_setup;
 

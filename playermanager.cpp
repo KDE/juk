@@ -61,7 +61,6 @@ PlayerManager::PlayerManager() :
     m_sliderAction(0),
     m_playlistInterface(0),
     m_statusLabel(0),
-    m_noSeek(false),
     m_muted(false),
     m_setup(false),
     m_curOutputPath(0)
@@ -429,12 +428,8 @@ void PlayerManager::slotTick(qint64 msec)
     if(!m_setup || !m_playlistInterface)
         return;
 
-    m_noSeek = true;
-
     if(m_statusLabel)
         m_statusLabel->setItemCurrentTime(msec / 1000);
-
-    m_noSeek = false;
 }
 
 void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldstate)
