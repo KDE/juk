@@ -38,9 +38,10 @@
     <method name="setVolume">
       <arg name="volume" type="d" direction="in"/>
     </method>
+    <!-- I can't make this work reliably, so remove the capability
     <method name="seek">
       <arg name="time" type="i" direction="in"/>
-    </method>
+    </method>-->
     <method name="playingString">
       <arg type="s" direction="out"/>
     </method>
