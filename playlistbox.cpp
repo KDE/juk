@@ -265,8 +265,10 @@ void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName, Ite
 void PlaylistBox::removePlaylist(Playlist *playlist)
 {
     // Could be false if setup() wasn't run yet.
-    if(m_playlistDict.contains(playlist))
+    if(m_playlistDict.contains(playlist)) {
         removeNameFromDict(m_playlistDict[playlist]->text(0));
+        delete m_playlistDict[playlist]; // Delete the Item*
+    }
 
     removeFileFromDict(playlist->fileName());
     m_playlistDict.remove(playlist);
@@ -832,7 +834,6 @@ void PlaylistBox::Item::init()
     if(m_playlist) {
         connect(m_playlist, SIGNAL(signalNameChanged(const QString &)),
                 this, SLOT(slotSetName(const QString &)));
-        connect(m_playlist, SIGNAL(destroyed()), this, SLOT(deleteLater()));
         connect(m_playlist, SIGNAL(signalEnableDirWatch(bool)),
                 list->object(), SLOT(slotEnableDirWatch(bool)));
     }
