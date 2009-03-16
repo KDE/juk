@@ -472,7 +472,7 @@ CollectionListItem::~CollectionListItem()
 	it != m_children.end();
 	++it)
     {
-	clearItem(*it);
+        (*it)->playlist()->clearItem(*it);
     }
 
     CollectionList *l = CollectionList::instance();
