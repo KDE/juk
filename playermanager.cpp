@@ -434,19 +434,6 @@ void PlayerManager::slotTick(qint64 msec)
 
 void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldstate)
 {
-    const char *const states[] = {
-        "LoadingState",
-        "StoppedState",
-        "PlayingState",
-        "BufferingState",
-        "PausedState",
-        "ErrorState",
-    };
-
-    kDebug() << "called by media_" << ((sender() == m_media[0]) ? "0" : "1")
-             << "cur Output path:" << m_curOutputPath;
-    kDebug() << "Old state:" << states[oldstate] << "New state:" << states[newstate];
-
     // Use sender() since either media object may have sent the signal.
     Phonon::MediaObject *mediaObject = qobject_cast<Phonon::MediaObject *>(sender());
     if(!mediaObject)
