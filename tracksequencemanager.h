@@ -17,6 +17,7 @@
 #define TRACKSEQUENCEMANAGER_H
 
 #include <QObject>
+#include <QPointer>
 
 class KMenu;
 class TrackSequenceIterator;
@@ -179,7 +180,7 @@ protected slots:
     void slotItemAboutToDie(PlaylistItem *item);
 
 private:
-    Playlist *m_playlist;
+    QPointer<Playlist> m_playlist;
     PlaylistItem *m_curItem, *m_playNextItem;
     KMenu *m_popupMenu;
     TrackSequenceIterator *m_iterator;
