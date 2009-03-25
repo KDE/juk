@@ -5,6 +5,7 @@ Actions=addToCollection;
 
 [Desktop Action addToCollection]
 Name=Add to JuK Collection
+Name[af]=Voeg by tot JuK Versameling
 Name[ar]=إضافة إلى مجموعة JuK 
 Name[bg]=Добавяне към колекцията на JuK
 Name[bn]=জুক সংকলনে যোগ করো 
