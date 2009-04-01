@@ -130,8 +130,6 @@ install(TARGETS juk  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install( FILES juk.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES jukui.rc jukui-rtl.rc  DESTINATION  ${DATA_INSTALL_DIR}/juk )
-install( FILES jukservicemenu.desktop  DESTINATION
-${SERVICES_INSTALL_DIR}/ServiceMenus )
-install( FILES org.kde.juk.collection.xml org.kde.juk.player.xml org.kde.juk.search.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
+install( FILES org.kde.juk.player.xml org.kde.juk.search.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
 
 kde4_install_icons( ${ICON_INSTALL_DIR}   )

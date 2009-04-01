@@ -68,4 +68,4 @@ Name[x-test]=xxAdd to JuK Collectionxx
 Name[zh_CN]=添加到 JuK 收藏
 Name[zh_TW]=新增到 JuK 收藏清單
 Icon=juk
-Exec=dcop juk Player openFile %u
+Exec=qdbus org.kde.juk /Collection org.kde.juk.collection.openFile %f
