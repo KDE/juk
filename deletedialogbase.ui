@@ -41,7 +41,7 @@
         </sizepolicy>
        </property>
        <property name="text" >
-        <string>Icon Placeholder, not in GUI</string>
+        <string comment="KDE::DoNotExtract" >Icon Placeholder, not in GUI</string>
        </property>
        <property name="wordWrap" >
         <bool>false</bool>
@@ -72,7 +72,7 @@
        <item>
         <widget class="QLabel" name="ddDeleteText" >
          <property name="text" >
-          <string>Deletion method placeholder, never shown to user.</string>
+          <string comment="KDE::DoNotExtract" >Deletion method placeholder, never shown to user.</string>
          </property>
          <property name="alignment" >
           <set>Qt::AlignCenter</set>
@@ -102,7 +102,7 @@
    <item>
     <widget class="QLabel" name="ddNumFiles" >
      <property name="text" >
-      <string>Placeholder for number of files, not in GUI</string>
+      <string comment="KDE::DoNotExtract" >Placeholder for number of files, not in GUI</string>
      </property>
      <property name="alignment" >
       <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
