@@ -1,7 +1,5 @@
 <ui version="4.0" stdsetdef="1" >
   <author>Frerich Raabe &lt;raabe@kde.org></author>
-  <comment></comment>
-  <exportmacro></exportmacro>
   <class>TagGuesserConfigDlgWidget</class>
   <widget class="QWidget" name="TagGuesserConfigDlgWidget" >
     <property name="geometry" >
@@ -134,8 +132,6 @@ Note that the order in which the schemes appear in the list is relevant, since t
       </item>
     </layout>
   </widget>
-  <layoutdefault spacing="6" margin="0" />
-  <layoutfunction spacing="KDialog::spacingHint" />
     <customwidgets>
     <customwidget>
       <class>K3ListView</class>
