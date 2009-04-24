@@ -1,6 +1,7 @@
 [Global]
 IconName=juk
 Comment=Music Player
+Comment[el]=Αναπαραγωγέας μουσικής
 Comment[es]=Reproductor de música
 Comment[et]=Muusika mängija
 Comment[ga]=Seinnteoir Ceoil
@@ -30,6 +31,7 @@ Name[x-test]=xxJuKxx
 
 [Event/coverDownloaded]
 Name=Cover Successfully Downloaded
+Name[el]=Επιτυχής ανάκτηση εξωφύλλου
 Name[es]=La carátula se ha descargado con éxito
 Name[et]=Kaanepilt on edukalt alla laaditud
 Name[ga]=D'éirigh le híosluchtú an chlúdaigh
@@ -47,6 +49,7 @@ Name[x-test]=xxCover Successfully Downloadedxx
 Name[zh_CN]=下载封面成功
 Name[zh_TW]=已成功下載封面
 Comment=A requested cover has been downloaded
+Comment[el]=Ένα ζητούμενο εξώφυλλο έχει ληφθεί
 Comment[es]=Se ha descargado la carátula solicitada
 Comment[et]=Soovitud kaanepilt on alla laaditud
 Comment[ga]=Íosluchtaíodh clúdach iarrtha
@@ -67,6 +70,7 @@ Action=Popup
 
 [Event/coverFailed]
 Name=Cover Failed to Download
+Name[el]=Αποτυχία λήψης εξωφύλλου
 Name[es]=Fallo al descargar la carátula
 Name[et]=Kaanepildi allalaadimine nurjus
 Name[ga]=Theip ar Íosluchtú Clúdaigh
@@ -84,6 +88,7 @@ Name[x-test]=xxCover Failed to Downloadxx
 Name[zh_CN]=下载封面失败
 Name[zh_TW]=下載封面失敗
 Comment=A requested cover has failed to download
+Comment[el]=Αποτυχία λήψης ενός ζητούμενου εξώφυλλου
 Comment[es]=Fallo al descargar la carátula solicitada
 Comment[et]=Soovitud kaanepildi allalaadimine nurjus
 Comment[ga]=Níorbh fhéidir clúdach iarrtha a íosluchtú
