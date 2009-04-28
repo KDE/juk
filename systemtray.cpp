@@ -231,6 +231,7 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
     m_fadeTimer = new QTimer(this);
     m_fadeTimer->setObjectName("systrayFadeTimer");
     connect(m_fadeTimer, SIGNAL(timeout()), SLOT(slotNextStep()));
+    connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(slotActivated(QSystemTrayIcon::ActivationReason)));
 
     if(PlayerManager::instance()->playing())
         slotPlay();

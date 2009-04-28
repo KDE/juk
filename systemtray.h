@@ -104,7 +104,6 @@ private:
     virtual void wheelEvent(QWheelEvent *e);
     void createPopup();
     void setToolTip(const QString &tip = QString(), const QPixmap &cover = QPixmap());
-    void slotActivated(QSystemTrayIcon::ActivationReason reason);
     void ousePressEvent(QMouseEvent *e);
     QPixmap createPixmap(const QString &pixName);
 
@@ -139,6 +138,7 @@ private slots:
     void slotBack();
     void slotFadeOut(); ///< Fades out the text
     void slotMouseInPopup(); ///< Forces the text back to its normal color.
+    void slotActivated(QSystemTrayIcon::ActivationReason reason);
 
 private:
     QPixmap m_playPix;
