@@ -37,18 +37,23 @@ void Watched::addObserver(PlaylistObserver *observer)
 
 void Watched::removeObserver(PlaylistObserver *observer)
 {
-    m_observers.remove(observer);
+    if(observer)
+        observer->clearWatched();
+
+    m_observers.removeAll(observer);
 }
 
 void Watched::clearObservers()
 {
+    foreach(PlaylistObserver *observer, m_observers)
+        observer->clearWatched();
+
     m_observers.clear();
 }
 
 Watched::~Watched()
 {
-    foreach(PlaylistObserver *observer, m_observers)
-        observer->clearWatched();
+    clearObservers();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
