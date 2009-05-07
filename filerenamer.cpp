@@ -485,7 +485,7 @@ void FileRenamerWidget::createTagRows()
     QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
 
     if(categoryOrder.isEmpty())
-        categoryOrder << Artist << Album << Artist << Title << Track;
+        categoryOrder << Artist << Album << Title << Track;
 
     // Setup arrays.
     m_rows.reserve(categoryOrder.count());

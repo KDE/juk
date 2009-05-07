@@ -201,6 +201,9 @@
         <property name="alignment">
          <set>Qt::AlignCenter</set>
         </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
        </widget>
       </item>
       <item>
@@ -232,7 +235,11 @@
          </layout>
         </item>
         <item>
-         <widget class="QSpinBox" name="m_trackWidth"/>
+         <widget class="QSpinBox" name="m_trackWidth" >
+          <property name="minimum" >
+           <number>1</number>
+          </property>
+         </widget>
         </item>
         <item>
          <layout class="QGridLayout">
