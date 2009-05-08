@@ -181,7 +181,7 @@
    <item>
     <widget class="QGroupBox" name="m_trackGroup">
      <property name="title">
-      <string>GroupBox</string>
+      <string>Track numbering</string>
      </property>
      <layout class="QVBoxLayout">
       <property name="spacing">
@@ -225,7 +225,7 @@
           <item>
            <widget class="QLabel" name="textLabel5">
             <property name="text">
-             <string>Minimum track &amp;width:</string>
+             <string>Minimum number of digits:</string>
             </property>
             <property name="buddy">
              <cstring>m_trackWidth</cstring>
