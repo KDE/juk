@@ -26,7 +26,7 @@
 
 #include "filehandle.h"
 
-#include <Phonon/Global>
+#include <Phonon/phononnamespace.h>
 #include <Phonon/Path>
 
 class KSelectAction;
