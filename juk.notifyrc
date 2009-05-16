@@ -1,6 +1,7 @@
 [Global]
 IconName=juk
 Comment=Music Player
+Comment[cs]=Přehrávač hudby
 Comment[da]=Musikafspiller
 Comment[el]=Αναπαραγωγέας μουσικής
 Comment[es]=Reproductor de música
@@ -33,6 +34,7 @@ Name[x-test]=xxJuKxx
 
 [Event/coverDownloaded]
 Name=Cover Successfully Downloaded
+Name[cs]=Obal úspěšně stažen
 Name[da]=Download af omslag gennemført
 Name[el]=Επιτυχής ανάκτηση εξωφύλλου
 Name[es]=La carátula se ha descargado con éxito
@@ -53,6 +55,7 @@ Name[x-test]=xxCover Successfully Downloadedxx
 Name[zh_CN]=下载封面成功
 Name[zh_TW]=已成功下載封面
 Comment=A requested cover has been downloaded
+Comment[cs]=Vyžádaný obal se byl údpěšně stažen
 Comment[da]=En ønsket omslag er blevet downloadet
 Comment[el]=Ένα ζητούμενο εξώφυλλο έχει ληφθεί
 Comment[es]=Se ha descargado la carátula solicitada
@@ -76,6 +79,7 @@ Action=Popup
 
 [Event/coverFailed]
 Name=Cover Failed to Download
+Name[cs]=Obal se nepovedlo stáhnout
 Name[da]=Download af omslag mislykkedes
 Name[el]=Αποτυχία λήψης εξωφύλλου
 Name[es]=Fallo al descargar la carátula
@@ -96,6 +100,7 @@ Name[x-test]=xxCover Failed to Downloadxx
 Name[zh_CN]=下载封面失败
 Name[zh_TW]=下載封面失敗
 Comment=A requested cover has failed to download
+Comment[cs]=Vyžádaný obal se nepovedlo stáhnout
 Comment[da]=Download af et ønsket omslag mislykkedes
 Comment[el]=Αποτυχία λήψης ενός ζητούμενου εξώφυλλου
 Comment[es]=Fallo al descargar la carátula solicitada
