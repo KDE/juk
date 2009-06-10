@@ -849,6 +849,9 @@ void Playlist::slotAddCover(bool retrieveLocal)
     KUrl file = KFileDialog::getImageOpenUrl(
         KUrl( "kfiledialog://homedir" ), this, i18n("Select Cover Image File"));
 
+    if(file.isEmpty())
+        return;
+
     QString artist = items.front()->file().tag()->artist();
     QString album = items.front()->file().tag()->album();
 
