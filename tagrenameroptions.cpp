@@ -52,6 +52,8 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
     switch(category.category) {
     case Title:
     case Artist:
+    case Genre:
+    case Year:
     case Album:
     case Track:
         disabled = false;
