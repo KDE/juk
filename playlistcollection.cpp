@@ -364,18 +364,14 @@ void PlaylistCollection::addFolder()
         const bool reload = m_importPlaylists != result.addPlaylists;
         m_importPlaylists = result.addPlaylists;
 
-        for(QStringList::const_iterator it = result.addedDirs.constBegin();
-            it != result.addedDirs.constEnd(); it++)
-        {
-            m_dirLister.openUrl(KUrl::fromPath(*it), KDirLister::Keep);
-            m_folderList.append(*it);
+        foreach(const QString &dir, result.addedDirs) {
+            m_dirLister.openUrl(KUrl::fromPath(dir), KDirLister::Keep);
+            m_folderList.append(dir);
         }
 
-        for(QStringList::const_iterator it = result.removedDirs.constBegin();
-            it !=  result.removedDirs.constEnd(); it++)
-        {
-            m_dirLister.stop(KUrl::fromPath(*it));
-            m_folderList.removeAll(*it);
+        foreach(const QString &dir, result.removedDirs) {
+            m_dirLister.stop(KUrl::fromPath(dir));
+            m_folderList.removeAll(dir);
         }
 
         if(reload)
@@ -823,8 +819,8 @@ void PlaylistCollection::readConfig()
     m_importPlaylists  = config.readEntry("ImportPlaylists", true);
     m_folderList       = config.readEntry("DirectoryList", QStringList());
 
-    for(QStringList::ConstIterator it = m_folderList.constBegin(); it != m_folderList.constEnd(); ++it)
-        m_dirLister.openUrl(*it, KDirLister::Keep);
+    foreach(const QString &folder, m_folderList)
+        m_dirLister.openUrl(folder, KDirLister::Keep);
 }
 
 void PlaylistCollection::saveConfig()

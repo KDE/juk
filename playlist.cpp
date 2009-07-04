@@ -234,8 +234,8 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
     int offset = l->columnOffset();
     int i = 0;
-    for(QList<int>::ConstIterator it = m_columnOrder.constBegin(); it != m_columnOrder.constEnd(); ++it)
-        l->header()->moveSection(i++ + offset, *it + offset);
+    foreach(int column, m_columnOrder)
+        l->header()->moveSection(i++ + offset, column + offset);
 
     for(int i = 0; i < m_columnsVisible.size(); i++) {
         if(m_columnsVisible[i] && !l->isColumnVisible(i + offset))
@@ -450,22 +450,18 @@ int Playlist::time() const
     // Since this method gets a lot of traffic, let's optimize for such.
 
     if(!m_addTime.isEmpty()) {
-        for(PlaylistItemList::ConstIterator it = m_addTime.constBegin();
-            it != m_addTime.constEnd(); ++it)
-        {
-            if(*it)
-                m_time += (*it)->file().tag()->seconds();
+        foreach(const PlaylistItem *item, m_addTime) {
+            if(item)
+                m_time += item->file().tag()->seconds();
         }
 
         m_addTime.clear();
     }
 
     if(!m_subtractTime.isEmpty()) {
-        for(PlaylistItemList::ConstIterator it = m_subtractTime.constBegin();
-            it != m_subtractTime.constEnd(); ++it)
-        {
-            if(*it)
-                m_time -= (*it)->file().tag()->seconds();
+        foreach(const PlaylistItem *item, m_subtractTime) {
+            if(item)
+                m_time -= item->file().tag()->seconds();
         }
 
         m_subtractTime.clear();
@@ -557,8 +553,8 @@ void Playlist::save()
 
     QStringList fileList = files();
 
-    for(QStringList::const_iterator it = fileList.constBegin(); it != fileList.constEnd(); ++it)
-        stream << *it << endl;
+    foreach(const QString &file, fileList)
+        stream << file << endl;
 
     file.close();
 }
@@ -667,8 +663,9 @@ void Playlist::updateLeftColumn()
 void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible) // static
 {
     m_visibleChanged = true;
-    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
-        (*it)->setVisible(visible);
+
+    foreach(PlaylistItem *playlistItem, items)
+        playlistItem->setVisible(visible);
 }
 
 void Playlist::setSearch(const PlaylistSearch &s)
@@ -711,8 +708,8 @@ void Playlist::markItemSelected(PlaylistItem *item, bool selected)
 
 void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMaster)
 {
-    for(PlaylistList::ConstIterator it = sources.constBegin(); it != sources.constEnd(); ++it) {
-        if((*it)->playing()) {
+    foreach(const Playlist *p, sources) {
+        if(p->playing()) {
             CollectionListItem *base = playingItem()->collectionItem();
             for(Q3ListViewItemIterator itemIt(this); itemIt.current(); ++itemIt) {
                 PlaylistItem *item = static_cast<PlaylistItem *>(itemIt.current());
@@ -768,14 +765,14 @@ void Playlist::slotRefresh()
         l = visibleItems();
 
     KApplication::setOverrideCursor(Qt::waitCursor);
-    for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it) {
-        (*it)->refreshFromDisk();
+    foreach(PlaylistItem *item, l) {
+        item->refreshFromDisk();
 
-        if(!(*it)->file().tag() || !(*it)->file().fileInfo().exists()) {
+        if(!item->file().tag() || !item->file().fileInfo().exists()) {
             kDebug(65432) << "Error while trying to refresh the tag.  "
                            << "This file has probably been removed."
                            << endl;
-            delete (*it)->collectionItem();
+            delete item->collectionItem();
         }
 
         processEvents();
@@ -806,8 +803,8 @@ void Playlist::slotViewCover()
     const PlaylistItemList items = selectedItems();
     if (items.isEmpty())
         return;
-    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
-        (*it)->file().coverInfo()->popup();
+    foreach(const PlaylistItem *item, items)
+        item->file().coverInfo()->popup();
 }
 
 void Playlist::slotRemoveCover()
@@ -876,8 +873,8 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 
     m_blockDataChanged = true;
 
-    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
-        (*it)->guessTagInfo(type);
+    foreach(PlaylistItem *item, items) {
+        item->guessTagInfo(type);
         processEvents();
     }
 
@@ -968,8 +965,8 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     if(isVisible() && !items.isEmpty()) {
 
         QStringList files;
-        for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it)
-            files.append((*it)->file().absFilePath());
+        foreach(const PlaylistItem *item, items)
+            files.append(item->file().absFilePath());
 
         DeleteDialog dialog(this);
 
@@ -979,18 +976,18 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
             bool shouldDelete = dialog.shouldDelete();
             QStringList errorFiles;
 
-            for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
-                if(playingItem() == *it)
+            foreach(PlaylistItem *item, items) {
+                if(playingItem() == item)
                     action("forward")->trigger();
 
-                QString removePath = (*it)->file().absFilePath();
+                QString removePath = item->file().absFilePath();
                 if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removePath), this)) ||
                    (shouldDelete && QFile::remove(removePath)))
                 {
-                    delete (*it)->collectionItem();
+                    delete item->collectionItem();
                 }
                 else
-                    errorFiles.append((*it)->file().absFilePath());
+                    errorFiles.append(item->file().absFilePath());
             }
 
             if(!errorFiles.isEmpty()) {
@@ -1085,10 +1082,7 @@ void Playlist::decode(const QMimeData *s, PlaylistItem *item)
         KIO::NetAccess::removeTempFile(file);
     }
 
-    QStringList fileList;
-
-    for(KUrl::List::ConstIterator it = urls.constBegin(); it != urls.constEnd(); ++it)
-        fileList += MediaFiles::convertURLsToLocal(QStringList((*it).path()), this);
+    QStringList fileList = MediaFiles::convertURLsToLocal(urls, this);
 
     addFiles(fileList, item);
 }
@@ -1169,9 +1163,9 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
         if(item->isSelected()) {
             const PlaylistItemList selItems = selectedItems();
-            for(PlaylistItemList::ConstIterator it = selItems.constBegin(); it != selItems.constEnd(); ++it) {
-                (*it)->file().coverInfo()->setCoverId(id);
-                (*it)->refresh();
+            foreach(PlaylistItem *playlistItem, selItems) {
+                playlistItem->file().coverInfo()->setCoverId(id);
+                playlistItem->refresh();
             }
         }
         else {
@@ -1201,19 +1195,19 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
         const QList<Q3ListViewItem *> items = K3ListView::selectedItems();
 
-        for(QList<Q3ListViewItem *>::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
+        foreach(Q3ListViewItem *listViewItem, items) {
             if(!item) {
 
                 // Insert the item at the top of the list.  This is a bit ugly,
                 // but I don't see another way.
 
-                takeItem(*it);
-                insertItem(*it);
+                takeItem(listViewItem);
+                insertItem(listViewItem);
             }
             else
-                (*it)->moveItem(item);
+                listViewItem->moveItem(item);
 
-            item = static_cast<PlaylistItem *>(*it);
+            item = static_cast<PlaylistItem *>(listViewItem);
         }
     }
     else
@@ -1352,9 +1346,8 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 
     FileHandleList queue;
 
-    const QStringList::ConstIterator filesEnd = files.constEnd();
-    for(QStringList::ConstIterator it = files.constBegin(); it != filesEnd; ++it)
-        addFile(*it, queue, true, &after);
+    foreach(const QString &file, files)
+        addFile(file, queue, true, &after);
 
     addFileHelper(queue, &after, true);
 
@@ -1371,16 +1364,16 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
     QList< QPair<QString, QString> > albums;
     bool setAlbumCovers = items.count() == 1;
 
-    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
-        QString artist = (*it)->file().tag()->artist();
-        QString album = (*it)->file().tag()->album();
+    foreach(const PlaylistItem *item, items) {
+        QString artist = item->file().tag()->artist();
+        QString album = item->file().tag()->album();
 
         if(!albums.contains(qMakePair(artist, album)))
             albums.append(qMakePair(artist, album));
 
-        (*it)->file().coverInfo()->setCoverId(id);
+        item->file().coverInfo()->setCoverId(id);
         if(setAlbumCovers)
-            (*it)->file().coverInfo()->applyCoverToWholeAlbum(true);
+            item->file().coverInfo()->applyCoverToWholeAlbum(true);
     }
 
     for(QList< QPair<QString, QString> >::ConstIterator it = albums.constBegin();
@@ -1392,11 +1385,8 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 
 void Playlist::updatePlaying() const
 {
-    for(PlaylistItemList::ConstIterator it = PlaylistItem::playingItems().constBegin();
-        it != PlaylistItem::playingItems().constEnd(); ++it)
-    {
-        (*it)->listView()->triggerUpdate();
-    }
+    foreach(const PlaylistItem *item, PlaylistItem::playingItems())
+        item->listView()->triggerUpdate();
 }
 
 void Playlist::refreshAlbum(const QString &artist, const QString &album)
@@ -1421,8 +1411,8 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
     PlaylistSearch search(playlists, components);
     const PlaylistItemList matches = search.matchedItems();
 
-    for(PlaylistItemList::ConstIterator it = matches.constBegin(); it != matches.constEnd(); ++it)
-        (*it)->refresh();
+    foreach(PlaylistItem *item, matches)
+        item->refresh();
 }
 
 void Playlist::hideColumn(int c, bool updateSearch)
@@ -1937,9 +1927,10 @@ void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool i
 
         if(visible)
             m_collection->raiseDistraction();
-        const FileHandleList::ConstIterator filesEnd = files.constEnd();
-        for(FileHandleList::ConstIterator it = files.constBegin(); it != filesEnd; ++it)
-            *after = createItem(*it, *after, false);
+
+        foreach(const FileHandle &fileHandle, files)
+            *after = createItem(fileHandle, *after, false);
+
         files.clear();
 
         if(visible)
@@ -2296,8 +2287,8 @@ void Playlist::slotInlineEditDone(Q3ListViewItem *, const QString &, int column)
         return;
     }
 
-    for(PlaylistItemList::ConstIterator it = l.constBegin(); it != l.constEnd(); ++it)
-        editTag(*it, text, column);
+    foreach(PlaylistItem *item, l)
+        editTag(item, text, column);
 
     TagTransactionManager::instance()->commit();
 

@@ -20,6 +20,8 @@ class QWidget;
 class QString;
 class QStringList;
 
+#include <kurl.h>
+
 /**
  * A namespace for file JuK's file related functions.  The goal is to hide
  * all specific knowledge of mimetypes and file extensions here.
@@ -86,7 +88,7 @@ namespace MediaFiles
      * @param w KIO may need the widget to handle user interaction.
      * @return list of all local files in urlList, converted to absolute paths.
      */
-    QStringList convertURLsToLocal(const QStringList &urlList, QWidget *w = 0);
+    QStringList convertURLsToLocal(const KUrl::List &urlList, QWidget *w = 0);
 }
 
 #endif

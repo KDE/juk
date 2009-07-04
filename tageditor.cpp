@@ -417,8 +417,8 @@ void TagEditor::updateCollection()
 
     m_genreList = list->uniqueSet(CollectionList::Genres);
 
-    for(QStringList::ConstIterator it = m_genreList.constBegin(); it != m_genreList.constEnd(); ++it)
-        genreHash.insert(*it);
+    foreach(const QString &genre, m_genreList)
+        genreHash.insert(genre);
 
     TagLib::StringList genres = TagLib::ID3v1::genreList();
 
@@ -672,7 +672,7 @@ void TagEditor::save(const PlaylistItemList &list)
 
         PlaylistItemList::ConstIterator end = list.end();
 
-        for(PlaylistItemList::ConstIterator it = list.begin(); it != end; /* Deliberatly missing */ ) {
+        for(PlaylistItemList::ConstIterator it = list.begin(); it != end; /* Deliberately missing */ ) {
 
             // Process items before we being modifying tags, as the dynamic
             // playlists will try to modify the file we edit if the tag changes
@@ -740,8 +740,8 @@ void TagEditor::saveChangesPrompt()
 
     QStringList files;
 
-    for(PlaylistItemList::Iterator it = m_items.begin(); it != m_items.end(); ++it)
-        files.append((*it)->file().absFilePath());
+    foreach(const PlaylistItem *item, m_items)
+        files.append(item->file().absFilePath());
 
     if(KMessageBox::questionYesNoList(this,
                                       i18n("Do you want to save your changes to:\n"),

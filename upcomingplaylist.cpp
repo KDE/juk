@@ -71,9 +71,9 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
 
     PlaylistItem *after = static_cast<PlaylistItem *>(lastItem());
 
-    for(PlaylistItemList::ConstIterator it = itemList.begin(); it != itemList.end(); ++it) {
-        after = createItem(*it, after);
-        m_playlistIndex.insert(after, (*it)->playlist());
+    foreach(PlaylistItem *playlistItem, itemList) {
+        after = createItem(playlistItem, after);
+        m_playlistIndex.insert(after, playlistItem->playlist());
     }
 
     dataChanged();
@@ -120,8 +120,8 @@ void UpcomingPlaylist::addFiles(const QStringList &files, PlaylistItem *after)
     CollectionList::instance()->addFiles(files, after);
 
     PlaylistItemList l;
-    for(QStringList::ConstIterator it = files.begin(); it != files.end(); ++it) {
-        FileHandle f(*it);
+    foreach(const QString &file, files) {
+        FileHandle f(file);
         PlaylistItem *i = CollectionList::instance()->lookup(f.absFilePath());
         if(i)
             l.append(i);
@@ -254,8 +254,8 @@ QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p)
 
     s << qint32(l.count());
 
-    for(PlaylistItemList::Iterator it = l.begin(); it != l.end(); ++it)
-        s << (*it)->file().absFilePath();
+    foreach(const PlaylistItem *playlistItem, l)
+        s << playlistItem->file().absFilePath();
 
     return s;
 }

@@ -64,11 +64,12 @@ QStringList MediaFiles::openDialog(QWidget *parent)
 
     dialog->exec();
 
+    // Only local files included in this list.
     QStringList selectedFiles = dialog->selectedFiles();
 
     delete dialog;
 
-    return convertURLsToLocal(selectedFiles);
+    return selectedFiles;
 }
 
 QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *parent)
@@ -141,13 +142,13 @@ QStringList MediaFiles::mimeTypes()
     return l;
 }
 
-QStringList MediaFiles::convertURLsToLocal(const QStringList &urlList, QWidget *w)
+QStringList MediaFiles::convertURLsToLocal(const KUrl::List &urlList, QWidget *w)
 {
     QStringList result;
     KUrl localUrl;
 
-    for(QStringList::ConstIterator it = urlList.constBegin(); it != urlList.constEnd(); ++it) {
-        localUrl = KIO::NetAccess::mostLocalUrl(KUrl(*it), w);
+    foreach(const KUrl &url, urlList) {
+        localUrl = KIO::NetAccess::mostLocalUrl(url, w);
 
         if(!localUrl.isLocalFile())
             kDebug(65432) << localUrl << " is not a local file, skipping.\n";
