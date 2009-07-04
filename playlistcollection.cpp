@@ -324,7 +324,7 @@ void PlaylistCollection::open(const QStringList &l)
 
     bool justPlaylists = true;
 
-    for(QStringList::ConstIterator it = l.constBegin(); it != l.constEnd() && justPlaylists; ++it)
+    for(QStringList::ConstIterator it = files.constBegin(); it != files.constEnd() && justPlaylists; ++it)
         justPlaylists = !MediaFiles::isPlaylistFile(*it);
 
     if(visiblePlaylist() == CollectionList::instance() || justPlaylists ||
