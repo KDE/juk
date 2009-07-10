@@ -62,14 +62,11 @@ struct Line : public QFrame
 NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
     QWidget(parent),
     m_observer(this, collection),
+    // Also watch the collection
+    m_collectionListObserver(this, CollectionList::instance()),
     m_collection(collection)
 {
     setObjectName("NowPlaying");
-
-    // m_observer is set to watch the PlaylistCollection, also watch for
-    // changes that come from CollectionList.
-
-    CollectionList::instance()->addObserver(&m_observer);
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     setLayout(layout);
