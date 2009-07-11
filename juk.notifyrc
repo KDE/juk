@@ -1,6 +1,7 @@
 [Global]
 IconName=juk
 Comment=Music Player
+Comment[ar]=مشغل الموسيقى
 Comment[bg]=Програма за изпълнение на музика
 Comment[ca]=Reproductor musical
 Comment[cs]=Přehrávač hudby
@@ -49,6 +50,7 @@ Name[x-test]=xxJuKxx
 
 [Event/coverDownloaded]
 Name=Cover Successfully Downloaded
+Name[ar]=نزل الغلاف بنجاح
 Name[bg]=Обложката е успешно изтеглена
 Name[ca]=La caràtula s'ha descarregat correctament
 Name[cs]=Obal úspěšně stažen
@@ -83,6 +85,7 @@ Name[x-test]=xxCover Successfully Downloadedxx
 Name[zh_CN]=下载封面成功
 Name[zh_TW]=已成功下載封面
 Comment=A requested cover has been downloaded
+Comment[ar]=نزل الغلاف المطلوب
 Comment[bg]=Търсената обложка е изтеглена
 Comment[ca]=S'ha descarregat la caràtula demanada
 Comment[cs]=Vyžádaný obal se byl údpěšně stažen
@@ -120,6 +123,7 @@ Action=Popup
 
 [Event/coverFailed]
 Name=Cover Failed to Download
+Name[ar]=فشل تنزيل الغلاف
 Name[bg]=Грешка при изтегляне на обложката
 Name[ca]=Ha fallat la descàrrega de la caràtula
 Name[cs]=Obal se nepovedlo stáhnout
@@ -154,6 +158,7 @@ Name[x-test]=xxCover Failed to Downloadxx
 Name[zh_CN]=下载封面失败
 Name[zh_TW]=下載封面失敗
 Comment=A requested cover has failed to download
+Comment[ar]=فشل تنزيل الغلاف المطلوب
 Comment[bg]=Търсената обложка не е изтеглена
 Comment[ca]=Una petició de descàrrega de caràtula ha fallat
 Comment[cs]=Vyžádaný obal se nepovedlo stáhnout
