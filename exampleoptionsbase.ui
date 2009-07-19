@@ -237,14 +237,14 @@
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="m_exampleTrack" >
+            <widget class="KIntSpinBox" name="m_exampleTrack">
              <property name="value" >
               <number>1</number>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QSpinBox" name="m_exampleYear" >
+            <widget class="KIntSpinBox" name="m_exampleYear">
              <property name="minimum" >
               <number>1000</number>
              </property>
@@ -280,6 +280,11 @@
   </layout>
  </widget>
   <customwidgets>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
+  </customwidget>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
