@@ -12,7 +12,7 @@
 #include <kdialog.h>
 #include "ui_tagguesserconfigdlgwidget.h"
 
-class Q3ListViewItem;
+class QStringListModel;
 
 
 class TagGuesserConfigDlgWidget : public QWidget, public Ui::TagGuesserConfigDlgWidget
@@ -33,8 +33,7 @@ class TagGuesserConfigDlg : public KDialog
         virtual void accept();
 
     private slots:
-        void slotCurrentChanged(Q3ListViewItem *item);
-        void slotRenameItem(Q3ListViewItem *item, const QPoint &p, int c);
+        void slotCurrentChanged(QModelIndex item);
         void slotMoveUpClicked();
         void slotMoveDownClicked();
         void slotAddClicked();
@@ -43,6 +42,7 @@ class TagGuesserConfigDlg : public KDialog
 
     private:
         TagGuesserConfigDlgWidget *m_child;
+        QStringListModel *m_tagSchemeModel;
 };
 
 #endif // TAGGUESSERCONFIGDLG_H

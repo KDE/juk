@@ -1,146 +1,134 @@
-<ui version="4.0" stdsetdef="1" >
-  <author>Frerich Raabe &lt;raabe@kde.org></author>
-  <class>TagGuesserConfigDlgWidget</class>
-  <widget class="QWidget" name="TagGuesserConfigDlgWidget" >
-    <property name="geometry" >
-      <rect>
-        <x>0</x>
-        <y>0</y>
-        <width>600</width>
-        <height>480</height>
-      </rect>
-    </property>
-    <layout class="QGridLayout" >
-      <item rowspan="5" row="0" column="0" colspan="1" >
-        <widget class="K3ListView" name="lvSchemes" >
-          <property name="frameShape" >
-            <enum>StyledPanel</enum>
-          </property>
-          <property name="frameShadow" >
-            <enum>Sunken</enum>
-          </property>
-          <property name="fullWidth" >
-            <bool>true</bool>
-          </property>
-          <property name="toolTip" stdset="0" >
-            <string>Currently used file name schemes</string>
-          </property>
-          <property name="whatsThis" stdset="0" >
-            <string>Here you can see the currently configured file name schemes which the "Suggest" button in the tag editor uses to extract tag information from a file name. Each string may contain one of the following placeholders:&lt;ul>
-&lt;li>%t: Title&lt;/li>
-&lt;li>%a: Artist&lt;/li>
-&lt;li>%A: Album&lt;/li>
-&lt;li>%T: Track&lt;/li>
-&lt;li>%c: Comment&lt;/li>
-&lt;/ul>
-For example, the file name scheme "[%T] %a - %t" would match "[01] Deep Purple - Smoke on the water" but not "(Deep Purple) Smoke on the water". For that second name, you would use the scheme "(%a) %t".&lt;p/>
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <author>Frerich Raabe &lt;raabe@kde.org&gt;</author>
+ <class>TagGuesserConfigDlgWidget</class>
+ <widget class="QWidget" name="TagGuesserConfigDlgWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>600</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0" rowspan="5">
+    <widget class="QTreeView" name="lvSchemes">
+     <property name="toolTip">
+      <string>Currently used file name schemes</string>
+     </property>
+     <property name="whatsThis">
+      <string>Here you can see the currently configured file name schemes which the &quot;Suggest&quot; button in the tag editor uses to extract tag information from a file name. Each string may contain one of the following placeholders:&lt;ul&gt;
+&lt;li&gt;%t: Title&lt;/li&gt;
+&lt;li&gt;%a: Artist&lt;/li&gt;
+&lt;li&gt;%A: Album&lt;/li&gt;
+&lt;li&gt;%T: Track&lt;/li&gt;
+&lt;li&gt;%c: Comment&lt;/li&gt;
+&lt;/ul&gt;
+For example, the file name scheme &quot;[%T] %a - %t&quot; would match &quot;[01] Deep Purple - Smoke on the water&quot; but not &quot;(Deep Purple) Smoke on the water&quot;. For that second name, you would use the scheme &quot;(%a) %t&quot;.&lt;p/&gt;
 Note that the order in which the schemes appear in the list is relevant, since the tag guesser will go through the list from the top to the bottom, and use the first matching scheme.</string>
-          </property>
-          <column>
-            <property name="text" >
-              <string>File Name Scheme</string>
-            </property>
-            <property name="clickable" >
-              <bool>false</bool>
-            </property>
-            <property name="resizable" >
-              <bool>false</bool>
-            </property>
-          </column>
-        </widget>
-      </item>
-      <item rowspan="1" row="1" column="1" colspan="3" >
-        <widget class="KPushButton" name="bAdd" >
-          <property name="text" >
-            <string>&amp;Add</string>
-          </property>
-          <property name="toolTip" stdset="0" >
-            <string>Add a new scheme</string>
-          </property>
-          <property name="whatsThis" stdset="0" >
-            <string>Press this button to add a new file name scheme to the end of the list.</string>
-          </property>
-        </widget>
-      </item>
-      <item row="0" column="1" >
-        <widget class="QToolButton" name="bMoveUp" >
-          <property name="text" >
-            <string/>
-          </property>
-          <property name="toolTip" stdset="0" >
-            <string>Move scheme up</string>
-          </property>
-          <property name="whatsThis" stdset="0" >
-            <string>Press this button to move the currently selected scheme one step upwards.</string>
-          </property>
-        </widget>
-      </item>
-      <item row="0" column="3" >
-        <widget class="QToolButton" name="bMoveDown" >
-          <property name="text" >
-            <string/>
-          </property>
-          <property name="toolTip" stdset="0" >
-            <string>Move scheme down</string>
-          </property>
-          <property name="whatsThis" stdset="0" >
-            <string>Press this button to move the currently selected scheme one step downwards.</string>
-          </property>
-        </widget>
-      </item>
-      <item rowspan="1" row="2" column="1" colspan="3" >
-        <widget class="KPushButton" name="bModify" >
-          <property name="text" >
-            <string>&amp;Modify</string>
-          </property>
-          <property name="toolTip" stdset="0" >
-            <string>Modify scheme</string>
-          </property>
-          <property name="whatsThis" stdset="0" >
-            <string>Press this button to modify the currently selected scheme.</string>
-          </property>
-        </widget>
-      </item>
-      <item rowspan="1" row="3" column="1" colspan="3" >
-        <widget class="KPushButton" name="bRemove" >
-          <property name="text" >
-            <string>&amp;Remove</string>
-          </property>
-          <property name="toolTip" stdset="0" >
-            <string>Remove scheme</string>
-          </property>
-          <property name="whatsThis" stdset="0" >
-            <string>Press this button to remove the currently selected scheme from the list.</string>
-          </property>
-        </widget>
-      </item>
-      <item row="4" column="2" >
-        <spacer name="spacer1" >
-          <property name="sizeHint" >
-            <size>
-              <width>20</width>
-              <height>130</height>
-            </size>
-          </property>
-          <property name="sizeType" >
-            <enum>Expanding</enum>
-          </property>
-          <property name="orientation" >
-            <enum>Vertical</enum>
-          </property>
-        </spacer>
-      </item>
-    </layout>
-  </widget>
-    <customwidgets>
-    <customwidget>
-      <class>K3ListView</class>
-      <extends>Q3ListView</extends>
-      <header>k3listview.h</header>
-    </customwidget>
-  </customwidgets>
-  <includes>
-    <include location="local" >k3listview.h</include>
-    <include location="local" >kpushbutton.h</include>
-  </includes>
+     </property>
+     <property name="rootIsDecorated">
+      <bool>false</bool>
+     </property>
+     <property name="expandsOnDoubleClick">
+      <bool>false</bool>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="1">
+    <widget class="QToolButton" name="bMoveUp">
+     <property name="toolTip">
+      <string>Move scheme up</string>
+     </property>
+     <property name="whatsThis">
+      <string>Press this button to move the currently selected scheme one step upwards.</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="0" column="3">
+    <widget class="QToolButton" name="bMoveDown">
+     <property name="toolTip">
+      <string>Move scheme down</string>
+     </property>
+     <property name="whatsThis">
+      <string>Press this button to move the currently selected scheme one step downwards.</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+   </item>
+   <item row="1" column="1" colspan="3">
+    <widget class="KPushButton" name="bAdd">
+     <property name="toolTip">
+      <string>Add a new scheme</string>
+     </property>
+     <property name="whatsThis">
+      <string>Press this button to add a new file name scheme to the end of the list.</string>
+     </property>
+     <property name="text">
+      <string>&amp;Add</string>
+     </property>
+    </widget>
+   </item>
+   <item row="2" column="1" colspan="3">
+    <widget class="KPushButton" name="bModify">
+     <property name="toolTip">
+      <string>Modify scheme</string>
+     </property>
+     <property name="whatsThis">
+      <string>Press this button to modify the currently selected scheme.</string>
+     </property>
+     <property name="text">
+      <string>&amp;Modify</string>
+     </property>
+    </widget>
+   </item>
+   <item row="3" column="1" colspan="3">
+    <widget class="KPushButton" name="bRemove">
+     <property name="toolTip">
+      <string>Remove scheme</string>
+     </property>
+     <property name="whatsThis">
+      <string>Press this button to remove the currently selected scheme from the list.</string>
+     </property>
+     <property name="text">
+      <string>&amp;Remove</string>
+     </property>
+    </widget>
+   </item>
+   <item row="4" column="2">
+    <spacer name="spacer1">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
+     </property>
+     <property name="sizeType">
+      <enum>QSizePolicy::Expanding</enum>
+     </property>
+     <property name="sizeHint" stdset="0">
+      <size>
+       <width>20</width>
+       <height>130</height>
+      </size>
+     </property>
+    </spacer>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KPushButton</class>
+   <extends>QPushButton</extends>
+   <header>kpushbutton.h</header>
+  </customwidget>
+ </customwidgets>
+ <includes>
+  <include location="local">kpushbutton.h</include>
+ </includes>
+ <resources/>
+ <connections/>
 </ui>
