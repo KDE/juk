@@ -50,7 +50,7 @@ DeleteWidget::DeleteWidget(QWidget *parent)
 void DeleteWidget::setFiles(const QStringList &files)
 {
     m_ui->ddFileList->clear();
-    m_ui->ddFileList->insertStringList(files);
+    m_ui->ddFileList->insertItems(0, files);
     m_ui->ddNumFiles->setText(i18np("<b>1</b> file selected.", "<b>%1</b> files selected.", files.count()));
 }
 
