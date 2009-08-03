@@ -19,6 +19,8 @@
 #include <kdialog.h>
 #include "ui_directorylistbase.h"
 
+class QStringListModel;
+
 class DirectoryListBase : public QWidget, public Ui::DirectoryListBase
 {
 public:
@@ -56,7 +58,7 @@ private slots:
     void slotRemoveDirectory();
 
 private:
-    QStringList m_dirList;
+    QStringListModel *m_dirListModel;
     bool m_importPlaylists;
     DirectoryListBase *m_base;
     Result m_result;

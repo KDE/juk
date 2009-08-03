@@ -2,6 +2,9 @@
     begin                : Tue Feb 4 2003
     copyright            : (C) 2003 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2009 by Georg Grabler
+    email                : ggrabler@gmail.com
  ***************************************************************************/
 
 /***************************************************************************
@@ -15,22 +18,24 @@
 
 #include "directorylist.h"
 
-#include <QCheckBox>
+#include <QtGui/QCheckBox>
+#include <QtGui/QStringListModel>
+#include <QtCore/QVariant>
 
 #include <kfiledialog.h>
 #include <klocale.h>
-#include <k3listview.h>
 #include <kpushbutton.h>
+#include <kdebug.h>
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
 DirectoryList::DirectoryList(const QStringList &directories,
-                            bool importPlaylists,
+                             bool importPlaylists,
                              QWidget *parent) :
     KDialog(parent),
-    m_dirList(directories),
+    m_dirListModel(new QStringListModel(directories, this)),
     m_importPlaylists(importPlaylists)
 {
     setCaption(i18n("Folder List"));
@@ -42,17 +47,12 @@ DirectoryList::DirectoryList(const QStringList &directories,
 
     setMainWidget(m_base);
 
-    m_base->directoryListView->setFullWidth(true);
-
     connect(m_base->addDirectoryButton, SIGNAL(clicked()),
         SLOT(slotAddDirectory()));
     connect(m_base->removeDirectoryButton, SIGNAL(clicked()),
         SLOT(slotRemoveDirectory()));
 
-    QStringList::ConstIterator it = directories.begin();
-    for(; it != directories.end(); ++it)
-        new K3ListViewItem(m_base->directoryListView, *it);
-
+    m_base->directoryListView->setModel(m_dirListModel);
     m_base->importPlaylistsCheckBox->setChecked(importPlaylists);
 
     resize(QSize(440, 280).expandedTo(minimumSizeHint()));
@@ -81,22 +81,48 @@ DirectoryList::Result DirectoryList::exec()
 void DirectoryList::slotAddDirectory()
 {
     QString dir = KFileDialog::getExistingDirectory();
-    if(!dir.isEmpty() && !m_dirList.contains(dir)) {
-        m_dirList.append(dir);
-        new K3ListViewItem(m_base->directoryListView, dir);
+
+    if(dir.isEmpty())
+        return;
+
+    QStringList dirs = m_dirListModel->stringList();
+    if(!dirs.contains(dir)) {
+        dirs.append(dir);
+        m_dirListModel->setStringList(dirs);
+
         m_result.addedDirs.append(dir);
+        m_result.removedDirs.removeAll(dir);
     }
 }
 
 void DirectoryList::slotRemoveDirectory()
 {
-    if(!m_base->directoryListView->selectedItem())
-        return;
+    QItemSelectionModel *itemSelection = m_base->directoryListView->selectionModel();
 
-    QString dir = m_base->directoryListView->selectedItem()->text(0);
-    m_dirList.removeAll(dir);
-    m_result.removedDirs.append(dir);
-    delete m_base->directoryListView->selectedItem();
+    // These will be used in the loop below
+    QModelIndexList indexes;
+    QModelIndex firstIndex;
+    QString dir;
+
+    // The multiple indexes that are possibly present cannot be deleted one
+    // after the other, as changing the layout of the model can change the
+    // indexes (similar to iterators and container remove methods).  So, just
+    // loop deleting the first index until there is no selection.
+
+    while(itemSelection->hasSelection()) {
+        indexes = itemSelection->selectedIndexes();
+        firstIndex = indexes.first();
+        dir = m_dirListModel->data(firstIndex, Qt::DisplayRole).toString();
+
+        m_dirListModel->removeRow(firstIndex.row());
+
+        // Don't mess up if user removes directory they've just added before
+        // closing out of the dialog.
+        if(m_result.addedDirs.contains(dir))
+            m_result.addedDirs.removeAll(dir);
+        else
+            m_result.removedDirs.append(dir);
+    }
 }
 
 #include "directorylist.moc"

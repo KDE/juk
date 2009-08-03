@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>DirectoryListBase</class>
- <widget class="QWidget" name="DirectoryListBase" >
-  <property name="geometry" >
+ <widget class="QWidget" name="DirectoryListBase">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,73 +10,71 @@
     <height>271</height>
    </rect>
   </property>
-  <layout class="QHBoxLayout" name="horizontalLayout_2" >
+  <layout class="QHBoxLayout" name="horizontalLayout_2">
    <item>
-    <layout class="QVBoxLayout" name="verticalLayout_2" >
+    <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <widget class="QLabel" name="informationLabel" >
-       <property name="text" >
+      <widget class="QLabel" name="informationLabel">
+       <property name="text">
         <string>These folders will be scanned on startup for new files.</string>
        </property>
-       <property name="alignment" >
+       <property name="alignment">
         <set>Qt::AlignVCenter</set>
        </property>
-       <property name="wordWrap" >
+       <property name="wordWrap">
         <bool>true</bool>
        </property>
       </widget>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout" >
+      <layout class="QHBoxLayout" name="horizontalLayout">
        <item>
-        <widget class="K3ListView" name="directoryListView" >
-         <property name="sizePolicy" >
-          <sizepolicy vsizetype="Expanding" hsizetype="Expanding" >
-           <horstretch>1</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
+        <widget class="QListView" name="directoryListView">
+         <property name="editTriggers">
+          <set>QAbstractItemView::NoEditTriggers</set>
          </property>
-         <property name="resizeMode" >
-          <enum>Q3ListView::LastColumn</enum>
+         <property name="alternatingRowColors">
+          <bool>true</bool>
          </property>
-         <column>
-          <property name="text" >
-           <string>Folders</string>
-          </property>
-          <property name="clickable" >
-           <bool>true</bool>
-          </property>
-          <property name="resizable" >
-           <bool>true</bool>
-          </property>
-         </column>
+         <property name="selectionMode">
+          <enum>QAbstractItemView::MultiSelection</enum>
+         </property>
+         <property name="textElideMode">
+          <enum>Qt::ElideMiddle</enum>
+         </property>
+         <property name="layoutMode">
+          <enum>QListView::Batched</enum>
+         </property>
+         <property name="uniformItemSizes">
+          <bool>true</bool>
+         </property>
         </widget>
        </item>
        <item>
-        <layout class="QVBoxLayout" name="verticalLayout" >
+        <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="KPushButton" name="addDirectoryButton" >
-           <property name="text" >
+          <widget class="KPushButton" name="addDirectoryButton">
+           <property name="text">
             <string>Add Folder...</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="KPushButton" name="removeDirectoryButton" >
-           <property name="text" >
+          <widget class="KPushButton" name="removeDirectoryButton">
+           <property name="text">
             <string>Remove Folder</string>
            </property>
           </widget>
          </item>
          <item>
-          <spacer name="rightColumnSpacer" >
-           <property name="orientation" >
+          <spacer name="rightColumnSpacer">
+           <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
-           <property name="sizeType" >
+           <property name="sizeType">
             <enum>QSizePolicy::Expanding</enum>
            </property>
-           <property name="sizeHint" stdset="0" >
+           <property name="sizeHint" stdset="0">
             <size>
              <width>158</width>
              <height>48</height>
@@ -88,11 +87,11 @@
       </layout>
      </item>
      <item>
-      <widget class="QCheckBox" name="importPlaylistsCheckBox" >
-       <property name="text" >
+      <widget class="QCheckBox" name="importPlaylistsCheckBox">
+       <property name="text">
         <string>Import playlists</string>
        </property>
-       <property name="checked" >
+       <property name="checked">
         <bool>true</bool>
        </property>
       </widget>
@@ -101,12 +100,7 @@
    </item>
   </layout>
  </widget>
-  <customwidgets>
-  <customwidget>
-   <class>K3ListView</class>
-   <extends>Q3ListView</extends>
-   <header>k3listview.h</header>
-  </customwidget>
+ <customwidgets>
   <customwidget>
    <class>KPushButton</class>
    <extends>QPushButton</extends>
@@ -114,8 +108,7 @@
   </customwidget>
  </customwidgets>
  <includes>
-  <include location="local" >k3listview.h</include>
-  <include location="local" >kpushbutton.h</include>
+  <include location="local">kpushbutton.h</include>
  </includes>
  <resources/>
  <connections/>
