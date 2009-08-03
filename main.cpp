@@ -66,7 +66,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(ki18n("Nathan Toone"), ki18n(nathan), "nathan@toonetown.com");
     aboutData.addCredit(ki18n("Pascal Klein"), ki18n(pascal), "4pascal@tpg.com.au");
     aboutData.addCredit(ki18n("Laurent Montel"), ki18n(laurent), "montel@kde.org");
-    aboutData.addCredit(ki18n("Georg Grabler"), ki18n(goerg), "georg@grabler.net";
+    aboutData.addCredit(ki18n("Georg Grabler"), ki18n(goerg), "georg@grabler.net");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
 
