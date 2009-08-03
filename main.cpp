@@ -27,6 +27,7 @@
 static const char description[] = I18N_NOOP("Jukebox and music manager for KDE");
 static const char scott[]       = I18N_NOOP("Author, chief dork and keeper of the funk");
 static const char michael[]     = I18N_NOOP("Assistant super-hero, fixer of many things");
+static const char goerg[]       = I18N_NOOP("More KDE 4 porting efforts");
 static const char daniel[]      = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
 static const char tim[]         = I18N_NOOP("GStreamer port");
 static const char stefan[]      = I18N_NOOP("Global keybindings support");
@@ -45,7 +46,7 @@ static const char laurent[]     = I18N_NOOP("Porting to KDE 4 when no one else w
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", 0, ki18n("JuK"),
-                         "3.3", ki18n(description), KAboutData::License_GPL,
+                         "3.4", ki18n(description), KAboutData::License_GPL,
                          ki18n("© 2002 - 2009, Scott Wheeler"), KLocalizedString(),
                          "http://developer.kde.org/~wheeler/juk.html");
 
@@ -65,6 +66,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(ki18n("Nathan Toone"), ki18n(nathan), "nathan@toonetown.com");
     aboutData.addCredit(ki18n("Pascal Klein"), ki18n(pascal), "4pascal@tpg.com.au");
     aboutData.addCredit(ki18n("Laurent Montel"), ki18n(laurent), "montel@kde.org");
+    aboutData.addCredit(ki18n("Georg Grabler"), ki18n(goerg), "georg@grabler.net";
 
     KCmdLineArgs::init(argc, argv, &aboutData);
 
