@@ -25,7 +25,6 @@
 #include "categoryreaderinterface.h"
 #include "tagrenameroptions.h"
 
-class QScrollArea;
 class QCheckBox;
 class QPushButton;
 class QSignalMapper;
