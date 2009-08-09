@@ -112,7 +112,7 @@ kde4_add_ui_files(juk_SRCS
 	deletedialogbase.ui
 )
 
-
+kde4_add_app_icon(juk_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-juk.png")
 kde4_add_executable(juk ${juk_SRCS})
 
 if(NOT MSVC)
