@@ -78,7 +78,7 @@ void Cache::save()
     KSaveFile f(cacheFileName);
 
     if(!f.open(QIODevice::WriteOnly)) {
-        kError(65432) << "Error saving cache:" << f.errorString();
+        kError() << "Error saving cache:" << f.errorString();
         return;
     }
 
@@ -102,7 +102,7 @@ void Cache::save()
     f.close();
 
     if(!f.finalize())
-        kError(65432) << "Error saving cache:" << f.errorString();
+        kError() << "Error saving cache:" << f.errorString();
 }
 
 void Cache::loadPlaylists(PlaylistCollection *collection) // static
@@ -119,7 +119,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
     qint32 version;
     fs >> version;
-    kDebug(65432) << "Playlists file is version" << version;
+    kDebug() << "Playlists file is version" << version;
 
     switch(version) {
     case 3:
@@ -218,7 +218,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
             } // try
             catch(BICStreamException &) {
-                kError(65432) << "Exception loading playlists - binary incompatible stream.";
+                kError() << "Exception loading playlists - binary incompatible stream.";
 
                 // Delete created playlists which probably have junk now.
                 foreach(Playlist *p, createdPlaylists)
@@ -226,7 +226,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                 createdPlaylists.clear();
 
                 if(dataStreamVersion == QDataStream::Qt_3_3) {
-                    kError(65432) << "Attempting other binary protocol - Qt 4.3";
+                    kError() << "Attempting other binary protocol - Qt 4.3";
                     dataStreamVersion = QDataStream::Qt_4_3;
 
                     break; // escape from while(!s.atEnd()) to try again
@@ -234,14 +234,14 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 #if QT_VERSION >= 0x040400
                 // Unlikely, but maybe user had Qt 4.4 with KDE 4.0.0?
                 else if(dataStreamVersion == QDataStream::Qt_4_3) {
-                    kError(65432) << "Attempting other binary protocol - Qt 4.4";
+                    kError() << "Attempting other binary protocol - Qt 4.4";
                     dataStreamVersion = QDataStream::Qt_4_4;
 
                     break;
                 }
 #endif
                 // We tried 3.3 first, if 4.3/4.4 doesn't work who knows...
-                kError(65432) << "Unable to recover, no playlists will be loaded.";
+                kError() << "Unable to recover, no playlists will be loaded.";
                 return;
             } // catch
         } // while dataStreamVersion != -1
@@ -273,7 +273,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     KSaveFile f(playlistsFile);
 
     if(!f.open(QIODevice::WriteOnly)) {
-        kError(65432) << "Error saving collection:" << f.errorString();
+        kError() << "Error saving collection:" << f.errorString();
         return;
     }
 
@@ -317,7 +317,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     f.close();
 
     if(!f.finalize())
-        kError(65432) << "Error saving collection:" << f.errorString();
+        kError() << "Error saving collection:" << f.errorString();
 }
 
 bool Cache::cacheFileExists() // static

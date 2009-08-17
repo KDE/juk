@@ -72,8 +72,6 @@ class PlaylistAction : public KAction
     protected slots:
     void slotActivated()
     {
-        kDebug(65432) ;
-
         // Determine current playlist, and call its slot.
         Playlist *p = PlaylistCollection::instance()->visiblePlaylist();
         if(!p)

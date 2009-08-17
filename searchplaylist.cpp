@@ -72,8 +72,6 @@ void SearchPlaylist::updateItems()
             newItems.append(item->collectionItem());
     }
 
-    // kDebug(65432) << "newItems.size() == " << newItems.size();
-
     foreach(PlaylistItem *item, oldItems)
         clearItem(item, false);
 
@@ -83,7 +81,7 @@ void SearchPlaylist::updateItems()
     createItems(newItems);
 
     if(synchronizePlaying()) {
-        kDebug(65432) << "synchronizing playing";
+        kDebug() << "synchronizing playing";
         synchronizePlayingItems(m_search.playlists(), true);
     }
 }

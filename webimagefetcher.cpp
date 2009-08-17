@@ -103,7 +103,7 @@ void WebImageFetcher::slotLoadImageURLs()
     url.addQueryItem("query", d->searchString);
     url.addQueryItem("results", "25");
 
-    kDebug(65432) << "Using request " << url.encodedPathAndQuery();
+    kDebug() << "Using request " << url.encodedPathAndQuery();
 
     d->connection = KIO::storedGet(url, KIO::Reload /* reload always */);
     connect(d->connection, SIGNAL(result(KJob *)), SLOT(slotWebRequestFinished(KJob *)));
@@ -113,20 +113,20 @@ void WebImageFetcher::slotLoadImageURLs()
 
 void WebImageFetcher::slotWebRequestFinished(KJob *job)
 {
-    kDebug(65432) << "Results received.\n";
+    kDebug() << "Results received.\n";
 
     if(job != d->connection)
         return;
 
     if(!job || job->error()) {
-	kError(65432) << "Error reading image results from Yahoo!\n";
-	kError(65432) << d->connection->errorString() << endl;
+	kError() << "Error reading image results from Yahoo!\n";
+	kError() << d->connection->errorString() << endl;
 	return;
     }
 
-    kDebug(65432) << "Checking for data!!\n";
+    kDebug() << "Checking for data!!\n";
     if(d->connection->data().isEmpty()) {
-        kError(65432) << "Yahoo image search returned an empty result!\n";
+        kError() << "Yahoo image search returned an empty result!\n";
         return;
     }
 
@@ -135,8 +135,8 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     QString errorStr;
     int errorCol, errorLine;
     if(!results.setContent(d->connection->data(), &errorStr, &errorLine, &errorCol)) {
-	kError(65432) << "Unable to create XML document from Yahoo results.\n";
-	kError(65432) << "Line " << errorLine << ", " << errorStr << endl;
+	kError() << "Unable to create XML document from Yahoo results.\n";
+	kError() << "Line " << errorLine << ", " << errorStr << endl;
 
 	return;
     }
@@ -146,13 +146,13 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     bool hasNoResults = false;
 
     if(n.isNull()) {
-	kDebug(65432) << "No document root in XML results??\n";
+	kDebug() << "No document root in XML results??\n";
 	hasNoResults = true;
     }
     else {
 	QDomElement result = n.toElement();
 	if(result.attribute("totalResultsReturned").toInt() == 0)
-	    kDebug(65432) << "Search returned " << result.attribute("totalResultsAvailable") << " results.\n";
+	    kDebug() << "Search returned " << result.attribute("totalResultsAvailable") << " results.\n";
 
 	if(result.isNull() || !result.hasAttribute("totalResultsReturned") ||
 	    result.attribute("totalResultsReturned").toInt() == 0)
@@ -163,7 +163,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
 
     if(hasNoResults)
     {
-	kDebug(65432) << "Search returned no results.\n";
+	kDebug() << "Search returned no results.\n";
 	requestNewSearchTerms(true /* no results */);
         return;
     }
@@ -181,7 +181,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
 	n = n.nextSibling();
 
 	if(resultUrl.isNull() || thumbnail.isNull() || height.isNull() || width.isNull()) {
-	    kError(65432) << "Invalid result returned, skipping.\n";
+	    kError() << "Invalid result returned, skipping.\n";
 	    continue;
 	}
 
@@ -211,8 +211,8 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
 
 void WebImageFetcher::slotCoverChosen(const KUrl &path)
 {
-    kDebug(65432) << "Adding new cover for " << d->file.tag()->fileName()
-                  << "from URL" << path << endl;
+    kDebug() << "Adding new cover for " << d->file.tag()->fileName()
+                  << "from URL" << path;
 
     coverKey newId = CoverManager::addCover(path, d->file.tag()->artist(), d->file.tag()->album());
 

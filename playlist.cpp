@@ -769,7 +769,7 @@ void Playlist::slotRefresh()
         item->refreshFromDisk();
 
         if(!item->file().tag() || !item->file().fileInfo().exists()) {
-            kDebug(65432) << "Error while trying to refresh the tag.  "
+            kDebug() << "Error while trying to refresh the tag.  "
                            << "This file has probably been removed."
                            << endl;
             delete item->collectionItem();
@@ -861,7 +861,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
 // Called when image fetcher has added a new cover.
 void Playlist::slotCoverChanged(int coverId)
 {
-    kDebug(65432) << "Refreshing information for newly changed covers.\n";
+    kDebug() << "Refreshing information for newly changed covers.\n";
     refreshAlbums(selectedItems(), coverId);
 }
 
@@ -1624,7 +1624,7 @@ CollectionListItem *Playlist::collectionListItem(const FileHandle &file)
         // If a valid tag was not created, destroy the CollectionListItem.
 
         if(!item->isValid()) {
-            kError(65432) << "Playlist::createItem() -- A valid tag was not created for \""
+            kError() << "Playlist::createItem() -- A valid tag was not created for \""
                            << file.absFilePath() << "\"" << endl;
             delete item;
             return 0;
@@ -1830,9 +1830,6 @@ void Playlist::calculateColumnWeights()
 
     foreach(int column, m_weightDirty) {
         m_columnWeights[column] = int(sqrt(averageWidth[column]) + 0.5);
-
-        //  kDebug(65432) << "m_columnWeights[" << column << "] == "
-        //                 << m_columnWeights[column] << endl;
     }
 
     m_weightDirty.clear();
@@ -1903,7 +1900,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
             ::closedir(dir);
         }
         else {
-            kWarning(65432) << "Unable to open directory "
+            kWarning() << "Unable to open directory "
                             << fileInfo.filePath()
                             << ", make sure it is readable.\n";
         }
@@ -2187,8 +2184,6 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
 void Playlist::slotRenameTag()
 {
-    // kDebug(65432) << "Playlist::slotRenameTag()";
-
     // setup completions and validators
 
     CollectionList *list = CollectionList::instance();

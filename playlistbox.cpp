@@ -389,7 +389,7 @@ void PlaylistBox::setDynamicListsFrozen(bool frozen)
 
 void PlaylistBox::slotSavePlaylists()
 {
-    kDebug(65432) << "Auto-saving playlists.\n";
+    kDebug() << "Auto-saving playlists.\n";
 
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
@@ -405,7 +405,7 @@ void PlaylistBox::slotSavePlaylists()
 void PlaylistBox::slotShowDropTarget()
 {
     if(!m_dropItem) {
-        kError(65432) << "Trying to show the playlist of a null item!\n";
+        kError() << "Trying to show the playlist of a null item!\n";
         return;
     }
 

@@ -25,7 +25,6 @@ configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 
 # hack, should taglib maybe give the .. directory as well in it's config file?
 include_directories( ${TAGLIB_INCLUDES} ${TAGLIB_INCLUDES}/.. )
-add_definitions(-DKDE_DEFAULT_DEBUG_AREA=65432)
 add_definitions(-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS -DQT_STL)
 
 set(tunepimp_SRCS)

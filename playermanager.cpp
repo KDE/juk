@@ -508,7 +508,7 @@ void PlayerManager::setup()
        !action("forward") ||
        !action("trackPositionAction"))
     {
-        kWarning(65432) << "Could not find all of the required actions.";
+        kWarning() << "Could not find all of the required actions.";
         return;
     }
 

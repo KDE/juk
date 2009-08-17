@@ -111,8 +111,8 @@ void DefaultSequenceIterator::advance()
             if(!m_albumSearch.isNull()) {
                 PlaylistItemList albumMatches = m_albumSearch.matchedItems();
                 if(albumMatches.isEmpty()) {
-                    kError(65432) << "Unable to initialize album random play.\n";
-                    kError(65432) << "List of potential results is empty.\n";
+                    kError() << "Unable to initialize album random play.\n";
+                    kError() << "List of potential results is empty.\n";
 
                     return; // item is still set to random song from a few lines earlier.
                 }
@@ -132,7 +132,7 @@ void DefaultSequenceIterator::advance()
                 }
             }
             else
-                kError(65432) << "Unable to perform album random play on " << *item << endl;
+                kError() << "Unable to perform album random play on " << *item << endl;
         }
         else
             item = m_randomItems[KRandom::random() % m_randomItems.count()];
@@ -251,7 +251,7 @@ void DefaultSequenceIterator::refillRandomList(Playlist *p)
         p = current()->playlist();
 
         if(!p) {
-            kError(65432) << "Item has no playlist!\n";
+            kError() << "Item has no playlist!\n";
             return;
         }
     }
@@ -295,7 +295,7 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
     // search.
 
     if(!searchItem->file().tag()->artist().isEmpty()) {
-        kDebug(65432) << "Searching both artist and album.\n";
+        kDebug() << "Searching both artist and album.";
         columns[0] = PlaylistItem::ArtistColumn;
 
         m_albumSearch.addComponent(PlaylistSearch::Component(

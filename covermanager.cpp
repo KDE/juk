@@ -188,8 +188,6 @@ void CoverManagerPrivate::createDataDir() const
 
 void CoverManagerPrivate::saveCovers() const
 {
-    kDebug() ;
-
     // Make sure the directory exists first.
     createDataDir();
 
@@ -229,8 +227,6 @@ void CoverManagerPrivate::saveCovers() const
 
 void CoverManagerPrivate::loadCovers()
 {
-    kDebug() ;
-
     QFile file(coverLocation());
 
     if(!file.open(QIODevice::ReadOnly)) {
@@ -609,7 +605,7 @@ void CoverManager::setIdForTrack(const QString &path, coverKey id)
         data()->tracks.remove(path);
 
         if(data()->covers[oldId]->refCount == 0) {
-            kDebug(65432) << "Cover " << oldId << " is unused, removing.\n";
+            kDebug() << "Cover " << oldId << " is unused, removing.\n";
             removeCover(oldId);
         }
     }

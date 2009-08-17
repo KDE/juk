@@ -153,12 +153,12 @@ void CoverDialog::removeSelectedCover()
     CoverIconViewItem *coverItem = m_covers->currentItem();
 
     if(!coverItem || !coverItem->isSelected()) {
-        kWarning(65432) << "No item selected for removeSelectedCover.\n";
+        kWarning() << "No item selected for removeSelectedCover.\n";
         return;
     }
 
     if(!CoverManager::removeCover(coverItem->id()))
-        kError(65432) << "Unable to remove selected cover: " << coverItem->id() << endl;
+        kError() << "Unable to remove selected cover: " << coverItem->id() << endl;
     else
         delete coverItem;
 }

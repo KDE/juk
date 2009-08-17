@@ -77,7 +77,7 @@ Tag::Tag(const QString &fileName) :
     }
 #ifdef TAGLIB_1_3
     else if(MediaFiles::isMPC(fileName)) {
-        kDebug(65432) << "Trying to resolve Musepack file";
+        kDebug() << "Trying to resolve Musepack file";
         TagLib::MPC::File file(QFile::encodeName(fileName).data());
         if(file.isValid())
             setup(&file);
@@ -141,7 +141,7 @@ bool Tag::save()
 #endif
     }
     else {
-        kError(65432) << "Couldn't save file." << endl;
+        kError() << "Couldn't save file." << endl;
         result = false;
     }
 

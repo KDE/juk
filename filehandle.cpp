@@ -101,7 +101,7 @@ FileHandle::FileHandle(const FileHandle &f) :
     d(f.d)
 {
     if(!d) {
-        kDebug(65432) << "The source FileHandle was not initialized.";
+        kDebug() << "The source FileHandle was not initialized.";
         d = null().d;
     }
     d->ref();

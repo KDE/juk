@@ -138,7 +138,7 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
 {
     TreeViewMode *treeViewMode = dynamic_cast<TreeViewMode *>(viewMode);
     if(!treeViewMode) {
-        kWarning(65432) << "Can't setup entries on a non-tree-view mode!\n";
+        kWarning() << "Can't setup entries on a non-tree-view mode!\n";
         return;
     }
 
@@ -476,7 +476,7 @@ CollectionListItem::CollectionListItem(const FileHandle &file) :
             kError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
     }
     else
-        kError(65432) << "CollectionListItems should not be created before "
+        kError() << "CollectionListItems should not be created before "
                        << "CollectionList::initialize() has been called." << endl;
 
     SplashScreen::increment();

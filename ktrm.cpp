@@ -196,7 +196,7 @@ protected:
                 KUrl proxy = KProtocolManager::proxyFor("http");
                 QString proxyHost = proxy.host();
 
-                kDebug(65432) << "Using proxy server " << proxyHost << " for www.musicbrainz.org.\n";
+                kDebug() << "Using proxy server " << proxyHost << " for www.musicbrainz.org.\n";
                 tp_SetProxy(m_pimp, proxyHost.toAscii(), short(proxy.port()));
             }
         }
