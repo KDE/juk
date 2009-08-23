@@ -100,6 +100,7 @@ public slots:
     void mute();
 
     void setRandomPlayMode(const QString &randomMode);
+    void setCrossfadeEnabled(bool enableCrossfade);
 
 signals:
     void signalPlay();
@@ -128,6 +129,7 @@ private:
     StatusLabel *m_statusLabel;
     bool m_muted;
     bool m_setup;
+    bool m_crossfadeTracks;
 
     static const int m_pollInterval = 800;
 

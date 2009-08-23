@@ -63,6 +63,7 @@ PlayerManager::PlayerManager() :
     m_statusLabel(0),
     m_muted(false),
     m_setup(false),
+    m_crossfadeTracks(true),
     m_curOutputPath(0)
 {
 // This class is the first thing constructed during program startup, and
@@ -386,7 +387,7 @@ void PlayerManager::mute()
 
 void PlayerManager::slotNeedNextUrl()
 {
-    if(m_file.isNull())
+    if(m_file.isNull() || !m_crossfadeTracks)
         return;
 
     m_playlistInterface->playNext();
@@ -625,6 +626,11 @@ QString PlayerManager::randomPlayMode() const
     if(action<KToggleAction>("albumRandomPlay")->isChecked())
         return "AlbumRandom";
     return "NoRandom";
+}
+
+void PlayerManager::setCrossfadeEnabled(bool crossfadeEnabled)
+{
+    m_crossfadeTracks = crossfadeEnabled;
 }
 
 void PlayerManager::setRandomPlayMode(const QString &randomMode)
