@@ -304,13 +304,11 @@ void JuK::slotSetupSystemTray()
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
         m_systemTray = new SystemTray(this);
         m_systemTray->setObjectName("systemTray");
-        m_systemTray->show();
 
         m_toggleDockOnCloseAction->setEnabled(true);
         m_togglePopupsAction->setEnabled(true);
 
         connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), SLOT(slotAboutToQuit()));
-        connect(m_systemTray, SIGNAL(quitSelected()), this, SLOT(slotQuit()));
     }
     else {
         m_systemTray = 0;

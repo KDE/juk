@@ -5,8 +5,8 @@
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
 
-    copyright            : (C) 2004 - 2008 by Michael Pyne
-    email                : michael.pyne@kdemail.net
+    copyright            : (C) 2004 - 2009 by Michael Pyne
+    email                : mpyne@kde.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -22,49 +22,38 @@
 
 #include <klocale.h>
 #include <kiconloader.h>
-#include <kiconeffect.h>
 #include <kaction.h>
 #include <kdebug.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
-#include <ktoggleaction.h>
 #include <kvbox.h>
+#include <kmenu.h>
+#include <kwindowsystem.h>
 
 #include <QTimer>
 #include <QColor>
 #include <QPushButton>
 #include <QPalette>
-#include <QWheelEvent>
 #include <QPixmap>
-#include <QMenu>
-#include <Q3MimeSourceFactory>
 #include <QLabel>
-#include <QPainter>
 #include <QVBoxLayout>
-#include <QMouseEvent>
-#include <QDesktopWidget>
+#include <QIcon>
 #include <QApplication>
 #include <QTextDocument> // Qt::escape()
-
-#ifdef Q_WS_X11
-#include <netwm.h>
-#include <QX11Info>
-#endif
 
 #include "tag.h"
 #include "actioncollection.h"
 #include "playermanager.h"
-#include "collectionlist.h"
 #include "coverinfo.h"
 
 using namespace ActionCollection;
 
-PassiveInfo::PassiveInfo(QSystemTrayIcon *parent) :
-    QFrame(static_cast<QWidget *>(0), 
+PassiveInfo::PassiveInfo(SystemTray *parent) :
+    QFrame(static_cast<QWidget *>(0),
         Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
     ),
     m_icon(parent),
-    m_timer(new QTimer),
+    m_timer(new QTimer(this)),
     m_layout(new QVBoxLayout(this)),
     m_view(0),
     m_justDie(false)
@@ -132,40 +121,13 @@ void PassiveInfo::positionSelf()
 {
     // Start with a QRect of our size, move it to the right spot.
     QRect r(rect());
-    QPoint iconCenter(m_icon->geometry().center());
-    QRect iconRect(m_icon->geometry());
-    QRect curScreen(QApplication::desktop()->availableGeometry(iconCenter));
+    QRect curScreen(KWindowSystem::workArea());
 
-    // Decide if going on left or right.  We will be somewhere in availableGeometry, we want
-    // to be on the side that opposite the systray icon.  i.e. if icon on right side of
-    // screen, we go left and have our right side flush with the left edge.
-    bool onRight = iconCenter.x() < curScreen.center().x();
-
-    // For top or bottom, we want to be near the systray icon.  Assume that the systray icon
-    // is near an edge and therefore it's on the top if its y() is less than the center.
-    bool onTop = iconCenter.y() < curScreen.center().y();
-
-    QPoint anchor;
-
-    if(onRight)
-        anchor.setX(iconRect.right());
-    else
-        anchor.setX(iconRect.left());
-
-    if(onTop)
-        anchor.setY(qMax(iconRect.bottom(), curScreen.top()));
-    else
-        anchor.setY(qMax(iconRect.top(), curScreen.bottom()));
+    // Try to position in lower right of the screen
+    QPoint anchor(curScreen.right() * 7 / 8, curScreen.bottom());
 
     // Now make our rect hit that anchor.
-    if(onTop && onRight)
-        r.moveTopLeft(anchor);
-    else if(onTop && !onRight)
-        r.moveTopRight(anchor);
-    else if(!onTop && onRight)
-        r.moveBottomLeft(anchor);
-    else
-        r.moveBottomRight(anchor);
+    r.moveBottomRight(anchor);
 
     move(r.topLeft());
 }
@@ -174,7 +136,7 @@ void PassiveInfo::positionSelf()
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
+SystemTray::SystemTray(QWidget *parent) : KNotificationItem(parent),
                                           m_popup(0),
                                           m_fadeTimer(0),
                                           m_fade(true),
@@ -184,26 +146,21 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
     // This should be initialized to the number of labels that are used.
     m_labels.fill(0, 3);
 
-    m_appPix = loadIcon("juk");
-
-    m_playPix = createPixmap("media-playback-start");
-    m_pausePix = createPixmap("media-playback-pause");
+    setIconByName("juk");
+    setCategory(ApplicationStatus);
+    setStatus(Passive);
 
     m_forwardPix = SmallIcon("media-skip-forward");
     m_backPix = SmallIcon("media-skip-backward");
 
-    setIcon(m_appPix);
-
-    setToolTip();
-
-    // Just create this here so that it show up in the DCOP interface and the key
-    // bindings dialog.
+    // Just create this here so that it show up in the DBus interface and the
+    // key bindings dialog.
 
     KAction *rpaction = new KAction(i18n("Redisplay Popup"), this);
     ActionCollection::actions()->addAction("showPopup", rpaction);
-    connect(rpaction, SIGNAL(triggered(bool) ), SLOT(slotPlay()));
+    connect(rpaction, SIGNAL(triggered(bool)), SLOT(slotPlay()));
 
-    QMenu *cm = contextMenu();
+    KMenu *cm = contextMenu();
 
     connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotPlay()));
     connect(PlayerManager::instance(), SIGNAL(signalPause()), this, SLOT(slotPause()));
@@ -231,17 +188,18 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
     m_fadeTimer = new QTimer(this);
     m_fadeTimer->setObjectName("systrayFadeTimer");
     connect(m_fadeTimer, SIGNAL(timeout()), SLOT(slotNextStep()));
-    connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(slotActivated(QSystemTrayIcon::ActivationReason)));
+
+    // Handle wheel events
+    connect(this, SIGNAL(scrollRequested(int, Qt::Orientation)), SLOT(scrollEvent(int, Qt::Orientation)));
+
+    // Add a quick hook for play/pause toggle
+    connect(this, SIGNAL(secondaryActivateRequested(const QPoint &)),
+            action("playPause"), SLOT(trigger()));
 
     if(PlayerManager::instance()->playing())
         slotPlay();
     else if(PlayerManager::instance()->paused())
         slotPause();
-}
-
-SystemTray::~SystemTray()
-{
-
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -255,9 +213,14 @@ void SystemTray::slotPlay()
 
     QPixmap cover = PlayerManager::instance()->playingFile().coverInfo()->pixmap(CoverInfo::Thumbnail);
 
-    setIcon(m_playPix);
+    setOverlayIconByName("media-playback-start");
     setToolTip(PlayerManager::instance()->playingString(), cover);
     createPopup();
+}
+
+void SystemTray::slotPause()
+{
+    setOverlayIconByName("media-playback-pause");
 }
 
 void SystemTray::slotTogglePopup()
@@ -268,7 +231,7 @@ void SystemTray::slotTogglePopup()
         slotPlay();
 }
 
-void  SystemTray::slotPopupLargeCover()
+void SystemTray::slotPopupLargeCover()
 {
     if(!PlayerManager::instance()->playing())
         return;
@@ -279,8 +242,8 @@ void  SystemTray::slotPopupLargeCover()
 
 void SystemTray::slotStop()
 {
-    setIcon(m_appPix);
     setToolTip();
+    setOverlayIconByName(QString());
 
     delete m_popup;
     m_popup = 0;
@@ -328,11 +291,7 @@ void SystemTray::slotFadeOut()
     m_startColor = m_labels[0]->palette().color( QPalette::Text ); //textColor();
     m_endColor = m_labels[0]->palette().color( QPalette::Window ); //backgroundColor();
 
-#ifdef Q_WS_X11
-    m_hasCompositionManager = QX11Info::isCompositingManagerRunning();
-#else
-    m_hasCompositionManager = true; // Assume yes for non-X11
-#endif
+    m_hasCompositionManager = KWindowSystem::compositingActive();
 
     connect(this, SIGNAL(fadeDone()), m_popup, SLOT(hide()));
     connect(m_popup, SIGNAL(mouseEntered()), this, SLOT(slotMouseInPopup()));
@@ -362,37 +321,20 @@ KVBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
 {
     KVBox *infoBox = 0;
 
-    if(buttonsToLeft()) {
+    // We always show the popup on the right side of the current screen, so
+    // this logic assumes that.  Earlier revisions has logic for popup being
+    // wherever the systray icon is, so if it's decided to go that route again,
+    // dig into the source control history. --mpyne
 
-        // They go to the left because JuK is on that side
-
-        createButtonBox(parent);
+    if(file.coverInfo()->hasCover()) {
+        addCoverButton(parent, file.coverInfo()->pixmap(CoverInfo::Thumbnail));
         addSeparatorLine(parent);
-
-        infoBox = new KVBox(parent);
-
-        // Another line, and the cover, if there's a cover, and if
-        // it's selected to be shown
-
-        if(file.coverInfo()->hasCover()) {
-            addSeparatorLine(parent);
-            addCoverButton(parent, file.coverInfo()->pixmap(CoverInfo::Thumbnail));
-        }
     }
-    else {
 
-        // Like above, but reversed.
+    infoBox = new KVBox(parent);
 
-        if(file.coverInfo()->hasCover()) {
-            addCoverButton(parent, file.coverInfo()->pixmap(CoverInfo::Thumbnail));
-            addSeparatorLine(parent);
-        }
-
-        infoBox = new KVBox(parent);
-
-        addSeparatorLine(parent);
-        createButtonBox(parent);
-    }
+    addSeparatorLine(parent);
+    createButtonBox(parent);
 
     infoBox->setSpacing(3);
     infoBox->setMargin(3);
@@ -406,7 +348,7 @@ void SystemTray::createPopup()
 
     // If the action exists and it's checked, do our stuff
 
-    if(!ActionCollection::action<KToggleAction>("togglePopups")->isChecked())
+    if(!ActionCollection::action("togglePopups")->isChecked())
         return;
 
     delete m_popup;
@@ -455,36 +397,6 @@ void SystemTray::createPopup()
 
     m_popup->setView(box);
     m_popup->show();
-}
-
-bool SystemTray::buttonsToLeft() const
-{
-    QPoint iconCenter(geometry().center());
-    QRect curScreen(QApplication::desktop()->availableGeometry(iconCenter));
-
-    // See PassivePopup::positionSelf()
-    return iconCenter.x() < curScreen.center().x();
-}
-
-QPixmap SystemTray::createPixmap(const QString &pixName)
-{
-    QImage bgImage = m_appPix.pixmap(22).toImage(); // 22x22
-    QImage fgImage = SmallIcon(pixName).toImage(); // Should be 16x16
-
-    KIconEffect::semiTransparent(bgImage);
-
-    // Center smaller image inside larger one.
-    QRect rect = fgImage.rect();
-    rect.moveCenter(bgImage.rect().center());
-
-    // Must use begin()/end() (or scope in this case) to avoid returning a
-    // QPixmap constructed from a QImage being painted on.
-    {
-        QPainter painter(&bgImage);
-        painter.drawImage(rect.topLeft(), fgImage);
-    }
-
-    return QPixmap::fromImage(bgImage);
 }
 
 void SystemTray::createButtonBox(QWidget *parent)
@@ -562,72 +474,37 @@ QColor SystemTray::interpolateColor(int step, int steps)
 void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 {
     if(tip.isEmpty())
-        KSystemTrayIcon::setToolTip(i18n("JuK"));
+        KNotificationItem::setToolTip("juk", i18n("JuK"), QString());
     else {
         QPixmap myCover = cover;
         if(cover.isNull())
             myCover = DesktopIcon("juk");
 
-        QImage coverImage = myCover.toImage();
-        QSize iconSize(IconSize(KIconLoader::Desktop), IconSize(KIconLoader::Desktop));
-        QSize newIconSize = coverImage.size();
-        newIconSize.scale(iconSize, Qt::KeepAspectRatio);
-
-        if(newIconSize != iconSize)
-            coverImage = coverImage.scaled(newIconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
-
-        Q3MimeSourceFactory::defaultFactory()->setImage("tipCover", coverImage);
-
-        QString html = i18nc("%1 is Cover Art, %2 is the playing track, %3 is the appname",
-                            "<table style=\"font-size:14pt;\" cellspacing=\"2em\">"
-                            "<tr><td rowspan=\"2\">%1</td><td align=\"center\" valign=\"middle\">%2</td></tr>"
-                            "<tr><td align=\"center\" valign=\"middle\"><em>%3</em></td></tr></table>",
-                            QString("<img valign=\"middle\" src=\"tipCover\">"),
-                            QString("<nobr>%1</nobr>").arg(tip), i18n("JuK"));
-
-        KSystemTrayIcon::setToolTip( html);
+        QString html = QString("%1").arg(tip);
+        html.replace(" ", "&nbsp;");
+        KNotificationItem::setToolTip(QIcon(myCover), i18n("JuK"), html);
     }
 }
 
-void SystemTray::wheelEvent(QWheelEvent *e)
+void SystemTray::scrollEvent(int delta, Qt::Orientation orientation)
 {
-    if(e->orientation() == Qt::Horizontal)
+    if(orientation == Qt::Horizontal)
         return;
 
-    // I already know the type here, but this file doesn't (and I don't want it
-    // to) know about the JuK class, so a static_cast won't work, and I was told
-    // that a reinterpret_cast isn't portable when combined with multiple
-    // inheritance.  (This is why I don't check the result.)
-
-    switch(e->modifiers()) {
+    switch(QApplication::keyboardModifiers()) {
     case Qt::ShiftButton:
-        if(e->delta() > 0)
+        if(delta > 0)
             action("volumeUp")->trigger();
         else
             action("volumeDown")->trigger();
         break;
     default:
-        if(e->delta() > 0)
+        if(delta > 0)
             action("forward")->trigger();
         else
             action("back")->trigger();
         break;
     }
-    e->accept();
-}
-
-/*
- * Reimplemented this in order to use the middle mouse button
- */
-void SystemTray::slotActivated(QSystemTrayIcon::ActivationReason reason)
-{
-    if (reason != MiddleClick)
-        return;
-
-    if(action("pause")->isEnabled())
-        action("pause")->trigger();
-    else
-        action("play")->trigger();
 }
 
 #include "systemtray.moc"
