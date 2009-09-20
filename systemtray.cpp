@@ -148,7 +148,7 @@ SystemTray::SystemTray(QWidget *parent) : KNotificationItem(parent),
 
     setIconByName("juk");
     setCategory(ApplicationStatus);
-    setStatus(Passive);
+    setStatus(Active); // We were told to dock in systray by user, force us visible
 
     m_forwardPix = SmallIcon("media-skip-forward");
     m_backPix = SmallIcon("media-skip-backward");
