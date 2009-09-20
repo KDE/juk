@@ -16,7 +16,6 @@
 #ifndef TRACKPICKERDIALOG_H
 #define TRACKPICKERDIALOG_H
 
-#include <config.h>
 #include <config-juk.h>
 
 #include <kdialog.h>

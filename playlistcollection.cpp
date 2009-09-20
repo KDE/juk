@@ -30,7 +30,6 @@
 #include <kactionmenu.h>
 #include <kconfiggroup.h>
 
-#include <config.h>
 #include <config-juk.h>
 
 #include <QObject>

@@ -20,7 +20,6 @@
  ***************************************************************************/
 
 #include "playermanager.h"
-#include <config.h>
 
 #include <kdebug.h>
 #include <kmessagebox.h>
