@@ -17,25 +17,12 @@
 
 #include <kdebug.h>
 
-#include <QFile>
+#include <QtCore/QFile>
 
 #include <taglib/tag.h>
-#include <mpegfile.h>
-#include <vorbisfile.h>
-#include <flacfile.h>
-#include <xiphcomment.h>
+#include <tfile.h>
+#include <audioproperties.h>
 #include <id3v2framefactory.h>
-
-#if (TAGLIB_MAJOR_VERSION > 1) || \
-      ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 2))
-#include <oggflacfile.h>
-#define TAGLIB_1_2
-#endif
-#if (TAGLIB_MAJOR_VERSION > 1) || \
-    ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 3))
-#include <mpcfile.h>
-#define TAGLIB_1_3
-#endif
 
 #include "cache.h"
 #include "mediafiles.h"
@@ -54,52 +41,20 @@ Tag::Tag(const QString &fileName) :
     m_bitrate(0),
     m_isValid(false)
 {
-    // using qDebug here since we want this to show up in non-debug builds as well
-
     if(fileName.isEmpty()) {
         kError() << "Trying to add empty file, backtrace follows:" << endl;
         kError() << kBacktrace(10) << endl;
         return;
     }
 
-    qDebug("Reading tag for %s", fileName.toLocal8Bit().data());
-
-    if(MediaFiles::isMP3(fileName)) {
-        TagLib::MPEG::File file(QFile::encodeName(fileName).data());
-        if(file.isValid())
-            setup(&file);
+    TagLib::File *file = MediaFiles::fileFactoryByType(fileName);
+    if(file->isValid()) {
+        setup(file);
+        delete file;
     }
-
-    else if(MediaFiles::isFLAC(fileName)) {
-        TagLib::FLAC::File file(QFile::encodeName(fileName).data());
-        if(file.isValid())
-            setup(&file);
-    }
-#ifdef TAGLIB_1_3
-    else if(MediaFiles::isMPC(fileName)) {
-        kDebug() << "Trying to resolve Musepack file";
-        TagLib::MPC::File file(QFile::encodeName(fileName).data());
-        if(file.isValid())
-            setup(&file);
-    }
-#endif
-#ifdef TAGLIB_1_2
-    else if(MediaFiles::isOggFLAC(fileName)) {
-        TagLib::Ogg::FLAC::File file(QFile::encodeName(fileName).data());
-        if(file.isValid())
-            setup(&file);
-    }
-#endif
-    else if(MediaFiles::isVorbis(fileName)) {
-        TagLib::Vorbis::File file(QFile::encodeName(fileName).data());
-        if(file.isValid())
-            setup(&file);
-    }
-
     else {
         kError() << "Couldn't resolve the mime type of \"" <<
             fileName << "\" -- this shouldn't happen." << endl;
-        kError() << kBacktrace(10) << endl;
     }
 }
 
@@ -107,23 +62,7 @@ bool Tag::save()
 {
     bool result;
     TagLib::ID3v2::FrameFactory::instance()->setDefaultTextEncoding(TagLib::String::UTF8);
-
-    TagLib::File *file = 0;
-
-    if(MediaFiles::isMP3(m_fileName))
-        file = new TagLib::MPEG::File(QFile::encodeName(m_fileName).data());
-    else if(MediaFiles::isFLAC(m_fileName))
-        file = new TagLib::FLAC::File(QFile::encodeName(m_fileName).data());
-#ifdef TAGLIB_1_3
-    else if(MediaFiles::isMPC(m_fileName))
-        file = new TagLib::MPC::File(QFile::encodeName(m_fileName).data());
-#endif
-#ifdef TAGLIB_1_2
-    else if(MediaFiles::isOggFLAC(m_fileName))
-        file = new TagLib::Ogg::FLAC::File(QFile::encodeName(m_fileName).data());
-#endif
-    else if(MediaFiles::isVorbis(m_fileName))
-        file = new TagLib::Vorbis::File(QFile::encodeName(m_fileName).data());
+    TagLib::File *file = MediaFiles::fileFactoryByType(m_fileName);
 
     if(file && file->isValid() && file->tag() && !file->readOnly()) {
         file->tag()->setTitle(TagLib::String(m_title.toUtf8().data(), TagLib::String::UTF8));
@@ -133,12 +72,7 @@ bool Tag::save()
         file->tag()->setComment(TagLib::String(m_comment.toUtf8().data(), TagLib::String::UTF8));
         file->tag()->setTrack(m_track);
         file->tag()->setYear(m_year);
-#ifdef TAGLIB_1_2
         result = file->save();
-#else
-        file->save();
-        result = true;
-#endif
     }
     else {
         kError() << "Couldn't save file." << endl;

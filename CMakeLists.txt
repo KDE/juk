@@ -17,7 +17,6 @@ else(TUNEPIMP_FOUND)
 	set(HAVE_TUNEPIMP 0)
 endif(TUNEPIMP_FOUND)	
 
-MESSAGE(STATUS "${TAGLIB_INCLUDES} ==========")
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 
 configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )

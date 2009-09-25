@@ -21,23 +21,31 @@
 #include <kurl.h>
 #include <kio/netaccess.h>
 
-#include <QWidget>
+#include <QtGui/QWidget>
+#include <QtCore/QFile>
 
 #include <taglib.h>
+#include <taglib_config.h>
 #include <tag.h>
+#include <mpegfile.h>
+#include <vorbisfile.h>
+#include <flacfile.h>
+#include <xiphcomment.h>
+#include <oggflacfile.h>
+#include <mpcfile.h>
 
-#if (TAGLIB_MAJOR_VERSION > 1) || \
-    ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 2))
-#define TAGLIB_1_2
+#ifdef TAGLIB_WITH_ASF
+#include <asffile.h>
 #endif
 
-#if (TAGLIB_MAJOR_VERSION > 1) || \
-    ((TAGLIB_MAJOR_VERSION == 1) && (TAGLIB_MINOR_VERSION >= 3))
-#define TAGLIB_1_3
+#ifdef TAGLIB_WITH_MP4
+#include <mp4file.h>
 #endif
 
 namespace MediaFiles {
     QStringList mimeTypes();
+
+    static QStringList savedMimeTypes;
 
     static const char mp3Type[]  = "audio/mpeg";
     static const char oggType[]  = "application/ogg";
@@ -48,8 +56,28 @@ namespace MediaFiles {
     static const char vorbisType[]  = "audio/x-vorbis+ogg";
     static const char oggflacType[] = "audio/x-flac+ogg";
 
+#ifdef TAGLIB_WITH_ASF
+    static const char asfType[] = "video/x-ms-asf";
+#endif
+
+#ifdef TAGLIB_WITH_MP4
+    static const char mp4Type[] = "video/mp4";
+#endif
+
+    static const char *mediaTypes[] = {
+        mp3Type, oggType, flacType, mpcType, vorbisType, oggflacType
+#ifdef TAGLIB_WITH_ASF
+        ,asfType
+#endif
+#ifdef TAGLIB_WITH_MP4
+        ,mp4Type
+#endif
+    };
+
     static const char playlistExtension[] = ".m3u";
 }
+
+#define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
 
 QStringList MediaFiles::openDialog(QWidget *parent)
 {
@@ -84,62 +112,126 @@ QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *par
     return fileName;
 }
 
+TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
+{
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
+    if(!result->isValid())
+        return 0;
+
+    TagLib::File *file(0);
+    QByteArray encodedFileName(QFile::encodeName(fileName));
+
+    if(result->is(mp3Type))
+        file = new TagLib::MPEG::File(encodedFileName.constData());
+    else if(result->is(flacType))
+        file = new TagLib::FLAC::File(encodedFileName.constData());
+    else if(result->is(vorbisType))
+        file = new TagLib::Vorbis::File(encodedFileName.constData());
+    else if(result->is(mpcType))
+        file = new TagLib::MPC::File(encodedFileName.constData());
+    else if(result->is(oggflacType))
+        file = new TagLib::Ogg::FLAC::File(encodedFileName.constData());
+#ifdef TAGLIB_WITH_ASF
+    else if(result->is(asfType))
+        file = new TagLib::ASF::File(encodedFileName.constData());
+#endif
+#ifdef TAGLIB_WITH_MP4
+    else if(result->is(mp4Type))
+        file = new TagLib::MP4::File(encodedFileName.constData());
+#endif
+
+    return file;
+}
+
 bool MediaFiles::isMediaFile(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
+    if(!result->isValid())
+        return false;
 
-    return result->is(mp3Type) || result->is(oggType) || result->is(flacType) || result->is(mpcType);
+    // Search through our table of media types for a match
+    for(unsigned i = 0; i < ARRAY_SIZE(mediaTypes); ++i) {
+        if(result->is(mediaTypes[i]))
+            return true;
+    }
+
+    return false;
 }
 
 bool MediaFiles::isPlaylistFile(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
     return result->is(m3uType);
 }
 
 bool MediaFiles::isMP3(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
     return result->is(mp3Type);
 }
 
 bool MediaFiles::isOgg(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
     return result->is(oggType);
 }
 
 bool MediaFiles::isFLAC(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
     return result->is(flacType);
 }
 
 bool MediaFiles::isMPC(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, true);
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
     return result->is(mpcType);
 }
 
 bool MediaFiles::isVorbis(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, false);
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
     return result->is(vorbisType);
 }
 
+#ifdef TAGLIB_WITH_ASF
+bool MediaFiles::isASF(const QString &fileName)
+{
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
+    return result->is(asfType);
+}
+#endif
+
+#ifdef TAGLIB_WITH_MP4
+bool MediaFiles::isMP4(const QString &fileName)
+{
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
+    return result->is(mp4Type);
+}
+#endif
+
 bool MediaFiles::isOggFLAC(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName, 0, false);
+    KMimeType::Ptr result = KMimeType::findByPath(fileName);
     return result->is(oggflacType);
 }
 
 QStringList MediaFiles::mimeTypes()
 {
-    QStringList l;
+    if(!savedMimeTypes.isEmpty())
+        return savedMimeTypes;
 
-    l << mp3Type << oggType << flacType << m3uType << vorbisType << oggflacType << mpcType;
+    savedMimeTypes << mp3Type << oggflacType << flacType << m3uType << vorbisType
+                   << oggType << mpcType
+#ifdef TAGLIB_WITH_ASF
+                   << asfType
+#endif
+#ifdef TAGLIB_WITH_MP4
+                   << mp4Type
+#endif
+                   ;
 
-    return l;
+    return savedMimeTypes;
 }
 
 QStringList MediaFiles::convertURLsToLocal(const KUrl::List &urlList, QWidget *w)

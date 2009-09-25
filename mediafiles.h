@@ -20,7 +20,12 @@ class QWidget;
 class QString;
 class QStringList;
 
+namespace TagLib {
+    class File;
+}
+
 #include <kurl.h>
+#include <taglib_config.h>
 
 /**
  * A namespace for file JuK's file related functions.  The goal is to hide
@@ -38,6 +43,13 @@ namespace MediaFiles
      * playlistName and the specified parent and returns the file name.
      */
     QString savePlaylistDialog(const QString &playlistName, QWidget *parent = 0);
+
+    /**
+     * Returns a pointer to a new appropriate subclass of TagLib::File, or
+     * a null pointer if there is no appropriate subclass for the given
+     * file.
+     */
+    TagLib::File *fileFactoryByType(const QString &fileName);
 
     /**
      * Returns true if fileName is a supported media file.
@@ -73,6 +85,20 @@ namespace MediaFiles
      * Returns true if fileName is an Ogg/Vorbis file.
      */
     bool isVorbis(const QString &fileName);
+
+#ifdef TAGLIB_WITH_ASF
+    /**
+     * Returns true if fileName is an ASF file.
+     */
+    bool isASF(const QString &fileName);
+#endif
+
+#ifdef TAGLIB_WITH_MP4
+    /**
+     * Returns true if fileName is a MP4 file.
+     */
+    bool isMP4(const QString &fileName);
+#endif
 
     /**
      * Returns true if fileName is an Ogg/FLAC file.
