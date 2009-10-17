@@ -59,7 +59,7 @@
 #include <id3v1genres.h>
 
 #include <time.h>
-#include <math.h>
+#include <cmath>
 #include <dirent.h>
 
 #include "playlistitem.h"
@@ -1823,13 +1823,13 @@ void Playlist::calculateColumnWeights()
     foreach(PlaylistItem *item, l) {
         cachedWidth = item->cachedWidths();
         foreach(int column, m_weightDirty)
-            averageWidth[column] += pow(double(cachedWidth[column]), 2.0) / itemCount;
+            averageWidth[column] += std::pow(double(cachedWidth[column]), 2.0) / itemCount;
     }
 
     m_columnWeights.fill(-1, columns());
 
     foreach(int column, m_weightDirty) {
-        m_columnWeights[column] = int(sqrt(averageWidth[column]) + 0.5);
+        m_columnWeights[column] = int(std::sqrt(averageWidth[column]) + 0.5);
     }
 
     m_weightDirty.clear();
