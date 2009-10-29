@@ -71,7 +71,6 @@ PlayerManager::PlayerManager() :
 // later, just disable it here. -- mpyne
 //    setup();
     new PlayerAdaptor( this );
-    QDBusConnection::sessionBus().registerObject("/Player", this);
 }
 
 PlayerManager::~PlayerManager()
@@ -557,6 +556,8 @@ void PlayerManager::setup()
 
     if(m_sliderAction->volumeSlider())
         m_sliderAction->volumeSlider()->setAudioOutput(m_output[0]);
+
+    QDBusConnection::sessionBus().registerObject("/Player", this);
 }
 
 void PlayerManager::slotUpdateSliders()
