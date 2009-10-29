@@ -491,10 +491,12 @@ void JuK::slotAboutToQuit()
     delete m_systemTray;
     m_systemTray = 0;
 
-    CoverManager::shutdown();
-
     delete m_splitter;
     m_splitter = 0;
+
+    // Playlists depend on CoverManager, so CoverManager should shutdown as
+    // late as possible
+    CoverManager::shutdown();
 }
 
 void JuK::slotQuit()
