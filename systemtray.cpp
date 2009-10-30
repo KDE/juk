@@ -136,7 +136,7 @@ void PassiveInfo::positionSelf()
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(QWidget *parent) : KNotificationItem(parent),
+SystemTray::SystemTray(QWidget *parent) : KStatusNotifierItem(parent),
                                           m_popup(0),
                                           m_fadeTimer(0),
                                           m_fade(true),
@@ -474,7 +474,7 @@ QColor SystemTray::interpolateColor(int step, int steps)
 void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 {
     if(tip.isEmpty())
-        KNotificationItem::setToolTip("juk", i18n("JuK"), QString());
+        KStatusNotifierItem::setToolTip("juk", i18n("JuK"), QString());
     else {
         QPixmap myCover = cover;
         if(cover.isNull())
@@ -482,7 +482,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
 
         QString html = QString("%1").arg(tip);
         html.replace(" ", "&nbsp;");
-        KNotificationItem::setToolTip(QIcon(myCover), i18n("JuK"), html);
+        KStatusNotifierItem::setToolTip(QIcon(myCover), i18n("JuK"), html);
     }
 }
 

@@ -21,7 +21,7 @@
 #ifndef JUK_SYSTEMTRAY_H
 #define JUK_SYSTEMTRAY_H
 
-#include <knotificationitem.h>
+#include <kstatusnotifieritem.h>
 
 #include <QVector>
 #include <QColor>
@@ -85,7 +85,7 @@ private:
     bool m_justDie;
 };
 
-class SystemTray : public KNotificationItem
+class SystemTray : public KStatusNotifierItem
 {
     Q_OBJECT
 
