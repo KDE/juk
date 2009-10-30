@@ -403,7 +403,12 @@ void PlayerManager::slotFinished()
     // user moves the slider all the way to the end, therefore see if we can keep playing
     // and if we can, do so.  Otherwise, stop.  Note that this slot should
     // only be called by the currently "main" output path (i.e. not from the
-    // crossfading one)
+    // crossfading one).  However life isn't always so nice apparently, so do some
+    // sanity-checking.
+
+    Phonon::MediaObject *mediaObject = qobject_cast<Phonon::MediaObject *>(sender());
+    if(mediaObject != m_media[m_curOutputPath])
+        return;
 
     m_playlistInterface->playNext();
     m_file = m_playlistInterface->currentFile();
