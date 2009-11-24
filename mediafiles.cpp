@@ -61,7 +61,8 @@ namespace MediaFiles {
 #endif
 
 #ifdef TAGLIB_WITH_MP4
-    static const char mp4Type[] = "video/mp4";
+    static const char mp4Type[] = "audio/mp4";
+    static const char mp4AudiobookType[] = "audio/x-m4b";
 #endif
 
     static const char *mediaTypes[] = {
@@ -71,6 +72,7 @@ namespace MediaFiles {
 #endif
 #ifdef TAGLIB_WITH_MP4
         ,mp4Type
+        ,mp4AudiobookType
 #endif
     };
 
@@ -136,7 +138,7 @@ TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
         file = new TagLib::ASF::File(encodedFileName.constData());
 #endif
 #ifdef TAGLIB_WITH_MP4
-    else if(result->is(mp4Type))
+    else if(result->is(mp4Type) || result->is(mp4AudiobookType))
         file = new TagLib::MP4::File(encodedFileName.constData());
 #endif
 
@@ -206,7 +208,7 @@ bool MediaFiles::isASF(const QString &fileName)
 bool MediaFiles::isMP4(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(mp4Type);
+    return result->is(mp4Type) || result->is(mp4AudiobookType);
 }
 #endif
 
@@ -227,7 +229,7 @@ QStringList MediaFiles::mimeTypes()
                    << asfType
 #endif
 #ifdef TAGLIB_WITH_MP4
-                   << mp4Type
+                   << mp4Type << mp4AudiobookType
 #endif
                    ;
 
