@@ -1015,7 +1015,7 @@ Q3DragObject *Playlist::dragObject(QWidget *parent)
 
     K3URLDrag *urlDrag = new K3URLDrag(urls, parent);
 
-    urlDrag->setPixmap(BarIcon("sound"));
+    urlDrag->setPixmap(BarIcon("audio-x-generic"));
 
     return urlDrag;
 }
