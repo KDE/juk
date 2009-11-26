@@ -256,7 +256,6 @@ private slots:
     void slotGuessTagFromInternet() { m_collection->guessTagFromInternet(); }
 
     void slotSetSearchEnabled(bool enable)           { m_collection->setSearchEnabled(enable); }
-    void slotSetHistoryPlaylistEnabled(bool enable)  { m_collection->setHistoryPlaylistEnabled(enable); }
     void slotSetUpcomingPlaylistEnabled(bool enable) { m_collection->setUpcomingPlaylistEnabled(enable); }
     void slotShowCoverManager()                      { m_collection->showCoverManager(); }
     void slotEnableDirWatch(bool enable)             { m_collection->enableDirWatch(enable); }

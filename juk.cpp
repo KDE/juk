@@ -4,7 +4,7 @@
     email                : wheeler@kde.org
 
     copyright            : (C) 2008, 2009 by Michael Pyne
-    email                : michael.pyne@kdemail.net
+    email                : mpyne@kde.org
 ***************************************************************************/
 
 /***************************************************************************
@@ -59,14 +59,23 @@ using namespace ActionCollection;
 
 JuK* JuK::m_instance;
 
+template<class T>
+void deleteAndClear(T *&ptr)
+{
+    delete ptr;
+    ptr = 0;
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent) :
     KXmlGuiWindow(parent, Qt::WDestructiveClose),
+    m_splitter(0),
+    m_statusLabel(0),
     m_systemTray(0),
-    m_player(PlayerManager::instance()),
+    m_player(new PlayerManager),
     m_shuttingDown(false)
 {
     // Expect segfaults if you change this order.
@@ -94,6 +103,8 @@ JuK::JuK(QWidget *parent) :
     readConfig();
     setupGlobalAccels();
 
+    connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), SLOT(slotAboutToQuit()));
+
     // slotCheckCache loads the cached entries first to populate the collection list
 
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
@@ -114,6 +125,11 @@ KActionCollection *JuK::actionCollection() const
 JuK* JuK::JuKInstance()
 {
     return m_instance;
+}
+
+PlayerManager *JuK::playerManager() const
+{
+    return m_player;
 }
 
 void JuK::coverDownloaded(const QPixmap &cover)
@@ -139,14 +155,14 @@ void JuK::setupLayout()
 {
     new TagTransactionManager(this);
 
-    m_splitter = new PlaylistSplitter(this, "playlistSplitter");
+    m_splitter = new PlaylistSplitter(m_player, this);
     setCentralWidget(m_splitter);
 
     m_statusLabel = new StatusLabel(m_splitter->playlist(), statusBar());
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_statusLabel, SLOT(updateData()));
     statusBar()->addWidget(m_statusLabel, 1);
-    PlayerManager::instance()->setStatusLabel(m_statusLabel);
+    m_player->setStatusLabel(m_statusLabel);
 
     m_splitter->setFocus();
     resize(750, 500);
@@ -300,13 +316,11 @@ void JuK::setupActions()
 void JuK::slotSetupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
-        m_systemTray = new SystemTray(this);
+        m_systemTray = new SystemTray(m_player, this);
         m_systemTray->setObjectName("systemTray");
 
         m_toggleDockOnCloseAction->setEnabled(true);
         m_togglePopupsAction->setEnabled(true);
-
-        connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), SLOT(slotAboutToQuit()));
     }
     else {
         m_systemTray = 0;
@@ -488,11 +502,10 @@ void JuK::slotAboutToQuit()
 {
     m_shuttingDown = true;
 
-    delete m_systemTray;
-    m_systemTray = 0;
-
-    delete m_splitter;
-    m_splitter = 0;
+    deleteAndClear(m_systemTray);
+    deleteAndClear(m_splitter);
+    deleteAndClear(m_player);
+    deleteAndClear(m_statusLabel);
 
     // Playlists depend on CoverManager, so CoverManager should shutdown as
     // late as possible

@@ -45,8 +45,9 @@ public:
     void addItem(NowPlayingItem *item);
     PlaylistCollection *collection() const;
 
-private slots:
-    void slotUpdate();
+public slots:
+    void slotUpdate(const FileHandle &file);
+    void slotReloadCurrentItem();
 
 private:
     struct Observer : public PlaylistObserver
@@ -55,7 +56,7 @@ private:
             PlaylistObserver(playlist),
             m_parent(parent) {}
         virtual void updateCurrent() {}
-        virtual void updateData() { m_parent->slotUpdate(); }
+        virtual void updateData() { m_parent->slotReloadCurrentItem(); }
         NowPlaying *m_parent;
     };
     friend struct Observer;
@@ -64,6 +65,7 @@ private:
     Observer m_collectionListObserver;
     PlaylistCollection *m_collection;
     QList<NowPlayingItem *> m_items;
+    FileHandle m_file;
 };
 
 /**

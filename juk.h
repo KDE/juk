@@ -42,6 +42,8 @@ public:
 
     static JuK* JuKInstance();
 
+    PlayerManager *playerManager() const;
+
     // Use a null cover for failure
     void coverDownloaded(const QPixmap &cover);
 

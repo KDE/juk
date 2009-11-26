@@ -28,6 +28,7 @@
 
 #include <QEvent>
 #include <QVBoxLayout>
+#include <QLatin1String>
 #include <QList>
 #include <QStackedWidget>
 #include <QSizePolicy>
@@ -45,16 +46,17 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
+PlaylistSplitter::PlaylistSplitter(PlayerManager *player, QWidget *parent) :
     QSplitter(Qt::Horizontal, parent),
     m_newVisible(0),
     m_playlistBox(0),
     m_searchWidget(0),
     m_playlistStack(0),
     m_editor(0),
-    m_nowPlaying(0)
+    m_nowPlaying(0),
+    m_player(player)
 {
-    setObjectName(name);
+    setObjectName(QLatin1String("playlistSplitter"));
 
     setupActions();
     setupLayout();
@@ -62,6 +64,9 @@ PlaylistSplitter::PlaylistSplitter(QWidget *parent, const char *name) :
 
     m_editor->slotUpdateCollection();
     m_editor->setupObservers();
+
+    connect(m_player, SIGNAL(signalItemChanged(FileHandle)),
+            this,     SIGNAL(playingItemChanged(FileHandle)));
 }
 
 PlaylistSplitter::~PlaylistSplitter()
@@ -197,6 +202,10 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist *)),
             m_editor, SLOT(slotPlaylistDestroyed(Playlist *)));
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
+    connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
+            m_player, SLOT(play(FileHandle)));
+
+    m_player->setPlaylistInterface(m_playlistBox);
 
     // Let interested parties know we're ready
     connect(m_playlistBox, SIGNAL(startupComplete()), SIGNAL(guiReady()));
@@ -204,6 +213,8 @@ void PlaylistSplitter::setupLayout()
     insertWidget(0, m_playlistBox);
 
     m_nowPlaying = new NowPlaying(top, m_playlistBox);
+    connect(m_player, SIGNAL(signalItemChanged(FileHandle)),
+            m_nowPlaying, SLOT(slotUpdate(FileHandle)));
 
     // Create the search widget -- this must be done after the CollectionList is created.
 

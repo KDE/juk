@@ -86,7 +86,6 @@ PlaylistCollection::PlaylistCollection(QStackedWidget *playlistStack) :
     m_instance = this;
 
     m_actionHandler = new ActionHandler(this);
-    PlayerManager::instance()->setPlaylistInterface(this);
 
     // KDirLister's auto error handling seems to crash JuK during startup in
     // readConfig().
@@ -99,7 +98,6 @@ PlaylistCollection::~PlaylistCollection()
 {
     saveConfig();
     delete m_actionHandler;
-    PlayerManager::instance()->setPlaylistInterface(0);
     Playlist::setShuttingDown();
 }
 
@@ -906,16 +904,10 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu->addAction(createAction(i18n("Show Cover &Manager"),
         SLOT(slotShowCoverManager()), "showCoverManager"));
 
-    KToggleAction *historyAction =
-        new KToggleAction(KIcon("view-history"), i18n("Show &History"), actions());
-    actions()->addAction("showHistory", historyAction);
-
     KToggleAction *upcomingAction =
         new KToggleAction(KIcon("go-jump-today"), i18n("Show &Play Queue"), actions());
     actions()->addAction("showUpcoming", upcomingAction);
 
-    connect(historyAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
     connect(upcomingAction, SIGNAL(triggered(bool)),
             this, SLOT(slotSetUpcomingPlaylistEnabled(bool)));
 }

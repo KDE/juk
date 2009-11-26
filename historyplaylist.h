@@ -54,12 +54,12 @@ public:
 public slots:
     void cut() {}
     void clear() {}
+    void appendProposedItem(const FileHandle &file);
 
 protected:
     virtual void polish();
 
 private slots:
-    void slotAddPlaying();
     void slotCreateNewItem();
 
 private:
