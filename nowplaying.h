@@ -48,6 +48,9 @@ public:
 private slots:
     void slotUpdate();
 
+signals:
+    void nowPlayingHidden();
+
 private:
     struct Observer : public PlaylistObserver
     {
@@ -123,6 +126,7 @@ public:
 private slots:
     void slotOpenLink(const QString &link);
     void slotUpdate();
+    void slotClearShowMore();
 
 private:
     FileHandle m_file;
