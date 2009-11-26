@@ -100,6 +100,7 @@ void NowPlaying::slotUpdate(const FileHandle &file)
     m_file = file;
     if(file.isNull()) {
         hide();
+        emit nowPlayingHidden();
         return;
     }
     else
@@ -257,6 +258,11 @@ TrackItem::TrackItem(NowPlaying *parent) :
 
     connect(m_label, SIGNAL(linkActivated(const QString &)), this,
             SLOT(slotOpenLink(const QString &)));
+
+    // Ensure that if we're filtering results, that the filtering is cleared if we
+    // hide the now playing bar so that the user can select tracks normally.
+
+    connect(parent, SIGNAL(nowPlayingHidden()), SLOT(slotClearShowMore()));
 }
 
 void TrackItem::update(const FileHandle &file)
@@ -311,6 +317,13 @@ void TrackItem::slotUpdate()
     } while(m_label->heightForWidth(m_label->width()) > imageSize && size >= 0);
 
     m_label->setFixedHeight(qMin(imageSize, m_label->heightForWidth(m_label->width())));
+}
+
+void TrackItem::slotClearShowMore()
+{
+    PlaylistCollection *collection = NowPlayingItem::parent()->collection();
+    Q_ASSERT(collection);
+    collection->clearShowMore();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
