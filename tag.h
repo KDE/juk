@@ -2,6 +2,9 @@
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2009 by Michael Pyne
+    email                : mpyne@kde.org
 ***************************************************************************/
 
 /***************************************************************************
@@ -69,6 +72,13 @@ public:
      * isn't a one liner, provide the length in string form.
      */
     QString lengthString() const { return m_lengthString; }
+
+    /**
+     * Convenience function to return a concise string describing the track,
+     * usually in the form Artist - Title.
+     */
+    QString playingString() const;
+
     CacheDataStream &read(CacheDataStream &s);
 
 private:

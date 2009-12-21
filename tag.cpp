@@ -2,6 +2,9 @@
     begin                : Sun Feb 17 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2009 by Michael Pyne
+    email                : mpyne@kde.org
 ***************************************************************************/
 
 /***************************************************************************
@@ -16,6 +19,7 @@
 #include "tag.h"
 
 #include <kdebug.h>
+#include <klocale.h>
 
 #include <QFile>
 
@@ -147,6 +151,19 @@ bool Tag::save()
 
     delete file;
     return result;
+}
+
+QString Tag::playingString() const
+{
+    QString str;
+    if(artist().isEmpty())
+        str = title();
+    else {
+        str = i18nc("a playing track, %1 is artist, %2 is song title",
+                    "%1 - %2").arg(artist(), title());
+    }
+
+    return str;
 }
 
 CacheDataStream &Tag::read(CacheDataStream &s)

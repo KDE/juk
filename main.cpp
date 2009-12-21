@@ -118,8 +118,6 @@ int main(int argc, char *argv[])
 
     // Create the main window and such
 
-    a.start();
-
     return a.exec();
 }
 

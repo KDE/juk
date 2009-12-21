@@ -2,6 +2,9 @@
     begin                : Tue Nov 9 2004
     copyright            : (C) 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2009 by Michael Pyne
+    email                : mpyne@kde.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -40,7 +43,6 @@
 
 #include "playlistcollection.h"
 #include "playlistitem.h"
-#include "playermanager.h"
 #include "coverinfo.h"
 #include "covermanager.h"
 #include "tag.h"
@@ -80,9 +82,6 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
     layout->addWidget(new Line(this), 0);
     layout->addWidget(new HistoryItem(this), 1);
 
-    connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotUpdate()));
-    connect(PlayerManager::instance(), SIGNAL(signalStop()), this, SLOT(slotUpdate()));
-
     hide();
 }
 
@@ -96,10 +95,9 @@ PlaylistCollection *NowPlaying::collection() const
     return m_collection;
 }
 
-void NowPlaying::slotUpdate()
+void NowPlaying::slotUpdate(const FileHandle &file)
 {
-    FileHandle file = PlayerManager::instance()->playingFile();
-
+    m_file = file;
     if(file.isNull()) {
         hide();
         emit nowPlayingHidden();
@@ -110,6 +108,12 @@ void NowPlaying::slotUpdate()
 
     foreach(NowPlayingItem *item, m_items)
         item->update(file);
+}
+
+void NowPlaying::slotReloadCurrentItem()
+{
+    foreach(NowPlayingItem *item, m_items)
+        item->update(m_file);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -130,11 +134,11 @@ void CoverItem::update(const FileHandle &file)
 {
     m_file = file;
 
-    if(file.coverInfo()->hasCover()) {
+    if(!file.isNull() && file.coverInfo()->hasCover()) {
         show();
         setPixmap(
-	    file.coverInfo()->pixmap(CoverInfo::Thumbnail)
-	    .scaled(imageSize, imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            file.coverInfo()->pixmap(CoverInfo::Thumbnail)
+            .scaled(imageSize, imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
     else
         hide();
@@ -248,11 +252,6 @@ TrackItem::TrackItem(NowPlaying *parent) :
 
     m_label->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::LinksAccessibleByKeyboard);
 
-#ifdef __GNUC__
-    #warning We should potentially check on URL underlining.
-#endif
-    /* m_label->setLinkUnderline(false); */
-
     layout->addStretch();
     layout->addWidget(m_label);
     layout->addStretch();
@@ -288,6 +287,11 @@ void TrackItem::slotOpenLink(const QString &link)
 
 void TrackItem::slotUpdate()
 {
+    if(m_file.isNull()) {
+        m_label->setText(QString());
+        return;
+    }
+
     QString title  = Qt::escape(m_file.tag()->title());
     QString artist = Qt::escape(m_file.tag()->artist());
     QString album  = Qt::escape(m_file.tag()->album());
@@ -328,14 +332,14 @@ void TrackItem::slotClearShowMore()
 
 HistoryItem::HistoryItem(NowPlaying *parent) :
     QLabel(parent),
-    NowPlayingItem(parent)
+    NowPlayingItem(parent),
+    m_timer(new QTimer(this))
 {
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    /* setLinkUnderline(false); */
     setText(QString("<b>%1</b>").arg(i18n("History")));
 
-    m_timer = new QTimer(this);
+    m_timer->setSingleShot(true);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(slotAddPlaying()));
 }
 
@@ -362,8 +366,6 @@ void HistoryItem::update(const FileHandle &file)
     }
 
     m_file = file;
-    m_timer->stop();
-    m_timer->setSingleShot(true);
     m_timer->start(HistoryPlaylist::delay());
 }
 
@@ -389,14 +391,10 @@ void HistoryItem::slotAddPlaying()
 {
     // More or less copied from the HistoryPlaylist
 
-    PlayerManager *manager = PlayerManager::instance();
-
-    if(manager->playing() && manager->playingFile() == m_file) {
+    if(!m_file.isNull()) {
         m_history.prepend(Item(KRandom::randomString(20),
                                m_file, Playlist::playingItem()->playlist()));
     }
-
-    m_file = FileHandle::null();
 }
 
 #include "nowplaying.moc"

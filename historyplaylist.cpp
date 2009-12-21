@@ -29,12 +29,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 HistoryPlaylist::HistoryPlaylist(PlaylistCollection *collection) :
-    Playlist(collection, true), m_timer(0)
+    Playlist(collection, true),
+    m_timer(new QTimer(this))
 {
     setAllowDuplicates(true);
-    m_timer = new QTimer(this);
 
-    connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotAddPlaying()));
+    m_timer->setSingleShot(true);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(slotCreateNewItem()));
 }
 
@@ -71,22 +71,20 @@ void HistoryPlaylist::polish()
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void HistoryPlaylist::slotAddPlaying()
+void HistoryPlaylist::appendProposedItem(const FileHandle &file)
 {
-    m_file = PlayerManager::instance()->playingFile();
-    m_timer->stop();
-    m_timer->setSingleShot(true);
-    m_timer->start(delay());
+    m_file = file;
+
+    if(!m_file.isNull())
+        m_timer->start(delay());
+    else
+        m_timer->stop();
 }
 
 void HistoryPlaylist::slotCreateNewItem()
 {
-    PlayerManager *player = PlayerManager::instance();
-
-    if(player->playing() && m_file == player->playingFile()) {
-        createItem(m_file);
-        m_file = FileHandle::null();
-    }
+    createItem(m_file);
+    m_file = FileHandle::null();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

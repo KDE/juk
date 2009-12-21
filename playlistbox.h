@@ -72,6 +72,7 @@ public slots:
     void slotFreezePlaylists();
     void slotUnfreezePlaylists();
     void slotPlaylistDataChanged();
+    void slotSetHistoryPlaylistEnabled(bool enable);
 
 protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
@@ -80,6 +81,7 @@ protected:
 signals:
     void signalPlaylistDestroyed(Playlist *);
     void startupComplete(); ///< Emitted after playlists are loaded.
+    void startFilePlayback(const FileHandle &file);
 
 private:
     void readConfig();

@@ -26,6 +26,8 @@ class PlaylistInterface;
 class TagEditor;
 class PlaylistBox;
 class NowPlaying;
+class PlayerManager;
+class FileHandle;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
@@ -41,7 +43,7 @@ class PlaylistSplitter : public QSplitter
     Q_OBJECT
 
 public:
-    explicit PlaylistSplitter(QWidget *parent, const char *name = 0);
+    PlaylistSplitter(PlayerManager *player, QWidget *parent);
     virtual ~PlaylistSplitter();
 
     PlaylistInterface *playlist() const;
@@ -55,6 +57,8 @@ signals:
      * again at least this works.
      */
     void guiReady();
+
+    void playingItemChanged(const FileHandle &file);
 
 public slots:
     virtual void setFocus();
@@ -91,6 +95,7 @@ private:
     QStackedWidget *m_playlistStack;
     TagEditor *m_editor;
     NowPlaying *m_nowPlaying;
+    PlayerManager *m_player;
 };
 
 #endif

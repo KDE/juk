@@ -75,17 +75,13 @@ PlayerManager::PlayerManager() :
 
 PlayerManager::~PlayerManager()
 {
+    delete m_sliderAction;
+    m_sliderAction = 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
-
-PlayerManager *PlayerManager::instance() // static
-{
-    static PlayerManager manager;
-    return &manager;
-}
 
 bool PlayerManager::playing() const
 {
@@ -175,14 +171,10 @@ FileHandle PlayerManager::playingFile() const
 
 QString PlayerManager::playingString() const
 {
-    if(!playing())
+    if(!playing() || m_file.isNull())
         return QString();
 
-    QString str = m_file.tag()->artist() + " - " + m_file.tag()->title();
-    if(m_file.tag()->artist().isEmpty())
-        str = m_file.tag()->title();
-
-    return str;
+    return m_file.tag()->playingString();
 }
 
 void PlayerManager::setPlaylistInterface(PlaylistInterface *interface)
@@ -226,14 +218,19 @@ void PlayerManager::play(const FileHandle &file)
             {
                 mediaObject->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
                 mediaObject->play();
+
+                emit signalItemChanged(m_file);
             }
         }
     }
     else {
-        m_file = file;
-
-        mediaObject->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
+        mediaObject->setCurrentSource(KUrl::fromPath(file.absFilePath()));
         mediaObject->play();
+
+        if(m_file != file)
+            emit signalItemChanged(file);
+
+        m_file = file;
     }
 
     // Our state changed handler will perform the follow up actions necessary
@@ -286,6 +283,11 @@ void PlayerManager::stop()
     stopCrossfade();
     m_media[0]->stop();
     m_media[1]->stop();
+
+    if(!m_file.isNull()) {
+        m_file = FileHandle::null();
+        emit signalItemChanged(m_file);
+    }
 }
 
 void PlayerManager::setVolume(float volume)
@@ -417,6 +419,7 @@ void PlayerManager::slotFinished()
         stop();
     }
     else {
+        emit signalItemChanged(m_file);
         m_media[m_curOutputPath]->setCurrentSource(m_file.absFilePath());
         m_media[m_curOutputPath]->play();
     }
@@ -594,6 +597,7 @@ void PlayerManager::crossfadeToFile(const FileHandle &newFile)
 
     m_fader[nextOutputPath]->setVolume(0.0f);
 
+    emit signalItemChanged(newFile);
     m_media[nextOutputPath]->setCurrentSource(newFile.absFilePath());
     m_media[nextOutputPath]->play();
 

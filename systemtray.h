@@ -31,6 +31,7 @@
 
 class QMouseEvent;
 class QWheelEvent;
+class PlayerManager;
 class QLabel;
 class QTimer;
 class KVBox;
@@ -91,7 +92,7 @@ class SystemTray : public KSystemTrayIcon
     Q_OBJECT
 
 public:
-    SystemTray(QWidget *parent = 0);
+    SystemTray(PlayerManager *player, QWidget *parent = 0);
     virtual ~SystemTray();
 
 signals:
@@ -150,6 +151,7 @@ private:
     QColor m_startColor, m_endColor;
 
     PassiveInfo *m_popup;
+    PlayerManager *m_player;
     QVector<QLabel *> m_labels;
     QTimer *m_fadeTimer;
     int m_step;

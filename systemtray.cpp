@@ -174,8 +174,9 @@ void PassiveInfo::positionSelf()
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
+SystemTray::SystemTray(PlayerManager *player, QWidget *parent) : KSystemTrayIcon(parent),
                                           m_popup(0),
+                                          m_player(player),
                                           m_fadeTimer(0),
                                           m_fade(true),
                                           m_hasCompositionManager(false)
@@ -205,9 +206,9 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
 
     QMenu *cm = contextMenu();
 
-    connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(slotPlay()));
-    connect(PlayerManager::instance(), SIGNAL(signalPause()), this, SLOT(slotPause()));
-    connect(PlayerManager::instance(), SIGNAL(signalStop()), this, SLOT(slotStop()));
+    connect(m_player, SIGNAL(signalPlay()), this, SLOT(slotPlay()));
+    connect(m_player, SIGNAL(signalPause()), this, SLOT(slotPause()));
+    connect(m_player, SIGNAL(signalStop()), this, SLOT(slotStop()));
 
     cm->addAction( action("play") );
     cm->addAction( action("pause") );
@@ -233,9 +234,9 @@ SystemTray::SystemTray(QWidget *parent) : KSystemTrayIcon(parent),
     connect(m_fadeTimer, SIGNAL(timeout()), SLOT(slotNextStep()));
     connect(this, SIGNAL(activated(QSystemTrayIcon::ActivationReason)), SLOT(slotActivated(QSystemTrayIcon::ActivationReason)));
 
-    if(PlayerManager::instance()->playing())
+    if(m_player->playing())
         slotPlay();
-    else if(PlayerManager::instance()->paused())
+    else if(m_player->paused())
         slotPause();
 }
 
@@ -250,13 +251,13 @@ SystemTray::~SystemTray()
 
 void SystemTray::slotPlay()
 {
-    if(!PlayerManager::instance()->playing())
+    if(!m_player->playing())
         return;
 
-    QPixmap cover = PlayerManager::instance()->playingFile().coverInfo()->pixmap(CoverInfo::Thumbnail);
+    QPixmap cover = m_player->playingFile().coverInfo()->pixmap(CoverInfo::Thumbnail);
 
     setIcon(m_playPix);
-    setToolTip(PlayerManager::instance()->playingString(), cover);
+    setToolTip(m_player->playingString(), cover);
     createPopup();
 }
 
@@ -270,10 +271,10 @@ void SystemTray::slotTogglePopup()
 
 void  SystemTray::slotPopupLargeCover()
 {
-    if(!PlayerManager::instance()->playing())
+    if(!m_player->playing())
         return;
 
-    FileHandle playingFile = PlayerManager::instance()->playingFile();
+    FileHandle playingFile = m_player->playingFile();
     playingFile.coverInfo()->popup();
 }
 
@@ -401,7 +402,7 @@ KVBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
 
 void SystemTray::createPopup()
 {
-    FileHandle playingFile = PlayerManager::instance()->playingFile();
+    FileHandle playingFile = m_player->playingFile();
     Tag *playingInfo = playingFile.tag();
 
     // If the action exists and it's checked, do our stuff

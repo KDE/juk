@@ -158,6 +158,12 @@ PlaylistBox::PlaylistBox(QWidget *parent, QStackedWidget *playlistStack) :
 
     m_savePlaylistTimer = 0;
 
+    KToggleAction *historyAction =
+        new KToggleAction(KIcon("view-history"), i18n("Show &History"), ActionCollection::actions());
+    ActionCollection::actions()->addAction("showHistory", historyAction);
+    connect(historyAction, SIGNAL(triggered(bool)),
+            this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
+
     m_showTimer = new QTimer(this);
     connect(m_showTimer, SIGNAL(timeout()), SLOT(slotShowDropTarget()));
 
@@ -242,6 +248,15 @@ void PlaylistBox::slotPlaylistDataChanged()
 {
     if(m_savePlaylistTimer)
         m_savePlaylistTimer->start(); // Restarts the timer if it's already running.
+}
+
+void PlaylistBox::slotSetHistoryPlaylistEnabled(bool enable)
+{
+    setHistoryPlaylistEnabled(enable);
+    if(enable) {
+        connect(this, SIGNAL(playingItemChanged(FileHandle)),
+                historyPlaylist(), SLOT(appendProposedItem(FileHandle)));
+    }
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
@@ -675,7 +690,7 @@ void PlaylistBox::slotDoubleClicked(Q3ListViewItem *item)
     PlaylistItem *next = manager->nextItem(); // Allow manager to choose
 
     if(next) {
-        PlayerManager::instance()->play(next->file());
+        emit startFilePlayback(next->file());
         playlistItem->playlist()->setPlaying(next);
     }
     else

@@ -51,12 +51,9 @@ class PlayerManager : public QObject
 {
     Q_OBJECT
 
-protected:
+public:
     PlayerManager();
     virtual ~PlayerManager();
-
-public:
-    static PlayerManager *instance();
 
     bool playing() const;
     bool paused() const;
@@ -105,6 +102,7 @@ signals:
     void signalPlay();
     void signalPause();
     void signalStop();
+    void signalItemChanged(const FileHandle &file);
 
 private:
     void setup();
