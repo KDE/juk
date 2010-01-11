@@ -155,16 +155,7 @@ CacheDataStream &Tag::read(CacheDataStream &s)
     }
     }
 
-    // Try to reduce memory usage: share tags that frequently repeat, squeeze others
-
-    m_title.squeeze();
-    m_lengthString.squeeze();
-
-    m_comment = StringShare::tryShare(m_comment);
-    m_artist  = StringShare::tryShare(m_artist);
-    m_album   = StringShare::tryShare(m_album);
-    m_genre   = StringShare::tryShare(m_genre);
-
+    minimizeMemoryUsage();
     return s;
 }
 
@@ -213,7 +204,21 @@ void Tag::setup(TagLib::File *file)
         m_title = i > 0 ? m_fileName.mid(i + 1, j - i - 1) : m_fileName;
     }
 
+    minimizeMemoryUsage();
     m_isValid = true;
+}
+
+void Tag::minimizeMemoryUsage()
+{
+    // Try to reduce memory usage: share tags that frequently repeat, squeeze others
+
+    m_title.squeeze();
+    m_lengthString.squeeze();
+
+    m_comment = StringShare::tryShare(m_comment);
+    m_artist  = StringShare::tryShare(m_artist);
+    m_album   = StringShare::tryShare(m_album);
+    m_genre   = StringShare::tryShare(m_genre);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

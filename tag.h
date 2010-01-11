@@ -83,6 +83,7 @@ public:
 
 private:
     void setup(TagLib::File *file);
+    void minimizeMemoryUsage();
 
     QString m_fileName;
     QString m_title;
