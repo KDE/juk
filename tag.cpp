@@ -68,12 +68,12 @@ bool Tag::save()
     TagLib::ID3v2::FrameFactory::instance()->setDefaultTextEncoding(TagLib::String::UTF8);
     TagLib::File *file = MediaFiles::fileFactoryByType(m_fileName);
 
-    if(file && file->isValid() && file->tag() && !file->readOnly()) {
-        file->tag()->setTitle(TagLib::String(m_title.toUtf8().data(), TagLib::String::UTF8));
-        file->tag()->setArtist(TagLib::String(m_artist.toUtf8().data(), TagLib::String::UTF8));
-        file->tag()->setAlbum(TagLib::String(m_album.toUtf8().data(), TagLib::String::UTF8));
-        file->tag()->setGenre(TagLib::String(m_genre.toUtf8().data(), TagLib::String::UTF8));
-        file->tag()->setComment(TagLib::String(m_comment.toUtf8().data(), TagLib::String::UTF8));
+    if(file && !file->readOnly() && file->isValid() && file->tag()) {
+        file->tag()->setTitle(TagLib::String(m_title.toUtf8().constData(), TagLib::String::UTF8));
+        file->tag()->setArtist(TagLib::String(m_artist.toUtf8().constData(), TagLib::String::UTF8));
+        file->tag()->setAlbum(TagLib::String(m_album.toUtf8().constData(), TagLib::String::UTF8));
+        file->tag()->setGenre(TagLib::String(m_genre.toUtf8().constData(), TagLib::String::UTF8));
+        file->tag()->setComment(TagLib::String(m_comment.toUtf8().constData(), TagLib::String::UTF8));
         file->tag()->setTrack(m_track);
         file->tag()->setYear(m_year);
         result = file->save();
