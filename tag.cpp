@@ -185,6 +185,11 @@ Tag::Tag(const QString &fileName, bool) :
 
 void Tag::setup(TagLib::File *file)
 {
+    if(!file || !file->tag()) {
+        kWarning() << "Can't setup invalid file" << file->name();
+        return;
+    }
+
     m_title   = TStringToQString(file->tag()->title()).trimmed();
     m_artist  = TStringToQString(file->tag()->artist()).trimmed();
     m_album   = TStringToQString(file->tag()->album()).trimmed();
