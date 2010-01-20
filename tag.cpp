@@ -186,7 +186,7 @@ Tag::Tag(const QString &fileName, bool) :
 void Tag::setup(TagLib::File *file)
 {
     if(!file || !file->tag()) {
-        kWarning() << "Can't setup invalid file" << file->name();
+        kWarning() << "Can't setup invalid file" << m_fileName;
         return;
     }
 
