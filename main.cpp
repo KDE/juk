@@ -46,7 +46,7 @@ static const char laurent[]     = I18N_NOOP("Porting to KDE 4 when no one else w
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", 0, ki18n("JuK"),
-                         "3.4", ki18n(description), KAboutData::License_GPL,
+                         "3.4.1", ki18n(description), KAboutData::License_GPL,
                          ki18n("© 2002 - 2009, Scott Wheeler"), KLocalizedString(),
                          "http://developer.kde.org/~wheeler/juk.html");
 
@@ -85,11 +85,11 @@ int main(int argc, char *argv[])
 
     // Create the main window and such
 
-    JuK juk;
+    JuK *juk = new JuK;
 
     KConfigGroup config(KGlobal::config(), "Settings");
     if(!config.readEntry("StartDocked", false))
-        juk.show();
+        juk->show();
 
     return a.exec();
 }
