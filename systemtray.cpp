@@ -212,7 +212,7 @@ void SystemTray::slotPlay()
     if(!m_player->playing())
         return;
 
-    QPixmap cover = m_player->playingFile().coverInfo()->pixmap(CoverInfo::Thumbnail);
+    QPixmap cover = m_player->playingFile().coverInfo()->pixmap(CoverInfo::FullSize);
 
     setOverlayIconByName("media-playback-start");
     setToolTip(m_player->playingString(), cover);
@@ -477,9 +477,14 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
     if(tip.isEmpty())
         KStatusNotifierItem::setToolTip("juk", i18n("JuK"), QString());
     else {
-        QPixmap myCover = cover;
-        if(cover.isNull())
+        QPixmap myCover;
+        if(cover.isNull()) {
             myCover = DesktopIcon("juk");
+        } else {
+            //Scale to proper icon size, otherwise KStatusNotifierItem will show an unknown icon
+            int iconSize = KIconLoader::global()->currentSize(KIconLoader::Desktop);
+            myCover = cover.scaled(iconSize, iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+        }
 
         QString html = QString("%1").arg(tip);
         html.replace(" ", "&nbsp;");
