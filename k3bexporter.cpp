@@ -157,7 +157,7 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
         break;
 
     case DataCD:
-        cmdOption = "--datacd";
+        cmdOption = "--data";
         break;
 
     case Abort:
