@@ -451,8 +451,8 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
         QString errorMessage =
             i18nc(
               "%1 will be the /path/to/file, %2 will be some string from Phonon describing the error",
-              "JuK is unable to play the audio file <filename>%1</filename>"
-                "for the following reason: <message>%2</message>",
+              "JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>"
+                "for the following reason:<nl/><message>%2</message>",
               m_file.absFilePath(),
               mediaObject->errorString()
             );
