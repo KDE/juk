@@ -1,6 +1,10 @@
 [Global]
 IconName=juk
 Comment=Juk Music Player
+Comment[pt]=Leitor de Música
+Comment[pt_BR]=Reprodutor de música Juk
+Comment[uk]=Програвач музики JuK
+Comment[x-test]=xxJuk Music Playerxx
 Name=JuK
 Name[ar]=JuK
 Name[ast]=JuK
