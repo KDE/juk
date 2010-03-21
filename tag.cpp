@@ -52,7 +52,7 @@ Tag::Tag(const QString &fileName) :
     }
 
     TagLib::File *file = MediaFiles::fileFactoryByType(fileName);
-    if(file->isValid()) {
+    if(file && file->isValid()) {
         setup(file);
         delete file;
     }
