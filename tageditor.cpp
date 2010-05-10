@@ -41,7 +41,6 @@
 #include <QCheckBox>
 #include <QDir>
 #include <QValidator>
-#include <QToolTip>
 #include <QEventLoop>
 #include <QKeyEvent>
 #include <QHBoxLayout>
@@ -73,22 +72,6 @@ public:
         return Acceptable;
     }
 };
-
-#if 0 // Qt4 porting: this needs to be in the ::event() for m_fileNameBox (i.e. it needs a KLineEdit-derived class)
-class FileBoxToolTip : public QToolTip
-{
-public:
-    FileBoxToolTip(TagEditor *editor, QWidget *widget) :
-        QToolTip(widget), m_editor(editor) {}
-protected:
-    virtual void maybeTip(const QPoint &)
-    {
-        tip(parentWidget()->rect(), m_editor->items().first()->file().absFilePath());
-    }
-private:
-    TagEditor *m_editor;
-};
-#endif
 
 class FixedHLayout : public QHBoxLayout
 {
@@ -253,7 +236,7 @@ void TagEditor::slotRefresh()
     m_albumNameBox->setEditText(tag->album());
 
     m_fileNameBox->setText(item->file().fileInfo().fileName());
-    //// TODO: new FileBoxToolTip(this, m_fileNameBox);
+    m_fileNameBox->setToolTip(item->file().absFilePath());
 
     m_bitrateBox->setText(QString::number(tag->bitrate()));
     m_lengthBox->setText(tag->lengthString());
@@ -375,6 +358,7 @@ void TagEditor::slotClear()
     m_albumNameBox->lineEdit()->clear();
     m_genreBox->setCurrentIndex(0);
     m_fileNameBox->clear();
+    m_fileNameBox->setToolTip(QString());
     m_trackSpin->setValue(0);
     m_yearSpin->setValue(0);
     m_lengthBox->clear();
