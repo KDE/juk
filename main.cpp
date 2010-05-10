@@ -51,7 +51,7 @@ int main(int argc, char *argv[])
                          "http://developer.kde.org/~wheeler/juk.html");
 
     aboutData.addAuthor(ki18n("Scott Wheeler"), ki18n(scott), "wheeler@kde.org");
-    aboutData.addAuthor(ki18n("Michael Pyne"), ki18n(michael), "michael.pyne@kdemail.net");
+    aboutData.addAuthor(ki18n("Michael Pyne"), ki18n(michael), "mpyne@kde.org");
     aboutData.addCredit(ki18n("Daniel Molkentin"), ki18n(daniel), "molkentin@kde.org");
     aboutData.addCredit(ki18n("Tim Jansen"), ki18n(tim), "tim@tjansen.de");
     aboutData.addCredit(ki18n("Stefan Asserhäll"), ki18n(stefan), "stefan.asserhall@telia.com");
