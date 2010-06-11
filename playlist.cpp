@@ -19,6 +19,7 @@
 #include "playlist.h"
 #include "juk-exception.h"
 
+#include <q3header.h>
 #include <kconfig.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
@@ -390,7 +391,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     collection->setupPlaylist(this, iconName);
 }
 
-Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
+Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraColumns) :
     K3ListView(collection->playlistStack()),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
@@ -407,6 +408,10 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup) :
     m_toolTip(0),
     m_blockDataChanged(false)
 {
+    for(int i = 0; i < extraColumns; ++i) {
+        addColumn(i18n("JuK")); // Placeholder text!
+    }
+
     setup();
 
     if(!delaySetup)

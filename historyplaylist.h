@@ -56,9 +56,6 @@ public slots:
     void clear() {}
     void appendProposedItem(const FileHandle &file);
 
-protected:
-    virtual void polish();
-
 private slots:
     void slotCreateNewItem();
 
