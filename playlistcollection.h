@@ -35,6 +35,7 @@ class SearchPlaylist;
 class DynamicPlaylist;
 class PlaylistItem;
 class Playlist;
+class PlayerManager;
 
 template<class T>
 class QList;
@@ -49,7 +50,7 @@ class PlaylistCollection : public PlaylistInterface
     friend class DynamicPlaylist;
 
 public:
-    PlaylistCollection(QStackedWidget *playlistStack);
+    PlaylistCollection(PlayerManager *player, QStackedWidget *playlistStack);
     virtual ~PlaylistCollection();
 
     static PlaylistCollection *instance() { return m_instance; }
@@ -188,6 +189,7 @@ private:
     HistoryPlaylist  *m_historyPlaylist;
     UpcomingPlaylist *m_upcomingPlaylist;
     ActionHandler    *m_actionHandler;
+    PlayerManager    *m_playerManager;
 
     KDirLister  m_dirLister;
     StringHash  m_playlistNames;

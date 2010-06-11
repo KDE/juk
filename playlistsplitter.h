@@ -58,8 +58,6 @@ signals:
      */
     void guiReady();
 
-    void playingItemChanged(const FileHandle &file);
-
 public slots:
     virtual void setFocus();
     virtual void slotFocusCurrentPlaylist();

@@ -29,13 +29,16 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 HistoryPlaylist::HistoryPlaylist(PlaylistCollection *collection) :
-    Playlist(collection, true),
+    Playlist(collection, true, 1),
     m_timer(new QTimer(this))
 {
     setAllowDuplicates(true);
 
     m_timer->setSingleShot(true);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(slotCreateNewItem()));
+
+    setSorting(-1);
+    setColumnText(0, i18n("Time"));
 }
 
 HistoryPlaylist::~HistoryPlaylist()
@@ -54,17 +57,6 @@ HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file,
 void HistoryPlaylist::createItems(const PlaylistItemList &siblings)
 {
     Playlist::createItems<HistoryPlaylistItem, PlaylistItem>(siblings);
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// HistoryPlaylist protected members
-////////////////////////////////////////////////////////////////////////////////
-
-void HistoryPlaylist::polish()
-{
-    addColumn(i18n("Time"));
-    Playlist::ensurePolished();
-    setSorting(-1);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

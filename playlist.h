@@ -65,8 +65,13 @@ public:
      * This constructor should generally only be used either by the cache
      * restoration methods or by subclasses that want to handle calls to
      * PlaylistCollection::setupPlaylist() differently.
+     *
+     * @param extraColumns is used to preallocate columns for subclasses that
+     * need them (since extra columns are assumed to start from 0). extraColumns
+     * should be equal to columnOffset() (we can't use columnOffset until the
+     * ctor has run).
      */
-    Playlist(PlaylistCollection *collection, bool delaySetup);
+    Playlist(PlaylistCollection *collection, bool delaySetup, int extraColumns = 0);
 
     virtual ~Playlist();
 

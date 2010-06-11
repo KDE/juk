@@ -68,10 +68,11 @@ PlaylistCollection *PlaylistCollection::m_instance = 0;
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistCollection::PlaylistCollection(QStackedWidget *playlistStack) :
+PlaylistCollection::PlaylistCollection(PlayerManager *player, QStackedWidget *playlistStack) :
     m_playlistStack(playlistStack),
     m_historyPlaylist(0),
     m_upcomingPlaylist(0),
+    m_playerManager(player),
     m_importPlaylists(true),
     m_searchEnabled(true),
     m_playing(false),
@@ -556,6 +557,9 @@ void PlaylistCollection::setHistoryPlaylistEnabled(bool enable)
         m_historyPlaylist = new HistoryPlaylist(this);
         m_historyPlaylist->setName(i18n("History"));
         setupPlaylist(m_historyPlaylist, "view-history");
+
+        QObject::connect(m_playerManager, SIGNAL(signalItemChanged(FileHandle)),
+                historyPlaylist(), SLOT(appendProposedItem(FileHandle)));
     }
     else {
         delete m_historyPlaylist;
