@@ -48,7 +48,7 @@ public:
 
     friend class Item;
 
-    PlaylistBox(QWidget *parent, QStackedWidget *playlistStack);
+    PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget *playlistStack);
     virtual ~PlaylistBox();
 
     virtual void raise(Playlist *playlist);

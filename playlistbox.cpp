@@ -62,9 +62,9 @@ using namespace ActionCollection;
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(QWidget *parent, QStackedWidget *playlistStack) :
+PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget *playlistStack) :
     K3ListView(parent),
-    PlaylistCollection(playlistStack),
+    PlaylistCollection(player, playlistStack),
     m_viewModeIndex(0),
     m_hasSelection(false),
     m_doingMultiSelect(false),
@@ -253,10 +253,6 @@ void PlaylistBox::slotPlaylistDataChanged()
 void PlaylistBox::slotSetHistoryPlaylistEnabled(bool enable)
 {
     setHistoryPlaylistEnabled(enable);
-    if(enable) {
-        connect(this, SIGNAL(playingItemChanged(FileHandle)),
-                historyPlaylist(), SLOT(appendProposedItem(FileHandle)));
-    }
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
