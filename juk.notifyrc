@@ -1,6 +1,7 @@
 [Global]
 IconName=juk
 Comment=Juk Music Player
+Comment[bg]=Музикален плеър Juk
 Comment[ca]=Reproductor musical Juk
 Comment[ca@valencia]=Reproductor musical Juk
 Comment[cs]=Přehrávač hudby Juk
