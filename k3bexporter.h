@@ -16,11 +16,35 @@
 #ifndef K3BEXPORTER_H
 #define K3BEXPORTER_H
 
+#include <kaction.h>
+
 #include "playlistexporter.h"
 #include "playlistitem.h"
 
 class PlaylistBox;
-class PlaylistAction;
+
+class PlaylistAction : public KAction
+{
+    Q_OBJECT
+    
+public:
+    PlaylistAction(const QString &userText, const QIcon &pix, const char *slot, const KShortcut &cut = KShortcut());
+
+    typedef QMap<const Playlist *, QObject *> PlaylistRecipientMap;
+
+    /**
+     * Defines a QObject to call (using the m_slot SLOT) when an action is
+     * emitted from a Playlist.
+     */
+    void addCallMapping(const Playlist *p, QObject *obj);
+
+    protected slots:
+    void slotActivated();
+
+    private:
+    QByteArray m_slot;
+    PlaylistRecipientMap m_playlistRecipient;
+};
 
 /**
  * Class that will export the selected items of a playlist to K3b.
@@ -53,11 +77,6 @@ private:
 
     // Private method declarations
     void exportViaCmdLine(const PlaylistItemList &items);
-#if 0
-    void exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref);
-    void DCOPErrorMessage();
-    bool startNewK3bProject(DCOPRef &ref);
-#endif
     K3bOpenMode openMode();
 
     // Private member variable declarations

@@ -44,55 +44,41 @@ PlaylistAction *K3bExporter::m_action = 0;
 // instance of this action for many playlists.
 //
 // This is used to handle some actions in the Playlist context menu.
-class PlaylistAction : public KAction
+
+PlaylistAction::PlaylistAction(const QString &userText,
+                const QIcon &pix,
+                const char *slot,
+                const KShortcut &cut) :
+    KAction(userText, actions()),
+    m_slot(slot)
 {
-    public:
-    PlaylistAction(const QString &userText,
-                   const QIcon &pix,
-                   const char *slot,
-                   const KShortcut &cut = KShortcut()) :
-        KAction(userText, actions()),
-        m_slot(slot)
-    {
-	setShortcut(cut);
-	QAction::setIcon(pix);
-    }
+    setShortcut(cut);
+    QAction::setIcon(pix);
+    connect(this, SIGNAL(triggered()), this, SLOT(slotActivated()));
+}
 
-    typedef QMap<const Playlist *, QObject *> PlaylistRecipientMap;
+/**
+ * Defines a QObject to call (using the m_slot SLOT) when an action is
+ * emitted from a Playlist.
+ */
+void PlaylistAction::addCallMapping(const Playlist *p, QObject *obj)
+{
+    m_playlistRecipient[p] = obj;
+}
 
-    /**
-     * Defines a QObject to call (using the m_slot SLOT) when an action is
-     * emitted from a Playlist.
-     */
-    void addCallMapping(const Playlist *p, QObject *obj)
-    {
-        m_playlistRecipient[p] = obj;
-    }
-
-    protected slots:
-    void slotActivated()
-    {
-        // Determine current playlist, and call its slot.
-        Playlist *p = PlaylistCollection::instance()->visiblePlaylist();
-        if(!p)
-            return;
-
-        // Make sure we're supposed to notify someone about this playlist.
-        QObject *recipient = m_playlistRecipient[p];
-        if(!recipient)
-            return;
-
-        // Invoke the slot using some trickery.
-        // XXX: Use the QMetaObject to do this in Qt 4.
-        connect(this, SIGNAL(activated()), recipient, m_slot);
-        emit(QAction::triggered());
-        disconnect(this, SIGNAL(activated()), recipient, m_slot);
-    }
-
-    private:
-    QByteArray m_slot;
-    PlaylistRecipientMap m_playlistRecipient;
-};
+void PlaylistAction::slotActivated()
+{
+    // Determine current playlist, and call its slot.
+    Playlist *p = PlaylistCollection::instance()->visiblePlaylist();
+    if(!p)
+        return;
+    // Make sure we're supposed to notify someone about this playlist.
+    QObject *recipient = m_playlistRecipient[p];
+    if(!recipient)
+        return;
+    // Invoke the slot using some trickery.
+    recipient->metaObject()->invokeMethod(recipient, m_slot);
+}
 
 K3bExporter::K3bExporter(Playlist *parent) : PlaylistExporter(parent), m_parent(parent)
 {
@@ -104,18 +90,15 @@ KAction *K3bExporter::action()
         m_action = new PlaylistAction(
             i18n("Add Selected Items to Audio or Data CD"),
             KIcon("k3b"),
-            SLOT(slotExport())
+            "slotExport"
         );
-
         m_action->setShortcutConfigurable(false);
     }
-
     // Tell the action to let us know when it is activated when
     // m_parent is the visible playlist.  This allows us to reuse the
     // action to avoid duplicate entries in KActionCollection.
     if(m_action)
         m_action->addCallMapping(m_parent, this);
-
     return m_action;
 }
 
@@ -123,21 +106,7 @@ void K3bExporter::exportPlaylistItems(const PlaylistItemList &items)
 {
     if(items.empty())
         return;
-#ifdef __GNUC__
-#warning "kde4: port it when k3b will port"
-#endif
-#if 0
-    DCOPClient *client = DCOPClient::mainClient();
-    DCOPCString appId, appObj;
-    QByteArray data;
-
-    if(!client->findObject("k3b-*", "K3bInterface", "", data, appId, appObj))
-        exportViaCmdLine(items);
-    else {
-        DCOPRef ref(appId, appObj);
-        exportViaDCOP(items, ref);
-    }
-#endif
+    exportViaCmdLine(items);
 }
 
 void K3bExporter::slotExport()
@@ -177,67 +146,6 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
         KMessageBox::error(m_parent, i18n("Unable to start K3b."));
 }
 
-#if 0
-void K3bExporter::exportViaDCOP(const PlaylistItemList &items, DCOPRef &ref)
-{
-    Q3ValueList<DCOPRef> projectList;
-    DCOPReply projectListReply = ref.call("projects()");
-
-    if(!projectListReply.get<Q3ValueList<DCOPRef> >(projectList, "QValueList<DCOPRef>")) {
-        DCOPErrorMessage();
-        return;
-    }
-
-    if(projectList.count() == 0 && !startNewK3bProject(ref))
-        return;
-
-    KUrl::List urlList;
-    PlaylistItemList::ConstIterator it;
-
-    for(it = items.begin(); it != items.end(); ++it) {
-        KUrl item;
-
-        item.setPath((*it)->file().absFilePath());
-        urlList.append(item);
-    }
-
-    if(!ref.send("addUrls(KUrl::List)", DCOPArg(urlList, "KUrl::List"))) {
-        DCOPErrorMessage();
-        return;
-    }
-}
-
-void K3bExporter::DCOPErrorMessage()
-{
-    KMessageBox::error(m_parent, i18n("There was a DCOP communication error with K3b."));
-}
-
-bool K3bExporter::startNewK3bProject(DCOPRef &ref)
-{
-    Q3CString request;
-    K3bOpenMode mode = openMode();
-
-    switch(mode) {
-    case AudioCD:
-        request = "createAudioCDProject()";
-        break;
-
-    case DataCD:
-        request = "createDataCDProject()";
-        break;
-
-    case Abort:
-        return false;
-    }
-
-    if(!ref.send(request)) {
-        DCOPErrorMessage();
-        return false;
-    }
-
-    return true;
-}
-#endif
 K3bExporter::K3bOpenMode K3bExporter::openMode()
 {
     int reply = KMessageBox::questionYesNoCancel(
