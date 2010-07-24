@@ -486,9 +486,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
             myCover = cover.scaled(iconSize, iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
         }
 
-        QString html = QString("%1").arg(tip);
-        html.replace(" ", "&nbsp;");
-        KStatusNotifierItem::setToolTip(QIcon(myCover), i18n("JuK"), html);
+        KStatusNotifierItem::setToolTip(QIcon(myCover), i18n("JuK"), tip);
     }
 }
 
