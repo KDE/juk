@@ -94,7 +94,7 @@ QString Tag::playingString() const
         str = title();
     else {
         str = i18nc("a playing track, %1 is artist, %2 is song title",
-                    "%1 - %2", artist(), title());
+                    "%1 - <i>%2</i>", artist(), title());
     }
 
     return str;
