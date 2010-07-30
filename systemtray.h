@@ -65,11 +65,14 @@ public slots:
 signals:
     void mouseEntered();
     void timeExpired();
+    void previousSong();
+    void nextSong();
 
 protected:
     virtual void enterEvent(QEvent *);
     virtual void leaveEvent(QEvent *);
     virtual void hideEvent(QHideEvent *);
+    virtual void wheelEvent(QWheelEvent *);
 
 private:
     // Move us near the required position.

@@ -31,6 +31,7 @@
 #include <kwindowsystem.h>
 
 #include <QTimer>
+#include <QWheelEvent>
 #include <QColor>
 #include <QPushButton>
 #include <QPalette>
@@ -115,6 +116,18 @@ void PassiveInfo::leaveEvent(QEvent *)
 
 void PassiveInfo::hideEvent(QHideEvent *)
 {
+}
+
+void PassiveInfo::wheelEvent(QWheelEvent *e)
+{
+    if(e->delta() >= 0) {
+        emit nextSong();
+    }
+    else {
+        emit previousSong();
+    }
+
+    e->accept();
 }
 
 void PassiveInfo::positionSelf()
@@ -364,6 +377,8 @@ void SystemTray::createPopup()
     m_popup = new PassiveInfo(this);
     connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
     connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
+    connect(m_popup, SIGNAL(nextSong()), SLOT(slotForward()));
+    connect(m_popup, SIGNAL(previousSong()), SLOT(slotBack()));
 
     KHBox *box = new KHBox(m_popup);
     box->setSpacing(15); // Add space between text and buttons
