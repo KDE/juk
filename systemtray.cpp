@@ -50,7 +50,7 @@ using namespace ActionCollection;
 
 PassiveInfo::PassiveInfo(SystemTray *parent) :
     QFrame(static_cast<QWidget *>(0),
-        Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
+        Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
     ),
     m_icon(parent),
     m_timer(new QTimer(this)),
