@@ -51,7 +51,7 @@ using namespace ActionCollection;
 
 PassiveInfo::PassiveInfo(SystemTray *parent) :
     QFrame(static_cast<QWidget *>(0),
-        Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
+        Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
     ),
     m_icon(parent),
     m_timer(new QTimer(this)),
@@ -61,9 +61,7 @@ PassiveInfo::PassiveInfo(SystemTray *parent) :
 {
     connect(m_timer, SIGNAL(timeout()), SLOT(timerExpired()));
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
-    setAutoFillBackground(true);
 
-    // I'd like StyledPanel but it doesn't work in the default KDE style...
     setFrameStyle(StyledPanel | Plain);
     setLineWidth(2);
 }
