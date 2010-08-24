@@ -46,7 +46,7 @@ static const char laurent[]     = I18N_NOOP("Porting to KDE 4 when no one else w
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", 0, ki18n("JuK"),
-                         "3.5.1", ki18n(description), KAboutData::License_GPL,
+                         "3.5", ki18n(description), KAboutData::License_GPL,
                          ki18n("© 2002 - 2010, Scott Wheeler"), KLocalizedString(),
                          "http://developer.kde.org/~wheeler/juk.html");
 
