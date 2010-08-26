@@ -62,6 +62,9 @@ PassiveInfo::PassiveInfo(SystemTray *parent) :
     connect(m_timer, SIGNAL(timeout()), SLOT(timerExpired()));
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
+    // Workaround transparent background in Oxygen when (ab-)using Qt::ToolTip
+    setAutoFillBackground(true);
+
     setFrameStyle(StyledPanel | Plain);
     setLineWidth(2);
 }
