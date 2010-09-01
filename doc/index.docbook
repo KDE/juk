@@ -708,8 +708,8 @@ file name. Each string may contain one of the following placeholders:</para>
 
 <para><itemizedlist>
 <listitem><para>%t: Title</para></listitem>
-<listitem><para>%a: Album</para></listitem>
-<listitem><para>%A: Artist</para></listitem>
+<listitem><para>%A: Album</para></listitem>
+<listitem><para>%a: Artist</para></listitem>
 <listitem><para>%T: Track</para></listitem>
 <listitem><para>%c: Comment</para></listitem>
 </itemizedlist>
