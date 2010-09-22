@@ -126,7 +126,7 @@ bool TagTransactionManager::undo()
 
 TagTransactionManager::TagTransactionManager(QWidget *parent) : QObject(parent)
 {
-    setObjectName("tagmanager");
+    setObjectName( QLatin1String("tagmanager" ));
     m_manager = this;
 }
 

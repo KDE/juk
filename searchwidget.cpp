@@ -53,7 +53,7 @@ SearchLine::SearchLine(QWidget *parent, bool simple)
     if(!m_simple) {
         m_searchFieldsBox = new KComboBox(this);
         layout->addWidget(m_searchFieldsBox);
-        m_searchFieldsBox->setObjectName( "searchFields" );
+        m_searchFieldsBox->setObjectName( QLatin1String( "searchFields" ) );
         connect(m_searchFieldsBox, SIGNAL(activated(int)),
                 this, SIGNAL(signalQueryChanged()));
     }

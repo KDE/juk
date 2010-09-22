@@ -41,7 +41,7 @@ WebImageFetcherDialog::WebImageFetcherDialog(const WebImageList &imageList,
     m_imageList(imageList),
     m_file(file)
 {
-    setObjectName("internet_image_fetcher");
+    setObjectName( QLatin1String("internet_image_fetcher" ));
     setModal(true);
     setButtons(Ok | Cancel | User1);
     setDefaultButton(NoDefault);

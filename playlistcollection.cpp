@@ -841,7 +841,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     QObject(0),
     m_collection(collection)
 {
-    setObjectName("ActionHandler");
+    setObjectName( QLatin1String("ActionHandler" ));
 
     KActionMenu *menu;
 

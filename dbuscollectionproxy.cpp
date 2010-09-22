@@ -32,7 +32,7 @@
 DBusCollectionProxy::DBusCollectionProxy (QObject *parent, PlaylistCollection *collection) :
     QObject(parent), m_collection(collection)
 {
-    setObjectName("DBusCollectionProxy");
+    setObjectName( QLatin1String("DBusCollectionProxy" ));
 
     new CollectionAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/Collection",this);

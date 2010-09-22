@@ -151,7 +151,7 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
     if(parent) {
         QWidget *base = new QWidget(parent);
         base->setBackgroundRole(parent->backgroundRole());
-        base->setObjectName("kde toolbar widget");
+        base->setObjectName( QLatin1String("kde toolbar widget" ));
 
         KToolBar *toolBar = dynamic_cast<KToolBar *>(parent);
 
@@ -170,7 +170,7 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
         m_layout->addItem(new QSpacerItem(20, 1));
 
         m_trackPositionSlider = new Phonon::SeekSlider(base);
-        m_trackPositionSlider->setObjectName("trackPositionSlider");
+        m_trackPositionSlider->setObjectName( QLatin1String("trackPositionSlider" ));
         m_trackPositionSlider->setOrientation(orientation);
         //m_trackPositionSlider->setToolTip( i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
@@ -180,13 +180,13 @@ QWidget *SliderAction::createToolBarWidget( QToolBar * parent )
         m_layout->addItem(new QSpacerItem(10, 1));
 
         m_volumeSlider = new VolumeSlider(orientation, base);
-        m_volumeSlider->setObjectName("volumeSlider");
+        m_volumeSlider->setObjectName( QLatin1String("volumeSlider" ));
         m_layout->addWidget(m_volumeSlider);
         connect(parent, SIGNAL(iconSizeChanged(QSize)), m_volumeSlider,
                 SLOT(setIconSize(QSize)));
 
-        m_volumeSlider->setObjectName("kde toolbar widget");
-        m_trackPositionSlider->setObjectName("kde toolbar widget");
+        m_volumeSlider->setObjectName( QLatin1String("kde toolbar widget" ));
+        m_trackPositionSlider->setObjectName( QLatin1String("kde toolbar widget" ));
 
         m_layout->setStretchFactor(m_trackPositionSlider, 4);
         m_layout->setStretchFactor(m_volumeSlider, 1);
@@ -232,7 +232,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
     if(parent) {
         QWidget *base = new QWidget(parent);
         base->setBackgroundRole(parent->backgroundRole());
-        base->setObjectName("kde toolbar widget");
+        base->setObjectName( QLatin1String("kde toolbar widget" ));
 
         KToolBar *toolBar = dynamic_cast<KToolBar *>(parent);
 
@@ -253,7 +253,7 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         m_layout->addItem(new QSpacerItem(20, 1));
 
         m_trackPositionSlider = new Phonon::SeekSlider(base);
-        m_trackPositionSlider->setObjectName("trackPositionSlider");
+        m_trackPositionSlider->setObjectName( QLatin1String("trackPositionSlider" ));
         //m_trackPositionSlider->setToolTip( i18n("Track position"));
         m_layout->addWidget(m_trackPositionSlider);
         connect(parent, SIGNAL(iconSizeChanged(QSize)), m_trackPositionSlider,
@@ -262,13 +262,13 @@ QWidget *SliderAction::createWidget(QWidget *parent) // virtual -- used by base 
         m_layout->addItem(new QSpacerItem(10, 1));
 
         m_volumeSlider = new VolumeSlider(orientation, base);
-        m_volumeSlider->setObjectName("volumeSlider");
+        m_volumeSlider->setObjectName( QLatin1String("volumeSlider" ));
         m_layout->addWidget(m_volumeSlider);
         connect(parent, SIGNAL(iconSizeChanged(QSize)), m_volumeSlider,
                 SLOT(setIconSize(QSize)));
 
-        m_volumeSlider->setObjectName("kde toolbar widget");
-        m_trackPositionSlider->setObjectName("kde toolbar widget");
+        m_volumeSlider->setObjectName( QLatin1String("kde toolbar widget" ));
+        m_trackPositionSlider->setObjectName( QLatin1String("kde toolbar widget" ));
 
         m_layout->setStretchFactor(m_trackPositionSlider, 4);
         m_layout->setStretchFactor(m_volumeSlider, 1);

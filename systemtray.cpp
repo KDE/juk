@@ -202,7 +202,7 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     cm->addAction( action("togglePopups") );
 
     m_fadeTimer = new QTimer(this);
-    m_fadeTimer->setObjectName("systrayFadeTimer");
+    m_fadeTimer->setObjectName( QLatin1String("systrayFadeTimer" ));
     connect(m_fadeTimer, SIGNAL(timeout()), SLOT(slotNextStep()));
 
     // Handle wheel events
@@ -424,11 +424,11 @@ void SystemTray::createButtonBox(QWidget *parent)
     buttonBox->setSpacing(3);
 
     QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox);
-    forwardButton->setObjectName("popup_forward");
+    forwardButton->setObjectName( QLatin1String("popup_forward" ));
     connect(forwardButton, SIGNAL(clicked()), SLOT(slotForward()));
 
     QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox);
-    backButton->setObjectName("popup_back");
+    backButton->setObjectName( QLatin1String("popup_back" ));
     connect(backButton, SIGNAL(clicked()), SLOT(slotBack()));
 }
 

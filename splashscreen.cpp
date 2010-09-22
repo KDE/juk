@@ -74,7 +74,7 @@ void SplashScreen::update()
 
 SplashScreen::SplashScreen() : QLabel(0, Qt::WStyle_Splash)
 {
-    setObjectName("splashScreen");
+    setObjectName( QLatin1String("splashScreen" ));
 
     QPixmap background = UserIcon("splash");
     resize(background.size());

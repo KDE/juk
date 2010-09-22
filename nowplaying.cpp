@@ -68,7 +68,7 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
     m_collectionListObserver(this, CollectionList::instance()),
     m_collection(collection)
 {
-    setObjectName("NowPlaying");
+    setObjectName( QLatin1String("NowPlaying" ));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     setLayout(layout);
@@ -124,7 +124,7 @@ CoverItem::CoverItem(NowPlaying *parent) :
     QLabel(parent),
     NowPlayingItem(parent)
 {
-    setObjectName("CoverItem");
+    setObjectName( QLatin1String("CoverItem" ));
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setMargin(1);
     setAcceptDrops(true);
@@ -241,7 +241,7 @@ TrackItem::TrackItem(NowPlaying *parent) :
     QWidget(parent),
     NowPlayingItem(parent)
 {
-    setObjectName("TrackItem");
+    setObjectName( QLatin1String("TrackItem" ));
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 

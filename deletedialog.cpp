@@ -35,7 +35,7 @@ DeleteWidget::DeleteWidget(QWidget *parent)
 {
     m_ui->setupUi(this);
 
-    setObjectName("delete_dialog_widget");
+    setObjectName( QLatin1String("delete_dialog_widget" ));
 
     KConfigGroup messageGroup(KGlobal::config()->group("FileRemover"));
 
@@ -82,7 +82,7 @@ DeleteDialog::DeleteDialog(QWidget *parent) :
     KDialog(parent, Qt::WStyle_DialogBorder),
     m_trashGuiItem(i18n("&Send to Trash"), "user-trash-full")
 {
-    setObjectName("delete_dialog");
+    setObjectName( QLatin1String("delete_dialog" ));
     setModal(true);
     setCaption(i18n("About to delete selected files"));
     setButtons(Ok | Cancel);

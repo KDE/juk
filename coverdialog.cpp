@@ -65,7 +65,7 @@ CoverDialog::CoverDialog(QWidget *parent) :
 {
     setupUi(this);
 
-    setObjectName("juk_cover_dialog");
+    setObjectName( QLatin1String("juk_cover_dialog" ));
 
     m_covers->setResizeMode(Q3IconView::Adjust);
     m_covers->setGridX(140);

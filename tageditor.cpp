@@ -513,21 +513,21 @@ void TagEditor::setupLayout()
     { // just for organization
 
         m_artistNameBox = new KComboBox( true, this );
-        m_artistNameBox->setObjectName( "artistNameBox" );
+        m_artistNameBox->setObjectName( QLatin1String( "artistNameBox" ) );
         m_artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
         addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout, "view-media-artist");
 
         m_trackNameBox = new KLineEdit(this);
-        m_trackNameBox->setObjectName( "trackNameBox" );
+        m_trackNameBox->setObjectName( QLatin1String( "trackNameBox" ) );
         addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout, "media-playback-start");
 
         m_albumNameBox = new KComboBox( true, this );
-        m_albumNameBox->setObjectName( "albumNameBox" );
+        m_albumNameBox->setObjectName( QLatin1String( "albumNameBox" ) );
         m_albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
         addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout, "media-optical-audio");
 
         m_genreBox = new KComboBox( true, this );
-        m_genreBox->setObjectName( "genreBox" );
+        m_genreBox->setObjectName( QLatin1String( "genreBox" ) );
         addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout, "help-about");
 
         // this fills the space at the bottem of the left column
@@ -544,7 +544,7 @@ void TagEditor::setupLayout()
         fileNameLayout->setSpacing(horizontalSpacing);
 
         m_fileNameBox = new KLineEdit(this);
-        m_fileNameBox->setObjectName( "fileNameBox" );
+        m_fileNameBox->setObjectName( QLatin1String( "fileNameBox" ) );
         m_fileNameBox->setValidator(new FileNameValidator(m_fileNameBox));
 
         QLabel *fileNameIcon = new QLabel(this);
@@ -565,12 +565,12 @@ void TagEditor::setupLayout()
                                                             horizontalSpacing);
 
             m_trackSpin = new KIntSpinBox(0, 9999, 1, 0, this);
-            m_trackSpin->setObjectName( "trackSpin" );
+            m_trackSpin->setObjectName( QLatin1String( "trackSpin" ) );
             addItem(i18nc("cd track number", "T&rack:"), m_trackSpin, trackRowLayout);
             m_trackSpin->installEventFilter(this);
 
             m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, this );
-            m_yearSpin->setObjectName( "yearSpin" );
+            m_yearSpin->setObjectName( QLatin1String( "yearSpin" ) );
             addItem(i18n("&Year:"), m_yearSpin, trackRowLayout);
             m_yearSpin->installEventFilter(this);
 
@@ -584,7 +584,7 @@ void TagEditor::setupLayout()
                                                             horizontalSpacing);
 
             m_lengthBox = new KLineEdit(this);
-            m_lengthBox->setObjectName( "lengthBox" );
+            m_lengthBox->setObjectName( QLatin1String( "lengthBox" ) );
             // addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
             m_lengthBox->setMinimumWidth(fontMetrics().width("00:00") + trackRowLayout->spacing());
             m_lengthBox->setMaximumWidth(60);
@@ -593,7 +593,7 @@ void TagEditor::setupLayout()
             addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
 
             m_bitrateBox = new KLineEdit(this);
-            m_bitrateBox->setObjectName( "bitrateBox" );
+            m_bitrateBox->setObjectName( QLatin1String( "bitrateBox" ) );
             // addItem(i18n("Bitrate:"), m_bitrateBox, trackRowLayout);
             m_bitrateBox->setMinimumWidth(fontMetrics().width("000") + trackRowLayout->spacing());
             m_bitrateBox->setMaximumWidth(60);
@@ -608,7 +608,7 @@ void TagEditor::setupLayout()
         }
 
         m_commentBox = new KTextEdit(this);
-        m_commentBox->setObjectName( "commentBox" );
+        m_commentBox->setObjectName( QLatin1String( "commentBox" ) );
         addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "document-properties");
         fileNameLabel->setMinimumHeight(m_trackSpin->height());
 

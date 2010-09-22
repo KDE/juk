@@ -23,7 +23,7 @@ FileRenamerConfigDlg::FileRenamerConfigDlg(QWidget *parent) :
     KDialog(parent),
     m_renamerWidget(new FileRenamerWidget(this))
 {
-    setObjectName("file renamer dialog");
+    setObjectName( QLatin1String("file renamer dialog" ));
     setModal(true);
     setCaption(i18n("File Renamer Options"));
     setButtons(Ok | Cancel);

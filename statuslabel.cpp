@@ -53,7 +53,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
     QHBoxLayout *trackAndPlaylistLayout = new QHBoxLayout( trackAndPlaylist );
     trackAndPlaylistLayout->setMargin( trackAndPlaylist->lineWidth() * 2 );
     trackAndPlaylistLayout->setSpacing( 5 );
-    trackAndPlaylistLayout->setObjectName( "trackAndPlaylistLayout");
+    trackAndPlaylistLayout->setObjectName( QLatin1String( "trackAndPlaylistLayout" ));
     trackAndPlaylistLayout->addSpacing(5);
 
     m_playlistLabel = new KSqueezedTextLabel(trackAndPlaylist);

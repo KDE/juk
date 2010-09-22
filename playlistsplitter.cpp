@@ -166,7 +166,7 @@ void PlaylistSplitter::setupLayout()
     // Create a splitter to go between the playlists and the editor.
 
     QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this);
-    editorSplitter->setObjectName("editorSplitter");
+    editorSplitter->setObjectName( QLatin1String("editorSplitter" ));
 
     // Create the playlist and the editor.
 
@@ -176,13 +176,13 @@ void PlaylistSplitter::setupLayout()
     topLayout->setSpacing(0);
 
     m_playlistStack = new QStackedWidget(top);
-    m_playlistStack->setObjectName("playlistStack");
+    m_playlistStack->setObjectName( QLatin1String("playlistStack" ));
     m_playlistStack->installEventFilter(this);
     m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_playlistStack->hide(); // Will be shown after CollectionList filled.
 
     m_editor = new TagEditor(editorSplitter);
-    m_editor->setObjectName("TagEditor");
+    m_editor->setObjectName( QLatin1String("TagEditor" ));
 
     // Make the editor as small as possible (or at least as small as recommended)
 
@@ -192,7 +192,7 @@ void PlaylistSplitter::setupLayout()
     // Create the PlaylistBox
 
     m_playlistBox = new PlaylistBox(m_player, this, m_playlistStack);
-    m_playlistBox->setObjectName( "playlistBox" );
+    m_playlistBox->setObjectName( QLatin1String( "playlistBox" ) );
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));

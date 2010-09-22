@@ -317,7 +317,7 @@ void JuK::slotSetupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
         m_systemTray = new SystemTray(m_player, this);
-        m_systemTray->setObjectName("systemTray");
+        m_systemTray->setObjectName( QLatin1String("systemTray" ));
 
         m_toggleDockOnCloseAction->setEnabled(true);
         m_togglePopupsAction->setEnabled(true);

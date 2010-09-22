@@ -27,7 +27,7 @@ ExampleOptions::ExampleOptions(QWidget *parent) :
 {
     setupUi(this);
 
-    setObjectName("example options widget");
+    setObjectName( QLatin1String("example options widget" ));
 }
 
 void ExampleOptions::exampleSelectionChanged()
@@ -51,7 +51,7 @@ void ExampleOptions::exampleFileChanged()
 ExampleOptionsDialog::ExampleOptionsDialog(QWidget *parent) :
     QDialog(parent)
 {
-    setObjectName("example options dialog");
+    setObjectName( QLatin1String("example options dialog" ));
     setWindowTitle(i18n("JuK"));
     QVBoxLayout *l = new QVBoxLayout(this);
 

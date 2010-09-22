@@ -492,13 +492,13 @@ void FileRenamerWidget::createTagRows()
     m_folderSwitches.reserve(categoryOrder.count() - 1);
 
     mapper       = new QSignalMapper(this);
-    mapper->setObjectName("signal mapper");
+    mapper->setObjectName( QLatin1String("signal mapper" ));
     toggleMapper = new QSignalMapper(this);
-    toggleMapper->setObjectName("toggle mapper");
+    toggleMapper->setObjectName( QLatin1String("toggle mapper" ));
     upMapper     = new QSignalMapper(this);
-    upMapper->setObjectName("up button mapper");
+    upMapper->setObjectName( QLatin1String("up button mapper" ));
     downMapper   = new QSignalMapper(this);
-    downMapper->setObjectName("down button mapper");
+    downMapper->setObjectName( QLatin1String("down button mapper" ));
 
     connect(mapper,       SIGNAL(mapped(int)), SLOT(showCategoryOption(int)));
     connect(toggleMapper, SIGNAL(mapped(int)), SLOT(slotRemoveRow(int)));
