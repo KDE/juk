@@ -61,7 +61,7 @@ public:
                        QWidget *parent = 0, const char *name = 0)
         : KDialog(parent)
     {
-        setObjectName(name);
+        setObjectName( QLatin1String( name ) );
         setModal(true);
         setCaption(i18nc("warning about mass file rename", "Warning"));
         setButtons(Ok | Cancel);

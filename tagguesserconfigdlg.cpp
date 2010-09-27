@@ -21,7 +21,7 @@
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     : KDialog(parent)
 {
-    setObjectName(name);
+    setObjectName( QLatin1String( name ) );
     setModal(true);
     setCaption(i18n("Tag Guesser Configuration"));
     setButtons(Ok | Cancel);
@@ -31,8 +31,8 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     m_child = new TagGuesserConfigDlgWidget(this);
     setMainWidget(m_child);
 
-    m_child->bMoveUp->setIcon(KIcon("arrow-up"));
-    m_child->bMoveDown->setIcon(KIcon("arrow-down"));
+    m_child->bMoveUp->setIcon(KIcon( QLatin1String( "arrow-up" )));
+    m_child->bMoveDown->setIcon(KIcon( QLatin1String( "arrow-down" )));
 
     m_tagSchemeModel = new QStringListModel(m_child->lvSchemes);
     m_child->lvSchemes->setModel(m_tagSchemeModel);

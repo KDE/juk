@@ -89,7 +89,7 @@ KAction *K3bExporter::action()
     if(!m_action && !KStandardDirs::findExe("k3b").isNull()) {
         m_action = new PlaylistAction(
             i18n("Add Selected Items to Audio or Data CD"),
-            KIcon("k3b"),
+            KIcon( QLatin1String( "k3b" )),
             "slotExport"
         );
         m_action->setShortcutConfigurable(false);
@@ -180,7 +180,7 @@ K3bPlaylistExporter::K3bPlaylistExporter(PlaylistBox *parent) : K3bExporter(0),
 KAction *K3bPlaylistExporter::action()
 {
     if(!KStandardDirs::findExe("k3b").isNull()) {
-        KAction *action = new KAction(KIcon("k3b"),
+        KAction *action = new KAction(KIcon( QLatin1String( "k3b" )),
             i18n("Add Playlist to Audio or Data CD"),
             actions()
         );

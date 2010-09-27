@@ -57,7 +57,7 @@ public:
     FileNameValidator(QObject *parent, const char *name = 0) :
         QValidator(parent)
     {
-        setObjectName(name);
+        setObjectName( QLatin1String( name ) );
     }
 
     virtual void fixup(QString &s) const
@@ -473,11 +473,11 @@ void TagEditor::saveConfig()
 
 void TagEditor::setupActions()
 {
-    KToggleAction *show = new KToggleAction(KIcon("document-properties"), i18n("Show &Tag Editor"), this);
+    KToggleAction *show = new KToggleAction(KIcon( QLatin1String( "document-properties") ), i18n("Show &Tag Editor" ), this);
     ActionCollection::actions()->addAction("showEditor", show);
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
 
-    KAction *act = new KAction(KIcon("document-save"), i18n("&Save"), this);
+    KAction *act = new KAction(KIcon( QLatin1String( "document-save") ), i18n("&Save" ), this);
     ActionCollection::actions()->addAction("saveItem", act);
     act->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotSave()));

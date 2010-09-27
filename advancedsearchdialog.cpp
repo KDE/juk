@@ -43,7 +43,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     setCaption( i18n("Create Search Playlist") );
     setButtons( Ok|Cancel );
     setDefaultButton( Ok );
-    setObjectName(name);
+    setObjectName( QLatin1String( name ) );
     setModal(true);
 
     KVBox *mw = new KVBox(this);
