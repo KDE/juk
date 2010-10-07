@@ -87,6 +87,7 @@ PlaylistItem *TrackSequenceManager::nextItem()
         // Force the iterator to reset state (such as random item lists)
 
         m_iterator->reset();
+        m_iterator->prepareToPlay(m_playNextItem->playlist());
         m_iterator->setCurrent(m_playNextItem);
         m_playNextItem = 0;
     }
