@@ -128,7 +128,7 @@ install(TARGETS juk  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( FILES juk.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS juk.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES juk.notifyrc jukui.rc jukui-rtl.rc  DESTINATION  ${DATA_INSTALL_DIR}/juk )
 install( FILES jukservicemenu.desktop  DESTINATION
 ${SERVICES_INSTALL_DIR}/ServiceMenus )
