@@ -2,7 +2,7 @@
     begin                : Thu Oct 28 2004
     copyright            : (C) 2004, 2007, 2009 by Michael Pyne
                          : (c) 2003 Frerich Raabe <raabe@kde.org>
-    email                : michael.pyne@kdemail.net
+    email                : mpyne@kde.org
 ***************************************************************************/
 
 /***************************************************************************
@@ -778,8 +778,8 @@ void FileRenamerWidget::toggleExampleDialog()
 
 void FileRenamerWidget::insertCategory()
 {
-    TagType category = TagRenamerOptions::tagFromCategoryText(m_ui->m_category->currentText());
-    if(category == Unknown) {
+    TagType category = static_cast<TagType>(m_ui->m_category->currentIndex());
+    if(m_ui->m_category->currentIndex() < 0 || category >= NumTypes) {
         kError() << "Trying to add unknown category somehow.\n";
         return;
     }
