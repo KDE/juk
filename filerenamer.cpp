@@ -274,7 +274,10 @@ void FileRenamerWidget::loadConfig()
     }
 
     QString path = config.readEntry("MusicFolder", "${HOME}/music");
-    m_ui->m_musicFolder->setPath(path);
+    m_ui->m_musicFolder->setUrl(KUrl(path));
+    m_ui->m_musicFolder->setMode(KFile::Directory |
+                                 KFile::ExistingOnly |
+                                 KFile::LocalOnly);
 
     m_ui->m_separator->setEditText(config.readEntry("Separator", " - "));
 }
