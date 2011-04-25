@@ -416,6 +416,10 @@ void TagEditor::updateCollection()
     m_genreBox->addItem(QString());
     m_genreBox->addItems(m_genreList);
     m_genreBox->completionObject()->setItems(m_genreList);
+
+    // We've cleared out the original entries of these list boxes, re-read
+    // the current item if one is selected.
+    slotRefresh();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -790,7 +794,6 @@ void TagEditor::showEvent(QShowEvent *e)
 {
     if(m_collectionChanged) {
         updateCollection();
-        slotRefresh();
     }
 
     QWidget::showEvent(e);
