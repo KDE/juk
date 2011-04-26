@@ -27,7 +27,7 @@
 static const char description[] = I18N_NOOP("Jukebox and music manager for KDE");
 static const char scott[]       = I18N_NOOP("Author, chief dork and keeper of the funk");
 static const char michael[]     = I18N_NOOP("Assistant super-hero, fixer of many things");
-static const char goerg[]       = I18N_NOOP("More KDE 4 porting efforts");
+static const char georg[]       = I18N_NOOP("More KDE 4 porting efforts");
 static const char daniel[]      = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
 static const char tim[]         = I18N_NOOP("GStreamer port");
 static const char stefan[]      = I18N_NOOP("Global keybindings support");
@@ -42,6 +42,7 @@ static const char allan[]       = I18N_NOOP("FLAC and MPC support");
 static const char nathan[]      = I18N_NOOP("Album cover manager");
 static const char pascal[]      = I18N_NOOP("Gimper of splash screen");
 static const char laurent[]     = I18N_NOOP("Porting to KDE 4 when no one else was around");
+static const char giorgos[]     = I18N_NOOP("Badly-needed tag editor bugfixes.");
 
 int main(int argc, char *argv[])
 {
@@ -52,6 +53,7 @@ int main(int argc, char *argv[])
 
     aboutData.addAuthor(ki18n("Scott Wheeler"), ki18n(scott), "wheeler@kde.org");
     aboutData.addAuthor(ki18n("Michael Pyne"), ki18n(michael), "mpyne@kde.org");
+    aboutData.addCredit(ki18n("Γιώργος Κυλάφας (Giorgos Kylafas)"), ki18n(giorgos), "gekylafas@gmail.com");
     aboutData.addCredit(ki18n("Daniel Molkentin"), ki18n(daniel), "molkentin@kde.org");
     aboutData.addCredit(ki18n("Tim Jansen"), ki18n(tim), "tim@tjansen.de");
     aboutData.addCredit(ki18n("Stefan Asserhäll"), ki18n(stefan), "stefan.asserhall@telia.com");
@@ -66,7 +68,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(ki18n("Nathan Toone"), ki18n(nathan), "nathan@toonetown.com");
     aboutData.addCredit(ki18n("Pascal Klein"), ki18n(pascal), "4pascal@tpg.com.au");
     aboutData.addCredit(ki18n("Laurent Montel"), ki18n(laurent), "montel@kde.org");
-    aboutData.addCredit(ki18n("Georg Grabler"), ki18n(goerg), "georg@grabler.net");
+    aboutData.addCredit(ki18n("Georg Grabler"), ki18n(georg), "georg@grabler.net");
 
     KCmdLineArgs::init(argc, argv, &aboutData);
 
