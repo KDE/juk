@@ -127,7 +127,7 @@ QString TagRenamerOptions::tagTypeText(TagType type, bool translate)
     }
 
     if(translate)
-        return context ? i18n(msg) : i18nc(context, msg);
+        return context ? i18nc(context, msg) : i18n(msg);
     else
         return msg;
 }
