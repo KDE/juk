@@ -70,6 +70,11 @@ PlaylistSplitter::~PlaylistSplitter()
 {
     saveConfig();
 
+    // TagEditor needs to write its configuration out while it's still valid,
+    // destroy it now.
+
+    delete m_editor;
+
     // NowPlaying depends on the PlaylistCollection, so kill it now.
     delete m_nowPlaying;
     m_nowPlaying = 0;
