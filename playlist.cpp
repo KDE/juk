@@ -1325,8 +1325,9 @@ void Playlist::takeItem(Q3ListViewItem *item)
 
 int Playlist::addColumn(const QString &label, int)
 {
-    slotWeightDirty(columns());
-    return K3ListView::addColumn(label, 30);
+    int newIndex = K3ListView::addColumn(label, 30);
+    slotWeightDirty(newIndex);
+    return newIndex;
 }
 
 PlaylistItem *Playlist::createItem(const FileHandle &file,
@@ -1550,7 +1551,7 @@ void Playlist::slotInitialize()
     QAction *showAction;
 
     for(int i = 0; i < header()->count(); ++i) {
-        if(i == PlaylistItem::FileNameColumn)
+        if(i - columnOffset() == PlaylistItem::FileNameColumn)
             m_headerMenu->addSeparator();
 
         showAction = new QAction(header()->label(i), m_headerMenu);
@@ -1827,8 +1828,18 @@ void Playlist::calculateColumnWeights()
 
     foreach(PlaylistItem *item, l) {
         cachedWidth = item->cachedWidths();
-        foreach(int column, m_weightDirty)
-            averageWidth[column] += std::pow(double(cachedWidth[column]), 2.0) / itemCount;
+
+        // Extra columns start at 0, but those weights aren't shared with all
+        // items.
+        for(int i = 0; i < columnOffset(); ++i) {
+            averageWidth[i] +=
+                std::pow(double(item->width(fontMetrics(), this, i)), 2.0) / itemCount;
+        }
+
+        for(int column = columnOffset(); column < columns(); ++column) {
+            averageWidth[column] +=
+                std::pow(double(cachedWidth[column - columnOffset()]), 2.0) / itemCount;
+        }
     }
 
     m_columnWeights.fill(-1, columns());
@@ -2330,7 +2341,9 @@ void Playlist::slotToggleColumnVisible(QAction *action)
     else
         showColumn(column);
 
-    SharedSettings::instance()->toggleColumnVisible(column - columnOffset());
+    if(column >= columnOffset()) {
+        SharedSettings::instance()->toggleColumnVisible(column - columnOffset());
+    }
 }
 
 void Playlist::slotCreateGroup()
