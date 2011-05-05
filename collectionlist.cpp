@@ -62,7 +62,7 @@ void CollectionList::loadCachedItems()
     for(FileHandleHash::ConstIterator it = Cache::instance()->constBegin(); it != end; ++it) {
         // This may have already been created via a loaded playlist.
         if(!m_itemsDict.contains(it.key()))
-            new CollectionListItem(*it);
+            new CollectionListItem(this, *it);
     }
 
     SplashScreen::update();
@@ -102,7 +102,7 @@ void CollectionList::initialize(PlaylistCollection *collection)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem *, bool)
+CollectionListItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem *, bool)
 {
     // It's probably possible to optimize the line below away, but, well, right
     // now it's more important to not load duplicate items.
@@ -110,7 +110,7 @@ PlaylistItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem 
     if(m_itemsDict.contains(file.absFilePath()))
         return 0;
 
-    PlaylistItem *item = new CollectionListItem(file);
+    CollectionListItem *item = new CollectionListItem(this, file);
 
     if(!item->isValid()) {
         kError() << "CollectionList::createItem() -- A valid tag was not created for \""
@@ -372,7 +372,7 @@ void CollectionList::removeWatched(const QString &file)
 
 void CollectionListItem::refresh()
 {
-    int offset = static_cast<Playlist *>(listView())->columnOffset();
+    int offset = CollectionList::instance()->columnOffset();
     int columns = lastColumn() + offset + 1;
 
     data()->metadata.resize(columns);
@@ -403,10 +403,10 @@ void CollectionListItem::refresh()
         }
 
         int newWidth = width(listView()->fontMetrics(), listView(), i);
-        data()->cachedWidths[i] = newWidth;
-
         if(newWidth != data()->cachedWidths[i])
             playlist()->slotWeightDirty(i);
+
+        data()->cachedWidths[i] = newWidth;
     }
 
     if(listView()->isVisible())
@@ -457,27 +457,21 @@ void CollectionListItem::repaint() const
 // CollectionListItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem::CollectionListItem(const FileHandle &file) :
-    PlaylistItem(CollectionList::instance()),
+CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle &file) :
+    PlaylistItem(parent),
     m_shuttingDown(false)
 {
-    CollectionList *l = CollectionList::instance();
-    if(l) {
-        l->addToDict(file.absFilePath(), this);
+    parent->addToDict(file.absFilePath(), this);
 
-        data()->fileHandle = file;
+    data()->fileHandle = file;
 
-        if(file.tag()) {
-            refresh();
-            l->dataChanged();
-            // l->addWatched(m_path);
-        }
-        else
-            kError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
+    if(file.tag()) {
+        refresh();
+        parent->dataChanged();
     }
-    else
-        kError() << "CollectionListItems should not be created before "
-                       << "CollectionList::initialize() has been called." << endl;
+    else {
+        kError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
+    }
 
     SplashScreen::increment();
 }

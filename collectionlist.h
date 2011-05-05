@@ -22,7 +22,6 @@
 #include "playlist.h"
 #include "playlistitem.h"
 
-class CollectionListItem;
 class ViewMode;
 class KFileItem;
 class KFileItemList;
@@ -56,6 +55,39 @@ typedef QVector<TagCountDict *> TagCountDicts;
  * "initialize()" method.
  */
 
+class CollectionListItem : public PlaylistItem
+{
+    friend class Playlist;
+    friend class CollectionList;
+    friend class PlaylistItem;
+
+public:
+    virtual void refresh();
+    PlaylistItem *itemForPlaylist(const Playlist *playlist);
+    void updateCollectionDict(const QString &oldPath, const QString &newPath);
+    void repaint() const;
+    PlaylistItemList children() const { return m_children; }
+
+protected:
+    CollectionListItem(CollectionList *parent, const FileHandle &file);
+    virtual ~CollectionListItem();
+
+    void addChildItem(PlaylistItem *child);
+    void removeChildItem(PlaylistItem *child);
+
+    /**
+     * Returns true if the item is now up to date (even if this required a refresh) or
+     * false if the item is invalid.
+     */
+    bool checkCurrent();
+
+    virtual CollectionListItem *collectionItem() { return this; }
+
+private:
+    bool m_shuttingDown;
+    PlaylistItemList m_children;
+};
+
 class CollectionList : public Playlist
 {
     friend class CollectionListItem;
@@ -79,7 +111,7 @@ public:
 
     CollectionListItem *lookup(const QString &file) const;
 
-    virtual PlaylistItem *createItem(const FileHandle &file,
+    virtual CollectionListItem *createItem(const FileHandle &file,
                                      Q3ListViewItem * = 0,
                                      bool = false);
 
@@ -158,39 +190,6 @@ private:
     QHash<QString, CollectionListItem *> m_itemsDict;
     KDirWatch *m_dirWatch;
     TagCountDicts m_columnTags;
-};
-
-class CollectionListItem : public PlaylistItem
-{
-    friend class Playlist;
-    friend class CollectionList;
-    friend class PlaylistItem;
-
-public:
-    virtual void refresh();
-    PlaylistItem *itemForPlaylist(const Playlist *playlist);
-    void updateCollectionDict(const QString &oldPath, const QString &newPath);
-    void repaint() const;
-    PlaylistItemList children() const { return m_children; }
-
-protected:
-    CollectionListItem(const FileHandle &file);
-    virtual ~CollectionListItem();
-
-    void addChildItem(PlaylistItem *child);
-    void removeChildItem(PlaylistItem *child);
-
-    /**
-     * Returns true if the item is now up to date (even if this required a refresh) or
-     * false if the item is invalid.
-     */
-    bool checkCurrent();
-
-    virtual CollectionListItem *collectionItem() { return this; }
-
-private:
-    bool m_shuttingDown;
-    PlaylistItemList m_children;
 };
 
 #endif

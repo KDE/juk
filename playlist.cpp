@@ -1623,17 +1623,7 @@ CollectionListItem *Playlist::collectionListItem(const FileHandle &file)
     CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
 
     if(!item) {
-        item = new CollectionListItem(file);
-        setupItem(item);
-
-        // If a valid tag was not created, destroy the CollectionListItem.
-
-        if(!item->isValid()) {
-            kError() << "Playlist::createItem() -- A valid tag was not created for \""
-                           << file.absFilePath() << "\"" << endl;
-            delete item;
-            return 0;
-        }
+        item = CollectionList::instance()->createItem(file);
     }
 
     return item;
