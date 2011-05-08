@@ -27,42 +27,6 @@
 #include <QBoxLayout>
 
 ////////////////////////////////////////////////////////////////////////////////
-// convenience class
-////////////////////////////////////////////////////////////////////////////////
-
-/**
- * This "custom" slider reverses the left and middle buttons.  Typically the
- * middle button "instantly" seeks rather than moving the slider towards the
- * click position in fixed intervals.  This behavior has now been mapped on
- * to the left mouse button.
- */
-
-#if 0
-class TrackPositionSlider : public QSlider
-{
-public:
-    TrackPositionSlider(QWidget *parent) : QSlider(Qt::Horizontal, parent)
-    {
-        setFocusPolicy(Qt::NoFocus);
-    }
-
-protected:
-    virtual void mousePressEvent(QMouseEvent *e)
-    {
-        if(e->button() == Qt::LeftButton) {
-            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::MidButton, e->buttons(), e->modifiers());
-            QSlider::mousePressEvent(&reverse);
-            emit sliderPressed();
-        }
-        else if(e->button() == Qt::MidButton) {
-            QMouseEvent reverse(QEvent::MouseButtonPress, e->pos(), Qt::LeftButton, e->buttons(), e->modifiers());
-            QSlider::mousePressEvent(&reverse);
-        }
-    }
-};
-#endif
-
-////////////////////////////////////////////////////////////////////////////////
 // VolumeSlider implementation
 ////////////////////////////////////////////////////////////////////////////////
 
