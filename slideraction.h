@@ -31,7 +31,7 @@ class VolumeSlider : public Phonon::VolumeSlider
 {
     Q_OBJECT
 public:
-    VolumeSlider(Qt::Orientation o, QWidget *parent);
+    VolumeSlider(QWidget *parent);
 
 protected:
     virtual void focusInEvent(QFocusEvent *);
@@ -52,10 +52,6 @@ public:
     virtual void unplug(QWidget *widget);
 
     virtual QWidget* createToolBarWidget(QToolBar* parent);
-
-public slots:
-    void slotUpdateOrientation();
-
 private:
     QWidget *createWidget(QWidget *parent);
 

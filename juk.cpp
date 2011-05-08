@@ -109,8 +109,6 @@ JuK::JuK(QWidget *parent) :
 
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
     QTimer::singleShot(0, this, SLOT(slotProcessArgs()));
-
-    m_sliderAction->slotUpdateOrientation();
 }
 
 JuK::~JuK()
