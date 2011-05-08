@@ -63,23 +63,59 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
     const QPixmap *pm = item->pixmap(column);
 
     if(item->isSelected()) {
-
         painter->eraseRect(0, 0, width, item->height());
+        painter->setRenderHint(QPainter::Antialiasing);
 
         QPen oldPen = painter->pen();
         QPen newPen = oldPen;
 
-        newPen.setWidth(5);
-        newPen.setJoinStyle(Qt::RoundJoin);
-        newPen.setColor(QPalette::Highlight);
-
         painter->setPen(newPen);
-        painter->drawRect(border, border, width - border * 2, item->height() - border * 2 + 1);
-        painter->setPen(oldPen);
+        newPen.setJoinStyle(Qt::RoundJoin);
 
-        painter->fillRect(border, border, width - border * 2, item->height() - border * 2 + 1,
-                          colorGroup.brush(QPalette::Highlight));
-        painter->setPen(colorGroup.color( QPalette::HighlightedText));
+        newPen.setWidth(1);
+
+        QColor background = m_playlistBox->palette().color(QPalette::Highlight);
+        newPen.setColor(m_playlistBox->palette().color(QPalette::Text));
+        painter->setPen(newPen);
+        painter->drawRoundedRect(border, border, width - border * 2,
+                                 item->height() - border * 2, 2, 2);
+
+        QRect inner(border + 1, border + 1, width - border * 2 - 2,
+                    item->height() - border * 2 - 2);
+
+        painter->fillRect(inner, background);
+
+        QPainterPath path(inner.bottomLeft());
+
+        path.lineTo(QPoint(inner.topLeft().x(), inner.topLeft().y() - 3));
+        const QPointF topLeft(inner.topLeft());
+        QRectF arc(topLeft, QSizeF(4, 4));
+        path.arcTo(arc, 180, -90);
+        path.lineTo(inner.topRight());
+        path.lineTo(inner.bottomRight());
+        path.lineTo(inner.bottomLeft());
+
+        QColor window(item->listView()->palette().window().color());
+        const QColor base = background;
+
+        window.setAlphaF(0.5);
+
+        QLinearGradient decoGradient1;
+        decoGradient1.setStart(inner.topLeft());
+        decoGradient1.setFinalStop(inner.bottomLeft());
+        decoGradient1.setColorAt(0, window);
+        decoGradient1.setColorAt(1, Qt::transparent);
+
+        QLinearGradient decoGradient2;
+        decoGradient2.setStart(inner.topLeft());
+        decoGradient2.setFinalStop(inner.topRight());
+        decoGradient2.setColorAt(0, Qt::transparent);
+        decoGradient2.setColorAt(1, base);
+
+        painter->fillPath(path, decoGradient1);
+        painter->fillPath(path, decoGradient2);
+
+        painter->setPen(colorGroup.color(QPalette::HighlightedText));
     }
     else
         painter->eraseRect(0, 0, width, item->height());
@@ -152,7 +188,8 @@ void ViewMode::updateHeights()
 {
     const int width = m_playlistBox->width() - m_playlistBox->verticalScrollBar()->width() - border * 2;
 
-    const int baseHeight = 2 * m_playlistBox->itemMargin() + 32 + border * 2;
+    const int baseHeight = 2 * m_playlistBox->itemMargin() + 32 +
+                           border * 2 + 4;
     const QFontMetrics fm = m_playlistBox->fontMetrics();
 
     for(Q3ListViewItemIterator it(m_playlistBox); it.current(); ++it) {
