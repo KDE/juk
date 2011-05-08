@@ -39,8 +39,8 @@ DirectoryList::DirectoryList(const QStringList &directories,
     m_importPlaylists(importPlaylists)
 {
     setCaption(i18n("Folder List"));
-    setModal( true );
-    showButtonSeparator( true );
+    setModal(true);
+    showButtonSeparator(true);
     setButtons(KDialog::Ok | KDialog::Cancel);
 
     m_base = new DirectoryListBase(this);

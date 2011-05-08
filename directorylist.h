@@ -24,9 +24,10 @@ class QStringListModel;
 class DirectoryListBase : public QWidget, public Ui::DirectoryListBase
 {
 public:
-  DirectoryListBase( QWidget *parent ) : QWidget( parent ) {
-    setupUi( this );
-  }
+    DirectoryListBase(QWidget *parent) : QWidget(parent)
+    {
+        setupUi(this);
+    }
 };
 
 class DirectoryList : public KDialog
