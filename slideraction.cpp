@@ -34,6 +34,7 @@ VolumeSlider::VolumeSlider(Qt::Orientation o, QWidget *parent) :
     Phonon::VolumeSlider(parent)
 {
     setOrientation(o);
+    setMinimumWidth(70);
 }
 
 void VolumeSlider::focusInEvent(QFocusEvent *)
