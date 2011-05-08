@@ -40,6 +40,7 @@
 #include <QKeyEvent>
 #include <QDir>
 #include <QTimer>
+#include <QDesktopWidget>
 
 #include "slideraction.h"
 #include "statuslabel.h"
@@ -94,10 +95,22 @@ JuK::JuK(QWidget *parent) :
     setupActions();
     setupLayout();
 
+    QSize defaultSize(800, 480);
+
     if(QApplication::isRightToLeft())
-        setupGUI(ToolBar | Save | Create, "jukui-rtl.rc");
+        setupGUI(defaultSize, ToolBar | Save | Create, "jukui-rtl.rc");
     else
-        setupGUI(ToolBar | Save | Create);
+        setupGUI(defaultSize, ToolBar | Save | Create);
+
+    // Center the GUI if this is our first run ever.
+
+    if(!KGlobal::config()->hasGroup("MainWindow")) {
+        QRect r = rect();
+        qDebug() << r;
+        r.moveCenter(KApplication::desktop()->screenGeometry().center());
+        qDebug() << r << r.topLeft();
+        move(r.topLeft());
+    }
 
     connect(m_splitter, SIGNAL(guiReady()), SLOT(slotSetupSystemTray()));
     readConfig();
@@ -163,7 +176,6 @@ void JuK::setupLayout()
     m_player->setStatusLabel(m_statusLabel);
 
     m_splitter->setFocus();
-    resize(750, 500);
 }
 
 void JuK::setupActions()
