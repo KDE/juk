@@ -43,7 +43,7 @@ public:
         bool addPlaylists;
     };
 
-    DirectoryList(const QStringList &directories, bool importPlaylists,
+    DirectoryList(QStringList directories, bool importPlaylists,
                   QWidget *parent = 0);
     virtual ~DirectoryList();
 
@@ -59,6 +59,8 @@ private slots:
     void slotRemoveDirectory();
 
 private:
+    static QStringList defaultFolders();
+
     QStringListModel *m_dirListModel;
     bool m_importPlaylists;
     DirectoryListBase *m_base;

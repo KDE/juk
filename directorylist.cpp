@@ -31,13 +31,20 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-DirectoryList::DirectoryList(const QStringList &directories,
+DirectoryList::DirectoryList(QStringList directories,
                              bool importPlaylists,
                              QWidget *parent) :
     KDialog(parent),
-    m_dirListModel(new QStringListModel(directories, this)),
+    m_dirListModel(0),
     m_importPlaylists(importPlaylists)
 {
+    if(directories.isEmpty()) {
+        directories = defaultFolders();
+        m_result.addedDirs = directories;
+    }
+
+    m_dirListModel = new QStringListModel(directories, this);
+
     setCaption(i18n("Folder List"));
     setModal(true);
     showButtonSeparator(true);
@@ -123,6 +130,22 @@ void DirectoryList::slotRemoveDirectory()
         else
             m_result.removedDirs.append(dir);
     }
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// private methods
+////////////////////////////////////////////////////////////////////////////////
+
+QStringList DirectoryList::defaultFolders()
+{
+    QDir home = QDir::home();
+    if(home.cd("Music"))
+        return QStringList(home.path());
+    if(home.cd("music"))
+        return QStringList(home.path());
+    if(home.cd(i18n("Music")))
+        return QStringList(home.path());
+    return QStringList();
 }
 
 #include "directorylist.moc"
