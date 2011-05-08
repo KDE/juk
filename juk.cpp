@@ -106,9 +106,7 @@ JuK::JuK(QWidget *parent) :
 
     if(!KGlobal::config()->hasGroup("MainWindow")) {
         QRect r = rect();
-        qDebug() << r;
         r.moveCenter(KApplication::desktop()->screenGeometry().center());
-        qDebug() << r << r.topLeft();
         move(r.topLeft());
     }
 
