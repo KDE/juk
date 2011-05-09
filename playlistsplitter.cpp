@@ -54,7 +54,8 @@ PlaylistSplitter::PlaylistSplitter(PlayerManager *player, QWidget *parent) :
     m_playlistStack(0),
     m_editor(0),
     m_nowPlaying(0),
-    m_player(player)
+    m_player(player),
+    m_editorSplitter(0)
 {
     setObjectName(QLatin1String("playlistSplitter"));
 
@@ -170,12 +171,12 @@ void PlaylistSplitter::setupLayout()
 
     // Create a splitter to go between the playlists and the editor.
 
-    QSplitter *editorSplitter = new QSplitter(Qt::Vertical, this);
-    editorSplitter->setObjectName( QLatin1String("editorSplitter" ));
+    m_editorSplitter = new QSplitter(Qt::Vertical, this);
+    m_editorSplitter->setObjectName( QLatin1String("editorSplitter" ));
 
     // Create the playlist and the editor.
 
-    QWidget *top = new QWidget(editorSplitter);
+    QWidget *top = new QWidget(m_editorSplitter);
     QVBoxLayout *topLayout = new QVBoxLayout(top);
     topLayout->setMargin(0);
     topLayout->setSpacing(0);
@@ -186,13 +187,8 @@ void PlaylistSplitter::setupLayout()
     m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_playlistStack->hide(); // Will be shown after CollectionList filled.
 
-    m_editor = new TagEditor(editorSplitter);
+    m_editor = new TagEditor(m_editorSplitter);
     m_editor->setObjectName( QLatin1String("TagEditor" ));
-
-    // Make the editor as small as possible (or at least as small as recommended)
-
-    editorSplitter->setStretchFactor(editorSplitter->indexOf(m_editor), 0);
-    editorSplitter->setStretchFactor(editorSplitter->indexOf(top), 1);
 
     // Create the PlaylistBox
 
@@ -261,6 +257,17 @@ void PlaylistSplitter::readConfig()
     bool showSearch = config.readEntry("ShowSearch", true);
     ActionCollection::action<KToggleAction>("showSearch")->setChecked(showSearch);
     m_searchWidget->setHidden(!showSearch);
+
+    splitterSizes = config.readEntry("EditorSplitterSizes",QList<int>());
+    if(splitterSizes.isEmpty()) {
+        // If no sizes were saved, use default sizes for the playlist and the
+        // editor, respectively. The values are just hints for the actual size,
+        // m_editorSplitter will distribute the space according to their
+        // relative weight.
+        splitterSizes.append(300);
+        splitterSizes.append(200);
+    }
+    m_editorSplitter->setSizes(splitterSizes);
 }
 
 void PlaylistSplitter::saveConfig()
@@ -268,6 +275,7 @@ void PlaylistSplitter::saveConfig()
     KConfigGroup config(KGlobal::config(), "Splitter");
     config.writeEntry("PlaylistSplitterSizes", sizes());
     config.writeEntry("ShowSearch", ActionCollection::action<KToggleAction>("showSearch")->isChecked());
+    config.writeEntry("EditorSplitterSizes", m_editorSplitter->sizes());
 }
 
 void PlaylistSplitter::slotShowSearchResults()

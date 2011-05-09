@@ -94,6 +94,7 @@ private:
     TagEditor *m_editor;
     NowPlaying *m_nowPlaying;
     PlayerManager *m_player;
+    QSplitter *m_editorSplitter;
 };
 
 #endif
