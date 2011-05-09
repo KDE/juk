@@ -16,7 +16,7 @@
      <item>
       <widget class="QLabel" name="informationLabel">
        <property name="text">
-        <string>Please chose the folders where you keep your music:</string>
+        <string>Please choose the folders where you keep your music:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignVCenter</set>
