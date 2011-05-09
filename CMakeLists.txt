@@ -34,6 +34,9 @@ endif(TUNEPIMP_FOUND)
 
 set(juk_SRCS  ${tunepimp_SRCS}
    advancedsearchdialog.cpp
+   slider.cpp
+   svghandler.cpp
+   volumepopupbutton.cpp
    actioncollection.cpp
    cache.cpp
    categoryreaderinterface.cpp

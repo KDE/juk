@@ -30,7 +30,6 @@
 #include <Phonon/Path>
 
 class KSelectAction;
-class SliderAction;
 class StatusLabel;
 class PlaylistInterface;
 class QPixmap;
@@ -57,10 +56,12 @@ public:
 
     bool playing() const;
     bool paused() const;
+    bool muted() const;
     float volume() const;
     int status() const;
     int totalTime() const;
     int currentTime() const;
+    bool seekable() const;
     //int position() const;
 
     QStringList trackProperties();
@@ -78,7 +79,6 @@ public:
     QString randomPlayMode() const;
 
 public slots:
-
     void play(const FileHandle &file);
     void play(const QString &file);
     void play();
@@ -94,12 +94,16 @@ public slots:
     void back();
     void volumeUp();
     void volumeDown();
-    void mute();
+    void setMuted(bool m);
+    bool mute();
 
     void setRandomPlayMode(const QString &randomMode);
     void setCrossfadeEnabled(bool enableCrossfade);
 
 signals:
+    void tick(int time);
+    void totalTimeChanged(int time);
+
     void signalPlay();
     void signalPause();
     void signalStop();
@@ -116,13 +120,11 @@ private slots:
     void slotLength(qint64);
     void slotTick(qint64);
     void slotStateChanged(Phonon::State, Phonon::State);
-    void slotUpdateSliders();
     /// Updates the GUI to reflect stopped playback if we're stopped at this point.
     void slotUpdateGuiIfStopped();
 
 private:
     FileHandle m_file;
-    SliderAction *m_sliderAction;
     PlaylistInterface *m_playlistInterface;
     StatusLabel *m_statusLabel;
     bool m_muted;

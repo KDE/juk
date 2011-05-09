@@ -84,7 +84,6 @@ private:
     StatusLabel *m_statusLabel;
     SystemTray *m_systemTray;
 
-    SliderAction *m_sliderAction;
     KToggleAction *m_randomPlayAction;
     KToggleAction *m_toggleSystemTrayAction;
     KToggleAction *m_toggleDockOnCloseAction;

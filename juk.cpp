@@ -313,8 +313,10 @@ void JuK::setupActions()
     // just in the toolbar
     //////////////////////////////////////////////////
 
-    m_sliderAction = new SliderAction(i18n("Track Position"), this);
-    collection->addAction("trackPositionAction", m_sliderAction);
+    collection->addAction("trackPositionAction",
+                          new TrackPositionAction(i18n("Track Position"), this));
+    collection->addAction("volumeAction",
+                          new VolumeAction(i18n("Track Position"), this));
 
     ActionCollection::actions()->addAssociatedWidget(this);
     foreach (QAction* action, ActionCollection::actions()->actions())
@@ -393,6 +395,7 @@ void JuK::readConfig()
         const int maxVolume = 100;
         const int volume = playerConfig.readEntry("Volume", maxVolume);
         m_player->setVolume(volume * 0.01);
+        ActionCollection::action<VolumeAction>("volumeAction")->button()->refresh();
 
         bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
         m_player->setCrossfadeEnabled(enableCrossfade);

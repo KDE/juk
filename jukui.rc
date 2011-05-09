@@ -106,5 +106,6 @@
 	<Action name="back"/>
 	<Action name="forward"/>
 	<Action name="trackPositionAction"/>
+	<Action name="volumeAction"/>
 </ToolBar>
 </kpartgui>

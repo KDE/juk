@@ -17,56 +17,36 @@
 #define SLIDERACTION_H
 
 #include <kaction.h>
-//Added by qt3to4:
-#include <QWheelEvent>
-#include <QFocusEvent>
 #include <QBoxLayout>
-#include <ktoolbar.h>
-#include <phonon/volumeslider.h>
-#include <phonon/seekslider.h>
 
-class QBoxLayout;
+#include "volumepopupbutton.h"
 
-class VolumeSlider : public Phonon::VolumeSlider
+class Slider;
+
+class TrackPositionAction : public KAction
 {
     Q_OBJECT
 public:
-    VolumeSlider(QWidget *parent);
-
+    TrackPositionAction(const QString &text, QObject *parent);
+    Slider *slider() const { return m_slider; }
 protected:
-    virtual void focusInEvent(QFocusEvent *);
+    virtual QWidget *createWidget(QWidget *parent);
+private slots:
+    void totalTimeChanged(int ms);
+private:
+    Slider *m_slider;
 };
 
-class SliderAction : public KAction
+class VolumeAction : public KAction
 {
     Q_OBJECT
-
 public:
-    SliderAction(const QString &text, QObject* parent);
-    virtual ~SliderAction();
-
-    VolumeSlider *volumeSlider() const { return m_volumeSlider; }
-    Phonon::SeekSlider *trackPositionSlider() const { return m_trackPositionSlider; }
-
-    virtual int plug(QWidget *parent, int index = -1);
-    virtual void unplug(QWidget *widget);
-
-    virtual QWidget* createToolBarWidget(QToolBar* parent);
+    VolumeAction(const QString &text, QObject *parent);
+    VolumePopupButton *button() const { return m_button; }
+protected:
+    virtual QWidget *createWidget(QWidget *parent);
 private:
-    QWidget *createWidget(QWidget *parent);
-
-private slots:
-    void slotUpdateSize();
-    void slotToolbarDestroyed();
-
-private:
-    KToolBar *m_toolBar;
-    QWidget *m_widget;
-    QBoxLayout *m_layout;
-    Phonon::SeekSlider *m_trackPositionSlider;
-    VolumeSlider *m_volumeSlider;
-
-    static const int volumeMax = 50;
+    VolumePopupButton *m_button;
 };
 
 #endif

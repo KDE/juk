@@ -57,10 +57,8 @@ enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying =
 
 PlayerManager::PlayerManager() :
     QObject(),
-    m_sliderAction(0),
     m_playlistInterface(0),
     m_statusLabel(0),
-    m_muted(false),
     m_setup(false),
     m_crossfadeTracks(true),
     m_curOutputPath(0)
@@ -75,8 +73,7 @@ PlayerManager::PlayerManager() :
 
 PlayerManager::~PlayerManager()
 {
-    delete m_sliderAction;
-    m_sliderAction = 0;
+
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -98,6 +95,14 @@ bool PlayerManager::paused() const
         return false;
 
     return m_media[m_curOutputPath]->state() == Phonon::PausedState;
+}
+
+bool PlayerManager::muted() const
+{
+    if(!m_setup)
+        return false;
+
+    return m_output[m_curOutputPath]->isMuted();
 }
 
 float PlayerManager::volume() const
@@ -136,6 +141,14 @@ int PlayerManager::currentTime() const
         return 0;
 
     return m_media[m_curOutputPath]->currentTime() / 1000;
+}
+
+bool PlayerManager::seekable() const
+{
+    if(!m_setup)
+        return false;
+
+    return m_media[m_curOutputPath]->isSeekable();
 }
 
 QStringList PlayerManager::trackProperties()
@@ -373,12 +386,22 @@ void PlayerManager::volumeDown()
     setVolume(volume() - 0.04); // 4% down
 }
 
-void PlayerManager::mute()
+void PlayerManager::setMuted(bool m)
 {
     if(!m_setup)
         return;
 
-    m_output[m_curOutputPath]->setMuted(!m_output[m_curOutputPath]->isMuted());
+    m_output[m_curOutputPath]->setMuted(m);
+}
+
+bool PlayerManager::mute()
+{
+    if(!m_setup)
+        return false;
+
+    bool newState = !muted();
+    setMuted(newState);
+    return newState;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -428,6 +451,7 @@ void PlayerManager::slotFinished()
 void PlayerManager::slotLength(qint64 msec)
 {
     m_statusLabel->setItemTotalTime(msec / 1000);
+    emit totalTimeChanged(msec);
 }
 
 void PlayerManager::slotTick(qint64 msec)
@@ -437,6 +461,8 @@ void PlayerManager::slotTick(qint64 msec)
 
     if(m_statusLabel)
         m_statusLabel->setItemCurrentTime(msec / 1000);
+
+    emit tick(msec);
 }
 
 void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldstate)
@@ -555,26 +581,7 @@ void PlayerManager::setup()
     action("forward")->setEnabled(false);
     action("forwardAlbum")->setEnabled(false);
 
-    // setup sliders (a separate slot is used to switch as needed)
-
-    m_sliderAction = action<SliderAction>("trackPositionAction");
-
-    if(m_sliderAction->trackPositionSlider())
-        m_sliderAction->trackPositionSlider()->setMediaObject(m_media[0]);
-
-    if(m_sliderAction->volumeSlider())
-        m_sliderAction->volumeSlider()->setAudioOutput(m_output[0]);
-
     QDBusConnection::sessionBus().registerObject("/Player", this);
-}
-
-void PlayerManager::slotUpdateSliders()
-{
-    m_sliderAction->trackPositionSlider()->setMediaObject(m_media[m_curOutputPath]);
-    m_sliderAction->volumeSlider()->setAudioOutput(m_output[m_curOutputPath]);
-
-    disconnect(m_media[1 - m_curOutputPath], 0, this, SLOT(slotUpdateSliders()));
-    connect(m_media[1 - m_curOutputPath], SIGNAL(finished()), SLOT(slotFinished()));
 }
 
 void PlayerManager::slotUpdateGuiIfStopped()
@@ -590,10 +597,6 @@ void PlayerManager::crossfadeToFile(const FileHandle &newFile)
     // Don't need this anymore
     disconnect(m_media[m_curOutputPath], SIGNAL(finished()), this, 0);
     connect(m_media[nextOutputPath], SIGNAL(finished()), SLOT(slotFinished()));
-
-    // Wait a couple of seconds and switch slider objects.  (We would simply
-    // handle this when finished() is emitted but phonon-gst is buggy).
-    QTimer::singleShot(2000, this, SLOT(slotUpdateSliders()));
 
     m_fader[nextOutputPath]->setVolume(0.0f);
 
