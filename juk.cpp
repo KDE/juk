@@ -395,7 +395,8 @@ void JuK::readConfig()
         const int maxVolume = 100;
         const int volume = playerConfig.readEntry("Volume", maxVolume);
         m_player->setVolume(volume * 0.01);
-        ActionCollection::action<VolumeAction>("volumeAction")->button()->refresh();
+        if(ActionCollection::action<VolumeAction>("volumeAction")->button())
+            ActionCollection::action<VolumeAction>("volumeAction")->button()->refresh();
 
         bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
         m_player->setCrossfadeEnabled(enableCrossfade);
