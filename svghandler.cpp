@@ -47,7 +47,7 @@ namespace The {
 SvgHandler::SvgHandler( QObject* parent )
     : QObject( parent )
     , m_cache( new KPixmapCache( "JuK-pixmaps" ) )
-    , m_themeFile( "amarok/images/default-theme-clean.svg" )  // //use default theme
+    , m_themeFile( "juk/pics/theme.svg" )
     , m_customTheme( false )
 {
     m_cache->setCacheLimit( 10 * 1024 );
