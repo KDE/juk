@@ -47,8 +47,11 @@ namespace The {
 SvgHandler::SvgHandler( QObject* parent )
     : QObject( parent )
     , m_cache( new KPixmapCache( "JuK-pixmaps" ) )
+    , m_themeFile( "amarok/images/default-theme-clean.svg" )  // //use default theme
+    , m_customTheme( false )
 {
     m_cache->setCacheLimit( 10 * 1024 );
+    // connect( The::paletteHandler(), SIGNAL( newPalette( const QPalette& ) ), this, SLOT( discardCache() ) );
 }
 
 SvgHandler::~SvgHandler()
@@ -63,8 +66,8 @@ SvgHandler::~SvgHandler()
 
 bool SvgHandler::loadSvg( const QString& name )
 {
-    const QString &svgFilename = name;
-    QSvgRenderer *renderer = new QSvgRenderer( svgFilename );
+    const QString &svgFilename = !m_customTheme ? KStandardDirs::locate( "data", name ) : name;
+    QSvgRenderer *renderer = new QSvgRenderer( /* The::svgTinter()->tint( svgFilename ) */ svgFilename );
 
     if ( !renderer->isValid() )
     {
@@ -80,15 +83,35 @@ bool SvgHandler::loadSvg( const QString& name )
     return true;
 }
 
-QPixmap SvgHandler::renderSvg( const QString& keyname,
+QSvgRenderer* SvgHandler::getRenderer( const QString& name )
+{
+    QReadLocker readLocker( &m_lock );
+    if( ! m_renderers[name] )
+    {
+        readLocker.unlock();
+        if( !loadSvg( name ) )
+        {
+            QWriteLocker writeLocker( &m_lock );
+            m_renderers[name] = new QSvgRenderer();
+        }
+        readLocker.relock();
+    }
+    return m_renderers[name];
+}
+
+QSvgRenderer * SvgHandler::getRenderer()
+{
+    return getRenderer( m_themeFile );
+}
+
+QPixmap SvgHandler::renderSvg( const QString &name,
+                               const QString& keyname,
                                int width,
                                int height,
                                const QString& element,
                                bool skipCache )
 {
     QString key;
-    QString name;
-
     if( !skipCache )
     {
         key = QString("%1:%2x%3")
@@ -126,6 +149,205 @@ QPixmap SvgHandler::renderSvg( const QString& keyname,
 
     return pixmap;
 }
+
+QPixmap SvgHandler::renderSvg(const QString & keyname, int width, int height, const QString & element, bool skipCache )
+{
+    return renderSvg( m_themeFile, keyname, width, height, element, skipCache );
+}
+
+QPixmap SvgHandler::renderSvgWithDividers(const QString & keyname, int width, int height, const QString & element)
+{
+    const QString key = QString("%1:%2x%3-div")
+            .arg( keyname )
+            .arg( width )
+            .arg( height );
+
+    QPixmap pixmap;
+    if ( !m_cache->find( key, pixmap ) ) {
+//         debug() << QString("svg %1 not in cache...").arg( key );
+
+        pixmap = QPixmap( width, height );
+        pixmap.fill( Qt::transparent );
+
+        QString name = m_themeFile;
+
+        QReadLocker readLocker( &m_lock );
+        if( ! m_renderers[name] )
+        {
+            readLocker.unlock();
+            if( ! loadSvg( name ) )
+            {
+                return pixmap;
+            }
+            readLocker.relock();
+        }
+
+        QPainter pt( &pixmap );
+        if ( element.isEmpty() )
+            m_renderers[name]->render( &pt, QRectF( 0, 0, width, height ) );
+        else
+            m_renderers[name]->render( &pt, element, QRectF( 0, 0, width, height ) );
+
+
+        //add dividers. 5% spacing on each side
+        int margin = width / 20;
+
+        m_renderers[name]->render( &pt, "divider_top", QRectF( margin, 0 , width - 1 * margin, 1 ) );
+        m_renderers[name]->render( &pt, "divider_bottom", QRectF( margin, height - 1 , width - 2 * margin, 1 ) );
+
+        m_cache->insert( key, pixmap );
+    }
+
+    return pixmap;
+}
+
+
+void SvgHandler::reTint()
+{
+    // The::svgTinter()->init();
+    if ( !loadSvg( m_themeFile ))
+        kDebug() << "Unable to load theme file: " << m_themeFile;
+    emit retinted();
+}
+
+QString SvgHandler::themeFile()
+{
+    return m_themeFile;
+}
+
+void SvgHandler::setThemeFile( const QString & themeFile )
+{
+    kDebug() << "got new theme file: " << themeFile;
+    m_themeFile = themeFile;
+    m_customTheme = true;
+    discardCache();
+}
+
+void SvgHandler::discardCache()
+{
+    // redraw entire app....
+    reTint();
+    m_cache->discard();
+    // App::instance()->mainWindow()->update();
+}
+
+QPixmap SvgHandler::addBordersToPixmap( const QPixmap &orgPixmap, int borderWidth, const QString &name, bool skipCache )
+{
+    int newWidth = orgPixmap.width() + borderWidth * 2;
+    int newHeight = orgPixmap.height() + borderWidth *2;
+
+    QString key;
+    if( !skipCache )
+    {
+        key = QString("%1:%2x%3b%4")
+            .arg( name )
+            .arg( newWidth )
+            .arg( newHeight )
+            .arg( borderWidth );
+    }
+
+    QPixmap pixmap;
+    if( skipCache || !m_cache->find( key, pixmap ) )
+    {
+        // Cache miss! We need to create the pixmap
+        // if skipCache is true, we might actually already have fetched the image, including borders from the cache....
+        // so we really need to create a blank pixmap here as well, to not pollute the cached pixmap
+        pixmap = QPixmap( newWidth, newHeight );
+        pixmap.fill( Qt::transparent );
+
+        QReadLocker readLocker( &m_lock );
+        if( !m_renderers[m_themeFile] )
+        {
+            readLocker.unlock();
+            if( !loadSvg( m_themeFile ) )
+            {
+                return pixmap;
+            }
+            readLocker.relock();
+        }
+
+        QPainter pt( &pixmap );
+
+        pt.drawPixmap( borderWidth, borderWidth, orgPixmap.width(), orgPixmap.height(), orgPixmap );
+
+        m_renderers[m_themeFile]->render( &pt, "cover_border_topleft", QRectF( 0, 0, borderWidth, borderWidth ) );
+        m_renderers[m_themeFile]->render( &pt, "cover_border_top", QRectF( borderWidth, 0, orgPixmap.width(), borderWidth ) );
+        m_renderers[m_themeFile]->render( &pt, "cover_border_topright", QRectF( newWidth - borderWidth , 0, borderWidth, borderWidth ) );
+        m_renderers[m_themeFile]->render( &pt, "cover_border_right", QRectF( newWidth - borderWidth, borderWidth, borderWidth, orgPixmap.height() ) );
+        m_renderers[m_themeFile]->render( &pt, "cover_border_bottomright", QRectF( newWidth - borderWidth, newHeight - borderWidth, borderWidth, borderWidth ) );
+        m_renderers[m_themeFile]->render( &pt, "cover_border_bottom", QRectF( borderWidth, newHeight - borderWidth, orgPixmap.width(), borderWidth ) );
+        m_renderers[m_themeFile]->render( &pt, "cover_border_bottomleft", QRectF( 0, newHeight - borderWidth, borderWidth, borderWidth ) );
+        m_renderers[m_themeFile]->render( &pt, "cover_border_left", QRectF( 0, borderWidth, borderWidth, orgPixmap.height() ) );
+
+        if( !skipCache )
+            m_cache->insert( key, pixmap );
+    }
+
+    return pixmap;
+}
+
+#if 0
+void SvgHandler::paintCustomSlider( QPainter *p, int x, int y, int width, int height, qreal percentage, bool active )
+{
+    int knobSize = height - 4;
+    int sliderRange = width - ( knobSize + 4 );
+    int knobRelPos = x + sliderRange * percentage + 2;
+    int knobY = y + ( height - knobSize ) / 2 + 1;
+
+    int sliderY = y + ( height / 2 ) - 1;
+
+
+    //first draw the played part
+    p->drawPixmap( x, sliderY,
+                   renderSvg(
+                   "new_slider_top_played",
+                   width, 2,
+                   "new_slider_top_played" ),
+                   0, 0, knobRelPos - x, 2 );
+
+    //and then the unplayed part
+    p->drawPixmap( knobRelPos + 1, sliderY,
+                   renderSvg(
+                   "new_slider_top",
+                   width, 2,
+                   "new_slider_top" ),
+                   knobRelPos + 1 - x, 0, -1, 2 );
+
+    //and then the bottom
+    p->drawPixmap( x, sliderY + 2,
+                   renderSvg(
+                   "new_slider_bottom",
+                   width, 2,
+                   "new_slider_bottom" ) );
+
+    //draw end markers
+    p->drawPixmap( x, y,
+                   renderSvg(
+                   "new_slider_end",
+                   2, height,
+                   "new_slider_end" ) );
+
+    p->drawPixmap( x + width - 2, y,
+                   renderSvg(
+                   "new_slider_end",
+                   2, height,
+                   "new_slider_endr" ) );
+
+
+    if ( active )
+        p->drawPixmap( knobRelPos, knobY,
+                       renderSvg(
+                       "new_slider_knob_active",
+                       knobSize, knobSize,
+                       "new_slider_knob_active" ) );
+    else
+        p->drawPixmap( knobRelPos, knobY,
+                       renderSvg(
+                       "new_slider_knob",
+                       knobSize, knobSize,
+                       "new_slider_knob" ) );
+}
+#endif
 
 QRect SvgHandler::sliderKnobRect( const QRect &slider, qreal percent, bool inverse ) const
 {
