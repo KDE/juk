@@ -21,7 +21,7 @@
 
 class QStyleOptionSlider;
 
-#include <KPixmapCache>
+#include <QMap>
 #include <QReadWriteLock>
 
 #include <QPixmap>
@@ -54,10 +54,9 @@ class SvgHandler : public QObject
         * @param width Width of the resulting pixmap
         * @param height Height of the resulting pixmap
         * @param element The theme element to render ( if none the entire svg is rendered )
-        * @param skipCache If true, the pixmap will always get rendered and never fetched from the cache.
         * @return The svg element/file rendered into a pixmap
         */
-        QPixmap renderSvg( const QString& keyname, int width, int height, const QString& element = QString(), bool skipCache = false );
+        QPixmap renderSvg( const QString& keyname, int width, int height, const QString& element = QString() );
 
         /**
          * Paint a custom slider using the specified painter. The slider consists
@@ -94,20 +93,14 @@ class SvgHandler : public QObject
     signals:
         void retinted();
 
-    private slots:
-        void discardCache();
-
     private:
         SvgHandler( QObject* parent = 0 );
 
         bool loadSvg( const QString& name );
 
         QPixmap sliderHandle( const QColor &color, bool pressed, int size );
-        QColor calcLightColor(const QColor &color) const;
-        QColor calcDarkColor(const QColor &color) const;
-        bool lowThreshold(const QColor &color) const;
 
-        KPixmapCache * m_cache;
+        QMap<QString, QPixmap> m_cache;
 
         QSvgRenderer *m_renderer;
         QReadWriteLock m_lock;

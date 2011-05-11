@@ -27,6 +27,7 @@
 #include <QPainter>
 #include <QPalette>
 #include <QReadLocker>
+#include <QStringBuilder>
 #include <QStyleOptionSlider>
 #include <QSvgRenderer>
 #include <QWriteLocker>
@@ -47,17 +48,13 @@ namespace The {
 
 SvgHandler::SvgHandler( QObject* parent )
     : QObject( parent )
-    , m_cache( new KPixmapCache( "JuK-pixmaps" ) )
     , m_renderer( 0 )
     , m_themeFile( "juk/pics/theme.svg" )
 {
-    m_cache->setCacheLimit( 10 * 1024 );
-    // connect( The::paletteHandler(), SIGNAL( newPalette( const QPalette& ) ), this, SLOT( discardCache() ) );
 }
 
 SvgHandler::~SvgHandler()
 {
-    delete m_cache;
     delete m_renderer;
 
     The::s_SvgHandler_instance = 0;
@@ -102,20 +99,18 @@ QSvgRenderer * SvgHandler::getRenderer()
 QPixmap SvgHandler::renderSvg( const QString& keyname,
                                int width,
                                int height,
-                               const QString& element,
-                               bool skipCache )
+                               const QString& element )
 {
-    QString key;
-    if( !skipCache )
-    {
-        key = QString("%1:%2x%3")
-            .arg( keyname )
-            .arg( width )
-            .arg( height );
-    }
+    QString key = keyname % QChar( ':' ) % QString::number( width ) %
+        QChar( 'x' ) % QString::number( height );
 
     QPixmap pixmap;
-    if( skipCache || !m_cache->find( key, pixmap ) )
+    QMap<QString, QPixmap>::const_iterator it = m_cache.find( key );
+    if( it != m_cache.end() )
+    {
+        pixmap = *it;
+    }
+    else
     {
         pixmap = QPixmap( width, height );
         pixmap.fill( Qt::transparent );
@@ -138,8 +133,7 @@ QPixmap SvgHandler::renderSvg( const QString& keyname,
             m_renderer->render( &pt, element, QRectF( 0, 0, width, height ) );
         }
 
-        if( !skipCache )
-            m_cache->insert( key, pixmap );
+        m_cache.insert( key, pixmap );
     }
 
     return pixmap;
@@ -156,14 +150,6 @@ void SvgHandler::reTint()
 QString SvgHandler::themeFile()
 {
     return m_themeFile;
-}
-
-void SvgHandler::discardCache()
-{
-    // redraw entire app....
-    reTint();
-    m_cache->discard();
-    // App::instance()->mainWindow()->update();
 }
 
 QRect SvgHandler::sliderKnobRect( const QRect &slider, qreal percent, bool inverse ) const
