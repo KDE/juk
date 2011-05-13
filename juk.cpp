@@ -95,6 +95,15 @@ JuK::JuK(QWidget *parent) :
     setupActions();
     setupLayout();
 
+
+    bool firstRun = !KGlobal::config()->hasGroup("MainWindow");
+
+    if(firstRun) {
+        KConfigGroup mainWindowConfig(KGlobal::config(), "MainWindow");
+        KConfigGroup playToolBarConfig(&mainWindowConfig, "Toolbar playToolBar");
+        playToolBarConfig.writeEntry("ToolButtonStyle", "IconOnly");
+    }
+
     QSize defaultSize(800, 480);
 
     if(QApplication::isRightToLeft())
@@ -104,7 +113,7 @@ JuK::JuK(QWidget *parent) :
 
     // Center the GUI if this is our first run ever.
 
-    if(!KGlobal::config()->hasGroup("MainWindow")) {
+    if(firstRun) {
         QRect r = rect();
         r.moveCenter(KApplication::desktop()->screenGeometry().center());
         move(r.topLeft());
