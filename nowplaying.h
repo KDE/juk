@@ -135,40 +135,6 @@ private:
     QLabel *m_label;
 };
 
-/**
- * Shows up to 10 items of history and links to those items.
- */
-
-class HistoryItem : public QLabel, public NowPlayingItem
-{
-    Q_OBJECT
-
-public:
-    HistoryItem(NowPlaying *parent);
-    virtual void update(const FileHandle &file);
-    virtual void openLink(const QString &link);
-
-private slots:
-    void slotAddPlaying();
-
-private:
-    struct Item
-    {
-        Item() {}
-        Item(const QString &a, const FileHandle &f, Playlist *p)
-            : anchor(a), file(f), playlist(p) {}
-
-        QString anchor;
-        FileHandle file;
-        QPointer<Playlist> playlist;
-    };
-
-    QList<Item> m_history;
-    QLabel *m_label;
-    QTimer *m_timer;
-    FileHandle m_file;
-};
-
 #endif
 
 // vim: set et sw=4 tw=0 sta:

@@ -48,7 +48,6 @@
 #include "tag.h"
 #include "playlistitem.h"
 #include "collectionlist.h"
-#include "historyplaylist.h"
 
 static const int imageSize = 64;
 
@@ -80,7 +79,6 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
     layout->addWidget(new CoverItem(this), 0);
     layout->addWidget(new TrackItem(this), 2);
     layout->addWidget(new Line(this), 0);
-    layout->addWidget(new HistoryItem(this), 1);
 
     hide();
 }
@@ -324,77 +322,6 @@ void TrackItem::slotClearShowMore()
     PlaylistCollection *collection = NowPlayingItem::parent()->collection();
     Q_ASSERT(collection);
     collection->clearShowMore();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// HistoryItem
-////////////////////////////////////////////////////////////////////////////////
-
-HistoryItem::HistoryItem(NowPlaying *parent) :
-    QLabel(parent),
-    NowPlayingItem(parent),
-    m_timer(new QTimer(this))
-{
-    setFixedHeight(parent->height() - parent->layout()->margin() * 2);
-    setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
-    setText(QString("<b>%1</b>").arg(i18n("History")));
-
-    m_timer->setSingleShot(true);
-    connect(m_timer, SIGNAL(timeout()), this, SLOT(slotAddPlaying()));
-}
-
-void HistoryItem::update(const FileHandle &file)
-{
-    if(file.isNull() || (!m_history.isEmpty() && m_history.front().file == file))
-        return;
-
-    if(m_history.count() >= 10)
-        m_history.removeLast();
-
-    QString format = "<br /><a href=\"%1\"><font size=\"-1\">%2</font></a>";
-    QString current = QString("<b>%1</b>").arg(i18n("History"));
-    QString previous;
-
-    foreach(const Item &historyItem, m_history) {
-        previous = current;
-        current.append(format.arg(historyItem.anchor).arg(Qt::escape(historyItem.file.tag()->title())));
-        setText(current);
-        if(heightForWidth(width()) > imageSize) {
-            setText(previous);
-            break;
-        }
-    }
-
-    m_file = file;
-    m_timer->start(HistoryPlaylist::delay());
-}
-
-void HistoryItem::openLink(const QString &link)
-{
-    foreach(const Item &historyItem, m_history) {
-        if(historyItem.anchor == link) {
-            if(historyItem.playlist) {
-                CollectionListItem *collectionItem =
-                    CollectionList::instance()->lookup(historyItem.file.absFilePath());
-                PlaylistItem *item = collectionItem->itemForPlaylist(historyItem.playlist);
-                historyItem.playlist->clearSelection();
-                historyItem.playlist->setSelected(item, true);
-                historyItem.playlist->ensureItemVisible(item);
-                NowPlayingItem::parent()->collection()->raise(historyItem.playlist);
-            }
-            break;
-        }
-    }
-}
-
-void HistoryItem::slotAddPlaying()
-{
-    // More or less copied from the HistoryPlaylist
-
-    if(!m_file.isNull()) {
-        m_history.prepend(Item(KRandom::randomString(20),
-                               m_file, Playlist::playingItem()->playlist()));
-    }
 }
 
 #include "nowplaying.moc"
