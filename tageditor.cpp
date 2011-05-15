@@ -80,17 +80,17 @@ public:
         QHBoxLayout(parent),
         m_width(-1)
     {
-        setMargin( margin );
-        setSpacing( spacing );
+        setMargin(margin);
+        setSpacing(spacing);
         setObjectName( name );
     }
     FixedHLayout(QLayout *parentLayout, int spacing = -1, const char *name = 0) :
         QHBoxLayout(),
         m_width(-1)
     {
-        parentLayout->addItem( this );
-        setSpacing( spacing );
-        setObjectName( name );
+        parentLayout->addItem(this);
+        setSpacing(spacing);
+        setObjectName(name);
     }
     void setWidth(int w = -1)
     {
@@ -552,9 +552,10 @@ void TagEditor::setupLayout()
         m_fileNameBox->setObjectName(QLatin1String("fileNameBox"));
         m_fileNameBox->setValidator(new FileNameValidator(m_fileNameBox));
 
-        QLabel * tmp = new QLabel(i18n("&File name:"), this);
-        tmp->setBuddy(m_fileNameBox);
-        QWidget *fileNameLabel = addHidden(tmp);
+        QLabel *fileNameLabel = new QLabel(i18n("&File name:"), this);
+        fileNameLabel->setBuddy(m_fileNameBox);
+        fileNameLabel->setMargin(5);
+        addHidden(fileNameLabel);
 
         fileNameLayout->addWidget(fileNameLabel);
         fileNameLayout->setStretchFactor(fileNameLabel, 0);
@@ -746,6 +747,7 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
         return;
 
     QLabel *label = new QLabel(text, this);
+    label->setMargin(5);
     label->setBuddy(item);
 
     QCheckBox *enableBox = new QCheckBox(i18n("Enable"), this);
@@ -759,7 +761,7 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
         layout->addWidget(enableBox);
     }
     else {
-        QHBoxLayout *l = new QHBoxLayout();
+        QHBoxLayout *l = new QHBoxLayout;
         l->setMargin(0);
         layout->addItem(l);
 
