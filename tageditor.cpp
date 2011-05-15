@@ -516,6 +516,16 @@ void TagEditor::setupLayout()
         Q_ASSERT(!targets.isEmpty());
         m_enableBoxes[targets.front()] = enable;
     }
+
+    // Make sure that the labels are as tall as the enable buttons so that the
+    // layout doesn't jump around.
+
+    foreach(QLabel *label, findChildren<QLabel *>()) {
+        if(m_enableBoxes.contains(label->buddy()))
+            label->setMinimumHeight(m_enableBoxes[label->buddy()]->height());
+    }
+
+    tagEditorLayout->setColumnMinimumWidth(1, 200);
 }
 
 void TagEditor::save(const PlaylistItemList &list)
