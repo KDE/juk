@@ -477,11 +477,12 @@ void TagEditor::saveConfig()
 
 void TagEditor::setupActions()
 {
-    KToggleAction *show = new KToggleAction(KIcon( QLatin1String( "document-properties") ), i18n("Show &Tag Editor" ), this);
+    KToggleAction *show = new KToggleAction(KIcon(QLatin1String("document-properties")),
+                                            i18n("Show &Tag Editor"), this);
     ActionCollection::actions()->addAction("showEditor", show);
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
 
-    KAction *act = new KAction(KIcon( QLatin1String( "document-save") ), i18n("&Save" ), this);
+    KAction *act = new KAction(KIcon(QLatin1String( "document-save")), i18n("&Save"), this);
     ActionCollection::actions()->addAction("saveItem", act);
     act->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotSave()));
@@ -516,23 +517,23 @@ void TagEditor::setupLayout()
     //////////////////////////////////////////////////////////////////////////////
     { // just for organization
 
-        m_artistNameBox = new KComboBox( true, this );
-        m_artistNameBox->setObjectName( QLatin1String( "artistNameBox" ) );
+        m_artistNameBox = new KComboBox(true, this);
+        m_artistNameBox->setObjectName(QLatin1String("artistNameBox"));
         m_artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-        addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout, "view-media-artist");
+        addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout);
 
         m_trackNameBox = new KLineEdit(this);
         m_trackNameBox->setObjectName( QLatin1String( "trackNameBox" ) );
-        addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout, "media-playback-start");
+        addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout);
 
-        m_albumNameBox = new KComboBox( true, this );
-        m_albumNameBox->setObjectName( QLatin1String( "albumNameBox" ) );
+        m_albumNameBox = new KComboBox(true, this);
+        m_albumNameBox->setObjectName(QLatin1String( "albumNameBox"));
         m_albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-        addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout, "media-optical-audio");
+        addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout);
 
-        m_genreBox = new KComboBox( true, this );
-        m_genreBox->setObjectName( QLatin1String( "genreBox" ) );
-        addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout, "help-about");
+        m_genreBox = new KComboBox(true, this);
+        m_genreBox->setObjectName(QLatin1String("genreBox"));
+        addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout);
 
         // this fills the space at the bottem of the left column
         leftColumnLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
@@ -548,18 +549,14 @@ void TagEditor::setupLayout()
         fileNameLayout->setSpacing(horizontalSpacing);
 
         m_fileNameBox = new KLineEdit(this);
-        m_fileNameBox->setObjectName( QLatin1String( "fileNameBox" ) );
+        m_fileNameBox->setObjectName(QLatin1String("fileNameBox"));
         m_fileNameBox->setValidator(new FileNameValidator(m_fileNameBox));
 
-        QLabel *fileNameIcon = new QLabel(this);
-        fileNameIcon->setPixmap(SmallIcon("audio-x-generic"));
         QLabel * tmp = new QLabel(i18n("&File name:"), this);
-        tmp->setBuddy( m_fileNameBox );
+        tmp->setBuddy(m_fileNameBox);
         QWidget *fileNameLabel = addHidden(tmp);
 
-        fileNameLayout->addWidget(addHidden(fileNameIcon));
         fileNameLayout->addWidget(fileNameLabel);
-        fileNameLayout->setStretchFactor(fileNameIcon, 0);
         fileNameLayout->setStretchFactor(fileNameLabel, 0);
         fileNameLayout->insertStretch(-1, 1);
         rightColumnLayout->addWidget(addHidden(m_fileNameBox));
@@ -569,12 +566,12 @@ void TagEditor::setupLayout()
                                                             horizontalSpacing);
 
             m_trackSpin = new KIntSpinBox(0, 9999, 1, 0, this);
-            m_trackSpin->setObjectName( QLatin1String( "trackSpin" ) );
+            m_trackSpin->setObjectName(QLatin1String("trackSpin"));
             addItem(i18nc("cd track number", "T&rack:"), m_trackSpin, trackRowLayout);
             m_trackSpin->installEventFilter(this);
 
             m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, this );
-            m_yearSpin->setObjectName( QLatin1String( "yearSpin" ) );
+            m_yearSpin->setObjectName(QLatin1String("yearSpin"));
             addItem(i18n("&Year:"), m_yearSpin, trackRowLayout);
             m_yearSpin->installEventFilter(this);
 
@@ -588,7 +585,7 @@ void TagEditor::setupLayout()
                                                             horizontalSpacing);
 
             m_lengthBox = new KLineEdit(this);
-            m_lengthBox->setObjectName( QLatin1String( "lengthBox" ) );
+            m_lengthBox->setObjectName(QLatin1String("lengthBox"));
             // addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
             m_lengthBox->setMinimumWidth(fontMetrics().width("00:00") + trackRowLayout->spacing());
             m_lengthBox->setMaximumWidth(60);
@@ -597,7 +594,7 @@ void TagEditor::setupLayout()
             addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
 
             m_bitrateBox = new KLineEdit(this);
-            m_bitrateBox->setObjectName( QLatin1String( "bitrateBox" ) );
+            m_bitrateBox->setObjectName(QLatin1String("bitrateBox"));
             // addItem(i18n("Bitrate:"), m_bitrateBox, trackRowLayout);
             m_bitrateBox->setMinimumWidth(fontMetrics().width("000") + trackRowLayout->spacing());
             m_bitrateBox->setMaximumWidth(60);
@@ -612,8 +609,8 @@ void TagEditor::setupLayout()
         }
 
         m_commentBox = new KTextEdit(this);
-        m_commentBox->setObjectName( QLatin1String( "commentBox" ) );
-        addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout, "document-properties");
+        m_commentBox->setObjectName(QLatin1String("commentBox"));
+        addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout);
         fileNameLabel->setMinimumHeight(m_trackSpin->height());
 
     }
@@ -743,18 +740,13 @@ void TagEditor::saveChangesPrompt()
     }
 }
 
-void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, const QString &iconName)
+void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
 {
     if(!item || !layout)
         return;
 
     QLabel *label = new QLabel(text, this);
-    label->setBuddy( item );
-    QLabel *iconLabel = new QLabel(0, this);
-    iconLabel->setBuddy( item );
-
-    if(!iconName.isNull())
-        iconLabel->setPixmap(SmallIcon(iconName));
+    label->setBuddy(item);
 
     QCheckBox *enableBox = new QCheckBox(i18n("Enable"), this);
     enableBox->setChecked(true);
@@ -762,7 +754,6 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, 
     label->setMinimumHeight(enableBox->height());
 
     if(layout->direction() == QBoxLayout::LeftToRight) {
-        layout->addWidget(iconLabel);
         layout->addWidget(label);
         layout->addWidget(item);
         layout->addWidget(enableBox);
@@ -772,7 +763,6 @@ void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout, 
         l->setMargin(0);
         layout->addItem(l);
 
-        l->addWidget(iconLabel);
         l->addWidget(label);
         l->setStretchFactor(label, 1);
 
