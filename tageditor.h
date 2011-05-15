@@ -68,17 +68,6 @@ private:
     void saveConfig();
     void save(const PlaylistItemList &list);
     void saveChangesPrompt();
-    /**
-     * Adds an item to JuK's tagging layout.  This handles the creation and
-     * placement of the "enable" box as well.
-     */
-    void addItem(const QString &text, QWidget *item, QBoxLayout *layout);
-
-    /**
-     * Adds a widget to m_hideList and returns that widget.
-     */
-    QWidget *addHidden(QWidget *w) { m_hideList.append(w); return w; }
-
     virtual void showEvent(QShowEvent *e);
     virtual bool eventFilter(QObject *watched, QEvent *e);
 
@@ -92,8 +81,6 @@ private:
     BoxMap m_enableBoxes;
 
     QStringList m_genreList;
-
-    QList<QWidget *> m_hideList;
 
     PlaylistItemList m_items;
     Playlist *m_currentPlaylist;

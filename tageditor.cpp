@@ -260,10 +260,19 @@ void TagEditor::slotRefresh()
 
     // If there is more than one item in the m_items that we're dealing with...
 
-    if(it != m_items.end()) {
 
-        foreach(QWidget *w, m_hideList)
-            w->hide();
+    QList<QWidget *> disabledForMulti;
+
+    disabledForMulti << fileNameLabel << fileNameBox << lengthLabel << lengthBox
+                     << bitrateLabel << bitrateBox;
+
+    foreach(QWidget *w, disabledForMulti) {
+        w->setDisabled(m_items.size() > 1);
+        if(m_items.size() > 1 && !w->inherits("QLabel"))
+            QMetaObject::invokeMethod(w, "clear");
+    }
+
+    if(it != m_items.end()) {
 
         foreach(QCheckBox *box, m_enableBoxes) {
             box->setChecked(true);
@@ -338,11 +347,6 @@ void TagEditor::slotRefresh()
         }
     }
     else {
-        // Clean up in the case that we are only handling one item.
-
-        foreach(QWidget *w, m_hideList)
-            w->show();
-
         foreach(QCheckBox *box, m_enableBoxes) {
             box->setChecked(true);
             box->hide();
@@ -502,6 +506,16 @@ void TagEditor::setupLayout()
         if(input->inherits("QTextEdit"))
             connect(input, SIGNAL(textChanged()), this, SLOT(slotDataChanged()));
     }
+
+    // Do some meta-programming to find the matching enable boxes
+
+    foreach(QCheckBox *enable, findChildren<QCheckBox *>(QRegExp("Enable"))) {
+        enable->hide();
+        QRegExp re("^" + enable->objectName().replace("Enable", "") + "(Box|Spin)$");
+        QList<QWidget *> targets = findChildren<QWidget *>(re);
+        Q_ASSERT(!targets.isEmpty());
+        m_enableBoxes[targets.front()] = enable;
+    }
 }
 
 void TagEditor::save(const PlaylistItemList &list)
@@ -599,47 +613,6 @@ void TagEditor::saveChangesPrompt()
     {
         save(m_items);
     }
-}
-
-void TagEditor::addItem(const QString &text, QWidget *item, QBoxLayout *layout)
-{
-    if(!item || !layout)
-        return;
-
-    QLabel *label = new QLabel(text, this);
-    label->setMargin(5);
-    label->setBuddy(item);
-
-    QCheckBox *enableBox = new QCheckBox(i18n("Enable"), this);
-    enableBox->setChecked(true);
-
-    label->setMinimumHeight(enableBox->height());
-
-    if(layout->direction() == QBoxLayout::LeftToRight) {
-        layout->addWidget(label);
-        layout->addWidget(item);
-        layout->addWidget(enableBox);
-    }
-    else {
-        QHBoxLayout *l = new QHBoxLayout;
-        l->setMargin(0);
-        layout->addItem(l);
-
-        l->addWidget(label);
-        l->setStretchFactor(label, 1);
-
-        l->insertStretch(-1, 1);
-
-        l->addWidget(enableBox);
-        l->setStretchFactor(enableBox, 0);
-
-        layout->addWidget(item);
-    }
-
-    enableBox->hide();
-
-    connect(enableBox, SIGNAL(toggled(bool)), item, SLOT(setEnabled(bool)));
-    m_enableBoxes.insert(item, enableBox);
 }
 
 void TagEditor::showEvent(QShowEvent *e)
