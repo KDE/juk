@@ -231,27 +231,27 @@ void TagEditor::slotRefresh()
     if(!fi.isWritable() && m_items.count() == 1)
         setEnabled(false);
 
-    m_artistNameBox->setEditText(tag->artist());
-    m_trackNameBox->setText(tag->title());
-    m_albumNameBox->setEditText(tag->album());
+    artistNameBox->setEditText(tag->artist());
+    trackNameBox->setText(tag->title());
+    albumNameBox->setEditText(tag->album());
 
-    m_fileNameBox->setText(item->file().fileInfo().fileName());
-    m_fileNameBox->setToolTip(item->file().absFilePath());
+    fileNameBox->setText(item->file().fileInfo().fileName());
+    fileNameBox->setToolTip(item->file().absFilePath());
 
-    m_bitrateBox->setText(QString::number(tag->bitrate()));
-    m_lengthBox->setText(tag->lengthString());
+    bitrateBox->setText(QString::number(tag->bitrate()));
+    lengthBox->setText(tag->lengthString());
 
     if(m_genreList.indexOf(tag->genre()) >= 0)
-        m_genreBox->setCurrentIndex(m_genreList.indexOf(tag->genre()) + 1);
+        genreBox->setCurrentIndex(m_genreList.indexOf(tag->genre()) + 1);
     else {
-        m_genreBox->setCurrentIndex(0);
-        m_genreBox->setEditText(tag->genre());
+        genreBox->setCurrentIndex(0);
+        genreBox->setEditText(tag->genre());
     }
 
-    m_trackSpin->setValue(tag->track());
-    m_yearSpin->setValue(tag->year());
+    trackSpin->setValue(tag->track());
+    yearSpin->setValue(tag->year());
 
-    m_commentBox->setPlainText(tag->comment());
+    commentBox->setPlainText(tag->comment());
 
     // Start at the second item, since we've already processed the first.
 
@@ -277,13 +277,13 @@ void TagEditor::slotRefresh()
         // Also, if there are more than 50 m_items, don't scan all of them.
 
         if(m_items.count() > 50) {
-            m_enableBoxes[m_artistNameBox]->setChecked(false);
-            m_enableBoxes[m_trackNameBox]->setChecked(false);
-            m_enableBoxes[m_albumNameBox]->setChecked(false);
-            m_enableBoxes[m_genreBox]->setChecked(false);
-            m_enableBoxes[m_trackSpin]->setChecked(false);
-            m_enableBoxes[m_yearSpin]->setChecked(false);
-            m_enableBoxes[m_commentBox]->setChecked(false);
+            m_enableBoxes[artistNameBox]->setChecked(false);
+            m_enableBoxes[trackNameBox]->setChecked(false);
+            m_enableBoxes[albumNameBox]->setChecked(false);
+            m_enableBoxes[genreBox]->setChecked(false);
+            m_enableBoxes[trackSpin]->setChecked(false);
+            m_enableBoxes[yearSpin]->setChecked(false);
+            m_enableBoxes[commentBox]->setChecked(false);
         }
         else {
             for(; it != m_items.end(); ++it) {
@@ -291,47 +291,47 @@ void TagEditor::slotRefresh()
 
                 if(tag) {
 
-                    if(m_artistNameBox->currentText() != tag->artist() &&
-                       m_enableBoxes.contains(m_artistNameBox))
+                    if(artistNameBox->currentText() != tag->artist() &&
+                       m_enableBoxes.contains(artistNameBox))
                     {
-                        m_artistNameBox->lineEdit()->clear();
-                        m_enableBoxes[m_artistNameBox]->setChecked(false);
+                        artistNameBox->lineEdit()->clear();
+                        m_enableBoxes[artistNameBox]->setChecked(false);
                     }
-                    if(m_trackNameBox->text() != tag->title() &&
-                       m_enableBoxes.contains(m_trackNameBox))
+                    if(trackNameBox->text() != tag->title() &&
+                       m_enableBoxes.contains(trackNameBox))
                     {
-                        m_trackNameBox->clear();
-                        m_enableBoxes[m_trackNameBox]->setChecked(false);
+                        trackNameBox->clear();
+                        m_enableBoxes[trackNameBox]->setChecked(false);
                     }
-                    if(m_albumNameBox->currentText() != tag->album() &&
-                       m_enableBoxes.contains(m_albumNameBox))
+                    if(albumNameBox->currentText() != tag->album() &&
+                       m_enableBoxes.contains(albumNameBox))
                     {
-                        m_albumNameBox->lineEdit()->clear();
-                        m_enableBoxes[m_albumNameBox]->setChecked(false);
+                        albumNameBox->lineEdit()->clear();
+                        m_enableBoxes[albumNameBox]->setChecked(false);
                     }
-                    if(m_genreBox->currentText() != tag->genre() &&
-                       m_enableBoxes.contains(m_genreBox))
+                    if(genreBox->currentText() != tag->genre() &&
+                       m_enableBoxes.contains(genreBox))
                     {
-                        m_genreBox->lineEdit()->clear();
-                        m_enableBoxes[m_genreBox]->setChecked(false);
+                        genreBox->lineEdit()->clear();
+                        m_enableBoxes[genreBox]->setChecked(false);
                     }
-                    if(m_trackSpin->value() != tag->track() &&
-                       m_enableBoxes.contains(m_trackSpin))
+                    if(trackSpin->value() != tag->track() &&
+                       m_enableBoxes.contains(trackSpin))
                     {
-                        m_trackSpin->setValue(0);
-                        m_enableBoxes[m_trackSpin]->setChecked(false);
+                        trackSpin->setValue(0);
+                        m_enableBoxes[trackSpin]->setChecked(false);
                     }
-                    if(m_yearSpin->value() != tag->year() &&
-                       m_enableBoxes.contains(m_yearSpin))
+                    if(yearSpin->value() != tag->year() &&
+                       m_enableBoxes.contains(yearSpin))
                     {
-                        m_yearSpin->setValue(0);
-                        m_enableBoxes[m_yearSpin]->setChecked(false);
+                        yearSpin->setValue(0);
+                        m_enableBoxes[yearSpin]->setChecked(false);
                     }
-                    if(m_commentBox->toPlainText() != tag->comment() &&
-                       m_enableBoxes.contains(m_commentBox))
+                    if(commentBox->toPlainText() != tag->comment() &&
+                       m_enableBoxes.contains(commentBox))
                     {
-                        m_commentBox->clear();
-                        m_enableBoxes[m_commentBox]->setChecked(false);
+                        commentBox->clear();
+                        m_enableBoxes[commentBox]->setChecked(false);
                     }
                 }
             }
@@ -353,17 +353,17 @@ void TagEditor::slotRefresh()
 
 void TagEditor::slotClear()
 {
-    m_artistNameBox->lineEdit()->clear();
-    m_trackNameBox->clear();
-    m_albumNameBox->lineEdit()->clear();
-    m_genreBox->setCurrentIndex(0);
-    m_fileNameBox->clear();
-    m_fileNameBox->setToolTip(QString());
-    m_trackSpin->setValue(0);
-    m_yearSpin->setValue(0);
-    m_lengthBox->clear();
-    m_bitrateBox->clear();
-    m_commentBox->clear();
+    artistNameBox->lineEdit()->clear();
+    trackNameBox->clear();
+    albumNameBox->lineEdit()->clear();
+    genreBox->setCurrentIndex(0);
+    fileNameBox->clear();
+    fileNameBox->setToolTip(QString());
+    trackSpin->setValue(0);
+    yearSpin->setValue(0);
+    lengthBox->clear();
+    bitrateBox->clear();
+    commentBox->clear();
 }
 
 void TagEditor::slotUpdateCollection()
@@ -385,15 +385,15 @@ void TagEditor::updateCollection()
 
     QStringList artistList = list->uniqueSet(CollectionList::Artists);
     artistList.sort();
-    m_artistNameBox->clear();
-    m_artistNameBox->addItems(artistList);
-    m_artistNameBox->completionObject()->setItems(artistList);
+    artistNameBox->clear();
+    artistNameBox->addItems(artistList);
+    artistNameBox->completionObject()->setItems(artistList);
 
     QStringList albumList = list->uniqueSet(CollectionList::Albums);
     albumList.sort();
-    m_albumNameBox->clear();
-    m_albumNameBox->addItems(albumList);
-    m_albumNameBox->completionObject()->setItems(albumList);
+    albumNameBox->clear();
+    albumNameBox->addItems(albumList);
+    albumNameBox->completionObject()->setItems(albumList);
 
     // Merge the list of genres found in tags with the standard ID3v1 set.
 
@@ -412,10 +412,10 @@ void TagEditor::updateCollection()
     m_genreList = genreHash.values();
     m_genreList.sort();
 
-    m_genreBox->clear();
-    m_genreBox->addItem(QString());
-    m_genreBox->addItems(m_genreList);
-    m_genreBox->completionObject()->setItems(m_genreList);
+    genreBox->clear();
+    genreBox->addItem(QString());
+    genreBox->addItems(m_genreList);
+    genreBox->completionObject()->setItems(m_genreList);
 
     // We've cleared out the original entries of these list boxes, re-read
     // the current item if one is selected.
@@ -431,10 +431,10 @@ void TagEditor::readConfig()
     // combo box completion modes
 
     KConfigGroup config(KGlobal::config(), "TagEditor");
-    if(m_artistNameBox && m_albumNameBox) {
-        readCompletionMode(config, m_artistNameBox, "ArtistNameBoxMode");
-        readCompletionMode(config, m_albumNameBox, "AlbumNameBoxMode");
-        readCompletionMode(config, m_genreBox, "GenreBoxMode");
+    if(artistNameBox && albumNameBox) {
+        readCompletionMode(config, artistNameBox, "ArtistNameBoxMode");
+        readCompletionMode(config, albumNameBox, "AlbumNameBoxMode");
+        readCompletionMode(config, genreBox, "GenreBoxMode");
     }
 
     bool show = config.readEntry("Show", false);
@@ -447,10 +447,10 @@ void TagEditor::readConfig()
         m_genreList.append(TStringToQString((*it)));
     m_genreList.sort();
 
-    m_genreBox->clear();
-    m_genreBox->addItem(QString());
-    m_genreBox->addItems(m_genreList);
-    m_genreBox->completionObject()->setItems(m_genreList);
+    genreBox->clear();
+    genreBox->addItem(QString());
+    genreBox->addItems(m_genreList);
+    genreBox->completionObject()->setItems(m_genreList);
 }
 
 void TagEditor::readCompletionMode(const KConfigGroup &config, KComboBox *box, const QString &key)
@@ -467,10 +467,10 @@ void TagEditor::saveConfig()
 
     KConfigGroup config(KGlobal::config(), "TagEditor");
 
-    if(m_artistNameBox && m_albumNameBox) {
-        config.writeEntry("ArtistNameBoxMode", (int)m_artistNameBox->completionMode());
-        config.writeEntry("AlbumNameBoxMode", (int)m_albumNameBox->completionMode());
-        config.writeEntry("GenreBoxMode", (int)m_genreBox->completionMode());
+    if(artistNameBox && albumNameBox) {
+        config.writeEntry("ArtistNameBoxMode", (int)artistNameBox->completionMode());
+        config.writeEntry("AlbumNameBoxMode", (int)albumNameBox->completionMode());
+        config.writeEntry("GenreBoxMode", (int)genreBox->completionMode());
     }
     config.writeEntry("Show", ActionCollection::action<KToggleAction>("showEditor")->isChecked());
 }
@@ -490,158 +490,18 @@ void TagEditor::setupActions()
 
 void TagEditor::setupLayout()
 {
-    static const int horizontalSpacing = 2;
-    static const int verticalSpacing = 2;
+    setupUi(this);
 
-    QHBoxLayout *layout = new QHBoxLayout(this);
-    layout->setSpacing(horizontalSpacing);
-    layout->setMargin(0);
-
-    //////////////////////////////////////////////////////////////////////////////
-    // define two columns of the bottem layout
-    //////////////////////////////////////////////////////////////////////////////
-    QVBoxLayout *leftColumnLayout = new QVBoxLayout();
-    layout->addItem( leftColumnLayout );
-    leftColumnLayout->setSpacing(verticalSpacing);
-    leftColumnLayout->setMargin(0);
-    QVBoxLayout *rightColumnLayout = new QVBoxLayout();
-    layout->addItem( rightColumnLayout );
-    rightColumnLayout->setSpacing(verticalSpacing);
-    rightColumnLayout->setMargin(0);
-
-    layout->setStretchFactor(leftColumnLayout, 2);
-    layout->setStretchFactor(rightColumnLayout, 3);
-
-    //////////////////////////////////////////////////////////////////////////////
-    // put stuff in the left column -- all of the field names are class wide
-    //////////////////////////////////////////////////////////////////////////////
-    { // just for organization
-
-        m_artistNameBox = new KComboBox(true, this);
-        m_artistNameBox->setObjectName(QLatin1String("artistNameBox"));
-        m_artistNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-        addItem(i18n("&Artist name:"), m_artistNameBox, leftColumnLayout);
-
-        m_trackNameBox = new KLineEdit(this);
-        m_trackNameBox->setObjectName( QLatin1String( "trackNameBox" ) );
-        addItem(i18n("&Track name:"), m_trackNameBox, leftColumnLayout);
-
-        m_albumNameBox = new KComboBox(true, this);
-        m_albumNameBox->setObjectName(QLatin1String( "albumNameBox"));
-        m_albumNameBox->setCompletionMode(KGlobalSettings::CompletionAuto);
-        addItem(i18n("Album &name:"), m_albumNameBox, leftColumnLayout);
-
-        m_genreBox = new KComboBox(true, this);
-        m_genreBox->setObjectName(QLatin1String("genreBox"));
-        addItem(i18n("&Genre:"), m_genreBox, leftColumnLayout);
-
-        // this fills the space at the bottem of the left column
-        leftColumnLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Minimum,
-                                                  QSizePolicy::Expanding));
+    foreach(QWidget *input, findChildren<QWidget *>()) {
+        if(input->inherits("QLineEdit") || input->inherits("QComboBox"))
+            connect(input, SIGNAL(textChanged(const QString &)), this, SLOT(slotDataChanged()));
+        if(input->inherits("QComboxBox"))
+            connect(input, SIGNAL(activated(int)), this, SLOT(slotDataChanged()));
+        if(input->inherits("QSpinBox"))
+            connect(input, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
+        if(input->inherits("QTextEdit"))
+            connect(input, SIGNAL(textChanged()), this, SLOT(slotDataChanged()));
     }
-    //////////////////////////////////////////////////////////////////////////////
-    // put stuff in the right column
-    //////////////////////////////////////////////////////////////////////////////
-    { // just for organization
-
-        QHBoxLayout *fileNameLayout = new QHBoxLayout();
-        rightColumnLayout->addItem(fileNameLayout);
-        fileNameLayout->setSpacing(horizontalSpacing);
-
-        m_fileNameBox = new KLineEdit(this);
-        m_fileNameBox->setObjectName(QLatin1String("fileNameBox"));
-        m_fileNameBox->setValidator(new FileNameValidator(m_fileNameBox));
-
-        QLabel *fileNameLabel = new QLabel(i18n("&File name:"), this);
-        fileNameLabel->setBuddy(m_fileNameBox);
-        fileNameLabel->setMargin(5);
-        addHidden(fileNameLabel);
-
-        fileNameLayout->addWidget(fileNameLabel);
-        fileNameLayout->setStretchFactor(fileNameLabel, 0);
-        fileNameLayout->insertStretch(-1, 1);
-        rightColumnLayout->addWidget(addHidden(m_fileNameBox));
-
-        { // lay out the track row
-            FixedHLayout *trackRowLayout = new FixedHLayout(rightColumnLayout,
-                                                            horizontalSpacing);
-
-            m_trackSpin = new KIntSpinBox(0, 9999, 1, 0, this);
-            m_trackSpin->setObjectName(QLatin1String("trackSpin"));
-            addItem(i18nc("cd track number", "T&rack:"), m_trackSpin, trackRowLayout);
-            m_trackSpin->installEventFilter(this);
-
-            m_yearSpin = new KIntSpinBox(0, 9999, 1, 0, this );
-            m_yearSpin->setObjectName(QLatin1String("yearSpin"));
-            addItem(i18n("&Year:"), m_yearSpin, trackRowLayout);
-            m_yearSpin->installEventFilter(this);
-
-            trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                                                    QSizePolicy::Minimum));
-
-            trackRowLayout->setWidth();
-        }
-        {
-            FixedHLayout *trackRowLayout = new FixedHLayout(rightColumnLayout,
-                                                            horizontalSpacing);
-
-            m_lengthBox = new KLineEdit(this);
-            m_lengthBox->setObjectName(QLatin1String("lengthBox"));
-            // addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
-            m_lengthBox->setMinimumWidth(fontMetrics().width("00:00") + trackRowLayout->spacing());
-            m_lengthBox->setMaximumWidth(60);
-            m_lengthBox->setAlignment(Qt::AlignRight);
-            m_lengthBox->setReadOnly(true);
-            addItem(i18n("Length:"), m_lengthBox, trackRowLayout);
-
-            m_bitrateBox = new KLineEdit(this);
-            m_bitrateBox->setObjectName(QLatin1String("bitrateBox"));
-            // addItem(i18n("Bitrate:"), m_bitrateBox, trackRowLayout);
-            m_bitrateBox->setMinimumWidth(fontMetrics().width("000") + trackRowLayout->spacing());
-            m_bitrateBox->setMaximumWidth(60);
-            m_bitrateBox->setAlignment(Qt::AlignRight);
-            m_bitrateBox->setReadOnly(true);
-            addItem(i18n("Bitrate:"), m_bitrateBox, trackRowLayout);
-
-            trackRowLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding,
-                                                    QSizePolicy::Minimum));
-
-            trackRowLayout->setWidth();
-        }
-
-        m_commentBox = new KTextEdit(this);
-        m_commentBox->setObjectName(QLatin1String("commentBox"));
-        addItem(i18n("&Comment:"), m_commentBox, rightColumnLayout);
-        fileNameLabel->setMinimumHeight(m_trackSpin->height());
-
-    }
-
-    connect(m_artistNameBox, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotDataChanged()));
-
-    connect(m_trackNameBox, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotDataChanged()));
-
-    connect(m_albumNameBox, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotDataChanged()));
-
-    connect(m_genreBox, SIGNAL(activated(int)),
-            this, SLOT(slotDataChanged()));
-
-    connect(m_genreBox, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotDataChanged()));
-
-    connect(m_fileNameBox, SIGNAL(textChanged(const QString&)),
-            this, SLOT(slotDataChanged()));
-
-    connect(m_yearSpin, SIGNAL(valueChanged(int)),
-            this, SLOT(slotDataChanged()));
-
-    connect(m_trackSpin, SIGNAL(valueChanged(int)),
-            this, SLOT(slotDataChanged()));
-
-    connect(m_commentBox, SIGNAL(textChanged()),
-            this, SLOT(slotDataChanged()));
 }
 
 void TagEditor::save(const PlaylistItemList &list)
@@ -675,7 +535,7 @@ void TagEditor::save(const PlaylistItemList &list)
             ++it;
 
             QString fileName = item->file().fileInfo().path() + QDir::separator() +
-                               m_fileNameBox->text();
+                               fileNameBox->text();
             if(list.count() > 1)
                 fileName = item->file().fileInfo().absoluteFilePath();
 
@@ -687,27 +547,27 @@ void TagEditor::save(const PlaylistItemList &list)
             // files.  We have to check to see if that is enabled before
             // each field that we write.
 
-            if(m_enableBoxes[m_artistNameBox]->isChecked())
-                tag->setArtist(m_artistNameBox->currentText());
-            if(m_enableBoxes[m_trackNameBox]->isChecked())
-                tag->setTitle(m_trackNameBox->text());
-            if(m_enableBoxes[m_albumNameBox]->isChecked())
-                tag->setAlbum(m_albumNameBox->currentText());
-            if(m_enableBoxes[m_trackSpin]->isChecked()) {
-                if(m_trackSpin->text().isEmpty())
-                    m_trackSpin->setValue(0);
-                tag->setTrack(m_trackSpin->value());
+            if(m_enableBoxes[artistNameBox]->isChecked())
+                tag->setArtist(artistNameBox->currentText());
+            if(m_enableBoxes[trackNameBox]->isChecked())
+                tag->setTitle(trackNameBox->text());
+            if(m_enableBoxes[albumNameBox]->isChecked())
+                tag->setAlbum(albumNameBox->currentText());
+            if(m_enableBoxes[trackSpin]->isChecked()) {
+                if(trackSpin->text().isEmpty())
+                    trackSpin->setValue(0);
+                tag->setTrack(trackSpin->value());
             }
-            if(m_enableBoxes[m_yearSpin]->isChecked()) {
-                if(m_yearSpin->text().isEmpty())
-                    m_yearSpin->setValue(0);
-                tag->setYear(m_yearSpin->value());
+            if(m_enableBoxes[yearSpin]->isChecked()) {
+                if(yearSpin->text().isEmpty())
+                    yearSpin->setValue(0);
+                tag->setYear(yearSpin->value());
             }
-            if(m_enableBoxes[m_commentBox]->isChecked())
-                tag->setComment(m_commentBox->toPlainText());
+            if(m_enableBoxes[commentBox]->isChecked())
+                tag->setComment(commentBox->toPlainText());
 
-            if(m_enableBoxes[m_genreBox]->isChecked())
-                tag->setGenre(m_genreBox->currentText());
+            if(m_enableBoxes[genreBox]->isChecked())
+                tag->setGenre(genreBox->currentText());
 
             TagTransactionManager::instance()->changeTagOnItem(item, tag);
         }

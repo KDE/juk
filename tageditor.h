@@ -20,6 +20,8 @@
 #include <QList>
 #include <QMap>
 
+#include "ui_tageditor.h"
+
 class KComboBox;
 class KLineEdit;
 class KIntSpinBox;
@@ -35,7 +37,7 @@ class PlaylistItem;
 
 typedef QList<PlaylistItem *> PlaylistItemList;
 
-class TagEditor : public QWidget
+class TagEditor : public QWidget, public Ui::TagEditor
 {
     Q_OBJECT
 
@@ -90,17 +92,6 @@ private:
     BoxMap m_enableBoxes;
 
     QStringList m_genreList;
-
-    KComboBox *m_artistNameBox;
-    KLineEdit *m_trackNameBox;
-    KComboBox *m_albumNameBox;
-    KComboBox *m_genreBox;
-    KLineEdit *m_fileNameBox;
-    KIntSpinBox *m_trackSpin;
-    KIntSpinBox *m_yearSpin;
-    KLineEdit *m_lengthBox;
-    KLineEdit *m_bitrateBox;
-    KTextEdit *m_commentBox;
 
     QList<QWidget *> m_hideList;
 

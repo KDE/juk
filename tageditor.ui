@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>TagEditor</class>
+ <widget class="QWidget" name="TagEditor">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>502</width>
+    <height>220</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Form</string>
+  </property>
+  <layout class="QHBoxLayout" name="horizontalLayout">
+   <item>
+    <layout class="QGridLayout" name="tagEditorLayout">
+     <item row="0" column="2" colspan="4">
+      <widget class="QLabel" name="fileNameLabel">
+       <property name="text">
+        <string>F&amp;ile name:</string>
+       </property>
+       <property name="buddy">
+        <cstring>fileNameBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QLabel" name="trackLabel">
+       <property name="text">
+        <string>T&amp;rack:</string>
+       </property>
+       <property name="buddy">
+        <cstring>trackSpin</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="artistNameLabel">
+       <property name="text">
+        <string>&amp;Artist name:</string>
+       </property>
+       <property name="buddy">
+        <cstring>artistNameBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="albumNameLabel">
+       <property name="text">
+        <string>Album &amp;name:</string>
+       </property>
+       <property name="buddy">
+        <cstring>albumNameBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="6" column="0">
+      <widget class="QLabel" name="genreLabel">
+       <property name="text">
+        <string>&amp;Genre:</string>
+       </property>
+       <property name="buddy">
+        <cstring>genreBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="2" colspan="4">
+      <widget class="KLineEdit" name="fileNameBox"/>
+     </item>
+     <item row="2" column="4">
+      <widget class="QLabel" name="yearLabel">
+       <property name="text">
+        <string>&amp;Year:</string>
+       </property>
+       <property name="buddy">
+        <cstring>yearSpin</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="3">
+      <widget class="QLineEdit" name="lengthBox"/>
+     </item>
+     <item row="3" column="5">
+      <widget class="QLineEdit" name="bitrateBox"/>
+     </item>
+     <item row="3" column="2">
+      <widget class="QLabel" name="lengthLabel">
+       <property name="text">
+        <string>&amp;Length:</string>
+       </property>
+       <property name="buddy">
+        <cstring>lengthBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="4">
+      <widget class="QLabel" name="bitrateLabel">
+       <property name="text">
+        <string>&amp;Bitrate:</string>
+       </property>
+       <property name="buddy">
+        <cstring>bitrateBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="2" colspan="4">
+      <widget class="QLabel" name="commentLabel">
+       <property name="text">
+        <string>&amp;Comment:</string>
+       </property>
+       <property name="buddy">
+        <cstring>commentBox</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="2" rowspan="4" colspan="4">
+      <widget class="KTextEdit" name="commentBox"/>
+     </item>
+     <item row="8" column="0">
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item row="5" column="0">
+      <widget class="KComboBox" name="albumNameBox">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="7" column="0">
+      <widget class="KComboBox" name="genreBox">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0">
+      <widget class="KComboBox" name="artistNameBox">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="3">
+      <widget class="KIntSpinBox" name="trackSpin"/>
+     </item>
+     <item row="2" column="5">
+      <widget class="KIntSpinBox" name="yearSpin"/>
+     </item>
+     <item row="0" column="1" rowspan="8">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="KLineEdit" name="trackNameBox"/>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="trackNameLabel">
+       <property name="text">
+        <string>Trac&amp;k name:</string>
+       </property>
+       <property name="buddy">
+        <cstring>trackNameBox</cstring>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+  </layout>
+ </widget>
+ <customwidgets>
+  <customwidget>
+   <class>KIntSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>knuminput.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KComboBox</class>
+   <extends>QComboBox</extends>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>ktextedit.h</header>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

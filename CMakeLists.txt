@@ -111,6 +111,7 @@ kde4_add_ui_files(juk_SRCS
 	exampleoptionsbase.ui
 	coverdialogbase.ui
 	deletedialogbase.ui
+	tageditor.ui
 )
 
 kde4_add_app_icon(juk_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-juk.png")
