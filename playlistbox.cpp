@@ -313,7 +313,7 @@ void PlaylistBox::remove()
     QStringList names;
 
     foreach(Item *item, items) {
-        if(item && item->playlist()) 
+        if(item && item->playlist())
         {
            if (!item->playlist()->fileName().isEmpty() &&
                QFileInfo(item->playlist()->fileName()).exists())
@@ -676,11 +676,13 @@ void PlaylistBox::slotPlaylistChanged()
 
 void PlaylistBox::slotDoubleClicked(Q3ListViewItem *item)
 {
+    if(!item)
+        return;
+
     TrackSequenceManager *manager = TrackSequenceManager::instance();
     Item *playlistItem = static_cast<Item *>(item);
 
-    if(item)
-        manager->setCurrentPlaylist(playlistItem->playlist());
+    manager->setCurrentPlaylist(playlistItem->playlist());
 
     manager->setCurrent(0); // Reset playback
     PlaylistItem *next = manager->nextItem(); // Allow manager to choose
