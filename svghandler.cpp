@@ -105,8 +105,8 @@ QPixmap SvgHandler::renderSvg( const QString& keyname,
         QChar( 'x' ) % QString::number( height );
 
     QPixmap pixmap;
-    QMap<QString, QPixmap>::const_iterator it = m_cache.find( key );
-    if( it != m_cache.end() )
+    QMap<QString, QPixmap>::const_iterator it = m_cache.constFind( key );
+    if( it != m_cache.constEnd() )
     {
         pixmap = *it;
     }
