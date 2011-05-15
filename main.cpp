@@ -87,16 +87,14 @@ int main(int argc, char *argv[])
 
     // Create the main window and such
 
-    if(a.isSessionRestored()) {
-        kRestoreMainWindows<JuK>();
-    }
-    else {
-        JuK *juk = new JuK;
+    JuK *juk = new JuK;
 
-        KConfigGroup config(KGlobal::config(), "Settings");
-        if(!config.readEntry("StartDocked", false))
-            juk->show();
-    }
+    if(a.isSessionRestored() && KMainWindow::canBeRestored(1))
+        juk->restore(1, false /* don't show */);
+
+    KConfigGroup config(KGlobal::config(), "Settings");
+    if(!config.readEntry("StartDocked", false))
+        juk->show();
 
     return a.exec();
 }
