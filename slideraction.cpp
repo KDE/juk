@@ -32,31 +32,36 @@
 #include "juk.h"
 
 TrackPositionAction::TrackPositionAction(const QString &text, QObject *parent) :
-    KAction(text, parent),
-    m_slider(0)
+    KAction(text, parent)
 {
 
+}
+
+Slider *TrackPositionAction::slider() const
+{
+    return parent()->findChild<Slider *>("timeSlider");
 }
 
 QWidget *TrackPositionAction::createWidget(QWidget *parent)
 {
-    m_slider = new TimeSlider(parent);
+    Slider *slider = new TimeSlider(parent);
+    slider->setObjectName(QLatin1String("timeSlider"));
 
     PlayerManager *player = JuK::JuKInstance()->playerManager();
 
-    connect(player, SIGNAL(tick(int)), m_slider, SLOT(setValue(int)));
+    connect(player, SIGNAL(tick(int)), slider, SLOT(setValue(int)));
     connect(player, SIGNAL(totalTimeChanged(int)), this, SLOT(totalTimeChanged(int)));
-    connect(m_slider, SIGNAL(sliderMoved(int)), player, SLOT(seek(int)));
+    connect(slider, SIGNAL(sliderMoved(int)), player, SLOT(seek(int)));
 
-    return m_slider;
+    return slider;
 }
 
 void TrackPositionAction::totalTimeChanged(int ms)
 {
-    m_slider->setRange(0, ms);
+    slider()->setRange(0, ms);
     bool seekable = JuK::JuKInstance()->playerManager()->seekable();
-    m_slider->setEnabled(seekable);
-    m_slider->setToolTip(seekable ?
+    slider()->setEnabled(seekable);
+    slider()->setToolTip(seekable ?
                          QString() :
                          i18n("Seeking is not supported in this file with your audio settings."));
 }

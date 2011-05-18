@@ -28,13 +28,11 @@ class TrackPositionAction : public KAction
     Q_OBJECT
 public:
     TrackPositionAction(const QString &text, QObject *parent);
-    Slider *slider() const { return m_slider; }
+    Slider *slider() const;
 protected:
     virtual QWidget *createWidget(QWidget *parent);
 private slots:
     void totalTimeChanged(int ms);
-private:
-    Slider *m_slider;
 };
 
 class VolumeAction : public KAction
