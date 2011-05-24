@@ -1842,7 +1842,8 @@ void Playlist::calculateColumnWeights()
         }
     }
 
-    m_columnWeights.fill(-1, columns());
+    if(m_columnWeights.isEmpty())
+        m_columnWeights.fill(-1, columns());
 
     foreach(int column, m_weightDirty) {
         m_columnWeights[column] = int(std::sqrt(averageWidth[column]) + 0.5);

@@ -403,10 +403,10 @@ void CollectionListItem::refresh()
         }
 
         int newWidth = width(listView()->fontMetrics(), listView(), i);
-        data()->cachedWidths[i] = newWidth;
-
         if(newWidth != data()->cachedWidths[i])
             playlist()->slotWeightDirty(i);
+
+        data()->cachedWidths[i] = newWidth;
     }
 
     if(listView()->isVisible())
