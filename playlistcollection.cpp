@@ -184,9 +184,11 @@ void PlaylistCollection::createDynamicPlaylist(const PlaylistList &playlists)
 {
     if(m_dynamicPlaylist)
         m_dynamicPlaylist->setPlaylists(playlists);
-    else
+    else {
         m_dynamicPlaylist =
             new DynamicPlaylist(playlists, this, i18n("Dynamic List"), "audio-midi", false, true);
+        PlaylistCollection::setupPlaylist(m_dynamicPlaylist, QString());
+    }
 
     PlaylistCollection::raise(m_dynamicPlaylist);
 }
