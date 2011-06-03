@@ -1705,7 +1705,10 @@ void Playlist::setup()
     m_headerMenu = m_columnVisibleAction->menu();
 
     // TODO: Determine if other stuff in setup must happen before slotInitialize().
-    QTimer::singleShot(0, this, SLOT(slotInitialize()));
+
+    // Explicitly call slotInitialize() so that the columns are added before
+    // SharedSettings::apply() sets the visible and hidden ones.
+    slotInitialize();
 }
 
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
