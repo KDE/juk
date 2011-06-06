@@ -318,9 +318,6 @@ QDataStream &operator>>(QDataStream &s, PlaylistSearch::Component &c)
       >> columns
       >> mode;
 
-    if(pattern.isEmpty())
-        throw BICStreamException();
-
     if(patternSearch)
         c = PlaylistSearch::Component(QRegExp(pattern), columns);
     else
