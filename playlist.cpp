@@ -1251,14 +1251,15 @@ void Playlist::applySharedSettings()
 
 void Playlist::read(QDataStream &s)
 {
-    QString buffer;
-
     s >> m_playlistName
       >> m_fileName;
 
     // m_fileName is probably empty.
     if(m_playlistName.isEmpty())
         throw BICStreamException();
+
+    // Do not sort. Add the files in the order they were saved.
+    setSorting(columns() + 1);
 
     QStringList files;
     s >> files;
