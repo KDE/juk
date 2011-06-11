@@ -69,7 +69,7 @@ void MusicBrainzLookup::error()
 void MusicBrainzLookup::message(const QString &s) const
 {
     QString message = QString("%1 (%2)").arg(s).arg(m_file.fileInfo().fileName());
-    JuK::JuKInstance()->statusBar()->message(message, 3000);
+    JuK::JuKInstance()->statusBar()->showMessage(message, 3000);
 }
 
 void MusicBrainzLookup::confirmation()
