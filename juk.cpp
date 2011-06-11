@@ -465,8 +465,10 @@ bool JuK::queryExit()
     // supposed to do end of execution destruction yet anyways, use
     // slotAboutToQuit for that.
 
+    // Save configuration data.
     m_startDocked = !isVisible();
     saveConfig();
+    Cache::instance()->save();
 
     return true;
 }
@@ -524,10 +526,6 @@ void JuK::slotQuit()
     }
     else
         QTimer::singleShot(0, this, SLOT(slotPlaybackStopped()));
-
-    // Get these started since they don't involve deleting any running objects.
-    Cache::instance()->save();
-    saveConfig();
 }
 
 void JuK::slotPlaybackStopped()
