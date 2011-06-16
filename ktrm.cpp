@@ -24,8 +24,7 @@
 #include "ktrm.h"
 #include <config-juk.h>
 
-#ifdef HAVE_TUNEPIMP //Silence warning about HAVE_TUNEPIMP not being defined.
-#if HAVE_TUNEPIMP
+#if (HAVE_TUNEPIMP > 0)
 
 #include <kprotocolmanager.h>
 #include <kurl.h>
@@ -769,7 +768,6 @@ double stringSimilarity(QString s1, QString s2)
     return l3 ? nCommon * 2.0 / l3 : 1.0;
 }
 
-#endif
-#endif
+#endif // (HAVE_TUNEPIMP > 0)
 
 // vim: set et sw=4 tw=0 sta:
