@@ -206,7 +206,7 @@ private:
     static PlaylistItemList m_playingItems;
 };
 
-inline kdbgstream &operator<<(kdbgstream &s, const PlaylistItem &item)
+inline QDebug operator<<(QDebug s, const PlaylistItem &item)
 {
     if(&item == 0)
         s << "(nil)";
