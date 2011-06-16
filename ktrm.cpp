@@ -27,7 +27,6 @@
 #ifdef HAVE_TUNEPIMP //Silence warning about HAVE_TUNEPIMP not being defined.
 #if HAVE_TUNEPIMP
 
-#include <k3resolver.h>
 #include <kprotocolmanager.h>
 #include <kurl.h>
 #include <kdebug.h>
@@ -169,7 +168,7 @@ protected:
             // Check what hosts are allowed to proceed without being proxied,
             // or if using reversed proxy, what hosts must be proxied.
             foreach(const QString &host, noProxies) {
-                QString normalizedHost = KNetwork::KResolver::normalizeDomain(host);
+                const QString normalizedHost(KUrl::fromAce(KUrl::toAce(host)));
 
                 if(normalizedHost == tunepimpHost ||
                    tunepimpHost.endsWith('.' + normalizedHost))
