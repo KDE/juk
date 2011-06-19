@@ -38,7 +38,6 @@ class JuK : public KXmlGuiWindow
 public:
     JuK(QWidget* parent = 0);
     virtual ~JuK();
-    virtual KActionCollection *actionCollection() const;
 
     static JuK* JuKInstance();
 
