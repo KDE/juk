@@ -117,11 +117,6 @@ JuK::~JuK()
 {
 }
 
-KActionCollection *JuK::actionCollection() const
-{
-    return ActionCollection::actions();
-}
-
 JuK* JuK::JuKInstance()
 {
     return m_instance;

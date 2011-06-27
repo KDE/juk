@@ -14,6 +14,7 @@
  ***************************************************************************/
 
 #include "actioncollection.h"
+#include "juk.h"
 
 #include <kactioncollection.h>
 #include <kdebug.h>
@@ -22,8 +23,16 @@ namespace ActionCollection
 {
     KActionCollection *actions()
     {
-        static KActionCollection *a =
-            new KActionCollection(static_cast<QObject *>(0));
+        // Use KXMLGUIClient::actionCollection() (class JuK derives from
+        // KXMLGUIClient) to construct the KActionCollection.
+        // This makes sure that KActionCollection::parentGUIClient() is not
+        // NULL and prevents the application from crashing when adding an
+        // item to a toolbar using RMB (see bug #258641).
+        // XXX This should not just be:
+        //      return JuK::JuKInstance()->actionCollection();
+        // as actions() may be called while within JuK's dtor, in which case
+        // JuKInstance()->... would result to a crash.
+        static KActionCollection *a = JuK::JuKInstance()->actionCollection();
         // The widget of the action collection is set in Juk::setupActions().
         return a;
     }
