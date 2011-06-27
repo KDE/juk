@@ -69,7 +69,6 @@ private slots:
     void slotShowHide();
     void slotAboutToQuit();
     void slotQuit();
-    void slotPlaybackStopped();
     void slotToggleSystemTray(bool enabled);
     void slotEditKeys();
     void slotConfigureTagGuesser();

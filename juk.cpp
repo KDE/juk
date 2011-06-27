@@ -460,6 +460,11 @@ bool JuK::queryExit()
     // supposed to do end of execution destruction yet anyways, use
     // slotAboutToQuit for that.
 
+    // Some phonon backends will crash on shutdown unless we've stopped
+    // playback.
+    if(m_player->playing())
+        m_player->stop();
+
     // Save configuration data.
     m_startDocked = !isVisible();
     saveConfig();
@@ -513,18 +518,6 @@ void JuK::slotQuit()
 {
     m_shuttingDown = true;
 
-    // Some phonon backends will crash on shutdown unless we're deep in the middle of the StoppedState.
-    // So have the PlayerManager tell us when we're stopped and we'll continue.
-    if(m_player->playing()) {
-        connect(m_player, SIGNAL(signalStop()), SLOT(slotPlaybackStopped()));
-        m_player->stop();
-    }
-    else
-        QTimer::singleShot(0, this, SLOT(slotPlaybackStopped()));
-}
-
-void JuK::slotPlaybackStopped()
-{
     kapp->quit();
 }
 
