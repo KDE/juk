@@ -320,7 +320,7 @@ void JuK::setupActions()
     collection->addAction("trackPositionAction",
                           new TrackPositionAction(i18n("Track Position"), this));
     collection->addAction("volumeAction",
-                          new VolumeAction(i18n("Track Position"), this));
+                          new VolumeAction(i18n("Volume"), this));
 
     ActionCollection::actions()->addAssociatedWidget(this);
     foreach (QAction* action, ActionCollection::actions()->actions())
