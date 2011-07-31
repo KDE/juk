@@ -178,8 +178,8 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
     saveChangesPrompt();
 
     if(m_currentPlaylist) {
-        disconnect(m_currentPlaylist, SIGNAL(signalAboutToRemove(PlaylistItem *)),
-                   this, SLOT(slotItemRemoved(PlaylistItem *)));
+        disconnect(m_currentPlaylist, SIGNAL(signalAboutToRemove(PlaylistItem*)),
+                   this, SLOT(slotItemRemoved(PlaylistItem*)));
     }
 
     if((hadPlaylist && !m_currentPlaylist) || !itemPlaylist) {
@@ -195,8 +195,8 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
     }
 
     if(m_currentPlaylist) {
-        connect(m_currentPlaylist, SIGNAL(signalAboutToRemove(PlaylistItem *)),
-                this, SLOT(slotItemRemoved(PlaylistItem *)));
+        connect(m_currentPlaylist, SIGNAL(signalAboutToRemove(PlaylistItem*)),
+                this, SLOT(slotItemRemoved(PlaylistItem*)));
         connect(m_currentPlaylist, SIGNAL(destroyed()), this, SLOT(slotPlaylistRemoved()));
     }
 
@@ -498,7 +498,7 @@ void TagEditor::setupLayout()
 
     foreach(QWidget *input, findChildren<QWidget *>()) {
         if(input->inherits("QLineEdit") || input->inherits("QComboBox"))
-            connect(input, SIGNAL(textChanged(const QString &)), this, SLOT(slotDataChanged()));
+            connect(input, SIGNAL(textChanged(QString)), this, SLOT(slotDataChanged()));
         if(input->inherits("QComboxBox"))
             connect(input, SIGNAL(activated(int)), this, SLOT(slotDataChanged()));
         if(input->inherits("QSpinBox"))

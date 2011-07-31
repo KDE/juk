@@ -210,11 +210,11 @@ VolumeSlider::VolumeSlider( uint max, QWidget *parent, bool customStyle )
     setFocusPolicy( Qt::NoFocus );
     setInvertedAppearance( false );
     setInvertedControls( false );
-    connect( this, SIGNAL( sliderMoved( int ) ),
-             this, SLOT( emitVolumeChanged( int ) ) );
+    connect( this, SIGNAL(sliderMoved(int)),
+             this, SLOT(emitVolumeChanged(int)) );
 
-    connect( this, SIGNAL( sliderReleased( int ) ),
-             this, SLOT( emitVolumeChanged( int ) ) );
+    connect( this, SIGNAL(sliderReleased(int)),
+             this, SLOT(emitVolumeChanged(int)) );
 }
 
 void

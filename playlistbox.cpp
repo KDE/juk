@@ -135,11 +135,11 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     connect(this, SIGNAL(selectionChanged()),
             this, SLOT(slotPlaylistChanged()));
 
-    connect(this, SIGNAL(doubleClicked(Q3ListViewItem *)),
-            this, SLOT(slotDoubleClicked(Q3ListViewItem *)));
+    connect(this, SIGNAL(doubleClicked(Q3ListViewItem*)),
+            this, SLOT(slotDoubleClicked(Q3ListViewItem*)));
 
-    connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)),
-            this, SLOT(slotShowContextMenu(Q3ListViewItem *, const QPoint &, int)));
+    connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem*,QPoint,int)),
+            this, SLOT(slotShowContextMenu(Q3ListViewItem*,QPoint,int)));
 
     TagTransactionManager *tagManager = TagTransactionManager::instance();
     connect(tagManager, SIGNAL(signalAboutToModifyTags()), SLOT(slotFreezePlaylists()));
@@ -147,10 +147,10 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
 
     setupUpcomingPlaylist();
 
-    connect(CollectionList::instance(), SIGNAL(signalNewTag(const QString &, unsigned)),
-            this, SLOT(slotAddItem(const QString &, unsigned)));
-    connect(CollectionList::instance(), SIGNAL(signalRemovedTag(const QString &, unsigned)),
-            this, SLOT(slotRemoveItem(const QString &, unsigned)));
+    connect(CollectionList::instance(), SIGNAL(signalNewTag(QString,uint)),
+            this, SLOT(slotAddItem(QString,uint)));
+    connect(CollectionList::instance(), SIGNAL(signalRemovedTag(QString,uint)),
+            this, SLOT(slotRemoveItem(QString,uint)));
 
     QTimer::singleShot(0, this, SLOT(slotLoadCachedPlaylists()));
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
@@ -262,8 +262,8 @@ void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem)
 {
-    connect(playlist, SIGNAL(signalPlaylistItemsDropped(Playlist *)),
-            SLOT(slotPlaylistItemsDropped(Playlist *)));
+    connect(playlist, SIGNAL(signalPlaylistItemsDropped(Playlist*)),
+            SLOT(slotPlaylistItemsDropped(Playlist*)));
 
     PlaylistCollection::setupPlaylist(playlist, iconName);
 
@@ -845,8 +845,8 @@ void PlaylistBox::Item::init()
     list->addNameToDict(m_text);
 
     if(m_playlist) {
-        connect(m_playlist, SIGNAL(signalNameChanged(const QString &)),
-                this, SLOT(slotSetName(const QString &)));
+        connect(m_playlist, SIGNAL(signalNameChanged(QString)),
+                this, SLOT(slotSetName(QString)));
         connect(m_playlist, SIGNAL(signalEnableDirWatch(bool)),
                 list->object(), SLOT(slotEnableDirWatch(bool)));
     }

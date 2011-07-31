@@ -1564,19 +1564,19 @@ void Playlist::slotInitialize()
         adjustColumn(i);
     }
 
-    connect(m_headerMenu, SIGNAL(triggered(QAction *)), this, SLOT(slotToggleColumnVisible(QAction *)));
+    connect(m_headerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleColumnVisible(QAction*)));
 
-    connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem *, const QPoint &, int)),
-            this, SLOT(slotShowRMBMenu(Q3ListViewItem *, const QPoint &, int)));
-    connect(this, SIGNAL(itemRenamed(Q3ListViewItem *, const QString &, int)),
-            this, SLOT(slotInlineEditDone(Q3ListViewItem *, const QString &, int)));
-    connect(this, SIGNAL(doubleClicked(Q3ListViewItem *)),
+    connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem*,QPoint,int)),
+            this, SLOT(slotShowRMBMenu(Q3ListViewItem*,QPoint,int)));
+    connect(this, SIGNAL(itemRenamed(Q3ListViewItem*,QString,int)),
+            this, SLOT(slotInlineEditDone(Q3ListViewItem*,QString,int)));
+    connect(this, SIGNAL(doubleClicked(Q3ListViewItem*)),
             this, SLOT(slotPlayCurrent()));
-    connect(this, SIGNAL(returnPressed(Q3ListViewItem *)),
+    connect(this, SIGNAL(returnPressed(Q3ListViewItem*)),
             this, SLOT(slotPlayCurrent()));
 
-    connect(header(), SIGNAL(sizeChange(int, int, int)),
-            this, SLOT(slotColumnSizeChanged(int, int, int)));
+    connect(header(), SIGNAL(sizeChange(int,int,int)),
+            this, SLOT(slotColumnSizeChanged(int,int,int)));
 
     connect(renameLineEdit(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
             this, SLOT(slotInlineCompletionModeChanged(KGlobalSettings::Completion)));
@@ -1678,7 +1678,7 @@ void Playlist::setup()
 {
     setItemMargin(3);
 
-    connect(header(), SIGNAL(indexChange(int, int, int)), this, SLOT(slotColumnOrderChanged(int, int, int)));
+    connect(header(), SIGNAL(indexChange(int,int,int)), this, SLOT(slotColumnOrderChanged(int,int,int)));
 
     connect(m_fetcher, SIGNAL(signalCoverChanged(int)), this, SLOT(slotCoverChanged(int)));
 

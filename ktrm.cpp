@@ -629,7 +629,7 @@ void KTRMLookup::puidGenerated()
     d->results.clear();
 
     KIO::Job *job = KIO::storedGet( QString( "http://musicbrainz.org/ws/1/track/?type=xml&puid=%1" ).arg( puid ) , KIO::NoReload, KIO::HideProgressInfo );
-    connect( job, SIGNAL( result( KJob* ) ), SLOT( lookupResult( KJob* ) ) );
+    connect( job, SIGNAL(result(KJob*)), SLOT(lookupResult(KJob*)) );
 #endif
 }
 

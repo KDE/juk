@@ -106,7 +106,7 @@ void WebImageFetcher::slotLoadImageURLs()
     kDebug() << "Using request " << url.encodedPathAndQuery();
 
     d->connection = KIO::storedGet(url, KIO::Reload /* reload always */, KIO::HideProgressInfo);
-    connect(d->connection, SIGNAL(result(KJob *)), SLOT(slotWebRequestFinished(KJob *)));
+    connect(d->connection, SIGNAL(result(KJob*)), SLOT(slotWebRequestFinished(KJob*)));
 
     // Wait for the results...
 }
@@ -201,7 +201,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
         d->dialog = new WebImageFetcherDialog(d->imageList, d->file, 0);
 	d->dialog->setModal(true);
 
-	connect(d->dialog, SIGNAL(coverSelected(const KUrl &)), SLOT(slotCoverChosen(const KUrl &)));
+	connect(d->dialog, SIGNAL(coverSelected(KUrl)), SLOT(slotCoverChosen(KUrl)));
 	connect(d->dialog, SIGNAL(newSearchRequested()), SLOT(slotNewSearch()));
     }
 

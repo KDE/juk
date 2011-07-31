@@ -63,8 +63,8 @@ WebImageFetcherDialog::WebImageFetcherDialog(const WebImageList &imageList,
     m_iconWidget->setIconSize(QSize(80, 80));
 
     mainLayout->addWidget(m_iconWidget);
-    connect(m_iconWidget, SIGNAL(activated(const QModelIndex &)),
-            this, SLOT(slotActivated(const QModelIndex &)));
+    connect(m_iconWidget, SIGNAL(activated(QModelIndex)),
+            this, SLOT(slotActivated(QModelIndex)));
 
     // Before changing the code below be sure to check the attribution terms
     // of the Yahoo Image Search API.
@@ -74,8 +74,8 @@ WebImageFetcherDialog::WebImageFetcherDialog(const WebImageList &imageList,
     logoLabel->setPixmap(UserIcon("yahoo_credit"));
     logoLabel->setMargin(15);    // Allow large margin per attribution terms.
     logoLabel->setUseTips(true); // Show URL in tooltip.
-    connect(logoLabel, SIGNAL(leftClickedUrl(const QString &)),
-                       SLOT(showCreditURL(const QString &)));
+    connect(logoLabel, SIGNAL(leftClickedUrl(QString)),
+                       SLOT(showCreditURL(QString)));
 
     QBoxLayout *creditLayout = new QHBoxLayout;
     mainLayout->addLayout(creditLayout);
@@ -194,7 +194,7 @@ WebCoverIconViewItem::WebCoverIconViewItem(QWidget *parent, const WebImage &imag
     // Start downloading the image.
 
     m_job = KIO::storedGet(image.thumbURL(), KIO::NoReload, KIO::HideProgressInfo);
-    connect(m_job, SIGNAL(result(KJob *)), this, SLOT(imageResult(KJob *)));
+    connect(m_job, SIGNAL(result(KJob*)), this, SLOT(imageResult(KJob*)));
 }
 
 WebCoverIconViewItem::~WebCoverIconViewItem()

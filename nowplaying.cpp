@@ -254,8 +254,8 @@ TrackItem::TrackItem(NowPlaying *parent) :
     layout->addWidget(m_label);
     layout->addStretch();
 
-    connect(m_label, SIGNAL(linkActivated(const QString &)), this,
-            SLOT(slotOpenLink(const QString &)));
+    connect(m_label, SIGNAL(linkActivated(QString)), this,
+            SLOT(slotOpenLink(QString)));
 
     // Ensure that if we're filtering results, that the filtering is cleared if we
     // hide the now playing bar so that the user can select tracks normally.

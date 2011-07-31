@@ -122,8 +122,8 @@ void TrackSequenceManager::setCurrentPlaylist(Playlist *list)
         m_playlist->disconnect(this);
     m_playlist = list;
 
-    connect(m_playlist, SIGNAL(signalAboutToRemove(PlaylistItem *)),
-            this,       SLOT(slotItemAboutToDie(PlaylistItem *)));
+    connect(m_playlist, SIGNAL(signalAboutToRemove(PlaylistItem*)),
+            this,       SLOT(slotItemAboutToDie(PlaylistItem*)));
 }
 
 void TrackSequenceManager::setCurrent(PlaylistItem *item)
@@ -149,8 +149,8 @@ void TrackSequenceManager::initialize()
         return;
 
     // Make sure we don't use m_playNextItem if it's invalid.
-    connect(collection, SIGNAL(signalAboutToRemove(PlaylistItem *)),
-            this, SLOT(slotItemAboutToDie(PlaylistItem *)));
+    connect(collection, SIGNAL(signalAboutToRemove(PlaylistItem*)),
+            this, SLOT(slotItemAboutToDie(PlaylistItem*)));
 
     m_initialized = true;
 }

@@ -206,10 +206,10 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     connect(m_fadeTimer, SIGNAL(timeout()), SLOT(slotNextStep()));
 
     // Handle wheel events
-    connect(this, SIGNAL(scrollRequested(int, Qt::Orientation)), SLOT(scrollEvent(int, Qt::Orientation)));
+    connect(this, SIGNAL(scrollRequested(int,Qt::Orientation)), SLOT(scrollEvent(int,Qt::Orientation)));
 
     // Add a quick hook for play/pause toggle
-    connect(this, SIGNAL(secondaryActivateRequested(const QPoint &)),
+    connect(this, SIGNAL(secondaryActivateRequested(QPoint)),
             action("playPause"), SLOT(trigger()));
 
     if(m_player->playing())

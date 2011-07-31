@@ -62,7 +62,7 @@ SearchLine::SearchLine(QWidget *parent, bool simple)
     layout->addWidget(m_lineEdit);
     m_lineEdit->setClearButtonShown(true);
     m_lineEdit->installEventFilter(this);
-    connect(m_lineEdit, SIGNAL(textChanged(const QString &)),
+    connect(m_lineEdit, SIGNAL(textChanged(QString)),
             this, SIGNAL(signalQueryChanged()));
     connect(m_lineEdit, SIGNAL(returnPressed()),
             this, SLOT(slotActivate()));

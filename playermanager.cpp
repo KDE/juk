@@ -566,7 +566,7 @@ void PlayerManager::setup()
         m_audioPath[i].insertEffect(m_fader[i]);
         m_fader[i]->setVolume(1.0f);
 
-        connect(m_media[i], SIGNAL(stateChanged(Phonon::State, Phonon::State)), SLOT(slotStateChanged(Phonon::State, Phonon::State)));
+        connect(m_media[i], SIGNAL(stateChanged(Phonon::State,Phonon::State)), SLOT(slotStateChanged(Phonon::State,Phonon::State)));
         connect(m_media[i], SIGNAL(prefinishMarkReached(qint32)), SLOT(slotNeedNextUrl()));
         connect(m_media[i], SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
         connect(m_media[i], SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));

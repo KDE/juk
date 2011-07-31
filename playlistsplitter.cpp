@@ -197,8 +197,8 @@ void PlaylistSplitter::setupLayout()
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));
-    connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist *)),
-            m_editor, SLOT(slotPlaylistDestroyed(Playlist *)));
+    connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist*)),
+            m_editor, SLOT(slotPlaylistDestroyed(Playlist*)));
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
     connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
             m_player, SLOT(play(FileHandle)));

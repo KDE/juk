@@ -722,12 +722,12 @@ void PlaylistCollection::enableDirWatch(bool enable)
 
     m_dirLister.disconnect(object());
     if(enable) {
-        QObject::connect(&m_dirLister, SIGNAL(newItems(const KFileItemList &)),
-                object(), SLOT(slotNewItems(const KFileItemList &)));
-        QObject::connect(&m_dirLister, SIGNAL(refreshItems(const QList<QPair<KFileItem, KFileItem> > &)),
-                collection, SLOT(slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > &)));
-        QObject::connect(&m_dirLister, SIGNAL(deleteItem(const KFileItem &)),
-                collection, SLOT(slotDeleteItem(const KFileItem &)));
+        QObject::connect(&m_dirLister, SIGNAL(newItems(KFileItemList)),
+                object(), SLOT(slotNewItems(KFileItemList)));
+        QObject::connect(&m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
+                collection, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
+        QObject::connect(&m_dirLister, SIGNAL(deleteItem(KFileItem)),
+                collection, SLOT(slotDeleteItem(KFileItem)));
     }
 }
 

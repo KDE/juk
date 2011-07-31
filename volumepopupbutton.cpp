@@ -58,8 +58,8 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     QWidgetAction * sliderActionWidget = new QWidgetAction( this );
     sliderActionWidget->setDefaultWidget( mainBox );
 
-    connect( m_volumeSlider, SIGNAL( volumeChanged( float ) ), player, SLOT( setVolume( float ) ) );
-    connect( m_volumeSlider, SIGNAL( volumeChanged( float ) ), player, SLOT( setVolume( float ) ) );
+    connect( m_volumeSlider, SIGNAL(volumeChanged(float)), player, SLOT(setVolume(float)) );
+    connect( m_volumeSlider, SIGNAL(volumeChanged(float)), player, SLOT(setVolume(float)) );
 
     QToolBar *muteBar = new QToolBar( QString(), mainBox );
     muteBar->setContentsMargins( 0, 0, 0, 0 );
@@ -68,8 +68,8 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     m_muteAction->setCheckable ( true );
     m_muteAction->setChecked( player->muted() );
 
-    connect( m_muteAction, SIGNAL( toggled( bool ) ), player, SLOT( setMuted( bool ) ) );
-    connect( m_muteAction, SIGNAL( toggled( bool ) ), this, SLOT( muteStateChanged( bool ) ) );
+    connect( m_muteAction, SIGNAL(toggled(bool)), player, SLOT(setMuted(bool)) );
+    connect( m_muteAction, SIGNAL(toggled(bool)), this, SLOT(muteStateChanged(bool)) );
 
     m_volumeMenu->addAction( sliderActionWidget );
     muteBar->addAction( m_muteAction );
@@ -77,8 +77,8 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     // set correct icon and label initially
     volumeChanged( player->volume() );
 
-    connect( m_volumeSlider, SIGNAL( volumeChanged( float ) ),
-             this, SLOT( volumeChanged( float ) ) );
+    connect( m_volumeSlider, SIGNAL(volumeChanged(float)),
+             this, SLOT(volumeChanged(float)) );
 }
 
 void
