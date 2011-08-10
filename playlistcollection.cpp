@@ -207,6 +207,7 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
 
     playlists.append(CollectionList::instance());
 
+    if(!artist.isNull())
     { // Just setting off the artist stuff in its own block.
         ColumnList columns;
         columns.append(PlaylistItem::ArtistColumn);

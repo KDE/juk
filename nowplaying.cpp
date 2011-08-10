@@ -66,7 +66,7 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
     m_collectionListObserver(this, CollectionList::instance()),
     m_collection(collection)
 {
-    setObjectName( QLatin1String("NowPlaying" ));
+    setObjectName(QLatin1String("NowPlaying"));
 
     QHBoxLayout *layout = new QHBoxLayout(this);
     setLayout(layout);
