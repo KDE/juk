@@ -94,7 +94,7 @@ class SystemTray : public KStatusNotifierItem
     Q_OBJECT
 
 public:
-    SystemTray(PlayerManager *player, QWidget *parent = 0);
+    explicit SystemTray(PlayerManager *player, QWidget *parent = 0);
 
 signals:
     // Emitted when the fade process is complete.

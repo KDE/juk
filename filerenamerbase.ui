@@ -232,7 +232,7 @@
        </layout>
       </item>
       <item>
-       <widget class="QLineEdit" name="m_exampleText">
+       <widget class="KLineEdit" name="m_exampleText">
         <property name="focusPolicy">
          <enum>Qt::NoFocus</enum>
         </property>

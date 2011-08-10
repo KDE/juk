@@ -12,8 +12,9 @@
  *   (at your option) any later version.                                   *
  *                                                                         *
  ***************************************************************************/
-#include <QHash>
 #include "stringshare.h"
+
+#include <QHash>
 
 const int SIZE = 5003;
 

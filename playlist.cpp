@@ -1078,7 +1078,7 @@ void Playlist::decode(const QMimeData *s, PlaylistItem *item)
 
         KMimeType::Ptr mimeType = KMimeType::findByPath(file);
 
-        if(item && mimeType->name().startsWith("image/")) {
+        if(item && mimeType->name().startsWith(QLatin1String("image/"))) {
             item->file().coverInfo()->setCover(QImage(file));
             refreshAlbum(item->file().tag()->artist(),
                          item->file().tag()->album());

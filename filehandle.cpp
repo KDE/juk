@@ -153,7 +153,7 @@ void FileHandle::setFile(const QString &path)
     }
 
     if(!QFile::exists(path)) {
-        kError() << "trying to set non-existant file: " << path << endl;
+        kError() << "trying to set non-existent file: " << path << endl;
         return;
     }
 

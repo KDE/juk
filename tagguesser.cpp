@@ -180,7 +180,11 @@ void TagGuesser::loadSchemes()
 
 void TagGuesser::guess(const QString &absFileName)
 {
-    m_title = m_artist = m_album = m_track = m_comment = QString();
+    m_title.clear();
+    m_artist.clear();
+    m_album.clear();
+    m_track.clear();
+    m_comment.clear();
 
     FileNameScheme::List::ConstIterator it = m_schemes.constBegin();
     FileNameScheme::List::ConstIterator end = m_schemes.constEnd();

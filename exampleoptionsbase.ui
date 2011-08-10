@@ -209,28 +209,28 @@
             <number>0</number>
            </property>
            <item>
-            <widget class="QLineEdit" name="m_exampleTitle" >
+            <widget class="KLineEdit" name="m_exampleTitle" >
              <property name="text" >
               <string comment="example song title" >Title</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="m_exampleArtist" >
+            <widget class="KLineEdit" name="m_exampleArtist" >
              <property name="text" >
               <string>Artist</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="m_exampleAlbum" >
+            <widget class="KLineEdit" name="m_exampleAlbum" >
              <property name="text" >
               <string>Album</string>
              </property>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="m_exampleGenre" >
+            <widget class="KLineEdit" name="m_exampleGenre" >
              <property name="text" >
               <string>Genre</string>
              </property>

@@ -952,7 +952,7 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
 
     // Split path, and go through each path element.  If a path element has
     // the album information, set its folder icon.
-    QStringList elements = dstURL.directory().split("/", QString::SkipEmptyParts);
+    QStringList elements = dstURL.directory().split('/', QString::SkipEmptyParts);
     QString path;
 
     for(QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) {

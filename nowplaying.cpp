@@ -46,7 +46,6 @@
 #include "coverinfo.h"
 #include "covermanager.h"
 #include "tag.h"
-#include "playlistitem.h"
 #include "collectionlist.h"
 
 static const int imageSize = 64;

@@ -511,7 +511,7 @@ void TagEditor::setupLayout()
 
     foreach(QCheckBox *enable, findChildren<QCheckBox *>(QRegExp("Enable"))) {
         enable->hide();
-        QRegExp re("^" + enable->objectName().replace("Enable", "") + "(Box|Spin)$");
+        QRegExp re('^' + enable->objectName().replace("Enable", "") + "(Box|Spin)$");
         QList<QWidget *> targets = findChildren<QWidget *>(re);
         Q_ASSERT(!targets.isEmpty());
         m_enableBoxes[targets.front()] = enable;

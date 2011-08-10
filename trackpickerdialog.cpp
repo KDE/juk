@@ -14,13 +14,14 @@
  ***************************************************************************/
 
 #include <config-juk.h>
+
+#include "trackpickerdialog.h"
+
 #if HAVE_TUNEPIMP
 
 
 #include <k3listview.h>
 #include <klocale.h>
-
-#include "trackpickerdialog.h"
 
 #define NUMBER(x) (x == 0 ? QString::null : QString::number(x))	//krazy:exclude=nullstrassign for old broken gcc
 

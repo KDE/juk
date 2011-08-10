@@ -287,7 +287,7 @@ public:
 
     /**
      * Subclasses of Playlist which add new columns will set this value to
-     * specify how many of those colums exist.  This allows the Playlist
+     * specify how many of those columns exist.  This allows the Playlist
      * class to do some internal calculations on the number and positions
      * of columns.
      */
