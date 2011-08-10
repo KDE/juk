@@ -35,15 +35,17 @@
 VolumePopupButton::VolumePopupButton( QWidget * parent )
     : QToolButton( parent )
 {
+    m_volumeBeforeMute = 0.0;
+
     //create the volume popup
     m_volumeMenu = new QMenu( this );
 
-    KVBox * mainBox = new KVBox( this );
+    KVBox *mainBox = new KVBox( this );
 
     m_volumeLabel= new QLabel( mainBox );
     m_volumeLabel->setAlignment( Qt::AlignHCenter );
 
-    KHBox * sliderBox = new KHBox( mainBox );
+    KHBox *sliderBox = new KHBox( mainBox );
     m_volumeSlider = new VolumeSlider( 100, sliderBox, false );
     m_volumeSlider->setFixedHeight( 170 );
     mainBox->setMargin( 0 );
@@ -55,17 +57,18 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
 
     PlayerManager *player = JuK::JuKInstance()->playerManager();
 
-    QWidgetAction * sliderActionWidget = new QWidgetAction( this );
+    QWidgetAction *sliderActionWidget = new QWidgetAction( this );
     sliderActionWidget->setDefaultWidget( mainBox );
 
-    connect( m_volumeSlider, SIGNAL(volumeChanged(float)), player, SLOT(setVolume(float)) );
     connect( m_volumeSlider, SIGNAL(volumeChanged(float)), player, SLOT(setVolume(float)) );
 
     QToolBar *muteBar = new QToolBar( QString(), mainBox );
     muteBar->setContentsMargins( 0, 0, 0, 0 );
     muteBar->setIconSize( QSize( 16, 16 ) );
+
     m_muteAction = new QAction( KIcon( "audio-volume-muted" ), QString(), muteBar );
-    m_muteAction->setCheckable ( true );
+    m_muteAction->setToolTip( i18n( "Mute/Unmute" ) );
+    m_muteAction->setCheckable( true );
     m_muteAction->setChecked( player->muted() );
 
     connect( m_muteAction, SIGNAL(toggled(bool)), player, SLOT(setMuted(bool)) );
@@ -77,8 +80,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     // set correct icon and label initially
     volumeChanged( player->volume() );
 
-    connect( m_volumeSlider, SIGNAL(volumeChanged(float)),
-             this, SLOT(volumeChanged(float)) );
+    connect( m_volumeSlider, SIGNAL(volumeChanged(float)), this, SLOT(volumeChanged(float)) );
 }
 
 void
@@ -90,6 +92,11 @@ VolumePopupButton::refresh()
 void
 VolumePopupButton::volumeChanged( float newVolume )
 {
+    if (!JuK::JuKInstance()->playerManager()->muted())
+    {
+        m_volumeBeforeMute = newVolume;
+    }
+
     if ( newVolume <= 0.0001 )
         setIcon( KIcon( "audio-volume-muted" ) );
     else if ( newVolume < 0.34 )
@@ -115,16 +122,15 @@ VolumePopupButton::volumeChanged( float newVolume )
 void
 VolumePopupButton::muteStateChanged( bool muted )
 {
-    const float volume = JuK::JuKInstance()->playerManager()->volume();
-
     if ( muted )
     {
+        const float volume = JuK::JuKInstance()->playerManager()->volume();
         setIcon( KIcon( "audio-volume-muted" ) );
         setToolTip( i18n( "Volume: %1% %2", volume, ( muted ? i18n( "(muted)" ) : "" ) ) );
     }
     else
     {
-        volumeChanged( volume );
+        JuK::JuKInstance()->playerManager()->setVolume( m_volumeBeforeMute );
     }
 
     m_muteAction->setChecked( muted );

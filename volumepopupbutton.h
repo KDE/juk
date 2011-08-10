@@ -51,6 +51,7 @@ private:
     QMenu * m_volumeMenu;
     VolumeSlider * m_volumeSlider;
     QAction * m_muteAction;
+    float m_volumeBeforeMute;
 };
 
 #endif // VOLUMEPOPUPBUTTON_H
