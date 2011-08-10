@@ -18,7 +18,7 @@
       <string>Currently used file name schemes</string>
      </property>
      <property name="whatsThis">
-      <string>Here you can see the currently configured file name schemes which the &quot;Suggest&quot; button in the tag editor uses to extract tag information from a file name. Each string may contain one of the following placeholders:&lt;ul&gt;
+      <string>Here you can see the currently configured file name schemes which the &quot;Guess Tag Information From File Name&quot; entry in the song's context menu uses to extract tag information from a file name. Each string may contain one of the following placeholders:&lt;ul&gt;
 &lt;li&gt;%t: Title&lt;/li&gt;
 &lt;li&gt;%a: Artist&lt;/li&gt;
 &lt;li&gt;%A: Album&lt;/li&gt;
