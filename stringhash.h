@@ -33,7 +33,7 @@ public:
      */
     inline bool insert(const T &value)
     {
-        if(contains(value))
+        if(this->contains(value))
             return true;
         QSet<T>::insert(value);
         return false;
