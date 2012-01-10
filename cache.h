@@ -58,7 +58,6 @@ class CacheDataStream : public QDataStream
 {
 public:
     CacheDataStream(QIODevice *d) : QDataStream(d), m_cacheVersion(0) {}
-    CacheDataStream(QByteArray &a, int mode) : QDataStream(&a, mode), m_cacheVersion(0) {}
 
     virtual ~CacheDataStream() {}
 
