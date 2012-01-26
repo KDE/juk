@@ -152,6 +152,15 @@ public:
     virtual void raise(Playlist *playlist);
 
     /**
+     * @return true, if a playlist with the file name given in @p file is
+     * already loaded into this collection, or false otherwise.
+     *
+     * @note @p file should be the "canonical" full path to the file to avoid
+     * problems with duplicates and symlinks.
+     */
+    bool containsPlaylistFile(const QString &file) const;
+
+    /**
      * This is used to put up a temporary widget over the top of the playlist
      * stack.  This is part of a trick to significantly speed up painting by
      * hiding the playlist to which items are being added.
@@ -167,7 +176,6 @@ protected:
     virtual void removePlaylist(Playlist *playlist) = 0;
 
     bool importPlaylists() const;
-    bool containsPlaylistFile(const QString &file) const;
 
     QString playlistNameDialog(const QString &caption = i18n("Create New Playlist"),
                                const QString &suggest = QString(),

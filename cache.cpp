@@ -200,6 +200,14 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                     Playlist *p = new Playlist(collection, true);
                     createdPlaylists.append(p);
                     s >> *p;
+
+                    // We may have already read this playlist from the folder
+                    // scanner, if an .m3u playlist
+                    if(collection->containsPlaylistFile(p->fileName())) {
+                        delete p;
+                        p = 0;
+                    }
+
                     playlist = p;
                     break;
                 } // switch
