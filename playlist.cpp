@@ -381,7 +381,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_lastSelected(0),
-    m_fileName(playlistFile.absoluteFilePath()),
+    m_fileName(playlistFile.canonicalFilePath()),
     m_rmbMenu(0),
     m_toolTip(0),
     m_blockDataChanged(false)
@@ -1880,7 +1880,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
     }
 
     if(importPlaylists && MediaFiles::isPlaylistFile(file) &&
-       !m_collection->containsPlaylistFile(fileInfo.absoluteFilePath()))
+       !m_collection->containsPlaylistFile(fileInfo.canonicalFilePath()))
     {
         new Playlist(m_collection, fileInfo);
         return;
