@@ -75,6 +75,7 @@ set(juk_SRCS  ${tunepimp_SRCS}
    playlistitem.cpp
    playlistsearch.cpp
    playlistsplitter.cpp
+   scrobbler.cpp
    searchplaylist.cpp
    searchwidget.cpp
    slideraction.cpp

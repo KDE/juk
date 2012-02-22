@@ -46,6 +46,7 @@
 #include "collectionlist.h"
 #include "coverinfo.h"
 #include "tag.h"
+#include "scrobbler.h"
 
 using namespace ActionCollection;
 
@@ -69,6 +70,10 @@ PlayerManager::PlayerManager() :
 // later, just disable it here. -- mpyne
 //    setup();
     new PlayerAdaptor( this );
+    
+    
+    m_scrobbler = new Scrobbler(this);
+    connect(this, SIGNAL(signalItemChanged(FileHandle)), m_scrobbler, SLOT(nowPlaying(FileHandle)));
 }
 
 PlayerManager::~PlayerManager()
@@ -216,7 +221,8 @@ void PlayerManager::play(const FileHandle &file)
 
     // The "currently playing" media object.
     Phonon::MediaObject *mediaObject = m_media[m_curOutputPath];
-
+    connect(mediaObject, SIGNAL(aboutToFinish()), m_scrobbler, SLOT(scrobble()));
+    
     if(file.isNull()) {
         if(paused())
             mediaObject->play();

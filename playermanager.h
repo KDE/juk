@@ -29,6 +29,7 @@
 #include <Phonon/Global>
 #include <Phonon/Path>
 
+class Scrobbler;
 class KSelectAction;
 class StatusLabel;
 class PlaylistInterface;
@@ -127,6 +128,7 @@ private:
     FileHandle m_file;
     PlaylistInterface *m_playlistInterface;
     StatusLabel *m_statusLabel;
+    Scrobbler *m_scrobbler;
     bool m_muted;
     bool m_setup;
     bool m_crossfadeTracks;
