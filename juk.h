@@ -73,6 +73,7 @@ private slots:
     void slotEditKeys();
     void slotConfigureTagGuesser();
     void slotConfigureFileRenamer();
+    void slotConfigureScrobbling();
     void slotUndo();
     void slotCheckAlbumNextAction(bool albumRandomEnabled);
     void slotProcessArgs();

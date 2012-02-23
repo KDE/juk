@@ -74,6 +74,7 @@
 		<!-- <Action name="saveUpcomingTracks" append="show_merge"/> -->
 		<Action name="tagGuesserConfig" append="save_merge"/>
 		<Action name="fileRenamerConfig" append="save_merge"/>
+		<Action name="scrobblerConfig" append="save_merge"/>
 		<Action name="outputSelect" append="save_merge"/>
 	</Menu>
 </MenuBar>

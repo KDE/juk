@@ -1,5 +1,5 @@
 /***************************************************************************
-    begin                : Tue Feb 21 2012
+    begin                : Tue Feb 23 2012
     copyright            : (C) 2012 by Martin Sandsmark
     email                : martin.sandsmark@kde.org
 ***************************************************************************/
@@ -13,46 +13,33 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SCROBBLER_H
-#define SCROBBLER_H
+#ifndef SCROBBLESETTINGS_H
+#define SCROBBLESETTINGS_H
 
-#include <QObject>
-#include <QByteArray>
-#include <QMap>
+#include <KDialog>
 
-#include "filehandle.h"
+class KLineEdit;
+class KPushButton;
+class QLabel;
 
-/**
- * A class that handles scrobbling of tracks to last.fm
- */
-
-class Scrobbler : public QObject {
+class ScrobbleConfigDlg : public KDialog
+{
     Q_OBJECT
 public:
-    explicit Scrobbler(QObject* parent = 0);
-    virtual ~Scrobbler();
-    
-public slots:
-    void nowPlaying(const FileHandle&);
-    void scrobble();
-    void getAuthToken(QString username, QString password);
+    explicit ScrobbleConfigDlg(QWidget* parent = 0, Qt::WindowFlags f = 0);
     
 private slots:
-    void handleAuthenticationReply();
-    void handleResults();
-    void getAuthToken();
-    
-signals:
-    void invalidAuth();
-    void validAuth();
+    void testLogin();
+    void validLogin();
+    void invalidLogin();
+    void save();
+    void valuesChanged();
     
 private:
-    void sign(QMap<QString, QString> &request);
-    void post(QMap<QString, QString> &request);
-    QByteArray md5(QByteArray data);
-    
-    FileHandle m_file;
-    qint64 m_startedPlaying;
+    KLineEdit *m_usernameEdit;
+    KLineEdit *m_passwordEdit;
+    KPushButton *m_testButton;
+    QLabel *m_testFeedbackLabel;
 };
 
-#endif /* SCROBBLER_H */
+#endif//SCROBBLESETTINGS_H

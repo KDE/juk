@@ -49,6 +49,7 @@
 #include "keydialog.h"
 #include "tagguesserconfigdlg.h"
 #include "filerenamerconfigdlg.h"
+#include "scrobbleconfigdlg.h"
 #include "actioncollection.h"
 #include "cache.h"
 #include "playlistsplitter.h"
@@ -312,6 +313,9 @@ void JuK::setupActions()
 
     act = collection->addAction("fileRenamerConfig", this, SLOT(slotConfigureFileRenamer()));
     act->setText(i18n("&File Renamer..."));
+    
+    act = collection->addAction("scrobblerConfig", this, SLOT(slotConfigureScrobbling()));
+    act->setText(i18n("&Configure scrobbling..."));    
 
     //////////////////////////////////////////////////
     // just in the toolbar
@@ -572,6 +576,12 @@ void JuK::slotConfigureFileRenamer()
 {
     FileRenamerConfigDlg(this).exec();
 }
+
+void JuK::slotConfigureScrobbling()
+{
+    ScrobbleConfigDlg(this).exec();
+}
+
 
 void JuK::slotUndo()
 {

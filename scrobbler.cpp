@@ -1,3 +1,18 @@
+/***************************************************************************
+    begin                : Tue Feb 21 2012
+    copyright            : (C) 2012 by Martin Sandsmark
+    email                : martin.sandsmark@kde.org
+***************************************************************************/
+
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include "scrobbler.h"
 #include <kglobal.h>
 #include <kconfiggroup.h>
@@ -15,8 +30,8 @@
 Scrobbler::Scrobbler(QObject* parent): QObject(parent)
 {
     KConfigGroup config(KGlobal::config(), "Scrobbling");
-    m_sessionKey = config.readEntry("SessionKey", "");//TODO: use kwallet
-    if (m_sessionKey.isEmpty())
+    QString sessionKey = config.readEntry("SessionKey", "");//TODO: use kwallet
+    if (sessionKey.isEmpty())
         getAuthToken();
 }
 
@@ -43,17 +58,8 @@ void Scrobbler::sign(QMap< QString, QString >& params)
     params["api_sig"] = md5(s.toUtf8());
 }
 
-
-void Scrobbler::getAuthToken()
-{   
-    kDebug() << "Getting new auth token...";
-    
-    KConfigGroup config(KGlobal::config(), "Scrobbling");
-    QString username = config.readEntry("Username", "");//TODO: use kwallet
-    QString password = config.readEntry("Password", "");//TODO: use kwallet
-    if (username.isEmpty() || password.isEmpty())
-        return;
-    
+void Scrobbler::getAuthToken(QString username, QString password)
+{
     QByteArray authToken = md5((username + md5(password.toUtf8() )).toUtf8());
     
     QMap<QString, QString> params;
@@ -74,39 +80,57 @@ void Scrobbler::getAuthToken()
     connect(reply, SIGNAL(finished()), this, SLOT(handleAuthenticationReply()));
 }
 
+void Scrobbler::getAuthToken()
+{   
+    kDebug() << "Getting new auth token...";
+    
+    KConfigGroup config(KGlobal::config(), "Scrobbling");
+    QString username = config.readEntry("Username", "");//TODO: use kwallet
+    QString password = config.readEntry("Password", "");//TODO: use kwallet
+    if (username.isEmpty() || password.isEmpty())
+        return;
+    
+    getAuthToken(username, password);
+}
+
 void Scrobbler::handleAuthenticationReply()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
-    qWarning() << "got authentication reply";
+    kDebug() << "got authentication reply";
     if (reply->error() != QNetworkReply::NoError) {
-        qWarning() << reply->errorString();
+        emit invalidAuth();
+        kWarning() << "Error while getting authentication reply" << reply->errorString();
         return;
     }
     QDomDocument doc;
     QByteArray data = reply->readAll();
-    qWarning() << data;
     doc.setContent(data);
     QDomElement el = doc.documentElement();
-    m_sessionKey = el.firstChildElement("session").firstChildElement("key").text();
+    QString sessionKey = el.firstChildElement("session").firstChildElement("key").text();
+    if (sessionKey.isEmpty()) {
+        emit invalidAuth();
+        kWarning() << "Unable to get session key" << data;
+        return;
+    }
     
     KConfigGroup config(KGlobal::config(), "Scrobbling");
-    config.writeEntry("SessionKey", m_sessionKey);
-    return;
+    config.writeEntry("SessionKey", sessionKey);
+    emit validAuth();
 }
 
 
 void Scrobbler::nowPlaying(const FileHandle& file)
 {
-    if (m_sessionKey.isEmpty()) {
+    KConfigGroup config(KGlobal::config(), "Scrobbling");
+    QString sessionKey = config.readEntry("SessionKey", "");//TODO: use kwallet
+    if (sessionKey.isEmpty()) {
         getAuthToken();
         return;
     }
-
-    qWarning() << "Now playing" << file.tag()->title();
     
     QMap<QString, QString> params;
     params["method"] = "track.updateNowPlaying";
-    params["sk"] = m_sessionKey;
+    params["sk"] = sessionKey;
     
     params["track"] = file.tag()->title();
     params["artist"] = file.tag()->artist();
@@ -123,16 +147,18 @@ void Scrobbler::nowPlaying(const FileHandle& file)
 
 void Scrobbler::scrobble()
 {
-    if (m_sessionKey.isEmpty()) {
+    KConfigGroup config(KGlobal::config(), "Scrobbling");
+    QString sessionKey = config.readEntry("SessionKey", "");//TODO: use kwallet
+    if (sessionKey.isEmpty()) {
         getAuthToken();
         return;
     }
     
-    qWarning() << "Scrobbling" << m_file.tag()->title();
+    kDebug() << "Scrobbling" << m_file.tag()->title();
     
     QMap<QString, QString> params;
     params["method"] = "track.scrobble";
-    params["sk"] = m_sessionKey;
+    params["sk"] = sessionKey;
     
     params["timestamp"] = QString::number(m_startedPlaying);
     
@@ -167,7 +193,6 @@ void Scrobbler::handleResults()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
     QByteArray data = reply->readAll();
-    qWarning() << data;
     if (data.contains("code=\"9\"")) // We need a new token
         getAuthToken();
 }
