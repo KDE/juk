@@ -1,7 +1,7 @@
 <!-- PLEASE UPDATE jukui-rtl.rc WHEN UPDATING THIS FILE -->
 
 <!DOCTYPE kpartgui>
-<kpartgui name="juk" version="10">
+<kpartgui name="juk" version="11">
 <MenuBar>
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="file_new"/>
