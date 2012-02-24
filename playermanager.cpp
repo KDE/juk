@@ -222,7 +222,6 @@ void PlayerManager::play(const FileHandle &file)
 
     // The "currently playing" media object.
     Phonon::MediaObject *mediaObject = m_media[m_curOutputPath];
-    connect(mediaObject, SIGNAL(aboutToFinish()), m_scrobbler, SLOT(scrobble()));
     
     if(file.isNull()) {
         if(paused())
@@ -417,6 +416,7 @@ bool PlayerManager::mute()
 
 void PlayerManager::slotNeedNextUrl()
 {
+    m_scrobbler->scrobble();
     if(m_file.isNull() || !m_crossfadeTracks)
         return;
 
