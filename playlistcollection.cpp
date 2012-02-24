@@ -885,7 +885,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     KStandardAction::save(this, SLOT(slotSave()), actions());
     KStandardAction::saveAs(this, SLOT(slotSaveAs()), actions());
 
-    createAction(i18n("Add &Folder..."),  SLOT(slotAddFolder()),    "openDirectory", "folder-new");
+    createAction(i18n("Manage &Folders..."),  SLOT(slotManageFolders()),    "openDirectory", "folder-new");
     createAction(i18n("&Rename..."),      SLOT(slotRename()),       "renamePlaylist", "edit-rename");
     createAction(i18nc("verb, copy the playlist", "D&uplicate..."),
                  SLOT(slotDuplicate()),    "duplicatePlaylist", "edit-copy");

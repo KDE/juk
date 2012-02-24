@@ -239,7 +239,7 @@ private slots:
     void slotPlayNextAlbum() { m_collection->playNextAlbum(); }
 
     void slotOpen()         { m_collection->open(); }
-    void slotAddFolder()    { m_collection->addFolder(); }
+    void slotManageFolders()    { m_collection->addFolder(); }
     void slotRename()       { m_collection->rename(); }
     void slotDuplicate()    { m_collection->duplicate(); }
     void slotSave()         { m_collection->save(); }
