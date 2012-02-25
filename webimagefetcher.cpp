@@ -1,6 +1,7 @@
 /***************************************************************************
     copyright            : (C) 2004 Nathan Toone <nathan@toonetown.com>
     copyright            : (C) 2007 Michael Pyne <michael.pyne@kdemail.com>
+    copyright            : (C) 2012 Martin Sandsmark <martin.sandsmark@kde.org>
 ***************************************************************************/
 
 /***************************************************************************
@@ -14,17 +15,18 @@
 
 #include "webimagefetcher.h"
 
-#include <kapplication.h>
-#include <kstatusbar.h>
-#include <kxmlguiwindow.h>
-#include <klocale.h>
-#include <kinputdialog.h>
-#include <kurl.h>
-#include <kdebug.h>
-#include <kio/job.h>
+#include <KApplication>
+#include <KStatusBar>
+#include <KXmlGuiWindow>
+#include <KLocale>
+#include <KInputDialog>
+#include <KUrl>
+#include <KDebug>
+#include <KIO/Job>
+#include <KPushButton>
+#include <KDialog>
 
 #include "covermanager.h"
-#include "webimagefetcherdialog.h"
 #include "filehandle.h"
 #include "tag.h"
 #include "juk.h"
@@ -33,75 +35,60 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QPointer>
+#include <QLayout>
+#include <QLabel>
+#include <QPainter>
 
-WebImage::WebImage()
-{
-}
-
-WebImage::WebImage(const QString &imageURL, const QString &thumbURL,
-                         int width, int height) :
-    m_imageURL(imageURL),
-    m_thumbURL(thumbURL),
-    m_size(QString("\n%1 x %2").arg(width).arg(height))
-{
-}
 
 class WebImageFetcher::Private
 {
     friend class WebImageFetcher;
 
-    Private() : selectedIndex(0), connection(0), dialog(0)
+    Private() : connection(0), dialog(0)
     {
     }
 
     FileHandle file;
-    QString searchString;
-    QString loadedQuery;
-    WebImageList imageList;
-    uint selectedIndex;
+    QString artist;
+    QString albumName;
     QPointer<KIO::StoredTransferJob> connection;
-    WebImageFetcherDialog *dialog;
+    KDialog *dialog;
+    KUrl url;
 };
 
 WebImageFetcher::WebImageFetcher(QObject *parent)
-    : QObject(parent), d(new Private)
+        : QObject(parent), d(new Private)
 {
 }
 
 WebImageFetcher::~WebImageFetcher()
 {
-    delete d->dialog;
     delete d;
 }
 
 void WebImageFetcher::setFile(const FileHandle &file)
 {
     d->file = file;
-    d->searchString = QString(file.tag()->artist() + ' ' + file.tag()->album());
-
-    if(d->dialog)
-	d->dialog->setFile(file);
+    d->artist = file.tag()->artist();
+    d->albumName = file.tag()->album();
 }
 
 void WebImageFetcher::abortSearch()
 {
-    if(d->connection)
+    if (d->connection)
         d->connection->kill();
 }
-
-void WebImageFetcher::chooseCover()
+void WebImageFetcher::searchCover()
 {
-    slotLoadImageURLs();
-}
+    KStatusBar *statusBar = JuK::JuKInstance()->statusBar();
+    statusBar->showMessage(i18n("Searching for cover. Please Wait..."));
 
-void WebImageFetcher::slotLoadImageURLs()
-{
-    d->imageList.clear();
 
-    KUrl url("http://search.yahooapis.com/ImageSearchService/V1/imageSearch");
-    url.addQueryItem("appid", "org.kde.juk/kde4");
-    url.addQueryItem("query", d->searchString);
-    url.addQueryItem("results", "25");
+    KUrl url("http://ws.audioscrobbler.com/2.0/");
+    url.addQueryItem("method", "album.getInfo");
+    url.addQueryItem("api_key", "3e6ecbd7284883089e8f2b5b53b0aecd");
+    url.addQueryItem("artist", d->artist);
+    url.addQueryItem("album", d->albumName);
 
     kDebug() << "Using request " << url.encodedPathAndQuery();
 
@@ -115,18 +102,18 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
 {
     kDebug() << "Results received.\n";
 
-    if(job != d->connection)
+    if (job != d->connection)
         return;
 
-    if(!job || job->error()) {
-	kError() << "Error reading image results from Yahoo!\n";
-	kError() << d->connection->errorString() << endl;
-	return;
+    if (!job || job->error()) {
+        kError() << "Error reading image results from last.fm!\n";
+        kError() << d->connection->errorString() << endl;
+        return;
     }
 
     kDebug() << "Checking for data!!\n";
-    if(d->connection->data().isEmpty()) {
-        kError() << "Yahoo image search returned an empty result!\n";
+    if (d->connection->data().isEmpty()) {
+        kError() << "last.fm returned an empty result!\n";
         return;
     }
 
@@ -134,118 +121,95 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
 
     QString errorStr;
     int errorCol, errorLine;
-    if(!results.setContent(d->connection->data(), &errorStr, &errorLine, &errorCol)) {
-	kError() << "Unable to create XML document from Yahoo results.\n";
-	kError() << "Line " << errorLine << ", " << errorStr << endl;
+    if (!results.setContent(d->connection->data(), &errorStr, &errorLine, &errorCol)) {
+        kError() << "Unable to create XML document from results.\n";
+        kError() << "Line " << errorLine << ", " << errorStr << endl;
 
-	return;
+        return;
     }
-
+    
     QDomNode n = results.documentElement();
 
-    bool hasNoResults = false;
-
-    if(n.isNull()) {
-	kDebug() << "No document root in XML results??\n";
-	hasNoResults = true;
+    if (n.isNull()) {
+        kDebug() << "No document root in XML results??\n";
+        return;
     }
-    else {
-	QDomElement result = n.toElement();
-	if(result.attribute("totalResultsReturned").toInt() == 0)
-	    kDebug() << "Search returned " << result.attribute("totalResultsAvailable") << " results.\n";
+    n = n.firstChildElement("album");
 
-	if(result.isNull() || !result.hasAttribute("totalResultsReturned") ||
-	    result.attribute("totalResultsReturned").toInt() == 0)
-	{
-	    hasNoResults = true;
-	}
-    }
+    d->url = n.lastChildElement("image").text(); //FIXME: We assume they have a sane sorting (smallest -> largest)
+    //TODO: size attribute can have the values mega, extralarge, large, medium and small
+    
+    kDebug() << "Got cover:" << d->url;
 
-    if(hasNoResults)
-    {
-	kDebug() << "Search returned no results.\n";
-	requestNewSearchTerms(true /* no results */);
+    KStatusBar *statusBar = JuK::JuKInstance()->statusBar();
+    statusBar->showMessage(i18n("Downloading cover. Please Wait..."));
+    
+    KIO::StoredTransferJob *newJob = KIO::storedGet(d->url, KIO::Reload /* reload always */, KIO::HideProgressInfo);
+    connect(newJob, SIGNAL(result(KJob*)), SLOT(slotImageFetched(KJob*)));
+}
+
+void WebImageFetcher::slotImageFetched(KJob* j)
+{
+    KStatusBar *statusBar = JuK::JuKInstance()->statusBar();
+    statusBar->clearMessage();
+
+    KIO::StoredTransferJob *job = qobject_cast<KIO::StoredTransferJob*>(j);
+    
+    if (d->dialog) return;
+    d->dialog = new KDialog();
+    d->dialog->setCaption("Cover found");
+    d->dialog->setButtons(KDialog::Apply | KDialog::Cancel);
+    d->dialog->button(KDialog::Apply)->setText(i18n("Store"));
+    QWidget *mainWidget = new QWidget();
+    d->dialog->setMainWidget(mainWidget);
+    mainWidget->setLayout(new QVBoxLayout);
+    
+    if(job->error()) {
+        kError() << "Unable to grab image\n";
+        d->dialog->setWindowIcon(DesktopIcon("dialog-error"));
         return;
     }
 
-    // Go through each of the top (result) nodes
+    QPixmap iconImage, realImage(150, 150);
+    iconImage.loadFromData(job->data());
+    realImage.fill(Qt::transparent);
 
-    n = n.firstChild();
-    while(!n.isNull()) {
-	QDomNode resultUrl = n.namedItem("Url");
-	QDomNode thumbnail = n.namedItem("Thumbnail");
-	QDomNode height = n.namedItem("Height");
-	QDomNode width = n.namedItem("Width");
-
-	// We have the necessary info, move to next node before we forget.
-	n = n.nextSibling();
-
-	if(resultUrl.isNull() || thumbnail.isNull() || height.isNull() || width.isNull()) {
-	    kError() << "Invalid result returned, skipping.\n";
-	    continue;
-	}
-
-	d->imageList.append(
-	    WebImage(
-	        resultUrl.toElement().text(),
-		thumbnail.namedItem("Url").toElement().text(),
-		width.toElement().text().toInt(),
-		height.toElement().text().toInt()
-	    )
-	);
+    if(iconImage.isNull()) {
+        kError() << "Thumbnail image is not of a supported format\n";
+        return;
     }
 
-    // Have results, show them and pick one.
+    // Scale down if necesssary
+    if(iconImage.width() > 150 || iconImage.height() > 150)
+        iconImage = iconImage.scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-    if(!d->dialog) {
-        d->dialog = new WebImageFetcherDialog(d->imageList, d->file, 0);
-	d->dialog->setModal(true);
-
-	connect(d->dialog, SIGNAL(coverSelected(KUrl)), SLOT(slotCoverChosen(KUrl)));
-	connect(d->dialog, SIGNAL(newSearchRequested()), SLOT(slotNewSearch()));
-    }
-
-    d->dialog->refreshScreen(d->imageList);
+    QLabel *cover = new QLabel();
+    cover->setPixmap(iconImage);
+    mainWidget->layout()->addWidget(cover);
+    QLabel *infoLabel = new QLabel(i18n("Cover fetched from <a href='http://last.fm/'>last.fm</a>."));
+    infoLabel->setOpenExternalLinks(true);
+    infoLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
+    mainWidget->layout()->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
+    mainWidget->layout()->addWidget(infoLabel);
+    
+    d->dialog->setWindowIcon(realImage);
     d->dialog->show();
+    connect(d->dialog, SIGNAL(applyClicked()), SLOT(slotCoverChosen()));
 }
 
-void WebImageFetcher::slotCoverChosen(const KUrl &path)
+
+void WebImageFetcher::slotCoverChosen()
 {
     kDebug() << "Adding new cover for " << d->file.tag()->fileName()
-                  << "from URL" << path;
+    << "from URL" << d->url;
 
-    coverKey newId = CoverManager::addCover(path, d->file.tag()->artist(), d->file.tag()->album());
+    coverKey newId = CoverManager::addCover(d->url, d->file.tag()->artist(), d->file.tag()->album());
 
-    if(newId != CoverManager::NoMatch) {
+    if (newId != CoverManager::NoMatch) {
         emit signalCoverChanged(newId);
         d->dialog->close();
-    }
-}
-
-void WebImageFetcher::slotNewSearch()
-{
-    requestNewSearchTerms();
-}
-
-void WebImageFetcher::displayWaitMessage()
-{
-    KStatusBar *statusBar = JuK::JuKInstance()->statusBar();
-    statusBar->showMessage(i18n("Searching for Images. Please Wait..."));
-    slotLoadImageURLs();
-    statusBar->clearMessage();
-}
-
-void WebImageFetcher::requestNewSearchTerms(bool noResults)
-{
-    bool ok;
-    QString search = KInputDialog::getText(i18n("Cover Downloader"),
-                                           noResults ?
-                                             i18n("No matching images found, please enter new search terms:") :
-                                             i18n("Enter new search terms:"),
-                                           d->searchString, &ok);
-    if(ok && !search.isEmpty()) {
-        d->searchString = search;
-        displayWaitMessage(); // This kicks off the new search
+        d->dialog->deleteLater();
+        d->dialog = 0;
     }
 }
 

@@ -844,7 +844,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
 
     if(!retrieveLocal) {
         m_fetcher->setFile((*items.begin())->file());
-        m_fetcher->chooseCover();
+        m_fetcher->searchCover();
         return;
     }
 

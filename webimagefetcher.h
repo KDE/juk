@@ -3,6 +3,8 @@
     email                : nathan@toonetown.com
     copyright            : (C) 2007 Michael Pyne
     email                : michael.pyne@kdemail.net
+    copyright            : (C) 2012 Martin Sandsmark
+    email                : martin.sandsmark@kde.org
 ***************************************************************************/
 
 /***************************************************************************
@@ -18,7 +20,6 @@
 #define WEBIMAGEFETCHER_H
 
 #include <QObject>
-#include <QString>
 
 // Predeclare some classes.
 
@@ -31,26 +32,6 @@ class KUrl;
 
 class FileHandle;
 
-class WebImage
-{
-public:
-    WebImage();
-
-    WebImage(const QString &imageURL,
-                const QString &thumbURL,
-                int width, int height);
-
-    QString imageURL() const { return m_imageURL; }
-    QString thumbURL() const { return m_thumbURL; }
-    QString size() const { return m_size; }
-
-private:
-    QString m_imageURL;
-    QString m_thumbURL;
-    QString m_size;
-};
-
-typedef QList<WebImage> WebImageList;
 
 class WebImageFetcher : public QObject
 {
@@ -61,24 +42,19 @@ public:
     ~WebImageFetcher();
 
     void setFile(const FileHandle &file);
-    void chooseCover();
 
 public slots:
     void abortSearch();
+    void searchCover();
+
 
 signals:
-    void signalNewSearch(WebImageList &images);
     void signalCoverChanged(int coverId);
 
-private:
-    void displayWaitMessage();
-    void requestNewSearchTerms(bool noResults = false);
-
 private slots:
-    void slotLoadImageURLs();
     void slotWebRequestFinished(KJob *job);
-    void slotCoverChosen(const KUrl &);
-    void slotNewSearch();
+    void slotImageFetched(KJob *job);
+    void slotCoverChosen();
 
 private:
     class Private;

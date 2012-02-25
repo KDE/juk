@@ -57,7 +57,6 @@ set(juk_SRCS  ${tunepimp_SRCS}
    filerenameroptions.cpp
    filerenamerconfigdlg.cpp
    webimagefetcher.cpp
-   webimagefetcherdialog.cpp
    historyplaylist.cpp
    juk.cpp
    k3bexporter.cpp
