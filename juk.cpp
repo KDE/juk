@@ -56,6 +56,7 @@
 #include "collectionlist.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
+#include "mpris2/mpris2.h"
 
 using namespace ActionCollection;
 
@@ -123,6 +124,8 @@ JuK::JuK(QWidget *parent) :
     connect(m_splitter, SIGNAL(guiReady()), SLOT(slotSetupSystemTray()));
     readConfig();
     setupGlobalAccels();
+
+    Mpris2 *mpris2 = new Mpris2(this);
 
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), SLOT(slotAboutToQuit()));
 

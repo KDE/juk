@@ -72,6 +72,10 @@ set(juk_SRCS  ${tunepimp_SRCS}
    keydialog.cpp
    main.cpp
    mediafiles.cpp
+   mpris2/mediaplayer2.cpp
+   mpris2/mediaplayer2player.cpp
+   mpris2/zbase32.cpp
+   mpris2/mpris2.cpp
    musicbrainzquery.cpp
    nowplaying.cpp
    playermanager.cpp
