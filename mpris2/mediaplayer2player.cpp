@@ -171,16 +171,19 @@ QVariantMap MediaPlayer2Player::Metadata() const
     // the normal / delimiters for paths.
     FileHandle playingFile = m_player->playingFile();
     QByteArray playingTrackFileId = QFile::encodeName(playingFile.absFilePath());
-    QByteArray trackId = QByteArray("/track/") + zBase32EncodeData(playingTrackFileId);
 
-    metaData["mpris:trackid"] = QVariant::fromValue<QDBusObjectPath>(QDBusObjectPath(trackId.constData()));
-    metaData["xesam:album"] = playingFile.tag()->album();
-    metaData["xesam:title"] = playingFile.tag()->title();
-    metaData["xesam:artist"] = QStringList(playingFile.tag()->artist());
-    metaData["xesam:genre"]  = QStringList(playingFile.tag()->genre());
+    if (!playingTrackFileId.isEmpty()) {
+        QByteArray trackId = QByteArray("/track/") + zBase32EncodeData(playingTrackFileId);
+        metaData["mpris:trackid"] = QVariant::fromValue<QDBusObjectPath>(QDBusObjectPath(trackId.constData()));
 
-    metaData["mpris:length"] = playingFile.tag()->seconds() * 1000000;
-    metaData["xesam:url"] = QString("file://%1").arg(playingFile.absFilePath());
+        metaData["xesam:album"] = playingFile.tag()->album();
+        metaData["xesam:title"] = playingFile.tag()->title();
+        metaData["xesam:artist"] = QStringList(playingFile.tag()->artist());
+        metaData["xesam:genre"]  = QStringList(playingFile.tag()->genre());
+
+        metaData["mpris:length"] = playingFile.tag()->seconds() * 1000000;
+        metaData["xesam:url"] = QString("file://%1").arg(playingFile.absFilePath());
+    }
 
     return metaData;
 }
