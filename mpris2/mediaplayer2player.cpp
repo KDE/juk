@@ -32,6 +32,17 @@
 
 #include <KUrl>
 
+static QByteArray idFromFileHandle(const FileHandle &file)
+{
+    QByteArray playingTrackFileId = QFile::encodeName(file.absFilePath());
+
+    QByteArray trackId = QByteArray("/org/mpris/MediaPlayer2/Track/tid_") +
+        QCryptographicHash::hash(playingTrackFileId, QCryptographicHash::Sha1)
+            .toHex();
+
+    return trackId;
+}
+
 MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
     : QDBusAbstractAdaptor(parent)
     , m_player(JuK::JuKInstance()->playerManager())
@@ -102,9 +113,18 @@ void MediaPlayer2Player::Play() const
 
 void MediaPlayer2Player::SetPosition(const QDBusObjectPath& TrackId, qlonglong Position) const
 {
-    Q_UNUSED(TrackId)
+    FileHandle playingFile = m_player->playingFile();
 
-    m_player->seek(Position / 1000);
+    if (playingFile.isNull()) {
+        return;
+    }
+
+    // Verify the SetPosition call is against the currently playing track
+    QByteArray currentTrackId = idFromFileHandle(playingFile);
+
+    if (TrackId.path().toLatin1() == currentTrackId) {
+        m_player->seek(Position / 1000);
+    }
 }
 
 void MediaPlayer2Player::OpenUri(QString Uri) const
@@ -170,13 +190,12 @@ QVariantMap MediaPlayer2Player::Metadata() const
     // path, and the regex for that is, and I quote: [a-zA-Z0-9_]*, along with
     // the normal / delimiters for paths.
     FileHandle playingFile = m_player->playingFile();
-    QByteArray playingTrackFileId = QFile::encodeName(playingFile.absFilePath());
+    QByteArray playingTrackFileId = idFromFileHandle(playingFile);
 
-    if (!playingTrackFileId.isEmpty()) {
-        QByteArray trackId = QByteArray("/track/tid_") +
-            QCryptographicHash::hash(playingTrackFileId, QCryptographicHash::Sha1)
-                .toHex();
-        metaData["mpris:trackid"] = QVariant::fromValue<QDBusObjectPath>(QDBusObjectPath(trackId.constData()));
+    if (!playingFile.isNull()) {
+        metaData["mpris:trackid"] =
+            QVariant::fromValue<QDBusObjectPath>(
+                    QDBusObjectPath(playingTrackFileId.constData()));
 
         metaData["xesam:album"] = playingFile.tag()->album();
         metaData["xesam:title"] = playingFile.tag()->title();
