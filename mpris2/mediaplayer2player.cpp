@@ -19,12 +19,12 @@
  ***********************************************************************/
 
 #include "mpris2/mediaplayer2player.h"
-#include "mpris2/zbase32.h"
 #include "juk.h"
 #include "playermanager.h"
 #include "tag.h"
 #include "filehandle.h"
 
+#include <QCryptographicHash>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QVariant>
@@ -173,7 +173,9 @@ QVariantMap MediaPlayer2Player::Metadata() const
     QByteArray playingTrackFileId = QFile::encodeName(playingFile.absFilePath());
 
     if (!playingTrackFileId.isEmpty()) {
-        QByteArray trackId = QByteArray("/track/") + zBase32EncodeData(playingTrackFileId);
+        QByteArray trackId = QByteArray("/track/") +
+            QCryptographicHash::hash(playingTrackFileId, QCryptographicHash::Sha1)
+                .toHex();
         metaData["mpris:trackid"] = QVariant::fromValue<QDBusObjectPath>(QDBusObjectPath(trackId.constData()));
 
         metaData["xesam:album"] = playingFile.tag()->album();
