@@ -36,7 +36,7 @@ MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
     : QDBusAbstractAdaptor(parent)
     , m_player(JuK::JuKInstance()->playerManager())
 {
-    connect(m_player, SIGNAL(tick(int)), this, SLOT(tick(qint64)));
+    connect(m_player, SIGNAL(tick(int)), this, SLOT(tick(int)));
     connect(m_player, SIGNAL(signalItemChanged(FileHandle)), this, SLOT(currentSourceChanged()));
     connect(m_player, SIGNAL(signalPlay()), this, SLOT(stateUpdated()));
     connect(m_player, SIGNAL(signalPause()), this, SLOT(stateUpdated()));
@@ -230,7 +230,7 @@ bool MediaPlayer2Player::CanControl() const
     return true;
 }
 
-void MediaPlayer2Player::tick(qint64 newPos)
+void MediaPlayer2Player::tick(int newPos)
 {
     QVariantMap properties;
     properties["Position"] = Position();

@@ -89,7 +89,7 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
         void OpenUri(QString Uri) const;
 
     private slots:
-        void tick(qint64 newPos);
+        void tick(int newPos);
         void currentSourceChanged() const;
         void stateUpdated() const;
         void totalTimeChanged() const;
@@ -99,7 +99,7 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
     private:
         void signalPropertiesChange(const QVariantMap& properties) const;
 
-        qint64 oldPos;
+        int oldPos;
         QPointer<PlayerManager> m_player;
 };
 
