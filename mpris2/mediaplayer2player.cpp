@@ -173,7 +173,7 @@ QVariantMap MediaPlayer2Player::Metadata() const
     QByteArray playingTrackFileId = QFile::encodeName(playingFile.absFilePath());
 
     if (!playingTrackFileId.isEmpty()) {
-        QByteArray trackId = QByteArray("/track/") +
+        QByteArray trackId = QByteArray("/track/tid_") +
             QCryptographicHash::hash(playingTrackFileId, QCryptographicHash::Sha1)
                 .toHex();
         metaData["mpris:trackid"] = QVariant::fromValue<QDBusObjectPath>(QDBusObjectPath(trackId.constData()));
