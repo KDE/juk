@@ -36,11 +36,16 @@ static QByteArray idFromFileHandle(const FileHandle &file)
 {
     QByteArray playingTrackFileId = QFile::encodeName(file.absFilePath());
 
-    QByteArray trackId = QByteArray("/org/mpris/MediaPlayer2/Track/tid_") +
-        QCryptographicHash::hash(playingTrackFileId, QCryptographicHash::Sha1)
-            .toHex();
-
-    return trackId;
+    // By using the "_HH" encoding we can fairly efficiently encode file names
+    // into D-Bus object paths to use for track IDs. All characters in
+    // [a-zA-Z0-9_] are passed inline, any other characters are encoded using
+    // _HH where HH is the hex value of the character. This does mean that _
+    // itself must be escaped.
+    //
+    // Although the encoding function is called "toPercentEncoding" we can
+    // change the percent character to _ which is permitted in Object Paths.
+    return QByteArray("/org/mpris/MediaPlayer2/Track/tid") +
+        playingTrackFileId.toPercentEncoding("/", "-.~_", '_');
 }
 
 MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
