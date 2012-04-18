@@ -208,7 +208,8 @@ QVariantMap MediaPlayer2Player::Metadata() const
         metaData["xesam:genre"]  = QStringList(playingFile.tag()->genre());
 
         metaData["mpris:length"] = playingFile.tag()->seconds() * 1000000;
-        metaData["xesam:url"] = QString("file://%1").arg(playingFile.absFilePath());
+        metaData["xesam:url"] = QString::fromLatin1(
+                QUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
     }
 
     return metaData;
