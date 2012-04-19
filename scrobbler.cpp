@@ -21,6 +21,7 @@
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QDomDocument>
+#include <QByteArray>
 
 #include <kglobal.h>
 #include <kconfiggroup.h>
@@ -30,7 +31,10 @@
 
 #include "tag.h"
 
-Scrobbler::Scrobbler(QObject* parent): QObject(parent)
+Scrobbler::Scrobbler(QObject* parent)
+    : QObject(parent)
+    , m_startedPlaying(0)
+    , m_networkAccessManager(new QNetworkAccessManager(this))
 {
     KConfigGroup config(KGlobal::config(), "Scrobbling");
 
@@ -50,7 +54,6 @@ QByteArray Scrobbler::md5(QByteArray data)
     return QCryptographicHash::hash(data, QCryptographicHash::Md5)
         .toHex().rightJustified(32, '0').toLower();
 }
-
 
 void Scrobbler::sign(QMap< QString, QString >& params)
 {
@@ -77,7 +80,6 @@ void Scrobbler::getAuthToken(QString username, QString password)
     params["authToken"] = authToken;
     params["username"]  = username;
 
-    QNetworkAccessManager *qnam = new QNetworkAccessManager(this);
     QUrl url("http://ws.audioscrobbler.com/2.0/?");
 
     sign(params);
@@ -86,7 +88,7 @@ void Scrobbler::getAuthToken(QString username, QString password)
         url.addQueryItem(key, params[key]);
     }
 
-    QNetworkReply *reply = qnam->get(QNetworkRequest(url));
+    QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(url));
     connect(reply, SIGNAL(finished()), this, SLOT(handleAuthenticationReply()));
 }
 
@@ -135,7 +137,6 @@ void Scrobbler::handleAuthenticationReply()
     config.writeEntry("SessionKey", sessionKey);
     emit validAuth();
 }
-
 
 void Scrobbler::nowPlaying(const FileHandle& file)
 {
@@ -194,7 +195,6 @@ void Scrobbler::scrobble()
 
 void Scrobbler::post(QMap<QString, QString> &params)
 {
-    QNetworkAccessManager *qnam = new QNetworkAccessManager(this);
     QUrl url("http://ws.audioscrobbler.com/2.0/");
 
     QByteArray data;
@@ -204,10 +204,9 @@ void Scrobbler::post(QMap<QString, QString> &params)
 
     QNetworkRequest req(url);
     req.setHeader(QNetworkRequest::ContentTypeHeader, "application/x-www-form-urlencoded");
-    QNetworkReply *reply = qnam->post(req, data);
+    QNetworkReply *reply = m_networkAccessManager->post(req, data);
     connect(reply, SIGNAL(finished()), this, SLOT(handleResults()));
 }
-
 
 void Scrobbler::handleResults()
 {
