@@ -61,6 +61,12 @@ public:
 private:
     QImage scaleCoverToThumbnail(const QImage &image) const;
 
+    // Not supported for all file types as we must build on top of TagLib
+    // support.
+    QImage embeddedAlbumArt() const;
+
+    bool hasEmbeddedAlbumArt() const;
+
     FileHandle m_file;
 
     // Mutable to allow this info to be cached.

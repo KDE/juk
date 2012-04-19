@@ -32,12 +32,21 @@
 #include <QFileInfo>
 #include <QDesktopWidget>
 #include <QImage>
+#include <QScopedPointer>
 
 #include <taglib/mpegfile.h>
 #include <taglib/tstring.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/attachedpictureframe.h>
 
+#ifdef TAGLIB_WITH_MP4
+#include <taglib/mp4coverart.h>
+#include <taglib/mp4file.h>
+#include <taglib/mp4tag.h>
+#include <taglib/mp4item.h>
+#endif
+
+#include "mediafiles.h"
 #include "collectionlist.h"
 #include "playlistsearch.h"
 #include "playlistitem.h"
@@ -99,16 +108,7 @@ bool CoverInfo::hasCover() const
 
     // Check if it's embedded in the file itself.
 
-    QByteArray filePath = QFile::encodeName(m_file.absFilePath());
-    TagLib::MPEG::File mpegFile(filePath.constData(), true, TagLib::AudioProperties::Accurate);
-    TagLib::ID3v2::Tag *id3tag = mpegFile.ID3v2Tag(false);
-
-    if(!id3tag)
-        return m_hasCover;
-
-    // Look for attached picture frames.
-    TagLib::ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
-    m_hasAttachedCover = !frames.isEmpty();
+    m_hasAttachedCover = hasEmbeddedAlbumArt();
 
     if(m_hasAttachedCover)
         return true;
@@ -216,38 +216,66 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
                : CoverManager::FullSize);
     }
 
+    QImage cover;
+
     // If m_hasCover is still true we must have a directory cover image.
     if(m_hasCover) {
         QString fileName = m_file.fileInfo().absolutePath() + "/cover.jpg";
 
-        QImage cover;
         if(!cover.load(fileName)) {
             fileName = m_file.fileInfo().absolutePath() + "/cover.png";
 
             if(!cover.load(fileName))
                 return QPixmap();
         }
-
-        if(size == Thumbnail)
-            cover = scaleCoverToThumbnail(cover);
-
-        return QPixmap::fromImage(cover);
     }
 
     // If we get here, see if there is an embedded cover.
+    cover = embeddedAlbumArt();
 
-    QByteArray filePath = QFile::encodeName(m_file.absFilePath());
-    TagLib::MPEG::File mpegFile(filePath.constData(), true, TagLib::AudioProperties::Accurate);
-    TagLib::ID3v2::Tag *id3tag = mpegFile.ID3v2Tag(false);
+    if(size == Thumbnail)
+        cover = scaleCoverToThumbnail(cover);
 
+    return QPixmap::fromImage(cover);
+}
+
+bool CoverInfo::hasEmbeddedAlbumArt() const
+{
+    QScopedPointer<TagLib::File> fileTag(
+            MediaFiles::fileFactoryByType(m_file.absFilePath()));
+
+    if (TagLib::MPEG::File *mpegFile =
+            dynamic_cast<TagLib::MPEG::File *>(fileTag.data()))
+    {
+        TagLib::ID3v2::Tag *id3tag = mpegFile->ID3v2Tag(false);
+
+        // Look for attached picture frames.
+        TagLib::ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
+        return !frames.isEmpty();
+    }
+#ifdef TAGLIB_WITH_MP4
+    else if(TagLib::MP4::File *mp4File =
+            dynamic_cast<TagLib::MP4::File *>(fileTag.data()))
+    {
+        TagLib::MP4::Tag *tag = mp4File->tag();
+        TagLib::MP4::ItemListMap &items = tag->itemListMap();
+        return items.contains("covr");
+    }
+#endif
+
+    return false;
+}
+
+static QImage embeddedMPEGAlbumArt(TagLib::ID3v2::Tag *id3tag)
+{
     if(!id3tag)
-        return QPixmap();
+        return QImage();
 
     // Look for attached picture frames.
     TagLib::ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
 
     if(frames.isEmpty())
-        return QPixmap();
+        return QImage();
 
     // According to the spec attached picture frames have different types.
     // So we should look for the corresponding picture depending on what
@@ -282,17 +310,41 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
         selectedFrame = dynamic_cast<TagLib::ID3v2::AttachedPictureFrame *>(frames.front());
 
     if(!selectedFrame) // Could occur for encrypted picture frames.
-        return QPixmap();
+        return QImage();
 
-    QByteArray pictureData = QByteArray(selectedFrame->picture().data(),
-                                        selectedFrame->picture().size());
-    QImage attachedImage = QImage::fromData(pictureData);
-
-    if(size == Thumbnail)
-        attachedImage = scaleCoverToThumbnail(attachedImage);
-
-    return QPixmap::fromImage(attachedImage);
+    TagLib::ByteVector picture = selectedFrame->picture();
+    return QImage::fromData(
+            reinterpret_cast<const uchar *>(picture.data()),
+            picture.size());
 }
+
+#ifdef TAGLIB_WITH_MP4
+static QImage embeddedMP4AlbumArt(TagLib::MP4::Tag *tag)
+{
+    TagLib::MP4::ItemListMap &items = tag->itemListMap();
+
+    if(!items.contains("covr"))
+        return QImage();
+
+    TagLib::MP4::CoverArtList covers = items["covr"].toCoverArtList();
+    TagLib::MP4::CoverArtList::ConstIterator end = covers.end();
+
+    for(TagLib::MP4::CoverArtList::ConstIterator it = covers.begin(); it != end; ++it) {
+        TagLib::MP4::CoverArt cover = *it;
+        TagLib::ByteVector coverData = cover.data();
+
+        QImage result = QImage::fromData(
+                reinterpret_cast<const uchar *>(coverData.data()),
+                coverData.size());
+
+        if(!result.isNull())
+            return result;
+    }
+
+    // No appropriate image found
+    return QImage();
+}
+#endif
 
 void CoverInfo::popup() const
 {
@@ -322,6 +374,29 @@ void CoverInfo::popup() const
         y = (y - desktop.y() > desktop.height() - 10) ? desktop.height() - height + desktop.y() : (y - height + 10);
 
     new CoverPopup(image, QPoint(x, y));
+}
+
+QImage CoverInfo::embeddedAlbumArt() const
+{
+    QScopedPointer<TagLib::File> fileTag(
+            MediaFiles::fileFactoryByType(m_file.absFilePath()));
+
+    if (TagLib::MPEG::File *mpegFile =
+            dynamic_cast<TagLib::MPEG::File *>(fileTag.data()))
+    {
+        TagLib::ID3v2::Tag *id3tag = mpegFile->ID3v2Tag(false);
+        return embeddedMPEGAlbumArt(id3tag);
+    }
+#ifdef TAGLIB_WITH_MP4
+    else if(TagLib::MP4::File *mp4File =
+            dynamic_cast<TagLib::MP4::File *>(fileTag.data()))
+    {
+        TagLib::MP4::Tag *tag = mp4File->tag();
+        return embeddedMP4AlbumArt(tag);
+    }
+#endif
+
+    return QImage();
 }
 
 QImage CoverInfo::scaleCoverToThumbnail(const QImage &image) const
