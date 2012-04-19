@@ -125,7 +125,7 @@ JuK::JuK(QWidget *parent) :
     readConfig();
     setupGlobalAccels();
 
-    Mpris2 *mpris2 = new Mpris2(this);
+    (void) new Mpris2(this);
 
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), SLOT(slotAboutToQuit()));
 
