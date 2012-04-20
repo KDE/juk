@@ -44,7 +44,7 @@ static QByteArray idFromFileHandle(const FileHandle &file)
     //
     // Although the encoding function is called "toPercentEncoding" we can
     // change the percent character to _ which is permitted in Object Paths.
-    return QByteArray("/org/mpris/MediaPlayer2/Track/tid") +
+    return QByteArray("/org/kde/juk/tid_") +
         playingTrackFileId.toPercentEncoding("/", "-.~_", '_');
 }
 
