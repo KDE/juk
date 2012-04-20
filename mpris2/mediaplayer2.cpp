@@ -69,6 +69,11 @@ bool MediaPlayer2::CanSetFullscreen() const
     return false;
 }
 
+bool MediaPlayer2::Fullscreen() const
+{
+    return false;
+}
+
 bool MediaPlayer2::HasTrackList() const
 {
     return false;
