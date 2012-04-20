@@ -81,11 +81,13 @@ QStringList MediaPlayer2::SupportedUriSchemes() const
 
 QStringList MediaPlayer2::SupportedMimeTypes() const
 {
+#if KDE_IS_VERSION(4,8,3)
     KService::Ptr app = KService::serviceByDesktopName(QLatin1String("juk"));
 
     if (app) {
         return app->mimeTypes();
     }
+#endif
 
     return QStringList();
 }

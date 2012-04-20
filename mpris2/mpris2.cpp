@@ -21,6 +21,7 @@
 #include "mpris2/mpris2.h"
 #include "mpris2/mediaplayer2.h"
 #include "mpris2/mediaplayer2player.h"
+#include "unistd.h"
 
 #include <QDBusConnection>
 

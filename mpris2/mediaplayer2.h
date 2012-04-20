@@ -22,6 +22,7 @@
 #define JUK_MEDIAPLAYRER2_H
 
 #include <QDBusAbstractAdaptor>
+#include <QStringList>
 
 class MediaPlayer2 : public QDBusAbstractAdaptor
 {
