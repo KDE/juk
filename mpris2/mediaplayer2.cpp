@@ -59,6 +59,11 @@ void MediaPlayer2::Quit() const
     kapp->quit();
 }
 
+bool MediaPlayer2::CanSetFullscreen() const
+{
+    return false;
+}
+
 bool MediaPlayer2::HasTrackList() const
 {
     return false;
