@@ -45,8 +45,8 @@ bool MediaPlayer2::CanRaise() const
 
 void MediaPlayer2::Raise() const
 {
-    JuK::JuKInstance()->raise();
-    KWindowSystem::activateWindow(JuK::JuKInstance()->effectiveWinId());
+    JuK::JuKInstance()->show();
+    KWindowSystem::forceActiveWindow(JuK::JuKInstance()->effectiveWinId());
 }
 
 bool MediaPlayer2::CanQuit() const
@@ -56,7 +56,7 @@ bool MediaPlayer2::CanQuit() const
 
 void MediaPlayer2::Quit() const
 {
-    kapp->closeAllWindows();
+    kapp->quit();
 }
 
 bool MediaPlayer2::HasTrackList() const
@@ -71,7 +71,7 @@ QString MediaPlayer2::Identity() const
 
 QString MediaPlayer2::DesktopEntry() const
 {
-    return QLatin1String("juk");
+    return QLatin1String("kde4-juk");
 }
 
 QStringList MediaPlayer2::SupportedUriSchemes() const
