@@ -25,13 +25,18 @@
 #include <KApplication>
 #include <KCmdLineArgs>
 #include <KProtocolInfo>
-#include <KService>
 #include <KWindowSystem>
 
+#include <QDBusConnection>
+#include <QDBusMessage>
 #include <QWidget>
+
+#include <Phonon/BackendCapabilities>
 
 MediaPlayer2::MediaPlayer2(QObject* parent) : QDBusAbstractAdaptor(parent)
 {
+    connect(Phonon::BackendCapabilities::notifier(), SIGNAL(capabilitiesChanged()),
+            this, SLOT(backendCapabilitiesChanged()));
 }
 
 MediaPlayer2::~MediaPlayer2()
@@ -86,13 +91,44 @@ QStringList MediaPlayer2::SupportedUriSchemes() const
 
 QStringList MediaPlayer2::SupportedMimeTypes() const
 {
-#if KDE_IS_VERSION(4,8,3)
-    KService::Ptr app = KService::serviceByDesktopName(QLatin1String("juk"));
+    // Filter the available mime types to only include audio
+    static QRegExp avFilter( "^audio/", Qt::CaseInsensitive );
+    QStringList mimeTable = Phonon::BackendCapabilities::availableMimeTypes().filter( avFilter );
 
-    if (app) {
-        return app->mimeTypes();
-    }
-#endif
+    // Add whitelist hacks
 
-    return QStringList();
+    // MP4 Audio Books have a different extension that KFileItem/Phonon don't grok
+    if( !mimeTable.contains( "audio/x-m4b" ) )
+        mimeTable << "audio/x-m4b";
+
+    // technically, "audio/flac" is not a valid mimetype (not on IANA list), but some things expect it
+    if( mimeTable.contains( "audio/x-flac" ) && !mimeTable.contains( "audio/flac" ) )
+        mimeTable << "audio/flac";
+
+    bool canPlayMp3 = mimeTable.contains( "audio/mpeg" ) || mimeTable.contains( "audio/x-mp3" );
+    // We special case this, as otherwise the users would hate us
+    // Again, "audio/mp3" is not a valid mimetype, but is widely used
+    // (the proper one is "audio/mpeg", but that is also for .mp1 and .mp2 files)
+    if( canPlayMp3 && !mimeTable.contains( "audio/mp3" ) )
+        mimeTable << "audio/mp3";
+    if( canPlayMp3 && !mimeTable.contains( "audio/x-mp3" ) )
+        mimeTable << "audio/x-mp3";
+
+    return mimeTable;
 }
+
+void MediaPlayer2::backendCapabilitiesChanged()
+{
+    QDBusMessage msg = QDBusMessage::createSignal("/org/mpris/MediaPlayer2",
+        "org.freedesktop.DBus.Properties", "PropertiesChanged" );
+
+    QVariantList args;
+    args << "org.mpris.MediaPlayer2";
+    args << QVariantMap();
+    args << QStringList("SupportedMimeTypes");
+
+    msg.setArguments(args);
+
+    QDBusConnection::sessionBus().send(msg);
+}
+
