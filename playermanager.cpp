@@ -238,6 +238,7 @@ void PlayerManager::play(const FileHandle &file)
             mediaObject->play();
         else if(playing()) {
             mediaObject->seek(0);
+            emit seeked(0);
         }
         else {
             m_playlistInterface->playNext();
@@ -337,6 +338,7 @@ void PlayerManager::seek(int seekTime)
              << "to" << seekTime;
     stopCrossfade();
     m_media[m_curOutputPath]->seek(seekTime);
+    emit seeked(seekTime);
 }
 
 void PlayerManager::seekForward()
@@ -344,9 +346,11 @@ void PlayerManager::seekForward()
     Phonon::MediaObject *mediaObject = m_media[m_curOutputPath];
     const qint64 total = mediaObject->totalTime();
     const qint64 newtime = mediaObject->currentTime() + total / 100;
+    const qint64 seekTo = qMin(total, newtime);
 
     stopCrossfade();
-    mediaObject->seek(qMin(total, newtime));
+    mediaObject->seek(seekTo);
+    emit seeked(seekTo);
 }
 
 void PlayerManager::seekBack()
@@ -354,9 +358,11 @@ void PlayerManager::seekBack()
     Phonon::MediaObject *mediaObject = m_media[m_curOutputPath];
     const qint64 total = mediaObject->totalTime();
     const qint64 newtime = mediaObject->currentTime() - total / 100;
+    const qint64 seekTo = qMax(qint64(0), newtime);
 
     stopCrossfade();
-    mediaObject->seek(qMax(qint64(0), newtime));
+    mediaObject->seek(seekTo);
+    emit seeked(seekTo);
 }
 
 void PlayerManager::playPause()
@@ -553,6 +559,44 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
     }
 }
 
+void PlayerManager::slotSeekableChanged(bool isSeekable)
+{
+    // Use sender() since either media object may have sent the signal.
+    Phonon::MediaObject *mediaObject = qobject_cast<Phonon::MediaObject *>(sender());
+    if(!mediaObject)
+        return;
+    if(mediaObject != m_media[m_curOutputPath])
+        return;
+
+    emit seekableChanged(isSeekable);
+}
+
+void PlayerManager::slotMutedChanged(bool muted)
+{
+    // Use sender() since either output object may have sent the signal.
+    Phonon::AudioOutput *output = qobject_cast<Phonon::AudioOutput *>(sender());
+    if(!output)
+        return;
+
+    if(output != m_output[m_curOutputPath])
+        return;
+
+    emit mutedChanged(muted);
+}
+
+void PlayerManager::slotVolumeChanged(qreal volume)
+{
+    // Use sender() since either output object may have sent the signal.
+    Phonon::AudioOutput *output = qobject_cast<Phonon::AudioOutput *>(sender());
+    if(!output)
+        return;
+
+    if(output != m_output[m_curOutputPath])
+        return;
+
+    emit volumeChanged(volume);
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
@@ -582,6 +626,8 @@ void PlayerManager::setup()
 
     for(int i = 0; i < 2; ++i) {
         m_output[i] = new Phonon::AudioOutput(Phonon::MusicCategory, this);
+        connect(m_output[i], SIGNAL(mutedChanged(bool)), SLOT(slotMutedChanged(bool)));
+        connect(m_output[i], SIGNAL(volumeChanged(qreal)), SLOT(slotVolumeChanged(qreal)));
 
         m_media[i] = new Phonon::MediaObject(this);
         m_audioPath[i] = Phonon::createPath(m_media[i], m_output[i]);
@@ -598,6 +644,7 @@ void PlayerManager::setup()
         connect(m_media[i], SIGNAL(totalTimeChanged(qint64)), SLOT(slotLength(qint64)));
         connect(m_media[i], SIGNAL(tick(qint64)), SLOT(slotTick(qint64)));
         connect(m_media[i], SIGNAL(finished()), SLOT(slotFinished()));
+        connect(m_media[i], SIGNAL(seekableChanged(bool)), SLOT(slotSeekableChanged(bool)));
     }
 
     // initialize action states

@@ -50,20 +50,24 @@ QWidget *TrackPositionAction::createWidget(QWidget *parent)
     PlayerManager *player = JuK::JuKInstance()->playerManager();
 
     connect(player, SIGNAL(tick(int)), slider, SLOT(setValue(int)));
+    connect(player, SIGNAL(seekableChanged(bool)), this, SLOT(seekableChanged(bool)));
     connect(player, SIGNAL(totalTimeChanged(int)), this, SLOT(totalTimeChanged(int)));
     connect(slider, SIGNAL(sliderMoved(int)), player, SLOT(seek(int)));
 
     return slider;
 }
 
-void TrackPositionAction::totalTimeChanged(int ms)
+void TrackPositionAction::seekableChanged(bool seekable)
 {
-    slider()->setRange(0, ms);
-    bool seekable = JuK::JuKInstance()->playerManager()->seekable();
     slider()->setEnabled(seekable);
     slider()->setToolTip(seekable ?
                          QString() :
                          i18n("Seeking is not supported in this file with your audio settings."));
+}
+
+void TrackPositionAction::totalTimeChanged(int ms)
+{
+    slider()->setRange(0, ms);
 }
 
 VolumeAction::VolumeAction(const QString &text, QObject *parent) :

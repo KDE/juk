@@ -32,6 +32,7 @@ public:
 protected:
     virtual QWidget *createWidget(QWidget *parent);
 private slots:
+    void seekableChanged(bool seekable);
     void totalTimeChanged(int ms);
 };
 

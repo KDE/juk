@@ -89,12 +89,12 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
         void OpenUri(QString Uri) const;
 
     private slots:
-        void tick(int newPos);
         void currentSourceChanged() const;
         void stateUpdated() const;
         void totalTimeChanged() const;
         void seekableChanged(bool seekable) const;
-        void volumeChanged(qreal newVol) const;
+        void volumeChanged(float newVol) const;
+        void seeked(int newPos) const;
 
     private:
         void signalPropertiesChange(const QVariantMap& properties) const;

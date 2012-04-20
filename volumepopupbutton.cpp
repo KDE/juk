@@ -72,7 +72,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     m_muteAction->setChecked( player->muted() );
 
     connect( m_muteAction, SIGNAL(toggled(bool)), player, SLOT(setMuted(bool)) );
-    connect( m_muteAction, SIGNAL(toggled(bool)), this, SLOT(muteStateChanged(bool)) );
+    connect( player, SIGNAL(mutedChanged(bool)), this, SLOT(muteStateChanged(bool)) );
 
     m_volumeMenu->addAction( sliderActionWidget );
     muteBar->addAction( m_muteAction );
@@ -80,7 +80,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     // set correct icon and label initially
     volumeChanged( player->volume() );
 
-    connect( m_volumeSlider, SIGNAL(volumeChanged(float)), this, SLOT(volumeChanged(float)) );
+    connect( player, SIGNAL(volumeChanged(float)), this, SLOT(volumeChanged(float)) );
 }
 
 void

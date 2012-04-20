@@ -52,14 +52,14 @@ MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
     : QDBusAbstractAdaptor(parent)
     , m_player(JuK::JuKInstance()->playerManager())
 {
-    connect(m_player, SIGNAL(tick(int)), this, SLOT(tick(int)));
     connect(m_player, SIGNAL(signalItemChanged(FileHandle)), this, SLOT(currentSourceChanged()));
     connect(m_player, SIGNAL(signalPlay()), this, SLOT(stateUpdated()));
     connect(m_player, SIGNAL(signalPause()), this, SLOT(stateUpdated()));
     connect(m_player, SIGNAL(signalStop()), this, SLOT(stateUpdated()));
     connect(m_player, SIGNAL(totalTimeChanged(int)), this, SLOT(totalTimeChanged()));
-//    connect(m_player, SIGNAL(seekableChanged(bool)), this, SLOT(seekableChanged(bool)));
-//    connect(m_player, SIGNAL(volumeChanged(qreal)), this, SLOT(volumeChanged(qreal)));
+    connect(m_player, SIGNAL(seekableChanged(bool)), this, SLOT(seekableChanged(bool)));
+    connect(m_player, SIGNAL(volumeChanged(float)), this, SLOT(volumeChanged(float)));
+    connect(m_player, SIGNAL(seeked(int)), this, SLOT(seeked(int)));
 }
 
 MediaPlayer2Player::~MediaPlayer2Player()
@@ -222,6 +222,10 @@ double MediaPlayer2Player::Volume() const
 
 void MediaPlayer2Player::setVolume(double volume) const
 {
+    if (volume < 0.0)
+        volume = 0.0;
+    if (volume > 1.0)
+        volume = 1.0;
     m_player->setVolume(volume);
 }
 
@@ -255,19 +259,6 @@ bool MediaPlayer2Player::CanControl() const
     return true;
 }
 
-void MediaPlayer2Player::tick(int newPos)
-{
-    QVariantMap properties;
-    properties["Position"] = Position();
-    signalPropertiesChange(properties);
-
-    // 200 is the default tick interval set in playermanager.cpp
-    if (newPos - oldPos > 200 + 250 || newPos < oldPos)
-        emit Seeked(newPos * 1000);
-
-    oldPos = newPos;
-}
-
 void MediaPlayer2Player::currentSourceChanged() const
 {
     QVariantMap properties;
@@ -298,13 +289,19 @@ void MediaPlayer2Player::seekableChanged(bool seekable) const
     signalPropertiesChange(properties);
 }
 
-void MediaPlayer2Player::volumeChanged(qreal newVol) const
+void MediaPlayer2Player::volumeChanged(float newVol) const
 {
     Q_UNUSED(newVol)
 
     QVariantMap properties;
     properties["Volume"] = Volume();
     signalPropertiesChange(properties);
+}
+
+void MediaPlayer2Player::seeked(int newPos) const
+{
+    // casts int to uint64
+    emit Seeked(newPos);
 }
 
 void MediaPlayer2Player::signalPropertiesChange(const QVariantMap& properties) const

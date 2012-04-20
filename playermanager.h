@@ -112,6 +112,10 @@ public slots:
 signals:
     void tick(int time);
     void totalTimeChanged(int time);
+    void mutedChanged(bool muted);
+    void volumeChanged(float volume);
+    void seeked(int newPos);
+    void seekableChanged(bool muted);
 
     void signalPlay();
     void signalPause();
@@ -131,6 +135,9 @@ private slots:
     void slotStateChanged(Phonon::State, Phonon::State);
     /// Updates the GUI to reflect stopped playback if we're stopped at this point.
     void slotUpdateGuiIfStopped();
+    void slotSeekableChanged(bool);
+    void slotMutedChanged(bool);
+    void slotVolumeChanged(qreal);
 
 private:
     FileHandle m_file;
