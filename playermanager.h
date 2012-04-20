@@ -60,8 +60,16 @@ public:
     bool muted() const;
     float volume() const;
     int status() const;
+
+    // These two have been part of the prior public DBus interface so they have
+    // been retained. You should use the MSecs versions below. These return in units
+    // of seconds instead.
     int totalTime() const;
     int currentTime() const;
+
+    int totalTimeMSecs() const;
+    int currentTimeMSecs() const;
+
     bool seekable() const;
     //int position() const;
 

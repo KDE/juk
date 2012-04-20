@@ -51,6 +51,12 @@
     <method name="totalTime">
       <arg type="i" direction="out"/>
     </method>
+    <method name="currentTimeMSecs">
+      <arg type="i" direction="out"/>
+    </method>
+    <method name="totalTimeMSecs">
+      <arg type="i" direction="out"/>
+    </method>
     <method name="randomPlayMode">
       <arg type="s" direction="out"/>
     </method>

@@ -135,18 +135,28 @@ int PlayerManager::status() const
 
 int PlayerManager::totalTime() const
 {
-    if(!m_setup)
-        return 0;
-
-    return m_media[m_curOutputPath]->totalTime() / 1000;
+    return totalTimeMSecs() / 1000;
 }
 
 int PlayerManager::currentTime() const
 {
+    return currentTimeMSecs() / 1000;
+}
+
+int PlayerManager::totalTimeMSecs() const
+{
     if(!m_setup)
         return 0;
 
-    return m_media[m_curOutputPath]->currentTime() / 1000;
+    return m_media[m_curOutputPath]->totalTime();
+}
+
+int PlayerManager::currentTimeMSecs() const
+{
+    if(!m_setup)
+        return 0;
+
+    return m_media[m_curOutputPath]->currentTime();
 }
 
 bool PlayerManager::seekable() const

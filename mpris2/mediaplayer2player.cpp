@@ -227,7 +227,7 @@ void MediaPlayer2Player::setVolume(double volume) const
 
 qlonglong MediaPlayer2Player::Position() const
 {
-    return m_player->currentTime() * 1000;
+    return m_player->currentTimeMSecs() * 1000;
 }
 
 double MediaPlayer2Player::MinimumRate() const
@@ -247,7 +247,7 @@ bool MediaPlayer2Player::CanSeek() const
 
 void MediaPlayer2Player::Seek(qlonglong Offset) const
 {
-    m_player->seek(((m_player->currentTime() * 1000) + Offset) / 1000);
+    m_player->seek(((m_player->currentTimeMSecs() * 1000) + Offset) / 1000);
 }
 
 bool MediaPlayer2Player::CanControl() const
