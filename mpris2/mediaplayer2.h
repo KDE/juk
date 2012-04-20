@@ -18,8 +18,8 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  ***********************************************************************/
 
-#ifndef JUK_MEDIAPLAYRER2_H
-#define JUK_MEDIAPLAYRER2_H
+#ifndef JUK_MEDIAPLAYER2_H
+#define JUK_MEDIAPLAYER2_H
 
 #include <QDBusAbstractAdaptor>
 #include <QStringList>
