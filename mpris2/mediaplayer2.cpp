@@ -25,19 +25,14 @@
 #include <KAboutData>
 #include <KApplication>
 #include <KCmdLineArgs>
-#include <KProtocolInfo>
 #include <KWindowSystem>
 
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QWidget>
 
-#include <Phonon/BackendCapabilities>
-
 MediaPlayer2::MediaPlayer2(QObject* parent) : QDBusAbstractAdaptor(parent)
 {
-    connect(Phonon::BackendCapabilities::notifier(), SIGNAL(capabilitiesChanged()),
-            this, SLOT(backendCapabilitiesChanged()));
 }
 
 MediaPlayer2::~MediaPlayer2()
@@ -115,20 +110,5 @@ QStringList MediaPlayer2::SupportedMimeTypes() const
         mimeTable << "audio/x-mp3";
 
     return mimeTable;
-}
-
-void MediaPlayer2::backendCapabilitiesChanged()
-{
-    QDBusMessage msg = QDBusMessage::createSignal("/org/mpris/MediaPlayer2",
-        "org.freedesktop.DBus.Properties", "PropertiesChanged" );
-
-    QVariantList args;
-    args << "org.mpris.MediaPlayer2";
-    args << QVariantMap();
-    args << QStringList("SupportedMimeTypes");
-
-    msg.setArguments(args);
-
-    QDBusConnection::sessionBus().send(msg);
 }
 

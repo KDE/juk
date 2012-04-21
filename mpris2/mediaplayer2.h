@@ -62,9 +62,6 @@ class MediaPlayer2 : public QDBusAbstractAdaptor
     public slots:
         void Raise() const;
         void Quit() const;
-
-    private slots:
-        void backendCapabilitiesChanged();
 };
 
 #endif
