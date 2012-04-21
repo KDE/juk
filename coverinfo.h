@@ -56,6 +56,24 @@ public:
     coverKey coverId() const;
 
     QPixmap pixmap(CoverSize size) const;
+
+    /**
+     * Returns the path to the cover data. For embedded covers the art will be
+     * extracted to a temporary file, and the returned path will be that of the
+     * temporary file. The temporary file will be owned by the caller.
+     *
+     * Note that it is possible to have a valid filename even for covers that
+     * do not have "coverKey" since JuK supports using cover.{jpg,png} in a
+     * directory.
+     *
+     * @param fallbackFileName The filename (including full absolute path)
+     * of the file to write to if embedded album art is present and to be
+     * extracted.
+     *
+     * If no cover is present, an empty string is returned.
+     */
+    QString localPathToCover(const QString &fallbackFileName) const;
+
     void popup() const;
 
 private:

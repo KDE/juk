@@ -21,6 +21,7 @@
 #include "mpris2/mediaplayer2player.h"
 #include "juk.h"
 #include "playermanager.h"
+#include "coverinfo.h"
 #include "playlist.h"
 #include "playlistitem.h"
 #include "tag.h"
@@ -33,6 +34,7 @@
 #include <QFile>
 
 #include <KUrl>
+#include <KStandardDirs>
 
 static QByteArray idFromPlaylistItem(const PlaylistItem *item)
 {
@@ -206,6 +208,18 @@ QVariantMap MediaPlayer2Player::Metadata() const
     metaData["xesam:url"] = QString::fromLatin1(
             QUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
 
+    if(playingFile.coverInfo()->hasCover()) {
+        QString fallbackFileName = KStandardDirs::locateLocal("tmp",
+                QString("juk-cover-%1.png").arg(item->trackId()));
+
+        QString path = fallbackFileName;
+        if(!QFile::exists(path)) {
+            path = playingFile.coverInfo()->localPathToCover(fallbackFileName);
+        }
+
+        metaData["mpris:artUrl"] = QString::fromLatin1(QUrl::fromLocalFile(
+                path).toEncoded());
+    }
 
     return metaData;
 }

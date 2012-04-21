@@ -17,7 +17,6 @@
 
 #include <kglobal.h>
 #include <kapplication.h>
-#include <kstandarddirs.h>
 #include <kdebug.h>
 
 #include <QRegExp>
@@ -237,6 +236,34 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
         cover = scaleCoverToThumbnail(cover);
 
     return QPixmap::fromImage(cover);
+}
+
+QString CoverInfo::localPathToCover(const QString &fallbackFileName) const
+{
+    if(m_coverKey != CoverManager::NoMatch) {
+        QString path = CoverManager::coverInfo(m_coverKey)->path;
+        if(!path.isEmpty())
+            return path;
+    }
+
+    if(hasEmbeddedAlbumArt()) {
+        QFile albumArtFile(fallbackFileName);
+        if(!albumArtFile.open(QIODevice::ReadWrite)) {
+            return QString();
+        }
+
+        QImage albumArt = embeddedAlbumArt();
+        albumArt.save(&albumArtFile, "PNG");
+        return fallbackFileName;
+    }
+
+    QString basePath = m_file.fileInfo().absolutePath();
+    if(QFile::exists(basePath + "/cover.jpg"))
+        return basePath + "/cover.jpg";
+    else if(QFile::exists(basePath + "/cover.png"))
+        return basePath + "/cover.png";
+
+    return QString();
 }
 
 bool CoverInfo::hasEmbeddedAlbumArt() const
