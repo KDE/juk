@@ -20,6 +20,7 @@
 
 #include "mpris2/mediaplayer2.h"
 #include "juk.h"
+#include "mediafiles.h"
 
 #include <KAboutData>
 #include <KApplication>
@@ -96,15 +97,9 @@ QStringList MediaPlayer2::SupportedUriSchemes() const
 
 QStringList MediaPlayer2::SupportedMimeTypes() const
 {
-    // Filter the available mime types to only include audio
-    static QRegExp avFilter( "^audio/", Qt::CaseInsensitive );
-    QStringList mimeTable = Phonon::BackendCapabilities::availableMimeTypes().filter( avFilter );
+    QStringList mimeTable = MediaFiles::mimeTypes();
 
     // Add whitelist hacks
-
-    // MP4 Audio Books have a different extension that KFileItem/Phonon don't grok
-    if( !mimeTable.contains( "audio/x-m4b" ) )
-        mimeTable << "audio/x-m4b";
 
     // technically, "audio/flac" is not a valid mimetype (not on IANA list), but some things expect it
     if( mimeTable.contains( "audio/x-flac" ) && !mimeTable.contains( "audio/flac" ) )
