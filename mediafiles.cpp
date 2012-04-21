@@ -43,8 +43,6 @@
 #endif
 
 namespace MediaFiles {
-    QStringList mimeTypes();
-
     static QStringList savedMimeTypes;
 
     static const char mp3Type[]  = "audio/mpeg";
@@ -65,7 +63,7 @@ namespace MediaFiles {
     static const char mp4AudiobookType[] = "audio/x-m4b";
 #endif
 
-    static const char *mediaTypes[] = {
+    static const char *const mediaTypes[] = {
         mp3Type, oggType, flacType, mpcType, vorbisType, oggflacType
 #ifdef TAGLIB_WITH_ASF
         ,asfType
@@ -223,15 +221,9 @@ QStringList MediaFiles::mimeTypes()
     if(!savedMimeTypes.isEmpty())
         return savedMimeTypes;
 
-    savedMimeTypes << mp3Type << oggflacType << flacType << m3uType << vorbisType
-                   << oggType << mpcType
-#ifdef TAGLIB_WITH_ASF
-                   << asfType
-#endif
-#ifdef TAGLIB_WITH_MP4
-                   << mp4Type << mp4AudiobookType
-#endif
-                   ;
+    for(unsigned i = 0; i < ARRAY_SIZE(mediaTypes); ++i) {
+        savedMimeTypes << QLatin1String(mediaTypes[i]);
+    }
 
     return savedMimeTypes;
 }

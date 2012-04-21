@@ -62,6 +62,11 @@ namespace MediaFiles
     bool isPlaylistFile(const QString &fileName);
 
     /**
+     * Returns a list of all supported mimetypes.
+     */
+    QStringList mimeTypes();
+
+    /**
      * Returns true if fileName is a mp3 file.
      */
     bool isMP3(const QString &fileName);
