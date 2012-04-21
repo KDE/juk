@@ -110,6 +110,13 @@ public:
     virtual CollectionListItem *collectionItem() { return m_collectionItem; }
 
     /**
+     * This is an identifier for the playlist item which will remain unique
+     * throughout the process lifetime. It stays constant once the PlaylistItem
+     * is created.
+     */
+    quint32 trackId() const { return m_trackId; }
+
+    /**
      * The widths of items are cached when they're updated for us in computations
      * in the "weighted" listview column width mode.
      */
@@ -154,7 +161,7 @@ public:
 protected:
     /**
      * Items should always be created using Playlist::createItem() or through a
-     * subclss or friend class.
+     * subclass or friend class.
      */
     PlaylistItem(CollectionListItem *item, Playlist *parent);
     PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after);
@@ -177,6 +184,8 @@ protected:
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
     bool isValid() const;
+
+    void setTrackId(quint32 id);
 
     /**
      * Shared data between all PlaylistItems from the same track (incl. the CollectionItem
@@ -202,6 +211,7 @@ private:
     using Q3ListViewItem::setup; // Avoid warning about hidden function.
 
     CollectionListItem *m_collectionItem;
+    quint32 m_trackId;
     bool m_watched;
     static PlaylistItemList m_playingItems;
 };

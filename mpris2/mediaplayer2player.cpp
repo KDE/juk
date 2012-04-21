@@ -21,6 +21,8 @@
 #include "mpris2/mediaplayer2player.h"
 #include "juk.h"
 #include "playermanager.h"
+#include "playlist.h"
+#include "playlistitem.h"
 #include "tag.h"
 #include "filehandle.h"
 
@@ -32,20 +34,10 @@
 
 #include <KUrl>
 
-static QByteArray idFromFileHandle(const FileHandle &file)
+static QByteArray idFromPlaylistItem(const PlaylistItem *item)
 {
-    QByteArray playingTrackFileId = QFile::encodeName(file.absFilePath());
-
-    // By using the "_HH" encoding we can fairly efficiently encode file names
-    // into D-Bus object paths to use for track IDs. All characters in
-    // [a-zA-Z0-9_] are passed inline, any other characters are encoded using
-    // _HH where HH is the hex value of the character. This does mean that _
-    // itself must be escaped.
-    //
-    // Although the encoding function is called "toPercentEncoding" we can
-    // change the percent character to _ which is permitted in Object Paths.
     return QByteArray("/org/kde/juk/tid_") +
-        playingTrackFileId.toPercentEncoding("/", "-.~_", '_');
+           QByteArray::number(item->trackId(), 16).rightJustified(8, '0');
 }
 
 MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
@@ -118,14 +110,14 @@ void MediaPlayer2Player::Play() const
 
 void MediaPlayer2Player::SetPosition(const QDBusObjectPath& TrackId, qlonglong Position) const
 {
-    FileHandle playingFile = m_player->playingFile();
+    PlaylistItem *playingItem = Playlist::playingItem();
 
-    if (playingFile.isNull()) {
+    if (!playingItem) {
         return;
     }
 
     // Verify the SetPosition call is against the currently playing track
-    QByteArray currentTrackId = idFromFileHandle(playingFile);
+    QByteArray currentTrackId = idFromPlaylistItem(playingItem);
 
     if (TrackId.path().toLatin1() == currentTrackId) {
         m_player->seek(Position / 1000);
@@ -194,23 +186,26 @@ QVariantMap MediaPlayer2Player::Metadata() const
     // The track ID is annoying since it must result in a valid DBus object
     // path, and the regex for that is, and I quote: [a-zA-Z0-9_]*, along with
     // the normal / delimiters for paths.
-    FileHandle playingFile = m_player->playingFile();
-    QByteArray playingTrackFileId = idFromFileHandle(playingFile);
+    PlaylistItem *item = Playlist::playingItem();
+    if (!item)
+        return metaData;
 
-    if (!playingFile.isNull()) {
-        metaData["mpris:trackid"] =
-            QVariant::fromValue<QDBusObjectPath>(
-                    QDBusObjectPath(playingTrackFileId.constData()));
+    FileHandle playingFile = item->file();
+    QByteArray playingTrackFileId = idFromPlaylistItem(item);
 
-        metaData["xesam:album"] = playingFile.tag()->album();
-        metaData["xesam:title"] = playingFile.tag()->title();
-        metaData["xesam:artist"] = QStringList(playingFile.tag()->artist());
-        metaData["xesam:genre"]  = QStringList(playingFile.tag()->genre());
+    metaData["mpris:trackid"] =
+        QVariant::fromValue<QDBusObjectPath>(
+                QDBusObjectPath(playingTrackFileId.constData()));
 
-        metaData["mpris:length"] = qint64(playingFile.tag()->seconds() * 1000000);
-        metaData["xesam:url"] = QString::fromLatin1(
-                QUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
-    }
+    metaData["xesam:album"] = playingFile.tag()->album();
+    metaData["xesam:title"] = playingFile.tag()->title();
+    metaData["xesam:artist"] = QStringList(playingFile.tag()->artist());
+    metaData["xesam:genre"]  = QStringList(playingFile.tag()->genre());
+
+    metaData["mpris:length"] = qint64(playingFile.tag()->seconds() * 1000000);
+    metaData["xesam:url"] = QString::fromLatin1(
+            QUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
+
 
     return metaData;
 }

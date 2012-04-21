@@ -84,6 +84,12 @@
 using namespace ActionCollection;
 
 /**
+ * Used to give every track added in the program a unique identifier. See
+ * PlaylistItem
+ */
+quint32 g_trackID = 0;
+
+/**
  * Just a shortcut of sorts.
  */
 
@@ -1600,6 +1606,9 @@ void Playlist::slotInitialize()
 
 void Playlist::setupItem(PlaylistItem *item)
 {
+    item->setTrackId(g_trackID);
+    g_trackID++;
+
     if(!m_search.isEmpty())
         item->setVisible(m_search.checkItem(item));
 
