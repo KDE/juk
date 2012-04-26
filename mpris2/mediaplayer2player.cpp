@@ -82,7 +82,7 @@ void MediaPlayer2Player::Previous() const
 
 bool MediaPlayer2Player::CanPause() const
 {
-    return m_player->playing();
+    return true;
 }
 
 void MediaPlayer2Player::Pause() const
@@ -280,7 +280,6 @@ void MediaPlayer2Player::stateUpdated() const
 {
     QVariantMap properties;
     properties["PlaybackStatus"] = PlaybackStatus();
-    properties["CanPause"] = CanPause();
     signalPropertiesChange(properties);
 }
 
