@@ -90,7 +90,7 @@ void ScrobbleConfigDlg::testLogin()
 
 void ScrobbleConfigDlg::invalidLogin()
 {
-    m_testFeedbackLabel->setText(i18n("Login invalid!"));
+    m_testFeedbackLabel->setText(i18n("Login invalid."));
     setEnabled(true);
     sender()->deleteLater();
     button(Apply)->setEnabled(false);
@@ -98,7 +98,7 @@ void ScrobbleConfigDlg::invalidLogin()
 
 void ScrobbleConfigDlg::validLogin()
 {
-    m_testFeedbackLabel->setText(i18n("Login valid!"));
+    m_testFeedbackLabel->setText(i18n("Login valid."));
     setEnabled(true);
     sender()->deleteLater();
     button(Apply)->setEnabled(true);
