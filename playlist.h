@@ -75,7 +75,57 @@ public:
 
     virtual ~Playlist();
 
+    // The following functions override stuff from K3ListView
+    /**
+     * Returns a list of the currently selected items.
+     */
+    PlaylistItemList selectedItems();
 
+    /**
+     * Returns properly casted first child item in list.
+     */
+    PlaylistItem *firstChild() const;
+    
+    /**
+     * Hides column \a c.  If \a updateSearch is true then a signal that the
+     * visible columns have changed will be emitted and things like the search
+     * will be udated.
+     */
+    void hideColumn(int c, bool updateSearch = true);
+    
+public slots:
+    /**
+     * Removes the selected items from the list, but not the disk.
+     *
+     * @see clearItem()
+     * @see clearItems()
+     */
+    virtual void clear();
+    virtual void selectAll() { K3ListView::selectAll(true); }
+    
+protected:
+    virtual bool eventFilter(QObject *watched, QEvent *e);
+    virtual void keyPressEvent(QKeyEvent *e);
+    virtual Q3DragObject *dragObject(QWidget *parent);
+    virtual Q3DragObject *dragObject() { return dragObject(this); }
+    virtual void contentsDropEvent(QDropEvent *e);
+    virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);
+    virtual void contentsDragEnterEvent(QDragEnterEvent *e);
+    virtual void showEvent(QShowEvent *e);
+    virtual bool acceptDrag(QDropEvent *e) const;
+    virtual void viewportPaintEvent(QPaintEvent *pe);
+    virtual void viewportResizeEvent(QResizeEvent *re);
+    virtual int addColumn(const QString &label, int width = -1);
+    virtual void insertItem(Q3ListViewItem *item);
+    virtual void takeItem(Q3ListViewItem *item);
+    using K3ListView::addColumn;
+    
+private:
+        using K3ListView::selectAll; // Avoid warning about hiding this function.
+
+    
+public:
+    
     // The following group of functions implement the PlaylistInterface API.
 
     virtual QString name() const;
@@ -152,16 +202,6 @@ public:
     PlaylistItemList visibleItems();
 
     /**
-     * Returns a list of the currently selected items.
-     */
-    PlaylistItemList selectedItems();
-
-    /**
-     * Returns properly casted first child item in list.
-     */
-    PlaylistItem *firstChild() const;
-
-    /**
      * Allow duplicate files in the playlist.
      */
     void setAllowDuplicates(bool allow) { m_allowDuplicates = allow; }
@@ -208,13 +248,6 @@ public:
      * have the "m3u" extension.
      */
     void setFileName(const QString &n) { m_fileName = n; }
-
-    /**
-     * Hides column \a c.  If \a updateSearch is true then a signal that the
-     * visible columns have changed will be emitted and things like the search
-     * will be udated.
-     */
-    void hideColumn(int c, bool updateSearch = true);
 
     /**
      * Shows column \a c.  If \a updateSearch is true then a signal that the
@@ -353,15 +386,6 @@ public slots:
     virtual void paste();
 
     /**
-     * Removes the selected items from the list, but not the disk.
-     *
-     * @see clearItem()
-     * @see clearItems()
-     */
-    virtual void clear();
-    virtual void selectAll() { K3ListView::selectAll(true); }
-
-    /**
      * Refreshes the tags of the selection from disk, or all of the files in the
      * list if there is no selection.
      */
@@ -423,27 +447,12 @@ protected:
     void removeFromDisk(const PlaylistItemList &items);
 
     // the following are all reimplemented from base classes
-
-    virtual bool eventFilter(QObject *watched, QEvent *e);
-    virtual void keyPressEvent(QKeyEvent *e);
-    virtual Q3DragObject *dragObject(QWidget *parent);
-    virtual Q3DragObject *dragObject() { return dragObject(this); }
+    
     virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
-    virtual void contentsDropEvent(QDropEvent *e);
-    virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);
-    virtual void contentsDragEnterEvent(QDragEnterEvent *e);
-    virtual void showEvent(QShowEvent *e);
-    virtual bool acceptDrag(QDropEvent *e) const;
-    virtual void viewportPaintEvent(QPaintEvent *pe);
-    virtual void viewportResizeEvent(QResizeEvent *re);
 
-    virtual void insertItem(Q3ListViewItem *item);
-    virtual void takeItem(Q3ListViewItem *item);
 
     virtual bool hasItem(const QString &file) const { return m_members.contains(file); }
 
-    virtual int addColumn(const QString &label, int width = -1);
-    using K3ListView::addColumn;
 
     /**
      * Do some finial initialization of created items.  Notably ensure that they
@@ -576,8 +585,6 @@ private:
      * of the playlists, such as column order.  It is implemented as a singleton.
      */
     class SharedSettings;
-
-    using K3ListView::selectAll; // Avoid warning about hiding this function.
 
 private slots:
 
