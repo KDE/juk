@@ -70,6 +70,7 @@ set(juk_SRCS  ${tunepimp_SRCS}
    juk.cpp
    k3bexporter.cpp
    keydialog.cpp
+   lyricswidget.cpp
    main.cpp
    mediafiles.cpp
    mpris2/mediaplayer2.cpp

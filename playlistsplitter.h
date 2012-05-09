@@ -28,6 +28,7 @@ class PlaylistBox;
 class NowPlaying;
 class PlayerManager;
 class FileHandle;
+class LyricsWidget;
 
 /**
  * This is the main layout class of JuK.  It should contain a PlaylistBox and
@@ -94,6 +95,7 @@ private:
     TagEditor *m_editor;
     NowPlaying *m_nowPlaying;
     PlayerManager *m_player;
+    LyricsWidget *m_lyricsWidget;
     QSplitter *m_editorSplitter;
 };
 
