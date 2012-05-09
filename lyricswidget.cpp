@@ -4,9 +4,15 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
+#include <KAction>
+#include <KLocalizedString>
+#include <KActionCollection>
+#include <KToggleAction>
+#include <KConfigGroup>
 
 #include "lyricswidget.h"
 #include "tag.h"
+#include "actioncollection.h"
 
 LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     m_networkAccessManager(new QNetworkAccessManager)
@@ -14,10 +20,26 @@ LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     setReadOnly(true);
     setWordWrapMode(QTextOption::WordWrap);
     setOpenExternalLinks(true);
+    
+    KToggleAction *show = new KToggleAction(KIcon(QLatin1String("view-media-lyrics")),
+                                            i18n("Show &Lyrics"), this);
+    ActionCollection::actions()->addAction("showLyrics", show);
+    connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
+    
+    KConfigGroup config(KGlobal::config(), "LyricsWidget");
+    bool shown = config.readEntry("Show", false);
+    show->setChecked(shown);
+    setShown(shown);
+    
+
 }
+
 LyricsWidget::~LyricsWidget()
 {
     delete m_networkAccessManager;
+    
+    KConfigGroup config(KGlobal::config(), "LyricsWidget");
+    config.writeEntry("Show", ActionCollection::action<KToggleAction>("showLyrics")->isChecked());
 }
 
 void LyricsWidget::playing(const FileHandle &file)
