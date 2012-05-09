@@ -25,6 +25,7 @@
 #include <QVector>
 #include <QEvent>
 #include <QList>
+#include <QAbstractListModel>
 
 #include "covermanager.h"
 #include "stringhash.h"
@@ -48,7 +49,7 @@ class CollectionListItem;
 
 typedef QList<PlaylistItem *> PlaylistItemList;
 
-class Playlist : public K3ListView, public PlaylistInterface
+class Playlist : public K3ListView, public PlaylistInterface, public QAbstractListModel
 {
     Q_OBJECT
 
@@ -121,10 +122,18 @@ protected:
     using K3ListView::addColumn;
     
 private:
-        using K3ListView::selectAll; // Avoid warning about hiding this function.
+    using K3ListView::selectAll; // Avoid warning about hiding this function.
 
     
 public:
+    // The following functions implement the QAbstractListModel API
+    int rowCount(const QModelIndex &parent = QModelIndex()) const;
+    QVariant QAbstractItemModel::data (const QModelIndex & index, int role = Qt::DisplayRole) const;
+    int QAbstractItemModel::columnCount (const QModelIndex & parent = QModelIndex()) const;
+    Qt::ItemFlags QAbstractItemModel::flags (const QModelIndex & index) const;
+    bool QAbstractItemModel::setData (const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
+    bool QAbstractItemModel::insertRows (int row, int count, const QModelIndex & parent = QModelIndex());
+    bool QAbstractItemModel::removeRows (int row, int count, const QModelIndex & parent = QModelIndex());
     
     // The following group of functions implement the PlaylistInterface API.
 
