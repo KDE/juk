@@ -41,6 +41,7 @@
 #include "playermanager.h"
 #include "nowplaying.h"
 #include "playlistbox.h"
+#include "lyricswidget.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -55,7 +56,8 @@ PlaylistSplitter::PlaylistSplitter(PlayerManager *player, QWidget *parent) :
     m_editor(0),
     m_nowPlaying(0),
     m_player(player),
-    m_editorSplitter(0)
+    m_editorSplitter(0),
+    m_lyricsWidget(0)
 {
     setObjectName(QLatin1String("playlistSplitter"));
 
@@ -190,8 +192,11 @@ void PlaylistSplitter::setupLayout()
     m_editor = new TagEditor(m_editorSplitter);
     m_editor->setObjectName( QLatin1String("TagEditor" ));
 
+    // Create the lyrics widget
+    m_lyricsWidget = new LyricsWidget(this);
+    insertWidget(2, m_lyricsWidget);
+    
     // Create the PlaylistBox
-
     m_playlistBox = new PlaylistBox(m_player, this, m_playlistStack);
     m_playlistBox->setObjectName( QLatin1String( "playlistBox" ) );
 
@@ -202,6 +207,8 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
     connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
             m_player, SLOT(play(FileHandle)));
+    connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
+            m_lyricsWidget, SLOT(playing(FileHandle)));
 
     m_player->setPlaylistInterface(m_playlistBox);
 
