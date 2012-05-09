@@ -1,5 +1,18 @@
+/***************************************************************************
+    begin                : Wed May 9 2012
+    copyright            : (C) 2012 by Martin Sandsmark
+    email                : martin.sandsmark@kde.org
+ ***************************************************************************/
 
-#include <QDebug>
+/***************************************************************************
+ *                                                                         *
+ *   This program is free software; you can redistribute it and/or modify  *
+ *   it under the terms of the GNU General Public License as published by  *
+ *   the Free Software Foundation; either version 2 of the License, or     *
+ *   (at your option) any later version.                                   *
+ *                                                                         *
+ ***************************************************************************/
+
 #include <QDomDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -9,10 +22,12 @@
 #include <KActionCollection>
 #include <KToggleAction>
 #include <KConfigGroup>
+#include <KDebug>
 
 #include "lyricswidget.h"
 #include "tag.h"
 #include "actioncollection.h"
+
 
 LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     m_networkAccessManager(new QNetworkAccessManager)
@@ -27,20 +42,24 @@ LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
     
     KConfigGroup config(KGlobal::config(), "LyricsWidget");
-    bool shown = config.readEntry("Show", false);
+    bool shown = config.readEntry("Show", true);
     show->setChecked(shown);
     setShown(shown);
-    
-
+    connect(this, SLOT(setShown(bool)), SLOT(saveConfig()));
 }
 
 LyricsWidget::~LyricsWidget()
 {
     delete m_networkAccessManager;
-    
+    saveConfig();
+}
+
+void LyricsWidget::saveConfig()
+{
     KConfigGroup config(KGlobal::config(), "LyricsWidget");
     config.writeEntry("Show", ActionCollection::action<KToggleAction>("showLyrics")->isChecked());
 }
+
 
 void LyricsWidget::playing(const FileHandle &file)
 {
@@ -61,7 +80,7 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
 {
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     if (reply->error() != QNetworkReply::NoError) {
-        qWarning() << "Error while fetching lyrics: " << reply->errorString();
+        kWarning() << "Error while fetching lyrics: " << reply->errorString();
         setHtml("<span style='color:red'>Error while retrieving lyrics!</span>");
         return;
     }
@@ -86,7 +105,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
 {
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
     if (reply->error() != QNetworkReply::NoError) {
-        qWarning() << "Error while fetching lyrics: " << reply->errorString();
+        kWarning() << "Error while fetching lyrics: " << reply->errorString();
         setHtml("<span style='color:red'>Error while retrieving lyrics!</span>");
         return;
     }
@@ -95,7 +114,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     int lIndex = content.indexOf("&lt;lyrics&gt;");
     int rIndex = content.indexOf("&lt;/lyrics&gt;");
     if (lIndex == -1 || rIndex == -1) {
-        qWarning() << Q_FUNC_INFO << "Unable to find lyrics in text";
+        kWarning() << Q_FUNC_INFO << "Unable to find lyrics in text";
         setText("No lyrics available.");
         return;
     }
