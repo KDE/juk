@@ -207,8 +207,7 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
     connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
             m_player, SLOT(play(FileHandle)));
-    connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
-            m_lyricsWidget, SLOT(playing(FileHandle)));
+    
 
     m_player->setPlaylistInterface(m_playlistBox);
 
@@ -220,6 +219,8 @@ void PlaylistSplitter::setupLayout()
     m_nowPlaying = new NowPlaying(top, m_playlistBox);
     connect(m_player, SIGNAL(signalItemChanged(FileHandle)),
             m_nowPlaying, SLOT(slotUpdate(FileHandle)));
+    connect(m_player, SIGNAL(signalItemChanged(FileHandle)),
+            m_lyricsWidget, SLOT(playing(FileHandle)));
 
     // Create the search widget -- this must be done after the CollectionList is created.
 

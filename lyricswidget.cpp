@@ -8,12 +8,12 @@
 #include "lyricswidget.h"
 #include "tag.h"
 
-LyricsWidget::LyricsWidget(QWidget* parent): QTextEdit(parent),
+LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     m_networkAccessManager(new QNetworkAccessManager)
 {
     setReadOnly(true);
     setWordWrapMode(QTextOption::WordWrap);
-    
+    setOpenExternalLinks(true);
 }
 LyricsWidget::~LyricsWidget()
 {
@@ -22,7 +22,6 @@ LyricsWidget::~LyricsWidget()
 
 void LyricsWidget::playing(const FileHandle &file)
 {
-    qWarning() << "LOL";
     setHtml("<i>Loading...</i>");
     
     QUrl listUrl("http://lyrics.wikia.com/api.php");
@@ -31,6 +30,7 @@ void LyricsWidget::playing(const FileHandle &file)
     listUrl.addQueryItem("fmt", "xml");
     listUrl.addQueryItem("artist", file.tag()->artist());
     listUrl.addQueryItem("song", file.tag()->title());
+    m_title = file.tag()->artist() + " &#8211; " + file.tag()->title();
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(listUrl));
 }
@@ -59,6 +59,7 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(url));
 }
+
 void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
 {
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
@@ -80,5 +81,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     content = content.mid(lIndex, rIndex - lIndex).trimmed();
     content.replace("\n", "<br />");
     //setText(content);
-    setHtml(content);
+    setHtml("<h1>" + m_title + "</h1>" + 
+            content + 
+            "<br /><br /><i>Lyrics provided by <a href='http://lyrics.wikia.com/Lyrics_Wiki'>LyricWiki</a></i>");
 }
