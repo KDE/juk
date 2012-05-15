@@ -339,7 +339,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0),
     m_toolTip(0),
@@ -362,7 +361,6 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0),
     m_toolTip(0),
@@ -386,7 +384,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_fileName(playlistFile.canonicalFilePath()),
     m_rmbMenu(0),
     m_toolTip(0),
@@ -409,7 +406,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_rmbMenu(0),
     m_toolTip(0),
     m_blockDataChanged(false)
@@ -421,7 +417,7 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
     setup();
 
     if(!delaySetup)
-        collection->setupPlaylist(this, "audio-midi");
+        collection->setupPlaylist(this, "view-media-playlist");
 }
 
 Playlist::~Playlist()
@@ -711,7 +707,6 @@ void Playlist::markItemSelected(PlaylistItem *item, bool selected)
 {
     if(selected && !item->isSelected()) {
         m_selectedCount++;
-        m_lastSelected = item;
     }
     else if(!selected && item->isSelected())
         m_selectedCount--;
@@ -1284,7 +1279,7 @@ void Playlist::read(QDataStream &s)
     m_blockDataChanged = false;
 
     dataChanged();
-    m_collection->setupPlaylist(this, "audio-midi");
+    m_collection->setupPlaylist(this, "view-media-playlist");
 }
 
 void Playlist::viewportPaintEvent(QPaintEvent *pe)

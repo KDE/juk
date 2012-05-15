@@ -709,8 +709,6 @@ private:
 
     bool m_searchEnabled;
 
-    PlaylistItem *m_lastSelected;
-
     /**
      * Used to store the text for inline editing before it is changed so that
      * we can know if something actually changed and as such if we need to save
