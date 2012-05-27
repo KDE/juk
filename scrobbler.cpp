@@ -57,6 +57,8 @@ QByteArray Scrobbler::md5(QByteArray data)
 
 void Scrobbler::sign(QMap< QString, QString >& params)
 {
+    params["api_key"] = "3e6ecbd7284883089e8f2b5b53b0aecd";
+
     QString s;
     QMapIterator<QString, QString> i(params);
 
@@ -67,7 +69,6 @@ void Scrobbler::sign(QMap< QString, QString >& params)
 
     s += "2cab3957b1f70d485e9815ac1ac94096"; //shared secret
 
-    params["api_key"] = "3e6ecbd7284883089e8f2b5b53b0aecd";
     params["api_sig"] = md5(s.toUtf8());
 }
 
