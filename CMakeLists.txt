@@ -9,6 +9,7 @@ find_package( Taglib 1.6 )
 
 include_directories( ${KDE4_INCLUDES} ${QT_INCLUDES} )
 
+add_subdirectory( doc )
 add_subdirectory( tests )
 add_subdirectory( pics )
 
