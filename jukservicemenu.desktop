@@ -6,6 +6,7 @@ Actions=addToCollection;
 [Desktop Action addToCollection]
 Name=Add to JuK Collection
 Name[cs]=Přidat do kolekce JuK
+Name[da]=Tilføj til JuK-samling
 Name[de]=Zur JuK-Sammlung hinzufügen
 Name[el]=Προσθήκη στη συλλογή του JuK
 Name[et]=Lisamine JuKi kogusse
