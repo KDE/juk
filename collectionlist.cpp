@@ -61,8 +61,10 @@ void CollectionList::loadCachedItems()
     FileHandleHash::ConstIterator end = Cache::instance()->constEnd();
     for(FileHandleHash::ConstIterator it = Cache::instance()->constBegin(); it != end; ++it) {
         // This may have already been created via a loaded playlist.
-        if(!m_itemsDict.contains(it.key()))
-            new CollectionListItem(this, *it);
+        if(!m_itemsDict.contains(it.key())) {
+            CollectionListItem *newItem = new CollectionListItem(this, *it);
+            setupItem(newItem);
+        }
     }
 
     SplashScreen::update();
