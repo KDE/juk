@@ -231,9 +231,12 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
 
     // If we get here, see if there is an embedded cover.
     cover = embeddedAlbumArt();
-
-    if(size == Thumbnail)
+    if(!cover.isNull() && size == Thumbnail)
         cover = scaleCoverToThumbnail(cover);
+
+    if(cover.isNull()) {
+        return QPixmap();
+    }
 
     return QPixmap::fromImage(cover);
 }
