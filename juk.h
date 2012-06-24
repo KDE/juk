@@ -77,6 +77,7 @@ private slots:
     void slotUndo();
     void slotCheckAlbumNextAction(bool albumRandomEnabled);
     void slotProcessArgs();
+    void slotClearOldCovers();
 
 private:
     PlaylistSplitter *m_splitter;

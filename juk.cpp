@@ -131,6 +131,7 @@ JuK::JuK(QWidget *parent) :
 
     // slotCheckCache loads the cached entries first to populate the collection list
 
+    QTimer::singleShot(0, this, SLOT(slotClearOldCovers()));
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
     QTimer::singleShot(0, this, SLOT(slotProcessArgs()));
 }
@@ -375,6 +376,22 @@ void JuK::slotProcessArgs()
         files.append(args->arg(i));
 
     CollectionList::instance()->addFiles(files);
+}
+
+void JuK::slotClearOldCovers()
+{
+    // Find all saved covers from the previous run of JuK and clear them out, in case
+    // we find our tracks in a different order this run, which would cause old saved
+    // covers to be wrong.
+    // See mpris2/mediaplayer2player.cpp
+    QStringList oldFiles = KGlobal::dirs()->findAllResources("tmp", "juk-cover-*.png");
+
+    foreach(const QString &file, oldFiles) {
+        kWarning() << "Removing old cover" << file;
+        if(!QFile::remove(file)) {
+            kError() << "Failed to remove old cover" << file;
+        }
+    }
 }
 
 void JuK::keyPressEvent(QKeyEvent *e)
