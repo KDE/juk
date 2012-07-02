@@ -7,12 +7,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>480</height>
+    <width>671</width>
+    <height>530</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0" rowspan="5">
+   <item row="0" column="0" rowspan="6">
     <widget class="QTreeView" name="lvSchemes">
      <property name="toolTip">
       <string>Currently used file name schemes</string>
@@ -116,6 +116,18 @@ Note that the order in which the schemes appear in the list is relevant, since t
       </size>
      </property>
     </spacer>
+   </item>
+   <item row="5" column="2">
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>You can use the following placeholders:
+%t: Title
+%A: Album
+%a: Artist
+%T: Track
+%c: Comment</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
