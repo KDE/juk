@@ -32,6 +32,7 @@
 LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     m_networkAccessManager(new QNetworkAccessManager)
 {
+    setMinimumWidth(200);
     setReadOnly(true);
     setWordWrapMode(QTextOption::WordWrap);
     setOpenExternalLinks(true);
