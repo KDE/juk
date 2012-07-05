@@ -49,7 +49,7 @@ class CollectionListItem;
 
 typedef QList<PlaylistItem *> PlaylistItemList;
 
-class Playlist : public K3ListView, public PlaylistInterface, public QAbstractListModel
+class Playlist : public PlaylistInterface, public QAbstractListModel
 {
     Q_OBJECT
 
@@ -75,71 +75,23 @@ public:
     Playlist(PlaylistCollection *collection, bool delaySetup, int extraColumns = 0);
 
     virtual ~Playlist();
-
-    // The following functions override stuff from K3ListView
-    /**
-     * Returns a list of the currently selected items.
-     */
-    PlaylistItemList selectedItems();
-
-    /**
-     * Returns properly casted first child item in list.
-     */
-    PlaylistItem *firstChild() const;
-    
-    /**
-     * Hides column \a c.  If \a updateSearch is true then a signal that the
-     * visible columns have changed will be emitted and things like the search
-     * will be udated.
-     */
-    void hideColumn(int c, bool updateSearch = true);
-    
-public slots:
-    /**
-     * Removes the selected items from the list, but not the disk.
-     *
-     * @see clearItem()
-     * @see clearItems()
-     */
-    virtual void clear();
-    virtual void selectAll() { K3ListView::selectAll(true); }
-    
-protected:
-    virtual bool eventFilter(QObject *watched, QEvent *e);
-    virtual void keyPressEvent(QKeyEvent *e);
-    virtual Q3DragObject *dragObject(QWidget *parent);
-    virtual Q3DragObject *dragObject() { return dragObject(this); }
-    virtual void contentsDropEvent(QDropEvent *e);
-    virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);
-    virtual void contentsDragEnterEvent(QDragEnterEvent *e);
-    virtual void showEvent(QShowEvent *e);
-    virtual bool acceptDrag(QDropEvent *e) const;
-    virtual void viewportPaintEvent(QPaintEvent *pe);
-    virtual void viewportResizeEvent(QResizeEvent *re);
-    virtual int addColumn(const QString &label, int width = -1);
-    virtual void insertItem(Q3ListViewItem *item);
-    virtual void takeItem(Q3ListViewItem *item);
-    using K3ListView::addColumn;
-    
-private:
-    using K3ListView::selectAll; // Avoid warning about hiding this function.
-
     
 public:
     // The following functions implement the QAbstractListModel API
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant QAbstractItemModel::data (const QModelIndex & index, int role = Qt::DisplayRole) const;
-    int QAbstractItemModel::columnCount (const QModelIndex & parent = QModelIndex()) const;
-    Qt::ItemFlags QAbstractItemModel::flags (const QModelIndex & index) const;
-    bool QAbstractItemModel::setData (const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
-    bool QAbstractItemModel::insertRows (int row, int count, const QModelIndex & parent = QModelIndex());
-    bool QAbstractItemModel::removeRows (int row, int count, const QModelIndex & parent = QModelIndex());
+    QVariant data (const QModelIndex & index, int role = Qt::DisplayRole) const;
+    int columnCount (const QModelIndex & parent = QModelIndex()) const;
+    Qt::ItemFlags flags (const QModelIndex & index) const;
+    bool setData (const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
+    bool insertRows (int row, int count, const QModelIndex & parent = QModelIndex());
+    bool removeRows (int row, int count, const QModelIndex & parent = QModelIndex());
+    using QAbstractListModel::sort;
     
     // The following group of functions implement the PlaylistInterface API.
 
     virtual QString name() const;
     virtual FileHandle currentFile() const;
-    virtual int count() const { return childCount(); }
+    virtual int count() const { return m_items.count(); }
     virtual int time() const;
     virtual void playNext();
     virtual void playPrevious();
@@ -375,13 +327,13 @@ public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
      */
-    void slotRemoveSelectedItems() { removeFromDisk(selectedItems()); }
+    void slotRemoveSelectedItems();
 
     /*
      * The edit slots are required to use the canonical names so that they are
      * detected by the application wide framework.
      */
-    virtual void cut() { copy(); clear(); }
+    virtual void cut();
 
     /**
      * Puts a list of URLs pointing to the files in the current selection on the
@@ -676,6 +628,8 @@ private:
     friend class PlaylistItem;
 
     PlaylistCollection *m_collection;
+    
+    PlaylistItemList m_items;
 
     StringHash m_members;
 
