@@ -19,8 +19,8 @@
 #include <QHash>
 #include <QVector>
 
-#include "playlist.h"
-#include "playlistitem.h"
+#include "playlist/playlist.h"
+#include "playlist/playlistitem.h"
 
 class ViewMode;
 class KFileItem;

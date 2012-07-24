@@ -42,6 +42,22 @@ if(TUNEPIMP_FOUND)
 endif(TUNEPIMP_FOUND)	
 
 set(juk_SRCS  ${tunepimp_SRCS}
+    # Playlist classes
+   playlist/dynamicplaylist.cpp
+   playlist/folderplaylist.cpp
+   playlist/historyplaylist.cpp
+   playlist/playlist.cpp
+   playlist/playlistcollection.cpp
+   playlist/playlistinterface.cpp
+   playlist/playlistitem.cpp
+   playlist/searchplaylist.cpp
+   playlist/treeviewitemplaylist.cpp
+   playlist/upcomingplaylist.cpp
+
+   playlistbox.cpp
+   playlistexporter.cpp
+   playlistsearch.cpp
+   playlistsplitter.cpp
    advancedsearchdialog.cpp
    slider.cpp
    svghandler.cpp
@@ -58,15 +74,12 @@ set(juk_SRCS  ${tunepimp_SRCS}
    dbuscollectionproxy.cpp
    deletedialog.cpp
    directorylist.cpp
-   dynamicplaylist.cpp
    exampleoptions.cpp
-   folderplaylist.cpp
    filehandle.cpp
    filerenamer.cpp
    filerenameroptions.cpp
    filerenamerconfigdlg.cpp
    webimagefetcher.cpp
-   historyplaylist.cpp
    juk.cpp
    k3bexporter.cpp
    keydialog.cpp
@@ -78,17 +91,8 @@ set(juk_SRCS  ${tunepimp_SRCS}
    musicbrainzquery.cpp
    nowplaying.cpp
    playermanager.cpp
-   playlist.cpp
-   playlistbox.cpp
-   playlistcollection.cpp
-   playlistexporter.cpp
-   playlistinterface.cpp
-   playlistitem.cpp
-   playlistsearch.cpp
-   playlistsplitter.cpp
    scrobbler.cpp
    scrobbleconfigdlg.cpp
-   searchplaylist.cpp
    searchwidget.cpp
    slideraction.cpp
    sortedstringlist.cpp
@@ -104,8 +108,6 @@ set(juk_SRCS  ${tunepimp_SRCS}
    tagtransactionmanager.cpp
    tracksequenceiterator.cpp
    tracksequencemanager.cpp
-   treeviewitemplaylist.cpp
-   upcomingplaylist.cpp
    ktrm.cpp
    viewmode.cpp )
 
