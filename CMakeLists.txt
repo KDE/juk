@@ -43,20 +43,21 @@ endif(TUNEPIMP_FOUND)
 
 set(juk_SRCS  ${tunepimp_SRCS}
     # Playlist classes
-   playlist/dynamicplaylist.cpp
-   playlist/folderplaylist.cpp
-   playlist/historyplaylist.cpp
-   playlist/playlist.cpp
+   playlist/playlists/playlist.cpp
+   playlist/playlists/dynamicplaylist.cpp
+   playlist/playlists/folderplaylist.cpp
+   playlist/playlists/historyplaylist.cpp
+   playlist/playlists/searchplaylist.cpp
+   playlist/playlists/treeviewitemplaylist.cpp
+   playlist/playlists/upcomingplaylist.cpp
+   
    playlist/playlistcollection.cpp
    playlist/playlistinterface.cpp
    playlist/playlistitem.cpp
-   playlist/searchplaylist.cpp
-   playlist/treeviewitemplaylist.cpp
-   playlist/upcomingplaylist.cpp
-
+   playlist/playlistexporter.cpp
+   playlist/playlistsearch.cpp
+   
    playlistbox.cpp
-   playlistexporter.cpp
-   playlistsearch.cpp
    playlistsplitter.cpp
    advancedsearchdialog.cpp
    slider.cpp
