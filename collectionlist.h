@@ -19,7 +19,7 @@
 #include <QHash>
 #include <QVector>
 
-#include "playlist/playlist.h"
+#include "playlist/playlists/playlist.h"
 #include "playlist/playlistitem.h"
 
 class ViewMode;

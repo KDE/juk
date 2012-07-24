@@ -16,8 +16,8 @@
 #ifndef TRACKSEQUENCEITERATOR_H
 #define TRACKSEQUENCEITERATOR_H
 
-#include "playlistitem.h"
-#include "playlistsearch.h"
+#include "playlist/playlistitem.h"
+#include "playlist/playlistsearch.h"
 
 class Playlist;
 

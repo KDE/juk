@@ -18,8 +18,8 @@
 
 #include <kaction.h>
 
-#include "playlistexporter.h"
-#include "playlistitem.h"
+#include "playlist/playlistexporter.h"
+#include "playlist/playlistitem.h"
 
 class PlaylistBox;
 

@@ -29,9 +29,9 @@
 
 #include "covermanager.h"
 #include "stringhash.h"
-#include "playlistsearch.h"
+#include "playlist/playlistsearch.h"
 #include "tagguesser.h"
-#include "playlistinterface.h"
+#include "playlist/playlistinterface.h"
 
 class KMenu;
 class KActionMenu;

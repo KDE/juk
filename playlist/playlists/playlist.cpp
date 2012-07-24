@@ -63,9 +63,9 @@
 #include <cmath>
 #include <dirent.h>
 
-#include "playlistitem.h"
-#include "playlistcollection.h"
-#include "playlistsearch.h"
+#include "playlist/playlistitem.h"
+#include "playlist/playlistcollection.h"
+#include "playlist/playlistsearch.h"
 #include "mediafiles.h"
 #include "collectionlist.h"
 #include "filerenamer.h"
