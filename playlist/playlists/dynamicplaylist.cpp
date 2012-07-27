@@ -15,7 +15,7 @@
 
 #include "dynamicplaylist.h"
 #include "collectionlist.h"
-#include "playlistcollection.h"
+#include "playlist/playlistcollection.h"
 #include "tracksequencemanager.h"
 
 #include <QTimer>

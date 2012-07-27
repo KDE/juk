@@ -49,7 +49,7 @@ class CollectionListItem;
 
 typedef QList<PlaylistItem *> PlaylistItemList;
 
-class Playlist : public PlaylistInterface, public QAbstractListModel
+class Playlist : public QAbstractListModel, public PlaylistInterface
 {
     Q_OBJECT
 
@@ -113,13 +113,13 @@ public:
      * currently set, the default behavior is to prompt the user for a file
      * name.
      */
-    virtual void save();
+//     virtual void save();
 
     /**
      * Standard "save as".  Prompts the user for a location where to save the
      * playlist to.
      */
-    virtual void saveAs();
+//     virtual void saveAs();
 
     /**
      * Removes \a item from the Playlist, but not from the disk.  If
@@ -173,7 +173,7 @@ public:
      * both PlaylistItems and CollectionListItems.
      */
     virtual PlaylistItem *createItem(const FileHandle &file,
-                                     Q3ListViewItem *after = 0,
+                                     PlaylistItem *after,
                                      bool emitChanged = true);
 
     /**
@@ -182,7 +182,7 @@ public:
      */
     template <class ItemType>
     ItemType *createItem(const FileHandle &file,
-                         Q3ListViewItem *after = 0,
+                         ItemType *after = 0,
                          bool emitChanged = true);
 
     virtual void createItems(const PlaylistItemList &siblings, PlaylistItem *after = 0);
@@ -713,14 +713,16 @@ QDataStream &operator>>(QDataStream &s, Playlist &p);
 // template method implementations
 
 template <class ItemType>
-ItemType *Playlist::createItem(const FileHandle &file, Q3ListViewItem *after,
+ItemType *Playlist::createItem(const FileHandle &file, ItemType *after,
                                bool emitChanged)
 {
     CollectionListItem *item = collectionListItem(file);
     if(item && (!m_members.insert(file.absFilePath()) || m_allowDuplicates)) {
 
-        ItemType *i = after ? new ItemType(item, this, after) : new ItemType(item, this);
+        ItemType *i = after ? new ItemType(item, this) : new ItemType(item, this);
         setupItem(i);
+        
+        m_items.insert(m_items.indexOf(after), i);
 
         if(emitChanged)
             dataChanged();
@@ -737,7 +739,7 @@ ItemType *Playlist::createItem(SiblingType *sibling, ItemType *after)
     m_disableColumnWidthUpdates = true;
 
     if(!m_members.insert(sibling->file().absFilePath()) || m_allowDuplicates) {
-        after = new ItemType(sibling->collectionItem(), this, after);
+        after = new ItemType(sibling->collectionItem(), this);
         setupItem(after);
     }
 

@@ -253,7 +253,6 @@ void PlaylistItem::clear()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
-    K3ListViewItem(parent),
     d(0),
     m_watched(0)
 {
@@ -261,7 +260,6 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
 }
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
-    K3ListViewItem(parent, after),
     d(0),
     m_watched(0)
 {
@@ -272,7 +270,6 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListVie
 // This constructor should only be used by the CollectionList subclass.
 
 PlaylistItem::PlaylistItem(CollectionList *parent) :
-    K3ListViewItem(parent),
     m_watched(0)
 {
     d = new Data;

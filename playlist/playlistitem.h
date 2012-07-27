@@ -42,7 +42,7 @@ typedef QList<PlaylistItem *> PlaylistItemList;
  * Playlist::clearItem().
  */
 
-class PlaylistItem : public K3ListViewItem
+class PlaylistItem
 {
     friend class Playlist;
     friend class SearchPlaylist;
@@ -142,16 +142,6 @@ public:
     virtual void clear();
 
     /**
-     * Returns properly casted item below this one.
-     */
-    PlaylistItem *itemBelow() { return static_cast<PlaylistItem *>(K3ListViewItem::itemBelow()); }
-
-    /**
-     * Returns properly casted item above this one.
-     */
-    PlaylistItem *itemAbove() { return static_cast<PlaylistItem *>(K3ListViewItem::itemAbove()); }
-
-    /**
      * Returns a reference to the list of the currnetly playing items, with the
      * first being the "master" item (i.e. the item from which the next track is
      * chosen).
@@ -208,7 +198,6 @@ private:
     KSharedPtr<Data> d;
 
     void setup(CollectionListItem *item);
-    using Q3ListViewItem::setup; // Avoid warning about hidden function.
 
     CollectionListItem *m_collectionItem;
     quint32 m_trackId;
