@@ -43,10 +43,10 @@
 #include "actioncollection.h"
 #include "advancedsearchdialog.h"
 #include "coverinfo.h"
-#include "searchplaylist.h"
-#include "folderplaylist.h"
-#include "historyplaylist.h"
-#include "upcomingplaylist.h"
+#include "playlist/playlists/searchplaylist.h"
+#include "playlist/playlists/folderplaylist.h"
+#include "playlist/playlists/historyplaylist.h"
+#include "playlist/playlists/upcomingplaylist.h"
 #include "directorylist.h"
 #include "mediafiles.h"
 #include "playermanager.h"
@@ -480,10 +480,11 @@ void PlaylistCollection::showCoverManager()
     visiblePlaylist()->slotShowCoverManager();
 }
 
-PlaylistItemList PlaylistCollection::selectedItems()
-{
-    return visiblePlaylist()->selectedItems();
-}
+// ### TODO: View
+// PlaylistItemList PlaylistCollection::selectedItems()
+// {
+//     return visiblePlaylist()->selectedItems();
+// }
 
 void PlaylistCollection::scanFolders()
 {
@@ -634,6 +635,7 @@ void PlaylistCollection::raise(Playlist *playlist)
     TrackSequenceManager::instance()->setCurrentPlaylist(playlist);
     playlist->applySharedSettings();
     playlist->setSearchEnabled(m_searchEnabled);
+    // ### TODO: View
     m_playlistStack->setCurrentWidget(playlist);
     clearShowMore(false);
     dataChanged();
@@ -659,8 +661,9 @@ void PlaylistCollection::lowerDistraction()
     if(!m_distraction)
         return;
 
-    if(m_belowDistraction)
-        m_playlistStack->setCurrentWidget(m_belowDistraction);
+    // ### TODO: View
+    //if(m_belowDistraction)
+    //    m_playlistStack->setCurrentWidget(m_belowDistraction);
 
     m_belowDistraction = 0;
 }
@@ -682,7 +685,8 @@ void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
     if(!playlist->name().isEmpty())
         m_playlistNames.insert(playlist->name());
 
-    m_playlistStack->addWidget(playlist);
+    // ### TODO: View
+//     m_playlistStack->addWidget(playlist);
     QObject::connect(playlist, SIGNAL(selectionChanged()),
                      object(), SIGNAL(signalSelectedItemsChanged()));
 }

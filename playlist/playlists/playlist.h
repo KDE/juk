@@ -138,6 +138,11 @@ public:
      * that the number of items in the list has changed.
      */
     virtual void clearItems(const PlaylistItemList &items);
+    
+    /**
+     * Removes all items.
+     */
+    void clear() { clearItems(m_items); }
 
     /**
      * Accessor function to return a pointer to the currently playing file.
@@ -151,11 +156,6 @@ public:
      * All of the (media) files in the list.
      */
     QStringList files() const;
-
-    /**
-     * Returns a list of all of the items in the playlist.
-     */
-    virtual PlaylistItemList items();
 
     /**
      * Returns a list of all of the \e visible items in the playlist.
@@ -322,6 +322,11 @@ public:
     void read(QDataStream &s);
 
     static void setShuttingDown() { m_shuttingDown = true; }
+    
+    PlaylistItem *lastItem() { return m_items.last(); }
+    PlaylistItem *firstItem() { return m_items.first(); }
+    const PlaylistItemList &items() { return m_items; }
+    void moveItem(int from, int to) { m_items.move(from, to); }
 
 public slots:
     /**
@@ -494,16 +499,6 @@ private:
      * \see isColumnVisible()
      */
     int leftMostVisibleColumn() const;
-
-    /**
-     * This method is used internally to provide the backend to the other item
-     * lists.
-     *
-     * \see items()
-     * \see visibleItems()
-     * \see selectedItems()
-     */
-    PlaylistItemList items(Q3ListViewItemIterator::IteratorFlag flags);
 
     /**
      * Build the column "weights" for the weighted width mode.

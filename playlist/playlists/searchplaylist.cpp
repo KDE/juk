@@ -20,7 +20,7 @@
 
 #include <QHash>
 
-#include "playlistitem.h"
+#include "playlist/playlistitem.h"
 #include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -606,9 +606,12 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
 
 void Playlist::clearItems(const PlaylistItemList &items)
 {
-    foreach(PlaylistItem *item, items)
+    foreach(PlaylistItem *item, items) {
+        m_items.removeAll(item);
         delete item;
+    }
 
+    
     dataChanged();
 }
 
@@ -627,16 +630,11 @@ QStringList Playlist::files() const
 
     return list;
 }
-
-PlaylistItemList Playlist::items()
-{
-    return items(Q3ListViewItemIterator::IteratorFlag(0));
-}
-
-PlaylistItemList Playlist::visibleItems()
-{
-    return items(Q3ListViewItemIterator::Visible);
-}
+// ### TODO: View
+// PlaylistItemList Playlist::visibleItems()
+// {
+//     return items(Q3ListViewItemIterator::Visible);
+// }
 
 void Playlist::updateLeftColumn()
 {
@@ -1722,10 +1720,10 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
         if(item.exists() && item.isFile() && item.isReadable() &&
            MediaFiles::isMediaFile(item.fileName()))
         {
-            if(after)
-                after = createItem(FileHandle(item, item.absoluteFilePath()), false);
-            else
-                after = createItem(FileHandle(item, item.absoluteFilePath()), false);
+//             if(after)
+                after = createItem(FileHandle(item, item.absoluteFilePath()), after, false);
+//             else
+//                 after = createItem(FileHandle(item, item.absoluteFilePath()), 0, false);
         }
     }
 
@@ -1783,16 +1781,16 @@ bool Playlist::playing() const
 //     return header()->mapToSection(i);
 // }
 
-PlaylistItemList Playlist::items(Q3ListViewItemIterator::IteratorFlag flags)
-{
-    return m_items;
+// PlaylistItemList Playlist::items(Q3ListViewItemIterator::IteratorFlag flags)
+// {
+//     return m_items;
 //     PlaylistItemList list;
 // 
 //     for(Q3ListViewItemIterator it(this, flags); it.current(); ++it)
 //         list.append(static_cast<PlaylistItem *>(it.current()));
 // 
 //     return list;
-}
+// }
 
 // ### TODO: View
 // void Playlist::calculateColumnWeights()

@@ -13,7 +13,7 @@
  ***************************************************************************/
 
 #include "folderplaylist.h"
-#include "playlistcollection.h"
+#include "playlist/playlistcollection.h"
 #include "juk-exception.h"
 
 #include <QTimer>

@@ -19,7 +19,7 @@
 #include <QDateTime>
 
 #include "playlist.h"
-#include "playlistitem.h"
+#include "playlist/playlistitem.h"
 
 class HistoryPlaylistItem : public PlaylistItem
 {
@@ -43,7 +43,7 @@ public:
     HistoryPlaylist(PlaylistCollection *collection);
     virtual ~HistoryPlaylist();
 
-    virtual HistoryPlaylistItem *createItem(const FileHandle &file, Q3ListViewItem *after = 0,
+    virtual HistoryPlaylistItem *createItem(const FileHandle &file, HistoryPlaylistItem *after = 0,
                                             bool emitChanged = true);
     virtual void createItems(const PlaylistItemList &siblings);
     virtual int columnOffset() const { return 1; }

@@ -24,8 +24,8 @@
 
 #include "collectionlist.h"
 #include "tag.h"
-#include "playlistitem.h"
-#include "playlistsearch.h"
+#include "playlist/playlistitem.h"
+#include "playlist/playlistsearch.h"
 #include "tagtransactionmanager.h"
 
 TreeViewItemPlaylist::TreeViewItemPlaylist(PlaylistCollection *collection,
@@ -50,18 +50,19 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
     else if(m_columnType == PlaylistItem::AlbumColumn)
         changedTag = i18n("album");
 
-    if(KMessageBox::warningContinueCancelList(
-           this,
-           i18n("You are about to change the %1 on these files.", changedTag),
-           files,
-           i18n("Changing Track Tags"),
-           KStandardGuiItem::cont(),
-           KStandardGuiItem::cancel(),
-           "dragDropRetagWarn"
-       ) == KMessageBox::Cancel)
-    {
-        return;
-    }
+    // ### TODO: View
+//     if(KMessageBox::warningContinueCancelList(
+//            this,
+//            i18n("You are about to change the %1 on these files.", changedTag),
+//            files,
+//            i18n("Changing Track Tags"),
+//            KStandardGuiItem::cont(),
+//            KStandardGuiItem::cancel(),
+//            "dragDropRetagWarn"
+//        ) == KMessageBox::Cancel)
+//     {
+//         return;
+//     }
 
     QStringList::ConstIterator it;
     for(it = files.begin(); it != files.end(); ++it) {

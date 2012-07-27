@@ -19,7 +19,7 @@
 #include <kdialog.h>
 #include <QList>
 
-#include "playlistsearch.h"
+#include "playlist/playlistsearch.h"
 
 class KLineEdit;
 class KPushButton;

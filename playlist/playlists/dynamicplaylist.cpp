@@ -55,7 +55,7 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
         collection->setupPlaylist(this, iconName);
     setName(name);
 
-    setSorting(columns() + 1);
+    //setSorting(columns() + 1);
 
     for(PlaylistList::ConstIterator it = playlists.constBegin(); it != playlists.constEnd(); ++it)
         m_observers.append(new PlaylistDirtyObserver(this, *it));
@@ -89,32 +89,33 @@ void DynamicPlaylist::slotReload()
     checkUpdateItems();
 }
 
-void DynamicPlaylist::lower(QWidget *top)
-{
-    if(top == this)
-        return;
-
-    if(playing()) {
-        PlaylistList l;
-        l.append(this);
-        for(PlaylistList::Iterator it = m_playlists.begin();
-            it != m_playlists.end(); ++it)
-        {
-            (*it)->synchronizePlayingItems(l, true);
-        }
-    }
-
-    PlaylistItemList list = PlaylistItem::playingItems();
-    for(PlaylistItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-        if((*it)->playlist() == this) {
-            list.erase(it);
-            break;
-        }
-    }
-
-    if(!list.isEmpty())
-        TrackSequenceManager::instance()->setCurrentPlaylist(list.front()->playlist());
-}
+// ### TODO: View
+// void DynamicPlaylist::lower(QWidget *top)
+// {
+//     if(top == this)
+//         return;
+// 
+//     if(playing()) {
+//         PlaylistList l;
+//         l.append(this);
+//         for(PlaylistList::Iterator it = m_playlists.begin();
+//             it != m_playlists.end(); ++it)
+//         {
+//             (*it)->synchronizePlayingItems(l, true);
+//         }
+//     }
+// 
+//     PlaylistItemList list = PlaylistItem::playingItems();
+//     for(PlaylistItemList::Iterator it = list.begin(); it != list.end(); ++it) {
+//         if((*it)->playlist() == this) {
+//             list.erase(it);
+//             break;
+//         }
+//     }
+// 
+//     if(!list.isEmpty())
+//         TrackSequenceManager::instance()->setCurrentPlaylist(list.front()->playlist());
+// }
 
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
@@ -126,17 +127,18 @@ PlaylistItemList DynamicPlaylist::items()
     return Playlist::items();
 }
 
-void DynamicPlaylist::showEvent(QShowEvent *e)
-{
-    checkUpdateItems();
-    Playlist::showEvent(e);
-}
-
-void DynamicPlaylist::paintEvent(QPaintEvent *e)
-{
-    checkUpdateItems();
-    Playlist::paintEvent(e);
-}
+// ### TODO: View
+// void DynamicPlaylist::showEvent(QShowEvent *e)
+// {
+//     checkUpdateItems();
+//     Playlist::showEvent(e);
+// }
+// 
+// void DynamicPlaylist::paintEvent(QPaintEvent *e)
+// {
+//     checkUpdateItems();
+//     Playlist::paintEvent(e);
+// }
 
 void DynamicPlaylist::updateItems()
 {
@@ -178,7 +180,7 @@ void DynamicPlaylist::checkUpdateItems()
 
 void DynamicPlaylist::slotUpdateItems()
 {
-    // This should be optimized to check to see which items are already in the
+    // ### TODO: This should be optimized to check to see which items are already in the
     // list and just adding those and removing the ones that aren't.
 
     clear();

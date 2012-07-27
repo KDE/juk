@@ -17,7 +17,7 @@
 #define TREEVIEWITEMPLAYLIST_H
 
 #include "searchplaylist.h"
-#include "playlistitem.h"
+#include "playlist/playlistitem.h"
 
 class QStringList;
 

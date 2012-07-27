@@ -20,8 +20,8 @@
 #include <kapplication.h>
 #include <kaction.h>
 
-#include "playlistitem.h"
-#include "playlistcollection.h"
+#include "playlist/playlistitem.h"
+#include "playlist/playlistcollection.h"
 #include "tracksequencemanager.h"
 #include "collectionlist.h"
 #include "actioncollection.h"
@@ -36,7 +36,7 @@ UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection, int defaultSi
 {
     setName(i18n("Play Queue"));
     setAllowDuplicates(true);
-    setSorting(-1);
+//     setSorting(-1);
 }
 
 UpcomingPlaylist::~UpcomingPlaylist()
@@ -184,10 +184,12 @@ UpcomingPlaylist::UpcomingSequenceIterator::~UpcomingSequenceIterator()
 
 void UpcomingPlaylist::UpcomingSequenceIterator::advance()
 {
-    PlaylistItem *item = m_playlist->firstChild();
+    PlaylistItem *item = m_playlist->firstItem();
 
     if(item) {
-        PlaylistItem *next = static_cast<PlaylistItem *>(item->nextSibling());
+        PlaylistItem *next = 0;
+        if (m_playlist->items().size() > 1)
+            next = m_playlist->items().at(1);
         m_playlist->clearItem(item);
         setCurrent(next);
     }
@@ -230,11 +232,12 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
         // if(p == m_playlist) {
 
         // Bump this item up to the top
-        m_playlist->takeItem(currentItem);
-        m_playlist->insertItem(currentItem);
+        m_playlist->moveItem(m_playlist->items().indexOf(currentItem), 0);
+//         m_playlist->takeItem(currentItem);
+//         m_playlist->insertItem(currentItem);
     }
 
-    TrackSequenceIterator::setCurrent(m_playlist->firstChild());
+    TrackSequenceIterator::setCurrent(m_playlist->firstItem());
 }
 
 void UpcomingPlaylist::UpcomingSequenceIterator::reset()
@@ -245,7 +248,7 @@ void UpcomingPlaylist::UpcomingSequenceIterator::reset()
 void UpcomingPlaylist::UpcomingSequenceIterator::prepareToPlay(Playlist *)
 {
     if(!m_playlist->items().isEmpty())
-        setCurrent(m_playlist->firstChild());
+        setCurrent(m_playlist->firstItem());
 }
 
 QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p)
