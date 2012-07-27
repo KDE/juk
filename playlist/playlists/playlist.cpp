@@ -550,41 +550,41 @@ void Playlist::setName(const QString &n)
 }
 
 // ### TODO: View
-// void Playlist::save()
-// {
-//     if(m_fileName.isEmpty())
-//         return saveAs();
-// 
-//     QFile file(m_fileName);
-// 
-//     if(!file.open(QIODevice::WriteOnly))
-//         return KMessageBox::error(this, i18n("Could not save to file %1.", m_fileName));
-// 
-//     QTextStream stream(&file);
-// 
-//     QStringList fileList = files();
-// 
-//     foreach(const QString &file, fileList)
-//         stream << file << endl;
-// 
-//     file.close();
-// }
-// 
-// void Playlist::saveAs()
-// {
-//     m_collection->removeFileFromDict(m_fileName);
-// 
-//     m_fileName = MediaFiles::savePlaylistDialog(name(), this);
-// 
-//     if(!m_fileName.isEmpty()) {
-//         m_collection->addFileToDict(m_fileName);
-// 
-//         // If there's no playlist name set, use the file name.
-//         if(m_playlistName.isEmpty())
-//             emit signalNameChanged(name());
-//         save();
-//     }
-// }
+void Playlist::save()
+{
+    if(m_fileName.isEmpty())
+        return saveAs();
+
+    QFile file(m_fileName);
+
+    if(!file.open(QIODevice::WriteOnly))
+        return KMessageBox::error(/*this*/0, i18n("Could not save to file %1.", m_fileName));
+
+    QTextStream stream(&file);
+
+    QStringList fileList = files();
+
+    foreach(const QString &file, fileList)
+        stream << file << endl;
+
+    file.close();
+}
+
+void Playlist::saveAs()
+{
+    m_collection->removeFileFromDict(m_fileName);
+
+    m_fileName = MediaFiles::savePlaylistDialog(name()/*, this*/);
+
+    if(!m_fileName.isEmpty()) {
+        m_collection->addFileToDict(m_fileName);
+
+        // If there's no playlist name set, use the file name.
+        if(m_playlistName.isEmpty())
+            emit signalNameChanged(name());
+        save();
+    }
+}
 
 void Playlist::updateDeletedItem(PlaylistItem *item)
 {

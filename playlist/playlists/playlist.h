@@ -113,13 +113,13 @@ public:
      * currently set, the default behavior is to prompt the user for a file
      * name.
      */
-//     virtual void save();
+    virtual void save();
 
     /**
      * Standard "save as".  Prompts the user for a location where to save the
      * playlist to.
      */
-//     virtual void saveAs();
+    virtual void saveAs();
 
     /**
      * Removes \a item from the Playlist, but not from the disk.  If
