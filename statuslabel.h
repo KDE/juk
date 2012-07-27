@@ -16,7 +16,7 @@
 #ifndef STATUSLABEL_H
 #define STATUSLABEL_H
 
-#include "playlistinterface.h"
+#include "playlist/playlistinterface.h"
 
 #include <khbox.h>
 //Added by qt3to4:

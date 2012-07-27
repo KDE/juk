@@ -38,7 +38,7 @@
 
 #include <math.h>
 
-#include "playlistinterface.h"
+#include "playlist/playlistinterface.h"
 #include "playeradaptor.h"
 #include "slideraction.h"
 #include "statuslabel.h"

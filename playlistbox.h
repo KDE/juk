@@ -16,7 +16,7 @@
 #ifndef PLAYLISTBOX_H
 #define PLAYLISTBOX_H
 
-#include "playlistcollection.h"
+#include "playlist/playlistcollection.h"
 
 #include <k3listview.h>
 
@@ -48,7 +48,7 @@ public:
 
     friend class Item;
 
-    PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget *playlistStack);
+    PlaylistBox(PlayerManager* player, QWidget* parent, QListView* playlistStack);
     virtual ~PlaylistBox();
 
     virtual void raise(Playlist *playlist);

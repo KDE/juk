@@ -22,7 +22,7 @@
 #include <QList>
 
 #include "filehandle.h"
-#include "playlistinterface.h"
+#include "playlist/playlistinterface.h"
 
 class QTimer;
 class QPoint;

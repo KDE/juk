@@ -328,7 +328,7 @@ int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
                    const QString &iconName) :
-    QAbstractListModel(collection->playlistStack()),
+    QAbstractListModel(/*collection->playlistStack()*/0),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
@@ -344,13 +344,13 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_toolTip(0),
     m_blockDataChanged(false)
 {
-    setup();
+//     setup();
     collection->setupPlaylist(this, iconName);
 }
 
 Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
                    const QString &name, const QString &iconName) :
-    QAbstractListModel(collection->playlistStack()),
+    QAbstractListModel(/*collection->playlistStack()*/0),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
@@ -366,14 +366,14 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_toolTip(0),
     m_blockDataChanged(false)
 {
-    setup();
+//     setup();
     collection->setupPlaylist(this, iconName);
     createItems(items);
 }
 
 Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
                    const QString &iconName) :
-    QAbstractListModel(collection->playlistStack()),
+    QAbstractListModel(/*collection->playlistStack()*/0),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
@@ -389,13 +389,13 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_toolTip(0),
     m_blockDataChanged(false)
 {
-    setup();
+//     setup();
     loadFile(m_fileName, playlistFile);
     collection->setupPlaylist(this, iconName);
 }
 
 Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraColumns) :
-    QAbstractListModel(collection->playlistStack()),
+    QAbstractListModel(/*collection->playlistStack()*/0),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
@@ -414,7 +414,7 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
         setHeaderData(i, Qt::Horizontal, i18n("JuK")); // Placeholder text!
     }
 
-    setup();
+//     setup();
 
     if(!delaySetup)
         collection->setupPlaylist(this, "view-media-playlist");
@@ -636,15 +636,15 @@ QStringList Playlist::files() const
 //     return items(Q3ListViewItemIterator::Visible);
 // }
 
-void Playlist::updateLeftColumn()
-{
-    int newLeftColumn = leftMostVisibleColumn();
-
-    if(m_leftColumn != newLeftColumn) {
-        updatePlaying();
-        m_leftColumn = newLeftColumn;
-    }
-}
+// void Playlist::updateLeftColumn()
+// {
+//     int newLeftColumn = leftMostVisibleColumn();
+// 
+//     if(m_leftColumn != newLeftColumn) {
+//         updatePlaying();
+//         m_leftColumn = newLeftColumn;
+//     }
+// }
 
 // ### TODO: View
 // void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible) // static
@@ -655,33 +655,34 @@ void Playlist::updateLeftColumn()
 //         playlistItem->setVisible(visible);
 // }
 
-void Playlist::setSearch(const PlaylistSearch &s)
-{
-    m_search = s;
-
-    if(!m_searchEnabled)
-        return;
-
-    setItemsVisible(s.matchedItems(), true);
-    setItemsVisible(s.unmatchedItems(), false);
-
-    TrackSequenceManager::instance()->iterator()->playlistChanged();
-}
-
-void Playlist::setSearchEnabled(bool enabled)
-{
-    if(m_searchEnabled == enabled)
-        return;
-
-    m_searchEnabled = enabled;
-
-    if(enabled) {
-        setItemsVisible(m_search.matchedItems(), true);
-        setItemsVisible(m_search.unmatchedItems(), false);
-    }
-    else
-        setItemsVisible(items(), true);
-}
+// ### TODO: View, move to a proxy model
+// void Playlist::setSearch(const PlaylistSearch &s)
+// {
+//     m_search = s;
+// 
+//     if(!m_searchEnabled)
+//         return;
+// 
+//     setItemsVisible(s.matchedItems(), true);
+//     setItemsVisible(s.unmatchedItems(), false);
+// 
+//     TrackSequenceManager::instance()->iterator()->playlistChanged();
+// }
+// 
+// void Playlist::setSearchEnabled(bool enabled)
+// {
+//     if(m_searchEnabled == enabled)
+//         return;
+// 
+//     m_searchEnabled = enabled;
+// 
+//     if(enabled) {
+//         setItemsVisible(m_search.matchedItems(), true);
+//         setItemsVisible(m_search.unmatchedItems(), false);
+//     }
+//     else
+//         setItemsVisible(items(), true);
+// }
 
 // ### TODO: View
 // void Playlist::markItemSelected(PlaylistItem *item, bool selected)
@@ -877,15 +878,15 @@ void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMast
 //     KApplication::restoreOverrideCursor();
 // }
 // 
-// void Playlist::slotReload()
-// {
-//     QFileInfo fileInfo(m_fileName);
-//     if(!fileInfo.exists() || !fileInfo.isFile() || !fileInfo.isReadable())
-//         return;
-// 
-//     clearItems(items());
-//     loadFile(m_fileName, fileInfo);
-// }
+void Playlist::slotReload()
+{
+    QFileInfo fileInfo(m_fileName);
+    if(!fileInfo.exists() || !fileInfo.isFile() || !fileInfo.isReadable())
+        return;
+
+    clearItems(items());
+    loadFile(m_fileName, fileInfo);
+}
 // 
 // void Playlist::slotWeightDirty(int column)
 // {
@@ -1227,42 +1228,42 @@ void Playlist::dataChanged()
 //     K3ListView::showEvent(e);
 // }
 // 
-// void Playlist::applySharedSettings()
-// {
-//     m_applySharedSettings = true;
-// }
+void Playlist::applySharedSettings()
+{
+    m_applySharedSettings = true;
+}
 
-// void Playlist::read(QDataStream &s)
-// {
-//     s >> m_playlistName
-//       >> m_fileName;
-// 
-//     // m_fileName is probably empty.
-//     if(m_playlistName.isEmpty())
-//         throw BICStreamException();
-// 
-//     // Do not sort. Add the files in the order they were saved.
+void Playlist::read(QDataStream &s)
+{
+    s >> m_playlistName
+      >> m_fileName;
+
+    // m_fileName is probably empty.
+    if(m_playlistName.isEmpty())
+        throw BICStreamException();
+
+    // Do not sort. Add the files in the order they were saved.
 //     setSorting(columns() + 1);
-// 
-//     QStringList files;
-//     s >> files;
-// 
-//     Q3ListViewItem *after = 0;
-// 
-//     m_blockDataChanged = true;
-// 
-//     foreach(const QString &file, files) {
-//         if(file.isEmpty())
-//             throw BICStreamException();
-// 
-//         after = createItem(FileHandle(file), after, false);
-//     }
-// 
-//     m_blockDataChanged = false;
-// 
-//     dataChanged();
-//     m_collection->setupPlaylist(this, "view-media-playlist");
-// }
+
+    QStringList files;
+    s >> files;
+
+    PlaylistItem *after = 0;
+
+    m_blockDataChanged = true;
+
+    foreach(const QString &file, files) {
+        if(file.isEmpty())
+            throw BICStreamException();
+
+        after = createItem(FileHandle(file), after, false);
+    }
+
+    m_blockDataChanged = false;
+
+    dataChanged();
+    m_collection->setupPlaylist(this, "view-media-playlist");
+}
 
 // void Playlist::viewportPaintEvent(QPaintEvent *pe)
 // {
@@ -1343,7 +1344,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 
     m_blockDataChanged = false;
 
-    slotWeightDirty();
+//     slotWeightDirty();
     dataChanged();
 
     KApplication::restoreOverrideCursor();
@@ -2389,6 +2390,45 @@ bool processEvents()
     }
     return false;
 }
+
+
+// ---- QAbstractListModel API
+int Playlist::columnCount(const QModelIndex& parent) const
+{
+    return -1;
+    //return QAbstractListModel::columnCount(parent);
+}
+
+QVariant Playlist::data(const QModelIndex& index, int role) const
+{
+    return QVariant();
+}
+
+int Playlist::rowCount(const QModelIndex& parent) const
+{
+    return -1;
+}
+
+Qt::ItemFlags Playlist::flags(const QModelIndex& index) const
+{
+    return QAbstractItemModel::flags(index);
+}
+
+bool Playlist::setData(const QModelIndex& index, const QVariant& value, int role)
+{
+    return QAbstractItemModel::setData(index, value, role);
+}
+
+bool Playlist::insertRows(int row, int count, const QModelIndex& parent)
+{
+    return QAbstractItemModel::insertRows(row, count, parent);
+}
+
+bool Playlist::removeRows(int row, int count, const QModelIndex& parent)
+{
+    return QAbstractItemModel::removeRows(row, count, parent);
+}
+
 
 #include "playlist.moc"
 

@@ -28,8 +28,8 @@
 
 #include <QMap>
 
-#include "playlistitem.h"
-#include "playlist.h"
+#include "playlist/playlistitem.h"
+#include "playlist/playlists/playlist.h"
 #include "playlistbox.h"
 #include "actioncollection.h"
 
@@ -111,8 +111,9 @@ void K3bExporter::exportPlaylistItems(const PlaylistItemList &items)
 
 void K3bExporter::slotExport()
 {
-    if(m_parent)
-        exportPlaylistItems(m_parent->selectedItems());
+    // ### TODO: View
+    /*if(m_parent)
+        exportPlaylistItems(m_parent->selectedItems());*/
 }
 
 void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
@@ -143,13 +144,13 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
         process << (*it)->file().absFilePath();
 
     if(!process.startDetached())
-        KMessageBox::error(m_parent, i18n("Unable to start K3b."));
+        KMessageBox::error(/*m_parent ### TODO: View */0, i18n("Unable to start K3b."));
 }
 
 K3bExporter::K3bOpenMode K3bExporter::openMode()
 {
     int reply = KMessageBox::questionYesNoCancel(
-        m_parent,
+        /*m_parent*/0,//### TODO: View
         i18n("Create an audio mode CD suitable for CD players, or a data "
              "mode CD suitable for computers and other digital music "
              "players?"),

@@ -14,7 +14,7 @@
  ***************************************************************************/
 
 #include "playlistsearch.h"
-#include "playlist.h"
+#include "playlists/playlist.h"
 #include "playlistitem.h"
 #include "collectionlist.h"
 #include "juk-exception.h"
@@ -60,8 +60,8 @@ void PlaylistSearch::search()
 
     foreach(Playlist *playlist, m_playlists) {
         if(!isEmpty()) {
-            for(Q3ListViewItemIterator it(playlist); it.current(); ++it)
-                checkItem(static_cast<PlaylistItem *>(*it));
+            foreach(PlaylistItem *item, playlist->items())
+                checkItem(item);
         }
         else {
             m_items += playlist->items();
@@ -185,9 +185,9 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
         return false;
 
     if(m_columns.isEmpty()) {
-        Playlist *p = static_cast<Playlist *>(item->listView());
-        for(int i = 0; i < p->columns(); i++) {
-            if(p->isColumnVisible(i))
+        Playlist *p = static_cast<Playlist *>(item->playlist());
+        for(int i = 0; i < p->columnCount(); i++) {
+//             if(p->isColumnVisible(i))
                 m_columns.append(i);
         }
     }

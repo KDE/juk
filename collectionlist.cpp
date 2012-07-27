@@ -32,7 +32,7 @@
 #include <QClipboard>
 #include <QFileInfo>
 
-#include "playlistcollection.h"
+#include "playlist/playlistcollection.h"
 #include "splashscreen.h"
 #include "stringshare.h"
 #include "cache.h"
@@ -74,11 +74,11 @@ void CollectionList::loadCachedItems()
     Qt::SortOrder order = Qt::DescendingOrder;
     if(config.readEntry("CollectionListSortAscending", true))
         order = Qt::AscendingOrder;
+// ### TODO: View
+//     m_list->setSortOrder(order);
+//     m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
 
-    m_list->setSortOrder(order);
-    m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
-
-    m_list->sort();
+//     m_list->sort();
 
     SplashScreen::finishedLoading();
 }
@@ -159,7 +159,7 @@ void CollectionList::slotNewItems(const KFileItemList &items)
         files.append((*it).url().path());
 
     addFiles(files);
-    update();
+//     update();
 }
 
 void CollectionList::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > &items)
@@ -174,13 +174,15 @@ void CollectionList::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > 
             // If the item is no longer on disk, remove it from the collection.
 
             if(item->file().fileInfo().exists())
-                item->repaint();
+                // ### TODO: View
+                true;
+                //item->repaint();
             else
                 delete item;
         }
     }
 
-    update();
+//     update();
 }
 
 void CollectionList::slotDeleteItem(const KFileItem &item)
@@ -194,12 +196,14 @@ void CollectionList::slotDeleteItem(const KFileItem &item)
 
 void CollectionList::paste()
 {
-    decode(QApplication::clipboard()->mimeData());
+    // ### TODO: View
+//     decode(QApplication::clipboard()->mimeData());
 }
 
 void CollectionList::clear()
 {
-    int result = KMessageBox::warningContinueCancel(this,
+    // ### TODO: View
+    int result = KMessageBox::warningContinueCancel(/*this*/0,
         i18n("Removing an item from the collection will also remove it from "
              "all of your playlists. Are you sure you want to continue?\n\n"
              "Note, however, that if the directory that these files are in is in "
@@ -253,7 +257,7 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
             this, SLOT(slotPopulateBackMenu()));
     connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(triggered(QAction*)),
             this, SLOT(slotPlayFromBackMenu(QAction*)));
-    setSorting(-1); // Temporarily disable sorting to add items faster.
+//     setSorting(-1); // Temporarily disable sorting to add items faster.
 
     m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict;
     m_columnTags[PlaylistItem::AlbumColumn] = new TagCountDict;
@@ -263,8 +267,9 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
 CollectionList::~CollectionList()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
-    config.writeEntry("CollectionListSortColumn", sortColumn());
-    config.writeEntry("CollectionListSortAscending", sortOrder() == Qt::AscendingOrder);
+    // ### TODO: View
+//     config.writeEntry("CollectionListSortColumn", sortColumn());
+//     config.writeEntry("CollectionListSortAscending", sortOrder() == Qt::AscendingOrder);
 
     // In some situations the dataChanged signal from clearItems will cause observers to
     // subsequently try to access a deleted item.  Since we're going away just remove all
@@ -282,21 +287,22 @@ CollectionList::~CollectionList()
     m_columnTags.clear();
 }
 
-void CollectionList::contentsDropEvent(QDropEvent *e)
-{
-    if(e->source() == this)
-        return; // Don't rearrange in the CollectionList.
-    else
-        Playlist::contentsDropEvent(e);
-}
-
-void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
-{
-    if(e->source() != this)
-        Playlist::contentsDragMoveEvent(e);
-    else
-        e->setAccepted(false);
-}
+// ### TODO: View
+// void CollectionList::contentsDropEvent(QDropEvent *e)
+// {
+//     if(e->source() == this)
+//         return; // Don't rearrange in the CollectionList.
+//     else
+//         Playlist::contentsDropEvent(e);
+// }
+// 
+// void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
+// {
+//     if(e->source() != this)
+//         Playlist::contentsDragMoveEvent(e);
+//     else
+//         e->setAccepted(false);
+// }
 
 QString CollectionList::addStringToDict(const QString &value, int column)
 {
@@ -401,22 +407,22 @@ void CollectionListItem::refresh()
 
             data()->metadata[id] = toLower;
         }
-
-        int newWidth = width(listView()->fontMetrics(), listView(), i);
-        if(newWidth != data()->cachedWidths[i])
-            playlist()->slotWeightDirty(i);
-
-        data()->cachedWidths[i] = newWidth;
+// ### TODO: View
+//         int newWidth = width(listView()->fontMetrics(), listView(), i);
+//         if(newWidth != data()->cachedWidths[i])
+//             playlist()->slotWeightDirty(i);
+// 
+//         data()->cachedWidths[i] = newWidth;
     }
 
-    if(listView()->isVisible())
-        repaint();
+//     if(listView()->isVisible())
+//         repaint();
 
     for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
-        (*it)->playlist()->update();
+//         (*it)->playlist()->update();
         (*it)->playlist()->dataChanged();
-        if((*it)->listView()->isVisible())
-            (*it)->repaint();
+//         if((*it)->listView()->isVisible())
+//             (*it)->repaint();
     }
 
     CollectionList::instance()->dataChanged();
@@ -446,12 +452,12 @@ void CollectionListItem::updateCollectionDict(const QString &oldPath, const QStr
     collection->addToDict(newPath, this);
 }
 
-void CollectionListItem::repaint() const
-{
-    Q3ListViewItem::repaint();
-    for(PlaylistItemList::ConstIterator it = m_children.constBegin(); it != m_children.constEnd(); ++it)
-        (*it)->repaint();
-}
+// void CollectionListItem::repaint() const
+// {
+//     Q3ListViewItem::repaint();
+//     for(PlaylistItemList::ConstIterator it = m_children.constBegin(); it != m_children.constEnd(); ++it)
+//         (*it)->repaint();
+// }
 
 ////////////////////////////////////////////////////////////////////////////////
 // CollectionListItem protected methods

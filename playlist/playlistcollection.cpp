@@ -68,7 +68,7 @@ PlaylistCollection *PlaylistCollection::m_instance = 0;
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistCollection::PlaylistCollection(PlayerManager *player, QStackedWidget *playlistStack) :
+PlaylistCollection::PlaylistCollection(PlayerManager *player, QListView *playlistStack) :
     m_playlistStack(playlistStack),
     m_historyPlaylist(0),
     m_upcomingPlaylist(0),
@@ -166,9 +166,7 @@ QStringList PlaylistCollection::playlists() const
 {
     QStringList l;
 
-    //(or qFindChildren() if you need MSVC 6 compatibility)
-    const QList<Playlist *> childList = m_playlistStack->findChildren<Playlist *>("Playlist");
-    foreach(Playlist *p, childList) {
+    foreach(const Playlist *p, m_playlists) {
         l.append(p->name());
     }
 
@@ -445,39 +443,46 @@ void PlaylistCollection::editSearch()
 
 void PlaylistCollection::removeItems()
 {
-    visiblePlaylist()->slotRemoveSelectedItems();
+    // ### TODO: View
+//     visiblePlaylist()->slotRemoveSelectedItems();
 }
 
 void PlaylistCollection::refreshItems()
 {
-    visiblePlaylist()->slotRefresh();
+    // ### TODO: View
+//     visiblePlaylist()->slotRefresh();
 }
 
 void PlaylistCollection::renameItems()
 {
-    visiblePlaylist()->slotRenameFile();
+    // ### TODO: View
+//     visiblePlaylist()->slotRenameFile();
 }
 
 void PlaylistCollection::addCovers(bool fromFile)
 {
-    visiblePlaylist()->slotAddCover(fromFile);
+    // ### TODO: View
+//     visiblePlaylist()->slotAddCover(fromFile);
     dataChanged();
 }
 
 void PlaylistCollection::removeCovers()
 {
-    visiblePlaylist()->slotRemoveCover();
+    // ### TODO: View
+//     visiblePlaylist()->slotRemoveCover();
     dataChanged();
 }
 
 void PlaylistCollection::viewCovers()
 {
-    visiblePlaylist()->slotViewCover();
+    // ### TODO: View
+//     visiblePlaylist()->slotViewCover();
 }
 
 void PlaylistCollection::showCoverManager()
 {
-    visiblePlaylist()->slotShowCoverManager();
+    // ### TODO: View
+//     visiblePlaylist()->slotShowCoverManager();
 }
 
 // ### TODO: View
@@ -528,12 +533,14 @@ void PlaylistCollection::createFolderPlaylist()
 
 void PlaylistCollection::guessTagFromFile()
 {
-    visiblePlaylist()->slotGuessTagInfo(TagGuesser::FileName);
+    // ### TODO: View
+//     visiblePlaylist()->slotGuessTagInfo(TagGuesser::FileName);
 }
 
 void PlaylistCollection::guessTagFromInternet()
 {
-    visiblePlaylist()->slotGuessTagInfo(TagGuesser::MusicBrainz);
+    // ### TODO: View
+//     visiblePlaylist()->slotGuessTagInfo(TagGuesser::MusicBrainz);
 }
 
 void PlaylistCollection::setSearchEnabled(bool enable)
@@ -543,7 +550,8 @@ void PlaylistCollection::setSearchEnabled(bool enable)
 
     m_searchEnabled = enable;
 
-    visiblePlaylist()->setSearchEnabled(enable);
+    // ### TODO: View
+//     visiblePlaylist()->setSearchEnabled(enable);
 }
 
 HistoryPlaylist *PlaylistCollection::historyPlaylist() const
@@ -622,21 +630,22 @@ Playlist *PlaylistCollection::currentPlaylist() const
 
 Playlist *PlaylistCollection::visiblePlaylist() const
 {
-    return qobject_cast<Playlist *>(m_playlistStack->currentWidget());
+    return qobject_cast<Playlist *>(m_playlistStack->model());
 }
 
 void PlaylistCollection::raise(Playlist *playlist)
 {
-    if(m_showMorePlaylist && currentPlaylist() == m_showMorePlaylist)
-        m_showMorePlaylist->lower(playlist);
-    if(m_dynamicPlaylist && currentPlaylist() == m_dynamicPlaylist)
-        m_dynamicPlaylist->lower(playlist);
+    // ### wat
+//     if(m_showMorePlaylist && currentPlaylist() == m_showMorePlaylist)
+//         m_showMorePlaylist->lower(playlist);
+//     if(m_dynamicPlaylist && currentPlaylist() == m_dynamicPlaylist)
+//         m_dynamicPlaylist->lower(playlist);
 
     TrackSequenceManager::instance()->setCurrentPlaylist(playlist);
     playlist->applySharedSettings();
-    playlist->setSearchEnabled(m_searchEnabled);
     // ### TODO: View
-    m_playlistStack->setCurrentWidget(playlist);
+//     playlist->setSearchEnabled(m_searchEnabled);
+    m_playlistStack->setModel(playlist);
     clearShowMore(false);
     dataChanged();
 }
@@ -648,12 +657,13 @@ void PlaylistCollection::raiseDistraction()
 
     m_belowDistraction = currentPlaylist();
 
-    if(!m_distraction) {
-        m_distraction = new QWidget(m_playlistStack);
-        m_playlistStack->addWidget(m_distraction);
-    }
+    // ### TODO: View
+//     if(!m_distraction) {
+//         m_distraction = new QWidget(m_playlistStack);
+//         m_playlistStack->addWidget(m_distraction);
+//     }
 
-    m_playlistStack->setCurrentWidget(m_distraction);
+//     m_playlistStack->setCurrentWidget(m_distraction);
 }
 
 void PlaylistCollection::lowerDistraction()
@@ -672,11 +682,6 @@ void PlaylistCollection::lowerDistraction()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-QStackedWidget *PlaylistCollection::playlistStack() const
-{
-    return m_playlistStack;
-}
-
 void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
 {
     if(!playlist->fileName().isEmpty())
@@ -686,6 +691,7 @@ void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
         m_playlistNames.insert(playlist->name());
 
     // ### TODO: View
+    m_playlists.append(playlist);
 //     m_playlistStack->addWidget(playlist);
     QObject::connect(playlist, SIGNAL(selectionChanged()),
                      object(), SIGNAL(signalSelectedItemsChanged()));
@@ -801,11 +807,8 @@ void PlaylistCollection::dirChanged(const QString &path)
 
 Playlist *PlaylistCollection::playlistByName(const QString &name) const
 {
-    for(int i = 0; i < m_playlistStack->count(); ++i) {
-        Playlist *p = qobject_cast<Playlist *>(m_playlistStack->widget(i));
-        if(p && p->name() == name)
-            return p;
-    }
+    foreach(Playlist *playlist, m_playlists)
+        if (playlist->name() == name) return playlist;
 
     return 0;
 }

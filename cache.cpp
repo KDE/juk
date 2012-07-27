@@ -31,11 +31,11 @@
 #include <QBuffer>
 
 #include "tag.h"
-#include "searchplaylist.h"
-#include "historyplaylist.h"
-#include "upcomingplaylist.h"
-#include "folderplaylist.h"
-#include "playlistcollection.h"
+#include "playlist/playlists/searchplaylist.h"
+#include "playlist/playlists/historyplaylist.h"
+#include "playlist/playlists/upcomingplaylist.h"
+#include "playlist/playlists/folderplaylist.h"
+#include "playlist/playlistcollection.h"
 #include "actioncollection.h"
 
 using namespace ActionCollection;
@@ -215,8 +215,10 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                 if(version >= 2) {
                     qint32 sortColumn;
                     s >> sortColumn;
-                    if(playlist)
-                        playlist->setSorting(sortColumn);
+                    if(playlist) {
+                        // ### TODO: View
+//                         playlist->setSorting(sortColumn);
+                    }
                 }
 
             } // while !s.atEnd()
@@ -313,7 +315,8 @@ void Cache::savePlaylists(const PlaylistList &playlists)
                 s << qint32(Normal)
                   << *(*it);
             }
-            s << qint32((*it)->sortColumn());
+            // ### TODO: View
+            s << qint32(0);//qint32((*it)->sortColumn());
         }
     }
 

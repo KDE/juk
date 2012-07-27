@@ -23,6 +23,7 @@
 #include <kdirlister.h>
 
 #include <QPointer>
+#include <QListView>
 
 class QPixmap;
 class QStackedWidget;
@@ -50,7 +51,7 @@ class PlaylistCollection : public PlaylistInterface
     friend class DynamicPlaylist;
 
 public:
-    PlaylistCollection(PlayerManager *player, QStackedWidget *playlistStack);
+    PlaylistCollection(PlayerManager* player, QListView* playlistStack);
     virtual ~PlaylistCollection();
 
     static PlaylistCollection *instance() { return m_instance; }
@@ -105,7 +106,7 @@ public:
     void viewCovers();
     void showCoverManager();
 
-    virtual PlaylistItemList selectedItems();
+//     virtual PlaylistItemList selectedItems();
 
     void scanFolders();
 
@@ -171,7 +172,7 @@ public:
     class ActionHandler;
 
 protected:
-    virtual QStackedWidget *playlistStack() const;
+//     virtual QStackedWidget *playlistStack() const;
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
     virtual void removePlaylist(Playlist *playlist) = 0;
 
@@ -193,7 +194,7 @@ private:
     void readConfig();
     void saveConfig();
 
-    QStackedWidget   *m_playlistStack;
+    QListView   *m_playlistStack;
     HistoryPlaylist  *m_historyPlaylist;
     UpcomingPlaylist *m_upcomingPlaylist;
     ActionHandler    *m_actionHandler;
@@ -211,6 +212,8 @@ private:
     QPointer<Playlist> m_belowShowMorePlaylist;
     QPointer<DynamicPlaylist> m_dynamicPlaylist;
     QPointer<Playlist> m_belowDistraction;
+    
+    QList<Playlist*> m_playlists;
 
     QWidget *m_distraction;
 

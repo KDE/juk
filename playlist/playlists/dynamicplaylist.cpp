@@ -65,7 +65,7 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
 
 DynamicPlaylist::~DynamicPlaylist()
 {
-    lower();
+//     lower();
 
     foreach(PlaylistObserver *observer, m_observers)
         delete observer;

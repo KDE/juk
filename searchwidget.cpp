@@ -93,7 +93,7 @@ PlaylistSearch::Component SearchLine::searchComponent() const
 
     if(!m_searchFieldsBox || m_searchFieldsBox->currentIndex() == 0) {
         foreach(int column, m_columnList) {
-            if(playlist->isColumnVisible(column))
+//             if(playlist->isColumnVisible(column))
                 searchedColumns.append(column);
         }
     }
@@ -178,9 +178,9 @@ void SearchLine::updateColumns()
     int selection = -1;
     m_columnList.clear();
 
-    for(int i = 0; i < playlist->columns(); i++) {
+    for(int i = 0; i < playlist->columnCount(); i++) {
         m_columnList.append(i);
-        QString text = playlist->columnText(i);
+        QString text = playlist->headerData(i, Qt::Horizontal).toString();
         columnHeaders.append(text);
         if(currentText == text)
             selection = m_columnList.size() - 1;

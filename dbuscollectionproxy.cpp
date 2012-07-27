@@ -23,7 +23,7 @@
 #include <kdebug.h>
 
 #include "collectionadaptor.h"
-#include "playlistcollection.h"
+#include "playlist/playlistcollection.h"
 #include "covermanager.h"
 #include "collectionlist.h"
 #include "coverinfo.h"

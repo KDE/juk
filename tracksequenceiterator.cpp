@@ -21,7 +21,7 @@
 #include <krandom.h>
 #include <ktoggleaction.h>
 
-#include "playlist.h"
+#include "playlist/playlists/playlist.h"
 #include "actioncollection.h"
 #include "tag.h"
 #include "filehandle.h"
@@ -141,12 +141,16 @@ void DefaultSequenceIterator::advance()
         m_randomItems.removeAll(item);
     }
     else {
-        PlaylistItem *next = current()->itemBelow();
+        
+        PlaylistItem *next = 0;
+        const PlaylistItemList &items = current()->playlist()->items();
+        if (items.indexOf(current()) < items.count())
+            next = items[items.indexOf(current()) + 1];
         if(!next && loop) {
             Playlist *p = current()->playlist();
-            next = p->firstChild();
-            while(next && !next->isVisible())
-                next = static_cast<PlaylistItem *>(next->nextSibling());
+            next = items.first();
+            //while(next && !next->isVisible()) // ### TODO: FIXME
+            //    next = static_cast<PlaylistItem *>(next->nextSibling());
         }
 
         setCurrent(next);
@@ -158,7 +162,10 @@ void DefaultSequenceIterator::backup()
     if(!current())
         return;
 
-    PlaylistItem *item = current()->itemAbove();
+    PlaylistItem *item = 0;
+    const PlaylistItemList &items = current()->playlist()->items();
+    if (items.indexOf(current()) > 0)
+        item = items[items.indexOf(current()) - 1];
 
     if(item)
         setCurrent(item);
@@ -170,9 +177,10 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
 
     if(random || albumRandom) {
-        PlaylistItemList items = playlist->selectedItems();
-        if(items.isEmpty())
-            items = playlist->visibleItems();
+        // ### TODO: View FIXME
+        PlaylistItemList items = playlist->items();//selectedItems();
+//         if(items.isEmpty())
+//             items = playlist->visibleItems();
 
         PlaylistItem *newItem = 0;
         if(!items.isEmpty())
@@ -182,11 +190,13 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
         refillRandomList();
     }
     else {
-        Q3ListViewItemIterator it(playlist, Q3ListViewItemIterator::Visible | Q3ListViewItemIterator::Selected);
-        if(!it.current())
-            it = Q3ListViewItemIterator(playlist, Q3ListViewItemIterator::Visible);
+        // ### TODO: View
+//         Q3ListViewItemIterator it(playlist, Q3ListViewItemIterator::Visible | Q3ListViewItemIterator::Selected);
+//         if(!it.current())
+//             it = Q3ListViewItemIterator(playlist, Q3ListViewItemIterator::Visible);
 
-        setCurrent(static_cast<PlaylistItem *>(it.current()));
+//         setCurrent(static_cast<PlaylistItem *>(it.current()));
+        setCurrent(playlist->items().first());
     }
 }
 
@@ -256,7 +266,8 @@ void DefaultSequenceIterator::refillRandomList(Playlist *p)
         }
     }
 
-    m_randomItems = p->visibleItems();
+    // ### TODO: View
+    m_randomItems = p->items();//visibleItems();
     m_randomItems.removeAll(current());
     m_albumSearch.clearComponents();
     m_albumSearch.search();

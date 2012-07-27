@@ -29,7 +29,7 @@
 #include <QEvent>
 
 #include "filehandle.h"
-#include "playlistinterface.h"
+#include "playlist/playlistinterface.h"
 #include "actioncollection.h"
 #include "tag.h"
 

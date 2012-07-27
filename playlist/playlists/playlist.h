@@ -160,7 +160,7 @@ public:
     /**
      * Returns a list of all of the \e visible items in the playlist.
      */
-    PlaylistItemList visibleItems();
+//     PlaylistItemList visibleItems();
 
     /**
      * Allow duplicate files in the playlist.
@@ -216,7 +216,7 @@ public:
      * will be udated.
      */
     void showColumn(int c, bool updateSearch = true);
-    bool isColumnVisible(int c) const;
+//     bool isColumnVisible(int c) const;
 
     /**
      * This sets a name for the playlist that is \e different from the file name.
@@ -266,18 +266,18 @@ public:
     /**
      * Set the search associtated with this playlist.
      */
-    void setSearch(const PlaylistSearch &s);
+//     void setSearch(const PlaylistSearch &s);
 
     /**
      * If the search is disabled then all items will be shown, not just those that
      * match the current search.
      */
-    void setSearchEnabled(bool searchEnabled);
+//     void setSearchEnabled(bool searchEnabled);
 
     /**
      * Marks \a item as either selected or deselected based.
      */
-    void markItemSelected(PlaylistItem *item, bool selected);
+//     void markItemSelected(PlaylistItem *item, bool selected);
 
     /**
      * Subclasses of Playlist which add new columns will set this value to
@@ -332,60 +332,60 @@ public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
      */
-    void slotRemoveSelectedItems();
+//     void slotRemoveSelectedItems();
 
-    /*
+    /**
      * The edit slots are required to use the canonical names so that they are
      * detected by the application wide framework.
      */
-    virtual void cut();
+//     virtual void cut();
 
     /**
      * Puts a list of URLs pointing to the files in the current selection on the
      * clipboard.
      */
-    virtual void copy();
+//     virtual void copy();
 
     /**
      * Checks the clipboard for local URLs to be inserted into this playlist.
      */
-    virtual void paste();
+//     virtual void paste();
 
     /**
      * Refreshes the tags of the selection from disk, or all of the files in the
      * list if there is no selection.
      */
-    virtual void slotRefresh();
+//     virtual void slotRefresh();
 
-    void slotGuessTagInfo(TagGuesser::Type type);
+//     void slotGuessTagInfo(TagGuesser::Type type);
 
     /**
      * Renames the selected items' files based on their tags contents.
      *
      * @see PlaylistItem::renameFile()
      */
-    void slotRenameFile();
+//     void slotRenameFile();
 
     /**
      * Sets the cover of the selected items, pass in true if you want to load from the local system,
      * false if you want to load from the internet.
      */
-    void slotAddCover(bool fromLocal);
+//     void slotAddCover(bool fromLocal);
 
     /**
      * Shows a large image of the cover
      */
-    void slotViewCover();
+//     void slotViewCover();
 
     /**
      * Removes covers from the selected items
      */
-    void slotRemoveCover();
+//     void slotRemoveCover();
 
     /**
      * Shows the cover manager GUI dialog
      */
-    void slotShowCoverManager();
+//     void slotShowCoverManager();
 
     /**
      * Reload the playlist contents from the m3u file.
@@ -397,11 +397,11 @@ public slots:
      * column widths must be recalculated.  If this is called without a column
      * all visible columns are marked as dirty.
      */
-    void slotWeightDirty(int column = -1);
+//     void slotWeightDirty(int column = -1);
 
-    void slotShowPlaying();
+//     void slotShowPlaying();
 
-    void slotColumnResizeModeChanged();
+//     void slotColumnResizeModeChanged();
 
     virtual void dataChanged();
 
@@ -414,7 +414,7 @@ protected:
 
     // the following are all reimplemented from base classes
     
-    virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
+//     virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
 
 
     virtual bool hasItem(const QString &file) const { return m_members.contains(file); }
@@ -471,7 +471,7 @@ signals:
     void signalPlaylistItemsDropped(Playlist *p);
 
 private:
-    void setup();
+//     void setup();
 
     /**
      * This function is called to let the user know that JuK has automatically enabled
@@ -498,19 +498,19 @@ private:
      *
      * \see isColumnVisible()
      */
-    int leftMostVisibleColumn() const;
+//     int leftMostVisibleColumn() const;
 
     /**
      * Build the column "weights" for the weighted width mode.
      */
-    void calculateColumnWeights();
+//     void calculateColumnWeights();
 
     void addFile(const QString &file, FileHandleList &files, bool importPlaylists,
                  PlaylistItem **after);
     void addFileHelper(FileHandleList &files, PlaylistItem **after,
                        bool ignoreTimer = false);
 
-    void redisplaySearch() { setSearch(m_search); }
+//     void redisplaySearch() { setSearch(m_search); }
 
     /**
      * Sets the cover for items to the cover identified by id.
@@ -552,17 +552,17 @@ private slots:
      * Used to be a subclass of K3ListView::polish() but the timing of the
      * call is not consistent and therefore lead to crashes.
      */
-    void slotInitialize();
+//     void slotInitialize();
 
-    void slotUpdateColumnWidths();
-
-    void slotAddToUpcoming();
+//     void slotUpdateColumnWidths();
+// 
+//     void slotAddToUpcoming();
 
     /**
      * Show the RMB menu.  Matches the signature for the signal
      * QListView::contextMenuRequested().
      */
-    void slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int column);
+//     void slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int column);
 
     /**
      * This slot is called when the inline tag editor has completed its editing
@@ -570,25 +570,25 @@ private slots:
      *
      * \see editTag()
      */
-    void slotInlineEditDone(Q3ListViewItem *, const QString &, int column);
+//     void slotInlineEditDone(Q3ListViewItem *, const QString &, int column);
 
     /**
      * This starts the renaming process by displaying a line edit if the mouse is in
      * an appropriate position.
      */
-    void slotRenameTag();
+//     void slotRenameTag();
 
     /**
      * The image fetcher will update the cover asynchronously, this internal
      * slot is called when it happens.
      */
-    void slotCoverChanged(int coverId);
+//     void slotCoverChanged(int coverId);
 
     /**
      * Moves the column \a from to the position \a to.  This matches the signature
      * for the signal QHeader::indexChange().
      */
-    void slotColumnOrderChanged(int, int from, int to);
+//     void slotColumnOrderChanged(int, int from, int to);
 
     /**
      * Toggles a columns visible status.  Useful for KActions.
@@ -596,18 +596,18 @@ private slots:
      * \see hideColumn()
      * \see showColumn()
      */
-    void slotToggleColumnVisible(QAction *action);
+//     void slotToggleColumnVisible(QAction *action);
 
     /**
      * Prompts the user to create a new playlist with from the selected items.
      */
-    void slotCreateGroup();
+//     void slotCreateGroup();
 
     /**
      * This slot is called when the user drags the slider in the listview header
      * to manually set the size of the column.
      */
-    void slotColumnSizeChanged(int column, int oldSize, int newSize);
+//     void slotColumnSizeChanged(int column, int oldSize, int newSize);
 
     /**
      * The slot is called when the completion mode for the line edit in the
@@ -615,9 +615,9 @@ private slots:
      * magic of the SharedSettings class will apply it to the other playlists as
      * well.
      */
-    void slotInlineCompletionModeChanged(KGlobalSettings::Completion mode);
+//     void slotInlineCompletionModeChanged(KGlobalSettings::Completion mode);
 
-    void slotPlayCurrent();
+//     void slotPlayCurrent();
 
 private:
     friend class PlaylistItem;
@@ -753,7 +753,7 @@ void Playlist::createItems(const QList<SiblingType *> &siblings, ItemType *after
         after = createItem(sibling, after);
 
     dataChanged();
-    slotWeightDirty();
+//     slotWeightDirty();
 }
 
 #endif

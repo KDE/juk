@@ -15,7 +15,7 @@
 
 #include "tageditor.h"
 #include "collectionlist.h"
-#include "playlistitem.h"
+#include "playlist/playlistitem.h"
 #include "tag.h"
 #include "actioncollection.h"
 #include "tagtransactionmanager.h"
@@ -117,8 +117,9 @@ public:
 
     virtual void updateData()
     {
-        if(m_parent && m_parent->m_currentPlaylist && m_parent->isVisible())
-            m_parent->slotSetItems(m_parent->m_currentPlaylist->selectedItems());
+        // ### TODO: View
+        //if(m_parent && m_parent->m_currentPlaylist && m_parent->isVisible())
+        //    m_parent->slotSetItems(m_parent->m_currentPlaylist->selectedItems());
     }
 
     virtual void updateCurrent() {}
@@ -191,7 +192,8 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
 
         // We can't use list here, it may not be valid
 
-        m_items = itemPlaylist->selectedItems();
+        // ### TODO: View
+        //m_items = itemPlaylist->selectedItems();
     }
 
     if(m_currentPlaylist) {

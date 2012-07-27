@@ -28,6 +28,7 @@
 #include "filehandle.h"
 
 class Playlist;
+class Playlist;
 class PlaylistItem;
 class CollectionListItem;
 class CollectionList;
@@ -170,7 +171,7 @@ protected:
     virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
     virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}
 
-    virtual int compare(Q3ListViewItem *item, int column, bool ascending) const;
+    virtual int compare(PlaylistItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
     bool isValid() const;
@@ -203,6 +204,7 @@ private:
     quint32 m_trackId;
     bool m_watched;
     static PlaylistItemList m_playingItems;
+    Playlist *m_playlist;
 };
 
 inline QDebug operator<<(QDebug s, const PlaylistItem &item)

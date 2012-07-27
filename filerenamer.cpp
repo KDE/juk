@@ -50,8 +50,8 @@
 #include "filerenameroptions.h"
 #include "filehandle.h"
 #include "exampleoptions.h"
-#include "playlistitem.h"
-#include "playlist.h" // processEvents()
+#include "playlist/playlistitem.h"
+#include "playlist/playlists/playlist.h" // processEvents()
 #include "coverinfo.h"
 
 class ConfirmationDialog : public KDialog

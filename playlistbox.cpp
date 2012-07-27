@@ -40,14 +40,14 @@
 #include <QApplication>
 #include <QClipboard>
 
-#include "playlist.h"
+#include "playlist/playlists/playlist.h"
 #include "collectionlist.h"
-#include "dynamicplaylist.h"
-#include "upcomingplaylist.h"
-#include "historyplaylist.h"
+#include "playlist/playlists/dynamicplaylist.h"
+#include "playlist/playlists/upcomingplaylist.h"
+#include "playlist/playlists/historyplaylist.h"
 #include "viewmode.h"
-#include "searchplaylist.h"
-#include "treeviewitemplaylist.h"
+#include "playlist/playlists/searchplaylist.h"
+#include "playlist/playlists/treeviewitemplaylist.h"
 #include "actioncollection.h"
 #include "cache.h"
 #include "k3bexporter.h"
@@ -62,7 +62,7 @@ using namespace ActionCollection;
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget *playlistStack) :
+PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QListView *playlistStack) :
     K3ListView(parent),
     PlaylistCollection(player, playlistStack),
     m_viewModeIndex(0),
@@ -453,7 +453,7 @@ void PlaylistBox::decode(const QMimeData *s, Item *item)
             if(playlistItem) {
                 playlistItem->retag(files, currentPlaylist());
                 TagTransactionManager::instance()->commit();
-                currentPlaylist()->update();
+//                 currentPlaylist()->update();
                 return;
             }
         }

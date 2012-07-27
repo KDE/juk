@@ -34,7 +34,7 @@
 #include <QSizePolicy>
 
 #include "searchwidget.h"
-#include "playlistsearch.h"
+#include "playlist/playlistsearch.h"
 #include "actioncollection.h"
 #include "tageditor.h"
 #include "collectionlist.h"
@@ -117,25 +117,26 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
     Playlist *playlist = m_playlistBox->visiblePlaylist();
 
     if(playlist) {
-        playlist->setFocus();
-        playlist->K3ListView::selectAll(false);
-
-        // Select the top visible (and matching) item.
-
-        PlaylistItem *item = static_cast<PlaylistItem *>(playlist->itemAt(QPoint(0, 0)));
-
-        if(!item)
-            return;
-
-        // A little bit of a hack to make QListView repaint things properly.  Switch
-        // to single selection mode, set the selection and then switch back.
-
-        playlist->setSelectionMode(Q3ListView::Single);
-
-        playlist->markItemSelected(item, true);
-        playlist->setCurrentItem(item);
-
-        playlist->setSelectionMode(Q3ListView::Extended);
+        // ### TODO: View
+//         playlist->setFocus();
+//         playlist->K3ListView::selectAll(false);
+// 
+//         // Select the top visible (and matching) item.
+// 
+//         PlaylistItem *item = static_cast<PlaylistItem *>(playlist->itemAt(QPoint(0, 0)));
+// 
+//         if(!item)
+//             return;
+// 
+//         // A little bit of a hack to make QListView repaint things properly.  Switch
+//         // to single selection mode, set the selection and then switch back.
+// 
+//         playlist->setSelectionMode(Q3ListView::Single);
+// 
+//         playlist->markItemSelected(item, true);
+//         playlist->setCurrentItem(item);
+// 
+//         playlist->setSelectionMode(Q3ListView::Extended);
     }
 }
 
@@ -181,7 +182,7 @@ void PlaylistSplitter::setupLayout()
     topLayout->setMargin(0);
     topLayout->setSpacing(0);
 
-    m_playlistStack = new QStackedWidget(top);
+    m_playlistStack = new QListView(top);
     m_playlistStack->setObjectName( QLatin1String("playlistStack" ));
     m_playlistStack->installEventFilter(this);
     m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
@@ -283,17 +284,21 @@ void PlaylistSplitter::slotShowSearchResults()
     PlaylistList playlists;
     playlists.append(visiblePlaylist());
     PlaylistSearch search = m_searchWidget->search(playlists);
-    visiblePlaylist()->setSearch(search);
+    
+    // ### TODO: View, search
+//     visiblePlaylist()->setSearch(search);
 }
 
 void PlaylistSplitter::slotPlaylistSelectionChanged()
 {
-    m_editor->slotSetItems(visiblePlaylist()->selectedItems());
+    // ### TODO: View
+//     m_editor->slotSetItems(visiblePlaylist()->selectedItems());
 }
 
+// ### TODO: View: What does this do?
 void PlaylistSplitter::slotPlaylistChanged(int i)
 {
-    Playlist *p = qobject_cast<Playlist *>(m_playlistStack->widget(i));
+    Playlist *p = qobject_cast<Playlist *>(m_playlistStack->model());
 
     if(!p)
         return;

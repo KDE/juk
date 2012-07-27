@@ -22,8 +22,8 @@
 #include "juk.h"
 #include "playermanager.h"
 #include "coverinfo.h"
-#include "playlist.h"
-#include "playlistitem.h"
+#include "playlist/playlists/playlist.h"
+#include "playlist/playlistitem.h"
 #include "tag.h"
 #include "filehandle.h"
 

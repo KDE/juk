@@ -24,8 +24,8 @@
 #include <QResizeEvent>
 
 #include "playlistbox.h"
-#include "searchplaylist.h"
-#include "treeviewitemplaylist.h"
+#include "playlist/playlists/searchplaylist.h"
+#include "playlist/playlists/treeviewitemplaylist.h"
 #include "collectionlist.h"
 
 ////////////////////////////////////////////////////////////////////////////////

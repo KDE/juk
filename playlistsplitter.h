@@ -18,6 +18,7 @@
 
 #include <QSplitter>
 
+class QListView;
 class QStackedWidget;
 
 class Playlist;
@@ -90,7 +91,7 @@ private:
     Playlist *m_newVisible;
     PlaylistBox *m_playlistBox;
     SearchWidget *m_searchWidget;
-    QStackedWidget *m_playlistStack;
+    QListView *m_playlistStack;
     TagEditor *m_editor;
     NowPlaying *m_nowPlaying;
     PlayerManager *m_player;

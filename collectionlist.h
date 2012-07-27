@@ -65,7 +65,7 @@ public:
     virtual void refresh();
     PlaylistItem *itemForPlaylist(const Playlist *playlist);
     void updateCollectionDict(const QString &oldPath, const QString &newPath);
-    void repaint() const;
+//     void repaint() const;
     PlaylistItemList children() const { return m_children; }
 
 protected:
@@ -139,8 +139,8 @@ protected:
     CollectionList(PlaylistCollection *collection);
     virtual ~CollectionList();
 
-    virtual void contentsDropEvent(QDropEvent *e);
-    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+//     virtual void contentsDropEvent(QDropEvent *e);
+//     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
 
     // These methods are used by CollectionListItem, which is a friend class.
 

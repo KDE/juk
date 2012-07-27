@@ -41,8 +41,8 @@
 #include <QList>
 #include <QTextDocument>
 
-#include "playlistcollection.h"
-#include "playlistitem.h"
+#include "playlist/playlistcollection.h"
+#include "playlist/playlistitem.h"
 #include "coverinfo.h"
 #include "covermanager.h"
 #include "tag.h"

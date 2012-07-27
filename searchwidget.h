@@ -24,7 +24,7 @@
 #include <QtGui/QFrame>
 #include <QList>
 
-#include "playlistsearch.h"
+#include "playlist/playlistsearch.h"
 
 class QEvent;
 

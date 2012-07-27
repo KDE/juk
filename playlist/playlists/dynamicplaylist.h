@@ -57,7 +57,7 @@ public slots:
      * it can synchronize the playing item with the one that playlist it was
      * create from.
      */
-    void lower(QWidget *top = 0);
+//     void lower(QWidget *top = 0);
 
 protected:
     /**
@@ -77,9 +77,9 @@ protected:
      * Reimplemented from QWidget.  Here it updates the list of items (when
      * appropriate) as the widget is shown.
      */
-    virtual void showEvent(QShowEvent *e);
-
-    virtual void paintEvent(QPaintEvent *e);
+//     virtual void showEvent(QShowEvent *e);
+// 
+//     virtual void paintEvent(QPaintEvent *e);
 
     /**
      * Updates the items (unconditionally).  This should be reimplemented in
