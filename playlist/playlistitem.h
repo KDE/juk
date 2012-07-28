@@ -155,7 +155,6 @@ protected:
      * subclass or friend class.
      */
     PlaylistItem(CollectionListItem *item, Playlist *parent);
-    PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after);
 
     /**
      * This is the constructor that shold be used by subclasses.

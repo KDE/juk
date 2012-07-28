@@ -1923,7 +1923,7 @@ void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool i
         time.restart();
 
         foreach(const FileHandle &fileHandle, files)
-            *after = createItem(fileHandle, after, false);
+            *after = createItem(fileHandle, *after, false);
 
         files.clear();
 

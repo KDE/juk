@@ -84,7 +84,7 @@ void HistoryPlaylist::slotCreateNewItem()
 ////////////////////////////////////////////////////////////////////////////////
 
 HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
-    PlaylistItem(item, parent, after),
+    PlaylistItem(item, parent),
     m_dateTime(QDateTime::currentDateTime())
 {
     setText(0, KGlobal::locale()->formatDateTime(m_dateTime));

@@ -714,7 +714,7 @@ ItemType *Playlist::createItem(const FileHandle &file, ItemType *after,
     CollectionListItem *item = collectionListItem(file);
     if(item && (!m_members.insert(file.absFilePath()) || m_allowDuplicates)) {
 
-        ItemType *i = after ? new ItemType(item, this) : new ItemType(item, this);
+        ItemType *i = new ItemType(item, this);
         setupItem(i);
         
         m_items.insert(m_items.indexOf(after), i);

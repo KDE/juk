@@ -261,14 +261,6 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
     setup(item);
 }
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
-    d(0),
-    m_watched(0),
-    m_playlist(parent)
-{
-    setup(item);
-}
-
 
 // This constructor should only be used by the CollectionList subclass.
 
