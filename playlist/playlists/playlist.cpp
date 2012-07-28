@@ -98,59 +98,6 @@ static bool manualResize()
     return action<KToggleAction>("resizeColumnsManually")->isChecked();
 }
 
-/**
- * A tooltip specialized to show full filenames over the file name column.
- */
-
-#ifdef __GNUC__
-#warning disabling the tooltip for now
-#endif
-#if 0
-class PlaylistToolTip : public QToolTip
-{
-public:
-    PlaylistToolTip(QWidget *parent, Playlist *playlist) :
-        QToolTip(parent), m_playlist(playlist) {}
-
-    virtual void maybeTip(const QPoint &p)
-    {
-        PlaylistItem *item = static_cast<PlaylistItem *>(m_playlist->itemAt(p));
-
-        if(!item)
-            return;
-
-        QPoint contentsPosition = m_playlist->viewportToContents(p);
-
-        int column = m_playlist->header()->sectionAt(contentsPosition.x());
-
-        if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn ||
-           item->cachedWidths()[column] > m_playlist->columnWidth(column) ||
-           (column == m_playlist->columnOffset() + PlaylistItem::CoverColumn &&
-            item->file().coverInfo()->hasCover()))
-        {
-            QRect r = m_playlist->itemRect(item);
-            int headerPosition = m_playlist->header()->sectionPos(column);
-            r.setLeft(headerPosition);
-            r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
-
-            if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
-                tip(r, item->file().absFilePath());
-            else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
-                Q3MimeSourceFactory *f = Q3MimeSourceFactory::defaultFactory();
-                f->setImage("coverThumb",
-                            QImage(item->file().coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage()));
-                tip(r, "<center><img source=\"coverThumb\"/></center>");
-            }
-            else
-                tip(r, item->text(column));
-        }
-    }
-
-private:
-    Playlist *m_playlist;
-};
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
 ////////////////////////////////////////////////////////////////////////////////
@@ -1038,6 +985,39 @@ bool Playlist::removeRows(int row, int count, const QModelIndex& parent)
 {
     return QAbstractItemModel::removeRows(row, count, parent);
 }
+
+QVariant Playlist::headerData(int section, Qt::Orientation , int role) const
+{
+    switch(section) {
+    case TrackColumn:
+        return i18n("Track Name");
+    case ArtistColumn:
+        return i18n("Artist");
+    case AlbumColumn:
+        return i18n("Album");
+    case CoverColumn:
+        return i18n("Cover");
+    case TrackNumberColumn:
+        return i18nc("cd track number", "Track");
+    case GenreColumn:
+        return i18n("Genre");
+    case YearColumn:
+        return i18n("Year");
+    case LengthColumn:
+        return i18n("Length");
+    case BitrateColumn:
+        return i18n("Bitrate");
+    case CommentColumn:
+        return i18n("Comment");
+    case FileNameColumn:
+        return i18n("File Name");
+    case FullPathColumn:
+        return i18n("File Name (full path)");
+    default:
+        return QVariant();
+    }
+}
+
 
 
 #include "playlist.moc"
