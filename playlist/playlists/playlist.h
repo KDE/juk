@@ -98,6 +98,7 @@ public:
     bool insertRows (int row, int count, const QModelIndex & parent = QModelIndex());
     bool removeRows (int row, int count, const QModelIndex & parent = QModelIndex());
     QVariant headerData(int section, Qt::Orientation, int role = Qt::DisplayRole) const;
+    bool hasChildren(const QModelIndex& index) const;
     using QAbstractTableModel::sort;
     
     // The following group of functions implement the PlaylistInterface API.

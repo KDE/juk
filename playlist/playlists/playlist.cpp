@@ -923,8 +923,11 @@ QVariant Playlist::data(const QModelIndex& index, int role) const
 {
     if (role == Qt::DecorationRole) {
         // ### TODO: FIXME
-        return *(m_items[index.row()]->pixmap(index.column()));
+//         return *(m_items[index.row()]->pixmap(index.column()));
     }
+    
+    if (role != Qt::DisplayRole)
+        return QVariant();
     
     FileHandle fileHandle = m_items[index.row()]->file();
     switch(index.column()) {
@@ -986,8 +989,12 @@ bool Playlist::removeRows(int row, int count, const QModelIndex& parent)
     return QAbstractItemModel::removeRows(row, count, parent);
 }
 
-QVariant Playlist::headerData(int section, Qt::Orientation , int role) const
+QVariant Playlist::headerData(int section, Qt::Orientation orientation, int role) const
 {
+    if (orientation != Qt::Horizontal || role != Qt::DisplayRole)
+        return QVariant();
+
+    
     switch(section) {
     case TrackColumn:
         return i18n("Track Name");
@@ -1018,6 +1025,10 @@ QVariant Playlist::headerData(int section, Qt::Orientation , int role) const
     }
 }
 
+bool Playlist::hasChildren(const QModelIndex &index) const
+{
+    return (!index.isValid());
+}
 
 
 #include "playlist.moc"
