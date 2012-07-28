@@ -510,7 +510,7 @@ void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after
 
 void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 {
-    if(!after)
+    if(!after && !m_items.isEmpty())
         after = m_items.last();
 
     KApplication::setOverrideCursor(Qt::waitCursor);
