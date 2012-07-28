@@ -83,7 +83,7 @@ void HistoryPlaylist::slotCreateNewItem()
 // HistoryPlaylistItem public members
 ////////////////////////////////////////////////////////////////////////////////
 
-HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
+HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem* item, Playlist* parent, PlaylistItem* after) :
     PlaylistItem(item, parent),
     m_dateTime(QDateTime::currentDateTime())
 {

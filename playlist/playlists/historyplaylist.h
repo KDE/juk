@@ -24,7 +24,7 @@
 class HistoryPlaylistItem : public PlaylistItem
 {
 public:
-    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after);
+    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after);
     HistoryPlaylistItem(CollectionListItem *item, Playlist *parent);
     virtual ~HistoryPlaylistItem();
 
