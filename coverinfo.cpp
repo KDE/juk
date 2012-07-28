@@ -171,11 +171,11 @@ void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
     PlaylistSearch::ComponentList components;
     ColumnList columns;
 
-    columns.append(PlaylistItem::ArtistColumn);
+    columns.append(Playlist::ArtistColumn);
     components.append(PlaylistSearch::Component(artist, false, columns, PlaylistSearch::Component::Exact));
 
     columns.clear();
-    columns.append(PlaylistItem::AlbumColumn);
+    columns.append(Playlist::AlbumColumn);
     components.append(PlaylistSearch::Component(album, false, columns, PlaylistSearch::Component::Exact));
 
     PlaylistList playlists;

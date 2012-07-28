@@ -98,7 +98,7 @@ const QPixmap *PlaylistItem::pixmap(int column) const
     // Besides, we really just want to know if the cover manager has a cover
     // for the track.
 
-    if((column - offset) == CoverColumn &&
+    if((column - offset) == Playlist::CoverColumn &&
         d->fileHandle.coverInfo()->coverId() != CoverManager::NoMatch)
     {
         return globalGenericImage;
@@ -112,49 +112,6 @@ const QPixmap *PlaylistItem::pixmap(int column) const
     return globalPlayingImage;
 //     return K3ListViewItem::pixmap(column);
 }
-
-QString PlaylistItem::text(int column) const
-{
-    if(!d->fileHandle.tag())
-        return QString();
-
-    int offset = playlist()->columnOffset();
-
-    switch(column - offset) {
-    case TrackColumn:
-        return d->fileHandle.tag()->title();
-    case ArtistColumn:
-        return d->fileHandle.tag()->artist();
-    case AlbumColumn:
-        return d->fileHandle.tag()->album();
-    case CoverColumn:
-        return QString();
-    case TrackNumberColumn:
-        return d->fileHandle.tag()->track() > 0
-            ? QString::number(d->fileHandle.tag()->track())
-            : QString();
-    case GenreColumn:
-        return d->fileHandle.tag()->genre();
-    case YearColumn:
-        return d->fileHandle.tag()->year() > 0
-            ? QString::number(d->fileHandle.tag()->year())
-            : QString();
-    case LengthColumn:
-        return d->fileHandle.tag()->lengthString();
-    case BitrateColumn:
-        return QString::number(d->fileHandle.tag()->bitrate());
-    case CommentColumn:
-        return d->fileHandle.tag()->comment();
-    case FileNameColumn:
-        return d->fileHandle.fileInfo().fileName();
-    case FullPathColumn:
-        return d->fileHandle.fileInfo().absoluteFilePath();
-    default:
-        return QString();
-//         return K3ListViewItem::text(column);
-    }
-}
-
 void PlaylistItem::setText(int column, const QString &text)
 {
     int offset = playlist()->columnOffset();
@@ -314,16 +271,16 @@ int PlaylistItem::compare(PlaylistItem *playlistItem, int column, bool ascending
         // Loop through the columns doing comparisons until something is differnt.
         // If all else is the same, compare the track name.
 
-        int last = TrackNumberColumn;// playlist()->isColumnVisible(AlbumColumn + offset) ? TrackNumberColumn : ArtistColumn;
+        int last = 11;// playlist()->isColumnVisible(AlbumColumn + offset) ? TrackNumberColumn : ArtistColumn;
 
-        for(int i = ArtistColumn; i <= last; i++) {
+        for(int i = 2; i <= last; i++) {
 //             if(playlist()->isColumnVisible(i + offset)) {
                 c = compare(this, playlistItem, i, ascending);
                 if(c != 0)
                     return c;
 //             }
         }
-        return compare(this, playlistItem, TrackColumn + offset, ascending);
+        return compare(this, playlistItem, 0 + offset, ascending);
     }
 }
 
@@ -334,49 +291,49 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
     if(column < 0 || column >= lastColumn() + offset || !firstItem->d || !secondItem->d)
         return 0;
 
-    if(column < offset) {
-        QString first = firstItem->text(column).toLower();
-        QString second = secondItem->text(column).toLower();
-        return first.localeAwareCompare(second);
-    }
+//     if(column < offset) {
+//         QString first = firstItem->text(column).toLower();
+//         QString second = secondItem->text(column).toLower();
+//         return first.localeAwareCompare(second);
+//     }
 
-    switch(column - offset) {
-    case TrackNumberColumn:
-        if(firstItem->d->fileHandle.tag()->track() > secondItem->d->fileHandle.tag()->track())
-            return 1;
-        else if(firstItem->d->fileHandle.tag()->track() < secondItem->d->fileHandle.tag()->track())
-            return -1;
-        else
-            return 0;
-        break;
-    case LengthColumn:
-        if(firstItem->d->fileHandle.tag()->seconds() > secondItem->d->fileHandle.tag()->seconds())
-            return 1;
-        else if(firstItem->d->fileHandle.tag()->seconds() < secondItem->d->fileHandle.tag()->seconds())
-            return -1;
-        else
-            return 0;
-        break;
-    case BitrateColumn:
-        if(firstItem->d->fileHandle.tag()->bitrate() > secondItem->d->fileHandle.tag()->bitrate())
-            return 1;
-        else if(firstItem->d->fileHandle.tag()->bitrate() < secondItem->d->fileHandle.tag()->bitrate())
-            return -1;
-        else
-            return 0;
-        break;
-    case CoverColumn:
-        if(firstItem->d->fileHandle.coverInfo()->coverId() == secondItem->d->fileHandle.coverInfo()->coverId())
-            return 0;
-        else if (firstItem->d->fileHandle.coverInfo()->coverId() != CoverManager::NoMatch)
-            return -1;
-        else
-            return 1;
-        break;
-    default:
+//     switch(column - offset) {
+//     case TrackNumberColumn:
+//         if(firstItem->d->fileHandle.tag()->track() > secondItem->d->fileHandle.tag()->track())
+//             return 1;
+//         else if(firstItem->d->fileHandle.tag()->track() < secondItem->d->fileHandle.tag()->track())
+//             return -1;
+//         else
+//             return 0;
+//         break;
+//     case LengthColumn:
+//         if(firstItem->d->fileHandle.tag()->seconds() > secondItem->d->fileHandle.tag()->seconds())
+//             return 1;
+//         else if(firstItem->d->fileHandle.tag()->seconds() < secondItem->d->fileHandle.tag()->seconds())
+//             return -1;
+//         else
+//             return 0;
+//         break;
+//     case BitrateColumn:
+//         if(firstItem->d->fileHandle.tag()->bitrate() > secondItem->d->fileHandle.tag()->bitrate())
+//             return 1;
+//         else if(firstItem->d->fileHandle.tag()->bitrate() < secondItem->d->fileHandle.tag()->bitrate())
+//             return -1;
+//         else
+//             return 0;
+//         break;
+//     case CoverColumn:
+//         if(firstItem->d->fileHandle.coverInfo()->coverId() == secondItem->d->fileHandle.coverInfo()->coverId())
+//             return 0;
+//         else if (firstItem->d->fileHandle.coverInfo()->coverId() != CoverManager::NoMatch)
+//             return -1;
+//         else
+//             return 1;
+//         break;
+//     default:
         return QString::localeAwareCompare(firstItem->d->metadata[column - offset],
                                            secondItem->d->metadata[column - offset]);
-    }
+//     }
 }
 
 bool PlaylistItem::isValid() const

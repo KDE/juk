@@ -612,12 +612,12 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 void Playlist::refreshAlbum(const QString &artist, const QString &album)
 {
     ColumnList columns;
-    columns.append(PlaylistItem::ArtistColumn);
+    columns.append(ArtistColumn);
     PlaylistSearch::Component artistComponent(artist, false, columns,
                                               PlaylistSearch::Component::Exact);
 
     columns.clear();
-    columns.append(PlaylistItem::AlbumColumn);
+    columns.append(AlbumColumn);
     PlaylistSearch::Component albumComponent(album, false, columns,
                                              PlaylistSearch::Component::Exact);
 
@@ -900,16 +900,16 @@ bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
 
     switch(column - columnOffset())
     {
-    case PlaylistItem::TrackColumn:
+    case TrackColumn:
         newTag->setTitle(text);
         break;
-    case PlaylistItem::ArtistColumn:
+    case ArtistColumn:
         newTag->setArtist(text);
         break;
-    case PlaylistItem::AlbumColumn:
+    case AlbumColumn:
         newTag->setAlbum(text);
         break;
-    case PlaylistItem::TrackNumberColumn:
+    case TrackNumberColumn:
     {
         bool ok;
         int value = text.toInt(&ok);
@@ -917,10 +917,10 @@ bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
             newTag->setTrack(value);
         break;
     }
-    case PlaylistItem::GenreColumn:
+    case GenreColumn:
         newTag->setGenre(text);
         break;
-    case PlaylistItem::YearColumn:
+    case YearColumn:
     {
         bool ok;
         int value = text.toInt(&ok);
@@ -974,7 +974,44 @@ int Playlist::columnCount(const QModelIndex& parent) const
 
 QVariant Playlist::data(const QModelIndex& index, int role) const
 {
-    return QVariant();
+    if (role == Qt::DecorationRole) {
+        // ### TODO: FIXME
+        return *(m_items[index.row()]->pixmap(index.column()));
+    }
+    
+    FileHandle fileHandle = m_items[index.row()]->file();
+    switch(index.column()) {
+    case TrackColumn:
+        return fileHandle.tag()->title();
+    case ArtistColumn:
+        return fileHandle.tag()->artist();
+    case AlbumColumn:
+        return fileHandle.tag()->album();
+    case CoverColumn:
+        return QString();
+    case TrackNumberColumn:
+        return fileHandle.tag()->track() > 0
+            ? QString::number(fileHandle.tag()->track())
+            : QString();
+    case GenreColumn:
+        return fileHandle.tag()->genre();
+    case YearColumn:
+        return fileHandle.tag()->year() > 0
+            ? QString::number(fileHandle.tag()->year())
+            : QString();
+    case LengthColumn:
+        return fileHandle.tag()->lengthString();
+    case BitrateColumn:
+        return QString::number(fileHandle.tag()->bitrate());
+    case CommentColumn:
+        return fileHandle.tag()->comment();
+    case FileNameColumn:
+        return fileHandle.fileInfo().fileName();
+    case FullPathColumn:
+        return fileHandle.fileInfo().absoluteFilePath();
+    default:
+        return QString();
+    }
 }
 
 int Playlist::rowCount(const QModelIndex& parent) const

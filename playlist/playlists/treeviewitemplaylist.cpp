@@ -34,7 +34,7 @@ TreeViewItemPlaylist::TreeViewItemPlaylist(PlaylistCollection *collection,
     SearchPlaylist(collection, search, name, false)
 {
     PlaylistSearch::Component component = *(search.components().begin());
-    m_columnType = static_cast<PlaylistItem::ColumnType>(*(component.columns().begin()));
+    m_columnType = static_cast<ColumnType>(*(component.columns().begin()));
 }
 
 void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
@@ -45,9 +45,9 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
         return;
 
     QString changedTag = i18n("artist");
-    if(m_columnType == PlaylistItem::GenreColumn)
+    if(m_columnType == GenreColumn)
         changedTag = i18n("genre");
-    else if(m_columnType == PlaylistItem::AlbumColumn)
+    else if(m_columnType == AlbumColumn)
         changedTag = i18n("album");
 
     // ### TODO: View
@@ -72,15 +72,15 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
 
         Tag *tag = TagTransactionManager::duplicateTag(item->file().tag());
         switch(m_columnType) {
-        case PlaylistItem::ArtistColumn:
+        case ArtistColumn:
             tag->setArtist(name());
             break;
 
-        case PlaylistItem::AlbumColumn:
+        case AlbumColumn:
             tag->setAlbum(name());
             break;
 
-        case PlaylistItem::GenreColumn:
+        case GenreColumn:
             tag->setGenre(name());
             break;
 

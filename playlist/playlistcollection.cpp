@@ -208,7 +208,7 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
     if(!artist.isNull())
     { // Just setting off the artist stuff in its own block.
         ColumnList columns;
-        columns.append(PlaylistItem::ArtistColumn);
+        columns.append(Playlist::ArtistColumn);
         PlaylistSearch::Component c(artist, false, columns,
                                     PlaylistSearch::Component::Exact);
         components.append(c);
@@ -216,7 +216,7 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
 
     if(!album.isNull()) {
         ColumnList columns;
-        columns.append(PlaylistItem::AlbumColumn);
+        columns.append(Playlist::AlbumColumn);
         PlaylistSearch::Component c(album, false, columns,
                                     PlaylistSearch::Component::Exact);
         components.append(c);

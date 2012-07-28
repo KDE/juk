@@ -193,61 +193,61 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
     }
 
 
-    for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
-
-        if(m_re) {
-            if(item->text(*it).contains(m_queryRe))
-                return true;
-            else
-                break;
-        }
-
-        switch(m_mode) {
-        case Contains:
-            if(item->text(*it).contains(m_query, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive))
-                return true;
-            break;
-        case Exact:
-            if(item->text(*it).length() == m_query.length()) {
-                if(m_caseSensitive) {
-                    if(item->text(*it) == m_query)
-                        return true;
-                }
-                else if(item->text(*it).toLower() == m_query.toLower())
-                    return true;
-            }
-            break;
-        case ContainsWord:
-        {
-            QString s = item->text(*it);
-            int i = s.indexOf(m_query, 0, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive );
-
-            if(i >= 0) {
-
-                // If we found the pattern and the lengths are the same, then
-                // this is a match.
-
-                if(s.length() == m_query.length())
-                    return true;
-
-                // First: If the match starts at the beginning of the text or the
-                // character before the match is not a word character
-
-                // AND
-
-                // Second: Either the pattern was found at the end of the text,
-                // or the text following the match is a non-word character
-
-                // ...then we have a match
-
-                if((i == 0 || !s.at(i - 1).isLetterOrNumber()) &&
-                   (i + m_query.length() == s.length() || !s.at(i + m_query.length()).isLetterOrNumber()))
-                    return true;
-                break;
-            }
-        }
-        }
-    }
+//     for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
+// 
+//         if(m_re) {
+//             if(item->text(*it).contains(m_queryRe))
+//                 return true;
+//             else
+//                 break;
+//         }
+// 
+//         switch(m_mode) {
+//         case Contains:
+//             if(item->text(*it).contains(m_query, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive))
+//                 return true;
+//             break;
+//         case Exact:
+//             if(item->text(*it).length() == m_query.length()) {
+//                 if(m_caseSensitive) {
+//                     if(item->text(*it) == m_query)
+//                         return true;
+//                 }
+//                 else if(item->text(*it).toLower() == m_query.toLower())
+//                     return true;
+//             }
+//             break;
+//         case ContainsWord:
+//         {
+//             QString s = item->text(*it);
+//             int i = s.indexOf(m_query, 0, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive );
+// 
+//             if(i >= 0) {
+// 
+//                 // If we found the pattern and the lengths are the same, then
+//                 // this is a match.
+// 
+//                 if(s.length() == m_query.length())
+//                     return true;
+// 
+//                 // First: If the match starts at the beginning of the text or the
+//                 // character before the match is not a word character
+// 
+//                 // AND
+// 
+//                 // Second: Either the pattern was found at the end of the text,
+//                 // or the text following the match is a non-word character
+// 
+//                 // ...then we have a match
+// 
+//                 if((i == 0 || !s.at(i - 1).isLetterOrNumber()) &&
+//                    (i + m_query.length() == s.length() || !s.at(i + m_query.length()).isLetterOrNumber()))
+//                     return true;
+//                 break;
+//             }
+//         }
+//         }
+//     }
     return false;
 }
 

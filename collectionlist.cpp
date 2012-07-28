@@ -143,9 +143,9 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
     }
 
     QList<int> columnList;
-    columnList << PlaylistItem::ArtistColumn;
-    columnList << PlaylistItem::GenreColumn;
-    columnList << PlaylistItem::AlbumColumn;
+    columnList << ArtistColumn;
+    columnList << GenreColumn;
+    columnList << AlbumColumn;
 
     foreach(int column, columnList)
         treeViewMode->addItems(m_columnTags[column]->keys(), column);
@@ -259,9 +259,9 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
             this, SLOT(slotPlayFromBackMenu(QAction*)));
 //     setSorting(-1); // Temporarily disable sorting to add items faster.
 
-    m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict;
-    m_columnTags[PlaylistItem::AlbumColumn] = new TagCountDict;
-    m_columnTags[PlaylistItem::GenreColumn] = new TagCountDict;
+    m_columnTags[ArtistColumn] = new TagCountDict;
+    m_columnTags[AlbumColumn] = new TagCountDict;
+    m_columnTags[GenreColumn] = new TagCountDict;
 }
 
 CollectionList::~CollectionList()
@@ -326,15 +326,15 @@ QStringList CollectionList::uniqueSet(UniqueSetType t) const
     switch(t)
     {
     case Artists:
-        column = PlaylistItem::ArtistColumn;
+        column = ArtistColumn;
     break;
 
     case Albums:
-        column = PlaylistItem::AlbumColumn;
+        column = AlbumColumn;
     break;
 
     case Genres:
-        column = PlaylistItem::GenreColumn;
+        column = GenreColumn;
     break;
 
     default:
@@ -384,36 +384,36 @@ void CollectionListItem::refresh()
     data()->metadata.resize(columns);
     data()->cachedWidths.resize(columns);
 
-    for(int i = offset; i < columns; i++) {
-        int id = i - offset;
-        if(id != TrackNumberColumn && id != LengthColumn) {
-            // All columns other than track num and length need local-encoded data for sorting
-
-            QString toLower = text(i).toLower();
-
-            // For some columns, we may be able to share some strings
-
-            if((id == ArtistColumn) || (id == AlbumColumn) ||
-               (id == GenreColumn)  || (id == YearColumn)  ||
-               (id == CommentColumn))
-            {
-                toLower = StringShare::tryShare(toLower);
-
-                if(id != YearColumn && id != CommentColumn && data()->metadata[id] != toLower) {
-                    CollectionList::instance()->removeStringFromDict(data()->metadata[id], id);
-                    CollectionList::instance()->addStringToDict(text(i), id);
-                }
-            }
-
-            data()->metadata[id] = toLower;
-        }
+//     for(int i = offset; i < columns; i++) {
+//         int id = i - offset;
+//         if(id != Playlist::TrackNumberColumn && id != Playlist::LengthColumn) {
+//             // All columns other than track num and length need local-encoded data for sorting
+// 
+//             QString toLower = text(i).toLower();
+// 
+//             // For some columns, we may be able to share some strings
+// 
+//             if((id == Playlist::ArtistColumn) || (id == Playlist::AlbumColumn) ||
+//                (id == Playlist::GenreColumn)  || (id == Playlist::YearColumn)  ||
+//                (id == Playlist::CommentColumn))
+//             {
+//                 toLower = StringShare::tryShare(toLower);
+// 
+//                 if(id != Playlist::YearColumn && id != Playlist::CommentColumn && data()->metadata[id] != toLower) {
+//                     CollectionList::instance()->removeStringFromDict(data()->metadata[id], id);
+//                     CollectionList::instance()->addStringToDict(text(i), id);
+//                 }
+//             }
+// 
+//             data()->metadata[id] = toLower;
+//         }
 // ### TODO: View
 //         int newWidth = width(listView()->fontMetrics(), listView(), i);
 //         if(newWidth != data()->cachedWidths[i])
 //             playlist()->slotWeightDirty(i);
 // 
 //         data()->cachedWidths[i] = newWidth;
-    }
+//     }
 
 //     if(listView()->isVisible())
 //         repaint();
@@ -492,9 +492,9 @@ CollectionListItem::~CollectionListItem()
     CollectionList *l = CollectionList::instance();
     if(l) {
         l->removeFromDict(file().absFilePath());
-        l->removeStringFromDict(file().tag()->album(), AlbumColumn);
-        l->removeStringFromDict(file().tag()->artist(), ArtistColumn);
-        l->removeStringFromDict(file().tag()->genre(), GenreColumn);
+        l->removeStringFromDict(file().tag()->album(), Playlist::AlbumColumn);
+        l->removeStringFromDict(file().tag()->artist(), Playlist::ArtistColumn);
+        l->removeStringFromDict(file().tag()->genre(), Playlist::GenreColumn);
     }
 }
 

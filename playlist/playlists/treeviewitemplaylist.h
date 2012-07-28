@@ -37,7 +37,7 @@ signals:
     void signalTagsChanged();
 
 private:
-    PlaylistItem::ColumnType m_columnType;
+    ColumnType m_columnType;
 };
 
 #endif // TREEVIEWITEMPLAYLIST_H

@@ -355,11 +355,11 @@ void TreeViewMode::removeItem(const QString &item, unsigned column)
         return;
 
     QString itemKey;
-    if(column == PlaylistItem::ArtistColumn)
+    if(column == Playlist::ArtistColumn)
         itemKey = "artists" + item;
-    else if(column == PlaylistItem::GenreColumn)
+    else if(column == Playlist::GenreColumn)
         itemKey = "genres" + item;
-    else if(column == PlaylistItem::AlbumColumn)
+    else if(column == Playlist::AlbumColumn)
         itemKey = "albums" + item;
     else {
         kWarning() << "Unhandled column type " << column;
@@ -387,11 +387,11 @@ void TreeViewMode::addItems(const QStringList &items, unsigned column)
         return;
 
     QString searchCategory;
-    if(column == PlaylistItem::ArtistColumn)
+    if(column == Playlist::ArtistColumn)
         searchCategory = "artists";
-    else if(column == PlaylistItem::GenreColumn)
+    else if(column == Playlist::GenreColumn)
         searchCategory = "genres";
-    else if(column == PlaylistItem::AlbumColumn)
+    else if(column == Playlist::AlbumColumn)
         searchCategory = "albums";
     else {
         kWarning() << "Unhandled column type " << column;
@@ -402,7 +402,7 @@ void TreeViewMode::addItems(const QStringList &items, unsigned column)
     columns.append(column);
 
     PlaylistSearch::Component::MatchMode mode = PlaylistSearch::Component::ContainsWord;
-    if(column != PlaylistItem::ArtistColumn)
+    if(column != Playlist::ArtistColumn)
         mode = PlaylistSearch::Component::Exact;
 
     PlaylistSearch::ComponentList components;

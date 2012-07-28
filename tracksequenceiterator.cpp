@@ -292,7 +292,7 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
     if(searchItem->file().tag()->album().isEmpty())
         return;
 
-    columns.append(PlaylistItem::AlbumColumn);
+    columns.append(Playlist::AlbumColumn);
 
     m_albumSearch.addComponent(PlaylistSearch::Component(
         searchItem->file().tag()->album(),
@@ -307,7 +307,7 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
 
     if(!searchItem->file().tag()->artist().isEmpty()) {
         kDebug() << "Searching both artist and album.";
-        columns[0] = PlaylistItem::ArtistColumn;
+        columns[0] = Playlist::ArtistColumn;
 
         m_albumSearch.addComponent(PlaylistSearch::Component(
             searchItem->file().tag()->artist(),

@@ -167,7 +167,7 @@ bool TagTransactionManager::processChangeList(bool undo)
 
         if(item->file().fileInfo().fileName() != newFile.fileName()) {
             if(!renameFile(item->file().fileInfo(), newFile)) {
-                errorItems.append(item->text(1) + QString(" - ") + item->text(0));
+//                 errorItems.append(item->text(1) + QString(" - ") + item->text(0));
                 continue;
             }
         }
