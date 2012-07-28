@@ -24,7 +24,7 @@
 #include <QVector>
 #include <QEvent>
 #include <QList>
-#include <QAbstractListModel>
+#include <QAbstractTableModel>
 
 #include "covermanager.h"
 #include "stringhash.h"
@@ -48,7 +48,7 @@ class CollectionListItem;
 
 typedef QList<PlaylistItem *> PlaylistItemList;
 
-class Playlist : public QAbstractListModel, public PlaylistInterface
+class Playlist : public QAbstractTableModel, public PlaylistInterface
 {
     Q_OBJECT
     
@@ -97,7 +97,7 @@ public:
     bool setData (const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
     bool insertRows (int row, int count, const QModelIndex & parent = QModelIndex());
     bool removeRows (int row, int count, const QModelIndex & parent = QModelIndex());
-    using QAbstractListModel::sort;
+    using QAbstractTableModel::sort;
     
     // The following group of functions implement the PlaylistInterface API.
 

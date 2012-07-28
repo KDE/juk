@@ -168,7 +168,7 @@ int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
                    const QString &iconName) :
-    QAbstractListModel(/*collection->playlistStack()*/0),
+    QAbstractTableModel(/*collection->playlistStack()*/0),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
@@ -190,7 +190,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
 
 Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
                    const QString &name, const QString &iconName) :
-    QAbstractListModel(/*collection->playlistStack()*/0),
+    QAbstractTableModel(/*collection->playlistStack()*/0),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
@@ -213,7 +213,7 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
 
 Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
                    const QString &iconName) :
-    QAbstractListModel(/*collection->playlistStack()*/0),
+    QAbstractTableModel(/*collection->playlistStack()*/0),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
@@ -235,7 +235,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
 }
 
 Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraColumns) :
-    QAbstractListModel(/*collection->playlistStack()*/0),
+    QAbstractTableModel(/*collection->playlistStack()*/0),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
     m_selectedCount(0),
