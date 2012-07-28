@@ -18,7 +18,6 @@
 #ifndef PLAYLIST_H
 #define PLAYLIST_H
 
-#include <k3listview.h>
 #include <kglobalsettings.h>
 #include <kdebug.h>
 

@@ -17,13 +17,13 @@
 
 #include "stringhash.h"
 #include "playlistinterface.h"
+#include "playlistview.h"
 
 #include <kshortcut.h>
 #include <klocale.h>
 #include <kdirlister.h>
 
 #include <QPointer>
-#include <QListView>
 
 class QPixmap;
 class QStackedWidget;
@@ -51,7 +51,7 @@ class PlaylistCollection : public PlaylistInterface
     friend class DynamicPlaylist;
 
 public:
-    PlaylistCollection(PlayerManager* player, QListView* playlistStack);
+    PlaylistCollection(PlayerManager* player, PlaylistView* playlistView);
     virtual ~PlaylistCollection();
 
     static PlaylistCollection *instance() { return m_instance; }
@@ -194,7 +194,7 @@ private:
     void readConfig();
     void saveConfig();
 
-    QListView   *m_playlistStack;
+    PlaylistView   *m_playlistView;
     HistoryPlaylist  *m_historyPlaylist;
     UpcomingPlaylist *m_upcomingPlaylist;
     ActionHandler    *m_actionHandler;

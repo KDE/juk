@@ -51,7 +51,7 @@ PlaylistSplitter::PlaylistSplitter(PlayerManager *player, QWidget *parent) :
     m_newVisible(0),
     m_playlistBox(0),
     m_searchWidget(0),
-    m_playlistStack(0),
+    m_playlistView(0),
     m_editor(0),
     m_nowPlaying(0),
     m_player(player),
@@ -182,18 +182,18 @@ void PlaylistSplitter::setupLayout()
     topLayout->setMargin(0);
     topLayout->setSpacing(0);
 
-    m_playlistStack = new QListView(top);
-    m_playlistStack->setObjectName( QLatin1String("playlistStack" ));
-    m_playlistStack->installEventFilter(this);
-    m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_playlistStack->hide(); // Will be shown after CollectionList filled.
+    m_playlistView = new PlaylistView(top);
+    m_playlistView->setObjectName( QLatin1String("playlistStack" ));
+    m_playlistView->installEventFilter(this);
+    m_playlistView->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_playlistView->hide(); // Will be shown after CollectionList filled.
 
     m_editor = new TagEditor(m_editorSplitter);
     m_editor->setObjectName( QLatin1String("TagEditor" ));
 
     // Create the PlaylistBox
 
-    m_playlistBox = new PlaylistBox(m_player, this, m_playlistStack);
+    m_playlistBox = new PlaylistBox(m_player, this, m_playlistView);
     m_playlistBox->setObjectName( QLatin1String( "playlistBox" ) );
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
@@ -233,12 +233,12 @@ void PlaylistSplitter::setupLayout()
 
     topLayout->addWidget(m_nowPlaying);
     topLayout->addWidget(m_searchWidget);
-    topLayout->addWidget(m_playlistStack, 1);
+    topLayout->addWidget(m_playlistView, 1);
 
     // Now that GUI setup is complete, add some auto-update signals.
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_editor, SLOT(slotUpdateCollection()));
-    connect(m_playlistStack, SIGNAL(currentChanged(int)), this, SLOT(slotPlaylistChanged(int)));
+    connect(m_playlistView, SIGNAL(currentChanged(int)), this, SLOT(slotPlaylistChanged(int)));
 
     // Show the collection on startup.
     m_playlistBox->setSelected(0, true);
@@ -298,7 +298,7 @@ void PlaylistSplitter::slotPlaylistSelectionChanged()
 // ### TODO: View: What does this do?
 void PlaylistSplitter::slotPlaylistChanged(int i)
 {
-    Playlist *p = qobject_cast<Playlist *>(m_playlistStack->model());
+    Playlist *p = qobject_cast<Playlist *>(m_playlistView->model());
 
     if(!p)
         return;
@@ -311,7 +311,7 @@ void PlaylistSplitter::slotPlaylistChanged(int i)
 void PlaylistSplitter::slotEnable()
 {
     setEnabled(true); // Ready to go.
-    m_playlistStack->show();
+    m_playlistView->show();
 }
 
 #include "playlistsplitter.moc"

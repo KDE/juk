@@ -68,8 +68,8 @@ PlaylistCollection *PlaylistCollection::m_instance = 0;
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistCollection::PlaylistCollection(PlayerManager *player, QListView *playlistStack) :
-    m_playlistStack(playlistStack),
+PlaylistCollection::PlaylistCollection(PlayerManager* player, PlaylistView* playlistView) :
+    m_playlistView(playlistView),
     m_historyPlaylist(0),
     m_upcomingPlaylist(0),
     m_playerManager(player),
@@ -91,7 +91,7 @@ PlaylistCollection::PlaylistCollection(PlayerManager *player, QListView *playlis
     // KDirLister's auto error handling seems to crash JuK during startup in
     // readConfig().
 
-    m_dirLister.setAutoErrorHandlingEnabled(false, playlistStack);
+    m_dirLister.setAutoErrorHandlingEnabled(false, playlistView);
     readConfig();
 }
 
@@ -630,7 +630,7 @@ Playlist *PlaylistCollection::currentPlaylist() const
 
 Playlist *PlaylistCollection::visiblePlaylist() const
 {
-    return qobject_cast<Playlist *>(m_playlistStack->model());
+    return qobject_cast<Playlist *>(m_playlistView->model());
 }
 
 void PlaylistCollection::raise(Playlist *playlist)
@@ -645,7 +645,7 @@ void PlaylistCollection::raise(Playlist *playlist)
     playlist->applySharedSettings();
     // ### TODO: View
 //     playlist->setSearchEnabled(m_searchEnabled);
-    m_playlistStack->setModel(playlist);
+    m_playlistView->setModel(playlist);
     clearShowMore(false);
     dataChanged();
 }

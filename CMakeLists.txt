@@ -56,6 +56,7 @@ set(juk_SRCS  ${tunepimp_SRCS}
    playlist/playlistitem.cpp
    playlist/playlistexporter.cpp
    playlist/playlistsearch.cpp
+   playlist/playlistview.cpp
    
    playlistbox.cpp
    playlistsplitter.cpp
