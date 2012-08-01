@@ -112,7 +112,7 @@ public:
     CollectionListItem *lookup(const QString &file) const;
 
     virtual CollectionListItem *createItem(const FileHandle &file,
-                                     Q3ListViewItem * = 0,
+                                     PlaylistItem * = 0,
                                      bool = false);
 
     void emitVisibleColumnsChanged() { emit signalVisibleColumnsChanged(); }

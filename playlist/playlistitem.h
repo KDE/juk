@@ -16,7 +16,6 @@
 #ifndef PLAYLISTITEM_H
 #define PLAYLISTITEM_H
 
-#include <k3listview.h>
 #include <ksharedptr.h>
 #include <kdebug.h>
 

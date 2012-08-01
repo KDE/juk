@@ -102,7 +102,7 @@ void CollectionList::initialize(PlaylistCollection *collection)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem *, bool)
+CollectionListItem *CollectionList::createItem(const FileHandle &file, PlaylistItem *, bool)
 {
     // It's probably possible to optimize the line below away, but, well, right
     // now it's more important to not load duplicate items.

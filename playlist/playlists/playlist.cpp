@@ -19,14 +19,11 @@
 #include "playlist.h"
 #include "juk-exception.h"
 
-#include <q3header.h>
 #include <kconfig.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
-#include <k3urldrag.h>
 #include <kiconloader.h>
 #include <klineedit.h>
-#include <k3popupmenu.h>
 #include <klocale.h>
 #include <kdebug.h>
 #include <kfiledialog.h>
