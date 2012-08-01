@@ -339,7 +339,7 @@ public:
     
     PlaylistItem *lastItem() { return m_items.last(); }
     PlaylistItem *firstItem() { return m_items.first(); }
-    const PlaylistItemList &items() { return m_items; }
+    const PlaylistItemList &items() const { return m_items; }
     void moveItem(int from, int to) { m_items.move(from, to); }
 
 public slots:

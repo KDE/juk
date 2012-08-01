@@ -17,6 +17,7 @@
 #define PLAYLISTSPLITTER_H
 
 #include <QSplitter>
+#include <QAbstractTableModel>
 
 class QStackedWidget;
 
@@ -86,6 +87,7 @@ private slots:
     void slotShowSearchResults();
     void slotPlaylistSelectionChanged();
     void slotPlaylistChanged(int i);
+    void slotPlaySong(const QModelIndex&);
 
 private:
     Playlist *m_newVisible;

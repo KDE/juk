@@ -41,6 +41,7 @@
 #include "playermanager.h"
 #include "nowplaying.h"
 #include "playlistbox.h"
+#include "tracksequencemanager.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -203,6 +204,7 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
     connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
             m_player, SLOT(play(FileHandle)));
+    connect(m_playlistView, SIGNAL(activated(QModelIndex)), SLOT(slotPlaySong(QModelIndex)));
 
     m_player->setPlaylistInterface(m_playlistBox);
 
@@ -313,6 +315,15 @@ void PlaylistSplitter::slotEnable()
     setEnabled(true); // Ready to go.
     m_playlistView->show();
 }
+
+void PlaylistSplitter::slotPlaySong(const QModelIndex& index)
+{
+    const Playlist *playlist = qobject_cast<const Playlist*>(index.model());
+    PlaylistItem *next = playlist->items().at(index.row());
+    TrackSequenceManager::instance()->setNextItem(next);
+    ActionCollection::action("forward")->trigger();
+}
+
 
 #include "playlistsplitter.moc"
 
