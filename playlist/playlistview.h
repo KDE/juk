@@ -13,6 +13,7 @@ public:
 
 protected slots:
     virtual void contextMenuEvent(QContextMenuEvent*);
+    virtual bool event(QEvent*);
 
 private:
     Playlist *playlist() { return qobject_cast<Playlist*>(model()); }

@@ -6,6 +6,7 @@
 #include <KLocalizedString>
 #include "k3bexporter.h"
 #include <QFileInfo>
+#include <QToolTip>
 #include "coverinfo.h"
 
 using namespace ActionCollection;
@@ -110,54 +111,22 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent *event)
     m_contextMenu->exec(event->globalPos());
 }
 
+bool PlaylistView::event(QEvent *e)
+{
+    if (e->type() == QEvent::ToolTip) {
+        QHelpEvent *event = static_cast<QHelpEvent*>(e);
+        int column = columnAt(event->x());
 
-/**
- * A tooltip specialized to show full filenames over the file name column.
- */
-// class PlaylistToolTip : public QToolTip
-// {
-// public:
-//     PlaylistToolTip(QWidget *parent, Playlist *playlist) :
-//         QToolTip(parent), m_playlist(playlist) {}
-// 
-//     virtual void maybeTip(const QPoint &p)
-//     {
-//         PlaylistItem *item = static_cast<PlaylistItem *>(m_playlist->itemAt(p));
-// 
-//         if(!item)
-//             return;
-// 
-//         QPoint contentsPosition = m_playlist->viewportToContents(p);
-// 
-//         int column = m_playlist->header()->sectionAt(contentsPosition.x());
-// 
-//         if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn ||
-//            item->cachedWidths()[column] > m_playlist->columnWidth(column) ||
-//            (column == m_playlist->columnOffset() + PlaylistItem::CoverColumn &&
-//             item->file().coverInfo()->hasCover()))
-//         {
-//             QRect r = m_playlist->itemRect(item);
-//             int headerPosition = m_playlist->header()->sectionPos(column);
-//             r.setLeft(headerPosition);
-//             r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
-// 
-//             if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
-//                 tip(r, item->file().absFilePath());
-//             else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
-//                 Q3MimeSourceFactory *f = Q3MimeSourceFactory::defaultFactory();
-//                 f->setImage("coverThumb",
-//                             QImage(item->file().coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage()));
-//                 tip(r, "<center><img source=\"coverThumb\"/></center>");
-//             }
-//             else
-//                 tip(r, item->text(column));
-//         }
-//     }
-// 
-// private:
-//     Playlist *m_playlist;
-// };
+        // A tooltip specialized to show full filenames over the file name column.
+        if (column == Playlist::FileNameColumn) {
+            QString text = playlist()->items()[indexAt(event->pos()).row()]->file().absFilePath();
+            QToolTip::showText(event->globalPos(), text);
+            return true;
+        }// else if (column == Playlist::CoverColumn) { TODO
+    }
 
+    return QAbstractItemView::event(e);
+}
 
 //### TODO: VIEW
 /**
