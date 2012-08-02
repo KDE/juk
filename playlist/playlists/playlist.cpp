@@ -1078,6 +1078,30 @@ bool Playlist::removeRows(int row, int count, const QModelIndex& parent)
     return true;
 }
 
+void Playlist::refreshRows(QModelIndexList &l)
+{
+    if(l.isEmpty()) {
+        for (int i=0; i<rowCount(); i++) {
+                l.append(index(i, 0));
+        }
+    }
+
+    for (int i=l.count(); i>=0; --i) {
+        int row = l[i].row();
+        m_items[row]->refreshFromDisk();
+
+        if(!m_items[row]->file().tag() || !m_items[row]->file().fileInfo().exists()) {
+            kDebug() << "Error while trying to refresh the tag.  "
+                           << "This file has probably been removed."
+                           << endl;
+            delete m_items.takeAt(row);//FIXME update all affected instances
+        }
+
+        processEvents();
+    }
+}
+
+
 #include "playlist.moc"
 
 // vim: set et sw=4 tw=0 sta:

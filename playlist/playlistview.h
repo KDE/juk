@@ -15,6 +15,9 @@ protected slots:
     virtual void contextMenuEvent(QContextMenuEvent*);
     virtual bool event(QEvent*);
 
+private slots:
+    void slotRefresh();
+    
 private:
     Playlist *playlist() { return qobject_cast<Playlist*>(model()); }
     

@@ -8,6 +8,7 @@
 #include <QFileInfo>
 #include <QToolTip>
 #include "coverinfo.h"
+#include <KApplication>
 
 using namespace ActionCollection;
 
@@ -126,6 +127,14 @@ bool PlaylistView::event(QEvent *e)
     }
 
     return QAbstractItemView::event(e);
+}
+
+void PlaylistView::slotRefresh()
+{
+    QModelIndexList l = selectedIndexes();
+    KApplication::setOverrideCursor(Qt::waitCursor);
+    playlist()->refreshRows(l);
+    KApplication::restoreOverrideCursor();
 }
 
 //### TODO: VIEW
@@ -374,27 +383,6 @@ bool PlaylistView::event(QEvent *e)
 //     decode(QApplication::clipboard()->mimeData(), static_cast<PlaylistItem *>(currentItem()));
 // }
 // 
-// void Playlist::slotRefresh()
-// {
-//     PlaylistItemList l = selectedItems();
-//     if(l.isEmpty())
-//         l = visibleItems();
-// 
-//     KApplication::setOverrideCursor(Qt::waitCursor);
-//     foreach(PlaylistItem *item, l) {
-//         item->refreshFromDisk();
-// 
-//         if(!item->file().tag() || !item->file().fileInfo().exists()) {
-//             kDebug() << "Error while trying to refresh the tag.  "
-//                            << "This file has probably been removed."
-//                            << endl;
-//             delete item->collectionItem();
-//         }
-// 
-//         processEvents();
-//     }
-//     KApplication::restoreOverrideCursor();
-// }
 // 
 // void Playlist::slotRenameFile()
 // {

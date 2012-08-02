@@ -107,6 +107,12 @@ public:
      */
     bool deleteRows(int row, int count, const QModelIndex & parent = QModelIndex());
     
+    /**
+     * Refreshes a file from disk
+     * @return True on success
+     */
+    void refreshRows(QModelIndexList& l);
+    
     // The following group of functions implement the PlaylistInterface API.
 
     virtual QString name() const;
