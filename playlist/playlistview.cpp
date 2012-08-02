@@ -1,7 +1,21 @@
 #include "playlistview.h"
+#include "actioncollection.h"
+#include <QContextMenuEvent>
+#include <KMenu>
+#include <KIconLoader>
+#include <KLocalizedString>
+#include "k3bexporter.h"
+#include <QFileInfo>
+#include "coverinfo.h"
+
+using namespace ActionCollection;
+
 
 PlaylistView::PlaylistView(QWidget* parent):
-    QTreeView(parent)
+    QTreeView(parent),
+    m_contextMenu(0),
+    m_editAction(0),
+    m_currentColumn(0)
 {
     setUniformRowHeights(true);
     setSortingEnabled(true);
@@ -13,58 +27,136 @@ PlaylistView::PlaylistView(QWidget* parent):
     resizeColumnToContents(0);
 }
 
+void PlaylistView::contextMenuEvent(QContextMenuEvent *event)
+{
+        // Create the RMB menu on demand.
+
+    if(!m_contextMenu) {
+
+        // Probably more of these actions should be ported over to using KActions.
+
+        m_contextMenu = new KMenu(this);
+
+        m_contextMenu->addAction(SmallIcon("go-jump-today"),
+            i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
+        m_contextMenu->addSeparator();
+
+        if(!playlist()->readOnly()) {
+            m_contextMenu->addAction( action("edit_cut") );
+            m_contextMenu->addAction( action("edit_copy") );
+            m_contextMenu->addAction( action("edit_paste") );
+            m_contextMenu->addSeparator();
+            m_contextMenu->addAction( action("removeFromPlaylist") );
+        }
+        else
+            m_contextMenu->addAction( action("edit_copy") );
+
+        m_editAction = m_contextMenu->addAction(i18n("Edit"), this, SLOT(slotRenameTag()));
+
+        m_contextMenu->addAction( action("refresh") );
+        m_contextMenu->addAction( action("removeItem") );
+
+        m_contextMenu->addSeparator();
+
+        m_contextMenu->addAction( action("guessTag") );
+        m_contextMenu->addAction( action("renameFile") );
+
+        m_contextMenu->addAction( action("coverManager") );
+
+        m_contextMenu->addSeparator();
+
+        m_contextMenu->addAction(
+            SmallIcon("folder-new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
+
+        K3bExporter *exporter = new K3bExporter(playlist());
+        KAction *k3bAction = exporter->action();
+        if(k3bAction)
+            m_contextMenu->addAction( k3bAction );
+    }
+
+    // Ignore any columns added by subclasses.
+
+//    column -= columnOffset();
+    int column = columnAt(event->x());
+    bool showEdit =
+        (column == Playlist::TrackColumn) ||
+        (column == Playlist::ArtistColumn) ||
+        (column == Playlist::AlbumColumn) ||
+        (column == Playlist::TrackNumberColumn) ||
+        (column == Playlist::GenreColumn) ||
+        (column == Playlist::YearColumn);
+
+    if(showEdit)
+        m_editAction->setText(i18n("Edit '%1'", model()->headerData(column, Qt::Horizontal).toString()));
+
+    m_editAction->setVisible(showEdit);
+
+    // Disable edit menu if only one file is selected, and it's read-only
+
+    FileHandle file = playlist()->items()[indexAt(event->pos()).row()]->file();
+
+    m_editAction->setEnabled(file.fileInfo().isWritable() || selectedIndexes().count() > 1);
+
+    // View cover is based on if there is a cover to see.  We should only have
+    // the remove cover option if the cover is in our database (and not directly
+    // embedded in the file, for instance).
+
+    action("viewCover")->setEnabled(file.coverInfo()->hasCover());
+    action("removeCover")->setEnabled(file.coverInfo()->coverId() != CoverManager::NoMatch);
+
+//     m_contextMenu->popup(point);
+    m_currentColumn = column;
+    
+    m_contextMenu->exec(event->globalPos());
+}
+
+
 /**
  * A tooltip specialized to show full filenames over the file name column.
  */
-
-#ifdef __GNUC__
-#warning disabling the tooltip for now
-#endif
-#if 0
-class PlaylistToolTip : public QToolTip
-{
-public:
-    PlaylistToolTip(QWidget *parent, Playlist *playlist) :
-        QToolTip(parent), m_playlist(playlist) {}
-
-    virtual void maybeTip(const QPoint &p)
-    {
-        PlaylistItem *item = static_cast<PlaylistItem *>(m_playlist->itemAt(p));
-
-        if(!item)
-            return;
-
-        QPoint contentsPosition = m_playlist->viewportToContents(p);
-
-        int column = m_playlist->header()->sectionAt(contentsPosition.x());
-
-        if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn ||
-           item->cachedWidths()[column] > m_playlist->columnWidth(column) ||
-           (column == m_playlist->columnOffset() + PlaylistItem::CoverColumn &&
-            item->file().coverInfo()->hasCover()))
-        {
-            QRect r = m_playlist->itemRect(item);
-            int headerPosition = m_playlist->header()->sectionPos(column);
-            r.setLeft(headerPosition);
-            r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
-
-            if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
-                tip(r, item->file().absFilePath());
-            else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
-                Q3MimeSourceFactory *f = Q3MimeSourceFactory::defaultFactory();
-                f->setImage("coverThumb",
-                            QImage(item->file().coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage()));
-                tip(r, "<center><img source=\"coverThumb\"/></center>");
-            }
-            else
-                tip(r, item->text(column));
-        }
-    }
-
-private:
-    Playlist *m_playlist;
-};
-#endif
+// class PlaylistToolTip : public QToolTip
+// {
+// public:
+//     PlaylistToolTip(QWidget *parent, Playlist *playlist) :
+//         QToolTip(parent), m_playlist(playlist) {}
+// 
+//     virtual void maybeTip(const QPoint &p)
+//     {
+//         PlaylistItem *item = static_cast<PlaylistItem *>(m_playlist->itemAt(p));
+// 
+//         if(!item)
+//             return;
+// 
+//         QPoint contentsPosition = m_playlist->viewportToContents(p);
+// 
+//         int column = m_playlist->header()->sectionAt(contentsPosition.x());
+// 
+//         if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn ||
+//            item->cachedWidths()[column] > m_playlist->columnWidth(column) ||
+//            (column == m_playlist->columnOffset() + PlaylistItem::CoverColumn &&
+//             item->file().coverInfo()->hasCover()))
+//         {
+//             QRect r = m_playlist->itemRect(item);
+//             int headerPosition = m_playlist->header()->sectionPos(column);
+//             r.setLeft(headerPosition);
+//             r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
+// 
+//             if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
+//                 tip(r, item->file().absFilePath());
+//             else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
+//                 Q3MimeSourceFactory *f = Q3MimeSourceFactory::defaultFactory();
+//                 f->setImage("coverThumb",
+//                             QImage(item->file().coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage()));
+//                 tip(r, "<center><img source=\"coverThumb\"/></center>");
+//             }
+//             else
+//                 tip(r, item->text(column));
+//         }
+//     }
+// 
+// private:
+//     Playlist *m_playlist;
+// };
 
 
 //### TODO: VIEW
@@ -496,50 +588,6 @@ private:
 //     SharedSettings::instance()->sync();
 // }
 
-//### TODO: View
-// void Playlist::removeFromDisk(const PlaylistItemList &items)
-// {
-//     if(isVisible() && !items.isEmpty()) {
-// 
-//         QStringList files;
-//         foreach(const PlaylistItem *item, items)
-//             files.append(item->file().absFilePath());
-// 
-//         DeleteDialog dialog(this);
-// 
-//         m_blockDataChanged = true;
-// 
-//         if(dialog.confirmDeleteList(files)) {
-//             bool shouldDelete = dialog.shouldDelete();
-//             QStringList errorFiles;
-// 
-//             foreach(PlaylistItem *item, items) {
-//                 if(playingItem() == item)
-//                     action("forward")->trigger();
-// 
-//                 QString removePath = item->file().absFilePath();
-//                 if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removePath), this)) ||
-//                    (shouldDelete && QFile::remove(removePath)))
-//                 {
-//                     delete item->collectionItem();
-//                 }
-//                 else
-//                     errorFiles.append(item->file().absFilePath());
-//             }
-// 
-//             if(!errorFiles.isEmpty()) {
-//                 QString errorMsg = shouldDelete ?
-//                         i18n("Could not delete these files") :
-//                         i18n("Could not move these files to the Trash");
-//                 KMessageBox::errorList(this, errorMsg, errorFiles);
-//             }
-//         }
-// 
-//         m_blockDataChanged = false;
-// 
-//         dataChanged();
-//     }
-// }
 // 
 // Q3DragObject *Playlist::dragObject(QWidget *parent)
 // {
@@ -1248,90 +1296,6 @@ private:
 //     m_collection->upcomingPlaylist()->appendItems(selectedItems());
 // }
 // 
-// void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int column)
-// {
-//     if(!item)
-//         return;
-// 
-//     // Create the RMB menu on demand.
-// 
-//     if(!m_rmbMenu) {
-// 
-//         // Probably more of these actions should be ported over to using KActions.
-// 
-//         m_rmbMenu = new KMenu(this);
-// 
-//         m_rmbMenu->addAction(SmallIcon("go-jump-today"),
-//             i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
-//         m_rmbMenu->addSeparator();
-// 
-//         if(!readOnly()) {
-//             m_rmbMenu->addAction( action("edit_cut") );
-//             m_rmbMenu->addAction( action("edit_copy") );
-//             m_rmbMenu->addAction( action("edit_paste") );
-//             m_rmbMenu->addSeparator();
-//             m_rmbMenu->addAction( action("removeFromPlaylist") );
-//         }
-//         else
-//             m_rmbMenu->addAction( action("edit_copy") );
-// 
-//         m_rmbEdit = m_rmbMenu->addAction(i18n("Edit"), this, SLOT(slotRenameTag()));
-// 
-//         m_rmbMenu->addAction( action("refresh") );
-//         m_rmbMenu->addAction( action("removeItem") );
-// 
-//         m_rmbMenu->addSeparator();
-// 
-//         m_rmbMenu->addAction( action("guessTag") );
-//         m_rmbMenu->addAction( action("renameFile") );
-// 
-//         m_rmbMenu->addAction( action("coverManager") );
-// 
-//         m_rmbMenu->addSeparator();
-// 
-//         m_rmbMenu->addAction(
-//             SmallIcon("folder-new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
-// 
-//         K3bExporter *exporter = new K3bExporter(this);
-//         KAction *k3bAction = exporter->action();
-//         if(k3bAction)
-//             m_rmbMenu->addAction( k3bAction );
-//     }
-// 
-//     // Ignore any columns added by subclasses.
-// 
-//     column -= columnOffset();
-// 
-//     bool showEdit =
-//         (column == PlaylistItem::TrackColumn) ||
-//         (column == PlaylistItem::ArtistColumn) ||
-//         (column == PlaylistItem::AlbumColumn) ||
-//         (column == PlaylistItem::TrackNumberColumn) ||
-//         (column == PlaylistItem::GenreColumn) ||
-//         (column == PlaylistItem::YearColumn);
-// 
-//     if(showEdit)
-//         m_rmbEdit->setText(i18n("Edit '%1'", columnText(column + columnOffset())));
-// 
-//     m_rmbEdit->setVisible(showEdit);
-// 
-//     // Disable edit menu if only one file is selected, and it's read-only
-// 
-//     FileHandle file = static_cast<PlaylistItem*>(item)->file();
-// 
-//     m_rmbEdit->setEnabled(file.fileInfo().isWritable() || selectedItems().count() > 1);
-// 
-//     // View cover is based on if there is a cover to see.  We should only have
-//     // the remove cover option if the cover is in our database (and not directly
-//     // embedded in the file, for instance).
-// 
-//     action("viewCover")->setEnabled(file.coverInfo()->hasCover());
-//     action("removeCover")->setEnabled(file.coverInfo()->coverId() != CoverManager::NoMatch);
-// 
-//     m_rmbMenu->popup(point);
-//     m_currentColumn = column + columnOffset();
-// }
-// 
 // void Playlist::slotRenameTag()
 // {
 //     // setup completions and validators
@@ -1483,8 +1447,8 @@ private:
 // protected slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistView::slotPopulateBackMenu() const
-{
+// void PlaylistView::slotPopulateBackMenu() const
+// {
 //     if(!playingItem())
 //         return;
 // 
@@ -1505,10 +1469,10 @@ void PlaylistView::slotPopulateBackMenu() const
 //         menu->addAction(action);
 //         m_backMenuItems[count] = *it;
 //     }
-}
+// }
 
-void PlaylistView::slotPlayFromBackMenu(QAction *backAction) const
-{
+// void PlaylistView::slotPlayFromBackMenu(QAction *backAction) const
+// {
 //     int number = backAction->data().toInt();
 // 
 //     if(!m_backMenuItems.contains(number))
@@ -1516,4 +1480,4 @@ void PlaylistView::slotPlayFromBackMenu(QAction *backAction) const
 // 
 //     TrackSequenceManager::instance()->setNextItem(m_backMenuItems[number]);
 //     action("forward")->trigger();
-}
+// }

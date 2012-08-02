@@ -652,7 +652,6 @@ private:
 
     int m_currentColumn;
     int m_processed;
-    QAction *m_rmbEdit;
     int m_selectedCount;
 
     bool m_allowDuplicates;
