@@ -388,6 +388,7 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     dataChanged();
 }
 
+// ### TODO Remove me
 void Playlist::clearItems(const PlaylistItemList &items)
 {
     foreach(PlaylistItem *item, items) {
@@ -981,9 +982,51 @@ bool Playlist::insertRows(int row, int count, const QModelIndex& parent)
     return QAbstractItemModel::insertRows(row, count, parent);
 }
 
-bool Playlist::removeRows(int row, int count, const QModelIndex& parent)
+bool Playlist::deleteRows(int row, int count, const QModelIndex& parent)
 {
-    return QAbstractItemModel::removeRows(row, count, parent);
+    QStringList files;
+    
+    for (int i=0; i<count; i++) { // Delete backwards
+        files.append(m_items[i+row]->file().absFilePath());
+    }
+    removeRows(row, count);
+    
+    DeleteDialog dialog(/*this*/0);//FIXME
+
+    m_blockDataChanged = true;
+
+    if(dialog.confirmDeleteList(files)) {
+        bool shouldDelete = dialog.shouldDelete();
+        QStringList errorFiles;
+
+        for (int i=count;i>=0;--i) {
+/*            if(playingItem() == item) ### TODO FIXME Move to view
+                action("forward")->trigger();*/
+
+            if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(files[i]), 0/*this*/)) || //TODO: set a parent widget
+                (shouldDelete && QFile::remove(files[i])))
+            {
+                removeRow(row+i);
+            }
+            else
+                errorFiles.append(files[i]);
+        }
+
+        if(!errorFiles.isEmpty()) {
+            QString errorMsg = shouldDelete ?
+                    i18n("Could not delete these files") :
+                    i18n("Could not move these files to the Trash");
+            KMessageBox::errorList(/*this*/0, errorMsg, errorFiles);
+        }
+    }
+
+    m_blockDataChanged = false;
+
+    
+    emit QAbstractTableModel::dataChanged(createIndex(row, 0), createIndex(row, columnCount()));
+    dataChanged();
+    
+    return true;
 }
 
 QVariant Playlist::headerData(int section, Qt::Orientation orientation, int role) const
@@ -1027,6 +1070,13 @@ bool Playlist::hasChildren(const QModelIndex &index) const
     return (!index.isValid());
 }
 
+bool Playlist::removeRows(int row, int count, const QModelIndex& parent)
+{
+    for (int i=row+count; i>=row; --i) {
+        delete m_items.takeAt(i);
+    }
+    return true;
+}
 
 #include "playlist.moc"
 

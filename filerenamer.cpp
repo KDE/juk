@@ -18,6 +18,7 @@
 
 #include <algorithm>
 
+#include <k3listview.h> //TODO REMOVE
 #include <kdebug.h>
 #include <kurl.h>
 #include <kurlrequester.h>

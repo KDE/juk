@@ -193,16 +193,16 @@ private:
     Playlist *m_playlist;
 };
 
-inline QDebug operator<<(QDebug s, const PlaylistItem &item)
-{
+// inline QDebug operator<<(QDebug s, const PlaylistItem &item)
+// {
     // TODO: FIXME ###
 //     if(&item == 0)
 //         s << "(nil)";
 //     else
 //         s << item.text(0);
 
-    return s;
-}
+//     return s;
+// }
 
 #endif
 

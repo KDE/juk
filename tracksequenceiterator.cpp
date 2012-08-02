@@ -132,7 +132,7 @@ void DefaultSequenceIterator::advance()
                 }
             }
             else
-                kError() << "Unable to perform album random play on " << *item << endl;
+                kError() << "Unable to perform album random play on " << item->file().absFilePath() << endl;
         }
         else
             item = m_randomItems[KRandom::random() % m_randomItems.count()];

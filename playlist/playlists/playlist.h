@@ -101,6 +101,12 @@ public:
     bool hasChildren(const QModelIndex& index) const;
     using QAbstractTableModel::sort;
     
+    
+    /**
+     * Removes rows from playlist and deletes files from disk.
+     */
+    bool deleteRows(int row, int count, const QModelIndex & parent = QModelIndex());
+    
     // The following group of functions implement the PlaylistInterface API.
 
     virtual QString name() const;

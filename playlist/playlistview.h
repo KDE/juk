@@ -3,13 +3,18 @@
 
 #include <QTreeView>
 
+#include "playlist/playlists/playlist.h"
+
 class PlaylistView : public QTreeView
 {
     Q_OBJECT
 public:
     PlaylistView(QWidget *parent);
     
-protected slots:
+private:
+    Playlist *playlist() { return qobject_cast<Playlist*>(model()); }
+    
+private slots:
     void slotPopulateBackMenu() const;
     void slotPlayFromBackMenu(QAction *) const;
 };

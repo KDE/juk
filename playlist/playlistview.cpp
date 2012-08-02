@@ -313,15 +313,6 @@ private:
 //     decode(QApplication::clipboard()->mimeData(), static_cast<PlaylistItem *>(currentItem()));
 // }
 // 
-// void Playlist::clear()
-// {
-//     PlaylistItemList l = selectedItems();
-//     if(l.isEmpty())
-//         l = items();
-// 
-//     clearItems(l);
-// }
-// 
 // void Playlist::slotRefresh()
 // {
 //     PlaylistItemList l = selectedItems();
