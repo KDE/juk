@@ -11,6 +11,10 @@ class PlaylistView : public QTreeView
 public:
     PlaylistView(QWidget *parent);
 
+    
+public slots:
+    void copy();
+    void paste();
 protected slots:
     virtual void contextMenuEvent(QContextMenuEvent*);
     virtual bool event(QEvent*);
@@ -20,6 +24,7 @@ private slots:
     
 private:
     Playlist *playlist() { return qobject_cast<Playlist*>(model()); }
+    void decode(const QMimeData* s, const QModelIndex& after);
     
     
     KMenu *m_contextMenu;

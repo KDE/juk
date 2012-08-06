@@ -914,7 +914,7 @@ bool processEvents()
 // ---- QAbstractListModel API
 int Playlist::columnCount(const QModelIndex& parent) const
 {
-    return 11;
+    return 12;
 }
 
 QVariant Playlist::data(const QModelIndex& index, int role) const
@@ -926,7 +926,7 @@ QVariant Playlist::data(const QModelIndex& index, int role) const
     
     if (role != Qt::DisplayRole)
         return QVariant();
-    
+
     FileHandle fileHandle = m_items[index.row()]->file();
     switch(index.column()) {
     case TrackColumn:

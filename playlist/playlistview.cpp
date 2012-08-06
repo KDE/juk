@@ -9,6 +9,11 @@
 #include <QToolTip>
 #include "coverinfo.h"
 #include <KApplication>
+#include <KUrl>
+#include <QClipboard>
+#include "mediafiles.h"
+#include <KIO/NetAccess>
+#include <KMimeType>
 
 using namespace ActionCollection;
 
@@ -116,11 +121,12 @@ bool PlaylistView::event(QEvent *e)
 {
     if (e->type() == QEvent::ToolTip) {
         QHelpEvent *event = static_cast<QHelpEvent*>(e);
-        int column = columnAt(event->x());
+        const QModelIndex index = indexAt(event->pos());
 
         // A tooltip specialized to show full filenames over the file name column.
-        if (column == Playlist::FileNameColumn) {
-            QString text = playlist()->items()[indexAt(event->pos()).row()]->file().absFilePath();
+        if (index.column() == Playlist::FileNameColumn) {
+            const QModelIndex fullPathIndex = model()->index(index.row(), Playlist::FullPathColumn);
+            const QString text = model()->data(fullPathIndex).toString();
             QToolTip::showText(event->globalPos(), text);
             return true;
         }// else if (column == Playlist::CoverColumn) { TODO
@@ -136,6 +142,71 @@ void PlaylistView::slotRefresh()
     playlist()->refreshRows(l);
     KApplication::restoreOverrideCursor();
 }
+
+void PlaylistView::copy()
+{
+    QModelIndexList items = selectedIndexes();
+    KUrl::List urls;
+
+    foreach (const QModelIndex &i, items) {
+        const QModelIndex index = model()->index(i.row(), Playlist::FullPathColumn);
+        qWarning() << "HEHELOL" << i.row() << index.row();
+        
+        urls << KUrl::fromPath(model()->data(index).toString());
+    }
+
+    QMimeData *mimeData = new QMimeData;
+    urls.populateMimeData(mimeData);
+
+    QApplication::clipboard()->setMimeData(mimeData, QClipboard::Clipboard);
+}
+
+void PlaylistView::paste()
+{
+    decode(QApplication::clipboard()->mimeData(), currentIndex());
+}
+
+
+void PlaylistView::decode(const QMimeData *s, const QModelIndex &index)
+{
+    if(!KUrl::List::canDecode(s))
+        return;
+
+    const KUrl::List urls = KUrl::List::fromMimeData(s);
+
+    if(urls.isEmpty())
+        return;
+
+    // handle dropped images
+
+    if(!MediaFiles::isMediaFile(urls.front().path())) {
+
+        QString file;
+
+        if(urls.front().isLocalFile())
+            file = urls.front().path();
+        else
+            KIO::NetAccess::download(urls.front(), file, 0);
+
+        KMimeType::Ptr mimeType = KMimeType::findByPath(file);
+
+        if(index.isValid() && mimeType->name().startsWith(QLatin1String("image/"))) {
+            const QModelIndex coverIndex = model()->index(index.row(), Playlist::CoverColumn);
+            model()->setData(coverIndex, QImage(file));
+//             item->file().coverInfo()->setCover(QImage(file));
+//             refreshAlbum(item->file().tag()->artist(),
+//                          item->file().tag()->album());
+        }
+
+        KIO::NetAccess::removeTempFile(file);
+    }
+
+    QStringList fileList = MediaFiles::convertURLsToLocal(urls, this);
+
+    // ### TODO insertRows, set stuff, maybe?
+    playlist()->addFiles(fileList, playlist()->items()[index.row()]);
+}
+
 
 //### TODO: VIEW
 /**
@@ -361,28 +432,6 @@ void PlaylistView::slotRefresh()
 //     else if(!selected && item->isSelected())
 //         m_selectedCount--;
 // }
-
-// ### TODO: View
-// void Playlist::copy()
-// {
-//     PlaylistItemList items = selectedItems();
-//     KUrl::List urls;
-// 
-//     foreach(PlaylistItem *item, items) {
-//         urls << KUrl::fromPath(item->file().absFilePath());
-//     }
-// 
-//     QMimeData *mimeData = new QMimeData;
-//     urls.populateMimeData(mimeData);
-// 
-//     QApplication::clipboard()->setMimeData(mimeData, QClipboard::Clipboard);
-// }
-// 
-// void Playlist::paste()
-// {
-//     decode(QApplication::clipboard()->mimeData(), static_cast<PlaylistItem *>(currentItem()));
-// }
-// 
 // 
 // void Playlist::slotRenameFile()
 // {
@@ -592,42 +641,6 @@ void PlaylistView::slotRefresh()
 //     return CoverDrag::isCover(e->mimeData()) || K3URLDrag::canDecode(e);
 // }
 // 
-// void Playlist::decode(const QMimeData *s, PlaylistItem *item)
-// {
-//     if(!KUrl::List::canDecode(s))
-//         return;
-// 
-//     const KUrl::List urls = KUrl::List::fromMimeData(s);
-// 
-//     if(urls.isEmpty())
-//         return;
-// 
-//     // handle dropped images
-// 
-//     if(!MediaFiles::isMediaFile(urls.front().path())) {
-// 
-//         QString file;
-// 
-//         if(urls.front().isLocalFile())
-//             file = urls.front().path();
-//         else
-//             KIO::NetAccess::download(urls.front(), file, 0);
-// 
-//         KMimeType::Ptr mimeType = KMimeType::findByPath(file);
-// 
-//         if(item && mimeType->name().startsWith(QLatin1String("image/"))) {
-//             item->file().coverInfo()->setCover(QImage(file));
-//             refreshAlbum(item->file().tag()->artist(),
-//                          item->file().tag()->album());
-//         }
-// 
-//         KIO::NetAccess::removeTempFile(file);
-//     }
-// 
-//     QStringList fileList = MediaFiles::convertURLsToLocal(urls, this);
-// 
-//     addFiles(fileList, item);
-// }
 // 
 // bool Playlist::eventFilter(QObject *watched, QEvent *e)
 // {
