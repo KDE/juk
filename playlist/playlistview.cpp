@@ -14,6 +14,7 @@
 #include "mediafiles.h"
 #include <KIO/NetAccess>
 #include <KMimeType>
+#include "playlist/playlistheaderview.h"
 
 using namespace ActionCollection;
 
@@ -24,14 +25,14 @@ PlaylistView::PlaylistView(QWidget* parent):
     m_editAction(0),
     m_currentColumn(0)
 {
+    setHeader(new PlaylistHeaderView(Qt::Horizontal, this));
+    
     setUniformRowHeights(true);
     setSortingEnabled(true);
     setAlternatingRowColors(true);
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setItemsExpandable(false);
     setIndentation(0);
-    
-    resizeColumnToContents(0);
 }
 
 void PlaylistView::contextMenuEvent(QContextMenuEvent *event)
@@ -962,27 +963,6 @@ void PlaylistView::decode(const QMimeData *s, const QModelIndex &index)
 //     // setup header RMB menu
 //     //////////////////////////////////////////////////
 // 
-// #ifdef __GNUC__
-//     #warning should be fixed...
-// #endif
-//     /* m_headerMenu->insertTitle(i18n("Show")); */
-// 
-//     QAction *showAction;
-// 
-//     for(int i = 0; i < header()->count(); ++i) {
-//         if(i - columnOffset() == PlaylistItem::FileNameColumn)
-//             m_headerMenu->addSeparator();
-// 
-//         showAction = new QAction(header()->label(i), m_headerMenu);
-//         showAction->setData(i);
-//         showAction->setCheckable(true);
-//         showAction->setChecked(true);
-//         m_headerMenu->addAction(showAction);
-// 
-//         adjustColumn(i);
-//     }
-// 
-//     connect(m_headerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleColumnVisible(QAction*)));
 // 
 //     connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem*,QPoint,int)),
 //             this, SLOT(slotShowRMBMenu(Q3ListViewItem*,QPoint,int)));
@@ -1344,34 +1324,6 @@ void PlaylistView::decode(const QMimeData *s, const QModelIndex &index)
 //     }
 // 
 //     SharedSettings::instance()->setColumnOrder(this);
-// }
-// 
-// void Playlist::slotToggleColumnVisible(QAction *action)
-// {
-//     int column = action->data().toInt();
-// 
-//     if(!isColumnVisible(column)) {
-//         int fileNameColumn = PlaylistItem::FileNameColumn + columnOffset();
-//         int fullPathColumn = PlaylistItem::FullPathColumn + columnOffset();
-// 
-//         if(column == fileNameColumn && isColumnVisible(fullPathColumn)) {
-//             hideColumn(fullPathColumn, false);
-//             SharedSettings::instance()->toggleColumnVisible(fullPathColumn);
-//         }
-//         if(column == fullPathColumn && isColumnVisible(fileNameColumn)) {
-//             hideColumn(fileNameColumn, false);
-//             SharedSettings::instance()->toggleColumnVisible(fileNameColumn);
-//         }
-//     }
-// 
-//     if(isColumnVisible(column))
-//         hideColumn(column);
-//     else
-//         showColumn(column);
-// 
-//     if(column >= columnOffset()) {
-//         SharedSettings::instance()->toggleColumnVisible(column - columnOffset());
-//     }
 // }
 // 
 // void Playlist::slotCreateGroup()
