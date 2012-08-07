@@ -150,7 +150,6 @@ void PlaylistView::copy()
 
     foreach (const QModelIndex &i, items) {
         const QModelIndex index = model()->index(i.row(), Playlist::FullPathColumn);
-        qWarning() << "HEHELOL" << i.row() << index.row();
         
         urls << KUrl::fromPath(model()->data(index).toString());
     }

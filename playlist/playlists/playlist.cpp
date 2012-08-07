@@ -974,7 +974,43 @@ Qt::ItemFlags Playlist::flags(const QModelIndex& index) const
 
 bool Playlist::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-    return QAbstractItemModel::setData(index, value, role);
+    if (!index.isValid()) {
+        return false;
+    }
+    FileHandle fileHandle = m_items[index.row()]->file();
+
+    switch(index.column()) {
+    case TrackColumn:
+        fileHandle.tag()->setTitle(value.toString());
+        return true;
+    case ArtistColumn:
+        fileHandle.tag()->setArtist(value.toString());
+        return true;
+    case AlbumColumn:
+        fileHandle.tag()->setAlbum(value.toString());
+        return true;
+    case CoverColumn:
+        fileHandle.coverInfo()->setCover(value.value<QImage>());
+        return true;
+    case TrackNumberColumn:
+        fileHandle.tag()->setTrack(value.toInt());
+        return true;
+    case GenreColumn:
+        fileHandle.tag()->setGenre(value.toString());
+        return true;
+    case YearColumn:
+        fileHandle.tag()->setYear(value.toInt());
+        return true;
+    case CommentColumn:
+        fileHandle.tag()->setComment(value.toString());
+        return true;
+    case FileNameColumn:
+    case FullPathColumn:
+    case LengthColumn:
+    case BitrateColumn:
+    default:
+        return false;
+    }
 }
 
 bool Playlist::insertRows(int row, int count, const QModelIndex& parent)
