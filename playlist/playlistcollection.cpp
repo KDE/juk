@@ -154,7 +154,7 @@ void PlaylistCollection::stop()
 {
     m_playing = false;
     currentPlaylist()->stop();
-    dataChanged();
+    weChanged();
 }
 
 bool PlaylistCollection::playing() const
@@ -339,7 +339,7 @@ void PlaylistCollection::open(const QStringList &l)
     else
         visiblePlaylist()->addFiles(files);
 
-    dataChanged();
+    weChanged();
 }
 
 void PlaylistCollection::open(const QString &playlist, const QStringList &files)
@@ -463,14 +463,14 @@ void PlaylistCollection::addCovers(bool fromFile)
 {
     // ### TODO: View
 //     visiblePlaylist()->slotAddCover(fromFile);
-    dataChanged();
+    weChanged();
 }
 
 void PlaylistCollection::removeCovers()
 {
     // ### TODO: View
 //     visiblePlaylist()->slotRemoveCover();
-    dataChanged();
+    weChanged();
 }
 
 void PlaylistCollection::viewCovers()
@@ -647,7 +647,7 @@ void PlaylistCollection::raise(Playlist *playlist)
 //     playlist->setSearchEnabled(m_searchEnabled);
     m_playlistView->setModel(playlist);
     clearShowMore(false);
-    dataChanged();
+    weChanged();
 }
 
 void PlaylistCollection::raiseDistraction()

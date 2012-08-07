@@ -599,7 +599,7 @@ void TagEditor::save(const PlaylistItemList &list)
         }
 
         TagTransactionManager::instance()->commit();
-        CollectionList::instance()->dataChanged();
+        CollectionList::instance()->weChanged();
         m_performingSave = false;
         KApplication::restoreOverrideCursor();
     }

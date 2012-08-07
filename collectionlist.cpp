@@ -79,6 +79,9 @@ void CollectionList::loadCachedItems()
 //     m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
 
 //     m_list->sort();
+    
+        
+    emit dataChanged(index(0, 0), index(rowCount(), columnCount()));
 
     SplashScreen::finishedLoading();
 }
@@ -131,7 +134,7 @@ void CollectionList::clearItems(const PlaylistItemList &items)
         delete item;
     }
 
-    dataChanged();
+    weChanged();
 }
 
 void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
@@ -420,12 +423,12 @@ void CollectionListItem::refresh()
 
     for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
 //         (*it)->playlist()->update();
-        (*it)->playlist()->dataChanged();
+        (*it)->playlist()->weChanged();
 //         if((*it)->listView()->isVisible())
 //             (*it)->repaint();
     }
 
-    CollectionList::instance()->dataChanged();
+    CollectionList::instance()->weChanged();
     emit CollectionList::instance()->signalCollectionChanged();
 }
 
@@ -473,7 +476,7 @@ CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle 
 
     if(file.tag()) {
         refresh();
-        parent->dataChanged();
+        parent->weChanged();
     }
     else {
         kError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;

@@ -47,7 +47,7 @@ public:
      * This is triggered when the data in the playlist -- i.e. the tag content
      * changes.
      */
-    virtual void dataChanged();
+    virtual void weChanged();
 
 protected:
     virtual ~Watched();

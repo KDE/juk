@@ -179,7 +179,7 @@ bool TagTransactionManager::processChangeList(bool undo)
             item->file().setFile(tag->fileName());
             item->refreshFromDisk();
             //item->repaint();
-            item->playlist()->dataChanged();
+            item->playlist()->weChanged();
             //item->playlist()->update();
         }
         else {

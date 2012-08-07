@@ -151,7 +151,7 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
         }
     }
 
-    p.dataChanged();
+    p.weChanged();
 
     return s;
 }

@@ -385,7 +385,7 @@ void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
     // Automatically updates internal structs via updateDeletedItem
     delete item;
 
-    dataChanged();
+    weChanged();
 }
 
 // ### TODO Remove me
@@ -397,7 +397,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
     }
 
     
-    dataChanged();
+    weChanged();
 }
 
 PlaylistItem *Playlist::playingItem() // static
@@ -448,11 +448,11 @@ void Playlist::slotReload()
 }
 
 //### TODO: Nuke me
-void Playlist::dataChanged()
+void Playlist::weChanged()
 {
     if(m_blockDataChanged)
         return;
-    PlaylistInterface::dataChanged();
+    PlaylistInterface::weChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -491,7 +491,7 @@ void Playlist::read(QDataStream &s)
 
     m_blockDataChanged = false;
 
-    dataChanged();
+    weChanged();
     m_collection->setupPlaylist(this, "view-media-playlist");
 }
 
@@ -525,7 +525,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     m_blockDataChanged = false;
 
 //     slotWeightDirty();
-    dataChanged();
+    weChanged();
 
     KApplication::restoreOverrideCursor();
 }
@@ -585,6 +585,9 @@ void Playlist::setupItem(PlaylistItem *item)
     item->setTrackId(g_trackID);
     g_trackID++;
 
+    if (!m_items.contains(item))
+        m_items.append(item);
+    
     //### TODO: View
 //     if(!m_search.isEmpty())
 //         item->setVisible(m_search.checkItem(item));
@@ -700,7 +703,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     file.close();
 
-    dataChanged();
+    weChanged();
 
     m_disableColumnWidthUpdates = false;
 }
@@ -1060,7 +1063,7 @@ bool Playlist::deleteRows(int row, int count, const QModelIndex& parent)
 
     
     emit QAbstractTableModel::dataChanged(createIndex(row, 0), createIndex(row, columnCount()));
-    dataChanged();
+    weChanged();
     
     return true;
 }

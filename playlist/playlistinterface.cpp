@@ -24,7 +24,7 @@ void Watched::currentChanged()
         observer->updateCurrent();
 }
 
-void Watched::dataChanged()
+void Watched::weChanged()
 {
     foreach(PlaylistObserver *observer, m_observers)
         observer->updateData();

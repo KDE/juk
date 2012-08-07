@@ -76,7 +76,7 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
         m_playlistIndex.insert(after, playlistItem->playlist());
     }
 
-    dataChanged();
+    weChanged();
 //     slotWeightDirty();
 }
 
@@ -225,7 +225,7 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
     if(p != m_playlist) {
         PlaylistItem *i = m_playlist->createItem(currentItem, (PlaylistItem *) 0);
         m_playlist->playlistIndex().insert(i, p);
-        m_playlist->dataChanged();
+        m_playlist->weChanged();
 //         m_playlist->slotWeightDirty();
     }
     else {

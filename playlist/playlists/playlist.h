@@ -429,7 +429,7 @@ public slots:
 
 //     void slotColumnResizeModeChanged();
 
-    virtual void dataChanged();
+    virtual void weChanged();
 
 protected:
     /**
@@ -495,6 +495,8 @@ signals:
     void coverChanged();
 
     void signalPlaylistItemsDropped(Playlist *p);
+    
+    void dataChanged(const QModelIndex&, const QModelIndex&);
 
 private:
 //     void setup();
@@ -740,12 +742,13 @@ ItemType *Playlist::createItem(const FileHandle &file, ItemType *after,
     if(item && (!m_members.insert(file.absFilePath()) || m_allowDuplicates)) {
 
         ItemType *i = new ItemType(item, this);
-        setupItem(i);
-        
+                
         m_items.insert(m_items.indexOf(after), i);
 
+        setupItem(i);
+
         if(emitChanged)
-            dataChanged();
+            weChanged();
 
         return i;
     }
@@ -777,7 +780,8 @@ void Playlist::createItems(const QList<SiblingType *> &siblings, ItemType *after
     foreach(SiblingType *sibling, siblings)
         after = createItem(sibling, after);
 
-    dataChanged();
+    weChanged();
+    emit dataChanged(index(m_items.indexOf(siblings.first()), 0), index(m_items.indexOf(siblings.last()), 0));
 //     slotWeightDirty();
 }
 
