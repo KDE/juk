@@ -67,6 +67,8 @@ public:
      * requiring invalidating the search.
      */
     void clearItem(PlaylistItem *item);
+    
+    SearchMode mode() const { return m_mode; }
 
 private:
     PlaylistList m_playlists;
@@ -110,13 +112,18 @@ public:
     QString query() const { return m_query; }
     QRegExp pattern() const { return m_queryRe; }
     ColumnList columns() const { return m_columns; }
+    void setColumns(const ColumnList &columns) { m_columns = columns; }
 
-    bool matches(PlaylistItem *item) const;
+    bool matches(QString item) const;
     bool isPatternSearch() const { return m_re; }
     bool isCaseSensitive() const { return m_caseSensitive; }
-    MatchMode matchMode() const { return m_mode; }
+    MatchMode mode() const { return m_mode; }
+    const QRegExp &queryRe() const { return m_queryRe; }
+    
+    bool isEmpty() const { return ((m_re && m_queryRe.isEmpty()) || (!m_re && m_query.isEmpty())); }
 
     bool operator==(const Component &v) const;
+    bool re() { return m_re; }
 
 private:
     QString m_query;

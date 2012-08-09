@@ -72,33 +72,7 @@ void PlaylistSearch::search()
 
 bool PlaylistSearch::checkItem(PlaylistItem *item)
 {
-    m_items.append(item);
-
-    // set our default
-    bool match = bool(m_mode);
-
-    ComponentList::Iterator componentIt = m_components.begin();
-    for(; componentIt != m_components.end(); ++componentIt) {
-
-        bool componentMatches = (*componentIt).matches(item);
-
-        if(componentMatches && m_mode == MatchAny) {
-            match = true;
-            break;
-        }
-
-        if(!componentMatches && m_mode == MatchAll) {
-            match = false;
-            break;
-        }
-    }
-
-    if(match)
-        m_matchedItems.append(item);
-    else
-        m_unmatchedItems.append(item);
-
-    return match;
+    return true;
 }
 
 void PlaylistSearch::addComponent(const Component &c)
@@ -179,75 +153,62 @@ PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& col
 
 }
 
-bool PlaylistSearch::Component::matches(PlaylistItem *item) const
+bool PlaylistSearch::Component::matches(QString item) const
 {
-    if((m_re && m_queryRe.isEmpty()) || (!m_re && m_query.isEmpty()))
-        return false;
-
-    if(m_columns.isEmpty()) {
-        Playlist *p = static_cast<Playlist *>(item->playlist());
-        for(int i = 0; i < p->columnCount(); i++) {
-//             if(p->isColumnVisible(i))
-                m_columns.append(i);
-        }
+    if(m_re) {
+        if(item.contains(m_queryRe))
+            return true;
+        else
+            return false;
     }
 
+    switch(m_mode) {
+        case Contains:
+            if(item.contains(m_query, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive))
+                return true;
+            else
+                return false;
+        case Exact:
+            if(item.length() == m_query.length()) {
+                if(m_caseSensitive) {
+                    if(item == m_query)
+                        return true;
+                }
+                else if(item.toLower() == m_query.toLower())
+                    return true;
+            } else
+                return false;
+            
+        case ContainsWord:
+        {
+            int i = item.indexOf(m_query, 0, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive );
 
-//     for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
-// 
-//         if(m_re) {
-//             if(item->text(*it).contains(m_queryRe))
-//                 return true;
-//             else
-//                 break;
-//         }
-// 
-//         switch(m_mode) {
-//         case Contains:
-//             if(item->text(*it).contains(m_query, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive))
-//                 return true;
-//             break;
-//         case Exact:
-//             if(item->text(*it).length() == m_query.length()) {
-//                 if(m_caseSensitive) {
-//                     if(item->text(*it) == m_query)
-//                         return true;
-//                 }
-//                 else if(item->text(*it).toLower() == m_query.toLower())
-//                     return true;
-//             }
-//             break;
-//         case ContainsWord:
-//         {
-//             QString s = item->text(*it);
-//             int i = s.indexOf(m_query, 0, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive );
-// 
-//             if(i >= 0) {
-// 
-//                 // If we found the pattern and the lengths are the same, then
-//                 // this is a match.
-// 
-//                 if(s.length() == m_query.length())
-//                     return true;
-// 
-//                 // First: If the match starts at the beginning of the text or the
-//                 // character before the match is not a word character
-// 
-//                 // AND
-// 
-//                 // Second: Either the pattern was found at the end of the text,
-//                 // or the text following the match is a non-word character
-// 
-//                 // ...then we have a match
-// 
-//                 if((i == 0 || !s.at(i - 1).isLetterOrNumber()) &&
-//                    (i + m_query.length() == s.length() || !s.at(i + m_query.length()).isLetterOrNumber()))
-//                     return true;
-//                 break;
-//             }
-//         }
-//         }
-//     }
+            if(i >= 0) {
+
+                // If we found the pattern and the lengths are the same, then
+                // this is a match.
+
+                if(item.length() == m_query.length())
+                    return true;
+
+                // First: If the match starts at the beginning of the text or the
+                // character before the match is not a word character
+
+                // AND
+
+                // Second: Either the pattern was found at the end of the text,
+                // or the text following the match is a non-word character
+
+                // ...then we have a match
+
+                if((item == 0 || !item.at(i - 1).isLetterOrNumber()) &&
+                    (i + m_query.length() == item.length() || !item.at(i + m_query.length()).isLetterOrNumber()))
+                    return true;
+                else
+                    return false;
+            }
+        }
+    }
     return false;
 }
 
@@ -299,7 +260,7 @@ QDataStream &operator<<(QDataStream &s, const PlaylistSearch::Component &c)
       << (c.isPatternSearch() ? c.pattern().pattern() : c.query())
       << c.isCaseSensitive()
       << c.columns()
-      << qint32(c.matchMode());
+      << qint32(c.mode());
 
     return s;
 }

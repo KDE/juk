@@ -15,6 +15,8 @@
 #include <KIO/NetAccess>
 #include <KMimeType>
 #include "playlist/playlistheaderview.h"
+#include "playlist/playlistsortfilterproxymodel.h"
+#include "tracksequencemanager.h"
 
 using namespace ActionCollection;
 
@@ -23,7 +25,8 @@ PlaylistView::PlaylistView(QWidget* parent):
     QTreeView(parent),
     m_contextMenu(0),
     m_editAction(0),
-    m_currentColumn(0)
+    m_currentColumn(0),
+    m_proxyModel(new PlaylistSortFilterProxyModel(this))
 {
     setHeader(new PlaylistHeaderView(Qt::Horizontal, this));
     
@@ -207,6 +210,52 @@ void PlaylistView::decode(const QMimeData *s, const QModelIndex &index)
     playlist()->addFiles(fileList, playlist()->items()[index.row()]);
 }
 
+void PlaylistView::setModel(QAbstractItemModel* newModel)
+{
+    if (!model())
+        QTreeView::setModel(m_proxyModel);
+    
+    m_proxyModel->setSourceModel(newModel);
+}
+
+QAbstractItemModel* PlaylistView::model()
+{
+    return m_proxyModel->sourceModel();
+}
+
+
+void PlaylistView::setSearch(const PlaylistSearch &s)
+{
+    m_proxyModel->setSearch(s);
+//     m_search = s;
+// 
+//     if(!m_searchEnabled)
+//         return;
+// 
+//     setItemsVisible(s.matchedItems(), true);
+//     setItemsVisible(s.unmatchedItems(), false);
+// 
+//     TrackSequenceManager::instance()->iterator()->playlistChanged();
+}
+
+void PlaylistView::setSearchEnabled(bool enabled)
+{
+    m_proxyModel->setSearchEnabled(enabled);
+//     if(m_searchEnabled == enabled)
+//         return;
+// 
+//     m_searchEnabled = enabled;
+// 
+//     if(enabled) {
+//         setItemsVisible(m_search.matchedItems(), true);
+//         setItemsVisible(m_search.unmatchedItems(), false);
+//     }
+//     else
+//         setItemsVisible(items(), true);
+}
+
+
+
 // ### TODO: View
 // PlaylistItemList Playlist::visibleItems()
 // {
@@ -232,34 +281,6 @@ void PlaylistView::decode(const QMimeData *s, const QModelIndex &index)
 //         playlistItem->setVisible(visible);
 // }
 
-// ### TODO: View, move to a proxy model
-// void Playlist::setSearch(const PlaylistSearch &s)
-// {
-//     m_search = s;
-// 
-//     if(!m_searchEnabled)
-//         return;
-// 
-//     setItemsVisible(s.matchedItems(), true);
-//     setItemsVisible(s.unmatchedItems(), false);
-// 
-//     TrackSequenceManager::instance()->iterator()->playlistChanged();
-// }
-// 
-// void Playlist::setSearchEnabled(bool enabled)
-// {
-//     if(m_searchEnabled == enabled)
-//         return;
-// 
-//     m_searchEnabled = enabled;
-// 
-//     if(enabled) {
-//         setItemsVisible(m_search.matchedItems(), true);
-//         setItemsVisible(m_search.unmatchedItems(), false);
-//     }
-//     else
-//         setItemsVisible(items(), true);
-// }
 
 // ### TODO: View
 // void Playlist::markItemSelected(PlaylistItem *item, bool selected)

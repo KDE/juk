@@ -5,12 +5,17 @@
 
 #include "playlist/playlists/playlist.h"
 
+class PlaylistSortFilterProxyModel;
 class PlaylistView : public QTreeView
 {
     Q_OBJECT
 public:
     PlaylistView(QWidget *parent);
 
+    virtual void setModel(QAbstractItemModel *model);
+    virtual QAbstractItemModel *model();
+    void setSearch(const PlaylistSearch &s);
+    void setSearchEnabled(bool);
     
 public slots:
     void copy();
@@ -30,6 +35,7 @@ private:
     KMenu *m_contextMenu;
     QAction *m_editAction;
     int m_currentColumn;
+    PlaylistSortFilterProxyModel *m_proxyModel;
 // private slots:
 //     void slotPopulateBackMenu() const;
 //     void slotPlayFromBackMenu(QAction *) const;
