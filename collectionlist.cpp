@@ -69,11 +69,11 @@ void CollectionList::loadCachedItems()
 
     // The CollectionList is created with sorting disabled for speed.  Re-enable
     // it here, and perform the sort.
-    KConfigGroup config(KGlobal::config(), "Playlists");
-
-    Qt::SortOrder order = Qt::DescendingOrder;
-    if(config.readEntry("CollectionListSortAscending", true))
-        order = Qt::AscendingOrder;
+//     KConfigGroup config(KGlobal::config(), "Playlists");
+// 
+//     Qt::SortOrder order = Qt::DescendingOrder;
+//     if(config.readEntry("CollectionListSortAscending", true))
+//         order = Qt::AscendingOrder;
 // ### TODO: View
 //     m_list->setSortOrder(order);
 //     m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
