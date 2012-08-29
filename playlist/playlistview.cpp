@@ -41,7 +41,9 @@ PlaylistView::PlaylistView(QWidget* parent):
 void PlaylistView::contextMenuEvent(QContextMenuEvent *event)
 {
         // Create the RMB menu on demand.
-
+    if (playlist()->items().isEmpty() || indexAt(event->pos()).row() == -1)
+        return;
+    
     if(!m_contextMenu) {
 
         // ### Probably more of these actions should be ported over to using KActions.
@@ -103,7 +105,7 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent *event)
     m_editAction->setVisible(showEdit);
 
     // Disable edit menu if only one file is selected, and it's read-only
-
+    
     FileHandle file = playlist()->items()[indexAt(event->pos()).row()]->file();
 
     m_editAction->setEnabled(file.fileInfo().isWritable() || selectedIndexes().count() > 1);
