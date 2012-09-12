@@ -57,6 +57,7 @@
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
 #include "mpris2/mpris2.h"
+#include "playermanager.h"
 
 using namespace ActionCollection;
 
@@ -78,7 +79,6 @@ JuK::JuK(QWidget *parent) :
     m_splitter(0),
     m_statusLabel(0),
     m_systemTray(0),
-    m_player(new PlayerManager),
     m_shuttingDown(false)
 {
     // Expect segfaults if you change this order.
@@ -144,11 +144,6 @@ JuK* JuK::JuKInstance()
     return m_instance;
 }
 
-PlayerManager *JuK::playerManager() const
-{
-    return m_player;
-}
-
 void JuK::coverDownloaded(const QPixmap &cover)
 {
     QString event(cover.isNull() ? "coverFailed" : "coverDownloaded");
@@ -172,14 +167,14 @@ void JuK::setupLayout()
 {
     new TagTransactionManager(this);
 
-    m_splitter = new PlaylistSplitter(m_player, this);
+    m_splitter = new PlaylistSplitter(this);
     setCentralWidget(m_splitter);
 
     m_statusLabel = new StatusLabel(m_splitter->playlist(), statusBar());
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_statusLabel, SLOT(updateData()));
     statusBar()->addWidget(m_statusLabel, 1);
-    m_player->setStatusLabel(m_statusLabel);
+    PlayerManager::instance()->setStatusLabel(m_statusLabel);
 
     m_splitter->setFocus();
 }
@@ -233,25 +228,25 @@ void JuK::setupActions()
 
     act = collection->add<KToggleAction>("crossfadeTracks");
     act->setText(i18n("Crossfade Between Tracks"));
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(setCrossfadeEnabled(bool)));
+    connect(act, SIGNAL(triggered(bool)), PlayerManager::instance(), SLOT(setCrossfadeEnabled(bool)));
 
-    act = collection->addAction("play", m_player, SLOT(play()));
+    act = collection->addAction("play", PlayerManager::instance(), SLOT(play()));
     act->setText(i18n("&Play"));
     act->setIcon(KIcon( QLatin1String( "media-playback-start" )));
 
-    act = collection->addAction("pause", m_player, SLOT(pause()));
+    act = collection->addAction("pause", PlayerManager::instance(), SLOT(pause()));
     act->setText(i18n("P&ause"));
     act->setIcon(KIcon( QLatin1String( "media-playback-pause" )));
 
-    act = collection->addAction("stop", m_player, SLOT(stop()));
+    act = collection->addAction("stop", PlayerManager::instance(), SLOT(stop()));
     act->setText(i18n("&Stop"));
     act->setIcon(KIcon( QLatin1String( "media-playback-stop" )));
 
     act = new KToolBarPopupAction(KIcon( QLatin1String( "media-skip-backward") ), i18nc("previous track", "Previous" ), collection);
     collection->addAction("back", act);
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(back()));
+    connect(act, SIGNAL(triggered(bool)), PlayerManager::instance(), SLOT(back()));
 
-    act = collection->addAction("forward", m_player, SLOT(forward()));
+    act = collection->addAction("forward", PlayerManager::instance(), SLOT(forward()));
     act->setText(i18nc("next track", "&Next"));
     act->setIcon(KIcon( QLatin1String( "media-skip-forward" )));
 
@@ -264,27 +259,27 @@ void JuK::setupActions()
 
     // the following are not visible by default
 
-    act = collection->addAction("mute", m_player, SLOT(mute()));
+    act = collection->addAction("mute", PlayerManager::instance(), SLOT(mute()));
     act->setText(i18nc("silence playback", "Mute"));
     act->setIcon(KIcon( QLatin1String( "audio-volume-muted" )));
 
-    act = collection->addAction("volumeUp", m_player, SLOT(volumeUp()));
+    act = collection->addAction("volumeUp", PlayerManager::instance(), SLOT(volumeUp()));
     act->setText(i18n("Volume Up"));
     act->setIcon(KIcon( QLatin1String( "audio-volume-high" )));
 
-    act = collection->addAction("volumeDown", m_player, SLOT(volumeDown()));
+    act = collection->addAction("volumeDown", PlayerManager::instance(), SLOT(volumeDown()));
     act->setText(i18n("Volume Down"));
     act->setIcon(KIcon( QLatin1String( "audio-volume-low" )));
 
-    act = collection->addAction("playPause", m_player, SLOT(playPause()));
+    act = collection->addAction("playPause", PlayerManager::instance(), SLOT(playPause()));
     act->setText(i18n("Play / Pause"));
     act->setIcon(KIcon( QLatin1String( "media-playback-start" )));
 
-    act = collection->addAction("seekForward", m_player, SLOT(seekForward()));
+    act = collection->addAction("seekForward", PlayerManager::instance(), SLOT(seekForward()));
     act->setText(i18n("Seek Forward"));
     act->setIcon(KIcon( QLatin1String( "media-seek-forward" )));
 
-    act = collection->addAction("seekBack", m_player, SLOT(seekBack()));
+    act = collection->addAction("seekBack", PlayerManager::instance(), SLOT(seekBack()));
     act->setText(i18n("Seek Back"));
     act->setIcon(KIcon( QLatin1String( "media-seek-backward" )));
 
@@ -337,7 +332,7 @@ void JuK::setupActions()
 void JuK::slotSetupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
-        m_systemTray = new SystemTray(m_player, this);
+        m_systemTray = new SystemTray(this);
         m_systemTray->setObjectName( QLatin1String("systemTray" ));
 
         m_toggleDockOnCloseAction->setEnabled(true);
@@ -401,16 +396,16 @@ void JuK::readConfig()
 
     KConfigGroup playerConfig(KGlobal::config(), "Player");
 
-    if(m_player)
+    if(PlayerManager::instance())
     {
         const int maxVolume = 100;
         const int volume = playerConfig.readEntry("Volume", maxVolume);
-        m_player->setVolume(volume * 0.01);
+        PlayerManager::instance()->setVolume(volume * 0.01);
         if(ActionCollection::action<VolumeAction>("volumeAction")->button())
             ActionCollection::action<VolumeAction>("volumeAction")->button()->refresh();
 
         bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
-        m_player->setCrossfadeEnabled(enableCrossfade);
+        PlayerManager::instance()->setCrossfadeEnabled(enableCrossfade);
         ActionCollection::action<KAction>("crossfadeTracks")->setChecked(enableCrossfade);
     }
 
@@ -449,9 +444,9 @@ void JuK::saveConfig()
 
     KConfigGroup playerConfig(KGlobal::config(), "Player");
 
-    if (m_player)
+    if (PlayerManager::instance())
     {
-        playerConfig.writeEntry("Volume", static_cast<int>(100.0 * m_player->volume()));
+        playerConfig.writeEntry("Volume", static_cast<int>(100.0 * PlayerManager::instance()->volume()));
     }
 
     playerConfig.writeEntry("RandomPlay", m_randomPlayAction->isChecked());
@@ -490,8 +485,8 @@ bool JuK::queryExit()
 
     // Some phonon backends will crash on shutdown unless we've stopped
     // playback.
-    if(m_player->playing())
-        m_player->stop();
+    if(PlayerManager::instance()->playing())
+        PlayerManager::instance()->stop();
 
     // Save configuration data.
     m_startDocked = !isVisible();
@@ -534,7 +529,6 @@ void JuK::slotAboutToQuit()
 
     deleteAndClear(m_systemTray);
     deleteAndClear(m_splitter);
-    deleteAndClear(m_player);
     deleteAndClear(m_statusLabel);
 
     // Playlists depend on CoverManager, so CoverManager should shutdown as
@@ -596,7 +590,7 @@ void JuK::slotCheckAlbumNextAction(bool albumRandomEnabled)
     // If album random play is enabled, then enable the Play Next Album action
     // unless we're not playing right now.
 
-    if(albumRandomEnabled && !m_player->playing())
+    if(albumRandomEnabled && !PlayerManager::instance()->playing())
         albumRandomEnabled = false;
 
     action("forwardAlbum")->setEnabled(albumRandomEnabled);

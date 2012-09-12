@@ -30,7 +30,6 @@
 #include <QFrame>
 
 class SystemTray;
-class PlayerManager;
 class QLabel;
 class QTimer;
 class KVBox;
@@ -94,7 +93,7 @@ class SystemTray : public KStatusNotifierItem
     Q_OBJECT
 
 public:
-    explicit SystemTray(PlayerManager *player, QWidget *parent = 0);
+    explicit SystemTray(QWidget *parent = 0);
 
 signals:
     // Emitted when the fade process is complete.
@@ -142,7 +141,6 @@ private:
     QColor m_startColor, m_endColor;
 
     PassiveInfo *m_popup;
-    PlayerManager *m_player;
     QVector<QLabel *> m_labels;
     QTimer *m_fadeTimer;
     int m_step;

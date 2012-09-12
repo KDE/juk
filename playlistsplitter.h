@@ -45,7 +45,7 @@ class PlaylistSplitter : public QSplitter
     Q_OBJECT
 
 public:
-    PlaylistSplitter(PlayerManager *player, QWidget *parent);
+    PlaylistSplitter(QWidget *parent);
     virtual ~PlaylistSplitter();
 
     PlaylistInterface *playlist() const;
@@ -96,7 +96,6 @@ private:
     PlaylistView *m_playlistView;
     TagEditor *m_editor;
     NowPlaying *m_nowPlaying;
-    PlayerManager *m_player;
     QSplitter *m_editorSplitter;
 };
 

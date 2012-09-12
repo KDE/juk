@@ -18,7 +18,6 @@
 
 #include <kxmlguiwindow.h>
 
-#include "playermanager.h"
 #include <QKeyEvent>
 
 
@@ -28,7 +27,6 @@ class KGlobalAccel;
 class SliderAction;
 class StatusLabel;
 class SystemTray;
-class PlayerManager;
 class PlaylistSplitter;
 
 class JuK : public KXmlGuiWindow
@@ -41,7 +39,6 @@ public:
 
     static JuK* JuKInstance();
 
-    PlayerManager *playerManager() const;
 
     // Use a null cover for failure
     void coverDownloaded(const QPixmap &cover);
@@ -90,7 +87,6 @@ private:
     KToggleAction *m_toggleSplashAction;
     KToggleAction *m_loopPlaylistAction;
 
-    PlayerManager *m_player;
     KGlobalAccel *m_accel;
 
     bool m_startDocked;

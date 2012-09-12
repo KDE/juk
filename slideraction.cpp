@@ -47,7 +47,7 @@ QWidget *TrackPositionAction::createWidget(QWidget *parent)
     Slider *slider = new TimeSlider(parent);
     slider->setObjectName(QLatin1String("timeSlider"));
 
-    PlayerManager *player = JuK::JuKInstance()->playerManager();
+    PlayerManager *player = PlayerManager::instance();
 
     connect(player, SIGNAL(tick(int)), slider, SLOT(setValue(int)));
     connect(player, SIGNAL(seekableChanged(bool)), this, SLOT(seekableChanged(bool)));

@@ -47,7 +47,7 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistSplitter::PlaylistSplitter(PlayerManager *player, QWidget *parent) :
+PlaylistSplitter::PlaylistSplitter(QWidget *parent) :
     QSplitter(Qt::Horizontal, parent),
     m_newVisible(0),
     m_playlistBox(0),
@@ -55,7 +55,6 @@ PlaylistSplitter::PlaylistSplitter(PlayerManager *player, QWidget *parent) :
     m_playlistView(0),
     m_editor(0),
     m_nowPlaying(0),
-    m_player(player),
     m_editorSplitter(0)
 {
     setObjectName(QLatin1String("playlistSplitter"));
@@ -194,7 +193,7 @@ void PlaylistSplitter::setupLayout()
 
     // Create the PlaylistBox
 
-    m_playlistBox = new PlaylistBox(m_player, this, m_playlistView);
+    m_playlistBox = new PlaylistBox(this, m_playlistView);
     m_playlistBox->setObjectName( QLatin1String( "playlistBox" ) );
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
@@ -203,10 +202,10 @@ void PlaylistSplitter::setupLayout()
             m_editor, SLOT(slotPlaylistDestroyed(Playlist*)));
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
     connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
-            m_player, SLOT(play(FileHandle)));
+            PlayerManager::instance(), SLOT(play(FileHandle)));
     connect(m_playlistView, SIGNAL(activated(QModelIndex)), SLOT(slotPlaySong(QModelIndex)));
 
-    m_player->setPlaylistInterface(m_playlistBox);
+    PlayerManager::instance()->setPlaylistInterface(m_playlistBox);
 
     // Let interested parties know we're ready
     connect(m_playlistBox, SIGNAL(startupComplete()), SIGNAL(guiReady()));
@@ -214,7 +213,7 @@ void PlaylistSplitter::setupLayout()
     insertWidget(0, m_playlistBox);
 
     m_nowPlaying = new NowPlaying(top, m_playlistBox);
-    connect(m_player, SIGNAL(signalItemChanged(FileHandle)),
+    connect(PlayerManager::instance(), SIGNAL(signalItemChanged(FileHandle)),
             m_nowPlaying, SLOT(slotUpdate(FileHandle)));
 
     // Create the search widget -- this must be done after the CollectionList is created.

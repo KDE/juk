@@ -52,7 +52,8 @@ class PlayerManager : public QObject
     Q_OBJECT
 
 public:
-    PlayerManager();
+    static PlayerManager *instance();
+    
     virtual ~PlayerManager();
 
     bool playing() const;
@@ -77,7 +78,7 @@ public:
     QString trackProperty(const QString &property) const;
     QPixmap trackCover(const QString &size) const;
 
-    FileHandle playingFile() const;
+    const FileHandle &playingFile() const;
     QString playingString() const;
 
     KSelectAction* outputDeviceSelectAction();
@@ -123,6 +124,7 @@ signals:
     void signalItemChanged(const FileHandle &file);
 
 private:
+    PlayerManager();
     void setup();
     void crossfadeToFile(const FileHandle &newFile);
     void stopCrossfade();
@@ -155,6 +157,8 @@ private:
     Phonon::Path m_audioPath[2];
     Phonon::MediaObject *m_media[2];
     Phonon::VolumeFaderEffect *m_fader[2];
+    
+    static PlayerManager *s_instance;
 };
 
 #endif

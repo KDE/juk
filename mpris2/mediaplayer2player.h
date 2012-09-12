@@ -100,7 +100,6 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
         void signalPropertiesChange(const QVariantMap& properties) const;
 
         int oldPos;
-        QPointer<PlayerManager> m_player;
 };
 
 #endif

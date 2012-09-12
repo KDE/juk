@@ -44,16 +44,15 @@ static QByteArray idFromPlaylistItem(const PlaylistItem *item)
 
 MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
     : QDBusAbstractAdaptor(parent)
-    , m_player(JuK::JuKInstance()->playerManager())
 {
-    connect(m_player, SIGNAL(signalItemChanged(FileHandle)), this, SLOT(currentSourceChanged()));
-    connect(m_player, SIGNAL(signalPlay()), this, SLOT(stateUpdated()));
-    connect(m_player, SIGNAL(signalPause()), this, SLOT(stateUpdated()));
-    connect(m_player, SIGNAL(signalStop()), this, SLOT(stateUpdated()));
-    connect(m_player, SIGNAL(totalTimeChanged(int)), this, SLOT(totalTimeChanged()));
-    connect(m_player, SIGNAL(seekableChanged(bool)), this, SLOT(seekableChanged(bool)));
-    connect(m_player, SIGNAL(volumeChanged(float)), this, SLOT(volumeChanged(float)));
-    connect(m_player, SIGNAL(seeked(int)), this, SLOT(seeked(int)));
+    connect(PlayerManager::instance(), SIGNAL(signalItemChanged(FileHandle)), this, SLOT(currentSourceChanged()));
+    connect(PlayerManager::instance(), SIGNAL(signalPlay()), this, SLOT(stateUpdated()));
+    connect(PlayerManager::instance(), SIGNAL(signalPause()), this, SLOT(stateUpdated()));
+    connect(PlayerManager::instance(), SIGNAL(signalStop()), this, SLOT(stateUpdated()));
+    connect(PlayerManager::instance(), SIGNAL(totalTimeChanged(int)), this, SLOT(totalTimeChanged()));
+    connect(PlayerManager::instance(), SIGNAL(seekableChanged(bool)), this, SLOT(seekableChanged(bool)));
+    connect(PlayerManager::instance(), SIGNAL(volumeChanged(float)), this, SLOT(volumeChanged(float)));
+    connect(PlayerManager::instance(), SIGNAL(seeked(int)), this, SLOT(seeked(int)));
 }
 
 MediaPlayer2Player::~MediaPlayer2Player()
@@ -67,7 +66,7 @@ bool MediaPlayer2Player::CanGoNext() const
 
 void MediaPlayer2Player::Next() const
 {
-    m_player->forward();
+    PlayerManager::instance()->forward();
 }
 
 bool MediaPlayer2Player::CanGoPrevious() const
@@ -77,7 +76,7 @@ bool MediaPlayer2Player::CanGoPrevious() const
 
 void MediaPlayer2Player::Previous() const
 {
-    m_player->back();
+    PlayerManager::instance()->back();
 }
 
 bool MediaPlayer2Player::CanPause() const
@@ -87,17 +86,17 @@ bool MediaPlayer2Player::CanPause() const
 
 void MediaPlayer2Player::Pause() const
 {
-    m_player->pause();
+    PlayerManager::instance()->pause();
 }
 
 void MediaPlayer2Player::PlayPause() const
 {
-    m_player->playPause();
+    PlayerManager::instance()->playPause();
 }
 
 void MediaPlayer2Player::Stop() const
 {
-    m_player->stop();
+    PlayerManager::instance()->stop();
 }
 
 bool MediaPlayer2Player::CanPlay() const
@@ -107,7 +106,7 @@ bool MediaPlayer2Player::CanPlay() const
 
 void MediaPlayer2Player::Play() const
 {
-    m_player->play();
+    PlayerManager::instance()->play();
 }
 
 void MediaPlayer2Player::SetPosition(const QDBusObjectPath& TrackId, qlonglong Position) const
@@ -122,7 +121,7 @@ void MediaPlayer2Player::SetPosition(const QDBusObjectPath& TrackId, qlonglong P
     QByteArray currentTrackId = idFromPlaylistItem(playingItem);
 
     if (TrackId.path().toLatin1() == currentTrackId) {
-        m_player->seek(Position / 1000);
+        PlayerManager::instance()->seek(Position / 1000);
     }
 }
 
@@ -132,16 +131,16 @@ void MediaPlayer2Player::OpenUri(QString Uri) const
 
     // JuK does not yet support KIO
     if (url.isLocalFile()) {
-        m_player->play(url.toLocalFile());
+        PlayerManager::instance()->play(url.toLocalFile());
     }
 }
 
 QString MediaPlayer2Player::PlaybackStatus() const
 {
-    if (m_player->playing()) {
+    if (PlayerManager::instance()->playing()) {
         return QLatin1String("Playing");
     }
-    else if (m_player->paused()) {
+    else if (PlayerManager::instance()->paused()) {
         return QLatin1String("Paused");
     }
 
@@ -226,7 +225,7 @@ QVariantMap MediaPlayer2Player::Metadata() const
 
 double MediaPlayer2Player::Volume() const
 {
-    return m_player->volume();
+    return PlayerManager::instance()->volume();
 }
 
 void MediaPlayer2Player::setVolume(double volume) const
@@ -235,12 +234,12 @@ void MediaPlayer2Player::setVolume(double volume) const
         volume = 0.0;
     if (volume > 1.0)
         volume = 1.0;
-    m_player->setVolume(volume);
+    PlayerManager::instance()->setVolume(volume);
 }
 
 qlonglong MediaPlayer2Player::Position() const
 {
-    return m_player->currentTimeMSecs() * 1000;
+    return PlayerManager::instance()->currentTimeMSecs() * 1000;
 }
 
 double MediaPlayer2Player::MinimumRate() const
@@ -255,12 +254,12 @@ double MediaPlayer2Player::MaximumRate() const
 
 bool MediaPlayer2Player::CanSeek() const
 {
-    return m_player->seekable();
+    return PlayerManager::instance()->seekable();
 }
 
 void MediaPlayer2Player::Seek(qlonglong Offset) const
 {
-    m_player->seek(((m_player->currentTimeMSecs() * 1000) + Offset) / 1000);
+    PlayerManager::instance()->seek(((PlayerManager::instance()->currentTimeMSecs() * 1000) + Offset) / 1000);
 }
 
 bool MediaPlayer2Player::CanControl() const

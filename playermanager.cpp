@@ -53,38 +53,16 @@ using namespace ActionCollection;
 
 enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying = 2 };
 
-////////////////////////////////////////////////////////////////////////////////
-// protected members
-////////////////////////////////////////////////////////////////////////////////
+PlayerManager *PlayerManager::s_instance = 0;
 
-PlayerManager::PlayerManager() :
-    QObject(),
-    m_playlistInterface(0),
-    m_statusLabel(0),
-    m_setup(false),
-    m_crossfadeTracks(true),
-    m_curOutputPath(0)
-{
-// This class is the first thing constructed during program startup, and
-// therefore has no access to the widgets needed by the setup() method.
-// Since the setup() method will be called indirectly by the player() method
-// later, just disable it here. -- mpyne
-//    setup();
-    new PlayerAdaptor( this );
-    
-    
-    m_scrobbler = new Scrobbler(this);
-    connect(this, SIGNAL(signalItemChanged(FileHandle)), m_scrobbler, SLOT(nowPlaying(FileHandle)));
-}
+////////////////////////////////////////////////////////////////////////////////
+// public members
+////////////////////////////////////////////////////////////////////////////////
 
 PlayerManager::~PlayerManager()
 {
 
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// public members
-////////////////////////////////////////////////////////////////////////////////
 
 bool PlayerManager::playing() const
 {
@@ -193,7 +171,7 @@ QPixmap PlayerManager::trackCover(const QString &size) const
     return QPixmap();
 }
 
-FileHandle PlayerManager::playingFile() const
+const FileHandle &PlayerManager::playingFile() const
 {
     return m_file;
 }
@@ -600,6 +578,34 @@ void PlayerManager::slotVolumeChanged(qreal volume)
 ////////////////////////////////////////////////////////////////////////////////
 // private members
 ////////////////////////////////////////////////////////////////////////////////
+
+PlayerManager::PlayerManager() :
+    QObject(),
+    m_playlistInterface(0),
+    m_statusLabel(0),
+    m_setup(false),
+    m_crossfadeTracks(true),
+    m_curOutputPath(0)
+{
+// This class is the first thing constructed during program startup, and
+// therefore has no access to the widgets needed by the setup() method.
+// Since the setup() method will be called indirectly by the player() method
+// later, just disable it here. -- mpyne
+//    setup();
+    new PlayerAdaptor( this );
+    
+    
+    m_scrobbler = new Scrobbler(this);
+    connect(this, SIGNAL(signalItemChanged(FileHandle)), m_scrobbler, SLOT(nowPlaying(FileHandle)));
+}
+
+PlayerManager* PlayerManager::instance()
+{
+    if (!s_instance)
+        s_instance = new PlayerManager();
+    return s_instance;
+}
+
 
 void PlayerManager::setup()
 {

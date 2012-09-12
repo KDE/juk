@@ -55,7 +55,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     mainBox->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Fixed );
     sliderBox->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Fixed );
 
-    PlayerManager *player = JuK::JuKInstance()->playerManager();
+    PlayerManager *player = PlayerManager::instance();
 
     QWidgetAction *sliderActionWidget = new QWidgetAction( this );
     sliderActionWidget->setDefaultWidget( mainBox );
@@ -86,13 +86,13 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
 void
 VolumePopupButton::refresh()
 {
-    volumeChanged( JuK::JuKInstance()->playerManager()->volume() );
+    volumeChanged( PlayerManager::instance()->volume() );
 }
 
 void
 VolumePopupButton::volumeChanged( float newVolume )
 {
-    if (!JuK::JuKInstance()->playerManager()->muted())
+    if (!PlayerManager::instance()->muted())
     {
         m_volumeBeforeMute = newVolume;
     }
@@ -124,13 +124,13 @@ VolumePopupButton::muteStateChanged( bool muted )
 {
     if ( muted )
     {
-        const float volume = JuK::JuKInstance()->playerManager()->volume();
+        const float volume = PlayerManager::instance()->volume();
         setIcon( KIcon( "audio-volume-muted" ) );
         setToolTip( i18n( "Volume: %1% %2", volume, ( muted ? i18n( "(muted)" ) : "" ) ) );
     }
     else
     {
-        JuK::JuKInstance()->playerManager()->setVolume( m_volumeBeforeMute );
+        PlayerManager::instance()->setVolume( m_volumeBeforeMute );
     }
 
     m_muteAction->setChecked( muted );
@@ -151,7 +151,7 @@ VolumePopupButton::mouseReleaseEvent( QMouseEvent * event )
     }
     else if( event->button() == Qt::MidButton )
     {
-        muteStateChanged( JuK::JuKInstance()->playerManager()->mute() );
+        muteStateChanged( PlayerManager::instance()->mute() );
     }
 
     QToolButton::mouseReleaseEvent( event );
@@ -161,7 +161,7 @@ void
 VolumePopupButton::wheelEvent( QWheelEvent * event )
 {
     event->accept();
-    PlayerManager *player = JuK::JuKInstance()->playerManager();
+    PlayerManager *player = PlayerManager::instance();
     float volume = qBound( 0.0, player->volume() + float( event->delta() ) / 4000.0, 1.0 );
     player->setVolume( volume );
     volumeChanged( volume );

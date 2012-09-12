@@ -77,6 +77,7 @@
 #include "coverdialog.h"
 #include "tagtransactionmanager.h"
 #include "cache.h"
+#include "playermanager.h"
 
 using namespace ActionCollection;
 
@@ -933,7 +934,7 @@ QVariant Playlist::data(const QModelIndex& index, int role) const
         if (column == CoverColumn &&
             fileHandle.coverInfo()->coverId() != CoverManager::NoMatch) {
             return *globalGenericImage;
-        } else if (column == 0) {
+        } else if (column == 0 && PlayerManager::instance()->playingFile() == fileHandle) {
             return *globalPlayingImage;
         }
     }
