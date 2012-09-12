@@ -920,18 +920,28 @@ int Playlist::columnCount(const QModelIndex& parent) const
     return 12;
 }
 
+
+K_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalGenericImage, (SmallIcon("image-x-generic")))
+K_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalPlayingImage, (UserIcon("playing")))
+
 QVariant Playlist::data(const QModelIndex& index, int role) const
 {
+    const int column = index.column();
+    const FileHandle &fileHandle = m_items[index.row()]->file();
+    
     if (role == Qt::DecorationRole) {
-        // ### TODO: FIXME
-//         return *(m_items[index.row()]->pixmap(index.column()));
+        if (column == CoverColumn &&
+            fileHandle.coverInfo()->coverId() != CoverManager::NoMatch) {
+            return *globalGenericImage;
+        } else if (column == 0) {
+            return *globalPlayingImage;
+        }
     }
     
     if (role != Qt::DisplayRole)
         return QVariant();
 
-    FileHandle fileHandle = m_items[index.row()]->file();
-    switch(index.column()) {
+    switch(column) {
     case TrackColumn:
         return fileHandle.tag()->title();
     case ArtistColumn:
