@@ -56,8 +56,9 @@ PlaylistSplitter::PlaylistSplitter(PlayerManager *player, QWidget *parent) :
     m_editor(0),
     m_nowPlaying(0),
     m_player(player),
-    m_editorSplitter(0),
-    m_lyricsWidget(0)
+    m_lyricsWidget(0),
+    m_editorSplitter(0)
+
 {
     setObjectName(QLatin1String("playlistSplitter"));
 
