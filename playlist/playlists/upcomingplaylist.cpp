@@ -80,34 +80,34 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
 //     slotWeightDirty();
 }
 
-void UpcomingPlaylist::playNext()
-{
-    initialize();
-
-    PlaylistItem *next = TrackSequenceManager::instance()->nextItem();
-
-    if(next) {
-        setPlaying(next);
-        Playlist *source = m_playlistIndex[next];
-        if(source) {
-            PlaylistList l;
-            l.append(this);
-            source->synchronizePlayingItems(l, false);
-        }
-    }
-    else {
-        removeIteratorOverride();
-
-        // Normally we continue to play the currently playing item that way
-        // a user can continue to hear their song when deselecting Play Queue.
-        // However we're technically still "playing" when the queue empties and
-        // we reinstall the old iterator so in this situation manually advance
-        // to the next track. (Otherwise we hear the same song twice in a row
-        // during the transition)
-
-        setPlaying(manager()->nextItem());
-    }
-}
+// void UpcomingPlaylist::playNext()
+// {
+//     initialize();
+// 
+//     PlaylistItem *next = TrackSequenceManager::instance()->nextItem();
+// 
+//     if(next) {
+//         setPlaying(next);
+//         Playlist *source = m_playlistIndex[next];
+//         if(source) {
+//             PlaylistList l;
+//             l.append(this);
+//             source->synchronizePlayingItems(l, false);
+//         }
+//     }
+//     else {
+//         removeIteratorOverride();
+// 
+//         // Normally we continue to play the currently playing item that way
+//         // a user can continue to hear their song when deselecting Play Queue.
+//         // However we're technically still "playing" when the queue empties and
+//         // we reinstall the old iterator so in this situation manually advance
+//         // to the next track. (Otherwise we hear the same song twice in a row
+//         // during the transition)
+// 
+//         setPlaying(manager()->nextItem());
+//     }
+// }
 
 void UpcomingPlaylist::clearItem(PlaylistItem *item, bool emitChanged)
 {
@@ -155,10 +155,10 @@ void UpcomingPlaylist::removeIteratorOverride()
     // XXX: Reset to the last playing playlist?
 
     m_oldIterator->reset();
-    if(playingItem())
-        m_oldIterator->setCurrent(playingItem()->collectionItem());
+//     if(playingItem())
+//         m_oldIterator->setCurrent(playingItem()->collectionItem());
 
-    setPlaying(manager()->currentItem(), true);
+//     setPlaying(manager()->currentItem(), true);
 
     Watched::currentChanged();
 }
@@ -214,9 +214,9 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
     // If the upcoming playlist is playing something, clear it out since
     // apparently the user didn't want to hear it.
 
-    PlaylistItem *playingItem = m_playlist->playingItem();
-    if(playingItem && playingItem->playlist() == m_playlist && currentItem != playingItem)
-        m_playlist->clearItem(playingItem);
+//     PlaylistItem *playingItem = m_playlist->playingItem();
+//     if(playingItem && playingItem->playlist() == m_playlist && currentItem != playingItem)
+//         m_playlist->clearItem(playingItem);
 
     // If a different playlist owns this item, add it to the upcoming playlist
 

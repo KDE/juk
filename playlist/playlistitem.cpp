@@ -56,8 +56,8 @@ PlaylistItem::~PlaylistItem()
 
     if(m_playingItems.contains(this)) {
         m_playingItems.removeAll(this);
-        if(m_playingItems.isEmpty())
-            playlist()->setPlaying(0);
+//         if(m_playingItems.isEmpty())
+//             playlist()->setPlaying(0);
     }
 
     playlist()->updateDeletedItem(this);
@@ -89,8 +89,7 @@ FileHandle PlaylistItem::file() const
 
 void PlaylistItem::setText(int column, const QString &text)
 {
-    int offset = playlist()->columnOffset();
-    if(column - offset >= 0 && column + offset <= lastColumn()) {
+    if(column >= 0 && column <= lastColumn()) {
 //         K3ListViewItem::setText(column, QString());
         return;
     }
@@ -228,7 +227,7 @@ int PlaylistItem::compare(PlaylistItem *playlistItem, int column, bool ascending
 {
     // reimplemented from QListViewItem
 
-    int offset = playlist()->columnOffset();
+//     int offset = playlist()->columnOffset();
 
     if(!playlistItem)
         return 0;
@@ -255,15 +254,14 @@ int PlaylistItem::compare(PlaylistItem *playlistItem, int column, bool ascending
                     return c;
 //             }
         }
-        return compare(this, playlistItem, 0 + offset, ascending);
+        return compare(this, playlistItem, 0, ascending);
     }
 }
 
 int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool) const
 {
-    int offset = playlist()->columnOffset();
 
-    if(column < 0 || column >= lastColumn() + offset || !firstItem->d || !secondItem->d)
+    if(column < 0 || column >= lastColumn() || !firstItem->d || !secondItem->d)
         return 0;
 
 //     if(column < offset) {
@@ -306,8 +304,8 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
 //             return 1;
 //         break;
 //     default:
-        return QString::localeAwareCompare(firstItem->d->metadata[column - offset],
-                                           secondItem->d->metadata[column - offset]);
+        return QString::localeAwareCompare(firstItem->d->metadata[column],
+                                           secondItem->d->metadata[column]);
 //     }
 }
 
@@ -316,10 +314,6 @@ bool PlaylistItem::isValid() const
     return bool(d->fileHandle.tag());
 }
 
-void PlaylistItem::setTrackId(quint32 id)
-{
-    m_trackId = id;
-}
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem private methods

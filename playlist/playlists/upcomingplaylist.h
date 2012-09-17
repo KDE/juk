@@ -83,7 +83,7 @@ public:
      * Reimplemented to set the playing item in both the source playlist
      * and the upcoming playlist.
      */
-    virtual void playNext();
+//     virtual void playNext();
 
     /**
      * Reimplemented to remove the item from the Playlist index.

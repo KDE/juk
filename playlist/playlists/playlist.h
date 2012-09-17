@@ -116,23 +116,8 @@ public:
     // The following group of functions implement the PlaylistInterface API.
 
     virtual QString name() const;
-    virtual FileHandle currentFile() const;
     virtual int count() const { return m_items.count(); }
     virtual int time() const;
-    virtual void playNext();
-    virtual void playPrevious();
-    virtual void stop();
-
-    /**
-     * Plays the top item of the playlist.
-     */
-    void playFirst();
-
-    /**
-     * Plays the next album in the playlist.  Only useful when in album random
-     * play mode.
-     */
-    void playNextAlbum();
 
     /**
      * Saves the file to the currently set file name.  If there is no filename
@@ -169,14 +154,6 @@ public:
      * Removes all items.
      */
     void clear() { clearItems(m_items); }
-
-    /**
-     * Accessor function to return a pointer to the currently playing file.
-     *
-     * @return 0 if no file is playing, otherwise a pointer to the PlaylistItem
-     *     of the track that is currently playing.
-     */
-    static PlaylistItem *playingItem();
 
     /**
      * All of the (media) files in the list.
@@ -237,81 +214,15 @@ public:
     void setFileName(const QString &n) { m_fileName = n; }
 
     /**
-     * Shows column \a c.  If \a updateSearch is true then a signal that the
-     * visible columns have changed will be emitted and things like the search
-     * will be udated.
-     */
-    void showColumn(int c, bool updateSearch = true);
-//     bool isColumnVisible(int c) const;
-
-    /**
      * This sets a name for the playlist that is \e different from the file name.
      */
     void setName(const QString &n);
-
-    /**
-     * Returns the KActionMenu that allows this to be embedded in menus outside
-     * of the playlist.
-     */
-    KActionMenu *columnVisibleAction() const { return m_columnVisibleAction; }
-
-    /**
-     * Set item to be the playing item.  If \a item is null then this will clear
-     * the playing indicator.
-     */
-    static void setPlaying(PlaylistItem *item, bool addToHistory = true);
-
-    /**
-     * Returns true if this playlist is currently playing.
-     */
-    bool playing() const;
-
-    /**
-     * This forces an update of the left most visible column, but does not save
-     * the settings for this.
-     */
-    void updateLeftColumn();
-
-    /**
-     * Returns the leftmost visible column of the listview.
-     */
-    int leftColumn() const { return m_leftColumn; }
-
-    /**
-     * Sets the items in the list to be either visible based on the value of
-     * visible.  This is useful for search operations and such.
-     */
-    static void setItemsVisible(const PlaylistItemList &items, bool visible = true);
 
     /**
      * Returns the search associated with this list, or an empty search if one
      * has not yet been set.
      */
     PlaylistSearch search() const { return m_search; }
-
-    /**
-     * Set the search associtated with this playlist.
-     */
-//     void setSearch(const PlaylistSearch &s);
-
-    /**
-     * If the search is disabled then all items will be shown, not just those that
-     * match the current search.
-     */
-//     void setSearchEnabled(bool searchEnabled);
-
-    /**
-     * Marks \a item as either selected or deselected based.
-     */
-//     void markItemSelected(PlaylistItem *item, bool selected);
-
-    /**
-     * Subclasses of Playlist which add new columns will set this value to
-     * specify how many of those columns exist.  This allows the Playlist
-     * class to do some internal calculations on the number and positions
-     * of columns.
-     */
-    virtual int columnOffset() const { return 0; }
 
     /**
      * Some subclasses of Playlist will be "read only" lists (i.e. the history
@@ -324,19 +235,6 @@ public:
      * Returns true if it's possible to reload this playlist.
      */
     virtual bool canReload() const { return !m_fileName.isEmpty(); }
-
-    /**
-     * Returns true if the playlist is a search playlist and the search should be
-     * editable.
-     */
-    virtual bool searchIsEditable() const { return false; }
-
-    /**
-     * Synchronizes the playing item in this playlist with the playing item
-     * in \a sources.  If \a setMaster is true, this list will become the source
-     * for determining the next item.
-     */
-    void synchronizePlayingItems(const PlaylistList &sources, bool setMaster);
 
     /**
      * Playlists have a common set of shared settings such as visible columns
@@ -356,78 +254,9 @@ public:
 
 public slots:
     /**
-     * Remove the currently selected items from the playlist and disk.
-     */
-//     void slotRemoveSelectedItems();
-
-    /**
-     * The edit slots are required to use the canonical names so that they are
-     * detected by the application wide framework.
-     */
-//     virtual void cut();
-
-    /**
-     * Puts a list of URLs pointing to the files in the current selection on the
-     * clipboard.
-     */
-//     virtual void copy();
-
-    /**
-     * Checks the clipboard for local URLs to be inserted into this playlist.
-     */
-//     virtual void paste();
-
-    /**
-     * Refreshes the tags of the selection from disk, or all of the files in the
-     * list if there is no selection.
-     */
-//     virtual void slotRefresh();
-
-//     void slotGuessTagInfo(TagGuesser::Type type);
-
-    /**
-     * Renames the selected items' files based on their tags contents.
-     *
-     * @see PlaylistItem::renameFile()
-     */
-//     void slotRenameFile();
-
-    /**
-     * Sets the cover of the selected items, pass in true if you want to load from the local system,
-     * false if you want to load from the internet.
-     */
-//     void slotAddCover(bool fromLocal);
-
-    /**
-     * Shows a large image of the cover
-     */
-//     void slotViewCover();
-
-    /**
-     * Removes covers from the selected items
-     */
-//     void slotRemoveCover();
-
-    /**
-     * Shows the cover manager GUI dialog
-     */
-//     void slotShowCoverManager();
-
-    /**
      * Reload the playlist contents from the m3u file.
      */
     virtual void slotReload();
-
-    /**
-     * Tells the listview that the next time that it paints that the weighted
-     * column widths must be recalculated.  If this is called without a column
-     * all visible columns are marked as dirty.
-     */
-//     void slotWeightDirty(int column = -1);
-
-//     void slotShowPlaying();
-
-//     void slotColumnResizeModeChanged();
 
     virtual void weChanged();
 
@@ -437,11 +266,6 @@ protected:
      * are not actually in the list.
      */
     void removeFromDisk(const PlaylistItemList &items);
-
-    // the following are all reimplemented from base classes
-    
-//     virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
-
 
     virtual bool hasItem(const QString &file) const { return m_members.contains(file); }
 
@@ -470,10 +294,6 @@ protected:
     template <class ItemType, class SiblingType>
     void createItems(const QList<SiblingType *> &siblings, ItemType *after = 0);
 
-protected slots:
-    void slotPopulateBackMenu() const;
-    void slotPlayFromBackMenu(QAction *) const;
-
 signals:
 
     /**
@@ -499,8 +319,6 @@ signals:
     void dataChanged(const QModelIndex&, const QModelIndex&);
 
 private:
-//     void setup();
-
     /**
      * This function is called to let the user know that JuK has automatically enabled
      * manual column width adjust mode.
@@ -515,30 +333,10 @@ private:
      */
     void loadFile(const QString &fileName, const QFileInfo &fileInfo);
 
-    /**
-     * Writes \a text to \a item in \a column.  This is used by the inline tag
-     * editor.  Returns false if the tag update failed.
-     */
-    bool editTag(PlaylistItem *item, const QString &text, int column);
-
-    /**
-     * Returns the index of the left most visible column in the playlist.
-     *
-     * \see isColumnVisible()
-     */
-//     int leftMostVisibleColumn() const;
-
-    /**
-     * Build the column "weights" for the weighted width mode.
-     */
-//     void calculateColumnWeights();
-
     void addFile(const QString &file, FileHandleList &files, bool importPlaylists,
                  PlaylistItem **after);
     void addFileHelper(FileHandleList &files, PlaylistItem **after,
                        bool ignoreTimer = false);
-
-//     void redisplaySearch() { setSearch(m_search); }
 
     /**
      * Sets the cover for items to the cover identified by id.
@@ -546,8 +344,6 @@ private:
     void refreshAlbums(const PlaylistItemList &items, coverKey id = CoverManager::NoMatch);
 
     void refreshAlbum(const QString &artist, const QString &album);
-
-    void updatePlaying() const;
 
     /**
      * This function should be called when item is deleted to ensure that any
@@ -569,83 +365,6 @@ private:
      * of the playlists, such as column order.  It is implemented as a singleton.
      */
     class SharedSettings;
-
-private slots:
-
-    /**
-     * Handle the necessary tasks needed to create and setup the playlist that
-     * don't need to happen in the ctor, such as setting up the columns,
-     * initializing the RMB menu, and setting up signal/slot connections.
-     *
-     * Used to be a subclass of K3ListView::polish() but the timing of the
-     * call is not consistent and therefore lead to crashes.
-     */
-//     void slotInitialize();
-
-//     void slotUpdateColumnWidths();
-// 
-//     void slotAddToUpcoming();
-
-    /**
-     * Show the RMB menu.  Matches the signature for the signal
-     * QListView::contextMenuRequested().
-     */
-//     void slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int column);
-
-    /**
-     * This slot is called when the inline tag editor has completed its editing
-     * and starts the process of renaming the values.
-     *
-     * \see editTag()
-     */
-//     void slotInlineEditDone(Q3ListViewItem *, const QString &, int column);
-
-    /**
-     * This starts the renaming process by displaying a line edit if the mouse is in
-     * an appropriate position.
-     */
-//     void slotRenameTag();
-
-    /**
-     * The image fetcher will update the cover asynchronously, this internal
-     * slot is called when it happens.
-     */
-//     void slotCoverChanged(int coverId);
-
-    /**
-     * Moves the column \a from to the position \a to.  This matches the signature
-     * for the signal QHeader::indexChange().
-     */
-//     void slotColumnOrderChanged(int, int from, int to);
-
-    /**
-     * Toggles a columns visible status.  Useful for KActions.
-     *
-     * \see hideColumn()
-     * \see showColumn()
-     */
-//     void slotToggleColumnVisible(QAction *action);
-
-    /**
-     * Prompts the user to create a new playlist with from the selected items.
-     */
-//     void slotCreateGroup();
-
-    /**
-     * This slot is called when the user drags the slider in the listview header
-     * to manually set the size of the column.
-     */
-//     void slotColumnSizeChanged(int column, int oldSize, int newSize);
-
-    /**
-     * The slot is called when the completion mode for the line edit in the
-     * inline tag editor is changed.  It saves the settings and through the
-     * magic of the SharedSettings class will apply it to the other playlists as
-     * well.
-     */
-//     void slotInlineCompletionModeChanged(KGlobalSettings::Completion mode);
-
-//     void slotPlayCurrent();
 
 private:
     friend class PlaylistItem;
@@ -686,32 +405,14 @@ private:
     bool m_searchEnabled;
 
     /**
-     * Used to store the text for inline editing before it is changed so that
-     * we can know if something actually changed and as such if we need to save
-     * the tag.
-     */
-    QString m_editText;
-
-    /**
      * This is only defined if the playlist name is something other than the
      * file name.
      */
     QString m_playlistName;
     QString m_fileName;
 
-    KMenu *m_rmbMenu;
-    KMenu *m_headerMenu;
-    KActionMenu *m_columnVisibleAction;
-    PlaylistToolTip *m_toolTip;
-
-    /**
-     * This is used to indicate if the list of visible items has changed (via a
-     * call to setVisibleItems()) while random play is playing.
-     */
-    static bool m_visibleChanged;
     static bool m_shuttingDown;
     static int m_leftColumn;
-    static QMap<int, PlaylistItem *> m_backMenuItems;
 
     bool m_blockDataChanged;
 };

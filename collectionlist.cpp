@@ -381,8 +381,7 @@ void CollectionList::removeWatched(const QString &file)
 
 void CollectionListItem::refresh()
 {
-    int offset = CollectionList::instance()->columnOffset();
-    int columns = lastColumn() + offset + 1;
+    int columns = lastColumn() + 1;
 
     data()->metadata.resize(columns);
     data()->cachedWidths.resize(columns);

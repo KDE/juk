@@ -659,8 +659,9 @@ void PlaylistBox::slotPlaylistChanged()
     if(m_k3bAction)
         m_k3bAction->setEnabled(!playlists.isEmpty());
 
-    action("editSearch")->setEnabled(singlePlaylist &&
-                                     playlists.front()->searchIsEditable());
+    //### TODO FIXME search
+//     action("editSearch")->setEnabled(singlePlaylist &&
+//                                      playlists.front()->searchIsEditable());
 
     if(singlePlaylist) {
         PlaylistCollection::raise(playlists.front());
@@ -689,7 +690,8 @@ void PlaylistBox::slotDoubleClicked(Q3ListViewItem *item)
 
     if(next) {
         emit startFilePlayback(next->file());
-        playlistItem->playlist()->setPlaying(next);
+        // ### TODO FIXME 
+//         playlistItem->playlist()->setPlaying(next);
     }
     else
         action("stop")->trigger();

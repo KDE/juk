@@ -82,12 +82,6 @@
 using namespace ActionCollection;
 
 /**
- * Used to give every track added in the program a unique identifier. See
- * PlaylistItem
- */
-quint32 g_trackID = 0;
-
-/**
  * Just a shortcut of sorts.
  */
 
@@ -100,7 +94,6 @@ static bool manualResize()
 // Playlist::SharedSettings definition
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Playlist::m_visibleChanged = false;
 bool Playlist::m_shuttingDown = false;
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -108,7 +101,6 @@ bool Playlist::m_shuttingDown = false;
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistItemList Playlist::m_history;
-QMap<int, PlaylistItem *> Playlist::m_backMenuItems;
 int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
@@ -125,8 +117,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_playlistName(name),
-    m_rmbMenu(0),
-    m_toolTip(0),
     m_blockDataChanged(false)
 {
 //     setup();
@@ -147,8 +137,6 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_playlistName(name),
-    m_rmbMenu(0),
-    m_toolTip(0),
     m_blockDataChanged(false)
 {
 //     setup();
@@ -170,8 +158,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_fileName(playlistFile.canonicalFilePath()),
-    m_rmbMenu(0),
-    m_toolTip(0),
     m_blockDataChanged(false)
 {
 //     setup();
@@ -191,8 +177,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_rmbMenu(0),
-    m_toolTip(0),
     m_blockDataChanged(false)
 {
     for(int i = 0; i < extraColumns; ++i) {
@@ -232,11 +216,6 @@ QString Playlist::name() const
         return m_playlistName;
 }
 
-FileHandle Playlist::currentFile() const
-{
-    return playingItem() ? playingItem()->file() : FileHandle::null();
-}
-
 int Playlist::time() const
 {
     // Since this method gets a lot of traffic, let's optimize for such.
@@ -260,69 +239,6 @@ int Playlist::time() const
     }
 
     return m_time;
-}
-
-void Playlist::playFirst()
-{
-    TrackSequenceManager::instance()->setNextItem(m_items.first());
-    action("forward")->trigger();
-}
-
-void Playlist::playNextAlbum()
-{
-    PlaylistItem *current = TrackSequenceManager::instance()->currentItem();
-    if(!current)
-        return; // No next album if we're not already playing.
-
-    QString currentAlbum = current->file().tag()->album();
-    current = TrackSequenceManager::instance()->nextItem();
-
-    while(current && current->file().tag()->album() == currentAlbum)
-        current = TrackSequenceManager::instance()->nextItem();
-
-    TrackSequenceManager::instance()->setNextItem(current);
-    action("forward")->trigger();
-}
-
-void Playlist::playNext()
-{
-    TrackSequenceManager::instance()->setCurrentPlaylist(this);
-    setPlaying(TrackSequenceManager::instance()->nextItem());
-}
-
-void Playlist::stop()
-{
-    m_history.clear();
-    setPlaying(0);
-}
-
-void Playlist::playPrevious()
-{
-    if(!playingItem())
-        return;
-
-    bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
-
-    PlaylistItem *previous = 0;
-
-    if(random && !m_history.isEmpty()) {
-        PlaylistItemList::Iterator last = --m_history.end();
-        previous = *last;
-        m_history.erase(last);
-    }
-    else {
-        m_history.clear();
-        previous = TrackSequenceManager::instance()->previousItem();
-    }
-
-    
-    if(!previous) {
-        int index = m_items.indexOf(playingItem()) - 1;
-        if (index < 0) index = m_items.size();
-        previous = m_items[index];
-    }
-
-    setPlaying(previous, false);
 }
 
 void Playlist::setName(const QString &n)
@@ -401,11 +317,6 @@ void Playlist::clearItems(const PlaylistItemList &items)
     weChanged();
 }
 
-PlaylistItem *Playlist::playingItem() // static
-{
-    return PlaylistItem::playingItems().isEmpty() ? 0 : PlaylistItem::playingItems().front();
-}
-
 QStringList Playlist::files() const
 {
     QStringList list;
@@ -415,24 +326,6 @@ QStringList Playlist::files() const
     }
 
     return list;
-}
-
-void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMaster)
-{
-    foreach(const Playlist *p, sources) {
-        if(p->playing()) {
-            CollectionListItem *base = playingItem()->collectionItem();
-            foreach(PlaylistItem *item, m_items) {
-                if(base == item->collectionItem()) {
-                    item->setPlaying(true, setMaster);
-                    PlaylistItemList playing = PlaylistItem::playingItems();
-                    TrackSequenceManager::instance()->setCurrent(item);
-                    return;
-                }
-            }
-            return;
-        }
-    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -583,9 +476,6 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
 
 void Playlist::setupItem(PlaylistItem *item)
 {
-    item->setTrackId(g_trackID);
-    g_trackID++;
-
     if (!m_items.contains(item))
         m_items.append(item);
     
@@ -619,45 +509,6 @@ CollectionListItem *Playlist::collectionListItem(const FileHandle &file)
     }
 
     return item;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// protected slots
-////////////////////////////////////////////////////////////////////////////////
-
-void Playlist::slotPopulateBackMenu() const
-{
-    if(!playingItem())
-        return;
-
-    QMenu *menu = action<KToolBarPopupAction>("back")->menu();
-    menu->clear();
-    m_backMenuItems.clear();
-
-    int count = 0;
-    PlaylistItemList::ConstIterator it = m_history.constEnd();
-
-    QAction *action;
-
-    while(it != m_history.constBegin() && count < 10) {
-        ++count;
-        --it;
-        action = new QAction((*it)->file().tag()->title(), menu);
-        action->setData(count);
-        menu->addAction(action);
-        m_backMenuItems[count] = *it;
-    }
-}
-
-void Playlist::slotPlayFromBackMenu(QAction *backAction) const
-{
-    int number = backAction->data().toInt();
-
-    if(!m_backMenuItems.contains(number))
-        return;
-
-    TrackSequenceManager::instance()->setNextItem(m_backMenuItems[number]);
-    action("forward")->trigger();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -709,41 +560,37 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     m_disableColumnWidthUpdates = false;
 }
 
-void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
-{
-    if(playingItem() == item)
-        return;
-
-    if(playingItem()) {
-        if(addToHistory) {
-            if(playingItem()->playlist() ==
-               playingItem()->playlist()->m_collection->upcomingPlaylist())
-                m_history.append(playingItem()->collectionItem());
-            else
-                m_history.append(playingItem());
-        }
-        playingItem()->setPlaying(false);
-    }
-
-    TrackSequenceManager::instance()->setCurrent(item);
-#ifdef __GNUC__
-#warning "kde4: port it"
-#endif
-    //kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
-
-    if(!item)
-        return;
-
-    item->setPlaying(true);
-
-    bool enableBack = !m_history.isEmpty();
-    action<KToolBarPopupAction>("back")->menu()->setEnabled(enableBack);
-}
-
-bool Playlist::playing() const
-{
-    return playingItem() && this == playingItem()->playlist();
-}
+/// TODO: HISTORY
+// void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
+// {
+//     if(playingItem() == item)
+//         return;
+// 
+//     if(playingItem()) {
+//         if(addToHistory) {
+//             if(playingItem()->playlist() ==
+//                playingItem()->playlist()->m_collection->upcomingPlaylist())
+//                 m_history.append(playingItem()->collectionItem());
+//             else
+//                 m_history.append(playingItem());
+//         }
+//         playingItem()->setPlaying(false);
+//     }
+// 
+//     TrackSequenceManager::instance()->setCurrent(item);
+// #ifdef __GNUC__
+// #warning "kde4: port it"
+// #endif
+//     //kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
+// 
+//     if(!item)
+//         return;
+// 
+//     item->setPlaying(true);
+// 
+//     bool enableBack = !m_history.isEmpty();
+//     action<KToolBarPopupAction>("back")->menu()->setEnabled(enableBack);
+// }
 
 void Playlist::addFile(const QString &file, FileHandleList &files, bool importPlaylists,
                        PlaylistItem **after)
@@ -837,50 +684,6 @@ void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool i
 
         processEvents();
     }
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private slots
-////////////////////////////////////////////////////////////////////////////////
-
-bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
-{
-    Tag *newTag = TagTransactionManager::duplicateTag(item->file().tag());
-
-    switch(column - columnOffset())
-    {
-    case TrackColumn:
-        newTag->setTitle(text);
-        break;
-    case ArtistColumn:
-        newTag->setArtist(text);
-        break;
-    case AlbumColumn:
-        newTag->setAlbum(text);
-        break;
-    case TrackNumberColumn:
-    {
-        bool ok;
-        int value = text.toInt(&ok);
-        if(ok)
-            newTag->setTrack(value);
-        break;
-    }
-    case GenreColumn:
-        newTag->setGenre(text);
-        break;
-    case YearColumn:
-    {
-        bool ok;
-        int value = text.toInt(&ok);
-        if(ok)
-            newTag->setYear(value);
-        break;
-    }
-    }
-
-    TagTransactionManager::instance()->changeTagOnItem(item, newTag);
-    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -991,40 +794,46 @@ bool Playlist::setData(const QModelIndex& index, const QVariant& value, int role
     if (!index.isValid()) {
         return false;
     }
-    FileHandle fileHandle = m_items[index.row()]->file();
+    
+    PlaylistItem *item = m_items[index.row()];
+    Tag *newTag = TagTransactionManager::duplicateTag(item->file().tag());
 
-    switch(index.column()) {
+    const QString text = value.toString();
+    switch(index.column())
+    {
     case TrackColumn:
-        fileHandle.tag()->setTitle(value.toString());
-        return true;
+        newTag->setTitle(text);
+        break;
     case ArtistColumn:
-        fileHandle.tag()->setArtist(value.toString());
-        return true;
+        newTag->setArtist(text);
+        break;
     case AlbumColumn:
-        fileHandle.tag()->setAlbum(value.toString());
-        return true;
-    case CoverColumn:
-        fileHandle.coverInfo()->setCover(value.value<QImage>());
-        return true;
+        newTag->setAlbum(text);
+        break;
     case TrackNumberColumn:
-        fileHandle.tag()->setTrack(value.toInt());
-        return true;
-    case GenreColumn:
-        fileHandle.tag()->setGenre(value.toString());
-        return true;
-    case YearColumn:
-        fileHandle.tag()->setYear(value.toInt());
-        return true;
-    case CommentColumn:
-        fileHandle.tag()->setComment(value.toString());
-        return true;
-    case FileNameColumn:
-    case FullPathColumn:
-    case LengthColumn:
-    case BitrateColumn:
-    default:
-        return false;
+    {
+        bool ok;
+        int value = text.toInt(&ok);
+        if(ok)
+            newTag->setTrack(value);
+        break;
     }
+    case GenreColumn:
+        newTag->setGenre(text);
+        break;
+    case YearColumn:
+    {
+        bool ok;
+        int value = text.toInt(&ok);
+        if(ok)
+            newTag->setYear(value);
+        break;
+    }
+    }
+
+    TagTransactionManager::instance()->changeTagOnItem(item, newTag);
+    return true;
+
 }
 
 bool Playlist::insertRows(int row, int count, const QModelIndex& parent)

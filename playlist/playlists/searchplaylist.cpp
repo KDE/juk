@@ -79,11 +79,6 @@ void SearchPlaylist::updateItems()
         weChanged();
 
     createItems(newItems);
-
-    if(synchronizePlaying()) {
-        kDebug() << "synchronizing playing";
-        synchronizePlayingItems(m_search.playlists(), true);
-    }
 }
 
 

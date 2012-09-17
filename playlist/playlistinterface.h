@@ -65,15 +65,8 @@ class PlaylistInterface : public Watched
 {
 public:
     virtual QString name() const = 0;
-    virtual FileHandle currentFile() const = 0;
     virtual int time() const = 0;
     virtual int count() const = 0;
-
-    virtual void playNext() = 0;
-    virtual void playPrevious() = 0;
-    virtual void stop() = 0;
-
-    virtual bool playing() const = 0;
 };
 
 class PlaylistObserver

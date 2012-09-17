@@ -27,6 +27,12 @@
 #include "cache.h"
 #include "coverinfo.h"
 
+/**
+ * Used to give every track added in the program a unique identifier. See
+ * PlaylistItem
+ */
+quint32 g_trackID = 0;
+
 AddProperty(Title, tag()->title())
 AddProperty(Artist, tag()->artist())
 AddProperty(Album, tag()->album())
@@ -70,7 +76,10 @@ class FileHandle::FileHandlePrivate : public RefCounter
 public:
     FileHandlePrivate() :
         tag(0),
-        coverInfo(0) {}
+        coverInfo(0),
+        id(g_trackID++)
+        {
+        }
 
     ~FileHandlePrivate()
     {
@@ -84,6 +93,7 @@ public:
     QFileInfo fileInfo;
     QDateTime modificationTime;
     QDateTime lastModified;
+    quint32 id;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -212,6 +222,11 @@ const QDateTime &FileHandle::lastModified() const
         d->lastModified = d->fileInfo.lastModified();
 
     return d->lastModified;
+}
+
+quint32 FileHandle::id() const
+{
+    return d->id;
 }
 
 void FileHandle::read(CacheDataStream &s)

@@ -38,7 +38,6 @@
 
 #include <math.h>
 
-#include "playlist/playlistinterface.h"
 #include "playeradaptor.h"
 #include "slideraction.h"
 #include "statuslabel.h"
@@ -184,11 +183,6 @@ QString PlayerManager::playingString() const
     return m_file.tag()->playingString();
 }
 
-void PlayerManager::setPlaylistInterface(PlaylistInterface *interface)
-{
-    m_playlistInterface = interface;
-}
-
 void PlayerManager::setStatusLabel(StatusLabel *label)
 {
     m_statusLabel = label;
@@ -203,7 +197,7 @@ void PlayerManager::play(const FileHandle &file)
     if(!m_setup)
         setup();
 
-    if(!m_media[0] || !m_media[1] || !m_playlistInterface)
+    if(!m_media[0] || !m_media[1])
         return;
 
     stopCrossfade();
@@ -219,8 +213,8 @@ void PlayerManager::play(const FileHandle &file)
             emit seeked(0);
         }
         else {
-            m_playlistInterface->playNext();
-            m_file = m_playlistInterface->currentFile();
+//             m_playlistInterface->playNext();
+//             m_file = m_playlistInterface->currentFile();
 
             if(!m_file.isNull())
             {
@@ -249,7 +243,6 @@ void PlayerManager::play(const QString &file)
 {
     CollectionListItem *item = CollectionList::instance()->lookup(file);
     if(item) {
-        Playlist::setPlaying(item);
         play(item->file());
     }
 }
@@ -278,7 +271,7 @@ void PlayerManager::pause()
 
 void PlayerManager::stop()
 {
-    if(!m_setup || !m_playlistInterface)
+    if(!m_setup)
         return;
 
     action("pause")->setEnabled(false);
@@ -350,24 +343,24 @@ void PlayerManager::playPause()
 
 void PlayerManager::forward()
 {
-    m_playlistInterface->playNext();
-    FileHandle file = m_playlistInterface->currentFile();
+//     m_playlistInterface->playNext();
+//     FileHandle file = m_playlistInterface->currentFile();
 
-    if(!file.isNull())
-        play(file);
-    else
-        stop();
+//     if(!file.isNull())
+//         play(file);
+//     else
+//         stop();
 }
 
 void PlayerManager::back()
 {
-    m_playlistInterface->playPrevious();
-    FileHandle file = m_playlistInterface->currentFile();
+//     m_playlistInterface->playPrevious();
+//     FileHandle file = m_playlistInterface->currentFile();
 
-    if(!file.isNull())
-        play(file);
-    else
-        stop();
+//     if(!file.isNull())
+//         play(file);
+//     else
+//         stop();
 }
 
 void PlayerManager::volumeUp()
@@ -414,13 +407,13 @@ void PlayerManager::slotNeedNextUrl()
     if(m_file.isNull() || !m_crossfadeTracks)
         return;
 
-    m_playlistInterface->playNext();
-    FileHandle nextFile = m_playlistInterface->currentFile();
+//     m_playlistInterface->playNext();
+//     FileHandle nextFile = m_playlistInterface->currentFile();
 
-    if(!nextFile.isNull()) {
-        m_file = nextFile;
-        crossfadeToFile(m_file);
-    }
+//     if(!nextFile.isNull()) {
+//         m_file = nextFile;
+//         crossfadeToFile(m_file);
+//     }
 }
 
 void PlayerManager::slotFinished()
@@ -436,8 +429,8 @@ void PlayerManager::slotFinished()
     if(mediaObject != m_media[m_curOutputPath])
         return;
 
-    m_playlistInterface->playNext();
-    m_file = m_playlistInterface->currentFile();
+//     m_playlistInterface->playNext();
+//     m_file = m_playlistInterface->currentFile();
 
     if(m_file.isNull()) {
         stop();
@@ -457,7 +450,7 @@ void PlayerManager::slotLength(qint64 msec)
 
 void PlayerManager::slotTick(qint64 msec)
 {
-    if(!m_setup || !m_playlistInterface)
+    if(!m_setup)
         return;
 
     if(m_statusLabel)
@@ -581,7 +574,6 @@ void PlayerManager::slotVolumeChanged(qreal volume)
 
 PlayerManager::PlayerManager() :
     QObject(),
-    m_playlistInterface(0),
     m_statusLabel(0),
     m_setup(false),
     m_crossfadeTracks(true),

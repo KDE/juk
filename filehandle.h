@@ -70,6 +70,8 @@ public:
     QString property(const QString &name) const;
 
     static const FileHandle &null();
+    
+    quint32 id() const;
 
 private:
     class FileHandlePrivate;

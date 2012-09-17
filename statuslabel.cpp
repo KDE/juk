@@ -32,6 +32,7 @@
 #include "playlist/playlistinterface.h"
 #include "actioncollection.h"
 #include "tag.h"
+#include "playermanager.h"
 
 using namespace ActionCollection;
 
@@ -104,8 +105,8 @@ StatusLabel::~StatusLabel()
 
 void StatusLabel::updateCurrent()
 {
-    if(playlist()->playing()) {
-        FileHandle file = playlist()->currentFile();
+    if(PlayerManager::instance()->playing()) {
+        FileHandle file = PlayerManager::instance()->playingFile();
 
         QString mid =  file.tag()->artist().isEmpty() || file.tag()->title().isEmpty()
             ? QString::null : QString(" - ");	//krazy:exclude=nullstrassign for old broken gcc
@@ -121,7 +122,7 @@ void StatusLabel::updateData()
 {
     updateCurrent();
 
-    if(!playlist()->playing()) {
+    if(!PlayerManager::instance()->playing()) {
         setItemTotalTime(0);
         setItemCurrentTime(0);
 

@@ -185,8 +185,8 @@ void DynamicPlaylist::slotUpdateItems()
 
     clear();
     createItems(m_siblings);
-    if(m_synchronizePlaying)
-        synchronizePlayingItems(m_playlists, true);
+//     if(m_synchronizePlaying)
+//         synchronizePlayingItems(m_playlists, true);
 }
 
 #include "dynamicplaylist.moc"

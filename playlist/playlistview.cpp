@@ -1263,3 +1263,106 @@ void PlaylistView::setSearchEnabled(bool enabled)
 //     TrackSequenceManager::instance()->setNextItem(m_backMenuItems[number]);
 //     action("forward")->trigger();
 // }
+
+////////////////////////////////////////////////////////////////////////////////
+// protected slots
+////////////////////////////////////////////////////////////////////////////////
+
+// void Playlist::slotPopulateBackMenu() const
+// {
+//     if(!playingItem())
+//         return;
+// 
+//     QMenu *menu = action<KToolBarPopupAction>("back")->menu();
+//     menu->clear();
+//     m_backMenuItems.clear();
+// 
+//     int count = 0;
+//     PlaylistItemList::ConstIterator it = m_history.constEnd();
+// 
+//     QAction *action;
+// 
+//     while(it != m_history.constBegin() && count < 10) {
+//         ++count;
+//         --it;
+//         action = new QAction((*it)->file().tag()->title(), menu);
+//         action->setData(count);
+//         menu->addAction(action);
+//         m_backMenuItems[count] = *it;
+//     }
+// }
+// 
+// void Playlist::slotPlayFromBackMenu(QAction *backAction) const
+// {
+//     int number = backAction->data().toInt();
+// 
+//     if(!m_backMenuItems.contains(number))
+//         return;
+// 
+//     TrackSequenceManager::instance()->setNextItem(m_backMenuItems[number]);
+//     action("forward")->trigger();
+// }
+// 
+
+// void Playlist::playFirst()
+// {
+//     TrackSequenceManager::instance()->setNextItem(m_items.first());
+//     action("forward")->trigger();
+// }
+// 
+// void Playlist::playNextAlbum()
+// {
+//     PlaylistItem *current = TrackSequenceManager::instance()->currentItem();
+//     if(!current)
+//         return; // No next album if we're not already playing.
+// 
+//     QString currentAlbum = current->file().tag()->album();
+//     current = TrackSequenceManager::instance()->nextItem();
+// 
+//     while(current && current->file().tag()->album() == currentAlbum)
+//         current = TrackSequenceManager::instance()->nextItem();
+// 
+//     TrackSequenceManager::instance()->setNextItem(current);
+//     action("forward")->trigger();
+// }
+// 
+// void Playlist::playNext()
+// {
+//     TrackSequenceManager::instance()->setCurrentPlaylist(this);
+//     setPlaying(TrackSequenceManager::instance()->nextItem());
+// }
+// 
+// void Playlist::stop()
+// {
+//     m_history.clear();
+//     setPlaying(0);
+// }
+// 
+// void Playlist::playPrevious()
+// {
+//     if(!playingItem())
+//         return;
+// 
+//     bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
+// 
+//     PlaylistItem *previous = 0;
+// 
+//     if(random && !m_history.isEmpty()) {
+//         PlaylistItemList::Iterator last = --m_history.end();
+//         previous = *last;
+//         m_history.erase(last);
+//     }
+//     else {
+//         m_history.clear();
+//         previous = TrackSequenceManager::instance()->previousItem();
+//     }
+// 
+//     
+//     if(!previous) {
+//         int index = m_items.indexOf(playingItem()) - 1;
+//         if (index < 0) index = m_items.size();
+//         previous = m_items[index];
+//     }
+// 
+//     setPlaying(previous, false);
+// }

@@ -97,13 +97,6 @@ public:
     virtual CollectionListItem *collectionItem() { return m_collectionItem; }
 
     /**
-     * This is an identifier for the playlist item which will remain unique
-     * throughout the process lifetime. It stays constant once the PlaylistItem
-     * is created.
-     */
-    quint32 trackId() const { return m_trackId; }
-
-    /**
      * The widths of items are cached when they're updated for us in computations
      * in the "weighted" listview column width mode.
      */
@@ -186,7 +179,6 @@ private:
     void setup(CollectionListItem *item);
 
     CollectionListItem *m_collectionItem;
-    quint32 m_trackId;
     bool m_watched;
     static PlaylistItemList m_playingItems;
     Playlist *m_playlist;

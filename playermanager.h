@@ -32,7 +32,6 @@
 class Scrobbler;
 class KSelectAction;
 class StatusLabel;
-class PlaylistInterface;
 class QPixmap;
 
 namespace Phonon
@@ -83,7 +82,6 @@ public:
 
     KSelectAction* outputDeviceSelectAction();
 
-    void setPlaylistInterface(PlaylistInterface *interface);
     void setStatusLabel(StatusLabel *label);
 
     QString randomPlayMode() const;
@@ -143,7 +141,6 @@ private slots:
 
 private:
     FileHandle m_file;
-    PlaylistInterface *m_playlistInterface;
     StatusLabel *m_statusLabel;
     Scrobbler *m_scrobbler;
     bool m_muted;

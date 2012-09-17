@@ -36,10 +36,10 @@
 #include <KUrl>
 #include <KStandardDirs>
 
-static QByteArray idFromPlaylistItem(const PlaylistItem *item)
+static QByteArray idFromFileHandle(const FileHandle &item)
 {
     return QByteArray("/org/kde/juk/tid_") +
-           QByteArray::number(item->trackId(), 16).rightJustified(8, '0');
+           QByteArray::number(item.id(), 16).rightJustified(8, '0');
 }
 
 MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
@@ -111,14 +111,14 @@ void MediaPlayer2Player::Play() const
 
 void MediaPlayer2Player::SetPosition(const QDBusObjectPath& TrackId, qlonglong Position) const
 {
-    PlaylistItem *playingItem = Playlist::playingItem();
+    const FileHandle &filehandle = PlayerManager::instance()->playingFile();
 
-    if (!playingItem) {
+    if (filehandle.isNull()) {
         return;
     }
 
     // Verify the SetPosition call is against the currently playing track
-    QByteArray currentTrackId = idFromPlaylistItem(playingItem);
+    QByteArray currentTrackId = idFromFileHandle(filehandle);
 
     if (TrackId.path().toLatin1() == currentTrackId) {
         PlayerManager::instance()->seek(Position / 1000);
@@ -187,13 +187,12 @@ QVariantMap MediaPlayer2Player::Metadata() const
     // The track ID is annoying since it must result in a valid DBus object
     // path, and the regex for that is, and I quote: [a-zA-Z0-9_]*, along with
     // the normal / delimiters for paths.
-    PlaylistItem *item = Playlist::playingItem();
-    if (!item)
+
+    const FileHandle &playingFile = PlayerManager::instance()->playingFile();
+    if (playingFile.isNull())
         return metaData;
 
-    FileHandle playingFile = item->file();
-    QByteArray playingTrackFileId = idFromPlaylistItem(item);
-
+    QByteArray playingTrackFileId = idFromFileHandle(playingFile);
     metaData["mpris:trackid"] =
         QVariant::fromValue<QDBusObjectPath>(
                 QDBusObjectPath(playingTrackFileId.constData()));
@@ -209,7 +208,7 @@ QVariantMap MediaPlayer2Player::Metadata() const
 
     if(playingFile.coverInfo()->hasCover()) {
         QString fallbackFileName = KStandardDirs::locateLocal("tmp",
-                QString("juk-cover-%1.png").arg(item->trackId()));
+                QString("juk-cover-%1.png").arg(playingFile.id()));
 
         QString path = fallbackFileName;
         if(!QFile::exists(path)) {

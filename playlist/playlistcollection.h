@@ -56,13 +56,8 @@ public:
     static PlaylistCollection *instance() { return m_instance; }
 
     virtual QString name() const;
-    virtual FileHandle currentFile() const;
     virtual int count() const;
     virtual int time() const;
-    virtual void playNext();
-    virtual void playPrevious();
-    virtual void stop();
-    virtual bool playing() const;
 
     void playFirst();
     void playNextAlbum();
@@ -236,9 +231,6 @@ private:
                           const QString &icon = QString(),
                           const KShortcut &shortcut = KShortcut());
 private slots:
-    void slotPlayFirst()     { m_collection->playFirst(); }
-    void slotPlayNextAlbum() { m_collection->playNextAlbum(); }
-
     void slotOpen()         { m_collection->open(); }
     void slotManageFolders()    { m_collection->addFolder(); }
     void slotRename()       { m_collection->rename(); }

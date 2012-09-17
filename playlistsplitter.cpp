@@ -205,8 +205,6 @@ void PlaylistSplitter::setupLayout()
             PlayerManager::instance(), SLOT(play(FileHandle)));
     connect(m_playlistView, SIGNAL(activated(QModelIndex)), SLOT(slotPlaySong(QModelIndex)));
 
-    PlayerManager::instance()->setPlaylistInterface(m_playlistBox);
-
     // Let interested parties know we're ready
     connect(m_playlistBox, SIGNAL(startupComplete()), SIGNAL(guiReady()));
 

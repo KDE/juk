@@ -106,11 +106,6 @@ QString PlaylistCollection::name() const
     return currentPlaylist()->name();
 }
 
-FileHandle PlaylistCollection::currentFile() const
-{
-    return currentPlaylist()->currentFile();
-}
-
 int PlaylistCollection::count() const
 {
     return currentPlaylist()->count();
@@ -121,45 +116,6 @@ int PlaylistCollection::time() const
     return currentPlaylist()->time();
 }
 
-void PlaylistCollection::playFirst()
-{
-    m_playing = true;
-    currentPlaylist()->playFirst();
-    currentChanged();
-}
-
-void PlaylistCollection::playNextAlbum()
-{
-    m_playing = true;
-    currentPlaylist()->playNextAlbum();
-    currentChanged();
-}
-
-void PlaylistCollection::playPrevious()
-{
-    m_playing = true;
-    currentPlaylist()->playPrevious();
-    currentChanged();
-}
-
-void PlaylistCollection::playNext()
-{
-    m_playing = true;
-    currentPlaylist()->playNext();
-    currentChanged();
-}
-
-void PlaylistCollection::stop()
-{
-    m_playing = false;
-    currentPlaylist()->stop();
-    weChanged();
-}
-
-bool PlaylistCollection::playing() const
-{
-    return m_playing;
-}
 
 QStringList PlaylistCollection::playlists() const
 {
@@ -621,10 +577,7 @@ Playlist *PlaylistCollection::currentPlaylist() const
     if(m_upcomingPlaylist && m_upcomingPlaylist->active())
         return m_upcomingPlaylist;
 
-    if(Playlist::playingItem())
-        return Playlist::playingItem()->playlist();
-    else
-        return visiblePlaylist();
+    return visiblePlaylist();
 }
 
 Playlist *PlaylistCollection::visiblePlaylist() const
