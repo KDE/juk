@@ -24,10 +24,10 @@
 
 #include "juk.h"
 
-static const char description[] = I18N_NOOP("Jukebox and music manager for KDE");
+static const char description[] = I18N_NOOP("Jukebox and music manager by KDE");
 static const char scott[]       = I18N_NOOP("Author, chief dork and keeper of the funk");
 static const char michael[]     = I18N_NOOP("Assistant super-hero, fixer of many things");
-static const char georg[]       = I18N_NOOP("More KDE 4 porting efforts");
+static const char georg[]       = I18N_NOOP("More KDE Platform 4 porting efforts");
 static const char daniel[]      = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
 static const char tim[]         = I18N_NOOP("GStreamer port");
 static const char stefan[]      = I18N_NOOP("Global keybindings support");
@@ -36,22 +36,23 @@ static const char frerich[]     = I18N_NOOP("Automagic track data guessing, bugf
 static const char zack[]        = I18N_NOOP("More automagical things, now using MusicBrainz");
 static const char adam[]        = I18N_NOOP("Co-conspirator in MusicBrainz wizardry");
 static const char matthias[]    = I18N_NOOP("Friendly, neighborhood aRts guru");
-static const char maks[]        = I18N_NOOP("Making JuK friendlier to people with\nterabytes of music");
+static const char maks[]        = I18N_NOOP("Making JuK friendlier to people with terabytes of music");
 static const char antonio[]     = I18N_NOOP("DCOP interface");
 static const char allan[]       = I18N_NOOP("FLAC and MPC support");
 static const char nathan[]      = I18N_NOOP("Album cover manager");
 static const char pascal[]      = I18N_NOOP("Gimper of splash screen");
 static const char laurent[]     = I18N_NOOP("Porting to KDE 4 when no one else was around");
 static const char giorgos[]     = I18N_NOOP("Badly-needed tag editor bugfixes.");
-static const char sandsmark[]   = I18N_NOOP("Last.fm scrobbling support.");
+static const char sandsmark[]   = I18N_NOOP("Last.fm scrobbling support, lyrics, prepping for KDE Frameworks.");
 static const char sho[]         = I18N_NOOP("MPRIS2 Interface implementation.");
 
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", 0, ki18n("JuK"),
-                         "3.8", ki18n(description), KAboutData::License_GPL,
-                         ki18n("© 2002 - 2012, Scott Wheeler"), KLocalizedString(),
-                         "http://developer.kde.org/~wheeler/juk.html");
+                         "3.9", ki18n(description), KAboutData::License_GPL,
+                         ki18n("© 2002–2012, Scott Wheeler, Michael Pyne, and others"),
+                         KLocalizedString(),
+                         "http://www.kde.org/applications/multimedia/juk/");
 
     aboutData.addAuthor(ki18n("Scott Wheeler"), ki18n(scott), "wheeler@kde.org");
     aboutData.addAuthor(ki18n("Michael Pyne"), ki18n(michael), "mpyne@kde.org");
