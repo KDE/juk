@@ -341,7 +341,7 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
 {
     int offset = playlist()->columnOffset();
 
-    if(column < 0 || column >= lastColumn() + offset || !firstItem->d || !secondItem->d)
+    if(column < 0 || column > lastColumn() + offset || !firstItem->d || !secondItem->d)
         return 0;
 
     if(column < offset) {
