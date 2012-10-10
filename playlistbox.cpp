@@ -685,11 +685,12 @@ void PlaylistBox::slotDoubleClicked(Q3ListViewItem *item)
 
     manager->setCurrentPlaylist(playlistItem->playlist());
 
-    manager->setCurrent(0); // Reset playback
-    PlaylistItem *next = manager->nextItem(); // Allow manager to choose
+    manager->setCurrent(QModelIndex()); // Reset playback
+    const QModelIndex &next = manager->nextItem(); // Allow manager to choose
 
-    if(next) {
-        emit startFilePlayback(next->file());
+    if(next.isValid()) {
+        //emit startFilePlayback(next->file());
+        PlayerManager::instance()->play(next);
         // ### TODO FIXME 
 //         playlistItem->playlist()->setPlaying(next);
     }

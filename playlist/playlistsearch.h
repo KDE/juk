@@ -18,6 +18,7 @@
 
 #include <QRegExp>
 #include <QList>
+#include <QModelIndex>
 
 class Playlist;
 class PlaylistItem;
@@ -43,9 +44,9 @@ public:
     void search();
     bool checkItem(PlaylistItem *item);
 
-    PlaylistItemList searchedItems() const { return m_items; }
-    PlaylistItemList matchedItems() const { return m_matchedItems; }
-    PlaylistItemList unmatchedItems() const { return m_unmatchedItems; }
+    QModelIndexList searchedItems() const { return m_items; }
+    QModelIndexList matchedItems() const { return m_matchedItems; }
+    QModelIndexList unmatchedItems() const { return m_unmatchedItems; }
 
     void addPlaylist(Playlist *p) { m_playlists.append(p); }
     void clearPlaylists() { m_playlists.clear(); }
@@ -75,9 +76,9 @@ private:
     ComponentList m_components;
     SearchMode m_mode;
 
-    PlaylistItemList m_items;
-    PlaylistItemList m_matchedItems;
-    PlaylistItemList m_unmatchedItems;
+    QModelIndexList m_items;
+    QModelIndexList m_matchedItems;
+    QModelIndexList m_unmatchedItems;
 };
 
 /**

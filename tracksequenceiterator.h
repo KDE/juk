@@ -16,6 +16,8 @@
 #ifndef TRACKSEQUENCEITERATOR_H
 #define TRACKSEQUENCEITERATOR_H
 
+#include <QModelIndex>
+
 #include "playlist/playlistitem.h"
 #include "playlist/playlistsearch.h"
 
@@ -71,7 +73,7 @@ public:
      *
      * @return current track
      */
-    virtual PlaylistItem *current() const { return m_current; }
+    virtual const QModelIndex &current() const { return m_current; }
 
     /**
      * This function creates a perfect copy of the object it is called on, to
@@ -90,7 +92,7 @@ public:
      *
      * @param playlist the playlist to iterate over
      */
-    virtual void prepareToPlay(Playlist *playlist) = 0;
+    virtual void prepareToPlay(const Playlist *playlist) = 0;
 
     /**
      * This function is called whenever the current playlist changes, such as
@@ -99,15 +101,6 @@ public:
      * playing item. Default implementation does nothing.
      */
     virtual void playlistChanged();
-
-    /**
-     * This function is called by the manager when \p item is about to be
-     * removed.  Subclasses should ensure that they're not still holding a
-     * pointer to the item.  The default implementation does nothing.
-     *
-     * @param item the item about to be removed.
-     */
-    virtual void itemAboutToDie(const PlaylistItem *item);
 
     /**
      * This function is called by the TrackSequenceManager is some situations,
@@ -122,10 +115,10 @@ public:
      *
      * @param current the new current item
      */
-    virtual void setCurrent(PlaylistItem *current);
+    virtual void setCurrent(const QModelIndex &current);
 
 private:
-    PlaylistItem::Pointer m_current; ///< the current item
+    QModelIndex m_current; ///< the current item
 };
 
 /**
@@ -173,7 +166,7 @@ public:
      *
      * @param playlist The playlist to initialize for.
      */
-    virtual void prepareToPlay(Playlist *playlist);
+    virtual void prepareToPlay(const Playlist *playlist);
 
     /**
      * This function clears all internal state, including any random play lists,
@@ -188,18 +181,12 @@ public:
     virtual void playlistChanged();
 
     /**
-     * Called when \p item is about to be removed.  This function ensures that
-     * it isn't remaining in the random play list.
-     */
-    virtual void itemAboutToDie(const PlaylistItem *item);
-
-    /**
      * This function sets the current item, and initializes any internal lists
      * that may be needed for playback.
      *
      * @param current The new current item.
      */
-    virtual void setCurrent(PlaylistItem *current);
+    virtual void setCurrent(const QModelIndex &current);
 
     /**
      * This function returns a perfect copy of the object it is called on, to
@@ -219,11 +206,11 @@ private:
      * @param p The Playlist to read items from.  If p is 0, the playlist of
      *        the currently playing item is used instead.
      */
-    void refillRandomList(Playlist *p = 0);
-    void initAlbumSearch(PlaylistItem *searchItem);
+    void refillRandomList(const Playlist *p = 0);
+    void initAlbumSearch(const QModelIndex &searchItem);
 
 private:
-    PlaylistItemList m_randomItems;
+    QModelIndexList m_randomItems;
     PlaylistSearch m_albumSearch;
 };
 

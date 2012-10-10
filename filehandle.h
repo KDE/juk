@@ -17,6 +17,7 @@
 #define FILEHANDLE_H
 
 #include <QString>
+#include <QMetaType>
 
 class QFileInfo;
 class QDateTime;
@@ -79,6 +80,8 @@ private:
 
     void setup(const QFileInfo &info, const QString &path);
 };
+
+Q_DECLARE_METATYPE(FileHandle);
 
 typedef QList<FileHandle> FileHandleList;
 

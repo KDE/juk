@@ -81,7 +81,6 @@ protected:
 signals:
     void signalPlaylistDestroyed(Playlist *);
     void startupComplete(); ///< Emitted after playlists are loaded.
-    void startFilePlayback(const FileHandle &file);
 
 private:
     void readConfig();

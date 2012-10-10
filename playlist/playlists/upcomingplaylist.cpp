@@ -56,7 +56,7 @@ void UpcomingPlaylist::initialize()
     m_oldIterator = manager()->takeIterator();
     manager()->installIterator(new UpcomingSequenceIterator(this));
 
-    if(!m_oldIterator->current())
+    if(!m_oldIterator->current().isValid())
         m_oldIterator->prepareToPlay(CollectionList::instance());
     else
         manager()->iterator()->setCurrent(m_oldIterator->current());
@@ -73,7 +73,7 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
 
     foreach(PlaylistItem *playlistItem, itemList) {
         after = createItem(playlistItem, after);
-        m_playlistIndex.insert(after, playlistItem->playlist());
+//         m_playlistIndex.insert(after, playlistItem->playlist());
     }
 
     weChanged();
@@ -109,12 +109,6 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
 //     }
 // }
 
-void UpcomingPlaylist::clearItem(PlaylistItem *item, bool emitChanged)
-{
-    m_playlistIndex.remove(item);
-    Playlist::clearItem(item, emitChanged);
-}
-
 void UpcomingPlaylist::addFiles(const QStringList &files, PlaylistItem *after)
 {
     CollectionList::instance()->addFiles(files, after);
@@ -128,11 +122,6 @@ void UpcomingPlaylist::addFiles(const QStringList &files, PlaylistItem *after)
     }
 
     appendItems(l);
-}
-
-QMap< PlaylistItem::Pointer, QPointer<Playlist> > &UpcomingPlaylist::playlistIndex()
-{
-    return m_playlistIndex;
 }
 
 void UpcomingPlaylist::removeIteratorOverride()
@@ -184,13 +173,13 @@ UpcomingPlaylist::UpcomingSequenceIterator::~UpcomingSequenceIterator()
 
 void UpcomingPlaylist::UpcomingSequenceIterator::advance()
 {
-    PlaylistItem *item = m_playlist->firstItem();
+    const QModelIndex &item = m_playlist->index(0, 0);
 
-    if(item) {
-        PlaylistItem *next = 0;
-        if (m_playlist->items().size() > 1)
-            next = m_playlist->items().at(1);
-        m_playlist->clearItem(item);
+    if(item.isValid()) {
+        QModelIndex next;
+        if (m_playlist->rowCount() > 1)
+            next = m_playlist->index(1, 0);
+        m_playlist->clearRow(item.row());
         setCurrent(next);
     }
 }
@@ -204,9 +193,9 @@ UpcomingPlaylist::UpcomingSequenceIterator *UpcomingPlaylist::UpcomingSequenceIt
     return new UpcomingSequenceIterator(*this);
 }
 
-void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *currentItem)
+void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(const QModelIndex &currentItem)
 {
-    if(!currentItem) {
+    if(!currentItem.isValid()) {
         TrackSequenceIterator::setCurrent(currentItem);
         return;
     }
@@ -220,35 +209,36 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
 
     // If a different playlist owns this item, add it to the upcoming playlist
 
-    Playlist *p = currentItem->playlist();
+    const Playlist *p = qobject_cast<const Playlist*>(currentItem.model());
 
     if(p != m_playlist) {
-        PlaylistItem *i = m_playlist->createItem(currentItem, (PlaylistItem *) 0);
-        m_playlist->playlistIndex().insert(i, p);
-        m_playlist->weChanged();
+        m_playlist->insertItem(0, currentItem);
+//         PlaylistItem *i = m_playlist->createItem(currentItem, (PlaylistItem *) 0);
+//         m_playlist->playlistIndex().insert(i, p);
+//         m_playlist->weChanged();
 //         m_playlist->slotWeightDirty();
     }
     else {
         // if(p == m_playlist) {
 
         // Bump this item up to the top
-        m_playlist->moveItem(m_playlist->items().indexOf(currentItem), 0);
+        m_playlist->moveItem(currentItem.row(), 0);
 //         m_playlist->takeItem(currentItem);
 //         m_playlist->insertItem(currentItem);
     }
 
-    TrackSequenceIterator::setCurrent(m_playlist->firstItem());
+    TrackSequenceIterator::setCurrent(m_playlist->index(0, 0));
 }
 
 void UpcomingPlaylist::UpcomingSequenceIterator::reset()
 {
-    setCurrent(0);
+    setCurrent(QModelIndex());
 }
 
-void UpcomingPlaylist::UpcomingSequenceIterator::prepareToPlay(Playlist *)
+void UpcomingPlaylist::UpcomingSequenceIterator::prepareToPlay(const Playlist*)
 {
     if(!m_playlist->items().isEmpty())
-        setCurrent(m_playlist->firstItem());
+        setCurrent(m_playlist->index(0, 0));
 }
 
 QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p)

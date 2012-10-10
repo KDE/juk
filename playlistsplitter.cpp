@@ -201,8 +201,6 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist*)),
             m_editor, SLOT(slotPlaylistDestroyed(Playlist*)));
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
-    connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
-            PlayerManager::instance(), SLOT(play(FileHandle)));
     connect(m_playlistView, SIGNAL(activated(QModelIndex)), SLOT(slotPlaySong(QModelIndex)));
 
     // Let interested parties know we're ready
@@ -315,9 +313,7 @@ void PlaylistSplitter::slotEnable()
 
 void PlaylistSplitter::slotPlaySong(const QModelIndex& index)
 {
-    const Playlist *playlist = qobject_cast<const Playlist*>(index.model());
-    PlaylistItem *next = playlist->items().at(index.row());
-    TrackSequenceManager::instance()->setNextItem(next);
+    TrackSequenceManager::instance()->setNextItem(index);
     ActionCollection::action("forward")->trigger();
 }
 

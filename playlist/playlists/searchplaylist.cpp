@@ -52,33 +52,34 @@ void SearchPlaylist::setPlaylistSearch(const PlaylistSearch &s, bool update)
 
 void SearchPlaylist::updateItems()
 {
+    // ### TODO FIXME we are going to nuke this class in favour of proxy models, so fuck this for now
     // Here we don't simply use "clear" since that would involve a call to
     // items() which would in turn call this method...
 
-    PlaylistItemList l = Playlist::items();
-
-    QHash<CollectionListItem *, PlaylistItem *> oldItems;
-    oldItems.reserve(503);
-
-    foreach(PlaylistItem *item, l)
-        oldItems.insert(item->collectionItem(), item);
-
-    m_search.search();
-    PlaylistItemList matched = m_search.matchedItems();
-    PlaylistItemList newItems;
-
-    foreach(PlaylistItem *item, matched) {
-        if(oldItems.remove(item->collectionItem()) == 0)
-            newItems.append(item->collectionItem());
-    }
-
-    foreach(PlaylistItem *item, oldItems)
-        clearItem(item, false);
-
-    if(!oldItems.isEmpty() && newItems.isEmpty())
-        weChanged();
-
-    createItems(newItems);
+//     PlaylistItemList l = Playlist::items();
+// 
+//     QHash<CollectionListItem *, PlaylistItem *> oldItems;
+//     oldItems.reserve(503); //### WTF 
+// 
+//     foreach(PlaylistItem *item, l)
+//         oldItems.insert(item->collectionItem(), item);
+// 
+//     m_search.search();
+//     QModelIndexList matched = m_search.matchedItems();
+//     QModelIndexList newItems;
+// 
+//     foreach(const QModelIndex &item, matched) {
+//         if(oldItems.remove(item->collectionItem()) == 0)
+//             newItems.append(item->collectionItem());
+//     }
+// 
+//     foreach(const QModelIndex &item, oldItems)
+//         clearItem(item, false);
+// 
+//     if(!oldItems.isEmpty() && newItems.isEmpty())
+//         weChanged();
+// 
+//     createItems(newItems);
 }
 
 

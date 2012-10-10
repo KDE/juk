@@ -468,10 +468,10 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
     playlists.append(CollectionList::instance());
 
     PlaylistSearch search(playlists, components);
-    const PlaylistItemList matches = search.matchedItems();
+    const QModelIndexList matches = search.matchedItems();
 
-    foreach(PlaylistItem *item, matches)
-        item->refresh();
+    foreach(const QModelIndex &index, matches)
+        refresh(index);
 }
 
 void Playlist::setupItem(PlaylistItem *item)
@@ -724,7 +724,6 @@ int Playlist::columnCount(const QModelIndex& parent) const
     return 12;
 }
 
-
 K_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalGenericImage, (SmallIcon("image-x-generic")))
 K_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalPlayingImage, (UserIcon("playing")))
 
@@ -740,9 +739,9 @@ QVariant Playlist::data(const QModelIndex& index, int role) const
         } else if (column == 0 && PlayerManager::instance()->playingFile() == fileHandle) {
             return *globalPlayingImage;
         }
-    }
-    
-    if (role != Qt::DisplayRole)
+    } else if (role == Qt::UserRole) {
+        return QVariant::fromValue<FileHandle>(fileHandle);
+    } else if (role != Qt::DisplayRole)
         return QVariant();
 
     switch(column) {
@@ -958,6 +957,22 @@ void Playlist::refreshRows(QModelIndexList &l)
 
         processEvents();
     }
+}
+
+void Playlist::insertItem(int pos, const QModelIndex& item)
+{
+    const Playlist *other = qobject_cast<const Playlist*>(item.model());
+    m_items.insert(pos, other->m_items[item.row()]); 
+}
+
+void Playlist::refresh(const QModelIndex &index)
+{
+    m_items[index.row()]->refresh();
+}
+
+void Playlist::clearRow(int row)
+{
+    m_items.removeAt(row);
 }
 
 

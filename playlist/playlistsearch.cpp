@@ -57,17 +57,17 @@ void PlaylistSearch::search()
     // allowance for appending and removing chars.  If one is added it
     // should only search the current list.  If one is removed it should
     // pop the previous search results off of a stack.
-
-    foreach(Playlist *playlist, m_playlists) {
-        if(!isEmpty()) {
-            foreach(PlaylistItem *item, playlist->items())
-                checkItem(item);
-        }
-        else {
-            m_items += playlist->items();
-            m_matchedItems += playlist->items();
-        }
-    }
+//### TODO FIXME
+//     foreach(Playlist *playlist, m_playlists) {
+//         if(!isEmpty()) {
+//             foreach(PlaylistItem *item, playlist->items())
+//                 checkItem(item);
+//         }
+//         else {
+//             m_items += playlist->items();
+//             m_matchedItems += playlist->items();
+//         }
+//     }
 }
 
 bool PlaylistSearch::checkItem(PlaylistItem *item)
@@ -111,9 +111,10 @@ bool PlaylistSearch::isEmpty() const
 
 void PlaylistSearch::clearItem(PlaylistItem *item)
 {
-    m_items.removeAll(item);
-    m_matchedItems.removeAll(item);
-    m_unmatchedItems.removeAll(item);
+    // TODO FIXME ###
+//     m_items.removeAll(item);
+//     m_matchedItems.removeAll(item);
+//     m_unmatchedItems.removeAll(item);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -18,10 +18,10 @@
 
 #include <QObject>
 #include <QPointer>
+#include <QModelIndex>
 
 class KMenu;
 class TrackSequenceIterator;
-class PlaylistItem;
 class Playlist;
 
 /**
@@ -91,7 +91,7 @@ public:
      * @return the next track in the current sequence, or 0 if the end has
      * been reached
      */
-    PlaylistItem *nextItem();
+    const QModelIndex &nextItem();
 
     /**
      * Returns the previous track, and backs up in the current sequence.  Note
@@ -101,13 +101,13 @@ public:
      * @return the previous track in the current sequence, or 0 if the
      * beginning has been reached
      */
-    PlaylistItem *previousItem();
+    const QModelIndex &previousItem();
 
     /**
      * @return the current track in the current sequence, or 0 if there is no
      * current track (for example, an empty playlist)
      */
-    PlaylistItem *currentItem() const;
+    const QModelIndex &currentItem() const;
 
     /**
      * @return the current KMenu used by the manager, or 0 if none is
@@ -118,7 +118,7 @@ public:
     /**
      * @return the TrackSequenceManager's idea of the current playlist
      */
-    Playlist *currentPlaylist() const { return m_playlist; }
+    const Playlist *currentPlaylist() const { return m_playlist; }
 
 public slots:
     /**
@@ -126,7 +126,7 @@ public slots:
      *
      * @param item the next item to play
      */
-    void setNextItem(PlaylistItem *item);
+    void setNextItem(const QModelIndex &item);
 
     /**
      * Sets the current playlist.  This is necessary in order for some of the
@@ -137,7 +137,7 @@ public slots:
      *
      * @param list the current playlist
      */
-    void setCurrentPlaylist(Playlist *list);
+    void setCurrentPlaylist(const Playlist *list);
 
     /**
      * Sets the current item to @p item.  You should try to avoid calling this
@@ -148,7 +148,7 @@ public slots:
      * @param item the PlaylistItem that is currently playing.  Set to 0 if
      * there is no item playing.
      */
-    void setCurrent(PlaylistItem *item);
+    void setCurrent(const QModelIndex &item);
 
 private:
     /**
@@ -168,20 +168,9 @@ private:
      */
     TrackSequenceManager();
 
-protected slots:
-
-    /**
-     * This slot should be called when @a item is about to be deleted, so that
-     * the TrackSequenceManager can make sure that any pointers held pointing
-     * to @a item are corrected.
-     *
-     * @param item The PlaylistItem about to be deleted.
-     */
-    void slotItemAboutToDie(PlaylistItem *item);
-
 private:
-    QPointer<Playlist> m_playlist;
-    PlaylistItem *m_curItem, *m_playNextItem;
+    const Playlist *m_playlist;
+    QModelIndex m_curItem, m_playNextItem;
     KMenu *m_popupMenu;
     TrackSequenceIterator *m_iterator;
     TrackSequenceIterator *m_defaultIterator;

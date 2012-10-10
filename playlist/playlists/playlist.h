@@ -101,11 +101,14 @@ public:
     bool hasChildren(const QModelIndex& index) const;
     using QAbstractTableModel::sort;
     
-    
+
+    void insertItem(int pos , const QModelIndex& item);
     /**
      * Removes rows from playlist and deletes files from disk.
      */
     bool deleteRows(int row, int count, const QModelIndex & parent = QModelIndex());
+    
+    void clearRow(int row);
     
     /**
      * Refreshes a file from disk
@@ -359,6 +362,7 @@ private:
      * found and probably nothing should be done with the FileHandle you have.
      */
     CollectionListItem *collectionListItem(const FileHandle &file);
+    void refresh(const QModelIndex &index);
 
     /**
      * This class is used internally to store settings that are shared by all

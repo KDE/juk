@@ -43,7 +43,7 @@ TrackSequenceManager::~TrackSequenceManager()
 
 bool TrackSequenceManager::installIterator(TrackSequenceIterator *iterator)
 {
-    PlaylistItem *oldItem = m_iterator ? m_iterator->current() : 0;
+    const QModelIndex &oldItem = m_iterator ? m_iterator->current() : QModelIndex();
 
     if(m_iterator != m_defaultIterator)
         delete m_iterator;
@@ -57,7 +57,7 @@ bool TrackSequenceManager::installIterator(TrackSequenceIterator *iterator)
     return true;
 }
 
-PlaylistItem *TrackSequenceManager::currentItem() const
+const QModelIndex &TrackSequenceManager::currentItem() const
 {
     return m_iterator->current();
 }
@@ -80,18 +80,18 @@ TrackSequenceManager *TrackSequenceManager::instance()
     return &manager;
 }
 
-PlaylistItem *TrackSequenceManager::nextItem()
+const QModelIndex &TrackSequenceManager::nextItem()
 {
-    if(m_playNextItem) {
+    if(m_playNextItem.isValid()) {
 
         // Force the iterator to reset state (such as random item lists)
 
         m_iterator->reset();
-        m_iterator->prepareToPlay(m_playNextItem->playlist());
+        m_iterator->prepareToPlay(qobject_cast<const Playlist*>(m_playNextItem.model()));
         m_iterator->setCurrent(m_playNextItem);
-        m_playNextItem = 0;
+        m_playNextItem = QModelIndex();
     }
-    else if(m_iterator->current())
+    else if(m_iterator->current().isValid())
         m_iterator->advance();
     else if(currentPlaylist())
         m_iterator->prepareToPlay(currentPlaylist());
@@ -101,7 +101,7 @@ PlaylistItem *TrackSequenceManager::nextItem()
     return m_iterator->current();
 }
 
-PlaylistItem *TrackSequenceManager::previousItem()
+const QModelIndex &TrackSequenceManager::previousItem()
 {
     m_iterator->backup();
     return m_iterator->current();
@@ -111,27 +111,22 @@ PlaylistItem *TrackSequenceManager::previousItem()
 // public slots
 /////////////////////////////////////////////////////////////////////////////
 
-void TrackSequenceManager::setNextItem(PlaylistItem *item)
+void TrackSequenceManager::setNextItem(const QModelIndex &item)
 {
     m_playNextItem = item;
 }
 
-void TrackSequenceManager::setCurrentPlaylist(Playlist *list)
+void TrackSequenceManager::setCurrentPlaylist(const Playlist* list)
 {
-    if(m_playlist)
-        m_playlist->disconnect(this);
     m_playlist = list;
-
-    connect(m_playlist, SIGNAL(signalAboutToRemove(PlaylistItem*)),
-            this,       SLOT(slotItemAboutToDie(PlaylistItem*)));
 }
 
-void TrackSequenceManager::setCurrent(PlaylistItem *item)
+void TrackSequenceManager::setCurrent(const QModelIndex &item)
 {
     if(item != m_iterator->current()) {
         m_iterator->setCurrent(item);
-        if(item)
-            setCurrentPlaylist(item->playlist());
+        if(item.isValid())
+            setCurrentPlaylist(qobject_cast<const Playlist*>(item.model()));
         else
             m_iterator->reset();
     }
@@ -148,35 +143,18 @@ void TrackSequenceManager::initialize()
     if(!collection)
         return;
 
-    // Make sure we don't use m_playNextItem if it's invalid.
-    connect(collection, SIGNAL(signalAboutToRemove(PlaylistItem*)),
-            this, SLOT(slotItemAboutToDie(PlaylistItem*)));
-
     m_initialized = true;
 }
 
 TrackSequenceManager::TrackSequenceManager() :
     QObject(),
     m_playlist(0),
-    m_playNextItem(0),
     m_popupMenu(0),
     m_iterator(0),
     m_initialized(false)
 {
     m_defaultIterator = new DefaultSequenceIterator();
     m_iterator = m_defaultIterator;
-}
-
-/////////////////////////////////////////////////////////////////////////////
-// protected slots
-/////////////////////////////////////////////////////////////////////////////
-
-void TrackSequenceManager::slotItemAboutToDie(PlaylistItem *item)
-{
-    if(item == m_playNextItem)
-        m_playNextItem = 0;
-
-    m_iterator->itemAboutToDie(item);
 }
 
 #include "tracksequencemanager.moc"

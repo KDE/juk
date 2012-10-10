@@ -192,7 +192,14 @@ void PlayerManager::setStatusLabel(StatusLabel *label)
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlayerManager::play(const FileHandle &file)
+void PlayerManager::play(const QModelIndex& index)
+{
+    const Playlist *playlist = qobject_cast<const Playlist*>(index.model());
+    const FileHandle &file = playlist->data(index, Qt::UserRole).value<FileHandle>();
+    play(file);
+}
+
+void PlayerManager::play(const FileHandle& file)
 {
     if(!m_setup)
         setup();

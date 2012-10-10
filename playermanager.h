@@ -28,6 +28,7 @@
 
 #include <Phonon/Global>
 #include <Phonon/Path>
+#include <QModelIndex>
 
 class Scrobbler;
 class KSelectAction;
@@ -87,6 +88,7 @@ public:
     QString randomPlayMode() const;
 
 public slots:
+    void play(const QModelIndex &index);
     void play(const FileHandle &file);
     void play(const QString &file);
     void play();

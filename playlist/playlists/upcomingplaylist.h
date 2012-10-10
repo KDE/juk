@@ -85,19 +85,7 @@ public:
      */
 //     virtual void playNext();
 
-    /**
-     * Reimplemented to remove the item from the Playlist index.
-     */
-    virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
-
     virtual void addFiles(const QStringList &files, PlaylistItem *after = 0);
-
-    /**
-     * Returns a reference to the index between items in the list and the
-     * playlist that they came from.  This is used to remap the currently
-     * playing item to the source playlist.
-     */
-    QMap<PlaylistItem::Pointer, QPointer<Playlist> > &playlistIndex();
 
     bool active() const { return m_active; }
 
@@ -125,7 +113,6 @@ private:
     bool m_active;
     TrackSequenceIterator *m_oldIterator;
     int m_defaultSize;
-    QMap<PlaylistItem::Pointer, QPointer<Playlist> > m_playlistIndex;
 };
 
 /**
@@ -187,7 +174,7 @@ public:
      *
      * @param currentItem The PlaylistItem to play.
      */
-    virtual void setCurrent(PlaylistItem *currentItem);
+    virtual void setCurrent(const QModelIndex& currentItem);
 
     /**
      * This function resets any internet state.
@@ -199,7 +186,7 @@ public:
      * making sure the parent UpcomingPlaylist has items to play if it is
      * empty.
      */
-    virtual void prepareToPlay(Playlist *);
+    virtual void prepareToPlay(const Playlist *);
 
 private:
     UpcomingPlaylist *m_playlist;
