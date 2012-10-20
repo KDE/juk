@@ -61,8 +61,10 @@ void CollectionList::loadCachedItems()
     FileHandleHash::ConstIterator end = Cache::instance()->constEnd();
     for(FileHandleHash::ConstIterator it = Cache::instance()->constBegin(); it != end; ++it) {
         // This may have already been created via a loaded playlist.
-        if(!m_itemsDict.contains(it.key()))
-            new CollectionListItem(this, *it);
+        if(!m_itemsDict.contains(it.key())) {
+            insertFile(*it);
+            m_itemsDict.insert(it.key(), *it);
+        }
     }
 
     SplashScreen::update();
@@ -105,38 +107,6 @@ void CollectionList::initialize(PlaylistCollection *collection)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem *CollectionList::createItem(const FileHandle &file, PlaylistItem *, bool)
-{
-    // It's probably possible to optimize the line below away, but, well, right
-    // now it's more important to not load duplicate items.
-
-    if(m_itemsDict.contains(file.absFilePath()))
-        return 0;
-
-    CollectionListItem *item = new CollectionListItem(this, file);
-
-    if(!item->isValid()) {
-        kError() << "CollectionList::createItem() -- A valid tag was not created for \""
-                  << file.absFilePath() << "\"" << endl;
-        delete item;
-        return 0;
-    }
-
-    setupItem(item);
-
-    return item;
-}
-
-void CollectionList::clearItems(const PlaylistItemList &items)
-{
-    foreach(PlaylistItem *item, items) {
-        Cache::instance()->remove(item->file());
-        delete item;
-    }
-
-    weChanged();
-}
-
 void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
 {
     TreeViewMode *treeViewMode = dynamic_cast<TreeViewMode *>(viewMode);
@@ -169,28 +139,20 @@ void CollectionList::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > 
 {
     for(int i = 0; i < items.count(); ++i) {
         const KFileItem fileItem = items[i].second;
-        CollectionListItem *item = lookup(fileItem.url().path());
+        FileHandle file = lookup(fileItem.url().path());
 
-        if(item) {
-            item->refreshFromDisk();
+        if(!file.isNull()) {
+            file.refresh();
 
             // If the item is no longer on disk, remove it from the collection.
 
-            if(item->file().fileInfo().exists())
-                // ### TODO: View
-                true;
-                //item->repaint();
-            else
-                delete item;
+            if(!file.fileInfo().exists()) {
+                removeFile(file);
+            }
         }
     }
 
 //     update();
-}
-
-void CollectionList::slotDeleteItem(const KFileItem &item)
-{
-    delete lookup(item.url().path());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -221,27 +183,24 @@ void CollectionList::clear()
 void CollectionList::slotCheckCache()
 {
     loadCachedItems();
-
-    PlaylistItemList invalidItems;
-
-    foreach(CollectionListItem *item, m_itemsDict) {
-        if(!item->checkCurrent())
-            invalidItems.append(item);
+    
+    foreach(const FileHandle &file, m_itemsDict) {
+        if(!file.fileInfo().exists()) {
+            removeFile(file);
+        }
         processEvents();
     }
-
-    clearItems(invalidItems);
 }
 
 void CollectionList::slotRemoveItem(const QString &file)
 {
-    delete m_itemsDict[file];
+    removeFile(m_itemsDict[file]);
 }
 
 void CollectionList::slotRefreshItem(const QString &file)
 {
-    if(m_itemsDict[file])
-        m_itemsDict[file]->refresh();
+    if(!m_itemsDict[file].isNull())
+        m_itemsDict[file].refresh();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -284,7 +243,7 @@ CollectionList::~CollectionList()
     // m_columnTags member, so we must make sure they're gone before we
     // are.
 
-    clearItems(items());
+    clear();
 
     qDeleteAll(m_columnTags);
     m_columnTags.clear();
@@ -347,9 +306,9 @@ QStringList CollectionList::uniqueSet(UniqueSetType t) const
     return m_columnTags[column]->keys();
 }
 
-CollectionListItem *CollectionList::lookup(const QString &file) const
+const FileHandle &CollectionList::lookup(const QString& file) const
 {
-    return m_itemsDict.value(file, 0);
+    return m_itemsDict.value(file);
 }
 
 void CollectionList::removeStringFromDict(const QString &value, int column)
@@ -375,154 +334,15 @@ void CollectionList::removeWatched(const QString &file)
     m_dirWatch->removeFile(file);
 }
 
-////////////////////////////////////////////////////////////////////////////////
-// CollectionListItem public methods
-////////////////////////////////////////////////////////////////////////////////
-
-void CollectionListItem::refresh()
+void CollectionList::removeFile(const FileHandle& file)
 {
-    int columns = lastColumn() + 1;
-
-    data()->metadata.resize(columns);
-    data()->cachedWidths.resize(columns);
-
-//     for(int i = offset; i < columns; i++) {
-//         int id = i - offset;
-//         if(id != Playlist::TrackNumberColumn && id != Playlist::LengthColumn) {
-//             // All columns other than track num and length need local-encoded data for sorting
-// 
-//             QString toLower = text(i).toLower();
-// 
-//             // For some columns, we may be able to share some strings
-// 
-//             if((id == Playlist::ArtistColumn) || (id == Playlist::AlbumColumn) ||
-//                (id == Playlist::GenreColumn)  || (id == Playlist::YearColumn)  ||
-//                (id == Playlist::CommentColumn))
-//             {
-//                 toLower = StringShare::tryShare(toLower);
-// 
-//                 if(id != Playlist::YearColumn && id != Playlist::CommentColumn && data()->metadata[id] != toLower) {
-//                     CollectionList::instance()->removeStringFromDict(data()->metadata[id], id);
-//                     CollectionList::instance()->addStringToDict(text(i), id);
-//                 }
-//             }
-// 
-//             data()->metadata[id] = toLower;
-//         }
-// ### TODO: View
-//         int newWidth = width(listView()->fontMetrics(), listView(), i);
-//         if(newWidth != data()->cachedWidths[i])
-//             playlist()->slotWeightDirty(i);
-// 
-//         data()->cachedWidths[i] = newWidth;
-//     }
-
-//     if(listView()->isVisible())
-//         repaint();
-
-    for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
-//         (*it)->playlist()->update();
-        (*it)->playlist()->weChanged();
-//         if((*it)->listView()->isVisible())
-//             (*it)->repaint();
-    }
-
-    CollectionList::instance()->weChanged();
-    emit CollectionList::instance()->signalCollectionChanged();
+    removeFromDict(file.absFilePath());
+    removeStringFromDict(file.tag()->album(), Playlist::AlbumColumn);
+    removeStringFromDict(file.tag()->artist(), Playlist::ArtistColumn);
+    removeStringFromDict(file.tag()->genre(), Playlist::GenreColumn);
+    Playlist::removeFile(file);
 }
 
-PlaylistItem *CollectionListItem::itemForPlaylist(const Playlist *playlist)
-{
-    if(playlist == CollectionList::instance())
-        return this;
-
-    PlaylistItemList::ConstIterator it;
-    for(it = m_children.constBegin(); it != m_children.constEnd(); ++it)
-        if((*it)->playlist() == playlist)
-            return *it;
-    return 0;
-}
-
-void CollectionListItem::updateCollectionDict(const QString &oldPath, const QString &newPath)
-{
-    CollectionList *collection = CollectionList::instance();
-
-    if(!collection)
-        return;
-
-    collection->removeFromDict(oldPath);
-    collection->addToDict(newPath, this);
-}
-
-// void CollectionListItem::repaint() const
-// {
-//     Q3ListViewItem::repaint();
-//     for(PlaylistItemList::ConstIterator it = m_children.constBegin(); it != m_children.constEnd(); ++it)
-//         (*it)->repaint();
-// }
-
-////////////////////////////////////////////////////////////////////////////////
-// CollectionListItem protected methods
-////////////////////////////////////////////////////////////////////////////////
-
-CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle &file) :
-    PlaylistItem(parent),
-    m_shuttingDown(false)
-{
-    parent->addToDict(file.absFilePath(), this);
-
-    data()->fileHandle = file;
-
-    if(file.tag()) {
-        refresh();
-        parent->weChanged();
-    }
-    else {
-        kError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
-    }
-
-    SplashScreen::increment();
-}
-
-CollectionListItem::~CollectionListItem()
-{
-    m_shuttingDown = true;
-
-    foreach(PlaylistItem *item, m_children)
-        delete item;
-
-    CollectionList *l = CollectionList::instance();
-    if(l) {
-        l->removeFromDict(file().absFilePath());
-        l->removeStringFromDict(file().tag()->album(), Playlist::AlbumColumn);
-        l->removeStringFromDict(file().tag()->artist(), Playlist::ArtistColumn);
-        l->removeStringFromDict(file().tag()->genre(), Playlist::GenreColumn);
-    }
-}
-
-void CollectionListItem::addChildItem(PlaylistItem *child)
-{
-    m_children.append(child);
-}
-
-void CollectionListItem::removeChildItem(PlaylistItem *child)
-{
-    if(!m_shuttingDown)
-        m_children.removeAll(child);
-}
-
-bool CollectionListItem::checkCurrent()
-{
-    if(!file().fileInfo().exists() || !file().fileInfo().isFile())
-        return false;
-
-    if(!file().current()) {
-        file().refresh();
-        refresh();
-    }
-
-    return true;
-}
 
 #include "collectionlist.moc"
 

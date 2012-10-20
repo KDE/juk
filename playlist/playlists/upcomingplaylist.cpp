@@ -62,22 +62,18 @@ void UpcomingPlaylist::initialize()
         manager()->iterator()->setCurrent(m_oldIterator->current());
 }
 
-void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
+void UpcomingPlaylist::appendItems(const FileHandleList &itemList)
 {
     initialize();
 
     if(itemList.isEmpty())
         return;
 
-    PlaylistItem *after = static_cast<PlaylistItem *>(lastItem());
-
-    foreach(PlaylistItem *playlistItem, itemList) {
-        after = createItem(playlistItem, after);
-//         m_playlistIndex.insert(after, playlistItem->playlist());
+    foreach (const FileHandle &file, itemList) {
+        insertFile(file);
     }
-
+    
     weChanged();
-//     slotWeightDirty();
 }
 
 // void UpcomingPlaylist::playNext()
@@ -109,19 +105,13 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
 //     }
 // }
 
-void UpcomingPlaylist::addFiles(const QStringList &files, PlaylistItem *after)
+void UpcomingPlaylist::addFiles(const QStringList &files, int pos)
 {
-    CollectionList::instance()->addFiles(files, after);
+    CollectionList::instance()->addFiles(files, pos);
 
-    PlaylistItemList l;
     foreach(const QString &file, files) {
-        FileHandle f(file);
-        PlaylistItem *i = CollectionList::instance()->lookup(f.absFilePath());
-        if(i)
-            l.append(i);
+        insertFile(FileHandle(file));
     }
-
-    appendItems(l);
 }
 
 void UpcomingPlaylist::removeIteratorOverride()
@@ -237,18 +227,18 @@ void UpcomingPlaylist::UpcomingSequenceIterator::reset()
 
 void UpcomingPlaylist::UpcomingSequenceIterator::prepareToPlay(const Playlist*)
 {
-    if(!m_playlist->items().isEmpty())
+    if(!m_playlist->rowCount() > 0)
         setCurrent(m_playlist->index(0, 0));
 }
 
 QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p)
 {
-    PlaylistItemList l = const_cast<UpcomingPlaylist *>(&p)->items();
+    QStringList files = p.files();
 
-    s << qint32(l.count());
+    s << qint32(files.count());
 
-    foreach(const PlaylistItem *playlistItem, l)
-        s << playlistItem->file().absFilePath();
+    foreach(const QString &file, files)
+        s << file;
 
     return s;
 }
@@ -256,7 +246,6 @@ QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p)
 QDataStream &operator>>(QDataStream &s, UpcomingPlaylist &p)
 {
     QString fileName;
-    PlaylistItem *newItem = 0;
     qint32 count;
 
     s >> count;
@@ -266,7 +255,7 @@ QDataStream &operator>>(QDataStream &s, UpcomingPlaylist &p)
         if(fileName.isEmpty())
             throw BICStreamException();
 
-        newItem = p.createItem(FileHandle(fileName), newItem, false);
+        p.insertFile(FileHandle(fileName));
     }
 
     return s;

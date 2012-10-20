@@ -200,19 +200,16 @@ void PlaylistCollection::removeTrack(const QString &playlist, const QStringList 
     PlaylistItemList itemList;
     if(!p)
         return;
-
-    QStringList::ConstIterator it;
-    for(it = files.begin(); it != files.end(); ++it) {
-        CollectionListItem *item = CollectionList::instance()->lookup(*it);
-
-        if(item) {
-            PlaylistItem *playlistItem = item->itemForPlaylist(p);
-            if(playlistItem)
-                itemList.append(playlistItem);
-        }
+    
+    const QStringList &playlistFiles = p->files();
+    QList<int> rows;
+    foreach(const QString &file, files) {
+        rows.append(playlistFiles.indexOf(file));
     }
-
-    p->clearItems(itemList);
+    
+    qSort(rows); // So that we remove them in increasing number
+    foreach(int row, rows)
+        p->removeRow(row);
 }
 
 QString PlaylistCollection::playlist() const
@@ -244,9 +241,9 @@ QStringList PlaylistCollection::playlistTracks(const QString &playlist) const
 QString PlaylistCollection::trackProperty(const QString &file, const QString &property) const
 {
     CollectionList *l = CollectionList::instance();
-    CollectionListItem *item = l->lookup(file);
+    const FileHandle &item = l->lookup(file);
 
-    return item ? item->file().property(property) : QString();
+    return !item.isNull() ? item.property(property) : QString();
 }
 
 QPixmap PlaylistCollection::trackCover(const QString &file, const QString &size) const
@@ -255,15 +252,15 @@ QPixmap PlaylistCollection::trackCover(const QString &file, const QString &size)
         return QPixmap();
 
     CollectionList *l = CollectionList::instance();
-    CollectionListItem *item = l->lookup(file);
+    const FileHandle &item = l->lookup(file);
 
-    if(!item)
+    if(item.isNull())
         return QPixmap();
 
     if(size.toLower() == "small")
-        return item->file().coverInfo()->pixmap(CoverInfo::Thumbnail);
+        return item.coverInfo()->pixmap(CoverInfo::Thumbnail);
     else
-        return item->file().coverInfo()->pixmap(CoverInfo::FullSize);
+        return item.coverInfo()->pixmap(CoverInfo::FullSize);
 }
 
 void PlaylistCollection::open(const QStringList &l)
@@ -358,7 +355,7 @@ void PlaylistCollection::duplicate()
     if(name.isEmpty())
         return;
 
-    raise(new Playlist(this, visiblePlaylist()->items(), name));
+    raise(new Playlist(this, visiblePlaylist()->fileHandles(), name));
 }
 
 void PlaylistCollection::save()

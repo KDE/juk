@@ -21,20 +21,6 @@
 #include "playlist.h"
 #include "playlist/playlistitem.h"
 
-class HistoryPlaylistItem : public PlaylistItem
-{
-public:
-    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, PlaylistItem *after);
-    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent);
-    virtual ~HistoryPlaylistItem();
-
-    QDateTime dateTime() const { return m_dateTime; }
-    void setDateTime(const QDateTime &dt);
-
-private:
-    QDateTime m_dateTime;
-};
-
 class HistoryPlaylist : public Playlist
 {
     Q_OBJECT
@@ -43,11 +29,10 @@ public:
     HistoryPlaylist(PlaylistCollection *collection);
     virtual ~HistoryPlaylist();
 
-    virtual HistoryPlaylistItem *createItem(const FileHandle &file, HistoryPlaylistItem *after = 0,
-                                            bool emitChanged = true);
-    virtual void createItems(const PlaylistItemList &siblings);
     virtual int columnOffset() const { return 1; }
     virtual bool readOnly() const { return true; }
+    virtual QVariant data(const QModelIndex& index, int role) const;
+    virtual int columnCount (const QModelIndex & parent = QModelIndex()) const;
 
     static int delay() { return 5000; }
 
@@ -60,10 +45,12 @@ private slots:
     void slotCreateNewItem();
 
 private:
-    using Playlist::createItems;
+    friend QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p);
+    friend QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p);
 
     FileHandle m_file;
     QTimer *m_timer;
+    QList<QDateTime> m_dateTimes;
 };
 
 QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p);

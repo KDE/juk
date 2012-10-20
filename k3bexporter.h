@@ -67,7 +67,7 @@ public:
     void setPlaylist(Playlist *playlist) { m_parent = playlist; }
 
 protected:
-    void exportPlaylistItems(const PlaylistItemList &items);
+    void exportPlaylistItems(const FileHandleList &items);
 
 private slots:
     void slotExport();
@@ -76,7 +76,7 @@ private:
     enum K3bOpenMode { AudioCD, DataCD, Abort };
 
     // Private method declarations
-    void exportViaCmdLine(const PlaylistItemList &items);
+    void exportViaCmdLine(const FileHandleList& items);
     K3bOpenMode openMode();
 
     // Private member variable declarations

@@ -102,7 +102,7 @@ KAction *K3bExporter::action()
     return m_action;
 }
 
-void K3bExporter::exportPlaylistItems(const PlaylistItemList &items)
+void K3bExporter::exportPlaylistItems(const FileHandleList& items)
 {
     if(items.empty())
         return;
@@ -116,7 +116,7 @@ void K3bExporter::slotExport()
         exportPlaylistItems(m_parent->selectedItems());*/
 }
 
-void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
+void K3bExporter::exportViaCmdLine(const FileHandleList &items)
 {
     K3bOpenMode mode = openMode();
     QByteArray cmdOption;
@@ -139,9 +139,8 @@ void K3bExporter::exportViaCmdLine(const PlaylistItemList &items)
     process << "k3b";
     process << cmdOption;
 
-    PlaylistItemList::ConstIterator it;
-    for(it = items.begin(); it != items.end(); ++it)
-        process << (*it)->file().absFilePath();
+    foreach(const FileHandle &file, items)
+        process << file.absFilePath();
 
     if(!process.startDetached())
         KMessageBox::error(/*m_parent ### TODO: View */0, i18n("Unable to start K3b."));
@@ -196,7 +195,7 @@ void K3bPlaylistExporter::slotExport()
 {
     if(m_playlistBox) {
         setPlaylist(m_playlistBox->visiblePlaylist());
-        exportPlaylistItems(m_playlistBox->visiblePlaylist()->items());
+        exportPlaylistItems(m_playlistBox->visiblePlaylist()->fileHandles());
     }
 }
 

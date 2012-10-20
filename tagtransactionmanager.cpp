@@ -24,7 +24,6 @@
 #include <QFileInfo>
 #include <QDir>
 
-#include "playlist/playlistitem.h"
 #include "collectionlist.h"
 #include "tag.h"
 #include "actioncollection.h"
@@ -33,7 +32,7 @@ using ActionCollection::action;
 
 TagTransactionManager *TagTransactionManager::m_manager = 0;
 
-TagTransactionAtom::TagTransactionAtom() : m_item(0), m_tag(0)
+TagTransactionAtom::TagTransactionAtom() : m_tag(0)
 {
     action("edit_undo")->setEnabled(false);
 }
@@ -44,7 +43,7 @@ TagTransactionAtom::TagTransactionAtom(const TagTransactionAtom &other) :
     other.m_tag = 0; // Only allow one owner
 }
 
-TagTransactionAtom::TagTransactionAtom(PlaylistItem *item, Tag *tag) :
+TagTransactionAtom::TagTransactionAtom(const FileHandle &item, Tag *tag) :
     m_item(item), m_tag(tag)
 {
 }
@@ -69,10 +68,10 @@ TagTransactionManager *TagTransactionManager::instance()
     return m_manager;
 }
 
-void TagTransactionManager::changeTagOnItem(PlaylistItem *item, Tag *newTag)
+void TagTransactionManager::changeTagOnItem(const FileHandle &item, Tag *newTag)
 {
-    if(!item) {
-        kWarning() << "Trying to change tag on null PlaylistItem.\n";
+    if(item.isNull()) {
+        kWarning() << "Trying to change tag on null filehandle.\n";
         return;
     }
 
@@ -81,7 +80,7 @@ void TagTransactionManager::changeTagOnItem(PlaylistItem *item, Tag *newTag)
     // signals from CollectionList to ensure that the commit list and the
     // playlists stay in sync.
 
-    m_list.append(TagTransactionAtom(item->collectionItem(), newTag));
+    m_list.append(TagTransactionAtom(item, newTag));
 }
 
 Tag *TagTransactionManager::duplicateTag(const Tag *tag, const QString &fileName)
@@ -160,13 +159,13 @@ bool TagTransactionManager::processChangeList(bool undo)
     emit signalAboutToModifyTags();
 
     for(; it != end; ++it) {
-        PlaylistItem *item = (*it).item();
+        FileHandle file = it->item();
         Tag *tag = (*it).tag();
 
         QFileInfo newFile(tag->fileName());
 
-        if(item->file().fileInfo().fileName() != newFile.fileName()) {
-            if(!renameFile(item->file().fileInfo(), newFile)) {
+        if(file.fileInfo().fileName() != newFile.fileName()) {
+            if(!renameFile(file.fileInfo(), newFile)) {
 //                 errorItems.append(item->text(1) + QString(" - ") + item->text(0));
                 continue;
             }
@@ -174,16 +173,13 @@ bool TagTransactionManager::processChangeList(bool undo)
 
         if(tag->save()) {
             if(!undo)
-                m_undoList.append(TagTransactionAtom(item, duplicateTag(item->file().tag())));
+                m_undoList.append(TagTransactionAtom(file, duplicateTag(file.tag())));
 
-            item->file().setFile(tag->fileName());
-            item->refreshFromDisk();
-            //item->repaint();
-            item->playlist()->weChanged();
-            //item->playlist()->update();
+            file.setFile(tag->fileName());
+            file.refresh();
         }
         else {
-            Tag *errorTag = item->file().tag();
+            Tag *errorTag = file.tag();
             QString str = errorTag->artist() + " - " + errorTag->title();
 
             if(errorTag->artist().isEmpty())

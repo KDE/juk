@@ -67,13 +67,6 @@ protected:
     bool dirty() const { return m_dirty; }
 
     /**
-     * Return a list of the items in this playlist.  For example in a search
-     * list this should return only the matched items.  By default it returns
-     * all of the items in the playlists associated with this dynamic list.
-     */
-    virtual PlaylistItemList items();
-
-    /**
      * Reimplemented from QWidget.  Here it updates the list of items (when
      * appropriate) as the widget is shown.
      */
@@ -103,7 +96,7 @@ private slots:
 
 private:
     QList<PlaylistObserver *> m_observers;
-    PlaylistItemList m_siblings;
+    FileHandleList m_siblings;
     PlaylistList m_playlists;
     bool m_dirty;
     bool m_synchronizePlaying;

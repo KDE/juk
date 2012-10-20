@@ -110,8 +110,7 @@ void MusicBrainzLookup::confirmation()
             if(result.year() != 0)
                 tag->setYear(result.year());
 
-            PlaylistItem *item = CollectionList::instance()->lookup(file.absFilePath());
-            TagTransactionManager::instance()->changeTagOnItem(item, tag);
+            TagTransactionManager::instance()->changeTagOnItem(file, tag);
             TagTransactionManager::instance()->commit();
         }
 

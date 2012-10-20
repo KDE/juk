@@ -52,7 +52,7 @@ PlaylistItem::~PlaylistItem()
     // stark advantage of working reliably.  I'll tell anyone who tries to
     // optimize this, the timing issues can be *hard*. -- mpyne
 
-    m_collectionItem->removeChildItem(this);
+//     m_collectionItem->removeChildItem(this);
 
     if(m_playingItems.contains(this)) {
         m_playingItems.removeAll(this);
@@ -60,8 +60,8 @@ PlaylistItem::~PlaylistItem()
 //             playlist()->setPlaying(0);
     }
 
-    playlist()->updateDeletedItem(this);
-    emit playlist()->signalAboutToRemove(this);
+//     playlist()->updateDeletedItem(this);
+//     emit playlist()->signalAboutToRemove(this);
 
     if(m_watched)
         Pointer::clear(this);
@@ -69,7 +69,7 @@ PlaylistItem::~PlaylistItem()
 
 void PlaylistItem::setFile(const FileHandle &file)
 {
-    m_collectionItem->updateCollectionDict(d->fileHandle.absFilePath(), file.absFilePath());
+//     m_collectionItem->updateCollectionDict(d->fileHandle.absFilePath(), file.absFilePath());
     d->fileHandle = file;
     refresh();
 }
@@ -78,7 +78,7 @@ void PlaylistItem::setFile(const QString &file)
 {
     QString oldPath = d->fileHandle.absFilePath();
     d->fileHandle.setFile(file);
-    m_collectionItem->updateCollectionDict(oldPath, d->fileHandle.absFilePath());
+//     m_collectionItem->updateCollectionDict(oldPath, d->fileHandle.absFilePath());
     refresh();
 }
 
@@ -145,7 +145,7 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
         if(!guesser.comment().isNull())
             tag->setComment(guesser.comment());
 
-        TagTransactionManager::instance()->changeTagOnItem(this, tag);
+//         TagTransactionManager::instance()->changeTagOnItem(this, tag);
         break;
     }
     case TagGuesser::MusicBrainz:
@@ -166,7 +166,7 @@ QVector<int> PlaylistItem::cachedWidths() const
 
 void PlaylistItem::refresh()
 {
-    m_collectionItem->refresh();
+//     m_collectionItem->refresh();
 }
 
 void PlaylistItem::refreshFromDisk()
@@ -177,20 +177,20 @@ void PlaylistItem::refreshFromDisk()
 
 void PlaylistItem::clear()
 {
-    playlist()->clearItem(this);
+//     playlist()->clearItem(this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
-    d(0),
-    m_watched(0),
-    m_playlist(parent)
-{
-    setup(item);
-}
+// PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
+//     d(0),
+//     m_watched(0),
+//     m_playlist(parent)
+// {
+//     setup(item);
+// }
 
 
 // This constructor should only be used by the CollectionList subclass.
@@ -199,7 +199,7 @@ PlaylistItem::PlaylistItem(CollectionList *parent) :
     m_watched(0)
 {
     d = new Data;
-    m_collectionItem = static_cast<CollectionListItem *>(this);
+//     m_collectionItem = static_cast<CollectionListItem *>(this);
 //     setDragEnabled(true);
 }
 
@@ -319,14 +319,14 @@ bool PlaylistItem::isValid() const
 // PlaylistItem private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlaylistItem::setup(CollectionListItem *item)
-{
-    m_collectionItem = item;
-
-    d = item->d;
-    item->addChildItem(this);
-//     setDragEnabled(true);
-}
+// void PlaylistItem::setup(CollectionListItem *item)
+// {
+//     m_collectionItem = item;
+// 
+//     d = item->d;
+//     item->addChildItem(this);
+// //     setDragEnabled(true);
+// }
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistItem::Pointer implementation

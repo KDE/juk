@@ -246,11 +246,11 @@ void PlayerManager::play(const FileHandle& file)
     // once we actually start playing.
 }
 
-void PlayerManager::play(const QString &file)
+void PlayerManager::play(const QString &filename)
 {
-    CollectionListItem *item = CollectionList::instance()->lookup(file);
-    if(item) {
-        play(item->file());
+    const FileHandle &file = CollectionList::instance()->lookup(filename);
+    if(!file.isNull()) {
+        play(file);
     }
 }
 

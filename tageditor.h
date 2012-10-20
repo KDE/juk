@@ -21,6 +21,7 @@
 #include <QMap>
 
 #include "ui_tageditor.h"
+#include "filehandle.h"
 
 class KComboBox;
 class KLineEdit;
@@ -33,9 +34,6 @@ class QBoxLayout;
 
 class CollectionObserver;
 class Playlist;
-class PlaylistItem;
-
-typedef QList<PlaylistItem *> PlaylistItemList;
 
 class TagEditor : public QWidget, public Ui::TagEditor
 {
@@ -44,12 +42,12 @@ class TagEditor : public QWidget, public Ui::TagEditor
 public:
     TagEditor(QWidget *parent = 0);
     virtual ~TagEditor();
-    PlaylistItemList items() const { return m_items; }
+    const FileHandleList &items() const { return m_items; }
     void setupObservers();
 
 public slots:
     void slotSave() { save(m_items); }
-    void slotSetItems(const PlaylistItemList &list);
+    void slotSetItems(const QModelIndexList &list);
     void slotRefresh();
     void slotClear();
     void slotPlaylistDestroyed(Playlist *p);
@@ -66,14 +64,14 @@ private:
     void readConfig();
     void readCompletionMode(const KConfigGroup &config, KComboBox *box, const QString &key);
     void saveConfig();
-    void save(const PlaylistItemList &list);
+    void save(const FileHandleList& list);
     void saveChangesPrompt();
     virtual void showEvent(QShowEvent *e);
     virtual bool eventFilter(QObject *watched, QEvent *e);
 
 private slots:
     void slotDataChanged(bool c = true);
-    void slotItemRemoved(PlaylistItem *item);
+    void slotItemRemoved(const FileHandle &item);
     void slotPlaylistRemoved() { m_currentPlaylist = 0; }
 
 private:
@@ -82,8 +80,8 @@ private:
 
     QStringList m_genreList;
 
-    PlaylistItemList m_items;
-    Playlist *m_currentPlaylist;
+    FileHandleList m_items;
+    const Playlist *m_currentPlaylist;
 
     CollectionObserver *m_observer;
 

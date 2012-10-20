@@ -29,7 +29,6 @@
 class Playlist;
 class Playlist;
 class PlaylistItem;
-class CollectionListItem;
 class CollectionList;
 
 typedef QList<PlaylistItem *> PlaylistItemList;
@@ -48,7 +47,6 @@ class PlaylistItem
     friend class SearchPlaylist;
     friend class UpcomingPlaylist;
     friend class CollectionList;
-    friend class CollectionListItem;
     friend class Pointer;
 
 public:
@@ -94,7 +92,7 @@ public:
 
     Playlist *playlist() const;
 
-    virtual CollectionListItem *collectionItem() { return m_collectionItem; }
+//     virtual CollectionListItem *collectionItem() { return m_collectionItem; }
 
     /**
      * The widths of items are cached when they're updated for us in computations
@@ -133,7 +131,7 @@ protected:
      * Items should always be created using Playlist::createItem() or through a
      * subclass or friend class.
      */
-    PlaylistItem(CollectionListItem *item, Playlist *parent);
+//     PlaylistItem(CollectionListItem *item, Playlist *parent);
 
     /**
      * This is the constructor that shold be used by subclasses.
@@ -176,9 +174,9 @@ protected:
 private:
     KSharedPtr<Data> d;
 
-    void setup(CollectionListItem *item);
+//     void setup(CollectionListItem *item);
 
-    CollectionListItem *m_collectionItem;
+//     CollectionListItem *m_collectionItem;
     bool m_watched;
     static PlaylistItemList m_playingItems;
     Playlist *m_playlist;

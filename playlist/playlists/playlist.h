@@ -41,12 +41,8 @@ class QDrag;
 class QAction;
 
 class WebImageFetcher;
-class PlaylistItem;
 class PlaylistCollection;
 class PlaylistToolTip;
-class CollectionListItem;
-
-typedef QList<PlaylistItem *> PlaylistItemList;
 
 class Playlist : public QAbstractTableModel, public PlaylistInterface
 {
@@ -64,12 +60,17 @@ public:
                     BitrateColumn     = 8,
                     CommentColumn     = 9,
                     FileNameColumn    = 10,
-                    FullPathColumn    = 11 };
+                    FullPathColumn    = 11,
+        
+                    // From other classes, you can't extend enums in c++
+                    PlayedColumn      = 12 // HistoryPlaylist
+                    
+    };
 
 
     explicit Playlist(PlaylistCollection *collection, const QString &name = QString(),
              const QString &iconName = "audio-midi");
-    Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
+    Playlist(PlaylistCollection *collection, const FileHandleList &items,
              const QString &name = QString(), const QString &iconName = "audio-midi");
     Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
              const QString &iconName = "audio-midi");
@@ -91,8 +92,8 @@ public:
 public:
     // The following functions implement the QAbstractListModel API
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
-    QVariant data (const QModelIndex & index, int role = Qt::DisplayRole) const;
-    int columnCount (const QModelIndex & parent = QModelIndex()) const;
+    virtual QVariant data (const QModelIndex & index, int role = Qt::DisplayRole) const;
+    virtual int columnCount (const QModelIndex & parent = QModelIndex()) const;
     Qt::ItemFlags flags (const QModelIndex & index) const;
     bool setData (const QModelIndex & index, const QVariant & value, int role = Qt::EditRole);
     bool insertRows (int row, int count, const QModelIndex & parent = QModelIndex());
@@ -103,6 +104,12 @@ public:
     
 
     void insertItem(int pos , const QModelIndex& item);
+    void insertFile(const FileHandle& file, int pos = -1);
+    /**
+     * Remove all instances of a file from playlist
+     */
+    virtual void removeFile(const FileHandle& file);
+    const FileHandleList &fileHandles() const { return m_items; }
     /**
      * Removes rows from playlist and deletes files from disk.
      */
@@ -136,27 +143,9 @@ public:
     virtual void saveAs();
 
     /**
-     * Removes \a item from the Playlist, but not from the disk.  If
-     * \a emitChanged is true this will also notify relevant classes
-     * that the content of the list has changed.
-     *
-     * In some situations, for instance when removing items in a loop, it is
-     * preferable to delay this notification until after other operations have
-     * completed.  In those cases set \a emitChanged to false and call the
-     * signal directly.
-     */
-    virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
-
-    /**
-     * Remove \a items from the playlist and emit a signal indicating
-     * that the number of items in the list has changed.
-     */
-    virtual void clearItems(const PlaylistItemList &items);
-    
-    /**
      * Removes all items.
      */
-    void clear() { clearItems(m_items); }
+    void clear() { removeRows(0, rowCount()); }
 
     /**
      * All of the (media) files in the list.
@@ -164,34 +153,9 @@ public:
     QStringList files() const;
 
     /**
-     * Returns a list of all of the \e visible items in the playlist.
-     */
-//     PlaylistItemList visibleItems();
-
-    /**
      * Allow duplicate files in the playlist.
      */
     void setAllowDuplicates(bool allow) { m_allowDuplicates = allow; }
-
-    /**
-     * This is being used as a mini-factory of sorts to make the construction
-     * of PlaylistItems virtual.  In this case it allows for the creation of
-     * both PlaylistItems and CollectionListItems.
-     */
-    virtual PlaylistItem *createItem(const FileHandle &file,
-                                     PlaylistItem *after,
-                                     bool emitChanged = true);
-
-    /**
-     * This is implemented as a template method to allow subclasses to
-     * instantiate their PlaylistItem subclasses using the same method.
-     */
-    template <class ItemType>
-    ItemType *createItem(const FileHandle &file,
-                         ItemType *after = 0,
-                         bool emitChanged = true);
-
-    virtual void createItems(const PlaylistItemList &siblings, PlaylistItem *after = 0);
 
     /**
      * This handles adding files of various types -- music, playlist or directory
@@ -202,7 +166,7 @@ public:
      * items since it has the overhead of checking to see if the file is a playlist
      * or directory first.
      */
-    virtual void addFiles(const QStringList &files, PlaylistItem *after = 0);
+    virtual void addFiles(const QStringList &files, int pos = -1);
 
     /**
      * Returns the file name associated with this playlist (an m3u file) or
@@ -250,9 +214,6 @@ public:
 
     static void setShuttingDown() { m_shuttingDown = true; }
     
-    PlaylistItem *lastItem() { return m_items.last(); }
-    PlaylistItem *firstItem() { return m_items.first(); }
-    const PlaylistItemList &items() const { return m_items; }
     void moveItem(int from, int to) { m_items.move(from, to); }
 
 public slots:
@@ -268,34 +229,15 @@ protected:
      * Remove \a items from the playlist and disk.  This will ignore items that
      * are not actually in the list.
      */
-    void removeFromDisk(const PlaylistItemList &items);
+    void removeFromDisk(const QList<int> &rows);
 
     virtual bool hasItem(const QString &file) const { return m_members.contains(file); }
-
-
-    /**
-     * Do some finial initialization of created items.  Notably ensure that they
-     * are shown or hidden based on the contents of the current PlaylistSearch.
-     *
-     * This is called by the PlaylistItem constructor.
-     */
-    void setupItem(PlaylistItem *item);
 
     /**
      * Forwards the call to the parent to enable or disable automatic deletion
      * of tree view playlists.  Used by CollectionListItem.
      */
     void setDynamicListsFrozen(bool frozen);
-
-    template <class ItemType, class SiblingType>
-    ItemType *createItem(SiblingType *sibling, ItemType *after = 0);
-
-    /**
-     * As a template this allows us to use the same code to initialize the items
-     * in subclasses. ItemType should be a PlaylistItem subclass.
-     */
-    template <class ItemType, class SiblingType>
-    void createItems(const QList<SiblingType *> &siblings, ItemType *after = 0);
 
 signals:
 
@@ -304,14 +246,6 @@ signals:
      * playlist's name has changed.
      */
     void signalNameChanged(const QString &name);
-
-    /**
-     * This signal is emitted just before a playlist item is removed from the
-     * list allowing for any cleanup that needs to happen.  Typically this
-     * is used to remove the item from the history and safeguard against
-     * dangling pointers.
-     */
-    void signalAboutToRemove(PlaylistItem *item);
 
     void signalEnableDirWatch(bool enable);
 
@@ -337,45 +271,23 @@ private:
     void loadFile(const QString &fileName, const QFileInfo &fileInfo);
 
     void addFile(const QString &file, FileHandleList &files, bool importPlaylists,
-                 PlaylistItem **after);
-    void addFileHelper(FileHandleList &files, PlaylistItem **after,
+                 int row = -1);
+    void addFileHelper(FileHandleList &files, int row = -1,
                        bool ignoreTimer = false);
 
     /**
      * Sets the cover for items to the cover identified by id.
      */
-    void refreshAlbums(const PlaylistItemList &items, coverKey id = CoverManager::NoMatch);
+    void refreshAlbums(const QList<int> &rows, coverKey id = CoverManager::NoMatch);
 
     void refreshAlbum(const QString &artist, const QString &album);
 
-    /**
-     * This function should be called when item is deleted to ensure that any
-     * internal bookkeeping is performed.  It is automatically called by
-     * PlaylistItem::~PlaylistItem and by clearItem() and clearItems().
-     */
-    void updateDeletedItem(PlaylistItem *item);
-
-    /**
-     * Used as a helper to implement template<> createItem().  This grabs the
-     * CollectionListItem for file if it exists, otherwise it creates a new one and
-     * returns that.  If 0 is returned then some kind of error occurred, such as file not
-     * found and probably nothing should be done with the FileHandle you have.
-     */
-    CollectionListItem *collectionListItem(const FileHandle &file);
     void refresh(const QModelIndex &index);
 
-    /**
-     * This class is used internally to store settings that are shared by all
-     * of the playlists, such as column order.  It is implemented as a singleton.
-     */
-    class SharedSettings;
-
 private:
-    friend class PlaylistItem;
-
     PlaylistCollection *m_collection;
     
-    PlaylistItemList m_items;
+    FileHandleList m_items;
 
     StringHash m_members;
 
@@ -393,17 +305,10 @@ private:
     bool m_disableColumnWidthUpdates;
 
     mutable int m_time;
-    mutable PlaylistItemList m_addTime;
-    mutable PlaylistItemList m_subtractTime;
+    mutable FileHandleList m_addTime;
+    mutable FileHandleList m_subtractTime;
 
-    /**
-     * The average minimum widths of columns to be used in balancing calculations.
-     */
-    QVector<int> m_columnWeights;
-    QVector<int> m_columnFixedWidths;
-    bool m_widthsDirty;
-
-    static PlaylistItemList m_history;
+    static FileHandleList m_history;
     PlaylistSearch m_search;
 
     bool m_searchEnabled;
@@ -436,59 +341,6 @@ public:
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);
 QDataStream &operator>>(QDataStream &s, Playlist &p);
-
-// template method implementations
-
-template <class ItemType>
-ItemType *Playlist::createItem(const FileHandle &file, ItemType *after,
-                               bool emitChanged)
-{
-    CollectionListItem *item = collectionListItem(file);
-    if(item && (!m_members.insert(file.absFilePath()) || m_allowDuplicates)) {
-
-        ItemType *i = new ItemType(item, this);
-                
-        m_items.insert(m_items.indexOf(after), i);
-
-        setupItem(i);
-
-        if(emitChanged)
-            weChanged();
-
-        return i;
-    }
-    else
-        return 0;
-}
-
-template <class ItemType, class SiblingType>
-ItemType *Playlist::createItem(SiblingType *sibling, ItemType *after)
-{
-    m_disableColumnWidthUpdates = true;
-
-    if(!m_members.insert(sibling->file().absFilePath()) || m_allowDuplicates) {
-        after = new ItemType(sibling->collectionItem(), this);
-        setupItem(after);
-    }
-
-    m_disableColumnWidthUpdates = false;
-
-    return after;
-}
-
-template <class ItemType, class SiblingType>
-void Playlist::createItems(const QList<SiblingType *> &siblings, ItemType *after)
-{
-    if(siblings.isEmpty())
-        return;
-
-    foreach(SiblingType *sibling, siblings)
-        after = createItem(sibling, after);
-
-    weChanged();
-    emit dataChanged(index(m_items.indexOf(siblings.first()), 0), index(m_items.indexOf(siblings.last()), 0));
-//     slotWeightDirty();
-}
 
 #endif
 

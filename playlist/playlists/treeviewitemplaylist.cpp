@@ -50,7 +50,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
     else if(m_columnType == AlbumColumn)
         changedTag = i18n("album");
 
-    // ### TODO: View
+    // ### TODO: View FIXME
 //     if(KMessageBox::warningContinueCancelList(
 //            this,
 //            i18n("You are about to change the %1 on these files.", changedTag),
@@ -64,32 +64,32 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
 //         return;
 //     }
 
-    QStringList::ConstIterator it;
-    for(it = files.begin(); it != files.end(); ++it) {
-        CollectionListItem *item = collection->lookup(*it);
-        if(!item)
-            continue;
-
-        Tag *tag = TagTransactionManager::duplicateTag(item->file().tag());
-        switch(m_columnType) {
-        case ArtistColumn:
-            tag->setArtist(name());
-            break;
-
-        case AlbumColumn:
-            tag->setAlbum(name());
-            break;
-
-        case GenreColumn:
-            tag->setGenre(name());
-            break;
-
-        default:
-            kDebug() << "Unhandled column type editing " << *it;
-        }
-
-        TagTransactionManager::instance()->changeTagOnItem(item, tag);
-    }
+//     QStringList::ConstIterator it;
+//     for(it = files.begin(); it != files.end(); ++it) {
+//         CollectionListItem *item = collection->lookup(*it);
+//         if(!item)
+//             continue;
+// 
+//         Tag *tag = TagTransactionManager::duplicateTag(item->file().tag());
+//         switch(m_columnType) {
+//         case ArtistColumn:
+//             tag->setArtist(name());
+//             break;
+// 
+//         case AlbumColumn:
+//             tag->setAlbum(name());
+//             break;
+// 
+//         case GenreColumn:
+//             tag->setGenre(name());
+//             break;
+// 
+//         default:
+//             kDebug() << "Unhandled column type editing " << *it;
+//         }
+// 
+//         TagTransactionManager::instance()->changeTagOnItem(item, tag);
+//     }
 }
 
 #include "treeviewitemplaylist.moc"

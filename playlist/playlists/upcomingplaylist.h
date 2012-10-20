@@ -77,7 +77,7 @@ public:
      * @see createItems(const PlaylistItemList &, PlaylistItem *)
      * @param itemList The list of PlaylistItems to append.
      */
-    void appendItems(const PlaylistItemList &itemList);
+    void appendItems(const FileHandleList& itemList);
 
     /**
      * Reimplemented to set the playing item in both the source playlist
@@ -85,7 +85,7 @@ public:
      */
 //     virtual void playNext();
 
-    virtual void addFiles(const QStringList &files, PlaylistItem *after = 0);
+    virtual void addFiles(const QStringList& files, int pos = -1);
 
     bool active() const { return m_active; }
 

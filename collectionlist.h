@@ -44,53 +44,9 @@ typedef QHashIterator<QString, int> TagCountDictIterator;
 
 typedef QVector<TagCountDict *> TagCountDicts;
 
-/**
- * This is the "collection", or all of the music files that have been opened
- * in any playlist and not explicitly removed from the collection.
- *
- * It is being implemented as a "semi-singleton" because I need universal access
- * to just one instance.  However, because the collection needs initialization
- * parameters (that will not always be available when an instance is needed).
- * Hence there will be the familiar singleton "instance()" method allong with an
- * "initialize()" method.
- */
-
-class CollectionListItem : public PlaylistItem
-{
-    friend class Playlist;
-    friend class CollectionList;
-    friend class PlaylistItem;
-
-public:
-    virtual void refresh();
-    PlaylistItem *itemForPlaylist(const Playlist *playlist);
-    void updateCollectionDict(const QString &oldPath, const QString &newPath);
-//     void repaint() const;
-    PlaylistItemList children() const { return m_children; }
-
-protected:
-    CollectionListItem(CollectionList *parent, const FileHandle &file);
-    virtual ~CollectionListItem();
-
-    void addChildItem(PlaylistItem *child);
-    void removeChildItem(PlaylistItem *child);
-
-    /**
-     * Returns true if the item is now up to date (even if this required a refresh) or
-     * false if the item is invalid.
-     */
-    bool checkCurrent();
-
-    virtual CollectionListItem *collectionItem() { return this; }
-
-private:
-    bool m_shuttingDown;
-    PlaylistItemList m_children;
-};
-
 class CollectionList : public Playlist
 {
-    friend class CollectionListItem;
+//     friend class CollectionListItem;
 
     Q_OBJECT
 
@@ -109,19 +65,15 @@ public:
      */
     QStringList uniqueSet(UniqueSetType t) const;
 
-    CollectionListItem *lookup(const QString &file) const;
-
-    virtual CollectionListItem *createItem(const FileHandle &file,
-                                     PlaylistItem * = 0,
-                                     bool = false);
+    const FileHandle &lookup(const QString& file) const;
 
     void emitVisibleColumnsChanged() { emit signalVisibleColumnsChanged(); }
-
-    virtual void clearItems(const PlaylistItemList &items);
 
     void setupTreeViewEntries(ViewMode *viewMode) const;
 
     virtual bool canReload() const { return true; }
+    
+    virtual void removeFile(const FileHandle& file);
 
 public slots:
     virtual void paste();
@@ -133,7 +85,6 @@ public slots:
 
     void slotNewItems(const KFileItemList &items);
     void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > &items);
-    void slotDeleteItem(const KFileItem &item);
 
 protected:
     CollectionList(PlaylistCollection *collection);
@@ -144,7 +95,7 @@ protected:
 
     // These methods are used by CollectionListItem, which is a friend class.
 
-    void addToDict(const QString &file, CollectionListItem *item) { m_itemsDict.insert(file, item); }
+    void addToDict(const QString &file, const FileHandle &item) { m_itemsDict.insert(file, item); }
     void removeFromDict(const QString &file) { m_itemsDict.remove(file); }
 
     // These methods are also used by CollectionListItem, to manage the
@@ -187,7 +138,7 @@ private:
     static const int m_uniqueSetCount = 3;
 
     static CollectionList *m_list;
-    QHash<QString, CollectionListItem *> m_itemsDict;
+    QHash<QString, FileHandle> m_itemsDict;
     KDirWatch *m_dirWatch;
     TagCountDicts m_columnTags;
 };

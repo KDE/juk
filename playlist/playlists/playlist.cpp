@@ -100,7 +100,7 @@ bool Playlist::m_shuttingDown = false;
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItemList Playlist::m_history;
+FileHandleList Playlist::m_history;
 int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
@@ -114,7 +114,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
-    m_widthsDirty(true),
     m_searchEnabled(true),
     m_playlistName(name),
     m_blockDataChanged(false)
@@ -123,7 +122,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     collection->setupPlaylist(this, iconName);
 }
 
-Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
+Playlist::Playlist(PlaylistCollection *collection, const FileHandleList &items,
                    const QString &name, const QString &iconName) :
     QAbstractTableModel(/*collection->playlistStack()*/0),
     m_collection(collection),
@@ -134,14 +133,12 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
-    m_widthsDirty(true),
     m_searchEnabled(true),
     m_playlistName(name),
     m_blockDataChanged(false)
 {
-//     setup();
     collection->setupPlaylist(this, iconName);
-    createItems(items);
+    m_items.append(items);
 }
 
 Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
@@ -155,7 +152,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
-    m_widthsDirty(true),
     m_searchEnabled(true),
     m_fileName(playlistFile.canonicalFilePath()),
     m_blockDataChanged(false)
@@ -175,7 +171,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
     m_columnWidthModeChanged(false),
     m_disableColumnWidthUpdates(true),
     m_time(0),
-    m_widthsDirty(true),
     m_searchEnabled(true),
     m_blockDataChanged(false)
 {
@@ -191,19 +186,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
 
 Playlist::~Playlist()
 {
-    // In some situations the dataChanged signal from clearItems will cause observers to
-    // subsequently try to access a deleted item.  Since we're going away just remove all
-    // observers.
-
-    clearObservers();
-
-    // clearItem() will take care of removing the items from the history,
-    // so call clearItems() to make sure it happens.
-
-    clearItems(items());
-
-    /* delete m_toolTip; */
-
     if(!m_shuttingDown)
         m_collection->removePlaylist(this);
 }
@@ -221,18 +203,18 @@ int Playlist::time() const
     // Since this method gets a lot of traffic, let's optimize for such.
 
     if(!m_addTime.isEmpty()) {
-        foreach(const PlaylistItem *item, m_addTime) {
-            if(item)
-                m_time += item->file().tag()->seconds();
+        foreach(const FileHandle &file, m_addTime) {
+            if(!file.isNull())
+                m_time += file.tag()->seconds();
         }
 
         m_addTime.clear();
     }
 
     if(!m_subtractTime.isEmpty()) {
-        foreach(const PlaylistItem *item, m_subtractTime) {
-            if(item)
-                m_time -= item->file().tag()->seconds();
+        foreach(const FileHandle &file, m_subtractTime) {
+            if(!file.isNull())
+                m_time -= file.tag()->seconds();
         }
 
         m_subtractTime.clear();
@@ -287,42 +269,12 @@ void Playlist::saveAs()
     }
 }
 
-void Playlist::updateDeletedItem(PlaylistItem *item)
-{
-    m_members.remove(item->file().absFilePath());
-    m_search.clearItem(item);
-
-    m_history.removeAll(item);
-    m_addTime.removeAll(item);
-    m_subtractTime.removeAll(item);
-}
-
-void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
-{
-    // Automatically updates internal structs via updateDeletedItem
-    delete item;
-
-    weChanged();
-}
-
-// ### TODO Remove me
-void Playlist::clearItems(const PlaylistItemList &items)
-{
-    foreach(PlaylistItem *item, items) {
-        m_items.removeAll(item);
-        delete item;
-    }
-
-    
-    weChanged();
-}
-
 QStringList Playlist::files() const
 {
     QStringList list;
 
-    foreach(PlaylistItem *item, m_items) {
-        list.append(item->file().absFilePath());
+    foreach(const FileHandle &file, m_items) {
+        list.append(file.absFilePath());
     }
 
     return list;
@@ -337,7 +289,7 @@ void Playlist::slotReload()
     if(!fileInfo.exists() || !fileInfo.isFile() || !fileInfo.isReadable())
         return;
 
-    clearItems(items());
+    clear();
     loadFile(m_fileName, fileInfo);
 }
 
@@ -380,7 +332,7 @@ void Playlist::read(QDataStream &s)
         if(file.isEmpty())
             throw BICStreamException();
 
-        after = createItem(FileHandle(file), after, false);
+        m_items.append(FileHandle(file));
     }
 
     m_blockDataChanged = false;
@@ -389,32 +341,19 @@ void Playlist::read(QDataStream &s)
     m_collection->setupPlaylist(this, "view-media-playlist");
 }
 
-PlaylistItem *Playlist::createItem(const FileHandle &file,
-                                   PlaylistItem *after, bool emitChanged)
+void Playlist::addFiles(const QStringList& files, int pos)
 {
-    return createItem<PlaylistItem>(file, after, emitChanged);
-}
-
-void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after)
-{
-    createItems<PlaylistItem, PlaylistItem>(siblings, after);
-}
-
-void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
-{
-    if(!after && !m_items.isEmpty())
-        after = m_items.last();
-
     KApplication::setOverrideCursor(Qt::waitCursor);
 
     m_blockDataChanged = true;
 
     FileHandleList queue;
 
-    foreach(const QString &file, files)
-        addFile(file, queue, true, &after);
+    foreach(const QString &file, files) {
+        addFile(file, queue, true, pos);
+    }
 
-    addFileHelper(queue, &after, true);
+    addFileHelper(queue, pos, true);
 
     m_blockDataChanged = false;
 
@@ -424,21 +363,21 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     KApplication::restoreOverrideCursor();
 }
 
-void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
+void Playlist::refreshAlbums(const QList<int>& rows, coverKey id)
 {
     QList< QPair<QString, QString> > albums;
-    bool setAlbumCovers = items.count() == 1;
+    bool setAlbumCovers = rows.count() == 1;
 
-    foreach(const PlaylistItem *item, items) {
-        QString artist = item->file().tag()->artist();
-        QString album = item->file().tag()->album();
+    foreach(int row, rows) {
+        QString artist = m_items[row].tag()->artist();
+        QString album = m_items[row].tag()->album();
 
         if(!albums.contains(qMakePair(artist, album)))
             albums.append(qMakePair(artist, album));
 
-        item->file().coverInfo()->setCoverId(id);
+        m_items[row].coverInfo()->setCoverId(id);
         if(setAlbumCovers)
-            item->file().coverInfo()->applyCoverToWholeAlbum(true);
+            m_items[row].coverInfo()->applyCoverToWholeAlbum(true);
     }
 
     for(QList< QPair<QString, QString> >::ConstIterator it = albums.constBegin();
@@ -474,41 +413,9 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
         refresh(index);
 }
 
-void Playlist::setupItem(PlaylistItem *item)
-{
-    if (!m_items.contains(item))
-        m_items.append(item);
-    
-    //### TODO: View
-//     if(!m_search.isEmpty())
-//         item->setVisible(m_search.checkItem(item));
-
-//     if(childCount() <= 2 && !manualResize()) {
-//         slotWeightDirty();
-//         slotUpdateColumnWidths();
-//         triggerUpdate();
-//     }
-}
-
 void Playlist::setDynamicListsFrozen(bool frozen)
 {
     m_collection->setDynamicListsFrozen(frozen);
-}
-
-CollectionListItem *Playlist::collectionListItem(const FileHandle &file)
-{
-    if(!QFile::exists(file.absFilePath())) {
-        kError() << "File" << file.absFilePath() << "does not exist.";
-        return 0;
-    }
-
-    CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
-
-    if(!item) {
-        item = CollectionList::instance()->createItem(file);
-    }
-
-    return item;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -544,10 +451,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
         if(item.exists() && item.isFile() && item.isReadable() &&
            MediaFiles::isMediaFile(item.fileName()))
         {
-//             if(after)
-                after = createItem(FileHandle(item, item.absoluteFilePath()), after, false);
-//             else
-//                 after = createItem(FileHandle(item, item.absoluteFilePath()), 0, false);
+            m_items.append(FileHandle(item.absoluteFilePath()));
         }
     }
 
@@ -592,14 +496,13 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 //     action<KToolBarPopupAction>("back")->menu()->setEnabled(enableBack);
 // }
 
-void Playlist::addFile(const QString &file, FileHandleList &files, bool importPlaylists,
-                       PlaylistItem **after)
+void Playlist::addFile(const QString &file, FileHandleList &files, bool importPlaylists, int pos)
 {
     if(hasItem(file) && !m_allowDuplicates)
         return;
 
     processEvents();
-    addFileHelper(files, after);
+    addFileHelper(files, pos);
 
     // Our biggest thing that we're fighting during startup is too many stats
     // of files.  Make sure that we don't do one here if it's not needed.
@@ -651,7 +554,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
                     // directories.
 
                     addFile(fileInfo.filePath() + QDir::separator() + QFile::decodeName(dirEntry->d_name),
-                            files, m_collection->importPlaylists(), after);
+                            files, m_collection->importPlaylists(), pos);
                 }
             }
             ::closedir(dir);
@@ -664,7 +567,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
     }
 }
 
-void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool ignoreTimer)
+void Playlist::addFileHelper(FileHandleList& files, int row, bool ignoreTimer)
 {
     static QTime time = QTime::currentTime();
 
@@ -676,8 +579,12 @@ void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool i
     {
         time.restart();
 
-        foreach(const FileHandle &fileHandle, files)
-            *after = createItem(fileHandle, *after, false);
+        foreach(const FileHandle &fileHandle, files) {
+            if (row == -1)
+                m_items.append(fileHandle);
+            else
+                m_items.insert(row, fileHandle);
+        }
 
         files.clear();
 
@@ -730,7 +637,7 @@ K_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalPlayingImage, (UserIcon("playing")))
 QVariant Playlist::data(const QModelIndex& index, int role) const
 {
     const int column = index.column();
-    const FileHandle &fileHandle = m_items[index.row()]->file();
+    const FileHandle &fileHandle = m_items[index.row()];
     
     if (role == Qt::DecorationRole) {
         if (column == CoverColumn &&
@@ -794,8 +701,8 @@ bool Playlist::setData(const QModelIndex& index, const QVariant& value, int role
         return false;
     }
     
-    PlaylistItem *item = m_items[index.row()];
-    Tag *newTag = TagTransactionManager::duplicateTag(item->file().tag());
+    const FileHandle &file = m_items[index.row()];
+    Tag *newTag = TagTransactionManager::duplicateTag(file.tag());
 
     const QString text = value.toString();
     switch(index.column())
@@ -830,7 +737,7 @@ bool Playlist::setData(const QModelIndex& index, const QVariant& value, int role
     }
     }
 
-    TagTransactionManager::instance()->changeTagOnItem(item, newTag);
+    TagTransactionManager::instance()->changeTagOnItem(file, newTag);
     return true;
 
 }
@@ -845,7 +752,7 @@ bool Playlist::deleteRows(int row, int count, const QModelIndex& parent)
     QStringList files;
     
     for (int i=0; i<count; i++) { // Delete backwards
-        files.append(m_items[i+row]->file().absFilePath());
+        files.append(m_items[i+row].absFilePath());
     }
     removeRows(row, count);
     
@@ -931,7 +838,7 @@ bool Playlist::hasChildren(const QModelIndex &index) const
 bool Playlist::removeRows(int row, int count, const QModelIndex& parent)
 {
     for (int i=row+count; i>=row; --i) {
-        delete m_items.takeAt(i);
+        m_items.takeAt(i);
     }
     return true;
 }
@@ -946,13 +853,13 @@ void Playlist::refreshRows(QModelIndexList &l)
 
     for (int i=l.count(); i>=0; --i) {
         int row = l[i].row();
-        m_items[row]->refreshFromDisk();
+        m_items[row].refresh();
 
-        if(!m_items[row]->file().tag() || !m_items[row]->file().fileInfo().exists()) {
+        if(!m_items[row].tag() || !m_items[row].fileInfo().exists()) {
             kDebug() << "Error while trying to refresh the tag.  "
                            << "This file has probably been removed."
                            << endl;
-            delete m_items.takeAt(row);//FIXME update all affected instances
+            m_items.takeAt(row);//FIXME update all affected instances
         }
 
         processEvents();
@@ -967,12 +874,25 @@ void Playlist::insertItem(int pos, const QModelIndex& item)
 
 void Playlist::refresh(const QModelIndex &index)
 {
-    m_items[index.row()]->refresh();
+    m_items[index.row()].refresh();
 }
 
 void Playlist::clearRow(int row)
 {
     m_items.removeAt(row);
+}
+
+void Playlist::insertFile(const FileHandle& file, int pos)
+{
+    if (pos == -1)
+        m_items.append(file);
+    else
+        m_items.insert(pos, file);
+}
+
+void Playlist::removeFile(const FileHandle& file)
+{
+    m_items.removeAll(file);
 }
 
 

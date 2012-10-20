@@ -119,12 +119,12 @@ QString DBusCollectionProxy::trackCover(const QString &track)
     }
 
     // No cover, let's see if one is embedded.
-    CollectionListItem *collectionItem = CollectionList::instance()->lookup(track);
+    const FileHandle &file = CollectionList::instance()->lookup(track);
 
-    if(!collectionItem)
+    if(file.isNull())
         return QString();
 
-    CoverInfo *coverInfo = collectionItem->file().coverInfo();
+    CoverInfo *coverInfo = file.coverInfo();
     if(!coverInfo)
         return QString();
 

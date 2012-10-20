@@ -216,8 +216,7 @@ void PlaylistBox::duplicate()
     if(name.isNull())
         return;
 
-    Playlist *p = new Playlist(this, name);
-    p->createItems(item->playlist()->items());
+    Playlist *p = new Playlist(this, item->playlist()->fileHandles(), name);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -41,7 +41,7 @@ PlaylistView::PlaylistView(QWidget* parent):
 void PlaylistView::contextMenuEvent(QContextMenuEvent *event)
 {
         // Create the RMB menu on demand.
-    if (playlist()->items().isEmpty() || indexAt(event->pos()).row() == -1)
+    if (playlist()->rowCount() == 0 || indexAt(event->pos()).row() == -1)
         return;
     
     if(!m_contextMenu) {
@@ -106,7 +106,7 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent *event)
 
     // Disable edit menu if only one file is selected, and it's read-only
     
-    FileHandle file = playlist()->items()[indexAt(event->pos()).row()]->file();
+    FileHandle file = playlist()->fileHandles()[indexAt(event->pos()).row()];
 
     m_editAction->setEnabled(file.fileInfo().isWritable() || selectedIndexes().count() > 1);
 
@@ -208,8 +208,7 @@ void PlaylistView::decode(const QMimeData *s, const QModelIndex &index)
 
     QStringList fileList = MediaFiles::convertURLsToLocal(urls, this);
 
-    // ### TODO insertRows, set stuff, maybe?
-    playlist()->addFiles(fileList, playlist()->items()[index.row()]);
+    playlist()->addFiles(fileList, index.row());
 }
 
 void PlaylistView::setModel(QAbstractItemModel* newModel)

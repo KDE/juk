@@ -121,12 +121,6 @@ void DynamicPlaylist::slotReload()
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistItemList DynamicPlaylist::items()
-{
-    checkUpdateItems();
-    return Playlist::items();
-}
-
 // ### TODO: View
 // void DynamicPlaylist::showEvent(QShowEvent *e)
 // {
@@ -142,13 +136,13 @@ PlaylistItemList DynamicPlaylist::items()
 
 void DynamicPlaylist::updateItems()
 {
-    PlaylistItemList siblings;
+    FileHandleList siblings;
 
     for(PlaylistList::ConstIterator it = m_playlists.constBegin(); it != m_playlists.constEnd(); ++it)
-        siblings += (*it)->items();
+        siblings.append((*it)->fileHandles());
 
 
-    PlaylistItemList newSiblings = siblings;
+    FileHandleList newSiblings = siblings;
     if(m_siblings != newSiblings) {
         m_siblings = newSiblings;
         QTimer::singleShot(0, this, SLOT(slotUpdateItems()));
@@ -184,7 +178,8 @@ void DynamicPlaylist::slotUpdateItems()
     // list and just adding those and removing the ones that aren't.
 
     clear();
-    createItems(m_siblings);
+    foreach(const FileHandle &file, m_siblings)
+        insertFile(file);
 //     if(m_synchronizePlaying)
 //         synchronizePlayingItems(m_playlists, true);
 }

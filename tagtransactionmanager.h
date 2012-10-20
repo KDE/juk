@@ -19,7 +19,8 @@
 #include <QObject>
 #include <QList>
 
-class PlaylistItem;
+#include "filehandle.h"
+
 class QWidget;
 class Tag;
 class QFileInfo;
@@ -52,9 +53,9 @@ class TagTransactionAtom
      * Creates an atom detailing a change made by \p tag to \p item.
      *
      * @param tag Contains the new tag to apply to item.
-     * @param item The PlaylistItem to change.
+     * @param item The file to change.
      */
-    TagTransactionAtom(PlaylistItem *item, Tag *tag);
+    TagTransactionAtom(const FileHandle &item, Tag *tag);
 
     /**
      * Destroys the atom.  This function deletes the tag, so make sure you've
@@ -77,7 +78,7 @@ class TagTransactionAtom
      *
      * @return The PlaylistItem being changed.
      */
-    PlaylistItem *item() const { return m_item; }
+    const FileHandle &item() const { return m_item; }
 
     /**
      * Accessor function to retrieve the changed Tag.
@@ -86,8 +87,8 @@ class TagTransactionAtom
      */
     Tag *tag() const { return m_tag; }
 
-    private:
-    PlaylistItem *m_item;
+private:
+    FileHandle m_item;
     mutable Tag *m_tag;
 };
 
@@ -132,7 +133,7 @@ class TagTransactionManager : public QObject
      * @param item The PlaylistItem to change.
      * @param newTag The Tag containing the changed data.
      */
-    void changeTagOnItem(PlaylistItem *item, Tag *newTag);
+    void changeTagOnItem(const FileHandle &item, Tag *newTag);
 
     /**
      * Convienience function to duplicate a Tag object, since the Tag

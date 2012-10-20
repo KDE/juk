@@ -46,19 +46,6 @@ HistoryPlaylist::~HistoryPlaylist()
 
 }
 
-HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file,
-                                                 HistoryPlaylistItem *after, bool emitChanged)
-{
-    if(!after)
-        after = static_cast<HistoryPlaylistItem*>(lastItem());
-    return Playlist::createItem<HistoryPlaylistItem>(file, after, emitChanged);
-}
-
-void HistoryPlaylist::createItems(const PlaylistItemList &siblings)
-{
-    Playlist::createItems<HistoryPlaylistItem, PlaylistItem>(siblings);
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -75,37 +62,9 @@ void HistoryPlaylist::appendProposedItem(const FileHandle &file)
 
 void HistoryPlaylist::slotCreateNewItem()
 {
-    createItem(m_file);
+    insertFile(m_file);
+    m_dateTimes.append(QDateTime::currentDateTime());
     m_file = FileHandle::null();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// HistoryPlaylistItem public members
-////////////////////////////////////////////////////////////////////////////////
-
-HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem* item, Playlist* parent, PlaylistItem* after) :
-    PlaylistItem(item, parent),
-    m_dateTime(QDateTime::currentDateTime())
-{
-    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
-}
-
-HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent) :
-    PlaylistItem(item, parent),
-    m_dateTime(QDateTime::currentDateTime())
-{
-    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
-}
-
-HistoryPlaylistItem::~HistoryPlaylistItem()
-{
-
-}
-
-void HistoryPlaylistItem::setDateTime(const QDateTime &dt)
-{
-    m_dateTime = dt;
-    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -114,14 +73,12 @@ void HistoryPlaylistItem::setDateTime(const QDateTime &dt)
 
 QDataStream &operator<<(QDataStream &s, const HistoryPlaylist &p)
 {
-    PlaylistItemList l = const_cast<HistoryPlaylist *>(&p)->items();
+    qint32 count = p.rowCount();
+    s << count;
 
-    s << qint32(l.count());
-
-    for(PlaylistItemList::ConstIterator it = l.constBegin(); it != l.constEnd(); ++it) {
-        const HistoryPlaylistItem *i = static_cast<HistoryPlaylistItem *>(*it);
-        s << i->file().absFilePath();
-        s << i->dateTime();
+    for (qint32 i=0; i<count; i++) {
+        s << p.data(p.index(i, Playlist::FullPathColumn), Qt::DisplayRole).toString();
+        s << p.data(p.index(i, Playlist::PlayedColumn), Qt::DisplayRole).toString();
     }
 
     return s;
@@ -131,8 +88,6 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
 {
     qint32 count;
     s >> count;
-
-    HistoryPlaylistItem *after = 0;
 
     QString fileName;
     QDateTime dateTime;
@@ -144,17 +99,28 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
         if(fileName.isEmpty() || !dateTime.isValid())
             throw BICStreamException();
 
-        HistoryPlaylistItem *a = p.createItem(FileHandle(fileName), after, false);
-        if(a) {
-            after = a;
-            after->setDateTime(dateTime);
-        }
+        p.insertFile(FileHandle(fileName));
+        p.m_dateTimes.append(dateTime);
     }
 
     p.weChanged();
 
     return s;
 }
+
+QVariant HistoryPlaylist::data(const QModelIndex& index, int role) const
+{
+    if (index.isValid() && index.column() == Playlist::PlayedColumn && role == Qt::DisplayRole)
+        return KGlobal::locale()->formatDateTime(m_dateTimes[index.row()]);
+    else
+        return Playlist::data(index, role);
+}
+
+int HistoryPlaylist::columnCount(const QModelIndex& parent) const
+{
+    return Playlist::columnCount(parent) + 1;
+}
+
 
 #include "historyplaylist.moc"
 

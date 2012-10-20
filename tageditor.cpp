@@ -162,7 +162,7 @@ void TagEditor::setupObservers()
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void TagEditor::slotSetItems(const PlaylistItemList &list)
+void TagEditor::slotSetItems(const QModelIndexList& list)
 {
     if(m_performingSave)
         return;
@@ -170,9 +170,9 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
     // Store the playlist that we're setting because saveChangesPrompt
     // can delete the PlaylistItems in list.
 
-    Playlist *itemPlaylist = 0;
+    const Playlist *itemPlaylist = 0;
     if(!list.isEmpty())
-        itemPlaylist = list.first()->playlist();
+        itemPlaylist = qobject_cast<const Playlist*>(list.first().model());
 
     bool hadPlaylist = m_currentPlaylist != 0;
 
@@ -183,17 +183,16 @@ void TagEditor::slotSetItems(const PlaylistItemList &list)
                    this, SLOT(slotItemRemoved(PlaylistItem*)));
     }
 
+    m_items.clear();
     if((hadPlaylist && !m_currentPlaylist) || !itemPlaylist) {
         m_currentPlaylist = 0;
-        m_items.clear();
     }
     else {
         m_currentPlaylist = itemPlaylist;
 
-        // We can't use list here, it may not be valid
-
-        // ### TODO: View
-        //m_items = itemPlaylist->selectedItems();
+        foreach(const QModelIndex &index, list) {
+            m_items.append(itemPlaylist->fileHandles()[index.row()]);
+        }
     }
 
     if(m_currentPlaylist) {
@@ -215,7 +214,7 @@ void TagEditor::slotRefresh()
     // the most common case -- is to just process the first item.  Then we
     // check after that to see if there are other m_items and adjust accordingly.
 
-    if(m_items.isEmpty() || !m_items.first()->file().tag()) {
+    if(m_items.isEmpty() || !m_items.first().tag()) {
         slotClear();
         setEnabled(false);
         return;
@@ -223,22 +222,19 @@ void TagEditor::slotRefresh()
 
     setEnabled(true);
 
-    PlaylistItem *item = m_items.first();
+    const FileHandle &firstFile = m_items.first();
+    Tag *tag = firstFile.tag();
 
-    Q_ASSERT(item);
-
-    Tag *tag = item->file().tag();
-
-    QFileInfo fi(item->file().absFilePath());
-    if(!fi.isWritable() && m_items.count() == 1)
+    
+    if(!firstFile.fileInfo().isWritable() && m_items.count() == 1)
         setEnabled(false);
 
     artistNameBox->setEditText(tag->artist());
     trackNameBox->setText(tag->title());
     albumNameBox->setEditText(tag->album());
 
-    fileNameBox->setText(item->file().fileInfo().fileName());
-    fileNameBox->setToolTip(item->file().absFilePath());
+    fileNameBox->setText(firstFile.fileInfo().fileName());
+    fileNameBox->setToolTip(firstFile.absFilePath());
 
     bitrateBox->setText(QString::number(tag->bitrate()));
     lengthBox->setText(tag->lengthString());
@@ -255,13 +251,6 @@ void TagEditor::slotRefresh()
 
     commentBox->setPlainText(tag->comment());
 
-    // Start at the second item, since we've already processed the first.
-
-    PlaylistItemList::Iterator it = m_items.begin();
-    ++it;
-
-    // If there is more than one item in the m_items that we're dealing with...
-
 
     QList<QWidget *> disabledForMulti;
 
@@ -274,8 +263,7 @@ void TagEditor::slotRefresh()
             QMetaObject::invokeMethod(w, "clear");
     }
 
-    if(it != m_items.end()) {
-
+    if(m_items.count() > 1) {
         foreach(QCheckBox *box, m_enableBoxes) {
             box->setChecked(true);
             box->show();
@@ -297,11 +285,10 @@ void TagEditor::slotRefresh()
             m_enableBoxes[commentBox]->setChecked(false);
         }
         else {
-            for(; it != m_items.end(); ++it) {
-                tag = (*it)->file().tag();
+            foreach(const FileHandle &file, m_items) {
+                tag = file.tag();
 
                 if(tag) {
-
                     if(artistNameBox->currentText() != tag->artist() &&
                        m_enableBoxes.contains(artistNameBox))
                     {
@@ -530,7 +517,7 @@ void TagEditor::setupLayout()
     tagEditorLayout->setColumnMinimumWidth(1, 200);
 }
 
-void TagEditor::save(const PlaylistItemList &list)
+void TagEditor::save(const FileHandleList &list)
 {
     if(!list.isEmpty() && m_dataChanged) {
 
@@ -542,30 +529,24 @@ void TagEditor::save(const PlaylistItemList &list)
         // items dies, which is possible as we edit tags.  So we need to copy
         // the end marker.
 
-        PlaylistItemList::ConstIterator end = list.end();
-
-        for(PlaylistItemList::ConstIterator it = list.begin(); it != end; /* Deliberately missing */ ) {
-
+        foreach (const FileHandle &file, list) {
             // Process items before we being modifying tags, as the dynamic
             // playlists will try to modify the file we edit if the tag changes
             // due to our alterations here.
 
             qApp->processEvents(QEventLoop::ExcludeUserInput);
 
-            PlaylistItem *item = *it;
 
             // The playlist can be deleted from under us if this is the last
             // item and we edit it so that it doesn't match the search, which
             // means we can't increment the iterator, so let's do it now.
 
-            ++it;
-
-            QString fileName = item->file().fileInfo().path() + QDir::separator() +
+            QString fileName = file.fileInfo().path() + QDir::separator() +
                                fileNameBox->text();
             if(list.count() > 1)
-                fileName = item->file().fileInfo().absoluteFilePath();
+                fileName = file.fileInfo().absoluteFilePath();
 
-            Tag *tag = TagTransactionManager::duplicateTag(item->file().tag(), fileName);
+            Tag *tag = TagTransactionManager::duplicateTag(file.tag(), fileName);
 
             // A bit more ugliness.  If there are multiple files that are
             // being modified, they each have a "enabled" checkbox that
@@ -595,7 +576,7 @@ void TagEditor::save(const PlaylistItemList &list)
             if(m_enableBoxes[genreBox]->isChecked())
                 tag->setGenre(genreBox->currentText());
 
-            TagTransactionManager::instance()->changeTagOnItem(item, tag);
+            TagTransactionManager::instance()->changeTagOnItem(file, tag);
         }
 
         TagTransactionManager::instance()->commit();
@@ -612,8 +593,8 @@ void TagEditor::saveChangesPrompt()
 
     QStringList files;
 
-    foreach(const PlaylistItem *item, m_items)
-        files.append(item->file().absFilePath());
+    foreach(const FileHandle &file, m_items)
+        files.append(file.absFilePath());
 
     if(KMessageBox::questionYesNoList(this,
                                       i18n("Do you want to save your changes to:\n"),
@@ -654,7 +635,7 @@ void TagEditor::slotDataChanged(bool c)
     m_dataChanged = c;
 }
 
-void TagEditor::slotItemRemoved(PlaylistItem *item)
+void TagEditor::slotItemRemoved(const FileHandle& item)
 {
     m_items.removeAll(item);
     if(m_items.isEmpty())
@@ -665,7 +646,7 @@ void TagEditor::slotPlaylistDestroyed(Playlist *p)
 {
     if(m_currentPlaylist == p) {
         m_currentPlaylist = 0;
-        slotSetItems(PlaylistItemList());
+        slotSetItems(QModelIndexList());
     }
 }
 
