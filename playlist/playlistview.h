@@ -23,6 +23,7 @@ public slots:
 protected slots:
     virtual void contextMenuEvent(QContextMenuEvent*);
     virtual bool event(QEvent*);
+    virtual void play(QModelIndex);
 
 private slots:
     void slotRefresh();

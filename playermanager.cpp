@@ -195,8 +195,8 @@ void PlayerManager::setStatusLabel(StatusLabel *label)
 
 void PlayerManager::play(const QModelIndex& index)
 {
-    const Playlist *playlist = qobject_cast<const Playlist*>(index.model());
-    const FileHandle &file = playlist->data(index, Qt::UserRole).value<FileHandle>();
+    const FileHandle &file = index.model()->data(index, Qt::UserRole).value<FileHandle>();
+    qWarning() << file.absFilePath();
     play(file);
 }
 

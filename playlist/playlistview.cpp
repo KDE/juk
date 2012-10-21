@@ -17,6 +17,7 @@
 #include "playlist/playlistheaderview.h"
 #include "playlist/playlistsortfilterproxymodel.h"
 #include "tracksequencemanager.h"
+#include <playermanager.h>
 
 using namespace ActionCollection;
 
@@ -36,6 +37,8 @@ PlaylistView::PlaylistView(QWidget* parent):
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
     setItemsExpandable(false);
     setIndentation(0);
+    
+    connect(this, SIGNAL(activated(QModelIndex)), SLOT(play(QModelIndex)));
 }
 
 void PlaylistView::contextMenuEvent(QContextMenuEvent *event)
@@ -253,6 +256,12 @@ void PlaylistView::setSearchEnabled(bool enabled)
 //     }
 //     else
 //         setItemsVisible(items(), true);
+}
+
+
+void PlaylistView::play(QModelIndex index)
+{
+    PlayerManager::instance()->play(index);
 }
 
 
