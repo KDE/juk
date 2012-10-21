@@ -47,6 +47,7 @@
 #include "tag.h"
 #include "scrobbler.h"
 #include "juk.h"
+#include "tracksequencemanager.h"
 
 using namespace ActionCollection;
 
@@ -220,8 +221,7 @@ void PlayerManager::play(const FileHandle& file)
             emit seeked(0);
         }
         else {
-//             m_playlistInterface->playNext();
-//             m_file = m_playlistInterface->currentFile();
+            m_file = TrackSequenceManager::instance()->nextFile();
 
             if(!m_file.isNull())
             {

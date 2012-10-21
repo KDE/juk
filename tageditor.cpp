@@ -190,7 +190,7 @@ void TagEditor::slotSetItems(const QModelIndexList& list)
         m_currentPlaylist = itemPlaylist;
 
         foreach(const QModelIndex &index, list) {
-            m_items.append(itemPlaylist->fileHandles()[index.row()]);
+            m_items.append(itemPlaylist->data(index, Qt::UserRole).value<FileHandle>());
         }
     }
 

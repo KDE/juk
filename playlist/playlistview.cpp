@@ -106,7 +106,7 @@ void PlaylistView::contextMenuEvent(QContextMenuEvent *event)
 
     // Disable edit menu if only one file is selected, and it's read-only
     
-    FileHandle file = playlist()->fileHandles()[indexAt(event->pos()).row()];
+    const FileHandle &file = playlist()->data(indexAt(event->pos()), Qt::UserRole).value<FileHandle>();
 
     m_editAction->setEnabled(file.fileInfo().isWritable() || selectedIndexes().count() > 1);
 
@@ -1302,12 +1302,13 @@ void PlaylistView::setSearchEnabled(bool enabled)
 //     action("forward")->trigger();
 // }
 // 
-
+// 
 // void Playlist::playFirst()
 // {
-//     TrackSequenceManager::instance()->setNextItem(m_items.first());
-//     action("forward")->trigger();
+//      TrackSequenceManager::instance()->setNextItem(m_items.first());
+//      action("forward")->trigger();
 // }
+// 
 // 
 // void Playlist::playNextAlbum()
 // {

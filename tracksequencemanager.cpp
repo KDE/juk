@@ -100,6 +100,14 @@ const QModelIndex &TrackSequenceManager::nextItem()
     return m_iterator->current();
 }
 
+FileHandle TrackSequenceManager::nextFile()
+{
+    const QModelIndex &next = nextItem();
+    const Playlist *playlist = qobject_cast<const Playlist*>(next.model());
+    return playlist->data(next, Qt::UserRole).value<FileHandle>();
+}
+
+
 const QModelIndex &TrackSequenceManager::previousItem()
 {
     m_iterator->backup();

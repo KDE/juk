@@ -20,6 +20,8 @@
 #include <QPointer>
 #include <QModelIndex>
 
+#include "filehandle.h"
+
 class KMenu;
 class TrackSequenceIterator;
 class Playlist;
@@ -92,6 +94,8 @@ public:
      * been reached
      */
     const QModelIndex &nextItem();
+    
+    FileHandle nextFile();
 
     /**
      * Returns the previous track, and backs up in the current sequence.  Note
