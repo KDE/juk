@@ -8,7 +8,7 @@ class PlaylistSortFilterProxyModel : public QSortFilterProxyModel
 {
     Q_OBJECT
 public:
-    PlaylistSortFilterProxyModel(QObject *parent=0);
+    static PlaylistSortFilterProxyModel *instance();
     
     void setSearch(const PlaylistSearch&);
     void setSearchEnabled(bool);
@@ -17,6 +17,9 @@ protected:
     virtual bool filterAcceptsRow(int sourceRow, const QModelIndex &sourceParent) const;
     
 private:
+    PlaylistSortFilterProxyModel(QObject *parent=0);
+    PlaylistSortFilterProxyModel(const QSortFilterProxyModel& );
+    
     PlaylistSearch m_search;
     bool m_searchEnabled;
 };

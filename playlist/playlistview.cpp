@@ -27,7 +27,7 @@ PlaylistView::PlaylistView(QWidget* parent):
     m_contextMenu(0),
     m_editAction(0),
     m_currentColumn(0),
-    m_proxyModel(new PlaylistSortFilterProxyModel(this))
+    m_proxyModel(PlaylistSortFilterProxyModel::instance())
 {
     setHeader(new PlaylistHeaderView(Qt::Horizontal, this));
     

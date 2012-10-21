@@ -1,5 +1,14 @@
 #include "playlistsortfilterproxymodel.h"
 
+
+PlaylistSortFilterProxyModel* PlaylistSortFilterProxyModel::instance()
+{
+    static PlaylistSortFilterProxyModel inst;
+    return &inst;
+}
+
+
+
 PlaylistSortFilterProxyModel::PlaylistSortFilterProxyModel(QObject *parent) :
     QSortFilterProxyModel(parent)
 {
