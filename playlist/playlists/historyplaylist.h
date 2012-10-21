@@ -19,7 +19,6 @@
 #include <QDateTime>
 
 #include "playlist.h"
-#include "playlist/playlistitem.h"
 
 class HistoryPlaylist : public Playlist
 {

@@ -42,7 +42,6 @@
 #include <QTextDocument>
 
 #include "playlist/playlistcollection.h"
-#include "playlist/playlistitem.h"
 #include "coverinfo.h"
 #include "covermanager.h"
 #include "tag.h"

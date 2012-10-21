@@ -21,7 +21,6 @@
 #include "actioncollection.h"
 #include "tracksequencemanager.h"
 #include "playlist/playlists/playlist.h"
-#include "playlist/playlistitem.h"
 #include "tracksequenceiterator.h"
 #include "tag.h"
 #include "filehandle.h"

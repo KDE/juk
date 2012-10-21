@@ -24,18 +24,16 @@
 #include "ui_filerenamerbase.h"
 #include "categoryreaderinterface.h"
 #include "tagrenameroptions.h"
+#include "filehandle.h"
 
 class QCheckBox;
 class QPushButton;
 class QSignalMapper;
 
 class ExampleOptionsDialog;
-class PlaylistItem;
 
 template<class T>
 class QList;
-
-typedef QList<PlaylistItem *> PlaylistItemList;
 
 // Used to decide what direction the FileRenamerWidget will move rows in.
 enum MovementDirection { MoveUp, MoveDown };
@@ -98,8 +96,8 @@ public:
 
     ConfigCategoryReader();
 
-    const PlaylistItem *playlistItem() const { return m_currentItem; }
-    void setPlaylistItem(const PlaylistItem *item) { m_currentItem = item; }
+    const FileHandle &fileHandle() const { return m_currentItem; }
+    void setPlaylistItem(const FileHandle &file) { m_currentItem = file; }
 
     // CategoryReaderInterface reimplementations
 
@@ -116,7 +114,7 @@ public:
     virtual bool isDisabled(const CategoryID &category) const;
 
 private:
-    const PlaylistItem *m_currentItem;
+    FileHandle m_currentItem;
     CategoryOptionsMap m_options;
     QList<CategoryID> m_categoryOrder;
     QString m_separator;
@@ -506,7 +504,7 @@ public:
      *
      * @param item The item to rename.
      */
-    void rename(PlaylistItem *item);
+    void rename(const FileHandle &file);
 
     /**
      * Renames the filenames on disk of the files given in items according to
@@ -514,7 +512,7 @@ public:
      *
      * @param items The items to rename.
      */
-    void rename(const PlaylistItemList &items);
+    void rename(const FileHandleList &files);
 
     /**
      * Returns the file name that would be generated based on the options read from
@@ -532,7 +530,7 @@ private:
      * there is not already a folder icon set, and if the folder's name has
      * the album name.
      */
-    void setFolderIcon(const KUrl &dst, const PlaylistItem *item);
+    void setFolderIcon(const KUrl &dst, const FileHandle &item);
 
     /**
      * Attempts to rename the file from \a src to \a dest.  Returns true if the

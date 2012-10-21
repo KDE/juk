@@ -19,9 +19,10 @@
 #include <kaction.h>
 
 #include "playlist/playlistexporter.h"
-#include "playlist/playlistitem.h"
+#include "filehandle.h"
 
 class PlaylistBox;
+class Playlist;
 
 class PlaylistAction : public KAction
 {

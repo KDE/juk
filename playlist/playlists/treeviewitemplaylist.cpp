@@ -24,7 +24,6 @@
 
 #include "collectionlist.h"
 #include "tag.h"
-#include "playlist/playlistitem.h"
 #include "playlist/playlistsearch.h"
 #include "tagtransactionmanager.h"
 

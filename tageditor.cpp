@@ -15,7 +15,6 @@
 
 #include "tageditor.h"
 #include "collectionlist.h"
-#include "playlist/playlistitem.h"
 #include "tag.h"
 #include "actioncollection.h"
 #include "tagtransactionmanager.h"

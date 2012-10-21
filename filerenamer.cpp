@@ -51,7 +51,6 @@
 #include "filerenameroptions.h"
 #include "filehandle.h"
 #include "exampleoptions.h"
-#include "playlist/playlistitem.h"
 #include "playlist/playlists/playlist.h" // processEvents()
 #include "coverinfo.h"
 
@@ -143,10 +142,10 @@ ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
 
 QString ConfigCategoryReader::categoryValue(TagType type) const
 {
-    if(!m_currentItem)
+    if(m_currentItem.isNull())
         return QString();
 
-    Tag *tag = m_currentItem->file().tag();
+    Tag *tag = m_currentItem.tag();
 
     switch(type) {
     case Track:
@@ -854,30 +853,30 @@ FileRenamer::FileRenamer()
 {
 }
 
-void FileRenamer::rename(PlaylistItem *item)
+void FileRenamer::rename(const FileHandle& file)
 {
-    PlaylistItemList list;
-    list.append(item);
+    FileHandleList list;
+    list.append(file);
 
     rename(list);
 }
 
-void FileRenamer::rename(const PlaylistItemList &items)
+void FileRenamer::rename(const FileHandleList& files)
 {
     ConfigCategoryReader reader;
     QStringList errorFiles;
     QMap<QString, QString> map;
-    QMap<QString, PlaylistItem *> itemMap;
+    QMap<QString, FileHandle> itemMap;
 
-    for(PlaylistItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
-        reader.setPlaylistItem(*it);
-        QString oldFile = (*it)->file().absFilePath();
-        QString extension = (*it)->file().fileInfo().suffix();
+    foreach(const FileHandle &file, files) {
+        reader.setPlaylistItem(file);
+        QString oldFile = file.absFilePath();
+        QString extension = file.fileInfo().suffix();
         QString newFile = fileName(reader) + '.' + extension;
 
         if(oldFile != newFile) {
             map[oldFile] = newFile;
-            itemMap[oldFile] = *it;
+            itemMap[oldFile] = file;
         }
     }
 
@@ -889,8 +888,8 @@ void FileRenamer::rename(const PlaylistItemList &items)
         it != map.constEnd(); ++it)
     {
         if(moveFile(it.key(), it.value())) {
-            itemMap[it.key()]->setFile(it.value());
-            itemMap[it.key()]->refresh();
+            itemMap[it.key()].setFile(it.value());
+            itemMap[it.key()].refresh();
 
             setFolderIcon(it.value(), itemMap[it.key()]);
         }
@@ -940,10 +939,10 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     return KIO::NetAccess::synchronousRun(job, 0);
 }
 
-void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
+void FileRenamer::setFolderIcon(const KUrl& dst, const FileHandle& file)
 {
-    if(item->file().tag()->album().isEmpty() ||
-       !item->file().coverInfo()->hasCover())
+    if(file.tag()->album().isEmpty() ||
+       !file.coverInfo()->hasCover())
     {
         return;
     }
@@ -960,13 +959,13 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
         path.append('/' + (*it));
 
         kDebug() << "Checking path: " << path;
-        if((*it).contains(item->file().tag()->album() ) &&
+        if((*it).contains(file.tag()->album() ) &&
            !QFile::exists(path + "/.directory"))
         {
             // Seems to be a match, let's set the folder icon for the current
             // path.  First we should write out the file.
 
-            QPixmap thumb = item->file().coverInfo()->pixmap(CoverInfo::Thumbnail);
+            QPixmap thumb = file.coverInfo()->pixmap(CoverInfo::Thumbnail);
             thumb.save(path + "/.juk-thumbnail.png", "PNG");
 
             KDesktopFile dirFile(path + "/.directory");

@@ -18,7 +18,6 @@
 
 #include <QModelIndex>
 
-#include "playlist/playlistitem.h"
 #include "playlist/playlistsearch.h"
 
 class Playlist;

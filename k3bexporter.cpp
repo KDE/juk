@@ -28,7 +28,6 @@
 
 #include <QMap>
 
-#include "playlist/playlistitem.h"
 #include "playlist/playlists/playlist.h"
 #include "playlistbox.h"
 #include "actioncollection.h"

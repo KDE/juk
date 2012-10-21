@@ -15,7 +15,6 @@
 
 #include "playlistsearch.h"
 #include "playlists/playlist.h"
-#include "playlistitem.h"
 #include "collectionlist.h"
 #include "juk-exception.h"
 

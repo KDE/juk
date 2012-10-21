@@ -60,7 +60,6 @@
 #include <cmath>
 #include <dirent.h>
 
-#include "playlist/playlistitem.h"
 #include "playlist/playlistcollection.h"
 #include "playlist/playlistsearch.h"
 #include "mediafiles.h"

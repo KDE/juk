@@ -48,7 +48,6 @@
 #include "mediafiles.h"
 #include "collectionlist.h"
 #include "playlist/playlistsearch.h"
-#include "playlist/playlistitem.h"
 #include "tag.h"
 
 struct CoverPopup : public QWidget

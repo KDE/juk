@@ -20,7 +20,6 @@
 #include <kapplication.h>
 #include <kaction.h>
 
-#include "playlist/playlistitem.h"
 #include "playlist/playlistcollection.h"
 #include "tracksequencemanager.h"
 #include "collectionlist.h"

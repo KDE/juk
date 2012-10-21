@@ -20,7 +20,6 @@
 #include <QVector>
 
 #include "playlist/playlists/playlist.h"
-#include "playlist/playlistitem.h"
 
 class ViewMode;
 class KFileItem;
