@@ -23,7 +23,6 @@
 #include <QHash>
 
 class Playlist;
-class PlaylistItem;
 class ViewMode;
 
 class KMenu;
