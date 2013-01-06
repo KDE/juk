@@ -49,8 +49,8 @@ static const char sho[]         = I18N_NOOP("MPRIS2 Interface implementation.");
 int main(int argc, char *argv[])
 {
     KAboutData aboutData("juk", 0, ki18n("JuK"),
-                         "3.9", ki18n(description), KAboutData::License_GPL,
-                         ki18n("© 2002–2012, Scott Wheeler, Michael Pyne, and others"),
+                         "3.10", ki18n(description), KAboutData::License_GPL,
+                         ki18n("© 2002–2013, Scott Wheeler, Michael Pyne, and others"),
                          KLocalizedString(),
                          "http://www.kde.org/applications/multimedia/juk/");
 
