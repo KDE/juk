@@ -68,6 +68,10 @@ namespace MediaFiles {
     static const char mp4AudiobookType[] = "audio/x-m4b";
 #endif
 
+#if TAGLIB_HAS_OPUSFILE
+    static const char oggopusType[] = "audio/x-opus+ogg";
+#endif
+
     static const char *const mediaTypes[] = {
         mp3Type, oggType, flacType, mpcType, vorbisType, oggflacType
 #ifdef TAGLIB_WITH_ASF
@@ -76,6 +80,9 @@ namespace MediaFiles {
 #ifdef TAGLIB_WITH_MP4
         ,mp4Type
         ,mp4AudiobookType
+#endif
+#if TAGLIB_HAS_OPUSFILE
+        ,oggopusType
 #endif
     };
 
@@ -145,8 +152,12 @@ TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
     else if(result->is(oggflacType))
         file = new TagLib::Ogg::FLAC::File(encodedFileName.constData());
 #if TAGLIB_HAS_OPUSFILE
-    else if(result->is(oggType) && fileName.endsWith(QLatin1String(".opus")))
+    else if(result->is(oggopusType) ||
+            (result->is(oggType) && fileName.endsWith(QLatin1String(".opus")))
+            )
+    {
         file = new TagLib::Ogg::Opus::File(encodedFileName.constData());
+    }
 #endif
 
     return file;
