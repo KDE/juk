@@ -4,6 +4,7 @@ find_package( Qt4 REQUIRED )
 find_package( KDE4 REQUIRED )
 include( KDE4Defaults )
 include( MacroLibrary )
+include( CheckIncludeFileCXX )
 
 find_package( Taglib 1.6 )
 
@@ -29,11 +30,18 @@ endif(TUNEPIMP_FOUND)
 
 set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 
-configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 ########### next target ###############
 
 include_directories( ${TAGLIB_INCLUDES} )
 add_definitions(-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS -DQT_STL)
+
+# Look for Ogg Opus support in taglib (not released yet)
+macro_push_required_vars()
+set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${TAGLIB_INCLUDES})
+check_include_file_cxx(opusfile.h TAGLIB_HAS_OPUSFILE)
+macro_pop_required_vars()
+
+configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 
 set(tunepimp_SRCS)
 if(TUNEPIMP_FOUND)

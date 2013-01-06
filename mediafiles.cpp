@@ -34,6 +34,11 @@
 #include <oggflacfile.h>
 #include <mpcfile.h>
 
+#include "config-juk.h"
+#if TAGLIB_HAS_OPUSFILE
+# include <opusfile.h>
+#endif
+
 #ifdef TAGLIB_WITH_ASF
 #include <asffile.h>
 #endif
@@ -46,7 +51,7 @@ namespace MediaFiles {
     static QStringList savedMimeTypes;
 
     static const char mp3Type[]  = "audio/mpeg";
-    static const char oggType[]  = "application/ogg";
+    static const char oggType[]  = "audio/ogg";
     static const char flacType[] = "audio/x-flac";
     static const char mpcType[]  = "audio/x-musepack";
     static const char m3uType[]  = "audio/x-mpegurl";
@@ -127,10 +132,6 @@ TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
         file = new TagLib::FLAC::File(encodedFileName.constData());
     else if(result->is(vorbisType))
         file = new TagLib::Vorbis::File(encodedFileName.constData());
-    else if(result->is(mpcType))
-        file = new TagLib::MPC::File(encodedFileName.constData());
-    else if(result->is(oggflacType))
-        file = new TagLib::Ogg::FLAC::File(encodedFileName.constData());
 #ifdef TAGLIB_WITH_ASF
     else if(result->is(asfType))
         file = new TagLib::ASF::File(encodedFileName.constData());
@@ -138,6 +139,14 @@ TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
 #ifdef TAGLIB_WITH_MP4
     else if(result->is(mp4Type) || result->is(mp4AudiobookType))
         file = new TagLib::MP4::File(encodedFileName.constData());
+#endif
+    else if(result->is(mpcType))
+        file = new TagLib::MPC::File(encodedFileName.constData());
+    else if(result->is(oggflacType))
+        file = new TagLib::Ogg::FLAC::File(encodedFileName.constData());
+#if TAGLIB_HAS_OPUSFILE
+    else if(result->is(oggType) && fileName.endsWith(QLatin1String(".opus")))
+        file = new TagLib::Ogg::Opus::File(encodedFileName.constData());
 #endif
 
     return file;
