@@ -14,8 +14,8 @@
  ***************************************************************************/
 
 #include "musicbrainzquery.h"
-#ifdef HAVE_TUNEPIMP // Silence warning when HAVE_TUNEPIMP is not defined.
-#if HAVE_TUNEPIMP
+
+#if HAVE_TUNEPIMP > 0
 
 #include "juk.h"
 #include "trackpickerdialog.h"
@@ -119,7 +119,6 @@ void MusicBrainzLookup::confirmation()
     }
 }
 
-#endif
 #endif
 
 // vim: set et sw=4 tw=0 sta:

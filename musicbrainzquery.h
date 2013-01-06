@@ -18,7 +18,7 @@
 
 #include <config-juk.h>
 
-#ifdef HAVE_TUNEPIMP
+#if HAVE_TUNEPIMP
 
 #include "ktrm.h"
 #include "filehandle.h"

@@ -33,7 +33,7 @@ PlaylistItemList PlaylistItem::m_playingItems; // static
 
 static void startMusicBrainzQuery(const FileHandle &file)
 {
-#ifdef HAVE_TUNEPIMP
+#if HAVE_TUNEPIMP
     // This deletes itself when finished.
     new MusicBrainzLookup(file);
 #else

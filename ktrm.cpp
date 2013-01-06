@@ -24,7 +24,7 @@
 #include "ktrm.h"
 #include <config-juk.h>
 
-#if (HAVE_TUNEPIMP > 0)
+#if HAVE_TUNEPIMP > 0
 
 #include <kprotocolmanager.h>
 #include <kurl.h>
@@ -548,7 +548,7 @@ void KTRMLookup::unrecognized()
 
 void KTRMLookup::collision()
 {
-#if HAVE_TUNEPIMP && HAVE_TUNEPIMP < 5
+#if HAVE_TUNEPIMP < 5
     kDebug() << d->file;
 
     track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);

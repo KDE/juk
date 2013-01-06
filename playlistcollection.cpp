@@ -862,7 +862,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // Guess tag info menu
 
-#ifdef HAVE_TUNEPIMP
+#if HAVE_TUNEPIMP
     menu = new KActionMenu(i18n("&Guess Tag Information"), actions());
     actions()->addAction("guessTag", menu);
 
