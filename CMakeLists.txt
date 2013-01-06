@@ -32,8 +32,7 @@ set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
 configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 ########### next target ###############
 
-# hack, should taglib maybe give the .. directory as well in it's config file?
-include_directories( ${TAGLIB_INCLUDES} ${TAGLIB_INCLUDES}/.. )
+include_directories( ${TAGLIB_INCLUDES} )
 add_definitions(-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS -DQT_STL)
 
 set(tunepimp_SRCS)
