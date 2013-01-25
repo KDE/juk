@@ -31,8 +31,7 @@ int SplashScreen::count = 0;
 
 static QString loadedText(int i)
 {
-    static QString loading = i18n("Loading").toUpper();
-    return loading + ": " + QString::number(i);;
+    return i18nc("%1 is a count of loaded music tracks", "Loading: %1", i);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
