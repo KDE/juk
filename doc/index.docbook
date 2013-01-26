@@ -1607,8 +1607,8 @@ action="simul">&Ctrl;<keycap>T</keycap></keycombo></entry>
 </sect1>
 </chapter>
 
-<chapter id="credits-and-licenses">
-<title>Credits and Licenses</title>
+<chapter id="credits-and-license">
+<title>Credits and License</title>
 
 <para>&juk; Copyright &copy; 2002, 2003, 2004 &Scott.Wheeler;.</para>
 
