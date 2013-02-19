@@ -18,6 +18,6 @@ add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
 set(tagguessertest_SRCS tagguessertest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../tagguesser.cpp )
 
 
-kde4_add_executable(tagguessertest TEST ${tagguessertest_SRCS})
+kde4_add_unit_test(tagguessertest ${tagguessertest_SRCS})
 
-target_link_libraries(tagguessertest  ${KDE4_KDECORE_LIBS} )
+target_link_libraries(tagguessertest ${KDE4_KDECORE_LIBS} ${QT_QTTEST_LIBRARY})

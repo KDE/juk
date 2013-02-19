@@ -22,115 +22,125 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "tagguesser.h"
-//#include <kaboutdata.h>
-//#include <kcmdlineargs.h>
-#include <QCoreApplication>
+#include <qtest_kde.h>
 #include <QDir>
-#include <iostream>
 
-#include <stdlib.h>
-
-using std::cout;
-using std::endl;
-
-void check( const QString &filename, const QString &title,
-            const QString &artist, const QString &track,
-            const QString &comment, const QString &album = QString() )
+class TagGuesserTest : public QObject
 {
-    cout << "Checking " << qPrintable(filename) << "...";
-    TagGuesser guesser( filename );
-    if ( guesser.title() != title ) {
-        cout << "Error: In filename " << qPrintable(filename) << ", expected title " <<
-            qPrintable(title) << ", got title " << qPrintable(guesser.title()) << endl;
-        exit( 1 );
-    }
-    if ( guesser.artist() != artist ) {
-        cout << "Error: In filename " << qPrintable(filename) << ", expected artist " <<
-            qPrintable(artist) << ", got artist " << qPrintable(guesser.artist()) << endl;
-        exit( 1 );
-    }
-    if ( guesser.track() != track ) {
-        cout << "Error: In filename " << qPrintable(filename) << ", expected track " <<
-            qPrintable(track) << ", got track " << qPrintable(guesser.track()) << endl;
-        exit( 1 );
-    }
-    if ( guesser.comment() != comment ) {
-        cout << "Error: In filename " << qPrintable(filename) << ", expected comment " <<
-            qPrintable(comment) << ", got comment " << qPrintable(guesser.comment()) << endl;
-        exit( 1 );
-    }
-    if ( guesser.album() != album ) {
-        cout << "Error: In filename " << qPrintable(filename) << ", expected album " <<
-            qPrintable(album) << ", got album " << qPrintable(guesser.album()) << endl;
-        exit( 1 );
-    }
-    cout << "OK" << endl;
+    Q_OBJECT
+
+private slots:
+    void testGuesser_data();
+    void testGuesser();
+
+private:
+    void add(const QString &filename, const QString &title,
+             const QString &artist, const QString &track,
+             const QString &comment, const QString &album = QString());
+};
+
+
+void TagGuesserTest::testGuesser_data()
+{
+    QTest::addColumn<QString>("filename");
+    QTest::addColumn<QString>("title");
+    QTest::addColumn<QString>("artist");
+    QTest::addColumn<QString>("track");
+    QTest::addColumn<QString>("comment");
+    QTest::addColumn<QString>("album");
+
+    add("/home/frerich/Chemical Brothers - (01) - Block rockin' beats [Live].mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/Chemical Brothers - (01) - Block rockin' beats (Live).mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/Chemical Brothers - (01) - Block rockin' beats.mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", QString());
+    add("/home/frerich/Chemical Brothers - [01] - Block rockin' beats [Live].mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/Chemical Brothers - [01] - Block rockin' beats (Live).mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/Chemical Brothers - [01] - Block rockin' beats.mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", QString());
+    add("/home/frerich/Chemical Brothers - 01 - Block rockin' beats [Live].mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/Chemical Brothers - 01 - Block rockin' beats (Live).mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/Chemical Brothers - 01 - Block rockin' beats.mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", QString());
+    add("/home/frerich/(01) Chemical Brothers - Block rockin' beats [Live].mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/(01) Chemical Brothers - Block rockin' beats (Live).mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/(01) Chemical Brothers - Block rockin' beats.mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", QString());
+    add("/home/frerich/[01] Chemical Brothers - Block rockin' beats [Live].mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/[01] Chemical Brothers - Block rockin' beats (Live).mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/[01] Chemical Brothers - Block rockin' beats.mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", QString());
+    add("/home/frerich/01 Chemical Brothers - Block rockin' beats [Live].mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/01 Chemical Brothers - Block rockin' beats (Live).mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", "Live");
+    add("/home/frerich/01 Chemical Brothers - Block rockin' beats.mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", QString());
+    add("/home/frerich/(Chemical Brothers) Block rockin' beats [Live].mp3",
+        "Block Rockin' Beats", "Chemical Brothers", QString(), "Live");
+    add("/home/frerich/(Chemical Brothers) Block rockin' beats (Live).mp3",
+        "Block Rockin' Beats", "Chemical Brothers", QString(), "Live");
+    add("/home/frerich/(Chemical Brothers) Block rockin' beats.mp3",
+        "Block Rockin' Beats", "Chemical Brothers", QString(), QString());
+    add("/home/frerich/Chemical Brothers - Block rockin' beats [Live].mp3",
+        "Block Rockin' Beats", "Chemical Brothers", QString(), "Live");
+    add("/home/frerich/Chemical Brothers - Block rockin' beats (Live).mp3",
+        "Block Rockin' Beats", "Chemical Brothers", QString(), "Live");
+    add("/home/frerich/Chemical Brothers - Block rockin' beats.mp3",
+        "Block Rockin' Beats", "Chemical Brothers", QString(), QString());
+    add("/home/frerich/mp3/Chemical Brothers/Dig your own hole/[01] Block rockin' beats.mp3",
+        "Block Rockin' Beats", "Chemical Brothers", "01", QString(), "Dig Your Own Hole");
+    add(QDir::homePath() + "/[01] Randy - Religion, religion.mp3",
+        "Religion, Religion", "Randy", "01", QString(), QString());
+    add(QDir::homePath() + "/(3) Mr. Doe - Punk.mp3",
+        "Punk", "Mr. Doe", "3", QString(), QString());
+    add("c:\\music\\mp3s\\(3) Mr. Doe - Punk.mp3",
+        "Punk", "Mr. Doe", "3", QString(), QString());
 }
 
-int main( int argc, char **argv )
+void TagGuesserTest::testGuesser()
 {
-    //KAboutData aboutData("tagguessertest", 0, ki18n("tagguessertest"), "0.1");
-    //KComponentData componentData(&aboutData);
-    QCoreApplication app( argc, argv );
+    QFETCH(QString, filename);
+    QFETCH(QString, title);
+    QFETCH(QString, artist);
+    QFETCH(QString, track);
+    QFETCH(QString, comment);
+    QFETCH(QString, album);
 
-    check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/Chemical Brothers - (01) - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
-    check( "/home/frerich/Chemical Brothers - [01] - Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/Chemical Brothers - [01] - Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/Chemical Brothers - [01] - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
-    check( "/home/frerich/Chemical Brothers - 01 - Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/Chemical Brothers - 01 - Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/Chemical Brothers - 01 - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
-    check( "/home/frerich/(01) Chemical Brothers - Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/(01) Chemical Brothers - Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/(01) Chemical Brothers - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
-    check( "/home/frerich/[01] Chemical Brothers - Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/[01] Chemical Brothers - Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/[01] Chemical Brothers - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
-    check( "/home/frerich/01 Chemical Brothers - Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/01 Chemical Brothers - Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", "Live" );
-    check( "/home/frerich/01 Chemical Brothers - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString() );
-    check( "/home/frerich/(Chemical Brothers) Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString(), "Live" );
-    check( "/home/frerich/(Chemical Brothers) Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString(), "Live" );
-    check( "/home/frerich/(Chemical Brothers) Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString(), QString() );
-    check( "/home/frerich/Chemical Brothers - Block rockin' beats [Live].mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString(), "Live" );
-    check( "/home/frerich/Chemical Brothers - Block rockin' beats (Live).mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString(), "Live" );
-    check( "/home/frerich/Chemical Brothers - Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", QString(), QString() );
-    check( "/home/frerich/mp3/Chemical Brothers/Dig your own hole/[01] Block rockin' beats.mp3",
-            "Block Rockin' Beats", "Chemical Brothers", "01", QString(), "Dig Your Own Hole");
-    check( QDir::homePath() + "/[01] Randy - Religion, religion.mp3",
-            "Religion, Religion", "Randy", "01", QString(), QString() );
-    check( QDir::homePath() + "/(3) Mr. Doe - Punk.mp3",
-            "Punk", "Mr. Doe", "3", QString(), QString() );
-    check( "c:\\music\\mp3s\\(3) Mr. Doe - Punk.mp3",
-            "Punk", "Mr. Doe", "3", QString(), QString() );
-    cout << "All OK" << endl;
-    return 0;
+    TagGuesser guesser(filename);
+
+    QCOMPARE(guesser.title(), title);
+    QCOMPARE(guesser.artist(), artist);
+    QCOMPARE(guesser.track(), track);
+    QCOMPARE(guesser.comment(), comment);
+    QCOMPARE(guesser.album(), album);
 }
+
+void TagGuesserTest::add(const QString &filename, const QString &title,
+                         const QString &artist, const QString &track,
+                         const QString &comment, const QString &album)
+{
+    QTest::newRow(filename.toUtf8())
+        << filename
+        << title
+        << artist
+        << track
+        << comment
+        << album
+    ;
+}
+
+QTEST_KDEMAIN_CORE(TagGuesserTest)
 
 // vim: set et sw=4 tw=0 sta:
+
+#include "tagguessettest.moc"
