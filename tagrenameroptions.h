@@ -22,7 +22,7 @@
 // the count of valid tag types.
 enum TagType {
     StartTag, Title = StartTag, Artist, Album,
-    Track, Genre, Year, NumTypes, Unknown
+    Track, Genre, Year, NumTypes, TagUnknown
 };
 
 /**
@@ -31,7 +31,7 @@ enum TagType {
  */
 struct CategoryID
 {
-    CategoryID() : category(Unknown), categoryNumber(0)
+    CategoryID() : category(TagUnknown), categoryNumber(0)
     {
     }
 
@@ -131,7 +131,7 @@ public:
     /**
      * Function that tries to match a string back to its category.  Uses only
      * the untranslated and case-sensitive form of the string.  If it fails it
-     * will return Unknown.
+     * will return TagUnknown.
      */
     static TagType tagFromCategoryText(const QString &text);
 

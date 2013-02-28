@@ -26,7 +26,7 @@ TagRenamerOptions::TagRenamerOptions() :
     m_emptyAction(IgnoreEmptyTag),
     m_trackWidth(0),
     m_disabled(true),
-    m_category(Unknown)
+    m_category(TagUnknown)
 {
 }
 
@@ -177,7 +177,7 @@ TagType TagRenamerOptions::tagFromCategoryText(const QString &text)
         if(tagTypeText(static_cast<TagType>(i), false) == text)
             return static_cast<TagType>(i);
 
-    return Unknown;
+    return TagUnknown;
 }
 
 // vim: set et sw=4 tw=0 sta:
