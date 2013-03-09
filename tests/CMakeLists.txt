@@ -1,22 +1,10 @@
 set( EXECUTABLE_OUTPUT_PATH ${CMAKE_CURRENT_BINARY_DIR} )
 
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS}")
-########### next target ###############
-
-# hack, should taglib maybe give the .. directory as well in it's config file?
-if(WIN32)
-    include_directories( ${TAGLIB_INCLUDES} ${TAGLIB_INCLUDES}/.. )
-else(WIN32)
-    add_definitions( ${TAGLIB_CFLAGS} "${TAGLIB_CFLAGS}/.."  )
-endif(WIN32)
 include_directories( ${CMAKE_CURRENT_SOURCE_DIR}/.. )
 
-add_definitions (-DQT3_SUPPORT -DQT3_SUPPORT_WARNINGS)
-
-   
 ########### next target ###############
-set(tagguessertest_SRCS tagguessertest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../tagguesser.cpp )
 
+set(tagguessertest_SRCS tagguessertest.cpp ${CMAKE_CURRENT_SOURCE_DIR}/../tagguesser.cpp )
 
 kde4_add_unit_test(tagguessertest ${tagguessertest_SRCS})
 
