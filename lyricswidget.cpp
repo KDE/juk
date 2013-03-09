@@ -36,12 +36,12 @@ LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     setReadOnly(true);
     setWordWrapMode(QTextOption::WordWrap);
     setOpenExternalLinks(true);
-    
+
     KToggleAction *show = new KToggleAction(KIcon(QLatin1String("view-media-lyrics")),
                                             i18n("Show &Lyrics"), this);
     ActionCollection::actions()->addAction("showLyrics", show);
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
-    
+
     KConfigGroup config(KGlobal::config(), "LyricsWidget");
     bool shown = config.readEntry("Show", true);
     show->setChecked(shown);
@@ -64,7 +64,7 @@ void LyricsWidget::saveConfig()
 void LyricsWidget::playing(const FileHandle &file)
 {
     setHtml("<i>Loading...</i>");
-    
+
     QUrl listUrl("http://lyrics.wikia.com/api.php");
     listUrl.addQueryItem("action", "lyrics");
     listUrl.addQueryItem("func", "getSong");
@@ -94,8 +94,8 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
     document.setContent(reply);
     QString artist = document.elementsByTagName("artist").at(0).toElement().text();
     QString title = document.elementsByTagName("song").at(0).toElement().text();
-    
-    
+
+
     QUrl url("http://lyrics.wikia.com/api.php");
     url.addQueryItem("action", "query");
     url.addQueryItem("prop", "revisions");
@@ -114,7 +114,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
         setHtml("<span style='color:red'>Error while retrieving lyrics!</span>");
         return;
     }
-    
+
     QString content = QString::fromUtf8(reply->readAll());
     int lIndex = content.indexOf("&lt;lyrics&gt;");
     int rIndex = content.indexOf("&lt;/lyrics&gt;");
@@ -127,7 +127,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     content = content.mid(lIndex, rIndex - lIndex).trimmed();
     content.replace("\n", "<br />");
     //setText(content);
-    setHtml("<h1>" + m_title + "</h1>" + 
-            content + 
+    setHtml("<h1>" + m_title + "</h1>" +
+            content +
             "<br /><br /><i>Lyrics provided by <a href='http://lyrics.wikia.com/Lyrics_Wiki'>LyricWiki</a></i>");
 }

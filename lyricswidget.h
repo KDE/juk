@@ -29,11 +29,11 @@ class LyricsWidget : public QTextBrowser
 
 public:
     explicit LyricsWidget(QWidget *parent);
-    
+
     virtual ~LyricsWidget();
-    
+
     QSize minimumSize() const { return QSize(100, 0); }
-    
+
 public Q_SLOTS:
     void playing(const FileHandle &file);
 
@@ -44,12 +44,12 @@ private Q_SLOTS:
     void receiveListReply(QNetworkReply*);
     void receiveLyricsReply(QNetworkReply*);
     void saveConfig();
-    
-    
+
+
 private:
     QNetworkAccessManager *m_networkAccessManager;
     QString m_title;
 };
-    
+
 
 #endif//LYRICSWIDGET_H
