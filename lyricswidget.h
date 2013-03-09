@@ -37,6 +37,9 @@ public:
 public Q_SLOTS:
     void playing(const FileHandle &file);
 
+protected:
+    virtual void hideEvent(QHideEvent*);
+
 private Q_SLOTS:
     void receiveListReply(QNetworkReply*);
     void receiveLyricsReply(QNetworkReply*);

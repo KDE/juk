@@ -46,7 +46,6 @@ LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     bool shown = config.readEntry("Show", true);
     show->setChecked(shown);
     setVisible(shown);
-    connect(this, SLOT(setShown(bool)), SLOT(saveConfig()));
 }
 
 LyricsWidget::~LyricsWidget()
@@ -75,6 +74,11 @@ void LyricsWidget::playing(const FileHandle &file)
     m_title = file.tag()->artist() + " &#8211; " + file.tag()->title();
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(listUrl));
+}
+
+void LyricsWidget::hideEvent(QHideEvent *)
+{
+    saveConfig();
 }
 
 void LyricsWidget::receiveListReply(QNetworkReply* reply)
