@@ -177,6 +177,12 @@ void PlaylistSplitter::setupLayout()
     m_editorSplitter = new QSplitter(Qt::Vertical, this);
     m_editorSplitter->setObjectName( QLatin1String("editorSplitter" ));
 
+    // Make sure none of the optional widgets are collapsible, this causes the
+    // widget to be essentially invisible but logically shown.
+
+    this->setChildrenCollapsible(false);
+    m_editorSplitter->setChildrenCollapsible(false);
+
     // Create the playlist and the editor.
 
     QWidget *top = new QWidget(m_editorSplitter);
@@ -196,7 +202,7 @@ void PlaylistSplitter::setupLayout()
     // Create the lyrics widget
     m_lyricsWidget = new LyricsWidget(this);
     insertWidget(2, m_lyricsWidget);
-    
+
     // Create the PlaylistBox
     m_playlistBox = new PlaylistBox(m_player, this, m_playlistStack);
     m_playlistBox->setObjectName( QLatin1String( "playlistBox" ) );
@@ -208,7 +214,6 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
     connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
             m_player, SLOT(play(FileHandle)));
-    
 
     m_player->setPlaylistInterface(m_playlistBox);
 
