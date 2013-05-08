@@ -288,8 +288,10 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
             dynamic_cast<TagLib::MP4::File *>(fileTag.data()))
     {
         TagLib::MP4::Tag *tag = mp4File->tag();
-        TagLib::MP4::ItemListMap &items = tag->itemListMap();
-        return items.contains("covr");
+        if (tag) {
+            TagLib::MP4::ItemListMap &items = tag->itemListMap();
+            return items.contains("covr");
+        }
     }
 #endif
 
@@ -422,7 +424,9 @@ QImage CoverInfo::embeddedAlbumArt() const
             dynamic_cast<TagLib::MP4::File *>(fileTag.data()))
     {
         TagLib::MP4::Tag *tag = mp4File->tag();
-        return embeddedMP4AlbumArt(tag);
+        if (tag) {
+            return embeddedMP4AlbumArt(tag);
+        }
     }
 #endif
 
