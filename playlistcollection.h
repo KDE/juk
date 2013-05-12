@@ -161,6 +161,13 @@ public:
     bool containsPlaylistFile(const QString &file) const;
 
     /**
+     * @return list of folders to exclude from automatic searching (whether
+     * by directory-change watchers or the startup folder scan). The user should
+     * still be able to manually add files even under an excluded folder.
+     */
+    QStringList excludedFolders() const { return m_excludedFolderList; }
+
+    /**
      * This is used to put up a temporary widget over the top of the playlist
      * stack.  This is part of a trick to significantly speed up painting by
      * hiding the playlist to which items are being added.
@@ -203,6 +210,7 @@ private:
     StringHash  m_playlistNames;
     StringHash  m_playlistFiles;
     QStringList m_folderList;
+    QStringList m_excludedFolderList;
     bool        m_importPlaylists;
     bool        m_searchEnabled;
     bool        m_playing;

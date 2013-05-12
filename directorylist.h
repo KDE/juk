@@ -39,11 +39,12 @@ public:
     {
         QStringList addedDirs;
         QStringList removedDirs;
+        QStringList excludedDirs;
         DialogCode status;
         bool addPlaylists;
     };
 
-    DirectoryList(QStringList directories, bool importPlaylists,
+    DirectoryList(QStringList directories, QStringList excludeDirectories, bool importPlaylists,
                   QWidget *parent = 0);
     virtual ~DirectoryList();
 
@@ -53,15 +54,20 @@ public slots:
 signals:
     void signalDirectoryAdded(const QString &directory);
     void signalDirectoryRemoved(const QString &directory);
+    void signalExcludeDirectoryAdded(const QString &directory);
+    void signalExcludeDirectoryRemoved(const QString &directory);
 
 private slots:
     void slotAddDirectory();
     void slotRemoveDirectory();
+    void slotAddExcludeDirectory();
+    void slotRemoveExcludeDirectory();
 
 private:
     static QStringList defaultFolders();
 
     QStringListModel *m_dirListModel;
+    QStringListModel *m_excludedDirListModel;
     bool m_importPlaylists;
     DirectoryListBase *m_base;
     Result m_result;

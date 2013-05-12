@@ -1875,32 +1875,37 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
         return;
     }
 
-
-    const QFileInfo fileInfo = QDir::cleanPath(file);
+    const QFileInfo fileInfo(QDir::cleanPath(file));
     if(!fileInfo.exists())
         return;
 
+    const QString canonicalPath = fileInfo.canonicalFilePath();
+
     if(fileInfo.isFile() && fileInfo.isReadable()) {
         if(MediaFiles::isMediaFile(file)) {
-            FileHandle f(fileInfo, fileInfo.absoluteFilePath());
+            FileHandle f(fileInfo, canonicalPath);
             f.tag();
             files.append(f);
         }
     }
 
     if(importPlaylists && MediaFiles::isPlaylistFile(file) &&
-       !m_collection->containsPlaylistFile(fileInfo.canonicalFilePath()))
+       !m_collection->containsPlaylistFile(canonicalPath))
     {
         new Playlist(m_collection, fileInfo);
         return;
     }
 
     if(fileInfo.isDir()) {
+        foreach(const QString &directory, m_collection->excludedFolders()) {
+            if(canonicalPath.startsWith(directory))
+                return; // Exclude it
+        }
 
         // Resorting to the POSIX API because QDir::listEntries() stats every
         // file and blocks while it's doing so.
 
-        DIR *dir = ::opendir(QFile::encodeName(fileInfo.filePath()));
+        DIR *dir = ::opendir(QFile::encodeName(canonicalPath));
 
         if(dir) {
             struct dirent *dirEntry;

@@ -32,6 +32,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 DirectoryList::DirectoryList(QStringList directories,
+                             QStringList excludedDirectories,
                              bool importPlaylists,
                              QWidget *parent) :
     KDialog(parent),
@@ -44,6 +45,7 @@ DirectoryList::DirectoryList(QStringList directories,
     }
 
     m_dirListModel = new QStringListModel(directories, this);
+    m_excludedDirListModel = new QStringListModel(excludedDirectories, this);
 
     setCaption(i18n("Folder List"));
     setModal(true);
@@ -58,8 +60,13 @@ DirectoryList::DirectoryList(QStringList directories,
         SLOT(slotAddDirectory()));
     connect(m_base->removeDirectoryButton, SIGNAL(clicked()),
         SLOT(slotRemoveDirectory()));
+    connect(m_base->addExcludeDirectoryButton, SIGNAL(clicked()),
+        SLOT(slotAddExcludeDirectory()));
+    connect(m_base->removeExcludeDirectoryButton, SIGNAL(clicked()),
+        SLOT(slotRemoveExcludeDirectory()));
 
     m_base->directoryListView->setModel(m_dirListModel);
+    m_base->excludeDirectoryListView->setModel(m_excludedDirListModel);
     m_base->importPlaylistsCheckBox->setChecked(importPlaylists);
 
     resize(QSize(440, 280).expandedTo(minimumSizeHint()));
@@ -130,6 +137,44 @@ void DirectoryList::slotRemoveDirectory()
         else
             m_result.removedDirs.append(dir);
     }
+}
+
+void DirectoryList::slotAddExcludeDirectory()
+{
+    QString dir = KFileDialog::getExistingDirectory();
+
+    if(dir.isEmpty())
+        return;
+
+    QStringList dirs = m_excludedDirListModel->stringList();
+    if(!dirs.contains(dir)) {
+        dirs.append(dir);
+        m_excludedDirListModel->setStringList(dirs);
+    }
+    m_result.excludedDirs = m_excludedDirListModel->stringList();
+}
+
+void DirectoryList::slotRemoveExcludeDirectory()
+{
+    QItemSelectionModel *itemSelection = m_base->excludeDirectoryListView->selectionModel();
+
+    // These will be used in the loop below
+    QModelIndexList indexes;
+    QModelIndex firstIndex;
+    QString dir;
+
+    // The multiple indexes that are possibly present cannot be deleted one
+    // after the other, as changing the layout of the model can change the
+    // indexes (similar to iterators and container remove methods).  So, just
+    // loop deleting the first index until there is no selection.
+
+    while(itemSelection->hasSelection()) {
+        indexes = itemSelection->selectedIndexes();
+        firstIndex = indexes.first();
+
+        m_excludedDirListModel->removeRow(firstIndex.row());
+    }
+    m_result.excludedDirs = m_excludedDirListModel->stringList();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -29,12 +29,14 @@
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
 #include <kconfiggroup.h>
+#include <kfileitem.h>
 
 #include <config-juk.h>
 
 #include <QObject>
 #include <QPixmap>
 #include <QStackedWidget>
+#include <QMutableListIterator>
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -63,6 +65,20 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistCollection *PlaylistCollection::m_instance = 0;
+
+// Returns all folders in input list with their canonical path, if available, or
+// unchanged if not.
+static QStringList canonicalizeFolderPaths(const QStringList &folders)
+{
+    QStringList result;
+
+    foreach(const QString &folder, folders) {
+        QString canonicalFolder = QDir(folder).canonicalPath();
+        result << (!canonicalFolder.isEmpty() ? canonicalFolder : folder);
+    }
+
+    return result;
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -338,8 +354,9 @@ void PlaylistCollection::open(const QStringList &l)
     {
         CollectionList::instance()->addFiles(files);
     }
-    else
+    else {
         visiblePlaylist()->addFiles(files);
+    }
 
     dataChanged();
 }
@@ -354,7 +371,7 @@ void PlaylistCollection::open(const QString &playlist, const QStringList &files)
 
 void PlaylistCollection::addFolder()
 {
-    DirectoryList l(m_folderList, m_importPlaylists, JuK::JuKInstance());
+    DirectoryList l(m_folderList, m_excludedFolderList, m_importPlaylists, JuK::JuKInstance());
     DirectoryList::Result result = l.exec();
 
     if(result.status == QDialog::Accepted) {
@@ -362,7 +379,9 @@ void PlaylistCollection::addFolder()
         m_dirLister.blockSignals(true);
 
         const bool reload = m_importPlaylists != result.addPlaylists;
+
         m_importPlaylists = result.addPlaylists;
+        m_excludedFolderList = canonicalizeFolderPaths(result.excludedDirs);
 
         foreach(const QString &dir, result.addedDirs) {
             m_dirLister.openUrl(KUrl::fromPath(dir), KDirLister::Keep);
@@ -374,10 +393,12 @@ void PlaylistCollection::addFolder()
             m_folderList.removeAll(dir);
         }
 
-        if(reload)
+        if(reload) {
             open(m_folderList);
-        else if(!result.addedDirs.isEmpty())
+        }
+        else if(!result.addedDirs.isEmpty()) {
             open(result.addedDirs);
+        }
 
         saveConfig();
 
@@ -792,7 +813,16 @@ void PlaylistCollection::removeFileFromDict(const QString &file)
 
 void PlaylistCollection::dirChanged(const QString &path)
 {
-    CollectionList::instance()->addFiles(QStringList(path));
+    QString canonicalPath = QDir(path).canonicalPath();
+    if(canonicalPath.isEmpty())
+        return;
+
+    foreach(const QString &excludedFolder, m_excludedFolderList) {
+        if(canonicalPath.startsWith(excludedFolder))
+            return;
+    }
+
+    CollectionList::instance()->addFiles(QStringList(canonicalPath));
 }
 
 Playlist *PlaylistCollection::playlistByName(const QString &name) const
@@ -808,7 +838,28 @@ Playlist *PlaylistCollection::playlistByName(const QString &name) const
 
 void PlaylistCollection::newItems(const KFileItemList &list) const
 {
-    CollectionList::instance()->slotNewItems(list);
+    // Make fast-path for the normal case
+    if(m_excludedFolderList.isEmpty()) {
+        CollectionList::instance()->slotNewItems(list);
+        return;
+    }
+
+    // Slow case: Directories to exclude from consideration
+
+    KFileItemList filteredList(list);
+
+    foreach(const QString &excludedFolder, m_excludedFolderList) {
+        QMutableListIterator<KFileItem> filteredListIterator(filteredList);
+
+        while(filteredListIterator.hasNext()) {
+            const KFileItem fileItem = filteredListIterator.next();
+
+            if(fileItem.url().path().startsWith(excludedFolder))
+                filteredListIterator.remove();
+        }
+    }
+
+    CollectionList::instance()->slotNewItems(filteredList);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -819,11 +870,14 @@ void PlaylistCollection::readConfig()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
 
-    m_importPlaylists  = config.readEntry("ImportPlaylists", true);
-    m_folderList       = config.readEntry("DirectoryList", QStringList());
+    m_importPlaylists    = config.readEntry("ImportPlaylists", true);
+    m_folderList         = config.readEntry("DirectoryList", QStringList());
+    m_excludedFolderList = canonicalizeFolderPaths(
+            config.readEntry("ExcludeDirectoryList", QStringList()));
 
-    foreach(const QString &folder, m_folderList)
+    foreach(const QString &folder, m_folderList) {
         m_dirLister.openUrl(folder, KDirLister::Keep);
+    }
 }
 
 void PlaylistCollection::saveConfig()
@@ -832,6 +886,7 @@ void PlaylistCollection::saveConfig()
     config.writeEntry("ImportPlaylists", m_importPlaylists);
     config.writeEntry("showUpcoming", action("showUpcoming")->isChecked());
     config.writePathEntry("DirectoryList", m_folderList);
+    config.writePathEntry("ExcludeDirectoryList", m_excludedFolderList);
 
     config.sync();
 }
