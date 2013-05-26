@@ -44,6 +44,7 @@
 
 #include <QCursor>
 #include <QDir>
+#include <QDirIterator>
 #include <QToolTip>
 #include <QFile>
 #include <QResizeEvent>
@@ -61,7 +62,6 @@
 
 #include <time.h>
 #include <cmath>
-#include <dirent.h>
 
 #include "playlistitem.h"
 #include "playlistcollection.h"
@@ -1902,32 +1902,16 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
                 return; // Exclude it
         }
 
-        // Resorting to the POSIX API because QDir::listEntries() stats every
-        // file and blocks while it's doing so.
+        QDirIterator dirIterator(canonicalPath, QDir::AllEntries | QDir::NoDotAndDotDot);
 
-        DIR *dir = ::opendir(QFile::encodeName(canonicalPath));
+        while(dirIterator.hasNext()) {
+            // We set importPlaylists to the value from the add directories
+            // dialog as we want to load all of the ones that the user has
+            // explicitly asked for, but not those that we find in toLower
+            // directories.
 
-        if(dir) {
-            struct dirent *dirEntry;
-
-            for(dirEntry = ::readdir(dir); dirEntry; dirEntry = ::readdir(dir)) {
-                if(strcmp(dirEntry->d_name, ".") != 0 && strcmp(dirEntry->d_name, "..") != 0) {
-
-                    // We set importPlaylists to the value from the add directories
-                    // dialog as we want to load all of the ones that the user has
-                    // explicitly asked for, but not those that we find in toLower
-                    // directories.
-
-                    addFile(fileInfo.filePath() + QDir::separator() + QFile::decodeName(dirEntry->d_name),
-                            files, m_collection->importPlaylists(), after);
-                }
-            }
-            ::closedir(dir);
-        }
-        else {
-            kWarning() << "Unable to open directory "
-                            << fileInfo.filePath()
-                            << ", make sure it is readable.\n";
+            addFile(dirIterator.next(), files,
+                    m_collection->importPlaylists(), after);
         }
     }
 }
