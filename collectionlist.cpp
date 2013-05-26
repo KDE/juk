@@ -116,7 +116,7 @@ CollectionListItem *CollectionList::createItem(const FileHandle &file, Q3ListVie
 
     if(!item->isValid()) {
         kError() << "CollectionList::createItem() -- A valid tag was not created for \""
-                  << file.absFilePath() << "\"" << endl;
+                 << file.absFilePath() << "\"" << endl;
         delete item;
         return 0;
     }
