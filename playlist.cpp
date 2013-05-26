@@ -596,7 +596,7 @@ void Playlist::updateDeletedItem(PlaylistItem *item)
     m_subtractTime.removeAll(item);
 }
 
-void Playlist::clearItem(PlaylistItem *item, bool emitChanged)
+void Playlist::clearItem(PlaylistItem *item)
 {
     // Automatically updates internal structs via updateDeletedItem
     delete item;

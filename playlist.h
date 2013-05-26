@@ -111,16 +111,13 @@ public:
     virtual void saveAs();
 
     /**
-     * Removes \a item from the Playlist, but not from the disk.  If
-     * \a emitChanged is true this will also notify relevant classes
-     * that the content of the list has changed.
+     * Removes \a item from the Playlist, but not from the disk.
      *
-     * In some situations, for instance when removing items in a loop, it is
-     * preferable to delay this notification until after other operations have
-     * completed.  In those cases set \a emitChanged to false and call the
-     * signal directly.
+     * Since the GUI updates after an item is cleared, you should use clearItems() if you have
+     * a list of items to remove, as that will remove the whole batch before updating
+     * other components/GUI to the change.
      */
-    virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
+    virtual void clearItem(PlaylistItem *item);
 
     /**
      * Remove \a items from the playlist and emit a signal indicating

@@ -72,12 +72,7 @@ void SearchPlaylist::updateItems()
             newItems.append(item->collectionItem());
     }
 
-    foreach(PlaylistItem *item, oldItems)
-        clearItem(item, false);
-
-    if(!oldItems.isEmpty() && newItems.isEmpty())
-        dataChanged();
-
+    clearItems(PlaylistItemList(oldItems.values()));
     createItems(newItems);
 
     if(synchronizePlaying()) {

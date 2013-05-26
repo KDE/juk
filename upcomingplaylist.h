@@ -88,7 +88,7 @@ public:
     /**
      * Reimplemented to remove the item from the Playlist index.
      */
-    virtual void clearItem(PlaylistItem *item, bool emitChanged = true);
+    virtual void clearItem(PlaylistItem *item);
 
     virtual void addFiles(const QStringList &files, PlaylistItem *after = 0);
 

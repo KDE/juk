@@ -109,10 +109,10 @@ void UpcomingPlaylist::playNext()
     }
 }
 
-void UpcomingPlaylist::clearItem(PlaylistItem *item, bool emitChanged)
+void UpcomingPlaylist::clearItem(PlaylistItem *item)
 {
     m_playlistIndex.remove(item);
-    Playlist::clearItem(item, emitChanged);
+    Playlist::clearItem(item);
 }
 
 void UpcomingPlaylist::addFiles(const QStringList &files, PlaylistItem *after)
