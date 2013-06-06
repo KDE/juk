@@ -488,8 +488,6 @@ signals:
 
     void signalEnableDirWatch(bool enable);
 
-    void coverChanged();
-
     void signalPlaylistItemsDropped(Playlist *p);
 
 private:
