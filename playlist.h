@@ -661,7 +661,6 @@ private:
     WebImageFetcher *m_fetcher;
 
     int m_currentColumn;
-    int m_processed;
     QAction *m_rmbEdit;
     int m_selectedCount;
 
