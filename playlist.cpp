@@ -323,7 +323,7 @@ void Playlist::SharedSettings::writeConfig()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistItemList Playlist::m_history;
-QMap<int, PlaylistItem *> Playlist::m_backMenuItems;
+QVector<PlaylistItem *> Playlist::m_backMenuItems;
 int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
@@ -1652,6 +1652,7 @@ void Playlist::slotPopulateBackMenu() const
     QMenu *menu = action<KToolBarPopupAction>("back")->menu();
     menu->clear();
     m_backMenuItems.clear();
+    m_backMenuItems.reserve(10);
 
     int count = 0;
     PlaylistItemList::ConstIterator it = m_history.constEnd();
@@ -1662,9 +1663,9 @@ void Playlist::slotPopulateBackMenu() const
         ++count;
         --it;
         action = new QAction((*it)->file().tag()->title(), menu);
-        action->setData(count);
+        action->setData(count - 1);
         menu->addAction(action);
-        m_backMenuItems[count] = *it;
+        m_backMenuItems << *it;
     }
 }
 
@@ -1672,7 +1673,7 @@ void Playlist::slotPlayFromBackMenu(QAction *backAction) const
 {
     int number = backAction->data().toInt();
 
-    if(!m_backMenuItems.contains(number))
+    if(number >= m_backMenuItems.size())
         return;
 
     TrackSequenceManager::instance()->setNextItem(m_backMenuItems[number]);

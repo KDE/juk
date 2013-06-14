@@ -715,7 +715,7 @@ private:
     static bool m_visibleChanged;
     static bool m_shuttingDown;
     static int m_leftColumn;
-    static QMap<int, PlaylistItem *> m_backMenuItems;
+    static QVector<PlaylistItem *> m_backMenuItems;
 
     bool m_blockDataChanged;
 };
