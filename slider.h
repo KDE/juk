@@ -113,7 +113,6 @@ protected:
     virtual void paintEvent( QPaintEvent* );
     virtual void mousePressEvent( QMouseEvent* );
     virtual void sliderChange( SliderChange change );
-    virtual bool event( QEvent * event );
 
 private:
     Q_DISABLE_COPY( TimeSlider )

@@ -28,11 +28,10 @@
 
 using namespace ActionCollection;
 
-UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection, int defaultSize) :
+UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection) :
     Playlist(collection, true),
     m_active(false),
-    m_oldIterator(0),
-    m_defaultSize(defaultSize)
+    m_oldIterator(0)
 {
     setName(i18n("Play Queue"));
     setAllowDuplicates(true);

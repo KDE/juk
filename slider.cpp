@@ -336,27 +336,4 @@ void TimeSlider::mousePressEvent( QMouseEvent *event )
     Slider::mousePressEvent( event );
 }
 
-bool TimeSlider::event( QEvent * event )
-{
-    if( event->type() == QEvent::ToolTip )
-    {
-        // Make a QHelpEvent out of this
-        QHelpEvent * helpEvent = dynamic_cast<QHelpEvent *>( event );
-        if( helpEvent )
-        {
-
-            //figure out "percentage" of the track length that the mouse is hovering over the slider
-            qreal percentage = (qreal) helpEvent->x() / (qreal) width();
-            long trackLength = 0; // The::engineController()->trackLength();
-            int trackPosition = trackLength * percentage;
-
-            // Update tooltip to show the track position under the cursor
-            // setToolTip( i18nc( "Tooltip shown when the mouse is over the progress slider, representing the position in the currently playing track that Amarok will seek to if you click the mouse. Keep it concise.", "Jump to: %1", Meta::msToPrettyTime( trackPosition ) ) );
-        }
-    }
-
-    return QWidget::event( event );
-}
-
-
 #include "slider.moc"

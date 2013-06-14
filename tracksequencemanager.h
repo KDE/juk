@@ -181,7 +181,7 @@ protected slots:
 
 private:
     QPointer<Playlist> m_playlist;
-    PlaylistItem *m_curItem, *m_playNextItem;
+    PlaylistItem *m_playNextItem;
     KMenu *m_popupMenu;
     TrackSequenceIterator *m_iterator;
     TrackSequenceIterator *m_defaultIterator;

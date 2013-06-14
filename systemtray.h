@@ -47,7 +47,7 @@ class PassiveInfo : public QFrame
 {
     Q_OBJECT
 public:
-    PassiveInfo(SystemTray *parent = 0);
+    PassiveInfo();
 
     // Sets view as a child widget to show in the popup window.
     // This widget does not take ownership of the widget.  If you want it auto-deleted,
@@ -82,10 +82,8 @@ private slots:
     void timerExpired();
 
 private:
-    SystemTray *m_icon;
     QTimer *m_timer;
     QVBoxLayout *m_layout;
-    QWidget *m_view;
     bool m_justDie;
 };
 
@@ -124,7 +122,6 @@ private:
 
 private slots:
     void slotPlay();
-    void slotTogglePopup();
     void slotPause();
     void slotStop();
     void slotPopupDestroyed();

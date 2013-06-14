@@ -47,7 +47,6 @@ private slots:
 
 private:
     QLabel * m_volumeLabel;
-    QToolButton * m_volumeToolButton;
     QMenu * m_volumeMenu;
     VolumeSlider * m_volumeSlider;
     QAction * m_muteAction;

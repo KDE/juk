@@ -36,8 +36,7 @@ DirectoryList::DirectoryList(QStringList directories,
                              bool importPlaylists,
                              QWidget *parent) :
     KDialog(parent),
-    m_dirListModel(0),
-    m_importPlaylists(importPlaylists)
+    m_dirListModel(0)
 {
     if(directories.isEmpty()) {
         directories = defaultFolders();

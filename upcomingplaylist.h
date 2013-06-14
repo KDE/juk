@@ -52,7 +52,7 @@ public:
      * @param collection The PlaylistCollection that owns this playlist.
      * @param defaultSize The default number of tracks to place in the playlist.
      */
-    explicit UpcomingPlaylist(PlaylistCollection *collection, int defaultSize = 15);
+    explicit UpcomingPlaylist(PlaylistCollection *collection);
     /**
      * Destructor for the UpcomingPlaylist.  This destructor will restore the
      * iterator for the TrackSequenceManager, and if a song is playing when
@@ -124,7 +124,6 @@ private:
 
     bool m_active;
     TrackSequenceIterator *m_oldIterator;
-    int m_defaultSize;
     QMap<PlaylistItem::Pointer, QPointer<Playlist> > m_playlistIndex;
 };
 

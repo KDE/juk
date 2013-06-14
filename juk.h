@@ -89,10 +89,8 @@ private:
     KToggleAction *m_toggleDockOnCloseAction;
     KToggleAction *m_togglePopupsAction;
     KToggleAction *m_toggleSplashAction;
-    KToggleAction *m_loopPlaylistAction;
 
     PlayerManager *m_player;
-    KGlobalAccel *m_accel;
 
     bool m_startDocked;
     bool m_showSplash;

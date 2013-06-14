@@ -68,7 +68,6 @@ private:
 
     QStringListModel *m_dirListModel;
     QStringListModel *m_excludedDirListModel;
-    bool m_importPlaylists;
     DirectoryListBase *m_base;
     Result m_result;
 };

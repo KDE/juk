@@ -49,14 +49,12 @@
 
 using namespace ActionCollection;
 
-PassiveInfo::PassiveInfo(SystemTray *parent) :
+PassiveInfo::PassiveInfo() :
     QFrame(static_cast<QWidget *>(0),
         Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
     ),
-    m_icon(parent),
     m_timer(new QTimer(this)),
     m_layout(new QVBoxLayout(this)),
-    m_view(0),
     m_justDie(false)
 {
     connect(m_timer, SIGNAL(timeout()), SLOT(timerExpired()));
@@ -79,11 +77,6 @@ void PassiveInfo::show()
     m_timer->start(3500);
     setWindowOpacity(1.0);
     QFrame::show();
-}
-
-QWidget *PassiveInfo::view() const
-{
-    return m_view;
 }
 
 void PassiveInfo::setView(QWidget *view)
@@ -239,14 +232,6 @@ void SystemTray::slotPause()
     setOverlayIconByName("media-playback-pause");
 }
 
-void SystemTray::slotTogglePopup()
-{
-    if(m_popup && m_popup->view()->isVisible())
-        m_popup->startTimer(50);
-    else
-        slotPlay();
-}
-
 void SystemTray::slotPopupLargeCover()
 {
     if(!m_player->playing())
@@ -376,7 +361,7 @@ void SystemTray::createPopup()
     m_fade = true;
     m_step = 0;
 
-    m_popup = new PassiveInfo(this);
+    m_popup = new PassiveInfo;
     connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
     connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
     connect(m_popup, SIGNAL(nextSong()), SLOT(slotForward()));
