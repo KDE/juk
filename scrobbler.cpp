@@ -34,7 +34,7 @@
 Scrobbler::Scrobbler(QObject* parent)
     : QObject(parent)
     , m_startedPlaying(0)
-    , m_networkAccessManager(new QNetworkAccessManager(this))
+    , m_networkAccessManager(0)
 {
     KConfigGroup config(KGlobal::config(), "Scrobbling");
 
@@ -90,6 +90,9 @@ void Scrobbler::getAuthToken(QString username, QString password)
     foreach(QString key, params.keys()) {
         url.addQueryItem(key, params[key]);
     }
+
+    if (!m_networkAccessManager)
+        m_networkAccessManager = new QNetworkAccessManager(this);
 
     QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(url));
     connect(reply, SIGNAL(finished()), this, SLOT(handleAuthenticationReply()));
