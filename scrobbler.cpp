@@ -74,6 +74,8 @@ void Scrobbler::sign(QMap< QString, QString >& params)
 
 void Scrobbler::getAuthToken(QString username, QString password)
 {
+    kDebug() << "Getting new auth token for user:" << username;
+
     QByteArray authToken = md5((username + md5(password.toUtf8())).toUtf8());
 
     QMap<QString, QString> params;
@@ -95,8 +97,6 @@ void Scrobbler::getAuthToken(QString username, QString password)
 
 void Scrobbler::getAuthToken()
 {
-    kDebug() << "Getting new auth token...";
-
     KConfigGroup config(KGlobal::config(), "Scrobbling");
 
     // TODO: use kwallet
