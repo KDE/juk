@@ -79,6 +79,8 @@ PlaylistSplitter::~PlaylistSplitter()
 
     delete m_editor;
 
+    delete m_lyricsWidget;
+
     // NowPlaying depends on the PlaylistCollection, so kill it now.
     delete m_nowPlaying;
     m_nowPlaying = 0;
