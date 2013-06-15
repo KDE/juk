@@ -63,6 +63,11 @@ void LyricsWidget::saveConfig()
 
 void LyricsWidget::playing(const FileHandle &file)
 {
+    if(file.isNull()) {
+        setHtml(QLatin1String("<i>No file playing.</i>"));
+        return;
+    }
+
     setHtml("<i>Loading...</i>");
 
     QUrl listUrl("http://lyrics.wikia.com/api.php");
