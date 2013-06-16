@@ -42,8 +42,8 @@
 </copyright>
 <legalnotice>&FDLNotice;</legalnotice>
 
-<date>2010-05-24</date>
-<releaseinfo>3.5 (&kde; 4.5)</releaseinfo>
+<date>2013-06-16</date>
+<releaseinfo>3.11 (&kde; 4.11)</releaseinfo>
 
 <abstract>
 <para>
@@ -105,14 +105,15 @@ in those applications from within &juk;.</para>
 <menuchoice><guimenu>File</guimenu><guimenuitem>Open
 ...</guimenuitem></menuchoice> and selecting them from a standard
 &kde; file dialog.  You can add entire folders using
-<menuchoice><guimenu>File</guimenu><guimenuitem>Add
-Folder...</guimenuitem></menuchoice>.  Folders added this way
-will be rescanned every time you start &juk;
+<menuchoice><guimenu>File</guimenu><guimenuitem>Manage
+Folders...</guimenuitem></menuchoice>.  Folders added this way
+will be rescanned every time you start &juk;. You can even define folders
+inside these folders that will be excluded from scan.
 <!-- ask scott:
      Asked 2004-04-27 (mpyne), Choosing Reload from the Collection
      List context menu will result in a rescan.  Also, a KDirWatch
      watches the folders, but is apparently not recursive. -->
-.  You can force the folders to be rescanned by right-clicking on the <guilabel>Collection List</guilabel>
+You can force the folders to be rescanned by right-clicking on the <guilabel>Collection List</guilabel>
 icon, and selecting <guimenuitem>Reload</guimenuitem>.</para>
 
 <para>Adding a song to a playlist will automatically add its file to
@@ -130,8 +131,8 @@ selecting them with
 <menuchoice><guimenu>File</guimenu><guimenuitem>Open
 ...</guimenuitem></menuchoice>.  Any playlist files found in
 folders you add with
-<menuchoice><guimenu>File</guimenu><guimenuitem>Add
-Folder...</guimenuitem></menuchoice> will also be added
+<menuchoice><guimenu>File</guimenu><guimenuitem>Manage
+Folders...</guimenuitem></menuchoice> will also be added
 automatically.</para>
 
 <para>You can create a new empty playlist, a search playlist or a 
@@ -1042,10 +1043,12 @@ into the text field, the search is narrowed further.  This is useful
 to find a song where you only remember part of a name, for
 instance.</para>
 
+<!-- Not here in KDE 4.11
 <para>If you would like to make a more fine-grained search, you can click
 the Advanced Search button to the right of the search bar, which will allow
 you to create a virtual playlist.  If you would like to cancel the search,
 you can simply click on the Clear button to the left of the search bar.</para>
+-->
 
 </sect1>
 
@@ -1058,7 +1061,7 @@ you can simply click on the Clear button to the left of the search bar.</para>
 <title>Menus</title>
 
 <sect2 id="menu-file">
-<title><guimenu>File</guimenu> Menu</title>
+<title>File Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -1113,14 +1116,44 @@ a playlist file, every file in the playlist will be added.</para>
 
 <varlistentry>
 <term><menuchoice>
-<guimenu>File</guimenu><guimenuitem>Add Folder...</guimenuitem>
+<guimenu>File</guimenu><guimenuitem>Manage Folders...</guimenuitem>
 </menuchoice>
 </term>
-<listitem><para>Select a folder (or folders) to add to the
+<listitem><para>This menu item opens the same window that is shown on a first &juk; start
+</para>
+<para>Select a folder (or folders) to add to the
 collection list.  These folders will also be rescanned whenever
 &juk; is started or
 <menuchoice><guimenu>File</guimenu><guimenuitem>Reload</guimenuitem>
 </menuchoice> is chosen.</para>
+<para>You can also select folders that
+should not be automatically searched (which would override
+the list of folders to scan on startup). This way you can avoid having
+to completely change up your music layout on-disk just to keep &juk; from
+automatically grabbing songs you do not want or need managed from within
+&juk;.
+</para>
+<para>
+<screenshot>
+<screeninfo>The Manage Folders dialog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase>Screenshot of the MAnage Folders Dialog.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para>
+If you want to remove files that are already in the collection
+list, they can enable the <guilabel>File Name (full path)</guilabel> column in a playlist
+and then use the search bar to find the offending path name, select and remove
+the files that are shown.
+</para>
+</note>
 </listitem>
 </varlistentry>
 
@@ -1183,7 +1216,7 @@ playlist.
 </sect2>
 
 <sect2 id="menu-edit">
-<title><guimenu>Edit</guimenu> Menu</title>
+<title>Edit Menu</title>
 
 <variablelist>
 
@@ -1200,7 +1233,7 @@ playlist.
 </sect2>
 
 <sect2 id="menu-view">
-<title><guimenu>View</guimenu> Menu</title>
+<title>View Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -1272,7 +1305,7 @@ Resize Playlist Columns Manually
 </sect2>
 
 <sect2 id="menu-player">
-<title><guimenu>Player</guimenu> Menu</title>
+<title>Player Menu</title>
 
 <variablelist>
 <varlistentry>
@@ -1355,7 +1388,7 @@ Play Next Album
 </sect2>
 
 <sect2 id="menu-tagger">
-<title><guimenu>Tagger</guimenu> Menu</title>
+<title>Tagger Menu</title>
 
 <variablelist>
 
@@ -1382,9 +1415,18 @@ the selected file from the disk.
 <!-- God this is a dumb place to put this particular command --></para>
 </listitem>
 </varlistentry>
-<!--
-Refresh
--->
+
+<varlistentry>
+<term><menuchoice>
+<guimenu>Tagger</guimenu><guimenuitem>Refresh</guimenuitem>
+</menuchoice>
+</term>
+<listitem><para>This command allows you to refresh playlist tags after
+changing them.
+</para>
+</listitem>
+</varlistentry>
+
 <varlistentry>
 <term><menuchoice>
 <shortcut><keycombo action="simul">&Ctrl;<keycap>G</keycap></keycombo></shortcut>
@@ -1418,7 +1460,7 @@ by using the <application>trm</application> provided with
 </sect2>
 
 <sect2 id="menu-settings">
-<title><guimenu>Settings</guimenu> Menu</title>
+<title>Settings Menu</title>
 
 <variablelist>
 
@@ -1507,19 +1549,14 @@ dialog box</link>, where you can alter the way &juk; renames files for you.</par
 </listitem>
 </varlistentry>
 
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
-<guimenuitem>Configure Shortcuts...</guimenuitem>
-</menuchoice>
-</term>
-<listitem><para>This brings up the standard &kde; dialog box where you can configure
-keyboard shortcuts for &juk;.  Some reasonable defaults are included as well, including
-Multimedia keys for people who have multimedia keyboards.</para>
-</listitem>
-</varlistentry>
-
 </variablelist>
+
+<para>
+Additionally &juk; has the common &kde; <guimenu>Settings</guimenu> and <guimenu>Help</guimenu>
+menu items, for more information read the sections about the
+<ulink url="help:/fundamentals/ui.html#menus-settings">Settings Menu</ulink> and
+<ulink url="help:/fundamentals/ui.html#menus-help">Help Menu</ulink> of the &kde; Fundamentals.
+</para>
 
 </sect2>
 
@@ -1610,10 +1647,11 @@ action="simul">&Ctrl;<keycap>T</keycap></keycombo></entry>
 <chapter id="credits-and-license">
 <title>Credits and License</title>
 
-<para>&juk; Copyright &copy; 2002, 2003, 2004 &Scott.Wheeler;.</para>
+<para>&juk; Copyright &copy; 2002-2013 &Scott.Wheeler;, Michael Pyne, and others.
+</para>
 
-<para>&juk; is developed and maintained by &Scott.Wheeler;
-&Scott.Wheeler.mail;.</para>
+ <para>&juk; is developed and maintained by &Scott.Wheeler;
+&Scott.Wheeler.mail; and Michael Pyne <email>michael.pyne@kdemail.net</email>.</para>
 
 <para>Many thanks to the following people who have contributed to &juk;:</para>
 
@@ -1657,10 +1695,38 @@ for making &juk; friendlier to people with terabytes of music.</para>
 for the &DCOP; interface.</para>
 </listitem>
 
+<listitem><para>Allan Sandfield Jensen <email>kde@carewolf.com</email>
+for the <acronym>FLAC</acronym> and <acronym>MPC</acronym> support.</para>
+</listitem>
+
+<listitem><para>Nathan Toone <email>nathan@toonetown.com</email>
+for the Album cover manager.</para>
+</listitem>
+
+<listitem><para>Pascal Klein <email>4pascal@tpg.com.au</email>
+for the splash screen.</para>
+</listitem>
+
+<listitem><para>Laurent Montel <email>montel@kde.org</email>
+for the porting to &kde; 4 when no one else around.</para>
+</listitem>
+
+<listitem><para>Georg Grabler <email>georg@grabler.net</email>
+for the &kde; Platform porting efforts.</para>
+</listitem>
+
+<listitem><para>Martin Sandsmark <email>martin.sandsmark@kde.org</email>
+for the Last.fm scrobbling support, lyrics, prepping for &kde; Frameworks.</para>
+</listitem>
+
+<listitem><para>Eike Hein <email>hein@kde.org</email>
+for the MPRIS2 interface implementation.</para>
+</listitem>
+
 </itemizedlist>
 
 <para>Documentation Copyright &copy; 2003, &Lauri.Watts;, and copyright
-&copy; 2004 Michael Pyne.</para>
+&copy; 2004-2013 Michael Pyne.</para>
 
 <!-- TRANS:CREDIT_FOR_TRANSLATORS -->
 
