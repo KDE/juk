@@ -248,6 +248,7 @@ void PlaylistSplitter::setupLayout()
 
     topLayout->addWidget(m_nowPlaying);
     topLayout->addWidget(m_searchWidget);
+    topLayout->insertStretch(-1); // Force search bar to top while playlistStack hides
     topLayout->addWidget(m_playlistStack, 1);
 
     // Now that GUI setup is complete, add some auto-update signals.

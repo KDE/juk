@@ -742,6 +742,8 @@ void PlaylistBox::slotLoadCachedPlaylists()
     connect(m_savePlaylistTimer, SIGNAL(timeout()), SLOT(slotSavePlaylists()));
 
     emit startupComplete();
+    clearSelection();
+    setSelected(m_playlistDict[CollectionList::instance()], true);
 }
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox::Item protected methods
