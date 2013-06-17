@@ -1149,7 +1149,7 @@ automatically grabbing songs you do not want or need managed from within
 <note>
 <para>
 If you want to remove files that are already in the collection
-list, they can enable the <guilabel>File Name (full path)</guilabel> column in a playlist
+list, you can enable the <guilabel>File Name (full path)</guilabel> column in a playlist
 and then use the search bar to find the offending path name, select and remove
 the files that are shown.
 </para>
