@@ -615,74 +615,48 @@ menu entry or by pressing
 </screenshot>
 </para>
 
-<para>The File Renamer Configuration dialog box is used to configure the
-Rename File action, which renames a song's based on the information contained
-within its metadata tags.</para>
-<!-- changed in kde4
-First the tags are altered according to the different
-tokens you can alter, and then the tokens are used to generate the filename
-according to the <guilabel>Filename scheme</guilabel>.
+<para>
+  The File Renamer Configuration dialog box is used to configure the
+  Rename File action, which renames a song's based on the information contained
+  within its metadata tags.
 </para>
-
-<para>The most important part of the dialog is the <guilabel>Filename
-scheme</guilabel> section.  You can type a file name scheme here which &juk;
-will use to rename the files.  The way it works is that some characters are
-special.
+<para>
+  The whole Rename File feature is used to get consistent file names for your
+  music collection (including moving the files if necessary). For example you
+  may have some songs which appear on disk as <filename>01 - Title.mp3</filename>
+  if you got them from <ulink url="http://amazon.com">Amazon</ulink>, while songs
+  from <ulink url="http://ocremix.org/">OCRemix</ulink> might be <filename>Ailsean-
+  Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename> or something along those lines.
 </para>
-
-<para><variablelist>
-<varlistentry>
-<term>%t</term>
-<listitem><para>This will be replaced with the Title token upon evaluation.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>%a</term>
-<listitem><para>This will be replaced with the Artist token upon evaluation.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>%A</term>
-<listitem><para>This will be replaced with the Album token upon evaluation.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>%T</term>
-<listitem><para>This will be replaced with the Track token upon evaluation.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term>%c</term>
-<listitem><para>This will be replaced with the Comment token upon evaluation.</para>
-</listitem>
-</varlistentry>
-
-</variablelist>
+<para>
+  Using the file renamer allows &juk; to rename those songs to something <quote>sane</quote>
+  on-disk, such as <filename>Ailsean - Mega Fire.mp3</filename> and <filename>The Strokes - Reptilia.mp3</filename>.
+  You can even include paths throughout to automatically sort the music (&eg;
+  by year or album), like <filename>$HOME/Music/2003/The Strokes - Reptilia.mp3</filename>.
 </para>
-
-<para>Every token can contain %s, which is replaced with the actual tag,
-and any text you want, including slashes (/).  If a token has a slash, then
-that will indicate a folder separator.  Of course, it would be possible to
-simply type folder separators in the <guilabel>Filename scheme</guilabel>
-line.</para>
-
-<para>Using the tokens, however, allows us to completely ignore tags that are empty.
-If you check the <guilabel>Need value</guilabel> check box, then the token will be
-ignored if the corresponding tag is empty.  For example, you could use this to separate
-files with comments from those without by placing something such as
-<replaceable>has-comment/%s</replaceable> in the <guilabel>Comment token</guilabel>
-editor.</para>
-
-<para>You can test your filename scheme by using the <guilabel>Current filename</guilabel> editor
-at the bottom of the dialog.  Type in a filename of a music file, and the <guilabel>New
-filename</guilabel> area will display how &juk; would rename the file as given the current
-settings.
+<para>
+  Doing this is as simple as activating the <quote>Rename File</quote> action, either from
+  the <guimenu>Tagger</guimenu> menu, or right-clicking on the files. The default is the
+  <keycombo>&Ctrl;<keycap>R</keycap></keycombo> shortcut. But before this is done you should
+  setup how the files are to be renamed.
 </para>
--->
+<para>
+  That is done from the above mentioned dialog that can be opened with 
+  <menuchoice><guimenu>Settings</guimenu><guimenuitem>File Renamer...</guimenuitem></menuchoice> menu item.
+  You can define a destination path, by using a base music folder and
+  then adding pieces to there. These path pieces would be based on the music
+  metadata such as song title, artist, &etc;, and are added using the <guilabel>Add Category</guilabel>
+  selector.
+</para>
+<para>
+  Each "path piece" has a check box between it allowing a folder separator to be added.
+</para>
+<para>
+  The options for each piece, which
+  simply control what happens if the appropriate metadata is empty, and allow a
+  prefix/suffix when the entry is substituted in, can help you to make the renaming
+  procedure more effective.
+</para>
 </sect1>
 
 <sect1 id="juk-tag-guesser-configuration">
@@ -1462,8 +1436,23 @@ by using the <application>TunePimp</application> library provided with
 </varlistentry>
 <!--missing
 Cover Manager
-Rename File Ctrl+R
   -->
+<varlistentry>
+<term><menuchoice>
+<shortcut><keycombo action="simul">&Ctrl;<keycap>R</keycap></keycombo></shortcut>
+<guimenu>Tagger</guimenu><guimenuitem>Rename File</guimenuitem>
+</menuchoice>
+</term>
+<listitem>
+  <para>
+    This command allows you to rename a file or a group of files for the selected songs in the playlist.
+    Before the real rename happens &juk; will show a preview dialog where you can confirm or cancel the action.
+  </para>
+  <para>
+    The files will be renamed according to the parameters defined using <link linkend="juk-rename-dialog">Rename File dialog</link>.
+  </para> 
+</listitem>
+</varlistentry>
 </variablelist>
 
 </sect2>
