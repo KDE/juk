@@ -297,7 +297,13 @@ the Ogg Vorbis song <quote>The Theme (Metroid)</quote> by Stemage could result i
 </para>
 </listitem>
 </varlistentry>
-
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
 <varlistentry>
 <term><guimenuitem>Create Playlist From Selected Items</guimenuitem></term>
 <listitem>
@@ -1228,7 +1234,7 @@ playlist.
 <listitem><para>Removes the selected songs from the playlist.</para>
 </listitem>
 </varlistentry>
-
+<!-- Undo Cut Copy Paste Clear Select All -->
 </variablelist>
 </sect2>
 
@@ -1255,7 +1261,7 @@ playlist.
 <interface>Tag Editor</interface> is shown.</para>
 </listitem>
 </varlistentry>
-
+<!--Show Lyrics-->
 <varlistentry>
 <term><menuchoice>
 <guimenu>View</guimenu><guimenuitem>Show History</guimenuitem>
@@ -1450,11 +1456,14 @@ Information</guisubmenu><guimenuitem>From Internet</guimenuitem>
 </menuchoice>
 </term>
 <listitem><para>This command tries to guess the tags of the selected files
-by using the <application>trm</application> provided with
+by using the <application>TunePimp</application> library provided with
 <ulink url="http://www.musicbrainz.org/">MusicBrainz</ulink>.</para>
 </listitem>
 </varlistentry>
-
+<!--missing
+Cover Manager
+Rename File Ctrl+R
+  -->
 </variablelist>
 
 </sect2>
@@ -1548,7 +1557,9 @@ from filenames.</para>
 dialog box</link>, where you can alter the way &juk; renames files for you.</para>
 </listitem>
 </varlistentry>
-
+<!--missing
+Configure scrobbling
+  -->
 </variablelist>
 
 <para>
