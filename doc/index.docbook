@@ -362,7 +362,7 @@ Collection List changes.</para></listitem>
 
 <para>Playlists are organized in the <guilabel>Playlist pane</guilabel>, which is the vertical bar at the left.  In this pane is an icon
 for every playlist you have.  There are different view mode for this pane, which can be selected from the
-<guimenu>View</guimenu><guisubmenu>View Modes</guisubmenu> menu.
+<menuchoice><guimenu>View</guimenu><guisubmenu>View Modes</guisubmenu></menuchoice> menu.
 
 <variablelist>
 
