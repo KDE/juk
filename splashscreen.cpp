@@ -105,7 +105,6 @@ SplashScreen::~SplashScreen()
 void SplashScreen::processEvents()
 {
     setText(loadedText(count));
-    kapp->processEvents();
 }
 
 // vim: set et sw=4 tw=0 sta:

@@ -123,6 +123,8 @@ public:
 
     virtual bool canReload() const { return true; }
 
+    void saveItemsToCache() const;
+
 public slots:
     virtual void paste();
     virtual void clear();
@@ -172,12 +174,28 @@ signals:
     void signalNewTag(const QString &, unsigned);
     void signalRemovedTag(const QString &, unsigned);
 
+    // Emitted once cached items are loaded, which allows for folder scanning
+    // and invalid track detection to proceed.
+    void cachedItemsLoaded();
+
 public slots:
     /**
      * Loads the CollectionListItems from the Cache.  Should be called after program
      * initialization.
      */
-    void loadCachedItems();
+    void startLoadingCachedItems();
+
+    /**
+     * Loads a few items at a time. Intended to be single-shotted into the event
+     * loop so that loading the music doesn't freeze the GUI.
+     */
+    void loadNextBatchCachedItems();
+
+    /**
+     * Teardown from cache loading (e.g. splash screen, sorting, etc.). Should
+     * always be called if startLoadingCachedItems is called.
+     */
+    void completedLoadingCachedItems();
 
 private:
     /**

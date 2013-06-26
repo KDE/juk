@@ -30,6 +30,7 @@
 #include <QVBoxLayout>
 #include <QLatin1String>
 #include <QList>
+#include <QTime>
 #include <QStackedWidget>
 #include <QSizePolicy>
 
@@ -322,8 +323,11 @@ void PlaylistSplitter::slotPlaylistChanged(int i)
 
 void PlaylistSplitter::slotEnable()
 {
+    kDebug() << "Enabling GUI";
+    QTime stopwatch; stopwatch.start();
     setEnabled(true); // Ready to go.
     m_playlistStack->show();
+    kDebug() << "Finished enabling GUI, took" << stopwatch.elapsed() << "ms";
 }
 
 #include "playlistsplitter.moc"

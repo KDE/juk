@@ -37,6 +37,7 @@
 #include <QDropEvent>
 #include <QMouseEvent>
 #include <QFileInfo>
+#include <QTime>
 #include <QApplication>
 #include <QClipboard>
 
@@ -151,10 +152,8 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
             this, SLOT(slotAddItem(QString,uint)));
     connect(CollectionList::instance(), SIGNAL(signalRemovedTag(QString,uint)),
             this, SLOT(slotRemoveItem(QString,uint)));
-
-    QTimer::singleShot(0, this, SLOT(slotLoadCachedPlaylists()));
-    QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
-    enableDirWatch(true);
+    connect(CollectionList::instance(), SIGNAL(cachedItemsLoaded()),
+            this, SLOT(slotLoadCachedPlaylists()));
 
     m_savePlaylistTimer = 0;
 
@@ -218,6 +217,18 @@ void PlaylistBox::duplicate()
 
     Playlist *p = new Playlist(this, name);
     p->createItems(item->playlist()->items());
+}
+
+void PlaylistBox::scanFolders()
+{
+    kDebug() << "Starting folder scan";
+    QTime stopwatch; stopwatch.start();
+
+    PlaylistCollection::scanFolders();
+
+    kDebug() << "Folder scan complete, took" << stopwatch.elapsed() << "ms";
+    kDebug() << "Startup complete!";
+    emit startupComplete();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -733,7 +744,13 @@ void PlaylistBox::setupUpcomingPlaylist()
 
 void PlaylistBox::slotLoadCachedPlaylists()
 {
+    kDebug() << "Loading cached playlists.";
+    QTime stopwatch;
+    stopwatch.start();
+
     Cache::loadPlaylists(this);
+
+    kDebug() << "Cached playlists loaded, took" << stopwatch.elapsed() << "ms";
 
     // Auto-save playlists after they change.
     m_savePlaylistTimer = new QTimer(this);
@@ -741,10 +758,13 @@ void PlaylistBox::slotLoadCachedPlaylists()
     m_savePlaylistTimer->setSingleShot(true);
     connect(m_savePlaylistTimer, SIGNAL(timeout()), SLOT(slotSavePlaylists()));
 
-    emit startupComplete();
     clearSelection();
     setSelected(m_playlistDict[CollectionList::instance()], true);
+
+    QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
+    QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
 }
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox::Item protected methods
 ////////////////////////////////////////////////////////////////////////////////

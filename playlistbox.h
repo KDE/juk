@@ -55,6 +55,10 @@ public:
     virtual void duplicate();
     virtual void remove();
 
+    // Called after files loaded to pickup any new files that might be present
+    // in managed directories.
+    virtual void scanFolders();
+
     /**
      * For view modes that have dynamic playlists, this freezes them from
      * removing playlists.

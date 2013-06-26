@@ -107,7 +107,8 @@ public:
 
     virtual PlaylistItemList selectedItems();
 
-    void scanFolders();
+    // virtual to allow our QWidget subclass to emit a signal after we're done
+    virtual void scanFolders();
 
     void createPlaylist();
     void createSearchPlaylist();

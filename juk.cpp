@@ -39,6 +39,7 @@
 #include <QCoreApplication>
 #include <QKeyEvent>
 #include <QDir>
+#include <QTime>
 #include <QTimer>
 #include <QDesktopWidget>
 
@@ -132,7 +133,7 @@ JuK::JuK(QWidget *parent) :
     // slotCheckCache loads the cached entries first to populate the collection list
 
     QTimer::singleShot(0, this, SLOT(slotClearOldCovers()));
-    QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
+    QTimer::singleShot(0, CollectionList::instance(), SLOT(startLoadingCachedItems()));
     QTimer::singleShot(0, this, SLOT(slotProcessArgs()));
 }
 
@@ -173,6 +174,10 @@ void JuK::setupLayout()
 {
     new TagTransactionManager(this);
 
+    kDebug() << "Creating GUI";
+    QTime stopwatch;
+    stopwatch.start();
+
     m_splitter = new PlaylistSplitter(m_player, this);
     setCentralWidget(m_splitter);
 
@@ -183,6 +188,8 @@ void JuK::setupLayout()
     m_player->setStatusLabel(m_statusLabel);
 
     m_splitter->setFocus();
+
+    kDebug() << "GUI created in" << stopwatch.elapsed() << "ms";
 }
 
 void JuK::setupActions()
@@ -338,11 +345,14 @@ void JuK::setupActions()
 void JuK::slotSetupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
+        kDebug() << "Setting up systray";
+        QTime stopwatch; stopwatch.start();
         m_systemTray = new SystemTray(m_player, this);
         m_systemTray->setObjectName( QLatin1String("systemTray" ));
 
         m_toggleDockOnCloseAction->setEnabled(true);
         m_togglePopupsAction->setEnabled(true);
+        kDebug() << "Finished setting up systray, took" << stopwatch.elapsed() << "ms";
     }
     else {
         m_systemTray = 0;
@@ -513,7 +523,6 @@ bool JuK::queryExit()
     // Save configuration data.
     m_startDocked = !isVisible();
     saveConfig();
-    Cache::instance()->save();
 
     return true;
 }

@@ -1862,7 +1862,6 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
     if(hasItem(file) && !m_allowDuplicates)
         return;
 
-    processEvents();
     addFileHelper(files, after);
 
     // Our biggest thing that we're fighting during startup is too many stats
@@ -1945,8 +1944,6 @@ void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool i
 
         if(focus)
             setFocus();
-
-        processEvents();
     }
 }
 

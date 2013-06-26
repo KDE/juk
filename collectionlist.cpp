@@ -21,14 +21,20 @@
 #include <kmenu.h>
 #include <kconfig.h>
 #include <kconfiggroup.h>
+#include <kglobal.h>
 #include <kactioncollection.h>
+#include <ksavefile.h>
+#include <kstandarddirs.h>
 #include <ktoolbarpopupaction.h>
 #include <kdirwatch.h>
 
+#include <QStringBuilder>
 #include <QList>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QApplication>
+#include <QTimer>
+#include <QTime>
 #include <QClipboard>
 #include <QFileInfo>
 
@@ -53,22 +59,59 @@ CollectionList *CollectionList::instance()
     return m_list;
 }
 
-void CollectionList::loadCachedItems()
+static QTime stopwatch;
+
+void CollectionList::startLoadingCachedItems()
 {
     if(!m_list)
         return;
 
-    FileHandleHash::ConstIterator end = Cache::instance()->constEnd();
-    for(FileHandleHash::ConstIterator it = Cache::instance()->constBegin(); it != end; ++it) {
+    kDebug() << "Starting to load cached items";
+    stopwatch.start();
+
+    if(!Cache::instance()->prepareToLoadCachedItems()) {
+        kError() << "Unable to setup to load cache... perhaps it doesn't exist?";
+
+        completedLoadingCachedItems();
+        return;
+    }
+
+    kDebug() << "Kicked off first batch";
+    QTimer::singleShot(0, this, SLOT(loadNextBatchCachedItems()));
+}
+
+void CollectionList::loadNextBatchCachedItems()
+{
+    Cache *cache = Cache::instance();
+    bool done = false;
+
+    for(int i = 0; i < 20; ++i) {
+        FileHandle cachedItem(cache->loadNextCachedItem());
+
+        if(cachedItem.isNull()) {
+            done = true;
+            break;
+        }
+
         // This may have already been created via a loaded playlist.
-        if(!m_itemsDict.contains(it.key())) {
-            CollectionListItem *newItem = new CollectionListItem(this, *it);
+        if(!m_itemsDict.contains(cachedItem.absFilePath())) {
+            CollectionListItem *newItem = new CollectionListItem(this, cachedItem);
             setupItem(newItem);
         }
     }
 
     SplashScreen::update();
 
+    if(!done) {
+        QTimer::singleShot(0, this, SLOT(loadNextBatchCachedItems()));
+    }
+    else {
+        completedLoadingCachedItems();
+    }
+}
+
+void CollectionList::completedLoadingCachedItems()
+{
     // The CollectionList is created with sorting disabled for speed.  Re-enable
     // it here, and perform the sort.
     KConfigGroup config(KGlobal::config(), "Playlists");
@@ -83,6 +126,11 @@ void CollectionList::loadCachedItems()
     m_list->sort();
 
     SplashScreen::finishedLoading();
+
+    kDebug() << "Finished loading cached items, took" << stopwatch.elapsed() << "ms";
+    kDebug() << m_itemsDict.size() << "items are in the CollectionList";
+
+    emit cachedItemsLoaded();
 }
 
 void CollectionList::initialize(PlaylistCollection *collection)
@@ -129,7 +177,6 @@ CollectionListItem *CollectionList::createItem(const FileHandle &file, Q3ListVie
 void CollectionList::clearItems(const PlaylistItemList &items)
 {
     foreach(PlaylistItem *item, items) {
-        Cache::instance()->remove(item->file());
         delete item;
     }
 
@@ -190,6 +237,44 @@ void CollectionList::slotDeleteItem(const KFileItem &item)
     delete lookup(item.url().path());
 }
 
+void CollectionList::saveItemsToCache() const
+{
+    kDebug() << "Saving collection list to cache";
+
+    QString cacheFileName =
+        KGlobal::dirs()->saveLocation("appdata") % QLatin1String("cache");
+
+    KSaveFile f(cacheFileName);
+
+    if(!f.open(QIODevice::WriteOnly)) {
+        kError() << "Error saving cache:" << f.errorString();
+        return;
+    }
+
+    QByteArray data;
+    QDataStream s(&data, QIODevice::WriteOnly);
+    s.setVersion(QDataStream::Qt_4_3);
+
+    QHash<QString, CollectionListItem *>::const_iterator it;
+    for(it = m_itemsDict.begin(); it != m_itemsDict.end(); ++it) {
+        s << it.key();
+        s << (*it)->file();
+    }
+
+    QDataStream fs(&f);
+
+    qint32 checksum = qChecksum(data.data(), data.size());
+
+    fs << qint32(Cache::playlistItemsCacheVersion)
+       << checksum
+       << data;
+
+    f.close();
+
+    if(!f.finalize())
+        kError() << "Error saving cache:" << f.errorString();
+}
+
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -215,17 +300,21 @@ void CollectionList::clear()
 
 void CollectionList::slotCheckCache()
 {
-    loadCachedItems();
-
     PlaylistItemList invalidItems;
+    kDebug() << "Starting to check cached items for consistency";
+    stopwatch.start();
 
+    int i = 0;
     foreach(CollectionListItem *item, m_itemsDict) {
         if(!item->checkCurrent())
             invalidItems.append(item);
-        processEvents();
+        if(++i == (m_itemsDict.size() / 2))
+            kDebug() << "Checkpoint";
     }
 
     clearItems(invalidItems);
+
+    kDebug() << "Finished consistency check, took" << stopwatch.elapsed() << "ms";
 }
 
 void CollectionList::slotRemoveItem(const QString &file)

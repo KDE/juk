@@ -40,7 +40,8 @@
 
 using namespace ActionCollection;
 
-static const int playlistCacheVersion = 3;
+const int Cache::playlistListCacheVersion = 3;
+const int Cache::playlistItemsCacheVersion = 2;
 
 enum PlaylistType
 {
@@ -58,51 +59,7 @@ enum PlaylistType
 Cache *Cache::instance()
 {
     static Cache cache;
-
-    // load() indirectly calls instance() so we have to protect against recursion.
-    static bool loaded = false;
-
-    if(!loaded) {
-        loaded = true;
-        cache.load();
-    }
-
     return &cache;
-}
-
-void Cache::save()
-{
-    QString dirName = KGlobal::dirs()->saveLocation("appdata");
-    QString cacheFileName =  dirName + "cache";
-
-    KSaveFile f(cacheFileName);
-
-    if(!f.open(QIODevice::WriteOnly)) {
-        kError() << "Error saving cache:" << f.errorString();
-        return;
-    }
-
-    QByteArray data;
-    QDataStream s(&data, QIODevice::WriteOnly);
-    s.setVersion(QDataStream::Qt_4_3);
-
-    for(Iterator it = begin(); it != end(); ++it) {
-        s << (*it).absFilePath();
-        s << *it;
-    }
-
-    QDataStream fs(&f);
-
-    qint32 checksum = qChecksum(data.data(), data.size());
-
-    fs << qint32(m_currentVersion)
-       << checksum
-       << data;
-
-    f.close();
-
-    if(!f.finalize())
-        kError() << "Error saving cache:" << f.errorString();
 }
 
 void Cache::loadPlaylists(PlaylistCollection *collection) // static
@@ -318,7 +275,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     }
 
     QDataStream fs(&f);
-    fs << qint32(playlistCacheVersion);
+    fs << qint32(playlistListCacheVersion);
     fs << qChecksum(data.data(), data.size());
 
     fs << data;
@@ -342,25 +299,20 @@ Cache::Cache() : FileHandleHash()
 
 }
 
-void Cache::load()
+bool Cache::prepareToLoadCachedItems()
 {
     QString cacheFileName = KGlobal::dirs()->saveLocation("appdata") + "cache";
 
-    QFile f(cacheFileName);
+    m_loadFile.setFileName(cacheFileName);
+    if(!m_loadFile.open(QIODevice::ReadOnly))
+        return false;
 
-    if(!f.open(QIODevice::ReadOnly))
-        return;
+    m_loadDataStream.setDevice(&m_loadFile);
 
-    CacheDataStream s(&f);
     int dataStreamVersion = CacheDataStream::Qt_3_3;
 
     qint32 version;
-    s >> version;
-
-    QBuffer buffer;
-    QByteArray data;
-
-    // Do the version specific stuff.
+    m_loadDataStream >> version;
 
     switch(version) {
     case 2:
@@ -370,46 +322,68 @@ void Cache::load()
         // to setCacheVersion
 
     case 1: {
-        s.setCacheVersion(1);
-        s.setVersion(dataStreamVersion);
+        m_loadDataStream.setCacheVersion(1);
+        m_loadDataStream.setVersion(dataStreamVersion);
 
         qint32 checksum;
-        s >> checksum
-          >> data;
+        m_loadDataStream >> checksum
+          >> m_loadFileBuffer.buffer();
 
-        buffer.setBuffer(&data);
-        buffer.open(QIODevice::ReadOnly);
-        s.setDevice(&buffer);
+        m_loadFileBuffer.open(QIODevice::ReadOnly);
+        m_loadDataStream.setDevice(&m_loadFileBuffer);
 
-        if(s.status() != CacheDataStream::Ok ||
-            checksum != qChecksum(data.data(), data.size()))
+        qint32 checksumExpected = qChecksum(
+                m_loadFileBuffer.data(), m_loadFileBuffer.size());
+        if(m_loadDataStream.status() != CacheDataStream::Ok ||
+                checksum != checksumExpected)
         {
+            kError() << "Music cache checksum expected to get" << checksumExpected <<
+                        "actually was" << checksum;
             KMessageBox::sorry(0, i18n("The music data cache has been corrupted. JuK "
                                        "needs to rescan it now. This may take some time."));
-            return;
+            return false;
         }
 
         break;
     }
     default: {
-        s.device()->reset();
-        s.setCacheVersion(0);
+        m_loadDataStream.device()->reset();
+        m_loadDataStream.setCacheVersion(0);
 
         // This cache is so old that this is just a wild guess here that 3.3
         // is compatible.
-        s.setVersion(CacheDataStream::Qt_3_3);
+        m_loadDataStream.setVersion(CacheDataStream::Qt_3_3);
         break;
     }
     }
 
-    // Read the cached tags.
+    return true;
+}
 
-    while(!s.atEnd()) {
+FileHandle Cache::loadNextCachedItem()
+{
+    if(!m_loadFile.isOpen() || !m_loadDataStream.device()) {
+        kWarning() << "Already completed reading cache file.";
+        return FileHandle::null();
+    }
+
+    if(m_loadDataStream.status() == QDataStream::ReadCorruptData) {
+        kError() << "Attempted to read file handle from corrupt cache file.";
+        return FileHandle::null();
+    }
+
+    if(!m_loadDataStream.atEnd()) {
         QString fileName;
-        s >> fileName;
+        m_loadDataStream >> fileName;
         fileName.squeeze();
 
-        FileHandle f(fileName, s);
+        return FileHandle(fileName, m_loadDataStream);
+    }
+    else {
+        m_loadDataStream.setDevice(0);
+        m_loadFile.close();
+
+        return FileHandle::null();
     }
 }
 

@@ -16,7 +16,9 @@
 #ifndef CACHE_H
 #define CACHE_H
 
-#include <QDataStream>
+#include <QtCore/QDataStream>
+#include <QtCore/QFile>
+#include <QtCore/QBuffer>
 
 #include "stringhash.h"
 
@@ -28,27 +30,6 @@ class QList;
 
 typedef QList<Playlist *> PlaylistList;
 
-class Cache : public FileHandleHash
-{
-public:
-    static Cache *instance();
-    void save();
-
-    static void loadPlaylists(PlaylistCollection *collection);
-    static void savePlaylists(const PlaylistList &playlists);
-
-    static bool cacheFileExists();
-
-protected:
-    Cache();
-    void load();
-
-private:
-    // 1: Original cache version
-    // 2: KDE 4.0.1+, explicitly sets QDataStream encoding.
-    static const int m_currentVersion = 2;
-};
-
 /**
  * A simple QDataStream subclass that has an extra field to indicate the cache
  * version.
@@ -58,14 +39,50 @@ class CacheDataStream : public QDataStream
 {
 public:
     CacheDataStream(QIODevice *d) : QDataStream(d), m_cacheVersion(0) {}
-
-    virtual ~CacheDataStream() {}
+    CacheDataStream() : m_cacheVersion(0) { }
 
     int cacheVersion() const { return m_cacheVersion; }
     void setCacheVersion(int v) { m_cacheVersion = v; }
 
 private:
     int m_cacheVersion;
+};
+
+
+class Cache : public FileHandleHash
+{
+public:
+    static Cache *instance();
+
+    static void loadPlaylists(PlaylistCollection *collection);
+    static void savePlaylists(const PlaylistList &playlists);
+
+    static bool cacheFileExists();
+
+    bool prepareToLoadCachedItems();
+    FileHandle loadNextCachedItem();
+
+    /**
+     * QDataStream version for serialized list of playlists
+     * 1, 2: Who knows?
+     * 3: Current.
+     */
+    static const int playlistListCacheVersion;
+
+    /**
+     * QDataStream version for serialized list of playlist items in a playlist
+     * 1: Original cache version
+     * 2: KDE 4.0.1+, explicitly sets QDataStream encoding.
+     */
+    static const int playlistItemsCacheVersion;
+
+protected:
+    Cache();
+
+private:
+    QFile m_loadFile;
+    QBuffer m_loadFileBuffer;
+    CacheDataStream m_loadDataStream;
 };
 
 #endif

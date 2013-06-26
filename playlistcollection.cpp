@@ -114,6 +114,7 @@ PlaylistCollection::PlaylistCollection(PlayerManager *player, QStackedWidget *pl
 PlaylistCollection::~PlaylistCollection()
 {
     saveConfig();
+    CollectionList::instance()->saveItemsToCache();
     delete m_actionHandler;
     Playlist::setShuttingDown();
 }
@@ -512,6 +513,8 @@ void PlaylistCollection::scanFolders()
 
     if(CollectionList::instance()->count() == 0)
         addFolder();
+
+    enableDirWatch(true);
 }
 
 void PlaylistCollection::createPlaylist()
