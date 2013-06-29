@@ -30,7 +30,8 @@
 
 
 LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
-    m_networkAccessManager(new QNetworkAccessManager)
+    m_networkAccessManager(new QNetworkAccessManager),
+    m_lyricsCurrent(false)
 {
     setMinimumWidth(200);
     setReadOnly(true);
@@ -60,11 +61,12 @@ void LyricsWidget::saveConfig()
     config.writeEntry("Show", ActionCollection::action<KToggleAction>("showLyrics")->isChecked());
 }
 
-
-void LyricsWidget::playing(const FileHandle &file)
+void LyricsWidget::makeLyricsRequest()
 {
-    if(file.isNull()) {
-        setHtml(QLatin1String("<i>No file playing.</i>"));
+    m_lyricsCurrent = true;
+
+    if(m_playingFile.isNull()) {
+        setHtml(QLatin1String("<i>No m_playingFile playing.</i>"));
         return;
     }
 
@@ -74,16 +76,28 @@ void LyricsWidget::playing(const FileHandle &file)
     listUrl.addQueryItem("action", "lyrics");
     listUrl.addQueryItem("func", "getSong");
     listUrl.addQueryItem("fmt", "xml");
-    listUrl.addQueryItem("artist", file.tag()->artist());
-    listUrl.addQueryItem("song", file.tag()->title());
-    m_title = file.tag()->artist() + " &#8211; " + file.tag()->title();
+    listUrl.addQueryItem("artist", m_playingFile.tag()->artist());
+    listUrl.addQueryItem("song", m_playingFile.tag()->title());
+    m_title = m_playingFile.tag()->artist() + " &#8211; " + m_playingFile.tag()->title();
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(listUrl));
 }
 
-void LyricsWidget::hideEvent(QHideEvent *)
+void LyricsWidget::playing(const FileHandle &file)
 {
-    saveConfig();
+    m_playingFile = file;
+    m_lyricsCurrent = false;
+
+    if(isVisible()) {
+        makeLyricsRequest();
+    }
+}
+
+void LyricsWidget::showEvent(QShowEvent *)
+{
+    if(!m_lyricsCurrent) {
+        makeLyricsRequest();
+    }
 }
 
 void LyricsWidget::receiveListReply(QNetworkReply* reply)

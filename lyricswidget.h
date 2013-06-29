@@ -38,7 +38,10 @@ public Q_SLOTS:
     void playing(const FileHandle &file);
 
 protected:
-    virtual void hideEvent(QHideEvent*);
+    virtual void showEvent(QShowEvent*);
+
+private:
+    void makeLyricsRequest();
 
 private Q_SLOTS:
     void receiveListReply(QNetworkReply*);
@@ -47,8 +50,10 @@ private Q_SLOTS:
 
 
 private:
+    FileHandle m_playingFile;
     QNetworkAccessManager *m_networkAccessManager;
     QString m_title;
+    bool m_lyricsCurrent;
 };
 
 
