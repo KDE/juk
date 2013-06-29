@@ -43,6 +43,7 @@
 #include "nowplaying.h"
 #include "playlistbox.h"
 #include "lyricswidget.h"
+#include "mpris2/mpris2.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -328,6 +329,8 @@ void PlaylistSplitter::slotEnable()
     setEnabled(true); // Ready to go.
     m_playlistStack->show();
     kDebug() << "Finished enabling GUI, took" << stopwatch.elapsed() << "ms";
+
+    (void) new Mpris2(this);
 }
 
 #include "playlistsplitter.moc"
