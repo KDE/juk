@@ -60,8 +60,8 @@ class MediaPlayer2 : public QDBusAbstractAdaptor
         QStringList SupportedMimeTypes() const;
 
     public slots:
-        void Raise() const;
-        void Quit() const;
+        Q_NOREPLY void Raise() const;
+        Q_NOREPLY void Quit() const;
 };
 
 #endif

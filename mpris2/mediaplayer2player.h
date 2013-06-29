@@ -56,14 +56,14 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
 
         QString PlaybackStatus() const;
         QString LoopStatus() const;
-        void setLoopStatus(const QString& loopStatus) const;
+        Q_NOREPLY void setLoopStatus(const QString& loopStatus) const;
         double Rate() const;
-        void setRate(double rate) const;
+        Q_NOREPLY void setRate(double rate) const;
         bool Shuffle() const;
         void setShuffle(bool shuffle) const;
         QVariantMap Metadata() const;
         double Volume() const;
-        void setVolume(double volume) const;
+        Q_NOREPLY void setVolume(double volume) const;
         qlonglong Position() const;
         double MinimumRate() const;
         double MaximumRate() const;
@@ -78,15 +78,15 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
         void Seeked(qlonglong Position) const;
 
     public slots:
-        void Next() const;
-        void Previous() const;
-        void Pause() const;
-        void PlayPause() const;
-        void Stop() const;
-        void Play() const;
-        void Seek(qlonglong Offset) const;
-        void SetPosition(const QDBusObjectPath& TrackId, qlonglong Position) const;
-        void OpenUri(QString Uri) const;
+        Q_NOREPLY void Next() const;
+        Q_NOREPLY void Previous() const;
+        Q_NOREPLY void Pause() const;
+        Q_NOREPLY void PlayPause() const;
+        Q_NOREPLY void Stop() const;
+        Q_NOREPLY void Play() const;
+        Q_NOREPLY void Seek(qlonglong Offset) const;
+        Q_NOREPLY void SetPosition(const QDBusObjectPath& TrackId, qlonglong Position) const;
+        Q_NOREPLY void OpenUri(QString Uri) const;
 
     private slots:
         void currentSourceChanged() const;
