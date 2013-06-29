@@ -614,13 +614,13 @@ void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
     else {
         action<KToggleAction>("showUpcoming")->setChecked(false);
         bool raiseCollection = visiblePlaylist() == m_upcomingPlaylist;
-        delete m_upcomingPlaylist;
-        m_upcomingPlaylist = 0;
 
         if(raiseCollection) {
-            kapp->processEvents(); // Seems to stop a crash, weird.
             raise(CollectionList::instance());
         }
+
+        m_upcomingPlaylist->deleteLater();
+        m_upcomingPlaylist = 0;
     }
 }
 
