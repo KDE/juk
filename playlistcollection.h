@@ -36,6 +36,7 @@ class DynamicPlaylist;
 class PlaylistItem;
 class Playlist;
 class PlayerManager;
+class FileHandle;
 
 template<class T>
 class QList;

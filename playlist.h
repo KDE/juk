@@ -31,6 +31,7 @@
 #include "playlistsearch.h"
 #include "tagguesser.h"
 #include "playlistinterface.h"
+#include "filehandle.h"
 
 class KMenu;
 class KActionMenu;

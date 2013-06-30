@@ -18,8 +18,6 @@
 
 #include <QSet>
 
-#include "filehandle.h"
-
 /**
  * A simple hash representing an (un-mapped) set of data.
  */
@@ -41,22 +39,6 @@ public:
 };
 
 typedef Hash<QString> StringHash;
-typedef Hash<void *> PtrHash;
-
-// cannot be a Hash<FileHandle> because it needs "FileHandle value(QString)"
-class FileHandleHash : public QHash<QString, FileHandle>
-{
-public:
-    inline bool insert(const FileHandle &value)
-    {
-        if(contains(value))
-            return true;
-        QHash<QString, FileHandle>::insert(value.absFilePath(), value);
-        return false;
-    }
-    inline bool contains(const FileHandle &value) { return QHash<QString, FileHandle>::contains(value.absFilePath()); }
-    inline bool remove(const FileHandle &value) { return QHash<QString, FileHandle>::remove(value.absFilePath()); }
-};
 
 #endif
 
