@@ -3,8 +3,8 @@
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
 
-    copyright            : (C) 2008 by Michael Pyne
-    email                : michael.pyne@kdemail.net
+    copyright            : (C) 2008, 2013 by Michael Pyne
+    email                : mpyne@kde.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -291,10 +291,10 @@ bool Cache::cacheFileExists() // static
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// protected methods
+// private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-Cache::Cache() : FileHandleHash()
+Cache::Cache()
 {
 
 }

@@ -1867,9 +1867,10 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
     // Our biggest thing that we're fighting during startup is too many stats
     // of files.  Make sure that we don't do one here if it's not needed.
 
-    FileHandle cached = Cache::instance()->value(file);
+    const CollectionListItem *item = CollectionList::instance()->lookup(file);
 
-    if(!cached.isNull()) {
+    if(item && !item->file().isNull()) {
+        FileHandle cached(item->file());
         cached.tag();
         files.append(cached);
         return;

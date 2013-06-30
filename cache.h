@@ -2,6 +2,9 @@
     begin                : Sat Sep 7 2002
     copyright            : (C) 2002 - 2004 by Scott Wheeler
     email                : wheeler@kde.org
+
+    copyright            : (C) 2008, 2013 by Michael Pyne
+    email                : mpyne@kde.org
  ***************************************************************************/
 
 /***************************************************************************
@@ -13,17 +16,16 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef CACHE_H
-#define CACHE_H
+#ifndef JUK_CACHE_H
+#define JUK_CACHE_H
 
 #include <QtCore/QDataStream>
 #include <QtCore/QFile>
 #include <QtCore/QBuffer>
 
-#include "stringhash.h"
-
 class Playlist;
 class PlaylistCollection;
+class FileHandle;
 
 template<class T>
 class QList;
@@ -49,7 +51,7 @@ private:
 };
 
 
-class Cache : public FileHandleHash
+class Cache
 {
 public:
     static Cache *instance();
@@ -76,7 +78,8 @@ public:
      */
     static const int playlistItemsCacheVersion;
 
-protected:
+private:
+    // private to force access through instance()
     Cache();
 
 private:
