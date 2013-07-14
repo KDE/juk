@@ -279,6 +279,11 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
     {
         TagLib::ID3v2::Tag *id3tag = mpegFile->ID3v2Tag(false);
 
+        if (!id3tag) {
+            kError() << m_file.absFilePath() << "seems to have invalid ID3 tag";
+            return false;
+        }
+
         // Look for attached picture frames.
         TagLib::ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
         return !frames.isEmpty();
