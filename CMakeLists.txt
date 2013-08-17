@@ -138,9 +138,9 @@ kde4_add_ui_files(juk_SRCS
 kde4_add_app_icon(juk_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/hi*-app-juk.png")
 kde4_add_executable(juk ${juk_SRCS})
 
-if(NOT MSVC)
+if(NOT MSVC AND NOT ( WIN32 AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel" ) )
     set( LIBMATH m )
-endif(NOT MSVC)
+endif(NOT MSVC AND NOT ( WIN32 AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel" ) )
 
 target_link_libraries(juk ${LIBMATH} ${KDE4_KHTML_LIBS} ${TAGLIB_LIBRARIES} ${KDE4_KDE3SUPPORT_LIBS} ${KDE4_PHONON_LIBS})
 if(TUNEPIMP_FOUND)
