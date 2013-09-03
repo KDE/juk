@@ -30,6 +30,7 @@ class StatusLabel;
 class SystemTray;
 class PlayerManager;
 class PlaylistSplitter;
+class Scrobbler;
 
 class JuK : public KXmlGuiWindow
 {
@@ -52,6 +53,8 @@ private:
     void setupGlobalAccels();
 
     void keyPressEvent(QKeyEvent *);
+
+    void activateScrobblerIfEnabled();
 
     /**
      * readSettings() is separate from readConfig() in that it contains settings
@@ -91,6 +94,7 @@ private:
     KToggleAction *m_toggleSplashAction;
 
     PlayerManager *m_player;
+    Scrobbler     *m_scrobbler;
 
     bool m_startDocked;
     bool m_showSplash;

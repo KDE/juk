@@ -71,10 +71,6 @@ PlayerManager::PlayerManager() :
 // later, just disable it here. -- mpyne
 //    setup();
     new PlayerAdaptor( this );
-    
-    
-    m_scrobbler = new Scrobbler(this);
-    connect(this, SIGNAL(signalItemChanged(FileHandle)), m_scrobbler, SLOT(nowPlaying(FileHandle)));
 }
 
 PlayerManager::~PlayerManager()
@@ -432,7 +428,6 @@ bool PlayerManager::mute()
 
 void PlayerManager::slotNeedNextUrl()
 {
-    m_scrobbler->scrobble();
     if(m_file.isNull() || !m_crossfadeTracks)
         return;
 
@@ -537,7 +532,7 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
         QTimer::singleShot(2000, this, SLOT(slotUpdateGuiIfStopped()));
 
         JuK::JuKInstance()->setWindowTitle(i18n("JuK"));
-        
+
         emit signalStop();
     }
     else if(newstate == Phonon::PlayingState) {

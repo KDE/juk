@@ -18,6 +18,7 @@
 
 #include <QObject>
 #include <QMap>
+#include <QDateTime>
 
 #include "filehandle.h"
 
@@ -32,6 +33,8 @@ class Scrobbler : public QObject {
 public:
     explicit Scrobbler(QObject* parent = 0);
     virtual ~Scrobbler();
+
+    static bool isScrobblingEnabled();
 
 public slots:
     void nowPlaying(const FileHandle&);
@@ -52,7 +55,7 @@ private:
     void post(QMap<QString, QString> &request);
     QByteArray md5(QByteArray data);
 
-    qint64 m_startedPlaying;
+    QDateTime m_playbackTimer;
     FileHandle m_file;
     QNetworkAccessManager *m_networkAccessManager;
 };

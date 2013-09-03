@@ -50,6 +50,7 @@
 #include "keydialog.h"
 #include "tagguesserconfigdlg.h"
 #include "filerenamerconfigdlg.h"
+#include "scrobbler.h"
 #include "scrobbleconfigdlg.h"
 #include "actioncollection.h"
 #include "cache.h"
@@ -79,6 +80,7 @@ JuK::JuK(QWidget *parent) :
     m_statusLabel(0),
     m_systemTray(0),
     m_player(new PlayerManager),
+    m_scrobbler(0),
     m_shuttingDown(false)
 {
     // Expect segfaults if you change this order.
@@ -96,7 +98,6 @@ JuK::JuK(QWidget *parent) :
 
     setupActions();
     setupLayout();
-
 
     bool firstRun = !KGlobal::config()->hasGroup("MainWindow");
 
@@ -124,6 +125,7 @@ JuK::JuK(QWidget *parent) :
     connect(m_splitter, SIGNAL(guiReady()), SLOT(slotSetupSystemTray()));
     readConfig();
     setupGlobalAccels();
+    activateScrobblerIfEnabled();
 
     connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), SLOT(slotAboutToQuit()));
 
@@ -321,9 +323,9 @@ void JuK::setupActions()
 
     act = collection->addAction("fileRenamerConfig", this, SLOT(slotConfigureFileRenamer()));
     act->setText(i18n("&File Renamer..."));
-    
+
     act = collection->addAction("scrobblerConfig", this, SLOT(slotConfigureScrobbling()));
-    act->setText(i18n("&Configure scrobbling..."));    
+    act->setText(i18n("&Configure scrobbling..."));
 
     //////////////////////////////////////////////////
     // just in the toolbar
@@ -606,8 +608,23 @@ void JuK::slotConfigureFileRenamer()
 void JuK::slotConfigureScrobbling()
 {
     ScrobbleConfigDlg(this).exec();
+    activateScrobblerIfEnabled();
 }
 
+void JuK::activateScrobblerIfEnabled()
+{
+    bool isScrobbling = Scrobbler::isScrobblingEnabled();
+
+    if (!m_scrobbler && isScrobbling) {
+        m_scrobbler = new Scrobbler(this);
+        connect (m_player,    SIGNAL(signalItemChanged(FileHandle)),
+                 m_scrobbler, SLOT(nowPlaying(FileHandle)));
+    }
+    else if (m_scrobbler && !isScrobbling) {
+        delete m_scrobbler;
+        m_scrobbler = 0;
+    }
+}
 
 void JuK::slotUndo()
 {

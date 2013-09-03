@@ -33,7 +33,6 @@
 
 Scrobbler::Scrobbler(QObject* parent)
     : QObject(parent)
-    , m_startedPlaying(0)
     , m_networkAccessManager(0)
 {
     KConfigGroup config(KGlobal::config(), "Scrobbling");
@@ -47,6 +46,17 @@ Scrobbler::Scrobbler(QObject* parent)
 
 Scrobbler::~Scrobbler()
 {
+}
+
+bool Scrobbler::isScrobblingEnabled()
+{
+    KConfigGroup config(KGlobal::config(), "Scrobbling");
+
+    // TODO: use kwallet
+    QString username = config.readEntry("Username", "");
+    QString password = config.readEntry("Password", "");
+
+    return (!username.isEmpty() && !password.isEmpty());
 }
 
 QByteArray Scrobbler::md5(QByteArray data)
@@ -153,6 +163,10 @@ void Scrobbler::nowPlaying(const FileHandle& file)
         return;
     }
 
+    if (!m_file.isNull()) {
+        scrobble(); // Update time-played info for last track
+    }
+
     QMap<QString, QString> params;
     params["method"] = "track.updateNowPlaying";
     params["sk"]     = sessionKey;
@@ -165,8 +179,8 @@ void Scrobbler::nowPlaying(const FileHandle& file)
     sign(params);
     post(params);
 
-    m_file = file;
-    m_startedPlaying = QDateTime::currentMSecsSinceEpoch() / 1000;
+    m_file = file; // May be FileHandle::null()
+    m_playbackTimer = QDateTime::currentDateTime();
 }
 
 void Scrobbler::scrobble()
@@ -181,6 +195,13 @@ void Scrobbler::scrobble()
         return;
     }
 
+    int halfDuration = m_file.tag()->seconds() / 2;
+    int timeElapsed = m_playbackTimer.secsTo(QDateTime::currentDateTime());
+
+    if (timeElapsed < 30 || timeElapsed < halfDuration) {
+        return; // API says not to scrobble if the user didn't play long enough
+    }
+
     kDebug() << "Scrobbling" << m_file.tag()->title();
 
     QMap<QString, QString> params;
@@ -189,7 +210,7 @@ void Scrobbler::scrobble()
     params["track"]  = m_file.tag()->title();
     params["artist"] = m_file.tag()->artist();
     params["album"]  = m_file.tag()->album();
-    params["timestamp"]   = QString::number(m_startedPlaying);
+    params["timestamp"]   = QString::number(m_playbackTimer.toTime_t());
     params["trackNumber"] = QString::number(m_file.tag()->track());
     params["duration"]    = QString::number(m_file.tag()->seconds());
 
