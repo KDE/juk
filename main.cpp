@@ -21,6 +21,7 @@
 #include <klocale.h>
 #include <kglobal.h>
 #include <kconfiggroup.h>
+#include <knotification.h>
 
 #include "juk.h"
 
@@ -98,8 +99,13 @@ int main(int argc, char *argv[])
         juk->restore(1, false /* don't show */);
 
     KConfigGroup config(KGlobal::config(), "Settings");
-    if(!config.readEntry("StartDocked", false))
+    if(!config.readEntry("StartDocked", false)) {
         juk->show();
+    }
+    else if(!a.isSessionRestored()) {
+        QString message = i18n("JuK running in docked mode\nUse context menu in system tray to restore.");
+        KNotification::event("dock_mode","JuK Docked", message);
+    }
 
     return a.exec();
 }

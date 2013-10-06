@@ -287,3 +287,8 @@ Comment[x-test]=xxA requested cover has failed to downloadxx
 Comment[zh_CN]=请求的封面下载失败
 Comment[zh_TW]=要求的封面無法成功下載
 Action=Popup
+
+[Event/dock_mode]
+Name=JuK running in dock mode
+Comment=Use context menu in system tray to restore.
+Action=Popup
