@@ -290,5 +290,23 @@ Action=Popup
 
 [Event/dock_mode]
 Name=JuK running in dock mode
+Name[de]=JuK läuft im Systemabschnitt der Kontrollleiste
+Name[kk]=JuK бүктелген күйде жегілген
+Name[nl]=JuK actief in verankerde modus
+Name[pt]=JuK em execução no modo acoplado
+Name[pt_BR]=JuK em execução no modo acoplado
+Name[sk]=JuK beží v dokovanom režime
+Name[sv]=JuK kör i dockningsläge
+Name[uk]=JuK запущено у згорнутому режимі
+Name[x-test]=xxJuK running in dock modexx
 Comment=Use context menu in system tray to restore.
+Comment[de]=Kontextmenü im Systemabschnitt der Kontrollleiste zum Wiederherstellen verwenden
+Comment[kk]=Қалпына келтіруге жүйелік сөре контекстті мәзірін пайдаланыңыз.
+Comment[nl]=Contextmenu in systeemvak gebruiken voor herstellen.
+Comment[pt]=Use o menu de contexto da bandeja para repor.
+Comment[pt_BR]=Use o menu de contexto da área de notificação para restaurar.
+Comment[sk]=Použite kontextovú ponuku v systémovej lište na obnovenie.
+Comment[sv]=Använd sammanhangsberoende meny i systembrickan för att återställa.
+Comment[uk]=Скористайтеся контекстним меню піктограми системного лотка, щоб розгорнути вікно програми.
+Comment[x-test]=xxUse context menu in system tray to restore.xx
 Action=Popup
