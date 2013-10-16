@@ -13,7 +13,7 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <KListView>
+#include <KListWidget>
 
 #include <KAction>
 #include <KLocalizedString>
@@ -22,8 +22,10 @@
 #include <KConfigGroup>
 #include <KDebug>
 
+#include "syncplayer.h"
+#include "actioncollection.h"
 
-SyncPlayer::SyncPlayer(QWidget* parent): KListView(parent)
+SyncPlayer::SyncPlayer(QWidget* parent): KListWidget(parent)
 {
     setMinimumWidth(200);
 
@@ -40,7 +42,6 @@ SyncPlayer::SyncPlayer(QWidget* parent): KListView(parent)
 
 SyncPlayer::~SyncPlayer()
 {
-    delete m_networkAccessManager;
     saveConfig();
 }
 
