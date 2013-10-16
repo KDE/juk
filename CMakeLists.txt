@@ -104,6 +104,7 @@ set(juk_SRCS  ${tunepimp_SRCS}
    statuslabel.cpp
    stringshare.cpp
    systemtray.cpp
+   syncplayer.cpp
    tag.cpp
    tageditor.cpp
    tagguesser.cpp
