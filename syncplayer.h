@@ -36,7 +36,6 @@ public:
 public Q_SLOTS:
 
 protected:
-    virtual void showEvent(QShowEvent*);
 
 private:
 
