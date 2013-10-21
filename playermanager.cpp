@@ -42,6 +42,7 @@
 #include "playeradaptor.h"
 #include "slideraction.h"
 #include "statuslabel.h"
+#include "syncplayer.h"
 #include "actioncollection.h"
 #include "collectionlist.h"
 #include "coverinfo.h"
@@ -61,6 +62,7 @@ PlayerManager::PlayerManager() :
     QObject(),
     m_playlistInterface(0),
     m_statusLabel(0),
+    m_syncLabel(0),
     m_setup(false),
     m_crossfadeTracks(true),
     m_curOutputPath(0)

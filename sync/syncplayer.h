@@ -16,33 +16,44 @@
 #ifndef SYNCPLAYER_H
 #define SYNCPLAYER_H
 
+#include <QLabel>
+
 #include <KListWidget>
+
+#include <kurl.h>
+#include <KVBox>
 
 class QNetworkAccessManager;
 class QNetworkReply;
 
 
-class SyncPlayer : public KListWidget
+class SyncPlayer : public KVBox
 {
     Q_OBJECT
 
 public:
-    explicit SyncPlayer (QWidget *parent);
+    explicit SyncPlayer (QWidget *parent=0);
 
     virtual ~SyncPlayer();
 
     QSize minimumSize() const { return QSize(100, 0); }
+    void copyPlayingToTmp();
 
 public Q_SLOTS:
+    void callCopy(){ copyPlayingToTmp(); }
 
 protected:
 
+
 private:
+    void togglePlayer(bool show);
 
 private Q_SLOTS:
     void saveConfig();
 
 private:
+    QString m_mediaplayername;  //get player name from Solid
+    QLabel *m_deviceLabel;
 };
 
 
