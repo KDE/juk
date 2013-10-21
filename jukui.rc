@@ -29,6 +29,7 @@
 		<Action name="showSearch"/>
 		<Action name="showEditor"/>
 		<Action name="showLyrics"/>
+		<Action name="showPlayers"/>
 		<Action name="showHistory"/>
 		<Action name="showUpcoming"/>
 		<Action name="showColumns"/>

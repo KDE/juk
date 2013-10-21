@@ -22,6 +22,7 @@
 #include <QObject>
 
 #include "filehandle.h"
+#include "syncplayer.h"
 
 #include <Phonon/Global>
 #include <Phonon/Path>
@@ -139,6 +140,7 @@ private:
     FileHandle m_file;
     PlaylistInterface *m_playlistInterface;
     StatusLabel *m_statusLabel;
+    SyncPlayer *m_syncLabel;
     bool m_muted;
     bool m_setup;
     bool m_crossfadeTracks;

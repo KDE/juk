@@ -20,6 +20,7 @@
 #include <kxmlguiwindow.h>
 
 #include "playermanager.h"
+#include "syncplayer.h"
 #include <QKeyEvent>
 
 
@@ -87,6 +88,7 @@ private:
     PlaylistSplitter *m_splitter;
     StatusLabel *m_statusLabel;
     SystemTray *m_systemTray;
+    SyncPlayer *m_syncPlayer;
 
     KToggleAction *m_randomPlayAction;
     KToggleAction *m_toggleSystemTrayAction;
