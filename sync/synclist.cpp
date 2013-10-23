@@ -26,11 +26,19 @@
 #include <kpushbutton.h>
 #include <kiconloader.h>
 
-#include <QLabel>
 #include <QFrame>
+#include <QLabel>
+#include <QPointer>
 #include <QVBoxLayout>
+#include <Solid/Block>
+#include <Solid/Device>
+#include <Solid/OpticalDisc>
+#include <Solid/StorageAccess>
+#include <Solid/StorageVolume>
+#include <Solid/PortableMediaPlayer>
 
-#include "synclist.h"
+#include "sync/synclist.h"
+#include "sync/syncplayer.h"
 #include "actioncollection.h"
 #include "filehandle.h"
 #include "playlist.h"
@@ -65,11 +73,11 @@ SyncList::SyncList(QWidget* parent): KVBox(parent)
     deviceLayout->setObjectName( QLatin1String( "deviceFrame" ));
     deviceLayout->addSpacing(5);
 
-    m_deviceLabel = new KSqueezedTextLabel(deviceFrame);
-    deviceLayout->addWidget(m_deviceLabel);
-    m_deviceLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    m_deviceLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_deviceLabel->setTextFormat(Qt::PlainText);
+    //m_deviceLabel = new KSqueezedTextLabel(deviceFrame);
+    //deviceLayout->addWidget(m_deviceLabel);
+    //m_deviceLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+    //m_deviceLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    //m_deviceLabel->setTextFormat(Qt::PlainText);
 
     deviceLayout->addSpacing(5);
 
@@ -81,9 +89,10 @@ SyncList::SyncList(QWidget* parent): KVBox(parent)
     deviceButton->setIcon(SmallIcon("go-home"));
     deviceButton->setFlat(true);
 
-    deviceButton->setToolTip( i18n("Call copyPlayingToTmp"));
-    connect(deviceButton, SIGNAL(clicked()), this, SLOT(callCopy()));
+    m_player = new SyncPlayer(this);
 
+    deviceButton->setToolTip( i18n("Call copyPlayingToTmp"));
+    connect(deviceButton, SIGNAL(clicked()), this, SLOT(m_player->callCopy()));
 
 }
 
@@ -109,60 +118,57 @@ void SyncList::togglePlayer(bool show)
 
 void SyncList::initializeDevice(const QString& udi)
 {
-    m_device = Solid::Device(udi);
-    if (!m_device.isValid()) {
-        return;
-    }
+//    //m_device = Solid::Device(udi);
+//    if (!m_device.isValid()) {
+//        return;
+//    }
 
-    m_access = m_device.as<Solid::StorageAccess>();
-    m_volume = m_device.as<Solid::StorageVolume>();
-    m_disc = m_device.as<Solid::OpticalDisc>();
-    m_mtp = m_device.as<Solid::PortableMediaPlayer>();
+//    m_access = m_device.as<Solid::StorageAccess>();
+//    m_volume = m_device.as<Solid::StorageVolume>();
+//    //m_disc = m_device.as<Solid::OpticalDisc>();
+//    m_mtp = m_device.as<Solid::PortableMediaPlayer>();
 
-    setText(m_device.description());
-    setIcon(m_device.icon());
-    setIconOverlays(m_device.emblems());
-    setUdi(udi);
+//    //setText(m_device.description());
+//    //setIcon(m_device.icon());
+//    //setIconOverlays(m_device.emblems());
+//    setUdi(udi);
 
-    if (m_access) {
-        setUrl(m_access->filePath());
-        QObject::connect(m_access, SIGNAL(accessibilityChanged(bool,QString)),
-                         m_signalHandler, SLOT(onAccessibilityChanged()));
-    } else if (m_disc && (m_disc->availableContent() & Solid::OpticalDisc::Audio) != 0) {
-        Solid::Block *block = m_device.as<Solid::Block>();
-        if (block) {
-            const QString device = block->device();
-            setUrl(QString("audiocd:/?device=%1").arg(device));
-        } else {
-            setUrl(QString("audiocd:/"));
-        }
-    } else if (m_mtp) {
-        setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
-    }
+//    if (m_access) {
+//        //setUrl(m_access->filePath());
+//        //QObject::connect(m_access, SIGNAL(accessibilityChanged(bool,QString)),
+//        //                 m_signalHandler, SLOT(onAccessibilityChanged()));
+//    } else if (m_disc) {
+//        Solid::Block *block = m_device.as<Solid::Block>();
+//        if (block) {
+//            const QString device = block->device();
+//            setUrl(QString("audiocd:/?device=%1").arg(device));
+//        } else {
+//            setUrl(QString("audiocd:/"));
+//        }
+//    } else if (m_mtp) {
+//        setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
+//    }
 }
 
 
 void SyncList::setUdi(const QString& udi)
 {
-    setDataValue("udi", udi);
+    //setDataValue("udi", udi);
 }
 
 QString SyncList::udi() const
 {
-    return dataValue("udi").toString();
+    //return dataValue("udi").toString();
+    return 0;
 }
 
 
+/*
 Solid::Device SyncList::device() const
 {
     return m_device;
 }
+*/
 
-void SyncList::copyPlayingToTmp(){
-    //PlaylistItem *playingItem = Playlist::playingItem();
-    //FileHandle playingFile = playingItem->file();
-    //kDebug()<<"File path: "<<playingFile.absFilePath();
-    qDebug()<<"Called me";
-}
 
 // vim: set et sw=4 tw=0 sta:
