@@ -17,6 +17,12 @@
 #define SYNCLIST_H
 
 #include <QLabel>
+#include <QPointer>
+#include <Solid/Device>
+#include <Solid/OpticalDisc>
+#include <Solid/StorageAccess>
+#include <Solid/StorageVolume>
+#include <Solid/PortableMediaPlayer>
 
 #include <KListWidget>
 #include <KUrl>
@@ -27,6 +33,8 @@
 #include <Solid/StorageAccess>
 #include <Solid/StorageVolume>
 #include <Solid/PortableMediaPlayer>
+
+#include "sync/syncplayer.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -45,11 +53,12 @@ public:
     KUrl url() const;
     void setUdi(const QString& udi);
     QString udi() const;
-    Solid::Device device() const;
+    Solid::Device device() const;   //return m_device
 
 public Q_SLOTS:
-    void newDevice();
-    void showFiles(QString udi);
+    //void newDevice();
+    //void showFiles(QString udi);
+    void callCopy(){ m_player->copyPlayingToTmp(); }
 
 protected:
 
@@ -61,11 +70,13 @@ private Q_SLOTS:
     void saveConfig();
 
 private:
-    Solid::Device m_device;
+
+    //Solid::Device m_device;
     QPointer<Solid::StorageAccess> m_access;
     QPointer<Solid::StorageVolume> m_volume;
     QPointer<Solid::OpticalDisc> m_disc;
     QPointer<Solid::PortableMediaPlayer> m_mtp;
+    SyncPlayer *m_player;
 };
 
 
