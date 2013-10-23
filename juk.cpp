@@ -183,9 +183,9 @@ void JuK::setupLayout()
     m_statusLabel = new StatusLabel(m_splitter->playlist(), statusBar());
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_statusLabel, SLOT(updateData()));
-    m_syncPlayer = new SyncPlayer(this);
+    m_syncList = new SyncList(this);
     statusBar()->addWidget(m_statusLabel, 1);
-    statusBar()->addWidget(m_syncPlayer,1);
+    statusBar()->addWidget(m_syncList,1);
     m_player->setStatusLabel(m_statusLabel);
 
     m_splitter->setFocus();
@@ -563,7 +563,7 @@ void JuK::slotAboutToQuit()
     deleteAndClear(m_splitter);
     deleteAndClear(m_player);
     deleteAndClear(m_statusLabel);
-    deleteAndClear(m_syncPlayer);
+    //deleteAndClear(m_syncList);
 
     // Playlists depend on CoverManager, so CoverManager should shutdown as
     // late as possible
