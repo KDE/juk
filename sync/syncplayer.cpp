@@ -39,50 +39,6 @@
 
 SyncPlayer::SyncPlayer(QWidget* parent): KVBox(parent)
 {
-    //setMinimumWidth(200);
-/*
-    KToggleAction *showPlayers = new KToggleAction(KIcon(QLatin1String("view-media-players")),
-                                            i18n("Show &Players"), this);
-    ActionCollection::actions()->addAction("showPlayers", showPlayers);
-    connect(showPlayers, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
-
-    KConfigGroup config(KGlobal::config(), "showPlayers");
-    bool shown = config.readEntry("showPlayers", true);
-    showPlayers->setChecked(shown);
-    setVisible(shown);
-*/
-
-    QFrame *deviceFrame = new QFrame(this);
-    deviceFrame->setFrameStyle(Box | Sunken);
-    deviceFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-
-    // Make sure that we have enough of a margin to suffice for the borders,
-    // hence the "lineWidth() * 2"
-    QVBoxLayout *deviceLayout = new QVBoxLayout( deviceFrame );
-    deviceLayout->setMargin( deviceFrame->lineWidth() * 2 );
-    deviceLayout->setSpacing( 5 );
-    deviceLayout->setObjectName( QLatin1String( "deviceFrame" ));
-    deviceLayout->addSpacing(5);
-
-    m_deviceLabel = new KSqueezedTextLabel(deviceFrame);
-    deviceLayout->addWidget(m_deviceLabel);
-    m_deviceLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    m_deviceLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    m_deviceLabel->setTextFormat(Qt::PlainText);
-
-    deviceLayout->addSpacing(5);
-
-    KVBox *deviceBox = new KVBox(this);
-    deviceBox->setFrameStyle(Box | Sunken);
-    deviceBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
-
-    QPushButton *deviceButton = new QPushButton(deviceBox);
-    deviceButton->setIcon(SmallIcon("go-home"));
-    deviceButton->setFlat(true);
-
-    deviceButton->setToolTip( i18n("Call copyPlayingToTmp"));
-    connect(deviceButton, SIGNAL(clicked()), this, SLOT(callCopy()));
 
 
 }

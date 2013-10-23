@@ -13,51 +13,60 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SYNCPLAYER_H
-#define SYNCPLAYER_H
+#ifndef SYNCLIST_H
+#define SYNCLIST_H
 
 #include <QLabel>
 
 #include <KListWidget>
-
 #include <KUrl>
 #include <KVBox>
+
+#include <Solid/Device>
+#include <Solid/OpticalDisc>
+#include <Solid/StorageAccess>
+#include <Solid/StorageVolume>
+#include <Solid/PortableMediaPlayer>
 
 class QNetworkAccessManager;
 class QNetworkReply;
 
 
-class SyncPlayer : public KVBox
+class SyncList : public KVBox
 {
     Q_OBJECT
 
 public:
-    explicit SyncPlayer (QWidget *parent=0);
-
-    virtual ~SyncPlayer();
-
+    explicit SyncList (QWidget *parent=0);
+    virtual ~SyncList();
     QSize minimumSize() const { return QSize(100, 0); }
-    void copyPlayingToTmp();
-    KUrl* getSrc();
-    KUrl* getDest();
-    bool checkDestSize(KUrl dest);
-    int copyToDevice(QString udi);
+    void displayList();
+    void setUrl(const KUrl& url);
+    KUrl url() const;
+    void setUdi(const QString& udi);
+    QString udi() const;
+    Solid::Device device() const;
 
 public Q_SLOTS:
-    void callCopy(){ copyPlayingToTmp(); }
+    void newDevice();
+    void showFiles(QString udi);
 
 protected:
 
-
 private:
+    void initializeDevice(const QString& udi);
     void togglePlayer(bool show);
 
 private Q_SLOTS:
     void saveConfig();
 
 private:
-    //QString m_currentplayername;  //get player name from syncList
+    Solid::Device m_device;
+    QPointer<Solid::StorageAccess> m_access;
+    QPointer<Solid::StorageVolume> m_volume;
+    QPointer<Solid::OpticalDisc> m_disc;
+    QPointer<Solid::PortableMediaPlayer> m_mtp;
 };
 
 
-#endif//SYNCPLAYER_H
+#endif//SYNCLIST_H
