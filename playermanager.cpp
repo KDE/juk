@@ -39,7 +39,6 @@
 #include "playeradaptor.h"
 #include "slideraction.h"
 #include "statuslabel.h"
-#include "syncplayer.h"
 #include "actioncollection.h"
 #include "collectionlist.h"
 #include "coverinfo.h"
@@ -59,7 +58,6 @@ PlayerManager::PlayerManager() :
     QObject(),
     m_playlistInterface(0),
     m_statusLabel(0),
-    m_syncLabel(0),
     m_setup(false),
     m_crossfadeTracks(true),
     m_curOutputPath(0)
@@ -227,7 +225,7 @@ void PlayerManager::play(const FileHandle &file)
 
     // The "currently playing" media object.
     Phonon::MediaObject *mediaObject = m_media[m_curOutputPath];
-    
+
     if(file.isNull()) {
         if(paused())
             mediaObject->play();
@@ -542,13 +540,13 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
             action("forwardAlbum")->setEnabled(true);
         action("back")->setEnabled(true);
 
-                
+
         JuK::JuKInstance()->setWindowTitle(i18nc(
-            "%1 is the artist and %2 is the title of the currently playing track.", 
-            "%1 - %2 :: JuK", 
-            m_file.tag()->artist(), 
+            "%1 is the artist and %2 is the title of the currently playing track.",
+            "%1 - %2 :: JuK",
+            m_file.tag()->artist(),
             m_file.tag()->title()));
-        
+
         emit signalPlay();
     }
 }
