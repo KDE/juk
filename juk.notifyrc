@@ -291,6 +291,7 @@ Action=Popup
 [Event/dock_mode]
 Name=JuK running in dock mode
 Name[de]=JuK läuft im Systemabschnitt der Kontrollleiste
+Name[hu]=A JuK dokkolt módban fut
 Name[ia]=Juck executante de modo dock
 Name[kk]=JuK бүктелген күйде жегілген
 Name[nl]=JuK actief in verankerde modus
@@ -308,6 +309,7 @@ Name[x-test]=xxJuK running in dock modexx
 Name[zh_TW]=JuK 以嵌入模式執行中
 Comment=Use context menu in system tray to restore.
 Comment[de]=Kontextmenü im Systemabschnitt der Kontrollleiste zum Wiederherstellen verwenden
+Comment[hu]=Helyi menü használata a rendszertálcán a visszaállításhoz.
 Comment[ia]=Usa menu de contexto in tabuliero de systema pro restabilir.
 Comment[kk]=Қалпына келтіруге жүйелік сөре контекстті мәзірін пайдаланыңыз.
 Comment[nl]=Contextmenu in systeemvak gebruiken voor herstellen.
