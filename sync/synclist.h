@@ -58,11 +58,13 @@ public:
 public Q_SLOTS:
     //void newDevice();
     //void showFiles(QString udi);
-    void callCopy(){ m_player->copyPlayingToTmp(); }
+    void callCopy(){ listDevices(); m_player->copyPlayingToTmp(); }
 
 protected:
 
 private:
+    void listDevices();
+    void placeDevices();
     void initializeDevice(const QString& udi);
     void togglePlayer(bool show);
 
@@ -71,7 +73,7 @@ private Q_SLOTS:
 
 private:
 
-    //Solid::Device m_device;
+    Solid::Device m_device;
     QPointer<Solid::StorageAccess> m_access;
     QPointer<Solid::StorageVolume> m_volume;
     QPointer<Solid::OpticalDisc> m_disc;
