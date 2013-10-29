@@ -36,6 +36,7 @@
 #include <Solid/StorageAccess>
 #include <Solid/StorageVolume>
 #include <Solid/PortableMediaPlayer>
+#include <Solid/DeviceNotifier>
 
 #include "sync/synclist.h"
 #include "sync/syncplayer.h"
@@ -92,7 +93,7 @@ SyncList::SyncList(QWidget* parent): KVBox(parent)
     m_player = new SyncPlayer(this);
 
     deviceButton->setToolTip( i18n("Call copyPlayingToTmp"));
-    connect(deviceButton, SIGNAL(clicked()), this, SLOT(m_player->callCopy()));
+    connect(deviceButton, SIGNAL(clicked()), this, SLOT(callCopy()));
 
 }
 
@@ -101,55 +102,9 @@ SyncList::~SyncList()
     saveConfig();
 }
 
-void SyncList::saveConfig()
-{
-    KConfigGroup config(KGlobal::config(), "ShowPlayers");
-    config.writeEntry("ShowPlayers", ActionCollection::action<KToggleAction>("showPlayers")->isChecked());
+void SyncList::setUrl(const KUrl &url){
+    qDebug()<<url;
 }
-
-void SyncList::togglePlayer(bool show)
-{
-    if(show)
-    {
-        ActionCollection::action<KToggleAction>("showPlayers")->setChecked(true);
-    }
-}
-
-
-void SyncList::initializeDevice(const QString& udi)
-{
-//    //m_device = Solid::Device(udi);
-//    if (!m_device.isValid()) {
-//        return;
-//    }
-
-//    m_access = m_device.as<Solid::StorageAccess>();
-//    m_volume = m_device.as<Solid::StorageVolume>();
-//    //m_disc = m_device.as<Solid::OpticalDisc>();
-//    m_mtp = m_device.as<Solid::PortableMediaPlayer>();
-
-//    //setText(m_device.description());
-//    //setIcon(m_device.icon());
-//    //setIconOverlays(m_device.emblems());
-//    setUdi(udi);
-
-//    if (m_access) {
-//        //setUrl(m_access->filePath());
-//        //QObject::connect(m_access, SIGNAL(accessibilityChanged(bool,QString)),
-//        //                 m_signalHandler, SLOT(onAccessibilityChanged()));
-//    } else if (m_disc) {
-//        Solid::Block *block = m_device.as<Solid::Block>();
-//        if (block) {
-//            const QString device = block->device();
-//            setUrl(QString("audiocd:/?device=%1").arg(device));
-//        } else {
-//            setUrl(QString("audiocd:/"));
-//        }
-//    } else if (m_mtp) {
-//        setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
-//    }
-}
-
 
 void SyncList::setUdi(const QString& udi)
 {
@@ -163,12 +118,68 @@ QString SyncList::udi() const
 }
 
 
-/*
+
 Solid::Device SyncList::device() const
 {
     return m_device;
 }
-*/
 
+void SyncList::listDevices(){
+    Solid::DeviceNotifier *notifierObj= Solid::DeviceNotifier::instance();
+    //foreach(Solid::Device device, Solid::Device::allDevices()){
+    foreach(Solid::Device device, Solid::Device::listFromType(Solid::DeviceInterface::StorageDrive,QString())){
+        qDebug() << device.udi()<< "Product" << device.product() << "Vendor" << device.vendor() << device.description();
+        Solid::Block *blk = device.as<Solid::Block>();
+        qDebug() << "Blk Device: " << blk->device();
+    }
+}
+
+void SyncList::initializeDevice(const QString& udi)
+{
+    m_device = Solid::Device(udi);
+    if (!m_device.isValid()) {
+        return;
+    }
+
+    m_access = m_device.as<Solid::StorageAccess>();
+    m_volume = m_device.as<Solid::StorageVolume>();
+    m_disc = m_device.as<Solid::OpticalDisc>();
+    m_mtp = m_device.as<Solid::PortableMediaPlayer>();
+
+    //setText(m_device.description());
+    //setIcon(m_device.icon());
+    //setIconOverlays(m_device.emblems());
+    //setUdi(udi);
+
+    if (m_access) {
+        setUrl(m_access->filePath());
+        //QObject::connect(m_access, SIGNAL(accessibilityChanged(bool,QString)),
+        //                 m_signalHandler, SLOT(onAccessibilityChanged()));
+    } else if (m_disc) {
+        Solid::Block *block = m_device.as<Solid::Block>();
+        if (block) {
+            const QString device = block->device();
+            setUrl(QString("audiocd:/?device=%1").arg(device));
+        } else {
+            setUrl(QString("audiocd:/"));
+        }
+    } else if (m_mtp) {
+        setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
+    }
+}
+
+void SyncList::togglePlayer(bool show)
+{
+    if(show)
+    {
+        ActionCollection::action<KToggleAction>("showPlayers")->setChecked(true);
+    }
+}
+
+void SyncList::saveConfig()
+{
+    KConfigGroup config(KGlobal::config(), "ShowPlayers");
+    config.writeEntry("ShowPlayers", ActionCollection::action<KToggleAction>("showPlayers")->isChecked());
+}
 
 // vim: set et sw=4 tw=0 sta:
