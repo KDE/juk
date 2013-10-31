@@ -19,6 +19,8 @@
 #include <KActionCollection>
 #include <KConfigGroup>
 #include <KDebug>
+#include <KFileDialog>
+#include <KIO/Job>
 #include <KLocalizedString>
 #include <KToggleAction>
 #include <KSqueezedTextLabel>
@@ -66,6 +68,19 @@ void SyncPlayer::copyPlayingToTmp(){
     //PlaylistItem *playingItem = Playlist::playingItem();
     //FileHandle playingFile = playingItem->file();
     //kDebug()<<"File path: "<<playingFile.absFilePath();
+    KUrl::List srcList = KFileDialog::getOpenUrls();
+    KUrl dest = KUrl("file:///tmp/myJuK");
+    //qDebug() << "src= " << src << "\ndest=" << dest;
+    foreach (KUrl src, srcList) {
+        qDebug()<<"Copying: "<<src;
+        KIO::FileCopyJob *theJob = KIO::file_copy(src,dest);
+        theJob->start();
+    }
+
+//    foreach(PlaylistItem *item, items) {
+//        urls << KUrl::fromPath(item->file().absFilePath());
+//    }
+
     qDebug()<<"Called me";
 }
 
