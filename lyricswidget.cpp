@@ -66,11 +66,11 @@ void LyricsWidget::makeLyricsRequest()
     m_lyricsCurrent = true;
 
     if(m_playingFile.isNull()) {
-        setHtml(QLatin1String("<i>No file playing.</i>"));
+        setHtml(QLatin1String("<i>No m_playingFile playing.</i>"));
         return;
     }
 
-    setHtml("<i>Loading...</i>");
+    setHtml(i18n("<i>Loading...</i>"));
 
     QUrl listUrl("http://lyrics.wikia.com/api.php");
     listUrl.addQueryItem("action", "lyrics");
@@ -105,7 +105,7 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     if (reply->error() != QNetworkReply::NoError) {
         kWarning() << "Error while fetching lyrics: " << reply->errorString();
-        setHtml("<span style='color:red'>Error while retrieving lyrics!</span>");
+        setHtml(i18n("<span style='color:red'>Error while retrieving lyrics!</span>"));
         return;
     }
 
@@ -130,7 +130,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
     if (reply->error() != QNetworkReply::NoError) {
         kWarning() << "Error while fetching lyrics: " << reply->errorString();
-        setHtml("<span style='color:red'>Error while retrieving lyrics!</span>");
+        setHtml(i18n("<span style='color:red'>Error while retrieving lyrics!</span>"));
         return;
     }
 
@@ -139,7 +139,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     int rIndex = content.indexOf("&lt;/lyrics&gt;");
     if (lIndex == -1 || rIndex == -1) {
         kWarning() << Q_FUNC_INFO << "Unable to find lyrics in text";
-        setText("No lyrics available.");
+        setText(i18n("No lyrics available."));
         return;
     }
     lIndex += 15; // We skip the tag
@@ -148,5 +148,5 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     //setText(content);
     setHtml("<h1>" + m_title + "</h1>" +
             content +
-            "<br /><br /><i>Lyrics provided by <a href='http://lyrics.wikia.com/Lyrics_Wiki'>LyricWiki</a></i>");
+            i18n("<br /><br /><i>Lyrics provided by <a href='http://lyrics.wikia.com/Lyrics_Wiki'>LyricWiki</a></i>"));
 }
