@@ -180,12 +180,14 @@ void JuK::setupLayout()
     m_splitter = new PlaylistSplitter(m_player, this);
     setCentralWidget(m_splitter);
 
+    m_syncList = new SyncList(this);
+    //m_splitter->addWidget(m_syncList);
+
     m_statusLabel = new StatusLabel(m_splitter->playlist(), statusBar());
     connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
             m_statusLabel, SLOT(updateData()));
-    m_syncList = new SyncList(this);
     statusBar()->addWidget(m_statusLabel, 1);
-    statusBar()->addWidget(m_syncList,1);
+    //statusBar()->addWidget(m_syncList,1);
     m_player->setStatusLabel(m_statusLabel);
 
     m_splitter->setFocus();
