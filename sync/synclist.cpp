@@ -43,8 +43,11 @@
 #include "actioncollection.h"
 #include "filehandle.h"
 #include "playlist.h"
+#include "playlistbox.h"
+#include "playermanager.h"
 #include "playlistitem.h"
 #include "playlistinterface.h"
+#include <QStackedWidget>
 
 SyncList::SyncList(QWidget* parent): KVBox(parent)
 {
@@ -94,6 +97,16 @@ SyncList::SyncList(QWidget* parent): KVBox(parent)
 
     deviceButton->setToolTip( i18n("Call copyPlayingToTmp"));
     connect(deviceButton, SIGNAL(clicked()), this, SLOT(callCopy()));
+
+    //QStackedWidget *stack = new QStackedWidget();
+    //PlayerManager *playerManager = new PlayerManager();
+    //PlaylistCollection *collection = new PlaylistCollection(playerManager,stack);
+    //Playlist *playlist = new Playlist(collection,"YOYOYO");
+    //PlaylistBox *player = new PlaylistBox(playerManager,this,stack);
+    //player->
+    //PlaylistBox::Item *itemParent = PlaylistBox::Item::collectionItem();
+    //PlaylistBox::Item *item;
+    //item = new PlaylistBox::Item(player,"media-optical-audio", i18n("Chaudhary"));
 
 }
 
