@@ -35,10 +35,17 @@
 #include <Solid/PortableMediaPlayer>
 
 #include "sync/syncplayer.h"
+#include "playlistitem.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 
+/*
+class SyncListItem : public PlaylistItem
+{
+
+};
+*/
 
 class SyncList : public KVBox
 {
