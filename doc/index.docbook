@@ -1503,11 +1503,22 @@ tray icon to tell if &juk; is playing, and control playback.</para>
 </menuchoice>
 </term>
 <listitem><para>This is a toggle option.  If enabled, &juk; will remain
-running if you close the main window.  The Dock in System Tray option must
+  running if you close the main window.  The <guimenuitem>Dock in System Tray</guimenuitem> option must
 also be enabled.  To quit &juk;, use the <menuchoice><guimenu>File</guimenu>
 <guimenuitem>Quit</guimenuitem></menuchoice> command from the main window, or
 the <guimenuitem>Quit</guimenuitem> command from the system tray's context
 menu.</para>
+<para>
+If &juk; is started up when it is set to dock in the system tray on startup
+a simple notification will be shown (as otherwise the user may wonder why &juk;
+window did not open up). It is possible to remove this additional
+notification by going to <menuchoice><guimenu>Common Appearance and Behavior</guimenu>
+<guimenuitem>Application and System Notifications</guimenuitem></menuchoice> in
+&systemsettings; to manage <guilabel>JuK music player</guilabel> application notifications.
+Just uncheck <guilabel>Show a message in a popup</guilabel> item for <guimenuitem>JuK running
+in dock mode</guimenuitem>. More information on &kde; notification settings can be found
+<ulink url="help:/kcontrol/kcmnotify">here</ulink>.
+</para>
 </listitem>
 </varlistentry>
 
