@@ -290,6 +290,7 @@ Action=Popup
 
 [Event/dock_mode]
 Name=JuK running in dock mode
+Name[bs]=Juk u usidrenom režimu
 Name[da]=JuK kører i doktilstand
 Name[de]=JuK läuft im Systemabschnitt der Kontrollleiste
 Name[gl]=JuK está no modo acoplado
@@ -311,6 +312,7 @@ Name[uk]=JuK запущено у згорнутому режимі
 Name[x-test]=xxJuK running in dock modexx
 Name[zh_TW]=JuK 以嵌入模式執行中
 Comment=Use context menu in system tray to restore.
+Comment[bs]=Koristi kontekstni meni u sistemskom uglu za obnovu.
 Comment[da]=Brug kontekstmenuen i statusområdet til at gendanne.
 Comment[de]=Kontextmenü im Systemabschnitt der Kontrollleiste zum Wiederherstellen verwenden
 Comment[gl]=Use o menú contextual na bandexa do sistema para restauralo.
