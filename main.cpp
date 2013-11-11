@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     }
     else if(!a.isSessionRestored()) {
         QString message = i18n("JuK running in docked mode\nUse context menu in system tray to restore.");
-        KNotification::event("dock_mode","JuK Docked", message);
+        KNotification::event("dock_mode",i18n("JuK Docked"), message);
     }
 
     return a.exec();
