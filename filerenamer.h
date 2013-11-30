@@ -1,18 +1,19 @@
-/***************************************************************************
-    begin                : Thu Oct 28 2004
-    copyright            : (C) 2004, 2007 by Michael Pyne
-                         : (C) 2003 Frerich Raabe <raabe@kde.org>
-    email                : michael.pyne@kdemail.net
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/**
+ * Copyright (C) 2004, 2007 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2003 Frerich Raabe <raabe@kde.org>
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef FILERENAMER_H
 #define FILERENAMER_H
@@ -89,7 +90,7 @@ typedef QMap<CategoryID, TagRenamerOptions> CategoryOptionsMap;
  * from whatever the given PlaylistItem is.  You can assign different
  * PlaylistItems in order to change the returned tag category information.
  *
- * @author Michael Pyne <michael.pyne@kdemail.net>
+ * @author Michael Pyne <mpyne@kde.org>
  */
 class ConfigCategoryReader : public CategoryReaderInterface
 {
@@ -136,7 +137,7 @@ private:
  * It also implements the CategoryReaderInterface in order to implement the
  * example filename functionality.
  *
- * @author Michael Pyne <michael.pyne@kdemail.net>
+ * @author Michael Pyne <mpyne@kde.org>
  */
 class FileRenamerWidget : public QWidget, public CategoryReaderInterface
 {
@@ -493,7 +494,7 @@ private:
  * based off of the user's options (see ConfigCategoryReader) and of setting folder icons
  * if appropriate.
  *
- * @author Michael Pyne <michael.pyne@kdemail.net>
+ * @author Michael Pyne <mpyne@kde.org>
  */
 class FileRenamer
 {
