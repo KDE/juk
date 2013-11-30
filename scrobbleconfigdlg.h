@@ -28,14 +28,14 @@ class ScrobbleConfigDlg : public KDialog
     Q_OBJECT
 public:
     explicit ScrobbleConfigDlg(QWidget* parent = 0, Qt::WindowFlags f = 0);
-    
+
 private slots:
     void testLogin();
     void validLogin();
     void invalidLogin();
     void save();
     void valuesChanged();
-    
+
 private:
     KLineEdit *m_usernameEdit;
     KLineEdit *m_passwordEdit;

@@ -121,7 +121,7 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
     url.addQueryItem("prop", "revisions");
     url.addQueryItem("rvprop", "content");
     url.addQueryItem("format", "xml");
-    url.addQueryItem("titles", artist + ":" + title);
+    url.addQueryItem("titles", artist + ':' + title);
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(url));
 }
@@ -145,7 +145,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     }
     lIndex += 15; // We skip the tag
     content = content.mid(lIndex, rIndex - lIndex).trimmed();
-    content.replace("\n", "<br />");
+    content.replace('\n', "<br />");
     //setText(content);
     setHtml("<h1>" + m_title + "</h1>" +
             content +

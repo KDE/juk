@@ -225,7 +225,7 @@ void Scrobbler::post(QMap<QString, QString> &params)
 
     QByteArray data;
     foreach(QString key, params.keys()) {
-        data += QUrl::toPercentEncoding(key) + "=" + QUrl::toPercentEncoding(params[key]) + "&";
+        data += QUrl::toPercentEncoding(key) + '=' + QUrl::toPercentEncoding(params[key]) + '&';
     }
 
     QNetworkRequest req(url);
