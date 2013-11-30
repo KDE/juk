@@ -1,17 +1,18 @@
-/***************************************************************************
-    begin                : Sun May 15 2005
-    copyright            : (C) 2005, 2008 by Michael Pyne
-    email                : michael.pyne@kdemail.net
-***************************************************************************/
-
-/***************************************************************************
- *                                                                         *
- *   This program is free software; you can redistribute it and/or modify  *
- *   it under the terms of the GNU General Public License as published by  *
- *   the Free Software Foundation; either version 2 of the License, or     *
- *   (at your option) any later version.                                   *
- *                                                                         *
- ***************************************************************************/
+/**
+ * Copyright (C) 2005, 2008 Michael Pyne <mpyne@kde.org>
+ *
+ * This program is free software; you can redistribute it and/or modify it under
+ * the terms of the GNU General Public License as published by the Free Software
+ * Foundation; either version 2 of the License, or (at your option) any later
+ * version.
+ *
+ * This program is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+ * PARTICULAR PURPOSE. See the GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License along with
+ * this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 #ifndef JUK_COVERMANAGER_H
 #define JUK_COVERMANAGER_H
@@ -64,7 +65,7 @@ private:
  * there to allow the CoverManager to try to automatically assign covers to
  * new tracks.
  *
- * @author Michael Pyne <michael.pyne@kdemail.net>
+ * @author Michael Pyne <mpyne@kde.org>
  * @see CoverManager
  */
 class CoverData : public KShared
@@ -97,7 +98,7 @@ typedef QList<coverKey> CoverList;
  *
  * As of this writing the mimetype is application/x-juk-coverid
  *
- * @author Michael Pyne <michael.pyne@kdemail.net>
+ * @author Michael Pyne <mpyne@kde.org>
  */
 class CoverDrag : public QMimeData
 {
@@ -127,7 +128,7 @@ public:
  *   CoverManager::instance()->method()
  * \endcode
  *
- * @author Michael Pyne <michael.pyne@kdemail.net>
+ * @author Michael Pyne <mpyne@kde.org>
  */
 class CoverManager
 {
