@@ -206,7 +206,7 @@ QVariantMap MediaPlayer2Player::Metadata() const
 
     metaData["mpris:length"] = qint64(playingFile.tag()->seconds() * 1000000);
     metaData["xesam:url"] = QString::fromLatin1(
-            QUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
+            KUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
 
     if(playingFile.coverInfo()->hasCover()) {
         QString fallbackFileName = KStandardDirs::locateLocal("tmp",
