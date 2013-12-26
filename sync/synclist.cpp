@@ -137,14 +137,34 @@ Solid::Device SyncList::device() const
     return m_device;
 }
 
+/*
+ * Find out the devices available on the system
+ */
 void SyncList::listDevices(){
-    Solid::DeviceNotifier *notifierObj= Solid::DeviceNotifier::instance();
+    //Solid::DeviceNotifier *notifierObj= Solid::DeviceNotifier::instance();
+
+    //Full Device List
     //foreach(Solid::Device device, Solid::Device::allDevices()){
+
+    //Portable Media Player List
     foreach(Solid::Device device, Solid::Device::listFromType(Solid::DeviceInterface::StorageDrive,QString())){
         qDebug() << device.udi()<< "Product" << device.product() << "Vendor" << device.vendor() << device.description();
         Solid::Block *blk = device.as<Solid::Block>();
         qDebug() << "Blk Device: " << blk->device();
     }
+    //Portable Media Player List
+    foreach(Solid::Device device, Solid::Device::listFromType(Solid::DeviceInterface::PortableMediaPlayer,QString())){
+        qDebug() << device.udi()<< "Product" << device.product() << "Vendor" << device.vendor() << device.description();
+        Solid::PortableMediaPlayer *player = device.as<Solid::PortableMediaPlayer>();
+        qDebug() << "PMediaP Supported Protocols: " << player->supportedProtocols();
+    }
+}
+
+/*
+ * Show the available devices in UI
+ */
+void SyncList::placeDevices(){
+    //
 }
 
 void SyncList::initializeDevice(const QString& udi)
@@ -180,7 +200,9 @@ void SyncList::initializeDevice(const QString& udi)
         setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
     }
 }
-
+/*
+ * Toggle the list showing available players
+ */
 void SyncList::togglePlayer(bool show)
 {
     if(show)

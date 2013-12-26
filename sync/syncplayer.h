@@ -26,7 +26,10 @@
 class QNetworkAccessManager;
 class QNetworkReply;
 
-
+/*
+ * Perform operation on the selected player
+ *
+ */
 class SyncPlayer : public KVBox
 {
     Q_OBJECT

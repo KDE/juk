@@ -46,7 +46,10 @@ class SyncListItem : public PlaylistItem
 
 };
 */
-
+/*
+ * Create and maintain list showing available players
+ *
+ */
 class SyncList : public KVBox
 {
     Q_OBJECT
