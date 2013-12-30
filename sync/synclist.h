@@ -35,7 +35,7 @@
 #include <Solid/PortableMediaPlayer>
 
 #include "sync/syncplayer.h"
-#include "playlistitem.h"
+#include "playlistbox.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -50,7 +50,7 @@ class SyncListItem : public PlaylistItem
  * Create and maintain list showing available players
  *
  */
-class SyncList : public KVBox
+class SyncList : public QWidget //PlaylistBox
 {
     Q_OBJECT
 
@@ -68,7 +68,7 @@ public:
 public Q_SLOTS:
     //void newDevice();
     //void showFiles(QString udi);
-    void callCopy(){ listDevices(); m_player->copyPlayingToTmp(); }
+    void callCopy(){ listDevices(); m_player->sync_in_stub(); }
 
 protected:
 
@@ -78,9 +78,6 @@ private:
     void initializeDevice(const QString& udi);
     void togglePlayer(bool show);
 
-private Q_SLOTS:
-    void saveConfig();
-
 private:
 
     Solid::Device m_device;
@@ -89,6 +86,10 @@ private:
     QPointer<Solid::OpticalDisc> m_disc;
     QPointer<Solid::PortableMediaPlayer> m_mtp;
     SyncPlayer *m_player;
+
+    //temp
+    PlayerManager *player;
+    QStackedWidget *stack;
 };
 
 

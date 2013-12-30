@@ -13,23 +13,8 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <KListWidget>
-
-#include <KAction>
-#include <KActionCollection>
-#include <KConfigGroup>
 #include <KDebug>
-#include <KLocalizedString>
-#include <KToggleAction>
-#include <KSqueezedTextLabel>
 
-#include <kpushbutton.h>
-#include <kiconloader.h>
-
-#include <QFrame>
-#include <QLabel>
-#include <QPointer>
-#include <QVBoxLayout>
 #include <Solid/Block>
 #include <Solid/Device>
 #include <Solid/OpticalDisc>
@@ -49,70 +34,24 @@
 #include "playlistinterface.h"
 #include <QStackedWidget>
 
-SyncList::SyncList(QWidget* parent): KVBox(parent)
+SyncList::SyncList(QWidget* parent)//: PlaylistBox(player,parent,stack)
 {
-    //setMinimumWidth(200);
+    listDevices();
 /*
-    KToggleAction *showPlayers = new KToggleAction(KIcon(QLatin1String("view-media-players")),
-                                            i18n("Show &Players"), this);
-    ActionCollection::actions()->addAction("showPlayers", showPlayers);
-    connect(showPlayers, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
-
-    KConfigGroup config(KGlobal::config(), "showPlayers");
-    bool shown = config.readEntry("showPlayers", true);
-    showPlayers->setChecked(shown);
-    setVisible(shown);
-*/
-
-    QFrame *deviceFrame = new QFrame(this);
-    deviceFrame->setFrameStyle(Box | Sunken);
-    deviceFrame->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-
-    // Make sure that we have enough of a margin to suffice for the borders,
-    // hence the "lineWidth() * 2"
-    QVBoxLayout *deviceLayout = new QVBoxLayout( deviceFrame );
-    deviceLayout->setMargin( deviceFrame->lineWidth() * 2 );
-    deviceLayout->setSpacing( 5 );
-    deviceLayout->setObjectName( QLatin1String( "deviceFrame" ));
-    deviceLayout->addSpacing(5);
-
-    //m_deviceLabel = new KSqueezedTextLabel(deviceFrame);
-    //deviceLayout->addWidget(m_deviceLabel);
-    //m_deviceLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    //m_deviceLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    //m_deviceLabel->setTextFormat(Qt::PlainText);
-
-    deviceLayout->addSpacing(5);
-
-    KVBox *deviceBox = new KVBox(this);
-    deviceBox->setFrameStyle(Box | Sunken);
-    deviceBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
-
-    QPushButton *deviceButton = new QPushButton(deviceBox);
-    deviceButton->setIcon(SmallIcon("go-home"));
-    deviceButton->setFlat(true);
-
-    m_player = new SyncPlayer(this);
-
-    deviceButton->setToolTip( i18n("Call copyPlayingToTmp"));
-    connect(deviceButton, SIGNAL(clicked()), this, SLOT(callCopy()));
-
-    //QStackedWidget *stack = new QStackedWidget();
-    //PlayerManager *playerManager = new PlayerManager();
-    //PlaylistCollection *collection = new PlaylistCollection(playerManager,stack);
-    //Playlist *playlist = new Playlist(collection,"YOYOYO");
-    //PlaylistBox *player = new PlaylistBox(playerManager,this,stack);
-    //player->
+    QStackedWidget *stack = new QStackedWidget();
+    PlayerManager *playerManager = new PlayerManager();
+    PlaylistCollection *collection = new PlaylistCollection(playerManager,stack);
+    Playlist *playlist = new Playlist(collection,"YOYOYO");
+    PlaylistBox *player = new PlaylistBox(playerManager,this,stack);
     //PlaylistBox::Item *itemParent = PlaylistBox::Item::collectionItem();
-    //PlaylistBox::Item *item;
-    //item = new PlaylistBox::Item(player,"media-optical-audio", i18n("Chaudhary"));
+    PlaylistBox::Item *item;
+    item = new PlaylistBox::Item(player,"media-optical-audio", i18n("Chaudhary"));
+*/
 
 }
 
 SyncList::~SyncList()
 {
-    saveConfig();
 }
 
 void SyncList::setUrl(const KUrl &url){
@@ -131,14 +70,16 @@ QString SyncList::udi() const
 }
 
 
-
+/*
+ * Return the selected device
+ */
 Solid::Device SyncList::device() const
 {
     return m_device;
 }
 
 /*
- * Find out the devices available on the system
+ * Find out all the devices available on the system
  */
 void SyncList::listDevices(){
     //Solid::DeviceNotifier *notifierObj= Solid::DeviceNotifier::instance();
@@ -158,6 +99,11 @@ void SyncList::listDevices(){
         Solid::PortableMediaPlayer *player = device.as<Solid::PortableMediaPlayer>();
         qDebug() << "PMediaP Supported Protocols: " << player->supportedProtocols();
     }
+
+    //temporary
+    QList<Solid::Device> list = Solid::Device::listFromType(Solid::DeviceInterface::PortableMediaPlayer,QString());
+
+    m_player = new SyncPlayer(this,list.first().udi());
 }
 
 /*
@@ -199,22 +145,6 @@ void SyncList::initializeDevice(const QString& udi)
     } else if (m_mtp) {
         setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
     }
-}
-/*
- * Toggle the list showing available players
- */
-void SyncList::togglePlayer(bool show)
-{
-    if(show)
-    {
-        ActionCollection::action<KToggleAction>("showPlayers")->setChecked(true);
-    }
-}
-
-void SyncList::saveConfig()
-{
-    KConfigGroup config(KGlobal::config(), "ShowPlayers");
-    config.writeEntry("ShowPlayers", ActionCollection::action<KToggleAction>("showPlayers")->isChecked());
 }
 
 // vim: set et sw=4 tw=0 sta:

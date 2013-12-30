@@ -13,75 +13,59 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <KListWidget>
+#include "sync/syncplayer.h"
 
-#include <KAction>
-#include <KActionCollection>
-#include <KConfigGroup>
-#include <KDebug>
-#include <KFileDialog>
-#include <KIO/Job>
-#include <KLocalizedString>
-#include <KToggleAction>
-#include <KSqueezedTextLabel>
-
-#include <kpushbutton.h>
-#include <kiconloader.h>
-
-#include <QLabel>
-#include <QFrame>
-#include <QVBoxLayout>
-
-#include "syncplayer.h"
-#include "actioncollection.h"
-#include "filehandle.h"
-#include "playlist.h"
-#include "playlistitem.h"
-#include "playlistinterface.h"
-
-SyncPlayer::SyncPlayer(QWidget* parent): KVBox(parent)
+SyncPlayer::SyncPlayer(QWidget* parent, QString udi)
 {
-
-
+    m_player_udi = udi;
 }
 
 SyncPlayer::~SyncPlayer()
 {
-    saveConfig();
 }
 
-void SyncPlayer::saveConfig()
-{
-    KConfigGroup config(KGlobal::config(), "ShowPlayers");
-    config.writeEntry("ShowPlayers", ActionCollection::action<KToggleAction>("showPlayers")->isChecked());
-}
-
-void SyncPlayer::togglePlayer(bool show)
-{
-    if(show)
-    {
-        ActionCollection::action<KToggleAction>("showPlayers")->setChecked(true);
-    }
-}
-
-void SyncPlayer::copyPlayingToTmp(){
+void SyncPlayer::sync_in_stub(){
     //PlaylistItem *playingItem = Playlist::playingItem();
     //FileHandle playingFile = playingItem->file();
     //kDebug()<<"File path: "<<playingFile.absFilePath();
     KUrl::List srcList = KFileDialog::getOpenUrls();
     KUrl dest = KUrl("file:///tmp/myJuK");
+
+    qDebug()<<"Calling through Stub";
+}
+
+/*
+ * Sync Into the computer from device
+ */
+bool sync_in(PlaylistItem *items){
+
+    //    foreach(PlaylistItem *item, items) {
+    //        urls << KUrl::fromPath(item->file().absFilePath());
+    //    }
+    return true;
+}
+
+bool copy_in(KUrl src, KUrl dest){
+    //qDebug() << "src= " << src << "\ndest=" << dest;
+    KIO::FileCopyJob *theJob = KIO::file_copy(src,dest);
+    theJob->start();
+//    foreach(PlaylistItem *item, items) {
+//        urls << KUrl::fromPath(item->file().absFilePath());
+//    }
+    return true;
+}
+
+bool copy_in(KUrl::List srcList, KUrl dest){
     //qDebug() << "src= " << src << "\ndest=" << dest;
     foreach (KUrl src, srcList) {
         qDebug()<<"Copying: "<<src;
         KIO::FileCopyJob *theJob = KIO::file_copy(src,dest);
         theJob->start();
     }
-
 //    foreach(PlaylistItem *item, items) {
 //        urls << KUrl::fromPath(item->file().absFilePath());
 //    }
-
-    qDebug()<<"Called me";
+    return true;
 }
 
 // vim: set et sw=4 tw=0 sta:

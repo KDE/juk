@@ -16,12 +16,30 @@
 #ifndef SYNCPLAYER_H
 #define SYNCPLAYER_H
 
-#include <QLabel>
-
 #include <KListWidget>
 
-#include <KUrl>
-#include <KVBox>
+#include <KAction>
+#include <KActionCollection>
+#include <KConfigGroup>
+#include <KDebug>
+#include <KFileDialog>
+#include <KIO/Job>
+#include <KLocalizedString>
+#include <KToggleAction>
+#include <KSqueezedTextLabel>
+
+#include <kpushbutton.h>
+#include <kiconloader.h>
+
+#include <QLabel>
+#include <QFrame>
+#include <QVBoxLayout>
+
+#include "actioncollection.h"
+#include "filehandle.h"
+#include "playlist.h"
+#include "playlistitem.h"
+#include "playlistinterface.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
@@ -30,36 +48,32 @@ class QNetworkReply;
  * Perform operation on the selected player
  *
  */
-class SyncPlayer : public KVBox
+class SyncPlayer: public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SyncPlayer (QWidget *parent=0);
+    explicit SyncPlayer (QWidget *parent, QString udi);
 
     virtual ~SyncPlayer();
 
     QSize minimumSize() const { return QSize(100, 0); }
-    void copyPlayingToTmp();
     KUrl* getSrc();
     KUrl* getDest();
     bool checkDestSize(KUrl dest);
     int copyToDevice(QString udi);
+    void sync_in(PlaylistItem);
+    bool copy_in(KUrl,KUrl);
+    bool copy_in(KUrl::List, KUrl);
 
 public Q_SLOTS:
-    void callCopy(){ copyPlayingToTmp(); }
+    void sync_in_stub();
 
 protected:
 
-
-private:
-    void togglePlayer(bool show);
-
-private Q_SLOTS:
-    void saveConfig();
-
 private:
     //QString m_currentplayername;  //get player name from syncList
+    QString m_player_udi;
 };
 
 
