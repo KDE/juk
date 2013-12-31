@@ -67,7 +67,7 @@ void LyricsWidget::makeLyricsRequest()
     m_lyricsCurrent = true;
 
     if(m_playingFile.isNull()) {
-        setHtml(QLatin1String("<i>No m_playingFile playing.</i>"));
+        setHtml(i18n("<i>No file playing.</i>"));
         return;
     }
 
