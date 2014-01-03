@@ -122,7 +122,9 @@ void CoverDialog::loadCovers()
 void CoverDialog::slotArtistClicked(Q3ListViewItem *item)
 {
     m_covers->clear();
-
+    if (!item) {
+        return;
+    }
     if(dynamic_cast<AllArtistsListViewItem *>(item)) {
         // All artists.
         loadCovers();
