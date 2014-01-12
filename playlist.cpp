@@ -2348,7 +2348,7 @@ void Playlist::slotCreateGroup()
 void Playlist::notifyUserColumnWidthModeChanged()
 {
     KMessageBox::information(this,
-                             i18n("Manual column widths have been enabled.  You can "
+                             i18n("Manual column widths have been enabled. You can "
                                   "switch back to automatic column sizes in the view "
                                   "menu."),
                              i18n("Manual Column Widths Enabled"),
