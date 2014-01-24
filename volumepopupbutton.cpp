@@ -126,7 +126,7 @@ VolumePopupButton::muteStateChanged( bool muted )
     {
         const float volume = JuK::JuKInstance()->playerManager()->volume();
         setIcon( KIcon( "audio-volume-muted" ) );
-        setToolTip( i18n( "Volume: %1% %2", volume, ( muted ? i18n( "(muted)" ) : "" ) ) );
+        setToolTip( i18n( "Volume: %1% %2", int( 100 * volume ), i18n( "(muted)" ) ) );
     }
     else
     {
@@ -168,3 +168,4 @@ VolumePopupButton::wheelEvent( QWheelEvent * event )
 }
 
 #include "volumepopupbutton.moc"
+
