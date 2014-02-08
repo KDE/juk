@@ -13,28 +13,9 @@
  *                                                                         *
  ***************************************************************************/
 
-#include <KDebug>
+#include "sync/syncFront.h"
 
-#include <Solid/Block>
-#include <Solid/Device>
-#include <Solid/OpticalDisc>
-#include <Solid/StorageAccess>
-#include <Solid/StorageVolume>
-#include <Solid/PortableMediaPlayer>
-#include <Solid/DeviceNotifier>
-
-#include "sync/synclist.h"
-#include "sync/syncplayer.h"
-#include "actioncollection.h"
-#include "filehandle.h"
-#include "playlist.h"
-#include "playlistbox.h"
-#include "playermanager.h"
-#include "playlistitem.h"
-#include "playlistinterface.h"
-#include <QStackedWidget>
-
-SyncList::SyncList(QWidget* parent)//: PlaylistBox(player,parent,stack)
+SyncFront::SyncFront(QWidget* parent)//: PlaylistBox(player,parent,stack)
 {
     listDevices();
 /*
@@ -47,23 +28,22 @@ SyncList::SyncList(QWidget* parent)//: PlaylistBox(player,parent,stack)
     PlaylistBox::Item *item;
     item = new PlaylistBox::Item(player,"media-optical-audio", i18n("Chaudhary"));
 */
-
 }
 
-SyncList::~SyncList()
+SyncFront::~SyncFront()
 {
 }
 
-void SyncList::setUrl(const KUrl &url){
+void SyncFront::setUrl(const KUrl &url){
     qDebug()<<url;
 }
 
-void SyncList::setUdi(const QString& udi)
+void SyncFront::setUdi(const QString& udi)
 {
     //setDataValue("udi", udi);
 }
 
-QString SyncList::udi() const
+QString SyncFront::udi() const
 {
     //return dataValue("udi").toString();
     return 0;
@@ -73,47 +53,80 @@ QString SyncList::udi() const
 /*
  * Return the selected device
  */
-Solid::Device SyncList::device() const
+Solid::Device SyncFront::device() const
 {
     return m_device;
 }
 
+/// Public Q_SLOTS
+void SyncFront::setupSelected(){
+    //TODO: get this udi
+    QString udi;
+    m_selected = new SyncEngine(this,udi);
+}
+
+
+
+// PRIVATE
 /*
  * Find out all the devices available on the system
  */
-void SyncList::listDevices(){
+void SyncFront::listDevices(){
     //Solid::DeviceNotifier *notifierObj= Solid::DeviceNotifier::instance();
 
     //Full Device List
-    //foreach(Solid::Device device, Solid::Device::allDevices()){
+    foreach(Solid::Device device, Solid::Device::allDevices()){
+        m_access = device.as<Solid::StorageAccess>();
+        m_volume = device.as<Solid::StorageVolume>();
+        m_disc = device.as<Solid::OpticalDisc>();
+        m_mtp = device.as<Solid::PortableMediaPlayer>();
 
+        if (m_access) {
+            setUrl(m_access->filePath());
+            kDebug() << "FilePath: " << m_access->filePath();
+            //QObject::connect(m_access, SIGNAL(accessibilityChanged(bool,QString)),
+            //                 m_signalHandler, SLOT(onAccessibilityChanged()));
+        } else if (m_disc) {
+            Solid::Block *block = m_device.as<Solid::Block>();
+            if (block) {
+                const QString device = block->device();
+                setUrl(QString("audiocd:/?device=%1").arg(device));
+            } else {
+                setUrl(QString("audiocd:/"));
+            }
+        } else if (m_mtp) {
+            setUrl(QString("mtp:udi=%1").arg(m_device.udi()));
+        }
+    }
+/*
     //Portable Media Player List
     foreach(Solid::Device device, Solid::Device::listFromType(Solid::DeviceInterface::StorageDrive,QString())){
         qDebug() << device.udi()<< "Product" << device.product() << "Vendor" << device.vendor() << device.description();
         Solid::Block *blk = device.as<Solid::Block>();
-        qDebug() << "Blk Device: " << blk->device();
+        if(blk)
+            kDebug() << "Blk Device: " << blk->device();
     }
     //Portable Media Player List
     foreach(Solid::Device device, Solid::Device::listFromType(Solid::DeviceInterface::PortableMediaPlayer,QString())){
         qDebug() << device.udi()<< "Product" << device.product() << "Vendor" << device.vendor() << device.description();
         Solid::PortableMediaPlayer *player = device.as<Solid::PortableMediaPlayer>();
-        qDebug() << "PMediaP Supported Protocols: " << player->supportedProtocols();
+        if(player)
+            qDebug() << "PMediaP Supported Protocols: " << player->supportedProtocols();
     }
+*/
+    //temporary    QList<Solid::Device> list = Solid::Device::listFromType(Solid::DeviceInterface::PortableMediaPlayer,QString());
 
-    //temporary
-    QList<Solid::Device> list = Solid::Device::listFromType(Solid::DeviceInterface::PortableMediaPlayer,QString());
-
-    m_player = new SyncPlayer(this,list.first().udi());
+    //m_selected = new SyncEngine(this,list.first().udi());
 }
 
 /*
  * Show the available devices in UI
  */
-void SyncList::placeDevices(){
+void SyncFront::placeDevices(){
     //
 }
 
-void SyncList::initializeDevice(const QString& udi)
+void SyncFront::initializeDevice(const QString& udi)
 {
     m_device = Solid::Device(udi);
     if (!m_device.isValid()) {

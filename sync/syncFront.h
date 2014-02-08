@@ -13,35 +13,41 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SYNCLIST_H
-#define SYNCLIST_H
+#ifndef SYNCFRONT_H
+#define SYNCFRONT_H
 
 #include <QLabel>
 #include <QPointer>
-#include <Solid/Device>
-#include <Solid/OpticalDisc>
-#include <Solid/StorageAccess>
-#include <Solid/StorageVolume>
-#include <Solid/PortableMediaPlayer>
+#include <QStackedWidget>
 
 #include <KListWidget>
 #include <KUrl>
 #include <KVBox>
+#include <KDebug>
 
+#include <Solid/Block>
 #include <Solid/Device>
 #include <Solid/OpticalDisc>
 #include <Solid/StorageAccess>
 #include <Solid/StorageVolume>
 #include <Solid/PortableMediaPlayer>
+#include <Solid/DeviceNotifier>
 
-#include "sync/syncplayer.h"
+#include "sync/syncFront.h"
+#include "sync/syncEngine.h"
+#include "actioncollection.h"
+#include "filehandle.h"
+#include "playlist.h"
 #include "playlistbox.h"
+#include "playermanager.h"
+#include "playlistitem.h"
+#include "playlistinterface.h"
 
 class QNetworkAccessManager;
 class QNetworkReply;
 
 /*
-class SyncListItem : public PlaylistItem
+class SyncFrontItem : public PlaylistItem
 {
 
 };
@@ -50,13 +56,13 @@ class SyncListItem : public PlaylistItem
  * Create and maintain list showing available players
  *
  */
-class SyncList : public QWidget //PlaylistBox
+class SyncFront : public QWidget //PlaylistBox
 {
     Q_OBJECT
 
 public:
-    explicit SyncList (QWidget *parent=0);
-    virtual ~SyncList();
+    explicit SyncFront (QWidget *parent=0);
+    virtual ~SyncFront();
     QSize minimumSize() const { return QSize(100, 0); }
     void displayList();
     void setUrl(const KUrl& url);
@@ -68,7 +74,8 @@ public:
 public Q_SLOTS:
     //void newDevice();
     //void showFiles(QString udi);
-    void callCopy(){ listDevices(); m_player->sync_in_stub(); }
+    void callCopy(){ listDevices(); m_selected->sync_in_stub(); }
+    void setupSelected(); //Setup Selected Device
 
 protected:
 
@@ -85,7 +92,7 @@ private:
     QPointer<Solid::StorageVolume> m_volume;
     QPointer<Solid::OpticalDisc> m_disc;
     QPointer<Solid::PortableMediaPlayer> m_mtp;
-    SyncPlayer *m_player;
+    SyncEngine *m_selected;
 
     //temp
     PlayerManager *player;
@@ -93,4 +100,4 @@ private:
 };
 
 
-#endif//SYNCLIST_H
+#endif//SYNCFRONT_H

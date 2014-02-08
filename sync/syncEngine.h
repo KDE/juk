@@ -13,8 +13,17 @@
  *                                                                         *
  ***************************************************************************/
 
-#ifndef SYNCPLAYER_H
-#define SYNCPLAYER_H
+#ifndef SYNCENGINE_H
+#define SYNCENGINE_H
+
+
+#include <Solid/Block>
+#include <Solid/Device>
+#include <Solid/OpticalDisc>
+#include <Solid/StorageAccess>
+#include <Solid/StorageVolume>
+#include <Solid/PortableMediaPlayer>
+#include <Solid/DeviceNotifier>
 
 #include <KListWidget>
 
@@ -48,20 +57,22 @@ class QNetworkReply;
  * Perform operation on the selected player
  *
  */
-class SyncPlayer: public QWidget
+class SyncEngine: public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit SyncPlayer (QWidget *parent, QString udi);
+    explicit SyncEngine (QWidget *parent, QString udi);
 
-    virtual ~SyncPlayer();
+    virtual ~SyncEngine();
 
     QSize minimumSize() const { return QSize(100, 0); }
     KUrl* getSrc();
     KUrl* getDest();
     bool checkDestSize(KUrl dest);
     int copyToDevice(QString udi);
+    bool feasibleIn(KUrl src, KUrl dest);
+    bool copy_in(Solid::Device device);
     void sync_in(PlaylistItem);
     bool copy_in(KUrl,KUrl);
     bool copy_in(KUrl::List, KUrl);
@@ -72,9 +83,9 @@ public Q_SLOTS:
 protected:
 
 private:
-    //QString m_currentplayername;  //get player name from syncList
+    //QString m_currentPlayerName;  //get current player name from syncFront
     QString m_player_udi;
 };
 
 
-#endif//SYNCPLAYER_H
+#endif//SYNCENGINE_H

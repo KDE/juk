@@ -13,18 +13,18 @@
  *                                                                         *
  ***************************************************************************/
 
-#include "sync/syncplayer.h"
+#include "sync/syncEngine.h"
 
-SyncPlayer::SyncPlayer(QWidget* parent, QString udi)
+SyncEngine::SyncEngine(QWidget* parent, QString udi)
 {
     m_player_udi = udi;
 }
 
-SyncPlayer::~SyncPlayer()
+SyncEngine::~SyncEngine()
 {
 }
 
-void SyncPlayer::sync_in_stub(){
+void SyncEngine::sync_in_stub(){
     //PlaylistItem *playingItem = Playlist::playingItem();
     //FileHandle playingFile = playingItem->file();
     //kDebug()<<"File path: "<<playingFile.absFilePath();
@@ -43,6 +43,29 @@ bool sync_in(PlaylistItem *items){
     //        urls << KUrl::fromPath(item->file().absFilePath());
     //    }
     return true;
+}
+
+bool feasibleIn(KUrl src, KUrl dest){
+    qlonglong srcSize, destFree;
+    //TODO: get values
+    return (destFree-srcSize);
+    //TODO: Check device permissions
+}
+
+bool copy_in(Solid::Device device){
+    KUrl src,dest;
+    //TODO: get location
+    device.udi();
+    feasibleIn(src,dest);
+    //TODO: Are you Sure? message
+
+    //Start Job //copy_in_job();
+    KIO::FileCopyJob *theJob = KIO::file_copy(src,dest);
+    theJob->start();
+
+    //TODO: Add the newly added songs to a folder playlist
+
+    return theJob->error();     //theJob->percent();
 }
 
 bool copy_in(KUrl src, KUrl dest){
