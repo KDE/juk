@@ -193,7 +193,7 @@
       <item>
        <widget class="QLabel" name="textLabel10">
         <property name="text">
-         <string>JuK can force the track used in a file name to have a minimum number of digits.  You may want to do this for better sorting in file managers.</string>
+         <string>JuK can force the track used in a file name to have a minimum number of digits. You may want to do this for better sorting in file managers.</string>
         </property>
         <property name="textFormat">
          <enum>Qt::RichText</enum>
