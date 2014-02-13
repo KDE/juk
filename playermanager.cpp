@@ -458,7 +458,7 @@ void PlayerManager::slotFinished()
     }
     else {
         emit signalItemChanged(m_file);
-        m_media[m_curOutputPath]->setCurrentSource(m_file.absFilePath());
+        m_media[m_curOutputPath]->setCurrentSource(QUrl::fromLocalFile(m_file.absFilePath()));
         m_media[m_curOutputPath]->play();
     }
 }
@@ -667,7 +667,7 @@ void PlayerManager::crossfadeToFile(const FileHandle &newFile)
     m_fader[nextOutputPath]->setVolume(0.0f);
 
     emit signalItemChanged(newFile);
-    m_media[nextOutputPath]->setCurrentSource(newFile.absFilePath());
+    m_media[nextOutputPath]->setCurrentSource(QUrl::fromLocalFile(newFile.absFilePath()));
     m_media[nextOutputPath]->play();
 
     m_fader[m_curOutputPath]->setVolume(1.0f);
