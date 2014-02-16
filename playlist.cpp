@@ -1045,8 +1045,9 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
     setDropHighlighter(false);
     setDropVisualizer(true);
 
-    KUrl::List urls;
-    if(!K3URLDrag::decode(e, urls) || urls.isEmpty()) {
+    const KUrl::List urls = KUrl::List::fromMimeData(e->mimeData());
+
+    if (urls.isEmpty()) {
         e->ignore();
         return;
     }
@@ -1057,7 +1058,7 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
 
 bool Playlist::acceptDrag(QDropEvent *e) const
 {
-    return CoverDrag::isCover(e->mimeData()) || K3URLDrag::canDecode(e);
+    return CoverDrag::isCover(e->mimeData()) || KUrl::List::canDecode(e->mimeData());
 }
 
 void Playlist::decode(const QMimeData *s, PlaylistItem *item)

@@ -18,7 +18,6 @@
 
 #include <kicon.h>
 #include <kiconloader.h>
-#include <k3urldrag.h>
 #include <kmessagebox.h>
 #include <kmenu.h>
 #include <kaction.h>
@@ -504,7 +503,7 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
     //
     // Otherwise, do not accept the event.
 
-    if(!K3URLDrag::canDecode(e)) {
+    if (!KUrl::List::canDecode(e->mimeData())) {
         e->setAccepted(false);
         return;
     }
