@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2005 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2014 Arnold Dumas <contact@arnolddumas.com>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -21,6 +22,8 @@
 
 #include <QWidget>
 
+class QListWidgetItem;
+
 class CoverDialog : public QWidget, public Ui::CoverDialogBase
 {
     Q_OBJECT
@@ -31,8 +34,9 @@ public:
     virtual void show();
 
 public slots:
-    void slotArtistClicked(Q3ListViewItem *item);
-    void slotContextRequested(Q3IconViewItem *item, const QPoint &pt);
+    void slotArtistClicked(QListWidgetItem *item);
+    void slotContextRequested(const QPoint &pt);
+    void slotSearchPatternChanged(const QString& pattern);
 
 private slots:
     void loadCovers();

@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2005 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2014 Arnold Dumas <contact@arnolddumas.com>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -17,7 +18,7 @@
 #ifndef COVERICONVIEW_H
 #define COVERICONVIEW_H
 
-#include <k3iconview.h>
+#include <klistwidget.h>
 
 #include "covermanager.h"
 
@@ -28,10 +29,10 @@
 
 namespace CoverUtility
 {
-    class CoverIconViewItem : public K3IconViewItem
+    class CoverIconViewItem : public QListWidgetItem
     {
     public:
-        CoverIconViewItem(coverKey id, Q3IconView *parent);
+        CoverIconViewItem(coverKey id, KListWidget *parent);
 
         coverKey id() const { return m_id; }
 
@@ -43,12 +44,12 @@ namespace CoverUtility
 using CoverUtility::CoverIconViewItem;
 
 /**
- * This class subclasses K3IconView in order to provide cover drag-and-drop
+ * This class subclasses QListWidget in order to provide cover drag-and-drop
  * support.
  *
  * @author Michael Pyne <mpyne@kde.org>
  */
-class CoverIconView : public K3IconView
+class CoverIconView : public KListWidget
 {
 public:
     explicit CoverIconView(QWidget *parent, const char *name = 0);
@@ -56,7 +57,7 @@ public:
     CoverIconViewItem *currentItem() const;
 
 protected:
-    virtual Q3DragObject *dragObject();
+    // virtual Q3DragObject *dragObject();
 };
 
 #endif /* COVERICONVIEW_H */

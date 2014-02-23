@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2005 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2014 Arnold Dumas <contact@arnolddumas.com>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -16,9 +17,6 @@
 
 #include "coverdialog.h"
 
-#include <k3listview.h>
-#include <k3iconview.h>
-#include <k3iconviewsearchline.h>
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <kmenu.h>
@@ -32,32 +30,32 @@
 
 using CoverUtility::CoverIconViewItem;
 
-class AllArtistsListViewItem : public K3ListViewItem
+class AllArtistsListViewItem : public QListWidgetItem
 {
 public:
-    AllArtistsListViewItem(Q3ListView *parent) :
-        K3ListViewItem(parent, i18n("&lt;All Artists&gt;"))
+    AllArtistsListViewItem(KListWidget *parent) :
+        QListWidgetItem(i18n("&lt;All Artists&gt;"), parent)
     {
     }
 
-    int compare(Q3ListViewItem *, int, bool) const
+    bool operator< (const QListWidgetItem& other) const
     {
-        return -1; // Always be at the top.
+        Q_UNUSED(other);
+        return true; // Always be at the top.
     }
 };
 
-class CaseInsensitiveItem : public K3ListViewItem
+class CaseInsensitiveItem : public QListWidgetItem
 {
 public:
-    CaseInsensitiveItem(Q3ListView *parent, const QString &text) :
-        K3ListViewItem(parent, text)
+    CaseInsensitiveItem(KListWidget *parent, const QString &text) :
+        QListWidgetItem(text, parent)
     {
     }
 
-    int compare(Q3ListViewItem *item, int column, bool ascending) const
+    bool operator< (const QListWidgetItem& other) const
     {
-        Q_UNUSED(ascending);
-        return text(column).toLower().localeAwareCompare(item->text(column).toLower());
+        return text().toLower().localeAwareCompare(other.text().toLower());
     }
 };
 
@@ -68,11 +66,16 @@ CoverDialog::CoverDialog(QWidget *parent) :
 
     setObjectName( QLatin1String("juk_cover_dialog" ));
 
-    m_covers->setResizeMode(Q3IconView::Adjust);
-    m_covers->setGridX(140);
-    m_covers->setGridY(150);
+    m_searchLine->setClearButtonShown(true);
 
-    m_searchLine->setIconView(m_covers);
+    connect(m_artists, SIGNAL(itemClicked(QListWidgetItem*)),
+            this, SLOT(slotArtistClicked(QListWidgetItem*)));
+
+    connect(m_covers, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(slotContextRequested(QPoint)));
+
+    connect(m_searchLine, SIGNAL(textChanged(QString)),
+            this, SLOT(slotSearchPatternChanged(QString)));
 }
 
 CoverDialog::~CoverDialog()
@@ -86,12 +89,9 @@ void CoverDialog::show()
 
     QStringList artists = CollectionList::instance()->uniqueSet(CollectionList::Artists);
 
-    m_artists->setSorting(-1);
     new AllArtistsListViewItem(m_artists);
     for(QStringList::ConstIterator it = artists.constBegin(); it != artists.constEnd(); ++it)
         new CaseInsensitiveItem(m_artists, *it);
-
-    m_artists->setSorting(0);
 
     QTimer::singleShot(0, this, SLOT(loadCovers()));
     QWidget::show();
@@ -119,7 +119,7 @@ void CoverDialog::loadCovers()
 }
 
 // TODO: Add a way to show cover art for tracks with no artist.
-void CoverDialog::slotArtistClicked(Q3ListViewItem *item)
+void CoverDialog::slotArtistClicked(QListWidgetItem *item)
 {
     m_covers->clear();
     if (!item) {
@@ -130,7 +130,7 @@ void CoverDialog::slotArtistClicked(Q3ListViewItem *item)
         loadCovers();
     }
     else {
-        QString artist = item->text(0).toLower();
+        QString artist = item->text().toLower();
 
         CoverDataMapIterator it, end;
 
@@ -144,9 +144,11 @@ void CoverDialog::slotArtistClicked(Q3ListViewItem *item)
     }
 }
 
-void CoverDialog::slotContextRequested(Q3IconViewItem *item, const QPoint &pt)
+void CoverDialog::slotContextRequested(const QPoint &pt)
 {
     static KMenu *menu = 0;
+
+    QListWidgetItem* item = m_covers->currentItem();
 
     if(!item)
         return;
@@ -156,7 +158,55 @@ void CoverDialog::slotContextRequested(Q3IconViewItem *item, const QPoint &pt)
         menu->addAction(i18n("Remove Cover"), this, SLOT(removeSelectedCover()));
     }
 
-    menu->popup(pt);
+    QPoint globalPt = m_covers->mapToGlobal(pt);
+    menu->popup(globalPt);
+}
+
+void CoverDialog::slotSearchPatternChanged(const QString& pattern)
+{
+    m_covers->clear();
+
+    QListWidgetItem* item = m_artists->currentItem();
+
+    // If the expression is cleared, then use slotArtistClicked.
+    if (pattern.isEmpty()) {
+        slotArtistClicked(item);
+    }
+
+    else {
+        QRegExp filter(pattern, Qt::CaseInsensitive, QRegExp::Wildcard);
+        QString artist = item->text().toLower();
+
+        CoverDataMapIterator it, end;
+
+        it  = CoverManager::begin();
+        end = CoverManager::end();
+
+        // Here, only show cover that match the search pattern.
+        if (dynamic_cast<AllArtistsListViewItem *>(item)) {
+
+            for(; it != end; ++it) {
+                if (filter.indexIn(it.value()->artist) != -1) {
+
+                    (void) new CoverIconViewItem(it.key(), m_covers);
+                }
+            }
+        }
+
+        // Here, only show the covers that match the search pattern and
+        // that have the same artist as the currently selected one.
+        else {
+
+            for(; it != end; ++it) {
+                if (it.value()->artist == artist
+                        && (filter.indexIn(it.value()->artist) != -1)
+                        || (filter.indexIn(it.value()->album) != -1)) {
+
+                    (void) new CoverIconViewItem(it.key(), m_covers);
+                }
+            }
+        }
+    }
 }
 
 void CoverDialog::removeSelectedCover()
