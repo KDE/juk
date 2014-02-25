@@ -106,7 +106,7 @@ VolumePopupButton::volumeChanged( float newVolume )
     else
         setIcon( KIcon( "audio-volume-high" ) );
 
-    m_volumeLabel->setText( QString::number( int( newVolume * 100 ) ) + '%' );
+    m_volumeLabel->setText( i18n( "%1%" , int( newVolume * 100 ) ) );
 
     if( newVolume != m_volumeSlider->value() )
         m_volumeSlider->setValue( newVolume * 100 );
