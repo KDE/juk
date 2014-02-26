@@ -160,7 +160,7 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     
     if (d->dialog) return;
     d->dialog = new KDialog();
-    d->dialog->setCaption("Cover found");
+    d->dialog->setCaption(i18n("Cover found"));
     d->dialog->setButtons(KDialog::Apply | KDialog::Cancel);
     d->dialog->button(KDialog::Apply)->setText(i18n("Store"));
     QWidget *mainWidget = new QWidget();
