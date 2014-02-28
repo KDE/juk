@@ -31,7 +31,7 @@ CoverIconViewItem::CoverIconViewItem(coverKey id, KListWidget *parent) :
 
 CoverIconView::CoverIconView(QWidget *parent, const char *name) : KListWidget(parent)
 {
-    setObjectName(name);
+    setObjectName(QLatin1String(name));
     setResizeMode(KListWidget::Adjust);
     setViewMode(KListWidget::IconMode);
     setIconSize(QSize(130, 140));

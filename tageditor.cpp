@@ -83,7 +83,7 @@ public:
     {
         setMargin(margin);
         setSpacing(spacing);
-        setObjectName( name );
+        setObjectName(QLatin1String(name));
     }
     FixedHLayout(QLayout *parentLayout, int spacing = -1, const char *name = 0) :
         QHBoxLayout(),
@@ -91,7 +91,7 @@ public:
     {
         parentLayout->addItem(this);
         setSpacing(spacing);
-        setObjectName(name);
+        setObjectName(QLatin1String(name));
     }
     void setWidth(int w = -1)
     {
