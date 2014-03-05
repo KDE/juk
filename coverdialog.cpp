@@ -199,8 +199,8 @@ void CoverDialog::slotSearchPatternChanged(const QString& pattern)
 
             for(; it != end; ++it) {
                 if (it.value()->artist == artist
-                        && (filter.indexIn(it.value()->artist) != -1)
-                        || (filter.indexIn(it.value()->album) != -1)) {
+                        && ((filter.indexIn(it.value()->artist) != -1)
+                        || (filter.indexIn(it.value()->album) != -1))) {
 
                     (void) new CoverIconViewItem(it.key(), m_covers);
                 }
