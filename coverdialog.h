@@ -1,6 +1,7 @@
 /***************************************************************************
     begin                : Sun May 15 2005
     copyright            : (C) 2005 by Michael Pyne
+                         : (C) 2014 by Arnold Dumas <contact@arnolddumas.fr>
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
@@ -20,6 +21,8 @@
 
 #include <QWidget>
 
+class QListWidgetItem;
+
 class CoverDialog : public QWidget, public Ui::CoverDialogBase
 {
     Q_OBJECT
@@ -30,8 +33,9 @@ public:
     virtual void show();
 
 public slots:
-    void slotArtistClicked(Q3ListViewItem *item);
-    void slotContextRequested(Q3IconViewItem *item, const QPoint &pt);
+    void slotArtistClicked(QListWidgetItem *item);
+    void slotContextRequested(const QPoint &pt);
+    void slotSearchPatternChanged(const QString& pattern);
 
 private slots:
     void loadCovers();

@@ -20,7 +20,7 @@
     <number>6</number>
    </property>
    <item>
-    <widget class="K3ListView" name="m_artists" >
+    <widget class="KListWidget" name="m_artists" >
      <property name="sizePolicy" >
       <sizepolicy>
        <hsizetype>5</hsizetype>
@@ -34,12 +34,6 @@
        <width>164</width>
        <height>0</height>
       </size>
-     </property>
-     <property name="resizeMode" >
-      <enum>Q3ListView::LastColumn</enum>
-     </property>
-     <property name="shadeSortColumn" >
-      <bool>false</bool>
      </property>
      <column>
       <property name="text" >
@@ -65,7 +59,7 @@
         <number>6</number>
        </property>
        <item>
-        <widget class="K3IconViewSearchLine" native="1" name="m_searchLine" >
+        <widget class="KLineEdit" native="1" name="m_searchLine" >
          <property name="sizePolicy" >
           <sizepolicy>
            <hsizetype>5</hsizetype>
@@ -96,14 +90,14 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>K3ListView</class>
-   <extends>Q3ListView</extends>
-   <header>k3listview.h</header>
+   <class>KListWidget</class>
+   <extends>QListWidget</extends>
+   <header>klistwidget.h</header>
   </customwidget>
   <customwidget>
-   <class>K3IconViewSearchLine</class>
+   <class>KLineEdit</class>
    <extends>QWidget</extends>
-   <header>k3iconviewsearchline.h</header>
+   <header>klineedit.h</header>
   </customwidget>
   <customwidget>
    <class>CoverIconView</class>
@@ -114,42 +108,10 @@
  </customwidgets>
  <includes>
   <include location="local" >k3listview.h</include>
-  <include location="local" >k3iconviewsearchline.h</include>
+  <include location="local" >klineedit.h</include>
   <include location="local" >covericonview.h</include>
  </includes>
  <resources/>
  <connections>
-  <connection>
-   <sender>m_artists</sender>
-   <signal>clicked(Q3ListViewItem*)</signal>
-   <receiver>CoverDialogBase</receiver>
-   <slot>slotArtistClicked(Q3ListViewItem*)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>m_covers</sender>
-   <signal>contextMenuRequested(Q3IconViewItem*,QPoint)</signal>
-   <receiver>CoverDialogBase</receiver>
-   <slot>slotContextRequested(Q3IconViewItem*,QPoint)</slot>
-   <hints>
-    <hint type="sourcelabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-    <hint type="destinationlabel" >
-     <x>20</x>
-     <y>20</y>
-    </hint>
-   </hints>
-  </connection>
  </connections>
 </ui>

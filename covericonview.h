@@ -1,6 +1,7 @@
 /***************************************************************************
     begin                : Sat Jul 9 2005
     copyright            : (C) 2005 by Michael Pyne
+                         : (C) 2014 by Arnold Dumas <contact@arnolddumas.fr>
     email                : michael.pyne@kdemail.net
 ***************************************************************************/
 
@@ -16,7 +17,7 @@
 #ifndef COVERICONVIEW_H
 #define COVERICONVIEW_H
 
-#include <k3iconview.h>
+#include <klistwidget.h>
 
 #include "covermanager.h"
 
@@ -27,10 +28,10 @@
 
 namespace CoverUtility
 {
-    class CoverIconViewItem : public K3IconViewItem
+    class CoverIconViewItem : public QListWidgetItem
     {
     public:
-        CoverIconViewItem(coverKey id, Q3IconView *parent);
+        CoverIconViewItem(coverKey id, KListWidget *parent);
 
         coverKey id() const { return m_id; }
 
@@ -42,12 +43,12 @@ namespace CoverUtility
 using CoverUtility::CoverIconViewItem;
 
 /**
- * This class subclasses K3IconView in order to provide cover drag-and-drop
+ * This class subclasses KListWidget in order to provide cover drag-and-drop
  * support.
  *
  * @author Michael Pyne <michael.pyne@kdemail.net>
  */
-class CoverIconView : public K3IconView
+class CoverIconView : public KListWidget
 {
 public:
     explicit CoverIconView(QWidget *parent, const char *name = 0);
@@ -55,7 +56,7 @@ public:
     CoverIconViewItem *currentItem() const;
 
 protected:
-    virtual Q3DragObject *dragObject();
+    // virtual Q3DragObject *dragObject();
 };
 
 #endif /* COVERICONVIEW_H */
