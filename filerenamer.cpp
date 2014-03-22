@@ -2,6 +2,7 @@
     begin                : Thu Oct 28 2004
     copyright            : (C) 2004, 2007, 2009 by Michael Pyne
                          : (c) 2003 Frerich Raabe <raabe@kde.org>
+                         : (C) 2014 Arnold Dumas <contact@arnolddumas.fr>
     email                : mpyne@kde.org
 ***************************************************************************/
 
@@ -18,7 +19,6 @@
 
 #include <algorithm>
 
-#include <k3listview.h> //TODO REMOVE
 #include <kdebug.h>
 #include <kurl.h>
 #include <kurlrequester.h>
@@ -45,7 +45,8 @@
 #include <QSignalMapper>
 #include <QPixmap>
 #include <QFrame>
-#include <Q3Header>
+#include <QScrollBar>
+#include <QTreeWidget>
 
 #include "tag.h"
 #include "filerenameroptions.h"
@@ -77,24 +78,38 @@ public:
                             "Are you sure you want to continue?"), hbox);
         hbox->setStretchFactor(l, 1);
 
-        K3ListView *lv = new K3ListView(vbox);
+        QTreeWidget *lv = new QTreeWidget(vbox);
 
-        lv->addColumn(i18n("Original Name"));
-        lv->addColumn(i18n("New Name"));
+        QStringList headers;
+        headers << i18n("Original Name");
+        headers << i18n("New Name");
+
+        lv->setHeaderLabels(headers);
+        lv->setRootIsDecorated(false);
 
         int lvHeight = 0;
 
         QMap<QString, QString>::ConstIterator it = files.constBegin();
         for(; it != files.constEnd(); ++it) {
-            K3ListViewItem *i = it.key() != it.value()
-                ? new K3ListViewItem(lv, it.key(), it.value())
-                : new K3ListViewItem(lv, it.key(), i18n("No Change"));
-            lvHeight += i->height();
+            QTreeWidgetItem *item = new QTreeWidgetItem(lv);
+            item->setText(0, it.key());
+
+            if (it.key() != it.value()) {
+                item->setText(1, it.value());
+            }
+
+            else {
+                item->setText(1, i18n("No Change"));
+            }
+
+            lvHeight += lv->visualItemRect(item).height();
         }
 
         lvHeight += lv->horizontalScrollBar()->height() + lv->header()->height();
         lv->setMinimumHeight(qMin(lvHeight, 400));
         resize(qMin(width(), 500), qMin(minimumHeight(), 400));
+
+        show();
     }
 };
 
