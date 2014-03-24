@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2012 Martin Sandsmark <martin.sandsmark@kde.org>
+ * Copyright (C) 2014 Arnold Dumas <contact@arnolddumas.fr>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -35,11 +36,21 @@
 Scrobbler::Scrobbler(QObject* parent)
     : QObject(parent)
     , m_networkAccessManager(0)
+    , m_wallet(0)
 {
-    KConfigGroup config(KGlobal::config(), "Scrobbling");
+    QByteArray sessionKey;
 
-    //TODO: use kwallet
-    QString sessionKey = config.readEntry("SessionKey", "");
+    m_wallet = Scrobbler::openKWallet();
+
+    if (m_wallet) {
+
+        m_wallet->readEntry("SessionKey", sessionKey);
+
+    } else {
+
+        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        sessionKey.append(config.readEntry("SessionKey", ""));
+    }
 
     if(sessionKey.isEmpty())
         getAuthToken();
@@ -47,17 +58,67 @@ Scrobbler::Scrobbler(QObject* parent)
 
 Scrobbler::~Scrobbler()
 {
+    delete m_wallet;
 }
 
 bool Scrobbler::isScrobblingEnabled()
 {
-    KConfigGroup config(KGlobal::config(), "Scrobbling");
+    QString username, password;
 
-    // TODO: use kwallet
-    QString username = config.readEntry("Username", "");
-    QString password = config.readEntry("Password", "");
+    if (KWallet::Wallet::folderDoesNotExist(KWallet::Wallet::LocalWallet(), "JuK")) {
+
+        KConfigGroup config(KGlobal::config(), "Scrobbling");
+
+        username = config.readEntry("Username", "");
+        password = config.readEntry("Password", "");
+
+    } else {
+
+        KWallet::Wallet* wallet = Scrobbler::openKWallet();
+
+        if (wallet) {
+
+            QMap<QString, QString> scrobblingCredentials;
+            wallet->readMap("Scrobbling", scrobblingCredentials);
+
+            if (scrobblingCredentials.contains("Username") && scrobblingCredentials.contains("Password")) {
+
+                username = scrobblingCredentials["Username"];
+                password = scrobblingCredentials["Password"];
+            }
+
+            delete wallet;
+        }
+    }
 
     return (!username.isEmpty() && !password.isEmpty());
+}
+
+KWallet::Wallet* Scrobbler::openKWallet() // static
+{
+    const QString walletFolderName = "JuK";
+
+    KWallet::Wallet* wallet = KWallet::Wallet::openWallet(KWallet::Wallet::LocalWallet(), 0);
+
+    if (wallet) {
+
+        if (!wallet->hasFolder(walletFolderName)) {
+
+            if (!wallet->createFolder(walletFolderName)) {
+
+                delete wallet;
+                return 0;
+            }
+        }
+
+        if (!wallet->setFolder(walletFolderName)) {
+
+            delete wallet;
+            return 0;
+        }
+    }
+
+    return wallet;
 }
 
 QByteArray Scrobbler::md5(QByteArray data)
@@ -111,11 +172,25 @@ void Scrobbler::getAuthToken(QString username, QString password)
 
 void Scrobbler::getAuthToken()
 {
-    KConfigGroup config(KGlobal::config(), "Scrobbling");
+    QString username, password;
 
-    // TODO: use kwallet
-    QString username = config.readEntry("Username", "");
-    QString password = config.readEntry("Password", "");
+    if (m_wallet) {
+
+        QMap<QString, QString> scrobblingCredentials;
+        m_wallet->readMap("Scrobbling", scrobblingCredentials);
+
+        if (scrobblingCredentials.contains("Username") && scrobblingCredentials.contains("Password")) {
+
+            username = scrobblingCredentials["Username"];
+            password = scrobblingCredentials["Password"];
+        }
+
+    } else {
+
+        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        username = config.readEntry("Username", "");
+        password = config.readEntry("Password", "");
+    }
 
     if(username.isEmpty() || password.isEmpty())
         return;
@@ -148,20 +223,33 @@ void Scrobbler::handleAuthenticationReply()
         return;
     }
 
-    KConfigGroup config(KGlobal::config(), "Scrobbling");
-    config.writeEntry("SessionKey", sessionKey);
+    if (m_wallet) {
+
+        m_wallet->writeEntry("SessionKey", sessionKey.toUtf8());
+
+    } else {
+
+        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        config.writeEntry("SessionKey", sessionKey);
+    }
+
     emit validAuth();
 }
 
 void Scrobbler::nowPlaying(const FileHandle& file)
 {
-    KConfigGroup config(KGlobal::config(), "Scrobbling");
+    QString sessionKey;
 
-    //TODO: use kwallet
-    QString sessionKey = config.readEntry("SessionKey", "");
-    if(sessionKey.isEmpty()) {
-        getAuthToken();
-        return;
+    if (m_wallet) {
+
+        QByteArray sessionKeyByteArray;
+        m_wallet->readEntry("SessionKey", sessionKeyByteArray);
+        sessionKey = QString::fromLatin1(sessionKeyByteArray);
+
+    } else {
+
+        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        sessionKey = config.readEntry("SessionKey", "");
     }
 
     if (!m_file.isNull()) {
@@ -186,10 +274,19 @@ void Scrobbler::nowPlaying(const FileHandle& file)
 
 void Scrobbler::scrobble()
 {
-    KConfigGroup config(KGlobal::config(), "Scrobbling");
+    QString sessionKey;
 
-    //TODO: use kwallet
-    QString sessionKey = config.readEntry("SessionKey", "");
+    if (m_wallet) {
+
+        QByteArray sessionKeyByteArray;
+        m_wallet->readEntry("SessionKey", sessionKeyByteArray);
+        sessionKey = QString::fromLatin1(sessionKeyByteArray);
+
+    } else {
+
+        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        sessionKey = config.readEntry("SessionKey", "");
+    }
 
     if(sessionKey.isEmpty()) {
         getAuthToken();

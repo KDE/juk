@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2012 Martin Sandsmark <martin.sandsmark@kde.org>
+ * Copyright (C) 2014 Arnold Dumas <contact@arnolddumas.fr>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -21,6 +22,8 @@
 #include <QMap>
 #include <QDateTime>
 
+#include <KWallet/Wallet>
+
 #include "filehandle.h"
 
 class QByteArray;
@@ -36,6 +39,7 @@ public:
     virtual ~Scrobbler();
 
     static bool isScrobblingEnabled();
+    static KWallet::Wallet* openKWallet();
 
 public slots:
     void nowPlaying(const FileHandle&);
@@ -59,6 +63,8 @@ private:
     QDateTime m_playbackTimer;
     FileHandle m_file;
     QNetworkAccessManager *m_networkAccessManager;
+
+    KWallet::Wallet *m_wallet;
 };
 
 #endif /* JUK_SCROBBLER_H */

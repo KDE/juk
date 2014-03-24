@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2012 Martin Sandsmark <martin.sandsmark@kde.org>
+ * Copyright (C) 2014 Arnold Dumas <contact@arnolddumas.fr>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -18,6 +19,7 @@
 #define SCROBBLESETTINGS_H
 
 #include <KDialog>
+#include <KWallet/Wallet>
 
 class KLineEdit;
 class KPushButton;
@@ -28,6 +30,7 @@ class ScrobbleConfigDlg : public KDialog
     Q_OBJECT
 public:
     explicit ScrobbleConfigDlg(QWidget* parent = 0, Qt::WindowFlags f = 0);
+    ~ScrobbleConfigDlg();
 
 private slots:
     void testLogin();
@@ -41,6 +44,8 @@ private:
     KLineEdit *m_passwordEdit;
     KPushButton *m_testButton;
     QLabel *m_testFeedbackLabel;
+
+    KWallet::Wallet *m_wallet;
 };
 
 #endif//SCROBBLESETTINGS_H
