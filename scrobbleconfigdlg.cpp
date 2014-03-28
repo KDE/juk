@@ -86,8 +86,10 @@ ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent, Qt::WindowFlags f)
         m_passwordEdit->setText(config.readEntry("Password", ""));
     }
 
-    if (m_passwordEdit->text().isEmpty() || m_usernameEdit->text().isEmpty())
+    if (m_passwordEdit->text().isEmpty() || m_usernameEdit->text().isEmpty()) {
         button(Apply)->setEnabled(false);
+        m_testButton->setEnabled(false);
+    }
 }
 
 ScrobbleConfigDlg::~ScrobbleConfigDlg()
@@ -97,6 +99,12 @@ ScrobbleConfigDlg::~ScrobbleConfigDlg()
 
 void ScrobbleConfigDlg::valuesChanged()
 {
+    if (m_usernameEdit->text().isEmpty() || m_passwordEdit->text().isEmpty())
+        m_testButton->setEnabled(false);
+
+    else
+        m_testButton->setEnabled(true);
+
     button(Apply)->setEnabled(false);
 }
 
