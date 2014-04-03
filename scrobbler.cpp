@@ -318,6 +318,10 @@ void Scrobbler::scrobble()
 
 void Scrobbler::post(QMap<QString, QString> &params)
 {
+    if(!m_networkAccessManager) {
+        return;
+    }
+
     QUrl url("http://ws.audioscrobbler.com/2.0/");
 
     QByteArray data;
