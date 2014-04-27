@@ -65,7 +65,6 @@ private:
     void readConfig();
     void saveConfig();
 
-    virtual bool queryExit();
     virtual bool queryClose();
 
 private slots:

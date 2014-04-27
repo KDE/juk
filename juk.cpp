@@ -507,24 +507,6 @@ void JuK::saveConfig()
     KGlobal::config()->sync();
 }
 
-bool JuK::queryExit()
-{
-    // This may actually be sent more than once in practice, but we're not
-    // supposed to do end of execution destruction yet anyways, use
-    // slotAboutToQuit for that.
-
-    // Some phonon backends will crash on shutdown unless we've stopped
-    // playback.
-    if(m_player->playing())
-        m_player->stop();
-
-    // Save configuration data.
-    m_startDocked = !isVisible();
-    saveConfig();
-
-    return true;
-}
-
 bool JuK::queryClose()
 {
     if(!m_shuttingDown &&
@@ -540,7 +522,17 @@ bool JuK::queryClose()
         return false;
     }
     else
+    {
+        // Some phonon backends will crash on shutdown unless we've stopped
+        // playback.
+        if(m_player->playing())
+            m_player->stop();
+
+        // Save configuration data.
+        m_startDocked = !isVisible();
+        saveConfig();
         return true;
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////
