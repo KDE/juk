@@ -1,0 +1,35 @@
+<?xml version="1.0" ?>
+<component type="desktop">
+  <id>juk.desktop</id>
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-2.0+</project_license>
+  <name>JuK</name>
+  <summary>Music Player</summary>
+  <description>
+    <p>JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the &quot;tags&quot; of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
+    <p>Features:</p>
+    <ul>
+      <li>Collection list and multiple user defined playlists</li>
+      <li>Ability to scan directories to automatically import playlists and music files on start up</li>
+      <li>Dynamic Search Playlists that are automatically updated as fields in the collection change.</li>
+      <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres.</li>
+      <li>Playlist history to indicate which files have been played and when.</li>
+      <li>Inline search for filtering the list of visible items.</li>
+      <li>The ability to guess tag information based on the track's file name.</li>
+      <li>File renamer that can rename files based on the tag content.</li>
+      <li>Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis.</li>
+    </ul>
+  </description>
+  <url type="homepage">http://juk.kde.org/</url>
+  <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=juk</url>
+  <url type="help">http://docs.kde.org/stable/en/kdemultimedia/juk/index.html</url>
+  <screenshots>
+    <screenshot type="default">
+      <image>http://kde.org/images/screenshots/juk.png</image>
+    </screenshot>
+  </screenshots>
+  <project_group>KDE</project_group>
+  <provides>
+    <binary>juk</binary>
+  </provides>
+</component>
