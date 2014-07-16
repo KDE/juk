@@ -7,6 +7,9 @@
   <name xml:lang="ca">JuK</name>
   <name xml:lang="cs">JuK</name>
   <name xml:lang="da">JuK</name>
+  <name xml:lang="de">JuK</name>
+  <name xml:lang="en-GB">JuK</name>
+  <name xml:lang="es">JuK</name>
   <name xml:lang="hu">JuK</name>
   <name xml:lang="nds">JuK</name>
   <name xml:lang="nl">JuK</name>
@@ -26,6 +29,8 @@
   <summary xml:lang="ca">Reproductor musical</summary>
   <summary xml:lang="cs">Přehrávač hudby</summary>
   <summary xml:lang="da">Musikafspiller</summary>
+  <summary xml:lang="en-GB">Music Player</summary>
+  <summary xml:lang="es">Music Player</summary>
   <summary xml:lang="hu">Zenelejátszó</summary>
   <summary xml:lang="nds">Musikafspeler</summary>
   <summary xml:lang="nl">Muziekspeler</summary>
@@ -45,6 +50,8 @@
     <p>JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
     <p xml:lang="ca">El JuK és una aplicació de màquina de discos musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les "etiquetes" dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, els seu focus principal és en la gestió de la música.</p>
     <p xml:lang="da">JuK er et lydjukebox-program, som understøtter samlinger af MP3-, Ogg Vorbis- og FLAC-lydfiler. Den lader dig redigere "mærkerne" i dine lydfiler og håndtere din samling og spillelister. Dens hovedfokus er faktisk på musikhåndtering.</p>
+    <p xml:lang="en-GB">JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
+    <p xml:lang="es">JuK es una aplicación jukebox de audio, que soporta colecciones de archivos MP3, Ogg Vorbis y FLAC. Le permite editar los "tags" de sus archivos de audio, y administrar sus colecciones y listas de reproducción. Su principal cometido, de hecho, es administrar la música.</p>
     <p xml:lang="hu">A JuK egy zenedoboz alkalmazás, amely támogatja MP3, Ogg Vorbis és FLAC hangfájlok gyűjteményeit. Lehetővé teszi a hangfájlok „címkéinek” szerkesztését, és a gyűjtemények, illetve lejátszólisták kezelését. A fő célja valójában a zenekezelés.</p>
     <p xml:lang="nds">JuK is en Musikkist-Programm, dat Sammeln vun MP3-, Ogg-Vorbis- un FLAC-Klangdateien bruken kann. Du kannst dor de Slötelwöör („Tags“) vun Dien Dateien mit bewerken un Dien Sammeln un Afspeellisten mit plegen. Egens liggt em sien Fokus redig op de Musikpleeg.</p>
     <p xml:lang="nl">JuK is een jukebox toepassing voor geluid, die verzamelingen van MP3, Ogg Vorbis en FLAC geluidsbestanden ondersteunt. Het stelt u in staat om de "tags" van uw geluidsbestanden te bewerken en uw verzameling en afspeellijsten te beheren. De focus is in feite op beheer van muziek.</p>
@@ -64,6 +71,9 @@
     <p xml:lang="ca">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="da">Funktioner:</p>
+    <p xml:lang="de">Funktionen:</p>
+    <p xml:lang="en-GB">Features:</p>
+    <p xml:lang="es">Características:</p>
     <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="nds">Markmalen:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
@@ -83,6 +93,8 @@
       <li>Collection list and multiple user defined playlists</li>
       <li xml:lang="ca">Llista de col·leccions i múltiples llistes de reproducció definides per usuari</li>
       <li xml:lang="da">Samlingsliste og flere brugerdefinerede spillelister</li>
+      <li xml:lang="en-GB">Collection list and multiple user defined playlists</li>
+      <li xml:lang="es">Listas de colecciones y listas de reproducción definidas por múltiples usuarios</li>
       <li xml:lang="hu">Gyűjteménylista és több felhasználó által megadott lejátszólista</li>
       <li xml:lang="nds">Sammelnlist un en Reeg Bruker-Afspeellisten</li>
       <li xml:lang="nl">Verzamelingenlijst en afspeellijsten voor meerdere gebruikers</li>
@@ -101,6 +113,8 @@
       <li>Ability to scan directories to automatically import playlists and music files on start up</li>
       <li xml:lang="ca">Capacitat d'explorar directoris per importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
       <li xml:lang="da">Kan scanne mapper for automatisk at importere spillelister og musikfiler ved opstart</li>
+      <li xml:lang="en-GB">Ability to scan directories to automatically import playlists and music files on start up</li>
+      <li xml:lang="es">Capacidad de escanear directorios para importar listas de reproducción y archivos de música automáticamente al iniciar el programa</li>
       <li xml:lang="hu">Könyvtárak átvizsgálásának képessége zenefájlok és lejátszólisták automatikus importálásához a program indulásakor</li>
       <li xml:lang="nds">Kann Ornern  bi't Starten automaatsch op Afspeellisten un Musikdateien dörkieken</li>
       <li xml:lang="nl">Mogelijkheid om bij opstarten mappen te scannen om automatisch afspeellijsten en muziekbestanden te importeren</li>
@@ -119,6 +133,8 @@
       <li>Dynamic Search Playlists that are automatically updated as fields in the collection change.</li>
       <li xml:lang="ca">Llistes de cerques dinàmiques que s'actualitzen automàticament a mesura que canvien els camps de les col·leccions.</li>
       <li xml:lang="da">Dynamisk søgning-spillelister som automatisk opdateres efterhånden som samlingen ændres.</li>
+      <li xml:lang="en-GB">Dynamic Search Playlists that are automatically updated as fields in the collection change.</li>
+      <li xml:lang="es">Búsqueda dinámica de listas de reproducción que se actualiza automáticamente con los cambios de los campos de su colección.</li>
       <li xml:lang="hu">Lejátszólisták dinamikus keresése, amelyek automatikusan frissítésre kerülnek mezőkként a gyűjtemény módosításban.</li>
       <li xml:lang="nds">Dünaamsch Söök na Afspeellisten, de automaatsch topasst warrt, wenn sik Feller binnen de Sammeln ännern doot</li>
       <li xml:lang="nl">Dynamisch afspeellijsten te doorzoeken zodat velden automatisch bijgewerkt worden bij wijzigingen in de verzameling.</li>
@@ -137,6 +153,8 @@
       <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres.</li>
       <li xml:lang="ca">Un mode de vista en arbre quan les llistes de reproducció es generen automàticament per conjunts d'àlbums, artistes i gèneres.</li>
       <li xml:lang="da">En trævisningstilstand hvor spillelister automatisk genereres for sæt af albummer, kunstnere og genrer.</li>
+      <li xml:lang="en-GB">A Tree View mode where playlists are automatically generated for sets of albums, artists and genres.</li>
+      <li xml:lang="es">Una vista de árbol donde las listas de reproducción se generan automáticamente por conjuntos de álbumes, artistas y géneros.</li>
       <li xml:lang="hu">Egy fanézet mód, ahol a lejátszólisták automatikusan kerülnek előállításra albumok, előadók és műfajok halmazához.</li>
       <li xml:lang="nds">En Boomansicht, över de sik Afspeellisten automaatsch för Setten vun Albums, Künstlers un Musikoorden opstellen laat</li>
       <li xml:lang="nl">Een boomstructuurweergave waar afspeellijsten automatisch gegenereerd worden voor sets van albums, artiesten en genres.</li>
@@ -155,6 +173,8 @@
       <li>Playlist history to indicate which files have been played and when.</li>
       <li xml:lang="ca">Historial de llistes de reproducció per indicar quins fitxers s'han reproduït i quan.</li>
       <li xml:lang="da">Spillelistehistorik som indikerer hvilke filer der er blevet afspillet og hvornår.</li>
+      <li xml:lang="en-GB">Playlist history to indicate which files have been played and when.</li>
+      <li xml:lang="es">Un historial de reproducción que le indica qué archivos han sido reproducidos y cuándo.</li>
       <li xml:lang="hu">Lejátszólista előzmények annak jelölésére, hogy mely fájlok lettek már lejátszva és mikor.</li>
       <li xml:lang="nds">Afspeellist-Vörgeschicht, över de sik wiesen lett, welk Dateien Du wannehr afspeelt hest</li>
       <li xml:lang="nl">Geschiedenis van afspeellijsten om aan te geven welke bestanden zijn afgespeeld en wanneer.</li>
@@ -173,6 +193,8 @@
       <li>Inline search for filtering the list of visible items.</li>
       <li xml:lang="ca">Cerca en línia pel filtrar la llista d'elements visibles.</li>
       <li xml:lang="da">Indlejret søgning til filtrering af synlige elementer i listen.</li>
+      <li xml:lang="en-GB">Inline search for filtering the list of visible items.</li>
+      <li xml:lang="es">Búsqueda bajo control para filtrar la lista de los elementos visibles.</li>
       <li xml:lang="hu">Beágyazott keresés a látható elemek listájának szűréséhez.</li>
       <li xml:lang="nds">Binnenreegs-Söök, mit de sik de List vun sichtbor Indrääg filtern lett</li>
       <li xml:lang="nl">Inline zoeken voor het filteren van de lijst met zichtbare items.</li>
@@ -191,6 +213,8 @@
       <li>The ability to guess tag information based on the track's file name.</li>
       <li xml:lang="ca">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça.</li>
       <li xml:lang="da">Mulighed for at gætte mærkeinformation baseret på sporets filnavn.</li>
+      <li xml:lang="en-GB">The ability to guess tag information based on the track's file name.</li>
+      <li xml:lang="es">La habilidad de adivinar metadatos basada en los nombres de los archivos.</li>
       <li xml:lang="hu">Címkeinformációk kitalálásának képessége a szám fájlneve alapján.</li>
       <li xml:lang="nds">Kann Slötelwöör ut dat Stück sien Dateinaam raden</li>
       <li xml:lang="nl">De mogelijkheid om tag-informatie te raden op basis van de bestandsnaam van de track.</li>
@@ -209,6 +233,8 @@
       <li>File renamer that can rename files based on the tag content.</li>
       <li xml:lang="ca">Reanomenador de fitxers que pot reanomenar fitxers basat en el contingut de l'etiqueta.</li>
       <li xml:lang="da">Filomdøber som kan omdøbe filer baseret på mærkeindholdet.</li>
+      <li xml:lang="en-GB">File renamer that can rename files based on the tag content.</li>
+      <li xml:lang="es">Un cambiador de nombres de archivo que puede renombrar archivos basándose en el contenido de sus metadatos.</li>
       <li xml:lang="hu">Fájlátnevező, amely képes a címketartalom alapján átnevezni fájlokat.</li>
       <li xml:lang="nds">Ümnömer, de Dateien na ehr Slötelwöör ümnömen kann</li>
       <li xml:lang="nl">Bestandshernoeming die kan bestanden kan hernoemen gebaseerd op de inhoud van de tag.</li>
@@ -227,6 +253,8 @@
       <li>Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis.</li>
       <li xml:lang="ca">Implementa la lectura i edició d'etiquetes per molts formats incloent ID3v1, ID3v2 i Ogg Vorbis.</li>
       <li xml:lang="da">Understøttelse af mærkelæsning og -redigering af mange formater inklusiv ID3v1, ID3v2 og Ogg Vorbis.</li>
+      <li xml:lang="en-GB">Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis.</li>
+      <li xml:lang="es">Leer y editar metadatos en varios formatos incluyendo ID3v1, ID3v2 y Ogg Vorbis.</li>
       <li xml:lang="hu">Címkeolvasás és szerkesztés támogatás számos formátumhoz, beleértve az ID3v1, az ID3v2 és az Ogg Vorbis formátumokat.</li>
       <li xml:lang="nds">Kann Slötelwöör mit vele Formaten lesen un bewerken, so as ID3v1, ID3v2 un Ogg-Vorbis.</li>
       <li xml:lang="nl">Ondersteuning voor lezen van tags en bewerken voor vele formaten inclusief ID3v1, ID3v2 en Ogg Vorbis.</li>
