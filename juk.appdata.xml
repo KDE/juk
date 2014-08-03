@@ -11,6 +11,7 @@
   <name xml:lang="en-GB">JuK</name>
   <name xml:lang="es">JuK</name>
   <name xml:lang="et">JuK</name>
+  <name xml:lang="fi">JuK</name>
   <name xml:lang="hu">JuK</name>
   <name xml:lang="nds">JuK</name>
   <name xml:lang="nl">JuK</name>
@@ -34,6 +35,7 @@
   <summary xml:lang="en-GB">Music Player</summary>
   <summary xml:lang="es">Music Player</summary>
   <summary xml:lang="et">Muusikamängija</summary>
+  <summary xml:lang="fi">Musiikkisoitin</summary>
   <summary xml:lang="hu">Zenelejátszó</summary>
   <summary xml:lang="nds">Musikafspeler</summary>
   <summary xml:lang="nl">Muziekspeler</summary>
@@ -79,6 +81,7 @@
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Características:</p>
     <p xml:lang="et">Omadused:</p>
+    <p xml:lang="fi">Ominaisuudet:</p>
     <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="nds">Markmalen:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
