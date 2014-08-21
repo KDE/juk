@@ -160,6 +160,7 @@
       <li xml:lang="nds">Dünaamsch Söök na Afspeellisten, de automaatsch topasst warrt, wenn sik Feller binnen de Sammeln ännern doot</li>
       <li xml:lang="nl">Dynamisch afspeellijsten te doorzoeken zodat velden automatisch bijgewerkt worden bij wijzigingen in de verzameling</li>
       <li xml:lang="pl">Dynamiczne przeszukiwanie list odtwarzania, które są samoczynnie uaktualnianie jako pola przy zmianie zbioru</li>
+      <li xml:lang="pt">Listas de Pesquisas Dinâmicas que são actualizadas automaticamente à medida que os campos da colecção mudam</li>
       <li xml:lang="pt-BR">Listas de Pesquisas Dinâmicas que são atualizadas automaticamente à medida que os campos da coleção mudam</li>
       <li xml:lang="sk">Dynamicky hľadané zoznamy skladieb, ktoré sa automaticky aktualizujú pri zmene polí v kolekcii</li>
       <li xml:lang="sl">Dinamični iskalni seznami predvajanja, ki se s spremembo polj v zbirki samodejno posodabljajo</li>
@@ -179,6 +180,7 @@
       <li xml:lang="nds">En Boomansicht, över de sik Afspeellisten automaatsch för Setten vun Albums, Künstlers un Musikoorden opstellen laat</li>
       <li xml:lang="nl">Een boomstructuurweergave waar afspeellijsten automatisch gegenereerd worden voor sets van albums, artiesten en genres</li>
       <li xml:lang="pl">Tryb widoku drzewa, w którym listy odtwarzania są samoczynnie tworzone dla zestawów albumów, wykonawców i gatunków</li>
+      <li xml:lang="pt">Um modo em Árvore, onde as listas são geradas automaticamente para determinados conjuntos de álbuns, artistas e géneros</li>
       <li xml:lang="pt-BR">Um modo de exibição em árvore, onde as listas de músicas são geradas automaticamente para determinados conjuntos de álbuns, artistas e gêneros</li>
       <li xml:lang="sk">Režim stromového zobrazenia, kde sa automaticky generujú zoznamy skladieb pre sady albumov, umelcov a žánrov</li>
       <li xml:lang="sl">Način drevesnega pogleda, v katerem so seznami predvajanja samodejno ustvarjeni za nabor albumov, izvajalcev in zvrsti</li>
@@ -198,6 +200,7 @@
       <li xml:lang="nds">Afspeellist-Vörgeschicht, över de sik wiesen lett, welk Dateien Du wannehr afspeelt hest</li>
       <li xml:lang="nl">Geschiedenis van afspeellijsten om aan te geven welke bestanden zijn afgespeeld en wanneer</li>
       <li xml:lang="pl">Historia list odtwarzania do wskazania, które pliki i kiedy zostały odtworzone</li>
+      <li xml:lang="pt">Um histórico da lista de reprodução que indica quais os ficheiros que foram reproduzidos e quando</li>
       <li xml:lang="pt-BR">Um histórico da lista de músicas que indica quais arquivos foram reproduzidos e quando</li>
       <li xml:lang="sk">História playlistu na indikáciu, ktoré súbory boli prehrané a kedy</li>
       <li xml:lang="sl">Zgodovina seznamov predvajanja, iz katere je razvidno katere datoteke ste predvajali in kdaj ste to storili</li>
@@ -217,6 +220,7 @@
       <li xml:lang="nds">Binnenreegs-Söök, mit de sik de List vun sichtbor Indrääg filtern lett</li>
       <li xml:lang="nl">Inline zoeken voor het filteren van de lijst met zichtbare items</li>
       <li xml:lang="pl">Wyszukiwanie w treści do odfiltrowywania spisu widocznych elementów</li>
+      <li xml:lang="pt">Pesquisa incorporada para filtrar a lista de itens visíveis</li>
       <li xml:lang="pt-BR">Pesquisa incorporada para filtrar a lista de itens visíveis</li>
       <li xml:lang="sk">Inline hľadanie pre filtrovanie zoznamu viditeľných položiek</li>
       <li xml:lang="sl">Znotrajvrstično iskanje po seznamu vidnih predmetov</li>
@@ -236,6 +240,7 @@
       <li xml:lang="nds">Kann Slötelwöör ut dat Stück sien Dateinaam raden</li>
       <li xml:lang="nl">De mogelijkheid om tag-informatie te raden op basis van de bestandsnaam van de track</li>
       <li xml:lang="pl">Możliwość odgadywania informacji znacznika na podstawie nazwy pliku utworu</li>
+      <li xml:lang="pt">A capacidade de adivinhar a informação das marcas com base no nome do ficheiro da faixa</li>
       <li xml:lang="pt-BR">A capacidade de adivinhar a informação das etiquetas com base no nome do arquivo da faixa</li>
       <li xml:lang="sk">Schopnosť uhádnutia informácie tagu založený na názve súboru skladby</li>
       <li xml:lang="sl">Ugibanje oznak glede na ime zvočne datoteke</li>
@@ -255,6 +260,7 @@
       <li xml:lang="nds">Ümnömer, de Dateien na ehr Slötelwöör ümnömen kann</li>
       <li xml:lang="nl">Bestandshernoeming die kan bestanden kan hernoemen gebaseerd op de inhoud van de tag</li>
       <li xml:lang="pl">Narzędzie zmiany nazwy pliku, które może zmienić nazwę pliku na podstawie treści znacznika</li>
+      <li xml:lang="pt">Um sistema de mudança de nomes dos ficheiros com base no conteúdo das marcas</li>
       <li xml:lang="pt-BR">Um sistema que pode renomear os arquivos com base no conteúdo das etiquetas</li>
       <li xml:lang="sk">Premenovač súborov, ktorý vie premenovať súbory podľa obsahu tagu</li>
       <li xml:lang="sl">Preimenovalnik datotek, ki preimenuje glede na vsebino oznake</li>
@@ -274,6 +280,7 @@
       <li xml:lang="nds">Kann Slötelwöör mit vele Formaten lesen un bewerken, so as ID3v1, ID3v2 un Ogg-Vorbis</li>
       <li xml:lang="nl">Ondersteuning voor lezen van tags en bewerken voor vele formaten inclusief ID3v1, ID3v2 en Ogg Vorbis</li>
       <li xml:lang="pl">Obsługa odczytu i zmieniania znaczników dla wielu formatów zaliczając do nich: ID3v1, ID3v2 oraz Ogg Vorbis</li>
+      <li xml:lang="pt">Suporte para a leitura e edição de marcas em vários formatos, incluindo o ID3v1, ID3v2 e Ogg Vorbis</li>
       <li xml:lang="pt-BR">Suporte para leitura e edição de etiquetas em vários formatos, incluindo o ID3v1, ID3v2 e Ogg Vorbis</li>
       <li xml:lang="sk">Podpora čítania a úpravy tagov pre veľa formátov vrátane ID3v1, ID3v2 a Ogg Vorbis</li>
       <li xml:lang="sl">Branje in pisanje oznak ID3v1, ID3v2, Ogg Vorbis ter drugih</li>
