@@ -155,6 +155,7 @@
       <li>Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
       <li xml:lang="ca">Llistes de cerques dinàmiques que s'actualitzen automàticament a mesura que canvien els camps a la col·lecció.</li>
       <li xml:lang="en-GB">Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
+      <li xml:lang="es">Búsqueda dinámica de listas de reproducción que se actualiza automáticamente con los cambios de los campos de su colección</li>
       <li xml:lang="et">Dünaamilised esitusnimekirjad, mis uuenevad automaatselt kogu väljade muutumisel</li>
       <li xml:lang="ko">모음집 필드 변경 사항에 따라 자동으로 업데이트되는 동적 재생 목록</li>
       <li xml:lang="nds">Dünaamsch Söök na Afspeellisten, de automaatsch topasst warrt, wenn sik Feller binnen de Sammeln ännern doot</li>
@@ -175,6 +176,7 @@
       <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
       <li xml:lang="ca">Un mode de vista en arbre quan es generen automàticament llistes de reproducció per a conjunts d'àlbums, artistes i gèneres.</li>
       <li xml:lang="en-GB">A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
+      <li xml:lang="es">Una vista de árbol donde las listas de reproducción se generan automáticamente por conjuntos de álbumes, artistas y géneros</li>
       <li xml:lang="et">Puuvaade, kus albumitele, esitajatele ja žanritele luuakse automaatselt esitusnimekirjad</li>
       <li xml:lang="ko">음악가, 앨범, 장르별 자동 생성 트리 보기 모드</li>
       <li xml:lang="nds">En Boomansicht, över de sik Afspeellisten automaatsch för Setten vun Albums, Künstlers un Musikoorden opstellen laat</li>
@@ -195,6 +197,7 @@
       <li>Playlist history to indicate which files have been played and when</li>
       <li xml:lang="ca">Historial de les llistes de reproducció per indicar quins fitxers s'han reproduït i quan.</li>
       <li xml:lang="en-GB">Playlist history to indicate which files have been played and when</li>
+      <li xml:lang="es">Un historial de reproducción que le indica qué archivos han sido reproducidos y cuándo</li>
       <li xml:lang="et">Esitusnimekirja ajalugu, mis näitab, milliseid faile ja millal on esitatud</li>
       <li xml:lang="ko">재생 목록 내 파일의 재생 이력 관리</li>
       <li xml:lang="nds">Afspeellist-Vörgeschicht, över de sik wiesen lett, welk Dateien Du wannehr afspeelt hest</li>
@@ -215,6 +218,7 @@
       <li>Inline search for filtering the list of visible items</li>
       <li xml:lang="ca">Cerca inclosa per filtrar la llista dels elements visibles.</li>
       <li xml:lang="en-GB">Inline search for filtering the list of visible items</li>
+      <li xml:lang="es">Búsqueda bajo control para filtrar la lista de los elementos visibles</li>
       <li xml:lang="et">Reasisene otsing nähtavate elementide nimekirja filtreerimiseks</li>
       <li xml:lang="ko">재생 목록 내 빠른 검색</li>
       <li xml:lang="nds">Binnenreegs-Söök, mit de sik de List vun sichtbor Indrääg filtern lett</li>
@@ -235,6 +239,7 @@
       <li>The ability to guess tag information based on the track's file name</li>
       <li xml:lang="ca">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça.</li>
       <li xml:lang="en-GB">The ability to guess tag information based on the track's file name</li>
+      <li xml:lang="es">La habilidad de adivinar metadatos basada en los nombres de los archivos</li>
       <li xml:lang="et">Oskus oletada silditeavet pala failinime põhjal</li>
       <li xml:lang="ko">파일 이름을 기반으로 한 태그 내용 추측</li>
       <li xml:lang="nds">Kann Slötelwöör ut dat Stück sien Dateinaam raden</li>
@@ -255,6 +260,7 @@
       <li>File renamer that can rename files based on the tag content</li>
       <li xml:lang="ca">Reanomenador de fitxers que pot reanomenar els fitxers basant-se en el contingut de l'etiqueta.</li>
       <li xml:lang="en-GB">File renamer that can rename files based on the tag content</li>
+      <li xml:lang="es">Un cambiador de nombres de archivo que puede renombrar archivos basándose en el contenido de sus metadatos</li>
       <li xml:lang="et">Failide nime muutmise tööriist, mis võib failinimesid muuta sildi sisu põhjal</li>
       <li xml:lang="ko">태그 내용을 기반으로 한 파일 이름 변경</li>
       <li xml:lang="nds">Ümnömer, de Dateien na ehr Slötelwöör ümnömen kann</li>
@@ -275,6 +281,7 @@
       <li>Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
       <li xml:lang="ca">Implementa la lectura i edició de les etiquetes per a molts formats incloent ID3v1, ID3v2 i Ogg Vorbis.</li>
       <li xml:lang="en-GB">Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
+      <li xml:lang="es">Leer y editar metadatos en varios formatos incluyendo ID3v1, ID3v2 y Ogg Vorbis</li>
       <li xml:lang="et">Siltide lugemise ja muutmise toetus paljude vormingute jaoks, sealhulgas ID3v1, ID3v2 ja Ogg Vorbis</li>
       <li xml:lang="ko">ID3v1, ID3v2, Ogg Vorbis 태그 읽기 및 쓰기 지원</li>
       <li xml:lang="nds">Kann Slötelwöör mit vele Formaten lesen un bewerken, so as ID3v1, ID3v2 un Ogg-Vorbis</li>
