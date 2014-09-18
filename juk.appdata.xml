@@ -163,6 +163,7 @@
       <li xml:lang="zh-TW">可以掃描目錄並於啟動時自動匯入播放清單與音樂檔</li>
       <li>Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
       <li xml:lang="ca">Llistes de cerca dinàmica que s'actualitzen automàticament a mesura que canvien els camps a les col·leccions.</li>
+      <li xml:lang="da">Dynamisk søgning-spillelister som automatisk opdateres efterhånden som samlingen ændres</li>
       <li xml:lang="en-GB">Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
       <li xml:lang="es">Búsqueda dinámica de listas de reproducción que se actualiza automáticamente con los cambios de los campos de su colección</li>
       <li xml:lang="et">Dünaamilised esitusnimekirjad, mis uuenevad automaatselt kogu väljade muutumisel</li>
@@ -185,6 +186,7 @@
       <li xml:lang="zh-TW">動態搜尋播放清單，收藏有變更時自動更新</li>
       <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
       <li xml:lang="ca">Un mode de vista en arbre quan les llistes de reproducció es generen automàticament per a conjunts d'àlbums, artistes i gèneres.</li>
+      <li xml:lang="da">En trævisningstilstand hvor spillelister automatisk genereres for sæt af albummer, kunstnere og genrer</li>
       <li xml:lang="en-GB">A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
       <li xml:lang="es">Una vista de árbol donde las listas de reproducción se generan automáticamente por conjuntos de álbumes, artistas y géneros</li>
       <li xml:lang="et">Puuvaade, kus albumitele, esitajatele ja žanritele luuakse automaatselt esitusnimekirjad</li>
@@ -207,6 +209,7 @@
       <li xml:lang="zh-TW">播放清單自動產生樹狀檢視模式，顯示專輯、演出者與風格</li>
       <li>Playlist history to indicate which files have been played and when</li>
       <li xml:lang="ca">Historial de llistes de reproducció per indicar quins fitxers s'han reproduït i quan.</li>
+      <li xml:lang="da">Spillelistehistorik som indikerer hvilke filer der er blevet afspillet og hvornår</li>
       <li xml:lang="en-GB">Playlist history to indicate which files have been played and when</li>
       <li xml:lang="es">Un historial de reproducción que le indica qué archivos han sido reproducidos y cuándo</li>
       <li xml:lang="et">Esitusnimekirja ajalugu, mis näitab, milliseid faile ja millal on esitatud</li>
@@ -229,6 +232,7 @@
       <li xml:lang="zh-TW">播放清單歷史，可以指示哪些檔案於何時被播放過</li>
       <li>Inline search for filtering the list of visible items</li>
       <li xml:lang="ca">Cerca inclosa per filtrar la llista d'elements visibles.</li>
+      <li xml:lang="da">Indlejret søgning til filtrering af synlige elementer i listen</li>
       <li xml:lang="en-GB">Inline search for filtering the list of visible items</li>
       <li xml:lang="es">Búsqueda bajo control para filtrar la lista de los elementos visibles</li>
       <li xml:lang="et">Reasisene otsing nähtavate elementide nimekirja filtreerimiseks</li>
@@ -251,6 +255,7 @@
       <li xml:lang="zh-TW">清單內搜尋與過濾</li>
       <li>The ability to guess tag information based on the track's file name</li>
       <li xml:lang="ca">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça.</li>
+      <li xml:lang="da">Mulighed for at gætte mærkeinformation baseret på sporets filnavn</li>
       <li xml:lang="en-GB">The ability to guess tag information based on the track's file name</li>
       <li xml:lang="es">La habilidad de adivinar metadatos basada en los nombres de los archivos</li>
       <li xml:lang="et">Oskus oletada silditeavet pala failinime põhjal</li>
@@ -273,6 +278,7 @@
       <li xml:lang="zh-TW">根據曲目名稱猜測標籤的功能</li>
       <li>File renamer that can rename files based on the tag content</li>
       <li xml:lang="ca">Reanomenador de fitxers que pot reanomenar fitxers basant-se en el contingut de l'etiqueta.</li>
+      <li xml:lang="da">Filomdøber som kan omdøbe filer baseret på mærkeindholdet</li>
       <li xml:lang="en-GB">File renamer that can rename files based on the tag content</li>
       <li xml:lang="es">Un cambiador de nombres de archivo que puede renombrar archivos basándose en el contenido de sus metadatos</li>
       <li xml:lang="et">Failide nime muutmise tööriist, mis võib failinimesid muuta sildi sisu põhjal</li>
@@ -295,6 +301,7 @@
       <li xml:lang="zh-TW">根據標籤內容重新命名檔案</li>
       <li>Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
       <li xml:lang="ca">Implementa la lectura i edició d'etiquetes per a molts formats, incloent ID3v1, ID3v2 i Ogg Vorbis.</li>
+      <li xml:lang="da">Understøttelse af mærkelæsning og -redigering af mange formater inklusiv ID3v1, ID3v2 og Ogg Vorbis</li>
       <li xml:lang="en-GB">Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
       <li xml:lang="es">Leer y editar metadatos en varios formatos incluyendo ID3v1, ID3v2 y Ogg Vorbis</li>
       <li xml:lang="et">Siltide lugemise ja muutmise toetus paljude vormingute jaoks, sealhulgas ID3v1, ID3v2 ja Ogg Vorbis</li>
