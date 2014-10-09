@@ -110,6 +110,7 @@
       <li>Collection list and multiple user defined playlists</li>
       <li xml:lang="ca">Llista de col·leccions i múltiples llistes de reproducció definides per usuari</li>
       <li xml:lang="da">Samlingsliste og flere brugerdefinerede spillelister</li>
+      <li xml:lang="de">Sammlungslisten und mehrere benutzerdefinierte Wiedergabelisten</li>
       <li xml:lang="en-GB">Collection list and multiple user defined playlists</li>
       <li xml:lang="es">Listas de colecciones y listas de reproducción definidas por múltiples usuarios</li>
       <li xml:lang="et">Muusikakogu nimekiri ja paljud kasutaja loodud esitusnimekirjad</li>
@@ -133,6 +134,7 @@
       <li>Ability to scan directories to automatically import playlists and music files on start up</li>
       <li xml:lang="ca">Capacitat d'explorar directoris per importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
       <li xml:lang="da">Kan scanne mapper for automatisk at importere spillelister og musikfiler ved opstart</li>
+      <li xml:lang="de">Ordner können durchsucht werden, um beim Start automatisch Wiedergabelisten und Musikdateien zu importieren</li>
       <li xml:lang="en-GB">Ability to scan directories to automatically import playlists and music files on start up</li>
       <li xml:lang="es">Capacidad de escanear directorios para importar listas de reproducción y archivos de música automáticamente al iniciar el programa</li>
       <li xml:lang="et">Oskus uurida kohe käivitamisel läbi katalooge ja importida sealt esitusnimekirju ja muusikafaile</li>
