@@ -287,8 +287,6 @@ void PlayerManager::pause()
     action("pause")->setEnabled(false);
 
     m_media[m_curOutputPath]->pause();
-
-    emit signalPause();
 }
 
 void PlayerManager::stop()
@@ -532,7 +530,10 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
 
         emit signalStop();
     }
-    else if(newstate == Phonon::PlayingState) {
+    else if(newstate == Phonon::PausedState) {
+        emit signalPause();
+    }
+    else { // PlayingState or BufferingState
         action("pause")->setEnabled(true);
         action("stop")->setEnabled(true);
         action("forward")->setEnabled(true);
@@ -540,13 +541,12 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
             action("forwardAlbum")->setEnabled(true);
         action("back")->setEnabled(true);
 
-                
         JuK::JuKInstance()->setWindowTitle(i18nc(
             "%1 is the artist and %2 is the title of the currently playing track.", 
-            "%1 - %2 :: JuK", 
-            m_file.tag()->artist(), 
+            "%1 - %2 :: JuK",
+            m_file.tag()->artist(),
             m_file.tag()->title()));
-        
+
         emit signalPlay();
     }
 }

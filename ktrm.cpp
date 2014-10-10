@@ -280,7 +280,7 @@ protected:
 
     virtual void customEvent(QEvent *event)
     {
-        if(!event->type() == KTRMEvent::id)
+        if(event->type() != KTRMEvent::id)
             return;
 
         KTRMEvent *e = static_cast<KTRMEvent *>(event);
@@ -634,7 +634,7 @@ void KTRMLookup::puidGenerated()
 void KTRMLookup::lookupResult( KJob* job )
 {
 #if HAVE_TUNEPIMP >= 5
-    if ( !job->error() == 0 ) {
+    if ( job->error() != 0 ) {
         finished();
         return;
     }
