@@ -28,6 +28,7 @@
   <name xml:lang="sr-ijekavian">Џук</name>
   <name xml:lang="sr-ijekavianlatin">Juk</name>
   <name xml:lang="sv">Juk</name>
+  <name xml:lang="tr">JuK</name>
   <name xml:lang="uk">JuK</name>
   <name xml:lang="x-test">xxJuKxx</name>
   <name xml:lang="zh-TW">音樂播放_Juk</name>
@@ -55,6 +56,7 @@
   <summary xml:lang="sr-ijekavian">Музички плејер</summary>
   <summary xml:lang="sr-ijekavianlatin">Muzički plejer</summary>
   <summary xml:lang="sv">Musikspelare</summary>
+  <summary xml:lang="tr">Müzik Çalar</summary>
   <summary xml:lang="uk">Музичний програвач</summary>
   <summary xml:lang="x-test">xxMusic Playerxx</summary>
   <summary xml:lang="zh-TW">音樂播放器</summary>
@@ -80,6 +82,7 @@
     <p xml:lang="sr-ijekavian">Џук је програм за виртуелни џубокс. Подржава збирке МП3, ОГГ, ворбис и ФЛАЦ аудио фајлова. Даје вам да уређујете „ознаке“ аудио фајлова, и управљате збиркама и листама нумера. Тежиште му је, у ствари, на управљању музиком.</p>
     <p xml:lang="sr-ijekavianlatin">Juk je program za virtuelni džuboks. Podržava zbirke MP3, OGG, Vorbis i FLAC audio fajlova. Daje vam da uređujete „oznake“ audio fajlova, i upravljate zbirkama i listama numera. Težište mu je, u stvari, na upravljanju muzikom.</p>
     <p xml:lang="sv">Juk är ett Jukebox-program, som stöder samlingar av MP3, Ogg Vorbis och FLAC ljudfiler. Det låter dig redigera "taggarna" i ljudfilerna, och hantera samlingen och spellistor. Dess huvudfokus är just musikhantering.</p>
+    <p xml:lang="tr">JuK, MP3, Ogg Vorbis, ve FLAC ses dosyalarını destekleyen bir müzik kutusu uygulamasıdır. Ses dosyalarının "etiketlerini" düzenlemenize ve koleksiyon ve çalma listelerini yönetmenize izin verir. Ana odak noktası müzik yönetimidir.</p>
     <p xml:lang="uk">JuK — програма для відтворення музики, у якій передбачено підтримку роботи зі звуковими файлами у форматах MP3, Ogg Vorbis та FLAC. Програма допоможе вам у редагуванні міток ваших звукових файлів, керуванні вашою збіркою та списками відтворення. Основним її призначенням, фактично, є керування музичними даними.</p>
     <p xml:lang="x-test">xxJuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.xx</p>
     <p xml:lang="zh-TW">Juk 是一套類似自動唱機的應用程式，支援收藏 MP3，Ogg Vorbis 與 FLAC 音效檔。它能讓您編輯您的音效檔的「標籤」，並管理您的收藏與播放清單。它主要的焦點，在音樂管理。</p>
@@ -107,6 +110,7 @@
     <p xml:lang="sr-ijekavian">Могућности:</p>
     <p xml:lang="sr-ijekavianlatin">Mogućnosti:</p>
     <p xml:lang="sv">Funktioner:</p>
+    <p xml:lang="tr">Özellikler:</p>
     <p xml:lang="uk">Можливості:</p>
     <p xml:lang="x-test">xxFeatures:xx</p>
     <p xml:lang="zh-TW">功能：</p>
