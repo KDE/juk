@@ -24,6 +24,7 @@
 #include <kdebug.h>
 #include <ktoggleaction.h>
 #include <kconfiggroup.h>
+#include <kacceleratormanager.h>
 
 #include <QEvent>
 #include <QVBoxLayout>
@@ -234,6 +235,10 @@ void PlaylistSplitter::setupLayout()
     // Create the search widget -- this must be done after the CollectionList is created.
 
     m_searchWidget = new SearchWidget(top);
+
+    // auto-shortcuts don't seem to work and aren't needed anyway.
+    KAcceleratorManager::setNoAccel(m_searchWidget);
+
     connect(m_searchWidget, SIGNAL(signalQueryChanged()),
             this, SLOT(slotShowSearchResults()));
     connect(m_searchWidget, SIGNAL(signalDownPressed()),
