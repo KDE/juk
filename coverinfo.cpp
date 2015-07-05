@@ -39,6 +39,7 @@
 #include <taglib/tstring.h>
 #include <taglib/id3v2tag.h>
 #include <taglib/attachedpictureframe.h>
+#include <taglib/flacfile.h>
 
 #ifdef TAGLIB_WITH_MP4
 #include <taglib/mp4coverart.h>
@@ -290,6 +291,13 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
         TagLib::ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
         return !frames.isEmpty();
     }
+    else if (TagLib::FLAC::File *flacFile =
+            dynamic_cast<TagLib::FLAC::File *>(fileTag.data()))
+    {
+
+        // Look if images are embedded.
+        return !flacFile->pictureList().isEmpty();
+    }
 #ifdef TAGLIB_WITH_MP4
     else if(TagLib::MP4::File *mp4File =
             dynamic_cast<TagLib::MP4::File *>(fileTag.data()))
@@ -355,6 +363,29 @@ static QImage embeddedMPEGAlbumArt(TagLib::ID3v2::Tag *id3tag)
     return QImage::fromData(
             reinterpret_cast<const uchar *>(picture.data()),
             picture.size());
+}
+
+static QImage embeddedFLACAlbumArt(TagLib::FLAC::File *flacFile)
+{
+    TagLib::List<TagLib::FLAC::Picture *> flacPictures = flacFile->pictureList();
+    if(flacPictures.isEmpty()) {
+
+        // No pictures are embedded.
+        return QImage();
+    }
+
+    // Always use first picture - even if multiple are embedded.
+    TagLib::ByteVector coverData = flacPictures[0]->data();
+    QImage result = QImage::fromData(
+                reinterpret_cast<const uchar *>(coverData.data()),
+                coverData.size());
+
+    if(!result.isNull()) {
+            return result;
+    }
+
+    // Error while casting image.
+    return QImage();
 }
 
 #ifdef TAGLIB_WITH_MP4
@@ -425,6 +456,11 @@ QImage CoverInfo::embeddedAlbumArt() const
     {
         TagLib::ID3v2::Tag *id3tag = mpegFile->ID3v2Tag(false);
         return embeddedMPEGAlbumArt(id3tag);
+    }
+    else if (TagLib::FLAC::File *flacFile =
+            dynamic_cast<TagLib::FLAC::File *>(fileTag.data()))
+    {
+        return embeddedFLACAlbumArt(flacFile);
     }
 #ifdef TAGLIB_WITH_MP4
     else if(TagLib::MP4::File *mp4File =
