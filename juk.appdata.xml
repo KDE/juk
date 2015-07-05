@@ -255,6 +255,7 @@
       <li xml:lang="bs">Istorijat liste izvođenja da indicira koje su datoteke izvođene i kada</li>
       <li xml:lang="ca">Historial de les llistes de reproducció per indicar quins fitxers s'han reproduït i quan.</li>
       <li xml:lang="da">Spillelistehistorik som indikerer hvilke filer der er blevet afspillet og hvornår</li>
+      <li xml:lang="de">Wiedergabelisten-Verlauf zur Anzeige, welche Dateien wann abgespielt wurden</li>
       <li xml:lang="el">Ιστορικό λιστών αναπαραγωγής με ένδειξη για το ποια αρχεία έχουν προηγηθεί και πότε</li>
       <li xml:lang="en-GB">Playlist history to indicate which files have been played and when</li>
       <li xml:lang="es">Un historial de reproducción que le indica qué archivos han sido reproducidos y cuándo</li>
@@ -313,6 +314,7 @@
       <li xml:lang="bs">Mogućnost pogađanja informacija o oznaci bazirano na imenu datoteke trake</li>
       <li xml:lang="ca">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça.</li>
       <li xml:lang="da">Mulighed for at gætte mærkeinformation baseret på sporets filnavn</li>
+      <li xml:lang="de">Metadaten können anhand des Dateinamens eines Stücks geraten werden</li>
       <li xml:lang="el">Η ικανότητα πρόγνωσης της ετικέτας πληροφοριών με βάση το όνομα του μουσικού αρχείου</li>
       <li xml:lang="en-GB">The ability to guess tag information based on the track's file name</li>
       <li xml:lang="es">La habilidad de adivinar metadatos basada en los nombres de los archivos</li>
@@ -342,6 +344,7 @@
       <li xml:lang="bs">Preimenovanje datoteka na bazi sadržaja oznake</li>
       <li xml:lang="ca">Reanomenador de fitxers que pot reanomenar els fitxers basant-se en el contingut de l'etiqueta.</li>
       <li xml:lang="da">Filomdøber som kan omdøbe filer baseret på mærkeindholdet</li>
+      <li xml:lang="de">Dateien können basierend auf dem Inhalt der Metadaten umbenannt werden.</li>
       <li xml:lang="el">Πρόγραμμα μετονομασίας που λειτουργεί με βάση το περιεχόμενο της ετικέτας</li>
       <li xml:lang="en-GB">File renamer that can rename files based on the tag content</li>
       <li xml:lang="es">Un cambiador de nombres de archivo que puede renombrar archivos basándose en el contenido de sus metadatos</li>
@@ -371,6 +374,7 @@
       <li xml:lang="bs">Podrška za čitanje i uređivanje oznaka za mnoge formate uključujući ID3v1, ID3v2 i Ogg Vorbis</li>
       <li xml:lang="ca">Implementa la lectura i edició de les etiquetes per a molts formats incloent ID3v1, ID3v2 i Ogg Vorbis.</li>
       <li xml:lang="da">Understøttelse af mærkelæsning og -redigering af mange formater inklusiv ID3v1, ID3v2 og Ogg Vorbis</li>
+      <li xml:lang="de">Lesen und Bearbeiten von Metadaten für viele Formate einschließlich ID3v1, ID3v2 und Ogg Vorbis</li>
       <li xml:lang="el">Ανάγνωση και εγγραφή ετικέτας με υποστήριξη για πολλούς τύπους αποθήκευσης, για παράδειγμα ID3v1, ID3v2 και Ogg Vorbis</li>
       <li xml:lang="en-GB">Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
       <li xml:lang="es">Leer y editar metadatos en varios formatos incluyendo ID3v1, ID3v2 y Ogg Vorbis</li>
