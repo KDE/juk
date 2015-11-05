@@ -8,6 +8,7 @@
   <name xml:lang="bg">JuK</name>
   <name xml:lang="bs">JuK</name>
   <name xml:lang="ca">JuK</name>
+  <name xml:lang="ca-valencia">JuK</name>
   <name xml:lang="cs">JuK</name>
   <name xml:lang="da">JuK</name>
   <name xml:lang="de">JuK</name>
@@ -42,6 +43,7 @@
   <summary xml:lang="bg">Програма за изпълнение на музика</summary>
   <summary xml:lang="bs">Muzički plejer</summary>
   <summary xml:lang="ca">Reproductor musical</summary>
+  <summary xml:lang="ca-valencia">Reproductor musical</summary>
   <summary xml:lang="cs">Přehrávač hudby</summary>
   <summary xml:lang="da">Musikafspiller</summary>
   <summary xml:lang="de">Audio-Wiedergabe</summary>
@@ -75,6 +77,7 @@
     <p>JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
     <p xml:lang="bs">JuK je audio džuboks aplikacija, podržavajući kolekcije MP3, Ogg Vorbis, FLAC i audio datoteka. To vam omogućava da izmijenite "etiketa" vaših audio datoteka, i upravljate kolekcijama i listama izvođenja. Njegov je glavni fokus, u stvari, je na muzičkom menadžmentu.</p>
     <p xml:lang="ca">El JuK és una aplicació de màquina de discos musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les "etiquetes" dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
+    <p xml:lang="ca-valencia">El JuK és una aplicació de màquina de discos musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les "etiquetes" dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
     <p xml:lang="da">JuK er et lydjukebox-program, som understøtter samlinger af MP3-, Ogg Vorbis- og FLAC-lydfiler. Den lader dig redigere "mærkerne" i dine lydfiler og håndtere din samling og spillelister. Dens hovedfokus er faktisk på musikhåndtering.</p>
     <p xml:lang="el">Το JuK είναι μια εφαρμογή μουσικού κουτιού, που υποστηρίζει συλλογές MP3, Ogg Vorbis, και FLAC αρχεία ήχου. Σας επιτρέπει να επεξεργαστείτε τις "ετικέτες" των αρχείων ήχου σας, και να διαχειριστείτε τις συλλογές και τις λίστες αναπαραγωγής. Εστιάζει κυρίως στη διαχείριση μουσικής.</p>
     <p xml:lang="en-GB">JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
@@ -106,6 +109,7 @@
     <p xml:lang="bg">Възможности:</p>
     <p xml:lang="bs">Svojstva:</p>
     <p xml:lang="ca">Característiques:</p>
+    <p xml:lang="ca-valencia">Característiques:</p>
     <p xml:lang="cs">Vlastnosti:</p>
     <p xml:lang="da">Funktioner:</p>
     <p xml:lang="de">Funktionen:</p>
@@ -139,6 +143,7 @@
       <li>Collection list and multiple user defined playlists</li>
       <li xml:lang="bs">Kolekcijska lista i više korisnički definisanih lista izvođenja</li>
       <li xml:lang="ca">Llista de col·leccions i múltiples llistes de reproducció definides per usuari</li>
+      <li xml:lang="ca-valencia">Llista de col·leccions i múltiples llistes de reproducció definides per usuari</li>
       <li xml:lang="da">Samlingsliste og flere brugerdefinerede spillelister</li>
       <li xml:lang="de">Sammlungslisten und mehrere benutzerdefinierte Wiedergabelisten</li>
       <li xml:lang="el">Λίστα συλλογών και λίστες αναπαραγωγής πολλών χρηστών</li>
@@ -170,6 +175,7 @@
       <li>Ability to scan directories to automatically import playlists and music files on start up</li>
       <li xml:lang="bs">Mogućnost skeniranja direktorija da automatski uvezete liste izvođenja i muzičke datoteke pri pokretanju</li>
       <li xml:lang="ca">Capacitat d'explorar directoris per importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
+      <li xml:lang="ca-valencia">Capacitat d'explorar directoris per importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
       <li xml:lang="da">Kan scanne mapper for automatisk at importere spillelister og musikfiler ved opstart</li>
       <li xml:lang="de">Ordner können durchsucht werden, um beim Start automatisch Wiedergabelisten und Musikdateien zu importieren</li>
       <li xml:lang="el">Ικανότητα σάρωσης καταλόγων για την αυτόματη εισαγωγή λιστών αναπαραγωγής και μουσικών αρχείων κατά την εκκίνηση</li>
@@ -201,6 +207,7 @@
       <li>Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
       <li xml:lang="bs">Dinamička pretraga listi izvođenja koja se automatski ažurira kao polja u promjeni kolekcije</li>
       <li xml:lang="ca">Llistes de cerques dinàmiques que s'actualitzen automàticament a mesura que canvien els camps a la col·lecció.</li>
+      <li xml:lang="ca-valencia">Llistes de cerques dinàmiques que s'actualitzen automàticament a mesura que canvien els camps a la col·lecció.</li>
       <li xml:lang="da">Dynamisk søgning-spillelister som automatisk opdateres efterhånden som samlingen ændres</li>
       <li xml:lang="de">Dynamische Wiedergabelisten, die automatisch aktualisiert werden, wenn sich Felder in der Sammlung ändern</li>
       <li xml:lang="el">Λίστες αναπαραγωγής δυναμικής αναζήτησης που ενημερώνονται αυτόματα ως πεδία στην αλλαγή της συλλογής</li>
@@ -232,6 +239,7 @@
       <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
       <li xml:lang="bs">Režim pogleda stabla gdje se liste automatski generišu kao skupovi albuma, izvođača i žanrova</li>
       <li xml:lang="ca">Un mode de vista en arbre quan es generen automàticament llistes de reproducció per a conjunts d'àlbums, artistes i gèneres.</li>
+      <li xml:lang="ca-valencia">Un mode de vista en arbre quan es generen automàticament llistes de reproducció per a conjunts d'àlbums, artistes i gèneres.</li>
       <li xml:lang="da">En trævisningstilstand hvor spillelister automatisk genereres for sæt af albummer, kunstnere og genrer</li>
       <li xml:lang="de">Ein Baumansichtsmodus, in dem Wiedergabelisten automatisch für Gruppen von Alben, Interpreten und Genres generiert werden</li>
       <li xml:lang="el">Δενδρική άποψη όπου οι λίστες αναπαραγωγής παράγονται αυτόματα για σύνολα άλμπουμ, καλλιτεχνών και μουσικών ειδών</li>
@@ -263,6 +271,7 @@
       <li>Playlist history to indicate which files have been played and when</li>
       <li xml:lang="bs">Istorijat liste izvođenja da indicira koje su datoteke izvođene i kada</li>
       <li xml:lang="ca">Historial de les llistes de reproducció per indicar quins fitxers s'han reproduït i quan.</li>
+      <li xml:lang="ca-valencia">Historial de les llistes de reproducció per indicar quins fitxers s'han reproduït i quan.</li>
       <li xml:lang="da">Spillelistehistorik som indikerer hvilke filer der er blevet afspillet og hvornår</li>
       <li xml:lang="de">Wiedergabelisten-Verlauf zur Anzeige, welche Dateien wann abgespielt wurden</li>
       <li xml:lang="el">Ιστορικό λιστών αναπαραγωγής με ένδειξη για το ποια αρχεία έχουν προηγηθεί και πότε</li>
@@ -294,6 +303,7 @@
       <li>Inline search for filtering the list of visible items</li>
       <li xml:lang="bs">Linijska pretraga za filtriranje liste vidljivih objekata</li>
       <li xml:lang="ca">Cerca inclosa per filtrar la llista dels elements visibles.</li>
+      <li xml:lang="ca-valencia">Cerca inclosa per filtrar la llista dels elements visibles.</li>
       <li xml:lang="da">Indlejret søgning til filtrering af synlige elementer i listen</li>
       <li xml:lang="el">Αναζήτηση για φιλτράρισμα της λίστας με τα ορατά αντικείμενα</li>
       <li xml:lang="en-GB">Inline search for filtering the list of visible items</li>
@@ -324,6 +334,7 @@
       <li>The ability to guess tag information based on the track's file name</li>
       <li xml:lang="bs">Mogućnost pogađanja informacija o oznaci bazirano na imenu datoteke trake</li>
       <li xml:lang="ca">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça.</li>
+      <li xml:lang="ca-valencia">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça.</li>
       <li xml:lang="da">Mulighed for at gætte mærkeinformation baseret på sporets filnavn</li>
       <li xml:lang="de">Metadaten können anhand des Dateinamens eines Stücks geraten werden</li>
       <li xml:lang="el">Η ικανότητα πρόγνωσης της ετικέτας πληροφοριών με βάση το όνομα του μουσικού αρχείου</li>
@@ -355,6 +366,7 @@
       <li>File renamer that can rename files based on the tag content</li>
       <li xml:lang="bs">Preimenovanje datoteka na bazi sadržaja oznake</li>
       <li xml:lang="ca">Reanomenador de fitxers que pot reanomenar els fitxers basant-se en el contingut de l'etiqueta.</li>
+      <li xml:lang="ca-valencia">Reanomenador de fitxers que pot reanomenar els fitxers basant-se en el contingut de l'etiqueta.</li>
       <li xml:lang="da">Filomdøber som kan omdøbe filer baseret på mærkeindholdet</li>
       <li xml:lang="de">Dateien können basierend auf dem Inhalt der Metadaten umbenannt werden.</li>
       <li xml:lang="el">Πρόγραμμα μετονομασίας που λειτουργεί με βάση το περιεχόμενο της ετικέτας</li>
@@ -386,6 +398,7 @@
       <li>Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
       <li xml:lang="bs">Podrška za čitanje i uređivanje oznaka za mnoge formate uključujući ID3v1, ID3v2 i Ogg Vorbis</li>
       <li xml:lang="ca">Implementa la lectura i edició de les etiquetes per a molts formats incloent ID3v1, ID3v2 i Ogg Vorbis.</li>
+      <li xml:lang="ca-valencia">Implementa la lectura i edició de les etiquetes per a molts formats incloent ID3v1, ID3v2 i Ogg Vorbis.</li>
       <li xml:lang="da">Understøttelse af mærkelæsning og -redigering af mange formater inklusiv ID3v1, ID3v2 og Ogg Vorbis</li>
       <li xml:lang="de">Lesen und Bearbeiten von Metadaten für viele Formate einschließlich ID3v1, ID3v2 und Ogg Vorbis</li>
       <li xml:lang="el">Ανάγνωση και εγγραφή ετικέτας με υποστήριξη για πολλούς τύπους αποθήκευσης, για παράδειγμα ID3v1, ID3v2 και Ogg Vorbis</li>
