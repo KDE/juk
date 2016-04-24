@@ -570,8 +570,11 @@ void PlayerManager::slotMutedChanged(bool muted)
     if(!output)
         return;
 
-    if(output != m_output[m_curOutputPath])
+    if(output != m_output[m_curOutputPath] ||
+            m_output[m_curOutputPath]->isMuted() == muted)
+    {
         return;
+    }
 
     emit mutedChanged(muted);
 }
@@ -583,8 +586,11 @@ void PlayerManager::slotVolumeChanged(qreal volume)
     if(!output)
         return;
 
-    if(output != m_output[m_curOutputPath])
+    if(output != m_output[m_curOutputPath] ||
+            qFuzzyCompare(m_output[m_curOutputPath]->volume(), volume))
+    {
         return;
+    }
 
     emit volumeChanged(volume);
 }
