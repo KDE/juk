@@ -350,6 +350,9 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
     m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict;
     m_columnTags[PlaylistItem::AlbumColumn] = new TagCountDict;
     m_columnTags[PlaylistItem::GenreColumn] = new TagCountDict;
+
+    // Even set to true it wouldn't work with this class due to other checks
+    setAllowDuplicates(false);
 }
 
 CollectionList::~CollectionList()

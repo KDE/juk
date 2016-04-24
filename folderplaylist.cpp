@@ -29,6 +29,7 @@ FolderPlaylist::FolderPlaylist(PlaylistCollection *collection, const QString &fo
     Playlist(collection, name, "folder"),
     m_folder(folder)
 {
+    setAllowDuplicates(false);
     QTimer::singleShot(0, this, SLOT(slotReload()));
 }
 

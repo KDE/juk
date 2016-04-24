@@ -55,6 +55,7 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
     if(setupPlaylist)
         collection->setupPlaylist(this, iconName);
     setName(name);
+    setAllowDuplicates(false);
 
     setSorting(columns() + 1);
 
