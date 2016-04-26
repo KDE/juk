@@ -81,7 +81,7 @@ class NowPlayingItem
 public:
     virtual ~NowPlayingItem() {}
     virtual void update(const FileHandle &file) = 0;
-    NowPlaying *parent() const { return m_parent; }
+    NowPlaying *parentManager() const { return m_parent; }
 protected:
     NowPlayingItem(NowPlaying *parent) : m_parent(parent) { parent->addItem(this); }
 private:
