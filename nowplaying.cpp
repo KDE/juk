@@ -39,6 +39,7 @@
 #include <QUrl>
 #include <QList>
 #include <QTextDocument>
+#include <QFontMetrics>
 
 #include "playlistcollection.h"
 #include "playlistitem.h"
@@ -47,11 +48,9 @@
 #include "tag.h"
 #include "collectionlist.h"
 
-static const int imageSize = 64;
-
-struct Line : public QFrame
-{
-    Line(QWidget *parent) : QFrame(parent) { setFrameShape(VLine); }
+// Anon namespace to hide symbol from outside this translation unit
+namespace {
+    static int g_imageSize = 64;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -72,11 +71,17 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
 
     layout->setMargin(0);
     layout->setSpacing(3);
-    setFixedHeight(imageSize + 2);
+
+    // With HiDPI the text might actually be bigger... try to account for
+    // that.
+    QFont defaultLargeFont(KGlobalSettings::largeFont(QLatin1String("XXXXXXX")));
+    const QFontMetrics fm(defaultLargeFont, this);
+
+    g_imageSize = qMax(g_imageSize, fm.lineSpacing());
+    setFixedHeight(g_imageSize + 2);
 
     layout->addWidget(new CoverItem(this), 0);
     layout->addWidget(new TrackItem(this), 2);
-    layout->addWidget(new Line(this), 0);
 
     hide();
 }
@@ -120,7 +125,7 @@ CoverItem::CoverItem(NowPlaying *parent) :
     QLabel(parent),
     NowPlayingItem(parent)
 {
-    setObjectName( QLatin1String("CoverItem" ));
+    setObjectName(QLatin1String("CoverItem"));
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setMargin(1);
     setAcceptDrops(true);
@@ -134,7 +139,7 @@ void CoverItem::update(const FileHandle &file)
         show();
         setPixmap(
             file.coverInfo()->pixmap(CoverInfo::Thumbnail)
-            .scaled(imageSize, imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+            .scaled(g_imageSize, g_imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
     }
     else
         hide();
@@ -237,7 +242,7 @@ TrackItem::TrackItem(NowPlaying *parent) :
     QWidget(parent),
     NowPlayingItem(parent)
 {
-    setObjectName( QLatin1String("TrackItem" ));
+    setObjectName(QLatin1String("TrackItem"));
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
@@ -249,7 +254,7 @@ TrackItem::TrackItem(NowPlaying *parent) :
     m_label->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::LinksAccessibleByKeyboard);
 
     layout->addStretch();
-    layout->addWidget(m_label);
+    layout->addWidget(m_label, 1);
     layout->addStretch();
 
     connect(m_label, SIGNAL(linkActivated(QString)), this,
@@ -269,7 +274,7 @@ void TrackItem::update(const FileHandle &file)
 
 void TrackItem::slotOpenLink(const QString &link)
 {
-    PlaylistCollection *collection = NowPlayingItem::parent()->collection();
+    PlaylistCollection *collection = parentManager()->collection();
 
     if(link == "artist")
         collection->showMore(m_file.tag()->artist());
@@ -301,23 +306,26 @@ void TrackItem::slotUpdate()
         "<br />"
         "<font size=\"+%3\"><b><a href=\"artist\">%4</a>%5<a href=\"album\">%6</a></b>";
 
-    if(NowPlayingItem::parent()->collection()->showMoreActive())
+    if(parentManager()->collection()->showMoreActive())
         format.append(QString(" (<a href=\"clear\">%1</a>)").arg(i18n("back to playlist")));
 
     format.append("</font>");
+    int parentHeight = parentManager()->contentsRect().height();
+    int neededHeight = 0;
 
     do {
         m_label->setText(format.arg(size).arg(title).arg(size - 2)
                          .arg(artist).arg(separator).arg(album));
         --size;
-    } while(m_label->heightForWidth(m_label->width()) > imageSize && size >= 0);
+        neededHeight = m_label->heightForWidth(m_label->width());
+    } while(neededHeight > parentHeight && size >= -1);
 
-    m_label->setFixedHeight(qMin(imageSize, m_label->heightForWidth(m_label->width())));
+    m_label->setFixedHeight(qMin(neededHeight, parentHeight));
 }
 
 void TrackItem::slotClearShowMore()
 {
-    PlaylistCollection *collection = NowPlayingItem::parent()->collection();
+    PlaylistCollection *collection = parentManager()->collection();
     Q_ASSERT(collection);
     collection->clearShowMore();
 }
