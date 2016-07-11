@@ -82,7 +82,7 @@ QString MediaPlayer2::Identity() const
 
 QString MediaPlayer2::DesktopEntry() const
 {
-    return QLatin1String("kde4-juk");
+    return QLatin1String("juk");
 }
 
 QStringList MediaPlayer2::SupportedUriSchemes() const
