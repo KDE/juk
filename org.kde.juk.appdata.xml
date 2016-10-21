@@ -25,6 +25,7 @@
   <name xml:lang="ko">JuK</name>
   <name xml:lang="nds">JuK</name>
   <name xml:lang="nl">JuK</name>
+  <name xml:lang="nn">JuK</name>
   <name xml:lang="pl">JuK</name>
   <name xml:lang="pt">JuK</name>
   <name xml:lang="pt-BR">JuK</name>
@@ -60,6 +61,7 @@
   <summary xml:lang="ko">음악 재생기</summary>
   <summary xml:lang="nds">Musikafspeler</summary>
   <summary xml:lang="nl">Muziekspeler</summary>
+  <summary xml:lang="nn">Musikkspelar</summary>
   <summary xml:lang="pl">Odtwarzacz muzyki</summary>
   <summary xml:lang="pt">Leitor de Música</summary>
   <summary xml:lang="pt-BR">Reprodutor de músicas</summary>
@@ -128,6 +130,7 @@
     <p xml:lang="ko">기능:</p>
     <p xml:lang="nds">Markmalen:</p>
     <p xml:lang="nl">Mogelijkheden:</p>
+    <p xml:lang="nn">Funksjonar:</p>
     <p xml:lang="pl">Cechy:</p>
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
