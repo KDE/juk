@@ -36,7 +36,7 @@ UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection) :
 {
     setName(i18n("Play Queue"));
     setAllowDuplicates(true);
-    setSorting(-1);
+    sortItems(-1, Qt::AscendingOrder);
 }
 
 UpcomingPlaylist::~UpcomingPlaylist()
@@ -69,7 +69,7 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
     if(itemList.isEmpty())
         return;
 
-    PlaylistItem *after = static_cast<PlaylistItem *>(lastItem());
+    PlaylistItem *after = static_cast<PlaylistItem *>(topLevelItem(topLevelItemCount() - 1));
 
     foreach(PlaylistItem *playlistItem, itemList) {
         after = createItem(playlistItem, after);
@@ -187,7 +187,8 @@ void UpcomingPlaylist::UpcomingSequenceIterator::advance()
     PlaylistItem *item = m_playlist->firstChild();
 
     if(item) {
-        PlaylistItem *next = static_cast<PlaylistItem *>(item->nextSibling());
+        QTreeWidgetItemIterator it(item);
+        PlaylistItem *next = static_cast<PlaylistItem *>(*(++it));
         m_playlist->clearItem(item);
         setCurrent(next);
     }

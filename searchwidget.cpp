@@ -177,9 +177,9 @@ void SearchLine::updateColumns()
     int selection = -1;
     m_columnList.clear();
 
-    for(int i = 0; i < playlist->columns(); i++) {
+    for(int i = 0; i < playlist->columnCount(); i++) {
         m_columnList.append(i);
-        QString text = playlist->columnText(i);
+        QString text = playlist->headerItem()->text(i);
         columnHeaders.append(text);
         if(currentText == text)
             selection = m_columnList.size() - 1;

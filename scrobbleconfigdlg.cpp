@@ -23,6 +23,7 @@
 #include <KPushButton>
 #include <KLocalizedString>
 #include <KMessageBox>
+#include <kglobal.h>
 
 #include <QLayout>
 #include <QLabel>

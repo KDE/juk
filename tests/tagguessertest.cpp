@@ -22,7 +22,7 @@
 // THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "tagguesser.h"
-#include <qtest_kde.h>
+#include <QTest>
 #include <QDir>
 
 class TagGuesserTest : public QObject
@@ -139,8 +139,8 @@ void TagGuesserTest::add(const QString &filename, const QString &title,
     ;
 }
 
-QTEST_KDEMAIN_CORE(TagGuesserTest)
+QTEST_MAIN(TagGuesserTest)
 
 // vim: set et sw=4 tw=0 sta:
 
-#include "tagguessettest.moc"
+#include "tagguessertest.moc"

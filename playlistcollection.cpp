@@ -30,6 +30,7 @@
 #include <kactionmenu.h>
 #include <kconfiggroup.h>
 #include <kfileitem.h>
+#include <kglobal.h>
 
 #include <config-juk.h>
 
@@ -373,9 +374,9 @@ void PlaylistCollection::open(const QString &playlist, const QStringList &files)
 void PlaylistCollection::addFolder()
 {
     DirectoryList l(m_folderList, m_excludedFolderList, m_importPlaylists, JuK::JuKInstance());
-    DirectoryList::Result result = l.exec();
+    //DirectoryList::Result result = l.exec();
 
-    if(result.status == QDialog::Accepted) {
+    /*if(result.status == QDialog::Accepted) {
 
         m_dirLister.blockSignals(true);
 
@@ -404,7 +405,7 @@ void PlaylistCollection::addFolder()
         saveConfig();
 
         m_dirLister.blockSignals(false);
-    }
+    }*/
 }
 
 void PlaylistCollection::rename()
@@ -456,13 +457,13 @@ void PlaylistCollection::editSearch()
     if(!p)
         return;
 
-    AdvancedSearchDialog::Result r =
+    /*AdvancedSearchDialog::Result r =
         AdvancedSearchDialog(p->name(), p->playlistSearch(), JuK::JuKInstance()).exec();
 
     if(r.result == AdvancedSearchDialog::Accepted) {
         p->setPlaylistSearch(r.search);
         p->setName(r.playlistName);
-    }
+    }*/
 }
 
 void PlaylistCollection::removeItems()
@@ -528,11 +529,11 @@ void PlaylistCollection::createSearchPlaylist()
 {
     QString name = uniquePlaylistName(i18n("Search Playlist"));
 
-    AdvancedSearchDialog::Result r =
+    /*AdvancedSearchDialog::Result r =
         AdvancedSearchDialog(name, PlaylistSearch(), JuK::JuKInstance()).exec();
 
     if(r.result == AdvancedSearchDialog::Accepted)
-        raise(new SearchPlaylist(this, r.search, r.playlistName));
+        raise(new SearchPlaylist(this, r.search, r.playlistName));*/
 }
 
 void PlaylistCollection::createFolderPlaylist()
@@ -707,7 +708,7 @@ void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
         m_playlistNames.insert(playlist->name());
 
     m_playlistStack->addWidget(playlist);
-    QObject::connect(playlist, SIGNAL(selectionChanged()),
+    QObject::connect(playlist, SIGNAL(itemSelectionChanged()),
                      object(), SIGNAL(signalSelectedItemsChanged()));
 }
 

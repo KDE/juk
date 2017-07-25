@@ -57,7 +57,7 @@
 struct CoverPopup : public QWidget
 {
     CoverPopup(const QPixmap &image, const QPoint &p) :
-        QWidget(0, Qt::WDestructiveClose | Qt::WX11BypassWM)
+        QWidget(0, Qt::WindowFlags(Qt::WA_DeleteOnClose | Qt::X11BypassWindowManagerHint))
     {
         QHBoxLayout *layout = new QHBoxLayout(this);
         QLabel *label = new QLabel(this);

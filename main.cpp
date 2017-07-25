@@ -50,65 +50,68 @@ static const char sho[]         = I18N_NOOP("MPRIS2 Interface implementation.");
 
 int main(int argc, char *argv[])
 {
-    KAboutData aboutData("juk", 0, ki18n("JuK"),
-                         "3.14", ki18n(description), KAboutData::License_GPL,
-                         ki18n("© 2002–2016, Scott Wheeler, Michael Pyne, and others"),
-                         KLocalizedString(),
-                         "http://www.kde.org/applications/multimedia/juk/");
+    QApplication app(argc, argv);
+    KLocalizedString::setApplicationDomain("juk");
 
-    aboutData.addAuthor(ki18n("Scott Wheeler"), ki18n(scott), "wheeler@kde.org");
-    aboutData.addAuthor(ki18n("Michael Pyne"), ki18n(michael), "mpyne@kde.org");
-    aboutData.addCredit(ki18n("Γιώργος Κυλάφας (Giorgos Kylafas)"), ki18n(giorgos), "gekylafas@gmail.com");
-    aboutData.addCredit(ki18n("Daniel Molkentin"), ki18n(daniel), "molkentin@kde.org");
-    aboutData.addCredit(ki18n("Tim Jansen"), ki18n(tim), "tim@tjansen.de");
-    aboutData.addCredit(ki18n("Stefan Asserhäll"), ki18n(stefan), "stefan.asserhall@telia.com");
-    aboutData.addCredit(ki18n("Stephen Douglas"), ki18n(stephen), "stephen_douglas@yahoo.com");
-    aboutData.addCredit(ki18n("Frerich Raabe"), ki18n(frerich), "raabe@kde.org");
-    aboutData.addCredit(ki18n("Zack Rusin"), ki18n(zack), "zack@kde.org");
-    aboutData.addCredit(ki18n("Adam Treat"), ki18n(adam), "manyoso@yahoo.com");
-    aboutData.addCredit(ki18n("Matthias Kretz"), ki18n(matthias), "kretz@kde.org");
-    aboutData.addCredit(ki18n("Maks Orlovich"), ki18n(maks), "maksim@kde.org");
-    aboutData.addCredit(ki18n("Antonio Larrosa Jimenez"), ki18n(antonio), "larrosa@kde.org");
-    aboutData.addCredit(ki18n("Allan Sandfeld Jensen"), ki18n(allan), "kde@carewolf.com");
-    aboutData.addCredit(ki18n("Nathan Toone"), ki18n(nathan), "nathan@toonetown.com");
-    aboutData.addCredit(ki18n("Pascal Klein"), ki18n(pascal), "4pascal@tpg.com.au");
-    aboutData.addCredit(ki18n("Laurent Montel"), ki18n(laurent), "montel@kde.org");
-    aboutData.addCredit(ki18n("Georg Grabler"), ki18n(georg), "georg@grabler.net");
-    aboutData.addCredit(ki18n("Martin Sandsmark"), ki18n(sandsmark), "martin.sandsmark@kde.org");
-    aboutData.addCredit(ki18n("Eike Hein"), ki18n(sho), "hein@kde.org");
+    KAboutData aboutData(QStringLiteral("juk"), i18n("JuK"),
+                         QStringLiteral("3.14"), i18n(description), KAboutLicense::GPL,
+                         i18n("© 2002–2016, Scott Wheeler, Michael Pyne, and others"),
+                         QStringLiteral(""),
+                         QStringLiteral("http://www.kde.org/applications/multimedia/juk/"));
 
-    KCmdLineArgs::init(argc, argv, &aboutData);
+    aboutData.addAuthor(i18n("Scott Wheeler"), i18n(scott), "wheeler@kde.org");
+    aboutData.addAuthor(i18n("Michael Pyne"), i18n(michael), "mpyne@kde.org");
+    aboutData.addCredit(i18n("Γιώργος Κυλάφας (Giorgos Kylafas)"), i18n(giorgos), "gekylafas@gmail.com");
+    aboutData.addCredit(i18n("Daniel Molkentin"), i18n(daniel), "molkentin@kde.org");
+    aboutData.addCredit(i18n("Tim Jansen"), i18n(tim), "tim@tjansen.de");
+    aboutData.addCredit(i18n("Stefan Asserhäll"), i18n(stefan), "stefan.asserhall@telia.com");
+    aboutData.addCredit(i18n("Stephen Douglas"), i18n(stephen), "stephen_douglas@yahoo.com");
+    aboutData.addCredit(i18n("Frerich Raabe"), i18n(frerich), "raabe@kde.org");
+    aboutData.addCredit(i18n("Zack Rusin"), i18n(zack), "zack@kde.org");
+    aboutData.addCredit(i18n("Adam Treat"), i18n(adam), "manyoso@yahoo.com");
+    aboutData.addCredit(i18n("Matthias Kretz"), i18n(matthias), "kretz@kde.org");
+    aboutData.addCredit(i18n("Maks Orlovich"), i18n(maks), "maksim@kde.org");
+    aboutData.addCredit(i18n("Antonio Larrosa Jimenez"), i18n(antonio), "larrosa@kde.org");
+    aboutData.addCredit(i18n("Allan Sandfeld Jensen"), i18n(allan), "kde@carewolf.com");
+    aboutData.addCredit(i18n("Nathan Toone"), i18n(nathan), "nathan@toonetown.com");
+    aboutData.addCredit(i18n("Pascal Klein"), i18n(pascal), "4pascal@tpg.com.au");
+    aboutData.addCredit(i18n("Laurent Montel"), i18n(laurent), "montel@kde.org");
+    aboutData.addCredit(i18n("Georg Grabler"), i18n(georg), "georg@grabler.net");
+    aboutData.addCredit(i18n("Martin Sandsmark"), i18n(sandsmark), "martin.sandsmark@kde.org");
+    aboutData.addCredit(i18n("Eike Hein"), i18n(sho), "hein@kde.org");
+    KAboutData::setApplicationData(aboutData);
+
+    /*KCmdLineArgs::init(argc, argv, &aboutData);
 
     KCmdLineOptions options;
     options.add("+[file(s)]", ki18n("File(s) to open"));
     KCmdLineArgs::addCmdLineOptions(options);
 
-    KUniqueApplication::addCmdLineOptions();
+    KUniqueApplication::addCmdLineOptions();*/
 
-    KUniqueApplication a;
 
     // If this flag gets set then JuK will quit if you click the cover on the track
     // announcement popup when JuK is only in the system tray (the systray has no widget).
 
-    a.setQuitOnLastWindowClosed(false);
+    app.setQuitOnLastWindowClosed(false);
 
     // Create the main window and such
 
     JuK *juk = new JuK;
 
-    if(a.isSessionRestored() && KMainWindow::canBeRestored(1))
+    if(app.isSessionRestored() && KMainWindow::canBeRestored(1))
         juk->restore(1, false /* don't show */);
 
     KConfigGroup config(KGlobal::config(), "Settings");
     if(!config.readEntry("StartDocked", false)) {
         juk->show();
     }
-    else if(!a.isSessionRestored()) {
+    else if(!app.isSessionRestored()) {
         QString message = i18n("JuK running in docked mode\nUse context menu in system tray to restore.");
         KNotification::event("dock_mode",i18n("JuK Docked"), message);
     }
 
-    return a.exec();
+    return app.exec();
 }
 
 // vim: set et sw=4 tw=0 sta fileencoding=utf8:

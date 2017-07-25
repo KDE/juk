@@ -167,7 +167,7 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     ActionCollection::actions()->addAction("showPopup", rpaction);
     connect(rpaction, SIGNAL(triggered(bool)), SLOT(slotPlay()));
 
-    KMenu *cm = contextMenu();
+    QMenu *cm = contextMenu();
 
     connect(m_player, SIGNAL(signalPlay()), this, SLOT(slotPlay()));
     connect(m_player, SIGNAL(signalPause()), this, SLOT(slotPause()));
@@ -184,7 +184,7 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     // Pity the actionCollection doesn't keep track of what sub-menus it has.
 
     KActionMenu *menu = new KActionMenu(i18n("&Random Play"), this);
-    actionCollection()->addAction("randomplay", menu);
+    //actionCollection()->addAction("randomplay", menu);
     menu->addAction(action("disableRandomPlay"));
     menu->addAction(action("randomPlay"));
     menu->addAction(action("albumRandomPlay"));
@@ -496,7 +496,7 @@ void SystemTray::scrollEvent(int delta, Qt::Orientation orientation)
         return;
 
     switch(QApplication::keyboardModifiers()) {
-    case Qt::ShiftButton:
+    case Qt::ShiftModifier:
         if(delta > 0)
             action("volumeUp")->trigger();
         else

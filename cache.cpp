@@ -25,6 +25,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <ktoggleaction.h>
+#include <kglobal.h>
 
 #include <QDir>
 #include <QBuffer>
@@ -172,7 +173,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                     qint32 sortColumn;
                     s >> sortColumn;
                     if(playlist)
-                        playlist->setSorting(sortColumn);
+                        playlist->model()->sort(sortColumn);
                 }
 
             } // while !s.atEnd()
@@ -269,7 +270,8 @@ void Cache::savePlaylists(const PlaylistList &playlists)
                 s << qint32(Normal)
                   << *(*it);
             }
-            s << qint32((*it)->sortColumn());
+            //s << qint32((*it)->sortColumn());
+            s << 0;
         }
     }
 

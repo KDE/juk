@@ -79,11 +79,12 @@ DirectoryList::~DirectoryList()
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-DirectoryList::Result DirectoryList::exec()
+int DirectoryList::exec()
 {
     m_result.status = static_cast<DialogCode>(KDialog::exec());
     m_result.addPlaylists = m_base->importPlaylistsCheckBox->isChecked();
-    return m_result;
+    //return m_result;
+    return 0;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

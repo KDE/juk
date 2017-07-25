@@ -25,7 +25,7 @@
 class HistoryPlaylistItem : public PlaylistItem
 {
 public:
-    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after);
+    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, QTreeWidgetItem *after);
     HistoryPlaylistItem(CollectionListItem *item, Playlist *parent);
     virtual ~HistoryPlaylistItem();
 
@@ -44,7 +44,7 @@ public:
     HistoryPlaylist(PlaylistCollection *collection);
     virtual ~HistoryPlaylist();
 
-    virtual HistoryPlaylistItem *createItem(const FileHandle &file, Q3ListViewItem *after = 0,
+    virtual HistoryPlaylistItem *createItem(const FileHandle &file, QTreeWidgetItem *after = 0,
                                             bool emitChanged = true);
     virtual void createItems(const PlaylistItemList &siblings);
     virtual int columnOffset() const { return 1; }

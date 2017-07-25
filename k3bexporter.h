@@ -18,6 +18,7 @@
 #define K3BEXPORTER_H
 
 #include <kaction.h>
+#include <kshortcut.h>
 
 #include "playlistexporter.h"
 #include "playlistitem.h"

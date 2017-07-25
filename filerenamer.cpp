@@ -47,6 +47,7 @@
 #include <QPixmap>
 #include <QFrame>
 #include <QTreeWidget>
+#include <QScrollBar>
 
 #include "tag.h"
 #include "filerenameroptions.h"
@@ -899,7 +900,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
     if(itemMap.isEmpty() || ConfirmationDialog(map).exec() != QDialog::Accepted)
         return;
 
-    KApplication::setOverrideCursor(Qt::waitCursor);
+    KApplication::setOverrideCursor(Qt::WaitCursor);
     for(QMap<QString, QString>::ConstIterator it = map.constBegin();
         it != map.constEnd(); ++it)
     {

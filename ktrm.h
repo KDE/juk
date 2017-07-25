@@ -28,6 +28,8 @@
 
 #include <QObject>
 
+#if 0
+
 template<class T>
 class QList;
 
@@ -213,6 +215,8 @@ private:
  */
 double stringSimilarity(QString s1, QString s2);
 double stringSimilarity(const QStringList &l, const QString &s);
+
+#endif
 
 #endif
 

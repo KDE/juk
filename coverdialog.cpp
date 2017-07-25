@@ -60,7 +60,7 @@ public:
 };
 
 CoverDialog::CoverDialog(QWidget *parent) :
-    QWidget(parent, Qt::WType_Dialog)
+    QWidget(parent, Qt::Dialog)
 {
     setupUi(this);
 

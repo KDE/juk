@@ -50,7 +50,7 @@ public:
     virtual ~DirectoryList();
 
 public slots:
-    Result exec();
+    int exec();
 
 signals:
     void signalDirectoryAdded(const QString &directory);

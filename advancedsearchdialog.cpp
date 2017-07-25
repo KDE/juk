@@ -135,13 +135,15 @@ AdvancedSearchDialog::~AdvancedSearchDialog()
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-AdvancedSearchDialog::Result AdvancedSearchDialog::exec()
+//AdvancedSearchDialog::Result AdvancedSearchDialog::exec()
+int AdvancedSearchDialog::exec()
 {
+    return 0; // FIXME
     Result r;
     r.result = DialogCode(KDialog::exec());
     r.search = m_search;
     r.playlistName = m_playlistName;
-    return r;
+    //return r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

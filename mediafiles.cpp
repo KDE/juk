@@ -21,6 +21,7 @@
 #include <klocale.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
+#include <kmimetype.h>
 
 #include <QtGui/QWidget>
 #include <QtCore/QFile>
@@ -98,7 +99,7 @@ QStringList MediaFiles::openDialog(QWidget *parent)
 
     dialog->setOperationMode(KFileDialog::Opening);
 
-    dialog->setCaption(i18nc("open audio file", "Open"));
+    //dialog->setCaption(i18nc("open audio file", "Open")); FIXME
     dialog->setMode(KFile::Files | KFile::LocalOnly);
     // dialog.ops->clearHistory();
     dialog->setMimeFilter(mimeTypes());
@@ -128,8 +129,9 @@ QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *par
 TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    if(!result->isValid())
-        return 0;
+    // FIXME
+    //if(!result->isValid())
+    //    return 0;
 
     TagLib::File *file(0);
     QByteArray encodedFileName(QFile::encodeName(fileName));
@@ -167,8 +169,9 @@ TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
 bool MediaFiles::isMediaFile(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    if(!result->isValid())
-        return false;
+    // FIXME
+    /*if(!result->isValid())
+        return false;*/
 
     // Search through our table of media types for a match
     for(unsigned i = 0; i < ARRAY_SIZE(mediaTypes); ++i) {

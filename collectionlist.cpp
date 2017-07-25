@@ -121,10 +121,11 @@ void CollectionList::completedLoadingCachedItems()
     if(config.readEntry("CollectionListSortAscending", true))
         order = Qt::AscendingOrder;
 
-    m_list->setSortOrder(order);
-    m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
+    // FIXME
+    //m_list->setSortOrder(order);
+    //m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
 
-    m_list->sort();
+    //m_list->sort();
 
     SplashScreen::finishedLoading();
 
@@ -153,7 +154,7 @@ void CollectionList::initialize(PlaylistCollection *collection)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem *, bool)
+CollectionListItem *CollectionList::createItem(const FileHandle &file, QTreeWidgetItem *, bool)
 {
     // It's probably possible to optimize the line below away, but, well, right
     // now it's more important to not load duplicate items.
@@ -345,7 +346,8 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
             this, SLOT(slotPopulateBackMenu()));
     connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(triggered(QAction*)),
             this, SLOT(slotPlayFromBackMenu(QAction*)));
-    setSorting(-1); // Temporarily disable sorting to add items faster.
+    //FIXME
+    //setSorting(-1); // Temporarily disable sorting to add items faster.
 
     m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict;
     m_columnTags[PlaylistItem::AlbumColumn] = new TagCountDict;
@@ -358,8 +360,9 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
 CollectionList::~CollectionList()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
-    config.writeEntry("CollectionListSortColumn", sortColumn());
-    config.writeEntry("CollectionListSortAscending", sortOrder() == Qt::AscendingOrder);
+    //FIXME
+    //config.writeEntry("CollectionListSortColumn", sortColumn());
+    //config.writeEntry("CollectionListSortAscending", sortOrder() == Qt::AscendingOrder);
 
     // In some situations the dataChanged signal from clearItems will cause observers to
     // subsequently try to access a deleted item.  Since we're going away just remove all
@@ -387,9 +390,9 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-    if(e->source() != this)
+    /*if(e->source() != this)
         Playlist::contentsDragMoveEvent(e);
-    else
+    else*/
         e->setAccepted(false);
 }
 
@@ -474,6 +477,7 @@ void CollectionListItem::refresh()
     data()->cachedWidths.resize(columns);
 
     for(int i = offset; i < columns; i++) {
+        setData(i, Qt::DisplayRole, text(i));
         int id = i - offset;
         if(id != TrackNumberColumn && id != LengthColumn) {
             // All columns other than track num and length need local-encoded data for sorting
@@ -497,21 +501,21 @@ void CollectionListItem::refresh()
             data()->metadata[id] = toLower;
         }
 
-        int newWidth = width(listView()->fontMetrics(), listView(), i);
+        /*int newWidth = width(listView()->fontMetrics(), listView(), i);
         if(newWidth != data()->cachedWidths[i])
             playlist()->slotWeightDirty(i);
 
-        data()->cachedWidths[i] = newWidth;
+        data()->cachedWidths[i] = newWidth;*/
     }
 
-    if(listView()->isVisible())
-        repaint();
+    /*if(listView()->isVisible())
+        repaint();*/
 
     for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
         (*it)->playlist()->update();
         (*it)->playlist()->dataChanged();
-        if((*it)->listView()->isVisible())
-            (*it)->repaint();
+        /*if((*it)->treeWidget()->isVisible())
+            (*it)->repaint();*/
     }
 
     CollectionList::instance()->dataChanged();
@@ -543,9 +547,9 @@ void CollectionListItem::updateCollectionDict(const QString &oldPath, const QStr
 
 void CollectionListItem::repaint() const
 {
-    Q3ListViewItem::repaint();
+    /*QItemDelegate::repaint();
     for(PlaylistItemList::ConstIterator it = m_children.constBegin(); it != m_children.constEnd(); ++it)
-        (*it)->repaint();
+        (*it)->repaint();*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////

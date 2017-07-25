@@ -38,8 +38,8 @@ HistoryPlaylist::HistoryPlaylist(PlaylistCollection *collection) :
     m_timer->setSingleShot(true);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(slotCreateNewItem()));
 
-    setSorting(-1);
-    setColumnText(0, i18n("Time"));
+    sortItems(-1, Qt::AscendingOrder);
+    headerItem()->setText(0, i18n("Time"));
 }
 
 HistoryPlaylist::~HistoryPlaylist()
@@ -48,10 +48,10 @@ HistoryPlaylist::~HistoryPlaylist()
 }
 
 HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file,
-                                                 Q3ListViewItem *after, bool emitChanged)
+                                                 QTreeWidgetItem *after, bool emitChanged)
 {
     if(!after)
-        after = lastItem();
+        after = topLevelItem(topLevelItemCount() - 1);
     return Playlist::createItem<HistoryPlaylistItem>(file, after, emitChanged);
 }
 
@@ -84,7 +84,7 @@ void HistoryPlaylist::slotCreateNewItem()
 // HistoryPlaylistItem public members
 ////////////////////////////////////////////////////////////////////////////////
 
-HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
+HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, QTreeWidgetItem *after) :
     PlaylistItem(item, parent, after),
     m_dateTime(QDateTime::currentDateTime())
 {

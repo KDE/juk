@@ -146,8 +146,8 @@ void DefaultSequenceIterator::advance()
         if(!next && loop) {
             Playlist *p = current()->playlist();
             next = p->firstChild();
-            while(next && !next->isVisible())
-                next = static_cast<PlaylistItem *>(next->nextSibling());
+            /*while(next && !next->isVisible())
+                next = static_cast<PlaylistItem *>(next->nextSibling());*/
         }
 
         setCurrent(next);
@@ -183,11 +183,11 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
         refillRandomList();
     }
     else {
-        Q3ListViewItemIterator it(playlist, Q3ListViewItemIterator::Visible | Q3ListViewItemIterator::Selected);
-        if(!it.current())
-            it = Q3ListViewItemIterator(playlist, Q3ListViewItemIterator::Visible);
+        QTreeWidgetItemIterator it(playlist, QTreeWidgetItemIterator::NotHidden | QTreeWidgetItemIterator::Selected);
+        if(!*it)
+            it = QTreeWidgetItemIterator(playlist, QTreeWidgetItemIterator::NotHidden);
 
-        setCurrent(static_cast<PlaylistItem *>(it.current()));
+        setCurrent(static_cast<PlaylistItem *>(*it));
     }
 }
 

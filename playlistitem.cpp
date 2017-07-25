@@ -22,6 +22,7 @@
 
 #include <QPixmap>
 #include <QFileInfo>
+#include <QGlobalStatic>
 
 #include "collectionlist.h"
 #include "musicbrainzquery.h"
@@ -88,8 +89,8 @@ FileHandle PlaylistItem::file() const
     return d->fileHandle;
 }
 
-K_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalGenericImage, (SmallIcon("image-x-generic")))
-K_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalPlayingImage, (UserIcon("playing")))
+Q_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalGenericImage, (SmallIcon("image-x-generic")))
+Q_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalPlayingImage, (UserIcon("playing")))
 
 const QPixmap *PlaylistItem::pixmap(int column) const
 {
@@ -111,7 +112,8 @@ const QPixmap *PlaylistItem::pixmap(int column) const
         return globalPlayingImage;
     }
 
-    return K3ListViewItem::pixmap(column);
+    //return QTreeWidgetItem::pixmap(column);
+    return nullptr;
 }
 
 QString PlaylistItem::text(int column) const
@@ -151,7 +153,7 @@ QString PlaylistItem::text(int column) const
     case FullPathColumn:
         return d->fileHandle.fileInfo().absoluteFilePath();
     default:
-        return K3ListViewItem::text(column);
+        return QTreeWidgetItem::text(column);
     }
 }
 
@@ -159,11 +161,11 @@ void PlaylistItem::setText(int column, const QString &text)
 {
     int offset = playlist()->columnOffset();
     if(column - offset >= 0 && column + offset <= lastColumn()) {
-        K3ListViewItem::setText(column, QString());
+        QTreeWidgetItem::setText(column, QString());
         return;
     }
 
-    K3ListViewItem::setText(column, text);
+    QTreeWidgetItem::setText(column, text);
     playlist()->slotWeightDirty(column);
 }
 
@@ -186,13 +188,13 @@ void PlaylistItem::setPlaying(bool playing, bool master)
             m_playingItems.front()->setPlaying(false);
     }
 
-    listView()->triggerUpdate();
+    treeWidget()->viewport()->update();
 }
 
 void PlaylistItem::setSelected(bool selected)
 {
     playlist()->markItemSelected(this, selected);
-    K3ListViewItem::setSelected(selected);
+    QTreeWidgetItem::setSelected(selected);
 }
 
 void PlaylistItem::guessTagInfo(TagGuesser::Type type)
@@ -225,7 +227,7 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
 
 Playlist *PlaylistItem::playlist() const
 {
-    return static_cast<Playlist *>(listView());
+    return static_cast<Playlist *>(treeWidget());
 }
 
 QVector<int> PlaylistItem::cachedWidths() const
@@ -254,15 +256,15 @@ void PlaylistItem::clear()
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent) :
-    K3ListViewItem(parent),
+    QTreeWidgetItem(parent),
     d(0),
     m_watched(0)
 {
     setup(item);
 }
 
-PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
-    K3ListViewItem(parent, after),
+PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QTreeWidgetItem *after) :
+    QTreeWidgetItem(parent, after),
     d(0),
     m_watched(0)
 {
@@ -273,18 +275,18 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListVie
 // This constructor should only be used by the CollectionList subclass.
 
 PlaylistItem::PlaylistItem(CollectionList *parent) :
-    K3ListViewItem(parent),
+    QTreeWidgetItem(parent),
     m_watched(0)
 {
     d = new Data;
     m_collectionItem = static_cast<CollectionListItem *>(this);
-    setDragEnabled(true);
+    //setDragEnabled(true);
 }
 
-void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
+/*void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
 {
     if(!m_playingItems.contains(this))
-        return K3ListViewItem::paintCell(p, cg, column, width, align);
+        return QTreeWidgetItem::paintCell(p, cg, column, width, align);
 
     QPalette colorGroup = cg;
 
@@ -298,10 +300,10 @@ void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int
     QColor c(r, g, b);
 
     colorGroup.setColor(QPalette::Base, c);
-    Q3ListViewItem::paintCell(p, colorGroup, column, width, align);
-}
+    QTreeWidgetItem::paintCell(p, colorGroup, column, width, align);
+}*/
 
-int PlaylistItem::compare(Q3ListViewItem *item, int column, bool ascending) const
+int PlaylistItem::compare(QTreeWidgetItem *item, int column, bool ascending) const
 {
     // reimplemented from QListViewItem
 
@@ -410,7 +412,7 @@ void PlaylistItem::setup(CollectionListItem *item)
 
     d = item->d;
     item->addChildItem(this);
-    setDragEnabled(true);
+    //setDragEnabled(true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

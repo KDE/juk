@@ -22,6 +22,8 @@
 #include <QVector>
 #include <QMap>
 
+#include <KUrl>
+
 #include "ui_filerenamerbase.h"
 #include "categoryreaderinterface.h"
 #include "tagrenameroptions.h"

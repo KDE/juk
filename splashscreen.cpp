@@ -72,7 +72,7 @@ void SplashScreen::update()
 // protected members
 ////////////////////////////////////////////////////////////////////////////////
 
-SplashScreen::SplashScreen() : QLabel(0, Qt::WStyle_Splash)
+SplashScreen::SplashScreen() : QLabel(0, Qt::SplashScreen)
 {
     setObjectName( QLatin1String("splashScreen" ));
 

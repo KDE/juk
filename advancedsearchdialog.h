@@ -48,7 +48,8 @@ public:
     virtual ~AdvancedSearchDialog();
 
 public slots:
-    Result exec();
+    //Result exec();
+    int exec();
 
 protected slots:
     virtual void accept();

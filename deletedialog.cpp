@@ -23,6 +23,7 @@
 #include <kiconloader.h>
 #include <kconfig.h>
 #include <kconfiggroup.h>
+#include <kglobal.h>
 
 #include <QStringList>
 #include <QCheckBox>
@@ -80,7 +81,7 @@ void DeleteWidget::slotShouldDelete(bool shouldDelete)
 //////////////////////////////////////////////////////////////////////////////
 
 DeleteDialog::DeleteDialog(QWidget *parent) :
-    KDialog(parent, Qt::WStyle_DialogBorder),
+    KDialog(parent, Qt::MSWindowsFixedSizeDialogHint),
     m_trashGuiItem(i18n("&Send to Trash"), "user-trash-full")
 {
     setObjectName( QLatin1String("delete_dialog" ));

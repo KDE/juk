@@ -17,6 +17,8 @@
 #ifndef EXAMPLEOPTIONS_H
 #define EXAMPLEOPTIONS_H
 
+#include <KUrl>
+
 #include <qdialog.h>
 
 #include <QHideEvent>

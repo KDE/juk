@@ -24,6 +24,8 @@
 #include <KToggleAction>
 #include <KConfigGroup>
 #include <KDebug>
+#include <KIcon>
+#include <kglobal.h>
 
 #include "lyricswidget.h"
 #include "tag.h"
@@ -42,7 +44,7 @@ LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     KToggleAction *show = new KToggleAction(KIcon(QLatin1String("view-media-lyrics")),
                                             i18n("Show &Lyrics"), this);
     ActionCollection::actions()->addAction("showLyrics", show);
-    connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
+    //connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
 
     KConfigGroup config(KGlobal::config(), "LyricsWidget");
     bool shown = config.readEntry("Show", true);

@@ -39,10 +39,10 @@ public:
     virtual QString name() const;
     virtual void setShown(bool shown);
 
-    virtual void paintCell(PlaylistBox::Item *item,
+    /*virtual void paintCell(PlaylistBox::Item *item,
                            QPainter *painter,
                            const QColorGroup &colorGroup,
-                           int column, int width, int align);
+                           int column, int width, int align);*/
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
     void queueRefresh() { m_needsRefresh = true; }
@@ -106,12 +106,12 @@ public:
     virtual QString name() const;
     virtual void setShown(bool shown);
 
-    virtual void paintCell(PlaylistBox::Item *item,
+    /*virtual void paintCell(PlaylistBox::Item *item,
                            QPainter *painter,
                            const QColorGroup &colorGroup,
-                           int column, int width, int align);
+                           int column, int width, int align);*/
 
-    virtual void setupItem(PlaylistBox::Item *item) const { item->K3ListViewItem::setup(); }
+    virtual void setupItem(PlaylistBox::Item *item) const { /*item->QTreeWidgetItem::setup();*/ }
 protected:
     virtual void updateHeights();
 };

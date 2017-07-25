@@ -30,6 +30,7 @@
 #include <kaction.h>
 #include <kconfiggroup.h>
 #include <kapplication.h>
+#include <kglobal.h>
 #include <kglobalaccel.h>
 #include <ktoolbarpopupaction.h>
 #include <knotification.h>
@@ -74,7 +75,7 @@ void deleteAndClear(T *&ptr)
 ////////////////////////////////////////////////////////////////////////////////
 
 JuK::JuK(QWidget *parent) :
-    KXmlGuiWindow(parent, Qt::WDestructiveClose),
+    KXmlGuiWindow(parent, Qt::WindowFlags(Qt::WA_DeleteOnClose)),
     m_splitter(0),
     m_statusLabel(0),
     m_systemTray(0),
@@ -91,7 +92,7 @@ JuK::JuK(QWidget *parent) :
     if(m_showSplash && !m_startDocked && Cache::cacheFileExists()) {
         if(SplashScreen* splash = SplashScreen::instance()) {
             splash->show();
-            kapp->processEvents();
+            qApp->processEvents();
         }
     }
 
@@ -201,7 +202,7 @@ void JuK::setupActions()
     KStandardAction::cut(collection);
     KStandardAction::copy(collection);
     KStandardAction::paste(collection);
-    KAction *clear = KStandardAction::clear(collection);
+    QAction *clear = KStandardAction::clear(collection);
     KStandardAction::selectAll(collection);
     KStandardAction::keyBindings(this, SLOT(slotEditKeys()), collection);
 
@@ -377,13 +378,13 @@ void JuK::setupGlobalAccels()
 
 void JuK::slotProcessArgs()
 {
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
+    /*KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     QStringList files;
 
     for(int i = 0; i < args->count(); i++)
-        files.append(args->arg(i));
+        files.append(args->arg(i));*/
 
-    CollectionList::instance()->addFiles(files);
+    //CollectionList::instance()->addFiles(files);
 }
 
 void JuK::slotClearOldCovers()
@@ -510,7 +511,7 @@ void JuK::saveConfig()
 bool JuK::queryClose()
 {
     if(!m_shuttingDown &&
-       !kapp->sessionSaving() &&
+       !qApp->isSavingSession() &&
        m_systemTray &&
        m_toggleDockOnCloseAction->isChecked())
     {

@@ -19,9 +19,8 @@
 
 #include "playlistcollection.h"
 
-#include <k3listview.h>
-
 #include <QHash>
+#include <QTreeWidget>
 
 class Playlist;
 class PlaylistItem;
@@ -39,7 +38,7 @@ typedef QList<Playlist *> PlaylistList;
  * JuK's main widget (PlaylistSplitter).
  */
 
-class PlaylistBox : public K3ListView, public PlaylistCollection
+class PlaylistBox : public QTreeWidget, public PlaylistCollection
 {
     Q_OBJECT
 
@@ -104,7 +103,7 @@ private:
     // selectedItems already used for something different
 
     ItemList selectedBoxItems() const;
-    void setSingleItem(Q3ListViewItem *item);
+    void setSingleItem(QTreeWidgetItem *item);
 
     void setupItem(Item *item);
     void setupUpcomingPlaylist();
@@ -117,8 +116,8 @@ private slots:
      * the signal as currentChanged(Item *).
      */
     void slotPlaylistChanged();
-    void slotDoubleClicked(Q3ListViewItem *);
-    void slotShowContextMenu(Q3ListViewItem *, const QPoint &point, int);
+    void slotDoubleClicked(QTreeWidgetItem *);
+    void slotShowContextMenu(QTreeWidgetItem *, const QPoint &point, int);
     void slotSetViewMode(int index);
     void slotSavePlaylists();
     void slotShowDropTarget();
@@ -144,7 +143,7 @@ private:
     QTimer *m_savePlaylistTimer;
 };
 
-class PlaylistBox::Item : public QObject, public K3ListViewItem, public PlaylistObserver
+class PlaylistBox::Item : public QObject, public QTreeWidgetItem, public PlaylistObserver
 {
     friend class PlaylistBox;
     friend class ViewMode;
@@ -165,17 +164,17 @@ protected:
     Item(Item *parent, const QString &icon, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_playlist; }
-    PlaylistBox *listView() const { return static_cast<PlaylistBox *>(K3ListViewItem::listView()); }
+    PlaylistBox *listView() const { return static_cast<PlaylistBox *>(QTreeWidgetItem::treeWidget()); }
     QString iconName() const { return m_iconName; }
     QString text() const { return m_text; }
     void setSortedFirst(bool first = true) { m_sortedFirst = first; }
 
-    virtual int compare(Q3ListViewItem *i, int col, bool) const;
-    virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
-    virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}
+    virtual int compare(QTreeWidgetItem *i, int col, bool) const;
+    /*virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
+    virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}*/
     virtual void setText(int column, const QString &text);
 
-    virtual QString text(int column) const { return K3ListViewItem::text(column); }
+    virtual QString text(int column) const { return QTreeWidgetItem::text(column); }
 
     virtual void setup();
 

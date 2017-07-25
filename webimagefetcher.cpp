@@ -42,6 +42,8 @@
 #include <QLabel>
 #include <QPainter>
 
+#include <kiconloader.h>
+
 
 class WebImageFetcher::Private
 {
@@ -83,7 +85,7 @@ void WebImageFetcher::abortSearch()
 }
 void WebImageFetcher::searchCover()
 {
-    KStatusBar *statusBar = JuK::JuKInstance()->statusBar();
+    QStatusBar *statusBar = JuK::JuKInstance()->statusBar();
     statusBar->showMessage(i18n("Searching for cover. Please Wait..."));
 
 
@@ -144,7 +146,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     
     kDebug() << "Got cover:" << d->url;
 
-    KStatusBar *statusBar = JuK::JuKInstance()->statusBar();
+    QStatusBar *statusBar = JuK::JuKInstance()->statusBar();
     statusBar->showMessage(i18n("Downloading cover. Please Wait..."));
     
     KIO::StoredTransferJob *newJob = KIO::storedGet(d->url, KIO::Reload /* reload always */, KIO::HideProgressInfo);
@@ -153,7 +155,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
 
 void WebImageFetcher::slotImageFetched(KJob* j)
 {
-    KStatusBar *statusBar = JuK::JuKInstance()->statusBar();
+    QStatusBar *statusBar = JuK::JuKInstance()->statusBar();
     statusBar->clearMessage();
 
     KIO::StoredTransferJob *job = qobject_cast<KIO::StoredTransferJob*>(j);

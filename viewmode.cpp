@@ -47,7 +47,7 @@ ViewMode::~ViewMode()
 
 }
 
-void ViewMode::paintCell(PlaylistBox::Item *item,
+/*void ViewMode::paintCell(PlaylistBox::Item *item,
                          QPainter *painter,
                          const QColorGroup &colorGroup,
                          int column, int width, int)
@@ -138,7 +138,7 @@ void ViewMode::paintCell(PlaylistBox::Item *item,
 
     if(item == item->listView()->dropItem())
         paintDropIndicator(painter, width, item->height());
-}
+}*/
 
 bool ViewMode::eventFilter(QObject *watched, QEvent *e)
 {
@@ -170,24 +170,24 @@ void ViewMode::setShown(bool shown)
 
 void ViewMode::updateIcons(int size)
 {
-    for(Q3ListViewItemIterator it(m_playlistBox); it.current(); ++it) {
+    for(QTreeWidgetItemIterator it(m_playlistBox); *it; ++it) {
         PlaylistBox::Item *i = static_cast<PlaylistBox::Item *>(*it);
-        i->setPixmap(0, SmallIcon(i->iconName(), size));
+        i->setIcon(0, SmallIcon(i->iconName(), size));
     }
 }
 
 void ViewMode::setupItem(PlaylistBox::Item *item) const
 {
-    const PlaylistBox *box = item->listView();
+    /*const PlaylistBox *box = item->listView();
     const int width = box->width() - box->verticalScrollBar()->width() - border * 2;
     const int baseHeight = 2 * box->itemMargin() + 32 + border * 2;
     const QFontMetrics fm = box->fontMetrics();
-    item->setHeight(baseHeight + (fm.height() - fm.descent()) * lines(item, fm, width).count());
+    item->setHeight(baseHeight + (fm.height() - fm.descent()) * lines(item, fm, width).count());*/
 }
 
 void ViewMode::updateHeights()
 {
-    const int width = m_playlistBox->width() - m_playlistBox->verticalScrollBar()->width() - border * 2;
+    /*const int width = m_playlistBox->width() - m_playlistBox->verticalScrollBar()->width() - border * 2;
 
     const int baseHeight = 2 * m_playlistBox->itemMargin() + 32 +
                            border * 2 + 4;
@@ -200,7 +200,7 @@ void ViewMode::updateHeights()
         i->setHeight(height);
     }
 
-    m_needsRefresh = false;
+    m_needsRefresh = false;*/
 }
 
 void ViewMode::paintDropIndicator(QPainter *painter, int width, int height) // static
@@ -235,7 +235,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
 
     while(!line.isEmpty()) {
         int textLength = line.length();
-        while(textLength > 0 &&
+        /*while(textLength > 0 &&
               fm.width(line.mid(0, textLength).trimmed()) +
               item->listView()->itemMargin() * 2 > width)
         {
@@ -244,7 +244,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
                 textLength = i;
             else
                 textLength--;
-        }
+        }*/
 
         l.append(line.mid(0, textLength).trimmed());
         line = line.mid(textLength);
@@ -266,7 +266,7 @@ CompactViewMode::~CompactViewMode()
 
 }
 
-void CompactViewMode::paintCell(PlaylistBox::Item *item,
+/*void CompactViewMode::paintCell(PlaylistBox::Item *item,
                                 QPainter *painter,
                                 const QColorGroup &colorGroup,
                                 int column, int width, int align)
@@ -274,7 +274,7 @@ void CompactViewMode::paintCell(PlaylistBox::Item *item,
     item->K3ListViewItem::paintCell(painter, colorGroup, column, width, align);
     if(item == item->listView()->dropItem())
         paintDropIndicator(painter, width, item->height());
-}
+}*/
 
 QString CompactViewMode::name() const
 {
@@ -293,8 +293,8 @@ void CompactViewMode::setShown(bool shown)
 
 void CompactViewMode::updateHeights()
 {
-    for(Q3ListViewItemIterator it(playlistBox()); it.current(); ++it)
-        it.current()->setup();
+    /*for(Q3ListViewItemIterator it(playlistBox()); it.current(); ++it)
+        it.current()->setup();*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -323,7 +323,7 @@ void TreeViewMode::setShown(bool show)
 
     playlistBox()->setRootIsDecorated(show);
 
-    if(show) {
+    /*if(show) {
         PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
 
         if(!collectionItem)
@@ -347,7 +347,7 @@ void TreeViewMode::setShown(bool show)
     else {
         foreach(PlaylistBox::Item *item, m_searchCategories)
             item->setVisible(false);
-    }
+    }*/
 }
 
 void TreeViewMode::removeItem(const QString &item, unsigned column)
