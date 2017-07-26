@@ -437,7 +437,7 @@ void JuK::readConfig()
 
         bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
         m_player->setCrossfadeEnabled(enableCrossfade);
-        ActionCollection::action<KAction>("crossfadeTracks")->setChecked(enableCrossfade);
+        //ActionCollection::action<KAction>("crossfadeTracks")->setChecked(enableCrossfade);
     }
 
     // Default to no random play
@@ -451,7 +451,7 @@ void JuK::readConfig()
         ActionCollection::action<KAction>("albumRandomPlay")->setChecked(true);
 
     bool loopPlaylist = playerConfig.readEntry("LoopPlaylist", false);
-    ActionCollection::action<KAction>("loopPlaylist")->setChecked(loopPlaylist);
+    //ActionCollection::action<KAction>("loopPlaylist")->setChecked(loopPlaylist);
 
     // general settings
 
