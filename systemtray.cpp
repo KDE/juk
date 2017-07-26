@@ -184,6 +184,7 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     // Pity the actionCollection doesn't keep track of what sub-menus it has.
 
     KActionMenu *menu = new KActionMenu(i18n("&Random Play"), this);
+        // FIXME
     //actionCollection()->addAction("randomplay", menu);
     menu->addAction(action("disableRandomPlay"));
     menu->addAction(action("randomPlay"));

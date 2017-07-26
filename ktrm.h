@@ -28,6 +28,7 @@
 
 #include <QObject>
 
+// FIXME
 #if 0
 
 template<class T>

@@ -50,6 +50,7 @@ public:
     virtual ~DirectoryList();
 
 public slots:
+    // FIXME
     int exec();
 
 signals:

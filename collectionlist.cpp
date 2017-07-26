@@ -390,6 +390,7 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 {
+    // FIXME
     /*if(e->source() != this)
         Playlist::contentsDragMoveEvent(e);
     else*/
@@ -501,6 +502,7 @@ void CollectionListItem::refresh()
             data()->metadata[id] = toLower;
         }
 
+        // FIXME
         /*int newWidth = width(listView()->fontMetrics(), listView(), i);
         if(newWidth != data()->cachedWidths[i])
             playlist()->slotWeightDirty(i);
@@ -514,6 +516,7 @@ void CollectionListItem::refresh()
     for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
         (*it)->playlist()->update();
         (*it)->playlist()->dataChanged();
+        // FIXME
         /*if((*it)->treeWidget()->isVisible())
             (*it)->repaint();*/
     }
@@ -547,6 +550,7 @@ void CollectionListItem::updateCollectionDict(const QString &oldPath, const QStr
 
 void CollectionListItem::repaint() const
 {
+    // FIXME
     /*QItemDelegate::repaint();
     for(PlaylistItemList::ConstIterator it = m_children.constBegin(); it != m_children.constEnd(); ++it)
         (*it)->repaint();*/

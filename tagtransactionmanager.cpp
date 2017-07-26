@@ -179,6 +179,7 @@ bool TagTransactionManager::processChangeList(bool undo)
 
             item->file().setFile(tag->fileName());
             item->refreshFromDisk();
+        // FIXME
             //item->repaint();
             item->playlist()->dataChanged();
             item->playlist()->update();

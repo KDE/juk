@@ -47,6 +47,7 @@ ViewMode::~ViewMode()
 
 }
 
+        // FIXME
 /*void ViewMode::paintCell(PlaylistBox::Item *item,
                          QPainter *painter,
                          const QColorGroup &colorGroup,
@@ -178,6 +179,7 @@ void ViewMode::updateIcons(int size)
 
 void ViewMode::setupItem(PlaylistBox::Item *item) const
 {
+        // FIXME
     /*const PlaylistBox *box = item->listView();
     const int width = box->width() - box->verticalScrollBar()->width() - border * 2;
     const int baseHeight = 2 * box->itemMargin() + 32 + border * 2;
@@ -187,6 +189,7 @@ void ViewMode::setupItem(PlaylistBox::Item *item) const
 
 void ViewMode::updateHeights()
 {
+        // FIXME
     /*const int width = m_playlistBox->width() - m_playlistBox->verticalScrollBar()->width() - border * 2;
 
     const int baseHeight = 2 * m_playlistBox->itemMargin() + 32 +
@@ -235,6 +238,7 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
 
     while(!line.isEmpty()) {
         int textLength = line.length();
+        // FIXME
         /*while(textLength > 0 &&
               fm.width(line.mid(0, textLength).trimmed()) +
               item->listView()->itemMargin() * 2 > width)
@@ -266,6 +270,7 @@ CompactViewMode::~CompactViewMode()
 
 }
 
+        // FIXME
 /*void CompactViewMode::paintCell(PlaylistBox::Item *item,
                                 QPainter *painter,
                                 const QColorGroup &colorGroup,
@@ -293,6 +298,7 @@ void CompactViewMode::setShown(bool shown)
 
 void CompactViewMode::updateHeights()
 {
+        // FIXME
     /*for(Q3ListViewItemIterator it(playlistBox()); it.current(); ++it)
         it.current()->setup();*/
 }
@@ -323,6 +329,7 @@ void TreeViewMode::setShown(bool show)
 
     playlistBox()->setRootIsDecorated(show);
 
+        // FIXME
     /*if(show) {
         PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
 

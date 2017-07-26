@@ -172,6 +172,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                 if(version >= 2) {
                     qint32 sortColumn;
                     s >> sortColumn;
+                    // FIXME
                     if(playlist)
                         playlist->model()->sort(sortColumn);
                 }
@@ -270,6 +271,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
                 s << qint32(Normal)
                   << *(*it);
             }
+            // FIXME
             //s << qint32((*it)->sortColumn());
             s << 0;
         }

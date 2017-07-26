@@ -50,7 +50,7 @@ static const char sho[]         = I18N_NOOP("MPRIS2 Interface implementation.");
 
 int main(int argc, char *argv[])
 {
-    QApplication app(argc, argv);
+    QApplication a(argc, argv);
     KLocalizedString::setApplicationDomain("juk");
 
     KAboutData aboutData(QStringLiteral("juk"), i18n("JuK"),
@@ -81,6 +81,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Eike Hein"), i18n(sho), "hein@kde.org");
     KAboutData::setApplicationData(aboutData);
 
+    // FIXME
     /*KCmdLineArgs::init(argc, argv, &aboutData);
 
     KCmdLineOptions options;
@@ -93,25 +94,25 @@ int main(int argc, char *argv[])
     // If this flag gets set then JuK will quit if you click the cover on the track
     // announcement popup when JuK is only in the system tray (the systray has no widget).
 
-    app.setQuitOnLastWindowClosed(false);
+    a.setQuitOnLastWindowClosed(false);
 
     // Create the main window and such
 
     JuK *juk = new JuK;
 
-    if(app.isSessionRestored() && KMainWindow::canBeRestored(1))
+    if(a.isSessionRestored() && KMainWindow::canBeRestored(1))
         juk->restore(1, false /* don't show */);
 
     KConfigGroup config(KGlobal::config(), "Settings");
     if(!config.readEntry("StartDocked", false)) {
         juk->show();
     }
-    else if(!app.isSessionRestored()) {
+    else if(!a.isSessionRestored()) {
         QString message = i18n("JuK running in docked mode\nUse context menu in system tray to restore.");
         KNotification::event("dock_mode",i18n("JuK Docked"), message);
     }
 
-    return app.exec();
+    return a.exec();
 }
 
 // vim: set et sw=4 tw=0 sta fileencoding=utf8:

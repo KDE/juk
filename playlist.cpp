@@ -1016,6 +1016,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     }
 }
 
+// FIXME
 /*Q3DragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
@@ -1162,6 +1163,7 @@ void Playlist::keyPressEvent(QKeyEvent *event)
 
 void Playlist::contentsDropEvent(QDropEvent *e)
 {
+    // FIXME
     /*QPoint vp = contentsToViewport(e->pos());
     PlaylistItem *item = static_cast<PlaylistItem *>(itemAt(vp));
 
@@ -1237,6 +1239,7 @@ void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
     // Filter out non left button double clicks, that way users don't have the
     // weird experience of switching songs from a double right-click.
 
+    // FIXME
     /*if(e->button() == Qt::LeftButton)
         QTreeWidget::contentsMouseDoubleClickEvent(e);*/
 }
@@ -1298,6 +1301,7 @@ void Playlist::viewportPaintEvent(QPaintEvent *pe)
         slotUpdateColumnWidths();
     }
 
+    // FIXME
     //QTreeWidget::viewportPaintEvent(pe);
 }
 
@@ -1309,6 +1313,7 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
     if(re->size().width() != re->oldSize().width() && !manualResize())
         slotUpdateColumnWidths();
 
+    // FIXME
     //QTreeWidget::viewportResizeEvent(re);
 }
 
@@ -1327,6 +1332,7 @@ void Playlist::takeItem(QTreeWidgetItem *item)
 {
     // See the warning in Playlist::insertItem.
 
+    // FIXME
     /*m_subtractTime.append(static_cast<PlaylistItem *>(item));
     QTreeWidget::takeItem(item);*/
 }
@@ -1398,8 +1404,8 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 
 void Playlist::updatePlaying() const
 {
-    /*foreach(const PlaylistItem *item, PlaylistItem::playingItems())
-        item->treeWidget()->triggerUpdate();*/
+    foreach(const PlaylistItem *item, PlaylistItem::playingItems())
+        item->treeWidget()->viewport()->update();
 }
 
 void Playlist::refreshAlbum(const QString &artist, const QString &album)
@@ -1443,12 +1449,14 @@ void Playlist::hideColumn(int c, bool updateSearch)
     if(!isColumnVisible(c))
         return;
 
+    // FIXME
     //setColumnWidthMode(c, Manual);
     setColumnWidth(c, 0);
 
     // Moving the column to the end seems to prevent it from randomly
     // popping up.
 
+    // FIXME
     header()->moveSection(c, header()->count());
     //header()->setResizeEnabled(false, c);
 
@@ -1459,6 +1467,7 @@ void Playlist::hideColumn(int c, bool updateSearch)
 
     if(!manualResize()) {
         slotUpdateColumnWidths();
+        // FIXME
         //triggerUpdate();
     }
 
@@ -1492,6 +1501,7 @@ void Playlist::showColumn(int c, bool updateSearch)
     else
         setColumnWidth(c, 1);
 
+    // FIXME
     //header()->setResizeEnabled(true, c);
     header()->moveSection(c, c); // Approximate old position
 
@@ -1502,6 +1512,7 @@ void Playlist::showColumn(int c, bool updateSearch)
 
     if(!manualResize()) {
         slotUpdateColumnWidths();
+        // FIXME
         //triggerUpdate();
     }
 
@@ -1532,6 +1543,7 @@ void Playlist::slotInitialize()
     addColumn(i18n("File Name"));
     addColumn(i18n("File Name (full path)"));
 
+    // FIXME
     /*setRenameable(PlaylistItem::TrackColumn, true);
     setRenameable(PlaylistItem::ArtistColumn, true);
     setRenameable(PlaylistItem::AlbumColumn, true);
@@ -1557,6 +1569,7 @@ void Playlist::slotInitialize()
 
     QAction *showAction;
 
+    // FIXME
     /*for(int i = 0; i < header()->count(); ++i) {
         if(i - columnOffset() == PlaylistItem::FileNameColumn)
             m_headerMenu->addSeparator();
@@ -1572,6 +1585,7 @@ void Playlist::slotInitialize()
 
     connect(m_headerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleColumnVisible(QAction*)));
 
+    // FIXME
 /*    connect(this, SIGNAL(contextMenuRequested(QTreeWidgetItem*,QPoint,int)),
             this, SLOT(slotShowRMBMenu(QTreeWidgetItem*,QPoint,int)));
     connect(this, SIGNAL(itemRenamed(QTreeWidgetItem*,QString,int)),
@@ -1584,6 +1598,7 @@ void Playlist::slotInitialize()
     connect(header(), SIGNAL(geometriesChanged()),
             this, SLOT(slotColumnSizeChanged(int, int, int)));
 
+    // FIXME
     /*connect(renameLineEdit(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
             this, SLOT(slotInlineCompletionModeChanged(KGlobalSettings::Completion)));*/
 
@@ -1600,6 +1615,7 @@ void Playlist::slotInitialize()
 
     m_disableColumnWidthUpdates = false;
 
+    // FIXME
     //setShowToolTips(false);
     /* m_toolTip = new PlaylistToolTip(viewport(), this); */
 }
@@ -1615,6 +1631,7 @@ void Playlist::setupItem(PlaylistItem *item)
     if(topLevelItemCount() <= 2 && !manualResize()) {
         slotWeightDirty();
         slotUpdateColumnWidths();
+        // FIXME
         //triggerUpdate();
     }
 }
@@ -1686,6 +1703,7 @@ void Playlist::slotPlayFromBackMenu(QAction *backAction) const
 
 void Playlist::setup()
 {
+    // FIXME
     //setItemMargin(3);
     setRootIsDecorated(false);
 
@@ -2195,6 +2213,7 @@ void Playlist::slotRenameTag()
 {
     // setup completions and validators
 
+    // FIXME
     /*CollectionList *list = CollectionList::instance();
 
     KLineEdit *edit = renameLineEdit();
@@ -2268,6 +2287,7 @@ bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
 
 void Playlist::slotInlineEditDone(QTreeWidgetItem *, const QString &, int column)
 {
+    // FIXME
     /*QString text = renameLineEdit()->text();
     bool changed = false;
 
