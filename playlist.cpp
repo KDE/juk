@@ -1332,9 +1332,9 @@ void Playlist::takeItem(QTreeWidgetItem *item)
 {
     // See the warning in Playlist::insertItem.
 
-    // FIXME
-    /*m_subtractTime.append(static_cast<PlaylistItem *>(item));
-    QTreeWidget::takeItem(item);*/
+    m_subtractTime.append(static_cast<PlaylistItem *>(item));
+    int index = indexOfTopLevelItem(item);
+    delete takeTopLevelItem(index);
 }
 
 void Playlist::addColumn(const QString &label, int)
@@ -1586,9 +1586,9 @@ void Playlist::slotInitialize()
     connect(m_headerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleColumnVisible(QAction*)));
 
     // FIXME
-/*    connect(this, SIGNAL(contextMenuRequested(QTreeWidgetItem*,QPoint,int)),
-            this, SLOT(slotShowRMBMenu(QTreeWidgetItem*,QPoint,int)));
-    connect(this, SIGNAL(itemRenamed(QTreeWidgetItem*,QString,int)),
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(slotShowRMBMenu(QPoint)));
+    /*connect(this, SIGNAL(itemRenamed(QTreeWidgetItem*,QString,int)),
             this, SLOT(slotInlineEditDone(QTreeWidgetItem*,QString,int)));*/
     connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotPlayCurrent()));
@@ -1706,6 +1706,7 @@ void Playlist::setup()
     // FIXME
     //setItemMargin(3);
     setRootIsDecorated(false);
+    setContextMenuPolicy(Qt::CustomContextMenu);
 
     connect(header(), SIGNAL(sectionMoved(int,int,int)), this, SLOT(slotColumnOrderChanged(int,int,int)));
 
@@ -2125,8 +2126,10 @@ void Playlist::slotAddToUpcoming()
     m_collection->upcomingPlaylist()->appendItems(selectedItems());
 }
 
-void Playlist::slotShowRMBMenu(QTreeWidgetItem *item, const QPoint &point, int column)
+void Playlist::slotShowRMBMenu(const QPoint &point)
 {
+    QTreeWidgetItem *item = itemAt(point);
+    int column = currentColumn(); // FIXME?
     if(!item)
         return;
 
@@ -2136,7 +2139,7 @@ void Playlist::slotShowRMBMenu(QTreeWidgetItem *item, const QPoint &point, int c
 
         // Probably more of these actions should be ported over to using KActions.
 
-        m_rmbMenu = new KMenu(this);
+        m_rmbMenu = new QMenu(this);
 
         m_rmbMenu->addAction(SmallIcon("go-jump-today"),
             i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
@@ -2205,7 +2208,7 @@ void Playlist::slotShowRMBMenu(QTreeWidgetItem *item, const QPoint &point, int c
     action("viewCover")->setEnabled(file.coverInfo()->hasCover());
     action("removeCover")->setEnabled(file.coverInfo()->coverId() != CoverManager::NoMatch);
 
-    m_rmbMenu->popup(point);
+    m_rmbMenu->popup(window()->mapToGlobal(mapToGlobal(point)));
     m_currentColumn = column + columnOffset();
 }
 

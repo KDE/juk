@@ -592,7 +592,7 @@ private slots:
      * Show the RMB menu.  Matches the signature for the signal
      * QListView::contextMenuRequested().
      */
-    void slotShowRMBMenu(QTreeWidgetItem *item, const QPoint &point, int column);
+    void slotShowRMBMenu(const QPoint &point);
 
     /**
      * This slot is called when the inline tag editor has completed its editing
@@ -702,7 +702,7 @@ private:
     QString m_fileName;
 
     QStringList m_columns;
-    KMenu *m_rmbMenu;
+    QMenu *m_rmbMenu;
     QMenu *m_headerMenu;
     KActionMenu *m_columnVisibleAction;
     PlaylistToolTip *m_toolTip;
