@@ -1435,20 +1435,11 @@ void Playlist::hideColumn(int c, bool updateSearch)
         }
     }
 
-    if(!isColumnVisible(c))
+    if(isColumnHidden(c))
         return;
-
-    // FIXME
-    //setColumnWidthMode(c, Manual);
-    setColumnWidth(c, 0);
-
-    // Moving the column to the end seems to prevent it from randomly
-    // popping up.
-
-    // FIXME
-    header()->moveSection(c, header()->count());
-    //header()->setResizeEnabled(false, c);
-
+    
+    QTreeWidget::hideColumn(c);
+    
     if(c == m_leftColumn) {
         updatePlaying();
         m_leftColumn = leftMostVisibleColumn();
@@ -1456,8 +1447,7 @@ void Playlist::hideColumn(int c, bool updateSearch)
 
     if(!manualResize()) {
         slotUpdateColumnWidths();
-        // FIXME
-        //triggerUpdate();
+        viewport()->update();
     }
 
     if(this != CollectionList::instance())
@@ -1479,20 +1469,10 @@ void Playlist::showColumn(int c, bool updateSearch)
         }
     }
 
-    if(isColumnVisible(c))
+    if(!isColumnHidden(c))
         return;
 
-    // Just set the width to one to mark the column as visible -- we'll update
-    // the real size in the next call.
-
-    if(manualResize())
-        setColumnWidth(c, 35); // Make column at least slightly visible.
-    else
-        setColumnWidth(c, 1);
-
-    // FIXME
-    //header()->setResizeEnabled(true, c);
-    header()->moveSection(c, c); // Approximate old position
+    QTreeWidget::showColumn(c);
 
     if(c == leftMostVisibleColumn()) {
         updatePlaying();
@@ -1501,8 +1481,7 @@ void Playlist::showColumn(int c, bool updateSearch)
 
     if(!manualResize()) {
         slotUpdateColumnWidths();
-        // FIXME
-        //triggerUpdate();
+        viewport()->update();
     }
 
     if(this != CollectionList::instance())
@@ -1510,11 +1489,6 @@ void Playlist::showColumn(int c, bool updateSearch)
 
     if(updateSearch)
         redisplaySearch();
-}
-
-bool Playlist::isColumnVisible(int c) const
-{
-    return columnWidth(c) != 0;
 }
 
 void Playlist::slotInitialize()
@@ -1558,19 +1532,18 @@ void Playlist::slotInitialize()
 
     QAction *showAction;
 
-    // FIXME
-    /*for(int i = 0; i < header()->count(); ++i) {
+    for(int i = 0; i < header()->count(); ++i) {
         if(i - columnOffset() == PlaylistItem::FileNameColumn)
             m_headerMenu->addSeparator();
 
-        showAction = new QAction(header()->label(i), m_headerMenu);
+        showAction = new QAction(headerItem()->text(i), m_headerMenu);
         showAction->setData(i);
         showAction->setCheckable(true);
         showAction->setChecked(true);
         m_headerMenu->addAction(showAction);
 
-        adjustColumn(i);
-    }*/
+        resizeColumnToContents(i);
+    }
 
     connect(m_headerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleColumnVisible(QAction*)));
 
@@ -1583,9 +1556,6 @@ void Playlist::slotInitialize()
             this, SLOT(slotPlayCurrent()));
     /*connect(this, SIGNAL(returnPressed(QTreeWidgetItem*)),
             this, SLOT(slotPlayCurrent()));*/
-
-    connect(header(), SIGNAL(geometriesChanged()),
-            this, SLOT(slotColumnSizeChanged(int, int, int)));
 
     // FIXME
     /*connect(renameLineEdit(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
@@ -2372,7 +2342,7 @@ void Playlist::notifyUserColumnWidthModeChanged()
                              "ShowManualColumnWidthInformation");
 }
 
-void Playlist::slotColumnSizeChanged(int column, int, int newSize)
+void Playlist::columnResized(int column, int, int newSize)
 {
     m_widthsDirty = true;
     m_columnFixedWidths[column] = newSize;

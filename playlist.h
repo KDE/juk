@@ -220,7 +220,6 @@ public:
      * will be udated.
      */
     void showColumn(int c, bool updateSearch = true);
-    bool isColumnVisible(int c) const;
 
     /**
      * This sets a name for the playlist that is \e different from the file name.
@@ -636,7 +635,7 @@ private slots:
      * This slot is called when the user drags the slider in the listview header
      * to manually set the size of the column.
      */
-    void slotColumnSizeChanged(int column, int oldSize, int newSize);
+    void columnResized(int column, int oldSize, int newSize);
 
     /**
      * The slot is called when the completion mode for the line edit in the
