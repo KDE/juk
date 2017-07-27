@@ -428,7 +428,6 @@ protected:
     //virtual Q3DragObject *dragObject() { return dragObject(this); }
     virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
     virtual void contentsDropEvent(QDropEvent *e);
-    virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);
     //virtual void contentsDragEnterEvent(QDragEnterEvent *e);
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const;

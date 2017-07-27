@@ -1235,16 +1235,6 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     QTreeWidget::contentsDropEvent(e);*/
 }
 
-void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
-{
-    // Filter out non left button double clicks, that way users don't have the
-    // weird experience of switching songs from a double right-click.
-
-    // FIXME
-    /*if(e->button() == Qt::LeftButton)
-        QTreeWidget::contentsMouseDoubleClickEvent(e);*/
-}
-
 void Playlist::showEvent(QShowEvent *e)
 {
     if(m_applySharedSettings) {
