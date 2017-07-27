@@ -211,7 +211,7 @@ void Playlist::SharedSettings::setColumnOrder(const Playlist *l)
     m_columnOrder.clear();
 
     for(int i = l->columnOffset(); i < l->columnCount(); ++i)
-        m_columnOrder.append(l->header()->logicalIndex(i));
+        m_columnOrder.append(l->header()->visualIndex(i)); // FIXME  MISMATCH with apply
 
     writeConfig();
 }
@@ -240,8 +240,10 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
     int offset = l->columnOffset();
     int i = 0;
+    bool oldState = l->header()->blockSignals(true);
     foreach(int column, m_columnOrder)
-        l->header()->moveSection(i++ + offset, column + offset);
+        l->header()->moveSection(l->header()->visualIndex(i++ + offset), column + offset); // FIXME mismatch with setColumnOrder
+    l->header()->blockSignals(oldState);
 
     for(int i = 0; i < m_columnsVisible.size(); i++) {
         if(m_columnsVisible[i] && l->isColumnHidden(i + offset))
