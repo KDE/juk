@@ -329,10 +329,10 @@ int PlaylistItem::compare(QTreeWidgetItem *item, int column, bool ascending) con
         // Loop through the columns doing comparisons until something is differnt.
         // If all else is the same, compare the track name.
 
-        int last = playlist()->isColumnVisible(AlbumColumn + offset) ? TrackNumberColumn : ArtistColumn;
+        int last = !playlist()->isColumnHidden(AlbumColumn + offset) ? TrackNumberColumn : ArtistColumn;
 
         for(int i = ArtistColumn; i <= last; i++) {
-            if(playlist()->isColumnVisible(i + offset)) {
+            if(!playlist()->isColumnHidden(i + offset)) {
                 c = compare(this, playlistItem, i, ascending);
                 if(c != 0)
                     return c;

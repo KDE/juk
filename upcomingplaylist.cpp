@@ -36,7 +36,7 @@ UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection) :
 {
     setName(i18n("Play Queue"));
     setAllowDuplicates(true);
-    sortItems(-1, Qt::AscendingOrder);
+    setSortingEnabled(false);
 }
 
 UpcomingPlaylist::~UpcomingPlaylist()

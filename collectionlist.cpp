@@ -38,6 +38,7 @@
 #include <QTime>
 #include <QClipboard>
 #include <QFileInfo>
+#include <QHeaderView>
 
 #include "playlistcollection.h"
 #include "splashscreen.h"
@@ -121,11 +122,7 @@ void CollectionList::completedLoadingCachedItems()
     if(config.readEntry("CollectionListSortAscending", true))
         order = Qt::AscendingOrder;
 
-    // FIXME
-    //m_list->setSortOrder(order);
-    //m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
-
-    //m_list->sort();
+    m_list->sortByColumn(config.readEntry("CollectionListSortColumn", 1), order);
 
     SplashScreen::finishedLoading();
 
@@ -346,8 +343,7 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
             this, SLOT(slotPopulateBackMenu()));
     connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(triggered(QAction*)),
             this, SLOT(slotPlayFromBackMenu(QAction*)));
-    //FIXME
-    //setSorting(-1); // Temporarily disable sorting to add items faster.
+    setSortingEnabled(false); // Temporarily disable sorting to add items faster.
 
     m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict;
     m_columnTags[PlaylistItem::AlbumColumn] = new TagCountDict;
@@ -360,9 +356,8 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
 CollectionList::~CollectionList()
 {
     KConfigGroup config(KGlobal::config(), "Playlists");
-    //FIXME
-    //config.writeEntry("CollectionListSortColumn", sortColumn());
-    //config.writeEntry("CollectionListSortAscending", sortOrder() == Qt::AscendingOrder);
+    config.writeEntry("CollectionListSortColumn", header()->sortIndicatorSection());
+    config.writeEntry("CollectionListSortAscending", header()->sortIndicatorOrder() == Qt::AscendingOrder);
 
     // In some situations the dataChanged signal from clearItems will cause observers to
     // subsequently try to access a deleted item.  Since we're going away just remove all

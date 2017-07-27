@@ -188,7 +188,7 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
     if(m_columns.isEmpty()) {
         Playlist *p = static_cast<Playlist *>(item->treeWidget());
         for(int i = 0; i < p->columnCount(); i++) {
-            if(p->isColumnVisible(i))
+            if(!p->isColumnHidden(i))
                 m_columns.append(i);
         }
     }

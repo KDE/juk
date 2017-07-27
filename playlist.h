@@ -220,6 +220,8 @@ public:
      * will be udated.
      */
     void showColumn(int c, bool updateSearch = true);
+    
+    void sortByColumn(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
     /**
      * This sets a name for the playlist that is \e different from the file name.

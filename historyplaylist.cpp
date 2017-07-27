@@ -38,7 +38,7 @@ HistoryPlaylist::HistoryPlaylist(PlaylistCollection *collection) :
     m_timer->setSingleShot(true);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(slotCreateNewItem()));
 
-    sortItems(-1, Qt::AscendingOrder);
+    setSortingEnabled(false);
     headerItem()->setText(0, i18n("Time"));
 }
 

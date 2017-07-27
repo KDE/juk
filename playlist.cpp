@@ -244,9 +244,9 @@ void Playlist::SharedSettings::apply(Playlist *l) const
         l->header()->moveSection(i++ + offset, column + offset);
 
     for(int i = 0; i < m_columnsVisible.size(); i++) {
-        if(m_columnsVisible[i] && !l->isColumnVisible(i + offset))
+        if(m_columnsVisible[i] && l->isColumnHidden(i + offset))
             l->showColumn(i + offset, false);
-        else if(!m_columnsVisible[i] && l->isColumnVisible(i + offset))
+        else if(!m_columnsVisible[i] && !l->isColumnHidden(i + offset))
             l->hideColumn(i + offset, false);
     }
 
@@ -916,7 +916,7 @@ void Playlist::slotWeightDirty(int column)
     if(column < 0) {
         m_weightDirty.clear();
         for(int i = 0; i < columnCount(); i++) {
-            if(isColumnVisible(i))
+            if(!isColumnHidden(i))
                 m_weightDirty.append(i);
         }
         return;
@@ -943,7 +943,7 @@ void Playlist::slotShowPlaying()
     m_collection->raise(l);
 
     l->setCurrentItem(playingItem());
-    l->scrollTo(currentIndex());
+    l->scrollToItem(playingItem());
 }
 
 void Playlist::slotColumnResizeModeChanged()
@@ -1260,7 +1260,7 @@ void Playlist::read(QDataStream &s)
         throw BICStreamException();
 
     // Do not sort. Add the files in the order they were saved.
-    sortItems(columnCount() + 1, Qt::AscendingOrder);
+    setSortingEnabled(false);
 
     QStringList files;
     s >> files;
@@ -1491,6 +1491,12 @@ void Playlist::showColumn(int c, bool updateSearch)
         redisplaySearch();
 }
 
+void Playlist::sortByColumn(int column, Qt::SortOrder order)
+{
+    setSortingEnabled(true);
+    QTreeWidget::sortByColumn(column, order);
+}
+
 void Playlist::slotInitialize()
 {
     addColumn(i18n("Track Name"));
@@ -1515,9 +1521,9 @@ void Playlist::slotInitialize()
     setRenameable(PlaylistItem::YearColumn, true);*/
 
     setAllColumnsShowFocus(true);
-    /*setSelectionMode(QTreeWidget::Extended);
-    setShowSortIndicator(true);
-    setDropVisualizer(true);*/
+    setSelectionMode(QTreeWidget::ExtendedSelection);
+    header()->setSortIndicatorShown(true);
+    //setDropVisualizer(true);
 
     m_columnFixedWidths.resize(columnCount());
 
@@ -1678,7 +1684,7 @@ void Playlist::setup()
     // progress.
     connect(this, SIGNAL(itemSelectionChanged()), m_fetcher, SLOT(abortSearch()));
 
-    sortItems(1, Qt::AscendingOrder);
+    sortByColumn(1, Qt::AscendingOrder);
 
     // This apparently must be created very early in initialization for other
     // Playlist code requiring m_headerMenu.
@@ -1704,7 +1710,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     // Turn off non-explicit sorting.
 
-    sortItems(PlaylistItem::lastColumn() + columnOffset() + 1, Qt::AscendingOrder);
+    setSortingEnabled(false);
 
     PlaylistItem *after = 0;
 
@@ -1778,7 +1784,7 @@ bool Playlist::playing() const
 int Playlist::leftMostVisibleColumn() const
 {
     int i = 0;
-    while(!isColumnVisible(header()->sectionPosition(i)) && i < PlaylistItem::lastColumn())
+    while(isColumnHidden(header()->sectionPosition(i)) && i < PlaylistItem::lastColumn())
         i++;
 
     return header()->sectionPosition(i);
@@ -1944,7 +1950,7 @@ void Playlist::slotUpdateColumnWidths()
 
     QList<int> visibleColumns;
     for(int i = 0; i < columnCount(); i++) {
-        if(isColumnVisible(i))
+        if(!isColumnHidden(i))
             visibleColumns.append(i);
     }
 
@@ -2300,21 +2306,21 @@ void Playlist::slotToggleColumnVisible(QAction *action)
 {
     int column = action->data().toInt();
 
-    if(!isColumnVisible(column)) {
+    if(isColumnHidden(column)) {
         int fileNameColumn = PlaylistItem::FileNameColumn + columnOffset();
         int fullPathColumn = PlaylistItem::FullPathColumn + columnOffset();
 
-        if(column == fileNameColumn && isColumnVisible(fullPathColumn)) {
+        if(column == fileNameColumn && !isColumnHidden(fullPathColumn)) {
             hideColumn(fullPathColumn, false);
             SharedSettings::instance()->toggleColumnVisible(fullPathColumn);
         }
-        if(column == fullPathColumn && isColumnVisible(fileNameColumn)) {
+        if(column == fullPathColumn && !isColumnHidden(fileNameColumn)) {
             hideColumn(fileNameColumn, false);
             SharedSettings::instance()->toggleColumnVisible(fileNameColumn);
         }
     }
 
-    if(isColumnVisible(column))
+    if(!isColumnHidden(column))
         hideColumn(column);
     else
         showColumn(column);

@@ -92,7 +92,7 @@ PlaylistSearch::Component SearchLine::searchComponent() const
 
     if(!m_searchFieldsBox || m_searchFieldsBox->currentIndex() == 0) {
         foreach(int column, m_columnList) {
-            if(playlist->isColumnVisible(column))
+            if(!playlist->isColumnHidden(column))
                 searchedColumns.append(column);
         }
     }

@@ -57,7 +57,7 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
     setName(name);
     setAllowDuplicates(false);
 
-    sortItems(columnCount() + 1, Qt::AscendingOrder);
+    setSortingEnabled(false);
 
     for(PlaylistList::ConstIterator it = playlists.constBegin(); it != playlists.constEnd(); ++it)
         m_observers.append(new PlaylistDirtyObserver(this, *it));

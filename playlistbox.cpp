@@ -850,10 +850,10 @@ void PlaylistBox::Item::slotSetName(const QString &name)
         setText(0, name);
         setSelected(true);
 
-    // FIXME
-        /*listView()->sort();
-        listView()->ensureItemVisible(listView()->currentItem());*/
-        listView()->viewMode()->queueRefresh();
+        treeWidget()->sortItems(0, Qt::AscendingOrder);
+        treeWidget()->scrollToItem(treeWidget()->currentItem());
+        //FIXME
+        //listView()->viewMode()->queueRefresh();
     }
 }
 
