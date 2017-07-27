@@ -378,7 +378,7 @@ void JuK::setupGlobalAccels()
 
 void JuK::slotProcessArgs()
 {
-    // FIXME
+    // FIXME cmdline args
     /*KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
     QStringList files;
 

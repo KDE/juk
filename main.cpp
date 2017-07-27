@@ -81,7 +81,7 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Eike Hein"), i18n(sho), "hein@kde.org");
     KAboutData::setApplicationData(aboutData);
 
-    // FIXME
+    // FIXME cmdline
     /*KCmdLineArgs::init(argc, argv, &aboutData);
 
     KCmdLineOptions options;

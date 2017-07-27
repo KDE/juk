@@ -138,7 +138,7 @@ AdvancedSearchDialog::~AdvancedSearchDialog()
 //AdvancedSearchDialog::Result AdvancedSearchDialog::exec()
 int AdvancedSearchDialog::exec()
 {
-    return 0; // FIXME
+    return 0; // FIXME signal
     Result r;
     r.result = DialogCode(KDialog::exec());
     r.search = m_search;

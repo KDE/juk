@@ -48,7 +48,7 @@ public:
     virtual ~AdvancedSearchDialog();
 
 public slots:
-    // FIXME
+    // FIXME signal
     //Result exec();
     int exec();
 

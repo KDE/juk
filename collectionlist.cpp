@@ -385,7 +385,7 @@ void CollectionList::contentsDropEvent(QDropEvent *e)
 
 void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
 {
-    // FIXME
+    // FIXME drag
     /*if(e->source() != this)
         Playlist::contentsDragMoveEvent(e);
     else*/
@@ -540,7 +540,7 @@ void CollectionListItem::updateCollectionDict(const QString &oldPath, const QStr
 
 void CollectionListItem::repaint() const
 {
-    // FIXME
+    // FIXME repaint
     /*QItemDelegate::repaint();
     for(PlaylistItemList::ConstIterator it = m_children.constBegin(); it != m_children.constEnd(); ++it)
         (*it)->repaint();*/

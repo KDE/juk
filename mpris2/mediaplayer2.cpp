@@ -77,7 +77,7 @@ bool MediaPlayer2::HasTrackList() const
 
 QString MediaPlayer2::Identity() const
 {
-    // FIXME
+    // FIXME cmdline args
     //return KCmdLineArgs::aboutData()->programName();
     return "JuK";
 }

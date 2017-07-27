@@ -44,8 +44,7 @@ LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     KToggleAction *show = new KToggleAction(KIcon(QLatin1String("view-media-lyrics")),
                                             i18n("Show &Lyrics"), this);
     ActionCollection::actions()->addAction("showLyrics", show);
-    // FIXME
-    //connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
+    connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
     KConfigGroup config(KGlobal::config(), "LyricsWidget");
     bool shown = config.readEntry("Show", true);

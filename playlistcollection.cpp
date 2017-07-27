@@ -374,7 +374,7 @@ void PlaylistCollection::open(const QString &playlist, const QStringList &files)
 void PlaylistCollection::addFolder()
 {
     DirectoryList l(m_folderList, m_excludedFolderList, m_importPlaylists, JuK::JuKInstance());
-    // FIXME
+    // FIXME signal result
     //DirectoryList::Result result = l.exec();
 
     /*if(result.status == QDialog::Accepted) {
@@ -458,7 +458,7 @@ void PlaylistCollection::editSearch()
     if(!p)
         return;
 
-    // FIXME
+    // FIXME signalResult
     /*AdvancedSearchDialog::Result r =
         AdvancedSearchDialog(p->name(), p->playlistSearch(), JuK::JuKInstance()).exec();
 
@@ -531,7 +531,7 @@ void PlaylistCollection::createSearchPlaylist()
 {
     QString name = uniquePlaylistName(i18n("Search Playlist"));
 
-    // FIXME
+    // FIXME signal result
     /*AdvancedSearchDialog::Result r =
         AdvancedSearchDialog(name, PlaylistSearch(), JuK::JuKInstance()).exec();
 

@@ -253,7 +253,7 @@ void Playlist::SharedSettings::apply(Playlist *l) const
     }
 
     l->updateLeftColumn();
-    // FIXME
+    // FIXME rename
     //l->renameLineEdit()->setCompletionMode(m_inlineCompletion);
     l->slotColumnResizeModeChanged();
 }
@@ -1019,7 +1019,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     }
 }
 
-// FIXME
+// FIXME drag
 /*Q3DragObject *Playlist::dragObject(QWidget *parent)
 {
     PlaylistItemList items = selectedItems();
@@ -1166,7 +1166,7 @@ void Playlist::keyPressEvent(QKeyEvent *event)
 
 void Playlist::contentsDropEvent(QDropEvent *e)
 {
-    // FIXME
+    // FIXME drag
     /*QPoint vp = contentsToViewport(e->pos());
     PlaylistItem *item = static_cast<PlaylistItem *>(itemAt(vp));
 
@@ -1514,7 +1514,7 @@ void Playlist::slotInitialize()
     addColumn(i18n("File Name"));
     addColumn(i18n("File Name (full path)"));
 
-    // FIXME
+    // FIXME rename
     /*setRenameable(PlaylistItem::TrackColumn, true);
     setRenameable(PlaylistItem::ArtistColumn, true);
     setRenameable(PlaylistItem::AlbumColumn, true);
@@ -1555,17 +1555,18 @@ void Playlist::slotInitialize()
 
     connect(m_headerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleColumnVisible(QAction*)));
 
-    // FIXME
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(slotShowRMBMenu(QPoint)));
+    // FIXME rename
     /*connect(this, SIGNAL(itemRenamed(QTreeWidgetItem*,QString,int)),
             this, SLOT(slotInlineEditDone(QTreeWidgetItem*,QString,int)));*/
     connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotPlayCurrent()));
+    // FIXME returnPressed
     /*connect(this, SIGNAL(returnPressed(QTreeWidgetItem*)),
             this, SLOT(slotPlayCurrent()));*/
 
-    // FIXME
+    // FIXME rename
     /*connect(renameLineEdit(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
             this, SLOT(slotInlineCompletionModeChanged(KGlobalSettings::Completion)));*/
 
@@ -1585,7 +1586,7 @@ void Playlist::slotInitialize()
 
     m_disableColumnWidthUpdates = false;
 
-    // FIXME
+    // FIXME tooltips
     //setShowToolTips(false);
     /* m_toolTip = new PlaylistToolTip(viewport(), this); */
 }
@@ -1601,8 +1602,7 @@ void Playlist::setupItem(PlaylistItem *item)
     if(topLevelItemCount() <= 2 && !manualResize()) {
         slotWeightDirty();
         slotUpdateColumnWidths();
-        // FIXME
-        //triggerUpdate();
+        viewport()->update();
     }
 }
 
@@ -1673,8 +1673,6 @@ void Playlist::slotPlayFromBackMenu(QAction *backAction) const
 
 void Playlist::setup()
 {
-    // FIXME
-    //setItemMargin(3);
     setRootIsDecorated(false);
     setContextMenuPolicy(Qt::CustomContextMenu);
 
@@ -2186,7 +2184,7 @@ void Playlist::slotRenameTag()
 {
     // setup completions and validators
 
-    // FIXME
+    // FIXME rename
     /*CollectionList *list = CollectionList::instance();
 
     KLineEdit *edit = renameLineEdit();
@@ -2260,7 +2258,7 @@ bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
 
 void Playlist::slotInlineEditDone(QTreeWidgetItem *, const QString &, int column)
 {
-    // FIXME
+    // FIXME rename
     /*QString text = renameLineEdit()->text();
     bool changed = false;
 

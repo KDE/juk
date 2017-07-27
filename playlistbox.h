@@ -95,8 +95,8 @@ private:
     virtual void contentsDropEvent(QDropEvent *e);
     virtual void contentsDragMoveEvent(QDragMoveEvent *e);
     virtual void contentsDragLeaveEvent(QDragLeaveEvent *e);
-    virtual void contentsMousePressEvent(QMouseEvent *e);
-    virtual void contentsMouseReleaseEvent(QMouseEvent *e);
+    virtual void mousePressEvent(QMouseEvent *e);
+    virtual void mouseReleaseEvent(QMouseEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
     virtual void keyReleaseEvent(QKeyEvent *e);
 
@@ -117,7 +117,7 @@ private slots:
      */
     void slotPlaylistChanged();
     void slotDoubleClicked(QTreeWidgetItem *);
-    void slotShowContextMenu(QTreeWidgetItem *, const QPoint &point, int);
+    void slotShowContextMenu(const QPoint &point);
     void slotSetViewMode(int index);
     void slotSavePlaylists();
     void slotShowDropTarget();

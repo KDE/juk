@@ -465,7 +465,7 @@ void TagEditor::readCompletionMode(const KConfigGroup &config, KComboBox *box, c
     KGlobalSettings::Completion mode =
         KGlobalSettings::Completion(config.readEntry(key, (int)KGlobalSettings::CompletionAuto));
 
-        // FIXME
+        // FIXME tag completion
     //box->setCompletionMode(mode);
 }
 
@@ -488,8 +488,7 @@ void TagEditor::setupActions()
     KToggleAction *show = new KToggleAction(KIcon(QLatin1String("document-properties")),
                                             i18n("Show &Tag Editor"), this);
     ActionCollection::actions()->addAction("showEditor", show);
-        // FIXME
-    //connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
+    connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
     KAction *act = new KAction(KIcon(QLatin1String( "document-save")), i18n("&Save"), this);
     ActionCollection::actions()->addAction("saveItem", act);
@@ -502,15 +501,14 @@ void TagEditor::setupLayout()
     setupUi(this);
 
     foreach(QWidget *input, findChildren<QWidget *>()) {
-        // FIXME
-        /*if(input->inherits("QLineEdit") || input->inherits("QComboBox"))
+        if(input->inherits("QLineEdit") || input->inherits("QComboBox"))
             connect(input, SIGNAL(textChanged(QString)), this, SLOT(slotDataChanged()));
         if(input->inherits("QComboxBox"))
             connect(input, SIGNAL(activated(int)), this, SLOT(slotDataChanged()));
         if(input->inherits("QSpinBox"))
             connect(input, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
         if(input->inherits("QTextEdit"))
-            connect(input, SIGNAL(textChanged()), this, SLOT(slotDataChanged()));*/
+            connect(input, SIGNAL(textChanged()), this, SLOT(slotDataChanged()));
     }
 
     // Do some meta-programming to find the matching enable boxes

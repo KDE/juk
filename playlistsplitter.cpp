@@ -125,8 +125,7 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
 
     if(playlist) {
         playlist->setFocus();
-        // FIXME
-        //playlist->selectAll(false);
+        playlist->clearSelection();
 
         // Select the top visible (and matching) item.
 
@@ -138,14 +137,12 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
         // A little bit of a hack to make QListView repaint things properly.  Switch
         // to single selection mode, set the selection and then switch back.
 
-        // FIXME
-        //playlist->setSelectionMode(Q3ListView::Single);
+        playlist->setSelectionMode(QTreeWidget::SingleSelection);
 
         playlist->markItemSelected(item, true);
         playlist->setCurrentItem(item);
 
-        // FIXME
-        //playlist->setSelectionMode(Q3ListView::Extended);
+        playlist->setSelectionMode(QTreeWidget::ExtendedSelection);
     }
 }
 
@@ -265,9 +262,8 @@ void PlaylistSplitter::setupLayout()
             m_editor, SLOT(slotUpdateCollection()));
     connect(m_playlistStack, SIGNAL(currentChanged(int)), this, SLOT(slotPlaylistChanged(int)));
 
-        // FIXME
     // Show the collection on startup.
-    //m_playlistBox->setSelected(0, true);
+    m_playlistBox->setCurrentItem(m_playlistBox->topLevelItem(0));
 }
 
 void PlaylistSplitter::readConfig()

@@ -280,11 +280,11 @@ PlaylistItem::PlaylistItem(CollectionList *parent) :
 {
     d = new Data;
     m_collectionItem = static_cast<CollectionListItem *>(this);
-    // FIXME
+    // FIXME drag
     //setDragEnabled(true);
 }
 
-    // FIXME
+// FIXME paintCell
 /*void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
 {
     if(!m_playingItems.contains(this))
@@ -414,7 +414,7 @@ void PlaylistItem::setup(CollectionListItem *item)
 
     d = item->d;
     item->addChildItem(this);
-    // FIXME
+    // FIXME drag
     //setDragEnabled(true);
 }
 

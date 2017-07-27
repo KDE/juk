@@ -28,7 +28,7 @@
 
 #include <QObject>
 
-// FIXME
+// FIXME ktrm
 #if 0
 
 template<class T>

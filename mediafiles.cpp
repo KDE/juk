@@ -129,7 +129,7 @@ QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *par
 TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    // FIXME
+    // FIXME mimetype no isvalid
     //if(!result->isValid())
     //    return 0;
 
@@ -169,7 +169,7 @@ TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
 bool MediaFiles::isMediaFile(const QString &fileName)
 {
     KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    // FIXME
+    // FIXME mimetype no isvalid
     /*if(!result->isValid())
         return false;*/
 
