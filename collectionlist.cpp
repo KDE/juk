@@ -502,24 +502,19 @@ void CollectionListItem::refresh()
             data()->metadata[id] = toLower;
         }
 
-        // FIXME
-        /*int newWidth = width(listView()->fontMetrics(), listView(), i);
+        int newWidth = treeWidget()->fontMetrics().width(text(i));
         if(newWidth != data()->cachedWidths[i])
             playlist()->slotWeightDirty(i);
 
-        data()->cachedWidths[i] = newWidth;*/
+        data()->cachedWidths[i] = newWidth;
     }
-
-    /*if(listView()->isVisible())
-        repaint();*/
 
     for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
         (*it)->playlist()->update();
         (*it)->playlist()->dataChanged();
-        // FIXME
-        /*if((*it)->treeWidget()->isVisible())
-            (*it)->repaint();*/
     }
+    if(treeWidget()->isVisible())
+        treeWidget()->viewport()->update();
 
     CollectionList::instance()->dataChanged();
     emit CollectionList::instance()->signalCollectionChanged();

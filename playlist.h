@@ -432,8 +432,8 @@ protected:
     //virtual void contentsDragEnterEvent(QDragEnterEvent *e);
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const;
-    virtual void viewportPaintEvent(QPaintEvent *pe);
-    virtual void viewportResizeEvent(QResizeEvent *re);
+    virtual void paintEvent(QPaintEvent *pe);
+    virtual void resizeEvent(QResizeEvent *re);
 
     virtual void insertItem(QTreeWidgetItem *item);
     virtual void takeItem(QTreeWidgetItem *item);

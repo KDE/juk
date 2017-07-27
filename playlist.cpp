@@ -942,18 +942,19 @@ void Playlist::slotShowPlaying()
 
     m_collection->raise(l);
 
-    // FIXME
-    //l->setSelected(playingItem(), true);
-    //l->ensureItemVisible(playingItem());
+    l->setCurrentItem(playingItem());
+    l->scrollTo(currentIndex());
 }
 
 void Playlist::slotColumnResizeModeChanged()
 {
-    // FIXME
-    /*if(manualResize())
-        setHScrollBarMode(Auto);
-    else
-        setHScrollBarMode(AlwaysOff);*/
+    if(manualResize()) {
+        header()->setSectionResizeMode(QHeaderView::Interactive);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    } else {
+        header()->setSectionResizeMode(QHeaderView::Fixed);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    }
 
     if(!manualResize())
         slotUpdateColumnWidths();
@@ -1291,7 +1292,7 @@ void Playlist::read(QDataStream &s)
     m_collection->setupPlaylist(this, "audio-midi");
 }
 
-void Playlist::viewportPaintEvent(QPaintEvent *pe)
+void Playlist::paintEvent(QPaintEvent *pe)
 {
     // If there are columns that need to be updated, well, update them.
 
@@ -1301,11 +1302,10 @@ void Playlist::viewportPaintEvent(QPaintEvent *pe)
         slotUpdateColumnWidths();
     }
 
-    // FIXME
-    //QTreeWidget::viewportPaintEvent(pe);
+    QTreeWidget::paintEvent(pe);
 }
 
-void Playlist::viewportResizeEvent(QResizeEvent *re)
+void Playlist::resizeEvent(QResizeEvent *re)
 {
     // If the width of the view has changed, manually update the column
     // widths.
@@ -1313,8 +1313,7 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
     if(re->size().width() != re->oldSize().width() && !manualResize())
         slotUpdateColumnWidths();
 
-    // FIXME
-    //QTreeWidget::viewportResizeEvent(re);
+    QTreeWidget::resizeEvent(re);
 }
 
 void Playlist::insertItem(QTreeWidgetItem *item)
@@ -1602,13 +1601,16 @@ void Playlist::slotInitialize()
     /*connect(renameLineEdit(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
             this, SLOT(slotInlineCompletionModeChanged(KGlobalSettings::Completion)));*/
 
-    /*connect(action("resizeColumnsManually"), SIGNAL(activated()),
-            this, SLOT(slotColumnResizeModeChanged()));*/
+    connect(action("resizeColumnsManually"), SIGNAL(triggered()),
+            this, SLOT(slotColumnResizeModeChanged()));
 
-    /*if(action<KToggleAction>("resizeColumnsManually")->isChecked())
-        setHScrollBarMode(Auto);
-    else
-        setHScrollBarMode(AlwaysOff);*/
+    if(action<KToggleAction>("resizeColumnsManually")->isChecked()) {
+        header()->setSectionResizeMode(QHeaderView::Interactive);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    } else {
+        header()->setSectionResizeMode(QHeaderView::Fixed);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    }
 
     setAcceptDrops(true);
     //setDropVisualizer(true);
@@ -2025,7 +2027,7 @@ void Playlist::slotUpdateColumnWidths()
     // If we've got enough room for the fixed widths (larger than the minimum
     // widths) then instead use those for our "minimum widths".
 
-    if(minimumFixedWidthTotal < frameRect().width()) {
+    if(minimumFixedWidthTotal < viewport()->width()) {
         minimumWidth = minimumFixedWidth;
         minimumWidthTotal = minimumFixedWidthTotal;
     }
@@ -2043,7 +2045,7 @@ void Playlist::slotUpdateColumnWidths()
 
     QVector<int> weightedWidth(columnCount(), 0);
     foreach(int column, visibleColumns)
-        weightedWidth[column] = int(double(m_columnWeights[column]) / totalWeight * frameRect().width() + 0.5);
+        weightedWidth[column] = int(double(m_columnWeights[column]) / totalWeight * viewport()->width() + 0.5);
 
     // The "extra" width for each column.  This is the weighted width less the
     // minimum width or zero if the minimum width is greater than the weighted
@@ -2114,7 +2116,7 @@ void Playlist::slotUpdateColumnWidths()
 
     // Fill the remaining gap for a clean fit into the available space.
 
-    int remainingWidth = frameRect().width() - usedWidth;
+    int remainingWidth = viewport()->width() - usedWidth;
     setColumnWidth(visibleColumns.back(), columnWidth(visibleColumns.back()) + remainingWidth);
 
     m_widthsDirty = false;
