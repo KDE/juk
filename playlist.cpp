@@ -2097,7 +2097,7 @@ void Playlist::slotAddToUpcoming()
 void Playlist::slotShowRMBMenu(const QPoint &point)
 {
     QTreeWidgetItem *item = itemAt(point);
-    int column = currentColumn(); // FIXME?
+    int column = columnAt(point.x());
     if(!item)
         return;
 
@@ -2159,7 +2159,7 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
         (column == PlaylistItem::YearColumn);
 
     if(showEdit)
-        m_rmbEdit->setText(i18n("Edit '%1'", item->text(columnAt(column + columnOffset()))));
+        m_rmbEdit->setText(i18n("Edit '%1'", item->text(column + columnOffset())));
 
     m_rmbEdit->setVisible(showEdit);
 
