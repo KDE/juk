@@ -92,9 +92,10 @@ private:
     void saveConfig();
 
     virtual void decode(const QMimeData *s, Item *item);
-    virtual void contentsDropEvent(QDropEvent *e);
-    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
-    virtual void contentsDragLeaveEvent(QDragLeaveEvent *e);
+    virtual void dropEvent(QDropEvent *e);
+    virtual void dragEnterEvent(QDragEnterEvent *e);
+    virtual void dragMoveEvent(QDragMoveEvent *e);
+    virtual void dragLeaveEvent(QDragLeaveEvent *e);
     virtual void mousePressEvent(QMouseEvent *e);
     virtual void mouseReleaseEvent(QMouseEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);

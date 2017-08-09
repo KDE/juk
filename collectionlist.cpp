@@ -375,20 +375,19 @@ CollectionList::~CollectionList()
     m_columnTags.clear();
 }
 
-void CollectionList::contentsDropEvent(QDropEvent *e)
+void CollectionList::dropEvent(QDropEvent *e)
 {
     if(e->source() == this)
         return; // Don't rearrange in the CollectionList.
     else
-        Playlist::contentsDropEvent(e);
+        Playlist::dropEvent(e);
 }
 
-void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
+void CollectionList::dragMoveEvent(QDragMoveEvent *e)
 {
-    // FIXME drag
-    /*if(e->source() != this)
-        Playlist::contentsDragMoveEvent(e);
-    else*/
+    if(e->source() != this)
+        Playlist::dragMoveEvent(e);
+    else
         e->setAccepted(false);
 }
 
@@ -473,7 +472,7 @@ void CollectionListItem::refresh()
     data()->cachedWidths.resize(columns);
 
     for(int i = offset; i < columns; i++) {
-        setData(i, Qt::DisplayRole, text(i));
+        setText(i, text(i));
         int id = i - offset;
         if(id != TrackNumberColumn && id != LengthColumn) {
             // All columns other than track num and length need local-encoded data for sorting

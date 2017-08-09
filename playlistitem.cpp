@@ -159,12 +159,6 @@ QString PlaylistItem::text(int column) const
 
 void PlaylistItem::setText(int column, const QString &text)
 {
-    int offset = playlist()->columnOffset();
-    if(column - offset >= 0 && column + offset <= lastColumn()) {
-        QTreeWidgetItem::setText(column, QString());
-        return;
-    }
-
     QTreeWidgetItem::setText(column, text);
     playlist()->slotWeightDirty(column);
 }
@@ -280,8 +274,7 @@ PlaylistItem::PlaylistItem(CollectionList *parent) :
 {
     d = new Data;
     m_collectionItem = static_cast<CollectionListItem *>(this);
-    // FIXME drag
-    //setDragEnabled(true);
+    setFlags(flags() | Qt::ItemIsDragEnabled);
 }
 
 // FIXME paintCell
@@ -414,8 +407,14 @@ void PlaylistItem::setup(CollectionListItem *item)
 
     d = item->d;
     item->addChildItem(this);
-    // FIXME drag
-    //setDragEnabled(true);
+    setFlags(flags() | Qt::ItemIsDragEnabled);
+
+    int offset = playlist()->columnOffset();
+    int columns = lastColumn() + offset + 1;
+
+    for(int i = offset; i < columns; i++) {
+        setText(i, text(i));
+    }
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -38,7 +38,6 @@ class KActionMenu;
 
 class QFileInfo;
 class QMimeData;
-class QDrag;
 class QAction;
 
 class WebImageFetcher;
@@ -425,11 +424,12 @@ protected:
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
-    //virtual Q3DragObject *dragObject(QWidget *parent);
-    //virtual Q3DragObject *dragObject() { return dragObject(this); }
     virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
-    virtual void contentsDropEvent(QDropEvent *e);
-    //virtual void contentsDragEnterEvent(QDragEnterEvent *e);
+    QStringList mimeTypes() const;
+    QMimeData* mimeData(const QList<QTreeWidgetItem *> items) const;
+    virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
+    virtual void dropEvent(QDropEvent *e);
+    virtual void dragEnterEvent(QDragEnterEvent *e);
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const;
     virtual void paintEvent(QPaintEvent *pe);

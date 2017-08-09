@@ -78,6 +78,7 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     setHeaderLabel("Playlists");
     setRootIsDecorated(false);
     setContextMenuPolicy(Qt::CustomContextMenu);
+    setDropIndicatorShown(true);
 
     header()->blockSignals(true);
     header()->hide();
@@ -87,8 +88,8 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     // FIXME ?
     //setFullWidth(true);
 
-    // FIXME drag
-    //setAcceptDrops(true);
+    viewport()->setAcceptDrops(true);
+    setDropIndicatorShown(true);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     m_contextMenu = new KMenu(this);
@@ -487,22 +488,27 @@ void PlaylistBox::decode(const QMimeData *s, Item *item)
     }
 }
 
-void PlaylistBox::contentsDropEvent(QDropEvent *e)
+void PlaylistBox::dropEvent(QDropEvent *e)
 {
     m_showTimer->stop();
 
-    // FIXME drag
-    /*Item *i = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
+    Item *i = static_cast<Item *>(itemAt(e->pos()));
     decode(e->mimeData(), i);
 
     if(m_dropItem) {
         Item *old = m_dropItem;
         m_dropItem = 0;
-        old->repaint();
-    }*/
+        //old->repaint();
+    }
+    e->acceptProposedAction();
 }
 
-void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
+void PlaylistBox::dragEnterEvent(QDragEnterEvent *e)
+{
+    e->acceptProposedAction();
+}
+
+void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
 {
     // If we can decode the input source, there is a non-null item at the "move"
     // position, the playlist for that Item is non-null, is not the
@@ -510,13 +516,12 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
     //
     // Otherwise, do not accept the event.
 
-    // FIXME drag
-    /*if (!KUrl::List::canDecode(e->mimeData())) {
+    if (!e->mimeData()->hasUrls()) {
         e->setAccepted(false);
         return;
     }
 
-    Item *target = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
+    Item *target = static_cast<Item *>(itemAt(e->pos()));
 
     if(target) {
 
@@ -530,8 +535,8 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 
         if(dynamic_cast<Playlist *>(e->source())) {
             if(target->playlist() &&
-               target->playlist() != CollectionList::instance() &&
-               !target->isSelected())
+               target->playlist() != CollectionList::instance() /*&&
+               !target->isSelected()*/)
             {
                 e->setAccepted(true);
             }
@@ -547,15 +552,15 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
 
             if(e->isAccepted()) {
                 m_dropItem = target;
-                target->repaint();
+                //target->repaint();
                 m_showTimer->setSingleShot(true);
                 m_showTimer->start(1500);
             }
             else
                 m_dropItem = 0;
 
-            if(old)
-                old->repaint();
+            /*if(old)
+                old->repaint();*/
         }
     }
     else {
@@ -564,18 +569,17 @@ void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
         // possible to create new lists.
 
         e->setAccepted(true);
-    }*/
+    }
 }
 
-void PlaylistBox::contentsDragLeaveEvent(QDragLeaveEvent *e)
+void PlaylistBox::dragLeaveEvent(QDragLeaveEvent *e)
 {
-    // FIXME drag
-    /*if(m_dropItem) {
+    if(m_dropItem) {
         Item *old = m_dropItem;
         m_dropItem = 0;
-        old->repaint();
+        //old->repaint();
     }
-    QTreeWidget::contentsDragLeaveEvent(e);*/
+    QTreeWidget::dragLeaveEvent(e);
 }
 
 void PlaylistBox::mousePressEvent(QMouseEvent *e)

@@ -240,10 +240,11 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
     int offset = l->columnOffset();
     int i = 0;
-    bool oldState = l->header()->blockSignals(true);
+    //bool oldState = l->header()->blockSignals(true);
     foreach(int column, m_columnOrder)
-        l->header()->moveSection(l->header()->visualIndex(i++ + offset), column + offset); // FIXME mismatch with setColumnOrder
-    l->header()->blockSignals(oldState);
+        // FIXME this is broken
+        l->header()->moveSection(i++ + offset, column + offset); // FIXME mismatch with setColumnOrder
+    //l->header()->blockSignals(oldState);
 
     for(int i = 0; i < m_columnsVisible.size(); i++) {
         if(m_columnsVisible[i] && l->isColumnHidden(i + offset))
@@ -1019,37 +1020,18 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
     }
 }
 
-// FIXME drag
-/*Q3DragObject *Playlist::dragObject(QWidget *parent)
+void Playlist::dragEnterEvent(QDragEnterEvent *e)
 {
-    PlaylistItemList items = selectedItems();
-    KUrl::List urls;
-
-    foreach(PlaylistItem *item, items) {
-        urls << KUrl::fromPath(item->file().absFilePath());
-    }
-
-    K3URLDrag *urlDrag = new K3URLDrag(urls, parent);
-
-    urlDrag->setPixmap(BarIcon("audio-x-generic"));
-
-    return urlDrag;
-}
-
-void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
-{
-    K3ListView::contentsDragEnterEvent(e);
-
     if(CoverDrag::isCover(e->mimeData())) {
-        setDropHighlighter(true);
-        setDropVisualizer(false);
+        //setDropHighlighter(true);
+        setDropIndicatorShown(false);
 
         e->accept();
         return;
     }
 
-    setDropHighlighter(false);
-    setDropVisualizer(true);
+    //setDropHighlighter(false);
+    setDropIndicatorShown(true);
 
     const KUrl::List urls = KUrl::List::fromMimeData(e->mimeData());
 
@@ -1058,9 +1040,10 @@ void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
         return;
     }
 
-    e->accept();
+    if(e->mimeData()->hasUrls())
+        e->acceptProposedAction();
     return;
-}*/
+}
 
 bool Playlist::acceptDrag(QDropEvent *e) const
 {
@@ -1156,7 +1139,7 @@ void Playlist::keyPressEvent(QKeyEvent *event)
         if(*selected) {
             QTreeWidgetItemIterator visible(this, QTreeWidgetItemIterator::NotHidden);
             if(*selected == *visible)
-                KApplication::postEvent(parent(), new FocusUpEvent);
+                QApplication::postEvent(parent(), new FocusUpEvent);
         }
 
     }
@@ -1164,10 +1147,34 @@ void Playlist::keyPressEvent(QKeyEvent *event)
     QTreeWidget::keyPressEvent(event);
 }
 
-void Playlist::contentsDropEvent(QDropEvent *e)
+QStringList Playlist::mimeTypes() const
 {
-    // FIXME drag
-    /*QPoint vp = contentsToViewport(e->pos());
+    return QStringList("text/uri-list");
+}
+
+QMimeData* Playlist::mimeData(const QList<QTreeWidgetItem *> items) const
+{
+    KUrl::List urls;
+    foreach(QTreeWidgetItem *item, items) {
+        urls << KUrl::fromPath(static_cast<PlaylistItem*>(item)->file().absFilePath());
+    }
+
+    QMimeData *urlDrag = new QMimeData();
+
+    urlDrag->setUrls(urls);
+
+    return urlDrag;
+}
+
+bool Playlist::dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action)
+{
+    qDebug() << index;
+    return true;
+}
+
+void Playlist::dropEvent(QDropEvent *e)
+{
+    QPoint vp = e->pos();
     PlaylistItem *item = static_cast<PlaylistItem *>(itemAt(vp));
 
     // First see if we're dropping a cover, if so we can get it out of the
@@ -1197,9 +1204,10 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     // This is what the user expects, and also allows the insertion at
     // top of the list
 
+    QRect rect = visualItemRect(item);
     if(!item)
-        item = static_cast<PlaylistItem *>(lastItem());
-    else if(vp.y() < item->itemPos() + item->height() / 2)
+        item = static_cast<PlaylistItem *>(topLevelItem(topLevelItemCount() - 1));
+    else if(vp.y() < rect.y() + rect.height() / 2)
         item = static_cast<PlaylistItem *>(item->itemAbove());
 
     m_blockDataChanged = true;
@@ -1221,8 +1229,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
                 takeItem(listViewItem);
                 insertItem(listViewItem);
             }
-            else
-                listViewItem->moveItem(item);
+            //else
+            //    listViewItem->moveItem(item);
 
             item = static_cast<PlaylistItem *>(listViewItem);
         }
@@ -1234,7 +1242,7 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
     dataChanged();
     emit signalPlaylistItemsDropped(this);
-    QTreeWidget::contentsDropEvent(e);*/
+    QTreeWidget::dropEvent(e);
 }
 
 void Playlist::showEvent(QShowEvent *e)
@@ -1525,7 +1533,6 @@ void Playlist::slotInitialize()
     setAllColumnsShowFocus(true);
     setSelectionMode(QTreeWidget::ExtendedSelection);
     header()->setSortIndicatorShown(true);
-    //setDropVisualizer(true);
 
     m_columnFixedWidths.resize(columnCount());
 
@@ -1581,8 +1588,9 @@ void Playlist::slotInitialize()
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     }
 
-    setAcceptDrops(true);
-    //setDropVisualizer(true);
+    viewport()->setAcceptDrops(true);
+    setDropIndicatorShown(true);
+    setDragEnabled(true);
 
     m_disableColumnWidthUpdates = false;
 
@@ -1693,6 +1701,8 @@ void Playlist::setup()
 
     m_headerMenu = m_columnVisibleAction->menu();
 
+    header()->installEventFilter(this);
+
     // TODO: Determine if other stuff in setup must happen before slotInitialize().
 
     // Explicitly call slotInitialize() so that the columns are added before
@@ -1784,10 +1794,10 @@ bool Playlist::playing() const
 int Playlist::leftMostVisibleColumn() const
 {
     int i = 0;
-    while(isColumnHidden(header()->sectionPosition(i)) && i < PlaylistItem::lastColumn())
+    while(isColumnHidden(header()->visualIndex(i)) && i < PlaylistItem::lastColumn())
         i++;
 
-    return header()->sectionPosition(i);
+    return header()->visualIndex(i);
 }
 
 PlaylistItemList Playlist::items(QTreeWidgetItemIterator::IteratorFlags flags)
@@ -2176,7 +2186,7 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
     action("viewCover")->setEnabled(file.coverInfo()->hasCover());
     action("removeCover")->setEnabled(file.coverInfo()->coverId() != CoverManager::NoMatch);
 
-    m_rmbMenu->popup(window()->mapToGlobal(mapToGlobal(point)));
+    m_rmbMenu->popup(mapToGlobal(point));
     m_currentColumn = column + columnOffset();
 }
 
@@ -2392,7 +2402,7 @@ bool processEvents()
 
     if(time.elapsed() > 100) {
         time.restart();
-        kapp->processEvents();
+        qApp->processEvents();
         return true;
     }
     return false;
