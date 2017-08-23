@@ -17,8 +17,8 @@
 
 #include "directorylist.h"
 
-#include <QtGui/QCheckBox>
-#include <QtGui/QStringListModel>
+#include <QCheckBox>
+#include <QStringListModel>
 #include <QtCore/QVariant>
 
 #include <kfiledialog.h>

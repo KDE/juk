@@ -20,7 +20,7 @@
 
 #include <ktoolbar.h>
 
-#include <QtGui/QFrame>
+#include <QFrame>
 #include <QList>
 
 #include "playlistsearch.h"

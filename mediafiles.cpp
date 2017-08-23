@@ -23,7 +23,7 @@
 #include <kio/netaccess.h>
 #include <kmimetype.h>
 
-#include <QtGui/QWidget>
+#include <QWidget>
 #include <QtCore/QFile>
 
 #include <taglib.h>

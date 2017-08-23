@@ -1,24 +1,24 @@
+cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
+
 project(juk)
 
-cmake_minimum_required(VERSION 3.0)
-
-find_package(ECM REQUIRED NO_MODULE)
+find_package(ECM 5.38 REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 include(CMakePushCheckState)
 include(CheckIncludeFileCXX)
 include(KDEInstallDirs)
 include(KDECompilerSettings NO_POLICY_SCOPE)
-include(KDECMakeSettings)
+include(KDECMakeSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 include(ECMInstallIcons)
 include(ECMAddAppIcon)
 
 find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Svg Network Test Widgets)
-find_package(KF5 REQUIRED COMPONENTS CoreAddons Completion I18n IconThemes DocTools TextWidgets XmlGui Wallet WindowSystem KDELibs4Support KDE4Support)
+find_package(KF5 REQUIRED COMPONENTS CoreAddons Completion GlobalAccel I18n IconThemes DocTools TextWidgets XmlGui Wallet WindowSystem KDELibs4Support)
 find_package(Phonon4Qt5 4.6.60 REQUIRED NO_MODULE)
 
-find_package( Taglib 1.6 )
+find_package(Taglib 1.6 REQUIRED)
 
 include_directories( ${PHONON_INCLUDES} ${KDE4_INCLUDES} ${QT_INCLUDES} )
 
@@ -39,8 +39,6 @@ if(TUNEPIMP_FOUND)
 else(TUNEPIMP_FOUND)
 	set(HAVE_TUNEPIMP 0)
 endif(TUNEPIMP_FOUND)	
-
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS}  ${KDE4_ENABLE_EXCEPTIONS} ${Qt5Widgets_EXECUTABLE_COMPILE_FLAGS} -fPIC")
 
 ########### next target ###############
 
@@ -152,11 +150,16 @@ file(GLOB ICONS_SRCS "${CMAKE_CURRENT_SOURCE_DIR}/*-apps-juk.png")
 ecm_add_app_icon(juk_SRCS ICONS ${ICONS_SRCS})
 add_executable(juk ${juk_SRCS})
 
+kde_target_enable_exceptions(juk PRIVATE)
+
 if(NOT MSVC AND NOT ( WIN32 AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel" ) )
     set( LIBMATH m )
 endif()
 
-target_link_libraries(juk ${LIBMATH} Qt5::Gui Qt5::Svg Qt5::Widgets Qt5::Network KF5::CoreAddons KF5::Completion KF5::I18n KF5::IconThemes KF5::TextWidgets KF5::XmlGui KF5::WindowSystem KF5::Wallet KF5::KDELibs4Support KF5::KDE4Support ${PHONON_LIBRARY} ${KDE4_KHTML_LIBS} ${TAGLIB_LIBRARIES})
+target_link_libraries(juk ${LIBMATH} Qt5::Gui Qt5::Svg Qt5::Widgets
+    Qt5::Network KF5::CoreAddons KF5::Completion KF5::GlobalAccel
+    KF5::I18n KF5::IconThemes KF5::TextWidgets KF5::XmlGui KF5::WindowSystem
+    KF5::Wallet KF5::KDELibs4Support ${PHONON_LIBRARY} ${TAGLIB_LIBRARIES})
 if(TUNEPIMP_FOUND)
 	target_link_libraries(juk ${TUNEPIMP_LIBRARIES})
 endif(TUNEPIMP_FOUND)
