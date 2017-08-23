@@ -20,7 +20,7 @@
 
 #include <KDebug>
 #include <KLineEdit>
-#include <KPushButton>
+#include <QPushButton>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <kglobal.h>
@@ -42,7 +42,7 @@ ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent, Qt::WindowFlags f)
     m_passwordEdit = new KLineEdit(this);
     m_passwordEdit->setPasswordMode(true);
     m_usernameEdit = new KLineEdit(this);
-    m_testButton = new KPushButton(i18n("Test login..."), this);
+    m_testButton = new QPushButton(i18n("Test login..."), this);
     m_testFeedbackLabel = new QLabel("");
     
     QWidget *mainWidget = new QWidget();

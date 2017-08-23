@@ -26,7 +26,7 @@
 #include <KUrl>
 #include <KDebug>
 #include <KIO/Job>
-#include <KPushButton>
+#include <QPushButton>
 #include <KDialog>
 
 #include "covermanager.h"

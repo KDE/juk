@@ -18,15 +18,16 @@
 
 #include <kcombobox.h>
 #include <klineedit.h>
-#include <kpushbutton.h>
 #include <klocale.h>
 #include <kvbox.h>
+#include <KStandardGuiItem>
 
 #include <QRadioButton>
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGroupBox>
+#include <QPushButton>
 
 #include "collectionlist.h"
 #include "searchwidget.h"
@@ -105,17 +106,18 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
     l->setSpacing(5);
     l->setMargin(0);
 
-    KPushButton *clearButton = new KPushButton(KStandardGuiItem::clear(), buttons);
+    const auto &clearGuiItem = KStandardGuiItem::clear();
+    QPushButton *clearButton = new QPushButton(clearGuiItem.icon(), clearGuiItem.text(), buttons);
     connect(clearButton, SIGNAL(clicked()), SLOT(clear()));
     l->addWidget(clearButton);
 
     l->addStretch(1);
 
-    m_moreButton = new KPushButton(i18nc("additional search options", "More"), buttons);
+    m_moreButton = new QPushButton(i18nc("additional search options", "More"), buttons);
     connect(m_moreButton, SIGNAL(clicked()), SLOT(more()));
     l->addWidget(m_moreButton);
 
-    m_fewerButton = new KPushButton(i18n("Fewer"), buttons);
+    m_fewerButton = new QPushButton(i18n("Fewer"), buttons);
     connect(m_fewerButton, SIGNAL(clicked()), SLOT(fewer()));
     l->addWidget(m_fewerButton);
 

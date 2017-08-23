@@ -23,7 +23,7 @@
 #include "playlistsearch.h"
 
 class KLineEdit;
-class KPushButton;
+class QPushButton;
 class QRadioButton;
 class SearchLine;
 class QBoxLayout;
@@ -68,8 +68,8 @@ private:
     KLineEdit *m_playlistNameLineEdit;
     QRadioButton *m_matchAnyButton;
     QRadioButton *m_matchAllButton;
-    KPushButton *m_moreButton;
-    KPushButton *m_fewerButton;
+    QPushButton *m_moreButton;
+    QPushButton *m_fewerButton;
 };
 
 #endif

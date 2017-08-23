@@ -19,12 +19,12 @@
 
 #include <kicon.h>
 #include <klocale.h>
-#include <kpushbutton.h>
 #include <klineedit.h>
 #include <kapplication.h>
 
 #include <QKeyEvent>
 #include <QStringListModel>
+#include <QPushButton>
 
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     : KDialog(parent)

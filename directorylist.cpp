@@ -20,10 +20,10 @@
 #include <QCheckBox>
 #include <QStringListModel>
 #include <QtCore/QVariant>
+#include <QPushButton>
 
 #include <kfiledialog.h>
 #include <klocale.h>
-#include <kpushbutton.h>
 #include <kdebug.h>
 
 ////////////////////////////////////////////////////////////////////////////////

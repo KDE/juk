@@ -17,7 +17,6 @@
 #include "statuslabel.h"
 
 #include <kaction.h>
-#include <kpushbutton.h>
 #include <kiconloader.h>
 #include <ksqueezedtextlabel.h>
 #include <klocale.h>
@@ -28,6 +27,7 @@
 #include <QFrame>
 #include <QHBoxLayout>
 #include <QEvent>
+#include <QPushButton>
 
 #include "filehandle.h"
 #include "playlistinterface.h"

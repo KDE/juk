@@ -33,7 +33,6 @@
 #include <kglobal.h>
 #include <klineedit.h>
 #include <klocale.h>
-#include <kpushbutton.h>
 #include <kapplication.h>
 #include <kmessagebox.h>
 #include <kvbox.h>
@@ -48,6 +47,7 @@
 #include <QFrame>
 #include <QTreeWidget>
 #include <QScrollBar>
+#include <QPushButton>
 
 #include "tag.h"
 #include "filerenameroptions.h"
@@ -361,8 +361,8 @@ int FileRenamerWidget::addRowCategory(TagType category)
     buttons->setFrameStyle(QFrame::Plain | QFrame::Box);
     buttons->setLineWidth(1);
 
-    row.upButton = new KPushButton(buttons);
-    row.downButton = new KPushButton(buttons);
+    row.upButton = new QPushButton(buttons);
+    row.downButton = new QPushButton(buttons);
 
     row.upButton->setIcon(up);
     row.downButton->setIcon(down);
@@ -385,12 +385,12 @@ int FileRenamerWidget::addRowCategory(TagType category)
     QVBoxLayout *optionLayout = new QVBoxLayout;
     frameLayout->addLayout(optionLayout);
 
-    row.enableButton = new KPushButton(i18nc("remove music genre from file renamer", "Remove"), frame);
+    row.enableButton = new QPushButton(i18nc("remove music genre from file renamer", "Remove"), frame);
     optionLayout->addWidget(row.enableButton);
     toggleMapper->connect(row.enableButton, SIGNAL(clicked()), SLOT(map()));
     toggleMapper->setMapping(row.enableButton, id);
 
-    row.optionsButton = new KPushButton(i18nc("file renamer genre options", "Options"), frame);
+    row.optionsButton = new QPushButton(i18nc("file renamer genre options", "Options"), frame);
     optionLayout->addWidget(row.optionsButton);
     mapper->connect(row.optionsButton, SIGNAL(clicked()), SLOT(map()));
     mapper->setMapping(row.optionsButton, id);

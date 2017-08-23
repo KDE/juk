@@ -22,7 +22,7 @@
 #include <KWallet/Wallet>
 
 class KLineEdit;
-class KPushButton;
+class QPushButton;
 class QLabel;
 
 class ScrobbleConfigDlg : public KDialog
@@ -42,7 +42,7 @@ private slots:
 private:
     KLineEdit *m_usernameEdit;
     KLineEdit *m_passwordEdit;
-    KPushButton *m_testButton;
+    QPushButton *m_testButton;
     QLabel *m_testFeedbackLabel;
 
     KWallet::Wallet *m_wallet;

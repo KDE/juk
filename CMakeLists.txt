@@ -15,7 +15,9 @@ include(ECMInstallIcons)
 include(ECMAddAppIcon)
 
 find_package(Qt5 5.2 REQUIRED COMPONENTS Gui Svg Network Test Widgets)
-find_package(KF5 REQUIRED COMPONENTS CoreAddons Completion GlobalAccel I18n IconThemes DocTools TextWidgets XmlGui Wallet WindowSystem KDELibs4Support)
+find_package(KF5 REQUIRED COMPONENTS CoreAddons Completion GlobalAccel
+	I18n IconThemes DocTools TextWidgets XmlGui Wallet
+	WidgetsAddons WindowSystem KDELibs4Support)
 find_package(Phonon4Qt5 4.6.60 REQUIRED NO_MODULE)
 
 find_package(Taglib 1.6 REQUIRED)
@@ -159,7 +161,7 @@ endif()
 target_link_libraries(juk ${LIBMATH} Qt5::Gui Qt5::Svg Qt5::Widgets
     Qt5::Network KF5::CoreAddons KF5::Completion KF5::GlobalAccel
     KF5::I18n KF5::IconThemes KF5::TextWidgets KF5::XmlGui KF5::WindowSystem
-    KF5::Wallet KF5::KDELibs4Support ${PHONON_LIBRARY} ${TAGLIB_LIBRARIES})
+    KF5::WidgetsAddons KF5::Wallet KF5::KDELibs4Support ${PHONON_LIBRARY} ${TAGLIB_LIBRARIES})
 if(TUNEPIMP_FOUND)
 	target_link_libraries(juk ${TUNEPIMP_LIBRARIES})
 endif(TUNEPIMP_FOUND)
