@@ -179,4 +179,12 @@ install( FILES jukservicemenu.desktop  DESTINATION
 ${SERVICES_INSTALL_DIR}/ServiceMenus )
 install( FILES org.kde.juk.collection.xml org.kde.juk.player.xml org.kde.juk.search.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
 
-ecm_install_icons( ${ICON_INSTALL_DIR}   )
+ecm_install_icons(ICONS
+    128-apps-juk.png
+    16-apps-juk.png
+    32-apps-juk.png
+    48-apps-juk.png
+    64-apps-juk.png
+    DESTINATION ${ICON_INSTALL_DIR}
+    THEME hicolor
+)
