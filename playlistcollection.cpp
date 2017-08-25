@@ -932,7 +932,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
                               "guessTagInternet", "network-server", KShortcut(Qt::CTRL + Qt::Key_I)));
 #else
     createAction(i18n("Guess Tag Information From &File Name"), SLOT(slotGuessTagFromFile()),
-                 "guessTag", "document-import", KShortcut(Qt::CTRL + Qt::Key_F));
+                 "guessTag", "document-import", KShortcut(Qt::CTRL + Qt::Key_G));
 #endif
 
 
