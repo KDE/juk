@@ -205,6 +205,4 @@ void AdvancedSearchDialog::updateButtons()
     m_fewerButton->setEnabled(m_searchLines.count() > 1);
 }
 
-#include "advancedsearchdialog.moc"
-
 // vim: set et sw=4 tw=0 sta:

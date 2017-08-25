@@ -189,6 +189,4 @@ void DynamicPlaylist::slotUpdateItems()
         synchronizePlayingItems(m_playlists, true);
 }
 
-#include "dynamicplaylist.moc"
-
 // vim: set et sw=4 tw=0 sta:

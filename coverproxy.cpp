@@ -35,5 +35,3 @@ void CoverProxy::handleResult(KJob *job)
         CoverManager::jobComplete(job, true);
     }
 }
-
-#include "coverproxy.moc"

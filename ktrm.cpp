@@ -46,8 +46,6 @@
 #include <fixx11h.h>
 #endif
 
-#include "ktrm.moc"
-
 class KTRMLookup;
 
 extern "C"

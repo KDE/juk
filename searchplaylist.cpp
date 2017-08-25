@@ -112,6 +112,4 @@ QDataStream &operator>>(QDataStream &s, SearchPlaylist &p)
     return s;
 }
 
-#include "searchplaylist.moc"
-
 // vim: set et sw=4 tw=0 sta:

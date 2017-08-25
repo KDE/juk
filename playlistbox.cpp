@@ -898,6 +898,4 @@ void PlaylistBox::Item::init()
         m_sortedFirst = true;
 }
 
-#include "playlistbox.moc"
-
 // vim: set et sw=4 tw=0 sta:

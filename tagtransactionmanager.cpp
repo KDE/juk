@@ -213,6 +213,4 @@ bool TagTransactionManager::processChangeList(bool undo)
     return errorItems.isEmpty();
 }
 
-#include "tagtransactionmanager.moc"
-
 // vim: set et sw=4 tw=0 sta:

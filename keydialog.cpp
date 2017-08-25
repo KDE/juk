@@ -221,6 +221,4 @@ void KeyDialog::setupActionShortcut(const QString &actionName)
         a->setGlobalShortcut(shortcut);
 }
 
-#include "keydialog.moc"
-
 // vim: set et sw=4 tw=0 sta:

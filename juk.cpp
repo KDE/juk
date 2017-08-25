@@ -635,6 +635,4 @@ void JuK::slotCheckAlbumNextAction(bool albumRandomEnabled)
     action("forwardAlbum")->setEnabled(albumRandomEnabled);
 }
 
-#include "juk.moc"
-
 // vim: set et sw=4 tw=0 sta:

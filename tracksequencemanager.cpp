@@ -180,6 +180,4 @@ void TrackSequenceManager::slotItemAboutToDie(PlaylistItem *item)
     m_iterator->itemAboutToDie(item);
 }
 
-#include "tracksequencemanager.moc"
-
 // vim: set et sw=4 tw=0 sta:

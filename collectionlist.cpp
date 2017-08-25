@@ -608,6 +608,4 @@ bool CollectionListItem::checkCurrent()
     return true;
 }
 
-#include "collectionlist.moc"
-
 // vim: set et sw=4 tw=0 sta:

@@ -282,6 +282,4 @@ void SearchWidget::updateColumns()
     m_searchLine.updateColumns();
 }
 
-#include "searchwidget.moc"
-
 // vim: set et sw=4 tw=0 sta:

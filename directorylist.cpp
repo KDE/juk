@@ -193,6 +193,4 @@ QStringList DirectoryList::defaultFolders()
     return QStringList();
 }
 
-#include "directorylist.moc"
-
 // vim: set et sw=4 tw=0 sta:

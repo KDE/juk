@@ -998,6 +998,4 @@ KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
     return action;
 }
 
-#include "playlistcollection.moc"
-
 // vim: set et sw=4 tw=0 sta:

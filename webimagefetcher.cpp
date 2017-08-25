@@ -218,6 +218,4 @@ void WebImageFetcher::slotCoverChosen()
     }
 }
 
-#include "webimagefetcher.moc"
-
 // vim: set et sw=4 tw=0 sta:

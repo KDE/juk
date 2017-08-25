@@ -200,6 +200,4 @@ void K3bPlaylistExporter::slotExport()
     }
 }
 
-#include "k3bexporter.moc"
-
 // vim: set et sw=4 tw=0 sta:

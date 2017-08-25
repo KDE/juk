@@ -222,5 +222,3 @@ void SvgHandler::paintCustomSlider( QPainter *p, QStyleOptionSlider *slider, qre
         p->drawPixmap( knob.topLeft(), renderSvg( string, knob.width(), knob.height(), string ) );
     }
 }
-
-#include "svghandler.moc"

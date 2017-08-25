@@ -727,6 +727,4 @@ void PlayerManager::setRandomPlayMode(const QString &randomMode)
         action<KToggleAction>("disableRandomPlay")->setChecked(true);
 }
 
-#include "playermanager.moc"
-
 // vim: set et sw=4 tw=0 sta:

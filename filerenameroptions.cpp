@@ -146,6 +146,4 @@ void TagOptionsDialog::saveConfig()
     m_options.saveConfig(m_categoryNumber);
 }
 
-#include "filerenameroptions.moc"
-
 // vim: set et sw=4 tw=0 sta:

@@ -1079,6 +1079,4 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
     return QString(folder + dirSeparator + result);
 }
 
-#include "filerenamer.moc"
-
 // vim: set et sw=4 tw=0 sta:

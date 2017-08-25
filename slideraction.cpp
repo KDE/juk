@@ -84,6 +84,4 @@ QWidget *VolumeAction::createWidget(QWidget *parent)
     return m_button;
 }
 
-#include "slideraction.moc"
-
 // vim: set et sw=4 tw=0 sta:

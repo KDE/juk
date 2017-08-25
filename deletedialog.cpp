@@ -135,6 +135,4 @@ void DeleteDialog::slotShouldDelete(bool shouldDelete)
     setButtonGuiItem(Ok, shouldDelete ? KStandardGuiItem::del() : m_trashGuiItem);
 }
 
-#include "deletedialog.moc"
-
 // vim: set et sw=4 tw=0 sta:

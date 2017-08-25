@@ -335,5 +335,3 @@ void TimeSlider::mousePressEvent( QMouseEvent *event )
     // We should probably eat this event if we're not able to seek
     Slider::mousePressEvent( event );
 }
-
-#include "slider.moc"

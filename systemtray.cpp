@@ -512,6 +512,4 @@ void SystemTray::scrollEvent(int delta, Qt::Orientation orientation)
     }
 }
 
-#include "systemtray.moc"
-
 // vim: set et sw=4 tw=0 sta:

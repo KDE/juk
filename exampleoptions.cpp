@@ -90,6 +90,4 @@ void ExampleOptionsDialog::fileModeSelected()
     emit fileChanged(m_options->m_exampleFile->url());
 }
 
-#include "exampleoptions.moc"
-
 // vim: set et sw=4 tw=0 sta:

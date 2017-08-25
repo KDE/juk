@@ -43,6 +43,4 @@ void FileRenamerConfigDlg::accept()
     KDialog::accept();
 }
 
-#include "filerenamerconfigdlg.moc"
-
 // vim: set et sw=4 tw=0 sta:

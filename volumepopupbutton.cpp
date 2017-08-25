@@ -166,5 +166,3 @@ VolumePopupButton::wheelEvent( QWheelEvent * event )
     player->setVolume( volume );
     volumeChanged( volume );
 }
-
-#include "volumepopupbutton.moc"
