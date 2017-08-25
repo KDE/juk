@@ -900,7 +900,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
     if(itemMap.isEmpty() || ConfirmationDialog(map).exec() != QDialog::Accepted)
         return;
 
-    KApplication::setOverrideCursor(Qt::WaitCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     for(QMap<QString, QString>::ConstIterator it = map.constBegin();
         it != map.constEnd(); ++it)
     {
@@ -915,7 +915,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
 
         processEvents();
     }
-    KApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
 
     if(!errorFiles.isEmpty())
         KMessageBox::errorList(0, i18n("The following rename operations failed:\n"), errorFiles);

@@ -777,7 +777,7 @@ void Playlist::slotRefresh()
     if(l.isEmpty())
         l = visibleItems();
 
-    KApplication::setOverrideCursor(Qt::WaitCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     foreach(PlaylistItem *item, l) {
         item->refreshFromDisk();
 
@@ -790,7 +790,7 @@ void Playlist::slotRefresh()
 
         processEvents();
     }
-    KApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
 }
 
 void Playlist::slotRenameFile()
@@ -880,7 +880,7 @@ void Playlist::slotCoverChanged(int coverId)
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
-    KApplication::setOverrideCursor(Qt::WaitCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     const PlaylistItemList items = selectedItems();
     setDynamicListsFrozen(true);
 
@@ -901,7 +901,7 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 
     dataChanged();
     setDynamicListsFrozen(false);
-    KApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
 }
 
 void Playlist::slotReload()
@@ -1358,7 +1358,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     if(!after)
         after = static_cast<PlaylistItem *>(topLevelItem(topLevelItemCount() - 1));
 
-    KApplication::setOverrideCursor(Qt::WaitCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
 
     m_blockDataChanged = true;
 
@@ -1374,7 +1374,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     slotWeightDirty();
     dataChanged();
 
-    KApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
 }
 
 void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)

@@ -118,7 +118,7 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
 
     if(firstRun) {
         QRect r = rect();
-        r.moveCenter(KApplication::desktop()->screenGeometry().center());
+        r.moveCenter(QApplication::desktop()->screenGeometry().center());
         move(r.topLeft());
     }
 

@@ -536,7 +536,7 @@ void TagEditor::save(const PlaylistItemList &list)
 {
     if(!list.isEmpty() && m_dataChanged) {
 
-        KApplication::setOverrideCursor(Qt::WaitCursor);
+        QApplication::setOverrideCursor(Qt::WaitCursor);
         m_dataChanged = false;
         m_performingSave = true;
 
@@ -603,7 +603,7 @@ void TagEditor::save(const PlaylistItemList &list)
         TagTransactionManager::instance()->commit();
         CollectionList::instance()->dataChanged();
         m_performingSave = false;
-        KApplication::restoreOverrideCursor();
+        QApplication::restoreOverrideCursor();
     }
 }
 

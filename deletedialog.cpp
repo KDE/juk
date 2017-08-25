@@ -17,7 +17,6 @@
 #include "deletedialog.h"
 #include "ui_deletedialogbase.h"
 
-#include <KApplication>
 #include <KStandardGuiItem>
 #include <klocale.h>
 #include <kiconloader.h>

@@ -23,9 +23,9 @@
 #include "mediafiles.h"
 
 #include <KAboutData>
-#include <KApplication>
 #include <KWindowSystem>
 
+#include <QApplication>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QWidget>
@@ -56,7 +56,7 @@ bool MediaPlayer2::CanQuit() const
 
 void MediaPlayer2::Quit() const
 {
-    kapp->quit();
+    qApp->quit();
 }
 
 bool MediaPlayer2::CanSetFullscreen() const

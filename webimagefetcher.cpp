@@ -18,7 +18,6 @@
 
 #include "webimagefetcher.h"
 
-#include <KApplication>
 #include <KStatusBar>
 #include <KXmlGuiWindow>
 #include <KLocale>
