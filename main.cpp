@@ -15,7 +15,7 @@
  */
 
 #include <kuniqueapplication.h>
-#include <kcmdlineargs.h>
+
 #include <kaboutdata.h>
 #include <kconfigbase.h>
 #include <kconfig.h>
@@ -23,6 +23,9 @@
 #include <kglobal.h>
 #include <kconfiggroup.h>
 #include <knotification.h>
+
+#include <QCommandLineParser>
+#include <QCommandLineOption>
 
 #include "juk.h"
 
@@ -81,15 +84,13 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Eike Hein"), i18n(sho), "hein@kde.org");
     KAboutData::setApplicationData(aboutData);
 
-    // FIXME cmdline
-    /*KCmdLineArgs::init(argc, argv, &aboutData);
-
-    KCmdLineOptions options;
-    options.add("+[file(s)]", ki18n("File(s) to open"));
-    KCmdLineArgs::addCmdLineOptions(options);
-
-    KUniqueApplication::addCmdLineOptions();*/
-
+    QCommandLineParser parser;
+    aboutData.setupCommandLine(&parser);
+    parser.addVersionOption();
+    parser.addHelpOption();
+    parser.addPositionalArgument(QLatin1String("[file(s)]"), i18n("File(s) to open"));
+    parser.process(a);
+    aboutData.processCommandLine(&parser);
 
     // If this flag gets set then JuK will quit if you click the cover on the track
     // announcement popup when JuK is only in the system tray (the systray has no widget).
@@ -98,7 +99,7 @@ int main(int argc, char *argv[])
 
     // Create the main window and such
 
-    JuK *juk = new JuK;
+    JuK *juk = new JuK(parser.positionalArguments());
 
     if(a.isSessionRestored() && KMainWindow::canBeRestored(1))
         juk->restore(1, false /* don't show */);

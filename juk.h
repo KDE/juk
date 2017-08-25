@@ -38,7 +38,7 @@ class JuK : public KXmlGuiWindow
     Q_OBJECT
 
 public:
-    JuK(QWidget* parent = 0);
+    JuK(const QStringList &filesToOpen, QWidget* parent = 0);
     virtual ~JuK();
 
     static JuK* JuKInstance();
@@ -96,6 +96,7 @@ private:
     PlayerManager *m_player;
     Scrobbler     *m_scrobbler;
 
+    QStringList m_filesToOpen;
     bool m_startDocked;
     bool m_showSplash;
     bool m_shuttingDown;

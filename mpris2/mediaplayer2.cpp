@@ -24,7 +24,6 @@
 
 #include <KAboutData>
 #include <KApplication>
-#include <KCmdLineArgs>
 #include <KWindowSystem>
 
 #include <QDBusConnection>
@@ -77,9 +76,7 @@ bool MediaPlayer2::HasTrackList() const
 
 QString MediaPlayer2::Identity() const
 {
-    // FIXME cmdline args
-    //return KCmdLineArgs::aboutData()->programName();
-    return "JuK";
+    return KAboutData::applicationData().displayName();
 }
 
 QString MediaPlayer2::DesktopEntry() const

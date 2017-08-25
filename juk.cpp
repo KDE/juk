@@ -17,7 +17,6 @@
 
 #include "juk.h"
 
-#include <kcmdlineargs.h>
 #include <kstatusbar.h>
 #include <kdebug.h>
 #include <kmessagebox.h>
@@ -74,14 +73,15 @@ void deleteAndClear(T *&ptr)
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-JuK::JuK(QWidget *parent) :
+JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     KXmlGuiWindow(parent, Qt::WindowFlags(Qt::WA_DeleteOnClose)),
     m_splitter(0),
     m_statusLabel(0),
     m_systemTray(0),
     m_player(new PlayerManager),
     m_scrobbler(0),
-    m_shuttingDown(false)
+    m_shuttingDown(false),
+    m_filesToOpen(filesToOpen)
 {
     // Expect segfaults if you change this order.
 
@@ -378,14 +378,7 @@ void JuK::setupGlobalAccels()
 
 void JuK::slotProcessArgs()
 {
-    // FIXME cmdline args
-    /*KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-    QStringList files;
-
-    for(int i = 0; i < args->count(); i++)
-        files.append(args->arg(i));*/
-
-    //CollectionList::instance()->addFiles(files);
+    CollectionList::instance()->addFiles(m_filesToOpen);
 }
 
 void JuK::slotClearOldCovers()
