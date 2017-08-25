@@ -23,14 +23,13 @@
 #include <QMimeData>
 #include <QString>
 
+#include <map>
+
 class CoverManagerPrivate;
 class CoverProxy;
 class QPixmap;
 class QTimer;
 class KJob;
-
-template<class Key, class Value>
-class QMap;
 
 template<class T>
 class QList;
@@ -68,7 +67,7 @@ private:
  * @author Michael Pyne <mpyne@kde.org>
  * @see CoverManager
  */
-class CoverData : public KShared
+class CoverData
 {
 public:
     QPixmap pixmap() const;
@@ -81,13 +80,10 @@ public:
     unsigned refCount; // Refers to number of tracks using this.
 };
 
-typedef KSharedPtr<CoverData> CoverDataPtr;
 typedef unsigned long coverKey; ///< Type of the id for a cover.
 
-typedef QMap<coverKey, CoverDataPtr> CoverDataMap;
-
-// I can't believe this actually works...
-typedef CoverDataMap::const_iterator CoverDataMapIterator;
+using CoverDataMap = std::map<coverKey, CoverData>;
+using CoverDataMapIterator = typename CoverDataMap::const_iterator;
 
 typedef QList<coverKey> CoverList;
 
@@ -162,8 +158,7 @@ public:
      * Returns the cover art for @p ptr.  This function is intended for use
      * by CoverData.
      *
-     * @param ptr The CoverData to get the cover of.  Note that it is a
-     *            CoverData, not CoverDataPtr.
+     * @param ptr The CoverData to get the cover of.
      * @param size The size to return it as.
      * @see CoverData
      */
@@ -176,7 +171,7 @@ public:
      * @param id the id of the cover to retrieve info on.
      * @return 0 if there is no info on @p id, otherwise its information.
      */
-    static CoverDataPtr coverInfo(coverKey id);
+    static CoverData coverInfo(coverKey id);
 
     /**
      * Adds @p large to the cover database, associating with it @p artist and
@@ -250,11 +245,6 @@ public:
      * @return Iterator pointing after the last element in the cover database.
      */
     static CoverDataMapIterator end();
-
-    /**
-     * @return A list of all of the id's listed in the database.
-     */
-    static CoverList keys();
 
     /**
      * Associates @p path with the cover identified by @id.  No comparison of

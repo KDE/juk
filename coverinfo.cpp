@@ -247,7 +247,7 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
 QString CoverInfo::localPathToCover(const QString &fallbackFileName) const
 {
     if(m_coverKey != CoverManager::NoMatch) {
-        QString path = CoverManager::coverInfo(m_coverKey)->path;
+        QString path = CoverManager::coverInfo(m_coverKey).path;
         if(!path.isEmpty())
             return path;
     }

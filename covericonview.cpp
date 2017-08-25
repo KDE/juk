@@ -23,9 +23,9 @@ using CoverUtility::CoverIconViewItem;
 CoverIconViewItem::CoverIconViewItem(coverKey id, KListWidget *parent) :
     QListWidgetItem(parent), m_id(id)
 {
-    CoverDataPtr data = CoverManager::coverInfo(id);
-    setText(QString("%1 - %2").arg(data->artist, data->album));
-    setIcon(data->thumbnail());
+    const auto &data = CoverManager::coverInfo(id);
+    setText(QString("%1 - %2").arg(data.artist, data.album));
+    setIcon(data.thumbnail());
     setSizeHint(QSize(140, 150));
 }
 
@@ -43,18 +43,5 @@ CoverIconViewItem *CoverIconView::currentItem() const
 {
     return static_cast<CoverIconViewItem *>(KListWidget::currentItem());
 }
-
-// TODO: port to Qt4
-#if 0
-Q3DragObject *CoverIconView::dragObject()
-{
-    // Temporarily disabled pending conversion of the cover manager icon view
-    // to Qt 4 ish stuff.
-    CoverIconViewItem *item = currentItem();
-    if(item)
-        return new CoverDrag(item->id(), this);
-    return 0;
-}
-#endif
 
 // vim: set et sw=4 tw=0 sta:

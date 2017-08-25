@@ -116,8 +116,8 @@ QString DBusCollectionProxy::trackCover(const QString &track)
 {
     coverKey id = CoverManager::idForTrack(track);
     if(id != CoverManager::NoMatch) {
-        CoverDataPtr coverData = CoverManager::coverInfo(id);
-        return coverData->path;
+        CoverData coverData = CoverManager::coverInfo(id);
+        return coverData.path;
     }
 
     // No cover, let's see if one is embedded.
