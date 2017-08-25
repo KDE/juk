@@ -136,7 +136,7 @@ qt5_add_dbus_adaptor( juk_SRCS org.kde.juk.player.xml playermanager.h PlayerMana
 qt5_add_dbus_adaptor( juk_SRCS org.kde.juk.search.xml searchwidget.h SearchWidget)
 
 
-qt5_wrap_ui(juk_SRCS
+ki18n_wrap_ui(juk_SRCS
 	filerenamerbase.ui
 	filerenameroptionsbase.ui
 	directorylistbase.ui
