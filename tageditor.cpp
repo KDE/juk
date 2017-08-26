@@ -34,7 +34,7 @@
 #include <klocale.h>
 #include <kdebug.h>
 #include <kiconloader.h>
-#include <kicon.h>
+#include <QIcon>
 #include <ktoggleaction.h>
 #include <kshortcut.h>
 #include <kglobal.h>
@@ -485,12 +485,12 @@ void TagEditor::saveConfig()
 
 void TagEditor::setupActions()
 {
-    KToggleAction *show = new KToggleAction(KIcon(QLatin1String("document-properties")),
+    KToggleAction *show = new KToggleAction(QIcon::fromTheme(QLatin1String("document-properties")),
                                             i18n("Show &Tag Editor"), this);
     ActionCollection::actions()->addAction("showEditor", show);
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
-    KAction *act = new KAction(KIcon(QLatin1String( "document-save")), i18n("&Save"), this);
+    KAction *act = new KAction(QIcon::fromTheme(QLatin1String( "document-save")), i18n("&Save"), this);
     ActionCollection::actions()->addAction("saveItem", act);
     act->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotSave()));

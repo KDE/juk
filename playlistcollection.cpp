@@ -18,7 +18,7 @@
 #include "playlistcollection.h"
 
 #include <kurl.h>
-#include <kicon.h>
+#include <QIcon>
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <kinputdialog.h>
@@ -912,7 +912,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // "New" menu
 
-    menu = new KActionMenu(KIcon("document-new"), i18nc("new playlist", "&New"), actions());
+    menu = new KActionMenu(QIcon::fromTheme(QStringLiteral("document-new")), i18nc("new playlist", "&New"), actions());
     actions()->addAction("file_new", menu);
 
     menu->addAction(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
@@ -974,7 +974,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
         SLOT(slotShowCoverManager()), "showCoverManager"));
 
     KToggleAction *upcomingAction =
-        new KToggleAction(KIcon("go-jump-today"), i18n("Show &Play Queue"), actions());
+        new KToggleAction(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18n("Show &Play Queue"), actions());
     actions()->addAction("showUpcoming", upcomingAction);
 
     connect(upcomingAction, SIGNAL(triggered(bool)),
@@ -991,7 +991,7 @@ KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
     if(icon.isNull())
         action = new KAction(text, actions());
     else
-        action = new KAction(KIcon(icon), text, actions());
+        action = new KAction(QIcon::fromTheme(icon), text, actions());
     actions()->addAction(name, action);
     connect( action, SIGNAL(triggered(bool)), slot);
     action->setShortcut(shortcut);

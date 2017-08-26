@@ -17,7 +17,7 @@
 #include "tagguesserconfigdlg.h"
 #include "tagguesser.h"
 
-#include <kicon.h>
+#include <QIcon>
 #include <klocale.h>
 #include <klineedit.h>
 #include <kapplication.h>
@@ -39,8 +39,8 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     m_child = new TagGuesserConfigDlgWidget(this);
     setMainWidget(m_child);
 
-    m_child->bMoveUp->setIcon(KIcon( QLatin1String( "arrow-up" )));
-    m_child->bMoveDown->setIcon(KIcon( QLatin1String( "arrow-down" )));
+    m_child->bMoveUp->setIcon(QIcon::fromTheme( QLatin1String( "arrow-up" )));
+    m_child->bMoveDown->setIcon(QIcon::fromTheme( QLatin1String( "arrow-down" )));
 
     m_tagSchemeModel = new QStringListModel(m_child->lvSchemes);
     m_child->lvSchemes->setModel(m_tagSchemeModel);

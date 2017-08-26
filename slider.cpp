@@ -19,7 +19,7 @@
 #include "slider.h"
 #include "svghandler.h"
 
-#include <KIcon>
+#include <QIcon>
 #include <KLocale>
 #include <KStandardDirs>
 #include <KGlobalSettings>

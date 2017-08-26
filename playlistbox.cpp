@@ -16,7 +16,7 @@
 
 #include "playlistbox.h"
 
-#include <kicon.h>
+#include <QIcon>
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kmenu.h>
@@ -109,20 +109,20 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     // add the view modes stuff
 
     KSelectAction *viewModeAction =
-        new KSelectAction( KIcon("view-choose"), i18n("View Modes"), ActionCollection::actions());
+        new KSelectAction( QIcon::fromTheme(QStringLiteral("view-choose")), i18n("View Modes"), ActionCollection::actions());
     ActionCollection::actions()->addAction("viewModeMenu", viewModeAction);
 
     ViewMode* viewmode = new ViewMode(this);
     m_viewModes.append(viewmode);
-    viewModeAction->addAction(KIcon("view-list-details"), viewmode->name());
+    viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-details")), viewmode->name());
 
     CompactViewMode* compactviewmode = new CompactViewMode(this);
     m_viewModes.append(compactviewmode);
-    viewModeAction->addAction(KIcon("view-list-text"), compactviewmode->name());
+    viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-text")), compactviewmode->name());
 
     TreeViewMode* treeviewmode = new TreeViewMode(this);
     m_viewModes.append(treeviewmode);
-    viewModeAction->addAction(KIcon("view-list-tree"), treeviewmode->name());
+    viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), treeviewmode->name());
 
     CollectionList::initialize(this);
 
@@ -160,7 +160,7 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     m_savePlaylistTimer = 0;
 
     KToggleAction *historyAction =
-        new KToggleAction(KIcon("view-history"), i18n("Show &History"), ActionCollection::actions());
+        new KToggleAction(QIcon::fromTheme(QStringLiteral("view-history")), i18n("Show &History"), ActionCollection::actions());
     ActionCollection::actions()->addAction("showHistory", historyAction);
     connect(historyAction, SIGNAL(triggered(bool)),
             this, SLOT(slotSetHistoryPlaylistEnabled(bool)));

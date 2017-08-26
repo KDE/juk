@@ -25,7 +25,7 @@
 #include <kstandardaction.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
-#include <kicon.h>
+#include <QIcon>
 #include <kaction.h>
 #include <kconfiggroup.h>
 #include <kapplication.h>
@@ -210,33 +210,33 @@ void JuK::setupActions()
     // Setup the menu which handles the random play options.
     KActionMenu *actionMenu = collection->add<KActionMenu>("actionMenu");
     actionMenu->setText(i18n("&Random Play"));
-    actionMenu->setIcon(KIcon( QLatin1String( "media-playlist-shuffle" )));
+    actionMenu->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
     actionMenu->setDelayed(false);
 
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
     QAction *act = collection->add<KToggleAction>("disableRandomPlay");
     act->setText(i18n("&Disable Random Play"));
-    act->setIcon(KIcon( QLatin1String( "go-down" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "go-down" )));
     act->setActionGroup(randomPlayGroup);
     actionMenu->addAction(act);
 
     m_randomPlayAction = collection->add<KToggleAction>("randomPlay");
     m_randomPlayAction->setText(i18n("Use &Random Play"));
-    m_randomPlayAction->setIcon(KIcon( QLatin1String( "media-playlist-shuffle" )));
+    m_randomPlayAction->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
     m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->addAction(m_randomPlayAction);
 
     act = collection->add<KToggleAction>("albumRandomPlay");
     act->setText(i18n("Use &Album Random Play"));
-    act->setIcon(KIcon( QLatin1String( "media-playlist-shuffle" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
     act->setActionGroup(randomPlayGroup);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotCheckAlbumNextAction(bool)));
     actionMenu->addAction(act);
 
     act = collection->addAction("removeFromPlaylist", clear, SLOT(clear()));
     act->setText(i18n("Remove From Playlist"));
-    act->setIcon(KIcon( QLatin1String( "list-remove" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "list-remove" )));
 
     act = collection->add<KToggleAction>("crossfadeTracks");
     act->setText(i18n("Crossfade Between Tracks"));
@@ -244,23 +244,23 @@ void JuK::setupActions()
 
     act = collection->addAction("play", m_player, SLOT(play()));
     act->setText(i18n("&Play"));
-    act->setIcon(KIcon( QLatin1String( "media-playback-start" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-start" )));
 
     act = collection->addAction("pause", m_player, SLOT(pause()));
     act->setText(i18n("P&ause"));
-    act->setIcon(KIcon( QLatin1String( "media-playback-pause" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-pause" )));
 
     act = collection->addAction("stop", m_player, SLOT(stop()));
     act->setText(i18n("&Stop"));
-    act->setIcon(KIcon( QLatin1String( "media-playback-stop" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-stop" )));
 
-    act = new KToolBarPopupAction(KIcon( QLatin1String( "media-skip-backward") ), i18nc("previous track", "Previous" ), collection);
+    act = new KToolBarPopupAction(QIcon::fromTheme( QLatin1String( "media-skip-backward") ), i18nc("previous track", "Previous" ), collection);
     collection->addAction("back", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(back()));
 
     act = collection->addAction("forward", m_player, SLOT(forward()));
     act->setText(i18nc("next track", "&Next"));
-    act->setIcon(KIcon( QLatin1String( "media-skip-forward" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-skip-forward" )));
 
     act = collection->addAction("loopPlaylist");
     act->setText(i18n("&Loop Playlist"));
@@ -273,27 +273,27 @@ void JuK::setupActions()
 
     act = collection->addAction("mute", m_player, SLOT(mute()));
     act->setText(i18nc("silence playback", "Mute"));
-    act->setIcon(KIcon( QLatin1String( "audio-volume-muted" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "audio-volume-muted" )));
 
     act = collection->addAction("volumeUp", m_player, SLOT(volumeUp()));
     act->setText(i18n("Volume Up"));
-    act->setIcon(KIcon( QLatin1String( "audio-volume-high" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "audio-volume-high" )));
 
     act = collection->addAction("volumeDown", m_player, SLOT(volumeDown()));
     act->setText(i18n("Volume Down"));
-    act->setIcon(KIcon( QLatin1String( "audio-volume-low" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "audio-volume-low" )));
 
     act = collection->addAction("playPause", m_player, SLOT(playPause()));
     act->setText(i18n("Play / Pause"));
-    act->setIcon(KIcon( QLatin1String( "media-playback-start" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-start" )));
 
     act = collection->addAction("seekForward", m_player, SLOT(seekForward()));
     act->setText(i18n("Seek Forward"));
-    act->setIcon(KIcon( QLatin1String( "media-seek-forward" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-seek-forward" )));
 
     act = collection->addAction("seekBack", m_player, SLOT(seekBack()));
     act->setText(i18n("Seek Back"));
-    act->setIcon(KIcon( QLatin1String( "media-seek-backward" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-seek-backward" )));
 
     act = collection->addAction("showHide", this, SLOT(slotShowHide()));
     act->setText(i18n("Show / Hide"));

@@ -20,7 +20,7 @@
 
 #include <KLocale>
 #include <KVBox>
-#include <KIcon>
+#include <QIcon>
 
 #include <QAction>
 #include <QLabel>
@@ -66,7 +66,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     muteBar->setContentsMargins( 0, 0, 0, 0 );
     muteBar->setIconSize( QSize( 16, 16 ) );
 
-    m_muteAction = new QAction( KIcon( "audio-volume-muted" ), QString(), muteBar );
+    m_muteAction = new QAction( QIcon::fromTheme(QStringLiteral("audio-volume-muted")), QString(), muteBar );
     m_muteAction->setToolTip( i18n( "Mute/Unmute" ) );
     m_muteAction->setCheckable( true );
     m_muteAction->setChecked( player->muted() );
@@ -98,13 +98,13 @@ VolumePopupButton::volumeChanged( float newVolume )
     }
 
     if ( newVolume <= 0.0001 )
-        setIcon( KIcon( "audio-volume-muted" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-muted")) );
     else if ( newVolume < 0.34 )
-        setIcon( KIcon( "audio-volume-low" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-low")) );
     else if ( newVolume < 0.67 )
-        setIcon( KIcon( "audio-volume-medium" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-medium")) );
     else
-        setIcon( KIcon( "audio-volume-high" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-high")) );
 
     m_volumeLabel->setText( i18n( "%1%" , int( newVolume * 100 ) ) );
 
@@ -125,7 +125,7 @@ VolumePopupButton::muteStateChanged( bool muted )
     if ( muted )
     {
         const float volume = JuK::JuKInstance()->playerManager()->volume();
-        setIcon( KIcon( "audio-volume-muted" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-muted")) );
         setToolTip( i18n( "Volume: %1% (muted)", int( 100 * volume ) ) );
     }
     else
