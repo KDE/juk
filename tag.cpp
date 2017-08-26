@@ -46,8 +46,7 @@ Tag::Tag(const QString &fileName) :
     m_isValid(false)
 {
     if(fileName.isEmpty()) {
-        qCCritical(JUK_LOG) << "Trying to add empty file, backtrace follows:" << endl;
-        qCCritical(JUK_LOG) << kBacktrace(10) << endl;
+        qCCritical(JUK_LOG) << "Trying to add empty file";
         return;
     }
 
