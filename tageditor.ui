@@ -158,14 +158,14 @@
       </widget>
      </item>
      <item row="2" column="4">
-      <widget class="KIntSpinBox" name="trackSpin">
+      <widget class="QSpinBox" name="trackSpin">
        <property name="maximum">
         <number>999</number>
        </property>
       </widget>
      </item>
      <item row="2" column="8">
-      <widget class="KIntSpinBox" name="yearSpin">
+      <widget class="QSpinBox" name="yearSpin">
        <property name="maximum">
         <number>9999</number>
        </property>
@@ -252,11 +252,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>KIntSpinBox</class>
-   <extends>QSpinBox</extends>
-   <header>knuminput.h</header>
-  </customwidget>
   <customwidget>
    <class>KLineEdit</class>
    <extends>KLineEdit</extends>
