@@ -37,6 +37,8 @@
 #include "folderplaylist.h"
 #include "playlistcollection.h"
 #include "actioncollection.h"
+#include "juk.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -76,7 +78,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
     qint32 version;
     fs >> version;
-    kDebug() << "Playlists file is version" << version;
+    qCDebug(JUK_LOG) << "Playlists file is version" << version;
 
     switch(version) {
     case 3:
@@ -183,7 +185,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
             } // try
             catch(BICStreamException &) {
-                kError() << "Exception loading playlists - binary incompatible stream.";
+                qCCritical(JUK_LOG) << "Exception loading playlists - binary incompatible stream.";
 
                 // Delete created playlists which probably have junk now.
                 foreach(Playlist *p, createdPlaylists)
@@ -191,7 +193,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                 createdPlaylists.clear();
 
                 if(dataStreamVersion == QDataStream::Qt_3_3) {
-                    kError() << "Attempting other binary protocol - Qt 4.3";
+                    qCCritical(JUK_LOG) << "Attempting other binary protocol - Qt 4.3";
                     dataStreamVersion = QDataStream::Qt_4_3;
 
                     break; // escape from while(!s.atEnd()) to try again
@@ -199,14 +201,14 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 #if QT_VERSION >= 0x040400
                 // Unlikely, but maybe user had Qt 4.4 with KDE 4.0.0?
                 else if(dataStreamVersion == QDataStream::Qt_4_3) {
-                    kError() << "Attempting other binary protocol - Qt 4.4";
+                    qCCritical(JUK_LOG) << "Attempting other binary protocol - Qt 4.4";
                     dataStreamVersion = QDataStream::Qt_4_4;
 
                     break;
                 }
 #endif
                 // We tried 3.3 first, if 4.3/4.4 doesn't work who knows...
-                kError() << "Unable to recover, no playlists will be loaded.";
+                qCCritical(JUK_LOG) << "Unable to recover, no playlists will be loaded.";
                 return;
             } // catch
         } // while dataStreamVersion != -1
@@ -238,7 +240,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     KSaveFile f(playlistsFile);
 
     if(!f.open(QIODevice::WriteOnly)) {
-        kError() << "Error saving collection:" << f.errorString();
+        qCCritical(JUK_LOG) << "Error saving collection:" << f.errorString();
         return;
     }
 
@@ -283,7 +285,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     f.close();
 
     if(!f.finalize())
-        kError() << "Error saving collection:" << f.errorString();
+        qCCritical(JUK_LOG) << "Error saving collection:" << f.errorString();
 }
 
 bool Cache::cacheFileExists() // static
@@ -338,7 +340,7 @@ bool Cache::prepareToLoadCachedItems()
         if(m_loadDataStream.status() != CacheDataStream::Ok ||
                 checksum != checksumExpected)
         {
-            kError() << "Music cache checksum expected to get" << checksumExpected <<
+            qCCritical(JUK_LOG) << "Music cache checksum expected to get" << checksumExpected <<
                         "actually was" << checksum;
             KMessageBox::sorry(0, i18n("The music data cache has been corrupted. JuK "
                                        "needs to rescan it now. This may take some time."));
@@ -364,12 +366,12 @@ bool Cache::prepareToLoadCachedItems()
 FileHandle Cache::loadNextCachedItem()
 {
     if(!m_loadFile.isOpen() || !m_loadDataStream.device()) {
-        kWarning() << "Already completed reading cache file.";
+        qCWarning(JUK_LOG) << "Already completed reading cache file.";
         return FileHandle::null();
     }
 
     if(m_loadDataStream.status() == QDataStream::ReadCorruptData) {
-        kError() << "Attempted to read file handle from corrupt cache file.";
+        qCCritical(JUK_LOG) << "Attempted to read file handle from corrupt cache file.";
         return FileHandle::null();
     }
 

@@ -30,6 +30,7 @@
 #include "collectionlist.h"
 #include "coverinfo.h"
 #include "filehandle.h"
+#include "juk_debug.h"
 
 DBusCollectionProxy::DBusCollectionProxy (QObject *parent, PlaylistCollection *collection) :
     QObject(parent), m_collection(collection)
@@ -141,7 +142,7 @@ QString DBusCollectionProxy::trackCover(const QString &track)
     tempFile.setAutoRemove(false);
 
     if(!tempFile.open()) {
-        kError() << "Unable to open temporary file for embedded cover art.";
+        qCCritical(JUK_LOG) << "Unable to open temporary file for embedded cover art.";
         return QString();
     }
 

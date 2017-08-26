@@ -45,6 +45,7 @@
 #include "tag.h"
 #include "scrobbler.h"
 #include "juk.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -325,7 +326,7 @@ void PlayerManager::seek(int seekTime)
     if(!m_setup || m_media[m_curOutputPath]->currentTime() == seekTime)
         return;
 
-    kDebug() << "Stopping crossfade to seek from" << m_media[m_curOutputPath]->currentTime()
+    qCDebug(JUK_LOG) << "Stopping crossfade to seek from" << m_media[m_curOutputPath]->currentTime()
              << "to" << seekTime;
     stopCrossfade();
     m_media[m_curOutputPath]->seek(seekTime);
@@ -498,7 +499,7 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
 
         switch(mediaObject->errorType()) {
             case Phonon::NoError:
-                kDebug() << "received a state change to ErrorState but errorType is NoError!?";
+                qCDebug(JUK_LOG) << "received a state change to ErrorState but errorType is NoError!?";
                 break;
 
             case Phonon::NormalError:
@@ -610,7 +611,7 @@ void PlayerManager::setup()
        !action("forward") ||
        !action("trackPositionAction"))
     {
-        kWarning() << "Could not find all of the required actions.";
+        qCWarning(JUK_LOG) << "Could not find all of the required actions.";
         return;
     }
 

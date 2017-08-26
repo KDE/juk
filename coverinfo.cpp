@@ -53,6 +53,7 @@
 #include "playlistsearch.h"
 #include "playlistitem.h"
 #include "tag.h"
+#include "juk_debug.h"
 
 struct CoverPopup : public QWidget
 {
@@ -283,7 +284,7 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
         TagLib::ID3v2::Tag *id3tag = mpegFile->ID3v2Tag(false);
 
         if (!id3tag) {
-            kError() << m_file.absFilePath() << "seems to have invalid ID3 tag";
+            qCCritical(JUK_LOG) << m_file.absFilePath() << "seems to have invalid ID3 tag";
             return false;
         }
 

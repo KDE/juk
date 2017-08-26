@@ -28,6 +28,7 @@
 #include "playlistitem.h"
 #include "playlistsearch.h"
 #include "tagtransactionmanager.h"
+#include "juk_debug.h"
 
 TreeViewItemPlaylist::TreeViewItemPlaylist(PlaylistCollection *collection,
                                            const PlaylistSearch &search,
@@ -85,7 +86,7 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
             break;
 
         default:
-            kDebug() << "Unhandled column type editing " << *it;
+            qCDebug(JUK_LOG) << "Unhandled column type editing " << *it;
         }
 
         TagTransactionManager::instance()->changeTagOnItem(item, tag);

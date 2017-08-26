@@ -23,6 +23,8 @@
 #include <kconfigbase.h>
 #include <kconfiggroup.h>
 
+#include "juk_debug.h"
+
 TagRenamerOptions::TagRenamerOptions() :
     m_emptyAction(IgnoreEmptyTag),
     m_trackWidth(0),
@@ -121,8 +123,8 @@ QString TagRenamerOptions::tagTypeText(TagType type, bool translate)
         break;
 
         default:
-            kWarning() << "I don't know what category we're looking up, this is a problem.";
-            kWarning() << "The category ID is " << (unsigned) type;
+            qCWarning(JUK_LOG) << "I don't know what category we're looking up, this is a problem.";
+            qCWarning(JUK_LOG) << "The category ID is " << (unsigned) type;
             msg = I18N_NOOP2("unknown renamer category", "Unknown");
             context = "unknown renamer category";
     }

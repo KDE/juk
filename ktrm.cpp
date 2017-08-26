@@ -190,7 +190,7 @@ protected:
                 KUrl proxy = KProtocolManager::proxyFor("http");
                 QString proxyHost = proxy.host();
 
-                kDebug() << "Using proxy server " << proxyHost << " for www.musicbrainz.org.\n";
+                qCDebug(JUK_LOG) << "Using proxy server " << proxyHost << " for www.musicbrainz.org.\n";
                 tp_SetProxy(m_pimp, proxyHost.toAscii(), short(proxy.port()));
             }
         }
@@ -488,7 +488,7 @@ int KTRMLookup::fileId() const
 
 void KTRMLookup::recognized()
 {
-    kDebug() << d->file;
+    qCDebug(JUK_LOG) << d->file;
 
     d->results.clear();
 
@@ -514,7 +514,7 @@ void KTRMLookup::recognized()
 
 void KTRMLookup::unrecognized()
 {
-    kDebug() << d->file;
+    qCDebug(JUK_LOG) << d->file;
 #if HAVE_TUNEPIMP >= 4
     char trm[255];
     bool finish = false;
@@ -545,12 +545,12 @@ void KTRMLookup::unrecognized()
 void KTRMLookup::collision()
 {
 #if HAVE_TUNEPIMP < 5
-    kDebug() << d->file;
+    qCDebug(JUK_LOG) << d->file;
 
     track_t track = tp_GetTrack(KTRMRequestHandler::instance()->tunePimp(), d->fileId);
 
     if(track <= 0) {
-        kDebug() << "invalid track number";
+        qCDebug(JUK_LOG) << "invalid track number";
         return;
     }
 
@@ -564,17 +564,17 @@ void KTRMLookup::collision()
 
         switch(type) {
         case eNone:
-            kDebug() << "eNone";
+            qCDebug(JUK_LOG) << "eNone";
             break;
         case eArtistList:
-            kDebug() << "eArtistList";
+            qCDebug(JUK_LOG) << "eArtistList";
             break;
         case eAlbumList:
-            kDebug() << "eAlbumList";
+            qCDebug(JUK_LOG) << "eAlbumList";
             break;
         case eTrackList:
         {
-            kDebug() << "eTrackList";
+            qCDebug(JUK_LOG) << "eTrackList";
             albumtrackresult_t **tracks = (albumtrackresult_t **) results;
             d->results.clear();
 
@@ -599,7 +599,7 @@ void KTRMLookup::collision()
             break;
         }
         case eMatchedTrack:
-            kDebug() << "eMatchedTrack";
+            qCDebug(JUK_LOG) << "eMatchedTrack";
             break;
         }
 
@@ -694,7 +694,7 @@ void KTRMLookup::lookupResult( KJob* job )
 
 void KTRMLookup::error()
 {
-    kDebug() << d->file;
+    qCDebug(JUK_LOG) << d->file;
 
     d->results.clear();
     finished();

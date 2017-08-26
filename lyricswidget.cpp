@@ -23,7 +23,8 @@
 #include <KActionCollection>
 #include <KToggleAction>
 #include <KConfigGroup>
-#include <KDebug>
+#include <QDebug>
+#include "juk_debug.h"
 #include <QIcon>
 #include <kglobal.h>
 
@@ -107,7 +108,7 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
 {
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     if (reply->error() != QNetworkReply::NoError) {
-        kWarning() << "Error while fetching lyrics: " << reply->errorString();
+        qCWarning(JUK_LOG) << "Error while fetching lyrics: " << reply->errorString();
         setHtml(i18n("<span style='color:red'>Error while retrieving lyrics!</span>"));
         return;
     }
@@ -132,7 +133,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
 {
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
     if (reply->error() != QNetworkReply::NoError) {
-        kWarning() << "Error while fetching lyrics: " << reply->errorString();
+        qCWarning(JUK_LOG) << "Error while fetching lyrics: " << reply->errorString();
         setHtml(i18n("<span style='color:red'>Error while retrieving lyrics!</span>"));
         return;
     }
@@ -141,7 +142,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     int lIndex = content.indexOf("&lt;lyrics&gt;");
     int rIndex = content.indexOf("&lt;/lyrics&gt;");
     if (lIndex == -1 || rIndex == -1) {
-        kWarning() << Q_FUNC_INFO << "Unable to find lyrics in text";
+        qCWarning(JUK_LOG) << Q_FUNC_INFO << "Unable to find lyrics in text";
         setText(i18n("No lyrics available."));
         return;
     }

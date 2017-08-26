@@ -18,7 +18,8 @@
 #include "scrobbleconfigdlg.h"
 #include "scrobbler.h"
 
-#include <KDebug>
+#include <QDebug>
+#include "juk_debug.h"
 #include <KLineEdit>
 #include <QPushButton>
 #include <KLocalizedString>
@@ -121,7 +122,7 @@ void ScrobbleConfigDlg::save()
 
         if (!m_wallet->writeMap("Scrobbling", scrobblingCredentials)) {
 
-            kError() << "Couldn't save Last.fm credentials using KWallet.";
+            qCCritical(JUK_LOG) << "Couldn't save Last.fm credentials using KWallet.";
         }
 
     } else {

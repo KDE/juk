@@ -15,10 +15,12 @@
  */
 
 #include "coverproxy.h"
-#include "covermanager.h"
 
 #include <kdebug.h>
 #include <kio/job.h>
+
+#include "covermanager.h"
+#include "juk_debug.h"
 
 CoverProxy::CoverProxy(QObject *parent) :
     QObject(parent)
@@ -28,7 +30,7 @@ CoverProxy::CoverProxy(QObject *parent) :
 void CoverProxy::handleResult(KJob *job)
 {
     if(job->error()) {
-        kError() << "Cover download job failed with the following error:" << job->errorString();
+        qCCritical(JUK_LOG) << "Cover download job failed with the following error:" << job->errorString();
         CoverManager::jobComplete(job, false);
     }
     else {

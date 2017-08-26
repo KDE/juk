@@ -57,6 +57,7 @@
 #include "collectionlist.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -173,7 +174,7 @@ void JuK::setupLayout()
 {
     new TagTransactionManager(this);
 
-    kDebug() << "Creating GUI";
+    qCDebug(JUK_LOG) << "Creating GUI";
     QTime stopwatch;
     stopwatch.start();
 
@@ -188,7 +189,7 @@ void JuK::setupLayout()
 
     m_splitter->setFocus();
 
-    kDebug() << "GUI created in" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "GUI created in" << stopwatch.elapsed() << "ms";
 }
 
 void JuK::setupActions()
@@ -344,14 +345,14 @@ void JuK::setupActions()
 void JuK::slotSetupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
-        kDebug() << "Setting up systray";
+        qCDebug(JUK_LOG) << "Setting up systray";
         QTime stopwatch; stopwatch.start();
         m_systemTray = new SystemTray(m_player, this);
         m_systemTray->setObjectName( QLatin1String("systemTray" ));
 
         m_toggleDockOnCloseAction->setEnabled(true);
         m_togglePopupsAction->setEnabled(true);
-        kDebug() << "Finished setting up systray, took" << stopwatch.elapsed() << "ms";
+        qCDebug(JUK_LOG) << "Finished setting up systray, took" << stopwatch.elapsed() << "ms";
     }
     else {
         m_systemTray = 0;
@@ -390,9 +391,9 @@ void JuK::slotClearOldCovers()
     QStringList oldFiles = KGlobal::dirs()->findAllResources("tmp", "juk-cover-*.png");
 
     foreach(const QString &file, oldFiles) {
-        kWarning() << "Removing old cover" << file;
+        qCWarning(JUK_LOG) << "Removing old cover" << file;
         if(!QFile::remove(file)) {
-            kError() << "Failed to remove old cover" << file;
+            qCCritical(JUK_LOG) << "Failed to remove old cover" << file;
         }
     }
 }

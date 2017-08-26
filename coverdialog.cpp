@@ -27,6 +27,7 @@
 #include "covericonview.h"
 #include "covermanager.h"
 #include "collectionlist.h"
+#include "juk_debug.h"
 
 using CoverUtility::CoverIconViewItem;
 
@@ -198,12 +199,12 @@ void CoverDialog::removeSelectedCover()
     CoverIconViewItem *coverItem = m_covers->currentItem();
 
     if(!coverItem || !coverItem->isSelected()) {
-        kWarning() << "No item selected for removeSelectedCover.\n";
+        qCWarning(JUK_LOG) << "No item selected for removeSelectedCover.\n";
         return;
     }
 
     if(!CoverManager::removeCover(coverItem->id()))
-        kError() << "Unable to remove selected cover: " << coverItem->id() << endl;
+        qCCritical(JUK_LOG) << "Unable to remove selected cover: " << coverItem->id() << endl;
     else
         delete coverItem;
 }

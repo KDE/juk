@@ -21,7 +21,8 @@
 #include <KColorScheme>
 #include <KColorUtils>
 #include <KStandardDirs>
-#include <KDebug>
+#include <QDebug>
+#include "juk_debug.h"
 
 #include <QHash>
 #include <QPainter>
@@ -143,7 +144,7 @@ void SvgHandler::reTint()
 {
     // The::svgTinter()->init();
     if ( !loadSvg( m_themeFile ))
-        kDebug() << "Unable to load theme file: " << m_themeFile;
+        qCDebug(JUK_LOG) << "Unable to load theme file: " << m_themeFile;
     emit retinted();
 }
 

@@ -27,6 +27,7 @@
 #include "tag.h"
 #include "cache.h"
 #include "coverinfo.h"
+#include "juk_debug.h"
 
 AddProperty(Title, tag()->title())
 AddProperty(Artist, tag()->artist())
@@ -102,7 +103,7 @@ FileHandle::FileHandle(const FileHandle &f) :
     d(f.d)
 {
     if(!d) {
-        kDebug() << "The source FileHandle was not initialized.";
+        qCDebug(JUK_LOG) << "The source FileHandle was not initialized.";
         d = null().d;
     }
     d->ref();
@@ -124,7 +125,7 @@ FileHandle::FileHandle(const QString &path, CacheDataStream &s)
 {
     d = new FileHandlePrivate;
     if(!QFile::exists(path)) {
-        kWarning() << "File" << path << "no longer exists!";
+        qCWarning(JUK_LOG) << "File" << path << "no longer exists!";
         return;
     }
     d->fileInfo = QFileInfo(path);
@@ -148,12 +149,12 @@ void FileHandle::refresh()
 void FileHandle::setFile(const QString &path)
 {
     if(path.isEmpty()) {
-        kError() << "trying to set an empty path" << endl;
+        qCCritical(JUK_LOG) << "trying to set an empty path" << endl;
         return;
     }
 
     if(!QFile::exists(path)) {
-        kError() << "trying to set non-existent file: " << path << endl;
+        qCCritical(JUK_LOG) << "trying to set non-existent file: " << path << endl;
         return;
     }
 
@@ -284,7 +285,7 @@ void FileHandle::setup(const QFileInfo &info, const QString &path)
     d->absFilePath = resolveSymLinks(fileName);
     d->modificationTime = info.lastModified();
     if(!info.exists())
-        kWarning() << "File" << path << "no longer exists!";
+        qCWarning(JUK_LOG) << "File" << path << "no longer exists!";
 }
 
 ////////////////////////////////////////////////////////////////////////////////

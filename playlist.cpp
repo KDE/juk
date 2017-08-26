@@ -78,6 +78,7 @@
 #include "coverdialog.h"
 #include "tagtransactionmanager.h"
 #include "cache.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -781,7 +782,7 @@ void Playlist::slotRefresh()
         item->refreshFromDisk();
 
         if(!item->file().tag() || !item->file().fileInfo().exists()) {
-            kDebug() << "Error while trying to refresh the tag.  "
+            qCDebug(JUK_LOG) << "Error while trying to refresh the tag.  "
                            << "This file has probably been removed."
                            << endl;
             delete item->collectionItem();
@@ -873,7 +874,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
 // Called when image fetcher has added a new cover.
 void Playlist::slotCoverChanged(int coverId)
 {
-    kDebug() << "Refreshing information for newly changed covers.\n";
+    qCDebug(JUK_LOG) << "Refreshing information for newly changed covers.\n";
     refreshAlbums(selectedItems(), coverId);
 }
 
@@ -1621,7 +1622,7 @@ void Playlist::setDynamicListsFrozen(bool frozen)
 CollectionListItem *Playlist::collectionListItem(const FileHandle &file)
 {
     if(!QFile::exists(file.absFilePath())) {
-        kError() << "File" << file.absFilePath() << "does not exist.";
+        qCCritical(JUK_LOG) << "File" << file.absFilePath() << "does not exist.";
         return 0;
     }
 

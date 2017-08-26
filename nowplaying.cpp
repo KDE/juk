@@ -47,6 +47,7 @@
 #include "covermanager.h"
 #include "tag.h"
 #include "collectionlist.h"
+#include "juk_debug.h"
 
 // Anon namespace to hide symbol from outside this translation unit
 namespace {
@@ -225,12 +226,12 @@ void CoverItem::dropEvent(QDropEvent *e)
                 update(m_file);
             }
             else
-                kError() << "Unable to load image from " << urls.front() << endl;
+                qCCritical(JUK_LOG) << "Unable to load image from " << urls.front() << endl;
 
             KIO::NetAccess::removeTempFile(fileName);
         }
         else
-            kError() << "Unable to download " << urls.front() << endl;
+            qCCritical(JUK_LOG) << "Unable to download " << urls.front() << endl;
     }
 }
 

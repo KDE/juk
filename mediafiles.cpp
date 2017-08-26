@@ -26,6 +26,8 @@
 #include <QWidget>
 #include <QtCore/QFile>
 
+#include "juk_debug.h"
+
 #include <taglib.h>
 #include <taglib_config.h>
 #include <tag.h>
@@ -261,7 +263,7 @@ QStringList MediaFiles::convertURLsToLocal(const KUrl::List &urlList, QWidget *w
         localUrl = KIO::NetAccess::mostLocalUrl(url, w);
 
         if(!localUrl.isLocalFile())
-            kDebug() << localUrl << " is not a local file, skipping.\n";
+            qCDebug(JUK_LOG) << localUrl << " is not a local file, skipping.\n";
         else
             result.append(localUrl.path());
     }

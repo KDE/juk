@@ -23,7 +23,8 @@
 #include <KLocale>
 #include <KInputDialog>
 #include <KUrl>
-#include <KDebug>
+#include <QDebug>
+#include "juk_debug.h"
 #include <KIO/Job>
 #include <QPushButton>
 #include <KDialog>
@@ -94,7 +95,7 @@ void WebImageFetcher::searchCover()
     url.addQueryItem("artist", d->artist);
     url.addQueryItem("album", d->albumName);
 
-    kDebug() << "Using request " << url.encodedPathAndQuery();
+    qCDebug(JUK_LOG) << "Using request " << url.encodedPathAndQuery();
 
     d->connection = KIO::storedGet(url, KIO::Reload /* reload always */, KIO::HideProgressInfo);
     connect(d->connection, SIGNAL(result(KJob*)), SLOT(slotWebRequestFinished(KJob*)));
@@ -104,20 +105,20 @@ void WebImageFetcher::searchCover()
 
 void WebImageFetcher::slotWebRequestFinished(KJob *job)
 {
-    kDebug() << "Results received.\n";
+    qCDebug(JUK_LOG) << "Results received.\n";
 
     if (job != d->connection)
         return;
 
     if (!job || job->error()) {
-        kError() << "Error reading image results from last.fm!\n";
-        kError() << d->connection->errorString() << endl;
+        qCCritical(JUK_LOG) << "Error reading image results from last.fm!\n";
+        qCCritical(JUK_LOG) << d->connection->errorString() << endl;
         return;
     }
 
-    kDebug() << "Checking for data!!\n";
+    qCDebug(JUK_LOG) << "Checking for data!!\n";
     if (d->connection->data().isEmpty()) {
-        kError() << "last.fm returned an empty result!\n";
+        qCCritical(JUK_LOG) << "last.fm returned an empty result!\n";
         return;
     }
 
@@ -126,8 +127,8 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     QString errorStr;
     int errorCol, errorLine;
     if (!results.setContent(d->connection->data(), &errorStr, &errorLine, &errorCol)) {
-        kError() << "Unable to create XML document from results.\n";
-        kError() << "Line " << errorLine << ", " << errorStr << endl;
+        qCCritical(JUK_LOG) << "Unable to create XML document from results.\n";
+        qCCritical(JUK_LOG) << "Line " << errorLine << ", " << errorStr << endl;
 
         return;
     }
@@ -135,7 +136,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     QDomNode n = results.documentElement();
 
     if (n.isNull()) {
-        kDebug() << "No document root in XML results??\n";
+        qCDebug(JUK_LOG) << "No document root in XML results??\n";
         return;
     }
     n = n.firstChildElement("album");
@@ -143,7 +144,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     d->url = n.lastChildElement("image").text(); //FIXME: We assume they have a sane sorting (smallest -> largest)
     //TODO: size attribute can have the values mega, extralarge, large, medium and small
     
-    kDebug() << "Got cover:" << d->url;
+    qCDebug(JUK_LOG) << "Got cover:" << d->url;
 
     QStatusBar *statusBar = JuK::JuKInstance()->statusBar();
     statusBar->showMessage(i18n("Downloading cover. Please Wait..."));
@@ -169,7 +170,7 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     mainWidget->setLayout(new QVBoxLayout);
     
     if(job->error()) {
-        kError() << "Unable to grab image\n";
+        qCCritical(JUK_LOG) << "Unable to grab image\n";
         d->dialog->setWindowIcon(DesktopIcon("dialog-error"));
         return;
     }
@@ -179,7 +180,7 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     realImage.fill(Qt::transparent);
 
     if(iconImage.isNull()) {
-        kError() << "Thumbnail image is not of a supported format\n";
+        qCCritical(JUK_LOG) << "Thumbnail image is not of a supported format\n";
         return;
     }
 
@@ -204,7 +205,7 @@ void WebImageFetcher::slotImageFetched(KJob* j)
 
 void WebImageFetcher::slotCoverChosen()
 {
-    kDebug() << "Adding new cover for " << d->file.tag()->fileName()
+    qCDebug(JUK_LOG) << "Adding new cover for " << d->file.tag()->fileName()
     << "from URL" << d->url;
 
     coverKey newId = CoverManager::addCover(d->url, d->file.tag()->artist(), d->file.tag()->album());

@@ -91,6 +91,7 @@ set(juk_SRCS  ${tunepimp_SRCS}
    webimagefetcher.cpp
    historyplaylist.cpp
    juk.cpp
+   juk_debug.cpp
    keydialog.cpp
    lyricswidget.cpp
    main.cpp

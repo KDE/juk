@@ -28,6 +28,7 @@
 #include "searchplaylist.h"
 #include "treeviewitemplaylist.h"
 #include "collectionlist.h"
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // ViewMode
@@ -370,7 +371,7 @@ void TreeViewMode::removeItem(const QString &item, unsigned column)
     else if(column == PlaylistItem::AlbumColumn)
         itemKey = "albums" + item;
     else {
-        kWarning() << "Unhandled column type " << column;
+        qCWarning(JUK_LOG) << "Unhandled column type " << column;
         return;
     }
 
@@ -402,7 +403,7 @@ void TreeViewMode::addItems(const QStringList &items, unsigned column)
     else if(column == PlaylistItem::AlbumColumn)
         searchCategory = "albums";
     else {
-        kWarning() << "Unhandled column type " << column;
+        qCWarning(JUK_LOG) << "Unhandled column type " << column;
         return;
     }
 

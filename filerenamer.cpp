@@ -56,6 +56,7 @@
 #include "playlistitem.h"
 #include "playlist.h" // processEvents()
 #include "coverinfo.h"
+#include "juk_debug.h"
 
 class ConfirmationDialog : public KDialog
 {
@@ -416,12 +417,12 @@ void FileRenamerWidget::moveSignalMappings(int oldId, int newId)
 bool FileRenamerWidget::removeRow(int id)
 {
     if(id >= m_rows.count()) {
-        kWarning() << "Trying to remove row, but " << id << " is out-of-range.\n";
+        qCWarning(JUK_LOG) << "Trying to remove row, but " << id << " is out-of-range.\n";
         return false;
     }
 
     if(m_rows.count() == 1) {
-        kError() << "Can't remove last row of File Renamer.\n";
+        qCCritical(JUK_LOG) << "Can't remove last row of File Renamer.\n";
         return false;
     }
 
@@ -543,12 +544,12 @@ void FileRenamerWidget::createTagRows()
 
     for(; it != categoryOrder.constEnd(); ++it) {
         if(*it < StartTag || *it >= NumTypes) {
-            kError() << "Invalid category encountered in file renamer configuration.\n";
+            qCCritical(JUK_LOG) << "Invalid category encountered in file renamer configuration.\n";
             continue;
         }
 
         if(m_rows.count() == MAX_CATEGORIES) {
-            kError() << "Maximum number of File Renamer tags reached, bailing.\n";
+            qCCritical(JUK_LOG) << "Maximum number of File Renamer tags reached, bailing.\n";
             break;
         }
 
@@ -729,7 +730,7 @@ void FileRenamerWidget::moveItem(int id, MovementDirection direction)
 int FileRenamerWidget::idOfPosition(int position) const
 {
     if(position >= m_rows.count()) {
-        kError() << "Search for position " << position << " out-of-range.\n";
+        qCCritical(JUK_LOG) << "Search for position " << position << " out-of-range.\n";
         return -1;
     }
 
@@ -737,7 +738,7 @@ int FileRenamerWidget::idOfPosition(int position) const
         if(m_rows[i].position == position)
             return i;
 
-    kError() << "Unable to find identifier for position " << position << endl;
+    qCCritical(JUK_LOG) << "Unable to find identifier for position " << position << endl;
     return -1;
 }
 
@@ -747,7 +748,7 @@ int FileRenamerWidget::findIdentifier(const CategoryID &category) const
         if(m_rows[index].category == category)
             return index;
 
-    kError() << "Unable to find match for category " <<
+    qCCritical(JUK_LOG) << "Unable to find match for category " <<
         TagRenamerOptions::tagTypeText(category.category) <<
         ", number " << category.categoryNumber << endl;
 
@@ -797,7 +798,7 @@ void FileRenamerWidget::insertCategory()
 {
     TagType category = static_cast<TagType>(m_ui->m_category->currentIndex());
     if(m_ui->m_category->currentIndex() < 0 || category >= NumTypes) {
-        kError() << "Trying to add unknown category somehow.\n";
+        qCCritical(JUK_LOG) << "Trying to add unknown category somehow.\n";
         return;
     }
 
@@ -859,7 +860,7 @@ void FileRenamerWidget::slotRemoveRow(int id)
 {
     // Remove the given identified row.
     if(!removeRow(id))
-        kError() << "Unable to remove row " << id << endl;
+        qCCritical(JUK_LOG) << "Unable to remove row " << id << endl;
 }
 
 //
@@ -923,7 +924,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
 
 bool FileRenamer::moveFile(const QString &src, const QString &dest)
 {
-    kDebug() << "Moving file " << src << " to " << dest;
+    qCDebug(JUK_LOG) << "Moving file " << src << " to " << dest;
 
     if(src == dest)
         return false;
@@ -947,7 +948,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     // Create the directory.
     if(!KStandardDirs::exists(dir.path()))
         if(!KStandardDirs::makeDir(dir.path())) {
-            kError() << "Unable to create directory " << dir.path() << endl;
+            qCCritical(JUK_LOG) << "Unable to create directory " << dir.path() << endl;
             return false;
         }
 
@@ -975,7 +976,7 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
     for(QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) {
         path.append('/' + (*it));
 
-        kDebug() << "Checking path: " << path;
+        qCDebug(JUK_LOG) << "Checking path: " << path;
         if((*it).contains(item->file().tag()->album() ) &&
            !QFile::exists(path + "/.directory"))
         {

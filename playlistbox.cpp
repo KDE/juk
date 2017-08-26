@@ -57,6 +57,7 @@
 #include "tagtransactionmanager.h"
 #include "playermanager.h"
 #include "dbuscollectionproxy.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -223,13 +224,13 @@ void PlaylistBox::duplicate()
 
 void PlaylistBox::scanFolders()
 {
-    kDebug() << "Starting folder scan";
+    qCDebug(JUK_LOG) << "Starting folder scan";
     QTime stopwatch; stopwatch.start();
 
     PlaylistCollection::scanFolders();
 
-    kDebug() << "Folder scan complete, took" << stopwatch.elapsed() << "ms";
-    kDebug() << "Startup complete!";
+    qCDebug(JUK_LOG) << "Folder scan complete, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "Startup complete!";
     emit startupComplete();
 }
 
@@ -414,7 +415,7 @@ void PlaylistBox::setDynamicListsFrozen(bool frozen)
 
 void PlaylistBox::slotSavePlaylists()
 {
-    kDebug() << "Auto-saving playlists.\n";
+    qCDebug(JUK_LOG) << "Auto-saving playlists.\n";
 
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
@@ -430,7 +431,7 @@ void PlaylistBox::slotSavePlaylists()
 void PlaylistBox::slotShowDropTarget()
 {
     if(!m_dropItem) {
-        kError() << "Trying to show the playlist of a null item!\n";
+        qCCritical(JUK_LOG) << "Trying to show the playlist of a null item!\n";
         return;
     }
 
@@ -753,13 +754,13 @@ void PlaylistBox::setupUpcomingPlaylist()
 
 void PlaylistBox::slotLoadCachedPlaylists()
 {
-    kDebug() << "Loading cached playlists.";
+    qCDebug(JUK_LOG) << "Loading cached playlists.";
     QTime stopwatch;
     stopwatch.start();
 
     Cache::loadPlaylists(this);
 
-    kDebug() << "Cached playlists loaded, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "Cached playlists loaded, took" << stopwatch.elapsed() << "ms";
 
     // Auto-save playlists after they change.
     m_savePlaylistTimer = new QTimer(this);

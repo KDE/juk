@@ -23,6 +23,7 @@
 
 #include "playlistitem.h"
 #include "collectionlist.h"
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -77,7 +78,7 @@ void SearchPlaylist::updateItems()
     createItems(newItems);
 
     if(synchronizePlaying()) {
-        kDebug() << "synchronizing playing";
+        qCDebug(JUK_LOG) << "synchronizing playing";
         synchronizePlayingItems(m_search.playlists(), true);
     }
 }

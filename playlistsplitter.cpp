@@ -44,6 +44,7 @@
 #include "playlistbox.h"
 #include "lyricswidget.h"
 #include "mpris2/mpris2.h"
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -328,11 +329,11 @@ void PlaylistSplitter::slotPlaylistChanged(int i)
 
 void PlaylistSplitter::slotEnable()
 {
-    kDebug() << "Enabling GUI";
+    qCDebug(JUK_LOG) << "Enabling GUI";
     QTime stopwatch; stopwatch.start();
     setEnabled(true); // Ready to go.
     m_playlistStack->show();
-    kDebug() << "Finished enabling GUI, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "Finished enabling GUI, took" << stopwatch.elapsed() << "ms";
 
     (void) new Mpris2(this);
 }

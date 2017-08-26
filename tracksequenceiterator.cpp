@@ -26,6 +26,7 @@
 #include "actioncollection.h"
 #include "tag.h"
 #include "filehandle.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -112,8 +113,8 @@ void DefaultSequenceIterator::advance()
             if(!m_albumSearch.isNull()) {
                 PlaylistItemList albumMatches = m_albumSearch.matchedItems();
                 if(albumMatches.isEmpty()) {
-                    kError() << "Unable to initialize album random play.\n";
-                    kError() << "List of potential results is empty.\n";
+                    qCCritical(JUK_LOG) << "Unable to initialize album random play.\n";
+                    qCCritical(JUK_LOG) << "List of potential results is empty.\n";
 
                     return; // item is still set to random song from a few lines earlier.
                 }
@@ -133,7 +134,7 @@ void DefaultSequenceIterator::advance()
                 }
             }
             else
-                kError() << "Unable to perform album random play on " << *item << endl;
+                qCCritical(JUK_LOG) << "Unable to perform album random play on " << *item << endl;
         }
         else
             item = m_randomItems[KRandom::random() % m_randomItems.count()];
@@ -253,7 +254,7 @@ void DefaultSequenceIterator::refillRandomList(Playlist *p)
         p = current()->playlist();
 
         if(!p) {
-            kError() << "Item has no playlist!\n";
+            qCCritical(JUK_LOG) << "Item has no playlist!\n";
             return;
         }
     }
@@ -297,7 +298,7 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
     // search.
 
     if(!searchItem->file().tag()->artist().isEmpty()) {
-        kDebug() << "Searching both artist and album.";
+        qCDebug(JUK_LOG) << "Searching both artist and album.";
         columns[0] = PlaylistItem::ArtistColumn;
 
         m_albumSearch.addComponent(PlaylistSearch::Component(

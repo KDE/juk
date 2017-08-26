@@ -47,6 +47,7 @@
 #include "actioncollection.h"
 #include "tag.h"
 #include "viewmode.h"
+#include "juk_debug.h"
 
 using ActionCollection::action;
 
@@ -68,17 +69,17 @@ void CollectionList::startLoadingCachedItems()
     if(!m_list)
         return;
 
-    kDebug() << "Starting to load cached items";
+    qCDebug(JUK_LOG) << "Starting to load cached items";
     stopwatch.start();
 
     if(!Cache::instance()->prepareToLoadCachedItems()) {
-        kError() << "Unable to setup to load cache... perhaps it doesn't exist?";
+        qCCritical(JUK_LOG) << "Unable to setup to load cache... perhaps it doesn't exist?";
 
         completedLoadingCachedItems();
         return;
     }
 
-    kDebug() << "Kicked off first batch";
+    qCDebug(JUK_LOG) << "Kicked off first batch";
     QTimer::singleShot(0, this, SLOT(loadNextBatchCachedItems()));
 }
 
@@ -126,8 +127,8 @@ void CollectionList::completedLoadingCachedItems()
 
     SplashScreen::finishedLoading();
 
-    kDebug() << "Finished loading cached items, took" << stopwatch.elapsed() << "ms";
-    kDebug() << m_itemsDict.size() << "items are in the CollectionList";
+    qCDebug(JUK_LOG) << "Finished loading cached items, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << m_itemsDict.size() << "items are in the CollectionList";
 
     emit cachedItemsLoaded();
 }
@@ -162,7 +163,7 @@ CollectionListItem *CollectionList::createItem(const FileHandle &file, QTreeWidg
     CollectionListItem *item = new CollectionListItem(this, file);
 
     if(!item->isValid()) {
-        kError() << "CollectionList::createItem() -- A valid tag was not created for \""
+        qCCritical(JUK_LOG) << "CollectionList::createItem() -- A valid tag was not created for \""
                  << file.absFilePath() << "\"" << endl;
         delete item;
         return 0;
@@ -186,7 +187,7 @@ void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
 {
     TreeViewMode *treeViewMode = dynamic_cast<TreeViewMode *>(viewMode);
     if(!treeViewMode) {
-        kWarning() << "Can't setup entries on a non-tree-view mode!\n";
+        qCWarning(JUK_LOG) << "Can't setup entries on a non-tree-view mode!\n";
         return;
     }
 
@@ -238,7 +239,7 @@ void CollectionList::slotDeleteItem(const KFileItem &item)
 
 void CollectionList::saveItemsToCache() const
 {
-    kDebug() << "Saving collection list to cache";
+    qCDebug(JUK_LOG) << "Saving collection list to cache";
 
     QString cacheFileName =
         KGlobal::dirs()->saveLocation("appdata") % QLatin1String("cache");
@@ -246,7 +247,7 @@ void CollectionList::saveItemsToCache() const
     KSaveFile f(cacheFileName);
 
     if(!f.open(QIODevice::WriteOnly)) {
-        kError() << "Error saving cache:" << f.errorString();
+        qCCritical(JUK_LOG) << "Error saving cache:" << f.errorString();
         return;
     }
 
@@ -271,7 +272,7 @@ void CollectionList::saveItemsToCache() const
     f.close();
 
     if(!f.finalize())
-        kError() << "Error saving cache:" << f.errorString();
+        qCCritical(JUK_LOG) << "Error saving cache:" << f.errorString();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -300,7 +301,7 @@ void CollectionList::clear()
 void CollectionList::slotCheckCache()
 {
     PlaylistItemList invalidItems;
-    kDebug() << "Starting to check cached items for consistency";
+    qCDebug(JUK_LOG) << "Starting to check cached items for consistency";
     stopwatch.start();
 
     int i = 0;
@@ -308,12 +309,12 @@ void CollectionList::slotCheckCache()
         if(!item->checkCurrent())
             invalidItems.append(item);
         if(++i == (m_itemsDict.size() / 2))
-            kDebug() << "Checkpoint";
+            qCDebug(JUK_LOG) << "Checkpoint";
     }
 
     clearItems(invalidItems);
 
-    kDebug() << "Finished consistency check, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "Finished consistency check, took" << stopwatch.elapsed() << "ms";
 }
 
 void CollectionList::slotRemoveItem(const QString &file)
@@ -562,7 +563,7 @@ CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle 
         parent->dataChanged();
     }
     else {
-        kError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
+        qCCritical(JUK_LOG) << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
     }
 
     SplashScreen::increment();

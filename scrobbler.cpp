@@ -27,7 +27,8 @@
 
 #include <kglobal.h>
 #include <kconfiggroup.h>
-#include <KDebug>
+#include <QDebug>
+#include "juk_debug.h"
 #include <KSharedConfig>
 
 #include "tag.h"
@@ -145,7 +146,7 @@ void Scrobbler::sign(QMap< QString, QString >& params)
 
 void Scrobbler::getAuthToken(QString username, QString password)
 {
-    kDebug() << "Getting new auth token for user:" << username;
+    qCDebug(JUK_LOG) << "Getting new auth token for user:" << username;
 
     QByteArray authToken = md5((username + md5(password.toUtf8())).toUtf8());
 
@@ -201,10 +202,10 @@ void Scrobbler::handleAuthenticationReply()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
-    kDebug() << "got authentication reply";
+    qCDebug(JUK_LOG) << "got authentication reply";
     if(reply->error() != QNetworkReply::NoError) {
         emit invalidAuth();
-        kWarning() << "Error while getting authentication reply" << reply->errorString();
+        qCWarning(JUK_LOG) << "Error while getting authentication reply" << reply->errorString();
         return;
     }
 
@@ -218,7 +219,7 @@ void Scrobbler::handleAuthenticationReply()
 
     if(sessionKey.isEmpty()) {
         emit invalidAuth();
-        kWarning() << "Unable to get session key" << data;
+        qCWarning(JUK_LOG) << "Unable to get session key" << data;
         return;
     }
 
@@ -299,7 +300,7 @@ void Scrobbler::scrobble()
         return; // API says not to scrobble if the user didn't play long enough
     }
 
-    kDebug() << "Scrobbling" << m_file.tag()->title();
+    qCDebug(JUK_LOG) << "Scrobbling" << m_file.tag()->title();
 
     QMap<QString, QString> params;
     params["method"] = "track.scrobble";
