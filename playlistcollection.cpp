@@ -994,7 +994,9 @@ QAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
         action = new QAction(QIcon::fromTheme(icon), text, actions());
     actions()->addAction(name, action);
     connect( action, SIGNAL(triggered(bool)), slot);
-    action->setShortcut(shortcut.toList().constFirst());
+    if (!shortcut.toList().isEmpty()) {
+        action->setShortcut(shortcut.toList().constFirst());
+    }
     return action;
 }
 
