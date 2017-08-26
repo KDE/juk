@@ -29,7 +29,6 @@
 #include <klineedit.h>
 #include <knuminput.h>
 #include <ktextedit.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>

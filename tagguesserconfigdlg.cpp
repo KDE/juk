@@ -20,7 +20,6 @@
 #include <QIcon>
 #include <klocale.h>
 #include <klineedit.h>
-#include <kapplication.h>
 
 #include <QKeyEvent>
 #include <QStringListModel>

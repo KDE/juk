@@ -18,7 +18,6 @@
 #include "coverdialog.h"
 
 #include <kiconloader.h>
-#include <kapplication.h>
 #include <kmenu.h>
 #include <klocale.h>
 

@@ -17,7 +17,6 @@
 #include "upcomingplaylist.h"
 #include "juk-exception.h"
 
-#include <kapplication.h>
 #include <QAction>
 
 #include "playlistitem.h"

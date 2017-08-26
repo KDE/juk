@@ -17,7 +17,6 @@
 #include "tracksequenceiterator.h"
 
 #include <QAction>
-#include <kapplication.h>
 #include <krandom.h>
 #include <ktoggleaction.h>
 

@@ -32,7 +32,6 @@
 #include <kglobal.h>
 #include <klineedit.h>
 #include <klocale.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kvbox.h>
 

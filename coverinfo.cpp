@@ -18,8 +18,8 @@
 #include "coverinfo.h"
 
 #include <kglobal.h>
-#include <kapplication.h>
 
+#include <QApplication>
 #include <QRegExp>
 #include <QLabel>
 #include <QCursor>

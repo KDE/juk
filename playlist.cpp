@@ -19,7 +19,6 @@
 #include "juk-exception.h"
 
 #include <kconfig.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
 #include <klineedit.h>

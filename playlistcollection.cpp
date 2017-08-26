@@ -19,7 +19,6 @@
 
 #include <kurl.h>
 #include <kiconloader.h>
-#include <kapplication.h>
 #include <kinputdialog.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>

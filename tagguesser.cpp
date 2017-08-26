@@ -17,12 +17,11 @@
 #include "tagguesser.h"
 #include "juk_debug.h"
 
-#include <kapplication.h>
 #include <kconfig.h>
-#include <kglobal.h>
 #include <kmacroexpander.h>
 #include <qhash.h>
 #include <kconfiggroup.h>
+#include <KSharedConfig>
 
 FileNameScheme::FileNameScheme(const QString &s)
     : m_regExp(),

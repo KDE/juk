@@ -12,4 +12,4 @@ add_executable(tagguessertest ${tagguessertest_SRCS})
 add_test(tagguesser tagguessertest)
 ecm_mark_as_test(tagguessertest)
 
-target_link_libraries(tagguessertest ${KDE4_KDECORE_LIBS} Qt5::Test)
+target_link_libraries(tagguessertest Qt5::Test KF5::ConfigCore KF5::CoreAddons)

@@ -27,7 +27,6 @@
 #include <QIcon>
 #include <QAction>
 #include <kconfiggroup.h>
-#include <kapplication.h>
 #include <kglobal.h>
 #include <kglobalaccel.h>
 #include <ktoolbarpopupaction.h>
@@ -557,7 +556,7 @@ void JuK::slotQuit()
 {
     m_shuttingDown = true;
 
-    kapp->quit();
+    qApp->quit();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

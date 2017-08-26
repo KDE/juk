@@ -16,7 +16,6 @@
 
 #include "treeviewitemplaylist.h"
 
-#include <kapplication.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 
