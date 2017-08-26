@@ -139,7 +139,7 @@ void TagGuesserTest::add(const QString &filename, const QString &title,
     ;
 }
 
-QTEST_MAIN(TagGuesserTest)
+QTEST_GUILESS_MAIN(TagGuesserTest)
 
 // vim: set et sw=4 tw=0 sta:
 
