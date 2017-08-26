@@ -468,8 +468,8 @@ void CollectionListItem::refresh()
     int offset = CollectionList::instance()->columnOffset();
     int columns = lastColumn() + offset + 1;
 
-    data()->metadata.resize(columns);
-    data()->cachedWidths.resize(columns);
+    sharedData()->metadata.resize(columns);
+    sharedData()->cachedWidths.resize(columns);
 
     for(int i = offset; i < columns; i++) {
         setText(i, text(i));
@@ -487,20 +487,20 @@ void CollectionListItem::refresh()
             {
                 toLower = StringShare::tryShare(toLower);
 
-                if(id != YearColumn && id != CommentColumn && data()->metadata[id] != toLower) {
-                    CollectionList::instance()->removeStringFromDict(data()->metadata[id], id);
+                if(id != YearColumn && id != CommentColumn && sharedData()->metadata[id] != toLower) {
+                    CollectionList::instance()->removeStringFromDict(sharedData()->metadata[id], id);
                     CollectionList::instance()->addStringToDict(text(i), id);
                 }
             }
 
-            data()->metadata[id] = toLower;
+            sharedData()->metadata[id] = toLower;
         }
 
         int newWidth = treeWidget()->fontMetrics().width(text(i));
-        if(newWidth != data()->cachedWidths[i])
+        if(newWidth != sharedData()->cachedWidths[i])
             playlist()->slotWeightDirty(i);
 
-        data()->cachedWidths[i] = newWidth;
+        sharedData()->cachedWidths[i] = newWidth;
     }
 
     for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
@@ -555,7 +555,7 @@ CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle 
 {
     parent->addToDict(file.absFilePath(), this);
 
-    data()->fileHandle = file;
+    sharedData()->fileHandle = file;
 
     if(file.tag()) {
         refresh();

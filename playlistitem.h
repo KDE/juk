@@ -204,7 +204,7 @@ protected:
     };
 
     using DataPtr = QExplicitlySharedDataPointer<Data>;
-    DataPtr data() const { return d; }
+    DataPtr sharedData() const { return d; }
 
 private:
     DataPtr d;
