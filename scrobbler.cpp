@@ -29,7 +29,6 @@
 #include <kconfiggroup.h>
 #include <KDebug>
 #include <KSharedConfig>
-#include <KSharedPtr>
 
 #include "tag.h"
 

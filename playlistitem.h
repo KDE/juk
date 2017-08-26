@@ -14,12 +14,12 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PLAYLISTITEM_H
-#define PLAYLISTITEM_H
+#ifndef JUK_PLAYLISTITEM_H
+#define JUK_PLAYLISTITEM_H
 
-#include <ksharedptr.h>
 #include <kdebug.h>
 
+#include <QExplicitlySharedDataPointer>
 #include <QVector>
 #include <QPixmap>
 #include <QList>
@@ -192,7 +192,7 @@ protected:
      * Shared data between all PlaylistItems from the same track (incl. the CollectionItem
      * representing said track.
      */
-    struct Data : public KShared
+    struct Data : public QSharedData
     {
         Data() {}
         Data(const QFileInfo &info, const QString &path) : fileHandle(info, path) {}
@@ -203,10 +203,11 @@ protected:
         QVector<int> cachedWidths;
     };
 
-    KSharedPtr<Data> data() const { return d; }
+    using DataPtr = QExplicitlySharedDataPointer<Data>;
+    DataPtr data() const { return d; }
 
 private:
-    KSharedPtr<Data> d;
+    DataPtr d;
 
     void setup(CollectionListItem *item);
 
