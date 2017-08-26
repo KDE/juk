@@ -91,7 +91,6 @@ set(juk_SRCS  ${tunepimp_SRCS}
    webimagefetcher.cpp
    historyplaylist.cpp
    juk.cpp
-   k3bexporter.cpp
    keydialog.cpp
    lyricswidget.cpp
    main.cpp
@@ -105,7 +104,6 @@ set(juk_SRCS  ${tunepimp_SRCS}
    playlist.cpp
    playlistbox.cpp
    playlistcollection.cpp
-   playlistexporter.cpp
    playlistinterface.cpp
    playlistitem.cpp
    playlistsearch.cpp

@@ -71,7 +71,6 @@
 #include "actioncollection.h"
 #include "tracksequencemanager.h"
 #include "tag.h"
-#include "k3bexporter.h"
 #include "upcomingplaylist.h"
 #include "deletedialog.h"
 #include "webimagefetcher.h"
@@ -2149,11 +2148,6 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
 
         m_rmbMenu->addAction(
             SmallIcon("folder-new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
-
-        K3bExporter *exporter = new K3bExporter(this);
-        KAction *k3bAction = exporter->action();
-        if(k3bAction)
-            m_rmbMenu->addAction( k3bAction );
     }
 
     // Ignore any columns added by subclasses.

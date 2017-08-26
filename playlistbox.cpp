@@ -53,7 +53,6 @@
 #include "treeviewitemplaylist.h"
 #include "actioncollection.h"
 #include "cache.h"
-#include "k3bexporter.h"
 #include "tracksequencemanager.h"
 #include "tagtransactionmanager.h"
 #include "playermanager.h"
@@ -93,9 +92,6 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     m_contextMenu = new KMenu(this);
-
-    K3bPlaylistExporter *exporter = new K3bPlaylistExporter(this);
-    m_k3bAction = exporter->action();
 
     m_contextMenu->addAction( action("file_new") );
     m_contextMenu->addAction( action("renamePlaylist") );
