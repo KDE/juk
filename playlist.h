@@ -19,7 +19,6 @@
 #define PLAYLIST_H
 
 #include <kglobalsettings.h>
-#include <kdebug.h>
 
 #include <QVector>
 #include <QEvent>
@@ -32,6 +31,7 @@
 #include "tagguesser.h"
 #include "playlistinterface.h"
 #include "filehandle.h"
+#include "juk_debug.h"
 
 class KMenu;
 class KActionMenu;

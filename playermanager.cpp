@@ -18,7 +18,6 @@
 
 #include "playermanager.h"
 
-#include <kdebug.h>
 #include <kmessagebox.h>
 #include <klocale.h>
 #include <kactioncollection.h>

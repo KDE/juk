@@ -15,10 +15,10 @@
  */
 
 #include "tagguesser.h"
+#include "juk_debug.h"
 
 #include <kapplication.h>
 #include <kconfig.h>
-#include <kdebug.h>
 #include <kglobal.h>
 #include <kmacroexpander.h>
 #include <qhash.h>

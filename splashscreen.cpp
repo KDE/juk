@@ -15,12 +15,12 @@
  */
 
 #include "splashscreen.h"
+#include "juk_debug.h"
 
 #include <kapplication.h>
 #include <kiconloader.h>
 #include <klocale.h>
 #include <kstandarddirs.h>
-#include <kdebug.h>
 
 #include <QPixmap>
 #include <QLabel>

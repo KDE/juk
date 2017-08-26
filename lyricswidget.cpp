@@ -23,14 +23,13 @@
 #include <KActionCollection>
 #include <KToggleAction>
 #include <KConfigGroup>
-#include <QDebug>
-#include "juk_debug.h"
 #include <QIcon>
 #include <kglobal.h>
 
 #include "lyricswidget.h"
 #include "tag.h"
 #include "actioncollection.h"
+#include "juk_debug.h"
 
 
 LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),

@@ -19,7 +19,6 @@
 
 #include <kglobal.h>
 #include <kapplication.h>
-#include <kdebug.h>
 
 #include <QRegExp>
 #include <QLabel>

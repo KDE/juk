@@ -23,7 +23,8 @@
 
 #include <klocale.h>
 #include <kglobal.h>
-#include <kdebug.h>
+
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // HistoryPlayList public members

@@ -27,11 +27,10 @@
 
 #include <kglobal.h>
 #include <kconfiggroup.h>
-#include <QDebug>
-#include "juk_debug.h"
 #include <KSharedConfig>
 
 #include "tag.h"
+#include "juk_debug.h"
 
 Scrobbler::Scrobbler(QObject* parent)
     : QObject(parent)

@@ -17,7 +17,6 @@
 #include "upcomingplaylist.h"
 #include "juk-exception.h"
 
-#include <kdebug.h>
 #include <kapplication.h>
 #include <QAction>
 
@@ -26,6 +25,7 @@
 #include "tracksequencemanager.h"
 #include "collectionlist.h"
 #include "actioncollection.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 

@@ -18,7 +18,6 @@
 
 #include <QAction>
 #include <kapplication.h>
-#include <kdebug.h>
 #include <krandom.h>
 #include <ktoggleaction.h>
 

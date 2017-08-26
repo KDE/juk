@@ -17,12 +17,11 @@
  */
 
 #include "svghandler.h"
+#include "juk_debug.h"
 
 #include <KColorScheme>
 #include <KColorUtils>
 #include <KStandardDirs>
-#include <QDebug>
-#include "juk_debug.h"
 
 #include <QHash>
 #include <QPainter>

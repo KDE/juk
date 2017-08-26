@@ -19,12 +19,12 @@
 #include "collectionlist.h"
 #include "actioncollection.h"
 #include "searchadaptor.h"
+#include "juk_debug.h"
 
 #include <klocale.h>
 #include <klineedit.h>
 #include <kiconloader.h>
 #include <kcombobox.h>
-#include <kdebug.h>
 #include <QAction>
 
 #include <QLabel>

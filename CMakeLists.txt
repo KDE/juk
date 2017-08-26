@@ -16,6 +16,7 @@ include(KDECMakeSettings NO_POLICY_SCOPE)
 include(FeatureSummary)
 include(ECMInstallIcons)
 include(ECMAddAppIcon)
+include(ECMQtDeclareLoggingCategory)
 
 find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Svg Network Test Widgets)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS CoreAddons Completion GlobalAccel
@@ -25,7 +26,7 @@ find_package(Phonon4Qt5 4.6.60 REQUIRED NO_MODULE)
 
 find_package(Taglib 1.6 REQUIRED)
 
-include_directories( ${PHONON_INCLUDES} ${KDE4_INCLUDES} ${QT_INCLUDES} )
+include_directories(${CMAKE_BINARY_DIR} ${PHONON_INCLUDES} ${KDE4_INCLUDES} ${QT_INCLUDES} )
 
 add_subdirectory( doc )
 add_subdirectory( tests )
@@ -91,7 +92,6 @@ set(juk_SRCS  ${tunepimp_SRCS}
    webimagefetcher.cpp
    historyplaylist.cpp
    juk.cpp
-   juk_debug.cpp
    keydialog.cpp
    lyricswidget.cpp
    main.cpp
@@ -131,6 +131,9 @@ set(juk_SRCS  ${tunepimp_SRCS}
    upcomingplaylist.cpp
    ktrm.cpp
    viewmode.cpp )
+
+ecm_qt_declare_logging_category(juk_SRCS HEADER juk_debug.h
+                                IDENTIFIER JUK_LOG CATEGORY_NAME org.kde.juk)
 
 qt5_add_dbus_adaptor( juk_SRCS org.kde.juk.collection.xml
     dbuscollectionproxy.h DBusCollectionProxy )

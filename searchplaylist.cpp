@@ -17,8 +17,6 @@
 #include "searchplaylist.h"
 #include "juk-exception.h"
 
-#include <kdebug.h>
-
 #include <QHash>
 
 #include "playlistitem.h"

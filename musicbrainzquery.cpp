@@ -23,11 +23,11 @@
 #include "tag.h"
 #include "collectionlist.h"
 #include "tagtransactionmanager.h"
+#include "juk_debug.h"
 
 #include <kxmlguiwindow.h>
 #include <kstatusbar.h>
 #include <klocale.h>
-#include <kdebug.h>
 
 #include <QList>
 #include <QFileInfo>

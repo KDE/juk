@@ -26,7 +26,6 @@
 
 #include <kprotocolmanager.h>
 #include <kurl.h>
-#include <kdebug.h>
 #include <kio/job.h>
 
 #include <QCoreApplication>
@@ -45,6 +44,8 @@
 #ifdef Q_WS_X11
 #include <fixx11h.h>
 #endif
+
+#include "juk_debug.h"
 
 class KTRMLookup;
 

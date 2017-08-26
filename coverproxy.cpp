@@ -16,7 +16,6 @@
 
 #include "coverproxy.h"
 
-#include <kdebug.h>
 #include <kio/job.h>
 
 #include "covermanager.h"

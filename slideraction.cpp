@@ -20,7 +20,6 @@
 #include <klocale.h>
 #include <kiconloader.h>
 #include <kactioncollection.h>
-#include <kdebug.h>
 
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -31,6 +30,7 @@
 #include "slider.h"
 #include "playermanager.h"
 #include "juk.h"
+#include "juk_debug.h"
 
 TrackPositionAction::TrackPositionAction(const QString &text, QObject *parent) :
     QAction(text, parent)

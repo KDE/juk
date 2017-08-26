@@ -17,9 +17,8 @@
 
 #include "scrobbleconfigdlg.h"
 #include "scrobbler.h"
-
-#include <QDebug>
 #include "juk_debug.h"
+
 #include <KLineEdit>
 #include <QPushButton>
 #include <KLocalizedString>
@@ -29,7 +28,6 @@
 #include <QLayout>
 #include <QLabel>
 #include <QFormLayout>
-
 
 
 ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent, Qt::WindowFlags f)

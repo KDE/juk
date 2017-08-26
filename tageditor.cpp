@@ -20,6 +20,7 @@
 #include "tag.h"
 #include "actioncollection.h"
 #include "tagtransactionmanager.h"
+#include "juk_debug.h"
 
 #include <QAction>
 #include <kactioncollection.h>
@@ -32,7 +33,6 @@
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
-#include <kdebug.h>
 #include <kiconloader.h>
 #include <QIcon>
 #include <ktoggleaction.h>

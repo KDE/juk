@@ -23,7 +23,6 @@
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
-#include <kdebug.h>
 #include <ktoggleaction.h>
 #include <kglobal.h>
 

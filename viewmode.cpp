@@ -18,7 +18,6 @@
 
 #include <kiconloader.h>
 #include <kstandarddirs.h>
-#include <kdebug.h>
 
 #include <QPixmap>
 #include <QPainter>

@@ -16,8 +16,6 @@
 
 #include "filehandle.h"
 
-#include <kdebug.h>
-
 #include <QFileInfo>
 
 #include <limits.h>

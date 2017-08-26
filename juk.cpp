@@ -18,7 +18,6 @@
 #include "juk.h"
 
 #include <kstatusbar.h>
-#include <kdebug.h>
 #include <kmessagebox.h>
 #include <kstandarddirs.h>
 #include <kactioncollection.h>

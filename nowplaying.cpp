@@ -19,7 +19,6 @@
 
 #include <kiconloader.h>
 #include <klocale.h>
-#include <kdebug.h>
 #include <krandom.h>
 #include <kglobalsettings.h>
 #include <kio/netaccess.h>

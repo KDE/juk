@@ -18,7 +18,6 @@
 
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
 #include <kmenu.h>
 #include <kconfig.h>
 #include <kconfiggroup.h>

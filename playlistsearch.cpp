@@ -20,7 +20,7 @@
 #include "collectionlist.h"
 #include "juk-exception.h"
 
-#include <kdebug.h>
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods

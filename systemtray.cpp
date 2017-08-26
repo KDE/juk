@@ -21,7 +21,6 @@
 #include <klocale.h>
 #include <kiconloader.h>
 #include <QAction>
-#include <kdebug.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <kvbox.h>
@@ -44,6 +43,7 @@
 #include "actioncollection.h"
 #include "playermanager.h"
 #include "coverinfo.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 

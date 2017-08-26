@@ -17,7 +17,6 @@
 #include "actioncollection.h"
 
 #include <kactioncollection.h>
-#include <kdebug.h>
 
 #include "juk.h"
 #include "juk_debug.h"

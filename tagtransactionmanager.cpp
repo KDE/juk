@@ -16,7 +16,6 @@
 
 #include "tagtransactionmanager.h"
 
-#include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
 #include <QAction>

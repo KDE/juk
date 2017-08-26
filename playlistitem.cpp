@@ -17,7 +17,6 @@
 #include "playlistitem.h"
 
 #include <config-juk.h>
-#include <kdebug.h>
 #include <kiconloader.h>
 
 #include <QPixmap>
@@ -30,6 +29,7 @@
 #include "coverinfo.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
+#include "juk_debug.h"
 
 PlaylistItemList PlaylistItem::m_playingItems; // static
 

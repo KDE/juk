@@ -22,7 +22,6 @@
 #include <QtDBus/QDBusConnection>
 
 #include <KTemporaryFile>
-#include <kdebug.h>
 
 #include "collectionadaptor.h"
 #include "playlistcollection.h"

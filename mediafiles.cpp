@@ -17,7 +17,6 @@
 #include "mediafiles.h"
 
 #include <kfiledialog.h>
-#include <kdebug.h>
 #include <klocale.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
@@ -25,8 +24,6 @@
 
 #include <QWidget>
 #include <QtCore/QFile>
-
-#include "juk_debug.h"
 
 #include <taglib.h>
 #include <taglib_config.h>
@@ -50,6 +47,8 @@
 #ifdef TAGLIB_WITH_MP4
 #include <mp4file.h>
 #endif
+
+#include "juk_debug.h"
 
 namespace MediaFiles {
     static QStringList savedMimeTypes;

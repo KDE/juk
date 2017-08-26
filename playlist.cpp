@@ -24,7 +24,6 @@
 #include <kiconloader.h>
 #include <klineedit.h>
 #include <klocale.h>
-#include <kdebug.h>
 #include <kfiledialog.h>
 #include <kglobalsettings.h>
 #include <kurl.h>
@@ -1168,7 +1167,7 @@ QMimeData* Playlist::mimeData(const QList<QTreeWidgetItem *> items) const
 
 bool Playlist::dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action)
 {
-    qDebug() << index;
+    qCDebug(JUK_LOG) << index;
     return true;
 }
 

@@ -20,7 +20,6 @@
 
 #include <algorithm>
 
-#include <kdebug.h>
 #include <kurl.h>
 #include <kurlrequester.h>
 #include <kiconloader.h>

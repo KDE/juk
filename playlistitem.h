@@ -17,8 +17,6 @@
 #ifndef JUK_PLAYLISTITEM_H
 #define JUK_PLAYLISTITEM_H
 
-#include <kdebug.h>
-
 #include <QExplicitlySharedDataPointer>
 #include <QVector>
 #include <QPixmap>
@@ -27,6 +25,7 @@
 
 #include "tagguesser.h"
 #include "filehandle.h"
+#include "juk_debug.h"
 
 class Playlist;
 class PlaylistItem;

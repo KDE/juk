@@ -20,7 +20,6 @@
 #include <kiconloader.h>
 #include <ksqueezedtextlabel.h>
 #include <klocale.h>
-#include <kdebug.h>
 
 #include <QMouseEvent>
 #include <QLabel>
@@ -33,6 +32,7 @@
 #include "playlistinterface.h"
 #include "actioncollection.h"
 #include "tag.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 

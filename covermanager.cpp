@@ -28,7 +28,6 @@
 #include <QByteArray>
 #include <QMap>
 
-#include <kdebug.h>
 #include <ktemporaryfile.h>
 #include <kdemacros.h>
 #include <kurl.h>

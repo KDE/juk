@@ -21,7 +21,6 @@
 #include <QAction>
 #include <kglobal.h>
 #include <kactioncollection.h>
-#include <kdebug.h>
 #include <ktoggleaction.h>
 #include <kconfiggroup.h>
 #include <kacceleratormanager.h>

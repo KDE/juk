@@ -24,7 +24,7 @@
 
 #include <kfiledialog.h>
 #include <klocale.h>
-#include <kdebug.h>
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods

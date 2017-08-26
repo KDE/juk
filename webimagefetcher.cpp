@@ -23,8 +23,6 @@
 #include <KLocale>
 #include <KInputDialog>
 #include <KUrl>
-#include <QDebug>
-#include "juk_debug.h"
 #include <KIO/Job>
 #include <QPushButton>
 #include <KDialog>
@@ -33,6 +31,7 @@
 #include "filehandle.h"
 #include "tag.h"
 #include "juk.h"
+#include "juk_debug.h"
 
 #include <QPixmap>
 #include <QDomDocument>

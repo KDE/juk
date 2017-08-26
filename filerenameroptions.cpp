@@ -17,9 +17,9 @@
 #include "filerenameroptions.h"
 
 #include <klocale.h>
-#include <kdebug.h>
 #include <knuminput.h>
 
+#include "juk_debug.h"
 
 FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
                                              const TagRenamerOptions &options) :

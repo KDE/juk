@@ -22,7 +22,6 @@
 #include <kmenu.h>
 #include <QAction>
 #include <kactioncollection.h>
-#include <kdebug.h>
 #include <ktoggleaction.h>
 #include <kselectaction.h>
 #include <kconfiggroup.h>
