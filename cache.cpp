@@ -29,6 +29,7 @@
 
 #include <QDir>
 #include <QBuffer>
+#include <QtGlobal>
 
 #include "tag.h"
 #include "searchplaylist.h"
@@ -83,7 +84,9 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
     switch(version) {
     case 3:
         dataStreamVersion = QDataStream::Qt_4_3;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
         Q_FALLTHROUGH();
+#endif
 
     case 1:
     case 2:
@@ -320,7 +323,9 @@ bool Cache::prepareToLoadCachedItems()
     switch(version) {
     case 2:
         dataStreamVersion = CacheDataStream::Qt_4_3;
+#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
         Q_FALLTHROUGH();
+#endif
 
         // Other than that we're compatible with cache v1, so fallthrough
         // to setCacheVersion
