@@ -219,11 +219,7 @@ private:
 
 inline QDebug operator<<(QDebug s, const PlaylistItem &item)
 {
-    if(&item == 0)
-        s << "(nil)";
-    else
-        s << item.text(PlaylistItem::TrackColumn);
-
+    s << item.text(PlaylistItem::TrackColumn);
     return s;
 }
 
