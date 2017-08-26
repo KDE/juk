@@ -102,8 +102,6 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     m_contextMenu->addAction( action("deleteItemPlaylist") );
     m_contextMenu->addAction( action("file_save") );
     m_contextMenu->addAction( action("file_save_as") );
-    if(m_k3bAction)
-        m_contextMenu->addAction( m_k3bAction );
 
     m_contextMenu->addSeparator();
 
@@ -676,9 +674,6 @@ void PlaylistBox::slotPlaylistChanged()
     }
     action("reloadPlaylist")->setEnabled(allowReload);
     action("duplicatePlaylist")->setEnabled(!playlists.isEmpty());
-
-    if(m_k3bAction)
-        m_k3bAction->setEnabled(!playlists.isEmpty());
 
     action("editSearch")->setEnabled(singlePlaylist &&
                                      playlists.front()->searchIsEditable());
