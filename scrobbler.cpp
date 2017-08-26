@@ -48,7 +48,7 @@ Scrobbler::Scrobbler(QObject* parent)
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         sessionKey.append(config.readEntry("SessionKey", ""));
     }
 
@@ -67,7 +67,7 @@ bool Scrobbler::isScrobblingEnabled()
 
     if (KWallet::Wallet::folderDoesNotExist(KWallet::Wallet::LocalWallet(), "JuK")) {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
 
         username = config.readEntry("Username", "");
         password = config.readEntry("Password", "");
@@ -187,7 +187,7 @@ void Scrobbler::getAuthToken()
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         username = config.readEntry("Username", "");
         password = config.readEntry("Password", "");
     }
@@ -229,7 +229,7 @@ void Scrobbler::handleAuthenticationReply()
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         config.writeEntry("SessionKey", sessionKey);
     }
 
@@ -248,7 +248,7 @@ void Scrobbler::nowPlaying(const FileHandle& file)
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         sessionKey = config.readEntry("SessionKey", "");
     }
 
@@ -284,7 +284,7 @@ void Scrobbler::scrobble()
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         sessionKey = config.readEntry("SessionKey", "");
     }
 

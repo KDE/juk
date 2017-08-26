@@ -122,7 +122,7 @@ public:
 ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
     m_currentItem(0)
 {
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
 
     QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
     int categoryCount[NumTypes] = { 0 }; // Keep track of each category encountered.
@@ -278,7 +278,7 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
 void FileRenamerWidget::loadConfig()
 {
     QList<int> checkedSeparators;
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
 
     for(int i = 0; i < m_rows.count(); ++i)
         m_rows[i].options = TagRenamerOptions(m_rows[i].category);
@@ -301,7 +301,7 @@ void FileRenamerWidget::loadConfig()
 
 void FileRenamerWidget::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
     QList<int> checkedSeparators;
     QList<int> categoryOrder;
 
@@ -501,7 +501,7 @@ void FileRenamerWidget::addFolderSeparatorCheckbox()
 
 void FileRenamerWidget::createTagRows()
 {
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
     QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
 
     if(categoryOrder.isEmpty())

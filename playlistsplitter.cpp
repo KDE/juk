@@ -268,7 +268,7 @@ void PlaylistSplitter::setupLayout()
 
 void PlaylistSplitter::readConfig()
 {
-    KConfigGroup config(KGlobal::config(), "Splitter");
+    KConfigGroup config(KSharedConfig::openConfig(), "Splitter");
 
     QList<int> splitterSizes = config.readEntry("PlaylistSplitterSizes",QList<int>());
     if(splitterSizes.isEmpty()) {
@@ -295,7 +295,7 @@ void PlaylistSplitter::readConfig()
 
 void PlaylistSplitter::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "Splitter");
+    KConfigGroup config(KSharedConfig::openConfig(), "Splitter");
     config.writeEntry("PlaylistSplitterSizes", sizes());
     config.writeEntry("ShowSearch", ActionCollection::action<KToggleAction>("showSearch")->isChecked());
     config.writeEntry("EditorSplitterSizes", m_editorSplitter->sizes());

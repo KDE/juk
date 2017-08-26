@@ -265,7 +265,7 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
 Playlist::SharedSettings::SharedSettings()
 {
-    KConfigGroup config(KGlobal::config(), "PlaylistShared");
+    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistShared");
 
     bool resizeColumnsManually = config.readEntry("ResizeColumnsManually", false);
     action("resizeColumnsManually")->setChecked(resizeColumnsManually);
@@ -306,7 +306,7 @@ Playlist::SharedSettings::SharedSettings()
 
 void Playlist::SharedSettings::writeConfig()
 {
-    KConfigGroup config(KGlobal::config(), "PlaylistShared");
+    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistShared");
     config.writeEntry("ColumnOrder", m_columnOrder);
 
     QList<int> l;
@@ -318,7 +318,7 @@ void Playlist::SharedSettings::writeConfig()
 
     config.writeEntry("ResizeColumnsManually", manualResize());
 
-    KGlobal::config()->sync();
+    KSharedConfig::openConfig()->sync();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

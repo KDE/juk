@@ -437,7 +437,7 @@ void TagEditor::readConfig()
 {
     // combo box completion modes
 
-    KConfigGroup config(KGlobal::config(), "TagEditor");
+    KConfigGroup config(KSharedConfig::openConfig(), "TagEditor");
     if(artistNameBox && albumNameBox) {
         readCompletionMode(config, artistNameBox, "ArtistNameBoxMode");
         readCompletionMode(config, albumNameBox, "AlbumNameBoxMode");
@@ -473,7 +473,7 @@ void TagEditor::saveConfig()
 {
     // combo box completion modes
 
-    KConfigGroup config(KGlobal::config(), "TagEditor");
+    KConfigGroup config(KSharedConfig::openConfig(), "TagEditor");
 
     if(artistNameBox && albumNameBox) {
         config.writeEntry("ArtistNameBoxMode", (int)artistNameBox->completionMode());

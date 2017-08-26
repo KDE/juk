@@ -99,10 +99,10 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     setupActions();
     setupLayout();
 
-    bool firstRun = !KGlobal::config()->hasGroup("MainWindow");
+    bool firstRun = !KSharedConfig::openConfig()->hasGroup("MainWindow");
 
     if(firstRun) {
-        KConfigGroup mainWindowConfig(KGlobal::config(), "MainWindow");
+        KConfigGroup mainWindowConfig(KSharedConfig::openConfig(), "MainWindow");
         KConfigGroup playToolBarConfig(&mainWindowConfig, "Toolbar playToolBar");
         playToolBarConfig.writeEntry("ToolButtonStyle", "IconOnly");
     }
@@ -410,7 +410,7 @@ void JuK::keyPressEvent(QKeyEvent *e)
 
 void JuK::readSettings()
 {
-    KConfigGroup config(KGlobal::config(), "Settings");
+    KConfigGroup config(KSharedConfig::openConfig(), "Settings");
     m_showSplash = config.readEntry("ShowSplashScreen", true);
     m_startDocked = config.readEntry("StartDocked", false);
 }
@@ -419,7 +419,7 @@ void JuK::readConfig()
 {
     // player settings
 
-    KConfigGroup playerConfig(KGlobal::config(), "Player");
+    KConfigGroup playerConfig(KSharedConfig::openConfig(), "Player");
 
     if(m_player)
     {
@@ -449,7 +449,7 @@ void JuK::readConfig()
 
     // general settings
 
-    KConfigGroup settingsConfig(KGlobal::config(), "Settings");
+    KConfigGroup settingsConfig(KSharedConfig::openConfig(), "Settings");
 
     bool dockInSystemTray = settingsConfig.readEntry("DockInSystemTray", true);
     m_toggleSystemTrayAction->setChecked(dockInSystemTray);
@@ -467,7 +467,7 @@ void JuK::saveConfig()
 {
     // player settings
 
-    KConfigGroup playerConfig(KGlobal::config(), "Player");
+    KConfigGroup playerConfig(KSharedConfig::openConfig(), "Player");
 
     if (m_player)
     {
@@ -492,14 +492,14 @@ void JuK::saveConfig()
 
     // general settings
 
-    KConfigGroup settingsConfig(KGlobal::config(), "Settings");
+    KConfigGroup settingsConfig(KSharedConfig::openConfig(), "Settings");
     settingsConfig.writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
     settingsConfig.writeEntry("StartDocked", m_startDocked);
     settingsConfig.writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
     settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
     settingsConfig.writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
 
-    KGlobal::config()->sync();
+    KSharedConfig::openConfig()->sync();
 }
 
 bool JuK::queryClose()

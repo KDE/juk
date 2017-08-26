@@ -66,7 +66,7 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
     // Make sure we don't use translated strings for the config file keys.
 
     QString typeKey = tagTypeText(category.category, false);
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
 
     if(categoryNum > 0)
         typeKey.append(QString::number(categoryNum));
@@ -141,7 +141,7 @@ void TagRenamerOptions::saveConfig(unsigned categoryNum) const
     if(categoryNum > 0)
         typeKey.append(QString::number(categoryNum));
 
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
 
     config.writeEntry(QString("%1Suffix").arg(typeKey), suffix());
     config.writeEntry(QString("%1Prefix").arg(typeKey), prefix());

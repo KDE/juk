@@ -875,7 +875,7 @@ void PlaylistCollection::newItems(const KFileItemList &list) const
 
 void PlaylistCollection::readConfig()
 {
-    KConfigGroup config(KGlobal::config(), "Playlists");
+    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
 
     m_importPlaylists    = config.readEntry("ImportPlaylists", true);
     m_folderList         = config.readEntry("DirectoryList", QStringList());
@@ -889,7 +889,7 @@ void PlaylistCollection::readConfig()
 
 void PlaylistCollection::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "Playlists");
+    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
     config.writeEntry("ImportPlaylists", m_importPlaylists);
     config.writeEntry("showUpcoming", action("showUpcoming")->isChecked());
     config.writePathEntry("DirectoryList", m_folderList);

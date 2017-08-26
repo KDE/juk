@@ -308,15 +308,15 @@ void PlaylistBox::removePlaylist(Playlist *playlist)
 
 void PlaylistBox::readConfig()
 {
-    KConfigGroup config(KGlobal::config(), "PlaylistBox");
+    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistBox");
     m_viewModeIndex = config.readEntry("ViewMode", 0);
 }
 
 void PlaylistBox::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "PlaylistBox");
+    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistBox");
     config.writeEntry("ViewMode", action<KSelectAction>("viewModeMenu")->currentItem());
-    KGlobal::config()->sync();
+    KSharedConfig::openConfig()->sync();
 }
 
 void PlaylistBox::remove()
@@ -747,7 +747,7 @@ void PlaylistBox::setupItem(Item *item)
 
 void PlaylistBox::setupUpcomingPlaylist()
 {
-    KConfigGroup config(KGlobal::config(), "Playlists");
+    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
     bool enable = config.readEntry("showUpcoming", false);
 
     setUpcomingPlaylistEnabled(enable);

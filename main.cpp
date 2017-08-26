@@ -104,7 +104,7 @@ int main(int argc, char *argv[])
     if(a.isSessionRestored() && KMainWindow::canBeRestored(1))
         juk->restore(1, false /* don't show */);
 
-    KConfigGroup config(KGlobal::config(), "Settings");
+    KConfigGroup config(KSharedConfig::openConfig(), "Settings");
     if(!config.readEntry("StartDocked", false)) {
         juk->show();
     }

@@ -38,7 +38,7 @@ DeleteWidget::DeleteWidget(QWidget *parent)
 
     setObjectName( QLatin1String("delete_dialog_widget" ));
 
-    KConfigGroup messageGroup(KGlobal::config()->group("FileRemover"));
+    KConfigGroup messageGroup(KSharedConfig::openConfig(), "FileRemover");
 
     bool deleteInstead = messageGroup.readEntry("deleteInsteadOfTrash", false);
     slotShouldDelete(deleteInstead);
@@ -119,7 +119,7 @@ void DeleteDialog::setFiles(const QStringList &files)
 
 void DeleteDialog::accept()
 {
-    KConfigGroup messageGroup(KGlobal::config()->group("FileRemover"));
+    KConfigGroup messageGroup(KSharedConfig::openConfig(), "FileRemover");
 
     // Save user's preference
 

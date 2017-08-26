@@ -82,7 +82,7 @@ ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent, Qt::WindowFlags f)
         // Warning message, KWallet is safer than KConfig.
         KMessageBox::information(this, i18n("KWallet is unavailable, your Last.fm credentials will be stored without encryption."), i18n("KWallet is unavailable"));
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         m_usernameEdit->setText(config.readEntry("Username", ""));
         m_passwordEdit->setText(config.readEntry("Password", ""));
     }
@@ -126,7 +126,7 @@ void ScrobbleConfigDlg::save()
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         config.writeEntry("Username", m_usernameEdit->text());
         config.writeEntry("Password", m_passwordEdit->text());
     }

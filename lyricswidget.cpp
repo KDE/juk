@@ -46,7 +46,7 @@ LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     ActionCollection::actions()->addAction("showLyrics", show);
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
-    KConfigGroup config(KGlobal::config(), "LyricsWidget");
+    KConfigGroup config(KSharedConfig::openConfig(), "LyricsWidget");
     bool shown = config.readEntry("Show", true);
     show->setChecked(shown);
     setVisible(shown);
@@ -60,7 +60,7 @@ LyricsWidget::~LyricsWidget()
 
 void LyricsWidget::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "LyricsWidget");
+    KConfigGroup config(KSharedConfig::openConfig(), "LyricsWidget");
     config.writeEntry("Show", ActionCollection::action<KToggleAction>("showLyrics")->isChecked());
 }
 

@@ -98,7 +98,7 @@ KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
 
     // Read key group from configuration
 
-    KConfigGroup config(KGlobal::config(), "Shortcuts");
+    KConfigGroup config(KSharedConfig::openConfig(), "Shortcuts");
     int selectedButton = config.readEntry("GlobalKeys", int(StandardKeys));
 
     // Create widgets for key chooser
@@ -148,10 +148,10 @@ int KeyDialog::configure()
 
     int retcode = exec();
     if(retcode == Accepted) {
-        KConfigGroup config(KGlobal::config(), "Shortcuts");
+        KConfigGroup config(KSharedConfig::openConfig(), "Shortcuts");
 
         config.writeEntry("GlobalKeys", m_group->checkedId());
-        KGlobal::config()->sync();
+        KSharedConfig::openConfig()->sync();
 
         m_pKeyChooser->save();
     }
@@ -203,7 +203,7 @@ void KeyDialog::setupActionShortcut(const QString &actionName)
     KShortcut shortcut = KShortcut();
 
     // Find out what type is selected so we know what keys to setup.
-    KConfigGroup config(KGlobal::config(), "Shortcuts");
+    KConfigGroup config(KSharedConfig::openConfig(), "Shortcuts");
     int selectedKeys = config.readEntry("GlobalKeys", int(StandardKeys));
 
     for(uint i = 0; i < keyInfoCount; i++) {
