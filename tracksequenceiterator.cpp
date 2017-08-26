@@ -16,7 +16,7 @@
 
 #include "tracksequenceiterator.h"
 
-#include <kaction.h>
+#include <QAction>
 #include <kapplication.h>
 #include <kdebug.h>
 #include <krandom.h>
@@ -77,7 +77,7 @@ void DefaultSequenceIterator::advance()
         return;
 
     bool isRandom = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
-    bool loop = action<KAction>("loopPlaylist") && action<KAction>("loopPlaylist")->isChecked();
+    bool loop = action<QAction>("loopPlaylist") && action<QAction>("loopPlaylist")->isChecked();
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
 
     if(isRandom || albumRandom) {

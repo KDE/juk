@@ -16,7 +16,7 @@
 
 #include "statuslabel.h"
 
-#include <kaction.h>
+#include <QAction>
 #include <kiconloader.h>
 #include <ksqueezedtextlabel.h>
 #include <klocale.h>

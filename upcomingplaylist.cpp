@@ -19,7 +19,7 @@
 
 #include <kdebug.h>
 #include <kapplication.h>
-#include <kaction.h>
+#include <QAction>
 
 #include "playlistitem.h"
 #include "playlistcollection.h"

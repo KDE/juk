@@ -21,7 +21,7 @@
 #include "actioncollection.h"
 #include "tagtransactionmanager.h"
 
-#include <kaction.h>
+#include <QAction>
 #include <kactioncollection.h>
 #include <kconfiggroup.h>
 #include <kcombobox.h>
@@ -490,7 +490,7 @@ void TagEditor::setupActions()
     ActionCollection::actions()->addAction("showEditor", show);
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
-    KAction *act = new KAction(QIcon::fromTheme(QLatin1String( "document-save")), i18n("&Save"), this);
+    QAction *act = new QAction(QIcon::fromTheme(QLatin1String( "document-save")), i18n("&Save"), this);
     ActionCollection::actions()->addAction("saveItem", act);
     act->setShortcut(Qt::CTRL + Qt::Key_T);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotSave()));

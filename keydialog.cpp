@@ -22,11 +22,14 @@
 #include <klocale.h>
 #include <kshortcutseditor.h>
 #include <kglobal.h>
-#include <kaction.h>
+#include <QAction>
 #include <kvbox.h>
 #include <kconfiggroup.h>
-#include <KShortcut>
+#include <KGlobalAccel>
 
+#include <QAction>
+#include <QKeySequence>
+#include <QList>
 #include <QHBoxLayout>
 #include <QTimer>
 #include <QButtonGroup>
@@ -38,54 +41,54 @@
 
 struct KeyDialog::KeyInfo {
     QString action;
-    KShortcut shortcut[3];
+    QKeySequence shortcut[3];
 };
 
 const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
     { "playPause",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_P),
-        KShortcut(Qt::Key_MediaPlay) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_P),
+        QKeySequence(Qt::Key_MediaPlay) } },
     { "stop",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_S),
-        KShortcut(Qt::Key_MediaStop) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_S),
+        QKeySequence(Qt::Key_MediaStop) } },
     { "back",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_Left),
-        KShortcut(Qt::Key_MediaPrevious) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_Left),
+        QKeySequence(Qt::Key_MediaPrevious) } },
     { "forward",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_Right),
-        KShortcut(Qt::Key_MediaNext) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_Right),
+        QKeySequence(Qt::Key_MediaNext) } },
     { "forwardAlbum",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_Up),
-        KShortcut(Qt::CTRL+Qt::Key_MediaNext) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_Up),
+        QKeySequence(Qt::CTRL+Qt::Key_MediaNext) } },
     { "seekBack",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Left),
-        KShortcut(Qt::SHIFT+Qt::Key_MediaPrevious) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Left),
+        QKeySequence(Qt::SHIFT+Qt::Key_MediaPrevious) } },
     { "seekForward",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Right),
-        KShortcut(Qt::SHIFT+Qt::Key_MediaNext) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::SHIFT+Qt::ALT+Qt::Key_Right),
+        QKeySequence(Qt::SHIFT+Qt::Key_MediaNext) } },
     { "volumeUp",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Up),
-        KShortcut(Qt::Key_VolumeUp) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Up),
+        QKeySequence(Qt::Key_VolumeUp) } },
     { "volumeDown",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Down),
-        KShortcut(Qt::Key_VolumeDown) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::ALT+Qt::SHIFT+Qt::Key_Down),
+        QKeySequence(Qt::Key_VolumeDown) } },
     { "mute",
-      { KShortcut(),
-        KShortcut(Qt::CTRL+Qt::ALT+Qt::Key_M),
-        KShortcut(Qt::Key_VolumeMute) } },
+      { QKeySequence(),
+        QKeySequence(Qt::CTRL+Qt::ALT+Qt::Key_M),
+        QKeySequence(Qt::Key_VolumeMute) } },
     { "showHide",
-      { KShortcut(),
-        KShortcut(),
-        KShortcut() } }
+      { QKeySequence(),
+        QKeySequence(),
+        QKeySequence() } }
 };
 
 const uint KeyDialog::keyInfoCount = sizeof(KeyDialog::keyInfo) / sizeof(KeyDialog::keyInfo[0]);
@@ -163,13 +166,20 @@ void KeyDialog::slotKeys(int group)
 {
     // Set modifier keys according to key group and modifier keys
 
+    auto globalAccel = KGlobalAccel::self();
+
     for(uint i = 0; i < keyInfoCount; i++) {
-        KAction *a = ActionCollection::action<KAction>(keyInfo[i].action);
+        QAction *a = ActionCollection::action<QAction>(keyInfo[i].action);
 
         if(a) {
-            KShortcut shortcut(keyInfo[i].shortcut[group]);
-
-            a->setGlobalShortcut(shortcut, KAction::ActiveShortcut, KAction::NoAutoloading);
+            if (group == 0) {
+                globalAccel->removeAllShortcuts(a);
+            }
+            else {
+                QKeySequence shortcut(keyInfo[i].shortcut[group]);
+                QList<QKeySequence> shortcutList{shortcut};
+                globalAccel->setShortcut(a, shortcutList, KGlobalAccel::NoAutoloading);
+            }
         }
     }
 
@@ -200,7 +210,7 @@ int KeyDialog::configure(KActionCollection *actionCollection, QWidget *parent)
 void KeyDialog::setupActionShortcut(const QString &actionName)
 {
     // Find and insert a standard key
-    KShortcut shortcut = KShortcut();
+    QKeySequence shortcut = QKeySequence();
 
     // Find out what type is selected so we know what keys to setup.
     KConfigGroup config(KSharedConfig::openConfig(), "Shortcuts");
@@ -216,9 +226,10 @@ void KeyDialog::setupActionShortcut(const QString &actionName)
     if(shortcut.isEmpty())
         return; // We have no shortcut to set.
 
-    KAction *a = ActionCollection::action<KAction>(actionName);
-    if(a)
-        a->setGlobalShortcut(shortcut);
+    QAction *a = ActionCollection::action<QAction>(actionName);
+    if(a) {
+        KGlobalAccel::setGlobalShortcut(a, shortcut);
+    }
 }
 
 // vim: set et sw=4 tw=0 sta:

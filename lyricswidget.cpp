@@ -18,7 +18,7 @@
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 
-#include <KAction>
+#include <QAction>
 #include <KLocalizedString>
 #include <KActionCollection>
 #include <KToggleAction>

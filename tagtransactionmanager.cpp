@@ -19,7 +19,7 @@
 #include <kdebug.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kaction.h>
+#include <QAction>
 #include <kapplication.h>
 
 #include <QFileInfo>

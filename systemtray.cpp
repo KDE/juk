@@ -20,7 +20,7 @@
 
 #include <klocale.h>
 #include <kiconloader.h>
-#include <kaction.h>
+#include <QAction>
 #include <kdebug.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
@@ -163,7 +163,7 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     // Just create this here so that it show up in the DBus interface and the
     // key bindings dialog.
 
-    KAction *rpaction = new KAction(i18n("Redisplay Popup"), this);
+    QAction *rpaction = new QAction(i18n("Redisplay Popup"), this);
     ActionCollection::actions()->addAction("showPopup", rpaction);
     connect(rpaction, SIGNAL(triggered(bool)), SLOT(slotPlay()));
 

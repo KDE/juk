@@ -18,7 +18,7 @@
 #include "playlistsplitter.h"
 
 #include <QIcon>
-#include <kaction.h>
+#include <QAction>
 #include <kglobal.h>
 #include <kactioncollection.h>
 #include <kdebug.h>
@@ -163,7 +163,7 @@ void PlaylistSplitter::setupActions()
 	 new KToggleAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Show &Search Bar"), this);
     coll->addAction("showSearch", showSearch);
 
-    KAction *act = new KAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Edit Track Search"), this);
+    QAction *act = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Edit Track Search"), this);
     coll->addAction("editTrackSearch", act);
     act->setShortcut(Qt::Key_F6);
     connect(act, SIGNAL(triggered(bool)), SLOT(setFocus()));

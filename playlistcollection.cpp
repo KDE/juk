@@ -18,13 +18,11 @@
 #include "playlistcollection.h"
 
 #include <kurl.h>
-#include <QIcon>
 #include <kiconloader.h>
 #include <kapplication.h>
 #include <kinputdialog.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
-#include <kaction.h>
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
@@ -34,10 +32,12 @@
 
 #include <config-juk.h>
 
+#include <QAction>
+#include <QIcon>
+#include <QMutableListIterator>
 #include <QObject>
 #include <QPixmap>
 #include <QStackedWidget>
-#include <QMutableListIterator>
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -981,20 +981,20 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
             this, SLOT(slotSetUpcomingPlaylistEnabled(bool)));
 }
 
-KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
+QAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
                                                          const char *slot,
                                                          const char *name,
                                                          const QString &icon,
                                                          const KShortcut &shortcut)
 {
-    KAction *action;
+    QAction *action;
     if(icon.isNull())
-        action = new KAction(text, actions());
+        action = new QAction(text, actions());
     else
-        action = new KAction(QIcon::fromTheme(icon), text, actions());
+        action = new QAction(QIcon::fromTheme(icon), text, actions());
     actions()->addAction(name, action);
     connect( action, SIGNAL(triggered(bool)), slot);
-    action->setShortcut(shortcut);
+    action->setShortcut(shortcut.toList().constFirst());
     return action;
 }
 

@@ -29,7 +29,7 @@
 class QPixmap;
 class QStackedWidget;
 
-class KAction;
+class QAction;
 
 class HistoryPlaylist;
 class UpcomingPlaylist;
@@ -241,7 +241,7 @@ public:
     ActionHandler(PlaylistCollection *collection);
 
 private:
-    KAction *createAction(const QString &text,
+    QAction *createAction(const QString &text,
                           const char *slot,
                           const char *name,
                           const QString &icon = QString(),

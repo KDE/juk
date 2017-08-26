@@ -17,14 +17,14 @@
 #ifndef SLIDERACTION_H
 #define SLIDERACTION_H
 
-#include <kaction.h>
+#include <QAction>
 #include <QBoxLayout>
 
 #include "volumepopupbutton.h"
 
 class Slider;
 
-class TrackPositionAction : public KAction
+class TrackPositionAction : public QAction
 {
     Q_OBJECT
 public:
@@ -37,7 +37,7 @@ private slots:
     void totalTimeChanged(int ms);
 };
 
-class VolumeAction : public KAction
+class VolumeAction : public QAction
 {
     Q_OBJECT
 public:

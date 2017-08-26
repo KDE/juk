@@ -20,7 +20,7 @@
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kmenu.h>
-#include <kaction.h>
+#include <QAction>
 #include <kactioncollection.h>
 #include <kdebug.h>
 #include <ktoggleaction.h>

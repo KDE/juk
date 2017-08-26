@@ -33,7 +33,7 @@
 #include "juk.h"
 
 TrackPositionAction::TrackPositionAction(const QString &text, QObject *parent) :
-    KAction(text, parent)
+    QAction(text, parent)
 {
 
 }
@@ -72,7 +72,7 @@ void TrackPositionAction::totalTimeChanged(int ms)
 }
 
 VolumeAction::VolumeAction(const QString &text, QObject *parent) :
-    KAction(text, parent),
+    QAction(text, parent),
     m_button(0)
 {
 

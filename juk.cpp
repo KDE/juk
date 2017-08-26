@@ -26,7 +26,7 @@
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
 #include <QIcon>
-#include <kaction.h>
+#include <QAction>
 #include <kconfiggroup.h>
 #include <kapplication.h>
 #include <kglobal.h>
@@ -432,7 +432,7 @@ void JuK::readConfig()
 
         bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
         m_player->setCrossfadeEnabled(enableCrossfade);
-        //ActionCollection::action<KAction>("crossfadeTracks")->setChecked(enableCrossfade);
+        //ActionCollection::action<QAction>("crossfadeTracks")->setChecked(enableCrossfade);
     }
 
     // Default to no random play
@@ -443,10 +443,10 @@ void JuK::readConfig()
     if(randomPlayMode == "true" || randomPlayMode == "Normal")
         m_randomPlayAction->setChecked(true);
     else if(randomPlayMode == "AlbumRandomPlay")
-        ActionCollection::action<KAction>("albumRandomPlay")->setChecked(true);
+        ActionCollection::action<QAction>("albumRandomPlay")->setChecked(true);
 
     bool loopPlaylist = playerConfig.readEntry("LoopPlaylist", false);
-    //ActionCollection::action<KAction>("loopPlaylist")->setChecked(loopPlaylist);
+    //ActionCollection::action<QAction>("loopPlaylist")->setChecked(loopPlaylist);
 
     // general settings
 
@@ -477,13 +477,13 @@ void JuK::saveConfig()
 
     playerConfig.writeEntry("RandomPlay", m_randomPlayAction->isChecked());
 
-    KAction *a = ActionCollection::action<KAction>("loopPlaylist");
+    QAction *a = ActionCollection::action<QAction>("loopPlaylist");
     playerConfig.writeEntry("LoopPlaylist", a->isChecked());
 
-    a = ActionCollection::action<KAction>("crossfadeTracks");
+    a = ActionCollection::action<QAction>("crossfadeTracks");
     playerConfig.writeEntry("CrossfadeTracks", a->isChecked());
 
-    a = ActionCollection::action<KAction>("albumRandomPlay");
+    a = ActionCollection::action<QAction>("albumRandomPlay");
     if(a->isChecked())
         playerConfig.writeEntry("RandomPlay", "AlbumRandomPlay");
     else if(m_randomPlayAction->isChecked())

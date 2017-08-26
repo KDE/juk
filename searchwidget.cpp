@@ -25,7 +25,7 @@
 #include <kiconloader.h>
 #include <kcombobox.h>
 #include <kdebug.h>
-#include <kaction.h>
+#include <QAction>
 
 #include <QLabel>
 #include <QCheckBox>

@@ -136,7 +136,7 @@ private:
     QHash<Playlist *, Item*> m_playlistDict;
     int m_viewModeIndex;
     QList<ViewMode *> m_viewModes;
-    KAction *m_k3bAction;
+    QAction *m_k3bAction;
     bool m_hasSelection;
     bool m_doingMultiSelect;
     Item *m_dropItem;
