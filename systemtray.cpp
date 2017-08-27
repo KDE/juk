@@ -150,6 +150,8 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     m_fade(true),
     m_hasCompositionManager(false)
 {
+    using ActionCollection::action; // Override the KSNI::action call introduced in KF5
+
     // This should be initialized to the number of labels that are used.
     m_labels.fill(0, 3);
 
