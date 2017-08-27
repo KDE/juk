@@ -132,7 +132,7 @@ void DefaultSequenceIterator::advance()
                 }
             }
             else
-                qCCritical(JUK_LOG) << "Unable to perform album random play on " << *item << endl;
+                qCCritical(JUK_LOG) << "Unable to perform album random play on " << *item;
         }
         else
             item = m_randomItems[KRandom::random() % m_randomItems.count()];

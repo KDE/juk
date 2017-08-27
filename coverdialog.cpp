@@ -203,7 +203,7 @@ void CoverDialog::removeSelectedCover()
     }
 
     if(!CoverManager::removeCover(coverItem->id()))
-        qCCritical(JUK_LOG) << "Unable to remove selected cover: " << coverItem->id() << endl;
+        qCCritical(JUK_LOG) << "Unable to remove selected cover: " << coverItem->id();
     else
         delete coverItem;
 }

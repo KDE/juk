@@ -562,7 +562,7 @@ CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle 
         parent->dataChanged();
     }
     else {
-        qCCritical(JUK_LOG) << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
+        qCCritical(JUK_LOG) << "CollectionListItem::CollectionListItem() -- Tag() could not be created.";
     }
 
     SplashScreen::increment();

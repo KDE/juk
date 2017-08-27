@@ -736,7 +736,7 @@ int FileRenamerWidget::idOfPosition(int position) const
         if(m_rows[i].position == position)
             return i;
 
-    qCCritical(JUK_LOG) << "Unable to find identifier for position " << position << endl;
+    qCCritical(JUK_LOG) << "Unable to find identifier for position " << position;
     return -1;
 }
 
@@ -858,7 +858,7 @@ void FileRenamerWidget::slotRemoveRow(int id)
 {
     // Remove the given identified row.
     if(!removeRow(id))
-        qCCritical(JUK_LOG) << "Unable to remove row " << id << endl;
+        qCCritical(JUK_LOG) << "Unable to remove row " << id;
 }
 
 //
@@ -946,7 +946,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     // Create the directory.
     if(!KStandardDirs::exists(dir.path()))
         if(!KStandardDirs::makeDir(dir.path())) {
-            qCCritical(JUK_LOG) << "Unable to create directory " << dir.path() << endl;
+            qCCritical(JUK_LOG) << "Unable to create directory " << dir.path();
             return false;
         }
 

@@ -421,7 +421,7 @@ coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, con
     // to save the pixmap as a .png.
 
     if(!large.save(tempFile.fileName(), "PNG")) {
-        qCCritical(JUK_LOG) << "Unable to save pixmap to " << tempFile.fileName() << endl;
+        qCCritical(JUK_LOG) << "Unable to save pixmap to " << tempFile.fileName();
         return NoMatch;
     }
 

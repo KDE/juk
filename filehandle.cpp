@@ -147,12 +147,12 @@ void FileHandle::refresh()
 void FileHandle::setFile(const QString &path)
 {
     if(path.isEmpty()) {
-        qCCritical(JUK_LOG) << "trying to set an empty path" << endl;
+        qCCritical(JUK_LOG) << "trying to set an empty path";
         return;
     }
 
     if(!QFile::exists(path)) {
-        qCCritical(JUK_LOG) << "trying to set non-existent file: " << path << endl;
+        qCCritical(JUK_LOG) << "trying to set non-existent file: " << path;
         return;
     }
 

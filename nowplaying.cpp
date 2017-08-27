@@ -225,12 +225,12 @@ void CoverItem::dropEvent(QDropEvent *e)
                 update(m_file);
             }
             else
-                qCCritical(JUK_LOG) << "Unable to load image from " << urls.front() << endl;
+                qCCritical(JUK_LOG) << "Unable to load image from " << urls.front();
 
             KIO::NetAccess::removeTempFile(fileName);
         }
         else
-            qCCritical(JUK_LOG) << "Unable to download " << urls.front() << endl;
+            qCCritical(JUK_LOG) << "Unable to download " << urls.front();
     }
 }
 

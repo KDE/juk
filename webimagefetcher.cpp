@@ -111,7 +111,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
 
     if (!job || job->error()) {
         qCCritical(JUK_LOG) << "Error reading image results from last.fm!\n";
-        qCCritical(JUK_LOG) << d->connection->errorString() << endl;
+        qCCritical(JUK_LOG) << d->connection->errorString();
         return;
     }
 
@@ -127,7 +127,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     int errorCol, errorLine;
     if (!results.setContent(d->connection->data(), &errorStr, &errorLine, &errorCol)) {
         qCCritical(JUK_LOG) << "Unable to create XML document from results.\n";
-        qCCritical(JUK_LOG) << "Line " << errorLine << ", " << errorStr << endl;
+        qCCritical(JUK_LOG) << "Line " << errorLine << ", " << errorStr;
 
         return;
     }

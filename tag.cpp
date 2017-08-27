@@ -77,7 +77,7 @@ bool Tag::save()
         result = file->save();
     }
     else {
-        qCCritical(JUK_LOG) << "Couldn't save file." << endl;
+        qCCritical(JUK_LOG) << "Couldn't save file.";
         result = false;
     }
 
