@@ -530,6 +530,10 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State oldst
 
         emit signalStop();
     }
+    else if(newstate == Phonon::StoppedState) {
+        JuK::JuKInstance()->setWindowTitle(i18n("JuK"));
+        emit signalStop();
+    }
     else if(newstate == Phonon::PausedState) {
         emit signalPause();
     }
