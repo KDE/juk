@@ -205,7 +205,6 @@ void JuK::setupActions()
     KStandardAction::selectAll(collection);
     KStandardAction::keyBindings(this, SLOT(slotEditKeys()), collection);
 
-
     // Setup the menu which handles the random play options.
     KActionMenu *actionMenu = collection->add<KActionMenu>("actionMenu");
     actionMenu->setText(i18n("&Random Play"));
@@ -425,8 +424,6 @@ void JuK::readConfig()
         const int maxVolume = 100;
         const int volume = playerConfig.readEntry("Volume", maxVolume);
         m_player->setVolume(volume * 0.01);
-        if(ActionCollection::action<VolumeAction>("volumeAction")->button())
-            ActionCollection::action<VolumeAction>("volumeAction")->button()->refresh();
 
         bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
         m_player->setCrossfadeEnabled(enableCrossfade);
