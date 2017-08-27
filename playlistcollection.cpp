@@ -915,11 +915,11 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     actions()->addAction("file_new", menu);
 
     menu->addAction(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
-                              "newPlaylist", "window-new", KShortcut(Qt::CTRL + Qt::Key_N)));
+                              "newPlaylist", "window-new", QKeySequence(Qt::CTRL + Qt::Key_N)));
     menu->addAction(createAction(i18n("&Search Playlist..."), SLOT(slotCreateSearchPlaylist()),
-                              "newSearchPlaylist", "edit-find", KShortcut(Qt::CTRL + Qt::Key_F)));
+                              "newSearchPlaylist", "edit-find", QKeySequence(Qt::CTRL + Qt::Key_F)));
     menu->addAction(createAction(i18n("Playlist From &Folder..."), SLOT(slotCreateFolderPlaylist()),
-                              "newDirectoryPlaylist", "document-open", KShortcut(Qt::CTRL + Qt::Key_D)));
+                              "newDirectoryPlaylist", "document-open", QKeySequence(Qt::CTRL + Qt::Key_D)));
 
     // Guess tag info menu
 
@@ -930,12 +930,12 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     /* menu->setIcon(SmallIcon("wizard")); */
 
     menu->addAction(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
-                              "guessTagFile", "document-import", KShortcut(Qt::CTRL + Qt::Key_G)));
+                              "guessTagFile", "document-import", QKeySequence(Qt::CTRL + Qt::Key_G)));
     menu->addAction(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
-                              "guessTagInternet", "network-server", KShortcut(Qt::CTRL + Qt::Key_I)));
+                              "guessTagInternet", "network-server", QKeySequence(Qt::CTRL + Qt::Key_I)));
 #else
     createAction(i18n("Guess Tag Information From &File Name"), SLOT(slotGuessTagFromFile()),
-                 "guessTag", "document-import", KShortcut(Qt::CTRL + Qt::Key_G));
+                 "guessTag", "document-import", QKeySequence(Qt::CTRL + Qt::Key_G));
 #endif
 
 
@@ -956,7 +956,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     createAction(i18n("&Delete"),         SLOT(slotRemoveItems()),  "removeItem", "edit-delete");
     createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "view-refresh");
-    createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "document-save-as", KShortcut(Qt::CTRL + Qt::Key_R));
+    createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "document-save-as", QKeySequence(Qt::CTRL + Qt::Key_R));
 
     menu = new KActionMenu(i18n("Cover Manager"), actions());
     actions()->addAction("coverManager", menu);
@@ -964,9 +964,9 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu->addAction(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "document-preview"));
     menu->addAction(createAction(i18n("Get Cover From &File..."),
-        SLOT(slotAddLocalCover()), "addCover", "document-import", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
+        SLOT(slotAddLocalCover()), "addCover", "document-import", QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
     menu->addAction(createAction(i18n("Get Cover From &Internet..."),
-        SLOT(slotAddInternetCover()), "webImageCover", "network-server", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
+        SLOT(slotAddInternetCover()), "webImageCover", "network-server", QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
     menu->addAction(createAction(i18n("&Delete Cover"),
         SLOT(slotRemoveCovers()), "removeCover", "edit-delete"));
     menu->addAction(createAction(i18n("Show Cover &Manager"),
@@ -984,17 +984,20 @@ QAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
                                                          const char *slot,
                                                          const char *name,
                                                          const QString &icon,
-                                                         const KShortcut &shortcut)
+                                                         const QKeySequence &shortcut)
 {
-    QAction *action;
-    if(icon.isNull())
-        action = new QAction(text, actions());
-    else
-        action = new QAction(QIcon::fromTheme(icon), text, actions());
-    actions()->addAction(name, action);
-    connect( action, SIGNAL(triggered(bool)), slot);
-    if (!shortcut.toList().isEmpty()) {
-        action->setShortcut(shortcut.toList().constFirst());
+    auto actionCollection = actions();
+    QAction *action = new QAction(text, actions());
+
+    if(!icon.isEmpty()) {
+        action->setIcon(QIcon::fromTheme(icon));
+    }
+    connect(action, SIGNAL(triggered(bool)), slot);
+
+    actionCollection->addAction(name, action);
+
+    if (!shortcut.isEmpty()) {
+        actionCollection->setDefaultShortcut(action, shortcut);
     }
     return action;
 }

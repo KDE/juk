@@ -25,6 +25,7 @@
 #include <kdirlister.h>
 
 #include <QPointer>
+#include <QKeySequence>
 
 class QPixmap;
 class QStackedWidget;
@@ -245,7 +246,7 @@ private:
                           const char *slot,
                           const char *name,
                           const QString &icon = QString(),
-                          const KShortcut &shortcut = KShortcut());
+                          const QKeySequence &shortcut = QKeySequence());
 private slots:
     void slotPlayFirst()     { m_collection->playFirst(); }
     void slotPlayNextAlbum() { m_collection->playNextAlbum(); }

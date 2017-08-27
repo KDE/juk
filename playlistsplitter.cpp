@@ -32,6 +32,7 @@
 #include <QTime>
 #include <QStackedWidget>
 #include <QSizePolicy>
+#include <QKeySequence>
 
 #include "searchwidget.h"
 #include "playlistsearch.h"
@@ -164,7 +165,7 @@ void PlaylistSplitter::setupActions()
 
     QAction *act = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Edit Track Search"), this);
     coll->addAction("editTrackSearch", act);
-    act->setShortcut(Qt::Key_F6);
+    coll->setDefaultShortcut(act, Qt::Key_F6);
     connect(act, SIGNAL(triggered(bool)), SLOT(setFocus()));
 }
 

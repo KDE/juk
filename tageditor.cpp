@@ -488,11 +488,13 @@ void TagEditor::setupActions()
                                             i18n("Show &Tag Editor"), this);
     ActionCollection::actions()->addAction("showEditor", show);
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
+    connect(show, &QAction::toggled, this, &TagEditor::setVisible);
 
     QAction *act = new QAction(QIcon::fromTheme(QLatin1String( "document-save")), i18n("&Save"), this);
     ActionCollection::actions()->addAction("saveItem", act);
-    act->setShortcut(Qt::CTRL + Qt::Key_T);
-    connect(act, SIGNAL(triggered(bool)), SLOT(slotSave()));
+    ActionCollection::actions()->setDefaultShortcut(act,
+            QKeySequence(Qt::CTRL + Qt::Key_T));
+    connect(act, &QAction::triggered, this, &TagEditor::slotSave);
 }
 
 void TagEditor::setupLayout()
