@@ -487,7 +487,6 @@ void TagEditor::setupActions()
     KToggleAction *show = new KToggleAction(QIcon::fromTheme(QLatin1String("document-properties")),
                                             i18n("Show &Tag Editor"), this);
     ActionCollection::actions()->addAction("showEditor", show);
-    connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
     connect(show, &QAction::toggled, this, &TagEditor::setVisible);
 
     QAction *act = new QAction(QIcon::fromTheme(QLatin1String( "document-save")), i18n("&Save"), this);
