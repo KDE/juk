@@ -17,46 +17,42 @@
 #ifndef ADVANCEDSEARCHDIALOG_H
 #define ADVANCEDSEARCHDIALOG_H
 
-#include <kdialog.h>
+#include <QDialog>
 #include <QList>
 
 #include "playlistsearch.h"
 
-class KLineEdit;
+class QLineEdit;
 class QPushButton;
 class QRadioButton;
 class SearchLine;
 class QBoxLayout;
 
-class AdvancedSearchDialog : public KDialog
+class AdvancedSearchDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    struct Result
+    AdvancedSearchDialog(
+            const QString& defaultName,
+            const PlaylistSearch& defaultSearch = PlaylistSearch(),
+            QWidget* parent = nullptr);
+
+    PlaylistSearch resultSearch() const
     {
-        DialogCode result;
-        PlaylistSearch search;
-        QString playlistName;
-    };
+        return m_search;
+    }
 
-    explicit AdvancedSearchDialog(const QString &defaultName,
-                         const PlaylistSearch &defaultSearch = PlaylistSearch(),
-                         QWidget *parent = 0,
-                         const char *name = 0);
-
-    virtual ~AdvancedSearchDialog();
-
-public slots:
-    // FIXME signal
-    //Result exec();
-    int exec();
+    QString resultPlaylistName() const
+    {
+        return m_playlistName;
+    }
 
 protected slots:
-    virtual void accept();
-    virtual void clear();
-    virtual void more();
-    virtual void fewer();
+    void accept() Q_DECL_OVERRIDE;
+    void clearSearches();
+    void more();
+    void fewer();
 
 private:
     void updateButtons();
@@ -65,7 +61,7 @@ private:
     PlaylistSearch m_search;
     QString m_playlistName;
     QList<SearchLine *> m_searchLines;
-    KLineEdit *m_playlistNameLineEdit;
+    QLineEdit *m_playlistNameLineEdit;
     QRadioButton *m_matchAnyButton;
     QRadioButton *m_matchAllButton;
     QPushButton *m_moreButton;

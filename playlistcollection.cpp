@@ -453,18 +453,20 @@ void PlaylistCollection::reload()
 void PlaylistCollection::editSearch()
 {
     SearchPlaylist *p = dynamic_cast<SearchPlaylist *>(visiblePlaylist());
-
     if(!p)
         return;
 
-    // FIXME signalResult
-    /*AdvancedSearchDialog::Result r =
-        AdvancedSearchDialog(p->name(), p->playlistSearch(), JuK::JuKInstance()).exec();
-
-    if(r.result == AdvancedSearchDialog::Accepted) {
-        p->setPlaylistSearch(r.search);
-        p->setName(r.playlistName);
-    }*/
+    auto searchDialog = new AdvancedSearchDialog(
+            p->name(), p->playlistSearch(), JuK::JuKInstance());
+    QObject::connect(searchDialog, &QDialog::finished, [searchDialog, p](int result)
+            {
+                if (result) {
+                    p->setPlaylistSearch(searchDialog->resultSearch());
+                    p->setName(searchDialog->resultPlaylistName());
+                }
+                searchDialog->deleteLater();
+            });
+    searchDialog->exec();
 }
 
 void PlaylistCollection::removeItems()
@@ -530,12 +532,19 @@ void PlaylistCollection::createSearchPlaylist()
 {
     QString name = uniquePlaylistName(i18n("Search Playlist"));
 
-    // FIXME signal result
-    /*AdvancedSearchDialog::Result r =
-        AdvancedSearchDialog(name, PlaylistSearch(), JuK::JuKInstance()).exec();
-
-    if(r.result == AdvancedSearchDialog::Accepted)
-        raise(new SearchPlaylist(this, r.search, r.playlistName));*/
+    auto searchDialog = new AdvancedSearchDialog(
+            name, PlaylistSearch(), JuK::JuKInstance());
+    QObject::connect(searchDialog, &QDialog::finished, [searchDialog, this](int result)
+            {
+                if (result) {
+                    raise(new SearchPlaylist(
+                                this,
+                                searchDialog->resultSearch(),
+                                searchDialog->resultPlaylistName()));
+                }
+                searchDialog->deleteLater();
+            });
+    searchDialog->exec();
 }
 
 void PlaylistCollection::createFolderPlaylist()

@@ -244,8 +244,6 @@ void PlaylistSplitter::setupLayout()
             this, SLOT(slotShowSearchResults()));
     connect(m_searchWidget, SIGNAL(signalDownPressed()),
             this, SLOT(slotFocusCurrentPlaylist()));
-    connect(m_searchWidget, SIGNAL(signalAdvancedSearchClicked()),
-            m_playlistBox->object(), SLOT(slotCreateSearchPlaylist()));
     connect(m_searchWidget, SIGNAL(signalShown(bool)),
             m_playlistBox->object(), SLOT(slotSetSearchEnabled(bool)));
     connect(m_searchWidget, SIGNAL(returnPressed()),

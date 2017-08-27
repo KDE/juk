@@ -211,14 +211,6 @@ SearchWidget::SearchWidget(QWidget *parent)
     connect(&m_searchLine, SIGNAL(signalDownPressed()), this, SIGNAL(signalDownPressed()));
     connect(m_searchLine.m_lineEdit, SIGNAL(returnPressed()), this, SIGNAL(returnPressed()));
 
-    // I've decided that I think this is ugly, for now.
-    /*
-      QToolButton *b = new QToolButton(this);
-      b->setTextLabel(i18n("Advanced Search"), true);
-      b->setIconSet(SmallIconSet("wizard"));
-
-      connect(b, SIGNAL(clicked()), this, SIGNAL(signalAdvancedSearchClicked()));
-    */
     updateColumns();
 }
 

@@ -89,7 +89,6 @@ public slots:
 
 signals:
     void signalQueryChanged();
-    void signalAdvancedSearchClicked();
     void returnPressed();
 
     // This signal is only emitted when the Show/Hide action is triggered.
