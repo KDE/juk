@@ -20,7 +20,7 @@
 
 using CoverUtility::CoverIconViewItem;
 
-CoverIconViewItem::CoverIconViewItem(coverKey id, KListWidget *parent) :
+CoverIconViewItem::CoverIconViewItem(coverKey id, QListWidget *parent) :
     QListWidgetItem(parent), m_id(id)
 {
     const auto &data = CoverManager::coverInfo(id);
@@ -29,19 +29,19 @@ CoverIconViewItem::CoverIconViewItem(coverKey id, KListWidget *parent) :
     setSizeHint(QSize(140, 150));
 }
 
-CoverIconView::CoverIconView(QWidget *parent, const char *name) : KListWidget(parent)
+CoverIconView::CoverIconView(QWidget *parent, const char *name) : QListWidget(parent)
 {
     setObjectName(QLatin1String(name));
-    setResizeMode(KListWidget::Adjust);
-    setViewMode(KListWidget::IconMode);
-    setIconSize(QSize(130, 140));
-    setMovement(KListWidget::Static);
+    setResizeMode(QListWidget::Adjust);
+    setViewMode(QListWidget::IconMode);
+    setIconSize(QSize(130, 140)); // FIXME: HiDPI
+    setMovement(QListWidget::Static);
     setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 CoverIconViewItem *CoverIconView::currentItem() const
 {
-    return static_cast<CoverIconViewItem *>(KListWidget::currentItem());
+    return static_cast<CoverIconViewItem *>(QListWidget::currentItem());
 }
 
 // vim: set et sw=4 tw=0 sta:

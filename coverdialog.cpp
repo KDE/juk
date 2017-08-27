@@ -33,7 +33,7 @@ using CoverUtility::CoverIconViewItem;
 class AllArtistsListViewItem : public QListWidgetItem
 {
 public:
-    AllArtistsListViewItem(KListWidget *parent) :
+    AllArtistsListViewItem(QListWidget *parent) :
         QListWidgetItem(i18n("&lt;All Artists&gt;"), parent)
     {
     }
@@ -48,7 +48,7 @@ public:
 class CaseInsensitiveItem : public QListWidgetItem
 {
 public:
-    CaseInsensitiveItem(KListWidget *parent, const QString &text) :
+    CaseInsensitiveItem(QListWidget *parent, const QString &text) :
         QListWidgetItem(text, parent)
     {
     }
@@ -64,9 +64,9 @@ CoverDialog::CoverDialog(QWidget *parent) :
 {
     setupUi(this);
 
-    setObjectName( QLatin1String("juk_cover_dialog" ));
+    setObjectName(QLatin1String("juk_cover_dialog"));
 
-    m_searchLine->setClearButtonShown(true);
+    m_searchLine->setClearButtonEnabled(true);
 
     connect(m_artists, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SLOT(slotArtistClicked(QListWidgetItem*)));
