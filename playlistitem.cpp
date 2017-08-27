@@ -185,12 +185,6 @@ void PlaylistItem::setPlaying(bool playing, bool master)
     treeWidget()->viewport()->update();
 }
 
-void PlaylistItem::setSelected(bool selected)
-{
-    playlist()->markItemSelected(this, selected);
-    QTreeWidgetItem::setSelected(selected);
-}
-
 void PlaylistItem::guessTagInfo(TagGuesser::Type type)
 {
     switch(type) {

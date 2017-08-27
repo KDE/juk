@@ -140,7 +140,6 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
 
         playlist->setSelectionMode(QTreeWidget::SingleSelection);
 
-        playlist->markItemSelected(item, true);
         playlist->setCurrentItem(item);
 
         playlist->setSelectionMode(QTreeWidget::ExtendedSelection);

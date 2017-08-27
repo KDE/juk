@@ -102,7 +102,6 @@ public:
 
     void setPlaying(bool playing = true, bool master = true);
 
-    virtual void setSelected(bool selected);
     void guessTagInfo(TagGuesser::Type type);
 
     Playlist *playlist() const;

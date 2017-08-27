@@ -332,7 +332,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     QTreeWidget(collection->playlistStack()),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
-    m_selectedCount(0),
     m_allowDuplicates(true),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
@@ -340,7 +339,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0),
     m_toolTip(0),
@@ -355,7 +353,6 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     QTreeWidget(collection->playlistStack()),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
-    m_selectedCount(0),
     m_allowDuplicates(true),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
@@ -363,7 +360,6 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0),
     m_toolTip(0),
@@ -379,7 +375,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     QTreeWidget(collection->playlistStack()),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
-    m_selectedCount(0),
     m_allowDuplicates(true),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
@@ -387,7 +382,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_fileName(playlistFile.canonicalFilePath()),
     m_rmbMenu(0),
     m_toolTip(0),
@@ -402,7 +396,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
     QTreeWidget(collection->playlistStack()),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
-    m_selectedCount(0),
     m_allowDuplicates(true),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
@@ -410,7 +403,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_rmbMenu(0),
     m_toolTip(0),
     m_blockDataChanged(false)
@@ -640,20 +632,7 @@ PlaylistItemList Playlist::visibleItems()
 
 PlaylistItemList Playlist::selectedItems()
 {
-    PlaylistItemList list;
-
-    switch(m_selectedCount) {
-    case 0:
-        break;
-        // case 1:
-        // list.append(m_lastSelected);
-        // break;
-    default:
-        list = items(QTreeWidgetItemIterator::Selected | QTreeWidgetItemIterator::NotHidden);
-        break;
-    }
-
-    return list;
+    return items(QTreeWidgetItemIterator::Selected | QTreeWidgetItemIterator::NotHidden);
 }
 
 PlaylistItem *Playlist::firstChild() const
@@ -705,16 +684,6 @@ void Playlist::setSearchEnabled(bool enabled)
     }
     else
         setItemsVisible(items(), true);
-}
-
-void Playlist::markItemSelected(PlaylistItem *item, bool selected)
-{
-    if(selected && !item->isSelected()) {
-        m_selectedCount++;
-        m_lastSelected = item;
-    }
-    else if(!selected && item->isSelected())
-        m_selectedCount--;
 }
 
 void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMaster)
@@ -1322,7 +1291,7 @@ void Playlist::insertItem(QTreeWidgetItem *item)
     // you need to use the PlaylistItem from here.
 
     m_addTime.append(static_cast<PlaylistItem *>(item));
-    QTreeWidget::addTopLevelItem(item);
+    QTreeWidget::insertTopLevelItem(0, item);
 }
 
 void Playlist::takeItem(QTreeWidgetItem *item)
@@ -1331,7 +1300,7 @@ void Playlist::takeItem(QTreeWidgetItem *item)
 
     m_subtractTime.append(static_cast<PlaylistItem *>(item));
     int index = indexOfTopLevelItem(item);
-    delete takeTopLevelItem(index);
+    QTreeWidget::takeTopLevelItem(index);
 }
 
 void Playlist::addColumn(const QString &label, int)

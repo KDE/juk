@@ -279,11 +279,6 @@ public:
     void setSearchEnabled(bool searchEnabled);
 
     /**
-     * Marks \a item as either selected or deselected based.
-     */
-    void markItemSelected(PlaylistItem *item, bool selected);
-
-    /**
      * Subclasses of Playlist which add new columns will set this value to
      * specify how many of those columns exist.  This allows the Playlist
      * class to do some internal calculations on the number and positions
@@ -660,7 +655,6 @@ private:
 
     int m_currentColumn;
     QAction *m_rmbEdit;
-    int m_selectedCount;
 
     bool m_allowDuplicates;
     bool m_applySharedSettings;
@@ -684,8 +678,6 @@ private:
     PlaylistSearch m_search;
 
     bool m_searchEnabled;
-
-    PlaylistItem *m_lastSelected;
 
     /**
      * Used to store the text for inline editing before it is changed so that
