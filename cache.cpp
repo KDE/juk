@@ -165,6 +165,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
                     // We may have already read this playlist from the folder
                     // scanner, if an .m3u playlist
                     if(collection->containsPlaylistFile(p->fileName())) {
+                        createdPlaylists.removeAll(p);
                         delete p;
                         p = 0;
                     }
