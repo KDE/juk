@@ -748,7 +748,7 @@ int FileRenamerWidget::findIdentifier(const CategoryID &category) const
 
     qCCritical(JUK_LOG) << "Unable to find match for category " <<
         TagRenamerOptions::tagTypeText(category.category) <<
-        ", number " << category.categoryNumber << endl;
+        ", number " << category.categoryNumber;
 
     return MAX_CATEGORIES;
 }

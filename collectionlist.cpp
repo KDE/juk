@@ -163,7 +163,7 @@ CollectionListItem *CollectionList::createItem(const FileHandle &file, QTreeWidg
 
     if(!item->isValid()) {
         qCCritical(JUK_LOG) << "CollectionList::createItem() -- A valid tag was not created for \""
-                 << file.absFilePath() << "\"" << endl;
+                 << file.absFilePath() << "\"";
         delete item;
         return 0;
     }

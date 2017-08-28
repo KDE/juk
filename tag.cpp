@@ -56,7 +56,7 @@ Tag::Tag(const QString &fileName) :
     }
     else {
         qCCritical(JUK_LOG) << "Couldn't resolve the mime type of \"" <<
-            fileName << "\" -- this shouldn't happen." << endl;
+            fileName << "\" -- this shouldn't happen.";
     }
 }
 

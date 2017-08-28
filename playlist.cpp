@@ -750,8 +750,7 @@ void Playlist::slotRefresh()
 
         if(!item->file().tag() || !item->file().fileInfo().exists()) {
             qCDebug(JUK_LOG) << "Error while trying to refresh the tag.  "
-                           << "This file has probably been removed."
-                           << endl;
+                           << "This file has probably been removed.";
             delete item->collectionItem();
         }
 
