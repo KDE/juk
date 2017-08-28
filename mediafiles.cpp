@@ -16,14 +16,15 @@
 
 #include "mediafiles.h"
 
-#include <kfiledialog.h>
 #include <klocale.h>
 #include <kurl.h>
 #include <kio/netaccess.h>
 #include <kmimetype.h>
 
 #include <QWidget>
-#include <QtCore/QFile>
+#include <QFile>
+#include <QFileDialog>
+#include <QStandardPaths>
 
 #include <taglib.h>
 #include <taglib_config.h>
@@ -94,36 +95,49 @@ namespace MediaFiles {
 
 #define ARRAY_SIZE(arr) (sizeof(arr)/sizeof(arr[0]))
 
+static QString getMusicDir()
+{
+    const auto musicLocation =
+        QStandardPaths::writableLocation(QStandardPaths::MusicLocation);
+
+    QDir musicDir(musicLocation);
+    if (Q_UNLIKELY(
+        !musicDir.exists() &&
+        musicDir.isAbsolute() && // safety precaution here
+        !musicDir.mkpath(musicLocation)))
+    {
+        qCWarning(JUK_LOG) << "Failed to create music dir:" << musicLocation;
+    }
+
+    return musicLocation;
+}
+
 QStringList MediaFiles::openDialog(QWidget *parent)
 {
-    KFileDialog *dialog = new KFileDialog(KUrl(), QString(), parent);
+    QFileDialog dialog(parent);
 
-    dialog->setOperationMode(KFileDialog::Opening);
+    dialog.setFileMode(QFileDialog::ExistingFiles);
+    dialog.setMimeTypeFilters(mimeTypes());
+    // limit to only file:// for now
+    dialog.setSupportedSchemes(QStringList() << QStringLiteral("file"));
+    dialog.setDirectory(getMusicDir());
+    dialog.setWindowTitle(i18nc("open audio file", "Open"));
 
-    //dialog->setCaption(i18nc("open audio file", "Open")); FIXME
-    dialog->setMode(KFile::Files | KFile::LocalOnly);
-    // dialog.ops->clearHistory();
-    dialog->setMimeFilter(mimeTypes());
+    if(dialog.exec()) {
+        return dialog.selectedFiles();
+    }
 
-    dialog->exec();
-
-    // Only local files included in this list.
-    QStringList selectedFiles = dialog->selectedFiles();
-
-    delete dialog;
-
-    return selectedFiles;
+    return QStringList();
 }
 
 QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *parent)
 {
-    QString fileName = KFileDialog::getSaveFileName(playlistName + playlistExtension,
-                                                    QString("*").append(playlistExtension),
-                                                    parent,
-                                                    i18n("Playlists"));
-    if(!fileName.isEmpty() && !fileName.endsWith(playlistExtension))
-       fileName.append(playlistExtension);
-
+    QString fileName = QFileDialog::getSaveFileName(
+        parent,
+        i18n("Save Playlist") + QStringLiteral(" ") + playlistName,
+        getMusicDir(),
+        QStringLiteral("Playlists (*") + playlistExtension + QStringLiteral(")")
+    );
     return fileName;
 }
 
