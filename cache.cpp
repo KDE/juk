@@ -276,7 +276,6 @@ void Cache::savePlaylists(const PlaylistList &playlists)
                   << *(*it);
             }
             s << qint32((*it)->sortColumn());
-            s << 0;
         }
     }
 
