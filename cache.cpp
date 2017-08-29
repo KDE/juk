@@ -64,182 +64,127 @@ Cache *Cache::instance()
     return &cache;
 }
 
+static void parsePlaylistStream(QDataStream &s, PlaylistCollection *collection)
+{
+    while(!s.atEnd()) {
+        qint32 playlistType;
+        s >> playlistType;
+
+        Playlist *playlist = nullptr;
+
+        switch(playlistType) {
+        case Search:
+        {
+            SearchPlaylist *p = new SearchPlaylist(collection);
+            s >> *p;
+            playlist = p;
+            break;
+        }
+        case History:
+        {
+            action<KToggleAction>("showHistory")->setChecked(true);
+            collection->setHistoryPlaylistEnabled(true);
+            s >> *collection->historyPlaylist();
+            playlist = collection->historyPlaylist();
+            break;
+        }
+        case Upcoming:
+        {
+            /*
+            collection->setUpcomingPlaylistEnabled(true);
+            Playlist *p = collection->upcomingPlaylist();
+            action<KToggleAction>("saveUpcomingTracks")->setChecked(true);
+            s >> *p;
+            playlist = p;
+            */
+            break;
+        }
+        case Folder:
+        {
+            FolderPlaylist *p = new FolderPlaylist(collection);
+            s >> *p;
+            playlist = p;
+            break;
+        }
+        default:
+            Playlist *p = new Playlist(collection, true);
+            s >> *p;
+
+            // We may have already read this playlist from the folder
+            // scanner, if an .m3u playlist
+            if(collection->containsPlaylistFile(p->fileName())) {
+                delete p;
+                p = nullptr;
+            }
+
+            playlist = p;
+            break;
+        } // switch
+
+        qint32 sortColumn;
+        s >> sortColumn;
+        if(playlist)
+            playlist->sortByColumn(sortColumn);
+    }
+}
+
 void Cache::loadPlaylists(PlaylistCollection *collection) // static
 {
-    QString playlistsFile = KGlobal::dirs()->saveLocation("appdata") + "playlists";
-
+    const QString playlistsFile =
+        // Despite the 'Cache' class name, this data is not regenerable and so
+        // should not be stored in cache directory.
+        QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/playlists";
     QFile f(playlistsFile);
 
     if(!f.open(QIODevice::ReadOnly))
         return;
 
     QDataStream fs(&f);
-    int dataStreamVersion = QDataStream::Qt_3_3;
 
     qint32 version;
     fs >> version;
-    qCDebug(JUK_LOG) << "Playlists file is version" << version;
 
-    switch(version) {
-    case 3:
-        dataStreamVersion = QDataStream::Qt_4_3;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
-        Q_FALLTHROUGH();
-#endif
-
-    case 1:
-    case 2:
-    {
-        // Our checksum is only for the values after the version and checksum so
-        // we want to get a byte array with just the checksummed data.
-
-        QByteArray data;
-        quint16 checksum;
-        fs >> checksum >> data;
-
-        if(checksum != qChecksum(data.data(), data.size()))
-            return;
-
-        // If we chose the wrong QDataStream version we may have to back out
-        // and try again, so get ready by noting the playlists we have made.
-
-        QList<Playlist *> createdPlaylists;
-        bool errorOccurred = true;
-
-        while(errorOccurred) {
-            // Create a new stream just based on the data.
-
-            QDataStream s(&data, QIODevice::ReadOnly);
-            s.setVersion(dataStreamVersion);
-
-            try { // Failure due to wrong version can be indicated by an exception
-
-            while(!s.atEnd()) {
-
-                qint32 playlistType;
-                s >> playlistType;
-
-                Playlist *playlist = 0;
-
-                switch(playlistType) {
-                case Search:
-                {
-                    SearchPlaylist *p = new SearchPlaylist(collection);
-                    createdPlaylists.append(p);
-                    s >> *p;
-                    playlist = p;
-                    break;
-                }
-                case History:
-                {
-                    action<KToggleAction>("showHistory")->setChecked(true);
-                    collection->setHistoryPlaylistEnabled(true);
-                    s >> *collection->historyPlaylist();
-                    playlist = collection->historyPlaylist();
-                    break;
-                }
-                case Upcoming:
-                {
-                    /*
-                    collection->setUpcomingPlaylistEnabled(true);
-                    Playlist *p = collection->upcomingPlaylist();
-                    action<KToggleAction>("saveUpcomingTracks")->setChecked(true);
-                    s >> *p;
-                    playlist = p;
-                    */
-                    break;
-                }
-                case Folder:
-                {
-                    FolderPlaylist *p = new FolderPlaylist(collection);
-                    createdPlaylists.append(p);
-                    s >> *p;
-                    playlist = p;
-                    break;
-                }
-                default:
-                    Playlist *p = new Playlist(collection, true);
-                    createdPlaylists.append(p);
-                    s >> *p;
-
-                    // We may have already read this playlist from the folder
-                    // scanner, if an .m3u playlist
-                    if(collection->containsPlaylistFile(p->fileName())) {
-                        createdPlaylists.removeAll(p);
-                        delete p;
-                        p = 0;
-                    }
-
-                    playlist = p;
-                    break;
-                } // switch
-
-                if(version >= 2) {
-                    qint32 sortColumn;
-                    s >> sortColumn;
-                    if(playlist)
-                        playlist->sortByColumn(sortColumn);
-                }
-
-            } // while !s.atEnd()
-
-            // Must be ok if we got this far, break out of loop.
-            errorOccurred = false;
-
-            } // try
-            catch(BICStreamException &) {
-                qCCritical(JUK_LOG) << "Exception loading playlists - binary incompatible stream.";
-
-                // Delete created playlists which probably have junk now.
-                foreach(Playlist *p, createdPlaylists)
-                    delete p;
-                createdPlaylists.clear();
-
-                if(dataStreamVersion == QDataStream::Qt_3_3) {
-                    qCCritical(JUK_LOG) << "Attempting other binary protocol - Qt 4.3";
-                    dataStreamVersion = QDataStream::Qt_4_3;
-
-                    break; // escape from while(!s.atEnd()) to try again
-                }
-#if QT_VERSION >= 0x040400
-                // Unlikely, but maybe user had Qt 4.4 with KDE 4.0.0?
-                else if(dataStreamVersion == QDataStream::Qt_4_3) {
-                    qCCritical(JUK_LOG) << "Attempting other binary protocol - Qt 4.4";
-                    dataStreamVersion = QDataStream::Qt_4_4;
-
-                    break;
-                }
-#endif
-                // We tried 3.3 first, if 4.3/4.4 doesn't work who knows...
-                qCCritical(JUK_LOG) << "Unable to recover, no playlists will be loaded.";
-                return;
-            } // catch
-        } // while dataStreamVersion != -1
-        break;
-    }
-    default:
-    {
-        // Because the original version of the playlist cache did not contain a
-        // version number, we want to revert to the beginning of the file before
-        // reading the data.
-
-        f.reset();
-
-         while(!fs.atEnd()) {
-            Playlist *p = new Playlist(collection);
-            fs >> *p;
-        }
-        break;
-    }
+    if(version != 3 || fs.status() != QDataStream::Ok) {
+        // Either the file is corrupt or is from a truly ancient version
+        // of JuK.
+        qCWarning(JUK_LOG) << "Found the playlist cache but it was clearly corrupt.";
+        return;
     }
 
-    f.close();
+    // Our checksum is only for the values after the version and checksum so
+    // we want to get a byte array with just the checksummed data.
+
+    QByteArray data;
+    quint16 checksum;
+    fs >> checksum >> data;
+
+    if(fs.status() != QDataStream::Ok || checksum != qChecksum(data.data(), data.size()))
+        return;
+
+    QDataStream s(&data, QIODevice::ReadOnly);
+    s.setVersion(QDataStream::Qt_4_3);
+
+    try { // Loading failures are indicated by an exception
+        parsePlaylistStream(s, collection);
+    }
+    catch(BICStreamException &) {
+        qCCritical(JUK_LOG) << "Exception loading playlists - binary incompatible stream.";
+        // TODO Restructure the Playlist data model and PlaylistCollection data model
+        // to be separate from the view/controllers.
+        return;
+    }
 }
 
 void Cache::savePlaylists(const PlaylistList &playlists)
 {
-    QString dirName = KGlobal::dirs()->saveLocation("appdata");
-    QString playlistsFile = dirName + "playlists";
+    QString dirName = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    QDir playlistDir(dirName);
+    if(!playlistDir.exists() && !playlistDir.mkpath(dirName)) {
+        qCWarning(JUK_LOG) << "Unable to create appdata dir" << dirName;
+        return;
+    }
+
+    QString playlistsFile = dirName + "/playlists";
     KSaveFile f(playlistsFile);
 
     if(!f.open(QIODevice::WriteOnly)) {
@@ -251,32 +196,34 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     QDataStream s(&data, QIODevice::WriteOnly);
     s.setVersion(QDataStream::Qt_4_3);
 
-    for(PlaylistList::ConstIterator it = playlists.begin(); it != playlists.end(); ++it) {
-        if(*it) {
-            if(dynamic_cast<HistoryPlaylist *>(*it)) {
-                s << qint32(History)
-                  << *static_cast<HistoryPlaylist *>(*it);
-            }
-            else if(dynamic_cast<SearchPlaylist *>(*it)) {
-                s << qint32(Search)
-                  << *static_cast<SearchPlaylist *>(*it);
-            }
-            else if(dynamic_cast<UpcomingPlaylist *>(*it)) {
-                if(!action<KToggleAction>("saveUpcomingTracks")->isChecked())
-                    continue;
-                s << qint32(Upcoming)
-                  << *static_cast<UpcomingPlaylist *>(*it);
-            }
-            else if(dynamic_cast<FolderPlaylist *>(*it)) {
-                s << qint32(Folder)
-                  << *static_cast<FolderPlaylist *>(*it);
-            }
-            else {
-                s << qint32(Normal)
-                  << *(*it);
-            }
-            s << qint32((*it)->sortColumn());
+    for(const auto &it : playlists) {
+        if(!(it)) {
+            continue;
         }
+        // TODO back serialization type into Playlist itself
+        if(dynamic_cast<HistoryPlaylist *>(it)) {
+            s << qint32(History)
+                << *static_cast<HistoryPlaylist *>(it);
+        }
+        else if(dynamic_cast<SearchPlaylist *>(it)) {
+            s << qint32(Search)
+                << *static_cast<SearchPlaylist *>(it);
+        }
+        else if(dynamic_cast<UpcomingPlaylist *>(it)) {
+            if(!action<KToggleAction>("saveUpcomingTracks")->isChecked())
+                continue;
+            s << qint32(Upcoming)
+                << *static_cast<UpcomingPlaylist *>(it);
+        }
+        else if(dynamic_cast<FolderPlaylist *>(it)) {
+            s << qint32(Folder)
+                << *static_cast<FolderPlaylist *>(it);
+        }
+        else {
+            s << qint32(Normal)
+                << *(it);
+        }
+        s << qint32(it->sortColumn());
     }
 
     QDataStream fs(&f);
