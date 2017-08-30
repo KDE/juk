@@ -1474,17 +1474,6 @@ Toolbar</link> and the <link linkend="play-toolbar">Play Toolbar</link>.</para>
 <varlistentry>
 <term><menuchoice>
 <guimenu>Settings</guimenu>
-<guimenuitem>Show Splash Screen on Startup</guimenuitem>
-</menuchoice>
-</term>
-<listitem><para>This is a toggle option.  If enabled, &juk; will display
-an informational screen upon startup as it loads your music collection.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term><menuchoice>
-<guimenu>Settings</guimenu>
 <guimenuitem>Dock in System Tray</guimenuitem>
 </menuchoice>
 </term>

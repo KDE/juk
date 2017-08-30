@@ -115,7 +115,6 @@ set(juk_SRCS  ${tunepimp_SRCS}
    searchwidget.cpp
    slideraction.cpp
    sortedstringlist.cpp
-   splashscreen.cpp
    statuslabel.cpp
    stringshare.cpp
    systemtray.cpp

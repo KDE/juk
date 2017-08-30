@@ -91,14 +91,12 @@ private:
     KToggleAction *m_toggleSystemTrayAction;
     KToggleAction *m_toggleDockOnCloseAction;
     KToggleAction *m_togglePopupsAction;
-    KToggleAction *m_toggleSplashAction;
 
     PlayerManager *m_player;
     Scrobbler     *m_scrobbler;
 
     QStringList m_filesToOpen;
     bool m_startDocked;
-    bool m_showSplash;
     bool m_shuttingDown;
 
     static JuK* m_instance;

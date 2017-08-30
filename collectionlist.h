@@ -14,8 +14,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COLLECTIONLIST_H
-#define COLLECTIONLIST_H
+#ifndef JUK_COLLECTIONLIST_H
+#define JUK_COLLECTIONLIST_H
 
 #include <QHash>
 #include <QVector>
@@ -193,7 +193,7 @@ public slots:
     void loadNextBatchCachedItems();
 
     /**
-     * Teardown from cache loading (e.g. splash screen, sorting, etc.). Should
+     * Teardown from cache loading (e.g. a sort operation). Should
      * always be called if startLoadingCachedItems is called.
      */
     void completedLoadingCachedItems();

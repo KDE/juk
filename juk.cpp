@@ -42,7 +42,6 @@
 
 #include "slideraction.h"
 #include "statuslabel.h"
-#include "splashscreen.h"
 #include "systemtray.h"
 #include "keydialog.h"
 #include "tagguesserconfigdlg.h"
@@ -79,8 +78,8 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     m_systemTray(0),
     m_player(new PlayerManager),
     m_scrobbler(0),
-    m_shuttingDown(false),
-    m_filesToOpen(filesToOpen)
+    m_filesToOpen(filesToOpen),
+    m_shuttingDown(false)
 {
     // Expect segfaults if you change this order.
 
@@ -89,13 +88,6 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     readSettings();
 
     Cache::ensureAppDataStorageExists();
-
-    if(m_showSplash && !m_startDocked && Cache::cacheFileExists()) {
-        if(SplashScreen* splash = SplashScreen::instance()) {
-            splash->show();
-            qApp->processEvents();
-        }
-    }
 
     setupActions();
     setupLayout();
@@ -302,9 +294,6 @@ void JuK::setupActions()
     // settings menu
     //////////////////////////////////////////////////
 
-    m_toggleSplashAction = collection->add<KToggleAction>("showSplashScreen");
-    m_toggleSplashAction->setText(i18n("Show Splash Screen on Startup"));
-
     m_toggleSystemTrayAction = collection->add<KToggleAction>("toggleSystemTray");
     m_toggleSystemTrayAction->setText(i18n("&Dock in System Tray"));
     connect(m_toggleSystemTrayAction, SIGNAL(triggered(bool)), SLOT(slotToggleSystemTray(bool)));
@@ -411,7 +400,6 @@ void JuK::keyPressEvent(QKeyEvent *e)
 void JuK::readSettings()
 {
     KConfigGroup config(KSharedConfig::openConfig(), "Settings");
-    m_showSplash = config.readEntry("ShowSplashScreen", true);
     m_startDocked = config.readEntry("StartDocked", false);
 }
 
@@ -457,8 +445,6 @@ void JuK::readConfig()
 
     bool showPopups = settingsConfig.readEntry("TrackPopup", false);
     m_togglePopupsAction->setChecked(showPopups);
-
-    m_toggleSplashAction->setChecked(m_showSplash);
 }
 
 void JuK::saveConfig()
@@ -491,7 +477,6 @@ void JuK::saveConfig()
     // general settings
 
     KConfigGroup settingsConfig(KSharedConfig::openConfig(), "Settings");
-    settingsConfig.writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
     settingsConfig.writeEntry("StartDocked", m_startDocked);
     settingsConfig.writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
     settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());

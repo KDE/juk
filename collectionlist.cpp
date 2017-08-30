@@ -38,7 +38,6 @@
 #include <QSaveFile>
 
 #include "playlistcollection.h"
-#include "splashscreen.h"
 #include "stringshare.h"
 #include "cache.h"
 #include "actioncollection.h"
@@ -100,8 +99,6 @@ void CollectionList::loadNextBatchCachedItems()
         }
     }
 
-    SplashScreen::update();
-
     if(!done) {
         QTimer::singleShot(0, this, SLOT(loadNextBatchCachedItems()));
     }
@@ -121,8 +118,6 @@ void CollectionList::completedLoadingCachedItems()
         order = Qt::AscendingOrder;
 
     m_list->sortByColumn(config.readEntry("CollectionListSortColumn", 1), order);
-
-    SplashScreen::finishedLoading();
 
     qCDebug(JUK_LOG) << "Finished loading cached items, took" << stopwatch.elapsed() << "ms";
     qCDebug(JUK_LOG) << m_itemsDict.size() << "items are in the CollectionList";
@@ -557,8 +552,6 @@ CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle 
     else {
         qCCritical(JUK_LOG) << "CollectionListItem::CollectionListItem() -- Tag() could not be created.";
     }
-
-    SplashScreen::increment();
 }
 
 CollectionListItem::~CollectionListItem()
