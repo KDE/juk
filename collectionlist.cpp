@@ -28,7 +28,6 @@
 #include <ktoolbarpopupaction.h>
 #include <kdirwatch.h>
 
-#include <QStringBuilder>
 #include <QList>
 #include <QDragMoveEvent>
 #include <QDropEvent>
@@ -241,7 +240,7 @@ void CollectionList::saveItemsToCache() const
     qCDebug(JUK_LOG) << "Saving collection list to cache";
 
     QString cacheFileName =
-        KGlobal::dirs()->saveLocation("appdata") % QLatin1String("cache");
+        KGlobal::dirs()->saveLocation("appdata") + QLatin1String("cache");
 
     KSaveFile f(cacheFileName);
 

@@ -158,6 +158,7 @@ ecm_add_app_icon(juk_SRCS ICONS ${ICONS_SRCS})
 add_executable(juk ${juk_SRCS})
 
 kde_target_enable_exceptions(juk PRIVATE)
+target_compile_definitions(juk PRIVATE QT_USE_QSTRINGBUILDER)
 
 if(NOT MSVC AND NOT ( WIN32 AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel" ) )
     set( LIBMATH m )
