@@ -224,9 +224,11 @@ void CollectionList::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > 
     update();
 }
 
-void CollectionList::slotDeleteItem(const KFileItem &item)
+void CollectionList::slotDeleteItems(const KFileItemList &items)
 {
-    delete lookup(item.url().path());
+    for(const auto &item : items) {
+        delete lookup(item.url().path());
+    }
 }
 
 void CollectionList::saveItemsToCache() const
@@ -421,7 +423,7 @@ QStringList CollectionList::uniqueSet(UniqueSetType t) const
 
 CollectionListItem *CollectionList::lookup(const QString &file) const
 {
-    return m_itemsDict.value(file, 0);
+    return m_itemsDict.value(file, nullptr);
 }
 
 void CollectionList::removeStringFromDict(const QString &value, int column)

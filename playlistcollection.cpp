@@ -755,16 +755,18 @@ void PlaylistCollection::clearShowMore(bool raisePlaylist)
 
 void PlaylistCollection::enableDirWatch(bool enable)
 {
-    QObject *collection = CollectionList::instance();
+    auto collection = CollectionList::instance();
 
     m_dirLister.disconnect(object());
     if(enable) {
-        QObject::connect(&m_dirLister, SIGNAL(newItems(KFileItemList)),
-                object(), SLOT(slotNewItems(KFileItemList)));
-        QObject::connect(&m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
-                collection, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
-        QObject::connect(&m_dirLister, SIGNAL(deleteItem(KFileItem)),
-                collection, SLOT(slotDeleteItem(KFileItem)));
+        QObject::connect(&m_dirLister, &KDirLister::newItems,
+                object(), [this](const KFileItemList &items) {
+                    this->newItems(items);
+                });
+        QObject::connect(&m_dirLister, &KDirLister::refreshItems,
+                collection, &CollectionList::slotRefreshItems);
+        QObject::connect(&m_dirLister, &KDirLister::itemsDeleted,
+                collection, &CollectionList::slotDeleteItems);
     }
 }
 

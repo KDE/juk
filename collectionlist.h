@@ -136,7 +136,7 @@ public slots:
 
     void slotNewItems(const KFileItemList &items);
     void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > &items);
-    void slotDeleteItem(const KFileItem &item);
+    void slotDeleteItems(const KFileItemList &items);
 
 protected:
     CollectionList(PlaylistCollection *collection);

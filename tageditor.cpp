@@ -501,10 +501,12 @@ void TagEditor::setupLayout()
     setupUi(this);
 
     foreach(QWidget *input, findChildren<QWidget *>()) {
-        if(input->inherits("QLineEdit") || input->inherits("QComboBox"))
+        if(input->inherits("QLineEdit"))
             connect(input, SIGNAL(textChanged(QString)), this, SLOT(slotDataChanged()));
-        if(input->inherits("QComboxBox"))
+        if(input->inherits("QComboxBox")) {
             connect(input, SIGNAL(activated(int)), this, SLOT(slotDataChanged()));
+            connect(input, SIGNAL(currentTextChanged(QString)), this, SLOT(slotDataChanged()));
+        }
         if(input->inherits("QSpinBox"))
             connect(input, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
         if(input->inherits("QTextEdit"))
@@ -636,15 +638,6 @@ void TagEditor::showEvent(QShowEvent *e)
     }
 
     QWidget::showEvent(e);
-}
-
-bool TagEditor::eventFilter(QObject *watched, QEvent *e)
-{
-    QKeyEvent *ke = static_cast<QKeyEvent*>(e);
-    if(watched->inherits("QSpinBox") && e->type() == QEvent::KeyRelease && ke->modifiers() == 0)
-        slotDataChanged();
-
-    return false;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
