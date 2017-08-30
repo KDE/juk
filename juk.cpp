@@ -88,6 +88,8 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
 
     readSettings();
 
+    Cache::ensureAppDataStorageExists();
+
     if(m_showSplash && !m_startDocked && Cache::cacheFileExists()) {
         if(SplashScreen* splash = SplashScreen::instance()) {
             splash->show();

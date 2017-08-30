@@ -21,7 +21,6 @@
 #include <kmenu.h>
 #include <kconfig.h>
 #include <kconfiggroup.h>
-#include <kglobal.h>
 #include <kactioncollection.h>
 #include <kstandarddirs.h>
 #include <ktoolbarpopupaction.h>
@@ -239,10 +238,7 @@ void CollectionList::saveItemsToCache() const
 {
     qCDebug(JUK_LOG) << "Saving collection list to cache";
 
-    QString cacheFileName =
-        KGlobal::dirs()->saveLocation("appdata") + QLatin1String("cache");
-
-    QSaveFile f(cacheFileName);
+    QSaveFile f(Cache::fileHandleCacheFileName());
 
     if(!f.open(QIODevice::WriteOnly)) {
         qCCritical(JUK_LOG) << "Error saving cache:" << f.errorString();

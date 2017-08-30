@@ -130,10 +130,7 @@ static void parsePlaylistStream(QDataStream &s, PlaylistCollection *collection)
 
 void Cache::loadPlaylists(PlaylistCollection *collection) // static
 {
-    const QString playlistsFile =
-        // Despite the 'Cache' class name, this data is not regenerable and so
-        // should not be stored in cache directory.
-        QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/playlists";
+    const QString playlistsFile = playlistsCacheFileName();
     QFile f(playlistsFile);
 
     if(!f.open(QIODevice::ReadOnly))
@@ -177,14 +174,7 @@ void Cache::loadPlaylists(PlaylistCollection *collection) // static
 
 void Cache::savePlaylists(const PlaylistList &playlists)
 {
-    QString dirName = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
-    QDir playlistDir(dirName);
-    if(!playlistDir.exists() && !playlistDir.mkpath(dirName)) {
-        qCWarning(JUK_LOG) << "Unable to create appdata dir" << dirName;
-        return;
-    }
-
-    QString playlistsFile = dirName + "/playlists";
+    QString playlistsFile = playlistsCacheFileName();
     QSaveFile f(playlistsFile);
 
     if(!f.open(QIODevice::WriteOnly)) {
@@ -236,9 +226,30 @@ void Cache::savePlaylists(const PlaylistList &playlists)
         qCCritical(JUK_LOG) << "Error saving collection:" << f.errorString();
 }
 
+void Cache::ensureAppDataStorageExists() // static
+{
+    QString dirPath = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation);
+    QDir appDataDir(dirPath);
+
+    if(!appDataDir.exists() && !appDataDir.mkpath(dirPath))
+        qCCritical(JUK_LOG) << "Unable to create appdata storage in" << dirPath;
+}
+
 bool Cache::cacheFileExists() // static
 {
-    return QFile::exists(KGlobal::dirs()->saveLocation("appdata") + "cache");
+    return QFile::exists(fileHandleCacheFileName());
+}
+
+// Despite the 'Cache' class name, these data files are not regenerable and so
+// should not be stored in cache directory.
+QString Cache::fileHandleCacheFileName() // static
+{
+    return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/cache";
+}
+
+QString Cache::playlistsCacheFileName() // static
+{
+    return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation) + "/playlists";
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -252,9 +263,7 @@ Cache::Cache()
 
 bool Cache::prepareToLoadCachedItems()
 {
-    QString cacheFileName = KGlobal::dirs()->saveLocation("appdata") + "cache";
-
-    m_loadFile.setFileName(cacheFileName);
+    m_loadFile.setFileName(fileHandleCacheFileName());
     if(!m_loadFile.open(QIODevice::ReadOnly))
         return false;
 
