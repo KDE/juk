@@ -19,7 +19,6 @@
 #include "juk-exception.h"
 
 #include <kstandarddirs.h>
-#include <ksavefile.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
 #include <klocale.h>
@@ -29,6 +28,7 @@
 #include <QDir>
 #include <QBuffer>
 #include <QtGlobal>
+#include <QSaveFile>
 
 #include "tag.h"
 #include "searchplaylist.h"
@@ -185,7 +185,7 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     }
 
     QString playlistsFile = dirName + "/playlists";
-    KSaveFile f(playlistsFile);
+    QSaveFile f(playlistsFile);
 
     if(!f.open(QIODevice::WriteOnly)) {
         qCCritical(JUK_LOG) << "Error saving collection:" << f.errorString();
@@ -231,9 +231,8 @@ void Cache::savePlaylists(const PlaylistList &playlists)
     fs << qChecksum(data.data(), data.size());
 
     fs << data;
-    f.close();
 
-    if(!f.finalize())
+    if(!f.commit())
         qCCritical(JUK_LOG) << "Error saving collection:" << f.errorString();
 }
 

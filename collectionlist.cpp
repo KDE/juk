@@ -23,7 +23,6 @@
 #include <kconfiggroup.h>
 #include <kglobal.h>
 #include <kactioncollection.h>
-#include <ksavefile.h>
 #include <kstandarddirs.h>
 #include <ktoolbarpopupaction.h>
 #include <kdirwatch.h>
@@ -37,6 +36,7 @@
 #include <QClipboard>
 #include <QFileInfo>
 #include <QHeaderView>
+#include <QSaveFile>
 
 #include "playlistcollection.h"
 #include "splashscreen.h"
@@ -242,7 +242,7 @@ void CollectionList::saveItemsToCache() const
     QString cacheFileName =
         KGlobal::dirs()->saveLocation("appdata") + QLatin1String("cache");
 
-    KSaveFile f(cacheFileName);
+    QSaveFile f(cacheFileName);
 
     if(!f.open(QIODevice::WriteOnly)) {
         qCCritical(JUK_LOG) << "Error saving cache:" << f.errorString();
@@ -267,9 +267,7 @@ void CollectionList::saveItemsToCache() const
        << checksum
        << data;
 
-    f.close();
-
-    if(!f.finalize())
+    if(!f.commit())
         qCCritical(JUK_LOG) << "Error saving cache:" << f.errorString();
 }
 
