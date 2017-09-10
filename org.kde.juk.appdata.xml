@@ -398,7 +398,7 @@
       <li xml:lang="et">Failide nime muutmise tööriist, mis võib failinimesid muuta sildi sisu põhjal</li>
       <li xml:lang="fi">Tiedostojen uudelleennimeäjällä voi nimetä tiedostot tunnisteiden mukaan</li>
       <li xml:lang="fr">Renommage de fichier basé sur le contenu des balises</li>
-      <li xml:lang="gl">Permite cambiar o nome dos ficheiros de acordo co contido das súas etiquetas.</li>
+      <li xml:lang="gl">Permite renomear os ficheiros de acordo co contido das súas etiquetas.</li>
       <li xml:lang="hu">Fájlátnevező, amely képes a címketartalom alapján átnevezni fájlokat</li>
       <li xml:lang="ia">Renominator de file que pote renominar files basate sur le contento de etiquetta</li>
       <li xml:lang="it">Rinominatore di file per cambiare il nome ai file in base alle etichette</li>
