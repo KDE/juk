@@ -27,8 +27,8 @@
 #include <QPixmapCache>
 #include <QByteArray>
 #include <QMap>
+#include <QTemporaryFile>
 
-#include <ktemporaryfile.h>
 #include <kdemacros.h>
 #include <kurl.h>
 #include <kstandarddirs.h>
@@ -404,16 +404,16 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
 
 coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, const QString &album)
 {
-    qCDebug(JUK_LOG) << "Adding new pixmap to cover database.\n";
+    qCDebug(JUK_LOG) << "Adding new pixmap to cover database.";
 
     if(large.isNull()) {
-        qCDebug(JUK_LOG) << "The pixmap you're trying to add is NULL!\n";
+        qCDebug(JUK_LOG) << "The pixmap you're trying to add is NULL!";
         return NoMatch;
     }
 
-    KTemporaryFile tempFile;
+    QTemporaryFile tempFile;
     if(!tempFile.open()) {
-        qCCritical(JUK_LOG) << "Unable to open file for pixmap cover, unable to add cover to DB\n";
+        qCCritical(JUK_LOG) << "Unable to open file for pixmap cover, unable to add cover to DB";
         return NoMatch;
     }
 

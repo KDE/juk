@@ -16,12 +16,11 @@
 
 #include "dbuscollectionproxy.h"
 
-#include <QtCore/QStringList>
-#include <QtCore/QFile>
-#include <QtGui/QPixmap>
-#include <QtDBus/QDBusConnection>
-
-#include <KTemporaryFile>
+#include <QStringList>
+#include <QFile>
+#include <QPixmap>
+#include <QDBusConnection>
+#include <QTemporaryFile>
 
 #include "collectionadaptor.h"
 #include "playlistcollection.h"
@@ -135,9 +134,9 @@ QString DBusCollectionProxy::trackCover(const QString &track)
         return QString();
 
     // We have a cover, extract it and save it to a temporary file.
-    KTemporaryFile tempFile;
+    QTemporaryFile tempFile;
 
-    tempFile.setSuffix(".png");
+    tempFile.setFileTemplate(QStringLiteral("juk_cover_XXXXXX.png"));
     tempFile.setAutoRemove(false);
 
     if(!tempFile.open()) {
