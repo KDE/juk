@@ -34,7 +34,7 @@
 
 TrackSequenceManager::~TrackSequenceManager()
 {
-    // m_playlist and m_popupMenu don't belong to us, don't try to delete them
+    // m_playlist doesn't belong to us, don't try to delete
     if(m_iterator == m_defaultIterator)
         m_iterator = 0;
 
@@ -160,7 +160,6 @@ TrackSequenceManager::TrackSequenceManager() :
     QObject(),
     m_playlist(0),
     m_playNextItem(0),
-    m_popupMenu(0),
     m_iterator(0),
     m_initialized(false)
 {

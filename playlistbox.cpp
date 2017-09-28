@@ -16,11 +16,8 @@
 
 #include "playlistbox.h"
 
-#include <QIcon>
 #include <kiconloader.h>
 #include <kmessagebox.h>
-#include <kmenu.h>
-#include <QAction>
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kselectaction.h>
@@ -28,6 +25,9 @@
 #include <kglobal.h>
 #include <kurl.h>
 
+#include <QAction>
+#include <QIcon>
+#include <QMenu>
 #include <QPainter>
 #include <QTimer>
 #include <QDragLeaveEvent>
@@ -84,14 +84,12 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     header()->blockSignals(false);
 
     sortByColumn(0);
-    // FIXME ?
-    //setFullWidth(true);
 
     viewport()->setAcceptDrops(true);
     setDropIndicatorShown(true);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    m_contextMenu = new KMenu(this);
+    m_contextMenu = new QMenu(this);
 
     m_contextMenu->addAction( action("file_new") );
     m_contextMenu->addAction( action("renamePlaylist") );

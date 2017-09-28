@@ -26,7 +26,7 @@ class Playlist;
 class PlaylistItem;
 class ViewMode;
 
-class KMenu;
+class QMenu;
 
 template<class T>
 class QList;
@@ -132,7 +132,7 @@ private slots:
     void slotLoadCachedPlaylists();
 
 private:
-    KMenu *m_contextMenu;
+    QMenu *m_contextMenu;
     QHash<Playlist *, Item*> m_playlistDict;
     int m_viewModeIndex;
     QList<ViewMode *> m_viewModes;

@@ -18,10 +18,10 @@
 #include "coverdialog.h"
 
 #include <kiconloader.h>
-#include <kmenu.h>
 #include <klocale.h>
 
 #include <QTimer>
+#include <QMenu>
 
 #include "covericonview.h"
 #include "covermanager.h"
@@ -136,7 +136,7 @@ void CoverDialog::slotArtistClicked(QListWidgetItem *item)
 
 void CoverDialog::slotContextRequested(const QPoint &pt)
 {
-    static KMenu *menu = 0;
+    static QMenu *menu = nullptr;
 
     QListWidgetItem* item = m_covers->currentItem();
 
@@ -144,7 +144,7 @@ void CoverDialog::slotContextRequested(const QPoint &pt)
         return;
 
     if(!menu) {
-        menu = new KMenu(this);
+        menu = new QMenu(this);
         menu->addAction(i18n("Remove Cover"), this, SLOT(removeSelectedCover()));
     }
 

@@ -33,7 +33,6 @@
 #include "filehandle.h"
 #include "juk_debug.h"
 
-class KMenu;
 class KActionMenu;
 
 class QFileInfo;

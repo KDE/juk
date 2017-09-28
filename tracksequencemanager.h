@@ -20,7 +20,6 @@
 #include <QObject>
 #include <QPointer>
 
-class KMenu;
 class TrackSequenceIterator;
 class PlaylistItem;
 class Playlist;
@@ -111,12 +110,6 @@ public:
     PlaylistItem *currentItem() const;
 
     /**
-     * @return the current KMenu used by the manager, or 0 if none is
-     * set
-     */
-    KMenu *menu() const { return m_popupMenu; }
-
-    /**
      * @return the TrackSequenceManager's idea of the current playlist
      */
     Playlist *currentPlaylist() const { return m_playlist; }
@@ -183,7 +176,6 @@ protected slots:
 private:
     QPointer<Playlist> m_playlist;
     PlaylistItem *m_playNextItem;
-    KMenu *m_popupMenu;
     TrackSequenceIterator *m_iterator;
     TrackSequenceIterator *m_defaultIterator;
     bool m_initialized;
