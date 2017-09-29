@@ -20,11 +20,9 @@
 
 #include <algorithm>
 
-#include <kurl.h>
 #include <kurlrequester.h>
 #include <kiconloader.h>
 #include <knuminput.h>
-#include <kstandarddirs.h>
 #include <kio/job.h>
 #include <kio/netaccess.h>
 #include <kdesktopfile.h>
@@ -39,6 +37,7 @@
 #include <QTimer>
 #include <QCheckBox>
 #include <QDir>
+#include <QUrl>
 #include <QLabel>
 #include <QSignalMapper>
 #include <QPixmap>
@@ -290,7 +289,7 @@ void FileRenamerWidget::loadConfig()
     }
 
     QString path = config.readEntry("MusicFolder", "${HOME}/music");
-    m_ui->m_musicFolder->setUrl(KUrl(path));
+    m_ui->m_musicFolder->setUrl(QUrl::fromLocalFile(path));
     m_ui->m_musicFolder->setMode(KFile::Directory |
                                  KFile::ExistingOnly |
                                  KFile::LocalOnly);
@@ -907,7 +906,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
             itemMap[it.key()]->setFile(it.value());
             itemMap[it.key()]->refresh();
 
-            setFolderIcon(it.value(), itemMap[it.key()]);
+            setFolderIcon(QUrl::fromLocalFile(it.value()), itemMap[it.key()]);
         }
         else
             errorFiles << i18n("%1 to %2", it.key(), it.value());
@@ -924,38 +923,24 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
 {
     qCDebug(JUK_LOG) << "Moving file " << src << " to " << dest;
 
-    if(src == dest)
+    QUrl srcURL = QUrl::fromLocalFile(src);
+    QUrl dstURL = QUrl::fromLocalFile(dest);
+
+    if(!srcURL.isValid() || !dstURL.isValid() || srcURL == dstURL)
         return false;
 
-    // Escape URL.
-    KUrl srcURL = KUrl(src);
-    KUrl dstURL = KUrl(dest);
-
-    // Clean it.
-    srcURL.cleanPath();
-    dstURL.cleanPath();
-
-    // Make sure it is valid.
-    if(!srcURL.isValid() || !dstURL.isValid())
+    QUrl dir = dstURL.resolved(QUrl::fromUserInput(".")); // resolves to path w/out filename
+    if(!QDir().mkpath(dir.path())) {
+        qCCritical(JUK_LOG) << "Unable to create directory " << dir.path();
         return false;
-
-    // Get just the directory.
-    KUrl dir = dstURL;
-    dir.setFileName(QString());
-
-    // Create the directory.
-    if(!KStandardDirs::exists(dir.path()))
-        if(!KStandardDirs::makeDir(dir.path())) {
-            qCCritical(JUK_LOG) << "Unable to create directory " << dir.path();
-            return false;
-        }
+    }
 
     // Move the file.
     KIO::Job *job = KIO::file_move(srcURL, dstURL);
     return KIO::NetAccess::synchronousRun(job, 0);
 }
 
-void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
+void FileRenamer::setFolderIcon(const QUrl &dstURL, const PlaylistItem *item)
 {
     if(item->file().tag()->album().isEmpty() ||
        !item->file().coverInfo()->hasCover())
@@ -963,19 +948,17 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
         return;
     }
 
-    KUrl dstURL = dst;
-    dstURL.cleanPath();
-
     // Split path, and go through each path element.  If a path element has
     // the album information, set its folder icon.
-    QStringList elements = dstURL.directory().split('/', QString::SkipEmptyParts);
+    QStringList elements = dstURL.path().split('/', QString::SkipEmptyParts);
     QString path;
 
     for(QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) {
         path.append('/' + (*it));
 
         qCDebug(JUK_LOG) << "Checking path: " << path;
-        if((*it).contains(item->file().tag()->album() ) &&
+        if((*it).contains(item->file().tag()->album()) &&
+           QDir(path).exists() &&
            !QFile::exists(path + "/.directory"))
         {
             // Seems to be a match, let's set the folder icon for the current

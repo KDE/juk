@@ -373,12 +373,10 @@ void PlaylistCollection::open(const QString &playlist, const QStringList &files)
 void PlaylistCollection::addFolder()
 {
     DirectoryList l(m_folderList, m_excludedFolderList, m_importPlaylists, JuK::JuKInstance());
-    // FIXME signal result
-    //DirectoryList::Result result = l.exec();
 
-    /*if(result.status == QDialog::Accepted) {
-
+    if(l.exec() == QDialog::Accepted) {
         m_dirLister.blockSignals(true);
+        DirectoryList::Result result = l.dialogResult();
 
         const bool reload = m_importPlaylists != result.addPlaylists;
 
@@ -386,12 +384,12 @@ void PlaylistCollection::addFolder()
         m_excludedFolderList = canonicalizeFolderPaths(result.excludedDirs);
 
         foreach(const QString &dir, result.addedDirs) {
-            m_dirLister.openUrl(KUrl::fromPath(dir), KDirLister::Keep);
+            m_dirLister.openUrl(QUrl::fromLocalFile(dir), KDirLister::Keep);
             m_folderList.append(dir);
         }
 
         foreach(const QString &dir, result.removedDirs) {
-            m_dirLister.stop(KUrl::fromPath(dir));
+            m_dirLister.stop(QUrl::fromLocalFile(dir));
             m_folderList.removeAll(dir);
         }
 
@@ -405,7 +403,7 @@ void PlaylistCollection::addFolder()
         saveConfig();
 
         m_dirLister.blockSignals(false);
-    }*/
+    }
 }
 
 void PlaylistCollection::rename()

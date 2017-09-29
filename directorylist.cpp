@@ -83,9 +83,7 @@ int DirectoryList::exec()
 {
     m_result.status = static_cast<DialogCode>(KDialog::exec());
     m_result.addPlaylists = m_base->importPlaylistsCheckBox->isChecked();
-    // FIXME signal
-    //return m_result;
-    return 0;
+    return m_result.status;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

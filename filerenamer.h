@@ -22,8 +22,6 @@
 #include <QVector>
 #include <QMap>
 
-#include <KUrl>
-
 #include "ui_filerenamerbase.h"
 #include "categoryreaderinterface.h"
 #include "tagrenameroptions.h"
@@ -31,6 +29,7 @@
 class QCheckBox;
 class QPushButton;
 class QSignalMapper;
+class QUrl;
 
 class ExampleOptionsDialog;
 class PlaylistItem;
@@ -535,7 +534,7 @@ private:
      * there is not already a folder icon set, and if the folder's name has
      * the album name.
      */
-    void setFolderIcon(const KUrl &dst, const PlaylistItem *item);
+    void setFolderIcon(const QUrl &dst, const PlaylistItem *item);
 
     /**
      * Attempts to rename the file from \a src to \a dest.  Returns true if the

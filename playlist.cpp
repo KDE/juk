@@ -712,14 +712,14 @@ void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMast
 void Playlist::copy()
 {
     PlaylistItemList items = selectedItems();
-    KUrl::List urls;
+    QList<QUrl> urls;
 
     foreach(PlaylistItem *item, items) {
-        urls << KUrl::fromPath(item->file().absFilePath());
+        urls << QUrl::fromLocalFile(item->file().absFilePath());
     }
 
     QMimeData *mimeData = new QMimeData;
-    urls.populateMimeData(mimeData);
+    mimeData->setUrls(urls);
 
     QApplication::clipboard()->setMimeData(mimeData, QClipboard::Clipboard);
 }
@@ -822,9 +822,12 @@ void Playlist::slotAddCover(bool retrieveLocal)
         return;
     }
 
-    KUrl file = KFileDialog::getImageOpenUrl(
-        KUrl( "kfiledialog://homedir" ), this, i18n("Select Cover Image File"));
-
+    QUrl file = QFileDialog::getOpenFileUrl(
+        this, i18n("Select Cover Image File"),
+        QUrl::fromLocalFile(QDir::home().path()),
+        i18n("Images (*.png *.jpg)"), nullptr,
+        0, QStringList() << QStringLiteral("file")
+        );
     if(file.isEmpty())
         return;
 
@@ -997,24 +1000,17 @@ void Playlist::dragEnterEvent(QDragEnterEvent *e)
         return;
     }
 
-    //setDropHighlighter(false);
     setDropIndicatorShown(true);
 
-    const KUrl::List urls = KUrl::List::fromMimeData(e->mimeData());
-
-    if (urls.isEmpty()) {
-        e->ignore();
-        return;
-    }
-
-    if(e->mimeData()->hasUrls())
+    if(e->mimeData()->hasUrls() && !e->mimeData()->urls().isEmpty())
         e->acceptProposedAction();
-    return;
+    else
+        e->ignore();
 }
 
 bool Playlist::acceptDrag(QDropEvent *e) const
 {
-    return CoverDrag::isCover(e->mimeData()) || KUrl::List::canDecode(e->mimeData());
+    return CoverDrag::isCover(e->mimeData()) || e->mimeData()->hasUrls();
 }
 
 void Playlist::decode(const QMimeData *s, PlaylistItem *item)
@@ -1091,13 +1087,12 @@ QStringList Playlist::mimeTypes() const
 
 QMimeData* Playlist::mimeData(const QList<QTreeWidgetItem *> items) const
 {
-    KUrl::List urls;
+    QList<QUrl> urls;
     foreach(QTreeWidgetItem *item, items) {
-        urls << KUrl::fromPath(static_cast<PlaylistItem*>(item)->file().absFilePath());
+        urls << QUrl::fromLocalFile(static_cast<PlaylistItem*>(item)->file().absFilePath());
     }
 
     QMimeData *urlDrag = new QMimeData();
-
     urlDrag->setUrls(urls);
 
     return urlDrag;

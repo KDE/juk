@@ -28,7 +28,6 @@ template<class T>
 class QList;
 
 class KJob;
-class KUrl;
 
 class FileHandle;
 

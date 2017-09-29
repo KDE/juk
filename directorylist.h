@@ -49,8 +49,9 @@ public:
                   QWidget *parent = 0);
     virtual ~DirectoryList();
 
+    Result dialogResult() const { return m_result; }
+
 public slots:
-    // FIXME signal
     int exec();
 
 signals:
