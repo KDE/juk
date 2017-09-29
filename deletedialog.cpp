@@ -24,19 +24,22 @@
 #include <kconfiggroup.h>
 #include <kglobal.h>
 
+#include <QDialogButtonBox>
 #include <QStringList>
 #include <QCheckBox>
+#include <QVBoxLayout>
 
 //////////////////////////////////////////////////////////////////////////////
 // DeleteWidget implementation
 //////////////////////////////////////////////////////////////////////////////
 
 DeleteWidget::DeleteWidget(QWidget *parent)
-    : QWidget(parent), m_ui(new Ui::DeleteDialogBase)
+    : QWidget(parent)
+    , m_ui(new Ui::DeleteDialogBase)
 {
     m_ui->setupUi(this);
 
-    setObjectName( QLatin1String("delete_dialog_widget" ));
+    setObjectName(QLatin1String("delete_dialog_widget"));
 
     KConfigGroup messageGroup(KSharedConfig::openConfig(), "FileRemover");
 
@@ -44,8 +47,10 @@ DeleteWidget::DeleteWidget(QWidget *parent)
     slotShouldDelete(deleteInstead);
     m_ui->ddShouldDelete->setChecked(deleteInstead);
 
-    // Forward on this signal.
+    // Forward on signals
     connect(m_ui->ddShouldDelete, SIGNAL(toggled(bool)), SIGNAL(signalShouldDelete(bool)));
+    connect(m_ui->ddButtonBox,    SIGNAL(accepted()),    SIGNAL(accepted()));
+    connect(m_ui->ddButtonBox,    SIGNAL(rejected()),    SIGNAL(rejected()));
 }
 
 void DeleteWidget::setFiles(const QStringList &files)
@@ -80,20 +85,18 @@ void DeleteWidget::slotShouldDelete(bool shouldDelete)
 //////////////////////////////////////////////////////////////////////////////
 
 DeleteDialog::DeleteDialog(QWidget *parent) :
-    KDialog(parent, Qt::MSWindowsFixedSizeDialogHint),
+    QDialog(parent),
     m_trashGuiItem(i18n("&Send to Trash"), "user-trash-full")
 {
-    setObjectName( QLatin1String("delete_dialog" ));
+    setObjectName(QLatin1String("juk_delete_dialog"));
     setModal(true);
-    setCaption(i18n("About to delete selected files"));
-    setButtons(Ok | Cancel);
-    setDefaultButton(Cancel);
-    showButtonSeparator(true);
+    setWindowTitle(i18n("About to delete selected files"));
+
+    auto layout = new QVBoxLayout(this);
 
     m_widget = new DeleteWidget(this);
-    setMainWidget(m_widget);
-
     m_widget->setMinimumSize(400, 300);
+    layout->addWidget(m_widget);
 
     // Trying to adjust for Qt bug with rich text where the layout is ignored
     // (something about not being able to get height-for-width on X11?)
@@ -102,6 +105,8 @@ DeleteDialog::DeleteDialog(QWidget *parent) :
 
     slotShouldDelete(shouldDelete());
 
+    connect(m_widget, SIGNAL(accepted()), SLOT(accept()));
+    connect(m_widget, SIGNAL(rejected()), SLOT(reject()));
     connect(m_widget, SIGNAL(signalShouldDelete(bool)), SLOT(slotShouldDelete(bool)));
 }
 
@@ -126,12 +131,13 @@ void DeleteDialog::accept()
     messageGroup.writeEntry("deleteInsteadOfTrash", shouldDelete());
     messageGroup.sync();
 
-    KDialog::accept();
+    QDialog::accept();
 }
 
 void DeleteDialog::slotShouldDelete(bool shouldDelete)
 {
-    setButtonGuiItem(Ok, shouldDelete ? KStandardGuiItem::del() : m_trashGuiItem);
+    KGuiItem::assign(m_widget->m_ui->ddButtonBox->button(QDialogButtonBox::Ok),
+                     shouldDelete ? KStandardGuiItem::del() : m_trashGuiItem);
 }
 
 // vim: set et sw=4 tw=0 sta:
