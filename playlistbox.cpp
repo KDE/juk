@@ -235,8 +235,7 @@ void PlaylistBox::scanFolders()
 
 void PlaylistBox::paste()
 {
-    Item *i = static_cast<Item *>(currentItem());
-    decode(QApplication::clipboard()->mimeData(), i);
+    // TODO: Reimplement
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -443,135 +442,6 @@ void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
 {
     for(QList<ViewMode *>::Iterator it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
         (*it)->removeItem(tag, column);
-}
-
-void PlaylistBox::decode(const QMimeData *s, Item *item)
-{
-    if(!s || (item && item->playlist() && item->playlist()->readOnly()))
-        return;
-
-    const KUrl::List urls = KUrl::List::fromMimeData(s);
-
-    if(!urls.isEmpty()) {
-        QStringList files;
-        for(KUrl::List::ConstIterator it = urls.constBegin(); it != urls.constEnd(); ++it)
-            files.append((*it).path());
-
-        if(item) {
-            TreeViewItemPlaylist *playlistItem;
-            playlistItem = dynamic_cast<TreeViewItemPlaylist *>(item->playlist());
-            if(playlistItem) {
-                playlistItem->retag(files, currentPlaylist());
-                TagTransactionManager::instance()->commit();
-                currentPlaylist()->update();
-                return;
-            }
-        }
-
-        if(item && item->playlist())
-            item->playlist()->addFiles(files);
-        else {
-            QString name = playlistNameDialog();
-            if(!name.isNull()) {
-                Playlist *p = new Playlist(this, name);
-                p->addFiles(files);
-            }
-        }
-    }
-}
-
-void PlaylistBox::dropEvent(QDropEvent *e)
-{
-    m_showTimer->stop();
-
-    Item *i = static_cast<Item *>(itemAt(e->pos()));
-    decode(e->mimeData(), i);
-
-    if(m_dropItem) {
-        Item *old = m_dropItem;
-        m_dropItem = 0;
-        //old->repaint();
-    }
-    e->acceptProposedAction();
-}
-
-void PlaylistBox::dragEnterEvent(QDragEnterEvent *e)
-{
-    e->acceptProposedAction();
-}
-
-void PlaylistBox::dragMoveEvent(QDragMoveEvent *e)
-{
-    // If we can decode the input source, there is a non-null item at the "move"
-    // position, the playlist for that Item is non-null, is not the
-    // selected playlist and is not the CollectionList, then accept the event.
-    //
-    // Otherwise, do not accept the event.
-
-    if (!e->mimeData()->hasUrls()) {
-        e->setAccepted(false);
-        return;
-    }
-
-    Item *target = static_cast<Item *>(itemAt(e->pos()));
-
-    if(target) {
-
-        if(target->playlist() && target->playlist()->readOnly())
-            return;
-
-        // This is a semi-dirty hack to check if the items are coming from within
-        // JuK.  If they are not coming from a Playlist (or subclass) then the
-        // dynamic_cast will fail and we can safely assume that the item is
-        // coming from outside of JuK.
-
-        if(dynamic_cast<Playlist *>(e->source())) {
-            if(target->playlist() &&
-               target->playlist() != CollectionList::instance() /*&&
-               !target->isSelected()*/)
-            {
-                e->setAccepted(true);
-            }
-            else
-                e->setAccepted(false);
-        }
-        else // the dropped items are coming from outside of JuK
-            e->setAccepted(true);
-
-        if(m_dropItem != target) {
-            Item *old = m_dropItem;
-            m_showTimer->stop();
-
-            if(e->isAccepted()) {
-                m_dropItem = target;
-                //target->repaint();
-                m_showTimer->setSingleShot(true);
-                m_showTimer->start(1500);
-            }
-            else
-                m_dropItem = 0;
-
-            /*if(old)
-                old->repaint();*/
-        }
-    }
-    else {
-
-        // We're dragging over the whitespace.  We'll use this case to make it
-        // possible to create new lists.
-
-        e->setAccepted(true);
-    }
-}
-
-void PlaylistBox::dragLeaveEvent(QDragLeaveEvent *e)
-{
-    if(m_dropItem) {
-        Item *old = m_dropItem;
-        m_dropItem = 0;
-        //old->repaint();
-    }
-    QTreeWidget::dragLeaveEvent(e);
 }
 
 void PlaylistBox::mousePressEvent(QMouseEvent *e)
