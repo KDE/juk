@@ -14,16 +14,14 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef EXAMPLEOPTIONS_H
-#define EXAMPLEOPTIONS_H
+#ifndef JUK_EXAMPLEOPTIONS_H
+#define JUK_EXAMPLEOPTIONS_H
 
-#include <KUrl>
+class QUrl;
 
-#include <qdialog.h>
-
-#include <QHideEvent>
-#include <QShowEvent>
+#include <QDialog>
 #include <QWidget>
+
 #include "ui_exampleoptionsbase.h"
 
 class ExampleOptions : public QWidget, public Ui::ExampleOptionsBase
@@ -33,17 +31,15 @@ public:
     ExampleOptions(QWidget *parent);
 
 protected slots:
-    virtual void exampleSelectionChanged();
-    virtual void exampleDataChanged();
-    virtual void exampleFileChanged();
+    void exampleSelectionChanged();
+    void exampleDataChanged();
+    void exampleFileChanged();
 
 signals:
     void dataChanged();
     void fileChanged();
 };
 
-// We're not using KDialog(Base) because this dialog won't have any push
-// buttons to close it.  It's just a little floating dialog.
 class ExampleOptionsDialog : public QDialog
 {
     Q_OBJECT
@@ -52,13 +48,14 @@ public:
 
     const ExampleOptions *widget() const { return m_options; }
 
-    protected:
+protected:
     virtual void hideEvent(QHideEvent *);
     virtual void showEvent(QShowEvent *);
 
 protected slots:
     void fileModeSelected();
-    void fileChanged(const KUrl &);
+    void urlChanged(const QUrl &);
+
 signals:
     void fileChanged(const QString &);
     void dataChanged();
@@ -69,6 +66,6 @@ private:
     ExampleOptions *m_options;
 };
 
-#endif /* EXAMPLEOPTIONS_H */
+#endif /* JUK_EXAMPLEOPTIONS_H */
 
 // vim: set et sw=4 tw=0 sta:

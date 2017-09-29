@@ -23,7 +23,6 @@
 #include <kactioncollection.h>
 #include <kselectaction.h>
 #include <ktoggleaction.h>
-#include <kurl.h>
 
 #include <Phonon/AudioOutput>
 #include <Phonon/MediaObject>
@@ -31,6 +30,7 @@
 
 #include <QPixmap>
 #include <QTimer>
+#include <QUrl>
 
 #include <math.h>
 
@@ -225,7 +225,7 @@ void PlayerManager::play(const FileHandle &file)
 
     // The "currently playing" media object.
     Phonon::MediaObject *mediaObject = m_media[m_curOutputPath];
-    
+
     if(file.isNull()) {
         if(paused())
             mediaObject->play();
@@ -239,7 +239,7 @@ void PlayerManager::play(const FileHandle &file)
 
             if(!m_file.isNull())
             {
-                mediaObject->setCurrentSource(KUrl::fromPath(m_file.absFilePath()));
+                mediaObject->setCurrentSource(QUrl::fromLocalFile(m_file.absFilePath()));
                 mediaObject->play();
 
                 emit signalItemChanged(m_file);
@@ -247,7 +247,7 @@ void PlayerManager::play(const FileHandle &file)
         }
     }
     else {
-        mediaObject->setCurrentSource(KUrl::fromPath(file.absFilePath()));
+        mediaObject->setCurrentSource(QUrl::fromLocalFile(file.absFilePath()));
         mediaObject->play();
 
         if(m_file != file)

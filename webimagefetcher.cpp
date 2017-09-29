@@ -22,9 +22,7 @@
 #include <KXmlGuiWindow>
 #include <KLocale>
 #include <KInputDialog>
-#include <KUrl>
 #include <KIO/Job>
-#include <QPushButton>
 #include <KDialog>
 
 #include "covermanager.h"
@@ -37,9 +35,12 @@
 #include <QDomDocument>
 #include <QDomElement>
 #include <QPointer>
+#include <QPushButton>
 #include <QLayout>
 #include <QLabel>
 #include <QPainter>
+#include <QUrl>
+#include <QUrlQuery>
 
 #include <kiconloader.h>
 
@@ -57,7 +58,7 @@ class WebImageFetcher::Private
     QString albumName;
     QPointer<KIO::StoredTransferJob> connection;
     KDialog *dialog;
-    KUrl url;
+    QUrl url;
 };
 
 WebImageFetcher::WebImageFetcher(QObject *parent)
@@ -87,14 +88,16 @@ void WebImageFetcher::searchCover()
     QStatusBar *statusBar = JuK::JuKInstance()->statusBar();
     statusBar->showMessage(i18n("Searching for cover. Please Wait..."));
 
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("method", "album.getInfo");
+    urlQuery.addQueryItem("api_key", "3e6ecbd7284883089e8f2b5b53b0aecd");
+    urlQuery.addQueryItem("artist", d->artist);
+    urlQuery.addQueryItem("album", d->albumName);
 
-    KUrl url("http://ws.audioscrobbler.com/2.0/");
-    url.addQueryItem("method", "album.getInfo");
-    url.addQueryItem("api_key", "3e6ecbd7284883089e8f2b5b53b0aecd");
-    url.addQueryItem("artist", d->artist);
-    url.addQueryItem("album", d->albumName);
+    QUrl url("http://ws.audioscrobbler.com/2.0/");
+    url.setQuery(urlQuery);
 
-    qCDebug(JUK_LOG) << "Using request " << url.encodedPathAndQuery();
+    qCDebug(JUK_LOG) << "Using request " << url.toDisplayString();
 
     d->connection = KIO::storedGet(url, KIO::Reload /* reload always */, KIO::HideProgressInfo);
     connect(d->connection, SIGNAL(result(KJob*)), SLOT(slotWebRequestFinished(KJob*)));
@@ -104,8 +107,6 @@ void WebImageFetcher::searchCover()
 
 void WebImageFetcher::slotWebRequestFinished(KJob *job)
 {
-    qCDebug(JUK_LOG) << "Results received.\n";
-
     if (job != d->connection)
         return;
 
@@ -115,7 +116,6 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
         return;
     }
 
-    qCDebug(JUK_LOG) << "Checking for data!!\n";
     if (d->connection->data().isEmpty()) {
         qCCritical(JUK_LOG) << "last.fm returned an empty result!\n";
         return;
@@ -131,7 +131,7 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
 
         return;
     }
-    
+
     QDomNode n = results.documentElement();
 
     if (n.isNull()) {
@@ -140,14 +140,15 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     }
     n = n.firstChildElement("album");
 
-    d->url = n.lastChildElement("image").text(); //FIXME: We assume they have a sane sorting (smallest -> largest)
+    //FIXME: We assume they have a sane sorting (smallest -> largest)
+    d->url = QUrl::fromEncoded(n.lastChildElement("image").text().toLatin1());
     //TODO: size attribute can have the values mega, extralarge, large, medium and small
-    
+
     qCDebug(JUK_LOG) << "Got cover:" << d->url;
 
     QStatusBar *statusBar = JuK::JuKInstance()->statusBar();
     statusBar->showMessage(i18n("Downloading cover. Please Wait..."));
-    
+
     KIO::StoredTransferJob *newJob = KIO::storedGet(d->url, KIO::Reload /* reload always */, KIO::HideProgressInfo);
     connect(newJob, SIGNAL(result(KJob*)), SLOT(slotImageFetched(KJob*)));
 }
@@ -158,7 +159,7 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     statusBar->clearMessage();
 
     KIO::StoredTransferJob *job = qobject_cast<KIO::StoredTransferJob*>(j);
-    
+
     if (d->dialog) return;
     d->dialog = new KDialog();
     d->dialog->setCaption(i18n("Cover found"));
@@ -167,7 +168,7 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     QWidget *mainWidget = new QWidget();
     d->dialog->setMainWidget(mainWidget);
     mainWidget->setLayout(new QVBoxLayout);
-    
+
     if(job->error()) {
         qCCritical(JUK_LOG) << "Unable to grab image\n";
         d->dialog->setWindowIcon(DesktopIcon("dialog-error"));
@@ -195,7 +196,7 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     infoLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
     mainWidget->layout()->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
     mainWidget->layout()->addWidget(infoLabel);
-    
+
     d->dialog->setWindowIcon(realImage);
     d->dialog->show();
     connect(d->dialog, SIGNAL(applyClicked()), SLOT(slotCoverChosen()));

@@ -49,7 +49,7 @@ endif(TUNEPIMP_FOUND)
 ########### next target ###############
 
 include_directories( ${TAGLIB_INCLUDES} )
-add_definitions(-DQT_STL)
+add_definitions(-DQT_STL -DQT_NO_URL_CAST_FROM_STRING)
 
 # Look for Ogg Opus support in taglib (not released yet)
 cmake_push_check_state()

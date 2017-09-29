@@ -892,8 +892,8 @@ void PlaylistCollection::readConfig()
     m_excludedFolderList = canonicalizeFolderPaths(
             config.readEntry("ExcludeDirectoryList", QStringList()));
 
-    foreach(const QString &folder, m_folderList) {
-        m_dirLister.openUrl(folder, KDirLister::Keep);
+    for(const auto &folder : m_folderList) {
+        m_dirLister.openUrl(QUrl::fromUserInput(folder), KDirLister::Keep);
     }
 }
 

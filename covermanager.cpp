@@ -28,9 +28,9 @@
 #include <QByteArray>
 #include <QMap>
 #include <QTemporaryFile>
+#include <QUrl>
 
 #include <kdemacros.h>
-#include <kurl.h>
 #include <kstandarddirs.h>
 #include <kglobal.h>
 #include <kio/job.h>
@@ -405,30 +405,21 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
 coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, const QString &album)
 {
     qCDebug(JUK_LOG) << "Adding new pixmap to cover database.";
-
     if(large.isNull()) {
         qCDebug(JUK_LOG) << "The pixmap you're trying to add is NULL!";
         return NoMatch;
     }
 
     QTemporaryFile tempFile;
-    if(!tempFile.open()) {
-        qCCritical(JUK_LOG) << "Unable to open file for pixmap cover, unable to add cover to DB";
-        return NoMatch;
-    }
-
-    // Now that file is open, file name will be available, which is where we want
-    // to save the pixmap as a .png.
-
-    if(!large.save(tempFile.fileName(), "PNG")) {
+    if(!tempFile.open() || !large.save(tempFile.fileName(), "PNG")) {
         qCCritical(JUK_LOG) << "Unable to save pixmap to " << tempFile.fileName();
         return NoMatch;
     }
 
-    return addCover(KUrl::fromPath(tempFile.fileName()), artist, album);
+    return addCover(QUrl::fromLocalFile(tempFile.fileName()), artist, album);
 }
 
-coverKey CoverManager::addCover(const KUrl &path, const QString &artist, const QString &album)
+coverKey CoverManager::addCover(const QUrl &path, const QString &artist, const QString &album)
 {
     coverKey id = data()->nextId();
     CoverData coverData;
@@ -459,8 +450,8 @@ coverKey CoverManager::addCover(const KUrl &path, const QString &artist, const Q
     // it assumes we merely want the file on the hard disk somewhere.
 
     KIO::FileCopyJob *job = KIO::file_copy(
-         path, KUrl::fromPath(coverData.path),
-         -1 /* perms */,KIO::HideProgressInfo | KIO::Overwrite
+         path, QUrl::fromLocalFile(coverData.path),
+         -1 /* perms */, KIO::HideProgressInfo | KIO::Overwrite
          );
     QObject::connect(job, SIGNAL(result(KJob*)),
                      data()->coverProxy(), SLOT(handleResult(KJob*)));

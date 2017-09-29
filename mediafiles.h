@@ -17,6 +17,8 @@
 #ifndef JUK_MEDIAFILES_H
 #define JUK_MEDIAFILES_H
 
+#include <QList>
+
 class QWidget;
 class QString;
 class QStringList;
@@ -25,7 +27,6 @@ namespace TagLib {
     class File;
 }
 
-#include <kurl.h>
 #include <taglib_config.h>
 
 /**
@@ -121,7 +122,7 @@ namespace MediaFiles
      * @param w KIO may need the widget to handle user interaction.
      * @return list of all local files in urlList, converted to absolute paths.
      */
-    QStringList convertURLsToLocal(const KUrl::List &urlList, QWidget *w = 0);
+    QStringList convertURLsToLocal(const QList<QUrl> &urlList, QWidget *w = nullptr);
 }
 
 #endif

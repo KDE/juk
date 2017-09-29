@@ -29,12 +29,11 @@ class CoverManagerPrivate;
 class CoverProxy;
 class QPixmap;
 class QTimer;
+class QUrl;
 class KJob;
 
 template<class T>
 class QList;
-
-class KUrl;
 
 /**
  * This class saves the covers when its saveCovers() slot is called to avoid
@@ -58,14 +57,10 @@ private:
 };
 
 /**
- * This class holds the data on a cover.  This includes the path to the cover
- * representation on-disk, and the artist and album associated with the cover.
+ * This class holds the data on a cover.
  * Don't assume that the artist or album information is filled out, it is
  * there to allow the CoverManager to try to automatically assign covers to
  * new tracks.
- *
- * @author Michael Pyne <mpyne@kde.org>
- * @see CoverManager
  */
 class CoverData
 {
@@ -92,7 +87,7 @@ typedef QList<coverKey> CoverList;
  * contains the cover ID used for this cover, and also supports an image/png
  * mimetype for dragging to other applications.
  *
- * As of this writing the mimetype is application/x-juk-coverid
+ * The mimetype is "application/x-juk-coverid"
  *
  * @author Michael Pyne <mpyne@kde.org>
  */
@@ -192,7 +187,7 @@ public:
      * @param artist The artist of the new cover.
      * @param album  The album of the new cover.
      */
-    static coverKey addCover(const KUrl &path, const QString &artist = "", const QString &album = "");
+    static coverKey addCover(const QUrl &path, const QString &artist = "", const QString &album = "");
 
     /**
      * Function to determine if @p id matches any covers in the database.

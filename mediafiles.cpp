@@ -267,18 +267,18 @@ QStringList MediaFiles::mimeTypes()
     return savedMimeTypes;
 }
 
-QStringList MediaFiles::convertURLsToLocal(const KUrl::List &urlList, QWidget *w)
+QStringList MediaFiles::convertURLsToLocal(const QList<QUrl> &urlList, QWidget *w)
 {
     QStringList result;
-    KUrl localUrl;
+    QUrl localUrl;
 
-    foreach(const KUrl &url, urlList) {
+    for(const auto &url : urlList) {
         localUrl = KIO::NetAccess::mostLocalUrl(url, w);
 
-        if(!localUrl.isLocalFile())
-            qCDebug(JUK_LOG) << localUrl << " is not a local file, skipping.\n";
-        else
+        if(localUrl.isLocalFile())
             result.append(localUrl.path());
+        else
+            qCDebug(JUK_LOG) << localUrl << " is not a local file, skipping.";
     }
 
     return result;

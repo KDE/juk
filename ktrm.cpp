@@ -25,10 +25,10 @@
 #if HAVE_TUNEPIMP > 0
 
 #include <kprotocolmanager.h>
-#include <kurl.h>
 #include <kio/job.h>
 
 #include <QCoreApplication>
+#include <QUrl>
 #include <QtAlgorithms>
 #include <QMutex>
 #include <QRegExp>
@@ -164,7 +164,7 @@ protected:
             // Check what hosts are allowed to proceed without being proxied,
             // or if using reversed proxy, what hosts must be proxied.
             foreach(const QString &host, noProxies) {
-                const QString normalizedHost(KUrl::fromAce(KUrl::toAce(host)));
+                const QString normalizedHost(QUrl().setHost(host).host(QUrl::EncodeUnicode));
 
                 if(normalizedHost == tunepimpHost ||
                    tunepimpHost.endsWith('.' + normalizedHost))
@@ -188,11 +188,11 @@ protected:
                 useProxy = !useProxy;
 
             if(useProxy) {
-                KUrl proxy = KProtocolManager::proxyFor("http");
+                QUrl proxy = QUrl::fromUserInput(KProtocolManager::proxyFor("http"));
                 QString proxyHost = proxy.host();
 
                 qCDebug(JUK_LOG) << "Using proxy server " << proxyHost << " for www.musicbrainz.org.\n";
-                tp_SetProxy(m_pimp, proxyHost.toAscii(), short(proxy.port()));
+                tp_SetProxy(m_pimp, proxyHost.toUtf8(), short(proxy.port()));
             }
         }
 #else

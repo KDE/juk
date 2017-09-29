@@ -963,7 +963,8 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
                     action("forward")->trigger();
 
                 QString removePath = item->file().absFilePath();
-                if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removePath), this)) ||
+                QUrl removeUrl = QUrl::fromLocalFile(removePath);
+                if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removeUrl), this)) ||
                    (shouldDelete && QFile::remove(removePath)))
                 {
                     delete item->collectionItem();
@@ -1018,39 +1019,9 @@ bool Playlist::acceptDrag(QDropEvent *e) const
 
 void Playlist::decode(const QMimeData *s, PlaylistItem *item)
 {
-    if(!KUrl::List::canDecode(s))
-        return;
-
-    const KUrl::List urls = KUrl::List::fromMimeData(s);
-
-    if(urls.isEmpty())
-        return;
-
-    // handle dropped images
-
-    if(!MediaFiles::isMediaFile(urls.front().path())) {
-
-        QString file;
-
-        if(urls.front().isLocalFile())
-            file = urls.front().path();
-        else
-            KIO::NetAccess::download(urls.front(), file, 0);
-
-        KMimeType::Ptr mimeType = KMimeType::findByPath(file);
-
-        if(item && mimeType->name().startsWith(QLatin1String("image/"))) {
-            item->file().coverInfo()->setCover(QImage(file));
-            refreshAlbum(item->file().tag()->artist(),
-                         item->file().tag()->album());
-        }
-
-        KIO::NetAccess::removeTempFile(file);
-    }
-
-    QStringList fileList = MediaFiles::convertURLsToLocal(urls, this);
-
-    addFiles(fileList, item);
+    Q_UNUSED(s);
+    Q_UNUSED(item);
+    // TODO Re-add drag-drop
 }
 
 bool Playlist::eventFilter(QObject *watched, QEvent *e)
