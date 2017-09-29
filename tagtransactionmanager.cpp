@@ -181,7 +181,7 @@ bool TagTransactionManager::processChangeList(bool undo)
             item->refreshFromDisk();
             //FIXME repaint
             //item->repaint();
-            item->playlist()->dataChanged();
+            item->playlist()->playlistItemsChanged();
             item->playlist()->update();
         }
         else {

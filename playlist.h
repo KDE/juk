@@ -405,7 +405,7 @@ public slots:
 
     void slotColumnResizeModeChanged();
 
-    virtual void dataChanged();
+    virtual void playlistItemsChanged();
 
 protected:
     /**
@@ -739,7 +739,7 @@ ItemType *Playlist::createItem(const FileHandle &file, QTreeWidgetItem *after,
         setupItem(i);
 
         if(emitChanged)
-            dataChanged();
+            playlistItemsChanged();
 
         return i;
     }
@@ -771,7 +771,7 @@ void Playlist::createItems(const QList<SiblingType *> &siblings, ItemType *after
     foreach(SiblingType *sibling, siblings)
         after = createItem(sibling, after);
 
-    dataChanged();
+    playlistItemsChanged();
     slotWeightDirty();
 }
 

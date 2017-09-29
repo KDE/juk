@@ -75,7 +75,7 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
         m_playlistIndex.insert(after, playlistItem->playlist());
     }
 
-    dataChanged();
+    playlistItemsChanged();
     slotWeightDirty();
 }
 
@@ -159,7 +159,7 @@ void UpcomingPlaylist::removeIteratorOverride()
 
     setPlaying(manager()->currentItem(), true);
 
-    Watched::currentChanged();
+    Watched::currentPlayingItemChanged();
 }
 
 TrackSequenceManager *UpcomingPlaylist::manager() const
@@ -223,7 +223,7 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
     if(p != m_playlist) {
         PlaylistItem *i = m_playlist->createItem(currentItem, (PlaylistItem *) 0);
         m_playlist->playlistIndex().insert(i, p);
-        m_playlist->dataChanged();
+        m_playlist->playlistItemsChanged();
         m_playlist->slotWeightDirty();
     }
     else {

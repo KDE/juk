@@ -172,7 +172,7 @@ void CollectionList::clearItems(const PlaylistItemList &items)
         delete item;
     }
 
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
@@ -495,12 +495,12 @@ void CollectionListItem::refresh()
 
     for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
         (*it)->playlist()->update();
-        (*it)->playlist()->dataChanged();
+        (*it)->playlist()->playlistItemsChanged();
     }
     if(treeWidget()->isVisible())
         treeWidget()->viewport()->update();
 
-    CollectionList::instance()->dataChanged();
+    CollectionList::instance()->playlistItemsChanged();
     emit CollectionList::instance()->signalCollectionChanged();
 }
 
@@ -549,7 +549,7 @@ CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle 
 
     if(file.tag()) {
         refresh();
-        parent->dataChanged();
+        parent->playlistItemsChanged();
     }
     else {
         qCCritical(JUK_LOG) << "CollectionListItem::CollectionListItem() -- Tag() could not be created.";

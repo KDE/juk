@@ -143,35 +143,35 @@ void PlaylistCollection::playFirst()
 {
     m_playing = true;
     currentPlaylist()->playFirst();
-    currentChanged();
+    currentPlayingItemChanged();
 }
 
 void PlaylistCollection::playNextAlbum()
 {
     m_playing = true;
     currentPlaylist()->playNextAlbum();
-    currentChanged();
+    currentPlayingItemChanged();
 }
 
 void PlaylistCollection::playPrevious()
 {
     m_playing = true;
     currentPlaylist()->playPrevious();
-    currentChanged();
+    currentPlayingItemChanged();
 }
 
 void PlaylistCollection::playNext()
 {
     m_playing = true;
     currentPlaylist()->playNext();
-    currentChanged();
+    currentPlayingItemChanged();
 }
 
 void PlaylistCollection::stop()
 {
     m_playing = false;
     currentPlaylist()->stop();
-    dataChanged();
+    playlistItemsChanged();
 }
 
 bool PlaylistCollection::playing() const
@@ -359,7 +359,7 @@ void PlaylistCollection::open(const QStringList &l)
         visiblePlaylist()->addFiles(files);
     }
 
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void PlaylistCollection::open(const QString &playlist, const QStringList &files)
@@ -485,13 +485,13 @@ void PlaylistCollection::renameItems()
 void PlaylistCollection::addCovers(bool fromFile)
 {
     visiblePlaylist()->slotAddCover(fromFile);
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void PlaylistCollection::removeCovers()
 {
     visiblePlaylist()->slotRemoveCover();
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void PlaylistCollection::viewCovers()
@@ -670,7 +670,7 @@ void PlaylistCollection::raise(Playlist *playlist)
     playlist->setSearchEnabled(m_searchEnabled);
     m_playlistStack->setCurrentWidget(playlist);
     clearShowMore(false);
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void PlaylistCollection::raiseDistraction()

@@ -603,7 +603,7 @@ void TagEditor::save(const PlaylistItemList &list)
         }
 
         TagTransactionManager::instance()->commit();
-        CollectionList::instance()->dataChanged();
+        CollectionList::instance()->playlistItemsChanged();
         m_performingSave = false;
         QApplication::restoreOverrideCursor();
     }

@@ -594,7 +594,7 @@ void Playlist::clearItem(PlaylistItem *item)
     // Automatically updates internal structs via updateDeletedItem
     delete item;
 
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void Playlist::clearItems(const PlaylistItemList &items)
@@ -602,7 +602,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
     foreach(PlaylistItem *item, items)
         delete item;
 
-    dataChanged();
+    playlistItemsChanged();
 }
 
 PlaylistItem *Playlist::playingItem() // static
@@ -772,7 +772,7 @@ void Playlist::slotRenameFile()
     m_blockDataChanged = true;
     renamer.rename(items);
     m_blockDataChanged = false;
-    dataChanged();
+    playlistItemsChanged();
 
     emit signalEnableDirWatch(true);
 }
@@ -868,7 +868,7 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 
     m_blockDataChanged = false;
 
-    dataChanged();
+    playlistItemsChanged();
     setDynamicListsFrozen(false);
     QApplication::restoreOverrideCursor();
 }
@@ -934,11 +934,11 @@ void Playlist::slotColumnResizeModeChanged()
     SharedSettings::instance()->sync();
 }
 
-void Playlist::dataChanged()
+void Playlist::playlistItemsChanged()
 {
     if(m_blockDataChanged)
         return;
-    PlaylistInterface::dataChanged();
+    PlaylistInterface::playlistItemsChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -986,7 +986,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
         m_blockDataChanged = false;
 
-        dataChanged();
+        playlistItemsChanged();
     }
 }
 
@@ -1172,7 +1172,7 @@ void Playlist::dropEvent(QDropEvent *e)
 
     m_blockDataChanged = false;
 
-    dataChanged();
+    playlistItemsChanged();
     emit signalPlaylistItemsDropped(this);
     QTreeWidget::dropEvent(e);
 }
@@ -1220,7 +1220,7 @@ void Playlist::read(QDataStream &s)
 
     m_blockDataChanged = false;
 
-    dataChanged();
+    playlistItemsChanged();
     m_collection->setupPlaylist(this, "audio-midi");
 }
 
@@ -1304,7 +1304,7 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     m_blockDataChanged = false;
 
     slotWeightDirty();
-    dataChanged();
+    playlistItemsChanged();
 
     QApplication::restoreOverrideCursor();
 }
@@ -1682,7 +1682,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     file.close();
 
-    dataChanged();
+    playlistItemsChanged();
 
     m_disableColumnWidthUpdates = false;
 }
