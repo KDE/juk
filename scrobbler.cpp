@@ -29,24 +29,22 @@
 #include <kconfiggroup.h>
 #include <KSharedConfig>
 
+#include <memory>
+
 #include "tag.h"
+#include "juk.h"
 #include "juk_debug.h"
 
 Scrobbler::Scrobbler(QObject* parent)
     : QObject(parent)
-    , m_networkAccessManager(0)
-    , m_wallet(0)
+    , m_networkAccessManager(nullptr)
+    , m_wallet(Scrobbler::openKWallet())
 {
     QByteArray sessionKey;
 
-    m_wallet = Scrobbler::openKWallet();
-
     if (m_wallet) {
-
         m_wallet->readEntry("SessionKey", sessionKey);
-
     } else {
-
         KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         sessionKey.append(config.readEntry("SessionKey", ""));
     }
@@ -55,65 +53,51 @@ Scrobbler::Scrobbler(QObject* parent)
         getAuthToken();
 }
 
-Scrobbler::~Scrobbler()
-{
-    delete m_wallet;
-}
-
-bool Scrobbler::isScrobblingEnabled()
+bool Scrobbler::isScrobblingEnabled() // static
 {
     QString username, password;
 
-    if (KWallet::Wallet::folderDoesNotExist(KWallet::Wallet::LocalWallet(), "JuK")) {
-
+    // checks without prompting to open the wallet
+    if (Wallet::folderDoesNotExist(Wallet::LocalWallet(), "JuK")) {
         KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
 
         username = config.readEntry("Username", "");
         password = config.readEntry("Password", "");
-
     } else {
-
-        KWallet::Wallet* wallet = Scrobbler::openKWallet();
-
+        auto wallet = Scrobbler::openKWallet();
         if (wallet) {
-
             QMap<QString, QString> scrobblingCredentials;
             wallet->readMap("Scrobbling", scrobblingCredentials);
 
             if (scrobblingCredentials.contains("Username") && scrobblingCredentials.contains("Password")) {
-
                 username = scrobblingCredentials["Username"];
                 password = scrobblingCredentials["Password"];
             }
-
-            delete wallet;
         }
     }
 
     return (!username.isEmpty() && !password.isEmpty());
 }
 
-KWallet::Wallet* Scrobbler::openKWallet() // static
+std::unique_ptr<KWallet::Wallet> Scrobbler::openKWallet() // static
 {
+    using KWallet::Wallet;
+
     const QString walletFolderName = "JuK";
+    std::unique_ptr<Wallet> wallet(Wallet::openWallet(
+                Wallet::LocalWallet(),
+                JuK::JuKInstance()->winId()));
 
-    KWallet::Wallet* wallet = KWallet::Wallet::openWallet(KWallet::Wallet::LocalWallet(), 0);
-
-    if (wallet) {
-
-        if (!wallet->hasFolder(walletFolderName)) {
-
-            if (!wallet->createFolder(walletFolderName)) {
-
-                delete wallet;
-                return 0;
-            }
+    if(wallet) {
+        if(!wallet->hasFolder(walletFolderName) &&
+            !wallet->createFolder(walletFolderName))
+        {
+            return nullptr;
         }
 
-        if (!wallet->setFolder(walletFolderName)) {
-
-            delete wallet;
-            return 0;
+        if(!wallet->setFolder(walletFolderName))
+        {
+            return nullptr;
         }
     }
 

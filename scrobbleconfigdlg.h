@@ -15,22 +15,27 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SCROBBLESETTINGS_H
-#define SCROBBLESETTINGS_H
+#ifndef JUK_SCROBBLESETTINGS_H
+#define JUK_SCROBBLESETTINGS_H
 
-#include <KDialog>
+#include <QDialog>
 #include <KWallet/Wallet>
 
+#include <memory>
+
+using namespace KWallet;
+
 class KLineEdit;
+class QAbstractButton;
 class QPushButton;
 class QLabel;
 
-class ScrobbleConfigDlg : public KDialog
+class ScrobbleConfigDlg : public QDialog
 {
     Q_OBJECT
+
 public:
-    explicit ScrobbleConfigDlg(QWidget* parent = 0, Qt::WindowFlags f = 0);
-    ~ScrobbleConfigDlg();
+    explicit ScrobbleConfigDlg(QWidget* parent = nullptr);
 
 private slots:
     void testLogin();
@@ -43,9 +48,10 @@ private:
     KLineEdit *m_usernameEdit;
     KLineEdit *m_passwordEdit;
     QPushButton *m_testButton;
+    QAbstractButton *m_saveButton;
     QLabel *m_testFeedbackLabel;
 
-    KWallet::Wallet *m_wallet;
+    std::unique_ptr<Wallet> m_wallet;
 };
 
-#endif//SCROBBLESETTINGS_H
+#endif //JUK_SCROBBLESETTINGS_H
