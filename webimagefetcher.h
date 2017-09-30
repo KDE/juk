@@ -16,21 +16,13 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef WEBIMAGEFETCHER_H
-#define WEBIMAGEFETCHER_H
+#ifndef JUK_WEBIMAGEFETCHER_H
+#define JUK_WEBIMAGEFETCHER_H
 
 #include <QObject>
 
-// Predeclare some classes.
-
-
-template<class T>
-class QList;
-
 class KJob;
-
 class FileHandle;
-
 
 class WebImageFetcher : public QObject
 {
@@ -46,7 +38,6 @@ public slots:
     void abortSearch();
     void searchCover();
 
-
 signals:
     void signalCoverChanged(int coverId);
 
@@ -59,6 +50,7 @@ private:
     class Private;
     Private *d;
 };
+
 #endif
 
 // vim: set et sw=4 tw=0 sta:

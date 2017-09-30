@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2004 Nathan Toone <nathan@toonetown.com>
- * Copyright (C) 2007 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2007, 2017 Michael Pyne <mpyne@kde.org>
  * Copyright (C) 2012 Martin Sandsmark <martin.sandsmark@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
@@ -19,11 +19,9 @@
 #include "webimagefetcher.h"
 
 #include <KStatusBar>
-#include <KXmlGuiWindow>
 #include <KLocale>
-#include <KInputDialog>
 #include <KIO/Job>
-#include <KDialog>
+#include <KIconLoader>
 
 #include "covermanager.h"
 #include "filehandle.h"
@@ -32,6 +30,9 @@
 #include "juk_debug.h"
 
 #include <QPixmap>
+#include <QIcon>
+#include <QDialog>
+#include <QDialogButtonBox>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QPointer>
@@ -42,27 +43,21 @@
 #include <QUrl>
 #include <QUrlQuery>
 
-#include <kiconloader.h>
-
-
 class WebImageFetcher::Private
 {
     friend class WebImageFetcher;
-
-    Private() : connection(0), dialog(0)
-    {
-    }
 
     FileHandle file;
     QString artist;
     QString albumName;
     QPointer<KIO::StoredTransferJob> connection;
-    KDialog *dialog;
+    QDialog *dialog = nullptr;
     QUrl url;
 };
 
 WebImageFetcher::WebImageFetcher(QObject *parent)
-        : QObject(parent), d(new Private)
+  : QObject(parent)
+  , d(new Private)
 {
 }
 
@@ -160,21 +155,22 @@ void WebImageFetcher::slotImageFetched(KJob* j)
 
     KIO::StoredTransferJob *job = qobject_cast<KIO::StoredTransferJob*>(j);
 
-    if (d->dialog) return;
-    d->dialog = new KDialog();
-    d->dialog->setCaption(i18n("Cover found"));
-    d->dialog->setButtons(KDialog::Apply | KDialog::Cancel);
-    d->dialog->button(KDialog::Apply)->setText(i18n("Store"));
-    QWidget *mainWidget = new QWidget();
-    d->dialog->setMainWidget(mainWidget);
-    mainWidget->setLayout(new QVBoxLayout);
+    if (d->dialog)
+        return;
+
+    d->dialog = new QDialog;
+    d->dialog->setWindowTitle(i18n("Cover found"));
+
+    auto dlgVLayout = new QVBoxLayout(d->dialog);
 
     if(job->error()) {
         qCCritical(JUK_LOG) << "Unable to grab image\n";
         d->dialog->setWindowIcon(DesktopIcon("dialog-error"));
+        // TODO: What kind of error announcement is this??
         return;
     }
 
+    // TODO: 150x150 seems inconsistent with HiDPI, figure out something better
     QPixmap iconImage, realImage(150, 150);
     iconImage.loadFromData(job->data());
     realImage.fill(Qt::transparent);
@@ -188,18 +184,25 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     if(iconImage.width() > 150 || iconImage.height() > 150)
         iconImage = iconImage.scaled(150, 150, Qt::KeepAspectRatio, Qt::SmoothTransformation);
 
-    QLabel *cover = new QLabel();
+    QLabel *cover = new QLabel(d->dialog);
     cover->setPixmap(iconImage);
-    mainWidget->layout()->addWidget(cover);
-    QLabel *infoLabel = new QLabel(i18n("Cover fetched from <a href='http://last.fm/'>last.fm</a>."));
+    dlgVLayout->addWidget(cover);
+
+    QLabel *infoLabel = new QLabel(i18n("Cover fetched from <a href='https://last.fm/'>last.fm</a>."), d->dialog);
     infoLabel->setOpenExternalLinks(true);
     infoLabel->setTextInteractionFlags(Qt::TextBrowserInteraction);
-    mainWidget->layout()->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
-    mainWidget->layout()->addWidget(infoLabel);
+    dlgVLayout->addItem(new QSpacerItem(0, 0, QSizePolicy::Expanding, QSizePolicy::Expanding));
+    dlgVLayout->addWidget(infoLabel);
+
+    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Save | QDialogButtonBox::Cancel, d->dialog);
+    dlgVLayout->addWidget(buttonBox);
+    connect(buttonBox, &QDialogButtonBox::accepted, d->dialog, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, d->dialog, &QDialog::reject);
+
+    connect(d->dialog, &QDialog::accepted, this, &WebImageFetcher::slotCoverChosen);
 
     d->dialog->setWindowIcon(realImage);
     d->dialog->show();
-    connect(d->dialog, SIGNAL(applyClicked()), SLOT(slotCoverChosen()));
 }
 
 
