@@ -16,11 +16,11 @@
 
 #include "statuslabel.h"
 
-#include <QAction>
 #include <kiconloader.h>
 #include <ksqueezedtextlabel.h>
 #include <klocale.h>
 
+#include <QAction>
 #include <QMouseEvent>
 #include <QLabel>
 #include <QFrame>
@@ -41,20 +41,23 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
-    KHBox(parent),
+    QWidget(parent),
     PlaylistObserver(playlist),
     m_showTimeRemaining(false)
 {
+    auto hboxLayout = new QHBoxLayout(this);
+
     QFrame *trackAndPlaylist = new QFrame(this);
-    trackAndPlaylist->setFrameStyle(Box | Sunken);
+    hboxLayout->addWidget(trackAndPlaylist);
+    trackAndPlaylist->setFrameStyle(QFrame::Box | QFrame::Sunken);
     trackAndPlaylist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
     // Make sure that we have enough of a margin to suffice for the borders,
     // hence the "lineWidth() * 2"
-    QHBoxLayout *trackAndPlaylistLayout = new QHBoxLayout( trackAndPlaylist );
-    trackAndPlaylistLayout->setMargin( trackAndPlaylist->lineWidth() * 2 );
-    trackAndPlaylistLayout->setSpacing( 5 );
-    trackAndPlaylistLayout->setObjectName( QLatin1String( "trackAndPlaylistLayout" ));
+    QHBoxLayout *trackAndPlaylistLayout = new QHBoxLayout(trackAndPlaylist);
+    trackAndPlaylistLayout->setMargin(trackAndPlaylist->lineWidth() * 2);
+    trackAndPlaylistLayout->setSpacing(5);
+    trackAndPlaylistLayout->setObjectName(QLatin1String("trackAndPlaylistLayout"));
     trackAndPlaylistLayout->addSpacing(5);
 
     m_playlistLabel = new KSqueezedTextLabel(trackAndPlaylist);
@@ -72,25 +75,30 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
     trackAndPlaylistLayout->addSpacing(5);
 
     m_itemTimeLabel = new QLabel(this);
+    hboxLayout->addWidget(m_itemTimeLabel);
     QFontMetrics fontMetrics(font());
     m_itemTimeLabel->setAlignment(Qt::AlignCenter);
     m_itemTimeLabel->setMinimumWidth(fontMetrics.boundingRect("000:00 / 000:00").width());
     m_itemTimeLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-    m_itemTimeLabel->setFrameStyle(Box | Sunken);
+    m_itemTimeLabel->setFrameStyle(QFrame::Box | QFrame::Sunken);
     m_itemTimeLabel->installEventFilter(this);
 
     setItemTotalTime(0);
     setItemCurrentTime(0);
 
-    KHBox *jumpBox = new KHBox(this);
-    jumpBox->setFrameStyle(Box | Sunken);
+    auto jumpBox = new QFrame(this);
+    hboxLayout->addWidget(jumpBox);
+    jumpBox->setFrameStyle(QFrame::Box | QFrame::Sunken);
     jumpBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
 
+    auto jumpBoxHLayout = new QHBoxLayout(jumpBox);
+
     QPushButton *jumpButton = new QPushButton(jumpBox);
+    jumpBoxHLayout->addWidget(jumpButton);
     jumpButton->setIcon(SmallIcon("go-up"));
     jumpButton->setFlat(true);
 
-    jumpButton->setToolTip( i18n("Jump to the currently playing item"));
+    jumpButton->setToolTip(i18n("Jump to the currently playing item"));
     connect(jumpButton, SIGNAL(clicked()), action("showPlaying"), SLOT(trigger()));
 
     installEventFilter(this);
@@ -98,24 +106,21 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
     updateData();
 }
 
-StatusLabel::~StatusLabel()
-{
-
-}
-
 void StatusLabel::updateCurrent()
 {
-    if(playlist()->playing()) {
-        FileHandle file = playlist()->currentFile();
-
-        QString mid =  file.tag()->artist().isEmpty() || file.tag()->title().isEmpty()
-            ? QString::null : QString(" - ");	//krazy:exclude=nullstrassign for old broken gcc
-
-        QString text = file.tag()->artist() + mid + file.tag()->title();
-
-        m_trackLabel->setText(text);
-        m_playlistLabel->setText(playlist()->name().simplified());
+    if(!playlist()->playing()) {
+        return;
     }
+
+    FileHandle file = playlist()->currentFile();
+
+    QString mid =  file.tag()->artist().isEmpty() || file.tag()->title().isEmpty()
+        ? QString::null : QString(" - ");	//krazy:exclude=nullstrassign for old broken gcc
+
+    QString text = file.tag()->artist() + mid + file.tag()->title();
+
+    m_trackLabel->setText(text);
+    m_playlistLabel->setText(playlist()->name().simplified());
 }
 
 void StatusLabel::updateData()
@@ -123,31 +128,33 @@ void StatusLabel::updateData()
     updateCurrent();
 
     if(!playlist()->playing()) {
-        setItemTotalTime(0);
-        setItemCurrentTime(0);
-
-        int time = playlist()->time();
-
-        int days = time / (60 * 60 * 24);
-        int hours = time / (60 * 60) % 24;
-        int minutes = time / 60 % 60;
-        int seconds = time % 60;
-
-        QString timeString;
-
-        if(days > 0) {
-            timeString = i18np("1 day", "%1 days", days);
-            timeString.append(" ");
-        }
-
-        if(days > 0 || hours > 0)
-            timeString.append(QString().sprintf("%1d:%02d:%02d", hours, minutes, seconds));
-        else
-            timeString.append(QString().sprintf("%1d:%02d", minutes, seconds));
-
-        m_playlistLabel->setText(playlist()->name());
-        m_trackLabel->setText(i18np("1 item", "%1 items", playlist()->count()) + " - " + timeString);
+        return;
     }
+
+    setItemTotalTime(0);
+    setItemCurrentTime(0);
+
+    int time = playlist()->time();
+
+    int days = time / (60 * 60 * 24);
+    int hours = time / (60 * 60) % 24;
+    int minutes = time / 60 % 60;
+    int seconds = time % 60;
+
+    QString timeString;
+
+    if(days > 0) {
+        timeString = i18np("1 day", "%1 days", days);
+        timeString.append(" ");
+    }
+
+    if(days > 0 || hours > 0)
+        timeString.append(QString().sprintf("%1d:%02d:%02d", hours, minutes, seconds));
+    else
+        timeString.append(QString().sprintf("%1d:%02d", minutes, seconds));
+
+    m_playlistLabel->setText(playlist()->name());
+    m_trackLabel->setText(i18np("1 item", "%1 items", playlist()->count()) + " - " + timeString);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,6 +204,7 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
     return false;
 }
 
+// TODO: Look at QLocale or KCoreAddons::format for showing time durations
 QString StatusLabel::formatTime(int minutes, int seconds) // static
 {
     QString m = QString::number(minutes);
