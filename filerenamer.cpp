@@ -31,12 +31,13 @@
 #include <klineedit.h>
 #include <klocale.h>
 #include <kmessagebox.h>
-#include <kvbox.h>
 
 #include <QFile>
 #include <QTimer>
 #include <QCheckBox>
 #include <QDir>
+#include <QDialog>
+#include <QDialogButtonBox>
 #include <QUrl>
 #include <QLabel>
 #include <QSignalMapper>
@@ -55,30 +56,30 @@
 #include "coverinfo.h"
 #include "juk_debug.h"
 
-class ConfirmationDialog : public KDialog
+class ConfirmationDialog : public QDialog
 {
 public:
     ConfirmationDialog(const QMap<QString, QString> &files,
-                       QWidget *parent = 0, const char *name = 0)
-        : KDialog(parent)
+                       QWidget *parent = nullptr)
+        : QDialog(parent)
     {
-        setObjectName( QLatin1String( name ) );
         setModal(true);
-        setCaption(i18nc("warning about mass file rename", "Warning"));
-        setButtons(Ok | Cancel);
+        setWindowTitle(i18nc("warning about mass file rename", "Warning"));
 
-        KVBox *vbox = new KVBox(this);
-        setMainWidget(vbox);
-        KVBox *hbox = new KVBox(vbox);
+        auto vboxLayout = new QVBoxLayout(this);
+        auto hbox = new QWidget(this);
+        auto hboxVLayout = new QVBoxLayout(hbox);
+        vboxLayout->addWidget(hbox);
 
         QLabel *l = new QLabel(hbox);
         l->setPixmap(SmallIcon("dialog-warning", 32));
+        hboxVLayout->addWidget(l);
 
         l = new QLabel(i18n("You are about to rename the following files. "
                             "Are you sure you want to continue?"), hbox);
-        hbox->setStretchFactor(l, 1);
+        hboxVLayout->addWidget(l, 1);
 
-        QTreeWidget *lv = new QTreeWidget(vbox);
+        QTreeWidget *lv = new QTreeWidget(this);
 
         QStringList headers;
         headers << i18n("Original Name");
@@ -86,6 +87,12 @@ public:
 
         lv->setHeaderLabels(headers);
         lv->setRootIsDecorated(false);
+        vboxLayout->addWidget(lv);
+
+        auto buttonBox = new QDialogButtonBox(this);
+        vboxLayout->addWidget(buttonBox);
+        connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+        connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
         int lvHeight = 0;
 
@@ -107,6 +114,7 @@ public:
 
         lvHeight += lv->horizontalScrollBar()->height() + lv->header()->height();
         lv->setMinimumHeight(qMin(lvHeight, 400));
+
         resize(qMin(width(), 500), qMin(minimumHeight(), 400));
 
         show();

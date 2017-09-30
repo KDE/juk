@@ -15,8 +15,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FILERENAMER_H
-#define FILERENAMER_H
+#ifndef JUK_FILERENAMER_H
+#define JUK_FILERENAMER_H
 
 #include <QString>
 #include <QVector>
@@ -543,6 +543,6 @@ private:
     bool moveFile(const QString &src, const QString &dest);
 };
 
-#endif /* FILERENAMER_H */
+#endif /* JUK_FILERENAMER_H */
 
 // vim: set et sw=4 tw=0 sta:

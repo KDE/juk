@@ -22,10 +22,10 @@
 #include "juk_debug.h"
 
 FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
-                                             const TagRenamerOptions &options) :
-    QWidget(parent),
-    Ui::FileRenamerTagOptionsBase(),
-    m_options(options)
+                                             const TagRenamerOptions &options)
+  : QWidget(parent)
+  , Ui::FileRenamerTagOptionsBase()
+  , m_options(options)
 {
     setupUi(this);
 
@@ -96,7 +96,6 @@ void FileRenamerTagOptions::slotTrackWidthChanged()
 void FileRenamerTagOptions::slotEmptyActionChanged()
 {
     m_options.setEmptyText(m_emptyTagValue->text());
-
     m_options.setEmptyAction(TagRenamerOptions::IgnoreEmptyTag);
 
     if(m_useValueButton->isChecked())
@@ -107,21 +106,26 @@ void FileRenamerTagOptions::slotEmptyActionChanged()
 
 TagOptionsDialog::TagOptionsDialog(QWidget *parent,
                                    const TagRenamerOptions &options,
-                                   unsigned categoryNumber) :
-    KDialog(parent, 0),
-    m_options(options),
-    m_categoryNumber(categoryNumber)
+                                   unsigned categoryNumber)
+  : QDialog(parent)
+  , m_options(options)
+  , m_categoryNumber(categoryNumber)
 {
     setModal(true);
-    setCaption(i18n("File Renamer"));
-    setButtons(Ok|Cancel);
+    setWindowTitle(i18n("File Renamer"));
 
     loadConfig();
 
     m_widget = new FileRenamerTagOptions(this, m_options);
     m_widget->setMinimumSize(400, 200);
 
-    setMainWidget(m_widget);
+    connect(m_widget->dlgButtonBox, &QDialogButtonBox::accepted,
+            this,                   &QDialog::accept);
+    connect(m_widget->dlgButtonBox, &QDialogButtonBox::rejected,
+            this,                   &QDialog::reject);
+
+    auto boxLayout = new QVBoxLayout(this);
+    boxLayout->addWidget(m_widget);
 }
 
 void TagOptionsDialog::accept()
@@ -129,7 +133,7 @@ void TagOptionsDialog::accept()
     m_options = m_widget->options();
 
     saveConfig();
-    KDialog::accept();
+    QDialog::accept();
 }
 
 void TagOptionsDialog::loadConfig()
