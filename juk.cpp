@@ -19,13 +19,10 @@
 
 #include <kstatusbar.h>
 #include <kmessagebox.h>
-#include <kstandarddirs.h>
 #include <kactioncollection.h>
 #include <kstandardaction.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
-#include <QIcon>
-#include <QAction>
 #include <kconfiggroup.h>
 #include <kglobal.h>
 #include <kglobalaccel.h>
@@ -33,9 +30,12 @@
 #include <knotification.h>
 #include <kdeversion.h>
 
+#include <QIcon>
+#include <QAction>
 #include <QCoreApplication>
 #include <QKeyEvent>
 #include <QDir>
+#include <QDirIterator>
 #include <QTime>
 #include <QTimer>
 #include <QDesktopWidget>
@@ -73,11 +73,11 @@ void deleteAndClear(T *&ptr)
 
 JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     KXmlGuiWindow(parent, Qt::WindowFlags(Qt::WA_DeleteOnClose)),
-    m_splitter(0),
-    m_statusLabel(0),
-    m_systemTray(0),
+    m_splitter(nullptr),
+    m_statusLabel(nullptr),
+    m_systemTray(nullptr),
     m_player(new PlayerManager),
-    m_scrobbler(0),
+    m_scrobbler(nullptr),
     m_filesToOpen(filesToOpen),
     m_shuttingDown(false)
 {
@@ -372,13 +372,13 @@ void JuK::slotClearOldCovers()
     // we find our tracks in a different order this run, which would cause old saved
     // covers to be wrong.
     // See mpris2/mediaplayer2player.cpp
-    QStringList oldFiles = KGlobal::dirs()->findAllResources("tmp", "juk-cover-*.png");
+    QString tmpDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    QStringList nameFilters;
 
-    foreach(const QString &file, oldFiles) {
-        qCWarning(JUK_LOG) << "Removing old cover" << file;
-        if(!QFile::remove(file)) {
-            qCCritical(JUK_LOG) << "Failed to remove old cover" << file;
-        }
+    nameFilters << QStringLiteral("juk-cover-*.png");
+    QDirIterator jukCoverIter(tmpDir, nameFilters);
+    while (jukCoverIter.hasNext()) {
+        QFile::remove(jukCoverIter.next());
     }
 }
 
