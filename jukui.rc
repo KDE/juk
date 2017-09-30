@@ -1,7 +1,7 @@
 <!-- PLEASE UPDATE jukui-rtl.rc WHEN UPDATING THIS FILE -->
 
 <!DOCTYPE kpartgui>
-<kpartgui name="juk" version="13">
+<kpartgui name="juk" version="14">
 <MenuBar>
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="file_new"/>
@@ -42,7 +42,6 @@
 		<Action name="actionMenu"/>
 
 		<Action name="loopPlaylist"/>
-		<Action name="crossfadeTracks"/>
 
 		<Separator/>
 

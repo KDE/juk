@@ -230,10 +230,6 @@ void JuK::setupActions()
     act->setText(i18n("Remove From Playlist"));
     act->setIcon(QIcon::fromTheme( QLatin1String( "list-remove" )));
 
-    act = collection->add<KToggleAction>("crossfadeTracks");
-    act->setText(i18n("Crossfade Between Tracks"));
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(setCrossfadeEnabled(bool)));
-
     act = collection->addAction("play", m_player, SLOT(play()));
     act->setText(i18n("&Play"));
     act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-start" )));
@@ -415,8 +411,8 @@ void JuK::readConfig()
         const int volume = playerConfig.readEntry("Volume", maxVolume);
         m_player->setVolume(volume * 0.01);
 
-        bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
-        m_player->setCrossfadeEnabled(enableCrossfade);
+        //bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
+        //m_player->setCrossfadeEnabled(enableCrossfade);
         //ActionCollection::action<QAction>("crossfadeTracks")->setChecked(enableCrossfade);
     }
 
@@ -463,8 +459,7 @@ void JuK::saveConfig()
     QAction *a = ActionCollection::action<QAction>("loopPlaylist");
     playerConfig.writeEntry("LoopPlaylist", a->isChecked());
 
-    a = ActionCollection::action<QAction>("crossfadeTracks");
-    playerConfig.writeEntry("CrossfadeTracks", a->isChecked());
+    playerConfig.writeEntry("CrossfadeTracks", false); // TODO bring back
 
     a = ActionCollection::action<QAction>("albumRandomPlay");
     if(a->isChecked())

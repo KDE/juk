@@ -54,7 +54,7 @@ QWidget *TrackPositionAction::createWidget(QWidget *parent)
         slider->setToolTip(seekable ? QString() : noSeekMsg);
     });
     connect(player, &PlayerManager::totalTimeChanged, slider, &Slider::setMaximum);
-    connect(slider, &Slider::valueChanged, player, &PlayerManager::seek);
+    connect(slider, &Slider::sliderReleased, player, &PlayerManager::seek);
 
     return slider;
 }
