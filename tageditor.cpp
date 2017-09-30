@@ -461,11 +461,10 @@ void TagEditor::readConfig()
 
 void TagEditor::readCompletionMode(const KConfigGroup &config, KComboBox *box, const QString &key)
 {
-    KGlobalSettings::Completion mode =
-        KGlobalSettings::Completion(config.readEntry(key, (int)KGlobalSettings::CompletionAuto));
+    KCompletion::CompletionMode mode =
+        KCompletion::CompletionMode(config.readEntry(key, (int)KCompletion::CompletionAuto));
 
-        // FIXME tag completion
-    //box->setCompletionMode(mode);
+    box->setCompletionMode(mode);
 }
 
 void TagEditor::saveConfig()

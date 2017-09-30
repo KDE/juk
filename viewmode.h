@@ -111,7 +111,7 @@ public:
                            const QColorGroup &colorGroup,
                            int column, int width, int align);*/
 
-    virtual void setupItem(PlaylistBox::Item *item) const { /*item->QTreeWidgetItem::setup();*/ }
+    virtual void setupItem(PlaylistBox::Item *) const { /*item->QTreeWidgetItem::setup();*/ }
 protected:
     virtual void updateHeights();
 };

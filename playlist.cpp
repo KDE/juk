@@ -99,55 +99,6 @@ static bool manualResize()
  * A tooltip specialized to show full filenames over the file name column.
  */
 
-#ifdef __GNUC__
-#warning disabling the tooltip for now
-#endif
-#if 0
-class PlaylistToolTip : public QToolTip
-{
-public:
-    PlaylistToolTip(QWidget *parent, Playlist *playlist) :
-        QToolTip(parent), m_playlist(playlist) {}
-
-    virtual void maybeTip(const QPoint &p)
-    {
-        PlaylistItem *item = static_cast<PlaylistItem *>(m_playlist->itemAt(p));
-
-        if(!item)
-            return;
-
-        QPoint contentsPosition = m_playlist->viewportToContents(p);
-
-        int column = m_playlist->header()->sectionAt(contentsPosition.x());
-
-        if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn ||
-           item->cachedWidths()[column] > m_playlist->columnWidth(column) ||
-           (column == m_playlist->columnOffset() + PlaylistItem::CoverColumn &&
-            item->file().coverInfo()->hasCover()))
-        {
-            QRect r = m_playlist->itemRect(item);
-            int headerPosition = m_playlist->header()->sectionPos(column);
-            r.setLeft(headerPosition);
-            r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
-
-            if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
-                tip(r, item->file().absFilePath());
-            else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
-                Q3MimeSourceFactory *f = Q3MimeSourceFactory::defaultFactory();
-                f->setImage("coverThumb",
-                            QImage(item->file().coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage()));
-                tip(r, "<center><img source=\"coverThumb\"/></center>");
-            }
-            else
-                tip(r, item->text(column));
-        }
-    }
-
-private:
-    Playlist *m_playlist;
-};
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
 ////////////////////////////////////////////////////////////////////////////////
@@ -1100,8 +1051,13 @@ QMimeData* Playlist::mimeData(const QList<QTreeWidgetItem *> items) const
 
 bool Playlist::dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action)
 {
-    qCDebug(JUK_LOG) << index;
-    return true;
+    // TODO: Re-add DND
+    Q_UNUSED(parent);
+    Q_UNUSED(index);
+    Q_UNUSED(data);
+    Q_UNUSED(action);
+
+    return false;
 }
 
 void Playlist::dropEvent(QDropEvent *e)
@@ -1472,11 +1428,6 @@ void Playlist::slotInitialize()
     // setup header RMB menu
     //////////////////////////////////////////////////
 
-#ifdef __GNUC__
-    #warning should be fixed...
-#endif
-    /* m_headerMenu->insertTitle(i18n("Show")); */
-
     QAction *showAction;
 
     for(int i = 0; i < header()->count(); ++i) {
@@ -1525,10 +1476,6 @@ void Playlist::slotInitialize()
     setDragEnabled(true);
 
     m_disableColumnWidthUpdates = false;
-
-    // FIXME tooltips
-    //setShowToolTips(false);
-    /* m_toolTip = new PlaylistToolTip(viewport(), this); */
 }
 
 void Playlist::setupItem(PlaylistItem *item)
@@ -1704,9 +1651,7 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
     }
 
     TrackSequenceManager::instance()->setCurrent(item);
-#ifdef __GNUC__
-#warning "kde4^H^H^H^Hkde5: port it"
-#endif
+    // TODO is this replaced by MPRIS2?
     //kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
 
     if(!item)
@@ -2193,7 +2138,7 @@ bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
     return true;
 }
 
-void Playlist::slotInlineEditDone(QTreeWidgetItem *, const QString &, int column)
+void Playlist::slotInlineEditDone(QTreeWidgetItem *, const QString &, int)
 {
     // FIXME rename
     /*QString text = renameLineEdit()->text();

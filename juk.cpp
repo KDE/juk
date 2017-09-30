@@ -427,7 +427,7 @@ void JuK::readConfig()
         ActionCollection::action<QAction>("albumRandomPlay")->setChecked(true);
 
     bool loopPlaylist = playerConfig.readEntry("LoopPlaylist", false);
-    //ActionCollection::action<QAction>("loopPlaylist")->setChecked(loopPlaylist);
+    ActionCollection::action<QAction>("loopPlaylist")->setChecked(loopPlaylist);
 
     // general settings
 

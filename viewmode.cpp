@@ -179,6 +179,7 @@ void ViewMode::updateIcons(int size)
 
 void ViewMode::setupItem(PlaylistBox::Item *item) const
 {
+    Q_UNUSED(item);
         // FIXME
     /*const PlaylistBox *box = item->listView();
     const int width = box->width() - box->verticalScrollBar()->width() - border * 2;
@@ -235,6 +236,8 @@ QStringList ViewMode::lines(const PlaylistBox::Item *item,
     QString line = item->text();
 
     QStringList l;
+
+    Q_UNUSED(fm);
 
     while(!line.isEmpty()) {
         int textLength = line.length();
