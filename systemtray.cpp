@@ -20,13 +20,12 @@
 
 #include <klocale.h>
 #include <kiconloader.h>
-#include <QAction>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
-#include <kvbox.h>
-#include <kmenu.h>
 #include <kwindowsystem.h>
 
+#include <QAction>
+#include <QMenu>
 #include <QTimer>
 #include <QWheelEvent>
 #include <QColor>
@@ -34,7 +33,6 @@
 #include <QPalette>
 #include <QPixmap>
 #include <QLabel>
-#include <QVBoxLayout>
 #include <QIcon>
 #include <QApplication>
 #include <QTextDocument> // Qt::escape()
@@ -48,7 +46,7 @@
 using namespace ActionCollection;
 
 PassiveInfo::PassiveInfo() :
-    QFrame(static_cast<QWidget *>(0),
+    QFrame(nullptr,
         Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
     ),
     m_timer(new QTimer(this)),
@@ -319,27 +317,28 @@ void SystemTray::slotMouseInPopup()
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-KVBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
+QWidget *SystemTray::createInfoBox(QBoxLayout *parentLayout, const FileHandle &file)
 {
-    KVBox *infoBox = 0;
-
     // We always show the popup on the right side of the current screen, so
-    // this logic assumes that.  Earlier revisions has logic for popup being
+    // this logic assumes that.  Earlier revisions had logic for popup being
     // wherever the systray icon is, so if it's decided to go that route again,
     // dig into the source control history. --mpyne
 
     if(file.coverInfo()->hasCover()) {
-        addCoverButton(parent, file.coverInfo()->pixmap(CoverInfo::Thumbnail));
-        addSeparatorLine(parent);
+        addCoverButton(parentLayout, file.coverInfo()->pixmap(CoverInfo::Thumbnail));
+        addSeparatorLine(parentLayout);
     }
 
-    infoBox = new KVBox(parent);
+    auto infoBox = new QWidget;
+    auto infoBoxVLayout = new QVBoxLayout(infoBox);
+    infoBoxVLayout->setSpacing(3);
+    infoBoxVLayout->setMargin(3);
 
-    addSeparatorLine(parent);
-    createButtonBox(parent);
+    parentLayout->addWidget(infoBox);
 
-    infoBox->setSpacing(3);
-    infoBox->setMargin(3);
+    addSeparatorLine(parentLayout);
+    createButtonBox(parentLayout);
+
     return infoBox;
 }
 
@@ -368,15 +367,19 @@ void SystemTray::createPopup()
     connect(m_popup, SIGNAL(nextSong()), SLOT(slotForward()));
     connect(m_popup, SIGNAL(previousSong()), SLOT(slotBack()));
 
-    KHBox *box = new KHBox(m_popup);
-    box->setSpacing(15); // Add space between text and buttons
+    auto box = new QWidget;
+    auto boxHLayout = new QHBoxLayout(box);
 
-    KVBox *infoBox = createPopupLayout(box, playingFile);
+    boxHLayout->setSpacing(15); // Add space between text and buttons
+
+    QWidget *infoBox = createInfoBox(boxHLayout, playingFile);
+    QLayout *infoBoxLayout = infoBox->layout();
 
     for(int i = 0; i < m_labels.size(); ++i) {
-        QLabel *l = new QLabel(" ", infoBox);
+        QLabel *l = new QLabel(" ");
         l->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         m_labels[i] = l;
+        infoBoxLayout->addWidget(l);
     }
 
     // We have to set the text of the labels after all of the
@@ -403,19 +406,24 @@ void SystemTray::createPopup()
     m_popup->show();
 }
 
-void SystemTray::createButtonBox(QWidget *parent)
+void SystemTray::createButtonBox(QBoxLayout *parentLayout)
 {
-    KVBox *buttonBox = new KVBox(parent);
+    auto buttonBox = new QWidget;
+    auto buttonBoxVLayout = new QVBoxLayout(buttonBox);
 
-    buttonBox->setSpacing(3);
+    buttonBoxVLayout->setSpacing(3);
 
-    QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox);
-    forwardButton->setObjectName( QLatin1String("popup_forward" ));
+    QPushButton *forwardButton = new QPushButton(m_forwardPix, QString());
+    forwardButton->setObjectName(QLatin1String("popup_forward"));
     connect(forwardButton, SIGNAL(clicked()), SLOT(slotForward()));
 
-    QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox);
-    backButton->setObjectName( QLatin1String("popup_back" ));
+    QPushButton *backButton = new QPushButton(m_backPix, QString());
+    backButton->setObjectName(QLatin1String("popup_back"));
     connect(backButton, SIGNAL(clicked()), SLOT(slotBack()));
+
+    buttonBoxVLayout->addWidget(forwardButton);
+    buttonBoxVLayout->addWidget(backButton);
+    parentLayout->addWidget(buttonBox);
 }
 
 /**
@@ -435,20 +443,22 @@ void SystemTray::slotForward()
     m_fade = false;
 }
 
-void SystemTray::addSeparatorLine(QWidget *parent)
+void SystemTray::addSeparatorLine(QBoxLayout *parentLayout)
 {
-    QFrame *line = new QFrame(parent);
+    QFrame *line = new QFrame;
     line->setFrameShape(QFrame::VLine);
 
     // Cover art takes up 80 pixels, make sure we take up at least 80 pixels
     // even if we don't show the cover art for consistency.
 
     line->setMinimumHeight(80);
+
+    parentLayout->addWidget(line);
 }
 
-void SystemTray::addCoverButton(QWidget *parent, const QPixmap &cover)
+void SystemTray::addCoverButton(QBoxLayout *parentLayout, const QPixmap &cover)
 {
-    QPushButton *coverButton = new QPushButton(parent);
+    QPushButton *coverButton = new QPushButton;
 
     coverButton->setIconSize(cover.size());
     coverButton->setIcon(cover);
@@ -456,6 +466,8 @@ void SystemTray::addCoverButton(QWidget *parent, const QPixmap &cover)
     coverButton->setFlat(true);
 
     connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));
+
+    parentLayout->addWidget(coverButton);
 }
 
 QColor SystemTray::interpolateColor(int step, int steps)
@@ -469,9 +481,9 @@ QColor SystemTray::interpolateColor(int step, int steps)
     // make sense to go rather quickly from start to end and then slow down
     // the progression.
     return QColor(
-            (step * m_endColor.red() + (steps - step) * m_startColor.red()) / steps,
+            (step * m_endColor.red()   + (steps - step) * m_startColor.red())   / steps,
             (step * m_endColor.green() + (steps - step) * m_startColor.green()) / steps,
-            (step * m_endColor.blue() + (steps - step) * m_startColor.blue()) / steps
+            (step * m_endColor.blue()  + (steps - step) * m_startColor.blue())  / steps
            );
 }
 

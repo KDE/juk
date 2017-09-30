@@ -26,14 +26,13 @@
 #include <QPixmap>
 #include <QIcon>
 #include <QFrame>
+#include <QVBoxLayout>
 
 class SystemTray;
 class PlayerManager;
 class QLabel;
 class QTimer;
-class KVBox;
 class FileHandle;
-class QVBoxLayout;
 
 /**
  * Workalike of KPassivePopup intended to more easily support JuK's particular
@@ -102,15 +101,13 @@ private:
     void createPopup();
     void setToolTip(const QString &tip = QString(), const QPixmap &cover = QPixmap());
 
-    void createButtonBox(QWidget *parent);
-
-    // Creates the widget layout for the popup, returning the QVBox that
+    // Creates the widget layout for the popup, returning the QWidget that
     // holds the text labels.
 
-    KVBox *createPopupLayout(QWidget *parent, const FileHandle &file);
-
-    void addSeparatorLine(QWidget *parent);
-    void addCoverButton(QWidget *parent, const QPixmap &cover);
+    QWidget *createInfoBox(QBoxLayout *parentLayout, const FileHandle &file);
+    void addSeparatorLine(QBoxLayout *parentLayout);
+    void addCoverButton(QBoxLayout *parentLayout, const QPixmap &cover);
+    void createButtonBox(QBoxLayout *parentLayout);
 
     // Interpolates from start color to end color.  If @p step == 0, then
     // m_startColor is returned, while @p step == @steps returns
