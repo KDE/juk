@@ -225,13 +225,6 @@ public:
     static void saveCovers();
 
     /**
-     * This is a hack, as we should be shut down automatically by
-     * KStaticDeleter, but JuK is crashing for me on shutdown before
-     * KStaticDeleter gets a chance to run, which is cramping my testing.
-     */
-    static void shutdown();
-
-    /**
      * @return Iterator pointing to the first element in the cover database.
      */
     static CoverDataMapIterator begin();

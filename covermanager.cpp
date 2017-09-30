@@ -16,6 +16,7 @@
 
 #include "covermanager.h"
 
+#include <QGlobalStatic>
 #include <QTimer>
 #include <QPixmap>
 #include <QString>
@@ -28,11 +29,10 @@
 #include <QByteArray>
 #include <QMap>
 #include <QTemporaryFile>
+#include <QStandardPaths>
 #include <QUrl>
 
 #include <kdemacros.h>
-#include <kstandarddirs.h>
-#include <kglobal.h>
 #include <kio/job.h>
 
 #include "juk.h"
@@ -174,7 +174,7 @@ public:
 
 // This is responsible for making sure that the CoverManagerPrivate class
 // gets properly destructed on shutdown.
-K_GLOBAL_STATIC(CoverManagerPrivate, sd)
+Q_GLOBAL_STATIC(CoverManagerPrivate, sd)
 
 //
 // Implementation of CoverManagerPrivate methods.
@@ -183,8 +183,7 @@ void CoverManagerPrivate::createDataDir() const
 {
     QDir dir;
     QString dirPath(QDir::cleanPath(coverLocation() + "/.."));
-    if(!dir.exists(dirPath))
-        KStandardDirs::makeDir(dirPath);
+    dir.mkpath(dirPath);
 }
 
 void CoverManagerPrivate::saveCovers() const
@@ -287,7 +286,8 @@ void CoverManagerPrivate::loadCovers()
 
 QString CoverManagerPrivate::coverLocation() const
 {
-    return KGlobal::dirs()->saveLocation("appdata") + "coverdb/covers";
+    return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
+            + "coverdb/covers";
 }
 
 coverKey CoverManagerPrivate::nextId() const
@@ -434,8 +434,8 @@ coverKey CoverManager::addCover(const QUrl &path, const QString &artist, const Q
     // Copy it to a local file first.
 
     QString ext = QString("/coverdb/coverID-%1%2").arg(id).arg(fileNameExt);
-    coverData.path = KGlobal::dirs()->saveLocation("appdata") + ext;
-
+    coverData.path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
+            + ext;
     qCDebug(JUK_LOG) << "Saving pixmap to " << coverData.path;
     data()->createDataDir();
 
@@ -558,11 +558,6 @@ CoverManagerPrivate *CoverManager::data()
 void CoverManager::saveCovers()
 {
     data()->saveCovers();
-}
-
-void CoverManager::shutdown()
-{
-    sd.destroy();
 }
 
 CoverDataMapIterator CoverManager::begin()

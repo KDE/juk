@@ -530,10 +530,6 @@ void JuK::slotAboutToQuit()
     deleteAndClear(m_splitter);
     deleteAndClear(m_player);
     deleteAndClear(m_statusLabel);
-
-    // Playlists depend on CoverManager, so CoverManager should shutdown as
-    // late as possible
-    CoverManager::shutdown();
 }
 
 void JuK::slotQuit()
