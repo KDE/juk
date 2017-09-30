@@ -159,6 +159,10 @@ public:
      */
     void saveConfig();
 
+signals:
+    void accepted(); // for the QDialogButtonBox
+    void rejected();
+
 protected slots:
     /**
      * This function should be called whenever the example text may need to be

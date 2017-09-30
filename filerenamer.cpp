@@ -277,6 +277,8 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     connect(m_exampleDialog, SIGNAL(dataChanged()), SLOT(dataSelected()));
     connect(m_exampleDialog, SIGNAL(fileChanged(QString)),
             this,            SLOT(fileSelected(QString)));
+    connect(m_ui->dlgButtonBox, SIGNAL(accepted()), SIGNAL(accepted()));
+    connect(m_ui->dlgButtonBox, SIGNAL(rejected()), SIGNAL(rejected()));
 
     exampleTextChanged();
 }
