@@ -19,7 +19,6 @@
 
 #include <kurl.h>
 #include <kiconloader.h>
-#include <kinputdialog.h>
 #include <kmessagebox.h>
 #include <kfiledialog.h>
 #include <kactioncollection.h>
@@ -36,6 +35,7 @@
 #include <QMutableListIterator>
 #include <QObject>
 #include <QPixmap>
+#include <QInputDialog>
 #include <QStackedWidget>
 
 #include <sys/types.h>
@@ -774,9 +774,11 @@ QString PlaylistCollection::playlistNameDialog(const QString &caption,
 {
     bool ok;
 
-    QString name = KInputDialog::getText(
+    QString name = QInputDialog::getText(
+        m_playlistStack,
         caption,
         i18n("Please enter a name for this playlist:"),
+        QLineEdit::Normal,
         forceUnique ? uniquePlaylistName(suggest) : suggest,
         &ok);
 
