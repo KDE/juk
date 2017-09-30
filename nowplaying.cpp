@@ -39,6 +39,7 @@
 #include <QList>
 #include <QTextDocument>
 #include <QFontMetrics>
+#include <QApplication>
 
 #include "playlistcollection.h"
 #include "playlistitem.h"
@@ -175,7 +176,7 @@ void CoverItem::mouseMoveEvent(QMouseEvent *e)
         return;
 
     QPoint diff = m_dragStart - e->globalPos();
-    if(diff.manhattanLength() > KGlobalSettings::dndEventDelay()) {
+    if(diff.manhattanLength() > QApplication::startDragDistance()) {
 
         // Start a drag.
 
