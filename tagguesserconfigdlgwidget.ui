@@ -129,6 +129,13 @@ Note that the order in which the schemes appear in the list is relevant, since t
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QDialogButtonBox" name="dlgButtonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <resources/>

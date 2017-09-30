@@ -14,45 +14,50 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TAGGUESSERCONFIGDLG_H
-#define TAGGUESSERCONFIGDLG_H
+#ifndef JUK_TAGGUESSERCONFIGDLG_H
+#define JUK_TAGGUESSERCONFIGDLG_H
 
-#include <kdialog.h>
+#include <QDialog>
+
 #include "ui_tagguesserconfigdlgwidget.h"
 
 class QStringListModel;
 
-
 class TagGuesserConfigDlgWidget : public QWidget, public Ui::TagGuesserConfigDlgWidget
 {
+    Q_OBJECT
+
 public:
-  TagGuesserConfigDlgWidget( QWidget *parent ) : QWidget( parent ) {
-    setupUi( this );
-  }
+    TagGuesserConfigDlgWidget(QWidget *parent)
+      : QWidget(parent)
+    {
+        setupUi(this);
+    }
 };
 
-class TagGuesserConfigDlg : public KDialog
+class TagGuesserConfigDlg : public QDialog
 {
     Q_OBJECT
-    public:
-        explicit TagGuesserConfigDlg(QWidget *parent, const char *name = 0);
 
-    protected slots:
-        virtual void accept();
+public:
+    explicit TagGuesserConfigDlg(QWidget *parent, const char *name = nullptr);
 
-    private slots:
-        void slotCurrentChanged(QModelIndex item);
-        void slotMoveUpClicked();
-        void slotMoveDownClicked();
-        void slotAddClicked();
-        void slotModifyClicked();
-        void slotRemoveClicked();
+protected slots:
+    virtual void accept();
 
-    private:
-        TagGuesserConfigDlgWidget *m_child;
-        QStringListModel *m_tagSchemeModel;
+private slots:
+    void slotCurrentChanged(QModelIndex item);
+    void slotMoveUpClicked();
+    void slotMoveDownClicked();
+    void slotAddClicked();
+    void slotModifyClicked();
+    void slotRemoveClicked();
+
+private:
+    TagGuesserConfigDlgWidget *m_child;
+    QStringListModel *m_tagSchemeModel;
 };
 
-#endif // TAGGUESSERCONFIGDLG_H
+#endif // JUK_TAGGUESSERCONFIGDLG_H
 
 // vim: set et sw=4 tw=0 sta:
