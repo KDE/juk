@@ -1705,7 +1705,7 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 
     TrackSequenceManager::instance()->setCurrent(item);
 #ifdef __GNUC__
-#warning "kde4: port it"
+#warning "kde4^H^H^H^Hkde5: port it"
 #endif
     //kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
 
