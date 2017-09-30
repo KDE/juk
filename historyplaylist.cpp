@@ -15,15 +15,14 @@
  */
 
 #include "historyplaylist.h"
-#include "collectionlist.h"
-#include "playermanager.h"
-#include "juk-exception.h"
 
 #include <QTimer>
 
-#include <klocale.h>
-#include <kglobal.h>
+#include <KLocale>
 
+#include "collectionlist.h"
+#include "playermanager.h"
+#include "juk-exception.h"
 #include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -89,25 +88,13 @@ HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *par
     PlaylistItem(item, parent, after),
     m_dateTime(QDateTime::currentDateTime())
 {
-    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
-}
-
-HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent) :
-    PlaylistItem(item, parent),
-    m_dateTime(QDateTime::currentDateTime())
-{
-    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
-}
-
-HistoryPlaylistItem::~HistoryPlaylistItem()
-{
-
+    setText(0, m_dateTime.toString());
 }
 
 void HistoryPlaylistItem::setDateTime(const QDateTime &dt)
 {
     m_dateTime = dt;
-    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
+    setText(0, m_dateTime.toString());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
