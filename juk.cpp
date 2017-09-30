@@ -552,7 +552,7 @@ void JuK::slotToggleSystemTray(bool enabled)
 
 void JuK::slotEditKeys()
 {
-    KeyDialog::configure(ActionCollection::actions(), this);
+    KeyDialog(ActionCollection::actions(), this).configure();
 }
 
 void JuK::slotConfigureTagGuesser()

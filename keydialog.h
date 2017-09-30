@@ -15,42 +15,34 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef KEYDIALOG_H
-#define KEYDIALOG_H
+#ifndef JUK_KEYDIALOG_H
+#define JUK_KEYDIALOG_H
 
-#include <KDialog>
+#include <QDialog>
 
 class QButtonGroup;
 
 class KActionCollection;
 class KShortcutsEditor;
 
-class KeyDialog : public KDialog
+/**
+ * For keyboard shortcut management.
+ */
+class KeyDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    /**
-     * Constructs a KeyDialog called @p name as a child of @p parent.
-     */
-    explicit KeyDialog(KActionCollection *actionCollection, QWidget *parent = 0);
-
-    /**
-     * Destructor. Deletes all resources used by a KeyDialog object.
-     */
-    virtual ~KeyDialog();
-
-    /**
-     * This is a member function, provided to allow inserting both global
-     * accelerators and actions.
-     */
-    static int configure(KActionCollection *actionCollection, QWidget *parent = 0);
+    explicit KeyDialog(KActionCollection *actionCollection, QWidget *parent = nullptr);
 
     /**
      * This is a member function, provided to create a global accelerator with
      * standard keys.
      */
     static void setupActionShortcut(const QString &actionName);
+
+    // Does exec() and auto-saves any changed config
+    int configure();
 
 private:
 
@@ -61,16 +53,14 @@ private:
      */
     enum KeyGroup { NoKeys = 0, StandardKeys = 1, MultimediaKeys = 2 };
 
-    int configure();
-
 private slots:
     void slotKeys(int group);
     void slotDefault();
 
 private:
-    KActionCollection *m_actionCollection;
-    KShortcutsEditor  *m_pKeyChooser;
-    QButtonGroup      *m_group;
+    KActionCollection *m_actionCollection = nullptr;
+    KShortcutsEditor  *m_pKeyChooser      = nullptr;
+    QButtonGroup      *m_group            = nullptr;
 
     struct KeyInfo;
 
@@ -78,6 +68,6 @@ private:
     static const uint    keyInfoCount;
 };
 
-#endif // KEYDIALOG_H
+#endif // JUK_KEYDIALOG_H
 
 // vim: set et sw=4 tw=0 sta:

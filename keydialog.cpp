@@ -22,8 +22,6 @@
 #include <klocale.h>
 #include <kshortcutseditor.h>
 #include <kglobal.h>
-#include <QAction>
-#include <kvbox.h>
 #include <kconfiggroup.h>
 #include <KGlobalAccel>
 
@@ -31,9 +29,12 @@
 #include <QKeySequence>
 #include <QList>
 #include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QTimer>
+#include <QDialogButtonBox>
 #include <QButtonGroup>
 #include <QRadioButton>
+#include <QPushButton>
 #include <QGroupBox>
 #include <QString>
 
@@ -94,10 +95,10 @@ const KeyDialog::KeyInfo KeyDialog::keyInfo[] = {
 const uint KeyDialog::keyInfoCount = sizeof(KeyDialog::keyInfo) / sizeof(KeyDialog::keyInfo[0]);
 
 KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
-    : KDialog(parent), m_actionCollection(actionCollection)
+  : QDialog(parent)
+  , m_actionCollection(actionCollection)
 {
-    setCaption(i18n("Configure Shortcuts"));
-    setButtons(Default | Ok | Cancel);
+    setWindowTitle(i18n("Configure Shortcuts"));
 
     // Read key group from configuration
 
@@ -106,17 +107,18 @@ KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
 
     // Create widgets for key chooser
 
-    KVBox *vbox = new KVBox(this);
-    vbox->setSpacing(KDialog::spacingHint());
+    auto vboxLayout = new QVBoxLayout(this);
 
-    m_pKeyChooser = new KShortcutsEditor(actionCollection, vbox);
+    m_pKeyChooser = new KShortcutsEditor(actionCollection, this);
+    vboxLayout->addWidget(m_pKeyChooser);
 
     // Create buttons to select key group
 
-    QGroupBox *buttonBox = new QGroupBox(i18n("Global Shortcuts"), vbox);
+    QGroupBox *buttonBox = new QGroupBox(i18n("Global Shortcuts"), this);
+    vboxLayout->addWidget(buttonBox);
+
     m_group = new QButtonGroup(buttonBox);
-    QHBoxLayout *buttonLayout = new QHBoxLayout;
-    buttonBox->setLayout(buttonLayout);
+    QHBoxLayout *buttonLayout = new QHBoxLayout(buttonBox);
 
     QRadioButton *radioButton = new QRadioButton(i18n("&No keys"), buttonBox);
     m_group->addButton(radioButton, NoKeys);
@@ -130,19 +132,23 @@ KeyDialog::KeyDialog(KActionCollection *actionCollection, QWidget *parent)
     m_group->addButton(radioButton, MultimediaKeys);
     buttonLayout->addWidget(radioButton);
 
-    connect(m_group, SIGNAL(buttonClicked(int)), this, SLOT(slotKeys(int)));
+    connect(m_group, SIGNAL(buttonClicked(int)), SLOT(slotKeys(int)));
     buttonBox->setWhatsThis(
-	i18n("Here you can select the keys used as global shortcuts to control the player"));
+        i18n("Here you can select the keys used as global shortcuts to control the player"));
 
     m_group->button(selectedButton)->setChecked(true);
-    connect(this, SIGNAL(defaultClicked()), this, SLOT(slotDefault()));
 
-    setMainWidget(vbox);
-    resize(400, 500); // Make it bigger!
-}
+    auto dlgButtonBox = new QDialogButtonBox(
+            QDialogButtonBox::Ok | QDialogButtonBox::Cancel | QDialogButtonBox::RestoreDefaults,
+            this);
+    vboxLayout->addWidget(dlgButtonBox);
 
-KeyDialog::~KeyDialog()
-{
+    connect(dlgButtonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(dlgButtonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    connect(dlgButtonBox->button(QDialogButtonBox::RestoreDefaults), &QAbstractButton::clicked,
+            this,                                                    &KeyDialog::slotDefault);
+
+    resize(400, 500); // TODO: Make it bigger!
 }
 
 int KeyDialog::configure()
@@ -198,13 +204,6 @@ void KeyDialog::slotDefault()
     m_group->button(StandardKeys)->setChecked(true);
     slotKeys(StandardKeys);
     m_pKeyChooser->allDefault();
-}
-
-int KeyDialog::configure(KActionCollection *actionCollection, QWidget *parent)
-{
-    // Create and show dialog - update connections if accepted
-
-    return KeyDialog(actionCollection, parent).configure();
 }
 
 void KeyDialog::setupActionShortcut(const QString &actionName)
