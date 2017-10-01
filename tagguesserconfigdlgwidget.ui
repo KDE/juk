@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>671</width>
-    <height>530</height>
+    <width>848</width>
+    <height>605</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -129,7 +129,7 @@ Note that the order in which the schemes appear in the list is relevant, since t
      </property>
     </widget>
    </item>
-   <item>
+   <item row="6" column="2">
     <widget class="QDialogButtonBox" name="dlgButtonBox">
      <property name="standardButtons">
       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
