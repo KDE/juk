@@ -22,7 +22,7 @@
 #include <QMap>
 #include <QDateTime>
 
-#include <KWallet/Wallet>
+#include <KWallet>
 
 #include <memory>
 

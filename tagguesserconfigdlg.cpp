@@ -17,7 +17,7 @@
 #include "tagguesserconfigdlg.h"
 #include "tagguesser.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 #include <klineedit.h>
 
 #include <QIcon>

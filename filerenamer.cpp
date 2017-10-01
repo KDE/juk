@@ -20,16 +20,14 @@
 
 #include <algorithm>
 
-#include <kurlrequester.h>
+#include <KUrlRequester>
 #include <kiconloader.h>
-#include <knuminput.h>
+#include <KLocalizedString>
 #include <kio/job.h>
-#include <kio/netaccess.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
-#include <kglobal.h>
+#include <KSharedConfig>
 #include <klineedit.h>
-#include <klocale.h>
 #include <kmessagebox.h>
 
 #include <QFile>
@@ -947,7 +945,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
 
     // Move the file.
     KIO::Job *job = KIO::file_move(srcURL, dstURL);
-    return KIO::NetAccess::synchronousRun(job, 0);
+    return job->exec();
 }
 
 void FileRenamer::setFolderIcon(const QUrl &dstURL, const PlaylistItem *item)

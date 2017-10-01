@@ -18,7 +18,7 @@
 
 #include <kiconloader.h>
 #include <ksqueezedtextlabel.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QAction>
 #include <QMouseEvent>

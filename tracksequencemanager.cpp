@@ -14,10 +14,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <KLocalizedString>
 #include <kconfig.h>
-#include <klocale.h>
+
 #include <QAction>
-#include <kmenu.h>
 
 #include "actioncollection.h"
 #include "tracksequencemanager.h"

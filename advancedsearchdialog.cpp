@@ -18,8 +18,7 @@
 #include "advancedsearchdialog.h"
 
 #include <kcombobox.h>
-#include <klocale.h>
-#include <kvbox.h>
+#include <KLocalizedString>
 #include <KStandardGuiItem>
 
 #include <QDialogButtonBox>

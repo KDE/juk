@@ -17,8 +17,6 @@
 
 #include "coverinfo.h"
 
-#include <kglobal.h>
-
 #include <QApplication>
 #include <QRegExp>
 #include <QLabel>

@@ -18,12 +18,12 @@
 #include "keydialog.h"
 #include "actioncollection.h"
 
-#include <kconfig.h>
-#include <klocale.h>
-#include <kshortcutseditor.h>
-#include <kglobal.h>
-#include <kconfiggroup.h>
+#include <KConfig>
+#include <KShortcutsEditor>
+#include <KConfigGroup>
+#include <KSharedConfig>
 #include <KGlobalAccel>
+#include <KLocalizedString>
 
 #include <QAction>
 #include <QKeySequence>

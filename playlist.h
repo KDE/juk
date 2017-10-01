@@ -15,10 +15,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PLAYLIST_H
-#define PLAYLIST_H
+#ifndef JUK_PLAYLIST_H
+#define JUK_PLAYLIST_H
 
-#include <kglobalsettings.h>
+#include <KCompletion>
 
 #include <QVector>
 #include <QEvent>
@@ -639,7 +639,7 @@ private slots:
      * magic of the SharedSettings class will apply it to the other playlists as
      * well.
      */
-    void slotInlineCompletionModeChanged(KGlobalSettings::Completion mode);
+    void slotInlineCompletionModeChanged(KCompletion::CompletionMode mode);
 
     void slotPlayCurrent();
 

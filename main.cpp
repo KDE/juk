@@ -14,18 +14,17 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include <kuniqueapplication.h>
-
-#include <kaboutdata.h>
-#include <kconfigbase.h>
-#include <kconfig.h>
-#include <klocale.h>
-#include <kglobal.h>
-#include <kconfiggroup.h>
-#include <knotification.h>
+#include <KAboutData>
+#include <KConfigBase>
+#include <KConfig>
+#include <KConfigGroup>
+#include <KNotification>
+#include <KSharedConfig>
+#include <KLocalizedString>
 
 #include <QCommandLineParser>
 #include <QCommandLineOption>
+#include <QApplication>
 
 #include "juk.h"
 

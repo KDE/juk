@@ -21,12 +21,12 @@
 #include "searchadaptor.h"
 #include "juk_debug.h"
 
-#include <klocale.h>
 #include <klineedit.h>
 #include <kiconloader.h>
 #include <kcombobox.h>
-#include <QAction>
+#include <KLocalizedString>
 
+#include <QAction>
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>

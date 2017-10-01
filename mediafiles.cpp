@@ -16,15 +16,17 @@
 
 #include "mediafiles.h"
 
-#include <klocale.h>
-#include <kurl.h>
-#include <kio/netaccess.h>
-#include <kmimetype.h>
+#include <KLocalizedString>
+#include <KIO/StatJob>
+#include <KJobWidgets>
 
 #include <QWidget>
 #include <QFile>
+#include <QUrl>
 #include <QFileDialog>
 #include <QStandardPaths>
+#include <QMimeType>
+#include <QMimeDatabase>
 
 #include <taglib.h>
 #include <taglib_config.h>
@@ -143,35 +145,35 @@ QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *par
 
 TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    // FIXME mimetype no isvalid
-    //if(!result->isValid())
-    //    return 0;
+    QMimeDatabase db;
+    QMimeType result = db.mimeTypeForFile(fileName);
+    if(!result.isValid())
+        return nullptr;
 
-    TagLib::File *file(0);
+    TagLib::File *file(nullptr);
     QByteArray encodedFileName(QFile::encodeName(fileName));
 
-    if(result->is(mp3Type))
+    if(result.inherits(QLatin1String(mp3Type)))
         file = new TagLib::MPEG::File(encodedFileName.constData());
-    else if(result->is(flacType))
+    else if(result.inherits(QLatin1String(flacType)))
         file = new TagLib::FLAC::File(encodedFileName.constData());
-    else if(result->is(vorbisType))
+    else if(result.inherits(QLatin1String(vorbisType)))
         file = new TagLib::Vorbis::File(encodedFileName.constData());
 #ifdef TAGLIB_WITH_ASF
-    else if(result->is(asfType))
+    else if(result.inherits(QLatin1String(asfType)))
         file = new TagLib::ASF::File(encodedFileName.constData());
 #endif
 #ifdef TAGLIB_WITH_MP4
-    else if(result->is(mp4Type) || result->is(mp4AudiobookType))
+    else if(result.inherits(QLatin1String(mp4Type)) || result.inherits(QLatin1String(mp4AudiobookType)))
         file = new TagLib::MP4::File(encodedFileName.constData());
 #endif
-    else if(result->is(mpcType))
+    else if(result.inherits(QLatin1String(mpcType)))
         file = new TagLib::MPC::File(encodedFileName.constData());
-    else if(result->is(oggflacType))
+    else if(result.inherits(QLatin1String(oggflacType)))
         file = new TagLib::Ogg::FLAC::File(encodedFileName.constData());
 #if TAGLIB_HAS_OPUSFILE
-    else if(result->is(oggopusType) ||
-            (result->is(oggType) && fileName.endsWith(QLatin1String(".opus")))
+    else if(result.inherits(QLatin1String(oggopusType)) ||
+            (result.inherits(QLatin1String(oggType)) && fileName.endsWith(QLatin1String(".opus")))
             )
     {
         file = new TagLib::Ogg::Opus::File(encodedFileName.constData());
@@ -183,76 +185,74 @@ TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
 
 bool MediaFiles::isMediaFile(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    // FIXME mimetype no isvalid
-    /*if(!result->isValid())
-        return false;*/
+    QMimeDatabase db;
+    QMimeType result = db.mimeTypeForFile(fileName);
+    if(!result.isValid())
+        return false;
 
     // Search through our table of media types for a match
-    for(unsigned i = 0; i < ARRAY_SIZE(mediaTypes); ++i) {
-        if(result->is(mediaTypes[i]))
+    for(const auto &mimeType : mimeTypes()) {
+        if(result.inherits(mimeType))
             return true;
     }
 
     return false;
 }
 
+static bool isFileOfMimeType(const QString &fileName, const QString &mimeType)
+{
+    QMimeDatabase db;
+    QMimeType result = db.mimeTypeForFile(fileName);
+    return result.isValid() && result.inherits(mimeType);
+}
+
 bool MediaFiles::isPlaylistFile(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(m3uType);
+    return isFileOfMimeType(fileName, m3uType);
 }
 
 bool MediaFiles::isMP3(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(mp3Type);
+    return isFileOfMimeType(fileName, mp3Type);
 }
 
 bool MediaFiles::isOgg(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(oggType);
+    return isFileOfMimeType(fileName, oggType);
 }
 
 bool MediaFiles::isFLAC(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(flacType);
+    return isFileOfMimeType(fileName, flacType);
 }
 
 bool MediaFiles::isMPC(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(mpcType);
+    return isFileOfMimeType(fileName, mpcType);
 }
 
 bool MediaFiles::isVorbis(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(vorbisType);
+    return isFileOfMimeType(fileName, vorbisType);
 }
 
 #ifdef TAGLIB_WITH_ASF
 bool MediaFiles::isASF(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(asfType);
+    return isFileOfMimeType(fileName, asfType);
 }
 #endif
 
 #ifdef TAGLIB_WITH_MP4
 bool MediaFiles::isMP4(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(mp4Type) || result->is(mp4AudiobookType);
+    return isFileOfMimeType(fileName, mp4Type) || isFileOfMimeType(fileName, mp4AudiobookType);
 }
 #endif
 
 bool MediaFiles::isOggFLAC(const QString &fileName)
 {
-    KMimeType::Ptr result = KMimeType::findByPath(fileName);
-    return result->is(oggflacType);
+    return isFileOfMimeType(fileName, oggflacType);
 }
 
 QStringList MediaFiles::mimeTypes()
@@ -273,12 +273,13 @@ QStringList MediaFiles::convertURLsToLocal(const QList<QUrl> &urlList, QWidget *
     QUrl localUrl;
 
     for(const auto &url : urlList) {
-        localUrl = KIO::NetAccess::mostLocalUrl(url, w);
+        auto localizerJob = KIO::mostLocalUrl(url);
+        KJobWidgets::setWindow(localizerJob, w);
 
-        if(localUrl.isLocalFile())
+        if(localizerJob->exec() && (localUrl = localizerJob->mostLocalUrl()).isLocalFile())
             result.append(localUrl.path());
         else
-            qCDebug(JUK_LOG) << localUrl << " is not a local file, skipping.";
+            qCDebug(JUK_LOG) << url << " is not a local file, skipping.";
     }
 
     return result;

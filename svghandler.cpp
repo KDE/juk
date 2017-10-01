@@ -19,11 +19,8 @@
 #include "svghandler.h"
 #include "juk_debug.h"
 
-#include <KColorScheme>
-#include <KColorUtils>
-#include <KStandardDirs>
-
 #include <QHash>
+#include <QStandardPaths>
 #include <QPainter>
 #include <QPalette>
 #include <QReadLocker>
@@ -31,7 +28,6 @@
 #include <QStyleOptionSlider>
 #include <QSvgRenderer>
 #include <QWriteLocker>
-
 
 namespace The {
     static SvgHandler* s_SvgHandler_instance = 0;
@@ -63,7 +59,8 @@ SvgHandler::~SvgHandler()
 
 bool SvgHandler::loadSvg( const QString& name )
 {
-    const QString &svgFilename = KStandardDirs::locate( "data", name );
+    const QString &svgFilename =
+        QStandardPaths::locate( QStandardPaths::GenericDataLocation, name );
     QSvgRenderer *renderer = new QSvgRenderer( svgFilename, this );
 
     if ( !renderer->isValid() )

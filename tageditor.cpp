@@ -22,22 +22,19 @@
 #include "tagtransactionmanager.h"
 #include "juk_debug.h"
 
-#include <QAction>
 #include <kactioncollection.h>
-#include <kconfiggroup.h>
 #include <kcombobox.h>
 #include <klineedit.h>
-#include <knuminput.h>
 #include <ktextedit.h>
 #include <kmessagebox.h>
-#include <kconfig.h>
-#include <klocale.h>
+#include <KSharedConfig>
+#include <KConfigGroup>
 #include <kiconloader.h>
-#include <QIcon>
 #include <ktoggleaction.h>
-#include <kshortcut.h>
-#include <kglobal.h>
+#include <KLocalizedString>
 
+#include <QAction>
+#include <QIcon>
 #include <QLabel>
 #include <QApplication>
 #include <QCheckBox>

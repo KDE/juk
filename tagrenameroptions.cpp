@@ -16,11 +16,11 @@
 
 #include "tagrenameroptions.h"
 
-#include <kglobal.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kconfig.h>
 #include <kconfigbase.h>
 #include <kconfiggroup.h>
+#include <KSharedConfig>
 
 #include "juk_debug.h"
 

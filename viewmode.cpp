@@ -17,7 +17,6 @@
 #include "viewmode.h"
 
 #include <kiconloader.h>
-#include <kstandarddirs.h>
 
 #include <QPixmap>
 #include <QPainter>

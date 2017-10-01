@@ -24,7 +24,6 @@
 #include <QFileDialog>
 #include <QStandardPaths>
 
-#include <klocale.h>
 #include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////

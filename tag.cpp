@@ -17,7 +17,7 @@
 
 #include "tag.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QtCore/QFile>
 

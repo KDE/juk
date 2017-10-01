@@ -17,16 +17,14 @@
 
 #include "playlistcollection.h"
 
-#include <kurl.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
-#include <kfiledialog.h>
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
 #include <kconfiggroup.h>
+#include <KSharedConfig>
 #include <kfileitem.h>
-#include <kglobal.h>
 
 #include <config-juk.h>
 
@@ -35,6 +33,8 @@
 #include <QMutableListIterator>
 #include <QObject>
 #include <QPixmap>
+#include <QDir>
+#include <QFileDialog>
 #include <QInputDialog>
 #include <QStackedWidget>
 
@@ -547,7 +547,7 @@ void PlaylistCollection::createSearchPlaylist()
 
 void PlaylistCollection::createFolderPlaylist()
 {
-    QString folder = KFileDialog::getExistingDirectory();
+    QString folder = QFileDialog::getExistingDirectory();
 
     if(folder.isEmpty())
         return;

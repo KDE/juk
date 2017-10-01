@@ -19,7 +19,7 @@
 #define JUK_SCROBBLESETTINGS_H
 
 #include <QDialog>
-#include <KWallet/Wallet>
+#include <KWallet>
 
 #include <memory>
 

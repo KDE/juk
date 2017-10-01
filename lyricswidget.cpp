@@ -17,20 +17,20 @@
 #include <QDomDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-
+#include <QIcon>
 #include <QAction>
+#include <QUrlQuery>
+
 #include <KLocalizedString>
 #include <KActionCollection>
 #include <KToggleAction>
 #include <KConfigGroup>
-#include <QIcon>
-#include <kglobal.h>
+#include <KSharedConfig>
 
 #include "lyricswidget.h"
 #include "tag.h"
 #include "actioncollection.h"
 #include "juk_debug.h"
-
 
 LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     m_networkAccessManager(new QNetworkAccessManager),
@@ -75,12 +75,16 @@ void LyricsWidget::makeLyricsRequest()
 
     setHtml(i18n("<i>Loading...</i>"));
 
+    // TODO time for https (as long as it doesn't break this)
     QUrl listUrl("http://lyrics.wikia.com/api.php");
-    listUrl.addQueryItem("action", "lyrics");
-    listUrl.addQueryItem("func", "getSong");
-    listUrl.addQueryItem("fmt", "xml");
-    listUrl.addQueryItem("artist", m_playingFile.tag()->artist());
-    listUrl.addQueryItem("song", m_playingFile.tag()->title());
+    QUrlQuery listUrlQuery;
+    listUrlQuery.addQueryItem("action", "lyrics");
+    listUrlQuery.addQueryItem("func", "getSong");
+    listUrlQuery.addQueryItem("fmt", "xml");
+    listUrlQuery.addQueryItem("artist", m_playingFile.tag()->artist());
+    listUrlQuery.addQueryItem("song", m_playingFile.tag()->title());
+    listUrl.setQuery(listUrlQuery);
+
     m_title = m_playingFile.tag()->artist() + " &#8211; " + m_playingFile.tag()->title();
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(listUrl));
@@ -117,13 +121,16 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
     QString artist = document.elementsByTagName("artist").at(0).toElement().text();
     QString title = document.elementsByTagName("song").at(0).toElement().text();
 
-
+    // TODO time for https (as long as it doesn't break this)
     QUrl url("http://lyrics.wikia.com/api.php");
-    url.addQueryItem("action", "query");
-    url.addQueryItem("prop", "revisions");
-    url.addQueryItem("rvprop", "content");
-    url.addQueryItem("format", "xml");
-    url.addQueryItem("titles", artist + ':' + title);
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("action", "query");
+    urlQuery.addQueryItem("prop", "revisions");
+    urlQuery.addQueryItem("rvprop", "content");
+    urlQuery.addQueryItem("format", "xml");
+    urlQuery.addQueryItem("titles", artist + ':' + title);
+    url.setQuery(urlQuery);
+
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(url));
 }

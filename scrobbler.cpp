@@ -24,8 +24,9 @@
 #include <QNetworkReply>
 #include <QDomDocument>
 #include <QByteArray>
+#include <QUrl>
+#include <QUrlQuery>
 
-#include <kglobal.h>
 #include <kconfiggroup.h>
 #include <KSharedConfig>
 
@@ -142,9 +143,12 @@ void Scrobbler::getAuthToken(QString username, QString password)
 
     sign(params);
 
+    QUrlQuery urlQuery;
     foreach(QString key, params.keys()) {
-        url.addQueryItem(key, params[key]);
+        urlQuery.addQueryItem(key, params[key]);
     }
+
+    url.setQuery(urlQuery);
 
     if (!m_networkAccessManager)
         m_networkAccessManager = new QNetworkAccessManager(this);

@@ -18,35 +18,31 @@
 #include "playlist.h"
 #include "juk-exception.h"
 
+#include <KLocalizedString>
+#include <KSharedConfig>
 #include <kconfig.h>
 #include <kmessagebox.h>
 #include <kiconloader.h>
 #include <klineedit.h>
-#include <klocale.h>
-#include <kfiledialog.h>
-#include <kglobalsettings.h>
-#include <kurl.h>
-#include <kio/netaccess.h>
 #include <kio/copyjob.h>
-#include <kmenu.h>
 #include <kactioncollection.h>
 #include <kconfiggroup.h>
 #include <ktoolbarpopupaction.h>
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
 #include <kselectaction.h>
-#include <kglobal.h>
-#include <kmimetype.h>
 
 #include <QCursor>
 #include <QDir>
 #include <QDirIterator>
 #include <QToolTip>
 #include <QFile>
+#include <QFileDialog>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QMimeData>
+#include <QMenu>
 #include <QTimer>
 #include <QClipboard>
 #include <QTextStream>
@@ -119,7 +115,7 @@ public:
      */
     void setColumnOrder(const Playlist *l);
     void toggleColumnVisible(int column);
-    void setInlineCompletionMode(KGlobalSettings::Completion mode);
+    void setInlineCompletionMode(KCompletion::CompletionMode mode);
 
     /**
      * Apply the settings.
@@ -137,7 +133,7 @@ private:
     static SharedSettings *m_instance;
     QList<int> m_columnOrder;
     QVector<bool> m_columnsVisible;
-    KGlobalSettings::Completion m_inlineCompletion;
+    KCompletion::CompletionMode m_inlineCompletion;
 };
 
 Playlist::SharedSettings *Playlist::SharedSettings::m_instance = 0;
@@ -175,7 +171,7 @@ void Playlist::SharedSettings::toggleColumnVisible(int column)
     writeConfig();
 }
 
-void Playlist::SharedSettings::setInlineCompletionMode(KGlobalSettings::Completion mode)
+void Playlist::SharedSettings::setInlineCompletionMode(KCompletion::CompletionMode mode)
 {
     m_inlineCompletion = mode;
     writeConfig();
@@ -245,8 +241,8 @@ Playlist::SharedSettings::SharedSettings()
             m_columnsVisible[i] = bool(l[i]);
     }
 
-    m_inlineCompletion = KGlobalSettings::Completion(
-        config.readEntry("InlineCompletionMode", int(KGlobalSettings::CompletionAuto)));
+    m_inlineCompletion = KCompletion::CompletionMode(
+        config.readEntry("InlineCompletionMode", int(KCompletion::CompletionAuto)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -918,7 +914,7 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
                 QString removePath = item->file().absFilePath();
                 QUrl removeUrl = QUrl::fromLocalFile(removePath);
-                if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removeUrl), this)) ||
+                if((!shouldDelete && KIO::trash(removeUrl)->exec()) ||
                    (shouldDelete && QFile::remove(removePath)))
                 {
                     delete item->collectionItem();
@@ -1457,8 +1453,8 @@ void Playlist::slotInitialize()
             this, SLOT(slotPlayCurrent()));*/
 
     // FIXME rename
-    /*connect(renameLineEdit(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
-            this, SLOT(slotInlineCompletionModeChanged(KGlobalSettings::Completion)));*/
+    /*connect(renameLineEdit(), SIGNAL(completionModeChanged(KCompletion::CompletionMode)),
+            this, SLOT(slotInlineCompletionModeChanged(KCompletion::CompletionMode)));*/
 
     connect(action("resizeColumnsManually"), SIGNAL(triggered()),
             this, SLOT(slotColumnResizeModeChanged()));
@@ -2236,7 +2232,7 @@ void Playlist::columnResized(int column, int, int newSize)
     m_columnFixedWidths[column] = newSize;
 }
 
-void Playlist::slotInlineCompletionModeChanged(KGlobalSettings::Completion mode)
+void Playlist::slotInlineCompletionModeChanged(KCompletion::CompletionMode mode)
 {
     SharedSettings::instance()->setInlineCompletionMode(mode);
 }

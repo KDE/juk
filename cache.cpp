@@ -18,12 +18,10 @@
 #include "cache.h"
 #include "juk-exception.h"
 
-#include <kstandarddirs.h>
 #include <kmessagebox.h>
 #include <kconfig.h>
-#include <klocale.h>
 #include <ktoggleaction.h>
-#include <kglobal.h>
+#include <KLocalizedString>
 
 #include <QDir>
 #include <QBuffer>

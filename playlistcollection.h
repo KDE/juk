@@ -20,9 +20,8 @@
 #include "stringhash.h"
 #include "playlistinterface.h"
 
-#include <kshortcut.h>
-#include <klocale.h>
-#include <kdirlister.h>
+#include <KDirLister>
+#include <KLocalizedString>
 
 #include <QPointer>
 #include <QKeySequence>

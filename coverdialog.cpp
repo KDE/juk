@@ -17,8 +17,8 @@
 
 #include "coverdialog.h"
 
+#include <KLocalizedString>
 #include <kiconloader.h>
-#include <klocale.h>
 
 #include <QTimer>
 #include <QMenu>

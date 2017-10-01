@@ -17,14 +17,15 @@
 
 #include "playlistsplitter.h"
 
-#include <QIcon>
-#include <QAction>
-#include <kglobal.h>
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
-#include <kconfiggroup.h>
 #include <kacceleratormanager.h>
+#include <KConfigGroup>
+#include <KLocalizedString>
+#include <KSharedConfig>
 
+#include <QIcon>
+#include <QAction>
 #include <QEvent>
 #include <QVBoxLayout>
 #include <QLatin1String>

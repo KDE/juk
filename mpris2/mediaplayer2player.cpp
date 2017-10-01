@@ -30,11 +30,10 @@
 #include <QCryptographicHash>
 #include <QDBusConnection>
 #include <QDBusMessage>
+#include <QStandardPaths>
 #include <QVariant>
 #include <QFile>
 #include <QUrl>
-
-#include <KStandardDirs>
 
 static QByteArray idFromPlaylistItem(const PlaylistItem *item)
 {
@@ -209,7 +208,7 @@ QVariantMap MediaPlayer2Player::Metadata() const
             QUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
 
     if(playingFile.coverInfo()->hasCover()) {
-        QString fallbackFileName = KStandardDirs::locateLocal("tmp",
+        QString fallbackFileName = QStandardPaths::locate(QStandardPaths::TempLocation,
                 QString("juk-cover-%1.png").arg(item->trackId()));
 
         QString path = fallbackFileName;

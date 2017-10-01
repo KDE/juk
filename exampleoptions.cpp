@@ -21,7 +21,7 @@
 #include <QShowEvent>
 #include <QVBoxLayout>
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 ExampleOptions::ExampleOptions(QWidget *parent) :
     QWidget(parent)

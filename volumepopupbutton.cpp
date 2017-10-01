@@ -18,8 +18,7 @@
 #include "volumepopupbutton.h"
 #include "slider.h"
 
-#include <KLocale>
-#include <KVBox>
+#include <KLocalizedString>
 #include <QIcon>
 
 #include <QAction>

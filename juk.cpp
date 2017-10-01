@@ -17,18 +17,16 @@
 
 #include "juk.h"
 
-#include <kstatusbar.h>
 #include <kmessagebox.h>
 #include <kactioncollection.h>
 #include <kstandardaction.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
 #include <kconfiggroup.h>
-#include <kglobal.h>
+#include <KSharedConfig>
 #include <kglobalaccel.h>
 #include <ktoolbarpopupaction.h>
 #include <knotification.h>
-#include <kdeversion.h>
 
 #include <QIcon>
 #include <QAction>
@@ -39,6 +37,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QDesktopWidget>
+#include <QStatusBar>
 
 #include "slideraction.h"
 #include "statuslabel.h"

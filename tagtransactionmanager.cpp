@@ -16,8 +16,8 @@
 
 #include "tagtransactionmanager.h"
 
-#include <klocale.h>
 #include <kmessagebox.h>
+#include <KLocalizedString>
 
 #include <QAction>
 #include <QApplication>

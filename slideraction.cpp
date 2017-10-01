@@ -17,9 +17,9 @@
 #include "slideraction.h"
 
 #include <ktoolbar.h>
-#include <klocale.h>
 #include <kiconloader.h>
 #include <kactioncollection.h>
+#include <KLocalizedString>
 
 #include <QMouseEvent>
 #include <QWheelEvent>

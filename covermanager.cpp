@@ -32,7 +32,6 @@
 #include <QStandardPaths>
 #include <QUrl>
 
-#include <kdemacros.h>
 #include <kio/job.h>
 
 #include "juk.h"
@@ -275,7 +274,7 @@ void CoverManagerPrivate::loadCovers()
         // don't do so again.  Possible due to a coding error during 3.5
         // development.
 
-        if(KDE_ISLIKELY(!tracks.contains(path))) {
+        if(Q_LIKELY(!tracks.contains(path))) {
             ++covers[(coverKey) id].refCount; // Another track using this.
             tracks.insert(path, id);
         }

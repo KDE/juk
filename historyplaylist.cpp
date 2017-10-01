@@ -18,7 +18,7 @@
 
 #include <QTimer>
 
-#include <KLocale>
+#include <KLocalizedString>
 
 #include "collectionlist.h"
 #include "playermanager.h"

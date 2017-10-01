@@ -19,7 +19,7 @@
 #ifndef JUK_SYSTEMTRAY_H
 #define JUK_SYSTEMTRAY_H
 
-#include <kstatusnotifieritem.h>
+#include <KStatusNotifierItem>
 
 #include <QVector>
 #include <QColor>

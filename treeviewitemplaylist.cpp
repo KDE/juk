@@ -17,7 +17,7 @@
 #include "treeviewitemplaylist.h"
 
 #include <kmessagebox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QStringList>
 

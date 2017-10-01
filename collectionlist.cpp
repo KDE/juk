@@ -16,15 +16,13 @@
 
 #include "collectionlist.h"
 
-#include <klocale.h>
 #include <kmessagebox.h>
-#include <kmenu.h>
-#include <kconfig.h>
-#include <kconfiggroup.h>
+#include <KConfigGroup>
+#include <KSharedConfig>
 #include <kactioncollection.h>
-#include <kstandarddirs.h>
 #include <ktoolbarpopupaction.h>
 #include <kdirwatch.h>
+#include <KLocalizedString>
 
 #include <QList>
 #include <QDragMoveEvent>
@@ -32,6 +30,7 @@
 #include <QApplication>
 #include <QTimer>
 #include <QTime>
+#include <QMenu>
 #include <QClipboard>
 #include <QFileInfo>
 #include <QHeaderView>

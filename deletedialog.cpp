@@ -18,11 +18,11 @@
 #include "ui_deletedialogbase.h"
 
 #include <KStandardGuiItem>
-#include <klocale.h>
-#include <kiconloader.h>
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <kglobal.h>
+#include <KLocalizedString>
+#include <KIconLoader>
+#include <KConfig>
+#include <KConfigGroup>
+#include <KSharedConfig>
 
 #include <QDialogButtonBox>
 #include <QStringList>

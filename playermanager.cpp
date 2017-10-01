@@ -19,10 +19,10 @@
 #include "playermanager.h"
 
 #include <kmessagebox.h>
-#include <klocale.h>
 #include <kactioncollection.h>
 #include <kselectaction.h>
 #include <ktoggleaction.h>
+#include <KLocalizedString>
 
 #include <Phonon/AudioOutput>
 #include <Phonon/MediaObject>

@@ -18,11 +18,11 @@
 
 #include "systemtray.h"
 
-#include <klocale.h>
 #include <kiconloader.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
 #include <kwindowsystem.h>
+#include <KLocalizedString>
 
 #include <QAction>
 #include <QMenu>
@@ -35,7 +35,6 @@
 #include <QLabel>
 #include <QIcon>
 #include <QApplication>
-#include <QTextDocument> // Qt::escape()
 
 #include "tag.h"
 #include "actioncollection.h"
@@ -388,14 +387,14 @@ void SystemTray::createPopup()
 
     int labelCount = 0;
 
-    QString title = Qt::escape(playingInfo->title());
+    QString title = playingInfo->title().toHtmlEscaped();
     m_labels[labelCount++]->setText(QString("<qt><nobr><h2>%1</h2></nobr></qt>").arg(title));
 
     if(!playingInfo->artist().isEmpty())
         m_labels[labelCount++]->setText(playingInfo->artist());
 
     if(!playingInfo->album().isEmpty()) {
-        QString album = Qt::escape(playingInfo->album());
+        QString album = playingInfo->album().toHtmlEscaped();
         QString s = playingInfo->year() > 0
             ? QString("<qt><nobr>%1 (%2)</nobr></qt>").arg(album).arg(playingInfo->year())
             : QString("<qt><nobr>%1</nobr></qt>").arg(album);

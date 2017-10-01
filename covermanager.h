@@ -17,8 +17,6 @@
 #ifndef JUK_COVERMANAGER_H
 #define JUK_COVERMANAGER_H
 
-#include <ksharedptr.h>
-
 #include <QObject>
 #include <QMimeData>
 #include <QString>

@@ -22,8 +22,7 @@
 #include <ktoggleaction.h>
 #include <kselectaction.h>
 #include <kconfiggroup.h>
-#include <kglobal.h>
-#include <kurl.h>
+#include <KSharedConfig>
 
 #include <QAction>
 #include <QIcon>

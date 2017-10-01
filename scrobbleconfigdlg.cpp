@@ -22,8 +22,9 @@
 #include <KLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
-#include <kglobal.h>
 #include <KConfigGroup>
+#include <KSharedConfig>
+#include <KWallet>
 
 #include <QPushButton>
 #include <QLayout>

@@ -18,10 +18,10 @@
 #include "nowplaying.h"
 
 #include <kiconloader.h>
-#include <klocale.h>
 #include <krandom.h>
-#include <kglobalsettings.h>
-#include <kio/netaccess.h>
+#include <KLocalizedString>
+#include <KIO/StoredTransferJob>
+#include <KJobWidgets>
 
 #include <QImage>
 #include <QLayout>
@@ -39,6 +39,7 @@
 #include <QList>
 #include <QTextDocument>
 #include <QFontMetrics>
+#include <QFontDatabase>
 #include <QApplication>
 
 #include "playlistcollection.h"
@@ -75,7 +76,7 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
 
     // With HiDPI the text might actually be bigger... try to account for
     // that.
-    QFont defaultLargeFont(KGlobalSettings::largeFont(QLatin1String("XXXXXXX")));
+    const QFont defaultLargeFont(QFontDatabase::systemFont(QFontDatabase::TitleFont));
     const QFontMetrics fm(defaultLargeFont, this);
 
     g_imageSize = qMax(g_imageSize, fm.lineSpacing());
@@ -220,15 +221,15 @@ void CoverItem::dropEvent(QDropEvent *e)
 
         QString fileName;
 
-        if(KIO::NetAccess::download(urls.front(), fileName, this)) {
-            if(image.load(fileName)) {
+        auto getJob = KIO::storedGet(urls.front());
+        KJobWidgets::setWindow(getJob, this);
+        if(getJob->exec()) {
+            if(image.loadFromData(getJob->data())) {
                 m_file.coverInfo()->setCover(image);
                 update(m_file);
             }
             else
                 qCCritical(JUK_LOG) << "Unable to load image from " << urls.front();
-
-            KIO::NetAccess::removeTempFile(fileName);
         }
         else
             qCCritical(JUK_LOG) << "Unable to download " << urls.front();
@@ -294,9 +295,9 @@ void TrackItem::slotUpdate()
         return;
     }
 
-    QString title  = Qt::escape(m_file.tag()->title());
-    QString artist = Qt::escape(m_file.tag()->artist());
-    QString album  = Qt::escape(m_file.tag()->album());
+    QString title  = m_file.tag()->title().toHtmlEscaped();
+    QString artist = m_file.tag()->artist().toHtmlEscaped();
+    QString album  = m_file.tag()->album().toHtmlEscaped();
     QString separator = (artist.isNull() || album.isNull()) ? QString::null : QString(" - ");	//krazy:exclude=nullstrassign for old broken gcc
 
     // This block-o-nastiness makes the font smaller and smaller until it actually fits.

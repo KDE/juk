@@ -16,8 +16,7 @@
 
 #include "filerenameroptions.h"
 
-#include <klocale.h>
-#include <knuminput.h>
+#include <KLocalizedString>
 
 #include "juk_debug.h"
 

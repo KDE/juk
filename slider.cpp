@@ -20,9 +20,7 @@
 #include "svghandler.h"
 
 #include <QIcon>
-#include <KLocale>
-#include <KStandardDirs>
-#include <KGlobalSettings>
+#include <KLocalizedString>
 
 #include <QAction>
 #include <QContextMenuEvent>

@@ -18,7 +18,7 @@
 #include "filerenamerconfigdlg.h"
 #include "filerenamer.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
 FileRenamerConfigDlg::FileRenamerConfigDlg(QWidget *parent)
   : QDialog(parent)

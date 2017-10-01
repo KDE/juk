@@ -258,7 +258,7 @@ QStringList FileHandle::properties() // static
 
 QString FileHandle::property(const QString &name) const
 {
-    return FileHandleProperties::property(*this, name.toAscii());
+    return FileHandleProperties::property(*this, name.toUtf8());
 }
 
 const FileHandle &FileHandle::null() // static

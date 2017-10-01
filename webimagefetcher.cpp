@@ -18,8 +18,7 @@
 
 #include "webimagefetcher.h"
 
-#include <KStatusBar>
-#include <KLocale>
+#include <KLocalizedString>
 #include <KIO/Job>
 #include <KIconLoader>
 
@@ -40,6 +39,7 @@
 #include <QLayout>
 #include <QLabel>
 #include <QPainter>
+#include <QStatusBar>
 #include <QUrl>
 #include <QUrlQuery>
 
