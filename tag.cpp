@@ -17,8 +17,7 @@
 
 #include "tag.h"
 
-#include <kdebug.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QtCore/QFile>
 
@@ -30,6 +29,7 @@
 #include "cache.h"
 #include "mediafiles.h"
 #include "stringshare.h"
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
@@ -45,8 +45,7 @@ Tag::Tag(const QString &fileName) :
     m_isValid(false)
 {
     if(fileName.isEmpty()) {
-        kError() << "Trying to add empty file, backtrace follows:" << endl;
-        kError() << kBacktrace(10) << endl;
+        qCCritical(JUK_LOG) << "Trying to add empty file";
         return;
     }
 
@@ -56,8 +55,8 @@ Tag::Tag(const QString &fileName) :
         delete file;
     }
     else {
-        kError() << "Couldn't resolve the mime type of \"" <<
-            fileName << "\" -- this shouldn't happen." << endl;
+        qCCritical(JUK_LOG) << "Couldn't resolve the mime type of \"" <<
+            fileName << "\" -- this shouldn't happen.";
     }
 }
 
@@ -78,7 +77,7 @@ bool Tag::save()
         result = file->save();
     }
     else {
-        kError() << "Couldn't save file." << endl;
+        qCCritical(JUK_LOG) << "Couldn't save file.";
         result = false;
     }
 
@@ -176,7 +175,7 @@ Tag::Tag(const QString &fileName, bool) :
 void Tag::setup(TagLib::File *file)
 {
     if(!file || !file->tag()) {
-        kWarning() << "Can't setup invalid file" << m_fileName;
+        qCWarning(JUK_LOG) << "Can't setup invalid file" << m_fileName;
         return;
     }
 

@@ -17,13 +17,10 @@
  */
 
 #include "svghandler.h"
-
-#include <KColorScheme>
-#include <KColorUtils>
-#include <KStandardDirs>
-#include <KDebug>
+#include "juk_debug.h"
 
 #include <QHash>
+#include <QStandardPaths>
 #include <QPainter>
 #include <QPalette>
 #include <QReadLocker>
@@ -31,7 +28,6 @@
 #include <QStyleOptionSlider>
 #include <QSvgRenderer>
 #include <QWriteLocker>
-
 
 namespace The {
     static SvgHandler* s_SvgHandler_instance = 0;
@@ -63,7 +59,8 @@ SvgHandler::~SvgHandler()
 
 bool SvgHandler::loadSvg( const QString& name )
 {
-    const QString &svgFilename = KStandardDirs::locate( "data", name );
+    const QString &svgFilename =
+        QStandardPaths::locate( QStandardPaths::GenericDataLocation, name );
     QSvgRenderer *renderer = new QSvgRenderer( svgFilename, this );
 
     if ( !renderer->isValid() )
@@ -143,7 +140,7 @@ void SvgHandler::reTint()
 {
     // The::svgTinter()->init();
     if ( !loadSvg( m_themeFile ))
-        kDebug() << "Unable to load theme file: " << m_themeFile;
+        qCDebug(JUK_LOG) << "Unable to load theme file: " << m_themeFile;
     emit retinted();
 }
 
@@ -222,5 +219,3 @@ void SvgHandler::paintCustomSlider( QPainter *p, QStyleOptionSlider *slider, qre
         p->drawPixmap( knob.topLeft(), renderSvg( string, knob.width(), knob.height(), string ) );
     }
 }
-
-#include "svghandler.moc"

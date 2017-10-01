@@ -19,14 +19,14 @@
 #include "collectionlist.h"
 #include "actioncollection.h"
 #include "searchadaptor.h"
+#include "juk_debug.h"
 
-#include <klocale.h>
 #include <klineedit.h>
 #include <kiconloader.h>
 #include <kcombobox.h>
-#include <kdebug.h>
-#include <kaction.h>
+#include <KLocalizedString>
 
+#include <QAction>
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
@@ -92,7 +92,7 @@ PlaylistSearch::Component SearchLine::searchComponent() const
 
     if(!m_searchFieldsBox || m_searchFieldsBox->currentIndex() == 0) {
         foreach(int column, m_columnList) {
-            if(playlist->isColumnVisible(column))
+            if(!playlist->isColumnHidden(column))
                 searchedColumns.append(column);
         }
     }
@@ -177,9 +177,9 @@ void SearchLine::updateColumns()
     int selection = -1;
     m_columnList.clear();
 
-    for(int i = 0; i < playlist->columns(); i++) {
+    for(int i = 0; i < playlist->columnCount(); i++) {
         m_columnList.append(i);
-        QString text = playlist->columnText(i);
+        QString text = playlist->headerItem()->text(i);
         columnHeaders.append(text);
         if(currentText == text)
             selection = m_columnList.size() - 1;
@@ -211,14 +211,6 @@ SearchWidget::SearchWidget(QWidget *parent)
     connect(&m_searchLine, SIGNAL(signalDownPressed()), this, SIGNAL(signalDownPressed()));
     connect(m_searchLine.m_lineEdit, SIGNAL(returnPressed()), this, SIGNAL(returnPressed()));
 
-    // I've decided that I think this is ugly, for now.
-    /*
-      QToolButton *b = new QToolButton(this);
-      b->setTextLabel(i18n("Advanced Search"), true);
-      b->setIconSet(SmallIconSet("wizard"));
-
-      connect(b, SIGNAL(clicked()), this, SIGNAL(signalAdvancedSearchClicked()));
-    */
     updateColumns();
 }
 
@@ -281,7 +273,5 @@ void SearchWidget::updateColumns()
 {
     m_searchLine.updateColumns();
 }
-
-#include "searchwidget.moc"
 
 // vim: set et sw=4 tw=0 sta:

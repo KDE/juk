@@ -15,14 +15,13 @@
  */
 
 #include "tagguesser.h"
+#include "juk_debug.h"
 
-#include <kapplication.h>
 #include <kconfig.h>
-#include <kdebug.h>
-#include <kglobal.h>
 #include <kmacroexpander.h>
 #include <qhash.h>
 #include <kconfiggroup.h>
+#include <KSharedConfig>
 
 FileNameScheme::FileNameScheme(const QString &s)
     : m_regExp(),
@@ -103,7 +102,7 @@ QString FileNameScheme::composeRegExp(const QString &s) const
 {
     QHash<QChar, QString> substitutions;
 
-    KConfigGroup config(KGlobal::config(), "TagGuesser");
+    KConfigGroup config(KSharedConfig::openConfig(), "TagGuesser");
 
     substitutions[ 't' ] = config.readEntry("Title regexp", "([\\w\\s'&_,\\.]+)");
     substitutions[ 'a' ] = config.readEntry("Artist regexp", "([\\w\\s'&_,\\.]+)");
@@ -123,7 +122,7 @@ QStringList TagGuesser::schemeStrings()
 {
     QStringList schemes;
 
-    KConfigGroup config(KGlobal::config(), "TagGuesser");
+    KConfigGroup config(KSharedConfig::openConfig(), "TagGuesser");
     schemes = config.readEntry("Filename schemes", QStringList());
 
     if ( schemes.isEmpty() ) {
@@ -160,7 +159,7 @@ QStringList TagGuesser::schemeStrings()
 
 void TagGuesser::setSchemeStrings(const QStringList &schemes)
 {
-    KSharedConfig::Ptr cfg = KGlobal::config();
+    KSharedConfig::Ptr cfg = KSharedConfig::openConfig();
     KConfigGroup group(cfg, "TagGuesser");
     group.writeEntry("Filename schemes", schemes);
     cfg->sync();

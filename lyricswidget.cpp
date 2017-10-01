@@ -17,18 +17,20 @@
 #include <QDomDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
+#include <QIcon>
+#include <QAction>
+#include <QUrlQuery>
 
-#include <KAction>
 #include <KLocalizedString>
 #include <KActionCollection>
 #include <KToggleAction>
 #include <KConfigGroup>
-#include <KDebug>
+#include <KSharedConfig>
 
 #include "lyricswidget.h"
 #include "tag.h"
 #include "actioncollection.h"
-
+#include "juk_debug.h"
 
 LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     m_networkAccessManager(new QNetworkAccessManager),
@@ -39,12 +41,12 @@ LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     setWordWrapMode(QTextOption::WordWrap);
     setOpenExternalLinks(true);
 
-    KToggleAction *show = new KToggleAction(KIcon(QLatin1String("view-media-lyrics")),
+    KToggleAction *show = new KToggleAction(QIcon::fromTheme(QLatin1String("view-media-lyrics")),
                                             i18n("Show &Lyrics"), this);
     ActionCollection::actions()->addAction("showLyrics", show);
-    connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
+    connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
 
-    KConfigGroup config(KGlobal::config(), "LyricsWidget");
+    KConfigGroup config(KSharedConfig::openConfig(), "LyricsWidget");
     bool shown = config.readEntry("Show", true);
     show->setChecked(shown);
     setVisible(shown);
@@ -58,7 +60,7 @@ LyricsWidget::~LyricsWidget()
 
 void LyricsWidget::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "LyricsWidget");
+    KConfigGroup config(KSharedConfig::openConfig(), "LyricsWidget");
     config.writeEntry("Show", ActionCollection::action<KToggleAction>("showLyrics")->isChecked());
 }
 
@@ -73,12 +75,16 @@ void LyricsWidget::makeLyricsRequest()
 
     setHtml(i18n("<i>Loading...</i>"));
 
+    // TODO time for https (as long as it doesn't break this)
     QUrl listUrl("http://lyrics.wikia.com/api.php");
-    listUrl.addQueryItem("action", "lyrics");
-    listUrl.addQueryItem("func", "getSong");
-    listUrl.addQueryItem("fmt", "xml");
-    listUrl.addQueryItem("artist", m_playingFile.tag()->artist());
-    listUrl.addQueryItem("song", m_playingFile.tag()->title());
+    QUrlQuery listUrlQuery;
+    listUrlQuery.addQueryItem("action", "lyrics");
+    listUrlQuery.addQueryItem("func", "getSong");
+    listUrlQuery.addQueryItem("fmt", "xml");
+    listUrlQuery.addQueryItem("artist", m_playingFile.tag()->artist());
+    listUrlQuery.addQueryItem("song", m_playingFile.tag()->title());
+    listUrl.setQuery(listUrlQuery);
+
     m_title = m_playingFile.tag()->artist() + " &#8211; " + m_playingFile.tag()->title();
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(listUrl));
@@ -105,7 +111,7 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
 {
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     if (reply->error() != QNetworkReply::NoError) {
-        kWarning() << "Error while fetching lyrics: " << reply->errorString();
+        qCWarning(JUK_LOG) << "Error while fetching lyrics: " << reply->errorString();
         setHtml(i18n("<span style='color:red'>Error while retrieving lyrics!</span>"));
         return;
     }
@@ -115,13 +121,16 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
     QString artist = document.elementsByTagName("artist").at(0).toElement().text();
     QString title = document.elementsByTagName("song").at(0).toElement().text();
 
-
+    // TODO time for https (as long as it doesn't break this)
     QUrl url("http://lyrics.wikia.com/api.php");
-    url.addQueryItem("action", "query");
-    url.addQueryItem("prop", "revisions");
-    url.addQueryItem("rvprop", "content");
-    url.addQueryItem("format", "xml");
-    url.addQueryItem("titles", artist + ':' + title);
+    QUrlQuery urlQuery;
+    urlQuery.addQueryItem("action", "query");
+    urlQuery.addQueryItem("prop", "revisions");
+    urlQuery.addQueryItem("rvprop", "content");
+    urlQuery.addQueryItem("format", "xml");
+    urlQuery.addQueryItem("titles", artist + ':' + title);
+    url.setQuery(urlQuery);
+
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(url));
 }
@@ -130,7 +139,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
 {
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
     if (reply->error() != QNetworkReply::NoError) {
-        kWarning() << "Error while fetching lyrics: " << reply->errorString();
+        qCWarning(JUK_LOG) << "Error while fetching lyrics: " << reply->errorString();
         setHtml(i18n("<span style='color:red'>Error while retrieving lyrics!</span>"));
         return;
     }
@@ -139,7 +148,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     int lIndex = content.indexOf("&lt;lyrics&gt;");
     int rIndex = content.indexOf("&lt;/lyrics&gt;");
     if (lIndex == -1 || rIndex == -1) {
-        kWarning() << Q_FUNC_INFO << "Unable to find lyrics in text";
+        qCWarning(JUK_LOG) << Q_FUNC_INFO << "Unable to find lyrics in text";
         setText(i18n("No lyrics available."));
         return;
     }

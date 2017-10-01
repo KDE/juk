@@ -17,8 +17,8 @@
 #ifndef DBUS_COLLECTION_PROXY_H
 #define DBUS_COLLECTION_PROXY_H
 
-#include <QtCore/QObject>
-#include <QtCore/QStringList> // Required for Q_CLASSINFO ?
+#include <QObject>
+#include <QStringList> // Required for Q_CLASSINFO ?
 
 class PlaylistCollection;
 

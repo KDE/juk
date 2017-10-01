@@ -14,10 +14,11 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FILERENAMEROPTIONS_H
-#define FILERENAMEROPTIONS_H
+#ifndef JUK_FILERENAMEROPTIONS_H
+#define JUK_FILERENAMEROPTIONS_H
 
-#include <kdialog.h>
+#include <QDialog>
+
 #include "ui_filerenameroptionsbase.h"
 #include "tagrenameroptions.h"
 
@@ -31,7 +32,6 @@ class FileRenamerTagOptions : public QWidget, public Ui::FileRenamerTagOptionsBa
     Q_OBJECT
 public:
     FileRenamerTagOptions(QWidget *parent, const TagRenamerOptions &options);
-    virtual ~FileRenamerTagOptions() {}
 
     const TagRenamerOptions &options() const { return m_options; }
 
@@ -49,7 +49,7 @@ private:
  *
  * @author Michael Pyne <mpyne@kde.org>
  */
-class TagOptionsDialog : public KDialog
+class TagOptionsDialog : public QDialog
 {
     Q_OBJECT
 
@@ -75,6 +75,6 @@ private:
     unsigned m_categoryNumber;
 };
 
-#endif /* FILERENAMEROPTIONS_H */
+#endif /* JUK_FILERENAMEROPTIONS_H */
 
 // vim: set et sw=4 tw=0 sta:

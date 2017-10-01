@@ -24,31 +24,29 @@
 #include <QNetworkReply>
 #include <QDomDocument>
 #include <QByteArray>
+#include <QUrl>
+#include <QUrlQuery>
 
-#include <kglobal.h>
 #include <kconfiggroup.h>
-#include <KDebug>
 #include <KSharedConfig>
-#include <KSharedPtr>
+
+#include <memory>
 
 #include "tag.h"
+#include "juk.h"
+#include "juk_debug.h"
 
 Scrobbler::Scrobbler(QObject* parent)
     : QObject(parent)
-    , m_networkAccessManager(0)
-    , m_wallet(0)
+    , m_networkAccessManager(nullptr)
+    , m_wallet(Scrobbler::openKWallet())
 {
     QByteArray sessionKey;
 
-    m_wallet = Scrobbler::openKWallet();
-
     if (m_wallet) {
-
         m_wallet->readEntry("SessionKey", sessionKey);
-
     } else {
-
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         sessionKey.append(config.readEntry("SessionKey", ""));
     }
 
@@ -56,65 +54,51 @@ Scrobbler::Scrobbler(QObject* parent)
         getAuthToken();
 }
 
-Scrobbler::~Scrobbler()
-{
-    delete m_wallet;
-}
-
-bool Scrobbler::isScrobblingEnabled()
+bool Scrobbler::isScrobblingEnabled() // static
 {
     QString username, password;
 
-    if (KWallet::Wallet::folderDoesNotExist(KWallet::Wallet::LocalWallet(), "JuK")) {
-
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+    // checks without prompting to open the wallet
+    if (Wallet::folderDoesNotExist(Wallet::LocalWallet(), "JuK")) {
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
 
         username = config.readEntry("Username", "");
         password = config.readEntry("Password", "");
-
     } else {
-
-        KWallet::Wallet* wallet = Scrobbler::openKWallet();
-
+        auto wallet = Scrobbler::openKWallet();
         if (wallet) {
-
             QMap<QString, QString> scrobblingCredentials;
             wallet->readMap("Scrobbling", scrobblingCredentials);
 
             if (scrobblingCredentials.contains("Username") && scrobblingCredentials.contains("Password")) {
-
                 username = scrobblingCredentials["Username"];
                 password = scrobblingCredentials["Password"];
             }
-
-            delete wallet;
         }
     }
 
     return (!username.isEmpty() && !password.isEmpty());
 }
 
-KWallet::Wallet* Scrobbler::openKWallet() // static
+std::unique_ptr<KWallet::Wallet> Scrobbler::openKWallet() // static
 {
+    using KWallet::Wallet;
+
     const QString walletFolderName = "JuK";
+    std::unique_ptr<Wallet> wallet(Wallet::openWallet(
+                Wallet::LocalWallet(),
+                JuK::JuKInstance()->winId()));
 
-    KWallet::Wallet* wallet = KWallet::Wallet::openWallet(KWallet::Wallet::LocalWallet(), 0);
-
-    if (wallet) {
-
-        if (!wallet->hasFolder(walletFolderName)) {
-
-            if (!wallet->createFolder(walletFolderName)) {
-
-                delete wallet;
-                return 0;
-            }
+    if(wallet) {
+        if(!wallet->hasFolder(walletFolderName) &&
+            !wallet->createFolder(walletFolderName))
+        {
+            return nullptr;
         }
 
-        if (!wallet->setFolder(walletFolderName)) {
-
-            delete wallet;
-            return 0;
+        if(!wallet->setFolder(walletFolderName))
+        {
+            return nullptr;
         }
     }
 
@@ -146,7 +130,7 @@ void Scrobbler::sign(QMap< QString, QString >& params)
 
 void Scrobbler::getAuthToken(QString username, QString password)
 {
-    kDebug() << "Getting new auth token for user:" << username;
+    qCDebug(JUK_LOG) << "Getting new auth token for user:" << username;
 
     QByteArray authToken = md5((username + md5(password.toUtf8())).toUtf8());
 
@@ -159,9 +143,12 @@ void Scrobbler::getAuthToken(QString username, QString password)
 
     sign(params);
 
+    QUrlQuery urlQuery;
     foreach(QString key, params.keys()) {
-        url.addQueryItem(key, params[key]);
+        urlQuery.addQueryItem(key, params[key]);
     }
+
+    url.setQuery(urlQuery);
 
     if (!m_networkAccessManager)
         m_networkAccessManager = new QNetworkAccessManager(this);
@@ -187,7 +174,7 @@ void Scrobbler::getAuthToken()
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         username = config.readEntry("Username", "");
         password = config.readEntry("Password", "");
     }
@@ -202,10 +189,10 @@ void Scrobbler::handleAuthenticationReply()
 {
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
-    kDebug() << "got authentication reply";
+    qCDebug(JUK_LOG) << "got authentication reply";
     if(reply->error() != QNetworkReply::NoError) {
         emit invalidAuth();
-        kWarning() << "Error while getting authentication reply" << reply->errorString();
+        qCWarning(JUK_LOG) << "Error while getting authentication reply" << reply->errorString();
         return;
     }
 
@@ -219,7 +206,7 @@ void Scrobbler::handleAuthenticationReply()
 
     if(sessionKey.isEmpty()) {
         emit invalidAuth();
-        kWarning() << "Unable to get session key" << data;
+        qCWarning(JUK_LOG) << "Unable to get session key" << data;
         return;
     }
 
@@ -229,7 +216,7 @@ void Scrobbler::handleAuthenticationReply()
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         config.writeEntry("SessionKey", sessionKey);
     }
 
@@ -248,7 +235,7 @@ void Scrobbler::nowPlaying(const FileHandle& file)
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         sessionKey = config.readEntry("SessionKey", "");
     }
 
@@ -284,7 +271,7 @@ void Scrobbler::scrobble()
 
     } else {
 
-        KConfigGroup config(KGlobal::config(), "Scrobbling");
+        KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         sessionKey = config.readEntry("SessionKey", "");
     }
 
@@ -300,7 +287,7 @@ void Scrobbler::scrobble()
         return; // API says not to scrobble if the user didn't play long enough
     }
 
-    kDebug() << "Scrobbling" << m_file.tag()->title();
+    qCDebug(JUK_LOG) << "Scrobbling" << m_file.tag()->title();
 
     QMap<QString, QString> params;
     params["method"] = "track.scrobble";

@@ -17,10 +17,7 @@
 
 #include "coverinfo.h"
 
-#include <kglobal.h>
-#include <kapplication.h>
-#include <kdebug.h>
-
+#include <QApplication>
 #include <QRegExp>
 #include <QLabel>
 #include <QCursor>
@@ -53,11 +50,12 @@
 #include "playlistsearch.h"
 #include "playlistitem.h"
 #include "tag.h"
+#include "juk_debug.h"
 
 struct CoverPopup : public QWidget
 {
     CoverPopup(const QPixmap &image, const QPoint &p) :
-        QWidget(0, Qt::WDestructiveClose | Qt::WX11BypassWM)
+        QWidget(0, Qt::WindowFlags(Qt::WA_DeleteOnClose | Qt::X11BypassWindowManagerHint))
     {
         QHBoxLayout *layout = new QHBoxLayout(this);
         QLabel *label = new QLabel(this);
@@ -247,7 +245,7 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
 QString CoverInfo::localPathToCover(const QString &fallbackFileName) const
 {
     if(m_coverKey != CoverManager::NoMatch) {
-        QString path = CoverManager::coverInfo(m_coverKey)->path;
+        QString path = CoverManager::coverInfo(m_coverKey).path;
         if(!path.isEmpty())
             return path;
     }
@@ -283,7 +281,7 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
         TagLib::ID3v2::Tag *id3tag = mpegFile->ID3v2Tag(false);
 
         if (!id3tag) {
-            kError() << m_file.absFilePath() << "seems to have invalid ID3 tag";
+            qCCritical(JUK_LOG) << m_file.absFilePath() << "seems to have invalid ID3 tag";
             return false;
         }
 

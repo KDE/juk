@@ -17,26 +17,26 @@
 
 #include "playlistcollection.h"
 
-#include <kurl.h>
-#include <kicon.h>
 #include <kiconloader.h>
-#include <kapplication.h>
-#include <kinputdialog.h>
 #include <kmessagebox.h>
-#include <kfiledialog.h>
-#include <kaction.h>
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
 #include <kconfiggroup.h>
+#include <KSharedConfig>
 #include <kfileitem.h>
 
 #include <config-juk.h>
 
+#include <QAction>
+#include <QIcon>
+#include <QMutableListIterator>
 #include <QObject>
 #include <QPixmap>
+#include <QDir>
+#include <QFileDialog>
+#include <QInputDialog>
 #include <QStackedWidget>
-#include <QMutableListIterator>
 
 #include <sys/types.h>
 #include <dirent.h>
@@ -143,35 +143,35 @@ void PlaylistCollection::playFirst()
 {
     m_playing = true;
     currentPlaylist()->playFirst();
-    currentChanged();
+    currentPlayingItemChanged();
 }
 
 void PlaylistCollection::playNextAlbum()
 {
     m_playing = true;
     currentPlaylist()->playNextAlbum();
-    currentChanged();
+    currentPlayingItemChanged();
 }
 
 void PlaylistCollection::playPrevious()
 {
     m_playing = true;
     currentPlaylist()->playPrevious();
-    currentChanged();
+    currentPlayingItemChanged();
 }
 
 void PlaylistCollection::playNext()
 {
     m_playing = true;
     currentPlaylist()->playNext();
-    currentChanged();
+    currentPlayingItemChanged();
 }
 
 void PlaylistCollection::stop()
 {
     m_playing = false;
     currentPlaylist()->stop();
-    dataChanged();
+    playlistItemsChanged();
 }
 
 bool PlaylistCollection::playing() const
@@ -359,7 +359,7 @@ void PlaylistCollection::open(const QStringList &l)
         visiblePlaylist()->addFiles(files);
     }
 
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void PlaylistCollection::open(const QString &playlist, const QStringList &files)
@@ -373,11 +373,10 @@ void PlaylistCollection::open(const QString &playlist, const QStringList &files)
 void PlaylistCollection::addFolder()
 {
     DirectoryList l(m_folderList, m_excludedFolderList, m_importPlaylists, JuK::JuKInstance());
-    DirectoryList::Result result = l.exec();
 
-    if(result.status == QDialog::Accepted) {
-
+    if(l.exec() == QDialog::Accepted) {
         m_dirLister.blockSignals(true);
+        DirectoryList::Result result = l.dialogResult();
 
         const bool reload = m_importPlaylists != result.addPlaylists;
 
@@ -385,12 +384,12 @@ void PlaylistCollection::addFolder()
         m_excludedFolderList = canonicalizeFolderPaths(result.excludedDirs);
 
         foreach(const QString &dir, result.addedDirs) {
-            m_dirLister.openUrl(KUrl::fromPath(dir), KDirLister::Keep);
+            m_dirLister.openUrl(QUrl::fromLocalFile(dir), KDirLister::Keep);
             m_folderList.append(dir);
         }
 
         foreach(const QString &dir, result.removedDirs) {
-            m_dirLister.stop(KUrl::fromPath(dir));
+            m_dirLister.stop(QUrl::fromLocalFile(dir));
             m_folderList.removeAll(dir);
         }
 
@@ -452,17 +451,20 @@ void PlaylistCollection::reload()
 void PlaylistCollection::editSearch()
 {
     SearchPlaylist *p = dynamic_cast<SearchPlaylist *>(visiblePlaylist());
-
     if(!p)
         return;
 
-    AdvancedSearchDialog::Result r =
-        AdvancedSearchDialog(p->name(), p->playlistSearch(), JuK::JuKInstance()).exec();
-
-    if(r.result == AdvancedSearchDialog::Accepted) {
-        p->setPlaylistSearch(r.search);
-        p->setName(r.playlistName);
-    }
+    auto searchDialog = new AdvancedSearchDialog(
+            p->name(), p->playlistSearch(), JuK::JuKInstance());
+    QObject::connect(searchDialog, &QDialog::finished, [searchDialog, p](int result)
+            {
+                if (result) {
+                    p->setPlaylistSearch(searchDialog->resultSearch());
+                    p->setName(searchDialog->resultPlaylistName());
+                }
+                searchDialog->deleteLater();
+            });
+    searchDialog->exec();
 }
 
 void PlaylistCollection::removeItems()
@@ -483,13 +485,13 @@ void PlaylistCollection::renameItems()
 void PlaylistCollection::addCovers(bool fromFile)
 {
     visiblePlaylist()->slotAddCover(fromFile);
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void PlaylistCollection::removeCovers()
 {
     visiblePlaylist()->slotRemoveCover();
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void PlaylistCollection::viewCovers()
@@ -528,16 +530,24 @@ void PlaylistCollection::createSearchPlaylist()
 {
     QString name = uniquePlaylistName(i18n("Search Playlist"));
 
-    AdvancedSearchDialog::Result r =
-        AdvancedSearchDialog(name, PlaylistSearch(), JuK::JuKInstance()).exec();
-
-    if(r.result == AdvancedSearchDialog::Accepted)
-        raise(new SearchPlaylist(this, r.search, r.playlistName));
+    auto searchDialog = new AdvancedSearchDialog(
+            name, PlaylistSearch(), JuK::JuKInstance());
+    QObject::connect(searchDialog, &QDialog::finished, [searchDialog, this](int result)
+            {
+                if (result) {
+                    raise(new SearchPlaylist(
+                                this,
+                                searchDialog->resultSearch(),
+                                searchDialog->resultPlaylistName()));
+                }
+                searchDialog->deleteLater();
+            });
+    searchDialog->exec();
 }
 
 void PlaylistCollection::createFolderPlaylist()
 {
-    QString folder = KFileDialog::getExistingDirectory();
+    QString folder = QFileDialog::getExistingDirectory();
 
     if(folder.isEmpty())
         return;
@@ -660,7 +670,7 @@ void PlaylistCollection::raise(Playlist *playlist)
     playlist->setSearchEnabled(m_searchEnabled);
     m_playlistStack->setCurrentWidget(playlist);
     clearShowMore(false);
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void PlaylistCollection::raiseDistraction()
@@ -707,7 +717,7 @@ void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
         m_playlistNames.insert(playlist->name());
 
     m_playlistStack->addWidget(playlist);
-    QObject::connect(playlist, SIGNAL(selectionChanged()),
+    QObject::connect(playlist, SIGNAL(itemSelectionChanged()),
                      object(), SIGNAL(signalSelectedItemsChanged()));
 }
 
@@ -743,16 +753,18 @@ void PlaylistCollection::clearShowMore(bool raisePlaylist)
 
 void PlaylistCollection::enableDirWatch(bool enable)
 {
-    QObject *collection = CollectionList::instance();
+    auto collection = CollectionList::instance();
 
     m_dirLister.disconnect(object());
     if(enable) {
-        QObject::connect(&m_dirLister, SIGNAL(newItems(KFileItemList)),
-                object(), SLOT(slotNewItems(KFileItemList)));
-        QObject::connect(&m_dirLister, SIGNAL(refreshItems(QList<QPair<KFileItem,KFileItem> >)),
-                collection, SLOT(slotRefreshItems(QList<QPair<KFileItem,KFileItem> >)));
-        QObject::connect(&m_dirLister, SIGNAL(deleteItem(KFileItem)),
-                collection, SLOT(slotDeleteItem(KFileItem)));
+        QObject::connect(&m_dirLister, &KDirLister::newItems,
+                object(), [this](const KFileItemList &items) {
+                    this->newItems(items);
+                });
+        QObject::connect(&m_dirLister, &KDirLister::refreshItems,
+                collection, &CollectionList::slotRefreshItems);
+        QObject::connect(&m_dirLister, &KDirLister::itemsDeleted,
+                collection, &CollectionList::slotDeleteItems);
     }
 }
 
@@ -762,9 +774,11 @@ QString PlaylistCollection::playlistNameDialog(const QString &caption,
 {
     bool ok;
 
-    QString name = KInputDialog::getText(
+    QString name = QInputDialog::getText(
+        m_playlistStack,
         caption,
         i18n("Please enter a name for this playlist:"),
+        QLineEdit::Normal,
         forceUnique ? uniquePlaylistName(suggest) : suggest,
         &ok);
 
@@ -871,21 +885,21 @@ void PlaylistCollection::newItems(const KFileItemList &list) const
 
 void PlaylistCollection::readConfig()
 {
-    KConfigGroup config(KGlobal::config(), "Playlists");
+    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
 
     m_importPlaylists    = config.readEntry("ImportPlaylists", true);
     m_folderList         = config.readEntry("DirectoryList", QStringList());
     m_excludedFolderList = canonicalizeFolderPaths(
             config.readEntry("ExcludeDirectoryList", QStringList()));
 
-    foreach(const QString &folder, m_folderList) {
-        m_dirLister.openUrl(folder, KDirLister::Keep);
+    for(const auto &folder : m_folderList) {
+        m_dirLister.openUrl(QUrl::fromUserInput(folder), KDirLister::Keep);
     }
 }
 
 void PlaylistCollection::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "Playlists");
+    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
     config.writeEntry("ImportPlaylists", m_importPlaylists);
     config.writeEntry("showUpcoming", action("showUpcoming")->isChecked());
     config.writePathEntry("DirectoryList", m_folderList);
@@ -908,15 +922,15 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // "New" menu
 
-    menu = new KActionMenu(KIcon("document-new"), i18nc("new playlist", "&New"), actions());
+    menu = new KActionMenu(QIcon::fromTheme(QStringLiteral("document-new")), i18nc("new playlist", "&New"), actions());
     actions()->addAction("file_new", menu);
 
     menu->addAction(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
-                              "newPlaylist", "window-new", KShortcut(Qt::CTRL + Qt::Key_N)));
+                              "newPlaylist", "window-new", QKeySequence(Qt::CTRL + Qt::Key_N)));
     menu->addAction(createAction(i18n("&Search Playlist..."), SLOT(slotCreateSearchPlaylist()),
-                              "newSearchPlaylist", "edit-find", KShortcut(Qt::CTRL + Qt::Key_F)));
+                              "newSearchPlaylist", "edit-find", QKeySequence(Qt::CTRL + Qt::Key_F)));
     menu->addAction(createAction(i18n("Playlist From &Folder..."), SLOT(slotCreateFolderPlaylist()),
-                              "newDirectoryPlaylist", "document-open", KShortcut(Qt::CTRL + Qt::Key_D)));
+                              "newDirectoryPlaylist", "document-open", QKeySequence(Qt::CTRL + Qt::Key_D)));
 
     // Guess tag info menu
 
@@ -927,12 +941,12 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     /* menu->setIcon(SmallIcon("wizard")); */
 
     menu->addAction(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
-                              "guessTagFile", "document-import", KShortcut(Qt::CTRL + Qt::Key_G)));
+                              "guessTagFile", "document-import", QKeySequence(Qt::CTRL + Qt::Key_G)));
     menu->addAction(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
-                              "guessTagInternet", "network-server", KShortcut(Qt::CTRL + Qt::Key_I)));
+                              "guessTagInternet", "network-server", QKeySequence(Qt::CTRL + Qt::Key_I)));
 #else
     createAction(i18n("Guess Tag Information From &File Name"), SLOT(slotGuessTagFromFile()),
-                 "guessTag", "document-import", KShortcut(Qt::CTRL + Qt::Key_G));
+                 "guessTag", "document-import", QKeySequence(Qt::CTRL + Qt::Key_G));
 #endif
 
 
@@ -953,7 +967,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     createAction(i18n("&Delete"),         SLOT(slotRemoveItems()),  "removeItem", "edit-delete");
     createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "view-refresh");
-    createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "document-save-as", KShortcut(Qt::CTRL + Qt::Key_R));
+    createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "document-save-as", QKeySequence(Qt::CTRL + Qt::Key_R));
 
     menu = new KActionMenu(i18n("Cover Manager"), actions());
     actions()->addAction("coverManager", menu);
@@ -961,39 +975,42 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu->addAction(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "document-preview"));
     menu->addAction(createAction(i18n("Get Cover From &File..."),
-        SLOT(slotAddLocalCover()), "addCover", "document-import", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
+        SLOT(slotAddLocalCover()), "addCover", "document-import", QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
     menu->addAction(createAction(i18n("Get Cover From &Internet..."),
-        SLOT(slotAddInternetCover()), "webImageCover", "network-server", KShortcut(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
+        SLOT(slotAddInternetCover()), "webImageCover", "network-server", QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
     menu->addAction(createAction(i18n("&Delete Cover"),
         SLOT(slotRemoveCovers()), "removeCover", "edit-delete"));
     menu->addAction(createAction(i18n("Show Cover &Manager"),
         SLOT(slotShowCoverManager()), "showCoverManager"));
 
     KToggleAction *upcomingAction =
-        new KToggleAction(KIcon("go-jump-today"), i18n("Show &Play Queue"), actions());
+        new KToggleAction(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18n("Show &Play Queue"), actions());
     actions()->addAction("showUpcoming", upcomingAction);
 
     connect(upcomingAction, SIGNAL(triggered(bool)),
             this, SLOT(slotSetUpcomingPlaylistEnabled(bool)));
 }
 
-KAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
+QAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
                                                          const char *slot,
                                                          const char *name,
                                                          const QString &icon,
-                                                         const KShortcut &shortcut)
+                                                         const QKeySequence &shortcut)
 {
-    KAction *action;
-    if(icon.isNull())
-        action = new KAction(text, actions());
-    else
-        action = new KAction(KIcon(icon), text, actions());
-    actions()->addAction(name, action);
-    connect( action, SIGNAL(triggered(bool)), slot);
-    action->setShortcut(shortcut);
+    auto actionCollection = actions();
+    QAction *action = new QAction(text, actions());
+
+    if(!icon.isEmpty()) {
+        action->setIcon(QIcon::fromTheme(icon));
+    }
+    connect(action, SIGNAL(triggered(bool)), slot);
+
+    actionCollection->addAction(name, action);
+
+    if (!shortcut.isEmpty()) {
+        actionCollection->setDefaultShortcut(action, shortcut);
+    }
     return action;
 }
-
-#include "playlistcollection.moc"
 
 // vim: set et sw=4 tw=0 sta:

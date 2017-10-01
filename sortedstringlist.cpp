@@ -15,8 +15,7 @@
  */
 
 #include "sortedstringlist.h"
-
-#include <kdebug.h>
+#include "juk_debug.h"
 
 class SortedStringList::Node
 {

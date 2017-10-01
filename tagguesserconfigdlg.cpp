@@ -17,35 +17,33 @@
 #include "tagguesserconfigdlg.h"
 #include "tagguesser.h"
 
-#include <kicon.h>
-#include <klocale.h>
-#include <kpushbutton.h>
+#include <KLocalizedString>
 #include <klineedit.h>
-#include <kapplication.h>
 
+#include <QIcon>
 #include <QKeyEvent>
 #include <QStringListModel>
+#include <QVBoxLayout>
+#include <QPushButton>
+#include <QDialogButtonBox>
 
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
-    : KDialog(parent)
+  : QDialog(parent)
+  , m_child(new TagGuesserConfigDlgWidget(this))
+  , m_tagSchemeModel(new QStringListModel(TagGuesser::schemeStrings(), m_child->lvSchemes))
 {
-    setObjectName( QLatin1String( name ) );
+    setObjectName(QLatin1String(name));
     setModal(true);
-    setCaption(i18n("Tag Guesser Configuration"));
-    setButtons(Ok | Cancel);
-    setDefaultButton(Ok);
-    showButtonSeparator(true);
+    setWindowTitle(i18n("Tag Guesser Configuration"));
 
-    m_child = new TagGuesserConfigDlgWidget(this);
-    setMainWidget(m_child);
+    auto vboxLayout = new QVBoxLayout(this);
+    vboxLayout->addWidget(m_child);
 
-    m_child->bMoveUp->setIcon(KIcon( QLatin1String( "arrow-up" )));
-    m_child->bMoveDown->setIcon(KIcon( QLatin1String( "arrow-down" )));
+    m_child->bMoveUp->setIcon(QIcon::fromTheme( QLatin1String( "arrow-up" )));
+    m_child->bMoveDown->setIcon(QIcon::fromTheme( QLatin1String( "arrow-down" )));
 
-    m_tagSchemeModel = new QStringListModel(m_child->lvSchemes);
     m_child->lvSchemes->setModel(m_tagSchemeModel);
     m_child->lvSchemes->setHeaderHidden(true);
-    m_tagSchemeModel->setStringList(TagGuesser::schemeStrings());
 
     connect(m_child->lvSchemes, SIGNAL(clicked(QModelIndex)), this, SLOT(slotCurrentChanged(QModelIndex)));
     connect(m_child->bMoveUp, SIGNAL(clicked()), this, SLOT(slotMoveUpClicked()));
@@ -53,6 +51,8 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     connect(m_child->bAdd, SIGNAL(clicked()), this, SLOT(slotAddClicked()));
     connect(m_child->bModify, SIGNAL(clicked()), this, SLOT(slotModifyClicked()));
     connect(m_child->bRemove, SIGNAL(clicked()), this, SLOT(slotRemoveClicked()));
+    connect(m_child->dlgButtonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(m_child->dlgButtonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
     resize( 400, 300 );
 }
@@ -134,7 +134,7 @@ void TagGuesserConfigDlg::slotRemoveClicked()
 void TagGuesserConfigDlg::accept()
 {
     TagGuesser::setSchemeStrings(m_tagSchemeModel->stringList());
-    KDialog::accept();
+    QDialog::accept();
 }
 
 // vim: set et sw=4 tw=0 sta:

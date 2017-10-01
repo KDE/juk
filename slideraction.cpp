@@ -17,10 +17,9 @@
 #include "slideraction.h"
 
 #include <ktoolbar.h>
-#include <klocale.h>
 #include <kiconloader.h>
 #include <kactioncollection.h>
-#include <kdebug.h>
+#include <KLocalizedString>
 
 #include <QMouseEvent>
 #include <QWheelEvent>
@@ -31,16 +30,12 @@
 #include "slider.h"
 #include "playermanager.h"
 #include "juk.h"
+#include "juk_debug.h"
 
 TrackPositionAction::TrackPositionAction(const QString &text, QObject *parent) :
-    KAction(text, parent)
+    QWidgetAction(parent)
 {
-
-}
-
-Slider *TrackPositionAction::slider() const
-{
-    return parent()->findChild<Slider *>("timeSlider");
+    this->setText(text);
 }
 
 QWidget *TrackPositionAction::createWidget(QWidget *parent)
@@ -50,40 +45,29 @@ QWidget *TrackPositionAction::createWidget(QWidget *parent)
 
     PlayerManager *player = JuK::JuKInstance()->playerManager();
 
-    connect(player, SIGNAL(tick(int)), slider, SLOT(setValue(int)));
-    connect(player, SIGNAL(seekableChanged(bool)), this, SLOT(seekableChanged(bool)));
-    connect(player, SIGNAL(totalTimeChanged(int)), this, SLOT(totalTimeChanged(int)));
-    connect(slider, SIGNAL(sliderMoved(int)), player, SLOT(seek(int)));
+    // TODO only connect the tick signal when actually visible
+    connect(player, &PlayerManager::tick, slider, &Slider::setValue);
+    connect(player, &PlayerManager::seekableChanged, slider, &Slider::setEnabled);
+    connect(player, &PlayerManager::seekableChanged, slider, [slider](bool seekable) {
+        static const QString noSeekMsg =
+            i18n("Seeking is not supported in this file with your audio settings.");
+        slider->setToolTip(seekable ? QString() : noSeekMsg);
+    });
+    connect(player, &PlayerManager::totalTimeChanged, slider, &Slider::setMaximum);
+    connect(slider, &Slider::sliderReleased, player, &PlayerManager::seek);
 
     return slider;
 }
 
-void TrackPositionAction::seekableChanged(bool seekable)
+VolumeAction::VolumeAction(const QString &text, QObject *parent)
+    : QWidgetAction(parent)
 {
-    slider()->setEnabled(seekable);
-    slider()->setToolTip(seekable ?
-                         QString() :
-                         i18n("Seeking is not supported in this file with your audio settings."));
-}
-
-void TrackPositionAction::totalTimeChanged(int ms)
-{
-    slider()->setRange(0, ms);
-}
-
-VolumeAction::VolumeAction(const QString &text, QObject *parent) :
-    KAction(text, parent),
-    m_button(0)
-{
-
+    this->setText(text);
 }
 
 QWidget *VolumeAction::createWidget(QWidget *parent)
 {
-    m_button = new VolumePopupButton(parent);
-    return m_button;
+    return new VolumePopupButton(parent);
 }
-
-#include "slideraction.moc"
 
 // vim: set et sw=4 tw=0 sta:

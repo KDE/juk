@@ -15,15 +15,15 @@
  */
 
 #include "historyplaylist.h"
-#include "collectionlist.h"
-#include "playermanager.h"
-#include "juk-exception.h"
 
 #include <QTimer>
 
-#include <klocale.h>
-#include <kglobal.h>
-#include <kdebug.h>
+#include <KLocalizedString>
+
+#include "collectionlist.h"
+#include "playermanager.h"
+#include "juk-exception.h"
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // HistoryPlayList public members
@@ -38,8 +38,8 @@ HistoryPlaylist::HistoryPlaylist(PlaylistCollection *collection) :
     m_timer->setSingleShot(true);
     connect(m_timer, SIGNAL(timeout()), this, SLOT(slotCreateNewItem()));
 
-    setSorting(-1);
-    setColumnText(0, i18n("Time"));
+    setSortingEnabled(false);
+    headerItem()->setText(0, i18n("Time"));
 }
 
 HistoryPlaylist::~HistoryPlaylist()
@@ -48,10 +48,10 @@ HistoryPlaylist::~HistoryPlaylist()
 }
 
 HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file,
-                                                 Q3ListViewItem *after, bool emitChanged)
+                                                 QTreeWidgetItem *after, bool emitChanged)
 {
     if(!after)
-        after = lastItem();
+        after = topLevelItem(topLevelItemCount() - 1);
     return Playlist::createItem<HistoryPlaylistItem>(file, after, emitChanged);
 }
 
@@ -84,29 +84,17 @@ void HistoryPlaylist::slotCreateNewItem()
 // HistoryPlaylistItem public members
 ////////////////////////////////////////////////////////////////////////////////
 
-HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after) :
+HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, QTreeWidgetItem *after) :
     PlaylistItem(item, parent, after),
     m_dateTime(QDateTime::currentDateTime())
 {
-    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
-}
-
-HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *parent) :
-    PlaylistItem(item, parent),
-    m_dateTime(QDateTime::currentDateTime())
-{
-    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
-}
-
-HistoryPlaylistItem::~HistoryPlaylistItem()
-{
-
+    setText(0, m_dateTime.toString());
 }
 
 void HistoryPlaylistItem::setDateTime(const QDateTime &dt)
 {
     m_dateTime = dt;
-    setText(0, KGlobal::locale()->formatDateTime(m_dateTime));
+    setText(0, m_dateTime.toString());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -152,11 +140,9 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
         }
     }
 
-    p.dataChanged();
+    p.playlistItemsChanged();
 
     return s;
 }
-
-#include "historyplaylist.moc"
 
 // vim: set et sw=4 tw=0 sta:

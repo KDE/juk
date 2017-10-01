@@ -14,27 +14,23 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef STATUSLABEL_H
-#define STATUSLABEL_H
+#ifndef JUK_STATUSLABEL_H
+#define JUK_STATUSLABEL_H
 
 #include "playlistinterface.h"
 
-#include <khbox.h>
-//Added by qt3to4:
-#include <QLabel>
-#include <QEvent>
+#include <QWidget>
 
+class QEvent;
 class QLabel;
 class KSqueezedTextLabel;
 
-
-class StatusLabel : public KHBox, public PlaylistObserver
+class StatusLabel : public QWidget, public PlaylistObserver
 {
     Q_OBJECT
 
 public:
-    explicit StatusLabel(PlaylistInterface *playlist, QWidget *parent = 0);
-    virtual ~StatusLabel();
+    explicit StatusLabel(PlaylistInterface *playlist, QWidget *parent = nullptr);
     virtual void updateCurrent();
 
 public slots:

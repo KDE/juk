@@ -14,16 +14,19 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DIRECTORYLIST_H
-#define DIRECTORYLIST_H
+#ifndef JUK_DIRECTORYLIST_H
+#define JUK_DIRECTORYLIST_H
 
-#include <kdialog.h>
+#include <QDialog>
+
 #include "ui_directorylistbase.h"
 
 class QStringListModel;
 
 class DirectoryListBase : public QWidget, public Ui::DirectoryListBase
 {
+    Q_OBJECT
+
 public:
     DirectoryListBase(QWidget *parent) : QWidget(parent)
     {
@@ -31,7 +34,7 @@ public:
     }
 };
 
-class DirectoryList : public KDialog
+class DirectoryList : public QDialog
 {
     Q_OBJECT
 
@@ -45,12 +48,16 @@ public:
         bool addPlaylists;
     };
 
-    DirectoryList(QStringList directories, QStringList excludeDirectories, bool importPlaylists,
-                  QWidget *parent = 0);
-    virtual ~DirectoryList();
+    DirectoryList(
+        const QStringList &directories,
+        const QStringList &excludeDirectories,
+        bool importPlaylists,
+        QWidget *parent = nullptr);
+
+    Result dialogResult() const { return m_result; }
 
 public slots:
-    Result exec();
+    int exec();
 
 signals:
     void signalDirectoryAdded(const QString &directory);
@@ -65,8 +72,6 @@ private slots:
     void slotRemoveExcludeDirectory();
 
 private:
-    static QStringList defaultFolders();
-
     QStringListModel *m_dirListModel;
     QStringListModel *m_excludedDirListModel;
     DirectoryListBase *m_base;

@@ -20,41 +20,28 @@
 
 using CoverUtility::CoverIconViewItem;
 
-CoverIconViewItem::CoverIconViewItem(coverKey id, KListWidget *parent) :
+CoverIconViewItem::CoverIconViewItem(coverKey id, QListWidget *parent) :
     QListWidgetItem(parent), m_id(id)
 {
-    CoverDataPtr data = CoverManager::coverInfo(id);
-    setText(QString("%1 - %2").arg(data->artist, data->album));
-    setIcon(data->thumbnail());
+    const auto &data = CoverManager::coverInfo(id);
+    setText(QString("%1 - %2").arg(data.artist, data.album));
+    setIcon(data.thumbnail());
     setSizeHint(QSize(140, 150));
 }
 
-CoverIconView::CoverIconView(QWidget *parent, const char *name) : KListWidget(parent)
+CoverIconView::CoverIconView(QWidget *parent, const char *name) : QListWidget(parent)
 {
     setObjectName(QLatin1String(name));
-    setResizeMode(KListWidget::Adjust);
-    setViewMode(KListWidget::IconMode);
-    setIconSize(QSize(130, 140));
-    setMovement(KListWidget::Static);
+    setResizeMode(QListWidget::Adjust);
+    setViewMode(QListWidget::IconMode);
+    setIconSize(QSize(130, 140)); // FIXME: HiDPI
+    setMovement(QListWidget::Static);
     setContextMenuPolicy(Qt::CustomContextMenu);
 }
 
 CoverIconViewItem *CoverIconView::currentItem() const
 {
-    return static_cast<CoverIconViewItem *>(KListWidget::currentItem());
+    return static_cast<CoverIconViewItem *>(QListWidget::currentItem());
 }
-
-// TODO: port to Qt4
-#if 0
-Q3DragObject *CoverIconView::dragObject()
-{
-    // Temporarily disabled pending conversion of the cover manager icon view
-    // to Qt 4 ish stuff.
-    CoverIconViewItem *item = currentItem();
-    if(item)
-        return new CoverDrag(item->id(), this);
-    return 0;
-}
-#endif
 
 // vim: set et sw=4 tw=0 sta:

@@ -20,23 +20,21 @@
 #include "tag.h"
 #include "actioncollection.h"
 #include "tagtransactionmanager.h"
+#include "juk_debug.h"
 
 #include <kactioncollection.h>
-#include <kconfiggroup.h>
 #include <kcombobox.h>
 #include <klineedit.h>
-#include <knuminput.h>
 #include <ktextedit.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
-#include <kconfig.h>
-#include <klocale.h>
-#include <kdebug.h>
+#include <KSharedConfig>
+#include <KConfigGroup>
 #include <kiconloader.h>
-#include <kicon.h>
 #include <ktoggleaction.h>
-#include <kshortcut.h>
+#include <KLocalizedString>
 
+#include <QAction>
+#include <QIcon>
 #include <QLabel>
 #include <QApplication>
 #include <QCheckBox>
@@ -435,7 +433,7 @@ void TagEditor::readConfig()
 {
     // combo box completion modes
 
-    KConfigGroup config(KGlobal::config(), "TagEditor");
+    KConfigGroup config(KSharedConfig::openConfig(), "TagEditor");
     if(artistNameBox && albumNameBox) {
         readCompletionMode(config, artistNameBox, "ArtistNameBoxMode");
         readCompletionMode(config, albumNameBox, "AlbumNameBoxMode");
@@ -460,8 +458,8 @@ void TagEditor::readConfig()
 
 void TagEditor::readCompletionMode(const KConfigGroup &config, KComboBox *box, const QString &key)
 {
-    KGlobalSettings::Completion mode =
-        KGlobalSettings::Completion(config.readEntry(key, (int)KGlobalSettings::CompletionAuto));
+    KCompletion::CompletionMode mode =
+        KCompletion::CompletionMode(config.readEntry(key, (int)KCompletion::CompletionAuto));
 
     box->setCompletionMode(mode);
 }
@@ -470,7 +468,7 @@ void TagEditor::saveConfig()
 {
     // combo box completion modes
 
-    KConfigGroup config(KGlobal::config(), "TagEditor");
+    KConfigGroup config(KSharedConfig::openConfig(), "TagEditor");
 
     if(artistNameBox && albumNameBox) {
         config.writeEntry("ArtistNameBoxMode", (int)artistNameBox->completionMode());
@@ -482,15 +480,16 @@ void TagEditor::saveConfig()
 
 void TagEditor::setupActions()
 {
-    KToggleAction *show = new KToggleAction(KIcon(QLatin1String("document-properties")),
+    KToggleAction *show = new KToggleAction(QIcon::fromTheme(QLatin1String("document-properties")),
                                             i18n("Show &Tag Editor"), this);
     ActionCollection::actions()->addAction("showEditor", show);
-    connect(show, SIGNAL(toggled(bool)), this, SLOT(setShown(bool)));
+    connect(show, &QAction::toggled, this, &TagEditor::setVisible);
 
-    KAction *act = new KAction(KIcon(QLatin1String( "document-save")), i18n("&Save"), this);
+    QAction *act = new QAction(QIcon::fromTheme(QLatin1String( "document-save")), i18n("&Save"), this);
     ActionCollection::actions()->addAction("saveItem", act);
-    act->setShortcut(Qt::CTRL + Qt::Key_T);
-    connect(act, SIGNAL(triggered(bool)), SLOT(slotSave()));
+    ActionCollection::actions()->setDefaultShortcut(act,
+            QKeySequence(Qt::CTRL + Qt::Key_T));
+    connect(act, &QAction::triggered, this, &TagEditor::slotSave);
 }
 
 void TagEditor::setupLayout()
@@ -498,10 +497,12 @@ void TagEditor::setupLayout()
     setupUi(this);
 
     foreach(QWidget *input, findChildren<QWidget *>()) {
-        if(input->inherits("QLineEdit") || input->inherits("QComboBox"))
+        if(input->inherits("QLineEdit"))
             connect(input, SIGNAL(textChanged(QString)), this, SLOT(slotDataChanged()));
-        if(input->inherits("QComboxBox"))
+        if(input->inherits("QComboxBox")) {
             connect(input, SIGNAL(activated(int)), this, SLOT(slotDataChanged()));
+            connect(input, SIGNAL(currentTextChanged(QString)), this, SLOT(slotDataChanged()));
+        }
         if(input->inherits("QSpinBox"))
             connect(input, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
         if(input->inherits("QTextEdit"))
@@ -533,7 +534,7 @@ void TagEditor::save(const PlaylistItemList &list)
 {
     if(!list.isEmpty() && m_dataChanged) {
 
-        KApplication::setOverrideCursor(Qt::WaitCursor);
+        QApplication::setOverrideCursor(Qt::WaitCursor);
         m_dataChanged = false;
         m_performingSave = true;
 
@@ -549,7 +550,7 @@ void TagEditor::save(const PlaylistItemList &list)
             // playlists will try to modify the file we edit if the tag changes
             // due to our alterations here.
 
-            qApp->processEvents(QEventLoop::ExcludeUserInput);
+            qApp->processEvents(QEventLoop::ExcludeUserInputEvents);
 
             PlaylistItem *item = *it;
 
@@ -598,9 +599,9 @@ void TagEditor::save(const PlaylistItemList &list)
         }
 
         TagTransactionManager::instance()->commit();
-        CollectionList::instance()->dataChanged();
+        CollectionList::instance()->playlistItemsChanged();
         m_performingSave = false;
-        KApplication::restoreOverrideCursor();
+        QApplication::restoreOverrideCursor();
     }
 }
 
@@ -635,15 +636,6 @@ void TagEditor::showEvent(QShowEvent *e)
     QWidget::showEvent(e);
 }
 
-bool TagEditor::eventFilter(QObject *watched, QEvent *e)
-{
-    QKeyEvent *ke = static_cast<QKeyEvent*>(e);
-    if(watched->inherits("QSpinBox") && e->type() == QEvent::KeyRelease && ke->modifiers() == 0)
-        slotDataChanged();
-
-    return false;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -667,7 +659,5 @@ void TagEditor::slotPlaylistDestroyed(Playlist *p)
         slotSetItems(PlaylistItemList());
     }
 }
-
-#include "tageditor.moc"
 
 // vim: set et sw=4 tw=0 sta:

@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2003-2004 Scott Wheeler <wheeler@kde.org>
+ * Copyright (C) 2017 Michael Pyne <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -17,16 +18,17 @@
 #include "advancedsearchdialog.h"
 
 #include <kcombobox.h>
-#include <klineedit.h>
-#include <kpushbutton.h>
-#include <klocale.h>
-#include <kvbox.h>
+#include <KLocalizedString>
+#include <KStandardGuiItem>
 
+#include <QDialogButtonBox>
 #include <QRadioButton>
 #include <QLabel>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QGroupBox>
+#include <QPushButton>
+#include <QLineEdit>
 
 #include "collectionlist.h"
 #include "searchwidget.h"
@@ -37,54 +39,75 @@
 
 AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
                                            const PlaylistSearch &defaultSearch,
-                                           QWidget *parent,
-                                           const char *name) :
-    KDialog(parent)
+                                           QWidget *parent) :
+    QDialog(parent)
 {
-    setCaption( i18n("Create Search Playlist") );
-    setButtons( Ok|Cancel );
-    setDefaultButton( Ok );
-    setObjectName( QLatin1String( name ) );
-    setModal(true);
+    setWindowTitle(i18n("Create Search Playlist"));
+    setObjectName(QStringLiteral("juk_advSrchDlg"));
 
-    KVBox *mw = new KVBox(this);
-    setMainWidget(mw);
+    auto mw = new QVBoxLayout(this);
+    setLayout(mw);
 
-    KHBox *box = new KHBox(mw);
-    box->setSpacing(5);
+    auto box = new QHBoxLayout;
+    mw->addLayout(box);
 
-    new QLabel(i18n("Playlist name:"), box);
-    m_playlistNameLineEdit = new KLineEdit(defaultName, box);
+    box->addWidget(new QLabel(i18n("Playlist name:")));
+    m_playlistNameLineEdit = new QLineEdit(defaultName);
+    box->addWidget(m_playlistNameLineEdit);
 
-    QGroupBox *criteriaGroupBox = new QGroupBox(i18n("Search Criteria"), mw);
-    mw->setStretchFactor(criteriaGroupBox, 1);
+    auto criteriaGroupBox = new QGroupBox(i18n("Search Criteria"));
+    mw->addWidget(criteriaGroupBox, 1);
+    m_criteriaLayout = new QVBoxLayout(criteriaGroupBox);
 
-    m_criteriaLayout = new QVBoxLayout;
-
-    QGroupBox *group = new QGroupBox();
-
+    auto group = new QGroupBox;
     m_matchAnyButton = new QRadioButton(i18n("Match any of the following"));
     m_matchAllButton = new QRadioButton(i18n("Match all of the following"));
 
-    QHBoxLayout *hgroupbox = new QHBoxLayout;
+    QHBoxLayout *hgroupbox = new QHBoxLayout(group);
     hgroupbox->addWidget(m_matchAnyButton);
     hgroupbox->addWidget(m_matchAllButton);
 
-    group->setLayout(hgroupbox);
-
     m_criteriaLayout->addWidget(group);
+    m_criteriaLayout->addStretch(1); // more()/fewer() assume this is here
+
+    QWidget *buttons = new QWidget;
+    mw->addWidget(buttons);
+
+    QHBoxLayout *l = new QHBoxLayout(buttons);
+    l->setSpacing(5);
+    l->setMargin(0);
+
+    const auto &clearGuiItem = KStandardGuiItem::clear();
+    QPushButton *clearButton = new QPushButton(clearGuiItem.icon(), clearGuiItem.text());
+    connect(clearButton, &QPushButton::clicked,
+            this, &AdvancedSearchDialog::clearSearches);
+    l->addWidget(clearButton);
+
+    l->addStretch(1);
+
+    m_moreButton = new QPushButton(i18nc("additional search options", "More"));
+    connect(m_moreButton, &QPushButton::clicked,
+            this, &AdvancedSearchDialog::more);
+    l->addWidget(m_moreButton);
+
+    m_fewerButton = new QPushButton(i18n("Fewer"));
+    connect(m_fewerButton, &QPushButton::clicked,
+            this, &AdvancedSearchDialog::fewer);
+    l->addWidget(m_fewerButton);
+
+    auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel);
+    connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
+    mw->addWidget(buttonBox);
 
     if(defaultSearch.isNull()) {
-        SearchLine *newSearchLine = new SearchLine(this);
-        m_searchLines.append(newSearchLine);
-        m_criteriaLayout->addWidget(newSearchLine);
-        newSearchLine = new SearchLine(this);
-        m_searchLines.append(newSearchLine);
-        m_criteriaLayout->addWidget(newSearchLine);
+        this->more();
+        this->more(); // Create first 2 searches
         m_matchAnyButton->setChecked(true);
     }
     else {
         PlaylistSearch::ComponentList components = defaultSearch.components();
+
         for(PlaylistSearch::ComponentList::ConstIterator it = components.constBegin();
             it != components.constEnd();
             ++it)
@@ -92,56 +115,16 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
             SearchLine *s = new SearchLine(this);
             s->setSearchComponent(*it);
             m_searchLines.append(s);
-            m_criteriaLayout->addWidget(s);
+            m_criteriaLayout->insertWidget(m_criteriaLayout->count() - 1, s);
         }
+
         if(defaultSearch.searchMode() == PlaylistSearch::MatchAny)
             m_matchAnyButton->setChecked(true);
         else
             m_matchAllButton->setChecked(true);
     }
 
-    QWidget *buttons = new QWidget(mw);
-    QHBoxLayout *l = new QHBoxLayout(buttons);
-    l->setSpacing(5);
-    l->setMargin(0);
-
-    KPushButton *clearButton = new KPushButton(KStandardGuiItem::clear(), buttons);
-    connect(clearButton, SIGNAL(clicked()), SLOT(clear()));
-    l->addWidget(clearButton);
-
-    l->addStretch(1);
-
-    m_moreButton = new KPushButton(i18nc("additional search options", "More"), buttons);
-    connect(m_moreButton, SIGNAL(clicked()), SLOT(more()));
-    l->addWidget(m_moreButton);
-
-    m_fewerButton = new KPushButton(i18n("Fewer"), buttons);
-    connect(m_fewerButton, SIGNAL(clicked()), SLOT(fewer()));
-    l->addWidget(m_fewerButton);
-
-    m_criteriaLayout->addStretch(1);
-
-    criteriaGroupBox->setLayout(m_criteriaLayout);
-
     m_playlistNameLineEdit->setFocus();
-}
-
-AdvancedSearchDialog::~AdvancedSearchDialog()
-{
-
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// public slots
-////////////////////////////////////////////////////////////////////////////////
-
-AdvancedSearchDialog::Result AdvancedSearchDialog::exec()
-{
-    Result r;
-    r.result = DialogCode(KDialog::exec());
-    r.search = m_search;
-    r.playlistName = m_playlistName;
-    return r;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -155,29 +138,28 @@ void AdvancedSearchDialog::accept()
 
     m_search.addPlaylist(CollectionList::instance());
 
-    QList<SearchLine *>::const_iterator it = m_searchLines.constBegin();
-    for(; it != m_searchLines.constEnd(); ++it)
-        m_search.addComponent((*it)->searchComponent());
+    for(const auto &searchLine : m_searchLines)
+        m_search.addComponent(searchLine->searchComponent());
 
     PlaylistSearch::SearchMode m = PlaylistSearch::SearchMode(!m_matchAnyButton->isChecked());
     m_search.setSearchMode(m);
 
     m_playlistName = m_playlistNameLineEdit->text();
 
-    KDialog::accept();
+    QDialog::accept();
 }
 
-void AdvancedSearchDialog::clear()
+void AdvancedSearchDialog::clearSearches()
 {
-    QList<SearchLine *>::const_iterator it = m_searchLines.constBegin();
-    for(; it != m_searchLines.constEnd(); ++it)
-        (*it)->clear();
+    for(auto &searchLine : m_searchLines)
+        searchLine->clear();
 }
 
 void AdvancedSearchDialog::more()
 {
     SearchLine *searchLine = new SearchLine(this);
-    m_criteriaLayout->addWidget(searchLine);
+    // inserting it to keep the trailing stretch item at end
+    m_criteriaLayout->insertWidget(m_criteriaLayout->count() - 1, searchLine);
     m_searchLines.append(searchLine);
     searchLine->show();
     updateButtons();
@@ -200,7 +182,5 @@ void AdvancedSearchDialog::updateButtons()
     m_moreButton->setEnabled(m_searchLines.count() < 16);
     m_fewerButton->setEnabled(m_searchLines.count() > 1);
 }
-
-#include "advancedsearchdialog.moc"
 
 // vim: set et sw=4 tw=0 sta:

@@ -15,16 +15,15 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PLAYLIST_H
-#define PLAYLIST_H
+#ifndef JUK_PLAYLIST_H
+#define JUK_PLAYLIST_H
 
-#include <k3listview.h>
-#include <kglobalsettings.h>
-#include <kdebug.h>
+#include <KCompletion>
 
 #include <QVector>
 #include <QEvent>
 #include <QList>
+#include <QTreeWidget>
 
 #include "covermanager.h"
 #include "stringhash.h"
@@ -32,13 +31,12 @@
 #include "tagguesser.h"
 #include "playlistinterface.h"
 #include "filehandle.h"
+#include "juk_debug.h"
 
-class KMenu;
 class KActionMenu;
 
 class QFileInfo;
 class QMimeData;
-class QDrag;
 class QAction;
 
 class WebImageFetcher;
@@ -49,7 +47,7 @@ class CollectionListItem;
 
 typedef QList<PlaylistItem *> PlaylistItemList;
 
-class Playlist : public K3ListView, public PlaylistInterface
+class Playlist : public QTreeWidget, public PlaylistInterface
 {
     Q_OBJECT
 
@@ -81,7 +79,7 @@ public:
 
     virtual QString name() const;
     virtual FileHandle currentFile() const;
-    virtual int count() const { return childCount(); }
+    virtual int count() const { return model()->rowCount(); }
     virtual int time() const;
     virtual void playNext();
     virtual void playPrevious();
@@ -170,7 +168,7 @@ public:
      * both PlaylistItems and CollectionListItems.
      */
     virtual PlaylistItem *createItem(const FileHandle &file,
-                                     Q3ListViewItem *after = 0,
+                                     QTreeWidgetItem *after = 0,
                                      bool emitChanged = true);
 
     /**
@@ -179,7 +177,7 @@ public:
      */
     template <class ItemType>
     ItemType *createItem(const FileHandle &file,
-                         Q3ListViewItem *after = 0,
+                         QTreeWidgetItem *after = 0,
                          bool emitChanged = true);
 
     virtual void createItems(const PlaylistItemList &siblings, PlaylistItem *after = 0);
@@ -220,7 +218,8 @@ public:
      * will be udated.
      */
     void showColumn(int c, bool updateSearch = true);
-    bool isColumnVisible(int c) const;
+    
+    void sortByColumn(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
     /**
      * This sets a name for the playlist that is \e different from the file name.
@@ -277,11 +276,6 @@ public:
      * match the current search.
      */
     void setSearchEnabled(bool searchEnabled);
-
-    /**
-     * Marks \a item as either selected or deselected based.
-     */
-    void markItemSelected(PlaylistItem *item, bool selected);
 
     /**
      * Subclasses of Playlist which add new columns will set this value to
@@ -357,7 +351,7 @@ public slots:
      * @see clearItems()
      */
     virtual void clear();
-    virtual void selectAll() { K3ListView::selectAll(true); }
+    virtual void selectAll() { QTreeView::selectAll(); }
 
     /**
      * Refreshes the tags of the selection from disk, or all of the files in the
@@ -411,7 +405,7 @@ public slots:
 
     void slotColumnResizeModeChanged();
 
-    virtual void dataChanged();
+    virtual void playlistItemsChanged();
 
 protected:
     /**
@@ -424,24 +418,23 @@ protected:
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
     virtual void keyPressEvent(QKeyEvent *e);
-    virtual Q3DragObject *dragObject(QWidget *parent);
-    virtual Q3DragObject *dragObject() { return dragObject(this); }
     virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
-    virtual void contentsDropEvent(QDropEvent *e);
-    virtual void contentsMouseDoubleClickEvent(QMouseEvent *e);
-    virtual void contentsDragEnterEvent(QDragEnterEvent *e);
+    QStringList mimeTypes() const;
+    QMimeData* mimeData(const QList<QTreeWidgetItem *> items) const;
+    virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
+    virtual void dropEvent(QDropEvent *e);
+    virtual void dragEnterEvent(QDragEnterEvent *e);
     virtual void showEvent(QShowEvent *e);
     virtual bool acceptDrag(QDropEvent *e) const;
-    virtual void viewportPaintEvent(QPaintEvent *pe);
-    virtual void viewportResizeEvent(QResizeEvent *re);
+    virtual void paintEvent(QPaintEvent *pe);
+    virtual void resizeEvent(QResizeEvent *re);
 
-    virtual void insertItem(Q3ListViewItem *item);
-    virtual void takeItem(Q3ListViewItem *item);
+    virtual void insertItem(QTreeWidgetItem *item);
+    virtual void takeItem(QTreeWidgetItem *item);
 
     virtual bool hasItem(const QString &file) const { return m_members.contains(file); }
 
-    virtual int addColumn(const QString &label, int width = -1);
-    using K3ListView::addColumn;
+    virtual void addColumn(const QString &label, int width = -1);
 
     /**
      * Do some finial initialization of created items.  Notably ensure that they
@@ -529,7 +522,7 @@ private:
      * \see visibleItems()
      * \see selectedItems()
      */
-    PlaylistItemList items(Q3ListViewItemIterator::IteratorFlag flags);
+    PlaylistItemList items(QTreeWidgetItemIterator::IteratorFlags flags);
 
     /**
      * Build the column "weights" for the weighted width mode.
@@ -573,8 +566,6 @@ private:
      */
     class SharedSettings;
 
-    using K3ListView::selectAll; // Avoid warning about hiding this function.
-
 private slots:
 
     /**
@@ -595,7 +586,7 @@ private slots:
      * Show the RMB menu.  Matches the signature for the signal
      * QListView::contextMenuRequested().
      */
-    void slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int column);
+    void slotShowRMBMenu(const QPoint &point);
 
     /**
      * This slot is called when the inline tag editor has completed its editing
@@ -603,7 +594,7 @@ private slots:
      *
      * \see editTag()
      */
-    void slotInlineEditDone(Q3ListViewItem *, const QString &, int column);
+    void slotInlineEditDone(QTreeWidgetItem *, const QString &, int column);
 
     /**
      * This starts the renaming process by displaying a line edit if the mouse is in
@@ -640,7 +631,7 @@ private slots:
      * This slot is called when the user drags the slider in the listview header
      * to manually set the size of the column.
      */
-    void slotColumnSizeChanged(int column, int oldSize, int newSize);
+    void columnResized(int column, int oldSize, int newSize);
 
     /**
      * The slot is called when the completion mode for the line edit in the
@@ -648,7 +639,7 @@ private slots:
      * magic of the SharedSettings class will apply it to the other playlists as
      * well.
      */
-    void slotInlineCompletionModeChanged(KGlobalSettings::Completion mode);
+    void slotInlineCompletionModeChanged(KCompletion::CompletionMode mode);
 
     void slotPlayCurrent();
 
@@ -663,7 +654,6 @@ private:
 
     int m_currentColumn;
     QAction *m_rmbEdit;
-    int m_selectedCount;
 
     bool m_allowDuplicates;
     bool m_applySharedSettings;
@@ -688,8 +678,6 @@ private:
 
     bool m_searchEnabled;
 
-    PlaylistItem *m_lastSelected;
-
     /**
      * Used to store the text for inline editing before it is changed so that
      * we can know if something actually changed and as such if we need to save
@@ -704,8 +692,9 @@ private:
     QString m_playlistName;
     QString m_fileName;
 
-    KMenu *m_rmbMenu;
-    KMenu *m_headerMenu;
+    QStringList m_columns;
+    QMenu *m_rmbMenu;
+    QMenu *m_headerMenu;
     KActionMenu *m_columnVisibleAction;
     PlaylistToolTip *m_toolTip;
 
@@ -740,7 +729,7 @@ QDataStream &operator>>(QDataStream &s, Playlist &p);
 // template method implementations
 
 template <class ItemType>
-ItemType *Playlist::createItem(const FileHandle &file, Q3ListViewItem *after,
+ItemType *Playlist::createItem(const FileHandle &file, QTreeWidgetItem *after,
                                bool emitChanged)
 {
     CollectionListItem *item = collectionListItem(file);
@@ -750,7 +739,7 @@ ItemType *Playlist::createItem(const FileHandle &file, Q3ListViewItem *after,
         setupItem(i);
 
         if(emitChanged)
-            dataChanged();
+            playlistItemsChanged();
 
         return i;
     }
@@ -782,7 +771,7 @@ void Playlist::createItems(const QList<SiblingType *> &siblings, ItemType *after
     foreach(SiblingType *sibling, siblings)
         after = createItem(sibling, after);
 
-    dataChanged();
+    playlistItemsChanged();
     slotWeightDirty();
 }
 

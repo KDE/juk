@@ -14,8 +14,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COLLECTIONLIST_H
-#define COLLECTIONLIST_H
+#ifndef JUK_COLLECTIONLIST_H
+#define JUK_COLLECTIONLIST_H
 
 #include <QHash>
 #include <QVector>
@@ -113,7 +113,7 @@ public:
     CollectionListItem *lookup(const QString &file) const;
 
     virtual CollectionListItem *createItem(const FileHandle &file,
-                                     Q3ListViewItem * = 0,
+                                     QTreeWidgetItem * = 0,
                                      bool = false);
 
     void emitVisibleColumnsChanged() { emit signalVisibleColumnsChanged(); }
@@ -136,14 +136,14 @@ public slots:
 
     void slotNewItems(const KFileItemList &items);
     void slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > &items);
-    void slotDeleteItem(const KFileItem &item);
+    void slotDeleteItems(const KFileItemList &items);
 
 protected:
     CollectionList(PlaylistCollection *collection);
     virtual ~CollectionList();
 
-    virtual void contentsDropEvent(QDropEvent *e);
-    virtual void contentsDragMoveEvent(QDragMoveEvent *e);
+    virtual void dropEvent(QDropEvent *e);
+    virtual void dragMoveEvent(QDragMoveEvent *e);
 
     // These methods are used by CollectionListItem, which is a friend class.
 
@@ -193,7 +193,7 @@ public slots:
     void loadNextBatchCachedItems();
 
     /**
-     * Teardown from cache loading (e.g. splash screen, sorting, etc.). Should
+     * Teardown from cache loading (e.g. a sort operation). Should
      * always be called if startLoadingCachedItems is called.
      */
     void completedLoadingCachedItems();

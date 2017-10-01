@@ -16,19 +16,19 @@
 
 #include "exampleoptions.h"
 
+#include <QUrl>
 #include <QHideEvent>
 #include <QShowEvent>
 #include <QVBoxLayout>
 
-#include <kurlrequester.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 ExampleOptions::ExampleOptions(QWidget *parent) :
     QWidget(parent)
 {
     setupUi(this);
 
-    setObjectName( QLatin1String("example options widget" ));
+    setObjectName(QLatin1String("example options widget"));
 }
 
 void ExampleOptions::exampleSelectionChanged()
@@ -52,7 +52,7 @@ void ExampleOptions::exampleFileChanged()
 ExampleOptionsDialog::ExampleOptionsDialog(QWidget *parent) :
     QDialog(parent)
 {
-    setObjectName( QLatin1String("example options dialog" ));
+    setObjectName(QLatin1String("example options dialog"));
     setWindowTitle(i18n("JuK"));
     QVBoxLayout *l = new QVBoxLayout(this);
 
@@ -64,13 +64,13 @@ ExampleOptionsDialog::ExampleOptionsDialog(QWidget *parent) :
 
     connect(m_options, SIGNAL(fileChanged()), SLOT(fileModeSelected()));
     connect(m_options, SIGNAL(dataChanged()), SIGNAL(dataChanged()));
-    connect(m_options->m_exampleFile, SIGNAL(urlSelected(KUrl)),
-            this,                     SLOT(fileChanged(KUrl)));
+    connect(m_options->m_exampleFile, &KUrlRequester::urlSelected,
+            this,                     &ExampleOptionsDialog::urlChanged);
     connect(m_options->m_exampleFile, SIGNAL(returnPressed(QString)),
             this,                     SIGNAL(fileChanged(QString)));
 }
 
-void ExampleOptionsDialog::fileChanged(const KUrl &url)
+void ExampleOptionsDialog::urlChanged(const QUrl &url)
 {
     emit fileChanged(url.path());
 }
@@ -87,9 +87,7 @@ void ExampleOptionsDialog::showEvent(QShowEvent *)
 
 void ExampleOptionsDialog::fileModeSelected()
 {
-    emit fileChanged(m_options->m_exampleFile->url());
+    emit urlChanged(m_options->m_exampleFile->url());
 }
-
-#include "exampleoptions.moc"
 
 // vim: set et sw=4 tw=0 sta:

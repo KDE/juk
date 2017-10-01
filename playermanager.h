@@ -16,8 +16,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef PLAYERMANAGER_H
-#define PLAYERMANAGER_H
+#ifndef JUK_PLAYERMANAGER_H
+#define JUK_PLAYERMANAGER_H
 
 #include <QObject>
 
@@ -26,7 +26,6 @@
 #include <Phonon/Global>
 #include <Phonon/Path>
 
-class KSelectAction;
 class StatusLabel;
 class PlaylistInterface;
 class QPixmap;
@@ -35,7 +34,6 @@ namespace Phonon
 {
     class AudioOutput;
     class MediaObject;
-    class VolumeFaderEffect;
 }
 
 /**
@@ -49,7 +47,6 @@ class PlayerManager : public QObject
 
 public:
     PlayerManager();
-    virtual ~PlayerManager();
 
     bool playing() const;
     bool paused() const;
@@ -76,8 +73,6 @@ public:
     FileHandle playingFile() const;
     QString playingString() const;
 
-    KSelectAction* outputDeviceSelectAction();
-
     void setPlaylistInterface(PlaylistInterface *interface);
     void setStatusLabel(StatusLabel *label);
 
@@ -103,7 +98,6 @@ public slots:
     bool mute();
 
     void setRandomPlayMode(const QString &randomMode);
-    void setCrossfadeEnabled(bool enableCrossfade);
 
 signals:
     void tick(int time);
@@ -120,17 +114,12 @@ signals:
 
 private:
     void setup();
-    void crossfadeToFile(const FileHandle &newFile);
-    void stopCrossfade();
 
 private slots:
-    void slotNeedNextUrl();
     void slotFinished();
     void slotLength(qint64);
     void slotTick(qint64);
     void slotStateChanged(Phonon::State, Phonon::State);
-    /// Updates the GUI to reflect stopped playback if we're stopped at this point.
-    void slotUpdateGuiIfStopped();
     void slotSeekableChanged(bool);
     void slotMutedChanged(bool);
     void slotVolumeChanged(qreal);
@@ -141,15 +130,12 @@ private:
     StatusLabel *m_statusLabel;
     bool m_muted;
     bool m_setup;
-    bool m_crossfadeTracks;
 
     static const int m_pollInterval = 800;
 
-    int m_curOutputPath; ///< Either 0 or 1 depending on which output path is in use.
-    Phonon::AudioOutput *m_output[2];
-    Phonon::Path m_audioPath[2];
-    Phonon::MediaObject *m_media[2];
-    Phonon::VolumeFaderEffect *m_fader[2];
+    Phonon::AudioOutput *m_output;
+    Phonon::Path m_audioPath;
+    Phonon::MediaObject *m_media;
 };
 
 #endif

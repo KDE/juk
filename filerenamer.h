@@ -15,8 +15,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FILERENAMER_H
-#define FILERENAMER_H
+#ifndef JUK_FILERENAMER_H
+#define JUK_FILERENAMER_H
 
 #include <QString>
 #include <QVector>
@@ -29,6 +29,7 @@
 class QCheckBox;
 class QPushButton;
 class QSignalMapper;
+class QUrl;
 
 class ExampleOptionsDialog;
 class PlaylistItem;
@@ -157,6 +158,10 @@ public:
      * correctly.
      */
     void saveConfig();
+
+signals:
+    void accepted(); // for the QDialogButtonBox
+    void rejected();
 
 protected slots:
     /**
@@ -533,7 +538,7 @@ private:
      * there is not already a folder icon set, and if the folder's name has
      * the album name.
      */
-    void setFolderIcon(const KUrl &dst, const PlaylistItem *item);
+    void setFolderIcon(const QUrl &dst, const PlaylistItem *item);
 
     /**
      * Attempts to rename the file from \a src to \a dest.  Returns true if the
@@ -542,6 +547,6 @@ private:
     bool moveFile(const QString &src, const QString &dest);
 };
 
-#endif /* FILERENAMER_H */
+#endif /* JUK_FILERENAMER_H */
 
 // vim: set et sw=4 tw=0 sta:

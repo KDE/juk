@@ -59,14 +59,14 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout">
          <item>
-          <widget class="KPushButton" name="addDirectoryButton">
+          <widget class="QPushButton" name="addDirectoryButton">
            <property name="text">
             <string>Add Folder...</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="KPushButton" name="removeDirectoryButton">
+          <widget class="QPushButton" name="removeDirectoryButton">
            <property name="text">
             <string>Remove Folder</string>
            </property>
@@ -142,14 +142,14 @@
        <item>
         <layout class="QVBoxLayout" name="verticalLayout_2">
          <item>
-          <widget class="KPushButton" name="addExcludeDirectoryButton">
+          <widget class="QPushButton" name="addExcludeDirectoryButton">
            <property name="text">
             <string>Add Folder...</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="KPushButton" name="removeExcludeDirectoryButton">
+          <widget class="QPushButton" name="removeExcludeDirectoryButton">
            <property name="text">
             <string>Remove Folder</string>
            </property>
@@ -187,18 +187,15 @@
      </property>
     </widget>
    </item>
+   <item>
+    <widget class="QDialogButtonBox" name="dlgButtonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
- </customwidgets>
- <includes>
-  <include location="local">kpushbutton.h</include>
- </includes>
  <resources/>
  <connections/>
 </ui>

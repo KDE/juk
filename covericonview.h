@@ -15,10 +15,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COVERICONVIEW_H
-#define COVERICONVIEW_H
+#ifndef JUK_COVERICONVIEW_H
+#define JUK_COVERICONVIEW_H
 
-#include <klistwidget.h>
+#include <QListWidget>
 
 #include "covermanager.h"
 
@@ -32,7 +32,7 @@ namespace CoverUtility
     class CoverIconViewItem : public QListWidgetItem
     {
     public:
-        CoverIconViewItem(coverKey id, KListWidget *parent);
+        CoverIconViewItem(coverKey id, QListWidget *parent);
 
         coverKey id() const { return m_id; }
 
@@ -49,7 +49,7 @@ using CoverUtility::CoverIconViewItem;
  *
  * @author Michael Pyne <mpyne@kde.org>
  */
-class CoverIconView : public KListWidget
+class CoverIconView : public QListWidget
 {
 public:
     explicit CoverIconView(QWidget *parent, const char *name = 0);
@@ -60,6 +60,6 @@ protected:
     // virtual Q3DragObject *dragObject();
 };
 
-#endif /* COVERICONVIEW_H */
+#endif /* JUK_COVERICONVIEW_H */
 
 // vim: set et sw=4 tw=0 sta:

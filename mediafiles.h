@@ -14,8 +14,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef MEDIAFILES_H
-#define MEDIAFILES_H
+#ifndef JUK_MEDIAFILES_H
+#define JUK_MEDIAFILES_H
+
+#include <QList>
 
 class QWidget;
 class QString;
@@ -25,7 +27,6 @@ namespace TagLib {
     class File;
 }
 
-#include <kurl.h>
 #include <taglib_config.h>
 
 /**
@@ -35,15 +36,16 @@ namespace TagLib {
 namespace MediaFiles
 {
     /**
-     * Creates a JuK specific KFileDialog with the specified parent.
+     * Returns a list of selected music files to open, or an empty list if
+     * canceled.
      */
-    QStringList openDialog(QWidget *parent = 0);
+    QStringList openDialog(QWidget *parent = nullptr);
 
     /**
-     * Creates a JuK specific KFileDialog for saving a playlist with the name
-     * playlistName and the specified parent and returns the file name.
+     * Returns the file name to use to save the playlist with the given name,
+     * or an empty string if canceled.
      */
-    QString savePlaylistDialog(const QString &playlistName, QWidget *parent = 0);
+    QString savePlaylistDialog(const QString &playlistName, QWidget *parent = nullptr);
 
     /**
      * Returns a pointer to a new appropriate subclass of TagLib::File, or
@@ -120,7 +122,7 @@ namespace MediaFiles
      * @param w KIO may need the widget to handle user interaction.
      * @return list of all local files in urlList, converted to absolute paths.
      */
-    QStringList convertURLsToLocal(const KUrl::List &urlList, QWidget *w = 0);
+    QStringList convertURLsToLocal(const QList<QUrl> &urlList, QWidget *w = nullptr);
 }
 
 #endif

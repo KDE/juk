@@ -16,9 +16,7 @@
 
 #include "tracksequenceiterator.h"
 
-#include <kaction.h>
-#include <kapplication.h>
-#include <kdebug.h>
+#include <QAction>
 #include <krandom.h>
 #include <ktoggleaction.h>
 
@@ -26,6 +24,7 @@
 #include "actioncollection.h"
 #include "tag.h"
 #include "filehandle.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -76,7 +75,7 @@ void DefaultSequenceIterator::advance()
         return;
 
     bool isRandom = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
-    bool loop = action<KAction>("loopPlaylist") && action<KAction>("loopPlaylist")->isChecked();
+    bool loop = action<QAction>("loopPlaylist") && action<QAction>("loopPlaylist")->isChecked();
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
 
     if(isRandom || albumRandom) {
@@ -112,8 +111,8 @@ void DefaultSequenceIterator::advance()
             if(!m_albumSearch.isNull()) {
                 PlaylistItemList albumMatches = m_albumSearch.matchedItems();
                 if(albumMatches.isEmpty()) {
-                    kError() << "Unable to initialize album random play.\n";
-                    kError() << "List of potential results is empty.\n";
+                    qCCritical(JUK_LOG) << "Unable to initialize album random play.\n";
+                    qCCritical(JUK_LOG) << "List of potential results is empty.\n";
 
                     return; // item is still set to random song from a few lines earlier.
                 }
@@ -133,7 +132,7 @@ void DefaultSequenceIterator::advance()
                 }
             }
             else
-                kError() << "Unable to perform album random play on " << *item << endl;
+                qCCritical(JUK_LOG) << "Unable to perform album random play on " << *item;
         }
         else
             item = m_randomItems[KRandom::random() % m_randomItems.count()];
@@ -146,8 +145,9 @@ void DefaultSequenceIterator::advance()
         if(!next && loop) {
             Playlist *p = current()->playlist();
             next = p->firstChild();
-            while(next && !next->isVisible())
-                next = static_cast<PlaylistItem *>(next->nextSibling());
+        // FIXME playlist iterator (nextSibling)
+            /*while(next && !next->isVisible())
+                next = static_cast<PlaylistItem *>(next->nextSibling());*/
         }
 
         setCurrent(next);
@@ -183,11 +183,11 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
         refillRandomList();
     }
     else {
-        Q3ListViewItemIterator it(playlist, Q3ListViewItemIterator::Visible | Q3ListViewItemIterator::Selected);
-        if(!it.current())
-            it = Q3ListViewItemIterator(playlist, Q3ListViewItemIterator::Visible);
+        QTreeWidgetItemIterator it(playlist, QTreeWidgetItemIterator::NotHidden | QTreeWidgetItemIterator::Selected);
+        if(!*it)
+            it = QTreeWidgetItemIterator(playlist, QTreeWidgetItemIterator::NotHidden);
 
-        setCurrent(static_cast<PlaylistItem *>(it.current()));
+        setCurrent(static_cast<PlaylistItem *>(*it));
     }
 }
 
@@ -252,7 +252,7 @@ void DefaultSequenceIterator::refillRandomList(Playlist *p)
         p = current()->playlist();
 
         if(!p) {
-            kError() << "Item has no playlist!\n";
+            qCCritical(JUK_LOG) << "Item has no playlist!\n";
             return;
         }
     }
@@ -296,7 +296,7 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
     // search.
 
     if(!searchItem->file().tag()->artist().isEmpty()) {
-        kDebug() << "Searching both artist and album.";
+        qCDebug(JUK_LOG) << "Searching both artist and album.";
         columns[0] = PlaylistItem::ArtistColumn;
 
         m_albumSearch.addComponent(PlaylistSearch::Component(

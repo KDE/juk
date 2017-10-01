@@ -14,8 +14,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TAGEDITOR_H
-#define TAGEDITOR_H
+#ifndef JUK_TAGEDITOR_H
+#define JUK_TAGEDITOR_H
 
 #include <QWidget>
 #include <QList>
@@ -70,7 +70,6 @@ private:
     void save(const PlaylistItemList &list);
     void saveChangesPrompt();
     virtual void showEvent(QShowEvent *e);
-    virtual bool eventFilter(QObject *watched, QEvent *e);
 
 private slots:
     void slotDataChanged(bool c = true);

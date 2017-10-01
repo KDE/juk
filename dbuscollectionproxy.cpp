@@ -16,13 +16,11 @@
 
 #include "dbuscollectionproxy.h"
 
-#include <QtCore/QStringList>
-#include <QtCore/QFile>
-#include <QtGui/QPixmap>
-#include <QtDBus/QDBusConnection>
-
-#include <KTemporaryFile>
-#include <kdebug.h>
+#include <QStringList>
+#include <QFile>
+#include <QPixmap>
+#include <QDBusConnection>
+#include <QTemporaryFile>
 
 #include "collectionadaptor.h"
 #include "playlistcollection.h"
@@ -30,6 +28,7 @@
 #include "collectionlist.h"
 #include "coverinfo.h"
 #include "filehandle.h"
+#include "juk_debug.h"
 
 DBusCollectionProxy::DBusCollectionProxy (QObject *parent, PlaylistCollection *collection) :
     QObject(parent), m_collection(collection)
@@ -116,8 +115,8 @@ QString DBusCollectionProxy::trackCover(const QString &track)
 {
     coverKey id = CoverManager::idForTrack(track);
     if(id != CoverManager::NoMatch) {
-        CoverDataPtr coverData = CoverManager::coverInfo(id);
-        return coverData->path;
+        CoverData coverData = CoverManager::coverInfo(id);
+        return coverData.path;
     }
 
     // No cover, let's see if one is embedded.
@@ -135,13 +134,13 @@ QString DBusCollectionProxy::trackCover(const QString &track)
         return QString();
 
     // We have a cover, extract it and save it to a temporary file.
-    KTemporaryFile tempFile;
+    QTemporaryFile tempFile;
 
-    tempFile.setSuffix(".png");
+    tempFile.setFileTemplate(QStringLiteral("juk_cover_XXXXXX.png"));
     tempFile.setAutoRemove(false);
 
     if(!tempFile.open()) {
-        kError() << "Unable to open temporary file for embedded cover art.";
+        qCCritical(JUK_LOG) << "Unable to open temporary file for embedded cover art.";
         return QString();
     }
 

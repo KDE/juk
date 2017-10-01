@@ -16,18 +16,17 @@
 
 #include "playlistbox.h"
 
-#include <kicon.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
-#include <kmenu.h>
-#include <kaction.h>
 #include <kactioncollection.h>
-#include <kdebug.h>
 #include <ktoggleaction.h>
 #include <kselectaction.h>
 #include <kconfiggroup.h>
+#include <KSharedConfig>
 
-#include <Q3Header>
+#include <QAction>
+#include <QIcon>
+#include <QMenu>
 #include <QPainter>
 #include <QTimer>
 #include <QDragLeaveEvent>
@@ -40,6 +39,7 @@
 #include <QTime>
 #include <QApplication>
 #include <QClipboard>
+#include <QHeaderView>
 
 #include "playlist.h"
 #include "collectionlist.h"
@@ -51,11 +51,11 @@
 #include "treeviewitemplaylist.h"
 #include "actioncollection.h"
 #include "cache.h"
-#include "k3bexporter.h"
 #include "tracksequencemanager.h"
 #include "tagtransactionmanager.h"
 #include "playermanager.h"
 #include "dbuscollectionproxy.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -64,7 +64,7 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget *playlistStack) :
-    K3ListView(parent),
+    QTreeWidget(parent),
     PlaylistCollection(player, playlistStack),
     m_viewModeIndex(0),
     m_hasSelection(false),
@@ -73,23 +73,22 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     m_showTimer(0)
 {
     readConfig();
-    addColumn("Playlists", width());
+    setHeaderLabel("Playlists");
+    setRootIsDecorated(false);
+    setContextMenuPolicy(Qt::CustomContextMenu);
+    setDropIndicatorShown(true);
 
     header()->blockSignals(true);
     header()->hide();
     header()->blockSignals(false);
 
-    setSorting(0);
-    setFullWidth(true);
-    setItemMargin(3);
+    sortByColumn(0);
 
-    setAcceptDrops(true);
-    setSelectionModeExt(Extended);
+    viewport()->setAcceptDrops(true);
+    setDropIndicatorShown(true);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
 
-    m_contextMenu = new KMenu(this);
-
-    K3bPlaylistExporter *exporter = new K3bPlaylistExporter(this);
-    m_k3bAction = exporter->action();
+    m_contextMenu = new QMenu(this);
 
     m_contextMenu->addAction( action("file_new") );
     m_contextMenu->addAction( action("renamePlaylist") );
@@ -99,28 +98,26 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     m_contextMenu->addAction( action("deleteItemPlaylist") );
     m_contextMenu->addAction( action("file_save") );
     m_contextMenu->addAction( action("file_save_as") );
-    if(m_k3bAction)
-        m_contextMenu->addAction( m_k3bAction );
 
     m_contextMenu->addSeparator();
 
     // add the view modes stuff
 
     KSelectAction *viewModeAction =
-        new KSelectAction( KIcon("view-choose"), i18n("View Modes"), ActionCollection::actions());
+        new KSelectAction( QIcon::fromTheme(QStringLiteral("view-choose")), i18n("View Modes"), ActionCollection::actions());
     ActionCollection::actions()->addAction("viewModeMenu", viewModeAction);
 
     ViewMode* viewmode = new ViewMode(this);
     m_viewModes.append(viewmode);
-    viewModeAction->addAction(KIcon("view-list-details"), viewmode->name());
+    viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-details")), viewmode->name());
 
     CompactViewMode* compactviewmode = new CompactViewMode(this);
     m_viewModes.append(compactviewmode);
-    viewModeAction->addAction(KIcon("view-list-text"), compactviewmode->name());
+    viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-text")), compactviewmode->name());
 
     TreeViewMode* treeviewmode = new TreeViewMode(this);
     m_viewModes.append(treeviewmode);
-    viewModeAction->addAction(KIcon("view-list-tree"), treeviewmode->name());
+    viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), treeviewmode->name());
 
     CollectionList::initialize(this);
 
@@ -133,14 +130,14 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     m_contextMenu->addAction( viewModeAction );
     connect(viewModeAction, SIGNAL(triggered(int)), this, SLOT(slotSetViewMode(int)));
 
-    connect(this, SIGNAL(selectionChanged()),
+    connect(this, SIGNAL(itemSelectionChanged()),
             this, SLOT(slotPlaylistChanged()));
 
-    connect(this, SIGNAL(doubleClicked(Q3ListViewItem*)),
-            this, SLOT(slotDoubleClicked(Q3ListViewItem*)));
+    connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
+            this, SLOT(slotDoubleClicked(QTreeWidgetItem*)));
 
-    connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem*,QPoint,int)),
-            this, SLOT(slotShowContextMenu(Q3ListViewItem*,QPoint,int)));
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(slotShowContextMenu(QPoint)));
 
     TagTransactionManager *tagManager = TagTransactionManager::instance();
     connect(tagManager, SIGNAL(signalAboutToModifyTags()), SLOT(slotFreezePlaylists()));
@@ -158,7 +155,7 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     m_savePlaylistTimer = 0;
 
     KToggleAction *historyAction =
-        new KToggleAction(KIcon("view-history"), i18n("Show &History"), ActionCollection::actions());
+        new KToggleAction(QIcon::fromTheme(QStringLiteral("view-history")), i18n("Show &History"), ActionCollection::actions());
     ActionCollection::actions()->addAction("showHistory", historyAction);
     connect(historyAction, SIGNAL(triggered(bool)),
             this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
@@ -174,8 +171,8 @@ PlaylistBox::~PlaylistBox()
 {
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
-    for(Q3ListViewItem *i = firstChild(); i; i = i->nextSibling()) {
-        Item *item = static_cast<Item *>(i);
+    for(QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it) {
+        Item *item = static_cast<Item *>(*it);
         if(item->playlist() && item->playlist() != collection)
             l.append(item->playlist());
     }
@@ -193,10 +190,10 @@ void PlaylistBox::raise(Playlist *playlist)
 
     if(i) {
         clearSelection();
-        setSelected(i, true);
+        setCurrentItem(i);
 
         setSingleItem(i);
-        ensureItemVisible(currentItem());
+        scrollToItem(currentItem());
     }
     else
         PlaylistCollection::raise(playlist);
@@ -221,13 +218,13 @@ void PlaylistBox::duplicate()
 
 void PlaylistBox::scanFolders()
 {
-    kDebug() << "Starting folder scan";
+    qCDebug(JUK_LOG) << "Starting folder scan";
     QTime stopwatch; stopwatch.start();
 
     PlaylistCollection::scanFolders();
 
-    kDebug() << "Folder scan complete, took" << stopwatch.elapsed() << "ms";
-    kDebug() << "Startup complete!";
+    qCDebug(JUK_LOG) << "Folder scan complete, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "Startup complete!";
     emit startupComplete();
 }
 
@@ -237,8 +234,7 @@ void PlaylistBox::scanFolders()
 
 void PlaylistBox::paste()
 {
-    Item *i = static_cast<Item *>(currentItem());
-    decode(QApplication::clipboard()->mimeData(), i);
+    // TODO: Reimplement
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -302,15 +298,15 @@ void PlaylistBox::removePlaylist(Playlist *playlist)
 
 void PlaylistBox::readConfig()
 {
-    KConfigGroup config(KGlobal::config(), "PlaylistBox");
+    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistBox");
     m_viewModeIndex = config.readEntry("ViewMode", 0);
 }
 
 void PlaylistBox::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "PlaylistBox");
+    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistBox");
     config.writeEntry("ViewMode", action<KSelectAction>("viewModeMenu")->currentItem());
-    KGlobal::config()->sync();
+    KSharedConfig::openConfig()->sync();
 }
 
 void PlaylistBox::remove()
@@ -376,7 +372,8 @@ void PlaylistBox::remove()
         }
     }
 
-    if(items.back()->nextSibling() && static_cast<Item *>(items.back()->nextSibling())->playlist())
+    // FIXME removing items
+    /*if(items.back()->nextSibling() && static_cast<Item *>(items.back()->nextSibling())->playlist())
         setSingleItem(items.back()->nextSibling());
     else {
         Item *i = static_cast<Item *>(items.front()->itemAbove());
@@ -387,7 +384,7 @@ void PlaylistBox::remove()
             i = Item::collectionItem();
 
         setSingleItem(i);
-    }
+    }*/
 
     for(PlaylistList::ConstIterator it = removeQueue.constBegin(); it != removeQueue.constEnd(); ++it) {
         if(*it != upcomingPlaylist())
@@ -411,12 +408,12 @@ void PlaylistBox::setDynamicListsFrozen(bool frozen)
 
 void PlaylistBox::slotSavePlaylists()
 {
-    kDebug() << "Auto-saving playlists.\n";
+    qCDebug(JUK_LOG) << "Auto-saving playlists.\n";
 
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
-    for(Q3ListViewItem *i = firstChild(); i; i = i->nextSibling()) {
-        Item *item = static_cast<Item *>(i);
+    for(QTreeWidgetItemIterator it(topLevelItem(0)); *it; ++it) {
+        Item *item = static_cast<Item *>(*it);
         if(item->playlist() && item->playlist() != collection)
             l.append(item->playlist());
     }
@@ -427,7 +424,7 @@ void PlaylistBox::slotSavePlaylists()
 void PlaylistBox::slotShowDropTarget()
 {
     if(!m_dropItem) {
-        kError() << "Trying to show the playlist of a null item!\n";
+        qCCritical(JUK_LOG) << "Trying to show the playlist of a null item!\n";
         return;
     }
 
@@ -446,150 +443,27 @@ void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
         (*it)->removeItem(tag, column);
 }
 
-void PlaylistBox::decode(const QMimeData *s, Item *item)
-{
-    if(!s || (item && item->playlist() && item->playlist()->readOnly()))
-        return;
-
-    const KUrl::List urls = KUrl::List::fromMimeData(s);
-
-    if(!urls.isEmpty()) {
-        QStringList files;
-        for(KUrl::List::ConstIterator it = urls.constBegin(); it != urls.constEnd(); ++it)
-            files.append((*it).path());
-
-        if(item) {
-            TreeViewItemPlaylist *playlistItem;
-            playlistItem = dynamic_cast<TreeViewItemPlaylist *>(item->playlist());
-            if(playlistItem) {
-                playlistItem->retag(files, currentPlaylist());
-                TagTransactionManager::instance()->commit();
-                currentPlaylist()->update();
-                return;
-            }
-        }
-
-        if(item && item->playlist())
-            item->playlist()->addFiles(files);
-        else {
-            QString name = playlistNameDialog();
-            if(!name.isNull()) {
-                Playlist *p = new Playlist(this, name);
-                p->addFiles(files);
-            }
-        }
-    }
-}
-
-void PlaylistBox::contentsDropEvent(QDropEvent *e)
-{
-    m_showTimer->stop();
-
-    Item *i = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
-    decode(e->mimeData(), i);
-
-    if(m_dropItem) {
-        Item *old = m_dropItem;
-        m_dropItem = 0;
-        old->repaint();
-    }
-}
-
-void PlaylistBox::contentsDragMoveEvent(QDragMoveEvent *e)
-{
-    // If we can decode the input source, there is a non-null item at the "move"
-    // position, the playlist for that Item is non-null, is not the
-    // selected playlist and is not the CollectionList, then accept the event.
-    //
-    // Otherwise, do not accept the event.
-
-    if (!KUrl::List::canDecode(e->mimeData())) {
-        e->setAccepted(false);
-        return;
-    }
-
-    Item *target = static_cast<Item *>(itemAt(contentsToViewport(e->pos())));
-
-    if(target) {
-
-        if(target->playlist() && target->playlist()->readOnly())
-            return;
-
-        // This is a semi-dirty hack to check if the items are coming from within
-        // JuK.  If they are not coming from a Playlist (or subclass) then the
-        // dynamic_cast will fail and we can safely assume that the item is
-        // coming from outside of JuK.
-
-        if(dynamic_cast<Playlist *>(e->source())) {
-            if(target->playlist() &&
-               target->playlist() != CollectionList::instance() &&
-               !target->isSelected())
-            {
-                e->setAccepted(true);
-            }
-            else
-                e->setAccepted(false);
-        }
-        else // the dropped items are coming from outside of JuK
-            e->setAccepted(true);
-
-        if(m_dropItem != target) {
-            Item *old = m_dropItem;
-            m_showTimer->stop();
-
-            if(e->isAccepted()) {
-                m_dropItem = target;
-                target->repaint();
-                m_showTimer->setSingleShot(true);
-                m_showTimer->start(1500);
-            }
-            else
-                m_dropItem = 0;
-
-            if(old)
-                old->repaint();
-        }
-    }
-    else {
-
-        // We're dragging over the whitespace.  We'll use this case to make it
-        // possible to create new lists.
-
-        e->setAccepted(true);
-    }
-}
-
-void PlaylistBox::contentsDragLeaveEvent(QDragLeaveEvent *e)
-{
-    if(m_dropItem) {
-        Item *old = m_dropItem;
-        m_dropItem = 0;
-        old->repaint();
-    }
-    K3ListView::contentsDragLeaveEvent(e);
-}
-
-void PlaylistBox::contentsMousePressEvent(QMouseEvent *e)
+void PlaylistBox::mousePressEvent(QMouseEvent *e)
 {
     if(e->button() == Qt::LeftButton)
         m_doingMultiSelect = true;
-    K3ListView::contentsMousePressEvent(e);
+    QTreeWidget::mousePressEvent(e);
 }
 
-void PlaylistBox::contentsMouseReleaseEvent(QMouseEvent *e)
+void PlaylistBox::mouseReleaseEvent(QMouseEvent *e)
 {
     if(e->button() == Qt::LeftButton) {
         m_doingMultiSelect = false;
         slotPlaylistChanged();
     }
-    K3ListView::contentsMouseReleaseEvent(e);
+    QTreeWidget::mouseReleaseEvent(e);
 }
 
 void PlaylistBox::keyPressEvent(QKeyEvent *e)
 {
-    if((e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) && e->modifiers() == Qt::ShiftButton)
+    if((e->key() == Qt::Key_Up || e->key() == Qt::Key_Down) && e->modifiers() == Qt::ShiftModifier)
         m_doingMultiSelect = true;
-    K3ListView::keyPressEvent(e);
+    QTreeWidget::keyPressEvent(e);
 }
 
 void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
@@ -598,25 +472,25 @@ void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
         m_doingMultiSelect = false;
         slotPlaylistChanged();
     }
-    K3ListView::keyReleaseEvent(e);
+    QTreeWidget::keyReleaseEvent(e);
 }
 
 PlaylistBox::ItemList PlaylistBox::selectedBoxItems() const
 {
     ItemList l;
 
-    for(Q3ListViewItemIterator it(const_cast<PlaylistBox *>(this),
-                                 Q3ListViewItemIterator::Selected); it.current(); ++it)
+    for(QTreeWidgetItemIterator it(const_cast<PlaylistBox *>(this),
+                                 QTreeWidgetItemIterator::Selected); *it; ++it)
         l.append(static_cast<Item *>(*it));
 
     return l;
 }
 
-void PlaylistBox::setSingleItem(Q3ListViewItem *item)
+void PlaylistBox::setSingleItem(QTreeWidgetItem *item)
 {
-    setSelectionModeExt(Single);
-    K3ListView::setCurrentItem(item);
-    setSelectionModeExt(Extended);
+    setSelectionMode(QAbstractItemView::SingleSelection);
+    setCurrentItem(item);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -667,9 +541,6 @@ void PlaylistBox::slotPlaylistChanged()
     action("reloadPlaylist")->setEnabled(allowReload);
     action("duplicatePlaylist")->setEnabled(!playlists.isEmpty());
 
-    if(m_k3bAction)
-        m_k3bAction->setEnabled(!playlists.isEmpty());
-
     action("editSearch")->setEnabled(singlePlaylist &&
                                      playlists.front()->searchIsEditable());
 
@@ -685,7 +556,7 @@ void PlaylistBox::slotPlaylistChanged()
         createDynamicPlaylist(playlists);
 }
 
-void PlaylistBox::slotDoubleClicked(Q3ListViewItem *item)
+void PlaylistBox::slotDoubleClicked(QTreeWidgetItem *item)
 {
     if(!item)
         return;
@@ -706,9 +577,9 @@ void PlaylistBox::slotDoubleClicked(Q3ListViewItem *item)
         action("stop")->trigger();
 }
 
-void PlaylistBox::slotShowContextMenu(Q3ListViewItem *, const QPoint &point, int)
+void PlaylistBox::slotShowContextMenu(const QPoint &point)
 {
-    m_contextMenu->popup(point);
+    m_contextMenu->popup(mapToGlobal(point));
 }
 
 void PlaylistBox::slotPlaylistItemsDropped(Playlist *p)
@@ -734,7 +605,7 @@ void PlaylistBox::setupItem(Item *item)
 
 void PlaylistBox::setupUpcomingPlaylist()
 {
-    KConfigGroup config(KGlobal::config(), "Playlists");
+    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
     bool enable = config.readEntry("showUpcoming", false);
 
     setUpcomingPlaylistEnabled(enable);
@@ -744,13 +615,13 @@ void PlaylistBox::setupUpcomingPlaylist()
 
 void PlaylistBox::slotLoadCachedPlaylists()
 {
-    kDebug() << "Loading cached playlists.";
+    qCDebug(JUK_LOG) << "Loading cached playlists.";
     QTime stopwatch;
     stopwatch.start();
 
     Cache::loadPlaylists(this);
 
-    kDebug() << "Cached playlists loaded, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "Cached playlists loaded, took" << stopwatch.elapsed() << "ms";
 
     // Auto-save playlists after they change.
     m_savePlaylistTimer = new QTimer(this);
@@ -759,7 +630,7 @@ void PlaylistBox::slotLoadCachedPlaylists()
     connect(m_savePlaylistTimer, SIGNAL(timeout()), SLOT(slotSavePlaylists()));
 
     clearSelection();
-    setSelected(m_playlistDict[CollectionList::instance()], true);
+    setCurrentItem(m_playlistDict[CollectionList::instance()]);
 
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
     QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
@@ -772,7 +643,7 @@ void PlaylistBox::slotLoadCachedPlaylists()
 PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 
 PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l)
-    : QObject(listBox), K3ListViewItem(listBox, 0, text),
+    : QObject(listBox), QTreeWidgetItem(listBox, QStringList(text)),
       PlaylistObserver(l),
       m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
@@ -780,7 +651,7 @@ PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString
 }
 
 PlaylistBox::Item::Item(Item *parent, const QString &icon, const QString &text, Playlist *l)
-    : QObject(parent->listView()), K3ListViewItem(parent, text),
+    : QObject(parent->listView()), QTreeWidgetItem(parent, QStringList(text)),
     PlaylistObserver(l),
     m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
 {
@@ -792,10 +663,10 @@ PlaylistBox::Item::~Item()
 
 }
 
-int PlaylistBox::Item::compare(Q3ListViewItem *i, int col, bool) const
+int PlaylistBox::Item::compare(QTreeWidgetItem *i, int col, bool) const
 {
     Item *otherItem = static_cast<Item *>(i);
-    PlaylistBox *playlistBox = static_cast<PlaylistBox *>(listView());
+    PlaylistBox *playlistBox = static_cast<PlaylistBox *>(treeWidget());
 
     if(m_playlist == playlistBox->upcomingPlaylist() && otherItem->m_playlist != CollectionList::instance())
         return -1;
@@ -810,16 +681,17 @@ int PlaylistBox::Item::compare(Q3ListViewItem *i, int col, bool) const
     return text(col).toLower().localeAwareCompare(i->text(col).toLower());
 }
 
-void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGroup, int column, int width, int align)
+    // FIXME paintcell
+/*void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGroup, int column, int width, int align)
 {
     PlaylistBox *playlistBox = static_cast<PlaylistBox *>(listView());
     playlistBox->viewMode()->paintCell(this, painter, colorGroup, column, width, align);
-}
+}*/
 
 void PlaylistBox::Item::setText(int column, const QString &text)
 {
     m_text = text;
-    K3ListViewItem::setText(column, text);
+    QTreeWidgetItem::setText(column, text);
 }
 
 void PlaylistBox::Item::setup()
@@ -837,9 +709,10 @@ void PlaylistBox::Item::slotSetName(const QString &name)
         setText(0, name);
         setSelected(true);
 
-        listView()->sort();
-        listView()->ensureItemVisible(listView()->currentItem());
-        listView()->viewMode()->queueRefresh();
+        treeWidget()->sortItems(0, Qt::AscendingOrder);
+        treeWidget()->scrollToItem(treeWidget()->currentItem());
+        //FIXME viewmode
+        //listView()->viewMode()->queueRefresh();
     }
 }
 
@@ -863,7 +736,7 @@ void PlaylistBox::Item::init()
     list->setupItem(this);
 
     int iconSize = list->viewModeIndex() == 0 ? 32 : 16;
-    setPixmap(0, SmallIcon(m_iconName, iconSize));
+    setIcon(0, SmallIcon(m_iconName, iconSize));
     list->addNameToDict(m_text);
 
     if(m_playlist) {
@@ -882,7 +755,5 @@ void PlaylistBox::Item::init()
     if(m_playlist == list->historyPlaylist() || m_playlist == list->upcomingPlaylist())
         m_sortedFirst = true;
 }
-
-#include "playlistbox.moc"
 
 // vim: set et sw=4 tw=0 sta:

@@ -14,19 +14,22 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef DELETEDIALOG_H
-#define DELETEDIALOG_H
+#ifndef JUK_DELETEDIALOG_H
+#define JUK_DELETEDIALOG_H
 
 class QStringList;
 
 #include <QWidget>
+#include <QDialog>
 
-#include <KDialog>
+#include <KGuiItem>
 
 namespace Ui
 {
     class DeleteDialogBase;
 }
+
+class DeleteDialog;
 
 class DeleteWidget : public QWidget
 {
@@ -40,20 +43,23 @@ public:
 
 signals:
     void signalShouldDelete(bool);
+    void accepted();
+    void rejected();
 
 protected slots:
     virtual void slotShouldDelete(bool shouldDelete);
 
 private:
+    friend DeleteDialog; // TODO: Move KGuiItem stuff into here too
     Ui::DeleteDialogBase *m_ui;
 };
 
-class DeleteDialog : public KDialog
+class DeleteDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    DeleteDialog(QWidget *parent);
+    DeleteDialog(QWidget* parent);
 
     bool confirmDeleteList(const QStringList &condemnedFiles);
     void setFiles(const QStringList &files);

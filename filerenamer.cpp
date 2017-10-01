@@ -20,33 +20,30 @@
 
 #include <algorithm>
 
-#include <kdebug.h>
-#include <kurl.h>
-#include <kurlrequester.h>
+#include <KUrlRequester>
 #include <kiconloader.h>
-#include <knuminput.h>
-#include <kstandarddirs.h>
+#include <KLocalizedString>
 #include <kio/job.h>
-#include <kio/netaccess.h>
 #include <kdesktopfile.h>
 #include <kconfiggroup.h>
-#include <kglobal.h>
+#include <KSharedConfig>
 #include <klineedit.h>
-#include <klocale.h>
-#include <kpushbutton.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
-#include <kvbox.h>
 
 #include <QFile>
 #include <QTimer>
 #include <QCheckBox>
 #include <QDir>
+#include <QDialog>
+#include <QDialogButtonBox>
+#include <QUrl>
 #include <QLabel>
 #include <QSignalMapper>
 #include <QPixmap>
 #include <QFrame>
 #include <QTreeWidget>
+#include <QScrollBar>
+#include <QPushButton>
 
 #include "tag.h"
 #include "filerenameroptions.h"
@@ -55,31 +52,32 @@
 #include "playlistitem.h"
 #include "playlist.h" // processEvents()
 #include "coverinfo.h"
+#include "juk_debug.h"
 
-class ConfirmationDialog : public KDialog
+class ConfirmationDialog : public QDialog
 {
 public:
     ConfirmationDialog(const QMap<QString, QString> &files,
-                       QWidget *parent = 0, const char *name = 0)
-        : KDialog(parent)
+                       QWidget *parent = nullptr)
+        : QDialog(parent)
     {
-        setObjectName( QLatin1String( name ) );
         setModal(true);
-        setCaption(i18nc("warning about mass file rename", "Warning"));
-        setButtons(Ok | Cancel);
+        setWindowTitle(i18nc("warning about mass file rename", "Warning"));
 
-        KVBox *vbox = new KVBox(this);
-        setMainWidget(vbox);
-        KVBox *hbox = new KVBox(vbox);
+        auto vboxLayout = new QVBoxLayout(this);
+        auto hbox = new QWidget(this);
+        auto hboxVLayout = new QVBoxLayout(hbox);
+        vboxLayout->addWidget(hbox);
 
         QLabel *l = new QLabel(hbox);
         l->setPixmap(SmallIcon("dialog-warning", 32));
+        hboxVLayout->addWidget(l);
 
         l = new QLabel(i18n("You are about to rename the following files. "
                             "Are you sure you want to continue?"), hbox);
-        hbox->setStretchFactor(l, 1);
+        hboxVLayout->addWidget(l, 1);
 
-        QTreeWidget *lv = new QTreeWidget(vbox);
+        QTreeWidget *lv = new QTreeWidget(this);
 
         QStringList headers;
         headers << i18n("Original Name");
@@ -87,6 +85,12 @@ public:
 
         lv->setHeaderLabels(headers);
         lv->setRootIsDecorated(false);
+        vboxLayout->addWidget(lv);
+
+        auto buttonBox = new QDialogButtonBox(this);
+        vboxLayout->addWidget(buttonBox);
+        connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+        connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
         int lvHeight = 0;
 
@@ -108,6 +112,7 @@ public:
 
         lvHeight += lv->horizontalScrollBar()->height() + lv->header()->height();
         lv->setMinimumHeight(qMin(lvHeight, 400));
+
         resize(qMin(width(), 500), qMin(minimumHeight(), 400));
 
         show();
@@ -121,7 +126,7 @@ public:
 ConfigCategoryReader::ConfigCategoryReader() : CategoryReaderInterface(),
     m_currentItem(0)
 {
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
 
     QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
     int categoryCount[NumTypes] = { 0 }; // Keep track of each category encountered.
@@ -270,6 +275,8 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
     connect(m_exampleDialog, SIGNAL(dataChanged()), SLOT(dataSelected()));
     connect(m_exampleDialog, SIGNAL(fileChanged(QString)),
             this,            SLOT(fileSelected(QString)));
+    connect(m_ui->dlgButtonBox, SIGNAL(accepted()), SIGNAL(accepted()));
+    connect(m_ui->dlgButtonBox, SIGNAL(rejected()), SIGNAL(rejected()));
 
     exampleTextChanged();
 }
@@ -277,7 +284,7 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
 void FileRenamerWidget::loadConfig()
 {
     QList<int> checkedSeparators;
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
 
     for(int i = 0; i < m_rows.count(); ++i)
         m_rows[i].options = TagRenamerOptions(m_rows[i].category);
@@ -290,7 +297,7 @@ void FileRenamerWidget::loadConfig()
     }
 
     QString path = config.readEntry("MusicFolder", "${HOME}/music");
-    m_ui->m_musicFolder->setUrl(KUrl(path));
+    m_ui->m_musicFolder->setUrl(QUrl::fromLocalFile(path));
     m_ui->m_musicFolder->setMode(KFile::Directory |
                                  KFile::ExistingOnly |
                                  KFile::LocalOnly);
@@ -300,7 +307,7 @@ void FileRenamerWidget::loadConfig()
 
 void FileRenamerWidget::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
     QList<int> checkedSeparators;
     QList<int> categoryOrder;
 
@@ -360,8 +367,8 @@ int FileRenamerWidget::addRowCategory(TagType category)
     buttons->setFrameStyle(QFrame::Plain | QFrame::Box);
     buttons->setLineWidth(1);
 
-    row.upButton = new KPushButton(buttons);
-    row.downButton = new KPushButton(buttons);
+    row.upButton = new QPushButton(buttons);
+    row.downButton = new QPushButton(buttons);
 
     row.upButton->setIcon(up);
     row.downButton->setIcon(down);
@@ -384,12 +391,12 @@ int FileRenamerWidget::addRowCategory(TagType category)
     QVBoxLayout *optionLayout = new QVBoxLayout;
     frameLayout->addLayout(optionLayout);
 
-    row.enableButton = new KPushButton(i18nc("remove music genre from file renamer", "Remove"), frame);
+    row.enableButton = new QPushButton(i18nc("remove music genre from file renamer", "Remove"), frame);
     optionLayout->addWidget(row.enableButton);
     toggleMapper->connect(row.enableButton, SIGNAL(clicked()), SLOT(map()));
     toggleMapper->setMapping(row.enableButton, id);
 
-    row.optionsButton = new KPushButton(i18nc("file renamer genre options", "Options"), frame);
+    row.optionsButton = new QPushButton(i18nc("file renamer genre options", "Options"), frame);
     optionLayout->addWidget(row.optionsButton);
     mapper->connect(row.optionsButton, SIGNAL(clicked()), SLOT(map()));
     mapper->setMapping(row.optionsButton, id);
@@ -415,12 +422,12 @@ void FileRenamerWidget::moveSignalMappings(int oldId, int newId)
 bool FileRenamerWidget::removeRow(int id)
 {
     if(id >= m_rows.count()) {
-        kWarning() << "Trying to remove row, but " << id << " is out-of-range.\n";
+        qCWarning(JUK_LOG) << "Trying to remove row, but " << id << " is out-of-range.\n";
         return false;
     }
 
     if(m_rows.count() == 1) {
-        kError() << "Can't remove last row of File Renamer.\n";
+        qCCritical(JUK_LOG) << "Can't remove last row of File Renamer.\n";
         return false;
     }
 
@@ -500,7 +507,7 @@ void FileRenamerWidget::addFolderSeparatorCheckbox()
 
 void FileRenamerWidget::createTagRows()
 {
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
     QList<int> categoryOrder = config.readEntry("CategoryOrder", QList<int>());
 
     if(categoryOrder.isEmpty())
@@ -542,12 +549,12 @@ void FileRenamerWidget::createTagRows()
 
     for(; it != categoryOrder.constEnd(); ++it) {
         if(*it < StartTag || *it >= NumTypes) {
-            kError() << "Invalid category encountered in file renamer configuration.\n";
+            qCCritical(JUK_LOG) << "Invalid category encountered in file renamer configuration.\n";
             continue;
         }
 
         if(m_rows.count() == MAX_CATEGORIES) {
-            kError() << "Maximum number of File Renamer tags reached, bailing.\n";
+            qCCritical(JUK_LOG) << "Maximum number of File Renamer tags reached, bailing.\n";
             break;
         }
 
@@ -728,7 +735,7 @@ void FileRenamerWidget::moveItem(int id, MovementDirection direction)
 int FileRenamerWidget::idOfPosition(int position) const
 {
     if(position >= m_rows.count()) {
-        kError() << "Search for position " << position << " out-of-range.\n";
+        qCCritical(JUK_LOG) << "Search for position " << position << " out-of-range.\n";
         return -1;
     }
 
@@ -736,7 +743,7 @@ int FileRenamerWidget::idOfPosition(int position) const
         if(m_rows[i].position == position)
             return i;
 
-    kError() << "Unable to find identifier for position " << position << endl;
+    qCCritical(JUK_LOG) << "Unable to find identifier for position " << position;
     return -1;
 }
 
@@ -746,9 +753,9 @@ int FileRenamerWidget::findIdentifier(const CategoryID &category) const
         if(m_rows[index].category == category)
             return index;
 
-    kError() << "Unable to find match for category " <<
+    qCCritical(JUK_LOG) << "Unable to find match for category " <<
         TagRenamerOptions::tagTypeText(category.category) <<
-        ", number " << category.categoryNumber << endl;
+        ", number " << category.categoryNumber;
 
     return MAX_CATEGORIES;
 }
@@ -796,7 +803,7 @@ void FileRenamerWidget::insertCategory()
 {
     TagType category = static_cast<TagType>(m_ui->m_category->currentIndex());
     if(m_ui->m_category->currentIndex() < 0 || category >= NumTypes) {
-        kError() << "Trying to add unknown category somehow.\n";
+        qCCritical(JUK_LOG) << "Trying to add unknown category somehow.\n";
         return;
     }
 
@@ -858,7 +865,7 @@ void FileRenamerWidget::slotRemoveRow(int id)
 {
     // Remove the given identified row.
     if(!removeRow(id))
-        kError() << "Unable to remove row " << id << endl;
+        qCCritical(JUK_LOG) << "Unable to remove row " << id;
 }
 
 //
@@ -899,7 +906,7 @@ void FileRenamer::rename(const PlaylistItemList &items)
     if(itemMap.isEmpty() || ConfirmationDialog(map).exec() != QDialog::Accepted)
         return;
 
-    KApplication::setOverrideCursor(Qt::waitCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     for(QMap<QString, QString>::ConstIterator it = map.constBegin();
         it != map.constEnd(); ++it)
     {
@@ -907,14 +914,14 @@ void FileRenamer::rename(const PlaylistItemList &items)
             itemMap[it.key()]->setFile(it.value());
             itemMap[it.key()]->refresh();
 
-            setFolderIcon(it.value(), itemMap[it.key()]);
+            setFolderIcon(QUrl::fromLocalFile(it.value()), itemMap[it.key()]);
         }
         else
             errorFiles << i18n("%1 to %2", it.key(), it.value());
 
         processEvents();
     }
-    KApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
 
     if(!errorFiles.isEmpty())
         KMessageBox::errorList(0, i18n("The following rename operations failed:\n"), errorFiles);
@@ -922,40 +929,26 @@ void FileRenamer::rename(const PlaylistItemList &items)
 
 bool FileRenamer::moveFile(const QString &src, const QString &dest)
 {
-    kDebug() << "Moving file " << src << " to " << dest;
+    qCDebug(JUK_LOG) << "Moving file " << src << " to " << dest;
 
-    if(src == dest)
+    QUrl srcURL = QUrl::fromLocalFile(src);
+    QUrl dstURL = QUrl::fromLocalFile(dest);
+
+    if(!srcURL.isValid() || !dstURL.isValid() || srcURL == dstURL)
         return false;
 
-    // Escape URL.
-    KUrl srcURL = KUrl(src);
-    KUrl dstURL = KUrl(dest);
-
-    // Clean it.
-    srcURL.cleanPath();
-    dstURL.cleanPath();
-
-    // Make sure it is valid.
-    if(!srcURL.isValid() || !dstURL.isValid())
+    QUrl dir = dstURL.resolved(QUrl::fromUserInput(".")); // resolves to path w/out filename
+    if(!QDir().mkpath(dir.path())) {
+        qCCritical(JUK_LOG) << "Unable to create directory " << dir.path();
         return false;
-
-    // Get just the directory.
-    KUrl dir = dstURL;
-    dir.setFileName(QString());
-
-    // Create the directory.
-    if(!KStandardDirs::exists(dir.path()))
-        if(!KStandardDirs::makeDir(dir.path())) {
-            kError() << "Unable to create directory " << dir.path() << endl;
-            return false;
-        }
+    }
 
     // Move the file.
     KIO::Job *job = KIO::file_move(srcURL, dstURL);
-    return KIO::NetAccess::synchronousRun(job, 0);
+    return job->exec();
 }
 
-void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
+void FileRenamer::setFolderIcon(const QUrl &dstURL, const PlaylistItem *item)
 {
     if(item->file().tag()->album().isEmpty() ||
        !item->file().coverInfo()->hasCover())
@@ -963,19 +956,17 @@ void FileRenamer::setFolderIcon(const KUrl &dst, const PlaylistItem *item)
         return;
     }
 
-    KUrl dstURL = dst;
-    dstURL.cleanPath();
-
     // Split path, and go through each path element.  If a path element has
     // the album information, set its folder icon.
-    QStringList elements = dstURL.directory().split('/', QString::SkipEmptyParts);
+    QStringList elements = dstURL.path().split('/', QString::SkipEmptyParts);
     QString path;
 
     for(QStringList::ConstIterator it = elements.constBegin(); it != elements.constEnd(); ++it) {
         path.append('/' + (*it));
 
-        kDebug() << "Checking path: " << path;
-        if((*it).contains(item->file().tag()->album() ) &&
+        qCDebug(JUK_LOG) << "Checking path: " << path;
+        if((*it).contains(item->file().tag()->album()) &&
+           QDir(path).exists() &&
            !QFile::exists(path + "/.directory"))
         {
             // Seems to be a match, let's set the folder icon for the current
@@ -1077,7 +1068,5 @@ QString FileRenamer::fileName(const CategoryReaderInterface &interface)
 
     return QString(folder + dirSeparator + result);
 }
-
-#include "filerenamer.moc"
 
 // vim: set et sw=4 tw=0 sta:

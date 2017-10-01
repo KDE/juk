@@ -14,10 +14,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <KLocalizedString>
 #include <kconfig.h>
-#include <klocale.h>
-#include <kaction.h>
-#include <kmenu.h>
+
+#include <QAction>
 
 #include "actioncollection.h"
 #include "tracksequencemanager.h"
@@ -34,7 +34,7 @@
 
 TrackSequenceManager::~TrackSequenceManager()
 {
-    // m_playlist and m_popupMenu don't belong to us, don't try to delete them
+    // m_playlist doesn't belong to us, don't try to delete
     if(m_iterator == m_defaultIterator)
         m_iterator = 0;
 
@@ -160,7 +160,6 @@ TrackSequenceManager::TrackSequenceManager() :
     QObject(),
     m_playlist(0),
     m_playNextItem(0),
-    m_popupMenu(0),
     m_iterator(0),
     m_initialized(false)
 {
@@ -179,7 +178,5 @@ void TrackSequenceManager::slotItemAboutToDie(PlaylistItem *item)
 
     m_iterator->itemAboutToDie(item);
 }
-
-#include "tracksequencemanager.moc"
 
 // vim: set et sw=4 tw=0 sta:

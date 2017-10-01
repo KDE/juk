@@ -57,7 +57,7 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
     setName(name);
     setAllowDuplicates(false);
 
-    setSorting(columns() + 1);
+    setSortingEnabled(false);
 
     for(PlaylistList::ConstIterator it = playlists.constBegin(); it != playlists.constEnd(); ++it)
         m_observers.append(new PlaylistDirtyObserver(this, *it));
@@ -188,7 +188,5 @@ void DynamicPlaylist::slotUpdateItems()
     if(m_synchronizePlaying)
         synchronizePlayingItems(m_playlists, true);
 }
-
-#include "dynamicplaylist.moc"
 
 // vim: set et sw=4 tw=0 sta:

@@ -17,34 +17,30 @@
 
 #include "juk.h"
 
-#include <kcmdlineargs.h>
-#include <kstatusbar.h>
-#include <kdebug.h>
 #include <kmessagebox.h>
-#include <kstandarddirs.h>
 #include <kactioncollection.h>
 #include <kstandardaction.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
-#include <kicon.h>
-#include <kaction.h>
 #include <kconfiggroup.h>
-#include <kapplication.h>
+#include <KSharedConfig>
 #include <kglobalaccel.h>
 #include <ktoolbarpopupaction.h>
 #include <knotification.h>
-#include <kdeversion.h>
 
+#include <QIcon>
+#include <QAction>
 #include <QCoreApplication>
 #include <QKeyEvent>
 #include <QDir>
+#include <QDirIterator>
 #include <QTime>
 #include <QTimer>
 #include <QDesktopWidget>
+#include <QStatusBar>
 
 #include "slideraction.h"
 #include "statuslabel.h"
-#include "splashscreen.h"
 #include "systemtray.h"
 #include "keydialog.h"
 #include "tagguesserconfigdlg.h"
@@ -57,6 +53,7 @@
 #include "collectionlist.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -73,13 +70,14 @@ void deleteAndClear(T *&ptr)
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-JuK::JuK(QWidget *parent) :
-    KXmlGuiWindow(parent, Qt::WDestructiveClose),
-    m_splitter(0),
-    m_statusLabel(0),
-    m_systemTray(0),
+JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
+    KXmlGuiWindow(parent, Qt::WindowFlags(Qt::WA_DeleteOnClose)),
+    m_splitter(nullptr),
+    m_statusLabel(nullptr),
+    m_systemTray(nullptr),
     m_player(new PlayerManager),
-    m_scrobbler(0),
+    m_scrobbler(nullptr),
+    m_filesToOpen(filesToOpen),
     m_shuttingDown(false)
 {
     // Expect segfaults if you change this order.
@@ -88,20 +86,15 @@ JuK::JuK(QWidget *parent) :
 
     readSettings();
 
-    if(m_showSplash && !m_startDocked && Cache::cacheFileExists()) {
-        if(SplashScreen* splash = SplashScreen::instance()) {
-            splash->show();
-            kapp->processEvents();
-        }
-    }
+    Cache::ensureAppDataStorageExists();
 
     setupActions();
     setupLayout();
 
-    bool firstRun = !KGlobal::config()->hasGroup("MainWindow");
+    bool firstRun = !KSharedConfig::openConfig()->hasGroup("MainWindow");
 
     if(firstRun) {
-        KConfigGroup mainWindowConfig(KGlobal::config(), "MainWindow");
+        KConfigGroup mainWindowConfig(KSharedConfig::openConfig(), "MainWindow");
         KConfigGroup playToolBarConfig(&mainWindowConfig, "Toolbar playToolBar");
         playToolBarConfig.writeEntry("ToolButtonStyle", "IconOnly");
     }
@@ -117,7 +110,7 @@ JuK::JuK(QWidget *parent) :
 
     if(firstRun) {
         QRect r = rect();
-        r.moveCenter(KApplication::desktop()->screenGeometry().center());
+        r.moveCenter(QApplication::desktop()->screenGeometry().center());
         move(r.topLeft());
     }
 
@@ -172,7 +165,7 @@ void JuK::setupLayout()
 {
     new TagTransactionManager(this);
 
-    kDebug() << "Creating GUI";
+    qCDebug(JUK_LOG) << "Creating GUI";
     QTime stopwatch;
     stopwatch.start();
 
@@ -187,7 +180,7 @@ void JuK::setupLayout()
 
     m_splitter->setFocus();
 
-    kDebug() << "GUI created in" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "GUI created in" << stopwatch.elapsed() << "ms";
 }
 
 void JuK::setupActions()
@@ -201,65 +194,60 @@ void JuK::setupActions()
     KStandardAction::cut(collection);
     KStandardAction::copy(collection);
     KStandardAction::paste(collection);
-    KAction *clear = KStandardAction::clear(collection);
+    QAction *clear = KStandardAction::clear(collection);
     KStandardAction::selectAll(collection);
     KStandardAction::keyBindings(this, SLOT(slotEditKeys()), collection);
-
 
     // Setup the menu which handles the random play options.
     KActionMenu *actionMenu = collection->add<KActionMenu>("actionMenu");
     actionMenu->setText(i18n("&Random Play"));
-    actionMenu->setIcon(KIcon( QLatin1String( "media-playlist-shuffle" )));
+    actionMenu->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
     actionMenu->setDelayed(false);
 
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
     QAction *act = collection->add<KToggleAction>("disableRandomPlay");
     act->setText(i18n("&Disable Random Play"));
-    act->setIcon(KIcon( QLatin1String( "go-down" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "go-down" )));
     act->setActionGroup(randomPlayGroup);
     actionMenu->addAction(act);
 
     m_randomPlayAction = collection->add<KToggleAction>("randomPlay");
     m_randomPlayAction->setText(i18n("Use &Random Play"));
-    m_randomPlayAction->setIcon(KIcon( QLatin1String( "media-playlist-shuffle" )));
+    m_randomPlayAction->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
     m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->addAction(m_randomPlayAction);
 
     act = collection->add<KToggleAction>("albumRandomPlay");
     act->setText(i18n("Use &Album Random Play"));
-    act->setIcon(KIcon( QLatin1String( "media-playlist-shuffle" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
     act->setActionGroup(randomPlayGroup);
     connect(act, SIGNAL(triggered(bool)), SLOT(slotCheckAlbumNextAction(bool)));
     actionMenu->addAction(act);
 
     act = collection->addAction("removeFromPlaylist", clear, SLOT(clear()));
     act->setText(i18n("Remove From Playlist"));
-    act->setIcon(KIcon( QLatin1String( "list-remove" )));
-
-    act = collection->add<KToggleAction>("crossfadeTracks");
-    act->setText(i18n("Crossfade Between Tracks"));
-    connect(act, SIGNAL(triggered(bool)), m_player, SLOT(setCrossfadeEnabled(bool)));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "list-remove" )));
 
     act = collection->addAction("play", m_player, SLOT(play()));
     act->setText(i18n("&Play"));
-    act->setIcon(KIcon( QLatin1String( "media-playback-start" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-start" )));
 
     act = collection->addAction("pause", m_player, SLOT(pause()));
     act->setText(i18n("P&ause"));
-    act->setIcon(KIcon( QLatin1String( "media-playback-pause" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-pause" )));
 
     act = collection->addAction("stop", m_player, SLOT(stop()));
     act->setText(i18n("&Stop"));
-    act->setIcon(KIcon( QLatin1String( "media-playback-stop" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-stop" )));
 
-    act = new KToolBarPopupAction(KIcon( QLatin1String( "media-skip-backward") ), i18nc("previous track", "Previous" ), collection);
+    act = new KToolBarPopupAction(QIcon::fromTheme( QLatin1String( "media-skip-backward") ), i18nc("previous track", "Previous" ), collection);
     collection->addAction("back", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(back()));
 
     act = collection->addAction("forward", m_player, SLOT(forward()));
     act->setText(i18nc("next track", "&Next"));
-    act->setIcon(KIcon( QLatin1String( "media-skip-forward" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-skip-forward" )));
 
     act = collection->addAction("loopPlaylist");
     act->setText(i18n("&Loop Playlist"));
@@ -272,27 +260,27 @@ void JuK::setupActions()
 
     act = collection->addAction("mute", m_player, SLOT(mute()));
     act->setText(i18nc("silence playback", "Mute"));
-    act->setIcon(KIcon( QLatin1String( "audio-volume-muted" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "audio-volume-muted" )));
 
     act = collection->addAction("volumeUp", m_player, SLOT(volumeUp()));
     act->setText(i18n("Volume Up"));
-    act->setIcon(KIcon( QLatin1String( "audio-volume-high" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "audio-volume-high" )));
 
     act = collection->addAction("volumeDown", m_player, SLOT(volumeDown()));
     act->setText(i18n("Volume Down"));
-    act->setIcon(KIcon( QLatin1String( "audio-volume-low" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "audio-volume-low" )));
 
     act = collection->addAction("playPause", m_player, SLOT(playPause()));
     act->setText(i18n("Play / Pause"));
-    act->setIcon(KIcon( QLatin1String( "media-playback-start" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-start" )));
 
     act = collection->addAction("seekForward", m_player, SLOT(seekForward()));
     act->setText(i18n("Seek Forward"));
-    act->setIcon(KIcon( QLatin1String( "media-seek-forward" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-seek-forward" )));
 
     act = collection->addAction("seekBack", m_player, SLOT(seekBack()));
     act->setText(i18n("Seek Back"));
-    act->setIcon(KIcon( QLatin1String( "media-seek-backward" )));
+    act->setIcon(QIcon::fromTheme( QLatin1String( "media-seek-backward" )));
 
     act = collection->addAction("showHide", this, SLOT(slotShowHide()));
     act->setText(i18n("Show / Hide"));
@@ -300,9 +288,6 @@ void JuK::setupActions()
     //////////////////////////////////////////////////
     // settings menu
     //////////////////////////////////////////////////
-
-    m_toggleSplashAction = collection->add<KToggleAction>("showSplashScreen");
-    m_toggleSplashAction->setText(i18n("Show Splash Screen on Startup"));
 
     m_toggleSystemTrayAction = collection->add<KToggleAction>("toggleSystemTray");
     m_toggleSystemTrayAction->setText(i18n("&Dock in System Tray"));
@@ -343,14 +328,14 @@ void JuK::setupActions()
 void JuK::slotSetupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
-        kDebug() << "Setting up systray";
+        qCDebug(JUK_LOG) << "Setting up systray";
         QTime stopwatch; stopwatch.start();
         m_systemTray = new SystemTray(m_player, this);
         m_systemTray->setObjectName( QLatin1String("systemTray" ));
 
         m_toggleDockOnCloseAction->setEnabled(true);
         m_togglePopupsAction->setEnabled(true);
-        kDebug() << "Finished setting up systray, took" << stopwatch.elapsed() << "ms";
+        qCDebug(JUK_LOG) << "Finished setting up systray, took" << stopwatch.elapsed() << "ms";
     }
     else {
         m_systemTray = 0;
@@ -377,13 +362,7 @@ void JuK::setupGlobalAccels()
 
 void JuK::slotProcessArgs()
 {
-    KCmdLineArgs *args = KCmdLineArgs::parsedArgs();
-    QStringList files;
-
-    for(int i = 0; i < args->count(); i++)
-        files.append(args->arg(i));
-
-    CollectionList::instance()->addFiles(files);
+    CollectionList::instance()->addFiles(m_filesToOpen);
 }
 
 void JuK::slotClearOldCovers()
@@ -392,13 +371,13 @@ void JuK::slotClearOldCovers()
     // we find our tracks in a different order this run, which would cause old saved
     // covers to be wrong.
     // See mpris2/mediaplayer2player.cpp
-    QStringList oldFiles = KGlobal::dirs()->findAllResources("tmp", "juk-cover-*.png");
+    QString tmpDir = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
+    QStringList nameFilters;
 
-    foreach(const QString &file, oldFiles) {
-        kWarning() << "Removing old cover" << file;
-        if(!QFile::remove(file)) {
-            kError() << "Failed to remove old cover" << file;
-        }
+    nameFilters << QStringLiteral("juk-cover-*.png");
+    QDirIterator jukCoverIter(tmpDir, nameFilters);
+    while (jukCoverIter.hasNext()) {
+        QFile::remove(jukCoverIter.next());
     }
 }
 
@@ -415,8 +394,7 @@ void JuK::keyPressEvent(QKeyEvent *e)
 
 void JuK::readSettings()
 {
-    KConfigGroup config(KGlobal::config(), "Settings");
-    m_showSplash = config.readEntry("ShowSplashScreen", true);
+    KConfigGroup config(KSharedConfig::openConfig(), "Settings");
     m_startDocked = config.readEntry("StartDocked", false);
 }
 
@@ -424,19 +402,17 @@ void JuK::readConfig()
 {
     // player settings
 
-    KConfigGroup playerConfig(KGlobal::config(), "Player");
+    KConfigGroup playerConfig(KSharedConfig::openConfig(), "Player");
 
     if(m_player)
     {
         const int maxVolume = 100;
         const int volume = playerConfig.readEntry("Volume", maxVolume);
         m_player->setVolume(volume * 0.01);
-        if(ActionCollection::action<VolumeAction>("volumeAction")->button())
-            ActionCollection::action<VolumeAction>("volumeAction")->button()->refresh();
 
-        bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
-        m_player->setCrossfadeEnabled(enableCrossfade);
-        ActionCollection::action<KAction>("crossfadeTracks")->setChecked(enableCrossfade);
+        //bool enableCrossfade = playerConfig.readEntry("CrossfadeTracks", true);
+        //m_player->setCrossfadeEnabled(enableCrossfade);
+        //ActionCollection::action<QAction>("crossfadeTracks")->setChecked(enableCrossfade);
     }
 
     // Default to no random play
@@ -447,14 +423,14 @@ void JuK::readConfig()
     if(randomPlayMode == "true" || randomPlayMode == "Normal")
         m_randomPlayAction->setChecked(true);
     else if(randomPlayMode == "AlbumRandomPlay")
-        ActionCollection::action<KAction>("albumRandomPlay")->setChecked(true);
+        ActionCollection::action<QAction>("albumRandomPlay")->setChecked(true);
 
     bool loopPlaylist = playerConfig.readEntry("LoopPlaylist", false);
-    ActionCollection::action<KAction>("loopPlaylist")->setChecked(loopPlaylist);
+    ActionCollection::action<QAction>("loopPlaylist")->setChecked(loopPlaylist);
 
     // general settings
 
-    KConfigGroup settingsConfig(KGlobal::config(), "Settings");
+    KConfigGroup settingsConfig(KSharedConfig::openConfig(), "Settings");
 
     bool dockInSystemTray = settingsConfig.readEntry("DockInSystemTray", true);
     m_toggleSystemTrayAction->setChecked(dockInSystemTray);
@@ -464,15 +440,13 @@ void JuK::readConfig()
 
     bool showPopups = settingsConfig.readEntry("TrackPopup", false);
     m_togglePopupsAction->setChecked(showPopups);
-
-    m_toggleSplashAction->setChecked(m_showSplash);
 }
 
 void JuK::saveConfig()
 {
     // player settings
 
-    KConfigGroup playerConfig(KGlobal::config(), "Player");
+    KConfigGroup playerConfig(KSharedConfig::openConfig(), "Player");
 
     if (m_player)
     {
@@ -481,13 +455,12 @@ void JuK::saveConfig()
 
     playerConfig.writeEntry("RandomPlay", m_randomPlayAction->isChecked());
 
-    KAction *a = ActionCollection::action<KAction>("loopPlaylist");
+    QAction *a = ActionCollection::action<QAction>("loopPlaylist");
     playerConfig.writeEntry("LoopPlaylist", a->isChecked());
 
-    a = ActionCollection::action<KAction>("crossfadeTracks");
-    playerConfig.writeEntry("CrossfadeTracks", a->isChecked());
+    playerConfig.writeEntry("CrossfadeTracks", false); // TODO bring back
 
-    a = ActionCollection::action<KAction>("albumRandomPlay");
+    a = ActionCollection::action<QAction>("albumRandomPlay");
     if(a->isChecked())
         playerConfig.writeEntry("RandomPlay", "AlbumRandomPlay");
     else if(m_randomPlayAction->isChecked())
@@ -497,20 +470,19 @@ void JuK::saveConfig()
 
     // general settings
 
-    KConfigGroup settingsConfig(KGlobal::config(), "Settings");
-    settingsConfig.writeEntry("ShowSplashScreen", m_toggleSplashAction->isChecked());
+    KConfigGroup settingsConfig(KSharedConfig::openConfig(), "Settings");
     settingsConfig.writeEntry("StartDocked", m_startDocked);
     settingsConfig.writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
     settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
     settingsConfig.writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
 
-    KGlobal::config()->sync();
+    KSharedConfig::openConfig()->sync();
 }
 
 bool JuK::queryClose()
 {
     if(!m_shuttingDown &&
-       !kapp->sessionSaving() &&
+       !qApp->isSavingSession() &&
        m_systemTray &&
        m_toggleDockOnCloseAction->isChecked())
     {
@@ -552,17 +524,13 @@ void JuK::slotAboutToQuit()
     deleteAndClear(m_splitter);
     deleteAndClear(m_player);
     deleteAndClear(m_statusLabel);
-
-    // Playlists depend on CoverManager, so CoverManager should shutdown as
-    // late as possible
-    CoverManager::shutdown();
 }
 
 void JuK::slotQuit()
 {
     m_shuttingDown = true;
 
-    kapp->quit();
+    qApp->quit();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -583,7 +551,7 @@ void JuK::slotToggleSystemTray(bool enabled)
 
 void JuK::slotEditKeys()
 {
-    KeyDialog::configure(ActionCollection::actions(), this);
+    KeyDialog(ActionCollection::actions(), this).configure();
 }
 
 void JuK::slotConfigureTagGuesser()
@@ -632,7 +600,5 @@ void JuK::slotCheckAlbumNextAction(bool albumRandomEnabled)
 
     action("forwardAlbum")->setEnabled(albumRandomEnabled);
 }
-
-#include "juk.moc"
 
 // vim: set et sw=4 tw=0 sta:

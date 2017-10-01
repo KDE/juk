@@ -15,10 +15,11 @@
  */
 
 #include "actioncollection.h"
-#include "juk.h"
 
 #include <kactioncollection.h>
-#include <kdebug.h>
+
+#include "juk.h"
+#include "juk_debug.h"
 
 namespace ActionCollection
 {
@@ -43,7 +44,7 @@ namespace ActionCollection
 #ifndef NO_DEBUG
         QAction *a = actions()->action(key);
         if(!a)
-            kWarning() << "KAction \"" << key << "\" is not defined yet.";
+            qCWarning(JUK_LOG) << "QAction \"" << key << "\" is not defined yet.";
         return a;
 #else
         return actions()->action(key);

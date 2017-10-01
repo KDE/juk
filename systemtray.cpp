@@ -18,16 +18,14 @@
 
 #include "systemtray.h"
 
-#include <klocale.h>
 #include <kiconloader.h>
-#include <kaction.h>
-#include <kdebug.h>
 #include <kactioncollection.h>
 #include <kactionmenu.h>
-#include <kvbox.h>
-#include <kmenu.h>
 #include <kwindowsystem.h>
+#include <KLocalizedString>
 
+#include <QAction>
+#include <QMenu>
 #include <QTimer>
 #include <QWheelEvent>
 #include <QColor>
@@ -35,20 +33,19 @@
 #include <QPalette>
 #include <QPixmap>
 #include <QLabel>
-#include <QVBoxLayout>
 #include <QIcon>
 #include <QApplication>
-#include <QTextDocument> // Qt::escape()
 
 #include "tag.h"
 #include "actioncollection.h"
 #include "playermanager.h"
 #include "coverinfo.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
 PassiveInfo::PassiveInfo() :
-    QFrame(static_cast<QWidget *>(0),
+    QFrame(nullptr,
         Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
     ),
     m_timer(new QTimer(this)),
@@ -150,6 +147,8 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     m_fade(true),
     m_hasCompositionManager(false)
 {
+    using ActionCollection::action; // Override the KSNI::action call introduced in KF5
+
     // This should be initialized to the number of labels that are used.
     m_labels.fill(0, 3);
 
@@ -163,11 +162,11 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     // Just create this here so that it show up in the DBus interface and the
     // key bindings dialog.
 
-    KAction *rpaction = new KAction(i18n("Redisplay Popup"), this);
+    QAction *rpaction = new QAction(i18n("Redisplay Popup"), this);
     ActionCollection::actions()->addAction("showPopup", rpaction);
     connect(rpaction, SIGNAL(triggered(bool)), SLOT(slotPlay()));
 
-    KMenu *cm = contextMenu();
+    QMenu *cm = contextMenu();
 
     connect(m_player, SIGNAL(signalPlay()), this, SLOT(slotPlay()));
     connect(m_player, SIGNAL(signalPause()), this, SLOT(slotPause()));
@@ -184,7 +183,8 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     // Pity the actionCollection doesn't keep track of what sub-menus it has.
 
     KActionMenu *menu = new KActionMenu(i18n("&Random Play"), this);
-    actionCollection()->addAction("randomplay", menu);
+        // FIXME
+    //actionCollection()->addAction("randomplay", menu);
     menu->addAction(action("disableRandomPlay"));
     menu->addAction(action("randomPlay"));
     menu->addAction(action("albumRandomPlay"));
@@ -316,27 +316,28 @@ void SystemTray::slotMouseInPopup()
 // private methods
 ////////////////////////////////////////////////////////////////////////////////
 
-KVBox *SystemTray::createPopupLayout(QWidget *parent, const FileHandle &file)
+QWidget *SystemTray::createInfoBox(QBoxLayout *parentLayout, const FileHandle &file)
 {
-    KVBox *infoBox = 0;
-
     // We always show the popup on the right side of the current screen, so
-    // this logic assumes that.  Earlier revisions has logic for popup being
+    // this logic assumes that.  Earlier revisions had logic for popup being
     // wherever the systray icon is, so if it's decided to go that route again,
     // dig into the source control history. --mpyne
 
     if(file.coverInfo()->hasCover()) {
-        addCoverButton(parent, file.coverInfo()->pixmap(CoverInfo::Thumbnail));
-        addSeparatorLine(parent);
+        addCoverButton(parentLayout, file.coverInfo()->pixmap(CoverInfo::Thumbnail));
+        addSeparatorLine(parentLayout);
     }
 
-    infoBox = new KVBox(parent);
+    auto infoBox = new QWidget;
+    auto infoBoxVLayout = new QVBoxLayout(infoBox);
+    infoBoxVLayout->setSpacing(3);
+    infoBoxVLayout->setMargin(3);
 
-    addSeparatorLine(parent);
-    createButtonBox(parent);
+    parentLayout->addWidget(infoBox);
 
-    infoBox->setSpacing(3);
-    infoBox->setMargin(3);
+    addSeparatorLine(parentLayout);
+    createButtonBox(parentLayout);
+
     return infoBox;
 }
 
@@ -365,15 +366,19 @@ void SystemTray::createPopup()
     connect(m_popup, SIGNAL(nextSong()), SLOT(slotForward()));
     connect(m_popup, SIGNAL(previousSong()), SLOT(slotBack()));
 
-    KHBox *box = new KHBox(m_popup);
-    box->setSpacing(15); // Add space between text and buttons
+    auto box = new QWidget;
+    auto boxHLayout = new QHBoxLayout(box);
 
-    KVBox *infoBox = createPopupLayout(box, playingFile);
+    boxHLayout->setSpacing(15); // Add space between text and buttons
+
+    QWidget *infoBox = createInfoBox(boxHLayout, playingFile);
+    QLayout *infoBoxLayout = infoBox->layout();
 
     for(int i = 0; i < m_labels.size(); ++i) {
-        QLabel *l = new QLabel(" ", infoBox);
+        QLabel *l = new QLabel(" ");
         l->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         m_labels[i] = l;
+        infoBoxLayout->addWidget(l);
     }
 
     // We have to set the text of the labels after all of the
@@ -382,14 +387,14 @@ void SystemTray::createPopup()
 
     int labelCount = 0;
 
-    QString title = Qt::escape(playingInfo->title());
+    QString title = playingInfo->title().toHtmlEscaped();
     m_labels[labelCount++]->setText(QString("<qt><nobr><h2>%1</h2></nobr></qt>").arg(title));
 
     if(!playingInfo->artist().isEmpty())
         m_labels[labelCount++]->setText(playingInfo->artist());
 
     if(!playingInfo->album().isEmpty()) {
-        QString album = Qt::escape(playingInfo->album());
+        QString album = playingInfo->album().toHtmlEscaped();
         QString s = playingInfo->year() > 0
             ? QString("<qt><nobr>%1 (%2)</nobr></qt>").arg(album).arg(playingInfo->year())
             : QString("<qt><nobr>%1</nobr></qt>").arg(album);
@@ -400,19 +405,24 @@ void SystemTray::createPopup()
     m_popup->show();
 }
 
-void SystemTray::createButtonBox(QWidget *parent)
+void SystemTray::createButtonBox(QBoxLayout *parentLayout)
 {
-    KVBox *buttonBox = new KVBox(parent);
+    auto buttonBox = new QWidget;
+    auto buttonBoxVLayout = new QVBoxLayout(buttonBox);
 
-    buttonBox->setSpacing(3);
+    buttonBoxVLayout->setSpacing(3);
 
-    QPushButton *forwardButton = new QPushButton(m_forwardPix, 0, buttonBox);
-    forwardButton->setObjectName( QLatin1String("popup_forward" ));
+    QPushButton *forwardButton = new QPushButton(m_forwardPix, QString());
+    forwardButton->setObjectName(QLatin1String("popup_forward"));
     connect(forwardButton, SIGNAL(clicked()), SLOT(slotForward()));
 
-    QPushButton *backButton = new QPushButton(m_backPix, 0, buttonBox);
-    backButton->setObjectName( QLatin1String("popup_back" ));
+    QPushButton *backButton = new QPushButton(m_backPix, QString());
+    backButton->setObjectName(QLatin1String("popup_back"));
     connect(backButton, SIGNAL(clicked()), SLOT(slotBack()));
+
+    buttonBoxVLayout->addWidget(forwardButton);
+    buttonBoxVLayout->addWidget(backButton);
+    parentLayout->addWidget(buttonBox);
 }
 
 /**
@@ -432,20 +442,22 @@ void SystemTray::slotForward()
     m_fade = false;
 }
 
-void SystemTray::addSeparatorLine(QWidget *parent)
+void SystemTray::addSeparatorLine(QBoxLayout *parentLayout)
 {
-    QFrame *line = new QFrame(parent);
+    QFrame *line = new QFrame;
     line->setFrameShape(QFrame::VLine);
 
     // Cover art takes up 80 pixels, make sure we take up at least 80 pixels
     // even if we don't show the cover art for consistency.
 
     line->setMinimumHeight(80);
+
+    parentLayout->addWidget(line);
 }
 
-void SystemTray::addCoverButton(QWidget *parent, const QPixmap &cover)
+void SystemTray::addCoverButton(QBoxLayout *parentLayout, const QPixmap &cover)
 {
-    QPushButton *coverButton = new QPushButton(parent);
+    QPushButton *coverButton = new QPushButton;
 
     coverButton->setIconSize(cover.size());
     coverButton->setIcon(cover);
@@ -453,6 +465,8 @@ void SystemTray::addCoverButton(QWidget *parent, const QPixmap &cover)
     coverButton->setFlat(true);
 
     connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));
+
+    parentLayout->addWidget(coverButton);
 }
 
 QColor SystemTray::interpolateColor(int step, int steps)
@@ -466,9 +480,9 @@ QColor SystemTray::interpolateColor(int step, int steps)
     // make sense to go rather quickly from start to end and then slow down
     // the progression.
     return QColor(
-            (step * m_endColor.red() + (steps - step) * m_startColor.red()) / steps,
+            (step * m_endColor.red()   + (steps - step) * m_startColor.red())   / steps,
             (step * m_endColor.green() + (steps - step) * m_startColor.green()) / steps,
-            (step * m_endColor.blue() + (steps - step) * m_startColor.blue()) / steps
+            (step * m_endColor.blue()  + (steps - step) * m_startColor.blue())  / steps
            );
 }
 
@@ -496,7 +510,7 @@ void SystemTray::scrollEvent(int delta, Qt::Orientation orientation)
         return;
 
     switch(QApplication::keyboardModifiers()) {
-    case Qt::ShiftButton:
+    case Qt::ShiftModifier:
         if(delta > 0)
             action("volumeUp")->trigger();
         else
@@ -510,7 +524,5 @@ void SystemTray::scrollEvent(int delta, Qt::Orientation orientation)
         break;
     }
 }
-
-#include "systemtray.moc"
 
 // vim: set et sw=4 tw=0 sta:

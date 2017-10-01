@@ -58,7 +58,11 @@ public:
     static void loadPlaylists(PlaylistCollection *collection);
     static void savePlaylists(const PlaylistList &playlists);
 
+    static void ensureAppDataStorageExists();
     static bool cacheFileExists();
+
+    static QString fileHandleCacheFileName();
+    static QString playlistsCacheFileName();
 
     bool prepareToLoadCachedItems();
     FileHandle loadNextCachedItem();

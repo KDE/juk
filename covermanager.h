@@ -17,25 +17,21 @@
 #ifndef JUK_COVERMANAGER_H
 #define JUK_COVERMANAGER_H
 
-#include <ksharedptr.h>
-
 #include <QObject>
 #include <QMimeData>
 #include <QString>
+
+#include <map>
 
 class CoverManagerPrivate;
 class CoverProxy;
 class QPixmap;
 class QTimer;
+class QUrl;
 class KJob;
-
-template<class Key, class Value>
-class QMap;
 
 template<class T>
 class QList;
-
-class KUrl;
 
 /**
  * This class saves the covers when its saveCovers() slot is called to avoid
@@ -59,16 +55,12 @@ private:
 };
 
 /**
- * This class holds the data on a cover.  This includes the path to the cover
- * representation on-disk, and the artist and album associated with the cover.
+ * This class holds the data on a cover.
  * Don't assume that the artist or album information is filled out, it is
  * there to allow the CoverManager to try to automatically assign covers to
  * new tracks.
- *
- * @author Michael Pyne <mpyne@kde.org>
- * @see CoverManager
  */
-class CoverData : public KShared
+class CoverData
 {
 public:
     QPixmap pixmap() const;
@@ -81,13 +73,10 @@ public:
     unsigned refCount; // Refers to number of tracks using this.
 };
 
-typedef KSharedPtr<CoverData> CoverDataPtr;
 typedef unsigned long coverKey; ///< Type of the id for a cover.
 
-typedef QMap<coverKey, CoverDataPtr> CoverDataMap;
-
-// I can't believe this actually works...
-typedef CoverDataMap::const_iterator CoverDataMapIterator;
+using CoverDataMap = std::map<coverKey, CoverData>;
+using CoverDataMapIterator = typename CoverDataMap::const_iterator;
 
 typedef QList<coverKey> CoverList;
 
@@ -96,7 +85,7 @@ typedef QList<coverKey> CoverList;
  * contains the cover ID used for this cover, and also supports an image/png
  * mimetype for dragging to other applications.
  *
- * As of this writing the mimetype is application/x-juk-coverid
+ * The mimetype is "application/x-juk-coverid"
  *
  * @author Michael Pyne <mpyne@kde.org>
  */
@@ -162,8 +151,7 @@ public:
      * Returns the cover art for @p ptr.  This function is intended for use
      * by CoverData.
      *
-     * @param ptr The CoverData to get the cover of.  Note that it is a
-     *            CoverData, not CoverDataPtr.
+     * @param ptr The CoverData to get the cover of.
      * @param size The size to return it as.
      * @see CoverData
      */
@@ -176,7 +164,7 @@ public:
      * @param id the id of the cover to retrieve info on.
      * @return 0 if there is no info on @p id, otherwise its information.
      */
-    static CoverDataPtr coverInfo(coverKey id);
+    static CoverData coverInfo(coverKey id);
 
     /**
      * Adds @p large to the cover database, associating with it @p artist and
@@ -197,7 +185,7 @@ public:
      * @param artist The artist of the new cover.
      * @param album  The album of the new cover.
      */
-    static coverKey addCover(const KUrl &path, const QString &artist = "", const QString &album = "");
+    static coverKey addCover(const QUrl &path, const QString &artist = "", const QString &album = "");
 
     /**
      * Function to determine if @p id matches any covers in the database.
@@ -235,13 +223,6 @@ public:
     static void saveCovers();
 
     /**
-     * This is a hack, as we should be shut down automatically by
-     * KStaticDeleter, but JuK is crashing for me on shutdown before
-     * KStaticDeleter gets a chance to run, which is cramping my testing.
-     */
-    static void shutdown();
-
-    /**
      * @return Iterator pointing to the first element in the cover database.
      */
     static CoverDataMapIterator begin();
@@ -250,11 +231,6 @@ public:
      * @return Iterator pointing after the last element in the cover database.
      */
     static CoverDataMapIterator end();
-
-    /**
-     * @return A list of all of the id's listed in the database.
-     */
-    static CoverList keys();
 
     /**
      * Associates @p path with the cover identified by @id.  No comparison of

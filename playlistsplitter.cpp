@@ -17,15 +17,15 @@
 
 #include "playlistsplitter.h"
 
-#include <kicon.h>
-#include <kaction.h>
-#include <kglobal.h>
 #include <kactioncollection.h>
-#include <kdebug.h>
 #include <ktoggleaction.h>
-#include <kconfiggroup.h>
 #include <kacceleratormanager.h>
+#include <KConfigGroup>
+#include <KLocalizedString>
+#include <KSharedConfig>
 
+#include <QIcon>
+#include <QAction>
 #include <QEvent>
 #include <QVBoxLayout>
 #include <QLatin1String>
@@ -33,6 +33,7 @@
 #include <QTime>
 #include <QStackedWidget>
 #include <QSizePolicy>
+#include <QKeySequence>
 
 #include "searchwidget.h"
 #include "playlistsearch.h"
@@ -44,6 +45,7 @@
 #include "playlistbox.h"
 #include "lyricswidget.h"
 #include "mpris2/mpris2.h"
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -125,7 +127,7 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
 
     if(playlist) {
         playlist->setFocus();
-        playlist->K3ListView::selectAll(false);
+        playlist->clearSelection();
 
         // Select the top visible (and matching) item.
 
@@ -137,12 +139,11 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
         // A little bit of a hack to make QListView repaint things properly.  Switch
         // to single selection mode, set the selection and then switch back.
 
-        playlist->setSelectionMode(Q3ListView::Single);
+        playlist->setSelectionMode(QTreeWidget::SingleSelection);
 
-        playlist->markItemSelected(item, true);
         playlist->setCurrentItem(item);
 
-        playlist->setSelectionMode(Q3ListView::Extended);
+        playlist->setSelectionMode(QTreeWidget::ExtendedSelection);
     }
 }
 
@@ -159,12 +160,12 @@ void PlaylistSplitter::setupActions()
 {
     KActionCollection* coll = ActionCollection::actions();
     KToggleAction *showSearch =
-	 new KToggleAction(KIcon("edit-find"), i18n("Show &Search Bar"), this);
+	 new KToggleAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Show &Search Bar"), this);
     coll->addAction("showSearch", showSearch);
 
-    KAction *act = new KAction(KIcon("edit-clear"), i18n("Edit Track Search"), this);
+    QAction *act = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Edit Track Search"), this);
     coll->addAction("editTrackSearch", act);
-    act->setShortcut(Qt::Key_F6);
+    coll->setDefaultShortcut(act, Qt::Key_F6);
     connect(act, SIGNAL(triggered(bool)), SLOT(setFocus()));
 }
 
@@ -243,8 +244,6 @@ void PlaylistSplitter::setupLayout()
             this, SLOT(slotShowSearchResults()));
     connect(m_searchWidget, SIGNAL(signalDownPressed()),
             this, SLOT(slotFocusCurrentPlaylist()));
-    connect(m_searchWidget, SIGNAL(signalAdvancedSearchClicked()),
-            m_playlistBox->object(), SLOT(slotCreateSearchPlaylist()));
     connect(m_searchWidget, SIGNAL(signalShown(bool)),
             m_playlistBox->object(), SLOT(slotSetSearchEnabled(bool)));
     connect(m_searchWidget, SIGNAL(returnPressed()),
@@ -263,12 +262,12 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistStack, SIGNAL(currentChanged(int)), this, SLOT(slotPlaylistChanged(int)));
 
     // Show the collection on startup.
-    m_playlistBox->setSelected(0, true);
+    m_playlistBox->setCurrentItem(m_playlistBox->topLevelItem(0));
 }
 
 void PlaylistSplitter::readConfig()
 {
-    KConfigGroup config(KGlobal::config(), "Splitter");
+    KConfigGroup config(KSharedConfig::openConfig(), "Splitter");
 
     QList<int> splitterSizes = config.readEntry("PlaylistSplitterSizes",QList<int>());
     if(splitterSizes.isEmpty()) {
@@ -295,7 +294,7 @@ void PlaylistSplitter::readConfig()
 
 void PlaylistSplitter::saveConfig()
 {
-    KConfigGroup config(KGlobal::config(), "Splitter");
+    KConfigGroup config(KSharedConfig::openConfig(), "Splitter");
     config.writeEntry("PlaylistSplitterSizes", sizes());
     config.writeEntry("ShowSearch", ActionCollection::action<KToggleAction>("showSearch")->isChecked());
     config.writeEntry("EditorSplitterSizes", m_editorSplitter->sizes());
@@ -328,15 +327,13 @@ void PlaylistSplitter::slotPlaylistChanged(int i)
 
 void PlaylistSplitter::slotEnable()
 {
-    kDebug() << "Enabling GUI";
+    qCDebug(JUK_LOG) << "Enabling GUI";
     QTime stopwatch; stopwatch.start();
     setEnabled(true); // Ready to go.
     m_playlistStack->show();
-    kDebug() << "Finished enabling GUI, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "Finished enabling GUI, took" << stopwatch.elapsed() << "ms";
 
     (void) new Mpris2(this);
 }
-
-#include "playlistsplitter.moc"
 
 // vim: set et sw=4 tw=0 sta:

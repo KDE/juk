@@ -7,8 +7,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>671</width>
-    <height>530</height>
+    <width>848</width>
+    <height>605</height>
    </rect>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -63,7 +63,7 @@ Note that the order in which the schemes appear in the list is relevant, since t
     </widget>
    </item>
    <item row="1" column="1" colspan="3">
-    <widget class="KPushButton" name="bAdd">
+    <widget class="QPushButton" name="bAdd">
      <property name="toolTip">
       <string>Add a new scheme</string>
      </property>
@@ -76,7 +76,7 @@ Note that the order in which the schemes appear in the list is relevant, since t
     </widget>
    </item>
    <item row="2" column="1" colspan="3">
-    <widget class="KPushButton" name="bModify">
+    <widget class="QPushButton" name="bModify">
      <property name="toolTip">
       <string>Modify scheme</string>
      </property>
@@ -89,7 +89,7 @@ Note that the order in which the schemes appear in the list is relevant, since t
     </widget>
    </item>
    <item row="3" column="1" colspan="3">
-    <widget class="KPushButton" name="bRemove">
+    <widget class="QPushButton" name="bRemove">
      <property name="toolTip">
       <string>Remove scheme</string>
      </property>
@@ -129,18 +129,15 @@ Note that the order in which the schemes appear in the list is relevant, since t
      </property>
     </widget>
    </item>
+   <item row="6" column="2">
+    <widget class="QDialogButtonBox" name="dlgButtonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
-  </customwidget>
- </customwidgets>
- <includes>
-  <include location="local">kpushbutton.h</include>
- </includes>
  <resources/>
  <connections/>
 </ui>

@@ -14,39 +14,38 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SLIDERACTION_H
-#define SLIDERACTION_H
+#ifndef JUK_SLIDERACTION_H
+#define JUK_SLIDERACTION_H
 
-#include <kaction.h>
+#include <QWidgetAction>
 #include <QBoxLayout>
 
 #include "volumepopupbutton.h"
 
 class Slider;
 
-class TrackPositionAction : public KAction
+class TrackPositionAction : public QWidgetAction
 {
     Q_OBJECT
 public:
     TrackPositionAction(const QString &text, QObject *parent);
-    Slider *slider() const;
+
 protected:
-    virtual QWidget *createWidget(QWidget *parent);
-private slots:
-    void seekableChanged(bool seekable);
-    void totalTimeChanged(int ms);
+    QWidget *createWidget(QWidget *parent) override;
 };
 
-class VolumeAction : public KAction
+class VolumeAction : public QWidgetAction
 {
     Q_OBJECT
 public:
     VolumeAction(const QString &text, QObject *parent);
-    VolumePopupButton *button() const { return m_button; }
+
 protected:
-    virtual QWidget *createWidget(QWidget *parent);
-private:
-    VolumePopupButton *m_button;
+    QWidget *createWidget(QWidget *parent) override;
+
+signals:
+    void volumeChanged(float newVolume);
+    void muteStateChanged(bool muted);
 };
 
 #endif

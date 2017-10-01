@@ -20,13 +20,13 @@
 // Watched implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-void Watched::currentChanged()
+void Watched::currentPlayingItemChanged()
 {
     foreach(PlaylistObserver *observer, m_observers)
         observer->updateCurrent();
 }
 
-void Watched::dataChanged()
+void Watched::playlistItemsChanged()
 {
     foreach(PlaylistObserver *observer, m_observers)
         observer->updateData();

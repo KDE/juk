@@ -15,26 +15,26 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FILERENAMERCONFIGDLG_H
-#define FILERENAMERCONFIGDLG_H
+#ifndef JUK_FILERENAMERCONFIGDLG_H
+#define JUK_FILERENAMERCONFIGDLG_H
 
-#include <kdialog.h>
+#include <QDialog>
 
 class FileRenamerWidget;
 
-class FileRenamerConfigDlg : public KDialog
+class FileRenamerConfigDlg : public QDialog
 {
     Q_OBJECT
-    public:
+public:
     FileRenamerConfigDlg(QWidget *parent);
 
-    protected slots:
+protected slots:
     virtual void accept();
 
-    private:
+private:
     FileRenamerWidget *m_renamerWidget;
 };
 
-#endif // FILERENAMERCONFIGDLG_H
+#endif // JUK_FILERENAMERCONFIGDLG_H
 
 // vim: set et sw=4 tw=0 sta:

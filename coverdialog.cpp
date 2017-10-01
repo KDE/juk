@@ -17,23 +17,23 @@
 
 #include "coverdialog.h"
 
+#include <KLocalizedString>
 #include <kiconloader.h>
-#include <kapplication.h>
-#include <kmenu.h>
-#include <klocale.h>
 
 #include <QTimer>
+#include <QMenu>
 
 #include "covericonview.h"
 #include "covermanager.h"
 #include "collectionlist.h"
+#include "juk_debug.h"
 
 using CoverUtility::CoverIconViewItem;
 
 class AllArtistsListViewItem : public QListWidgetItem
 {
 public:
-    AllArtistsListViewItem(KListWidget *parent) :
+    AllArtistsListViewItem(QListWidget *parent) :
         QListWidgetItem(i18n("&lt;All Artists&gt;"), parent)
     {
     }
@@ -48,7 +48,7 @@ public:
 class CaseInsensitiveItem : public QListWidgetItem
 {
 public:
-    CaseInsensitiveItem(KListWidget *parent, const QString &text) :
+    CaseInsensitiveItem(QListWidget *parent, const QString &text) :
         QListWidgetItem(text, parent)
     {
     }
@@ -60,13 +60,13 @@ public:
 };
 
 CoverDialog::CoverDialog(QWidget *parent) :
-    QWidget(parent, Qt::WType_Dialog)
+    QWidget(parent, Qt::Dialog)
 {
     setupUi(this);
 
-    setObjectName( QLatin1String("juk_cover_dialog" ));
+    setObjectName(QLatin1String("juk_cover_dialog"));
 
-    m_searchLine->setClearButtonShown(true);
+    m_searchLine->setClearButtonEnabled(true);
 
     connect(m_artists, SIGNAL(itemClicked(QListWidgetItem*)),
             this, SLOT(slotArtistClicked(QListWidgetItem*)));
@@ -97,24 +97,14 @@ void CoverDialog::show()
     QWidget::show();
 }
 
-// Here we try to keep the GUI from freezing for too long while we load the
-// covers.
+// TODO: Make this concurrent on a non-GUI thread
 void CoverDialog::loadCovers()
 {
-    CoverDataMapIterator it, end;
-    int i = 0;
-
-    it  = CoverManager::begin();
-    end = CoverManager::end();
+          auto  it  = CoverManager::begin();
+    const auto &end = CoverManager::end();
 
     for(; it != end; ++it) {
-        (void) new CoverIconViewItem(it.key(), m_covers);
-
-        // TODO: Threading!
-        if(++i == 10) {
-            i = 0;
-            kapp->processEvents();
-        }
+        (void) new CoverIconViewItem(it->first, m_covers);
     }
 }
 
@@ -138,15 +128,15 @@ void CoverDialog::slotArtistClicked(QListWidgetItem *item)
         end = CoverManager::end();
 
         for(; it != end; ++it) {
-            if(it.value()->artist == artist)
-                (void) new CoverIconViewItem(it.key(), m_covers);
+            if(it->second.artist == artist)
+                (void) new CoverIconViewItem(it->first, m_covers);
         }
     }
 }
 
 void CoverDialog::slotContextRequested(const QPoint &pt)
 {
-    static KMenu *menu = 0;
+    static QMenu *menu = nullptr;
 
     QListWidgetItem* item = m_covers->currentItem();
 
@@ -154,7 +144,7 @@ void CoverDialog::slotContextRequested(const QPoint &pt)
         return;
 
     if(!menu) {
-        menu = new KMenu(this);
+        menu = new QMenu(this);
         menu->addAction(i18n("Remove Cover"), this, SLOT(removeSelectedCover()));
     }
 
@@ -177,32 +167,26 @@ void CoverDialog::slotSearchPatternChanged(const QString& pattern)
         QRegExp filter(pattern, Qt::CaseInsensitive, QRegExp::Wildcard);
         QString artist = item->text().toLower();
 
-        CoverDataMapIterator it, end;
-
-        it  = CoverManager::begin();
-        end = CoverManager::end();
+              CoverDataMapIterator it  = CoverManager::begin();
+        const CoverDataMapIterator end = CoverManager::end();
 
         // Here, only show cover that match the search pattern.
         if (dynamic_cast<AllArtistsListViewItem *>(item)) {
-
             for(; it != end; ++it) {
-                if (filter.indexIn(it.value()->artist) != -1) {
-
-                    (void) new CoverIconViewItem(it.key(), m_covers);
+                if (filter.indexIn(it->second.artist) != -1) {
+                    (void) new CoverIconViewItem(it->first, m_covers);
                 }
             }
         }
-
         // Here, only show the covers that match the search pattern and
         // that have the same artist as the currently selected one.
         else {
-
             for(; it != end; ++it) {
-                if (it.value()->artist == artist
-                        && ((filter.indexIn(it.value()->artist) != -1)
-                        || (filter.indexIn(it.value()->album) != -1))) {
-
-                    (void) new CoverIconViewItem(it.key(), m_covers);
+                if (it->second.artist == artist
+                        && ((filter.indexIn(it->second.artist) != -1)
+                        || (filter.indexIn(it->second.album) != -1)))
+                {
+                    (void) new CoverIconViewItem(it->first, m_covers);
                 }
             }
         }
@@ -214,16 +198,14 @@ void CoverDialog::removeSelectedCover()
     CoverIconViewItem *coverItem = m_covers->currentItem();
 
     if(!coverItem || !coverItem->isSelected()) {
-        kWarning() << "No item selected for removeSelectedCover.\n";
+        qCWarning(JUK_LOG) << "No item selected for removeSelectedCover.\n";
         return;
     }
 
     if(!CoverManager::removeCover(coverItem->id()))
-        kError() << "Unable to remove selected cover: " << coverItem->id() << endl;
+        qCCritical(JUK_LOG) << "Unable to remove selected cover: " << coverItem->id();
     else
         delete coverItem;
 }
-
-#include "coverdialog.moc"
 
 // vim: set et sw=4 tw=0 sta:

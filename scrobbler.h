@@ -22,9 +22,13 @@
 #include <QMap>
 #include <QDateTime>
 
-#include <KWallet/Wallet>
+#include <KWallet>
+
+#include <memory>
 
 #include "filehandle.h"
+
+using namespace KWallet;
 
 class QByteArray;
 class QNetworkAccessManager;
@@ -34,12 +38,12 @@ class QNetworkAccessManager;
  */
 class Scrobbler : public QObject {
     Q_OBJECT
+
 public:
-    explicit Scrobbler(QObject* parent = 0);
-    virtual ~Scrobbler();
+    explicit Scrobbler(QObject* parent = nullptr);
 
     static bool isScrobblingEnabled();
-    static KWallet::Wallet* openKWallet();
+    static std::unique_ptr<Wallet> openKWallet();
 
 public slots:
     void nowPlaying(const FileHandle&);
@@ -64,7 +68,7 @@ private:
     FileHandle m_file;
     QNetworkAccessManager *m_networkAccessManager;
 
-    KWallet::Wallet *m_wallet;
+    std::unique_ptr<Wallet> m_wallet;
 };
 
 #endif /* JUK_SCROBBLER_H */

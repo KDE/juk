@@ -30,11 +30,10 @@
 #include <QCryptographicHash>
 #include <QDBusConnection>
 #include <QDBusMessage>
+#include <QStandardPaths>
 #include <QVariant>
 #include <QFile>
-
-#include <KUrl>
-#include <KStandardDirs>
+#include <QUrl>
 
 static QByteArray idFromPlaylistItem(const PlaylistItem *item)
 {
@@ -128,7 +127,7 @@ void MediaPlayer2Player::SetPosition(const QDBusObjectPath& TrackId, qlonglong P
 
 void MediaPlayer2Player::OpenUri(QString Uri) const
 {
-    KUrl url(Uri);
+    QUrl url = QUrl::fromUserInput(Uri);
 
     // JuK does not yet support KIO
     if (url.isLocalFile()) {
@@ -205,11 +204,11 @@ QVariantMap MediaPlayer2Player::Metadata() const
     metaData["xesam:genre"]  = QStringList(playingFile.tag()->genre());
 
     metaData["mpris:length"] = qint64(playingFile.tag()->seconds() * 1000000);
-    metaData["xesam:url"] = QString::fromLatin1(
-            KUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
+    metaData["xesam:url"] = QString::fromUtf8(
+            QUrl::fromLocalFile(playingFile.absFilePath()).toEncoded());
 
     if(playingFile.coverInfo()->hasCover()) {
-        QString fallbackFileName = KStandardDirs::locateLocal("tmp",
+        QString fallbackFileName = QStandardPaths::locate(QStandardPaths::TempLocation,
                 QString("juk-cover-%1.png").arg(item->trackId()));
 
         QString path = fallbackFileName;
@@ -217,8 +216,8 @@ QVariantMap MediaPlayer2Player::Metadata() const
             path = playingFile.coverInfo()->localPathToCover(fallbackFileName);
         }
 
-        metaData["mpris:artUrl"] = QString::fromLatin1(QUrl::fromLocalFile(
-                path).toEncoded());
+        metaData["mpris:artUrl"] = QString::fromUtf8(
+                QUrl::fromLocalFile(path).toEncoded());
     }
 
     return metaData;

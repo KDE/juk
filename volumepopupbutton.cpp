@@ -18,9 +18,8 @@
 #include "volumepopupbutton.h"
 #include "slider.h"
 
-#include <KLocale>
-#include <KVBox>
-#include <KIcon>
+#include <KLocalizedString>
+#include <QIcon>
 
 #include <QAction>
 #include <QLabel>
@@ -28,6 +27,8 @@
 #include <QToolBar>
 #include <QWheelEvent>
 #include <QWidgetAction>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 #include "playermanager.h"
 #include "juk.h"
@@ -40,33 +41,37 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     //create the volume popup
     m_volumeMenu = new QMenu( this );
 
-    KVBox *mainBox = new KVBox( this );
+    auto mainWidget = new QWidget( this );
+    mainWidget->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Preferred );
 
-    m_volumeLabel= new QLabel( mainBox );
-    m_volumeLabel->setAlignment( Qt::AlignHCenter );
-
-    KHBox *sliderBox = new KHBox( mainBox );
-    m_volumeSlider = new VolumeSlider( 100, sliderBox, false );
-    m_volumeSlider->setFixedHeight( 170 );
+    auto mainBox = new QVBoxLayout( mainWidget );
     mainBox->setMargin( 0 );
     mainBox->setSpacing( 0 );
-    sliderBox->setSpacing( 0 );
-    sliderBox->setMargin( 0 );
-    mainBox->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Fixed );
-    sliderBox->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Fixed );
+
+    m_volumeLabel = new QLabel;
+    m_volumeLabel->setAlignment( Qt::AlignHCenter );
+    mainBox->addWidget( m_volumeLabel );
+
+    auto sliderBox = new QWidget;
+    sliderBox->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Preferred );
+
+    auto sliderBoxLayout = new QHBoxLayout( sliderBox );
+    sliderBoxLayout->setSpacing( 0 );
+    sliderBoxLayout->setMargin( 0 );
+    mainBox->addWidget(sliderBox);
+
+    m_volumeSlider = new VolumeSlider( 100, sliderBox, false );
+    m_volumeSlider->setFixedHeight( 200 ); // FIXME HiDPI
+    sliderBoxLayout->addWidget(m_volumeSlider);
 
     PlayerManager *player = JuK::JuKInstance()->playerManager();
 
     QWidgetAction *sliderActionWidget = new QWidgetAction( this );
-    sliderActionWidget->setDefaultWidget( mainBox );
+    sliderActionWidget->setDefaultWidget( mainWidget );
 
     connect( m_volumeSlider, SIGNAL(volumeChanged(float)), player, SLOT(setVolume(float)) );
 
-    QToolBar *muteBar = new QToolBar( QString(), mainBox );
-    muteBar->setContentsMargins( 0, 0, 0, 0 );
-    muteBar->setIconSize( QSize( 16, 16 ) );
-
-    m_muteAction = new QAction( KIcon( "audio-volume-muted" ), QString(), muteBar );
+    m_muteAction = new QAction( QIcon::fromTheme(QStringLiteral("audio-volume-muted")), QString(), this );
     m_muteAction->setToolTip( i18n( "Mute/Unmute" ) );
     m_muteAction->setCheckable( true );
     m_muteAction->setChecked( player->muted() );
@@ -75,7 +80,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     connect( player, SIGNAL(mutedChanged(bool)), this, SLOT(muteStateChanged(bool)) );
 
     m_volumeMenu->addAction( sliderActionWidget );
-    muteBar->addAction( m_muteAction );
+    m_volumeMenu->addAction( m_muteAction );
 
     // set correct icon and label initially
     volumeChanged( player->volume() );
@@ -98,13 +103,13 @@ VolumePopupButton::volumeChanged( float newVolume )
     }
 
     if ( newVolume <= 0.0001 )
-        setIcon( KIcon( "audio-volume-muted" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-muted")) );
     else if ( newVolume < 0.34 )
-        setIcon( KIcon( "audio-volume-low" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-low")) );
     else if ( newVolume < 0.67 )
-        setIcon( KIcon( "audio-volume-medium" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-medium")) );
     else
-        setIcon( KIcon( "audio-volume-high" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-high")) );
 
     m_volumeLabel->setText( i18n( "%1%" , int( newVolume * 100 ) ) );
 
@@ -125,7 +130,7 @@ VolumePopupButton::muteStateChanged( bool muted )
     if ( muted )
     {
         const float volume = JuK::JuKInstance()->playerManager()->volume();
-        setIcon( KIcon( "audio-volume-muted" ) );
+        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-muted")) );
         setToolTip( i18n( "Volume: %1% (muted)", int( 100 * volume ) ) );
     }
     else
@@ -166,5 +171,3 @@ VolumePopupButton::wheelEvent( QWheelEvent * event )
     player->setVolume( volume );
     volumeChanged( volume );
 }
-
-#include "volumepopupbutton.moc"

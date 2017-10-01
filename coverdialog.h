@@ -15,8 +15,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef COVERDIALOG_H
-#define COVERDIALOG_H
+#ifndef JUK_COVERDIALOG_H
+#define JUK_COVERDIALOG_H
 
 #include "ui_coverdialogbase.h"
 
@@ -43,6 +43,6 @@ private slots:
     void removeSelectedCover();
 };
 
-#endif /* COVERDIALOG_H */
+#endif /* JUK_COVERDIALOG_H */
 
 // vim: set et sw=4 tw=0 sta:

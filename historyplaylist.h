@@ -14,8 +14,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef HISTORYPLAYLIST_H
-#define HISTORYPLAYLIST_H
+#ifndef JUK_HISTORYPLAYLIST_H
+#define JUK_HISTORYPLAYLIST_H
 
 #include <QDateTime>
 
@@ -25,9 +25,7 @@
 class HistoryPlaylistItem : public PlaylistItem
 {
 public:
-    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, Q3ListViewItem *after);
-    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent);
-    virtual ~HistoryPlaylistItem();
+    HistoryPlaylistItem(CollectionListItem *item, Playlist *parent, QTreeWidgetItem *after = nullptr);
 
     QDateTime dateTime() const { return m_dateTime; }
     void setDateTime(const QDateTime &dt);
@@ -44,7 +42,7 @@ public:
     HistoryPlaylist(PlaylistCollection *collection);
     virtual ~HistoryPlaylist();
 
-    virtual HistoryPlaylistItem *createItem(const FileHandle &file, Q3ListViewItem *after = 0,
+    virtual HistoryPlaylistItem *createItem(const FileHandle &file, QTreeWidgetItem *after = 0,
                                             bool emitChanged = true);
     virtual void createItems(const PlaylistItemList &siblings);
     virtual int columnOffset() const { return 1; }

@@ -20,16 +20,16 @@
 #include "stringhash.h"
 #include "playlistinterface.h"
 
-#include <kshortcut.h>
-#include <klocale.h>
-#include <kdirlister.h>
+#include <KDirLister>
+#include <KLocalizedString>
 
 #include <QPointer>
+#include <QKeySequence>
 
 class QPixmap;
 class QStackedWidget;
 
-class KAction;
+class QAction;
 
 class HistoryPlaylist;
 class UpcomingPlaylist;
@@ -241,11 +241,11 @@ public:
     ActionHandler(PlaylistCollection *collection);
 
 private:
-    KAction *createAction(const QString &text,
+    QAction *createAction(const QString &text,
                           const char *slot,
                           const char *name,
                           const QString &icon = QString(),
-                          const KShortcut &shortcut = KShortcut());
+                          const QKeySequence &shortcut = QKeySequence());
 private slots:
     void slotPlayFirst()     { m_collection->playFirst(); }
     void slotPlayNextAlbum() { m_collection->playNextAlbum(); }

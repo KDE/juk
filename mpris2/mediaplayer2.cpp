@@ -23,10 +23,9 @@
 #include "mediafiles.h"
 
 #include <KAboutData>
-#include <KApplication>
-#include <KCmdLineArgs>
 #include <KWindowSystem>
 
+#include <QApplication>
 #include <QDBusConnection>
 #include <QDBusMessage>
 #include <QWidget>
@@ -57,7 +56,7 @@ bool MediaPlayer2::CanQuit() const
 
 void MediaPlayer2::Quit() const
 {
-    kapp->quit();
+    qApp->quit();
 }
 
 bool MediaPlayer2::CanSetFullscreen() const
@@ -77,7 +76,7 @@ bool MediaPlayer2::HasTrackList() const
 
 QString MediaPlayer2::Identity() const
 {
-    return KCmdLineArgs::aboutData()->programName();
+    return KAboutData::applicationData().displayName();
 }
 
 QString MediaPlayer2::DesktopEntry() const

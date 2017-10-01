@@ -16,10 +16,8 @@
 
 #include "treeviewitemplaylist.h"
 
-#include <kapplication.h>
-#include <kdebug.h>
 #include <kmessagebox.h>
-#include <klocale.h>
+#include <KLocalizedString>
 
 #include <QStringList>
 
@@ -28,6 +26,7 @@
 #include "playlistitem.h"
 #include "playlistsearch.h"
 #include "tagtransactionmanager.h"
+#include "juk_debug.h"
 
 TreeViewItemPlaylist::TreeViewItemPlaylist(PlaylistCollection *collection,
                                            const PlaylistSearch &search,
@@ -85,13 +84,11 @@ void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
             break;
 
         default:
-            kDebug() << "Unhandled column type editing " << *it;
+            qCDebug(JUK_LOG) << "Unhandled column type editing " << *it;
         }
 
         TagTransactionManager::instance()->changeTagOnItem(item, tag);
     }
 }
-
-#include "treeviewitemplaylist.moc"
 
 // vim: set et sw=4 tw=0 sta:

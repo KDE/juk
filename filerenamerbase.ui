@@ -91,7 +91,7 @@
         </widget>
        </item>
        <item>
-        <widget class="KPushButton" name="m_insertCategory">
+        <widget class="QPushButton" name="m_insertCategory">
          <property name="text">
           <string>Insert Category</string>
          </property>
@@ -207,7 +207,7 @@
          </spacer>
         </item>
         <item>
-         <widget class="KPushButton" name="m_showExample">
+         <widget class="QPushButton" name="m_showExample">
           <property name="text">
            <string>Show Renamer Test Dialog</string>
           </property>
@@ -247,23 +247,25 @@
      </layout>
     </widget>
    </item>
+   <item>
+    <widget class="QDialogButtonBox" name="dlgButtonBox">
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+     </property>
+    </widget>
+   </item>
   </layout>
  </widget>
  <customwidgets>
   <customwidget>
    <class>KUrlRequester</class>
    <extends>QFrame</extends>
-   <header>kurlrequester.h</header>
-  </customwidget>
-  <customwidget>
-   <class>KPushButton</class>
-   <extends>QPushButton</extends>
-   <header>kpushbutton.h</header>
+   <header>KUrlRequester</header>
   </customwidget>
   <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
-   <header>kcombobox.h</header>
+   <header>KComboBox</header>
   </customwidget>
  </customwidgets>
  <tabstops>

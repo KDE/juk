@@ -16,36 +16,33 @@
 
 #include "collectionlist.h"
 
-#include <klocale.h>
 #include <kmessagebox.h>
-#include <kdebug.h>
-#include <kmenu.h>
-#include <kconfig.h>
-#include <kconfiggroup.h>
-#include <kglobal.h>
+#include <KConfigGroup>
+#include <KSharedConfig>
 #include <kactioncollection.h>
-#include <ksavefile.h>
-#include <kstandarddirs.h>
 #include <ktoolbarpopupaction.h>
 #include <kdirwatch.h>
+#include <KLocalizedString>
 
-#include <QStringBuilder>
 #include <QList>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QApplication>
 #include <QTimer>
 #include <QTime>
+#include <QMenu>
 #include <QClipboard>
 #include <QFileInfo>
+#include <QHeaderView>
+#include <QSaveFile>
 
 #include "playlistcollection.h"
-#include "splashscreen.h"
 #include "stringshare.h"
 #include "cache.h"
 #include "actioncollection.h"
 #include "tag.h"
 #include "viewmode.h"
+#include "juk_debug.h"
 
 using ActionCollection::action;
 
@@ -67,17 +64,17 @@ void CollectionList::startLoadingCachedItems()
     if(!m_list)
         return;
 
-    kDebug() << "Starting to load cached items";
+    qCDebug(JUK_LOG) << "Starting to load cached items";
     stopwatch.start();
 
     if(!Cache::instance()->prepareToLoadCachedItems()) {
-        kError() << "Unable to setup to load cache... perhaps it doesn't exist?";
+        qCCritical(JUK_LOG) << "Unable to setup to load cache... perhaps it doesn't exist?";
 
         completedLoadingCachedItems();
         return;
     }
 
-    kDebug() << "Kicked off first batch";
+    qCDebug(JUK_LOG) << "Kicked off first batch";
     QTimer::singleShot(0, this, SLOT(loadNextBatchCachedItems()));
 }
 
@@ -101,8 +98,6 @@ void CollectionList::loadNextBatchCachedItems()
         }
     }
 
-    SplashScreen::update();
-
     if(!done) {
         QTimer::singleShot(0, this, SLOT(loadNextBatchCachedItems()));
     }
@@ -115,21 +110,16 @@ void CollectionList::completedLoadingCachedItems()
 {
     // The CollectionList is created with sorting disabled for speed.  Re-enable
     // it here, and perform the sort.
-    KConfigGroup config(KGlobal::config(), "Playlists");
+    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
 
     Qt::SortOrder order = Qt::DescendingOrder;
     if(config.readEntry("CollectionListSortAscending", true))
         order = Qt::AscendingOrder;
 
-    m_list->setSortOrder(order);
-    m_list->setSortColumn(config.readEntry("CollectionListSortColumn", 1));
+    m_list->sortByColumn(config.readEntry("CollectionListSortColumn", 1), order);
 
-    m_list->sort();
-
-    SplashScreen::finishedLoading();
-
-    kDebug() << "Finished loading cached items, took" << stopwatch.elapsed() << "ms";
-    kDebug() << m_itemsDict.size() << "items are in the CollectionList";
+    qCDebug(JUK_LOG) << "Finished loading cached items, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << m_itemsDict.size() << "items are in the CollectionList";
 
     emit cachedItemsLoaded();
 }
@@ -153,7 +143,7 @@ void CollectionList::initialize(PlaylistCollection *collection)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem *CollectionList::createItem(const FileHandle &file, Q3ListViewItem *, bool)
+CollectionListItem *CollectionList::createItem(const FileHandle &file, QTreeWidgetItem *, bool)
 {
     // It's probably possible to optimize the line below away, but, well, right
     // now it's more important to not load duplicate items.
@@ -164,8 +154,8 @@ CollectionListItem *CollectionList::createItem(const FileHandle &file, Q3ListVie
     CollectionListItem *item = new CollectionListItem(this, file);
 
     if(!item->isValid()) {
-        kError() << "CollectionList::createItem() -- A valid tag was not created for \""
-                 << file.absFilePath() << "\"" << endl;
+        qCCritical(JUK_LOG) << "CollectionList::createItem() -- A valid tag was not created for \""
+                 << file.absFilePath() << "\"";
         delete item;
         return 0;
     }
@@ -181,14 +171,14 @@ void CollectionList::clearItems(const PlaylistItemList &items)
         delete item;
     }
 
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void CollectionList::setupTreeViewEntries(ViewMode *viewMode) const
 {
     TreeViewMode *treeViewMode = dynamic_cast<TreeViewMode *>(viewMode);
     if(!treeViewMode) {
-        kWarning() << "Can't setup entries on a non-tree-view mode!\n";
+        qCWarning(JUK_LOG) << "Can't setup entries on a non-tree-view mode!\n";
         return;
     }
 
@@ -233,22 +223,21 @@ void CollectionList::slotRefreshItems(const QList<QPair<KFileItem, KFileItem> > 
     update();
 }
 
-void CollectionList::slotDeleteItem(const KFileItem &item)
+void CollectionList::slotDeleteItems(const KFileItemList &items)
 {
-    delete lookup(item.url().path());
+    for(const auto &item : items) {
+        delete lookup(item.url().path());
+    }
 }
 
 void CollectionList::saveItemsToCache() const
 {
-    kDebug() << "Saving collection list to cache";
+    qCDebug(JUK_LOG) << "Saving collection list to cache";
 
-    QString cacheFileName =
-        KGlobal::dirs()->saveLocation("appdata") % QLatin1String("cache");
-
-    KSaveFile f(cacheFileName);
+    QSaveFile f(Cache::fileHandleCacheFileName());
 
     if(!f.open(QIODevice::WriteOnly)) {
-        kError() << "Error saving cache:" << f.errorString();
+        qCCritical(JUK_LOG) << "Error saving cache:" << f.errorString();
         return;
     }
 
@@ -270,10 +259,8 @@ void CollectionList::saveItemsToCache() const
        << checksum
        << data;
 
-    f.close();
-
-    if(!f.finalize())
-        kError() << "Error saving cache:" << f.errorString();
+    if(!f.commit())
+        qCCritical(JUK_LOG) << "Error saving cache:" << f.errorString();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -302,7 +289,7 @@ void CollectionList::clear()
 void CollectionList::slotCheckCache()
 {
     PlaylistItemList invalidItems;
-    kDebug() << "Starting to check cached items for consistency";
+    qCDebug(JUK_LOG) << "Starting to check cached items for consistency";
     stopwatch.start();
 
     int i = 0;
@@ -310,12 +297,12 @@ void CollectionList::slotCheckCache()
         if(!item->checkCurrent())
             invalidItems.append(item);
         if(++i == (m_itemsDict.size() / 2))
-            kDebug() << "Checkpoint";
+            qCDebug(JUK_LOG) << "Checkpoint";
     }
 
     clearItems(invalidItems);
 
-    kDebug() << "Finished consistency check, took" << stopwatch.elapsed() << "ms";
+    qCDebug(JUK_LOG) << "Finished consistency check, took" << stopwatch.elapsed() << "ms";
 }
 
 void CollectionList::slotRemoveItem(const QString &file)
@@ -345,7 +332,7 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
             this, SLOT(slotPopulateBackMenu()));
     connect(action<KToolBarPopupAction>("back")->menu(), SIGNAL(triggered(QAction*)),
             this, SLOT(slotPlayFromBackMenu(QAction*)));
-    setSorting(-1); // Temporarily disable sorting to add items faster.
+    setSortingEnabled(false); // Temporarily disable sorting to add items faster.
 
     m_columnTags[PlaylistItem::ArtistColumn] = new TagCountDict;
     m_columnTags[PlaylistItem::AlbumColumn] = new TagCountDict;
@@ -357,9 +344,9 @@ CollectionList::CollectionList(PlaylistCollection *collection) :
 
 CollectionList::~CollectionList()
 {
-    KConfigGroup config(KGlobal::config(), "Playlists");
-    config.writeEntry("CollectionListSortColumn", sortColumn());
-    config.writeEntry("CollectionListSortAscending", sortOrder() == Qt::AscendingOrder);
+    KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
+    config.writeEntry("CollectionListSortColumn", header()->sortIndicatorSection());
+    config.writeEntry("CollectionListSortAscending", header()->sortIndicatorOrder() == Qt::AscendingOrder);
 
     // In some situations the dataChanged signal from clearItems will cause observers to
     // subsequently try to access a deleted item.  Since we're going away just remove all
@@ -377,18 +364,18 @@ CollectionList::~CollectionList()
     m_columnTags.clear();
 }
 
-void CollectionList::contentsDropEvent(QDropEvent *e)
+void CollectionList::dropEvent(QDropEvent *e)
 {
     if(e->source() == this)
         return; // Don't rearrange in the CollectionList.
     else
-        Playlist::contentsDropEvent(e);
+        Playlist::dropEvent(e);
 }
 
-void CollectionList::contentsDragMoveEvent(QDragMoveEvent *e)
+void CollectionList::dragMoveEvent(QDragMoveEvent *e)
 {
     if(e->source() != this)
-        Playlist::contentsDragMoveEvent(e);
+        Playlist::dragMoveEvent(e);
     else
         e->setAccepted(false);
 }
@@ -435,7 +422,7 @@ QStringList CollectionList::uniqueSet(UniqueSetType t) const
 
 CollectionListItem *CollectionList::lookup(const QString &file) const
 {
-    return m_itemsDict.value(file, 0);
+    return m_itemsDict.value(file, nullptr);
 }
 
 void CollectionList::removeStringFromDict(const QString &value, int column)
@@ -470,10 +457,11 @@ void CollectionListItem::refresh()
     int offset = CollectionList::instance()->columnOffset();
     int columns = lastColumn() + offset + 1;
 
-    data()->metadata.resize(columns);
-    data()->cachedWidths.resize(columns);
+    sharedData()->metadata.resize(columns);
+    sharedData()->cachedWidths.resize(columns);
 
     for(int i = offset; i < columns; i++) {
+        setText(i, text(i));
         int id = i - offset;
         if(id != TrackNumberColumn && id != LengthColumn) {
             // All columns other than track num and length need local-encoded data for sorting
@@ -488,33 +476,30 @@ void CollectionListItem::refresh()
             {
                 toLower = StringShare::tryShare(toLower);
 
-                if(id != YearColumn && id != CommentColumn && data()->metadata[id] != toLower) {
-                    CollectionList::instance()->removeStringFromDict(data()->metadata[id], id);
+                if(id != YearColumn && id != CommentColumn && sharedData()->metadata[id] != toLower) {
+                    CollectionList::instance()->removeStringFromDict(sharedData()->metadata[id], id);
                     CollectionList::instance()->addStringToDict(text(i), id);
                 }
             }
 
-            data()->metadata[id] = toLower;
+            sharedData()->metadata[id] = toLower;
         }
 
-        int newWidth = width(listView()->fontMetrics(), listView(), i);
-        if(newWidth != data()->cachedWidths[i])
+        int newWidth = treeWidget()->fontMetrics().width(text(i));
+        if(newWidth != sharedData()->cachedWidths[i])
             playlist()->slotWeightDirty(i);
 
-        data()->cachedWidths[i] = newWidth;
+        sharedData()->cachedWidths[i] = newWidth;
     }
-
-    if(listView()->isVisible())
-        repaint();
 
     for(PlaylistItemList::Iterator it = m_children.begin(); it != m_children.end(); ++it) {
         (*it)->playlist()->update();
-        (*it)->playlist()->dataChanged();
-        if((*it)->listView()->isVisible())
-            (*it)->repaint();
+        (*it)->playlist()->playlistItemsChanged();
     }
+    if(treeWidget()->isVisible())
+        treeWidget()->viewport()->update();
 
-    CollectionList::instance()->dataChanged();
+    CollectionList::instance()->playlistItemsChanged();
     emit CollectionList::instance()->signalCollectionChanged();
 }
 
@@ -543,9 +528,10 @@ void CollectionListItem::updateCollectionDict(const QString &oldPath, const QStr
 
 void CollectionListItem::repaint() const
 {
-    Q3ListViewItem::repaint();
+    // FIXME repaint
+    /*QItemDelegate::repaint();
     for(PlaylistItemList::ConstIterator it = m_children.constBegin(); it != m_children.constEnd(); ++it)
-        (*it)->repaint();
+        (*it)->repaint();*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -558,17 +544,15 @@ CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle 
 {
     parent->addToDict(file.absFilePath(), this);
 
-    data()->fileHandle = file;
+    sharedData()->fileHandle = file;
 
     if(file.tag()) {
         refresh();
-        parent->dataChanged();
+        parent->playlistItemsChanged();
     }
     else {
-        kError() << "CollectionListItem::CollectionListItem() -- Tag() could not be created." << endl;
+        qCCritical(JUK_LOG) << "CollectionListItem::CollectionListItem() -- Tag() could not be created.";
     }
-
-    SplashScreen::increment();
 }
 
 CollectionListItem::~CollectionListItem()
@@ -610,7 +594,5 @@ bool CollectionListItem::checkCurrent()
 
     return true;
 }
-
-#include "collectionlist.moc"
 
 // vim: set et sw=4 tw=0 sta:

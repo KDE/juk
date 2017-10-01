@@ -19,10 +19,8 @@
 #include "slider.h"
 #include "svghandler.h"
 
-#include <KIcon>
-#include <KLocale>
-#include <KStandardDirs>
-#include <KGlobalSettings>
+#include <QIcon>
+#include <KLocalizedString>
 
 #include <QAction>
 #include <QContextMenuEvent>
@@ -335,5 +333,3 @@ void TimeSlider::mousePressEvent( QMouseEvent *event )
     // We should probably eat this event if we're not able to seek
     Slider::mousePressEvent( event );
 }
-
-#include "slider.moc"

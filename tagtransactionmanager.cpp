@@ -16,12 +16,11 @@
 
 #include "tagtransactionmanager.h"
 
-#include <kdebug.h>
-#include <klocale.h>
 #include <kmessagebox.h>
-#include <kaction.h>
-#include <kapplication.h>
+#include <KLocalizedString>
 
+#include <QAction>
+#include <QApplication>
 #include <QFileInfo>
 #include <QDir>
 
@@ -29,6 +28,7 @@
 #include "collectionlist.h"
 #include "tag.h"
 #include "actioncollection.h"
+#include "juk_debug.h"
 
 using ActionCollection::action;
 
@@ -73,7 +73,7 @@ TagTransactionManager *TagTransactionManager::instance()
 void TagTransactionManager::changeTagOnItem(PlaylistItem *item, Tag *newTag)
 {
     if(!item) {
-        kWarning() << "Trying to change tag on null PlaylistItem.\n";
+        qCWarning(JUK_LOG) << "Trying to change tag on null PlaylistItem.\n";
         return;
     }
 
@@ -112,7 +112,7 @@ void TagTransactionManager::forget()
 
 bool TagTransactionManager::undo()
 {
-    kDebug() << "Undoing " << m_undoList.count() << " changes.\n";
+    qCDebug(JUK_LOG) << "Undoing " << m_undoList.count() << " changes.\n";
 
     forget();  // Scrap our old changes (although the list should be empty
                // anyways.
@@ -142,7 +142,7 @@ bool TagTransactionManager::renameFile(const QFileInfo &from, const QFileInfo &t
            i18n("This file already exists.\nDo you want to replace it?"),
            i18n("File Exists"),KGuiItem(i18n("Replace"))) == KMessageBox::Continue)
    {
-       kDebug() << "Renaming " << from.absoluteFilePath() << " to " << to.absoluteFilePath();
+       qCDebug(JUK_LOG) << "Renaming " << from.absoluteFilePath() << " to " << to.absoluteFilePath();
        QDir currentDir;
        return currentDir.rename(from.absoluteFilePath(), to.absoluteFilePath());
    }
@@ -179,8 +179,9 @@ bool TagTransactionManager::processChangeList(bool undo)
 
             item->file().setFile(tag->fileName());
             item->refreshFromDisk();
-            item->repaint();
-            item->playlist()->dataChanged();
+            //FIXME repaint
+            //item->repaint();
+            item->playlist()->playlistItemsChanged();
             item->playlist()->update();
         }
         else {
@@ -193,7 +194,7 @@ bool TagTransactionManager::processChangeList(bool undo)
             errorItems.append(str);
         }
 
-        kapp->processEvents();
+        qApp->processEvents();
     }
 
     undo ? m_undoList.clear() : m_list.clear();
@@ -211,7 +212,5 @@ bool TagTransactionManager::processChangeList(bool undo)
     emit signalDoneModifyingTags();
     return errorItems.isEmpty();
 }
-
-#include "tagtransactionmanager.moc"
 
 // vim: set et sw=4 tw=0 sta:

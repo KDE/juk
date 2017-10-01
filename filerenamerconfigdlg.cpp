@@ -18,31 +18,30 @@
 #include "filerenamerconfigdlg.h"
 #include "filerenamer.h"
 
-#include <klocale.h>
+#include <KLocalizedString>
 
-FileRenamerConfigDlg::FileRenamerConfigDlg(QWidget *parent) :
-    KDialog(parent),
-    m_renamerWidget(new FileRenamerWidget(this))
+FileRenamerConfigDlg::FileRenamerConfigDlg(QWidget *parent)
+  : QDialog(parent)
+  , m_renamerWidget(new FileRenamerWidget(this))
 {
-    setObjectName( QLatin1String("file renamer dialog" ));
+    setObjectName(QLatin1String("file renamer dialog"));
     setModal(true);
-    setCaption(i18n("File Renamer Options"));
-    setButtons(Ok | Cancel);
+    setWindowTitle(i18n("File Renamer Options"));
 
+    // TODO: HiDPI?  Is this even still needed today?
     m_renamerWidget->setMinimumSize(400, 300);
 
-    setMainWidget(m_renamerWidget);
+    connect(m_renamerWidget, &FileRenamerWidget::accepted, this, &QDialog::accept);
+    connect(m_renamerWidget, &FileRenamerWidget::rejected, this, &QDialog::reject);
+
+    auto vboxLayout = new QVBoxLayout(this);
+    vboxLayout->addWidget(m_renamerWidget);
 }
 
 void FileRenamerConfigDlg::accept()
 {
-    // Make sure the config gets saved.
-
     m_renamerWidget->saveConfig();
-
-    KDialog::accept();
+    QDialog::accept();
 }
-
-#include "filerenamerconfigdlg.moc"
 
 // vim: set et sw=4 tw=0 sta:

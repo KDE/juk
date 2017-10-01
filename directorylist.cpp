@@ -17,42 +17,48 @@
 
 #include "directorylist.h"
 
-#include <QtGui/QCheckBox>
-#include <QtGui/QStringListModel>
-#include <QtCore/QVariant>
+#include <QCheckBox>
+#include <QStringListModel>
+#include <QVariant>
+#include <QPushButton>
+#include <QFileDialog>
+#include <QStandardPaths>
 
-#include <kfiledialog.h>
-#include <klocale.h>
-#include <kpushbutton.h>
-#include <kdebug.h>
+#include "juk_debug.h"
+
+////////////////////////////////////////////////////////////////////////////////
+// static helpers
+////////////////////////////////////////////////////////////////////////////////
+
+static QStringList defaultFolders()
+{
+    return QStandardPaths::standardLocations(QStandardPaths::MusicLocation);
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-DirectoryList::DirectoryList(QStringList directories,
-                             QStringList excludedDirectories,
+DirectoryList::DirectoryList(const QStringList &directories,
+                             const QStringList &excludedDirectories,
                              bool importPlaylists,
-                             QWidget *parent) :
-    KDialog(parent),
-    m_dirListModel(0)
+                             QWidget *parent)
+  : QDialog(parent)
+  , m_dirListModel(new QStringListModel(directories, this))
+  , m_excludedDirListModel(new QStringListModel(excludedDirectories, this))
 {
     if(directories.isEmpty()) {
-        directories = defaultFolders();
-        m_result.addedDirs = directories;
+        const auto defaultDirs = defaultFolders();
+        m_dirListModel->setStringList(defaultDirs);
+        m_result.addedDirs = defaultDirs;
     }
 
-    m_dirListModel = new QStringListModel(directories, this);
-    m_excludedDirListModel = new QStringListModel(excludedDirectories, this);
-
-    setCaption(i18n("Folder List"));
+    setWindowTitle(i18n("Folder List"));
     setModal(true);
-    showButtonSeparator(true);
-    setButtons(KDialog::Ok | KDialog::Cancel);
 
     m_base = new DirectoryListBase(this);
-
-    setMainWidget(m_base);
+    auto layout = new QVBoxLayout(this);
+    layout->addWidget(m_base);
 
     connect(m_base->addDirectoryButton, SIGNAL(clicked()),
         SLOT(slotAddDirectory()));
@@ -62,6 +68,8 @@ DirectoryList::DirectoryList(QStringList directories,
         SLOT(slotAddExcludeDirectory()));
     connect(m_base->removeExcludeDirectoryButton, SIGNAL(clicked()),
         SLOT(slotRemoveExcludeDirectory()));
+    connect(m_base->dlgButtonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
+    connect(m_base->dlgButtonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
 
     m_base->directoryListView->setModel(m_dirListModel);
     m_base->excludeDirectoryListView->setModel(m_excludedDirListModel);
@@ -70,20 +78,15 @@ DirectoryList::DirectoryList(QStringList directories,
     resize(QSize(440, 280).expandedTo(minimumSizeHint()));
 }
 
-DirectoryList::~DirectoryList()
-{
-
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-DirectoryList::Result DirectoryList::exec()
+int DirectoryList::exec()
 {
-    m_result.status = static_cast<DialogCode>(KDialog::exec());
+    m_result.status = static_cast<QDialog::DialogCode>(QDialog::exec());
     m_result.addPlaylists = m_base->importPlaylistsCheckBox->isChecked();
-    return m_result;
+    return m_result.status;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -92,8 +95,7 @@ DirectoryList::Result DirectoryList::exec()
 
 void DirectoryList::slotAddDirectory()
 {
-    QString dir = KFileDialog::getExistingDirectory();
-
+    QString dir = QFileDialog::getExistingDirectory();
     if(dir.isEmpty())
         return;
 
@@ -139,8 +141,7 @@ void DirectoryList::slotRemoveDirectory()
 
 void DirectoryList::slotAddExcludeDirectory()
 {
-    QString dir = KFileDialog::getExistingDirectory();
-
+    QString dir = QFileDialog::getExistingDirectory();
     if(dir.isEmpty())
         return;
 
@@ -174,23 +175,5 @@ void DirectoryList::slotRemoveExcludeDirectory()
     }
     m_result.excludedDirs = m_excludedDirListModel->stringList();
 }
-
-////////////////////////////////////////////////////////////////////////////////
-// private methods
-////////////////////////////////////////////////////////////////////////////////
-
-QStringList DirectoryList::defaultFolders()
-{
-    QDir home = QDir::home();
-    if(home.cd("Music"))
-        return QStringList(home.path());
-    if(home.cd("music"))
-        return QStringList(home.path());
-    if(home.cd(i18n("Music")))
-        return QStringList(home.path());
-    return QStringList();
-}
-
-#include "directorylist.moc"
 
 // vim: set et sw=4 tw=0 sta:

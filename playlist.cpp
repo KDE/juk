@@ -18,22 +18,13 @@
 #include "playlist.h"
 #include "juk-exception.h"
 
-#include <q3header.h>
+#include <KLocalizedString>
+#include <KSharedConfig>
 #include <kconfig.h>
-#include <kapplication.h>
 #include <kmessagebox.h>
-#include <k3urldrag.h>
 #include <kiconloader.h>
 #include <klineedit.h>
-#include <k3popupmenu.h>
-#include <klocale.h>
-#include <kdebug.h>
-#include <kfiledialog.h>
-#include <kglobalsettings.h>
-#include <kurl.h>
-#include <kio/netaccess.h>
 #include <kio/copyjob.h>
-#include <kmenu.h>
 #include <kactioncollection.h>
 #include <kconfiggroup.h>
 #include <ktoolbarpopupaction.h>
@@ -46,10 +37,12 @@
 #include <QDirIterator>
 #include <QToolTip>
 #include <QFile>
+#include <QFileDialog>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
 #include <QMimeData>
+#include <QMenu>
 #include <QTimer>
 #include <QClipboard>
 #include <QTextStream>
@@ -57,6 +50,7 @@
 #include <QDragEnterEvent>
 #include <QPixmap>
 #include <QStackedWidget>
+#include <QScrollBar>
 #include <id3v1genres.h>
 
 #include <time.h>
@@ -71,7 +65,6 @@
 #include "actioncollection.h"
 #include "tracksequencemanager.h"
 #include "tag.h"
-#include "k3bexporter.h"
 #include "upcomingplaylist.h"
 #include "deletedialog.h"
 #include "webimagefetcher.h"
@@ -79,6 +72,7 @@
 #include "coverdialog.h"
 #include "tagtransactionmanager.h"
 #include "cache.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -101,55 +95,6 @@ static bool manualResize()
  * A tooltip specialized to show full filenames over the file name column.
  */
 
-#ifdef __GNUC__
-#warning disabling the tooltip for now
-#endif
-#if 0
-class PlaylistToolTip : public QToolTip
-{
-public:
-    PlaylistToolTip(QWidget *parent, Playlist *playlist) :
-        QToolTip(parent), m_playlist(playlist) {}
-
-    virtual void maybeTip(const QPoint &p)
-    {
-        PlaylistItem *item = static_cast<PlaylistItem *>(m_playlist->itemAt(p));
-
-        if(!item)
-            return;
-
-        QPoint contentsPosition = m_playlist->viewportToContents(p);
-
-        int column = m_playlist->header()->sectionAt(contentsPosition.x());
-
-        if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn ||
-           item->cachedWidths()[column] > m_playlist->columnWidth(column) ||
-           (column == m_playlist->columnOffset() + PlaylistItem::CoverColumn &&
-            item->file().coverInfo()->hasCover()))
-        {
-            QRect r = m_playlist->itemRect(item);
-            int headerPosition = m_playlist->header()->sectionPos(column);
-            r.setLeft(headerPosition);
-            r.setRight(headerPosition + m_playlist->header()->sectionSize(column));
-
-            if(column == m_playlist->columnOffset() + PlaylistItem::FileNameColumn)
-                tip(r, item->file().absFilePath());
-            else if(column == m_playlist->columnOffset() + PlaylistItem::CoverColumn) {
-                Q3MimeSourceFactory *f = Q3MimeSourceFactory::defaultFactory();
-                f->setImage("coverThumb",
-                            QImage(item->file().coverInfo()->pixmap(CoverInfo::Thumbnail).convertToImage()));
-                tip(r, "<center><img source=\"coverThumb\"/></center>");
-            }
-            else
-                tip(r, item->text(column));
-        }
-    }
-
-private:
-    Playlist *m_playlist;
-};
-#endif
-
 ////////////////////////////////////////////////////////////////////////////////
 // Playlist::SharedSettings definition
 ////////////////////////////////////////////////////////////////////////////////
@@ -170,7 +115,7 @@ public:
      */
     void setColumnOrder(const Playlist *l);
     void toggleColumnVisible(int column);
-    void setInlineCompletionMode(KGlobalSettings::Completion mode);
+    void setInlineCompletionMode(KCompletion::CompletionMode mode);
 
     /**
      * Apply the settings.
@@ -188,7 +133,7 @@ private:
     static SharedSettings *m_instance;
     QList<int> m_columnOrder;
     QVector<bool> m_columnsVisible;
-    KGlobalSettings::Completion m_inlineCompletion;
+    KCompletion::CompletionMode m_inlineCompletion;
 };
 
 Playlist::SharedSettings *Playlist::SharedSettings::m_instance = 0;
@@ -210,8 +155,8 @@ void Playlist::SharedSettings::setColumnOrder(const Playlist *l)
 
     m_columnOrder.clear();
 
-    for(int i = l->columnOffset(); i < l->columns(); ++i)
-        m_columnOrder.append(l->header()->mapToIndex(i));
+    for(int i = l->columnOffset(); i < l->columnCount(); ++i)
+        m_columnOrder.append(l->header()->visualIndex(i)); // FIXME  MISMATCH with apply
 
     writeConfig();
 }
@@ -226,7 +171,7 @@ void Playlist::SharedSettings::toggleColumnVisible(int column)
     writeConfig();
 }
 
-void Playlist::SharedSettings::setInlineCompletionMode(KGlobalSettings::Completion mode)
+void Playlist::SharedSettings::setInlineCompletionMode(KCompletion::CompletionMode mode)
 {
     m_inlineCompletion = mode;
     writeConfig();
@@ -240,18 +185,22 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
     int offset = l->columnOffset();
     int i = 0;
+    //bool oldState = l->header()->blockSignals(true);
     foreach(int column, m_columnOrder)
-        l->header()->moveSection(i++ + offset, column + offset);
+        // FIXME this is broken
+        l->header()->moveSection(i++ + offset, column + offset); // FIXME mismatch with setColumnOrder
+    //l->header()->blockSignals(oldState);
 
     for(int i = 0; i < m_columnsVisible.size(); i++) {
-        if(m_columnsVisible[i] && !l->isColumnVisible(i + offset))
+        if(m_columnsVisible[i] && l->isColumnHidden(i + offset))
             l->showColumn(i + offset, false);
-        else if(!m_columnsVisible[i] && l->isColumnVisible(i + offset))
+        else if(!m_columnsVisible[i] && !l->isColumnHidden(i + offset))
             l->hideColumn(i + offset, false);
     }
 
     l->updateLeftColumn();
-    l->renameLineEdit()->setCompletionMode(m_inlineCompletion);
+    // FIXME rename
+    //l->renameLineEdit()->setCompletionMode(m_inlineCompletion);
     l->slotColumnResizeModeChanged();
 }
 
@@ -261,7 +210,7 @@ void Playlist::SharedSettings::apply(Playlist *l) const
 
 Playlist::SharedSettings::SharedSettings()
 {
-    KConfigGroup config(KGlobal::config(), "PlaylistShared");
+    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistShared");
 
     bool resizeColumnsManually = config.readEntry("ResizeColumnsManually", false);
     action("resizeColumnsManually")->setChecked(resizeColumnsManually);
@@ -292,8 +241,8 @@ Playlist::SharedSettings::SharedSettings()
             m_columnsVisible[i] = bool(l[i]);
     }
 
-    m_inlineCompletion = KGlobalSettings::Completion(
-        config.readEntry("InlineCompletionMode", int(KGlobalSettings::CompletionAuto)));
+    m_inlineCompletion = KCompletion::CompletionMode(
+        config.readEntry("InlineCompletionMode", int(KCompletion::CompletionAuto)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -302,7 +251,7 @@ Playlist::SharedSettings::SharedSettings()
 
 void Playlist::SharedSettings::writeConfig()
 {
-    KConfigGroup config(KGlobal::config(), "PlaylistShared");
+    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistShared");
     config.writeEntry("ColumnOrder", m_columnOrder);
 
     QList<int> l;
@@ -314,7 +263,7 @@ void Playlist::SharedSettings::writeConfig()
 
     config.writeEntry("ResizeColumnsManually", manualResize());
 
-    KGlobal::config()->sync();
+    KSharedConfig::openConfig()->sync();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -327,10 +276,9 @@ int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
                    const QString &iconName) :
-    K3ListView(collection->playlistStack()),
+    QTreeWidget(collection->playlistStack()),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
-    m_selectedCount(0),
     m_allowDuplicates(true),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
@@ -338,7 +286,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0),
     m_toolTip(0),
@@ -350,10 +297,9 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
 
 Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
                    const QString &name, const QString &iconName) :
-    K3ListView(collection->playlistStack()),
+    QTreeWidget(collection->playlistStack()),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
-    m_selectedCount(0),
     m_allowDuplicates(true),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
@@ -361,7 +307,6 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_playlistName(name),
     m_rmbMenu(0),
     m_toolTip(0),
@@ -374,10 +319,9 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
 
 Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
                    const QString &iconName) :
-    K3ListView(collection->playlistStack()),
+    QTreeWidget(collection->playlistStack()),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
-    m_selectedCount(0),
     m_allowDuplicates(true),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
@@ -385,7 +329,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_fileName(playlistFile.canonicalFilePath()),
     m_rmbMenu(0),
     m_toolTip(0),
@@ -397,10 +340,9 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
 }
 
 Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraColumns) :
-    K3ListView(collection->playlistStack()),
+    QTreeWidget(collection->playlistStack()),
     m_collection(collection),
     m_fetcher(new WebImageFetcher(this)),
-    m_selectedCount(0),
     m_allowDuplicates(true),
     m_applySharedSettings(true),
     m_columnWidthModeChanged(false),
@@ -408,7 +350,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
     m_time(0),
     m_widthsDirty(true),
     m_searchEnabled(true),
-    m_lastSelected(0),
     m_rmbMenu(0),
     m_toolTip(0),
     m_blockDataChanged(false)
@@ -483,7 +424,7 @@ int Playlist::time() const
 void Playlist::playFirst()
 {
     TrackSequenceManager::instance()->setNextItem(static_cast<PlaylistItem *>(
-        Q3ListViewItemIterator(const_cast<Playlist *>(this), Q3ListViewItemIterator::Visible).current()));
+        *QTreeWidgetItemIterator(const_cast<Playlist *>(this), QTreeWidgetItemIterator::NotHidden)));
     action("forward")->trigger();
 }
 
@@ -600,7 +541,7 @@ void Playlist::clearItem(PlaylistItem *item)
     // Automatically updates internal structs via updateDeletedItem
     delete item;
 
-    dataChanged();
+    playlistItemsChanged();
 }
 
 void Playlist::clearItems(const PlaylistItemList &items)
@@ -608,7 +549,7 @@ void Playlist::clearItems(const PlaylistItemList &items)
     foreach(PlaylistItem *item, items)
         delete item;
 
-    dataChanged();
+    playlistItemsChanged();
 }
 
 PlaylistItem *Playlist::playingItem() // static
@@ -620,7 +561,7 @@ QStringList Playlist::files() const
 {
     QStringList list;
 
-    for(Q3ListViewItemIterator it(const_cast<Playlist *>(this)); it.current(); ++it)
+    for(QTreeWidgetItemIterator it(const_cast<Playlist *>(this)); *it; ++it)
         list.append(static_cast<PlaylistItem *>(*it)->file().absFilePath());
 
     return list;
@@ -628,36 +569,22 @@ QStringList Playlist::files() const
 
 PlaylistItemList Playlist::items()
 {
-    return items(Q3ListViewItemIterator::IteratorFlag(0));
+    return items(QTreeWidgetItemIterator::IteratorFlag(0));
 }
 
 PlaylistItemList Playlist::visibleItems()
 {
-    return items(Q3ListViewItemIterator::Visible);
+    return items(QTreeWidgetItemIterator::NotHidden);
 }
 
 PlaylistItemList Playlist::selectedItems()
 {
-    PlaylistItemList list;
-
-    switch(m_selectedCount) {
-    case 0:
-        break;
-        // case 1:
-        // list.append(m_lastSelected);
-        // break;
-    default:
-        list = items(Q3ListViewItemIterator::IteratorFlag(Q3ListViewItemIterator::Selected |
-                                                         Q3ListViewItemIterator::Visible));
-        break;
-    }
-
-    return list;
+    return items(QTreeWidgetItemIterator::Selected | QTreeWidgetItemIterator::NotHidden);
 }
 
 PlaylistItem *Playlist::firstChild() const
 {
-    return static_cast<PlaylistItem *>(K3ListView::firstChild());
+    return static_cast<PlaylistItem *>(topLevelItem(0));
 }
 
 void Playlist::updateLeftColumn()
@@ -675,7 +602,7 @@ void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible) // s
     m_visibleChanged = true;
 
     foreach(PlaylistItem *playlistItem, items)
-        playlistItem->setVisible(visible);
+        playlistItem->setHidden(!visible);
 }
 
 void Playlist::setSearch(const PlaylistSearch &s)
@@ -706,23 +633,13 @@ void Playlist::setSearchEnabled(bool enabled)
         setItemsVisible(items(), true);
 }
 
-void Playlist::markItemSelected(PlaylistItem *item, bool selected)
-{
-    if(selected && !item->isSelected()) {
-        m_selectedCount++;
-        m_lastSelected = item;
-    }
-    else if(!selected && item->isSelected())
-        m_selectedCount--;
-}
-
 void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMaster)
 {
     foreach(const Playlist *p, sources) {
         if(p->playing()) {
             CollectionListItem *base = playingItem()->collectionItem();
-            for(Q3ListViewItemIterator itemIt(this); itemIt.current(); ++itemIt) {
-                PlaylistItem *item = static_cast<PlaylistItem *>(itemIt.current());
+            for(QTreeWidgetItemIterator itemIt(this); *itemIt; ++itemIt) {
+                PlaylistItem *item = static_cast<PlaylistItem *>(*itemIt);
                 if(base == item->collectionItem()) {
                     item->setPlaying(true, setMaster);
                     PlaylistItemList playing = PlaylistItem::playingItems();
@@ -742,14 +659,14 @@ void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMast
 void Playlist::copy()
 {
     PlaylistItemList items = selectedItems();
-    KUrl::List urls;
+    QList<QUrl> urls;
 
     foreach(PlaylistItem *item, items) {
-        urls << KUrl::fromPath(item->file().absFilePath());
+        urls << QUrl::fromLocalFile(item->file().absFilePath());
     }
 
     QMimeData *mimeData = new QMimeData;
-    urls.populateMimeData(mimeData);
+    mimeData->setUrls(urls);
 
     QApplication::clipboard()->setMimeData(mimeData, QClipboard::Clipboard);
 }
@@ -774,20 +691,19 @@ void Playlist::slotRefresh()
     if(l.isEmpty())
         l = visibleItems();
 
-    KApplication::setOverrideCursor(Qt::waitCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     foreach(PlaylistItem *item, l) {
         item->refreshFromDisk();
 
         if(!item->file().tag() || !item->file().fileInfo().exists()) {
-            kDebug() << "Error while trying to refresh the tag.  "
-                           << "This file has probably been removed."
-                           << endl;
+            qCDebug(JUK_LOG) << "Error while trying to refresh the tag.  "
+                           << "This file has probably been removed.";
             delete item->collectionItem();
         }
 
         processEvents();
     }
-    KApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
 }
 
 void Playlist::slotRenameFile()
@@ -803,7 +719,7 @@ void Playlist::slotRenameFile()
     m_blockDataChanged = true;
     renamer.rename(items);
     m_blockDataChanged = false;
-    dataChanged();
+    playlistItemsChanged();
 
     emit signalEnableDirWatch(true);
 }
@@ -853,9 +769,12 @@ void Playlist::slotAddCover(bool retrieveLocal)
         return;
     }
 
-    KUrl file = KFileDialog::getImageOpenUrl(
-        KUrl( "kfiledialog://homedir" ), this, i18n("Select Cover Image File"));
-
+    QUrl file = QFileDialog::getOpenFileUrl(
+        this, i18n("Select Cover Image File"),
+        QUrl::fromLocalFile(QDir::home().path()),
+        i18n("Images (*.png *.jpg)"), nullptr,
+        0, QStringList() << QStringLiteral("file")
+        );
     if(file.isEmpty())
         return;
 
@@ -871,13 +790,13 @@ void Playlist::slotAddCover(bool retrieveLocal)
 // Called when image fetcher has added a new cover.
 void Playlist::slotCoverChanged(int coverId)
 {
-    kDebug() << "Refreshing information for newly changed covers.\n";
+    qCDebug(JUK_LOG) << "Refreshing information for newly changed covers.\n";
     refreshAlbums(selectedItems(), coverId);
 }
 
 void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 {
-    KApplication::setOverrideCursor(Qt::waitCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
     const PlaylistItemList items = selectedItems();
     setDynamicListsFrozen(true);
 
@@ -896,9 +815,9 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 
     m_blockDataChanged = false;
 
-    dataChanged();
+    playlistItemsChanged();
     setDynamicListsFrozen(false);
-    KApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
 }
 
 void Playlist::slotReload()
@@ -915,8 +834,8 @@ void Playlist::slotWeightDirty(int column)
 {
     if(column < 0) {
         m_weightDirty.clear();
-        for(int i = 0; i < columns(); i++) {
-            if(isColumnVisible(i))
+        for(int i = 0; i < columnCount(); i++) {
+            if(!isColumnHidden(i))
                 m_weightDirty.append(i);
         }
         return;
@@ -942,16 +861,19 @@ void Playlist::slotShowPlaying()
 
     m_collection->raise(l);
 
-    l->setSelected(playingItem(), true);
-    l->ensureItemVisible(playingItem());
+    l->setCurrentItem(playingItem());
+    l->scrollToItem(playingItem());
 }
 
 void Playlist::slotColumnResizeModeChanged()
 {
-    if(manualResize())
-        setHScrollBarMode(Auto);
-    else
-        setHScrollBarMode(AlwaysOff);
+    if(manualResize()) {
+        header()->setSectionResizeMode(QHeaderView::Interactive);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    } else {
+        header()->setSectionResizeMode(QHeaderView::Fixed);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    }
 
     if(!manualResize())
         slotUpdateColumnWidths();
@@ -959,11 +881,11 @@ void Playlist::slotColumnResizeModeChanged()
     SharedSettings::instance()->sync();
 }
 
-void Playlist::dataChanged()
+void Playlist::playlistItemsChanged()
 {
     if(m_blockDataChanged)
         return;
-    PlaylistInterface::dataChanged();
+    PlaylistInterface::playlistItemsChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -991,7 +913,8 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
                     action("forward")->trigger();
 
                 QString removePath = item->file().absFilePath();
-                if((!shouldDelete && KIO::NetAccess::synchronousRun(KIO::trash(removePath), this)) ||
+                QUrl removeUrl = QUrl::fromLocalFile(removePath);
+                if((!shouldDelete && KIO::trash(removeUrl)->exec()) ||
                    (shouldDelete && QFile::remove(removePath)))
                 {
                     delete item->collectionItem();
@@ -1010,92 +933,38 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
         m_blockDataChanged = false;
 
-        dataChanged();
+        playlistItemsChanged();
     }
 }
 
-Q3DragObject *Playlist::dragObject(QWidget *parent)
+void Playlist::dragEnterEvent(QDragEnterEvent *e)
 {
-    PlaylistItemList items = selectedItems();
-    KUrl::List urls;
-
-    foreach(PlaylistItem *item, items) {
-        urls << KUrl::fromPath(item->file().absFilePath());
-    }
-
-    K3URLDrag *urlDrag = new K3URLDrag(urls, parent);
-
-    urlDrag->setPixmap(BarIcon("audio-x-generic"));
-
-    return urlDrag;
-}
-
-void Playlist::contentsDragEnterEvent(QDragEnterEvent *e)
-{
-    K3ListView::contentsDragEnterEvent(e);
-
     if(CoverDrag::isCover(e->mimeData())) {
-        setDropHighlighter(true);
-        setDropVisualizer(false);
+        //setDropHighlighter(true);
+        setDropIndicatorShown(false);
 
         e->accept();
         return;
     }
 
-    setDropHighlighter(false);
-    setDropVisualizer(true);
+    setDropIndicatorShown(true);
 
-    const KUrl::List urls = KUrl::List::fromMimeData(e->mimeData());
-
-    if (urls.isEmpty()) {
+    if(e->mimeData()->hasUrls() && !e->mimeData()->urls().isEmpty())
+        e->acceptProposedAction();
+    else
         e->ignore();
-        return;
-    }
-
-    e->accept();
-    return;
 }
 
 bool Playlist::acceptDrag(QDropEvent *e) const
 {
-    return CoverDrag::isCover(e->mimeData()) || KUrl::List::canDecode(e->mimeData());
+    return CoverDrag::isCover(e->mimeData()) || e->mimeData()->hasUrls();
 }
 
 void Playlist::decode(const QMimeData *s, PlaylistItem *item)
 {
-    if(!KUrl::List::canDecode(s))
-        return;
-
-    const KUrl::List urls = KUrl::List::fromMimeData(s);
-
-    if(urls.isEmpty())
-        return;
-
-    // handle dropped images
-
-    if(!MediaFiles::isMediaFile(urls.front().path())) {
-
-        QString file;
-
-        if(urls.front().isLocalFile())
-            file = urls.front().path();
-        else
-            KIO::NetAccess::download(urls.front(), file, 0);
-
-        KMimeType::Ptr mimeType = KMimeType::findByPath(file);
-
-        if(item && mimeType->name().startsWith(QLatin1String("image/"))) {
-            item->file().coverInfo()->setCover(QImage(file));
-            refreshAlbum(item->file().tag()->artist(),
-                         item->file().tag()->album());
-        }
-
-        KIO::NetAccess::removeTempFile(file);
-    }
-
-    QStringList fileList = MediaFiles::convertURLsToLocal(urls, this);
-
-    addFiles(fileList, item);
+    Q_UNUSED(s);
+    Q_UNUSED(item);
+    // TODO Re-add drag-drop
 }
 
 bool Playlist::eventFilter(QObject *watched, QEvent *e)
@@ -1138,30 +1007,58 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
         }
     }
 
-    return K3ListView::eventFilter(watched, e);
+    return QTreeWidget::eventFilter(watched, e);
 }
 
 void Playlist::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Up) {
-        Q3ListViewItemIterator selected(this, Q3ListViewItemIterator::IteratorFlag(
-                                           Q3ListViewItemIterator::Selected |
-                                           Q3ListViewItemIterator::Visible));
-        if(selected.current()) {
-            Q3ListViewItemIterator visible(this, Q3ListViewItemIterator::IteratorFlag(
-                                              Q3ListViewItemIterator::Visible));
-            if(selected.current() == visible.current())
-                KApplication::postEvent(parent(), new FocusUpEvent);
+        using ::operator|;
+        QTreeWidgetItemIterator selected(this, QTreeWidgetItemIterator::Selected |
+                                           QTreeWidgetItemIterator::NotHidden);
+        if(*selected) {
+            QTreeWidgetItemIterator visible(this, QTreeWidgetItemIterator::NotHidden);
+            if(*selected == *visible)
+                QApplication::postEvent(parent(), new FocusUpEvent);
         }
 
     }
 
-    K3ListView::keyPressEvent(event);
+    QTreeWidget::keyPressEvent(event);
 }
 
-void Playlist::contentsDropEvent(QDropEvent *e)
+QStringList Playlist::mimeTypes() const
 {
-    QPoint vp = contentsToViewport(e->pos());
+    return QStringList("text/uri-list");
+}
+
+QMimeData* Playlist::mimeData(const QList<QTreeWidgetItem *> items) const
+{
+    QList<QUrl> urls;
+    foreach(QTreeWidgetItem *item, items) {
+        urls << QUrl::fromLocalFile(static_cast<PlaylistItem*>(item)->file().absFilePath());
+    }
+
+    QMimeData *urlDrag = new QMimeData();
+    urlDrag->setUrls(urls);
+
+    return urlDrag;
+}
+
+bool Playlist::dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action)
+{
+    // TODO: Re-add DND
+    Q_UNUSED(parent);
+    Q_UNUSED(index);
+    Q_UNUSED(data);
+    Q_UNUSED(action);
+
+    return false;
+}
+
+void Playlist::dropEvent(QDropEvent *e)
+{
+    QPoint vp = e->pos();
     PlaylistItem *item = static_cast<PlaylistItem *>(itemAt(vp));
 
     // First see if we're dropping a cover, if so we can get it out of the
@@ -1191,9 +1088,10 @@ void Playlist::contentsDropEvent(QDropEvent *e)
     // This is what the user expects, and also allows the insertion at
     // top of the list
 
+    QRect rect = visualItemRect(item);
     if(!item)
-        item = static_cast<PlaylistItem *>(lastItem());
-    else if(vp.y() < item->itemPos() + item->height() / 2)
+        item = static_cast<PlaylistItem *>(topLevelItem(topLevelItemCount() - 1));
+    else if(vp.y() < rect.y() + rect.height() / 2)
         item = static_cast<PlaylistItem *>(item->itemAbove());
 
     m_blockDataChanged = true;
@@ -1202,11 +1100,11 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
         // Since we're trying to arrange things manually, turn off sorting.
 
-        setSorting(columns() + 1);
+        sortItems(columnCount() + 1, Qt::AscendingOrder);
 
-        const QList<Q3ListViewItem *> items = K3ListView::selectedItems();
+        const QList<QTreeWidgetItem *> items = QTreeWidget::selectedItems();
 
-        foreach(Q3ListViewItem *listViewItem, items) {
+        foreach(QTreeWidgetItem *listViewItem, items) {
             if(!item) {
 
                 // Insert the item at the top of the list.  This is a bit ugly,
@@ -1215,8 +1113,8 @@ void Playlist::contentsDropEvent(QDropEvent *e)
                 takeItem(listViewItem);
                 insertItem(listViewItem);
             }
-            else
-                listViewItem->moveItem(item);
+            //else
+            //    listViewItem->moveItem(item);
 
             item = static_cast<PlaylistItem *>(listViewItem);
         }
@@ -1226,18 +1124,9 @@ void Playlist::contentsDropEvent(QDropEvent *e)
 
     m_blockDataChanged = false;
 
-    dataChanged();
+    playlistItemsChanged();
     emit signalPlaylistItemsDropped(this);
-    K3ListView::contentsDropEvent(e);
-}
-
-void Playlist::contentsMouseDoubleClickEvent(QMouseEvent *e)
-{
-    // Filter out non left button double clicks, that way users don't have the
-    // weird experience of switching songs from a double right-click.
-
-    if(e->button() == Qt::LeftButton)
-        K3ListView::contentsMouseDoubleClickEvent(e);
+    QTreeWidget::dropEvent(e);
 }
 
 void Playlist::showEvent(QShowEvent *e)
@@ -1247,7 +1136,7 @@ void Playlist::showEvent(QShowEvent *e)
         m_applySharedSettings = false;
     }
 
-    K3ListView::showEvent(e);
+    QTreeWidget::showEvent(e);
 }
 
 void Playlist::applySharedSettings()
@@ -1265,12 +1154,12 @@ void Playlist::read(QDataStream &s)
         throw BICStreamException();
 
     // Do not sort. Add the files in the order they were saved.
-    setSorting(columns() + 1);
+    setSortingEnabled(false);
 
     QStringList files;
     s >> files;
 
-    Q3ListViewItem *after = 0;
+    QTreeWidgetItem *after = 0;
 
     m_blockDataChanged = true;
 
@@ -1283,11 +1172,11 @@ void Playlist::read(QDataStream &s)
 
     m_blockDataChanged = false;
 
-    dataChanged();
+    playlistItemsChanged();
     m_collection->setupPlaylist(this, "audio-midi");
 }
 
-void Playlist::viewportPaintEvent(QPaintEvent *pe)
+void Playlist::paintEvent(QPaintEvent *pe)
 {
     // If there are columns that need to be updated, well, update them.
 
@@ -1297,10 +1186,10 @@ void Playlist::viewportPaintEvent(QPaintEvent *pe)
         slotUpdateColumnWidths();
     }
 
-    K3ListView::viewportPaintEvent(pe);
+    QTreeWidget::paintEvent(pe);
 }
 
-void Playlist::viewportResizeEvent(QResizeEvent *re)
+void Playlist::resizeEvent(QResizeEvent *re)
 {
     // If the width of the view has changed, manually update the column
     // widths.
@@ -1308,10 +1197,10 @@ void Playlist::viewportResizeEvent(QResizeEvent *re)
     if(re->size().width() != re->oldSize().width() && !manualResize())
         slotUpdateColumnWidths();
 
-    K3ListView::viewportResizeEvent(re);
+    QTreeWidget::resizeEvent(re);
 }
 
-void Playlist::insertItem(Q3ListViewItem *item)
+void Playlist::insertItem(QTreeWidgetItem *item)
 {
     // Because we're called from the PlaylistItem ctor, item may not be a
     // PlaylistItem yet (it would be QListViewItem when being inserted.  But,
@@ -1319,26 +1208,26 @@ void Playlist::insertItem(Q3ListViewItem *item)
     // you need to use the PlaylistItem from here.
 
     m_addTime.append(static_cast<PlaylistItem *>(item));
-    K3ListView::insertItem(item);
+    QTreeWidget::insertTopLevelItem(0, item);
 }
 
-void Playlist::takeItem(Q3ListViewItem *item)
+void Playlist::takeItem(QTreeWidgetItem *item)
 {
     // See the warning in Playlist::insertItem.
 
     m_subtractTime.append(static_cast<PlaylistItem *>(item));
-    K3ListView::takeItem(item);
+    int index = indexOfTopLevelItem(item);
+    QTreeWidget::takeTopLevelItem(index);
 }
 
-int Playlist::addColumn(const QString &label, int)
+void Playlist::addColumn(const QString &label, int)
 {
-    int newIndex = K3ListView::addColumn(label, 30);
-    slotWeightDirty(newIndex);
-    return newIndex;
+    m_columns.append(label);
+    setHeaderLabels(m_columns);
 }
 
 PlaylistItem *Playlist::createItem(const FileHandle &file,
-                                   Q3ListViewItem *after, bool emitChanged)
+                                   QTreeWidgetItem *after, bool emitChanged)
 {
     return createItem<PlaylistItem>(file, after, emitChanged);
 }
@@ -1351,9 +1240,9 @@ void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after
 void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 {
     if(!after)
-        after = static_cast<PlaylistItem *>(lastItem());
+        after = static_cast<PlaylistItem *>(topLevelItem(topLevelItemCount() - 1));
 
-    KApplication::setOverrideCursor(Qt::waitCursor);
+    QApplication::setOverrideCursor(Qt::WaitCursor);
 
     m_blockDataChanged = true;
 
@@ -1367,9 +1256,9 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     m_blockDataChanged = false;
 
     slotWeightDirty();
-    dataChanged();
+    playlistItemsChanged();
 
-    KApplication::restoreOverrideCursor();
+    QApplication::restoreOverrideCursor();
 }
 
 void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
@@ -1399,7 +1288,7 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 void Playlist::updatePlaying() const
 {
     foreach(const PlaylistItem *item, PlaylistItem::playingItems())
-        item->listView()->triggerUpdate();
+        item->treeWidget()->viewport()->update();
 }
 
 void Playlist::refreshAlbum(const QString &artist, const QString &album)
@@ -1440,18 +1329,11 @@ void Playlist::hideColumn(int c, bool updateSearch)
         }
     }
 
-    if(!isColumnVisible(c))
+    if(isColumnHidden(c))
         return;
-
-    setColumnWidthMode(c, Manual);
-    setColumnWidth(c, 0);
-
-    // Moving the column to the end seems to prevent it from randomly
-    // popping up.
-
-    header()->moveSection(c, header()->count());
-    header()->setResizeEnabled(false, c);
-
+    
+    QTreeWidget::hideColumn(c);
+    
     if(c == m_leftColumn) {
         updatePlaying();
         m_leftColumn = leftMostVisibleColumn();
@@ -1459,7 +1341,7 @@ void Playlist::hideColumn(int c, bool updateSearch)
 
     if(!manualResize()) {
         slotUpdateColumnWidths();
-        triggerUpdate();
+        viewport()->update();
     }
 
     if(this != CollectionList::instance())
@@ -1481,19 +1363,10 @@ void Playlist::showColumn(int c, bool updateSearch)
         }
     }
 
-    if(isColumnVisible(c))
+    if(!isColumnHidden(c))
         return;
 
-    // Just set the width to one to mark the column as visible -- we'll update
-    // the real size in the next call.
-
-    if(manualResize())
-        setColumnWidth(c, 35); // Make column at least slightly visible.
-    else
-        setColumnWidth(c, 1);
-
-    header()->setResizeEnabled(true, c);
-    header()->moveSection(c, c); // Approximate old position
+    QTreeWidget::showColumn(c);
 
     if(c == leftMostVisibleColumn()) {
         updatePlaying();
@@ -1502,7 +1375,7 @@ void Playlist::showColumn(int c, bool updateSearch)
 
     if(!manualResize()) {
         slotUpdateColumnWidths();
-        triggerUpdate();
+        viewport()->update();
     }
 
     if(this != CollectionList::instance())
@@ -1512,9 +1385,10 @@ void Playlist::showColumn(int c, bool updateSearch)
         redisplaySearch();
 }
 
-bool Playlist::isColumnVisible(int c) const
+void Playlist::sortByColumn(int column, Qt::SortOrder order)
 {
-    return columnWidth(c) != 0;
+    setSortingEnabled(true);
+    QTreeWidget::sortByColumn(column, order);
 }
 
 void Playlist::slotInitialize()
@@ -1532,28 +1406,23 @@ void Playlist::slotInitialize()
     addColumn(i18n("File Name"));
     addColumn(i18n("File Name (full path)"));
 
-    setRenameable(PlaylistItem::TrackColumn, true);
+    // FIXME rename
+    /*setRenameable(PlaylistItem::TrackColumn, true);
     setRenameable(PlaylistItem::ArtistColumn, true);
     setRenameable(PlaylistItem::AlbumColumn, true);
     setRenameable(PlaylistItem::TrackNumberColumn, true);
     setRenameable(PlaylistItem::GenreColumn, true);
-    setRenameable(PlaylistItem::YearColumn, true);
+    setRenameable(PlaylistItem::YearColumn, true);*/
 
     setAllColumnsShowFocus(true);
-    setSelectionMode(Q3ListView::Extended);
-    setShowSortIndicator(true);
-    setDropVisualizer(true);
+    setSelectionMode(QTreeWidget::ExtendedSelection);
+    header()->setSortIndicatorShown(true);
 
-    m_columnFixedWidths.resize(columns());
+    m_columnFixedWidths.resize(columnCount());
 
     //////////////////////////////////////////////////
     // setup header RMB menu
     //////////////////////////////////////////////////
-
-#ifdef __GNUC__
-    #warning should be fixed...
-#endif
-    /* m_headerMenu->insertTitle(i18n("Show")); */
 
     QAction *showAction;
 
@@ -1561,47 +1430,48 @@ void Playlist::slotInitialize()
         if(i - columnOffset() == PlaylistItem::FileNameColumn)
             m_headerMenu->addSeparator();
 
-        showAction = new QAction(header()->label(i), m_headerMenu);
+        showAction = new QAction(headerItem()->text(i), m_headerMenu);
         showAction->setData(i);
         showAction->setCheckable(true);
         showAction->setChecked(true);
         m_headerMenu->addAction(showAction);
 
-        adjustColumn(i);
+        resizeColumnToContents(i);
     }
 
     connect(m_headerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleColumnVisible(QAction*)));
 
-    connect(this, SIGNAL(contextMenuRequested(Q3ListViewItem*,QPoint,int)),
-            this, SLOT(slotShowRMBMenu(Q3ListViewItem*,QPoint,int)));
-    connect(this, SIGNAL(itemRenamed(Q3ListViewItem*,QString,int)),
-            this, SLOT(slotInlineEditDone(Q3ListViewItem*,QString,int)));
-    connect(this, SIGNAL(doubleClicked(Q3ListViewItem*)),
+    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
+            this, SLOT(slotShowRMBMenu(QPoint)));
+    // FIXME rename
+    /*connect(this, SIGNAL(itemRenamed(QTreeWidgetItem*,QString,int)),
+            this, SLOT(slotInlineEditDone(QTreeWidgetItem*,QString,int)));*/
+    connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotPlayCurrent()));
-    connect(this, SIGNAL(returnPressed(Q3ListViewItem*)),
-            this, SLOT(slotPlayCurrent()));
+    // FIXME returnPressed
+    /*connect(this, SIGNAL(returnPressed(QTreeWidgetItem*)),
+            this, SLOT(slotPlayCurrent()));*/
 
-    connect(header(), SIGNAL(sizeChange(int,int,int)),
-            this, SLOT(slotColumnSizeChanged(int,int,int)));
+    // FIXME rename
+    /*connect(renameLineEdit(), SIGNAL(completionModeChanged(KCompletion::CompletionMode)),
+            this, SLOT(slotInlineCompletionModeChanged(KCompletion::CompletionMode)));*/
 
-    connect(renameLineEdit(), SIGNAL(completionModeChanged(KGlobalSettings::Completion)),
-            this, SLOT(slotInlineCompletionModeChanged(KGlobalSettings::Completion)));
-
-    connect(action("resizeColumnsManually"), SIGNAL(activated()),
+    connect(action("resizeColumnsManually"), SIGNAL(triggered()),
             this, SLOT(slotColumnResizeModeChanged()));
 
-    if(action<KToggleAction>("resizeColumnsManually")->isChecked())
-        setHScrollBarMode(Auto);
-    else
-        setHScrollBarMode(AlwaysOff);
+    if(action<KToggleAction>("resizeColumnsManually")->isChecked()) {
+        header()->setSectionResizeMode(QHeaderView::Interactive);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    } else {
+        header()->setSectionResizeMode(QHeaderView::Fixed);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    }
 
-    setAcceptDrops(true);
-    setDropVisualizer(true);
+    viewport()->setAcceptDrops(true);
+    setDropIndicatorShown(true);
+    setDragEnabled(true);
 
     m_disableColumnWidthUpdates = false;
-
-    setShowToolTips(false);
-    /* m_toolTip = new PlaylistToolTip(viewport(), this); */
 }
 
 void Playlist::setupItem(PlaylistItem *item)
@@ -1610,12 +1480,12 @@ void Playlist::setupItem(PlaylistItem *item)
     g_trackID++;
 
     if(!m_search.isEmpty())
-        item->setVisible(m_search.checkItem(item));
+        item->setHidden(!m_search.checkItem(item));
 
-    if(childCount() <= 2 && !manualResize()) {
+    if(topLevelItemCount() <= 2 && !manualResize()) {
         slotWeightDirty();
         slotUpdateColumnWidths();
-        triggerUpdate();
+        viewport()->update();
     }
 }
 
@@ -1627,7 +1497,7 @@ void Playlist::setDynamicListsFrozen(bool frozen)
 CollectionListItem *Playlist::collectionListItem(const FileHandle &file)
 {
     if(!QFile::exists(file.absFilePath())) {
-        kError() << "File" << file.absFilePath() << "does not exist.";
+        qCCritical(JUK_LOG) << "File" << file.absFilePath() << "does not exist.";
         return 0;
     }
 
@@ -1686,17 +1556,18 @@ void Playlist::slotPlayFromBackMenu(QAction *backAction) const
 
 void Playlist::setup()
 {
-    setItemMargin(3);
+    setRootIsDecorated(false);
+    setContextMenuPolicy(Qt::CustomContextMenu);
 
-    connect(header(), SIGNAL(indexChange(int,int,int)), this, SLOT(slotColumnOrderChanged(int,int,int)));
+    connect(header(), SIGNAL(sectionMoved(int,int,int)), this, SLOT(slotColumnOrderChanged(int,int,int)));
 
     connect(m_fetcher, SIGNAL(signalCoverChanged(int)), this, SLOT(slotCoverChanged(int)));
 
     // Prevent list of selected items from changing while internet search is in
     // progress.
-    connect(this, SIGNAL(selectionChanged()), m_fetcher, SLOT(abortSearch()));
+    connect(this, SIGNAL(itemSelectionChanged()), m_fetcher, SLOT(abortSearch()));
 
-    setSorting(1);
+    sortByColumn(1, Qt::AscendingOrder);
 
     // This apparently must be created very early in initialization for other
     // Playlist code requiring m_headerMenu.
@@ -1704,6 +1575,8 @@ void Playlist::setup()
     ActionCollection::actions()->addAction("showColumns", m_columnVisibleAction);
 
     m_headerMenu = m_columnVisibleAction->menu();
+
+    header()->installEventFilter(this);
 
     // TODO: Determine if other stuff in setup must happen before slotInitialize().
 
@@ -1722,7 +1595,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     // Turn off non-explicit sorting.
 
-    setSorting(PlaylistItem::lastColumn() + columnOffset() + 1);
+    setSortingEnabled(false);
 
     PlaylistItem *after = 0;
 
@@ -1752,7 +1625,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     file.close();
 
-    dataChanged();
+    playlistItemsChanged();
 
     m_disableColumnWidthUpdates = false;
 }
@@ -1774,9 +1647,7 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
     }
 
     TrackSequenceManager::instance()->setCurrent(item);
-#ifdef __GNUC__
-#warning "kde4: port it"
-#endif
+    // TODO is this replaced by MPRIS2?
     //kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
 
     if(!item)
@@ -1796,18 +1667,18 @@ bool Playlist::playing() const
 int Playlist::leftMostVisibleColumn() const
 {
     int i = 0;
-    while(!isColumnVisible(header()->mapToSection(i)) && i < PlaylistItem::lastColumn())
+    while(isColumnHidden(header()->visualIndex(i)) && i < PlaylistItem::lastColumn())
         i++;
 
-    return header()->mapToSection(i);
+    return header()->visualIndex(i);
 }
 
-PlaylistItemList Playlist::items(Q3ListViewItemIterator::IteratorFlag flags)
+PlaylistItemList Playlist::items(QTreeWidgetItemIterator::IteratorFlags flags)
 {
     PlaylistItemList list;
 
-    for(Q3ListViewItemIterator it(this, flags); it.current(); ++it)
-        list.append(static_cast<PlaylistItem *>(it.current()));
+    for(QTreeWidgetItemIterator it(this, flags); *it; ++it)
+        list.append(static_cast<PlaylistItem *>(*it));
 
     return list;
 }
@@ -1820,7 +1691,7 @@ void Playlist::calculateColumnWeights()
     PlaylistItemList l = items();
     QList<int>::Iterator columnIt;
 
-    QVector<double> averageWidth(columns());
+    QVector<double> averageWidth(columnCount());
     double itemCount = l.size();
 
     QVector<int> cachedWidth;
@@ -1837,17 +1708,17 @@ void Playlist::calculateColumnWeights()
         // items.
         for(int i = 0; i < columnOffset(); ++i) {
             averageWidth[i] +=
-                std::pow(double(item->width(fontMetrics(), this, i)), 2.0) / itemCount;
+                std::pow(double(columnWidth(i)), 2.0) / itemCount;
         }
 
-        for(int column = columnOffset(); column < columns(); ++column) {
+        for(int column = columnOffset(); column < columnCount(); ++column) {
             averageWidth[column] +=
                 std::pow(double(cachedWidth[column - columnOffset()]), 2.0) / itemCount;
         }
     }
 
     if(m_columnWeights.isEmpty())
-        m_columnWeights.fill(-1, columns());
+        m_columnWeights.fill(-1, columnCount());
 
     foreach(int column, m_weightDirty) {
         m_columnWeights[column] = int(std::sqrt(averageWidth[column]) + 0.5);
@@ -1961,14 +1832,14 @@ void Playlist::slotUpdateColumnWidths()
     // update the columns.
 
     QList<int> visibleColumns;
-    for(int i = 0; i < columns(); i++) {
-        if(isColumnVisible(i))
+    for(int i = 0; i < columnCount(); i++) {
+        if(!isColumnHidden(i))
             visibleColumns.append(i);
     }
 
     if(count() == 0) {
         foreach(int column, visibleColumns)
-            setColumnWidth(column, header()->fontMetrics().width(header()->label(column)) + 10);
+            setColumnWidth(column, header()->fontMetrics().width(headerItem()->text(column)) + 10);
 
         return;
     }
@@ -1979,17 +1850,17 @@ void Playlist::slotUpdateColumnWidths()
     // First build a list of minimum widths based on the strings in the listview
     // header.  We won't let the width of the column go below this width.
 
-    QVector<int> minimumWidth(columns(), 0);
+    QVector<int> minimumWidth(columnCount(), 0);
     int minimumWidthTotal = 0;
 
     // Also build a list of either the minimum *or* the fixed width -- whichever is
     // greater.
 
-    QVector<int> minimumFixedWidth(columns(), 0);
+    QVector<int> minimumFixedWidth(columnCount(), 0);
     int minimumFixedWidthTotal = 0;
 
     foreach(int column, visibleColumns) {
-        minimumWidth[column] = header()->fontMetrics().width(header()->label(column)) + 10;
+        minimumWidth[column] = header()->fontMetrics().width(headerItem()->text(column)) + 10;
         minimumWidthTotal += minimumWidth[column];
 
         minimumFixedWidth[column] = qMax(minimumWidth[column], m_columnFixedWidths[column]);
@@ -2005,7 +1876,7 @@ void Playlist::slotUpdateColumnWidths()
     // If we've got enough room for the fixed widths (larger than the minimum
     // widths) then instead use those for our "minimum widths".
 
-    if(minimumFixedWidthTotal < visibleWidth()) {
+    if(minimumFixedWidthTotal < viewport()->width()) {
         minimumWidth = minimumFixedWidth;
         minimumWidthTotal = minimumFixedWidthTotal;
     }
@@ -2021,15 +1892,15 @@ void Playlist::slotUpdateColumnWidths()
     // Computed a "weighted width" for each visible column.  This would be the
     // width if we didn't have to handle the cases of minimum and maximum widths.
 
-    QVector<int> weightedWidth(columns(), 0);
+    QVector<int> weightedWidth(columnCount(), 0);
     foreach(int column, visibleColumns)
-        weightedWidth[column] = int(double(m_columnWeights[column]) / totalWeight * visibleWidth() + 0.5);
+        weightedWidth[column] = int(double(m_columnWeights[column]) / totalWeight * viewport()->width() + 0.5);
 
     // The "extra" width for each column.  This is the weighted width less the
     // minimum width or zero if the minimum width is greater than the weighted
     // width.
 
-    QVector<int> extraWidth(columns(), 0);
+    QVector<int> extraWidth(columnCount(), 0);
 
     // This is used as an indicator if we have any columns where the weighted
     // width is less than the minimum width.  If this is false then we can
@@ -2094,7 +1965,7 @@ void Playlist::slotUpdateColumnWidths()
 
     // Fill the remaining gap for a clean fit into the available space.
 
-    int remainingWidth = visibleWidth() - usedWidth;
+    int remainingWidth = viewport()->width() - usedWidth;
     setColumnWidth(visibleColumns.back(), columnWidth(visibleColumns.back()) + remainingWidth);
 
     m_widthsDirty = false;
@@ -2106,8 +1977,10 @@ void Playlist::slotAddToUpcoming()
     m_collection->upcomingPlaylist()->appendItems(selectedItems());
 }
 
-void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int column)
+void Playlist::slotShowRMBMenu(const QPoint &point)
 {
+    QTreeWidgetItem *item = itemAt(point);
+    int column = columnAt(point.x());
     if(!item)
         return;
 
@@ -2117,7 +1990,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
         // Probably more of these actions should be ported over to using KActions.
 
-        m_rmbMenu = new KMenu(this);
+        m_rmbMenu = new QMenu(this);
 
         m_rmbMenu->addAction(SmallIcon("go-jump-today"),
             i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
@@ -2149,11 +2022,6 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
 
         m_rmbMenu->addAction(
             SmallIcon("folder-new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
-
-        K3bExporter *exporter = new K3bExporter(this);
-        KAction *k3bAction = exporter->action();
-        if(k3bAction)
-            m_rmbMenu->addAction( k3bAction );
     }
 
     // Ignore any columns added by subclasses.
@@ -2169,7 +2037,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
         (column == PlaylistItem::YearColumn);
 
     if(showEdit)
-        m_rmbEdit->setText(i18n("Edit '%1'", columnText(column + columnOffset())));
+        m_rmbEdit->setText(i18n("Edit '%1'", item->text(column + columnOffset())));
 
     m_rmbEdit->setVisible(showEdit);
 
@@ -2186,7 +2054,7 @@ void Playlist::slotShowRMBMenu(Q3ListViewItem *item, const QPoint &point, int co
     action("viewCover")->setEnabled(file.coverInfo()->hasCover());
     action("removeCover")->setEnabled(file.coverInfo()->coverId() != CoverManager::NoMatch);
 
-    m_rmbMenu->popup(point);
+    m_rmbMenu->popup(mapToGlobal(point));
     m_currentColumn = column + columnOffset();
 }
 
@@ -2194,7 +2062,8 @@ void Playlist::slotRenameTag()
 {
     // setup completions and validators
 
-    CollectionList *list = CollectionList::instance();
+    // FIXME rename
+    /*CollectionList *list = CollectionList::instance();
 
     KLineEdit *edit = renameLineEdit();
 
@@ -2222,7 +2091,7 @@ void Playlist::slotRenameTag()
 
     m_editText = currentItem()->text(m_currentColumn);
 
-    rename(currentItem(), m_currentColumn);
+    rename(currentItem(), m_currentColumn);*/
 }
 
 bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
@@ -2265,9 +2134,10 @@ bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
     return true;
 }
 
-void Playlist::slotInlineEditDone(Q3ListViewItem *, const QString &, int column)
+void Playlist::slotInlineEditDone(QTreeWidgetItem *, const QString &, int)
 {
-    QString text = renameLineEdit()->text();
+    // FIXME rename
+    /*QString text = renameLineEdit()->text();
     bool changed = false;
 
     PlaylistItemList l = selectedItems();
@@ -2297,14 +2167,14 @@ void Playlist::slotInlineEditDone(Q3ListViewItem *, const QString &, int column)
 
     CollectionList::instance()->dataChanged();
     dataChanged();
-    update();
+    update();*/
 }
 
 void Playlist::slotColumnOrderChanged(int, int from, int to)
 {
     if(from == 0 || to == 0) {
         updatePlaying();
-        m_leftColumn = header()->mapToSection(0);
+        m_leftColumn = header()->sectionPosition(0);
     }
 
     SharedSettings::instance()->setColumnOrder(this);
@@ -2314,21 +2184,21 @@ void Playlist::slotToggleColumnVisible(QAction *action)
 {
     int column = action->data().toInt();
 
-    if(!isColumnVisible(column)) {
+    if(isColumnHidden(column)) {
         int fileNameColumn = PlaylistItem::FileNameColumn + columnOffset();
         int fullPathColumn = PlaylistItem::FullPathColumn + columnOffset();
 
-        if(column == fileNameColumn && isColumnVisible(fullPathColumn)) {
+        if(column == fileNameColumn && !isColumnHidden(fullPathColumn)) {
             hideColumn(fullPathColumn, false);
             SharedSettings::instance()->toggleColumnVisible(fullPathColumn);
         }
-        if(column == fullPathColumn && isColumnVisible(fileNameColumn)) {
+        if(column == fullPathColumn && !isColumnHidden(fileNameColumn)) {
             hideColumn(fileNameColumn, false);
             SharedSettings::instance()->toggleColumnVisible(fileNameColumn);
         }
     }
 
-    if(isColumnVisible(column))
+    if(!isColumnHidden(column))
         hideColumn(column);
     else
         showColumn(column);
@@ -2356,21 +2226,21 @@ void Playlist::notifyUserColumnWidthModeChanged()
                              "ShowManualColumnWidthInformation");
 }
 
-void Playlist::slotColumnSizeChanged(int column, int, int newSize)
+void Playlist::columnResized(int column, int, int newSize)
 {
     m_widthsDirty = true;
     m_columnFixedWidths[column] = newSize;
 }
 
-void Playlist::slotInlineCompletionModeChanged(KGlobalSettings::Completion mode)
+void Playlist::slotInlineCompletionModeChanged(KCompletion::CompletionMode mode)
 {
     SharedSettings::instance()->setInlineCompletionMode(mode);
 }
 
 void Playlist::slotPlayCurrent()
 {
-    Q3ListViewItemIterator it(this, Q3ListViewItemIterator::Selected);
-    PlaylistItem *next = static_cast<PlaylistItem *>(it.current());
+    QTreeWidgetItemIterator it(this, QTreeWidgetItemIterator::Selected);
+    PlaylistItem *next = static_cast<PlaylistItem *>(*it);
     TrackSequenceManager::instance()->setNextItem(next);
     action("forward")->trigger();
 }
@@ -2400,12 +2270,10 @@ bool processEvents()
 
     if(time.elapsed() > 100) {
         time.restart();
-        kapp->processEvents();
+        qApp->processEvents();
         return true;
     }
     return false;
 }
-
-#include "playlist.moc"
 
 // vim: set et sw=4 tw=0 sta:

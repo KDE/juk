@@ -20,7 +20,7 @@
 #include "collectionlist.h"
 #include "juk-exception.h"
 
-#include <kdebug.h>
+#include "juk_debug.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -61,7 +61,7 @@ void PlaylistSearch::search()
 
     foreach(Playlist *playlist, m_playlists) {
         if(!isEmpty()) {
-            for(Q3ListViewItemIterator it(playlist); it.current(); ++it)
+            for(QTreeWidgetItemIterator it(playlist); *it; ++it)
                 checkItem(static_cast<PlaylistItem *>(*it));
         }
         else {
@@ -186,9 +186,9 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
         return false;
 
     if(m_columns.isEmpty()) {
-        Playlist *p = static_cast<Playlist *>(item->listView());
-        for(int i = 0; i < p->columns(); i++) {
-            if(p->isColumnVisible(i))
+        Playlist *p = static_cast<Playlist *>(item->treeWidget());
+        for(int i = 0; i < p->columnCount(); i++) {
+            if(!p->isColumnHidden(i))
                 m_columns.append(i);
         }
     }

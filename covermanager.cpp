@@ -16,6 +16,7 @@
 
 #include "covermanager.h"
 
+#include <QGlobalStatic>
 #include <QTimer>
 #include <QPixmap>
 #include <QString>
@@ -27,17 +28,15 @@
 #include <QPixmapCache>
 #include <QByteArray>
 #include <QMap>
+#include <QTemporaryFile>
+#include <QStandardPaths>
+#include <QUrl>
 
-#include <kdebug.h>
-#include <ktemporaryfile.h>
-#include <kdemacros.h>
-#include <kurl.h>
-#include <kstandarddirs.h>
-#include <kglobal.h>
 #include <kio/job.h>
 
 #include "juk.h"
 #include "coverproxy.h"
+#include "juk_debug.h"
 
 // This is a dictionary to map the track path to their ID.  Otherwise we'd have
 // to store this info with each CollectionListItem, which would break the cache
@@ -105,7 +104,7 @@ class CoverManagerPrivate
 {
 public:
 
-    /// Maps coverKey id's to CoverDataPtrs
+    /// Maps coverKey id's to CoverData
     CoverDataMap covers;
 
     /// Maps file names to coverKey id's.
@@ -174,7 +173,7 @@ public:
 
 // This is responsible for making sure that the CoverManagerPrivate class
 // gets properly destructed on shutdown.
-K_GLOBAL_STATIC(CoverManagerPrivate, sd)
+Q_GLOBAL_STATIC(CoverManagerPrivate, sd)
 
 //
 // Implementation of CoverManagerPrivate methods.
@@ -183,8 +182,7 @@ void CoverManagerPrivate::createDataDir() const
 {
     QDir dir;
     QString dirPath(QDir::cleanPath(coverLocation() + "/.."));
-    if(!dir.exists(dirPath))
-        KStandardDirs::makeDir(dirPath);
+    dir.mkpath(dirPath);
 }
 
 void CoverManagerPrivate::saveCovers() const
@@ -194,30 +192,30 @@ void CoverManagerPrivate::saveCovers() const
 
     QFile file(coverLocation());
 
-    kDebug() << "Opening covers db: " << coverLocation();
+    qCDebug(JUK_LOG) << "Opening covers db: " << coverLocation();
 
     if(!file.open(QIODevice::WriteOnly)) {
-        kError() << "Unable to save covers to disk!\n";
+        qCCritical(JUK_LOG) << "Unable to save covers to disk!\n";
         return;
     }
 
     QDataStream out(&file);
 
     // Write out the version and count
-    out << quint32(0) << quint32(covers.count());
+    out << quint32(0) << quint32(covers.size());
 
-    kDebug() << "Writing out" << covers.count() << "covers.";
+    qCDebug(JUK_LOG) << "Writing out" << covers.size() << "covers.";
 
     // Write out the data
-    for(CoverDataMap::const_iterator it = covers.begin(); it != covers.end(); ++it) {
-        out << quint32(it.key());
-        out << *it.value();
+    for(const auto &it : covers) {
+        out << quint32(it.first);
+        out << it.second;
     }
 
     // Now write out the track mapping.
     out << quint32(tracks.count());
 
-    kDebug() << "Writing out" << tracks.count() << "tracks.";
+    qCDebug(JUK_LOG) << "Writing out" << tracks.count() << "tracks.";
 
     TrackLookupMap::ConstIterator trackMapIt = tracks.constBegin();
     while(trackMapIt != tracks.constEnd()) {
@@ -242,8 +240,8 @@ void CoverManagerPrivate::loadCovers()
     // Only version 0 is defined for now.
     in >> version;
     if(version > 0) {
-        kError() << "Cover database was created by a higher version of JuK,\n";
-        kError() << "I don't know what to do with it.\n";
+        qCCritical(JUK_LOG) << "Cover database was created by a higher version of JuK,\n";
+        qCCritical(JUK_LOG) << "I don't know what to do with it.\n";
 
         return;
     }
@@ -251,21 +249,21 @@ void CoverManagerPrivate::loadCovers()
     // Read in the count next, then the data.
     in >> count;
 
-    kDebug() << "Loading" << count << "covers.";
+    qCDebug(JUK_LOG) << "Loading" << count << "covers.";
     for(quint32 i = 0; i < count; ++i) {
         // Read the id, and 3 QStrings for every 1 of the count.
         quint32 id;
-        CoverDataPtr data(new CoverData);
+        CoverData data;
 
         in >> id;
-        in >> *data;
-        data->refCount = 0;
+        in >> data;
+        data.refCount = 0;
 
         covers[(coverKey) id] = data;
     }
 
     in >> count;
-    kDebug() << "Loading" << count << "tracks";
+    qCDebug(JUK_LOG) << "Loading" << count << "tracks";
     for(quint32 i = 0; i < count; ++i) {
         QString path;
         quint32 id;
@@ -276,29 +274,27 @@ void CoverManagerPrivate::loadCovers()
         // don't do so again.  Possible due to a coding error during 3.5
         // development.
 
-        if(KDE_ISLIKELY(!tracks.contains(path))) {
-            ++covers[(coverKey) id]->refCount; // Another track using this.
+        if(Q_LIKELY(!tracks.contains(path))) {
+            ++covers[(coverKey) id].refCount; // Another track using this.
             tracks.insert(path, id);
         }
     }
 
-    kDebug() << "Tracks hash table has" << tracks.size() << "entries.";
+    qCDebug(JUK_LOG) << "Tracks hash table has" << tracks.size() << "entries.";
 }
 
 QString CoverManagerPrivate::coverLocation() const
 {
-    return KGlobal::dirs()->saveLocation("appdata") + "coverdb/covers";
+    return QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
+            + "coverdb/covers";
 }
 
-// XXX: This could probably use some improvement, I don't like the linear
-// search for ID idea.  Linear search is used instead of covers.size() since we want to
-// re-use old IDs if possible.
 coverKey CoverManagerPrivate::nextId() const
 {
     // Start from 1...
     coverKey key = 1;
 
-    while(covers.contains(key))
+    while(covers.find(key) != covers.end())
         ++key;
 
     return key;
@@ -344,14 +340,12 @@ const char *CoverDrag::mimetype()
 //
 coverKey CoverManager::idFromMetadata(const QString &artist, const QString &album)
 {
-    // Search for the string, yay!  It might make sense to use a cache here,
-    // if so it's not hard to add a QCache.
-    CoverDataMap::const_iterator it = begin();
-    CoverDataMap::const_iterator endIt = end();
+          CoverDataMap::const_iterator it    = begin();
+    const CoverDataMap::const_iterator endIt = end();
 
     for(; it != endIt; ++it) {
-        if(it.value()->album == album.toLower() && it.value()->artist == artist.toLower())
-            return it.key();
+        if(it->second.album == album.toLower() && it->second.artist == artist.toLower())
+            return it->first;
     }
 
     return NoMatch;
@@ -359,15 +353,14 @@ coverKey CoverManager::idFromMetadata(const QString &artist, const QString &albu
 
 QPixmap CoverManager::coverFromId(coverKey id, Size size)
 {
-    CoverDataPtr info = coverInfo(id);
-
-    if(!info)
+    const auto &info = data()->covers.find(id);
+    if(info == data()->covers.end())
         return QPixmap();
 
     if(size == Thumbnail)
-        return info->thumbnail();
+        return info->second.thumbnail();
 
-    return info->pixmap();
+    return info->second.pixmap();
 }
 
 QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
@@ -410,34 +403,25 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
 
 coverKey CoverManager::addCover(const QPixmap &large, const QString &artist, const QString &album)
 {
-    kDebug() << "Adding new pixmap to cover database.\n";
-
+    qCDebug(JUK_LOG) << "Adding new pixmap to cover database.";
     if(large.isNull()) {
-        kDebug() << "The pixmap you're trying to add is NULL!\n";
+        qCDebug(JUK_LOG) << "The pixmap you're trying to add is NULL!";
         return NoMatch;
     }
 
-    KTemporaryFile tempFile;
-    if(!tempFile.open()) {
-        kError() << "Unable to open file for pixmap cover, unable to add cover to DB\n";
+    QTemporaryFile tempFile;
+    if(!tempFile.open() || !large.save(tempFile.fileName(), "PNG")) {
+        qCCritical(JUK_LOG) << "Unable to save pixmap to " << tempFile.fileName();
         return NoMatch;
     }
 
-    // Now that file is open, file name will be available, which is where we want
-    // to save the pixmap as a .png.
-
-    if(!large.save(tempFile.fileName(), "PNG")) {
-        kError() << "Unable to save pixmap to " << tempFile.fileName() << endl;
-        return NoMatch;
-    }
-
-    return addCover(KUrl::fromPath(tempFile.fileName()), artist, album);
+    return addCover(QUrl::fromLocalFile(tempFile.fileName()), artist, album);
 }
 
-coverKey CoverManager::addCover(const KUrl &path, const QString &artist, const QString &album)
+coverKey CoverManager::addCover(const QUrl &path, const QString &artist, const QString &album)
 {
     coverKey id = data()->nextId();
-    CoverDataPtr coverData(new CoverData);
+    CoverData coverData;
 
     QString fileNameExt = path.fileName();
     int extPos = fileNameExt.lastIndexOf('.');
@@ -449,24 +433,24 @@ coverKey CoverManager::addCover(const KUrl &path, const QString &artist, const Q
     // Copy it to a local file first.
 
     QString ext = QString("/coverdb/coverID-%1%2").arg(id).arg(fileNameExt);
-    coverData->path = KGlobal::dirs()->saveLocation("appdata") + ext;
-
-    kDebug() << "Saving pixmap to " << coverData->path;
+    coverData.path = QStandardPaths::writableLocation(QStandardPaths::AppLocalDataLocation)
+            + ext;
+    qCDebug(JUK_LOG) << "Saving pixmap to " << coverData.path;
     data()->createDataDir();
 
-    coverData->artist = artist.toLower();
-    coverData->album = album.toLower();
-    coverData->refCount = 0;
+    coverData.artist = artist.toLower();
+    coverData.album = album.toLower();
+    coverData.refCount = 0;
 
-    data()->covers[id] = coverData;
+    data()->covers.emplace(id, coverData);
 
     // Can't use NetAccess::download() since if path is already a local file
     // (which is possible) then that function will return without copying, since
     // it assumes we merely want the file on the hard disk somewhere.
 
     KIO::FileCopyJob *job = KIO::file_copy(
-         path, KUrl::fromPath(coverData->path),
-         -1 /* perms */,KIO::HideProgressInfo | KIO::Overwrite
+         path, QUrl::fromLocalFile(coverData.path),
+         -1 /* perms */, KIO::HideProgressInfo | KIO::Overwrite
          );
     QObject::connect(job, SIGNAL(result(KJob*)),
                      data()->coverProxy(), SLOT(handleResult(KJob*)));
@@ -493,31 +477,31 @@ void CoverManager::jobComplete(KJob *job, bool completedSatisfactory)
         id = data()->downloadJobs[job];
 
     if(id == NoMatch) {
-        kError() << "No information on what download job" << job << "is.";
+        qCCritical(JUK_LOG) << "No information on what download job" << job << "is.";
         data()->downloadJobs.remove(job);
         return;
     }
 
     if(!completedSatisfactory) {
-        kError() << "Job" << job << "failed, but not handled yet.";
+        qCCritical(JUK_LOG) << "Job" << job << "failed, but not handled yet.";
         removeCover(id);
         data()->downloadJobs.remove(job);
         JuK::JuKInstance()->coverDownloaded(QPixmap());
         return;
     }
 
-    CoverDataPtr coverData = data()->covers[id];
+    CoverData coverData = data()->covers[id];
 
     // Make sure the new cover isn't inadvertently cached.
-    QPixmapCache::remove(QString("f%1").arg(coverData->path));
-    QPixmapCache::remove(QString("t%1").arg(coverData->path));
+    QPixmapCache::remove(QString("f%1").arg(coverData.path));
+    QPixmapCache::remove(QString("t%1").arg(coverData.path));
 
-    JuK::JuKInstance()->coverDownloaded(coverFromData(*coverData, CoverManager::Thumbnail));
+    JuK::JuKInstance()->coverDownloaded(coverFromData(coverData, CoverManager::Thumbnail));
 }
 
 bool CoverManager::hasCover(coverKey id)
 {
-    return data()->covers.contains(id);
+    return data()->covers.find(id) != data()->covers.end();
 }
 
 bool CoverManager::removeCover(coverKey id)
@@ -526,9 +510,9 @@ bool CoverManager::removeCover(coverKey id)
         return false;
 
     // Remove cover from cache.
-    CoverDataPtr coverData = coverInfo(id);
-    QPixmapCache::remove(QString("f%1").arg(coverData->path));
-    QPixmapCache::remove(QString("t%1").arg(coverData->path));
+    CoverData coverData = coverInfo(id);
+    QPixmapCache::remove(QString("f%1").arg(coverData.path));
+    QPixmapCache::remove(QString("t%1").arg(coverData.path));
 
     // Remove references to files that had that track ID.
     QList<QString> affectedFiles = data()->tracks.keys(id);
@@ -537,10 +521,10 @@ bool CoverManager::removeCover(coverKey id)
     }
 
     // Remove covers from disk.
-    QFile::remove(coverData->path);
+    QFile::remove(coverData.path);
 
     // Finally, forget that we ever knew about this cover.
-    data()->covers.remove(id);
+    data()->covers.erase(id);
     data()->requestSave();
 
     return true;
@@ -551,13 +535,13 @@ bool CoverManager::replaceCover(coverKey id, const QPixmap &large)
     if(!hasCover(id))
         return false;
 
-    CoverDataPtr coverData = coverInfo(id);
+    CoverData coverData = coverInfo(id);
 
     // Empty old pixmaps from cache.
-    QPixmapCache::remove(QString("t%1").arg(coverData->path));
-    QPixmapCache::remove(QString("f%1").arg(coverData->path));
+    QPixmapCache::remove(QString("t%1").arg(coverData.path));
+    QPixmapCache::remove(QString("f%1").arg(coverData.path));
 
-    large.save(coverData->path, "PNG");
+    large.save(coverData.path, "PNG");
 
     // No save is needed, as all that has changed is the on-disk cover data,
     // not the list of tracks or covers.
@@ -575,24 +559,14 @@ void CoverManager::saveCovers()
     data()->saveCovers();
 }
 
-void CoverManager::shutdown()
-{
-    sd.destroy();
-}
-
 CoverDataMapIterator CoverManager::begin()
 {
-    return data()->covers.constBegin();
+    return data()->covers.begin();
 }
 
 CoverDataMapIterator CoverManager::end()
 {
-    return data()->covers.constEnd();
-}
-
-CoverList CoverManager::keys()
-{
-    return data()->covers.keys();
+    return data()->covers.end();
 }
 
 void CoverManager::setIdForTrack(const QString &path, coverKey id)
@@ -602,17 +576,17 @@ void CoverManager::setIdForTrack(const QString &path, coverKey id)
         return; // We're already done.
 
     if(oldId != NoMatch) {
-        data()->covers[oldId]->refCount--;
+        data()->covers[oldId].refCount--;
         data()->tracks.remove(path);
 
-        if(data()->covers[oldId]->refCount == 0) {
-            kDebug() << "Cover " << oldId << " is unused, removing.\n";
+        if(data()->covers[oldId].refCount == 0) {
+            qCDebug(JUK_LOG) << "Cover " << oldId << " is unused, removing.\n";
             removeCover(oldId);
         }
     }
 
     if(id != NoMatch) {
-        data()->covers[id]->refCount++;
+        data()->covers[id].refCount++;
         data()->tracks.insert(path, id);
     }
 
@@ -624,12 +598,13 @@ coverKey CoverManager::idForTrack(const QString &path)
     return data()->tracks.value(path, NoMatch);
 }
 
-CoverDataPtr CoverManager::coverInfo(coverKey id)
+CoverData CoverManager::coverInfo(coverKey id)
 {
-    if(data()->covers.contains(id))
+    if(hasCover(id))
         return data()->covers[id];
 
-    return CoverDataPtr(0);
+    // TODO throw new something or other
+    return CoverData{};
 }
 
 /**

@@ -16,12 +16,13 @@
 
 #include "tagrenameroptions.h"
 
-#include <kdebug.h>
-#include <kglobal.h>
-#include <klocale.h>
+#include <KLocalizedString>
 #include <kconfig.h>
 #include <kconfigbase.h>
 #include <kconfiggroup.h>
+#include <KSharedConfig>
+
+#include "juk_debug.h"
 
 TagRenamerOptions::TagRenamerOptions() :
     m_emptyAction(IgnoreEmptyTag),
@@ -66,7 +67,7 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
     // Make sure we don't use translated strings for the config file keys.
 
     QString typeKey = tagTypeText(category.category, false);
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
 
     if(categoryNum > 0)
         typeKey.append(QString::number(categoryNum));
@@ -121,8 +122,8 @@ QString TagRenamerOptions::tagTypeText(TagType type, bool translate)
         break;
 
         default:
-            kWarning() << "I don't know what category we're looking up, this is a problem.";
-            kWarning() << "The category ID is " << (unsigned) type;
+            qCWarning(JUK_LOG) << "I don't know what category we're looking up, this is a problem.";
+            qCWarning(JUK_LOG) << "The category ID is " << (unsigned) type;
             msg = I18N_NOOP2("unknown renamer category", "Unknown");
             context = "unknown renamer category";
     }
@@ -141,7 +142,7 @@ void TagRenamerOptions::saveConfig(unsigned categoryNum) const
     if(categoryNum > 0)
         typeKey.append(QString::number(categoryNum));
 
-    KConfigGroup config(KGlobal::config(), "FileRenamer");
+    KConfigGroup config(KSharedConfig::openConfig(), "FileRenamer");
 
     config.writeEntry(QString("%1Suffix").arg(typeKey), suffix());
     config.writeEntry(QString("%1Prefix").arg(typeKey), prefix());

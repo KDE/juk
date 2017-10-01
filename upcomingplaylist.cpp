@@ -17,15 +17,14 @@
 #include "upcomingplaylist.h"
 #include "juk-exception.h"
 
-#include <kdebug.h>
-#include <kapplication.h>
-#include <kaction.h>
+#include <QAction>
 
 #include "playlistitem.h"
 #include "playlistcollection.h"
 #include "tracksequencemanager.h"
 #include "collectionlist.h"
 #include "actioncollection.h"
+#include "juk_debug.h"
 
 using namespace ActionCollection;
 
@@ -36,7 +35,7 @@ UpcomingPlaylist::UpcomingPlaylist(PlaylistCollection *collection) :
 {
     setName(i18n("Play Queue"));
     setAllowDuplicates(true);
-    setSorting(-1);
+    setSortingEnabled(false);
 }
 
 UpcomingPlaylist::~UpcomingPlaylist()
@@ -69,14 +68,14 @@ void UpcomingPlaylist::appendItems(const PlaylistItemList &itemList)
     if(itemList.isEmpty())
         return;
 
-    PlaylistItem *after = static_cast<PlaylistItem *>(lastItem());
+    PlaylistItem *after = static_cast<PlaylistItem *>(topLevelItem(topLevelItemCount() - 1));
 
     foreach(PlaylistItem *playlistItem, itemList) {
         after = createItem(playlistItem, after);
         m_playlistIndex.insert(after, playlistItem->playlist());
     }
 
-    dataChanged();
+    playlistItemsChanged();
     slotWeightDirty();
 }
 
@@ -160,7 +159,7 @@ void UpcomingPlaylist::removeIteratorOverride()
 
     setPlaying(manager()->currentItem(), true);
 
-    Watched::currentChanged();
+    Watched::currentPlayingItemChanged();
 }
 
 TrackSequenceManager *UpcomingPlaylist::manager() const
@@ -187,7 +186,8 @@ void UpcomingPlaylist::UpcomingSequenceIterator::advance()
     PlaylistItem *item = m_playlist->firstChild();
 
     if(item) {
-        PlaylistItem *next = static_cast<PlaylistItem *>(item->nextSibling());
+        QTreeWidgetItemIterator it(item);
+        PlaylistItem *next = static_cast<PlaylistItem *>(*(++it));
         m_playlist->clearItem(item);
         setCurrent(next);
     }
@@ -223,7 +223,7 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
     if(p != m_playlist) {
         PlaylistItem *i = m_playlist->createItem(currentItem, (PlaylistItem *) 0);
         m_playlist->playlistIndex().insert(i, p);
-        m_playlist->dataChanged();
+        m_playlist->playlistItemsChanged();
         m_playlist->slotWeightDirty();
     }
     else {
