@@ -1,12 +1,19 @@
 cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 
-project(juk)
+# KDE Application Version, managed by KDE release team automatically
+# https://community.kde.org/Guidelines_and_HOWTOs/Application_Versioning
+set (KDE_APPLICATIONS_VERSION_MAJOR "17")
+set (KDE_APPLICATIONS_VERSION_MINOR "11")
+set (KDE_APPLICATIONS_VERSION_MICRO "70")
+set (KDE_APPLICATIONS_VERSION "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO}")
+
+project(juk VERSION ${KDE_APPLICATIONS_VERSION})
 
 set(QT_MIN_VERSION "5.6.0")
 set(KF5_MIN_VERSION "5.35.0")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
-set(CMAKE_MODULE_PATH ${ECM_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${ECM_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
 
 include(CMakePushCheckState)
 include(CheckIncludeFileCXX)
@@ -168,8 +175,9 @@ target_link_libraries(juk ${LIBMATH} Qt5::Gui Qt5::Svg Qt5::Widgets
     KF5::KIOCore KF5::KIOWidgets KF5::KIOFileWidgets KF5::JobWidgets KF5::Notifications
     KF5::I18n KF5::IconThemes KF5::TextWidgets KF5::XmlGui KF5::WindowSystem
     KF5::WidgetsAddons KF5::Wallet Phonon::phonon4qt5 ${TAGLIB_LIBRARIES})
+
 if(TUNEPIMP_FOUND)
-	target_link_libraries(juk ${TUNEPIMP_LIBRARIES})
+    target_link_libraries(juk ${TUNEPIMP_LIBRARIES})
 endif(TUNEPIMP_FOUND)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)

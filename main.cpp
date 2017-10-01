@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2002-2007 Scott Wheeler <wheeler@kde.org>
+ * Copyright (C) 2004-2017 Michael Pyne  <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -27,8 +28,9 @@
 #include <QApplication>
 
 #include "juk.h"
+#include "config-juk.h"
 
-static const char description[] = I18N_NOOP("Jukebox and music manager by KDE");
+static const char description[] = I18N_NOOP("Jukebox and music manager by the KDE community");
 static const char scott[]       = I18N_NOOP("Author, chief dork and keeper of the funk");
 static const char michael[]     = I18N_NOOP("Assistant super-hero, fixer of many things");
 static const char georg[]       = I18N_NOOP("More KDE Platform 4 porting efforts");
@@ -49,6 +51,7 @@ static const char laurent[]     = I18N_NOOP("Porting to KDE 4 when no one else w
 static const char giorgos[]     = I18N_NOOP("Badly-needed tag editor bugfixes.");
 static const char sandsmark[]   = I18N_NOOP("Last.fm scrobbling support, lyrics, prepping for KDE Frameworks.");
 static const char sho[]         = I18N_NOOP("MPRIS2 Interface implementation.");
+static const char kacper[]      = I18N_NOOP("Porting to KF5 when no one else was around");
 
 int main(int argc, char *argv[])
 {
@@ -56,13 +59,14 @@ int main(int argc, char *argv[])
     KLocalizedString::setApplicationDomain("juk");
 
     KAboutData aboutData(QStringLiteral("juk"), i18n("JuK"),
-                         QStringLiteral("3.14"), i18n(description), KAboutLicense::GPL,
-                         i18n("© 2002–2016, Scott Wheeler, Michael Pyne, and others"),
+                         QStringLiteral(JUK_VERSION), i18n(description), KAboutLicense::GPL,
+                         i18n("© 2002–2017, Scott Wheeler, Michael Pyne, and others"),
                          QStringLiteral(""),
-                         QStringLiteral("http://www.kde.org/applications/multimedia/juk/"));
+                         QStringLiteral("https://www.kde.org/applications/multimedia/juk/"));
 
     aboutData.addAuthor(i18n("Scott Wheeler"), i18n(scott), "wheeler@kde.org");
     aboutData.addAuthor(i18n("Michael Pyne"), i18n(michael), "mpyne@kde.org");
+    aboutData.addCredit(i18n("Kacper Kasper"), i18n(kacper), "kacperkasper@gmail.com", "http://kacperkasper.pl/");
     aboutData.addCredit(i18n("Γιώργος Κυλάφας (Giorgos Kylafas)"), i18n(giorgos), "gekylafas@gmail.com");
     aboutData.addCredit(i18n("Daniel Molkentin"), i18n(daniel), "molkentin@kde.org");
     aboutData.addCredit(i18n("Tim Jansen"), i18n(tim), "tim@tjansen.de");
