@@ -19,6 +19,7 @@
 #include <KConfigBase>
 #include <KConfig>
 #include <KConfigGroup>
+#include <KCrash>
 #include <KNotification>
 #include <KSharedConfig>
 #include <KLocalizedString>
@@ -94,6 +95,8 @@ int main(int argc, char *argv[])
     parser.addPositionalArgument(QLatin1String("[file(s)]"), i18n("File(s) to open"));
     parser.process(a);
     aboutData.processCommandLine(&parser);
+
+    KCrash::initialize();
 
     // If this flag gets set then JuK will quit if you click the cover on the track
     // announcement popup when JuK is only in the system tray (the systray has no widget).
