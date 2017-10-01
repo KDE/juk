@@ -59,8 +59,10 @@ private:
         Observer(NowPlaying *parent, PlaylistInterface *playlist) :
             PlaylistObserver(playlist),
             m_parent(parent) {}
-        virtual void updateCurrent() {}
-        virtual void updateData() { m_parent->slotReloadCurrentItem(); }
+        virtual void playlistItemDataHasChanged() Q_DECL_FINAL
+        {
+            m_parent->slotReloadCurrentItem();
+        }
         NowPlaying *m_parent;
     };
     friend struct Observer;

@@ -31,7 +31,7 @@ class StatusLabel : public QWidget, public PlaylistObserver
 
 public:
     explicit StatusLabel(PlaylistInterface *playlist, QWidget *parent = nullptr);
-    virtual void updateCurrent();
+    virtual void playingItemHasChanged() Q_DECL_FINAL;
 
 public slots:
     /**
@@ -40,7 +40,7 @@ public slots:
      */
     void setItemTotalTime(int time) { m_itemTotalTime = time; }
     void setItemCurrentTime(int time) { m_itemCurrentTime = time; updateTime(); }
-    virtual void updateData();
+    virtual void playlistItemDataHasChanged() Q_DECL_FINAL;
 
 signals:
     void jumpButtonClicked();

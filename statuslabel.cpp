@@ -103,10 +103,10 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
 
     installEventFilter(this);
 
-    updateData();
+    playlistItemDataHasChanged();
 }
 
-void StatusLabel::updateCurrent()
+void StatusLabel::playingItemHasChanged()
 {
     if(!playlist()->playing()) {
         return;
@@ -123,9 +123,9 @@ void StatusLabel::updateCurrent()
     m_playlistLabel->setText(playlist()->name().simplified());
 }
 
-void StatusLabel::updateData()
+void StatusLabel::playlistItemDataHasChanged()
 {
-    updateCurrent();
+    playingItemHasChanged();
 
     if(!playlist()->playing()) {
         return;

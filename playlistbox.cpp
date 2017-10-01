@@ -716,11 +716,11 @@ void PlaylistBox::Item::slotSetName(const QString &name)
     }
 }
 
-void PlaylistBox::Item::updateCurrent()
+void PlaylistBox::Item::playingItemHasChanged()
 {
 }
 
-void PlaylistBox::Item::updateData()
+void PlaylistBox::Item::playlistItemDataHasChanged()
 {
     listView()->slotPlaylistDataChanged();
 }

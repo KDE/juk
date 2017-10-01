@@ -180,10 +180,10 @@ protected:
     // Reimplemented from PlaylistObserver
     //
 
-    virtual void updateCurrent();
+    virtual void playingItemHasChanged() Q_DECL_FINAL;
 
     // Used to post a timer in PlaylistBox to save playlists.
-    virtual void updateData();
+    virtual void playlistItemDataHasChanged() Q_DECL_FINAL;
 
 
 protected slots:

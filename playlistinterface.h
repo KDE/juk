@@ -84,20 +84,21 @@ public:
     virtual ~PlaylistObserver();
 
     /**
-     * This method must be implemented in concrete implementations; it should
-     * define what action should be taken in the observer when the currently
-     * playing item changes.
+     * This method is called when the item which is currently playing
+     * in the given playlist changes.
+     * @todo TODO: Move to PlayerManager...
      */
-    virtual void updateCurrent() = 0;
+    virtual void playingItemHasChanged()
+    { ; }
 
     /**
-     * This method must be implemented in concrete implementations; it should
-     * define what action should be taken when the data of the PlaylistItems in
-     * the playlist changes.
+     * This method is called when the data of a PlaylistItem in the playlist
+     * being watched changes.
      */
-    virtual void updateData() = 0;
+    virtual void playlistItemDataHasChanged()
+    { ; }
 
-    void clearWatched() { m_playlist = 0; }
+    void clearWatched() { m_playlist = nullptr; }
 
 protected:
     PlaylistObserver(PlaylistInterface *playlist);

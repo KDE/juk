@@ -114,13 +114,11 @@ public:
     {
     }
 
-    virtual void updateData()
+    virtual void playlistItemDataHasChanged() Q_DECL_FINAL
     {
         if(m_parent && m_parent->m_currentPlaylist && m_parent->isVisible())
             m_parent->slotSetItems(m_parent->m_currentPlaylist->selectedItems());
     }
-
-    virtual void updateCurrent() {}
 
 private:
     TagEditor *m_parent;

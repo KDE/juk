@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2002-2004 Scott Wheeler <wheeler@kde.org>
- * Copyright (C) 2008, 2009 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2008, 2009, 2017 Michael Pyne <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -173,8 +173,8 @@ void JuK::setupLayout()
     setCentralWidget(m_splitter);
 
     m_statusLabel = new StatusLabel(m_splitter->playlist(), statusBar());
-    connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
-            m_statusLabel, SLOT(updateData()));
+    connect(CollectionList::instance(), &CollectionList::signalCollectionChanged,
+            m_statusLabel, &StatusLabel::playlistItemDataHasChanged);
     statusBar()->addWidget(m_statusLabel, 1);
     m_player->setStatusLabel(m_statusLabel);
 

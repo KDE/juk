@@ -23,13 +23,13 @@
 void Watched::currentPlayingItemChanged()
 {
     foreach(PlaylistObserver *observer, m_observers)
-        observer->updateCurrent();
+        observer->playingItemHasChanged();
 }
 
 void Watched::playlistItemsChanged()
 {
     foreach(PlaylistObserver *observer, m_observers)
-        observer->updateData();
+        observer->playlistItemDataHasChanged();
 }
 
 void Watched::addObserver(PlaylistObserver *observer)

@@ -22,7 +22,6 @@
 #include "playermanager.h"
 #include <QKeyEvent>
 
-
 class KToggleAction;
 class KGlobalAccel;
 
