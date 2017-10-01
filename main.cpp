@@ -67,7 +67,13 @@ int main(int argc, char *argv[])
     aboutData.addAuthor(i18n("Scott Wheeler"), i18n(scott), "wheeler@kde.org");
     aboutData.addAuthor(i18n("Michael Pyne"), i18n(michael), "mpyne@kde.org");
     aboutData.addCredit(i18n("Kacper Kasper"), i18n(kacper), "kacperkasper@gmail.com", "http://kacperkasper.pl/");
+    aboutData.addCredit(i18n("Eike Hein"), i18n(sho), "hein@kde.org");
+    aboutData.addCredit(i18n("Martin Sandsmark"), i18n(sandsmark), "martin.sandsmark@kde.org");
     aboutData.addCredit(i18n("Γιώργος Κυλάφας (Giorgos Kylafas)"), i18n(giorgos), "gekylafas@gmail.com");
+    aboutData.addCredit(i18n("Georg Grabler"), i18n(georg), "georg@grabler.net");
+    aboutData.addCredit(i18n("Laurent Montel"), i18n(laurent), "montel@kde.org");
+    aboutData.addCredit(i18n("Nathan Toone"), i18n(nathan), "nathan@toonetown.com");
+    aboutData.addCredit(i18n("Matthias Kretz"), i18n(matthias), "kretz@kde.org");
     aboutData.addCredit(i18n("Daniel Molkentin"), i18n(daniel), "molkentin@kde.org");
     aboutData.addCredit(i18n("Tim Jansen"), i18n(tim), "tim@tjansen.de");
     aboutData.addCredit(i18n("Stefan Asserhäll"), i18n(stefan), "stefan.asserhall@telia.com");
@@ -75,16 +81,10 @@ int main(int argc, char *argv[])
     aboutData.addCredit(i18n("Frerich Raabe"), i18n(frerich), "raabe@kde.org");
     aboutData.addCredit(i18n("Zack Rusin"), i18n(zack), "zack@kde.org");
     aboutData.addCredit(i18n("Adam Treat"), i18n(adam), "manyoso@yahoo.com");
-    aboutData.addCredit(i18n("Matthias Kretz"), i18n(matthias), "kretz@kde.org");
     aboutData.addCredit(i18n("Maks Orlovich"), i18n(maks), "maksim@kde.org");
     aboutData.addCredit(i18n("Antonio Larrosa Jimenez"), i18n(antonio), "larrosa@kde.org");
     aboutData.addCredit(i18n("Allan Sandfeld Jensen"), i18n(allan), "kde@carewolf.com");
-    aboutData.addCredit(i18n("Nathan Toone"), i18n(nathan), "nathan@toonetown.com");
     aboutData.addCredit(i18n("Pascal Klein"), i18n(pascal), "4pascal@tpg.com.au");
-    aboutData.addCredit(i18n("Laurent Montel"), i18n(laurent), "montel@kde.org");
-    aboutData.addCredit(i18n("Georg Grabler"), i18n(georg), "georg@grabler.net");
-    aboutData.addCredit(i18n("Martin Sandsmark"), i18n(sandsmark), "martin.sandsmark@kde.org");
-    aboutData.addCredit(i18n("Eike Hein"), i18n(sho), "hein@kde.org");
     KAboutData::setApplicationData(aboutData);
 
     QCommandLineParser parser;
