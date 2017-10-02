@@ -257,7 +257,6 @@ void TagEditor::slotRefresh()
 
     // If there is more than one item in the m_items that we're dealing with...
 
-
     QList<QWidget *> disabledForMulti;
 
     disabledForMulti << fileNameLabel << fileNameBox << lengthLabel << lengthBox
@@ -494,7 +493,7 @@ void TagEditor::setupLayout()
 {
     setupUi(this);
 
-    foreach(QWidget *input, findChildren<QWidget *>()) {
+    for(auto input : findChildren<QWidget *>()) {
         if(input->inherits("QLineEdit"))
             connect(input, SIGNAL(textChanged(QString)), this, SLOT(slotDataChanged()));
         if(input->inherits("QComboBox")) {
@@ -509,18 +508,26 @@ void TagEditor::setupLayout()
 
     // Do some meta-programming to find the matching enable boxes
 
-    foreach(QCheckBox *enable, findChildren<QCheckBox *>(QRegExp("Enable"))) {
-        enable->hide();
-        QRegExp re('^' + enable->objectName().replace("Enable", "") + "(Box|Spin)$");
-        QList<QWidget *> targets = findChildren<QWidget *>(re);
-        Q_ASSERT(!targets.isEmpty());
-        m_enableBoxes[targets.front()] = enable;
+    for(auto enable : findChildren<QCheckBox *>(QRegExp("Enable$"))) {
+        enable->hide(); // These are shown only when multiple items are being edited
+
+        // Each enable checkbox is identified by having its objectName end in "Enable".
+        // The corresponding widget to be adjusted is identified by assigning a custom
+        // property in Qt Designer "associatedObjectName", the value of which is the name
+        // for the widget to be enabled (or not).
+        auto associatedVariantValue = enable->property("associatedObjectName");
+        Q_ASSERT(associatedVariantValue.isValid());
+
+        QWidget *associatedWidget = findChild<QWidget *>(associatedVariantValue.toString());
+        Q_ASSERT(associatedWidget != nullptr);
+
+        m_enableBoxes[associatedWidget] = enable;
     }
 
-    // Make sure that the labels are as tall as the enable buttons so that the
-    // layout doesn't jump around.
+    // Make sure that the labels are as tall as the enable boxes so that the
+    // layout doesn't jump around as the enable boxes are shown/hidden.
 
-    foreach(QLabel *label, findChildren<QLabel *>()) {
+    for(auto label : findChildren<QLabel *>()) {
         if(m_enableBoxes.contains(label->buddy()))
             label->setMinimumHeight(m_enableBoxes[label->buddy()]->height());
     }
