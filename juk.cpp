@@ -530,6 +530,7 @@ void JuK::slotQuit()
 {
     m_shuttingDown = true;
 
+    saveConfig();
     qApp->quit();
 }
 
