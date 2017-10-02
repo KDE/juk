@@ -497,7 +497,7 @@ void TagEditor::setupLayout()
     foreach(QWidget *input, findChildren<QWidget *>()) {
         if(input->inherits("QLineEdit"))
             connect(input, SIGNAL(textChanged(QString)), this, SLOT(slotDataChanged()));
-        if(input->inherits("QComboxBox")) {
+        if(input->inherits("QComboBox")) {
             connect(input, SIGNAL(activated(int)), this, SLOT(slotDataChanged()));
             connect(input, SIGNAL(currentTextChanged(QString)), this, SLOT(slotDataChanged()));
         }
