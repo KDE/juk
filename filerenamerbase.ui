@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>489</width>
+    <width>517</width>
     <height>579</height>
    </rect>
   </property>
@@ -23,12 +23,30 @@
    <property name="spacing">
     <number>6</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
     <number>0</number>
    </property>
    <item>
     <layout class="QGridLayout">
-     <property name="margin">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
       <number>0</number>
      </property>
      <property name="spacing">
@@ -53,7 +71,16 @@
        <property name="spacing">
         <number>6</number>
        </property>
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -105,7 +132,7 @@
      <item row="2" column="0">
       <widget class="QLabel" name="textLabel1">
        <property name="text">
-        <string>Add category:</string>
+        <string>&amp;Add category:</string>
        </property>
        <property name="buddy">
         <cstring>m_category</cstring>
@@ -150,8 +177,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>483</width>
-        <height>340</height>
+        <width>513</width>
+        <height>157</height>
        </rect>
       </property>
      </widget>
@@ -179,7 +206,16 @@
       <property name="spacing">
        <number>6</number>
       </property>
-      <property name="margin">
+      <property name="leftMargin">
+       <number>9</number>
+      </property>
+      <property name="topMargin">
+       <number>9</number>
+      </property>
+      <property name="rightMargin">
+       <number>9</number>
+      </property>
+      <property name="bottomMargin">
        <number>9</number>
       </property>
       <item>
@@ -187,7 +223,16 @@
         <property name="spacing">
          <number>6</number>
         </property>
-        <property name="margin">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -258,14 +303,19 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>KUrlRequester</class>
-   <extends>QFrame</extends>
-   <header>KUrlRequester</header>
-  </customwidget>
-  <customwidget>
    <class>KComboBox</class>
    <extends>QComboBox</extends>
-   <header>KComboBox</header>
+   <header>kcombobox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KUrlRequester</class>
+   <extends>QWidget</extends>
+   <header>kurlrequester.h</header>
+  </customwidget>
+  <customwidget>
+   <class>KLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
@@ -294,7 +344,7 @@
   </connection>
   <connection>
    <sender>m_separator</sender>
-   <signal>textChanged(QString)</signal>
+   <signal>editTextChanged(QString)</signal>
    <receiver>FileRenamerBase</receiver>
    <slot>exampleTextChanged()</slot>
    <hints>
@@ -337,6 +387,22 @@
     <hint type="destinationlabel">
      <x>340</x>
      <y>105</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>m_separator</sender>
+   <signal>currentTextChanged(QString)</signal>
+   <receiver>FileRenamerBase</receiver>
+   <slot>exampleTextChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>339</x>
+     <y>78</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>258</x>
+     <y>289</y>
     </hint>
    </hints>
   </connection>
