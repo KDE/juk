@@ -493,19 +493,6 @@ void TagEditor::setupLayout()
 {
     setupUi(this);
 
-    for(auto input : findChildren<QWidget *>()) {
-        if(input->inherits("QLineEdit"))
-            connect(input, SIGNAL(textChanged(QString)), this, SLOT(slotDataChanged()));
-        if(input->inherits("QComboBox")) {
-            connect(input, SIGNAL(activated(int)), this, SLOT(slotDataChanged()));
-            connect(input, SIGNAL(currentTextChanged(QString)), this, SLOT(slotDataChanged()));
-        }
-        if(input->inherits("QSpinBox"))
-            connect(input, SIGNAL(valueChanged(int)), this, SLOT(slotDataChanged()));
-        if(input->inherits("QTextEdit"))
-            connect(input, SIGNAL(textChanged()), this, SLOT(slotDataChanged()));
-    }
-
     // Do some meta-programming to find the matching enable boxes
 
     for(auto enable : findChildren<QCheckBox *>(QRegExp("Enable$"))) {
@@ -645,9 +632,9 @@ void TagEditor::showEvent(QShowEvent *e)
 // private slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void TagEditor::slotDataChanged(bool c)
+void TagEditor::slotDataChanged()
 {
-    m_dataChanged = c;
+    m_dataChanged = true;
 }
 
 void TagEditor::slotItemRemoved(PlaylistItem *item)

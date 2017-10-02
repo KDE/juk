@@ -72,7 +72,7 @@ private:
     virtual void showEvent(QShowEvent *e);
 
 private slots:
-    void slotDataChanged(bool c = true);
+    void slotDataChanged();
     void slotItemRemoved(PlaylistItem *item);
     void slotPlaylistRemoved() { m_currentPlaylist = 0; }
 

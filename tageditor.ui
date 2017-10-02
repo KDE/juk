@@ -289,6 +289,25 @@
    <header>klineedit.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>artistNameEnable</tabstop>
+  <tabstop>artistNameBox</tabstop>
+  <tabstop>trackNameEnable</tabstop>
+  <tabstop>trackNameBox</tabstop>
+  <tabstop>albumNameEnable</tabstop>
+  <tabstop>albumNameBox</tabstop>
+  <tabstop>genreEnable</tabstop>
+  <tabstop>genreBox</tabstop>
+  <tabstop>fileNameBox</tabstop>
+  <tabstop>trackEnable</tabstop>
+  <tabstop>trackSpin</tabstop>
+  <tabstop>lengthBox</tabstop>
+  <tabstop>yearEnable</tabstop>
+  <tabstop>yearSpin</tabstop>
+  <tabstop>bitrateBox</tabstop>
+  <tabstop>commentEnable</tabstop>
+  <tabstop>commentBox</tabstop>
+ </tabstops>
  <resources/>
  <connections>
   <connection>
@@ -298,12 +317,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>141</x>
-     <y>21</y>
+     <x>268</x>
+     <y>28</y>
     </hint>
     <hint type="destinationlabel">
-     <x>138</x>
-     <y>43</y>
+     <x>145</x>
+     <y>94</y>
     </hint>
    </hints>
   </connection>
@@ -314,12 +333,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>102</x>
-     <y>71</y>
+     <x>266</x>
+     <y>147</y>
     </hint>
     <hint type="destinationlabel">
-     <x>104</x>
-     <y>90</y>
+     <x>111</x>
+     <y>206</y>
     </hint>
    </hints>
   </connection>
@@ -330,12 +349,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>126</x>
-     <y>122</y>
+     <x>268</x>
+     <y>250</y>
     </hint>
     <hint type="destinationlabel">
-     <x>125</x>
-     <y>151</y>
+     <x>132</x>
+     <y>304</y>
     </hint>
    </hints>
   </connection>
@@ -346,12 +365,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>147</x>
-     <y>170</y>
+     <x>268</x>
+     <y>348</y>
     </hint>
     <hint type="destinationlabel">
-     <x>147</x>
-     <y>198</y>
+     <x>154</x>
+     <y>402</y>
     </hint>
    </hints>
   </connection>
@@ -362,12 +381,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>330</x>
-     <y>66</y>
+     <x>567</x>
+     <y>147</y>
     </hint>
     <hint type="destinationlabel">
-     <x>303</x>
-     <y>68</y>
+     <x>456</x>
+     <y>152</y>
     </hint>
    </hints>
   </connection>
@@ -378,12 +397,12 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>337</x>
-     <y>121</y>
+     <x>800</x>
+     <y>250</y>
     </hint>
     <hint type="destinationlabel">
-     <x>344</x>
-     <y>156</y>
+     <x>628</x>
+     <y>408</y>
     </hint>
    </hints>
   </connection>
@@ -394,14 +413,129 @@
    <slot>setEnabled(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>558</x>
-     <y>66</y>
+     <x>877</x>
+     <y>147</y>
     </hint>
     <hint type="destinationlabel">
-     <x>510</x>
-     <y>69</y>
+     <x>766</x>
+     <y>152</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>artistNameBox</sender>
+   <signal>editTextChanged(QString)</signal>
+   <receiver>TagEditor</receiver>
+   <slot>slotDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>66</x>
+     <y>71</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>131</x>
+     <y>-7</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>trackNameBox</sender>
+   <signal>textChanged(QString)</signal>
+   <receiver>TagEditor</receiver>
+   <slot>slotDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>28</x>
+     <y>194</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>433</x>
+     <y>0</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>albumNameBox</sender>
+   <signal>editTextChanged(QString)</signal>
+   <receiver>TagEditor</receiver>
+   <slot>slotDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>231</x>
+     <y>288</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>408</x>
+     <y>5</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>genreBox</sender>
+   <signal>editTextChanged(QString)</signal>
+   <receiver>TagEditor</receiver>
+   <slot>slotDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>188</x>
+     <y>389</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>714</x>
+     <y>3</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>commentBox</sender>
+   <signal>textChanged()</signal>
+   <receiver>TagEditor</receiver>
+   <slot>slotDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>540</x>
+     <y>351</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>111</x>
+     <y>5</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>trackSpin</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TagEditor</receiver>
+   <slot>slotDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>414</x>
+     <y>121</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>394</x>
+     <y>-12</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>yearSpin</sender>
+   <signal>valueChanged(int)</signal>
+   <receiver>TagEditor</receiver>
+   <slot>slotDataChanged()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>704</x>
+     <y>117</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>685</x>
+     <y>-6</y>
     </hint>
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>slotDataChanged()</slot>
+ </slots>
 </ui>
