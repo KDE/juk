@@ -42,22 +42,17 @@ public slots:
     void setItemCurrentTime(int time) { m_itemCurrentTime = time; updateTime(); }
     virtual void playlistItemDataHasChanged() Q_DECL_FINAL;
 
-signals:
-    void jumpButtonClicked();
-
 private:
     void updateTime();
     virtual bool eventFilter(QObject *o, QEvent *e);
 
-    static QString formatTime(int minutes, int seconds);
+    KSqueezedTextLabel *m_playlistLabel = nullptr;
+    KSqueezedTextLabel *m_trackLabel    = nullptr;
+    QLabel             *m_itemTimeLabel = nullptr;
 
-    int m_itemTotalTime;
-    int m_itemCurrentTime;
-    bool m_showTimeRemaining;
-
-    KSqueezedTextLabel *m_playlistLabel;
-    KSqueezedTextLabel *m_trackLabel;
-    QLabel *m_itemTimeLabel;
+    int  m_itemTotalTime     = 0;
+    int  m_itemCurrentTime   = 0;
+    bool m_showTimeRemaining = false;
 };
 
 #endif

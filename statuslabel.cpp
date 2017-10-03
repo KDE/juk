@@ -16,9 +16,10 @@
 
 #include "statuslabel.h"
 
-#include <kiconloader.h>
-#include <ksqueezedtextlabel.h>
+#include <KIconLoader>
+#include <KSqueezedTextLabel>
 #include <KLocalizedString>
+#include <KFormat>
 
 #include <QAction>
 #include <QMouseEvent>
@@ -37,13 +38,22 @@
 using namespace ActionCollection;
 
 ////////////////////////////////////////////////////////////////////////////////
+// static helpers
+////////////////////////////////////////////////////////////////////////////////
+
+static QString formatTime(int seconds)
+{
+    static const KFormat fmt;
+    return fmt.formatDuration(seconds * 1000);
+}
+
+////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
 StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
     QWidget(parent),
-    PlaylistObserver(playlist),
-    m_showTimeRemaining(false)
+    PlaylistObserver(playlist)
 {
     auto hboxLayout = new QHBoxLayout(this);
 
@@ -99,7 +109,7 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
     jumpButton->setFlat(true);
 
     jumpButton->setToolTip(i18n("Jump to the currently playing item"));
-    connect(jumpButton, SIGNAL(clicked()), action("showPlaying"), SLOT(trigger()));
+    connect(jumpButton, &QPushButton::clicked, action("showPlaying"), &QAction::trigger);
 
     installEventFilter(this);
 
@@ -112,14 +122,13 @@ void StatusLabel::playingItemHasChanged()
         return;
     }
 
-    FileHandle file = playlist()->currentFile();
+    const FileHandle file = playlist()->currentFile();
+    const Tag *tag = file.tag();
+    const QString mid = (tag->artist().isEmpty() || tag->title().isEmpty())
+        ? QString()
+        : QStringLiteral(" - ");
 
-    QString mid =  file.tag()->artist().isEmpty() || file.tag()->title().isEmpty()
-        ? QString::null : QString(" - ");	//krazy:exclude=nullstrassign for old broken gcc
-
-    QString text = file.tag()->artist() + mid + file.tag()->title();
-
-    m_trackLabel->setText(text);
+    m_trackLabel->setText(tag->artist() + mid + tag->title());
     m_playlistLabel->setText(playlist()->name().simplified());
 }
 
@@ -127,34 +136,21 @@ void StatusLabel::playlistItemDataHasChanged()
 {
     playingItemHasChanged();
 
-    if(!playlist()->playing()) {
+    const auto plist = playlist();
+
+    if(!plist->playing()) {
         return;
     }
 
     setItemTotalTime(0);
     setItemCurrentTime(0);
 
-    int time = playlist()->time();
-
-    int days = time / (60 * 60 * 24);
-    int hours = time / (60 * 60) % 24;
-    int minutes = time / 60 % 60;
-    int seconds = time % 60;
-
-    QString timeString;
-
-    if(days > 0) {
-        timeString = i18np("1 day", "%1 days", days);
-        timeString.append(" ");
-    }
-
-    if(days > 0 || hours > 0)
-        timeString.append(QString().sprintf("%1d:%02d:%02d", hours, minutes, seconds));
-    else
-        timeString.append(QString().sprintf("%1d:%02d", minutes, seconds));
-
-    m_playlistLabel->setText(playlist()->name());
-    m_trackLabel->setText(i18np("1 item", "%1 items", playlist()->count()) + " - " + timeString);
+    m_playlistLabel->setText(plist->name());
+    m_trackLabel->setText(
+            i18np("1 item", "%1 items", plist->count()) +
+            QStringLiteral(" - ") +
+            formatTime(plist->time())
+            );
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -163,23 +159,12 @@ void StatusLabel::playlistItemDataHasChanged()
 
 void StatusLabel::updateTime()
 {
-    int minutes;
-    int seconds;
+    const int seconds = m_showTimeRemaining
+        ? m_itemTotalTime - m_itemCurrentTime
+        : m_itemCurrentTime;
+    const QString timeString = formatTime(seconds) + QStringLiteral(" / ") +
+        formatTime(m_itemTotalTime);
 
-    if(m_showTimeRemaining) {
-        minutes = int((m_itemTotalTime - m_itemCurrentTime) / 60);
-        seconds = (m_itemTotalTime - m_itemCurrentTime) % 60;
-    }
-    else {
-        minutes = int(m_itemCurrentTime / 60);
-        seconds = m_itemCurrentTime % 60;
-    }
-
-    int totalMinutes = int(m_itemTotalTime / 60);
-    int totalSeconds = m_itemTotalTime % 60;
-
-    QString timeString = formatTime(minutes, seconds) +  " / " +
-        formatTime(totalMinutes, totalSeconds);
     m_itemTimeLabel->setText(timeString);
 }
 
@@ -202,18 +187,6 @@ bool StatusLabel::eventFilter(QObject *o, QEvent *e)
         return true;
     }
     return false;
-}
-
-// TODO: Look at QLocale or KCoreAddons::format for showing time durations
-QString StatusLabel::formatTime(int minutes, int seconds) // static
-{
-    QString m = QString::number(minutes);
-    if(m.length() == 1)
-        m = '0' + m;
-    QString s = QString::number(seconds);
-    if(s.length() == 1)
-        s = '0' + s;
-    return m + ':' + s;
 }
 
 // vim: set et sw=4 tw=0 sta:
