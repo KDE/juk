@@ -45,14 +45,14 @@ MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
     : QDBusAbstractAdaptor(parent)
     , m_player(JuK::JuKInstance()->playerManager())
 {
-    connect(m_player, SIGNAL(signalItemChanged(FileHandle)), this, SLOT(currentSourceChanged()));
-    connect(m_player, SIGNAL(signalPlay()), this, SLOT(stateUpdated()));
-    connect(m_player, SIGNAL(signalPause()), this, SLOT(stateUpdated()));
-    connect(m_player, SIGNAL(signalStop()), this, SLOT(stateUpdated()));
-    connect(m_player, SIGNAL(totalTimeChanged(int)), this, SLOT(totalTimeChanged()));
-    connect(m_player, SIGNAL(seekableChanged(bool)), this, SLOT(seekableChanged(bool)));
-    connect(m_player, SIGNAL(volumeChanged(float)), this, SLOT(volumeChanged(float)));
-    connect(m_player, SIGNAL(seeked(int)), this, SLOT(seeked(int)));
+    connect(m_player, &PlayerManager::signalItemChanged, this, &MediaPlayer2Player::currentSourceChanged);
+    connect(m_player, &PlayerManager::signalPlay,        this, &MediaPlayer2Player::stateUpdated);
+    connect(m_player, &PlayerManager::signalPause,       this, &MediaPlayer2Player::stateUpdated);
+    connect(m_player, &PlayerManager::signalStop,        this, &MediaPlayer2Player::stateUpdated);
+    connect(m_player, &PlayerManager::totalTimeChanged,  this, &MediaPlayer2Player::totalTimeChanged);
+    connect(m_player, &PlayerManager::seekableChanged,   this, &MediaPlayer2Player::seekableChanged);
+    connect(m_player, &PlayerManager::volumeChanged,     this, &MediaPlayer2Player::volumeChanged);
+    connect(m_player, &PlayerManager::seeked,            this, &MediaPlayer2Player::seeked);
 }
 
 MediaPlayer2Player::~MediaPlayer2Player()

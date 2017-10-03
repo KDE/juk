@@ -20,6 +20,7 @@
 #include <QSplitter>
 
 class QStackedWidget;
+class QTreeWidgetItem;
 
 class Playlist;
 class SearchWidget;
@@ -59,6 +60,7 @@ signals:
      * again at least this works.
      */
     void guiReady();
+    void currentPlaylistChanged(const PlaylistInterface &currentPlaylist);
 
 public slots:
     virtual void setFocus();
@@ -87,6 +89,7 @@ private slots:
     void slotShowSearchResults();
     void slotPlaylistSelectionChanged();
     void slotPlaylistChanged(int i);
+    void slotCurrentPlaylistChanged(QTreeWidgetItem *item);
 
 private:
     Playlist *m_newVisible;

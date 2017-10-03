@@ -56,7 +56,6 @@ enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying =
 PlayerManager::PlayerManager() :
     QObject(),
     m_playlistInterface(nullptr),
-    m_statusLabel(nullptr),
     m_setup(false)
 {
 // This class is the first thing constructed during program startup, and
@@ -194,11 +193,6 @@ QString PlayerManager::playingString() const
 void PlayerManager::setPlaylistInterface(PlaylistInterface *interface)
 {
     m_playlistInterface = interface;
-}
-
-void PlayerManager::setStatusLabel(StatusLabel *label)
-{
-    m_statusLabel = label;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -409,18 +403,11 @@ void PlayerManager::slotFinished()
 
 void PlayerManager::slotLength(qint64 msec)
 {
-    m_statusLabel->setItemTotalTime(msec / 1000);
     emit totalTimeChanged(msec);
 }
 
 void PlayerManager::slotTick(qint64 msec)
 {
-    if(!m_setup || !m_playlistInterface)
-        return;
-
-    if(m_statusLabel)
-        m_statusLabel->setItemCurrentTime(msec / 1000);
-
     emit tick(msec);
 }
 

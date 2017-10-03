@@ -32,6 +32,7 @@
 #include "filehandle.h"
 #include "playlistinterface.h"
 #include "actioncollection.h"
+#include "playermanager.h"
 #include "tag.h"
 #include "juk_debug.h"
 
@@ -41,19 +42,18 @@ using namespace ActionCollection;
 // static helpers
 ////////////////////////////////////////////////////////////////////////////////
 
-static QString formatTime(int seconds)
+static QString formatTime(qint64 milliseconds)
 {
     static const KFormat fmt;
-    return fmt.formatDuration(seconds * 1000);
+    return fmt.formatDuration(milliseconds);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
-    QWidget(parent),
-    PlaylistObserver(playlist)
+StatusLabel::StatusLabel(const PlaylistInterface &currentPlaylist, QWidget *parent) :
+    QWidget(parent)
 {
     auto hboxLayout = new QHBoxLayout(this);
 
@@ -113,43 +113,33 @@ StatusLabel::StatusLabel(PlaylistInterface *playlist, QWidget *parent) :
 
     installEventFilter(this);
 
-    playlistItemDataHasChanged();
+    slotCurrentPlaylistHasChanged(currentPlaylist);
 }
 
-void StatusLabel::playingItemHasChanged()
+void StatusLabel::slotPlayingItemHasChanged(const FileHandle &file)
 {
-    if(!playlist()->playing()) {
-        return;
-    }
-
-    const FileHandle file = playlist()->currentFile();
     const Tag *tag = file.tag();
     const QString mid = (tag->artist().isEmpty() || tag->title().isEmpty())
         ? QString()
         : QStringLiteral(" - ");
 
+    setItemTotalTime(tag->seconds());
+    setItemCurrentTime(0);
+
     m_trackLabel->setText(tag->artist() + mid + tag->title());
-    m_playlistLabel->setText(playlist()->name().simplified());
 }
 
-void StatusLabel::playlistItemDataHasChanged()
+void StatusLabel::slotCurrentPlaylistHasChanged(const PlaylistInterface &currentPlaylist)
 {
-    playingItemHasChanged();
-
-    const auto plist = playlist();
-
-    if(!plist->playing()) {
+    if(!currentPlaylist.playing()) {
         return;
     }
 
-    setItemTotalTime(0);
-    setItemCurrentTime(0);
-
-    m_playlistLabel->setText(plist->name());
+    m_playlistLabel->setText(currentPlaylist.name());
     m_trackLabel->setText(
-            i18np("1 item", "%1 items", plist->count()) +
+            i18np("1 item", "%1 items", currentPlaylist.count()) +
             QStringLiteral(" - ") +
-            formatTime(plist->time())
+            formatTime(qint64(1000) * currentPlaylist.time())
             );
 }
 
@@ -159,10 +149,10 @@ void StatusLabel::playlistItemDataHasChanged()
 
 void StatusLabel::updateTime()
 {
-    const int seconds = m_showTimeRemaining
+    const qint64 milliseconds = m_showTimeRemaining
         ? m_itemTotalTime - m_itemCurrentTime
         : m_itemCurrentTime;
-    const QString timeString = formatTime(seconds) + QStringLiteral(" / ") +
+    const QString timeString = formatTime(milliseconds) + QStringLiteral(" / ") +
         formatTime(m_itemTotalTime);
 
     m_itemTimeLabel->setText(timeString);

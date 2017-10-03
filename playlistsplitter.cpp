@@ -180,7 +180,7 @@ void PlaylistSplitter::setupLayout()
     // Create a splitter to go between the playlists and the editor.
 
     m_editorSplitter = new QSplitter(Qt::Vertical, this);
-    m_editorSplitter->setObjectName( QLatin1String("editorSplitter" ));
+    m_editorSplitter->setObjectName(QLatin1String("editorSplitter"));
 
     // Make sure none of the optional widgets are collapsible, this causes the
     // widget to be essentially invisible but logically shown.
@@ -196,13 +196,13 @@ void PlaylistSplitter::setupLayout()
     topLayout->setSpacing(0);
 
     m_playlistStack = new QStackedWidget(top);
-    m_playlistStack->setObjectName( QLatin1String("playlistStack" ));
+    m_playlistStack->setObjectName(QLatin1String("playlistStack"));
     m_playlistStack->installEventFilter(this);
     m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_playlistStack->hide(); // Will be shown after CollectionList filled.
 
     m_editor = new TagEditor(m_editorSplitter);
-    m_editor->setObjectName( QLatin1String("TagEditor" ));
+    m_editor->setObjectName(QLatin1String("TagEditor"));
 
     // Create the lyrics widget
     m_lyricsWidget = new LyricsWidget(this);
@@ -210,13 +210,15 @@ void PlaylistSplitter::setupLayout()
 
     // Create the PlaylistBox
     m_playlistBox = new PlaylistBox(m_player, this, m_playlistStack);
-    m_playlistBox->setObjectName( QLatin1String( "playlistBox" ) );
+    m_playlistBox->setObjectName(QLatin1String("playlistBox"));
 
     connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));
     connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist*)),
             m_editor, SLOT(slotPlaylistDestroyed(Playlist*)));
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
+    connect(m_playlistBox, &QTreeWidget::currentItemChanged,
+            this,          &PlaylistSplitter::slotCurrentPlaylistChanged);
     connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
             m_player, SLOT(play(FileHandle)));
 
@@ -325,13 +327,16 @@ void PlaylistSplitter::slotPlaylistChanged(int i)
     m_newVisible = 0;
 }
 
+void PlaylistSplitter::slotCurrentPlaylistChanged(QTreeWidgetItem *item)
+{
+    auto pItem = static_cast<PlaylistBox::Item*>(item);
+    emit currentPlaylistChanged(*(pItem->playlist()));
+}
+
 void PlaylistSplitter::slotEnable()
 {
-    qCDebug(JUK_LOG) << "Enabling GUI";
-    QTime stopwatch; stopwatch.start();
     setEnabled(true); // Ready to go.
     m_playlistStack->show();
-    qCDebug(JUK_LOG) << "Finished enabling GUI, took" << stopwatch.elapsed() << "ms";
 
     (void) new Mpris2(this);
 }

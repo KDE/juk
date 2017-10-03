@@ -17,30 +17,33 @@
 #ifndef JUK_STATUSLABEL_H
 #define JUK_STATUSLABEL_H
 
-#include "playlistinterface.h"
-
 #include <QWidget>
+
+class KSqueezedTextLabel;
 
 class QEvent;
 class QLabel;
-class KSqueezedTextLabel;
 
-class StatusLabel : public QWidget, public PlaylistObserver
+class FileHandle;
+class PlaylistInterface;
+
+class StatusLabel : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit StatusLabel(PlaylistInterface *playlist, QWidget *parent = nullptr);
-    virtual void playingItemHasChanged() Q_DECL_FINAL;
+    explicit StatusLabel(const PlaylistInterface &currentPlaylist, QWidget *parent = nullptr);
 
 public slots:
+    void slotPlayingItemHasChanged(const FileHandle &file);
+    void slotCurrentPlaylistHasChanged(const PlaylistInterface &currentPlaylist);
+
     /**
-     * This just sets internal variables that are used by setItemCurrentTime().
+     * This just sets internal variables that are used by updateTime().
      * Please call that method to display the time.
      */
-    void setItemTotalTime(int time) { m_itemTotalTime = time; }
-    void setItemCurrentTime(int time) { m_itemCurrentTime = time; updateTime(); }
-    virtual void playlistItemDataHasChanged() Q_DECL_FINAL;
+    void setItemTotalTime(qint64 time_msec) { m_itemTotalTime = time_msec; }
+    void setItemCurrentTime(qint64 time_msec) { m_itemCurrentTime = time_msec; updateTime(); }
 
 private:
     void updateTime();

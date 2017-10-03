@@ -141,6 +141,7 @@ private:
 class PlaylistBox::Item : public QObject, public QTreeWidgetItem, public PlaylistObserver
 {
     friend class PlaylistBox;
+    friend class PlaylistSplitter;
     friend class ViewMode;
     friend class CompactViewMode;
     friend class TreeViewMode;

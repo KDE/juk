@@ -26,7 +26,6 @@
 #include <Phonon/Global>
 #include <Phonon/Path>
 
-class StatusLabel;
 class PlaylistInterface;
 class QPixmap;
 
@@ -74,7 +73,6 @@ public:
     QString playingString() const;
 
     void setPlaylistInterface(PlaylistInterface *interface);
-    void setStatusLabel(StatusLabel *label);
 
     QString randomPlayMode() const;
 
@@ -100,8 +98,8 @@ public slots:
     void setRandomPlayMode(const QString &randomMode);
 
 signals:
-    void tick(int time);
-    void totalTimeChanged(int time);
+    void tick(qint64 /* time_msec */);
+    void totalTimeChanged(qint64 /* time_msec */);
     void mutedChanged(bool muted);
     void volumeChanged(float volume);
     void seeked(int newPos);
@@ -127,7 +125,6 @@ private slots:
 private:
     FileHandle m_file;
     PlaylistInterface *m_playlistInterface;
-    StatusLabel *m_statusLabel;
     bool m_muted;
     bool m_setup;
 

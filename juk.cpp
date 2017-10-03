@@ -165,22 +165,19 @@ void JuK::setupLayout()
 {
     new TagTransactionManager(this);
 
-    qCDebug(JUK_LOG) << "Creating GUI";
-    QTime stopwatch;
-    stopwatch.start();
-
     m_splitter = new PlaylistSplitter(m_player, this);
     setCentralWidget(m_splitter);
 
-    m_statusLabel = new StatusLabel(m_splitter->playlist(), statusBar());
-    connect(CollectionList::instance(), &CollectionList::signalCollectionChanged,
-            m_statusLabel, &StatusLabel::playlistItemDataHasChanged);
+    m_statusLabel = new StatusLabel(*m_splitter->playlist(), statusBar());
     statusBar()->addWidget(m_statusLabel, 1);
-    m_player->setStatusLabel(m_statusLabel);
+    connect(m_player, &PlayerManager::tick, m_statusLabel,
+            &StatusLabel::setItemCurrentTime);
+    connect(m_player, &PlayerManager::totalTimeChanged,
+            m_statusLabel, &StatusLabel::setItemTotalTime);
+    connect(m_splitter, &PlaylistSplitter::currentPlaylistChanged,
+            m_statusLabel, &StatusLabel::slotCurrentPlaylistHasChanged);
 
     m_splitter->setFocus();
-
-    qCDebug(JUK_LOG) << "GUI created in" << stopwatch.elapsed() << "ms";
 }
 
 void JuK::setupActions()

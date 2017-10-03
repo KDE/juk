@@ -14,8 +14,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef FILEHANDLE_H
-#define FILEHANDLE_H
+#ifndef JUK_FILEHANDLE_H
+#define JUK_FILEHANDLE_H
 
 #include <QString>
 
