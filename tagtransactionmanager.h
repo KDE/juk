@@ -1,5 +1,5 @@
 /**
- * Copyright (C) 2004 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2004, 2017 Michael Pyne <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -18,12 +18,17 @@
 #define TAGTRANSACTIONMANAGER_H
 
 #include <QObject>
-#include <QList>
+
+#include <memory>
+#include <vector>
+
+#include "tag.h"
 
 class PlaylistItem;
 class QWidget;
-class Tag;
 class QFileInfo;
+
+using std::unique_ptr;
 
 /**
  * Class to encapsulate a change to the tag, and optionally the file name, of
@@ -32,67 +37,27 @@ class QFileInfo;
  * @author Michael Pyne <mpyne@kde.org>
  * @see TagTransactionManager
  */
-class TagTransactionAtom
+struct TagTransactionAtom
 {
     public:
     /**
-     * Default constructor, for use by QValueList.
-     */
-    TagTransactionAtom();
-
-    /**
-     * Copy constructor.  This takes ownership of the m_tag pointer, so the
-     * object being copied no longer has access to the tag.  This function also
-     * exists mainly for QValueList's benefit.
-     *
-     * @param other The TagTransactionAtom to copy.
-     */
-    TagTransactionAtom(const TagTransactionAtom &other);
-
-    /**
      * Creates an atom detailing a change made by \p tag to \p item.
      *
-     * @param tag Contains the new tag to apply to item.
      * @param item The PlaylistItem to change.
+     * @param tag Contains the new tag to apply to item.
      */
     TagTransactionAtom(PlaylistItem *item, Tag *tag);
 
-    /**
-     * Destroys the atom.  This function deletes the tag, so make sure you've
-     * already copied out any data you need.  The PlaylistItem is unaffected.
-     */
-    ~TagTransactionAtom();
-
-    /**
-     * Assignment operator.  This operator takes ownership of the m_tag pointer,
-     * so the object being assigned from no longer has access to the tag.  This
-     * function exists mainly for the benefit of QValueList.
-     *
-     * @param other The TagTransactionAtom to copy from.
-     * @return The TagTransactionAtom being assigned to.
-     */
-    TagTransactionAtom &operator=(const TagTransactionAtom &other);
-
-    /**
-     * Accessor function to retrieve the PlaylistItem.
-     *
-     * @return The PlaylistItem being changed.
-     */
     PlaylistItem *item() const { return m_item; }
+    const Tag *tag() const { return m_tag.get(); }
 
-    /**
-     * Accessor function to retrieve the changed Tag.
-     *
-     * @return The Tag containing the changes to apply to item().
-     */
-    Tag *tag() const { return m_tag; }
-
-    private:
     PlaylistItem *m_item;
-    mutable Tag *m_tag;
+    unique_ptr<Tag> m_tag;
 };
 
-typedef QList<TagTransactionAtom> TagAlterationList;
+// Qt's containers don't play well with std::unique_ptr, but being able to use
+// unique_ptr avoids a bunch of custom code on my part.
+using TagAlterationList = std::vector<TagTransactionAtom>;
 
 /**
  * This class manages alterations of a group of PlaylistItem's FileHandles.  What this

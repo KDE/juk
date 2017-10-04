@@ -35,40 +35,15 @@ using ActionCollection::action;
 
 Q_GLOBAL_STATIC(TagTransactionManager, g_tagManager)
 
-TagTransactionAtom::TagTransactionAtom() : m_item(0), m_tag(0)
-{
-    action("edit_undo")->setEnabled(false);
-}
-
-TagTransactionAtom::TagTransactionAtom(const TagTransactionAtom &other) :
-    m_item(other.m_item), m_tag(other.m_tag)
-{
-    other.m_tag = 0; // Only allow one owner
-}
-
-TagTransactionAtom::TagTransactionAtom(PlaylistItem *item, Tag *tag) :
-    m_item(item), m_tag(tag)
-{
-}
-
-TagTransactionAtom::~TagTransactionAtom()
-{
-    delete m_tag;
-}
-
-TagTransactionAtom &TagTransactionAtom::operator=(const TagTransactionAtom &other)
-{
-    m_item = other.m_item;
-    m_tag = other.m_tag;
-
-    other.m_tag = 0; // Only allow one owner
-
-    return *this;
-}
-
 TagTransactionManager *TagTransactionManager::instance()
 {
     return g_tagManager;
+}
+
+TagTransactionAtom::TagTransactionAtom(PlaylistItem *item, Tag *tag)
+    : m_item(item)
+    , m_tag(tag)
+{
 }
 
 void TagTransactionManager::changeTagOnItem(PlaylistItem *item, Tag *newTag)
@@ -83,7 +58,7 @@ void TagTransactionManager::changeTagOnItem(PlaylistItem *item, Tag *newTag)
     // signals from CollectionList to ensure that the commit list and the
     // playlists stay in sync.
 
-    m_list.append(TagTransactionAtom(item->collectionItem(), newTag));
+    m_list.emplace_back(item->collectionItem(), newTag);
 }
 
 Tag *TagTransactionManager::duplicateTag(const Tag *tag, const QString &fileName)
@@ -113,7 +88,7 @@ void TagTransactionManager::forget()
 
 bool TagTransactionManager::undo()
 {
-    qCDebug(JUK_LOG) << "Undoing " << m_undoList.count() << " changes.\n";
+    qCDebug(JUK_LOG) << "Undoing " << m_undoList.size() << " changes.\n";
 
     forget();  // Scrap our old changes (although the list should be empty
                // anyways.
@@ -147,17 +122,17 @@ bool TagTransactionManager::renameFile(const QFileInfo &from, const QFileInfo &t
 
 bool TagTransactionManager::processChangeList(bool undo)
 {
-    TagAlterationList::ConstIterator it, end;
+    TagAlterationList::const_iterator it, end;
     QStringList errorItems;
 
-    it = undo ? m_undoList.constBegin() : m_list.constBegin();
-    end = undo ? m_undoList.constEnd() : m_list.constEnd();
+    it = undo ? m_undoList.cbegin() : m_list.cbegin();
+    end = undo ? m_undoList.cend() : m_list.cend();
 
     emit signalAboutToModifyTags();
 
     for(; it != end; ++it) {
         PlaylistItem *item = (*it).item();
-        Tag *tag = (*it).tag();
+        const Tag *tag = (*it).tag();
 
         QFileInfo newFile(tag->fileName());
 
@@ -170,7 +145,7 @@ bool TagTransactionManager::processChangeList(bool undo)
 
         if(tag->save()) {
             if(!undo)
-                m_undoList.append(TagTransactionAtom(item, duplicateTag(item->file().tag())));
+                m_undoList.emplace_back(item, duplicateTag(item->file().tag()));
 
             item->file().setFile(tag->fileName());
             item->refreshFromDisk();
@@ -193,7 +168,7 @@ bool TagTransactionManager::processChangeList(bool undo)
     }
 
     undo ? m_undoList.clear() : m_list.clear();
-    if(!undo && !m_undoList.isEmpty())
+    if(!undo && !m_undoList.empty())
         action("edit_undo")->setEnabled(true);
     else
         action("edit_undo")->setEnabled(false);

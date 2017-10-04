@@ -60,7 +60,7 @@ Tag::Tag(const QString &fileName) :
     }
 }
 
-bool Tag::save()
+bool Tag::save() const
 {
     bool result;
     TagLib::ID3v2::FrameFactory::instance()->setDefaultTextEncoding(TagLib::String::UTF8);

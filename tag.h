@@ -39,7 +39,7 @@ public:
      */
     Tag(const QString &fileName, bool);
 
-    bool save();
+    bool save() const;
 
     QString title() const { return m_title; }
     QString artist() const { return m_artist; }
