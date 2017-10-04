@@ -163,8 +163,6 @@ void JuK::coverDownloaded(const QPixmap &cover)
 
 void JuK::setupLayout()
 {
-    new TagTransactionManager(this);
-
     m_splitter = new PlaylistSplitter(m_player, this);
     setCentralWidget(m_splitter);
 

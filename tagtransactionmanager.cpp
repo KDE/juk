@@ -16,13 +16,14 @@
 
 #include "tagtransactionmanager.h"
 
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <KLocalizedString>
 
 #include <QAction>
 #include <QApplication>
 #include <QFileInfo>
 #include <QDir>
+#include <QGlobalStatic>
 
 #include "playlistitem.h"
 #include "collectionlist.h"
@@ -32,7 +33,7 @@
 
 using ActionCollection::action;
 
-TagTransactionManager *TagTransactionManager::m_manager = 0;
+Q_GLOBAL_STATIC(TagTransactionManager, g_tagManager)
 
 TagTransactionAtom::TagTransactionAtom() : m_item(0), m_tag(0)
 {
@@ -67,7 +68,7 @@ TagTransactionAtom &TagTransactionAtom::operator=(const TagTransactionAtom &othe
 
 TagTransactionManager *TagTransactionManager::instance()
 {
-    return m_manager;
+    return g_tagManager;
 }
 
 void TagTransactionManager::changeTagOnItem(PlaylistItem *item, Tag *newTag)
@@ -123,12 +124,6 @@ bool TagTransactionManager::undo()
     action("edit_undo")->setEnabled(false);
 
     return result;
-}
-
-TagTransactionManager::TagTransactionManager(QWidget *parent) : QObject(parent)
-{
-    setObjectName( QLatin1String("tagmanager" ));
-    m_manager = this;
 }
 
 bool TagTransactionManager::renameFile(const QFileInfo &from, const QFileInfo &to) const

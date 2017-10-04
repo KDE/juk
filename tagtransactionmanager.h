@@ -112,13 +112,6 @@ class TagTransactionManager : public QObject
 
     public:
     /**
-     * Constructs a TagTransactionManager, owned by @p parent.
-     *
-     * @param parent The parent QWidget.
-     */
-    TagTransactionManager(QWidget *parent = 0);
-
-    /**
      * Returns the global TagTransactionManager instance.
      *
      * @return The global TagTransactionManager.
@@ -136,7 +129,7 @@ class TagTransactionManager : public QObject
     void changeTagOnItem(PlaylistItem *item, Tag *newTag);
 
     /**
-     * Convienience function to duplicate a Tag object, since the Tag
+     * Convenience function to duplicate a Tag object, since the Tag
      * object doesn't have a decent copy constructor.
      *
      * @param tag The Tag to duplicate.
@@ -208,7 +201,6 @@ class TagTransactionManager : public QObject
 
     TagAlterationList m_list; ///< holds a list of changes to commit
     TagAlterationList m_undoList; ///< holds a list of changes to undo
-    static TagTransactionManager *m_manager; ///< used by instance()
 };
 
 #endif /* TAGTRANSACTIONMANAGER_H */
