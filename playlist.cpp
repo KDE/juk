@@ -1614,10 +1614,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
         if(item.exists() && item.isFile() && item.isReadable() &&
            MediaFiles::isMediaFile(item.fileName()))
         {
-            if(after)
-                after = createItem(FileHandle(item, item.absoluteFilePath()), after, false);
-            else
-                after = createItem(FileHandle(item, item.absoluteFilePath()), 0, false);
+            after = createItem(FileHandle(item), after, false);
         }
     }
 
@@ -1755,7 +1752,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
 
     if(fileInfo.isFile() && fileInfo.isReadable()) {
         if(MediaFiles::isMediaFile(file)) {
-            FileHandle f(fileInfo, canonicalPath);
+            FileHandle f(fileInfo);
             f.tag();
             files.append(f);
         }

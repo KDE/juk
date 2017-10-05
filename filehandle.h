@@ -17,8 +17,9 @@
 #ifndef JUK_FILEHANDLE_H
 #define JUK_FILEHANDLE_H
 
-#include <QString>
+#include <QExplicitlySharedDataPointer>
 
+class QString;
 class QFileInfo;
 class QDateTime;
 class QDataStream;
@@ -32,7 +33,7 @@ template<class T>
 class QList;
 
 /**
- * An value based, explicitly shared wrapper around file related information
+ * A value based, explicitly shared wrapper around file related information
  * used in JuK's playlists.
  */
 
@@ -41,9 +42,11 @@ class FileHandle
 public:
     FileHandle();
     FileHandle(const FileHandle &f);
-    explicit FileHandle(const QFileInfo &info, const QString &path = QString());
+    explicit FileHandle(const QFileInfo &info);
     explicit FileHandle(const QString &path);
     FileHandle(const QString &path, CacheDataStream &s);
+
+    // manually declared so its definition can be delayed until .cpp
     ~FileHandle();
 
     /**
@@ -74,9 +77,7 @@ public:
 
 private:
     class FileHandlePrivate;
-    FileHandlePrivate *d;
-
-    void setup(const QFileInfo &info, const QString &path);
+    QExplicitlySharedDataPointer<FileHandlePrivate> d;
 };
 
 typedef QList<FileHandle> FileHandleList;

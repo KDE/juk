@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2004 Scott Wheeler <wheeler@kde.org>
+ * Copyright (C) 2017 Michael Pyne  <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -17,9 +18,7 @@
 #include "filehandle.h"
 
 #include <QFileInfo>
-
-#include <limits.h>
-#include <stdlib.h>
+#include <QSharedData>
 
 #include "filehandleproperties.h"
 #include "tag.h"
@@ -40,37 +39,17 @@ AddProperty(Path, absFilePath())
 AddNumberProperty(Size, fileInfo().size())
 AddProperty(Extension, fileInfo().suffix())
 
-static QString resolveSymLinks(const QFileInfo &file) // static
-{
-    char real[PATH_MAX];
-
-    if(file.exists() && realpath(QFile::encodeName(file.absoluteFilePath()).data(), real))
-        return QFile::decodeName(real);
-    else
-        return file.filePath();
-}
-
-/**
- * A simple reference counter -- pasted from TagLib.
- */
-
-class RefCounter
+class FileHandle::FileHandlePrivate : public QSharedData
 {
 public:
-    RefCounter() : refCount(1) {}
-    void ref() { refCount++; }
-    bool deref() { return ! --refCount ; }
-    int count() const { return refCount; }
-private:
-    uint refCount;
-};
-
-class FileHandle::FileHandlePrivate : public RefCounter
-{
-public:
-    FileHandlePrivate() :
-        tag(0),
-        coverInfo(0) {}
+    FileHandlePrivate(QFileInfo fInfo)
+        : tag(nullptr)
+        , coverInfo(nullptr)
+        , fileInfo(fInfo)
+        , absFilePath(fInfo.canonicalFilePath())
+    {
+        baseModificationTime = fileInfo.lastModified();
+    }
 
     ~FileHandlePrivate()
     {
@@ -80,9 +59,9 @@ public:
 
     mutable Tag *tag;
     mutable CoverInfo *coverInfo;
-    mutable QString absFilePath;
     QFileInfo fileInfo;
-    QDateTime modificationTime;
+    QString absFilePath;
+    QDateTime baseModificationTime;
     QDateTime lastModified;
 };
 
@@ -91,51 +70,37 @@ public:
 ////////////////////////////////////////////////////////////////////////////////
 
 FileHandle::FileHandle()
+    : d(new FileHandlePrivate(QFileInfo()))
 {
-    static FileHandlePrivate nullPrivate;
-    d = &nullPrivate;
-    d->ref();
 }
 
 FileHandle::FileHandle(const FileHandle &f) :
     d(f.d)
 {
-    if(!d) {
+    if(!d)
         qCDebug(JUK_LOG) << "The source FileHandle was not initialized.";
-        d = null().d;
-    }
-    d->ref();
 }
 
-FileHandle::FileHandle(const QFileInfo &info, const QString &path) :
-    d(0)
+FileHandle::FileHandle(const QFileInfo &info) :
+    d(new FileHandlePrivate(info))
 {
-    setup(info, path);
+    if(!info.exists())
+        qCWarning(JUK_LOG) << "File" << info.filePath() << "no longer exists!";
 }
 
-FileHandle::FileHandle(const QString &path) :
-    d(0)
+FileHandle::FileHandle(const QString &path)
+    : FileHandle(QFileInfo(path)) // delegating ctor
 {
-    setup(QFileInfo(path), path);
 }
 
 FileHandle::FileHandle(const QString &path, CacheDataStream &s)
+    : FileHandle(QFileInfo(path)) // delegating ctor
 {
-    d = new FileHandlePrivate;
-    if(!QFile::exists(path)) {
-        qCWarning(JUK_LOG) << "File" << path << "no longer exists!";
-        return;
-    }
-    d->fileInfo = QFileInfo(path);
-    d->absFilePath = path;
-    read(s);
+    if(d->fileInfo.exists())
+        read(s);
 }
 
-FileHandle::~FileHandle()
-{
-    if(d->deref())
-        delete d;
-}
+FileHandle::~FileHandle() = default;
 
 void FileHandle::refresh()
 {
@@ -156,18 +121,12 @@ void FileHandle::setFile(const QString &path)
         return;
     }
 
-    if(!d || isNull())
-        setup(QFileInfo(path), path);
-    else {
-        d->absFilePath = resolveSymLinks(path);
-        d->fileInfo.setFile(path);
-        d->tag->setFileName(d->absFilePath);
-    }
+    d = new FileHandlePrivate(QFileInfo(path));
 }
 
 Tag *FileHandle::tag() const
 {
-    if(!d->tag)
+    if(Q_UNLIKELY(!d->tag))
         d->tag = new Tag(d->absFilePath);
 
     return d->tag;
@@ -175,7 +134,7 @@ Tag *FileHandle::tag() const
 
 CoverInfo *FileHandle::coverInfo() const
 {
-    if(!d->coverInfo)
+    if(Q_UNLIKELY(!d->coverInfo))
         d->coverInfo = new CoverInfo(*this);
 
     return d->coverInfo;
@@ -183,8 +142,6 @@ CoverInfo *FileHandle::coverInfo() const
 
 QString FileHandle::absFilePath() const
 {
-    if(d->absFilePath.isEmpty())
-        d->absFilePath = resolveSymLinks(d->fileInfo.absoluteFilePath());
     return d->absFilePath;
 }
 
@@ -200,9 +157,9 @@ bool FileHandle::isNull() const
 
 bool FileHandle::current() const
 {
-    return (d->modificationTime.isValid() &&
+    return (d->baseModificationTime.isValid() &&
             lastModified().isValid() &&
-            d->modificationTime >= lastModified());
+            d->baseModificationTime >= lastModified());
 }
 
 const QDateTime &FileHandle::lastModified() const
@@ -222,21 +179,15 @@ void FileHandle::read(CacheDataStream &s)
             d->tag = new Tag(d->absFilePath, true);
 
         s >> *(d->tag);
-        s >> d->modificationTime;
+        s >> d->baseModificationTime;
         break;
     }
 }
 
 FileHandle &FileHandle::operator=(const FileHandle &f)
 {
-    if(&f == this)
-        return *this;
-
-    if(d->deref())
-        delete d;
-
-    d = f.d;
-    d->ref();
+    if(&f != this)
+        d = f.d;
 
     return *this;
 }
@@ -265,25 +216,6 @@ const FileHandle &FileHandle::null() // static
 {
     static FileHandle f;
     return f;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private methods
-////////////////////////////////////////////////////////////////////////////////
-
-void FileHandle::setup(const QFileInfo &info, const QString &path)
-{
-    if(d && !isNull())
-        return;
-
-    QString fileName = path.isEmpty() ? info.absoluteFilePath() : path;
-
-    d = new FileHandlePrivate;
-    d->fileInfo = info;
-    d->absFilePath = resolveSymLinks(fileName);
-    d->modificationTime = info.lastModified();
-    if(!info.exists())
-        qCWarning(JUK_LOG) << "File" << path << "no longer exists!";
 }
 
 ////////////////////////////////////////////////////////////////////////////////

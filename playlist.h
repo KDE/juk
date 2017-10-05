@@ -218,7 +218,7 @@ public:
      * will be udated.
      */
     void showColumn(int c, bool updateSearch = true);
-    
+
     void sortByColumn(int column, Qt::SortOrder order = Qt::AscendingOrder);
 
     /**

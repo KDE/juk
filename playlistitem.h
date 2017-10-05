@@ -192,11 +192,7 @@ protected:
      */
     struct Data : public QSharedData
     {
-        Data() {}
-        Data(const QFileInfo &info, const QString &path) : fileHandle(info, path) {}
-        Data(const QString &path) : fileHandle(path) {}
-
-        FileHandle fileHandle;
+        FileHandle fileHandle; // Set within CollectionList
         QVector<QString> metadata; ///< Artist, album, or genre tags.  Other columns unfilled
         QVector<int> cachedWidths;
     };
