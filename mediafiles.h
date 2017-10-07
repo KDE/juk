@@ -18,6 +18,7 @@
 #define JUK_MEDIAFILES_H
 
 #include <QList>
+#include <QUrl>
 
 class QWidget;
 class QString;
