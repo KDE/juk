@@ -219,6 +219,7 @@ QVariantMap MediaPlayer2Player::Metadata() const
     if(playingFile.coverInfo()->hasCover()) {
         const QString fallbackFileName =
             QStandardPaths::writableLocation(QStandardPaths::TempLocation) +
+            QStringLiteral("/") +
             QString("juk-cover-%1.png").arg(item->trackId());
 
         QString path = fallbackFileName;
