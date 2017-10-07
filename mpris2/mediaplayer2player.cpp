@@ -188,7 +188,7 @@ QVariantMap MediaPlayer2Player::Metadata() const
     // path, and the regex for that is, and I quote: [a-zA-Z0-9_]*, along with
     // the normal / delimiters for paths.
     PlaylistItem *item = Playlist::playingItem();
-    if (!item)
+    if(!item)
         return metaData;
 
     FileHandle playingFile = item->file();
@@ -198,10 +198,19 @@ QVariantMap MediaPlayer2Player::Metadata() const
         QVariant::fromValue<QDBusObjectPath>(
                 QDBusObjectPath(playingTrackFileId.constData()));
 
-    metaData["xesam:album"] = playingFile.tag()->album();
-    metaData["xesam:title"] = playingFile.tag()->title();
-    metaData["xesam:artist"] = QStringList(playingFile.tag()->artist());
-    metaData["xesam:genre"]  = QStringList(playingFile.tag()->genre());
+    const Tag *tag = playingFile.tag();
+    auto strValue = tag->album();
+    if(!strValue.isEmpty())
+        metaData["xesam:album"] = strValue;
+    strValue = tag->title();
+    if(!strValue.isEmpty())
+        metaData["xesam:title"] = strValue;
+    strValue = tag->artist();
+    if(!strValue.isEmpty())
+        metaData["xesam:artist"] = QStringList(strValue);
+    strValue = tag->genre();
+    if(!strValue.isEmpty())
+        metaData["xesam:genre"]  = QStringList(strValue);
 
     metaData["mpris:length"] = qint64(playingFile.tag()->seconds() * 1000000);
     metaData["xesam:url"] = QString::fromUtf8(
