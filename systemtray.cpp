@@ -432,13 +432,13 @@ void SystemTray::createButtonBox(QBoxLayout *parentLayout)
  */
 void SystemTray::slotBack()
 {
-    action("back")->trigger();
+    ActionCollection::action("back")->trigger();
     m_fade = false;
 }
 
 void SystemTray::slotForward()
 {
-    action("forward")->trigger();
+    ActionCollection::action("forward")->trigger();
     m_fade = false;
 }
 
@@ -512,15 +512,15 @@ void SystemTray::scrollEvent(int delta, Qt::Orientation orientation)
     switch(QApplication::keyboardModifiers()) {
     case Qt::ShiftModifier:
         if(delta > 0)
-            action("volumeUp")->trigger();
+            ActionCollection::action("volumeUp")->trigger();
         else
-            action("volumeDown")->trigger();
+            ActionCollection::action("volumeDown")->trigger();
         break;
     default:
         if(delta > 0)
-            action("forward")->trigger();
+            ActionCollection::action("forward")->trigger();
         else
-            action("back")->trigger();
+            ActionCollection::action("back")->trigger();
         break;
     }
 }
