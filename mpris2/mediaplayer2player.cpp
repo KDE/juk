@@ -45,14 +45,15 @@ MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
     : QDBusAbstractAdaptor(parent)
     , m_player(JuK::JuKInstance()->playerManager())
 {
-    connect(m_player, &PlayerManager::signalItemChanged, this, &MediaPlayer2Player::currentSourceChanged);
-    connect(m_player, &PlayerManager::signalPlay,        this, &MediaPlayer2Player::stateUpdated);
-    connect(m_player, &PlayerManager::signalPause,       this, &MediaPlayer2Player::stateUpdated);
-    connect(m_player, &PlayerManager::signalStop,        this, &MediaPlayer2Player::stateUpdated);
-    connect(m_player, &PlayerManager::totalTimeChanged,  this, &MediaPlayer2Player::totalTimeChanged);
-    connect(m_player, &PlayerManager::seekableChanged,   this, &MediaPlayer2Player::seekableChanged);
-    connect(m_player, &PlayerManager::volumeChanged,     this, &MediaPlayer2Player::volumeChanged);
-    connect(m_player, &PlayerManager::seeked,            this, &MediaPlayer2Player::seeked);
+    //FIXME: Workaround for GCC 4.8, remove .data() in 2019
+    connect(m_player.data(), &PlayerManager::signalItemChanged, this, &MediaPlayer2Player::currentSourceChanged);
+    connect(m_player.data(), &PlayerManager::signalPlay,        this, &MediaPlayer2Player::stateUpdated);
+    connect(m_player.data(), &PlayerManager::signalPause,       this, &MediaPlayer2Player::stateUpdated);
+    connect(m_player.data(), &PlayerManager::signalStop,        this, &MediaPlayer2Player::stateUpdated);
+    connect(m_player.data(), &PlayerManager::totalTimeChanged,  this, &MediaPlayer2Player::totalTimeChanged);
+    connect(m_player.data(), &PlayerManager::seekableChanged,   this, &MediaPlayer2Player::seekableChanged);
+    connect(m_player.data(), &PlayerManager::volumeChanged,     this, &MediaPlayer2Player::volumeChanged);
+    connect(m_player.data(), &PlayerManager::seeked,            this, &MediaPlayer2Player::seeked);
 }
 
 MediaPlayer2Player::~MediaPlayer2Player()
