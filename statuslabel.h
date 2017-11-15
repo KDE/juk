@@ -17,6 +17,7 @@
 #ifndef JUK_STATUSLABEL_H
 #define JUK_STATUSLABEL_H
 
+#include <QStatusBar>
 #include <QWidget>
 
 class KSqueezedTextLabel;
@@ -32,7 +33,7 @@ class StatusLabel : public QWidget
     Q_OBJECT
 
 public:
-    explicit StatusLabel(const PlaylistInterface &currentPlaylist, QWidget *parent = nullptr);
+    explicit StatusLabel(const PlaylistInterface &currentPlaylist, QStatusBar *parent = nullptr);
 
 public slots:
     void slotPlayingItemHasChanged(const FileHandle &file);
@@ -50,7 +51,7 @@ private:
     virtual bool eventFilter(QObject *o, QEvent *e);
 
     KSqueezedTextLabel *m_playlistLabel = nullptr;
-    KSqueezedTextLabel *m_trackLabel    = nullptr;
+    QLabel             *m_trackLabel    = nullptr;
     QLabel             *m_itemTimeLabel = nullptr;
 
     int  m_itemTotalTime     = 0;

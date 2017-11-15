@@ -25,9 +25,9 @@
 #include <QMouseEvent>
 #include <QLabel>
 #include <QFrame>
-#include <QHBoxLayout>
 #include <QEvent>
 #include <QPushButton>
+#include <QStatusBar>
 
 #include "filehandle.h"
 #include "playlistinterface.h"
@@ -52,65 +52,40 @@ static QString formatTime(qint64 milliseconds)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-StatusLabel::StatusLabel(const PlaylistInterface &currentPlaylist, QWidget *parent) :
+StatusLabel::StatusLabel(const PlaylistInterface &currentPlaylist, QStatusBar *parent) :
     QWidget(parent)
 {
-    auto hboxLayout = new QHBoxLayout(this);
-
-    QFrame *trackAndPlaylist = new QFrame(this);
-    hboxLayout->addWidget(trackAndPlaylist);
-    trackAndPlaylist->setFrameStyle(QFrame::Box | QFrame::Sunken);
-    trackAndPlaylist->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-
-    // Make sure that we have enough of a margin to suffice for the borders,
-    // hence the "lineWidth() * 2"
-    QHBoxLayout *trackAndPlaylistLayout = new QHBoxLayout(trackAndPlaylist);
-    trackAndPlaylistLayout->setMargin(trackAndPlaylist->lineWidth() * 2);
-    trackAndPlaylistLayout->setSpacing(5);
-    trackAndPlaylistLayout->setObjectName(QLatin1String("trackAndPlaylistLayout"));
-    trackAndPlaylistLayout->addSpacing(5);
-
-    m_playlistLabel = new KSqueezedTextLabel(trackAndPlaylist);
-    trackAndPlaylistLayout->addWidget(m_playlistLabel);
-    m_playlistLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    m_playlistLabel = new KSqueezedTextLabel(this);
+    m_playlistLabel->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred, QSizePolicy::Label));
     m_playlistLabel->setTextFormat(Qt::PlainText);
     m_playlistLabel->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
+    parent->addWidget(m_playlistLabel, 1);
 
-    m_trackLabel = new KSqueezedTextLabel(trackAndPlaylist);
-    trackAndPlaylistLayout->addWidget(m_trackLabel);
+    m_trackLabel = new QLabel(this);
     m_trackLabel->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
-    m_trackLabel->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_trackLabel->setTextFormat(Qt::PlainText);
-
-    trackAndPlaylistLayout->addSpacing(5);
+    parent->addPermanentWidget(m_trackLabel);
 
     m_itemTimeLabel = new QLabel(this);
-    hboxLayout->addWidget(m_itemTimeLabel);
     QFontMetrics fontMetrics(font());
     m_itemTimeLabel->setAlignment(Qt::AlignCenter);
     m_itemTimeLabel->setMinimumWidth(fontMetrics.boundingRect("000:00 / 000:00").width());
     m_itemTimeLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
     m_itemTimeLabel->setFrameStyle(QFrame::Box | QFrame::Sunken);
     m_itemTimeLabel->installEventFilter(this);
+    parent->addPermanentWidget(m_itemTimeLabel);
 
     setItemTotalTime(0);
     setItemCurrentTime(0);
 
-    auto jumpBox = new QFrame(this);
-    hboxLayout->addWidget(jumpBox);
-    jumpBox->setFrameStyle(QFrame::Box | QFrame::Sunken);
-    jumpBox->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Minimum);
-
-    auto jumpBoxHLayout = new QHBoxLayout(jumpBox);
-
-    QPushButton *jumpButton = new QPushButton(jumpBox);
-    jumpBoxHLayout->addWidget(jumpButton);
+    QPushButton *jumpButton = new QPushButton(this);
     jumpButton->setIcon(SmallIcon("go-up"));
     jumpButton->setFlat(true);
 
     jumpButton->setToolTip(i18n("Jump to the currently playing item"));
     connect(jumpButton, &QPushButton::clicked, action("showPlaying"), &QAction::trigger);
 
+    parent->addPermanentWidget(jumpButton);
     installEventFilter(this);
 
     slotCurrentPlaylistHasChanged(currentPlaylist);
