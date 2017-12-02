@@ -41,17 +41,10 @@ add_subdirectory( pics )
 
 find_package(TunePimp)
 set_package_properties(FEATURE PROPERTIES DESCRIPTION "A library for developing MusicBrainz enabled tagging applications" URL "http://www.musicbrainz.org/products/tunepimp" TYPE OPTIONAL PURPOSE "Provides MusicBrainz tagging in Juk.")
-if(TUNEPIMP_FOUND)
-	set(HAVE_TUNEPIMP 1)
-	if(TUNEPIMP_FOUND_VERSION_4)
-		set(HAVE_TUNEPIMP 4)
-        endif(TUNEPIMP_FOUND_VERSION_4)	
-        if(TUNEPIMP_FOUND_VERSION_5)
-                set(HAVE_TUNEPIMP 5)
-        endif(TUNEPIMP_FOUND_VERSION_5) 	
-else(TUNEPIMP_FOUND)
-	set(HAVE_TUNEPIMP 0)
-endif(TUNEPIMP_FOUND)	
+
+# TODO: tunepimp is fully unsupported, replace this when tunepimp is replaced
+# with whatever is actually current this decade.
+set(HAVE_TUNEPIMP 0)
 
 ########### next target ###############
 
