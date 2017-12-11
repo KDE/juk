@@ -29,6 +29,7 @@
   <name xml:lang="pl">JuK</name>
   <name xml:lang="pt">JuK</name>
   <name xml:lang="pt-BR">JuK</name>
+  <name xml:lang="ru">JuK</name>
   <name xml:lang="sk">JuK</name>
   <name xml:lang="sl">JuK</name>
   <name xml:lang="sr">Џук</name>
@@ -136,6 +137,7 @@
     <p xml:lang="pl">Cechy:</p>
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
+    <p xml:lang="ru">Возможности:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
     <p xml:lang="sr">Могућности:</p>
