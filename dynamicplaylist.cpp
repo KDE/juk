@@ -149,11 +149,9 @@ void DynamicPlaylist::updateItems()
     for(PlaylistList::ConstIterator it = m_playlists.constBegin(); it != m_playlists.constEnd(); ++it)
         siblings += (*it)->items();
 
-
-    PlaylistItemList newSiblings = siblings;
-    if(m_siblings != newSiblings) {
-        m_siblings = newSiblings;
-        QTimer::singleShot(0, this, SLOT(slotUpdateItems()));
+    if(m_siblings != siblings) {
+        m_siblings = siblings;
+        slotUpdateItems();
     }
 }
 
