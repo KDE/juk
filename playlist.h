@@ -414,6 +414,15 @@ protected:
      */
     void removeFromDisk(const PlaylistItemList &items);
 
+    /**
+     * Adds and removes items from this Playlist as necessary to ensure that
+     * the same items are present in this Playlist as in @p itemList.
+     *
+     * No ordering guarantees are imposed, just that the playlist will have the
+     * same items as in the given list afterwards.
+     */
+    void synchronizeItemsTo(const PlaylistItemList &itemList);
+
     // the following are all reimplemented from base classes
 
     virtual bool eventFilter(QObject *watched, QEvent *e);
@@ -437,7 +446,7 @@ protected:
     virtual void addColumn(const QString &label, int width = -1);
 
     /**
-     * Do some finial initialization of created items.  Notably ensure that they
+     * Do some final initialization of created items.  Notably ensure that they
      * are shown or hidden based on the contents of the current PlaylistSearch.
      *
      * This is called by the PlaylistItem constructor.

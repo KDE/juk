@@ -55,25 +55,8 @@ void SearchPlaylist::updateItems()
     // Here we don't simply use "clear" since that would involve a call to
     // items() which would in turn call this method...
 
-    PlaylistItemList l = Playlist::items();
-
-    QHash<CollectionListItem *, PlaylistItem *> oldItems;
-    oldItems.reserve(503);
-
-    foreach(PlaylistItem *item, l)
-        oldItems.insert(item->collectionItem(), item);
-
     m_search.search();
-    PlaylistItemList matched = m_search.matchedItems();
-    PlaylistItemList newItems;
-
-    foreach(PlaylistItem *item, matched) {
-        if(oldItems.remove(item->collectionItem()) == 0)
-            newItems.append(item->collectionItem());
-    }
-
-    clearItems(PlaylistItemList(oldItems.values()));
-    createItems(newItems);
+    synchronizeItemsTo(m_search.matchedItems());
 
     if(synchronizePlaying()) {
         qCDebug(JUK_LOG) << "synchronizing playing";

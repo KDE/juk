@@ -99,9 +99,6 @@ private:
      */
     void checkUpdateItems();
 
-private slots:
-    void slotUpdateItems();
-
 private:
     QList<PlaylistObserver *> m_observers;
     PlaylistItemList m_siblings;

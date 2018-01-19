@@ -151,7 +151,11 @@ void DynamicPlaylist::updateItems()
 
     if(m_siblings != siblings) {
         m_siblings = siblings;
-        slotUpdateItems();
+        this->synchronizeItemsTo(siblings);
+
+        if(m_synchronizePlaying) {
+            synchronizePlayingItems(m_playlists, true);
+        }
     }
 }
 
@@ -172,21 +176,6 @@ void DynamicPlaylist::checkUpdateItems()
     updateItems();
 
     m_dirty = false;
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// private slots
-////////////////////////////////////////////////////////////////////////////////
-
-void DynamicPlaylist::slotUpdateItems()
-{
-    // This should be optimized to check to see which items are already in the
-    // list and just adding those and removing the ones that aren't.
-
-    clear();
-    createItems(m_siblings);
-    if(m_synchronizePlaying)
-        synchronizePlayingItems(m_playlists, true);
 }
 
 // vim: set et sw=4 tw=0 sta:
