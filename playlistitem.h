@@ -179,8 +179,10 @@ protected:
     //virtual void paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align);
     //virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}
 
-    virtual int compare(QTreeWidgetItem *item, int column, bool ascending) const;
+    virtual int compare(const QTreeWidgetItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
+
+    bool operator<(const QTreeWidgetItem &other) const;
 
     bool isValid() const;
 

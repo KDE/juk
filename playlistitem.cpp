@@ -19,9 +19,11 @@
 #include <config-juk.h>
 #include <kiconloader.h>
 
-#include <QPixmap>
+#include <QCollator>
 #include <QFileInfo>
+#include <QHeaderView>
 #include <QGlobalStatic>
+#include <QPixmap>
 
 #include "collectionlist.h"
 #include "musicbrainzquery.h"
@@ -41,6 +43,14 @@ static void startMusicBrainzQuery(const FileHandle &file)
 #else
     Q_UNUSED(file)
 #endif
+}
+
+static int naturalCompare(const QString &first, const QString &second)
+{
+    static QCollator collator;
+    collator.setNumericMode(true);
+    collator.setCaseSensitivity(Qt::CaseInsensitive);
+    return collator.compare(first, second);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -292,7 +302,7 @@ PlaylistItem::PlaylistItem(CollectionList *parent) :
     QTreeWidgetItem::paintCell(p, colorGroup, column, width, align);
 }*/
 
-int PlaylistItem::compare(QTreeWidgetItem *item, int column, bool ascending) const
+int PlaylistItem::compare(const QTreeWidgetItem *item, int column, bool ascending) const
 {
     // reimplemented from QListViewItem
 
@@ -301,7 +311,7 @@ int PlaylistItem::compare(QTreeWidgetItem *item, int column, bool ascending) con
     if(!item)
         return 0;
 
-    PlaylistItem *playlistItem = static_cast<PlaylistItem *>(item);
+    const PlaylistItem *playlistItem = static_cast<const PlaylistItem *>(item);
 
     // The following statments first check to see if you can sort based on the
     // specified column.  If the values for the two PlaylistItems are the same
@@ -337,9 +347,9 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
         return 0;
 
     if(column < offset) {
-        QString first = firstItem->text(column).toLower();
-        QString second = secondItem->text(column).toLower();
-        return first.localeAwareCompare(second);
+        QString first = firstItem->text(column);
+        QString second = secondItem->text(column);
+        return naturalCompare(first, second);
     }
 
     switch(column - offset) {
@@ -376,9 +386,15 @@ int PlaylistItem::compare(const PlaylistItem *firstItem, const PlaylistItem *sec
             return 1;
         break;
     default:
-        return QString::localeAwareCompare(firstItem->d->metadata[column - offset],
-                                           secondItem->d->metadata[column - offset]);
+        return naturalCompare(firstItem->d->metadata[column - offset],
+                              secondItem->d->metadata[column - offset]);
     }
+}
+
+bool PlaylistItem::operator<(const QTreeWidgetItem &other) const
+{
+    bool ascending = playlist()->header()->sortIndicatorOrder() == Qt::AscendingOrder;
+    return compare(&other, playlist()->sortColumn(), ascending) == -1;
 }
 
 bool PlaylistItem::isValid() const
