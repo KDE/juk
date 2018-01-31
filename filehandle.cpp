@@ -152,7 +152,7 @@ const QFileInfo &FileHandle::fileInfo() const
 
 bool FileHandle::isNull() const
 {
-    return *this == null();
+    return (*this == null() || d->absFilePath.isEmpty());
 }
 
 bool FileHandle::current() const
