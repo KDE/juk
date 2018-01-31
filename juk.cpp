@@ -514,6 +514,7 @@ void JuK::slotShowHide()
 void JuK::slotAboutToQuit()
 {
     m_shuttingDown = true;
+    m_player->stop();
 
     deleteAndClear(m_systemTray);
     deleteAndClear(m_splitter);
