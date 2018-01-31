@@ -1202,7 +1202,7 @@ void Playlist::read(QDataStream &s)
         if(file.isEmpty())
             throw BICStreamException();
 
-        after = createItem(FileHandle(file), after, false);
+        after = createItem(FileHandle(file), after);
     }
 
     m_blockDataChanged = false;
@@ -1261,10 +1261,9 @@ void Playlist::addColumn(const QString &label, int)
     setHeaderLabels(m_columns);
 }
 
-PlaylistItem *Playlist::createItem(const FileHandle &file,
-                                   QTreeWidgetItem *after, bool emitChanged)
+PlaylistItem *Playlist::createItem(const FileHandle &file, QTreeWidgetItem *after)
 {
-    return createItem<PlaylistItem>(file, after, emitChanged);
+    return createItem<PlaylistItem>(file, after);
 }
 
 void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after)
@@ -1531,14 +1530,14 @@ void Playlist::setDynamicListsFrozen(bool frozen)
 
 CollectionListItem *Playlist::collectionListItem(const FileHandle &file)
 {
-    if(!QFile::exists(file.absFilePath())) {
-        qCCritical(JUK_LOG) << "File" << file.absFilePath() << "does not exist.";
-        return 0;
-    }
-
     CollectionListItem *item = CollectionList::instance()->lookup(file.absFilePath());
 
     if(!item) {
+        if(!QFile::exists(file.absFilePath())) {
+            qCCritical(JUK_LOG) << "File" << file.absFilePath() << "does not exist.";
+            return nullptr;
+        }
+
         item = CollectionList::instance()->createItem(file);
     }
 
@@ -1632,10 +1631,8 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     setSortingEnabled(false);
 
-    PlaylistItem *after = 0;
-
+    PlaylistItem *after = nullptr;
     m_disableColumnWidthUpdates = true;
-
     m_blockDataChanged = true;
 
     while(!stream.atEnd()) {
@@ -1649,17 +1646,16 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
         if(item.exists() && item.isFile() && item.isReadable() &&
            MediaFiles::isMediaFile(item.fileName()))
         {
-            after = createItem(FileHandle(item), after, false);
+            after = createItem(FileHandle(item), after);
         }
     }
 
     m_blockDataChanged = false;
+    m_disableColumnWidthUpdates = false;
 
     file.close();
 
     playlistItemsChanged();
-
-    m_disableColumnWidthUpdates = false;
 }
 
 void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
@@ -1838,8 +1834,10 @@ void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool i
         if(visible)
             m_collection->raiseDistraction();
 
+        PlaylistItem *newAfter = *after;
         foreach(const FileHandle &fileHandle, files)
-            *after = createItem(fileHandle, *after, false);
+            newAfter = createItem(fileHandle, newAfter);
+        *after = newAfter;
 
         files.clear();
 

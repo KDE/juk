@@ -113,8 +113,7 @@ public:
     CollectionListItem *lookup(const QString &file) const;
 
     virtual CollectionListItem *createItem(const FileHandle &file,
-                                     QTreeWidgetItem * = 0,
-                                     bool = false);
+                                     QTreeWidgetItem * = nullptr);
 
     void emitVisibleColumnsChanged() { emit signalVisibleColumnsChanged(); }
 

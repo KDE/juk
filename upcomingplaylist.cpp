@@ -221,7 +221,8 @@ void UpcomingPlaylist::UpcomingSequenceIterator::setCurrent(PlaylistItem *curren
     Playlist *p = currentItem->playlist();
 
     if(p != m_playlist) {
-        PlaylistItem *i = m_playlist->createItem(currentItem, (PlaylistItem *) 0);
+        PlaylistItem *i = m_playlist->createItem(currentItem,
+                static_cast<PlaylistItem*>(nullptr));
         m_playlist->playlistIndex().insert(i, p);
         m_playlist->playlistItemsChanged();
         m_playlist->slotWeightDirty();
@@ -273,7 +274,7 @@ QDataStream &operator>>(QDataStream &s, UpcomingPlaylist &p)
         if(fileName.isEmpty())
             throw BICStreamException();
 
-        newItem = p.createItem(FileHandle(fileName), newItem, false);
+        newItem = p.createItem(FileHandle(fileName), newItem);
     }
 
     return s;

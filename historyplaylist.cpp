@@ -47,12 +47,11 @@ HistoryPlaylist::~HistoryPlaylist()
 
 }
 
-HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file,
-                                                 QTreeWidgetItem *after, bool emitChanged)
+HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file, QTreeWidgetItem *after)
 {
     if(!after)
         after = topLevelItem(topLevelItemCount() - 1);
-    return Playlist::createItem<HistoryPlaylistItem>(file, after, emitChanged);
+    return Playlist::createItem<HistoryPlaylistItem>(file, after);
 }
 
 void HistoryPlaylist::createItems(const PlaylistItemList &siblings)
@@ -78,6 +77,7 @@ void HistoryPlaylist::slotCreateNewItem()
 {
     createItem(m_file);
     m_file = FileHandle();
+    playlistItemsChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -133,8 +133,8 @@ QDataStream &operator>>(QDataStream &s, HistoryPlaylist &p)
         if(fileName.isEmpty() || !dateTime.isValid())
             throw BICStreamException();
 
-        HistoryPlaylistItem *a = p.createItem(FileHandle(fileName), after, false);
-        if(a) {
+        HistoryPlaylistItem *a = p.createItem(FileHandle(fileName), after);
+        if(Q_LIKELY(a)) {
             after = a;
             after->setDateTime(dateTime);
         }

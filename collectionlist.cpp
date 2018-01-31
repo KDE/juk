@@ -143,13 +143,13 @@ void CollectionList::initialize(PlaylistCollection *collection)
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem *CollectionList::createItem(const FileHandle &file, QTreeWidgetItem *, bool)
+CollectionListItem *CollectionList::createItem(const FileHandle &file, QTreeWidgetItem *)
 {
     // It's probably possible to optimize the line below away, but, well, right
     // now it's more important to not load duplicate items.
 
     if(m_itemsDict.contains(file.absFilePath()))
-        return 0;
+        return nullptr;
 
     CollectionListItem *item = new CollectionListItem(this, file);
 
@@ -157,7 +157,7 @@ CollectionListItem *CollectionList::createItem(const FileHandle &file, QTreeWidg
         qCCritical(JUK_LOG) << "CollectionList::createItem() -- A valid tag was not created for \""
                  << file.absFilePath() << "\"";
         delete item;
-        return 0;
+        return nullptr;
     }
 
     setupItem(item);

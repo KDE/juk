@@ -168,8 +168,7 @@ public:
      * both PlaylistItems and CollectionListItems.
      */
     virtual PlaylistItem *createItem(const FileHandle &file,
-                                     QTreeWidgetItem *after = 0,
-                                     bool emitChanged = true);
+                                     QTreeWidgetItem *after = nullptr);
 
     /**
      * This is implemented as a template method to allow subclasses to
@@ -177,10 +176,9 @@ public:
      */
     template <class ItemType>
     ItemType *createItem(const FileHandle &file,
-                         QTreeWidgetItem *after = 0,
-                         bool emitChanged = true);
+                         QTreeWidgetItem *after = nullptr);
 
-    virtual void createItems(const PlaylistItemList &siblings, PlaylistItem *after = 0);
+    virtual void createItems(const PlaylistItemList &siblings, PlaylistItem *after = nullptr);
 
     /**
      * This handles adding files of various types -- music, playlist or directory
@@ -460,14 +458,14 @@ protected:
     void setDynamicListsFrozen(bool frozen);
 
     template <class ItemType, class SiblingType>
-    ItemType *createItem(SiblingType *sibling, ItemType *after = 0);
+    ItemType *createItem(SiblingType *sibling, ItemType *after = nullptr);
 
     /**
      * As a template this allows us to use the same code to initialize the items
      * in subclasses. ItemType should be a PlaylistItem subclass.
      */
     template <class ItemType, class SiblingType>
-    void createItems(const QList<SiblingType *> &siblings, ItemType *after = 0);
+    void createItems(const QList<SiblingType *> &siblings, ItemType *after = nullptr);
 
 protected slots:
     void slotPopulateBackMenu() const;
@@ -564,8 +562,8 @@ private:
     /**
      * Used as a helper to implement template<> createItem().  This grabs the
      * CollectionListItem for file if it exists, otherwise it creates a new one and
-     * returns that.  If 0 is returned then some kind of error occurred, such as file not
-     * found and probably nothing should be done with the FileHandle you have.
+     * returns that.  If nullptr is returned then some kind of error occurred,
+     * and you should probably do nothing with the FileHandle you have.
      */
     CollectionListItem *collectionListItem(const FileHandle &file);
 
@@ -738,22 +736,16 @@ QDataStream &operator>>(QDataStream &s, Playlist &p);
 // template method implementations
 
 template <class ItemType>
-ItemType *Playlist::createItem(const FileHandle &file, QTreeWidgetItem *after,
-                               bool emitChanged)
+ItemType *Playlist::createItem(const FileHandle &file, QTreeWidgetItem *after)
 {
     CollectionListItem *item = collectionListItem(file);
     if(item && (!m_members.insert(file.absFilePath()) || m_allowDuplicates)) {
-
-        ItemType *i = after ? new ItemType(item, this, after) : new ItemType(item, this);
+        auto i = new ItemType(item, this, after);
         setupItem(i);
-
-        if(emitChanged)
-            playlistItemsChanged();
-
         return i;
     }
     else
-        return 0;
+        return nullptr;
 }
 
 template <class ItemType, class SiblingType>
