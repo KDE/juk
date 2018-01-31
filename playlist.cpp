@@ -1811,7 +1811,7 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
         while(dirIterator.hasNext()) {
             // We set importPlaylists to the value from the add directories
             // dialog as we want to load all of the ones that the user has
-            // explicitly asked for, but not those that we find in toLower
+            // explicitly asked for, but not those that we find in lower
             // directories.
 
             addFile(dirIterator.next(), files,
