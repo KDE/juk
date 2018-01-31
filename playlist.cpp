@@ -395,7 +395,7 @@ QString Playlist::name() const
 
 FileHandle Playlist::currentFile() const
 {
-    return playingItem() ? playingItem()->file() : FileHandle::null();
+    return playingItem() ? playingItem()->file() : FileHandle();
 }
 
 int Playlist::time() const

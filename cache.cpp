@@ -325,12 +325,12 @@ FileHandle Cache::loadNextCachedItem()
 {
     if(!m_loadFile.isOpen() || !m_loadDataStream.device()) {
         qCWarning(JUK_LOG) << "Already completed reading cache file.";
-        return FileHandle::null();
+        return FileHandle();
     }
 
     if(m_loadDataStream.status() == QDataStream::ReadCorruptData) {
         qCCritical(JUK_LOG) << "Attempted to read file handle from corrupt cache file.";
-        return FileHandle::null();
+        return FileHandle();
     }
 
     if(!m_loadDataStream.atEnd()) {
@@ -344,7 +344,7 @@ FileHandle Cache::loadNextCachedItem()
         m_loadDataStream.setDevice(0);
         m_loadFile.close();
 
-        return FileHandle::null();
+        return FileHandle();
     }
 }
 

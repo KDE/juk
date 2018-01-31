@@ -255,7 +255,7 @@ void Scrobbler::nowPlaying(const FileHandle& file)
     sign(params);
     post(params);
 
-    m_file = file; // May be FileHandle::null()
+    m_file = file; // May be empty FileHandle
     m_playbackTimer = QDateTime::currentDateTime();
 }
 

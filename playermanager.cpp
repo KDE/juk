@@ -252,7 +252,7 @@ void PlayerManager::play(const QString &file)
 
 void PlayerManager::play()
 {
-    play(FileHandle::null());
+    play(FileHandle());
 }
 
 void PlayerManager::pause()
@@ -284,7 +284,7 @@ void PlayerManager::stop()
     m_media->stop();
 
     if(!m_file.isNull()) {
-        m_file = FileHandle::null();
+        m_file = FileHandle();
         emit signalItemChanged(m_file);
     }
 }

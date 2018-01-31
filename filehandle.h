@@ -73,8 +73,6 @@ public:
     static QStringList properties();
     QString property(const QString &name) const;
 
-    static const FileHandle &null();
-
 private:
     class FileHandlePrivate;
     QExplicitlySharedDataPointer<FileHandlePrivate> d;

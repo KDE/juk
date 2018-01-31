@@ -19,6 +19,7 @@
 
 #include <QFileInfo>
 #include <QSharedData>
+#include <QScopedPointer>
 
 #include "filehandleproperties.h"
 #include "tag.h"
@@ -51,14 +52,8 @@ public:
         baseModificationTime = fileInfo.lastModified();
     }
 
-    ~FileHandlePrivate()
-    {
-        delete tag;
-        delete coverInfo;
-    }
-
-    mutable Tag *tag;
-    mutable CoverInfo *coverInfo;
+    mutable QScopedPointer<Tag> tag;
+    mutable QScopedPointer<CoverInfo> coverInfo;
     QFileInfo fileInfo;
     QString absFilePath;
     QDateTime baseModificationTime;
@@ -69,23 +64,19 @@ public:
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-FileHandle::FileHandle()
-    : d(new FileHandlePrivate(QFileInfo()))
-{
-}
-
 FileHandle::FileHandle(const FileHandle &f) :
     d(f.d)
 {
-    if(!d)
-        qCDebug(JUK_LOG) << "The source FileHandle was not initialized.";
 }
 
 FileHandle::FileHandle(const QFileInfo &info) :
     d(new FileHandlePrivate(info))
 {
-    if(!info.exists())
-        qCWarning(JUK_LOG) << "File" << info.filePath() << "no longer exists!";
+}
+
+FileHandle::FileHandle()
+    : FileHandle(QFileInfo()) // delegating ctor
+{
 }
 
 FileHandle::FileHandle(const QString &path)
@@ -105,8 +96,7 @@ FileHandle::~FileHandle() = default;
 void FileHandle::refresh()
 {
     d->fileInfo.refresh();
-    delete d->tag;
-    d->tag = new Tag(d->absFilePath);
+    d->tag.reset(new Tag(d->absFilePath));
 }
 
 void FileHandle::setFile(const QString &path)
@@ -127,17 +117,17 @@ void FileHandle::setFile(const QString &path)
 Tag *FileHandle::tag() const
 {
     if(Q_UNLIKELY(!d->tag))
-        d->tag = new Tag(d->absFilePath);
+        d->tag.reset(new Tag(d->absFilePath));
 
-    return d->tag;
+    return d->tag.data();
 }
 
 CoverInfo *FileHandle::coverInfo() const
 {
     if(Q_UNLIKELY(!d->coverInfo))
-        d->coverInfo = new CoverInfo(*this);
+        d->coverInfo.reset(new CoverInfo(*this));
 
-    return d->coverInfo;
+    return d->coverInfo.data();
 }
 
 QString FileHandle::absFilePath() const
@@ -152,7 +142,7 @@ const QFileInfo &FileHandle::fileInfo() const
 
 bool FileHandle::isNull() const
 {
-    return (*this == null() || d->absFilePath.isEmpty());
+    return d->absFilePath.isEmpty();
 }
 
 bool FileHandle::current() const
@@ -176,7 +166,7 @@ void FileHandle::read(CacheDataStream &s)
     case 1:
     default:
         if(!d->tag)
-            d->tag = new Tag(d->absFilePath, true);
+            d->tag.reset(new Tag(d->absFilePath, true));
 
         s >> *(d->tag);
         s >> d->baseModificationTime;
@@ -210,12 +200,6 @@ QStringList FileHandle::properties() // static
 QString FileHandle::property(const QString &name) const
 {
     return FileHandleProperties::property(*this, name.toUtf8());
-}
-
-const FileHandle &FileHandle::null() // static
-{
-    static FileHandle f;
-    return f;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -77,7 +77,7 @@ void HistoryPlaylist::appendProposedItem(const FileHandle &file)
 void HistoryPlaylist::slotCreateNewItem()
 {
     createItem(m_file);
-    m_file = FileHandle::null();
+    m_file = FileHandle();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
