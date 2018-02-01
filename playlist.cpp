@@ -1331,9 +1331,9 @@ void Playlist::hideColumn(int c, bool updateSearch)
 
     if(isColumnHidden(c))
         return;
-    
+
     QTreeWidget::hideColumn(c);
-    
+
     if(c == m_leftColumn) {
         updatePlaying();
         m_leftColumn = leftMostVisibleColumn();
@@ -1433,7 +1433,7 @@ void Playlist::slotInitialize()
         showAction = new QAction(headerItem()->text(i), m_headerMenu);
         showAction->setData(i);
         showAction->setCheckable(true);
-        showAction->setChecked(true);
+        showAction->setChecked(!isColumnHidden(i));
         m_headerMenu->addAction(showAction);
 
         resizeColumnToContents(i);
@@ -1664,10 +1664,10 @@ bool Playlist::playing() const
 int Playlist::leftMostVisibleColumn() const
 {
     int i = 0;
-    while(isColumnHidden(header()->visualIndex(i)) && i < PlaylistItem::lastColumn())
+    while(i < PlaylistItem::lastColumn() && isColumnHidden(i))
         i++;
 
-    return header()->visualIndex(i);
+    return i < PlaylistItem::lastColumn() ? i : 0;
 }
 
 PlaylistItemList Playlist::items(QTreeWidgetItemIterator::IteratorFlags flags)
