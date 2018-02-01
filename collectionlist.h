@@ -115,8 +115,6 @@ public:
     virtual CollectionListItem *createItem(const FileHandle &file,
                                      QTreeWidgetItem * = nullptr);
 
-    void emitVisibleColumnsChanged() { emit signalVisibleColumnsChanged(); }
-
     virtual void clearItems(const PlaylistItemList &items);
 
     void setupTreeViewEntries(ViewMode *viewMode) const;
@@ -168,9 +166,8 @@ signals:
      *
      * \see Playlist::hideColumn()
      * \see Playlist::showColumn()
-     * \see Playlsit::isColumnVisible()
+     * \see Playlist::isColumnVisible()
      */
-    void signalVisibleColumnsChanged();
     void signalNewTag(const QString &, unsigned);
     void signalRemovedTag(const QString &, unsigned);
 
