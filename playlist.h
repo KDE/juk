@@ -213,7 +213,7 @@ public:
     /**
      * Shows column \a c.  If \a updateSearch is true then a signal that the
      * visible columns have changed will be emitted and things like the search
-     * will be udated.
+     * will be updated.
      */
     void showColumn(int c, bool updateSearch = true);
 
