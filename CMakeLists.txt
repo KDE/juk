@@ -108,6 +108,7 @@ set(juk_SRCS  ${tunepimp_SRCS}
    playlistinterface.cpp
    playlistitem.cpp
    playlistsearch.cpp
+   playlistsharedsettings.cpp
    playlistsplitter.cpp
    scrobbler.cpp
    scrobbleconfigdlg.cpp

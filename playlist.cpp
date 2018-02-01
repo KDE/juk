@@ -59,6 +59,7 @@
 #include "playlistitem.h"
 #include "playlistcollection.h"
 #include "playlistsearch.h"
+#include "playlistsharedsettings.h"
 #include "mediafiles.h"
 #include "collectionlist.h"
 #include "filerenamer.h"
@@ -96,183 +97,18 @@ static bool manualResize()
  */
 
 ////////////////////////////////////////////////////////////////////////////////
-// Playlist::SharedSettings definition
+// static members
 ////////////////////////////////////////////////////////////////////////////////
 
-bool Playlist::m_visibleChanged = false;
-bool Playlist::m_shuttingDown = false;
-
-/**
- * Shared settings between the playlists.
- */
-
-class Playlist::SharedSettings
-{
-public:
-    static SharedSettings *instance();
-    /**
-     * Sets the default column order to that of Playlist @param p.
-     */
-    void setColumnOrder(const Playlist *l);
-    void toggleColumnVisible(int column);
-    void setInlineCompletionMode(KCompletion::CompletionMode mode);
-
-    /**
-     * Apply the settings.
-     */
-    void apply(Playlist *l) const;
-    void sync() { writeConfig(); }
-
-protected:
-    SharedSettings();
-    ~SharedSettings() {}
-
-private:
-    void writeConfig();
-
-    static SharedSettings *m_instance;
-    QList<int> m_columnOrder;
-    QVector<bool> m_columnsVisible;
-    KCompletion::CompletionMode m_inlineCompletion;
-};
-
-Playlist::SharedSettings *Playlist::SharedSettings::m_instance = 0;
-
-////////////////////////////////////////////////////////////////////////////////
-// Playlist::SharedSettings public members
-////////////////////////////////////////////////////////////////////////////////
-
-Playlist::SharedSettings *Playlist::SharedSettings::instance()
-{
-    static SharedSettings settings;
-    return &settings;
-}
-
-void Playlist::SharedSettings::setColumnOrder(const Playlist *l)
-{
-    if(!l)
-        return;
-
-    m_columnOrder.clear();
-
-    for(int i = l->columnOffset(); i < l->columnCount(); ++i)
-        m_columnOrder.append(l->header()->visualIndex(i)); // FIXME  MISMATCH with apply
-
-    writeConfig();
-}
-
-void Playlist::SharedSettings::toggleColumnVisible(int column)
-{
-    if(column >= m_columnsVisible.size())
-        m_columnsVisible.fill(true, column + 1);
-
-    m_columnsVisible[column] = !m_columnsVisible[column];
-
-    writeConfig();
-}
-
-void Playlist::SharedSettings::setInlineCompletionMode(KCompletion::CompletionMode mode)
-{
-    m_inlineCompletion = mode;
-    writeConfig();
-}
-
-
-void Playlist::SharedSettings::apply(Playlist *l) const
-{
-    if(!l)
-        return;
-
-    int offset = l->columnOffset();
-    int i = 0;
-    //bool oldState = l->header()->blockSignals(true);
-    foreach(int column, m_columnOrder)
-        // FIXME this is broken
-        l->header()->moveSection(i++ + offset, column + offset); // FIXME mismatch with setColumnOrder
-    //l->header()->blockSignals(oldState);
-
-    for(int i = 0; i < m_columnsVisible.size(); i++) {
-        if(m_columnsVisible[i] && l->isColumnHidden(i + offset))
-            l->showColumn(i + offset, false);
-        else if(!m_columnsVisible[i] && !l->isColumnHidden(i + offset))
-            l->hideColumn(i + offset, false);
-    }
-
-    l->updateLeftColumn();
-    // FIXME rename
-    //l->renameLineEdit()->setCompletionMode(m_inlineCompletion);
-    l->slotColumnResizeModeChanged();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Playlist::ShareSettings protected members
-////////////////////////////////////////////////////////////////////////////////
-
-Playlist::SharedSettings::SharedSettings()
-{
-    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistShared");
-
-    bool resizeColumnsManually = config.readEntry("ResizeColumnsManually", false);
-    action("resizeColumnsManually")->setChecked(resizeColumnsManually);
-
-    // Preallocate spaces so we don't need to check later.
-    m_columnsVisible.fill(true, PlaylistItem::lastColumn() + 1);
-
-    // save column order
-    m_columnOrder = config.readEntry("ColumnOrder", QList<int>());
-
-    QList<int> l = config.readEntry("VisibleColumns", QList<int>());
-
-    if(l.isEmpty()) {
-
-        // Provide some default values for column visibility if none were
-        // read from the configuration file.
-
-        m_columnsVisible[PlaylistItem::BitrateColumn] = false;
-        m_columnsVisible[PlaylistItem::CommentColumn] = false;
-        m_columnsVisible[PlaylistItem::FileNameColumn] = false;
-        m_columnsVisible[PlaylistItem::FullPathColumn] = false;
-    }
-    else {
-        // Convert the int list into a bool list.
-
-        m_columnsVisible.fill(false);
-        for(int i = 0; i < l.size() && i < m_columnsVisible.size(); ++i)
-            m_columnsVisible[i] = bool(l[i]);
-    }
-
-    m_inlineCompletion = KCompletion::CompletionMode(
-        config.readEntry("InlineCompletionMode", int(KCompletion::CompletionAuto)));
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// Playlist::SharedSettings private members
-////////////////////////////////////////////////////////////////////////////////
-
-void Playlist::SharedSettings::writeConfig()
-{
-    KConfigGroup config(KSharedConfig::openConfig(), "PlaylistShared");
-    config.writeEntry("ColumnOrder", m_columnOrder);
-
-    QList<int> l;
-    for(int i = 0; i < m_columnsVisible.size(); i++)
-        l.append(int(m_columnsVisible[i]));
-
-    config.writeEntry("VisibleColumns", l);
-    config.writeEntry("InlineCompletionMode", int(m_inlineCompletion));
-
-    config.writeEntry("ResizeColumnsManually", manualResize());
-
-    KSharedConfig::openConfig()->sync();
-}
+bool                    Playlist::m_visibleChanged = false;
+bool                    Playlist::m_shuttingDown   = false;
+PlaylistItemList        Playlist::m_history;
+QVector<PlaylistItem *> Playlist::m_backMenuItems;
+int                     Playlist::m_leftColumn     = 0;
 
 ////////////////////////////////////////////////////////////////////////////////
 // public members
 ////////////////////////////////////////////////////////////////////////////////
-
-PlaylistItemList Playlist::m_history;
-QVector<PlaylistItem *> Playlist::m_backMenuItems;
-int Playlist::m_leftColumn = 0;
 
 Playlist::Playlist(PlaylistCollection *collection, const QString &name,
                    const QString &iconName) :
