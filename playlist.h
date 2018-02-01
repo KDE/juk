@@ -517,7 +517,7 @@ private:
     /**
      * Returns the index of the left most visible column in the playlist.
      *
-     * \see isColumnVisible()
+     * \see isColumnHidden()
      */
     int leftMostVisibleColumn() const;
 
