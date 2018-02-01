@@ -890,6 +890,9 @@ void Playlist::keyPressEvent(QKeyEvent *event)
         }
 
     }
+    else if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
+        slotPlayCurrent();
+    }
 
     QTreeWidget::keyPressEvent(event);
 }
@@ -1314,9 +1317,6 @@ void Playlist::slotInitialize()
             this, SLOT(slotInlineEditDone(QTreeWidgetItem*,QString,int)));*/
     connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotPlayCurrent()));
-    // FIXME returnPressed
-    /*connect(this, SIGNAL(returnPressed(QTreeWidgetItem*)),
-            this, SLOT(slotPlayCurrent()));*/
 
     // FIXME rename
     /*connect(renameLineEdit(), SIGNAL(completionModeChanged(KCompletion::CompletionMode)),
