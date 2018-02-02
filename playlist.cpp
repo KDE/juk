@@ -1424,6 +1424,7 @@ void Playlist::setup()
 {
     setRootIsDecorated(false);
     setContextMenuPolicy(Qt::CustomContextMenu);
+    setUniformRowHeights(true);
 
     connect(header(), SIGNAL(sectionMoved(int,int,int)), this, SLOT(slotColumnOrderChanged(int,int,int)));
 
