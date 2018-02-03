@@ -67,7 +67,7 @@ TrackSequenceIterator *TrackSequenceManager::takeIterator()
 {
     TrackSequenceIterator *temp = m_iterator;
 
-    m_iterator = 0;
+    m_iterator = nullptr;
     return temp;
 }
 
@@ -90,7 +90,7 @@ PlaylistItem *TrackSequenceManager::nextItem()
         m_iterator->reset();
         m_iterator->prepareToPlay(m_playNextItem->playlist());
         m_iterator->setCurrent(m_playNextItem);
-        m_playNextItem = 0;
+        m_playNextItem = nullptr;
     }
     else if(m_iterator->current())
         m_iterator->advance();

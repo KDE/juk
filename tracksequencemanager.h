@@ -86,9 +86,9 @@ public:
     static TrackSequenceManager *instance();
 
     /**
-     * Returns the next track, and advances in the current sequence..
+     * Returns the next track, and advances in the current sequence.
      *
-     * @return the next track in the current sequence, or 0 if the end has
+     * @return the next track in the current sequence, or nullptr if the end has
      * been reached
      */
     PlaylistItem *nextItem();
@@ -98,19 +98,20 @@ public:
      * that if you have an item x, nextItem(previousItem(x)) is not guaranteed
      * to equal x, even ignoring the effect of hitting the end of list.
      *
-     * @return the previous track in the current sequence, or 0 if the
+     * @return the previous track in the current sequence, or nullptr if the
      * beginning has been reached
      */
     PlaylistItem *previousItem();
 
     /**
-     * @return the current track in the current sequence, or 0 if there is no
+     * @return the current track in the current sequence, or nullptr if there is no
      * current track (for example, an empty playlist)
      */
     PlaylistItem *currentItem() const;
 
     /**
-     * @return the TrackSequenceManager's idea of the current playlist
+     * @return the TrackSequenceManager's idea of the current playlist.
+     * @see setCurrentPlaylist
      */
     Playlist *currentPlaylist() const { return m_playlist; }
 
@@ -126,7 +127,7 @@ public slots:
      * Sets the current playlist.  This is necessary in order for some of the
      * actions in the popup menu used by this class to work.  Note that the
      * current playlist is not necessarily the same as the playlist that is
-     * playlist.  The TrackSequenceManager does not own @p list after this
+     * playing.  The TrackSequenceManager does not own @p list after this
      * call.
      *
      * @param list the current playlist
@@ -139,7 +140,7 @@ public slots:
      * this function is useful for clearing the current item.  Remember that
      * you must have a valid playlist to iterate if you clear the current item.
      *
-     * @param item the PlaylistItem that is currently playing.  Set to 0 if
+     * @param item the PlaylistItem that is currently playing.  Set to nullptr if
      * there is no item playing.
      */
     void setCurrent(PlaylistItem *item);
