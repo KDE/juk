@@ -909,11 +909,11 @@ void PlaylistCollection::saveConfig()
 }
 
 ////////////////////////////////////////////////////////////////////////////////
-// ActionHanlder implementation
+// ActionHandler implementation
 ////////////////////////////////////////////////////////////////////////////////
 
 PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection) :
-    QObject(0),
+    QObject(nullptr),
     m_collection(collection)
 {
     setObjectName( QLatin1String("ActionHandler" ));
@@ -989,6 +989,9 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     connect(upcomingAction, SIGNAL(triggered(bool)),
             this, SLOT(slotSetUpcomingPlaylistEnabled(bool)));
+
+    connect(m_collection->m_playerManager, &PlayerManager::signalStop,
+            this, [this]() { m_collection->stop(); });
 }
 
 QAction *PlaylistCollection::ActionHandler::createAction(const QString &text,

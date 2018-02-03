@@ -52,6 +52,7 @@
 #include <QPixmap>
 #include <QStackedWidget>
 #include <QScrollBar>
+#include <QPainter>
 
 #include <id3v1genres.h>
 
@@ -287,7 +288,7 @@ void Playlist::playNext()
 void Playlist::stop()
 {
     m_history.clear();
-    setPlaying(0);
+    setPlaying(nullptr);
 }
 
 void Playlist::playPrevious()
@@ -467,6 +468,9 @@ void Playlist::setSearchEnabled(bool enabled)
         setItemsVisible(items(), true);
 }
 
+// Mostly seems to be for DynamicPlaylist
+// TODO: See if this can't all be eliminated by making 'is-playing' a predicate
+// of the playlist item itself
 void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMaster)
 {
     foreach(const Playlist *p, sources) {
@@ -1068,6 +1072,25 @@ void Playlist::resizeEvent(QResizeEvent *re)
         slotUpdateColumnWidths();
 
     QTreeWidget::resizeEvent(re);
+}
+
+// Reimplemented to show a visual indication of which of the view's playlist
+// items is actually playing.
+void Playlist::drawRow(QPainter *p, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    PlaylistItem *item = static_cast<PlaylistItem *>(itemFromIndex(index));
+    if(Q_LIKELY(!PlaylistItem::playingItems().contains(item))) {
+        return QTreeWidget::drawRow(p, option, index);
+    }
+
+    // Seems that the view draws the background now so we have to do this
+    // manually
+    p->fillRect(option.rect, QPalette{}.midlight());
+
+    QStyleOptionViewItem newOption {option};
+    newOption.font.setBold(true);
+
+    QTreeWidget::drawRow(p, newOption, index);
 }
 
 void Playlist::insertItem(QTreeWidgetItem *item)

@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2004 Scott Wheeler <wheeler@kde.org>
  * Copyright (C) 2007 Matthias Kretz <kretz@kde.org>
- * Copyright (C) 2008, 2009 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2008, 2009, 2018 Michael Pyne <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -281,12 +281,12 @@ void PlayerManager::stop()
     action("forward")->setEnabled(false);
     action("forwardAlbum")->setEnabled(false);
 
-    m_media->stop();
-
     if(!m_file.isNull()) {
         m_file = FileHandle();
         emit signalItemChanged(m_file);
     }
+
+    m_media->stop();
 }
 
 void PlayerManager::setVolume(float volume)
@@ -446,7 +446,7 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State)
     }
 
     // "normal" path
-    if(newstate == Phonon::StoppedState) {
+    if(newstate == Phonon::StoppedState && m_file.isNull()) {
         JuK::JuKInstance()->setWindowTitle(i18n("JuK"));
         emit signalStop();
     }

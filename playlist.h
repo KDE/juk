@@ -436,6 +436,8 @@ protected:
     virtual void paintEvent(QPaintEvent *pe);
     virtual void resizeEvent(QResizeEvent *re);
 
+    virtual void drawRow(QPainter *p, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+
     virtual void insertItem(QTreeWidgetItem *item);
     virtual void takeItem(QTreeWidgetItem *item);
 

@@ -281,27 +281,6 @@ PlaylistItem::PlaylistItem(CollectionList *parent) :
     setFlags(flags() | Qt::ItemIsDragEnabled);
 }
 
-// FIXME paintCell
-/*void PlaylistItem::paintCell(QPainter *p, const QColorGroup &cg, int column, int width, int align)
-{
-    if(!m_playingItems.contains(this))
-        return QTreeWidgetItem::paintCell(p, cg, column, width, align);
-
-    QPalette colorGroup = cg;
-
-    QColor base = colorGroup.color( QPalette::Base );
-    QColor selection = colorGroup.color( QPalette::Highlight );
-
-    int r = (base.red() + selection.red()) / 2;
-    int b = (base.blue() + selection.blue()) / 2;
-    int g = (base.green() + selection.green()) / 2;
-
-    QColor c(r, g, b);
-
-    colorGroup.setColor(QPalette::Base, c);
-    QTreeWidgetItem::paintCell(p, colorGroup, column, width, align);
-}*/
-
 int PlaylistItem::compare(const QTreeWidgetItem *item, int column, bool ascending) const
 {
     // reimplemented from QListViewItem

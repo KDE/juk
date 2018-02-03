@@ -180,6 +180,7 @@ public:
     void lowerDistraction();
 
     class ActionHandler;
+    friend PlaylistCollection::ActionHandler;
 
 protected:
     virtual QStackedWidget *playlistStack() const;
@@ -247,6 +248,7 @@ private:
                           const QString &icon = QString(),
                           const QKeySequence &shortcut = QKeySequence());
 private slots:
+    void slotStop()          { m_collection->stop(); }
     void slotPlayFirst()     { m_collection->playFirst(); }
     void slotPlayNextAlbum() { m_collection->playNextAlbum(); }
 
