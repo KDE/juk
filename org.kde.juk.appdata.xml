@@ -76,6 +76,7 @@
   <summary xml:lang="tr">Müzik Çalar</summary>
   <summary xml:lang="uk">Музичний програвач</summary>
   <summary xml:lang="x-test">xxMusic Playerxx</summary>
+  <summary xml:lang="zh-CN">音乐播放器</summary>
   <summary xml:lang="zh-TW">音樂播放器</summary>
   <description>
     <p>JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
