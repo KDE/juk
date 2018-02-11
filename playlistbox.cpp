@@ -115,9 +115,12 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     m_viewModes.append(compactviewmode);
     viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-text")), compactviewmode->name());
 
+    // TODO: Fix the broken tree view mode
+#if 0
     TreeViewMode* treeviewmode = new TreeViewMode(this);
     m_viewModes.append(treeviewmode);
     viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), treeviewmode->name());
+#endif
 
     CollectionList::initialize(this);
 
@@ -300,6 +303,11 @@ void PlaylistBox::readConfig()
 {
     KConfigGroup config(KSharedConfig::openConfig(), "PlaylistBox");
     m_viewModeIndex = config.readEntry("ViewMode", 0);
+
+    // TODO Restore ability to use Tree View once fixed.
+    if(m_viewModeIndex == 2) {
+        m_viewModeIndex = 0;
+    }
 }
 
 void PlaylistBox::saveConfig()
