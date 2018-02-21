@@ -97,6 +97,7 @@ Name[tr]=JuK
 Name[ug]=JuK
 Name[uk]=JuK
 Name[x-test]=xxJuKxx
+Name[zh_CN]=JuK
 Name[zh_TW]=音樂播放_JuK
 
 [Event/coverDownloaded]
@@ -339,6 +340,7 @@ Name[sv]=JuK kör i dockningsläge
 Name[tr]=JuK yerleşik kipte çalışıyor
 Name[uk]=JuK запущено у згорнутому режимі
 Name[x-test]=xxJuK running in dock modexx
+Name[zh_CN]=JuK 在 dock 模式下运行
 Name[zh_TW]=JuK 以嵌入模式執行中
 Comment=Use context menu in system tray to restore.
 Comment[bg]=Може да възстановите от контекстното меню в системния поднос.
@@ -378,5 +380,6 @@ Comment[sv]=Använd sammanhangsberoende meny i systembrickan för att återstäl
 Comment[tr]=Geri yüklemek için sistem çekmecesindeki bağlam menüsünü kullanın.
 Comment[uk]=Скористайтеся контекстним меню піктограми системного лотка, щоб розгорнути вікно програми.
 Comment[x-test]=xxUse context menu in system tray to restore.xx
+Comment[zh_CN]=在系统托盘中使用上下文菜单还原。
 Comment[zh_TW]=用系統匣的內文選單來回復。
 Action=Popup
