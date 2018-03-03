@@ -1,5 +1,5 @@
 <!DOCTYPE kpartgui>
-<kpartgui name="juk" version="14">
+<kpartgui name="juk" version="15">
 <MenuBar>
 	<Menu name="file" noMerge="1"><text>&amp;File</text>
 		<Action name="file_new"/>
@@ -65,6 +65,7 @@
 		<Action name="renameFile"/>
 	</Menu>
 	<Menu name="settings"><text>&amp;Settings</text>
+		<Action name="options_show_menubar"/>
 		<Action name="toggleSystemTray" append="show_merge"/>
 		<Action name="dockOnClose" append="show_merge"/>
 		<Action name="togglePopups" append="show_merge"/>

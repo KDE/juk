@@ -34,6 +34,7 @@
 #include <QKeyEvent>
 #include <QDir>
 #include <QDirIterator>
+#include <QMenuBar>
 #include <QTime>
 #include <QTimer>
 #include <QDesktopWidget>
@@ -192,6 +193,7 @@ void JuK::setupActions()
     QAction *clear = KStandardAction::clear(collection);
     KStandardAction::selectAll(collection);
     KStandardAction::keyBindings(this, SLOT(slotEditKeys()), collection);
+    KStandardAction::showMenubar(menuBar(), SLOT(setVisible(bool)), collection);
 
     // Setup the menu which handles the random play options.
     KActionMenu *actionMenu = collection->add<KActionMenu>("actionMenu");
