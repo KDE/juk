@@ -1,7 +1,8 @@
 # KDE Config File
 [Desktop Entry]
 Type=Application
-Exec=juk -qwindowtitle %c %i
+# Eat URLs to avoid downloading large music files but JuK does not yet support them
+Exec=juk %U
 Icon=juk
 X-DocPath=juk/index.html
 X-DBUS-StartupType=Unique
