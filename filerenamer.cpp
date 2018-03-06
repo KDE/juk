@@ -44,6 +44,7 @@
 #include <QTreeWidget>
 #include <QScrollBar>
 #include <QPushButton>
+#include <QHeaderView>
 
 #include "tag.h"
 #include "filerenameroptions.h"
