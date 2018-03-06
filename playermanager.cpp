@@ -257,13 +257,8 @@ void PlayerManager::play()
 
 void PlayerManager::pause()
 {
-    if(!m_setup)
+    if(!m_setup || paused())
         return;
-
-    if(paused()) {
-        play();
-        return;
-    }
 
     action("pause")->setEnabled(false);
 
