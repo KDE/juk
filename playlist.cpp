@@ -39,6 +39,7 @@
 #include <QToolTip>
 #include <QFile>
 #include <QFileDialog>
+#include <QHeaderView>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
