@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.1 FATAL_ERROR)
 # KDE Application Version, managed by KDE release team automatically
 # https://community.kde.org/Guidelines_and_HOWTOs/Application_Versioning
 set (KDE_APPLICATIONS_VERSION_MAJOR "18")
-set (KDE_APPLICATIONS_VERSION_MINOR "03")
+set (KDE_APPLICATIONS_VERSION_MINOR "07")
 set (KDE_APPLICATIONS_VERSION_MICRO "70")
 set (KDE_APPLICATIONS_VERSION "${KDE_APPLICATIONS_VERSION_MAJOR}.${KDE_APPLICATIONS_VERSION_MINOR}.${KDE_APPLICATIONS_VERSION_MICRO}")
 
