@@ -98,13 +98,7 @@ int main(int argc, char *argv[])
 
     KCrash::initialize();
 
-    // If this flag gets set then JuK will quit if you click the cover on the track
-    // announcement popup when JuK is only in the system tray (the systray has no widget).
-
-    a.setQuitOnLastWindowClosed(false);
-
     // Create the main window and such
-
     JuK *juk = new JuK(parser.positionalArguments());
 
     if(a.isSessionRestored() && KMainWindow::canBeRestored(1))
