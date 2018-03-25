@@ -120,6 +120,11 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     setupGlobalAccels();
     activateScrobblerIfEnabled();
 
+    // The system tray quit command will go straight to qApp->quit without calling
+    // our quit action, so make sure we save config changes no matter how quit is
+    // called.
+    connect(qApp, &QCoreApplication::aboutToQuit, this, [this]() { saveConfig(); });
+
     // slotCheckCache loads the cached entries first to populate the collection list
 
     QTimer::singleShot(0, this, SLOT(slotClearOldCovers()));
