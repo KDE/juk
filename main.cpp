@@ -111,7 +111,7 @@ int main(int argc, char *argv[])
         juk->restore(1, false /* don't show */);
 
     KConfigGroup config(KSharedConfig::openConfig(), "Settings");
-    if(!config.readEntry("StartDocked", false)) {
+    if(!config.readEntry("StartDocked", false) || !config.readEntry("DockInSystemTray", false)) {
         juk->show();
     }
     else if(!a.isSessionRestored()) {
