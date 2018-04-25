@@ -120,7 +120,10 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     setupGlobalAccels();
     activateScrobblerIfEnabled();
 
-    connect(QCoreApplication::instance(), SIGNAL(aboutToQuit()), SLOT(slotAboutToQuit()));
+    // The system tray quit command will go straight to qApp->quit without calling
+    // our quit action, so make sure we save config changes no matter how quit is
+    // called.
+    connect(qApp, &QCoreApplication::aboutToQuit, this, [this]() { saveConfig(); });
 
     // slotCheckCache loads the cached entries first to populate the collection list
 
@@ -131,6 +134,19 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
 
 JuK::~JuK()
 {
+    if(!m_shuttingDown) {
+        // Sometimes KMainWindow doesn't actually call QCoreApplication::quit
+        // after queryClose, even if not in a session shutdown, so make sure to
+        // do so ourselves when closing the main window.
+        slotQuit();
+    }
+
+    // Some items need to be deleted before others, though I haven't looked
+    // at this in some time so refinement is probably possible.
+    delete m_systemTray;
+    delete m_splitter;
+    delete m_player;
+    delete m_statusLabel;
 }
 
 JuK* JuK::JuKInstance()
@@ -325,17 +341,20 @@ void JuK::setupActions()
 void JuK::slotSetupSystemTray()
 {
     if(m_toggleSystemTrayAction && m_toggleSystemTrayAction->isChecked()) {
-        qCDebug(JUK_LOG) << "Setting up systray";
-        QTime stopwatch; stopwatch.start();
         m_systemTray = new SystemTray(m_player, this);
-        m_systemTray->setObjectName( QLatin1String("systemTray" ));
+        m_systemTray->setObjectName(QStringLiteral("systemTray"));
 
         m_toggleDockOnCloseAction->setEnabled(true);
         m_togglePopupsAction->setEnabled(true);
-        qCDebug(JUK_LOG) << "Finished setting up systray, took" << stopwatch.elapsed() << "ms";
+
+        // If this flag gets set then JuK will quit if you click the cover on
+        // the track announcement popup when JuK is only in the system tray
+        // (the systray has no widget).
+
+        qGuiApp->setQuitOnLastWindowClosed(false);
     }
     else {
-        m_systemTray = 0;
+        m_systemTray = nullptr;
         m_toggleDockOnCloseAction->setEnabled(false);
         m_togglePopupsAction->setEnabled(false);
     }
@@ -490,18 +509,8 @@ bool JuK::queryClose()
         hide();
         return false;
     }
-    else
-    {
-        // Some phonon backends will crash on shutdown unless we've stopped
-        // playback.
-        if(m_player->playing())
-            m_player->stop();
 
-        // Save configuration data.
-        m_startDocked = !isVisible();
-        saveConfig();
-        return true;
-    }
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -513,23 +522,20 @@ void JuK::slotShowHide()
     setHidden(!isHidden());
 }
 
-void JuK::slotAboutToQuit()
-{
-    m_shuttingDown = true;
-    m_player->stop();
-
-    deleteAndClear(m_systemTray);
-    deleteAndClear(m_splitter);
-    deleteAndClear(m_player);
-    deleteAndClear(m_statusLabel);
-}
-
 void JuK::slotQuit()
 {
     m_shuttingDown = true;
 
+    // Some phonon backends will crash on shutdown unless we've stopped
+    // playback.
+    if(m_player->playing()) {
+        m_player->stop();
+    }
+
+    m_startDocked = !isVisible();
     saveConfig();
-    qApp->quit();
+
+    QTimer::singleShot(0, qApp, &QCoreApplication::quit);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -542,9 +548,11 @@ void JuK::slotToggleSystemTray(bool enabled)
         slotSetupSystemTray();
     else if(!enabled && m_systemTray) {
         delete m_systemTray;
-        m_systemTray = 0;
+        m_systemTray = nullptr;
         m_toggleDockOnCloseAction->setEnabled(false);
         m_togglePopupsAction->setEnabled(false);
+
+        qGuiApp->setQuitOnLastWindowClosed(true);
     }
 }
 
