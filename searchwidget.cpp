@@ -59,7 +59,7 @@ SearchLine::SearchLine(QWidget *parent, bool simple)
 
     m_lineEdit = new KLineEdit(this);
     layout->addWidget(m_lineEdit);
-    m_lineEdit->setClearButtonShown(true);
+    m_lineEdit->setClearButtonEnabled(true);
     m_lineEdit->installEventFilter(this);
     connect(m_lineEdit, SIGNAL(textChanged(QString)),
             this, SIGNAL(signalQueryChanged()));
