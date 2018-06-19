@@ -90,8 +90,6 @@ int main(int argc, char *argv[])
 
     QCommandLineParser parser;
     aboutData.setupCommandLine(&parser);
-    parser.addVersionOption();
-    parser.addHelpOption();
     parser.addPositionalArgument(QLatin1String("[file(s)]"), i18n("File(s) to open"));
     parser.process(a);
     aboutData.processCommandLine(&parser);
