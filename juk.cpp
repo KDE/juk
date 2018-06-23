@@ -17,6 +17,7 @@
 
 #include "juk.h"
 
+#include <kaboutdata.h>
 #include <kmessagebox.h>
 #include <kactioncollection.h>
 #include <kstandardaction.h>
@@ -39,6 +40,9 @@
 #include <QTimer>
 #include <QDesktopWidget>
 #include <QStatusBar>
+#include <QDBusMessage>
+#include <QDBusReply>
+#include <QDBusInterface>
 
 #include "slideraction.h"
 #include "statuslabel.h"
@@ -79,7 +83,8 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     m_player(new PlayerManager),
     m_scrobbler(nullptr),
     m_filesToOpen(filesToOpen),
-    m_shuttingDown(false)
+    m_shuttingDown(false),
+    m_pmToken(0)
 {
     // Expect segfaults if you change this order.
 
@@ -119,6 +124,38 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     readConfig();
     setupGlobalAccels();
     activateScrobblerIfEnabled();
+
+    QDBusInterface *pmInterface = new QDBusInterface(QStringLiteral("org.kde.Solid.PowerManagement"),
+                                       QStringLiteral("/org/freedesktop/PowerManagement/Inhibit"),
+                                       QStringLiteral("org.freedesktop.PowerManagement.Inhibit"),
+                                       QDBusConnection::sessionBus());
+
+    connect(m_player, &PlayerManager::signalPlay, [=] () {
+        QDBusReply<uint> reply;
+        if (pmInterface->isValid() && (m_pmToken == 0)) {
+            reply = pmInterface->call(QStringLiteral("Inhibit"),
+                               KAboutData::applicationData().componentName(),
+                               QStringLiteral("playing audio"));
+            if (reply.isValid()) {
+                m_pmToken = reply.value();
+                qCDebug(JUK_LOG) << "Inhibiting power management";
+            }
+        }
+    });
+
+    auto uninhibitPowerManagement = [=] () {
+        QDBusMessage reply;
+        if (pmInterface->isValid() && (m_pmToken != 0)) {
+            reply = pmInterface->call(QStringLiteral("UnInhibit"), m_pmToken);
+            if (reply.errorName().isEmpty()) {
+                m_pmToken = 0;
+                qCDebug(JUK_LOG) << "Uninhibiting power management";
+            }
+        }
+    };
+
+    connect(m_player, &PlayerManager::signalPause, uninhibitPowerManagement);
+    connect(m_player, &PlayerManager::signalStop, uninhibitPowerManagement);
 
     // The system tray quit command will go straight to qApp->quit without calling
     // our quit action, so make sure we save config changes no matter how quit is

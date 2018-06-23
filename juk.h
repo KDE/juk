@@ -96,6 +96,7 @@ private:
     QStringList m_filesToOpen;
     bool m_startDocked;
     bool m_shuttingDown;
+    uint m_pmToken;
 
     static JuK* m_instance;
 };
