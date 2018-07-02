@@ -69,6 +69,24 @@ DefaultSequenceIterator::~DefaultSequenceIterator()
 {
 }
 
+// Helper function to return a random number up to (but not including) a given max with
+// a truly equal probability of each integer in [0, max) being selected.
+// When Qt 5.10 can be required we can use QRandomGenerator for this, but for now need to
+// fixup KRandom.
+// See https://twitter.com/colmmacc/status/1012723779708088320
+static int boundedRandom(const int upperBound)
+{
+    while (1) {
+        const int candidate = KRandom::random();
+
+        // this check excludes integers above the highest multiple of
+        // upperBound that is still below RAND_MAX to remove bias
+        if (candidate < (RAND_MAX - (RAND_MAX % upperBound))) {
+            return candidate % upperBound;
+        }
+    }
+}
+
 void DefaultSequenceIterator::advance()
 {
     if(!current())
@@ -79,6 +97,9 @@ void DefaultSequenceIterator::advance()
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
 
     if(isRandom || albumRandom) {
+        // TODO: This should probably use KRandomSequence's ability to shuffle
+        // items instead of making a new random choice each time through.
+
         if(m_randomItems.isEmpty() && loop) {
 
             // Since refillRandomList will remove the currently playing item,
@@ -100,7 +121,7 @@ void DefaultSequenceIterator::advance()
 
         if(albumRandom) {
             if(m_albumSearch.isNull() || m_albumSearch.matchedItems().isEmpty()) {
-                item = m_randomItems[KRandom::random() % m_randomItems.count()];
+                item = m_randomItems[boundedRandom(m_randomItems.count())];
                 initAlbumSearch(item);
             }
 
@@ -135,7 +156,7 @@ void DefaultSequenceIterator::advance()
                 qCCritical(JUK_LOG) << "Unable to perform album random play on " << *item;
         }
         else
-            item = m_randomItems[KRandom::random() % m_randomItems.count()];
+            item = m_randomItems[boundedRandom(m_randomItems.count())];
 
         setCurrent(item);
         m_randomItems.removeAll(item);
