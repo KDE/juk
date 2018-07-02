@@ -18,7 +18,6 @@
 #include "nowplaying.h"
 
 #include <kiconloader.h>
-#include <krandom.h>
 #include <KLocalizedString>
 #include <KIO/StoredTransferJob>
 #include <KJobWidgets>
