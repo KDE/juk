@@ -181,7 +181,7 @@ install(TARGETS juk  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 install( PROGRAMS org.kde.juk.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
 install( FILES juk.notifyrc jukui.rc jukui-rtl.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/juk )
-install( FILES org.kde.juk.appdata.xml DESTINATION ${SHARE_INSTALL_PREFIX}/metainfo )
+install( FILES org.kde.juk.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
 install( FILES jukservicemenu.desktop  DESTINATION
 ${SERVICES_INSTALL_DIR}/ServiceMenus )
 install( FILES org.kde.juk.collection.xml org.kde.juk.player.xml org.kde.juk.search.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
