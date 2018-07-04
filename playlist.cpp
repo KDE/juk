@@ -59,6 +59,7 @@
 
 #include <time.h>
 #include <cmath>
+#include <algorithm>
 
 #include "playlistitem.h"
 #include "playlistcollection.h"
@@ -1299,14 +1300,6 @@ void Playlist::slotInitialize()
     addColumn(i18n("File Name"));
     addColumn(i18n("File Name (full path)"));
 
-    // FIXME rename
-    /*setRenameable(PlaylistItem::TrackColumn, true);
-    setRenameable(PlaylistItem::ArtistColumn, true);
-    setRenameable(PlaylistItem::AlbumColumn, true);
-    setRenameable(PlaylistItem::TrackNumberColumn, true);
-    setRenameable(PlaylistItem::GenreColumn, true);
-    setRenameable(PlaylistItem::YearColumn, true);*/
-
     setAllColumnsShowFocus(true);
     setSelectionMode(QTreeWidget::ExtendedSelection);
     header()->setSortIndicatorShown(true);
@@ -1336,15 +1329,10 @@ void Playlist::slotInitialize()
 
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(slotShowRMBMenu(QPoint)));
-    // FIXME rename
-    /*connect(this, SIGNAL(itemRenamed(QTreeWidgetItem*,QString,int)),
-            this, SLOT(slotInlineEditDone(QTreeWidgetItem*,QString,int)));*/
+    connect(this, &QTreeWidget::itemChanged,
+            this, &Playlist::slotInlineEditDone);
     connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotPlayCurrent()));
-
-    // FIXME rename
-    /*connect(renameLineEdit(), SIGNAL(completionModeChanged(KCompletion::CompletionMode)),
-            this, SLOT(slotInlineCompletionModeChanged(KCompletion::CompletionMode)));*/
 
     connect(action("resizeColumnsManually"), SIGNAL(triggered()),
             this, SLOT(slotColumnResizeModeChanged()));
@@ -1449,6 +1437,7 @@ void Playlist::setup()
     setRootIsDecorated(false);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setUniformRowHeights(true);
+    setEditTriggers(QAbstractItemView::EditKeyPressed); // Don't edit on double-click
 
     connect(header(), SIGNAL(sectionMoved(int,int,int)), this, SLOT(slotColumnOrderChanged(int,int,int)));
 
@@ -1893,7 +1882,7 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
         else
             m_rmbMenu->addAction( action("edit_copy") );
 
-        m_rmbEdit = m_rmbMenu->addAction(i18n("Edit"), this, SLOT(slotRenameTag()));
+        m_rmbEdit = m_rmbMenu->addAction(i18n("Edit"));
 
         m_rmbMenu->addAction( action("refresh") );
         m_rmbMenu->addAction( action("removeItem") );
@@ -1913,18 +1902,24 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
 
     // Ignore any columns added by subclasses.
 
-    column -= columnOffset();
+    const int adjColumn = column - columnOffset();
 
     bool showEdit =
-        (column == PlaylistItem::TrackColumn) ||
-        (column == PlaylistItem::ArtistColumn) ||
-        (column == PlaylistItem::AlbumColumn) ||
-        (column == PlaylistItem::TrackNumberColumn) ||
-        (column == PlaylistItem::GenreColumn) ||
-        (column == PlaylistItem::YearColumn);
+        (adjColumn == PlaylistItem::TrackColumn) ||
+        (adjColumn == PlaylistItem::ArtistColumn) ||
+        (adjColumn == PlaylistItem::AlbumColumn) ||
+        (adjColumn == PlaylistItem::TrackNumberColumn) ||
+        (adjColumn == PlaylistItem::GenreColumn) ||
+        (adjColumn == PlaylistItem::YearColumn);
 
-    if(showEdit)
-        m_rmbEdit->setText(i18n("Edit '%1'", item->text(column + columnOffset())));
+    if(showEdit) {
+        m_rmbEdit->setText(i18n("Edit '%1'", item->text(column)));
+
+        m_rmbEdit->disconnect(this);
+        connect(m_rmbEdit, &QAction::triggered, this, [this, item, column]() {
+            this->editItem(item, column);
+        });
+    }
 
     m_rmbEdit->setVisible(showEdit);
 
@@ -1942,43 +1937,6 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
     action("removeCover")->setEnabled(file.coverInfo()->coverId() != CoverManager::NoMatch);
 
     m_rmbMenu->popup(mapToGlobal(point));
-    m_currentColumn = column + columnOffset();
-}
-
-void Playlist::slotRenameTag()
-{
-    // setup completions and validators
-
-    // FIXME rename
-    /*CollectionList *list = CollectionList::instance();
-
-    KLineEdit *edit = renameLineEdit();
-
-    switch(m_currentColumn - columnOffset())
-    {
-    case PlaylistItem::ArtistColumn:
-        edit->completionObject()->setItems(list->uniqueSet(CollectionList::Artists));
-        break;
-    case PlaylistItem::AlbumColumn:
-        edit->completionObject()->setItems(list->uniqueSet(CollectionList::Albums));
-        break;
-    case PlaylistItem::GenreColumn:
-    {
-        QStringList genreList;
-        TagLib::StringList genres = TagLib::ID3v1::genreList();
-        for(TagLib::StringList::Iterator it = genres.begin(); it != genres.end(); ++it)
-            genreList.append(TStringToQString((*it)));
-        edit->completionObject()->setItems(genreList);
-        break;
-    }
-    default:
-        edit->completionObject()->clear();
-        break;
-    }
-
-    m_editText = currentItem()->text(m_currentColumn);
-
-    rename(currentItem(), m_currentColumn);*/
 }
 
 bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
@@ -2021,19 +1979,20 @@ bool Playlist::editTag(PlaylistItem *item, const QString &text, int column)
     return true;
 }
 
-void Playlist::slotInlineEditDone(QTreeWidgetItem *, const QString &, int)
+void Playlist::slotInlineEditDone(QTreeWidgetItem *item, int column)
 {
-    // FIXME rename
-    /*QString text = renameLineEdit()->text();
-    bool changed = false;
+    // The column we get is as passed from QTreeWidget so it does not need
+    // adjustment to get the right text from the QTreeWidgetItem
 
-    PlaylistItemList l = selectedItems();
+    QString text = item->text(column);
+    const PlaylistItemList l = selectedItems();
 
     // See if any of the files have a tag different from the input.
 
-    for(PlaylistItemList::ConstIterator it = l.constBegin(); it != l.constEnd() && !changed; ++it)
-        if((*it)->text(column - columnOffset()) != text)
-            changed = true;
+    const int adjColumn = column - columnOffset();
+    bool changed = std::any_of(l.cbegin(), l.cend(),
+        [text, adjColumn] (const PlaylistItem *item) { return item->text(adjColumn) != text; }
+        );
 
     if(!changed ||
        (l.count() > 1 && KMessageBox::warningContinueCancel(
@@ -2047,14 +2006,14 @@ void Playlist::slotInlineEditDone(QTreeWidgetItem *, const QString &, int)
         return;
     }
 
-    foreach(PlaylistItem *item, l)
+    for(auto &item : l) {
         editTag(item, text, column);
+    }
 
     TagTransactionManager::instance()->commit();
 
-    CollectionList::instance()->dataChanged();
-    dataChanged();
-    update();*/
+    CollectionList::instance()->playlistItemsChanged();
+    playlistItemsChanged();
 }
 
 void Playlist::slotColumnOrderChanged(int, int from, int to)

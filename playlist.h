@@ -600,16 +600,8 @@ private slots:
     /**
      * This slot is called when the inline tag editor has completed its editing
      * and starts the process of renaming the values.
-     *
-     * \see editTag()
      */
-    void slotInlineEditDone(QTreeWidgetItem *, const QString &, int column);
-
-    /**
-     * This starts the renaming process by displaying a line edit if the mouse is in
-     * an appropriate position.
-     */
-    void slotRenameTag();
+    void slotInlineEditDone(QTreeWidgetItem *, int column);
 
     /**
      * The image fetcher will update the cover asynchronously, this internal
@@ -661,7 +653,6 @@ private:
 
     WebImageFetcher *m_fetcher;
 
-    int m_currentColumn;
     QAction *m_rmbEdit;
 
     bool m_allowDuplicates;

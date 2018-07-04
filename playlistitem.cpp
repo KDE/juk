@@ -278,7 +278,7 @@ PlaylistItem::PlaylistItem(CollectionList *parent) :
 {
     d = new Data;
     m_collectionItem = static_cast<CollectionListItem *>(this);
-    setFlags(flags() | Qt::ItemIsDragEnabled);
+    setFlags(flags() | Qt::ItemIsEditable | Qt::ItemIsDragEnabled);
 }
 
 int PlaylistItem::compare(const QTreeWidgetItem *item, int column, bool ascending) const
@@ -396,7 +396,7 @@ void PlaylistItem::setup(CollectionListItem *item)
 
     d = item->d;
     item->addChildItem(this);
-    setFlags(flags() | Qt::ItemIsDragEnabled);
+    setFlags(flags() | Qt::ItemIsEditable | Qt::ItemIsDragEnabled);
 
     int offset = playlist()->columnOffset();
     int columns = lastColumn() + offset + 1;
