@@ -16,6 +16,7 @@
   <name xml:lang="en-GB">JuK</name>
   <name xml:lang="es">JuK</name>
   <name xml:lang="et">JuK</name>
+  <name xml:lang="eu">JuK</name>
   <name xml:lang="fi">JuK</name>
   <name xml:lang="fr">JuK</name>
   <name xml:lang="gl">JuK</name>
@@ -54,6 +55,7 @@
   <summary xml:lang="en-GB">Music Player</summary>
   <summary xml:lang="es">Music Player</summary>
   <summary xml:lang="et">Muusikamängija</summary>
+  <summary xml:lang="eu">Musika jotzailea</summary>
   <summary xml:lang="fi">Musiikkisoitin</summary>
   <summary xml:lang="fr">Lecteur de musique</summary>
   <summary xml:lang="gl">Reprodutor de música</summary>
@@ -90,6 +92,7 @@
     <p xml:lang="en-GB">JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
     <p xml:lang="es">JuK es una aplicación jukebox de audio, que soporta colecciones de archivos MP3, Ogg Vorbis y FLAC. Le permite editar los "tags" de sus archivos de audio, y administrar sus colecciones y listas de reproducción. Su principal cometido, de hecho, es administrar la música.</p>
     <p xml:lang="et">JuK on helifailide muusikamängija, mis toetab MP3, Ogg Vorbise ja FLAC-i vormingut. See võimaldab muuta helifailide "silte" ning hallata muusikakogusid ja esitusnimekirju. Õigupoolest ongi rakenduse rõhk eelkõige muusika haldamisel.</p>
+    <p xml:lang="eu">JuK audio jukebox aplikazio bat da, MP3, Ogg Vorbis, eta FLAC audio fitxategiak onartzen dituena. Zure audio fitxategien "etiketak" editatzen uzten dizu, eta zure bilduma eta jo-zerrendak kudeatzea. Bere helburu nagusia, izatez, musika kudeatzean datza.Jukebox bat musika jotzeko gailu automatizatu bat da, tabernatan, joko-aretoetan eta abarretan egon ohi zena. Txanponak sartuz jo nahi den abestia aukeratzen da.</p>
     <p xml:lang="fi">JuK on musiikkia soittava jukeboksi, joka tukee MP3-, Ogg Vorbis- ja FLAC-äänitiedostoja. Sillä voi myös muokata äänitiedostojen tunnisteita sekä hallita musiikkikokoelmaa ja soittolistoja. Sen keskittyykin pääasiassa musiikkikirjaston hallitsemiseen.</p>
     <p xml:lang="fr">JuK est une application de jukebox audio, prenant en charge les collections de fichiers audio MP3, Ogg Vorbis et FLAC. Il permet de modifier les balises de vos fichiers audio, et gère votre collection et listes de lecture. En effet, il est principalement dédié à la gestion de musiques.</p>
     <p xml:lang="gl">JuK é un reprodutor de música compatíbel con coleccións de ficheiros de son MP3, Ogg Vorbis e FLAC. Permítelle editar as «etiquetas» dos ficheiros de son e xestionar a súa colección e as súas listas de reprodución. O aplicativo está destinado principalmente á xestión de música.</p>
@@ -126,6 +129,7 @@
     <p xml:lang="en-GB">Features:</p>
     <p xml:lang="es">Características:</p>
     <p xml:lang="et">Omadused:</p>
+    <p xml:lang="eu">Eginbideak:</p>
     <p xml:lang="fi">Ominaisuuksia:</p>
     <p xml:lang="fr">Fonctionnalités :</p>
     <p xml:lang="gl">Funcionalidades:</p>
@@ -163,6 +167,7 @@
       <li xml:lang="en-GB">Collection list and multiple user defined playlists</li>
       <li xml:lang="es">Listas de colecciones y listas de reproducción definidas por múltiples usuarios</li>
       <li xml:lang="et">Muusikakogu nimekiri ja paljud kasutaja loodud esitusnimekirjad</li>
+      <li xml:lang="eu">Bilduma zerrenda eta erabiltzaileak zehaztutako askotariko jo-zerrendak</li>
       <li xml:lang="fi">Kokoelmalista ja useita käyttäjän tekemiä soittolistoja</li>
       <li xml:lang="fr">Listes de collections et listes de lectures multiples</li>
       <li xml:lang="gl">Lista de coleccións e múltiplas listas de reprodución definidas polo usuario.</li>
@@ -197,6 +202,7 @@
       <li xml:lang="en-GB">Ability to scan directories to automatically import playlists and music files on start up</li>
       <li xml:lang="es">Capacidad de escanear directorios para importar listas de reproducción y archivos de música automáticamente al iniciar el programa</li>
       <li xml:lang="et">Oskus uurida kohe käivitamisel läbi katalooge ja importida sealt esitusnimekirju ja muusikafaile</li>
+      <li xml:lang="eu">Direktorioak aztertzeko gaitasuna, abiatzean jo-zerrendak eta musika fitxategiak automatikoki inportatzeko</li>
       <li xml:lang="fi">Kyky tarkkailla tiedostokansioita ja tuoda automaattisesti soittolistoja ja musiikkitiedostoja käynnistyessään</li>
       <li xml:lang="fr">Peut parcourir les dossiers pour importer automatiquement les listes de lecture et fichiers musicaux au démarrage</li>
       <li xml:lang="gl">Pode explorar directorios para importar automaticamente listas de reprodución e ficheiros de música ao iniciar o programa.</li>
@@ -231,6 +237,7 @@
       <li xml:lang="en-GB">Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
       <li xml:lang="es">Búsqueda dinámica de listas de reproducción que se actualiza automáticamente con los cambios de los campos de su colección</li>
       <li xml:lang="et">Dünaamilised esitusnimekirjad, mis uuenevad automaatselt kogu väljade muutumisel</li>
+      <li xml:lang="eu">Jo-zerrenda bilaketa dinamikoa bildumako eremuak aldatu ahala automatikoki eguneratzen direnak</li>
       <li xml:lang="fi">Dynaamiset soittolistat, jotka päivittyvät automaattisesti, kun kappaleiden tiedot muuttuvat</li>
       <li xml:lang="fr">Des listes de lecture à recherche dynamique qui sont mises à jour automatiquement alors que les champs dans la collection changent</li>
       <li xml:lang="gl">Busca dinámica de listas de reprodución que se actualizan automaticamente tras cambias campos da colección.</li>
@@ -265,6 +272,7 @@
       <li xml:lang="en-GB">A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
       <li xml:lang="es">Una vista de árbol donde las listas de reproducción se generan automáticamente por conjuntos de álbumes, artistas y géneros</li>
       <li xml:lang="et">Puuvaade, kus albumitele, esitajatele ja žanritele luuakse automaatselt esitusnimekirjad</li>
+      <li xml:lang="eu">Zuhaitz ikuspegi modu bat non jo-zerrendak automatikoki sortzen diren album multzo, artista eta generoetarako</li>
       <li xml:lang="fi">Puunäkymä, jossa soittolistat luodaan automaattisesti levyjen, esittäjien ja tyylilajien mukaan</li>
       <li xml:lang="fr">Un mode d'aperçu en arbre dans lequel les listes de lecture sont générées automatiquement pour des ensembles d'albums, d'artistes et de genres</li>
       <li xml:lang="gl">Un modo de vista de árbore onde se xeran automaticamente listas de reprodución para grupos de álbums, intérpretes e estilos.</li>
@@ -299,6 +307,7 @@
       <li xml:lang="en-GB">Playlist history to indicate which files have been played and when</li>
       <li xml:lang="es">Un historial de reproducción que le indica qué archivos han sido reproducidos y cuándo</li>
       <li xml:lang="et">Esitusnimekirja ajalugu, mis näitab, milliseid faile ja millal on esitatud</li>
+      <li xml:lang="eu">Jo-zerrendaren historia zein fitxategi eta noiz jo diren adierazteko</li>
       <li xml:lang="fi">Soittohistoria, joka kertoo, mitä tiedostoja on kuunneltu ja milloin</li>
       <li xml:lang="fr">Historique de la liste de lecture pour indiquer quels fichiers ont été joués et quand</li>
       <li xml:lang="gl">Historial de listas re reprodución para indicar que ficheiros se reproduciron e cando.</li>
@@ -333,6 +342,7 @@
       <li xml:lang="en-GB">Inline search for filtering the list of visible items</li>
       <li xml:lang="es">Búsqueda bajo control para filtrar la lista de los elementos visibles</li>
       <li xml:lang="et">Reasisene otsing nähtavate elementide nimekirja filtreerimiseks</li>
+      <li xml:lang="eu">Lerro barruko bilaketa, elementu ikusgaien zerrenda iragazteko</li>
       <li xml:lang="fi">Pikahaku, jolla voi tuoda esiin halutut kappaleet</li>
       <li xml:lang="fr">Recherche en ligne pour filtrer la liste des éléments visibles</li>
       <li xml:lang="gl">Permite filtrar a lista de elementos visíbeis mediante termos de busca.</li>
@@ -367,6 +377,7 @@
       <li xml:lang="en-GB">The ability to guess tag information based on the track's file name</li>
       <li xml:lang="es">La habilidad de adivinar metadatos basada en los nombres de los archivos</li>
       <li xml:lang="et">Oskus oletada silditeavet pala failinime põhjal</li>
+      <li xml:lang="eu">Aztarnaren fitxategi izenean oinarrituta etiketa informazioa igartzeko gaitasuna</li>
       <li xml:lang="fi">Kyky arvata kappaleen tiedot tiedostonimen perusteella</li>
       <li xml:lang="fr">Possibilité de deviner les informations de balise basées sur le nom du fichier</li>
       <li xml:lang="gl">Pode deducir información das etiquetas a partir do nome do ficheiro da pista de música.</li>
@@ -401,6 +412,7 @@
       <li xml:lang="en-GB">File renamer that can rename files based on the tag content</li>
       <li xml:lang="es">Un cambiador de nombres de archivo que puede renombrar archivos basándose en el contenido de sus metadatos</li>
       <li xml:lang="et">Failide nime muutmise tööriist, mis võib failinimesid muuta sildi sisu põhjal</li>
+      <li xml:lang="eu">Fitxategi berrizendatzailea, etiketaren edukian oinarrituz fitxategiak berrizendatu ditzakeena</li>
       <li xml:lang="fi">Tiedostojen uudelleennimeäjällä voi nimetä tiedostot tunnisteiden mukaan</li>
       <li xml:lang="fr">Renommage de fichier basé sur le contenu des balises</li>
       <li xml:lang="gl">Permite renomear os ficheiros de acordo co contido das súas etiquetas.</li>
@@ -435,6 +447,7 @@
       <li xml:lang="en-GB">Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
       <li xml:lang="es">Leer y editar metadatos en varios formatos incluyendo ID3v1, ID3v2 y Ogg Vorbis</li>
       <li xml:lang="et">Siltide lugemise ja muutmise toetus paljude vormingute jaoks, sealhulgas ID3v1, ID3v2 ja Ogg Vorbis</li>
+      <li xml:lang="eu">Etiketak irakurri eta editatzeko euskarria formatu ugarirekin, tartean ID3v1, ID3v2 eta Ogg Vorbis</li>
       <li xml:lang="fi">Tunnisteiden lukemisen ja kirjoittamisen tuki monille eri muodoille, mm. ID3v1:lle, ID3v2:lle ja Ogg Vorbisille</li>
       <li xml:lang="fr">Prise  en charge de la lecture et de la modification des balises pour de nombreux formats incluant ID3v1, ID3v2 et Ogg Vorbis</li>
       <li xml:lang="gl">Funcionalidade de ler e editar as etiquetas de ficheiros en diversos formatos, como ID3v1, ID3v2 ou Ogg Vorbis.</li>
