@@ -523,6 +523,8 @@ void PlayerManager::setup()
     connect(m_media, &MediaObject::finished, this, &PlayerManager::slotFinished);
     connect(m_media, &MediaObject::seekableChanged, this, &PlayerManager::slotSeekableChanged);
 
+    m_media->setTickInterval(100);
+
     // initialize action states
 
     action("pause")->setEnabled(false);
