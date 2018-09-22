@@ -116,6 +116,7 @@
     <p xml:lang="tr">JuK, MP3, Ogg Vorbis, ve FLAC ses dosyalarını destekleyen bir müzik kutusu uygulamasıdır. Ses dosyalarının "etiketlerini" düzenlemenize ve koleksiyon ve çalma listelerini yönetmenize izin verir. Ana odak noktası müzik yönetimidir.</p>
     <p xml:lang="uk">JuK — програма для відтворення музики, у якій передбачено підтримку роботи зі звуковими файлами у форматах MP3, Ogg Vorbis та FLAC. Програма допоможе вам у редагуванні міток ваших звукових файлів, керуванні вашою збіркою та списками відтворення. Основним її призначенням, фактично, є керування музичними даними.</p>
     <p xml:lang="x-test">xxJuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.xx</p>
+    <p xml:lang="zh-CN">JuK 是一款自动点唱程序，支持 MP3、Ogg Vorbis 和 FLAC 等音频文件。它允许您编辑音频文件的 "标签"，并管理您的收藏和播放列表。事实上，它的主要重点是音乐管理。</p>
     <p xml:lang="zh-TW">Juk 是一套類似自動唱機的應用程式，支援收藏 MP3，Ogg Vorbis 與 FLAC 音效檔。它能讓您編輯您的音效檔的「標籤」，並管理您的收藏與播放清單。它主要的焦點，在音樂管理。</p>
     <p>Features:</p>
     <p xml:lang="bg">Възможности:</p>
@@ -191,6 +192,7 @@
       <li xml:lang="tr">Koleksiyon listesi ve çoklu kullanıcı tanımlı oynatma listesi</li>
       <li xml:lang="uk">Список збірки та декілька визначених користувачем списків відтворення.</li>
       <li xml:lang="x-test">xxCollection list and multiple user defined playlistsxx</li>
+      <li xml:lang="zh-CN">收藏列表和众多的用户创建的播放列表</li>
       <li xml:lang="zh-TW">收藏清單與多個使用者定義的播放清單</li>
       <li>Ability to scan directories to automatically import playlists and music files on start up</li>
       <li xml:lang="bs">Mogućnost skeniranja direktorija da automatski uvezete liste izvođenja i muzičke datoteke pri pokretanju</li>
@@ -226,6 +228,7 @@
       <li xml:lang="tr">Açılışta dizinleri otomatik olarak tarayarak oynatma listelerini ive müzik dosyalarını çe aktarma yeteneği</li>
       <li xml:lang="uk">Можливість автоматичного пошуку та імпортування до збірки списків відтворення та файлів звукових даних.</li>
       <li xml:lang="x-test">xxAbility to scan directories to automatically import playlists and music files on start upxx</li>
+      <li xml:lang="zh-CN">能在启动时扫描目录以自动导入播放列表与音乐文件</li>
       <li xml:lang="zh-TW">可以掃描目錄並於啟動時自動匯入播放清單與音樂檔</li>
       <li>Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
       <li xml:lang="bs">Dinamička pretraga listi izvođenja koja se automatski ažurira kao polja u promjeni kolekcije</li>
@@ -261,6 +264,7 @@
       <li xml:lang="tr">Koleksiyondaki alanlar değiştiğinde otomatik olarak güncellenen Dinamik Arama Oynatma Listeleri</li>
       <li xml:lang="uk">Динамічні списки пошуку, які оновлюються автоматично зі зміною у полях даних збірки.</li>
       <li xml:lang="x-test">xxDynamic Search Playlists that are automatically updated as fields in the collection changexx</li>
+      <li xml:lang="zh-CN">动态搜索播放列表将在收藏列表中的字段更改时自动更新</li>
       <li xml:lang="zh-TW">動態搜尋播放清單，收藏有變更時自動更新</li>
       <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
       <li xml:lang="bs">Režim pogleda stabla gdje se liste automatski generišu kao skupovi albuma, izvođača i žanrova</li>
@@ -296,6 +300,7 @@
       <li xml:lang="tr">Oynatma listeleri albüm, sanatçı ve türlerden otomatik oluşturulan Ağaç Görünümü kipi</li>
       <li xml:lang="uk">Режим ієрархічного перегляду, у якому списки відтворення створюються автоматично за наборами альбомів, виконавців та жанрів.</li>
       <li xml:lang="x-test">xxA Tree View mode where playlists are automatically generated for sets of albums, artists and genresxx</li>
+      <li xml:lang="zh-CN">树视图模式，其中播放列表是自动根据专辑、艺术家和流派生成的</li>
       <li xml:lang="zh-TW">播放清單自動產生樹狀檢視模式，顯示專輯、演出者與風格</li>
       <li>Playlist history to indicate which files have been played and when</li>
       <li xml:lang="bs">Istorijat liste izvođenja da indicira koje su datoteke izvođene i kada</li>
@@ -331,6 +336,7 @@
       <li xml:lang="tr">Hangi dosyaların ne zaman çalındığını belirleyen oynatma listesi geçmişi</li>
       <li xml:lang="uk">Журнал списку відтворення, у якому зберігаються дані щодо того, які файли було відтворено і коли це сталося.</li>
       <li xml:lang="x-test">xxPlaylist history to indicate which files have been played and whenxx</li>
+      <li xml:lang="zh-CN">播放列表历史记录，能够指示已播放的文件以及是何时播放的</li>
       <li xml:lang="zh-TW">播放清單歷史，可以指示哪些檔案於何時被播放過</li>
       <li>Inline search for filtering the list of visible items</li>
       <li xml:lang="bs">Linijska pretraga za filtriranje liste vidljivih objekata</li>
@@ -366,6 +372,7 @@
       <li xml:lang="tr">Görünür ögeleri süzmek için yeniden arama</li>
       <li xml:lang="uk">Вбудована можливість пошуку для фільтрування списку показаних записів.</li>
       <li xml:lang="x-test">xxInline search for filtering the list of visible itemsxx</li>
+      <li xml:lang="zh-CN">内联搜索可筛选可见项目列表</li>
       <li xml:lang="zh-TW">清單內搜尋與過濾</li>
       <li>The ability to guess tag information based on the track's file name</li>
       <li xml:lang="bs">Mogućnost pogađanja informacija o oznaci bazirano na imenu datoteke trake</li>
@@ -401,6 +408,7 @@
       <li xml:lang="tr">Parçanın dosya adına dayanarak etiket bilgisini tahmin etme</li>
       <li xml:lang="uk">Можливість вгадування міток на основі даних щодо назви файла композиції.</li>
       <li xml:lang="x-test">xxThe ability to guess tag information based on the track's file namexx</li>
+      <li xml:lang="zh-CN">能够根据音轨文件的名称猜测标签信息</li>
       <li xml:lang="zh-TW">根據曲目名稱猜測標籤的功能</li>
       <li>File renamer that can rename files based on the tag content</li>
       <li xml:lang="bs">Preimenovanje datoteka na bazi sadržaja oznake</li>
@@ -436,6 +444,7 @@
       <li xml:lang="tr">Etiket içeriğine bağlı olarak dosyayı yeniden adlandırabilme</li>
       <li xml:lang="uk">Засіб перейменування файлів, який може перейменувати файли на основі даних міток.</li>
       <li xml:lang="x-test">xxFile renamer that can rename files based on the tag contentxx</li>
+      <li xml:lang="zh-CN">文件重命名器能够根据标签内容重命名文件</li>
       <li xml:lang="zh-TW">根據標籤內容來重新命名檔案</li>
       <li>Tag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbis</li>
       <li xml:lang="bs">Podrška za čitanje i uređivanje oznaka za mnoge formate uključujući ID3v1, ID3v2 i Ogg Vorbis</li>
@@ -471,6 +480,7 @@
       <li xml:lang="tr">ID3v1, ID3v2 ve Ogg Vorbis dahil pek çok format için etiket okuma ve düzenleme desteği</li>
       <li xml:lang="uk">Підтримка читання та редагування міток у багатьох форматах, зокрема ID3v1, ID3v2 та Ogg Vorbis.</li>
       <li xml:lang="x-test">xxTag reading and editing support for many formats including ID3v1, ID3v2 and Ogg Vorbisxx</li>
+      <li xml:lang="zh-CN">支持为众多格式（包括 ID3v1、ID3v2 和 Ogg Vorbis ）的文件读取并编辑标签</li>
       <li xml:lang="zh-TW">標籤讀取與編輯支援許多格式，包括 ID3v1, ID3v2 與 Ogg Vorbis 等</li>
     </ul>
   </description>
