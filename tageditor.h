@@ -43,7 +43,7 @@ class TagEditor : public QWidget, public Ui::TagEditor
     Q_OBJECT
 
 public:
-    TagEditor(QWidget *parent = 0);
+    explicit TagEditor(QWidget *parent = 0);
     virtual ~TagEditor();
     PlaylistItemList items() const { return m_items; }
     void setupObservers();

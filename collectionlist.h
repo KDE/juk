@@ -52,7 +52,7 @@ typedef QVector<TagCountDict *> TagCountDicts;
  * It is being implemented as a "semi-singleton" because I need universal access
  * to just one instance.  However, because the collection needs initialization
  * parameters (that will not always be available when an instance is needed).
- * Hence there will be the familiar singleton "instance()" method allong with an
+ * Hence there will be the familiar singleton "instance()" method along with an
  * "initialize()" method.
  */
 

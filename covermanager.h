@@ -44,7 +44,7 @@ class CoverSaveHelper : public QObject
     Q_OBJECT
 
 public:
-    CoverSaveHelper(QObject *parent);
+    explicit CoverSaveHelper(QObject *parent);
     void saveCovers();
 
 private slots:
@@ -94,7 +94,7 @@ class CoverDrag : public QMimeData
     Q_OBJECT
 
 public:
-    CoverDrag(coverKey id);
+    explicit CoverDrag(coverKey id);
 
     static const char* mimetype();
 

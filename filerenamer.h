@@ -145,7 +145,7 @@ class FileRenamerWidget : public QWidget, public CategoryReaderInterface
     Q_OBJECT
 
 public:
-    FileRenamerWidget(QWidget *parent);
+    explicit FileRenamerWidget(QWidget *parent);
     ~FileRenamerWidget();
 
     /// Maximum number of total categories the widget will allow.
@@ -452,7 +452,7 @@ private slots:
     virtual void exampleDialogShown();
 
     /**
-     * This slot should be called whever the example input dialog is hidden.
+     * This slot should be called whenever the example input dialog is hidden.
      */
     virtual void exampleDialogHidden();
 

@@ -14,13 +14,13 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "tracksequencemanager.h"
 #include <KLocalizedString>
 #include <kconfig.h>
 
 #include <QAction>
 
 #include "actioncollection.h"
-#include "tracksequencemanager.h"
 #include "playlist.h"
 #include "playlistitem.h"
 #include "tracksequenceiterator.h"

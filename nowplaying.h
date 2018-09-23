@@ -98,7 +98,7 @@ private:
 class CoverItem : public QLabel, public NowPlayingItem
 {
 public:
-    CoverItem(NowPlaying *parent);
+    explicit CoverItem(NowPlaying *parent);
     virtual void update(const FileHandle &file);
     virtual void mouseReleaseEvent(QMouseEvent *event);
 
@@ -125,7 +125,7 @@ class TrackItem : public QWidget, public NowPlayingItem
     Q_OBJECT
 
 public:
-    TrackItem(NowPlaying *parent);
+    explicit TrackItem(NowPlaying *parent);
     virtual void update(const FileHandle &file);
 
 private slots:

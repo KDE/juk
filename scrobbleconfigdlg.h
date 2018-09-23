@@ -15,8 +15,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef JUK_SCROBBLESETTINGS_H
-#define JUK_SCROBBLESETTINGS_H
+#ifndef JUK_SCROBBLECONFIGDLG_H
+#define JUK_SCROBBLECONFIGDLG_H
 
 #include <QDialog>
 #include <KWallet>
@@ -54,4 +54,4 @@ private:
     std::unique_ptr<Wallet> m_wallet;
 };
 
-#endif //JUK_SCROBBLESETTINGS_H
+#endif //JUK_SCROBBLECONFIGDLG_H

@@ -27,7 +27,7 @@ template <class T> class Hash : public QSet<T>
 public:
     /**
      * To combine two operations into one (that takes the same amount as each
-     * independantly) this inserts an item and returns true if the item was
+     * independently) this inserts an item and returns true if the item was
      * already in the set or false if it did not.
      */
     inline bool insert(const T &value)

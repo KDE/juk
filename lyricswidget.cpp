@@ -14,6 +14,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include "lyricswidget.h"
+
 #include <QDomDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
@@ -27,7 +29,6 @@
 #include <KConfigGroup>
 #include <KSharedConfig>
 
-#include "lyricswidget.h"
 #include "tag.h"
 #include "actioncollection.h"
 #include "juk_debug.h"

@@ -36,7 +36,7 @@ class DeleteWidget : public QWidget
     Q_OBJECT
 
 public:
-    DeleteWidget(QWidget *parent);
+    explicit DeleteWidget(QWidget *parent);
 
     void setFiles(const QStringList &files);
     bool shouldDelete() const;
@@ -59,7 +59,7 @@ class DeleteDialog : public QDialog
     Q_OBJECT
 
 public:
-    DeleteDialog(QWidget* parent);
+    explicit DeleteDialog(QWidget* parent);
 
     bool confirmDeleteList(const QStringList &condemnedFiles);
     void setFiles(const QStringList &files);

@@ -28,7 +28,7 @@ class ExampleOptions : public QWidget, public Ui::ExampleOptionsBase
 {
     Q_OBJECT
 public:
-    ExampleOptions(QWidget *parent);
+    explicit ExampleOptions(QWidget *parent);
 
 protected slots:
     void exampleSelectionChanged();
@@ -44,7 +44,7 @@ class ExampleOptionsDialog : public QDialog
 {
     Q_OBJECT
 public:
-    ExampleOptionsDialog(QWidget *parent);
+    explicit ExampleOptionsDialog(QWidget *parent);
 
     const ExampleOptions *widget() const { return m_options; }
 

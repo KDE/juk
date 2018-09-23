@@ -39,7 +39,7 @@ class HistoryPlaylist : public Playlist
     Q_OBJECT
 
 public:
-    HistoryPlaylist(PlaylistCollection *collection);
+    explicit HistoryPlaylist(PlaylistCollection *collection);
     virtual ~HistoryPlaylist();
 
     virtual HistoryPlaylistItem *createItem(const FileHandle &file, QTreeWidgetItem *after = nullptr);

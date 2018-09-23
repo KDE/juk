@@ -28,7 +28,7 @@ class CoverDialog : public QWidget, public Ui::CoverDialogBase
 {
     Q_OBJECT
 public:
-    CoverDialog(QWidget *parent);
+    explicit CoverDialog(QWidget *parent);
     ~CoverDialog();
 
     virtual void show();

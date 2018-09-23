@@ -48,7 +48,7 @@ public:
         bool addPlaylists;
     };
 
-    DirectoryList(
+    explicit DirectoryList(
         const QStringList &directories,
         const QStringList &excludeDirectories,
         bool importPlaylists,

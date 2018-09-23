@@ -142,14 +142,14 @@ public:
     /**
      * This method is called when the puid was already generated. It will then do
      * the lookup with MusicBrainz's server. This may be reimplemented to provide
-     * specific behavion for the lookup.
+     * specific behavior for the lookup.
      */
     virtual void puidGenerated();
 
     /**
      * This method is called if the track was recognized by the TRM server.
      * results() will return just one value.  This may be reimplemented to
-     * provide specific behavion in the case of the track being recognized.
+     * provide specific behavior in the case of the track being recognized.
      *
      * \note The base class call should happen at the beginning of the subclass
      * reimplementation; it populates the values of results().
@@ -159,7 +159,7 @@ public:
     /**
      * This method is called if the track was not recognized by the TRM server.
      * results() will return an empty set.  This may be reimplemented to provide
-     * specific behavion in the case of the track not being recognized.
+     * specific behavior in the case of the track not being recognized.
      */
     virtual void unrecognized();
 
@@ -167,7 +167,7 @@ public:
      * This method is called if there are multiple potential matches for the TRM
      * value.  results() will return a list of the potential matches, sorted by
      * liklihood.  This may be reimplemented to provide
-     * specific behavion in the case of the track not being recognized.
+     * specific behavior in the case of the track not being recognized.
      *
      * \note The base class call should happen at the beginning of the subclass
      * reimplementation; it populates the values of results().
@@ -177,7 +177,7 @@ public:
     /**
      * This method is called if the track was not recognized by the TRM server.
      * results() will return an empty set.  This may be reimplemented to provide
-     * specific behavion in the case of the track not being recognized.
+     * specific behavior in the case of the track not being recognized.
      */
     virtual void error();
 

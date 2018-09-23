@@ -1823,7 +1823,7 @@ void Playlist::slotUpdateColumnWidths()
     int usedWidth = 0;
 
     // Now set the actual column widths.  If the weighted widths are all greater
-    // than the minimum widths, just use those, otherwise use the "reajusted
+    // than the minimum widths, just use those, otherwise use the "readjusted
     // weighted width".
 
     foreach(int column, visibleColumns) {

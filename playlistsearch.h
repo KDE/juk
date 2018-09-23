@@ -80,7 +80,7 @@ private:
 };
 
 /**
- * A search is built from several search components.  These corespond to to lines
+ * A search is built from several search components.  These correspond to to lines
  * in the search bar.
  */
 
@@ -96,7 +96,7 @@ public:
     Component();
 
     /**
-     * Create a query component.  This defaults to searching all visible coulumns.
+     * Create a query component.  This defaults to searching all visible columns.
      */
     Component(const QString &query,
               bool caseSensitive = false,

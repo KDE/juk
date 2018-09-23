@@ -27,7 +27,7 @@
 class MusicBrainzLookup : public KTRMLookup
 {
 public:
-    MusicBrainzLookup(const FileHandle &file);
+    explicit MusicBrainzLookup(const FileHandle &file);
     virtual void recognized();
     virtual void unrecognized();
     virtual void collision();

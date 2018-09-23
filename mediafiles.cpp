@@ -38,7 +38,7 @@
 #include <oggflacfile.h>
 #include <mpcfile.h>
 
-#include "config-juk.h"
+#include <config-juk.h>
 #if TAGLIB_HAS_OPUSFILE
 # include <opusfile.h>
 #endif

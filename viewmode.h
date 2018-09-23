@@ -33,7 +33,7 @@ class ViewMode : public QObject
     Q_OBJECT
 
 public:
-    ViewMode(PlaylistBox *b);
+    explicit ViewMode(PlaylistBox *b);
     virtual ~ViewMode();
 
     virtual QString name() const;
@@ -100,7 +100,7 @@ private:
 class CompactViewMode : public ViewMode
 {
 public:
-    CompactViewMode(PlaylistBox *b);
+    explicit CompactViewMode(PlaylistBox *b);
     virtual ~CompactViewMode();
 
     virtual QString name() const;
@@ -125,7 +125,7 @@ class TreeViewMode : public CompactViewMode
     Q_OBJECT
 
 public:
-    TreeViewMode(PlaylistBox *l);
+    explicit TreeViewMode(PlaylistBox *l);
     virtual ~TreeViewMode();
 
     virtual QString name() const;

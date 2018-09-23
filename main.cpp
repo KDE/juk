@@ -29,7 +29,7 @@
 #include <QApplication>
 
 #include "juk.h"
-#include "config-juk.h"
+#include <config-juk.h>
 
 static const char description[] = I18N_NOOP("Jukebox and music manager by the KDE community");
 static const char scott[]       = I18N_NOOP("Author, chief dork and keeper of the funk");

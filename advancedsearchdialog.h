@@ -33,7 +33,7 @@ class AdvancedSearchDialog : public QDialog
     Q_OBJECT
 
 public:
-    AdvancedSearchDialog(
+    explicit AdvancedSearchDialog(
             const QString& defaultName,
             const PlaylistSearch& defaultSearch = PlaylistSearch(),
             QWidget* parent = nullptr);

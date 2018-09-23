@@ -19,7 +19,7 @@
 
 #include <KLocalizedString>
 
-#include <QtCore/QFile>
+#include <QFile>
 
 #include <taglib/tag.h>
 #include <tfile.h>

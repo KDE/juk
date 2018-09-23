@@ -151,7 +151,7 @@ public:
     PlaylistItem *itemAbove() { return static_cast<PlaylistItem *>(treeWidget()->itemAbove(this)); }
 
     /**
-     * Returns a reference to the list of the currnetly playing items, with the
+     * Returns a reference to the list of the currently playing items, with the
      * first being the "master" item (i.e. the item from which the next track is
      * chosen).
      */
@@ -166,7 +166,7 @@ protected:
     PlaylistItem(CollectionListItem *item, Playlist *parent, QTreeWidgetItem *after);
 
     /**
-     * This is the constructor that shold be used by subclasses.
+     * This is the constructor that should be used by subclasses.
      */
     PlaylistItem(CollectionList *parent);
 

@@ -17,7 +17,7 @@
 #ifndef TAGRENAMEROPTIONS_H
 #define TAGRENAMEROPTIONS_H
 
-#include <QtCore/QString>
+#include <QString>
 
 // Insert all new tag types before NumTypes, that way NumTypes will always be
 // the count of valid tag types.

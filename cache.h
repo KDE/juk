@@ -18,9 +18,9 @@
 #ifndef JUK_CACHE_H
 #define JUK_CACHE_H
 
-#include <QtCore/QDataStream>
-#include <QtCore/QFile>
-#include <QtCore/QBuffer>
+#include <QDataStream>
+#include <QFile>
+#include <QBuffer>
 
 class Playlist;
 class PlaylistCollection;

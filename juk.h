@@ -37,7 +37,7 @@ class JuK : public KXmlGuiWindow
     Q_OBJECT
 
 public:
-    JuK(const QStringList &filesToOpen, QWidget* parent = 0);
+    explicit JuK(const QStringList &filesToOpen, QWidget* parent = 0);
     virtual ~JuK();
 
     static JuK* JuKInstance();

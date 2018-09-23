@@ -32,7 +32,7 @@ class CoverInfo
 public:
     enum CoverSize { FullSize, Thumbnail };
 
-    CoverInfo(const FileHandle &file);
+    explicit CoverInfo(const FileHandle &file);
 
     bool hasCover() const;
 

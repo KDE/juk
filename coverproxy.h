@@ -17,7 +17,7 @@
 #ifndef JUK_COVERPROXY_H
 #define JUK_COVERPROXY_H
 
-#include <QtCore/QObject>
+#include <QObject>
 
 class KJob;
 
@@ -30,7 +30,7 @@ class CoverProxy : public QObject
     Q_OBJECT
 
 public:
-    CoverProxy(QObject *parent = 0);
+    explicit CoverProxy(QObject *parent = 0);
 
 private slots:
     void handleResult(KJob *);

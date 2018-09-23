@@ -29,7 +29,7 @@ class WebImageFetcher : public QObject
     Q_OBJECT
 
 public:
-    WebImageFetcher(QObject *parent);
+    explicit WebImageFetcher(QObject *parent);
     ~WebImageFetcher();
 
     void setFile(const FileHandle &file);

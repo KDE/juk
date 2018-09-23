@@ -34,7 +34,7 @@ class VolumePopupButton : public QToolButton
     Q_OBJECT
 
 public:
-    VolumePopupButton( QWidget * parent );
+    explicit VolumePopupButton( QWidget * parent );
     void refresh();
 
 protected:

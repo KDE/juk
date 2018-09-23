@@ -27,7 +27,7 @@ class FileNameScheme
         typedef QList<FileNameScheme> List;
 
         FileNameScheme() { }
-        FileNameScheme(const QString &s);
+        explicit FileNameScheme(const QString &s);
 
         bool matches(const QString &s) const;
 
@@ -58,7 +58,7 @@ class TagGuesser
         static void setSchemeStrings(const QStringList &schemes);
 
         TagGuesser();
-        TagGuesser(const QString &absFileName);
+        explicit TagGuesser(const QString &absFileName);
 
         void guess(const QString &absFileName);
 

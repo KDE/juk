@@ -26,7 +26,7 @@ class FileRenamerConfigDlg : public QDialog
 {
     Q_OBJECT
 public:
-    FileRenamerConfigDlg(QWidget *parent);
+    explicit FileRenamerConfigDlg(QWidget *parent);
 
 protected slots:
     virtual void accept();

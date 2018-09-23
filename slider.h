@@ -106,7 +106,7 @@ class TimeSlider : public Slider
     Q_OBJECT
 
 public:
-    TimeSlider( QWidget *parent );
+    explicit TimeSlider( QWidget *parent );
 
     void setSliderValue( int value );
 protected:
