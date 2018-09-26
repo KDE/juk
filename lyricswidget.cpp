@@ -144,6 +144,13 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
         setHtml(i18n("<span style='color:red'>Error while retrieving lyrics!</span>"));
         return;
     }
+    const QUrlQuery replyUrlQuery(reply->url());
+    QString titlesUrlPart = replyUrlQuery.queryItemValue(QStringLiteral("titles"), QUrl::FullyEncoded);
+    if (titlesUrlPart.isEmpty()) {
+        // default homepage, but this code path should never happen at this point.
+        titlesUrlPart = QStringLiteral("Lyrics_Wiki");
+    }
+    const QString lyricsUrl = QStringLiteral("http://lyrics.wikia.com/wiki/") + titlesUrlPart;
 
     QString content = QString::fromUtf8(reply->readAll());
     int lIndex = content.indexOf("&lt;lyrics&gt;");
@@ -159,5 +166,5 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
     //setText(content);
     setHtml("<h1>" + m_title + "</h1>" +
             content +
-            i18n("<br /><br /><i>Lyrics provided by <a href='http://lyrics.wikia.com/Lyrics_Wiki'>LyricWiki</a></i>"));
+            i18n("<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>", lyricsUrl));
 }
