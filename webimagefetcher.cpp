@@ -200,6 +200,7 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     connect(buttonBox, &QDialogButtonBox::rejected, d->dialog, &QDialog::reject);
 
     connect(d->dialog, &QDialog::accepted, this, &WebImageFetcher::slotCoverChosen);
+    connect(d->dialog, &QDialog::rejected, this, &WebImageFetcher::destroyDialog);
 
     d->dialog->setWindowIcon(realImage);
     d->dialog->show();
@@ -215,10 +216,18 @@ void WebImageFetcher::slotCoverChosen()
 
     if (newId != CoverManager::NoMatch) {
         emit signalCoverChanged(newId);
-        d->dialog->close();
-        d->dialog->deleteLater();
-        d->dialog = 0;
+        destroyDialog();
     }
+}
+
+void WebImageFetcher::destroyDialog()
+{
+    if (!d->dialog)
+        return;
+
+    d->dialog->close();
+    d->dialog->deleteLater();
+    d->dialog = 0;
 }
 
 // vim: set et sw=4 tw=0 sta:

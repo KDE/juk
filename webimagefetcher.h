@@ -45,6 +45,7 @@ private slots:
     void slotWebRequestFinished(KJob *job);
     void slotImageFetched(KJob *job);
     void slotCoverChosen();
+    void destroyDialog();
 
 private:
     class Private;
