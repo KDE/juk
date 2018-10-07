@@ -21,6 +21,7 @@
 #include <KLocalizedString>
 #include <KIO/Job>
 #include <KIconLoader>
+#include <KMessageBox>
 
 #include "covermanager.h"
 #include "filehandle.h"
@@ -105,6 +106,8 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     if (job != d->connection)
         return;
 
+    QStatusBar *statusBar = JuK::JuKInstance()->statusBar();
+
     if (!job || job->error()) {
         qCCritical(JUK_LOG) << "Error reading image results from last.fm!\n";
         qCCritical(JUK_LOG) << d->connection->errorString();
@@ -127,21 +130,41 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
         return;
     }
 
-    QDomNode n = results.documentElement();
+    QDomElement n = results.documentElement();
 
     if (n.isNull()) {
         qCDebug(JUK_LOG) << "No document root in XML results??\n";
         return;
     }
+    if (n.nodeName() != QLatin1String("lfm")) {
+        qCDebug(JUK_LOG) << "Invalid resulting XML document, not <lfm>";
+        return;
+    }
+    if (n.attribute(QStringLiteral("status")) != QLatin1String("ok")) {
+        const QDomElement err = n.firstChildElement(QStringLiteral("error"));
+        const int errCode = err.attribute(QStringLiteral("code")).toInt();
+        if (errCode == 6) {
+            KMessageBox::information(nullptr, i18n("Album '%1' not found.", d->albumName), i18nc("@title:window", "Album not Found"));
+        } else {
+            KMessageBox::error(nullptr, i18n("Error %1 when searching for cover:\n%2", errCode, err.text()));
+        }
+        statusBar->clearMessage();
+        return;
+    }
     n = n.firstChildElement("album");
 
     //FIXME: We assume they have a sane sorting (smallest -> largest)
-    d->url = QUrl::fromEncoded(n.lastChildElement("image").text().toLatin1());
+    const QString imageUrl = n.lastChildElement("image").text();
+    if (imageUrl.isEmpty()) {
+        KMessageBox::information(nullptr, i18n("No available cover for the album '%1'.", d->albumName), i18nc("@title:window", "Cover not Available"));
+        statusBar->clearMessage();
+        return;
+    }
+    d->url = QUrl::fromEncoded(imageUrl.toLatin1());
     //TODO: size attribute can have the values mega, extralarge, large, medium and small
 
     qCDebug(JUK_LOG) << "Got cover:" << d->url;
 
-    QStatusBar *statusBar = JuK::JuKInstance()->statusBar();
     statusBar->showMessage(i18n("Downloading cover. Please Wait..."));
 
     KIO::StoredTransferJob *newJob = KIO::storedGet(d->url, KIO::Reload /* reload always */, KIO::HideProgressInfo);
