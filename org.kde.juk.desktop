@@ -9,7 +9,6 @@ X-DBUS-StartupType=Unique
 Comment=
 Terminal=false
 Name=JuK
-Name[ast]=JuK
 Name[bg]=JuK
 Name[bs]=JuK
 Name[ca]=JuK
