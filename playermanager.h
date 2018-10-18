@@ -111,7 +111,7 @@ signals:
     void signalItemChanged(const FileHandle &file);
 
 private:
-    void setup();
+    void setupAudio();
 
 private slots:
     void slotFinished();
@@ -131,8 +131,8 @@ private:
     static const int m_pollInterval = 800;
 
     Phonon::AudioOutput *m_output;
-    Phonon::Path m_audioPath;
     Phonon::MediaObject *m_media;
+    Phonon::Path m_audioPath;
 };
 
 #endif

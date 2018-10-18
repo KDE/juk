@@ -56,14 +56,13 @@ enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying =
 PlayerManager::PlayerManager() :
     QObject(),
     m_playlistInterface(nullptr),
-    m_setup(false)
+    m_output(new Phonon::AudioOutput(Phonon::MusicCategory, this)),
+    m_media( new Phonon::MediaObject(this)),
+    m_audioPath(Phonon::createPath(m_media, m_output))
 {
-// This class is the first thing constructed during program startup, and
-// therefore has no access to the widgets needed by the setup() method.
-// Since the setup() method will be called indirectly by the player() method
-// later, just disable it here. -- mpyne
-//    setup();
+    setupAudio();
     new PlayerAdaptor(this);
+    QDBusConnection::sessionBus().registerObject("/Player", this);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -72,42 +71,27 @@ PlayerManager::PlayerManager() :
 
 bool PlayerManager::playing() const
 {
-    if(!m_setup)
-        return false;
-
     Phonon::State state = m_media->state();
     return (state == Phonon::PlayingState || state == Phonon::BufferingState);
 }
 
 bool PlayerManager::paused() const
 {
-    if(!m_setup)
-        return false;
-
     return m_media->state() == Phonon::PausedState;
 }
 
 bool PlayerManager::muted() const
 {
-    if(!m_setup)
-        return false;
-
     return m_output->isMuted();
 }
 
 float PlayerManager::volume() const
 {
-    if(!m_setup)
-        return 1.0;
-
     return m_output->volume();
 }
 
 int PlayerManager::status() const
 {
-    if(!m_setup)
-        return StatusStopped;
-
     if(paused())
         return StatusPaused;
 
@@ -129,25 +113,16 @@ int PlayerManager::currentTime() const
 
 int PlayerManager::totalTimeMSecs() const
 {
-    if(!m_setup)
-        return 0;
-
     return m_media->totalTime();
 }
 
 int PlayerManager::currentTimeMSecs() const
 {
-    if(!m_setup)
-        return 0;
-
     return m_media->currentTime();
 }
 
 bool PlayerManager::seekable() const
 {
-    if(!m_setup)
-        return false;
-
     return m_media->isSeekable();
 }
 
@@ -201,9 +176,6 @@ void PlayerManager::setPlaylistInterface(PlaylistInterface *interface)
 
 void PlayerManager::play(const FileHandle &file)
 {
-    if(!m_setup)
-        setup();
-
     if(!m_media || !m_playlistInterface)
         return;
 
@@ -257,7 +229,7 @@ void PlayerManager::play()
 
 void PlayerManager::pause()
 {
-    if(!m_setup || paused())
+    if(paused())
         return;
 
     action("pause")->setEnabled(false);
@@ -267,7 +239,7 @@ void PlayerManager::pause()
 
 void PlayerManager::stop()
 {
-    if(!m_setup || !m_playlistInterface)
+    if(!m_playlistInterface)
         return;
 
     action("pause")->setEnabled(false);
@@ -286,15 +258,12 @@ void PlayerManager::stop()
 
 void PlayerManager::setVolume(float volume)
 {
-    if(!m_setup)
-        setup();
-
     m_output->setVolume(volume);
 }
 
 void PlayerManager::seek(int seekTime)
 {
-    if(!m_setup || m_media->currentTime() == seekTime)
+    if(m_media->currentTime() == seekTime)
         return;
 
     m_media->seek(seekTime);
@@ -350,33 +319,21 @@ void PlayerManager::back()
 
 void PlayerManager::volumeUp()
 {
-    if(!m_setup)
-        return;
-
     setVolume(volume() + 0.04); // 4% up
 }
 
 void PlayerManager::volumeDown()
 {
-    if(!m_setup)
-        return;
-
     setVolume(volume() - 0.04); // 4% down
 }
 
 void PlayerManager::setMuted(bool m)
 {
-    if(!m_setup)
-        return;
-
     m_output->setMuted(m);
 }
 
 bool PlayerManager::mute()
 {
-    if(!m_setup)
-        return false;
-
     bool newState = !muted();
     setMuted(newState);
     return newState;
@@ -490,32 +447,11 @@ void PlayerManager::slotVolumeChanged(qreal volume)
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void PlayerManager::setup()
+void PlayerManager::setupAudio()
 {
-    if(m_setup)
-        return;
-
-    m_setup = true;
-
-    // All of the actions required by this class should be listed here.
-    if(!action("pause") ||
-       !action("stop") ||
-       !action("back") ||
-       !action("forwardAlbum") ||
-       !action("forward") ||
-       !action("trackPositionAction"))
-    {
-        qCWarning(JUK_LOG) << "Could not find all of the required actions.";
-        return;
-    }
-
     using namespace Phonon;
-    m_output = new AudioOutput(MusicCategory, this);
     connect(m_output, &AudioOutput::mutedChanged,  this, &PlayerManager::slotMutedChanged);
     connect(m_output, &AudioOutput::volumeChanged, this, &PlayerManager::slotVolumeChanged);
-
-    m_media = new MediaObject(this);
-    m_audioPath = createPath(m_media, m_output);
 
     connect(m_media, &MediaObject::stateChanged, this, &PlayerManager::slotStateChanged);
     connect(m_media, &MediaObject::totalTimeChanged, this, &PlayerManager::slotLength);
@@ -524,16 +460,6 @@ void PlayerManager::setup()
     connect(m_media, &MediaObject::seekableChanged, this, &PlayerManager::slotSeekableChanged);
 
     m_media->setTickInterval(100);
-
-    // initialize action states
-
-    action("pause")->setEnabled(false);
-    action("stop")->setEnabled(false);
-    action("back")->setEnabled(false);
-    action("forward")->setEnabled(false);
-    action("forwardAlbum")->setEnabled(false);
-
-    QDBusConnection::sessionBus().registerObject("/Player", this);
 }
 
 QString PlayerManager::randomPlayMode() const

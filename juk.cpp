@@ -269,6 +269,7 @@ void JuK::setupActions()
     actionMenu->addAction(m_randomPlayAction);
 
     act = collection->add<KToggleAction>("albumRandomPlay");
+    act->setEnabled(false);
     act->setText(i18n("Use &Album Random Play"));
     act->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
     act->setActionGroup(randomPlayGroup);
@@ -284,18 +285,22 @@ void JuK::setupActions()
     act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-start" )));
 
     act = collection->addAction("pause", m_player, SLOT(pause()));
+    act->setEnabled(false);
     act->setText(i18n("P&ause"));
     act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-pause" )));
 
     act = collection->addAction("stop", m_player, SLOT(stop()));
+    act->setEnabled(false);
     act->setText(i18n("&Stop"));
     act->setIcon(QIcon::fromTheme( QLatin1String( "media-playback-stop" )));
 
     act = new KToolBarPopupAction(QIcon::fromTheme( QLatin1String( "media-skip-backward") ), i18nc("previous track", "Previous" ), collection);
+    act->setEnabled(false);
     collection->addAction("back", act);
     connect(act, SIGNAL(triggered(bool)), m_player, SLOT(back()));
 
     act = collection->addAction("forward", m_player, SLOT(forward()));
+    act->setEnabled(false);
     act->setText(i18nc("next track", "&Next"));
     act->setIcon(QIcon::fromTheme( QLatin1String( "media-skip-forward" )));
 
