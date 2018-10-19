@@ -490,6 +490,7 @@ void PlayerManager::trackHasChanged(const Phonon::MediaSource &newSource)
                 emit signalItemChanged(newFile);
             m_file = newFile;
             updateWindowTitle(m_file);
+            emit seeked(0);
         }
     } else {
         qCWarning(JUK_LOG) << "Track has changed so something we didn't set???";
