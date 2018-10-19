@@ -743,8 +743,12 @@ void PlaylistBox::Item::init()
 
     list->setupItem(this);
 
-    int iconSize = list->viewModeIndex() == 0 ? 32 : 16;
-    setIcon(0, SmallIcon(m_iconName, iconSize));
+    const auto iconLoader = KIconLoader::global();
+    const KIconLoader::Group iconGroup =
+            list->viewModeIndex() == 0
+                ? KIconLoader::Desktop
+                : KIconLoader::Toolbar;
+    setIcon(0, iconLoader->loadIcon(m_iconName, iconGroup));
     list->addNameToDict(m_text);
 
     if(m_playlist) {
