@@ -26,6 +26,7 @@
 
 #include <Phonon/AudioOutput>
 #include <Phonon/MediaObject>
+#include <Phonon/MediaSource>
 
 #include <QPixmap>
 #include <QTimer>
@@ -48,6 +49,18 @@
 using namespace ActionCollection;
 
 enum PlayerManagerStatus { StatusStopped = -1, StatusPaused = 1, StatusPlaying = 2 };
+
+////////////////////////////////////////////////////////////////////////////////
+// static functions
+////////////////////////////////////////////////////////////////////////////////
+static void updateWindowTitle(const FileHandle &file)
+{
+    JuK::JuKInstance()->setWindowTitle(i18nc(
+        "%1 is the artist and %2 is the title of the currently playing track.", 
+        "%1 - %2 :: JuK",
+        file.tag()->artist(),
+        file.tag()->title()));
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // protected members
@@ -402,12 +415,7 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State)
             action("forwardAlbum")->setEnabled(true);
         action("back")->setEnabled(true);
 
-        JuK::JuKInstance()->setWindowTitle(i18nc(
-            "%1 is the artist and %2 is the title of the currently playing track.", 
-            "%1 - %2 :: JuK",
-            m_file.tag()->artist(),
-            m_file.tag()->title()));
-
+        updateWindowTitle(m_file);
         emit signalPlay();
     }
 }
@@ -443,8 +451,10 @@ void PlayerManager::setupAudio()
     connect(m_output, &AudioOutput::volumeChanged, this, &PlayerManager::slotVolumeChanged);
 
     connect(m_media, &MediaObject::stateChanged, this, &PlayerManager::slotStateChanged);
+    connect(m_media, &MediaObject::currentSourceChanged, this, &PlayerManager::trackHasChanged);
     connect(m_media, &MediaObject::totalTimeChanged, this, &PlayerManager::slotLength);
     connect(m_media, &MediaObject::tick, this, &PlayerManager::slotTick);
+    connect(m_media, &MediaObject::aboutToFinish, this, &PlayerManager::trackAboutToFinish);
     connect(m_media, &MediaObject::finished, this, &PlayerManager::slotFinished);
     connect(m_media, &MediaObject::seekableChanged, this, &PlayerManager::slotSeekableChanged);
 
@@ -468,6 +478,37 @@ void PlayerManager::setRandomPlayMode(const QString &randomMode)
         action<KToggleAction>("albumRandomPlay")->setChecked(true);
     if(randomMode.toLower() == "norandom")
         action<KToggleAction>("disableRandomPlay")->setChecked(true);
+}
+
+void PlayerManager::trackHasChanged(const Phonon::MediaSource &newSource)
+{
+    if(newSource.type() == Phonon::MediaSource::Url) {
+        const auto item = CollectionList::instance()->lookup(newSource.url().path());
+        if(item) {
+            const auto newFile = item->file();
+            if(m_file != newFile)
+                emit signalItemChanged(newFile);
+            m_file = newFile;
+            updateWindowTitle(m_file);
+        }
+    } else {
+        qCWarning(JUK_LOG) << "Track has changed so something we didn't set???";
+        return;
+    }
+}
+
+void PlayerManager::trackAboutToFinish()
+{
+    // Called when playback is in progress and a track is about to finish, gives us a
+    // chance to keep audio playback going without Phonon entering StoppedState
+    if(!m_playlistInterface)
+        return;
+
+    m_playlistInterface->playNext();
+    const auto file = m_playlistInterface->currentFile();
+
+    if(!file.isNull())
+        m_media->enqueue(QUrl::fromLocalFile(file.absFilePath()));
 }
 
 // vim: set et sw=4 tw=0 sta:

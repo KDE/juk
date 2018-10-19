@@ -33,6 +33,7 @@ namespace Phonon
 {
     class AudioOutput;
     class MediaObject;
+    class MediaSource;
 }
 
 /**
@@ -94,6 +95,9 @@ public slots:
     void volumeDown();
     void setMuted(bool m);
     bool mute();
+
+    void trackHasChanged(const Phonon::MediaSource &newSource);
+    void trackAboutToFinish();
 
     void setRandomPlayMode(const QString &randomMode);
 
