@@ -730,7 +730,10 @@ void PlaylistBox::Item::playingItemHasChanged()
 
 void PlaylistBox::Item::playlistItemDataHasChanged()
 {
-    listView()->slotPlaylistDataChanged();
+    // This avoids spuriously re-saving all playlists just because play queue
+    // changes.
+    if(m_playlist != listView()->upcomingPlaylist())
+        listView()->slotPlaylistDataChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
