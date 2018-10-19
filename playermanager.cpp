@@ -176,38 +176,16 @@ void PlayerManager::setPlaylistInterface(PlaylistInterface *interface)
 
 void PlayerManager::play(const FileHandle &file)
 {
-    if(!m_media || !m_playlistInterface)
+    if(!m_media || !m_playlistInterface || file.isNull())
         return;
 
-    if(file.isNull()) {
-        if(paused())
-            m_media->play();
-        else if(playing()) {
-            m_media->seek(0);
-            emit seeked(0);
-        }
-        else {
-            m_playlistInterface->playNext();
-            m_file = m_playlistInterface->currentFile();
+    m_media->setCurrentSource(QUrl::fromLocalFile(file.absFilePath()));
+    m_media->play();
 
-            if(!m_file.isNull())
-            {
-                m_media->setCurrentSource(QUrl::fromLocalFile(m_file.absFilePath()));
-                m_media->play();
+    if(m_file != file)
+        emit signalItemChanged(file);
 
-                emit signalItemChanged(m_file);
-            }
-        }
-    }
-    else {
-        m_media->setCurrentSource(QUrl::fromLocalFile(file.absFilePath()));
-        m_media->play();
-
-        if(m_file != file)
-            emit signalItemChanged(file);
-
-        m_file = file;
-    }
+    m_file = file;
 
     // Our state changed handler will perform the follow up actions necessary
     // once we actually start playing.
@@ -224,7 +202,18 @@ void PlayerManager::play(const QString &file)
 
 void PlayerManager::play()
 {
-    play(FileHandle());
+    if(paused())
+        m_media->play();
+    else if(playing()) {
+        m_media->seek(0);
+        emit seeked(0);
+    }
+    else {
+        m_playlistInterface->playNext();
+        const auto file = m_playlistInterface->currentFile();
+
+        play(file);
+    }
 }
 
 void PlayerManager::pause()

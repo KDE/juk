@@ -79,7 +79,7 @@ public:
 public slots:
     void play(const FileHandle &file);
     void play(const QString &file);
-    void play();
+    void play(); // start or restart playback
     void pause();
     void stop();
     void setVolume(float volume = 1.0);
