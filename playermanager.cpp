@@ -32,6 +32,7 @@
 #include <QUrl>
 
 #include <math.h>
+#include <algorithm>
 
 #include "playlistinterface.h"
 #include "playeradaptor.h"
@@ -353,7 +354,8 @@ void PlayerManager::volumeUp()
     if(!m_setup)
         return;
 
-    setVolume(volume() + 0.04); // 4% up
+    const auto newVolume = std::min(m_output->volume() + 0.04, 1.0);
+    m_output->setVolume(newVolume); // 4% up
 }
 
 void PlayerManager::volumeDown()
@@ -361,7 +363,8 @@ void PlayerManager::volumeDown()
     if(!m_setup)
         return;
 
-    setVolume(volume() - 0.04); // 4% down
+    const auto newVolume = std::max(m_output->volume() - 0.04, 0.0);
+    m_output->setVolume(newVolume); // 4% down
 }
 
 void PlayerManager::setMuted(bool m)
