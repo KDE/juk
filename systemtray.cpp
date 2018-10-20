@@ -509,7 +509,7 @@ void SystemTray::scrollEvent(int delta, Qt::Orientation orientation)
     if(orientation == Qt::Horizontal)
         return;
 
-    switch(QApplication::keyboardModifiers()) {
+    switch(QApplication::queryKeyboardModifiers()) {
     case Qt::ShiftModifier:
         if(delta > 0)
             ActionCollection::action("volumeUp")->trigger();
