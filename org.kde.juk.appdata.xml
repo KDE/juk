@@ -486,6 +486,7 @@
   <url type="homepage">http://juk.kde.org/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=juk</url>
   <url type="help">http://docs.kde.org/stable/en/kdemultimedia/juk/index.html</url>
+  <url type="donation">https://www.kde.org/community/donations/?app=juk&amp;source=appdata</url>
   <screenshots>
     <screenshot type="default">
       <image>http://kde.org/images/screenshots/juk.png</image>
