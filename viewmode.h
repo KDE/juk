@@ -15,8 +15,8 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef VIEWMODE_H
-#define VIEWMODE_H
+#ifndef JUK_VIEWMODE_H
+#define JUK_VIEWMODE_H
 
 #include <QObject>
 #include <QStringList>
@@ -81,7 +81,7 @@ protected:
     PlaylistBox *playlistBox() const { return m_playlistBox; }
     bool visible() const { return m_visible; }
     void setVisible(bool v) { m_visible = v; }
-    void updateIcons(int size);
+    void updateIcons();
     virtual void updateHeights();
     static void paintDropIndicator(QPainter *painter, int width, int height);
 

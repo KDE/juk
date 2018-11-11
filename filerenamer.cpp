@@ -71,7 +71,7 @@ public:
         vboxLayout->addWidget(hbox);
 
         QLabel *l = new QLabel(hbox);
-        l->setPixmap(SmallIcon("dialog-warning", 32));
+        l->setPixmap(QIcon::fromTheme("dialog-warning").pixmap(KIconLoader::SizeLarge));
         hboxVLayout->addWidget(l);
 
         l = new QLabel(i18n("You are about to rename the following files. "
@@ -336,8 +336,8 @@ FileRenamerWidget::~FileRenamerWidget()
 
 int FileRenamerWidget::addRowCategory(TagType category)
 {
-    static QIcon up   = SmallIcon("go-up");
-    static QIcon down = SmallIcon("go-down");
+    static QIcon up   = QIcon::fromTheme("go-up");
+    static QIcon down = QIcon::fromTheme("go-down");
 
     // Find number of categories already of this type.
     int categoryCount = 0;

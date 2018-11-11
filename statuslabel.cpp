@@ -24,6 +24,7 @@
 #include <QAction>
 #include <QMouseEvent>
 #include <QLabel>
+#include <QIcon>
 #include <QFrame>
 #include <QEvent>
 #include <QPushButton>
@@ -79,7 +80,7 @@ StatusLabel::StatusLabel(const PlaylistInterface &currentPlaylist, QStatusBar *p
     setItemCurrentTime(0);
 
     QPushButton *jumpButton = new QPushButton(this);
-    jumpButton->setIcon(SmallIcon("go-up"));
+    jumpButton->setIcon(QIcon::fromTheme("go-jump"));
     jumpButton->setFlat(true);
 
     jumpButton->setToolTip(i18n("Jump to the currently playing item"));

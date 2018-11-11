@@ -99,33 +99,6 @@ FileHandle PlaylistItem::file() const
     return d->fileHandle;
 }
 
-Q_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalGenericImage, (SmallIcon("image-x-generic")))
-Q_GLOBAL_STATIC_WITH_ARGS(QPixmap, globalPlayingImage, (UserIcon("playing")))
-
-const QPixmap *PlaylistItem::pixmap(int column) const
-{
-    int offset = playlist()->columnOffset();
-
-    // Don't use hasCover here because that may dig into the track itself.
-    // Besides, we really just want to know if the cover manager has a cover
-    // for the track.
-
-    if((column - offset) == CoverColumn &&
-        d->fileHandle.coverInfo()->coverId() != CoverManager::NoMatch)
-    {
-        return globalGenericImage;
-    }
-
-    if(column == playlist()->leftColumn() &&
-        m_playingItems.contains(const_cast<PlaylistItem *>(this)))
-    {
-        return globalPlayingImage;
-    }
-
-    //return QTreeWidgetItem::pixmap(column);
-    return nullptr;
-}
-
 QString PlaylistItem::text(int column) const
 {
     if(!d->fileHandle.tag())

@@ -156,8 +156,8 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
     setCategory(ApplicationStatus);
     setStatus(Active); // We were told to dock in systray by user, force us visible
 
-    m_forwardPix = SmallIcon("media-skip-forward");
-    m_backPix = SmallIcon("media-skip-backward");
+    m_forwardPix = QIcon::fromTheme("media-skip-forward");
+    m_backPix = QIcon::fromTheme("media-skip-backward");
 
     // Just create this here so that it show up in the DBus interface and the
     // key bindings dialog.
@@ -491,16 +491,16 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
     if(tip.isEmpty())
         KStatusNotifierItem::setToolTip("juk", i18n("JuK"), QString());
     else {
-        QPixmap myCover;
+        QIcon myCover;
         if(cover.isNull()) {
-            myCover = DesktopIcon("juk");
+            myCover = QIcon::fromTheme("juk");
         } else {
             //Scale to proper icon size, otherwise KStatusNotifierItem will show an unknown icon
-            int iconSize = KIconLoader::global()->currentSize(KIconLoader::Desktop);
-            myCover = cover.scaled(iconSize, iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            const int iconSize = KIconLoader::global()->currentSize(KIconLoader::Desktop);
+            myCover = QIcon(cover.scaled(iconSize, iconSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
         }
 
-        KStatusNotifierItem::setToolTip(QIcon(myCover), i18n("JuK"), tip);
+        KStatusNotifierItem::setToolTip(myCover, i18n("JuK"), tip);
     }
 }
 

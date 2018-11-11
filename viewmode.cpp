@@ -163,16 +163,16 @@ void ViewMode::setShown(bool shown)
 {
     m_visible = shown;
     if(shown) {
-        updateIcons(32);
+        updateIcons();
         m_needsRefresh = true;
     }
 }
 
-void ViewMode::updateIcons(int size)
+void ViewMode::updateIcons()
 {
     for(QTreeWidgetItemIterator it(m_playlistBox); *it; ++it) {
         PlaylistBox::Item *i = static_cast<PlaylistBox::Item *>(*it);
-        i->setIcon(0, SmallIcon(i->iconName(), size));
+        i->setIcon(0, QIcon::fromTheme(i->iconName()));
     }
 }
 
@@ -293,7 +293,7 @@ void CompactViewMode::setShown(bool shown)
     setVisible(shown);
 
     if(shown) {
-        updateIcons(16);
+        updateIcons();
         updateHeights();
     }
 }

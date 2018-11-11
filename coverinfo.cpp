@@ -54,18 +54,27 @@
 
 struct CoverPopup : public QWidget
 {
-    CoverPopup(const QPixmap &image, const QPoint &p) :
+    CoverPopup(QPixmap &image, const QPoint &p) :
         QWidget(0, Qt::WindowFlags(Qt::WA_DeleteOnClose | Qt::X11BypassWindowManagerHint))
     {
         QHBoxLayout *layout = new QHBoxLayout(this);
         QLabel *label = new QLabel(this);
-
         layout->addWidget(label);
+
+        const auto pixRatio = this->devicePixelRatioF();
+        QSizeF imageSize(label->width(), label->height());
+
+        if (!qFuzzyCompare(pixRatio, 1.0)) {
+            imageSize /= pixRatio;
+            image.setDevicePixelRatio(pixRatio);
+        }
+
         label->setFrameStyle(QFrame::Box | QFrame::Raised);
         label->setLineWidth(1);
         label->setPixmap(image);
 
-        setGeometry(p.x(), p.y(), label->width(), label->height());
+        setGeometry(QRect(p, imageSize.toSize()));
+
         show();
     }
     virtual void leaveEvent(QEvent *) { close(); }

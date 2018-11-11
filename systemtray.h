@@ -129,8 +129,8 @@ private slots:
     void scrollEvent(int delta, Qt::Orientation orientation);
 
 private:
-    QPixmap m_backPix;
-    QPixmap m_forwardPix;
+    QIcon m_backPix;
+    QIcon m_forwardPix;
     QColor m_startColor, m_endColor;
 
     PassiveInfo *m_popup;
