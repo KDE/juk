@@ -49,11 +49,6 @@
 #include "collectionlist.h"
 #include "juk_debug.h"
 
-// Anon namespace to hide symbol from outside this translation unit
-namespace {
-    static int g_imageSize = 64;
-};
-
 ////////////////////////////////////////////////////////////////////////////////
 // NowPlaying
 ////////////////////////////////////////////////////////////////////////////////
@@ -78,8 +73,8 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
     const QFont defaultLargeFont(QFontDatabase::systemFont(QFontDatabase::TitleFont));
     const QFontMetrics fm(defaultLargeFont, this);
 
-    g_imageSize = qMax(g_imageSize, fm.lineSpacing());
-    setFixedHeight(g_imageSize + 2);
+    const int coverIconHeight = qMax(64, fm.lineSpacing());
+    setFixedHeight(coverIconHeight + 2);
 
     layout->addWidget(new CoverItem(this), 0);
     layout->addWidget(new TrackItem(this), 2);
@@ -138,9 +133,19 @@ void CoverItem::update(const FileHandle &file)
 
     if(!file.isNull() && file.coverInfo()->hasCover()) {
         show();
-        setPixmap(
-            file.coverInfo()->pixmap(CoverInfo::Thumbnail)
-            .scaled(g_imageSize, g_imageSize, Qt::KeepAspectRatio, Qt::SmoothTransformation));
+
+        const auto pixRatio = this->devicePixelRatioF();
+        const QSizeF logicalSize = QSizeF(this->height(), this->height());
+        const QSizeF scaledSize = logicalSize * pixRatio;
+        QPixmap pix =
+            file.coverInfo()->pixmap(CoverInfo::FullSize)
+            .scaled(scaledSize.toSize(), Qt::KeepAspectRatio, Qt::SmoothTransformation);
+
+        if (!qFuzzyCompare(pixRatio, 1.0)) {
+            pix.setDevicePixelRatio(pixRatio);
+        }
+
+        setPixmap(pix);
     }
     else
         hide();
