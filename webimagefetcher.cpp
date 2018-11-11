@@ -156,7 +156,8 @@ void WebImageFetcher::slotWebRequestFinished(KJob *job)
     //FIXME: We assume they have a sane sorting (smallest -> largest)
     const QString imageUrl = n.lastChildElement("image").text();
     if (imageUrl.isEmpty()) {
-        KMessageBox::information(nullptr, i18n("No available cover for the album '%1'.", d->albumName), i18nc("@title:window", "Cover not Available"));
+        KMessageBox::information(nullptr, i18n("No available cover for the album '%1'.", d->albumName),
+                i18nc("@title:window", "Cover not Available"));
         statusBar->clearMessage();
         return;
     }
@@ -187,9 +188,10 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     auto dlgVLayout = new QVBoxLayout(d->dialog);
 
     if(job->error()) {
-        qCCritical(JUK_LOG) << "Unable to grab image\n";
-        d->dialog->setWindowIcon(DesktopIcon("dialog-error"));
-        // TODO: What kind of error announcement is this??
+        qCCritical(JUK_LOG) << "Unable to grab image" << job->errorText();
+
+        KMessageBox::sorry(nullptr, i18n("Failed to download requested cover art: %1", job->errorString()),
+                i18nc("@title:window", "Could not download cover art"));
         return;
     }
 

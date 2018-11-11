@@ -1868,7 +1868,7 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
 
         m_rmbMenu = new QMenu(this);
 
-        m_rmbMenu->addAction(SmallIcon("go-jump-today"),
+        m_rmbMenu->addAction(QIcon::fromTheme("go-jump-today"),
             i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
         m_rmbMenu->addSeparator();
 
@@ -1897,7 +1897,9 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
         m_rmbMenu->addSeparator();
 
         m_rmbMenu->addAction(
-            SmallIcon("folder-new"), i18n("Create Playlist From Selected Items..."), this, SLOT(slotCreateGroup()));
+            QIcon::fromTheme("folder-new"),
+            i18n("Create Playlist From Selected Items..."),
+            this, SLOT(slotCreateGroup()));
     }
 
     // Ignore any columns added by subclasses.

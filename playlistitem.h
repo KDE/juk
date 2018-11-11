@@ -96,7 +96,6 @@ public:
     void setFile(const QString &file);
     FileHandle file() const;
 
-    virtual const QPixmap *pixmap(int column) const;
     virtual QString text(int column) const;
     virtual void setText(int column, const QString &text);
 

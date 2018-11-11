@@ -16,7 +16,6 @@
 
 #include "playlistbox.h"
 
-#include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
@@ -746,12 +745,7 @@ void PlaylistBox::Item::init()
 
     list->setupItem(this);
 
-    const auto iconLoader = KIconLoader::global();
-    const KIconLoader::Group iconGroup =
-            list->viewModeIndex() == 0
-                ? KIconLoader::Desktop
-                : KIconLoader::Toolbar;
-    setIcon(0, iconLoader->loadIcon(m_iconName, iconGroup));
+    setIcon(0, QIcon::fromTheme(m_iconName));
     list->addNameToDict(m_text);
 
     if(m_playlist) {

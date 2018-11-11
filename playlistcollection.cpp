@@ -938,7 +938,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu = new KActionMenu(i18n("&Guess Tag Information"), actions());
     actions()->addAction("guessTag", menu);
 
-    /* menu->setIcon(SmallIcon("wizard")); */
+    menu->setIcon(QIcon::fromTheme("wizard"));
 
     menu->addAction(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
                               "guessTagFile", "document-import", QKeySequence(Qt::CTRL + Qt::Key_G)));
@@ -971,7 +971,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     menu = new KActionMenu(i18n("Cover Manager"), actions());
     actions()->addAction("coverManager", menu);
-    /* menu->setIcon(SmallIcon("image-x-generic")); */
+    menu->setIcon(QIcon::fromTheme("image-x-generic"));
     menu->addAction(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "document-preview"));
     menu->addAction(createAction(i18n("Get Cover From &File..."),
