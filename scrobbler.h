@@ -20,6 +20,7 @@
 
 #include <QObject>
 #include <QMap>
+#include <QNetworkAccessManager>
 #include <QDateTime>
 
 #include <KWallet>
@@ -66,8 +67,8 @@ private:
 
     QDateTime m_playbackTimer;
     FileHandle m_file;
-    QNetworkAccessManager *m_networkAccessManager;
 
+    std::unique_ptr<QNetworkAccessManager> m_networkAccessManager;
     std::unique_ptr<Wallet> m_wallet;
 };
 
