@@ -19,7 +19,6 @@
 
 #include <QCryptographicHash>
 #include <QDir>
-#include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
 #include <QDomDocument>
@@ -38,7 +37,7 @@
 
 Scrobbler::Scrobbler(QObject* parent)
     : QObject(parent)
-    , m_networkAccessManager(nullptr)
+    , m_networkAccessManager(new QNetworkAccessManager(this))
     , m_wallet(Scrobbler::openKWallet())
 {
     QByteArray sessionKey;
@@ -149,9 +148,6 @@ void Scrobbler::getAuthToken(QString username, QString password)
     }
 
     url.setQuery(urlQuery);
-
-    if (!m_networkAccessManager)
-        m_networkAccessManager = new QNetworkAccessManager(this);
 
     QNetworkReply *reply = m_networkAccessManager->get(QNetworkRequest(url));
     connect(reply, SIGNAL(finished()), this, SLOT(handleAuthenticationReply()));
@@ -305,10 +301,6 @@ void Scrobbler::scrobble()
 
 void Scrobbler::post(QMap<QString, QString> &params)
 {
-    if(!m_networkAccessManager) {
-        return;
-    }
-
     QUrl url("http://ws.audioscrobbler.com/2.0/");
 
     QByteArray data;
