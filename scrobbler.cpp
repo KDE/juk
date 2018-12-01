@@ -83,22 +83,23 @@ std::unique_ptr<KWallet::Wallet> Scrobbler::openKWallet() // static
 {
     using KWallet::Wallet;
 
-    const QString walletFolderName = "JuK";
-    std::unique_ptr<Wallet> wallet(Wallet::openWallet(
-                Wallet::LocalWallet(),
-                JuK::JuKInstance()->winId()));
+    const QString walletFolderName(QStringLiteral("JuK"));
+    const auto walletName = Wallet::LocalWallet();
 
-    if(wallet) {
-        if(!wallet->hasFolder(walletFolderName) &&
-            !wallet->createFolder(walletFolderName))
-        {
-            return nullptr;
-        }
+    // checks without prompting to open the wallet
+    if (Wallet::folderDoesNotExist(walletName, walletFolderName)) {
+        return nullptr;
+    }
 
-        if(!wallet->setFolder(walletFolderName))
-        {
-            return nullptr;
-        }
+    std::unique_ptr<Wallet> wallet(
+        Wallet::openWallet(walletName, JuK::JuKInstance()->winId()));
+
+    if(!wallet ||
+       (!wallet->hasFolder(walletFolderName) &&
+           !wallet->createFolder(walletFolderName)) ||
+       !wallet->setFolder(walletFolderName))
+    {
+        return nullptr;
     }
 
     return wallet;
