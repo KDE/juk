@@ -1136,24 +1136,17 @@ void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after
 
 void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 {
-    if(!after)
-        after = static_cast<PlaylistItem *>(topLevelItem(topLevelItemCount() - 1));
-
     m_blockDataChanged = true;
     m_itemsLoading++;
 
     setEnabled(false);
 
-    FileHandleList queue;
-
     for(const auto &file : files) {
         // some files added here will launch threads that will do cleanup (fix
         // the cursor, allow data updates etc) when the last thread is done.
         // Managed by m_itemsLoading going to 0 which is why we ++ above.
-        addUntypedFile(file, queue, true, &after);
+        addUntypedFile(file, after);
     }
-
-    addFileHelper(queue, &after, true);
 
     // If no items are being loaded by now then we must have loaded all M3U
     // playlists or something, so cleanup immediately since no threads will
@@ -1647,24 +1640,10 @@ void Playlist::addFilesFromDirectory(const QString &dirPath)
     (void) QtConcurrent::run(loader, &DirectoryLoader::startLoading);
 }
 
-/**
- * Super spaghetti function that adds music files, m3u playlist files, or directories
- * into the playlist as appropriate, but only if the playlist doesn't already contain
- * the file.
- *
- * @p file is the file to add (music, playlist or directory)
- * @p files is the current batch of FileHandles to add into this playlist
- * (maintained by addFileHelper)
- * @p after is a pointer to a PlaylistItem* which itself points to the item to
- * insert after (maintained by addFileHelper)
- */
-void Playlist::addUntypedFile(const QString &file, FileHandleList &files, bool importPlaylists,
-                       PlaylistItem **after)
+void Playlist::addUntypedFile(const QString &file, PlaylistItem *after)
 {
     if(hasItem(file) && !m_allowDuplicates)
         return;
-
-    addFileHelper(files, after);
 
     const QFileInfo fileInfo(file);
     const QString canonicalPath = fileInfo.canonicalFilePath();
@@ -1674,11 +1653,11 @@ void Playlist::addUntypedFile(const QString &file, FileHandleList &files, bool i
     {
         FileHandle f(fileInfo);
         f.tag();
-        files.append(f);
+        createItem(f, after);
         return;
     }
 
-    if(importPlaylists && MediaFiles::isPlaylistFile(file)) {
+    if(MediaFiles::isPlaylistFile(file)) {
         addPlaylistFile(canonicalPath);
         return;
     }
@@ -1690,39 +1669,6 @@ void Playlist::addUntypedFile(const QString &file, FileHandleList &files, bool i
         }
 
         addFilesFromDirectory(canonicalPath);
-    }
-}
-
-void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool ignoreTimer)
-{
-    static QTime time = QTime::currentTime();
-
-    // Process new items every 10 seconds, when we've loaded 1000 items, or when
-    // it's been requested in the API.
-
-    if(ignoreTimer || time.elapsed() > 10000 ||
-       (files.count() >= 1000 && time.elapsed() > 1000))
-    {
-        time.restart();
-
-        const bool focus = hasFocus();
-        const bool visible = isVisible() && files.count() > 20;
-
-        if(visible)
-            m_collection->raiseDistraction();
-
-        PlaylistItem *newAfter = *after;
-        foreach(const FileHandle &fileHandle, files)
-            newAfter = createItem(fileHandle, newAfter);
-        *after = newAfter;
-
-        files.clear();
-
-        if(visible)
-            m_collection->lowerDistraction();
-
-        if(focus)
-            setFocus();
     }
 }
 

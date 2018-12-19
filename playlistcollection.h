@@ -171,14 +171,6 @@ public:
      */
     QStringList excludedFolders() const { return m_excludedFolderList; }
 
-    /**
-     * This is used to put up a temporary widget over the top of the playlist
-     * stack.  This is part of a trick to significantly speed up painting by
-     * hiding the playlist to which items are being added.
-     */
-    void raiseDistraction();
-    void lowerDistraction();
-
     class ActionHandler;
     friend PlaylistCollection::ActionHandler;
 

@@ -673,32 +673,6 @@ void PlaylistCollection::raise(Playlist *playlist)
     playlistItemsChanged();
 }
 
-void PlaylistCollection::raiseDistraction()
-{
-    if(m_belowDistraction)
-        return;
-
-    m_belowDistraction = currentPlaylist();
-
-    if(!m_distraction) {
-        m_distraction = new QWidget(m_playlistStack);
-        m_playlistStack->addWidget(m_distraction);
-    }
-
-    m_playlistStack->setCurrentWidget(m_distraction);
-}
-
-void PlaylistCollection::lowerDistraction()
-{
-    if(!m_distraction)
-        return;
-
-    if(m_belowDistraction)
-        m_playlistStack->setCurrentWidget(m_belowDistraction);
-
-    m_belowDistraction = 0;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // protected methods
 ////////////////////////////////////////////////////////////////////////////////
