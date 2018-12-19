@@ -25,7 +25,7 @@ include(ECMInstallIcons)
 include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Gui Svg Network Test Widgets)
+find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Concurrent Gui Svg Network Test Widgets)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS CoreAddons Completion Config Crash GlobalAccel
 	I18n IconThemes DocTools KIO JobWidgets Notifications TextWidgets XmlGui Wallet
 	WidgetsAddons WindowSystem)

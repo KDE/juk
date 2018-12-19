@@ -220,13 +220,7 @@ void PlaylistBox::duplicate()
 
 void PlaylistBox::scanFolders()
 {
-    qCDebug(JUK_LOG) << "Starting folder scan";
-    QTime stopwatch; stopwatch.start();
-
     PlaylistCollection::scanFolders();
-
-    qCDebug(JUK_LOG) << "Folder scan complete, took" << stopwatch.elapsed() << "ms";
-    qCDebug(JUK_LOG) << "Startup complete!";
     emit startupComplete();
 }
 

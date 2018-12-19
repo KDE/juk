@@ -539,10 +539,12 @@ private:
     void calculateColumnWeights();
 
     void addPlaylistFile(const QString &m3uFile);
+    void addFilesFromDirectory(const QString &dirPath);
     void addUntypedFile(const QString &file, FileHandleList &files, bool importPlaylists,
                         PlaylistItem **after);
     void addFileHelper(FileHandleList &files, PlaylistItem **after,
                        bool ignoreTimer = false);
+    void cleanupAfterAllFileLoadsCompleted();
 
     void redisplaySearch() { setSearch(m_search); }
 
@@ -699,6 +701,9 @@ private:
     KActionMenu *m_columnVisibleAction;
     PlaylistToolTip *m_toolTip;
 
+    int  m_itemsLoading = 0; /// Count of pending file loads outstanding
+    bool m_blockDataChanged;
+
     /**
      * This is used to indicate if the list of visible items has changed (via a
      * call to setVisibleItems()) while random play is playing.
@@ -707,8 +712,6 @@ private:
     static bool m_shuttingDown;
     static int m_leftColumn;
     static QVector<PlaylistItem *> m_backMenuItems;
-
-    bool m_blockDataChanged;
 };
 
 typedef QList<Playlist *> PlaylistList;

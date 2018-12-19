@@ -54,7 +54,8 @@
 #include <QStackedWidget>
 #include <QScrollBar>
 #include <QPainter>
-#include <QThread>
+
+#include <QtConcurrent>
 
 #include <id3v1genres.h>
 
@@ -1138,24 +1139,28 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
     if(!after)
         after = static_cast<PlaylistItem *>(topLevelItem(topLevelItemCount() - 1));
 
-    QApplication::setOverrideCursor(Qt::WaitCursor);
-
     m_blockDataChanged = true;
+    m_itemsLoading++;
+
+    setEnabled(false);
 
     FileHandleList queue;
 
     for(const auto &file : files) {
+        // some files added here will launch threads that will do cleanup (fix
+        // the cursor, allow data updates etc) when the last thread is done.
+        // Managed by m_itemsLoading going to 0 which is why we ++ above.
         addUntypedFile(file, queue, true, &after);
     }
 
     addFileHelper(queue, &after, true);
 
-    m_blockDataChanged = false;
-
-    slotWeightDirty();
-    playlistItemsChanged();
-
-    QApplication::restoreOverrideCursor();
+    // If no items are being loaded by now then we must have loaded all M3U
+    // playlists or something, so cleanup immediately since no threads will
+    // have been launched.
+    if(--m_itemsLoading == 0) {
+        cleanupAfterAllFileLoadsCompleted();
+    }
 }
 
 void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
@@ -1611,6 +1616,37 @@ void Playlist::addPlaylistFile(const QString &m3uFile)
     }
 }
 
+void Playlist::addFilesFromDirectory(const QString &dirPath)
+{
+    ++m_itemsLoading;
+    DirectoryLoader *loader = new DirectoryLoader(dirPath);
+
+    connect(loader, &DirectoryLoader::doneLoading, this,
+        [this, loader]() {
+            loader->deleteLater();
+
+            if(--m_itemsLoading == 0) {
+                cleanupAfterAllFileLoadsCompleted();
+            }
+        }
+    );
+
+    connect(loader, &DirectoryLoader::loadedPlaylist, this,
+        [this](const QString &m3uFile) {
+            addPlaylistFile(m3uFile);
+        }
+    );
+    connect(loader, &DirectoryLoader::loadedFiles, this,
+        [this](const FileHandleList &newFiles) {
+            for(const auto newFile : newFiles) {
+                createItem(newFile);
+            }
+        }
+    );
+
+    (void) QtConcurrent::run(loader, &DirectoryLoader::startLoading);
+}
+
 /**
  * Super spaghetti function that adds music files, m3u playlist files, or directories
  * into the playlist as appropriate, but only if the playlist doesn't already contain
@@ -1653,34 +1689,7 @@ void Playlist::addUntypedFile(const QString &file, FileHandleList &files, bool i
                 return; // Exclude it
         }
 
-        DirectoryLoader *loader = new DirectoryLoader(canonicalPath);
-        QThread *loaderThread = new QThread;
-
-        loader->moveToThread(loaderThread);
-
-        connect(loaderThread, &QThread::started, loader, &DirectoryLoader::startLoading);
-        connect(loader, &DirectoryLoader::doneLoading, loaderThread, &QThread::quit);
-        connect(loader, &DirectoryLoader::doneLoading, loader, &QObject::deleteLater);
-        connect(loaderThread, &QThread::finished, loaderThread, &QObject::deleteLater);
-
-        connect(loader, &DirectoryLoader::loadedPlaylist, this,
-            [this](const QString &m3uFile) {
-                addPlaylistFile(m3uFile);
-            }
-        );
-        connect(loader, &DirectoryLoader::loadedFiles, this,
-            [this](const FileHandleList &newFiles) {
-                // NOTE: after and files are both invalid by this point since
-                // this can be called long after our own caller has returned.
-
-                PlaylistItem *after = nullptr;
-                for(const auto newFile : newFiles) {
-                    after = createItem(newFile, after);
-                }
-            }
-        );
-
-        loaderThread->start();
+        addFilesFromDirectory(canonicalPath);
     }
 }
 
@@ -1715,6 +1724,17 @@ void Playlist::addFileHelper(FileHandleList &files, PlaylistItem **after, bool i
         if(focus)
             setFocus();
     }
+}
+
+// Called directly or after a threaded directory load has completed, managed by
+// m_itemsLoading
+void Playlist::cleanupAfterAllFileLoadsCompleted()
+{
+    m_blockDataChanged = false;
+    setEnabled(true);
+
+    slotWeightDirty();
+    playlistItemsChanged();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
