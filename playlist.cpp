@@ -54,6 +54,7 @@
 #include <QStackedWidget>
 #include <QScrollBar>
 #include <QPainter>
+#include <QThread>
 
 #include <id3v1genres.h>
 
@@ -61,6 +62,7 @@
 #include <cmath>
 #include <algorithm>
 
+#include "directoryloader.h"
 #include "playlistitem.h"
 #include "playlistcollection.h"
 #include "playlistsearch.h"
@@ -1142,8 +1144,9 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 
     FileHandleList queue;
 
-    foreach(const QString &file, files)
-        addFile(file, queue, true, &after);
+    for(const auto &file : files) {
+        addUntypedFile(file, queue, true, &after);
+    }
 
     addFileHelper(queue, &after, true);
 
@@ -1601,7 +1604,25 @@ void Playlist::calculateColumnWeights()
     m_weightDirty.clear();
 }
 
-void Playlist::addFile(const QString &file, FileHandleList &files, bool importPlaylists,
+void Playlist::addPlaylistFile(const QString &m3uFile)
+{
+    if (!m_collection->containsPlaylistFile(m3uFile)) {
+        new Playlist(m_collection, QFileInfo(m3uFile));
+    }
+}
+
+/**
+ * Super spaghetti function that adds music files, m3u playlist files, or directories
+ * into the playlist as appropriate, but only if the playlist doesn't already contain
+ * the file.
+ *
+ * @p file is the file to add (music, playlist or directory)
+ * @p files is the current batch of FileHandles to add into this playlist
+ * (maintained by addFileHelper)
+ * @p after is a pointer to a PlaylistItem* which itself points to the item to
+ * insert after (maintained by addFileHelper)
+ */
+void Playlist::addUntypedFile(const QString &file, FileHandleList &files, bool importPlaylists,
                        PlaylistItem **after)
 {
     if(hasItem(file) && !m_allowDuplicates)
@@ -1609,36 +1630,20 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
 
     addFileHelper(files, after);
 
-    // Our biggest thing that we're fighting during startup is too many stats
-    // of files.  Make sure that we don't do one here if it's not needed.
-
-    const CollectionListItem *item = CollectionList::instance()->lookup(file);
-
-    if(item && !item->file().isNull()) {
-        FileHandle cached(item->file());
-        cached.tag();
-        files.append(cached);
-        return;
-    }
-
-    const QFileInfo fileInfo(QDir::cleanPath(file));
-    if(!fileInfo.exists())
-        return;
-
+    const QFileInfo fileInfo(file);
     const QString canonicalPath = fileInfo.canonicalFilePath();
 
-    if(fileInfo.isFile() && fileInfo.isReadable()) {
-        if(MediaFiles::isMediaFile(file)) {
-            FileHandle f(fileInfo);
-            f.tag();
-            files.append(f);
-        }
+    if(fileInfo.isFile() && fileInfo.isReadable() &&
+        MediaFiles::isMediaFile(file))
+    {
+        FileHandle f(fileInfo);
+        f.tag();
+        files.append(f);
+        return;
     }
 
-    if(importPlaylists && MediaFiles::isPlaylistFile(file) &&
-       !m_collection->containsPlaylistFile(canonicalPath))
-    {
-        new Playlist(m_collection, fileInfo);
+    if(importPlaylists && MediaFiles::isPlaylistFile(file)) {
+        addPlaylistFile(canonicalPath);
         return;
     }
 
@@ -1648,17 +1653,34 @@ void Playlist::addFile(const QString &file, FileHandleList &files, bool importPl
                 return; // Exclude it
         }
 
-        QDirIterator dirIterator(canonicalPath, QDir::AllEntries | QDir::NoDotAndDotDot);
+        DirectoryLoader *loader = new DirectoryLoader(canonicalPath);
+        QThread *loaderThread = new QThread;
 
-        while(dirIterator.hasNext()) {
-            // We set importPlaylists to the value from the add directories
-            // dialog as we want to load all of the ones that the user has
-            // explicitly asked for, but not those that we find in lower
-            // directories.
+        loader->moveToThread(loaderThread);
 
-            addFile(dirIterator.next(), files,
-                    m_collection->importPlaylists(), after);
-        }
+        connect(loaderThread, &QThread::started, loader, &DirectoryLoader::startLoading);
+        connect(loader, &DirectoryLoader::doneLoading, loaderThread, &QThread::quit);
+        connect(loader, &DirectoryLoader::doneLoading, loader, &QObject::deleteLater);
+        connect(loaderThread, &QThread::finished, loaderThread, &QObject::deleteLater);
+
+        connect(loader, &DirectoryLoader::loadedPlaylist, this,
+            [this](const QString &m3uFile) {
+                addPlaylistFile(m3uFile);
+            }
+        );
+        connect(loader, &DirectoryLoader::loadedFiles, this,
+            [this](const FileHandleList &newFiles) {
+                // NOTE: after and files are both invalid by this point since
+                // this can be called long after our own caller has returned.
+
+                PlaylistItem *after = nullptr;
+                for(const auto newFile : newFiles) {
+                    after = createItem(newFile, after);
+                }
+            }
+        );
+
+        loaderThread->start();
     }
 }
 

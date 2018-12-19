@@ -81,6 +81,7 @@ set(juk_SRCS  ${tunepimp_SRCS}
    dbuscollectionproxy.cpp
    deletedialog.cpp
    directorylist.cpp
+   directoryloader.cpp
    dynamicplaylist.cpp
    exampleoptions.cpp
    folderplaylist.cpp

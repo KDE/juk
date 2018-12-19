@@ -36,6 +36,7 @@
 #include <QDir>
 #include <QDirIterator>
 #include <QMenuBar>
+#include <QMetaType>
 #include <QTime>
 #include <QTimer>
 #include <QDesktopWidget>
@@ -87,6 +88,10 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     m_pmToken(0)
 {
     // Expect segfaults if you change this order.
+
+    // Allow to be passed across threads
+    qRegisterMetaType<FileHandle>();
+    qRegisterMetaType<FileHandleList>();
 
     m_instance = this;
 

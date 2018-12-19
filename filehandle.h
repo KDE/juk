@@ -18,6 +18,8 @@
 #define JUK_FILEHANDLE_H
 
 #include <QExplicitlySharedDataPointer>
+#include <QList>
+#include <QMetaType>
 
 class QString;
 class QFileInfo;
@@ -28,9 +30,6 @@ class QStringList;
 class CoverInfo;
 class Tag;
 class CacheDataStream;
-
-template<class T>
-class QList;
 
 /**
  * A value based, explicitly shared wrapper around file related information
@@ -79,6 +78,9 @@ private:
 };
 
 typedef QList<FileHandle> FileHandleList;
+
+Q_DECLARE_METATYPE(FileHandle);
+Q_DECLARE_METATYPE(FileHandleList);
 
 QDataStream &operator<<(QDataStream &s, const FileHandle &f);
 CacheDataStream &operator>>(CacheDataStream &s, FileHandle &f);

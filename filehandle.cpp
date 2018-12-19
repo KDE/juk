@@ -57,7 +57,7 @@ public:
     QFileInfo fileInfo;
     QString absFilePath;
     QDateTime baseModificationTime;
-    QDateTime lastModified;
+    mutable QDateTime lastModified;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

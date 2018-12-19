@@ -538,8 +538,9 @@ private:
      */
     void calculateColumnWeights();
 
-    void addFile(const QString &file, FileHandleList &files, bool importPlaylists,
-                 PlaylistItem **after);
+    void addPlaylistFile(const QString &m3uFile);
+    void addUntypedFile(const QString &file, FileHandleList &files, bool importPlaylists,
+                        PlaylistItem **after);
     void addFileHelper(FileHandleList &files, PlaylistItem **after,
                        bool ignoreTimer = false);
 
