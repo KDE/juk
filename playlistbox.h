@@ -29,9 +29,9 @@ class ViewMode;
 class QMenu;
 
 template<class T>
-class QList;
+class QVector;
 
-typedef QList<Playlist *> PlaylistList;
+typedef QVector<Playlist *> PlaylistList;
 
 /**
  * This is the play list selection box that is by default on the left side of

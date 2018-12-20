@@ -18,25 +18,21 @@
 #define JUK_TAGEDITOR_H
 
 #include <QWidget>
-#include <QList>
+#include <QVector>
 #include <QMap>
 
 #include "ui_tageditor.h"
 
 class KComboBox;
-class KLineEdit;
-class KIntSpinBox;
-class KTextEdit;
 class KConfigGroup;
 
 class QCheckBox;
-class QBoxLayout;
 
 class CollectionObserver;
 class Playlist;
 class PlaylistItem;
 
-typedef QList<PlaylistItem *> PlaylistItemList;
+typedef QVector<PlaylistItem *> PlaylistItemList;
 
 class TagEditor : public QWidget, public Ui::TagEditor
 {

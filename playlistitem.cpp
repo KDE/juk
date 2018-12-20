@@ -383,7 +383,7 @@ void PlaylistItem::setup(CollectionListItem *item)
 // PlaylistItem::Pointer implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-QMap<PlaylistItem *, QList<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_map; // static
+QMap<PlaylistItem *, QVector<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_map; // static
 
 PlaylistItem::Pointer::Pointer(PlaylistItem *item) :
     m_item(item)
@@ -441,7 +441,7 @@ void PlaylistItem::Pointer::clear(PlaylistItem *item) // static
     if(!item)
         return;
 
-    QList<Pointer *> l = m_map[item];
+    QVector<Pointer *> l = m_map[item];
     foreach(Pointer *pointer, l)
         pointer->m_item = 0;
     m_map.remove(item);

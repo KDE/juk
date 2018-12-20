@@ -27,9 +27,9 @@ class PlaylistCollection;
 class FileHandle;
 
 template<class T>
-class QList;
+class QVector;
 
-typedef QList<Playlist *> PlaylistList;
+typedef QVector<Playlist *> PlaylistList;
 
 /**
  * A simple QDataStream subclass that has an extra field to indicate the cache

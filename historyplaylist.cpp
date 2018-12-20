@@ -56,7 +56,7 @@ HistoryPlaylistItem *HistoryPlaylist::createItem(const FileHandle &file, QTreeWi
 
 void HistoryPlaylist::createItems(const PlaylistItemList &siblings)
 {
-    Playlist::createItems<HistoryPlaylistItem, PlaylistItem>(siblings);
+    Playlist::createItems<QVector, HistoryPlaylistItem, PlaylistItem>(siblings);
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -45,7 +45,7 @@ class PlaylistCollection;
 class PlaylistToolTip;
 class CollectionListItem;
 
-typedef QList<PlaylistItem *> PlaylistItemList;
+typedef QVector<PlaylistItem *> PlaylistItemList;
 
 class Playlist : public QTreeWidget, public PlaylistInterface
 {
@@ -466,8 +466,8 @@ protected:
      * As a template this allows us to use the same code to initialize the items
      * in subclasses. ItemType should be a PlaylistItem subclass.
      */
-    template <class ItemType, class SiblingType>
-    void createItems(const QList<SiblingType *> &siblings, ItemType *after = nullptr);
+    template <template <typename> class Container, class ItemType, class SiblingType>
+    void createItems(const Container<SiblingType *> &siblings, ItemType *after = nullptr);
 
 protected slots:
     void slotPopulateBackMenu() const;
@@ -659,7 +659,7 @@ private:
     bool m_applySharedSettings;
     bool m_columnWidthModeChanged;
 
-    QList<int> m_weightDirty;
+    QVector<int> m_weightDirty;
     bool m_disableColumnWidthUpdates;
 
     mutable int m_time;
@@ -711,7 +711,7 @@ private:
     static QVector<PlaylistItem *> m_backMenuItems;
 };
 
-typedef QList<Playlist *> PlaylistList;
+typedef QVector<Playlist *> PlaylistList;
 
 bool processEvents();
 
@@ -757,8 +757,8 @@ ItemType *Playlist::createItem(SiblingType *sibling, ItemType *after)
     return after;
 }
 
-template <class ItemType, class SiblingType>
-void Playlist::createItems(const QList<SiblingType *> &siblings, ItemType *after)
+template <template <typename> class Container, class ItemType, class SiblingType>
+void Playlist::createItems(const Container<SiblingType *> &siblings, ItemType *after)
 {
     if(siblings.isEmpty())
         return;

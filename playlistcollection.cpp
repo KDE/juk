@@ -184,8 +184,8 @@ QStringList PlaylistCollection::playlists() const
     QStringList l;
 
     //(or qFindChildren() if you need MSVC 6 compatibility)
-    const QList<Playlist *> childList = m_playlistStack->findChildren<Playlist *>("Playlist");
-    foreach(Playlist *p, childList) {
+    const auto childList = m_playlistStack->findChildren<Playlist *>("Playlist");
+    for(Playlist *p : childList) {
         l.append(p->name());
     }
 

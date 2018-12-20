@@ -18,7 +18,7 @@
 #define JUK_FILEHANDLE_H
 
 #include <QExplicitlySharedDataPointer>
-#include <QList>
+#include <QVector>
 #include <QMetaType>
 
 class QString;
@@ -77,7 +77,7 @@ private:
     QExplicitlySharedDataPointer<FileHandlePrivate> d;
 };
 
-typedef QList<FileHandle> FileHandleList;
+typedef QVector<FileHandle> FileHandleList;
 
 Q_DECLARE_METATYPE(FileHandle);
 Q_DECLARE_METATYPE(FileHandleList);

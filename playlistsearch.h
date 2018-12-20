@@ -18,20 +18,20 @@
 #define PLAYLISTSEARCH_H
 
 #include <QRegExp>
-#include <QList>
+#include <QVector>
 
 class Playlist;
 class PlaylistItem;
 
-typedef QList<int> ColumnList;
-typedef QList<PlaylistItem *> PlaylistItemList;
-typedef QList<Playlist *> PlaylistList;
+typedef QVector<int> ColumnList;
+typedef QVector<PlaylistItem *> PlaylistItemList;
+typedef QVector<Playlist *> PlaylistList;
 
 class PlaylistSearch
 {
 public:
     class Component;
-    typedef QList<Component> ComponentList;
+    typedef QVector<Component> ComponentList;
 
     enum SearchMode { MatchAny = 0, MatchAll = 1 };
 

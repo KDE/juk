@@ -17,7 +17,7 @@
 #ifndef PLAYLISTINTERFACE_H
 #define PLAYLISTINTERFACE_H
 
-#include <QList>
+#include <QVector>
 
 class FileHandle;
 class PlaylistObserver;
@@ -55,7 +55,7 @@ protected:
     virtual ~Watched();
 
 private:
-    QList<PlaylistObserver *> m_observers;
+    QVector<PlaylistObserver *> m_observers;
 };
 
 /**

@@ -41,10 +41,10 @@ class PlayerManager;
 class FileHandle;
 
 template<class T>
-class QList;
+class QVector;
 
-typedef QList<PlaylistItem *> PlaylistItemList;
-typedef QList<Playlist *> PlaylistList;
+typedef QVector<PlaylistItem *> PlaylistItemList;
+typedef QVector<Playlist *> PlaylistList;
 
 class PlaylistCollection : public PlaylistInterface
 {

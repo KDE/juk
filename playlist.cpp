@@ -303,10 +303,10 @@ void Playlist::playPrevious()
 
     bool random = action("randomPlay") && action<KToggleAction>("randomPlay")->isChecked();
 
-    PlaylistItem *previous = 0;
+    PlaylistItem *previous = nullptr;
 
     if(random && !m_history.isEmpty()) {
-        PlaylistItemList::Iterator last = --m_history.end();
+        PlaylistItemList::Iterator last = m_history.end() - 1;
         previous = *last;
         m_history.erase(last);
     }
@@ -782,35 +782,8 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
 void Playlist::synchronizeItemsTo(const PlaylistItemList &itemList)
 {
-    const auto &existingItems = items();
-    if(qAbs(itemList.count() - existingItems.count()) >
-        qMax(itemList.count(), existingItems.count()) / 2)
-    {
-        // Large imbalance in list sizes, just clear all and add without
-        // figuring out the diff also
-        clearItems(existingItems);
-        createItems(itemList);
-        return;
-    }
-
-    // Determine differences between existing playlist items and patch up
-    QHash<CollectionListItem *, PlaylistItem *> oldItems;
-    oldItems.reserve(qMax(existingItems.count(), itemList.count()));
-
-    for(const auto &item : existingItems) {
-        oldItems.insert(item->collectionItem(), item);
-    }
-
-    PlaylistItemList newItems;
-
-    for(const auto &item : itemList) {
-        if(oldItems.remove(item->collectionItem()) == 0) {
-            newItems.append(item->collectionItem());
-        }
-    }
-
-    clearItems(PlaylistItemList(oldItems.values()));
-    createItems(newItems);
+    clearItems(items());
+    createItems(itemList);
 }
 
 void Playlist::dragEnterEvent(QDragEnterEvent *e)
@@ -1131,7 +1104,7 @@ PlaylistItem *Playlist::createItem(const FileHandle &file, QTreeWidgetItem *afte
 
 void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after)
 {
-    createItems<PlaylistItem, PlaylistItem>(siblings, after);
+    createItems<QVector, PlaylistItem, PlaylistItem>(siblings, after);
 }
 
 void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
@@ -1563,8 +1536,7 @@ void Playlist::calculateColumnWeights()
     if(m_disableColumnWidthUpdates)
         return;
 
-    PlaylistItemList l = items();
-    QList<int>::Iterator columnIt;
+    const PlaylistItemList l = items();
 
     QVector<double> averageWidth(columnCount());
     double itemCount = l.size();

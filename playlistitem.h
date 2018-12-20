@@ -19,8 +19,6 @@
 
 #include <QExplicitlySharedDataPointer>
 #include <QVector>
-#include <QPixmap>
-#include <QList>
 #include <QTreeWidgetItem>
 
 #include "tagguesser.h"
@@ -32,7 +30,7 @@ class PlaylistItem;
 class CollectionListItem;
 class CollectionList;
 
-typedef QList<PlaylistItem *> PlaylistItemList;
+typedef QVector<PlaylistItem *> PlaylistItemList;
 
 /**
  * Items for the Playlist and the baseclass for CollectionListItem.
@@ -86,7 +84,7 @@ public:
 
     private:
         PlaylistItem *m_item;
-        static QMap<PlaylistItem *, QList<Pointer *> > m_map;
+        static QMap<PlaylistItem *, QVector<Pointer *> > m_map;
     };
     friend class Pointer;
 

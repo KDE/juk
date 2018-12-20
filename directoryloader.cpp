@@ -16,7 +16,6 @@
 
 #include "directoryloader.h"
 
-#include <QList> // for FileHandleList
 #include <QFileInfo>
 
 #include "mediafiles.h"

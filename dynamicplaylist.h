@@ -19,7 +19,7 @@
 
 #include "playlist.h"
 
-#include <QList>
+#include <QVector>
 
 /**
  * A Playlist that is a union of other playlists that is created dynamically.
@@ -100,7 +100,7 @@ private:
     void checkUpdateItems();
 
 private:
-    QList<PlaylistObserver *> m_observers;
+    QVector<PlaylistObserver *> m_observers;
     PlaylistItemList m_siblings;
     PlaylistList m_playlists;
     bool m_dirty;

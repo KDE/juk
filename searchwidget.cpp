@@ -88,7 +88,7 @@ PlaylistSearch::Component SearchLine::searchComponent() const
 
     Playlist *playlist = CollectionList::instance();
 
-    QList<int> searchedColumns;
+    QVector<int> searchedColumns;
 
     if(!m_searchFieldsBox || m_searchFieldsBox->currentIndex() == 0) {
         foreach(int column, m_columnList) {

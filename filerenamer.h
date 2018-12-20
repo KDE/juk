@@ -34,10 +34,7 @@ class QUrl;
 class ExampleOptionsDialog;
 class PlaylistItem;
 
-template<class T>
-class QList;
-
-typedef QList<PlaylistItem *> PlaylistItemList;
+typedef QVector<PlaylistItem *> PlaylistItemList;
 
 // Used to decide what direction the FileRenamerWidget will move rows in.
 enum MovementDirection { MoveUp, MoveDown };
