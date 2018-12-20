@@ -143,7 +143,6 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
                                QStringLiteral("playing audio"));
             if (reply.isValid()) {
                 m_pmToken = reply.value();
-                qCDebug(JUK_LOG) << "Inhibiting power management";
             }
         }
     });
@@ -154,7 +153,6 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
             reply = pmInterface->call(QStringLiteral("UnInhibit"), m_pmToken);
             if (reply.errorName().isEmpty()) {
                 m_pmToken = 0;
-                qCDebug(JUK_LOG) << "Uninhibiting power management";
             }
         }
     };
