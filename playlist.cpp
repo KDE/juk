@@ -1299,10 +1299,18 @@ void Playlist::slotInitialize()
 
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(slotShowRMBMenu(QPoint)));
-    connect(this, &QTreeWidget::itemChanged,
-            this, &Playlist::slotInlineEditDone);
     connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
             this, SLOT(slotPlayCurrent()));
+
+    // Disabled for now because adding new items (File->Open) causes Qt to send
+    // an itemChanged signal for unrelated playlist items which can cause the
+    // inline editor done slot to mistakenly overwrite tags associated to
+    // *other* playlist items. I haven't found a way to determine whether the
+    // itemChanged signal is really coming from the inline editor so instead
+    // users will need to use the tag editor. :(
+    //  -- mpyne 2018-12-20
+    //connect(this, &QTreeWidget::itemChanged,
+    //        this, &Playlist::slotInlineEditDone);
 
     connect(action("resizeColumnsManually"), SIGNAL(triggered()),
             this, SLOT(slotColumnResizeModeChanged()));
