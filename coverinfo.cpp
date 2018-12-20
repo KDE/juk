@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2004 Nathan Toone <nathan@toonetown.com>
- * Copyright (C) 2005, 2008 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2005, 2008, 2018 Michael Pyne <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -37,6 +37,7 @@
 #include <taglib/id3v2tag.h>
 #include <taglib/attachedpictureframe.h>
 #include <taglib/flacfile.h>
+#include <taglib/xiphcomment.h>
 
 #ifdef TAGLIB_WITH_MP4
 #include <taglib/mp4coverart.h>
@@ -298,10 +299,14 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
         TagLib::ID3v2::FrameList frames = id3tag->frameListMap()["APIC"];
         return !frames.isEmpty();
     }
+    else if (TagLib::Ogg::XiphComment *oggTag =
+            dynamic_cast<TagLib::Ogg::XiphComment *>(fileTag->tag()))
+    {
+        return !oggTag->pictureList().isEmpty();
+    }
     else if (TagLib::FLAC::File *flacFile =
             dynamic_cast<TagLib::FLAC::File *>(fileTag.data()))
     {
-
         // Look if images are embedded.
         return !flacFile->pictureList().isEmpty();
     }
@@ -372,27 +377,19 @@ static QImage embeddedMPEGAlbumArt(TagLib::ID3v2::Tag *id3tag)
             picture.size());
 }
 
-static QImage embeddedFLACAlbumArt(TagLib::FLAC::File *flacFile)
+static QImage embeddedFLACAlbumArt(const TagLib::List<TagLib::FLAC::Picture *> &flacPictures)
 {
-    TagLib::List<TagLib::FLAC::Picture *> flacPictures = flacFile->pictureList();
     if(flacPictures.isEmpty()) {
-
-        // No pictures are embedded.
         return QImage();
     }
 
     // Always use first picture - even if multiple are embedded.
     TagLib::ByteVector coverData = flacPictures[0]->data();
-    QImage result = QImage::fromData(
-                reinterpret_cast<const uchar *>(coverData.data()),
-                coverData.size());
 
-    if(!result.isNull()) {
-            return result;
-    }
-
-    // Error while casting image.
-    return QImage();
+    // Will return an image or a null image on error, works either way
+    return QImage::fromData(
+            reinterpret_cast<const uchar *>(coverData.data()),
+            coverData.size());
 }
 
 #ifdef TAGLIB_WITH_MP4
@@ -458,22 +455,26 @@ QImage CoverInfo::embeddedAlbumArt() const
     QScopedPointer<TagLib::File> fileTag(
             MediaFiles::fileFactoryByType(m_file.absFilePath()));
 
-    if (TagLib::MPEG::File *mpegFile =
+    if (auto *mpegFile =
             dynamic_cast<TagLib::MPEG::File *>(fileTag.data()))
     {
-        TagLib::ID3v2::Tag *id3tag = mpegFile->ID3v2Tag(false);
-        return embeddedMPEGAlbumArt(id3tag);
+        return embeddedMPEGAlbumArt(mpegFile->ID3v2Tag(false));
     }
-    else if (TagLib::FLAC::File *flacFile =
+    else if (auto *oggTag =
+            dynamic_cast<TagLib::Ogg::XiphComment *>(fileTag->tag()))
+    {
+        return embeddedFLACAlbumArt(oggTag->pictureList());
+    }
+    else if (auto *flacFile =
             dynamic_cast<TagLib::FLAC::File *>(fileTag.data()))
     {
-        return embeddedFLACAlbumArt(flacFile);
+        return embeddedFLACAlbumArt(flacFile->pictureList());
     }
 #ifdef TAGLIB_WITH_MP4
-    else if(TagLib::MP4::File *mp4File =
+    else if(auto *mp4File =
             dynamic_cast<TagLib::MP4::File *>(fileTag.data()))
     {
-        TagLib::MP4::Tag *tag = mp4File->tag();
+        auto *tag = mp4File->tag();
         if (tag) {
             return embeddedMP4AlbumArt(tag);
         }
