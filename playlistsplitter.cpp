@@ -103,15 +103,6 @@ PlaylistInterface *PlaylistSplitter::playlist() const
     return m_playlistBox;
 }
 
-bool PlaylistSplitter::eventFilter(QObject *, QEvent *event)
-{
-    if(event->type() == FocusUpEvent::id) {
-        m_searchWidget->setFocus();
-        return true;
-    }
-    return false;
-}
-
 ////////////////////////////////////////////////////////////////////////////////
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
@@ -197,7 +188,6 @@ void PlaylistSplitter::setupLayout()
 
     m_playlistStack = new QStackedWidget(top);
     m_playlistStack->setObjectName(QLatin1String("playlistStack"));
-    m_playlistStack->installEventFilter(this);
     m_playlistStack->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     m_playlistStack->hide(); // Will be shown after CollectionList filled.
 
@@ -252,6 +242,8 @@ void PlaylistSplitter::setupLayout()
             m_playlistBox->object(), SLOT(slotPlayFirst()));
     connect(ActionCollection::action<KToggleAction>("showSearch"), SIGNAL(toggled(bool)),
             m_searchWidget, SLOT(setEnabled(bool)));
+    connect(m_playlistBox, &PlaylistBox::signalMoveFocusAway,
+            m_searchWidget, &SearchWidget::setFocus);
 
     topLayout->addWidget(m_nowPlaying);
     topLayout->addWidget(m_searchWidget);

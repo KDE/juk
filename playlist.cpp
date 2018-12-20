@@ -862,18 +862,14 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 void Playlist::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Up) {
-        using ::operator|;
-        QTreeWidgetItemIterator selected(this, QTreeWidgetItemIterator::Selected |
-                                           QTreeWidgetItemIterator::NotHidden);
-        if(*selected) {
+        const auto topItem = topLevelItem(0);
+        if(topItem && topItem == currentItem()) {
             QTreeWidgetItemIterator visible(this, QTreeWidgetItemIterator::NotHidden);
-            if(*selected == *visible)
-                QApplication::postEvent(parent(), new FocusUpEvent);
+            if(topItem == *visible) {
+                emit signalMoveFocusAway();
+                event->accept();
+            }
         }
-
-    }
-    else if(event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) {
-        slotPlayCurrent();
     }
 
     QTreeWidget::keyPressEvent(event);
@@ -1408,6 +1404,7 @@ void Playlist::slotPlayFromBackMenu(QAction *backAction) const
 
 void Playlist::setup()
 {
+    setAlternatingRowColors(true);
     setRootIsDecorated(false);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setUniformRowHeights(true);
@@ -1422,6 +1419,9 @@ void Playlist::setup()
     connect(this, SIGNAL(itemSelectionChanged()), m_fetcher, SLOT(abortSearch()));
 
     sortByColumn(1, Qt::AscendingOrder);
+
+    // Should this be itemActivated? It is quite annoying when I try it...
+    connect(this, &QTreeWidget::itemDoubleClicked, this, &Playlist::slotPlayCurrent);
 
     // This apparently must be created very early in initialization for other
     // Playlist code requiring m_headerMenu.
@@ -1651,7 +1651,18 @@ void Playlist::cleanupAfterAllFileLoadsCompleted()
     m_blockDataChanged = false;
     setEnabled(true);
 
-    slotWeightDirty();
+    // Even if doing a manual column weights we'll generally start off with
+    // incorrect column sizes so at least figure out a reasonable column size
+    // and let user adjust from there.
+    if(manualResize()) {
+        auto manualResizeAction = action<KToggleAction>("resizeColumnsManually");
+
+        manualResizeAction->toggle();
+        calculateColumnWeights();
+        slotUpdateColumnWidths();
+        manualResizeAction->toggle();
+    }
+
     playlistItemsChanged();
 }
 

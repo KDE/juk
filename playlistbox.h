@@ -67,7 +67,7 @@ public:
 
     Item *dropItem() const { return m_dropItem; }
 
-    void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem = 0);
+    void setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem = nullptr);
 
 public slots:
     void paste();
@@ -84,6 +84,7 @@ protected:
 
 signals:
     void signalPlaylistDestroyed(Playlist *);
+    void signalMoveFocusAway(); // Handles keyboard scrolling up out of playlist
     void startupComplete(); ///< Emitted after playlists are loaded.
     void startFilePlayback(const FileHandle &file);
 

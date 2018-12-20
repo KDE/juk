@@ -349,7 +349,6 @@ public slots:
      * @see clearItems()
      */
     virtual void clear();
-    virtual void selectAll() { QTreeView::selectAll(); }
 
     /**
      * Refreshes the tags of the selection from disk, or all of the files in the
@@ -492,6 +491,8 @@ signals:
     void signalEnableDirWatch(bool enable);
 
     void signalPlaylistItemsDropped(Playlist *p);
+
+    void signalMoveFocusAway();
 
 private:
     void setup();
@@ -714,15 +715,6 @@ private:
 typedef QVector<Playlist *> PlaylistList;
 
 bool processEvents();
-
-class FocusUpEvent : public QEvent
-{
-public:
-    FocusUpEvent() : QEvent(id) {}
-    Type type() const { return id; }
-
-    static const Type id = static_cast<Type>(QEvent::User + 1);
-};
 
 QDataStream &operator<<(QDataStream &s, const Playlist &p);
 QDataStream &operator>>(QDataStream &s, Playlist &p);

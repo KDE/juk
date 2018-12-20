@@ -260,13 +260,15 @@ void PlaylistBox::slotSetHistoryPlaylistEnabled(bool enable)
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName)
 {
-    setupPlaylist(playlist, iconName, 0);
+    setupPlaylist(playlist, iconName, nullptr);
 }
 
 void PlaylistBox::setupPlaylist(Playlist *playlist, const QString &iconName, Item *parentItem)
 {
-    connect(playlist, SIGNAL(signalPlaylistItemsDropped(Playlist*)),
-            SLOT(slotPlaylistItemsDropped(Playlist*)));
+    connect(playlist, &Playlist::signalPlaylistItemsDropped,
+            this,     &PlaylistBox::slotPlaylistItemsDropped);
+    connect(playlist, &Playlist::signalMoveFocusAway,
+            this,     &PlaylistBox::signalMoveFocusAway);
 
     PlaylistCollection::setupPlaylist(playlist, iconName);
 

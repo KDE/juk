@@ -51,8 +51,6 @@ public:
 
     PlaylistInterface *playlist() const;
 
-    virtual bool eventFilter(QObject *watched, QEvent *event);
-
 signals:
     /**
      * Emitted when GUI is created and the cache is loaded.  Is kind of a hack
