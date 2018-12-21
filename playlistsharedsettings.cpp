@@ -62,6 +62,15 @@ void Playlist::SharedSettings::toggleColumnVisible(int column)
     writeConfig();
 }
 
+bool Playlist::SharedSettings::isColumnVisible(int column) const
+{
+    if(column >= m_columnsVisible.size()) {
+        return false;
+    }
+
+    return m_columnsVisible[column];
+}
+
 void Playlist::SharedSettings::setInlineCompletionMode(KCompletion::CompletionMode mode)
 {
     m_inlineCompletion = mode;

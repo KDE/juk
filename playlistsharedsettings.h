@@ -38,7 +38,9 @@ public:
      */
     void setColumnOrder(const Playlist *l);
     void toggleColumnVisible(int column);
+    bool isColumnVisible(int column) const;
     void setInlineCompletionMode(KCompletion::CompletionMode mode);
+
 
     /**
      * Apply the settings.
