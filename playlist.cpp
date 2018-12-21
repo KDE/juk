@@ -1311,6 +1311,7 @@ void Playlist::slotInitialize()
     //////////////////////////////////////////////////
 
     QAction *showAction;
+    const auto sharedSettings = SharedSettings::instance();
 
     for(int i = 0; i < header()->count(); ++i) {
         if(i - columnOffset() == PlaylistItem::FileNameColumn)
@@ -1319,7 +1320,7 @@ void Playlist::slotInitialize()
         showAction = new QAction(headerItem()->text(i), m_headerMenu);
         showAction->setData(i);
         showAction->setCheckable(true);
-        showAction->setChecked(!isColumnHidden(i));
+        showAction->setChecked(sharedSettings->isColumnVisible(i));
         m_headerMenu->addAction(showAction);
 
         resizeColumnToContents(i);
