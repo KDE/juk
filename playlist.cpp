@@ -128,7 +128,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QString &name,
     m_searchEnabled(true),
     m_playlistName(name),
     m_rmbMenu(0),
-    m_toolTip(0),
     m_blockDataChanged(false)
 {
     setup();
@@ -149,7 +148,6 @@ Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items
     m_searchEnabled(true),
     m_playlistName(name),
     m_rmbMenu(0),
-    m_toolTip(0),
     m_blockDataChanged(false)
 {
     setup();
@@ -171,7 +169,6 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     m_searchEnabled(true),
     m_fileName(playlistFile.canonicalFilePath()),
     m_rmbMenu(0),
-    m_toolTip(0),
     m_blockDataChanged(false)
 {
     setup();
@@ -191,7 +188,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
     m_widthsDirty(true),
     m_searchEnabled(true),
     m_rmbMenu(0),
-    m_toolTip(0),
     m_blockDataChanged(false)
 {
     for(int i = 0; i < extraColumns; ++i) {
@@ -216,8 +212,6 @@ Playlist::~Playlist()
     // so call clearItems() to make sure it happens.
 
     clearItems(items());
-
-    /* delete m_toolTip; */
 
     if(!m_shuttingDown)
         m_collection->removePlaylist(this);

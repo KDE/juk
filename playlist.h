@@ -42,7 +42,6 @@ class QAction;
 class WebImageFetcher;
 class PlaylistItem;
 class PlaylistCollection;
-class PlaylistToolTip;
 class CollectionListItem;
 
 typedef QVector<PlaylistItem *> PlaylistItemList;
@@ -697,7 +696,6 @@ private:
     QMenu *m_rmbMenu;
     QMenu *m_headerMenu;
     KActionMenu *m_columnVisibleAction;
-    PlaylistToolTip *m_toolTip;
 
     int  m_itemsLoading = 0; /// Count of pending file loads outstanding
     bool m_blockDataChanged;
