@@ -114,90 +114,55 @@ int                     Playlist::m_leftColumn     = 0;
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-Playlist::Playlist(PlaylistCollection *collection, const QString &name,
-                   const QString &iconName) :
-    QTreeWidget(collection->playlistStack()),
-    m_collection(collection),
-    m_fetcher(new WebImageFetcher(this)),
-    m_allowDuplicates(true),
-    m_applySharedSettings(true),
-    m_columnWidthModeChanged(false),
-    m_disableColumnWidthUpdates(true),
-    m_time(0),
-    m_widthsDirty(true),
-    m_searchEnabled(true),
-    m_playlistName(name),
-    m_rmbMenu(0),
-    m_blockDataChanged(false)
+Playlist::Playlist(
+        bool delaySetup, const QString &name,
+        PlaylistCollection *collection, const QString &iconName,
+        int extraCols)
+    : QTreeWidget(collection->playlistStack())
+    , m_collection(collection)
+    , m_playlistName(name)
+    , m_fetcher(new WebImageFetcher(this))
 {
-    setup();
-    collection->setupPlaylist(this, iconName);
-}
-
-Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
-                   const QString &name, const QString &iconName) :
-    QTreeWidget(collection->playlistStack()),
-    m_collection(collection),
-    m_fetcher(new WebImageFetcher(this)),
-    m_allowDuplicates(true),
-    m_applySharedSettings(true),
-    m_columnWidthModeChanged(false),
-    m_disableColumnWidthUpdates(true),
-    m_time(0),
-    m_widthsDirty(true),
-    m_searchEnabled(true),
-    m_playlistName(name),
-    m_rmbMenu(0),
-    m_blockDataChanged(false)
-{
-    setup();
-    collection->setupPlaylist(this, iconName);
-    createItems(items);
-}
-
-Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
-                   const QString &iconName) :
-    QTreeWidget(collection->playlistStack()),
-    m_collection(collection),
-    m_fetcher(new WebImageFetcher(this)),
-    m_allowDuplicates(true),
-    m_applySharedSettings(true),
-    m_columnWidthModeChanged(false),
-    m_disableColumnWidthUpdates(true),
-    m_time(0),
-    m_widthsDirty(true),
-    m_searchEnabled(true),
-    m_fileName(playlistFile.canonicalFilePath()),
-    m_rmbMenu(0),
-    m_blockDataChanged(false)
-{
-    setup();
-    loadFile(m_fileName, playlistFile);
-    collection->setupPlaylist(this, iconName);
-}
-
-Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraColumns) :
-    QTreeWidget(collection->playlistStack()),
-    m_collection(collection),
-    m_fetcher(new WebImageFetcher(this)),
-    m_allowDuplicates(true),
-    m_applySharedSettings(true),
-    m_columnWidthModeChanged(false),
-    m_disableColumnWidthUpdates(true),
-    m_time(0),
-    m_widthsDirty(true),
-    m_searchEnabled(true),
-    m_rmbMenu(0),
-    m_blockDataChanged(false)
-{
-    for(int i = 0; i < extraColumns; ++i) {
-        addColumn(i18n("JuK")); // Placeholder text!
+    // Any added columns must precede normal ones, which are normally added
+    // in setup()
+    for(int i = 0; i < extraCols; ++i) {
+        addColumn(i18n("JuK")); // Placeholder text
     }
 
     setup();
 
-    if(!delaySetup)
-        collection->setupPlaylist(this, "audio-midi");
+    // Some subclasses need to do even more handling but will remember to
+    // call setupPlaylist
+    if(!delaySetup) {
+        collection->setupPlaylist(this, iconName);
+    }
+}
+
+Playlist::Playlist(PlaylistCollection *collection, const QString &name,
+                   const QString &iconName)
+    : Playlist(false, name, collection, iconName, 0)
+{
+}
+
+Playlist::Playlist(PlaylistCollection *collection, const PlaylistItemList &items,
+                   const QString &name, const QString &iconName)
+    : Playlist(false, name, collection, iconName, 0)
+{
+    createItems(items);
+}
+
+Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile,
+                   const QString &iconName)
+    : Playlist(true, QString(), collection, iconName, 0)
+{
+    m_fileName = playlistFile.canonicalFilePath();
+    loadFile(m_fileName, playlistFile);
+    collection->setupPlaylist(this, iconName);
+}
+
+Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraColumns)
+    : Playlist(delaySetup, QString(), collection, QStringLiteral("audio-midi"), extraColumns)
+{
 }
 
 Playlist::~Playlist()
@@ -228,31 +193,6 @@ QString Playlist::name() const
 FileHandle Playlist::currentFile() const
 {
     return playingItem() ? playingItem()->file() : FileHandle();
-}
-
-int Playlist::time() const
-{
-    // Since this method gets a lot of traffic, let's optimize for such.
-
-    if(!m_addTime.isEmpty()) {
-        foreach(const PlaylistItem *item, m_addTime) {
-            if(item)
-                m_time += item->file().tag()->seconds();
-        }
-
-        m_addTime.clear();
-    }
-
-    if(!m_subtractTime.isEmpty()) {
-        foreach(const PlaylistItem *item, m_subtractTime) {
-            if(item)
-                m_time -= item->file().tag()->seconds();
-        }
-
-        m_subtractTime.clear();
-    }
-
-    return m_time;
 }
 
 void Playlist::playFirst()
@@ -366,8 +306,6 @@ void Playlist::updateDeletedItem(PlaylistItem *item)
     m_search.clearItem(item);
 
     m_history.removeAll(item);
-    m_addTime.removeAll(item);
-    m_subtractTime.removeAll(item);
 }
 
 void Playlist::clearItem(PlaylistItem *item)
@@ -1063,20 +1001,11 @@ void Playlist::drawRow(QPainter *p, const QStyleOptionViewItem &option, const QM
 
 void Playlist::insertItem(QTreeWidgetItem *item)
 {
-    // Because we're called from the PlaylistItem ctor, item may not be a
-    // PlaylistItem yet (it would be QListViewItem when being inserted.  But,
-    // it will be a PlaylistItem by the time it matters, but be careful if
-    // you need to use the PlaylistItem from here.
-
-    m_addTime.append(static_cast<PlaylistItem *>(item));
     QTreeWidget::insertTopLevelItem(0, item);
 }
 
 void Playlist::takeItem(QTreeWidgetItem *item)
 {
-    // See the warning in Playlist::insertItem.
-
-    m_subtractTime.append(static_cast<PlaylistItem *>(item));
     int index = indexOfTopLevelItem(item);
     QTreeWidget::takeTopLevelItem(index);
 }
@@ -1425,6 +1354,15 @@ void Playlist::setup()
     // Should this be itemActivated? It is quite annoying when I try it...
     connect(this, &QTreeWidget::itemDoubleClicked, this, &Playlist::slotPlayCurrent);
 
+    // Use a timer to soak up the multiple dataChanged signals we're going to get
+    auto updateRequestor = new QTimer(this);
+    updateRequestor->setSingleShot(true);
+    updateRequestor->setInterval(10);
+
+    connect(model(), &QAbstractItemModel::dataChanged,
+            updateRequestor, static_cast<void (QTimer::*)()>(&QTimer::start));
+    connect(updateRequestor, &QTimer::timeout, this, &Playlist::slotUpdateTime);
+
     // This apparently must be created very early in initialization for other
     // Playlist code requiring m_headerMenu.
     m_columnVisibleAction = new KActionMenu(i18n("&Show Columns"), this);
@@ -1453,7 +1391,6 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
 
     setSortingEnabled(false);
 
-    PlaylistItem *after = nullptr;
     m_disableColumnWidthUpdates = true;
     m_blockDataChanged = true;
 
@@ -1468,7 +1405,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
         if(item.exists() && item.isFile() && item.isReadable() &&
            MediaFiles::isMediaFile(item.fileName()))
         {
-            after = createItem(FileHandle(item), after);
+            (void) createItem(FileHandle(item));
         }
     }
 
@@ -2064,6 +2001,20 @@ void Playlist::slotPlayCurrent()
     PlaylistItem *next = static_cast<PlaylistItem *>(*it);
     TrackSequenceManager::instance()->setNextItem(next);
     action("forward")->trigger();
+}
+
+void Playlist::slotUpdateTime()
+{
+    int newTime = 0;
+    QTreeWidgetItemIterator it(this);
+    while(*it) {
+        const auto item = static_cast<const PlaylistItem*>(*it);
+        ++it;
+
+        newTime += item->file().tag()->seconds();
+    }
+
+    m_time = newTime;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

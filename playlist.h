@@ -79,7 +79,7 @@ public:
     virtual QString name() const;
     virtual FileHandle currentFile() const;
     virtual int count() const { return model()->rowCount(); }
-    virtual int time() const;
+    virtual int time() const { return m_time; }
     virtual void playNext();
     virtual void playPrevious();
     virtual void stop();
@@ -494,6 +494,12 @@ signals:
     void signalMoveFocusAway();
 
 private:
+    // Common constructor routines, inherited by other constructors
+    Playlist(
+            bool delaySetup, const QString &name,
+            PlaylistCollection *collection, const QString &iconName,
+            int extraCols);
+
     void setup();
 
     /**
@@ -643,68 +649,52 @@ private slots:
     void slotInlineCompletionModeChanged(KCompletion::CompletionMode mode);
 
     void slotPlayCurrent();
+    void slotUpdateTime();
 
 private:
     friend class PlaylistItem;
 
-    PlaylistCollection *m_collection;
-
+    PlaylistCollection *m_collection = nullptr;
     StringHash m_members;
 
-    WebImageFetcher *m_fetcher;
+    // This is only defined if the playlist name is something other than the
+    // file name.
+    QString m_playlistName;
+    QString m_fileName;
 
-    QAction *m_rmbEdit;
-
-    bool m_allowDuplicates;
-    bool m_applySharedSettings;
-    bool m_columnWidthModeChanged;
-
-    QVector<int> m_weightDirty;
-    bool m_disableColumnWidthUpdates;
-
-    mutable int m_time;
-    mutable PlaylistItemList m_addTime;
-    mutable PlaylistItemList m_subtractTime;
+    int  m_time            = 0;
+    bool m_allowDuplicates = true;
 
     /**
      * The average minimum widths of columns to be used in balancing calculations.
      */
+    QStringList m_columns;
     QVector<int> m_columnWeights;
     QVector<int> m_columnFixedWidths;
-    bool m_widthsDirty;
+    QVector<int> m_weightDirty;
+    KActionMenu *m_columnVisibleAction = nullptr;
+    bool m_columnWidthModeChanged      = false;
+    bool m_disableColumnWidthUpdates   = true;
+    bool m_widthsDirty                 = true;
+    bool m_applySharedSettings         = true;
 
-    static PlaylistItemList m_history;
     PlaylistSearch m_search;
-
-    bool m_searchEnabled;
-
-    /**
-     * Used to store the text for inline editing before it is changed so that
-     * we can know if something actually changed and as such if we need to save
-     * the tag.
-     */
-    QString m_editText;
-
-    /**
-     * This is only defined if the playlist name is something other than the
-     * file name.
-     */
-    QString m_playlistName;
-    QString m_fileName;
-
-    QStringList m_columns;
-    QMenu *m_rmbMenu;
-    QMenu *m_headerMenu;
-    KActionMenu *m_columnVisibleAction;
+    bool m_searchEnabled = true;
 
     int  m_itemsLoading = 0; /// Count of pending file loads outstanding
-    bool m_blockDataChanged;
+    bool m_blockDataChanged = false;
+
+    QAction *m_rmbEdit  = nullptr;
+    QMenu *m_rmbMenu    = nullptr;
+    QMenu *m_headerMenu = nullptr;
+    WebImageFetcher *m_fetcher = nullptr;
 
     /**
      * This is used to indicate if the list of visible items has changed (via a
      * call to setVisibleItems()) while random play is playing.
      */
     static bool m_visibleChanged;
+    static PlaylistItemList m_history;
     static bool m_shuttingDown;
     static int m_leftColumn;
     static QVector<PlaylistItem *> m_backMenuItems;

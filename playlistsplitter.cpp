@@ -30,7 +30,6 @@
 #include <QVBoxLayout>
 #include <QLatin1String>
 #include <QList>
-#include <QTime>
 #include <QStackedWidget>
 #include <QSizePolicy>
 #include <QKeySequence>
