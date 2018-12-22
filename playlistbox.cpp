@@ -77,11 +77,14 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     setContextMenuPolicy(Qt::CustomContextMenu);
     setDropIndicatorShown(true);
 
+    setColumnCount(2); // Use fake column for sorting
+    setColumnHidden(1, true);
+    setSortingEnabled(true);
+    sortByColumn(1, Qt::AscendingOrder);
+
     header()->blockSignals(true);
     header()->hide();
     header()->blockSignals(false);
-
-    sortByColumn(0);
 
     viewport()->setAcceptDrops(true);
     setDropIndicatorShown(true);
@@ -648,7 +651,7 @@ PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l)
     : QObject(listBox), QTreeWidgetItem(listBox, QStringList(text)),
       PlaylistObserver(l),
-      m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
+      m_playlist(l), m_iconName(icon), m_sortedFirst(false)
 {
     init();
 }
@@ -656,7 +659,7 @@ PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString
 PlaylistBox::Item::Item(Item *parent, const QString &icon, const QString &text, Playlist *l)
     : QObject(parent->listView()), QTreeWidgetItem(parent, QStringList(text)),
     PlaylistObserver(l),
-    m_playlist(l), m_text(text), m_iconName(icon), m_sortedFirst(false)
+    m_playlist(l), m_iconName(icon), m_sortedFirst(false)
 {
     init();
 }
@@ -666,36 +669,12 @@ PlaylistBox::Item::~Item()
 
 }
 
-int PlaylistBox::Item::compare(QTreeWidgetItem *i, int col, bool) const
-{
-    Item *otherItem = static_cast<Item *>(i);
-    PlaylistBox *playlistBox = static_cast<PlaylistBox *>(treeWidget());
-
-    if(m_playlist == playlistBox->upcomingPlaylist() && otherItem->m_playlist != CollectionList::instance())
-        return -1;
-    if(otherItem->m_playlist == playlistBox->upcomingPlaylist() && m_playlist != CollectionList::instance())
-        return 1;
-
-    if(m_sortedFirst && !otherItem->m_sortedFirst)
-        return -1;
-    else if(otherItem->m_sortedFirst && !m_sortedFirst)
-        return 1;
-
-    return text(col).toLower().localeAwareCompare(i->text(col).toLower());
-}
-
-    // FIXME paintcell
+// FIXME paintcell
 /*void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGroup, int column, int width, int align)
 {
     PlaylistBox *playlistBox = static_cast<PlaylistBox *>(listView());
     playlistBox->viewMode()->paintCell(this, painter, colorGroup, column, width, align);
 }*/
-
-void PlaylistBox::Item::setText(int column, const QString &text)
-{
-    m_text = text;
-    QTreeWidgetItem::setText(column, text);
-}
 
 void PlaylistBox::Item::setup()
 {
@@ -708,15 +687,13 @@ void PlaylistBox::Item::setup()
 
 void PlaylistBox::Item::slotSetName(const QString &name)
 {
-    if(listView()) {
-        setText(0, name);
-        setSelected(true);
+    setText(0, name); // Display name
+    setText(1, sortTextFor(name));
+    setSelected(true);
 
-        treeWidget()->sortItems(0, Qt::AscendingOrder);
-        treeWidget()->scrollToItem(treeWidget()->currentItem());
-        //FIXME viewmode
-        //listView()->viewMode()->queueRefresh();
-    }
+    treeWidget()->scrollToItem(this);
+    //FIXME viewmode
+    //listView()->viewMode()->queueRefresh();
 }
 
 void PlaylistBox::Item::playingItemHasChanged()
@@ -741,8 +718,9 @@ void PlaylistBox::Item::init()
 
     list->setupItem(this);
 
+    const QString itemText(text());
     setIcon(0, QIcon::fromTheme(m_iconName));
-    list->addNameToDict(m_text);
+    list->addNameToDict(itemText);
 
     if(m_playlist) {
         connect(m_playlist, SIGNAL(signalNameChanged(QString)),
@@ -759,6 +737,22 @@ void PlaylistBox::Item::init()
 
     if(m_playlist == list->historyPlaylist() || m_playlist == list->upcomingPlaylist())
         m_sortedFirst = true;
+
+    setText(1, sortTextFor(itemText));
+}
+
+QString PlaylistBox::Item::sortTextFor(const QString &name) const
+{
+    // Collection List goes before everything, then
+    // playlists that 'sort first', then remainder of
+    // playlists.
+    const auto prefix
+        = (playlist() == CollectionList::instance())
+            ? QStringLiteral("0")
+            : m_sortedFirst
+                ? QStringLiteral("1")
+                : QStringLiteral("2");
+    return prefix + name;
 }
 
 // vim: set et sw=4 tw=0 sta:
