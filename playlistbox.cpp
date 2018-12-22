@@ -76,6 +76,7 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     setRootIsDecorated(false);
     setContextMenuPolicy(Qt::CustomContextMenu);
     setDropIndicatorShown(true);
+    setSortingEnabled(true);
 
     header()->blockSignals(true);
     header()->hide();
