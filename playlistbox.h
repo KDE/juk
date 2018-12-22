@@ -156,21 +156,19 @@ public:
     virtual ~Item();
 
 protected:
+    using QTreeWidgetItem::text;
+
     Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0);
     Item(Item *parent, const QString &icon, const QString &text, Playlist *l = 0);
 
     Playlist *playlist() const { return m_playlist; }
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(QTreeWidgetItem::treeWidget()); }
     QString iconName() const { return m_iconName; }
-    QString text() const { return m_text; }
+    QString text() const { return QTreeWidgetItem::text(0); }
     void setSortedFirst(bool first = true) { m_sortedFirst = first; }
 
-    virtual int compare(QTreeWidgetItem *i, int col, bool) const;
     /*virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
     virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}*/
-    virtual void setText(int column, const QString &text);
-
-    virtual QString text(int column) const { return QTreeWidgetItem::text(column); }
 
     virtual void setup();
 
@@ -193,9 +191,9 @@ protected slots:
 private:
     // setup() was already taken.
     void init();
+    QString sortTextFor(const QString &name) const;
 
     Playlist *m_playlist;
-    QString m_text;
     QString m_iconName;
     bool m_sortedFirst;
     static Item *m_collectionItem;
