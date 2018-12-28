@@ -1,3 +1,16 @@
 include:
   - https://invent.kde.org/sysadmin/ci-tooling/raw/master/invent/ci-before.yml
   - https://invent.kde.org/sysadmin/ci-tooling/raw/master/invent/ci-applications-linux.yml
+  - https://invent.kde.org/sysadmin/ci-tooling/raw/master/invent/binary-flatpak.yml
+
+variables:
+  BUNDLE: org.kde.juk.flatpak
+
+flatpak:
+  extends: .flatpak
+  variables:
+    MANIFEST_URL: https://cgit.kde.org/flatpak-kde-applications.git/plain/org.kde.juk.json
+    MANIFEST_PATH: org.kde.juk.json
+    APP_ID: org.kde.juk
+    FLATPAK_MODULE: juk
+    CMAKE_ARGS: -DENABLE_TESTING=OFF
