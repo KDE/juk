@@ -3,9 +3,9 @@
 <img src="https://invent.kde.org/kde/juk/raw/master/128-apps-juk.png" align="right"
      title="Juk logo" width="96" height="96">
 
-JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis,
+[JuK](https://juk.kde.org) is an audio jukebox application, supporting collections of MP3, Ogg Vorbis,
 and FLAC audio files. It allows you to edit the tags of your audio files, and
-manage your collection and playlists. It's main focus, in fact, is on music
+manage your collection and playlists. Its main focus, in fact, is on music
 management.
 
 Learn more about [Juk at KDE.org](https://www.kde.org/applications/multimedia/juk/).
