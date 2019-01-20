@@ -21,6 +21,7 @@
   <name xml:lang="gl">JuK</name>
   <name xml:lang="hu">JuK</name>
   <name xml:lang="ia">JuK</name>
+  <name xml:lang="id">JuK</name>
   <name xml:lang="it">JuK</name>
   <name xml:lang="ko">JuK</name>
   <name xml:lang="nds">JuK</name>
@@ -60,6 +61,7 @@
   <summary xml:lang="gl">Reprodutor de música</summary>
   <summary xml:lang="hu">Zenelejátszó</summary>
   <summary xml:lang="ia">Executor de musica</summary>
+  <summary xml:lang="id">Player Musik</summary>
   <summary xml:lang="it">Lettore musicale</summary>
   <summary xml:lang="ko">음악 재생기</summary>
   <summary xml:lang="nds">Musikafspeler</summary>
@@ -97,6 +99,7 @@
     <p xml:lang="gl">JuK é un reprodutor de música compatíbel con coleccións de ficheiros de son MP3, Ogg Vorbis e FLAC. Permítelle editar as «etiquetas» dos ficheiros de son e xestionar a súa colección e as súas listas de reprodución. O aplicativo está destinado principalmente á xestión de música.</p>
     <p xml:lang="hu">A JuK egy zenedoboz alkalmazás, amely támogatja MP3, Ogg Vorbis és FLAC hangfájlok gyűjteményeit. Lehetővé teszi a hangfájlok „címkéinek” szerkesztését, és a gyűjtemények, illetve lejátszólisták kezelését. A fő célja valójában a zenekezelés.</p>
     <p xml:lang="ia">JuK es un application audio de jukebox application, supportante collectiones de files audio MP3, Ogg Vorbis, e FLAC. Il permitte que tu modifica le etiquettas "tags" de tu files audio, e gere tu collection e lista de reproduction. Su focus principal de facto, es sur gestion de musica.</p>
+    <p xml:lang="id">JuK adalah sebuah aplikasi jukebox audio, mendukung koleksi file audio MP3, Ogg, dan FLAC. Yang memungkinkan kamu untuk mengedit "tag" pada file audio-mu, dan mengelola playlist koleksimu. Yang berfokus utama, dalam faktanya, adalah pada pengelolaan musik.</p>
     <p xml:lang="it">JuK è un'applicazione jukebox, che supporta raccolte di file audio MP3, Ogg Vorbis e FLAC. Permette di modificare le etichette dei file audio, e gestire raccolte e scalette. Il suo scopo primario è la gestione della musica.</p>
     <p xml:lang="ko">JuK는 MP3, Ogg Vorbis, FLAC 오디오 파일 모음집을 지원하는 주크박스 프로그램입니다. 오디오 파일의 태그를 편집할 수 있으며, 모음집과 재생 목록을 관리할 수 있습니다.</p>
     <p xml:lang="nds">JuK is en Musikkist-Programm, dat Sammeln vun MP3-, Ogg-Vorbis- un FLAC-Klangdateien bruken kann. Du kannst dor de Slötelwöör („Tags“) vun Dien Dateien mit bewerken un Dien Sammeln un Afspeellisten mit plegen. Egens liggt em sien Fokus redig op de Musikpleeg.</p>
@@ -135,6 +138,7 @@
     <p xml:lang="gl">Funcionalidades:</p>
     <p xml:lang="hu">Szolgáltatások:</p>
     <p xml:lang="ia">Characteristicas:</p>
+    <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="nds">Markmalen:</p>
@@ -173,6 +177,7 @@
       <li xml:lang="gl">Lista de coleccións e múltiplas listas de reprodución definidas polo usuario.</li>
       <li xml:lang="hu">Gyűjteménylista és több felhasználó által megadott lejátszólista</li>
       <li xml:lang="ia">Lista de collection e multiple listas de reproduction definite per le usator</li>
+      <li xml:lang="id">Daftar koleksi dan playlist yang ditentukan pengguna multiple</li>
       <li xml:lang="it">Elenco di raccolte e scalette multiple definite dall'utente</li>
       <li xml:lang="ko">모음집 관리 및 사용자 정의 재생 목록</li>
       <li xml:lang="nds">Sammelnlist un en Reeg Bruker-Afspeellisten</li>
@@ -209,6 +214,7 @@
       <li xml:lang="gl">Pode explorar directorios para importar automaticamente listas de reprodución e ficheiros de música ao iniciar o programa.</li>
       <li xml:lang="hu">Könyvtárak átvizsgálásának képessége zenefájlok és lejátszólisták automatikus importálásához a program indulásakor</li>
       <li xml:lang="ia">habilitate de scander directorios pro importar automaticamente listas de reproduction e files de musica quando on initia</li>
+      <li xml:lang="id">Mampu memindai direktori untuk mengimpor playlist dan file-file musik secara otomatis saat dimulai</li>
       <li xml:lang="it">Capacità di scansionare cartelle per importare automaticamente scalette e file musicali all'avvio</li>
       <li xml:lang="ko">시작 시 디렉터리를 검사하여 자동으로 재생 목록과 음악 파일 가져오기</li>
       <li xml:lang="nds">Kann Ornern  bi't Starten automaatsch op Afspeellisten un Musikdateien dörkieken</li>
@@ -245,6 +251,7 @@
       <li xml:lang="gl">Busca dinámica de listas de reprodución que se actualizan automaticamente tras cambias campos da colección.</li>
       <li xml:lang="hu">Lejátszólisták dinamikus keresése, amelyek automatikusan frissítésre kerülnek mezőkként a gyűjtemény módosításban</li>
       <li xml:lang="ia">Listas de reproduction de cerca dynamic que es automaticamente actualisate como campos in le modification de collection</li>
+      <li xml:lang="id">Pencarian dinamis playlist yang diupdate secara otomatis sebagai bidang dalam perubahan koleksi</li>
       <li xml:lang="it">Scalette a ricerca dinamica, aggiornate automaticamente al cambiare dei campi nella raccolta</li>
       <li xml:lang="ko">모음집 필드 변경 사항에 따라 자동으로 업데이트되는 동적 재생 목록</li>
       <li xml:lang="nds">Dünaamsch Söök na Afspeellisten, de automaatsch topasst warrt, wenn sik Feller binnen de Sammeln ännern doot</li>
@@ -281,6 +288,7 @@
       <li xml:lang="gl">Un modo de vista de árbore onde se xeran automaticamente listas de reprodución para grupos de álbums, intérpretes e estilos.</li>
       <li xml:lang="hu">Egy fanézet mód, ahol a lejátszólisták automatikusan kerülnek előállításra albumok, előadók és műfajok halmazához</li>
       <li xml:lang="ia">Un modo de vista a arbore ubi le listas de reproduction es generate automaticamente pro insimul de albums, artistas e generes</li>
+      <li xml:lang="id">Sebuah mode Tree View dimana playlist yang dihasilkan secara otomatis untuk mengeset album, artis, dan genre</li>
       <li xml:lang="it">Modalità di vista ad albero in cui le scalette sono automaticamente generate per insiemi di album, artisti o generi</li>
       <li xml:lang="ko">음악가, 앨범, 장르별 자동 생성 트리 보기 모드</li>
       <li xml:lang="nds">En Boomansicht, över de sik Afspeellisten automaatsch för Setten vun Albums, Künstlers un Musikoorden opstellen laat</li>
@@ -317,6 +325,7 @@
       <li xml:lang="gl">Historial de listas re reprodución para indicar que ficheiros se reproduciron e cando.</li>
       <li xml:lang="hu">Lejátszólista előzmények annak jelölésére, hogy mely fájlok lettek már lejátszva és mikor</li>
       <li xml:lang="ia">Chronologia de lista de reproduction per indicar qual files ha essite reproducite e quando</li>
+      <li xml:lang="id">Histori playlist untuk mengindikasi yang mana file sudah dimainkan dan sedang dimainkan</li>
       <li xml:lang="it">Cronologia delle scalette per indicare quali file sono stati letti e quando</li>
       <li xml:lang="ko">재생 목록 내 파일의 재생 이력 관리</li>
       <li xml:lang="nds">Afspeellist-Vörgeschicht, över de sik wiesen lett, welk Dateien Du wannehr afspeelt hest</li>
@@ -353,6 +362,7 @@
       <li xml:lang="gl">Permite filtrar a lista de elementos visíbeis mediante termos de busca.</li>
       <li xml:lang="hu">Beágyazott keresés a látható elemek listájának szűréséhez</li>
       <li xml:lang="ia">cerca interne pro filtrar le lista de elementos visibile</li>
+      <li xml:lang="id">Dalam rangka pencarian untuk pemfilteran  daftar dari item-item yang tampak</li>
       <li xml:lang="it">Ricerca in linea per filtrare l'elenco di elementi visibili</li>
       <li xml:lang="ko">재생 목록 내 빠른 검색</li>
       <li xml:lang="nds">Binnenreegs-Söök, mit de sik de List vun sichtbor Indrääg filtern lett</li>
@@ -389,6 +399,7 @@
       <li xml:lang="gl">Pode deducir información das etiquetas a partir do nome do ficheiro da pista de música.</li>
       <li xml:lang="hu">Címkeinformációk kitalálásának képessége a szám fájlneve alapján</li>
       <li xml:lang="ia">Le habilitate de conjecturar information de etiquetta basate sur le nomine de file del tracia</li>
+      <li xml:lang="id">Kemampuan untuk menebak informasi tag berdasarkan pada nama file track</li>
       <li xml:lang="it">Capacità di indovinare informazioni per le etichette in base al nome del file audio</li>
       <li xml:lang="ko">파일 이름을 기반으로 한 태그 내용 추측</li>
       <li xml:lang="nds">Kann Slötelwöör ut dat Stück sien Dateinaam raden</li>
@@ -425,6 +436,7 @@
       <li xml:lang="gl">Permite renomear os ficheiros de acordo co contido das súas etiquetas.</li>
       <li xml:lang="hu">Fájlátnevező, amely képes a címketartalom alapján átnevezni fájlokat</li>
       <li xml:lang="ia">Renominator de file que pote renominar files basate sur le contento de etiquetta</li>
+      <li xml:lang="id">Pengubah nama file yang bisa mengubah nama berdasarkan pada konten tag</li>
       <li xml:lang="it">Rinominatore di file per cambiare il nome ai file in base alle etichette</li>
       <li xml:lang="ko">태그 내용을 기반으로 한 파일 이름 변경</li>
       <li xml:lang="nds">Ümnömer, de Dateien na ehr Slötelwöör ümnömen kann</li>
@@ -461,6 +473,7 @@
       <li xml:lang="gl">Funcionalidade de ler e editar as etiquetas de ficheiros en diversos formatos, como ID3v1, ID3v2 ou Ogg Vorbis.</li>
       <li xml:lang="hu">Címkeolvasás és szerkesztés támogatás számos formátumhoz, beleértve az ID3v1, az ID3v2 és az Ogg Vorbis formátumokat</li>
       <li xml:lang="ia">Supporto de modification e lectura de etiquetta per multe formatos includente ID3v1, ID3v2 e Ogg Vorbis</li>
+      <li xml:lang="id">Dukungan pengeditan dan pembacaan tag untuk berbagai format termasuk ID3v1, ID3v2 dan Ogg Vorbis</li>
       <li xml:lang="it">Supporto per lettura e modifica delle etichette per molti formati, tra cui ID3v1, ID3v2 e Ogg Vorbis</li>
       <li xml:lang="ko">ID3v1, ID3v2, Ogg Vorbis 태그 읽기 및 쓰기 지원</li>
       <li xml:lang="nds">Kann Slötelwöör mit vele Formaten lesen un bewerken, so as ID3v1, ID3v2 un Ogg-Vorbis</li>
