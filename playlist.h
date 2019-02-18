@@ -24,6 +24,7 @@
 #include <QEvent>
 #include <QList>
 #include <QTreeWidget>
+#include <QFuture>
 
 #include "covermanager.h"
 #include "stringhash.h"
@@ -545,8 +546,8 @@ private:
     void calculateColumnWeights();
 
     void addPlaylistFile(const QString &m3uFile);
-    void addFilesFromDirectory(const QString &dirPath);
-    void addUntypedFile(const QString &file, PlaylistItem *after = nullptr);
+    QFuture<void> addFilesFromDirectory(const QString &dirPath);
+    QFuture<void> addUntypedFile(const QString &file, PlaylistItem *after = nullptr);
     void cleanupAfterAllFileLoadsCompleted();
 
     void redisplaySearch() { setSearch(m_search); }

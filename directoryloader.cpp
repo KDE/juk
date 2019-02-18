@@ -17,6 +17,8 @@
 #include "directoryloader.h"
 
 #include <QFileInfo>
+#include <QMutex>
+#include <QMutexLocker>
 
 #include "mediafiles.h"
 
@@ -81,8 +83,6 @@ void DirectoryLoader::startLoading()
     if(!files.isEmpty()) {
         emit loadedFiles(files);
     }
-
-    emit doneLoading();
 }
 
 MediaFileType classifyFile(const QFileInfo &fileInfo)
@@ -111,6 +111,13 @@ MediaFileType classifyFile(const QFileInfo &fileInfo)
 
 FileHandle loadMediaFile(const QString &fileName)
 {
+    // Just because our GUI thread accesses are serialized by signal/slot magic
+    // doesn't mean that our non-GUI threads don't require deconfliction
+    // Neither FileHandle nor TagLib are not thread-safe so synchronize access
+    // to this function.
+    static QMutex fhLock;
+    QMutexLocker locker(&fhLock);
+
     FileHandle loadedMetadata(fileName);
     (void) loadedMetadata.tag(); // Ensure tag is read
 

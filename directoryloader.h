@@ -37,7 +37,6 @@ public slots:
     void startLoading();
 
 signals:
-    void doneLoading();
     void loadedFiles(FileHandleList files);
     void loadedPlaylist(QString fileName);
 

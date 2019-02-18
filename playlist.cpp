@@ -56,6 +56,7 @@
 #include <QPainter>
 
 #include <QtConcurrent>
+#include <QFutureWatcher>
 
 #include <id3v1genres.h>
 
@@ -1028,23 +1029,44 @@ void Playlist::createItems(const PlaylistItemList &siblings, PlaylistItem *after
 
 void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 {
-    m_blockDataChanged = true;
-    m_itemsLoading++;
-
-    setEnabled(false);
-
-    for(const auto &file : files) {
-        // some files added here will launch threads that will do cleanup (fix
-        // the cursor, allow data updates etc) when the last thread is done.
-        // Managed by m_itemsLoading going to 0 which is why we ++ above.
-        addUntypedFile(file, after);
+    if(Q_UNLIKELY(files.isEmpty())) {
+        return;
     }
 
-    // If no items are being loaded by now then we must have loaded all M3U
-    // playlists or something, so cleanup immediately since no threads will
-    // have been launched.
-    if(--m_itemsLoading == 0) {
+    m_blockDataChanged = true;
+    setEnabled(false);
+
+    QVector<QFuture<void>> pendingFutures;
+    for(const auto &file : files) {
+        // some files added here will launch threads that we must wait until
+        // they're done to cleanup
+        auto pendingResult = addUntypedFile(file, after);
+        if(!pendingResult.isFinished()) {
+            pendingFutures.push_back(pendingResult);
+            ++m_itemsLoading;
+        }
+    }
+
+    // It's possible for no async threads to be launched, and also possible
+    // for this function to be called while there were other threads in flight
+    if(pendingFutures.isEmpty() && m_itemsLoading == 0) {
         cleanupAfterAllFileLoadsCompleted();
+        return;
+    }
+
+    // Build handlers for all the still-active loaders on the heap and then
+    // return to the event loop.
+    for(const auto &future : qAsConst(pendingFutures)) {
+        auto loadWatcher = new QFutureWatcher<void>(this);
+        loadWatcher->setFuture(future);
+
+        connect(loadWatcher, &QFutureWatcher<void>::finished, this, [=]() {
+                if(--m_itemsLoading == 0) {
+                    cleanupAfterAllFileLoadsCompleted();
+                }
+
+                loadWatcher->deleteLater();
+            });
     }
 }
 
@@ -1521,20 +1543,9 @@ void Playlist::addPlaylistFile(const QString &m3uFile)
     }
 }
 
-void Playlist::addFilesFromDirectory(const QString &dirPath)
+QFuture<void> Playlist::addFilesFromDirectory(const QString &dirPath)
 {
-    ++m_itemsLoading;
-    DirectoryLoader *loader = new DirectoryLoader(dirPath);
-
-    connect(loader, &DirectoryLoader::doneLoading, this,
-        [this, loader]() {
-            loader->deleteLater();
-
-            if(--m_itemsLoading == 0) {
-                cleanupAfterAllFileLoadsCompleted();
-            }
-        }
-    );
+    auto loader = new DirectoryLoader(dirPath);
 
     connect(loader, &DirectoryLoader::loadedPlaylist, this,
         [this](const QString &m3uFile) {
@@ -1549,13 +1560,21 @@ void Playlist::addFilesFromDirectory(const QString &dirPath)
         }
     );
 
-    (void) QtConcurrent::run(loader, &DirectoryLoader::startLoading);
+    auto future = QtConcurrent::run(loader, &DirectoryLoader::startLoading);
+    auto loadWatcher = new QFutureWatcher<void>(this);
+    connect(loadWatcher, &QFutureWatcher<void>::finished, this, [=]() {
+            loader->deleteLater();
+            loadWatcher->deleteLater();
+        });
+
+    return future;
 }
 
-void Playlist::addUntypedFile(const QString &file, PlaylistItem *after)
+// Returns a future since some codepaths will result in an async operation.
+QFuture<void> Playlist::addUntypedFile(const QString &file, PlaylistItem *after)
 {
     if(hasItem(file) && !m_allowDuplicates)
-        return;
+        return {};
 
     const QFileInfo fileInfo(file);
     const QString canonicalPath = fileInfo.canonicalFilePath();
@@ -1566,22 +1585,24 @@ void Playlist::addUntypedFile(const QString &file, PlaylistItem *after)
         FileHandle f(fileInfo);
         f.tag();
         createItem(f, after);
-        return;
+        return {};
     }
 
     if(MediaFiles::isPlaylistFile(file)) {
         addPlaylistFile(canonicalPath);
-        return;
+        return {};
     }
 
     if(fileInfo.isDir()) {
         foreach(const QString &directory, m_collection->excludedFolders()) {
             if(canonicalPath.startsWith(directory))
-                return; // Exclude it
+                return {}; // Exclude it
         }
 
-        addFilesFromDirectory(canonicalPath);
+        return addFilesFromDirectory(canonicalPath);
     }
+
+    return {};
 }
 
 // Called directly or after a threaded directory load has completed, managed by
