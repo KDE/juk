@@ -715,7 +715,8 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
 void Playlist::synchronizeItemsTo(const PlaylistItemList &itemList)
 {
-    clearItems(items());
+    // direct call to ::items to avoid infinite loop, bug 402355
+    clearItems(Playlist::items());
     createItems(itemList);
 }
 
