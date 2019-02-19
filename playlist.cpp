@@ -779,7 +779,8 @@ void Playlist::removeFromDisk(const PlaylistItemList &items)
 
 void Playlist::synchronizeItemsTo(const PlaylistItemList &itemList)
 {
-    const auto &existingItems = items();
+    // direct call to ::items to avoid infinite loop, bug 402355
+    const auto &existingItems = Playlist::items();
     if(qAbs(itemList.count() - existingItems.count()) >
         qMax(itemList.count(), existingItems.count()) / 2)
     {
