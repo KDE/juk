@@ -238,6 +238,7 @@ QPixmap CoverInfo::pixmap(CoverSize size) const
             if(!cover.load(fileName))
                 return QPixmap();
         }
+        return QPixmap::fromImage(cover);
     }
 
     // If we get here, see if there is an embedded cover.
