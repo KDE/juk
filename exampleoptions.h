@@ -49,8 +49,8 @@ public:
     const ExampleOptions *widget() const { return m_options; }
 
 protected:
-    virtual void hideEvent(QHideEvent *);
-    virtual void showEvent(QShowEvent *);
+    virtual void hideEvent(QHideEvent *) override;
+    virtual void showEvent(QShowEvent *) override;
 
 protected slots:
     void fileModeSelected();

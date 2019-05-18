@@ -40,7 +40,7 @@ class FileHandle;
  *
  * @author Michael Pyne <mpyne@kde.org>
  */
-class PassiveInfo : public QFrame
+class PassiveInfo final : public QFrame
 {
     Q_OBJECT
 public:
@@ -66,10 +66,10 @@ signals:
     void nextSong();
 
 protected:
-    virtual void enterEvent(QEvent *);
-    virtual void leaveEvent(QEvent *);
-    virtual void hideEvent(QHideEvent *);
-    virtual void wheelEvent(QWheelEvent *);
+    virtual void enterEvent(QEvent *) override;
+    virtual void leaveEvent(QEvent *) override;
+    virtual void hideEvent(QHideEvent *) override;
+    virtual void wheelEvent(QWheelEvent *) override;
 
 private:
     // Move us near the required position.
@@ -84,7 +84,7 @@ private:
     bool m_justDie;
 };
 
-class SystemTray : public KStatusNotifierItem
+class SystemTray final : public KStatusNotifierItem
 {
     Q_OBJECT
 

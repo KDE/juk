@@ -38,7 +38,7 @@ typedef QVector<Playlist *> PlaylistList;
  * JuK's main widget (PlaylistSplitter).
  */
 
-class PlaylistBox : public QTreeWidget, public PlaylistCollection
+class PlaylistBox final : public QTreeWidget, public PlaylistCollection
 {
     Q_OBJECT
 
@@ -51,19 +51,19 @@ public:
     PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget *playlistStack);
     virtual ~PlaylistBox();
 
-    virtual void raise(Playlist *playlist);
-    virtual void duplicate();
-    virtual void remove();
+    virtual void raise(Playlist *playlist) override;
+    virtual void duplicate() override;
+    virtual void remove() override;
 
     // Called after files loaded to pickup any new files that might be present
     // in managed directories.
-    virtual void scanFolders();
+    virtual void scanFolders() override;
 
     /**
      * For view modes that have dynamic playlists, this freezes them from
      * removing playlists.
      */
-    virtual void setDynamicListsFrozen(bool frozen);
+    virtual void setDynamicListsFrozen(bool frozen) override;
 
     Item *dropItem() const { return m_dropItem; }
 
@@ -79,8 +79,8 @@ public slots:
     void slotSetHistoryPlaylistEnabled(bool enable);
 
 protected:
-    virtual void setupPlaylist(Playlist *playlist, const QString &iconName);
-    virtual void removePlaylist(Playlist *playlist);
+    virtual void setupPlaylist(Playlist *playlist, const QString &iconName) override;
+    virtual void removePlaylist(Playlist *playlist) override;
 
 signals:
     void signalPlaylistDestroyed(Playlist *);
@@ -92,10 +92,10 @@ private:
     void readConfig();
     void saveConfig();
 
-    virtual void mousePressEvent(QMouseEvent *e);
-    virtual void mouseReleaseEvent(QMouseEvent *e);
-    virtual void keyPressEvent(QKeyEvent *e);
-    virtual void keyReleaseEvent(QKeyEvent *e);
+    virtual void mousePressEvent(QMouseEvent *e) override;
+    virtual void mouseReleaseEvent(QMouseEvent *e) override;
+    virtual void keyPressEvent(QKeyEvent *e) override;
+    virtual void keyReleaseEvent(QKeyEvent *e) override;
 
     // selectedItems already used for something different
 
@@ -139,7 +139,7 @@ private:
     QTimer *m_savePlaylistTimer;
 };
 
-class PlaylistBox::Item : public QObject, public QTreeWidgetItem, public PlaylistObserver
+class PlaylistBox::Item final : public QObject, public QTreeWidgetItem, public PlaylistObserver
 {
     friend class PlaylistBox;
     friend class PlaylistSplitter;
@@ -180,10 +180,10 @@ protected:
     // Reimplemented from PlaylistObserver
     //
 
-    virtual void playingItemHasChanged() Q_DECL_FINAL;
+    virtual void playingItemHasChanged() override;
 
     // Used to post a timer in PlaylistBox to save playlists.
-    virtual void playlistItemDataHasChanged() Q_DECL_FINAL;
+    virtual void playlistItemDataHasChanged() override;
 
 
 protected slots:

@@ -43,10 +43,10 @@ signals:
     void sliderReleased( int );
 
 protected:
-    virtual void wheelEvent( QWheelEvent* );
-    virtual void mouseMoveEvent( QMouseEvent* );
-    virtual void mouseReleaseEvent( QMouseEvent* );
-    virtual void mousePressEvent( QMouseEvent* );
+    virtual void wheelEvent( QWheelEvent* ) override;
+    virtual void mouseMoveEvent( QMouseEvent* ) override;
+    virtual void mouseReleaseEvent( QMouseEvent* ) override;
+    virtual void mousePressEvent( QMouseEvent* ) override;
     virtual void slideEvent( QMouseEvent* );
     QRect sliderHandleRect( const QRect &slider, qreal percent ) const;
 
@@ -85,12 +85,12 @@ class VolumeSlider : public Slider
     explicit VolumeSlider( uint max, QWidget *parent, bool customStyle = true );
 
     // VolumePopupButton needs to access this
-    virtual void wheelEvent( QWheelEvent *e );
+    virtual void wheelEvent( QWheelEvent *e ) override;
 
 protected:
-    virtual void paintEvent( QPaintEvent* );
-    virtual void mousePressEvent( QMouseEvent* );
-    virtual void contextMenuEvent( QContextMenuEvent* );
+    virtual void paintEvent( QPaintEvent* ) override;
+    virtual void mousePressEvent( QMouseEvent* ) override;
+    virtual void contextMenuEvent( QContextMenuEvent* ) override;
 
 signals:
     void volumeChanged( float );

@@ -30,7 +30,8 @@ public:
     {
 
     }
-    virtual void playlistItemDataHasChanged() Q_DECL_FINAL
+
+    virtual void playlistItemDataHasChanged() Q_DECL_FINAL override
     {
         m_parent->slotSetDirty();
     }

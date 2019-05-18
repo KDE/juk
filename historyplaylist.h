@@ -42,16 +42,16 @@ public:
     explicit HistoryPlaylist(PlaylistCollection *collection);
     virtual ~HistoryPlaylist();
 
-    virtual HistoryPlaylistItem *createItem(const FileHandle &file, QTreeWidgetItem *after = nullptr);
+    virtual HistoryPlaylistItem *createItem(const FileHandle &file, QTreeWidgetItem *after = nullptr) override;
     virtual void createItems(const PlaylistItemList &siblings);
-    virtual int columnOffset() const { return 1; }
-    virtual bool readOnly() const { return true; }
+    virtual int columnOffset() const override { return 1; }
+    virtual bool readOnly() const override { return true; }
 
     static int delay() { return 5000; }
 
 public slots:
-    void cut() {}
-    void clear() {}
+    virtual void cut() override {}
+    virtual void clear() override {}
     void appendProposedItem(const FileHandle &file);
 
 private slots:

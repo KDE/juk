@@ -54,12 +54,12 @@ signals:
     void nowPlayingHidden();
 
 private:
-    struct Observer : public PlaylistObserver
+    struct Observer final : public PlaylistObserver
     {
         Observer(NowPlaying *parent, PlaylistInterface *playlist) :
             PlaylistObserver(playlist),
             m_parent(parent) {}
-        virtual void playlistItemDataHasChanged() Q_DECL_FINAL
+        virtual void playlistItemDataHasChanged() override
         {
             m_parent->slotReloadCurrentItem();
         }
@@ -99,15 +99,15 @@ class CoverItem : public QLabel, public NowPlayingItem
 {
 public:
     explicit CoverItem(NowPlaying *parent);
-    virtual void update(const FileHandle &file);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
+    virtual void update(const FileHandle &file) override;
+    virtual void mouseReleaseEvent(QMouseEvent *event) override;
 
 protected:
-    virtual void dragEnterEvent(QDragEnterEvent *e);
-    virtual void dropEvent(QDropEvent *e);
+    virtual void dragEnterEvent(QDragEnterEvent *e) override;
+    virtual void dropEvent(QDropEvent *e) override;
 
-    virtual void mousePressEvent(QMouseEvent *e);
-    virtual void mouseMoveEvent(QMouseEvent *e);
+    virtual void mousePressEvent(QMouseEvent *e) override;
+    virtual void mouseMoveEvent(QMouseEvent *e) override;
 
 private:
     FileHandle m_file;
@@ -126,7 +126,7 @@ class TrackItem : public QWidget, public NowPlayingItem
 
 public:
     explicit TrackItem(NowPlaying *parent);
-    virtual void update(const FileHandle &file);
+    virtual void update(const FileHandle &file) override;
 
 private slots:
     void slotOpenLink(const QString &link);

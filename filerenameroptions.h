@@ -59,7 +59,7 @@ public:
     const TagRenamerOptions &options() const { return m_options; }
 
     protected slots:
-    virtual void accept();
+    virtual void accept() override;
 
 private:
 

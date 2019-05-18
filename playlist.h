@@ -77,13 +77,13 @@ public:
 
     // The following group of functions implement the PlaylistInterface API.
 
-    virtual QString name() const;
-    virtual FileHandle currentFile() const;
-    virtual int count() const { return model()->rowCount(); }
-    virtual int time() const { return m_time; }
-    virtual void playNext();
-    virtual void playPrevious();
-    virtual void stop();
+    virtual QString name() const override;
+    virtual FileHandle currentFile() const override;
+    virtual int count() const override { return model()->rowCount(); }
+    virtual int time() const override { return m_time; }
+    virtual void playNext() override;
+    virtual void playPrevious() override;
+    virtual void stop() override;
 
     /**
      * Plays the top item of the playlist.
@@ -239,7 +239,7 @@ public:
     /**
      * Returns true if this playlist is currently playing.
      */
-    bool playing() const;
+    bool playing() const override;
 
     /**
      * This forces an update of the left most visible column, but does not save
@@ -402,7 +402,7 @@ public slots:
 
     void slotColumnResizeModeChanged();
 
-    virtual void playlistItemsChanged();
+    virtual void playlistItemsChanged() override;
 
 protected:
     /**
@@ -422,20 +422,18 @@ protected:
 
     // the following are all reimplemented from base classes
 
-    virtual bool eventFilter(QObject *watched, QEvent *e);
-    virtual void keyPressEvent(QKeyEvent *e);
-    virtual void decode(const QMimeData *s, PlaylistItem *item = 0);
-    QStringList mimeTypes() const;
-    QMimeData* mimeData(const QList<QTreeWidgetItem *> items) const;
-    virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action);
-    virtual void dropEvent(QDropEvent *e);
-    virtual void dragEnterEvent(QDragEnterEvent *e);
-    virtual void showEvent(QShowEvent *e);
-    virtual bool acceptDrag(QDropEvent *e) const;
-    virtual void paintEvent(QPaintEvent *pe);
-    virtual void resizeEvent(QResizeEvent *re);
+    virtual bool eventFilter(QObject *watched, QEvent *e) override;
+    virtual void keyPressEvent(QKeyEvent *e) override;
+    QStringList mimeTypes() const override;
+    QMimeData* mimeData(const QList<QTreeWidgetItem *> items) const override;
+    virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action) override;
+    virtual void dropEvent(QDropEvent *e) override;
+    virtual void dragEnterEvent(QDragEnterEvent *e) override;
+    virtual void showEvent(QShowEvent *e) override;
+    virtual void paintEvent(QPaintEvent *pe) override;
+    virtual void resizeEvent(QResizeEvent *re) override;
 
-    virtual void drawRow(QPainter *p, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+    virtual void drawRow(QPainter *p, const QStyleOptionViewItem &option, const QModelIndex &index) const override;
 
     virtual void insertItem(QTreeWidgetItem *item);
     virtual void takeItem(QTreeWidgetItem *item);
@@ -549,6 +547,7 @@ private:
     QFuture<void> addFilesFromDirectory(const QString &dirPath);
     QFuture<void> addUntypedFile(const QString &file, PlaylistItem *after = nullptr);
     void cleanupAfterAllFileLoadsCompleted();
+    void addFilesFromMimeData(const QMimeData *urls, PlaylistItem *after = nullptr);
 
     void redisplaySearch() { setSearch(m_search); }
 

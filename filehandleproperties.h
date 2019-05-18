@@ -22,7 +22,7 @@
 
 /*
  * These ugly macros make possible a property registration system that makes it
- * easy to add properties to the FileHandle that can be accessed via the DCOP
+ * easy to add properties to the FileHandle that can be accessed via the DBus
  * interface.
  *
  * Properties should actually be added to the filehandle.cpp file.  This file
@@ -34,7 +34,7 @@
     {                                                                               \
         struct name##Property : public Property                                     \
         {                                                                           \
-            virtual QString value(const FileHandle &f) const                        \
+            virtual QString value(const FileHandle &f) const override final         \
             {                                                                       \
                 return f.method;                                                    \
             }                                                                       \
@@ -49,7 +49,7 @@
     {                                                                               \
         struct name##Property : public Property                                     \
         {                                                                           \
-            virtual QString value(const FileHandle &f) const                        \
+            virtual QString value(const FileHandle &f) const override final         \
             {                                                                       \
                 return QString::number(f.method);                                   \
             }                                                                       \

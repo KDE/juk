@@ -52,7 +52,7 @@ public slots:
     virtual void setFocus();
 
 protected:
-    virtual bool eventFilter(QObject *watched, QEvent *e);
+    virtual bool eventFilter(QObject *watched, QEvent *e) override;
 
 signals:
     void signalQueryChanged();

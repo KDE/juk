@@ -31,13 +31,13 @@ public:
 
     PlaylistSearch playlistSearch() const { return m_search; }
     void setPlaylistSearch(const PlaylistSearch &s, bool update = true);
-    virtual bool searchIsEditable() const { return true; }
+    virtual bool searchIsEditable() const override { return true; }
 
 protected:
     /**
      * Runs the search to update the current items.
      */
-    virtual void updateItems();
+    virtual void updateItems() override;
 
 private:
     PlaylistSearch m_search;

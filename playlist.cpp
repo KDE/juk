@@ -449,7 +449,9 @@ void Playlist::copy()
 
 void Playlist::paste()
 {
-    decode(QApplication::clipboard()->mimeData(), static_cast<PlaylistItem *>(currentItem()));
+    addFilesFromMimeData(
+        QApplication::clipboard()->mimeData(),
+        static_cast<PlaylistItem *>(currentItem()));
 }
 
 void Playlist::clear()
@@ -723,31 +725,26 @@ void Playlist::synchronizeItemsTo(const PlaylistItemList &itemList)
 void Playlist::dragEnterEvent(QDragEnterEvent *e)
 {
     if(CoverDrag::isCover(e->mimeData())) {
-        //setDropHighlighter(true);
         setDropIndicatorShown(false);
-
         e->accept();
         return;
     }
 
-    setDropIndicatorShown(true);
-
-    if(e->mimeData()->hasUrls() && !e->mimeData()->urls().isEmpty())
+    if(e->mimeData()->hasUrls() && !e->mimeData()->urls().isEmpty()) {
+        setDropIndicatorShown(true);
         e->acceptProposedAction();
+    }
     else
         e->ignore();
 }
 
-bool Playlist::acceptDrag(QDropEvent *e) const
+void Playlist::addFilesFromMimeData(const QMimeData *urls, PlaylistItem *after)
 {
-    return CoverDrag::isCover(e->mimeData()) || e->mimeData()->hasUrls();
-}
+    if(!urls->hasUrls()) {
+        return;
+    }
 
-void Playlist::decode(const QMimeData *s, PlaylistItem *item)
-{
-    Q_UNUSED(s);
-    Q_UNUSED(item);
-    // TODO Re-add drag-drop
+    addFiles(QUrl::toStringList(urls->urls(), QUrl::PreferLocalFile), after);
 }
 
 bool Playlist::eventFilter(QObject *watched, QEvent *e)
@@ -902,7 +899,7 @@ void Playlist::dropEvent(QDropEvent *e)
         }
     }
     else
-        decode(e->mimeData(), item);
+        addFilesFromMimeData(e->mimeData(), item);
 
     m_blockDataChanged = false;
 

@@ -267,11 +267,6 @@ void CollectionList::saveItemsToCache() const
 // public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void CollectionList::paste()
-{
-    decode(QApplication::clipboard()->mimeData());
-}
-
 void CollectionList::clear()
 {
     int result = KMessageBox::warningContinueCancel(this,

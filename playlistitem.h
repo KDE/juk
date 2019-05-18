@@ -176,7 +176,7 @@ protected:
     virtual int compare(const QTreeWidgetItem *item, int column, bool ascending) const;
     int compare(const PlaylistItem *firstItem, const PlaylistItem *secondItem, int column, bool ascending) const;
 
-    bool operator<(const QTreeWidgetItem &other) const;
+    bool operator<(const QTreeWidgetItem &other) const override;
 
     bool isValid() const;
 

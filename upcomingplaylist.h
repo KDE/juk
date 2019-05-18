@@ -84,14 +84,14 @@ public:
      * Reimplemented to set the playing item in both the source playlist
      * and the upcoming playlist.
      */
-    virtual void playNext();
+    virtual void playNext() override;
 
     /**
      * Reimplemented to remove the item from the Playlist index.
      */
-    virtual void clearItem(PlaylistItem *item);
+    virtual void clearItem(PlaylistItem *item) override;
 
-    virtual void addFiles(const QStringList &files, PlaylistItem *after = 0);
+    virtual void addFiles(const QStringList &files, PlaylistItem *after = nullptr) override;
 
     /**
      * Returns a reference to the index between items in the list and the
@@ -162,13 +162,13 @@ public:
     /**
      * Advances to the next song in the UpcomingPlaylist.
      */
-    virtual void advance();
+    virtual void advance() override;
 
     /**
      * This function does nothing, as the currently playing song in the
      * UpcomingPlaylist is always the first song in the sequence.
      */
-    virtual void backup();
+    virtual void backup() override;
 
     /**
      * This function returns a perfect duplicate of the object it is called
@@ -176,7 +176,7 @@ public:
      *
      * @return A pointer to a copy of the object it is called on.
      */
-    virtual UpcomingSequenceIterator *clone() const;
+    virtual UpcomingSequenceIterator *clone() const override;
 
     /**
      * This function sets the currently playing item to @a currentItem.  If the
@@ -187,19 +187,19 @@ public:
      *
      * @param currentItem The PlaylistItem to play.
      */
-    virtual void setCurrent(PlaylistItem *currentItem);
+    virtual void setCurrent(PlaylistItem *currentItem) override;
 
     /**
      * This function resets any internet state.
      */
-    virtual void reset();
+    virtual void reset() override;
 
     /**
      * This function readies the UpcomingSequenceIterator for playback, by
      * making sure the parent UpcomingPlaylist has items to play if it is
      * empty.
      */
-    virtual void prepareToPlay(Playlist *);
+    virtual void prepareToPlay(Playlist *) override;
 
 private:
     UpcomingPlaylist *m_playlist;

@@ -38,7 +38,7 @@ public:
     {
     }
 
-    bool operator< (const QListWidgetItem& other) const
+    bool operator< (const QListWidgetItem& other) const override
     {
         Q_UNUSED(other);
         return true; // Always be at the top.
@@ -53,7 +53,7 @@ public:
     {
     }
 
-    bool operator< (const QListWidgetItem& other) const
+    bool operator< (const QListWidgetItem& other) const override
     {
         return text().toLower().localeAwareCompare(other.text().toLower());
     }

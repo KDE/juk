@@ -44,7 +44,7 @@ public:
                            const QColorGroup &colorGroup,
                            int column, int width, int align);*/
 
-    virtual bool eventFilter(QObject *watched, QEvent *e);
+    virtual bool eventFilter(QObject *watched, QEvent *e) override;
     void queueRefresh() { m_needsRefresh = true; }
 
     virtual void setupItem(PlaylistBox::Item *item) const;
@@ -99,28 +99,33 @@ private:
 
 class CompactViewMode : public ViewMode
 {
+    Q_OBJECT
+
 public:
     explicit CompactViewMode(PlaylistBox *b);
     virtual ~CompactViewMode();
 
-    virtual QString name() const;
-    virtual void setShown(bool shown);
+    virtual QString name() const override;
+    virtual void setShown(bool shown) override;
 
     /*virtual void paintCell(PlaylistBox::Item *item,
                            QPainter *painter,
                            const QColorGroup &colorGroup,
                            int column, int width, int align);*/
 
-    virtual void setupItem(PlaylistBox::Item *) const { /*item->QTreeWidgetItem::setup();*/ }
+    virtual void setupItem(PlaylistBox::Item *item) const override
+    {
+        item->setup();
+    }
 protected:
-    virtual void updateHeights();
+    virtual void updateHeights() override;
 };
 
 ////////////////////////////////////////////////////////////////////////////////
 
 class TreeViewItemPlaylist;
 
-class TreeViewMode : public CompactViewMode
+class TreeViewMode final : public CompactViewMode
 {
     Q_OBJECT
 
@@ -128,13 +133,13 @@ public:
     explicit TreeViewMode(PlaylistBox *l);
     virtual ~TreeViewMode();
 
-    virtual QString name() const;
-    virtual void setShown(bool shown);
-    virtual void setupDynamicPlaylists();
-    virtual void setDynamicListsFrozen(bool frozen);
+    virtual QString name() const override;
+    virtual void setShown(bool shown) override;
+    virtual void setupDynamicPlaylists() override;
+    virtual void setDynamicListsFrozen(bool frozen) override;
 
-    virtual void removeItem(const QString &item, unsigned column);
-    virtual void addItems(const QStringList &items, unsigned column);
+    virtual void removeItem(const QString &item, unsigned column) override;
+    virtual void addItems(const QStringList &items, unsigned column) override;
 
 signals:
     void signalPlaylistDestroyed(Playlist*);

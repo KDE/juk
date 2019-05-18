@@ -78,8 +78,8 @@ struct CoverPopup : public QWidget
 
         show();
     }
-    virtual void leaveEvent(QEvent *) { close(); }
-    virtual void mouseReleaseEvent(QMouseEvent *) { close(); }
+    virtual void leaveEvent(QEvent *) override { close(); }
+    virtual void mouseReleaseEvent(QMouseEvent *) override { close(); }
 };
 
 ////////////////////////////////////////////////////////////////////////////////
