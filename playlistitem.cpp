@@ -26,7 +26,6 @@
 #include <QPixmap>
 
 #include "collectionlist.h"
-#include "musicbrainzquery.h"
 #include "tag.h"
 #include "coverinfo.h"
 #include "covermanager.h"
@@ -34,16 +33,6 @@
 #include "juk_debug.h"
 
 PlaylistItemList PlaylistItem::m_playingItems; // static
-
-static void startMusicBrainzQuery(const FileHandle &file)
-{
-#if HAVE_TUNEPIMP
-    // This deletes itself when finished.
-    new MusicBrainzLookup(file);
-#else
-    Q_UNUSED(file)
-#endif
-}
 
 static int naturalCompare(const QString &first, const QString &second)
 {
@@ -191,7 +180,7 @@ void PlaylistItem::guessTagInfo(TagGuesser::Type type)
         break;
     }
     case TagGuesser::MusicBrainz:
-        startMusicBrainzQuery(d->fileHandle);
+        qCDebug(JUK_LOG) << "Ignoring MusicBrainz query request until support is reimplemented.";
         break;
     }
 }

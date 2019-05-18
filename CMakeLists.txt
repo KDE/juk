@@ -39,7 +39,7 @@ add_subdirectory( doc )
 add_subdirectory( tests )
 add_subdirectory( pics )
 
-set_package_properties(FEATURE PROPERTIES DESCRIPTION "A library for developing MusicBrainz enabled tagging applications" URL "http://www.musicbrainz.org/products/tunepimp" TYPE OPTIONAL PURPOSE "Provides MusicBrainz tagging in Juk.")
+#set_package_properties(FEATURE PROPERTIES DESCRIPTION "A library for developing MusicBrainz enabled tagging applications" URL "http://www.musicbrainz.org/products/tunepimp" TYPE OPTIONAL PURPOSE "Provides MusicBrainz tagging in Juk.")
 
 # TODO: tunepimp is fully unsupported, replace this when tunepimp is replaced
 # with whatever is actually current this decade.
@@ -58,13 +58,7 @@ cmake_pop_check_state()
 
 configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 
-set(tunepimp_SRCS)
-if(TUNEPIMP_FOUND)
-	set(tunepimp_SRCS trackpickerdialog.cpp)
-	include_directories( ${TUNEPIMP_INCLUDE_DIR} )
-endif(TUNEPIMP_FOUND)	
-
-set(juk_SRCS  ${tunepimp_SRCS}
+set(juk_SRCS
    advancedsearchdialog.cpp
    slider.cpp
    svghandler.cpp
@@ -99,7 +93,6 @@ set(juk_SRCS  ${tunepimp_SRCS}
    mpris2/mediaplayer2.cpp
    mpris2/mediaplayer2player.cpp
    mpris2/mpris2.cpp
-   musicbrainzquery.cpp
    nowplaying.cpp
    playermanager.cpp
    playlist.cpp
@@ -128,7 +121,6 @@ set(juk_SRCS  ${tunepimp_SRCS}
    tracksequencemanager.cpp
    treeviewitemplaylist.cpp
    upcomingplaylist.cpp
-   ktrm.cpp
    viewmode.cpp )
 
 ecm_qt_declare_logging_category(juk_SRCS HEADER juk_debug.h
@@ -144,7 +136,6 @@ ki18n_wrap_ui(juk_SRCS
 	filerenamerbase.ui
 	filerenameroptionsbase.ui
 	directorylistbase.ui
-	trackpickerdialogbase.ui
 	tagguesserconfigdlgwidget.ui
 	exampleoptionsbase.ui
 	coverdialogbase.ui

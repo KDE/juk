@@ -24,8 +24,9 @@ Learn more about [Juk at KDE.org](https://www.kde.org/applications/multimedia/ju
   albums, artists and genres.
 - Playlist history to indicate which files have been played and when.
 - Inline search for filtering the list of visible items.
-- The ability to guess tag information from the file name or using MusicBrainz
-  online lookup.
+- The ability to guess tag information from the file name
+  - Previous versions could also use MusicBrainz online lookup, but we need help to
+    get that working again.
 - File renamer that can rename files based on the tag content.
 - ID3v1, ID3v2 and Ogg Vorbis tag reading and editing support (via TagLib).
 
