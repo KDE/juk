@@ -378,7 +378,7 @@ QPixmap CoverManager::coverFromData(const CoverData &coverData, Size size)
     // Check in cache for the pixmap.
 
     QPixmap pix;
-    if(QPixmapCache::find(path, pix))
+    if(QPixmapCache::find(path, &pix))
         return pix;
 
     // Not in cache, load it and add it.

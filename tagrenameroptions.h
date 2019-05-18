@@ -99,6 +99,8 @@ public:
     TagRenamerOptions(const CategoryID &category);
     TagRenamerOptions(const TagRenamerOptions &other);
 
+    TagRenamerOptions& operator=(const TagRenamerOptions &) = default;
+
     QString prefix() const { return m_prefix; }
     QString suffix() const { return m_suffix; }
     QString emptyText() const { return m_emptyText; }

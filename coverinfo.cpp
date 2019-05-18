@@ -31,6 +31,7 @@
 #include <QDesktopWidget>
 #include <QImage>
 #include <QScopedPointer>
+#include <QScreen>
 
 #include <taglib/mpegfile.h>
 #include <taglib/tstring.h>
@@ -425,7 +426,8 @@ void CoverInfo::popup() const
 {
     QPixmap image = pixmap(FullSize);
     QPoint mouse  = QCursor::pos();
-    QRect desktop = QApplication::desktop()->screenGeometry(mouse);
+    QScreen *primaryScreen = QApplication::primaryScreen();
+    QRect desktop = primaryScreen->availableGeometry();
 
     int x = mouse.x();
     int y = mouse.y();

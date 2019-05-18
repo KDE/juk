@@ -1643,9 +1643,18 @@ void Playlist::slotUpdateColumnWidths()
             visibleColumns.append(i);
     }
 
+    // convenience handler for deprecated text metrics
+    const auto textWidth = [](const QFontMetrics &fm, const QString &text) {
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
+        return fm.horizontalAdvance(text);
+#else
+        return fm.width(text);
+#endif
+    };
+
     if(count() == 0) {
         foreach(int column, visibleColumns)
-            setColumnWidth(column, header()->fontMetrics().width(headerItem()->text(column)) + 10);
+            setColumnWidth(column, textWidth(header()->fontMetrics(),headerItem()->text(column)) + 10);
 
         return;
     }
@@ -1666,7 +1675,7 @@ void Playlist::slotUpdateColumnWidths()
     int minimumFixedWidthTotal = 0;
 
     foreach(int column, visibleColumns) {
-        minimumWidth[column] = header()->fontMetrics().width(headerItem()->text(column)) + 10;
+        minimumWidth[column] = textWidth(header()->fontMetrics(), headerItem()->text(column)) + 10;
         minimumWidthTotal += minimumWidth[column];
 
         minimumFixedWidth[column] = qMax(minimumWidth[column], m_columnFixedWidths[column]);

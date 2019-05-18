@@ -480,7 +480,12 @@ void CollectionListItem::refresh()
             sharedData()->metadata[id] = toLower;
         }
 
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
+        int newWidth = treeWidget()->fontMetrics().horizontalAdvance(text(i));
+#else
+        // .width is deprecated in Qt 5.11 or later
         int newWidth = treeWidget()->fontMetrics().width(text(i));
+#endif
         if(newWidth != sharedData()->cachedWidths[i])
             playlist()->slotWeightDirty(i);
 
