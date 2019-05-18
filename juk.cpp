@@ -40,6 +40,7 @@
 #include <QTime>
 #include <QTimer>
 #include <QDesktopWidget>
+#include <QScreen>
 #include <QStatusBar>
 #include <QDBusMessage>
 #include <QDBusReply>
@@ -121,7 +122,8 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
 
     if(firstRun) {
         QRect r = rect();
-        r.moveCenter(QApplication::desktop()->screenGeometry().center());
+        const QRect screenCenter = QApplication::primaryScreen()->availableGeometry();
+        r.moveCenter(screenCenter.center());
         move(r.topLeft());
     }
 

@@ -44,6 +44,7 @@
 #include <QKeyEvent>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
+#include <QRegularExpression>
 #include <QSizePolicy>
 
 #include <id3v1genres.h>
@@ -495,7 +496,8 @@ void TagEditor::setupLayout()
 
     // Do some meta-programming to find the matching enable boxes
 
-    for(auto enable : findChildren<QCheckBox *>(QRegExp("Enable$"))) {
+    const auto enableCheckBoxes = findChildren<QCheckBox *>(QRegularExpression("Enable$"));
+    for(auto enable : enableCheckBoxes) {
         enable->hide(); // These are shown only when multiple items are being edited
 
         // Each enable checkbox is identified by having its objectName end in "Enable".
@@ -514,7 +516,8 @@ void TagEditor::setupLayout()
     // Make sure that the labels are as tall as the enable boxes so that the
     // layout doesn't jump around as the enable boxes are shown/hidden.
 
-    for(auto label : findChildren<QLabel *>()) {
+    const auto editorLabels = findChildren<QLabel *>();
+    for(auto label : editorLabels) {
         if(m_enableBoxes.contains(label->buddy()))
             label->setMinimumHeight(m_enableBoxes[label->buddy()]->height());
     }
