@@ -159,13 +159,13 @@ public:
      * This function advances to the next item in the current sequence.  The
      * algorithm used depends on what playback mode is selected.
      */
-    virtual void advance();
+    virtual void advance() override;
 
     /**
      * This function moves to the previous item in the playlist.  This occurs
      * no matter what playback mode is selected.
      */
-    virtual void backup();
+    virtual void backup() override;
 
     /**
      * This function prepares the class for iterator.  If no random play mode
@@ -174,25 +174,25 @@ public:
      *
      * @param playlist The playlist to initialize for.
      */
-    virtual void prepareToPlay(Playlist *playlist);
+    virtual void prepareToPlay(Playlist *playlist) override;
 
     /**
      * This function clears all internal state, including any random play lists,
      * and what the current album is.
      */
-    virtual void reset();
+    virtual void reset() override;
 
     /**
      * This function recalculates the random lists, and is should be called
      * whenever its current playlist changes (at least for searches).
      */
-    virtual void playlistChanged();
+    virtual void playlistChanged() override;
 
     /**
      * Called when \p item is about to be removed.  This function ensures that
      * it isn't remaining in the random play list.
      */
-    virtual void itemAboutToDie(const PlaylistItem *item);
+    virtual void itemAboutToDie(const PlaylistItem *item) override;
 
     /**
      * This function sets the current item, and initializes any internal lists
@@ -200,7 +200,7 @@ public:
      *
      * @param current The new current item.
      */
-    virtual void setCurrent(PlaylistItem *current);
+    virtual void setCurrent(PlaylistItem *current) override;
 
     /**
      * This function returns a perfect copy of the object it is called on, to
@@ -208,7 +208,7 @@ public:
      *
      * @return A copy of the object the method is called on.
      */
-    virtual DefaultSequenceIterator *clone() const;
+    virtual DefaultSequenceIterator *clone() const override;
 
 private:
 

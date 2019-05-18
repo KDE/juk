@@ -43,7 +43,7 @@ public:
     explicit TagGuesserConfigDlg(QWidget *parent, const char *name = nullptr);
 
 protected slots:
-    virtual void accept();
+    virtual void accept() override;
 
 private slots:
     void slotCurrentChanged(QModelIndex item);

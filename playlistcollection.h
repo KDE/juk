@@ -58,14 +58,14 @@ public:
 
     static PlaylistCollection *instance() { return m_instance; }
 
-    virtual QString name() const;
-    virtual FileHandle currentFile() const;
-    virtual int count() const;
-    virtual int time() const;
-    virtual void playNext();
-    virtual void playPrevious();
-    virtual void stop();
-    virtual bool playing() const;
+    virtual QString name() const override;
+    virtual FileHandle currentFile() const override;
+    virtual int count() const override;
+    virtual int time() const override;
+    virtual void playNext() override;
+    virtual void playPrevious() override;
+    virtual void stop() override;
+    virtual bool playing() const override;
 
     void playFirst();
     void playNextAlbum();

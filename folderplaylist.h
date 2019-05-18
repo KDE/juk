@@ -31,10 +31,10 @@ public:
     QString folder() const;
     void setFolder(const QString &s);
 
-    virtual bool canReload() const { return true; }
+    virtual bool canReload() const override { return true; }
 
 public slots:
-    virtual void slotReload();
+    virtual void slotReload() override;
 
 private:
     QString m_folder;

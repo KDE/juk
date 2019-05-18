@@ -63,7 +63,7 @@ class CollectionListItem : public PlaylistItem
     friend class PlaylistItem;
 
 public:
-    virtual void refresh();
+    virtual void refresh() override;
     PlaylistItem *itemForPlaylist(const Playlist *playlist);
     void updateCollectionDict(const QString &oldPath, const QString &newPath);
     void repaint() const;
@@ -82,7 +82,7 @@ protected:
      */
     bool checkCurrent();
 
-    virtual CollectionListItem *collectionItem() { return this; }
+    virtual CollectionListItem *collectionItem() override { return this; }
 
 private:
     bool m_shuttingDown;
@@ -113,19 +113,19 @@ public:
     CollectionListItem *lookup(const QString &file) const;
 
     virtual CollectionListItem *createItem(const FileHandle &file,
-                                     QTreeWidgetItem * = nullptr);
+                                     QTreeWidgetItem * = nullptr) override;
 
-    virtual void clearItems(const PlaylistItemList &items);
+    virtual void clearItems(const PlaylistItemList &items) override;
 
     void setupTreeViewEntries(ViewMode *viewMode) const;
 
-    virtual bool canReload() const { return true; }
+    virtual bool canReload() const override { return true; }
 
     void saveItemsToCache() const;
 
 public slots:
-    virtual void paste();
-    virtual void clear();
+    virtual void clear() override;
+
     void slotCheckCache();
 
     void slotRemoveItem(const QString &file);
@@ -139,8 +139,8 @@ protected:
     CollectionList(PlaylistCollection *collection);
     virtual ~CollectionList();
 
-    virtual void dropEvent(QDropEvent *e);
-    virtual void dragMoveEvent(QDragMoveEvent *e);
+    virtual void dropEvent(QDropEvent *e) override;
+    virtual void dragMoveEvent(QDragMoveEvent *e) override;
 
     // These methods are used by CollectionListItem, which is a friend class.
 
@@ -156,7 +156,7 @@ protected:
     void addWatched(const QString &file);
     void removeWatched(const QString &file);
 
-    virtual bool hasItem(const QString &file) const { return m_itemsDict.contains(file); }
+    virtual bool hasItem(const QString &file) const override { return m_itemsDict.contains(file); }
 
 signals:
     void signalCollectionChanged();

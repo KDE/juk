@@ -39,7 +39,7 @@ public Q_SLOTS:
     void playing(const FileHandle &file);
 
 protected:
-    virtual void showEvent(QShowEvent*);
+    virtual void showEvent(QShowEvent*) override;
 
 private:
     void makeLyricsRequest();
@@ -49,13 +49,11 @@ private Q_SLOTS:
     void receiveLyricsReply(QNetworkReply*);
     void saveConfig();
 
-
 private:
     FileHandle m_playingFile;
     QNetworkAccessManager *m_networkAccessManager;
     QString m_title;
     bool m_lyricsCurrent;
 };
-
 
 #endif//LYRICSWIDGET_H

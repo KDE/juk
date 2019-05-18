@@ -25,9 +25,9 @@
  * coding error which resulted in not setting a specific encoding for
  * QDataStreams.
  */
-class BICStreamException : public std::exception
+class BICStreamException final : public std::exception
 {
-    virtual const char *what() const throw()
+    virtual const char *what() const noexcept override
     {
         return "Read jibberish from a QDataStream, probably using an older protocol.";
     }

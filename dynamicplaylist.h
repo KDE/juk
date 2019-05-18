@@ -41,7 +41,7 @@ public:
 
     virtual ~DynamicPlaylist();
 
-    virtual bool canReload() const { return false; }
+    virtual bool canReload() const override { return false; }
 
     void setPlaylists(const PlaylistList &playlists);
 
@@ -50,7 +50,7 @@ public slots:
      * Reimplemented so that it will reload all of the playlists that are
      * associated with the dynamic list.
      */
-    virtual void slotReload();
+    virtual void slotReload() override;
     void slotSetDirty() { m_dirty = true; }
 
     /**
@@ -72,15 +72,15 @@ protected:
      * list this should return only the matched items.  By default it returns
      * all of the items in the playlists associated with this dynamic list.
      */
-    virtual PlaylistItemList items();
+    virtual PlaylistItemList items() override;
 
     /**
      * Reimplemented from QWidget.  Here it updates the list of items (when
      * appropriate) as the widget is shown.
      */
-    virtual void showEvent(QShowEvent *e);
+    virtual void showEvent(QShowEvent *e) override;
 
-    virtual void paintEvent(QPaintEvent *e);
+    virtual void paintEvent(QPaintEvent *e) override;
 
     /**
      * Updates the items (unconditionally).  This should be reimplemented in

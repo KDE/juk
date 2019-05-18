@@ -29,7 +29,7 @@ public:
     explicit FileRenamerConfigDlg(QWidget *parent);
 
 protected slots:
-    virtual void accept();
+    virtual void accept() override;
 
 private:
     FileRenamerWidget *m_renamerWidget;

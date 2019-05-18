@@ -66,7 +66,7 @@ public:
     bool shouldDelete() const { return m_widget->shouldDelete(); }
 
 protected slots:
-    virtual void accept();
+    virtual void accept() override;
     void slotShouldDelete(bool shouldDelete);
 
 private:

@@ -102,17 +102,17 @@ public:
 
     // CategoryReaderInterface reimplementations
 
-    virtual QString categoryValue(TagType type) const;
-    virtual QString prefix(const CategoryID &category) const;
-    virtual QString suffix(const CategoryID &category) const;
-    virtual TagRenamerOptions::EmptyActions emptyAction(const CategoryID &category) const;
-    virtual QString emptyText(const CategoryID &category) const;
-    virtual QList<CategoryID> categoryOrder() const;
-    virtual QString separator() const;
-    virtual QString musicFolder() const;
-    virtual int trackWidth(int categoryNum) const;
-    virtual bool hasFolderSeparator(int index) const;
-    virtual bool isDisabled(const CategoryID &category) const;
+    virtual QString categoryValue(TagType type) const override;
+    virtual QString prefix(const CategoryID &category) const override;
+    virtual QString suffix(const CategoryID &category) const override;
+    virtual TagRenamerOptions::EmptyActions emptyAction(const CategoryID &category) const override;
+    virtual QString emptyText(const CategoryID &category) const override;
+    virtual QList<CategoryID> categoryOrder() const override;
+    virtual QString separator() const override;
+    virtual QString musicFolder() const override;
+    virtual int trackWidth(int categoryNum) const override;
+    virtual bool hasFolderSeparator(int index) const override;
+    virtual bool isDisabled(const CategoryID &category) const override;
 
 private:
     const PlaylistItem *m_currentItem;
@@ -246,7 +246,7 @@ private:
      * @param category the category to retrieve the value for.
      * @return the string representation of the value for \p category.
      */
-    virtual QString categoryValue(TagType category) const;
+    virtual QString categoryValue(TagType category) const override;
 
     /**
      * Returns the user-specified prefix string for \p category.
@@ -254,7 +254,7 @@ private:
      * @param category the category to retrieve the value for.
      * @return user-specified prefix string for \p category.
      */
-    virtual QString prefix(const CategoryID &category) const
+    virtual QString prefix(const CategoryID &category) const override
     {
         return m_rows[findIdentifier(category)].options.prefix();
     }
@@ -265,7 +265,7 @@ private:
      * @param category the category to retrieve the value for.
      * @return user-specified suffix string for \p category.
      */
-    virtual QString suffix(const CategoryID &category) const
+    virtual QString suffix(const CategoryID &category) const override
     {
         return m_rows[findIdentifier(category)].options.suffix();
     }
@@ -276,7 +276,7 @@ private:
      * @param category the category to retrieve the value for.
      * @return user-specified empty action for \p category.
      */
-    virtual TagRenamerOptions::EmptyActions emptyAction(const CategoryID &category) const
+    virtual TagRenamerOptions::EmptyActions emptyAction(const CategoryID &category) const override
     {
         return m_rows[findIdentifier(category)].options.emptyAction();
     }
@@ -288,7 +288,7 @@ private:
      * @param category the category to retrieve the value for.
      * @return the user-specified empty text for \p category.
      */
-    virtual QString emptyText(const CategoryID &category) const
+    virtual QString emptyText(const CategoryID &category) const override
     {
         return m_rows[findIdentifier(category)].options.emptyText();
     }
@@ -296,23 +296,23 @@ private:
     /**
      * @return list of CategoryIDs corresponding to the user-specified category order.
      */
-    virtual QList<CategoryID> categoryOrder() const;
+    virtual QList<CategoryID> categoryOrder() const override;
 
     /**
      * @return string that separates the tag values in the file name.
      */
-    virtual QString separator() const;
+    virtual QString separator() const override;
 
     /**
      * @return local path to the music folder used to store renamed files.
      */
-    virtual QString musicFolder() const;
+    virtual QString musicFolder() const override;
 
     /**
      * @param categoryNum Zero-based number of category to get results for (if more than one).
      * @return the minimum width of the track category.
      */
-    virtual int trackWidth(int categoryNum) const
+    virtual int trackWidth(int categoryNum) const override
     {
         CategoryID id(Track, categoryNum);
         return m_rows[findIdentifier(id)].options.trackWidth();
@@ -325,13 +325,13 @@ private:
      *         of this function, only categories that are required or non-empty
      *         should count.
      */
-    virtual bool hasFolderSeparator(int index) const;
+    virtual bool hasFolderSeparator(int index) const override;
 
     /**
      * @param category The category to get the status of.
      * @return true if \p category is disabled by the user, and false otherwise.
      */
-    virtual bool isDisabled(const CategoryID &category) const
+    virtual bool isDisabled(const CategoryID &category) const override
     {
         return m_rows[findIdentifier(category)].options.disabled();
     }

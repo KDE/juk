@@ -65,7 +65,7 @@ private:
     void saveConfig();
     void save(const PlaylistItemList &list);
     void saveChangesPrompt();
-    virtual void showEvent(QShowEvent *e);
+    virtual void showEvent(QShowEvent *e) override;
 
 private slots:
     void slotDataChanged();

@@ -52,7 +52,7 @@ private:
     void setupActions();
     void setupGlobalAccels();
 
-    void keyPressEvent(QKeyEvent *);
+    void keyPressEvent(QKeyEvent *) override;
 
     void activateScrobblerIfEnabled();
 
@@ -64,7 +64,7 @@ private:
     void readConfig();
     void saveConfig();
 
-    virtual bool queryClose();
+    virtual bool queryClose() override;
 
 private slots:
     void slotSetupSystemTray();

@@ -48,7 +48,7 @@ public slots:
 
 private:
     void updateTime();
-    virtual bool eventFilter(QObject *o, QEvent *e);
+    virtual bool eventFilter(QObject *o, QEvent *e) override;
 
     KSqueezedTextLabel *m_playlistLabel = nullptr;
     QLabel             *m_trackLabel    = nullptr;

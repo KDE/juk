@@ -57,7 +57,7 @@ public:
     Result dialogResult() const { return m_result; }
 
 public slots:
-    int exec();
+    int exec() override;
 
 signals:
     void signalDirectoryAdded(const QString &directory);

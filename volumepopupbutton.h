@@ -38,8 +38,8 @@ public:
     void refresh();
 
 protected:
-    virtual void mouseReleaseEvent( QMouseEvent * event );
-    virtual void wheelEvent( QWheelEvent * event );
+    virtual void mouseReleaseEvent( QMouseEvent * event ) override;
+    virtual void wheelEvent( QWheelEvent * event ) override;
 
 private slots:
     void volumeChanged( float newVolume );

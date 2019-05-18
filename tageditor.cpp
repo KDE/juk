@@ -50,7 +50,7 @@
 
 #undef KeyRelease
 
-class FileNameValidator : public QValidator
+class FileNameValidator final : public QValidator
 {
 public:
     FileNameValidator(QObject *parent, const char *name = 0) :
@@ -59,12 +59,12 @@ public:
         setObjectName( QLatin1String( name ) );
     }
 
-    virtual void fixup(QString &s) const
+    virtual void fixup(QString &s) const override
     {
         s.remove('/');
     }
 
-    virtual State validate(QString &s, int &) const
+    virtual State validate(QString &s, int &) const override
     {
         if(s.contains('/'))
            return Invalid;
@@ -72,7 +72,7 @@ public:
     }
 };
 
-class FixedHLayout : public QHBoxLayout
+class FixedHLayout final : public QHBoxLayout
 {
 public:
     FixedHLayout(QWidget *parent, int margin = 0, int spacing = -1, const char *name = 0) :
@@ -95,7 +95,7 @@ public:
     {
         m_width = w == -1 ? QHBoxLayout::minimumSize().width() : w;
     }
-    virtual QSize minimumSize() const
+    virtual QSize minimumSize() const override
     {
         QSize s = QHBoxLayout::minimumSize();
         s.setWidth(m_width);
@@ -105,7 +105,7 @@ private:
     int m_width;
 };
 
-class CollectionObserver : public PlaylistObserver
+class CollectionObserver final : public PlaylistObserver
 {
 public:
     CollectionObserver(TagEditor *parent) :
@@ -114,7 +114,7 @@ public:
     {
     }
 
-    virtual void playlistItemDataHasChanged() Q_DECL_FINAL
+    virtual void playlistItemDataHasChanged() override
     {
         if(m_parent && m_parent->m_currentPlaylist && m_parent->isVisible())
             m_parent->slotSetItems(m_parent->m_currentPlaylist->selectedItems());
