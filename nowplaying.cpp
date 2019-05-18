@@ -73,8 +73,8 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
     const QFont defaultLargeFont(QFontDatabase::systemFont(QFontDatabase::TitleFont));
     const QFontMetrics fm(defaultLargeFont, this);
 
-    const int coverIconHeight = qMax(64, fm.lineSpacing());
-    setFixedHeight(coverIconHeight + 2);
+    const int coverIconHeight = qMax(64, fm.lineSpacing() * 2);
+    setFixedHeight(coverIconHeight + 4);
 
     layout->addWidget(new CoverItem(this), 0);
     layout->addWidget(new TrackItem(this), 2);
@@ -302,7 +302,9 @@ void TrackItem::slotUpdate()
     QString title  = m_file.tag()->title().toHtmlEscaped();
     QString artist = m_file.tag()->artist().toHtmlEscaped();
     QString album  = m_file.tag()->album().toHtmlEscaped();
-    QString separator = (artist.isNull() || album.isNull()) ? QString::null : QString(" - ");	//krazy:exclude=nullstrassign for old broken gcc
+    QString separator =
+        (artist.isEmpty() || album.isEmpty())
+        ? QString() : QString(" - ");
 
     // This block-o-nastiness makes the font smaller and smaller until it actually fits.
 
