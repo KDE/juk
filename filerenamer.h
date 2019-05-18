@@ -28,7 +28,6 @@
 
 class QCheckBox;
 class QPushButton;
-class QSignalMapper;
 class QUrl;
 
 class ExampleOptionsDialog;
@@ -213,14 +212,10 @@ private:
     bool removeRow(int id);
 
     /**
-     * Updates the mappings currently set for the row identified by oldId so
-     * that they emit newId instead.  Does not actually delete the row given
-     * by oldId.
-     *
-     * @param oldId The identifier of the row to change mappings for.
-     * @param newId The identifier to use instead.
+     * Installs button signal handlers for the buttons in @p row so that they
+     * are called in response to GUI events, and removes any existing handlers.
      */
-    void moveSignalMappings(int oldId, int newId);
+    void assignPositionHandlerForRow(Row &row);
 
     /**
      * This function sets up the internal view by creating the checkboxes and
@@ -423,7 +418,6 @@ private slots:
     /**
      * This function removes the row identified by id and updates the internal data to be
      * consistent again, by forwarding the call to removeRow().
-     * This roundabout way is done due to QSignalMapper.
      *
      * @param id The unique id to update
      */
@@ -482,12 +476,6 @@ private:
     /// This is true if we're reading example tags from m_exampleFile.
     bool m_exampleFromFile;
     QString m_exampleFile;
-
-    // Used to map signals from rows to the correct widget.
-    QSignalMapper *mapper;
-    QSignalMapper *toggleMapper;
-    QSignalMapper *upMapper;
-    QSignalMapper *downMapper;
 };
 
 /**

@@ -38,7 +38,6 @@
 #include <QDialogButtonBox>
 #include <QUrl>
 #include <QLabel>
-#include <QSignalMapper>
 #include <QPixmap>
 #include <QFrame>
 #include <QTreeWidget>
@@ -349,7 +348,6 @@ int FileRenamerWidget::addRowCategory(TagType category)
 
     row.category = CategoryID(category, categoryCount);
     row.position = m_rows.count();
-    int id = row.position;
 
     QFrame *frame = new QFrame(m_mainFrame);
     QHBoxLayout *frameLayout = new QHBoxLayout(frame);
@@ -376,11 +374,6 @@ int FileRenamerWidget::addRowCategory(TagType category)
     row.upButton->setFlat(true);
     row.downButton->setFlat(true);
 
-    upMapper->connect(row.upButton, SIGNAL(clicked()), SLOT(map()));
-    upMapper->setMapping(row.upButton, id);
-    downMapper->connect(row.downButton, SIGNAL(clicked()), SLOT(map()));
-    downMapper->setMapping(row.downButton, id);
-
     buttonLayout->addWidget(row.upButton);
     buttonLayout->addWidget(row.downButton);
 
@@ -394,30 +387,43 @@ int FileRenamerWidget::addRowCategory(TagType category)
 
     row.enableButton = new QPushButton(i18nc("remove music genre from file renamer", "Remove"), frame);
     optionLayout->addWidget(row.enableButton);
-    toggleMapper->connect(row.enableButton, SIGNAL(clicked()), SLOT(map()));
-    toggleMapper->setMapping(row.enableButton, id);
 
     row.optionsButton = new QPushButton(i18nc("file renamer genre options", "Options"), frame);
     optionLayout->addWidget(row.optionsButton);
-    mapper->connect(row.optionsButton, SIGNAL(clicked()), SLOT(map()));
-    mapper->setMapping(row.optionsButton, id);
 
     row.widget->show();
     m_rows.append(row);
+
+    assignPositionHandlerForRow(row);
 
     // Disable add button if there's too many rows.
     if(m_rows.count() == MAX_CATEGORIES)
         m_ui->m_insertCategory->setEnabled(false);
 
-    return id;
+    return row.position;
 }
 
-void FileRenamerWidget::moveSignalMappings(int oldId, int newId)
+void FileRenamerWidget::assignPositionHandlerForRow(Row &row)
 {
-    mapper->setMapping(m_rows[oldId].optionsButton, newId);
-    downMapper->setMapping(m_rows[oldId].downButton, newId);
-    upMapper->setMapping(m_rows[oldId].upButton, newId);
-    toggleMapper->setMapping(m_rows[oldId].enableButton, newId);
+    const auto id = row.position;
+
+    disconnect(row.upButton);
+    disconnect(row.downButton);
+    disconnect(row.enableButton);
+    disconnect(row.optionsButton);
+
+    connect(row.upButton, &QPushButton::clicked, this, [this, id]() {
+            this->moveItemUp(id);
+        });
+    connect(row.downButton, &QPushButton::clicked, this, [this, id]() {
+            this->moveItemDown(id);
+        });
+    connect(row.enableButton, &QPushButton::clicked, this, [this, id]() {
+            this->slotRemoveRow(id);
+        });
+    connect(row.optionsButton, &QPushButton::clicked, this, [this, id]() {
+            this->showCategoryOption(id);
+        });
 }
 
 bool FileRenamerWidget::removeRow(int id)
@@ -432,13 +438,12 @@ bool FileRenamerWidget::removeRow(int id)
         return false;
     }
 
-    // Remove widget.  Don't delete it since it appears QSignalMapper may still need it.
-    m_rows[id].widget->deleteLater();
-    m_rows[id].widget = 0;
-    m_rows[id].enableButton = 0;
-    m_rows[id].upButton = 0;
-    m_rows[id].optionsButton = 0;
-    m_rows[id].downButton = 0;
+    delete m_rows[id].widget;
+    m_rows[id].widget        = nullptr;
+    m_rows[id].enableButton  = nullptr;
+    m_rows[id].upButton      = nullptr;
+    m_rows[id].optionsButton = nullptr;
+    m_rows[id].downButton    = nullptr;
 
     int checkboxPosition = 0; // Remove first checkbox.
 
@@ -471,9 +476,9 @@ bool FileRenamerWidget::removeRow(int id)
 
     // Every row after the one we delete will have a different identifier, since
     // the identifier is simply its index into m_rows.  So we need to re-do the
-    // signal mappings for the affected rows.
+    // signal mappings for the affected rows after updating its position.
     for(int i = id + 1; i < m_rows.count(); ++i)
-        moveSignalMappings(i, i - 1);
+        assignPositionHandlerForRow(m_rows[i]);
 
     m_rows.erase(&m_rows[id]);
 
@@ -517,20 +522,6 @@ void FileRenamerWidget::createTagRows()
     // Setup arrays.
     m_rows.reserve(categoryOrder.count());
     m_folderSwitches.reserve(categoryOrder.count() - 1);
-
-    mapper       = new QSignalMapper(this);
-    mapper->setObjectName( QLatin1String("signal mapper" ));
-    toggleMapper = new QSignalMapper(this);
-    toggleMapper->setObjectName( QLatin1String("toggle mapper" ));
-    upMapper     = new QSignalMapper(this);
-    upMapper->setObjectName( QLatin1String("up button mapper" ));
-    downMapper   = new QSignalMapper(this);
-    downMapper->setObjectName( QLatin1String("down button mapper" ));
-
-    connect(mapper,       SIGNAL(mapped(int)), SLOT(showCategoryOption(int)));
-    connect(toggleMapper, SIGNAL(mapped(int)), SLOT(slotRemoveRow(int)));
-    connect(upMapper,     SIGNAL(mapped(int)), SLOT(moveItemUp(int)));
-    connect(downMapper,   SIGNAL(mapped(int)), SLOT(moveItemDown(int)));
 
     m_mainFrame = new QFrame(m_ui->m_mainView);
     m_ui->m_mainView->setWidget(m_mainFrame);
