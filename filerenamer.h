@@ -43,7 +43,7 @@ enum MovementDirection { MoveUp, MoveDown };
  * tag type, including its position, the QFrame holding the information,
  * the up, down, and enable buttons, and the user-selected renaming options.
  */
-struct Row
+struct Row final
 {
     Row() : widget(0), upButton(0), downButton(0), enableButton(0) {}
 
@@ -67,14 +67,6 @@ struct Row
 typedef QVector<Row> Rows;
 
 /**
- * Holds a list directory separator checkboxes which separate a row.  There
- * should always be 1 less than the number of rows in the GUI.
- *
- * Used for ConfigCategoryReader.
- */
-typedef QVector<QCheckBox *> DirSeparatorCheckBoxes;
-
-/**
  * Associates a CategoryID combination with a set of options.
  *
  * Used for ConfigCategoryReader
@@ -89,7 +81,7 @@ typedef QMap<CategoryID, TagRenamerOptions> CategoryOptionsMap;
  *
  * @author Michael Pyne <mpyne@kde.org>
  */
-class ConfigCategoryReader : public CategoryReaderInterface
+class ConfigCategoryReader final : public CategoryReaderInterface
 {
 public:
     // ConfigCategoryReader specific members
@@ -136,7 +128,7 @@ private:
  *
  * @author Michael Pyne <mpyne@kde.org>
  */
-class FileRenamerWidget : public QWidget, public CategoryReaderInterface
+class FileRenamerWidget final : public QWidget, public CategoryReaderInterface
 {
     Q_OBJECT
 
@@ -363,16 +355,6 @@ private:
     void setCategoryEnabled(int id, bool enable);
 
     /**
-     * This function enables all of the up buttons.
-     */
-    void enableAllUpButtons();
-
-    /**
-     * This function enables all of the down buttons.
-     */
-    void enableAllDownButtons();
-
-    /**
      * This function returns the identifier of the row at \p position.
      *
      * @param position The position to find the identifier of.
@@ -469,7 +451,7 @@ private:
      * This holds an array of checkboxes that allow the user to insert folder
      * separators in between categories.
      */
-    DirSeparatorCheckBoxes m_folderSwitches;
+    QVector<QCheckBox *> m_folderSwitches;
 
     ExampleOptionsDialog *m_exampleDialog;
 
@@ -486,7 +468,7 @@ private:
  *
  * @author Michael Pyne <mpyne@kde.org>
  */
-class FileRenamer
+class FileRenamer final
 {
 public:
     FileRenamer();

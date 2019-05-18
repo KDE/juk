@@ -270,13 +270,20 @@ FileRenamerWidget::FileRenamerWidget(QWidget *parent) :
         m_ui->m_category->addItem(category);
     }
 
-    connect(m_exampleDialog, SIGNAL(signalShown()), SLOT(exampleDialogShown()));
-    connect(m_exampleDialog, SIGNAL(signalHidden()), SLOT(exampleDialogHidden()));
-    connect(m_exampleDialog, SIGNAL(dataChanged()), SLOT(dataSelected()));
-    connect(m_exampleDialog, SIGNAL(fileChanged(QString)),
-            this,            SLOT(fileSelected(QString)));
-    connect(m_ui->dlgButtonBox, SIGNAL(accepted()), SIGNAL(accepted()));
-    connect(m_ui->dlgButtonBox, SIGNAL(rejected()), SIGNAL(rejected()));
+    connect(m_exampleDialog, &ExampleOptionsDialog::signalShown,
+            this,            &FileRenamerWidget::exampleDialogShown);
+    connect(m_exampleDialog, &ExampleOptionsDialog::signalHidden,
+            this,            &FileRenamerWidget::exampleDialogHidden);
+    connect(m_exampleDialog, &ExampleOptionsDialog::dataChanged,
+            this,            &FileRenamerWidget::dataSelected);
+    connect(m_exampleDialog, &ExampleOptionsDialog::fileChanged,
+            this,            &FileRenamerWidget::fileSelected);
+    connect(m_ui->dlgButtonBox, &QDialogButtonBox::accepted, this, [this]() {
+                emit accepted();
+            });
+    connect(m_ui->dlgButtonBox, &QDialogButtonBox::rejected, this, [this]() {
+                emit rejected();
+            });
 
     exampleTextChanged();
 }
@@ -340,8 +347,8 @@ int FileRenamerWidget::addRowCategory(TagType category)
 
     // Find number of categories already of this type.
     int categoryCount = 0;
-    for(int i = 0; i < m_rows.count(); ++i)
-        if(m_rows[i].category.category == category)
+    for(const auto &row : m_rows)
+        if(row.category.category == category)
             ++categoryCount;
 
     Row row;
@@ -489,7 +496,7 @@ bool FileRenamerWidget::removeRow(int id)
     // We can insert another row now, make sure GUI is updated to match.
     m_ui->m_insertCategory->setEnabled(true);
 
-    QTimer::singleShot(0, this, SLOT(exampleTextChanged()));
+    QTimer::singleShot(0, this, &FileRenamerWidget::exampleTextChanged);
     return true;
 }
 
@@ -505,8 +512,7 @@ void FileRenamerWidget::addFolderSeparatorCheckbox()
     l->addWidget(cb, 0, Qt::AlignCenter);
     cb->setChecked(false);
 
-    connect(cb, SIGNAL(toggled(bool)),
-            SLOT(exampleTextChanged()));
+    connect(cb, &QCheckBox::toggled, this, &FileRenamerWidget::exampleTextChanged);
 
     temp->show();
 }
@@ -537,9 +543,7 @@ void FileRenamerWidget::createTagRows()
     // a row given the identifier, use m_rows[id].position.  To find the id of a given
     // position, use idOfPosition(position).
 
-    QList<int>::ConstIterator it = categoryOrder.constBegin();
-
-    for(; it != categoryOrder.constEnd(); ++it) {
+    for(auto it = categoryOrder.cbegin(); it != categoryOrder.cend(); ++it) {
         if(*it < StartTag || *it >= NumTypes) {
             qCCritical(JUK_LOG) << "Invalid category encountered in file renamer configuration.\n";
             continue;
@@ -550,17 +554,12 @@ void FileRenamerWidget::createTagRows()
             break;
         }
 
-        TagType i = static_cast<TagType>(*it);
-
-        addRowCategory(i);
+        addRowCategory(static_cast<TagType>(*it));
 
         // Insert the directory separator checkbox if this isn't the last
         // item.
 
-        QList<int>::ConstIterator dup(it);
-
-        // Check for last item
-        if(++dup != categoryOrder.constEnd())
+        if((it + 1) != categoryOrder.constEnd())
             addFolderSeparatorCheckbox();
     }
 
@@ -721,7 +720,7 @@ void FileRenamerWidget::moveItem(int id, MovementDirection direction)
     layout->insertWidget(2 * pos, w);
     layout->invalidate();
 
-    QTimer::singleShot(0, this, SLOT(exampleTextChanged()));
+    QTimer::singleShot(0, this, &FileRenamerWidget::exampleTextChanged);
 }
 
 int FileRenamerWidget::idOfPosition(int position) const
@@ -750,18 +749,6 @@ int FileRenamerWidget::findIdentifier(const CategoryID &category) const
         ", number " << category.categoryNumber;
 
     return MAX_CATEGORIES;
-}
-
-void FileRenamerWidget::enableAllUpButtons()
-{
-    for(int i = 0; i < m_rows.count(); ++i)
-        m_rows[i].upButton->setEnabled(true);
-}
-
-void FileRenamerWidget::enableAllDownButtons()
-{
-    for(int i = 0; i < m_rows.count(); ++i)
-        m_rows[i].downButton->setEnabled(true);
 }
 
 void FileRenamerWidget::showCategoryOption(int id)
