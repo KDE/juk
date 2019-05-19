@@ -61,7 +61,7 @@ int main(int argc, char *argv[])
 
     KAboutData aboutData(QStringLiteral("juk"), i18n("JuK"),
                          QStringLiteral(JUK_VERSION), i18n(description), KAboutLicense::GPL,
-                         i18n("© 2002–2017, Scott Wheeler, Michael Pyne, and others"),
+                         i18n("Copyright © 2002–2019, Scott Wheeler, Michael Pyne, and others"),
                          QStringLiteral(""),
                          QStringLiteral("https://www.kde.org/applications/multimedia/juk/"));
 
