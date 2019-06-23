@@ -88,7 +88,7 @@ public:
         lv->setRootIsDecorated(false);
         vboxLayout->addWidget(lv);
 
-        auto buttonBox = new QDialogButtonBox(this);
+        auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::Cancel, this);
         vboxLayout->addWidget(buttonBox);
         connect(buttonBox, &QDialogButtonBox::accepted, this, &QDialog::accept);
         connect(buttonBox, &QDialogButtonBox::rejected, this, &QDialog::reject);
