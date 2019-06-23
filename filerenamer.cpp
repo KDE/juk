@@ -75,7 +75,7 @@ public:
 
         l = new QLabel(i18n("You are about to rename the following files. "
                             "Are you sure you want to continue?"), hbox);
-        hboxVLayout->addWidget(l, 1);
+        hboxVLayout->addWidget(l);
 
         QTreeWidget *lv = new QTreeWidget(this);
 
@@ -85,7 +85,7 @@ public:
 
         lv->setHeaderLabels(headers);
         lv->setRootIsDecorated(false);
-        vboxLayout->addWidget(lv);
+        vboxLayout->addWidget(lv, 1);
 
         auto buttonBox = new QDialogButtonBox(QDialogButtonBox::Yes | QDialogButtonBox::Cancel, this);
         vboxLayout->addWidget(buttonBox);
