@@ -110,9 +110,9 @@ public:
 
     void setSliderValue( int value );
 protected:
-    virtual void paintEvent( QPaintEvent* );
-    virtual void mousePressEvent( QMouseEvent* );
-    virtual void sliderChange( SliderChange change );
+    virtual void paintEvent( QPaintEvent* ) override;
+    virtual void mousePressEvent( QMouseEvent* ) override;
+    virtual void sliderChange( SliderChange change ) override;
 
 private:
     Q_DISABLE_COPY( TimeSlider )
