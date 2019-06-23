@@ -75,6 +75,8 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     setHeaderLabel("Playlists");
     setRootIsDecorated(false);
     setContextMenuPolicy(Qt::CustomContextMenu);
+    viewport()->setAcceptDrops(true);
+    setDragDropMode(QAbstractItemView::DropOnly);
     setDropIndicatorShown(true);
 
     setColumnCount(2); // Use fake column for sorting
@@ -86,8 +88,6 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     header()->hide();
     header()->blockSignals(false);
 
-    viewport()->setAcceptDrops(true);
-    setDropIndicatorShown(true);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
     m_contextMenu = new QMenu(this);
@@ -291,6 +291,49 @@ void PlaylistBox::removePlaylist(Playlist *playlist)
 
     removeFileFromDict(playlist->fileName());
     m_playlistDict.remove(playlist);
+}
+
+Qt::DropActions PlaylistBox::supportedDropActions() const
+{
+    return Qt::CopyAction;
+}
+
+bool PlaylistBox::dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action)
+{
+    Q_UNUSED(index);
+
+    // The *parent* item won't be null, but index should be zero except in the
+    // still-broken "tree view" mode.
+
+    if(!parent || action != Qt::CopyAction || !data->hasUrls()) {
+        return false;
+    }
+
+    auto *playlistItem = static_cast<Item *>(parent);
+    if(!playlistItem) {
+        return false;
+    }
+
+    auto *playlist = playlistItem->playlist();
+    const auto droppedUrls = data->urls();
+    PlaylistItem *lastItem = nullptr;
+
+    for(const auto &url : droppedUrls) {
+        lastItem = playlist->createItem(FileHandle(url.toLocalFile()), lastItem);
+    }
+
+    return true;
+}
+
+QStringList PlaylistBox::mimeTypes() const
+{
+    auto result = QTreeWidget::mimeTypes();
+
+    // Need to add Playlists's mime type to convince QTreeWidget to allow it as
+    // a drop option.
+    result.append(QLatin1String("text/uri-list"));
+
+    return result;
 }
 
 ////////////////////////////////////////////////////////////////////////////////

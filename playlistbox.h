@@ -81,6 +81,9 @@ public slots:
 protected:
     virtual void setupPlaylist(Playlist *playlist, const QString &iconName) override;
     virtual void removePlaylist(Playlist *playlist) override;
+    virtual Qt::DropActions supportedDropActions() const override;
+    virtual bool dropMimeData(QTreeWidgetItem *, int, const QMimeData *, Qt::DropAction) override;
+    virtual QStringList mimeTypes() const override;
 
 signals:
     void signalPlaylistDestroyed(Playlist *);
