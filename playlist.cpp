@@ -1415,6 +1415,8 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     m_disableColumnWidthUpdates = true;
     m_blockDataChanged = true;
 
+    PlaylistItem *after = nullptr;
+
     while(!stream.atEnd()) {
         QString itemName = stream.readLine().trimmed();
 
@@ -1426,7 +1428,7 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
         if(item.exists() && item.isFile() && item.isReadable() &&
            MediaFiles::isMediaFile(item.fileName()))
         {
-            (void) createItem(FileHandle(item));
+            after = createItem(FileHandle(item), after);
         }
     }
 
