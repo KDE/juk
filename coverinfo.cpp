@@ -18,7 +18,6 @@
 #include "coverinfo.h"
 
 #include <QApplication>
-#include <QRegExp>
 #include <QLabel>
 #include <QCursor>
 #include <QPixmap>
