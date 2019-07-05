@@ -257,7 +257,7 @@ TrackItem::TrackItem(NowPlaying *parent) :
     m_label = new QLabel(this);
     m_label->setWordWrap(true);
 
-    m_label->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::LinksAccessibleByKeyboard);
+    m_label->setTextInteractionFlags(Qt::LinksAccessibleByMouse|Qt::LinksAccessibleByKeyboard|Qt::TextSelectableByMouse);
 
     layout->addStretch();
     layout->addWidget(m_label, 1);
