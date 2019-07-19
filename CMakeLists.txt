@@ -47,7 +47,7 @@ set(HAVE_TUNEPIMP 0)
 
 ########### next target ###############
 
-include_directories( ${TAGLIB_INCLUDES} )
+include_directories( SYSTEM ${TAGLIB_INCLUDES} )
 add_definitions(-DQT_STL -DQT_NO_URL_CAST_FROM_STRING)
 
 # Look for Ogg Opus support in taglib (not released yet)
