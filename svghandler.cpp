@@ -109,7 +109,8 @@ QPixmap SvgHandler::renderSvg( const QString& keyname,
     }
     else
     {
-        pixmap = QPixmap( width, height );
+        pixmap = QPixmap( width * dpr, height * dpr );
+        pixmap.setDevicePixelRatio(dpr);
         pixmap.fill( Qt::transparent );
 
         QReadLocker readLocker( &m_lock );
@@ -149,12 +150,12 @@ QString SvgHandler::themeFile()
     return m_themeFile;
 }
 
-QRect SvgHandler::sliderKnobRect( const QRect &slider, qreal percent, bool inverse ) const
+QRectF SvgHandler::sliderKnobRect( const QRectF &slider, qreal percent, bool inverse ) const
 {
     if ( inverse )
         percent = 1.0 - percent;
     const int knobSize = slider.height() - 4;
-    QRect ret( 0, 0, knobSize, knobSize );
+    QRectF ret( 0, 0, knobSize, knobSize );
     ret.moveTo( slider.x() + qRound( ( slider.width() - knobSize ) * percent ), slider.y() + 1 );
     return ret;
 }
@@ -162,11 +163,11 @@ QRect SvgHandler::sliderKnobRect( const QRect &slider, qreal percent, bool inver
 // Experimental, using a mockup from Nuno Pinheiro (new_slider_nuno)
 void SvgHandler::paintCustomSlider( QPainter *p, QStyleOptionSlider *slider, qreal percentage )
 {
-    int sliderHeight = slider->rect.height() - 6;
+    qreal sliderHeight = slider->rect.height() - 6;
     const bool inverse = ( slider->orientation == Qt::Vertical ) ? slider->upsideDown :
                          ( (slider->direction == Qt::RightToLeft) != slider->upsideDown );
-    QRect knob = sliderKnobRect( slider->rect, percentage, inverse );
-    QPoint pt = slider->rect.topLeft() + QPoint( 0, 2 );
+    QRectF knob = sliderKnobRect( slider->rect, percentage, inverse );
+    QPointF pt = slider->rect.topLeft() + QPointF( 0, 2 );
 
     //debug() << "rel: " << knobRelPos << ", width: " << width << ", height:" << height << ", %: " << percentage;
 
@@ -175,7 +176,7 @@ void SvgHandler::paintCustomSlider( QPainter *p, QStyleOptionSlider *slider, qre
     p->drawPixmap( pt, renderSvg( "progress_slider_left", sliderHeight, sliderHeight, "progress_slider_left" ) );
 
     pt.rx() += sliderHeight;
-    QRect midRect(pt, QSize(slider->rect.width() - sliderHeight * 2, sliderHeight) );
+    QRectF midRect(pt, QSize(slider->rect.width() - sliderHeight * 2, sliderHeight) );
     p->drawTiledPixmap( midRect, renderSvg( "progress_slider_mid", 32, sliderHeight, "progress_slider_mid" ) );
 
     pt = midRect.topRight() + QPoint( 1, 0 );
@@ -183,32 +184,33 @@ void SvgHandler::paintCustomSlider( QPainter *p, QStyleOptionSlider *slider, qre
 
     //draw the played background.
 
-    int playedBarHeight = sliderHeight - 6;
+    qreal playedBarHeight = sliderHeight - 6;
+    qreal min = 0;
 
-    int sizeOfLeftPlayed = qBound( 0, inverse ? slider->rect.right() - knob.right() + 2 :
+    qreal sizeOfLeftPlayed = qBound( min, inverse ? slider->rect.right() - knob.right() + 2 :
                                    knob.x() - 2, playedBarHeight );
 
     if( sizeOfLeftPlayed > 0 )
     {
-        QPoint tl, br;
+        QPointF tl, br;
         if ( inverse )
         {
-            tl = knob.topRight() + QPoint( -5, 5 ); // 5px x padding to avoid a "gap" between it and the top and bottom of the round knob.
-            br = slider->rect.topRight() + QPoint( -3, 5 + playedBarHeight - 1 );
+            tl = knob.topRight() + QPointF( -5, 5 ); // 5px x padding to avoid a "gap" between it and the top and bottom of the round knob.
+            br = slider->rect.topRight() + QPointF( -3, 5 + playedBarHeight - 1 );
             QPixmap rightEnd = renderSvg( "progress_slider_played_right", playedBarHeight, playedBarHeight, "progress_slider_played_right" );
-            p->drawPixmap( br.x() - rightEnd.width() + 1, tl.y(), rightEnd, qMax(0, rightEnd.width() - (sizeOfLeftPlayed + 3)), 0, sizeOfLeftPlayed + 3, playedBarHeight );
+            p->drawPixmap( br.x() - rightEnd.width() + 1, tl.y(), rightEnd, qMax(qreal(0), rightEnd.width() - (sizeOfLeftPlayed + 3)), 0, sizeOfLeftPlayed + 3, playedBarHeight );
             br.rx() -= playedBarHeight;
         }
         else
         {
-            tl = slider->rect.topLeft() + QPoint( 3, 5 );
-            br = QPoint( knob.x() + 5, tl.y() + playedBarHeight - 1 );
+            tl = slider->rect.topLeft() + QPointF( 3, 5 );
+            br = QPointF( knob.x() + 5, tl.y() + playedBarHeight - 1 );
             QPixmap leftEnd = renderSvg( "progress_slider_played_left", playedBarHeight, playedBarHeight, "progress_slider_played_left" );
             p->drawPixmap( tl.x(), tl.y(), leftEnd, 0, 0, sizeOfLeftPlayed + 3, playedBarHeight );
             tl.rx() += playedBarHeight;
         }
         if ( sizeOfLeftPlayed == playedBarHeight )
-            p->drawTiledPixmap( QRect(tl, br), renderSvg( "progress_slider_played_mid", 32, playedBarHeight, "progress_slider_played_mid" ) );
+            p->drawTiledPixmap( QRectF(tl, br), renderSvg( "progress_slider_played_mid", 32, playedBarHeight, "progress_slider_played_mid" ) );
 
     }
 
@@ -218,4 +220,9 @@ void SvgHandler::paintCustomSlider( QPainter *p, QStyleOptionSlider *slider, qre
                              "slider_knob_200911_active" : "slider_knob_200911";
         p->drawPixmap( knob.topLeft(), renderSvg( string, knob.width(), knob.height(), string ) );
     }
+}
+
+void SvgHandler::setDevicePixelRatioF(qreal dpr)
+{
+    this->dpr = dpr;
 }

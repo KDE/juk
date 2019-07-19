@@ -48,16 +48,18 @@ Slider::Slider( Qt::Orientation orientation, uint max, QWidget *parent )
     }
 }
 
-QRect
-Slider::sliderHandleRect( const QRect &slider, qreal percent ) const
+QRectF
+Slider::sliderHandleRect( const QRectF &slider, qreal percent ) const
 {
-    QRect rect;
+    QRectF rect;
     const bool inverse = ( orientation() == Qt::Horizontal ) ?
                          ( invertedAppearance() != (layoutDirection() == Qt::RightToLeft) ) :
                          ( !invertedAppearance() );
 
     if(m_usingCustomStyle)
+    {
         rect = The::svgHandler()->sliderKnobRect( slider, percent, inverse );
+    }
     else
     {
         if ( inverse )
@@ -98,7 +100,7 @@ Slider::mouseMoveEvent( QMouseEvent *e )
     if ( m_sliding )
     {
         //feels better, but using set value of 20 is bad of course
-        QRect rect( -20, -20, width()+40, height()+40 );
+        QRectF rect( -20, -20, width()+40, height()+40 );
 
         if ( orientation() == Qt::Horizontal && !rect.contains( e->pos() ) )
         {
@@ -124,7 +126,7 @@ Slider::mouseMoveEvent( QMouseEvent *e )
 void
 Slider::slideEvent( QMouseEvent *e )
 {
-    QRect knob;
+    QRectF knob;
     if ( maximum() > minimum() )
         knob = sliderHandleRect( rect(), ((qreal)value()) / ( maximum() - minimum() ) );
 
@@ -155,7 +157,7 @@ Slider::mousePressEvent( QMouseEvent *e )
     m_sliding   = true;
     m_prevValue = value();
 
-    QRect knob;
+    QRectF knob;
     if ( maximum() > minimum() )
         knob = sliderHandleRect( rect(), ((qreal)value()) / ( maximum() - minimum() ) );
     if ( !knob.contains( e->pos() ) )
@@ -194,6 +196,7 @@ void Slider::paintCustomSlider( QPainter *p )
     {
         opt.activeSubControls |= QStyle::SC_SliderHandle;
     }
+    The::svgHandler()->setDevicePixelRatioF(devicePixelRatioF());
     The::svgHandler()->paintCustomSlider( p, &opt, percent );
 }
 
@@ -316,7 +319,7 @@ void TimeSlider::sliderChange( SliderChange change )
         qreal percent = 0.0;
         if ( maximum() > minimum() )
             percent = ((qreal)value()) / ( maximum() - minimum() );
-        QRect knob = sliderHandleRect( rect(), percent );
+        QRectF knob = sliderHandleRect( rect(), percent );
         m_knobX = knob.x();
 
         if (oldKnobX < m_knobX)

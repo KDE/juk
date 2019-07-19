@@ -48,7 +48,7 @@ protected:
     virtual void mouseReleaseEvent( QMouseEvent* ) override;
     virtual void mousePressEvent( QMouseEvent* ) override;
     virtual void slideEvent( QMouseEvent* );
-    QRect sliderHandleRect( const QRect &slider, qreal percent ) const;
+    QRectF sliderHandleRect( const QRectF &slider, qreal percent ) const;
 
     void paintCustomSlider( QPainter *p );
 
