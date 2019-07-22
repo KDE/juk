@@ -27,7 +27,7 @@
 
 #include "playlistitem.h"
 #include "collectionlist.h"
-#include "tag.h"
+#include "juktag.h"
 #include "actioncollection.h"
 #include "juk_debug.h"
 

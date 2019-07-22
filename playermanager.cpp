@@ -41,7 +41,7 @@
 #include "actioncollection.h"
 #include "collectionlist.h"
 #include "coverinfo.h"
-#include "tag.h"
+#include "juktag.h"
 #include "scrobbler.h"
 #include "juk.h"
 #include "juk_debug.h"

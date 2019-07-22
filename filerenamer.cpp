@@ -45,7 +45,7 @@
 #include <QPushButton>
 #include <QHeaderView>
 
-#include "tag.h"
+#include "juktag.h"
 #include "filerenameroptions.h"
 #include "filehandle.h"
 #include "exampleoptions.h"

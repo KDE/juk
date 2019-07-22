@@ -28,7 +28,7 @@
 #include <QtGlobal>
 #include <QSaveFile>
 
-#include "tag.h"
+#include "juktag.h"
 #include "searchplaylist.h"
 #include "historyplaylist.h"
 #include "upcomingplaylist.h"

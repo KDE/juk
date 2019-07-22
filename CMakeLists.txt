@@ -86,6 +86,7 @@ set(juk_SRCS
    webimagefetcher.cpp
    historyplaylist.cpp
    juk.cpp
+   juktag.cpp
    keydialog.cpp
    lyricswidget.cpp
    main.cpp
@@ -111,7 +112,6 @@ set(juk_SRCS
    statuslabel.cpp
    stringshare.cpp
    systemtray.cpp
-   tag.cpp
    tageditor.cpp
    tagguesser.cpp
    tagguesserconfigdlg.cpp

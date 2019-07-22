@@ -17,7 +17,7 @@
 #include "tageditor.h"
 #include "collectionlist.h"
 #include "playlistitem.h"
-#include "tag.h"
+#include "juktag.h"
 #include "actioncollection.h"
 #include "tagtransactionmanager.h"
 #include "juk_debug.h"

@@ -50,7 +50,7 @@
 #include "collectionlist.h"
 #include "playlistsearch.h"
 #include "playlistitem.h"
-#include "tag.h"
+#include "juktag.h"
 #include "juk_debug.h"
 
 struct CoverPopup : public QWidget

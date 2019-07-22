@@ -24,7 +24,7 @@
 #include "playlist.h"
 #include "playlistitem.h"
 #include "tracksequenceiterator.h"
-#include "tag.h"
+#include "juktag.h"
 #include "filehandle.h"
 #include "collectionlist.h"
 

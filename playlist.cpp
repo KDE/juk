@@ -74,7 +74,7 @@
 #include "filerenamer.h"
 #include "actioncollection.h"
 #include "tracksequencemanager.h"
-#include "tag.h"
+#include "juktag.h"
 #include "upcomingplaylist.h"
 #include "deletedialog.h"
 #include "webimagefetcher.h"

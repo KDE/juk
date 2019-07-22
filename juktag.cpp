@@ -15,7 +15,7 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "tag.h"
+#include "juktag.h"
 
 #include <KLocalizedString>
 

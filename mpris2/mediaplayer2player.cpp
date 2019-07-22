@@ -24,7 +24,7 @@
 #include "coverinfo.h"
 #include "playlist.h"
 #include "playlistitem.h"
-#include "tag.h"
+#include "juktag.h"
 #include "filehandle.h"
 
 #include <QCryptographicHash>

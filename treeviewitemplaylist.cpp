@@ -22,7 +22,7 @@
 #include <QStringList>
 
 #include "collectionlist.h"
-#include "tag.h"
+#include "juktag.h"
 #include "playlistitem.h"
 #include "playlistsearch.h"
 #include "tagtransactionmanager.h"

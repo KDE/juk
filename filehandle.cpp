@@ -22,7 +22,7 @@
 #include <QScopedPointer>
 
 #include "filehandleproperties.h"
-#include "tag.h"
+#include "juktag.h"
 #include "cache.h"
 #include "coverinfo.h"
 #include "juk_debug.h"
