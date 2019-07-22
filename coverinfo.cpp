@@ -32,18 +32,19 @@
 #include <QScopedPointer>
 #include <QScreen>
 
-#include <taglib/mpegfile.h>
-#include <taglib/tstring.h>
-#include <taglib/id3v2tag.h>
-#include <taglib/attachedpictureframe.h>
-#include <taglib/flacfile.h>
-#include <taglib/xiphcomment.h>
+// Taglib includes
+#include <mpegfile.h>
+#include <tstring.h>
+#include <id3v2tag.h>
+#include <attachedpictureframe.h>
+#include <flacfile.h>
+#include <xiphcomment.h>
 
 #ifdef TAGLIB_WITH_MP4
-#include <taglib/mp4coverart.h>
-#include <taglib/mp4file.h>
-#include <taglib/mp4tag.h>
-#include <taglib/mp4item.h>
+#include <mp4coverart.h>
+#include <mp4file.h>
+#include <mp4tag.h>
+#include <mp4item.h>
 #endif
 
 #include "mediafiles.h"

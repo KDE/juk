@@ -21,7 +21,7 @@
 
 #include <QFile>
 
-#include <taglib/tag.h>
+#include <tag.h> //taglib
 #include <tfile.h>
 #include <audioproperties.h>
 #include <id3v2framefactory.h>
