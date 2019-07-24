@@ -26,7 +26,7 @@
 #include <QPixmap>
 
 #include "collectionlist.h"
-#include "tag.h"
+#include "juktag.h"
 #include "coverinfo.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"

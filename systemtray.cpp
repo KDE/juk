@@ -36,7 +36,7 @@
 #include <QIcon>
 #include <QApplication>
 
-#include "tag.h"
+#include "juktag.h"
 #include "actioncollection.h"
 #include "playermanager.h"
 #include "coverinfo.h"

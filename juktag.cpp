@@ -15,13 +15,13 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#include "tag.h"
+#include "juktag.h"
 
 #include <KLocalizedString>
 
 #include <QFile>
 
-#include <taglib/tag.h>
+#include <tag.h> //taglib
 #include <tfile.h>
 #include <audioproperties.h>
 #include <id3v2framefactory.h>

@@ -29,7 +29,7 @@
 #include <KConfigGroup>
 #include <KSharedConfig>
 
-#include "tag.h"
+#include "juktag.h"
 #include "actioncollection.h"
 #include "juk_debug.h"
 

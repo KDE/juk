@@ -34,7 +34,7 @@
 #include "playlistinterface.h"
 #include "actioncollection.h"
 #include "playermanager.h"
-#include "tag.h"
+#include "juktag.h"
 #include "juk_debug.h"
 
 using namespace ActionCollection;

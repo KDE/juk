@@ -40,7 +40,7 @@
 #include "stringshare.h"
 #include "cache.h"
 #include "actioncollection.h"
-#include "tag.h"
+#include "juktag.h"
 #include "viewmode.h"
 #include "juk_debug.h"
 
