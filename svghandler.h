@@ -78,7 +78,7 @@ class SvgHandler : public QObject
          * Calculate the visual slider knob rect from its value, use it instead the QStyle functions
          * QStyle::sliderPositionFromValue() and QStyle::subControlRect();
          */
-        QRect sliderKnobRect( const QRect &slider, qreal percent, bool inverse ) const;
+        QRectF sliderKnobRect( const QRectF &slider, qreal percent, bool inverse ) const;
 
         /**
          * Get the path of the currently used svg theme file.
@@ -86,6 +86,8 @@ class SvgHandler : public QObject
          * @return the path of the currently used theme file.
          */
         QString themeFile();
+        
+        void setDevicePixelRatioF(qreal dpr);
 
     public slots:
         void reTint();
@@ -106,6 +108,8 @@ class SvgHandler : public QObject
         QReadWriteLock m_lock;
 
         QString m_themeFile;
+        
+        qreal dpr = 1;
 };
 
 #endif
