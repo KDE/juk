@@ -20,6 +20,7 @@
 #include <KConfig>
 #include <KConfigGroup>
 #include <KCrash>
+#include <KDBusService>
 #include <KNotification>
 #include <KSharedConfig>
 #include <KLocalizedString>
@@ -112,6 +113,11 @@ int main(int argc, char *argv[])
     }
 
     a.setAttribute(Qt::AA_UseHighDpiPixmaps, true);
+
+    a.setApplicationName("juk");
+    a.setOrganizationDomain("kde.org");
+    // Limit to only one instance
+    KDBusService service(KDBusService::Unique);
 
     return a.exec();
 }
