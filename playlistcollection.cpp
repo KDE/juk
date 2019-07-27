@@ -511,10 +511,11 @@ PlaylistItemList PlaylistCollection::selectedItems()
 
 void PlaylistCollection::scanFolders()
 {
-    CollectionList::instance()->addFiles(m_folderList);
-
-    if(CollectionList::instance()->count() == 0)
+    // If no music folder was configured, open music folder dialog
+    if(m_folderList.count() == 0)
         addFolder();
+
+    CollectionList::instance()->addFiles(m_folderList);
 
     enableDirWatch(true);
 }
