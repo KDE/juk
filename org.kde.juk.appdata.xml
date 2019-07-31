@@ -61,7 +61,7 @@
   <summary xml:lang="gl">Reprodutor de música</summary>
   <summary xml:lang="hu">Zenelejátszó</summary>
   <summary xml:lang="ia">Executor de musica</summary>
-  <summary xml:lang="id">Player Musik</summary>
+  <summary xml:lang="id">Pemutar Musik</summary>
   <summary xml:lang="it">Lettore musicale</summary>
   <summary xml:lang="ko">음악 재생기</summary>
   <summary xml:lang="nds">Musikafspeler</summary>
@@ -251,7 +251,7 @@
       <li xml:lang="gl">Busca dinámica de listas de reprodución que se actualizan automaticamente tras cambias campos da colección.</li>
       <li xml:lang="hu">Lejátszólisták dinamikus keresése, amelyek automatikusan frissítésre kerülnek mezőkként a gyűjtemény módosításban</li>
       <li xml:lang="ia">Listas de reproduction de cerca dynamic que es automaticamente actualisate como campos in le modification de collection</li>
-      <li xml:lang="id">Pencarian dinamis playlist yang diupdate secara otomatis sebagai bidang dalam perubahan koleksi</li>
+      <li xml:lang="id">Pencarian dinamis playlist yang diperbarui secara otomatis sebagai bidang dalam perubahan koleksi</li>
       <li xml:lang="it">Scalette a ricerca dinamica, aggiornate automaticamente al cambiare dei campi nella raccolta</li>
       <li xml:lang="ko">모음집 필드 변경 사항에 따라 자동으로 업데이트되는 동적 재생 목록</li>
       <li xml:lang="nds">Dünaamsch Söök na Afspeellisten, de automaatsch topasst warrt, wenn sik Feller binnen de Sammeln ännern doot</li>
@@ -325,7 +325,7 @@
       <li xml:lang="gl">Historial de listas re reprodución para indicar que ficheiros se reproduciron e cando.</li>
       <li xml:lang="hu">Lejátszólista előzmények annak jelölésére, hogy mely fájlok lettek már lejátszva és mikor</li>
       <li xml:lang="ia">Chronologia de lista de reproduction per indicar qual files ha essite reproducite e quando</li>
-      <li xml:lang="id">Histori playlist untuk mengindikasi yang mana file sudah dimainkan dan sedang dimainkan</li>
+      <li xml:lang="id">Histori playlist untuk mengindikasi yang mana file sudah diputar dan sedang diputar</li>
       <li xml:lang="it">Cronologia delle scalette per indicare quali file sono stati letti e quando</li>
       <li xml:lang="ko">재생 목록 내 파일의 재생 이력 관리</li>
       <li xml:lang="nds">Afspeellist-Vörgeschicht, över de sik wiesen lett, welk Dateien Du wannehr afspeelt hest</li>
