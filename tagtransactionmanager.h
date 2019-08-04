@@ -22,7 +22,7 @@
 #include <memory>
 #include <vector>
 
-#include "tag.h"
+#include "juktag.h"
 
 class PlaylistItem;
 class QWidget;

@@ -22,16 +22,17 @@
 #include <QIcon>
 #include <QAction>
 #include <QUrlQuery>
-
 #include <KLocalizedString>
 #include <KActionCollection>
 #include <KToggleAction>
 #include <KConfigGroup>
 #include <KSharedConfig>
 
-#include "tag.h"
+#include "juktag.h"
 #include "actioncollection.h"
 #include "juk_debug.h"
+
+static const QUrl BASE_LYRICS_URL = QUrl("https://lyrics.fandom.com/");
 
 LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
     m_networkAccessManager(new QNetworkAccessManager),
@@ -76,8 +77,9 @@ void LyricsWidget::makeLyricsRequest()
 
     setHtml(i18n("<i>Loading...</i>"));
 
-    // TODO time for https (as long as it doesn't break this)
-    QUrl listUrl("http://lyrics.wikia.com/api.php");
+    QUrl listUrl = BASE_LYRICS_URL;
+    listUrl.setPath("/api.php");
+
     QUrlQuery listUrlQuery;
     listUrlQuery.addQueryItem("action", "lyrics");
     listUrlQuery.addQueryItem("func", "getSong");
@@ -122,8 +124,9 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
     QString artist = document.elementsByTagName("artist").at(0).toElement().text();
     QString title = document.elementsByTagName("song").at(0).toElement().text();
 
-    // TODO time for https (as long as it doesn't break this)
-    QUrl url("http://lyrics.wikia.com/api.php");
+    QUrl url = BASE_LYRICS_URL;
+    url.setPath("/api.php");
+
     QUrlQuery urlQuery;
     urlQuery.addQueryItem("action", "query");
     urlQuery.addQueryItem("prop", "revisions");
@@ -150,7 +153,7 @@ void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
         // default homepage, but this code path should never happen at this point.
         titlesUrlPart = QStringLiteral("Lyrics_Wiki");
     }
-    const QString lyricsUrl = QStringLiteral("http://lyrics.wikia.com/wiki/") + titlesUrlPart;
+    const QString lyricsUrl = BASE_LYRICS_URL.toString() + QStringLiteral("wiki/") + titlesUrlPart;
 
     QString content = QString::fromUtf8(reply->readAll());
     int lIndex = content.indexOf("&lt;lyrics&gt;");

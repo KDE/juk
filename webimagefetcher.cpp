@@ -25,7 +25,7 @@
 
 #include "covermanager.h"
 #include "filehandle.h"
-#include "tag.h"
+#include "juktag.h"
 #include "juk.h"
 #include "juk_debug.h"
 

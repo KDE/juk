@@ -45,7 +45,7 @@
 #include "playlistitem.h"
 #include "coverinfo.h"
 #include "covermanager.h"
-#include "tag.h"
+#include "juktag.h"
 #include "collectionlist.h"
 #include "juk_debug.h"
 

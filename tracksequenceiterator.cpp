@@ -22,7 +22,7 @@
 
 #include "playlist.h"
 #include "actioncollection.h"
-#include "tag.h"
+#include "juktag.h"
 #include "filehandle.h"
 #include "juk_debug.h"
 

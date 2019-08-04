@@ -31,7 +31,7 @@
 
 #include <memory>
 
-#include "tag.h"
+#include "juktag.h"
 #include "juk.h"
 #include "juk_debug.h"
 
@@ -46,7 +46,7 @@ Scrobbler::Scrobbler(QObject* parent)
         m_wallet->readEntry("SessionKey", sessionKey);
     } else {
         KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
-        sessionKey.append(config.readEntry("SessionKey", ""));
+        sessionKey.append(config.readEntry("SessionKey", "").toLatin1());
     }
 
     if(sessionKey.isEmpty())
