@@ -34,7 +34,7 @@
 
 static const char description[] = I18N_NOOP("Jukebox and music manager by the KDE community");
 static const char scott[]       = I18N_NOOP("Author, chief dork and keeper of the funk");
-static const char michael[]     = I18N_NOOP("Assistant super-hero, fixer of many things");
+static const char michael[]     = I18N_NOOP("Assistant superhero, fixer of many things");
 static const char georg[]       = I18N_NOOP("More KDE Platform 4 porting efforts");
 static const char daniel[]      = I18N_NOOP("System tray docking, \"inline\" tag editing,\nbug fixes, evangelism, moral support");
 static const char tim[]         = I18N_NOOP("GStreamer port");
@@ -49,11 +49,11 @@ static const char antonio[]     = I18N_NOOP("DCOP interface");
 static const char allan[]       = I18N_NOOP("FLAC and MPC support");
 static const char nathan[]      = I18N_NOOP("Album cover manager");
 static const char pascal[]      = I18N_NOOP("Gimper of splash screen");
-static const char laurent[]     = I18N_NOOP("Porting to KDE 4 when no one else was around");
+static const char laurent[]     = I18N_NOOP("Porting to KDE Platform 4 when no one else was around");
 static const char giorgos[]     = I18N_NOOP("Badly-needed tag editor bugfixes.");
-static const char sandsmark[]   = I18N_NOOP("Last.fm scrobbling support, lyrics, prepping for KDE Frameworks.");
+static const char sandsmark[]   = I18N_NOOP("Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5.");
 static const char sho[]         = I18N_NOOP("MPRIS2 Interface implementation.");
-static const char kacper[]      = I18N_NOOP("Porting to KF5 when no one else was around");
+static const char kacper[]      = I18N_NOOP("Porting to KDE Frameworks 5 when no one else was around");
 
 int main(int argc, char *argv[])
 {
@@ -64,7 +64,7 @@ int main(int argc, char *argv[])
                          QStringLiteral(JUK_VERSION), i18n(description), KAboutLicense::GPL,
                          i18n("Copyright © 2002–2019, Scott Wheeler, Michael Pyne, and others"),
                          QStringLiteral(""),
-                         QStringLiteral("https://www.kde.org/applications/multimedia/juk/"));
+                         QStringLiteral("https://juk.kde.org/"));
 
     aboutData.addAuthor(i18n("Scott Wheeler"), i18n(scott), "wheeler@kde.org");
     aboutData.addAuthor(i18n("Michael Pyne"), i18n(michael), "mpyne@kde.org");
