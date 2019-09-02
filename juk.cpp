@@ -176,19 +176,17 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
 
 JuK::~JuK()
 {
-    if(!m_shuttingDown) {
-        // Sometimes KMainWindow doesn't actually call QCoreApplication::quit
-        // after queryClose, even if not in a session shutdown, so make sure to
-        // do so ourselves when closing the main window.
-        slotQuit();
-    }
-
     // Some items need to be deleted before others, though I haven't looked
     // at this in some time so refinement is probably possible.
     delete m_systemTray;
     delete m_splitter;
     delete m_player;
     delete m_statusLabel;
+
+    // Sometimes KMainWindow doesn't actually call QCoreApplication::quit
+    // after queryClose, even if not in a session shutdown, so make sure to
+    // do so ourselves when closing the main window.
+    QTimer::singleShot(0, qApp, &QCoreApplication::quit);
 }
 
 JuK* JuK::JuKInstance()
@@ -582,7 +580,18 @@ void JuK::slotQuit()
     m_startDocked = !isVisible();
     saveConfig();
 
-    QTimer::singleShot(0, qApp, &QCoreApplication::quit);
+    // this will start chain of events causing PlaylistCollection (in
+    // guise of PlaylistBox) and CollectionList (as first Playlist child)
+    // to save themselves and then quit the application when this widget
+    // closes.
+    delete m_statusLabel;
+    m_statusLabel = nullptr;
+
+    delete m_splitter;
+    m_splitter = nullptr;
+
+    setAttribute(Qt::WA_DeleteOnClose);
+    this->close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
