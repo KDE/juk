@@ -209,7 +209,12 @@ install(TARGETS juk  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 ########### install files ###############
 
 install( PROGRAMS org.kde.juk.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
-install( FILES juk.notifyrc jukui.rc jukui-rtl.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/juk )
+install( FILES jukui.rc jukui-rtl.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/juk )
+install(
+    FILES juk.notifyrc
+    DESTINATION ${KNOTIFYRC_INSTALL_DIR}
+)
+
 install( FILES org.kde.juk.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
 install( FILES jukservicemenu.desktop  DESTINATION
 ${SERVICES_INSTALL_DIR}/ServiceMenus )
