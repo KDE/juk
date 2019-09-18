@@ -167,7 +167,7 @@ VolumePopupButton::wheelEvent( QWheelEvent * event )
 {
     event->accept();
     PlayerManager *player = JuK::JuKInstance()->playerManager();
-    float volume = qBound( 0.0f, player->volume() + float( event->delta() ) / 4000.0f, 1.0f );
+    float volume = qBound( 0.0f, player->volume() + float( event->angleDelta().y() ) / 4000.0f, 1.0f );
     player->setVolume( volume );
     volumeChanged( volume );
 }

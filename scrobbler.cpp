@@ -292,7 +292,7 @@ void Scrobbler::scrobble()
     params["track"]  = m_file.tag()->title();
     params["artist"] = m_file.tag()->artist();
     params["album"]  = m_file.tag()->album();
-    params["timestamp"]   = QString::number(m_playbackTimer.toTime_t());
+    params["timestamp"]   = QString::number(m_playbackTimer.toSecsSinceEpoch());
     params["trackNumber"] = QString::number(m_file.tag()->track());
     params["duration"]    = QString::number(m_file.tag()->seconds());
 

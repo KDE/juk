@@ -80,7 +80,7 @@ public:
         QHBoxLayout(parent),
         m_width(-1)
     {
-        setMargin(margin);
+        setContentsMargins(margin, margin, margin, margin);
         setSpacing(spacing);
         setObjectName(QLatin1String(name));
     }

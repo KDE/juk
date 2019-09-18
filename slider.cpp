@@ -84,7 +84,7 @@ Slider::wheelEvent( QWheelEvent *e )
 
     // Position Slider (horizontal)
     // only used for progress slider now!
-    int step = e->delta() * 24;
+    int step = e->angleDelta().y() * 24;
     int nval = value() + step;
     nval = qMax(nval, minimum());
     nval = qMin(nval, maximum());
@@ -256,7 +256,7 @@ void
 VolumeSlider::wheelEvent( QWheelEvent *e )
 {
     static const int volumeSensitivity = 30;
-    const uint step = e->delta() / volumeSensitivity;
+    const uint step = e->angleDelta().y() / volumeSensitivity;
     QSlider::setValue( QSlider::value() + step );
 
     emit volumeChanged( float( value() ) / float( maximum() ) );

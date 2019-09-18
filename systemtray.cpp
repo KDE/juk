@@ -110,7 +110,7 @@ void PassiveInfo::hideEvent(QHideEvent *)
 
 void PassiveInfo::wheelEvent(QWheelEvent *e)
 {
-    if(e->delta() >= 0) {
+    if(e->angleDelta().y() >= 0) {
         emit nextSong();
     }
     else {

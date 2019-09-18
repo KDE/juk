@@ -28,7 +28,7 @@ FileRenamerTagOptions::FileRenamerTagOptions(QWidget *parent,
 {
     setupUi(this);
 
-    layout()->setMargin(0);
+    layout()->setContentsMargins(0, 0, 0, 0);
 
     if(m_options.category() != Track)
         m_trackGroup->hide();

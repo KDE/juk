@@ -123,7 +123,7 @@ CoverItem::CoverItem(NowPlaying *parent) :
 {
     setObjectName(QLatin1String("CoverItem"));
     setFixedHeight(parent->height() - parent->layout()->margin() * 2);
-    setMargin(1);
+    setContentsMargins(1, 1, 1, 1);
     setAcceptDrops(true);
 }
 
