@@ -75,7 +75,7 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
 
     QHBoxLayout *l = new QHBoxLayout(buttons);
     l->setSpacing(5);
-    l->setMargin(0);
+    l->setContentsMargins(0, 0, 0, 0);
 
     const auto &clearGuiItem = KStandardGuiItem::clear();
     QPushButton *clearButton = new QPushButton(clearGuiItem.icon(), clearGuiItem.text());

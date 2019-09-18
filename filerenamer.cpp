@@ -358,7 +358,7 @@ int FileRenamerWidget::addRowCategory(TagType category)
 
     QFrame *frame = new QFrame(m_mainFrame);
     QHBoxLayout *frameLayout = new QHBoxLayout(frame);
-    frameLayout->setMargin(3);
+    frameLayout->setContentsMargins(3, 3, 3, 3);
 
     row.widget = frame;
     frame->setFrameShape(QFrame::Box);
@@ -534,7 +534,7 @@ void FileRenamerWidget::createTagRows()
     m_ui->m_mainView->setWidgetResizable(true);
 
     QVBoxLayout *frameLayout = new QVBoxLayout(m_mainFrame);
-    frameLayout->setMargin(10);
+    frameLayout->setContentsMargins(10, 10, 10, 10);
     frameLayout->setSpacing(5);
 
     // OK, the deal with the categoryOrder variable is that we need to create

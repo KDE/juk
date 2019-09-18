@@ -65,7 +65,7 @@ NowPlaying::NowPlaying(QWidget *parent, PlaylistCollection *collection) :
     QHBoxLayout *layout = new QHBoxLayout(this);
     setLayout(layout);
 
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(3);
 
     // With HiDPI the text might actually be bigger... try to account for

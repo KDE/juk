@@ -45,7 +45,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     mainWidget->setSizePolicy( QSizePolicy::MinimumExpanding, QSizePolicy::Preferred );
 
     auto mainBox = new QVBoxLayout( mainWidget );
-    mainBox->setMargin( 0 );
+    mainBox->setContentsMargins( 0 ,  0 ,  0 ,  0 );
     mainBox->setSpacing( 0 );
 
     m_volumeLabel = new QLabel;
@@ -57,7 +57,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
 
     auto sliderBoxLayout = new QHBoxLayout( sliderBox );
     sliderBoxLayout->setSpacing( 0 );
-    sliderBoxLayout->setMargin( 0 );
+    sliderBoxLayout->setContentsMargins( 0 ,  0 ,  0 ,  0 );
     mainBox->addWidget(sliderBox);
 
     m_volumeSlider = new VolumeSlider( 100, sliderBox, false );

@@ -182,7 +182,7 @@ void PlaylistSplitter::setupLayout()
 
     QWidget *top = new QWidget(m_editorSplitter);
     QVBoxLayout *topLayout = new QVBoxLayout(top);
-    topLayout->setMargin(0);
+    topLayout->setContentsMargins(0, 0, 0, 0);
     topLayout->setSpacing(0);
 
     m_playlistStack = new QStackedWidget(top);

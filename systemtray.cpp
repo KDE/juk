@@ -331,7 +331,7 @@ QWidget *SystemTray::createInfoBox(QBoxLayout *parentLayout, const FileHandle &f
     auto infoBox = new QWidget;
     auto infoBoxVLayout = new QVBoxLayout(infoBox);
     infoBoxVLayout->setSpacing(3);
-    infoBoxVLayout->setMargin(3);
+    infoBoxVLayout->setContentsMargins(3, 3, 3, 3);
 
     parentLayout->addWidget(infoBox);
 
