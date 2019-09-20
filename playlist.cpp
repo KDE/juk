@@ -2069,7 +2069,7 @@ QDataStream &operator>>(QDataStream &s, Playlist &p)
 
 bool processEvents()
 {
-    static QTime time = QTime::currentTime();
+    static QElapsedTimer time;
 
     if(time.elapsed() > 100) {
         time.restart();

@@ -39,6 +39,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QHeaderView>
+#include <QElapsedTimer>
 
 #include "playlist.h"
 #include "collectionlist.h"
@@ -665,7 +666,7 @@ void PlaylistBox::setupUpcomingPlaylist()
 void PlaylistBox::slotLoadCachedPlaylists()
 {
     qCDebug(JUK_LOG) << "Loading cached playlists.";
-    QTime stopwatch;
+    QElapsedTimer stopwatch;
     stopwatch.start();
 
     Cache::loadPlaylists(this);

@@ -35,6 +35,7 @@
 #include <QFileInfo>
 #include <QHeaderView>
 #include <QSaveFile>
+#include <QElapsedTimer>
 
 #include "playlistcollection.h"
 #include "stringshare.h"
@@ -57,7 +58,7 @@ CollectionList *CollectionList::instance()
     return m_list;
 }
 
-static QTime stopwatch;
+static QElapsedTimer stopwatch;
 
 void CollectionList::startLoadingCachedItems()
 {
