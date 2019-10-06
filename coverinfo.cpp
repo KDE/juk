@@ -318,8 +318,7 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
     {
         TagLib::MP4::Tag *tag = mp4File->tag();
         if (tag) {
-            TagLib::MP4::ItemListMap &items = tag->itemListMap();
-            return items.contains("covr");
+            return tag->contains("covr");
         }
     }
 #endif
@@ -397,16 +396,11 @@ static QImage embeddedFLACAlbumArt(const TagLib::List<TagLib::FLAC::Picture *> &
 #ifdef TAGLIB_WITH_MP4
 static QImage embeddedMP4AlbumArt(TagLib::MP4::Tag *tag)
 {
-    TagLib::MP4::ItemListMap &items = tag->itemListMap();
-
-    if(!items.contains("covr"))
+    if(!tag->contains("covr"))
         return QImage();
 
-    TagLib::MP4::CoverArtList covers = items["covr"].toCoverArtList();
-    TagLib::MP4::CoverArtList::ConstIterator end = covers.end();
-
-    for(TagLib::MP4::CoverArtList::ConstIterator it = covers.begin(); it != end; ++it) {
-        TagLib::MP4::CoverArt cover = *it;
+    const TagLib::MP4::CoverArtList covers = tag->item("covr").toCoverArtList();
+    for(const auto &cover : covers) {
         TagLib::ByteVector coverData = cover.data();
 
         QImage result = QImage::fromData(
