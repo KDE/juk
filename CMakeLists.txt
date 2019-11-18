@@ -55,7 +55,7 @@ add_subdirectory( doc )
 add_subdirectory( tests )
 add_subdirectory( pics )
 
-#set_package_properties(FEATURE PROPERTIES DESCRIPTION "A library for developing MusicBrainz enabled tagging applications" URL "http://www.musicbrainz.org/products/tunepimp" TYPE OPTIONAL PURPOSE "Provides MusicBrainz tagging in Juk.")
+#set_package_properties(FEATURE PROPERTIES DESCRIPTION "A library for developing MusicBrainz enabled tagging applications" URL "https://wiki.musicbrainz.org/History:libtunepimp" TYPE OPTIONAL PURPOSE "Provides MusicBrainz tagging in Juk.")
 
 # TODO: tunepimp is fully unsupported, replace this when tunepimp is replaced
 # with whatever is actually current this decade.
