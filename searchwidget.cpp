@@ -195,18 +195,14 @@ void SearchLine::updateColumns()
 ////////////////////////////////////////////////////////////////////////////////
 
 SearchWidget::SearchWidget(QWidget *parent)
-    : KToolBar(parent),
-    m_searchLine(this, true)
+    : SearchLine(parent, true)
 {
     new SearchAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/Search", this);
 
-    m_searchLine.m_lineEdit->setPlaceholderText(i18n("Search..."));
-    addWidget(&m_searchLine);
+    m_lineEdit->setPlaceholderText(i18n("Search..."));
 
-    connect(&m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
-    connect(&m_searchLine, SIGNAL(signalDownPressed()), this, SIGNAL(signalDownPressed()));
-    connect(m_searchLine.m_lineEdit, SIGNAL(returnPressed()), this, SIGNAL(returnPressed()));
+    connect(m_lineEdit, SIGNAL(returnPressed()), this, SIGNAL(returnPressed()));
 
     updateColumns();
 }
@@ -220,55 +216,35 @@ void SearchWidget::setSearch(const PlaylistSearch &search)
         return;
     }
 
-    m_searchLine.setSearchComponent(*components.begin());
+    setSearchComponent(*components.begin());
 }
 
 QString SearchWidget::searchText() const
 {
-    return m_searchLine.searchComponent().query();
+    return searchComponent().query();
 }
 
 void SearchWidget::setSearchText(const QString &text)
 {
-    m_searchLine.setSearchComponent(PlaylistSearch::Component(text));
+    setSearchComponent(PlaylistSearch::Component(text));
 }
 
 PlaylistSearch SearchWidget::search(const PlaylistList &playlists) const
 {
     PlaylistSearch::ComponentList components;
-    components.append(m_searchLine.searchComponent());
+    components.append(searchComponent());
     return PlaylistSearch(playlists, components);
 }
-
 
 
 ////////////////////////////////////////////////////////////////////////////////
 // SearchWidget public slots
 ////////////////////////////////////////////////////////////////////////////////
 
-void SearchWidget::clear()
-{
-    m_searchLine.clear();
-}
-
 void SearchWidget::setEnabled(bool enable)
 {
     emit signalShown(enable);
     setVisible(enable);
-}
-
-void SearchWidget::setFocus()
-{
-    m_searchLine.setFocus();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// SearchWidget private methods
-////////////////////////////////////////////////////////////////////////////////
-
-void SearchWidget::updateColumns()
-{
-    m_searchLine.updateColumns();
 }
 
 // vim: set et sw=4 tw=0 sta:

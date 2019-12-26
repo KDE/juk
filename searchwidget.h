@@ -15,11 +15,10 @@
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef SEARCHWIDGET_H
-#define SEARCHWIDGET_H
+#ifndef JUK_SEARCHWIDGET_H
+#define JUK_SEARCHWIDGET_H
 
-#include <KToolBar>
-
+#include <QWidget>
 #include <QList>
 #include <QLineEdit>
 
@@ -68,7 +67,7 @@ private:
     QList<int> m_columnList;
 };
 
-class SearchWidget : public KToolBar
+class SearchWidget : public SearchLine
 {
     Q_OBJECT
 
@@ -82,26 +81,15 @@ public:
     virtual void setSearchText(const QString &text);
 
 public slots:
-    void clear();
     void setEnabled(bool enable);
-    virtual void setFocus();
 
 signals:
-    void signalQueryChanged();
-    void returnPressed();
-
     // This signal is only emitted when the Show/Hide action is triggered.
     // Minimizing/closing the JuK window will not trigger this signal.
 
     void signalShown(bool shown);
 
-    void signalDownPressed();
-
 private:
-    void updateColumns();
-
-private:
-    SearchLine m_searchLine;
     QStringList m_columnHeaders;
 };
 
