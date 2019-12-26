@@ -34,7 +34,7 @@ class AllArtistsListViewItem : public QListWidgetItem
 {
 public:
     AllArtistsListViewItem(QListWidget *parent) :
-        QListWidgetItem(i18n("&lt;All Artists&gt;"), parent)
+        QListWidgetItem(i18n("<All Artists>"), parent)
     {
     }
 
