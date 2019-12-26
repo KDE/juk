@@ -21,18 +21,17 @@
 #include "searchadaptor.h"
 #include "juk_debug.h"
 
-#include <klineedit.h>
-#include <kiconloader.h>
-#include <kcombobox.h>
 #include <KLocalizedString>
 
 #include <QAction>
-#include <QLabel>
 #include <QCheckBox>
+#include <QComboBox>
+#include <QHBoxLayout>
+#include <QKeyEvent>
+#include <QLabel>
+#include <QLineEdit>
 #include <QPushButton>
 #include <QToolButton>
-#include <QKeyEvent>
-#include <QHBoxLayout>
 
 using namespace ActionCollection;
 
@@ -41,7 +40,7 @@ using namespace ActionCollection;
 ////////////////////////////////////////////////////////////////////////////////
 
 SearchLine::SearchLine(QWidget *parent, bool simple)
-    : QFrame(parent),
+    : QWidget(parent),
     m_simple(simple),
     m_searchFieldsBox(0)
 {
@@ -50,14 +49,14 @@ SearchLine::SearchLine(QWidget *parent, bool simple)
     layout->setSpacing(5);
 
     if(!m_simple) {
-        m_searchFieldsBox = new KComboBox(this);
+        m_searchFieldsBox = new QComboBox(this);
         layout->addWidget(m_searchFieldsBox);
         m_searchFieldsBox->setObjectName( QLatin1String( "searchFields" ) );
         connect(m_searchFieldsBox, SIGNAL(activated(int)),
                 this, SIGNAL(signalQueryChanged()));
     }
 
-    m_lineEdit = new KLineEdit(this);
+    m_lineEdit = new QLineEdit(this);
     layout->addWidget(m_lineEdit);
     m_lineEdit->setClearButtonEnabled(true);
     m_lineEdit->installEventFilter(this);
@@ -67,7 +66,7 @@ SearchLine::SearchLine(QWidget *parent, bool simple)
             this, SLOT(slotActivate()));
 
     if(!m_simple) {
-        m_caseSensitive = new KComboBox(this);
+        m_caseSensitive = new QComboBox(this);
         layout->addWidget(m_caseSensitive);
         m_caseSensitive->addItem(i18n("Normal Matching"));
         m_caseSensitive->addItem(i18n("Case Sensitive"));
@@ -144,13 +143,13 @@ void SearchLine::setFocus()
 bool SearchLine::eventFilter(QObject *watched, QEvent *e)
 {
     if(watched != m_lineEdit || e->type() != QEvent::KeyPress)
-        return QFrame::eventFilter(watched, e);
+        return QWidget::eventFilter(watched, e);
 
     QKeyEvent *key = static_cast<QKeyEvent *>(e);
     if(key->key() == Qt::Key_Down)
         emit signalDownPressed();
 
-    return QFrame::eventFilter(watched, e);
+    return QWidget::eventFilter(watched, e);
 }
 
 void SearchLine::slotActivate()
@@ -202,9 +201,7 @@ SearchWidget::SearchWidget(QWidget *parent)
     new SearchAdaptor(this);
     QDBusConnection::sessionBus().registerObject("/Search", this);
 
-    QLabel *label = new QLabel(i18n("Search:"), this );
-    label->setBuddy(&m_searchLine);
-    addWidget(label);
+    m_searchLine.m_lineEdit->setPlaceholderText(i18n("Search..."));
     addWidget(&m_searchLine);
 
     connect(&m_searchLine, SIGNAL(signalQueryChanged()), this, SIGNAL(signalQueryChanged()));
