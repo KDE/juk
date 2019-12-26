@@ -18,20 +18,19 @@
 #ifndef SEARCHWIDGET_H
 #define SEARCHWIDGET_H
 
-#include <ktoolbar.h>
+#include <KToolBar>
 
-#include <QFrame>
 #include <QList>
+#include <QLineEdit>
 
 #include "playlistsearch.h"
 
 class QEvent;
+class QComboBox;
 
-class KComboBox;
-class KLineEdit;
 class SearchWidget;
 
-class SearchLine : public QFrame
+class SearchLine : public QWidget
 {
     Q_OBJECT
 
@@ -63,9 +62,9 @@ private slots:
 
 private:
     bool m_simple;
-    KLineEdit *m_lineEdit;
-    KComboBox *m_searchFieldsBox;
-    KComboBox *m_caseSensitive;
+    QLineEdit *m_lineEdit;
+    QComboBox *m_searchFieldsBox;
+    QComboBox *m_caseSensitive;
     QList<int> m_columnList;
 };
 
