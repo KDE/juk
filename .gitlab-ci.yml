@@ -14,4 +14,4 @@ flatpak:
     MANIFEST_PATH: org.kde.juk.json
     APP_ID: org.kde.juk
     FLATPAK_MODULE: juk
-    CMAKE_ARGS: -DENABLE_TESTING=OFF
+    CMAKE_ARGS: -DBUILD_TESTING=OFF
