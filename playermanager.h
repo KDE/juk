@@ -83,7 +83,6 @@ public slots:
     void play(); // start or restart playback
     void pause();
     void stop();
-    void setVolume(float volume = 1.0);
     void seek(int seekTime);
     //void seekPosition(int position);
     void seekForward();
@@ -91,6 +90,7 @@ public slots:
     void playPause();
     void forward();
     void back();
+    void setVolume(qreal);
     void volumeUp();
     void volumeDown();
     void setMuted(bool m);
@@ -124,7 +124,6 @@ private slots:
     void slotStateChanged(Phonon::State, Phonon::State);
     void slotSeekableChanged(bool);
     void slotMutedChanged(bool);
-    void slotVolumeChanged(qreal);
 
 private:
     FileHandle m_file;
