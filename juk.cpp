@@ -176,6 +176,9 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
 
 JuK::~JuK()
 {
+    if(!m_shuttingDown)
+        slotQuit();
+
     // Some items need to be deleted before others, though I haven't looked
     // at this in some time so refinement is probably possible.
     delete m_systemTray;
