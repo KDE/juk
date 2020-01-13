@@ -543,6 +543,16 @@ void PlaylistBox::setSingleItem(QTreeWidgetItem *item)
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
+void PlaylistBox::dragMoveEvent(QDragMoveEvent* event)
+{
+    QTreeWidget::dragMoveEvent(event);
+
+    QTreeWidgetItem* hovered_item = itemAt(event->pos());
+    if(hovered_item)
+        raise(static_cast<Item *>(hovered_item)->playlist());
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox private slots
 ////////////////////////////////////////////////////////////////////////////////
