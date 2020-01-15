@@ -110,6 +110,7 @@ private:
     int viewModeIndex() const { return m_viewModeIndex; }
     ViewMode *viewMode() const { return m_viewModes[m_viewModeIndex]; }
     void dragMoveEvent(QDragMoveEvent *event) override;
+    void dragLeaveEvent(QDragLeaveEvent *event) override;
 
 private slots:
     /**
