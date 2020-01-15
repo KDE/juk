@@ -167,6 +167,8 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
             this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
 
     m_showTimer = new QTimer(this);
+    m_showTimer->setSingleShot(true);
+    m_showTimer->setInterval(500);
     connect(m_showTimer, SIGNAL(timeout()), SLOT(slotShowDropTarget()));
 
     // hook up to the D-Bus
@@ -473,12 +475,7 @@ void PlaylistBox::slotSavePlaylists()
 
 void PlaylistBox::slotShowDropTarget()
 {
-    if(!m_dropItem) {
-        qCCritical(JUK_LOG) << "Trying to show the playlist of a null item!\n";
-        return;
-    }
-
-    raise(m_dropItem->playlist());
+    if(m_dropItem) raise(m_dropItem->playlist());
 }
 
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
@@ -541,6 +538,24 @@ void PlaylistBox::setSingleItem(QTreeWidgetItem *item)
     setSelectionMode(QAbstractItemView::SingleSelection);
     setCurrentItem(item);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
+}
+
+void PlaylistBox::dragMoveEvent(QDragMoveEvent* event)
+{
+    QTreeWidget::dragMoveEvent(event);
+
+    Item* hovered_item = static_cast<Item*>(itemAt(event->pos()));
+    if(hovered_item != m_dropItem){
+        m_dropItem = hovered_item;
+        if(m_dropItem) m_showTimer->start();
+        else m_showTimer->stop();
+    };
+}
+
+void PlaylistBox::dragLeaveEvent(QDragLeaveEvent* event)
+{
+    QTreeWidget::dragLeaveEvent(event);
+    m_showTimer->stop();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
