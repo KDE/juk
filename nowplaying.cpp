@@ -122,7 +122,9 @@ CoverItem::CoverItem(NowPlaying *parent) :
     NowPlayingItem(parent)
 {
     setObjectName(QLatin1String("CoverItem"));
-    setFixedHeight(parent->height() - parent->layout()->margin() * 2);
+    const QMargins margins = parent->layout()->contentsMargins();
+
+    setFixedHeight(parent->height() - (margins.top() + margins.bottom()));
     setContentsMargins(1, 1, 1, 1);
     setAcceptDrops(true);
 }
@@ -249,7 +251,8 @@ TrackItem::TrackItem(NowPlaying *parent) :
     NowPlayingItem(parent)
 {
     setObjectName(QLatin1String("TrackItem"));
-    setFixedHeight(parent->height() - parent->layout()->margin() * 2);
+    const QMargins margins = parent->layout()->contentsMargins();
+    setFixedHeight(parent->height() - (margins.top() + margins.bottom()));
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Fixed);
 
     QVBoxLayout *layout = new QVBoxLayout(this);

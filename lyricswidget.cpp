@@ -113,7 +113,11 @@ void LyricsWidget::showEvent(QShowEvent *)
 void LyricsWidget::receiveListReply(QNetworkReply* reply)
 {
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     if (reply->error() != QNetworkReply::NoError) {
+#else
+    if (reply->networkError() != QNetworkReply::NoError) {
+#endif
         qCWarning(JUK_LOG) << "Error while fetching lyrics: " << reply->errorString();
         setHtml(i18n("<span style='color:red'>Error while retrieving lyrics!</span>"));
         return;
@@ -142,7 +146,11 @@ void LyricsWidget::receiveListReply(QNetworkReply* reply)
 void LyricsWidget::receiveLyricsReply(QNetworkReply* reply)
 {
     disconnect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveLyricsReply(QNetworkReply*)));
+#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     if (reply->error() != QNetworkReply::NoError) {
+#else
+    if (reply->networkError() != QNetworkReply::NoError) {
+#endif
         qCWarning(JUK_LOG) << "Error while fetching lyrics: " << reply->errorString();
         setHtml(i18n("<span style='color:red'>Error while retrieving lyrics!</span>"));
         return;

@@ -280,7 +280,7 @@ void Playlist::save()
     QStringList fileList = files();
 
     foreach(const QString &file, fileList)
-        stream << file << endl;
+        stream << file << '\n';
 
     file.close();
 }
@@ -551,7 +551,7 @@ void Playlist::slotAddCover(bool retrieveLocal)
         this, i18n("Select Cover Image File"),
         QUrl::fromLocalFile(QDir::home().path()),
         i18n("Images (*.png *.jpg)"), nullptr,
-        0, QStringList() << QStringLiteral("file")
+        {}, QStringList() << QStringLiteral("file")
         );
     if(file.isEmpty())
         return;
