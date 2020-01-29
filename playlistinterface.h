@@ -18,52 +18,18 @@
 #define PLAYLISTINTERFACE_H
 
 #include <QVector>
+#include <QObject>
 
 class FileHandle;
-class PlaylistObserver;
 
-/**
- * An interface implemented by PlaylistInterface to make it possible to watch
- * for changes in the PlaylistInterface.  This is a semi-standard observer
- * pattern from i.e. Design Patterns.
- */
-
-class Watched
-{
-public:
-    void addObserver(PlaylistObserver *observer);
-    void removeObserver(PlaylistObserver *observer);
-
-    /**
-     * Call this to remove all objects observing this class unconditionally (for example, when
-     * you're being destructed).
-     */
-    void clearObservers();
-
-    /**
-     * This is triggered when the currently playing item has been changed.
-     */
-    virtual void currentPlayingItemChanged();
-
-    /**
-     * This is triggered when the data in the playlist -- i.e. the tag content
-     * changes.
-     */
-    virtual void playlistItemsChanged();
-
-protected:
-    virtual ~Watched();
-
-private:
-    QVector<PlaylistObserver *> m_observers;
+class PlaylistInterfaceSignaller: public QObject{
+    Q_OBJECT
+signals:
+    void playingItemChanged();
+    void playingItemDataChanged();
 };
 
-/**
- * This is a simple interface that should be used by things that implement a
- * playlist-like API.
- */
-
-class PlaylistInterface : public Watched
+class PlaylistInterface
 {
 public:
     virtual QString name() const = 0;
@@ -76,36 +42,12 @@ public:
     virtual void stop() = 0;
 
     virtual bool playing() const = 0;
-};
+    void currentPlayingItemChanged();
+    virtual void playlistItemsChanged();
 
-class PlaylistObserver
-{
-public:
-    virtual ~PlaylistObserver();
+    PlaylistInterfaceSignaller signaller;
 
-    /**
-     * This method is called when the item which is currently playing
-     * in the given playlist changes.
-     * @todo TODO: Move to PlayerManager...
-     */
-    virtual void playingItemHasChanged()
-    { ; }
-
-    /**
-     * This method is called when the data of a PlaylistItem in the playlist
-     * being watched changes.
-     */
-    virtual void playlistItemDataHasChanged()
-    { ; }
-
-    void clearWatched() { m_playlist = nullptr; }
-
-protected:
-    PlaylistObserver(PlaylistInterface *playlist);
-    const PlaylistInterface *playlist() const;
-
-private:
-    PlaylistInterface *m_playlist;
+    virtual ~PlaylistInterface();
 };
 
 #endif

@@ -54,18 +54,13 @@ signals:
     void nowPlayingHidden();
 
 private:
-    struct Observer final : public PlaylistObserver
+    struct Observer final
     {
-        Observer(NowPlaying *parent, PlaylistInterface *playlist) :
-            PlaylistObserver(playlist),
-            m_parent(parent) {}
-        virtual void playlistItemDataHasChanged() override
+        Observer(NowPlaying *parent, PlaylistInterface *playlist)
         {
-            m_parent->slotReloadCurrentItem();
+            connect(&playlist->signaller, &PlaylistInterfaceSignaller::playingItemDataChanged, parent, &NowPlaying::slotReloadCurrentItem);
         }
-        NowPlaying *m_parent;
     };
-    friend struct Observer;
 
     Observer m_observer;
     Observer m_collectionListObserver;

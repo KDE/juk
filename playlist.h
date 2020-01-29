@@ -319,6 +319,8 @@ public:
 
     static void setShuttingDown() { m_shuttingDown = true; }
 
+    void playlistItemsChanged() override;
+
 public slots:
     /**
      * Remove the currently selected items from the playlist and disk.
@@ -401,8 +403,6 @@ public slots:
     void slotShowPlaying();
 
     void slotColumnResizeModeChanged();
-
-    virtual void playlistItemsChanged() override;
 
 protected:
     /**

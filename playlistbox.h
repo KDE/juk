@@ -144,7 +144,7 @@ private:
     QTimer *m_savePlaylistTimer;
 };
 
-class PlaylistBox::Item final : public QObject, public QTreeWidgetItem, public PlaylistObserver
+class PlaylistBox::Item final : public QObject, public QTreeWidgetItem
 {
     friend class PlaylistBox;
     friend class PlaylistSplitter;
@@ -181,14 +181,8 @@ protected:
     static Item *collectionItem() { return m_collectionItem; }
     static void setCollectionItem(Item *item) { m_collectionItem = item; }
 
-    //
-    // Reimplemented from PlaylistObserver
-    //
-
-    virtual void playingItemHasChanged() override;
-
     // Used to post a timer in PlaylistBox to save playlists.
-    virtual void playlistItemDataHasChanged() override;
+    void playlistItemDataChanged();
 
 
 protected slots:
