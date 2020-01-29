@@ -106,23 +106,16 @@ private:
     int m_width;
 };
 
-class CollectionObserver final : public PlaylistObserver
+class CollectionObserver final
 {
 public:
-    CollectionObserver(TagEditor *parent) :
-        PlaylistObserver(CollectionList::instance()),
-        m_parent(parent)
+    CollectionObserver(TagEditor *parent)
     {
+        QObject::connect(&CollectionList::instance()->signaller, &PlaylistInterfaceSignaller::playingItemDataChanged, parent, [parent]{
+            if(parent && parent->m_currentPlaylist && parent->isVisible())
+                parent->slotSetItems(parent->m_currentPlaylist->selectedItems());
+        });
     }
-
-    virtual void playlistItemDataHasChanged() override
-    {
-        if(m_parent && m_parent->m_currentPlaylist && m_parent->isVisible())
-            m_parent->slotSetItems(m_parent->m_currentPlaylist->selectedItems());
-    }
-
-private:
-    TagEditor *m_parent;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

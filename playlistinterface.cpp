@@ -17,67 +17,20 @@
 #include "playlistinterface.h"
 
 ////////////////////////////////////////////////////////////////////////////////
-// Watched implementation
+// PlaylistInterface implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-void Watched::currentPlayingItemChanged()
-{
-    foreach(PlaylistObserver *observer, m_observers)
-        observer->playingItemHasChanged();
+void PlaylistInterface::currentPlayingItemChanged(){
+    emit signaller.playingItemChanged();
 }
 
-void Watched::playlistItemsChanged()
-{
-    foreach(PlaylistObserver *observer, m_observers)
-        observer->playlistItemDataHasChanged();
+void PlaylistInterface::playlistItemsChanged(){
+    emit signaller.playingItemDataChanged();
 }
 
-void Watched::addObserver(PlaylistObserver *observer)
+PlaylistInterface::~PlaylistInterface()
 {
-    m_observers.append(observer);
 }
 
-void Watched::removeObserver(PlaylistObserver *observer)
-{
-    if(observer)
-        observer->clearWatched();
-
-    m_observers.removeAll(observer);
-}
-
-void Watched::clearObservers()
-{
-    foreach(PlaylistObserver *observer, m_observers)
-        observer->clearWatched();
-
-    m_observers.clear();
-}
-
-Watched::~Watched()
-{
-    clearObservers();
-}
-
-////////////////////////////////////////////////////////////////////////////////
-// PlaylistObserver implementation
-////////////////////////////////////////////////////////////////////////////////
-
-PlaylistObserver::~PlaylistObserver()
-{
-    if(m_playlist)
-        m_playlist->removeObserver(this);
-}
-
-PlaylistObserver::PlaylistObserver(PlaylistInterface *playlist) :
-    m_playlist(playlist)
-{
-    if(m_playlist)
-        playlist->addObserver(this);
-}
-
-const PlaylistInterface *PlaylistObserver::playlist() const
-{
-    return m_playlist;
-}
 
 // vim: set et sw=4 tw=0 sta:

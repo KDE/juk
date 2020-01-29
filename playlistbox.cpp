@@ -709,7 +709,6 @@ PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
 
 PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l)
     : QObject(listBox), QTreeWidgetItem(listBox, QStringList(text)),
-      PlaylistObserver(l),
       m_playlist(l), m_iconName(icon), m_sortedFirst(false)
 {
     init();
@@ -717,7 +716,6 @@ PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString
 
 PlaylistBox::Item::Item(Item *parent, const QString &icon, const QString &text, Playlist *l)
     : QObject(parent->listView()), QTreeWidgetItem(parent, QStringList(text)),
-    PlaylistObserver(l),
     m_playlist(l), m_iconName(icon), m_sortedFirst(false)
 {
     init();
@@ -755,11 +753,7 @@ void PlaylistBox::Item::slotSetName(const QString &name)
     //listView()->viewMode()->queueRefresh();
 }
 
-void PlaylistBox::Item::playingItemHasChanged()
-{
-}
-
-void PlaylistBox::Item::playlistItemDataHasChanged()
+void PlaylistBox::Item::playlistItemDataChanged()
 {
     // This avoids spuriously re-saving all playlists just because play queue
     // changes.
@@ -798,6 +792,8 @@ void PlaylistBox::Item::init()
         m_sortedFirst = true;
 
     setText(1, sortTextFor(itemText));
+
+    connect(&(m_playlist->signaller), &PlaylistInterfaceSignaller::playingItemDataChanged, this, &PlaylistBox::Item::playlistItemDataChanged);
 }
 
 QString PlaylistBox::Item::sortTextFor(const QString &name) const

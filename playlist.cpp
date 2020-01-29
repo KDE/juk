@@ -168,12 +168,6 @@ Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraCol
 
 Playlist::~Playlist()
 {
-    // In some situations the dataChanged signal from clearItems will cause observers to
-    // subsequently try to access a deleted item.  Since we're going away just remove all
-    // observers.
-
-    clearObservers();
-
     // clearItem() will take care of removing the items from the history,
     // so call clearItems() to make sure it happens.
 

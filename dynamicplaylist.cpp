@@ -20,25 +20,14 @@
 #include "tracksequencemanager.h"
 
 #include <QTimer>
+#include <QObject>
 
-class PlaylistDirtyObserver : public PlaylistObserver
+PlaylistDirtyObserver::PlaylistDirtyObserver(DynamicPlaylist* parent, Playlist* playlist) :
+    m_parent(parent)
 {
-public:
-    PlaylistDirtyObserver(DynamicPlaylist *parent, Playlist *playlist) :
-        PlaylistObserver(playlist),
-        m_parent(parent)
-    {
+    QObject::connect(&(playlist->signaller), &PlaylistInterfaceSignaller::playingItemDataChanged, m_parent, &DynamicPlaylist::slotSetDirty);
+}
 
-    }
-
-    virtual void playlistItemDataHasChanged() Q_DECL_FINAL override
-    {
-        m_parent->slotSetDirty();
-    }
-
-private:
-    DynamicPlaylist *m_parent;
-};
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -72,7 +61,7 @@ DynamicPlaylist::~DynamicPlaylist()
 {
     lower();
 
-    foreach(PlaylistObserver *observer, m_observers)
+    foreach(PlaylistDirtyObserver *observer, m_observers)
         delete observer;
 }
 
