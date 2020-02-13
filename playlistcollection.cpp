@@ -244,7 +244,7 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
     PlaylistSearch search(playlists, components, PlaylistSearch::MatchAll);
 
     if(m_showMorePlaylist)
-        m_showMorePlaylist->setPlaylistSearch(search);
+        m_showMorePlaylist->setPlaylistSearch(&search);
     else
         m_showMorePlaylist = new SearchPlaylist(this, search, i18n("Now Playing"), false, true);
 
@@ -455,7 +455,7 @@ void PlaylistCollection::editSearch()
         return;
 
     auto searchDialog = new AdvancedSearchDialog(
-            p->name(), p->playlistSearch(), JuK::JuKInstance());
+            p->name(), *(p->playlistSearch()), JuK::JuKInstance());
     QObject::connect(searchDialog, &QDialog::finished, [searchDialog, p](int result)
             {
                 if (result) {
@@ -538,7 +538,7 @@ void PlaylistCollection::createSearchPlaylist()
                 if (result) {
                     raise(new SearchPlaylist(
                                 this,
-                                searchDialog->resultSearch(),
+                                *searchDialog->resultSearch(),
                                 searchDialog->resultPlaylistName()));
                 }
                 searchDialog->deleteLater();

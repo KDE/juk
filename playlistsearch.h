@@ -19,6 +19,7 @@
 
 #include <QRegExp>
 #include <QVector>
+#include <QSortFilterProxyModel>
 
 class Playlist;
 class PlaylistItem;
@@ -27,7 +28,7 @@ typedef QVector<int> ColumnList;
 typedef QVector<PlaylistItem *> PlaylistItemList;
 typedef QVector<Playlist *> PlaylistList;
 
-class PlaylistSearch
+class PlaylistSearch : QSortFilterProxyModel
 {
 public:
     class Component;
@@ -35,21 +36,19 @@ public:
 
     enum SearchMode { MatchAny = 0, MatchAll = 1 };
 
-    PlaylistSearch();
+    PlaylistSearch(QObject* parent = nullptr);
     PlaylistSearch(const PlaylistList &playlists,
                    const ComponentList &components,
                    SearchMode mode = MatchAny,
-                   bool searchNow = true);
+                   QObject* parent = nullptr);
 
     void search();
-    bool checkItem(PlaylistItem *item);
+    bool checkItem(QModelIndex *item);
 
-    PlaylistItemList searchedItems() const { return m_items; }
-    PlaylistItemList matchedItems() const { return m_matchedItems; }
-    PlaylistItemList unmatchedItems() const { return m_unmatchedItems; }
+    QModelIndexList matchedItems() const;
 
-    void addPlaylist(Playlist *p) { m_playlists.append(p); }
-    void clearPlaylists() { m_playlists.clear(); }
+    void addPlaylist(Playlist *p);
+    void clearPlaylists();
     PlaylistList playlists() const { return m_playlists; }
 
     void addComponent(const Component &c);
@@ -62,6 +61,8 @@ public:
     bool isNull() const;
     bool isEmpty() const;
 
+    bool filterAcceptsRow(int source_row, const QModelIndex& source_parent) const override;
+
     /**
      * This is used to clear an item from the matched and unmatched lists.  This
      * is useful because it can prevent keeping a dangling pointer around without
@@ -70,13 +71,10 @@ public:
     void clearItem(PlaylistItem *item);
 
 private:
+
     PlaylistList m_playlists;
     ComponentList m_components;
     SearchMode m_mode;
-
-    PlaylistItemList m_items;
-    PlaylistItemList m_matchedItems;
-    PlaylistItemList m_unmatchedItems;
 };
 
 /**
@@ -112,7 +110,7 @@ public:
     QRegExp pattern() const { return m_queryRe; }
     ColumnList columns() const { return m_columns; }
 
-    bool matches(PlaylistItem *item) const;
+    bool matches(int row, QModelIndex parent, QAbstractItemModel* model) const;
     bool isPatternSearch() const { return m_re; }
     bool isCaseSensitive() const { return m_caseSensitive; }
     MatchMode matchMode() const { return m_mode; }

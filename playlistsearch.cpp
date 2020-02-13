@@ -13,6 +13,15 @@
  * You should have received a copy of the GNU General Public License along with
  * this program.  If not, see <http://www.gnu.org/licenses/>.
  */
+#include <QtGlobal>
+
+#include <algorithm>
+#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
+#include <QConcatenateTablesProxyModel>
+#else
+#include <KConcatenateRowsProxyModel>
+typedef KConcatenateRowsProxyModel QConcatenateTablesProxyModel;
+#endif
 
 #include "playlistsearch.h"
 #include "playlist.h"
@@ -26,7 +35,8 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistSearch::PlaylistSearch() :
+PlaylistSearch::PlaylistSearch(QObject* parent) :
+    QSortFilterProxyModel(parent),
     m_mode(MatchAny)
 {
 
@@ -35,81 +45,55 @@ PlaylistSearch::PlaylistSearch() :
 PlaylistSearch::PlaylistSearch(const PlaylistList &playlists,
                                const ComponentList &components,
                                SearchMode mode,
-                               bool searchNow) :
+                               QObject* parent) :
+    QSortFilterProxyModel(parent),
     m_playlists(playlists),
     m_components(components),
     m_mode(mode)
 {
-    if(searchNow)
-        search();
+    QConcatenateTablesProxyModel* const model = new QConcatenateTablesProxyModel(this);
+    for(Playlist* playlist : playlists)
+        model->addSourceModel(playlist->model());
+    setSourceModel(model);
 }
 
-void PlaylistSearch::search()
+bool PlaylistSearch::checkItem(QModelIndex *item)
 {
-    m_items.clear();
-    m_matchedItems.clear();
-    m_unmatchedItems.clear();
-
-    // This really isn't as bad as it looks.  Despite the four nexted loops
-    // most of the time this will be searching one playlist for one search
-    // component -- possibly for one column.
-
-    // Also there should be some caching of previous searches in here and
-    // allowance for appending and removing chars.  If one is added it
-    // should only search the current list.  If one is removed it should
-    // pop the previous search results off of a stack.
-
-    foreach(Playlist *playlist, m_playlists) {
-        if(!isEmpty()) {
-            for(QTreeWidgetItemIterator it(playlist); *it; ++it)
-                checkItem(static_cast<PlaylistItem *>(*it));
-        }
-        else {
-            m_items += playlist->items();
-            m_matchedItems += playlist->items();
-        }
-    }
+    return mapFromSource(static_cast<QConcatenateTablesProxyModel*>(sourceModel())->mapFromSource(*item)).isValid();
 }
 
-bool PlaylistSearch::checkItem(PlaylistItem *item)
+QModelIndexList PlaylistSearch::matchedItems() const{
+    QModelIndexList res;
+    for(int row = 0; row < rowCount(); ++row)
+        res.append(mapToSource(index(row, 0)));
+    return res;
+}
+
+void PlaylistSearch::addPlaylist(Playlist* p)
 {
-    m_items.append(item);
-
-    // set our default
-    bool match = bool(m_mode);
-
-    ComponentList::Iterator componentIt = m_components.begin();
-    for(; componentIt != m_components.end(); ++componentIt) {
-
-        bool componentMatches = (*componentIt).matches(item);
-
-        if(componentMatches && m_mode == MatchAny) {
-            match = true;
-            break;
-        }
-
-        if(!componentMatches && m_mode == MatchAll) {
-            match = false;
-            break;
-        }
-    }
-
-    if(match)
-        m_matchedItems.append(item);
-    else
-        m_unmatchedItems.append(item);
-
-    return match;
+    static_cast<QConcatenateTablesProxyModel*>(sourceModel())->addSourceModel(p->model());
+    m_playlists.append(p);
 }
+
+void PlaylistSearch::clearPlaylists()
+{
+    beginResetModel();
+    setSourceModel(new QConcatenateTablesProxyModel(this));
+    endResetModel();
+    m_playlists.clear();
+}
+
 
 void PlaylistSearch::addComponent(const Component &c)
 {
     m_components.append(c);
+    invalidateFilter();
 }
 
 void PlaylistSearch::clearComponents()
 {
     m_components.clear();
+    invalidateFilter();
 }
 
 PlaylistSearch::ComponentList PlaylistSearch::components() const
@@ -136,11 +120,13 @@ bool PlaylistSearch::isEmpty() const
     return true;
 }
 
-void PlaylistSearch::clearItem(PlaylistItem *item)
-{
-    m_items.removeAll(item);
-    m_matchedItems.removeAll(item);
-    m_unmatchedItems.removeAll(item);
+bool PlaylistSearch::filterAcceptsRow(int source_row, const QModelIndex & source_parent) const{
+    QAbstractItemModel* const model = sourceModel();
+    auto matcher = [&](Component c){
+        return c.matches(source_row, source_parent, model);
+    };
+    return m_mode == MatchAny? std::any_of(m_components.begin(), m_components.end(), matcher) :
+        std::all_of(m_components.begin(), m_components.end(), matcher);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -180,55 +166,39 @@ PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& col
 
 }
 
-bool PlaylistSearch::Component::matches(PlaylistItem *item) const
+bool PlaylistSearch::Component::matches(int row, QModelIndex parent, QAbstractItemModel* model) const
 {
-    if((m_re && m_queryRe.isEmpty()) || (!m_re && m_query.isEmpty()))
-        return false;
-
-    if(m_columns.isEmpty()) {
-        Playlist *p = static_cast<Playlist *>(item->treeWidget());
-        for(int i = 0; i < p->columnCount(); i++) {
-            if(!p->isColumnHidden(i))
-                m_columns.append(i);
-        }
-    }
-
-
-    for(ColumnList::Iterator it = m_columns.begin(); it != m_columns.end(); ++it) {
-
-        if(m_re) {
-            if(item->text(*it).contains(m_queryRe))
-                return true;
-            else
-                break;
+    for(int column : m_columns){
+        const QString str = model->index(row, column, parent).data().toString();
+        if(m_re){
+            return str.contains(m_queryRe);
         }
 
         switch(m_mode) {
         case Contains:
-            if(item->text(*it).contains(m_query, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive))
+            if(str.contains(m_query, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive))
                 return true;
             break;
         case Exact:
-            if(item->text(*it).length() == m_query.length()) {
+            if(str.length() == m_query.length()) {
                 if(m_caseSensitive) {
-                    if(item->text(*it) == m_query)
+                    if(str == m_query)
                         return true;
                 }
-                else if(item->text(*it).toLower() == m_query.toLower())
+                else if(str.toLower() == m_query.toLower())
                     return true;
             }
             break;
         case ContainsWord:
         {
-            QString s = item->text(*it);
-            int i = s.indexOf(m_query, 0, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive );
+            int i = str.indexOf(m_query, 0, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive );
 
             if(i >= 0) {
 
                 // If we found the pattern and the lengths are the same, then
                 // this is a match.
 
-                if(s.length() == m_query.length())
+                if(str.length() == m_query.length())
                     return true;
 
                 // First: If the match starts at the beginning of the text or the
@@ -241,14 +211,13 @@ bool PlaylistSearch::Component::matches(PlaylistItem *item) const
 
                 // ...then we have a match
 
-                if((i == 0 || !s.at(i - 1).isLetterOrNumber()) &&
-                   (i + m_query.length() == s.length() || !s.at(i + m_query.length()).isLetterOrNumber()))
+                if((i == 0 || !str.at(i - 1).isLetterOrNumber()) &&
+                    (i + m_query.length() == str.length() || !str.at(i + m_query.length()).isLetterOrNumber()))
                     return true;
-                break;
             }
         }
         }
-    }
+    };
     return false;
 }
 

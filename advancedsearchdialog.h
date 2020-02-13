@@ -38,7 +38,7 @@ public:
             const PlaylistSearch& defaultSearch = PlaylistSearch(),
             QWidget* parent = nullptr);
 
-    PlaylistSearch resultSearch() const
+    PlaylistSearch* resultSearch() const
     {
         return m_search;
     }
@@ -58,7 +58,7 @@ private:
     void updateButtons();
 
     QBoxLayout *m_criteriaLayout;
-    PlaylistSearch m_search;
+    PlaylistSearch* m_search;
     QString m_playlistName;
     QList<SearchLine *> m_searchLines;
     QLineEdit *m_playlistNameLineEdit;

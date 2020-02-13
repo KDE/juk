@@ -297,8 +297,7 @@ void PlaylistSplitter::slotShowSearchResults()
 {
     PlaylistList playlists;
     playlists.append(visiblePlaylist());
-    PlaylistSearch search = m_searchWidget->search(playlists);
-    visiblePlaylist()->setSearch(search);
+    visiblePlaylist()->setSearch(m_searchWidget->search(playlists));
 }
 
 void PlaylistSplitter::slotPlaylistSelectionChanged()

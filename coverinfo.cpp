@@ -197,7 +197,9 @@ void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
 
     // Search done, iterate through results.
 
-    PlaylistItemList results = search.matchedItems();
+    PlaylistItemList results;
+    for(QModelIndex i : search.matchedItems())
+        results.append(static_cast<PlaylistItem*>(CollectionList::instance()->itemAt(i.row(), i.column())));
     PlaylistItemList::ConstIterator it = results.constBegin();
     for(; it != results.constEnd(); ++it) {
 

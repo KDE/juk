@@ -205,6 +205,10 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 
 install(TARGETS juk  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
+if(Qt5Widgets_VERSION VERSION_LESS "5.13.0")
+    find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS ItemModels)
+    target_link_libraries(juk KF5::ItemModels)
+endif(Qt5Widgets_VERSION VERSION_LESS "5.13.0")
 
 ########### install files ###############
 
