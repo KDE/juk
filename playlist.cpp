@@ -298,7 +298,6 @@ void Playlist::saveAs()
 void Playlist::updateDeletedItem(PlaylistItem *item)
 {
     m_members.remove(item->file().absFilePath());
-    m_search.clearItem(item);
 
     m_history.removeAll(item);
 }
@@ -364,23 +363,24 @@ void Playlist::updateLeftColumn()
     }
 }
 
-void Playlist::setItemsVisible(const PlaylistItemList &items, bool visible) // static
+void Playlist::setItemsVisible(const QModelIndexList &indexes, bool visible) // static
 {
     m_visibleChanged = true;
 
-    foreach(PlaylistItem *playlistItem, items)
-        playlistItem->setHidden(!visible);
+    for(QModelIndex index : indexes)
+        itemFromIndex(index)->setHidden(!visible);
 }
 
-void Playlist::setSearch(const PlaylistSearch &s)
+void Playlist::setSearch(PlaylistSearch* s)
 {
     m_search = s;
 
     if(!m_searchEnabled)
         return;
 
-    setItemsVisible(s.matchedItems(), true);
-    setItemsVisible(s.unmatchedItems(), false);
+    for(int row = 0; row < topLevelItemCount(); ++row)
+        topLevelItem(row)->setHidden(true);
+    setItemsVisible(s->matchedItems(), true);
 
     TrackSequenceManager::instance()->iterator()->playlistChanged();
 }
@@ -393,11 +393,14 @@ void Playlist::setSearchEnabled(bool enabled)
     m_searchEnabled = enabled;
 
     if(enabled) {
-        setItemsVisible(m_search.matchedItems(), true);
-        setItemsVisible(m_search.unmatchedItems(), false);
+        for(int row = 0; row < topLevelItemCount(); ++row)
+            topLevelItem(row)->setHidden(true);
+        setItemsVisible(m_search->matchedItems(), true);
     }
     else
-        setItemsVisible(items(), true);
+        for(PlaylistItem* item : items())
+            item->setHidden(false);
+
 }
 
 // Mostly seems to be for DynamicPlaylist
@@ -1112,10 +1115,10 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
     playlists.append(CollectionList::instance());
 
     PlaylistSearch search(playlists, components);
-    const PlaylistItemList matches = search.matchedItems();
+    const QModelIndexList matches = search.matchedItems();
 
-    foreach(PlaylistItem *item, matches)
-        item->refresh();
+    for(QModelIndex index: matches)
+        static_cast<PlaylistItem*>(itemFromIndex(index))->refresh();
 }
 
 void Playlist::hideColumn(int c, bool updateSearch)
@@ -1273,8 +1276,9 @@ void Playlist::setupItem(PlaylistItem *item)
     item->setTrackId(g_trackID);
     g_trackID++;
 
-    if(!m_search.isEmpty())
-        item->setHidden(!m_search.checkItem(item));
+    QModelIndex index = indexFromItem(item);
+    if(!m_search->isEmpty())
+        item->setHidden(!m_search->checkItem(&index));
 
     if(topLevelItemCount() <= 2 && !manualResize()) {
         slotWeightDirty();
@@ -1350,6 +1354,8 @@ void Playlist::slotPlayFromBackMenu(QAction *backAction) const
 
 void Playlist::setup()
 {
+    m_search = new PlaylistSearch(this);
+
     setAlternatingRowColors(true);
     setRootIsDecorated(false);
     setContextMenuPolicy(Qt::CustomContextMenu);

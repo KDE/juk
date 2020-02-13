@@ -207,9 +207,9 @@ SearchWidget::SearchWidget(QWidget *parent)
     updateColumns();
 }
 
-void SearchWidget::setSearch(const PlaylistSearch &search)
+void SearchWidget::setSearch(const PlaylistSearch* search)
 {
-    PlaylistSearch::ComponentList components = search.components();
+    PlaylistSearch::ComponentList components = search->components();
 
     if(components.isEmpty()) {
         clear();
@@ -229,11 +229,11 @@ void SearchWidget::setSearchText(const QString &text)
     setSearchComponent(PlaylistSearch::Component(text));
 }
 
-PlaylistSearch SearchWidget::search(const PlaylistList &playlists) const
+PlaylistSearch* SearchWidget::search(const PlaylistList &playlists) const
 {
     PlaylistSearch::ComponentList components;
     components.append(searchComponent());
-    return PlaylistSearch(playlists, components);
+    return new PlaylistSearch(playlists, components);
 }
 
 

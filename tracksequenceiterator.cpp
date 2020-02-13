@@ -130,7 +130,10 @@ void DefaultSequenceIterator::advance()
             // with an item, the matchedItems() should never be empty.
 
             if(!m_albumSearch.isNull()) {
-                PlaylistItemList albumMatches = m_albumSearch.matchedItems();
+                PlaylistItemList albumMatches;
+                const Playlist* const playlist = m_albumSearch.playlists()[0];
+                for(QModelIndex index : m_albumSearch.matchedItems())
+                    playlist->itemAt(index.row(), index.column());
                 if(albumMatches.isEmpty()) {
                     qCCritical(JUK_LOG) << "Unable to initialize album random play.\n";
                     qCCritical(JUK_LOG) << "List of potential results is empty.\n";
@@ -145,11 +148,9 @@ void DefaultSequenceIterator::advance()
                 for(int i = 0; i < albumMatches.count(); ++i)
                     if(albumMatches[i]->file().tag()->track() < item->file().tag()->track())
                         item = albumMatches[i];
-                m_albumSearch.clearItem(item);
 
                 if(m_albumSearch.matchedItems().isEmpty()) {
                     m_albumSearch.clearComponents();
-                    m_albumSearch.search();
                 }
             }
             else
@@ -216,7 +217,6 @@ void DefaultSequenceIterator::reset()
 {
     m_randomItems.clear();
     m_albumSearch.clearComponents();
-    m_albumSearch.search();
     setCurrent(0);
 }
 
@@ -255,7 +255,6 @@ void DefaultSequenceIterator::setCurrent(PlaylistItem *current)
         // Same idea as above
 
         initAlbumSearch(current);
-        m_albumSearch.clearItem(current);
     }
 }
 
@@ -281,7 +280,6 @@ void DefaultSequenceIterator::refillRandomList(Playlist *p)
     m_randomItems = p->visibleItems();
     m_randomItems.removeAll(current());
     m_albumSearch.clearComponents();
-    m_albumSearch.search();
 }
 
 void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
@@ -327,8 +325,6 @@ void DefaultSequenceIterator::initAlbumSearch(PlaylistItem *searchItem)
             PlaylistSearch::Component::Exact)
         );
     }
-
-    m_albumSearch.search();
 }
 
 // vim: set et sw=4 tw=0 sta:

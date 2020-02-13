@@ -74,8 +74,8 @@ class SearchWidget : public SearchLine
 public:
     explicit SearchWidget(QWidget *parent);
 
-    PlaylistSearch search(const PlaylistList &playlists) const;
-    void setSearch(const PlaylistSearch &search);
+    PlaylistSearch* search(const PlaylistList& playlists) const;
+    void setSearch(const PlaylistSearch* search);
 
     virtual QString searchText() const;
     virtual void setSearchText(const QString &text);

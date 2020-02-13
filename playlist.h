@@ -256,18 +256,18 @@ public:
      * Sets the items in the list to be either visible based on the value of
      * visible.  This is useful for search operations and such.
      */
-    static void setItemsVisible(const PlaylistItemList &items, bool visible = true);
+    void setItemsVisible(const QModelIndexList &indexes, bool visible = true);
 
     /**
      * Returns the search associated with this list, or an empty search if one
      * has not yet been set.
      */
-    PlaylistSearch search() const { return m_search; }
+    PlaylistSearch* search() const { return m_search; }
 
     /**
      * Set the search associated with this playlist.
      */
-    void setSearch(const PlaylistSearch &s);
+    void setSearch(PlaylistSearch* s);
 
     /**
      * If the search is disabled then all items will be shown, not just those that
@@ -678,7 +678,7 @@ private:
     bool m_widthsDirty                 = true;
     bool m_applySharedSettings         = true;
 
-    PlaylistSearch m_search;
+    PlaylistSearch* m_search;
     bool m_searchEnabled = true;
 
     int  m_itemsLoading = 0; /// Count of pending file loads outstanding

@@ -133,16 +133,16 @@ AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
 
 void AdvancedSearchDialog::accept()
 {
-    m_search.clearPlaylists();
-    m_search.clearComponents();
+    m_search->clearPlaylists();
+    m_search->clearComponents();
 
-    m_search.addPlaylist(CollectionList::instance());
+    m_search->addPlaylist(CollectionList::instance());
 
     for(const auto &searchLine : m_searchLines)
-        m_search.addComponent(searchLine->searchComponent());
+        m_search->addComponent(searchLine->searchComponent());
 
     PlaylistSearch::SearchMode m = PlaylistSearch::SearchMode(!m_matchAnyButton->isChecked());
-    m_search.setSearchMode(m);
+    m_search->setSearchMode(m);
 
     m_playlistName = m_playlistNameLineEdit->text();
 

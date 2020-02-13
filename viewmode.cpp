@@ -431,7 +431,7 @@ void TreeViewMode::addItems(const QStringList &items, unsigned column)
         components.clear();
         components.append(PlaylistSearch::Component(item, false, columns, mode));
 
-        PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny, false);
+        PlaylistSearch s(playlists, components, PlaylistSearch::MatchAny);
 
         TreeViewItemPlaylist *p = new TreeViewItemPlaylist(playlistBox(), s, item);
         playlistBox()->setupPlaylist(p, "audio-midi", itemParent);
