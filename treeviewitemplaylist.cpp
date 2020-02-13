@@ -29,7 +29,7 @@
 #include "juk_debug.h"
 
 TreeViewItemPlaylist::TreeViewItemPlaylist(PlaylistCollection *collection,
-                                           const PlaylistSearch &search,
+                                           PlaylistSearch &search,
                                            const QString &name) :
     SearchPlaylist(collection, search, name, false)
 {

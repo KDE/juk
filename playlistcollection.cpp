@@ -532,7 +532,7 @@ void PlaylistCollection::createSearchPlaylist()
     QString name = uniquePlaylistName(i18n("Search Playlist"));
 
     auto searchDialog = new AdvancedSearchDialog(
-            name, PlaylistSearch(), JuK::JuKInstance());
+            name, *(new PlaylistSearch(JuK::JuKInstance())), JuK::JuKInstance());
     QObject::connect(searchDialog, &QDialog::finished, [searchDialog, this](int result)
             {
                 if (result) {

@@ -77,9 +77,7 @@ void PlaylistSearch::addPlaylist(Playlist* p)
 
 void PlaylistSearch::clearPlaylists()
 {
-    beginResetModel();
     setSourceModel(new QConcatenateTablesProxyModel(this));
-    endResetModel();
     m_playlists.clear();
 }
 
