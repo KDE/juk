@@ -38,9 +38,10 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 AdvancedSearchDialog::AdvancedSearchDialog(const QString &defaultName,
-                                           const PlaylistSearch &defaultSearch,
+                                           PlaylistSearch &defaultSearch,
                                            QWidget *parent) :
-    QDialog(parent)
+    QDialog(parent),
+    m_search(&defaultSearch)
 {
     setWindowTitle(i18n("Create Search Playlist"));
     setObjectName(QStringLiteral("juk_advSrchDlg"));

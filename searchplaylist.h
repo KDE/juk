@@ -24,13 +24,13 @@ class SearchPlaylist : public DynamicPlaylist
     Q_OBJECT
 public:
     explicit SearchPlaylist(PlaylistCollection *collection,
-                   const PlaylistSearch& search = PlaylistSearch(),
+                   PlaylistSearch& search,
                    const QString &name = QString(),
                    bool setupPlaylist = true,
                    bool synchronizePlaying = false);
 
-    const PlaylistSearch* playlistSearch() const { return m_search; }
-    void setPlaylistSearch ( const PlaylistSearch* s, bool update = true );
+    PlaylistSearch* playlistSearch() const { return m_search; }
+    void setPlaylistSearch ( PlaylistSearch* s, bool update = true );
     virtual bool searchIsEditable() const override { return true; }
 
 protected:
@@ -40,7 +40,7 @@ protected:
     virtual void updateItems() override;
 
 private:
-    const PlaylistSearch* m_search;
+    PlaylistSearch* m_search;
 };
 
 QDataStream &operator<<(QDataStream &s, const SearchPlaylist &p);

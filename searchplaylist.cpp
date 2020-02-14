@@ -28,7 +28,7 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 SearchPlaylist::SearchPlaylist(PlaylistCollection *collection,
-                               const PlaylistSearch& search,
+                               PlaylistSearch& search,
                                const QString &name,
                                bool setupPlaylist,
                                bool synchronizePlaying) :
@@ -39,7 +39,7 @@ SearchPlaylist::SearchPlaylist(PlaylistCollection *collection,
 
 }
 
-void SearchPlaylist::setPlaylistSearch(const PlaylistSearch* s, bool update)
+void SearchPlaylist::setPlaylistSearch(PlaylistSearch* s, bool update)
 {
     m_search = s;
     if(update)

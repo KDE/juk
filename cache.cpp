@@ -73,7 +73,7 @@ static void parsePlaylistStream(QDataStream &s, PlaylistCollection *collection)
         switch(playlistType) {
         case Search:
         {
-            SearchPlaylist *p = new SearchPlaylist(collection);
+            SearchPlaylist *p = new SearchPlaylist(collection, *(new PlaylistSearch(JuK::JuKInstance())));
             s >> *p;
             playlist = p;
             break;

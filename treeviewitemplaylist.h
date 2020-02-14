@@ -28,7 +28,7 @@ class TreeViewItemPlaylist : public SearchPlaylist
 
 public:
     explicit TreeViewItemPlaylist(PlaylistCollection *collection,
-                         const PlaylistSearch &search = PlaylistSearch(),
+                         PlaylistSearch &search,
                          const QString &name = QString());
 
     virtual bool searchIsEditable() const override { return false; }
