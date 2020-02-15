@@ -241,12 +241,12 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
         components.append(c);
     }
 
-    PlaylistSearch search(playlists, components, PlaylistSearch::MatchAll);
+    auto search = new PlaylistSearch(playlists, components, PlaylistSearch::MatchAll, object());
 
     if(m_showMorePlaylist)
-        m_showMorePlaylist->setPlaylistSearch(&search);
+        m_showMorePlaylist->setPlaylistSearch(search);
     else
-        m_showMorePlaylist = new SearchPlaylist(this, search, i18n("Now Playing"), false, true);
+        m_showMorePlaylist = new SearchPlaylist(this, *search, i18n("Now Playing"), false, true);
 
     // The call to raise() below will end up clearing m_belowShowMorePlaylist,
     // so cache the value we want it to have now.

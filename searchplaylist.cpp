@@ -82,16 +82,16 @@ QDataStream &operator<<(QDataStream &s, const SearchPlaylist &p)
 QDataStream &operator>>(QDataStream &s, SearchPlaylist &p)
 {
     QString name;
-    PlaylistSearch search;
+    auto search = new PlaylistSearch(&p);
 
     s >> name
-      >> search;
+      >> *search;
 
     if(name.isEmpty())
         throw BICStreamException();
 
     p.setName(name);
-    p.setPlaylistSearch(&search, false);
+    p.setPlaylistSearch(search, false);
 
     return s;
 }
