@@ -799,6 +799,11 @@ void Playlist::keyPressEvent(QKeyEvent *event)
             }
         }
     }
+    else if(event->key() == Qt::Key_Return && !event->isAutoRepeat()) {
+        event->accept();
+        slotPlayCurrent();
+        return; // event completely handled already
+    }
 
     QTreeWidget::keyPressEvent(event);
 }
@@ -1240,8 +1245,6 @@ void Playlist::slotInitialize()
 
     connect(this, SIGNAL(customContextMenuRequested(QPoint)),
             this, SLOT(slotShowRMBMenu(QPoint)));
-    connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
-            this, SLOT(slotPlayCurrent()));
 
     // Disabled for now because adding new items (File->Open) causes Qt to send
     // an itemChanged signal for unrelated playlist items which can cause the
@@ -1372,7 +1375,6 @@ void Playlist::setup()
 
     sortByColumn(1, Qt::AscendingOrder);
 
-    // Should this be itemActivated? It is quite annoying when I try it...
     connect(this, &QTreeWidget::itemDoubleClicked, this, &Playlist::slotPlayCurrent);
 
     // Use a timer to soak up the multiple dataChanged signals we're going to get

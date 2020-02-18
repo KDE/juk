@@ -55,6 +55,7 @@ protected:
 signals:
     void signalQueryChanged();
     void signalDownPressed();
+    void returnPressed();
 
 private slots:
     void slotActivate();
