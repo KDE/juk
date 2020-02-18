@@ -790,10 +790,9 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
 void Playlist::keyPressEvent(QKeyEvent *event)
 {
     if(event->key() == Qt::Key_Up) {
-        const auto topItem = topLevelItem(0);
-        if(topItem && topItem == currentItem()) {
+        if(const auto activeItem = currentItem()) {
             QTreeWidgetItemIterator visible(this, QTreeWidgetItemIterator::NotHidden);
-            if(topItem == *visible) {
+            if(activeItem == *visible) {
                 emit signalMoveFocusAway();
                 event->accept();
             }
