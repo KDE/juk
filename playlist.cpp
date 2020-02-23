@@ -169,8 +169,12 @@ Playlist::~Playlist()
 {
     // clearItem() will take care of removing the items from the history,
     // so call clearItems() to make sure it happens.
+    //
+    // Some subclasses override clearItems and items so we manually dispatch to
+    // make clear that it's intentional that those subclassed versions don't
+    // get called (because we can't call them)
 
-    clearItems(items());
+    Playlist::clearItems(Playlist::items());
 
     if(!m_shuttingDown)
         m_collection->removePlaylist(this);

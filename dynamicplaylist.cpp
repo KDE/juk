@@ -59,6 +59,11 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
 
 DynamicPlaylist::~DynamicPlaylist()
 {
+    // The Playlist dtor will later clear items when it runs, we need to make
+    // sure the list is accurate first while we're still able to
+
+    checkUpdateItems();
+
     lower();
 
     foreach(PlaylistDirtyObserver *observer, m_observers)
