@@ -151,8 +151,13 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
     : Playlist(true, QString(), collection, iconName, 0)
 {
     m_fileName = playlistFile.canonicalFilePath();
-    loadFile(m_fileName, playlistFile);
-    collection->setupPlaylist(this, iconName);
+
+    // Load the file after construction completes so that virtual methods in
+    // subclasses can take effect.
+    QTimer::singleShot(0, [=]() {
+        loadFile(m_fileName, playlistFile);
+        collection->setupPlaylist(this, iconName);
+    });
 }
 
 Playlist::Playlist(PlaylistCollection *collection, bool delaySetup, int extraColumns)
