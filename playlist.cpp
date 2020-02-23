@@ -409,22 +409,26 @@ void Playlist::setSearchEnabled(bool enabled)
 // Mostly seems to be for DynamicPlaylist
 // TODO: See if this can't all be eliminated by making 'is-playing' a predicate
 // of the playlist item itself
-void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMaster)
+void Playlist::synchronizePlayingItems(Playlist *playlist, bool setMaster)
 {
-    foreach(const Playlist *p, sources) {
-        if(p->playing()) {
-            CollectionListItem *base = playingItem()->collectionItem();
-            for(QTreeWidgetItemIterator itemIt(this); *itemIt; ++itemIt) {
-                PlaylistItem *item = static_cast<PlaylistItem *>(*itemIt);
-                if(base == item->collectionItem()) {
-                    item->setPlaying(true, setMaster);
-                    PlaylistItemList playing = PlaylistItem::playingItems();
-                    TrackSequenceManager::instance()->setCurrent(item);
-                    return;
-                }
-            }
+    if(!playlist || !playlist->playing())
+        return;
+
+    CollectionListItem *base = playingItem()->collectionItem();
+    for(QTreeWidgetItemIterator itemIt(playlist); *itemIt; ++itemIt) {
+        PlaylistItem *item = static_cast<PlaylistItem *>(*itemIt);
+        if(base == item->collectionItem()) {
+            item->setPlaying(true, setMaster);
+            TrackSequenceManager::instance()->setCurrent(item);
             return;
         }
+    }
+}
+
+void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMaster)
+{
+    for(auto p : sources) {
+        synchronizePlayingItems(p, setMaster);
     }
 }
 

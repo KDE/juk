@@ -20,8 +20,11 @@
 #include "playlist.h"
 
 #include <QVector>
+#include <QPointer>
 
 class PlaylistDirtyObserver;
+
+using GuardedPlaylist = QPointer<Playlist>;
 
 /**
  * A Playlist that is a union of other playlists that is created dynamically.
@@ -102,20 +105,10 @@ private:
     void checkUpdateItems();
 
 private:
-    QVector<PlaylistDirtyObserver *> m_observers;
     PlaylistItemList m_siblings;
-    PlaylistList m_playlists;
+    QVector<GuardedPlaylist> m_playlists;
     bool m_dirty;
     bool m_synchronizePlaying;
-};
-
-class PlaylistDirtyObserver
-{
-public:
-    PlaylistDirtyObserver(DynamicPlaylist *parent, Playlist *playlist);
-
-private:
-    DynamicPlaylist *m_parent;
 };
 
 #endif

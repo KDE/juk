@@ -22,12 +22,7 @@
 #include <QTimer>
 #include <QObject>
 
-PlaylistDirtyObserver::PlaylistDirtyObserver(DynamicPlaylist* parent, Playlist* playlist) :
-    m_parent(parent)
-{
-    QObject::connect(&(playlist->signaller), &PlaylistInterfaceSignaller::playingItemDataChanged, m_parent, &DynamicPlaylist::slotSetDirty);
-}
-
+#include <algorithm>
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -38,23 +33,27 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
                                  const QString &name,
                                  const QString &iconName,
                                  bool setupPlaylist,
-                                 bool synchronizePlaying) :
-    Playlist(collection, true),
-    m_playlists(playlists),
-    m_dirty(true),
-    m_synchronizePlaying(synchronizePlaying)
+                                 bool synchronizePlaying)
+  : Playlist(collection, true)
+  , m_dirty(true)
+  , m_synchronizePlaying(synchronizePlaying)
 {
     if(setupPlaylist)
         collection->setupPlaylist(this, iconName);
+
     setName(name);
     setAllowDuplicates(false);
-
     setSortingEnabled(false);
 
-    for(PlaylistList::ConstIterator it = playlists.constBegin(); it != playlists.constEnd(); ++it)
-        m_observers.append(new PlaylistDirtyObserver(this, *it));
+    for(const auto playlist : playlists) {
+        m_playlists << QPointer<Playlist>(playlist);
 
-    connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()), this, SLOT(slotSetDirty()));
+        connect(&(playlist->signaller), &PlaylistInterfaceSignaller::playingItemDataChanged,
+                this, &DynamicPlaylist::slotSetDirty);
+    }
+
+    connect(CollectionList::instance(), &CollectionList::signalCollectionChanged,
+            this, &DynamicPlaylist::slotSetDirty);
 }
 
 DynamicPlaylist::~DynamicPlaylist()
@@ -65,14 +64,16 @@ DynamicPlaylist::~DynamicPlaylist()
     checkUpdateItems();
 
     lower();
-
-    foreach(PlaylistDirtyObserver *observer, m_observers)
-        delete observer;
 }
 
 void DynamicPlaylist::setPlaylists(const PlaylistList &playlists)
 {
-    m_playlists = playlists;
+    m_playlists.clear();
+
+    for(const auto playlist : playlists) {
+        m_playlists << QPointer<Playlist>(playlist);
+    }
+
     updateItems();
 }
 
@@ -82,8 +83,11 @@ void DynamicPlaylist::setPlaylists(const PlaylistList &playlists)
 
 void DynamicPlaylist::slotReload()
 {
-    for(PlaylistList::Iterator it = m_playlists.begin(); it != m_playlists.end(); ++it)
-        (*it)->slotReload();
+    for(const auto playlist : m_playlists) {
+        if(!playlist)
+            continue;
+        playlist->slotReload();
+    }
 
     checkUpdateItems();
 }
@@ -96,23 +100,23 @@ void DynamicPlaylist::lower(QWidget *top)
     if(playing()) {
         PlaylistList l;
         l.append(this);
-        for(PlaylistList::Iterator it = m_playlists.begin();
-            it != m_playlists.end(); ++it)
-        {
-            (*it)->synchronizePlayingItems(l, true);
+
+        for(const auto playlist : m_playlists) {
+            if(!playlist)
+                continue;
+            playlist->synchronizePlayingItems(l, true);
         }
     }
 
-    PlaylistItemList list = PlaylistItem::playingItems();
-    for(PlaylistItemList::Iterator it = list.begin(); it != list.end(); ++it) {
-        if((*it)->playlist() == this) {
-            list.erase(it);
-            break;
-        }
-    }
+    const auto playlistItems = PlaylistItem::playingItems();
+    const auto itemIt = std::find_if(
+        playlistItems.begin(), playlistItems.end(),
+        [this](const PlaylistItem *item) {
+            return item->playlist() != this;
+        });
 
-    if(!list.isEmpty())
-        TrackSequenceManager::instance()->setCurrentPlaylist(list.front()->playlist());
+    if(itemIt != playlistItems.end())
+        TrackSequenceManager::instance()->setCurrentPlaylist((*itemIt)->playlist());
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -141,15 +145,20 @@ void DynamicPlaylist::updateItems()
 {
     PlaylistItemList siblings;
 
-    for(PlaylistList::ConstIterator it = m_playlists.constBegin(); it != m_playlists.constEnd(); ++it)
-        siblings += (*it)->items();
+    for(const auto playlist : qAsConst(m_playlists)) {
+        if(!playlist)
+            continue;
+        siblings += playlist->items();
+    }
 
     if(m_siblings != siblings) {
         m_siblings = siblings;
         this->synchronizeItemsTo(siblings);
 
         if(m_synchronizePlaying) {
-            synchronizePlayingItems(m_playlists, true);
+            for(const auto playlist : m_playlists) {
+                synchronizePlayingItems(playlist, true);
+            }
         }
     }
 }

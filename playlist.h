@@ -303,6 +303,13 @@ public:
 
     /**
      * Synchronizes the playing item in this playlist with the playing item
+     * in \a playlist.  If \a setMaster is true, this list will become the source
+     * for determining the next item.
+     */
+    void synchronizePlayingItems(Playlist *playlist, bool setMaster);
+
+    /**
+     * Synchronizes the playing item in this playlist with the playing item
      * in \a sources.  If \a setMaster is true, this list will become the source
      * for determining the next item.
      */
