@@ -440,8 +440,6 @@ protected:
 
     virtual bool hasItem(const QString &file) const { return m_members.contains(file); }
 
-    virtual void addColumn(const QString &label, int width = -1);
-
     /**
      * Do some final initialization of created items.  Notably ensure that they
      * are shown or hidden based on the contents of the current PlaylistSearch.
@@ -499,7 +497,7 @@ private:
             PlaylistCollection *collection, const QString &iconName,
             int extraCols);
 
-    void setup();
+    void setup(int numColumnsToReserve);
 
     /**
      * This function is called to let the user know that JuK has automatically enabled
@@ -591,7 +589,7 @@ private slots:
      * Used to be a subclass of K3ListView::polish() but the timing of the
      * call is not consistent and therefore lead to crashes.
      */
-    void slotInitialize();
+    void slotInitialize(int numColumnsToReserve);
 
     void slotUpdateColumnWidths();
 
@@ -668,7 +666,6 @@ private:
     /**
      * The average minimum widths of columns to be used in balancing calculations.
      */
-    QStringList m_columns;
     QVector<int> m_columnWeights;
     QVector<int> m_columnFixedWidths;
     QVector<int> m_weightDirty;

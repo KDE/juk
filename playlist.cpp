@@ -124,13 +124,7 @@ Playlist::Playlist(
     , m_playlistName(name)
     , m_fetcher(new WebImageFetcher(this))
 {
-    // Any added columns must precede normal ones, which are normally added
-    // in setup()
-    for(int i = 0; i < extraCols; ++i) {
-        addColumn(i18n("JuK")); // Placeholder text
-    }
-
-    setup();
+    setup(extraCols);
 
     // Some subclasses need to do even more handling but will remember to
     // call setupPlaylist
@@ -1010,12 +1004,6 @@ void Playlist::takeItem(QTreeWidgetItem *item)
     QTreeWidget::takeTopLevelItem(index);
 }
 
-void Playlist::addColumn(const QString &label, int)
-{
-    m_columns.append(label);
-    setHeaderLabels(m_columns);
-}
-
 PlaylistItem *Playlist::createItem(const FileHandle &file, QTreeWidgetItem *after)
 {
     return createItem<PlaylistItem>(file, after);
@@ -1199,26 +1187,46 @@ void Playlist::sortByColumn(int column, Qt::SortOrder order)
     QTreeWidget::sortByColumn(column, order);
 }
 
-void Playlist::slotInitialize()
+// This function is called during startup so it cannot rely on any virtual
+// functions that might be changed by a subclass (virtual functions relying on
+// superclasses are fine since the C++ runtime can statically dispatch those).
+void Playlist::slotInitialize(int numColumnsToReserve)
 {
-    addColumn(i18n("Track Name"));
-    addColumn(i18n("Artist"));
-    addColumn(i18n("Album"));
-    addColumn(i18n("Cover"));
-    addColumn(i18nc("cd track number", "Track"));
-    addColumn(i18n("Genre"));
-    addColumn(i18n("Year"));
-    addColumn(i18n("Length"));
-    addColumn(i18n("Bitrate"));
-    addColumn(i18n("Comment"));
-    addColumn(i18n("File Name"));
-    addColumn(i18n("File Name (full path)"));
+    // Setup the columns in the list view. We set aside room for
+    // subclass-specific extra columns (always added at the beginning, see
+    // columnOffset()) and then supplement with columns that apply to every
+    // playlist.
+    const QStringList standardColHeaders = {
+        i18n("Track Name"),
+        i18n("Artist"),
+        i18n("Album"),
+        i18n("Cover"),
+        i18nc("cd track number", "Track"),
+        i18n("Genre"),
+        i18n("Year"),
+        i18n("Length"),
+        i18n("Bitrate"),
+        i18n("Comment"),
+        i18n("File Name"),
+        i18n("File Name (full path)"),
+    };
 
+    QStringList allColHeaders;
+    allColHeaders.reserve(numColumnsToReserve + standardColHeaders.size());
+    std::fill_n(allColHeaders.begin(), numColumnsToReserve, i18n("JuK"));
+    std::copy  (standardColHeaders.cbegin(), standardColHeaders.cend(),
+            std::back_inserter(allColHeaders));
+
+    setHeaderLabels(allColHeaders);
     setAllColumnsShowFocus(true);
     setSelectionMode(QTreeWidget::ExtendedSelection);
     header()->setSortIndicatorShown(true);
 
-    m_columnFixedWidths.resize(columnCount());
+    int numColumns = columnCount();
+
+    m_columnFixedWidths.resize(numColumns);
+    m_weightDirty.resize(numColumns);
+    m_columnWeights.resize(numColumns);
 
     //////////////////////////////////////////////////
     // setup header RMB menu
@@ -1227,11 +1235,8 @@ void Playlist::slotInitialize()
     QAction *showAction;
     const auto sharedSettings = SharedSettings::instance();
 
-    for(int i = 0; i < header()->count(); ++i) {
-        if(i - columnOffset() == PlaylistItem::FileNameColumn)
-            m_headerMenu->addSeparator();
-
-        showAction = new QAction(headerItem()->text(i), m_headerMenu);
+    for(int i = 0; i < numColumns; ++i) {
+        showAction = new QAction(allColHeaders[i], m_headerMenu);
         showAction->setData(i);
         showAction->setCheckable(true);
         showAction->setChecked(sharedSettings->isColumnVisible(i));
@@ -1269,6 +1274,9 @@ void Playlist::slotInitialize()
     viewport()->setAcceptDrops(true);
     setDropIndicatorShown(true);
     setDragEnabled(true);
+
+    // TODO: Retain last-run's sort
+    sortByColumn(1, Qt::AscendingOrder);
 
     m_disableColumnWidthUpdates = false;
 }
@@ -1354,7 +1362,7 @@ void Playlist::slotPlayFromBackMenu(QAction *backAction) const
 // private members
 ////////////////////////////////////////////////////////////////////////////////
 
-void Playlist::setup()
+void Playlist::setup(int numColumnsToReserve)
 {
     m_search = new PlaylistSearch(this);
 
@@ -1371,8 +1379,6 @@ void Playlist::setup()
     // Prevent list of selected items from changing while internet search is in
     // progress.
     connect(this, SIGNAL(itemSelectionChanged()), m_fetcher, SLOT(abortSearch()));
-
-    sortByColumn(1, Qt::AscendingOrder);
 
     connect(this, &QTreeWidget::itemDoubleClicked, this, &Playlist::slotPlayCurrent);
 
@@ -1398,7 +1404,7 @@ void Playlist::setup()
 
     // Explicitly call slotInitialize() so that the columns are added before
     // SharedSettings::apply() sets the visible and hidden ones.
-    slotInitialize();
+    slotInitialize(numColumnsToReserve);
 }
 
 void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)

@@ -89,9 +89,6 @@ signals:
     // Minimizing/closing the JuK window will not trigger this signal.
 
     void signalShown(bool shown);
-
-private:
-    QStringList m_columnHeaders;
 };
 
 #endif
