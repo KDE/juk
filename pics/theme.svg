@@ -165,17 +165,6 @@
          offset="1"
          style="stop-color:#000000;stop-opacity:1;" />
     </linearGradient>
-    <radialGradient
-       r="19"
-       fy="124"
-       fx="885"
-       cy="124"
-       cx="885"
-       gradientTransform="matrix(0.999999,2.0609768e-7,-2.0609785e-7,0.9999998,9.2955617e-4,-1.647123e-4)"
-       gradientUnits="userSpaceOnUse"
-       id="radialGradient8574"
-       xlink:href="#linearGradient6773"
-       inkscape:collect="always" />
     <linearGradient
        inkscape:collect="always"
        xlink:href="#linearGradient3958"
