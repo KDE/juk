@@ -1969,8 +1969,8 @@ void Playlist::slotInlineEditDone(QTreeWidgetItem *item, int column)
         return;
     }
 
-    for(auto &item : l) {
-        editTag(item, text, column);
+    for(auto &selItem : l) {
+        editTag(selItem, text, column);
     }
 
     TagTransactionManager::instance()->commit();
