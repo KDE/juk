@@ -18,8 +18,6 @@
 #ifndef JUK_PLAYLIST_H
 #define JUK_PLAYLIST_H
 
-#include <KCompletion>
-
 #include <QVector>
 #include <QEvent>
 #include <QList>
@@ -644,14 +642,6 @@ private slots:
      * to manually set the size of the column.
      */
     void columnResized(int column, int oldSize, int newSize);
-
-    /**
-     * The slot is called when the completion mode for the line edit in the
-     * inline tag editor is changed.  It saves the settings and through the
-     * magic of the SharedSettings class will apply it to the other playlists as
-     * well.
-     */
-    void slotInlineCompletionModeChanged(KCompletion::CompletionMode mode);
 
     void slotPlayCurrent();
     void slotUpdateTime();

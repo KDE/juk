@@ -71,13 +71,6 @@ bool Playlist::SharedSettings::isColumnVisible(int column) const
     return m_columnsVisible[column];
 }
 
-void Playlist::SharedSettings::setInlineCompletionMode(KCompletion::CompletionMode mode)
-{
-    m_inlineCompletion = mode;
-    writeConfig();
-}
-
-
 void Playlist::SharedSettings::apply(Playlist *l) const
 {
     if(!l)
@@ -100,8 +93,6 @@ void Playlist::SharedSettings::apply(Playlist *l) const
     }
 
     l->updateLeftColumn();
-    // FIXME rename -- needs a delegate which requires porting to QTreeView
-    //l->renameLineEdit()->setCompletionMode(m_inlineCompletion);
     l->slotColumnResizeModeChanged();
 }
 
@@ -143,9 +134,6 @@ Playlist::SharedSettings::SharedSettings()
                 m_columnsVisible[i] = true;
         }
     }
-
-    m_inlineCompletion = KCompletion::CompletionMode(
-        config.readEntry("InlineCompletionMode", int(KCompletion::CompletionAuto)));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -163,7 +151,6 @@ void Playlist::SharedSettings::writeConfig()
             l << i;
 
     config.writeEntry("VisibleColumns", l);
-    config.writeEntry("InlineCompletionMode", int(m_inlineCompletion));
     config.writeEntry("ResizeColumnsManually",
             ActionCollection::action<KToggleAction>("resizeColumnsManually")->isChecked());
 

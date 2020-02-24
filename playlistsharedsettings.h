@@ -18,8 +18,6 @@
 #ifndef JUK_PLAYLISTSHAREDSETTINGS_H
 #define JUK_PLAYLISTSHAREDSETTINGS_H
 
-#include <KCompletion>
-
 #include <QVector>
 
 #include "playlist.h"
@@ -39,8 +37,6 @@ public:
     void setColumnOrder(const Playlist *l);
     void toggleColumnVisible(int column);
     bool isColumnVisible(int column) const;
-    void setInlineCompletionMode(KCompletion::CompletionMode mode);
-
 
     /**
      * Apply the settings.
@@ -57,7 +53,6 @@ private:
 
     QVector<int> m_columnOrder;
     QVector<bool> m_columnsVisible;
-    KCompletion::CompletionMode m_inlineCompletion;
 };
 
 

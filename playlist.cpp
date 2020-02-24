@@ -2041,11 +2041,6 @@ void Playlist::columnResized(int column, int, int newSize)
     m_columnFixedWidths[column] = newSize;
 }
 
-void Playlist::slotInlineCompletionModeChanged(KCompletion::CompletionMode mode)
-{
-    SharedSettings::instance()->setInlineCompletionMode(mode);
-}
-
 void Playlist::slotPlayCurrent()
 {
     QTreeWidgetItemIterator it(this, QTreeWidgetItemIterator::Selected);

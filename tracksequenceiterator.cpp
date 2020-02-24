@@ -165,11 +165,11 @@ void DefaultSequenceIterator::advance()
     else {
         PlaylistItem *next = current()->itemBelow();
         if(!next && loop) {
-            Playlist *p = current()->playlist();
-            next = p->firstChild();
-        // FIXME playlist iterator (nextSibling)
-            /*while(next && !next->isVisible())
-                next = static_cast<PlaylistItem *>(next->nextSibling());*/
+            // Find first visible item and restart playback from there
+            QTreeWidgetItemIterator visible(
+                    current()->playlist(),
+                    QTreeWidgetItemIterator::NotHidden);
+            next = static_cast<PlaylistItem *>(*visible);
         }
 
         setCurrent(next);
