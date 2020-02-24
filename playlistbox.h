@@ -173,13 +173,9 @@ protected:
     QString text() const { return QTreeWidgetItem::text(0); }
     void setSortedFirst(bool first = true) { m_sortedFirst = first; }
 
-    /*virtual void paintCell(QPainter *p, const QColorGroup &colorGroup, int column, int width, int align);
-    virtual void paintFocus(QPainter *, const QColorGroup &, const QRect &) {}*/
-
     virtual void setup();
 
     static Item *collectionItem() { return m_collectionItem; }
-    static void setCollectionItem(Item *item) { m_collectionItem = item; }
 
     // Used to post a timer in PlaylistBox to save playlists.
     void playlistItemDataChanged();

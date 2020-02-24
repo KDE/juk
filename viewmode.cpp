@@ -46,100 +46,6 @@ ViewMode::~ViewMode()
 
 }
 
-        // FIXME
-/*void ViewMode::paintCell(PlaylistBox::Item *item,
-                         QPainter *painter,
-                         const QColorGroup &colorGroup,
-                         int column, int width, int)
-{
-    if(width < item->pixmap(column)->width())
-        return;
-
-    if(m_needsRefresh)
-        updateHeights();
-
-    QFontMetrics fm = painter->fontMetrics();
-
-    int y = item->listView()->itemMargin() + border;
-    const QPixmap *pm = item->pixmap(column);
-
-    if(item->isSelected()) {
-        painter->eraseRect(0, 0, width, item->height());
-        painter->setRenderHint(QPainter::Antialiasing);
-
-        QPen oldPen = painter->pen();
-        QPen newPen = oldPen;
-
-        painter->setPen(newPen);
-        newPen.setJoinStyle(Qt::RoundJoin);
-
-        newPen.setWidth(1);
-
-        QColor background = m_playlistBox->palette().color(QPalette::Highlight);
-        newPen.setColor(m_playlistBox->palette().color(QPalette::Text));
-        painter->setPen(newPen);
-        painter->drawRoundedRect(border, border, width - border * 2,
-                                 item->height() - border * 2, 2, 2);
-
-        QRect inner(border + 1, border + 1, width - border * 2 - 2,
-                    item->height() - border * 2 - 2);
-
-        painter->fillRect(inner, background);
-
-        QPainterPath path(inner.bottomLeft());
-
-        path.lineTo(QPoint(inner.topLeft().x(), inner.topLeft().y() - 3));
-        const QPointF topLeft(inner.topLeft());
-        QRectF arc(topLeft, QSizeF(4, 4));
-        path.arcTo(arc, 180, -90);
-        path.lineTo(inner.topRight());
-        path.lineTo(inner.bottomRight());
-        path.lineTo(inner.bottomLeft());
-
-        QColor window(item->listView()->palette().window().color());
-        const QColor base = background;
-
-        window.setAlphaF(0.5);
-
-        QLinearGradient decoGradient1;
-        decoGradient1.setStart(inner.topLeft());
-        decoGradient1.setFinalStop(inner.bottomLeft());
-        decoGradient1.setColorAt(0, window);
-        decoGradient1.setColorAt(1, Qt::transparent);
-
-        QLinearGradient decoGradient2;
-        decoGradient2.setStart(inner.topLeft());
-        decoGradient2.setFinalStop(inner.topRight());
-        decoGradient2.setColorAt(0, Qt::transparent);
-        decoGradient2.setColorAt(1, base);
-
-        painter->fillPath(path, decoGradient1);
-        painter->fillPath(path, decoGradient2);
-
-        painter->setPen(colorGroup.color(QPalette::HighlightedText));
-    }
-    else
-        painter->eraseRect(0, 0, width, item->height());
-
-    if(!pm->isNull()) {
-        int x = (width - pm->width()) / 2;
-        x = qMax(x, item->listView()->itemMargin());
-        painter->drawPixmap(x, y, *pm);
-    }
-
-    y += pm->height() + fm.height() - fm.descent();
-
-    foreach(const QString &line, m_lines[item]) {
-        int x = (width - fm.width(line)) / 2;
-        x = qMax(x, item->listView()->itemMargin());
-        painter->drawText(x, y, line);
-        y += fm.height() - fm.descent();
-    }
-
-    if(item == item->listView()->dropItem())
-        paintDropIndicator(painter, width, item->height());
-}*/
-
 bool ViewMode::eventFilter(QObject *watched, QEvent *e)
 {
     if(m_visible && watched == m_playlistBox->viewport() && e->type() == QEvent::Resize) {
@@ -179,31 +85,6 @@ void ViewMode::updateIcons()
 void ViewMode::setupItem(PlaylistBox::Item *item) const
 {
     Q_UNUSED(item);
-        // FIXME
-    /*const PlaylistBox *box = item->listView();
-    const int width = box->width() - box->verticalScrollBar()->width() - border * 2;
-    const int baseHeight = 2 * box->itemMargin() + 32 + border * 2;
-    const QFontMetrics fm = box->fontMetrics();
-    item->setHeight(baseHeight + (fm.height() - fm.descent()) * lines(item, fm, width).count());*/
-}
-
-void ViewMode::updateHeights()
-{
-        // FIXME
-    /*const int width = m_playlistBox->width() - m_playlistBox->verticalScrollBar()->width() - border * 2;
-
-    const int baseHeight = 2 * m_playlistBox->itemMargin() + 32 +
-                           border * 2 + 4;
-    const QFontMetrics fm = m_playlistBox->fontMetrics();
-
-    for(Q3ListViewItemIterator it(m_playlistBox); it.current(); ++it) {
-        PlaylistBox::Item *i = static_cast<PlaylistBox::Item *>(it.current());
-        m_lines[i] = lines(i, fm, width);
-        const int height = baseHeight + (fm.height() - fm.descent()) * m_lines[i].count();
-        i->setHeight(height);
-    }
-
-    m_needsRefresh = false;*/
 }
 
 void ViewMode::paintDropIndicator(QPainter *painter, int width, int height) // static
@@ -222,42 +103,6 @@ void ViewMode::paintDropIndicator(QPainter *painter, int width, int height) // s
     painter->setPen(oldPen);
 }
 
-QStringList ViewMode::lines(const PlaylistBox::Item *item,
-                            const QFontMetrics &fm,
-                            int width)
-{
-    // Here 32 is a bit arbitrary, but that's the width of the icons in this
-    // mode and seems to a reasonable toLower bound.
-
-    if(width < 32)
-        return QStringList();
-
-    QString line = item->text();
-
-    QStringList l;
-
-    Q_UNUSED(fm);
-
-    while(!line.isEmpty()) {
-        int textLength = line.length();
-        // FIXME
-        /*while(textLength > 0 &&
-              fm.width(line.mid(0, textLength).trimmed()) +
-              item->listView()->itemMargin() * 2 > width)
-        {
-            int i = line.lastIndexOf(QRegExp( "\\W"), textLength - 1);
-            if(i > 0)
-                textLength = i;
-            else
-                textLength--;
-        }*/
-
-        l.append(line.mid(0, textLength).trimmed());
-        line = line.mid(textLength);
-    }
-    return l;
-}
-
 ///////////////////////////////////////////////////////////////////////////////
 // CompactViewMode
 ////////////////////////////////////////////////////////////////////////////////
@@ -272,17 +117,6 @@ CompactViewMode::~CompactViewMode()
 
 }
 
-        // FIXME
-/*void CompactViewMode::paintCell(PlaylistBox::Item *item,
-                                QPainter *painter,
-                                const QColorGroup &colorGroup,
-                                int column, int width, int align)
-{
-    item->K3ListViewItem::paintCell(painter, colorGroup, column, width, align);
-    if(item == item->listView()->dropItem())
-        paintDropIndicator(painter, width, item->height());
-}*/
-
 QString CompactViewMode::name() const
 {
     return i18nc("compact viewing mode", "Compact");
@@ -294,15 +128,7 @@ void CompactViewMode::setShown(bool shown)
 
     if(shown) {
         updateIcons();
-        updateHeights();
     }
-}
-
-void CompactViewMode::updateHeights()
-{
-        // FIXME
-    /*for(Q3ListViewItemIterator it(playlistBox()); it.current(); ++it)
-        it.current()->setup();*/
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -331,32 +157,25 @@ void TreeViewMode::setShown(bool show)
 
     playlistBox()->setRootIsDecorated(show);
 
-        // FIXME
-    /*if(show) {
-        PlaylistBox::Item *collectionItem = PlaylistBox::Item::collectionItem();
-
-        if(!collectionItem)
-            return;
-
-        if(collectionItem && m_searchCategories.isEmpty())
+    if(show) {
+        if(m_searchCategories.isEmpty())
             setupDynamicPlaylists();
         else {
-            foreach(PlaylistBox::Item *item, m_searchCategories)
-                item->setVisible(true);
+            for(auto &item : m_searchCategories)
+                item->setHidden(false);
         }
 
         if(!m_setup) {
             m_setup = true;
-            playlistBox()->setSorting(-1);
+            playlistBox()->setSortingEnabled(false);
             CollectionList::instance()->setupTreeViewEntries(this);
-            playlistBox()->setSorting(0);
-            playlistBox()->sort();
+            playlistBox()->setSortingEnabled(true);
         }
     }
     else {
-        foreach(PlaylistBox::Item *item, m_searchCategories)
-            item->setVisible(false);
-    }*/
+        for(auto &item : m_searchCategories)
+            item->setHidden(true);
+    }
 }
 
 void TreeViewMode::removeItem(const QString &item, unsigned column)

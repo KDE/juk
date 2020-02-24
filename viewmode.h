@@ -82,12 +82,9 @@ protected:
     bool visible() const { return m_visible; }
     void setVisible(bool v) { m_visible = v; }
     void updateIcons();
-    virtual void updateHeights();
     static void paintDropIndicator(QPainter *painter, int width, int height);
 
 private:
-    static QStringList lines(const PlaylistBox::Item *item, const QFontMetrics &fm, int width);
-
     PlaylistBox *m_playlistBox;
     bool m_visible;
     bool m_needsRefresh;
@@ -108,17 +105,10 @@ public:
     virtual QString name() const override;
     virtual void setShown(bool shown) override;
 
-    /*virtual void paintCell(PlaylistBox::Item *item,
-                           QPainter *painter,
-                           const QColorGroup &colorGroup,
-                           int column, int width, int align);*/
-
     virtual void setupItem(PlaylistBox::Item *item) const override
     {
         item->setup();
     }
-protected:
-    virtual void updateHeights() override;
 };
 
 ////////////////////////////////////////////////////////////////////////////////

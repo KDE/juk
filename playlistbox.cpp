@@ -726,13 +726,6 @@ PlaylistBox::Item::~Item()
 
 }
 
-// FIXME paintcell
-/*void PlaylistBox::Item::paintCell(QPainter *painter, const QColorGroup &colorGroup, int column, int width, int align)
-{
-    PlaylistBox *playlistBox = static_cast<PlaylistBox *>(listView());
-    playlistBox->viewMode()->paintCell(this, painter, colorGroup, column, width, align);
-}*/
-
 void PlaylistBox::Item::setup()
 {
     listView()->viewMode()->setupItem(this);
@@ -749,8 +742,6 @@ void PlaylistBox::Item::slotSetName(const QString &name)
     setSelected(true);
 
     treeWidget()->scrollToItem(this);
-    //FIXME viewmode
-    //listView()->viewMode()->queueRefresh();
 }
 
 void PlaylistBox::Item::playlistItemDataChanged()
