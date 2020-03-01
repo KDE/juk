@@ -258,11 +258,6 @@ void PlayerManager::stop()
     m_media->stop();
 }
 
-void PlayerManager::setVolume(float volume)
-{
-    m_output->setVolume(volume);
-}
-
 void PlayerManager::seek(int seekTime)
 {
     if(m_media->currentTime() == seekTime)
@@ -432,13 +427,14 @@ void PlayerManager::slotMutedChanged(bool muted)
     emit mutedChanged(muted);
 }
 
-void PlayerManager::slotVolumeChanged(qreal volume)
+void PlayerManager::setVolume(qreal volume)
 {
     if(qFuzzyCompare(m_output->volume(), volume))
     {
         return;
     }
 
+    m_output->setVolume(volume);
     emit volumeChanged(volume);
 }
 
@@ -450,7 +446,7 @@ void PlayerManager::setupAudio()
 {
     using namespace Phonon;
     connect(m_output, &AudioOutput::mutedChanged,  this, &PlayerManager::slotMutedChanged);
-    connect(m_output, &AudioOutput::volumeChanged, this, &PlayerManager::slotVolumeChanged);
+    connect(m_output, &AudioOutput::volumeChanged, this, &PlayerManager::setVolume);
 
     connect(m_media, &MediaObject::stateChanged, this, &PlayerManager::slotStateChanged);
     connect(m_media, &MediaObject::currentSourceChanged, this, &PlayerManager::trackHasChanged);

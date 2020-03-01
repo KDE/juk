@@ -69,7 +69,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
     QWidgetAction *sliderActionWidget = new QWidgetAction( this );
     sliderActionWidget->setDefaultWidget( mainWidget );
 
-    connect( m_volumeSlider, SIGNAL(volumeChanged(float)), player, SLOT(setVolume(float)) );
+    connect( m_volumeSlider, &VolumeSlider::volumeChanged, player, &PlayerManager::setVolume );
 
     m_muteAction = new QAction( QIcon::fromTheme(QStringLiteral("audio-volume-muted")), QString(), this );
     m_muteAction->setToolTip( i18n( "Mute/Unmute" ) );
