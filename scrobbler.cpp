@@ -187,11 +187,7 @@ void Scrobbler::handleAuthenticationReply()
     QNetworkReply* reply = qobject_cast<QNetworkReply*>(sender());
 
     qCDebug(JUK_LOG) << "got authentication reply";
-#if (QT_VERSION < QT_VERSION_CHECK(5, 15, 0))
     if (reply->error() != QNetworkReply::NoError) {
-#else
-    if (reply->networkError() != QNetworkReply::NoError) {
-#endif
         emit invalidAuth();
         qCWarning(JUK_LOG) << "Error while getting authentication reply" << reply->errorString();
         return;
