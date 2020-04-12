@@ -112,6 +112,7 @@
     <p xml:lang="pl">JuK jest programem szafy grającej, obsługującym zbiory MP3, Ogg Vorbis oraz pliki dźwiękowe FLAC. Umożliwia edytowanie "znaczników" plików dźwiękowych i zarządzanie zbiorami oraz listami odtwarzania. Jednak jego głównym celem jest zarządzanie muzyką.</p>
     <p xml:lang="pt">O JuK é uma aplicação de reprodução de música, suportando colecções de ficheiros de áudio em MP3, Ogg Vorbis e FLAC. Permite-lhe editar as "marcas" dos seus ficheiros de áudio, gerir a sua colecção e as suas listas de reprodução. O seu foco principal é, de facto, a gestão de música.</p>
     <p xml:lang="pt-BR">JuK é um aplicativo para reprodução de músicas, com suporte a coleções de arquivos de áudio MP3, Ogg Vorbis e FLAC. Permite-lhe editar as etiquetas "tags" dos seus arquivos de áudio, gerenciar sua coleção e suas listas de músicas. Seu foco principal é, de fato, o gerenciamento de músicas.</p>
+    <p xml:lang="ru">JuK — музыкальный проигрыватель, поддерживающий работу с файлами в форматах MP3, Ogg и FLAC. Основной упор в приложении сделан на управление коллекцией музыкальных файлов: JuK позволяет редактировать метаданные и управлять списками воспроизведения.</p>
     <p xml:lang="sk">JuK je aplikácia hudobného jukeboxu, podporujúca kolekcie MP3, Ogg Vorbis a FLAC audio súborov. Umožní vám upraviť tagy vašich audio súborov a spravovať vašu kolekciu a zoznamy skladieb. Jeho hlavné zameranie je správa hudby.</p>
     <p xml:lang="sl">JuK je predvajalnik glasbe, ki podpira zbirke zvočnih datotek MP3, Ogg Vorbis in FLAC. Omogoča urejanje "oznak" vaših zvočnih datotek ter upravljanje zbirk in seznamov predvajanj. Glavni name programa je upravljanje glasbe.</p>
     <p xml:lang="sr">Џук је програм за виртуелни џубокс. Подржава збирке МП3, ОГГ, ворбис и ФЛАЦ аудио фајлова. Даје вам да уређујете „ознаке“ аудио фајлова, и управљате збиркама и листама нумера. Тежиште му је, у ствари, на управљању музиком.</p>
@@ -192,6 +193,7 @@
       <li xml:lang="pl">Spisy zbiorów i wiele list odtwarzania określonych przez użytkownika</li>
       <li xml:lang="pt">Lista de colecções e várias listas de reprodução definidas pelo utilizador</li>
       <li xml:lang="pt-BR">Lista de coleções e várias listas de músicas definidas pelo usuário</li>
+      <li xml:lang="ru">Работа со списком файлов музыкальной коллекции и списками воспроизведения, созданными пользователем;</li>
       <li xml:lang="sk">Zoznam kolekcií a viacnásobné používateľom definované zoznamy skladieb</li>
       <li xml:lang="sl">Seznam zbirk in več uporabniško določenih seznamov predvajanja</li>
       <li xml:lang="sr">Листа збирки и више кориснички дефинисаних листа нумера.</li>
@@ -230,6 +232,7 @@
       <li xml:lang="pl">Możliwość przeszukiwania katalogów w celu samoczynnego importowania list odtwarzania i plików muzycznych przy uruchomieniu</li>
       <li xml:lang="pt">Capacidade de sondar pastas para importar automaticamente as listas de reprodução e ficheiros de música no arranque</li>
       <li xml:lang="pt-BR">Capacidade de verificar as pastas para importar automaticamente arquivos de música e listas de músicas ao iniciar</li>
+      <li xml:lang="ru">Автоматический поиск и добавление в библиотеку списков воспроизведения и звуковых файлов;</li>
       <li xml:lang="sk">Schopnosť prehľadávať adresáre na automatický import zoznamov skladieb a hudobných súborov pri spustení</li>
       <li xml:lang="sl">Samodejen uvoz seznamov predvajanja in glasbenih datotek iz preiskanih map ob zagonu</li>
       <li xml:lang="sr">Скенирање фасцикли ради аутоматског увоза листа нумера и музичких фајлова при покретању.</li>
@@ -268,6 +271,7 @@
       <li xml:lang="pl">Dynamiczne przeszukiwanie list odtwarzania, które są samoczynnie uaktualnianie jako pola przy zmianie zbioru</li>
       <li xml:lang="pt">Listas de Pesquisas Dinâmicas que são actualizadas automaticamente à medida que os campos da colecção mudam</li>
       <li xml:lang="pt-BR">Listas de Pesquisas Dinâmicas que são atualizadas automaticamente à medida que os campos da coleção mudam</li>
+      <li xml:lang="ru">Динамические списки воспроизведения, обновляемые при изменении музыкальной коллекции;</li>
       <li xml:lang="sk">Dynamicky hľadané zoznamy skladieb, ktoré sa automaticky aktualizujú pri zmene polí v kolekcii</li>
       <li xml:lang="sl">Dinamični iskalni seznami predvajanja, ki se s spremembo polj v zbirki samodejno posodabljajo</li>
       <li xml:lang="sr">Динамичке листе нумера за претраге, које се аутоматски ажурирају како се поља у збирци мењају.</li>
@@ -306,6 +310,7 @@
       <li xml:lang="pl">Tryb widoku drzewa, w którym listy odtwarzania są samoczynnie tworzone dla zestawów albumów, wykonawców i gatunków</li>
       <li xml:lang="pt">Um modo em Árvore, onde as listas são geradas automaticamente para determinados conjuntos de álbuns, artistas e géneros</li>
       <li xml:lang="pt-BR">Um modo de exibição em árvore, onde as listas de músicas são geradas automaticamente para determinados conjuntos de álbuns, artistas e gêneros</li>
+      <li xml:lang="ru">Иерархический режим просмотра, в котором списки воспроизведения автоматически создаются для альбомов, исполнителей и жанров;</li>
       <li xml:lang="sk">Režim stromového zobrazenia, kde sa automaticky generujú zoznamy skladieb pre sady albumov, umelcov a žánrov</li>
       <li xml:lang="sl">Način drevesnega pogleda, v katerem so seznami predvajanja samodejno ustvarjeni za nabor albumov, izvajalcev in zvrsti</li>
       <li xml:lang="sr">Режим приказа стабла, где се листе нумера аутоматски генеришу по скуповима албума, извођача и жанрова.</li>
@@ -344,6 +349,7 @@
       <li xml:lang="pl">Historia list odtwarzania do wskazania, które pliki i kiedy zostały odtworzone</li>
       <li xml:lang="pt">Um histórico da lista de reprodução que indica quais os ficheiros que foram reproduzidos e quando</li>
       <li xml:lang="pt-BR">Um histórico da lista de músicas que indica quais arquivos foram reproduzidos e quando</li>
+      <li xml:lang="ru">История воспроизведения с сохранением имён файлов и времени их воспроизведения;</li>
       <li xml:lang="sk">História playlistu na indikáciu, ktoré súbory boli prehrané a kedy</li>
       <li xml:lang="sl">Zgodovina seznamov predvajanja, iz katere je razvidno katere datoteke ste predvajali in kdaj ste to storili</li>
       <li xml:lang="sr">Историјат листа нумера, који показује који су се фајлови пуштали и када.</li>
@@ -382,6 +388,7 @@
       <li xml:lang="pl">Wyszukiwanie w treści do odfiltrowywania spisu widocznych elementów</li>
       <li xml:lang="pt">Pesquisa incorporada para filtrar a lista de itens visíveis</li>
       <li xml:lang="pt-BR">Pesquisa incorporada para filtrar a lista de itens visíveis</li>
+      <li xml:lang="ru">Поддержка поиска среди отображаемых объектов;</li>
       <li xml:lang="sk">Inline hľadanie pre filtrovanie zoznamu viditeľných položiek</li>
       <li xml:lang="sl">Znotrajvrstično iskanje po seznamu vidnih predmetov</li>
       <li xml:lang="sr">Уткана претрага за филтрирање листе видљивих ставки.</li>
@@ -420,6 +427,7 @@
       <li xml:lang="pl">Możliwość odgadywania informacji znacznika na podstawie nazwy pliku utworu</li>
       <li xml:lang="pt">A capacidade de adivinhar a informação das marcas com base no nome do ficheiro da faixa</li>
       <li xml:lang="pt-BR">A capacidade de adivinhar a informação das etiquetas com base no nome do arquivo da faixa</li>
+      <li xml:lang="ru">Возможность угадывать теги по имени файла;</li>
       <li xml:lang="sk">Schopnosť uhádnutia informácie tagu založený na názve súboru skladby</li>
       <li xml:lang="sl">Ugibanje oznak glede na ime zvočne datoteke</li>
       <li xml:lang="sr">Могућност погађања ознака према имену фајла нумере.</li>
@@ -458,6 +466,7 @@
       <li xml:lang="pl">Narzędzie zmiany nazwy pliku, które może zmienić nazwę pliku na podstawie treści znacznika</li>
       <li xml:lang="pt">Um sistema de mudança de nomes dos ficheiros com base no conteúdo das marcas</li>
       <li xml:lang="pt-BR">Um sistema que pode renomear os arquivos com base no conteúdo das etiquetas</li>
+      <li xml:lang="ru">Переименование файлов на основании информации в метаданных;</li>
       <li xml:lang="sk">Premenovač súborov, ktorý vie premenovať súbory podľa obsahu tagu</li>
       <li xml:lang="sl">Preimenovalnik datotek, ki preimenuje glede na vsebino oznake</li>
       <li xml:lang="sr">Преименовање фајлова на основу садржаја ознака.</li>
@@ -496,6 +505,7 @@
       <li xml:lang="pl">Obsługa odczytu i zmieniania znaczników dla wielu formatów zaliczając do nich: ID3v1, ID3v2 oraz Ogg Vorbis</li>
       <li xml:lang="pt">Suporte para a leitura e edição de marcas em vários formatos, incluindo o ID3v1, ID3v2 e Ogg Vorbis</li>
       <li xml:lang="pt-BR">Suporte para leitura e edição de etiquetas em vários formatos, incluindo o ID3v1, ID3v2 e Ogg Vorbis</li>
+      <li xml:lang="ru">Чтение и редактирование метаданных с поддержкой множества форматов, в том числе: ID3v1, ID3v2 и Ogg Vorbis.</li>
       <li xml:lang="sk">Podpora čítania a úpravy tagov pre veľa formátov vrátane ID3v1, ID3v2 a Ogg Vorbis</li>
       <li xml:lang="sl">Branje in pisanje oznak ID3v1, ID3v2, Ogg Vorbis ter drugih</li>
       <li xml:lang="sr">Подршка за читање и уређивање ознака за многе формате, укључујући ИД3 в1 и в2, и ОГГ Ворбис.</li>
