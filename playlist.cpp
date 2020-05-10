@@ -1226,7 +1226,7 @@ void Playlist::slotInitialize(int numColumnsToReserve)
 
     QStringList allColHeaders;
     allColHeaders.reserve(numColumnsToReserve + standardColHeaders.size());
-    std::fill_n(allColHeaders.begin(), numColumnsToReserve, i18n("JuK"));
+    std::fill_n(std::back_inserter(allColHeaders), numColumnsToReserve, i18n("JuK"));
     std::copy  (standardColHeaders.cbegin(), standardColHeaders.cend(),
             std::back_inserter(allColHeaders));
 
