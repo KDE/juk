@@ -10,7 +10,7 @@ variables:
 flatpak:
   extends: .flatpak
   variables:
-    MANIFEST_URL: https://cgit.kde.org/flatpak-kde-applications.git/plain/org.kde.juk.json
+    MANIFEST_URL: https://invent.kde.org/packaging/flatpak-kde-applications/-/raw/master/org.kde.juk.json
     MANIFEST_PATH: org.kde.juk.json
     APP_ID: org.kde.juk
     FLATPAK_MODULE: juk
