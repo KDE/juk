@@ -209,7 +209,7 @@
       <li>Ability to scan directories to automatically import playlists and music files on start up</li>
       <li xml:lang="bs">Mogućnost skeniranja direktorija da automatski uvezete liste izvođenja i muzičke datoteke pri pokretanju</li>
       <li xml:lang="ca">Capacitat d'explorar directoris per a importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
-      <li xml:lang="ca-valencia">Capacitat d'explorar directoris per importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
+      <li xml:lang="ca-valencia">Capacitat d'explorar directoris per a importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
       <li xml:lang="da">Kan scanne mapper for automatisk at importere spillelister og musikfiler ved opstart</li>
       <li xml:lang="de">Ordner können durchsucht werden, um beim Start automatisch Wiedergabelisten und Musikdateien zu importieren</li>
       <li xml:lang="el">Ικανότητα σάρωσης καταλόγων για την αυτόματη εισαγωγή λιστών αναπαραγωγής και μουσικών αρχείων κατά την εκκίνηση</li>
@@ -326,7 +326,7 @@
       <li>Playlist history to indicate which files have been played and when</li>
       <li xml:lang="bs">Istorijat liste izvođenja da indicira koje su datoteke izvođene i kada</li>
       <li xml:lang="ca">Historial de les llistes de reproducció per a indicar quins fitxers s'han reproduït i quan.</li>
-      <li xml:lang="ca-valencia">Historial de les llistes de reproducció per indicar quins fitxers s'han reproduït i quan.</li>
+      <li xml:lang="ca-valencia">Historial de les llistes de reproducció per a indicar quins fitxers s'han reproduït i quan.</li>
       <li xml:lang="da">Spillelistehistorik som indikerer hvilke filer der er blevet afspillet og hvornår</li>
       <li xml:lang="de">Wiedergabelisten-Verlauf zur Anzeige, welche Dateien wann abgespielt wurden</li>
       <li xml:lang="el">Ιστορικό λιστών αναπαραγωγής με ένδειξη για το ποια αρχεία έχουν προηγηθεί και πότε</li>
@@ -365,7 +365,7 @@
       <li>Inline search for filtering the list of visible items</li>
       <li xml:lang="bs">Linijska pretraga za filtriranje liste vidljivih objekata</li>
       <li xml:lang="ca">Cerca inclosa per a filtrar la llista dels elements visibles.</li>
-      <li xml:lang="ca-valencia">Cerca inclosa per filtrar la llista dels elements visibles.</li>
+      <li xml:lang="ca-valencia">Cerca inclosa per a filtrar la llista dels elements visibles.</li>
       <li xml:lang="da">Indlejret søgning til filtrering af synlige elementer i listen</li>
       <li xml:lang="de">Inline-Suche zum Filtern der angezeigten Elemente</li>
       <li xml:lang="el">Αναζήτηση για φιλτράρισμα της λίστας με τα ορατά αντικείμενα</li>
