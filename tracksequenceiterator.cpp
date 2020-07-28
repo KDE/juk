@@ -17,8 +17,9 @@
 #include "tracksequenceiterator.h"
 
 #include <QAction>
-#include <krandom.h>
-#include <ktoggleaction.h>
+#include <QRandomGenerator>
+
+#include <KToggleAction>
 
 #include "playlist.h"
 #include "actioncollection.h"
@@ -69,22 +70,9 @@ DefaultSequenceIterator::~DefaultSequenceIterator()
 {
 }
 
-// Helper function to return a random number up to (but not including) a given max with
-// a truly equal probability of each integer in [0, max) being selected.
-// When Qt 5.10 can be required we can use QRandomGenerator for this, but for now need to
-// fixup KRandom.
-// See https://twitter.com/colmmacc/status/1012723779708088320
 static int boundedRandom(const int upperBound)
 {
-    while (1) {
-        const int candidate = KRandom::random();
-
-        // this check excludes integers above the highest multiple of
-        // upperBound that is still below RAND_MAX to remove bias
-        if (candidate < (RAND_MAX - (RAND_MAX % upperBound))) {
-            return candidate % upperBound;
-        }
-    }
+    return QRandomGenerator::global()->bounded(upperBound);
 }
 
 void DefaultSequenceIterator::advance()
@@ -97,9 +85,6 @@ void DefaultSequenceIterator::advance()
     bool albumRandom = action("albumRandomPlay") && action<KToggleAction>("albumRandomPlay")->isChecked();
 
     if(isRandom || albumRandom) {
-        // TODO: This should probably use KRandomSequence's ability to shuffle
-        // items instead of making a new random choice each time through.
-
         if(m_randomItems.isEmpty() && loop) {
 
             // Since refillRandomList will remove the currently playing item,
@@ -199,7 +184,7 @@ void DefaultSequenceIterator::prepareToPlay(Playlist *playlist)
 
         PlaylistItem *newItem = 0;
         if(!items.isEmpty())
-            newItem = items[KRandom::random() % items.count()];
+            newItem = items[boundedRandom(items.count())];
 
         setCurrent(newItem);
         refillRandomList();
