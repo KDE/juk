@@ -154,7 +154,7 @@ VolumePopupButton::mouseReleaseEvent( QMouseEvent * event )
             m_volumeMenu->exec( mapToGlobal( pos ) );
         }
     }
-    else if( event->button() == Qt::MidButton )
+    else if( event->button() == Qt::MiddleButton )
     {
         muteStateChanged( JuK::JuKInstance()->playerManager()->mute() );
     }
