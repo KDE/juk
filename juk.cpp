@@ -205,7 +205,8 @@ PlayerManager *JuK::playerManager() const
 void JuK::coverDownloaded(const QPixmap &cover)
 {
     QString event(cover.isNull() ? "coverFailed" : "coverDownloaded");
-    KNotification *notification = new KNotification(event, this);
+    KNotification *notification = new KNotification(event);
+    notification->setWidget(this);
     notification->setPixmap(cover);
     notification->setFlags(KNotification::CloseOnTimeout);
 
