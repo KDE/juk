@@ -488,6 +488,7 @@ void PlayerManager::trackHasChanged(const Phonon::MediaSource &newSource)
                 emit signalItemChanged(newFile);
             m_file = newFile;
             updateWindowTitle(m_file);
+            emit signalPlay();
             emit seeked(0);
         }
     } else {
