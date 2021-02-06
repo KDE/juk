@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2002-2007 Scott Wheeler <wheeler@kde.org>
- * Copyright (C) 2004-2017 Michael Pyne  <mpyne@kde.org>
+ * Copyright (C) 2004-2021 Michael Pyne  <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
 
     KAboutData aboutData(QStringLiteral("juk"), i18n("JuK"),
                          QStringLiteral(JUK_VERSION), i18n(description), KAboutLicense::GPL,
-                         i18n("Copyright © 2002–2019, Scott Wheeler, Michael Pyne, and others"),
+                         i18n("Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"),
                          QStringLiteral(""),
                          QStringLiteral("https://juk.kde.org/"));
 
