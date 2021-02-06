@@ -259,7 +259,7 @@ void JuK::setupActions()
     KActionMenu *actionMenu = collection->add<KActionMenu>("actionMenu");
     actionMenu->setText(i18n("&Random Play"));
     actionMenu->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
-    actionMenu->setDelayed(false);
+    actionMenu->setPopupMode(QToolButton::InstantPopup);
 
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
