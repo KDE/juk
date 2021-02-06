@@ -83,7 +83,7 @@ void DynamicPlaylist::setPlaylists(const PlaylistList &playlists)
 
 void DynamicPlaylist::slotReload()
 {
-    for(const auto playlist : m_playlists) {
+    for(const auto &playlist : m_playlists) {
         if(!playlist)
             continue;
         playlist->slotReload();
@@ -101,7 +101,7 @@ void DynamicPlaylist::lower(QWidget *top)
         PlaylistList l;
         l.append(this);
 
-        for(const auto playlist : m_playlists) {
+        for(const auto &playlist : m_playlists) {
             if(!playlist)
                 continue;
             playlist->synchronizePlayingItems(l, true);
@@ -145,7 +145,7 @@ void DynamicPlaylist::updateItems()
 {
     PlaylistItemList siblings;
 
-    for(const auto playlist : qAsConst(m_playlists)) {
+    for(const auto &playlist : qAsConst(m_playlists)) {
         if(!playlist)
             continue;
         siblings += playlist->items();
@@ -156,7 +156,7 @@ void DynamicPlaylist::updateItems()
         this->synchronizeItemsTo(siblings);
 
         if(m_synchronizePlaying) {
-            for(const auto playlist : m_playlists) {
+            for(const auto &playlist : m_playlists) {
                 synchronizePlayingItems(playlist, true);
             }
         }

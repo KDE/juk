@@ -1574,7 +1574,7 @@ QFuture<void> Playlist::addFilesFromDirectory(const QString &dirPath)
     );
     connect(loader, &DirectoryLoader::loadedFiles, this,
         [this](const FileHandleList &newFiles) {
-            for(const auto newFile : newFiles) {
+            for(const auto &newFile : newFiles) {
                 createItem(newFile);
             }
         }
