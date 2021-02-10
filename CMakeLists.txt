@@ -10,7 +10,7 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 project(juk VERSION ${RELEASE_SERVICE_VERSION})
 
 set(QT_MIN_VERSION "5.10.0")
-set(KF5_MIN_VERSION "5.35.0")
+set(KF5_MIN_VERSION "5.72.0")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
 set(CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake" ${ECM_MODULE_PATH})
@@ -63,12 +63,10 @@ set(HAVE_TUNEPIMP 0)
 
 ########### next target ###############
 
-include_directories( SYSTEM ${TAGLIB_INCLUDES} )
 add_definitions(-DQT_STL -DQT_NO_URL_CAST_FROM_STRING)
 
 # Look for Ogg Opus support in taglib (not released yet)
 cmake_push_check_state()
-set(CMAKE_REQUIRED_INCLUDES ${CMAKE_REQUIRED_INCLUDES} ${TAGLIB_INCLUDES})
 check_include_file_cxx(opusfile.h TAGLIB_HAS_OPUSFILE)
 cmake_pop_check_state()
 
@@ -194,7 +192,7 @@ target_link_libraries(juk ${LIBMATH}
     KF5::WidgetsAddons
     KF5::Wallet
     Phonon::phonon4qt5
-    ${TAGLIB_LIBRARIES}
+    Taglib::Taglib
 )
 
 if(TUNEPIMP_FOUND)
