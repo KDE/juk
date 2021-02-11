@@ -916,7 +916,7 @@ bool FileRenamer::moveFile(const QString &src, const QString &dest)
     if(!srcURL.isValid() || !dstURL.isValid() || srcURL == dstURL)
         return false;
 
-    QUrl dir = dstURL.resolved(QUrl::fromUserInput(".")); // resolves to path w/out filename
+    QUrl dir = dstURL.adjusted(QUrl::RemoveFilename); // resolves to path w/out filename
     if(!QDir().mkpath(dir.path())) {
         qCCritical(JUK_LOG) << "Unable to create directory " << dir.path();
         return false;
