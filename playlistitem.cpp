@@ -16,7 +16,6 @@
 
 #include "playlistitem.h"
 
-#include <config-juk.h>
 #include <kiconloader.h>
 
 #include <QCollator>

@@ -95,19 +95,15 @@ namespace MediaFiles
      */
     bool isVorbis(const QString &fileName);
 
-#ifdef TAGLIB_WITH_ASF
     /**
      * Returns true if fileName is an ASF file.
      */
     bool isASF(const QString &fileName);
-#endif
 
-#ifdef TAGLIB_WITH_MP4
     /**
      * Returns true if fileName is a MP4 file.
      */
     bool isMP4(const QString &fileName);
-#endif
 
     /**
      * Returns true if fileName is an Ogg/FLAC file.

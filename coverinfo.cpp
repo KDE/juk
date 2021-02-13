@@ -39,13 +39,10 @@
 #include <attachedpictureframe.h>
 #include <flacfile.h>
 #include <xiphcomment.h>
-
-#ifdef TAGLIB_WITH_MP4
 #include <mp4coverart.h>
 #include <mp4file.h>
 #include <mp4tag.h>
 #include <mp4item.h>
-#endif
 
 #include "mediafiles.h"
 #include "collectionlist.h"
@@ -289,6 +286,10 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
     QScopedPointer<TagLib::File> fileTag(
             MediaFiles::fileFactoryByType(m_file.absFilePath()));
 
+    if (!fileTag->isValid()) {
+        return false;
+    }
+
     if (TagLib::MPEG::File *mpegFile =
             dynamic_cast<TagLib::MPEG::File *>(fileTag.data()))
     {
@@ -314,7 +315,6 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
         // Look if images are embedded.
         return !flacFile->pictureList().isEmpty();
     }
-#ifdef TAGLIB_WITH_MP4
     else if(TagLib::MP4::File *mp4File =
             dynamic_cast<TagLib::MP4::File *>(fileTag.data()))
     {
@@ -323,7 +323,6 @@ bool CoverInfo::hasEmbeddedAlbumArt() const
             return tag->contains("covr");
         }
     }
-#endif
 
     return false;
 }
@@ -395,7 +394,6 @@ static QImage embeddedFLACAlbumArt(const TagLib::List<TagLib::FLAC::Picture *> &
             coverData.size());
 }
 
-#ifdef TAGLIB_WITH_MP4
 static QImage embeddedMP4AlbumArt(TagLib::MP4::Tag *tag)
 {
     if(!tag->contains("covr"))
@@ -416,7 +414,6 @@ static QImage embeddedMP4AlbumArt(TagLib::MP4::Tag *tag)
     // No appropriate image found
     return QImage();
 }
-#endif
 
 void CoverInfo::popup() const
 {
@@ -469,7 +466,6 @@ QImage CoverInfo::embeddedAlbumArt() const
     {
         return embeddedFLACAlbumArt(flacFile->pictureList());
     }
-#ifdef TAGLIB_WITH_MP4
     else if(auto *mp4File =
             dynamic_cast<TagLib::MP4::File *>(fileTag.data()))
     {
@@ -478,7 +474,6 @@ QImage CoverInfo::embeddedAlbumArt() const
             return embeddedMP4AlbumArt(tag);
         }
     }
-#endif
 
     return QImage();
 }

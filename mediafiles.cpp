@@ -37,19 +37,9 @@
 #include <xiphcomment.h>
 #include <oggflacfile.h>
 #include <mpcfile.h>
-
-#include <config-juk.h>
-#if TAGLIB_HAS_OPUSFILE
-# include <opusfile.h>
-#endif
-
-#ifdef TAGLIB_WITH_ASF
+#include <opusfile.h>
 #include <asffile.h>
-#endif
-
-#ifdef TAGLIB_WITH_MP4
 #include <mp4file.h>
-#endif
 
 #include "juk_debug.h"
 
@@ -64,32 +54,19 @@ namespace MediaFiles {
 
     static const char vorbisType[]  = "audio/x-vorbis+ogg";
     static const char oggflacType[] = "audio/x-flac+ogg";
+    static const char oggopusType[] = "audio/x-opus+ogg";
 
-#ifdef TAGLIB_WITH_ASF
     static const char asfType[] = "video/x-ms-asf";
-#endif
 
-#ifdef TAGLIB_WITH_MP4
     static const char mp4Type[] = "audio/mp4";
     static const char mp4AudiobookType[] = "audio/x-m4b";
-#endif
-
-#if TAGLIB_HAS_OPUSFILE
-    static const char oggopusType[] = "audio/x-opus+ogg";
-#endif
 
     static const char *const mediaTypes[] = {
         mp3Type, oggType, flacType, mpcType, vorbisType, oggflacType
-#ifdef TAGLIB_WITH_ASF
         ,asfType
-#endif
-#ifdef TAGLIB_WITH_MP4
         ,mp4Type
         ,mp4AudiobookType
-#endif
-#if TAGLIB_HAS_OPUSFILE
         ,oggopusType
-#endif
     };
 
     static const char playlistExtension[] = ".m3u";
@@ -159,26 +136,20 @@ TagLib::File *MediaFiles::fileFactoryByType(const QString &fileName)
         file = new TagLib::FLAC::File(encodedFileName.constData());
     else if(result.inherits(QLatin1String(vorbisType)))
         file = new TagLib::Vorbis::File(encodedFileName.constData());
-#ifdef TAGLIB_WITH_ASF
     else if(result.inherits(QLatin1String(asfType)))
         file = new TagLib::ASF::File(encodedFileName.constData());
-#endif
-#ifdef TAGLIB_WITH_MP4
     else if(result.inherits(QLatin1String(mp4Type)) || result.inherits(QLatin1String(mp4AudiobookType)))
         file = new TagLib::MP4::File(encodedFileName.constData());
-#endif
     else if(result.inherits(QLatin1String(mpcType)))
         file = new TagLib::MPC::File(encodedFileName.constData());
     else if(result.inherits(QLatin1String(oggflacType)))
         file = new TagLib::Ogg::FLAC::File(encodedFileName.constData());
-#if TAGLIB_HAS_OPUSFILE
     else if(result.inherits(QLatin1String(oggopusType)) ||
             (result.inherits(QLatin1String(oggType)) && fileName.endsWith(QLatin1String(".opus")))
             )
     {
         file = new TagLib::Ogg::Opus::File(encodedFileName.constData());
     }
-#endif
 
     return file;
 }
@@ -236,19 +207,15 @@ bool MediaFiles::isVorbis(const QString &fileName)
     return isFileOfMimeType(fileName, vorbisType);
 }
 
-#ifdef TAGLIB_WITH_ASF
 bool MediaFiles::isASF(const QString &fileName)
 {
     return isFileOfMimeType(fileName, asfType);
 }
-#endif
 
-#ifdef TAGLIB_WITH_MP4
 bool MediaFiles::isMP4(const QString &fileName)
 {
     return isFileOfMimeType(fileName, mp4Type) || isFileOfMimeType(fileName, mp4AudiobookType);
 }
-#endif
 
 bool MediaFiles::isOggFLAC(const QString &fileName)
 {

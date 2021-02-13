@@ -65,11 +65,6 @@ set(HAVE_TUNEPIMP 0)
 
 add_definitions(-DQT_STL -DQT_NO_URL_CAST_FROM_STRING)
 
-# Look for Ogg Opus support in taglib (not released yet)
-cmake_push_check_state()
-check_include_file_cxx(opusfile.h TAGLIB_HAS_OPUSFILE)
-cmake_pop_check_state()
-
 configure_file (config-juk.h.cmake ${CMAKE_CURRENT_BINARY_DIR}/config-juk.h )
 
 set(juk_SRCS
