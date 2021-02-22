@@ -2,6 +2,7 @@
  * Copyright (c) 2003-2009 Mark Kretschmann <kretschmann@kde.org>
  * Copyright (c) 2005 Gabor Lehel <illissius@gmail.com>
  * Copyright (c) 2008 Dan Meltzer <parallelgrapefruit@gmail.com>
+ * Copyright (c) 2021 Michael Pyne <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -34,25 +35,12 @@ class Slider : public QSlider
     public:
     explicit Slider( Qt::Orientation, uint max = 0, QWidget* parent = 0 );
 
-    virtual void setValue( int );
-
-signals:
-    //we emit this when the user has specifically changed the slider
-    //so connect to it if valueChanged() is too generic
-    //Qt also emits valueChanged( int )
-    void sliderReleased( int );
-
 protected:
     virtual void wheelEvent( QWheelEvent* ) override;
-    virtual void mouseMoveEvent( QMouseEvent* ) override;
-    virtual void mouseReleaseEvent( QMouseEvent* ) override;
-    virtual void mousePressEvent( QMouseEvent* ) override;
-    virtual void slideEvent( QMouseEvent* );
     QRectF sliderHandleRect( const QRectF &slider, qreal percent ) const;
 
     void paintCustomSlider( QPainter *p );
 
-    bool m_sliding;
     bool m_usingCustomStyle;
 
     static const int s_borderWidth = 6;
@@ -62,9 +50,6 @@ protected:
     static const int s_sliderInsertY = 5;
 
 private:
-    bool m_outside;
-    int  m_prevValue;
-    bool m_needsResize;
     QPixmap m_topLeft;
     QPixmap m_topRight;
     QPixmap m_top;
@@ -89,7 +74,6 @@ class VolumeSlider : public Slider
 
 protected:
     virtual void paintEvent( QPaintEvent* ) override;
-    virtual void mousePressEvent( QMouseEvent* ) override;
     virtual void contextMenuEvent( QContextMenuEvent* ) override;
 
 signals:
@@ -108,10 +92,8 @@ class TimeSlider : public Slider
 public:
     explicit TimeSlider( QWidget *parent );
 
-    void setSliderValue( int value );
 protected:
     virtual void paintEvent( QPaintEvent* ) override;
-    virtual void mousePressEvent( QMouseEvent* ) override;
     virtual void sliderChange( SliderChange change ) override;
 
 private:
