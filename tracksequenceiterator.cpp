@@ -117,7 +117,8 @@ void DefaultSequenceIterator::advance()
             if(!m_albumSearch.isNull()) {
                 PlaylistItemList albumMatches;
                 const Playlist* const playlist = m_albumSearch.playlists().constFirst();
-                for(QModelIndex index : m_albumSearch.matchedItems())
+                const auto matchingItems = m_albumSearch.matchedItems();
+                for(const QModelIndex &index : matchingItems)
                     playlist->itemAt(index.row(), index.column());
                 if(albumMatches.isEmpty()) {
                     qCCritical(JUK_LOG) << "Unable to initialize album random play.\n";

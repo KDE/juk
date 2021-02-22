@@ -139,7 +139,7 @@ void AdvancedSearchDialog::accept()
 
     m_search->addPlaylist(CollectionList::instance());
 
-    for(const auto &searchLine : m_searchLines)
+    for(const auto &searchLine : qAsConst(m_searchLines))
         m_search->addComponent(searchLine->searchComponent());
 
     PlaylistSearch::SearchMode m = PlaylistSearch::SearchMode(!m_matchAnyButton->isChecked());

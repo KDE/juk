@@ -129,7 +129,7 @@ Playlist::SharedSettings::SharedSettings()
         // Convert the int list into a bool list.
 
         m_columnsVisible.fill(false);
-        for(int i : l) {
+        for(int i : qAsConst(l)) {
             if(Q_LIKELY(i < m_columnsVisible.size()))
                 m_columnsVisible[i] = true;
         }

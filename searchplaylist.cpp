@@ -56,7 +56,8 @@ void SearchPlaylist::updateItems()
     // items() which would in turn call this method...
 
     PlaylistItemList items;
-    for(const QModelIndex index: m_search->matchedItems())
+    const auto matchingItems = m_search->matchedItems();
+    for(const QModelIndex &index : matchingItems)
         items.push_back(static_cast<PlaylistItem*>(itemFromIndex(index)));
     synchronizeItemsTo(items);
 

@@ -346,10 +346,9 @@ int FileRenamerWidget::addRowCategory(TagType category)
     static QIcon down = QIcon::fromTheme("go-down");
 
     // Find number of categories already of this type.
-    int categoryCount = 0;
-    for(const auto &row : m_rows)
-        if(row.category.category == category)
-            ++categoryCount;
+    int categoryCount = std::count_if(m_rows.cbegin(), m_rows.cend(),
+            [category](const Row &r) { return r.category.category == category; }
+            );
 
     Row row;
 

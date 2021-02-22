@@ -194,18 +194,19 @@ void CoverInfo::applyCoverToWholeAlbum(bool overwriteExistingCovers) const
 
     // Search done, iterate through results.
 
+    const auto playlistFoundItems = search.matchedItems();
     PlaylistItemList results;
-    for(QModelIndex i : search.matchedItems())
+    for(QModelIndex i : playlistFoundItems)
         results.append(static_cast<PlaylistItem*>(CollectionList::instance()->itemAt(i.row(), i.column())));
-    PlaylistItemList::ConstIterator it = results.constBegin();
-    for(; it != results.constEnd(); ++it) {
+
+    for(const auto &playlistItem : qAsConst(results)) {
 
         // Don't worry about files that somehow already have a tag,
         // unless the conversion is forced.
-        if(!overwriteExistingCovers && (*it)->file().coverInfo()->coverId() != CoverManager::NoMatch)
+        if(!overwriteExistingCovers && playlistItem->file().coverInfo()->coverId() != CoverManager::NoMatch)
             continue;
 
-        (*it)->file().coverInfo()->setCoverId(m_coverKey);
+        playlistItem->file().coverInfo()->setCoverId(m_coverKey);
     }
 }
 

@@ -166,9 +166,9 @@ PlaylistSearch::Component::Component(const QRegExp &query, const ColumnList& col
 
 bool PlaylistSearch::Component::matches(int row, QModelIndex parent, QAbstractItemModel* model) const
 {
-    for(int column : m_columns){
+    for(int column : qAsConst(m_columns)) {
         const QString str = model->index(row, column, parent).data().toString();
-        if(m_re){
+        if(m_re) {
             return str.contains(m_queryRe);
         }
 
@@ -178,18 +178,18 @@ bool PlaylistSearch::Component::matches(int row, QModelIndex parent, QAbstractIt
                 return true;
             break;
         case Exact:
-            if(str.length() == m_query.length()) {
-                if(m_caseSensitive) {
-                    if(str == m_query)
-                        return true;
-                }
-                else if(str.toLower() == m_query.toLower())
-                    return true;
+            // If lengths match, move on to check strings themselves
+            if(str.length() == m_query.length() &&
+               (( m_caseSensitive && str == m_query) ||
+                (!m_caseSensitive && str.toLower() == m_query.toLower()))
+               )
+            {
+                return true;
             }
             break;
         case ContainsWord:
         {
-            int i = str.indexOf(m_query, 0, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive );
+            int i = str.indexOf(m_query, 0, m_caseSensitive ? Qt::CaseSensitive : Qt::CaseInsensitive);
 
             if(i >= 0) {
 

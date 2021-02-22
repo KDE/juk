@@ -162,7 +162,8 @@ bool MediaFiles::isMediaFile(const QString &fileName)
         return false;
 
     // Search through our table of media types for a match
-    for(const auto &mimeType : mimeTypes()) {
+    const auto validMimeTypes(mimeTypes());
+    for(const auto &mimeType : validMimeTypes) {
         if(result.inherits(mimeType))
             return true;
     }

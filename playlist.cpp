@@ -400,10 +400,11 @@ void Playlist::setSearchEnabled(bool enabled)
             topLevelItem(row)->setHidden(true);
         setItemsVisible(m_search->matchedItems(), true);
     }
-    else
-        for(PlaylistItem* item : items())
+    else {
+        const auto &playlistItems = items();
+        for(PlaylistItem* item : playlistItems)
             item->setHidden(false);
-
+    }
 }
 
 // Mostly seems to be for DynamicPlaylist
