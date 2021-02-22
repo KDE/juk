@@ -45,15 +45,33 @@ MediaPlayer2Player::MediaPlayer2Player(QObject* parent)
     : QDBusAbstractAdaptor(parent)
     , m_player(JuK::JuKInstance()->playerManager())
 {
-    //FIXME: Workaround for GCC 4.8, remove .data() in 2019
-    connect(m_player.data(), &PlayerManager::signalItemChanged, this, &MediaPlayer2Player::currentSourceChanged);
-    connect(m_player.data(), &PlayerManager::signalPlay,        this, &MediaPlayer2Player::stateUpdated);
-    connect(m_player.data(), &PlayerManager::signalPause,       this, &MediaPlayer2Player::stateUpdated);
-    connect(m_player.data(), &PlayerManager::signalStop,        this, &MediaPlayer2Player::stateUpdated);
-    connect(m_player.data(), &PlayerManager::totalTimeChanged,  this, &MediaPlayer2Player::totalTimeChanged);
-    connect(m_player.data(), &PlayerManager::seekableChanged,   this, &MediaPlayer2Player::seekableChanged);
-    connect(m_player.data(), &PlayerManager::volumeChanged,     this, &MediaPlayer2Player::volumeChanged);
-    connect(m_player.data(), &PlayerManager::seeked,            this, &MediaPlayer2Player::seeked);
+    // The duplication here permits Qt to fulfill its QML notify magic by
+    // forwarding the relevant signals from PlayerManager straight to our
+    // notification signals. Doing this from within our slots would force them
+    // to be non-const (if we keep clazy happy), though maybe that's
+    // preferable?
+
+    connect(m_player, &PlayerManager::signalItemChanged, this, &MediaPlayer2Player::currentSourceChanged);
+    connect(m_player, &PlayerManager::signalItemChanged, this, &MediaPlayer2Player::metadataChanged);
+
+    connect(m_player, &PlayerManager::signalPlay,        this, &MediaPlayer2Player::stateUpdated);
+    connect(m_player, &PlayerManager::signalPause,       this, &MediaPlayer2Player::stateUpdated);
+    connect(m_player, &PlayerManager::signalStop,        this, &MediaPlayer2Player::stateUpdated);
+    connect(m_player, &PlayerManager::signalPlay,        this, &MediaPlayer2Player::playbackStatusChanged);
+    connect(m_player, &PlayerManager::signalPause,       this, &MediaPlayer2Player::playbackStatusChanged);
+    connect(m_player, &PlayerManager::signalStop,        this, &MediaPlayer2Player::playbackStatusChanged);
+
+    connect(m_player, &PlayerManager::totalTimeChanged,  this, &MediaPlayer2Player::totalTimeChanged);
+    connect(m_player, &PlayerManager::totalTimeChanged,  this, &MediaPlayer2Player::metadataChanged);
+
+    connect(m_player, &PlayerManager::seekableChanged,   this, &MediaPlayer2Player::seekableChanged);
+    connect(m_player, &PlayerManager::seekableChanged,   this, &MediaPlayer2Player::canSeekChanged);
+
+    connect(m_player, &PlayerManager::volumeChanged,     this, &MediaPlayer2Player::volumeChanged);
+    connect(m_player, &PlayerManager::volumeChanged,     this, &MediaPlayer2Player::signalVolumeChanged);
+
+    connect(m_player, &PlayerManager::seeked,            this, &MediaPlayer2Player::slotSeeked);
+    connect(m_player, &PlayerManager::seeked,            this, &MediaPlayer2Player::Seeked);
 }
 
 MediaPlayer2Player::~MediaPlayer2Player()
@@ -317,7 +335,7 @@ void MediaPlayer2Player::volumeChanged(float newVol) const
     signalPropertiesChange(properties);
 }
 
-void MediaPlayer2Player::seeked(int newPos) const
+void MediaPlayer2Player::slotSeeked(int newPos)
 {
     // casts int to uint64
     emit Seeked(newPos);

@@ -110,4 +110,3 @@ QStringList MediaPlayer2::SupportedMimeTypes() const
 
     return mimeTable;
 }
-

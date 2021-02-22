@@ -34,21 +34,25 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
     Q_OBJECT
     Q_CLASSINFO("D-Bus Interface", "org.mpris.MediaPlayer2.Player") // Docs: https://specifications.freedesktop.org/mpris-spec/latest/Media_Player.html
 
-    Q_PROPERTY(QString PlaybackStatus READ PlaybackStatus)
-    Q_PROPERTY(QString LoopStatus READ LoopStatus WRITE setLoopStatus)
-    Q_PROPERTY(double Rate READ Rate WRITE setRate)
-    Q_PROPERTY(bool Shuffle READ Shuffle WRITE setShuffle)
-    Q_PROPERTY(QVariantMap Metadata READ Metadata)
-    Q_PROPERTY(double Volume READ Volume WRITE setVolume)
-    Q_PROPERTY(qlonglong Position READ Position)
-    Q_PROPERTY(double MinimumRate READ MinimumRate)
-    Q_PROPERTY(double MaximumRate READ MaximumRate)
-    Q_PROPERTY(bool CanGoNext READ CanGoNext)
-    Q_PROPERTY(bool CanGoPrevious READ CanGoPrevious)
-    Q_PROPERTY(bool CanPlay READ CanPlay)
-    Q_PROPERTY(bool CanPause READ CanPause)
-    Q_PROPERTY(bool CanSeek READ CanSeek)
-    Q_PROPERTY(bool CanControl READ CanControl)
+    Q_PROPERTY(QString PlaybackStatus READ PlaybackStatus NOTIFY playbackStatusChanged)
+    Q_PROPERTY(QString LoopStatus READ LoopStatus CONSTANT)
+
+    // These NOTIFYs are a lie for now, we don't support changes, but MPRIS
+    // spec says this is a read/write property
+    Q_PROPERTY(double Rate READ Rate WRITE setRate NOTIFY metadataChanged)
+    Q_PROPERTY(bool Shuffle READ Shuffle WRITE setShuffle NOTIFY metadataChanged)
+
+    Q_PROPERTY(QVariantMap Metadata READ Metadata NOTIFY metadataChanged)
+    Q_PROPERTY(double Volume READ Volume WRITE setVolume NOTIFY signalVolumeChanged)
+    Q_PROPERTY(qlonglong Position READ Position NOTIFY Seeked)
+    Q_PROPERTY(double MinimumRate READ MinimumRate CONSTANT)
+    Q_PROPERTY(double MaximumRate READ MaximumRate CONSTANT)
+    Q_PROPERTY(bool CanGoNext READ CanGoNext CONSTANT)
+    Q_PROPERTY(bool CanGoPrevious READ CanGoPrevious CONSTANT)
+    Q_PROPERTY(bool CanPlay READ CanPlay CONSTANT)
+    Q_PROPERTY(bool CanPause READ CanPause CONSTANT)
+    Q_PROPERTY(bool CanSeek READ CanSeek NOTIFY canSeekChanged)
+    Q_PROPERTY(bool CanControl READ CanControl CONSTANT)
 
     public:
         explicit MediaPlayer2Player(QObject* parent);
@@ -75,7 +79,11 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
         bool CanControl() const;
 
     signals:
-        void Seeked(qlonglong Position) const;
+        void Seeked(qlonglong Position);
+        void playbackStatusChanged();
+        void metadataChanged();
+        void signalVolumeChanged();
+        void canSeekChanged();
 
     public slots:
         Q_NOREPLY void Next() const;
@@ -94,7 +102,7 @@ class MediaPlayer2Player : public QDBusAbstractAdaptor
         void totalTimeChanged() const;
         void seekableChanged(bool seekable) const;
         void volumeChanged(float newVol) const;
-        void seeked(int newPos) const;
+        void slotSeeked(int newPos);
 
     private:
         void signalPropertiesChange(const QVariantMap& properties) const;
