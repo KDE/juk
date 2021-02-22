@@ -19,6 +19,7 @@
 
 #include <QExplicitlySharedDataPointer>
 #include <QVector>
+#include <QHash>
 #include <QTreeWidgetItem>
 
 #include "tagguesser.h"
@@ -84,7 +85,7 @@ public:
 
     private:
         PlaylistItem *m_item;
-        static QMap<PlaylistItem *, QVector<Pointer *> > m_map;
+        static QHash<PlaylistItem *, QVector<Pointer *> > m_itemPointers;
     };
     friend class Pointer;
 

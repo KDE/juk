@@ -371,7 +371,7 @@ void PlaylistItem::setup(CollectionListItem *item)
 // PlaylistItem::Pointer implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-QMap<PlaylistItem *, QVector<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_map; // static
+QHash<PlaylistItem *, QVector<PlaylistItem::Pointer *> > PlaylistItem::Pointer::m_itemPointers; // static
 
 PlaylistItem::Pointer::Pointer(PlaylistItem *item) :
     m_item(item)
@@ -380,13 +380,13 @@ PlaylistItem::Pointer::Pointer(PlaylistItem *item) :
         return;
 
     m_item->m_watched = true;
-    m_map[m_item].append(this);
+    m_itemPointers[m_item].append(this);
 }
 
 PlaylistItem::Pointer::Pointer(const Pointer &p) :
     m_item(p.m_item)
 {
-    m_map[m_item].append(this);
+    m_itemPointers[m_item].append(this);
 }
 
 PlaylistItem::Pointer::~Pointer()
@@ -394,9 +394,9 @@ PlaylistItem::Pointer::~Pointer()
     if(!m_item)
         return;
 
-    m_map[m_item].removeAll(this);
-    if(m_map[m_item].isEmpty()) {
-        m_map.remove(m_item);
+    m_itemPointers[m_item].removeAll(this);
+    if(m_itemPointers[m_item].isEmpty()) {
+        m_itemPointers.remove(m_item);
         m_item->m_watched = false;
     }
 }
@@ -407,15 +407,15 @@ PlaylistItem::Pointer &PlaylistItem::Pointer::operator=(PlaylistItem *item)
         return *this;
 
     if(m_item) {
-        m_map[m_item].removeAll(this);
-        if(m_map[m_item].isEmpty()) {
-            m_map.remove(m_item);
+        m_itemPointers[m_item].removeAll(this);
+        if(m_itemPointers[m_item].isEmpty()) {
+            m_itemPointers.remove(m_item);
             m_item->m_watched = false;
         }
     }
 
     if(item) {
-        m_map[item].append(this);
+        m_itemPointers[item].append(this);
         item->m_watched = true;
     }
 
@@ -429,10 +429,10 @@ void PlaylistItem::Pointer::clear(PlaylistItem *item) // static
     if(!item)
         return;
 
-    QVector<Pointer *> l = m_map[item];
-    foreach(Pointer *pointer, l)
-        pointer->m_item = 0;
-    m_map.remove(item);
+    const auto itemPointers = m_itemPointers[item];
+    for(const auto &pointerGuard : itemPointers)
+        pointerGuard->m_item = nullptr;
+    m_itemPointers.remove(item);
     item->m_watched = false;
 }
 
