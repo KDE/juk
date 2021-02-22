@@ -124,7 +124,7 @@ void SearchLine::setSearchComponent(const PlaylistSearch::Component &component)
         if(component.columns().isEmpty() || component.columns().size() > 1)
             m_searchFieldsBox->setCurrentIndex(0);
         else
-            m_searchFieldsBox->setCurrentIndex(component.columns().front() + 1);
+            m_searchFieldsBox->setCurrentIndex(component.columns().constFirst() + 1);
     }
 }
 

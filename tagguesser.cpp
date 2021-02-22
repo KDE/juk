@@ -67,35 +67,35 @@ QString FileNameScheme::title() const
 {
     if(m_titleField == -1)
         return QString();
-    return m_regExp.capturedTexts()[ m_titleField ];
+    return m_regExp.capturedTexts().at(m_titleField);
 }
 
 QString FileNameScheme::artist() const
 {
     if(m_artistField == -1)
         return QString();
-    return m_regExp.capturedTexts()[ m_artistField ];
+    return m_regExp.capturedTexts().at(m_artistField);
 }
 
 QString FileNameScheme::album() const
 {
     if(m_albumField == -1)
         return QString();
-    return m_regExp.capturedTexts()[ m_albumField ];
+    return m_regExp.capturedTexts().at(m_albumField);
 }
 
 QString FileNameScheme::track() const
 {
     if(m_trackField == -1)
         return QString();
-    return m_regExp.capturedTexts()[ m_trackField ];
+    return m_regExp.capturedTexts().at(m_trackField);
 }
 
 QString FileNameScheme::comment() const
 {
     if(m_commentField == -1)
         return QString();
-    return m_regExp.capturedTexts()[ m_commentField ];
+    return m_regExp.capturedTexts().at(m_commentField);
 }
 
 QString FileNameScheme::composeRegExp(const QString &s) const

@@ -116,7 +116,7 @@ void DefaultSequenceIterator::advance()
 
             if(!m_albumSearch.isNull()) {
                 PlaylistItemList albumMatches;
-                const Playlist* const playlist = m_albumSearch.playlists()[0];
+                const Playlist* const playlist = m_albumSearch.playlists().constFirst();
                 for(QModelIndex index : m_albumSearch.matchedItems())
                     playlist->itemAt(index.row(), index.column());
                 if(albumMatches.isEmpty()) {

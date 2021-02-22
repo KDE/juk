@@ -33,8 +33,9 @@ TreeViewItemPlaylist::TreeViewItemPlaylist(PlaylistCollection *collection,
                                            const QString &name) :
     SearchPlaylist(collection, search, name, false)
 {
-    PlaylistSearch::Component component = *(search.components().begin());
-    m_columnType = static_cast<PlaylistItem::ColumnType>(*(component.columns().begin()));
+    const PlaylistSearch::ComponentList components(search.components());
+    const PlaylistSearch::Component component = components.first();
+    m_columnType = static_cast<PlaylistItem::ColumnType>(component.columns().constFirst());
 }
 
 void TreeViewItemPlaylist::retag(const QStringList &files, Playlist *)
