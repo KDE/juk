@@ -160,7 +160,6 @@ void DirectoryList::slotRemoveExcludeDirectory()
     // These will be used in the loop below
     QModelIndexList indexes;
     QModelIndex firstIndex;
-    QString dir;
 
     // The multiple indexes that are possibly present cannot be deleted one
     // after the other, as changing the layout of the model can change the

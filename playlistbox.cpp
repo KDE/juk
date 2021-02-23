@@ -372,15 +372,14 @@ void PlaylistBox::remove()
     QStringList names;
 
     foreach(Item *item, items) {
-        if(item && item->playlist())
-        {
-           if (!item->playlist()->fileName().isEmpty() &&
-               QFileInfo(item->playlist()->fileName()).exists())
-           {
-            files.append(item->playlist()->fileName());
-           }
+        if(item && item->playlist()) {
+            if (!item->playlist()->fileName().isEmpty() &&
+                QFileInfo::exists(item->playlist()->fileName()))
+            {
+                files.append(item->playlist()->fileName());
+            }
 
-           names.append(item->playlist()->name());
+            names.append(item->playlist()->name());
         }
     }
 

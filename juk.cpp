@@ -137,7 +137,7 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
                                        QStringLiteral("org.freedesktop.PowerManagement.Inhibit"),
                                        QDBusConnection::sessionBus());
 
-    connect(m_player, &PlayerManager::signalPlay, [=] () {
+    connect(m_player, &PlayerManager::signalPlay, pmInterface, [=] () {
         QDBusReply<uint> reply;
         if (pmInterface->isValid() && (m_pmToken == 0)) {
             reply = pmInterface->call(QStringLiteral("Inhibit"),

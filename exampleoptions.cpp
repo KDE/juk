@@ -87,7 +87,7 @@ void ExampleOptionsDialog::showEvent(QShowEvent *)
 
 void ExampleOptionsDialog::fileModeSelected()
 {
-    emit urlChanged(m_options->m_exampleFile->url());
+    urlChanged(m_options->m_exampleFile->url());
 }
 
 // vim: set et sw=4 tw=0 sta:

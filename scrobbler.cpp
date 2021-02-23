@@ -139,12 +139,13 @@ void Scrobbler::getAuthToken(QString username, QString password)
     params["authToken"] = authToken;
     params["username"]  = username;
 
-    QUrl url("http://ws.audioscrobbler.com/2.0/?");
+    QUrl url("https://ws.audioscrobbler.com/2.0/?");
 
     sign(params);
 
     QUrlQuery urlQuery;
-    foreach(QString key, params.keys()) {
+    const auto paramKeys = params.keys();
+    for(const auto &key : paramKeys) {
         urlQuery.addQueryItem(key, params[key]);
     }
 
@@ -302,10 +303,11 @@ void Scrobbler::scrobble()
 
 void Scrobbler::post(QMap<QString, QString> &params)
 {
-    QUrl url("http://ws.audioscrobbler.com/2.0/");
+    QUrl url("https://ws.audioscrobbler.com/2.0/");
 
     QByteArray data;
-    foreach(QString key, params.keys()) {
+    const auto paramKeys = params.keys();
+    for(const auto &key : paramKeys) {
         data += QUrl::toPercentEncoding(key) + '=' + QUrl::toPercentEncoding(params[key]) + '&';
     }
 

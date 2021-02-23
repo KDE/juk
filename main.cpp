@@ -63,7 +63,7 @@ int main(int argc, char *argv[])
     KAboutData aboutData(QStringLiteral("juk"), i18n("JuK"),
                          QStringLiteral(JUK_VERSION), i18n(description), KAboutLicense::GPL,
                          i18n("Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"),
-                         QStringLiteral(""),
+                         QLatin1String(""),
                          QStringLiteral("https://juk.kde.org/"));
 
     aboutData.addAuthor(i18n("Scott Wheeler"), i18n(scott), "wheeler@kde.org");

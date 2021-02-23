@@ -225,8 +225,6 @@ void CoverItem::dropEvent(QDropEvent *e)
         if(urls.isEmpty())
             return;
 
-        QString fileName;
-
         auto getJob = KIO::storedGet(urls.front());
         KJobWidgets::setWindow(getJob, this);
         if(getJob->exec()) {
@@ -302,10 +300,10 @@ void TrackItem::slotUpdate()
         return;
     }
 
-    QString title  = m_file.tag()->title().toHtmlEscaped();
-    QString artist = m_file.tag()->artist().toHtmlEscaped();
-    QString album  = m_file.tag()->album().toHtmlEscaped();
-    QString separator =
+    const QString title  = m_file.tag()->title().toHtmlEscaped();
+    const QString artist = m_file.tag()->artist().toHtmlEscaped();
+    const QString album  = m_file.tag()->album().toHtmlEscaped();
+    const QString separator =
         (artist.isEmpty() || album.isEmpty())
         ? QString() : QString(" - ");
 
@@ -326,7 +324,7 @@ void TrackItem::slotUpdate()
 
     do {
         m_label->setText(format.arg(size).arg(title).arg(size - 2)
-                         .arg(artist).arg(separator).arg(album));
+                         .arg(artist, separator, album));
         --size;
         neededHeight = m_label->heightForWidth(m_label->width());
     } while(neededHeight > parentHeight && size >= -1);

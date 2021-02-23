@@ -51,6 +51,7 @@
 #include <QDropEvent>
 #include <QDragEnterEvent>
 #include <QPixmap>
+#include <QSet>
 #include <QStackedWidget>
 #include <QScrollBar>
 #include <QPainter>
@@ -154,7 +155,7 @@ Playlist::Playlist(PlaylistCollection *collection, const QFileInfo &playlistFile
 
     // Load the file after construction completes so that virtual methods in
     // subclasses can take effect.
-    QTimer::singleShot(0, [=]() {
+    QTimer::singleShot(0, this, [=]() {
         loadFile(m_fileName, playlistFile);
         collection->setupPlaylist(this, iconName);
     });
@@ -1073,25 +1074,22 @@ void Playlist::addFiles(const QStringList &files, PlaylistItem *after)
 
 void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 {
-    QList< QPair<QString, QString> > albums;
+    QSet<QPair<QString, QString>> albums;
     bool setAlbumCovers = items.count() == 1;
 
-    foreach(const PlaylistItem *item, items) {
-        QString artist = item->file().tag()->artist();
-        QString album = item->file().tag()->album();
+    for(const auto &item : items) {
+        const QString artist = item->file().tag()->artist();
+        const QString album = item->file().tag()->album();
 
-        if(!albums.contains(qMakePair(artist, album)))
-            albums.append(qMakePair(artist, album));
+        albums.insert(qMakePair(artist, album));
 
         item->file().coverInfo()->setCoverId(id);
         if(setAlbumCovers)
             item->file().coverInfo()->applyCoverToWholeAlbum(true);
     }
 
-    for(QList< QPair<QString, QString> >::ConstIterator it = albums.constBegin();
-        it != albums.constEnd(); ++it)
-    {
-        refreshAlbum((*it).first, (*it).second);
+    for(const auto &albumPair : qAsConst(albums)) {
+        refreshAlbum(albumPair.first, albumPair.second);
     }
 }
 

@@ -147,7 +147,7 @@ bool TagTransactionManager::processChangeList(bool undo)
             if(!undo)
                 m_undoList.emplace_back(item, duplicateTag(item->file().tag()));
 
-            item->file().setFile(tag->fileName());
+            item->setFile(tag->fileName());
             item->refreshFromDisk();
             //FIXME repaint
             //item->repaint();

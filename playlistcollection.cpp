@@ -456,7 +456,7 @@ void PlaylistCollection::editSearch()
 
     auto searchDialog = new AdvancedSearchDialog(
             p->name(), *(p->playlistSearch()), JuK::JuKInstance());
-    QObject::connect(searchDialog, &QDialog::finished, [searchDialog, p](int result)
+    QObject::connect(searchDialog, &QDialog::finished, p, [searchDialog, p](int result)
             {
                 if (result) {
                     p->setPlaylistSearch(searchDialog->resultSearch());
@@ -533,7 +533,7 @@ void PlaylistCollection::createSearchPlaylist()
 
     auto searchDialog = new AdvancedSearchDialog(
             name, *(new PlaylistSearch(JuK::JuKInstance())), JuK::JuKInstance());
-    QObject::connect(searchDialog, &QDialog::finished, [searchDialog, this](int result)
+    QObject::connect(searchDialog, &QDialog::finished, object(), [searchDialog, this](int result)
             {
                 if (result) {
                     raise(new SearchPlaylist(
