@@ -164,11 +164,6 @@ protected:
     PlaylistItem(CollectionListItem *item, Playlist *parent, QTreeWidgetItem *after);
 
     /**
-     * This is the constructor that should be used by subclasses.
-     */
-    PlaylistItem(CollectionList *parent);
-
-    /**
      * See the class documentation for an explanation of construction and deletion
      * of PlaylistItems.
      */
@@ -199,6 +194,12 @@ protected:
 
 private:
     DataPtr d;
+
+    /**
+     * This is the constructor that should be used by CollectionList.
+     */
+    PlaylistItem(CollectionList *parent);
+    friend class CollectionList;
 
     void setup(CollectionListItem *item);
 

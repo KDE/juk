@@ -533,10 +533,11 @@ void CollectionListItem::repaint() const
 // CollectionListItem protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle &file) :
-    PlaylistItem(parent),
-    m_shuttingDown(false)
+CollectionListItem::CollectionListItem(CollectionList *parent, const FileHandle &file)
+  : PlaylistItem(parent)
+  , m_shuttingDown(false)
 {
+    PlaylistItem::m_collectionItem = this;
     parent->addToDict(file.absFilePath(), this);
 
     sharedData()->fileHandle = file;
