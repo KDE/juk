@@ -52,7 +52,9 @@ PlaylistItem::~PlaylistItem()
     // stark advantage of working reliably.  I'll tell anyone who tries to
     // optimize this, the timing issues can be *hard*. -- mpyne
 
-    m_collectionItem->removeChildItem(this);
+    if(m_collectionItem) {
+        m_collectionItem->removeChildItem(this);
+    }
 
     if(m_playingItems.contains(this)) {
         m_playingItems.removeAll(this);

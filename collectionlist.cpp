@@ -565,6 +565,8 @@ CollectionListItem::~CollectionListItem()
         l->removeStringFromDict(file().tag()->artist(), ArtistColumn);
         l->removeStringFromDict(file().tag()->genre(), GenreColumn);
     }
+
+    m_collectionItem = nullptr;
 }
 
 void CollectionListItem::addChildItem(PlaylistItem *child)
