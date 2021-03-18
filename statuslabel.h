@@ -17,13 +17,14 @@
 #ifndef JUK_STATUSLABEL_H
 #define JUK_STATUSLABEL_H
 
-#include <QStatusBar>
 #include <QWidget>
 
 class KSqueezedTextLabel;
 
 class QEvent;
 class QLabel;
+class QStatusBar;
+class QToolButton;
 
 class FileHandle;
 class PlaylistInterface;
@@ -46,13 +47,15 @@ public slots:
     void setItemTotalTime(qint64 time_msec) { m_itemTotalTime = time_msec; }
     void setItemCurrentTime(qint64 time_msec) { m_itemCurrentTime = time_msec; updateTime(); }
 
+protected:
+    void mouseReleaseEvent(QMouseEvent *) override;
+
 private:
     void updateTime();
-    virtual bool eventFilter(QObject *o, QEvent *e) override;
 
     KSqueezedTextLabel *m_playlistLabel = nullptr;
     QLabel             *m_trackLabel    = nullptr;
-    QLabel             *m_itemTimeLabel = nullptr;
+    QToolButton        *m_itemTimeLabel = nullptr;
 
     int  m_itemTotalTime     = 0;
     int  m_itemCurrentTime   = 0;
