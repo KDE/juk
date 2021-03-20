@@ -47,7 +47,6 @@ public:
 
 public slots:
     void clear();
-    virtual void setFocus();
 
 protected:
     virtual bool eventFilter(QObject *watched, QEvent *e) override;

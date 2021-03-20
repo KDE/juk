@@ -60,6 +60,7 @@ SearchLine::SearchLine(QWidget *parent, bool simple)
     layout->addWidget(m_lineEdit);
     m_lineEdit->setClearButtonEnabled(true);
     m_lineEdit->installEventFilter(this);
+    setFocusProxy(m_lineEdit);
     connect(m_lineEdit, SIGNAL(textChanged(QString)),
             this, SIGNAL(signalQueryChanged()));
     connect(m_lineEdit, SIGNAL(returnPressed()),
@@ -135,11 +136,6 @@ void SearchLine::clear()
         m_lineEdit->clear();
 }
 
-void SearchLine::setFocus()
-{
-    m_lineEdit->setFocus();
-}
-
 bool SearchLine::eventFilter(QObject *watched, QEvent *e)
 {
     if(watched != m_lineEdit || e->type() != QEvent::KeyPress)
@@ -203,6 +199,7 @@ SearchWidget::SearchWidget(QWidget *parent)
     m_lineEdit->setPlaceholderText(i18n("Search..."));
 
     connect(m_lineEdit, SIGNAL(returnPressed()), this, SIGNAL(returnPressed()));
+    setFocusProxy(m_lineEdit);
 
     updateColumns();
 }

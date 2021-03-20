@@ -110,7 +110,11 @@ PlaylistInterface *PlaylistSplitter::playlist() const
 
 void PlaylistSplitter::setFocus()
 {
-    m_searchWidget->setFocus();
+    if(m_searchWidget->isVisible()) {
+        m_searchWidget->setFocus();
+    } else {
+        slotFocusCurrentPlaylist();
+    }
 }
 
 void PlaylistSplitter::slotFocusCurrentPlaylist()
@@ -217,6 +221,8 @@ void PlaylistSplitter::setupLayout()
 
     // Let interested parties know we're ready
     connect(m_playlistBox, SIGNAL(startupComplete()), SIGNAL(guiReady()));
+    connect(m_playlistBox, &PlaylistBox::startupComplete,
+            this, &PlaylistSplitter::setFocus);
 
     insertWidget(0, m_playlistBox);
 
@@ -244,7 +250,7 @@ void PlaylistSplitter::setupLayout()
     connect(ActionCollection::action<KToggleAction>("showSearch"), SIGNAL(toggled(bool)),
             m_searchWidget, SLOT(setEnabled(bool)));
     connect(m_playlistBox, &PlaylistBox::signalMoveFocusAway,
-            m_searchWidget, &SearchWidget::setFocus);
+            m_searchWidget, qOverload<>(&SearchWidget::setFocus));
 
     topLayout->addWidget(m_nowPlaying);
     topLayout->addWidget(m_searchWidget);
