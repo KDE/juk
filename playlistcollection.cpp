@@ -622,9 +622,7 @@ void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
         setupPlaylist(m_upcomingPlaylist, "go-jump-today");
     }
     else {
-        bool raiseCollection = visiblePlaylist() == m_upcomingPlaylist;
-
-        if(raiseCollection) {
+        if(visiblePlaylist() == m_upcomingPlaylist) {
             raise(CollectionList::instance());
         }
 
