@@ -133,15 +133,15 @@ private slots:
     void slotLoadCachedPlaylists();
 
 private:
-    QMenu *m_contextMenu;
-    QHash<Playlist *, Item*> m_playlistDict;
-    int m_viewModeIndex;
+    QHash<Playlist *, Item *> m_playlistDict;
+    QTimer *m_showTimer            = nullptr;
+    QTimer *m_savePlaylistTimer    = nullptr;
+    Item *m_dropItem               = nullptr;
+    QMenu *m_contextMenu           = nullptr;
     QList<ViewMode *> m_viewModes;
-    bool m_hasSelection;
-    bool m_doingMultiSelect;
-    Item *m_dropItem;
-    QTimer *m_showTimer;
-    QTimer *m_savePlaylistTimer;
+    int m_viewModeIndex            = 0;
+    bool m_hasSelection            = false;
+    bool m_doingMultiSelect        = false;
 };
 
 class PlaylistBox::Item final : public QObject, public QTreeWidgetItem
@@ -192,6 +192,7 @@ private:
     Playlist *m_playlist;
     QString m_iconName;
     bool m_sortedFirst;
+
     static Item *m_collectionItem;
 };
 

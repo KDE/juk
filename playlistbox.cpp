@@ -63,14 +63,9 @@ using namespace ActionCollection;
 // PlaylistBox public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget *playlistStack) :
-    QTreeWidget(parent),
-    PlaylistCollection(player, playlistStack),
-    m_viewModeIndex(0),
-    m_hasSelection(false),
-    m_doingMultiSelect(false),
-    m_dropItem(0),
-    m_showTimer(0)
+PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget *playlistStack)
+  : QTreeWidget(parent)
+  , PlaylistCollection(player, playlistStack)
 {
     readConfig();
     setHeaderLabel("Playlists");
@@ -134,42 +129,45 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     raise(CollectionList::instance());
 
     m_contextMenu->addAction( viewModeAction );
-    connect(viewModeAction, SIGNAL(triggered(int)), this, SLOT(slotSetViewMode(int)));
+    connect(viewModeAction, &QAction::triggered,
+            this, &PlaylistBox::slotSetViewMode);
 
-    connect(this, SIGNAL(itemSelectionChanged()),
-            this, SLOT(slotPlaylistChanged()));
+    connect(this, &PlaylistBox::itemSelectionChanged,
+            this, &PlaylistBox::slotPlaylistChanged);
 
-    connect(this, SIGNAL(itemDoubleClicked(QTreeWidgetItem*,int)),
-            this, SLOT(slotDoubleClicked(QTreeWidgetItem*)));
+    connect(this, &PlaylistBox::itemDoubleClicked,
+            this, &PlaylistBox::slotDoubleClicked);
 
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(slotShowContextMenu(QPoint)));
+    connect(this, &PlaylistBox::customContextMenuRequested,
+            this, &PlaylistBox::slotShowContextMenu);
 
-    TagTransactionManager *tagManager = TagTransactionManager::instance();
-    connect(tagManager, SIGNAL(signalAboutToModifyTags()), SLOT(slotFreezePlaylists()));
-    connect(tagManager, SIGNAL(signalDoneModifyingTags()), SLOT(slotUnfreezePlaylists()));
+    const auto *tagManager = TagTransactionManager::instance();
+    connect(tagManager, &TagTransactionManager::signalAboutToModifyTags,
+            this,       &PlaylistBox::slotFreezePlaylists);
+    connect(tagManager, &TagTransactionManager::signalDoneModifyingTags,
+            this,       &PlaylistBox::slotUnfreezePlaylists);
 
     setupUpcomingPlaylist();
 
-    connect(CollectionList::instance(), SIGNAL(signalNewTag(QString,uint)),
-            this, SLOT(slotAddItem(QString,uint)));
-    connect(CollectionList::instance(), SIGNAL(signalRemovedTag(QString,uint)),
-            this, SLOT(slotRemoveItem(QString,uint)));
-    connect(CollectionList::instance(), SIGNAL(cachedItemsLoaded()),
-            this, SLOT(slotLoadCachedPlaylists()));
-
-    m_savePlaylistTimer = 0;
+    const auto *collectionList = CollectionList::instance();
+    connect(collectionList, &CollectionList::signalNewTag,
+            this,           &PlaylistBox::slotAddItem);
+    connect(collectionList, &CollectionList::signalRemovedTag,
+            this,           &PlaylistBox::slotRemoveItem);
+    connect(collectionList, &CollectionList::cachedItemsLoaded,
+            this,           &PlaylistBox::slotLoadCachedPlaylists);
 
     KToggleAction *historyAction =
         new KToggleAction(QIcon::fromTheme(QStringLiteral("view-history")), i18n("Show &History"), ActionCollection::actions());
     ActionCollection::actions()->addAction("showHistory", historyAction);
-    connect(historyAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotSetHistoryPlaylistEnabled(bool)));
+    connect(historyAction, &KToggleAction::triggered,
+            this,          &PlaylistBox::slotSetHistoryPlaylistEnabled);
 
     m_showTimer = new QTimer(this);
     m_showTimer->setSingleShot(true);
     m_showTimer->setInterval(500);
-    connect(m_showTimer, SIGNAL(timeout()), SLOT(slotShowDropTarget()));
+    connect(m_showTimer, &QTimer::timeout,
+            this,        &PlaylistBox::slotShowDropTarget);
 
     // hook up to the D-Bus
     (void) new DBusCollectionProxy(this, this);
@@ -697,20 +695,23 @@ void PlaylistBox::slotLoadCachedPlaylists()
     m_savePlaylistTimer = new QTimer(this);
     m_savePlaylistTimer->setInterval(3000); // 3 seconds with no change? -> commit
     m_savePlaylistTimer->setSingleShot(true);
-    connect(m_savePlaylistTimer, SIGNAL(timeout()), SLOT(slotSavePlaylists()));
+    connect(m_savePlaylistTimer, &QTimer::timeout,
+            this, &PlaylistBox::slotSavePlaylists);
 
     clearSelection();
     setCurrentItem(m_playlistDict[CollectionList::instance()]);
 
-    QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
-    QTimer::singleShot(0, collectionActions(), SLOT(slotScanFolders()));
+    QTimer::singleShot(0, this, [this]() {
+            CollectionList::instance()->slotCheckCache();
+            this->scanFolders();
+        });
 }
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox::Item protected methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = 0;
+PlaylistBox::Item *PlaylistBox::Item::m_collectionItem = nullptr;
 
 PlaylistBox::Item::Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l)
     : QObject(listBox), QTreeWidgetItem(listBox, QStringList(text)),
@@ -772,10 +773,12 @@ void PlaylistBox::Item::init()
     list->addNameToDict(itemText);
 
     if(m_playlist) {
-        connect(m_playlist, SIGNAL(signalNameChanged(QString)),
-                this, SLOT(slotSetName(QString)));
-        connect(m_playlist, SIGNAL(signalEnableDirWatch(bool)),
-                list->collectionActions(), SLOT(slotEnableDirWatch(bool)));
+        connect(m_playlist, &Playlist::signalNameChanged,
+                this,       &Item::slotSetName);
+        connect(m_playlist, &Playlist::signalEnableDirWatch,
+                this, [list](bool enable) {
+                    list->enableDirWatch(enable);
+                });
     }
 
     if(m_playlist == CollectionList::instance()) {
