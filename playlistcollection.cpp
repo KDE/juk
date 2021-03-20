@@ -58,8 +58,6 @@
 //Laurent: readd it
 //#include "collectionadaptor.h"
 
-using namespace ActionCollection;
-
 ////////////////////////////////////////////////////////////////////////////////
 // static methods
 ////////////////////////////////////////////////////////////////////////////////
@@ -241,7 +239,8 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
         components.append(c);
     }
 
-    auto search = new PlaylistSearch(playlists, components, PlaylistSearch::MatchAll, object());
+    auto search = new PlaylistSearch(playlists, components,
+            PlaylistSearch::MatchAll, collectionActions());
 
     if(m_showMorePlaylist)
         m_showMorePlaylist->setPlaylistSearch(search);
@@ -533,8 +532,8 @@ void PlaylistCollection::createSearchPlaylist()
 
     auto searchDialog = new AdvancedSearchDialog(
             name, *(new PlaylistSearch(JuK::JuKInstance())), JuK::JuKInstance());
-    QObject::connect(searchDialog, &QDialog::finished, object(), [searchDialog, this](int result)
-            {
+    QObject::connect(searchDialog, &QDialog::finished, collectionActions(),
+            [searchDialog, this](int result) {
                 if (result) {
                     raise(new SearchPlaylist(
                                 this,
@@ -587,21 +586,23 @@ HistoryPlaylist *PlaylistCollection::historyPlaylist() const
 
 void PlaylistCollection::setHistoryPlaylistEnabled(bool enable)
 {
-    if((enable && m_historyPlaylist) || (!enable && !m_historyPlaylist))
+    if(enable == static_cast<bool>(m_historyPlaylist)) {
         return;
+    }
 
     if(enable) {
-        action<KToggleAction>("showHistory")->setChecked(true);
+        ActionCollection::action<KToggleAction>("showHistory")->setChecked(true);
         m_historyPlaylist = new HistoryPlaylist(this);
         m_historyPlaylist->setName(i18n("History"));
         setupPlaylist(m_historyPlaylist, "view-history");
 
-        QObject::connect(m_playerManager, SIGNAL(signalItemChanged(FileHandle)),
-                historyPlaylist(), SLOT(appendProposedItem(FileHandle)));
+        QObject::connect(
+                m_playerManager,   &PlayerManager::signalItemChanged,
+                historyPlaylist(), &HistoryPlaylist::appendProposedItem);
     }
     else {
         delete m_historyPlaylist;
-        m_historyPlaylist = 0;
+        m_historyPlaylist = nullptr;
     }
 }
 
@@ -612,18 +613,15 @@ UpcomingPlaylist *PlaylistCollection::upcomingPlaylist() const
 
 void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
 {
-    if((enable && m_upcomingPlaylist) || (!enable && !m_upcomingPlaylist))
+    if(enable == static_cast<bool>(m_upcomingPlaylist))
         return;
 
+    ActionCollection::action<KToggleAction>("showUpcoming")->setChecked(enable);
     if(enable) {
-        action<KToggleAction>("showUpcoming")->setChecked(true);
-        if(!m_upcomingPlaylist)
-            m_upcomingPlaylist = new UpcomingPlaylist(this);
-
+        m_upcomingPlaylist = new UpcomingPlaylist(this);
         setupPlaylist(m_upcomingPlaylist, "go-jump-today");
     }
     else {
-        action<KToggleAction>("showUpcoming")->setChecked(false);
         bool raiseCollection = visiblePlaylist() == m_upcomingPlaylist;
 
         if(raiseCollection) {
@@ -631,11 +629,11 @@ void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
         }
 
         m_upcomingPlaylist->deleteLater();
-        m_upcomingPlaylist = 0;
+        m_upcomingPlaylist = nullptr;
     }
 }
 
-QObject *PlaylistCollection::object() const
+QObject *PlaylistCollection::collectionActions() const
 {
     return m_actionHandler;
 }
@@ -693,7 +691,7 @@ void PlaylistCollection::setupPlaylist(Playlist *playlist, const QString &)
 
     m_playlistStack->addWidget(playlist);
     QObject::connect(playlist, SIGNAL(itemSelectionChanged()),
-                     object(), SIGNAL(signalSelectedItemsChanged()));
+                     collectionActions(), SIGNAL(signalSelectedItemsChanged()));
 }
 
 bool PlaylistCollection::importPlaylists() const
@@ -730,10 +728,10 @@ void PlaylistCollection::enableDirWatch(bool enable)
 {
     auto collection = CollectionList::instance();
 
-    m_dirLister.disconnect(object());
+    m_dirLister.disconnect(collectionActions());
     if(enable) {
         QObject::connect(&m_dirLister, &KDirLister::newItems,
-                object(), [this](const KFileItemList &items) {
+                collectionActions(), [this](const KFileItemList &items) {
                     this->newItems(items);
                 });
         QObject::connect(&m_dirLister, &KDirLister::refreshItems,
@@ -876,7 +874,7 @@ void PlaylistCollection::saveConfig()
 {
     KConfigGroup config(KSharedConfig::openConfig(), "Playlists");
     config.writeEntry("ImportPlaylists", m_importPlaylists);
-    config.writeEntry("showUpcoming", action("showUpcoming")->isChecked());
+    config.writeEntry("showUpcoming", ActionCollection::action("showUpcoming")->isChecked());
     config.writePathEntry("DirectoryList", m_folderList);
     config.writePathEntry("ExcludeDirectoryList", m_excludedFolderList);
 
@@ -894,11 +892,13 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     setObjectName( QLatin1String("ActionHandler" ));
 
     KActionMenu *menu;
+    KActionCollection *actionCollection = ActionCollection::actions();
 
     // "New" menu
 
-    menu = new KActionMenu(QIcon::fromTheme(QStringLiteral("document-new")), i18nc("new playlist", "&New"), actions());
-    actions()->addAction("file_new", menu);
+    menu = new KActionMenu(QIcon::fromTheme(QStringLiteral("document-new")),
+            i18nc("new playlist", "&New"), this);
+    actionCollection->addAction("file_new", menu);
 
     menu->addAction(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
                               "newPlaylist", "window-new", QKeySequence(Qt::CTRL + Qt::Key_N)));
@@ -910,8 +910,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     // Guess tag info menu
 
 #if HAVE_TUNEPIMP
-    menu = new KActionMenu(i18n("&Guess Tag Information"), actions());
-    actions()->addAction("guessTag", menu);
+    menu = new KActionMenu(i18n("&Guess Tag Information"), actionCollection);
+    actionCollection->addAction("guessTag", menu);
 
     menu->setIcon(QIcon::fromTheme("wizard"));
 
@@ -928,9 +928,9 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),     "playFirst");
     createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "go-down-search");
 
-    KStandardAction::open(this, SLOT(slotOpen()), actions());
-    KStandardAction::save(this, SLOT(slotSave()), actions());
-    KStandardAction::saveAs(this, SLOT(slotSaveAs()), actions());
+    KStandardAction::open(this, SLOT(slotOpen()), actionCollection);
+    KStandardAction::save(this, SLOT(slotSave()), actionCollection);
+    KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection);
 
     createAction(i18n("Manage &Folders..."),  SLOT(slotManageFolders()),    "openDirectory", "folder-new");
     createAction(i18n("&Rename..."),      SLOT(slotRename()),       "renamePlaylist", "edit-rename");
@@ -944,8 +944,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "view-refresh");
     createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "document-save-as", QKeySequence(Qt::CTRL + Qt::Key_R));
 
-    menu = new KActionMenu(i18n("Cover Manager"), actions());
-    actions()->addAction("coverManager", menu);
+    menu = new KActionMenu(i18n("Cover Manager"), actionCollection);
+    actionCollection->addAction("coverManager", menu);
     menu->setIcon(QIcon::fromTheme("image-x-generic"));
     menu->addAction(createAction(i18n("&View Cover"),
         SLOT(slotViewCovers()), "viewCover", "document-preview"));
@@ -959,8 +959,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
         SLOT(slotShowCoverManager()), "showCoverManager"));
 
     KToggleAction *upcomingAction =
-        new KToggleAction(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18n("Show &Play Queue"), actions());
-    actions()->addAction("showUpcoming", upcomingAction);
+        new KToggleAction(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18n("Show &Play Queue"), actionCollection);
+    actionCollection->addAction("showUpcoming", upcomingAction);
 
     connect(upcomingAction, SIGNAL(triggered(bool)),
             this, SLOT(slotSetUpcomingPlaylistEnabled(bool)));
@@ -975,8 +975,8 @@ QAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
                                                          const QString &icon,
                                                          const QKeySequence &shortcut)
 {
-    auto actionCollection = actions();
-    QAction *action = new QAction(text, actions());
+    KActionCollection *actionCollection = ActionCollection::actions();
+    QAction *action = new QAction(text, actionCollection);
 
     if(!icon.isEmpty()) {
         action->setIcon(QIcon::fromTheme(icon));

@@ -133,7 +133,7 @@ public:
     /**
      * Returns a pointer to the action handler.
      */
-    QObject *object() const;
+    QObject *collectionActions() const;
 
     void newItems(const KFileItemList &list) const;
 

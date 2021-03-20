@@ -207,7 +207,7 @@ void PlaylistSplitter::setupLayout()
     m_playlistBox = new PlaylistBox(m_player, this, m_playlistStack);
     m_playlistBox->setObjectName(QLatin1String("playlistBox"));
 
-    connect(m_playlistBox->object(), SIGNAL(signalSelectedItemsChanged()),
+    connect(m_playlistBox->collectionActions(), SIGNAL(signalSelectedItemsChanged()),
             this, SLOT(slotPlaylistSelectionChanged()));
     connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist*)),
             m_editor, SLOT(slotPlaylistDestroyed(Playlist*)));
@@ -244,9 +244,9 @@ void PlaylistSplitter::setupLayout()
     connect(m_searchWidget, SIGNAL(signalDownPressed()),
             this, SLOT(slotFocusCurrentPlaylist()));
     connect(m_searchWidget, SIGNAL(signalShown(bool)),
-            m_playlistBox->object(), SLOT(slotSetSearchEnabled(bool)));
+            m_playlistBox->collectionActions(), SLOT(slotSetSearchEnabled(bool)));
     connect(m_searchWidget, SIGNAL(returnPressed()),
-            m_playlistBox->object(), SLOT(slotPlayFirst()));
+            m_playlistBox->collectionActions(), SLOT(slotPlayFirst()));
     connect(ActionCollection::action<KToggleAction>("showSearch"), SIGNAL(toggled(bool)),
             m_searchWidget, SLOT(setEnabled(bool)));
     connect(m_playlistBox, &PlaylistBox::signalMoveFocusAway,

@@ -703,7 +703,7 @@ void PlaylistBox::slotLoadCachedPlaylists()
     setCurrentItem(m_playlistDict[CollectionList::instance()]);
 
     QTimer::singleShot(0, CollectionList::instance(), SLOT(slotCheckCache()));
-    QTimer::singleShot(0, object(), SLOT(slotScanFolders()));
+    QTimer::singleShot(0, collectionActions(), SLOT(slotScanFolders()));
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -775,7 +775,7 @@ void PlaylistBox::Item::init()
         connect(m_playlist, SIGNAL(signalNameChanged(QString)),
                 this, SLOT(slotSetName(QString)));
         connect(m_playlist, SIGNAL(signalEnableDirWatch(bool)),
-                list->object(), SLOT(slotEnableDirWatch(bool)));
+                list->collectionActions(), SLOT(slotEnableDirWatch(bool)));
     }
 
     if(m_playlist == CollectionList::instance()) {
