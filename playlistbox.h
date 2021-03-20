@@ -20,6 +20,7 @@
 #include "playlistcollection.h"
 
 #include <QHash>
+#include <QVector>
 #include <QTreeWidget>
 
 class Playlist;
@@ -27,9 +28,6 @@ class PlaylistItem;
 class ViewMode;
 
 class QMenu;
-
-template<class T>
-class QVector;
 
 typedef QVector<Playlist *> PlaylistList;
 
@@ -44,7 +42,7 @@ class PlaylistBox final : public QTreeWidget, public PlaylistCollection
 
 public:
     class Item;
-    typedef QList<Item *> ItemList;
+    typedef QVector<Item *> ItemList;
 
     friend class Item;
 
@@ -102,7 +100,7 @@ private:
 
     // selectedItems already used for something different
 
-    ItemList selectedBoxItems() const;
+    ItemList selectedBoxItems();
     void setSingleItem(QTreeWidgetItem *item);
 
     void setupItem(Item *item);
@@ -138,7 +136,7 @@ private:
     QTimer *m_savePlaylistTimer    = nullptr;
     Item *m_dropItem               = nullptr;
     QMenu *m_contextMenu           = nullptr;
-    QList<ViewMode *> m_viewModes;
+    QVector<ViewMode *> m_viewModes;
     int m_viewModeIndex            = 0;
     bool m_hasSelection            = false;
     bool m_doingMultiSelect        = false;
@@ -164,8 +162,8 @@ public:
 protected:
     using QTreeWidgetItem::text;
 
-    Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = 0);
-    Item(Item *parent, const QString &icon, const QString &text, Playlist *l = 0);
+    Item(PlaylistBox *listBox, const QString &icon, const QString &text, Playlist *l = nullptr);
+    Item(Item *parent, const QString &icon, const QString &text, Playlist *l = nullptr);
 
     Playlist *playlist() const { return m_playlist; }
     PlaylistBox *listView() const { return static_cast<PlaylistBox *>(QTreeWidgetItem::treeWidget()); }

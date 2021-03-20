@@ -367,7 +367,7 @@ void PlaylistBox::saveConfig()
 
 void PlaylistBox::remove()
 {
-    ItemList items = selectedBoxItems();
+    const ItemList items = selectedBoxItems();
 
     if(items.isEmpty())
         return;
@@ -375,16 +375,18 @@ void PlaylistBox::remove()
     QStringList files;
     QStringList names;
 
-    foreach(Item *item, items) {
-        if(item && item->playlist()) {
-            if (!item->playlist()->fileName().isEmpty() &&
-                QFileInfo::exists(item->playlist()->fileName()))
-            {
-                files.append(item->playlist()->fileName());
-            }
-
-            names.append(item->playlist()->name());
+    for(const auto &item : items) {
+        if(!item || !item->playlist()) {
+            qFatal("Ran into an empty item or item playlist when removing playlists!");
         }
+
+        if (!item->playlist()->fileName().isEmpty() &&
+            QFileInfo::exists(item->playlist()->fileName()))
+        {
+            files.append(item->playlist()->fileName());
+        }
+
+        names.append(item->playlist()->name());
     }
 
     if(!files.isEmpty()) {
@@ -393,9 +395,9 @@ void PlaylistBox::remove()
 
         if(remove == KMessageBox::Yes) {
             QStringList couldNotDelete;
-            for(QStringList::ConstIterator it = files.constBegin(); it != files.constEnd(); ++it) {
-                if(!QFile::remove(*it))
-                    couldNotDelete.append(*it);
+            for(const auto &playlistFile : qAsConst(files)) {
+                if(!QFile::remove(playlistFile))
+                    couldNotDelete.append(playlistFile);
             }
 
             if(!couldNotDelete.isEmpty())
@@ -405,59 +407,38 @@ void PlaylistBox::remove()
             return;
     }
     else if(items.count() > 1 || items.front()->playlist() != upcomingPlaylist()) {
-        if(KMessageBox::warningContinueCancelList(this,
-                                                  i18n("Are you sure you want to remove these "
-                                                       "playlists from your collection?"),
-                                                  names,
-                                                  i18n("Remove Items?"),
-                                                  KGuiItem(i18n("&Remove"), "user-trash")) == KMessageBox::Cancel)
+        if(KMessageBox::Cancel == KMessageBox::warningContinueCancelList(
+            this,
+            i18n("Are you sure you want to remove these "
+               "playlists from your collection?"),
+            names,
+            i18n("Remove Items?"),
+            KGuiItem(i18n("&Remove"), "user-trash")))
         {
             return;
         }
     }
 
-    PlaylistList removeQueue;
-
-    for(ItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
-        if(*it != Item::collectionItem() &&
-           (*it)->playlist() &&
-           (!(*it)->playlist()->readOnly()))
+    for(const auto &item : items) {
+        if(item != Item::collectionItem() &&
+           !item->playlist()->readOnly())
         {
-            removeQueue.append((*it)->playlist());
+            if(item->playlist() != upcomingPlaylist())
+                delete item;
+            else {
+                action<KToggleAction>("showUpcoming")->setChecked(false);
+                setUpcomingPlaylistEnabled(false);
+            }
         }
     }
 
-    // FIXME removing items
-    /*if(items.back()->nextSibling() && static_cast<Item *>(items.back()->nextSibling())->playlist())
-        setSingleItem(items.back()->nextSibling());
-    else {
-        Item *i = static_cast<Item *>(items.front()->itemAbove());
-        while(i && !i->playlist())
-            i = static_cast<Item *>(i->itemAbove());
-
-        if(!i)
-            i = Item::collectionItem();
-
-        setSingleItem(i);
-    }*/
-
-    for(PlaylistList::ConstIterator it = removeQueue.constBegin(); it != removeQueue.constEnd(); ++it) {
-        if(*it != upcomingPlaylist())
-            delete *it;
-        else {
-            action<KToggleAction>("showUpcoming")->setChecked(false);
-            setUpcomingPlaylistEnabled(false);
-        }
-    }
+    setSingleItem(Item::collectionItem());
 }
 
 void PlaylistBox::setDynamicListsFrozen(bool frozen)
 {
-    for(QList<ViewMode *>::Iterator it = m_viewModes.begin();
-        it != m_viewModes.end();
-        ++it)
-    {
-        (*it)->setDynamicListsFrozen(frozen);
+    for(auto &playlistBoxItem : qAsConst(m_viewModes)) {
+        playlistBoxItem->setDynamicListsFrozen(frozen);
     }
 }
 
@@ -483,14 +464,16 @@ void PlaylistBox::slotShowDropTarget()
 
 void PlaylistBox::slotAddItem(const QString &tag, unsigned column)
 {
-    for(QList<ViewMode *>::Iterator it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
-        (*it)->addItems(QStringList(tag), column);
+    for(auto &viewMode : qAsConst(m_viewModes)) {
+        viewMode->addItems(QStringList(tag), column);
+    }
 }
 
 void PlaylistBox::slotRemoveItem(const QString &tag, unsigned column)
 {
-    for(QList<ViewMode *>::Iterator it = m_viewModes.begin(); it != m_viewModes.end(); ++it)
-        (*it)->removeItem(tag, column);
+    for(auto &viewMode : qAsConst(m_viewModes)) {
+        viewMode->removeItem(tag, column);
+    }
 }
 
 void PlaylistBox::mousePressEvent(QMouseEvent *e)
@@ -525,13 +508,16 @@ void PlaylistBox::keyReleaseEvent(QKeyEvent *e)
     QTreeWidget::keyReleaseEvent(e);
 }
 
-PlaylistBox::ItemList PlaylistBox::selectedBoxItems() const
+PlaylistBox::ItemList PlaylistBox::selectedBoxItems()
 {
     ItemList l;
 
-    for(QTreeWidgetItemIterator it(const_cast<PlaylistBox *>(this),
-                                 QTreeWidgetItemIterator::Selected); *it; ++it)
+    for(QTreeWidgetItemIterator it(this, QTreeWidgetItemIterator::Selected)
+            ; *it
+            ; ++it)
+    {
         l.append(static_cast<Item *>(*it));
+    }
 
     return l;
 }
@@ -572,18 +558,18 @@ void PlaylistBox::slotPlaylistChanged()
     if(m_doingMultiSelect)
         return;
 
-    ItemList items = selectedBoxItems();
+    const ItemList items = selectedBoxItems();
     m_hasSelection = !items.isEmpty();
 
-    bool allowReload = false;
+    const bool allowReload = std::any_of(items.begin(), items.end(),
+        [](const auto &item) {
+            return item->playlist() && item->playlist()->canReload();
+        });
 
     PlaylistList playlists;
-    for(ItemList::ConstIterator it = items.constBegin(); it != items.constEnd(); ++it) {
-
-        Playlist *p = (*it)->playlist();
+    for(const auto &playlistBoxItem : items) {
+        auto p = playlistBoxItem->playlist();
         if(p) {
-            if(p->canReload())
-                allowReload = true;
             playlists.append(p);
         }
     }
