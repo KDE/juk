@@ -42,17 +42,15 @@
 #include "coverinfo.h"
 #include "juk_debug.h"
 
-using namespace ActionCollection;
-
-PassiveInfo::PassiveInfo() :
-    QFrame(nullptr,
-        Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint
-    ),
-    m_timer(new QTimer(this)),
-    m_layout(new QVBoxLayout(this)),
-    m_justDie(false)
+PassiveInfo::PassiveInfo()
+  : QFrame(nullptr, Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint)
+  , m_startFadeTimer(new QTimer(this))
+  , m_layout(new QVBoxLayout(this))
+  , m_justDie(false)
 {
-    connect(m_timer, SIGNAL(timeout()), SLOT(timerExpired()));
+    connect(m_startFadeTimer, &QTimer::timeout, this, &PassiveInfo::timerExpired);
+    m_startFadeTimer->setSingleShot(true);
+
     setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred);
 
     // Workaround transparent background in Oxygen when (ab-)using Qt::ToolTip
@@ -62,14 +60,9 @@ PassiveInfo::PassiveInfo() :
     setLineWidth(2);
 }
 
-void PassiveInfo::startTimer(int delay)
-{
-    m_timer->start(delay);
-}
-
 void PassiveInfo::show()
 {
-    m_timer->start(3500);
+    m_startFadeTimer->start(3500);
     setWindowOpacity(1.0);
     QFrame::show();
 }
@@ -94,18 +87,14 @@ void PassiveInfo::timerExpired()
 
 void PassiveInfo::enterEvent(QEvent *)
 {
-    m_timer->stop();
+    m_startFadeTimer->stop();
     emit mouseEntered();
 }
 
 void PassiveInfo::leaveEvent(QEvent *)
 {
     m_justDie = true;
-    m_timer->start(50);
-}
-
-void PassiveInfo::hideEvent(QHideEvent *)
-{
+    m_startFadeTimer->start(50);
 }
 
 void PassiveInfo::wheelEvent(QWheelEvent *e)
@@ -139,18 +128,14 @@ void PassiveInfo::positionSelf()
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
-    KStatusNotifierItem(parent),
-    m_popup(0),
-    m_player(player),
-    m_fadeTimer(0),
-    m_fade(true),
-    m_hasCompositionManager(false)
+SystemTray::SystemTray(PlayerManager *player, QWidget *parent)
+  : KStatusNotifierItem(parent)
+  , m_player(player)
 {
     using ActionCollection::action; // Override the KSNI::action call introduced in KF5
 
     // This should be initialized to the number of labels that are used.
-    m_labels.fill(0, 3);
+    m_labels.fill(nullptr, 3);
 
     setIconByName("juk");
     setCategory(ApplicationStatus);
@@ -164,44 +149,46 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent) :
 
     QAction *rpaction = new QAction(i18n("Redisplay Popup"), this);
     ActionCollection::actions()->addAction("showPopup", rpaction);
-    connect(rpaction, SIGNAL(triggered(bool)), SLOT(slotPlay()));
+    connect(rpaction, &QAction::triggered, this, &SystemTray::slotPlay);
 
     QMenu *cm = contextMenu();
 
-    connect(m_player, SIGNAL(signalPlay()), this, SLOT(slotPlay()));
-    connect(m_player, SIGNAL(signalPause()), this, SLOT(slotPause()));
-    connect(m_player, SIGNAL(signalStop()), this, SLOT(slotStop()));
+    connect(m_player, &PlayerManager::signalPlay,
+            this, &SystemTray::slotPlay);
+    connect(m_player, &PlayerManager::signalPause,
+            this, &SystemTray::slotPause);
+    connect(m_player, &PlayerManager::signalStop,
+            this, &SystemTray::slotStop);
 
-    cm->addAction( action("play") );
-    cm->addAction( action("pause") );
-    cm->addAction( action("stop") );
-    cm->addAction( action("forward") );
-    cm->addAction( action("back") );
+    cm->addAction(action("play"));
+    cm->addAction(action("pause"));
+    cm->addAction(action("stop"));
+    cm->addAction(action("forward"));
+    cm->addAction(action("back"));
 
     cm->addSeparator();
 
     // Pity the actionCollection doesn't keep track of what sub-menus it has.
 
     KActionMenu *menu = new KActionMenu(i18n("&Random Play"), this);
-        // FIXME
-    //actionCollection()->addAction("randomplay", menu);
+
     menu->addAction(action("disableRandomPlay"));
     menu->addAction(action("randomPlay"));
     menu->addAction(action("albumRandomPlay"));
-    cm->addAction( menu );
+    cm->addAction(menu);
 
-    cm->addAction( action("togglePopups") );
+    cm->addAction(action("togglePopups"));
 
-    m_fadeTimer = new QTimer(this);
-    m_fadeTimer->setObjectName( QLatin1String("systrayFadeTimer" ));
-    connect(m_fadeTimer, SIGNAL(timeout()), SLOT(slotNextStep()));
+    m_fadeStepTimer = new QTimer(this);
+    m_fadeStepTimer->setObjectName(QLatin1String("systrayFadeTimer"));
 
     // Handle wheel events
-    connect(this, SIGNAL(scrollRequested(int,Qt::Orientation)), SLOT(scrollEvent(int,Qt::Orientation)));
+    connect(this, &KStatusNotifierItem::scrollRequested,
+            this, &SystemTray::scrollEvent);
 
     // Add a quick hook for play/pause toggle
-    connect(this, SIGNAL(secondaryActivateRequested(QPoint)),
-            action("playPause"), SLOT(trigger()));
+    connect(this, &KStatusNotifierItem::secondaryActivateRequested,
+            action("playPause"), &QAction::trigger);
 
     if(m_player->playing())
         slotPlay();
@@ -235,7 +222,7 @@ void SystemTray::slotPopupLargeCover()
     if(!m_player->playing())
         return;
 
-    FileHandle playingFile = m_player->playingFile();
+    const FileHandle playingFile = m_player->playingFile();
     playingFile.coverInfo()->popup();
 }
 
@@ -245,28 +232,23 @@ void SystemTray::slotStop()
     setOverlayIconByName(QString());
 
     delete m_popup;
-    m_popup = 0;
-    m_fadeTimer->stop();
+    m_popup = nullptr;
+    m_fadeStepTimer->stop();
 }
 
 void SystemTray::slotPopupDestroyed()
 {
-    for(int i = 0; i < m_labels.size(); ++i)
-        m_labels[i] = 0;
+    m_labels.fill(nullptr);
 }
 
 void SystemTray::slotNextStep()
 {
-    // Could happen I guess if the timeout event were queued while we're deleting m_popup
-    if(!m_popup)
-        return;
-
     ++m_step;
 
     // If we're not fading, immediately stop the fadeout
     if(!m_fade || m_step == STEPS) {
         m_step = 0;
-        m_fadeTimer->stop();
+        m_fadeStepTimer->stop();
         emit fadeDone();
         return;
     }
@@ -275,26 +257,29 @@ void SystemTray::slotNextStep()
         m_popup->setWindowOpacity((1.0 * STEPS - m_step) / STEPS);
     }
     else {
-        QColor result = interpolateColor(m_step);
+        const QColor result = interpolateColor(m_step);
 
-        for(int i = 0; i < m_labels.size() && m_labels[i]; ++i) {
-            QPalette palette;
-            palette.setColor(m_labels[i]->foregroundRole(), result);
-            m_labels[i]->setPalette(palette);
+        for(auto &label : m_labels) {
+            QPalette palette(label->palette());
+            palette.setColor(label->foregroundRole(), result);
+            label->setPalette(palette);
         }
     }
 }
 
 void SystemTray::slotFadeOut()
 {
-    m_startColor = m_labels[0]->palette().color( QPalette::Text ); //textColor();
-    m_endColor = m_labels[0]->palette().color( QPalette::Window ); //backgroundColor();
+    m_startColor = m_labels[0]->palette().color(QPalette::Text); //textColor();
+    m_endColor = m_labels[0]->palette().color(QPalette::Window); //backgroundColor();
 
     m_hasCompositionManager = KWindowSystem::compositingActive();
 
-    connect(this, SIGNAL(fadeDone()), m_popup, SLOT(hide()));
-    connect(m_popup, SIGNAL(mouseEntered()), this, SLOT(slotMouseInPopup()));
-    m_fadeTimer->start(1500 / STEPS);
+    connect(this, &SystemTray::fadeDone,
+            m_popup, &QWidget::hide);
+    connect(m_popup, &PassiveInfo::mouseEntered,
+            this, &SystemTray::slotMouseInPopup);
+
+    m_fadeStepTimer->start(1500 / STEPS);
 }
 
 // If we receive this signal, it's because we were called during fade out.
@@ -302,8 +287,8 @@ void SystemTray::slotFadeOut()
 // don't have to do it ourselves.
 void SystemTray::slotMouseInPopup()
 {
-    m_endColor = m_labels[0]->palette().color( QPalette::Text ); //textColor();
-    disconnect(SIGNAL(fadeDone()));
+    m_endColor = m_labels[0]->palette().color(QPalette::Text); //textColor();
+    disconnect(this, &SystemTray::fadeDone, nullptr, nullptr);
 
     if(m_hasCompositionManager)
         m_popup->setWindowOpacity(1.0);
@@ -343,17 +328,17 @@ QWidget *SystemTray::createInfoBox(QBoxLayout *parentLayout, const FileHandle &f
 
 void SystemTray::createPopup()
 {
-    FileHandle playingFile = m_player->playingFile();
-    Tag *playingInfo = playingFile.tag();
-
     // If the action exists and it's checked, do our stuff
 
     if(!ActionCollection::action("togglePopups")->isChecked())
         return;
 
+    const FileHandle playingFile = m_player->playingFile();
+    const Tag *const playingInfo = playingFile.tag();
+
     delete m_popup;
-    m_popup = 0;
-    m_fadeTimer->stop();
+    m_popup = nullptr;
+    m_fadeStepTimer->stop();
 
     // This will be reset after this function call by slot(Forward|Back)
     // so it's safe to set it true here.
@@ -361,10 +346,18 @@ void SystemTray::createPopup()
     m_step = 0;
 
     m_popup = new PassiveInfo;
-    connect(m_popup, SIGNAL(destroyed()), SLOT(slotPopupDestroyed()));
-    connect(m_popup, SIGNAL(timeExpired()), SLOT(slotFadeOut()));
-    connect(m_popup, SIGNAL(nextSong()), SLOT(slotForward()));
-    connect(m_popup, SIGNAL(previousSong()), SLOT(slotBack()));
+    connect(m_popup, &QObject::destroyed,
+            this,    &SystemTray::slotPopupDestroyed);
+    connect(m_popup, &PassiveInfo::timeExpired,
+            this,    &SystemTray::slotFadeOut);
+    connect(m_popup, &PassiveInfo::nextSong,
+            this,    &SystemTray::slotForward);
+    connect(m_popup, &PassiveInfo::previousSong,
+            this,    &SystemTray::slotBack);
+
+    // The fadeout requires the popup to be alive
+    connect(m_fadeStepTimer, &QTimer::timeout,
+            m_popup /* context */, [this]() { slotNextStep(); });
 
     auto box = new QWidget;
     auto boxHLayout = new QHBoxLayout(box);
@@ -378,7 +371,7 @@ void SystemTray::createPopup()
         QLabel *l = new QLabel(" ");
         l->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         m_labels[i] = l;
-        infoBoxLayout->addWidget(l);
+        infoBoxLayout->addWidget(l); // layout takes ownership
     }
 
     // We have to set the text of the labels after all of the
@@ -414,11 +407,13 @@ void SystemTray::createButtonBox(QBoxLayout *parentLayout)
 
     QPushButton *forwardButton = new QPushButton(m_forwardPix, QString());
     forwardButton->setObjectName(QLatin1String("popup_forward"));
-    connect(forwardButton, SIGNAL(clicked()), SLOT(slotForward()));
+    connect(forwardButton, &QPushButton::clicked,
+            this,          &SystemTray::slotForward);
 
     QPushButton *backButton = new QPushButton(m_backPix, QString());
     backButton->setObjectName(QLatin1String("popup_back"));
-    connect(backButton, SIGNAL(clicked()), SLOT(slotBack()));
+    connect(backButton, &QPushButton::clicked,
+            this,       &SystemTray::slotBack);
 
     buttonBoxVLayout->addWidget(forwardButton);
     buttonBoxVLayout->addWidget(backButton);
@@ -464,7 +459,8 @@ void SystemTray::addCoverButton(QBoxLayout *parentLayout, const QPixmap &cover)
     coverButton->setFixedSize(cover.size());
     coverButton->setFlat(true);
 
-    connect(coverButton, SIGNAL(clicked()), this, SLOT(slotPopupLargeCover()));
+    connect(coverButton, &QPushButton::clicked,
+            this,        &SystemTray::slotPopupLargeCover);
 
     parentLayout->addWidget(coverButton);
 }
