@@ -785,7 +785,7 @@ bool Playlist::eventFilter(QObject *watched, QEvent *e)
             }
 
             if(!manualResize() && m_widthsDirty)
-                QTimer::singleShot(0, this, SLOT(slotUpdateColumnWidths()));
+                QTimer::singleShot(0, this, &Playlist::slotUpdateColumnWidths);
             break;
         }
         default:
@@ -1257,10 +1257,11 @@ void Playlist::slotInitialize(int numColumnsToReserve)
         resizeColumnToContents(i);
     }
 
-    connect(m_headerMenu, SIGNAL(triggered(QAction*)), this, SLOT(slotToggleColumnVisible(QAction*)));
+    connect(m_headerMenu, &QMenu::triggered,
+            this, &Playlist::slotToggleColumnVisible);
 
-    connect(this, SIGNAL(customContextMenuRequested(QPoint)),
-            this, SLOT(slotShowRMBMenu(QPoint)));
+    connect(this, &QWidget::customContextMenuRequested,
+            this, &Playlist::slotShowRMBMenu);
 
     // Disabled for now because adding new items (File->Open) causes Qt to send
     // an itemChanged signal for unrelated playlist items which can cause the
@@ -1272,8 +1273,8 @@ void Playlist::slotInitialize(int numColumnsToReserve)
     //connect(this, &QTreeWidget::itemChanged,
     //        this, &Playlist::slotInlineEditDone);
 
-    connect(action("resizeColumnsManually"), SIGNAL(triggered()),
-            this, SLOT(slotColumnResizeModeChanged()));
+    connect(action("resizeColumnsManually"), &KToggleAction::triggered,
+            this, &Playlist::slotColumnResizeModeChanged);
 
     if(action<KToggleAction>("resizeColumnsManually")->isChecked()) {
         header()->setSectionResizeMode(QHeaderView::Interactive);
@@ -1384,15 +1385,19 @@ void Playlist::setup(int numColumnsToReserve)
     setUniformRowHeights(true);
     setEditTriggers(QAbstractItemView::EditKeyPressed); // Don't edit on double-click
 
-    connect(header(), SIGNAL(sectionMoved(int,int,int)), this, SLOT(slotColumnOrderChanged(int,int,int)));
+    connect(header(), &QHeaderView::sectionMoved,
+            this,     &Playlist::slotColumnOrderChanged);
 
-    connect(m_fetcher, SIGNAL(signalCoverChanged(int)), this, SLOT(slotCoverChanged(int)));
+    connect(m_fetcher, &WebImageFetcher::signalCoverChanged,
+            this,      &Playlist::slotCoverChanged);
 
     // Prevent list of selected items from changing while internet search is in
     // progress.
-    connect(this, SIGNAL(itemSelectionChanged()), m_fetcher, SLOT(abortSearch()));
+    connect(this,      &Playlist::itemSelectionChanged,
+            m_fetcher, &WebImageFetcher::abortSearch);
 
-    connect(this, &QTreeWidget::itemDoubleClicked, this, &Playlist::slotPlayCurrent);
+    connect(this, &QTreeWidget::itemDoubleClicked,
+            this, &Playlist::slotPlayCurrent);
 
     // Use a timer to soak up the multiple dataChanged signals we're going to get
     auto updateRequestor = new QTimer(this);
@@ -1400,8 +1405,9 @@ void Playlist::setup(int numColumnsToReserve)
     updateRequestor->setInterval(10);
 
     connect(model(), &QAbstractItemModel::dataChanged,
-            updateRequestor, static_cast<void (QTimer::*)()>(&QTimer::start));
-    connect(updateRequestor, &QTimer::timeout, this, &Playlist::slotUpdateTime);
+            updateRequestor, qOverload<>(&QTimer::start));
+    connect(updateRequestor, &QTimer::timeout,
+            this, &Playlist::slotUpdateTime);
 
     // This apparently must be created very early in initialization for other
     // Playlist code requiring m_headerMenu.
@@ -1838,37 +1844,37 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
         m_rmbMenu = new QMenu(this);
 
         m_rmbMenu->addAction(QIcon::fromTheme("go-jump-today"),
-            i18n("Add to Play Queue"), this, SLOT(slotAddToUpcoming()));
+            i18n("Add to Play Queue"), this, &Playlist::slotAddToUpcoming);
         m_rmbMenu->addSeparator();
 
         if(!readOnly()) {
-            m_rmbMenu->addAction( action("edit_cut") );
-            m_rmbMenu->addAction( action("edit_copy") );
-            m_rmbMenu->addAction( action("edit_paste") );
+            m_rmbMenu->addAction(action("edit_cut"));
+            m_rmbMenu->addAction(action("edit_copy"));
+            m_rmbMenu->addAction(action("edit_paste"));
             m_rmbMenu->addSeparator();
-            m_rmbMenu->addAction( action("removeFromPlaylist") );
+            m_rmbMenu->addAction(action("removeFromPlaylist"));
         }
         else
-            m_rmbMenu->addAction( action("edit_copy") );
+            m_rmbMenu->addAction(action("edit_copy"));
 
         m_rmbEdit = m_rmbMenu->addAction(i18n("Edit"));
 
-        m_rmbMenu->addAction( action("refresh") );
-        m_rmbMenu->addAction( action("removeItem") );
+        m_rmbMenu->addAction(action("refresh"));
+        m_rmbMenu->addAction(action("removeItem"));
 
         m_rmbMenu->addSeparator();
 
-        m_rmbMenu->addAction( action("guessTag") );
-        m_rmbMenu->addAction( action("renameFile") );
+        m_rmbMenu->addAction(action("guessTag"));
+        m_rmbMenu->addAction(action("renameFile"));
 
-        m_rmbMenu->addAction( action("coverManager") );
+        m_rmbMenu->addAction(action("coverManager"));
 
         m_rmbMenu->addSeparator();
 
         m_rmbMenu->addAction(
             QIcon::fromTheme("folder-new"),
             i18n("Create Playlist From Selected Items..."),
-            this, SLOT(slotCreateGroup()));
+            this, &Playlist::slotCreateGroup);
     }
 
     // Ignore any columns added by subclasses.
