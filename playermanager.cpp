@@ -445,16 +445,25 @@ void PlayerManager::setVolume(qreal volume)
 void PlayerManager::setupAudio()
 {
     using namespace Phonon;
-    connect(m_output, &AudioOutput::mutedChanged,  this, &PlayerManager::slotMutedChanged);
-    connect(m_output, &AudioOutput::volumeChanged, this, &PlayerManager::setVolume);
+    connect(m_output, &AudioOutput::mutedChanged,
+            this, &PlayerManager::slotMutedChanged);
+    connect(m_output, &AudioOutput::volumeChanged,
+            this, &PlayerManager::setVolume);
 
-    connect(m_media, &MediaObject::stateChanged, this, &PlayerManager::slotStateChanged);
-    connect(m_media, &MediaObject::currentSourceChanged, this, &PlayerManager::trackHasChanged);
-    connect(m_media, &MediaObject::totalTimeChanged, this, &PlayerManager::slotLength);
-    connect(m_media, &MediaObject::tick, this, &PlayerManager::slotTick);
-    connect(m_media, &MediaObject::aboutToFinish, this, &PlayerManager::trackAboutToFinish);
-    connect(m_media, &MediaObject::finished, this, &PlayerManager::slotFinished);
-    connect(m_media, &MediaObject::seekableChanged, this, &PlayerManager::slotSeekableChanged);
+    connect(m_media, &MediaObject::stateChanged,
+            this, &PlayerManager::slotStateChanged);
+    connect(m_media, &MediaObject::currentSourceChanged,
+            this, &PlayerManager::trackHasChanged);
+    connect(m_media, &MediaObject::totalTimeChanged,
+            this, &PlayerManager::slotLength);
+    connect(m_media, &MediaObject::tick,
+            this, &PlayerManager::slotTick);
+    connect(m_media, &MediaObject::aboutToFinish,
+            this, &PlayerManager::signalTrackAboutToFinish);
+    connect(m_media, &MediaObject::finished,
+            this, &PlayerManager::slotFinished);
+    connect(m_media, &MediaObject::seekableChanged,
+            this, &PlayerManager::slotSeekableChanged);
 
     m_media->setTickInterval(100);
 }
