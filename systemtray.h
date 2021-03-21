@@ -54,9 +54,6 @@ public:
     QWidget *view() const;
 
 public slots:
-    // Starts a timer to show the popup.  The popup will not automatically delete itself
-    // once hidden.
-    void startTimer(int delay);
     virtual void show();
 
 signals:
@@ -68,7 +65,6 @@ signals:
 protected:
     virtual void enterEvent(QEvent *) override;
     virtual void leaveEvent(QEvent *) override;
-    virtual void hideEvent(QHideEvent *) override;
     virtual void wheelEvent(QWheelEvent *) override;
 
 private:
@@ -79,7 +75,7 @@ private slots:
     void timerExpired();
 
 private:
-    QTimer *m_timer;
+    QTimer *m_startFadeTimer;
     QVBoxLayout *m_layout;
     bool m_justDie;
 };
@@ -89,14 +85,14 @@ class SystemTray final : public KStatusNotifierItem
     Q_OBJECT
 
 public:
-    explicit SystemTray(PlayerManager *player, QWidget *parent = 0);
+    explicit SystemTray(PlayerManager *player, QWidget *parent = nullptr);
 
 signals:
     // Emitted when the fade process is complete.
     void fadeDone();
 
 private:
-    static const int STEPS = 20; ///< Number of intermediate steps for fading.
+    static const int STEPS = 40; ///< Number of intermediate steps for fading.
 
     void createPopup();
     void setToolTip(const QString &tip = QString(), const QPixmap &cover = QPixmap());
@@ -129,19 +125,21 @@ private slots:
     void scrollEvent(int delta, Qt::Orientation orientation);
 
 private:
+    PassiveInfo *m_popup = nullptr;
+    PlayerManager *m_player;
+
     QIcon m_backPix;
     QIcon m_forwardPix;
-    QColor m_startColor, m_endColor;
 
-    PassiveInfo *m_popup;
-    PlayerManager *m_player;
     QVector<QLabel *> m_labels;
-    QTimer *m_fadeTimer;
-    int m_step;
-    bool m_fade;
+
+    QTimer *m_fadeStepTimer = nullptr;
+    QColor m_startColor, m_endColor;
+    int m_step = 0;
+    bool m_fade = true;
 
     /// Used to choose between manual fade and windowOpacity
-    bool m_hasCompositionManager;
+    bool m_hasCompositionManager = false;
 };
 
 #endif // JUK_SYSTEMTRAY_H
