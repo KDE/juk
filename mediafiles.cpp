@@ -115,7 +115,7 @@ QString MediaFiles::savePlaylistDialog(const QString &playlistName, QWidget *par
         parent,
         i18n("Save Playlist") + QStringLiteral(" ") + playlistName,
         getMusicDir(),
-        QStringLiteral("Playlists (*") + playlistExtension + QStringLiteral(")")
+        i18nc("For save dialog, %1 is always .m3u", "Playlists (*%1)", playlistExtension)
     );
     return fileName;
 }
