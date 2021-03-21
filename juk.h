@@ -81,22 +81,22 @@ private slots:
     void slotClearOldCovers();
 
 private:
-    PlaylistSplitter *m_splitter;
-    StatusLabel *m_statusLabel;
-    SystemTray *m_systemTray;
+    PlaylistSplitter *m_splitter = nullptr;
+    StatusLabel *m_statusLabel   = nullptr;
+    SystemTray *m_systemTray     = nullptr;
 
-    KToggleAction *m_randomPlayAction;
-    KToggleAction *m_toggleSystemTrayAction;
-    KToggleAction *m_toggleDockOnCloseAction;
-    KToggleAction *m_togglePopupsAction;
+    KToggleAction *m_randomPlayAction        = nullptr;
+    KToggleAction *m_toggleSystemTrayAction  = nullptr;
+    KToggleAction *m_toggleDockOnCloseAction = nullptr;
+    KToggleAction *m_togglePopupsAction      = nullptr;
 
-    PlayerManager *m_player;
-    Scrobbler     *m_scrobbler;
+    PlayerManager *m_player     = nullptr;
+    Scrobbler     *m_scrobbler  = nullptr;
 
     QStringList m_filesToOpen;
-    bool m_startDocked;
-    bool m_shuttingDown;
-    uint m_pmToken;
+    bool m_startDocked  = false;
+    bool m_shuttingDown = false;
+    uint m_pmToken      = 0;
 
     static JuK* m_instance;
 };

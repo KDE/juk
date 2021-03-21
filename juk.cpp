@@ -17,49 +17,51 @@
 
 #include "juk.h"
 
+#include <KSharedConfig>
 #include <kaboutdata.h>
-#include <kmessagebox.h>
 #include <kactioncollection.h>
-#include <kstandardaction.h>
-#include <ktoggleaction.h>
 #include <kactionmenu.h>
 #include <kconfiggroup.h>
-#include <KSharedConfig>
 #include <kglobalaccel.h>
-#include <ktoolbarpopupaction.h>
+#include <kmessagebox.h>
 #include <knotification.h>
+#include <kstandardaction.h>
+#include <ktoggleaction.h>
+#include <ktoolbarpopupaction.h>
 
-#include <QIcon>
 #include <QAction>
 #include <QCoreApplication>
-#include <QKeyEvent>
-#include <QDir>
-#include <QDirIterator>
-#include <QMenuBar>
-#include <QMetaType>
-#include <QTime>
-#include <QTimer>
-#include <QDesktopWidget>
-#include <QScreen>
-#include <QStatusBar>
+#include <QDBusInterface>
 #include <QDBusMessage>
 #include <QDBusReply>
-#include <QDBusInterface>
+#include <QDesktopWidget>
+#include <QDir>
+#include <QDirIterator>
+#include <QIcon>
+#include <QKeyEvent>
+#include <QMenuBar>
+#include <QMetaType>
+#include <QScreen>
+#include <QStatusBar>
+#include <QTime>
+#include <QTimer>
 
+#include "actioncollection.h"
+#include "cache.h"
+#include "collectionlist.h"
+#include "covermanager.h"
+#include "filerenamerconfigdlg.h"
+#include "keydialog.h"
+#include "playlistsplitter.h"
+#include "scrobbleconfigdlg.h"
+#include "scrobbler.h"
 #include "slideraction.h"
 #include "statuslabel.h"
 #include "systemtray.h"
-#include "keydialog.h"
 #include "tagguesserconfigdlg.h"
-#include "filerenamerconfigdlg.h"
-#include "scrobbler.h"
-#include "scrobbleconfigdlg.h"
-#include "actioncollection.h"
-#include "cache.h"
-#include "playlistsplitter.h"
-#include "collectionlist.h"
-#include "covermanager.h"
 #include "tagtransactionmanager.h"
+#include "tracksequencemanager.h"
+
 #include "juk_debug.h"
 
 using namespace ActionCollection;
@@ -77,16 +79,10 @@ void deleteAndClear(T *&ptr)
 // public members
 ////////////////////////////////////////////////////////////////////////////////
 
-JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
-    KXmlGuiWindow(parent, Qt::WindowFlags(Qt::WA_DeleteOnClose)),
-    m_splitter(nullptr),
-    m_statusLabel(nullptr),
-    m_systemTray(nullptr),
-    m_player(new PlayerManager),
-    m_scrobbler(nullptr),
-    m_filesToOpen(filesToOpen),
-    m_shuttingDown(false),
-    m_pmToken(0)
+JuK::JuK(const QStringList &filesToOpen, QWidget *parent)
+  : KXmlGuiWindow(parent, Qt::WindowFlags(Qt::WA_DeleteOnClose))
+  , m_player(new PlayerManager)
+  , m_filesToOpen(filesToOpen)
 {
     // Expect segfaults if you change this order.
 
@@ -101,7 +97,7 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent) :
     Cache::ensureAppDataStorageExists();
 
     setupActions();
-    setupLayout();
+    setupLayout(); // Creates PlaylistSplitter and therefore CollectionList
 
     bool firstRun = !KSharedConfig::openConfig()->hasGroup("MainWindow");
 
