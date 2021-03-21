@@ -275,10 +275,11 @@ void Playlist::save()
 
     QTextStream stream(&file);
 
-    QStringList fileList = files();
+    const QStringList fileList = files();
 
-    foreach(const QString &file, fileList)
+    for(const auto &file : fileList) {
         stream << file << '\n';
+    }
 
     file.close();
 }
@@ -316,15 +317,17 @@ void Playlist::clearItem(PlaylistItem *item)
 
 void Playlist::clearItems(const PlaylistItemList &items)
 {
-    foreach(PlaylistItem *item, items)
+    for(auto &item : items) {
         delete item;
-
+    }
     playlistItemsChanged();
 }
 
 PlaylistItem *Playlist::playingItem() // static
 {
-    return PlaylistItem::playingItems().isEmpty() ? 0 : PlaylistItem::playingItems().front();
+    return PlaylistItem::playingItems().isEmpty()
+        ? nullptr
+        : PlaylistItem::playingItems().front();
 }
 
 QStringList Playlist::files() const
@@ -440,10 +443,10 @@ void Playlist::synchronizePlayingItems(const PlaylistList &sources, bool setMast
 
 void Playlist::copy()
 {
-    PlaylistItemList items = selectedItems();
+    const PlaylistItemList items = selectedItems();
     QList<QUrl> urls;
 
-    foreach(PlaylistItem *item, items) {
+    for(const auto &item : items) {
         urls << QUrl::fromLocalFile(item->file().absFilePath());
     }
 
@@ -471,12 +474,12 @@ void Playlist::clear()
 
 void Playlist::slotRefresh()
 {
-    PlaylistItemList l = selectedItems();
-    if(l.isEmpty())
-        l = visibleItems();
+    PlaylistItemList itemList = selectedItems();
+    if(itemList.isEmpty())
+        itemList = visibleItems();
 
     QApplication::setOverrideCursor(Qt::WaitCursor);
-    foreach(PlaylistItem *item, l) {
+    for(auto &item : itemList) {
         item->refreshFromDisk();
 
         if(!item->file().tag() || !item->file().fileInfo().exists()) {
@@ -511,10 +514,14 @@ void Playlist::slotRenameFile()
 void Playlist::slotViewCover()
 {
     const PlaylistItemList items = selectedItems();
-    if (items.isEmpty())
-        return;
-    foreach(const PlaylistItem *item, items)
-        item->file().coverInfo()->popup();
+    for(const auto &item : items) {
+        const auto cover = item->file().coverInfo();
+
+        if(cover->hasCover()) {
+            cover->popup();
+            return; // If we select multiple items, only show one
+        }
+    }
 }
 
 void Playlist::slotRemoveCover()
@@ -586,7 +593,7 @@ void Playlist::slotGuessTagInfo(TagGuesser::Type type)
 
     m_blockDataChanged = true;
 
-    foreach(PlaylistItem *item, items) {
+    for(auto &item : items) {
         item->guessTagInfo(type);
         processEvents();
     }
@@ -678,47 +685,49 @@ void Playlist::playlistItemsChanged()
 
 void Playlist::removeFromDisk(const PlaylistItemList &items)
 {
-    if(isVisible() && !items.isEmpty()) {
+    if(!isVisible() || items.isEmpty()) {
+        return;
+    }
 
-        QStringList files;
-        foreach(const PlaylistItem *item, items)
-            files.append(item->file().absFilePath());
+    QStringList files;
+    for(const auto &item : items) {
+        files.append(item->file().absFilePath());
+    }
 
-        DeleteDialog dialog(this);
+    DeleteDialog dialog(this);
 
-        m_blockDataChanged = true;
+    m_blockDataChanged = true;
 
-        if(dialog.confirmDeleteList(files)) {
-            bool shouldDelete = dialog.shouldDelete();
-            QStringList errorFiles;
+    if(dialog.confirmDeleteList(files)) {
+        bool shouldDelete = dialog.shouldDelete();
+        QStringList errorFiles;
 
-            foreach(PlaylistItem *item, items) {
-                if(playingItem() == item)
-                    action("forward")->trigger();
+        for(const auto &item : items) {
+            if(playingItem() == item)
+                action("forward")->trigger();
 
-                QString removePath = item->file().absFilePath();
-                QUrl removeUrl = QUrl::fromLocalFile(removePath);
-                if((!shouldDelete && KIO::trash(removeUrl)->exec()) ||
-                   (shouldDelete && QFile::remove(removePath)))
-                {
-                    delete item->collectionItem();
-                }
-                else
-                    errorFiles.append(item->file().absFilePath());
+            QString removePath = item->file().absFilePath();
+            QUrl removeUrl = QUrl::fromLocalFile(removePath);
+            if((!shouldDelete && KIO::trash(removeUrl)->exec()) ||
+               (shouldDelete && QFile::remove(removePath)))
+            {
+                delete item->collectionItem();
             }
-
-            if(!errorFiles.isEmpty()) {
-                QString errorMsg = shouldDelete ?
-                        i18n("Could not delete these files") :
-                        i18n("Could not move these files to the Trash");
-                KMessageBox::errorList(this, errorMsg, errorFiles);
-            }
+            else
+                errorFiles.append(item->file().absFilePath());
         }
 
-        m_blockDataChanged = false;
-
-        playlistItemsChanged();
+        if(!errorFiles.isEmpty()) {
+            QString errorMsg = shouldDelete ?
+                    i18n("Could not delete these files") :
+                    i18n("Could not move these files to the Trash");
+            KMessageBox::errorList(this, errorMsg, errorFiles);
+        }
     }
+
+    m_blockDataChanged = false;
+
+    playlistItemsChanged();
 }
 
 void Playlist::synchronizeItemsTo(const PlaylistItemList &itemList)
@@ -824,8 +833,8 @@ QStringList Playlist::mimeTypes() const
 QMimeData* Playlist::mimeData(const QList<QTreeWidgetItem *> items) const
 {
     QList<QUrl> urls;
-    foreach(QTreeWidgetItem *item, items) {
-        urls << QUrl::fromLocalFile(static_cast<PlaylistItem*>(item)->file().absFilePath());
+    for(const auto &item : items) {
+        urls << QUrl::fromLocalFile(static_cast<const PlaylistItem*>(item)->file().absFilePath());
     }
 
     QMimeData *urlDrag = new QMimeData();
@@ -860,7 +869,7 @@ void Playlist::dropEvent(QDropEvent *e)
 
         if(item->isSelected()) {
             const PlaylistItemList selItems = selectedItems();
-            foreach(PlaylistItem *playlistItem, selItems) {
+            for(auto &playlistItem : selItems) {
                 playlistItem->file().coverInfo()->setCoverId(id);
                 playlistItem->refresh();
             }
@@ -892,20 +901,13 @@ void Playlist::dropEvent(QDropEvent *e)
         sortItems(columnCount() + 1, Qt::AscendingOrder);
 
         const QList<QTreeWidgetItem *> items = QTreeWidget::selectedItems();
+        int insertIndex = item ? indexOfTopLevelItem(item) : 0;
 
-        foreach(QTreeWidgetItem *listViewItem, items) {
-            if(!item) {
+        // Move items from elsewhere in the playlist
 
-                // Insert the item at the top of the list.  This is a bit ugly,
-                // but I don't see another way.
-
-                takeItem(listViewItem);
-                insertItem(listViewItem);
-            }
-            //else
-            //    listViewItem->moveItem(item);
-
-            item = static_cast<PlaylistItem *>(listViewItem);
+        for(auto &listViewItem : items) {
+            auto oldItem = takeTopLevelItem(indexOfTopLevelItem(listViewItem));
+            insertTopLevelItem(++insertIndex, oldItem);
         }
     }
     else
@@ -952,7 +954,7 @@ void Playlist::read(QDataStream &s)
 
     m_blockDataChanged = true;
 
-    foreach(const QString &file, files) {
+    for(const auto &file : qAsConst(files)) {
         if(file.isEmpty())
             throw BICStreamException();
 
@@ -1095,8 +1097,10 @@ void Playlist::refreshAlbums(const PlaylistItemList &items, coverKey id)
 
 void Playlist::updatePlaying() const
 {
-    foreach(const PlaylistItem *item, PlaylistItem::playingItems())
+    const auto playingItems = PlaylistItem::playingItems();
+    for(const auto &item : playingItems) {
         item->treeWidget()->viewport()->update();
+    }
 }
 
 void Playlist::refreshAlbum(const QString &artist, const QString &album)
@@ -1127,18 +1131,20 @@ void Playlist::refreshAlbum(const QString &artist, const QString &album)
 
 void Playlist::hideColumn(int c, bool updateSearch)
 {
-    foreach (QAction *action, m_headerMenu->actions()) {
+    const auto headerActions = m_headerMenu->actions();
+    for(auto &action : headerActions) {
         if(!action)
             continue;
 
-        if (action->data().toInt() == c) {
+        if(action->data().toInt() == c) {
             action->setChecked(false);
             break;
         }
     }
 
-    if(isColumnHidden(c))
+    if(isColumnHidden(c)) {
         return;
+    }
 
     QTreeWidget::hideColumn(c);
 
@@ -1152,27 +1158,31 @@ void Playlist::hideColumn(int c, bool updateSearch)
         viewport()->update();
     }
 
-    if(this != CollectionList::instance())
+    if(this != CollectionList::instance()) {
         CollectionList::instance()->hideColumn(c, false);
+    }
 
-    if(updateSearch)
+    if(updateSearch) {
         redisplaySearch();
+    }
 }
 
 void Playlist::showColumn(int c, bool updateSearch)
 {
-    foreach (QAction *action, m_headerMenu->actions()) {
+    const auto headerActions = m_headerMenu->actions();
+    for(auto &action : headerActions) {
         if(!action)
             continue;
 
-        if (action->data().toInt() == c) {
+        if(action->data().toInt() == c) {
             action->setChecked(true);
             break;
         }
     }
 
-    if(!isColumnHidden(c))
+    if(!isColumnHidden(c)) {
         return;
+    }
 
     QTreeWidget::showColumn(c);
 
@@ -1186,11 +1196,13 @@ void Playlist::showColumn(int c, bool updateSearch)
         viewport()->update();
     }
 
-    if(this != CollectionList::instance())
+    if(this != CollectionList::instance()) {
         CollectionList::instance()->showColumn(c, false);
+    }
 
-    if(updateSearch)
+    if(updateSearch) {
         redisplaySearch();
+    }
 }
 
 void Playlist::sortByColumn(int column, Qt::SortOrder order)
@@ -1523,38 +1535,37 @@ void Playlist::calculateColumnWeights()
     if(m_disableColumnWidthUpdates)
         return;
 
-    const PlaylistItemList l = items();
+    const PlaylistItemList itemList = items();
 
     QVector<double> averageWidth(columnCount());
-    double itemCount = l.size();
-
-    QVector<int> cachedWidth;
+    double itemCount = itemList.size();
 
     // Here we're not using a real average, but averaging the squares of the
     // column widths and then using the square root of that value.  This gives
     // a nice weighting to the longer columns without doing something arbitrary
     // like adding a fixed amount of padding.
 
-    foreach(PlaylistItem *item, l) {
-        cachedWidth = item->cachedWidths();
+    for(const auto &item : itemList) {
+        const auto cachedWidth = item->cachedWidths();
 
         // Extra columns start at 0, but those weights aren't shared with all
         // items.
         for(int i = 0; i < columnOffset(); ++i) {
-            averageWidth[i] +=
-                std::pow(double(columnWidth(i)), 2.0) / itemCount;
+            const auto width = columnWidth(i);
+            averageWidth[i] += width * width / itemCount;
         }
 
-        for(int column = columnOffset(); column < columnCount(); ++column) {
-            averageWidth[column] +=
-                std::pow(double(cachedWidth[column - columnOffset()]), 2.0) / itemCount;
+        const auto offset = columnOffset();
+        for(int column = offset; column < columnCount(); ++column) {
+            const auto width = cachedWidth[column - offset];
+            averageWidth[column] += width * width / itemCount;
         }
     }
 
     if(m_columnWeights.isEmpty())
         m_columnWeights.fill(-1, columnCount());
 
-    foreach(int column, m_weightDirty) {
+    for(const auto column : qAsConst(m_weightDirty)) {
         m_columnWeights[column] = int(std::sqrt(averageWidth[column]) + 0.5);
     }
 
@@ -1563,7 +1574,7 @@ void Playlist::calculateColumnWeights()
 
 void Playlist::addPlaylistFile(const QString &m3uFile)
 {
-    if (!m_collection->containsPlaylistFile(m3uFile)) {
+    if(!m_collection->containsPlaylistFile(m3uFile)) {
         new Playlist(m_collection, QFileInfo(m3uFile));
     }
 }
@@ -1619,12 +1630,14 @@ QFuture<void> Playlist::addUntypedFile(const QString &file, PlaylistItem *after)
     }
 
     if(fileInfo.isDir()) {
-        foreach(const QString &directory, m_collection->excludedFolders()) {
-            if(canonicalPath.startsWith(directory))
-                return {}; // Exclude it
+        const auto blockedPaths = m_collection->excludedFolders();
+        if(std::none_of(blockedPaths.begin(), blockedPaths.end(),
+            [canonicalPath](const auto &dir) {
+                return canonicalPath.startsWith(dir);
+            }))
+        {
+            return addFilesFromDirectory(canonicalPath);
         }
-
-        return addFilesFromDirectory(canonicalPath);
     }
 
     return {};
@@ -1683,9 +1696,11 @@ void Playlist::slotUpdateColumnWidths()
 #endif
     };
 
+    // No item content to auto-fit around, use the headers for now
     if(count() == 0) {
-        foreach(int column, visibleColumns)
+        for(int column : qAsConst(visibleColumns)) {
             setColumnWidth(column, textWidth(header()->fontMetrics(),headerItem()->text(column)) + 10);
+        }
 
         return;
     }
@@ -1705,7 +1720,7 @@ void Playlist::slotUpdateColumnWidths()
     QVector<int> minimumFixedWidth(columnCount(), 0);
     int minimumFixedWidthTotal = 0;
 
-    foreach(int column, visibleColumns) {
+    for(int column : qAsConst(visibleColumns)) {
         minimumWidth[column] = textWidth(header()->fontMetrics(), headerItem()->text(column)) + 10;
         minimumWidthTotal += minimumWidth[column];
 
@@ -1732,8 +1747,9 @@ void Playlist::slotUpdateColumnWidths()
     // useful weight to use as a divisor for each column's weight.
 
     double totalWeight = 0;
-    foreach(int column, visibleColumns)
+    for(int column : qAsConst(visibleColumns)) {
         totalWeight += m_columnWeights[column];
+    }
 
     // This can happen during startup, before we have the tracks loaded.
     if(qFuzzyIsNull(totalWeight)) {
@@ -1744,8 +1760,9 @@ void Playlist::slotUpdateColumnWidths()
     // width if we didn't have to handle the cases of minimum and maximum widths.
 
     QVector<int> weightedWidth(columnCount(), 0);
-    foreach(int column, visibleColumns)
+    for(int column : qAsConst(visibleColumns)) {
         weightedWidth[column] = int(double(m_columnWeights[column]) / totalWeight * viewport()->width() + 0.5);
+    }
 
     // The "extra" width for each column.  This is the weighted width less the
     // minimum width or zero if the minimum width is greater than the weighted
@@ -1775,7 +1792,7 @@ void Playlist::slotUpdateColumnWidths()
 
     // Fill in the values discussed above.
 
-    foreach(int column, visibleColumns) {
+    for(int column : qAsConst(visibleColumns)) {
         if(weightedWidth[column] < minimumWidth[column]) {
             readjust = true;
             extraWidth[column] = 0;
@@ -1801,7 +1818,7 @@ void Playlist::slotUpdateColumnWidths()
     // than the minimum widths, just use those, otherwise use the "readjusted
     // weighted width".
 
-    foreach(int column, visibleColumns) {
+    for(int column : qAsConst(visibleColumns)) {
         int width;
         if(readjust) {
             int adjustedExtraWidth = int(double(extraWidth[column]) * adjustmentRatio + 0.5);
