@@ -104,6 +104,8 @@ public:
     void refreshItems();
     void renameItems();
     void addCovers(bool fromFile);
+    void addLocalCover();
+    void addInternetCover();
     void removeCovers();
     void viewCovers();
     void showCoverManager();
@@ -234,50 +236,22 @@ public:
     ActionHandler(PlaylistCollection *collection);
 
 private:
+    // This is variadic but it's only used to help dispatch at compile time to
+    // slots that accept 0 params or 1 param (a bool) from QAction::triggered
+    template<typename ... PMFArg>
     QAction *createAction(const QString &text,
-                          const char *slot,
+                          void (PlaylistCollection::*slot)(PMFArg...),
                           const char *name,
                           const QString &icon = QString(),
                           const QKeySequence &shortcut = QKeySequence());
 private slots:
-    void slotStop()          { m_collection->stop(); }
     void slotPlayFirst()     { m_collection->playFirst(); }
-    void slotPlayNextAlbum() { m_collection->playNextAlbum(); }
 
     void slotOpen()         { m_collection->open(); }
-    void slotManageFolders()    { m_collection->addFolder(); }
-    void slotRename()       { m_collection->rename(); }
-    void slotDuplicate()    { m_collection->duplicate(); }
     void slotSave()         { m_collection->save(); }
     void slotSaveAs()       { m_collection->saveAs(); }
-    void slotReload()       { m_collection->reload(); }
-    void slotRemove()       { m_collection->remove(); }
-    void slotEditSearch()   { m_collection->editSearch(); }
-
-    void slotRemoveItems()  { m_collection->removeItems(); }
-    void slotRefreshItems() { m_collection->refreshItems(); }
-    void slotRenameItems()  { m_collection->renameItems(); }
-    void slotScanFolders()  { m_collection->scanFolders(); }
-
-    void slotViewCovers()   { m_collection->viewCovers(); }
-    void slotRemoveCovers() { m_collection->removeCovers(); }
-    void slotAddLocalCover()    { m_collection->addCovers(true); }
-    void slotAddInternetCover() { m_collection->addCovers(false); }
-
-    void slotCreatePlaylist()       { m_collection->createPlaylist(); }
-    void slotCreateSearchPlaylist() { m_collection->createSearchPlaylist(); }
-    void slotCreateFolderPlaylist() { m_collection->createFolderPlaylist(); }
-
-    void slotGuessTagFromFile()     { m_collection->guessTagFromFile(); }
-    void slotGuessTagFromInternet() { m_collection->guessTagFromInternet(); }
 
     void slotSetSearchEnabled(bool enable)           { m_collection->setSearchEnabled(enable); }
-    void slotSetUpcomingPlaylistEnabled(bool enable) { m_collection->setUpcomingPlaylistEnabled(enable); }
-    void slotShowCoverManager()                      { m_collection->showCoverManager(); }
-    void slotEnableDirWatch(bool enable)             { m_collection->enableDirWatch(enable); }
-    void slotDirChanged(const QString &path)         { m_collection->dirChanged(path); }
-
-    void slotNewItems(const KFileItemList &list)     { m_collection->newItems(list); }
 
 signals:
     void signalSelectedItemsChanged();

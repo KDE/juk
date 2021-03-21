@@ -481,9 +481,15 @@ void PlaylistCollection::renameItems()
     visiblePlaylist()->slotRenameFile();
 }
 
-void PlaylistCollection::addCovers(bool fromFile)
+void PlaylistCollection::addLocalCover()
 {
-    visiblePlaylist()->slotAddCover(fromFile);
+    visiblePlaylist()->slotAddCover(true /* from file */);
+    playlistItemsChanged();
+}
+
+void PlaylistCollection::addInternetCover()
+{
+    visiblePlaylist()->slotAddCover(false /* not from file */);
     playlistItemsChanged();
 }
 
@@ -883,11 +889,11 @@ void PlaylistCollection::saveConfig()
 // ActionHandler implementation
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection) :
-    QObject(nullptr),
-    m_collection(collection)
+PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
+  : QObject(nullptr)
+  , m_collection(collection)
 {
-    setObjectName( QLatin1String("ActionHandler" ));
+    setObjectName(QLatin1String("ActionHandler"));
 
     KActionMenu *menu;
     KActionCollection *actionCollection = ActionCollection::actions();
@@ -898,12 +904,18 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
             i18nc("new playlist", "&New"), this);
     actionCollection->addAction("file_new", menu);
 
-    menu->addAction(createAction(i18n("&Empty Playlist..."), SLOT(slotCreatePlaylist()),
-                              "newPlaylist", "window-new", QKeySequence(Qt::CTRL + Qt::Key_N)));
-    menu->addAction(createAction(i18n("&Search Playlist..."), SLOT(slotCreateSearchPlaylist()),
-                              "newSearchPlaylist", "edit-find", QKeySequence(Qt::CTRL + Qt::Key_F)));
-    menu->addAction(createAction(i18n("Playlist From &Folder..."), SLOT(slotCreateFolderPlaylist()),
-                              "newDirectoryPlaylist", "document-open", QKeySequence(Qt::CTRL + Qt::Key_D)));
+    menu->addAction(createAction(i18n("&Empty Playlist..."),
+                qOverload<>(&PlaylistCollection::createPlaylist),
+                "newPlaylist", "window-new",
+                QKeySequence(Qt::CTRL + Qt::Key_N)));
+    menu->addAction(createAction(i18n("&Search Playlist..."),
+                &PlaylistCollection::createSearchPlaylist,
+                "newSearchPlaylist", "edit-find",
+                QKeySequence(Qt::CTRL + Qt::Key_F)));
+    menu->addAction(createAction(i18n("Playlist From &Folder..."),
+                &PlaylistCollection::createFolderPlaylist,
+                "newDirectoryPlaylist", "document-open",
+                QKeySequence(Qt::CTRL + Qt::Key_D)));
 
     // Guess tag info menu
 
@@ -913,65 +925,109 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     menu->setIcon(QIcon::fromTheme("wizard"));
 
-    menu->addAction(createAction(i18n("From &File Name"), SLOT(slotGuessTagFromFile()),
-                              "guessTagFile", "document-import", QKeySequence(Qt::CTRL + Qt::Key_G)));
-    menu->addAction(createAction(i18n("From &Internet"), SLOT(slotGuessTagFromInternet()),
-                              "guessTagInternet", "network-server", QKeySequence(Qt::CTRL + Qt::Key_I)));
+    menu->addAction(createAction(i18n("From &File Name"),
+                &PlaylistCollection::guessTagFromFile,
+                "guessTagFile", "document-import",
+                QKeySequence(Qt::CTRL + Qt::Key_G)));
+    menu->addAction(createAction(i18n("From &Internet"),
+                &PlaylistCollection::guessTagFromInternet,
+                "guessTagInternet", "network-server",
+                QKeySequence(Qt::CTRL + Qt::Key_I)));
 #else
-    createAction(i18n("Guess Tag Information From &File Name"), SLOT(slotGuessTagFromFile()),
-                 "guessTag", "document-import", QKeySequence(Qt::CTRL + Qt::Key_G));
+    createAction(i18n("Guess Tag Information From &File Name"),
+                &PlaylistCollection::guessTagFromFile,
+                "guessTag", "document-import",
+                QKeySequence(Qt::CTRL + Qt::Key_G));
 #endif
 
 
-    createAction(i18n("Play First Track"),SLOT(slotPlayFirst()),     "playFirst");
-    createAction(i18n("Play Next Album"), SLOT(slotPlayNextAlbum()), "forwardAlbum", "go-down-search");
+    createAction(i18n("Play First Track"), &PlaylistCollection::playFirst,
+            "playFirst");
+    createAction(i18n("Play Next Album"), &PlaylistCollection::playNextAlbum,
+            "forwardAlbum", "go-down-search");
 
     KStandardAction::open(this, SLOT(slotOpen()), actionCollection);
     KStandardAction::save(this, SLOT(slotSave()), actionCollection);
     KStandardAction::saveAs(this, SLOT(slotSaveAs()), actionCollection);
 
-    createAction(i18n("Manage &Folders..."),  SLOT(slotManageFolders()),    "openDirectory", "folder-new");
-    createAction(i18n("&Rename..."),      SLOT(slotRename()),       "renamePlaylist", "edit-rename");
+    createAction(i18n("Manage &Folders..."), &PlaylistCollection::addFolder,
+            "openDirectory", "folder-new");
+    createAction(i18n("&Rename..."), &PlaylistCollection::rename,
+            "renamePlaylist", "edit-rename");
     createAction(i18nc("verb, copy the playlist", "D&uplicate..."),
-                 SLOT(slotDuplicate()),    "duplicatePlaylist", "edit-copy");
-    createAction(i18n("R&emove"),         SLOT(slotRemove()),       "deleteItemPlaylist", "user-trash");
-    createAction(i18n("Reload"),          SLOT(slotReload()),       "reloadPlaylist", "view-refresh");
-    createAction(i18n("Edit Search..."),  SLOT(slotEditSearch()),   "editSearch");
+                 &PlaylistCollection::duplicate,
+                 "duplicatePlaylist", "edit-copy");
+    createAction(i18n("R&emove"), &PlaylistCollection::remove,
+            "deleteItemPlaylist", "user-trash");
+    createAction(i18n("Reload"), &PlaylistCollection::reload,
+            "reloadPlaylist", "view-refresh");
+    createAction(i18n("Edit Search..."), &PlaylistCollection::editSearch,
+            "editSearch");
 
-    createAction(i18n("&Delete"),         SLOT(slotRemoveItems()),  "removeItem", "edit-delete");
-    createAction(i18n("Refresh"),         SLOT(slotRefreshItems()), "refresh", "view-refresh");
-    createAction(i18n("&Rename File"),    SLOT(slotRenameItems()),  "renameFile", "document-save-as", QKeySequence(Qt::CTRL + Qt::Key_R));
+    createAction(i18n("&Delete"), &PlaylistCollection::removeItems,
+            "removeItem", "edit-delete");
+    createAction(i18n("Refresh"), &PlaylistCollection::refreshItems,
+            "refresh", "view-refresh");
+    createAction(i18n("&Rename File"), &PlaylistCollection::renameItems,
+            "renameFile", "document-save-as",
+            QKeySequence(Qt::CTRL + Qt::Key_R));
 
     menu = new KActionMenu(i18n("Cover Manager"), actionCollection);
     actionCollection->addAction("coverManager", menu);
     menu->setIcon(QIcon::fromTheme("image-x-generic"));
     menu->addAction(createAction(i18n("&View Cover"),
-        SLOT(slotViewCovers()), "viewCover", "document-preview"));
+        &PlaylistCollection::viewCovers, "viewCover", "document-preview"));
     menu->addAction(createAction(i18n("Get Cover From &File..."),
-        SLOT(slotAddLocalCover()), "addCover", "document-import", QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
+        &PlaylistCollection::addLocalCover, "addCover", "document-import",
+        QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_F)));
     menu->addAction(createAction(i18n("Get Cover From &Internet..."),
-        SLOT(slotAddInternetCover()), "webImageCover", "network-server", QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
+        &PlaylistCollection::addInternetCover,
+        "webImageCover", "network-server",
+        QKeySequence(Qt::CTRL + Qt::SHIFT + Qt::Key_G)));
     menu->addAction(createAction(i18n("&Delete Cover"),
-        SLOT(slotRemoveCovers()), "removeCover", "edit-delete"));
+        &PlaylistCollection::removeCovers, "removeCover", "edit-delete"));
     menu->addAction(createAction(i18n("Show Cover &Manager"),
-        SLOT(slotShowCoverManager()), "showCoverManager"));
+        &PlaylistCollection::showCoverManager, "showCoverManager"));
 
-    KToggleAction *upcomingAction =
-        new KToggleAction(QIcon::fromTheme(QStringLiteral("go-jump-today")), i18n("Show &Play Queue"), actionCollection);
+    auto upcomingAction = new KToggleAction(
+            QIcon::fromTheme(QStringLiteral("go-jump-today")),
+            i18n("Show &Play Queue"), actionCollection);
     actionCollection->addAction("showUpcoming", upcomingAction);
 
-    connect(upcomingAction, SIGNAL(triggered(bool)),
-            this, SLOT(slotSetUpcomingPlaylistEnabled(bool)));
+    connect(upcomingAction, &KToggleAction::triggered,
+            this, [this](bool enable) {
+                m_collection->setUpcomingPlaylistEnabled(enable);
+            });
 
     connect(m_collection->m_playerManager, &PlayerManager::signalStop,
             this, [this]() { m_collection->stop(); });
 }
 
-QAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
-                                                         const char *slot,
-                                                         const char *name,
-                                                         const QString &icon,
-                                                         const QKeySequence &shortcut)
+//
+// Used with ActionHandler::createAction below to dispatch QAction::triggered(bool) to slots
+// that will actually use the bool parameter... or not, as the case may be
+//
+
+template<int k = 1>
+static void invokeSlot(PlaylistCollection *c, void (PlaylistCollection::*ptr)(bool), bool b)
+{
+    (c->*ptr)(b);
+}
+
+template<int k = 0>
+static void invokeSlot(PlaylistCollection *c, void (PlaylistCollection::*ptr)(), bool)
+{
+    (c->*ptr)();
+}
+
+template<typename ... PMFArg>
+QAction *PlaylistCollection::ActionHandler::createAction(
+    const QString &text
+  , void (PlaylistCollection::*slot)(PMFArg...)
+  , const char *name
+  , const QString &icon
+  , const QKeySequence &shortcut
+  )
 {
     KActionCollection *actionCollection = ActionCollection::actions();
     QAction *action = new QAction(text, actionCollection);
@@ -979,7 +1035,11 @@ QAction *PlaylistCollection::ActionHandler::createAction(const QString &text,
     if(!icon.isEmpty()) {
         action->setIcon(QIcon::fromTheme(icon));
     }
-    connect(action, SIGNAL(triggered(bool)), slot);
+
+    QObject::connect(action, &QAction::triggered, this,
+            [this, slot](bool b) -> void {
+                invokeSlot<sizeof...(PMFArg)>(m_collection, slot, b);
+            });
 
     actionCollection->addAction(name, action);
 
