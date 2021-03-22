@@ -97,7 +97,6 @@ public slots:
     bool mute();
 
     void trackHasChanged(const Phonon::MediaSource &newSource);
-    void trackAboutToFinish();
 
     void setRandomPlayMode(const QString &randomMode);
 

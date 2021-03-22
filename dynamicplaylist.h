@@ -28,6 +28,8 @@ using GuardedPlaylist = QPointer<Playlist>;
 
 /**
  * A Playlist that is a union of other playlists that is created dynamically.
+ * Normally seen when you select multiple playlists at once (which is, or was,
+ * something you can do).
  */
 
 class DynamicPlaylist : public Playlist

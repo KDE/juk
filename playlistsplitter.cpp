@@ -214,8 +214,6 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
     connect(m_playlistBox, &QTreeWidget::currentItemChanged,
             this,          &PlaylistSplitter::slotCurrentPlaylistChanged);
-    connect(m_playlistBox, SIGNAL(startFilePlayback(FileHandle)),
-            m_player, SLOT(play(FileHandle)));
 
     m_player->setPlaylistInterface(m_playlistBox);
 

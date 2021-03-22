@@ -1,5 +1,6 @@
 /**
  * Copyright (C) 2002-2004 Scott Wheeler <wheeler@kde.org>
+ * Copyright (C) 2021      Michael Pyne  <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -51,7 +52,6 @@
 #include "treeviewitemplaylist.h"
 #include "actioncollection.h"
 #include "cache.h"
-#include "tracksequencemanager.h"
 #include "tagtransactionmanager.h"
 #include "playermanager.h"
 #include "dbuscollectionproxy.h"
@@ -125,10 +125,9 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     viewModeAction->setCurrentItem(m_viewModeIndex);
     m_viewModes[m_viewModeIndex]->setShown(true);
 
-    TrackSequenceManager::instance()->setCurrentPlaylist(CollectionList::instance());
     raise(CollectionList::instance());
 
-    m_contextMenu->addAction( viewModeAction );
+    m_contextMenu->addAction(viewModeAction);
     connect(viewModeAction, &QAction::triggered,
             this, &PlaylistBox::slotSetViewMode);
 
@@ -140,6 +139,9 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
 
     connect(this, &PlaylistBox::customContextMenuRequested,
             this, &PlaylistBox::slotShowContextMenu);
+
+    connect(this, &PlaylistBox::signalPlayFile,
+            player, qOverload<const FileHandle &>(&PlayerManager::play));
 
     const auto *tagManager = TagTransactionManager::instance();
     connect(tagManager, &TagTransactionManager::signalAboutToModifyTags,
@@ -232,6 +234,12 @@ void PlaylistBox::scanFolders()
 {
     PlaylistCollection::scanFolders();
     emit startupComplete();
+}
+
+bool PlaylistBox::requestPlaybackFor(const FileHandle &file)
+{
+    emit signalPlayFile(file);
+    return true;
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -444,7 +452,7 @@ void PlaylistBox::setDynamicListsFrozen(bool frozen)
 
 void PlaylistBox::slotSavePlaylists()
 {
-    qCDebug(JUK_LOG) << "Auto-saving playlists.\n";
+    qCDebug(JUK_LOG) << "Auto-saving playlists.";
 
     PlaylistList l;
     CollectionList *collection = CollectionList::instance();
@@ -614,21 +622,9 @@ void PlaylistBox::slotDoubleClicked(QTreeWidgetItem *item)
 {
     if(!item)
         return;
+    auto *playlist = static_cast<Item *>(item)->playlist();
 
-    TrackSequenceManager *manager = TrackSequenceManager::instance();
-    Item *playlistItem = static_cast<Item *>(item);
-
-    manager->setCurrentPlaylist(playlistItem->playlist());
-
-    manager->setCurrent(0); // Reset playback
-    PlaylistItem *next = manager->nextItem(); // Allow manager to choose
-
-    if(next) {
-        emit startFilePlayback(next->file());
-        playlistItem->playlist()->setPlaying(next);
-    }
-    else
-        action("stop")->trigger();
+    playlist->slotBeginPlayback();
 }
 
 void PlaylistBox::slotShowContextMenu(const QPoint &point)

@@ -126,8 +126,6 @@ set(juk_SRCS
    tagguesserconfigdlg.cpp
    tagrenameroptions.cpp
    tagtransactionmanager.cpp
-   tracksequenceiterator.cpp
-   tracksequencemanager.cpp
    treeviewitemplaylist.cpp
    upcomingplaylist.cpp
    viewmode.cpp )

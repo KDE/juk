@@ -60,7 +60,6 @@
 #include "systemtray.h"
 #include "tagguesserconfigdlg.h"
 #include "tagtransactionmanager.h"
-#include "tracksequencemanager.h"
 
 #include "juk_debug.h"
 

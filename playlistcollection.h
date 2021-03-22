@@ -115,6 +115,10 @@ public:
     // virtual to allow our QWidget subclass to emit a signal after we're done
     virtual void scanFolders();
 
+    // Must be implemented by subclasses and is used to request a file
+    // start playback
+    virtual bool requestPlaybackFor(const FileHandle &file) = 0;
+
     void createPlaylist();
     void createSearchPlaylist();
     void createFolderPlaylist();

@@ -208,8 +208,7 @@ void PlayerManager::play(const QString &file)
 {
     CollectionListItem *item = CollectionList::instance()->lookup(file);
     if(item) {
-        Playlist::setPlaying(item);
-        play(item->file());
+        Playlist::setPlaying(item); // Will reentrantly call play(FileHandle)
     }
 }
 
@@ -222,10 +221,8 @@ void PlayerManager::play()
         emit seeked(0);
     }
     else {
+        // Will reentrantly call play(FileHandle)
         m_playlistInterface->playNext();
-        const auto file = m_playlistInterface->currentFile();
-
-        play(file);
     }
 }
 
@@ -458,8 +455,6 @@ void PlayerManager::setupAudio()
             this, &PlayerManager::slotLength);
     connect(m_media, &MediaObject::tick,
             this, &PlayerManager::slotTick);
-    connect(m_media, &MediaObject::aboutToFinish,
-            this, &PlayerManager::signalTrackAboutToFinish);
     connect(m_media, &MediaObject::finished,
             this, &PlayerManager::slotFinished);
     connect(m_media, &MediaObject::seekableChanged,
@@ -504,20 +499,6 @@ void PlayerManager::trackHasChanged(const Phonon::MediaSource &newSource)
         qCWarning(JUK_LOG) << "Track has changed so something we didn't set???";
         return;
     }
-}
-
-void PlayerManager::trackAboutToFinish()
-{
-    // Called when playback is in progress and a track is about to finish, gives us a
-    // chance to keep audio playback going without Phonon entering StoppedState
-    if(!m_playlistInterface)
-        return;
-
-    m_playlistInterface->playNext();
-    const auto file = m_playlistInterface->currentFile();
-
-    if(!file.isNull())
-        m_media->enqueue(QUrl::fromLocalFile(file.absFilePath()));
 }
 
 // vim: set et sw=4 tw=0 sta:

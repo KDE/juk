@@ -98,6 +98,7 @@ public:
     virtual QString text(int column) const;
     virtual void setText(int column, const QString &text);
 
+    bool isPlaying() const;
     void setPlaying(bool playing = true, bool master = true);
 
     void guessTagInfo(TagGuesser::Type type);
