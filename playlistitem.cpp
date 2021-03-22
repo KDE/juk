@@ -16,6 +16,8 @@
 
 #include "playlistitem.h"
 
+#include <algorithm>
+
 #include <kiconloader.h>
 
 #include <QCollator>
@@ -29,6 +31,7 @@
 #include "coverinfo.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
+
 #include "juk_debug.h"
 
 PlaylistItemList PlaylistItem::m_playingItems; // static
@@ -134,6 +137,14 @@ void PlaylistItem::setText(int column, const QString &text)
 {
     QTreeWidgetItem::setText(column, text);
     playlist()->slotWeightDirty(column);
+}
+
+bool PlaylistItem::isPlaying() const
+{
+    return std::any_of(m_playingItems.begin(), m_playingItems.end(),
+        [this](const PlaylistItem *playingItem) {
+            return this == playingItem;
+        });
 }
 
 void PlaylistItem::setPlaying(bool playing, bool master)

@@ -1,6 +1,6 @@
 /**
  * Copyright (C) 2004 Scott Wheeler <wheeler@kde.org>
- * Copyright (C) 2009 Michael Pyne <mpyne@kde.org>
+ * Copyright (C) 2009, 2021 Michael Pyne <mpyne@kde.org>
  *
  * This program is free software; you can redistribute it and/or modify it under
  * the terms of the GNU General Public License as published by the Free Software
@@ -52,7 +52,6 @@
 #include "directorylist.h"
 #include "mediafiles.h"
 #include "playermanager.h"
-#include "tracksequencemanager.h"
 #include "juk.h"
 
 //Laurent: readd it
@@ -645,7 +644,7 @@ Playlist *PlaylistCollection::currentPlaylist() const
     if(m_belowDistraction)
         return m_belowDistraction;
 
-    if(m_upcomingPlaylist && m_upcomingPlaylist->active())
+    if(m_upcomingPlaylist && m_upcomingPlaylist->topLevelItemCount() > 0)
         return m_upcomingPlaylist;
 
     if(Playlist::playingItem())
@@ -666,7 +665,6 @@ void PlaylistCollection::raise(Playlist *playlist)
     if(m_dynamicPlaylist && currentPlaylist() == m_dynamicPlaylist)
         m_dynamicPlaylist->lower(playlist);
 
-    TrackSequenceManager::instance()->setCurrentPlaylist(playlist);
     playlist->applySharedSettings();
     playlist->setSearchEnabled(m_searchEnabled);
     m_playlistStack->setCurrentWidget(playlist);

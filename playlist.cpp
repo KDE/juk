@@ -74,7 +74,6 @@
 #include "collectionlist.h"
 #include "filerenamer.h"
 #include "actioncollection.h"
-#include "tracksequencemanager.h"
 #include "juktag.h"
 #include "upcomingplaylist.h"
 #include "deletedialog.h"
@@ -196,31 +195,29 @@ FileHandle Playlist::currentFile() const
 
 void Playlist::playFirst()
 {
-    TrackSequenceManager::instance()->setNextItem(static_cast<PlaylistItem *>(
-        *QTreeWidgetItemIterator(const_cast<Playlist *>(this), QTreeWidgetItemIterator::NotHidden)));
-    action("forward")->trigger();
+    QTreeWidgetItemIterator listIt(const_cast<Playlist *>(this), QTreeWidgetItemIterator::NotHidden);
+    beginPlayingItem(static_cast<PlaylistItem *>(*listIt));
 }
 
 void Playlist::playNextAlbum()
 {
-    PlaylistItem *current = TrackSequenceManager::instance()->currentItem();
-    if(!current)
-        return; // No next album if we're not already playing.
-
-    QString currentAlbum = current->file().tag()->album();
-    current = TrackSequenceManager::instance()->nextItem();
-
-    while(current && current->file().tag()->album() == currentAlbum)
-        current = TrackSequenceManager::instance()->nextItem();
-
-    TrackSequenceManager::instance()->setNextItem(current);
-    action("forward")->trigger();
+#if 0
+#else
+    playNext();
+#endif
 }
 
 void Playlist::playNext()
 {
-    TrackSequenceManager::instance()->setCurrentPlaylist(this);
-    setPlaying(TrackSequenceManager::instance()->nextItem());
+    auto nowPlaying = playingItem();
+    QTreeWidgetItemIterator listIt(nowPlaying, QTreeWidgetItemIterator::NotHidden);
+    PlaylistItem *next = nullptr;
+    if(*listIt) {
+        ++listIt;
+        next = static_cast<PlaylistItem *>(*listIt);
+    }
+
+    beginPlayingItem(next);
 }
 
 void Playlist::stop()
@@ -245,13 +242,11 @@ void Playlist::playPrevious()
     }
     else {
         m_history.clear();
-        previous = TrackSequenceManager::instance()->previousItem();
+        QTreeWidgetItemIterator listIt(playingItem(), QTreeWidgetItemIterator::NotHidden);
+        previous = static_cast<PlaylistItem *>(*--listIt);
     }
 
-    if(!previous)
-        previous = static_cast<PlaylistItem *>(playingItem()->itemAbove());
-
-    setPlaying(previous, false);
+    beginPlayingItem(previous);
 }
 
 void Playlist::setName(const QString &n)
@@ -385,8 +380,6 @@ void Playlist::setSearch(PlaylistSearch* s)
     for(int row = 0; row < topLevelItemCount(); ++row)
         topLevelItem(row)->setHidden(true);
     setItemsVisible(s->matchedItems(), true);
-
-    TrackSequenceManager::instance()->iterator()->playlistChanged();
 }
 
 void Playlist::setSearchEnabled(bool enabled)
@@ -421,7 +414,6 @@ void Playlist::synchronizePlayingItems(Playlist *playlist, bool setMaster)
         PlaylistItem *item = static_cast<PlaylistItem *>(*itemIt);
         if(base == item->collectionItem()) {
             item->setPlaying(true, setMaster);
-            TrackSequenceManager::instance()->setCurrent(item);
             return;
         }
     }
@@ -506,6 +498,19 @@ void Playlist::slotRenameFile()
     playlistItemsChanged();
 
     emit signalEnableDirWatch(true);
+}
+
+void Playlist::slotBeginPlayback()
+{
+    QTreeWidgetItemIterator visible(this, QTreeWidgetItemIterator::NotHidden);
+    PlaylistItem *item = static_cast<PlaylistItem *>(*visible);
+
+    if(item) {
+        beginPlayingItem(item);
+    }
+    else {
+        action("stop")->trigger();
+    }
 }
 
 void Playlist::slotViewCover()
@@ -726,6 +731,18 @@ void Playlist::synchronizeItemsTo(const PlaylistItemList &itemList)
     // direct call to ::items to avoid infinite loop, bug 402355
     clearItems(Playlist::items());
     createItems(itemList);
+}
+
+void Playlist::beginPlayingItem(PlaylistItem *itemToPlay)
+{
+    if(itemToPlay) {
+        setPlaying(itemToPlay, true);
+        m_collection->requestPlaybackFor(itemToPlay->file());
+    }
+    else {
+        setPlaying(nullptr);
+        action("stop")->trigger();
+    }
 }
 
 void Playlist::dragEnterEvent(QDragEnterEvent *e)
@@ -1359,15 +1376,15 @@ void Playlist::slotPopulateBackMenu() const
     }
 }
 
-void Playlist::slotPlayFromBackMenu(QAction *backAction) const
+void Playlist::slotPlayFromBackMenu(QAction *backAction)
 {
     int number = backAction->data().toInt();
 
     if(number >= m_backMenuItems.size())
         return;
 
-    TrackSequenceManager::instance()->setNextItem(m_backMenuItems[number]);
-    action("forward")->trigger();
+    auto &nextItem = m_backMenuItems[number];
+    beginPlayingItem(nextItem);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -1459,33 +1476,28 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     playlistItemsChanged();
 }
 
+// static
 void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 {
-    if(playingItem() == item)
+    auto wasPlayingItem = playingItem();
+    if(wasPlayingItem == item)
         return;
 
-    if(playingItem()) {
-        if(addToHistory) {
-            if(playingItem()->playlist() ==
-               playingItem()->playlist()->m_collection->upcomingPlaylist())
-                m_history.append(playingItem()->collectionItem());
-            else
-                m_history.append(playingItem());
-        }
-        playingItem()->setPlaying(false);
+    if(wasPlayingItem && addToHistory) {
+        m_history.append(wasPlayingItem->collectionItem());
+
+        const bool enableBack = !m_history.isEmpty();
+        action<KToolBarPopupAction>("back")->menu()->setEnabled(enableBack);
     }
 
-    TrackSequenceManager::instance()->setCurrent(item);
-    // TODO is this replaced by MPRIS2?
-    //kapp->dcopClient()->emitDCOPSignal("Player", "trackChanged()", data);
+    if(wasPlayingItem) {
+        // NB: will clear the whole list of playing items recursively
+        wasPlayingItem->setPlaying(false);
+    }
 
-    if(!item)
-        return;
-
-    item->setPlaying(true);
-
-    bool enableBack = !m_history.isEmpty();
-    action<KToolBarPopupAction>("back")->menu()->setEnabled(enableBack);
+    if(item) {
+        item->setPlaying(true);
+    }
 }
 
 bool Playlist::playing() const
@@ -2053,8 +2065,7 @@ void Playlist::slotPlayCurrent()
 {
     QTreeWidgetItemIterator it(this, QTreeWidgetItemIterator::Selected);
     PlaylistItem *next = static_cast<PlaylistItem *>(*it);
-    TrackSequenceManager::instance()->setNextItem(next);
-    action("forward")->trigger();
+    beginPlayingItem(next);
 }
 
 void Playlist::slotUpdateTime()

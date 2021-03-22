@@ -17,7 +17,6 @@
 #include "dynamicplaylist.h"
 #include "collectionlist.h"
 #include "playlistcollection.h"
-#include "tracksequencemanager.h"
 
 #include <QTimer>
 #include <QObject>
@@ -94,29 +93,17 @@ void DynamicPlaylist::slotReload()
 
 void DynamicPlaylist::lower(QWidget *top)
 {
-    if(top == this)
+    if(top == this || !playing())
         return;
 
-    if(playing()) {
-        PlaylistList l;
-        l.append(this);
+    PlaylistList l;
+    l.append(this);
 
-        for(const auto &playlist : qAsConst(m_playlists)) {
-            if(!playlist)
-                continue;
-            playlist->synchronizePlayingItems(l, true);
-        }
+    for(const auto &playlist : qAsConst(m_playlists)) {
+        if(!playlist)
+            continue;
+        playlist->synchronizePlayingItems(l, true);
     }
-
-    const auto playlistItems = PlaylistItem::playingItems();
-    const auto itemIt = std::find_if(
-        playlistItems.begin(), playlistItems.end(),
-        [this](const PlaylistItem *item) {
-            return item->playlist() != this;
-        });
-
-    if(itemIt != playlistItems.end())
-        TrackSequenceManager::instance()->setCurrentPlaylist((*itemIt)->playlist());
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -59,6 +59,8 @@ public:
     // in managed directories.
     virtual void scanFolders() override;
 
+    virtual bool requestPlaybackFor(const FileHandle &file) override;
+
     /**
      * For view modes that have dynamic playlists, this freezes them from
      * removing playlists.
@@ -89,7 +91,7 @@ signals:
     void signalPlaylistDestroyed(Playlist *);
     void signalMoveFocusAway(); // Handles keyboard scrolling up out of playlist
     void startupComplete(); ///< Emitted after playlists are loaded.
-    void startFilePlayback(const FileHandle &file);
+    void signalPlayFile(const FileHandle &file);
 
 private:
     void readConfig();

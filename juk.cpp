@@ -60,6 +60,7 @@
 #include "collectionlist.h"
 #include "covermanager.h"
 #include "tagtransactionmanager.h"
+
 #include "juk_debug.h"
 
 using namespace ActionCollection;

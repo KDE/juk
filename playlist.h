@@ -373,6 +373,13 @@ public slots:
     void slotRenameFile();
 
     /**
+     * Select a track to play after being stopped.
+     *
+     * @see playNext()
+     */
+    void slotBeginPlayback();
+
+    /**
      * Sets the cover of the selected items, pass in true if you want to load from the local system,
      * false if you want to load from the internet.
      */
@@ -425,6 +432,12 @@ protected:
      */
     void synchronizeItemsTo(const PlaylistItemList &itemList);
 
+    /**
+     * Completes the actions with the parent PlaylistCollection needed to
+     * actually start playing back the given PlaylistItem.
+     */
+    virtual void beginPlayingItem(PlaylistItem *itemToPlay);
+
     // the following are all reimplemented from base classes
 
     virtual bool eventFilter(QObject *watched, QEvent *e) override;
@@ -471,7 +484,7 @@ protected:
 
 protected slots:
     void slotPopulateBackMenu() const;
-    void slotPlayFromBackMenu(QAction *) const;
+    void slotPlayFromBackMenu(QAction *);
 
 signals:
 
