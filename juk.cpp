@@ -259,29 +259,29 @@ void JuK::setupActions()
     // Setup the menu which handles the random play options.
     KActionMenu *actionMenu = collection->add<KActionMenu>("actionMenu");
     actionMenu->setText(i18n("&Random Play"));
-    actionMenu->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
+    actionMenu->setIcon(QIcon::fromTheme(QLatin1String("media-playlist-shuffle")));
     actionMenu->setPopupMode(QToolButton::InstantPopup);
 
     QActionGroup* randomPlayGroup = new QActionGroup(this);
 
     QAction *act = collection->add<KToggleAction>("disableRandomPlay");
     act->setText(i18n("&Disable Random Play"));
-    act->setIcon(QIcon::fromTheme( QLatin1String( "go-down" )));
+    act->setIcon(QIcon::fromTheme(QLatin1String("go-down")));
     act->setActionGroup(randomPlayGroup);
     actionMenu->addAction(act);
 
     m_randomPlayAction = collection->add<KToggleAction>("randomPlay");
     m_randomPlayAction->setText(i18n("Use &Random Play"));
-    m_randomPlayAction->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
+    m_randomPlayAction->setIcon(QIcon::fromTheme(QLatin1String("media-playlist-shuffle")));
     m_randomPlayAction->setActionGroup(randomPlayGroup);
     actionMenu->addAction(m_randomPlayAction);
 
     act = collection->add<KToggleAction>("albumRandomPlay");
-    act->setEnabled(false);
     act->setText(i18n("Use &Album Random Play"));
-    act->setIcon(QIcon::fromTheme( QLatin1String( "media-playlist-shuffle" )));
+    act->setIcon(QIcon::fromTheme(QLatin1String("media-playlist-shuffle")));
     act->setActionGroup(randomPlayGroup);
-    connect(act, SIGNAL(triggered(bool)), SLOT(slotCheckAlbumNextAction(bool)));
+    connect(act, &QAction::toggled,
+            this, &JuK::slotCheckAlbumNextAction);
     actionMenu->addAction(act);
 
     act = collection->addAction("removeFromPlaylist", clear, SLOT(clear()));
@@ -660,13 +660,7 @@ void JuK::slotUndo()
 
 void JuK::slotCheckAlbumNextAction(bool albumRandomEnabled)
 {
-    // If album random play is enabled, then enable the Play Next Album action
-    // unless we're not playing right now.
-
-    if(albumRandomEnabled && !m_player->playing())
-        albumRandomEnabled = false;
-
-    action("forwardAlbum")->setEnabled(albumRandomEnabled);
+    action("forwardAlbum")->setEnabled(m_player->playing() && albumRandomEnabled);
 }
 
 // vim: set et sw=4 tw=0 sta:
