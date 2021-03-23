@@ -34,9 +34,10 @@
 
 class KActionMenu;
 
+class QAction;
 class QFileInfo;
 class QMimeData;
-class QAction;
+class QTimer;
 
 class WebImageFetcher;
 class PlaylistItem;
@@ -406,6 +407,12 @@ public slots:
     virtual void slotReload();
 
     /**
+     * Ensures the random sequence of playlist items is built. Ignored if we're
+     * not in random playback mode so it is safe to call in any mode.
+     */
+    void refillRandomList();
+
+    /**
      * Tells the listview that the next time that it paints that the weighted
      * column widths must be recalculated.  If this is called without a column
      * all visible columns are marked as dirty.
@@ -684,6 +691,10 @@ private:
     bool m_disableColumnWidthUpdates   = true;
     bool m_widthsDirty                 = true;
     bool m_applySharedSettings         = true;
+
+    /// Used for random play and album random play
+    PlaylistItemList m_randomSequence;
+    QTimer          *m_refillDebounce;
 
     PlaylistSearch* m_search;
     bool m_searchEnabled = true;
