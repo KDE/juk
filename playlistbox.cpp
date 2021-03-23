@@ -88,14 +88,14 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
 
     m_contextMenu = new QMenu(this);
 
-    m_contextMenu->addAction( action("file_new") );
-    m_contextMenu->addAction( action("renamePlaylist") );
-    m_contextMenu->addAction( action("editSearch") );
-    m_contextMenu->addAction( action("duplicatePlaylist") );
-    m_contextMenu->addAction( action("reloadPlaylist") );
-    m_contextMenu->addAction( action("deleteItemPlaylist") );
-    m_contextMenu->addAction( action("file_save") );
-    m_contextMenu->addAction( action("file_save_as") );
+    m_contextMenu->addAction(action("file_new"));
+    m_contextMenu->addAction(action("renamePlaylist"));
+    m_contextMenu->addAction(action("editSearch"));
+    m_contextMenu->addAction(action("duplicatePlaylist"));
+    m_contextMenu->addAction(action("reloadPlaylist"));
+    m_contextMenu->addAction(action("deleteItemPlaylist"));
+    m_contextMenu->addAction(action("file_save"));
+    m_contextMenu->addAction(action("file_save_as"));
 
     m_contextMenu->addSeparator();
 
@@ -609,10 +609,14 @@ void PlaylistBox::slotPlaylistChanged()
     if(singlePlaylist) {
         PlaylistCollection::raise(playlists.front());
 
-        if(playlists.front() == upcomingPlaylist())
+        if(playlists.front() == upcomingPlaylist()) {
             action("deleteItemPlaylist")->setText(i18n("Hid&e"));
-        else
+            action("deleteItemPlaylist")->setIcon(QIcon::fromTheme("list-remove"));
+        }
+        else {
             action("deleteItemPlaylist")->setText(i18n("R&emove"));
+            action("deleteItemPlaylist")->setIcon(QIcon::fromTheme("user-trash"));
+        }
     }
     else if(!playlists.isEmpty())
         createDynamicPlaylist(playlists);
