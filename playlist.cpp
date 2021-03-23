@@ -724,6 +724,18 @@ void Playlist::refillRandomList()
             [](PlaylistItem *a, PlaylistItem *b) {
                 return a->file().tag()->album() < b->file().tag()->album();
             });
+
+        // If there is an item playing from our playlist already, move its
+        // album to the front
+
+        const auto wasPlaying = playingItem();
+        if(wasPlaying && wasPlaying->playlist() == this) {
+            const auto playingAlbum = wasPlaying->file().tag()->album();
+            std::stable_partition(randomItems.begin(), randomItems.end(),
+                [playingAlbum](const PlaylistItem *item) {
+                    return item->file().tag()->album() == playingAlbum;
+                });
+        }
     }
 
     std::swap(m_randomSequence, randomItems);
