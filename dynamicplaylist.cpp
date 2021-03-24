@@ -57,10 +57,8 @@ DynamicPlaylist::DynamicPlaylist(const PlaylistList &playlists,
 
 DynamicPlaylist::~DynamicPlaylist()
 {
-    // The Playlist dtor will later clear items when it runs, we need to make
-    // sure the list is accurate first while we're still able to
-
-    checkUpdateItems();
+    // Subclasses need to ensure they update items in their own destructor, or
+    // any other virtual calls they may need to make.
 
     lower();
 }

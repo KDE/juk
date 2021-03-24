@@ -39,6 +39,12 @@ SearchPlaylist::SearchPlaylist(PlaylistCollection *collection,
 
 }
 
+SearchPlaylist::~SearchPlaylist()
+{
+    // DynamicPlaylist needs us to call this while the virtual call still works
+    updateItems();
+}
+
 void SearchPlaylist::setPlaylistSearch(PlaylistSearch* s, bool update)
 {
     m_search = s;
