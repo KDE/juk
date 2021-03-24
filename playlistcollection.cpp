@@ -668,6 +668,12 @@ void PlaylistCollection::raise(Playlist *playlist)
     playlist->setSearchEnabled(m_searchEnabled);
     m_playlistStack->setCurrentWidget(playlist);
     clearShowMore(false);
+
+    const auto playingItem = Playlist::playingItem();
+    if(playingItem && visiblePlaylist() != playlist && playingItem->playlist() == playlist) {
+        playlist->scrollToItem(playingItem, QAbstractItemView::PositionAtCenter);
+    }
+
     playlistItemsChanged();
 }
 

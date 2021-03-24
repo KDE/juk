@@ -208,7 +208,7 @@ void PlayerManager::play(const QString &file)
 {
     CollectionListItem *item = CollectionList::instance()->lookup(file);
     if(item) {
-        Playlist::setPlaying(item); // Will reentrantly call play(FileHandle)
+        item->playlist()->setPlaying(item); // Will reentrantly call play(FileHandle)
     }
 }
 

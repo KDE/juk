@@ -773,7 +773,7 @@ void Playlist::slotShowPlaying()
     m_collection->raise(l);
 
     l->setCurrentItem(playingItem());
-    l->scrollToItem(playingItem());
+    l->scrollToItem(playingItem(), QAbstractItemView::PositionAtCenter);
 }
 
 void Playlist::slotColumnResizeModeChanged()
@@ -1610,7 +1610,6 @@ void Playlist::loadFile(const QString &fileName, const QFileInfo &fileInfo)
     playlistItemsChanged();
 }
 
-// static
 void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 {
     auto wasPlayingItem = playingItem();
@@ -1631,6 +1630,15 @@ void Playlist::setPlaying(PlaylistItem *item, bool addToHistory)
 
     if(item) {
         item->setPlaying(true);
+
+        if(wasPlayingItem
+            && m_search->isEmpty()
+            && state() == QAbstractItemView::NoState
+            && (!m_rmbMenu || m_rmbMenu->isHidden())
+            )
+        {
+            scrollToItem(item, QAbstractItemView::PositionAtCenter);
+        }
     }
 }
 

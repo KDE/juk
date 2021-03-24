@@ -233,7 +233,7 @@ public:
      * Set item to be the playing item.  If \a item is null then this will clear
      * the playing indicator.
      */
-    static void setPlaying(PlaylistItem *item, bool addToHistory = true);
+    void setPlaying(PlaylistItem *item, bool addToHistory = true);
 
     /**
      * Returns true if this playlist is currently playing.
