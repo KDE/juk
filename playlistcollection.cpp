@@ -211,20 +211,17 @@ void PlaylistCollection::createDynamicPlaylist(const PlaylistList &playlists)
 
 void PlaylistCollection::showMore(const QString &artist, const QString &album)
 {
+    if(showMoreActive()) {
+        clearShowMore();
+    }
 
     PlaylistList playlists;
     PlaylistSearch::ComponentList components;
 
-    if(currentPlaylist() != CollectionList::instance() &&
-       currentPlaylist() != m_showMorePlaylist)
-    {
-        playlists.append(currentPlaylist());
-    }
+    playlists.append(visiblePlaylist());
 
-    playlists.append(CollectionList::instance());
-
-    if(!artist.isNull())
-    { // Just setting off the artist stuff in its own block.
+    if(!artist.isEmpty()) {
+        // Just setting off the artist stuff in its own block.
         ColumnList columns;
         columns.append(PlaylistItem::ArtistColumn);
         PlaylistSearch::Component c(artist, false, columns,
@@ -232,7 +229,7 @@ void PlaylistCollection::showMore(const QString &artist, const QString &album)
         components.append(c);
     }
 
-    if(!album.isNull()) {
+    if(!album.isEmpty()) {
         ColumnList columns;
         columns.append(PlaylistItem::AlbumColumn);
         PlaylistSearch::Component c(album, false, columns,
@@ -714,6 +711,12 @@ void PlaylistCollection::clearShowMore(bool raisePlaylist)
     if(!m_showMorePlaylist)
         return;
 
+    const auto playingItem = currentPlaylist()->playingItem();
+    if(playingItem && playingItem->playlist() == m_showMorePlaylist) {
+        // Reset the playing indicator to the corresponding CollectionList item
+        playingItem->collectionItem()->setPlaying(true, true);
+    }
+
     if(raisePlaylist) {
         if(m_belowShowMorePlaylist)
             raise(m_belowShowMorePlaylist);
@@ -721,7 +724,7 @@ void PlaylistCollection::clearShowMore(bool raisePlaylist)
             raise(CollectionList::instance());
     }
 
-    m_belowShowMorePlaylist = 0;
+    m_belowShowMorePlaylist = nullptr;
 }
 
 void PlaylistCollection::enableDirWatch(bool enable)

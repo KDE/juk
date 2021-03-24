@@ -286,7 +286,7 @@ void TrackItem::slotOpenLink(const QString &link)
     if(link == "artist")
         collection->showMore(m_file.tag()->artist());
     else if(link == "album")
-        collection->showMore(m_file.tag()->artist(), m_file.tag()->album());
+        collection->showMore(QString(), m_file.tag()->album());
     else if(link == "clear")
         collection->clearShowMore();
 
