@@ -29,6 +29,8 @@ public:
                    bool setupPlaylist = true,
                    bool synchronizePlaying = false);
 
+    virtual ~SearchPlaylist();
+
     PlaylistSearch* playlistSearch() const { return m_search; }
     void setPlaylistSearch ( PlaylistSearch* s, bool update = true );
     virtual bool searchIsEditable() const override { return true; }
