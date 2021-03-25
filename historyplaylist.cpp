@@ -88,13 +88,13 @@ HistoryPlaylistItem::HistoryPlaylistItem(CollectionListItem *item, Playlist *par
     PlaylistItem(item, parent, after),
     m_dateTime(QDateTime::currentDateTime())
 {
-    setText(0, m_dateTime.toString());
+    setText(0, m_dateTime.toString(QStringLiteral("yyyy-MM-dd HH:mm:ss")));
 }
 
 void HistoryPlaylistItem::setDateTime(const QDateTime &dt)
 {
     m_dateTime = dt;
-    setText(0, m_dateTime.toString());
+    setText(0, m_dateTime.toString(QStringLiteral("yyyy-MM-dd HH:mm:ss")));
 }
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -187,6 +187,12 @@ PlaylistBox::~PlaylistBox()
 
     Cache::savePlaylists(l);
     saveConfig();
+
+    // Some view modes use event filters onto sibling widgets which may be
+    // destroyed before the view mode.
+    // Manually delete the view modes instead.
+    qDeleteAll(m_viewModes);
+    m_viewModes.clear();
 }
 
 void PlaylistBox::raise(Playlist *playlist)

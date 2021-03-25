@@ -25,8 +25,7 @@
 #include <QMouseEvent>
 #include <QLabel>
 #include <QIcon>
-#include <QFrame>
-#include <QEvent>
+#include <QToolButton>
 #include <QPushButton>
 #include <QStatusBar>
 
@@ -67,17 +66,16 @@ StatusLabel::StatusLabel(const PlaylistInterface &currentPlaylist, QStatusBar *p
     m_trackLabel->setTextFormat(Qt::PlainText);
     parent->addPermanentWidget(m_trackLabel);
 
-    m_itemTimeLabel = new QLabel(this);
+    m_itemTimeLabel = new QToolButton(this);
     QFontMetrics fontMetrics(font());
-    m_itemTimeLabel->setAlignment(Qt::AlignCenter);
     m_itemTimeLabel->setMinimumWidth(fontMetrics.boundingRect("000:00 / 000:00").width());
     m_itemTimeLabel->setSizePolicy(QSizePolicy::Preferred, QSizePolicy::Expanding);
-    m_itemTimeLabel->setFrameStyle(QFrame::Box | QFrame::Sunken);
-    m_itemTimeLabel->installEventFilter(this);
+    m_itemTimeLabel->setAutoRaise(true);
+    connect(m_itemTimeLabel, &QAbstractButton::clicked, this, [this]() {
+                m_showTimeRemaining = !m_showTimeRemaining;
+                updateTime();
+            });
     parent->addPermanentWidget(m_itemTimeLabel);
-
-    setItemTotalTime(0);
-    setItemCurrentTime(0);
 
     QPushButton *jumpButton = new QPushButton(this);
     jumpButton->setIcon(QIcon::fromTheme("go-jump"));
@@ -87,7 +85,6 @@ StatusLabel::StatusLabel(const PlaylistInterface &currentPlaylist, QStatusBar *p
     connect(jumpButton, &QPushButton::clicked, action("showPlaying"), &QAction::trigger);
 
     parent->addPermanentWidget(jumpButton);
-    installEventFilter(this);
 
     slotCurrentPlaylistHasChanged(currentPlaylist);
 }
@@ -103,6 +100,7 @@ void StatusLabel::slotPlayingItemHasChanged(const FileHandle &file)
     setItemCurrentTime(0);
 
     m_trackLabel->setText(tag->artist() + mid + tag->title());
+    updateTime();
 }
 
 void StatusLabel::slotCurrentPlaylistHasChanged(const PlaylistInterface &currentPlaylist)
@@ -117,6 +115,23 @@ void StatusLabel::slotCurrentPlaylistHasChanged(const PlaylistInterface &current
             QStringLiteral(" - ") +
             formatTime(qint64(1000) * currentPlaylist.time())
             );
+    updateTime();
+}
+
+////////////////////////////////////////////////////////////////////////////////
+// protected methods
+////////////////////////////////////////////////////////////////////////////////
+
+void StatusLabel::mouseReleaseEvent(QMouseEvent *ev)
+{
+    if(ev->button() != Qt::LeftButton) {
+        return;
+    }
+
+    m_showTimeRemaining = !m_showTimeRemaining;
+    updateTime();
+
+    ev->accept();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -132,27 +147,6 @@ void StatusLabel::updateTime()
         formatTime(m_itemTotalTime);
 
     m_itemTimeLabel->setText(timeString);
-}
-
-bool StatusLabel::eventFilter(QObject *o, QEvent *e)
-{
-    if(!o || !e)
-        return false;
-
-    QMouseEvent *mouseEvent = static_cast<QMouseEvent *>(e);
-    if(e->type() == QEvent::MouseButtonRelease &&
-       mouseEvent->button() == Qt::LeftButton)
-    {
-        if(o == m_itemTimeLabel) {
-            m_showTimeRemaining = !m_showTimeRemaining;
-            updateTime();
-        }
-        else
-            action("showPlaying")->trigger();
-
-        return true;
-    }
-    return false;
 }
 
 // vim: set et sw=4 tw=0 sta:

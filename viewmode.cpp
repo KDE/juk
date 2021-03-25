@@ -43,7 +43,7 @@ ViewMode::ViewMode(PlaylistBox *b) :
 
 ViewMode::~ViewMode()
 {
-
+    removeEventFilter(m_playlistBox->viewport());
 }
 
 bool ViewMode::eventFilter(QObject *watched, QEvent *e)

@@ -52,7 +52,9 @@ PlaylistItem::~PlaylistItem()
     // stark advantage of working reliably.  I'll tell anyone who tries to
     // optimize this, the timing issues can be *hard*. -- mpyne
 
-    m_collectionItem->removeChildItem(this);
+    if(m_collectionItem) {
+        m_collectionItem->removeChildItem(this);
+    }
 
     if(m_playingItems.contains(this)) {
         m_playingItems.removeAll(this);
@@ -233,12 +235,13 @@ PlaylistItem::PlaylistItem(CollectionListItem *item, Playlist *parent, QTreeWidg
 
 // This constructor should only be used by the CollectionList subclass.
 
-PlaylistItem::PlaylistItem(CollectionList *parent) :
-    QTreeWidgetItem(parent),
-    m_watched(0)
+PlaylistItem::PlaylistItem(CollectionList *parent)
+  : QTreeWidgetItem(parent)
+    // We *will* be this but we aren't yet; subclass will fix
+  , m_collectionItem(nullptr)
+  , m_watched(false)
 {
     d = new Data;
-    m_collectionItem = static_cast<CollectionListItem *>(this);
     setFlags(flags() | Qt::ItemIsEditable | Qt::ItemIsDragEnabled);
 }
 

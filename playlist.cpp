@@ -1658,10 +1658,14 @@ void Playlist::slotUpdateColumnWidths()
     // Make sure that the column weights have been initialized before trying to
     // update the columns.
 
-    QList<int> visibleColumns;
+    QVector<int> visibleColumns;
     for(int i = 0; i < columnCount(); i++) {
         if(!isColumnHidden(i))
             visibleColumns.append(i);
+    }
+
+    if(visibleColumns.isEmpty()) {
+        return;
     }
 
     // convenience handler for deprecated text metrics
@@ -1724,6 +1728,11 @@ void Playlist::slotUpdateColumnWidths()
     double totalWeight = 0;
     foreach(int column, visibleColumns)
         totalWeight += m_columnWeights[column];
+
+    // This can happen during startup, before we have the tracks loaded.
+    if(qFuzzyIsNull(totalWeight)) {
+        return;
+    }
 
     // Computed a "weighted width" for each visible column.  This would be the
     // width if we didn't have to handle the cases of minimum and maximum widths.
