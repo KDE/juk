@@ -24,18 +24,20 @@
 #include <kdirwatch.h>
 #include <KLocalizedString>
 
-#include <QList>
+#include <QApplication>
+#include <QClipboard>
 #include <QDragMoveEvent>
 #include <QDropEvent>
-#include <QApplication>
-#include <QTimer>
-#include <QTime>
-#include <QMenu>
-#include <QClipboard>
+#include <QElapsedTimer>
 #include <QFileInfo>
 #include <QHeaderView>
+#include <QList>
+#include <QMenu>
+#include <QReadLocker>
 #include <QSaveFile>
-#include <QElapsedTimer>
+#include <QTime>
+#include <QTimer>
+#include <QWriteLocker>
 
 #include "playlistcollection.h"
 #include "stringshare.h"
@@ -84,6 +86,8 @@ void CollectionList::loadNextBatchCachedItems()
     Cache *cache = Cache::instance();
     bool done = false;
 
+    QReadLocker lock(&m_itemsDictLock);
+
     for(int i = 0; i < 20; ++i) {
         FileHandle cachedItem(cache->loadNextCachedItem());
 
@@ -94,7 +98,10 @@ void CollectionList::loadNextBatchCachedItems()
 
         // This may have already been created via a loaded playlist.
         if(!m_itemsDict.contains(cachedItem.absFilePath())) {
+            lock.unlock();
             CollectionListItem *newItem = new CollectionListItem(this, cachedItem);
+            lock.relock();
+
             setupItem(newItem);
         }
     }
@@ -149,7 +156,7 @@ CollectionListItem *CollectionList::createItem(const FileHandle &file, QTreeWidg
     // It's probably possible to optimize the line below away, but, well, right
     // now it's more important to not load duplicate items.
 
-    if(m_itemsDict.contains(file.absFilePath()))
+    if(hasItem(file.absFilePath()))
         return nullptr;
 
     CollectionListItem *item = new CollectionListItem(this, file);
@@ -246,10 +253,14 @@ void CollectionList::saveItemsToCache() const
     QDataStream s(&data, QIODevice::WriteOnly);
     s.setVersion(QDataStream::Qt_4_3);
 
-    QHash<QString, CollectionListItem *>::const_iterator it;
-    for(it = m_itemsDict.begin(); it != m_itemsDict.end(); ++it) {
-        s << it.key();
-        s << (*it)->file();
+    { // locked scope
+        QHash<QString, CollectionListItem *>::const_iterator it;
+        QWriteLocker lock(&m_itemsDictLock);
+
+        for(it = m_itemsDict.begin(); it != m_itemsDict.end(); ++it) {
+            s << it.key();
+            s << (*it)->file();
+        }
     }
 
     QDataStream fs(&f);
@@ -288,12 +299,13 @@ void CollectionList::slotCheckCache()
     qCDebug(JUK_LOG) << "Starting to check cached items for consistency";
     stopwatch.start();
 
-    int i = 0;
-    foreach(CollectionListItem *item, m_itemsDict) {
-        if(!item->checkCurrent())
-            invalidItems.append(item);
-        if(++i == (m_itemsDict.size() / 2))
-            qCDebug(JUK_LOG) << "Checkpoint";
+    { // locked scope
+        QWriteLocker lock(&m_itemsDictLock);
+
+        for(auto item : qAsConst(m_itemsDict)) {
+            if(!item->checkCurrent())
+                invalidItems.append(item);
+        }
     }
 
     clearItems(invalidItems);
@@ -303,13 +315,15 @@ void CollectionList::slotCheckCache()
 
 void CollectionList::slotRemoveItem(const QString &file)
 {
+    QWriteLocker lock(&m_itemsDictLock);
     delete m_itemsDict[file];
 }
 
 void CollectionList::slotRefreshItem(const QString &file)
 {
-    if(m_itemsDict[file])
-        m_itemsDict[file]->refresh();
+    auto item = lookup(file);
+    if(item)
+        item->refresh();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -370,6 +384,30 @@ void CollectionList::dragMoveEvent(QDragMoveEvent *e)
         e->setAccepted(false);
 }
 
+void CollectionList::addToDict(const QString &file, CollectionListItem *item)
+{
+    QWriteLocker lock(&m_itemsDictLock);
+    m_itemsDict.insert(file, item);
+}
+
+void CollectionList::removeFromDict(const QString &file)
+{
+    QWriteLocker lock(&m_itemsDictLock);
+    m_itemsDict.remove(file);
+}
+
+bool CollectionList::hasItem(const QString &file) const
+{
+    QReadLocker lock(&m_itemsDictLock);
+    return m_itemsDict.contains(file);
+}
+
+CollectionListItem *CollectionList::lookup(const QString &file) const
+{
+    QReadLocker lock(&m_itemsDictLock);
+    return m_itemsDict.value(file, nullptr);
+}
+
 QString CollectionList::addStringToDict(const QString &value, int column)
 {
     if(column > m_columnTags.count() || value.trimmed().isEmpty())
@@ -408,11 +446,6 @@ QStringList CollectionList::uniqueSet(UniqueSetType t) const
     }
 
     return m_columnTags[column]->keys();
-}
-
-CollectionListItem *CollectionList::lookup(const QString &file) const
-{
-    return m_itemsDict.value(file, nullptr);
 }
 
 void CollectionList::removeStringFromDict(const QString &value, int column)

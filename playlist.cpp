@@ -1082,6 +1082,7 @@ void Playlist::read(QDataStream &s)
     s >> files;
 
     QTreeWidgetItem *after = 0;
+    const CollectionList *clInst = CollectionList::instance();
 
     m_blockDataChanged = true;
 
@@ -1089,7 +1090,15 @@ void Playlist::read(QDataStream &s)
         if(file.isEmpty())
             throw BICStreamException();
 
-        after = createItem(FileHandle(file), after);
+        const auto &cItem = clInst->lookup(file);
+        if(cItem) {
+            // Reuse FileHandle so the playlist doesn't force TagLib to read it
+            // from disk
+            after = createItem(cItem->file(), after);
+        }
+        else {
+            after = createItem(FileHandle(file), after);
+        }
     }
 
     m_blockDataChanged = false;

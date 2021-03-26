@@ -19,6 +19,7 @@
 
 #include <QHash>
 #include <QVector>
+#include <QReadWriteLock>
 
 #include "playlist.h"
 #include "playlistitem.h"
@@ -144,8 +145,8 @@ protected:
 
     // These methods are used by CollectionListItem, which is a friend class.
 
-    void addToDict(const QString &file, CollectionListItem *item) { m_itemsDict.insert(file, item); }
-    void removeFromDict(const QString &file) { m_itemsDict.remove(file); }
+    void addToDict(const QString &file, CollectionListItem *item);
+    void removeFromDict(const QString &file);
 
     // These methods are also used by CollectionListItem, to manage the
     // strings used in generating the unique sets and tree view mode playlists.
@@ -156,7 +157,7 @@ protected:
     void addWatched(const QString &file);
     void removeWatched(const QString &file);
 
-    virtual bool hasItem(const QString &file) const override { return m_itemsDict.contains(file); }
+    virtual bool hasItem(const QString &file) const override;
 
 signals:
     void signalCollectionChanged();
@@ -203,6 +204,7 @@ private:
 
     static CollectionList *m_list;
     QHash<QString, CollectionListItem *> m_itemsDict;
+    mutable QReadWriteLock m_itemsDictLock;
     KDirWatch *m_dirWatch;
     TagCountDicts m_columnTags;
 };

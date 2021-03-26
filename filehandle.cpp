@@ -116,8 +116,9 @@ void FileHandle::setFile(const QString &path)
 
 Tag *FileHandle::tag() const
 {
-    if(Q_UNLIKELY(!d->tag))
+    if(Q_UNLIKELY(!d->tag)) {
         d->tag.reset(new Tag(d->absFilePath));
+    }
 
     return d->tag.data();
 }
@@ -165,6 +166,10 @@ void FileHandle::read(CacheDataStream &s)
     switch(s.cacheVersion()) {
     case 1:
     default:
+        if(d->tag) {
+            qCWarning(JUK_LOG) << "We already read in tag for d->absFilePath!";
+        }
+
         if(!d->tag)
             d->tag.reset(new Tag(d->absFilePath, true));
 
