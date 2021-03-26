@@ -21,6 +21,7 @@
 #include <QMutexLocker>
 
 #include "mediafiles.h"
+#include "collectionlist.h"
 
 // Classifies files into types for potential loading purposes.
 enum class MediaFileType {
@@ -118,8 +119,15 @@ FileHandle loadMediaFile(const QString &fileName)
     static QMutex fhLock;
     QMutexLocker locker(&fhLock);
 
-    FileHandle loadedMetadata(fileName);
-    (void) loadedMetadata.tag(); // Ensure tag is read
+    const auto item = CollectionList::instance()->lookup(fileName);
+    if(item) {
+        // Don't re-load a file if it's already loaded once
+        return FileHandle(item->file());
+    }
+    else {
+        FileHandle loadedMetadata(fileName);
+        (void) loadedMetadata.tag(); // Ensure tag is read
 
-    return loadedMetadata;
+        return loadedMetadata;
+    }
 }
