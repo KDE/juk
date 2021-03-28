@@ -50,6 +50,11 @@ namespace ActionCollection
         return actions()->action(key);
 #endif
     }
+
+    QAction *operator ""_act(const char *str, std::size_t len)
+    {
+        return action(QString::fromLatin1(str, len));
+    }
 }
 
 // vim: set et sw=4 tw=0 sta:

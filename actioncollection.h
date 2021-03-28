@@ -21,6 +21,8 @@ class KActionCollection;
 class QAction;
 class QString;
 
+#include <cstddef>
+
 namespace ActionCollection
 {
     /**
@@ -42,6 +44,11 @@ namespace ActionCollection
     {
         return dynamic_cast<T *>(action(key));
     }
+
+    /**
+     * What ActionCollection::action does, in shorter form.
+     */
+    QAction *operator "" _act(const char *str, std::size_t len);
 }
 
 #endif

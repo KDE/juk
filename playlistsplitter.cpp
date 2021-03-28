@@ -165,6 +165,8 @@ void PlaylistSplitter::setupActions()
 
 void PlaylistSplitter::setupLayout()
 {
+    using namespace ActionCollection; // add literal
+
     setOpaqueResize(false);
 
     // Disable the GUI until startup is complete (as indicated by PlaylistBox)
@@ -243,7 +245,7 @@ void PlaylistSplitter::setupLayout()
             m_playlistBox->collectionActions(), SLOT(slotSetSearchEnabled(bool)));
     connect(m_searchWidget, SIGNAL(returnPressed()),
             m_playlistBox->collectionActions(), SLOT(slotPlayFirst()));
-    connect(ActionCollection::action<KToggleAction>("showSearch"), SIGNAL(toggled(bool)),
+    connect("showSearch"_act, SIGNAL(toggled(bool)),
             m_searchWidget, SLOT(setEnabled(bool)));
     connect(m_playlistBox, &PlaylistBox::signalMoveFocusAway,
             m_searchWidget, qOverload<>(&SearchWidget::setFocus));
@@ -264,6 +266,8 @@ void PlaylistSplitter::setupLayout()
 
 void PlaylistSplitter::readConfig()
 {
+    using namespace ActionCollection; // add literal
+
     KConfigGroup config(KSharedConfig::openConfig(), "Splitter");
 
     QList<int> splitterSizes = config.readEntry("PlaylistSplitterSizes",QList<int>());
@@ -274,7 +278,7 @@ void PlaylistSplitter::readConfig()
     setSizes(splitterSizes);
 
     bool showSearch = config.readEntry("ShowSearch", true);
-    ActionCollection::action<KToggleAction>("showSearch")->setChecked(showSearch);
+    "showSearch"_act->setChecked(showSearch);
     m_searchWidget->setHidden(!showSearch);
 
     splitterSizes = config.readEntry("EditorSplitterSizes",QList<int>());
@@ -291,9 +295,11 @@ void PlaylistSplitter::readConfig()
 
 void PlaylistSplitter::saveConfig()
 {
+    using namespace ActionCollection; // add literal
+
     KConfigGroup config(KSharedConfig::openConfig(), "Splitter");
     config.writeEntry("PlaylistSplitterSizes", sizes());
-    config.writeEntry("ShowSearch", ActionCollection::action<KToggleAction>("showSearch")->isChecked());
+    config.writeEntry("ShowSearch", "showSearch"_act->isChecked());
     config.writeEntry("EditorSplitterSizes", m_editorSplitter->sizes());
 }
 
