@@ -75,6 +75,7 @@ public:
     explicit SearchWidget(QWidget *parent);
 
     PlaylistSearch* search(const PlaylistList& playlists) const;
+    PlaylistSearch* search(Playlist *playlist) const;
     void setSearch(const PlaylistSearch* search);
 
     virtual QString searchText() const;

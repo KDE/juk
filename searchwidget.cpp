@@ -21,6 +21,8 @@
 #include "searchadaptor.h"
 #include "juk_debug.h"
 
+#include <utility>
+
 #include <KLocalizedString>
 
 #include <QAction>
@@ -230,9 +232,17 @@ PlaylistSearch* SearchWidget::search(const PlaylistList &playlists) const
 {
     PlaylistSearch::ComponentList components;
     components.append(searchComponent());
-    return new PlaylistSearch(playlists, components);
+    return new PlaylistSearch(std::move(playlists), std::move(components));
 }
 
+PlaylistSearch* SearchWidget::search(Playlist *playlist) const
+{
+    PlaylistSearch::ComponentList components;
+    components.append(searchComponent());
+
+    PlaylistList playlists = (PlaylistList{} << playlist);
+    return new PlaylistSearch(std::move(playlists), std::move(components));
+}
 
 ////////////////////////////////////////////////////////////////////////////////
 // SearchWidget public slots

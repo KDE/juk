@@ -50,18 +50,9 @@
 // public methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistSplitter::PlaylistSplitter(PlayerManager *player, QWidget *parent) :
-    QSplitter(Qt::Horizontal, parent),
-    m_newVisible(0),
-    m_playlistBox(0),
-    m_searchWidget(0),
-    m_playlistStack(0),
-    m_editor(0),
-    m_nowPlaying(0),
-    m_player(player),
-    m_lyricsWidget(0),
-    m_editorSplitter(0)
-
+PlaylistSplitter::PlaylistSplitter(PlayerManager *player, QWidget *parent)
+  : QSplitter(Qt::Horizontal, parent)
+  , m_player(player)
 {
     setObjectName(QLatin1String("playlistSplitter"));
 
@@ -83,20 +74,24 @@ PlaylistSplitter::~PlaylistSplitter()
     // destroy it now.
 
     delete m_editor;
+    m_editor = nullptr;
 
     delete m_lyricsWidget;
+    m_lyricsWidget = nullptr;
 
     // NowPlaying depends on the PlaylistCollection, so kill it now.
     delete m_nowPlaying;
-    m_nowPlaying = 0;
+    m_nowPlaying = nullptr;
 
     delete m_searchWidget; // Take no chances here either.
+    m_searchWidget = nullptr;
 
     // Since we want to ensure that the shutdown process for the PlaylistCollection
     // (a base class for PlaylistBox) has a chance to write the playlists to disk
     // before they are deleted we're explicitly deleting the PlaylistBox here.
 
     delete m_playlistBox;
+    m_playlistBox = nullptr;
 }
 
 PlaylistInterface *PlaylistSplitter::playlist() const
@@ -121,26 +116,29 @@ void PlaylistSplitter::slotFocusCurrentPlaylist()
 {
     Playlist *playlist = m_playlistBox->visiblePlaylist();
 
-    if(playlist) {
-        playlist->setFocus();
-        playlist->clearSelection();
-
-        // Select the top visible (and matching) item.
-
-        PlaylistItem *item = static_cast<PlaylistItem *>(playlist->itemAt(QPoint(0, 0)));
-
-        if(!item)
-            return;
-
-        // A little bit of a hack to make QListView repaint things properly.  Switch
-        // to single selection mode, set the selection and then switch back.
-
-        playlist->setSelectionMode(QTreeWidget::SingleSelection);
-
-        playlist->setCurrentItem(item);
-
-        playlist->setSelectionMode(QTreeWidget::ExtendedSelection);
+    if(!playlist) {
+        return;
     }
+
+    playlist->setFocus();
+    playlist->clearSelection();
+
+    // Select the top visible (and matching) item.
+
+    PlaylistItem *item = static_cast<PlaylistItem *>(playlist->itemAt(QPoint(0, 0)));
+
+    if(!item) {
+        return;
+    }
+
+    // A little bit of a hack to make QListView repaint things properly.  Switch
+    // to single selection mode, set the selection and then switch back.
+
+    playlist->setSelectionMode(QTreeWidget::SingleSelection);
+
+    playlist->setCurrentItem(item);
+
+    playlist->setSelectionMode(QTreeWidget::ExtendedSelection);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -156,7 +154,7 @@ void PlaylistSplitter::setupActions()
 {
     KActionCollection* coll = ActionCollection::actions();
     KToggleAction *showSearch =
-	 new KToggleAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Show &Search Bar"), this);
+        new KToggleAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Show &Search Bar"), this);
     coll->addAction("showSearch", showSearch);
 
     QAction *act = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Edit Track Search"), this);
@@ -301,9 +299,7 @@ void PlaylistSplitter::saveConfig()
 
 void PlaylistSplitter::slotShowSearchResults()
 {
-    PlaylistList playlists;
-    playlists.append(visiblePlaylist());
-    visiblePlaylist()->setSearch(m_searchWidget->search(playlists));
+    visiblePlaylist()->setSearch(m_searchWidget->search(visiblePlaylist()));
 }
 
 void PlaylistSplitter::slotPlaylistSelectionChanged()
@@ -320,7 +316,7 @@ void PlaylistSplitter::slotPlaylistChanged(int i)
 
     m_newVisible = p;
     m_searchWidget->setSearch(p->search());
-    m_newVisible = 0;
+    m_newVisible = nullptr;
 }
 
 void PlaylistSplitter::slotCurrentPlaylistChanged(QTreeWidgetItem *item)

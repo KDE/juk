@@ -90,15 +90,41 @@ private slots:
     void slotCurrentPlaylistChanged(QTreeWidgetItem *item);
 
 private:
-    Playlist *m_newVisible;
-    PlaylistBox *m_playlistBox;
-    SearchWidget *m_searchWidget;
-    QStackedWidget *m_playlistStack;
-    TagEditor *m_editor;
-    NowPlaying *m_nowPlaying;
-    PlayerManager *m_player;
-    LyricsWidget *m_lyricsWidget;
-    QSplitter *m_editorSplitter;
+
+// These classes appear in the main user interface in the following arrangement/layout:
+// (note the left/right splitter is the reason this class is named as it is and why it
+// is a subclass of QSplitter).
+//
+//  +-----------+--------------------------------------------------------------+---------+
+//  | Playlist  | NowPlaying*                                                  | Lyrics  |
+//  | Box*      +--------------------------------------------------------------+ Widget* |
+//  |           | SearchWidget*                                                |         |
+//  |           +--------------------------------------------------------------+         |
+//  |           ^ Playlist* (multiple; stacked under QStackedWidget*)          |         |
+//  |           | --------------  ---------  --------  ---------  -----------  |         |
+//  |           *                  PlaylistItem*s                              |         |
+//  |  splitter t --------------  ---------  --------  ---------  -----------  |         |
+//  |  handle   h                                                              |         |
+//  |   ------> i --------------  ---------  --------  ---------  -----------  |         |
+//  |           s                                                              |         |
+//  |           | --------------  ---------  --------  ---------  -----------  |         |
+//  |           ,                            ...                               |         |
+//  |           |                            ...                               |         |
+//  |           +-------------[ splitter handle m_editorSplitter ]-------------+         |
+//  |           | TagEditor*                                                   |         |
+//  |           |                                                              |         |
+//  |           |                                                              |         |
+//  +-----------+--------------------------------------------------------------+---------+
+
+    PlaylistBox    *m_playlistBox    = nullptr;
+    QSplitter      *m_editorSplitter = nullptr;
+    NowPlaying     *m_nowPlaying     = nullptr;
+    SearchWidget   *m_searchWidget   = nullptr;
+    QStackedWidget *m_playlistStack  = nullptr;
+    TagEditor      *m_editor         = nullptr;
+    LyricsWidget   *m_lyricsWidget   = nullptr;
+    Playlist       *m_newVisible     = nullptr;
+    PlayerManager  *m_player         = nullptr;
 };
 
 #endif
