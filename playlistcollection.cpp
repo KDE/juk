@@ -633,7 +633,7 @@ void PlaylistCollection::setUpcomingPlaylistEnabled(bool enable)
     }
 }
 
-QObject *PlaylistCollection::collectionActions() const
+PlaylistCollection::ActionHandler *PlaylistCollection::collectionActions() const
 {
     return m_actionHandler;
 }

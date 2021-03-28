@@ -160,7 +160,8 @@ void PlaylistSplitter::setupActions()
     QAction *act = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Edit Track Search"), this);
     coll->addAction("editTrackSearch", act);
     coll->setDefaultShortcut(act, Qt::Key_F6);
-    connect(act, SIGNAL(triggered(bool)), SLOT(setFocus()));
+    connect(act, &QAction::triggered,
+            this, &PlaylistSplitter::setFocus);
 }
 
 void PlaylistSplitter::setupLayout()
@@ -207,28 +208,31 @@ void PlaylistSplitter::setupLayout()
     m_playlistBox = new PlaylistBox(m_player, this, m_playlistStack);
     m_playlistBox->setObjectName(QLatin1String("playlistBox"));
 
-    connect(m_playlistBox->collectionActions(), SIGNAL(signalSelectedItemsChanged()),
-            this, SLOT(slotPlaylistSelectionChanged()));
-    connect(m_playlistBox, SIGNAL(signalPlaylistDestroyed(Playlist*)),
-            m_editor, SLOT(slotPlaylistDestroyed(Playlist*)));
-    connect(m_playlistBox, SIGNAL(startupComplete()), SLOT(slotEnable()));
+    const auto &plistActions = m_playlistBox->collectionActions();
+    connect(plistActions,  &PlaylistCollection::ActionHandler::signalSelectedItemsChanged,
+            this,          &PlaylistSplitter::slotPlaylistSelectionChanged);
+    connect(m_playlistBox, &PlaylistBox::signalPlaylistDestroyed,
+            m_editor,      &TagEditor::slotPlaylistDestroyed);
     connect(m_playlistBox, &QTreeWidget::currentItemChanged,
             this,          &PlaylistSplitter::slotCurrentPlaylistChanged);
 
-    m_player->setPlaylistInterface(m_playlistBox);
-
     // Let interested parties know we're ready
-    connect(m_playlistBox, SIGNAL(startupComplete()), SIGNAL(guiReady()));
-    connect(m_playlistBox, &PlaylistBox::startupComplete,
-            this, &PlaylistSplitter::setFocus);
+    connect(m_playlistBox, &PlaylistBox::startupComplete, this, [this]() {
+                this->slotEnable();
+                this->setFocus();
+
+                emit guiReady();
+            });
+
+    m_player->setPlaylistInterface(m_playlistBox);
 
     insertWidget(0, m_playlistBox);
 
     m_nowPlaying = new NowPlaying(top, m_playlistBox);
-    connect(m_player, SIGNAL(signalItemChanged(FileHandle)),
-            m_nowPlaying, SLOT(slotUpdate(FileHandle)));
-    connect(m_player, SIGNAL(signalItemChanged(FileHandle)),
-            m_lyricsWidget, SLOT(playing(FileHandle)));
+    connect(m_player,       &PlayerManager::signalItemChanged,
+            m_nowPlaying,   &NowPlaying::slotUpdate);
+    connect(m_player,       &PlayerManager::signalItemChanged,
+            m_lyricsWidget, &LyricsWidget::playing);
 
     // Create the search widget -- this must be done after the CollectionList is created.
 
@@ -237,18 +241,18 @@ void PlaylistSplitter::setupLayout()
     // auto-shortcuts don't seem to work and aren't needed anyway.
     KAcceleratorManager::setNoAccel(m_searchWidget);
 
-    connect(m_searchWidget, SIGNAL(signalQueryChanged()),
-            this, SLOT(slotShowSearchResults()));
-    connect(m_searchWidget, SIGNAL(signalDownPressed()),
-            this, SLOT(slotFocusCurrentPlaylist()));
-    connect(m_searchWidget, SIGNAL(signalShown(bool)),
-            m_playlistBox->collectionActions(), SLOT(slotSetSearchEnabled(bool)));
-    connect(m_searchWidget, SIGNAL(returnPressed()),
-            m_playlistBox->collectionActions(), SLOT(slotPlayFirst()));
-    connect("showSearch"_act, SIGNAL(toggled(bool)),
-            m_searchWidget, SLOT(setEnabled(bool)));
-    connect(m_playlistBox, &PlaylistBox::signalMoveFocusAway,
-            m_searchWidget, qOverload<>(&SearchWidget::setFocus));
+    connect(m_searchWidget,   &SearchWidget::signalQueryChanged,
+            this,             &PlaylistSplitter::slotShowSearchResults);
+    connect(m_searchWidget,   &SearchWidget::signalDownPressed,
+            this,             &PlaylistSplitter::slotFocusCurrentPlaylist);
+    connect(m_searchWidget,   &SearchWidget::signalShown,
+            m_playlistBox,    [this](bool e) { m_playlistBox->setSearchEnabled(e); });
+    connect(m_searchWidget,   &SearchWidget::returnPressed,
+            m_playlistBox,    [this]() { m_playlistBox->playFirst(); });
+    connect("showSearch"_act, &QAction::toggled,
+            m_searchWidget,   &SearchWidget::setEnabled);
+    connect(m_playlistBox,    &PlaylistBox::signalMoveFocusAway,
+            m_searchWidget,   qOverload<>(&SearchWidget::setFocus));
 
     topLayout->addWidget(m_nowPlaying);
     topLayout->addWidget(m_searchWidget);
@@ -256,9 +260,10 @@ void PlaylistSplitter::setupLayout()
     topLayout->addWidget(m_playlistStack, 1);
 
     // Now that GUI setup is complete, add some auto-update signals.
-    connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
-            m_editor, SLOT(slotUpdateCollection()));
-    connect(m_playlistStack, SIGNAL(currentChanged(int)), this, SLOT(slotPlaylistChanged(int)));
+    connect(CollectionList::instance(), &CollectionList::signalCollectionChanged,
+            m_editor,                   &TagEditor::slotUpdateCollection);
+    connect(m_playlistStack, &QStackedWidget::currentChanged,
+            this,            &PlaylistSplitter::slotPlaylistChanged);
 
     // Show the collection on startup.
     m_playlistBox->setCurrentItem(m_playlistBox->topLevelItem(0));

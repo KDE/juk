@@ -53,6 +53,9 @@ class PlaylistCollection : public PlaylistInterface
     friend class DynamicPlaylist;
 
 public:
+    class ActionHandler;
+    friend PlaylistCollection::ActionHandler;
+
     PlaylistCollection(PlayerManager *player, QStackedWidget *playlistStack);
     virtual ~PlaylistCollection();
 
@@ -139,7 +142,7 @@ public:
     /**
      * Returns a pointer to the action handler.
      */
-    QObject *collectionActions() const;
+    ActionHandler *collectionActions() const;
 
     void newItems(const KFileItemList &list) const;
 
@@ -176,9 +179,6 @@ public:
      * still be able to manually add files even under an excluded folder.
      */
     QStringList excludedFolders() const { return m_excludedFolderList; }
-
-    class ActionHandler;
-    friend PlaylistCollection::ActionHandler;
 
 protected:
     virtual QStackedWidget *playlistStack() const;
