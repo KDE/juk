@@ -29,13 +29,15 @@
 #include <QCheckBox>
 #include <QVBoxLayout>
 
+#include "iconsupport.h"
+
 //////////////////////////////////////////////////////////////////////////////
 // DeleteWidget implementation
 //////////////////////////////////////////////////////////////////////////////
 
 DeleteWidget::DeleteWidget(QWidget *parent)
-    : QWidget(parent)
-    , m_ui(new Ui::DeleteDialogBase)
+  : QWidget(parent)
+  , m_ui(new Ui::DeleteDialogBase)
 {
     m_ui->setupUi(this);
 
@@ -67,16 +69,18 @@ bool DeleteWidget::shouldDelete() const
 
 void DeleteWidget::slotShouldDelete(bool shouldDelete)
 {
+    using namespace IconSupport;
+
     if(shouldDelete) {
         m_ui->ddDeleteText->setText(i18n("<qt>These items will be <b>permanently "
             "deleted</b> from your hard disk.</qt>"));
         m_ui->ddWarningIcon->setPixmap(
-                QIcon::fromTheme("dialog-warning").pixmap(KIconLoader::SizeLarge));
+                ("dialog-warning"_icon).pixmap(KIconLoader::SizeLarge));
     }
     else {
         m_ui->ddDeleteText->setText(i18n("<qt>These items will be moved to the Trash Bin.</qt>"));
         m_ui->ddWarningIcon->setPixmap(
-                QIcon::fromTheme("user-trash-full").pixmap(KIconLoader::SizeLarge));
+                ("user-trash-full"_icon).pixmap(KIconLoader::SizeLarge));
     }
 }
 

@@ -30,7 +30,6 @@
 #include <ktoolbarpopupaction.h>
 #include <kactionmenu.h>
 #include <ktoggleaction.h>
-#include <kselectaction.h>
 
 #include <QCursor>
 #include <QDir>
@@ -65,27 +64,29 @@
 #include <cmath>
 #include <algorithm>
 #include <random>
+#include <utility>
 
+#include "actioncollection.h"
+#include "cache.h"
+#include "collectionlist.h"
+#include "coverdialog.h"
+#include "coverinfo.h"
+#include "deletedialog.h"
 #include "directoryloader.h"
-#include "playlistitem.h"
+#include "filerenamer.h"
+#include "iconsupport.h"
+#include "juk_debug.h"
+#include "juktag.h"
+#include "mediafiles.h"
 #include "playlistcollection.h"
+#include "playlistitem.h"
 #include "playlistsearch.h"
 #include "playlistsharedsettings.h"
-#include "mediafiles.h"
-#include "collectionlist.h"
-#include "filerenamer.h"
-#include "actioncollection.h"
-#include "juktag.h"
-#include "upcomingplaylist.h"
-#include "deletedialog.h"
-#include "webimagefetcher.h"
-#include "coverinfo.h"
-#include "coverdialog.h"
 #include "tagtransactionmanager.h"
-#include "cache.h"
-#include "juk_debug.h"
+#include "upcomingplaylist.h"
+#include "webimagefetcher.h"
 
-using namespace ActionCollection;
+using namespace ActionCollection; // ""_act and others
 
 /**
  * Used to give every track added in the program a unique identifier. See
@@ -99,7 +100,7 @@ quint32 g_trackID = 0;
 
 static bool manualResize()
 {
-    return action<KToggleAction>("resizeColumnsManually")->isChecked();
+    return "resizeColumnsManually"_act->isChecked();
 }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -120,11 +121,11 @@ Playlist::Playlist(
         bool delaySetup, const QString &name,
         PlaylistCollection *collection, const QString &iconName,
         int extraCols)
-    : QTreeWidget(collection->playlistStack())
-    , m_collection(collection)
-    , m_playlistName(name)
-    , m_refillDebounce(new QTimer(this))
-    , m_fetcher(new WebImageFetcher(this))
+  : QTreeWidget(collection->playlistStack())
+  , m_collection(collection)
+  , m_playlistName(name)
+  , m_refillDebounce(new QTimer(this))
+  , m_fetcher(new WebImageFetcher(this))
 {
     setup(extraCols);
 
@@ -1665,6 +1666,46 @@ int Playlist::leftMostVisibleColumn() const
     return i < PlaylistItem::lastColumn() ? i : 0;
 }
 
+// used with slotShowRMBMenu
+void Playlist::createPlaylistRMBMenu()
+{
+    using namespace IconSupport; // ""_icon
+
+    m_rmbMenu = new QMenu(this);
+
+    m_rmbMenu->addAction("go-jump-today"_icon, i18n("Add to Play Queue"),
+            this, &Playlist::slotAddToUpcoming);
+    m_rmbMenu->addSeparator();
+
+    if(!this->readOnly()) {
+        m_rmbMenu->addAction(action("edit_cut"));
+        m_rmbMenu->addAction(action("edit_copy"));
+        m_rmbMenu->addAction(action("edit_paste"));
+        m_rmbMenu->addSeparator();
+        m_rmbMenu->addAction(action("removeFromPlaylist"));
+    }
+    else
+        m_rmbMenu->addAction(action("edit_copy"));
+
+    m_rmbEdit = m_rmbMenu->addAction(i18n("Edit"));
+
+    m_rmbMenu->addAction(action("refresh"));
+    m_rmbMenu->addAction(action("removeItem"));
+
+    m_rmbMenu->addSeparator();
+
+    m_rmbMenu->addAction(action("guessTag"));
+    m_rmbMenu->addAction(action("renameFile"));
+
+    m_rmbMenu->addAction(action("coverManager"));
+
+    m_rmbMenu->addSeparator();
+
+    m_rmbMenu->addAction("folder-new"_icon,
+        i18n("Create Playlist From Selected Items..."),
+        this, &Playlist::slotCreateGroup);
+}
+
 PlaylistItemList Playlist::items(QTreeWidgetItemIterator::IteratorFlags flags)
 {
     PlaylistItemList list;
@@ -2001,43 +2042,7 @@ void Playlist::slotShowRMBMenu(const QPoint &point)
     // Create the RMB menu on demand.
 
     if(!m_rmbMenu) {
-
-        // Probably more of these actions should be ported over to using KActions.
-
-        m_rmbMenu = new QMenu(this);
-
-        m_rmbMenu->addAction(QIcon::fromTheme("go-jump-today"),
-            i18n("Add to Play Queue"), this, &Playlist::slotAddToUpcoming);
-        m_rmbMenu->addSeparator();
-
-        if(!readOnly()) {
-            m_rmbMenu->addAction(action("edit_cut"));
-            m_rmbMenu->addAction(action("edit_copy"));
-            m_rmbMenu->addAction(action("edit_paste"));
-            m_rmbMenu->addSeparator();
-            m_rmbMenu->addAction(action("removeFromPlaylist"));
-        }
-        else
-            m_rmbMenu->addAction(action("edit_copy"));
-
-        m_rmbEdit = m_rmbMenu->addAction(i18n("Edit"));
-
-        m_rmbMenu->addAction(action("refresh"));
-        m_rmbMenu->addAction(action("removeItem"));
-
-        m_rmbMenu->addSeparator();
-
-        m_rmbMenu->addAction(action("guessTag"));
-        m_rmbMenu->addAction(action("renameFile"));
-
-        m_rmbMenu->addAction(action("coverManager"));
-
-        m_rmbMenu->addSeparator();
-
-        m_rmbMenu->addAction(
-            QIcon::fromTheme("folder-new"),
-            i18n("Create Playlist From Selected Items..."),
-            this, &Playlist::slotCreateGroup);
+        createPlaylistRMBMenu();
     }
 
     // Ignore any columns added by subclasses.

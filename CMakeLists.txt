@@ -94,6 +94,7 @@ set(juk_SRCS
    filerenamerconfigdlg.cpp
    webimagefetcher.cpp
    historyplaylist.cpp
+   iconsupport.cpp
    juk.cpp
    juktag.cpp
    keydialog.cpp

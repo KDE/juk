@@ -45,14 +45,15 @@
 #include <QPushButton>
 #include <QHeaderView>
 
-#include "juktag.h"
-#include "filerenameroptions.h"
-#include "filehandle.h"
-#include "exampleoptions.h"
-#include "playlistitem.h"
-#include "playlist.h" // processEvents()
 #include "coverinfo.h"
+#include "exampleoptions.h"
+#include "filehandle.h"
+#include "filerenameroptions.h"
+#include "iconsupport.h"
 #include "juk_debug.h"
+#include "juktag.h"
+#include "playlist.h" // processEvents()
+#include "playlistitem.h"
 
 class ConfirmationDialog : public QDialog
 {
@@ -61,6 +62,8 @@ public:
                        QWidget *parent = nullptr)
         : QDialog(parent)
     {
+        using namespace IconSupport; // ""_icon
+
         setModal(true);
         setWindowTitle(i18nc("warning about mass file rename", "Warning"));
 
@@ -70,7 +73,7 @@ public:
         vboxLayout->addWidget(hbox);
 
         QLabel *l = new QLabel(hbox);
-        l->setPixmap(QIcon::fromTheme("dialog-warning").pixmap(KIconLoader::SizeLarge));
+        l->setPixmap(("dialog-warning"_icon).pixmap(KIconLoader::SizeLarge));
         hboxVLayout->addWidget(l);
 
         l = new QLabel(i18n("You are about to rename the following files. "
@@ -342,8 +345,10 @@ FileRenamerWidget::~FileRenamerWidget()
 
 int FileRenamerWidget::addRowCategory(TagType category)
 {
-    static QIcon up   = QIcon::fromTheme("go-up");
-    static QIcon down = QIcon::fromTheme("go-down");
+    using namespace IconSupport; // ""_icon
+
+    static QIcon up   = "go-up"_icon;
+    static QIcon down = "go-down"_icon;
 
     // Find number of categories already of this type.
     int categoryCount = std::count_if(m_rows.cbegin(), m_rows.cend(),

@@ -27,11 +27,15 @@
 #include <QPushButton>
 #include <QDialogButtonBox>
 
+#include "iconsupport.h"
+
 TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
   : QDialog(parent)
   , m_child(new TagGuesserConfigDlgWidget(this))
   , m_tagSchemeModel(new QStringListModel(TagGuesser::schemeStrings(), m_child->lvSchemes))
 {
+    using namespace IconSupport; // ""_icon
+
     setObjectName(QLatin1String(name));
     setModal(true);
     setWindowTitle(i18n("Tag Guesser Configuration"));
@@ -39,8 +43,8 @@ TagGuesserConfigDlg::TagGuesserConfigDlg(QWidget *parent, const char *name)
     auto vboxLayout = new QVBoxLayout(this);
     vboxLayout->addWidget(m_child);
 
-    m_child->bMoveUp->setIcon(QIcon::fromTheme( QLatin1String( "arrow-up" )));
-    m_child->bMoveDown->setIcon(QIcon::fromTheme( QLatin1String( "arrow-down" )));
+    m_child->bMoveUp->setIcon("arrow-up"_icon);
+    m_child->bMoveDown->setIcon("arrow-down"_icon);
 
     m_child->lvSchemes->setModel(m_tagSchemeModel);
     m_child->lvSchemes->setHeaderHidden(true);

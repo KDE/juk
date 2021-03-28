@@ -19,19 +19,22 @@
 #include "slider.h"
 
 #include <KLocalizedString>
-#include <QIcon>
 
 #include <QAction>
+#include <QHBoxLayout>
+#include <QIcon>
 #include <QLabel>
 #include <QMenu>
 #include <QToolBar>
+#include <QVBoxLayout>
 #include <QWheelEvent>
 #include <QWidgetAction>
-#include <QVBoxLayout>
-#include <QHBoxLayout>
 
-#include "playermanager.h"
+#include "iconsupport.h"
 #include "juk.h"
+#include "playermanager.h"
+
+using namespace IconSupport;  // ""_icon
 
 VolumePopupButton::VolumePopupButton( QWidget * parent )
     : QToolButton( parent )
@@ -71,7 +74,7 @@ VolumePopupButton::VolumePopupButton( QWidget * parent )
 
     connect( m_volumeSlider, &VolumeSlider::volumeChanged, player, &PlayerManager::setVolume );
 
-    m_muteAction = new QAction( QIcon::fromTheme(QStringLiteral("audio-volume-muted")), QString(), this );
+    m_muteAction = new QAction("audio-volume-muted"_icon, QString(), this );
     m_muteAction->setToolTip( i18n( "Mute/Unmute" ) );
     m_muteAction->setCheckable( true );
     m_muteAction->setChecked( player->muted() );
@@ -97,19 +100,18 @@ VolumePopupButton::refresh()
 void
 VolumePopupButton::volumeChanged( float newVolume )
 {
-    if (!JuK::JuKInstance()->playerManager()->muted())
-    {
+    if (!JuK::JuKInstance()->playerManager()->muted()) {
         m_volumeBeforeMute = newVolume;
     }
 
     if ( newVolume <= 0.0001 )
-        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-muted")) );
+        setIcon("audio-volume-muted"_icon);
     else if ( newVolume < 0.34 )
-        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-low")) );
+        setIcon("audio-volume-low"_icon);
     else if ( newVolume < 0.67 )
-        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-medium")) );
+        setIcon("audio-volume-medium"_icon);
     else
-        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-high")) );
+        setIcon("audio-volume-high"_icon);
 
     m_volumeLabel->setText( i18n( "%1%" , int( newVolume * 100 ) ) );
 
@@ -130,7 +132,7 @@ VolumePopupButton::muteStateChanged( bool muted )
     if ( muted )
     {
         const float volume = JuK::JuKInstance()->playerManager()->volume();
-        setIcon( QIcon::fromTheme(QStringLiteral("audio-volume-muted")) );
+        setIcon("audio-volume-muted"_icon);
         setToolTip( i18n( "Volume: %1% (muted)", int( 100 * volume ) ) );
     }
     else

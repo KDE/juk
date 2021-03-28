@@ -15,12 +15,6 @@
  */
 
 #include "tageditor.h"
-#include "collectionlist.h"
-#include "playlistitem.h"
-#include "juktag.h"
-#include "actioncollection.h"
-#include "tagtransactionmanager.h"
-#include "juk_debug.h"
 
 #include <kactioncollection.h>
 #include <kcombobox.h>
@@ -48,6 +42,14 @@
 #include <QSizePolicy>
 
 #include <id3v1genres.h>
+
+#include "actioncollection.h"
+#include "collectionlist.h"
+#include "iconsupport.h"
+#include "juk_debug.h"
+#include "juktag.h"
+#include "playlistitem.h"
+#include "tagtransactionmanager.h"
 
 #undef KeyRelease
 
@@ -471,12 +473,14 @@ void TagEditor::saveConfig()
 
 void TagEditor::setupActions()
 {
-    KToggleAction *show = new KToggleAction(QIcon::fromTheme(QLatin1String("document-properties")),
+    using namespace IconSupport;
+
+    KToggleAction *show = new KToggleAction("document-properties"_icon,
                                             i18n("Show &Tag Editor"), this);
     ActionCollection::actions()->addAction("showEditor", show);
     connect(show, &QAction::toggled, this, &TagEditor::setVisible);
 
-    QAction *act = new QAction(QIcon::fromTheme(QLatin1String( "document-save")), i18n("&Save"), this);
+    QAction *act = new QAction("document-save"_icon, i18n("&Save"), this);
     ActionCollection::actions()->addAction("saveItem", act);
     ActionCollection::actions()->setDefaultShortcut(act,
             QKeySequence(Qt::CTRL + Qt::Key_T));

@@ -36,11 +36,14 @@
 #include <QIcon>
 #include <QApplication>
 
-#include "juktag.h"
 #include "actioncollection.h"
-#include "playermanager.h"
 #include "coverinfo.h"
+#include "iconsupport.h"
 #include "juk_debug.h"
+#include "juktag.h"
+#include "playermanager.h"
+
+using namespace IconSupport; // ""_icon
 
 PassiveInfo::PassiveInfo()
   : QFrame(nullptr, Qt::ToolTip | Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint)
@@ -141,8 +144,8 @@ SystemTray::SystemTray(PlayerManager *player, QWidget *parent)
     setCategory(ApplicationStatus);
     setStatus(Active); // We were told to dock in systray by user, force us visible
 
-    m_forwardPix = QIcon::fromTheme("media-skip-forward");
-    m_backPix = QIcon::fromTheme("media-skip-backward");
+    m_forwardPix = "media-skip-forward"_icon;
+    m_backPix = "media-skip-backward"_icon;
 
     // Just create this here so that it show up in the DBus interface and the
     // key bindings dialog.
@@ -489,7 +492,7 @@ void SystemTray::setToolTip(const QString &tip, const QPixmap &cover)
     else {
         QIcon myCover;
         if(cover.isNull()) {
-            myCover = QIcon::fromTheme("juk");
+            myCover = "juk"_icon;
         } else {
             //Scale to proper icon size, otherwise KStatusNotifierItem will show an unknown icon
             const int iconSize = KIconLoader::global()->currentSize(KIconLoader::Desktop);

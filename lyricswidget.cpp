@@ -28,22 +28,27 @@
 #include <KConfigGroup>
 #include <KSharedConfig>
 
-#include "juktag.h"
 #include "actioncollection.h"
+#include "iconsupport.h"
 #include "juk_debug.h"
+#include "juktag.h"
 
 static const QUrl BASE_LYRICS_URL = QUrl("https://lyrics.fandom.com/");
 
-LyricsWidget::LyricsWidget(QWidget* parent): QTextBrowser(parent),
-    m_networkAccessManager(new QNetworkAccessManager),
-    m_lyricsCurrent(false)
+using namespace IconSupport; // ""_icon
+using namespace ActionCollection; // ""_act
+
+LyricsWidget::LyricsWidget(QWidget* parent)
+  : QTextBrowser(parent)
+  , m_networkAccessManager(new QNetworkAccessManager)
+  , m_lyricsCurrent(false)
 {
     setMinimumWidth(200);
     setReadOnly(true);
     setWordWrapMode(QTextOption::WordWrap);
     setOpenExternalLinks(true);
 
-    KToggleAction *show = new KToggleAction(QIcon::fromTheme(QLatin1String("view-media-lyrics")),
+    KToggleAction *show = new KToggleAction("view-media-lyrics"_icon,
                                             i18n("Show &Lyrics"), this);
     ActionCollection::actions()->addAction("showLyrics", show);
     connect(show, SIGNAL(toggled(bool)), this, SLOT(setVisible(bool)));
@@ -63,7 +68,7 @@ LyricsWidget::~LyricsWidget()
 void LyricsWidget::saveConfig()
 {
     KConfigGroup config(KSharedConfig::openConfig(), "LyricsWidget");
-    config.writeEntry("Show", ActionCollection::action<KToggleAction>("showLyrics")->isChecked());
+    config.writeEntry("Show", "showLyrics"_act->isChecked());
 }
 
 void LyricsWidget::makeLyricsRequest()

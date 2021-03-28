@@ -29,12 +29,13 @@
 #include <QPushButton>
 #include <QStatusBar>
 
-#include "filehandle.h"
-#include "playlistinterface.h"
 #include "actioncollection.h"
-#include "playermanager.h"
-#include "juktag.h"
+#include "filehandle.h"
+#include "iconsupport.h"
 #include "juk_debug.h"
+#include "juktag.h"
+#include "playermanager.h"
+#include "playlistinterface.h"
 
 using namespace ActionCollection;
 
@@ -55,6 +56,8 @@ static QString formatTime(qint64 milliseconds)
 StatusLabel::StatusLabel(const PlaylistInterface &currentPlaylist, QStatusBar *parent) :
     QWidget(parent)
 {
+    using namespace IconSupport; // ""_icon
+
     m_playlistLabel = new KSqueezedTextLabel(this);
     m_playlistLabel->setSizePolicy(QSizePolicy(QSizePolicy::Preferred, QSizePolicy::Preferred, QSizePolicy::Label));
     m_playlistLabel->setTextFormat(Qt::PlainText);
@@ -78,7 +81,7 @@ StatusLabel::StatusLabel(const PlaylistInterface &currentPlaylist, QStatusBar *p
     parent->addPermanentWidget(m_itemTimeLabel);
 
     QPushButton *jumpButton = new QPushButton(this);
-    jumpButton->setIcon(QIcon::fromTheme("go-jump"));
+    jumpButton->setIcon("go-jump"_icon);
     jumpButton->setFlat(true);
 
     jumpButton->setToolTip(i18n("Jump to the currently playing item"));

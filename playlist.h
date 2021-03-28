@@ -551,6 +551,9 @@ private:
      */
     int leftMostVisibleColumn() const;
 
+    /// Creates the context menu on demand
+    void createPlaylistRMBMenu();
+
     /**
      * This method is used internally to provide the backend to the other item
      * lists.

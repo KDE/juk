@@ -42,22 +42,24 @@
 #include <QHeaderView>
 #include <QElapsedTimer>
 
-#include "playlist.h"
-#include "collectionlist.h"
-#include "dynamicplaylist.h"
-#include "upcomingplaylist.h"
-#include "historyplaylist.h"
-#include "viewmode.h"
-#include "searchplaylist.h"
-#include "treeviewitemplaylist.h"
 #include "actioncollection.h"
 #include "cache.h"
-#include "tagtransactionmanager.h"
-#include "playermanager.h"
+#include "collectionlist.h"
 #include "dbuscollectionproxy.h"
+#include "dynamicplaylist.h"
+#include "historyplaylist.h"
+#include "iconsupport.h"
 #include "juk_debug.h"
+#include "playermanager.h"
+#include "playlist.h"
+#include "searchplaylist.h"
+#include "tagtransactionmanager.h"
+#include "treeviewitemplaylist.h"
+#include "upcomingplaylist.h"
+#include "viewmode.h"
 
-using namespace ActionCollection;
+using namespace ActionCollection; // ""_act and others
+using namespace IconSupport;      // ""_icon
 
 ////////////////////////////////////////////////////////////////////////////////
 // PlaylistBox public methods
@@ -102,22 +104,22 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
     // add the view modes stuff
 
     KSelectAction *viewModeAction =
-        new KSelectAction( QIcon::fromTheme(QStringLiteral("view-choose")), i18n("View Modes"), ActionCollection::actions());
+        new KSelectAction("view-choose"_icon, i18n("View Modes"), ActionCollection::actions());
     ActionCollection::actions()->addAction("viewModeMenu", viewModeAction);
 
     ViewMode* viewmode = new ViewMode(this);
     m_viewModes.append(viewmode);
-    viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-details")), viewmode->name());
+    viewModeAction->addAction("view-list-details"_icon, viewmode->name());
 
     CompactViewMode* compactviewmode = new CompactViewMode(this);
     m_viewModes.append(compactviewmode);
-    viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-text")), compactviewmode->name());
+    viewModeAction->addAction("view-list-text"_icon, compactviewmode->name());
 
     // TODO: Fix the broken tree view mode
 #if 0
     TreeViewMode* treeviewmode = new TreeViewMode(this);
     m_viewModes.append(treeviewmode);
-    viewModeAction->addAction(QIcon::fromTheme(QStringLiteral("view-list-tree")), treeviewmode->name());
+    viewModeAction->addAction("view-list-tree"_icon, treeviewmode->name());
 #endif
 
     CollectionList::initialize(this);
@@ -160,7 +162,7 @@ PlaylistBox::PlaylistBox(PlayerManager *player, QWidget *parent, QStackedWidget 
             this,           &PlaylistBox::slotLoadCachedPlaylists);
 
     KToggleAction *historyAction =
-        new KToggleAction(QIcon::fromTheme(QStringLiteral("view-history")), i18n("Show &History"), ActionCollection::actions());
+        new KToggleAction("view-history"_icon, i18n("Show &History"), ActionCollection::actions());
     ActionCollection::actions()->addAction("showHistory", historyAction);
     connect(historyAction, &KToggleAction::triggered,
             this,          &PlaylistBox::slotSetHistoryPlaylistEnabled);
@@ -611,11 +613,11 @@ void PlaylistBox::slotPlaylistChanged()
 
         if(playlists.front() == upcomingPlaylist()) {
             action("deleteItemPlaylist")->setText(i18n("Hid&e"));
-            action("deleteItemPlaylist")->setIcon(QIcon::fromTheme("list-remove"));
+            action("deleteItemPlaylist")->setIcon("list-remove"_icon);
         }
         else {
             action("deleteItemPlaylist")->setText(i18n("R&emove"));
-            action("deleteItemPlaylist")->setIcon(QIcon::fromTheme("user-trash"));
+            action("deleteItemPlaylist")->setIcon("user-trash"_icon);
         }
     }
     else if(!playlists.isEmpty())

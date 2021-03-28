@@ -34,17 +34,18 @@
 #include <QSizePolicy>
 #include <QKeySequence>
 
-#include "searchwidget.h"
-#include "playlistsearch.h"
 #include "actioncollection.h"
-#include "tageditor.h"
 #include "collectionlist.h"
-#include "playermanager.h"
-#include "nowplaying.h"
-#include "playlistbox.h"
+#include "iconsupport.h"
+#include "juk_debug.h"
 #include "lyricswidget.h"
 #include "mpris2/mpris2.h"
-#include "juk_debug.h"
+#include "nowplaying.h"
+#include "playermanager.h"
+#include "playlistbox.h"
+#include "playlistsearch.h"
+#include "searchwidget.h"
+#include "tageditor.h"
 
 ////////////////////////////////////////////////////////////////////////////////
 // public methods
@@ -152,12 +153,14 @@ Playlist *PlaylistSplitter::visiblePlaylist() const
 
 void PlaylistSplitter::setupActions()
 {
+    using namespace IconSupport;
+
     KActionCollection* coll = ActionCollection::actions();
     KToggleAction *showSearch =
-        new KToggleAction(QIcon::fromTheme(QStringLiteral("edit-find")), i18n("Show &Search Bar"), this);
+        new KToggleAction("edit-find"_icon, i18n("Show &Search Bar"), this);
     coll->addAction("showSearch", showSearch);
 
-    QAction *act = new QAction(QIcon::fromTheme(QStringLiteral("edit-clear")), i18n("Edit Track Search"), this);
+    QAction *act = new QAction("edit-clear"_icon, i18n("Edit Track Search"), this);
     coll->addAction("editTrackSearch", act);
     coll->setDefaultShortcut(act, Qt::Key_F6);
     connect(act, &QAction::triggered,

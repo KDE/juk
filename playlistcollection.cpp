@@ -41,18 +41,19 @@
 #include <sys/types.h>
 #include <dirent.h>
 
-#include "collectionlist.h"
 #include "actioncollection.h"
 #include "advancedsearchdialog.h"
+#include "collectionlist.h"
 #include "coverinfo.h"
-#include "searchplaylist.h"
+#include "directorylist.h"
 #include "folderplaylist.h"
 #include "historyplaylist.h"
-#include "upcomingplaylist.h"
-#include "directorylist.h"
+#include "iconsupport.h"
+#include "juk.h"
 #include "mediafiles.h"
 #include "playermanager.h"
-#include "juk.h"
+#include "searchplaylist.h"
+#include "upcomingplaylist.h"
 
 //Laurent: readd it
 //#include "collectionadaptor.h"
@@ -61,7 +62,7 @@
 // static methods
 ////////////////////////////////////////////////////////////////////////////////
 
-PlaylistCollection *PlaylistCollection::m_instance = 0;
+PlaylistCollection *PlaylistCollection::m_instance = nullptr;
 
 // Returns all folders in input list with their canonical path, if available, or
 // unchanged if not.
@@ -900,6 +901,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
   : QObject(nullptr)
   , m_collection(collection)
 {
+    using namespace IconSupport; // ""_icon
+
     setObjectName(QLatin1String("ActionHandler"));
 
     KActionMenu *menu;
@@ -907,8 +910,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     // "New" menu
 
-    menu = new KActionMenu(QIcon::fromTheme(QStringLiteral("document-new")),
-            i18nc("new playlist", "&New"), this);
+    menu = new KActionMenu("document-new"_icon, i18nc("new playlist", "&New"), this);
     actionCollection->addAction("file_new", menu);
 
     menu->addAction(createAction(i18n("&Empty Playlist..."),
@@ -930,7 +932,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
     menu = new KActionMenu(i18n("&Guess Tag Information"), actionCollection);
     actionCollection->addAction("guessTag", menu);
 
-    menu->setIcon(QIcon::fromTheme("wizard"));
+    menu->setIcon("wizard"_icon);
 
     menu->addAction(createAction(i18n("From &File Name"),
                 &PlaylistCollection::guessTagFromFile,
@@ -981,7 +983,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
 
     menu = new KActionMenu(i18n("Cover Manager"), actionCollection);
     actionCollection->addAction("coverManager", menu);
-    menu->setIcon(QIcon::fromTheme("image-x-generic"));
+    menu->setIcon("image-x-generic"_icon);
     menu->addAction(createAction(i18n("&View Cover"),
         &PlaylistCollection::viewCovers, "viewCover", "document-preview"));
     menu->addAction(createAction(i18n("Get Cover From &File..."),
@@ -997,8 +999,7 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
         &PlaylistCollection::showCoverManager, "showCoverManager"));
 
     auto upcomingAction = new KToggleAction(
-            QIcon::fromTheme(QStringLiteral("go-jump-today")),
-            i18n("Show &Play Queue"), actionCollection);
+            "go-jump-today"_icon, i18n("Show &Play Queue"), actionCollection);
     actionCollection->addAction("showUpcoming", upcomingAction);
 
     connect(upcomingAction, &KToggleAction::triggered,
