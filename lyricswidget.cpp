@@ -75,7 +75,15 @@ void LyricsWidget::makeLyricsRequest()
         return;
     }
 
+    m_title = m_playingFile.tag()->artist() + " &#8211; " + m_playingFile.tag()->title();
     setHtml(i18n("<i>Loading...</i>"));
+
+    // lyrics.fandom.com seems to be unavailable as well now so give a better error message
+    // and stop pinging the server
+    if(1) {
+        setHtml(i18n("<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>").arg(m_title));
+        return;
+    }
 
     QUrl listUrl = BASE_LYRICS_URL;
     listUrl.setPath("/api.php");
@@ -88,7 +96,6 @@ void LyricsWidget::makeLyricsRequest()
     listUrlQuery.addQueryItem("song", m_playingFile.tag()->title());
     listUrl.setQuery(listUrlQuery);
 
-    m_title = m_playingFile.tag()->artist() + " &#8211; " + m_playingFile.tag()->title();
     connect(m_networkAccessManager, SIGNAL(finished(QNetworkReply*)), this, SLOT(receiveListReply(QNetworkReply*)));
     m_networkAccessManager->get(QNetworkRequest(listUrl));
 }
