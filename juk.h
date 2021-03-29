@@ -18,6 +18,7 @@
 #define JUK_H
 
 #include <kxmlguiwindow.h>
+#include "playermanager.h"
 
 class KToggleAction;
 class KGlobalAccel;
