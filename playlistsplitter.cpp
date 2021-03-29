@@ -211,6 +211,22 @@ void PlaylistSplitter::setupLayout()
     connect(m_playlistBox, &QTreeWidget::currentItemChanged,
             this,          &PlaylistSplitter::slotCurrentPlaylistChanged);
 
+    // Let interested parties know we're ready
+    connect(m_playlistBox, &PlaylistBox::startupComplete, this, [this]() {
+                this->slotEnable();
+                this->setFocus();
+
+                // Do this after initial playlist setup otherwise we'll waste
+                // a lot of time starting up with the tag editor trying to
+                // re-update after every item is loaded.
+                connect(CollectionList::instance(),
+                        &CollectionList::signalCollectionChanged,
+                        m_editor,
+                        &TagEditor::slotUpdateCollection);
+
+                emit guiReady();
+            });
+
     m_player->setPlaylistInterface(m_playlistBox);
 
     // Let interested parties know we're ready
@@ -249,10 +265,8 @@ void PlaylistSplitter::setupLayout()
     topLayout->insertStretch(-1); // Force search bar to top while playlistStack hides
     topLayout->addWidget(m_playlistStack, 1);
 
-    // Now that GUI setup is complete, add some auto-update signals.
-    connect(CollectionList::instance(), SIGNAL(signalCollectionChanged()),
-            m_editor, SLOT(slotUpdateCollection()));
-    connect(m_playlistStack, SIGNAL(currentChanged(int)), this, SLOT(slotPlaylistChanged(int)));
+    connect(m_playlistStack, &QStackedWidget::currentChanged,
+            this,            &PlaylistSplitter::slotPlaylistChanged);
 
     // Show the collection on startup.
     m_playlistBox->setCurrentItem(m_playlistBox->topLevelItem(0));
