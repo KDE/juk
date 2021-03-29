@@ -53,6 +53,7 @@
 #include "filerenamerconfigdlg.h"
 #include "iconsupport.h"
 #include "keydialog.h"
+#include "playermanager.h"
 #include "playlistsplitter.h"
 #include "scrobbleconfigdlg.h"
 #include "scrobbler.h"
