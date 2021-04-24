@@ -162,6 +162,7 @@ if(NOT MSVC AND NOT ( WIN32 AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel" ) )
 endif()
 
 target_link_libraries(juk ${LIBMATH}
+    Qt5::Concurrent
     Qt5::Gui
     Qt5::Svg
     Qt5::Widgets
