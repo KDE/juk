@@ -364,6 +364,11 @@ public slots:
      */
     virtual void slotRefresh();
 
+    /**
+     * Opens the containing folder of the selected files.
+     */
+    virtual void slotOpenItemDir();
+
     void slotGuessTagInfo(TagGuesser::Type type);
 
     /**

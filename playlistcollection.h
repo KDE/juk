@@ -105,6 +105,7 @@ public:
 
     void removeItems();
     void refreshItems();
+    void openItemDir();
     void renameItems();
     void addCovers(bool fromFile);
     void addLocalCover();

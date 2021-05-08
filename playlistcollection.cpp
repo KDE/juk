@@ -473,6 +473,11 @@ void PlaylistCollection::refreshItems()
     visiblePlaylist()->slotRefresh();
 }
 
+void PlaylistCollection::openItemDir()
+{
+    visiblePlaylist()->slotOpenItemDir();
+}
+
 void PlaylistCollection::renameItems()
 {
     visiblePlaylist()->slotRenameFile();
@@ -977,6 +982,8 @@ PlaylistCollection::ActionHandler::ActionHandler(PlaylistCollection *collection)
             "removeItem", "edit-delete");
     createAction(i18n("Refresh"), &PlaylistCollection::refreshItems,
             "refresh", "view-refresh");
+    createAction(i18n("Open Containing Folder"), &PlaylistCollection::openItemDir,
+            "openItemDir", "stock_folder");
     createAction(i18n("&Rename File"), &PlaylistCollection::renameItems,
             "renameFile", "document-save-as",
             QKeySequence(Qt::CTRL + Qt::Key_R));

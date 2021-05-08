@@ -32,6 +32,7 @@
 #include <ktoggleaction.h>
 
 #include <QCursor>
+#include <QDesktopServices>
 #include <QDir>
 #include <QDirIterator>
 #include <QHash>
@@ -39,6 +40,7 @@
 #include <QFile>
 #include <QFileDialog>
 #include <QHeaderView>
+#include <QList>
 #include <QResizeEvent>
 #include <QMouseEvent>
 #include <QKeyEvent>
@@ -552,6 +554,37 @@ void Playlist::slotRefresh()
                            << "This file has probably been removed.";
             delete item->collectionItem();
         }
+
+        processEvents();
+    }
+    QApplication::restoreOverrideCursor();
+}
+
+void Playlist::slotOpenItemDir()
+{
+    PlaylistItemList itemList = selectedItems();
+    QList<QUrl> pathList;
+
+    for(auto &item : itemList) {
+        QUrl path = QUrl::fromLocalFile(item->file().fileInfo().absoluteDir().absolutePath());
+        if(!pathList.contains(path))
+            pathList.append(path);
+    }
+
+    if (pathList.length() > 4) {
+        if(KMessageBox::warningContinueCancel(
+            this,
+            i18n("You are about to open %1 directories. Are you sure you want to continue?", pathList.length()),
+            i18n("Open Containing Folder")
+        ) == KMessageBox::Cancel)
+        {
+            return;
+        }
+    }
+
+    QApplication::setOverrideCursor(Qt::WaitCursor);
+    for(auto &path : pathList) {
+        QDesktopServices::openUrl(path);
 
         processEvents();
     }
@@ -1690,6 +1723,7 @@ void Playlist::createPlaylistRMBMenu()
     m_rmbEdit = m_rmbMenu->addAction(i18n("Edit"));
 
     m_rmbMenu->addAction(action("refresh"));
+    m_rmbMenu->addAction(action("openItemDir"));
     m_rmbMenu->addAction(action("removeItem"));
 
     m_rmbMenu->addSeparator();
