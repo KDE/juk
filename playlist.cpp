@@ -574,7 +574,9 @@ void Playlist::slotOpenItemDir()
     if (pathList.length() > 4) {
         if(KMessageBox::warningContinueCancel(
             this,
-            i18n("You are about to open %1 directories. Are you sure you want to continue?", pathList.length()),
+            i18np("You are about to open directory. Are you sure you want to continue?",
+                  "You are about to open %1 directories. Are you sure you want to continue?",
+                  pathList.length()),
             i18n("Open Containing Folder")
         ) == KMessageBox::Cancel)
         {
