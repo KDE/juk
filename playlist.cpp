@@ -999,7 +999,11 @@ QStringList Playlist::mimeTypes() const
     return QStringList("text/uri-list");
 }
 
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
 QMimeData* Playlist::mimeData(const QList<QTreeWidgetItem *> items) const
+#else
+QMimeData* Playlist::mimeData(const QList<QTreeWidgetItem *> &items) const
+#endif
 {
     QList<QUrl> urls;
     for(const auto &item : items) {

@@ -455,7 +455,11 @@ protected:
     virtual bool eventFilter(QObject *watched, QEvent *e) override;
     virtual void keyPressEvent(QKeyEvent *e) override;
     QStringList mimeTypes() const override;
+#if QT_VERSION < QT_VERSION_CHECK(6, 0, 0)
     QMimeData* mimeData(const QList<QTreeWidgetItem *> items) const override;
+#else
+    QMimeData* mimeData(const QList<QTreeWidgetItem *> &items) const override;
+#endif
     virtual bool dropMimeData(QTreeWidgetItem *parent, int index, const QMimeData *data, Qt::DropAction action) override;
     virtual void dropEvent(QDropEvent *e) override;
     virtual void dragEnterEvent(QDragEnterEvent *e) override;
