@@ -20,7 +20,6 @@
 
 #include <KLocalizedString>
 #include <KIO/Job>
-#include <KIconLoader>
 #include <KMessageBox>
 
 #include "covermanager.h"
