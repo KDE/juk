@@ -17,6 +17,7 @@
 
 #include "playlistcollection.h"
 
+#include <kio_version.h>
 #include <kiconloader.h>
 #include <kmessagebox.h>
 #include <kactioncollection.h>
@@ -102,10 +103,14 @@ PlaylistCollection::PlaylistCollection(PlayerManager *player, QStackedWidget *pl
 
     m_actionHandler = new ActionHandler(this);
 
+#if KIO_VERSION < QT_VERSION_CHECK(5, 82, 0)
     // KDirLister's auto error handling seems to crash JuK during startup in
-    // readConfig().
+    // readConfig().  This auto handler was removed in KF5.82 so no longer
+    // needs disabled afterward.
 
     m_dirLister.setAutoErrorHandlingEnabled(false, playlistStack);
+#endif
+
     readConfig();
 }
 
