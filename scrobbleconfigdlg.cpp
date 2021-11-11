@@ -20,6 +20,7 @@
 #include "juk_debug.h"
 
 #include <KLineEdit>
+#include <KPasswordLineEdit>
 #include <KLocalizedString>
 #include <KMessageBox>
 #include <KConfigGroup>
@@ -37,8 +38,7 @@ ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent)
 {
     setWindowTitle(i18n("Configure scrobbling..."));
 
-    m_passwordEdit = new KLineEdit(this);
-    m_passwordEdit->setPasswordMode(true);
+    m_passwordEdit = new KPasswordLineEdit(this);
     m_usernameEdit = new KLineEdit(this);
     m_testButton = new QPushButton(i18n("Test login..."), this);
     m_testFeedbackLabel = new QLabel("");
@@ -61,7 +61,7 @@ ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent)
     vboxLayout->addStretch();
     vboxLayout->addWidget(dlgButtonBox);
 
-    connect(m_passwordEdit, SIGNAL(textEdited(QString)), this, SLOT(valuesChanged()));
+    connect(m_passwordEdit, &KPasswordLineEdit::passwordChanged, this, &ScrobbleConfigDlg::valuesChanged);
     connect(m_usernameEdit, SIGNAL(textEdited(QString)), this, SLOT(valuesChanged()));
     connect(m_testButton, SIGNAL(clicked(bool)), this, SLOT(testLogin()));
 
@@ -77,7 +77,7 @@ ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent)
 
         if (scrobblingCredentials.contains("Username") && scrobblingCredentials.contains("Password")) {
             m_usernameEdit->setText(scrobblingCredentials.value("Username"));
-            m_passwordEdit->setText(scrobblingCredentials.value("Password"));
+            m_passwordEdit->setPassword(scrobblingCredentials.value("Password"));
         }
     } else {
         // Warning message, KWallet is safer than KConfig.
@@ -85,10 +85,10 @@ ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent)
 
         KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         m_usernameEdit->setText(config.readEntry("Username", ""));
-        m_passwordEdit->setText(config.readEntry("Password", ""));
+        m_passwordEdit->setPassword(config.readEntry("Password", ""));
     }
 
-    if (m_passwordEdit->text().isEmpty() || m_usernameEdit->text().isEmpty()) {
+    if (m_passwordEdit->password().isEmpty() || m_usernameEdit->text().isEmpty()) {
         m_saveButton->setEnabled(false);
         m_testButton->setEnabled(false);
     }
@@ -98,7 +98,7 @@ void ScrobbleConfigDlg::valuesChanged()
 {
     m_testButton->setEnabled(
             !m_usernameEdit->text().isEmpty() &&
-            !m_passwordEdit->text().isEmpty());
+            !m_passwordEdit->password().isEmpty());
     m_saveButton->setEnabled(false);
 }
 
@@ -107,21 +107,18 @@ void ScrobbleConfigDlg::save()
     QDialog::accept();
 
     if (m_wallet) {
-
         QMap<QString, QString> scrobblingCredentials;
         scrobblingCredentials.insert("Username", m_usernameEdit->text());
-        scrobblingCredentials.insert("Password", m_passwordEdit->text());
+        scrobblingCredentials.insert("Password", m_passwordEdit->password());
 
         if (!m_wallet->writeMap("Scrobbling", scrobblingCredentials)) {
-
             qCCritical(JUK_LOG) << "Couldn't save Last.fm credentials using KWallet.";
         }
 
     } else {
-
         KConfigGroup config(KSharedConfig::openConfig(), "Scrobbling");
         config.writeEntry("Username", m_usernameEdit->text());
-        config.writeEntry("Password", m_passwordEdit->text());
+        config.writeEntry("Password", m_passwordEdit->password());
     }
 }
 
@@ -132,7 +129,7 @@ void ScrobbleConfigDlg::testLogin()
     connect(scrobbler, SIGNAL(validAuth()), this, SLOT(validLogin()));
     connect(scrobbler, SIGNAL(invalidAuth()), this, SLOT(invalidLogin()));
     setEnabled(false);
-    scrobbler->getAuthToken(m_usernameEdit->text(), m_passwordEdit->text());
+    scrobbler->getAuthToken(m_usernameEdit->text(), m_passwordEdit->password());
 }
 
 void ScrobbleConfigDlg::invalidLogin()

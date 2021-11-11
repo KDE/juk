@@ -26,6 +26,7 @@
 using namespace KWallet;
 
 class KLineEdit;
+class KPasswordLineEdit;
 class QAbstractButton;
 class QPushButton;
 class QLabel;
@@ -46,7 +47,7 @@ private slots:
 
 private:
     KLineEdit *m_usernameEdit;
-    KLineEdit *m_passwordEdit;
+    KPasswordLineEdit *m_passwordEdit;
     QPushButton *m_testButton;
     QAbstractButton *m_saveButton;
     QLabel *m_testFeedbackLabel;
