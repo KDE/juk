@@ -202,9 +202,6 @@ feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAG
 
 install(TARGETS juk  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
-find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS ItemModels)
-target_link_libraries(juk KF5::ItemModels)
-
 ########### install files ###############
 
 install( PROGRAMS org.kde.juk.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
