@@ -213,7 +213,7 @@ install(
 )
 
 install( FILES org.kde.juk.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
-install( FILES jukservicemenu.desktop  DESTINATION ${KDE_INSTALL_DATADIR}/kio/servicemenus )
+install( PROGRAMS jukservicemenu.desktop  DESTINATION ${KDE_INSTALL_DATADIR}/kio/servicemenus )
 install( FILES org.kde.juk.collection.xml org.kde.juk.player.xml org.kde.juk.search.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
 
 ecm_install_icons(ICONS
