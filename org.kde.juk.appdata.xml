@@ -520,6 +520,7 @@
       <li xml:lang="zh-TW">標籤讀取與編輯支援許多格式，包括 ID3v1, ID3v2 與 Ogg Vorbis 等</li>
     </ul>
   </description>
+  <content_rating type="oars-1.1" />
   <url type="homepage">https://juk.kde.org/</url>
   <url type="bugtracker">https://bugs.kde.org/enter_bug.cgi?format=guided&amp;product=juk</url>
   <url type="help">https://docs.kde.org/?application=juk</url>
