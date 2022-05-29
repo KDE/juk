@@ -94,8 +94,6 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent)
 
     m_instance = this;
 
-    readSettings();
-
     Cache::ensureAppDataStorageExists();
 
     setupActions();
@@ -160,10 +158,12 @@ JuK::JuK(const QStringList &filesToOpen, QWidget *parent)
     connect(m_player, &PlayerManager::signalPause, uninhibitPowerManagement);
     connect(m_player, &PlayerManager::signalStop, uninhibitPowerManagement);
 
-    // The system tray quit command will go straight to qApp->quit without calling
-    // our quit action, so make sure we save config changes no matter how quit is
-    // called.
-    connect(qApp, &QCoreApplication::aboutToQuit, this, [this]() { saveConfig(); });
+    // KMainWindow will close the window on this signal, but we need the visible state
+    // of it in saveConfig()
+    disconnect(qApp, &QGuiApplication::commitDataRequest, nullptr, nullptr);
+
+    connect(qApp, &QGuiApplication::commitDataRequest, this, [this]() { saveConfig(); },
+            Qt::DirectConnection);
 
     // slotCheckCache loads the cached entries first to populate the collection list
 
@@ -394,6 +394,14 @@ void JuK::slotSetupSystemTray()
         m_toggleDockOnCloseAction->setEnabled(true);
         m_togglePopupsAction->setEnabled(true);
 
+        // since we need the information if the main window is visible
+        // when quit was selected, we need to reroute the signal to our slot
+        QAction *quitAction = m_systemTray->action(QStringLiteral("quit"));
+        if (quitAction) {
+            quitAction->disconnect();
+            connect(quitAction, &QAction::triggered, this, &JuK::slotQuit);
+        }
+
         // If this flag gets set then JuK will quit if you click the cover on
         // the track announcement popup when JuK is only in the system tray
         // (the systray has no widget).
@@ -449,16 +457,6 @@ void JuK::keyPressEvent(QKeyEvent *e)
     if (e->key() >= Qt::Key_Back && e->key() <= Qt::Key_MediaLast)
         e->accept();
     KXmlGuiWindow::keyPressEvent(e);
-}
-
-/**
- * These are settings that need to be know before setting up the GUI.
- */
-
-void JuK::readSettings()
-{
-    KConfigGroup config(KSharedConfig::openConfig(), "Settings");
-    m_startDocked = config.readEntry("StartDocked", false);
 }
 
 void JuK::readConfig()
@@ -534,7 +532,7 @@ void JuK::saveConfig()
     // general settings
 
     KConfigGroup settingsConfig(KSharedConfig::openConfig(), "Settings");
-    settingsConfig.writeEntry("StartDocked", m_startDocked);
+    settingsConfig.writeEntry("StartDocked", !isVisible() && m_toggleDockOnCloseAction->isChecked());
     settingsConfig.writeEntry("DockInSystemTray", m_toggleSystemTrayAction->isChecked());
     settingsConfig.writeEntry("DockOnClose", m_toggleDockOnCloseAction->isChecked());
     settingsConfig.writeEntry("TrackPopup", m_togglePopupsAction->isChecked());
@@ -579,7 +577,6 @@ void JuK::slotQuit()
         m_player->stop();
     }
 
-    m_startDocked = !isVisible();
     saveConfig();
 
     // this will start chain of events causing PlaylistCollection (in
@@ -592,8 +589,7 @@ void JuK::slotQuit()
     delete m_splitter;
     m_splitter = nullptr;
 
-    setAttribute(Qt::WA_DeleteOnClose);
-    this->close();
+    close();
 }
 
 ////////////////////////////////////////////////////////////////////////////////

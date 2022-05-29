@@ -53,11 +53,6 @@ private:
 
     void activateScrobblerIfEnabled();
 
-    /**
-     * readSettings() is separate from readConfig() in that it contains settings
-     * that need to be read before the GUI is setup.
-     */
-    void readSettings();
     void readConfig();
     void saveConfig();
 
@@ -91,7 +86,6 @@ private:
     Scrobbler     *m_scrobbler  = nullptr;
 
     QStringList m_filesToOpen;
-    bool m_startDocked  = false;
     bool m_shuttingDown = false;
     uint m_pmToken      = 0;
 
