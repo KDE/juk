@@ -31,6 +31,7 @@
   <name xml:lang="pl">JuK</name>
   <name xml:lang="pt">JuK</name>
   <name xml:lang="pt-BR">JuK</name>
+  <name xml:lang="ro">JuK</name>
   <name xml:lang="ru">JuK</name>
   <name xml:lang="sk">JuK</name>
   <name xml:lang="sl">JuK</name>
@@ -72,6 +73,7 @@
   <summary xml:lang="pl">Odtwarzacz muzyki</summary>
   <summary xml:lang="pt">Leitor de Música</summary>
   <summary xml:lang="pt-BR">Reprodutor de músicas</summary>
+  <summary xml:lang="ro">Lector audio</summary>
   <summary xml:lang="ru">Музыкальный проигрыватель</summary>
   <summary xml:lang="sk">Prehrávač hudby</summary>
   <summary xml:lang="sl">Glasbeni predvajalnik</summary>
@@ -153,6 +155,7 @@
     <p xml:lang="pl">Cechy:</p>
     <p xml:lang="pt">Funcionalidades:</p>
     <p xml:lang="pt-BR">Funcionalidades:</p>
+    <p xml:lang="ro">Caracteristici:</p>
     <p xml:lang="ru">Возможности:</p>
     <p xml:lang="sk">Funkcie:</p>
     <p xml:lang="sl">Zmožnosti:</p>
