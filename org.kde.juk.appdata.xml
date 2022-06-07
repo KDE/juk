@@ -91,7 +91,7 @@
     <p>JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
     <p xml:lang="bs">JuK je audio džuboks aplikacija, podržavajući kolekcije MP3, Ogg Vorbis, FLAC i audio datoteka. To vam omogućava da izmijenite "etiketa" vaših audio datoteka, i upravljate kolekcijama i listama izvođenja. Njegov je glavni fokus, u stvari, je na muzičkom menadžmentu.</p>
     <p xml:lang="ca">El JuK és una aplicació de màquina de discos musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
-    <p xml:lang="ca-valencia">El JuK és una aplicació de màquina de discos musicals, que accepta coleccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les coleccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
+    <p xml:lang="ca-valencia">El JuK és una aplicació de màquina de discos musicals, que accepta coleccions de fichers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fichers d'àudio, i gestionar les coleccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
     <p xml:lang="da">JuK er et lydjukebox-program, som understøtter samlinger af MP3-, Ogg Vorbis- og FLAC-lydfiler. Den lader dig redigere "mærkerne" i dine lydfiler og håndtere din samling og spillelister. Dens hovedfokus er faktisk på musikhåndtering.</p>
     <p xml:lang="de">JuK ist eine Jukebox-Anwendung für Musikstücke und unterstützt Sammlungen von MP3-, Ogg-, Vorbis-, und FLAC-Audiodateien. Sie können Stichwörter Ihrer Audiodateien bearbeiten und Ihre Musiksammlungen und Wiedergabelisten verwalten. Die wichtigste Funktion ist die Musikverwaltung.</p>
     <p xml:lang="el">Το JuK είναι μια εφαρμογή μουσικού κουτιού, που υποστηρίζει συλλογές MP3, Ogg Vorbis, και FLAC αρχεία ήχου. Σας επιτρέπει να επεξεργαστείτε τις "ετικέτες" των αρχείων ήχου σας, και να διαχειριστείτε τις συλλογές και τις λίστες αναπαραγωγής. Εστιάζει κυρίως στη διαχείριση μουσικής.</p>
@@ -212,7 +212,7 @@
       <li>Ability to scan directories to automatically import playlists and music files on start up</li>
       <li xml:lang="bs">Mogućnost skeniranja direktorija da automatski uvezete liste izvođenja i muzičke datoteke pri pokretanju</li>
       <li xml:lang="ca">Capacitat d'explorar directoris per a importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
-      <li xml:lang="ca-valencia">Capacitat d'explorar directoris per a importar automàticament llistes de reproducció i fitxers de música en iniciar-se</li>
+      <li xml:lang="ca-valencia">Capacitat d'explorar directoris per a importar automàticament llistes de reproducció i fichers de música en iniciar-se</li>
       <li xml:lang="da">Kan scanne mapper for automatisk at importere spillelister og musikfiler ved opstart</li>
       <li xml:lang="de">Ordner können durchsucht werden, um beim Start automatisch Wiedergabelisten und Musikdateien zu importieren</li>
       <li xml:lang="el">Ικανότητα σάρωσης καταλόγων για την αυτόματη εισαγωγή λιστών αναπαραγωγής και μουσικών αρχείων κατά την εκκίνηση</li>
@@ -329,7 +329,7 @@
       <li>Playlist history to indicate which files have been played and when</li>
       <li xml:lang="bs">Istorijat liste izvođenja da indicira koje su datoteke izvođene i kada</li>
       <li xml:lang="ca">Historial de les llistes de reproducció per a indicar quins fitxers s'han reproduït i quan</li>
-      <li xml:lang="ca-valencia">Historial de les llistes de reproducció per a indicar quins fitxers s'han reproduït i quan</li>
+      <li xml:lang="ca-valencia">Historial de les llistes de reproducció per a indicar quins fichers s'han reproduït i quan</li>
       <li xml:lang="da">Spillelistehistorik som indikerer hvilke filer der er blevet afspillet og hvornår</li>
       <li xml:lang="de">Wiedergabelisten-Verlauf zur Anzeige, welche Dateien wann abgespielt wurden</li>
       <li xml:lang="el">Ιστορικό λιστών αναπαραγωγής με ένδειξη για το ποια αρχεία έχουν προηγηθεί και πότε</li>
@@ -407,7 +407,7 @@
       <li>The ability to guess tag information based on the track's file name</li>
       <li xml:lang="bs">Mogućnost pogađanja informacija o oznaci bazirano na imenu datoteke trake</li>
       <li xml:lang="ca">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça</li>
-      <li xml:lang="ca-valencia">La capacitat d'estimar la informació de les etiquetes basada en el nom de fitxer de la peça</li>
+      <li xml:lang="ca-valencia">La capacitat d'estimar la informació de les etiquetes basada en el nom de ficher de la peça</li>
       <li xml:lang="da">Mulighed for at gætte mærkeinformation baseret på sporets filnavn</li>
       <li xml:lang="de">Metadaten können anhand des Dateinamens eines Stücks geraten werden</li>
       <li xml:lang="el">Η ικανότητα πρόγνωσης της ετικέτας πληροφοριών με βάση το όνομα του μουσικού αρχείου</li>
@@ -446,7 +446,7 @@
       <li>File renamer that can rename files based on the tag content</li>
       <li xml:lang="bs">Preimenovanje datoteka na bazi sadržaja oznake</li>
       <li xml:lang="ca">Reanomenador de fitxers que pot reanomenar els fitxers basant-se en el contingut de l'etiqueta</li>
-      <li xml:lang="ca-valencia">Canviador de nom de fitxers que pot canviar de nom els fitxers basant-se en el contingut de l'etiqueta</li>
+      <li xml:lang="ca-valencia">Canviador de nom de fichers que pot canviar de nom els fichers basant-se en el contingut de l'etiqueta</li>
       <li xml:lang="da">Filomdøber som kan omdøbe filer baseret på mærkeindholdet</li>
       <li xml:lang="de">Dateien können basierend auf dem Inhalt der Metadaten umbenannt werden.</li>
       <li xml:lang="el">Πρόγραμμα μετονομασίας που λειτουργεί με βάση το περιεχόμενο της ετικέτας</li>
