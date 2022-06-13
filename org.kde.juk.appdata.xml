@@ -91,7 +91,7 @@
     <p>JuK is an audio jukebox application, supporting collections of MP3, Ogg Vorbis, and FLAC audio files. It allows you to edit the "tags" of your audio files, and manage your collection and playlists. It's main focus, in fact, is on music management.</p>
     <p xml:lang="bs">JuK je audio džuboks aplikacija, podržavajući kolekcije MP3, Ogg Vorbis, FLAC i audio datoteka. To vam omogućava da izmijenite "etiketa" vaših audio datoteka, i upravljate kolekcijama i listama izvođenja. Njegov je glavni fokus, u stvari, je na muzičkom menadžmentu.</p>
     <p xml:lang="ca">El JuK és una aplicació de màquina de discos musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
-    <p xml:lang="ca-valencia">El JuK és una aplicació de màquina de discos musicals, que accepta coleccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les coleccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
+    <p xml:lang="ca-valencia">El JuK és una aplicació de màquina de discos musicals, que accepta col·leccions de fitxers d'àudio MP3, Ogg Vorbis, i FLAC. Permet editar les «etiquetes» dels fitxers d'àudio, i gestionar les col·leccions i les llistes de reproducció. De fet, el seu focus principal és en la gestió de la música.</p>
     <p xml:lang="da">JuK er et lydjukebox-program, som understøtter samlinger af MP3-, Ogg Vorbis- og FLAC-lydfiler. Den lader dig redigere "mærkerne" i dine lydfiler og håndtere din samling og spillelister. Dens hovedfokus er faktisk på musikhåndtering.</p>
     <p xml:lang="de">JuK ist eine Jukebox-Anwendung für Musikstücke und unterstützt Sammlungen von MP3-, Ogg-, Vorbis-, und FLAC-Audiodateien. Sie können Stichwörter Ihrer Audiodateien bearbeiten und Ihre Musiksammlungen und Wiedergabelisten verwalten. Die wichtigste Funktion ist die Musikverwaltung.</p>
     <p xml:lang="el">Το JuK είναι μια εφαρμογή μουσικού κουτιού, που υποστηρίζει συλλογές MP3, Ogg Vorbis, και FLAC αρχεία ήχου. Σας επιτρέπει να επεξεργαστείτε τις "ετικέτες" των αρχείων ήχου σας, και να διαχειριστείτε τις συλλογές και τις λίστες αναπαραγωγής. Εστιάζει κυρίως στη διαχείριση μουσικής.</p>
@@ -173,7 +173,7 @@
       <li>Collection list and multiple user defined playlists</li>
       <li xml:lang="bs">Kolekcijska lista i više korisnički definisanih lista izvođenja</li>
       <li xml:lang="ca">Llista de col·leccions i múltiples llistes de reproducció definides per usuari</li>
-      <li xml:lang="ca-valencia">Llista de coleccions i múltiples llistes de reproducció definides per usuari</li>
+      <li xml:lang="ca-valencia">Llista de col·leccions i múltiples llistes de reproducció definides per usuari</li>
       <li xml:lang="da">Samlingsliste og flere brugerdefinerede spillelister</li>
       <li xml:lang="de">Sammlungslisten und mehrere benutzerdefinierte Wiedergabelisten</li>
       <li xml:lang="el">Λίστα συλλογών και λίστες αναπαραγωγής πολλών χρηστών</li>
@@ -251,7 +251,7 @@
       <li>Dynamic Search Playlists that are automatically updated as fields in the collection change</li>
       <li xml:lang="bs">Dinamička pretraga listi izvođenja koja se automatski ažurira kao polja u promjeni kolekcije</li>
       <li xml:lang="ca">Llistes de cerques dinàmiques que s'actualitzen automàticament a mesura que canvien els camps a la col·lecció</li>
-      <li xml:lang="ca-valencia">Llistes de busques dinàmiques que s'actualisen automàticament a mesura que canvien els camps a la colecció</li>
+      <li xml:lang="ca-valencia">Llistes de busques dinàmiques que s'actualitzen automàticament a mesura que canvien els camps a la col·lecció</li>
       <li xml:lang="da">Dynamisk søgning-spillelister som automatisk opdateres efterhånden som samlingen ændres</li>
       <li xml:lang="de">Dynamische Wiedergabelisten, die automatisch aktualisiert werden, wenn sich Felder in der Sammlung ändern</li>
       <li xml:lang="el">Λίστες αναπαραγωγής δυναμικής αναζήτησης που ενημερώνονται αυτόματα ως πεδία στην αλλαγή της συλλογής</li>
@@ -290,7 +290,7 @@
       <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
       <li xml:lang="bs">Režim pogleda stabla gdje se liste automatski generišu kao skupovi albuma, izvođača i žanrova</li>
       <li xml:lang="ca">Un mode de vista en arbre quan es generen automàticament llistes de reproducció per a conjunts d'àlbums, artistes i gèneres</li>
-      <li xml:lang="ca-valencia">Un modo de vista en arbre quan es generen automàticament llistes de reproducció per a conjunts d'àlbums, artistes i gèneres</li>
+      <li xml:lang="ca-valencia">Un mode de vista en arbre quan es generen automàticament llistes de reproducció per a conjunts d'àlbums, artistes i gèneres</li>
       <li xml:lang="da">En trævisningstilstand hvor spillelister automatisk genereres for sæt af albummer, kunstnere og genrer</li>
       <li xml:lang="de">Ein Baumansichtsmodus, in dem Wiedergabelisten automatisch für Gruppen von Alben, Interpreten und Genres generiert werden</li>
       <li xml:lang="el">Δενδρική άποψη όπου οι λίστες αναπαραγωγής παράγονται αυτόματα για σύνολα άλμπουμ, καλλιτεχνών και μουσικών ειδών</li>
