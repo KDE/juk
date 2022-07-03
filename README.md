@@ -1,6 +1,6 @@
 # A KDE Jukebox
 
-<img src="https://invent.kde.org/kde/juk/raw/master/128-apps-juk.png" align="right"
+<img src="https://apps.kde.org/app-icons/org.kde.juk.svg" align="right"
      title="Juk logo" width="96" height="96">
 
 [JuK](https://juk.kde.org) is an audio jukebox application, supporting collections of MP3, Ogg Vorbis,
@@ -12,7 +12,7 @@ Learn more about [Juk at KDE.org](https://www.kde.org/applications/multimedia/ju
 
 ## Features
 
-<img src="https://juk.kde.org/img/screenshots/juk-3.10.1-tag.png" align="center"
+<img src="https://cdn.kde.org/screenshots/juk/juk.png" align="center"
      title="Screenshot of JuK" width="800">
 
 - Collection list and multiple user defined playlists
