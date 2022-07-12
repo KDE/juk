@@ -316,6 +316,7 @@ Action=Popup
 
 [Event/dock_mode]
 Name=JuK running in dock mode
+Name[bg]=JuK се изпълнява в режим на док
 Name[bs]=JuK radi u sidrišnom režimu
 Name[ca]=El JuK s'està executant en el mode acoblat
 Name[ca@valencia]=JuK s'està executant en el mode acoblat
