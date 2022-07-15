@@ -192,11 +192,11 @@ void PlayerManager::play(const FileHandle &file)
     if(!m_media || !m_playlistInterface || file.isNull())
         return;
 
-    m_media->setCurrentSource(QUrl::fromLocalFile(file.absFilePath()));
-    m_media->play();
-
-    if(m_file != file)
+    if(m_file != file) {
         emit signalItemChanged(file);
+        m_media->setCurrentSource(QUrl::fromLocalFile(file.absFilePath()));
+        m_media->play();
+    }
 
     m_file = file;
 
