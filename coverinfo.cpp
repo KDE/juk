@@ -27,7 +27,6 @@
 #include <QEvent>
 #include <QFile>
 #include <QFileInfo>
-#include <QDesktopWidget>
 #include <QImage>
 #include <QScopedPointer>
 #include <QScreen>

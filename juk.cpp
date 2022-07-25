@@ -34,7 +34,6 @@
 #include <QDBusInterface>
 #include <QDBusMessage>
 #include <QDBusReply>
-#include <QDesktopWidget>
 #include <QDir>
 #include <QDirIterator>
 #include <QIcon>
