@@ -385,7 +385,7 @@ void PlayerManager::slotStateChanged(Phonon::State newstate, Phonon::State)
                 break;
 
             case Phonon::FatalError:
-                KMessageBox::sorry(0, errorMessage);
+                KMessageBox::error(0, errorMessage);
                 break;
         }
 

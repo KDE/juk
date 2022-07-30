@@ -189,7 +189,7 @@ void WebImageFetcher::slotImageFetched(KJob* j)
     if(job->error()) {
         qCCritical(JUK_LOG) << "Unable to grab image" << job->errorText();
 
-        KMessageBox::sorry(nullptr, i18n("Failed to download requested cover art: %1", job->errorString()),
+        KMessageBox::error(nullptr, i18n("Failed to download requested cover art: %1", job->errorString()),
                 i18nc("@title:window", "Could not download cover art"));
         return;
     }

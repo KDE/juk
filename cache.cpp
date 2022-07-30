@@ -300,7 +300,7 @@ bool Cache::prepareToLoadCachedItems()
         {
             qCCritical(JUK_LOG) << "Music cache checksum expected to get" << checksumExpected <<
                         "actually was" << checksum;
-            KMessageBox::sorry(0, i18n("The music data cache has been corrupted. JuK "
+            KMessageBox::error(0, i18n("The music data cache has been corrupted. JuK "
                                        "needs to rescan it now. This may take some time."));
             return false;
         }
