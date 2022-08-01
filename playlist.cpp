@@ -56,6 +56,7 @@
 #include <QStackedWidget>
 #include <QScrollBar>
 #include <QPainter>
+#include <QActionGroup>
 
 #include <QtConcurrent>
 #include <QFutureWatcher>

@@ -17,10 +17,10 @@
 #ifndef JUK_DELETEDIALOG_H
 #define JUK_DELETEDIALOG_H
 
-class QStringList;
 
 #include <QWidget>
 #include <QDialog>
+#include <QStringList>
 
 #include <KGuiItem>
 

@@ -20,12 +20,12 @@
 #include <QExplicitlySharedDataPointer>
 #include <QVector>
 #include <QMetaType>
+#include <QStringList>
 
 class QString;
 class QFileInfo;
 class QDateTime;
 class QDataStream;
-class QStringList;
 
 class CoverInfo;
 class Tag;

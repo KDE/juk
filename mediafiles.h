@@ -19,10 +19,10 @@
 
 #include <QList>
 #include <QUrl>
+#include <QStringList>
 
 class QWidget;
 class QString;
-class QStringList;
 
 namespace TagLib {
     class File;

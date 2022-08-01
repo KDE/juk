@@ -21,13 +21,11 @@
 #include <QDataStream>
 #include <QFile>
 #include <QBuffer>
+#include <QVector>
 
 class Playlist;
 class PlaylistCollection;
 class FileHandle;
-
-template<class T>
-class QVector;
 
 typedef QVector<Playlist *> PlaylistList;
 

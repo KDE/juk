@@ -25,7 +25,7 @@
 
 #include <QPointer>
 #include <QKeySequence>
-
+#include <QVector>
 class QPixmap;
 class QStackedWidget;
 
@@ -40,8 +40,6 @@ class Playlist;
 class PlayerManager;
 class FileHandle;
 
-template<class T>
-class QVector;
 
 typedef QVector<PlaylistItem *> PlaylistItemList;
 typedef QVector<Playlist *> PlaylistList;

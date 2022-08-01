@@ -19,8 +19,7 @@
 
 #include "searchplaylist.h"
 #include "playlistitem.h"
-
-class QStringList;
+#include <QStringList>
 
 class TreeViewItemPlaylist : public SearchPlaylist
 {
