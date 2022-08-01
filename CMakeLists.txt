@@ -9,8 +9,8 @@ set (RELEASE_SERVICE_VERSION "${RELEASE_SERVICE_VERSION_MAJOR}.${RELEASE_SERVICE
 
 project(juk VERSION ${RELEASE_SERVICE_VERSION})
 
-set(QT_MIN_VERSION "5.15.0")
-set(KF5_MIN_VERSION "5.85.0")
+set(QT_MIN_VERSION "5.15.2")
+set(KF5_MIN_VERSION "5.90.0")
 set(KDE_COMPILERSETTINGS_LEVEL "5.84.0")
 
 find_package(ECM ${KF5_MIN_VERSION} REQUIRED NO_MODULE)
@@ -26,7 +26,7 @@ include(ECMInstallIcons)
 include(ECMAddAppIcon)
 include(ECMQtDeclareLoggingCategory)
 
-find_package(Qt5 ${QT_MIN_VERSION} REQUIRED COMPONENTS Concurrent Gui Svg Network Test Widgets)
+find_package(Qt${QT_MAJOR_VERSION} ${QT_MIN_VERSION} REQUIRED COMPONENTS Concurrent Gui Svg Network Test Widgets)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     CoreAddons
     Completion
@@ -46,7 +46,7 @@ find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS
     WidgetsAddons
     WindowSystem
 )
-find_package(Phonon4Qt5 4.6.60 REQUIRED NO_MODULE)
+find_package(Phonon4Qt${QT_MAJOR_VERSION} 4.6.60 REQUIRED NO_MODULE)
 
 find_package(Taglib 1.6 REQUIRED)
 
@@ -135,10 +135,10 @@ set(juk_SRCS
 ecm_qt_declare_logging_category(juk_SRCS HEADER juk_debug.h
                                 IDENTIFIER JUK_LOG CATEGORY_NAME org.kde.juk)
 
-qt5_add_dbus_adaptor( juk_SRCS org.kde.juk.collection.xml
+qt_add_dbus_adaptor( juk_SRCS org.kde.juk.collection.xml
     dbuscollectionproxy.h DBusCollectionProxy )
-qt5_add_dbus_adaptor( juk_SRCS org.kde.juk.player.xml playermanager.h PlayerManager)
-qt5_add_dbus_adaptor( juk_SRCS org.kde.juk.search.xml searchwidget.h SearchWidget)
+qt_add_dbus_adaptor( juk_SRCS org.kde.juk.player.xml playermanager.h PlayerManager)
+qt_add_dbus_adaptor( juk_SRCS org.kde.juk.search.xml searchwidget.h SearchWidget)
 
 
 ki18n_wrap_ui(juk_SRCS
@@ -168,11 +168,11 @@ if(NOT MSVC AND NOT ( WIN32 AND "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Intel" ) )
 endif()
 
 target_link_libraries(juk ${LIBMATH}
-    Qt5::Concurrent
-    Qt5::Gui
-    Qt5::Svg
-    Qt5::Widgets
-    Qt5::Network
+    Qt::Concurrent
+    Qt::Gui
+    Qt::Svg
+    Qt::Widgets
+    Qt::Network
     KF5::ConfigCore
     KF5::CoreAddons
     KF5::Completion
@@ -191,7 +191,7 @@ target_link_libraries(juk ${LIBMATH}
     KF5::WindowSystem
     KF5::WidgetsAddons
     KF5::Wallet
-    Phonon::phonon4qt5
+    Phonon::phonon4qt${QT_MAJOR_VERSION}
     Taglib::Taglib
 )
 
@@ -205,16 +205,16 @@ install(TARGETS juk  ${INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
-install( PROGRAMS org.kde.juk.desktop  DESTINATION  ${XDG_APPS_INSTALL_DIR} )
+install( PROGRAMS org.kde.juk.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
 install( FILES jukui.rc jukui-rtl.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/juk )
 install(
     FILES juk.notifyrc
-    DESTINATION ${KNOTIFYRC_INSTALL_DIR}
+    DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR}
 )
 
 install( FILES org.kde.juk.appdata.xml DESTINATION ${KDE_INSTALL_METAINFODIR} )
 install( PROGRAMS jukservicemenu.desktop  DESTINATION ${KDE_INSTALL_DATADIR}/kio/servicemenus )
-install( FILES org.kde.juk.collection.xml org.kde.juk.player.xml org.kde.juk.search.xml DESTINATION ${DBUS_INTERFACES_INSTALL_DIR} )
+install( FILES org.kde.juk.collection.xml org.kde.juk.player.xml org.kde.juk.search.xml DESTINATION ${KDE_INSTALL_DBUSINTERFACEDIR} )
 
 ki18n_install(po)
 kdoctools_install(po)
@@ -225,6 +225,6 @@ ecm_install_icons(ICONS
     32-apps-juk.png
     48-apps-juk.png
     64-apps-juk.png
-    DESTINATION ${ICON_INSTALL_DIR}
+    DESTINATION ${KDE_INSTALL_ICONDIR}
     THEME hicolor
 )
