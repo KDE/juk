@@ -21,6 +21,7 @@
 #include <kconfigbase.h>
 #include <kconfiggroup.h>
 #include <KSharedConfig>
+#include <KLazyLocalizedString>
 
 #include "juk_debug.h"
 
@@ -92,46 +93,43 @@ TagRenamerOptions::TagRenamerOptions(const CategoryID &category)
 
 QString TagRenamerOptions::tagTypeText(TagType type, bool translate)
 {
-    const char *msg = 0, *context = 0;
+    KLazyLocalizedString msg;
 
     switch(type) {
         case Title:
-            msg = I18N_NOOP2("song title", "Title");
-            context = "song title";
+            msg = kli18nc("song title", "Title");
         break;
 
         case Artist:
-            msg = I18N_NOOP("Artist");
+            msg = kli18n("Artist");
         break;
 
         case Album:
-            msg = I18N_NOOP("Album");
+            msg = kli18n("Album");
         break;
 
         case Track:
-            msg = I18N_NOOP2("cd track number", "Track");
-            context = "cd track number";
+            msg = kli18nc("cd track number", "Track");
         break;
 
         case Genre:
-            msg = I18N_NOOP("Genre");
+            msg = kli18n("Genre");
         break;
 
         case Year:
-            msg = I18N_NOOP("Year");
+            msg = kli18n("Year");
         break;
 
         default:
             qCWarning(JUK_LOG) << "I don't know what category we're looking up, this is a problem.";
             qCWarning(JUK_LOG) << "The category ID is " << (unsigned) type;
-            msg = I18N_NOOP2("unknown renamer category", "Unknown");
-            context = "unknown renamer category";
+            msg = kli18nc("unknown renamer category", "Unknown");
     }
 
     if(translate)
-        return context ? i18nc(context, msg) : i18n(msg);
+        return msg.toString();
     else
-        return msg;
+        return msg.untranslatedText();
 }
 
 void TagRenamerOptions::saveConfig(unsigned categoryNum) const
