@@ -88,7 +88,11 @@ void PassiveInfo::timerExpired()
         emit timeExpired();
 }
 
-void PassiveInfo::enterEvent(QEvent *)
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+void PassiveInfo::enterEvent (QEnterEvent *)
+#else
+void PassiveInfo::enterEvent (QEvent *)
+#endif
 {
     m_startFadeTimer->stop();
     emit mouseEntered();

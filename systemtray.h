@@ -63,9 +63,13 @@ signals:
     void nextSong();
 
 protected:
-    virtual void enterEvent(QEvent *) override;
-    virtual void leaveEvent(QEvent *) override;
-    virtual void wheelEvent(QWheelEvent *) override;
+#if QT_VERSION >= QT_VERSION_CHECK(6, 0, 0)
+    void enterEvent (QEnterEvent *e) override;
+#else
+    void enterEvent (QEvent *e) override;
+#endif
+    void leaveEvent(QEvent *) override;
+    void wheelEvent(QWheelEvent *) override;
 
 private:
     // Move us near the required position.

@@ -21,11 +21,12 @@
 #include <QVector>
 #include <QReadWriteLock>
 
+#include <KFileItem>
+
 #include "playlist.h"
 #include "playlistitem.h"
 
 class ViewMode;
-class KFileItem;
 class KFileItemList;
 class KDirWatch;
 
