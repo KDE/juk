@@ -7,7 +7,6 @@ Icon=juk
 X-DocPath=juk/index.html
 X-DBUS-StartupType=Unique
 Comment=
-Terminal=false
 Name=JuK
 Name[ar]=جوك
 Name[bg]=JuK
