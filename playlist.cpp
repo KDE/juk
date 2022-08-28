@@ -1917,11 +1917,7 @@ void Playlist::slotUpdateColumnWidths()
 
     // convenience handler for deprecated text metrics
     const auto textWidth = [](const QFontMetrics &fm, const QString &text) {
-#if (QT_VERSION >= QT_VERSION_CHECK(5, 11, 0))
         return fm.horizontalAdvance(text);
-#else
-        return fm.width(text);
-#endif
     };
 
     // No item content to auto-fit around, use the headers for now

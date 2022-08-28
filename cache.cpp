@@ -275,9 +275,7 @@ bool Cache::prepareToLoadCachedItems()
     switch(version) {
     case 2:
         dataStreamVersion = CacheDataStream::Qt_4_3;
-#if QT_VERSION >= QT_VERSION_CHECK(5, 8, 0)
         Q_FALLTHROUGH();
-#endif
 
         // Other than that we're compatible with cache v1, so fallthrough
         // to setCacheVersion

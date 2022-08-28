@@ -16,12 +16,7 @@
 #include <QtGlobal>
 
 #include <algorithm>
-#if QT_VERSION >= QT_VERSION_CHECK(5, 13, 0)
 #include <QConcatenateTablesProxyModel>
-#else
-#include <KConcatenateRowsProxyModel>
-typedef KConcatenateRowsProxyModel QConcatenateTablesProxyModel;
-#endif
 
 #include "playlistsearch.h"
 #include "playlist.h"
