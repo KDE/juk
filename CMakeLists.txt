@@ -201,12 +201,12 @@ endif(TUNEPIMP_FOUND)
 
 feature_summary(WHAT ALL INCLUDE_QUIET_PACKAGES FATAL_ON_MISSING_REQUIRED_PACKAGES)
 
-install(TARGETS juk  ${INSTALL_TARGETS_DEFAULT_ARGS} )
+install(TARGETS juk  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 
 ########### install files ###############
 
 install( PROGRAMS org.kde.juk.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
-install( FILES jukui.rc jukui-rtl.rc  DESTINATION  ${KXMLGUI_INSTALL_DIR}/juk )
+install( FILES jukui.rc jukui-rtl.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/juk )
 install(
     FILES juk.notifyrc
     DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR}
