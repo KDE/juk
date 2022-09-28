@@ -19,8 +19,6 @@
 #include "playlistsharedsettings.h"
 
 #include <QHeaderView>
-#include <QTreeWidget>
-#include <QAction>
 
 #include <KConfigGroup>
 #include <KSharedConfig>

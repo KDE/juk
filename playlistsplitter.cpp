@@ -24,15 +24,12 @@
 #include <KLocalizedString>
 #include <KSharedConfig>
 
-#include <QIcon>
 #include <QAction>
-#include <QEvent>
-#include <QVBoxLayout>
 #include <QLatin1String>
 #include <QList>
-#include <QStackedWidget>
 #include <QSizePolicy>
-#include <QKeySequence>
+#include <QStackedWidget>
+#include <QVBoxLayout>
 
 #include "actioncollection.h"
 #include "collectionlist.h"

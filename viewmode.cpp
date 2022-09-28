@@ -18,7 +18,6 @@
 
 #include <kiconloader.h>
 
-#include <QPixmap>
 #include <QPainter>
 #include <QResizeEvent>
 

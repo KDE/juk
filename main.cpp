@@ -16,18 +16,16 @@
  */
 
 #include <KAboutData>
-#include <KConfigBase>
 #include <KConfig>
 #include <KConfigGroup>
 #include <KCrash>
 #include <KDBusService>
+#include <KLocalizedString>
 #include <KNotification>
 #include <KSharedConfig>
-#include <KLocalizedString>
 
-#include <QCommandLineParser>
-#include <QCommandLineOption>
 #include <QApplication>
+#include <QCommandLineParser>
 
 #include "juk.h"
 #include <config-juk.h>

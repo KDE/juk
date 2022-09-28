@@ -19,12 +19,9 @@
 #include "svghandler.h"
 #include "juk_debug.h"
 
-#include <QHash>
-#include <QStandardPaths>
 #include <QPainter>
-#include <QPalette>
 #include <QReadLocker>
-#include <QStringBuilder>
+#include <QStandardPaths>
 #include <QStyleOptionSlider>
 #include <QSvgRenderer>
 #include <QWriteLocker>

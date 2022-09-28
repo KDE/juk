@@ -18,7 +18,6 @@
 #define JUK_SLIDERACTION_H
 
 #include <QWidgetAction>
-#include <QBoxLayout>
 
 #include "volumepopupbutton.h"
 

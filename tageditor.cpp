@@ -28,18 +28,15 @@
 #include <KLocalizedString>
 
 #include <QAction>
-#include <QIcon>
-#include <QLabel>
 #include <QApplication>
 #include <QCheckBox>
 #include <QDir>
-#include <QValidator>
 #include <QEventLoop>
-#include <QKeyEvent>
 #include <QHBoxLayout>
-#include <QVBoxLayout>
+#include <QLabel>
 #include <QRegularExpression>
 #include <QSizePolicy>
+#include <QValidator>
 
 #include <id3v1genres.h>
 

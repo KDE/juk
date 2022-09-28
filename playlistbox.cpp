@@ -25,22 +25,17 @@
 #include <KSharedConfig>
 
 #include <QAction>
-#include <QIcon>
-#include <QMenu>
-#include <QPainter>
-#include <QTimer>
 #include <QDragLeaveEvent>
-#include <QList>
 #include <QDragMoveEvent>
-#include <QKeyEvent>
-#include <QDropEvent>
-#include <QMouseEvent>
-#include <QFileInfo>
-#include <QTime>
-#include <QApplication>
-#include <QClipboard>
-#include <QHeaderView>
 #include <QElapsedTimer>
+#include <QFileInfo>
+#include <QHeaderView>
+#include <QIcon>
+#include <QKeyEvent>
+#include <QMenu>
+#include <QMouseEvent>
+#include <QTime>
+#include <QTimer>
 
 #include "actioncollection.h"
 #include "cache.h"

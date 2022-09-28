@@ -20,7 +20,6 @@
 
 #include <algorithm>
 
-#include <KUrlRequester>
 #include <kiconloader.h>
 #include <KLocalizedString>
 #include <kio/job.h>

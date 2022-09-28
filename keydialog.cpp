@@ -26,17 +26,16 @@
 #include <KLocalizedString>
 
 #include <QAction>
+#include <QButtonGroup>
+#include <QDialogButtonBox>
+#include <QGroupBox>
+#include <QHBoxLayout>
 #include <QKeySequence>
 #include <QList>
-#include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QTimer>
-#include <QDialogButtonBox>
-#include <QButtonGroup>
-#include <QRadioButton>
 #include <QPushButton>
-#include <QGroupBox>
+#include <QRadioButton>
 #include <QString>
+#include <QVBoxLayout>
 
 // Table of shortcut keys for each action, key group and three or four button modifier
 

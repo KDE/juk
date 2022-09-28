@@ -19,8 +19,6 @@
 
 #include <KLocalizedString>
 
-#include <QFile>
-
 #include <tag.h> //taglib
 #include <tfile.h>
 #include <audioproperties.h>

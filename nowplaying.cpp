@@ -17,29 +17,26 @@
 
 #include "nowplaying.h"
 
-#include <kiconloader.h>
-#include <KLocalizedString>
 #include <KIO/StoredTransferJob>
 #include <KJobWidgets>
+#include <KLocalizedString>
+#include <kiconloader.h>
 
-#include <QImage>
-#include <QLayout>
-#include <QEvent>
-#include <QDrag>
-#include <QTimer>
-#include <QPoint>
-#include <QFrame>
-#include <QDropEvent>
-#include <QLabel>
-#include <QVBoxLayout>
-#include <QDragEnterEvent>
-#include <QMouseEvent>
-#include <QUrl>
-#include <QList>
-#include <QTextDocument>
-#include <QFontMetrics>
-#include <QFontDatabase>
 #include <QApplication>
+#include <QDrag>
+#include <QDragEnterEvent>
+#include <QDropEvent>
+#include <QFontDatabase>
+#include <QFontMetrics>
+#include <QImage>
+#include <QLabel>
+#include <QLayout>
+#include <QList>
+#include <QMouseEvent>
+#include <QPoint>
+#include <QTimer>
+#include <QUrl>
+#include <QVBoxLayout>
 
 #include "playlistcollection.h"
 #include "playlistitem.h"

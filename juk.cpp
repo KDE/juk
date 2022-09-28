@@ -36,10 +36,8 @@
 #include <QDBusReply>
 #include <QDir>
 #include <QDirIterator>
-#include <QIcon>
 #include <QKeyEvent>
 #include <QMenuBar>
-#include <QMetaType>
 #include <QScreen>
 #include <QStatusBar>
 #include <QTime>

@@ -28,17 +28,15 @@
 #include "juk.h"
 #include "juk_debug.h"
 
-#include <QPixmap>
-#include <QIcon>
 #include <QDialog>
 #include <QDialogButtonBox>
 #include <QDomDocument>
 #include <QDomElement>
+#include <QLabel>
+#include <QLayout>
+#include <QPixmap>
 #include <QPointer>
 #include <QPushButton>
-#include <QLayout>
-#include <QLabel>
-#include <QPainter>
 #include <QStatusBar>
 #include <QUrl>
 #include <QUrlQuery>

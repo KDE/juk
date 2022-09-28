@@ -17,10 +17,9 @@
 #ifndef NOWPLAYING_H
 #define NOWPLAYING_H
 
-#include <QWidget>
 #include <QLabel>
-#include <QPointer>
 #include <QList>
+#include <QWidget>
 
 #include "filehandle.h"
 #include "playlistinterface.h"

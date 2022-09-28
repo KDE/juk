@@ -24,8 +24,6 @@
 #include <kdirwatch.h>
 #include <KLocalizedString>
 
-#include <QApplication>
-#include <QClipboard>
 #include <QDragMoveEvent>
 #include <QDropEvent>
 #include <QElapsedTimer>

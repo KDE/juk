@@ -24,8 +24,6 @@
 #include <KLocalizedString>
 
 #include <QDir>
-#include <QBuffer>
-#include <QtGlobal>
 #include <QSaveFile>
 
 #include "juktag.h"

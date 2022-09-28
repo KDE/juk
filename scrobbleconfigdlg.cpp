@@ -27,10 +27,9 @@
 #include <KSharedConfig>
 #include <KWallet>
 
-#include <QPushButton>
-#include <QLayout>
-#include <QLabel>
 #include <QFormLayout>
+#include <QLabel>
+#include <QPushButton>
 
 ScrobbleConfigDlg::ScrobbleConfigDlg(QWidget* parent)
   : QDialog(parent)

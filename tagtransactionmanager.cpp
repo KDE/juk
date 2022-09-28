@@ -21,9 +21,8 @@
 
 #include <QAction>
 #include <QApplication>
-#include <QFileInfo>
 #include <QDir>
-#include <QGlobalStatic>
+#include <QFileInfo>
 
 #include "playlistitem.h"
 #include "collectionlist.h"

@@ -29,7 +29,6 @@
 #include <Phonon/MediaSource>
 
 #include <QPixmap>
-#include <QTimer>
 #include <QUrl>
 
 #include <algorithm>

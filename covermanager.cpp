@@ -16,20 +16,18 @@
 
 #include "covermanager.h"
 
-#include <QGlobalStatic>
-#include <QTimer>
-#include <QPixmap>
-#include <QString>
-#include <QFile>
-#include <QImage>
-#include <QDir>
-#include <QDataStream>
-#include <QHash>
-#include <QPixmapCache>
 #include <QByteArray>
+#include <QDataStream>
+#include <QDir>
+#include <QFile>
+#include <QHash>
 #include <QMap>
-#include <QTemporaryFile>
+#include <QPixmap>
+#include <QPixmapCache>
 #include <QStandardPaths>
+#include <QString>
+#include <QTemporaryFile>
+#include <QTimer>
 #include <QUrl>
 
 #include <kio/job.h>

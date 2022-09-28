@@ -22,10 +22,7 @@
 #include <kactioncollection.h>
 #include <KLocalizedString>
 
-#include <QMouseEvent>
 #include <QWheelEvent>
-#include <QFocusEvent>
-#include <QBoxLayout>
 
 #include "volumepopupbutton.h"
 #include "slider.h"

@@ -17,12 +17,11 @@
 
 #include "scrobbler.h"
 
-#include <QCryptographicHash>
-#include <QDir>
-#include <QNetworkRequest>
-#include <QNetworkReply>
-#include <QDomDocument>
 #include <QByteArray>
+#include <QCryptographicHash>
+#include <QDomDocument>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QUrl>
 #include <QUrlQuery>
 

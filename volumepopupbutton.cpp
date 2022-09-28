@@ -22,10 +22,8 @@
 
 #include <QAction>
 #include <QHBoxLayout>
-#include <QIcon>
 #include <QLabel>
 #include <QMenu>
-#include <QToolBar>
 #include <QVBoxLayout>
 #include <QWheelEvent>
 #include <QWidgetAction>

@@ -20,12 +20,10 @@
 #include "slider.h"
 #include "svghandler.h"
 
-#include <QIcon>
 #include <KLocalizedString>
 
 #include <QAction>
 #include <QContextMenuEvent>
-#include <QFontMetrics>
 #include <QMenu>
 #include <QPainter>
 #include <QStyle>

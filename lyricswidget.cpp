@@ -16,17 +16,16 @@
 
 #include "lyricswidget.h"
 
+#include <KActionCollection>
+#include <KConfigGroup>
+#include <KLocalizedString>
+#include <KSharedConfig>
+#include <KToggleAction>
+#include <QAction>
 #include <QDomDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
-#include <QIcon>
-#include <QAction>
 #include <QUrlQuery>
-#include <KLocalizedString>
-#include <KActionCollection>
-#include <KToggleAction>
-#include <KConfigGroup>
-#include <KSharedConfig>
 
 #include "actioncollection.h"
 #include "iconsupport.h"

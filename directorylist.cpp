@@ -18,11 +18,10 @@
 #include "directorylist.h"
 
 #include <QCheckBox>
-#include <QStringListModel>
-#include <QVariant>
-#include <QPushButton>
 #include <QFileDialog>
+#include <QPushButton>
 #include <QStandardPaths>
+#include <QStringListModel>
 
 #include "juk_debug.h"
 

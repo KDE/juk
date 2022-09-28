@@ -23,8 +23,6 @@
 #include <QCollator>
 #include <QFileInfo>
 #include <QHeaderView>
-#include <QGlobalStatic>
-#include <QPixmap>
 
 #include "collectionlist.h"
 #include "juktag.h"

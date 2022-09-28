@@ -26,9 +26,6 @@
 #include <KWindowSystem>
 
 #include <QApplication>
-#include <QDBusConnection>
-#include <QDBusMessage>
-#include <QWidget>
 
 MediaPlayer2::MediaPlayer2(QObject* parent) : QDBusAbstractAdaptor(parent)
 {

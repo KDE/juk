@@ -20,8 +20,6 @@
 #include <KLocalizedString>
 #include <klineedit.h>
 
-#include <QIcon>
-#include <QKeyEvent>
 #include <QStringListModel>
 #include <QVBoxLayout>
 #include <QPushButton>

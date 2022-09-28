@@ -30,10 +30,8 @@
 #include <QComboBox>
 #include <QHBoxLayout>
 #include <QKeyEvent>
-#include <QLabel>
 #include <QLineEdit>
 #include <QPushButton>
-#include <QToolButton>
 
 using namespace ActionCollection;
 

@@ -18,9 +18,6 @@
 #include "collectionlist.h"
 #include "playlistcollection.h"
 
-#include <QTimer>
-#include <QObject>
-
 #include <algorithm>
 
 ////////////////////////////////////////////////////////////////////////////////

@@ -16,18 +16,16 @@
 
 #include "statuslabel.h"
 
-#include <KIconLoader>
 #include <KSqueezedTextLabel>
 #include <KLocalizedString>
 #include <KFormat>
 
 #include <QAction>
-#include <QMouseEvent>
 #include <QLabel>
-#include <QIcon>
-#include <QToolButton>
+#include <QMouseEvent>
 #include <QPushButton>
 #include <QStatusBar>
+#include <QToolButton>
 
 #include "actioncollection.h"
 #include "filehandle.h"

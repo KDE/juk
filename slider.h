@@ -20,10 +20,8 @@
 #ifndef SLIDERWIDGET_H
 #define SLIDERWIDGET_H
 
-#include <QList>
 #include <QPixmap>
 #include <QSlider>
-#include <QVector>
 
 class QPalette;
 class QTimer;

@@ -17,7 +17,6 @@
 #ifndef PLAYLISTINTERFACE_H
 #define PLAYLISTINTERFACE_H
 
-#include <QVector>
 #include <QObject>
 
 class FileHandle;
