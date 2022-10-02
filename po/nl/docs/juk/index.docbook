@@ -1,0 +1,2491 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Dutch "INCLUDE">
+]>
+
+<book id="juk" lang="&language;">
+
+<bookinfo>
+<title
+>Het handboek van &juk;</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Pyne</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+&Rinse.Devries; &Kristof.Bal;&Freek.de.Kruijf; 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>&Scott.Wheeler;</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2013-11-08</date>
+<releaseinfo
+>3.11 (&kde; 4.12)</releaseinfo>
+
+<abstract>
+<para
+>&juk; is een jukebox, een tagger en een muziekcollectiebeheerder. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+<keyword
+>audio</keyword>
+<keyword
+>tagger</keyword>
+<keyword
+>speler</keyword>
+<keyword
+>jukebox</keyword>
+<keyword
+>JuK</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Inleiding</title>
+
+<para
+>&juk; is een audiospeler in de vorm van een jukebox. Net zoals bij andere jukebox-programma's kunt u met &juk; uw  de <quote
+>tags</quote
+> van uw muziekbestanden bewerken en uw collectie en afspeellijsten beheren. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>&juk; gebruiken</title>
+
+<para>
+<screenshot>
+<screeninfo
+>Hier is een schermafdruk van &juk;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Schermafdruk van &juk;.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>&juk; beheert een lijst met alle muziekbestanden die bij het programma bekend zijn. Dit noemen we de <guilabel
+>Collectielijst</guilabel
+>. De collectielijst is van &juk; zelf, en wordt niet gedeeld met andere programma's.</para>
+
+<para
+>Naast de collectielijst zijn er ook afspeellijsten. Deze zijn onafhankelijk van de collectielijst. U kunt zoveel afspeellijsten hebben als u wilt. U kunt afspeellijsten die u in &juk; hebt aangemaakt ook gebruiken in andere mediaspelers, zoals &amarok; of <application
+>xmms</application
+>. Uiteraard kunt u de afspeellijsten die in een van deze programma's zijn aangemaakt ook gebruiken in &juk;.</para>
+
+<para
+>U kunt individuele bestanden toevoegen aan de collectielijst via menuoptie <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Openen...</guimenuitem
+></menuchoice
+>. U kunt ook complete mappen toevoegen via menuoptie <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Mappen beheren...</guimenuitem
+></menuchoice
+>. Toegevoegde mappen worden bij elke start van &juk; opnieuw doorzocht. U kunt zelfs mappen in deze mappen definiëren die zullen worden uitgesloten van de scan. U kunt het doorzoeken van de mappen forceren door met de &RMB; te klikken op het pictogram van de <guilabel
+>Collectielijst</guilabel
+> en dan <guimenuitem
+>Herladen</guimenuitem
+> te selecteren.</para>
+
+<para
+>Alle muziek die u aan een afspeellijst toevoegt zal ook automatisch aan de collectielijst worden toegevoegd. Muziek die u aan de collectielijst toevoegt wordt echter niet automatisch aan een van de afspeellijsten toegevoegd.</para>
+
+<para
+>U kunt snel een afspeellijst aanmaken van uw complete collectielijst. Klik met de &RMB; op het pictogram van de <guilabel
+>collectielijst</guilabel
+>, en kies menuoptie <guimenuitem
+>Dupliceren</guimenuitem
+>. De resulterende lijst is een normale afspeellijst, en wijzigingen die u erin aanbrengt zullen geen effect hebben op de <guilabel
+>Collectielijst</guilabel
+>.</para>
+
+<para
+>U kunt afspeellijsten die niet door &juk; zijn aangemaakt toevoegen via menuoptie <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Openen...</guimenuitem
+></menuchoice
+>. Alle afspeellijsten die zijn gevonden in de mappen die u via menuoptie <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Mappen beheren...</guimenuitem
+></menuchoice
+> hebt toegevoegd zullen automatisch aan het programma worden toegevoegd.</para>
+
+<para
+>Een nieuwe, een zoek- of een afspeellijst maakt u aan via menuoptie <menuchoice
+><guimenu
+>Bestand</guimenu
+><guisubmenu
+>Nieuw</guisubmenu
+></menuchoice
+>, of via de pictogram <guiicon
+>Nieuw</guiicon
+> op de werkbalk. U zult worden gevraagd voor een naam, en vervolgens verschijnt er een pictogram voor uw nieuwe afspeellijst in de zijbalk. Vervolgens kunt u bestanden vanuit de collectielijst, of vanuit andere afspeellijsten, verslepen naar uw nieuwe lijst. Gebruik het pictogram <guiicon
+>Opslaan</guiicon
+> of menuoptie <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Opslaan</guimenuitem
+></menuchoice
+> om de afspeellijst op te slaan.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>De liedjeslijst</title>
+
+<para
+>Als u de collectielijst aan het bekijken bent, dan bevat het rechtervak alle bestanden die bekend zijn bij &juk;. Als u een afspeellijst bekijkt, dan worden hier alle liedjes uit die lijst getoond. In beide gevallen is het uiterlijk en gedrag van deze weergave hetzelfde.</para>
+
+<para
+>Elk lied heeft zijn eigen rij in de weergave. Voor elk gevonden metadata-veld laat &juk; een kolom zien. Deze kolommen komen overeen met de beschikbare velden in de tagbewerker.</para>
+
+<para
+>U kunt de volgorde van de lijst veranderen door met de &LMB; te klikken op een kolomkop. Dit sorteert de bestanden in aflopende volgorde, gebaseerd op de inhoud van die kolom. Als u nogmaals klikt met de &LMB;, dan worden de bestanden gesorteerd in oplopende volgorde.</para>
+
+<para
+>De kolombreedte wordt bepaald door de langste tekst in zo'n kolom. U kunt de kolombreedte veranderen door u muiscursor op de scheiding tussen twee kolomkoppen te plaatsen. U ziet dat de muiscursor veranderd. Klik en sleep met de &LMB; in de juiste richting om de kolom breder of smaller te maken.</para>
+
+<para
+>U kunt de volgorde van de kolommen veranderen door met de &LMB; op een kolomkop te klikken en deze naar links of rechts te verslepen. U kunt de kolomkop echter niet voorbij de vensterrand slepen. Mogelijk moet u daarom de lijst naar links of rechts schuiven via de schuifbalk onderin het venster, en daarna het verslepen van de kop te herhalen, totdat u de gewenste positie hebt bereikt.</para>
+
+<para
+>U kunt kolommen laten tonen of verbergen door met de &RMB; op een kolomkop te klikken en op de naam van de kolom die u wilt veranderen in het contextmenu te klikken. Kolomnamen met een kruisje of vinkje ervoor zijn zichtbaar.</para>
+
+<para
+>Dubbelklik met de &LMB; op een track om deze af te spelen met de ingebouwde speler. Als er al een track wordt afgespeeld, dan wordt het afspelen ervan gestopt en de nieuwe track afgespeeld.</para>
+
+<para
+>Klikken met de &RMB; geeft u een lijst met opties:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>Toevoegen aan afspeelwachtrij</guimenuitem
+></term>
+<listitem>
+<para
+>Hierdoor start het afspelen van het bestand/de track zodra de huidige track klaar is. Als er geen track wordt afgespeeld, dan wordt de gekozen track afgespeeld zodra u op de knop <guiicon
+>Afspelen</guiicon
+> hebt geklikt. Als u eerder al een track had gekozen met de optie <guimenuitem
+>Aan afspeellijst toevoegen</guimenuitem
+>, dan zal deze worden genegeerd, en wordt uw laatste keuze afgespeeld.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Knippen</guimenuitem
+></term>
+<term
+><guimenuitem
+>Kopiëren</guimenuitem
+></term>
+<term
+><guimenuitem
+>Plakken</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Uit afspeellijst verwijderen</guimenuitem
+></term>
+<listitem>
+<para
+>Als u de collectielijst bekijkt en deze actie kiest dan zal de track niet alleen uit deze lijst, maar ook uit alle afspeellijsten waarin deze track voor komt. Als het bestand van deze track zich in een map bevindt die &juk; doorzoekt bij het opstarten, dan zal de track weer aan uw collectielijst worden toegevoegd bij de volgende start van &juk;. Echter, de track wordt dan niet automatisch toegevoegd aan de andere afspeellijsten.</para>
+<para
+>Als u een afspeellijst bekijkt, dan verwijdert <guimenuitem
+>Uit afspeellijst verwijderen</guimenuitem
+> alleen de track uit deze afspeellijst.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+><replaceable
+>Kolomtitel</replaceable
+> bewerken</guimenuitem
+></term>
+<listitem>
+<para
+>Hiermee kunt u de kolom van de geselecteerde track waarin u geklikt hebt bewerken. Bijvoorbeeld: als u een track tegenkomt waarbij een kolom leeg is, of een fout bevat, klik er dan met de &RMB; op en kies voor 'Bewerken'. U kunt dan rechtstreeks de inhoud van die kolom bewerken.</para>
+<para
+>De wijzigingen die u op deze manier aanbrengt worden onmiddellijk opgeslagen, zodra u ergens anders in het scherm klikt.</para>
+<para
+>Deze menuoptie is inactief als &juk; merkt dat de gekozen track alleen-lezen is.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Vernieuwen</guimenuitem
+></term>
+<listitem>
+<para
+>Dit zal de taginformatie van de geselecteerde tracks herladen. De wijzigingen die in de bestanden zijn aangebracht terwijl &juk; draaide zullen dan worden getoond.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Verwijderen</guimenuitem
+></term>
+<listitem>
+<para
+>Dit verwijdert de track uit de collectielijst, alle afspeellijsten waarin de track voorkomt. Vervolgens wordt het muziekbestand van uw harde schijf verwijdert. Let op: u kunt dit niet ongedaan maken! Gebruik deze menuoptie dus met zorg. Om te voorkomen dat u per abuis bestanden verwijdert zult u gevraagd worden om een bevestiging.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>Tag-informatie gissen</guisubmenu
+></term>
+<listitem>
+<para
+>Dit zorgt ervoor dat &juk; zal proberen om de tag-informatie, zoals artiest en titel van het lied te raden. &juk; gebruikt verschillende methoden voor het gissen: <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>Door middel van de bestandsnaam</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; zal proberen om de tag-informatie af te leiden van de bestandsnaam. Bijvoorbeeld, als een muziekbestand <filename
+>Prince - Kiss</filename
+> heet, dan zal het programma gissen dat Prince de artiestnaam is, en Kiss de titel. U kunt de manier waarop &juk; de tags zal gissen instellen via menuoptie <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>Tag-gisser...</guimenuitem
+></menuchoice
+>. Dit opent de <link linkend="juk-tag-guesser-configuration"
+>Tag-gisser-dialoog</link
+>. &juk; zal geen tags vervangen die niet uit de bestandsnaam konden worden achterhaald.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Van internet</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; zal gebruik maken van het programma MusicBrainz om de tags van de track te raden. Hiervoor dient MusicBrainz te zijn geïnstalleerd. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Bestand hernoemen</guimenuitem
+></term>
+<listitem>
+<para
+>Dit zal de bestanden hernoemen aan de hand van een opgegeven indeling. Bepaal eerst de manier waarop de bestanden hernoemd worden via menuoptie <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>Bestandshernoeming...</guimenuitem
+></menuchoice
+>. De resulterende naam van elk bestand wordt gebaseerd op diens metadata-tags. Bijvoorbeeld, de track <quote
+>Kiss (radioedit)</quote
+> van Prince resulteert in <filename
+>/usr/share/muziek/Prince/Kiss (radioedit).ogg</filename
+>. </para>
+</listitem>
+</varlistentry>
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
+<varlistentry>
+<term
+><guimenuitem
+>Afspeellijst aanmaken van geselecteerde items</guimenuitem
+></term>
+<listitem>
+<para
+>Hiermee kunt u snel een afspeellijst aanmaken van tracks uit uw collectielijst. U wordt gevraagd om een naam voor de nieuwe afspeellijst op te geven. Vervolgens worden alle geselecteerde bestanden in deze nieuwe afspeellijst geplaatst.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Geselecteerde items toevoegen aan audio- of data-cd</guimenuitem
+></term>
+<listitem>
+<para
+>Hiermee kunt u snel een K3b-project aanmaken van uw trackselectie. &juk; zal u vragen of u een audio-cd-project of een data-cd-project wilt aanmaken. Als K3b reeds met een project is geopend worden de tracks daaraan toegevoegd.</para>
+
+<para
+>Als K3b nog niet draait zal &juk; het voor u opstarten. Daarna zal &juk; de door u geselecteerde bestanden toevoegen aan het huidige K3b-project. U kunt dit project dan in K3b opslaan om later te branden, of meteen op cd branden. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+>Afspeellijsten van &juk;</title>
+<para
+>Een afspeellijst is gewoon een verzameling tracks, gegroepeerd op categorie. Bijvoorbeeld, u wilt een afspeellijst hebben met liedjes waarnaar u wilt luisteren tijdens het computeren, terwijl u probeert te slapen, of wanneer u wat ontspanning zoekt. &juk; biedt verschillende typen afspeellijsten. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>Normale afspeellijsten</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> Dit is de meest voorkomende vorm. Het is een afspeellijst die is opgebouwd uit bestanden, net als de collectielijst.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>De Geschiedenis-afspeellijst</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> Als u deze afspeellijst activeert (via <menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Geschiedenis tonen</guimenuitem
+></menuchoice
+>, dan zal deze lijst elke track die &juk; afspeelt opnemen. De afspeellijst zal een extra kolom bevatten. Deze kolom, <guilabel
+>Tijd</guilabel
+>, toont de exact datum en tijd waarop de track is afgespeeld. De afspeellijst begint echte pas met het opnemen van tracks als deze optie is ingeschakeld. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>Zoekafspeellijsten</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> Dit is een afspeellijst die is gebaseerd op een zoekopdracht. U kunt zo'n afspeellijst aanmaken via menuoptie <menuchoice
+><guimenu
+>Bestand</guimenu
+><guisubmenu
+>Nieuw</guisubmenu
+><guimenuitem
+>Afspeellijst zoeken</guimenuitem
+></menuchoice
+>, of door te klikken op de knop <link linkend="juk-advanced-search-dialog"
+>Afspeellijst zoeken</link
+> op de werkbalk.</para>
+<para
+>Nadat u deze afspeellijst hebt aangemaakt zal deze bijhouden welke tracks in de collectielijst overeenkomen met uw criteria. Bij elke wijziging van de collectielijst zal de afspeellijst bijgewerkt worden.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>De afspeellijsten zijn georganiseerd in het <guilabel
+>afspeellijstpaneel</guilabel
+>. Dit is de verticale balk aan de linker kant. In deze balk staat voor elke afspeellijst een pictogram. U kunt de weergave van dit paneel veranderen via menu-optie <menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Weergavemodi</guisubmenu
+></menuchoice
+>. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+>Standaard weergave</term>
+<listitem>
+<para
+>Dit is de standaard weergavemodus. In deze modus worden alle afspeellijsten getoond als grote pictogrammen, met daaronder de titel van de afspeellijst. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+>Compacte weergave</term>
+<listitem>
+<para
+>Deze modus is te vergelijken met de standaardweergave, met als verschil dat de afspeellijsten als horizontale balken met kleine pictogrammen worden getoond in plaats van rechthoekige vakken. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+>Boomstructuurweergave</term>
+<listitem>
+<para
+>Deze modus is de meest uitgebreide. De modus is zoals de compacte weergave, maar nu wordt de collectielijst getoond als een boomstructuur van virtuele afspeellijsten. De collectielijst heeft drie sublijsten: artiest, album en genre. Elke sublijst bevat alle tracks die overeenkomen met de specifieke categorie. Bijvoorbeeld, als uw collectielijst muziek van 4 verschillende artiesten, dan </para>
+<para
+>Een handige functie in de boomstructuurweergave is tags veranderen door middel van verslepen en neerzetten. Selecteer enkele bestanden in de tracklijst, en sleep ze naar een van de lijsten in de knooppunten voor artiest, album of genre. De tracks krijgen automatisch de tag die overeenkomt met de lijst waar u ze naar toe hebt gesleept. Bijvoorbeeld, als u tracks naar een genre genaamd "Rock" sleept, dan krijgen al deze track de tag Rock als genre. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>De tageditor van &juk;</title>
+
+<para
+>Voor veel documenttypen is het praktisch om de bestandsnaam te gebruiken om de inhoud van het bestand te beschrijven. <quote
+><filename
+>Scriptie - 04 juni 2003.kwd</filename
+></quote
+> bijvoorbeeld bevat mogelijk alle informatie die u nodig hebt om dat bestand terug te vinden. Om alle informatie over een lied in de bestandsnaam te stoppen kan leiden tot zoiets als dit: <quote
+><filename
+>Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.mp3</filename
+></quote
+> of <quote
+><filename
+>Various Artists_15_The Smithsonian Collection of Classic Jazz Volume II_Jimmie Lunceford &amp; His Orchestra - Organ Grinder's Swing.mp3</filename
+></quote
+>. Beide zijn onpraktisch in gebruik, en bevatten niet eens alle informatie die u waarschijnlijk over het lied hebt verzameld. Als u bijvoorbeeld het album en tracknummer aan het eerste bestand zou toevoegen, dan werd die nog langer en nog onhandelbaarder. En dan ontbreekt nog de informatie over in welk jaar het lied is uitgebracht, of welke muziekstijl het is, voor het geval u niet bekend met de artiest.</para>
+
+<para
+>Om dit probleem het hoofd te bieden kunt u dit type metadata in de bestanden zelf opslaan. MP3- en Ogg-bestanden kunnen ook kleine stukjes tekst bevatten die u kunt gebruiken om de inhoud van het bestand te omschrijven. Er zijn veel formaten beschikbaar, maar &juk; verbergt de verschillen tussen deze formaten zodat u op dezelfde manier een standaardset met bekende tags in al uw audiobestanden kunt bewerken.</para>
+
+<para
+>&juk; uitgebreide tagbewerker biedt u de mogelijkheid om de tags in MP3- en Ogg-bestanden te bewerken. U kunt losse bestanden of meerdere bestanden tegelijk bewerken, waarbij u geen onderscheid hoeft te maken tussen MP3 of Ogg. U dient uiteraard wel schrijftoegang tot de bestanden zelf te hebben. U kunt dus niet de tags bewerken van een muziekbestand dat op een &CD-ROM; staat.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Tags uit een los bestand bewerken</title>
+
+<para
+>Om de tags uit een los bestand te bewerken selecteert u deze in de collectielijst of in één van de afspeellijsten. Als de tagbewerker niet zichtbaar is, dan kunt u deze activeren via menuoptie <menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Tagbewerker tonen</guimenuitem
+></menuchoice
+>. De tagbewerker verschijnt dan onderaan de lijstweergave.</para>
+
+<para
+>Om de informatie te wijzigen typt u de tekst in een van de beschikbare velden. Als u klaar bent klikt u met de &LMB; op de lijst, waarna u gevraagd zult worden om uw wijzigingen op te slaan.</para>
+
+<para
+>In sommige gevallen zult u merken dat de tagbewerker inactief blijft als u op een track klikt. In dat geval heeft &juk; gezien dat het bestand alleen-lezen is.</para>
+
+<variablelist>
+<title
+>De velden van de tagbewerker</title>
+<varlistentry>
+<term
+><guilabel
+>Artiestnaam:</guilabel
+></term>
+<listitem>
+<para
+>De naam van de artiest(en) die het lied hebben uitgebracht.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Tracknaam:</guilabel
+></term>
+<listitem>
+<para
+>De naam van het lied.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Albumnaam:</guilabel
+></term>
+<listitem>
+<para
+>De naam van het album waarop het lied op te vinden is.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Genre:</guilabel
+></term>
+<listitem>
+<para
+>De muziekstijl. &juk; biedt een lijst die ruwweg overeenkomt met de informele ID3-standaard. U kunt ook uw eigen muziekstijl invoeren.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Bestandsnaam:</guilabel
+></term>
+<listitem>
+<para
+>De naam van het bestand op de schijf. U kunt deze vanuit de tagbewerker veranderen. Het bestand zal worden hernoemd op het moment dat u uw wijzigingen opslaat.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Track:</guilabel
+></term>
+<listitem>
+<para
+>De positie van de track op de originele opname.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Jaar:</guilabel
+></term>
+<listitem>
+<para
+>Het jaar waarin het lied was uitgebracht.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Lengte:</guilabel
+></term>
+<listitem>
+<para
+>De duur van het lied. Dit wordt ter informatie getoond en is niet bewerkbaar.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Bitsnelheid:</guilabel
+></term>
+<listitem>
+<para
+>De duur van het lied. Dit wordt ter informatie getoond en is niet bewerkbaar.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Commentaar:</guilabel
+></term>
+<listitem>
+<para
+>U kunt hier uw eigen aantekeningen toevoegen.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>U kunt expliciet en onmiddellijk uw wijzigingen opslaan via menuoptie <menuchoice
+><guimenu
+>Tagger</guimenu
+><guimenuitem
+>Opslaan</guimenuitem
+></menuchoice
+> of door middel van de toetsencombinatie <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Tags in meerdere bestanden bewerken</title>
+
+<para
+>U kunt meerdere bestanden in de lijstweergave selecteren en tegelijkertijd één of meerdere velden in de tags van al deze bestanden bewerken.</para>
+
+<para
+>Houd de toets &Shift; ingedrukt terwijl u met de &LMB; een aaneengesloten lijst met bestanden selecteert, of houd de toets &Ctrl; ingedrukt om met de &LMB; individuele niet-aaneengesloten bestanden te selecteren.</para>
+
+<para
+>Als de tagbewerker niet zichtbaar is, dan kunt u deze activeren via menuoptie <menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Tagbewerker tonen</guimenuitem
+></menuchoice
+>. De tagbewerker verschijnt dan onderaan de lijstweergave.</para>
+
+<para
+>De tagbewerker gedraagt zich iets anders als u meerdere bestanden hebt geselecteerd.</para>
+
+<para
+>Elk veld in de tagbewerker heeft nu een keuzevakje met de tekst <guilabel
+>Activeren</guilabel
+> ernaast. Elk veld waarbij de inhoud voor alle geselecteerde bestanden hetzelfde is is actief gemaakt, met het keuzevakje <guilabel
+>Activeren</guilabel
+> aangezet.</para>
+
+<!-- put screeny here -->
+
+<para
+>Elk veld dat niet in alle geselecteerde bestanden hetzelfde is is uitgeschakeld, en bevat geen informatie.</para>
+
+<para
+>Om de inhoud van een veld te veranderen, zet het keuzevakje <guilabel
+>Activeren</guilabel
+> aan, indien deze uitstaat, en bewerk het veld naar believen.</para>
+
+<para
+>Als u klaar bent, klik met de &LMB; op de lijstweergave. U wordt dan gevraagd of u uw wijzigingen op wilt slaan. Dit dialoog toont u een lijst met de bestanden die bewerkt zijn, zodat u kunt controleren of u de juiste bestanden hebt gewijzigd.</para>
+
+<para
+>U kunt expliciet en onmiddellijk uw wijzigingen opslaan via menuoptie <menuchoice
+><guimenu
+>Tagger</guimenu
+><guimenuitem
+>Opslaan</guimenuitem
+></menuchoice
+> of door middel van de toetsencombinatie <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>De dialoog 'Bestandshernoeming'</title>
+<para>
+<screenshot>
+<screeninfo
+>De dialoog 'Bestandshernoeming'</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Schermafdruk van de dialoog 'Bestand hernoemen'.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>De dialoog 'Instellingen voor bestandshernoeming' wordt gebruikt om de bestandshernoemactie in te stellen. Deze hernoemt een bestand aan de hand van de informatie uit de metadata-tags. </para>
+<para
+>De gehele functie Bestanden hernoemen wordt gebruikt om consistente bestandsnamen voor uw muziekverzameling (inclusief verplaatsen van de bestanden indien noodzakelijk). U kunt bijvoorbeeld enige songs hebben die op de schijf staan als <filename
+>01 - Titel.mp3</filename
+> als u ze van <ulink url="http://amazon.com"
+>Amazon</ulink
+> hebt gehaald, terwijl songs van <ulink url="http://ocremix.org/"
+>OCRemix</ulink
+> namen hebben als <filename
+>Ailsean- Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename
+> of iets dergelijks. </para>
+<para
+>Met gebruik van het de functie hernoemen stelt &juk; u in staat om die songs te hernoemen tot iets <quote
+>gezonds</quote
+> op de schijf, zoals <filename
+>Ailsean - Mega Fire.mp3</filename
+> en <filename
+>The Strokes - Reptilia.mp3</filename
+>. U kunt zelfs over het geheel paden invoegen om automatisch de muziek te sorteren (&eg; per jaar of album), zoals <filename
+>$HOME/Music/2003/The Strokes - Reptilia.mp3</filename
+>. </para>
+<para
+>Dit doen is net zo eenvoudig als de actie <quote
+>Bestand hernoemen</quote
+>, ofwel vanuit het menu <guimenu
+>Tagger</guimenu
+> of door rechtsklikken op de bestanden. De standaard is de sneltoets <keycombo
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+>. Maar voordat dit gedaan kan worden moet u instellen hoe de bestanden hernoemd moeten worden. </para>
+<para
+>Dat wordt gedaan in de bovengenoemde dialoog die geopend kan worden met het menu-item <menuchoice
+><guimenu
+>Instellingen</guimenu
+><guimenuitem
+>Bestandshernoeming...</guimenuitem
+></menuchoice
+>. U kunt een bestemmingspad definiëren door met een basis muziekmap en dan stukjes daar aan toevoegen. Deze stukjes pad zouden gebaseerd moeten zijn op de muziekmetagegevens zoals songtitel, artiest, &etc; en worden toegevoegd met de kiezer <guilabel
+>Categorie toevoegen</guilabel
+>. </para>
+<para
+>Elk "stukje pad" heeft er een keuzevakje tussen waarmee een scheidingsteken voor mappen kan worden toegevoegd. </para>
+<para
+>De opties voor elk stukje, die eenvoudig besturen wat er gebeurt als het toepasselijke metagegegeven leeg is, en een voorloop/achtervoegsel toestaan wanneer het item wordt ingevoegd, kan helpen om het hernoemen voor u gemakkelijk te maken. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>De dialoog Configuratie van de tag-gisser</title>
+<para>
+<screenshot>
+<screeninfo
+>De dialoog Configuratie van tag-gisser</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Schermafdruk van de dialoog Configuratie van tag-gisser.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>De dialoog Configuratie van de tag raden wordt gebruikt om het commando voor <guilabel
+>Tags aan de hand van de bestandsnaam raden</guilabel
+> in te stellen.</para>
+
+<para
+>In de dialoog ziet u links een lijst met verschillende bestandsnaamschema's. &juk; heeft een uitgebreide sets standaard patronen die overeenkomen met de meestvoorkomende bestandsnaamstijlen. Om een nieuw bestandsschema toe te voegen, klik op de knop <guibutton
+>Toevoegen</guibutton
+> en typ uw schema in. Klik daarna op <guibutton
+>OK</guibutton
+>.</para
+>  
+
+<para
+>Hier ziet u de nu geconfigureerde bestandsnaamschema's die de tag-bewerker gebruikt om tag-informatie uit een bestandsnaam te halen. Elke tekenreeks mag één van de volgende plaatshouders bevatten:</para>
+
+<para
+><itemizedlist>
+<listitem
+><para
+>%t: Titel</para
+></listitem>
+<listitem
+><para
+>%A: Album</para
+></listitem>
+<listitem
+><para
+>%a: Artiest</para
+></listitem>
+<listitem
+><para
+>%T: Track</para
+></listitem>
+<listitem
+><para
+>%c: Toelichting</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Bijvoorbeeld, het bestandsnaamschema <quote
+>[%T] %a - %t</quote
+> zou overeenkomen met <quote
+>[01] Deep Purple - Smoke on the water</quote
+> maar niet met <quote
+>(Deep Purple) Smoke on the water</quote
+>. Voor die tweede naam, zou u het schema <quote
+>(%a) %t</quote
+> moeten gebruiken.</para>
+
+<para
+>&juk; zal de schema's uit deze lijst één voor één uitproberen, beginnend aan de bovenzijde van de lijst. Het eerste schema dat overeen blijkt te komen zal worden gebruikt om de tags van het lied te raden. Sommige liederen komen overeen met meer dan één schema.  U kunt er voor zorgen dat het juiste schema als eerste overeenkomt door deze met behulp van de pijlknoppen omhoog te plaatsen in de lijst. </para>
+
+<para
+>U kunt ook een bestaand schema in de lijst bewerken, of uit de lijst verwijderen. Selecteer het schema en klik op de knop <guibutton
+>Wijzigen</guibutton
+> om het schema te veranderen, of de knop <guibutton
+>Verwijderen</guibutton
+> om het schema uit de lijst te verwijderen. </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>De dialoog Geavanceerd zoeken</title>
+<para>
+<screenshot>
+<screeninfo
+>De dialoog Geavanceerd zoeken</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Schermafdruk van de dialoog Geavanceerd zoeken.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>De dialoog Geavanceerd zoeken wordt gebruikt om <link linkend="juk-search-playlists"
+>Zoekafspeellijsten</link
+> aan te maken. Hiermee kunt u nauwkeurig zoeken aan de hand van de verschillende tags in uw collectie.</para>
+
+<para
+>In het veld bovenin de dialoog kunt u de naam van uw zoekafspeellijst invoeren. Daarna kunt u uw zoekcriteria definiëren in het <guilabel
+>Zoekcriteria</guilabel
+>-gedeelte. </para>
+
+<para
+>Bovenaan dit gedeelte ziet u twee keuzerondjes: <guilabel
+>Overeenkomend met één van de volgende</guilabel
+> en <guilabel
+>Overeenkomend met alle volgende</guilabel
+>. Als u de eerste kiest, dan zullen alle liederen die met een van de criteria overeenkomen ingesloten worden in de afspeellijst. Bij het tweede keuzerondje dienen de liederen overeen te komen met alle criteria voordat ze in de afspeellijst worden geplaatst. </para>
+
+<para
+>Onder de keuzerondjes kunt u de criteria instellen. U kunt meer condities toevoegen met de knop <guibutton
+>Meer</guibutton
+>, en condities verwijderen met de knop <guibutton
+>Minder</guibutton
+>. Elke conditie die u leeg laat zal worden genegeerd. U hoeft dus niet op de knop <guibutton
+>Minder</guibutton
+> te klikken om lege criteria weg te halen. </para>
+
+<para
+>Elke conditie heeft drie onderdelen: links ziet u een tagkiezer, rechts de overeenkomststijl, en in het midden de zoektekst. Bij de tagkiezer kunt u aangeven in welke tag de tekst gezocht dient te worden. Als u kiest voor "&lt;Alle zichtbare&gt;", dan wordt elke tag die in de collectielijst zichtbaar is gebruikt om de tekst in te zoeken. </para>
+
+<para
+>De overeenkomststijl bepaalt de manier waarop &juk; zal zoeken. U kunt de volgende zoekmethoden gebruiken: <variablelist>
+<varlistentry>
+<term
+>Normale overeenkomst</term>
+<listitem
+><para
+>Dit is de standaardmethode. Er wordt gezocht naar de opgegeven tekst in de gekozen tag, waarbij geen onderscheid wordt gemaakt tussen hoofd- en kleine letters. Bijvoorbeeld, als u zoekt naar "mode" in de Artiest-tag, dan kunt u "Depeche Mode" als overeenkomst krijgen.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Hoofdlettergevoelig</term>
+<listitem
+><para
+>Deze zoekmethode is hetzelfde als Normale overeenkomst, met als verschil dat er wel onderscheid wordt gemaakt tussen hoofd- en kleine letters.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Patroonovereenkomst</term>
+<listitem
+><para
+>Dit is de meest uitgebreide zoekmethode. De zoektekst die u invoert zal worden gebruikt als een reguliere expressie die in de tag zoekt. Reguliere expressies vallen buiten het bereik van deze documentatie, maar het programma &kregexpeditor; kan u helpen bij het samenstellen van een reguliere expressie. &juk; gebruikt de &Qt;-stijl voor reguliere expressies.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>Klik op de condities die u wilt insluiten in uw zoekopdracht en klik op <guibutton
+>OK</guibutton
+> om uw zoekafspeellijst aan te maken! </para>
+</sect1>
+<!-- is this still relevant?
+
+write new for kde4
+
+<sect1 id="juk-cover-manager">
+
+<title
+>The &juk; Cover Manager</title>
+
+<para
+>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>How Covers Worked in &juk; 2.2</title>
+
+<para
+>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel
+>Artist</guilabel
+> or <guilabel
+>Album</guilabel
+> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>How Covers work in &juk; 2.3</title>
+
+<para
+>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Examples of adding covers</title>
+
+<para
+>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote
+>Alabama - Greatest Hits III</quote
+> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice
+><guimenu
+>Tagger</guimenu
+> <guisubmenu
+>Cover Manager</guisubmenu
+> <guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis
+>all</emphasis
+> of the <quote
+>Alabama - Greatest Hits III</quote
+> tracks, <emphasis
+>whether you wanted that or not</emphasis
+>.</para>
+
+<para
+>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote
+>Alabama - Greatest Hits III</quote
+> tracks before using the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension"
+>.png</literal
+> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Reusing Old Covers</title>
+
+<para
+>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para
+>There are two ways of doing this:</para>
+
+<para
+>1. Open the <guilabel
+>Cover Manager</guilabel
+> dialog using the <guimenu
+>Tagger</guimenu
+> menu (<menuchoice
+><guimenu
+>Tagger Cover</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Show Cover Manager</guimenuitem
+></menuchoice
+>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para
+>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface
+>Now Playing bar</interface
+>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Dragging covers to more than one track at once</title>
+
+<para
+>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>What happens to my old covers?</title>
+
+<para
+>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para
+>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Removing Covers</title>
+
+<para
+>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+>.</para>
+
+<para
+>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Suggested Uses:</title>
+
+<para
+>1. You can now apply the same cover to tracks with Albums that have <quote
+>Disc 1</quote
+>, <quote
+>Disc 2</quote
+>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+-->
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>De werkbalk van &juk;</title>
+
+<sect1 id="main-toolbar">
+<title
+>De hoofdwerkbalk</title>
+
+<screenshot>
+<screeninfo
+>De hoofdwerkbalk van &juk;</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>De werkbalk van &juk;</phrase>
+</textobject>
+<caption
+><para
+>De werkbalk van &juk;</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Van links naar rechts in bovenstaande schermafdruk ziet u de volgende pictogrammen in de standaardwerkbalk:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Nieuw</guiicon
+></term>
+<listitem
+><para
+>Maakt een nieuwe afspeellijst aan. Als u de knop ingedrukt houdt verschijnt er een menu waarin u de verschillende typen afspeellijsten kunt selecteren. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>Lege afspeellijst...</guimenuitem
+></term>
+  <listitem
+><para
+>U wordt gevraagd om een afspeellijstnaam op te geven, waarna de lijst in de afspeellijstweergave wordt geplaatst. De lijst is verder leeg.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Afspeellijst op basis van map...</guimenuitem
+></term>
+  <listitem
+><para
+>U wordt gevraagd om de map op te geven, waarna een afspeellijst wordt aangemaakt die alle muziek uit die map en onderliggende mappen bevat. De naam van de aangemaakte afspeellijst is hetzelfde als die van de opgegeven map.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Zoekafspeellijst...</guimenuitem
+></term>
+  <listitem
+><para
+>Dit opent de dialoog Geavanceerd zoeken.  </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Openen</guiicon
+></term>
+<listitem
+><para
+>Voegt een bestand toe aan de collectielijst (indien actief), of aan de geopende afspeellijst. Als u een bestand toevoegt aan de afspeellijst wordt deze ook toegevoegd aan de collectielijst, maar niet vice versa.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Opslaan</guiicon
+></term>
+<listitem
+><para
+>Slaat de geselecteerde afspeellijst op. Als u de tag die u bewerkt hebt wilt opslaan, klik op een ander item, of gebruik te toetsencombinatie <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Knippen</guiicon
+></term>
+<listitem
+><para
+>Als een afspeellijst of lied is geselecteerd, dan knipt (verwijdert) deze optie het uit de lijst. Het bijhorende URL-adres wordt dan op het klembord geplaatst. Als de tagbewerker actief is, dan werkt het knippen zoals in een tekstverwerker: de geselecteerde tekst wordt naar het klembord verplaatst.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Kopiëren</guiicon
+></term>
+<listitem
+><para
+>Als de tagbewerker actief is, dan werkt dit zoals in elke tekstverwerker: de geselecteerde tekst wordt naar het klembord gekopieerd.</para>
+<para
+>Als u de menuoptie gebruikt om een lied in de collectielijst te kopiëren, dan wordt het bijhorende URL-adres naar het klembord gekopieerd. U kunt dit URL-adres dan plakken in een andere audiospeler, &konqueror; of een andere afspeellijst.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Plakken</guiicon
+></term>
+<listitem
+><para
+>Als u eerder een lied in de collectielijst hebt gekopieerd of geknipt, dan kunt u het op het klembord geplaatste URL-adres plakken in een nieuwe afspeellijst. U kunt op dezelfde wijze ook een URL-adres dat u hebt gekopieerd vanuit &konqueror; of een ander programma plakken. Als u bezig bent in de tagbewerker, dan plakt dit de klembordinhoud in het geselecteerde veld.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Zoekbalk tonen/verbergen</guiicon
+></term>
+<listitem
+><para
+>Toont of verbergt de <link linkend="search-bar"
+>zoekbalk</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Tagbewerker tonen/verbergen</guiicon
+></term>
+<listitem
+><para
+>Toont of verbergt de <link linkend="tagging-a-single-file"
+>tag-bewerker</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>Afspeelknoppen</term>
+<listitem>
+<para
+>Deze knoppen werken zoals op alle standaard mediaspelers die u kent. De knoppen zijn <guiicon
+>Afspelen</guiicon
+>, <guiicon
+>Pauzeren</guiicon
+>, <guiicon
+>Stoppen</guiicon
+>, <guiicon
+>Vorige</guiicon
+> en <guiicon
+>Volgende</guiicon
+>.</para>
+<para
+>Er is ook een schuifregelaar die aangeeft hoever (relatief) de track gevorderd is. U kunt deze schuifregelaar met de muis slepen om vooruit/achteruit in de track te gaan.</para>
+<para
+>Tot slot ziet u de volumeregelaar. Zoals u al verwacht kunt u hiermee het geluidsniveau regelen. <quote
+>Luid</quote
+> is aan de rechterkant, en <quote
+>Stil</quote
+> is aan de linkerkant.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>De zoekbalk</title>
+
+<para
+>Met de zoekbalk kunt u snel een lied opzoeken in de collectielijst of een afspeellijst.</para>
+
+<para
+>Door tekst in te voeren in de zoekbalk brengt u de zichtbare lijst met tracks terug tot de tracks die deze tekst bevatten in een van de zichtbare kolommen. Druk op de toets &Enter; om de eerste track in de afspeellijst af te spelen.</para>
+
+<para
+>Het zoeken begint onmiddellijk als u iets in het zoekveld typt. Het zoeken verloopt incrementeel, wat betekent dat bij elk teken dat u in het zoekveld intypt het aantal aantal overeenkomsten wordt verkleind. Dit is handig als u bijvoorbeeld slechts een gedeelte van een titel weet.</para>
+
+<!-- Not here in KDE 4.11
+<para
+>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
+-->
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Menu- en commandoreferentie</title>
+
+<sect1 id="menus">
+<title
+>Menu's</title>
+
+<sect2 id="menu-file">
+<title
+>Menu Bestand</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+><guisubmenu
+>Nieuw</guisubmenu
+><guimenuitem
+>Lege afspeellijst</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Maakt een nieuwe, lege afspeellijst aan</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+><guisubmenu
+>Nieuw</guisubmenu
+><guimenuitem
+>Zoekafspeellijst...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Maakt een nieuwe <link linkend="juk-search-playlists"
+>zoekafspeellijst</link
+> aan.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+><guisubmenu
+>Nieuw</guisubmenu
+><guimenuitem
+>Afspeellijst op basis van map...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Maakt een nieuwe afspeellijst aan die alle muziekbestanden bevat uit een opgegeven map en alle onderliggende mappen. Alle muziek in afspeellijstbestanden die &juk; kent zal ook worden toegevoegd.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Openen...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Selecteert een bestand of reeks bestanden om toe te voegen aan de collectielijst. Als u een afspeellijst selecteert, dan wordt elk bestand in deze lijst toegevoegd.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Mappen beheren...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dit menu-item opent hetzelfde venster dat wordt getoond bij een eerste keer opstarten van &juk; </para>
+<para
+>Selecteert een map of reeks mappen om toe te voegen aan de collectielijst. Deze mappen zullen bij elke start van &juk;, en als u menuoptie <menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Herladen</guimenuitem
+></menuchoice
+> wordt geselecteerd, opnieuw worden doorzocht.</para>
+<para
+>U kunt ook mappen selecteren die niet automatisch doorzocht moeten worden (die gaan boven de lijst te scannen mappen bij opstarten). Op deze manier kunt u vermijden dat &juk; automatisch songs pakt waarvan u niet wilt dat ze beheerd worden door &juk; en geen gevaar loopt dat uw indeling op schijf daardoor de war raakt. </para>
+<para>
+<screenshot>
+<screeninfo
+>Het dialoogvenster Mappen beheren</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Schermafdruk van de dialoog 'Mappen beheren'.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para
+>Als u bestanden wilt verwijderen die al in de verzameling staan, dan kunt u de kolom <guilabel
+>Bestandsnaam (volledig pad)</guilabel
+> in een afspeellijst inschakelen en dan de zoekbalk gebruiken om de padnaam die problemen veroorzaakt te selecteren en de getoonde bestanden te verwijderen. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Hernoemen...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Hernoemt een afspeellijst.</para>
+</listitem>
+</varlistentry>
+
+<!-- Edit Search... -->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Dupliceren...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Maakt een duplicaat aan van de geselecteerde afspeellijst. U zult gevraagd worden een nieuwe naam op te geven. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Herladen</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Herlaadt de taginformatie van elk bestand in de geselecteerde afspeellijst. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Verwijderen</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Verwijdert de geselecteerde afspeellijst.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Bestand</guimenu
+><guimenuitem
+>Opslaan</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Slaat de geselecteerde afspeellijst op de schijf op.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bestand</guimenu
+><guimenuitem
+>Opslaan als...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Slaat de geselecteerde afspeellijst op onder een andere naam.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>Menu Bewerken</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bewerken</guimenu
+><guimenuitem
+>Leegmaken</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Verwijdert de geselecteerde tracks uit de afspeellijst.</para>
+</listitem>
+</varlistentry>
+<!-- Undo Cut Copy Paste Clear Select All -->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>Menu Beeld</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Zoekbalk tonen/verbergen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Hiermee kunt u de <link linkend="search-bar"
+>Zoekbalk</link
+> laten tonen of verbergen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Tag-bewerker tonen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Hiermee kunt u de <interface
+>Tag-bewerker</interface
+> laten tonen of verbergen.</para>
+</listitem>
+</varlistentry>
+<!--Show Lyrics-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guimenuitem
+>Geschiedenis tonen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Hiermee kunt u de <link linkend="juk-history-playlists"
+>Geschiedenis-afspeellijst</link
+> laten tonen of verbergen.</para>
+</listitem>
+</varlistentry>
+
+<!-- missing
+Show Play Queue
+Show Columns
+Resize Playlist Columns Manually
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Weergavemodi</guisubmenu
+><guimenuitem
+>Standaard</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Zet de zijbalk in de <link linkend="juk-viewmode-default"
+>standaardweergave</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Weergavemodi</guisubmenu
+><guimenuitem
+>Compact</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Zet de zijbalk in de <link linkend="juk-viewmode-compact"
+>compacte weergave</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Beeld</guimenu
+><guisubmenu
+>Weergavemodi</guisubmenu
+><guimenuitem
+>Boomstructuur</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Zet de zijbalk in de <link linkend="juk-viewmode-tree"
+>boomstructuurweergave</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>Menu Speler</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Speler</guimenu
+><guimenuitem
+>Willekeurig afspelen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Hiermee kunt u het willekeurig afspelen van de tracks aan- of uitzetten. U kunt kiezen uit drie mogelijkheden: Willekeurig afspelen (de lijst wordt willekeurig afgespeeld), Album willekeurig afspelen (alle tracks in een album worden willekeurig afgespeeld) of Uitgeschakeld. Willekeurig afspelen houdt in dat &juk; telkens lukraak een andere track selecteert als het huidige lied is uitgespeeld. Door de willekeur kan het gebeuren dat een gekozen track al eens eerder is afgespeeld.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Speler</guimenu
+><guimenuitem
+>Afspeellijst herhalen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dit zet het herhalen van de afspeellijst aan of uit. Indien aangezet zal &juk; weer beginnen met het afspelen van de eerste track als elk lied uit de huidige afspeellijst is afgespeeld.</para>
+</listitem>
+</varlistentry>
+<!--
+Crossfade Between Tracks
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Speler</guimenu
+><guimenuitem
+>Afspelen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dit start het afspelen van de huidige track, of hervat het afspelen als deze was gepauzeerd.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Speler</guimenu
+><guimenuitem
+>Pauzeren</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie pauzeert het afspelen van de huidige track. Gebruik menuoptie Afspelen om verder te gaan.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Speler</guimenu
+><guimenuitem
+>Stoppen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie stopt het afspelen van de huidige track.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Speler</guimenu
+><guimenuitem
+>Volgende</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie gaat naar de volgende track in de afspeellijst.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Speler</guimenu
+><guimenuitem
+>Vorige</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie start het afspelen van de track die voor de huidige track werd afgespeeld.</para>
+</listitem>
+</varlistentry>
+<!--
+Play Next Album
+-->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>Menu Tagger</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Tagger</guimenu
+><guimenuitem
+>Opslaan</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie slaat alle wijzigingen in de tags die u hebt bewerkt op. Normaliter worden wijzigingen pas opgeslagen als u iets anders selecteert dan het bestand dat u hebt bewerkt.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tagger</guimenu
+><guimenuitem
+>Verwijderen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie verwijdert de geselecteerde bestanden uit de collectielijst, uit alle afspeellijsten waarin ze voorkomen, en van de harde schijf. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tagger</guimenu
+><guimenuitem
+>Verversen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dit commando stelt u in staat om de afspeellijsttags na wijziging te verversen. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Tagger</guimenu
+><guisubmenu
+>Tag-informatie raden</guisubmenu
+><guimenuitem
+>Uit bestandsnaam</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie probeert de tags van de geselecteerde bestanden aan de hand van diens bestandsnaam te raden. U kunt de patronen die hiervoor worden gebruikt instellen via <menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Tag-gissing...</guimenuitem
+></menuchoice
+>. De dialoog <link linkend="juk-tag-guesser-configuration"
+>Configuratie van tag-gisser</link
+> wordt dan geopend.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Tagger</guimenu
+><guisubmenu
+>Tag-informatie gissen</guisubmenu
+><guimenuitem
+>Van internet</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie probeert de tags van de geselecteerde bestanden te raden met behulp van de <application
+>TunePimp</application
+> bibliotheek die wordt aangeboden door <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+>.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Cover Manager
+  -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Tagger</guimenu
+><guimenuitem
+>Bestand hernoemen</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+  <para
+>Dit commando stelt u in staat om een bestand of een groep bestanden voor de geselecteerde songs in de afspeellijst. Alvorens het echte hernoemen gebeurt zal &juk; een dialoog met voorbeeld tonen waar u de actie kunt bevestigen of annuleren. </para>
+  <para
+>De bestanden zullen worden hernoemd volgens de parameters gedefinieerd met <link linkend="juk-rename-dialog"
+>Dialoogvenster bestanden hernoemen</link
+>. </para
+> 
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>Menu Instellingen</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+><guisubmenu
+>Getoonde werkbalken</guisubmenu
+> <guimenuitem
+>Hoofd / Afspeelwerkbalk</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie toont of verbergt de <link linkend="main-toolbar"
+>Hoofdwerkbalk</link
+> en de <link linkend="play-toolbar"
+>Afspeelwerkbalk</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>In systeemvak plaatsen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie bepaalt of &juk; een pictogram in uw systeemvak plaatst. U kunt dit pictogram gebruiken om na te gaan wat &juk; afspeelt, en het afspelen bedienen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>In systeemvak blijven bij afsluiten</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie bepaalt of &juk; blijft doordraaien in het systeemvak als u het hoofdvenster sluit. De optie <guimenuitem
+>In systeemvak plaatsen</guimenuitem
+> dient aangezet te zijn. Om &juk; te beëindigen kiest u menu-optie <menuchoice
+><guimenu
+>Bestand</guimenu
+> <guimenuitem
+>Afsluiten</guimenuitem
+></menuchoice
+> in het hoofdvenster of menuoptie <guimenuitem
+>Afsluiten</guimenuitem
+> in het contextmenu van het systeemvakpictogram.</para>
+<para
+>Als &juk; is opgestart wanneer het is ingesteld om in het systeemvak te worden geplaatst bij opstarten, zal er een eenvoudige melding worden getoond (omdat anders de gebruiker zich af kan vragen waarom het venster van &juk; zich niet opende). Het is mogelijk om deze extra melding te verwijderen door naar <menuchoice
+><guimenu
+>Algemeen uiterlijk en gedrag</guimenu
+> <guimenuitem
+>Toepassingen en systeemmeldingen</guimenuitem
+></menuchoice
+> in &systemsettings; te gaan om de meldingen van de toepassing <guilabel
+>JuK muziekspeler</guilabel
+> te beheren. Deactiveer het item <guilabel
+>Een melding in een pop-upvenster tonen</guilabel
+> voor <guimenuitem
+>JuK actief in systeemvak</guimenuitem
+>. Meer informatie over instellingen van meldingen van &kde; is te <ulink url="help:/kcontrol/kcmnotify"
+>hier</ulink
+> te vinden. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Trackaankondiging tonen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie bepaalt of &juk; een indicatie toont als een lied begint met afspelen. De indicatie bevat informatie over de artiest en titel, en twee knoppen waarmee u snel naar een andere track kunt gaan. Menuoptie "In systeemvak plaatsen" dient actief te zijn voor deze functie.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Tag-gissing...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie opent de dialoog <link linkend="juk-tag-guesser-configuration"
+>Configuratie van tag-gisser</link
+>. Hier kunt u de patronen wijzigen die worden gebruikt voor het raden van taginformatie aan de hand van bestandsnamen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Instellingen</guimenu
+> <guimenuitem
+>Bestandshernoeming...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Deze menuoptie opent de dialoog <link linkend="juk-rename-dialog"
+>Instellingen voor bestandshernoeming</link
+>. Hier kunt u de wijze waarop &juk; de bestanden voor u hernoemt.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Configure scrobbling
+  -->
+</variablelist>
+
+<para
+>Bovendien heeft &juk; de gezamenlijke menu-items van &kde; <guimenu
+>Instellingen</guimenu
+> en <guimenu
+>Help</guimenu
+>, voor meer informatie lees de secties over de <ulink url="help:/fundamentals/menus.html#menus-settings"
+>Menu-instellingen</ulink
+> en <ulink url="help:/fundamentals/menus.html#menus-help"
+>Menu Help</ulink
+> van &kde;-fundamentals. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Sneltoetsenreferentie</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>Toetsencombinatie</entry>
+<entry
+>Actie</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>Alles selecteren</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Kopiëren</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>Bestand hernoemen</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>Tags met behulp van internet raden.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Tags aan de hand van de bestandsnaam raden.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>Nieuwe <link linkend="juk-search-playlists"
+>zoekafspeellijst</link
+>.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Nieuwe lege afspeellijst</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>Nieuwe afspeellijst op basis van een map.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>Wijzigingen in bewerkte tags opslaan.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>Dankbetuigingen en licentie</title>
+
+<para
+>&juk; Copyright &copy; 2002-2013 &Scott.Wheeler;, Michael Pyne en anderen. </para>
+
+ <para
+>&juk; wordt ontwikkeld en onderhouden door &Scott.Wheeler; &Scott.Wheeler.mail; en Michael Pyne <email
+>michael.pyne@kdemail.net</email
+>.</para>
+
+<para
+>We willen de volgende personen hartelijk bedanken voor hun bijdrage aan &juk;:</para>
+
+<itemizedlist>
+<listitem
+><para
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; voor het systeemvakpictogram, <quote
+>inline</quote
+> bewerken van tags, bugreparaties, evangelisme en morele ondersteuning.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> voor de overdracht naar <application
+>GStreamer</application
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Stefan Asserh&auml;ll <email
+>stefan.asserhall@telia.com</email
+> voor ondersteuning van globale sneltoetsen.</para>
+</listitem>
+
+<listitem
+><para
+>Stephen Douglas <email
+>stephen_douglas@yahoo.com</email
+> voor de trackaankondigingen.</para>
+</listitem>
+
+<listitem
+><para
+>&Frerich.Raabe; &Frerich.Raabe.mail; automagische trackgegevens-gissing, en bugreparaties.</para>
+</listitem>
+
+<listitem
+><para
+>Zack Rusin <email
+>zack@kde.org</email
+> voor de meer automagische zaken, inclusief ondersteuning voor MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Adam Treat <email
+>manyoso@yahoo.com</email
+>voor het medesamenzweren in de MusicBrainz-tovenarij.</para>
+</listitem>
+
+<listitem
+><para
+>Matthias Kretz <email
+>kretz@kde.org</email
+> omdat hij een vriendelijke &arts;-goeroe uit de buurt was.</para>
+</listitem>
+
+<listitem
+><para
+>Maks Orlovich <email
+>maksim@kde.org</email
+> voor het vriendelijker maken van &juk; voor gebruikers met enkele terabytes aan muziek.</para>
+</listitem>
+
+<listitem
+><para
+>Antonio Larrosa Jimenez <email
+>larrosa@kde.org</email
+> voor de DCOP-interface.</para>
+</listitem>
+
+<listitem
+><para
+>Allan Sandfield Jensen <email
+>kde@carewolf.com</email
+> voor de  ondersteuning van <acronym
+>FLAC</acronym
+> en <acronym
+>MPC</acronym
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Nathan Toone <email
+>nathan@toonetown.com</email
+> voor de beheerder van albumhoezen.</para>
+</listitem>
+
+<listitem
+><para
+>Pascal Klein <email
+>4pascal@tpg.com.au</email
+> voor het opstartscherm.</para>
+</listitem>
+
+<listitem
+><para
+>Laurent Montel <email
+>montel@kde.org</email
+> voor het overbrengen naar &kde; 4 toen er niemand anders was.</para>
+</listitem>
+
+<listitem
+><para
+>Georg Grabler <email
+>georg@grabler.net</email
+> voor de inspanningen voor het overbrengen naar het &kde; Platform.</para>
+</listitem>
+
+<listitem
+><para
+>Martin Sandsmark <email
+>martin.sandsmark@kde.org</email
+> voor de ondersteuning van Last.fm scrobbling, lyrics, prepping voor &kde; Frameworks.</para>
+</listitem>
+
+<listitem
+><para
+>Eike Hein <email
+>hein@kde.org</email
+> voor de implementatie van het MPRIS2 interface.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Documentation Copyright &copy; 2003, &Lauri.Watts;, en copyright &copy; 2004-2013 Michael Pyne.</para>
+
+&meld.fouten; &vertaling.rinse; &vertaling.kristof; &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->

@@ -1,0 +1,2505 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % French "INCLUDE">
+]>
+
+<book id="juk" lang="&language;">
+
+<bookinfo>
+<title
+>Manuel de &juk;</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Pyne</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+&traducteurRobertJacolin;&traducteurLudovicGrossard;&relecteurLudovicGrossard; 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>&Scott.Wheeler;</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>08/11/2013</date>
+<releaseinfo
+>3.11 (&kde; 4.12)</releaseinfo>
+
+<abstract>
+<para
+>&juk; est un juke-box, un éditeur d'étiquettes et un gestionnaire de discothèque. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+<keyword
+>audio</keyword>
+<keyword
+>éditeur d'étiquettes</keyword>
+<keyword
+>lecteur</keyword>
+<keyword
+>juke-box</keyword>
+<keyword
+>JuK</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introduction</title>
+
+<para
+>&juk; est un vrai juke-box. Comme la plupart des applications juke-box, &juk; vous permet de modifier les <quote
+>étiquettes</quote
+> de vos fichiers audio et de gérer votre collection et vos listes de lecture. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>Utiliser &juk;</title>
+
+<para>
+<screenshot>
+<screeninfo
+>Voici une capture d'écran de &juk;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Capture d'écran de &juk; en action.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>&juk; maintient une liste de tous les fichiers qu'il connaît. On appelle cela la <guilabel
+>liste de collection</guilabel
+>. La liste de collection est spécifique à &juk; et elle n'est pas partagée avec d'autres applications.</para>
+
+<para
+>Indépendamment des listes de collections, il y a les listes de lecture. Vous pouvez avoir autant de listes de lecture que vous le désirez. Vous pouvez utiliser les listes de lecture créées à partir de &juk; avec d'autres lecteurs multimédia (tels que &amarok; ou <application
+>xmms</application
+>) et vous pouvez gérer les listes de lecture créées dans ces applications avec &juk;.</para>
+
+<para
+>Vous pouvez ajouter séparément des fichiers à la collection, en utilisant le menu <menuchoice
+><guimenu
+>Fichier</guimenu
+><guimenuitem
+>Ouvrir...</guimenuitem
+></menuchoice
+> et en les sélectionnant dans une boîte de dialogue de fichier &kde; standard. Vous pouvez ajouter des dossiers en entier en utilisant le menu <menuchoice
+><guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Gérer les dossiers...</guimenuitem
+></menuchoice
+>. Les dossiers ajoutés de cette manière seront analysés de nouveau lors de chaque démarrage de &juk;. Vous pouvez même définir les dossiers à l'intérieur de ces dossiers qui seront exclus de l'analyse. Vous pouvez forcer l'analyse de ces dossiers en cliquant avec le bouton droit de la souris sur l'icône <guilabel
+>Liste de collection</guilabel
+>, et en choisissant <guimenuitem
+>Recharger</guimenuitem
+>.</para>
+
+<para
+>L'insertion d'une chanson dans une liste de lecture l'ajoutera automatiquement à la liste de collection, en revanche l'insertion d'un fichier à la liste de collections ne l'ajoutera pas automatiquement à une quelconque liste de lecture.</para>
+
+<para
+>Vous pouvez créer rapidement une liste de lecture à partir de la liste de collections complète par un clic du &BDS; sur l'icône <guilabel
+>Liste de collection</guilabel
+> et en choisissant <guimenuitem
+>Dupliquer...</guimenuitem
+>. La liste de lecture qui en résulte est une liste normale et sa modification n'affectera pas la <guilabel
+>liste de collection</guilabel
+>.</para>
+
+<para
+>Vous pouvez ajouter des fichiers de listes de lecture créées en dehors de &juk; séparément en les sélectionnant avec <menuchoice
+><guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Ouvrir...</guimenuitem
+></menuchoice
+>. Tous les fichiers de listes de lecture trouvés dans les dossiers que vous ajoutez avec <menuchoice
+><guimenu
+>Fichier</guimenu
+><guimenuitem
+>Gérer les dossiers...</guimenuitem
+></menuchoice
+> seront aussi ajoutés automatiquement.</para>
+
+<para
+>Vous pouvez créer une nouvelle liste de lecture vide, une liste de lecture à partir d'une recherche, ou une liste de lecture à partir d'un dossier. Pour cela, choisissez <menuchoice
+><guimenu
+>Fichier</guimenu
+><guisubmenu
+>Nouvelle</guisubmenu
+></menuchoice
+> ou l'icône <guiicon
+>Nouvelle</guiicon
+> de la barre d'outils. Il vous sera demandé un nom puis une icône pour que la liste de lecture apparaissent dans le panneau des listes de lecture. Vous pouvez alors déplacer et lâcher des fichiers de la liste de collection vers votre liste de lecture. Utilisez l'icône <guiicon
+>Enregistrer</guiicon
+> ou le menu <menuchoice
+><guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer</guimenuitem
+></menuchoice
+> pour enregistrer la liste de lecture n'importe quand.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>La liste des chansons</title>
+
+<para
+>Lorsque vous affichez la liste de collection, le panneau principal contient tous les fichiers que &juk; connaît. Lorsque vous affichez une liste de lecture, seules les chansons qui sont dans la liste sont affichées. Dans tous les cas, l'apparence et le comportement de la liste sont identiques.</para>
+
+<para
+>Chaque chanson prend une ligne à l'affichage. Il y a une colonne pour chaque champ de données que &juk; suit. Ces colonnes correspondent aux champs modifiables dans l'éditeur d'étiquettes.</para>
+
+<para
+>Vous pouvez changer l'ordre de la liste n'importe quand en cliquant avec le &BGS; sur le titre de la colonne. Les fichiers seront ordonnés d'abord par ordre croissant par rapport au contenu de cette colonne. Si vous cliquez à nouveau avec le &BGS; sur le même titre, les fichiers seront ordonnés dans l'ordre décroissant.</para>
+
+<para
+>Les colonnes sont d'abord dimensionnées avec une largeur suffisante pour afficher la chaîne la plus longue. Vous pouvez redimensionner les colonnes en plaçant le pointeur de votre souris sur la séparation entre deux colonnes. Lorsque la forme du pointeur change, appuyez avec le &BGS; et déplacez-le dans la direction que vous désirez pour redimensionner les colonnes.</para>
+
+<para
+>Vous pouvez modifier l'ordre des colonnes en appuyant avec le &BGS; sur une étiquette et en déplaçant l'étiquette vers la gauche ou la droite. Cependant, si vous procédez ainsi, vous ne pouvez pas la déplacer après le bord de la fenêtre. Ainsi, il vous faut déplacer la vue un peu à gauche ou à droite puis répéter le déplacement de l'étiquette jusqu'à ce que vous puissiez la mettre à l'endroit désiré.</para>
+
+<para
+>Vous pouvez masquer ou afficher une colonne en cliquant avec le &BDS; sur une étiquette de colonne, puis en cliquant sur le nom de la colonne à modifier.</para>
+
+<para
+>Un double-clic avec le &BGS; sur un fichier le fera lire par le lecteur interne. Si une autre chanson était déjà jouée, elle sera arrêtée puis la nouvelle sera jouée.</para>
+
+<para
+>Un clic avec le &BDS; sur un fichier vous offre plusieurs options :</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>Ajouter à la file de lecture</guimenuitem
+></term>
+<listitem>
+<para
+>Le fichier sera lu dès la fin de la lecture de la chanson actuelle. Si aucune chanson n'est en cours de lecture, le fichier sera lu lorsque vous cliquez sur le bouton <guiicon
+>Lire</guiicon
+>. Si vous aviez déjà choisi l'option <guimenuitem
+>Ajouter à la file de lecture</guimenuitem
+> sur un autre fichier, alors ce fichier remplacera votre précédente sélection.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Couper</guimenuitem
+></term>
+<term
+><guimenuitem
+>Copier</guimenuitem
+></term>
+<term
+><guimenuitem
+>Coller</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Enlever de la liste de lecture</guimenuitem
+></term>
+<listitem>
+<para
+>Si vous affichez la liste de collection, le fait de choisir cette action enlèvera le fichier de la liste et supprimera aussi les éléments correspondant de toutes les listes de lecture. Remarquez que si ce fichier est dans un dossier analysé par &juk;, il sera ajouté à nouveau à la liste de collections la prochaine fois que vous démarrerez &juk; mais il ne sera pas ajouté automatiquement à une quelconque liste de lecture.</para>
+<para
+>Si vous affichez une liste de lecture, <guimenuitem
+>Enlever de la liste de lecture</guimenuitem
+> enlèvera simplement la chanson de la liste de lecture.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Modifier <replaceable
+>nom de la colonne</replaceable
+></guimenuitem
+></term>
+<listitem>
+<para
+>Vous permettra de modifier la colonne sur laquelle vous avez cliqué pour la chanson en surbrillance. Par exemple, si l'éditeur d'étiquettes n'est pas visible, que vous êtes occupé à créer une liste de lecture et que vous remarquez une faute d'orthographe dans le nom d'un artiste, vous pouvez le modifier directement avec cet élément de menu.</para>
+<para
+>Les modifications effectuées de cette manière sont toujours enregistrées immédiatement dès lors que vous avez cliqué ailleurs et que vous avez terminé d'effectuer la modification.</para>
+<para
+>Cet élément de menu sera désactivé si &juk; détecte que la piste choisie est en lecture seule.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Rafraîchir</guimenuitem
+></term>
+<listitem>
+<para
+>Rechargera les étiquettes d'informations pour les fichiers choisis, au cas où les fichiers ont changé depuis le lancement de &juk;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Supprimer</guimenuitem
+></term>
+<listitem>
+<para
+>Cette action supprimera le fichier de la liste de collection, supprimera tous les éléments de la chanson dans toutes les listes de lecture et effacera le fichier sur le disque. Vous ne pouvez pas l'annuler, mais on vous demandera de confirmer votre choix. Utilisez cette action avec précaution.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>Deviner les informations de l'étiquette</guisubmenu
+></term>
+<listitem>
+<para
+>&juk; tentera de deviner des informations telles que le nom de l'artiste ou le titre de la chanson. &juk; emploie pour cela différentes méthodes :  <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>À partir du nom du fichier</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; essaiera de deviner les étiquettes de la chanson en se basant sur le nom du fichier. Par exemple, pour une chanson comme <filename
+>Roxette - You've Got the Look.mp3</filename
+>, le nom de l'artiste serait Roxette et le titre <foreignphrase
+>You've Got the Look</foreignphrase
+>. Vous pouvez régler la façon dont &juk; devine les étiquettes en choisissant <menuchoice
+><guimenu
+>Configuration</guimenu
+><guimenuitem
+>Devineur de étiquettes...</guimenuitem
+></menuchoice
+>. Ceci ouvrira la <link linkend="juk-tag-guesser-configuration"
+>boîte de dialogue de configuration du devineur d'étiquettes</link
+>. &juk; ne remplacera pas les étiquettes pour lesquelles il n'a rien trouvé à partir du nom du fichier.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>À partir d'Internet</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; tentera de deviner les étiquettes de la chanson en utilisant le programme MusicBrainz. Ce programme doit être installé pour que cette commande fonctionne. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Renommer le fichier</guimenuitem
+></term>
+<listitem>
+<para
+>Ceci renommera les fichiers choisis pour se conformer à un format donné. Vous devez d'abord choisir la façon dont vous voulez renommer les fichiers en sélectionnant <menuchoice
+><guimenu
+>Configuration</guimenu
+><guimenuitem
+>Outil de renommage de fichier...</guimenuitem
+></menuchoice
+>. Le nom résultant pour chaque fichier est fondé sur ces étiquettes de méta-données. Par exemple, la chanson Ogg Vorbis <quote
+>The Theme (Metroid)</quote
+> par Stemage pourrait donner <filename
+>/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
+>. </para>
+</listitem>
+</varlistentry>
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
+<varlistentry>
+<term
+><guimenuitem
+>Créer une liste de lecture à partir des éléments choisis...</guimenuitem
+></term>
+<listitem>
+<para
+>Ceci vous permet de créer rapidement une liste de lecture à partir des chansons de votre liste de collection. Cette fonction vous demandera un nom pour la nouvelle liste de lecture, et insérera alors toutes les chansons que vous avez choisi dans cette nouvelle liste de lecture.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Ajouter les éléments sélectionnés à un CD audio ou à un CD de données</guimenuitem
+></term>
+<listitem>
+<para
+>Ceci vous permet de créer rapidement un projet de gravure de &CD; K3b à partir des chansons sélectionnées. &juk; vous demandera si vous préférez un projet de CD audio ou un projet de CD de données, à moins que K3b ait déjà un projet d'ouvert.</para>
+
+<para
+>Si K3b ne fonctionne pas encore, &juk; le démarrera pour vous. Après cela, &juk; ajoutera vos fichiers sélectionnés au projet K3b en cours. Vous pouvez alors enregistrer ce projet dans K3b pour graver plus tard, ou graver le &CD; tout de suite. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+>Listes de lecture de &juk;</title>
+<para
+>Une liste de lecture est simplement une collection de chansons groupées par catégories. Par exemple, vous pouvez avoir une liste de lecture de chansons que vous écoutez quand vous programmez, quand vous essayez de dormir, ou même quand vous avez besoin de rire. &juk; gère différents types de listes de lecture. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>Listes de lecture normales</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> C'est le type de listes de lecture le plus commun. Il s'agit d'une liste de lecture composée de fichiers, tout comme la liste de collection.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>La liste de lecture historique</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> Si vous activez cette liste de lecture (en activant <menuchoice
+><guimenu
+>Affichage</guimenu
+><guimenuitem
+>Afficher l'historique</guimenuitem
+></menuchoice
+>), cette liste de lecture enregistrera chaque chanson jouée par &juk;. Cette liste de lecture aura une colonne supplémentaire, <guilabel
+>Date</guilabel
+>, qui enregistre la date et l'heure exacte à laquelle la chanson a été lue. Cependant, cette liste de lecture ne suit l'historique que si elle a été activée. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>Listes de lecture de recherche</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> Il s'agit d'une liste de lecture fondée sur une recherche. Vous pouvez créer une telle liste de lecture en cliquant sur <menuchoice
+><guimenu
+>Fichier</guimenu
+><guisubmenu
+>Nouveau</guisubmenu
+><guimenuitem
+>Listes de lecture à partir d'une recherche</guimenuitem
+></menuchoice
+>, ou en cliquant sur le bouton <link linkend="juk-advanced-search-dialog"
+>Liste de lecture à partir d'une recherche</link
+> dans la barre d'outils.</para>
+<para
+>Après avoir créé cette liste de lecture, celle-ci conservera une trace des chansons de la liste de collection correspondant à votre critère de recherche, et se mettra à jour automatiquement lors des modifications de la liste de collections.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>Les listes de lecture sont organisées dans le <guilabel
+>panneau des listes de lecture</guilabel
+>, la barre verticale qui se situe à gauche. Dans ce panneau, vous avez une icône par liste de lecture. Il y a différents modes d'affichage, qui peuvent être sélectionnés par le menu <menuchoice
+><guimenu
+>Affichage</guimenu
+><guisubmenu
+>Modes d'affichage</guisubmenu
+></menuchoice
+>. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+>Mode d'affichage par défaut</term>
+<listitem>
+<para
+>Dans ce mode, toutes les listes de lecture sont affichées avec de grandes icônes, les unes au-dessus des autres. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+>Mode d'affichage compact</term>
+<listitem>
+<para
+>Ce mode est similaire au mode d'affichage normal, à l'exception près que les listes de lecture sont représentées sous forme de barres horizontales avec de petites icônes au lieu de boîtes rectangulaires. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+>Mode d'affichage arborescent</term>
+<listitem>
+<para
+>Ce mode d'affichage est le plus puissant. Il est similaire au mode d'affichage compact, sauf que la liste de collection est maintenant la racine d'un arbre de listes de lectures virtuelles. La liste de collection a trois nœuds enfants, Artistes, Albums et Styles. Chacun de ces nœuds a un enfant représentant toutes les entrées de cette catégorie spécifique. Par exemple, si votre liste de collections contient de la musique de quatre artistes différents, vous aurez quatre entrées sous le nœud Artistes.</para>
+<para
+>Une caractéristique pratique du mode d'affichage arborescent est le re-étiquetage par glisser-déposer. Sélectionnez simplement des fichiers dans la liste des pistes, et déposez-les sur un des nœuds artistes, albums ou styles dans la liste de collections. Les chansons seront automatiquement étiquetées pour correspondre à l'élément sur lequel vous avez déposé les pistes. Par exemple, si vous glissez un groupe de pistes sur le style « Rock », toutes les pistes seront étiquetées avec la balise style à Rock. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>L'éditeur d'étiquettes de &juk;</title>
+
+<para
+>Pour la plupart des formats de fichier, il est très pratique d'utiliser le nom de fichier pour décrire le contenu du fichier : <quote
+><filename
+>Rapport du conseil d'administration - juin 2003.doc</filename
+></quote
+> par exemple, contient certainement toutes les informations nécessaires pour retrouver ce fichier. Tenter de recevoir toutes les informations utiles d'une chanson, cependant, peut compliquer les noms de fichier comme : <quote
+><filename
+>Type O Négative - La glorieuse libération de la république technocratique des peuples de Vinnland par Les forces combinées des territoires unis d'Europe.mp3</filename
+></quote
+> ou <quote
+> <filename
+>Artistes divers_15_La collection Simthsonienne du classique du jazz Volume II_jimmie Lunceford &amp; son orchestre - Organ Grinder's Swing.mp3</filename
+></quote
+>. Ils ne sont ni très pratiques à utiliser, ni ne contiennent toutes les informations utiles que vous avez collecté sur la chanson. L'insertion de l'album et du numéro de la piste, par exemple, en début le rendrait plus long et encore plus illisible, alors qu'ils ne déterminent pas d'un seul coup d'œil l'année où la chanson a été éditée, ou son style de musique, si vous ne connaissez pas bien l'artiste.</para>
+
+<para
+>Ainsi, la solution est de conserver ce genre de données générales dans les fichiers eux-mêmes. Les fichiers Mp3 et ogg peuvent aussi contenir de petits extraits de texte que vous utilisez pour décrire le contenu du fichier. Il existe plusieurs formats, mais &juk; cache les détails de ces différences et fournit une manière standard de modifier un sous-ensemble standard d'en-têtes bien connues pour tous les fichiers audio.</para>
+
+<para
+>L'éditeur d'étiquettes de &juk;, contenant toutes les fonctionnalités nécessaires, vous permet de modifier les étiquettes à la fois dans les fichiers mp3 et les fichiers ogg. Vous pouvez modifier des fichiers un à un ou simultanément et vous pouvez choisir un ensemble de fichiers mp3 et ogg à modifier. La seule chose nécessaire est d'avoir l'accès en écriture sur les fichiers eux-mêmes. Vous ne pouvez pas modifier les étiquettes d'un fichier monté sur un &CD-ROM; par exemple.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Modifier les étiquettes d'un unique fichier</title>
+
+<para
+>Pour modifier l'étiquette d'un unique fichier, sélectionnez-le soit dans la liste de collections soit n'importe quelle entrée dans la liste de lecture. Si l'éditeur d'étiquettes n'est pas visible, activez-le en choisissant le menu <menuchoice
+><guimenu
+>Affichage</guimenu
+><guimenuitem
+>Afficher l'éditeur d'étiquettes</guimenuitem
+></menuchoice
+>. L'éditeur d'étiquettes est affiché au bas de la vue de liste.</para>
+
+<para
+>Il suffit de saisir du texte dans n'importe quel champ modifiable pour changer les informations. Lorsque cela est fait, cliquez avec le &BGS; dans la liste et il vous sera demandé d'enregistrer vos modifications.</para>
+
+<para
+>Il est possible que l'éditeur d'étiquettes reste désactivé lorsque vous cliquez sur un fichier. Ceci se produit lorsque &juk; a détecté que la piste est en lecture seule.</para>
+
+<variablelist>
+<title
+>Les champs de l'éditeur d'étiquettes</title>
+<varlistentry>
+<term
+><guilabel
+>Nom de l'artiste :</guilabel
+></term>
+<listitem>
+<para
+>Le nom du ou des artiste(s) qui ont participé à la chanson.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nom de la piste :</guilabel
+></term>
+<listitem>
+<para
+>Le nom de la chanson.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nom de l'album :</guilabel
+></term>
+<listitem>
+<para
+>Le nom de l'album où la chanson est sortie.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Style :</guilabel
+></term>
+<listitem>
+<para
+>Le <quote
+>style</quote
+> de musique. &juk; fournit une liste qui correspond approximativement au standard informel id3, mais vous êtes libre de saisir votre propre style dans la liste.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nom du fichier :</guilabel
+></term>
+<listitem>
+<para
+>Le nom du fichier actuel sur le disque. Vous pouvez le modifier directement et lorsque vous enregistrerez, le fichier sera renommé.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Piste :</guilabel
+></term>
+<listitem>
+<para
+>La position de la piste dans l'enregistrement original.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Année :</guilabel
+></term>
+<listitem>
+<para
+>L'année de la sortie de l'album.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Durée :</guilabel
+></term>
+<listitem>
+<para
+>Elle n'est pas modifiable, elle est simplement affiché à titre indicatif.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Débit :</guilabel
+></term>
+<listitem>
+<para
+>Elle n'est pas modifiable, elle est simplement affiché à titre indicatif.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Commentaire :</guilabel
+></term>
+<listitem>
+<para
+>Vous pouvez ajouter ici votre propre commentaire libre, avec des notes additionnelles, &etc;</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Vous pouvez enregistrer vos modifications de façon explicite et immédiatement n'importe quand en utilisant l'élément de menu <menuchoice
+><guimenu
+>Éditeur d'étiquettes</guimenu
+><guimenuitem
+>Enregistrer</guimenuitem
+></menuchoice
+> ou en pressant <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Modification d'étiquettes dans plusieurs fichiers</title>
+
+<para
+>Vous pouvez sélectionner plusieurs fichiers dans la vue liste et modifier un ou plusieurs champs dans les étiquettes pour tous les fichiers simultanément.</para>
+
+<para
+>Utilisez &Maj;; et le &BGS; pour choisir une liste continue de fichiers et &Ctrl; et &BGS; pour sélectionner un par un des fichiers non-contigus.</para>
+
+<para
+>Si l'éditeur d'étiquettes n'est pas visible, vous pouvez l'activer en choisissant le menu <menuchoice
+><guimenu
+>Affichage</guimenu
+><guimenuitem
+>Afficher l'éditeur d'étiquettes</guimenuitem
+></menuchoice
+>. L'éditeur d'étiquettes est affiché en dessous de la vue liste.</para>
+
+<para
+>L'éditeur d'étiquettes se comporte de façon légèrement différente lorsque vous avez sélectionné plusieurs fichiers.</para>
+
+<para
+>Chaque champ de l'éditeur d'étiquettes affichera maintenant une case à cocher <guilabel
+>d'activation</guilabel
+> à son côté. Tout champ qui a exactement le même contenu pour tous les fichiers sélectionnés affiche ce contenu, et est activé pour être modifié, la case <guilabel
+>d'activation</guilabel
+> étant cochée.</para>
+
+<!-- put screeny here -->
+
+<para
+>Tout champ dont le contenu n'est pas le même pour tous les fichiers n'est pas modifiable initialement, et n'affiche pas de contenu du tout.</para>
+
+<para
+>Pour modifier le contenu d'un champ, cochez la case <guilabel
+>d'activation</guilabel
+> si elle ne l'est pas encore, et modifiez le champ comme vous l'auriez fait normalement.</para>
+
+<para
+>Lorsque c'est terminé, cliquez avec le &BGS; dans la liste d'affichage et on vous demandera d'enregistrer vos modifications. La boîte de dialogue vous affichera la liste des fichiers affectés, afin que vous puissiez vérifier que vous altérez effectivement les fichiers choisis.</para>
+
+<para
+>Vous pouvez enregistrer vos modifications de façon explicite et immédiatement n'importe quand en utilisant l'élément de menu <menuchoice
+><guimenu
+>Éditeur d'étiquettes</guimenu
+><guimenuitem
+>Enregistrer</guimenuitem
+></menuchoice
+> ou en pressant <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>La boîte de dialogue pour renommer les fichiers</title>
+<para>
+<screenshot>
+<screeninfo
+>La boîte de dialogue de renommage de fichier</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>La boîte de dialogue de renommage de fichier.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>La boîte de dialogue de l'outil de renommage de fichier est utilisée pour configurer le comportement de cet outil, qui renomme une chanson en fonction des informations contenues dans ses étiquettes de méta-données. </para>
+<para
+>L'outil de renommage de fichiers est utilisé pour obtenir des noms de fichiers cohérents dans votre collection de musique (y compris le déplacement de fichiers si nécessaire). Par exemple, vous pouvez avoir quelques morceaux qui apparaissent sur le disque comme <filename
+>01 - Title.mp3</filename
+> si vous les avez obtenus depuis <ulink url="http://amazon.com"
+>Amazon</ulink
+>, tandis que des morceaux provenant de <ulink url="http://ocremix.org/"
+>OCRemix</ulink
+> se nommeront <filename
+>Ailsean- Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename
+> ou quelque chose comme ça. </para>
+<para
+>En utilisant l'outil de renommage, vous permettez à &juk; de renommer ces morceaux en quelque chose de plus <quote
+>sain</quote
+> sur le disque, comme par exemple <filename
+>Ailsean - Mega Fire.mp3</filename
+> et <filename
+>The Strokes - Reptilia.mp3</filename
+>. Vous pouvez même inclure les emplacements pour trier automatiquement la musique (&pex; par année ou album), comme <filename
+>$HOME/Music/2003/The Strokes - Reptilia.mp3</filename
+>. </para>
+<para
+>Faire ceci est aussi simple que d'activer l'action <quote
+>Renommer le fichier</quote
+>, soit depuis le menu <guimenu
+>Éditeur d'en-tête</guimenu
+>, ou avec un clic droit sur les fichiers. Le raccourci clavier par défaut est <keycombo
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+>. Mais avant tout, vous devez configurer la façon dont les fichiers seront renommés. </para>
+<para
+>Ceci se fait depuis la boîte de dialogue mentionnée précédemment, qui peut être ouverte avec l'élément de menu <menuchoice
+><guimenu
+>Configuration</guimenu
+><guimenuitem
+>Outil de renommage des fichiers...</guimenuitem
+></menuchoice
+>. Vous pouvez définir un emplacement en utilisant un dossier de musique de base, puis y ajouter des éléments. Ces éléments doivent être fondés sur les métadonnées des morceaux de musique, comme le titre du morceau, l'artiste, &etc; et sont ajoutés en utilisant le bouton <guilabel
+>Ajouter une catégorie</guilabel
+> </para>
+<para
+>Chaque élément dispose d'une case à cocher, permettant d'ajouter un séparateur de dossier. </para>
+<para
+>Les options pour chaque élément, qui contrôlent simplement ce qu'il se passe lorsque la métadonnée appropriée est vide et permettent un préfixe / suffixe lorsque l'élément est substitué, peuvent vous aider à rendre la procédure de renommage plus efficace. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>La boîte de dialogue de configuration du devineur d'étiquettes</title>
+<para>
+<screenshot>
+<screeninfo
+>La boîte de dialogue de configuration du devineur d'étiquettes</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Capture d'écran de la boîte de dialogue de configuration du devineur d'étiquettes.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>La boîte de dialogue de configuration de <guilabel
+>l'outil d'analyse de l'en-tête</guilabel
+> est utilisée pour configurer la commande servant à deviner les étiquettes à partir du nom du fichier.</para>
+
+<para
+>Dans la boîte de dialogue, vous verrez une liste à gauche contenant différents motifs de noms de fichiers. &juk; inclut un grand nombre de motifs par défaut, correspondants aux styles de noms de fichiers courants. Si vous souhaitez ajouter un nouveau motif, cliquez sur le bouton <guibutton
+>Ajouter</guibutton
+>, saisissez votre motif, puis cliquez sur le bouton <guibutton
+>Ok</guibutton
+>.</para
+>  
+
+<para
+>Vous pouvez voir ici les motifs de noms de fichiers actuellement configurés, et utilisés par l'outil d'analyse de l'en-tête pour extraire les informations à partir du nom du fichier. Chaque chaîne peut contenir d'un des paramètres substituables suivants :</para>
+
+<para
+><itemizedlist>
+<listitem
+><para
+>%t : titre</para
+></listitem>
+<listitem
+><para
+>%A : album</para
+></listitem>
+<listitem
+><para
+>%a : artiste</para
+></listitem>
+<listitem
+><para
+>%T : piste</para
+></listitem>
+<listitem
+><para
+>%c : commentaire</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Par exemple, le motif de nom de fichier <quote
+>[%T] %a - %t</quote
+> correspondrait à <quote
+>[01] Deep Purple - Smoke on the water</quote
+>, mais pas à <quote
+>(Deep Purple) Smoke on the water</quote
+>. Pour ce second nom, vous utiliseriez le motif <quote
+>(%a) %t</quote
+>.</para>
+
+<para
+>&juk; essaiera un par un les motifs listés, en commençant par le haut de la liste. Le premier motif correspondant sera utilisé pour deviner les étiquettes de la chanson. Certaines chansons peuvent correspondre à plusieurs motifs simultanément. Vous pouvez vous assurer que le motif correct correspond en premier en sélectionnant ce motif dans la liste et en utilisant les flèches pour le déplacer en haut de la liste. </para>
+
+<para
+>Vous pouvez également modifier ou supprimer un motif de la liste. Sélectionnez le modèle dans la liste, et utilisez le bouton <guibutton
+>Modifier</guibutton
+> pour effectuer vos modifications sur le motif, ou le bouton <guibutton
+>Supprimer</guibutton
+> pour supprimer le motif de la liste. </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>La boîte de dialogue de recherche avancée</title>
+<para>
+<screenshot>
+<screeninfo
+>La boîte de dialogue de recherche avancée</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Capture d'écran de la boîte de dialogue de recherche avancée</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>La boîte de dialogue de recherche avancée est utilisée pour créer des <link linkend="juk-search-playlists"
+>listes de lecture à partir d'une recherche</link
+>. Elle vous permet d'effectuer une recherche affinée parmi les différentes étiquettes de votre collection de chansons.</para>
+
+<para
+>En haut de la boîte de dialogue, vous pouvez saisir le nom de votre liste de lecture fondée sur une recherche. Vous pouvez ensuite définir vos critères de recherche dans le groupe <guilabel
+>Critères de recherche</guilabel
+>. </para>
+
+<para
+>En haut du groupe <guilabel
+>Critères de recherche</guilabel
+> se trouvent deux boutons radio, <guilabel
+>Correspond à un des critères suivants</guilabel
+> et <guilabel
+>Correspond à tous les critères suivants</guilabel
+>. Si vous choisissez <guilabel
+>Correspond à l'un des critères suivants</guilabel
+>, alors votre chanson sera incluse dans la liste si au moins une condition parmi celles que vous avez définies est vérifiée. Sinon, toutes les conditions que vous avez définies doivent correspondre pour que la chanson soit ajoutée à la liste de lecture. </para>
+
+<para
+>Les différentes conditions sont définies sous les boutons radio. Vous pouvez ajouter d'autres conditions avec le bouton <guibutton
+>Plus</guibutton
+>, et en enlever avec le bouton <guibutton
+>Moins</guibutton
+>. Toutes les conditions que vous laissez vides sont ignorées, donc vous n'avez pas besoin d'éliminer les conditions vides avec <guibutton
+>Moins</guibutton
+>. </para>
+
+<para
+>Chaque définition de condition contient trois partie. La liste de sélection de étiquettes à gauche, la liste de type de correspondance à droite, et le texte cherché au centre. La liste de sélection de balise permet à &juk; de connaître la balise dans laquelle vous souhaitez chercher le texte. Si vous choisissez la balise spéciale &lt;Tous visibles&gt;, alors toutes les étiquettes visibles dans la liste de collection est susceptible de correspondre au texte cherché. </para>
+
+<para
+>La liste de type de correspondance permet à &juk; de connaître la méthode de recherche utilisée. Les méthodes de recherche utilisables sont les suivantes :  <variablelist>
+<varlistentry>
+<term
+>Correspondance normale</term>
+<listitem
+><para
+>Il s'agit du type de correspondance par défaut. Le texte donné est cherché dans toutes les étiquettes choisies, en ignorant la casse. Par exemple, une recherche de « mode » dans la balise artiste correspondrait à « Depeche Mode ».</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Sensible à la casse</term>
+<listitem
+><para
+>Ce mode de recherche est similaire à la correspondance normale, mais maintenant la recherche est sensible à la casse du texte.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Motif de correspondance</term>
+<listitem
+><para
+>Il s'agit de la méthode de recherche la plus puissante. Le texte cherché que vous saisissez définit une expression rationnelle utilisée pour chercher dans les étiquettes. Les expressions rationnelles sortent du cadre de cette documentation, mais l'application &kregexpeditor; peut vous aider à former une expression rationnelle. &juk; utilise le style d'expression rationnelle de &Qt;.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>Choisissez simplement les conditions que vous souhaitez inclure dans votre recherche, et cliquez sur <guibutton
+>Ok</guibutton
+> pour créer votre liste de lecture à partir d'une recherche. </para>
+</sect1>
+<!-- is this still relevant?
+
+write new for kde4
+
+<sect1 id="juk-cover-manager">
+
+<title
+>The &juk; Cover Manager</title>
+
+<para
+>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>How Covers Worked in &juk; 2.2</title>
+
+<para
+>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel
+>Artist</guilabel
+> or <guilabel
+>Album</guilabel
+> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>How Covers work in &juk; 2.3</title>
+
+<para
+>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Examples of adding covers</title>
+
+<para
+>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote
+>Alabama - Greatest Hits III</quote
+> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice
+><guimenu
+>Tagger</guimenu
+> <guisubmenu
+>Cover Manager</guisubmenu
+> <guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis
+>all</emphasis
+> of the <quote
+>Alabama - Greatest Hits III</quote
+> tracks, <emphasis
+>whether you wanted that or not</emphasis
+>.</para>
+
+<para
+>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote
+>Alabama - Greatest Hits III</quote
+> tracks before using the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension"
+>.png</literal
+> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Reusing Old Covers</title>
+
+<para
+>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para
+>There are two ways of doing this:</para>
+
+<para
+>1. Open the <guilabel
+>Cover Manager</guilabel
+> dialog using the <guimenu
+>Tagger</guimenu
+> menu (<menuchoice
+><guimenu
+>Tagger Cover</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Show Cover Manager</guimenuitem
+></menuchoice
+>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para
+>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface
+>Now Playing bar</interface
+>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Dragging covers to more than one track at once</title>
+
+<para
+>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>What happens to my old covers?</title>
+
+<para
+>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para
+>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Removing Covers</title>
+
+<para
+>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+>.</para>
+
+<para
+>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Suggested Uses:</title>
+
+<para
+>1. You can now apply the same cover to tracks with Albums that have <quote
+>Disc 1</quote
+>, <quote
+>Disc 2</quote
+>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+-->
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>La barre d'outils de &juk;</title>
+
+<sect1 id="main-toolbar">
+<title
+>La barre principale</title>
+
+<screenshot>
+<screeninfo
+>La barre d'outils de &juk;.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>La barre d'outils de &juk;.</phrase>
+</textobject>
+<caption
+><para
+>La barre d'outils de &juk;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>De gauche à droite dans la capture d'écran ci-dessus, les icônes de la barre d'outils par défaut sont : </para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Nouveau</guiicon
+></term>
+<listitem
+><para
+>Crée une nouvelle liste de lecture. Si vous maintenez le bouton enfoncé, un menu apparaîtra, vous permettant de choisir parmi différents types de listes de lecture à créer. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>Liste de lecture vide...</guimenuitem
+></term>
+  <listitem
+><para
+>Un nom vous sera demandé pour la liste de lecture puis elle sera insérée dans la vue des listes de lecture. La liste de lecture sera entièrement vide.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Liste de lecture à partir d'un dossier...</guimenuitem
+></term>
+  <listitem
+><para
+>Ceci vous demande un dossier à ouvrir, puis crée ensuite une liste de lecture à partir de la musique contenue dans ce dossier et ses sous-dossiers. Le nom de la liste de lecture est le même que le nom du dossier choisi.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Liste de lecture à partir d'une recherche...</guimenuitem
+></term>
+  <listitem
+><para
+>Ceci appelle la boîte de dialogue de recherche avancée, vous permettant de créer une <quote
+>liste de lecture virtuelle</quote
+>. Toutes les chansons de votre liste de collection qui correspondent aux critères de recherche que vous avez spécifié dans cette boîte de dialogue seront ajoutées à la nouvelle liste de lecture. Si votre liste de collection change, la nouvelle liste de collection sera mise à jour également. Par exemple, si vous créez une liste de toutes vos chansons de Depeche Mode, et ensuite ajoutez une autre chanson de Depeche Mode à votre liste de collection, elle apparaîtra également dans la liste de lecture Depeche Mode sans qu'aucune action particulière de votre part ne soit nécessaire. </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Ouvrir</guiicon
+></term>
+<listitem
+><para
+>Ajoute un fichier à la liste de collection (si elle est active) ou à la liste de lecture actuellement sélectionnée. Ajouter un fichier à une liste de lecture l'ajoutera également automatiquement à la liste de collection, mais ceci n'est pas vrai dans l'autre sens.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Enregistrer</guiicon
+></term>
+<listitem
+><para
+>Enregistre la liste de lecture actuellement sélectionnée. Pour enregistrer une étiquette que vous avez modifiée, vous pouvez soit en sélectionner une autre, soit appuyer sur <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Couper</guiicon
+></term>
+<listitem
+><para
+>Si une liste de lecture ou une chanson est sélectionnée, ceci la coupe (enlève) de la liste. Si l'éditeur d'étiquettes est actif, ceci fonctionne alors comme la fonction couper de n'importe quel éditeur de texte, enlevant le texte sélectionné, mais en conservant une copie dans le presse-papiers.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Copier</guiicon
+></term>
+<listitem
+><para
+>Si l'éditeur d'étiquettes est actif, ceci fonctionne comme la fonction copier de n'importe quel éditeur de texte, plaçant une copie du texte sélectionné dans le presse-papiers.</para>
+<para
+>Si vous utiliser la fonction copier sur une chanson de la liste de collection, l'URL est placée dans le presse-papiers, afin que vous puissiez la coller. Par exemple, vous pouvez coller l'URL dans un éditeur de texte, &konqueror;, ou une autre liste de lecture.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Coller</guiicon
+></term>
+<listitem
+><para
+>Si vous avez précédemment coupé ou copié une URL depuis la liste de collection, vous pouvez coller cette URL dans une nouvelle liste de lecture. Vous pouvez également coller dans &konqueror; une URL que vous avez copié, ou dans n'importe quelle autre application. Si vous êtes dans l'éditeur d'en-tête, coller collera tout le texte contenu dans le presse-papiers dans le champ sélectionné.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Afficher la barre de recherche</guiicon
+></term>
+<listitem
+><para
+>Affiche ou cache <link linkend="search-bar"
+>la barre de recherche</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Afficher l'éditeur d'étiquettes</guiicon
+></term>
+<listitem
+><para
+>Affiche ou cache <link linkend="tagging-a-single-file"
+>l'éditeur d'étiquettes</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>Contrôles de la lecture</term>
+<listitem>
+<para
+>Ceci fonctionne comme tous les lecteurs audio que vous avez pu rencontrer. Les contrôles sont <guiicon
+>Lire</guiicon
+>, <guiicon
+>Pause</guiicon
+>, <guiicon
+>Arrêt</guiicon
+>, <guiicon
+>Piste précédente</guiicon
+> et <guiicon
+>Piste suivante</guiicon
+>.</para>
+<para
+>Il y a également une barre de suivi, affichant votre position relative dans la chanson en cours. Vous pouvez déplacer le curseur avec la souris de façon à avancer ou reculer dans la piste.</para>
+<para
+>Pour terminer, il y a un curseur de volume. Comme on peut s'y attendre, elle augmente ou diminue le volume. <quote
+>Fort</quote
+> se trouve à droite, et <quote
+>Faible</quote
+> à gauche.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>La barre de recherche</title>
+
+<para
+>La barre de recherche vous permet de chercher rapidement une chanson dans la liste de collection ou dans une liste de lecture.</para>
+
+<para
+>Saisissez simplement du texte dans la barre de recherche, et la liste des chansons visibles sera réduite à celles contenant ce texte dans l'une des colonnes visibles. En appuyant sur &Entree;, la première chanson de la liste de lecture qui correspond sera lue.</para>
+
+<para
+>La recherche débute instantanément lorsque du texte est saisi dans le champ de recherche. Elle est incrémentale, ce qui signifie que la recherche s'affine chaque fois que vous saisissez un caractère. Ceci est très utile pour trouver une chanson lorsque vous ne vous souvenez que d'une partie du nom par exemple.</para>
+
+<!-- Not here in KDE 4.11
+<para
+>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
+-->
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Référence du menu et des commandes</title>
+
+<sect1 id="menus">
+<title
+>Menus</title>
+
+<sect2 id="menu-file">
+<title
+>Menu Fichier</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guisubmenu
+>Nouveau</guisubmenu
+><guimenuitem
+>Liste de lecture vide...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Créer une nouvelle liste de lecture</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+><guisubmenu
+>Nouveau</guisubmenu
+><guimenuitem
+>Liste de lecture à partir d'une recherche...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Crée une nouvelle <link linkend="juk-search-playlists"
+>liste de lecture à partir d'une recherche</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+><guisubmenu
+>Nouveau</guisubmenu
+><guimenuitem
+>Liste de lecture à partir d'un dossier...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Crée une nouvelle liste de lecture, contenant tous les fichiers musicaux d'un dossier et de ses sous-dossiers. Tous les morceaux dans des fichiers de liste de lecture reconnus par &juk; seront également ajoutés.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Ouvrir...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Sélectionnez un fichier (ou des fichiers) à ajouter à la liste de collection. Si vous sélectionnez un fichier de liste de lecture, chaque fichier présent dans la liste sera ajouté.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fichier</guimenu
+><guimenuitem
+>Gérer les dossiers..</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cet élément de menu ouvre la même fenêtre que celle affichée au premier lancement de &juk;. </para>
+<para
+>Sélectionnez un dossier (ou des dossiers) à ajouter à la liste de collection. Ces dossiers seront analysés à chaque démarrage de &juk; ou si <menuchoice
+><guimenu
+>Fichier</guimenu
+><guimenuitem
+>Recharger</guimenuitem
+></menuchoice
+> est choisi.</para>
+<para
+>Vous pouvez également indiquer les dossiers qui ne doivent pas être analysés automatiquement (ce qui devrait modifier la liste des dossiers à analyser au démarrage). Ce cette façon, vous pouvez éviter de modifier complètement l'organisation de votre musique sur le disque simplement en empêchant &juk; d'aller chercher automatiquement les morceaux de musique que vous ne souhaitez pas gérer par &juk;. </para>
+<para>
+<screenshot>
+<screeninfo
+>La boîte de dialogue de gestion des dossiers</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Capture d'écran de la boîte de dialogue de gestion des dossiers.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para
+>Si vous souhaitez enlever des fichiers qui se trouvent déjà dans la liste des collections, vous pouvez activer la colonne <guilabel
+>Nom du fichier (emplacement complet)</guilabel
+> dans la liste de lecture et ensuite utiliser la barre de recherche pour trouver l'emplacement recherché, choisir et enlever les fichiers affichés. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Renommer...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Renomme une liste de lecture</para>
+</listitem>
+</varlistentry>
+
+<!-- Edit Search... -->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fichier</guimenu
+><guimenuitem
+>Dupliquer...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Duplique la liste de lecture sélectionnée, et demande un nouveau nom. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fichier</guimenu
+><guimenuitem
+>Recharger</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Recharge les informations d'étiquette pour chaque fichier de la liste de lecture sélectionnée. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fichier</guimenu
+><guimenuitem
+>Enlever</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Enlève la liste sélectionnée.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fichier</guimenu
+><guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Enregistre la liste sélectionnée.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fichier</guimenu
+> <guimenuitem
+>Enregistrer sous...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Enregistre la liste de lecture sélectionnée avec un nom différent.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>Menu Édition</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Édition</guimenu
+><guimenuitem
+>Effacer</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Enlève la chanson sélectionnée de la liste de lecture.</para>
+</listitem>
+</varlistentry>
+<!-- Undo Cut Copy Paste Clear Select All -->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>Menu Affichage</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Affichage</guimenu
+><guimenuitem
+>Afficher la barre de recherche</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Affiche ou cache la <link linkend="search-bar"
+>barre de recherche</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Affichage</guimenu
+><guimenuitem
+>Afficher l'éditeur d'étiquettes</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Affiche ou cache <interface
+>l'éditeur d'étiquettes</interface
+>.</para>
+</listitem>
+</varlistentry>
+<!--Show Lyrics-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Affichage</guimenu
+><guimenuitem
+>Afficher l'historique</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Affiche ou cache la <link linkend="juk-history-playlists"
+>liste de lecture historique</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<!-- missing
+Show Play Queue
+Show Columns
+Resize Playlist Columns Manually
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Affichage</guimenu
+><guisubmenu
+>Modes d'affichage</guisubmenu
+><guimenuitem
+>Par défaut</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Bascule en <link linkend="juk-viewmode-default"
+>mode d'affichage par défaut</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Affichage</guimenu
+><guisubmenu
+>Modes d'affichage</guisubmenu
+><guimenuitem
+>Compact</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Bascule en <link linkend="juk-viewmode-compact"
+>Mode d'affichage compact</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Affichage</guimenu
+><guisubmenu
+>Modes d'affichage</guisubmenu
+><guimenuitem
+>Arborescence</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Bascule en <link linkend="juk-viewmode-tree"
+>mode d'affichage arborescent</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>Menu Lecteur</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lecteur</guimenu
+><guimenuitem
+>Lecture aléatoire</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Il s'agit d'une option qui permet de basculer en mode de lecture aléatoire. Si la lecture aléatoire est activée, alors &juk; choisira une chanson au hasard dans la liste de lecture en cours lorsque la chanson en cours de lecture sera terminée.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lecteur</guimenu
+><guimenuitem
+>Liste de lecture en boucle</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Il s'agit d'une option qui permet de basculer en mode de lecture en boucle. Si elle est activée, alors &juk; reprendra la lecture au début lorsqu'il aura terminé toutes les chansons de la liste de lecture en cours.</para>
+</listitem>
+</varlistentry>
+<!--
+Crossfade Between Tracks
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lecteur</guimenu
+><guimenuitem
+>Lire</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande démarre la lecture de la chanson actuellement sélectionnée, ou reprend la lecture d'une chanson si celle-ci avait été mise en pause.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lecteur</guimenu
+><guimenuitem
+>Pause</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande met en pause la chanson en cours de lecture. Utilisez la commande lire pour reprendre la lecture.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lecteur</guimenu
+><guimenuitem
+>Arrêt</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande arrête la lecture de la chanson en cours. Vous ne pouvez pas reprendre la lecture à la position actuelle après cela.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lecteur</guimenu
+><guimenuitem
+>Piste suivante</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande avance à la prochaine chanson de la liste de lecture.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lecteur</guimenu
+><guimenuitem
+>Piste précédente</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande lit la chanson qui était lue avant la chanson en cours.</para>
+</listitem>
+</varlistentry>
+<!--
+Play Next Album
+-->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>Menu Éditeur d'en-tête</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Étiquettes</guimenu
+><guimenuitem
+>Enregistrer</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande enregistre les modifications effectués aux étiquettes que vous avez modifiées. Normalement, les modifications ne sont pas enregistrés jusqu'à ce que vous dé-sélectionniez le fichiers que vous modifiez.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Étiquettes</guimenu
+><guimenuitem
+>Supprimer</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande supprime les fichiers actuellement sélectionnés dans la liste de collections et toutes les listes de lecture les contenant, puis supprime les fichiers sélectionnés du disque. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Étiquettes</guimenu
+><guimenuitem
+>Rafraîchir</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande vous permet de rafraîchir les en-têtes de la liste de lecture après les avoir modifiés. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Étiquettes</guimenu
+><guisubmenu
+>Deviner les informations de l'étiquette</guisubmenu
+><guimenuitem
+>À partir du nom du fichier</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande tente de deviner les étiquettes des fichiers sélectionnés en analysant les noms des fichiers. Vous pouvez configurer les motifs utilisés pour deviner en choisissant <menuchoice
+><guimenu
+>Configuration</guimenu
+><guimenuitem
+>Devineur de étiquettes...</guimenuitem
+></menuchoice
+>, qui ouvre la <link linkend="juk-tag-guesser-configuration"
+>boîte de dialogue de configuration du devineur de étiquettes</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Étiquettes</guimenu
+><guisubmenu
+>Deviner les informations de l'étiquette</guisubmenu
+><guimenuitem
+>Depuis internet</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande tente de deviner les étiquettes des fichiers sélectionnés en utilisant la bibliothèque <application
+>tunePimp</application
+> fournie par <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+>.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Cover Manager
+  -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Éditeur d'en-tête</guimenu
+><guimenuitem
+>Renommer le fichier</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+  <para
+>Cette commande vous permet de renommer un fichier ou un groupe de fichiers pour les morceaux sélectionnés dans la liste de lecture. Avant que le renommage ne se produise réellement, &juk; affiche une boîte de dialogue d'aperçu dans laquelle vous pouvez confirmer ou annuler l'action. </para>
+  <para
+>Les fichiers seront renommés en fonction des paramètres définis dans la <link linkend="juk-rename-dialog"
+>boîte de dialogue de renommage des fichiers</link
+>. </para
+> 
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>Menu Configuration</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+><guisubmenu
+>Barres d'outils affichées</guisubmenu
+> <guimenuitem
+>Barre principale / d'outils de lecture</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Ces commandes affichent ou masquent la <link linkend="main-toolbar"
+>barre principale</link
+> et la <link linkend="play-toolbar"
+>barre d'outils de lecture</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Incruster dans la boîte à miniatures</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>S'il est activé, &juk; affichera une icône dans la boîte à miniatures. Vous pouvez utiliser l'icône de la boîte à miniatures pour contrôler la lecture des chansons par &juk;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Rester dans la boîte à miniatures lors de la fermeture</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>S'il est activé, &juk; continuera de fonctionner si vous fermez la fenêtre principale. L'option <guimenuitem
+>Incruster dans la boîte à miniatures</guimenuitem
+> doit également être activée. Pour quitter &juk;, utilisez la commande <menuchoice
+> <guimenu
+>Fichier</guimenu
+><guimenuitem
+>Quitter</guimenuitem
+></menuchoice
+> depuis la fenêtre principale, ou la commande <guimenuitem
+>Quitter</guimenuitem
+> du menu contextuel depuis la boîte à miniatures.</para>
+<para
+>Si &juk; est démarré alors qu'il est configuré pour s'incruster dans la boîte à miniatures au démarrage, une simple notification sera affichée (sinon l'utilisateur se demanderait pourquoi la fenêtre de &juk; ne s'est pas ouverte). Il est possible d'enlever cette notification supplémentaire en allant dans <menuchoice
+><guimenu
+>Apparence et comportement général</guimenu
+><guimenuitem
+>Notifications des applications et du système</guimenuitem
+></menuchoice
+> dans la &configurationDuSysteme; pour gérer les notifications de l'application <guilabel
+>Lecteur multimédia JuK</guilabel
+>. Décochez juste l'élément <guilabel
+>Afficher un message dans une fenêtre qui apparaît</guilabel
+> pour <guimenuitem
+>JuK fonctionne en mode intégré</guimenuitem
+>. Davantage d'informations sur la configuration des notifications de &kde; peut être trouvée <ulink url="help:/kcontrol/kcmnotify"
+>ici</ulink
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Afficher un message contextuel pour annoncer la piste</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>S'il est activé, &juk; affichera un indicateur lorsque la lecture d'une chanson débute, contenant des informations sur l'artiste, le titre, et avec des boutons vous permettant de basculer rapidement vers une autre chanson. l'option Incruster dans la boîte à miniatures doit également être activée.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Devineur de étiquettes...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande appelle la <link linkend="juk-tag-guesser-configuration"
+>boîte de dialogue de configuration du devineur d'étiquettes</link
+>, dans laquelle vous pouvez modifier les motifs utilisés pour deviner les informations d'étiquette à partir du nom des fichiers.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Configuration</guimenu
+> <guimenuitem
+>Outil de renommage de fichier...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cette commande appelle la <link linkend="juk-rename-dialog"
+>boîte de dialogue de configuration de l'outil de renommage de fichier</link
+>, dans laquelle vous pouvez modifier la façon dont &juk; renomme les fichiers pour vous.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Configure scrobbling
+  -->
+</variablelist>
+
+<para
+>De plus, &juk; possède des éléments communs de menu &kde; <guimenu
+>Configuration</guimenu
+> et <guimenu
+>Aide</guimenu
+>. Pour plus d'informations, veuillez consulter les sections <ulink url="help:/fundamentals/ui.html#menus-settings"
+>Menu de configuration</ulink
+> et <ulink url="help:/fundamentals/ui.html#menus-help"
+>Menu d'aide</ulink
+> des fondamentaux de &kde;. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Référence des raccourcis clavier</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>Combinaison des touches</entry>
+<entry
+>Action</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>Tout sélectionner</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Copier</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>Renommer le fichier</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>Deviner les informations d'étiquette à partir d'Internet.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Devine les informations d'étiquette à partir du nom de fichier.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>Nouvelle <link linkend="juk-search-playlists"
+>liste de lecture à partir d'une recherche</link
+>.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Nouvelle liste de lecture vide</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>Nouvelle liste de lecture à partir d'un dossier.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>Enregistre les modifications pour les étiquettes modifiées.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>Remerciements et licence</title>
+
+<para
+>&juk; Copyright &copy; 2002-2013 &Scott.Wheeler;, Michael Pyne, et d'autres. </para>
+
+ <para
+>&juk; est développé et maintenu par &Scott.Wheeler; &Scott.Wheeler.mail; et Michael Pyne <email
+>michael.pyne@kdemail.net</email
+>.</para>
+
+<para
+>Mille merci aux personnes suivantes qui ont contribué à &juk; :</para>
+
+<itemizedlist>
+<listitem
+><para
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; pour l'incrustation dans la boîte à miniatures, la modification <quote
+>à la volée</quote
+> des étiquettes, les résolutions de bogues, son évangélisme, le support moral.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> pour le portage de <application
+>GStreamer</application
+></para>
+</listitem>
+
+<listitem
+><para
+>Stefan Asserh&auml;ll <email
+>stefan.asserhall@telia.com</email
+> pour l'apport des raccourcis globaux.</para>
+</listitem>
+
+<listitem
+><para
+>Stephen Douglas <email
+>stephen_douglas@yahoo.com</email
+> pour le message contextuel annonçant la piste.</para>
+</listitem>
+
+<listitem
+><para
+>&Frerich.Raabe; &Frerich.Raabe.mail; pour le devineur automatique des données de pistes et des corrections de bogues.</para>
+</listitem>
+
+<listitem
+><para
+>Zack Rusin <email
+>zack@kde.org</email
+> pour d'autres choses automatiques, y compris la gestion de MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Adam Treat <email
+>manyoso@yahoo.com</email
+> pour avoir monté avec moi les tours de prestidigitation de MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Matthias Kretz <email
+>kretz@kde.org</email
+> pour avoir été le spécialiste de &arts; du coin.</para>
+</listitem>
+
+<listitem
+><para
+>Maks Orlovich <email
+>maksim@kde.org</email
+> pour avoir rendu &juk; facile à utiliser aux personnes possédant des terra-octets de musique.</para>
+</listitem>
+
+<listitem
+><para
+>Antonio Larrosa Jimenez <email
+>larrosa@kde.org</email
+> pour l'interface &DCOP;.</para>
+</listitem>
+
+<listitem
+><para
+>Allan Sandfield Jensen <email
+>kde@carewolf.com</email
+> pour la gestion de <acronym
+>FLAC</acronym
+> et <acronym
+>MPC</acronym
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Nathan Toone <email
+>nathan@toonetown.com</email
+> pour le gestionnaire de pochettes.</para>
+</listitem>
+
+<listitem
+><para
+>Pascal Klein <email
+>4pascal@tpg.com.au</email
+> pour l'écran de démarrage.</para>
+</listitem>
+
+<listitem
+><para
+>Laurent Montel <email
+>montel@kde.org</email
+> pour le portage vers &kde; 4 lorsqu'il n'y avait personne d'autre dans les parages.</para>
+</listitem>
+
+<listitem
+><para
+>Georg Grabler <email
+>georg@grabler.net</email
+> pour le travail de portage vers la plate-forme &kde;.</para>
+</listitem>
+
+<listitem
+><para
+>Martin Sandsmark <email
+>martin.sandsmark@kde.org</email
+> pour la gestion du scrobbling de Last.fm, des paroles, et la préparation pour le système &kde;.</para>
+</listitem>
+
+<listitem
+><para
+>Eike Hein <email
+>hein@kde.org</email
+> pour l'implémentation de l'interface MPRIS2.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Documentation sous copyright &copy; 2003, &Lauri.Watts;, et &copy; 2004-2013 Michael Pyne.</para>
+
+<para
+>Traduction française par &RobertJacolin; et &LudovicGrossard;. Relecture par &LudovicGrossard;</para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->

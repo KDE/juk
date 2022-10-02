@@ -1,0 +1,2567 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % German "INCLUDE">
+]>
+
+<book id="juk" lang="&language;">
+
+<bookinfo>
+<title
+>Das Handbuch zu &juk;</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Pyne</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Patrick</firstname
+><surname
+>Trettenbrein</surname
+><affiliation
+><address
+><email
+>patrick.trettenbrein@kdemail.net</email
+></address
+></affiliation
+><contrib
+>Übersetzer</contrib
+></othercredit
+> <othercredit role="translator"
+><firstname
+>Arnold</firstname
+><surname
+>Krille</surname
+><affiliation
+><address
+><email
+>arnold@arnoldarts.de</email
+></address
+></affiliation
+><contrib
+>Korrekturleser</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>&Scott.Wheeler;</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2013-11-08</date>
+<releaseinfo
+>3.11 (&kde; 4.12)</releaseinfo>
+
+<abstract>
+<para
+>&juk; ist eine Jukebox, ein Metadaten-Editor und ein Programm zur Verwaltung von Musiksammlungen. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+<keyword
+>audio</keyword>
+<keyword
+>Metadaten-Editor</keyword>
+<keyword
+>player</keyword>
+<keyword
+>jukebox</keyword>
+<keyword
+>JuK</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Einführung</title>
+
+<para
+>&juk; ist eine Jukebox. Und wie mit vielen anderen Jukebox-Anwendungen auch, können Sie mit &juk; die <quote
+>Metadaten</quote
+> Ihrer Musikdatei bearbeiten und Ihre Sammlung und Wiedergabelisten verwalten. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>&juk; verwenden</title>
+
+<para>
+<screenshot>
+<screeninfo
+>Ein Bildschirmfoto von &juk;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Ein Bildschirmfoto von &juk; in Aktion.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>&juk; enthält eine Liste aller Dateien von denen es weiß, dass sie sich auf dem Rechner befinden. Diese wird <guilabel
+>Sammlungsliste</guilabel
+> genannt. Die Sammlungsliste ist speziell für &juk; und wird nicht von anderen Programmen verwendet.</para>
+
+<para
+>Unabhängig von der Sammlungsliste sind Wiedergabelisten. Es können so viele Wiedergabelisten verwaltet werden, wie erwünscht. Erstellte Wiedergabelisten können auch mit anderen Abspielprogrammen (wie zum Beispiel &amarok; oder <application
+>XMMS</application
+>) abgespielt werden, und dort erstellte Wiedergabelisten können in &juk; verwendet werden.</para>
+
+<para
+>Einzelne Dateien können zur Sammlungsliste über den Menüpunkt <menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Öffnen ...</guimenuitem
+></menuchoice
+> und der Auswahl der Dateien mittels des Standard-&kde;-Dateidialogs hinzugefügt werden. Ganze Ordner können über den Menüpunkt <menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Ordner verwalten ...</guimenuitem
+></menuchoice
+> in die Sammlungsliste aufgenommen werden. Ordner, die Sie auf diese Weise hinzugefügt haben, werden bei jedem Start von &juk; neu eingelesen.Es können aber auch Unterordner in den Ordner für die Sammlungsliste vom Einlesen ausgeschlossen werden. Sie können alle Ordner, die Sie bereits für ihre Sammlungsliste eingelesen haben, mit einem Rechtsklick auf das Symbol der <guilabel
+>Sammlungsliste</guilabel
+> und Auswahl von <guimenuitem
+>Erneut laden</guimenuitem
+> nochmals einlesen, also aktualisieren.</para>
+
+<para
+>Das Hinzufügen eines Stücks zu einer Wiedergabeliste wird die Datei des Stücks automatisch zur Sammlungsliste hinzufügen, aber das Hinzufügen einer Datei zur Sammlungsliste wird das Stück nicht automatisch zu einer Wiedergabeliste hinzufügen.</para>
+
+<para
+>Sie können ganz einfach eine Wiedergabeliste aus ihrer vollständigen Sammlungsliste erstellen, indem sie einen Rechtsklick auf das Symbol <guilabel
+>Sammlungsliste</guilabel
+> machen und dort den Menüpunkt <guimenuitem
+>Duplizieren</guimenuitem
+> auswählen. Die erstellte Wiedergabeliste ist eine normale Wiedergabeliste, daher wird das Verändern dieser Wiedergabeliste nicht die <guilabel
+>Sammlungsliste</guilabel
+> verändern.</para>
+
+<para
+>Sie können einzelne Wiedergabelisten, die Sie nicht mit &juk; erstellt haben, mit <menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Öffnen ...</guimenuitem
+></menuchoice
+> hinzufügen. Alle Wiedergabelisten in einem Ordner, den Sie mit dem Menüpunkt <menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Ordner verwalten ...</guimenuitem
+></menuchoice
+> in die  Sammlungsliste aufgenommen haben, werden automatisch hinzugefügt.</para>
+
+<para
+>Sie können eine neue leere Wiedergabeliste, eine Wiedergabeliste aus einer Suche oder Wiedergabeliste aus einem Ordner über den Menüpunkt <menuchoice
+><guimenu
+>Datei</guimenu
+><guisubmenu
+>Neu</guisubmenu
+></menuchoice
+> oder mit einem Klick auf das Symbol <guiicon
+>Neu</guiicon
+> in der Werkzeugleiste hinzufügen. Sie werden nach einem Namen für die neue Wiedergabeliste gefragt. Nach der Eingabe erscheint ein Symbol für die neue Wiedergabeliste in der Kontrollleiste. Jetzt können Sie Dateien mittels <quote
+>drag and drop</quote
+> von der Sammlungsliste zur Wiedergabeliste, oder von einer bestehenden oder zu Ihrer soeben erstellten Wiedergabeliste hinzufügen. Um die Änderungen in der Wiedergabeliste zu speichern klicken Sie auf das Symbol <guiicon
+>Speichern</guiicon
+> oder verwenden Sie den Menüpunkt <menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Speichern</guimenuitem
+></menuchoice
+>.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>Die Stückliste</title>
+
+<para
+>Wenn Sie sich die Sammlungsliste ansehen, enthält das Hauptfenster alle Dateien, die &juk; eingelesen hat. Wenn Sie sich eine Wiedergabeliste ansehen, werden nur die Stücke angezeigt, die sich in dieser Liste befinden. In beiden Fällen ist das Aussehen und das Verhalten der Liste identisch.</para>
+
+<para
+>Jedes Stück nimmt eine Zeile im Anzeigefenster ein. Für jedes Metadaten-Feld, das &juk; verarbeitet, wird eine Spalte angezeigt. Diese Felder stimmen mit den Feldern überein, die man im Metadaten-Editor editieren kann.</para>
+
+<para
+>Sie können die Liste jederzeit mit einem Linksklick auf den Spaltentitel ordnen. Dies wird die Einträge in aufsteigender Reihenfolge, basierend auf dem Inhalt der Spalten sortieren. Wenn Sie erneut einen Linksklick auf denselben Spaltentitel machen, werden die Dateien in absteigender Reihenfolge geordnet.</para>
+
+<para
+>Die Spalten sind anfänglich groß genug um den längsten Eintrag in der jeweiligen Spalte anzuzeigen. Sie können die Größe der Spalten ändern indem Sie ihren Mauszeiger auf den Teiler zwischen zwei Spalten bewegen. Dann können Sie nach einem Linksklick auf den Teiler bei gedrückter linker Maustaste die Größe der Spalte ändern.</para>
+
+<para
+>Sie können die Spaltentitel ordnen indem Sie einen Linksklick auf den gewünschten Titel machen und ihn entweder nach rechts oder links in die gewünschte Position ziehen. Sie können ihn jedoch nicht über den Rand des Fensters hinaus bewegen, sodass Sie etwas nach rechts oder links scrollen und den Titel erneut bewegen müssen, bis er sich in der gewünschten Position befindet.</para>
+
+<para
+>Sie können Spalten ausblenden oder ausgeblendete Spalten anzeigen lassen, indem Sie einen Rechtsklick auf einen Spaltentitel machen und dort die anzuzeigende oder auszublendende Spalte an oder abwählen.</para>
+
+<para
+>Ein Doppelklick mit der linken Maustaste auf ein Stück wird dieses mit dem integrierten Abspielprogramm wiedergeben. Wenn bereits ein anders Stück gespielt wird, wird dessen Wiedergabe gestoppt und die Wiedergabe des neu ausgewählten Stückes beginnt.</para>
+
+<para
+>Ein Klick mit der &RMBn; auf ein Stück bringt ein Menü zum Vorschein:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>An die Warteschlange anhängen</guimenuitem
+></term>
+<listitem>
+<para
+>Dies wird das Stück abspielen nachdem das zurzeit spielende Stück vorüber ist. Wenn gerade kein Stück spielt wird die Datei abgespielt wenn Sie das nächste mal den Knopf <guiicon
+>Wiedergabe</guiicon
+> drücken. Falls Sie die Funktion <guimenuitem
+>An die Warteschlange anhängen</guimenuitem
+> bereits für ein anderes Stück festgelegt hatten, wird anstatt des bereits festgelegten Stücks das neu ausgewählte abgespielt.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Ausschneiden</guimenuitem
+></term>
+<term
+><guimenuitem
+>Kopieren</guimenuitem
+></term>
+<term
+><guimenuitem
+>Einfügen</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Aus der Wiedergabeliste entfernen</guimenuitem
+></term>
+<listitem>
+<para
+>Wenn Sie ein Stück in der Sammlungsliste markiert haben und diese Aktion auswählen, wird das Stück aus der Sammlungsliste und allen in &juk; geladenen Wiedergabelisten gelöscht. Sie sollten beachten, dass, wenn sich die Datei, die Sie gelöscht haben, in einem Ordner befindet, den &juk; beim Starten einliest, das Stück automatisch wieder zur Sammlungsliste hinzugefügt wird, wenn Sie &juk; das nächste Mal starten. Allerdings wird es nicht automatisch wieder zu einer Wiedergabeliste hinzugefügt.</para>
+<para
+>Wenn Sie eine Wiedergabeliste anzeigen lassen und dort ein Stück markiert haben, wird die Option <guimenuitem
+>Aus der Wiedergabeliste entfernen</guimenuitem
+> das Stück nur aus der Wiedergabeliste entfernen.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+><replaceable
+>Spaltentitel</replaceable
+> bearbeiten</guimenuitem
+></term>
+<listitem>
+<para
+>Erlaubt Ihnen das aktuell ausgewählte Stück in der Spalte, in der Sie es angeklickt haben, zu bearbeiten. Zum Beispiel: Wenn Sie den Metadaten-Editor gerade nicht angezeigt haben und Sie schnell eine Wiedergabeliste erstellen wollen, Sie aber einen Rechtschreibfehler in einem Künstlernamen bemerkt haben, können Sie diesen direkt über diesen Menüpunkt bearbeiten.</para>
+<para
+>Änderungen die auf diese Weise durchgeführt wurden werden immer gespeichert, sobald Sie irgendwo anders hinklicken und damit das Bearbeiten beenden.</para>
+<para
+>Dieser Menüpunkt wird allerdings nicht verfügbar sein wenn &juk; bemerkt, dass Sie für das ausgewählte Stück nur Leserechte besitzen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Aktualisieren</guimenuitem
+></term>
+<listitem>
+<para
+>Diese Option wird die Metadaten des ausgewählten Stücks erneut laden, vorausgesetzt, die Metadaten wurden geändert, während &juk; gestartet war.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Löschen</guimenuitem
+></term>
+<listitem>
+<para
+>Dies wird das Stück aus der Sammlungsliste und allen Wiedergabelisten löschen, weiter wird die zum Stück gehörige Datei von der Festplatte gelöscht. Dieser Vorgang kann nicht rückgängig gemacht werden, deshalb müssen Sie ihn bestätigen bevor er ausgeführt wird. Benutzen Sie dies mit Vorsicht.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>Metadaten raten</guisubmenu
+></term>
+<listitem>
+<para
+>Mit dieser Aktion wird versucht, die Metadaten wie Künstler und Titel eines Stücks zu erraten. &juk; verwendet verschiedene Methoden: <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>Vom Dateinamen</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; wird versuchen die Metadaten des Stücks basierend auf dem Dateinamen des Stücks zu ergänzen. Zum Beispiel werden einem Stück mit dem Dateinamen <filename
+>Roxette - You‚ve Got the Look.mp3</filename
+> der Eintrag <quote
+>Roxette</quote
+> als Künstler und <quote
+>You‘ve Got the Look</quote
+> als Titel in die Metadaten eingetragen. Sie können die Vorgehensweise, wie &juk; die Metadaten errät, über den Menüpunkt <menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Metadaten raten ...</guimenuitem
+></menuchoice
+> anpassen. &juk; ersetzt aus Dateinamen nur Metadaten, die es selbst hinzugefügt hat. Wenn Sie Informationen zum Beispiel per Hand eingegeben haben, werden diese von &juk; nicht verändert.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Aus dem Internet</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; wird versuchen die Metadaten des Stückes zu erraten indem es das MusicBrainz-Programm verwendet. Um diese Option zu verwenden müssen Sie MusicBrainz auf Ihrem System installiert haben. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Datei umbenennen</guimenuitem
+></term>
+<listitem>
+<para
+>Dies wird die ausgewählten Stücke gemäß dem angegebenen Muster umbenennen. Um diese Option benutzen zu können, müssen Sie zuerst im Menüpunkt <menuchoice
+> <guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Dateien umbenennen ...</guimenuitem
+></menuchoice
+> einstellen, nach welchem Muster die Dateien umbenannt werden sollen. Der endgültige Name einer Datei basiert auf ihren Metadaten. Zum Beispiel kann das Ogg-Vorbis-Stück <quote
+>The Theme (Metroid)</quote
+> von Stemage in <filename
+>/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
+> umbenannt werden. </para>
+</listitem>
+</varlistentry>
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
+<varlistentry>
+<term
+><guimenuitem
+>Wiedergabeliste aus den ausgewählten Stücken erstellen</guimenuitem
+></term>
+<listitem>
+<para
+>Dies erlaubt Ihnen schnell und einfach eine Wiedergabeliste aus den Stücken Ihrer Sammlungsliste zu erstellen. Diese Funktion wird Sie zuerst nach einem Namen für die neue Wiedergabeliste fragen, danach werden alle aktuell ausgewählten Stücke zur neu erstellten Wiedergabeliste hinzugefügt.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Ausgewählte Einträge zu Audio- oder Daten-CD hinzufügen</guimenuitem
+></term>
+<listitem>
+<para
+>Dies erlaubt Ihnen schnell ein K3b-CD-Projekt aus Ihren aktuell ausgewählten Stücken zu erstellen. &juk; wird Sie fragen, ob Sie eine Audio-&CD; oder eine Daten-&CD; erstellen wollen, wenn nicht bereits ein K3b-Projekt geöffnet ist.</para>
+
+<para
+>Wenn K3b nicht bereits gestartet ist, wird &juk; es automatisch für Sie starten. Danach wird &juk; automatisch alle ausgewählten Stücke zum aktuellen K3b-Projekt hinzufügen. Sie können nun Ihr K3b-Projekt entweder speichern um es später zu brennen oder sofort eine CD aus dem Projekt erstellen. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+>&juk;-Wiedergabelisten</title>
+<para
+>Eine Wiedergabeliste ist einfach eine Sammlung von Stücken zu einem Thema. Zum Beispiel könnten Sie eine Wiedergabeliste haben von Stücken die Sie hören wenn Sie programmieren, wenn Sie versuchen zu schlafen oder wenn Sie lachen wollen. &juk; unterstützt verschiedene Formen von Wiedergabelisten. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>Normale Wiedergabelisten</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> Die häufigste Wiedergabeliste. Sie ist aus Dateien zusammengestellt, wie die Sammlungsliste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>Verlauf</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> Wenn Sie diese Wiedergabeliste aktivieren (Menüpunkt <menuchoice
+><guimenu
+>Ansicht</guimenu
+><guimenuitem
+>Verlauf anzeigen</guimenuitem
+></menuchoice
+>), wird diese Wiedergabeliste jedes Stück, das &juk; abspielt, aufzeichnen. Die Wiedergabeliste verfügt über eine zusätzliche Spalte <guilabel
+>Zeit</guilabel
+>, welche exakt aufzeichnet, zu welcher Zeit und zu welchem Datum das Stück abgespielt wurde. Die Wiedergabeliste verfolgt den Verlauf aber erst nach Aktivierung. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>Wiedergabeliste durchsuchen</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> Diese Funktion basiert auf einer Suche. Eine Wiedergabeliste dieser Form können Sie über den Menüpunkt <menuchoice
+><guimenu
+>Datei</guimenu
+><guisubmenu
+>Neu</guisubmenu
+><guimenuitem
+>Wiedergabeliste durchsuchen</guimenuitem
+></menuchoice
+> oder durch einen Klick auf den Knopf <link linkend="juk-advanced-search-dialog"
+>Wiedergabeliste durchsuchen</link
+> neben der <link linkend="search-bar"
+>Suchleiste</link
+> erstellen.</para>
+<para
+>Nach dem Erstellen einer solchen Wiedergabeliste werden automatisch alle Stücke aus Ihrer Sammlungsliste zu denen von Ihnen angegebenen Kriterien passend zur Wiedergabeliste hinzugefügt. Die Wiedergabeliste wird sich automatisch aktualisieren wenn sich Stücke Ihrer Sammlungsliste ändern.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>Wiedergabelisten werden im <guilabel
+>Wiedergabelisten Bereich</guilabel
+>, dem senkrechten Bereich links im &juk; Programmfenster, aufgelistet. In diesem Fenster erscheint ein Symbol für jede Wiedergabeliste die Sie zu &juk; hinzugefügt haben. Für dieses Fenster gibt es verschiedene Ansichtsmöglichkeiten, welche Sie über den Menüpunkt <menuchoice
+><guimenu
+>Ansicht</guimenu
+><guisubmenu
+>Anzeigemodi</guisubmenu
+></menuchoice
+> auswählen können. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+>Standardanzeigemodus</term>
+<listitem>
+<para
+>Dies ist der Standardansichtsmodus. In dieser Ansicht werden alle Wiedergabelisten als große Symbole untereinander dargestellt. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+>Kompakter Anzeigemodus</term>
+<listitem>
+<para
+>Diese Anzeigemodus ist ähnlich dem normalen Anzeigemodus, mit dem Unterschied, dass die Wiedergabelisten durch horizontale Streifen mit kleinen Symbolen dargestellt werden. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+>Baum-Anzeigemodus</term>
+<listitem>
+<para
+>Dieser Anzeigemodus ist der komplexeste von allen. Er ist ähnlich dem kompakten Anzeigemodus, außer das die Sammlungsliste jetzt die <quote
+>Wurzel</quote
+> des Baumes darstellt. Die Sammlungsliste hat in dieser Ansicht drei <quote
+>Äste</quote
+>, sprich Unterpunkte: Künstler, Album und Genre. Jeder dieser Unterpunkte steht für die Einträge in der dazugehörigen Kategorie. Falls Sie zum Beispiel vier verschiedene Künstler in Ihrer Sammlungsliste haben, haben Sie im Unterpunkt Künstler noch einmal vier Unterpunkte mit den jeweiligen Künstlernamen.</para>
+<para
+>Eines der raffinierten Extras des Baum-Ansichtsmodus ist das Aktualisieren der Metadaten durch Ziehen und Ablegen. Wählen Sie einige Dateien aus der Stückliste aus und ziehen Sie diese auf einen der Knoten Künstler, Album oder Genre in der Sammlungsliste und die Metadaten der Stücke werden automatisch geändert. Wenn Sie zum Beispiel einige Stücke auf ein Genre <quote
+>Rock</quote
+> ziehen, wird bei jedem der Stücke das Genre auf <quote
+>Rock</quote
+> geändert. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>Der Metadaten-Editor von &juk;</title>
+
+<para
+>Für viele Dateitypen ist es vorteilhaft, den Dateinamen einer Datei zu verwenden um deren Inhalt anzugeben: <quote
+><filename
+>Report für die Anschlagtafel - Juni 2004.sxw</filename
+></quote
+>. Dieser Dateiname enthält alle Informationen, die Sie wahrscheinlich benötigen um die Datei wieder zu finden. Wenn Sie aber versuchen, alle nützlichen Informationen über ein Stück in seinem Dateinamen anzugeben, führt dies zu Dateinamen wie: <quote
+><filename
+>Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.ogg</filename
+></quote
+> oder <quote
+><filename
+>Various Artists_15_The Smithsonian Collection of Classic Jazz Volume II_Jimmie Lunceford &amp; His Orchestra - Organ Grinder's Swing.mp3</filename
+></quote
+>. Solche Dateinamen sind nicht wirklich schön anzuschauen und auch nicht wirklich praktisch. Wenn Sie jetzt zu solch einer Datei auch noch Informationen wie Album und Stücknummer hinzufügen, wird der Dateiname immer länger und länger. Und trotzdem enthält der Dateiname noch nicht alle Informationen wie zum Beispiel den Musikstil oder das Jahr in dem das Stück veröffentlicht wurde.</para>
+
+<para
+>Die Lösung dieses Problems ist es, einfach alle wichtigen Informationen innerhalb der Datei zu speichern. Mp3- und Ogg-Dateien können sogar kurze Texte enthalten in denen Sie den Inhalt der Datei kurz beschreiben können. Es gibt verschiedene Formate um solche Informationen innerhalb von Dateien abzuspeichern, aber &juk; verbirgt die Unterschiede zwischen ihnen und ermöglicht es, auf einem einzigen Weg alle Metadaten, die &juk; auslesen kann, zu bearbeiten.</para>
+
+<para
+>&juk; ist ein vollwertiger Metadaten-Editor, der es Ihnen ermöglicht, die Metadaten von Mp3- und Ogg-Dateien zu bearbeiten. Sie können einzelne Dateien oder mehrere gleichzeitig bearbeiten. Wenn Sie mehrere Dateien gleichzeitig bearbeiten, spielt es keine Rolle, ob einige vom Typ Mp3 und einige vom Typ Ogg sind. Die einzige Voraussetzung um die Metadaten zu bearbeiten ist, dass Sie Schreibrechte für die Datei besitzen. Das heißt, Sie können keine Metadaten von Stücken bearbeiten, die sich zum Beispiel auf einer eingebundenen &CD-ROM; befinden.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Metadaten einer einzelnen Datei ändern</title>
+
+<para
+>Um die Metadaten einer einzelnen Datei zu ändern, muss die zu ändernde Datei entweder in der Sammlungsliste oder ein Eintrag der Datei aus einer Wiedergabeliste ausgewählt werden. Falls der Metadaten-Editor nicht sichtbar ist, können Sie ihn über den Menüpunkt <menuchoice
+><guimenu
+>Ansicht</guimenu
+><guimenuitem
+>Metadaten-Editor anzeigen</guimenuitem
+></menuchoice
+> anzeigen lassen. Er erscheint dann im unteren Bereich der Listenansicht.</para>
+
+<para
+>Um die Metadaten zu ändern, müssen Sie nur die gewünschte Information in das dafür vorgesehene Feld eingeben. Wenn Sie Ihre Eingabe beendet haben, klicken Sie mit der linken Maustaste auf die Listenansicht, und Sie werden aufgefordert, das Speichern Ihrer Änderungen zu bestätigen.</para>
+
+<para
+>Sie haben vielleicht schon bemerkt, dass es sein kann, dass der Metadaten-Editor ausgegraut angezeigt wird, sodass Sie nichts ändern können, wenn Sie auf eine Datei klicken. Dies ist immer dann der Fall, wenn &juk; bemerkt hat, das Sie für das Stück nur Leserechte haben.</para>
+
+<variablelist>
+<title
+>Felder des Metadaten-Editors</title>
+<varlistentry>
+<term
+><guilabel
+>Künstler:</guilabel
+></term>
+<listitem>
+<para
+>Der Name des Künstlers / der Künstler, der/die das Stück veröffentlichte/n.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Titel:</guilabel
+></term>
+<listitem>
+<para
+>Der Name des Stückes.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Album:</guilabel
+></term>
+<listitem>
+<para
+>Der Name des Albums auf dem das Stück veröffentlicht wurde.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Genre:</guilabel
+></term>
+<listitem>
+<para
+>Der <quote
+>Stil</quote
+> der Musik (zum Beispiel: Rock). &juk; enthält bereits eine Liste von Genres konform zum ID3-Standard, aber Sie können auch Ihre eigenen Einträge zur Liste hinzufügen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Dateiname:</guilabel
+></term>
+<listitem>
+<para
+>Der Name der Datei auf dem Datenträger. Der Eintrag kann direkt bearbeitet werden. Die Datei wird dann beim Speichern umbenannt.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Stück:</guilabel
+></term>
+<listitem>
+<para
+>Die Position des Stückes auf der Originalaufnahme.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Jahr:</guilabel
+></term>
+<listitem>
+<para
+>Das Jahr in dem das Stück veröffentlicht wurde.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Länge:</guilabel
+></term>
+<listitem>
+<para
+>Ist nicht veränderbar, wird nur zu Informationszwecken angezeigt.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Bitrate:</guilabel
+></term>
+<listitem>
+<para
+>Ist nicht veränderbar, wird nur zu Informationszwecken angezeigt.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Kommentar:</guilabel
+></term>
+<listitem>
+<para
+>Hier können Sie Ihren eigenen Kommentar zum Stück einfügen.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Sie können Ihre Änderungen jederzeit speichern, indem Sie entweder den Menüpunkt <menuchoice
+><guimenu
+>Metadaten</guimenu
+><guimenuitem
+>Speichern</guimenuitem
+></menuchoice
+> auswählen oder den Kurzbefehl <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> drücken.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Bearbeiten der Metadaten von mehreren Dateien</title>
+
+<para
+>Sie können mehrere Dateien im Listenansicht-Fenster auswählen und ein oder mehrere Felder der Metadaten für alle Dateien bearbeiten.</para>
+
+<para
+>Verwenden Sie die &Shift;taste und den Linksklick, um benachbarte Dateien auszuwählen, und &Ctrl; und den Linksklick um nicht benachbarte Dateien auszuwählen.</para>
+
+<para
+>Falls der Metadaten-Editor nicht sichtbar ist, können Sie ihn über den Menüpunkt <menuchoice
+><guimenu
+>Ansicht</guimenu
+><guimenuitem
+>Metadaten-Editor anzeigen</guimenuitem
+></menuchoice
+> jederzeit einblenden. Der Metadaten-Editor erscheint dann am unteren Rand der Listenansicht.</para>
+
+<para
+>Der Metadaten-Editor verhält sich geringfügig anders, wenn Sie mehrere Dateien ausgewählt haben.</para>
+
+<para
+>Jedes Feld des Metadaten-Editors wird jetzt ein kleines Feld neben sich haben mit dem Sie es <guilabel
+>aktivieren</guilabel
+> können. Jedes Feld, dessen Inhalt bei allen ausgewählten Dateien gleich ist, wird diesen Inhalt anzeigen. Um ein Feld zu editieren, müssen Sie das kleine Feld neben dem Eingabefeld <guilabel
+>aktivieren</guilabel
+>.</para>
+
+<!-- put screeny here -->
+
+<para
+>Jedes Feld, das keinen übereinstimmenden Inhalt bei allen ausgewählten Dateien hat ist anfänglich nicht bearbeitbar, und zeigt keinen Inhalt an.</para>
+
+<para
+>Um den Inhalt eines Feldes zu ändern, müssen Sie dieses aktivieren, indem Sie das Ankreuzfeld <guilabel
+>Aktivieren</guilabel
+> neben dem Eingabefeld markieren, falls es nicht schon markiert ist. Dann können Sie den Inhalt des Feldes wie gewohnt editieren.</para>
+
+<para
+>Wenn Sie mit dem Bearbeiten aller Felder fertig sind, genügt ein Klick mit der &LMBn; in die Listenansicht, und Sie müssen das Speichern Ihrer Änderungen bestätigen. Der Speicherdialog zeigt Ihnen eine Liste der betroffenen Dateien an, damit Sie sichergehen können, dass Sie nur Dateien ändern, die Sie auch wirklich ändern wollen.</para>
+
+<para
+>Sie können Ihre Änderungen jederzeit speichern, indem Sie entweder den Menüpunkt <menuchoice
+><guimenu
+>Metadaten</guimenu
+><guimenuitem
+>Speichern</guimenuitem
+></menuchoice
+> auswählen oder den Kurzbefehl <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> drücken.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>Umbenennen</title>
+<para>
+<screenshot>
+<screeninfo
+>Der Dialog Umbenennen</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Ein Bildschirmfoto des Dialogs Umbenennen</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Der Einrichtungsdialog dieser Funktion wird benutzt, um einzustellen, wie ein Stück basierend auf seinen Metadaten umbenannt wird. </para>
+<para
+>Die Umbenennungsfunktion kann benutzt werden, um Ihrer Musiksammlung konsistente einheitliche Namen zu geben, einschließlich der Verschiebung von Dateien, falls erforderlich. Sie haben einige Stücke auf der Festplatte wie zum Beispiel <filename
+>01 - Title.mp3</filename
+>, wenn Sie sie von <ulink url="http://amazon.com"
+>Amazon</ulink
+> heruntergeladen haben. Stücke von <ulink url="http://ocremix.org/"
+>OCRemix</ulink
+>können Namen wie <filename
+>Ailsean- Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename
+> oder ähnlich haben. </para>
+<para
+>Mit der Umbenennung können solche Stücke in <quote
+>normale</quote
+> Namen auf der Festplatte umbenannt werden, wie zum Beispiel <filename
+>Ailsean - Mega Fire.mp3</filename
+> und <filename
+>The Strokes - Reptilia.mp3</filename
+>. Sie können sogar Pfadtrennzeichen dazwischen einfügen, um die Musikstücke automatisch zum Beispiel nach Jahr oder Albenname wie <filename
+>$HOME/Music/2003/The Strokes - Reptilia.mp3</filename
+> zu sortieren. </para>
+<para
+>Dazu müssen Sie nur die Aktion <quote
+>Umbenennen</quote
+> entweder aus dem Menü <guimenu
+>Metadaten</guimenu
+> oder aus dem Kontextmenü benutzen, das Sie mit einem Klick der &RMBn; auf Dateien öffnen. Der Standardkurzbefehl ist <keycombo
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+>. Bevor Sie diese Funktion benutzen, sollten Sie einstellen, wie die Dateien umbenannt werden. </para>
+<para
+>Diese Einrichtung erfolgt im oben genannten Dialog, der mit dem Menüeintrag <menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guimenuitem
+>Dateien Umbenennen</guimenuitem
+></menuchoice
+> geöffnet wird. Sie können einen Zielpfad mit der Angabe eines Musikordners definieren und dann weitere Pfadteile hinzufügen. Diese Pfadteile basieren auf den Musik-Metadaten des Stücks wie Titel, Interpret &etc;. Weitere Pfadteile können mit <guilabel
+>Kategorie einfügen</guilabel
+> hinzugefügt werden. </para>
+<para
+>Zwischen jedem Teil des „Pfads“ gibt es ein Ankreuzfeld, um Ordnertrennzeichen einzufügen. </para>
+<para
+>Die Einstellungen für jeden Teil des neuen Namens bestimmen den neuen Namen, wenn zugehörenden Metadaten für ein Stück nicht vorhanden sind. Es kann ein Präfix oder Suffix benutzt werden, wenn die Einträge ersetzt werden. Damit wird das Umbenennen noch effektiver. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>Einrichtung des Metadaten-Raters</title>
+<para>
+<screenshot>
+<screeninfo
+>Einrichtung des Metadaten-Raters</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Bildschirmfoto der Einrichtung des Metadaten-Raters</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Der Dialog <quote
+>Einrichtung des Metadaten-Raters</quote
+> wird benutzt, um die Aktion <guilabel
+>Vom Dateinamen raten</guilabel
+> einzurichten.</para>
+
+<para
+>Im Dialogfenster sehen Sie links eine Liste mit den verschiedenen Dateinamensmustern. &juk; enthält eine umfangreiche Sammlung von Mustern um die am häufigsten verwendeten Schemata bei der Benennung von Dateien abzudecken. Wenn Sie ein neues Schema hinzufügen wollen, klicken Sie auf den Knopf <guibutton
+>Hinzufügen</guibutton
+>, geben Ihr neues Schema ein und klicken auf <guibutton
+>OK</guibutton
+>.</para
+>  
+
+<para
+>Diese Schemata werden von der aktuellen Einstellung im Metadaten-Editor verwendet, um aus dem Dateinamen mögliche Metadaten zu extrahieren. Jeder Eintrag kann folgende Platzhalter enthalten:</para>
+
+<para
+><itemizedlist>
+<listitem
+><para
+>%t: Titel</para
+></listitem>
+<listitem
+><para
+>%A: Album</para
+></listitem>
+<listitem
+><para
+>%a: Interpret</para
+></listitem>
+<listitem
+><para
+>%T: Stücknummer</para
+></listitem>
+<listitem
+><para
+>%c: Kommentar</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>So passt zum Beispiel das Schema <quote
+>[%T] %a – %t</quote
+> zu <quote
+>[01] Deep Purple – Smoke on the water</quote
+> aber nicht zu <quote
+>(Deep Purple) Smoke on the water</quote
+>. Für den zweiten Namen sollte dann das Schema <quote
+>(%a) %t</quote
+> verwendet werden. Die Reihenfolge der Schemata in dieser Liste gibt die Priorität an. Das von oben her erste passende wird verwendet.</para>
+
+<para
+>&juk; versucht, die vorhandenen Schemata der Reihe nach durchzugehen, beginnend am Anfang der Liste. Das erste Schema, das auf den Dateinamen zutrifft, wird verwendet um die Metadaten des Stücks zu ergänzen. Auf einige Dateien wird eventuell mehr als ein Schema zutreffen. Um sicherzustellen, dass das richtige Schema verwendet wird, müssen Sie dieses in der Liste markieren und mit den Pfeilknöpfen an die Spitze der Liste bewegen. </para>
+
+<para
+>Sie können vorhandene Schemata auch bearbeiten oder aus der Liste löschen. Um ein Schema zu bearbeiten oder zu löschen müssen Sie es markieren und dann entweder auf <guibutton
+>Ändern</guibutton
+> oder auf <guibutton
+>Entfernen</guibutton
+> klicken. </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>Erweiterte Suche</title>
+<para>
+<screenshot>
+<screeninfo
+>Erweiterte Suche</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Bildschirmfoto des erweiterten Suchdialogs</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Der erweiterte Suchdialog kann verwendet werden um <link linkend="juk-search-playlists"
+>Wiedergabelisten</link
+> zu erstellen. Er erlaubt Ihnen eine genaue Suche in den verschiedenen Metadaten Ihrer Stücke.</para>
+
+<para
+>Am oberen Rand des Fensters können Sie den Namen der Wiedergabeliste eingeben. Dann können Sie die Kriterien im Bereich <guilabel
+>Suchkriterien</guilabel
+> festlegen. </para>
+
+<para
+>Am Beginn der Gruppe <guilabel
+>Suchkriterium</guilabel
+> befinden sich zwei Auswahlknöpfe, <guilabel
+>Übereinstimmung mit einem der Kriterien</guilabel
+> und <guilabel
+>Übereinstimmung mit allen Kriterien</guilabel
+>. Wenn Sie <guilabel
+>Übereinstimmung mit einem der Kriterien</guilabel
+> auswählen, wird eine Übereinstimmung mit einem der angegebenen Kriterien das Stück zur Wiedergabeliste hinzufügen. Anderenfalls muss das Stück alle angegebenen Kriterien erfüllen um zur Wiedergabeliste hinzugefügt zu werden. </para>
+
+<para
+>Unter den Auswahlknöpfen befinden sich die Eingabezeilen, mit denen Sie Kriterien festlegen können. Als Standard werden zwei Eingabezeilen angezeigt, falls Sie mehr als zwei Kriterien festlegen möchten, können Sie sich mit dem Knopf <guibutton
+>Mehr</guibutton
+> eine weitere Eingabezeile anzeigen lassen. Um die jeweils unterste Eingabezeile der Liste zu entfernen, müssen Sie auf den Knopf <guibutton
+>Weniger</guibutton
+> klicken. Falls Sie eine Eingabezeile leer lassen, wird diese von &juk; ignoriert, sodass Sie den Knopf <guibutton
+>Weniger</guibutton
+> nicht verwenden müssen, wenn Sie eine Eingabezeile leer lassen. </para>
+
+<para
+>Jede Eingabezeile besteht aus drei Teilen. Ganz links befindet sich die Auswahlliste mit der Sie auswählen können welche Art von Metadaten übereinstimmen soll. Die Auswahlliste der Art der Übereinstimmung befindet sich ganz rechts, und in der Mitte finden Sie das Eingabefeld für den zu suchenden Text. Wenn Sie in der Auswahlliste der Metadaten, die übereinstimmen sollen, den Eintrag <quote
+>&lt;Alle Sichtbaren&gt;</quote
+> auswählen, werden alle Metadaten, die in Ihrer Sammlungsliste angezeigt werden, durchsucht. </para>
+
+<para
+>Die Auswahlliste der Art der Übereinstimmung können Sie verwenden um &juk; mitzuteilen, welche Suchmethode verwendet werden soll. Folgende Suchmethoden können ausgewählt werden: <variablelist>
+<varlistentry>
+<term
+>Normale Übereinstimmung</term>
+<listitem
+><para
+>Dies ist die Standardeinstellung. &juk; sucht nach dem zu suchenden Text überall in den ausgewählten Metadaten. Dabei ignoriert es Groß- und Kleinschreibung. Zum Beispiel würde eine Suche nach <quote
+>mode</quote
+> im Künstlernamen auch zu <quote
+>Depeche Mode</quote
+> als Ergebnis führen.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Groß-/Kleinschreibung beachten</term>
+<listitem
+><para
+>Diese Suchmethode ähnelt der Standard-Methode, allerdings wird die Groß- und Kleinschreibung beachtet. Folglich müssten Sie, wenn Sie nach <quote
+>Depeche Mode</quote
+> suchen wollen, als Suchbegriff <quote
+>Mode</quote
+> eingeben. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Übereinstimmende Muster</term>
+<listitem
+><para
+>Dies ist die vielseitigste Suchmethode. Der eingegebene Suchtext wird einen regulären Ausdruck definieren, der benutzt wird um innerhalb der Metadaten zu suchen. Reguläre Ausdrücke sind außerhalb des Rahmens dieser Dokumentation, aber das Programm &kregexpeditor; kann Ihnen helfen einen regulären Ausdruck zu formen. &juk; verwendet reguläre Ausdrücke im Stil von Qt.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>Erstellen Sie die Suchkriterien, die Sie für Ihre Suche verwenden wollen, und klicken Sie auf <guibutton
+>OK</guibutton
+>, um Ihre Wiedergabeliste aus einer Suche zu erstellen. </para>
+</sect1>
+<!-- is this still relevant?
+
+write new for kde4
+
+<sect1 id="juk-cover-manager">
+
+<title
+>The &juk; Cover Manager</title>
+
+<para
+>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>How Covers Worked in &juk; 2.2</title>
+
+<para
+>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel
+>Artist</guilabel
+> or <guilabel
+>Album</guilabel
+> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>How Covers work in &juk; 2.3</title>
+
+<para
+>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Examples of adding covers</title>
+
+<para
+>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote
+>Alabama - Greatest Hits III</quote
+> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice
+><guimenu
+>Tagger</guimenu
+> <guisubmenu
+>Cover Manager</guisubmenu
+> <guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis
+>all</emphasis
+> of the <quote
+>Alabama - Greatest Hits III</quote
+> tracks, <emphasis
+>whether you wanted that or not</emphasis
+>.</para>
+
+<para
+>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote
+>Alabama - Greatest Hits III</quote
+> tracks before using the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension"
+>.png</literal
+> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Reusing Old Covers</title>
+
+<para
+>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para
+>There are two ways of doing this:</para>
+
+<para
+>1. Open the <guilabel
+>Cover Manager</guilabel
+> dialog using the <guimenu
+>Tagger</guimenu
+> menu (<menuchoice
+><guimenu
+>Tagger Cover</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Show Cover Manager</guimenuitem
+></menuchoice
+>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para
+>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface
+>Now Playing bar</interface
+>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Dragging covers to more than one track at once</title>
+
+<para
+>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>What happens to my old covers?</title>
+
+<para
+>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para
+>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Removing Covers</title>
+
+<para
+>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+>.</para>
+
+<para
+>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Suggested Uses:</title>
+
+<para
+>1. You can now apply the same cover to tracks with Albums that have <quote
+>Disc 1</quote
+>, <quote
+>Disc 2</quote
+>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+-->
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>Die &juk;-Werkzeugleiste</title>
+
+<sect1 id="main-toolbar">
+<title
+>Die Hauptwerkzeugleiste</title>
+
+<screenshot>
+<screeninfo
+>Die &juk;-Werkzeugleiste</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>Die &juk;-Werkzeugleiste</phrase>
+</textobject>
+<caption
+><para
+>Die &juk;-Werkzeugleiste</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Von links nach rechts im Bildschirmfoto oben, sind folgende Symbole zu sehen:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Neu</guiicon
+></term>
+<listitem
+><para
+>Erstellen einer neuen Wiedergabeliste. Wenn Sie die linke Maustaste beim klicken auf das Symbol gedrückt halten, erscheint ein Menü, in dem Sie zwischen den verschiedenen Arten von Wiedergabelisten wählen können. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>Leere Wiedergabeliste ...</guimenuitem
+></term>
+  <listitem
+><para
+>Wenn Sie diese Option auswählen, wird eine vollkommen leere Wiedergabeliste zum Wiedergabelistenbereich hinzugefügt, nachdem Sie einen Namen für die neue Wiedergabeliste vergeben haben.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Wiedergabeliste aus Ordner ...</guimenuitem
+></term>
+  <listitem
+><para
+>Wählen Sie zuerst einen Ordner aus, aus dem dann eine Wiedergabeliste erstellt wird, die alle Dateien des angegebenen Ordners und allen seinen Unterordnern enthält. Der Name der erstellten Wiedergabeliste stimmt mit dem Namen des ausgewählten Ordners überein.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Wiedergabeliste durchsuchen ...</guimenuitem
+></term>
+  <listitem
+><para
+>Diese Option ruft den erweiterten Suchdialog auf, der es Ihnen erlaubt, eine <quote
+>virtuelle Wiedergabeliste</quote
+> zu erstellen. Alle Stücke die zu den angegebenen Suchkriterien passen, die Sie im erweiterten Suchdialog angegeben haben, werden zur neuen Wiedergabeliste hinzugefügt. Wenn Sie später Stücke zu Ihrer Sammlungsliste hinzufügen, die zu den angegebenen Suchkriterien passen, werden diese automatisch zur virtuellen Wiedergabeliste hinzugefügt. Wenn Sie zum Beispiel eine Wiedergabeliste für alle Ihre <quote
+>Depeche Mode</quote
+>-Stücke erstellen, und Sie ein weiteres <quote
+>Depeche Mode</quote
+>-Stück zu Ihrer Sammlungsliste hinzufügen, wird dieses auch automatisch dieser Wiedergabeliste hinzugefügt. </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Öffnen</guiicon
+></term>
+<listitem
+><para
+>Fügen Sie eine Datei zur Sammlungsliste oder zur gerade aktiven (im Fenster angezeigten) Wiedergabeliste hinzu. Das Hinzufügen einer Datei zu einer Wiedergabeliste wird diese auch automatisch zur Sammlungsliste hinzufügen; umgekehrt gilt das allerdings nicht.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Speichern</guiicon
+></term>
+<listitem
+><para
+>Speichern der gerade aktiven Wiedergabeliste. Um geänderte Metadaten zu speichern, klicken Sie irgendwo in das &juk;-Programmfenster oder drücken Sie den Kurzbefehl <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Ausschneiden</guiicon
+></term>
+<listitem
+><para
+>Wenn ein Stück in einer Wiedergabeliste ausgewählt ist, wird es dadurch aus der Wiedergabeliste entfernt. Wenn der Metadaten-Editor aktiv ist, funktioniert der Knopf wie in jedem anderem Editor auch, das heißt, er entfernt den ausgewählten Text und speichert ihn in der Zwischenablage.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Kopieren</guiicon
+></term>
+<listitem
+><para
+>Wenn der Metadaten-Editor aktiv ist, funktioniert der Knopf wie in jedem anderem Editor auch, er kopiert den ausgewählten Text in die Zwischenablage.</para>
+<para
+>Wenn Sie die Funktion verwenden, während ein Stück in der Sammlungsliste ausgewählt ist, wird dessen URL in der Zwischenablage gespeichert, sodass Sie sie anderswo einfügen können. Zum Beispiel in einen Texteditor, &konqueror;, oder eine andere Wiedergabeliste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Einfügen</guiicon
+></term>
+<listitem
+><para
+>Wenn Sie bereits vorher eine URL in die Zwischenablage kopiert haben, können Sie diese mit dieser Funktion wieder in eine Wiedergabeliste einfügen. Natürlich können Sie auch eine URL einfügen, die Sie aus &konqueror; oder einem anderem Programm kopiert oder ausgeschnitten haben. Wenn der Metadaten-Editor aktiv ist wird diese Funktion den derzeitigen Inhalt der Zwischenablage in das ausgewählte Feld einfügen.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Suchleiste anzeigen</guiicon
+></term>
+<listitem
+><para
+>Anzeigen oder Ausblenden der <link linkend="search-bar"
+>Suchleiste</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Metadaten-Editor anzeigen</guiicon
+></term>
+<listitem
+><para
+>Anzeigen oder Ausblenden <link linkend="tagging-a-single-file"
+>des Metadaten-Editors</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>Wiedergabe</term>
+<listitem>
+<para
+>Dies funktioniert wie in jedem anderen Audio-Wiedergabeprogramm auch. Die Funktionen, die zur Verfügung stehen, sind <guiicon
+>Wiedergabe</guiicon
+>, <guiicon
+>Pause</guiicon
+>, <guiicon
+>Stopp</guiicon
+>, <guiicon
+>Vorheriger</guiicon
+> und <guiicon
+>Nächster</guiicon
+>.</para>
+<para
+>In die Programmoberfläche ist auch eine Fortschrittsanzeige in Form eines Schiebereglers integriert, die anzeigt, wie weit (relativ) Sie ein Stück schon gehört haben. Sie können den Schieberegler mit der Maus bewegen, um innerhalb des Stücks vorwärts oder rückwärts zu springen.</para>
+<para
+>Zu guter Letzt befindet sich in der Programmoberfläche auch ein Lautstärkeregler. Wie Sie bereits ahnen, können Sie damit die Lautstärke verändern, also lauter und leiser stellen. <quote
+>Laut</quote
+> befindet sich ganz rechts und <quote
+>Leise</quote
+> ganz links.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>Die Suchleiste</title>
+
+<para
+>Mit der Suchleiste können Sie schnell und einfach nach einem Stück in der Sammlungsliste oder der gerade aktiven Wiedergabeliste suchen.</para>
+
+<para
+>Die Eingabe eines Suchbegriffs in die Suchleiste wird die Liste der angezeigten Stücke auf jene reduzieren die den eingegebenen Suchbegriff in einer sichtbaren Spalte enthalten. Das Drücken der &Enter;taste wird das oberste Stück der reduzierten Liste abspielen.</para>
+
+<para
+>Die Suche beginnt augenblicklich wenn Sie beginnen den Suchbegriff in das Suchfeld einzugeben. Die Suche ist inkrementell, das heißt mit jedem Zeichen das Sie eingeben, wird das Suchergebnis eingeengt. Dies ist praktisch wenn Sie sich zum Beispiel nur an den Teil eines Stücknamens erinnern.</para>
+
+<!-- Not here in KDE 4.11
+<para
+>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
+-->
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Menü- und Befehlsreferenz</title>
+
+<sect1 id="menus">
+<title
+>Menüs</title>
+
+<sect2 id="menu-file">
+<title
+>Das Menü Datei</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></shortcut
+><guimenu
+>Datei</guimenu
+><guisubmenu
+>Neu</guisubmenu
+><guimenuitem
+>Leere Wiedergabeliste ...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Erstellt eine neue Wiedergabeliste.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></shortcut
+><guimenu
+>Datei</guimenu
+><guisubmenu
+>Neu</guisubmenu
+><guimenuitem
+> Wiedergabeliste aus Suche erstellen ...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Erstellt eine neue <link linkend="juk-search-playlists"
+>Wiedergabeliste aus einer Suchanfrage</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></shortcut
+><guimenu
+>Datei</guimenu
+><guisubmenu
+>Neu</guisubmenu
+><guimenuitem
+>Wiedergabeliste aus Ordner ...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Erstellt eine neue Wiedergabeliste, die alle Musikdateien eines Ordners und seiner Unterordner enthält. Jedes Stück innerhalb einer Wiedergabeliste die &juk; im Ordner oder einem Unterordner findet, wird ebenfalls zur Sammlungsliste hinzugefügt.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Datei</guimenu
+> <guimenuitem
+>Öffnen ...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Wählen Sie eine oder mehrere Dateien aus und fügen Sie sie zur Sammlungsliste hinzu. Wenn Sie eine Wiedergabeliste auswählen, werden alle enthaltenen Stücke zur Sammlungsliste hinzugefügt.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Ordner verwalten ...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Menüeintrag öffnet das gleiche Fenster, das beim ersten Start von &juk; angezeigt wird. </para>
+<para
+>Wählen Sie einen oder mehrere Ordner aus. Der oder die Ordner werden zur Sammlungsliste hinzugefügt und bei jedem Start von &juk; neu eingelesen und eventuelle Änderungen übernommen. Alternativ können Sie die Ordner auch nach dem Start von &juk; über den Menüpunkt <menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Erneut laden</guimenuitem
+> </menuchoice
+> neu einlesen.</para>
+<para
+>Außerdem können Sie auch Ordner auswählen, die nicht automatisch durchsucht werden. Dies überschreibt die Liste der Ordner, die beim Start eingelesen werden. Damit vermeiden Sie, Ihre Anordnung der Musik auf der Festplatte vollständig ändern zu müssen, nur um das automatische Einfügen von nicht erwünschten Liedern durch &juk; zu verhindern oder Ordner auszuschließen, die in &juk; verwaltet werden sollen. </para>
+<para>
+<screenshot>
+<screeninfo
+>Der Dialog Ordnerliste</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Bildschirmfoto des Dialogs Ordnerliste</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para
+>Möchten Sie Dateien entfernen, die bereits in der Sammlungsliste enthalten sind, können Sie die Spalte <guilabel
+>Dateiname /Vollständiger Pfad</guilabel
+> in der Wiedergabeliste anzeigen. Verwenden Sie dann die Suchleiste, um nach dem gewünschten  Pfadnamen zu filtern und entfernen Sie die angezeigten Dateien. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Umbenennen ...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Umbenennen einer Wiedergabeliste.</para>
+</listitem>
+</varlistentry>
+
+<!-- Edit Search... -->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Duplizieren ...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Erzeugt ein Duplikat der ausgewählten Wiedergabeliste, und fragt nach einem neuen Namen für die neue Liste. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Erneut laden</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Lädt alle Metadaten der in der ausgewählten Wiedergabeliste enthaltenen Stücke neu. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Entfernen</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Entfernt die ausgewählte Wiedergabeliste.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Datei</guimenu
+><guimenuitem
+>Speichern</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Speichert die ausgewählte Wiedergabeliste.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Datei</guimenu
+><guimenuitem
+>Speichern unter ...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Speichert die ausgewählte Wiedergabeliste unter einem anderen Namen.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>Das Menü Bearbeiten</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Bearbeiten</guimenu
+><guimenuitem
+>Löschen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Entfernt die ausgewählten Stücke aus der Wiedergabeliste.</para>
+</listitem>
+</varlistentry>
+<!-- Undo Cut Copy Paste Clear Select All -->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>Das Menü Ansicht</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ansicht</guimenu
+><guimenuitem
+>Suchleiste anzeigen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Mit dieser Funktion können Sie die <link linkend="search-bar"
+>Suchleiste</link
+> ein- bzw. ausblenden.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ansicht</guimenu
+><guimenuitem
+>Metadaten-Editor anzeigen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Mit dieser Funktion können Sie den <interface
+>Metadaten-Editor</interface
+> ein- bzw ausblenden.</para>
+</listitem>
+</varlistentry>
+<!--Show Lyrics-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ansicht</guimenu
+><guimenuitem
+>Verlauf anzeigen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Mit dieser Funktion können Sie die<link linkend="juk-history-playlists"
+>Verlauf-Wiedergabeliste</link
+> ein- bzw. ausblenden.</para>
+</listitem>
+</varlistentry>
+
+<!-- missing
+Show Play Queue
+Show Columns
+Resize Playlist Columns Manually
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ansicht</guimenu
+><guisubmenu
+>Anzeigemodi</guisubmenu
+><guimenuitem
+>Standard</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Wechselt zur <link linkend="juk-viewmode-default"
+>Standardansicht</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ansicht</guimenu
+><guisubmenu
+>Anzeigemodi</guisubmenu
+><guimenuitem
+>Kompakt</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Wechselt zur <link linkend="juk-viewmode-compact"
+>Kompaktansicht</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ansicht</guimenu
+><guisubmenu
+>Anzeigemodi</guisubmenu
+><guimenuitem
+>Baum</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Wechselt zur <link linkend="juk-viewmode-tree"
+>Baumansicht</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>Das Menü Wiedergabe</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Wiedergabe</guimenu
+><guimenuitem
+>Zufallswiedergabe</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Mit dieser Funktion können Sie &juk; dazu bringen, nach dem Ende der Wiedergabe des aktuellen Stücks, zufällig ein Stück aus der ausgewählten Wiedergabeliste auszuwählen und dieses abzuspielen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Wiedergabe</guimenu
+><guimenuitem
+>Wiedergabeliste wiederholen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Wenn Sie diese Funktion aktivieren, wird &juk;, nachdem es das Ende einer Wiedergabeliste erreicht hat, diese wieder vom Beginn an abspielen.</para>
+</listitem>
+</varlistentry>
+<!--
+Crossfade Between Tracks
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Wiedergabe</guimenu
+><guimenuitem
+>Wiedergabe</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Befehl spielt entweder das gerade ausgewählte Stück ab oder setzt die Wiedergabe eines Stücks fort, wenn diese pausiert wurde.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Wiedergabe</guimenu
+><guimenuitem
+>Pause</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Mit diesem Befehl können Sie die Wiedergabe eines Stücks pausieren. Mit dem Wiedergabebefehl können Sie selbige dann wieder fortsetzen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Wiedergabe</guimenu
+><guimenuitem
+>Stopp</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Befehl stoppt die Wiedergabe des aktuellen Stücks. Sie können die Wiedergabe des Stücks nicht wieder an derselben Stelle fortsetzen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Wiedergabe</guimenu
+><guimenuitem
+>Nächster</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Befehl springt zum nächsten Stück in der Wiedergabeliste.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Wiedergabe</guimenu
+><guimenuitem
+>Vorheriger</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Befehl spielt das Stück ab das vor dem aktuellen Stück abgespielt wurde. </para>
+</listitem>
+</varlistentry>
+<!--
+Play Next Album
+-->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>Das Menü Metadaten</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Metadaten</guimenu
+><guimenuitem
+>Speichern</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Befehl speichert alle Änderungen der Metadaten der Datei die Sie gerade bearbeiten. Normalerweise werden Änderungen nicht gespeichert bis Sie mit der Maus in einen anderen Teil des &juk;-Programmfensters klicken.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Metadaten</guimenu
+><guimenuitem
+>Löschen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Befehl löscht das gerade ausgewählte Stück aus der Sammlungsliste und allen Wiedergabelisten in denen es enthalten ist. Danach wird die zum Stück gehörige Datei von der Festplatte gelöscht. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Metadaten</guimenu
+><guimenuitem
+>Aktualisieren</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Befehl ermöglicht das erneute Einlesen der Wiedergabeliste nach Änderungen. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Metadaten</guimenu
+><guisubmenu
+>Metadaten raten</guisubmenu
+><guimenuitem
+>Vom Dateinamen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Diese Funktion versucht, die Metadaten eines Stücks anhand des Dateinamens zu erraten. Sie können die zu verwendenden Schemen über den Menüpunkt <menuchoice
+><guimenu
+>Einstellungen</guimenu
+> <guimenuitem
+>Metadaten raten ...</guimenuitem
+></menuchoice
+> bearbeiten, welcher den Dialog <link linkend="juk-tag-guesser-configuration"
+>Einrichtung des Metadaten-Raters</link
+> öffnet.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Metadaten</guimenu
+><guisubmenu
+>Metadaten raten</guisubmenu
+><guimenuitem
+>Aus dem Internet</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Diese Funktion versucht die Metadaten einer Datei zu erraten, indem sie <application
+>TunePimp</application
+> von <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+> verwendet.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Cover Manager
+  -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Metadaten</guimenu
+><guimenuitem
+>Datei umbenennen</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+  <para
+>Mit dieser Aktion kann eine Datei oder eine Gruppe von Dateien für die ausgewählten Stücke in der Wiedergabeliste umbenannt werden. Vor der tatsächlichen Ausführung wird das Ergebnis des Umbenennens in einem Vorschaudialog angezeigt. Dann können Sie die Ausführung bestätigen oder abbrechen. </para>
+  <para
+>Die Dateien werden mit den Parametern definiert, die im <link linkend="juk-rename-dialog"
+>Dialog Umbenennen</link
+> festgelegt wurden. </para
+> 
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>Das Menü Einstellungen</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+><guisubmenu
+>Angezeigte Werkzeugleisten</guisubmenu
+> <guimenuitem
+>Haupt- / Wiedergabe-Werkzeugleiste</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Befehl blendet die <link linkend="main-toolbar"
+>Haupt-Werkzeugleiste</link
+> und die <link linkend="play-toolbar"
+>Wiedergabe-Werkzeugleiste</link
+> ein bzw. aus.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+> <guimenuitem
+>Im Systembereich der Kontrollleiste andocken</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Diese Option wird, wenn sie aktiviert wurde, ein &juk;-Symbol im Systemabschnitt der Kontrollleiste anzeigen. Über dieses Symbol zeigt &juk; an, ob es gerade ein Stück wiedergibt. Außerdem können Sie durch das Symbol bequem auf die Wiedergabefunktion von &juk; zugreifen.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+> <guimenuitem
+>Nach dem Schließen in der Kontrollleiste bleiben</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Wenn Sie diese Option aktiviert haben, wird &juk; nicht beendet wenn Sie das Programmfenster schließen, sondern bleibt im Systemabschnitt der Kontrollleiste als &juk;-Symbol weiterhin aktiv. Um diese Funktion nutzen zu können, muss die Option <guimenuitem
+>Im Systembereich der Kontrollleiste andocken</guimenuitem
+> ebenfalls aktiviert sein. Um &juk; zu beenden, müssen Sie dann entweder den Befehl <menuchoice
+><guimenu
+>Datei</guimenu
+> <guimenuitem
+>Beenden</guimenuitem
+></menuchoice
+> im Programmfenster auswählen, oder Sie erledigen dies bequem über das Symbol im Systemabschnitt der Kontrollleiste. Dazu klicken Sie mit der rechten Maustaste auf das Symbol und wählen dann die Option <guimenuitem
+>Beenden</guimenuitem
+> aus.</para>
+<para
+>Wenn &juk; mit der Einstellung <guilabel
+>Im Systembereich der Kontrollleiste andocken</guilabel
+> gestartet wird, dann wird eine einfache Benachrichtigung am oberen Bildschirmrand angezeigt, da sich ansonsten mancher Benutzer wundern könnte, dass kein &juk;-Fenster angezeigt wird. Diese zusätzliche Benachrichtigung kann abgeschaltet werden. Dazu öffnen Sie in den  &systemsettings; <menuchoice
+><guimenu
+>Allgemeines Erscheinungsbild und Verhalten</guimenu
+> <guimenuitem
+>Anwendungs- und Systembenachrichtigungen</guimenuitem
+></menuchoice
+>. Auf der Seite <guilabel
+>Benachrichtigungen verwalten</guilabel
+> wählen Sie <guilabel
+>Juk-Audio-Wiedergabe</guilabel
+> und und wählen Sie <guilabel
+>Meldungsfenster anzeigen</guilabel
+> für <guimenuitem
+>JuK läuft im Systemabschnitt der Kontrollleiste</guimenuitem
+>. Weitere Informationen über Einstellungen zu &kde;-Benachrichtigungen finden Sie in <ulink url="help:/kcontrol/kcmnotify"
+>dieser Dokumentation</ulink
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+> <guimenuitem
+>Titelankündigung anzeigen</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Wenn diese Option aktiviert ist, wird &juk; ein kleines Fenster einblenden, das Informationen über den Künstler und das Stück enthält dessen Wiedergabe gerade begonnen hat und Knöpfe für das schnelle wechseln zu einem anderem Stück enthält. Die Option <quote
+>An der Kontrollleiste andocken</quote
+> muss ebenfalls aktiviert sein.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+> <guimenuitem
+>Metadaten raten ...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Menüpunkt öffnet den Dialog <link linkend="juk-tag-guesser-configuration"
+>Einrichtung des Metadaten-Raters</link
+>. Dort können Sie alle Schemata bearbeiten, nach denen &juk; versucht die Metadaten aus Dateinamen zu erraten.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Einstellungen</guimenu
+> <guimenuitem
+>Dateien umbenennen ...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Dieser Menüpunkt öffnet den Konfigurationsdialog <link linkend="juk-rename-dialog"
+>Dateien umbenennen</link
+>, in dem Sie einstellen können, nach welchen Schemata &juk; die Dateien umbenennen soll.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Configure scrobbling
+  -->
+</variablelist>
+
+<para
+>Zusätzlich hat &juk; die bekannten &kde;-Einträge im Menü <guimenu
+>Einstellungen</guimenu
+> und <guimenu
+>Hilfe</guimenu
+>, weitere Informationen dazu finden Sie in den Abschnitten über die Menüs <ulink url="help:/fundamentals/menus.html#menus-settings"
+>Einstellungen</ulink
+> und <ulink url="help:/fundamentals/menus.html#menus-help"
+>Hilfe</ulink
+> der &kde;-Grundlagen. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Tastenbelegung</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>Tastenkombinationen (Kurzbefehle)</entry>
+<entry
+>Aktion</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>Q</keycap
+></keycombo
+></entry>
+<entry
+>Alles auswählen</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Kopieren</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>Datei umbenennen</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>Metadaten aus dem Internet raten.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Metadaten aus dem Dateinamen raten.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>Neue <link linkend="juk-search-playlists"
+>Wiedergabeliste aus Suche</link
+> erstellen.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Neue leere Wiedergabeliste</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>Neue Wiedergabeliste aus Ordner erstellen.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>Geänderte Metadaten speichern.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>Danksagungen und Lizenz</title>
+
+<para
+>&juk; Copyright &copy; 2002-2013 &Scott.Wheeler;, Michael Pyne, und Andere. </para>
+
+ <para
+>&juk; wird von &Scott.Wheeler; &Scott.Wheeler.mail; und Michael Pyne <email
+>michael.pyne@kdemail.net</email
+> entwickelt und gepflegt.</para>
+
+<para
+>Vielen Dank an die nachfolgenden Leute, die zu &juk; beigetragen haben:</para>
+
+<itemizedlist>
+<listitem
+><para
+>&Daniel.Molkentin;&Daniel.Molkentin.mail; für das Systemabschnittsymbol, den <quote
+>eingebetteten</quote
+> Metadaten-Editor, Fehlerkorrekturen, Evangelismus und moralische Unterstützung.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> für den<application
+>GStreamer</application
+>-Anschluss von &juk;.</para>
+</listitem>
+
+<listitem
+><para
+>Stefan Asserh&auml;ll <email
+>stefan.asserhall@telia.com</email
+> für die Unterstützung globaler Tastenkürzel.</para>
+</listitem>
+
+<listitem
+><para
+>Stephen Douglas <email
+>stephen_douglas@yahoo.com</email
+> für das Titelankündigungsfenster.</para>
+</listitem>
+
+<listitem
+><para
+>&Frerich.Raabe;&Frerich.Raabe.mail; für automatisches raten der Stückdaten und Fehlerkorrekturen.</para>
+</listitem>
+
+<listitem
+><para
+>Zack Rusin <email
+>zack@kde.org</email
+> für mehrere automatische Dinge, auch MusicBrainz-Support.</para>
+</listitem>
+
+<listitem
+><para
+>Adam Treat <email
+>manyoso@yahoo.com</email
+> für die Mitarbeit am MusicBrainz-Support.</para>
+</listitem>
+
+<listitem
+><para
+>Matthias Kretz <email
+>kretz@kde.org</email
+>, den freundlichen &arts;-Guru in der Nachbarschaft.</para>
+</listitem>
+
+<listitem
+><para
+>Maks Orlovich <email
+>maksim@kde.org</email
+> für Ideen, die Leuten mit Terabytes von Musik das Leben mit &juk; leichter machen.</para>
+</listitem>
+
+<listitem
+><para
+>Antonio Larrosa Jimenez <email
+>larrosa@kde.org</email
+> für die &DCOP;-Schnittstelle.</para>
+</listitem>
+
+<listitem
+><para
+>Allan Sandfield Jensen <email
+>kde@carewolf.com</email
+> für die Unterstützung von<acronym
+>FLAC</acronym
+> und <acronym
+>MPC</acronym
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Nathan Toone <email
+>nathan@toonetown.com</email
+> Cover-Verwaltung von Alben.</para>
+</listitem>
+
+<listitem
+><para
+>Pascal Klein <email
+>4pascal@tpg.com.au</email
+> für den Startbildschirm.</para>
+</listitem>
+
+<listitem
+><para
+>Laurent Montel <email
+>montel@kde.org</email
+> für die Portierung auf KDE 4, als kein anderer es tun wollte.</para>
+</listitem>
+
+<listitem
+><para
+>Georg Grabler <email
+>georg@grabler.net</email
+> für die weitere Portierung auf die &kde;-Plattform.</para>
+</listitem>
+
+<listitem
+><para
+>Martin Sandsmark <email
+>martin.sandsmark@kde.org</email
+> für die Unterstützung der Last.fm-Übermittlung, Liedtexte, Vorbereitung für &kde;-Frameworks.</para>
+</listitem>
+
+<listitem
+><para
+>Eike Hein <email
+>hein@kde.org</email
+> für die Implementierung der MPRIS2-Schnittstelle.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Copyright der Dokumentation &copy; 2003, &Lauri.Watts;, und &copy; 2004-2013 Michael Pyne.</para>
+
+<para
+>Übersetzung Patrick Trettenbrein<email
+>patrick.trettenbrein@kdemail.net</email
+></para
+>  &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->

@@ -1,0 +1,2535 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY package "kdemultimedia">
+  <!ENTITY kappname "&juk;">
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Estonian  "INCLUDE">
+]>
+
+<book id="juk" lang="&language;">
+
+<bookinfo>
+<title
+>&juk;i käsiraamat</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Pyne</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Marek</firstname
+><surname
+>Laane</surname
+><affiliation
+><address
+><email
+>bald@starman.ee</email
+></address
+></affiliation
+><contrib
+>Tõlge eesti keelde</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>&Scott.Wheeler;</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2013-11-08</date>
+<releaseinfo
+>3.11 (&kde; 4.12)</releaseinfo>
+
+<abstract>
+<para
+>&juk; on muusikamasin, sildistaja ja muusikakogu haldur. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+<keyword
+>audio</keyword>
+<keyword
+>sildistaja</keyword>
+<keyword
+>mängija</keyword>
+<keyword
+>jukebox</keyword>
+<keyword
+>JuK</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Sissejuhatus</title>
+
+<para
+>&juk; on, nagu nimigi ütleb, jukebox ehk muusikamasin. Nagu sellised rakendused ikka, lubab &juk; sul redigeerida oma audiofailide <quote
+>silte</quote
+> ning hallata muusikakogu ja esitusnimekirju. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>&juk;i kasutamine</title>
+
+<para>
+<screenshot>
+<screeninfo
+>&juk;i pilt</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>&juk;i pilt.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>&juk; hoiab alal kõigi talle teadaolevate failide nimekirja. See kannab nimetust <guilabel
+>Muusikakogu nimekiri</guilabel
+>. See on spetsiaalselt &juk;ile omane nimekiri.</para>
+
+<para
+>Muusikakogu nimekirjast eraldi seisavad esitusnimekirjad. Neid võib sul olla nii palju kui süda lustib. Sa võid kasutada &juk;i loodud esitusnimekirju teistes meediamängijates (näiteks &amarok; või <application
+>xmms</application
+>) ning kasutada &juk;is esitusnimekirju, mis on loodud teistes rakendustes.</para>
+
+<para
+>Muusikakogu nimekirja saab faile lisada ükshaaval, valides menüükäsu <menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Ava...</guimenuitem
+></menuchoice
+> ning valides vajalikud failid &kde; standardsest failidialoogist. Kuid sa võid ka lisada terve kataloogi korraga, valides menüükäsu <menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Halda katalooge...</guimenuitem
+></menuchoice
+> Sel moel lisatud kataloogid uuritakse uuesti läbi igal &juk;i käivitamisel. Saab isegi määrata neisse kataloogidesse kuuluvad alamkataloogid, mida ei uuriga. Soovi korral võid seda teha ka rakenduse töötamise ajal, klõpsates hiire parema nupuga kirjel <guilabel
+>Muusikakogu nimekiri</guilabel
+> ja valides käsu <guimenuitem
+>Laadi uuesti</guimenuitem
+>.</para>
+
+<para
+>Laulu lisamine esitusnimekirja lisab faili automaatselt ka muusikakogu nimekirja, kuid faili lisamine muusikakogu nimekirja ei lisa seda automaatselt ühtegi esitusnimekirja.</para>
+
+<para
+>Esitusnimekirja saab kiiresti luua kogu oma muusikakogu nimekirja põhjal, klõpsates &HPN;ga kirjel <guilabel
+>Muusikakogu nimekiri</guilabel
+> ja valides käsu <guimenuitem
+>Klooni</guimenuitem
+>. Tekkiv esitusnimekiri on tavaline nimekiri, mille muutmine ei mõjuta kuidagi <guilabel
+>muusikakogu nimekirja</guilabel
+>.</para>
+
+<para
+>Väljaspool &juk;i loodud esitusnimekirjafaile saab lisada ükshaaval, valides menüükäsu <menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Ava...</guimenuitem
+></menuchoice
+> Automaatselt lisatakse ka kõik esitusnimekirjad, mis leitakse kataloogides, mille lisad menüükäsuga <menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Halda katalooge...</guimenuitem
+></menuchoice
+></para>
+
+<para
+>Uue tühja, otsiva või kataloogi põhjal loodud esitusnimekirja saab luua menüükäsuga <menuchoice
+><guimenu
+>Fail</guimenu
+><guisubmenu
+>Uus</guisubmenu
+></menuchoice
+> või klõpsuga tööriistariba ikoonile <guiicon
+>Uus</guiicon
+>. Sul palutakse anda nimi ning seejärel ilmub esitusnimekirjade paneelile sellele vastav ikoon. Nüüd võid uude nimekirja lohistada faile muusikakogu nimekirjast või teistest esitusnimekirjadest. Suvalisel hetkel võid esitusnimekirja salvestada klõpsuga ikoonile <guiicon
+>Salvesta</guiicon
+> või menüükäsuga <menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Salvesta</guimenuitem
+></menuchoice
+>.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>Palade nimekiri</title>
+
+<para
+>Kui vaatad muusikakogu nimekirja, näidatakse peapaneelis kõiki faile, mida &juk; teab. Kui vaatad esitusnimekirja, näidatakse ainult neid palasid, mis kuuluvad antud esitusnimekirja. Mõlemal juhul on küll nimekirja välimus ja omadused ühesugused.</para>
+
+<para
+>Iga pala hõivab ühe rea. See on jagatud veergudeks vastavalt metaandmetele, mida &juk; jälgib. Veerud vastavad väljadele, mida saad redigeerida sildiredaktoris.</para>
+
+<para
+>Nimekirja järjestust saab muuta, kui klõpsata &HVN;ga mõne veeru nimele. Sellega sorteeritakse failid kasvavas järjekorras vastavalt antud veeru sisule. Kui klõpsad &HVN;ga uuesti sama veeru nimel, sorteeritakse failid alanevas järjekorras.</para>
+
+<para
+>Veergude laius määratakse algul nii, et seal oleks näha kõige pikem kirje. Veergude laiust saad ise muuta, kui liigutad veergude vahel paiknevat eraldajat. Vii hiirekursor kahe veeru vahele ja kui see võtab kaksiknoole kuju, klõpsa &HVN;ga ja lohista eraldajat vajalikus suunas.</para>
+
+<para
+>Veergude järjekorda saab muuta, kui klõpsata &HVNga; veeru nimel ja lohistada seda vasakule või paremale. Veergu ei saa lohistada üle akna serva, nii et kui tahad seda kaugemale liigutada, tuleb sul vajaduse korral veidi vasakule või paremale kerida ja siis veergu uuesti lohistada, kuni see jõuab vajalikku asupaika.</para>
+
+<para
+>Veerge saab peita või nähtavale tuua, kui klõpsata &HPN;ga mõne veeru päisel ja valida ilmuvast menüüst veeru nimi, mida soovid näha või peita.</para>
+
+<para
+>Topeltklõps &HVN;ga failil käivitab selle esitamise sisseehitatud mängijas. Kui mõni laul juba mängib, see peatatakse ning hakatakse esitama uut laulu.</para>
+
+<para
+>Klõps &HPN;ga failil pakub mitu võimalust:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>Lisa esitusjärjekorda</guimenuitem
+></term>
+<listitem>
+<para
+>See paneb faili mängima niipea, kui parajasti esitatav laul läbi saab. Kui ühtegi laulu ei esitata, hakatakse faili mängima niipea, kui klõpsad nuppu <guiicon
+>Esitus</guiicon
+>. Kui oled juba valikut <guimenuitem
+>Lisa esitusnimekirja</guimenuitem
+> kasutanud mõne teise faili korral, tühistab see fail selle valiku.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Lõika</guimenuitem
+></term>
+<term
+><guimenuitem
+>Kopeeri</guimenuitem
+></term>
+<term
+><guimenuitem
+>Aseta</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Eemalda esitusnimekirjast</guimenuitem
+></term>
+<listitem>
+<para
+>Kui vaatad muusikakogu nimekirja, eemaldab see käsk faili nimekirjast ning ka kõik antud laulu kirjed kõigist esitusnimekirjadest. Tasuks tähele panna, et kui fail asub kataloogis, mida &juk; uurib käivitamisel, lisatakse see muusikakogu nimekirja uuesti &juk;i järgmisel käivitamisel, kuid mitte esitusnimekirja(desse).</para>
+<para
+>Kui vaatad esitusnimekirja, eemaldab käsk <guimenuitem
+>Eemalda esitusnimekirjast</guimenuitem
+> ainult faili antud esitusnimekirjast.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Muuda <replaceable
+>veeru nime</replaceable
+></guimenuitem
+></term>
+<listitem>
+<para
+>Võimaldab muuta parajasti esile tõstetud laulu veerus, millele klõpsasid. Kui sa ei ole näiteks sildiredaktorit nähtavaks muutnud ja tegutsed usinalt esitusnimekirja loomise kallal, aga oled esitaja nime valesti kirja pannud, saad seda selle käsuga otse muuta.</para>
+<para
+>Sel moel tehtud muudatused salvestatakse alati automaatselt kohe pärast seda, kui oled muutmisega hakkama saanud ja klõpsad kuhugi mujale.</para>
+<para
+>See menüükäsk ei ole kasutatav, kui &juk; avastab, et valitud rada on ainult lugemisõigusega.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Värskenda</guimenuitem
+></term>
+<listitem>
+<para
+>See laeb uuesti valitud failide sildiinfo, mis on kasuks, kui faile on muudetud &juk;i töötamise ajal.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Kustuta</guimenuitem
+></term>
+<listitem>
+<para
+>See kustutab faili muusikakogu nimekirjast, eemaldab kõik antud laulu kirjed kõigist esitusnimekirjadest ja kustutab faili kettalt. Seda käsku ei saa tagasi võtta, kuid sinu käest küsitakse selle valimisel kinnitust. Kasuta seda käsku suure ettevaatusega.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>Sildiinfo oletamine</guisubmenu
+></term>
+<listitem>
+<para
+>Selle valimisel püüab &juk; ära arvata sellist infot nagu laulu esitaja ja pealkiri. &juk; kasutab äraarvamiseks erinevaid meetodeid: <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>Failinimest</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; üritab laulu sildid tuletada failinimest. Näiteks sellise laulunime põhjal nagu <filename
+>Roxette - You've Got the Look.mp3</filename
+> oletatakse, et esitaja on Roxette ja pealkiri You've Got the Look. Seda, kuidas &juk; asju ära arvab, saab kohendada, kui valida menüükäsk <menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Siltide arvamine...</guimenuitem
+></menuchoice
+>, mis avab <link linkend="juk-tag-guesser-configuration"
+>sildioletaja dialoogi</link
+>. &juk; ei asenda silte, mida ta ei oska failinimest tuletada.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Internetist</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; üritab laulu sildid ära arvata MusicBrainzi programmi kasutades. Selleks peab olema MusicBrainz paigaldatud. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Nimeta fail ümber</guimenuitem
+></term>
+<listitem>
+<para
+>See nimetab valitud failid ümber vastavalt valitud vormindusele. Viimase saab kindlaks määrata, kui valida menüükäsk <menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Failide ümbernimetamine...</guimenuitem
+></menuchoice
+> Tekkivad failinimed põhinevad nende metaandmete siltidele. Näiteks Stemage'i Oggo Vorbise laul <quote
+>The Theme (Metroid)</quote
+> saab failiks <filename
+>/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
+>. </para>
+</listitem>
+</varlistentry>
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
+<varlistentry>
+<term
+><guimenuitem
+>Loo valitud elementidest esitusnimekiri</guimenuitem
+></term>
+<listitem>
+<para
+>See võimaldab kiiresti luua muusikakogu nimekirja kuuluvatest lauludest esitusnimekirja. Sinu käest soovitakse teada saada uue esitusnimekirja nime ning sellesse lisatakse kõik laulud, mis olid valitud.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Lisa valitud elemendid audio või andme CD-le</guimenuitem
+></term>
+<listitem>
+<para
+>See võimaldab kiiresti luua K3b &CD;-kirjutamise projekti valitud failidega. *&juk; pärib, kas soovid luua audio &CD; või andme &CD; projekti, kui sul pole just juba mõnda K3b projekti lahti.</para>
+
+<para
+>Kui K3b veel ei tööta, käivitab &juk; selle. Seejärel lisab &juk; valitud failid K3b aktiivsesse projekti. Siis võid salvestada projekti, et see K3b-s hiljem kirjutada või ka kohe &CD;-d kirjutama asuda. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+>&juk;i esitusnimekirjad</title>
+<para
+>Esitusnimekiri on lihtsalt teatud põhimõtte alusel ühte koondatud laulude kogu. Sul võib olla näiteks nimekiri lauludega, mida kuulad programmeerimise ajal, magama jäädes või ka siis, kui tahad naerda. &juk; toetab mitut laadi esitusnimekirju. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>Tavalised esitusnimekirjad</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> Need on kõige levinumad. Seda tüüpi esitusnimekiri koosneb failidest, täpselt nagu ka muusikakogu nimekiri.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>Ajaloo-esitusnimekirjad</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> Kui lubad seda tüüpi esitusnimekirja (menüükäsuga <menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Näita ajalugu</guimenuitem
+></menuchoice
+>), salvestab see nimekiri kõik laulud, mida &juk; esitab. Nimekirjal on üks lisaveerg nimetusega <guilabel
+>Aeg</guilabel
+>, kus seisab kuupäev ja kellaaeg, millal laulu esitati. Nimekiri hakkab aga ajalugu jälgima alles siis, kui see sisse lülitatakse. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>Otsivad esitusnimekirjad</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> Seda tüüpi esitusnimekirja aluseks on otsing. Selle saab sisse lülitada menüükäsuga <menuchoice
+><guimenu
+>Fail</guimenu
+><guisubmenu
+>Uus</guisubmenu
+><guimenuitem
+>Otsiv esitusnimekiri</guimenuitem
+></menuchoice
+> või klõpsuga tööriistariba nupule <link linkend="juk-advanced-search-dialog"
+>Otsiv esitusnimekiri</link
+>.</para>
+<para
+>Pärast sellise esitusnimekirja loomist jälgib see, millised laulud sinu muusikakogu nimekirjas vastavad kriteeriumidele ning uuendab ennast automaatselt, kui muusikakogu nimekiri muutub.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>Esitusnimekirjad paigutatakse <guilabel
+>esitusnimekirjade paneelile</guilabel
+> ehk vasakul asuvale püstribale. Seal kujutab iga ikoon endast esitusnimekirja. Paneelil on mitu vaaterežiimi, mille saab valida menüüst <menuchoice
+><guimenu
+>Vaade</guimenu
+><guisubmenu
+>Vaaterežiimid</guisubmenu
+></menuchoice
+>. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+>Vaikimisi vaaterežiim</term>
+<listitem>
+<para
+>See on vaikimisi vaade, mille korral esitusnimekirju näidatakse suurte ikoonidena üksteise all. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+>Kompaktne vaaterežiim</term>
+<listitem>
+<para
+>See sarnaneb tavalisele vaatele, kuid esitusnimekirju tähistavad suurte kastide asemel väikeste ikoonidega read. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+>Puuvaade</term>
+<listitem>
+<para
+>See on kõige võimsam vaaterežiim. See sarnaneb kompaktsele vaatele, ainult et muusikakogu nimekiri paikneb selles virtuaalsete esitusnimekirjade nii-öelda esivanema rollis. Sellel on kolm järglast: esitaja, album ja stiil. Igal järglasel on oma järglased, mis näitavad kõiki konkreetse kategooria kirjeid. Kui sinu muusikakogus on näiteks nelja erineva esitaja muusikat, on esitaja rubriigis neli kirjet.</para>
+<para
+>Puuvaate üks lahe omadus on asi, mida võiks nimetada ümbersildistamiseks lohistamisega. Vali radade nimekirjas lihtsalt mõned failid ja lohista need muusikakogu nimekirjas asuvasse esitaja, albumi või stiili kirjesse. Laulude silte muudetakse automaatselt, et need sobiksid elemendiga, kuhu sa nad lohistasid. Kui näiteks lohistad rajad stiilikirjele "Rock", määratakse kõigi lohistatud palade stiilisildiks samuti Rock. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>&juk;i sildiredaktor</title>
+
+<para
+>Paljude failivormingute korral on mõttekas kasutada faili sisu kirjeldamiseks failinime: näiteks <quote
+><filename
+>Raport juhatusele - Juuni 2003.doc</filename
+></quote
+> annab piisavalt infot, et fail hõlpsasti tuvastada. Kuid kogu kasuliku info hõlmamine failinimesse võib laulude korral anda umbes sellise tulemuse: <quote
+><filename
+>Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.mp3</filename
+></quote
+> või <quote
+><filename
+>Various Artists_15_The Smithsonian Collection of Classic Jazz Volume II_Jimmie Lunceford &amp; His Orchestra - Organ Grinder's Swing.mp3</filename
+></quote
+>. Kumbki pole just eriti praktiline ega sisalda ka kogu kasulikku infot, mis sul võib laulu kohta olla. Kuid näiteks albumi ja rajanumbri lisamine muudaks failinime veelgi pikemaks ja hoomamatuks, ometi ei sisalduks selles isegi veel mitte ilmumisaastat ega stiili, mis kuluks ju ära, kui esitaja pole tuttav.</para>
+
+<para
+>Sellisel juhul on lahenduseks salvestada sellist laadi metaandmed otse failides. Mp3- ja ogg-failid võivad sisaldada ka väikseid tekstilõike, mida saab pruukida faili sisu kirjeldamiseks. Selleks on mitmeid vorminguid, kuid &juk; varjab nende erinevused sinu eest (need pole üldiselt ka olulised) ning pakub välja standardse viisi redigeerida kõigi audiofailide tuntud silte ühtmoodi.</para>
+
+<para
+>&juk;i võimas sildiredaktor lubab redigeerida nii mp3- kui ka ogg-failide silte. Redigeerida võib nii üht faili kui ka mitmeid korraga ning soovi korral ka mp3- ja ogg-faile korraga. Ainus nõue on see, et sul peab olema failidele kirjutamisõigus: sa ei saa näiteks redigeerida sellise faili silte, mis paikneb ühendatud &CD-ROM;-il.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Ühe faili siltide redigeerimine</title>
+
+<para
+>Üheainsa faili siltide redigeerimiseks vali see muusikakogu nimekirjas või mõnes esitusnimekirjas. Kui sildiredaktor pole näha, lülita see sisse menüükäsuga <menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Näita sildiredaktorit</guimenuitem
+></menuchoice
+>. Sildiredaktor paikneb nimekirjast allpool.</para>
+
+<para
+>Redaktoris piisab info muutmiseks lihtsalt teksti muutmisest vastaval väljal. Kui oled valmis, klõpsa &HVN;ga uuesti nimekirjas ning sinu käest küsitakse, kas soovid muudatused salvestada.</para>
+
+<para
+>Võib juhtuda, et klõpsad küll failile, aga sildiredaktoris midagi muuta ei saa. See juhtub siis, kui &juk; avastab, et rada on ainult lugemisõigusega.</para>
+
+<variablelist>
+<title
+>Sildiredaktori väljad</title>
+<varlistentry>
+<term
+><guilabel
+>Esitaja nimi:</guilabel
+></term>
+<listitem>
+<para
+>Laulu esitaja või esitajate nimi.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Raja nimi:</guilabel
+></term>
+<listitem>
+<para
+>Laulu nimi.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Albumi nimi:</guilabel
+></term>
+<listitem>
+<para
+>Albumi nimi, millel laul leidub.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Stiil:</guilabel
+></term>
+<listitem>
+<para
+>Muusika <quote
+>stiil</quote
+>. &juk; pakub omalt poolt nimekirja, mis vastab mitteametlikult ID3 standardile, kuid sa võid mõistagi siia ka vajaliku stiili ise kirja panna.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Failinimi:</guilabel
+></term>
+<listitem>
+<para
+>Faili tegelik nimi kettal. Seda saab otse muuta ning salvestamisel nimetatakse fail ümber.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Rada:</guilabel
+></term>
+<listitem>
+<para
+>Raja asukoht originaalsalvestises.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Aasta:</guilabel
+></term>
+<listitem>
+<para
+>Laulu avaldamise aasta.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Pikkus:</guilabel
+></term>
+<listitem>
+<para
+>See ei ole muudetav ja seda näidatakse lihtsalt teadmiseks.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Bitikiirus:</guilabel
+></term>
+<listitem>
+<para
+>See ei ole muudetav ja seda näidatakse lihtsalt teadmiseks.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Kommentaar:</guilabel
+></term>
+<listitem>
+<para
+>Siia võib lisada mis tahes kujul kommentaari, märkused &etc;</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Muudatused võib igal hetkel salvestada menüükäsuga <menuchoice
+><guimenu
+>Sildistaja</guimenu
+><guimenuitem
+>Salvesta</guimenuitem
+></menuchoice
+> või kiirklahviga <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Mitme faili siltide redigeerimine</title>
+
+<para
+>Nimekirjas võib valida ka mitu faili ning muuta kõigi nende üht või enamat silti korraga.</para>
+
+<para
+>Failid järjestikuseks valimiseks kasuta klahvi &Shift; ja lohista &HVNga;, üksikfailide valimiseks hoia all klahv &Ctrl; ja  klõpsa vajalike failidel &HVNga;.</para>
+
+<para
+>Kui sildiredaktor pole näha, lülita see sisse menüükäsuga <menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Näita sildiredaktorit</guimenuitem
+></menuchoice
+>. Sildiredaktor paikneb nimekirjast allpool.</para>
+
+<para
+>Sildiredaktor käitub mõnevõrra teistmoodi, kui oled valinud mitu faili.</para>
+
+<para
+>Iga sildiredaktori välja kõrval on nüüd märkekast <guilabel
+>Lubatud</guilabel
+>. Kõik väljad, mille korral on kõigil valitud failidel ühesugune sisu, näitavad seda ning neid saab redigeerida, kui märkida ära kast <guilabel
+>Lubatud</guilabel
+>.</para>
+
+<!-- put screeny here -->
+
+<para
+>Kõik väljad, mille sisu kõigis valitud failides ei kattu, ei ole algselt redigeeritavad ega näita mingit sisu.</para>
+
+<para
+>Mis tahes välja sisu muutmiseks märgi kast <guilabel
+>Lubatud</guilabel
+> (kui see pole veel märgitud) ning muuda välja sisu nagu tavaliselt.</para>
+
+<para
+>Kui oled muudatused teinud, klõpsa &HVNga; uuesti nimekirja ning sinu käest küsitakse, kas soovid muudatused salvestada. Dialoog näitab ka faile, mida muudatused puudutavad, nii et saad siin täiendavalt kontrollida, et oled muutnud just vajalikke faile.</para>
+
+<para
+>Muudatused võib igal hetkel salvestada menüükäsuga <menuchoice
+><guimenu
+>Sildistaja</guimenu
+><guimenuitem
+>Salvesta</guimenuitem
+></menuchoice
+> või kiirklahviga <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>Failide ümbernimetamise dialoog</title>
+<para>
+<screenshot>
+<screeninfo
+>Failide ümbernimetamise dialoog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Failide ümbernimetamise dialoogi pilt.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Failide ümbernimetamise seadistustedialoogis saab määrata kindlaks failide ümbernimetamise toimingu üksikasjad. Ümbernimetamisel võetakse aluseks laulu metaandmete siltides leiduv info. </para>
+<para
+>Failide ümbernimetamine tervikuna on mõeldud sinu muusikakogu failinimede ühtlustamiseks (vajaduse korral ka faile liigutades). Näiteks võib sul olla laule, mida näeb kettal kujul <filename
+>01 - Pealkiri.mp3</filename
+>, kui oled saanud need <ulink url="http://amazon.com"
+>Amazonist</ulink
+>, samal ajal kui laulud <ulink url="http://ocremix.org/"
+>OCRemixist</ulink
+> võivad olla kujul <filename
+>Ailsean- Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename
+> või midagi sellist. </para>
+<para
+>Failide ümbernimetajaga annab &juk; võimaluse nimetada need laulud kettal <quote
+>mõistlikuks</quote
+>, näiteks <filename
+>Ailsean - Mega Fire.mp3</filename
+> ja <filename
+>The Strokes - Reptilia.mp3</filename
+>. Siin võib isegi määrata läbivaid asukohti muusika automaatseks sortimiseks (nt. aasta või albumi kaupa), näiteks <filename
+>$HOME/Muusika/2003/The Strokes - Reptilia.mp3</filename
+>. </para>
+<para
+>See kõik on äärmiselt lihtne: piisab valid valida käsk <quote
+>Nimeta fail ümber</quote
+> kas menüüst <guimenu
+>Sildistaja</guimenu
+> või failidel hiire parema nupuga klõpsates. Vaikimisi kiirklahv on <keycombo
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+>. Kuid enne seda tuleks määrata, mil moel failinimesid muudetakse. </para>
+<para
+>Seda saab teha eespool mainitud dialoogis, mille avab menüükäsk <menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Failide ümbernimetamine...</guimenuitem
+></menuchoice
+> Võimalik on kindlaks määrata sihtasukoht, kasutades selleks muusika baaskataloogi ja lisades sinna vajalikke osi. Need osad põhinevad muusika metaandmetel, näiteks laulude pealkirjad, esitajad jne., ning neid saab lisada real <guilabel
+>Lisatakse kategooria</guilabel
+>. </para>
+<para
+>Igal "asukohaosisel" on oma märkekast, millega saab lisada kataloogide eraldaja. </para>
+<para
+>Kõigi osiste valikud, mis võimaldavad määrata, mis juhtub siis, kui vastavad metaandmed on puudu, ning lisada prefiks või sufiks, kui kirje asendatakse, aitavad muuta ümbernimetamise märksa tõhusamaks. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>Sildioletaja seadistustedialoog</title>
+<para>
+<screenshot>
+<screeninfo
+>Sildioletaja seadistustedialoog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Sildioletaja seadistustedialoogi pilt.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Sildioletaja seadistustedialoogi saab kasutada <guilabel
+>failinime põhjal äraarvamise</guilabel
+> seadistamiseks.</para>
+
+<para
+>Dialoogis asuvad vasakul erinevad failinime mustrid. &juk; pakub terve hulga mustreid, mis peaks sobima enamiku failinimestiilidega. Kui soovid lisada uue skeemi, klõpsa nupule <guibutton
+>Lisa</guibutton
+>, pane oma skeem kirja ning klõpsa <guibutton
+>OK</guibutton
+>.</para
+>  
+
+<para
+>Siin  näeb kõiki seadistatud failinimeskeeme, mida sildiredaktor kasutab silditeabe hankimisel failinimest. Iga string võib sisaldada üht järgmistest kohatäitjatest:</para>
+
+<para
+><itemizedlist>
+<listitem
+><para
+>%t: pealkiri</para
+></listitem>
+<listitem
+><para
+>%A: album</para
+></listitem>
+<listitem
+><para
+>%a: esitaja</para
+></listitem>
+<listitem
+><para
+>%T: rada</para
+></listitem>
+<listitem
+><para
+>%c: kommentaar</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Näiteks failinimeskeemiga <quote
+>[%T] %a - %t</quote
+> sobib <quote
+>[01] Deep Purple - Smoke on the water</quote
+>, aga mitte <quote
+>(Deep Purple) Smoke on the water</quote
+>. Teise nime puhul oleks vaja skeemi <quote
+>(%a) %t</quote
+>.</para>
+
+<para
+>&juk; proovib nimekirjas leiduvaid skeeme üksteise järel ülalt alla ning kasutab laulu siltide äraarvamiseks esimest skeemi, mis sobib. Mõned laulud võivad sobida mitme skeemiga. Vajaduse korral võid nimekirjas määrata skeemide järjestuse, valides skeemi ning liigutades seda noolenuppudega üles või alla. </para>
+
+<para
+>Skeemi võib ka muuta või nimekirjast eemalda. Vali skeem ning klõpsa nupule <guibutton
+>Muuda</guibutton
+>, kui soovid seda muuta, või <guibutton
+>Eemalda</guibutton
+>, kui ei soovi skeemi enam nimekirjas näha. </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>Täpsema otsingu dialoog</title>
+<para>
+<screenshot>
+<screeninfo
+>Täpsema otsingu dialoog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Täpsema otsingu dialoogi pilt.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Täpsema otsingu dialoogiga saab luua <link linkend="juk-search-playlists"
+>otsivaid esitusnimekirju</link
+>. See võimaldab määrata väga täpselt otsingu, mis uurib läbi sinu muusikakogu laulude sildid.</para>
+
+<para
+>Dialoogi ülaosas saad anda otsiva esitusnimekirja nime. Seejärel tuleb sektsioonis <guilabel
+>Otsingukriteerium</guilabel
+> kindlaks määrata, mida ja kuids otsida. </para>
+
+<para
+>Sektsiooni <guilabel
+>Otsingukriteerium</guilabel
+> ülaosas on kaks raadionuppu: <guilabel
+>Sobib iga järgmine</guilabel
+> ja <guilabel
+>Sobivad kõik järgmised</guilabel
+>. Kui valida <guilabel
+>Sobib iga järgmine</guilabel
+>, siis vastab otsingukriteeriumile mis tahes tingimus. Vastasel juhul peavad olema rahuldatud kõik kriteeriumid, enne kui laul esitusnimekija arvatakse. </para>
+
+<para
+>Raadionuppude all ongi tingimused, ise. Sa võid neid juurde lisada klõpsuga nupule <guibutton
+>Rohkem</guibutton
+> või eemaldada klõpsuga nupule <guibutton
+>Vähem</guibutton
+>. Tühjaks jäetud tingimusi eiratakse, nii et tingimata ei pruugigi kasutada nuppu <guibutton
+>Vähem</guibutton
+>. </para>
+
+<para
+>Iga tingimus koosneb kolmest osast. Vasakul saab valida sildi, paremal sobivuse liigi, keskel aga otsitava teksti. Sildivalija annab &juk;ile teada, millises sildis soovid teksti leida. Kui valid erisildi "&lt;Kõik nähtavad&gt;", sobib otsitava tekstiga iga silt, mida muusikakogu nimekirjas näha võib. </para>
+
+<para
+>Sobivuse liigi valimisega saab &juk;ile teada anda, kuidas otsida. Viisid on järgmised: <variablelist>
+<varlistentry>
+<term
+>Tavaline sobivus</term>
+<listitem
+><para
+>See on vaikimisi sobivuse liik. See otsib antud teksti kõikjal määratud sildis, panemata tähele näiteks suur- ja väiketähti. Näide: esitaja sildist otsitakse Depeche Mode'i.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Tõstutundlik</term>
+<listitem
+><para
+>See on nagu tavaline sobivus, ainult et otsing arvestab ka suur- ja väiketähtedega.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Mustri sobivus</term>
+<listitem
+><para
+>See on kõige võimsam otsimismeetod. Kirjutatav otsingutekst kujutab endast regulaaravaldist, mille alusel sildis otsing sooritatakse. Regulaaravaldiste selgitamine väljub käesoleva käsiraamatu piires, kuid nende loomisel võib abiks olla rakendus &kregexpeditor;. &juk; kasutab &Qt; regulaaravaldise stiili.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>Vali dialoogis kriteeriumid, mille järgi otsitakse, ning klõpsa nupule <guibutton
+>OK</guibutton
+>, mille järel luuaksegi otsiv esitusnimekiri! </para>
+</sect1>
+<!-- is this still relevant?
+
+write new for kde4
+
+<sect1 id="juk-cover-manager">
+
+<title
+>The &juk; Cover Manager</title>
+
+<para
+>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>How Covers Worked in &juk; 2.2</title>
+
+<para
+>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel
+>Artist</guilabel
+> or <guilabel
+>Album</guilabel
+> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>How Covers work in &juk; 2.3</title>
+
+<para
+>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Examples of adding covers</title>
+
+<para
+>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote
+>Alabama - Greatest Hits III</quote
+> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice
+><guimenu
+>Tagger</guimenu
+> <guisubmenu
+>Cover Manager</guisubmenu
+> <guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis
+>all</emphasis
+> of the <quote
+>Alabama - Greatest Hits III</quote
+> tracks, <emphasis
+>whether you wanted that or not</emphasis
+>.</para>
+
+<para
+>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote
+>Alabama - Greatest Hits III</quote
+> tracks before using the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension"
+>.png</literal
+> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Reusing Old Covers</title>
+
+<para
+>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para
+>There are two ways of doing this:</para>
+
+<para
+>1. Open the <guilabel
+>Cover Manager</guilabel
+> dialog using the <guimenu
+>Tagger</guimenu
+> menu (<menuchoice
+><guimenu
+>Tagger Cover</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Show Cover Manager</guimenuitem
+></menuchoice
+>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para
+>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface
+>Now Playing bar</interface
+>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Dragging covers to more than one track at once</title>
+
+<para
+>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>What happens to my old covers?</title>
+
+<para
+>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para
+>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Removing Covers</title>
+
+<para
+>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+>.</para>
+
+<para
+>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Suggested Uses:</title>
+
+<para
+>1. You can now apply the same cover to tracks with Albums that have <quote
+>Disc 1</quote
+>, <quote
+>Disc 2</quote
+>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+-->
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>&juk;i tööriistariba</title>
+
+<sect1 id="main-toolbar">
+<title
+>Peamine tööriistariba</title>
+
+<screenshot>
+<screeninfo
+>&juk;i tööriistariba.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>&juk;i tööriistariba.</phrase>
+</textobject>
+<caption
+><para
+>&juk;i tööriistariba.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Toodud pildil on tööriistariba ikoonid vasakult paremale vaikimisi järgmised:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Uus</guiicon
+></term>
+<listitem
+><para
+>Loob uue esitusnimekirja. Kui nuppu veidi all hoida, ilmub menüü, mis lubab valida erinevat laadi esitusnimekirjade seast. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>Tühi esitusnimekiri...</guimenuitem
+></term>
+  <listitem
+><para
+>Selle valimisel palutakse sul esitusnimekirjale nimii anda ja seejärel lisatakse see esitusnimekirjade vaatesse. Nimekiri on alguses täiesti tühi.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Esitusnimekiri kataloogist...</guimenuitem
+></term>
+  <listitem
+><para
+>Selle valimisel palutakse sul valida avatav kataloog ning seejärel luuakse esitusnimekiri lauludega, mis leiduvad selles kataloogis ja kõigis selle alamkataloogides. Loodavale esitusnimekirjale antakse kataloogiga sama nimi.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Otsiv esitusnimekiri...</guimenuitem
+></term>
+  <listitem
+><para
+>See avab täpsema osingu dialoogi, kus saab luua <quote
+>virtuaalse esitusnimekirja</quote
+>. Sellesse nimekirja lisatakse kõik sinu muusikakogu nimekirja laulud, mis vastavad täpsema otsingu dialoogis määratud kriteeriumidele. Kui muutub muusikakogu nimekiri, muutub ka see esitusnimekiri. Kui lood näiteks esitusnimekirja kõigi oma Depeche Mode'i lauludega ning seejärel lisad muusikakogu nimekirja veel mõne Depeche Mode'i laulu, ilmub see nähtavale ka Depeche Mode'i esitusnimekirjas, ilma et peaksid ise midagi tegema. </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Ava</guiicon
+></term>
+<listitem
+><para
+>Lisab faili muusikakogu nimekirja (kui see on aktiivne) või parajasti valitud esitusnimekirja. Faili lisamine esitusnimekirja lisab selle automaatselt ka muusikakogu nimekirja, aga mitte vastupidi.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Salvesta</guiicon
+></term>
+<listitem
+><para
+>Salvestab parajasti valitud esitusnimekirja. Redigeeritud sildi salvestamiseks vali kas teine kirje või vajuta kiirklahvi <keycombo action="simul"
+>&Ctrl;<keycap
+> T</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Lõika</guiicon
+></term>
+<listitem
+><para
+>Kui valitud on esitusnimekiri või laul, lõigatakse (eemaldatakse) see nimekirjast. Kui aktiivne on sildiredaktor, toimib see nagu lõikamine mis tahes redaktoris, eemaldades valitud teksti, kuid säilitades selle lõikepuhvris.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Kopeeri</guiicon
+></term>
+<listitem
+><para
+>Kui aktiivne on sildiredaktor, toimib see nagu kopeerimine mis tahes redaktoris, kopeerides valitud teksti lõikepuhvrisse.</para>
+<para
+>Kui valid kopeerimiskäsu laulu puhul muusikakogu nimekirjas, asetatakse selle URL lõikepuhvrisse, kust saad selle mujale asetada: näiteks võid URL-i asetada tekstiredaktorisse, &konqueror;i või mõnda muusse esitusnimekirja.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Aseta</guiicon
+></term>
+<listitem
+><para
+>Kui oled muusikakogu nimekirjast lõiganud või kopeerinud URL-i, võid selle asetada uude esitusnimekirja. Samuti võid asetada URL-i, mille oled kopeerinud &konqueror;ist või mõnest muust rakendusest. Kui aktiivne on sildiredaktor, asetab see käsk valitud väljale teksti, mis parajasti leidub lõikepuhvris.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Näita otsinguriba</guiicon
+></term>
+<listitem
+><para
+>Näitab või peidab <link linkend="search-bar"
+>otsinguriba</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Näita sildiredaktorit</guiicon
+></term>
+<listitem
+><para
+>Näitab või peidab <link linkend="tagging-a-single-file"
+>sildiredaktori</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>Esituse juhtimine</term>
+<listitem>
+<para
+>Need toimivad samamoodi nagu igas teises meediamängijas. Juhtelemendid on järgmised: <guiicon
+>Esitus</guiicon
+>, <guiicon
+>Paus</guiicon
+>, <guiicon
+>Stopp</guiicon
+>, <guiicon
+>Eelmine</guiicon
+> ja <guiicon
+>Järgmine</guiicon
+>.</para>
+<para
+>Selle kõrval on riba, mis näitab, kui palju on laulust esitatud. Liugurit lohistades saab laulus edasi ja tagasi liikuda.</para>
+<para
+>Lõpuks on seal ka helitugevuse liugur, mis täiesti ootuspäraselt tugevdab või nõrgendab heli. <quote
+>Vali</quote
+> on liuguri parempoolses otsas, <quote
+>vaikne</quote
+> vasakpoolses.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>Otsinguriba</title>
+
+<para
+>Otsinguriba võimaldab kiiresti leida vajaliku laulu muusikakogu nimekirjas või esitusnimekirjas.</para>
+
+<para
+>Niipea kui hakkad otsinguribale teksti sisestama, väheneb nimekirja elementide arv ja nähtavale jäävad ainult need, mille mõnes nähtavas veerus leidub vaste sisestatule. Klahvi &Enter; vajutamisega hakatakse näha jäänud laule ülalt alla esitama.</para>
+
+<para
+>Otsimine algab kohe, kui asud teksti sisestama. Otsing on täpsustav, mis tähendab, et iga uue tähe sisestamisel jääb nimekiri aina väiksemaks, kuni lõpuks on selles üks või äärmisel juhul mõned sisestatule vastavad laulud. See on eriti abiks juhul, kui sa ei peaks päris täpselt mäletama, milline oli näiteks laulu nimi.</para>
+
+<!-- Not here in KDE 4.11
+<para
+>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
+-->
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Menüüde ja käskude seletused</title>
+
+<sect1 id="menus">
+<title
+>Menüüd</title>
+
+<sect2 id="menu-file">
+<title
+>Menüü Fail</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fail</guimenu
+><guisubmenu
+>Uus</guisubmenu
+><guimenuitem
+>Tühi esitusnimekiri...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Loob uue esitusnimekirja</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fail</guimenu
+><guisubmenu
+>Uus</guisubmenu
+><guimenuitem
+>Otsiv esitusnimekiri...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Loob uue <link linkend="juk-search-playlists"
+>otsiva esitusnimekirja</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fail</guimenu
+><guisubmenu
+>Uus</guisubmenu
+><guimenuitem
+>Esitusnimekiri kataloogist...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Loob uue esitusnimekirja, mis sisaldab kõiki määratud kataloogis ja selle kõigis alamkataloogides asuvaid muusikafaile. Lisatakse ka kõik esitusnimekirjad, mida &juk; ära tunneb.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fail</guimenu
+> <guimenuitem
+>Ava...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Võimaldab valida muusikakogu nimekirja lisatavad failid. Kui valid esitusnimekirjafaili, lisatakse kõik selles olevad failid.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Halda katalooge...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See menüükäsk avab sama akna, mida näidatakse &juk;i esmakäivitamisel. </para>
+<para
+>Võimaldab valida muusikakogu nimekirja lisatava(d) kataloogi(d). Neid uuritakse läbi iga kord &juk;i käivitamisel või menüükäsu <menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Laadi uuesti</guimenuitem
+></menuchoice
+> valimisel.</para>
+<para
+>Samuti saab valida kataloogid, mida automaatselt ei otsita (mis niisiis tühistab vajalikul määral kataloogide loendi, mida käivitamisel uuritakse). Sel moel saab takistada kettal paikneva muusikakogu täielikku muutmist, et &juk; ei arvestaks automaatselt lauludega, mida sa ei soovi rakenduses näha või mida soovid mingil põhjusel hallata väljaspool &juk;i. </para>
+<para>
+<screenshot>
+<screeninfo
+>Kataloogide haldamise dialoog</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Kataloogide haldamise dialoogi pilt.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para
+>Kui soovid eemaldada faile, mis on juba kogu nimekirjas, võid esitusnimekirja lisada veeru <guilabel
+>Failinimi (täielik asukoht)</guilabel
+> ning seejärel otsinguriba abil leida mittevajaliku asukohanime, selle valida ja eemaldada näidatavad failid. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fail</guimenu
+> <guimenuitem
+>Nimeta ümber...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Nimetab esitusnimekirja ümber.</para>
+</listitem>
+</varlistentry>
+
+<!-- Edit Search... -->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Klooni...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Loob valitud esitusnimekirja teisiku ja küsib, mis sellele nimeks anda. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Laadi uuesti</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Laadib valitud esitusnimekirja kõigi failide sildiinfo uuesti. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Eemalda</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Eemaldab valitud esitusnimekirja.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fail</guimenu
+><guimenuitem
+>Salvesta</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Salvestab valitud esitusnimekirja.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Salvesta kui...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Salvestab valitud esitusnimekirja uue nimega.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>Menüü Redigeerimine</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Redigeerimine</guimenu
+><guimenuitem
+>Puhasta</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Eemaldab valitud laulud esitusnimekirjast.</para>
+</listitem>
+</varlistentry>
+<!-- Undo Cut Copy Paste Clear Select All -->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>Menüü Vaade</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Näita otsinguriba</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Näitab või peidab <link linkend="search-bar"
+>otsinguriba</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Näita sildiredaktorit</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Näitab või peidab <interface
+>sildiredaktori</interface
+>.</para>
+</listitem>
+</varlistentry>
+<!--Show Lyrics-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Vaade</guimenu
+><guimenuitem
+>Näita ajalugu</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Näitab või peidab <link linkend="juk-history-playlists"
+>ajaloo-esitusnimekirja</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<!-- missing
+Show Play Queue
+Show Columns
+Resize Playlist Columns Manually
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Vaade</guimenu
+><guisubmenu
+>Vaaterežiimid</guisubmenu
+><guimenuitem
+>Vaikeväärtus</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Lülitab sisse <link linkend="juk-viewmode-default"
+>vaikimisi vaaterežiimi</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Vaade</guimenu
+><guisubmenu
+>Vaaterežiimid</guisubmenu
+><guimenuitem
+>Kompaktne</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Lülitab sisse <link linkend="juk-viewmode-compact"
+>kompaktse vaaterežiimi</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Vaade</guimenu
+><guisubmenu
+>Vaaterežiimid</guisubmenu
+><guimenuitem
+>Puu</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Lülitab sisse <link linkend="juk-viewmode-tree"
+>puuvaate</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>Menüü Mängija</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Mängija</guimenu
+><guimenuitem
+>Juhuslik esitus</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See lülitab laulude juhuslikus järjekorras esitamist. Kui see sisse lülitada, valib &juk; pärast parajasti esitatava loo lõppemist aktiivsest esitusnimekirjast järgmisena juhusliku laulu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Mängija</guimenu
+><guimenuitem
+>Esitusnimekirja kordamine</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See lülitab esitusnimekirja kordamist. Kui see sisse lülitada, alustab &juk; pärast aktiivse esitusnimekirja kõigi lugude esitamist taas algusest peale.</para>
+</listitem>
+</varlistentry>
+<!--
+Crossfade Between Tracks
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Mängija</guimenu
+><guimenuitem
+>Esitus</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käivitab parajasti valitud laulu esitamise või jätkab seda, kui laulu esitamine oli peatatud.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Mängija</guimenu
+><guimenuitem
+>Paus</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk peatab parajasti valitud laulu esitamise. Esitamise taasalustamiseks vali käsk Esitus.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Mängija</guimenu
+><guimenuitem
+>Stopp</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk peatab parajasti valitud laulu esitamise. Selle käsu valimisel ei saa esitamist enam samast kohast jätkata.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Mängija</guimenu
+><guimenuitem
+>Järgmine</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk valib esitamiseks esitusnimekirja järgmise laulu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Mängija</guimenu
+><guimenuitem
+>Eelmine</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk alustab laulu taasesitamist, mida esitati enne parajasti esitatavat laulu.</para>
+</listitem>
+</varlistentry>
+<!--
+Play Next Album
+-->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>Menüü Sildistaja</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Sildistaja</guimenu
+><guimenuitem
+>Salvesta</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk salvestab kõik redigeeritavatesse siltidesse tehtud muudatused. Tavaliselt salvestatakse muudatused alles pärast seda, kui lahkud redigeeritavast failist.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Sildistaja</guimenu
+><guimenuitem
+>Kustuta</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk kustutab valitud faili(d) muusikakogu nimekirjast ja kõigist esitusnimekirjadest ning kustutab faili(d) ka kettalt. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Sildistaja</guimenu
+><guimenuitem
+>Värskenda</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk võimaldab värskendada esitusnimekirja silte pärast nende muutmist. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Sildistaja</guimenu
+><guisubmenu
+>Sildiinfo oletamine</guisubmenu
+><guimenuitem
+>Failinimest</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk üritab oletada valitud faili(de) sildid failinime põhjal. Äraarvamiseks kasutatavaid mustreid saab seadistada menüükäsuga <menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Siltide arvamine...</guimenuitem
+></menuchoice
+>, mis avab <link linkend="juk-tag-guesser-configuration"
+>sildioletaja seadistustedialoogi</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Sildistaja</guimenu
+><guisubmenu
+>Sildiinfo oletamine</guisubmenu
+><guimenuitem
+>Internetist</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk üritab valitud failide sildid ära arvata programmi <application
+>TunePimp</application
+> abil, mida pakub <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+>.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Cover Manager
+  -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Sildistaja</guimenu
+><guimenuitem
+>Nimeta fail ümber</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+  <para
+>See käsk võimaldab muuta esitusnimekirjas valitud laulude faili või failide nime. Enne tegelikku ümbernimetamist avab &juk; eelvaatega dialoogi, kus saab käsku kinnitada või sellest loobuda. </para>
+  <para
+>Failide nime muudetakse vastavalt parameetritele, mis on kindlaks määratud <link linkend="juk-rename-dialog"
+>failide ümbernimetamise dialoogis</link
+>. </para
+> 
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>Menüü Seadistused</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+><guisubmenu
+>Näidatavad tööriistaribad</guisubmenu
+> <guimenuitem
+>Peamine tööriistariba / Esitusriba</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk näitab või peidab <link linkend="main-toolbar"
+>peamise tööriistariba</link
+> ja <link linkend="play-toolbar"
+>esitusriba</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Käivitamisel näidatakse logo</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Kui see käsk valida, näitab &juk; käivitamise ajal muusikakogu laadides infoekraani.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+> <guimenuitem
+>Dokitakse süsteemsesse salve</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Kui see käsk valida, näitab &juk; ikooni süsteemses salves. Selle abil saab teada, kas ja mida &juk; ning esitust juhtida.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+> <guimenuitem
+>Akna sulgemisel jäetakse JuK tööle ikoonina paneelil</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Kui see käsk valida, jääb &juk; ka peaakna sulgemisel tööle. Selleks peab olema ka valik <guimenuitem
+>Dokkimine süsteemisalve</guimenuitem
+> olema sisse lülitatud. &juk;ist väljumiseks vali peaaknas menüükäsk <menuchoice
+><guimenu
+>Fail</guimenu
+><guimenuitem
+>Välju</guimenuitem
+></menuchoice
+> või süsteemisalve kontekstimenüüst käsk <guimenuitem
+>Välju</guimenuitem
+>.</para>
+<para
+>Kui &juk; on käivitamisel juba dokitud süsteemisalve, näidatakse lihtsat märguannet (vastasel juhul võiks kasutaja imestada, miks &juk;i akent ei ilmu). Selle märguande võib ka kõrvaldada, kui avada Süsteemi seadistuste moodul <menuchoice
+><guimenu
+>Üldine välimus ja käitumine</guimenu
+> <guimenuitem
+>Rakenduste ja süsteemi märguanded</guimenuitem
+></menuchoice
+>, kus saab hallata <guilabel
+>muusikamängija JuK</guilabel
+> märguandeid. Eemalda lihtsalt kirje <guimenuitem
+>JuK töötab dokirežiimis</guimenuitem
+> juures märge <guilabel
+>Teate näitamine hüpikaknas</guilabel
+>. Täpsemalt kõneldakse &kde; märguannete seadistamisest <ulink url="help:/kcontrol/kcmnotify"
+>siin</ulink
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+><guimenuitem
+>Hüpikrajateadustus</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Selle käsu valimisel näitab &juk; alati laulu esitamisel alustamisel infot esitaja ja pealkirja kohta ning pakub nuppe, millega kiiresti teine laul valida. Selleks peab olema sisse lülitatud ka süsteemsesse salve dokkimise valik.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+> <guimenuitem
+>Siltide arvamine...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk avab <link linkend="juk-tag-guesser-configuration"
+>sildioletaga seadistustedialoogi</link
+>, kus saab muuta mustreid, mida kasutatakse sildiinfo äraarvamiseks failinime põhjal.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Seadistused</guimenu
+> <guimenuitem
+>Failide ümbernimetamine...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>See käsk avab <link linkend="juk-rename-dialog"
+>failide ümbernimetamise seadistustedialoogi</link
+>, kus saab kindlaks määrata, kuidas &juk; faile ümber nimetab.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Configure scrobbling
+  -->
+</variablelist>
+
+<para
+>Lisaks on &juk;il tavapärased &kde; <guimenu
+>seadistuste</guimenu
+> ja <guimenu
+>abi</guimenu
+>menüü elemendid, mille kohta leiab rohkem teavet &kde; põhialuste käsiraamatu osadest <ulink url="help:/fundamentals/ui.html#menus-settings"
+>Menüü Seadistused</ulink
+> ja <ulink url="help:/fundamentals/ui.html#menus-help"
+>Menüü Abi</ulink
+>. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Kiirklahvide seletus</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>Klahvikombinatsioon</entry>
+<entry
+>Toiming</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>Vali kõik</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Kopeeri</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>Nimeta fail ümber</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>Sildiinfo oletamine internetist</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Sildiinfo oletamine failinimest.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>Uus <link linkend="juk-search-playlists"
+>otsiv esitusnimekiri</link
+>.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Uus tühi esitusnimekiri</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>Uus esitusnimekiri kataloogist</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>Muudetud siltide salvestamine</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>Autorid ja litsents</title>
+
+<para
+>&juk;i autoriõigus &copy; 2002-2013: &Scott.Wheeler;, Michael Pyne ja teised. </para>
+
+ <para
+>&juk;i arendajad ja hooldajad on &Scott.Wheeler; &Scott.Wheeler.mail; ja Michael Pyne <email
+>michael.pyne@kdemail.net</email
+>.</para>
+
+<para
+>Suur tänu paljudele, kes on aidanud kaasa &juk;i käekäigule:</para>
+
+<itemizedlist>
+<listitem
+><para
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; süsteemsesse salve dokkimise, <quote
+>vahetu</quote
+> siltide redigeerimise, veaparanduste, propageerimise ja moraalse toe eest.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> <application
+>GStreamer</application
+>i pordi eest</para>
+</listitem>
+
+<listitem
+><para
+>Stefan Asserh&auml;ll <email
+>stefan.asserhall@telia.com</email
+> globaalsete kiirklahvide toe eest.</para>
+</listitem>
+
+<listitem
+><para
+>Stephen Douglas <email
+>stephen_douglas@yahoo.com</email
+> hüpikrajateadustuste eest.</para>
+</listitem>
+
+<listitem
+><para
+>&Frerich.Raabe; &Frerich.Raabe.mail; rajaandmete automaagilise äraarvamise ja veaparanduste eest.</para>
+</listitem>
+
+<listitem
+><para
+>Zack Rusin <email
+>zack@kde.org</email
+> paljude automaagiliste asjade eest, kaasa arvatud MusicBrainzi tugi.</para>
+</listitem>
+
+<listitem
+><para
+>Adam Treat <email
+>manyoso@yahoo.com</email
+> MusicBrainzi nõiduse ärakasutamise eest.</para>
+</listitem>
+
+<listitem
+><para
+>Matthias Kretz <email
+>kretz@kde.org</email
+> kena ja sõbraliku &arts;i guru rolli eest.</para>
+</listitem>
+
+<listitem
+><para
+>Maks Orlovich <email
+>maksim@kde.org</email
+> &juk;i muutmise eest sõbralikuks ka terabaite muusikat omavatele isikutele.</para>
+</listitem>
+
+<listitem
+><para
+>Antonio Larrosa Jimenez <email
+>larrosa@kde.org</email
+> &DCOP;-liidese eest.</para>
+</listitem>
+
+<listitem
+><para
+>Allan Sandfield Jensen <email
+>kde@carewolf.com</email
+> <acronym
+>FLAC</acronym
+>-i ja <acronym
+>MPC</acronym
+> toetuse eest.</para>
+</listitem>
+
+<listitem
+><para
+>Nathan Toone <email
+>nathan@toonetown.com</email
+> albumiümbrise halduri eest.</para>
+</listitem>
+
+<listitem
+><para
+>Pascal Klein <email
+>4pascal@tpg.com.au</email
+> käivutusekraani eest.</para>
+</listitem>
+
+<listitem
+><para
+>Laurent Montel <email
+>montel@kde.org</email
+> portimise eest &kde; 4 peale ajal, kui keegi selle eest ei hoolitsenud.</para>
+</listitem>
+
+<listitem
+><para
+>Georg Grabler <email
+>georg@grabler.net</email
+> &kde; platvormile portimise pingutuste eest.</para>
+</listitem>
+
+<listitem
+><para
+>Martin Sandsmark <email
+>martin.sandsmark@kde.org</email
+> Last.fm-ile teadaandmise toetuse, laulusõnade, ning ettevalmistuste eest &kde; raamistiku tarbeks.</para>
+</listitem>
+
+<listitem
+><para
+>Eike Hein <email
+>hein@kde.org</email
+> MPRIS2 liidese teostuse eest.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Dokumentatsiooni autoriõigus &copy; 2003: &Lauri.Watts; ja autoriõigus &copy; 2004-2013: Michael Pyne.</para>
+
+<para
+>Tõlge eesti keelde: Marek Laane <email
+>bald@starman.ee</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->

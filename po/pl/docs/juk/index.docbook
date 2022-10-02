@@ -1,0 +1,2401 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY package "kdemultimedia">
+  <!ENTITY kappname "&juk;">
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Polish "INCLUDE">
+]>
+
+<book lang="&language;">
+
+<bookinfo>
+<title
+>Podręcznik &juk-dopelniacz;</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Pyne</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Maciej</firstname
+><surname
+>Wikło</surname
+><affiliation
+><address
+><email
+>maciej.wiklo@wp.pl</email
+></address
+></affiliation
+><contrib
+>Polskie tłumaczenie</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>&Scott.Wheeler;</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2004-05-06</date>
+<releaseinfo
+>2.1</releaseinfo>
+
+<abstract>
+<para
+>&juk; to jukebox, edytor znaczników i menedżer kolekcji muzycznych. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+<keyword
+>audio</keyword>
+<keyword
+>edytor znaczników</keyword>
+<keyword
+>odtwarzacz</keyword>
+<keyword
+>jukebox</keyword>
+<keyword
+>JuK</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Wprowadzenie</title>
+
+<para
+>&juk; to przede wszystkim jukebox. Jak w wielu programach tego typu, także w programie &juk; możesz edytować <quote
+>znaczniki</quote
+> Twoich plików dźwiękowych oraz zarządzać kolekcją i listą odtwarzania. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>Używanie programu &juk;</title>
+
+<para>
+<screenshot>
+<screeninfo
+>Zrzut ekranu z programu &juk;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Zrzut ekranu programu &juk; w akcji.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>&juk; potrafi zachować listę plików, która będzie zapamiętana przez program. Nazywa się ona <guilabel
+>Lista kolekcji</guilabel
+>. Kolekcja jest specyficzna dla programu &juk; i nie jest udostępniana dla innych programów.</para>
+
+<para
+>Niezależnie od Listy kolekcji istnieją listy odtwarzania. Możesz mieć tyle list odtwarzania, ile tylko chcesz. Możesz także używać utworzonych w &juk-miejscownik; list odtwarzania w innych odtwarzaczach multimedialnych (takich jak &noatun; lub <application
+>xmms</application
+>) oraz zarządzać listami utworzonymi w tych programach w programie &juk;.</para>
+
+<para
+>Można samodzielnie dodawać pliki do Listy kolekcji. W tym celu wybierz <menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Otwórz plik...</guimenuitem
+></menuchoice
+> i wybierz plik ze standardowego okna wyboru plików &kde;. Nic nie stoi na przeszkodzie, aby dodawać także całe katalogi przy użyciu <menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Otwórz katalog...</guimenuitem
+></menuchoice
+>. Katalogi dodane w ten sposób będą przeszukiwane przy każdym uruchomieniu programu &juk;. Aby w dowolnym momencie przeszukać katalogi Kolekcji, kliknij prawym przyciskiem myszy na ikonę <guilabel
+>Listy kolekcji</guilabel
+> i wybierz <guimenuitem
+>Odśwież</guimenuitem
+>.</para>
+
+<para
+>Dodając piosenkę do listy odtwarzania, jej plik zostanie automatycznie dodany do Listy kolekcji, lecz dodanie pliku do Listy kolekcji nie doda piosenki automatycznie do żadnej listy odtwarzania.</para>
+
+<para
+>Aby szybko utworzyć listę odtwarzania z całej Listy kolekcji, kliknij prawy przycisk myszyna ikonie <guilabel
+>Listy kolekcji</guilabel
+> i wybierz <guimenuitem
+>Duplikuj</guimenuitem
+>. Nowa lista będzie normalną listą odtwarzania, a jej edycja nie spowoduje zmian na <guilabel
+>Liście kolekcji</guilabel
+>.</para>
+
+<para
+>Pliki list odtwarzania utworzone w programach innych niż &juk; możesz dodawać za pomocą pozycji <menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Otwórz plik...</guimenuitem
+></menuchoice
+>. Aby dodać wszystkie pliki list odtwarzania w wybranym katalogu, wybierz <menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Otwórz katalog...</guimenuitem
+></menuchoice
+>.</para>
+
+<para
+>Aby utworzyć nową listę odtwarzania, wybierz <menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Nowa</guimenuitem
+></menuchoice
+> lub ikonę <guiicon
+>Nowa</guiicon
+> w pasku narzędzi. Zostaniesz poproszony o wpisanie nazwy, a następnie ikona nowo utworzonej listy pojawi się w panelu list odtwarzania. Możesz teraz przenosić pliki z Listy kolekcji lub z innych list odtwarzania do Twojej listy odtwarzania. Wybierz ikonę <guiicon
+>Zapisz</guiicon
+> lub <menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Zapisz</guimenuitem
+></menuchoice
+>, aby zapisać listę odtwarzania.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>Lista piosenek</title>
+
+<para
+>Podczas przeglądania Listy kolekcji główny panel zawiera wszystkie pliki, o których wie &juk;. Podczas przeglądania listy odtwarzania pokazywane są tylko utwory z listy. W obu wypadkach wygląd i zachowanie listy są takie same.</para>
+
+<para
+>Każda piosenka zajmuje jeden wiersz na liście. Dla każdego pola metadanych &juk; tworzy osobną kolumnę. Kolumny te odpowiadają edytowalnym polom w edytorze znaczników.</para>
+
+<para
+>Kiedy tylko chcesz, klikając lewy przycisk myszy na nagłówku kolumny, możesz zmienić kolejność listy. Spowoduje to posortowanie plików według zawartości danej kolumny. Jeśli ponownie klikniesz lewy przycisk myszy na tym samym nagłówku, pliki zostaną posortowane w odwrotnej kolejności.</para>
+
+<para
+>Rozmiar kolumn dopasowany jest automatycznie do ich zawartości. Możesz zmienić rozmiar dowolnej kolumny, umieszczając kursor myszy pomiędzy tą a sąsiadującą z nią kolumną. Kiedy wskaźnik myszy ulegnie zmianie, kliknij i przeciągnij lewym przyciskiem myszy w stronę, w którą chcesz zmienić rozmiar kolumny.</para>
+
+<para
+>Zmiany kolejności kolumn można dokonać poprzez kliknięcie lewym przyciskiem myszy na nagłówku i przeciągnięcie go na lewo lub na prawo. Podczas wykonywania tej operacji nie możesz przenieść kursora myszy poza okno, gdyż możesz potrzebować przewinąć trochę w lewo lub prawo i powtórzyć przeciąganie nagłówka, dopóki nie umieścisz go w odpowiedniej pozycji.</para>
+
+<para
+>Możesz ukrywać lub pokazywać kolumny klikając prawym przyciskiem myszy na nagłówku kolumny i klikając nazwę kolumny, którą chcesz ukryć/pokazać.</para>
+
+<para
+>Dwukrotne kliknięcie lewym przyciskiem myszy na pliku spowoduje odtworzenie go we wbudowanym odtwarzaczu. Jeśli odtwarzana była w tym samym czasie inna piosenka, zostanie ona zatrzymana, aby nowy utwór mógł być odtworzony.</para>
+
+<para
+>Kliknięcie prawym przyciskiem myszy na pliku daje kilka przydatnych opcji:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>Odtwórz jako następny</guimenuitem
+></term>
+<listitem>
+<para
+>Plik zostanie odtworzony zaraz po tym, jak aktualnie odtwarzany utwór się skończy. Jeśli nie odtwarzany jest żaden utwór, plik zostanie odtworzony przy następnym użyciu przycisku <guiicon
+>Odtwarzaj</guiicon
+>.  Jeśli już wybrano tą opcję dla innego pliku, plik ten zastąpi wybór.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Wytnij</guimenuitem
+></term>
+<term
+><guimenuitem
+>Kopiuj</guimenuitem
+></term>
+<term
+><guimenuitem
+>Wklej</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Wyczyść</guimenuitem
+></term>
+<listitem>
+<para
+>Podczas przeglądania Listy kolekcji wybierz <guimenuitem
+>Wyczyść</guimenuitem
+>, aby usunąć plik z listy i usunąć wszystkie powiązane wpisy dla tego utworu w innych listach odtwarzania. Jeśli plik ten znajduje się w katalogu skanowanym przez &juk; przy uruchomieniu, zostanie dodany do Listy kolekcji przy następnym uruchomieniu programu &juk;, lecz nie zostanie dodany automatycznie do żadnej listy odtwarzania.</para>
+<para
+>Podczas przeglądania listy odtwarzania przycisk <guimenuitem
+>Wyczyść</guimenuitem
+> spowoduje usunięcie utworu z listy odtwarzania.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Edytuj</guimenuitem
+></term>
+<listitem>
+<para
+>Pozwala na edycję zaznaczonego utworu, w kolumnie, w kolumnie, gdzie znajduje się kursor myszy. Na przykład jeśli edytor znaczników jest ukryty, a Ty jesteś zajęty(a) tworzeniem listy odtwarzania, ale zauważyłeś(łaś) błąd w nawie wykonawcy, możesz edytować ją właśnie za pomocą tej pozycji menu.</para>
+<para
+>Zmiany dokonane w ten sposób są zawsze zapisywane niezwłocznie po zakończeniu edycji.</para>
+<para
+>Ta pozycja menu jest niedostępna, jeśli &juk; wykrył, że wybrany utwór jest tylko do odczytu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Odśwież</guimenuitem
+></term>
+<listitem>
+<para
+>Spowoduje to odświeżenie informacji o znacznikach wybranych plików w wypadku, gdy zostały one zmienione, gdy &juk; był uruchomiony.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Usuń z dysku</guimenuitem
+></term>
+<listitem>
+<para
+>Spowoduje to usunięcie pliku z Listy kolekcji, usunięcie wszystkich wpisów dla utworu we wszystkich listach odtwarzania i usunięcie pliku z Twojego dysku. Tej akcji nie można cofnąć, chyba że zostaniesz zapytany o potwierdzenie Twojego wyboru. Używaj tej opcji ostrożnie.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>Odgadnij znacznik</guisubmenu
+></term>
+<listitem>
+<para
+>Spowoduje to, że &juk; spróbuje odgadnąć informacja takie jak wykonawca czy tytuł utworu. &juk; wykorzystuje dwie metody odgadywania: <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>Z nazwy pliku</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; spróbuje odgadnąć znaczniki utworów na podstawie nazw plików. Na przykład nazwa utworu taka jak <filename
+>Roxette - You've Got the Look.mp3</filename
+> zostanie wykorzystana do wpisania Roxette jako wykonawcy i You've Got the Look jako tytułu. Możesz dopasować sposób odgadywania przez &juk; znaczników. W tym celu wybierz <menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guimenuitem
+>Odgadywanie znaczników</guimenuitem
+></menuchoice
+>, co spowoduje otwarcie okna <link linkend="juk-tag-guesser-configuration"
+>Odgadywanie znaczników</link
+>. &juk; nie zmieni znaczników, które nie zostały odgadnięte z nazwy pliku.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Z Internetu</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; spróbuje odgadnąć znaczniki utworu przy użyciu programu MusicBrainz. Aby to polecenie działało poprawnie, musisz zainstalować MusicBrainz. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Zmień nazwę pliku</guimenuitem
+></term>
+<listitem>
+<para
+>Spowoduje to zmianę nazw wybranych plików, aby dopasować je z danym formatem. Musisz wybrać sposób zmiany nazw plików. Użyj <menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guimenuitem
+>Zmieniane nazw plików...</guimenuitem
+></menuchoice
+>. Nazwy plików zostaną oparte na znacznikach metadanych. Na przykład utwór Ogg Vorbis <quote
+>The Theme (Metroid)</quote
+> wykonywany przez Stemage może zostać zmieniony na <filename
+>/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Utwórz listę odtwarzania z wybranych pozycji</guimenuitem
+></term>
+<listitem>
+<para
+>Pozwala to na szybkie utworzenie listy odtwarzania z utworów z Twojej Listy kolekcji. Zostaniesz poproszony o nazwę nowej listy odtwarzania, a następnie zaznaczone utwory zostaną umieszczone na nowej liście.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Dodaj wybrane elementy do projektu K3b</guimenuitem
+></term>
+<listitem>
+<para
+>Pozwala to na szybkie utworzenie projektu &CD; K3b z wybranych utworów. &juk; zapyta, czy chcesz utworzyć projekt Audio &CD; czy projekt z danymi, zanim zostanie otwarty program K3b.</para>
+
+<para
+>Jeśli K3b jeszcze nie został uruchomiony, &juk; spowoduje jego uruchomienie. Następnie &juk; doda zaznaczone pliki do projektu K3b. Możesz zapisać projekt K3b do późniejszego nagrania lub nagrać &CD; od razu. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+>Listy odtwarzania &juk-dopelniacz;</title>
+<para
+>Lista utworów to kolekcja utworów pogrupowanych w pewne kategorie. Na przykład możesz mieć listę utworów przesłuchiwanych podczas programowania, wtedy, kiedy chcesz zasnąć lub kiedy chcesz się pośmiać. &juk; wspiera różne typy list odtwarzania. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>Normalna lista odtwarzania</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> Jest to najzwyklejsza lista odtwarzania. Składa się z plików, tak samo jak Lista kolekcji.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>Historia</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> Jeśli włączysz tą listę utworów (wybierając <menuchoice
+><guimenu
+>Widok</guimenu
+><guimenuitem
+>Pokaż historię</guimenuitem
+></menuchoice
+>, zostanie na niej nagrany każdy utwór odtwarzany w &juk-miejscownik;. Na liście pojawi się dodatkowa kolumna, <guilabel
+>Czas</guilabel
+>, która pokazuje dokładny czas i datę odtworzenia utworu. Jednakże śledzenie historii nie będzie możliwe, dopóki go nie włączysz. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>Przeszukaj listę utworów</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> Jest to lista odtwarzania utworzona na podstawie wyszukiwania. Taką listę możesz utworzyć wybierając <menuchoice
+> <guimenu
+>Plik</guimenu
+><guisubmenu
+>Nowa</guisubmenu
+><guimenuitem
+>Przeszukaj listę utworów</guimenuitem
+></menuchoice
+> lub klikając na <link linkend="juk-advanced-search-dialog"
+>Zaawansowane wyszukiwanie</link
+> w <link linkend="search-bar"
+>Pasku wyszukiwania</link
+>.</para>
+<para
+>Po utworzeniu tej listy odtwarzania znajdą się na niej utwory z Listy kolekcji, które pasują do ustawionych kryteriów. Lista będzie automatycznie aktualizowana przy każdej zmianie dokonanej na Liście kolekcji.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>Listy odtwarzania mają miejsce w <guilabel
+>Panelu list utworów</guilabel
+>, który znajduje się po lewej stronie okna. W tym panelu znajduje się ikona każdej listy odtwarzania. Istnieją różne tryby widoku tego panelu. Tryb widoku możesz zmienić za pomocą menu <guimenu
+>Widok</guimenu
+><guisubmenu
+>Tryby widoku</guisubmenu
+>. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+>Domyślny tryb widoku</term>
+<listitem>
+<para
+>Jest to domyślny tryb widoku. W tym trybie wszystkie listy odtwarzania wyświetlane są w postaci dużych ikon, jedna powyżej drugiej w trybie widoku. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+>Kompaktowy tryb widoku</term>
+<listitem>
+<para
+>Ten tryb jest podobny do domyślnego, jednakże listy odtwarzania są wyświetlane w postaci poziomych pasków z małymi ikonami. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+>Tryb widoku drzewa</term>
+<listitem>
+<para
+>To jest najbardziej efektywny tryb widoku. Podobny jest do widoku kompaktowego, lecz Lista kolekcji jest podstawą drzewa wirtualnych list utworów. Lista kolekcji posiada trzy "korzenie": Wykonawca, Album i Gatunek. Każdy z tych "korzeni" zawiera wpisy zaliczane do odpowiedniej kategorii. Na przykład, jeśli Twoja Lista kolekcji zawiera muzykę 4 różnych wykonawców, pod "korzeniem" Wykonawca znajdą się 4 wpisy.</para>
+<para
+>Jedną przydatną funkcją trybu widoku drzewa jest coś, co nazywa się zmiana znaczników metodą "przeciągnij i upuść". Wybierz pliki z listy utworów i przeciągnij je do któregoś artysty, albumu lub gatunku Listy kolekcji. Znaczniki utworów zostaną automatycznie zmienione na odpowiadające miejscom, gdzie utwory te zostały przeciągnięte. Na przykład, jeśli przeciągniesz grupę utworów do gatunku "Rock", w polu Gatunek wszystkich tych utworów zostanie wpisany Rock. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>Edytor znaczników &juk-dopelniacz;</title>
+
+<para
+>Dla wielu formatów plików zaleca się używanie nazwy pliku do opisania zawartości pliku. Na przykład nazwa <quote
+><filename
+>Raport dla pracowników - Czerwiec 2003.doc</filename
+></quote
+> zawiera wszystkie informacje potrzebne do odnalezienia pliku. Aby wszystkie potrzebne informacje zawrzeć w nazwie pliku muzycznego, użyj następującego schematu: <quote
+><filename
+>Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.mp3</filename
+></quote
+> lub <quote
+><filename
+>Various Artists_15_The Smithsonian Collection of Classic Jazz Volume II_Jimmie Lunceford &amp; His Orchestra - Organ Grinder's Swing.mp3</filename
+></quote
+>. Takie nazwy są bardzo praktyczne i zawierają wszystkie potrzebne informacje o utworach. Jeśli na przykład nazwy plików zawierałyby tylko tytuł albumu i numer utworu, nie stałyby się ani trochę krótsze, a byłyby nawet trudniejsze do "odszyfrowania". Takie nazwy nie byłyby pomocne, bo i tak nie mówiłyby nic o roku wydania utworu, gatunku i wykonawcy.</para>
+
+<para
+>Rozwiązaniem jest zapisanie pewnych metadanych w samych plikach. Pliki mp3 i ogg mogą zawierać niewielkie informacje tekstowe służące do opisania zawartości pliku. Niewiele jest takich formatów, lecz &juk; ukrywa szczegóły dotyczące różnic pomiędzy nimi i dostarcza standardowy sposób edycji znaczników wszystkich plików audio.</para>
+
+<para
+>Edytor znaczników &juk-dopelniacz; pozwala na edycję znaczników zarówno w plikach mp3, jak i ogg. Możesz zmieniać znaczniki pojedynczych lub kilku plików różnego formatu. Jedynym wymogiem są prawa zapisu edytowanych plików, nie możesz na przykład zmieniać znaczników plików z zamontowanej płyty &CD-ROM;.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Edycja znaczników w pojedynczym pliku</title>
+
+<para
+>Aby zmienić znacznik pojedynczego pliku, wybierz go z Listy kolekcji lub z jakiejkolwiek listy odtwarzania. Jeśli edytor znaczników nie jest widoczny, włącz go. Wybierz <menuchoice
+><guimenu
+>Widok</guimenu
+><guimenuitem
+>Pokaż edytor znaczników</guimenuitem
+></menuchoice
+>. Edytor znaczników wyświetlany jest na dole listy.</para>
+
+<para
+>Wpisz w jakiekolwiek edytowalne pola, aby zmienić informacje. Kiedy skończysz, kliknij lewym przyciskiem myszy na liście, a zostaniesz poproszony o zapisanie zmian.</para>
+
+<para
+>Czasem edytor znaczników pozostaje wyłączony, kiedy klikniesz na plik. Dzieje się tak dlatego, że &juk; wykrywa, że plik ten jest tylko do odczytu.</para>
+
+<variablelist>
+<title
+>Pola edytora znaczników</title>
+<varlistentry>
+<term
+><guilabel
+>Nazwa wykonawcy:</guilabel
+></term>
+<listitem>
+<para
+>Nazwa wykonawcy, który wydał utwór.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nazwa utworu:</guilabel
+></term>
+<listitem>
+<para
+>Tytuł piosenki.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nazwa albumu:</guilabel
+></term>
+<listitem>
+<para
+>Nazwa albumu, na którym utwór został wydany.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Gatunek:</guilabel
+></term>
+<listitem>
+<para
+><quote
+>Styl</quote
+> muzyki. &juk; dostarcza listę standardowych w id3 gatunków, lecz możesz dodać własny wpis na listę.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nazwa pliku:</guilabel
+></term>
+<listitem>
+<para
+>Nazwa pliku na dysku. Możesz ją edytować, a kiedy zapiszesz zmiany, nazwa pliku zostanie zmieniona.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Utwór:</guilabel
+></term>
+<listitem>
+<para
+>Pozycja utworu na oryginalnym nagraniu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Rok:</guilabel
+></term>
+<listitem>
+<para
+>Rok wydania utworu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Długość:</guilabel
+></term>
+<listitem>
+<para
+>Pola tego nie można edytować, służy ono tylko informacji.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Bitrate:</guilabel
+></term>
+<listitem>
+<para
+>Pola tego nie można edytować, służy ono tylko informacji.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Komentarz:</guilabel
+></term>
+<listitem>
+<para
+>Możesz tutaj dodać własny komentarz tekstowy, w którym zawrzesz dodatkowe notatki &etc;</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Możesz jawnie i natychmiastowo zapisać zmiany, używając <menuchoice
+><guimenu
+>Znaczniki</guimenu
+><guimenuitem
+>Zapisz</guimenuitem
+></menuchoice
+> lub naciskając <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Edycja znaczników w wielu plikach</title>
+
+<para
+>Możesz zaznaczyć wiele plików na liście i edytować jedno lub więcej pól w znacznikach dla wszystkich plików jednocześnie.</para>
+
+<para
+>Użyj &Shift; i lewego przycisku myszy, Aby zaznaczyć grupę sąsiadujących plików, a &Ctrl; i lewego przycisku myszy, aby zaznaczyć kilka plików niesąsiadujących ze sobą.</para>
+
+<para
+>Jeśli edytor znaczników nie jest widoczny, włącz go poprzez <menuchoice
+><guimenu
+>Widok</guimenu
+><guimenuitem
+>Pokaż edytor znaczników</guimenuitem
+></menuchoice
+>. Zostanie on wyświetlony na dole listy plików.</para>
+
+<para
+>Edytor znaczników zachowuje się nieco inaczej, kiedy wybierzesz więcej niż jeden plik.</para>
+
+<para
+>W takim wypadku każde pole edycji znaczników posiada pole <guilabel
+>Włącz</guilabel
+> obok. Każde pole mające taką samą zawartość dla wszystkich zaznaczonych plików, wyświetla tą zawartość, a opcja <guilabel
+>Włącz</guilabel
+> jest zaznaczona.</para>
+
+<!-- put screeny here -->
+
+<para
+>Każde pole, które nie ma takiej samej zawartości jak inne zaznaczone pliki, nie jest edytowalne i nie wyświetla żadnej zawartości.</para>
+
+<para
+>Aby zmienić zawartość któregokolwiek pola, zaznacz pole <guilabel
+>Włącz</guilabel
+> (jeśli jeszcze nie jest zaznaczone) i edytuj interesujące Cię informacje.</para>
+
+<para
+>Kiedy ukończysz edycję znaczników, kliknij lewym przyciskiem myszy na listę plików. Zostaniesz poproszony o zapisanie zmian. Okno pokaże listę plików, w których zmiany odniosą efekt, więc będziesz mieć szansę jeszcze raz sprawdzić, czy wszystko się zgadza.</para>
+
+<para
+>Możesz jawnie i natychmiastowo zapisać zmiany, używając <menuchoice
+><guimenu
+>Znaczniki</guimenu
+><guimenuitem
+>Zapisz</guimenuitem
+></menuchoice
+> lub naciskając <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>Okno zmiany nazwy pliku</title>
+<para>
+<screenshot>
+<screeninfo
+>Okno zmiany nazwy pliku</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Zrzut ekranu z okna zmiany nazwy pliku.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Okno Konfiguracja zmian nazw plików jest używane do zmiany ustawień akcji Zmień nazwę pliku, która powoduje zmianę nazw plików na podstawie informacji zawartych w znacznikach metadanych. Najpierw znaczniki są zmieniane na takie, które możesz zmienić, a następnie są one używane do wygenerowania nazwy pliku zgodnie ze <guilabel
+>Schematem nazw plików</guilabel
+> </para>
+
+<para
+>Najważniejszą częścią okno jest sekcja <guilabel
+>Schemat nazwy pliku</guilabel
+>. Możesz tam wpisać schemat nazwy pliku, który &juk; wykorzysta przy używaniu tej opcji. Działa to na zasadzie znaków specjalnych. </para>
+
+<para
+><variablelist>
+<varlistentry>
+<term
+>%t</term>
+<listitem
+><para
+>Znak specjalny zamieniany przez znacznik Tytuł.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>%a</term>
+<listitem
+><para
+>Znak specjalny zamieniany przez znacznik Wykonawca.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>%A</term>
+<listitem
+><para
+>Znak specjalny zamieniany przez znacznik Album.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>%T</term>
+<listitem
+><para
+>Znak specjalny zamieniany przez znacznik Utwór.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>%c</term>
+<listitem
+><para
+>Znak specjalny zamieniany przez znacznik Komentarz.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</para>
+
+<para
+>Każdy znacznik może zawierać znak %s, który zostanie zmieniony na aktualny znacznik i dowolny tekst, włącznie z ukośnikami (/). Jeśli znacznik posiada ukośnik, oznaczać to będzie wejście do katalogu. Oczywiście możliwe jest uwzględnienie struktury katalogów w wierszu <guilabel
+>Schemat nazwy pliku</guilabel
+>.</para>
+
+<para
+>Używanie znaczników zmiany nazw pozwala ignorować puste znaczniki. Jeśli zaznaczysz opcję <guilabel
+>Wymagaj wartości</guilabel
+>, puste znaczniki będą ignorowane. Na przykład możesz użyć tej opcji do oddzielenia plików z komentarzami od tych bez, bez potrzeby umieszczania czegoś takiego jak <replaceable
+>jest-komentarz/%s</replaceable
+> w edycji <guilabel
+>Znacznika komentarza</guilabel
+>.</para>
+
+<para
+>Możesz przetestować swój schemat nazw, używając edytora <guilabel
+>Aktualna nazwa pliku</guilabel
+> na dole okna. Wpisz nazwę pliku muzycznego, a pole <guilabel
+>Nowa nazwa pliku</guilabel
+> wyświetli, jak &juk; zmieni nazwę pliku używając obecnych ustawień. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>Okno konfiguracji zgadywania znaczników</title>
+<para>
+<screenshot>
+<screeninfo
+>Okno konfiguracji zgadywania znaczników</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Zrzut ekranu z okna konfiguracji zgadywania znaczników.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Konfiguracja odgadywania znaczników służy do zmiany ustawień polecenia Odgadnij z nazwy pliku.</para>
+
+<para
+>W nowo otwartym oknie zobaczysz listę różnych schematów nazw plików po lewej. &juk; posiada kilka wbudowanych schematów dla najczęściej spotykanych nazw plików. Aby dodać nowy schemat, kliknij przycisk <guibutton
+>Dodaj</guibutton
+> i wpisz swój schemat, a następnie kliknij <guibutton
+>OK</guibutton
+>. Możesz użyć tego samego schematu, jak w oknie <link linkend="juk-rename-dialog"
+>Konfiguracja zmian nazw plików</link
+>. </para>
+
+<para
+>&juk; wypróbuje wskazane schematy po kolei, rozpoczynając od pierwszego na liście. Do odgadnięcia znaczników będzie wykorzystany pierwszy schemat z poprawnym dopasowaniem. Niektóre piosenki mogą pasować do wielu schematów. Właściwy schemat można wybrać ręcznie zaznaczając go na liście i przesuwając do góry listy za pomocą przycisków strzałek. </para>
+
+<para
+>Możesz również edytować lub usuwać schematy z listy. Wybierz po prostu schemat z listy i użyj przycisku <guibutton
+>Zmień</guibutton
+> (aby edytować) lub <guibutton
+>Usuń</guibutton
+> (aby usunąć). </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>Okno zaawansowanego wyszukiwania</title>
+<para>
+<screenshot>
+<screeninfo
+>Okno zaawansowanego wyszukiwania</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Zrzut ekranu z okna zaawansowanego wyszukiwania.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Okno Zaawansowane szukanie używane jest także do tworzenia listy <link linkend="juk-search-playlists"
+>Przeszukaj listę utworów</link
+>. Pozwala to na łatwiejsze wyszukiwanie różnych znaczników lub Twojej kolekcji utworów.</para>
+
+<para
+>Na górze okna możesz wpisać nazwę przeszukiwania listy utworów. Możesz następnie zdefiniować kryteria wyszukiwania w sekcji <guilabel
+>Kryteria wyszukiwania</guilabel
+>. </para>
+
+<para
+>Na górze sekcji <guilabel
+>Kryteria wyszukiwania</guilabel
+> znajdują się dwa pola wyboru, <guilabel
+>Dopasuj którekolwiek z poniższych</guilabel
+> i <guilabel
+>Dopasuj wszystkie z poniższych</guilabel
+>. Jeśli wybierzesz <guilabel
+>Dopasuj którekolwiek z poniższych</guilabel
+>, w wynikach wyszukiwania wyświetlone zostaną utwory, które pasują do któregokolwiek kryteria. Jeśli wybierzesz opcję odwrotną, wszystkie kryteria muszą się zgadzać, aby utwór został dodany do listy znalezionych wyników. </para>
+
+<para
+>Pod polami wyboru znajdują się kryteria. Możesz dodać ich więcej za pomocą przycisku <guibutton
+>Więcej</guibutton
+> oraz usuwać już istniejące przy użyciu przycisku <guibutton
+>Mniej</guibutton
+>. Wszystkie puste kryteria są ignorowane, więc nie musisz używać przycisku <guibutton
+>Mniej</guibutton
+> do eliminowania pustych kryteriów. </para>
+
+<para
+>Kryteria posiadają trzy części: wybór znacznika po lewej, pole tekstowe po środku i sposób dopasowania po prawej. Wybór znacznika określa, które znaczniki mają przeszukane w poszukiwaniu tekstu. Jeśli wybierzesz znacznik "&lt;Wszystkie widoczne&gt;", wszystkie widoczne znaczniki na Liście kolekcji zostaną przeszukane. </para>
+
+<para
+>Sposób dopasowania określa, w jaki sposób &juk; ma przeszukać znaczniki. Istnieją następujące metody wyszukiwania: <variablelist>
+<varlistentry>
+<term
+>Zwykłe dopasowanie</term>
+<listitem
+><para
+>Domyślny sposób wyszukiwania. Szuka danego tekstu wszędzie w wybranych znacznikach, nie uwzględniając wielkości liter. Na przykład wyszukiwanie mode w znaczniku Wykonawca wyświetli w wynikach Depeche Mode.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Uwzględnij wielkość liter</term>
+<listitem
+><para
+>Jest to wyszukiwanie takie jak Zwykłe, lecz uwzględnia wielkość liter.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Wyrażenie regularne</term>
+<listitem
+><para
+>Najbardziej efektywna metoda wyszukiwania. Wpisywany tekst zostanie zinterpretowany jako regularne wyrażenie do znalezienia w znaczniku. Wyrażenia regularne przekraczają zakres tej dokumentacji, ale program &kregexpeditor; może okazać się pomocny przy ich tworzeniu. &juk; używa stylu &Qt; wyrażeń regularnych.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>Wybierz kryteria, które chcesz włączyć do wyszukiwania i kliknij przycisk <guibutton
+>OK</guibutton
+>, aby przeszukać listę odtwarzania! </para>
+</sect1>
+
+<sect1 id="juk-cover-manager">
+
+<title
+>Menedżer okładek &juk-dopelniacz;</title>
+
+<para
+>&juk; 2.3 (składnik &kde; 3.5) obsługuje zarządzanie okładkami, które wprowadza pewne nowe możliwości dla użytkowników w porównaniu z &juk-narzednik; 2.2 (domyślna wersja dla &kde; 3.4). Nieco inny w porównaniu do wersji &juk-dopelniacz; 2.2 jest również schemat działania pobierania okładek.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>Obsługa okładek w &juk-miejscownik; 2.2</title>
+
+<para
+>W &juk-miejscownik; 2.2 okładka utworu była ściśle powiązana z informacjami <guilabel
+>Wykonawca</guilabel
+> i <guilabel
+>Album</guilabel
+>. Mimo że było to przydatne i miało wielu zwolenników, nie był to najlepszy sposób na organizację okładek. Jeśli dla innego utworu potrzebna była inna okładka, trzeba było zmienić znaczniki utworu lub powielić okładkę, marnując miejsce na dysku. A jeśli utwór nie posiadał informacji <guilabel
+>Wykonawca</guilabel
+> i <guilabel
+>Album</guilabel
+>, &juk; nie dopuszczał ustawienia okładki, dopóki informacje te nie zostały uzupełnione. Działało, ale mogło być lepiej.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>Obsługa okładek w &juk-miejscownik; 2.3</title>
+
+<para
+>W &juk-miejscownik; 2.3 kod został zmieniony i dodano komponent odpowiedzialny za powiązanie utworu z okładką. Zamiast szukania obrazu okładki ze specjalną nazwą na dysku (jak było w &juk-miejscownik; 2.2), Menedżer okładek w &juk-miejscownik; 2.3 kojarzy każdą okładkę ze znacznikiem identyfikacyjnym, a następnie używa znacznika z Twoją muzyką. Nie jest to jeszcze idealne, ale działa i może oszczędzić Ci czasu, jednocześnie dając więcej możliwości.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Przykłady dodawania okładek</title>
+
+<para
+>Dla przykładu powiedzmy, że chcesz ustawić okładkę dla utworów, które właśnie zostały nagrane na &CD;. Użyjemy przykładowo płyty <quote
+>Alabama - Greatest Hits III</quote
+>. W &juk-miejscownik; 2.2 wybierasz jeden z utworów i importujesz okładkę z Internetu, klikając prawym przyciskiem myszy na utwór i wybierając <menuchoice
+><guimenu
+>Znaczniki</guimenu
+> <guisubmenu
+>Menedżer okładek</guisubmenu
+> <guimenuitem
+>Pobierz okładkę z Internetu</guimenuitem
+></menuchoice
+>. Efektem pracy &juk-dopelniacz; powinna być natychmiastowo pobrana i ustawiona okładka, użyta dla <emphasis
+>wszystkich</emphasis
+> utworów z płyty <quote
+>Alabama - Greatest Hits III</quote
+>, <emphasis
+>czy tego chcesz, czy nie</emphasis
+>.</para>
+
+<para
+>W &juk-miejscownik; 2.3 procedura wygląda tak samo z jednym tylko wyjątkiem. Musisz najpierw wybrać wszystkie utwory, dla których chcesz ustawić okładkę. Wybierasz więc wszystkie utwory z płyty <quote
+>Alabama - Greatest Hits III</quote
+>, a następnie używasz polecenia <menuchoice
+><guimenuitem
+>Pobierz okładkę z Internetu</guimenuitem
+></menuchoice
+>. Lecz jeśli z jakiegoś powodu chcesz ustawić okładkę tylko dla połowy utworów, zaznaczasz wybrane pliki i wybierasz polecenie <menuchoice
+><guimenuitem
+>Pobierz okładki z Internetu</guimenuitem
+></menuchoice
+>. Nie martw się o powielanie okładek, ani o miejsce na dysku: &juk; jest na tyle mądry, że używa tego samego obrazka, nie będziesz mieć więc 14 duplikatów obrazka <literal role="extention"
+>.png</literal
+> na Twoim dysku.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Ponowne używanie starych okładek</title>
+
+<para
+>Lecz co dzieje się, kiedy zapomnisz zaznaczyć wszystkie utwory, których znaczniki chcesz zmienić? Możesz zaznaczyć je i powtórzyć proces, jednakże zostawi to na dysku duplikaty, ponieważ &juk; nie może stwierdzić, czy znaleziona okładka jest taka sama jak ta, którą już masz. To jednak żaden problem, ponieważ &juk; może użyć okładki z innego utworu.</para>
+
+<para
+>Istnieją dwa sposoby, aby to zrobić:</para>
+
+<para
+>1. Otwórz <guilabel
+>Menedżer okładek</guilabel
+>, używając menu <guimenu
+>Znaczniki</guimenu
+> (<menuchoice
+><guimenu
+>Zarządzanie okładkami</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Pokaż menedżera okładek</guimenuitem
+></menuchoice
+>). Menedżer okładek wyświetli po prawej listę okładek wykrytych przez &juk-biernik;, a po ich załadowaniu możesz  skrócić listę, używając paska wyszukiwania na górze lub wybierając wykonawcę po lewej. Gdy zobaczysz okładkę, której chcesz użyć, przeciągnij i upuść ją na utwór, aby zastosować okładkę. &juk; powinien w miarę szybko użyć okładki (która będzie widoczna również podczas przeciągania). Niestety wczytywanie okładek może zająć trochę czasu, a Menedżer okładek nie przyda się na nic więcej.</para>
+
+<para
+>2. Preferuję używanie tej metody, gdyż jest o wiele łatwiejsza. Wszystko, co musisz zrobić, to kliknąć dwukrotnie na utwór, który posiada pożądaną okładkę, aby zaczął odtwarzanie. Jego okładka ukaże się w <interface
+>pasku Teraz odtwarzane</interface
+>, a Ty możesz ją przeciągnąć i upuścić na utwór, dla którego chcesz daną okładkę zastosować.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Przenoszenie okładek jednocześnie do więcej niż jednego utworu</title>
+
+<para
+>Metodą "przeciągnij i upuść" możesz przypisywać okładkę do więcej niż jednego pliku. Wybierz utwory, którym chcesz przypisać okładkę i przeciągnij ją na te utwory.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>Co dzieje się z moimi starymi okładkami?</title>
+
+<para
+>Może zastanawiasz się, co &juk; robi z okładkami, które zostały ustawione w &juk-miejscownik; 2.2. &juk; automatycznie konwertuje stare okładki i umieszcza je w systemie zarządzania okładkami.</para>
+
+<para
+>Ponieważ jest to proces czasochłonny, nie dzieje się wszystko naraz. Stare okładki są konwertowane tylko, kiedy okładka ma być pokazana na ekranie. Podczas konwersji &juk; rozpoznaje, jakie utwory pokazują konwertowaną okładkę i automatycznie zastosuje nową okładkę do tych utworów. Końcowy wynik nie przyniesie żadnych widocznych zmian: &juk; zatrzyma okładkę dla utworów, które już ją miały, z tym wyjątkiem, że teraz możesz zyskać więcej dzięki nowym funkcjom zarządzania okładkami.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Usuwanie okładek</title>
+
+<para
+>Możesz usunąć okładkę utworu bez usuwania jej z innych utworów, w których znaczniki <guilabel
+>Wykonawca</guilabel
+> i <guilabel
+>Album</guilabel
+> są takie same.</para>
+
+<para
+>W &juk-miejscownik; 2.3 polecenie Usuń okładkę usuwa okładkę tylko z wybranych utworów. </para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Proponowane sposoby użycia:</title>
+
+<para
+>1. Możesz teraz zastosować tą samą okładkę do utworów z albumów składających się z jednego lub więcej dysków, czego nie można było uczynić w &juk-miejscownik; 2.2 bez powielania okładki.</para>
+
+<para
+>2. Zastosowanie zwykłej okładki do utworów, które muszą mieć osobne okładki lub do muzyki niewydanej na żadnym albumie, lecz pasującej do gatunku jest teraz możliwe. Możesz utworzyć okładkę dla każdego gatunku i zastosować ją dla odpowiednich utworów.</para>
+
+</sect3>
+</sect2>
+</sect1>
+
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>Pasek narzędzi &juk-dopelniacz;</title>
+
+<sect1 id="main-toolbar">
+<title
+>Główny pasek narzędzi</title>
+
+<screenshot>
+<screeninfo
+>Pasek narzędzi &juk-dopelniacz;.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>Pasek narzędzi &juk-dopelniacz;.</phrase>
+</textobject>
+<caption
+><para
+>Pasek narzędzi &juk-dopelniacz;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Na powyższym zrzucie ekranu od lewej do prawej przedstawione są następujące ikony:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Nowa</guiicon
+></term>
+<listitem
+><para
+>Tworzy nową listę utworów. Jeśli przytrzymasz przycisk, pojawi się menu pozwalające wybrać różne rodzaje list utworów. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>Pusta lista utworów...</guimenuitem
+></term>
+  <listitem
+><para
+>Po wpisaniu nazwy nowej listy utworów zostanie umieszczona w panelu list utworów. Będzie ona na początku zupełnie pusta.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Lista utworów z katalogu...</guimenuitem
+></term>
+  <listitem
+><para
+>Polecenie zapyta o wybranie katalogu i utworzy listę zawierającą muzykę w tym katalogu i jego podkatalogach. Nazwa utworzonej listy będzie taka sama, jak nazwa wybranego katalogu.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Przeszukaj listę utworów...</guimenuitem
+></term>
+  <listitem
+><para
+>Otwiera okno Zaawansowane wyszukiwanie, pozwalające na utworzenie <quote
+>wirtualnej listy odtwarzania</quote
+>. Wszystkie utwory z Listy kolekcji pasujące do wybranych w oknie Zaawansowane wyszukiwanie kryteriów wyszukiwania zostaną dodane do nowej listy. Wraz ze zmianami na Liście kolekcji, nowa lista utworów będzie się zmieniała. Na przykład jeśli utworzyłeś(łaś) listę zawierającą wszystkie utwory Depeche Mode, a następnie do Twojej Listy kolekcji dodany został nowy utwór Depeche Mode, zostanie on pokazany na liście Depeche Mode bez żadnego pytania o potwierdzenie. </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Otwórz</guiicon
+></term>
+<listitem
+><para
+>Dodaj plik do listy kolekcji (jeśli jest aktywna) lub do wybranej listy utworów. Dodając plik do listy utworów, zostanie on dodany również do listy kolekcji, ale nie vice versa.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Zapisz</guiicon
+></term>
+<listitem
+><para
+>Zapisz wybraną listę utworów. Aby zapisać zmieniony znaczniki, wybierz inny element lub naciśnij <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Wytnij</guiicon
+></term>
+<listitem
+><para
+>Jeśli lista utworów lub piosenka jest zaznaczona, wycina (usuwa) ją z listy. Jeśli aktywny jest edytor znaczników, akcja ta działa jak "wytnij" w innych edytorach, usuwając zaznaczony tekst, ale pozostawiając go skopiowanego w schowku.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Kopiuj</guiicon
+></term>
+<listitem
+><para
+>Jeśli edytor znaczników jest aktywny, opcja działa jak w innych edytorach, umieszczając zaznaczony tekst w schowku.</para>
+<para
+>Jeśli kopiujesz utwór z listy kolekcji, w schowku umieszczany jest adres url tej kopiowanej listy. Możesz wkleić go na przykład do edytora tekstowego, &konqueror-dopelniacz; lub innej listy odtwarzania.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Wklej</guiicon
+></term>
+<listitem
+><para
+>Jeśli wcześniej dowolny adres url listy odtwarzania został wycięty lub skopiowany, możesz wkleić go do nowej listy. Możesz też wkleić także adres url skopiowany z &konqueror-dopelniacz; lub innego programu. Jeśli włączony jest edytor znaczników, "wlej" spowoduje wklejenie tekstu znajdującego się w schowku do wybranego pola.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Pokaż pasek wyszukiwania</guiicon
+></term>
+<listitem
+><para
+>Pokaż/ukryj <link linkend="search-bar"
+>pasek wyszukiwania</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Pokaż edytor znaczników</guiicon
+></term>
+<listitem
+><para
+>Pokaż/ukryj <link linkend="tagging-a-single-file"
+>edytor znaczników</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>Kontrola odtwarzania</term>
+<listitem>
+<para
+>Wygląda to tak, jak w innych odtwarzaczach multimedialnych. Występują następujące kontrolki: <guiicon
+>Odtwarzaj</guiicon
+>, <guiicon
+>Wstrzymaj</guiicon
+>, <guiicon
+>Zatrzymaj</guiicon
+>, <guiicon
+>Poprzedni utwór</guiicon
+> i <guiicon
+>Następny utwór</guiicon
+>.</para>
+<para
+>Widoczny jest również pasek odtwarzania, pokazujący pozycję aktualnie odtwarzanego utworu. Możesz za pomocą myszy przesuwać pasek pozycji, co spowoduje poruszenie w tył lub w przód aktualnego utworu.</para>
+<para
+>Na końcu jest także kontrola głośności. Jak pewnie się spodziewasz, służy ona do podgłaśniania i przyciszania utworu. <quote
+>Głośno</quote
+> jest po prawej, zaś <quote
+>Cicho</quote
+> po lewej.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>Pasek wyszukiwania</title>
+
+<para
+>Pasek wyszukiwania pozwala na szybkie wyszukanie utworu na liście kolekcji lub liście odtwarzania.</para>
+
+<para
+>Wpisując tekst w pasek odtwarzania zauważysz, że zmniejsza się liczba utworów na liście. Pozostają tylko utwory zawierające wpisywany tekst w którejkolwiek widocznej kolumnie. Naciśnij <keycap
+>Enter</keycap
+>, aby rozpocząć odtwarzanie pasujących utworów.</para>
+
+<para
+>Wyszukiwanie działa "w locie" i jest przyrostowe, czyli z każdym wpisanym znakiem maleje liczba pasujących utworów. Jest to użyteczne do szukania utworów, których pamiętasz tylko część nazwy.</para>
+
+<para
+>Jęli chcesz, możesz utworzyć bardziej zaawansowane wyszukiwanie. Wystarczy, że klikniesz przycisk Zaawansowane wyszukiwanie po prawej stronie paska wyszukiwania, co pozwoli na utworzenie wirtualnej listy utworów. Jeśli chcesz anulować wyszukiwanie, kliknij przycisk Wyczyść po lewej stronie paska wyszukiwania.</para>
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Menu i skróty klawiszowe</title>
+
+<sect1 id="menus">
+<title
+>Menu</title>
+
+<sect2 id="menu-file">
+<title
+>Menu <guimenu
+>Plik</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+><guisubmenu
+>Nowa</guisubmenu
+><guimenuitem
+>Pusta lista utworów...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Utwórz nową listę odtwarzania</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+><guisubmenu
+>Nowa</guisubmenu
+><guimenuitem
+>Lista utworów z katalogu...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Tworzy nową listę odtwarzania, zawierającą wszystkie pliki muzyczne w katalogu i wszystkich podkatalogach. Zostaną dodane również wszystkie rozpoznane przez &juk-biernik; listy odtwarzania.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+><guisubmenu
+>Nowa</guisubmenu
+><guimenuitem
+>Przeszukaj listę utworów...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Tworzy nowe <link linkend="juk-search-playlists"
+>przeszukiwanie listy utworów</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+> <guimenuitem
+>Otwórz...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Wybierz plik (lub pliki), który chcesz dodać do Listy kolekcji, Jeśli wybierzesz plik listy odtwarzania, każdy plik z listy zostanie dodany.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Dodaj katalog...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Wybierz katalog (lub katalogi), który chcesz dodać do Listy kolekcji. Katalogi te będą przeszukiwane przy każdym uruchomieniu &juk-dopelniacz;lub wybraniu <menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Odśwież</guimenuitem
+> </menuchoice
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+> <guimenuitem
+>Zmień nazwę...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Zmień nazwę listy odtwarzania.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Duplikuj...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Utwórz duplikat wybranej listy odtwarzania i wpisz jego nazwę. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Odśwież</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Ponownie wczytuje informacje o znacznikach każdego pliku na wybranej liście. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Usuń</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Usuń wybraną listę odtwarzania.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Plik</guimenu
+><guimenuitem
+>Zapisz</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Zapisz wybraną listę odtwarzania.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plik</guimenu
+><guimenuitem
+>Zapisz jako...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Zapisz wybraną listę odtwarzania pod inną nazwą.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>Menu <guimenu
+>Edycja</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Edycja</guimenu
+><guimenuitem
+>Wyczyść</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Usuwa zaznaczone utwory z listy odtwarzania.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>Menu <guimenu
+>Widok</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Widok</guimenu
+><guimenuitem
+>Pokaż pasek wyszukiwania</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Tu można przełączyć pomiędzy pokazywaniem a ukrywaniem <link linkend="search-bar"
+>Paska wyszukiwania</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Widok</guimenu
+><guimenuitem
+>Pokaż edytor znaczników</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Tu można wybrać, czy <interface
+>Edytor znaczników</interface
+> ma być widoczny.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Widok</guimenu
+><guimenuitem
+>Pokaż historię</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Akcja pozwalająca ukryć lub pokazać <link linkend="juk-history-playlists"
+>Historię</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Widok</guimenu
+><guisubmenu
+>Tryby widoku</guisubmenu
+><guimenuitem
+>Domyślny</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Przełącza do <link linkend="juk-viewmode-default"
+>Domyślnego trybu widoku</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Widok</guimenu
+><guisubmenu
+>Tryby widoku</guisubmenu
+><guimenuitem
+>Kompakt</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Przełącza do <link linkend="juk-viewmode-compact"
+>Kompaktowego trybu widoku</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Widok</guimenu
+><guisubmenu
+>Tryby widoku</guisubmenu
+><guimenuitem
+>Drzewo</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Przełącza do <link linkend="juk-viewmode-tree"
+>Trybu widoku drzewa</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>Menu <guimenu
+>Odtwarzacz</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Odtwarzacz</guimenu
+><guimenuitem
+>Losowe odtwarzanie</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opcja pozwalająca zmienić ustawienia odtwarzania losowego. Jeśli włączone jest Losowe odtwarzanie, &juk; wybierze losowo utwór z listy odtwarzania, kiedy skończy się aktualnie odtwarzany utwór.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Odtwarzacz</guimenu
+><guimenuitem
+>Powtarzaj listę utworów</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Jest to opcja pozwalająca na zmianę ustawień powtarzania listy odtwarzania. Jeśli Powtarzanie listy utworów jest włączone, &juk; rozpocznie odtwarzanie od początku, kiedy zakończy się odtwarzanie utworów na aktualnej liście odtwarzania.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Odtwarzacz</guimenu
+><guimenuitem
+>Odtwarzaj</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Polecenie to powoduje odtworzenie wybranego utworu lub przywrócenie odtwarzania, jeśli było ono wstrzymane.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Odtwarzacz</guimenu
+><guimenuitem
+>Wstrzymaj</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>To polecenie wstrzymuje odtwarzanie utworu. Użyj polecenia Odtwarzaj, aby ponownie rozpocząć odtwarzanie.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Odtwarzacz</guimenu
+><guimenuitem
+>Zatrzymaj</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Zatrzymuje odtwarzanie utworu. Nie możesz przywrócić odtwarzania od aktualnej pozycji po wykonaniu tego polecenia.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Odtwarzacz</guimenu
+><guimenuitem
+>Poprzedni</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Polecenie powoduje odtworzenie utworu, który był odtwarzany przed aktualnym.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Odtwarzacz</guimenu
+><guimenuitem
+>Następny</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Polecenie pomija aktualnie odtwarzany utwór i przechodzi do następnego na liście.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>Menu <guimenu
+>Znaczniki</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Znaczniki</guimenu
+><guimenuitem
+>Zapisz</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Zapisuje wszelkie zmiany dokonane podczas edycji znaczników. Normalnie, zmiany nie są zapisywane, dopóki nie wybierzesz innego pliku.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Znaczniki</guimenu
+><guimenuitem
+>Usuń</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Usuwa wybrane pliki z Listy kolekcji i wszelkich list utworów zawierających je, a następnie usuwa pliki z dysku. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Znaczniki</guimenu
+><guisubmenu
+>Odgadnij znacznik</guisubmenu
+><guimenuitem
+>Z nazwy pliku</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Próbuje odgadnąć znaczniki wybranych plików przy pomocy skanowania nazwy pliku. Możesz zmienić schematy nazw plików używane do odgadywania znaczników przez <menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Odgadywanie znaczników...</guimenuitem
+></menuchoice
+>, co spowoduje otwarcie okna <link linkend="juk-tag-guesser-configuration"
+>Konfiguracja odgadywania znaczników</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Znaczniki</guimenu
+><guisubmenu
+>Odgadnij znacznik</guisubmenu
+><guimenuitem
+>Z Internetu</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Polecenie to spróbuje odgadnąć znaczniki wybranych plików przy użyciu <application
+>trm</application
+> dostarczanego z <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+>.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>Menu <guimenu
+>Ustawienia</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guisubmenu
+>Paski narzędzi</guisubmenu
+> <guimenuitem
+>Pokaż główny pasek narzędzi</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Pokaż/ukryj <link linkend="main-toolbar"
+>Główny pasek narzędzi</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+><guisubmenu
+>Paski narzędzi</guisubmenu
+> <guimenuitem
+>Pokaż pasek odtwarzania</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Pokaż/ukryj <link linkend="play-toolbar"
+>Pasek odtwarzania</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Pokaż ekran powitalny przy uruchomieniu</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opcja zmienna. Jeśli jest włączona, &juk; wyświetla ekran informacyjny przy uruchomieniu, podczas wczytywania kolekcji muzycznej.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Dokuj w tacce systemowej</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opcja zmienna. Jeśli jest włączona, &juk; wyświetla ikonę w Twojej tacce systemowej. Możesz użyć tej ikony do sprawdzania stanu i kontroli odtwarzania.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Pozostań w tacce systemowej przy wyjściu</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opcja zmienna. Jeśli jest włączona, &juk; pozostaje w tacce systemowej po zamknięciu okna głównego. Opcja Dokuj w tacce systemowej musi być włączona. Aby wyłączyć &juk-biernik;, wybierz polecenie <menuchoice
+><guimenu
+>Plik</guimenu
+> <guimenuitem
+>Zakończ</guimenuitem
+></menuchoice
+> z okna głównego, lub <guimenuitem
+>Zakończ</guimenuitem
+> z menu kontekstowego ikony w tacce systemowej.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Informuj o utworze w okienku</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opcja zmienna. Jeśli jest włączona, podczas zmiany utworu &juk; wyświetla okienko z informacją o wykonawcy i tytule utworu oraz z przyciskami pomagającymi zmienić utwór. Opcja Dokuj w tacce systemowej musi być włączona.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Odgadywanie znaczników...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Polecenie otwiera okno <link linkend="juk-tag-guesser-configuration"
+>Konfiguracja odgadywania znaczników</link
+>, gdzie możesz zmienić schematy nazw plików używanych przy odgadywaniu znaczników.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Zmienianie nazw plików...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Polecenie otwiera okno <link linkend="juk-rename-dialog"
+>Konfiguracja zmian nazw plików</link
+>, gdzie możesz wybrać sposób, w jaki &juk; zmienia nazwy Twoich plików.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Ustawienia</guimenu
+> <guimenuitem
+>Konfiguracja skrótów...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Otwiera standardowe okno &kde;, gdzie możesz zmienić skróty używane przez &juk-biernik;. Niektóre skróty są już domyślnie ustawione, włącznie z z klawiszami multimedialnymi dla tych, którzy posiadają klawiatury multimedialne.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Skróty klawiszowe</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>Kombinacja klawiszy</entry>
+<entry
+>Akcja</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>Zaznacz wszystko</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Kopiuj</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>Zmień nazwę pliku</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>Odgadnij znaczniki z Internetu.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Odgadnij znaczniki z nazwy pliku.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>Nowe <link linkend="juk-search-playlists"
+>przeszukiwanie listy utworów</link
+>.</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Odgadnij wpisy znaczników na podstawie nazwy pliku</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Nowa pusta lista odtwarzania</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>Nowa lista utworów z katalogu.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>Zapisz zmiany w edytowanych znacznikach.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-licenses">
+<title
+>Podziękowania i licencja</title>
+
+<para
+>&juk; Copyright &copy; 2002, 2003, 2004 &Scott.Wheeler;.</para>
+
+<para
+>&juk; jest rozwijany i zarządzany przez &Scott.Wheeler; &Scott.Wheeler.mail;.</para>
+
+<para
+>Wielkie podziękowania dla ludzi, którzy rozwijali &juk-biernik;:</para>
+
+<itemizedlist>
+<listitem
+><para
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; za dokowanie w tacce systemowej, edycję znaczników <quote
+>inline</quote
+>, naprawianie błędów, ewangelizację i wsparcie moralne.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> za port <application
+>GStreamer</application
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Stefan Asserh&auml;ll <email
+>stefan.asserhall@telia.com</email
+> za wsparcie globalnych skrótów.</para>
+</listitem>
+
+<listitem
+><para
+>Stephen Douglas <email
+>stephen_douglas@yahoo.com</email
+> za informowanie o utworze w okienku.</para>
+</listitem>
+
+<listitem
+><para
+>&Frerich.Raabe; &Frerich.Raabe.mail; za automagiczne odgadywanie danych utworu i naprawianie błędów.</para>
+</listitem>
+
+<listitem
+><para
+>Zack Rusin <email
+>zack@kde.org</email
+> za więcej automagicznych rzeczy, w tym wsparcie MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Adam Treat <email
+>manyoso@yahoo.com</email
+> za wspólne spiskowanie w asystowaniu MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Matthias Kretz <email
+>kretz@kde.org</email
+> za bycie przyjaznym guru &arts; z sąsiedztwa.</para>
+</listitem>
+
+<listitem
+><para
+>Maks Orlovich <email
+>maksim@kde.org</email
+> za uczynienie &juk-dopelniacz; przyjaźniejszym dla ludzi z terabajtami muzyki.</para>
+</listitem>
+
+<listitem
+><para
+>Antonio Larrosa Jimenez <email
+>larrosa@kde.org</email
+> za interfejs &DCOP;.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Documentation Copyright &copy; 2003, &Lauri.Watts;, and copyright &copy; 2004 Michael Pyne.</para>
+
+<para
+>Maciej Wikło<email
+>maciej.wiklo@wp.pl</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->

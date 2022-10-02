@@ -1,0 +1,2512 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Ukrainian "INCLUDE">
+]>
+
+<book id="juk" lang="&language;">
+
+<bookinfo>
+<title
+>Підручник з &juk;</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Pyne</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Юрій</firstname
+><surname
+>Чорноіван</surname
+><affiliation
+><address
+><email
+>yurchor@ukr.net</email
+></address
+></affiliation
+><contrib
+>Переклад українською</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>&Scott.Wheeler;</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>8 листопада 2013 року</date>
+<releaseinfo
+>3.11 (&kde; 4.12)</releaseinfo>
+
+<abstract>
+<para
+>&juk; — це музична скринька, засіб для встановлення міток і засіб керування музичною збіркою. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+<keyword
+>аудіо</keyword>
+<keyword
+>засіб для встановлення міток</keyword>
+<keyword
+>програвач</keyword>
+<keyword
+>музична скринька</keyword>
+<keyword
+>JuK</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Вступ</title>
+
+<para
+>&juk; — це, ну, як би це сказати, музична скринька. Як це є звичним для багатьох музичних скриньок, &juk; надає вам змогу змінювати <quote
+>мітки</quote
+> ваших звукових файлів і керувати вашою збіркою та списками відтворення. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>Користування &juk;</title>
+
+<para>
+<screenshot>
+<screeninfo
+>Ось знімок вікна &juk;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Знімок вікна працюючого &juk;.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>&juk; зберігає список всіх файлів, про які він знає. Цей список називається <guilabel
+>Списком збірки</guilabel
+>. Список збірки є специфічним для &juk;, програма не поділяє його з іншими програмами.</para>
+
+<para
+>Незалежно від списку збірки існують списки композицій. Ви можете створювати будь-яку кількість списків композицій. Ви можете використовувати створені у &juk; списки композицій у інших мультимедійних програвачах (таких, як &amarok; або <application
+>xmms</application
+>), а також керувати списками композицій, створеними у цих програмах з &juk;.</para>
+
+<para
+>Додавати файли до списку збірки можна по одному, для цього скористайтесь пунктом меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Відкрити...</guimenuitem
+></menuchoice
+>, а потім виберіть потрібні файли зі стандартного діалогового вікна &kde;. Можна додавати і цілі теки за допомогою пункту меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Керування теками...</guimenuitem
+></menuchoice
+>. Додані таким чином теки буде повторно проскановано кожного разу, коли ви запускатимете &juk;. Ви навіть можете визначити підтеки у цих теках, пошук композицій у яких не виконуватиметься. Повторне сканування тек можна виконати і у примусовому режимі: для цього слід навести вказівник миші на піктограму <guilabel
+>Список збірки</guilabel
+> і клацнути правою кнопкою миші, а потім обрати у контекстному меню пункт <guimenuitem
+>Перезавантажити</guimenuitem
+>.</para>
+
+<para
+>Додавання композиції до списку відтворення автоматично додасть відповідний файл до списку збірки, але додавання файла до списку збірки не додає файл автоматично до жодного зі списків відтворення.</para>
+
+<para
+>За допомогою повного списку вашої збірки ви можете швидко створювати списки відтворення: наведіть вказівник миші на піктограму <guilabel
+>Список збірки</guilabel
+>, клацніть правою кнопкою миші і у контекстному меню оберіть пункт <guimenuitem
+>Здублювати</guimenuitem
+>. Отриманий список буде звичайним списком композицій для відтворення — зміни у ньому не вплинуть на <guilabel
+>Список збірки</guilabel
+>.</para>
+
+<para
+>Ви можете додавати файли списків відтворення, створені поза &juk; по одному: оберіть їх у діалоговому вікні, що відкривається пунктом меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Відкрити...</guimenuitem
+></menuchoice
+>. Всі списки відтворення, знайдені у теках, які ви додаєте за допомогою пункту меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Керування теками...</guimenuitem
+></menuchoice
+> також буде автоматично додано.</para>
+
+<para
+>Створити новий список відтворення можна за допомогою пункту меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Створити</guimenuitem
+></menuchoice
+> або піктограми <guiicon
+>Створити</guiicon
+> на панелі інструментів. Програма запитає вас про назву списку, після цього на панелі списків відтворення з’явиться нова піктограми для цього списку відтворення. Тепер ви зможете перетягувати і скидати файли зі списку збірки або інших списків відтворення до вашого списку. Щоб зберегти список відтворення, ви можете будь-коли скористатися піктограмою <guiicon
+>Зберегти</guiicon
+> або пунктом меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Зберегти</guimenuitem
+></menuchoice
+>.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>Список пісень</title>
+
+<para
+>Під час перегляду списку збірки на головній панелі буде показано всі файли, про які відомо &juk;. Під час перегляду списку композицій, буде показано лише композиції, які є у списку композицій. Але у обох випадках вигляд і поведінка списків є подібною.</para>
+
+<para
+>У області показу кожній з пісень відведено один рядок. Кожному з полів метаданих, за якими спостерігає &juk;, відведено один стовпчик. Ці стовпчики відповідають полям, які можна змінювати у редакторі міток.</para>
+
+<para
+>Список можна перевпорядковувати наведенням вказівника миші на заголовок стовпчика з наступним клацанням лівою кнопкою миші. Перше клацання впорядкує файли у порядку зростання за вмістом відповідного стовпчика. Якщо ви клацнете лівою кнопкою миші ще раз на тому ж полі заголовка, файли буде перевпорядковано за спаданням.</para>
+
+<para
+>Ширину стовпчиків від початку буде підібрано так, щоб вони були достатньо широкими для показу найдовшого з доступних записів. Змінити ширину стовпчиків можна за допомогою вказівника миші і роздільника між двома стовпчиками. Коли вигляд вказівника зміниться, клацніть лівою кнопкою миші і перетягніть вказівник у напрямку, у якому ви бажаєте змінити ширину стовпчика.</para>
+
+<para
+>Змінити порядок стовпчиків можна клацанням лівою кнопкою миші, коли вказівник буде наведено на заголовок, з наступним перетягуванням заголовка ліворуч або праворуч. Ви не зможете перетягнути стовпчик за межі вікна, отже вам слід спочатку прокрутити область перегляду ліворуч або праворуч, а потім повторити перетягування заголовка, аж доки він не опиниться на потрібній позиції.</para>
+
+<para
+>Сховати або показати стовпчик можна за допомогою клацання правою кнопкою миші, коли вказівник наведено на заголовок стовпчика, з наступним вибором зі спадного меню назви стовпчика, показ якого ви бажаєте змінити.</para>
+
+<para
+>Наведення вказівника на позначку файла з наступним подвійним клацанням лівою кнопкою миші призведе до відтворення файла у вбудованому програвачі. Якщо у цей момент вже відтворюється інша композиція, її відтворення буде зупинено, а потім розпочато відтворення нової композиції.</para>
+
+<para
+>За допомогою наведення вказівника миші на позначку файла з наступним клацанням правою кнопкою миші надасть вам доступ до пунктів таких дій:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>Додати до черги відтворення</guimenuitem
+></term>
+<listitem>
+<para
+>За допомогою цього пункту можна розпочати відтворення цього файла одразу після завершення відтворення поточної композиції. Якщо не відтворюється жодної композиції, файл буде відтворено одразу після того, як ви натиснете кнопку <guiicon
+>Відтворити</guiicon
+>. Якщо ви вже обрали пункт <guimenuitem
+>Додати до черги відтворення</guimenuitem
+> для іншого файла, ваш останній вибір скасує всі попередні.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Вирізати</guimenuitem
+></term>
+<term
+><guimenuitem
+>Копіювати</guimenuitem
+></term>
+<term
+><guimenuitem
+>Вставити</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Вилучити зі списку композицій</guimenuitem
+></term>
+<listitem>
+<para
+>Якщо ви переглядаєте список збірки, вибір цього пункту вилучить файл зі списку, а також вилучить відповідні записи для цієї пісні з усіх списків композицій. Зауважте, що, якщо цей файл знаходиться у теці, яку &juk; сканує під час запуску, його буде повторно додано до списку збірки під час наступного запуску &juk;, але його не буде додано до жодного зі списків композицій.</para>
+<para
+>Якщо ви переглядаєте список композицій, пункт <guimenuitem
+>Вилучити зі списку композицій</guimenuitem
+> просто вилучить композицію з цього списку.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Редагувати <replaceable
+>Заголовок стовпчика</replaceable
+></guimenuitem
+></term>
+<listitem>
+<para
+>Надасть вам змогу змінити мітки поточної виділеної композиції, що відповідають стовпчику, у якому знаходився вказівник миші на час клацання. Наприклад, якщо ви не зробили видимим редактор міток, зайняті складанням списку відтворення і помітили помилку у імені виконавця, за допомогою цього меню ви можете негайно змінити помилкову мітку.</para>
+<para
+>Зміни записуються до файлів негайно після того, як ви клацнете кнопкою миші, коли вказівник буде наведено на інше місце екрана, і завершите редагування.</para>
+<para
+>Цей пункт меню буде вимкнено, якщо &juk; визначить, що файл відповідної композиції призначено лише для читання.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Оновити</guimenuitem
+></term>
+<listitem>
+<para
+>За допомогою цього пункту можна перезавантажити інформації про мітки вибраних файлів, це потрібно, якщо файли було змінено під час роботи &juk;.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Вилучити</guimenuitem
+></term>
+<listitem>
+<para
+>За допомогою цього пункту можна вилучити файл зі спису збірки, вилучити всі записи композиції у списках композицій і вилучити файл з вашого диска. Ви не зможете скасувати результат цієї дії, отже, програма попросить вас підтвердити ваш вибір. Користуйтеся цим пунктом з осторогою.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>Вгадувати інформацію мітки</guisubmenu
+></term>
+<listitem>
+<para
+>За допомогою цього пункту можна вказати &juk;, що слід спробувати вгадати інформацію, таку як відомості про виконавця і назву композиції. &juk; може використовувати різні способи вгадування: <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>За назвою файла</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; намагатиметься визначити мітки композиції за назвою файла. Наприклад, за назвою файла композиції <filename
+>Roxette - You've Got the Look.mp3</filename
+> буде визначено, що виконавцями є «Roxette», а композиція називається «You've Got the Look». Ви можете налаштувати спосіб, у який &juk; визначатиме мітки, за допомогою пункту меню <menuchoice
+><guimenu
+>Параметри</guimenu
+><guimenuitem
+>Вгадування міток...</guimenuitem
+></menuchoice
+>, який відкриє <link linkend="juk-tag-guesser-configuration"
+>діалогове вікно засобу вгадування міток</link
+>. &juk; замінить мітки, які програма не змогла вгадати, за назвою файла.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>З Інтернету</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; спробує визначити мітки композиції за допомогою програми MusicBrainz. Вам слід встановити MusicBrainz, щоб ця команда могла працювати. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Перейменувати файл</guimenuitem
+></term>
+<listitem>
+<para
+>За допомогою цього пункту можна перейменувати вибрані файли за заданим форматом. Вам слід спочатку обрати спосіб, у який ви бажаєте перейменувати файли за допомогою пункту <menuchoice
+> <guimenu
+>Параметри</guimenu
+><guimenuitem
+>Перейменування файлів...</guimenuitem
+></menuchoice
+>. Остаточна назва кожного з файлів залежатиме від метаданих його міток. Наприклад, композиція у Ogg Vorbis з назвою <quote
+>The Theme (Metroid)</quote
+>, яку виконує Stemage, дасть файл <filename
+>/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
+>. </para>
+</listitem>
+</varlistentry>
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
+<varlistentry>
+<term
+><guimenuitem
+>Створити список з вибраних композицій</guimenuitem
+></term>
+<listitem>
+<para
+>За допомогою цього пункту ви можете швидко створити список з композицій з вашого списку збірки. Програма запитає вас про назву нового списку композицій, а потім вставить у новий список всі композиції, які було вибрано.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Додати вибрані елементи до аудіо-КД або КД з даними</guimenuitem
+></term>
+<listitem>
+<para
+>За допомогою цього пункту можна створити проєкт запису компакт-диска у K3b з вибраних вами композицій. &juk; запитає вас про те, який проєкт ви бажаєте записати: аудіо-КД або КД з даними, перш ніж буде відкрито проєкт K3b.</para>
+
+<para
+>Якщо K3b ще не запущено, &juk; запустить його. Після цього &juk; додасть вибрані вами файли до поточного проєкту K3b. Ви можете зберегти проєкт у K3b для пізнішого запису або записати компакт-диск одразу. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+>Списки відтворення &juk;</title>
+<para
+>Список композицій — це просто збірка композицій, впорядкованих за однією з категорій. Наприклад, ви можете створити список композицій, які ви полюбляєте слухати під час програмування, перед сном, або якщо вам хочеться посміятися. &juk; підтримує декілька різних типів списків композицій. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>Звичайні списки композицій</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> Це найпоширеніший різновид списків відтворення — список композицій, створений з файлів, схожий на список збірки.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>Список відтворення журналу</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> Якщо ви увімкнете цей список композицій (за допомогою пункту меню <menuchoice
+><guimenu
+>Перегляд</guimenu
+><guimenuitem
+>Показати журнал</guimenuitem
+></menuchoice
+>), до цього списку буде записано всі композиції, які відтворював &juk;. У списку відтворення буде показано додатковий стовпчик, <guilabel
+>Час</guilabel
+>, у якому буде записано точний час і дату, коли було відтворено композицію. Але список відтворення не почне записувати журнал, доки ви не увімкнете цю можливість. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>Списки пошуку</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> Це список відтворення, заснований на пошуку. Ви можете створити список композицій такого типу за допомогою пункту меню <menuchoice
+> <guimenu
+>Файл</guimenu
+><guisubmenu
+>Створити</guisubmenu
+><guimenuitem
+>Список пошуку</guimenuitem
+></menuchoice
+>, або натисканням кнопки <link linkend="juk-advanced-search-dialog"
+>Розширений пошук</link
+> на панелі інструментів.</para>
+<para
+>Після створення списку композицій цього типу програма спостерігатиме за композиціями у списку збірки, які відповідають вашим критеріям, і автоматично оновлюватиме список у відповідності до змін у списку збірки.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>Списки композицій впорядковано на <guilabel
+>Панелі списків композицій</guilabel
+>, тобто на вертикальній панелі, розташованій ліворуч. На цій панелі показано піктограму для кожного з ваших списків композицій. Для цієї панелі існує декілька різних режимів перегляду, які можна вказати за допомогою меню <menuchoice
+><guimenu
+>Перегляд</guimenu
+><guisubmenu
+>Режими перегляду</guisubmenu
+></menuchoice
+>. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+>Типовий режим перегляду</term>
+<listitem>
+<para
+>Це типовий режим перегляду. У цьому режимі всі списки композицій буде показано як великі піктограми, один над одним. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+>Компактний режим перегляду</term>
+<listitem>
+<para
+>Цей режим подібний до звичайного режиму перегляду, за винятком того, що списки композицій буде показано у вигляді горизонтальних прямокутників з малими піктограмами замість квадратних панелей. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+>Режим перегляду деревом</term>
+<listitem>
+<para
+>Цей режим є найпотужнішим. Він подібний до компактного режиму перегляду, за винятком того, що список збірки буде кореневим для дерева віртуальних списків композицій. У списку збірки є три дочірніх вузли: Виконавець, Альбом і Жанр. Кожен з цих вузлів має дочірні, що відповідають всім записам відповідної категорії. Наприклад, якщо у вашому списку збірки містяться композиції чотирьох різних виконавців, у вашому списку буде 4 записи для вузла «Виконавець».</para>
+<para
+>Однією з приємних особливостей режиму перегляду деревом є зміна міток перетягуванням і скиданням. Просто виберіть декілька файлів зі списку композицій і перетягніть їх у гілку іншого виконавця, альбому або жанру у списку збірки. Мітки цих композицій буде автоматично змінено так, щоб ці мітки відповідали гілці, куди було перетягнуто композиції. Наприклад, якщо ви перетягнете групу композицій у жанр з назвою «Рок», мітки всіх цих композицій буде змінено так, що їх жанром стане «Рок». </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>Редактор міток &juk;</title>
+
+<para
+>Для багатьох форматів файлів зручно використовувати назву файла для опису його вмісту: наприклад, <quote
+><filename
+>Доповідь для комісії - червень 2003.doc</filename
+></quote
+>, цього достатньо для того, щоб згодом ви легко могли знайти цей файл. Але спроба отримати вся корисну інформацію про окрему композицію може призвести до утворення назв файлів на зразок: <quote
+><filename
+>Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.mp3</filename
+></quote
+> або <quote
+><filename
+>Various Artists_15_The Smithsonian Collection of Classic Jazz Volume II_Jimmie Lunceford &amp; His Orchestra - Organ Grinder's Swing.mp3</filename
+></quote
+>. Такі назви файлів не несуть практичного навантаження і не містять всієї корисної інформації, яку ви могли визначити для композиції. Наприклад, додавання альбому, номера доріжки до першої назви зробить її ще довшою і непридатнішою для роботи, але у цій назві не буде інформації про рік запису або стиль музики, до якого належить композиція, якщо ви не дуже добре знайомі з творчістю виконавця композиції.</para>
+
+<para
+>У такому випадку вирішенням задачі буде зберегти метадані всередині самих файлів. Файли mp3 і ogg також можуть містити невеличкі фрагменти тексту, які можна використати для опису вмісту файла. Існує декілька форматів, але &juk; приховує різниці між цими форматами і надає у ваше розпорядження стандартний спосіб редагування стандартного набору добре відомих міток всіх ваших звукових файлів.</para>
+
+<para
+>Повноцінний редактор міток &juk; надає вам змогу змінювати мітки обох різновидів файлів: mp3 і ogg. Ви зможете редагувати мітки окремого файла або декількох файлів, ви можете вибрати суміш з файлів mp3 і ogg. Єдиною вимогою є те, що ви повинні мати доступ на запис до цих файлів: наприклад, ви не зможете змінити мітки файла, який знаходиться на змонтованому компакт-диска.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Зміна міток у окремому файлі</title>
+
+<para
+>Щоб змінити мітки окремого файла, виберіть його або у списку збірки або як будь-який з записів у будь-якому зі списків відтворення. Якщо редактора міток не видно, увімкніть його видимість за допомогою пункту меню <menuchoice
+><guimenu
+>Перегляд</guimenu
+><guimenuitem
+>Показати редактор міток</guimenuitem
+></menuchoice
+>. Редактор міток буде показано внизу області перегляду списку.</para>
+
+<para
+>Просто наберіть інформацію до будь-якого з полів для редагування, щоб змінити його вміст. Після того, як ви завершите роботу, наведіть вказівник миші на область поза списком і клацніть лівою кнопкою миші, — програма запитає вас про те, чи слід зберегти зроблені вами зміни.</para>
+
+<para
+>Ви можете зауважити, що редактор міток залишається вимкненим після того, як ви наведете вказівник миші на файл і клацнете лівою кнопкою миші. Така ситуація є результатом того, що програма &juk; визначила, що файл композиції є придатним лише для запису.</para>
+
+<variablelist>
+<title
+>Поля редактора міток</title>
+<varlistentry>
+<term
+><guilabel
+>Ім’я виконавця:</guilabel
+></term>
+<listitem>
+<para
+>Ім’я виконавця, який записав композицію.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Назва доріжки:</guilabel
+></term>
+<listitem>
+<para
+>Назва композиції.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Назва альбому:</guilabel
+></term>
+<listitem>
+<para
+>Назва альбому, до якого належить композиція.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Жанр:</guilabel
+></term>
+<listitem>
+<para
+><quote
+>Стиль</quote
+> музики. У &juk; список жанрів відповідає неформальному стандарту id3, але ви можете самі ввести власний запис до цього списку.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Назва файла:</guilabel
+></term>
+<listitem>
+<para
+>Назва файла композиції на диску. Ви можете змінити її і файл буде відповідним чином перейменовано.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Доріжка:</guilabel
+></term>
+<listitem>
+<para
+>Номер доріжки на оригінальному записі.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Рік:</guilabel
+></term>
+<listitem>
+<para
+>Рік, коли було записано композицію.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Тривалість:</guilabel
+></term>
+<listitem>
+<para
+>Це поле змінювати не можна, у ньому просто показано інформацію.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Бітова швидкість:</guilabel
+></term>
+<listitem>
+<para
+>Це поле змінювати не можна, у ньому просто показано інформацію.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Коментар:</guilabel
+></term>
+<listitem>
+<para
+>Тут ви можете додати власний текстовий коментар з додатковими нотатками, тощо.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Ви можете повністю і негайно зберегти зроблені вами зміни будь-коли за допомогою пункту меню <menuchoice
+><guimenu
+>Мітки</guimenu
+><guimenuitem
+>Зберегти</guimenuitem
+></menuchoice
+> або натискання комбінації клавіш <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Зміна міток декількох файлів</title>
+
+<para
+>Можна одночасно обрати декілька файлів з області перегляду списків, редагувати одне або декілька полів міток для всіх файлів одразу.</para>
+
+<para
+>Для вибору послідовності файлі у списку, скористайтеся клавішею &Shift; і клацанням лівою кнопкою миші. За допомогою клавіші &Ctrl; з клацанням лівою кнопкою миші можна обрати декілька файлів, які розташовано у списку непослідовно.</para>
+
+<para
+>Якщо ви не бачите редактора міток, ви можете увімкнути його показ за допомогою пункту меню <menuchoice
+><guimenu
+>Перегляд</guimenu
+><guimenuitem
+>Показати редактор міток</guimenuitem
+></menuchoice
+>. Редактор міток буде показано під областю перегляду списків.</para>
+
+<para
+>Якщо ви обрали декілька файлів одночасно, поведінка редактора міток трохи зміниться.</para>
+
+<para
+>У цьому випадку поряд з кожним з полів буде показано поле для позначки з міткою <guilabel
+>Увімкнути</guilabel
+>. У кожному з полів, які мають однаковий вміст для всіх обраних файлів, буде показано вміст, ці поля буде автоматично увімкнено для редагування, тобто у полі <guilabel
+>Увімкнути</guilabel
+> вже буде позначка.</para>
+
+<!-- put screeny here -->
+
+<para
+>Всі поля, у яких вміст міток файлів не збігатиметься, не будуть від початку доступними для редагування, у них не буде показано ніякого вмісту.</para>
+
+<para
+>Щоб змінити вміст будь-якого з полів, залиште позначку у полі <guilabel
+>Увімкнути</guilabel
+>, а потім змініть вміст поля у звичайний спосіб.</para>
+
+<para
+>Після завершення редагування, виведіть вказівник миші кудись у область перегляду списку і клацніть лівою кнопкою — програма запитає вам про те, чи слід зберегти виконані вами зміни. У діалоговому вікні запиту на підтвердження буде показано список файлів, яких торкнуться зміни, отже, ви зможете перевірити, чи справді ви змінюєте вміст тих файлів, які ви хотіли змінити.</para>
+
+<para
+>Ви можете повністю і негайно зберегти зроблені вами зміни будь-коли за допомогою пункту меню <menuchoice
+><guimenu
+>Мітки</guimenu
+><guimenuitem
+>Зберегти</guimenuitem
+></menuchoice
+> або натискання комбінації клавіш <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>Діалогове вікно перейменування файла</title>
+<para>
+<screenshot>
+<screeninfo
+>Діалогове вікно перейменування файла</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Знімок діалогового вікна перейменування файла</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Діалогове вікно налаштування засобу перейменування файлів призначено для налаштування дії з перейменування файлів, яка перейменовує файли композицій на основі метаданих міток цих файлів. </para>
+<para
+>Можливість перейменування файлів призначено для підтримання однорідної схеми іменування файлів у вашій музичній збірці (та пересування файлів до відповідних каталогів, якщо це потрібно). Наприклад, у вашій збірці можуть бути файли з назвами, подібними до <filename
+>01 - Title.mp3</filename
+>, якщо ви отримали ці файли з <ulink url="http://amazon.com"
+>Amazon</ulink
+>, а файли з <ulink url="http://ocremix.org/"
+>OCRemix</ulink
+> можуть мати назви, подібні до <filename
+>Ailsean- Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename
+>. </para>
+<para
+>За допомогою засобу перейменування файлів &juk; може надати відповідним файлам якісь змістовні назви на диску, наприклад <filename
+>Ailsean - Mega Fire.mp3</filename
+> або <filename
+>The Strokes - Reptilia.mp3</filename
+>. Ви навіть можете вказати каталог, у якому має бути розташовано відповідні файли для належного впорядкування (за роками і альбомами), наприкладe <filename
+>$HOME/Музика/2003/The Strokes - Reptilia.mp3</filename
+>. </para>
+<para
+>Для того, щоб виликати засіб перейменування файлів, скористайтеся відповідним пунктом меню <guimenu
+>Мітки</guimenu
+> або контекстного меню композиції у списку відтворення. Типовим клавіатурним скороченням для цієї дії є <keycombo
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+>. Втім, ще до використання цього засобу, його слід налаштувати. </para>
+<para
+>Зробити це можна за допомогою згаданого вище діалогового вікна, яке можна відкрити за допомогою пункту меню <menuchoice
+><guimenu
+>Параметри</guimenu
+><guimenuitem
+>Перейменування файлів...</guimenuitem
+></menuchoice
+>. Далі, ви можете визначити каталог призначення, вказавши основну теку музики з наступним додаванням складових шляху до каталогу. Складові шляху визначатимуться за метаданими композиції, зокрема назвою, виконавцем тощо. Ці складові можна додати за допомогою спадного списку <guilabel
+>Додати категорію</guilabel
+>. </para>
+<para
+>Для кожної зі складових шляху передбачено пункт додавання роздільника тек. </para>
+<para
+>Параметри кожної зі складових, які визначають, що слід робити, якщо відповідний пункт метаданих виявиться порожнім та додавання суфіксів та префіксів, якщо пункт метаданих підлягає певній заміні, допоможуть вам зробити процедуру перейменування ефективнішою. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>Діалогове вікно налаштування вгадування міток</title>
+<para>
+<screenshot>
+<screeninfo
+>Діалогове вікно налаштування вгадування міток</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Знімок діалогового вікна налаштування вгадування міток.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Діалогове вікно налаштування вгадування міток використовується для налаштування команди вгадування міток з назв файлів.</para>
+
+<para
+>У цьому діалоговому вікні ліворуч ви побачите список різноманітних шаблонів схем назв файлів. До &juk; включено великий набір типових шаблонів, які відповідають найпоширенішим стилям найменування файлів. Якщо ви бажаєте додати нову схему, натисніть кнопку <guibutton
+>Додати</guibutton
+>, а потім введіть вашу схему і натисніть кнопку <guibutton
+>Гаразд</guibutton
+>.</para
+>  
+
+<para
+>Тут наведено поточні налаштовані схеми назв файлів, які редактор міток використовує для видобування відомостей міток з назви файла. У кожному з рядків міститься один з таких замінників:</para>
+
+<para
+><itemizedlist>
+<listitem
+><para
+>%t: назва</para
+></listitem>
+<listitem
+><para
+>%A: альбом</para
+></listitem>
+<listitem
+><para
+>%a: виконавець</para
+></listitem>
+<listitem
+><para
+>%T: доріжка</para
+></listitem>
+<listitem
+><para
+>%c: коментар</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Наприклад, якщо схемою назви файла є <quote
+>[%T] %a - %t</quote
+>, їй відповідатиме назва <quote
+>[01] Deep Purple - Smoke on the water</quote
+>, але не назва <quote
+>(Deep Purple) Smoke on the water</quote
+> (для назв у такому форматі краще скористатися схемою <quote
+>(%a) %t</quote
+>).</para>
+
+<para
+>&juk; спробує використати схеми, які ви включили до списку по одній, починаючи згори списку. Першу ж відповідну схему буде використано для визначення міток композиції. Деякі композиції можуть відповідати декільком схемам. Вам слід переконатися, що програмою обрано правильну схему у полі списку, а потім скористатися кнопками зі стрілочками, щоб пересунути цю схему у верхню частину списку. </para>
+
+<para
+>Крім того, ви можете змінювати або вилучати схеми зі списку. Для цього просто виберіть схему, а потім скористайтеся кнопкою <guibutton
+>Змінити</guibutton
+>, щоб змінити схему, або кнопкою <guibutton
+>Вилучити</guibutton
+>, щоб вилучити схему зі списку. </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>Діалогове вікно розширеного пошуку</title>
+<para>
+<screenshot>
+<screeninfo
+>Діалогове вікно розширеного пошуку</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Знімок діалогового вікна розширеного пошуку.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Діалогове вікно Розширеного пошуку використовується для створення <link linkend="juk-search-playlists"
+>Списків пошуку</link
+>. За його допомогою ви можете виконувати надточний пошук різноманітних міток у вашій збірці композицій.</para>
+
+<para
+>У верхній частині діалогового вікна ви можете ввести назву вашого списку пошуку. Після цього ви можете визначити ваші критерії пошуку у групі полів <guilabel
+>Критерії пошуку</guilabel
+>. </para>
+
+<para
+>Вгорі групи полів <guilabel
+>Критерії пошуку</guilabel
+> розташовано два перемикачі: <guilabel
+>Має збігатися з будь-чим з наступного</guilabel
+> і <guilabel
+>Має збігатися з усім з наступного</guilabel
+>. Якщо ви поставите позначку поряд з <guilabel
+></guilabel
+>, збіг будь-якої з умов, які ви визначите, призведе до включення композиції до списку відтворення. У іншому випадку, для того, щоб композицію було включено до списку, мають збігатися всі вказані умови. </para>
+
+<para
+>Під перемикачами знаходяться поля визначення умов. Ви можете збільшити кількість умов за допомогою кнопки <guibutton
+>Більше</guibutton
+> або вилучити умови за допомогою кнопки <guibutton
+>Менше</guibutton
+>. Всі умови, які ви не змінюватимете буде проігноровано, отже, вам не потрібно використовувати кнопку <guibutton
+>Менше</guibutton
+>, щоб вилучити порожні умови. </para>
+
+<para
+>Кожне визначення умови складається з трьох частин: ліворуч розташовано засіб вибору мітки, праворуч — список типів збігу, а посередині — текст для пошуку. За допомогою засобу вибору мітки ви можете вказати &juk;, у якій саме мітці ви бажаєте шукати текст. Якщо ви оберете особливу мітку "&lt;Всі видимі&gt;", пошук тексту проводитиметься у всіх мітках, які ви можете бачити у списку збірки. </para>
+
+<para
+>За допомогою списку стилів відповідності можна вказати &juk;, який саме метод пошуку слід застосувати. До методів пошуку, які ви можете застосовувати належать: <variablelist>
+<varlistentry>
+<term
+>Звичайний збіг</term>
+<listitem
+><para
+>Це типовий вид відповідності. Пошук вказаного тексту буде проводитися всюди у вибраній мітці, без врахування різниці у регістрі літер. Наприклад, пошук «mode» у мітках Виконавець виявить всі пісні Depeche Mode.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>З урахуванням регістру</term>
+<listitem
+><para
+>Цей метод пошуку схожий на «Звичайний збіг», але текст, який ви шукатимете, повинен мати точно такий самий регістр літер, який використано у мітці.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Пошук за взірцем</term>
+<listitem
+><para
+>Це найпотужніший метод пошуку. Текст для пошуку, який ви вкажете, визначатиме формальний вираз, який буде використано для пошуку у мітці. Пояснення того, що таке формальний вираз не належить до предмета цієї частини документації, зауважимо лише, що сформувати формальний вираз вам допоможе програма &kregexpeditor;. У &juk; використовується стиль формальних виразів &Qt;.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>Просто оберіть умови, які ви бажаєте включити до вашого пошуку, а потім натисніть кнопку <guibutton
+>Гаразд</guibutton
+>, щоб створити ваш список пошуку! </para>
+</sect1>
+<!-- is this still relevant?
+
+write new for kde4
+
+<sect1 id="juk-cover-manager">
+
+<title
+>The &juk; Cover Manager</title>
+
+<para
+>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>How Covers Worked in &juk; 2.2</title>
+
+<para
+>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel
+>Artist</guilabel
+> or <guilabel
+>Album</guilabel
+> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>How Covers work in &juk; 2.3</title>
+
+<para
+>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Examples of adding covers</title>
+
+<para
+>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote
+>Alabama - Greatest Hits III</quote
+> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice
+><guimenu
+>Tagger</guimenu
+> <guisubmenu
+>Cover Manager</guisubmenu
+> <guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis
+>all</emphasis
+> of the <quote
+>Alabama - Greatest Hits III</quote
+> tracks, <emphasis
+>whether you wanted that or not</emphasis
+>.</para>
+
+<para
+>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote
+>Alabama - Greatest Hits III</quote
+> tracks before using the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension"
+>.png</literal
+> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Reusing Old Covers</title>
+
+<para
+>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para
+>There are two ways of doing this:</para>
+
+<para
+>1. Open the <guilabel
+>Cover Manager</guilabel
+> dialog using the <guimenu
+>Tagger</guimenu
+> menu (<menuchoice
+><guimenu
+>Tagger Cover</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Show Cover Manager</guimenuitem
+></menuchoice
+>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para
+>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface
+>Now Playing bar</interface
+>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Dragging covers to more than one track at once</title>
+
+<para
+>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>What happens to my old covers?</title>
+
+<para
+>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para
+>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Removing Covers</title>
+
+<para
+>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+>.</para>
+
+<para
+>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Suggested Uses:</title>
+
+<para
+>1. You can now apply the same cover to tracks with Albums that have <quote
+>Disc 1</quote
+>, <quote
+>Disc 2</quote
+>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+-->
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>Панель інструментів &juk;</title>
+
+<sect1 id="main-toolbar">
+<title
+>Головна панель інструментів</title>
+
+<screenshot>
+<screeninfo
+>Панель інструментів &juk;.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>Панель інструментів &juk;.</phrase>
+</textobject>
+<caption
+><para
+>Панель інструментів &juk;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Зліва праворуч на знімку вікна, розташованому згори, піктограми типової панелі інструментів це:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Створити</guiicon
+></term>
+<listitem
+><para
+>Створити новий список відтворення. Якщо ви утримуватимете натиснутою кнопку, з’явиться меню, за допомогою якого ви зможете обрати різновид списку відтворення, який ви бажаєте створити. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>Спорожнити список композицій...</guimenuitem
+></term>
+  <listitem
+><para
+>Натискання цієї кнопки призведе до того, що програма запитає вас про назву списку відтворення, а потім вставить його у область перегляду списків. Спочатку список буде повністю порожнім.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Список композицій з теки...</guimenuitem
+></term>
+  <listitem
+><para
+>Після вибору цього пункту програма запитає вас про теку, яку слід відкрити, а потім створить список відтворення, у якому міститимуться композиції з цієї теки і всіх її підтек. Назва списку відтворення збігатиметься з назвою вибраної теки.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Список пошуку...</guimenuitem
+></term>
+  <listitem
+><para
+>За допомогою цього пункту меню можна відкрити діалогове вікно розширеного пошуку, яке надасть вам змогу створити <quote
+>віртуальний список відтворення</quote
+>. До цього списку буде додано всі композиції з вашого списку збірки, які відповідають вказаним у діалоговому вікні розширеного пошуку критеріям пошуку. Якщо змінюватиметься список збірки, змінюватиметься також і новий список відтворення. Наприклад, якщо ви створите список відтворення зі всіх наявних у вас композицій Depeche Mode, а потім додасте ще одну композицію Depeche Mode до вашого списку збірки, цю композицію також буде показано у списку відтворення Depeche Mode — вам не потрібно буде робити ніяких зайвих рухів. </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Відкрити</guiicon
+></term>
+<listitem
+><para
+>За допомогою натискання цієї кнопки можна додати файл до списку збірки (якщо він активний) або до поточного обраного списку відтворення. Додавання файла до списку відтворення автоматично додасть його до списку збірки, але не навпаки.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Зберегти</guiicon
+></term>
+<listitem
+><para
+>За допомогою цієї кнопки можна зберегти поточний обраний список відтворення. Щоб зберегти мітку, яку ви змінювали, або оберіть інший елемент, або натисніть комбінацію клавіш <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Вирізати</guiicon
+></term>
+<listitem
+><para
+>Якщо вибрано список композицій або композицію, за допомогою цього пункту можна вирізати (вилучити) їх зі списку. Якщо задіяно редактор міток, цей пункт діє так само, як вирізання у будь-якому іншому редакторі: вилучає текст, але залишає його копію у буфері.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Копіювати</guiicon
+></term>
+<listitem
+><para
+>Якщо відкрито редактор міток, ця кнопка працює як кнопка копіювання у будь-якому редакторі, тобто копіює вибраний текст до буфера.</para>
+<para
+>Якщо ви використовуєте копіювання до композиції у списку збірки, у буфер буде скопійовано її адресу url, і ви зможете вставляти цю адресу. Наприклад, ви можете вставити адресу url до текстового редактора, &konqueror; або іншого списку відтворення.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Вставити</guiicon
+></term>
+<listitem
+><para
+>Якщо ви раніше виконали дію з вирізання або копіювання адреси url зі списку збірки, ви можете вставити цю адресу url у новому списку відтворення. Ви також можете вставити адресу url, яку ви скопіювали з &konqueror; або будь-якої іншої програми. Якщо ви працюєте з редактором міток, дія з вставлення призведе до вставлення будь-якого тексту з буфера у вибране поле.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Показувати смужку пошуку</guiicon
+></term>
+<listitem
+><para
+>Показати або сховати <link linkend="search-bar"
+>смужку пошуку</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Показувати редактор міток</guiicon
+></term>
+<listitem
+><para
+>Показати або сховати <link linkend="tagging-a-single-file"
+>редактор міток</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>Засоби керування відтворенням</term>
+<listitem>
+<para
+>Ці засоби працюють так само, як і у інших програвачах, які є повсюди. Серед засобів керування є <guiicon
+>Старт</guiicon
+>, <guiicon
+>Пауза</guiicon
+>, <guiicon
+>Зупинити</guiicon
+>, <guiicon
+>Попередня</guiicon
+> і <guiicon
+>Наступна</guiicon
+> композиції.</para>
+<para
+>Також у програмі є панель спостереження, на якій показано, який саме фрагмент композиції (відносно загальної тривалості цієї композиції) відтворюється у даний момент. Ви можете пересувати повзунок мишкою, щоб пересунути точку відтворення вперед або назад композицією.</para>
+<para
+>Нарешті, у програмі є повзунок гучності. Як і слід очікувати, за його допомогою можна підвищити або знизити гучність. Позиція <quote
+>Гучно</quote
+> знаходиться праворуч, а позиція <quote
+>Тихо</quote
+> — ліворуч.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>Смужка пошуку</title>
+
+<para
+>За допомогою смужки пошуку ви можете швидко знайти композицію у збірці або списку відтворення.</para>
+
+<para
+>Просте введення тексту у поле пошуку зменшить список видимих композицій до тих, у яких міститься введений текст, у будь-якому з видимих стовпчиків. Натискання клавіші &Enter; розпочне відтворення найвищого у списку відповідника.</para>
+
+<para
+>Пошук розпочинається негайно після введення тексту у поле пошуку. Пошук відбувається послідовно: якщо ви вводите новий символ у текстове поле, список зменшується відповідно. Цим, наприклад, можна скористатися, якщо ви шукаєте пісню, назву якої ви пам’ятаєте лише частково.</para>
+
+<!-- Not here in KDE 4.11
+<para
+>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
+-->
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Довідка про меню і команди</title>
+
+<sect1 id="menus">
+<title
+>Меню</title>
+
+<sect2 id="menu-file">
+<title
+>Меню «Файл»</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+><guisubmenu
+>Створити</guisubmenu
+><guimenuitem
+>Порожній список відтворення...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Створює новий список відтворення.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+><guisubmenu
+>Створити</guisubmenu
+><guimenuitem
+>Список пошуку...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Створює новий <link linkend="juk-search-playlists"
+>список пошуку</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+><guisubmenu
+>Створити</guisubmenu
+><guimenuitem
+>Список відтворення з теки...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Створює новий список відтворення, у якому міститимуться всі композиції, файли яких знаходяться у вказаній теці та всіх її підтеках. Будь-які композиції, які вказано у файлах списків відтворення, які відомі &juk;, у цій теці також буде додано.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Відкрити...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цього пункту ви можете додати файл або файли до списку збірки. Якщо ви оберете файли списку відтворення, буде до збірки буде додано всі файли, на які він посилається.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Керування теками...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цього пункту меню можна відкрити вікно, яке буде показано під час першого запуску &juk;. </para>
+<para
+>Виконує пошук композицій у теці (або теках), щоб додати їх до списку збірки. Ці теки буде повторно проскановано кожного разу під час запуску &juk; або вибору пункту меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Перезавантажити</guimenuitem
+> </menuchoice
+>.</para>
+<para
+>Ви також можете визначити теки, у яких не виконуватиметься автоматичний пошук (це визначення матиме вищий пріоритет за список тек, у яких слід виконати пошук під час запуску програми). Таким чином, ви можете уникнути повної зміни компонування тек на диску лише для того, щоб &juk; не додавав у автоматичному режимі композиції, які ви не хочете бачити у списку композицій &juk;. </para>
+<para>
+<screenshot>
+<screeninfo
+>Діалогове вікно керування теками</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Знімок діалогового вікна керування теками.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para
+>Якщо вам потрібно вилучити файли, які вже є у списку збірки, ви можете увімкнути показ стовпчика <guilabel
+>Назва файла (повний шлях)</guilabel
+> у списку відтворення, а потім скористатися смужкою пошуку для визначення непотрібного каталогу, вибору його і вилучення показаних файлів зі списку. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Перейменувати...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Перейменовує список відтворення.</para>
+</listitem>
+</varlistentry>
+
+<!-- Edit Search... -->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Здублювати...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Створити дублікат вибраного списку відтворення і запитати про нову назву. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Перезавантажити</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Перезавантажує інформацію з міток для всіх файлів з вибраного списку відтворення. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Вилучити</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Вилучити вибраний список відтворення.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+><guimenuitem
+>Зберегти</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Зберегти вибраний список відтворення.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Зберегти як...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Зберегти вибраний список відтворення з новою назвою.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>Меню «Зміни»</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Зміни</guimenu
+><guimenuitem
+>Очистити</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Вилучає вибрані композиції зі списку відтворення.</para>
+</listitem>
+</varlistentry>
+<!-- Undo Cut Copy Paste Clear Select All -->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>Меню «Перегляд»</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+><guimenuitem
+>Показати смужку пошуку</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Цей пункт перемикає видимість <link linkend="search-bar"
+>смужки пошуку</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+><guimenuitem
+>Показати редактор міток</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Цей пункт є перемикачем, який визначає чи буде показано <interface
+>Редактор міток</interface
+>.</para>
+</listitem>
+</varlistentry>
+<!--Show Lyrics-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+><guimenuitem
+>Показати журнал</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Цей пункт перемикає видимість <link linkend="juk-history-playlists"
+>Списку відтворення журналу</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<!-- missing
+Show Play Queue
+Show Columns
+Resize Playlist Columns Manually
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+><guisubmenu
+>Режими перегляду</guisubmenu
+><guimenuitem
+>Типовий</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Перемикає програму у <link linkend="juk-viewmode-default"
+>типовий режим перегляду</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+><guisubmenu
+>Режими перегляду</guisubmenu
+><guimenuitem
+>Компактний</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Перемикає програму у <link linkend="juk-viewmode-compact"
+>компактний режим перегляду</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Перегляд</guimenu
+><guisubmenu
+>Режими перегляду</guisubmenu
+><guimenuitem
+>Дерево</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Перемикає програму у <link linkend="juk-viewmode-tree"
+>режим перегляду деревом</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>Меню «Програвач»</title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Програвач</guimenu
+><guimenuitem
+>Випадкове відтворення</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Це засіб керування, який керує параметром випадкового відтворення. Якщо увімкнено випадкове відтворення, &juk; вибиратиме випадковим чином композицію з поточного списку відтворення після завершення відтворення поточної композиції.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Програвач</guimenu
+><guimenuitem
+>Зациклити список композицій</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Це засіб керування, який керує параметром зациклювання списку відтворення. Якщо увімкнено параметр «Зациклити список композицій», &juk; розпочне відтворення з початку поточного списку після відтворення всіх пісень з цього списку.</para>
+</listitem>
+</varlistentry>
+<!--
+Crossfade Between Tracks
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Програвач</guimenu
+><guimenuitem
+>Старт</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Цей пункт запускає відтворення поточної вибраної композиції або відновлює відтворення композиції, відтворення якої було призупинено.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Програвач</guimenu
+><guimenuitem
+>Пауза</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Цей пункт призупиняє відтворення поточної композиції, що відтворюється. Для поновлення відтворення скористайтеся пунктом «Старт»</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Програвач</guimenu
+><guimenuitem
+>Зупинити</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Цей пункт зупиняє відтворення поточної композиції. Після цього ви вже не зможете поновити відтворення з поточної позиції.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Програвач</guimenu
+><guimenuitem
+>Наступна</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цієї команди можна негайно розпочати відтворення наступної композиції зі списку відтворення.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Програвач</guimenu
+><guimenuitem
+>Попередня</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цього пункту можна розпочати відтворення композиції, яку було відтворено перед поточною композицією.</para>
+</listitem>
+</varlistentry>
+<!--
+Play Next Album
+-->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>Меню «Мітки»</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Мітки</guimenu
+><guimenuitem
+>Зберегти</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Цей пункт надає вам змогу зберегти всі змінити у мітках, які ви зробили. Зазвичай, зміни не зберігаються доки ви не знімете виділення з файла, який ви редагуєте.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Мітки</guimenu
+><guimenuitem
+>Вилучити</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За цією командою всі вибрані файли вилучаються спочатку з списку збірки і всіх списків відтворення, що їх містять, а потім і з диску. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Мітки</guimenu
+><guimenuitem
+>Оновити</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цього пункту меню ви можете оновити записи міток у списку відтворення після внесення до них змін. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Мітки</guimenu
+><guisubmenu
+>Вгадувати інформацію мітки</guisubmenu
+><guimenuitem
+>з назви файла</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цього пункту меню можна вказати програмі, що слід визначати мітки вибраних файлів за допомогою обробки назв цих файлів. Налаштувати шаблони, які використовуватимуться для визначення, можна за допомогою пункту меню <menuchoice
+><guimenu
+>Параметри</guimenu
+> <guimenuitem
+>Вгадування міток...</guimenuitem
+></menuchoice
+>, цей пункт відкриває <link linkend="juk-tag-guesser-configuration"
+>Діалогове вікно налаштування вгадування міток</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Мітки</guimenu
+><guisubmenu
+>Вгадувати інформацію мітки</guisubmenu
+><guimenuitem
+>з Інтернету</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цього пункту можна вказати програмі, що слід визначати мітки вибраних файлів за допомогою бібліотеки <application
+>TunePimp</application
+>, яка входить до складу <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+>.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Cover Manager
+  -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Мітки</guimenu
+><guimenuitem
+>Перейменувати файл</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+  <para
+>За допомогою цього пункту ви можете перейменувати файл або групу файлів для позначених у списку відтворення композицій. Перед тим, як виконувати перейменування &juk; покаже вам діалогове вікно попереднього перегляду результатів, за допомогою якого ви зможете підтвердити або скасувати дію. </para>
+  <para
+>Файли буде перейменовано відповідно до параметрів, визначених за допомогою <link linkend="juk-rename-dialog"
+>діалоговогов вікна перейменування файлів</link
+>. </para
+> 
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>Меню «Параметри»</title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметри</guimenu
+><guisubmenu
+>Пенали</guisubmenu
+> <guimenuitem
+>Головний пенал/Пенал відтворення</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цього пункту можна показати або сховати <link linkend="main-toolbar"
+>головну панель</link
+> і <link linkend="play-toolbar"
+>панель відтворення</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметри</guimenu
+> <guimenuitem
+>Пришвартувати у системному лотку</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Це пункт-перемикач. Якщо його увімкнено, &juk; показуватиме свою піктограму у вашому системному лотку. Ви можете скористатися піктограмою лотка &juk; для визначення того, чи відтворює щось програма, і для керування відтворенням.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметри</guimenu
+> <guimenuitem
+>Залишатись у системному лотку при закритті</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Це пункт-перемикач. Якщо його увімкнено, після закриття основного вікна програми &juk; продовжуватиме роботу. Для того, щоб це спрацювало, слід також увімкнути параметр <guimenuitem
+>Швартувати до системного лотка</guimenuitem
+>. Щоб завершити роботу &juk;, скористайтеся пунктом меню головного вікна <menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Вийти</guimenuitem
+></menuchoice
+>, або пунктом <guimenuitem
+>Вийти</guimenuitem
+> контекстного меню піктограми лотка.</para>
+<para
+>Якщо &juk; запускається у режимі згортання до системного лотка під час запуску, у системі має бути показано просте сповіщення (оскільки інакше користувача може здивувати відсутність вікна &juk; на екрані). Таке сповіщення можна вимкнути за допомогою модуля <menuchoice
+><guimenu
+>Загальний вигляд і поведінка</guimenu
+> <guimenuitem
+>Сповіщення програм і системи</guimenuitem
+></menuchoice
+> програми «Системні параметри», пункт <guilabel
+>Програвач музики JuK</guilabel
+>. Просто зніміть позначку з пункту <guilabel
+>Показувати сповіщення у вигульку</guilabel
+> для запису <guimenuitem
+>JuK запущено у згорнутому режимі</guimenuitem
+>. Докладніші відомості щодо параметрів сповіщення &kde; можна знайти <ulink url="help:/kcontrol/kcmnotify"
+>тут</ulink
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметри</guimenu
+> <guimenuitem
+>Оголошення доріжки у вигульку</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Це пункт-перемикач. Якщо його увімкнено, на початку відтворення нової композиції &juk; показуватиме вікно-індикатор, у якому буде показано інформацію щодо виконавця і заголовка композиції, а також кнопки, які нададуть вам змогу швидко перемкнутися на іншу композицію. Для того, щоб це спрацювало, слід також увімкнути параметр «Швартувати до системного лотка».</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Параметри</guimenu
+> <guimenuitem
+>Вгадування міток...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цього пункту можна відкрити <link linkend="juk-tag-guesser-configuration"
+>Діалогове вікно налаштування вгадування міток</link
+>, за допомогою цього вікна ви можете змінити шаблони, які використовуватимуться для визначення інформації міток на основі назв файлів.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Settings</guimenu
+> <guimenuitem
+>Перейменування файлів...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>За допомогою цього пункту можна відкрити <link linkend="juk-rename-dialog"
+>діалогове вікно налаштування засобу перейменування файлів</link
+>, у якому ви зможете змінити спосіб, у який &juk; перейменовуватиме файли.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Configure scrobbling
+  -->
+</variablelist>
+
+<para
+>Крім того, у &juk; передбачено типові для &kde; пункти меню <guimenu
+>Параметри</guimenu
+> і <guimenu
+>Довідка</guimenu
+>. Щоб дізнатися більше, ознайомтеся з розділами щодо <ulink url="help:/fundamentals/menus.html#menus-settings"
+>меню «Параметри»</ulink
+> та <ulink url="help:/fundamentals/menus.html#menus-help"
+>меню «Довідка»</ulink
+> підручника з основ роботи у &kde;. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Довідник з клавіатурних скорочень</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>Комбінація клавіш</entry>
+<entry
+>Дія</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>Вибрати все</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Копіювати</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>Перейменувати файл</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>Отримати мітки з мережі Інтернет.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Отримати мітки на основі назви файла.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>Новий <link linkend="juk-search-playlists"
+>пошук у списку відтворення</link
+>.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Створити порожній список відтворення</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>Створити список відтворення з теки.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>Зберегти зміни у редагованих мітках.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>Подяки і ліцензування</title>
+
+<para
+>Авторські права на &juk; належать &Scott.Wheeler;, Michael Pyne та іншим розробникам, 2002–2013. </para>
+
+ <para
+>Розробкою і підтримкою &juk; займається &Scott.Wheeler; &Scott.Wheeler.mail; та Michael Pyne <email
+>michael.pyne@kdemail.net</email
+>.</para>
+
+<para
+>Велика подяка переліченим нижче людям за їх внесок до розробки &juk;:</para>
+
+<itemizedlist>
+<listitem
+><para
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; за систему згортання у лоток, <quote
+>вбудовану</quote
+> зміну міток, виправлення вад, проповідь Євангелія, моральну підтримку.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> за порт на <application
+>GStreamer</application
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Stefan Asserh&auml;ll <email
+>stefan.asserhall@telia.com</email
+> за підтримку загальних клавіатурних скорочень.</para>
+</listitem>
+
+<listitem
+><para
+>Stephen Douglas <email
+>stephen_douglas@yahoo.com</email
+> за індикатор сповіщення про доріжку.</para>
+</listitem>
+
+<listitem
+><para
+>&Frerich.Raabe; &Frerich.Raabe.mail; за автоматичне визначення даних доріжки і виправлення вад.</para>
+</listitem>
+
+<listitem
+><para
+>Zack Rusin <email
+>zack@kde.org</email
+> за елементи автоматизації, зокрема за підтримку MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Adam Treat <email
+>manyoso@yahoo.com</email
+> за участь у розробці автоматизації MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Matthias Kretz <email
+>kretz@kde.org</email
+> за те, що він доброзичливий гуру з &arts;, який живе неподалік.</para>
+</listitem>
+
+<listitem
+><para
+>Maks Orlovich <email
+>maksim@kde.org</email
+> за те, що зробив &juk; дружнішим для користувачів з терабайтами музики.</para>
+</listitem>
+
+<listitem
+><para
+>Antonio Larrosa Jimenez <email
+>larrosa@kde.org</email
+> за інтерфейс &DCOP;.</para>
+</listitem>
+
+<listitem
+><para
+>Allan Sandfield Jensen <email
+>kde@carewolf.com</email
+> за підтримку <acronym
+>FLAC</acronym
+> і <acronym
+>MPC</acronym
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Nathan Toone <email
+>nathan@toonetown.com</email
+> за засіб керування обкладинками альбомів.</para>
+</listitem>
+
+<listitem
+><para
+>Pascal Klein <email
+>4pascal@tpg.com.au</email
+> за вікно вітання.</para>
+</listitem>
+
+<listitem
+><para
+>Laurent Montel <email
+>montel@kde.org</email
+> за портування на &kde; 4, коли вісі інші відвернулися.</para>
+</listitem>
+
+<listitem
+><para
+>Georg Grabler <email
+>georg@grabler.net</email
+> за додаткові зусилля з портування на &kde; 4.</para>
+</listitem>
+
+<listitem
+><para
+>Martin Sandsmark <email
+>martin.sandsmark@kde.org</email
+> за підтримку скроблінґу на Last.fm, тексти пісень, приготування до &kde; Frameworks.</para>
+</listitem>
+
+<listitem
+><para
+>Eike Hein <email
+>hein@kde.org</email
+> за реалізацію інтерфейсу MPRIS2.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Авторські права на документацію &copy; 2003, &Lauri.Watts;, і &copy; 2004–2013 Michael Pyne.</para>
+
+<para
+>Переклад українською: Юрій Чорноіван <email
+>yurchor@ukr.net</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->

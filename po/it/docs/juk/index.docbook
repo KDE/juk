@@ -1,0 +1,2557 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Italian "INCLUDE">
+]>
+
+<book id="juk" lang="&language;">
+
+<bookinfo>
+<title
+>Manuale di &juk;</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Michael</firstname
+> <surname
+>Pyne</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Federico</firstname
+><surname
+>Zenith</surname
+><affiliation
+><address
+><email
+>federico.zenith@member.fsf.org</email
+></address
+></affiliation
+><contrib
+>Traduzione della documentazione e di parte dell'interfaccia in italiano</contrib
+></othercredit
+> <othercredit role="translator"
+><firstname
+>Giuseppe</firstname
+><surname
+>Ravasio</surname
+><affiliation
+><address
+><email
+>gravasio@bglug.it</email
+></address
+></affiliation
+><contrib
+>Traduzione dell'interfaccia in italiano</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>&Scott.Wheeler;</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>2013-11-08</date>
+<releaseinfo
+>3.11 (&kde; 4.12)</releaseinfo>
+
+<abstract>
+<para
+>&juk; è un jukebox, un modificatore di tag e un gestore di raccolte di musica. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+<keyword
+>audio</keyword>
+<keyword
+>tag</keyword>
+<keyword
+>lettore</keyword>
+<keyword
+>jukebox</keyword>
+<keyword
+>JuK</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Introduzione</title>
+
+<para
+>&juk; è, insomma, un jukebox. Come è tipico per le applicazioni jukebox, &juk; permette di modificare i <quote
+>tag</quote
+> dei file audio e gestire una raccolta e le scalette. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>Uso di &juk;</title>
+
+<para>
+<screenshot>
+<screeninfo
+>Ecco una schermata di &juk;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Istantanea di &juk; in azione.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>&juk; mantiene un elenco di tutti i file a lui noti. L'elenco è chiamato <guilabel
+>Raccolta</guilabel
+>. La raccolta è propria di &juk; e non viene condivisa con altre applicazioni.</para>
+
+<para
+>Indipendentemente dalla raccolta, ci sono le scalette. Puoi avere tutte le scalette che vuoi. Puoi usare scalette create da &juk; con altri lettori multimediali (come &amarok; o <application
+>xmms</application
+>), e puoi gestire scalette create in quelle applicazioni all'interno di &juk;.</para>
+
+<para
+>Puoi aggiungere i file alla raccolta individualmente, usando <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Apri</guimenuitem
+></menuchoice
+>, e selezionandoli da una comune finestra di selezione dei file di &kde;. Puoi aggiungere intere cartelle usando <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Gestisci cartelle</guimenuitem
+></menuchoice
+>. Le cartelle così aggiunte saranno scansionate ogni volta che avvierai &juk;. Puoi anche definire delle sottocartelle da escludere dalla scansione. Puoi far scansionare le cartelle facendo clic destro sull'icona <guilabel
+>Raccolta</guilabel
+>, e selezionando <guimenuitem
+>Ricarica</guimenuitem
+>.</para>
+
+<para
+>Aggiungere una canzone a una scaletta aggiungerà automaticamente il suo file alla raccolta, ma aggiungere un file alla raccolta non aggiungerà automaticamente la canzone a nessuna scaletta.</para>
+
+<para
+>Puoi creare rapidamente una scaletta dalla raccolta completa, facendo clic &RMB; sull'icona <guilabel
+>Raccolta</guilabel
+>, e scegliendo <guimenuitem
+>Duplica</guimenuitem
+>. La scaletta risultante è una normale scaletta, e modificarla non influenzerà la raccolta.</para>
+
+<para
+>Puoi aggiungere file di scaletta creati fuori da &juk; individualmente, selezionandole con <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Apri</guimenuitem
+></menuchoice
+>. Anche ogni file di scaletta trovato nelle cartelle che aggiungi con <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Gestisci cartelle</guimenuitem
+></menuchoice
+> sarà automaticamente aggiunto.</para>
+
+<para
+>Puoi creare una nuova scaletta vuota, una di ricerca o una da cartella scegliendo <menuchoice
+><guimenu
+>File</guimenu
+><guisubmenu
+>Nuova</guisubmenu
+></menuchoice
+> o l'icona <guiicon
+>Nuova</guiicon
+> nella barra degli strumenti. Sarà richiesto un nome, e poi un'icona per quella scaletta apparirà nel pannello delle scalette. Puoi ora trascinare file dalla raccolta o da altre scalette nella tua scaletta. Usa l'icona <guiicon
+>Salva</guiicon
+> o <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Salva</guimenuitem
+></menuchoice
+> per salvare la scaletta in qualsiasi momento.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>La lista delle canzoni</title>
+
+<para
+>Quando guardi la Raccolta, il pannello principale contiene tutti i file noti a &juk;. Quando guardi una scaletta, sono mostrate solo le canzoni che sono nella scaletta. In ogni caso, l'aspetto e il comportamento della lista è lo stesso.</para>
+
+<para
+>Ogni canzone occupa una riga nel pannello. C'è una colonna per ogni campo di metadati che &juk; controlla. Queste colonne corrispondono ai campi disponibili per scrivere nell'editor dei tag.</para>
+
+<para
+>Puoi riordinare la lista in ogni momento premendo il &LMB; sull'intestazione della colonna. Ciò prima riordinerà i file in ordine ascendente, in base ai contenuti di quella colonna. Se premi ancora il &LMB; sulla stessa intestazione, i file saranno riordinati in ordine discendente.</para>
+
+<para
+>Le colonne sono inizialmente dimensionate come abbastanza ampie per mostrare la voce più lunga presente. Puoi ridimensionare le colonne posizionando il cursore del mouse sul divisorio tra due colonne. Quando il cursore cambia da puntatore, fai clic con il &LMB; e trascina nella direzione in cui vuoi ridimensionare le colonne.</para>
+
+<para
+>Puoi riordinare le colonne facendo clic con il &LMB; su un'intestazione e trascinandone l'intestazione a destra o a sinistra. Tuttavia, facendo ciò, non puoi trascinare oltre il bordo della finestra, quindi potresti dover scorrere un po' a destra o a sinistra, e ripetere il trascinamento dell'intestazione, fino a quando l'avrai posizionata nel posto che preferisci.</para>
+
+<para
+>Puoi nascondere o mostrare le colonne facendo clic destro sull'intestazione di una colonna, e facendo clic sul nome della colonna da cambiare.</para>
+
+<para
+>Fare doppio clic sinistro su un file lo riprodurrà con il lettore interno. Se un'altra canzone era già in riproduzione, si fermerà, e sarà riprodotta la nuova canzone.</para>
+
+<para
+>Fare clic destro su un file offre diverse opzioni:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>Aggiungi alla coda di riproduzione</guimenuitem
+></term>
+<listitem>
+<para
+>Inizierà a riprodurre il file non appena la canzone attuale sarà conclusa. Se nessuna canzone è in riproduzione, il file sarà riprodotto appena premerai il pulsante <guiicon
+>Riproduci</guiicon
+>. Se hai già scelto l'opzione <guimenuitem
+>Aggiungi alla coda di riproduzione</guimenuitem
+> su un file diverso, questo file si sostituirà a quella selezione.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Taglia</guimenuitem
+></term>
+<term
+><guimenuitem
+>Copia</guimenuitem
+></term>
+<term
+><guimenuitem
+>Incolla</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Rimuovi dalla scaletta</guimenuitem
+></term>
+<listitem>
+<para
+>Se stai guardando la raccolta, scegliere questa azione rimuoverà il file dalla lista, e rimuoverà anche tutte le voci corrispondenti a questa canzone da tutte le scalette. Dovresti notare che se questo file è in una cartella che &juk; scansiona all'avvio, sarà riaggiunto alla Raccolta la prossima volta che avvierai &juk;, ma non sarà aggiunto automaticamente a nessuna scaletta.</para>
+<para
+>Se stai guardando una scaletta, <guimenuitem
+>Rimuovi dalla scaletta</guimenuitem
+> semplicemente ne rimuoverà la canzone.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Modifica <replaceable
+>Titolo di colonna</replaceable
+></guimenuitem
+></term>
+<listitem>
+<para
+>Permette di modificare la canzone attualmente evidenziata nella colonna in cui hai fatto clic. Per esempio, se l'editor dei tag non è visibile, e sei occupato a creare una scaletta, ma noti un errore di battitura nel nome di un artista, puoi modificarlo direttamente con questo elemento del menu.</para>
+<para
+>I cambiamenti apportati in questo modo sono sempre salvati non appena fai clic da un'altra parte e hai finito di modificare.</para>
+<para
+>Questo elemento del menu sarà disattivato se &juk; rileva che la traccia che hai selezionato è di sola lettura.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Aggiorna</guimenuitem
+></term>
+<listitem>
+<para
+>Ricaricherà le informazioni dei tag dei file selezionati, nel caso che i file siano stati cambiati mentre &juk; era in esecuzione.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Elimina</guimenuitem
+></term>
+<listitem>
+<para
+>Questo rimuoverà il file dalla raccolta, rimuoverà tutte le voci della canzone nelle scalette, ed eliminerà il file dal disco. Non puoi annullare questa azione, perciò verrà chiesto di confermare la scelta. Usare con prudenza.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>Rileva informazioni dei tag</guisubmenu
+></term>
+<listitem>
+<para
+>Farà indovinare a &juk; le informazioni di una canzone come Artista e Titolo. &juk; impiega diversi metodi di rilevamento: <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>Dal nome del file</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; proverà a indovinare i tag di una canzone in base al nome del suo file. Per esempio, una canzone chiamata <filename
+>Roxette - The Look.mp3</filename
+> rileverebbe Roxette come artista e The Look come titolo. Puoi regolare il modo in cui &juk; rileva i tag selezionando <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Rilevatore di tag</guimenuitem
+></menuchoice
+>, che aprirà la <link linkend="juk-tag-guesser-configuration"
+>finestra del rilevatore di tag</link
+>. &juk; non sostituirà tag che non ha rilevato dal nome del file.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Da Internet</guimenuitem
+></term>
+  <listitem
+><para
+>&juk; cercherà di indovinare i tag della canzone usando il programma MusicBrainz. Devi aver installato MusicBrainz perché questo comando funzioni. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Rinomina file</guimenuitem
+></term>
+<listitem>
+<para
+>Questo rinominerà i file selezionati conformemente a un dato formato. Devi scegliere il modo in cui vuoi rinominare i file selezionando <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Rinominatore dei file</guimenuitem
+></menuchoice
+>. Il nome risultante di ogni file è basato sui suoi metadati. Per esempio, la canzone Ogg Vorbis <quote
+>The Theme (Metroid)</quote
+> di Stemage potrebbe risultare in <filename
+>/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
+>. </para>
+</listitem>
+</varlistentry>
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
+<varlistentry>
+<term
+><guimenuitem
+>Crea scaletta da elementi selezionati</guimenuitem
+></term>
+<listitem>
+<para
+>Questo permette di creare rapidamente una scaletta da canzoni nella raccolta. Questa funzione chiederà un nome per la nuova scaletta, e ci inserirà tutte le canzoni selezionate.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Aggiungi elementi selezionati a CD audio o dati</guimenuitem
+></term>
+<listitem>
+<para
+>Questo permette di creare rapidamente un progetto di masterizzazione di &CD; con K3b dalle canzoni selezionate. &juk; chiederà se preferisci un progetto &CD; audio o &CD; dati, a meno che K3b abbia già un progetto aperto.</para>
+
+<para
+>Se K3b non è già in esecuzione, &juk; lo avvierà per te. Dopodiché, &juk; aggiungerà i file selezionati al progetto K3b attuale. Puoi quindi salvare il progetto in K3b per masterizzarlo dopo, o masterizzare subito il &CD;. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+>Scalette di &juk;</title>
+<para
+>Una scaletta è semplicemente una raccolta di canzoni raggruppate per qualche categoria. Per esempio, potresti avere una scaletta di canzoni che ascolti quando programmi, quando provi a dormire, o anche quando hai bisogno di ridere. &juk; support alcuni tipi diversi di scalette. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>Scalette normali</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> Questo è il tipo più comune di scaletta. È una scaletta composta da file, proprio come la raccolta.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>La scaletta cronologia</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> Se attivi questa scaletta (attivando <menuchoice
+><guimenu
+>Visualizza</guimenu
+><guimenuitem
+>Mostra cronologia</guimenuitem
+></menuchoice
+>, questa scaletta registrerà ogni canzone che &juk; riproduce. La scaletta avrà una colonna aggiuntiva, <guilabel
+>Ora</guilabel
+>, che registra l'esatta data e ora di quando la canzone è stata riprodotta. Però, la scaletta non inizia a tener conto della cronologia finché non viene attivata. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>Scalette da ricerca</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> Questa è una scaletta basata su una ricerca. Puoi creare una scaletta di questo tipo facendo clic su <menuchoice
+><guimenu
+>File</guimenu
+><guisubmenu
+>Nuovo</guisubmenu
+><guimenuitem
+>Scaletta da ricerca</guimenuitem
+></menuchoice
+>, o facendo clic sul pulsante <link linkend="juk-advanced-search-dialog"
+>Scaletta da ricerca</link
+> nella barra degli strumenti.</para>
+<para
+>Dopo aver creato questa scaletta, terrà traccia di quali canzoni nella raccolta corrispondono ai tuoi criteri, e si aggiornerà automaticamente ogni volta che cambierà la raccolta.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>Le scalette sono organizzate nul <guilabel
+>Pannello delle scalette</guilabel
+>, che è la barra verticale sulla sinistra. In questo pannello c'è un'icona per ogni scaletta che hai. Ci sono diverse modalità di visualizzazione per questo pannello, che possono essere selezionate dal menu <menuchoice
+><guimenu
+>Visualizza</guimenu
+><guisubmenu
+>Modalità di visualizzazione</guisubmenu
+></menuchoice
+>. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+>Modalità di visualizzazione predefinita</term>
+<listitem>
+<para
+>Questa è la modalità di visualizzazione predefinita. In questa modalità, tutte le scalette sono mostrate come icone grandi, l'una sopra l'altra nella visualizzazione. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+>Modalità di visualizzazione compatta</term>
+<listitem>
+<para
+>Questa modalità è simile alla modalità di visualizzazione normale, con l'eccezione che le scalette sono rappresentate con barre orizzontali con icone piccole invece che con riquadri quadrati. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+>Modalità di visualizzazione ad albero</term>
+<listitem>
+<para
+>Questa modalità è la più potente. Questa modalità è come quella compatta, eccetto che la Raccolta è ora la radice di un albero di scalette virtuali. La Raccolta ha tre nodi figli, Artista, Album, e Genere. Ognuno di questi nodi ha figli rappresentanti tutte le voci di quella specifica categoria. Per esempio, se la raccolta contiene musica di quattro artisti diversi, avresti quattro voci sotto il nodo Artista.</para>
+<para
+>Una bella funzionalità della modalità di visualizzazione ad albero è l'impostazione dei tag tramite trascinamento. Seleziona semplicemente alcuni file nell'elenco delle tracce, e trascinali su uno dei nodi Artista, Album, o Genere sotto Raccolta. I tag delle canzoni saranno automaticamente reimpostati per accordarsi all'elemento sotto il quale hai sganciato le tracce. Per esempio, se trascini un gruppo di tracce su un genere chiamato <quote
+>Rock</quote
+>, i tag del genere di tutte le tracce saranno reimpostati a Rock. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>L'editor di tag di &juk;</title>
+
+<para
+>Per molti formati di file, è pratico usare il nome del file per descrivere i contenuti del file: <quote
+><filename
+>Rapporto per il consiglio di amministrazione - giugno 2003.sxw</filename
+></quote
+> per esempio, potrebbe contenere tutte le informazioni di cui hai bisogno per ritrovare quel file. Provare a sintetizzare tutte le informazioni su una canzone particolare, però, potrebbe portare a nomi di file di come questo: <quote
+><filename
+>Elio e le storie tese - Il vitello dai piedi di balsa (dj Giuseppe remix) (5:31) (VM 18) (aggiungo un po' di caratteri perché voglio sentirmi importante).mp3</filename
+></quote
+> o <quote
+><filename
+>Artisti vari_15_Orchestra Cacofonica di Vienna, concerto al campo 5 per la scalata all'Everest_Wolfgang Amadeus Mozart - toccata e fuga del beluga (senza contrabbasso, causa contrabbassista in cura per ipotermia al campo 4).mp3</filename
+></quote
+>. Questi non sono né molto pratici da usare, né contengono tutte le informazioni utili che potresti aver raccolto sulla canzone. Aggiungere album e numero di traccia al primo file, per esempio, lo renderebbe ancora più lungo e più ingestibile, pur non dicendoti al volo nulla dell'anno in cui è stato pubblicato, o quale stile di musica sia, se non conosci l'artista.</para>
+
+<para
+>La soluzione è quindi di salvare questo tipo di metadati all'interno degli stessi file. I file mp3 e ogg possono anche contenere piccoli ritagli di testo che puoi usare per descrivere il contenuto del file. Ci sono diversi formati, ma &juk; ne nasconde i dettagli, e dà un modo standard per modificare un certo sottoinsieme di tag ben noti per tutti i tuoi file audio.</para>
+
+<para
+>L'editor di tag completo di &juk; permette di modificare i tag sia nei file mp3 che ogg. Puoi modificare i file uno o più alla volta, e puoi selezionare contemporaneamente file mp3 e ogg da modificare. L'unico requisito è avere accesso in scrittura ai file stessi; non puoi modificare i tag di un file che è su un &CD-ROM; per esempio.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Modificare i tag in un file singolo</title>
+
+<para
+>Per modificare i tag in un file singolo, selezionalo o nella raccolta o in qualsiasi voce ne esista in qualsiasi scaletta. Se l'editor di tag non è visibile, attivalo selezionando <menuchoice
+><guimenu
+>Visualizza</guimenu
+><guimenuitem
+>Mostra editor di tag</guimenuitem
+></menuchoice
+>. L'editor di tag viene mostrato sotto il fondo della lista.</para>
+
+<para
+>Semplicemente scrivi all'interno di uno qualsiasi dei campi modificabili per modificare le informazioni. Quando avrai finito, fai clic con il &LMB; nella lista, e sarà chiesto di salvare le modifiche.</para>
+
+<para
+>Potresti notare che l'editor dei tag a volte rimane disattivato quando fai clic su un file. Questo avviene quando &juk; rileva che la traccia è di sola lettura.</para>
+
+<variablelist>
+<title
+>Campi dell'editor di tag</title>
+<varlistentry>
+<term
+><guilabel
+>Nome dell'artista:</guilabel
+></term>
+<listitem>
+<para
+>Il nome del o degli artisti che hanno fatto la canzone.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nome della traccia:</guilabel
+></term>
+<listitem>
+<para
+>Il nome della canzone.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nome dell'album:</guilabel
+></term>
+<listitem>
+<para
+>Il nome dell'album in cui la canzone è stata inclusa.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Genere:</guilabel
+></term>
+<listitem>
+<para
+>Lo <quote
+>stile</quote
+> della musica. &juk; fornisce una lista corrispondente più o meno allo standard informale id3, ma sei libero di scrivere le tue voci in questa lista.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Nome del file:</guilabel
+></term>
+<listitem>
+<para
+>Il nome del file vero e proprio sul disco. Puoi modificarlo direttamente, e quando salverai, il file sarà rinominato.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Traccia:</guilabel
+></term>
+<listitem>
+<para
+>La posizione della traccia sulla registrazione originale.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Anno:</guilabel
+></term>
+<listitem>
+<para
+>L'anno di pubblicazione della canzone.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Lunghezza:</guilabel
+></term>
+<listitem>
+<para
+>Questo non è modificabile, è mostrato solo per informazione.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Bitrate:</guilabel
+></term>
+<listitem>
+<para
+>Questo non è modificabile, è mostrato solo per informazione.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Commento:</guilabel
+></term>
+<listitem>
+<para
+>Puoi aggiungere qui i tuoi commenti in testo libero, con note aggiuntive &etc;</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Puoi esplicitamente e immediatamente salvare le tue modifiche in ogni momento usando la voce menu <menuchoice
+><guimenu
+>Tag</guimenu
+><guimenuitem
+>Salva</guimenuitem
+></menuchoice
+> o premendo <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Modificare i tag in più file contemporaneamente</title>
+
+<para
+>Puoi selezionare più file contemporaneamente nella lista, e modificarne uno o più campi per tutti i file in una volta sola.</para>
+
+<para
+>Usa &Shift; e il &LMB; per selezionare una lista di file contigua, e &Ctrl; e il &LMB; per selezionare singoli file non-contigui.</para>
+
+<para
+>Se l'editor di tag non è visibile, puoi attivarlo selezionando <menuchoice
+><guimenu
+>Visualizza</guimenu
+> <guimenuitem
+>Mostra editor di tag</guimenuitem
+></menuchoice
+>. L'editor di tag viene mostrato sotto il fondo della lista.</para>
+
+<para
+>L'editor di tag si comporta leggermente diversamente quando hai selezionato più file contemporaneamente.</para>
+
+<para
+>Ogni campo nell'editor di tag mostrerà ora una casella <guilabel
+>Abilita</guilabel
+> di fianco a esso. Ogni campo che ha esattamente gli stessi contenuti per tutti i file che hai selezionato mostra quel contenuto, ed è abilitato per la modifica, con la casella <guilabel
+>Abilita</guilabel
+> segnata.</para>
+
+<!-- put screeny here -->
+
+<para
+>Ogni campo che non abbia contenuti uguali in tutti i file selezionati non è modificabile inizialmente, e non mostra nessun contenuto.</para>
+
+<para
+>Per cambiare il contenuto di un qualsiasi campo, segna la casella <guilabel
+>Abilita</guilabel
+> se non è già segnata, e modifica il campo come faresti normalmente.</para>
+
+<para
+>Quando hai finito, fai clic con il &LMB; nella lista, e sarà richiesto di salvare le modifiche. La finestra di richiesta mostrerà una lista dei file coinvolti, in modo da avere una possibilità di controllare che stai veramente alterando i file giusti.</para>
+
+<para
+>Puoi esplicitamente e immediatamente salvare le tue modifiche in ogni momento usando la voce menu <menuchoice
+><guimenu
+>Tag</guimenu
+><guimenuitem
+>Salva</guimenuitem
+></menuchoice
+> o premendo <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>La finestra Rinomina file</title>
+<para>
+<screenshot>
+<screeninfo
+>La finestra Rinomina file</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Schermata della finestra Rinomina file.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>La finestra di configurazione del rinominatore dei file è usata per configurare l'azione Rinomina file, che rinomina una canzone in base alle informazioni contenute nei suoi metadati. </para>
+<para
+>La funzionalità di rinomina dei file serve ad avere nomi di file coerenti per la raccolta di musica (il che include anche spostare i file, se necessario). Per esempio, potresti avere alcune canzoni che sul disco hanno un nome del tipo <filename
+>01 - Titolo.mp3</filename
+> se li hai scaricati da <ulink url="http://amazon.com"
+>Amazon</ulink
+>, mentre le canzoni prese da <ulink url="http://ocremix.org/"
+>OCRemix</ulink
+> potrebbero avere un nome del tipo <filename
+>Elio_e_le_Storie_Tese- Italyan,_Rum_Casusu_Cikti_Supergiovane_(OC_Remix).mp3</filename
+> o qualcosa del genere. </para>
+<para
+>Il sistema di rinomina permette a &juk; di rinominare queste canzoni in qualcosa di <quote
+>razionale</quote
+> sul disco, come <filename
+>Elio e le Storie Tese - Supergiovane.mp3</filename
+> e <filename
+>Aya Hirano - God Knows.mp3</filename
+>. Puoi anche includere dei percorsi con i quali ordinare la musica (per esempio a seconda dell'anno o dell'album), come <filename
+>$<envar
+>HOME</envar
+>/Musica/2006/Aya Hirano - God Knows.mp3</filename
+>. </para>
+<para
+>Farlo è semplice: attiva l'azione <quote
+>Rinomina file</quote
+>, dal menu <guimenu
+>Tag</guimenu
+> o facendo clic con il &RMB; sui file. La scorciatoia predefinita è <keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+>. Prima di farlo, però, dovresti configurare come rinominare i file. </para>
+<para
+>Questo si può fare dalla finestra menzionata sopra, che si può aprire con la voce del menu <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Rinominatore dei file</guimenuitem
+></menuchoice
+>. Puoi definire un percorso di destinazione usando una cartella di base della musica e aggiungendoci dei pezzi. Questi pezzi del percorso si baseranno sui metadati della musica, come titolo della canzone, autore, eccetera, e vengono aggiunti con il selettore <guilabel
+>Aggiungi categoria</guilabel
+>. </para>
+<para
+>Ogni <quote
+>pezzo di percorso</quote
+> ha una casella di spunta per permettere l'inclusione di un separatore di cartelle. </para>
+<para
+>Le opzioni per ogni pezzo, che controllano cosa succede se il metadato risulta mancante e permettono di inserire un suffisso o un prefisso quando viene inserito, possono aiutare a rendere più efficiente la procedura di rinomina. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>La finestra di configurazione del rilevatore di tag</title>
+<para>
+<screenshot>
+<screeninfo
+>La finestra di configurazione del rilevatore di tag</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Schermata della finestra di configurazione del rilevatore di tag.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>La finestra di configurazione del rilevatore tag è usata per configurare l'azione <guilabel
+>Rileva dal nome del file</guilabel
+>.</para>
+
+<para
+>Nella finestra vedrai sulla sinistra un elenco di diversi schemi di nomi di file. &juk; include un insieme esteso di schemi predefiniti per corrispondere ai più comuni stili di denominazione dei file. Se volessi aggiungere un nuovo schema, fai clic sul pulsante <guibutton
+>Aggiungi</guibutton
+>, digita lo schema e fai clic su <guibutton
+>OK</guibutton
+>.</para
+>  
+
+<para
+>Qui puoi vedere gli schemi attualmente configurati di nomi di file che l'editor dei tag usa per estrarre le informazioni sui tag dal nome di un file. Ogni stringa può contenere uno dei seguenti segnaposti:</para>
+
+<para
+><itemizedlist>
+<listitem
+><para
+>%t: titolo</para
+></listitem>
+<listitem
+><para
+>%A: album</para
+></listitem>
+<listitem
+><para
+>%a: artista</para
+></listitem>
+<listitem
+><para
+>%T: traccia</para
+></listitem>
+<listitem
+><para
+>%c: commento</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Per esempio, lo schema di nome dei file <userinput
+>[%T] %a - %t</userinput
+> corrisponderebbe a <filename
+>[01] Gino Paoli - Quattro amici</filename
+> ma non a <filename
+>(Gino Paoli) Quattro amici</filename
+>. Per il secondo esempio, si userebbe lo schema <userinput
+>(%a) %t</userinput
+>.</para>
+
+<para
+>&juk; proverà gli schemi che hai elencato uno alla volta, iniziando dalla cima dell'elenco. Il primo schema che risulterà in una corrispondenza sarà lo schema usato per rilevare i tag della canzone. Alcune canzoni potrebbero corrispondere a più di uno schema. Puoi assicurarti che corrisponda per primo lo schema giusto selezionando lo schema nel riquadro dell'elenco e usando i pulsanti freccia per spostarlo in cima all'elenco. </para>
+
+<para
+>Puoi anche modificare o rimuovere uno schema dall'elenco. Seleziona lo schema nell'elenco, e usa il pulsante <guibutton
+>Modifica</guibutton
+> per cambiare lo schema, o il pulsante <guibutton
+>Rimuovi</guibutton
+> per rimuovere lo schema dell'elenco. </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>La finestra di Ricerca avanzata</title>
+<para>
+<screenshot>
+<screeninfo
+>La finestra di Ricerca avanzata</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Schermata della finestra di Ricerca avanzata.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>La finestra di Ricerca avanzata è usata per creare <link linkend="juk-search-playlists"
+>scalette da ricerca</link
+>. Permette di creare una ricerca precisa tra i diversi tag della raccolta di canzoni.</para>
+
+<para
+>In cima alla finestra, puoi scrivere il nome della scaletta da ricerca. Puoi poi definire i criteri di ricerca nel gruppo <guilabel
+>Criteri di ricerca</guilabel
+>. </para>
+
+<para
+>La parte in alto del gruppo <guilabel
+>Criteri di ricerca</guilabel
+> ha due pulsanti a scelta singola, <guilabel
+>Trova qualsiasi corrispondenza delle seguenti</guilabel
+> e <guilabel
+>Trova tutte le corrispondenze seguenti</guilabel
+>. Se selezioni <guilabel
+>Trova qualsiasi corrispondenza delle seguenti</guilabel
+>, una corrispondenza di una qualsiasi delle condizioni che definisci includerà la canzone nella scaletta. Altrimenti, tutte le condizioni che definisci dovranno corrispondere per includere la canzone nella scaletta. </para>
+
+<para
+>Sotto i pulsanti a scelta singola ci sono le definizioni di condizione. Puoi aggiungerne altre usando il pulsante <guibutton
+>Di più</guibutton
+>, e rimuoverne usando il pulsante <guibutton
+>Di meno</guibutton
+>. Ogni condizione che lasci in bianco è ignorata, perciò non devi usare <guibutton
+>Di meno</guibutton
+> per eliminare le condizioni vuote. </para>
+
+<para
+>Ogni definizione di condizione ha tre parti: l'elenco di scelta del tag a sinistra, l'elenco di stile corrispondente a destra, e il testo di ricerca nel mezzo. La scelta del tag fa sapere a &juk; in quale tag vuoi cercare il testo. Se scegli il tag speciale <guilabel
+>&lt;Tutti i visibili&gt;</guilabel
+>, ogni tag che puoi vedere nella Raccolta è valido per corrispondere al testo di ricerca. </para>
+
+<para
+>Lo stile di corrispondenza fa sapere a &juk; quale metodo di ricerca deve usare. I metodi di ricerca che puoi usare sono i seguenti: <variablelist>
+<varlistentry>
+<term
+>Corrispondenza normale</term>
+<listitem
+><para
+>È lo stile di corrispondenza predefinito. Cerca il testo dato ovunque nel tag scelto, ignorando le maiuscole. Per esempio una ricerca di <quote
+>mode</quote
+> nel tag Artista corrisponderebbe a <quote
+>Depeche Mode</quote
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Distinzione delle maiuscole</term>
+<listitem
+><para
+>Questa ricerca è esattamente come la corrispondenza normale, eccetto che la ricerca distinguerà le maiuscole del testo.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Corrispondenza di schemi</term>
+<listitem
+><para
+>Questo è il metodo di ricerca più potente. Il testo di ricerca che digiti definirà un'espressione regolare usata per cercare nel tag. Le espressioni regolari sono oltre l'ambito di questa documentazione, ma l'applicazione &kregexpeditor; può aiutarti a formare un'espressione regolare. &juk; usa lo stile &Qt; di espressioni regolari.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>Scegli semplicemente le condizioni che vuoi includere nella ricerca, e fai clic su <guibutton
+>OK</guibutton
+> per creare la tua scaletta da ricerca! </para>
+</sect1>
+<!-- is this still relevant?
+
+write new for kde4
+
+<sect1 id="juk-cover-manager">
+
+<title
+>The &juk; Cover Manager</title>
+
+<para
+>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>How Covers Worked in &juk; 2.2</title>
+
+<para
+>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel
+>Artist</guilabel
+> or <guilabel
+>Album</guilabel
+> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>How Covers work in &juk; 2.3</title>
+
+<para
+>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Examples of adding covers</title>
+
+<para
+>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote
+>Alabama - Greatest Hits III</quote
+> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice
+><guimenu
+>Tagger</guimenu
+> <guisubmenu
+>Cover Manager</guisubmenu
+> <guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis
+>all</emphasis
+> of the <quote
+>Alabama - Greatest Hits III</quote
+> tracks, <emphasis
+>whether you wanted that or not</emphasis
+>.</para>
+
+<para
+>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote
+>Alabama - Greatest Hits III</quote
+> tracks before using the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension"
+>.png</literal
+> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Reusing Old Covers</title>
+
+<para
+>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para
+>There are two ways of doing this:</para>
+
+<para
+>1. Open the <guilabel
+>Cover Manager</guilabel
+> dialog using the <guimenu
+>Tagger</guimenu
+> menu (<menuchoice
+><guimenu
+>Tagger Cover</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Show Cover Manager</guimenuitem
+></menuchoice
+>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para
+>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface
+>Now Playing bar</interface
+>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Dragging covers to more than one track at once</title>
+
+<para
+>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>What happens to my old covers?</title>
+
+<para
+>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para
+>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Removing Covers</title>
+
+<para
+>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+>.</para>
+
+<para
+>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Suggested Uses:</title>
+
+<para
+>1. You can now apply the same cover to tracks with Albums that have <quote
+>Disc 1</quote
+>, <quote
+>Disc 2</quote
+>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+-->
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>La barra degli strumenti di &juk;</title>
+
+<sect1 id="main-toolbar">
+<title
+>La barra principale degli strumenti</title>
+
+<screenshot>
+<screeninfo
+>La barra degli strumenti di &juk;.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>La barra degli strumenti di &juk;.</phrase>
+</textobject>
+<caption
+><para
+>La barra degli strumenti di &juk;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Da sinistra a destra nella schermata sopra, le icone nella barra predefinita degli strumenti sono:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Nuovo</guiicon
+></term>
+<listitem
+><para
+>Crea una nuova scaletta. Se mantieni premuto il pulsante, apparirà un menu che permetterà di scegliere tra i diversi tipi di scalette da creare. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>Scaletta vuota</guimenuitem
+></term>
+  <listitem
+><para
+>Richiede un nome di scaletta, e quindi la inserisce nella vista delle scalette. La scaletta è all'inizio completamente vuota.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Scaletta da cartella</guimenuitem
+></term>
+  <listitem
+><para
+>Chiede una cartella da aprire, e crea una scaletta contenente la musica all'interno della cartella e delle sue eventuali sottocartelle. Il nome della scaletta creata è lo stesso di quello della cartella selezionata.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Scaletta da ricerca</guimenuitem
+></term>
+  <listitem
+><para
+>Fa apparire la finestra di Ricerca avanzata, che permette di creare una <quote
+>scaletta virtuale</quote
+>. Ogni canzone nella raccolta che corrisponda ai criteri di ricerca specificati nella finestra di Ricerca avanzata sarà aggiunta alla nuova scaletta. Quando la raccolta cambierà, cambierà anche la scaletta. Per esempio, se crei una scaletta di tutte le canzoni dei Depeche Mode, e poi aggiungi un'altra canzone dei Depeche Mode alla raccolta, apparirà nella scaletta dei Depeche Mode senza altre azioni da parte tua. </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Apri</guiicon
+></term>
+<listitem
+><para
+>Aggiungi un file alla raccolta (se è attiva), o alla scaletta attualmente selezionata. Aggiungere un file a una scaletta lo aggiungerà automaticamente alla raccolta, ma non vale il contrario.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Salva</guiicon
+></term>
+<listitem
+><para
+>Salva la scaletta attualmente selezionata. Per salvare un tag che hai modificato, seleziona un altro elemento, oppure premi <keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Taglia</guiicon
+></term>
+<listitem
+><para
+>Se si è selezionata una scaletta o una canzone, tagliala (rimuovila) dalla lista. Se l'editor di tag è attivo, funziona come la funzione taglia in un qualsiasi editor, rimuovendo il testo selezionato, ma tenendone una copia negli appunti.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Copia</guiicon
+></term>
+<listitem
+><para
+>Se l'editor di tag è attivo, funziona come la funzione di copia in qualsiasi editor, mettendo una copia del testo selezionato negli appunti.</para>
+<para
+>Se usi copia su una canzone nella raccolta, l'URL è inserito negli appunti, in modo da poterlo incollare. Per esempio, potresti incollare l'URL in un editor di testo, &konqueror;, o un'altra scaletta.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Incolla</guiicon
+></term>
+<listitem
+><para
+>Se hai precedentemente tagliato o copiato un URL dalla raccolta, puoi incollarlo in una nuova scaletta. Potresti anche incollare un URL che hai copiato da &konqueror; o da qualsiasi altra applicazione. Se stai usando l'editor di tag, la funzione incolla incollerà qualsiasi testo attualmente negli appunti nel campo selezionato.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Mostra la barra di ricerca</guiicon
+></term>
+<listitem
+><para
+>Mostra o nascondi <link linkend="search-bar"
+>la barra di ricerca</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Mostra editor di tag</guiicon
+></term>
+<listitem
+><para
+>Mostra o nascondi <link linkend="tagging-a-single-file"
+>l'editor di tag</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>Controlli di riproduzione</term>
+<listitem>
+<para
+>Funzionano come ogni lettore multimediale che potresti aver incontrato. I controlli sono <guiicon
+>Riproduci</guiicon
+>, <guiicon
+>Pausa</guiicon
+>, <guiicon
+>Interrompi</guiicon
+>, <guiicon
+>Precedente</guiicon
+> e <guiicon
+>Successiva</guiicon
+>.</para>
+<para
+>C'è anche una barra di progresso, che mostra a che punto sei nella canzone attuale. Puoi trascinare questo cursore con il mouse per muoverti in avanti o all'indietro all'interno di una traccia.</para>
+<para
+>Infine c'è il cursore del volume. Come ti potresti aspettare, alza e abbassa il volume. <quote
+>Alto</quote
+> è a destra e<quote
+>Basso</quote
+> a sinistra.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>La barra di ricerca</title>
+
+<para
+>La barra di ricerca permette di cercare un canzone rapidamente nella raccolta o in una scaletta.</para>
+
+<para
+>Basta scrivere testo nella barra di ricerca per ridurre la lista di canzoni visibili a quelle che contengono quel testo in una qualsiasi colonna visibile. Premere &Enter; avvierà la riproduzione della prima corrispondenza nella vista della scaletta.</para>
+
+<para
+>La ricerca inizia istantaneamente quando del testo viene inserito nel campo di ricerca. La ricerca è incrementale, cioè la ricerca è ulteriormente ristretta mentre scrivi ogni carattere nel campo di testo. Ciò è utile a trovare una canzone quando ricordi solo parte del nome, per esempio.</para>
+
+<!-- Not here in KDE 4.11
+<para
+>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
+-->
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Guida a menu e comandi</title>
+
+<sect1 id="menus">
+<title
+>Menu</title>
+
+<sect2 id="menu-file">
+<title
+>Menu <guimenu
+>File</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+><guisubmenu
+>Nuovo</guisubmenu
+><guimenuitem
+>Scaletta vuota</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Crea una nuova scaletta</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+><guisubmenu
+>Nuovo</guisubmenu
+><guimenuitem
+>Scaletta da ricerca</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Crea una nuova <link linkend="juk-search-playlists"
+>scaletta da ricerca</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+><guisubmenu
+>Nuovo</guisubmenu
+><guimenuitem
+>Scaletta da cartella</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Crea una nuova scaletta, contenente tutti i file di musica in una cartella e tutte le eventuali sottocartelle. Sarà aggiunta anche tutta la musica all'interno di file di scaletta che &juk; riconosce.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+> <guimenuitem
+>Apri</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Seleziona uno o più file da aggiungere alla raccolta. Se selezioni un file di scaletta, sarà aggiunto ogni file nella scaletta.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Gestisci cartelle</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo elemento del menu apre la stessa finestra mostrata al primo avvio di &juk;. </para>
+<para
+>Seleziona una o più cartelle da aggiungere alla raccolta. Queste cartelle saranno inoltre riscansionate ogni volta che &juk; sarà avviato, o che sarà selezionato <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Ricarica</guimenuitem
+></menuchoice
+>.</para>
+<para
+>Puoi anche selezionare delle cartelle in cui non si dovrebbe effettuare una ricerca automatica (che si sostituirebbe all'elenco di cartelle da scansionare all'avvio). In questo modo puoi evitare di dover cambiare completamente la disposizione della tua musica sul disco solo per evitare che &juk; includa automaticamente delle canzoni che non vuoi siano viste o gestite da &juk;. </para>
+<para>
+<screenshot>
+<screeninfo
+>La finestra di gestione delle cartelle</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Schermata della finestra di gestione delle cartelle.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para
+>Se vuoi rimuovere dei file già presenti nell'elenco della raccolta, puoi abilitare la colonna <guilabel
+>Nome del file (percorso completo)</guilabel
+> in una scaletta, quindi usare la barra di ricerca per trovare il nome del percorso in questione, e selezionare e rimuovere i file mostrati. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Rinomina</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Rinomina una scaletta.</para>
+</listitem>
+</varlistentry>
+
+<!-- Edit Search... -->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Duplica</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Crea un duplicato della scaletta selezionata, e richiedi un nuovo nome. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Ricarica</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Ricarica le informazioni sui tag di ogni file nella scaletta selezionata. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Rimuovi</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Rimuovi la scaletta selezionata.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>File</guimenu
+><guimenuitem
+>Salva</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Salva la scaletta selezionata.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Salva con nome</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Salva la scaletta selezionata, con un nome diverso.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>Menu <guimenu
+>Modifica</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Modifica</guimenu
+><guimenuitem
+>Pulisci</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Rimuove le canzoni selezionate dalla scaletta.</para>
+</listitem>
+</varlistentry>
+<!-- Undo Cut Copy Paste Clear Select All -->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>Menu <guimenu
+>Visualizza</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualizza</guimenu
+><guimenuitem
+>Mostra la barra di ricerca</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>È un'azione di commutazione che imposta se la <link linkend="search-bar"
+>barra di ricerca</link
+> è mostrata.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualizza</guimenu
+><guimenuitem
+>Mostra l'editor dei tag</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>È un'azione di commutazione che imposta se l'<interface
+>Editor dei tag</interface
+> è mostrato.</para>
+</listitem>
+</varlistentry>
+<!--Show Lyrics-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualizza</guimenu
+><guimenuitem
+>Mostra cronologia</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>È un'azione di commutazione che imposta se la <link linkend="juk-history-playlists"
+>scaletta della cronologia</link
+> è mostrata.</para>
+</listitem>
+</varlistentry>
+
+<!-- missing
+Show Play Queue
+Show Columns
+Resize Playlist Columns Manually
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualizza</guimenu
+><guisubmenu
+>Modalità di visualizzazione</guisubmenu
+><guimenuitem
+>Predefinita</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cambia alla <link linkend="juk-viewmode-default"
+>Modalità di visualizzazione predefinita</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualizza</guimenu
+><guisubmenu
+>Modalità di visualizzazione</guisubmenu
+><guimenuitem
+>Compatta</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cambia alla <link linkend="juk-viewmode-compact"
+>Modalità di visualizzazione compatta</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Visualizza</guimenu
+><guisubmenu
+>Modalità di visualizzazione</guisubmenu
+><guimenuitem
+>Albero</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Cambia alla <link linkend="juk-viewmode-tree"
+>Modalità di visualizzazione ad albero</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>Menu <guimenu
+>Lettore</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lettore</guimenu
+><guimenuitem
+>Riproduzione casuale</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questa è un'opzione di commutazione che controlla l'impostazione Riproduzione casuale. Se Riproduzione casuale è attivata, &juk; selezionerà una canzone a caso dalla scaletta corrente quando finirà la canzone attualmente in riproduzione.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lettore</guimenu
+><guimenuitem
+>Scaletta in ciclo</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questa è un'opzione di commutazione che controlla l'impostazione Scaletta in ciclo. Se Scaletta in ciclo è attivata, &juk; inizierà a riprodurre dall'inizio quando avrà finito di riprodurre ogni canzone nella scaletta corrente.</para>
+</listitem>
+</varlistentry>
+<!--
+Crossfade Between Tracks
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lettore</guimenu
+><guimenuitem
+>Riproduci</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando inizia la riproduzione della canzone attualmente selezionata, o ne riprende la riproduzione se era in pausa.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lettore</guimenu
+><guimenuitem
+>Pausa</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando mette in pausa la canzone attualmente in riproduzione. Usa il comando Riproduci per riavviare la riproduzione.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lettore</guimenu
+><guimenuitem
+>Interrompi</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando interrompe la riproduzione della canzone attualmente in riproduzione. In seguito non potrai riprendere la riproduzione dalla posizione corrente.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lettore</guimenu
+><guimenuitem
+>Successiva</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando passa alla prossima canzone da riprodurre nella scaletta.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Lettore</guimenu
+><guimenuitem
+>Precedente</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando riproduce la canzone che era in riproduzione prima della canzone attualmente in riproduzione.</para>
+</listitem>
+</varlistentry>
+<!--
+Play Next Album
+-->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>Menu <guimenu
+>Tag</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tag</guimenu
+><guimenuitem
+>Salva</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando salva ogni cambiamento ai tag che stai modificando. Normalmente, i cambiamenti non sono salvati fino a quando deselezioni il file che stai modificando.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tag</guimenu
+><guimenuitem
+>Elimina</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando elimina i file attualmente selezionati dalla Raccolta e ogni scaletta che li contenga, e quindi elimina i file selezionati dal disco. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Tag</guimenu
+><guimenuitem
+>Aggiorna</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando permette di aggiornare i tag della scaletta dopo averli modificati. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Tag</guimenu
+><guisubmenu
+>Rileva informazioni tag</guisubmenu
+><guimenuitem
+>Dal nome del file</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando prova a indovinare i tag dei file selezionati scansionando il nome del file. Puoi configurare gli schemi usati per il rilevamento selezionando <menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Rilevatore di tag</guimenuitem
+></menuchoice
+>, che apre <link linkend="juk-tag-guesser-configuration"
+>la finestra di configurazione del rilevatore di tag</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Tag</guimenu
+><guisubmenu
+>Rileva informazioni tag</guisubmenu
+><guimenuitem
+>Da Internet</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando prova a rilevare i tag dei file selezionati usando la libreria <application
+>TunePimp</application
+> fornito con <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+>.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Cover Manager
+  -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Tag</guimenu
+><guimenuitem
+>Rinomina file</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+  <para
+>Questo comando permette di rinominare un file o gruppo di file per le canzoni selezionate nella scaletta. Prima della rinomina effettiva, &juk; mostrerà una finestra di anteprima in cui puoi confermare or annullare l'azione. </para>
+  <para
+>I file saranno rinominati secondo i parametri definiti con la <link linkend="juk-rename-dialog"
+>finestra di rinomina dei file</link
+>. </para
+> 
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>Menu <guimenu
+>Impostazioni</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guisubmenu
+>Barre mostrate</guisubmenu
+> <guimenuitem
+>Barra principale / di riproduzione</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questi comandi mostrano o nascondono la <link linkend="main-toolbar"
+>barra principale</link
+> e la <link linkend="play-toolbar"
+>barra di riproduzione</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Aggiungi al vassoio di sistema</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questa è un'opzione di commutazione. Se attiva, &juk; mostrerà un'icona nel vassoio di sistema. Puoi usare l'icona del vassoio di sistema per sapere se &juk; è in funzione, e controllare la riproduzione.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Resta nel vassoio di sistema alla chiusura</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questa è un'opzione di commutazione. Se attiva, &juk; rimarrà in esecuzione se chiudi la finestra principale. Anche l'opzione <guimenuitem
+>Aggiungi al vassoio di sistema</guimenuitem
+> deve essere attiva. Per uscire da &juk; usa il comando <menuchoice
+><guimenu
+>File</guimenu
+><guimenuitem
+>Esci</guimenuitem
+></menuchoice
+> dalla finestra principale, o il comando <guimenuitem
+>Esci</guimenuitem
+> dal menu contestuale del vassoio di sistema.</para>
+<para
+>Se &juk; viene avviato quando è configurato per rimanere nel vassoio di sistema all'avvio, verrà mostrata una semplice notifica (altrimenti l'utente potrebbe chiedersi perché non si è aperta la finestra di &juk;). È possibile rimuovere questa ulteriore notifica andando a <menuchoice
+><guimenu
+>Aspetto e comportamento comune</guimenu
+><guimenuitem
+>Notifiche delle applicazioni e di sistema</guimenuitem
+></menuchoice
+> nelle &systemsettings; per gestire le notifiche del <guilabel
+>Lettore musicale Juk</guilabel
+>. Basta togliere la spunta a <guilabel
+>Mostra un messaggio in una finestra temporanea</guilabel
+> da <guimenuitem
+>JuK in esecuzione nel vassoio di sistema</guimenuitem
+>. Maggiori informazioni sulle impostazioni delle notifiche di &kde; sono reperibili <ulink url="help:/kcontrol/kcmnotify"
+>qui</ulink
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Annuncio a scomparsa della traccia</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questa è un'opzione di commutazione. Se attiva, &juk; mostrerà un indicatore ogni volta che una canzone entra in riproduzione, con informazioni sull'artista e sul titolo, e con dei pulsanti che ti permettono di cambiare rapidamente a un'altra canzone. Deve essere attiva anche l'opzione Aggiungi al vassoio di sistema.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+><guimenuitem
+>Rilevatore di tag</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando fa apparire la <link linkend="juk-tag-guesser-configuration"
+>finestra di dialogo di configurazione del rilevatore di tag</link
+>, dove puoi cambiare gli schemi usati per rilevare le informazioni dei tag dai nomi dei file.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Impostazioni</guimenu
+> <guimenuitem
+>Rinominatore dei file</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Questo comando fa apparire la <link linkend="juk-rename-dialog"
+>finestra di configurazione del Rinominatore dei file</link
+>, dove puoi cambiare il modo in cui &juk; rinomina i file.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Configure scrobbling
+  -->
+</variablelist>
+
+<para
+>Inoltre, &juk; ha le solite voci del menu di &kde; <guimenu
+>Impostazioni</guimenu
+> e <guimenu
+>Aiuto</guimenu
+>; per maggiori informazioni leggi le sezioni sul <ulink url="help:/fundamentals/menus.html#menus-settings"
+>menu <guimenu
+>Impostazioni</guimenu
+></ulink
+> e sul <ulink url="help:/fundamentals/menus.html#menus-help"
+>menu <guimenu
+>Aiuto</guimenu
+></ulink
+> dei Fondamentali di &kde;. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Riferimento scorciatoie</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>Combinazioni di tasti</entry>
+<entry
+>Azione</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>Seleziona tutti</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Copia</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>Rinomina file</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>Rileva tag da Internet.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Rileva tag dal nome del file.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>Nuova <link linkend="juk-search-playlists"
+>scaletta da ricerca</link
+>.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Nuova scaletta vuota</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>Nuova scaletta da cartella.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>Salva i cambiamenti ai tag modificati.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>Riconoscimenti e licenza</title>
+
+<para
+>&juk; Copyright &copy; 2002-2013 di &Scott.Wheeler;, Michael Pyne, e altri. </para>
+
+ <para
+>&juk; è sviluppato e mantenuto da &Scott.Wheeler; &Scott.Wheeler.mail; e Michael Pyne <email
+>michael.pyne@kdemail.net</email
+>.</para>
+
+<para
+>Molti ringraziamenti alle seguenti persone che hanno contribuito a &juk;:</para>
+
+<itemizedlist>
+<listitem
+><para
+>&Daniel.Molkentin; &Daniel.Molkentin.mail; per l'agganciamento al vassoio di sistema, modifica <quote
+>in corsa</quote
+> dei tag, correzioni, evangelizzazione, support morale.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> per il port a <application
+>GStreamer</application
+></para>
+</listitem>
+
+<listitem
+><para
+>Stefan Asserh&auml;ll <email
+>stefan.asserhall@telia.com</email
+> per il supporto globale delle scorciatoie.</para>
+</listitem>
+
+<listitem
+><para
+>Stephen Douglas <email
+>stephen_douglas@yahoo.com</email
+> per le finestre a comparsa per l'annuncio delle tracce.</para>
+</listitem>
+
+<listitem
+><para
+>&Frerich.Raabe; &Frerich.Raabe.mail; per il rilevamento automagico dei dati delle tracce, e correzioni.</para>
+</listitem>
+
+<listitem
+><para
+>Zack Rusin <email
+>zack@kde.org</email
+> per automagie aggiuntive, incluso il supporto MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Adam Treat <email
+>manyoso@yahoo.com</email
+> per la co-cospirazione nelle magie di MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+>Matthias Kretz <email
+>kretz@kde.org</email
+> per essere l'amichevole guru &arts; di quartiere.</para>
+</listitem>
+
+<listitem
+><para
+>Maks Orlovich <email
+>maksim@kde.org</email
+> per aver reso &juk; più amichevole verso la gente con terabyte di musica.</para>
+</listitem>
+
+<listitem
+><para
+>Antonio Larrosa Jimenez <email
+>larrosa@kde.org</email
+> per l'interfaccia &DCOP;.</para>
+</listitem>
+
+<listitem
+><para
+>Allan Sandfield Jensen <email
+>kde@carewolf.com</email
+> per il supporto per <acronym
+>FLAC</acronym
+> e <acronym
+>MPC</acronym
+>.</para>
+</listitem>
+
+<listitem
+><para
+>Nathan Toone <email
+>nathan@toonetown.com</email
+> per il gestore di copertine degli album.</para>
+</listitem>
+
+<listitem
+><para
+>Pascal Klein <email
+>4pascal@tpg.com.au</email
+> per la schermata iniziale.</para>
+</listitem>
+
+<listitem
+><para
+>Laurent Montel <email
+>montel@kde.org</email
+> per il trasferimento su &kde; 4 quando non c'era nessuno in giro.</para>
+</listitem>
+
+<listitem
+><para
+>Georg Grabler <email
+>georg@grabler.net</email
+> per i suoi sforzi per il trasferimento sulla Piattaforma &kde;.</para>
+</listitem>
+
+<listitem
+><para
+>Martin Sandsmark <email
+>martin.sandsmark@kde.org</email
+> per il supporto per lo scrobbling di Last.fm, testi delle canzoni, preparazione per l'infrastruttura di &kde;.</para>
+</listitem>
+
+<listitem
+><para
+>Eike Hein <email
+>hein@kde.org</email
+> per l'implementazione dell'interfaccia di MPRIS2.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Copyright &copy; della documentazione 2003, &Lauri.Watts;, e copyright &copy; 2004-2013 di Michael Pyne.</para>
+
+<para
+>Traduzione di Federico Zenith <email
+>federico.zenith@member.fsf.org</email
+></para
+> &underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->

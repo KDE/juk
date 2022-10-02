@@ -1,0 +1,2866 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Serbian-Latin "INCLUDE">
+]>
+
+<book id="juk" lang="&language;">
+
+<bookinfo>
+<title
+>Priručnik za <application
+>Juk</application
+></title>
+
+<authorgroup>
+<author
+><personname
+><firstname
+>Lori</firstname
+> <surname
+>Vots</surname
+></personname
+> &Lauri.Watts.mail;</author>
+<author
+><firstname
+>Majkl</firstname
+> <surname
+>Pajn</surname
+> <affiliation
+> <address
+><email
+>michael.pyne@kdemail.net</email
+></address>
+</affiliation>
+</author>
+
+<othercredit role="developer"
+><firstname
+>Skot</firstname
+> <surname
+>Viler</surname
+> <affiliation
+> <address
+>&Scott.Wheeler.mail;</address>
+</affiliation>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Dragan</firstname
+><surname
+>Pantelić</surname
+><affiliation
+><address
+><email
+>falcon-10@gmx.de</email
+></address
+></affiliation
+><contrib
+>prevod</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<year
+>2004</year>
+<holder
+>Skot Viler</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>11. 8. 2013.</date>
+<releaseinfo
+>3.11 (KDE 4.12)</releaseinfo>
+
+<abstract>
+<para
+><application
+>Juk</application
+> je džuboks, označivač i menadžer muzičke zbirke. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+<keyword
+>audio</keyword>
+<keyword
+>označivač</keyword>
+<keyword
+>plejer</keyword>
+<keyword
+>džuboks</keyword>
+<keyword
+>Juk</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Uvod</title>
+
+<para
+><application
+>Juk</application
+> je, pa, džuboks. Kao što je uobičajeno u mnogim džuboks programima, i <application
+>Juk</application
+> vam omogućava da uređujete „oznake“ svojih audio fajlova i upravljate zbirkom i listama numera. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>Korišćenje <application
+>Juka</application
+></title>
+
+<para>
+<screenshot>
+<screeninfo
+>Snimak ekrana <application
+>Juka</application
+>.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-main.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Snimak ekrana <application
+>Juka</application
+> u pogonu.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+><application
+>Juk</application
+> održava listu svih poznatih mu fajlova, koja se naziva listom zbirke. Ona važi samo u <application
+>Juku</application
+>, ne deli se s drugim programima.</para>
+
+<para
+>Nezavisne od liste zbirke su liste numera. Možete imati koliko god želite listi numera. Liste numera koje <application
+>Juk</application
+> stvara možete koristiti u drugim medija plejerima (kao što su <application
+>Amarok</application
+> ili XMMS), a u <application
+>Juku</application
+> možete upravljati listama numera iz tih drugih programa.</para>
+
+<para
+>U listu zbirke možete dodavati pojedinačne fajlove, pomoću <menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Otvori...</guimenuitem
+></menuchoice
+> i biranjem iz standardnog KDE‑ovog dijaloga fajlova. Možete dodavati i cele fascikle, pomoću <menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Upravljaj fasciklama...</guimenuitem
+></menuchoice
+>. Ovako dodate fascikle biće ponovno skenirane pri svakom pokretanju <application
+>Juka</application
+>. Takođe možete zadati da se pojedine potfascikle izabranih fascikli isključe iz skeniranja. Ponovno skeniranje fascikli možete nametnuti desnim klikom na ikonicu <guilabel
+>Lista zbirke</guilabel
+> i izborom <guimenuitem
+>Učitaj ponovo</guimenuitem
+>.</para>
+
+<para
+>Dodavanjem pesme u listu numera, automatski će se dodati njen fajl u listu zbirke. Ali, dodavanjem fajla u listu zbirke, pesma se neće automatski dodati ni u jednu listu numera.</para>
+
+<para
+>Od cele liste zbirke možete brzo stvoriti listu numera, desnim klikom na ikonicu <guilabel
+>Lista zbirke</guilabel
+> i izborom <guimenuitem
+>Udvostruči</guimenuitem
+>. Tako dobijena lista numera je sasvim obična, njeno uređivanje neće uticati na listu zbirke.</para>
+
+<para
+>Fajlove listi numera stvorene izvan <application
+>Juka</application
+> možete dodavati pojedinačno, birajući ih kroz <menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Otvori...</guimenuitem
+></menuchoice
+>. Sve liste numera u fasciklama koje dodate pomoću <menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Upravljaj fasciklama...</guimenuitem
+></menuchoice
+> takođe će automatski biti dodate.</para>
+
+<para
+>Novu praznu listu numera, listu po pretrazi, ili listu prema fascikli, možete napraviti izborom <menuchoice
+><guimenu
+>Fajl</guimenu
+><guisubmenu
+>Nova</guisubmenu
+></menuchoice
+> ili ikonicom <guiicon
+>Nova</guiicon
+> na traci alatki. Tražiće vam se ime, a zatim će se u oknu liste numera pojaviti ikonica za tu listu. Sada možete prevlačiti fajlove iz liste zbirke ili drugih listi numera na novu listu. Listu numera u svakom trenutku možete sačuvati ikonicom <guiicon
+>Sačuvaj</guiicon
+> ili kroz <menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Sačuvaj</guimenuitem
+></menuchoice
+>. </para>
+
+<sect1 id="collection-list-gui">
+<title
+>Lista pesama</title>
+
+<para
+>Kad posmatrate listu zbirke, glavno okno sadrži sve fajlove poznate <application
+>Juku</application
+>. Kad posmatrate listu numera, prikazane su samo pesme koje su na toj listi. U oba slučaja, lista se isto ponaša i izgleda.</para>
+
+<para
+>Svaka pesma zauzima jedan red prikaza. Za svako polje metapodataka koje <application
+>Juk</application
+> prati data je kolona. Ove kolone odgovaraju poljima raspoloživim za uređivanje u uređivaču oznaka.</para>
+
+<para
+>Redosled liste možete izmeniti u svakom trenutku, levim klikom na zaglavlje kolone. Prvi klik će poređati fajlove uzlaznim redosledom po sadržaju kolone. Ako ponovo kliknete na isto zaglavlje, fajlovi će biti poređani silazno.</para>
+
+<para
+>Kolone su na početku dovoljno široke da prikazu najduži postojeći unos. Veličinu im možete menjati tako što postavite pokazivač miša na razdvajač između dve kolone, pa kad se pokazivač promeni, kliknite levim dugmetom i prevlačite u smeru željene promene veličine kolona.</para>
+
+<para
+>Redosled kolona možete izmeniti levim klikom na zaglavlje i prevlačenjem zaglavlja nalevo ili nadesno. Prevlačenje ne radi preko ivice prozora, tako da ćete možda morati malo da otklizate nalevo ili nadesno, pa ponovite prevlačenje dok ga ne postavite zaglavlje na željeno mesto.</para>
+
+<para
+>Kolone možete sakrivati i prikazivati desnim klikom na zaglavlje, pa klikom na ime željene kolone.</para>
+
+<para
+>Dvokliknite levim dugmetom na fajl da biste ga pustili ugrađenim plejerom. Ako se neka pesma već pušta, zaustaviće se i krenuće nova.</para>
+
+<para
+>Desnim klikom na fajl dobijate nekoliko opcija:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>Dodaj u red puštanja</guimenuitem
+></term>
+<listitem>
+<para
+>Započinje puštanje fajla čim se završi tekuća pesma. Ako se pesma trenutno ne pušta, fajl će biti pušten čim potom kliknete na dugme <guiicon
+>Pusti</guiicon
+>. Ako ste već bili izabrali <guimenuitem
+>Dodaj u red puštanja</guimenuitem
+> nad drugim fajlom, ovaj fajl će potisnuti taj izbor.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Iseci</guimenuitem
+></term>
+<term
+><guimenuitem
+>Kopiraj</guimenuitem
+></term>
+<term
+><guimenuitem
+>Nalepi</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Ukloni sa liste numera</guimenuitem
+></term>
+<listitem>
+<para
+>U prikazu liste zbirke ova radnja će ukloniti fajl sa liste, kao i sve unose odgovarajuće pesme iz svih listi numera. Imajte u vidu da ako se ovaj fajl nalazi u fascikli koju <application
+>Juk</application
+> skenira pri pokretanju, biće ponovo dodat u listu zbirke pri sledećem pokretanju <application
+>Juka</application
+> (ali neće biti automatski dodat nijednoj listi numera).</para>
+<para
+>U prikazu liste numera, <guimenuitem
+>Ukloni sa liste numera</guimenuitem
+> će prosto ukloniti pesmu sa liste.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Uredi „<replaceable
+>naslov-kolone</replaceable
+>“</guimenuitem
+></term>
+<listitem>
+<para
+>Omogućava vam da uredite trenutno istaknutu pesmu, u koloni u kojoj ste kliknuli. Na primer, ako uređivač oznaka nije vidljiv, i bavite se stvaranjem liste numera, ako primetite grešku u imenu izvođača možete ga direktno urediti ovom stavkom menija.</para>
+<para
+>Ovako načinjene izmene bivaju sačuvane čim kliknete negde drugde pošto ste završili s uređivanjem.</para>
+<para
+>Ova stavka menija biće isključena ako <application
+>Juk</application
+> otkrije da je pesma koju ste izabrali samo za čitanje.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Osveži</guimenuitem
+></term>
+<listitem>
+<para
+>Ponovo učitava podatke o oznakama izabranih fajlova, u slučaju da je nešto spolja izmenilo fajlove dok je <application
+>Juk</application
+> u pogonu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Obriši</guimenuitem
+></term>
+<listitem>
+<para
+>Uklanja fajl iz liste zbirke, sve unose odgovarajuće pesme iz svih listi numera, i briše fajl sa diska. Ovo ne možete opozvati, ali će vam biti traženo da potvrdite izbor. Oprezno se služite ovim.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guisubmenu
+>Pogodi podatke za oznake</guisubmenu
+></term>
+<listitem>
+<para
+>Govori <application
+>Juku</application
+> da pokuša da pogodi podatke kao što su izvođač i naslov pesme. <application
+>Juk</application
+> koristi razne metode pogađanja: <variablelist>
+
+  <varlistentry
+><term
+><guimenuitem
+>iz imena fajla</guimenuitem
+></term>
+  <listitem
+><para
+><application
+>Juk</application
+> će pokušati da pogodi oznake pesme na osnovu imena njenog fajla. Na primer, za ime fajla poput <filename
+>Roxette - You've Got the Look.mp3</filename
+>, pogodiće <foreignphrase lang="en"
+>Roxette</foreignphrase
+> kao izvođača i <foreignphrase lang="en"
+>You've Got the Look</foreignphrase
+> kao naslov. Način na koji <application
+>Juk</application
+> pogađa oznake možete podesiti preko <menuchoice
+><guimenu
+>Podešavanje</guimenu
+><guimenuitem
+>Pogađač oznaka...</guimenuitem
+></menuchoice
+>, što otvara <link linkend="juk-tag-guesser-configuration"
+>dijalog za pogađanje oznaka</link
+>. Oznake koje ne budu pogođene iz imena fajla neće biti zamenjene.</para>
+  </listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>sa Interneta</guimenuitem
+></term>
+  <listitem
+><para
+><application
+>Juk</application
+> će pokušati da pogodi oznake pesme preko MusicBrainza. Da bi ova naredba radila, na sistemu mora biti instalirana biblioteka MusicBrainza. </para>
+  </listitem>
+  </varlistentry>
+
+  </variablelist>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Preimenuj fajl</guimenuitem
+></term>
+<listitem>
+<para
+>Menja imena izabranih fajlove po zadatom obrascu. Prvo morate odabrati način preimenovanja fajlova kroz <menuchoice
+><guimenu
+>Podešavanje</guimenu
+><guimenuitem
+>Preimenjivač fajlova...</guimenuitem
+></menuchoice
+>. Rezultujuća imena fajlova biće određena na osnovu oznaka u metapodacima. Na primer, pesma <foreignphrase lang="en"
+>The Theme (Metroid)</foreignphrase
+> od <personname
+><surname
+>Stemidža</surname
+></personname
+> u formatu OGG mogla bi dobiti ime <filename
+>/usr/share/music/Stemage/The Theme (Metroid).ogg</filename
+>. </para>
+</listitem>
+</varlistentry>
+<!--missing Cover Manager
+View Cover
+Get Cover From File
+Get Cover From Internet
+Delete Cover
+Show Cover Manager
+-->
+<varlistentry>
+<term
+><guimenuitem
+>Napravi listu numera od izabranih stavki...</guimenuitem
+></term>
+<listitem>
+<para
+>Omogućava brzo stvaranje liste numera od pesama iz liste zbirke. Bićete pitani za ime nove liste numera, a zatim će u nju biti umetnute sve izabrane pesme.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Dodaj izabrane stavke na audio CD ili CD sa podacima</guimenuitem
+></term>
+<listitem>
+<para
+>Omogućava brzo stvaranje K3bovog projekta za rezanje CD‑a sa izabranim pesmama. <application
+>Juk</application
+> će vas pitati da li želite projekat audio CD‑a ili CD‑a sa podacima, osim ako u K3bu projekat nije već otvoren.</para>
+
+<para
+>Ako K3b već nije u pogonu, <application
+>Juk</application
+> će ga pokrenuti. Zatim će u tekući K3bov projekat dodati fajlove koje ste izabrali. U K3bu projekat možete sačuvati za kasnije rezanje, ili odmah narezati CD. </para>
+
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-playlists">
+<title
+><application
+>Jukove</application
+> liste numera </title>
+<para
+>Lista numera je prosto zbirka pesama grupisanih po nekom kriterijumu. Na primer, možete imati listu numera sa pesmama koje slušate dok radite, dok pokušavate da se uspavate, ili čak kad vam treba smejanja. <application
+>Juk</application
+> podržava više tipova listi numera. </para>
+
+<variablelist>
+
+<varlistentry>
+<term id="juk-normal-playlists"
+>normalne liste numera</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="normal-playlist.png"/></imageobject
+></inlinemediaobject
+> Najčešća vrsta liste numera, sastavljena od fajlova isto kao lista zbirke.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-history-playlists"
+>lista numera po istorijatu</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="history-playlist.png"/></imageobject
+></inlinemediaobject
+> Ako uključite ovu listu numera (<menuchoice
+><guimenu
+>Prikaz</guimenu
+><guimenuitem
+>Prikaži istorijat</guimenuitem
+></menuchoice
+>), beležiće svaku pesmu koju <application
+>Juk</application
+> pusti. Lista će imati dodatnu kolonu, <guilabel
+>vreme</guilabel
+>, koja beleži tačno vreme i datum puštanja pesme. Ovakvo praćenje istorijata neće početi pre nego što se ova lista numera uključi. </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-search-playlists"
+>liste numera po pretrazi</term>
+<listitem
+><para
+><inlinemediaobject
+><imageobject
+><imagedata format="PNG" fileref="search-playlist.png"/></imageobject
+></inlinemediaobject
+> Lista numera zasnovana na izvršenoj pretrazi. Možete je stvoriti klikom na <menuchoice
+> <guimenu
+>Fajl</guimenu
+><guisubmenu
+>Nova</guisubmenu
+><guimenuitem
+>Lista po pretrazi</guimenuitem
+></menuchoice
+>, ili na dugme <link linkend="juk-advanced-search-dialog"
+><guibutton
+>Lista po pretrazi</guibutton
+></link
+> na traci alatki.</para>
+<para
+>Nakon stvaranja ove liste numera, ona će nastaviti da prati koje se pesme u listi zbirke poklapaju s zadatim kriterijumima, automatski se ažurirajući na svaku promenu liste zbirke.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+<para
+>Liste numera organizovane su u oknu liste numera, što je uspravna traka levo. U ovom oknu stoji ikonica za svaku listu numera koju imate. Ovo okno pruža više režima prikaza, koji se mogu odabrati iz menija <menuchoice
+><guimenu
+>Prikaz</guimenu
+><guisubmenu
+>Režimi prikaza</guisubmenu
+></menuchoice
+>. <variablelist>
+
+<varlistentry>
+<term id="juk-viewmode-default"
+><guilabel
+>podrazumevano</guilabel
+></term>
+<listitem>
+<para
+>Podrazumevani režim prikaza. Sve liste numera prikazane su u kao velike ikonice, jedna iznad druge. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-compact"
+><guilabel
+>sažeto</guilabel
+></term>
+<listitem>
+<para
+>Sličan podrazumevanom režimu prikaza, osim što su liste numera predstavljene vodoravnim trakama sa malim ikonicama, umesto velikih kvadrata.  </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term id="juk-viewmode-tree"
+><guilabel
+>stablo</guilabel
+></term>
+<listitem>
+<para
+>Najmoćniji režim. Sličan kompaktnom, osim što je sada lista zbirke koren stabla virtuelnih listi numera. Lista zbirke ima tri dečja čvora: izvođač, album i žanr. Svaki ovaj čvor ima decu koja predstavljaju sve stavke iz date kategorije. Na primer, ako lista zbirke sadrži muziku od četiri različita izvođača, pod čvorom izvođača nalaziće se četiri stavke.</para>
+<para
+>Jedna zgodna mogućnost prikaza stabla jeste „preoznačavanje prevlačenjem“. Prosto izaberete nekoliko fajlova u listi numera i prevučete ih na jedan od čvorova izvođača, albuma, ili žanra u listi zbirke. Pesme će automatski biti preoznačene da odgovaraju stavci na koje ste ih prevukli. Na primer, ako prevučete grupu numera na žanr „rok“, sve one će dobiti „rok“ kao oznaku žanra. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+><application
+>Jukov</application
+> uređivač oznaka</title>
+
+<para
+>Za mnoge formate fajlova praktično je koristiti ime fajla za opis njegovog sadržaja. <filename
+>Report for the board - June 2003.doc</filename
+>, na primer, može biti dovoljna informacija da biste kasnije našli taj fajl. Pokušaj da se ovako zabeleže svi podaci o određenoj pesmi, pak, mogao bi odvesti do imena fajlova poput <filename
+>Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.mp3</filename
+> ili <filename
+>Various Artists_15_The Smithsonian Collection of Classic Jazz Volume II_Jimmie Lunceford &amp; His Orchestra - Organ Grinder's Swing.mp3</filename
+>. Ovakva imena niti su praktična za upotrebu, niti sadrže sve korisne podatke koje ste možda prikupili o pesmi. Dodavanje, recimo, albuma i broja numere prvom primeru učinilo bi ga još dužim i težim za rukovanje, dok vam na letimičan pogled još uvek ne bi govorio godinu objavljivanja, ili, ako ne znate po izvođaču, koja je to vrsta muzike.</para>
+
+<para
+>Pravo rešenje je skladištenje ovakvih metapodataka unutar samih fajlova. MP3 i OGG fajlovi takođe mogu da sadrže male isečke teksta u kojima možete opisati sadržaj fajla. Postoji nekoliko formata metapodataka, ali <application
+>Juk</application
+> sakriva detalje razlika između njih, pružajući ujednačen način za uređivanje standardnog podskupa poznatih oznaka za sve vaše audio fajlove.</para>
+
+<para
+><application
+>Jukov</application
+> sveobuhvatni uređivač oznaka dopušta vam uređivanje i MP3 i OGG fajlova. Možete uređivati jedan ili više fajlova istovremeno, i to pomešane MP3 i OGG fajlove. Jedino je neophodno da imate pristup za pisanje nad fajlovima, jer, na primer, ne možete uređivati oznake fajla na montiranom CD‑ROM‑u.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Uređivanje oznaka u jednom fajlu</title>
+
+<para
+>Za uređivanje oznaka u pojedinačnom fajlu, prvo ga izaberite, ili u listi zbirke ili preko bilo koje stavka u nekoj listi numera. Ako uređivač oznaka nije vidljiv, uključite ga kroz <menuchoice
+><guimenu
+>Prikaz</guimenu
+><guimenuitem
+>Prikaži uređivač oznaka</guimenuitem
+></menuchoice
+>. Uređivač se prikazuje u dnu prikaza liste.</para>
+
+<para
+>Podatke menjate prostim upisivanjem u urediva polja. Kad ste završili, kliknite levim nazad u listi i bićete upitani da li želite da sačuvate izmene.</para>
+
+<para
+>Može se dogoditi da uređivač oznaka ostane isključen pošto ste kliknuli na fajl. Do ovoga dolazi ako <application
+>Juk</application
+> otkrije da je numera samo‑za‑čitanje.</para>
+
+<variablelist>
+<title
+>Polja uređivača oznaka</title>
+<varlistentry>
+<term
+><guilabel
+>Ime izvođača:</guilabel
+></term>
+<listitem>
+<para
+>Ime izvođača koji je objavio pesmu.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Ime numere:</guilabel
+></term>
+<listitem>
+<para
+>Ime pesme.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Ime albuma:</guilabel
+></term>
+<listitem>
+<para
+>Ime albuma na kome je pesma objavljena.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Žanr:</guilabel
+></term>
+<listitem>
+<para
+>„Stil“ muzike. <application
+>Juk</application
+> pruža spisak koja grubo odgovara neformalnom standardu ID3, ali slobodno možete dodati sopstvene stavke na spisak.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Ime fajla:</guilabel
+></term>
+<listitem>
+<para
+>Ime stvarnog fajla na disku. Možete ga urediti direktno, i fajl će biti preimenovan pri upisivanju oznaka.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Numera:</guilabel
+></term>
+<listitem>
+<para
+>Položaj numere na originalnom snimku.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Godina:</guilabel
+></term>
+<listitem>
+<para
+>Godina koje je pesma objavljena.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Dužina:</guilabel
+></term>
+<listitem>
+<para
+>Ovo se ne može uređivati. Dato je samo informativno.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Bitski protok:</guilabel
+></term>
+<listitem>
+<para
+>Ovo se ne može uređivati. Dato je samo informativno.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Komentar:</guilabel
+></term>
+<listitem>
+<para
+>Ovde možete dodati tekst po volji: komentare, beleške, itd.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Izmene možete u svakom trenutku izričito sačuvati stavkom menija <menuchoice
+><guimenu
+>Označivač</guimenu
+><guimenuitem
+>Sačuvaj</guimenuitem
+></menuchoice
+> ili pritiskom <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Uređivanje oznaka u više fajlova</title>
+
+<para
+>U prikazu liste možete izabrati više fajlova i odjednom urediti jedno ili više polja u oznakama za sve njih.</para>
+
+<para
+>Koristite <keycap
+>Shift</keycap
+> i levo dugme miša za izbor neprekidnog niza fajlova, a <keycap
+>Ctrl</keycap
+> i levo dugme za izbor jednog po jednog.</para>
+
+<para
+>Ako uređivač oznaka nije vidljiv, uključite ga pomoću <menuchoice
+><guimenu
+>Prikaz</guimenu
+><guimenuitem
+>Prikaži uređivač oznaka</guimenuitem
+></menuchoice
+>. Pojaviće se u dnu prikaza liste.</para>
+
+<para
+>Uređivač oznaka ponaša se nešto drugačije kada ste izabrali više fajlova.</para>
+
+<para
+>Svako polje u uređivaču fajlova će sada prikazivati kućicu <guilabel
+>Uključi</guilabel
+> do njega. Svako polje koje ima isti sadržaj u svim izabranim fajlovima prikazuje taj sadržaj i može se uređivati, a kućica <guilabel
+>Uključi</guilabel
+> je popunjena.</para>
+
+<!-- put screeny here -->
+
+<para
+>Polja čiji se sadržaji ne poklapaju kroz sve izabrane fajlove na početku se ne mogu uređivati, i ne prikazuju nikakav sadržaj.</para>
+
+<para
+>Za izmenu sadržaja bilo kog polja, popunite kućicu <guilabel
+>Uključi</guilabel
+> ako već nije popunjena, i uredite ga kao što biste inače.</para>
+
+<para
+>Kad završite, kliknite levim nazad u prikaz liste i bićete upitani da li sačuvati izmene. Dijalog upita će nabrojati izmenjene fajlove, tako da možete da se uverite da ćete izmeniti fajlove koje ste namerili.</para>
+
+<para
+>Izmene možete u svakom trenutku izričito sačuvati stavkom menija <menuchoice
+><guimenu
+>Označivač</guimenu
+><guimenuitem
+>Sačuvaj</guimenuitem
+></menuchoice
+> ili pritiskom <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>T</keycap
+></keycombo
+>.</para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="juk-rename-dialog">
+<title
+>Dijalog za preimenovanje fajlova</title>
+<para>
+<screenshot>
+<screeninfo
+>Dijalog za preimenovanje fajlova.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-file-renamer.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Snimak ekrana dijaloga za preimenovanje fajla.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Dijalog za podešavanje preimenjivača fajlova služi podešavanje radnje <guilabel
+>Preimenuj fajl</guilabel
+>, koja menja imena fajlova na osnovu oznaka u njihovim metapodacima. </para>
+<para
+>Mogućnost preimenovanja fajlova služi za ujednačavanje imena fajlova unutar muzičke zbirke. U ovo spada i premeštanje fajlova, ako je potrebno. Na primer, možda se neke pesme koje ste dobavili sa <ulink url="http://amazon.com"
+>Amazona</ulink
+> na disku zovu <filename
+>01 - Title.mp3</filename
+>, a one dobavljene sa <ulink url="http://ocremix.org/"
+>OC ReMixa</ulink
+> nešto nalik na <filename
+>Ailsean- Mega_Man_3_Mega_Fire_(OC_Remix).mp3</filename
+>. </para>
+<para
+>Preimenjivačem fajlova iz <application
+>Juka</application
+> tada možete preimenovati sve pesme po nekom „razložnom“ obrascu, poput <filename
+>Ailsean - Mega Fire.mp3</filename
+> i <filename
+>The Strokes - Reptilia.mp3</filename
+>. Možete unositi i putanje, radi automatskog razvrstavanja muzike (npr. po godini ili albumu), na primer <filename
+>$HOME/Music/2003/The Strokes - Reptilia.mp3</filename
+>. </para>
+<para
+>Ovo činite jednostavno tako što pozovete radnju <guilabel
+>Preimenuj fajl</guilabel
+>, ili iz menija <guimenu
+>Označivač</guimenu
+> ili desnim klikom na fajl. Podrazumevana prečica je <keycombo
+><keycap
+>Ctrl</keycap
+><keycap
+>R</keycap
+></keycombo
+>. Ali, pre toga, morate jednom podesiti kako se fajlovi preimenuju. </para>
+<para
+>Pozovite gorepomenuti dijalog preko stavke menija <menuchoice
+><guimenu
+>Podešavanje</guimenu
+><guimenuitem
+>Preimenjivač fajlova...</guimenuitem
+></menuchoice
+>. U njemu možete zadati odredišnu putanju, po sistemu osnovne muzičke fascikle na koju se dodaju izvesni delovi. U delove spadaju razni metapodaci muzike, poput naziva pesme, izvođača, i tome slično, a dodajete ih kroz birač <guilabel
+>Dodaj kategoriju:</guilabel
+>. </para>
+<para
+>Svaki deo putanje ima kućicu kraj sebe, preko koje možete ubaciti razdvajač fascikli. </para>
+<para
+>Postupak preimenovanja čine efikasnijim opcije po delovima, kojima određujete šta se događa ako odgovarajući metapodatak nedostaje, ili koji prefiks ili sufiks treba dodati pri umetanju stavke. </para>
+</sect1>
+
+<sect1 id="juk-tag-guesser-configuration">
+<title
+>Dijalog za podešavanje pogađača oznaka</title>
+<para>
+<screenshot>
+<screeninfo
+>Dijalog za podešavanje pogađača oznaka.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-tag-guesser.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Snimak ekrana dijaloga za podešavanje pogađača oznaka.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Dijalog za podešavanje pogađača oznaka služi za podešavanje radnje <guilabel
+>Pogodi podatke za oznake iz imena fajla</guilabel
+>.</para>
+
+<para
+>Na levoj strani dijaloga, videćete različite obrasce za šemu imena fajla. <application
+>Juk</application
+> sadrži opsežan skup podrazumevanih obrazaca, radi poklapanja najčešćih stilova imenovanja fajlova. Ako želite da dodate novu šemu, kliknite na dugme <guibutton
+>Dodaj</guibutton
+>, upišite šemu, pa kliknite na <guibutton
+>U redu</guibutton
+>.</para
+>  
+
+<para
+>Ovde možete videti trenutno podešene šeme imena fajlova, po kojima uređivač oznaka izvlači podatke o oznakama iz imena fajla. Svaka niska može sadržati jedan od sledećih mestodržača:</para>
+
+<para
+><itemizedlist>
+<listitem
+><para
+>%t — naslov</para
+></listitem>
+<listitem
+><para
+>%A — album</para
+></listitem>
+<listitem
+><para
+>%a — izvođač</para
+></listitem>
+<listitem
+><para
+>%T — numera</para
+></listitem>
+<listitem
+><para
+>%c — komentar</para
+></listitem>
+</itemizedlist>
+</para>
+
+<para
+>Na primer, šema imena fajlova <literal
+>[%T] %a - %t</literal
+> poklopila bi <literal
+>[01] Deep Purple - Smoke on the water</literal
+>, ali ne i <literal
+>(Deep Purple) Smoke on the water</literal
+>. Za ovo drugo, zadali biste šemu <literal
+>(%a) %t</literal
+>.</para>
+
+<para
+><application
+>Juk</application
+> će isprobati zadate šeme jednu po jednu, počev sa vrha spiska. Prva šema koja poklopi ime biće upotrebljena za pogađanje oznaka pesme. Neke pesme mogu da poklope više od jedne šeme. Tada možete obezbediti da to bude prava šema tako što je prvo izaberete, pa je dugmadima strelica pomerite na vrh spiska. </para>
+
+<para
+>Šemu možete urediti ili ukloniti sa spiska. Izaberite šemu, pa kliknite na dugme <guibutton
+>Izmeni</guibutton
+> da je izmenite, ili na <guibutton
+>Ukloni</guibutton
+> da je uklonite sa spiska. </para>
+</sect1>
+
+<sect1 id="juk-advanced-search-dialog">
+<title
+>Dijalog napredne pretrage</title>
+<para>
+<screenshot>
+<screeninfo
+>Dijalog napredne pretrage.</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-adv-search.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Snimak ekrana dijaloga napredne pretrage.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+<para
+>Dijalog napredne pretrage koristi se za stvaranje <link linkend="juk-search-playlists"
+>lista numera po pretrazi</link
+>. Omogućava vam detaljnu pretragu zbirke pesama po različitim oznakama.</para>
+
+<para
+>Na vrhu dijaloga možete upisati željeno ime liste numera po pretrazi. Zatim, možete odrediti kriterijum pretraživanja u grupi <guilabel
+>Kriterijum pretraživanja</guilabel
+>. </para>
+
+<para
+>Vrh grupe <guilabel
+>Kriterijum pretraživanja</guilabel
+> ima dva radio-dugmeta, <guilabel
+>Poklopi bilo šta od navedenog</guilabel
+> i <guilabel
+>Poklopi sve navedeno</guilabel
+>. Ako izaberete <guilabel
+>Poklopi bilo šta od navedenog</guilabel
+>, pesma će biti uključena u listu numera ako se bilo koji definisani uslov poklopi. U suprotnom, moraju se poklopiti svi definisani uslovi da bi pesma bila uključena u listu numera. </para>
+
+<para
+>Ispod radio-dugmadi stoje definicije uslova. Više uslova možete dodati dugmetom <guibutton
+>Više</guibutton
+>, a ukloniti ih dugmetom <guibutton
+>Manje</guibutton
+>. Svi uslovi koje ostavite praznim ignorišu se, tako da ne morate koristiti <guibutton
+>Manje</guibutton
+> da eliminišete prazne uslove. </para>
+
+<para
+>Svaka definicija uslova ima tri dela: spisak birača oznaka na levoj strani, stil poklapanja na desnoj, i tekst za traženje u sredini. Birač oznaka govori <application
+>Juku</application
+> u kojim oznakama tražite tekst. Ako izaberete specijalnu oznaku <guilabel
+>sve vidljivo</guilabel
+>, onda će uslov biti ispunjen ako se zadati tekst pronađe u bilo kojoj oznaci koju vidite na spisku liste zbirke. </para>
+
+<para
+>Spisak stilova poklapanja govori <application
+>Juku</application
+> koji metod pretrage da koristi. Raspoloživi su sledeći metodi: <variablelist>
+<varlistentry>
+<term
+><guilabel
+>normalno poklapanje</guilabel
+></term>
+<listitem
+><para
+>Podrazumevani stil poklapanja. Traži dati tekst bilo gde u izabranoj oznaci, ignorišući razlike u veličini slova. Na primer, pretraga za <literal
+>mode</literal
+> u oznaci izvođača, poklopila bi i <literal
+>Depeche Mode</literal
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>razlikovanje veličine slova</guilabel
+></term>
+<listitem
+><para
+>Poput normalne pretrage, osim što se veličina slova u tekstu mora tačno poklopiti.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>poklapanje obrasca</guilabel
+></term>
+<listitem
+><para
+>Najmoćniji metod pretrage. Tekst za traženje koji unosite definiše regularni izraz za poklapanje vrednosti oznaka. Regularni izrazi su van opsega ove dokumentacije, ali vam program <application
+>K‑uređivač-regiza</application
+> može pomoći u njihovom sastavljanju. <application
+>Juk</application
+> koristi regularne izraze u izvedbi Qt‑a.</para
+></listitem>
+</varlistentry>
+
+</variablelist>
+
+</para>
+
+<para
+>Pošto ste definisali sve uslove, kliknite na <guibutton
+>U redu</guibutton
+> da stvorite listu numera po pretrazi! </para>
+</sect1>
+<!-- is this still relevant?
+
+write new for kde4
+
+<sect1 id="juk-cover-manager">
+
+<title
+>The &juk; Cover Manager</title>
+
+<para
+>&juk; 2.3 (part of &kde; 3.5) includes improved cover management code which introduces some new possibilities for users compared with &juk; 2.2 (which was shipped with &kde; 3.4).  It also can change the workflow slightly for you if you are used to the way covers were handled in &juk; 2.2.  So first, let's review how things used to be.</para>
+
+<sect2 id="covers-in-juk-2.2">
+<title
+>How Covers Worked in &juk; 2.2</title>
+
+<para
+>In &juk; 2.2, the cover for a track was strictly tied to its <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+> information. Although this proved useful enough, and had a few advantages, it wasn't a great way to organize the covers. If you wanted to use a cover for a different track, you either had to rename the tags in the track, or you had to duplicate the cover, wasting hard disk space. And if your track had no <guilabel
+>Artist</guilabel
+> or <guilabel
+>Album</guilabel
+> information, &juk; would prevent you from setting a cover since it had no information to go by. It worked, but it could be better.</para>
+
+</sect2>
+
+<sect2 id="covers-in-juk-2.3">
+
+<title
+>How Covers work in &juk; 2.3</title>
+
+<para
+>In &juk; 2.3, the code was redesigned to add a core component responsible for dealing with cover art.  Instead of looking on disk for a picture file with a specific name like &juk; 2.2, the Cover Manager in &juk; 2.3 associates every cover with an identification tag, and then uses the tag with your music.  It's still not perfect, but it works, and it can save you time while allowing you to do more.</para>
+
+<sect3 id="examples-adding-covers">
+
+<title
+>Examples of adding covers</title>
+
+<para
+>So just as an example, let's say you wanted to set a cover for tracks you just ripped off of your &CD;. We'll use <quote
+>Alabama - Greatest Hits III</quote
+> for the sake of discussion. In &juk; 2.2, you could simply select any one of those tracks, and import a cover from the Internet by right-clicking on that track, and using the <menuchoice
+><guimenu
+>Tagger</guimenu
+> <guisubmenu
+>Cover Manager</guisubmenu
+> <guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. As a side effect of the way &juk; worked, the cover would then be immediately applied to <emphasis
+>all</emphasis
+> of the <quote
+>Alabama - Greatest Hits III</quote
+> tracks, <emphasis
+>whether you wanted that or not</emphasis
+>.</para>
+
+<para
+>In &juk; 2.3, the procedure is exactly the same, with one exception: You should select all of the tracks you want to apply the cover to first. So you would select all the <quote
+>Alabama - Greatest Hits III</quote
+> tracks before using the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Or if you only wanted to set cover art to half of the tracks for some reason, you'd only select half the tracks before running the <menuchoice
+><guimenuitem
+>Get Cover From Internet</guimenuitem
+></menuchoice
+> command. Don't worry about duplicating covers, either: &juk; is smart enough to re-use the same image, so you won't get 14 duplicate <literal role="extension"
+>.png</literal
+> images cluttering your hard drive.</para>
+</sect3>
+
+<sect3 id="reusing-old-covers">
+
+<title
+>Reusing Old Covers</title>
+
+<para
+>But what happens if you forgot to select all the tracks you wanted to tag? You could select them and repeat the process, but that would leave a duplicate cover on your hard drive because &juk; cannot quickly tell that the cover you've found is the same as one you already have. But that's alright, because you can tell &juk; to use the cover from another track.</para>
+
+<para
+>There are two ways of doing this:</para>
+
+<para
+>1. Open the <guilabel
+>Cover Manager</guilabel
+> dialog using the <guimenu
+>Tagger</guimenu
+> menu (<menuchoice
+><guimenu
+>Tagger Cover</guimenu
+> <guisubmenu
+>Manager</guisubmenu
+> <guimenuitem
+>Show Cover Manager</guimenuitem
+></menuchoice
+>). The Cover Manager will display a list of all the covers &juk; knows about on the right, and after they have loaded you can quickly pare the list down using the search line at the top, or by using the list of Artists on the left. Once you see the cover you want to use, you can drag-and-drop the cover onto a track to apply it. It should happen nearly instantaneously since &juk; is reusing the same cover (and you'll see the cover while you're dragging it as well). Unfortunately, it can take awhile to load the covers in the first place, and the Cover Manager isn't really useful for much else besides.</para>
+
+<para
+>2. I prefer to use this method because it's rather easy. All you do is double-click on the track that has the cover you want, in order to start it playing. This will cause its cover to show up in the <interface
+>Now Playing bar</interface
+>, and you can drag-and-drop the cover to the track you want to change exactly as you would for the Cover Manager.</para>
+
+</sect3>
+
+<sect3 id="dragging-covers">
+
+<title
+>Dragging covers to more than one track at once</title>
+
+<para
+>Also note that you can use drag-and-drop to quickly apply covers to more than one track. Just select the tracks you want to apply a cover to, and drag the cover onto any one of the selected tracks.</para>
+</sect3>
+
+<sect3 id="old-covers">
+
+<title
+>What happens to my old covers?</title>
+
+<para
+>You may be wondering what &juk; will do if you already have covers from &juk; 2.2.  What happens is that &juk; will automatically convert the old covers and merge them into the cover management system.</para>
+
+<para
+>Because this is a time consuming process, it does not happen all at once.  Instead, the old cover is only converted when the cover needs to be shown on screen.  As the conversion process is happening, &juk; will recognize what tracks would have shown the cover being converted, and will automatically apply the new cover to those tracks.  The end result is that there should be no visible changes: &juk; will keep the same cover on your tracks that they've always had, except that now you can immediately take advantage of the new cover management features.</para>
+
+</sect3>
+<sect3 id="removing-covers">
+
+<title
+>Removing Covers</title>
+
+<para
+>Another side effect is that you can now remove a cover from a track without simultaneously removing it from all other tracks with the same <guilabel
+>Artist</guilabel
+> and <guilabel
+>Album</guilabel
+>.</para>
+
+<para
+>In &juk; 2.3, the Remove Cover command now only removes the covers from the selected tracks.
+</para>
+
+</sect3>
+<sect3 id="suggested-use">
+
+<title
+>Suggested Uses:</title>
+
+<para
+>1. You can now apply the same cover to tracks with Albums that have <quote
+>Disc 1</quote
+>, <quote
+>Disc 2</quote
+>, etc, which you couldn't do in &juk; 2.2 without duplicating the cover.</para>
+
+<para>
+2. Applying a generic cover to tracks if you simply must have a cover on every track, or if you have music that wasn't released as an album but fits a genre well.  You could make yourself a cover for that type of music and apply it to the songs in question.</para>
+
+</sect3>
+</sect2>
+</sect1>
+-->
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+><application
+>Jukova</application
+> traka alatki</title>
+
+<sect1 id="main-toolbar">
+<title
+>Glavna traka alatki</title>
+
+<screenshot>
+<screeninfo
+><application
+>Jukova</application
+> traka alatki.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+><application
+>Jukova</application
+> traka alatki.</phrase>
+</textobject>
+<caption
+><para
+><application
+>Jukova</application
+> traka alatki.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>Na gornjem snimku ekrana s leva na desno, ikonice na podrazumevanoj traci alatki su:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Nova</guiicon
+></term>
+<listitem
+><para
+>Stvara novu listu numera. Ako držite dugme pritisnuto, iskočiće meni sa izborom različitih vrsta listi. </para>
+  <variablelist>
+  <varlistentry
+><term
+><guimenuitem
+>Prazna lista...</guimenuitem
+></term>
+  <listitem
+><para
+>Pita vas za ime liste numera, a zatim je u prikaz liste numera umeće jednu potpuno praznu listu.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Lista po fascikli...</guimenuitem
+></term>
+  <listitem
+><para
+>Traži vam da otvorite fasciklu, pa stvara listu numera koja sadrži svu muziku iz te fascikle i njenih potfascikli. Ime nove liste biće isto kao ime izabrane fascikle.</para
+></listitem>
+  </varlistentry>
+
+  <varlistentry
+><term
+><guimenuitem
+>Lista po pretrazi...</guimenuitem
+></term>
+  <listitem
+><para
+>Poziva dijalog napredne pretrage, preko kojeg možete napraviti „virtuelnu“ listu numera. Sve pesme iz liste zbirke koje se poklope sa kriterijumima pretrage zadatim u dijalogu biće dodate u novu listu. Kako se menja lista zbirke, tako se menja i nova lista numera. Na primer, ako napravite listu svih pesama grupe <foreignphrase lang="en"
+>Depeche Mode</foreignphrase
+>, a zatim u listu zbirke dodate još neku njihovu pesmu, ona će se pojaviti u listi numera <foreignphrase lang="en"
+>Depeche Mode</foreignphrase
+> a da ništa dodatno ne morate uraditi. </para
+></listitem>
+  </varlistentry>
+
+  </variablelist>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Otvori</guiicon
+></term>
+<listitem
+><para
+>Dodaje fajl u listu zbirke (ako je aktivna) ili u trenutno izabranu listu numera. Fajl dodat u listu numera biće automatski dodat u listu zbirke, ali ne i obratno.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Sačuvaj</guiicon
+></term>
+<listitem
+><para
+>Upisuje trenutno izabranu listu numera. Za upisivanje oznaka koje ste uredili, izaberite neku drugu stavku ili pritisnite <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>T</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Iseci</guiicon
+></term>
+<listitem
+><para
+>Ako je izabrana lista numera ili pesma, iseca (uklanja) je sa liste. Ako je aktivan uređivač oznaka, ovo radi poput isecanja u bilo kojem uređivaču (uklanja izabrani tekst i stavlja kopiju u klipbord). </para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Kopiraj</guiicon
+></term>
+<listitem
+><para
+>Ako je aktivan uređivač oznaka, ovo radi kao u bilo kojem uređivaču (stavlja kopiju izabranog teksta u klipbord).</para>
+<para
+>Ako izvršite kopiranje nad pesmom u listi zbirke, u klipbord se stavlja njen URL. Na primer, mogli biste ga nalepiti u uređivač teksta, u <application
+>K‑osvajač</application
+>, ili u drugu listu numera.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Nalepi</guiicon
+></term>
+<listitem
+><para
+>Ako ste prethodno isekli ili kopirali URL iz liste zbirke, možete ga nalepiti u novu listu numera. Možete nalepiti i URL iz <application
+>K‑osvajača</application
+> ili bilo kojeg drugog programa. Ako radite u uređivaču oznaka, ova radnja nalepljuje tekst koji se trenutno nalazi u klipbordu u izabrano polje.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Prikaži traku pretrage</guiicon
+></term>
+<listitem
+><para
+>Prikazuje ili sakriva <link linkend="search-bar"
+>traku pretrage</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Prikaži uređivač oznaka</guiicon
+></term>
+<listitem
+><para
+>Prikazuje ili sakriva <link linkend="tagging-a-single-file"
+>uređivač oznaka</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry id="play-toolbar">
+<term
+>Kontrole puštanja</term>
+<listitem>
+<para
+>Rade kao u bilo kom uobičajenom medija plejeru koji ste koristili. Kontrole su <guiicon
+>Pusti</guiicon
+>, <guiicon
+>Pauziraj</guiicon
+>, <guiicon
+>Zaustavi</guiicon
+>, <guiicon
+>Prethodna</guiicon
+> i <guiicon
+>Sledeća</guiicon
+>.</para>
+<para
+>Tu je i traka praćenja, koja pokazuje koliko je (relativno) odmakla tekuća pesma. Prevlačenjem klizača na njoj možete skakati napred i nazad unutar numere.</para>
+<para
+>Najzad, tu je i klizač jačine zvuka. Kao što biste očekivali, njime se pojačava ili utišava zvuk. „Glasno“ je desno, a „tiho“ levo.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>traka pretrage</title>
+
+<para
+>Traka pretrage omogućava brzo traženje pesama u listi zbirke ili listi numera.</para>
+
+<para
+>Upisivanjem teksta u traku pretrage svešćete vidljivi spisak pesama na one koje sadrže upisani tekst u jednoj od vidljivih kolona. Pritiskom na <keycap
+>Enter</keycap
+> započinjete puštanje prve poklopljene pesme u prikazu liste numera.</para>
+
+<para
+>Traženje počinje onog trenutka kad unesete tekst u polje pretrage. Pretraga je postupna, što znači da kako unesete novi znak u polje tako poklapanje biva suženo. Ovo je, na primer, korisno za nalaženje pesme čijeg se imena samo delimično sećate.</para>
+
+<!-- Not here in KDE 4.11
+<para
+>If you would like to make a more fine-grained search, you can click
+the Advanced Search button to the right of the search bar, which will allow
+you to create a virtual playlist.  If you would like to cancel the search,
+you can simply click on the Clear button to the left of the search bar.</para>
+-->
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Meniji i naredbe</title>
+
+<sect1 id="menus">
+<title
+>Meniji</title>
+
+<sect2 id="menu-file">
+<title
+>Meni <guimenu
+>Fajl</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>File</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+><guisubmenu
+>Nova</guisubmenu
+><guimenuitem
+>Prazna lista...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Stvara novu listu numera.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>F</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+><guisubmenu
+>Nova</guisubmenu
+><guimenuitem
+>Lista po pretrazi...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Stvara novu <link linkend="juk-search-playlists"
+>listu numera po pretrazi</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>D</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+><guisubmenu
+>Nova</guisubmenu
+><guimenuitem
+>Lista po fascikli...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Stvara novu listu numera koja sadrži sve muzičke fajlove u fascikli i njenim potfasciklama. Biće dodata i sva muzika iz fajlova listi numera koje <application
+>Juk</application
+> poznaje.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Otvori...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Izaberite fajl (ili fajlove) za dodavanje u listu zbirke. Ako izaberete fajl liste numera, biće dodat svaki fajl iz nje.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Upravljaj fasciklama...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Otvara isti prozor koji se prikazuje po prvom pokretanju <application
+>Juka</application
+>. </para>
+<para
+>Izaberite fasciklu (ili fascikle) za dodavanje u listu zbirke. One će biti skenirane pri svakom pokretanju <application
+>Juka</application
+>, i kad se izvrši <menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Učitaj ponovo</guimenuitem
+> </menuchoice
+>.</para>
+<para
+>Takođe možete izabrati fascikle koje ne treba automatski pretraživati, kao izuzetke od spiska fascikli za skeniranje po pokretanju. Ovo vam omogućava da izbegnete menjanje rasporeda muzike na disku kada samo želite da sprečite <application
+>Juk</application
+> da automatski zahvata i upravlja određenim pesmama. </para>
+<para>
+<screenshot>
+<screeninfo
+>Dijalog za upravljanje fasciklama</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="juk-manage-folders.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Snimak ekrana dijaloga za upravljanje fasciklama.</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+<note>
+<para
+>Ako želite da uklonite fajlove koji se već nalaze u listi zbirke, možete aktivirati kolonu <guilabel
+>ime fajla (puna putanja)</guilabel
+> u listi numera, upotrebiti traku pretrage da nađete neželjene putanje, te izabrati i ukloniti prikazane fajlove. </para>
+</note>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Preimenuj...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Menja ime listi numera.</para>
+</listitem>
+</varlistentry>
+
+<!-- Edit Search... -->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Udvostruči...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Stvara duplikat izabrane liste numera i pita za novo ime. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Učitaj ponovo</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Ponovno učitava oznake iz svakog fajla u izabranoj listi numera. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Fajl</guimenu
+><guimenuitem
+>Ukloni</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Uklanja izabranu listu numera.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>S</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Fajl</guimenu
+><guimenuitem
+>Sačuvaj</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Upisuje izabranu listu numera.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Sačuvaj</guimenu
+><guimenuitem
+>Sačuvaj kao...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Upisuje izabranu listu numera pod drugim imenom.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-edit">
+<title
+>Meni <guimenu
+>Uredi</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Uredi</guimenu
+><guimenuitem
+>Očisti</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Uklanja izabrane pesme sa liste numera.</para>
+</listitem>
+</varlistentry>
+<!-- Undo Cut Copy Paste Clear Select All -->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-view">
+<title
+>Meni <guimenu
+>Prikaz</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+><guimenuitem
+>Prikaži traku pretrage</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Prikazuje ili sakriva <link linkend="search-bar"
+>traku pretrage</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+><guimenuitem
+>Prikaži uređivač oznaka</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Prikazuje ili sakriva <link linkend="tagging-a-single-file"
+>uređivač oznaka</link
+>. </para>
+</listitem>
+</varlistentry>
+<!--Show Lyrics-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+><guimenuitem
+>Prikaži istorijat</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Prikazuje ili sakriva <link linkend="juk-history-playlists"
+>listu numera po istorijatu</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<!-- missing
+Show Play Queue
+Show Columns
+Resize Playlist Columns Manually
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+><guisubmenu
+>Režimi prikaza</guisubmenu
+><guimenuitem
+>podrazumevano</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Prebacuje na <link linkend="juk-viewmode-default"
+>podrazumevani režim prikaza</link
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+><guisubmenu
+>Režimi prikaza</guisubmenu
+><guimenuitem
+>sažeto</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Prebacuje na <link linkend="juk-viewmode-compact"
+>kompaktni režim prikaza</link
+>.  </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Prikaz</guimenu
+><guisubmenu
+>Režimi prikaza</guisubmenu
+><guimenuitem
+>stablo</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Prebacuje na <link linkend="juk-viewmode-tree"
+>režim prikaza stabla</link
+>. </para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</sect2>
+
+<sect2 id="menu-player">
+<title
+>Meni <guimenu
+>Plejer</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plejer</guimenu
+><guimenuitem
+>Nasumično puštanje</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opcija koja upravlja nasumičnim puštanjem. Ako je uključeno, <application
+>Juk</application
+> će nasumično pustiti pesmu iz trenutne liste numera pošto se puštanje trenutne pesme završi.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plejer</guimenu
+><guimenuitem
+>Lista u krug</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Opcija koja upravlja puštanjem liste u krug. Ako je uključena, nakon što se odvrte sve pesme sa trenutne liste numera <application
+>Juk</application
+> će započeti puštanje od početka liste.</para>
+</listitem>
+</varlistentry>
+<!--
+Crossfade Between Tracks
+-->
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plejer</guimenu
+><guimenuitem
+>Pusti</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Pokreće puštanje trenutno izabrane pesme, ili nastavlja puštanje pauzirane pesme.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plejer</guimenu
+><guimenuitem
+>Pauziraj</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Pauzira tekuću numeru. Puštanje nastavljate naredbom <guimenuitem
+>Pusti</guimenuitem
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plejer</guimenu
+><guimenuitem
+>Zaustavi</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Zaustavlja puštanje tekuće numere. Posle ovoga ne možete nastaviti puštanje s trenutnog položaja u pesmi.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plejer</guimenu
+><guimenuitem
+>Sledeća</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Preskače na puštanje sledeće pesme u listi numera.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Plejer</guimenu
+><guimenuitem
+>Prethodna</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Pušta pesmu koja je puštana pre pesme koja se trenutno pušta.</para>
+</listitem>
+</varlistentry>
+<!--
+Play Next Album
+-->
+</variablelist>
+</sect2>
+
+<sect2 id="menu-tagger">
+<title
+>Meni <guimenu
+>Označivač</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>T</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Označivač</guimenu
+><guimenuitem
+>Sačuvaj</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Upisuje sve izmene nad oznakama koje trenutno uređujete. Inače se oznake upisuju tek kad s fajla koji uređujete pređete na neki drugi.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Označivač</guimenu
+><guimenuitem
+>Obriši</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Uklanja trenutno izabrane pesme iz liste zbirke i svih listi numera koje je sadrže, a zatim briše njihove fajlove sa diska. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Označivač</guimenu
+><guimenuitem
+>Osveži</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Osvežite oznake u listi numera, pošto ste ih izmenili. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>G</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Označivač</guimenu
+><guisubmenu
+>Pogodi podatke za oznake</guisubmenu
+><guimenuitem
+>iz imena fajla</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Pokušava da pogodi oznake izabranih fajlova tumačenjem imena fajla. Obrasce za pogađanje možete podesiti kroz <menuchoice
+><guimenu
+>Podešavanje</guimenu
+> <guimenuitem
+>Pogađač oznaka...</guimenuitem
+></menuchoice
+>, što otvara <link linkend="juk-tag-guesser-configuration"
+>dijalog za podešavanje pogađača oznaka</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>I</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Označivač</guimenu
+><guisubmenu
+>Pogodi podatke za oznake</guisubmenu
+><guimenuitem
+>sa Interneta</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Pokušava da pogodi oznake izabranih fajlova koristeći biblioteku <application
+>TunePimp</application
+> uz <ulink url="http://www.musicbrainz.org/"
+>MusicBrainz</ulink
+>.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Cover Manager
+  -->
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>R</keycap
+></keycombo
+></shortcut
+> <guimenu
+>Označivač</guimenu
+><guimenuitem
+>Preimenuj fajl</guimenuitem
+> </menuchoice>
+</term>
+<listitem>
+  <para
+>Preimenujte fajl ili grupu fajlova prema pesmama izabranim na listi numera. Pre nego što zaista promeni imena, <application
+>Juk</application
+> će prikazati dijalog sa pregledom u kojem možete potvrditi ili otkazati radnju. </para>
+  <para
+>Fajlovi će biti preimenovani na osnovu parametara zadatih u <link linkend="juk-rename-dialog"
+>dijalogu za preimenovanje fajlova</link
+>. </para
+> 
+</listitem>
+</varlistentry>
+</variablelist>
+
+</sect2>
+
+<sect2 id="menu-settings">
+<title
+>Meni <guimenu
+>Podešavanje</guimenu
+></title>
+
+<variablelist>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Podešavanje</guimenu
+><guisubmenu
+>Prikazane trake alatki</guisubmenu
+> <guimenuitem
+>Glavna traka / Traka puštanja</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Prikazuje ili sakriva <link linkend="main-toolbar"
+>glavnu traku</link
+> ili <link linkend="main-toolbar"
+>traku puštanja</link
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Podešavanje</guimenu
+> <guimenuitem
+>Usidri u sistemsku kasetu</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Ako je uključeno, <application
+>Juk</application
+> će u sistemskoj kaseti prikazati ikonicu. Služi vam da vidite kada <application
+>Juk</application
+> nešto pušta, i da upravljate puštanjem.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Podešavanje</guimenu
+> <guimenuitem
+>Ostavi u sistemskoj kaseti pri zatvaranju</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Ako je uključeno, <application
+>Juk</application
+> će nastaviti da radi pošto zatvorite glavni prozor. Takođe mora biti uključena opcija <guimenuitem
+>Usidri u sistemsku kasetu</guimenuitem
+>. Za napuštanje <application
+>Juka</application
+> upotrebite naredbu <menuchoice
+><guimenu
+>Fajl</guimenu
+> <guimenuitem
+>Napusti</guimenuitem
+></menuchoice
+> iz glavnog prozora ili iz kontekstnog menija sistemske kasete.</para>
+<para
+>Kada se <application
+>Juk</application
+> pokrene uz postavljeno pristajanje u sistemsku kasetu, dobija se jednostavno obaveštenje (kako se korisnik ne bi pitao zašto se ne pojavljuje prozor <application
+>Juka</application
+>). Ovo obaveštenje može da se ukloni u Sistemskim postavkama, preko <menuchoice
+><guimenu
+>Izgled i ponašanje radnog prostora</guimenu
+> <guimenuitem
+>Sistemska i programska obaveštenja</guimenuitem
+></menuchoice
+>, unos  programa <guilabel
+>Muzički plejer Juk</guilabel
+>. Tamo ispraznite stavku <guilabel
+>Prikaži iskačuću poruku</guilabel
+> uz <guimenuitem
+>Juk radi u sidrišnom režimu</guimenuitem
+>. Više detalja o KDE‑ovih postavkama obaveštenja potražite <ulink url="help:/kcontrol/kcmnotify"
+>ovde</ulink
+>. </para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Podešavanje</guimenu
+> <guimenuitem
+>Iskačuće obaveštenje o numeri</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Ako je uključeno, <application
+>Juk</application
+> daje pokazatelj o početku puštanja pesme, sa podacima o izvođaču i naslovu, te dugmadima za brzo prebacivanje na drugu pesmu. Takođe mora biti uključena opcija <guilabel
+>Usidri u sistemsku kasetu</guilabel
+>.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Podešavanje</guimenu
+> <guimenuitem
+>Pogađač oznaka...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Poziva <link linkend="juk-tag-guesser-configuration"
+>dijalog za podešavanje pogađača oznaka</link
+>, gde možete izmeniti obrasce za pogađanje oznaka na osnovu imena fajla.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Podešavanje</guimenu
+> <guimenuitem
+>Preimenjivač fajlova...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Poziva <link linkend="juk-rename-dialog"
+>dijalog za podešavanje preimenjivača fajlova</link
+>, gde možete odrediti način na koji <application
+>Juku</application
+> mesto vas menja imena fajlova.</para>
+</listitem>
+</varlistentry>
+<!--missing
+Configure scrobbling
+  -->
+</variablelist>
+
+<para
+><application
+>Juk</application
+> takođe ima uobičajene KDE menije <guimenu
+>Podešavanje</guimenu
+> i <guimenu
+>Pomoć</guimenu
+>. Detalje o njima možete potražiti u Osnovama KDE‑a, odeljci o <ulink url="help:/fundamentals/ui.html#menus-settings"
+>meniju za podešavanje</ulink
+> i <ulink url="help:/fundamentals/ui.html#menus-help"
+>meniju pomoći</ulink
+>. </para>
+
+</sect2>
+
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Sveze tastera</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-r rename file
+ctrl-i guess tag entries from internet
+ctrl-f guess tag entries based on filename
+ctrl-f new search playlist
+ctrl-n new empty playlist
+ctrl-d new playlist from folder
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>kombinacija tastera</entry>
+<entry
+>radnja</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>Izbor svega.</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Kopiranje.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>R</keycap
+></keycombo
+></entry>
+<entry
+>Preimenovanje fajla.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>I</keycap
+></keycombo
+></entry>
+<entry
+>Pogađa oznake sa Interneta.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Pogađa oznake iz imena fajla.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>F</keycap
+></keycombo
+></entry>
+<entry
+>Nova <link linkend="juk-search-playlists"
+>lista numera po pretrazi</link
+>.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Nova prazna lista numera.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>D</keycap
+></keycombo
+></entry>
+<entry
+>Nova lista numera iz fascikle.</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+><keycap
+>Ctrl</keycap
+><keycap
+>T</keycap
+></keycombo
+></entry>
+<entry
+>Upisuje izmene po uređivanju oznaka.</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-license">
+<title
+>Zasluge i licenca</title>
+
+<para
+><application
+>Juk</application
+>: © 2002–2013, <personname
+><firstname
+>Skot</firstname
+> <surname
+>Viler</surname
+></personname
+>, <personname
+><firstname
+>Majkl</firstname
+> <surname
+>Pajn</surname
+></personname
+> i ostali. </para>
+
+ <para
+><application
+>Juk</application
+> su razvili i održavaju <personname
+><firstname
+>Skot</firstname
+> <surname
+>Viler</surname
+></personname
+> &Scott.Wheeler.mail; i <personname
+><firstname
+>Majkl</firstname
+> <surname
+>Pajn</surname
+></personname
+> <email
+>michael.pyne@kdemail.net</email
+>.</para>
+
+<para
+>Hvala sledećima koji su doprineli <application
+>Juku</application
+>:</para>
+
+<itemizedlist>
+<listitem
+><para
+><personname
+><firstname
+>Danijelu</firstname
+> <surname
+>Molkentinu</surname
+></personname
+> &Daniel.Molkentin.mail; za pristajanje u sistemsku kasetu, uređivanje oznaka „u redu“, ispravke grešaka, poborništvo, moralnu podršku.</para>
+</listitem>
+<listitem
+><para
+><personname
+><firstname
+>Timu</firstname
+> <surname
+>Jansenu</surname
+></personname
+> <email
+>tim@tjansen.de</email
+> za prenošenje na GStreamer.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Stefanu</firstname
+> <surname
+>Aserhelu</surname
+></personname
+> <email
+>stefan.asserhall@telia.com</email
+> za podršku za globalne prečice.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Stivenu</firstname
+> <surname
+>Daglasu</surname
+></personname
+> <email
+>stephen_douglas@yahoo.com</email
+> za iskakače za najavljivanje numera.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Frerihu</firstname
+> <surname
+>Rabeu</surname
+></personname
+> &Frerich.Raabe.mail; za automagično pogađanje podataka o numeri i ispravke grešaka.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Zaku</firstname
+> <surname
+>Rasinu</surname
+></personname
+> <email
+>zack@kde.org</email
+> za još automagičnostî, uključujući i podršku za MusicBrainz.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Adamu</firstname
+> <surname
+>Tritu</surname
+></personname
+> <email
+>manyoso@yahoo.com</email
+> za saučesništvo u čarobnjaštvu MusicBrainza.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Matijasu</firstname
+> <surname
+>Krecu</surname
+></personname
+> <email
+>kretz@kde.org</email
+> kao prijatnom guruu iz susedstva za <application
+>Arts</application
+>.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Maksimu</firstname
+> <surname
+>Orloviču</surname
+></personname
+> <email
+>maksim@kde.org</email
+> što je učinio <application
+>Juk</application
+> udobnijim za korisnike sa terabajtima muzike.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Antoniju</firstname
+> <surname
+>Larosi Himenezu</surname
+></personname
+> <email
+>larrosa@kde.org</email
+> za DCOP sučelje.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Alanu</firstname
+> <othername
+>Sandfeldu</othername
+> <surname
+>Jensenu</surname
+></personname
+> <email
+>kde@carewolf.com</email
+> za podršku za FLAC i MPC.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Nejtanu</firstname
+> <surname
+>Tunu</surname
+></personname
+> <email
+>nathan@toonetown.com</email
+> za menadžer omota albuma.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Paskalu</firstname
+> <surname
+>Klajnu</surname
+></personname
+> <email
+>4pascal@tpg.com.au</email
+> za uvodni ekran.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Lorenu</firstname
+> <surname
+>Montelu</surname
+></personname
+> <email
+>montel@kde.org</email
+> za prenošenje na KDE4, kad nije bilo nikog drugog.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Georgu</firstname
+> <surname
+>Grableru</surname
+></personname
+> <email
+>georg@grabler.net</email
+> za napore u prenošenju na KDE platformu.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Martinu</firstname
+> <surname
+>Sandsmarku</surname
+></personname
+> <email
+>martin.sandsmark@kde.org</email
+> za poslednju podršku skroblovanja na last.fm, stihove, spremanje za Radne okvire KDE‑a.</para>
+</listitem>
+
+<listitem
+><para
+><personname
+><firstname
+>Ajkeu</firstname
+> <surname
+>Hajnu</surname
+></personname
+> <email
+>hein@kde.org</email
+> za izvedbu MPRIS 2 sučelja.</para>
+</listitem>
+
+</itemizedlist>
+
+<para
+>Dokumentacija: © 2003, <personname
+><firstname
+>Lori</firstname
+> <surname
+>Vots</surname
+></personname
+>; © 2004–2013, <personname
+><firstname
+>Majkl</firstname
+> <surname
+>Pajn</surname
+></personname
+>.</para>
+
+<para
+>Preveo Dragan Pantelić <email
+>falcon-10@gmx.de</email
+>.</para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->

@@ -1,0 +1,2271 @@
+# Thomas Diehl <thd@kde.org>, 2003.
+# Arnold Krille <arnold@arnoldarts.de>, 2003, 2004, 2005.
+# Stephan Johach <hunsum@gmx.de>, 2003, 2005, 2006.
+# Thomas Reitelbach <tr@erdfunkstelle.de>, 2005, 2006, 2007, 2008.
+# Martin Ereth <martin.ereth@arcor.de>, 2007, 2008.
+# Burkhard Lück <lueck@hube-lueck.de>, 2009, 2011, 2012, 2013, 2014, 2016, 2017, 2018, 2019, 2020, 2021.
+# Frederik Schwarzer <schwarzer@kde.org>, 2009, 2010, 2011, 2012, 2013, 2016.
+# Johannes Obermayr <johannesobermayr@gmx.de>, 2010.
+# Markus Slopianka <markus.s@kdemail.net>, 2010, 2012.
+# Panagiotis Papadopoulos <pano_90@gmx.net>, 2010, 2011.
+msgid ""
+msgstr ""
+"Project-Id-Version: juk\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-29 00:45+0000\n"
+"PO-Revision-Date: 2021-05-10 05:25+0200\n"
+"Last-Translator: Burkhard Lück <lueck@hube-lueck.de>\n"
+"Language-Team: German <kde-i18n-de@kde.org>\n"
+"Language: de\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "Arnold Krille"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "arnold@arnoldarts.de"
+
+#: advancedsearchdialog.cpp:46
+#, kde-format
+msgid "Create Search Playlist"
+msgstr "Wiedergabeliste aus Suche erstellen"
+
+#: advancedsearchdialog.cpp:55
+#, kde-format
+msgid "Playlist name:"
+msgstr "Name der Wiedergabeliste:"
+
+#: advancedsearchdialog.cpp:59
+#, kde-format
+msgid "Search Criteria"
+msgstr "Suchkriterium"
+
+#: advancedsearchdialog.cpp:64
+#, kde-format
+msgid "Match any of the following"
+msgstr "Übereinstimmung mit einem der Kriterien"
+
+#: advancedsearchdialog.cpp:65
+#, kde-format
+msgid "Match all of the following"
+msgstr "Übereinstimmung mit allen Kriterien"
+
+#: advancedsearchdialog.cpp:89
+#, kde-format
+msgctxt "additional search options"
+msgid "More"
+msgstr "Mehr"
+
+#: advancedsearchdialog.cpp:94
+#, kde-format
+msgid "Fewer"
+msgstr "Weniger"
+
+#: cache.cpp:299
+#, kde-format
+msgid ""
+"The music data cache has been corrupted. JuK needs to rescan it now. This "
+"may take some time."
+msgstr ""
+"Im Musikdaten-Zwischenspeicher sind Fehler aufgetreten. Der Zwischenspeicher "
+"muss neu eingelesen werden. Das kann einen Moment dauern."
+
+#: collectionlist.cpp:143
+#, kde-format
+msgid "Collection List"
+msgstr "Sammlungsliste"
+
+#: collectionlist.cpp:283
+#, kde-format
+msgid ""
+"Removing an item from the collection will also remove it from all of your "
+"playlists. Are you sure you want to continue?\n"
+"\n"
+"Note, however, that if the directory that these files are in is in your "
+"\"scan on startup\" list, they will be readded on startup."
+msgstr ""
+"Das Löschen eines Titels aus der Sammlung führt dazu, dass er auch aus allen "
+"Wiedergabelisten gelöscht wird. Sind Sie sicher, dass Sie das möchten?\n"
+"\n"
+"Hinweis: Wird der Ordner, in dem dieser Titel abgelegt ist, beim Start von "
+"JuK automatisch durchsucht, erscheint der Titel beim nächsten Start von JuK "
+"wieder in der Liste."
+
+#: collectionlist.cpp:336
+#, kde-format
+msgid "Show Playing"
+msgstr "Spielenden anzeigen"
+
+#: coverdialog.cpp:37
+#, kde-format
+msgid "<All Artists>"
+msgstr "<Alle Interpreten>"
+
+#: coverdialog.cpp:148
+#, kde-format
+msgid "Remove Cover"
+msgstr "Cover löschen"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
+#: coverdialogbase.ui:14 playlistcollection.cpp:988
+#, kde-format
+msgid "Cover Manager"
+msgstr "Cover-Verwaltung"
+
+#: deletedialog.cpp:62
+#, kde-format
+msgid "<b>1</b> file selected."
+msgid_plural "<b>%1</b> files selected."
+msgstr[0] "<b>1</b> Datei ausgewählt."
+msgstr[1] "<b>%1</b> Dateien ausgewählt."
+
+#: deletedialog.cpp:75
+#, kde-format
+msgid ""
+"<qt>These items will be <b>permanently deleted</b> from your hard disk.</qt>"
+msgstr ""
+"<qt>Diese Dateien werden von Ihrer Festplatte <b>dauerhaft gelöscht</b>.</qt>"
+
+#: deletedialog.cpp:81
+#, kde-format
+msgid "<qt>These items will be moved to the Trash Bin.</qt>"
+msgstr "<qt>Diese Dateien werden in den Papierkorb verschoben.</qt>"
+
+#: deletedialog.cpp:93
+#, kde-format
+msgid "&Send to Trash"
+msgstr "&In den Papierkorb verschieben"
+
+#: deletedialog.cpp:97
+#, kde-format
+msgid "About to delete selected files"
+msgstr "Ausgewählte Dateien sind zum Löschen vermerkt"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: deletedialogbase.ui:88
+#, kde-format
+msgid "Are you sure that you want to remove these items?"
+msgstr "Sind Sie sicher, dass Sie diese Titel löschen möchten?"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, ddShouldDelete)
+#: deletedialogbase.ui:138
+#, kde-format
+msgid ""
+"If checked, files will be permanently removed instead of being placed in the "
+"Trash Bin"
+msgstr ""
+"Mit dieser Einstellung werden die Dateien gelöscht, statt erst in den "
+"Papierkorb verschoben zu werden."
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
+#: deletedialogbase.ui:143
+#, kde-format
+msgid ""
+"<qt><p>If this box is checked, files will be <b>permanently removed</b> "
+"instead of being placed in the Trash Bin.</p>\n"
+"\n"
+"<p><em>Use this option with caution</em>: Most filesystems are unable to "
+"reliably undelete deleted files.</p></qt>"
+msgstr ""
+"<qt><p>Mit dieser Einstellung werden Dateien <b>permanent gelöscht</b>, "
+"anstatt in den Papierkorb verschoben zu werden.</p>\n"
+"\n"
+"<p><em>Verwenden Sie sie mit Vorsicht</em>: Die meisten Dateisysteme können "
+"Dateien nicht sicher wiederherstellen.</p></qt> "
+
+#. i18n: ectx: property (text), widget (QCheckBox, ddShouldDelete)
+#: deletedialogbase.ui:146
+#, kde-format
+msgid "&Delete files instead of moving them to the trash"
+msgstr "Dateien &löschen (übergeht Papierkorb)"
+
+#: directorylist.cpp:55
+#, kde-format
+msgid "Folder List"
+msgstr "Ordnerliste"
+
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: directorylistbase.ui:19
+#, kde-format
+msgid "Please choose the folders where you keep your music:"
+msgstr "Bitte wählen Sie den Ordner aus, in dem Sie Ihre Musik ablegen:"
+
+#. i18n: ectx: property (toolTip), widget (QListView, directoryListView)
+#. i18n: ectx: property (toolTip), widget (QListView, excludeDirectoryListView)
+#: directorylistbase.ui:34 directorylistbase.ui:117
+#, kde-format
+msgid "These folders will be scanned on startup for new files."
+msgstr "Diese Ordner werden beim Starten von JuK nach Dateien durchsucht."
+
+#. i18n: ectx: property (text), widget (QPushButton, addDirectoryButton)
+#. i18n: ectx: property (text), widget (QPushButton, addExcludeDirectoryButton)
+#: directorylistbase.ui:64 directorylistbase.ui:147
+#, kde-format
+msgid "Add Folder..."
+msgstr "Ordner hinzufügen ..."
+
+#. i18n: ectx: property (text), widget (QPushButton, removeDirectoryButton)
+#. i18n: ectx: property (text), widget (QPushButton, removeExcludeDirectoryButton)
+#: directorylistbase.ui:71 directorylistbase.ui:154
+#, kde-format
+msgid "Remove Folder"
+msgstr "Ordner löschen"
+
+#. i18n: ectx: property (text), widget (QLabel, ExcludeInformationLabel)
+#: directorylistbase.ui:102
+#, kde-format
+msgid "Please choose the folders that should be excluded from music search:"
+msgstr ""
+"Bitte wählen Sie den Ordner aus, der bei der Suche nach Musik ausgeschlossen "
+"werden soll:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, importPlaylistsCheckBox)
+#: directorylistbase.ui:183
+#, kde-format
+msgid "Import playlists"
+msgstr "Wiedergabelisten importieren"
+
+#: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
+#: systemtray.cpp:495 systemtray.cpp:506
+#, kde-format
+msgid "JuK"
+msgstr "JuK"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ExampleOptionsBase)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: exampleoptionsbase.ui:13 filerenamerbase.ui:203
+#, kde-format
+msgid "Example"
+msgstr "Beispiel"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: exampleoptionsbase.ui:37
+#, kde-format
+msgid "Example Tag Selection"
+msgstr "Beispiel Metadaten-Auswahl"
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_fileTagsButton)
+#: exampleoptionsbase.ui:58
+#, kde-format
+msgid "Get example tags from this file:"
+msgstr "Metadaten aus dieser Datei verwenden:"
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_manualTagsButton)
+#: exampleoptionsbase.ui:81
+#, kde-format
+msgid "Enter example tags manually:"
+msgstr "Metadaten selbst eingeben:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_manualGroup)
+#: exampleoptionsbase.ui:91
+#, kde-format
+msgid "Example Tags"
+msgstr "Beispiel Metadaten"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: exampleoptionsbase.ui:135
+#, kde-format
+msgctxt "song title"
+msgid "Title:"
+msgstr "Titel:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#: exampleoptionsbase.ui:145
+#, kde-format
+msgid "Artist:"
+msgstr "Interpret:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3)
+#: exampleoptionsbase.ui:155
+#, kde-format
+msgid "Album:"
+msgstr "Album:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel4)
+#: exampleoptionsbase.ui:165
+#, kde-format
+msgid "Genre:"
+msgstr "Genre:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel5)
+#: exampleoptionsbase.ui:175
+#, kde-format
+msgid "Track number:"
+msgstr "Titelnummer:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel6)
+#: exampleoptionsbase.ui:185
+#, kde-format
+msgid "Year:"
+msgstr "Jahr:"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_exampleTitle)
+#: exampleoptionsbase.ui:214
+#, kde-format
+msgctxt "example song title"
+msgid "Title"
+msgstr "Titel"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
+#: exampleoptionsbase.ui:221 playlist.cpp:1404 tagrenameroptions.cpp:104
+#, kde-format
+msgid "Artist"
+msgstr "Interpret"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
+#: exampleoptionsbase.ui:228 playlist.cpp:1405 tagrenameroptions.cpp:108
+#, kde-format
+msgid "Album"
+msgstr "Album"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
+#: exampleoptionsbase.ui:235 playlist.cpp:1408 tagrenameroptions.cpp:116
+#, kde-format
+msgid "Genre"
+msgstr "Genre"
+
+#: filerenamer.cpp:67
+#, kde-format
+msgctxt "warning about mass file rename"
+msgid "Warning"
+msgstr "Warnung"
+
+#: filerenamer.cpp:78
+#, kde-format
+msgid ""
+"You are about to rename the following files. Are you sure you want to "
+"continue?"
+msgstr ""
+"Sie sind dabei, die folgenden Dateien umzubenennen. Sind Sie sicher, dass "
+"Sie damit fortfahren möchten?"
+
+#: filerenamer.cpp:85
+#, kde-format
+msgid "Original Name"
+msgstr "Ursprünglicher Name"
+
+#: filerenamer.cpp:86
+#, kde-format
+msgid "New Name"
+msgstr "Neuer Name"
+
+#: filerenamer.cpp:109
+#, kde-format
+msgid "No Change"
+msgstr "Keine Änderung"
+
+#: filerenamer.cpp:398
+#, kde-format
+msgctxt "remove music genre from file renamer"
+msgid "Remove"
+msgstr "Entfernen"
+
+#: filerenamer.cpp:401
+#, kde-format
+msgctxt "file renamer genre options"
+msgid "Options"
+msgstr "Optionen"
+
+#: filerenamer.cpp:513
+#, kde-format
+msgid "Insert folder separator"
+msgstr "Ordnertrenner einfügen"
+
+#: filerenamer.cpp:584
+#, kde-format
+msgid "No file selected, or selected file has no tags."
+msgstr "Es ist keine Datei ausgewählt oder die Datei enthält keine Metadaten."
+
+#: filerenamer.cpp:815
+#, kde-format
+msgid "Hide Renamer Test Dialog"
+msgstr "Umbenennungs-Testdialog ausblenden"
+
+#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
+#: filerenamer.cpp:820 filerenamerbase.ui:257
+#, kde-format
+msgid "Show Renamer Test Dialog"
+msgstr "Testdialog zum Umbenennen anzeigen"
+
+#: filerenamer.cpp:902
+#, kde-format
+msgid "%1 to %2"
+msgstr "%1 nach %2"
+
+#: filerenamer.cpp:909
+#, kde-format
+msgid "The following rename operations failed:\n"
+msgstr "Die folgenden Umbenennungen sind fehlgeschlagen:\n"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, FileRenamerBase)
+#: filerenamerbase.ui:20
+#, kde-format
+msgid "File Renamer Configuration"
+msgstr "Einstellungen für Dateiumbenennung"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
+#: filerenamerbase.ui:65
+#, kde-format
+msgid "Music folder:"
+msgstr "Musikordner:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:90
+#, kde-format
+msgid "Album Tag"
+msgstr "Album"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:95
+#, kde-format
+msgid "Artist Tag"
+msgstr "Interpret"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:100
+#, kde-format
+msgid "Genre Tag"
+msgstr "Genre"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:105
+#, kde-format
+msgid "Title Tag"
+msgstr "Titel"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:110
+#, kde-format
+msgid "Track Tag"
+msgstr "Nummer"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:115
+#, kde-format
+msgid "Year Tag"
+msgstr "Jahr"
+
+#. i18n: ectx: property (text), widget (QPushButton, m_insertCategory)
+#: filerenamerbase.ui:123
+#, kde-format
+msgid "Insert Category"
+msgstr "Kategorie einfügen"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: filerenamerbase.ui:135
+#, kde-format
+msgid "&Add category:"
+msgstr "K&ategorie hinzufügen:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
+#: filerenamerbase.ui:145
+#, kde-format
+msgid "Separator:"
+msgstr "Trennzeichen:"
+
+#: filerenamerconfigdlg.cpp:29
+#, kde-format
+msgid "File Renamer Options"
+msgstr "Umbenennungs-Einstellungen"
+
+#: filerenameroptions.cpp:38
+#, kde-format
+msgctxt "%1 will be a music tag category like Artist or Album"
+msgid "%1 Options"
+msgstr "%1-Optionen"
+
+#: filerenameroptions.cpp:39
+#, kde-format
+msgid "%1 Format"
+msgstr "%1-Format"
+
+#: filerenameroptions.cpp:40
+#, kde-format
+msgid "When the Track's %1 is Empty"
+msgstr "Wenn %1 des Titels leer ist"
+
+#: filerenameroptions.cpp:41
+#, kde-format
+msgid ""
+"When using the file renamer your files will be renamed to the values that "
+"you have in your track's %1 tag, plus any additional text that you specify "
+"below."
+msgstr ""
+"Wenn Sie den Datei-Umbenenner verwenden, werden Ihre Dateien nach den Werten "
+"des %1-Metatags benannt. Zusätzlich können Sie unten weiteren Text angeben."
+
+#: filerenameroptions.cpp:114
+#, kde-format
+msgid "File Renamer"
+msgstr "Datei umbenennen"
+
+#. i18n: ectx: property (text), widget (QLabel, m_substitution)
+#: filerenameroptionsbase.ui:115
+#, kde-format
+msgid "Substitution Example"
+msgstr "Beispiel-Ersetzung"
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_includeEmptyButton)
+#: filerenameroptionsbase.ui:137
+#, kde-format
+msgid "Include in the &filename anyways"
+msgstr "&Immer in den Dateinamen einfügen."
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_ignoreTagButton)
+#: filerenameroptionsbase.ui:144
+#, kde-format
+msgid "&Ignore this tag when renaming the file"
+msgstr "Diese Metadaten beim Umbenennen i&gnorieren"
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_useValueButton)
+#: filerenameroptionsbase.ui:162
+#, kde-format
+msgid "Use &this value:"
+msgstr "&Diesen Wert verwenden:"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_emptyTagValue)
+#: filerenameroptionsbase.ui:172
+#, kde-format
+msgctxt "value to use in replacement when source tag empty"
+msgid "Empty"
+msgstr "Leer"
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_trackGroup)
+#: filerenameroptionsbase.ui:184
+#, kde-format
+msgid "Track numbering"
+msgstr "Nummerierung der Stücke"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel10)
+#: filerenameroptionsbase.ui:196
+#, kde-format
+msgid ""
+"JuK can force the track used in a file name to have a minimum number of "
+"digits. You may want to do this for better sorting in file managers."
+msgstr ""
+"JuK kann gezwungen werden, eine bestimmte Anzahl von Ziffern im Dateinamen "
+"der Stücke zu verwenden, damit die Dateien in einer Dateiverwaltung besser "
+"sortierbar sind."
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel5)
+#: filerenameroptionsbase.ui:228
+#, kde-format
+msgid "Minimum number of digits:"
+msgstr "Maximale Anzahl der Stellen:"
+
+#. i18n: ectx: property (text), widget (QLabel, m_doubleDigitExample)
+#: filerenameroptionsbase.ui:266
+#, kde-format
+msgid "014"
+msgstr "014"
+
+#. i18n: ectx: property (text), widget (QLabel, m_singleDigitExample)
+#: filerenameroptionsbase.ui:284
+#, kde-format
+msgid "003"
+msgstr "003"
+
+#. i18n: ectx: property (text), widget (QLabel, m_singleDigit)
+#: filerenameroptionsbase.ui:291
+#, kde-format
+msgid "3 ->"
+msgstr "3 ->"
+
+#. i18n: ectx: property (text), widget (QLabel, m_doubleDigit)
+#: filerenameroptionsbase.ui:301
+#, kde-format
+msgid "14 ->"
+msgstr "14 ->"
+
+#: historyplaylist.cpp:42
+#, kde-format
+msgid "Time"
+msgstr "Zeit"
+
+#: juk.cpp:209
+#, kde-format
+msgid "Your album art failed to download."
+msgstr "Das Herunterladen Ihres Album-Bildes ist fehlgeschlagen."
+
+#: juk.cpp:211
+#, kde-format
+msgid "Your album art has finished downloading."
+msgstr "Das Herunterladen Ihres Album-Bildes ist abgeschlossen."
+
+#: juk.cpp:255 systemtray.cpp:180
+#, kde-format
+msgid "&Random Play"
+msgstr "&Zufallswiedergabe"
+
+#: juk.cpp:262
+#, kde-format
+msgid "&Disable Random Play"
+msgstr "&Zufallswiedergabe abschalten"
+
+#: juk.cpp:268
+#, kde-format
+msgid "Use &Random Play"
+msgstr "&Zufallswiedergabe einschalten"
+
+#: juk.cpp:274
+#, kde-format
+msgid "Use &Album Random Play"
+msgstr "&Zufallswiedergabe des Albums einschalten"
+
+#: juk.cpp:282
+#, kde-format
+msgid "Remove From Playlist"
+msgstr "Aus der Wiedergabeliste entfernen"
+
+#: juk.cpp:286
+#, kde-format
+msgid "&Play"
+msgstr "&Wiedergabe"
+
+#: juk.cpp:291
+#, kde-format
+msgid "P&ause"
+msgstr "P&ause"
+
+#: juk.cpp:296
+#, kde-format
+msgid "&Stop"
+msgstr "&Stopp"
+
+#: juk.cpp:299
+#, kde-format
+msgctxt "previous track"
+msgid "Previous"
+msgstr "Vorheriger"
+
+#: juk.cpp:306
+#, kde-format
+msgctxt "next track"
+msgid "&Next"
+msgstr "&Nächster"
+
+#: juk.cpp:310
+#, kde-format
+msgid "&Loop Playlist"
+msgstr "Wiedergabeliste &wiederholen"
+
+#: juk.cpp:314
+#, kde-format
+msgid "&Resize Playlist Columns Manually"
+msgstr "Spaltenbreite in der Wiedergabeliste &manuell einstellen"
+
+#: juk.cpp:319
+#, kde-format
+msgctxt "silence playback"
+msgid "Mute"
+msgstr "Stumm"
+
+#: juk.cpp:323
+#, kde-format
+msgid "Volume Up"
+msgstr "Lauter"
+
+#: juk.cpp:327
+#, kde-format
+msgid "Volume Down"
+msgstr "Leiser"
+
+#: juk.cpp:331
+#, kde-format
+msgid "Play / Pause"
+msgstr "Wiedergabe / Pause"
+
+#: juk.cpp:335
+#, kde-format
+msgid "Seek Forward"
+msgstr "Vorwärts suchen"
+
+#: juk.cpp:339
+#, kde-format
+msgid "Seek Back"
+msgstr "Rückwärts suchen"
+
+#: juk.cpp:343
+#, kde-format
+msgid "Show / Hide"
+msgstr "Anzeigen / Ausblenden"
+
+#: juk.cpp:350
+#, kde-format
+msgid "&Dock in System Tray"
+msgstr "Im Systembereich der Kontrollleiste an&docken"
+
+#: juk.cpp:354
+#, kde-format
+msgid "&Stay in System Tray on Close"
+msgstr "Nach dem Schließen in der Kontrollleiste &bleiben"
+
+#: juk.cpp:357
+#, kde-format
+msgid "Popup &Track Announcement"
+msgstr "Titel&ankündigung anzeigen"
+
+#: juk.cpp:360
+#, kde-format
+msgid "Save &Play Queue on Exit"
+msgstr "Warteschlange beim &Beenden speichern"
+
+#: juk.cpp:363
+#, kde-format
+msgid "&Tag Guesser..."
+msgstr "Metadaten &raten ..."
+
+#: juk.cpp:366
+#, kde-format
+msgid "&File Renamer..."
+msgstr "Dateien &umbenennen ..."
+
+#: juk.cpp:369
+#, kde-format
+msgid "&Configure scrobbling..."
+msgstr "&Last.fm einrichten ..."
+
+#: juk.cpp:376
+#, kde-format
+msgid "Track Position"
+msgstr "Titelposition"
+
+#: juk.cpp:378 slider.cpp:125
+#, kde-format
+msgid "Volume"
+msgstr "Lautstärke"
+
+#: juk.cpp:548
+#, kde-format
+msgid ""
+"<qt>Closing the main window will keep JuK running in the system tray. Use "
+"Quit from the File menu to quit the application.</qt>"
+msgstr ""
+"<qt>JuK bleibt auch nach dem Schließen in der Kontrollleiste geladen. Zum "
+"Beenden verwenden Sie bitte den Eintrag „Beenden“ im Menü „Datei“.</qt>"
+
+#: juk.cpp:550
+#, kde-format
+msgid "Docking in System Tray"
+msgstr "Angedockt in der Kontrollleiste"
+
+#: juktag.cpp:93
+#, kde-format
+msgctxt "a playing track, %1 is artist, %2 is song title"
+msgid "%1 - <i>%2</i>"
+msgstr "%1 – <i>%2</i>"
+
+#. i18n: ectx: Menu (file)
+#: jukui-rtl.rc:4 jukui.rc:6
+#, kde-format
+msgid "&File"
+msgstr "&Datei"
+
+#. i18n: ectx: Menu (view)
+#: jukui-rtl.rc:26 jukui.rc:28
+#, kde-format
+msgid "&View"
+msgstr "&Ansicht"
+
+#. i18n: ectx: Menu (player)
+#: jukui-rtl.rc:39 jukui.rc:41
+#, kde-format
+msgid "&Player"
+msgstr "&Wiedergabe"
+
+#. i18n: ectx: Menu (playlist)
+#: jukui-rtl.rc:56 jukui.rc:58
+#, kde-format
+msgid "&Tagger"
+msgstr "&Metadaten"
+
+#. i18n: ectx: Menu (settings)
+#: jukui-rtl.rc:67 jukui.rc:69
+#, kde-format
+msgid "&Settings"
+msgstr "&Einstellungen"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: jukui-rtl.rc:80 jukui.rc:82
+#, kde-format
+msgid "Main Toolbar"
+msgstr "Haupt-Werkzeugleiste"
+
+#. i18n: ectx: ToolBar (playToolBar)
+#: jukui-rtl.rc:98 jukui.rc:100
+#, kde-format
+msgid "Play Toolbar"
+msgstr "Wiedergabe-Werkzeugleiste"
+
+#: keydialog.cpp:100
+#, kde-format
+msgid "Configure Shortcuts"
+msgstr "Kurzbefehle festlegen"
+
+#: keydialog.cpp:116
+#, kde-format
+msgid "Global Shortcuts"
+msgstr "Globale Kurzbefehle"
+
+#: keydialog.cpp:122
+#, kde-format
+msgid "&No keys"
+msgstr "&Keine Tasten"
+
+#: keydialog.cpp:126
+#, kde-format
+msgid "&Standard keys"
+msgstr "&Standardtasten"
+
+#: keydialog.cpp:130
+#, kde-format
+msgid "&Multimedia keys"
+msgstr "&Multimediatasten"
+
+#: keydialog.cpp:136
+#, kde-format
+msgid ""
+"Here you can select the keys used as global shortcuts to control the player"
+msgstr "Hier können globale Tastaturkurzbefehle festgelegt werden"
+
+#: lyricswidget.cpp:51
+#, kde-format
+msgid "Show &Lyrics"
+msgstr "&Liedtext anzeigen"
+
+#: lyricswidget.cpp:78
+#, kde-format
+msgid "<i>No file playing.</i>"
+msgstr "<i>Es wird keine Datei abgespielt</i>"
+
+#: lyricswidget.cpp:83
+#, kde-format
+msgid "<i>Loading...</i>"
+msgstr "<i>Laden ...</i>"
+
+#: lyricswidget.cpp:88
+#, kde-format
+msgid ""
+"<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
+msgstr ""
+"<i>Liedtexte für %1 sind zurzeit nicht verfügbar (kein Anbieter von "
+"Liedtexten)</i>"
+
+#: lyricswidget.cpp:129 lyricswidget.cpp:158
+#, kde-format
+msgid "<span style='color:red'>Error while retrieving lyrics!</span>"
+msgstr "<span style='color:red'>Fehler beim Abholen der Liedtexte</span>"
+
+#: lyricswidget.cpp:174
+#, kde-format
+msgid "No lyrics available."
+msgstr "Keine Liedtexte verfügbar."
+
+#: lyricswidget.cpp:183
+#, kde-format
+msgid "<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>"
+msgstr ""
+"<br /><br /><i>Liedtexte werden von <a href='%1'> zur Verfügung gestellt</"
+"a></i>"
+
+#: main.cpp:39
+#, kde-format
+msgid "Jukebox and music manager by the KDE community"
+msgstr "Jukebox und Musikverwaltung von der KDE-Gemeinschaft"
+
+#: main.cpp:40
+#, kde-format
+msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+msgstr "Copyright 2002–2021, Scott Wheeler, Michael Pyne und Andere"
+
+#: main.cpp:44
+#, kde-format
+msgid "Scott Wheeler"
+msgstr "Scott Wheeler"
+
+#: main.cpp:44
+#, kde-format
+msgid "Author, chief dork and keeper of the funk"
+msgstr "Autor, Depp vom Dienst und Hüter des FunKs"
+
+#: main.cpp:45
+#, kde-format
+msgid "Michael Pyne"
+msgstr "Michael Pyne"
+
+#: main.cpp:45
+#, kde-format
+msgid "Assistant superhero, fixer of many things"
+msgstr "Assistierender Superheld, Retter vieler Dinge"
+
+#: main.cpp:46
+#, kde-format
+msgid "Kacper Kasper"
+msgstr "Kacper Kasper"
+
+#: main.cpp:46
+#, kde-format
+msgid "Porting to KDE Frameworks 5 when no one else was around"
+msgstr "Portierung auf KDE Frameworks 5 als kein anderer es tun wollte"
+
+#: main.cpp:47
+#, kde-format
+msgid "Eike Hein"
+msgstr "Eike Hein"
+
+#: main.cpp:47
+#, kde-format
+msgid "MPRIS2 Interface implementation."
+msgstr "Implementierung der MPRIS2-Schnittstelle."
+
+#: main.cpp:48
+#, kde-format
+msgid "Martin Sandsmark"
+msgstr "Martin Sandsmark"
+
+#: main.cpp:48
+#, kde-format
+msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
+msgstr ""
+"Unterstützung für Last.fm-Übermittlung, Liedtexte, Vorbereitung für KDE-"
+"Frameworks 5"
+
+#: main.cpp:49
+#, kde-format
+msgid "Γιώργος Κυλάφας (Giorgos Kylafas)"
+msgstr "Γιώργος Κυλάφας (Giorgos Kylafas)"
+
+#: main.cpp:49
+#, kde-format
+msgid "Badly-needed tag editor bugfixes."
+msgstr "Dringend benötigte Fehlerkorrekturen im Metadaten-Editor."
+
+#: main.cpp:50
+#, kde-format
+msgid "Georg Grabler"
+msgstr "Georg Grabler"
+
+#: main.cpp:50
+#, kde-format
+msgid "More KDE Platform 4 porting efforts"
+msgstr "Weitere Portierung auf KDE-4-Plattform"
+
+#: main.cpp:51
+#, kde-format
+msgid "Laurent Montel"
+msgstr "Laurent Montel"
+
+#: main.cpp:51
+#, kde-format
+msgid "Porting to KDE Platform 4 when no one else was around"
+msgstr "Portierung auf KDE Platform 4 als kein anderer es tun wollte"
+
+#: main.cpp:52
+#, kde-format
+msgid "Nathan Toone"
+msgstr "Nathan Toone"
+
+#: main.cpp:52
+#, kde-format
+msgid "Album cover manager"
+msgstr "Cover-Verwaltung"
+
+#: main.cpp:53
+#, kde-format
+msgid "Matthias Kretz"
+msgstr "Matthias Kretz"
+
+#: main.cpp:53
+#, kde-format
+msgid "Friendly, neighborhood aRts guru"
+msgstr "Der freundliche aRts-Guru von nebenan"
+
+#: main.cpp:54
+#, kde-format
+msgid "Daniel Molkentin"
+msgstr "Daniel Molkentin"
+
+#: main.cpp:54
+#, kde-format
+msgid ""
+"System tray docking, \"inline\" tag editing,\n"
+"bug fixes, evangelism, moral support"
+msgstr ""
+"Andocken an die Kontrollleiste, „eingebautes“ Bearbeiten von Metadaten,\n"
+"Fehlerbehebung, Bekehrungstätigkeit, moralische Unterstützung"
+
+#: main.cpp:55
+#, kde-format
+msgid "Tim Jansen"
+msgstr "Tim Jansen"
+
+#: main.cpp:55
+#, kde-format
+msgid "GStreamer port"
+msgstr "Unterstützung für GStreamer"
+
+#: main.cpp:56
+#, kde-format
+msgid "Stefan Asserhäll"
+msgstr "Stefan Asserhäll"
+
+#: main.cpp:56
+#, kde-format
+msgid "Global keybindings support"
+msgstr "Globale Tastenkürzel"
+
+#: main.cpp:57
+#, kde-format
+msgid "Stephen Douglas"
+msgstr "Stephen Douglas"
+
+#: main.cpp:57
+#, kde-format
+msgid "Track announcement popups"
+msgstr "Automatische Titelanzeigen"
+
+#: main.cpp:58
+#, kde-format
+msgid "Frerich Raabe"
+msgstr "Frerich Raabe"
+
+#: main.cpp:58
+#, kde-format
+msgid "Automagic track data guessing, bugfixes"
+msgstr "Automatisches Raten von Metadaten, Fehlerbehebung"
+
+#: main.cpp:59
+#, kde-format
+msgid "Zack Rusin"
+msgstr "Zack Rusin"
+
+#: main.cpp:59
+#, kde-format
+msgid "More automagical things, now using MusicBrainz"
+msgstr "Weitere automatische Zaubereien, MusicBrainz wird jetzt unterstützt"
+
+#: main.cpp:60
+#, kde-format
+msgid "Adam Treat"
+msgstr "Adam Treat"
+
+#: main.cpp:60
+#, kde-format
+msgid "Co-conspirator in MusicBrainz wizardry"
+msgstr "Mitverschwörer bei der MusicBrainz-Zauberei"
+
+#: main.cpp:61
+#, kde-format
+msgid "Maks Orlovich"
+msgstr "Maks Orlovich"
+
+#: main.cpp:61
+#, kde-format
+msgid "Making JuK friendlier to people with terabytes of music"
+msgstr "Hat JuK für Leute mit TeraBytes an Musik angepasst"
+
+#: main.cpp:62
+#, kde-format
+msgid "Antonio Larrosa Jimenez"
+msgstr "Antonio Larrosa Jimenez"
+
+#: main.cpp:62
+#, kde-format
+msgid "DCOP interface"
+msgstr "DCOP-Schnittstelle"
+
+#: main.cpp:63
+#, kde-format
+msgid "Allan Sandfeld Jensen"
+msgstr "Allan Sandfeld Jensen"
+
+#: main.cpp:63
+#, kde-format
+msgid "FLAC and MPC support"
+msgstr "Unterstützung für FLAC und MPC"
+
+#: main.cpp:64
+#, kde-format
+msgid "Pascal Klein"
+msgstr "Pascal Klein"
+
+#: main.cpp:64
+#, kde-format
+msgid "Gimper of splash screen"
+msgstr "Zeichner des Begrüßungsbildschirms"
+
+#: main.cpp:69
+#, kde-format
+msgid "File(s) to open"
+msgstr "Zu öffnende Datei(en)"
+
+#: main.cpp:86
+#, kde-format
+msgid ""
+"JuK running in docked mode\n"
+"Use context menu in system tray to restore."
+msgstr ""
+"JuK läuft im Systemabschnitt der Kontrollleiste\n"
+"Verwenden Sie das Kontextmenü im Systemabschnitt der Kontrollleiste zum "
+"Wiederherstellen."
+
+#: main.cpp:87
+#, kde-format
+msgid "JuK Docked"
+msgstr "JuK in der Kontrollleiste"
+
+#: mediafiles.cpp:103
+#, kde-format
+msgctxt "open audio file"
+msgid "Open"
+msgstr "Öffnen"
+
+#: mediafiles.cpp:116
+#, kde-format
+msgid "Save Playlist"
+msgstr "Wiedergabeliste speichern"
+
+#: mediafiles.cpp:118
+#, kde-format
+msgctxt "For save dialog, %1 is always .m3u"
+msgid "Playlists (*%1)"
+msgstr "Wiedergabelisten (*%1)"
+
+#: nowplaying.cpp:316
+#, kde-format
+msgid "back to playlist"
+msgstr "Zurück zur Wiedergabeliste"
+
+#: playermanager.cpp:59
+#, kde-format
+msgctxt "%1 is the artist and %2 is the title of the currently playing track."
+msgid "%1 - %2 :: JuK"
+msgstr "%1 - %2 :: JuK"
+
+#: playermanager.cpp:367
+#, kde-format
+msgctxt ""
+"%1 will be the /path/to/file, %2 will be some string from Phonon describing "
+"the error"
+msgid ""
+"JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
+"following reason:<nl/><message>%2</message>"
+msgstr ""
+"JuK kann die Audiodatei<nl/><filename>%1</filename><nl/>aus folgendem Grund "
+"nicht abspielen:<nl/><message>%2</message>"
+
+#: playlist.cpp:341
+#, kde-format
+msgid "Could not save to file %1."
+msgstr "Die Datei %1 lässt sich nicht speichern."
+
+#: playlist.cpp:574
+#, kde-format
+msgid "You are about to open directory. Are you sure you want to continue?"
+msgid_plural ""
+"You are about to open %1 directories. Are you sure you want to continue?"
+msgstr[0] ""
+"Sie sind dabei, einen Ordner zu öffnen. Möchten Sie damit wirklich "
+"fortfahren?"
+msgstr[1] ""
+"Sie sind dabei, die %1 Ordner zu öffnen. Möchten Sie damit wirklich "
+"fortfahren?"
+
+#: playlist.cpp:577 playlistcollection.cpp:982
+#, kde-format
+msgid "Open Containing Folder"
+msgstr "Ordner mit diesem Inhalt öffnen"
+
+#: playlist.cpp:644
+#, kde-format
+msgid "Are you sure you want to delete these covers?"
+msgstr "Sind Sie sicher, dass Sie diese Cover löschen möchten?"
+
+#: playlist.cpp:646
+#, kde-format
+msgid "&Delete Covers"
+msgstr "&Cover löschen"
+
+#: playlist.cpp:675
+#, kde-format
+msgid "Select Cover Image File"
+msgstr "Cover-Bilddatei auswählen"
+
+#: playlist.cpp:677
+#, kde-format
+msgid "Images (*.png *.jpg)"
+msgstr "Bilder (*.png *.jpg)"
+
+#: playlist.cpp:875
+#, kde-format
+msgid "Could not delete these files"
+msgstr "Die angegebenen Dateien lassen sich nicht löschen."
+
+#: playlist.cpp:876
+#, kde-format
+msgid "Could not move these files to the Trash"
+msgstr ""
+"Die angegebenen Dateien lassen sich nicht in den Papierkorb verschieben"
+
+#: playlist.cpp:1403
+#, kde-format
+msgid "Track Name"
+msgstr "Titel"
+
+#: playlist.cpp:1406
+#, kde-format
+msgid "Cover"
+msgstr "Cover"
+
+#: playlist.cpp:1407 tagrenameroptions.cpp:112
+#, kde-format
+msgctxt "cd track number"
+msgid "Track"
+msgstr "Stück"
+
+#: playlist.cpp:1409 tagrenameroptions.cpp:120
+#, kde-format
+msgid "Year"
+msgstr "Jahr"
+
+#: playlist.cpp:1410
+#, kde-format
+msgid "Length"
+msgstr "Länge"
+
+#: playlist.cpp:1411
+#, kde-format
+msgid "Bitrate"
+msgstr "Bitrate"
+
+#: playlist.cpp:1412
+#, kde-format
+msgid "Comment"
+msgstr "Kommentar"
+
+#: playlist.cpp:1413
+#, kde-format
+msgid "File Name"
+msgstr "Dateiname"
+
+#: playlist.cpp:1414
+#, kde-format
+msgid "File Name (full path)"
+msgstr "Dateiname (vollständiger Pfad)"
+
+#: playlist.cpp:1605
+#, kde-format
+msgid "&Show Columns"
+msgstr "&Spalten anzeigen"
+
+#: playlist.cpp:1712
+#, kde-format
+msgid "Add to Play Queue"
+msgstr "An die Warteschlange anhängen"
+
+#: playlist.cpp:1726 playlist.cpp:2180
+#, kde-format
+msgid "Edit"
+msgstr "Bearbeiten"
+
+#: playlist.cpp:1742
+#, kde-format
+msgid "Create Playlist From Selected Items..."
+msgstr "Wiedergabeliste aus den ausgewählten Titeln erstellen ..."
+
+#: playlist.cpp:2094
+#, kde-format
+msgid "Edit '%1'"
+msgstr "„%1“ bearbeiten"
+
+#: playlist.cpp:2178
+#, kde-format
+msgid "This will edit multiple files. Are you sure?"
+msgstr "Dieser Vorgang verändert mehrere Dateien. Sind Sie sicher?"
+
+#: playlist.cpp:2237 playlistcollection.h:189
+#, kde-format
+msgid "Create New Playlist"
+msgstr "Neue Wiedergabeliste erstellen"
+
+#: playlist.cpp:2246
+#, kde-format
+msgid ""
+"Manual column widths have been enabled. You can switch back to automatic "
+"column sizes in the view menu."
+msgstr ""
+"Manuelle Spaltenbreiten sind aktiviert. Zurückschalten zu automatischen "
+"Spaltenbreiten können Sie im Menü „Ansicht“."
+
+#: playlist.cpp:2249
+#, kde-format
+msgid "Manual Column Widths Enabled"
+msgstr "Manuelle Spaltenbreite aktiviert"
+
+#: playlistbox.cpp:102
+#, kde-format
+msgid "View Modes"
+msgstr "Anzeigemodi"
+
+#: playlistbox.cpp:160
+#, kde-format
+msgid "Show &History"
+msgstr "&Verlauf anzeigen"
+
+#: playlistbox.cpp:221 playlistcollection.cpp:417
+#, kde-format
+msgctxt "verb, copy the playlist"
+msgid "Duplicate"
+msgstr "Duplizieren"
+
+#: playlistbox.cpp:399
+#, kde-format
+msgid "Do you want to delete these files from the disk as well?"
+msgstr "Möchten Sie diese Titel auch von der Festplatte löschen?"
+
+#: playlistbox.cpp:399
+#, kde-format
+msgid "Keep"
+msgstr "Behalten"
+
+#: playlistbox.cpp:409
+#, kde-format
+msgid "Could not delete these files."
+msgstr "Die angegebenen Dateien ließen sich nicht löschen."
+
+#: playlistbox.cpp:417
+#, kde-format
+msgid "Are you sure you want to remove these playlists from your collection?"
+msgstr ""
+"Sind Sie sicher, dass Sie diese Titel aus Ihrer Sammlung löschen möchten?"
+
+#: playlistbox.cpp:420
+#, kde-format
+msgid "Remove Items?"
+msgstr "Diese Titel löschen?"
+
+#. i18n: ectx: property (text), widget (QPushButton, bRemove)
+#: playlistbox.cpp:421 tagguesserconfigdlgwidget.ui:100
+#, kde-format
+msgid "&Remove"
+msgstr "Ent&fernen"
+
+#: playlistbox.cpp:610
+#, kde-format
+msgid "Hid&e"
+msgstr "Ausbl&enden"
+
+#: playlistbox.cpp:614 playlistcollection.cpp:971
+#, kde-format
+msgid "R&emove"
+msgstr "Ent&fernen"
+
+#: playlistcollection.cpp:201
+#, kde-format
+msgid "Dynamic List"
+msgstr "Dynamische Wiedergabeliste"
+
+#: playlistcollection.cpp:242
+#, kde-format
+msgid "Now Playing"
+msgstr "Aktueller Titel"
+
+#: playlistcollection.cpp:344
+#, kde-format
+msgid ""
+"Do you want to add these items to the current list or to the collection list?"
+msgstr ""
+"Sollen diese Titel zur aktuellen Wiedergabeliste oder zur Sammlung "
+"hinzugefügt werden?"
+
+#: playlistcollection.cpp:346
+#, kde-format
+msgctxt "current playlist"
+msgid "Current"
+msgstr "Aktuelle"
+
+#: playlistcollection.cpp:347
+#, kde-format
+msgid "Collection"
+msgstr "Sammlung"
+
+#: playlistcollection.cpp:405
+#, kde-format
+msgid "Rename"
+msgstr "Umbenennen"
+
+#: playlistcollection.cpp:536
+#, kde-format
+msgid "Search Playlist"
+msgstr "Wiedergabeliste durchsuchen"
+
+#: playlistcollection.cpp:561
+#, kde-format
+msgid "Create Folder Playlist"
+msgstr "Neuen Wiedergabelistenordner erstellen"
+
+#: playlistcollection.cpp:601
+#, kde-format
+msgid "History"
+msgstr "Verlauf"
+
+#: playlistcollection.cpp:767
+#, kde-format
+msgid "Please enter a name for this playlist:"
+msgstr "Bitte geben Sie einen Namen für diese Wiedergabeliste an:"
+
+#: playlistcollection.cpp:915
+#, kde-format
+msgctxt "new playlist"
+msgid "&New"
+msgstr "&Neu"
+
+#: playlistcollection.cpp:918
+#, kde-format
+msgid "&Empty Playlist..."
+msgstr "L&eere Wiedergabeliste ..."
+
+#: playlistcollection.cpp:922
+#, kde-format
+msgid "&Search Playlist..."
+msgstr "Wiedergabeliste durch&suchen"
+
+#: playlistcollection.cpp:926
+#, kde-format
+msgid "Playlist From &Folder..."
+msgstr "Wiedergabeliste aus &Ordner ..."
+
+#: playlistcollection.cpp:934
+#, kde-format
+msgid "&Guess Tag Information"
+msgstr "Metadaten &raten"
+
+#: playlistcollection.cpp:939
+#, kde-format
+msgid "From &File Name"
+msgstr "Vom &Dateinamen"
+
+#: playlistcollection.cpp:943
+#, kde-format
+msgid "From &Internet"
+msgstr "Aus dem &Internet"
+
+#: playlistcollection.cpp:948
+#, kde-format
+msgid "Guess Tag Information From &File Name"
+msgstr "Metadaten anhand des Dateinamens &raten"
+
+#: playlistcollection.cpp:955
+#, kde-format
+msgid "Play First Track"
+msgstr "Ersten Titel abspielen"
+
+#: playlistcollection.cpp:957
+#, kde-format
+msgid "Play Next Album"
+msgstr "Nächstes Album abspielen"
+
+#: playlistcollection.cpp:964
+#, kde-format
+msgid "Manage &Folders..."
+msgstr "&Ordner verwalten ..."
+
+#: playlistcollection.cpp:966
+#, kde-format
+msgid "&Rename..."
+msgstr "&Umbenennen ..."
+
+#: playlistcollection.cpp:968
+#, kde-format
+msgctxt "verb, copy the playlist"
+msgid "D&uplicate..."
+msgstr "D&uplizieren ..."
+
+#: playlistcollection.cpp:973
+#, kde-format
+msgid "Reload"
+msgstr "Neu laden"
+
+#: playlistcollection.cpp:975
+#, kde-format
+msgid "Edit Search..."
+msgstr "Suche bearbeiten ..."
+
+#: playlistcollection.cpp:978
+#, kde-format
+msgid "&Delete"
+msgstr "&Löschen"
+
+#: playlistcollection.cpp:980
+#, kde-format
+msgid "Refresh"
+msgstr "Aktualisieren"
+
+#: playlistcollection.cpp:984
+#, kde-format
+msgid "&Rename File"
+msgstr "&Umbenennen"
+
+#: playlistcollection.cpp:991
+#, kde-format
+msgid "&View Cover"
+msgstr "Cover &anzeigen"
+
+#: playlistcollection.cpp:993
+#, kde-format
+msgid "Get Cover From &File..."
+msgstr "Cover aus einer &Datei ..."
+
+#: playlistcollection.cpp:996
+#, kde-format
+msgid "Get Cover From &Internet..."
+msgstr "Cover aus dem &Internet ..."
+
+#: playlistcollection.cpp:1000
+#, kde-format
+msgid "&Delete Cover"
+msgstr "Cover &löschen"
+
+#: playlistcollection.cpp:1002
+#, kde-format
+msgid "Show Cover &Manager"
+msgstr "Cover-Verwaltung anzeigen"
+
+#: playlistcollection.cpp:1006
+#, kde-format
+msgid "Show &Play Queue"
+msgstr "Wa&rteschlange anzeigen"
+
+#: playlistcollection.h:192
+#, kde-format
+msgid "Playlist"
+msgstr "Wiedergabeliste"
+
+#: playlistsplitter.cpp:157
+#, kde-format
+msgid "Show &Search Bar"
+msgstr "&Suchleiste anzeigen"
+
+#: playlistsplitter.cpp:160
+#, kde-format
+msgid "Edit Track Search"
+msgstr "Suche bearbeiten"
+
+#: scrobbleconfigdlg.cpp:38
+#, kde-format
+msgid "Configure scrobbling..."
+msgstr "Last.fm einrichten ..."
+
+#: scrobbleconfigdlg.cpp:42
+#, kde-format
+msgid "Test login..."
+msgstr "Testanmeldung ..."
+
+#: scrobbleconfigdlg.cpp:49
+#, kde-format
+msgid ""
+"Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
+msgstr ""
+"Geben Sie bitte Ihre <a href=\"https://last.fm/\">last.fm</a>-Benutzerdaten "
+"ein:"
+
+#: scrobbleconfigdlg.cpp:53
+#, kde-format
+msgid "Username:"
+msgstr "Benutzername:"
+
+#: scrobbleconfigdlg.cpp:54
+#, kde-format
+msgid "Password:"
+msgstr "Passwort:"
+
+#: scrobbleconfigdlg.cpp:83
+#, kde-format
+msgid ""
+"KWallet is unavailable, your Last.fm credentials will be stored without "
+"encryption."
+msgstr ""
+"Der Passwortspeicher KWallet ist nicht verfügbar, Ihre Anmeldedaten für Last."
+"fm werden unverschlüsselt gespeichert."
+
+#: scrobbleconfigdlg.cpp:83
+#, kde-format
+msgid "KWallet is unavailable"
+msgstr "KWallet ist nicht verfügbar"
+
+#: scrobbleconfigdlg.cpp:126
+#, kde-format
+msgid "Validating login..."
+msgstr "Benutzerdaten werden geprüft ..."
+
+#: scrobbleconfigdlg.cpp:136
+#, kde-format
+msgid "Login invalid."
+msgstr "Benutzerkennung ungültig."
+
+#: scrobbleconfigdlg.cpp:144
+#, kde-format
+msgid "Login valid."
+msgstr "Benutzerkennung gültig."
+
+#: searchwidget.cpp:72
+#, kde-format
+msgid "Normal Matching"
+msgstr "Normale Übereinstimmung"
+
+#: searchwidget.cpp:73
+#, kde-format
+msgid "Case Sensitive"
+msgstr "Groß-/Kleinschreibung beachten"
+
+#: searchwidget.cpp:74
+#, kde-format
+msgid "Pattern Matching"
+msgstr "Übereinstimmende Muster"
+
+#: searchwidget.cpp:168
+#, kde-format
+msgid "All Visible"
+msgstr "Alle sichtbaren"
+
+#: searchwidget.cpp:199
+#, kde-format
+msgid "Search..."
+msgstr "Suchen ..."
+
+#: slider.cpp:126
+#, kde-format
+msgid "100%"
+msgstr "100 %"
+
+#: slider.cpp:127
+#, kde-format
+msgid "80%"
+msgstr "80 %"
+
+#: slider.cpp:128
+#, kde-format
+msgid "60%"
+msgstr "60 %"
+
+#: slider.cpp:129
+#, kde-format
+msgid "40%"
+msgstr "40 %"
+
+#: slider.cpp:130
+#, kde-format
+msgid "20%"
+msgstr "20 %"
+
+#: slider.cpp:131
+#, kde-format
+msgid "0%"
+msgstr "0 %"
+
+#: slideraction.cpp:76
+#, kde-format
+msgid "Seeking is not supported in this file with your audio settings."
+msgstr ""
+"Mit Ihren Audioeinstellungen wird der Suchlauf in dieser Datei nicht "
+"unterstützt."
+
+#: statuslabel.cpp:85
+#, kde-format
+msgid "Jump to the currently playing item"
+msgstr "Zum derzeit spielenden Titel springen"
+
+#: statuslabel.cpp:115
+#, kde-format
+msgid "1 item"
+msgid_plural "%1 items"
+msgstr[0] "1 Element"
+msgstr[1] "%1 Elemente"
+
+#: systemtray.cpp:157
+#, kde-format
+msgid "Redisplay Popup"
+msgstr "Ankündigung noch einmal zeigen"
+
+#: tageditor.cpp:476
+#, kde-format
+msgid "Show &Tag Editor"
+msgstr "&Metadaten-Editor anzeigen"
+
+#: tageditor.cpp:480
+#, kde-format
+msgid "&Save"
+msgstr "&Speichern"
+
+#: tageditor.cpp:608
+#, kde-format
+msgid "Do you want to save your changes to:\n"
+msgstr "Möchten Sie Ihre Änderungen speichern nach:\n"
+
+#: tageditor.cpp:610
+#, kde-format
+msgid "Save Changes"
+msgstr "Änderungen speichern"
+
+#. i18n: ectx: property (text), widget (QLabel, fileNameLabel)
+#: tageditor.ui:19
+#, kde-format
+msgid "F&ile name:"
+msgstr "&Dateiname:"
+
+#. i18n: ectx: property (text), widget (QLabel, trackLabel)
+#: tageditor.ui:29
+#, kde-format
+msgid "T&rack:"
+msgstr "&Stück-Nr.:"
+
+#. i18n: ectx: property (text), widget (QLabel, artistNameLabel)
+#: tageditor.ui:39
+#, kde-format
+msgid "&Artist name:"
+msgstr "&Interpret:"
+
+#. i18n: ectx: property (text), widget (QLabel, albumNameLabel)
+#: tageditor.ui:49
+#, kde-format
+msgid "Album &name:"
+msgstr "&Album:"
+
+#. i18n: ectx: property (text), widget (QLabel, genreLabel)
+#: tageditor.ui:59
+#, kde-format
+msgid "&Genre:"
+msgstr "&Genre:"
+
+#. i18n: ectx: property (text), widget (QLabel, yearLabel)
+#: tageditor.ui:72
+#, kde-format
+msgid "&Year:"
+msgstr "&Jahr:"
+
+#. i18n: ectx: property (text), widget (QLabel, lengthLabel)
+#: tageditor.ui:96
+#, kde-format
+msgid "&Length:"
+msgstr "&Länge:"
+
+#. i18n: ectx: property (text), widget (QLabel, bitrateLabel)
+#: tageditor.ui:106
+#, kde-format
+msgid "&Bitrate:"
+msgstr "&Bitrate:"
+
+#. i18n: ectx: property (text), widget (QLabel, commentLabel)
+#: tageditor.ui:116
+#, kde-format
+msgid "&Comment:"
+msgstr "&Kommentar:"
+
+#. i18n: ectx: property (text), widget (QLabel, trackNameLabel)
+#: tageditor.ui:184
+#, kde-format
+msgid "Trac&k name:"
+msgstr "&Titel:"
+
+#. i18n: ectx: property (text), widget (QCheckBox, artistNameEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, trackNameEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, albumNameEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, genreEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, trackEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, yearEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, commentEnable)
+#: tageditor.ui:194 tageditor.ui:207 tageditor.ui:217 tageditor.ui:227
+#: tageditor.ui:237 tageditor.ui:247 tageditor.ui:257
+#, kde-format
+msgid "Enable"
+msgstr "Aktivieren"
+
+#: tagguesserconfigdlg.cpp:39
+#, kde-format
+msgid "Tag Guesser Configuration"
+msgstr "Einrichtung des Metadaten-Raters"
+
+#. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
+#: tagguesserconfigdlgwidget.ui:18
+#, kde-format
+msgid "Currently used file name schemes"
+msgstr "Derzeit genutzte Dateinamenschemata"
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, lvSchemes)
+#: tagguesserconfigdlgwidget.ui:29
+#, no-c-format, kde-format
+msgid ""
+"Here you can see the currently configured file name schemes which the "
+"\"Guess Tag Information From File Name\" entry in the song's context menu "
+"uses to extract tag information from a file name. Each string may contain "
+"one of the following placeholders:<ul>\n"
+"<li>%t: Title</li>\n"
+"<li>%a: Artist</li>\n"
+"<li>%A: Album</li>\n"
+"<li>%T: Track</li>\n"
+"<li>%c: Comment</li>\n"
+"</ul>\n"
+"For example, the file name scheme \"[%T] %a - %t\" would match \"[01] Deep "
+"Purple - Smoke on the water\" but not \"(Deep Purple) Smoke on the water\". "
+"For that second name, you would use the scheme \"(%a) %t\".<p/>\n"
+"Note that the order in which the schemes appear in the list is relevant, "
+"since the tag guesser will go through the list from the top to the bottom, "
+"and use the first matching scheme."
+msgstr ""
+"Diese Schemata werden vom Eintrag „Metadaten anhand des Dateinamens raten“ "
+"im Kontextmenü eines Songs verwendet, um aus dem Dateinamen mögliche "
+"Metadaten zu extrahieren. Jeder Eintrag kann folgende Platzhalter enthalten:"
+"<ul>\n"
+"<li>%t: Titel</li>\n"
+"<li>%a: Interpret</li>\n"
+"<li>%A: Album</li>\n"
+"<li>%T: Stücknummer</li>\n"
+"<li>%c: Kommentar</li>\n"
+"</ul>\n"
+"So passt zum Beispiel das Schema „[%T] %a – %t“ zu „[01] Deep Purple – Smoke "
+"on the water“ aber nicht zu „(Deep Purple) Smoke on the water“. Für den "
+"zweiten Namen sollte dann das Schema „(%a) %t“ verwendet werden.<p/>\n"
+"Die Reihenfolge der Schemata in dieser Liste gibt die Priorität an. Das von "
+"oben her erste passende wird verwendet."
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, bMoveUp)
+#: tagguesserconfigdlgwidget.ui:42
+#, kde-format
+msgid "Move scheme up"
+msgstr "Schema nach oben verschieben"
+
+#. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveUp)
+#: tagguesserconfigdlgwidget.ui:45
+#, kde-format
+msgid ""
+"Press this button to move the currently selected scheme one step upwards."
+msgstr ""
+"Drucken Sie diesen Knopf, um das ausgewählte Schema eine Position nach oben "
+"zu bewegen."
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, bMoveDown)
+#: tagguesserconfigdlgwidget.ui:55
+#, kde-format
+msgid "Move scheme down"
+msgstr "Schema nach unten verschieben"
+
+#. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveDown)
+#: tagguesserconfigdlgwidget.ui:58
+#, kde-format
+msgid ""
+"Press this button to move the currently selected scheme one step downwards."
+msgstr ""
+"Drücken Sie diesen Knopf, um das ausgewählte Schema eine Position nach unten "
+"zu bewegen."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, bAdd)
+#: tagguesserconfigdlgwidget.ui:68
+#, kde-format
+msgid "Add a new scheme"
+msgstr "Eine neues Schema hinzufügen"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, bAdd)
+#: tagguesserconfigdlgwidget.ui:71
+#, kde-format
+msgid "Press this button to add a new file name scheme to the end of the list."
+msgstr ""
+"Mit diesem Knopf kann ein neues Umbenennungsschema an das Ende der Liste "
+"angehängt werden."
+
+#. i18n: ectx: property (text), widget (QPushButton, bAdd)
+#: tagguesserconfigdlgwidget.ui:74
+#, kde-format
+msgid "&Add"
+msgstr "&Hinzufügen"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, bModify)
+#: tagguesserconfigdlgwidget.ui:81
+#, kde-format
+msgid "Modify scheme"
+msgstr "Schema bearbeiten"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, bModify)
+#: tagguesserconfigdlgwidget.ui:84
+#, kde-format
+msgid "Press this button to modify the currently selected scheme."
+msgstr "Drücken Sie diesen Knopf, um das ausgewählte Schema zu bearbeiten."
+
+#. i18n: ectx: property (text), widget (QPushButton, bModify)
+#: tagguesserconfigdlgwidget.ui:87
+#, kde-format
+msgid "&Modify"
+msgstr "&Bearbeiten"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, bRemove)
+#: tagguesserconfigdlgwidget.ui:94
+#, kde-format
+msgid "Remove scheme"
+msgstr "Schema löschen"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, bRemove)
+#: tagguesserconfigdlgwidget.ui:97
+#, kde-format
+msgid ""
+"Press this button to remove the currently selected scheme from the list."
+msgstr ""
+"Drücken Sie diesen Knopf, um das ausgewählte Schema aus der Liste zu löschen."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: tagguesserconfigdlgwidget.ui:128
+#, no-c-format, kde-format
+msgid ""
+"You can use the following placeholders:\n"
+"%t: Title\n"
+"%A: Album\n"
+"%a: Artist\n"
+"%T: Track\n"
+"%c: Comment"
+msgstr ""
+"Die folgenden Platzhalter können verwendet werden:\n"
+"%t: Titel\n"
+"%A: Album\n"
+"%a: Interpret\n"
+"%T: Stücknummer\n"
+"%c: Kommentar"
+
+#: tagrenameroptions.cpp:100
+msgctxt "song title"
+msgid "Title"
+msgstr "Titel"
+
+#: tagrenameroptions.cpp:126
+msgctxt "unknown renamer category"
+msgid "Unknown"
+msgstr "Unbekannt"
+
+#: tagtransactionmanager.cpp:111
+#, kde-format
+msgid ""
+"This file already exists.\n"
+"Do you want to replace it?"
+msgstr ""
+"Diese Datei existiert bereits.\n"
+"Soll sie ersetzt werden?"
+
+#: tagtransactionmanager.cpp:112
+#, kde-format
+msgid "File Exists"
+msgstr "Datei existiert"
+
+#: tagtransactionmanager.cpp:112
+#, kde-format
+msgid "Replace"
+msgstr "Ersetzen"
+
+#: tagtransactionmanager.cpp:177
+#, kde-format
+msgid "The following files were unable to be changed."
+msgstr "Die folgenden Dateien ließen sich nicht ändern."
+
+#: tagtransactionmanager.cpp:179
+#, kde-format
+msgid "Error"
+msgstr "Fehler"
+
+#: treeviewitemplaylist.cpp:48
+#, kde-format
+msgid "artist"
+msgstr "Interpret"
+
+#: treeviewitemplaylist.cpp:50
+#, kde-format
+msgid "genre"
+msgstr "Genre"
+
+#: treeviewitemplaylist.cpp:52
+#, kde-format
+msgid "album"
+msgstr "Album"
+
+#: treeviewitemplaylist.cpp:56
+#, kde-format
+msgid "You are about to change the %1 on these files."
+msgstr "Sie sind dabei, die Eigenschaft „%1“ dieser Dateien zu ändern."
+
+#: treeviewitemplaylist.cpp:58
+#, kde-format
+msgid "Changing Track Tags"
+msgstr "Ändern der Metadaten"
+
+#: upcomingplaylist.cpp:31
+#, kde-format
+msgid "Play Queue"
+msgstr "Wiedergabe-Warteschlange"
+
+#: viewmode.cpp:64
+#, kde-format
+msgctxt "the normal viewing mode"
+msgid "Default"
+msgstr "Standard"
+
+#: viewmode.cpp:121
+#, kde-format
+msgctxt "compact viewing mode"
+msgid "Compact"
+msgstr "Kompakt"
+
+#: viewmode.cpp:150
+#, kde-format
+msgid "Tree"
+msgstr "Baum"
+
+#: viewmode.cpp:280
+#, kde-format
+msgid "Artists"
+msgstr "Interpreten"
+
+#: viewmode.cpp:283
+#, kde-format
+msgid "Albums"
+msgstr "Alben"
+
+#: viewmode.cpp:286
+#, kde-format
+msgid "Genres"
+msgstr "Genre"
+
+#: volumepopupbutton.cpp:76
+#, kde-format
+msgid "Mute/Unmute"
+msgstr "Stumm ein/aus"
+
+#: volumepopupbutton.cpp:114
+#, kde-format
+msgid "%1%"
+msgstr "%1 %"
+
+#: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
+#, kde-format
+msgid "Volume: %1% (muted)"
+msgstr "Lautstärke: %1 % (stumm)"
+
+#: volumepopupbutton.cpp:123
+#, kde-format
+msgid "Volume: %1%"
+msgstr "Lautstärke: %1 %"
+
+#: webimagefetcher.cpp:82
+#, kde-format
+msgid "Searching for cover. Please Wait..."
+msgstr "Es wird nach dem Cover gesucht. Bitte warten ..."
+
+#: webimagefetcher.cpp:144
+#, kde-format
+msgid "Album '%1' not found."
+msgstr "Das Album „%1“ wurde nicht gefunden."
+
+#: webimagefetcher.cpp:144
+#, kde-format
+msgctxt "@title:window"
+msgid "Album not Found"
+msgstr "Album nicht gefunden"
+
+#: webimagefetcher.cpp:146
+#, kde-format
+msgid ""
+"Error %1 when searching for cover:\n"
+"%2"
+msgstr ""
+"Fehler %1 bei der Suche nach dem Cover:\n"
+"%2"
+
+#: webimagefetcher.cpp:156
+#, kde-format
+msgid "No available cover for the album '%1'."
+msgstr "Es wurde kein Cover für das Album „%1“ gefunden."
+
+#: webimagefetcher.cpp:157
+#, kde-format
+msgctxt "@title:window"
+msgid "Cover not Available"
+msgstr "Cover nicht verfügbar"
+
+#: webimagefetcher.cpp:166
+#, kde-format
+msgid "Downloading cover. Please Wait..."
+msgstr "Das Cover wird heruntergeladen. Bitte warten ..."
+
+#: webimagefetcher.cpp:183
+#, kde-format
+msgid "Cover found"
+msgstr "Cover gefunden"
+
+#: webimagefetcher.cpp:190
+#, kde-format
+msgid "Failed to download requested cover art: %1"
+msgstr "Fehler beim Herunterladen des angeforderten Covers: %1"
+
+#: webimagefetcher.cpp:191
+#, kde-format
+msgctxt "@title:window"
+msgid "Could not download cover art"
+msgstr "Cover kann nicht herunterladen werden"
+
+#: webimagefetcher.cpp:213
+#, kde-format
+msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
+msgstr ""
+"Das Cover ist von <a href='https://last.fm/'>last.fm</a> geholt worden."
+
+#~ msgid "&lt;All Artists&gt;"
+#~ msgstr "&lt;Alle Interpreten&gt;"
+
+#~ msgid "Search:"
+#~ msgstr "Suchen:"
+
+#~ msgid "Porting to KF5 when no one else was around"
+#~ msgstr "Portierung auf KF5 als kein anderer es tun wollte"
+
+#~ msgid "Querying MusicBrainz server..."
+#~ msgstr "Abfrage des MusicBrainz-Servers ..."
+
+#~ msgid "No matches found."
+#~ msgstr "Keine Übereinstimmung gefunden."
+
+#~ msgid "Error connecting to MusicBrainz server."
+#~ msgstr "Die Verbindung mit dem MusicBrainz-Server ist fehlgeschlagen."
+
+#~ msgid "Internet Tag Guesser"
+#~ msgstr "Internet-Metadaten-Rater"
+
+#~ msgid "Select Best Possible Match"
+#~ msgstr "Das bestmögliche Ergebnis wählen"
+
+#~ msgid "1 day"
+#~ msgid_plural "%1 days"
+#~ msgstr[0] "1 Tag"
+#~ msgstr[1] "%1 Tage"
+
+#~ msgid "Music"
+#~ msgstr "Musik"
+
+#~ msgid "Crossfade Between Tracks"
+#~ msgstr "Stückwechsel überblenden"
+
+#~ msgid "Show Splash Screen on Startup"
+#~ msgstr "Begrüßungsbildschirm beim Start anzeigen"
+
+#~ msgid "Add Selected Items to Audio or Data CD"
+#~ msgstr "Ausgewählte Einträge zu Audio- oder Daten-CD hinzufügen"
+
+#~ msgid "Unable to start K3b."
+#~ msgstr "K3b lässt sich nicht starten."
+
+#~ msgid ""
+#~ "Create an audio mode CD suitable for CD players, or a data mode CD "
+#~ "suitable for computers and other digital music players?"
+#~ msgstr ""
+#~ "Soll eine Audio-CD für normale CD-Player oder eine Daten-CD für Computer "
+#~ "und andere digitale Wiedergabegeräte erstellt werden?"
+
+#~ msgid "Create K3b Project"
+#~ msgstr "K3b-Projekt erstellen"
+
+#~ msgid "Audio Mode"
+#~ msgstr "Audiomodus"
+
+#~ msgid "Data Mode"
+#~ msgstr "Datenmodus"
+
+#~ msgid "Add Playlist to Audio or Data CD"
+#~ msgstr "Wiedergabeliste zu Audio- oder Daten-CD hinzufügen"
+
+#~ msgctxt "%1 is a count of loaded music tracks"
+#~ msgid "Loading: %1"
+#~ msgstr "Laden von : %1"
+
+#~ msgid "Store"
+#~ msgstr "Speichern"
+
+#~ msgid "(muted)"
+#~ msgstr "(stumm)"
+
+#~ msgid "Last.fm scrobbling support."
+#~ msgstr "Unterstützung für Last.fm-Übermittlung."
+
+#~ msgid "No matching images found, please enter new search terms:"
+#~ msgstr ""
+#~ "Es wurden keine passenden Bilder gefunden, bitte geben Sie andere "
+#~ "Kriterien für die Suche an:"
+
+#~ msgid "Enter new search terms:"
+#~ msgstr "Bitte geben Sie neue Suchbegriffe an:"
+
+#~ msgid "New Search"
+#~ msgstr "Neue Suche"
+
+#, fuzzy
+#~| msgid "%1 Format"
+#~ msgid "Form"
+#~ msgstr "%1-Format"
+
+#~ msgid "There was a DCOP communication error with K3b."
+#~ msgstr "Während der DCOP-Kommunikation mit K3b ist ein Fehler aufgetreten."
+
+#~ msgctxt "%1 is Cover Art, %2 is the playing track, %3 is the appname"
+#~ msgid ""
+#~ "<table style=\"font-size:14pt;\" cellspacing=\"2em\"><tr><td rowspan="
+#~ "\"2\">%1</td><td align=\"center\" valign=\"middle\">%2</td></tr><tr><td "
+#~ "align=\"center\" valign=\"middle\"><em>%3</em></td></tr></table>"
+#~ msgstr ""
+#~ "<table style=\"font-size:14pt;\" cellspacing=\"2em\"><tr><td rowspan="
+#~ "\"2\">%1</td><td align=\"center\" valign=\"middle\">%2</td></tr><tr><td "
+#~ "align=\"center\" valign=\"middle\"><em>%3</em></td></tr></table>"
+
+#~ msgid "List of files that are about to be deleted."
+#~ msgstr "Liste der zu löschenden Dateien."
+
+#~ msgid "This is the list of items that are about to be deleted."
+#~ msgstr "Dies ist die Liste der Dateien, die gelöscht werden sollen."
+
+#~ msgid "Folders"
+#~ msgstr "Ordner"
+
+#~ msgid "File Name Scheme"
+#~ msgstr "Dateinamenschema"
+
+#~ msgid "GroupBox"
+#~ msgstr "Stücknummerierung"
+
+#, fuzzy
+#~ msgid "Minimum track &width:"
+#~ msgstr "Minimale Anzahl Ziffern der Stü&cknummer:"
+
+#~ msgid "Icon Placeholder, not in GUI"
+#~ msgstr "hm ;-)"
+
+#~ msgid "Deletion method placeholder, never shown to user."
+#~ msgstr "nochmal hm ;-)"
+
+#~ msgid "Placeholder for number of files, not in GUI"
+#~ msgstr "da fragt man sich: warum dann überhaupt i18n()???"
+
+#~ msgid "&Resize Column Headers Automatically"
+#~ msgstr "Größe der Spalten der Wiedergabeliste &automatisch einstellen"
+
+#~ msgid "Hide Splash Screen on Startup"
+#~ msgstr "Begrüßungsbildschirm beim Start nicht anzeigen"
+
+#~ msgid "Hide &History"
+#~ msgstr "&Verlauf ausblenden"
+
+#~ msgid "Hide &Play Queue"
+#~ msgstr "Wa&rteschlange ausblenden"
+
+#~ msgid "Hide &Search Bar"
+#~ msgstr "&Suchleiste ausblenden"
+
+#~ msgid "Hide &Tag Editor"
+#~ msgstr "&Metadaten-Editor ausblenden"

@@ -1,0 +1,2205 @@
+# translation of juk.po to Hindi
+# Copyright (C) YEAR This_file_is_part_of_KDE
+# This file is distributed under the same license as the PACKAGE package.
+#
+# Ravishankar Shrivastava <raviratlami@yahoo.com>, 2007.
+# Ravishankar Shrivastava <raviratlami@aol.in>, 2009.
+msgid ""
+msgstr ""
+"Project-Id-Version: juk\n"
+"Report-Msgid-Bugs-To: https://bugs.kde.org\n"
+"POT-Creation-Date: 2022-09-29 00:45+0000\n"
+"PO-Revision-Date: 2009-02-26 17:14+0530\n"
+"Last-Translator: Ravishankar Shrivastava <raviratlami@aol.in>\n"
+"Language-Team: Hindi <kde-i18n-doc@lists.kde.org>\n"
+"Language: hne\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+"X-Generator: Lokalize 0.2\n"
+
+#, kde-format
+msgctxt "NAME OF TRANSLATORS"
+msgid "Your names"
+msgstr "रविसंकर सिरीवास्तव, जी. करूनाकर"
+
+#, kde-format
+msgctxt "EMAIL OF TRANSLATORS"
+msgid "Your emails"
+msgstr "raviratlami@aol.in,"
+
+#: advancedsearchdialog.cpp:46
+#, kde-format
+msgid "Create Search Playlist"
+msgstr "सर्च प्लेलिस्ट बनाव"
+
+#: advancedsearchdialog.cpp:55
+#, kde-format
+msgid "Playlist name:"
+msgstr "गीत-सूची नाम:"
+
+#: advancedsearchdialog.cpp:59
+#, kde-format
+msgid "Search Criteria"
+msgstr "खोज मापदन्ड"
+
+#: advancedsearchdialog.cpp:64
+#, kde-format
+msgid "Match any of the following"
+msgstr "निम्न मं से कोनो जोड़ मिलाव"
+
+#: advancedsearchdialog.cpp:65
+#, kde-format
+msgid "Match all of the following"
+msgstr "निम्न मं से सब्बो जोड़ मिलाव"
+
+#: advancedsearchdialog.cpp:89
+#, kde-format
+msgctxt "additional search options"
+msgid "More"
+msgstr "जादा"
+
+#: advancedsearchdialog.cpp:94
+#, kde-format
+msgid "Fewer"
+msgstr "कम"
+
+#: cache.cpp:299
+#, kde-format
+msgid ""
+"The music data cache has been corrupted. JuK needs to rescan it now. This "
+"may take some time."
+msgstr ""
+
+#: collectionlist.cpp:143
+#, kde-format
+msgid "Collection List"
+msgstr "संग्रह सूची"
+
+#: collectionlist.cpp:283
+#, kde-format
+msgid ""
+"Removing an item from the collection will also remove it from all of your "
+"playlists. Are you sure you want to continue?\n"
+"\n"
+"Note, however, that if the directory that these files are in is in your "
+"\"scan on startup\" list, they will be readded on startup."
+msgstr ""
+
+#: collectionlist.cpp:336
+#, kde-format
+msgid "Show Playing"
+msgstr "बजात देखाव"
+
+#: coverdialog.cpp:37
+#, fuzzy, kde-format
+#| msgid "Artists"
+msgid "<All Artists>"
+msgstr "कलाकार"
+
+#: coverdialog.cpp:148
+#, kde-format
+msgid "Remove Cover"
+msgstr "कवर हटाव"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
+#: coverdialogbase.ui:14 playlistcollection.cpp:988
+#, kde-format
+msgid "Cover Manager"
+msgstr "कवर प्रबंधक"
+
+#: deletedialog.cpp:62
+#, kde-format
+msgid "<b>1</b> file selected."
+msgid_plural "<b>%1</b> files selected."
+msgstr[0] "<b>%1</b> फाइल मन ल चुने गिसं."
+msgstr[1] "<b>%1</b> फाइल मन ल चुने गिसं."
+
+#: deletedialog.cpp:75
+#, kde-format
+msgid ""
+"<qt>These items will be <b>permanently deleted</b> from your hard disk.</qt>"
+msgstr "<qt>ये चीज आप मन के हार्ड डिस्क से <b>हमेसा बर</b> मिटा दे जाही.</qt>"
+
+#: deletedialog.cpp:81
+#, kde-format
+msgid "<qt>These items will be moved to the Trash Bin.</qt>"
+msgstr "<qt>ए चीज मन ल घुरुवा मं ले जाय जाही.</qt>"
+
+#: deletedialog.cpp:93
+#, kde-format
+msgid "&Send to Trash"
+msgstr "घुरुवा मं भेजव (&S)"
+
+#: deletedialog.cpp:97
+#, kde-format
+msgid "About to delete selected files"
+msgstr "चुने गे फाइल मन ल मेटाय जाही"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: deletedialogbase.ui:88
+#, kde-format
+msgid "Are you sure that you want to remove these items?"
+msgstr "का आप मन सही मं ए चीज मन ल मिटाना चाहथो ?"
+
+#. i18n: ectx: property (toolTip), widget (QCheckBox, ddShouldDelete)
+#: deletedialogbase.ui:138
+#, kde-format
+msgid ""
+"If checked, files will be permanently removed instead of being placed in the "
+"Trash Bin"
+msgstr ""
+
+#. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
+#: deletedialogbase.ui:143
+#, kde-format
+msgid ""
+"<qt><p>If this box is checked, files will be <b>permanently removed</b> "
+"instead of being placed in the Trash Bin.</p>\n"
+"\n"
+"<p><em>Use this option with caution</em>: Most filesystems are unable to "
+"reliably undelete deleted files.</p></qt>"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, ddShouldDelete)
+#: deletedialogbase.ui:146
+#, kde-format
+msgid "&Delete files instead of moving them to the trash"
+msgstr "घुरुवा मं ले जाय के बदला मा फाइल मन ल मिटा देव. (&D)"
+
+#: directorylist.cpp:55
+#, kde-format
+msgid "Folder List"
+msgstr "फोल्डर सूची"
+
+#. i18n: ectx: property (text), widget (QLabel, informationLabel)
+#: directorylistbase.ui:19
+#, kde-format
+msgid "Please choose the folders where you keep your music:"
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QListView, directoryListView)
+#. i18n: ectx: property (toolTip), widget (QListView, excludeDirectoryListView)
+#: directorylistbase.ui:34 directorylistbase.ui:117
+#, kde-format
+msgid "These folders will be scanned on startup for new files."
+msgstr "ये फोल्डर चालू मं ही नवा फाइल मन बर स्कैन करे जाही."
+
+#. i18n: ectx: property (text), widget (QPushButton, addDirectoryButton)
+#. i18n: ectx: property (text), widget (QPushButton, addExcludeDirectoryButton)
+#: directorylistbase.ui:64 directorylistbase.ui:147
+#, kde-format
+msgid "Add Folder..."
+msgstr "फोल्डर जोड़व..."
+
+#. i18n: ectx: property (text), widget (QPushButton, removeDirectoryButton)
+#. i18n: ectx: property (text), widget (QPushButton, removeExcludeDirectoryButton)
+#: directorylistbase.ui:71 directorylistbase.ui:154
+#, kde-format
+msgid "Remove Folder"
+msgstr "फोल्डर मेटाव"
+
+#. i18n: ectx: property (text), widget (QLabel, ExcludeInformationLabel)
+#: directorylistbase.ui:102
+#, kde-format
+msgid "Please choose the folders that should be excluded from music search:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QCheckBox, importPlaylistsCheckBox)
+#: directorylistbase.ui:183
+#, kde-format
+msgid "Import playlists"
+msgstr "गीत-सूची आयात करव"
+
+#: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
+#: systemtray.cpp:495 systemtray.cpp:506
+#, kde-format
+msgid "JuK"
+msgstr "ज्यूक"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, ExampleOptionsBase)
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: exampleoptionsbase.ui:13 filerenamerbase.ui:203
+#, kde-format
+msgid "Example"
+msgstr "उदाहरन"
+
+#. i18n: ectx: property (title), widget (QGroupBox, groupBox)
+#: exampleoptionsbase.ui:37
+#, kde-format
+msgid "Example Tag Selection"
+msgstr "टैग चयन उदाहरन"
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_fileTagsButton)
+#: exampleoptionsbase.ui:58
+#, kde-format
+msgid "Get example tags from this file:"
+msgstr "ए फाइल से उदाहरन टैग प्राप्त करव:"
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_manualTagsButton)
+#: exampleoptionsbase.ui:81
+#, kde-format
+msgid "Enter example tags manually:"
+msgstr "उदाहरन टैग हस्तचालित भरव:"
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_manualGroup)
+#: exampleoptionsbase.ui:91
+#, kde-format
+msgid "Example Tags"
+msgstr "उदाहरन टैग्स"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: exampleoptionsbase.ui:135
+#, kde-format
+msgctxt "song title"
+msgid "Title:"
+msgstr "सीर्सक:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel2)
+#: exampleoptionsbase.ui:145
+#, kde-format
+msgid "Artist:"
+msgstr "कलाकारः"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel3)
+#: exampleoptionsbase.ui:155
+#, kde-format
+msgid "Album:"
+msgstr "एल्बमः"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel4)
+#: exampleoptionsbase.ui:165
+#, kde-format
+msgid "Genre:"
+msgstr "घरानाः"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel5)
+#: exampleoptionsbase.ui:175
+#, kde-format
+msgid "Track number:"
+msgstr "ट्रैक संख्या:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel6)
+#: exampleoptionsbase.ui:185
+#, kde-format
+msgid "Year:"
+msgstr "सालः"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_exampleTitle)
+#: exampleoptionsbase.ui:214
+#, kde-format
+msgctxt "example song title"
+msgid "Title"
+msgstr "सीर्सक"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_exampleArtist)
+#: exampleoptionsbase.ui:221 playlist.cpp:1404 tagrenameroptions.cpp:104
+#, kde-format
+msgid "Artist"
+msgstr "कलाकार"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_exampleAlbum)
+#: exampleoptionsbase.ui:228 playlist.cpp:1405 tagrenameroptions.cpp:108
+#, kde-format
+msgid "Album"
+msgstr "एल्बम"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_exampleGenre)
+#: exampleoptionsbase.ui:235 playlist.cpp:1408 tagrenameroptions.cpp:116
+#, kde-format
+msgid "Genre"
+msgstr "घराना"
+
+#: filerenamer.cpp:67
+#, kde-format
+msgctxt "warning about mass file rename"
+msgid "Warning"
+msgstr "चेतावनी"
+
+#: filerenamer.cpp:78
+#, kde-format
+msgid ""
+"You are about to rename the following files. Are you sure you want to "
+"continue?"
+msgstr "आप नीचे वाले फाइल मन के नाम बदलत हो . का आप मन सचमुच जारी रखना चाहथो ?"
+
+#: filerenamer.cpp:85
+#, kde-format
+msgid "Original Name"
+msgstr "मूल नाम"
+
+#: filerenamer.cpp:86
+#, kde-format
+msgid "New Name"
+msgstr "नवा नाम"
+
+#: filerenamer.cpp:109
+#, kde-format
+msgid "No Change"
+msgstr "कोई बदलाव नइ"
+
+#: filerenamer.cpp:398
+#, fuzzy, kde-format
+msgctxt "remove music genre from file renamer"
+msgid "Remove"
+msgstr "हटाव"
+
+#: filerenamer.cpp:401
+#, fuzzy, kde-format
+msgctxt "file renamer genre options"
+msgid "Options"
+msgstr "विकल्प"
+
+#: filerenamer.cpp:513
+#, kde-format
+msgid "Insert folder separator"
+msgstr "फोल्डर विभाजक भरव"
+
+#: filerenamer.cpp:584
+#, kde-format
+msgid "No file selected, or selected file has no tags."
+msgstr "कोई फाइल नइ चुने गे, या चुने गे फाइल मं टैग नइ हे."
+
+#: filerenamer.cpp:815
+#, kde-format
+msgid "Hide Renamer Test Dialog"
+msgstr "नाम बदले के जांच गोठ लुकाव"
+
+#. i18n: ectx: property (text), widget (QPushButton, m_showExample)
+#: filerenamer.cpp:820 filerenamerbase.ui:257
+#, kde-format
+msgid "Show Renamer Test Dialog"
+msgstr "नाम बदले के जांच गोठ देखाव"
+
+#: filerenamer.cpp:902
+#, kde-format
+msgid "%1 to %2"
+msgstr "%1 से %2"
+
+#: filerenamer.cpp:909
+#, kde-format
+msgid "The following rename operations failed:\n"
+msgstr "नाम बदले के नीचे वाले काम फेल:\n"
+
+#. i18n: ectx: property (windowTitle), widget (QWidget, FileRenamerBase)
+#: filerenamerbase.ui:20
+#, kde-format
+msgid "File Renamer Configuration"
+msgstr "फाइल री-नेमर कान्फिगरेसन"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
+#: filerenamerbase.ui:65
+#, kde-format
+msgid "Music folder:"
+msgstr "संगीत फोल्डर:"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:90
+#, kde-format
+msgid "Album Tag"
+msgstr "एलबम टैग"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:95
+#, kde-format
+msgid "Artist Tag"
+msgstr "कलाकार टैग"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:100
+#, kde-format
+msgid "Genre Tag"
+msgstr "घराना टैग"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:105
+#, kde-format
+msgid "Title Tag"
+msgstr "सीर्सक टैग"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:110
+#, kde-format
+msgid "Track Tag"
+msgstr "ट्रैक टैग"
+
+#. i18n: ectx: property (text), item, widget (KComboBox, m_category)
+#: filerenamerbase.ui:115
+#, kde-format
+msgid "Year Tag"
+msgstr "साल टैग"
+
+#. i18n: ectx: property (text), widget (QPushButton, m_insertCategory)
+#: filerenamerbase.ui:123
+#, kde-format
+msgid "Insert Category"
+msgstr "वर्ग भरव"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1)
+#: filerenamerbase.ui:135
+#, fuzzy, kde-format
+#| msgid "Add category:"
+msgid "&Add category:"
+msgstr "वर्ग जोड़व:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
+#: filerenamerbase.ui:145
+#, kde-format
+msgid "Separator:"
+msgstr "विभाजकः"
+
+#: filerenamerconfigdlg.cpp:29
+#, kde-format
+msgid "File Renamer Options"
+msgstr "फाइल नाम बदले के विकल्प"
+
+#: filerenameroptions.cpp:38
+#, fuzzy, kde-format
+msgctxt "%1 will be a music tag category like Artist or Album"
+msgid "%1 Options"
+msgstr "%1 विकल्प"
+
+#: filerenameroptions.cpp:39
+#, kde-format
+msgid "%1 Format"
+msgstr "%1 फार्मेट"
+
+#: filerenameroptions.cpp:40
+#, kde-format
+msgid "When the Track's %1 is Empty"
+msgstr "जब ट्रैक के %1 खाली हो"
+
+#: filerenameroptions.cpp:41
+#, kde-format
+msgid ""
+"When using the file renamer your files will be renamed to the values that "
+"you have in your track's %1 tag, plus any additional text that you specify "
+"below."
+msgstr ""
+
+#: filerenameroptions.cpp:114
+#, kde-format
+msgid "File Renamer"
+msgstr "फाइल री-नेमर"
+
+#. i18n: ectx: property (text), widget (QLabel, m_substitution)
+#: filerenameroptionsbase.ui:115
+#, kde-format
+msgid "Substitution Example"
+msgstr "सबस्टीट्यूसन उदाहरन"
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_includeEmptyButton)
+#: filerenameroptionsbase.ui:137
+#, kde-format
+msgid "Include in the &filename anyways"
+msgstr "जइसन भी हो फाइलनाम मं जोड़व (&f)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_ignoreTagButton)
+#: filerenameroptionsbase.ui:144
+#, kde-format
+msgid "&Ignore this tag when renaming the file"
+msgstr "फाइल ल नवा नाम देवत समय एखर टैग ल देखव-मत (&I)"
+
+#. i18n: ectx: property (text), widget (QRadioButton, m_useValueButton)
+#: filerenameroptionsbase.ui:162
+#, kde-format
+msgid "Use &this value:"
+msgstr "ये मूल्य के उपयोग करव: (&t)"
+
+#. i18n: ectx: property (text), widget (KLineEdit, m_emptyTagValue)
+#: filerenameroptionsbase.ui:172
+#, kde-format
+msgctxt "value to use in replacement when source tag empty"
+msgid "Empty"
+msgstr "खाली"
+
+#. i18n: ectx: property (title), widget (QGroupBox, m_trackGroup)
+#: filerenameroptionsbase.ui:184
+#, fuzzy, kde-format
+#| msgid "Track number:"
+msgid "Track numbering"
+msgstr "ट्रैक संख्या:"
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel10)
+#: filerenameroptionsbase.ui:196
+#, kde-format
+msgid ""
+"JuK can force the track used in a file name to have a minimum number of "
+"digits. You may want to do this for better sorting in file managers."
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, textLabel5)
+#: filerenameroptionsbase.ui:228
+#, kde-format
+msgid "Minimum number of digits:"
+msgstr ""
+
+#. i18n: ectx: property (text), widget (QLabel, m_doubleDigitExample)
+#: filerenameroptionsbase.ui:266
+#, kde-format
+msgid "014"
+msgstr "014"
+
+#. i18n: ectx: property (text), widget (QLabel, m_singleDigitExample)
+#: filerenameroptionsbase.ui:284
+#, kde-format
+msgid "003"
+msgstr "003"
+
+#. i18n: ectx: property (text), widget (QLabel, m_singleDigit)
+#: filerenameroptionsbase.ui:291
+#, kde-format
+msgid "3 ->"
+msgstr "3 ->"
+
+#. i18n: ectx: property (text), widget (QLabel, m_doubleDigit)
+#: filerenameroptionsbase.ui:301
+#, kde-format
+msgid "14 ->"
+msgstr "14 ->"
+
+#: historyplaylist.cpp:42
+#, kde-format
+msgid "Time"
+msgstr "समय"
+
+#: juk.cpp:209
+#, kde-format
+msgid "Your album art failed to download."
+msgstr ""
+
+#: juk.cpp:211
+#, kde-format
+msgid "Your album art has finished downloading."
+msgstr ""
+
+#: juk.cpp:255 systemtray.cpp:180
+#, kde-format
+msgid "&Random Play"
+msgstr "बेतरतीब बजाव (&R)"
+
+#: juk.cpp:262
+#, kde-format
+msgid "&Disable Random Play"
+msgstr "बेतरतीब बजाना अक्छम करव (&D)"
+
+#: juk.cpp:268
+#, kde-format
+msgid "Use &Random Play"
+msgstr "बेतरतीब क्रम मं बजाव (&R)"
+
+#: juk.cpp:274
+#, kde-format
+msgid "Use &Album Random Play"
+msgstr "एलबम ल बेतरतीब बजाव (&A)"
+
+#: juk.cpp:282
+#, kde-format
+msgid "Remove From Playlist"
+msgstr "गीत सूची से मेटाव"
+
+#: juk.cpp:286
+#, kde-format
+msgid "&Play"
+msgstr "बजाव (&P)"
+
+#: juk.cpp:291
+#, kde-format
+msgid "P&ause"
+msgstr "ठहरव (&a)"
+
+#: juk.cpp:296
+#, kde-format
+msgid "&Stop"
+msgstr "रुकव (&S)"
+
+#: juk.cpp:299
+#, kde-format
+msgctxt "previous track"
+msgid "Previous"
+msgstr "पिछला"
+
+#: juk.cpp:306
+#, kde-format
+msgctxt "next track"
+msgid "&Next"
+msgstr "अगला (&N)"
+
+#: juk.cpp:310
+#, kde-format
+msgid "&Loop Playlist"
+msgstr "गीत-सूची लूप करव (&L)"
+
+#: juk.cpp:314
+#, kde-format
+msgid "&Resize Playlist Columns Manually"
+msgstr "गीतसूची खंभा ल नवा आकार हस्तचालित देव (&R)"
+
+#: juk.cpp:319
+#, kde-format
+msgctxt "silence playback"
+msgid "Mute"
+msgstr "मौन"
+
+#: juk.cpp:323
+#, kde-format
+msgid "Volume Up"
+msgstr "अवाज बढ़ाव"
+
+#: juk.cpp:327
+#, kde-format
+msgid "Volume Down"
+msgstr "अवाज कम करव"
+
+#: juk.cpp:331
+#, kde-format
+msgid "Play / Pause"
+msgstr "बजाव / ठहरव"
+
+#: juk.cpp:335
+#, kde-format
+msgid "Seek Forward"
+msgstr "आगू देखव"
+
+#: juk.cpp:339
+#, kde-format
+msgid "Seek Back"
+msgstr "पीछू देखव"
+
+#: juk.cpp:343
+#, kde-format
+msgid "Show / Hide"
+msgstr "देखाव / लुकाव"
+
+#: juk.cpp:350
+#, kde-format
+msgid "&Dock in System Tray"
+msgstr "तंत्र तस्तरी मं डाक करव (&D)"
+
+#: juk.cpp:354
+#, kde-format
+msgid "&Stay in System Tray on Close"
+msgstr "बन्द होए मं तंत्र तस्तरी मं ही रहव (&S)"
+
+#: juk.cpp:357
+#, kde-format
+msgid "Popup &Track Announcement"
+msgstr "ट्रैक घोसना पापअप करव (&T)"
+
+#: juk.cpp:360
+#, kde-format
+msgid "Save &Play Queue on Exit"
+msgstr "बाहिर होए मं गीतसूची कतार ल सहेजव"
+
+#: juk.cpp:363
+#, kde-format
+msgid "&Tag Guesser..."
+msgstr "टैग के अंदाजा लगाय वाला... (&T)"
+
+#: juk.cpp:366
+#, kde-format
+msgid "&File Renamer..."
+msgstr "फाइल री-नेमर... (&F)"
+
+#: juk.cpp:369
+#, kde-format
+msgid "&Configure scrobbling..."
+msgstr ""
+
+#: juk.cpp:376
+#, kde-format
+msgid "Track Position"
+msgstr "ट्रैक स्थिति"
+
+#: juk.cpp:378 slider.cpp:125
+#, fuzzy, kde-format
+#| msgid "Volume Up"
+msgid "Volume"
+msgstr "अवाज बढ़ाव"
+
+#: juk.cpp:548
+#, kde-format
+msgid ""
+"<qt>Closing the main window will keep JuK running in the system tray. Use "
+"Quit from the File menu to quit the application.</qt>"
+msgstr ""
+"<qt>मुख्य विंडो बन्द करे मं घलोक ज्यूक तंत्र तस्तरी मं चलत रहिही. अनुपरयोग ल बन्द करे बर "
+"फाइल मेन्यू मं से बाहिर के उपयोग अनुपरयोग ल बन्द करे बर करव.</qt>"
+
+#: juk.cpp:550
+#, kde-format
+msgid "Docking in System Tray"
+msgstr "तंत्र तस्तरी मं डाक करत हे"
+
+#: juktag.cpp:93
+#, fuzzy, kde-format
+#| msgid "%1 to %2"
+msgctxt "a playing track, %1 is artist, %2 is song title"
+msgid "%1 - <i>%2</i>"
+msgstr "%1 से %2"
+
+#. i18n: ectx: Menu (file)
+#: jukui-rtl.rc:4 jukui.rc:6
+#, kde-format
+msgid "&File"
+msgstr "फाइल (&F)"
+
+#. i18n: ectx: Menu (view)
+#: jukui-rtl.rc:26 jukui.rc:28
+#, kde-format
+msgid "&View"
+msgstr "देखव (&V)"
+
+#. i18n: ectx: Menu (player)
+#: jukui-rtl.rc:39 jukui.rc:41
+#, kde-format
+msgid "&Player"
+msgstr "प्लेयर (&P)"
+
+#. i18n: ectx: Menu (playlist)
+#: jukui-rtl.rc:56 jukui.rc:58
+#, kde-format
+msgid "&Tagger"
+msgstr "टैगर (&T)"
+
+#. i18n: ectx: Menu (settings)
+#: jukui-rtl.rc:67 jukui.rc:69
+#, kde-format
+msgid "&Settings"
+msgstr "सेटिंग (&S)"
+
+#. i18n: ectx: ToolBar (mainToolBar)
+#: jukui-rtl.rc:80 jukui.rc:82
+#, kde-format
+msgid "Main Toolbar"
+msgstr "मुख्य औजार पट्टी"
+
+#. i18n: ectx: ToolBar (playToolBar)
+#: jukui-rtl.rc:98 jukui.rc:100
+#, kde-format
+msgid "Play Toolbar"
+msgstr "प्ले औजार पट्टी"
+
+#: keydialog.cpp:100
+#, kde-format
+msgid "Configure Shortcuts"
+msgstr "सार्टकट कान्फ़िगर करव"
+
+#: keydialog.cpp:116
+#, kde-format
+msgid "Global Shortcuts"
+msgstr "वैस्विक सार्टकट"
+
+#: keydialog.cpp:122
+#, kde-format
+msgid "&No keys"
+msgstr "कोई कुंजियाँ नइ (&N)"
+
+#: keydialog.cpp:126
+#, kde-format
+msgid "&Standard keys"
+msgstr "मानक कुंजियाँ (&S)"
+
+#: keydialog.cpp:130
+#, kde-format
+msgid "&Multimedia keys"
+msgstr "मल्टीमीडिया कुंजियाँ (&M)"
+
+#: keydialog.cpp:136
+#, kde-format
+msgid ""
+"Here you can select the keys used as global shortcuts to control the player"
+msgstr "इहां आप मन प्लेयर के नियंत्रन बर वैस्विक सार्टकट कुंजी मन के चयन कर सकथो "
+
+#: lyricswidget.cpp:51
+#, fuzzy, kde-format
+#| msgid "Show &History"
+msgid "Show &Lyrics"
+msgstr "इतिहास देखाव (&H)"
+
+#: lyricswidget.cpp:78
+#, kde-format
+msgid "<i>No file playing.</i>"
+msgstr ""
+
+#: lyricswidget.cpp:83
+#, kde-format
+msgid "<i>Loading...</i>"
+msgstr ""
+
+#: lyricswidget.cpp:88
+#, kde-format
+msgid ""
+"<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
+msgstr ""
+
+#: lyricswidget.cpp:129 lyricswidget.cpp:158
+#, kde-format
+msgid "<span style='color:red'>Error while retrieving lyrics!</span>"
+msgstr ""
+
+#: lyricswidget.cpp:174
+#, fuzzy, kde-format
+#| msgid "Cover Unavailable"
+msgid "No lyrics available."
+msgstr "कवर नइ मिलत"
+
+#: lyricswidget.cpp:183
+#, kde-format
+msgid "<br /><br /><i>Lyrics provided by <a href='%1'>LyricWiki</a></i>"
+msgstr ""
+
+#: main.cpp:39
+#, fuzzy, kde-format
+#| msgid "Jukebox and music manager for KDE"
+msgid "Jukebox and music manager by the KDE community"
+msgstr "केडीई बर ज्यूकबाक्स अउ संगीत प्रबंधक"
+
+#: main.cpp:40
+#, fuzzy, kde-format
+msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
+msgstr "© 2002 - 2008, स्काट व्हीलर"
+
+#: main.cpp:44
+#, kde-format
+msgid "Scott Wheeler"
+msgstr "स्काट व्हीलर"
+
+#: main.cpp:44
+#, kde-format
+msgid "Author, chief dork and keeper of the funk"
+msgstr "लेखक, मुख्य डार्क अउ फंक के रखवाला"
+
+#: main.cpp:45
+#, kde-format
+msgid "Michael Pyne"
+msgstr "माइकल पायने"
+
+#: main.cpp:45
+#, fuzzy, kde-format
+#| msgid "Assistant super-hero, fixer of many things"
+msgid "Assistant superhero, fixer of many things"
+msgstr "असिस्टेंट सुपर-हीरो, बहुत से चीज मन ल ठीक करइया"
+
+#: main.cpp:46
+#, kde-format
+msgid "Kacper Kasper"
+msgstr ""
+
+#: main.cpp:46
+#, kde-format
+msgid "Porting to KDE Frameworks 5 when no one else was around"
+msgstr ""
+
+#: main.cpp:47
+#, kde-format
+msgid "Eike Hein"
+msgstr ""
+
+#: main.cpp:47
+#, kde-format
+msgid "MPRIS2 Interface implementation."
+msgstr ""
+
+#: main.cpp:48
+#, kde-format
+msgid "Martin Sandsmark"
+msgstr ""
+
+#: main.cpp:48
+#, kde-format
+msgid "Last.fm scrobbling support, lyrics, prepping for KDE Frameworks 5."
+msgstr ""
+
+#: main.cpp:49
+#, kde-format
+msgid "Γιώργος Κυλάφας (Giorgos Kylafas)"
+msgstr ""
+
+#: main.cpp:49
+#, kde-format
+msgid "Badly-needed tag editor bugfixes."
+msgstr ""
+
+#: main.cpp:50
+#, kde-format
+msgid "Georg Grabler"
+msgstr ""
+
+#: main.cpp:50
+#, kde-format
+msgid "More KDE Platform 4 porting efforts"
+msgstr ""
+
+#: main.cpp:51
+#, kde-format
+msgid "Laurent Montel"
+msgstr "लारेंट मोंटेल"
+
+#: main.cpp:51
+#, kde-format
+msgid "Porting to KDE Platform 4 when no one else was around"
+msgstr ""
+
+#: main.cpp:52
+#, kde-format
+msgid "Nathan Toone"
+msgstr "नाथन टून"
+
+#: main.cpp:52
+#, kde-format
+msgid "Album cover manager"
+msgstr "एलबम कवर-प्रबंधक"
+
+#: main.cpp:53
+#, kde-format
+msgid "Matthias Kretz"
+msgstr "मैथियास कर्त्ज"
+
+#: main.cpp:53
+#, kde-format
+msgid "Friendly, neighborhood aRts guru"
+msgstr "मितान अइसन्, पड़ोस के एआरटीएस गुरू"
+
+#: main.cpp:54
+#, kde-format
+msgid "Daniel Molkentin"
+msgstr "डेनियल माल्केनटिन"
+
+#: main.cpp:54
+#, kde-format
+msgid ""
+"System tray docking, \"inline\" tag editing,\n"
+"bug fixes, evangelism, moral support"
+msgstr ""
+"तंत्र तस्तरी डाकिंग, \"inline\" टैग संपादन,\n"
+"बग फिक्सेस, प्रचार, नैतिक समर्थन"
+
+#: main.cpp:55
+#, kde-format
+msgid "Tim Jansen"
+msgstr "टिम जानसन"
+
+#: main.cpp:55
+#, kde-format
+msgid "GStreamer port"
+msgstr "जी-स्ट्रीमर पोर्ट"
+
+#: main.cpp:56
+#, kde-format
+msgid "Stefan Asserhäll"
+msgstr "स्टीफन असेरहाल"
+
+#: main.cpp:56
+#, kde-format
+msgid "Global keybindings support"
+msgstr "वैस्विक की-बाइंडिंग समर्थन"
+
+#: main.cpp:57
+#, kde-format
+msgid "Stephen Douglas"
+msgstr "स्टीफन डगलस"
+
+#: main.cpp:57
+#, kde-format
+msgid "Track announcement popups"
+msgstr "ट्रैक घोसना पापअप"
+
+#: main.cpp:58
+#, kde-format
+msgid "Frerich Raabe"
+msgstr "फ्रेरिक राबे"
+
+#: main.cpp:58
+#, kde-format
+msgid "Automagic track data guessing, bugfixes"
+msgstr "अपने अपन ट्रैक डाटा के अनुमान, बग-फिक्सेस"
+
+#: main.cpp:59
+#, kde-format
+msgid "Zack Rusin"
+msgstr "जेक रुसिन"
+
+#: main.cpp:59
+#, kde-format
+msgid "More automagical things, now using MusicBrainz"
+msgstr "अउ घलोक ओटोमैजिकल चीज, अब म्युजिकब्रैंज उपयोग में"
+
+#: main.cpp:60
+#, kde-format
+msgid "Adam Treat"
+msgstr "एडम ट्रीट"
+
+#: main.cpp:60
+#, kde-format
+msgid "Co-conspirator in MusicBrainz wizardry"
+msgstr "म्युजिकब्रैंज जादूगरी मं सह-सडयंत्रकारी"
+
+#: main.cpp:61
+#, kde-format
+msgid "Maks Orlovich"
+msgstr "मैक्स ओर्लोविच"
+
+#: main.cpp:61
+#, fuzzy, kde-format
+#| msgid ""
+#| "Making JuK friendlier to people with\n"
+#| "terabytes of music"
+msgid "Making JuK friendlier to people with terabytes of music"
+msgstr ""
+"ज्यूक ल लोगों के बीच दोस्ताना बनाए में\n"
+"जऊनतीर टेराबाइट्स संगीत हे"
+
+#: main.cpp:62
+#, kde-format
+msgid "Antonio Larrosa Jimenez"
+msgstr "एंतोनियो लारोसा जिमेनेज"
+
+#: main.cpp:62
+#, kde-format
+msgid "DCOP interface"
+msgstr "डीकाप इंटरफेस"
+
+#: main.cpp:63
+#, kde-format
+msgid "Allan Sandfeld Jensen"
+msgstr "एलन सैंडफील्ड जेनसन"
+
+#: main.cpp:63
+#, kde-format
+msgid "FLAC and MPC support"
+msgstr "फ्लाक अउ एमपीसी समर्थन"
+
+#: main.cpp:64
+#, kde-format
+msgid "Pascal Klein"
+msgstr "पास्कल क्लीन"
+
+#: main.cpp:64
+#, kde-format
+msgid "Gimper of splash screen"
+msgstr "स्पलैस स्क्रीन के गिम्पर"
+
+#: main.cpp:69
+#, kde-format
+msgid "File(s) to open"
+msgstr "खोले बर फाइल"
+
+#: main.cpp:86
+#, kde-format
+msgid ""
+"JuK running in docked mode\n"
+"Use context menu in system tray to restore."
+msgstr ""
+
+#: main.cpp:87
+#, kde-format
+msgid "JuK Docked"
+msgstr ""
+
+#: mediafiles.cpp:103
+#, kde-format
+msgctxt "open audio file"
+msgid "Open"
+msgstr "खोलव"
+
+#: mediafiles.cpp:116
+#, fuzzy, kde-format
+#| msgid "Search Playlist"
+msgid "Save Playlist"
+msgstr "गीत-सूची खोजव"
+
+#: mediafiles.cpp:118
+#, fuzzy, kde-format
+#| msgid "Playlists"
+msgctxt "For save dialog, %1 is always .m3u"
+msgid "Playlists (*%1)"
+msgstr "गीत-सूचियाँ"
+
+#: nowplaying.cpp:316
+#, kde-format
+msgid "back to playlist"
+msgstr "गीत-सूची मं वापस जाव"
+
+#: playermanager.cpp:59
+#, kde-format
+msgctxt "%1 is the artist and %2 is the title of the currently playing track."
+msgid "%1 - %2 :: JuK"
+msgstr ""
+
+#: playermanager.cpp:367
+#, kde-format
+msgctxt ""
+"%1 will be the /path/to/file, %2 will be some string from Phonon describing "
+"the error"
+msgid ""
+"JuK is unable to play the audio file<nl/><filename>%1</filename><nl/>for the "
+"following reason:<nl/><message>%2</message>"
+msgstr ""
+
+#: playlist.cpp:341
+#, kde-format
+msgid "Could not save to file %1."
+msgstr "फाइल %1 मं सहेज नइ सकिस"
+
+#: playlist.cpp:574
+#, fuzzy, kde-format
+#| msgid ""
+#| "You are about to rename the following files. Are you sure you want to "
+#| "continue?"
+msgid "You are about to open directory. Are you sure you want to continue?"
+msgid_plural ""
+"You are about to open %1 directories. Are you sure you want to continue?"
+msgstr[0] "आप नीचे वाले फाइल मन के नाम बदलत हो . का आप मन सचमुच जारी रखना चाहथो ?"
+msgstr[1] "आप नीचे वाले फाइल मन के नाम बदलत हो . का आप मन सचमुच जारी रखना चाहथो ?"
+
+#: playlist.cpp:577 playlistcollection.cpp:982
+#, kde-format
+msgid "Open Containing Folder"
+msgstr ""
+
+#: playlist.cpp:644
+#, kde-format
+msgid "Are you sure you want to delete these covers?"
+msgstr "का सही मं आप मन ए कवर ल मिटाना चाहथो ?"
+
+#: playlist.cpp:646
+#, kde-format
+msgid "&Delete Covers"
+msgstr "कवर मेटाव (&D)"
+
+#: playlist.cpp:675
+#, kde-format
+msgid "Select Cover Image File"
+msgstr "कवर फोटू फाइल चुनव"
+
+#: playlist.cpp:677
+#, kde-format
+msgid "Images (*.png *.jpg)"
+msgstr ""
+
+#: playlist.cpp:875
+#, kde-format
+msgid "Could not delete these files"
+msgstr "ए फाइल मन ल नइ मिटा सकिस"
+
+#: playlist.cpp:876
+#, kde-format
+msgid "Could not move these files to the Trash"
+msgstr "ए फाइल मन ल घुरुवा मं नइ खिसका सकिस"
+
+#: playlist.cpp:1403
+#, kde-format
+msgid "Track Name"
+msgstr "ट्रेक नाम"
+
+#: playlist.cpp:1406
+#, kde-format
+msgid "Cover"
+msgstr "कवर"
+
+#: playlist.cpp:1407 tagrenameroptions.cpp:112
+#, kde-format
+msgctxt "cd track number"
+msgid "Track"
+msgstr "ट्रैक"
+
+#: playlist.cpp:1409 tagrenameroptions.cpp:120
+#, kde-format
+msgid "Year"
+msgstr "साल"
+
+#: playlist.cpp:1410
+#, kde-format
+msgid "Length"
+msgstr "लंबाई"
+
+#: playlist.cpp:1411
+#, kde-format
+msgid "Bitrate"
+msgstr "बिटरेट"
+
+#: playlist.cpp:1412
+#, kde-format
+msgid "Comment"
+msgstr "टिप्पनी"
+
+#: playlist.cpp:1413
+#, kde-format
+msgid "File Name"
+msgstr "फाइल नाम"
+
+#: playlist.cpp:1414
+#, kde-format
+msgid "File Name (full path)"
+msgstr "फाइल नाम (पूरा पथ)"
+
+#: playlist.cpp:1605
+#, kde-format
+msgid "&Show Columns"
+msgstr "खंभा देखाव (&S)"
+
+#: playlist.cpp:1712
+#, kde-format
+msgid "Add to Play Queue"
+msgstr "बजाय बर कतार मं जोड़व "
+
+#: playlist.cpp:1726 playlist.cpp:2180
+#, kde-format
+msgid "Edit"
+msgstr "संपादन"
+
+#: playlist.cpp:1742
+#, kde-format
+msgid "Create Playlist From Selected Items..."
+msgstr "चुने गे चीज मन ल गीत-सूची बनाव..."
+
+#: playlist.cpp:2094
+#, kde-format
+msgid "Edit '%1'"
+msgstr "'%1' के संपादन करव"
+
+#: playlist.cpp:2178
+#, kde-format
+msgid "This will edit multiple files. Are you sure?"
+msgstr "ये बहुत से फाइल मन ल संपादित करही. का आप मन सुनिस्चित हो?"
+
+#: playlist.cpp:2237 playlistcollection.h:189
+#, kde-format
+msgid "Create New Playlist"
+msgstr "नवा गीत-सूची बनाव"
+
+#: playlist.cpp:2246
+#, kde-format
+msgid ""
+"Manual column widths have been enabled. You can switch back to automatic "
+"column sizes in the view menu."
+msgstr ""
+
+#: playlist.cpp:2249
+#, kde-format
+msgid "Manual Column Widths Enabled"
+msgstr "खंभा मन के चौड़ाई कमइया से समायोजन जा सकथे "
+
+#: playlistbox.cpp:102
+#, kde-format
+msgid "View Modes"
+msgstr "मोड्स देखाव"
+
+#: playlistbox.cpp:160
+#, kde-format
+msgid "Show &History"
+msgstr "इतिहास देखाव (&H)"
+
+#: playlistbox.cpp:221 playlistcollection.cpp:417
+#, kde-format
+msgctxt "verb, copy the playlist"
+msgid "Duplicate"
+msgstr "डुप्लीकेट"
+
+#: playlistbox.cpp:399
+#, kde-format
+msgid "Do you want to delete these files from the disk as well?"
+msgstr "का आप मन ए फाइल मन ल घलोक अपन डिस्क से मिटाना चाहथो ?"
+
+#: playlistbox.cpp:399
+#, kde-format
+msgid "Keep"
+msgstr "रखव"
+
+#: playlistbox.cpp:409
+#, kde-format
+msgid "Could not delete these files."
+msgstr "ए फाइल मन ल नइ मिटा सकिस."
+
+#: playlistbox.cpp:417
+#, kde-format
+msgid "Are you sure you want to remove these playlists from your collection?"
+msgstr "का आप मन सही मं ए गीतसूची ल अपन संग्रह से मिटाना चाहथो ?"
+
+#: playlistbox.cpp:420
+#, kde-format
+msgid "Remove Items?"
+msgstr "चीज मेटाव?"
+
+#. i18n: ectx: property (text), widget (QPushButton, bRemove)
+#: playlistbox.cpp:421 tagguesserconfigdlgwidget.ui:100
+#, kde-format
+msgid "&Remove"
+msgstr "मेटाव (&R)"
+
+#: playlistbox.cpp:610
+#, kde-format
+msgid "Hid&e"
+msgstr "लुकाव (&e)"
+
+#: playlistbox.cpp:614 playlistcollection.cpp:971
+#, kde-format
+msgid "R&emove"
+msgstr "मेटाव (&e)"
+
+#: playlistcollection.cpp:201
+#, kde-format
+msgid "Dynamic List"
+msgstr "गतिमान सूची"
+
+#: playlistcollection.cpp:242
+#, kde-format
+msgid "Now Playing"
+msgstr "बजात हे"
+
+#: playlistcollection.cpp:344
+#, kde-format
+msgid ""
+"Do you want to add these items to the current list or to the collection list?"
+msgstr "का आप मन ए चीज मन ल अभी हाल के सूची मं या संकलन सूची मं जोड़ना चाहथो ?"
+
+#: playlistcollection.cpp:346
+#, kde-format
+msgctxt "current playlist"
+msgid "Current"
+msgstr "अभी हाल के"
+
+#: playlistcollection.cpp:347
+#, kde-format
+msgid "Collection"
+msgstr "संग्रह"
+
+#: playlistcollection.cpp:405
+#, kde-format
+msgid "Rename"
+msgstr "नाम बदलव"
+
+#: playlistcollection.cpp:536
+#, kde-format
+msgid "Search Playlist"
+msgstr "गीत-सूची खोजव"
+
+#: playlistcollection.cpp:561
+#, kde-format
+msgid "Create Folder Playlist"
+msgstr "फोल्डर गीत-सूची बनाव"
+
+#: playlistcollection.cpp:601
+#, kde-format
+msgid "History"
+msgstr "इतिहास "
+
+#: playlistcollection.cpp:767
+#, kde-format
+msgid "Please enter a name for this playlist:"
+msgstr "ये गीत-सूची बर एक नाम भरव:"
+
+#: playlistcollection.cpp:915
+#, kde-format
+msgctxt "new playlist"
+msgid "&New"
+msgstr "नवा (&N)"
+
+#: playlistcollection.cpp:918
+#, kde-format
+msgid "&Empty Playlist..."
+msgstr "खाली गीत-सूची... (&E)"
+
+#: playlistcollection.cpp:922
+#, kde-format
+msgid "&Search Playlist..."
+msgstr "गीत-सूची खोजव... (&S)"
+
+#: playlistcollection.cpp:926
+#, kde-format
+msgid "Playlist From &Folder..."
+msgstr "ये फोल्डर से गीत-सूची... (&F)"
+
+#: playlistcollection.cpp:934
+#, kde-format
+msgid "&Guess Tag Information"
+msgstr "टैग जानकारी के अंदाजा लगाव (&G)"
+
+#: playlistcollection.cpp:939
+#, kde-format
+msgid "From &File Name"
+msgstr "फाइल नाम के साथ (&F)"
+
+#: playlistcollection.cpp:943
+#, kde-format
+msgid "From &Internet"
+msgstr "इंटरनेट से (&I)"
+
+#: playlistcollection.cpp:948
+#, kde-format
+msgid "Guess Tag Information From &File Name"
+msgstr "फाइल-नाम मन से टैग जानकारी के अंदाजा लगाव (&F)"
+
+#: playlistcollection.cpp:955
+#, kde-format
+msgid "Play First Track"
+msgstr "पहिली ट्रैक बजाव"
+
+#: playlistcollection.cpp:957
+#, kde-format
+msgid "Play Next Album"
+msgstr "अगला अलबम बजाव"
+
+#: playlistcollection.cpp:964
+#, fuzzy, kde-format
+#| msgid "Add &Folder..."
+msgid "Manage &Folders..."
+msgstr "फोल्डर जोड़व... (&F)"
+
+#: playlistcollection.cpp:966
+#, kde-format
+msgid "&Rename..."
+msgstr "नाम बदलव... (&R)"
+
+#: playlistcollection.cpp:968
+#, kde-format
+msgctxt "verb, copy the playlist"
+msgid "D&uplicate..."
+msgstr "डुप्लीकेट... (&u)"
+
+#: playlistcollection.cpp:973
+#, kde-format
+msgid "Reload"
+msgstr "री-लोड"
+
+#: playlistcollection.cpp:975
+#, kde-format
+msgid "Edit Search..."
+msgstr "खोज संपादन..."
+
+#: playlistcollection.cpp:978
+#, kde-format
+msgid "&Delete"
+msgstr "मेटाव (&D)"
+
+#: playlistcollection.cpp:980
+#, kde-format
+msgid "Refresh"
+msgstr "ताजा करव"
+
+#: playlistcollection.cpp:984
+#, kde-format
+msgid "&Rename File"
+msgstr "फाइल के नाम बदलव (&R)"
+
+#: playlistcollection.cpp:991
+#, kde-format
+msgid "&View Cover"
+msgstr "कवर देखव (&V)"
+
+#: playlistcollection.cpp:993
+#, kde-format
+msgid "Get Cover From &File..."
+msgstr "फाइल से कवर लेवव... (&F)"
+
+#: playlistcollection.cpp:996
+#, kde-format
+msgid "Get Cover From &Internet..."
+msgstr "इंटरनेट से कवर लेवव... (&I)"
+
+#: playlistcollection.cpp:1000
+#, kde-format
+msgid "&Delete Cover"
+msgstr "कवर मेटाव (&D)"
+
+#: playlistcollection.cpp:1002
+#, kde-format
+msgid "Show Cover &Manager"
+msgstr "कवर प्रबंधक देखाव (&M)"
+
+#: playlistcollection.cpp:1006
+#, kde-format
+msgid "Show &Play Queue"
+msgstr "बजाय के कतार देखाव (&P)"
+
+#: playlistcollection.h:192
+#, kde-format
+msgid "Playlist"
+msgstr "गीत-सूची"
+
+#: playlistsplitter.cpp:157
+#, kde-format
+msgid "Show &Search Bar"
+msgstr "खोज पट्टी देखाव (&S)"
+
+#: playlistsplitter.cpp:160
+#, kde-format
+msgid "Edit Track Search"
+msgstr "ट्रैक खोज संपादित करव"
+
+#: scrobbleconfigdlg.cpp:38
+#, kde-format
+msgid "Configure scrobbling..."
+msgstr ""
+
+#: scrobbleconfigdlg.cpp:42
+#, kde-format
+msgid "Test login..."
+msgstr ""
+
+#: scrobbleconfigdlg.cpp:49
+#, kde-format
+msgid ""
+"Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
+msgstr ""
+
+#: scrobbleconfigdlg.cpp:53
+#, fuzzy, kde-format
+#| msgid "Rename"
+msgid "Username:"
+msgstr "नाम बदलव"
+
+#: scrobbleconfigdlg.cpp:54
+#, kde-format
+msgid "Password:"
+msgstr ""
+
+#: scrobbleconfigdlg.cpp:83
+#, kde-format
+msgid ""
+"KWallet is unavailable, your Last.fm credentials will be stored without "
+"encryption."
+msgstr ""
+
+#: scrobbleconfigdlg.cpp:83
+#, fuzzy, kde-format
+#| msgid "Cover Unavailable"
+msgid "KWallet is unavailable"
+msgstr "कवर नइ मिलत"
+
+#: scrobbleconfigdlg.cpp:126
+#, kde-format
+msgid "Validating login..."
+msgstr ""
+
+#: scrobbleconfigdlg.cpp:136
+#, kde-format
+msgid "Login invalid."
+msgstr ""
+
+#: scrobbleconfigdlg.cpp:144
+#, kde-format
+msgid "Login valid."
+msgstr ""
+
+#: searchwidget.cpp:72
+#, kde-format
+msgid "Normal Matching"
+msgstr "सामान्य जोड़"
+
+#: searchwidget.cpp:73
+#, kde-format
+msgid "Case Sensitive"
+msgstr "केस सेंसिटिव"
+
+#: searchwidget.cpp:74
+#, kde-format
+msgid "Pattern Matching"
+msgstr "मिलत जुलत पैटर्न"
+
+#: searchwidget.cpp:168
+#, kde-format
+msgid "All Visible"
+msgstr "सब्बो दिखत"
+
+#: searchwidget.cpp:199
+#, fuzzy, kde-format
+#| msgid "Edit Search..."
+msgid "Search..."
+msgstr "खोज संपादन..."
+
+#: slider.cpp:126
+#, kde-format
+msgid "100%"
+msgstr ""
+
+#: slider.cpp:127
+#, kde-format
+msgid "80%"
+msgstr ""
+
+#: slider.cpp:128
+#, kde-format
+msgid "60%"
+msgstr ""
+
+#: slider.cpp:129
+#, kde-format
+msgid "40%"
+msgstr ""
+
+#: slider.cpp:130
+#, kde-format
+msgid "20%"
+msgstr ""
+
+#: slider.cpp:131
+#, kde-format
+msgid "0%"
+msgstr ""
+
+#: slideraction.cpp:76
+#, kde-format
+msgid "Seeking is not supported in this file with your audio settings."
+msgstr ""
+
+#: statuslabel.cpp:85
+#, kde-format
+msgid "Jump to the currently playing item"
+msgstr "अभी हाल के बज रहे चीज मं जाव"
+
+#: statuslabel.cpp:115
+#, kde-format
+msgid "1 item"
+msgid_plural "%1 items"
+msgstr[0] "%1 चीज"
+msgstr[1] "%1 चीज"
+
+#: systemtray.cpp:157
+#, kde-format
+msgid "Redisplay Popup"
+msgstr "पापअप फिर से देखाव"
+
+#: tageditor.cpp:476
+#, kde-format
+msgid "Show &Tag Editor"
+msgstr "टैग संपादक देखाव (&T)"
+
+#: tageditor.cpp:480
+#, kde-format
+msgid "&Save"
+msgstr "सहेजव (&S)"
+
+#: tageditor.cpp:608
+#, kde-format
+msgid "Do you want to save your changes to:\n"
+msgstr "का आप मन अपन बदलाव मन ल इहां सहेजना चाहथो :\n"
+
+#: tageditor.cpp:610
+#, kde-format
+msgid "Save Changes"
+msgstr "बदलाव सहेजव"
+
+#. i18n: ectx: property (text), widget (QLabel, fileNameLabel)
+#: tageditor.ui:19
+#, fuzzy, kde-format
+#| msgid "&File name:"
+msgid "F&ile name:"
+msgstr "फाइल नामः (&F)"
+
+#. i18n: ectx: property (text), widget (QLabel, trackLabel)
+#: tageditor.ui:29
+#, fuzzy, kde-format
+#| msgctxt "cd track number"
+#| msgid "T&rack:"
+msgid "T&rack:"
+msgstr "ट्रैकः (&r)"
+
+#. i18n: ectx: property (text), widget (QLabel, artistNameLabel)
+#: tageditor.ui:39
+#, kde-format
+msgid "&Artist name:"
+msgstr "कलाकार के नामः (&A)"
+
+#. i18n: ectx: property (text), widget (QLabel, albumNameLabel)
+#: tageditor.ui:49
+#, kde-format
+msgid "Album &name:"
+msgstr "एल्बम नामः (&n)"
+
+#. i18n: ectx: property (text), widget (QLabel, genreLabel)
+#: tageditor.ui:59
+#, kde-format
+msgid "&Genre:"
+msgstr "घरानाः (&G)"
+
+#. i18n: ectx: property (text), widget (QLabel, yearLabel)
+#: tageditor.ui:72
+#, kde-format
+msgid "&Year:"
+msgstr "सालः (&Y)"
+
+#. i18n: ectx: property (text), widget (QLabel, lengthLabel)
+#: tageditor.ui:96
+#, fuzzy, kde-format
+#| msgid "Length:"
+msgid "&Length:"
+msgstr "लंबाईः "
+
+#. i18n: ectx: property (text), widget (QLabel, bitrateLabel)
+#: tageditor.ui:106
+#, fuzzy, kde-format
+#| msgid "Bitrate:"
+msgid "&Bitrate:"
+msgstr "बिटरेटः"
+
+#. i18n: ectx: property (text), widget (QLabel, commentLabel)
+#: tageditor.ui:116
+#, kde-format
+msgid "&Comment:"
+msgstr "टिप्पनीः (&C)"
+
+#. i18n: ectx: property (text), widget (QLabel, trackNameLabel)
+#: tageditor.ui:184
+#, fuzzy, kde-format
+#| msgid "&Track name:"
+msgid "Trac&k name:"
+msgstr "ट्रेक नामः (&T)"
+
+#. i18n: ectx: property (text), widget (QCheckBox, artistNameEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, trackNameEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, albumNameEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, genreEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, trackEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, yearEnable)
+#. i18n: ectx: property (text), widget (QCheckBox, commentEnable)
+#: tageditor.ui:194 tageditor.ui:207 tageditor.ui:217 tageditor.ui:227
+#: tageditor.ui:237 tageditor.ui:247 tageditor.ui:257
+#, kde-format
+msgid "Enable"
+msgstr "सक्छम करव"
+
+#: tagguesserconfigdlg.cpp:39
+#, kde-format
+msgid "Tag Guesser Configuration"
+msgstr "गैसर कान्फिगरेसन टैग करव"
+
+#. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
+#: tagguesserconfigdlgwidget.ui:18
+#, kde-format
+msgid "Currently used file name schemes"
+msgstr "अभी हाल के मं उपयोग होवत फाइल नाम योजना"
+
+#. i18n: ectx: property (whatsThis), widget (QTreeView, lvSchemes)
+#: tagguesserconfigdlgwidget.ui:29
+#, no-c-format, kde-format
+msgid ""
+"Here you can see the currently configured file name schemes which the "
+"\"Guess Tag Information From File Name\" entry in the song's context menu "
+"uses to extract tag information from a file name. Each string may contain "
+"one of the following placeholders:<ul>\n"
+"<li>%t: Title</li>\n"
+"<li>%a: Artist</li>\n"
+"<li>%A: Album</li>\n"
+"<li>%T: Track</li>\n"
+"<li>%c: Comment</li>\n"
+"</ul>\n"
+"For example, the file name scheme \"[%T] %a - %t\" would match \"[01] Deep "
+"Purple - Smoke on the water\" but not \"(Deep Purple) Smoke on the water\". "
+"For that second name, you would use the scheme \"(%a) %t\".<p/>\n"
+"Note that the order in which the schemes appear in the list is relevant, "
+"since the tag guesser will go through the list from the top to the bottom, "
+"and use the first matching scheme."
+msgstr ""
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, bMoveUp)
+#: tagguesserconfigdlgwidget.ui:42
+#, kde-format
+msgid "Move scheme up"
+msgstr "योजना ऊपर करव"
+
+#. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveUp)
+#: tagguesserconfigdlgwidget.ui:45
+#, kde-format
+msgid ""
+"Press this button to move the currently selected scheme one step upwards."
+msgstr "अभी वाले चुने गे योजना ल एक स्तर ऊपर करे बर ए बटन ल दबाव."
+
+#. i18n: ectx: property (toolTip), widget (QToolButton, bMoveDown)
+#: tagguesserconfigdlgwidget.ui:55
+#, kde-format
+msgid "Move scheme down"
+msgstr "योजना नीचे करव"
+
+#. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveDown)
+#: tagguesserconfigdlgwidget.ui:58
+#, kde-format
+msgid ""
+"Press this button to move the currently selected scheme one step downwards."
+msgstr "अभी वाले चुने गे योजना ल एक स्तर नीचे करे बर ए बटन ल दबाव."
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, bAdd)
+#: tagguesserconfigdlgwidget.ui:68
+#, kde-format
+msgid "Add a new scheme"
+msgstr "एक नवा योजना जोड़व"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, bAdd)
+#: tagguesserconfigdlgwidget.ui:71
+#, kde-format
+msgid "Press this button to add a new file name scheme to the end of the list."
+msgstr "सूची के आखरी मं नवा फाइल नाम योजना सामिल करे बर ए बटन ल दबाव."
+
+#. i18n: ectx: property (text), widget (QPushButton, bAdd)
+#: tagguesserconfigdlgwidget.ui:74
+#, kde-format
+msgid "&Add"
+msgstr "जोड़व (&A)"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, bModify)
+#: tagguesserconfigdlgwidget.ui:81
+#, kde-format
+msgid "Modify scheme"
+msgstr "योजना सुधारव"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, bModify)
+#: tagguesserconfigdlgwidget.ui:84
+#, kde-format
+msgid "Press this button to modify the currently selected scheme."
+msgstr "अभी वाले चुने गे योजना ल सुधारे बर ए बटन ल दबाव."
+
+#. i18n: ectx: property (text), widget (QPushButton, bModify)
+#: tagguesserconfigdlgwidget.ui:87
+#, kde-format
+msgid "&Modify"
+msgstr "सुधारव (&M)"
+
+#. i18n: ectx: property (toolTip), widget (QPushButton, bRemove)
+#: tagguesserconfigdlgwidget.ui:94
+#, kde-format
+msgid "Remove scheme"
+msgstr "योजना मेटाव"
+
+#. i18n: ectx: property (whatsThis), widget (QPushButton, bRemove)
+#: tagguesserconfigdlgwidget.ui:97
+#, kde-format
+msgid ""
+"Press this button to remove the currently selected scheme from the list."
+msgstr "अभी वाले चुने गे योजना ल सूची मं से मेटाय बर ए बटन ल दबाव."
+
+#. i18n: ectx: property (text), widget (QLabel, label)
+#: tagguesserconfigdlgwidget.ui:128
+#, no-c-format, kde-format
+msgid ""
+"You can use the following placeholders:\n"
+"%t: Title\n"
+"%A: Album\n"
+"%a: Artist\n"
+"%T: Track\n"
+"%c: Comment"
+msgstr ""
+
+#: tagrenameroptions.cpp:100
+msgctxt "song title"
+msgid "Title"
+msgstr "सीर्सक"
+
+#: tagrenameroptions.cpp:126
+msgctxt "unknown renamer category"
+msgid "Unknown"
+msgstr "अग्यात"
+
+#: tagtransactionmanager.cpp:111
+#, kde-format
+msgid ""
+"This file already exists.\n"
+"Do you want to replace it?"
+msgstr ""
+"ए फाइल पहिली से ही मौजूद हे. \n"
+"का आप मन एला बदलना चाहथो ?"
+
+#: tagtransactionmanager.cpp:112
+#, kde-format
+msgid "File Exists"
+msgstr "फाइल अस्तित्व मं हे"
+
+#: tagtransactionmanager.cpp:112
+#, kde-format
+msgid "Replace"
+msgstr "बदलव"
+
+#: tagtransactionmanager.cpp:177
+#, kde-format
+msgid "The following files were unable to be changed."
+msgstr "निम्न फाइल मन ल बदले मं अक्छम."
+
+#: tagtransactionmanager.cpp:179
+#, kde-format
+msgid "Error"
+msgstr "गलती"
+
+#: treeviewitemplaylist.cpp:48
+#, kde-format
+msgid "artist"
+msgstr "कलाकार"
+
+#: treeviewitemplaylist.cpp:50
+#, kde-format
+msgid "genre"
+msgstr "घराना"
+
+#: treeviewitemplaylist.cpp:52
+#, kde-format
+msgid "album"
+msgstr "एल्बम"
+
+#: treeviewitemplaylist.cpp:56
+#, kde-format
+msgid "You are about to change the %1 on these files."
+msgstr "आप ए फाइल मन %1 ल बदलत हो ."
+
+#: treeviewitemplaylist.cpp:58
+#, kde-format
+msgid "Changing Track Tags"
+msgstr "ट्रैक बदले के टैग्स"
+
+#: upcomingplaylist.cpp:31
+#, kde-format
+msgid "Play Queue"
+msgstr "कतार बजाव"
+
+#: viewmode.cpp:64
+#, kde-format
+msgctxt "the normal viewing mode"
+msgid "Default"
+msgstr "डिफाल्ट"
+
+#: viewmode.cpp:121
+#, kde-format
+msgctxt "compact viewing mode"
+msgid "Compact"
+msgstr "सघन"
+
+#: viewmode.cpp:150
+#, kde-format
+msgid "Tree"
+msgstr "ट्री"
+
+#: viewmode.cpp:280
+#, kde-format
+msgid "Artists"
+msgstr "कलाकार"
+
+#: viewmode.cpp:283
+#, kde-format
+msgid "Albums"
+msgstr "एल्बम"
+
+#: viewmode.cpp:286
+#, kde-format
+msgid "Genres"
+msgstr "घराने"
+
+#: volumepopupbutton.cpp:76
+#, kde-format
+msgid "Mute/Unmute"
+msgstr ""
+
+#: volumepopupbutton.cpp:114
+#, kde-format
+msgid "%1%"
+msgstr ""
+
+#: volumepopupbutton.cpp:123 volumepopupbutton.cpp:134
+#, fuzzy, kde-format
+#| msgid "Volume Up"
+msgid "Volume: %1% (muted)"
+msgstr "अवाज बढ़ाव"
+
+#: volumepopupbutton.cpp:123
+#, fuzzy, kde-format
+#| msgid "Volume Up"
+msgid "Volume: %1%"
+msgstr "अवाज बढ़ाव"
+
+#: webimagefetcher.cpp:82
+#, fuzzy, kde-format
+#| msgid "Searching for Images. Please Wait..."
+msgid "Searching for cover. Please Wait..."
+msgstr "फोटू मन ल खोजत हे. किरपा करके, अगोरव..."
+
+#: webimagefetcher.cpp:144
+#, kde-format
+msgid "Album '%1' not found."
+msgstr ""
+
+#: webimagefetcher.cpp:144
+#, kde-format
+msgctxt "@title:window"
+msgid "Album not Found"
+msgstr ""
+
+#: webimagefetcher.cpp:146
+#, kde-format
+msgid ""
+"Error %1 when searching for cover:\n"
+"%2"
+msgstr ""
+
+#: webimagefetcher.cpp:156
+#, kde-format
+msgid "No available cover for the album '%1'."
+msgstr ""
+
+#: webimagefetcher.cpp:157
+#, kde-format
+msgctxt "@title:window"
+msgid "Cover not Available"
+msgstr ""
+
+#: webimagefetcher.cpp:166
+#, fuzzy, kde-format
+#| msgid "Searching for Images. Please Wait..."
+msgid "Downloading cover. Please Wait..."
+msgstr "फोटू मन ल खोजत हे. किरपा करके, अगोरव..."
+
+#: webimagefetcher.cpp:183
+#, fuzzy, kde-format
+#| msgid "Cover Downloader"
+msgid "Cover found"
+msgstr "कवर डाउनलोड करइया"
+
+#: webimagefetcher.cpp:190
+#, kde-format
+msgid "Failed to download requested cover art: %1"
+msgstr ""
+
+#: webimagefetcher.cpp:191
+#, kde-format
+msgctxt "@title:window"
+msgid "Could not download cover art"
+msgstr ""
+
+#: webimagefetcher.cpp:213
+#, kde-format
+msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
+msgstr ""
+
+#~ msgid "&lt;All Artists&gt;"
+#~ msgstr "&lt;सब्बो कलाकार&gt;"
+
+#~ msgid "Search:"
+#~ msgstr "खोजव:"
+
+#~ msgid "Querying MusicBrainz server..."
+#~ msgstr "म्यूजिकब्रैंज सर्वर क्वेरी करे में..."
+
+#~ msgid "No matches found."
+#~ msgstr "कोई जोड़ नइ मिलिस."
+
+#~ msgid "Error connecting to MusicBrainz server."
+#~ msgstr "म्यूजिक-ब्रैंज सर्वर से जुड़े मं गलती."
+
+#~ msgid "Internet Tag Guesser"
+#~ msgstr "इंटरनेट टैग गैसर"
+
+#~ msgid "Select Best Possible Match"
+#~ msgstr "सबले बढ़िया संभव जोड़ चुनव"
+
+#~ msgid "1 day"
+#~ msgid_plural "%1 days"
+#~ msgstr[0] "1 दिन"
+#~ msgstr[1] "%1 दिन"
+
+#~ msgid "Show Splash Screen on Startup"
+#~ msgstr "सुरू मं स्प्लैस स्क्रीन देखाव:"
+
+#~ msgid "Add Selected Items to Audio or Data CD"
+#~ msgstr "चुने गे चीज ल आडियो या डाटा सीडी मं जोड़व"
+
+#~ msgid "Unable to start K3b."
+#~ msgstr "के3बी चालू करे मं अक्छम."
+
+#~ msgid "Create K3b Project"
+#~ msgstr "के3बी परियोजना बनाव"
+
+#~ msgid "Audio Mode"
+#~ msgstr "आडियो मोड"
+
+#~ msgid "Data Mode"
+#~ msgstr "डाटा मोड"
+
+#~ msgid "Add Playlist to Audio or Data CD"
+#~ msgstr "आडियो या डाटा सीडी मं गीत सूची जोड़व"
+
+#, fuzzy
+#~| msgid "Loading"
+#~ msgctxt "%1 is a count of loaded music tracks"
+#~ msgid "Loading: %1"
+#~ msgstr "लोड करत हे"
+
+#~ msgid "No matching images found, please enter new search terms:"
+#~ msgstr "मिलत जुलत कोनो फोटू नइ मिलिस. किरपा करके, खोजे बर नवा वाक्यांस भरव:"
+
+#~ msgid "Enter new search terms:"
+#~ msgstr "नवा सर्च टर्म भरव:"
+
+#~ msgid "New Search"
+#~ msgstr "नवा सिरे से खोजव"
+
+#, fuzzy
+#~| msgid "%1 Format"
+#~ msgid "Form"
+#~ msgstr "%1 फार्मेट"
+
+#~ msgid "There was a DCOP communication error with K3b."
+#~ msgstr "के3बी के साथ एक डीकाप संचार गलती होइस."
+
+#~ msgctxt "%1 is Cover Art, %2 is the playing track, %3 is the appname"
+#~ msgid ""
+#~ "<table style=\"font-size:14pt;\" cellspacing=\"2em\"><tr><td rowspan="
+#~ "\"2\">%1</td><td align=\"center\" valign=\"middle\">%2</td></tr><tr><td "
+#~ "align=\"center\" valign=\"middle\"><em>%3</em></td></tr></table>"
+#~ msgstr ""
+#~ "<table style=\"font-size:14pt;\" cellspacing=\"2em\"><tr><td rowspan="
+#~ "\"2\">%1</td><td align=\"center\" valign=\"middle\">%2</td></tr><tr><td "
+#~ "align=\"center\" valign=\"middle\"><em>%3</em></td></tr></table>"
+
+#~ msgid "List of files that are about to be deleted."
+#~ msgstr "फाइल मन के सूची जऊन ल मेटाय जाही."
+
+#~ msgid "This is the list of items that are about to be deleted."
+#~ msgstr "ये चीज मन के सूची हे जऊन ल मेटाय जाही."
+
+#~ msgid "Folders"
+#~ msgstr "फोल्डर"
+
+#~ msgid "File Name Scheme"
+#~ msgstr "फाइल नाम योजना"
+
+#~ msgid "GroupBox"
+#~ msgstr "समूह-डब्बा"
+
+#~ msgid "Minimum track &width:"
+#~ msgstr "सबसे कम ट्रैक चौड़ाई: (&w)"
+
+#~ msgid "Icon Placeholder, not in GUI"
+#~ msgstr "चिनहा प्लेसहोल्डर, जीयूआई मं नइ"
+
+#~ msgid "Deletion method placeholder, never shown to user."
+#~ msgstr "मिटइया विधि प्लेसहोल्डर, कमइया ल कभू नइ देखाव."
+
+#~ msgid "Placeholder for number of files, not in GUI"
+#~ msgstr "बहुत से फाइल मन के प्लेसहोल्डर, जीयूआई मं नइ"
+
+#~ msgid "&Resize Column Headers Automatically"
+#~ msgstr "खंभा हेडर अपने अपन नवा आकार देव (&R)"
+
+#~ msgid "Hide Splash Screen on Startup"
+#~ msgstr "सुरू मं स्प्लैस स्क्रीन लुकाव"
+
+#~ msgid "Hide &History"
+#~ msgstr "इतिहास लुकाव (&H)"
+
+#~ msgid "Hide &Play Queue"
+#~ msgstr "बजाय के कतार लुकाव (&P)"
+
+#~ msgid "Hide &Search Bar"
+#~ msgstr "खोज पट्टी लुकाव (&S)"
+
+#~ msgid "Hide &Tag Editor"
+#~ msgstr "टैग संपादक लुकाव (&T)"
+
+#~ msgid "The cover you have selected is unavailable. Please select another."
+#~ msgstr "आप मन जऊन कवर चुने हव  वो नइ मिलत हे. किरपा करके, कोनो अउ चुनव."
+
+#~ msgid "Open..."
+#~ msgstr "खोलव..."
+
+#~ msgid "Save"
+#~ msgstr "सहेजव"
+
+#~ msgid "Save As..."
+#~ msgstr "अइसन सहेजव..."

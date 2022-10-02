@@ -1,0 +1,976 @@
+<?xml version="1.0" ?>
+<!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
+  <!ENTITY package "kdemultimedia">
+  <!ENTITY kappname "&juk;">
+  <!ENTITY juk "<application
+>JuK</application
+>">
+  <!ENTITY % addindex "IGNORE">
+  <!ENTITY % Russian "INCLUDE">
+]>
+
+<book lang="&language;">
+
+<bookinfo>
+<title
+>Справочник по &juk;</title>
+
+<authorgroup>
+<author
+>&Lauri.Watts; &Lauri.Watts.mail;</author>
+
+<othercredit role="developer"
+><firstname
+>Scott</firstname
+> <surname
+>Wheeler</surname
+> <affiliation
+> <address
+><email
+>wheeler@kde.org</email
+></address>
+</affiliation>
+</othercredit>
+
+<othercredit role="translator"
+><firstname
+>Антон</firstname
+><surname
+>Горбачёв</surname
+> <affiliation
+><address
+><email
+>justoff@hotmail.ru</email
+></address
+></affiliation
+> <contrib
+>Перевод на русский</contrib
+></othercredit
+> 
+
+</authorgroup>
+
+<copyright>
+<year
+>2001</year>
+<year
+>2002</year>
+<holder
+>Scott Wheeler</holder>
+</copyright>
+<legalnotice
+>&FDLNotice;</legalnotice>
+
+<date
+>12/07/2002</date>
+<releaseinfo
+>1.0</releaseinfo>
+
+<abstract>
+<para
+>&juk; - это музыкальный центр и менеджер музыки. </para>
+</abstract>
+
+<keywordset>
+<keyword
+>KDE</keyword>
+<keyword
+>kdemultimedia</keyword>
+</keywordset>
+
+</bookinfo>
+
+<chapter id="introduction">
+<title
+>Введение</title>
+
+<para
+>&juk; - это музыкальный центр. Как и все подобные программы, &juk; позволяет редактировать <quote
+>теги</quote
+> музыкальных файлов, и управлять коллекцией музыки. </para>
+</chapter>
+
+<chapter id="using-juk">
+<title
+>Использование &juk;</title>
+
+<!--
+
+<para>
+<screenshot>
+<screeninfo
+>Here's a screenshot of &juk;</screeninfo>
+	<mediaobject>
+	  <imageobject>
+	    <imagedata fileref="screenshot.png" format="PNG"/>
+	  </imageobject>
+	  <textobject>
+	    <phrase
+>Screenshot</phrase>
+	  </textobject>
+	</mediaobject>
+</screenshot>
+</para>
+
+-->
+
+<para
+>&juk; управляет списком файлов, информацией о которых он располагает. Этот список называется <guilabel
+>Коллекцией</guilabel
+>. &juk; использует собственный файл коллекции, который не используется другими приложениями.</para>
+
+<para
+>Списки воспроизведения являются независимыми от Коллекции. Можно создать сколько угодно списков воспроизведения. &juk; может использовать списки воспроизведения, созданные другими программами (например &noatun; или <application
+>xmms</application
+>). Также можно изменять списки воспроизведения этих программ прямо из &juk;.</para>
+
+<para
+>Можно добавлять файлы в Коллекцию индивидуально, используя пункт меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Открыть...</guimenuitem
+></menuchoice
+> и выбрав файл с помощью стандартного диалога открытия файла &kde;. Так же можно добавить в коллекцию целые каталоги, используя <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Открыть каталог... </guimenuitem
+></menuchoice
+>. Добавленные таким способом каталоги будут просматриваться при каждом запуске &juk; и при выборе <menuchoice
+><guimenu
+>Вид</guimenu
+><guimenuitem
+>Обновить список</guimenuitem
+></menuchoice
+>.</para>
+
+<para
+>При добавлении песни в список воспроизведения она автоматически будет добавлена в Коллекцию, однако при добавлении в Коллекцию она не будет автоматически добавлена ни в один из списков воспроизведения.</para>
+
+<para
+>Существует возможность быстро создать список воспроизведения включающий всю коллекцию, щёлкнув правой кнопкой по иконке <guilabel
+>Коллекция</guilabel
+> и выбрав <guimenuitem
+>Дублировать</guimenuitem
+>. При этом создастся обычный список воспроизведения, и его редактирование никак не затронет собственно коллекцию.</para>
+
+<para
+>Можно добавить файлы списков воспроизведения, созданные другими программами, помимо &juk;. Для этого нужно использовать пункт меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Открыть файл...</guimenuitem
+></menuchoice
+>. Любые списки воспроизведения найденные в каталогах, открытых командой <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Открыть каталог...</guimenuitem
+></menuchoice
+>, также будут добавлены автоматически.</para>
+
+<para
+>Можно создать новый список воспроизведения, используя пункт меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Создать</guimenuitem
+></menuchoice
+>, или иконку <guiicon
+>Создать</guiicon
+> на панели инструментов. Последует запрос имени для нового списка воспроизведения и новая иконка отобразиться на панели списков воспроизведения. Теперь можно перетаскивать песни из Коллекции в новый список воспроизведения. После того, как список сформирован, используйте иконку <guiicon
+>Сохранить</guiicon
+> на панели инструментов или пункт меню <menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Сохранить</guimenuitem
+></menuchoice
+>, чтобы сохранить созданный список воспроизведения.</para>
+
+<sect1 id="collection-list-gui">
+<title
+>Список песен</title>
+
+<para
+>Во время просмотра Коллекции, основная панель отображает все файлы, информацией о которых располагает &juk;. Во время просмотра списка воспроизведения отображаются только файлы входящие в список воспроизведения.</para>
+
+<para
+>Каждая музыкальная композиция занимает одну строчку в таблице на экране. Колонки таблицы содержат информацию о композиции. Значение колонок, такое же как в редакторе тегов.</para>
+
+<para
+>Можно изменить порядок сортировки списка в любой момент. Для этого нужно кликнуть левой кнопкой мыши по заголовку колонки. При этом список будет отсортирован в порядке убывания по содержанию выбранной колонки. При повторном щелчке по заголовку, список будет отсортирован в обратном порядке.</para>
+
+<para
+>По умолчанию, ширина колонок выбирается автоматически, по ширине максимальной записи в списке. Для того, чтобы изменить ширину колонок, нужно поместить курсор мыши на разделительную черту между двумя колонками. Когда форма курсора мыши изменится, нажмите левую кнопку мыши и, удерживая нажатой, перетащите разделитель колонок для получения желаемого размера.</para>
+
+<para
+>Можно изменить порядок следования колонок. Для этого нужно, удерживая нажатой левую кнопку мыши на заголовке колонки, перетащить её вправо или влево. При этом невозможно перетащить колонку на позицию, которая в данный момент не видна. Возможно, придётся несколько раз производить перетаскивание колонки и прокручивание содержимого окна для достижения желаемой позиции колонки.</para>
+
+<para
+>Подменю <menuchoice
+><guimenu
+>Вид</guimenu
+><guisubmenu
+> Колонки</guisubmenu
+></menuchoice
+> позволяет скрыть колонки, которые в данный момент не нужны, или отобразить скрытые ранее колонки. Также можно скрыть ненужные колонки кликнув правой кнопкой мыши по заголовку колонки.</para>
+
+<para
+>Двойной щелчок левой кнопкой мыши по файлу запустит его воспроизведение во встроенном проигрывателе. Если в этот момент проигрывается другая песня, она будет остановлена.</para>
+
+<para
+>Щелчок правой кнопкой мыши по файлу предоставляет несколько действий:</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guimenuitem
+>Вырезать</guimenuitem
+></term>
+<term
+><guimenuitem
+>Копировать</guimenuitem
+></term>
+<term
+><guimenuitem
+>Вставить</guimenuitem
+></term>
+<listitem>
+<para
+>...</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Очистить</guimenuitem
+></term>
+<listitem>
+<para
+>При просмотре коллекции выбор пункта меню <guimenuitem
+>Очистить</guimenuitem
+> удалит файл из коллекции, а также из всех списков воспроизведения, где он присутствовал. Нужно принять во внимание, что если файл находится в одном из каталогов, которые &juk; просматривает при запуске, он будет автоматически добавлен в коллекцию при следующем запуске &juk;, однако не будет автоматически добавлен ни в один из списков воспроизведения.</para>
+<para
+>При просмотре списка воспроизведения пункт меню <guimenuitem
+>Очистить</guimenuitem
+> удалит файл только из данного списка воспроизведения.</para>
+
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Удалить с диска</guimenuitem
+></term>
+<listitem>
+<para
+>Удаляет файл из Коллекции, из всех списков воспроизведения, и с устройства хранения информации (жёсткого диска). Отмена данного действия невозможна, поэтому перед удалением будет выдан запрос на подтверждение действия. Используйте эту функцию с осторожностью.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guimenuitem
+>Правка</guimenuitem
+></term>
+<listitem>
+<para
+>Позволяет редактировать активную колонку выделенной песни. Например, можно исправить имя исполнителя текущей композиции не открывая редактор тегов.</para>
+<para
+>Изменения, произведённые таким способом всегда сохраняются немедленно, как только вы кликните мышкой где-либо вне поля редактирования.</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+
+</sect1>
+
+<sect1 id="juk-tagger">
+<title
+>Встроенный редактор тегов</title>
+
+<para
+>Для многих форматов файлов используется практика описания содержимого файла в его имени. Например имени файла <quote
+><filename
+>Отчет по складу за Январь 2003 года.doc</filename
+></quote
+> вполне достаточно, чтобы легко найти файл впоследствии. Попытка записать подобным образом всю полезную информацию о музыкальной композиции приведёт к появлению файлов с именами, подобными следующим: <quote
+><filename
+>Type O Negative - The Glorious Liberation Of The Peoples Technocratic Republic Of Vinnland By The Combined Forces Of The United Territories Of Europa.mp3</filename
+></quote
+>, или <quote
+><filename
+>ТУТА - Нам не догнаться - В пробке на МКАДе- 2001 - Россия - Попса - Продюссерский центр Василия Пупкина - 192kBps - Стерео.mp3.</filename
+></quote
+> Кроме того, что это очень не удобно, не вся информация, которую вы хотели бы собрать о композиции, может быть записана подобным образом. Первое имя файла, например, не содержит информации об альбоме и номере дорожки.</para>
+
+<para
+>Решением данной проблемы стало сохранение данных о музыкальной композиции непосредственно в файле, в так называемых тегах. Форматы mp3 и ogg также могут содержать текстовое описание. Существует несколько форматов файлов, с отличающимися механизмами хранения дополнительной информации, однако &juk; скрывает все различия и предоставляет единый интерфейс для редактирования стандартного набора хорошо известных тегов для всех файлов аудио.</para>
+
+<para
+>Полноценный встроенный редактор тегов позволяет редактировать теги в файлах mp3 и ogg. Можно редактировать теги отдельного файла, нескольких файлов, или набора из файлов mp3 и ogg. Единственным ограничением может быть отсутствие прав доступа на запись непосредственно в файлы. Например нельзя редактировать теги файлов, расположенных на &CD-ROM;.</para>
+
+<sect2 id="tagging-a-single-file">
+<title
+>Редактирование тегов отдельного файла</title>
+
+<para
+>Чтобы отредактировать теги отдельного файла, следует выделить его в любом списке (коллекции или списке воспроизведения). Если встроенный редактор тегов не отображается на экране, следует включить его с помощью пункта меню <menuchoice
+><guimenu
+>Вид</guimenu
+><guimenuitem
+>Показать редактор тегов</guimenuitem
+></menuchoice
+>. Редактор тегов отобразится ниже списка файлов.</para>
+
+<para
+>Для изменения информации нужно просто ввести её в любое из полей редактирования. После окончания редактирования следует щёлкнуть левой кнопкой по списку файлов (выбрать другой файл), после чего отобразится запрос на сохранение изменений.</para>
+
+<variablelist>
+<title
+>Поля редактора тегов</title>
+<varlistentry>
+<term
+><guilabel
+>Исполнитель:</guilabel
+></term>
+<listitem>
+<para
+>Имя исполнителя (или группы).</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Название:</guilabel
+></term>
+<listitem>
+<para
+>Название музыкальной композиции.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Альбом:</guilabel
+></term>
+<listitem>
+<para
+>Название альбома, в который входит данная композиция.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Жанр:</guilabel
+></term>
+<listitem>
+<para
+>Музыкальный стиль. &juk; предоставляет список жанров в соответствии со стандартом id3, но вы можете указать любое собственное наименование жанра.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Имя файла:</guilabel
+></term>
+<listitem>
+<para
+>Имя, под которым файл сохранён на диске. Можно непосредственно указать другое имя и при сохранении изменений файл будет переименован.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Дорожка:</guilabel
+></term>
+<listitem>
+<para
+>Порядковый номер дорожки в оригинальном альбоме.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Год:</guilabel
+></term>
+<listitem>
+<para
+>Год выхода музыкальной композиции.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Длительность:</guilabel
+></term>
+<listitem>
+<para
+>Длительность музыкальной композиции. Это информационное поле, его нельзя редактировать.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Поток:</guilabel
+></term>
+<listitem>
+<para
+>Величина потока данных, использованная при компрессии файла. Это информационное поле, его нельзя редактировать.</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guilabel
+>Комментарий:</guilabel
+></term>
+<listitem>
+<para
+>В это поле можно добавить текстовый комментарий в свободной форме.</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para
+>Можно в любой момент полностью сохранить изменения, произведённые в редакторе тегов, используя пункт меню <menuchoice
+><guimenu
+>Редактор тегов</guimenu
+><guimenuitem
+>Сохранить</guimenuitem
+></menuchoice
+> или нажав комбинацию клавиш <keycombo
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></para>
+
+</sect2>
+
+<sect2 id="tagging-multiple-files">
+<title
+>Редактирование тегов группы файлов</title>
+
+<para
+>Можно выбрать несколько файлов в списке и редактировать одно или несколько полей тегов во всех файлах одновременно.</para>
+
+<para
+>Используйте клавишу <keycap
+>Shift</keycap
+> и левую кнопку, чтобы выделить непрерывный диапазон файлов, или клавишу &Ctrl; и левую кнопку, чтобы выделить несколько файлов в различных областях списка.</para>
+
+<para
+>Если встроенный редактор тегов не отображается на экране, следует включить его с помощью пункта меню <menuchoice
+><guimenu
+>Вид</guimenu
+><guimenuitem
+>Показать редактор тегов</guimenuitem
+></menuchoice
+>. Редактор тегов отобразится ниже списка файлов.</para>
+
+<para
+>Когда выделена группа файлов, редактор тегов выглядит несколько иначе.</para>
+
+<para
+>У каждого поля редактора тегов теперь появился флажок <guilabel
+>Включить</guilabel
+>. Каждое поле, содержимое которого одинаково у всех выделенных файлов, отображает своё значение и разрешено для редактирования - флажок <guilabel
+>Включить</guilabel
+> установлен.</para>
+
+<!-- put screeny here -->
+
+<para
+>Если же содержимое поля не одинаково у всех выделенных файлов, оно отображается пустым и нередактируемым.</para>
+
+<para
+>Для изменения содержимого поля отметьте флажок <guilabel
+>Включить</guilabel
+>, если он не был отмечен ранее, и измените значение поля как обычно.</para>
+
+<para
+>После окончания редактирования следует щёлкнуть левой кнопкой в области списка, чтобы вызвать диалог подтверждения сохранения изменений. Диалог показывает список файлов, которые будут изменены таким образом, что можно принять изменения только для части файлов.</para>
+
+<para
+>Можно в любой момент полностью сохранить изменения, произведённые в редакторе тегов, используя пункт меню <menuchoice
+><guimenu
+>Редактор тегов</guimenu
+><guimenuitem
+>Сохранить</guimenuitem
+></menuchoice
+> или нажав комбинацию клавиш <keycombo
+>&Ctrl;<keycap
+>T</keycap
+></keycombo
+></para>
+
+</sect2>
+
+</sect1>
+
+</chapter>
+
+<chapter id="toolbar-reference">
+<title
+>Панель &juk;</title>
+
+<sect1 id="main-toolbar">
+<title
+>Основная панель инструментов</title>
+
+<screenshot>
+<screeninfo
+>Панель &juk;.</screeninfo>
+<mediaobject>
+<imageobject>
+<imagedata format="PNG" fileref="toolbar.png"/>
+</imageobject>
+<textobject>
+<phrase
+>Панель &juk;.</phrase>
+</textobject>
+<caption
+><para
+>Панель &juk;.</para
+></caption>
+</mediaobject>
+</screenshot>
+
+<para
+>На снимке экрана показана панель инструментов. По умолчанию на ней расположены следующие кнопки (справа налево):</para>
+
+<variablelist>
+<varlistentry>
+<term
+><guiicon
+>Создать</guiicon
+></term>
+<listitem
+><para
+>Создаёт новый список воспроизведения</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Открыть</guiicon
+></term>
+<listitem
+><para
+>Добавляет файл в коллекцию или текущий список воспроизведения (в зависимости от того какой из списков активен в данный момент). При добавлении файла в список воспроизведения он будет автоматически добавлен в коллекцию, но не наоборот.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Сохранить</guiicon
+></term>
+<listitem
+><para
+>Сохраняет текущий список воспроизведения. Для сохранения изменений отдельного элемента просто выберите другой элемент или используйте сочетание клавиш <keycombo action="simul"
+>&Ctrl;<keycap
+>Т</keycap
+></keycombo
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Вырезать</guiicon
+></term>
+<listitem
+><para
+>Если выделен список воспроизведения или песня - вырезает (удаляет). Если активен редактор тегов - срабатывает как в любом редакторе - удаляет выделеный текст и помещает его копию в буфер обмена.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Копировать</guiicon
+></term>
+<listitem
+><para
+>Если активен редактор тегов - срабатывает как в любом редакторе - помещает копию выделенного текста в буфер обмена.</para>
+<para
+>Применение функции копирования к песне в коллекции помещает в буфер обмена её адрес (URL). Из буфера обмена он может быть помещён в текстовый редактор, &konqueror;, или другой список воспроизведения.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Вставить</guiicon
+></term
+> 
+<listitem
+><para
+>Если предварительно скопировать или вырезать URL из коллекции, его можно вставить в новый список воспроизведения. Также можно вставить URL, скопированный из &konqueror;, или другого приложения. Во время работы с редактором тегов, функция вставки поместит в выделенное поле текст из буфера обмена.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Показать панель поиска</guiicon
+></term>
+<listitem
+><para
+>Отображает или скрывает <link linkend="search-bar"
+>панель поиска</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+><guiicon
+>Показать редактор тегов</guiicon
+></term>
+<listitem
+><para
+>Отображает или скрывает <link linkend="tagging-a-single-file"
+>редактор тегов</link
+>.</para
+></listitem>
+</varlistentry>
+
+<varlistentry>
+<term
+>Управление воспроизведением</term>
+<listitem>
+<para
+>Управление воспроизведением состоит из стандартных действий - <guiicon
+>Воспроизвести</guiicon
+>, <guiicon
+>Приостановить</guiicon
+>, <guiicon
+>Остановить</guiicon
+>, <guiicon
+>Перейти к следующей композиции</guiicon
+>, <guiicon
+>Перейти к предыдущей композиции</guiicon
+>.</para>
+<para
+>Указатель положения показывает текущую воспроизводимую (оносительную) позицию в песне. Можно быстро перейти к любому фрагменту песни просто перетащив указатель с помощью мыши.</para>
+<para
+>И наконец регулятор громкости. Как и следовало ожидать он управляет громкостью воспроизведения. Вправо - <quote
+>Громче</quote
+>, влево - <quote
+>Тише</quote
+>.</para
+></listitem>
+</varlistentry>
+</variablelist>
+
+</sect1>
+
+<sect1 id="search-bar">
+<title
+>Панель поиска</title>
+
+<para
+>Панель поиска позволяет производить быстрый поиск песни в списке воспроизведения или коллекции.</para>
+
+<para
+>При вводе текста в панель поиска список будет отображать только те элементы, которые содержат введённый текст в любой из видимых колонок.</para>
+
+<para
+>Можно изменить некоторые параметры быстрого поиска. Например, указать какие колонки будут учитываться при поиске. Установка по умолчанию - <guilabel
+>&lt;Все отображаемые&gt;</guilabel
+>. Выпадающий список позволяет указать в каких колонках следует производить поиск. Также можно производить поиск с учётом регистра букв. Для этого нужно отметить пункт <guilabel
+>Учитывать регистр</guilabel
+>. Кнопка <guibutton
+>Очистить</guibutton
+> очищает панель поиска. </para>
+
+<para
+>Поиск начинается автоматически при вводе текста в строку поиска. При вводе каждого следующего символа в списоке найденых остаются только элементы содержащие нужный текст. Это позволяет найти песню даже если вы помните, к примеру, только часть её названия.</para>
+
+</sect1>
+
+</chapter>
+
+<chapter id="menu-and-command-reference">
+<title
+>Справка по меню и командам</title>
+
+<sect1 id="menus">
+<title
+>Меню</title>
+
+<sect2 id="menu-file">
+<title
+>Меню <guimenu
+>Файл</guimenu
+></title>
+
+<variablelist>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+><keycombo action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+><guimenuitem
+>Создать</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Создаёт новый список воспроизведения</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><shortcut
+> <keycombo action="simul"
+>&Ctrl;<keycap
+>O</keycap
+></keycombo
+> </shortcut
+> <guimenu
+>Файл</guimenu
+> <guimenuitem
+>Открыть...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Открывает диалог выбора файла (или нескольких файлов) для добавления в коллекцию.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Открыть каталог...</guimenuitem
+> </menuchoice>
+</term>
+<listitem
+><para
+>Открывает диалог выбора каталога (или нескольких каталогов) для добавления в коллекцию. При каждом запуске &juk;, или выборе пункта меню <menuchoice
+><guimenu
+>Вид</guimenu
+><guimenuitem
+>Обновить</guimenuitem
+></menuchoice
+> в этих каталогах будет производится поиск новых музыкальных файлов и добавление их в коллекцию.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+> <guimenuitem
+>Переименовать...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Позволяет переименовать список воспроизведения.</para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Дублировать...</guimenuitem
+></menuchoice>
+</term>
+<listitem
+><para
+>Создаёт копию выделенного списка воспроизведения. Выдаётся запрос имени для нового списка. </para>
+</listitem>
+</varlistentry>
+<varlistentry>
+<term
+><menuchoice
+><guimenu
+>Файл</guimenu
+><guimenuitem
+>Удалить</guimenuitem
+></menuchoice
+></term>
+<listitem
+><para
+>Удаляет выделенный элемент. </para
+></listitem>
+</varlistentry>
+</variablelist>
+</sect2>
+</sect1>
+
+<sect1 id="keybindings">
+<title
+>Справка по клавиатурным сокращениям</title>
+
+<!--
+ctrl-a select all
+ctrl-c copy
+ctrl-g guess tag entries based on filename
+ctrl-n new playlist
+ctrl-o open file (add to the collection or a playlist)
+ctrl-q quit
+ctrl-s save
+ctrl-t save edited tag information
+ctrl-v paste
+ctrl-x cut
+f1 Show manual
+shift-f1 what's this help
+
+-->
+<informaltable>
+<tgroup cols="2">
+<thead>
+<row>
+<entry
+>Комбинация клавиш</entry>
+<entry
+>Действие</entry>
+</row>
+</thead>
+<tbody>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>A</keycap
+></keycombo
+></entry>
+<entry
+>Выделить всё</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>C</keycap
+></keycombo
+></entry>
+<entry
+>Копировать</entry>
+</row>
+<row>
+<entry
+><keycombo action="simul"
+>&Ctrl;<keycap
+>G</keycap
+></keycombo
+></entry>
+<entry
+>Угадывать теги по имени файла</entry>
+</row>
+<row>
+<entry
+><keycombo
+action="simul"
+>&Ctrl;<keycap
+>N</keycap
+></keycombo
+></entry>
+<entry
+>Новый список воспроизведения</entry>
+</row>
+</tbody>
+</tgroup>
+</informaltable>
+
+</sect1>
+</chapter>
+
+<chapter id="credits-and-licenses">
+<title
+>Лицензии и благодарности</title>
+
+<para
+>&juk; Copyright &copy; 2002, 2003 Scott Wheeler.</para>
+
+<para
+>Разработка и сопровождение &juk;: Scott Wheeler <email
+>wheeler@kde.org</email
+>.</para>
+
+<para
+>Автор выражает благодарность следующим людям, оказавшим помощь в разработке &juk;:</para>
+
+<itemizedlist>
+<listitem
+><para
+>Daniel Molkentin <email
+>molkentin@kde.org</email
+> - за написание встроенного редактора тегов, модуля встраивания в панель задач, исправление ошибок, моральную поддержку.</para>
+</listitem>
+<listitem
+><para
+>Tim Jansen <email
+>tim@tjansen.de</email
+> - за портирование <application
+>GStreamer</application
+>.</para>
+</listitem>
+</itemizedlist>
+
+<para
+>Документация - Copyright &copy; 2003, Lauri Watts.</para>
+
+<para
+>Перевод на русский: Антон Горбачёв <email
+>justoff@hotmail.ru</email
+></para
+> 
+&underFDL; &underGPL; </chapter>
+
+&documentation.index;
+
+</book>
+<!--
+Local Variables:
+mode: sgml
+sgml-minimize-attributes:nil
+sgml-general-insert-case:lower
+sgml-indent-step:0
+sgml-indent-data:nil
+End:
+-->
+
+
+
+
+
+
+
+
+
+
+
+
+
