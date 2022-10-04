@@ -12,19 +12,20 @@
 # Alexander Lakhin <exclusion@gmail.com>, 2013, 2014.
 # Dmitry Astankov <mornie@basealt.ru>, 2019.
 # Alexander Yavorsky <kekcuha@gmail.com>, 2020.
+# Olesya Gerasimenko <translation-team@basealt.ru>, 2022.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-09-29 00:45+0000\n"
-"PO-Revision-Date: 2020-04-11 12:06+0300\n"
-"Last-Translator: Alexander Yavorsky <kekcuha@gmail.com>\n"
-"Language-Team: Russian <kde-russian@lists.kde.ru>\n"
+"PO-Revision-Date: 2022-10-03 13:42+0300\n"
+"Last-Translator: Olesya Gerasimenko <translation-team@basealt.ru>\n"
+"Language-Team: Basealt Translation Team\n"
 "Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 19.12.3\n"
+"X-Generator: Lokalize 22.04.3\n"
 "Plural-Forms: nplurals=4; plural=n==1 ? 3 : n%10==1 && n%100!=11 ? 0 : n"
 "%10>=2 && n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
 "X-Environment: kde\n"
@@ -34,12 +35,14 @@ msgstr ""
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
 msgid "Your names"
-msgstr "Антон Горбачёв,Николай Шафоростов,Дмитрий Астанков"
+msgstr "Антон Горбачёв,Николай Шафоростов,Дмитрий Астанков,Олеся Герасименко"
 
 #, kde-format
 msgctxt "EMAIL OF TRANSLATORS"
 msgid "Your emails"
-msgstr "justoff@hotmail.ru,shafff@ukr.net,mornie@basealt.ru"
+msgstr ""
+"justoff@hotmail.ru,shafff@ukr.net,mornie@basealt.ru,translation-team@basealt."
+"ru"
 
 #: advancedsearchdialog.cpp:46
 #, kde-format
@@ -861,6 +864,8 @@ msgstr "<i>Загрузка...</i>"
 msgid ""
 "<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
 msgstr ""
+"<i>Текст для %1 в настоящее время недоступен (нет доступного поставщика "
+"текста)</i>"
 
 #: lyricswidget.cpp:129 lyricswidget.cpp:158
 #, kde-format
@@ -884,10 +889,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Музыкальный центр и менеджер музыки от KDE"
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2019, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
-msgstr "© Scott Wheeler, Michael Pyne и другие, 2002-2019"
+msgstr "© Scott Wheeler, Michael Pyne и другие, 2002–2021"
 
 #: main.cpp:44
 #, kde-format
@@ -1137,11 +1141,10 @@ msgid "Save Playlist"
 msgstr "Сохранение списка воспроизведения"
 
 #: mediafiles.cpp:118
-#, fuzzy, kde-format
-#| msgid "Playlists"
+#, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
-msgstr "Списки воспроизведения"
+msgstr "Списки воспроизведения (*%1)"
 
 #: nowplaying.cpp:316
 #, kde-format
@@ -1172,22 +1175,19 @@ msgid "Could not save to file %1."
 msgstr "Не удалось сохранить в файл %1."
 
 #: playlist.cpp:574
-#, fuzzy, kde-format
-#| msgid ""
-#| "You are about to rename the following files. Are you sure you want to "
-#| "continue?"
+#, kde-format
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
-msgstr[0] "Вы действительно хотите переименовать эти файлы?"
-msgstr[1] "Вы действительно хотите переименовать эти файлы?"
-msgstr[2] "Вы действительно хотите переименовать эти файлы?"
-msgstr[3] "Вы действительно хотите переименовать эти файлы?"
+msgstr[0] "Будет открыт %1 каталог. Продолжить?"
+msgstr[1] "Будет открыто %1 каталога. Продолжить?"
+msgstr[2] "Будет открыто %1 каталогов. Продолжить?"
+msgstr[3] "Будет открыт каталог. Продолжить?"
 
 #: playlist.cpp:577 playlistcollection.cpp:982
 #, kde-format
 msgid "Open Containing Folder"
-msgstr ""
+msgstr "Открыть содержащую объект папку"
 
 #: playlist.cpp:644
 #, kde-format
@@ -2127,7 +2127,6 @@ msgstr "Обложка получена с <a href='https://last.fm/'>last.fm</a
 #~ msgstr "Найти:"
 
 #, fuzzy
-#~| msgid "Porting to KDE 4 when no one else was around"
 #~ msgid "Porting to KF5 when no one else was around"
 #~ msgstr "Перенос на KDE4, когда никто не мог этим заняться"
 
@@ -2210,7 +2209,6 @@ msgstr "Обложка получена с <a href='https://last.fm/'>last.fm</a
 #~ msgstr "Новый поиск"
 
 #, fuzzy
-#~| msgid "%1 Format"
 #~ msgid "Form"
 #~ msgstr "Формат %1"
 
