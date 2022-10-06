@@ -461,7 +461,7 @@ msgstr "Inserix una categoria"
 #: filerenamerbase.ui:135
 #, kde-format
 msgid "&Add category:"
-msgstr "&Afig una categoria:"
+msgstr "Afi&g una categoria:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #: filerenamerbase.ui:145
@@ -516,7 +516,7 @@ msgstr "Exemple de substitució"
 #: filerenameroptionsbase.ui:137
 #, kde-format
 msgid "Include in the &filename anyways"
-msgstr "Inclou de totes maneres en el nom del &fitxer"
+msgstr "Inclou de totes maneres en el nom del fi&txer"
 
 #. i18n: ectx: property (text), widget (QRadioButton, m_ignoreTagButton)
 #: filerenameroptionsbase.ui:144
@@ -725,7 +725,7 @@ msgstr "Deducció de les &marques..."
 #: juk.cpp:366
 #, kde-format
 msgid "&File Renamer..."
-msgstr "Canviador de nom de &fitxers..."
+msgstr "Canviador de nom de fi&txers..."
 
 #: juk.cpp:369
 #, kde-format
@@ -767,13 +767,13 @@ msgstr "%1 - <i>%2</i>"
 #: jukui-rtl.rc:4 jukui.rc:6
 #, kde-format
 msgid "&File"
-msgstr "&Fitxer"
+msgstr "Fi&txer"
 
 #. i18n: ectx: Menu (view)
 #: jukui-rtl.rc:26 jukui.rc:28
 #, kde-format
 msgid "&View"
-msgstr "&Visualitza"
+msgstr "Vi&sualitza"
 
 #. i18n: ectx: Menu (player)
 #: jukui-rtl.rc:39 jukui.rc:41
@@ -1448,7 +1448,7 @@ msgstr "Est&ima la informació de les marques"
 #: playlistcollection.cpp:939
 #, kde-format
 msgid "From &File Name"
-msgstr "Des del nom de &fitxer"
+msgstr "Des del nom de fi&txer"
 
 #: playlistcollection.cpp:943
 #, kde-format
@@ -1458,7 +1458,7 @@ msgstr "Des d'&Internet"
 #: playlistcollection.cpp:948
 #, kde-format
 msgid "Guess Tag Information From &File Name"
-msgstr "Estima la informació de les marques des del nom de &fitxer"
+msgstr "Estima la informació de les marques des del nom de fi&txer"
 
 #: playlistcollection.cpp:955
 #, kde-format
@@ -1478,7 +1478,7 @@ msgstr "Gestiona les &carpetes..."
 #: playlistcollection.cpp:966
 #, kde-format
 msgid "&Rename..."
-msgstr "&Canvia el nom..."
+msgstr "Ca&nvia el nom..."
 
 #: playlistcollection.cpp:968
 #, kde-format
@@ -1509,17 +1509,17 @@ msgstr "Actualitza"
 #: playlistcollection.cpp:984
 #, kde-format
 msgid "&Rename File"
-msgstr "&Canvia el nom del fitxer"
+msgstr "Ca&nvia el nom el fitxer"
 
 #: playlistcollection.cpp:991
 #, kde-format
 msgid "&View Cover"
-msgstr "&Visualitza la caràtula"
+msgstr "Vi&sualitza la caràtula"
 
 #: playlistcollection.cpp:993
 #, kde-format
 msgid "Get Cover From &File..."
-msgstr "Recupera la caràtula des d'un &fitxer..."
+msgstr "Recupera la caràtula des d'un fi&txer..."
 
 #: playlistcollection.cpp:996
 #, kde-format
@@ -1882,7 +1882,7 @@ msgstr ""
 #: tagguesserconfigdlgwidget.ui:74
 #, kde-format
 msgid "&Add"
-msgstr "&Afig"
+msgstr "Afi&g"
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, bModify)
 #: tagguesserconfigdlgwidget.ui:81
