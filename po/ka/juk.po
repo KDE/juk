@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-09-29 00:45+0000\n"
-"PO-Revision-Date: 2022-10-06 12:10+0200\n"
+"PO-Revision-Date: 2022-10-08 06:30+0200\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -36,12 +36,12 @@ msgstr ""
 #: advancedsearchdialog.cpp:55
 #, kde-format
 msgid "Playlist name:"
-msgstr ""
+msgstr "დასაკრავი სიის სახელი:"
 
 #: advancedsearchdialog.cpp:59
 #, kde-format
 msgid "Search Criteria"
-msgstr ""
+msgstr "ძებნის პირობა"
 
 #: advancedsearchdialog.cpp:64
 #, kde-format
@@ -89,7 +89,7 @@ msgstr ""
 #: collectionlist.cpp:336
 #, kde-format
 msgid "Show Playing"
-msgstr ""
+msgstr "ამჟამად დაკრულის ჩვენება"
 
 #: coverdialog.cpp:37
 #, kde-format
@@ -111,8 +111,8 @@ msgstr "ყდის მმართველი"
 #, kde-format
 msgid "<b>1</b> file selected."
 msgid_plural "<b>%1</b> files selected."
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "მონიშნულია <b>1</b> ფაილი."
+msgstr[1] "მონიშნულია <b>%1</b> ფაილი."
 
 #: deletedialog.cpp:75
 #, kde-format
@@ -128,7 +128,7 @@ msgstr ""
 #: deletedialog.cpp:93
 #, kde-format
 msgid "&Send to Trash"
-msgstr ""
+msgstr "&ნაგვის ყუთში გადატანა"
 
 #: deletedialog.cpp:97
 #, kde-format
@@ -167,7 +167,7 @@ msgid "&Delete files instead of moving them to the trash"
 msgstr ""
 
 #: directorylist.cpp:55
-#, fuzzy, kde-format
+#, kde-format
 msgid "Folder List"
 msgstr "საქაღალდეების სია"
 
@@ -208,11 +208,11 @@ msgstr ""
 #: directorylistbase.ui:183
 #, kde-format
 msgid "Import playlists"
-msgstr ""
+msgstr "დასაკრავი სიების შემოტანა"
 
 #: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
 #: systemtray.cpp:495 systemtray.cpp:506
-#, fuzzy, kde-format
+#, kde-format
 msgid "JuK"
 msgstr "JuK"
 
@@ -276,7 +276,7 @@ msgstr "ჟანრი:"
 #: exampleoptionsbase.ui:175
 #, kde-format
 msgid "Track number:"
-msgstr ""
+msgstr "აუდიობილიკის ნომერი:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6)
 #: exampleoptionsbase.ui:185
@@ -313,7 +313,7 @@ msgstr "ჟანრი"
 #, kde-format
 msgctxt "warning about mass file rename"
 msgid "Warning"
-msgstr ""
+msgstr "გაფრთხილება"
 
 #: filerenamer.cpp:78
 #, kde-format
@@ -325,7 +325,7 @@ msgstr ""
 #: filerenamer.cpp:85
 #, kde-format
 msgid "Original Name"
-msgstr ""
+msgstr "საწყისი სახელი"
 
 #: filerenamer.cpp:86
 #, kde-format
@@ -341,13 +341,13 @@ msgstr "ცვლილებების გარეშე"
 #, kde-format
 msgctxt "remove music genre from file renamer"
 msgid "Remove"
-msgstr ""
+msgstr "წაშლა"
 
 #: filerenamer.cpp:401
 #, kde-format
 msgctxt "file renamer genre options"
 msgid "Options"
-msgstr ""
+msgstr "გამართვა"
 
 #: filerenamer.cpp:513
 #, kde-format
@@ -396,49 +396,49 @@ msgstr "მუსიკის საქაღალდე:"
 #: filerenamerbase.ui:90
 #, kde-format
 msgid "Album Tag"
-msgstr ""
+msgstr "ალბომის ჭდე"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:95
 #, kde-format
 msgid "Artist Tag"
-msgstr ""
+msgstr "შემსრულებლის ჭდე"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:100
 #, kde-format
 msgid "Genre Tag"
-msgstr ""
+msgstr "ჟანრის ჭდე"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:105
 #, kde-format
 msgid "Title Tag"
-msgstr ""
+msgstr "სათაურის ჭდე"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:110
 #, kde-format
 msgid "Track Tag"
-msgstr ""
+msgstr "ტრეკის ჭდე"
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:115
 #, kde-format
 msgid "Year Tag"
-msgstr ""
+msgstr "წლის ჭდე"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_insertCategory)
 #: filerenamerbase.ui:123
 #, kde-format
 msgid "Insert Category"
-msgstr ""
+msgstr "კატეგორიის ჩასმა"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: filerenamerbase.ui:135
 #, kde-format
 msgid "&Add category:"
-msgstr ""
+msgstr "კატეგორიის &დამატება:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_7)
 #: filerenamerbase.ui:145
@@ -460,7 +460,7 @@ msgstr "%1-ის მორგება"
 #: filerenameroptions.cpp:39
 #, kde-format
 msgid "%1 Format"
-msgstr ""
+msgstr "%1 ფორმატი"
 
 #: filerenameroptions.cpp:40
 #, kde-format
@@ -502,7 +502,7 @@ msgstr ""
 #: filerenameroptionsbase.ui:162
 #, kde-format
 msgid "Use &this value:"
-msgstr ""
+msgstr "&ამ მნიშვნელობის გამოყენება"
 
 #. i18n: ectx: property (text), widget (KLineEdit, m_emptyTagValue)
 #: filerenameroptionsbase.ui:172
@@ -515,7 +515,7 @@ msgstr "ცარიელი"
 #: filerenameroptionsbase.ui:184
 #, kde-format
 msgid "Track numbering"
-msgstr ""
+msgstr "ტრეკების დანომრვა"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: filerenameroptionsbase.ui:196
@@ -603,7 +603,7 @@ msgstr "&დაკვრა"
 #: juk.cpp:291
 #, kde-format
 msgid "P&ause"
-msgstr ""
+msgstr "&შეჩერება"
 
 #: juk.cpp:296
 #, kde-format
@@ -656,17 +656,17 @@ msgstr "დაკვრა/პაუზა"
 #: juk.cpp:335
 #, kde-format
 msgid "Seek Forward"
-msgstr ""
+msgstr "წინ გადახვევა"
 
 #: juk.cpp:339
 #, kde-format
 msgid "Seek Back"
-msgstr ""
+msgstr "უკან გადახვევა"
 
 #: juk.cpp:343
 #, kde-format
 msgid "Show / Hide"
-msgstr ""
+msgstr "ჩვენება / დამალვა"
 
 #: juk.cpp:350
 #, kde-format
@@ -706,7 +706,7 @@ msgstr ""
 #: juk.cpp:376
 #, kde-format
 msgid "Track Position"
-msgstr ""
+msgstr "ტრეკის მდებარეობა"
 
 #: juk.cpp:378 slider.cpp:125
 #, kde-format
@@ -771,12 +771,12 @@ msgstr "ხელსაწყოთა მთავარი ზოლი"
 #: jukui-rtl.rc:98 jukui.rc:100
 #, kde-format
 msgid "Play Toolbar"
-msgstr ""
+msgstr "დაკვრის მართვის ზოლი"
 
 #: keydialog.cpp:100
 #, kde-format
 msgid "Configure Shortcuts"
-msgstr ""
+msgstr "მალსახმობების მორგება"
 
 #: keydialog.cpp:116
 #, kde-format
@@ -786,17 +786,17 @@ msgstr "გლობალური მალსახმობები"
 #: keydialog.cpp:122
 #, kde-format
 msgid "&No keys"
-msgstr ""
+msgstr "&ღილაკების გარეშე"
 
 #: keydialog.cpp:126
 #, kde-format
 msgid "&Standard keys"
-msgstr ""
+msgstr "&სტანდარტული ღილაკები"
 
 #: keydialog.cpp:130
 #, kde-format
 msgid "&Multimedia keys"
-msgstr ""
+msgstr "&მულტიმედია ღილაკები"
 
 #: keydialog.cpp:136
 #, kde-format
@@ -807,17 +807,17 @@ msgstr ""
 #: lyricswidget.cpp:51
 #, kde-format
 msgid "Show &Lyrics"
-msgstr ""
+msgstr "&ლირიკის ჩვენება"
 
 #: lyricswidget.cpp:78
 #, kde-format
 msgid "<i>No file playing.</i>"
-msgstr ""
+msgstr "<i>დაკვრა არ მიმდინარეობს.</i>"
 
 #: lyricswidget.cpp:83
 #, kde-format
 msgid "<i>Loading...</i>"
-msgstr ""
+msgstr "<i>ჩატვირთვა...</i>"
 
 #: lyricswidget.cpp:88
 #, kde-format
@@ -833,7 +833,7 @@ msgstr ""
 #: lyricswidget.cpp:174
 #, kde-format
 msgid "No lyrics available."
-msgstr ""
+msgstr "ლირიკა ხელმიუწვდომელია."
 
 #: lyricswidget.cpp:183
 #, kde-format
@@ -853,7 +853,7 @@ msgstr ""
 #: main.cpp:44
 #, kde-format
 msgid "Scott Wheeler"
-msgstr ""
+msgstr "Scott Wheeler"
 
 #: main.cpp:44
 #, kde-format
@@ -873,7 +873,7 @@ msgstr ""
 #: main.cpp:46
 #, kde-format
 msgid "Kacper Kasper"
-msgstr ""
+msgstr "Kacper Kasper"
 
 #: main.cpp:46
 #, kde-format
@@ -903,7 +903,7 @@ msgstr ""
 #: main.cpp:49
 #, kde-format
 msgid "Γιώργος Κυλάφας (Giorgos Kylafas)"
-msgstr ""
+msgstr "Γιώργος Κυλάφας (Giorgos Kylafas)"
 
 #: main.cpp:49
 #, kde-format
@@ -913,7 +913,7 @@ msgstr ""
 #: main.cpp:50
 #, kde-format
 msgid "Georg Grabler"
-msgstr ""
+msgstr "Georg Grabler"
 
 #: main.cpp:50
 #, kde-format
@@ -933,7 +933,7 @@ msgstr ""
 #: main.cpp:52
 #, kde-format
 msgid "Nathan Toone"
-msgstr ""
+msgstr "Nathan Toone"
 
 #: main.cpp:52
 #, kde-format
@@ -943,7 +943,7 @@ msgstr ""
 #: main.cpp:53
 #, kde-format
 msgid "Matthias Kretz"
-msgstr ""
+msgstr "Matthias Kretz"
 
 #: main.cpp:53
 #, kde-format
@@ -985,7 +985,7 @@ msgstr ""
 #: main.cpp:57
 #, kde-format
 msgid "Stephen Douglas"
-msgstr ""
+msgstr "Stephen Douglas"
 
 #: main.cpp:57
 #, kde-format
@@ -1035,7 +1035,7 @@ msgstr ""
 #: main.cpp:62
 #, kde-format
 msgid "Antonio Larrosa Jimenez"
-msgstr ""
+msgstr "Antonio Larrosa Jimenez"
 
 #: main.cpp:62
 #, kde-format
@@ -1055,7 +1055,7 @@ msgstr ""
 #: main.cpp:64
 #, kde-format
 msgid "Pascal Klein"
-msgstr ""
+msgstr "Pascal Klein"
 
 #: main.cpp:64
 #, kde-format
@@ -1094,7 +1094,7 @@ msgstr ""
 #, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
-msgstr ""
+msgstr "დასაკრავი სიები (*%1)"
 
 #: nowplaying.cpp:316
 #, kde-format
@@ -1153,7 +1153,7 @@ msgstr ""
 #: playlist.cpp:677
 #, kde-format
 msgid "Images (*.png *.jpg)"
-msgstr ""
+msgstr "გამოსახულებები (*.png *.jpg)"
 
 #: playlist.cpp:875
 #, kde-format
@@ -1209,12 +1209,12 @@ msgstr "ფაილის სახელი"
 #: playlist.cpp:1414
 #, kde-format
 msgid "File Name (full path)"
-msgstr ""
+msgstr "ფაილის სახელი (სრული ბილიკი)"
 
 #: playlist.cpp:1605
 #, kde-format
 msgid "&Show Columns"
-msgstr ""
+msgstr "&სვეტების ჩვენება"
 
 #: playlist.cpp:1712
 #, kde-format
@@ -1264,7 +1264,7 @@ msgid "View Modes"
 msgstr "ნახვის რეჟიმები"
 
 #: playlistbox.cpp:160
-#, fuzzy, kde-format
+#, kde-format
 msgid "Show &History"
 msgstr "&ისტორიის ჩვენება"
 
@@ -1401,7 +1401,7 @@ msgstr ""
 #: playlistcollection.cpp:943
 #, kde-format
 msgid "From &Internet"
-msgstr ""
+msgstr "&ინტერნეტიდან"
 
 #: playlistcollection.cpp:948
 #, kde-format
@@ -1432,7 +1432,7 @@ msgstr "&სახელის გადარქმევა..."
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
-msgstr "&დუბლირება"
+msgstr "&დუბლირება..."
 
 #: playlistcollection.cpp:973
 #, kde-format
@@ -1664,7 +1664,7 @@ msgstr "&ფაილის სახელი:"
 #: tageditor.ui:29
 #, kde-format
 msgid "T&rack:"
-msgstr "&ტრეკი"
+msgstr "&ტრეკი:"
 
 #. i18n: ectx: property (text), widget (QLabel, artistNameLabel)
 #: tageditor.ui:39
