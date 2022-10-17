@@ -1108,7 +1108,7 @@ msgstr "Dibuixant de la pantalla de presentació"
 #: main.cpp:69
 #, kde-format
 msgid "File(s) to open"
-msgstr "Fitxers que s'obrirà"
+msgstr "Fitxers que s'han d'obrir"
 
 #: main.cpp:86
 #, kde-format
