@@ -23,6 +23,7 @@
   <name xml:lang="ia">JuK</name>
   <name xml:lang="id">JuK</name>
   <name xml:lang="it">JuK</name>
+  <name xml:lang="ka">JuK</name>
   <name xml:lang="ko">JuK</name>
   <name xml:lang="lt">JuK</name>
   <name xml:lang="nds">JuK</name>
@@ -65,6 +66,7 @@
   <summary xml:lang="ia">Executor de musica</summary>
   <summary xml:lang="id">Pemutar Musik</summary>
   <summary xml:lang="it">Lettore musicale</summary>
+  <summary xml:lang="ka">მედია დამკვრელი</summary>
   <summary xml:lang="ko">음악 재생기</summary>
   <summary xml:lang="lt">Muzikos grotuvas</summary>
   <summary xml:lang="nds">Musikafspeler</summary>
@@ -148,6 +150,7 @@
     <p xml:lang="ia">Characteristicas:</p>
     <p xml:lang="id">Fitur:</p>
     <p xml:lang="it">Funzionalità:</p>
+    <p xml:lang="ka">თვისებები:</p>
     <p xml:lang="ko">기능:</p>
     <p xml:lang="lt">Ypatybės:</p>
     <p xml:lang="nds">Markmalen:</p>
