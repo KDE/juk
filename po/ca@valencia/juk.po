@@ -1509,7 +1509,7 @@ msgstr "Actualitza"
 #: playlistcollection.cpp:984
 #, kde-format
 msgid "&Rename File"
-msgstr "Ca&nvia el nom el fitxer"
+msgstr "Ca&nvia el nom del fitxer"
 
 #: playlistcollection.cpp:991
 #, kde-format
