@@ -407,7 +407,7 @@ msgstr "Les següents operacions de canvi de nom han fallat:\n"
 #: filerenamerbase.ui:20
 #, kde-format
 msgid "File Renamer Configuration"
-msgstr "Configuració del canviador de nom de fitxers"
+msgstr "Configureu el canviador de noms de fitxer"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1_6)
 #: filerenamerbase.ui:65
@@ -472,7 +472,7 @@ msgstr "Separador:"
 #: filerenamerconfigdlg.cpp:29
 #, kde-format
 msgid "File Renamer Options"
-msgstr "Opcions del canviador de nom de fitxers"
+msgstr "Opcions del canviador de noms de fitxer"
 
 #: filerenameroptions.cpp:38
 #, kde-format
@@ -497,7 +497,7 @@ msgid ""
 "you have in your track's %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
-"Quan utilitzeu el canviador de nom de fitxers, els fitxers es canviaran de "
+"Quan utilitzeu el canviador de noms de fitxer, els fitxers es canviaran de "
 "nom amb els valors que teniu en la marca %1 de la peça, més un text "
 "addicional que indiqueu davall."
 
@@ -1785,7 +1785,7 @@ msgstr "Activa"
 #: tagguesserconfigdlg.cpp:39
 #, kde-format
 msgid "Tag Guesser Configuration"
-msgstr "Configuració de la deducció de marques"
+msgstr "Configureu la deducció de marques"
 
 #. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:18
