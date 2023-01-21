@@ -43,7 +43,7 @@ bool MediaPlayer2::CanRaise() const
 void MediaPlayer2::Raise() const
 {
     JuK::JuKInstance()->show();
-    KWindowSystem::forceActiveWindow(JuK::JuKInstance()->effectiveWinId());
+    KWindowSystem::activateWindow(JuK::JuKInstance()->windowHandle());
 }
 
 bool MediaPlayer2::CanQuit() const

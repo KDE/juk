@@ -22,6 +22,7 @@
 #include <ktoggleaction.h>
 #include <kselectaction.h>
 #include <kconfiggroup.h>
+#include <kwidgetsaddons_version.h>
 #include <KSharedConfig>
 
 #include <QAction>
@@ -395,10 +396,27 @@ void PlaylistBox::remove()
     }
 
     if(!files.isEmpty()) {
-        int remove = KMessageBox::warningYesNoCancelList(
-            this, i18n("Do you want to delete these files from the disk as well?"), files, QString(), KStandardGuiItem::del(), KGuiItem(i18n("Keep")));
+        const auto warnFunc =
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5,100,0)
+            &KMessageBox::warningTwoActionsCancelList;
+#else
+            &KMessageBox::warningYesNoCancelList;
+#endif
 
-        if(remove == KMessageBox::Yes) {
+        const auto yesButton =
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5,100,0)
+            KMessageBox::PrimaryAction;
+#else
+            KMessageBox::Yes;
+#endif
+
+        const auto remove = warnFunc(
+                this, i18n("Do you want to delete these files from the disk as well?"),
+                files, QString(), KStandardGuiItem::del(), KGuiItem(i18n("Keep")),
+                KStandardGuiItem::cancel(), QString(), KMessageBox::Notify
+                );
+
+        if(remove == yesButton) {
             QStringList couldNotDelete;
             for(const auto &playlistFile : qAsConst(files)) {
                 if(!QFile::remove(playlistFile))

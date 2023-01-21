@@ -26,6 +26,7 @@
 #include <kiconloader.h>
 #include <ktoggleaction.h>
 #include <KLocalizedString>
+#include <kwidgetsaddons_version.h>
 
 #include <QAction>
 #include <QApplication>
@@ -604,14 +605,32 @@ void TagEditor::saveChangesPrompt()
     foreach(const PlaylistItem *item, m_items)
         files.append(item->file().absFilePath());
 
-    if(KMessageBox::questionYesNoList(this,
-                                      i18n("Do you want to save your changes to:\n"),
-                                      files,
-                                      i18n("Save Changes"),
-                                      KStandardGuiItem::save(),
-                                      KStandardGuiItem::discard(),
-                                      "tagEditor_showSaveChangesBox") == KMessageBox::Yes)
-    {
+    const auto questionFunc =
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+        &KMessageBox::questionTwoActionsList;
+#else
+        &KMessageBox::questionYesNoList;
+#endif
+
+    const auto primaryResponse =
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5, 100, 0)
+        KMessageBox::PrimaryAction;
+#else
+        KMessageBox::Yes;
+#endif
+
+    const auto response = questionFunc(
+                this,
+                i18n("Do you want to save your changes to:\n"),
+                files,
+                i18n("Save Changes"),
+                KStandardGuiItem::save(),
+                KStandardGuiItem::discard(),
+                QStringLiteral("tagEditor_showSaveChangesBox"),
+                KMessageBox::Notify
+            );
+
+    if(response == primaryResponse) {
         save(m_items);
     }
 }

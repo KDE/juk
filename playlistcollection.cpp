@@ -18,8 +18,9 @@
 #include "playlistcollection.h"
 
 #include <kio_version.h>
+#include <kwidgetsaddons_version.h>
 #include <kiconloader.h>
-#include <kmessagebox.h>
+#include <KMessageBox>
 #include <kactioncollection.h>
 #include <ktoggleaction.h>
 #include <kactionmenu.h>
@@ -325,6 +326,20 @@ QPixmap PlaylistCollection::trackCover(const QString &file, const QString &size)
 
 void PlaylistCollection::open(const QStringList &l)
 {
+    const auto questionFunc =
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5,100,0)
+        &KMessageBox::questionTwoActions;
+#else
+        &KMessageBox::questionYesNo;
+#endif
+
+    const auto secondaryResponse =
+#if KWIDGETSADDONS_VERSION >= QT_VERSION_CHECK(5,100,0)
+        KMessageBox::SecondaryAction;
+#else
+        KMessageBox::No;
+#endif
+
     QStringList files = l;
 
     if(files.isEmpty())
@@ -339,12 +354,14 @@ void PlaylistCollection::open(const QStringList &l)
         justPlaylists = !MediaFiles::isPlaylistFile(*it);
 
     if(visiblePlaylist() == CollectionList::instance() || justPlaylists ||
-       KMessageBox::questionYesNo(
+       questionFunc(
            JuK::JuKInstance(),
            i18n("Do you want to add these items to the current list or to the collection list?"),
            QString(),
            KGuiItem(i18nc("current playlist", "Current")),
-           KGuiItem(i18n("Collection"))) == KMessageBox::No)
+           KGuiItem(i18n("Collection")),
+           QString(),
+           KMessageBox::Notify) == secondaryResponse)
     {
         CollectionList::instance()->addFiles(files);
     }

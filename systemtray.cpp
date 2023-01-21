@@ -23,6 +23,7 @@
 #include <kactionmenu.h>
 #include <kwindowsystem.h>
 #include <KLocalizedString>
+#include <KX11Extras>
 
 #include <QAction>
 #include <QMenu>
@@ -32,6 +33,7 @@
 #include <QPushButton>
 #include <QPalette>
 #include <QPixmap>
+#include <QScreen>
 #include <QLabel>
 #include <QIcon>
 #include <QApplication>
@@ -120,13 +122,15 @@ void PassiveInfo::positionSelf()
 {
     // Start with a QRect of our size, move it to the right spot.
     QRect r(rect());
-    QRect curScreen(KWindowSystem::workArea());
+    QRect curScreen(screen()->availableGeometry());
 
     // Try to position in lower right of the screen
     QPoint anchor(curScreen.right() * 7 / 8, curScreen.bottom());
 
     // Now make our rect hit that anchor.
     r.moveBottomRight(anchor);
+
+    KWindowSystem::setType(winId(), KWindowSystem::NET::Notification);
 
     move(r.topLeft());
 }
@@ -279,7 +283,10 @@ void SystemTray::slotFadeOut()
     m_startColor = m_labels[0]->palette().color(QPalette::Text); //textColor();
     m_endColor = m_labels[0]->palette().color(QPalette::Window); //backgroundColor();
 
-    m_hasCompositionManager = KWindowSystem::compositingActive();
+    m_hasCompositionManager = true;
+    if(KWindowSystem::isPlatformX11()) {
+        m_hasCompositionManager = KX11Extras::compositingActive();
+    }
 
     connect(this, &SystemTray::fadeDone,
             m_popup, &QWidget::hide);
