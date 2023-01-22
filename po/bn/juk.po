@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-29 00:45+0000\n"
+"POT-Creation-Date: 2023-01-22 00:56+0000\n"
 "PO-Revision-Date: 2006-04-24 02:01-0500\n"
 "Last-Translator: Deepayan Sarkar <deepayan@bengalinux.org>\n"
 "Language-Team: Bengali <kde-translation@bengalinux.org>\n"
@@ -109,7 +109,7 @@ msgid "Remove Cover"
 msgstr "আবরণ সরিয়ে ফেলো"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:988
+#: coverdialogbase.ui:14 playlistcollection.cpp:1005
 #, kde-format
 msgid "Cover Manager"
 msgstr "আবরণ ম্যানেজার"
@@ -218,7 +218,7 @@ msgid "Import playlists"
 msgstr "সঙ্গীত-তালিকা আমদানি করো"
 
 #: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
-#: systemtray.cpp:495 systemtray.cpp:506
+#: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
 msgstr "জুক"
@@ -583,7 +583,7 @@ msgstr ""
 msgid "Your album art has finished downloading."
 msgstr ""
 
-#: juk.cpp:255 systemtray.cpp:180
+#: juk.cpp:255 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "&এলোমেলো প্লে"
@@ -1162,7 +1162,7 @@ msgid_plural ""
 msgstr[0] "আপনি নিম্নোক্ত ফাইলগুলির নাম পাল্টাতে চলেছেন। আপনি কি তাই চান?"
 msgstr[1] "আপনি নিম্নোক্ত ফাইলগুলির নাম পাল্টাতে চলেছেন। আপনি কি তাই চান?"
 
-#: playlist.cpp:577 playlistcollection.cpp:982
+#: playlist.cpp:577 playlistcollection.cpp:999
 #, kde-format
 msgid "Open Containing Folder"
 msgstr ""
@@ -1291,239 +1291,239 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr ""
 
-#: playlistbox.cpp:102
+#: playlistbox.cpp:103
 #, kde-format
 msgid "View Modes"
 msgstr "ভিউ মোড"
 
-#: playlistbox.cpp:160
+#: playlistbox.cpp:161
 #, kde-format
 msgid "Show &History"
 msgstr "&ইতিহাস দেখাও"
 
-#: playlistbox.cpp:221 playlistcollection.cpp:417
+#: playlistbox.cpp:222 playlistcollection.cpp:434
 #, fuzzy, kde-format
 #| msgid "Duplicate"
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "অনুরূপ"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:414
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "আপনি কি এই ফাইলগুলি ডিস্ক থেকেও মুছে ফেলতে চান?"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:415
 #, kde-format
 msgid "Keep"
 msgstr "রেখে দাও"
 
-#: playlistbox.cpp:409
+#: playlistbox.cpp:427
 #, kde-format
 msgid "Could not delete these files."
 msgstr "এই ফাইলগুলি মোছা যায়নি।"
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:435
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr ""
 "আপনি কি আপনার সংকলন থেকে এই সঙ্গীত-তালিকাগুলি সরিয়ে ফেলার ব্যাপারে নিশ্চিত?"
 
-#: playlistbox.cpp:420
+#: playlistbox.cpp:438
 #, kde-format
 msgid "Remove Items?"
 msgstr "বস্তু সরিয়ে ফেলব?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:421 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:439 tagguesserconfigdlgwidget.ui:100
 #, fuzzy, kde-format
 msgid "&Remove"
 msgstr "&সরিয়ে ফেলো"
 
-#: playlistbox.cpp:610
+#: playlistbox.cpp:628
 #, kde-format
 msgid "Hid&e"
 msgstr "লুকো&ও"
 
-#: playlistbox.cpp:614 playlistcollection.cpp:971
+#: playlistbox.cpp:632 playlistcollection.cpp:988
 #, kde-format
 msgid "R&emove"
 msgstr "&সরিয়ে ফেলো"
 
-#: playlistcollection.cpp:201
+#: playlistcollection.cpp:202
 #, kde-format
 msgid "Dynamic List"
 msgstr "ডাইনামিক তালিকা"
 
-#: playlistcollection.cpp:242
+#: playlistcollection.cpp:243
 #, kde-format
 msgid "Now Playing"
 msgstr "এখন চলছে"
 
-#: playlistcollection.cpp:344
+#: playlistcollection.cpp:359
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr ""
 
-#: playlistcollection.cpp:346
+#: playlistcollection.cpp:361
 #, fuzzy, kde-format
 #| msgid "Current"
 msgctxt "current playlist"
 msgid "Current"
 msgstr "বর্তমান"
 
-#: playlistcollection.cpp:347
+#: playlistcollection.cpp:362
 #, kde-format
 msgid "Collection"
 msgstr "সংকলন"
 
-#: playlistcollection.cpp:405
+#: playlistcollection.cpp:422
 #, kde-format
 msgid "Rename"
 msgstr "নাম পাল্টাও"
 
-#: playlistcollection.cpp:536
+#: playlistcollection.cpp:553
 #, kde-format
 msgid "Search Playlist"
 msgstr "সন্ধান সঙ্গীত-তালিকা"
 
-#: playlistcollection.cpp:561
+#: playlistcollection.cpp:578
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "ফোল্ডার সঙ্গীত-তালিকা তৈরি করো"
 
-#: playlistcollection.cpp:601
+#: playlistcollection.cpp:618
 #, kde-format
 msgid "History"
 msgstr "ইতিহাস"
 
-#: playlistcollection.cpp:767
+#: playlistcollection.cpp:784
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "এই সঙ্গীত-তালিকার একটি নাম দিন:"
 
-#: playlistcollection.cpp:915
+#: playlistcollection.cpp:932
 #, fuzzy, kde-format
 #| msgid "&New"
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&নতুন"
 
-#: playlistcollection.cpp:918
+#: playlistcollection.cpp:935
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "ফাঁকা সঙ্গী&ত-তালিকা..."
 
-#: playlistcollection.cpp:922
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "&সন্ধান সঙ্গীত-তালিকা..."
 
-#: playlistcollection.cpp:926
+#: playlistcollection.cpp:943
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "ফোল্ডা&র থেকে সঙ্গীত-তালিকা..."
 
-#: playlistcollection.cpp:934
+#: playlistcollection.cpp:951
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "ট্যাগ তথ্য &অনুমান করো"
 
-#: playlistcollection.cpp:939
+#: playlistcollection.cpp:956
 #, kde-format
 msgid "From &File Name"
 msgstr "ফাইলের না&ম থেকে"
 
-#: playlistcollection.cpp:943
+#: playlistcollection.cpp:960
 #, kde-format
 msgid "From &Internet"
 msgstr "&ইন্টারনেট থেকে"
 
-#: playlistcollection.cpp:948
+#: playlistcollection.cpp:965
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "ফাইলের না&ম থেকে ট্যাগ তথ্য অনুমান করো"
 
-#: playlistcollection.cpp:955
+#: playlistcollection.cpp:972
 #, kde-format
 msgid "Play First Track"
 msgstr "প্রথম ট্র্যাক চালাও"
 
-#: playlistcollection.cpp:957
+#: playlistcollection.cpp:974
 #, kde-format
 msgid "Play Next Album"
 msgstr "পরবর্তী অ্যালবাম চালাও"
 
-#: playlistcollection.cpp:964
+#: playlistcollection.cpp:981
 #, fuzzy, kde-format
 #| msgid "Add &Folder..."
 msgid "Manage &Folders..."
 msgstr "ফোল্ডা&র যোগ করো...."
 
-#: playlistcollection.cpp:966
+#: playlistcollection.cpp:983
 #, kde-format
 msgid "&Rename..."
 msgstr "না&ম পাল্টাও..."
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:985
 #, fuzzy, kde-format
 #| msgid "D&uplicate..."
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "&অনুরূপ"
 
-#: playlistcollection.cpp:973
+#: playlistcollection.cpp:990
 #, kde-format
 msgid "Reload"
 msgstr ""
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:992
 #, kde-format
 msgid "Edit Search..."
 msgstr "সন্ধান সম্পাদনা করো..."
 
-#: playlistcollection.cpp:978
+#: playlistcollection.cpp:995
 #, fuzzy, kde-format
 msgid "&Delete"
 msgstr "&আবরণ মুছে ফেলো"
 
-#: playlistcollection.cpp:980
+#: playlistcollection.cpp:997
 #, kde-format
 msgid "Refresh"
 msgstr "নতুন করে পড়ো"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:1001
 #, kde-format
 msgid "&Rename File"
 msgstr "ফাইলে&র নাম পাল্টাও"
 
-#: playlistcollection.cpp:991
+#: playlistcollection.cpp:1008
 #, kde-format
 msgid "&View Cover"
 msgstr "&আবরণ দেখাও"
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:1010
 #, kde-format
 msgid "Get Cover From &File..."
 msgstr ""
 
-#: playlistcollection.cpp:996
+#: playlistcollection.cpp:1013
 #, kde-format
 msgid "Get Cover From &Internet..."
 msgstr "&ইন্টারনেট থেকে আবরণ নিয়ে এসো..."
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:1017
 #, kde-format
 msgid "&Delete Cover"
 msgstr "&আবরণ মুছে ফেলো"
 
-#: playlistcollection.cpp:1002
+#: playlistcollection.cpp:1019
 #, kde-format
 msgid "Show Cover &Manager"
 msgstr "আবরণ ম্যানেজা&র দেখাও"
 
-#: playlistcollection.cpp:1006
+#: playlistcollection.cpp:1023
 #, kde-format
 msgid "Show &Play Queue"
 msgstr ""
@@ -1670,27 +1670,27 @@ msgid_plural "%1 items"
 msgstr[0] "একটি বস্তু"
 msgstr[1] "%1-টি বস্তু"
 
-#: systemtray.cpp:157
+#: systemtray.cpp:161
 #, kde-format
 msgid "Redisplay Popup"
 msgstr "পপ-আপ আবার দেখাও"
 
-#: tageditor.cpp:476
+#: tageditor.cpp:477
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "ট্যা&গ সম্পাদক দেখাও"
 
-#: tageditor.cpp:480
+#: tageditor.cpp:481
 #, kde-format
 msgid "&Save"
 msgstr ""
 
-#: tageditor.cpp:608
+#: tageditor.cpp:624
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr ""
 
-#: tageditor.cpp:610
+#: tageditor.cpp:626
 #, kde-format
 msgid "Save Changes"
 msgstr "পরিবর্তন সংরক্ষণ করো"

@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-29 00:45+0000\n"
+"POT-Creation-Date: 2023-01-22 00:56+0000\n"
 "PO-Revision-Date: 2022-02-14 20:58+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: Arabic <kde-l10n-ar@kde.org>\n"
@@ -112,7 +112,7 @@ msgid "Remove Cover"
 msgstr "أزل الغطاء"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:988
+#: coverdialogbase.ui:14 playlistcollection.cpp:1005
 #, kde-format
 msgid "Cover Manager"
 msgstr "مدير الغلاف"
@@ -229,7 +229,7 @@ msgid "Import playlists"
 msgstr "استورد قائمة تشغيل"
 
 #: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
-#: systemtray.cpp:495 systemtray.cpp:506
+#: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
 msgstr "JuK"
@@ -594,7 +594,7 @@ msgstr "فشل تنزيل ألبوم فنك"
 msgid "Your album art has finished downloading."
 msgstr "انتهى تنزيل ألبوم فنك"
 
-#: juk.cpp:255 systemtray.cpp:180
+#: juk.cpp:255 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "تشغيل &عشوائي"
@@ -1183,7 +1183,7 @@ msgstr[5] ""
 "أنت توشك على القيام بإعادة تسمية الملفات التالية. هل أنت متأكد من أنك تريد "
 "الاستمرار؟ "
 
-#: playlist.cpp:577 playlistcollection.cpp:982
+#: playlist.cpp:577 playlistcollection.cpp:999
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "افتح المجلد الحاوي"
@@ -1316,233 +1316,233 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "تحجيم عرض الأعمدة اليدوي مفعل"
 
-#: playlistbox.cpp:102
+#: playlistbox.cpp:103
 #, kde-format
 msgid "View Modes"
 msgstr "اعرض الأنماط"
 
-#: playlistbox.cpp:160
+#: playlistbox.cpp:161
 #, kde-format
 msgid "Show &History"
 msgstr "اعرض ال&تاريخ"
 
-#: playlistbox.cpp:221 playlistcollection.cpp:417
+#: playlistbox.cpp:222 playlistcollection.cpp:434
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "كرر"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:414
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "هل تريد حذف هذه الملفات من القرص الصلب أيضاً؟"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:415
 #, kde-format
 msgid "Keep"
 msgstr "احتفظ به"
 
-#: playlistbox.cpp:409
+#: playlistbox.cpp:427
 #, kde-format
 msgid "Could not delete these files."
 msgstr "لم يتم التمكن من حذف هذه الملفات."
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:435
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "هل تريد إزالة قوائم التشغيل هذه من مجموعتك؟"
 
-#: playlistbox.cpp:420
+#: playlistbox.cpp:438
 #, kde-format
 msgid "Remove Items?"
 msgstr "أأحذف العناصر؟"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:421 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:439 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "أ&زل"
 
-#: playlistbox.cpp:610
+#: playlistbox.cpp:628
 #, kde-format
 msgid "Hid&e"
 msgstr "ا&خف"
 
-#: playlistbox.cpp:614 playlistcollection.cpp:971
+#: playlistbox.cpp:632 playlistcollection.cpp:988
 #, kde-format
 msgid "R&emove"
 msgstr "أ&زل"
 
-#: playlistcollection.cpp:201
+#: playlistcollection.cpp:202
 #, kde-format
 msgid "Dynamic List"
 msgstr "قائمة ديناميكة"
 
-#: playlistcollection.cpp:242
+#: playlistcollection.cpp:243
 #, kde-format
 msgid "Now Playing"
 msgstr "المشغل الآن"
 
-#: playlistcollection.cpp:344
+#: playlistcollection.cpp:359
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr "هل تريد إضافة هذه العناصر إلى القائمة الحالية أو قائمة المجموعة؟"
 
-#: playlistcollection.cpp:346
+#: playlistcollection.cpp:361
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "الحالي"
 
-#: playlistcollection.cpp:347
+#: playlistcollection.cpp:362
 #, kde-format
 msgid "Collection"
 msgstr "المجموعة"
 
-#: playlistcollection.cpp:405
+#: playlistcollection.cpp:422
 #, kde-format
 msgid "Rename"
 msgstr "أعد تسمية"
 
-#: playlistcollection.cpp:536
+#: playlistcollection.cpp:553
 #, kde-format
 msgid "Search Playlist"
 msgstr "بحث قائمة التشغيل"
 
-#: playlistcollection.cpp:561
+#: playlistcollection.cpp:578
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "أنشئ مجلّد قائمة التشغيل"
 
-#: playlistcollection.cpp:601
+#: playlistcollection.cpp:618
 #, kde-format
 msgid "History"
 msgstr "التاريخ"
 
-#: playlistcollection.cpp:767
+#: playlistcollection.cpp:784
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "الرجاء إدخال اسم قائمة التشغيل هذه:"
 
-#: playlistcollection.cpp:915
+#: playlistcollection.cpp:932
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&جديد"
 
-#: playlistcollection.cpp:918
+#: playlistcollection.cpp:935
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "قائمة تشغيل فار&غة..."
 
-#: playlistcollection.cpp:922
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "بحث قائمة التشغي&ل..."
 
-#: playlistcollection.cpp:926
+#: playlistcollection.cpp:943
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "قائمة تشغيل من م&جلد..."
 
-#: playlistcollection.cpp:934
+#: playlistcollection.cpp:951
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "خمن معلومات الو&سم"
 
-#: playlistcollection.cpp:939
+#: playlistcollection.cpp:956
 #, kde-format
 msgid "From &File Name"
 msgstr "من ا&سم الملف"
 
-#: playlistcollection.cpp:943
+#: playlistcollection.cpp:960
 #, kde-format
 msgid "From &Internet"
 msgstr "من الإ&نترنت"
 
-#: playlistcollection.cpp:948
+#: playlistcollection.cpp:965
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "خمن معلومات الوسم من اسم الم&لف"
 
-#: playlistcollection.cpp:955
+#: playlistcollection.cpp:972
 #, kde-format
 msgid "Play First Track"
 msgstr "شغل المقطوعة الأولى"
 
-#: playlistcollection.cpp:957
+#: playlistcollection.cpp:974
 #, kde-format
 msgid "Play Next Album"
 msgstr "شغل الألبوم التالي"
 
-#: playlistcollection.cpp:964
+#: playlistcollection.cpp:981
 #, fuzzy, kde-format
 msgid "Manage &Folders..."
 msgstr "أضف &مجلّد..."
 
-#: playlistcollection.cpp:966
+#: playlistcollection.cpp:983
 #, kde-format
 msgid "&Rename..."
 msgstr "أ&عد التسمية..."
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:985
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "&ضاعف..."
 
-#: playlistcollection.cpp:973
+#: playlistcollection.cpp:990
 #, kde-format
 msgid "Reload"
 msgstr "أعد التحميل"
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:992
 #, kde-format
 msgid "Edit Search..."
 msgstr "حرر البحث..."
 
-#: playlistcollection.cpp:978
+#: playlistcollection.cpp:995
 #, kde-format
 msgid "&Delete"
 msgstr "ا&حذف"
 
-#: playlistcollection.cpp:980
+#: playlistcollection.cpp:997
 #, kde-format
 msgid "Refresh"
 msgstr "أنعش"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:1001
 #, kde-format
 msgid "&Rename File"
 msgstr "أ&عد تسمية ملف"
 
-#: playlistcollection.cpp:991
+#: playlistcollection.cpp:1008
 #, kde-format
 msgid "&View Cover"
 msgstr "اعرض غ&لاف"
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:1010
 #, kde-format
 msgid "Get Cover From &File..."
 msgstr "أحصل على أغلفة من م&لف..."
 
-#: playlistcollection.cpp:996
+#: playlistcollection.cpp:1013
 #, kde-format
 msgid "Get Cover From &Internet..."
 msgstr "أحصل على أغلفة من الإنتر&نت..."
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:1017
 #, kde-format
 msgid "&Delete Cover"
 msgstr "احذف ال&غلاف"
 
-#: playlistcollection.cpp:1002
+#: playlistcollection.cpp:1019
 #, kde-format
 msgid "Show Cover &Manager"
 msgstr "اعرض مدير الأ&غلفة"
 
-#: playlistcollection.cpp:1006
+#: playlistcollection.cpp:1023
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "اعرض طابور التش&غيل"
@@ -1691,27 +1691,27 @@ msgstr[3] "%1 عناصر"
 msgstr[4] "%1 عنصرا"
 msgstr[5] "%1 عنصر"
 
-#: systemtray.cpp:157
+#: systemtray.cpp:161
 #, kde-format
 msgid "Redisplay Popup"
 msgstr "أعد عرض اللإنبثاق"
 
-#: tageditor.cpp:476
+#: tageditor.cpp:477
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "اعرض محرر ال&وسوم"
 
-#: tageditor.cpp:480
+#: tageditor.cpp:481
 #, kde-format
 msgid "&Save"
 msgstr "ا&حفظ"
 
-#: tageditor.cpp:608
+#: tageditor.cpp:624
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr "هل تريد حفظ التغييرات في:\n"
 
-#: tageditor.cpp:610
+#: tageditor.cpp:626
 #, kde-format
 msgid "Save Changes"
 msgstr "احفظ التغييرات"

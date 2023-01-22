@@ -5,7 +5,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-29 00:45+0000\n"
+"POT-Creation-Date: 2023-01-22 00:56+0000\n"
 "PO-Revision-Date: 2021-06-15 22:38+0300\n"
 "Last-Translator: Andrius Štikonas <andrius@stikonas.eu>\n"
 "Language-Team: Lithuanian <kde-i18n-doc@kde.org>\n"
@@ -109,7 +109,7 @@ msgid "Remove Cover"
 msgstr "Šalinti viršelį"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:988
+#: coverdialogbase.ui:14 playlistcollection.cpp:1005
 #, kde-format
 msgid "Cover Manager"
 msgstr "Viršelių tvarkytuvė"
@@ -228,7 +228,7 @@ msgid "Import playlists"
 msgstr "Importuoti grojaraščius"
 
 #: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
-#: systemtray.cpp:495 systemtray.cpp:506
+#: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
 msgstr "JuK"
@@ -593,7 +593,7 @@ msgstr "Nepavyko atsisiųsti albumo iliustracijos."
 msgid "Your album art has finished downloading."
 msgstr "Albumo iliustracijos atsiuntimas užbaigtas."
 
-#: juk.cpp:255 systemtray.cpp:180
+#: juk.cpp:255 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "&Atsitiktinis atkūrimas"
@@ -1170,7 +1170,7 @@ msgstr[1] "Ketinate atverti %1 katalogus. Ar tikrai norite tęsti?"
 msgstr[2] "Ketinate atverti %1 katalogų. Ar tikrai norite tęsti?"
 msgstr[3] "Ketinate atverti %1 katalogą. Ar tikrai norite tęsti?"
 
-#: playlist.cpp:577 playlistcollection.cpp:982
+#: playlist.cpp:577 playlistcollection.cpp:999
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Atverti vidinį aplanką"
@@ -1300,234 +1300,234 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "Įjungti rankiniai stulpelių pločiai"
 
-#: playlistbox.cpp:102
+#: playlistbox.cpp:103
 #, kde-format
 msgid "View Modes"
 msgstr "Rodinio veiksenos"
 
-#: playlistbox.cpp:160
+#: playlistbox.cpp:161
 #, kde-format
 msgid "Show &History"
 msgstr "Rodyti &istoriją"
 
-#: playlistbox.cpp:221 playlistcollection.cpp:417
+#: playlistbox.cpp:222 playlistcollection.cpp:434
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Dubliuoti"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:414
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Ar norite tuo pačiu ištrinti šiuos failus iš disko?"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:415
 #, kde-format
 msgid "Keep"
 msgstr "Palikti"
 
-#: playlistbox.cpp:409
+#: playlistbox.cpp:427
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Nepavyko ištrinti šių failų."
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:435
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Ar tikrai norite pašalinti šiuos grojaraščius iš savo kolekcijos?"
 
-#: playlistbox.cpp:420
+#: playlistbox.cpp:438
 #, kde-format
 msgid "Remove Items?"
 msgstr "Šalinti elementus?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:421 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:439 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "Ša&linti"
 
-#: playlistbox.cpp:610
+#: playlistbox.cpp:628
 #, kde-format
 msgid "Hid&e"
 msgstr "&Slėpti"
 
-#: playlistbox.cpp:614 playlistcollection.cpp:971
+#: playlistbox.cpp:632 playlistcollection.cpp:988
 #, kde-format
 msgid "R&emove"
 msgstr "Šali&nti"
 
-#: playlistcollection.cpp:201
+#: playlistcollection.cpp:202
 #, kde-format
 msgid "Dynamic List"
 msgstr "Dinaminis sąrašas"
 
-#: playlistcollection.cpp:242
+#: playlistcollection.cpp:243
 #, kde-format
 msgid "Now Playing"
 msgstr "Dabar atkuriama"
 
-#: playlistcollection.cpp:344
+#: playlistcollection.cpp:359
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr ""
 "Ar norite pridėti šiuos elementus į dabartinį sąrašą, ar į kolekcijos sąrašą?"
 
-#: playlistcollection.cpp:346
+#: playlistcollection.cpp:361
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "Dabartinis"
 
-#: playlistcollection.cpp:347
+#: playlistcollection.cpp:362
 #, kde-format
 msgid "Collection"
 msgstr "Kolekcija"
 
-#: playlistcollection.cpp:405
+#: playlistcollection.cpp:422
 #, kde-format
 msgid "Rename"
 msgstr "Pervadinti"
 
-#: playlistcollection.cpp:536
+#: playlistcollection.cpp:553
 #, kde-format
 msgid "Search Playlist"
 msgstr "Paieškos grojaraštis"
 
-#: playlistcollection.cpp:561
+#: playlistcollection.cpp:578
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "Sukurti aplanko grojaraštį"
 
-#: playlistcollection.cpp:601
+#: playlistcollection.cpp:618
 #, kde-format
 msgid "History"
 msgstr "Istorija"
 
-#: playlistcollection.cpp:767
+#: playlistcollection.cpp:784
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "Įveskite šio grojaraščio pavadinimą:"
 
-#: playlistcollection.cpp:915
+#: playlistcollection.cpp:932
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&Naujas"
 
-#: playlistcollection.cpp:918
+#: playlistcollection.cpp:935
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "&Tuščias grojaraštis..."
 
-#: playlistcollection.cpp:922
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "&Paieškos grojaraštis..."
 
-#: playlistcollection.cpp:926
+#: playlistcollection.cpp:943
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "Grojaraštis iš &aplanko..."
 
-#: playlistcollection.cpp:934
+#: playlistcollection.cpp:951
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "&Atspėti žymės informaciją"
 
-#: playlistcollection.cpp:939
+#: playlistcollection.cpp:956
 #, kde-format
 msgid "From &File Name"
 msgstr "Iš &failo pavadinimo"
 
-#: playlistcollection.cpp:943
+#: playlistcollection.cpp:960
 #, kde-format
 msgid "From &Internet"
 msgstr "Iš &interneto"
 
-#: playlistcollection.cpp:948
+#: playlistcollection.cpp:965
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "Atspėti žymės informaciją iš &failo pavadinimo"
 
-#: playlistcollection.cpp:955
+#: playlistcollection.cpp:972
 #, kde-format
 msgid "Play First Track"
 msgstr "Atkurti pirmą takelį"
 
-#: playlistcollection.cpp:957
+#: playlistcollection.cpp:974
 #, kde-format
 msgid "Play Next Album"
 msgstr "Atkurti kitą albumą"
 
-#: playlistcollection.cpp:964
+#: playlistcollection.cpp:981
 #, kde-format
 msgid "Manage &Folders..."
 msgstr "Tvarkyti a&plankus..."
 
-#: playlistcollection.cpp:966
+#: playlistcollection.cpp:983
 #, kde-format
 msgid "&Rename..."
 msgstr "&Pervadinti..."
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:985
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "D&ubliuoti..."
 
-#: playlistcollection.cpp:973
+#: playlistcollection.cpp:990
 #, kde-format
 msgid "Reload"
 msgstr "Įkelti iš naujo"
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:992
 #, kde-format
 msgid "Edit Search..."
 msgstr "Taisyti paiešką..."
 
-#: playlistcollection.cpp:978
+#: playlistcollection.cpp:995
 #, kde-format
 msgid "&Delete"
 msgstr "&Ištrinti"
 
-#: playlistcollection.cpp:980
+#: playlistcollection.cpp:997
 #, kde-format
 msgid "Refresh"
 msgstr "Įkelti iš naujo"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:1001
 #, kde-format
 msgid "&Rename File"
 msgstr "Pe&rvadinti failą"
 
-#: playlistcollection.cpp:991
+#: playlistcollection.cpp:1008
 #, kde-format
 msgid "&View Cover"
 msgstr "&Rodyti viršelį"
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:1010
 #, kde-format
 msgid "Get Cover From &File..."
 msgstr "Gauti viršelį iš &failo..."
 
-#: playlistcollection.cpp:996
+#: playlistcollection.cpp:1013
 #, kde-format
 msgid "Get Cover From &Internet..."
 msgstr "Gauti viršelį iš &interneto..."
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:1017
 #, kde-format
 msgid "&Delete Cover"
 msgstr "&Ištrinti viršelį"
 
-#: playlistcollection.cpp:1002
+#: playlistcollection.cpp:1019
 #, kde-format
 msgid "Show Cover &Manager"
 msgstr "Rodyti viršelių &tvarkytuvę"
 
-#: playlistcollection.cpp:1006
+#: playlistcollection.cpp:1023
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "Rodyti at&kūrimo eilę"
@@ -1678,27 +1678,27 @@ msgstr[1] "%1 elementai"
 msgstr[2] "%1 elementų"
 msgstr[3] "%1 elementas"
 
-#: systemtray.cpp:157
+#: systemtray.cpp:161
 #, kde-format
 msgid "Redisplay Popup"
 msgstr "Rodyti iškylantįjį langą iš naujo"
 
-#: tageditor.cpp:476
+#: tageditor.cpp:477
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "Rodyti ž&ymių redaktorių"
 
-#: tageditor.cpp:480
+#: tageditor.cpp:481
 #, kde-format
 msgid "&Save"
 msgstr "Į&rašyti"
 
-#: tageditor.cpp:608
+#: tageditor.cpp:624
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr "Ar norite įrašyti pakeitimus į:\n"
 
-#: tageditor.cpp:610
+#: tageditor.cpp:626
 #, kde-format
 msgid "Save Changes"
 msgstr "Įrašyti pakeitimus"

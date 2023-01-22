@@ -14,7 +14,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-29 00:45+0000\n"
+"POT-Creation-Date: 2023-01-22 00:56+0000\n"
 "PO-Revision-Date: 2021-01-18 19:00+0530\n"
 "Last-Translator: Kishore G <kishore96@gmail.com>\n"
 "Language-Team: Tamil <kde-i18n-doc@kde.org>\n"
@@ -118,7 +118,7 @@ msgid "Remove Cover"
 msgstr "கோப்புறை அகற்று "
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:988
+#: coverdialogbase.ui:14 playlistcollection.cpp:1005
 #, kde-format
 msgid "Cover Manager"
 msgstr "உறை மேலாளர்"
@@ -234,7 +234,7 @@ msgid "Import playlists"
 msgstr "பாடல் பட்டியலை இறக்குமதி செய்"
 
 #: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
-#: systemtray.cpp:495 systemtray.cpp:506
+#: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
 msgstr "JuK"
@@ -604,7 +604,7 @@ msgstr ""
 msgid "Your album art has finished downloading."
 msgstr ""
 
-#: juk.cpp:255 systemtray.cpp:180
+#: juk.cpp:255 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "குறிப்பில்லாமல் வாசி"
@@ -1185,7 +1185,7 @@ msgstr[0] ""
 msgstr[1] ""
 "தொடர்ந்து வருகின்ற கோப்புகளை மறுபெயரிட வேண்டும். மேலும் தொடர விரும்புகிறீர்களா?"
 
-#: playlist.cpp:577 playlistcollection.cpp:982
+#: playlist.cpp:577 playlistcollection.cpp:999
 #, kde-format
 msgid "Open Containing Folder"
 msgstr ""
@@ -1319,238 +1319,238 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "கைம்முறை நெடுவரிசை அகலங்கள் செயலாக்கப்பட்டது"
 
-#: playlistbox.cpp:102
+#: playlistbox.cpp:103
 #, kde-format
 msgid "View Modes"
 msgstr "பாங்கின் தோற்றம்"
 
-#: playlistbox.cpp:160
+#: playlistbox.cpp:161
 #, kde-format
 msgid "Show &History"
 msgstr "சரித்திரத்தை காண்பி"
 
-#: playlistbox.cpp:221 playlistcollection.cpp:417
+#: playlistbox.cpp:222 playlistcollection.cpp:434
 #, fuzzy, kde-format
 #| msgid "Duplicate"
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "பொய்யான"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:414
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "நீங்கள் இந்த கோப்புகளை வட்டத்தில் இருந்து நீக்க வேண்டும்"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:415
 #, kde-format
 msgid "Keep"
 msgstr ""
 
-#: playlistbox.cpp:409
+#: playlistbox.cpp:427
 #, fuzzy, kde-format
 msgid "Could not delete these files."
 msgstr "அனைத்து கோப்புகளையும் நீக்க முடியவில்லை"
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:435
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "உங்கள் தொகுப்பில் இருந்து இந்த வாசிப்பு பட்டியல்களை உறுதியாக நீக்கவேண்டுமா?"
 
-#: playlistbox.cpp:420
+#: playlistbox.cpp:438
 #, kde-format
 msgid "Remove Items?"
 msgstr "உருப்படிகளை நீக்கவா?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:421 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:439 tagguesserconfigdlgwidget.ui:100
 #, fuzzy, kde-format
 msgid "&Remove"
 msgstr "நீக்கு"
 
-#: playlistbox.cpp:610
+#: playlistbox.cpp:628
 #, kde-format
 msgid "Hid&e"
 msgstr "மறை"
 
-#: playlistbox.cpp:614 playlistcollection.cpp:971
+#: playlistbox.cpp:632 playlistcollection.cpp:988
 #, kde-format
 msgid "R&emove"
 msgstr "நீக்கு"
 
-#: playlistcollection.cpp:201
+#: playlistcollection.cpp:202
 #, kde-format
 msgid "Dynamic List"
 msgstr "மாறும் பட்டியல்\t"
 
-#: playlistcollection.cpp:242
+#: playlistcollection.cpp:243
 #, kde-format
 msgid "Now Playing"
 msgstr "இப்போது வாசிக்கிறது"
 
-#: playlistcollection.cpp:344
+#: playlistcollection.cpp:359
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr "நடைமுறை பட்டியல் அல்லது தொகுக்கப்பட்ட பட்டியலில் உருப்படிகளை சேர்க்க வேண்டுமா?"
 
-#: playlistcollection.cpp:346
+#: playlistcollection.cpp:361
 #, fuzzy, kde-format
 #| msgid "Current"
 msgctxt "current playlist"
 msgid "Current"
 msgstr "தற்போதைய"
 
-#: playlistcollection.cpp:347
+#: playlistcollection.cpp:362
 #, kde-format
 msgid "Collection"
 msgstr "தொகுப்பு "
 
-#: playlistcollection.cpp:405
+#: playlistcollection.cpp:422
 #, kde-format
 msgid "Rename"
 msgstr "மறுபெயரிடு"
 
-#: playlistcollection.cpp:536
+#: playlistcollection.cpp:553
 #, kde-format
 msgid "Search Playlist"
 msgstr "பாடல் பட்டியலை தேடு"
 
-#: playlistcollection.cpp:561
+#: playlistcollection.cpp:578
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "அடைவு பாடல் பட்டியலை உருவாக்கு "
 
-#: playlistcollection.cpp:601
+#: playlistcollection.cpp:618
 #, kde-format
 msgid "History"
 msgstr "சரித்திரம்"
 
-#: playlistcollection.cpp:767
+#: playlistcollection.cpp:784
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "பாடல் பட்டியலின் பெயரை குறிப்பிடுக"
 
-#: playlistcollection.cpp:915
+#: playlistcollection.cpp:932
 #, fuzzy, kde-format
 #| msgid "&New"
 msgctxt "new playlist"
 msgid "&New"
 msgstr "புதிய"
 
-#: playlistcollection.cpp:918
+#: playlistcollection.cpp:935
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "பாடல் பட்டியலை காலி செய்..."
 
-#: playlistcollection.cpp:922
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "வாசிப்பு பட்டியலை தேடு..."
 
-#: playlistcollection.cpp:926
+#: playlistcollection.cpp:943
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "அடைவிலிருந்து வாசிப்பு பட்டியல்"
 
-#: playlistcollection.cpp:934
+#: playlistcollection.cpp:951
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "தத்து தகவலை யூகி"
 
-#: playlistcollection.cpp:939
+#: playlistcollection.cpp:956
 #, kde-format
 msgid "From &File Name"
 msgstr "கோப்புப் பெயரிலிருந்து"
 
-#: playlistcollection.cpp:943
+#: playlistcollection.cpp:960
 #, kde-format
 msgid "From &Internet"
 msgstr "இணையத்திலிருந்து  "
 
-#: playlistcollection.cpp:948
+#: playlistcollection.cpp:965
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "கோப்பு பெயரிலிருந்து ஒட்டு தகவலை யூகி"
 
-#: playlistcollection.cpp:955
+#: playlistcollection.cpp:972
 #, kde-format
 msgid "Play First Track"
 msgstr "முதல் தடத்தை வாசி"
 
-#: playlistcollection.cpp:957
+#: playlistcollection.cpp:974
 #, kde-format
 msgid "Play Next Album"
 msgstr ""
 
-#: playlistcollection.cpp:964
+#: playlistcollection.cpp:981
 #, fuzzy, kde-format
 #| msgid "Add &Folder..."
 msgid "Manage &Folders..."
 msgstr "கோப்புறையுடன் சேர்..."
 
-#: playlistcollection.cpp:966
+#: playlistcollection.cpp:983
 #, kde-format
 msgid "&Rename..."
 msgstr "மறுபெயரிடு"
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:985
 #, fuzzy, kde-format
 #| msgid "D&uplicate..."
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "படி எடு"
 
-#: playlistcollection.cpp:973
+#: playlistcollection.cpp:990
 #, kde-format
 msgid "Reload"
 msgstr ""
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:992
 #, kde-format
 msgid "Edit Search..."
 msgstr "தேடுதலை தொகு..."
 
-#: playlistcollection.cpp:978
+#: playlistcollection.cpp:995
 #, fuzzy, kde-format
 msgid "&Delete"
 msgstr "&உறையை நீக்கு"
 
-#: playlistcollection.cpp:980
+#: playlistcollection.cpp:997
 #, kde-format
 msgid "Refresh"
 msgstr "புதுப்பி"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:1001
 #, kde-format
 msgid "&Rename File"
 msgstr "கோப்பினை மறுபெயரிடு"
 
-#: playlistcollection.cpp:991
+#: playlistcollection.cpp:1008
 #, kde-format
 msgid "&View Cover"
 msgstr "&உறையை காட்டு"
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:1010
 #, kde-format
 msgid "Get Cover From &File..."
 msgstr "கோப்பில் இருந்து உறையை பெறு...."
 
-#: playlistcollection.cpp:996
+#: playlistcollection.cpp:1013
 #, kde-format
 msgid "Get Cover From &Internet..."
 msgstr "&இணையத்திலிருந்து உறையைப்ப் பெறு"
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:1017
 #, kde-format
 msgid "&Delete Cover"
 msgstr "&உறையை நீக்கு"
 
-#: playlistcollection.cpp:1002
+#: playlistcollection.cpp:1019
 #, fuzzy, kde-format
 msgid "Show Cover &Manager"
 msgstr "உறை மேலாளர்"
 
-#: playlistcollection.cpp:1006
+#: playlistcollection.cpp:1023
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "&வாசிப்பு வரிசையைக் காட்டு"
@@ -1698,27 +1698,27 @@ msgid_plural "%1 items"
 msgstr[0] "ஒரு உருப்படி"
 msgstr[1] "%1 உருப்படிகள்"
 
-#: systemtray.cpp:157
+#: systemtray.cpp:161
 #, kde-format
 msgid "Redisplay Popup"
 msgstr "தோன்றுபவையை மறுபடியும் காட்டு"
 
-#: tageditor.cpp:476
+#: tageditor.cpp:477
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "தத்து திருத்தத்தை காண்பி"
 
-#: tageditor.cpp:480
+#: tageditor.cpp:481
 #, kde-format
 msgid "&Save"
 msgstr ""
 
-#: tageditor.cpp:608
+#: tageditor.cpp:624
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr "நீங்கள் உங்கள் மாறுதல்களை சேமிக்க வேண்டிய இடம்:\n"
 
-#: tageditor.cpp:610
+#: tageditor.cpp:626
 #, kde-format
 msgid "Save Changes"
 msgstr "சேமி மாற்றங்கள்"
