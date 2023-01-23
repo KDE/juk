@@ -159,7 +159,7 @@ add_executable(juk ${juk_SRCS})
 kde_target_enable_exceptions(juk PRIVATE)
 target_compile_definitions(juk PRIVATE QT_USE_QSTRINGBUILDER)
 set_target_properties(juk PROPERTIES
-    CXX_STANDARD 14
+    CXX_STANDARD 17
     CXX_STANDARD_REQUIRED ON
     )
 
