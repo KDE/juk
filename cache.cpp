@@ -86,13 +86,11 @@ static void parsePlaylistStream(QDataStream &s, PlaylistCollection *collection)
         }
         case Upcoming:
         {
-            /*
             collection->setUpcomingPlaylistEnabled(true);
-            Playlist *p = collection->upcomingPlaylist();
+            UpcomingPlaylist *p = collection->upcomingPlaylist();
             action<KToggleAction>("saveUpcomingTracks")->setChecked(true);
             s >> *p;
             playlist = p;
-            */
             break;
         }
         case Folder:
@@ -102,7 +100,8 @@ static void parsePlaylistStream(QDataStream &s, PlaylistCollection *collection)
             playlist = p;
             break;
         }
-        default:
+        case Normal:
+        {
             Playlist *p = new Playlist(collection, true);
             s >> *p;
 
@@ -115,6 +114,10 @@ static void parsePlaylistStream(QDataStream &s, PlaylistCollection *collection)
 
             playlist = p;
             break;
+        }
+        default:
+            qCWarning(JUK_LOG) << "Unknown playlist type" << playlistType << "loading saved playlists";
+            throw BICStreamException();
         } // switch
 
         qint32 sortColumn;

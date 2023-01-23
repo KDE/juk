@@ -131,8 +131,8 @@ QDataStream &operator<<(QDataStream &s, const UpcomingPlaylist &p)
 
 QDataStream &operator>>(QDataStream &s, UpcomingPlaylist &p)
 {
+    QStringList upcomingFiles;
     QString fileName;
-    PlaylistItem *newItem = 0;
     qint32 count;
 
     s >> count;
@@ -142,8 +142,10 @@ QDataStream &operator>>(QDataStream &s, UpcomingPlaylist &p)
         if(fileName.isEmpty())
             throw BICStreamException();
 
-        newItem = p.createItem(FileHandle(fileName), newItem);
+        upcomingFiles << fileName;
     }
+
+    p.addFiles(upcomingFiles);
 
     return s;
 }
