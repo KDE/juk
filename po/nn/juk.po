@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2022-09-29 00:45+0000\n"
+"POT-Creation-Date: 2023-01-22 00:56+0000\n"
 "PO-Revision-Date: 2022-07-02 13:32+0200\n"
 "Last-Translator: Karl Ove Hufthammer <karl@huftis.org>\n"
 "Language-Team: Norwegian Nynorsk <l10n-no@lister.huftis.org>\n"
@@ -113,7 +113,7 @@ msgid "Remove Cover"
 msgstr "Fjern omslag"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, CoverDialogBase)
-#: coverdialogbase.ui:14 playlistcollection.cpp:988
+#: coverdialogbase.ui:14 playlistcollection.cpp:1005
 #, kde-format
 msgid "Cover Manager"
 msgstr "Plateomslag"
@@ -227,7 +227,7 @@ msgid "Import playlists"
 msgstr "Importer spelelister"
 
 #: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
-#: systemtray.cpp:495 systemtray.cpp:506
+#: systemtray.cpp:502 systemtray.cpp:513
 #, kde-format
 msgid "JuK"
 msgstr "JuK"
@@ -592,7 +592,7 @@ msgstr "Klarte ikkje lasta ned albumbilete."
 msgid "Your album art has finished downloading."
 msgstr "Albumbiletet er lasta ned."
 
-#: juk.cpp:255 systemtray.cpp:180
+#: juk.cpp:255 systemtray.cpp:184
 #, kde-format
 msgid "&Random Play"
 msgstr "T&ilfeldig rekkjefølgje"
@@ -1165,7 +1165,7 @@ msgid_plural ""
 msgstr[0] "Du er i ferd med å opna ei mappe. Er du sikker på at du vil dette?"
 msgstr[1] "Du er i ferd med å opna %1 mapper. Er du sikker på at du vil dette?"
 
-#: playlist.cpp:577 playlistcollection.cpp:982
+#: playlist.cpp:577 playlistcollection.cpp:999
 #, kde-format
 msgid "Open Containing Folder"
 msgstr "Opna foreldermappa"
@@ -1295,233 +1295,233 @@ msgstr ""
 msgid "Manual Column Widths Enabled"
 msgstr "Brukar manuell kolonnebreidd."
 
-#: playlistbox.cpp:102
+#: playlistbox.cpp:103
 #, kde-format
 msgid "View Modes"
 msgstr "&Visingsmodus"
 
-#: playlistbox.cpp:160
+#: playlistbox.cpp:161
 #, kde-format
 msgid "Show &History"
 msgstr "Vis &spelelogg"
 
-#: playlistbox.cpp:221 playlistcollection.cpp:417
+#: playlistbox.cpp:222 playlistcollection.cpp:434
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "Duplicate"
 msgstr "Lag kopi"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:414
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
 msgstr "Vil du sletta desse filene frå disken òg?"
 
-#: playlistbox.cpp:399
+#: playlistbox.cpp:415
 #, kde-format
 msgid "Keep"
 msgstr "Behald"
 
-#: playlistbox.cpp:409
+#: playlistbox.cpp:427
 #, kde-format
 msgid "Could not delete these files."
 msgstr "Klarte ikkje sletta desse filene."
 
-#: playlistbox.cpp:417
+#: playlistbox.cpp:435
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
 msgstr "Er du sikker på at du vil fjerna desse spelelistene?"
 
-#: playlistbox.cpp:420
+#: playlistbox.cpp:438
 #, kde-format
 msgid "Remove Items?"
 msgstr "Fjern element?"
 
 #. i18n: ectx: property (text), widget (QPushButton, bRemove)
-#: playlistbox.cpp:421 tagguesserconfigdlgwidget.ui:100
+#: playlistbox.cpp:439 tagguesserconfigdlgwidget.ui:100
 #, kde-format
 msgid "&Remove"
 msgstr "&Fjern"
 
-#: playlistbox.cpp:610
+#: playlistbox.cpp:628
 #, kde-format
 msgid "Hid&e"
 msgstr "&Gøym"
 
-#: playlistbox.cpp:614 playlistcollection.cpp:971
+#: playlistbox.cpp:632 playlistcollection.cpp:988
 #, kde-format
 msgid "R&emove"
 msgstr "&Fjern"
 
-#: playlistcollection.cpp:201
+#: playlistcollection.cpp:202
 #, kde-format
 msgid "Dynamic List"
 msgstr "Dynamisk liste"
 
-#: playlistcollection.cpp:242
+#: playlistcollection.cpp:243
 #, kde-format
 msgid "Now Playing"
 msgstr "Spelar no"
 
-#: playlistcollection.cpp:344
+#: playlistcollection.cpp:359
 #, kde-format
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr "Vil du leggja elementa til denne lista eller til felleslista?"
 
-#: playlistcollection.cpp:346
+#: playlistcollection.cpp:361
 #, kde-format
 msgctxt "current playlist"
 msgid "Current"
 msgstr "Gjeldande"
 
-#: playlistcollection.cpp:347
+#: playlistcollection.cpp:362
 #, kde-format
 msgid "Collection"
 msgstr "Fellesliste"
 
-#: playlistcollection.cpp:405
+#: playlistcollection.cpp:422
 #, kde-format
 msgid "Rename"
 msgstr "Endra namn"
 
-#: playlistcollection.cpp:536
+#: playlistcollection.cpp:553
 #, kde-format
 msgid "Search Playlist"
 msgstr "Søkjeliste"
 
-#: playlistcollection.cpp:561
+#: playlistcollection.cpp:578
 #, kde-format
 msgid "Create Folder Playlist"
 msgstr "Lag mappespeleliste"
 
-#: playlistcollection.cpp:601
+#: playlistcollection.cpp:618
 #, kde-format
 msgid "History"
 msgstr "Spelelogg"
 
-#: playlistcollection.cpp:767
+#: playlistcollection.cpp:784
 #, kde-format
 msgid "Please enter a name for this playlist:"
 msgstr "Vel namn på spelelista:"
 
-#: playlistcollection.cpp:915
+#: playlistcollection.cpp:932
 #, kde-format
 msgctxt "new playlist"
 msgid "&New"
 msgstr "&Ny"
 
-#: playlistcollection.cpp:918
+#: playlistcollection.cpp:935
 #, kde-format
 msgid "&Empty Playlist..."
 msgstr "&Tom speleliste …"
 
-#: playlistcollection.cpp:922
+#: playlistcollection.cpp:939
 #, kde-format
 msgid "&Search Playlist..."
 msgstr "&Søkjeliste …"
 
-#: playlistcollection.cpp:926
+#: playlistcollection.cpp:943
 #, kde-format
 msgid "Playlist From &Folder..."
 msgstr "&Speleliste frå mappe …"
 
-#: playlistcollection.cpp:934
+#: playlistcollection.cpp:951
 #, kde-format
 msgid "&Guess Tag Information"
 msgstr "&Gjett merkelapp"
 
-#: playlistcollection.cpp:939
+#: playlistcollection.cpp:956
 #, kde-format
 msgid "From &File Name"
 msgstr "Frå &filnamn"
 
-#: playlistcollection.cpp:943
+#: playlistcollection.cpp:960
 #, kde-format
 msgid "From &Internet"
 msgstr "Frå &Internett"
 
-#: playlistcollection.cpp:948
+#: playlistcollection.cpp:965
 #, kde-format
 msgid "Guess Tag Information From &File Name"
 msgstr "Gjett merkelapp frå &filnamn"
 
-#: playlistcollection.cpp:955
+#: playlistcollection.cpp:972
 #, kde-format
 msgid "Play First Track"
 msgstr "Spel første spor"
 
-#: playlistcollection.cpp:957
+#: playlistcollection.cpp:974
 #, kde-format
 msgid "Play Next Album"
 msgstr "Spel neste album"
 
-#: playlistcollection.cpp:964
+#: playlistcollection.cpp:981
 #, kde-format
 msgid "Manage &Folders..."
 msgstr "Handsam &mapper …"
 
-#: playlistcollection.cpp:966
+#: playlistcollection.cpp:983
 #, kde-format
 msgid "&Rename..."
 msgstr "&Endra namn …"
 
-#: playlistcollection.cpp:968
+#: playlistcollection.cpp:985
 #, kde-format
 msgctxt "verb, copy the playlist"
 msgid "D&uplicate..."
 msgstr "Lag &kopi …"
 
-#: playlistcollection.cpp:973
+#: playlistcollection.cpp:990
 #, kde-format
 msgid "Reload"
 msgstr "Last om att"
 
-#: playlistcollection.cpp:975
+#: playlistcollection.cpp:992
 #, kde-format
 msgid "Edit Search..."
 msgstr "Rediger søk …"
 
-#: playlistcollection.cpp:978
+#: playlistcollection.cpp:995
 #, kde-format
 msgid "&Delete"
 msgstr "&Slett"
 
-#: playlistcollection.cpp:980
+#: playlistcollection.cpp:997
 #, kde-format
 msgid "Refresh"
 msgstr "&Frisk opp"
 
-#: playlistcollection.cpp:984
+#: playlistcollection.cpp:1001
 #, kde-format
 msgid "&Rename File"
 msgstr "&Endra filnamn"
 
-#: playlistcollection.cpp:991
+#: playlistcollection.cpp:1008
 #, kde-format
 msgid "&View Cover"
 msgstr "&Vis plateomslag"
 
-#: playlistcollection.cpp:993
+#: playlistcollection.cpp:1010
 #, kde-format
 msgid "Get Cover From &File..."
 msgstr "Hent omslag frå &fil …"
 
-#: playlistcollection.cpp:996
+#: playlistcollection.cpp:1013
 #, kde-format
 msgid "Get Cover From &Internet..."
 msgstr "Hent omslag frå &Internett …"
 
-#: playlistcollection.cpp:1000
+#: playlistcollection.cpp:1017
 #, kde-format
 msgid "&Delete Cover"
 msgstr "&Slett plateomslag"
 
-#: playlistcollection.cpp:1002
+#: playlistcollection.cpp:1019
 #, kde-format
 msgid "Show Cover &Manager"
 msgstr "Vis &plateomslagoversikt"
 
-#: playlistcollection.cpp:1006
+#: playlistcollection.cpp:1023
 #, kde-format
 msgid "Show &Play Queue"
 msgstr "Vis &spelekø"
@@ -1669,27 +1669,27 @@ msgid_plural "%1 items"
 msgstr[0] "1 element"
 msgstr[1] "%1 element"
 
-#: systemtray.cpp:157
+#: systemtray.cpp:161
 #, kde-format
 msgid "Redisplay Popup"
 msgstr "Vis sporvarsel på nytt"
 
-#: tageditor.cpp:476
+#: tageditor.cpp:477
 #, kde-format
 msgid "Show &Tag Editor"
 msgstr "Vis &merkelappfelt"
 
-#: tageditor.cpp:480
+#: tageditor.cpp:481
 #, kde-format
 msgid "&Save"
 msgstr "La&gra"
 
-#: tageditor.cpp:608
+#: tageditor.cpp:624
 #, kde-format
 msgid "Do you want to save your changes to:\n"
 msgstr "Vil du lagra endringane i:\n"
 
-#: tageditor.cpp:610
+#: tageditor.cpp:626
 #, kde-format
 msgid "Save Changes"
 msgstr "Lagra endringar"
@@ -1801,9 +1801,9 @@ msgid ""
 msgstr ""
 "Her kan du sjå filnamnmønstera som «Gjett merkelapp frå filnamn»-funksjonen "
 "brukar for å gjetta songinformasjon frå filnamn. Kvart mønster kan innehalda "
-"éin eller fleire av desse fem plasshaldarane: <ul><li>%t: Tittel</li> <li>"
-"%a: Artistnamn</li> <li>%A: Albumtittel</li> <li>%T: Spornummer</li> <li>%c: "
-"Merknad</li></ul>\n"
+"éin eller fleire av desse fem plasshaldarane: <ul><li>%t: Tittel</li> "
+"<li>%a: Artistnamn</li> <li>%A: Albumtittel</li> <li>%T: Spornummer</li> "
+"<li>%c: Merknad</li></ul>\n"
 "Filnamnmønsteret «[%T] %a – %t» vil passa til «[01] Ivar Medaas – Dar kjem "
 "dampen», men ikkje «(Ivar Medaas) Dar kjem dampen». Til det andre namnet kan "
 "du bruka mønsteret «(%a) %t».<p/>\n"
