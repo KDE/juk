@@ -28,10 +28,11 @@ class StringShare
     struct Data;
 public:
     static QString tryShare(const QString& in);
+    static unsigned numHits();
+    static unsigned numAttempts();
 
 private:
     static Data* data();
-    static Data* s_data;
 };
 
 #endif

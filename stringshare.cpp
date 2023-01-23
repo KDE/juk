@@ -17,9 +17,10 @@
 
 #include <QHash>
 
-const int SIZE = 5003;
+const int SIZE = 8191;
 
-StringShare::Data* StringShare::s_data = 0;
+static unsigned num_attempts = 0;
+static unsigned num_hits     = 0;
 
 /**
  * We store the strings in a simple direct-mapped (i.e. no collision handling,
@@ -44,24 +45,36 @@ struct StringShare::Data
 
 StringShare::Data* StringShare::data()
 {
-    if (!s_data)
-        s_data = new Data;
-    return s_data;
+    static Data *data = new Data;
+    return data;
 }
 
 QString StringShare::tryShare(const QString& in)
 {
     uint index = qHash(in) % SIZE;
 
+    num_attempts++;
+
     Data* dat = data();
-    if (dat->qstringHash[index] == in) //Match
+    if (dat->qstringHash[index] == in) {
+        // Match
+        num_hits++;
         return dat->qstringHash[index];
-    else
-    {
-        //Else replace whatever was there before
+    } else {
+        // Else replace whatever was there before
         dat->qstringHash[index] = in;
         return in;
     }
+}
+
+unsigned StringShare::numHits()
+{
+    return num_hits;
+}
+
+unsigned StringShare::numAttempts()
+{
+    return num_attempts;
 }
 
 // vim: set et sw=4 tw=0 sta:

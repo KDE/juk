@@ -75,8 +75,7 @@ void CollectionList::startLoadingCachedItems()
         return;
     }
 
-    qCDebug(JUK_LOG) << "Kicked off first batch";
-    QTimer::singleShot(0, this, SLOT(loadNextBatchCachedItems()));
+    QTimer::singleShot(0, this, &CollectionList::loadNextBatchCachedItems);
 }
 
 void CollectionList::loadNextBatchCachedItems()
@@ -86,7 +85,7 @@ void CollectionList::loadNextBatchCachedItems()
 
     QReadLocker lock(&m_itemsDictLock);
 
-    for(int i = 0; i < 20; ++i) {
+    for(int i = 0; i < 127; ++i) {
         FileHandle cachedItem(cache->loadNextCachedItem());
 
         if(cachedItem.isNull()) {
@@ -105,7 +104,7 @@ void CollectionList::loadNextBatchCachedItems()
     }
 
     if(!done) {
-        QTimer::singleShot(0, this, SLOT(loadNextBatchCachedItems()));
+        QTimer::singleShot(0, this, &CollectionList::loadNextBatchCachedItems);
     }
     else {
         completedLoadingCachedItems();
@@ -126,6 +125,7 @@ void CollectionList::completedLoadingCachedItems()
 
     qCDebug(JUK_LOG) << "Finished loading cached items, took" << stopwatch.elapsed() << "ms";
     qCDebug(JUK_LOG) << m_itemsDict.size() << "items are in the CollectionList";
+    qCDebug(JUK_LOG) << StringShare::numHits() << "string intern hits out of" << StringShare::numAttempts() << "attempts";
 
     emit cachedItemsLoaded();
 }
