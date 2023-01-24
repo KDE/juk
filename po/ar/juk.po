@@ -9,7 +9,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-22 00:56+0000\n"
+"POT-Creation-Date: 2023-01-24 00:56+0000\n"
 "PO-Revision-Date: 2022-02-14 20:58+0400\n"
 "Last-Translator: Zayed Al-Saidi <zayed.alsaidi@gmail.com>\n"
 "Language-Team: Arabic <kde-l10n-ar@kde.org>\n"
@@ -67,7 +67,7 @@ msgstr "المزيد"
 msgid "Fewer"
 msgstr "أقل"
 
-#: cache.cpp:299
+#: cache.cpp:302
 #, kde-format
 msgid ""
 "The music data cache has been corrupted. JuK needs to rescan it now. This "

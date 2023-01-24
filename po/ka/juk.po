@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
-"POT-Creation-Date: 2023-01-22 00:56+0000\n"
-"PO-Revision-Date: 2023-01-22 14:14+0100\n"
+"POT-Creation-Date: 2023-01-24 00:56+0000\n"
+"PO-Revision-Date: 2023-01-23 07:35+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -64,7 +64,7 @@ msgstr "მეტი"
 msgid "Fewer"
 msgstr "ნაკლები"
 
-#: cache.cpp:299
+#: cache.cpp:302
 #, kde-format
 msgid ""
 "The music data cache has been corrupted. JuK needs to rescan it now. This "
@@ -362,13 +362,13 @@ msgstr ""
 #: filerenamer.cpp:815
 #, kde-format
 msgid "Hide Renamer Test Dialog"
-msgstr ""
+msgstr "გადამრქმევის ტესტის ფანჯრის დამალვა"
 
 #. i18n: ectx: property (text), widget (QPushButton, m_showExample)
 #: filerenamer.cpp:820 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
-msgstr ""
+msgstr "გადამრქმევის ტესტის ფანჯრის ჩვენება"
 
 #: filerenamer.cpp:902
 #, kde-format
@@ -671,12 +671,12 @@ msgstr "ჩვენება / დამალვა"
 #: juk.cpp:350
 #, kde-format
 msgid "&Dock in System Tray"
-msgstr ""
+msgstr "სისტემის კუთხეში ჩაკეცვა"
 
 #: juk.cpp:354
 #, kde-format
 msgid "&Stay in System Tray on Close"
-msgstr ""
+msgstr "&სისტემური პანელის ხატულაში ჩახურვა"
 
 #: juk.cpp:357
 #, kde-format
@@ -1866,6 +1866,8 @@ msgid ""
 "This file already exists.\n"
 "Do you want to replace it?"
 msgstr ""
+"ფაილი უკვე არსებობს.\n"
+"გნებავთ, ჩაანაცვლოთ ის?"
 
 #: tagtransactionmanager.cpp:112
 #, kde-format
@@ -1880,7 +1882,7 @@ msgstr "ჩანაცვლება"
 #: tagtransactionmanager.cpp:177
 #, kde-format
 msgid "The following files were unable to be changed."
-msgstr ""
+msgstr "შეუძლებელია შემდეგი ფაილების შეცვლა."
 
 #: tagtransactionmanager.cpp:179
 #, kde-format
@@ -1977,7 +1979,7 @@ msgstr "ჭდის ძებნა. მოითმინეთ..."
 #: webimagefetcher.cpp:144
 #, kde-format
 msgid "Album '%1' not found."
-msgstr "ალბომი '%1' ვერ ვიპოვე"
+msgstr "ალბომი '%1' ვერ ვიპოვე."
 
 #: webimagefetcher.cpp:144
 #, kde-format
@@ -1991,6 +1993,8 @@ msgid ""
 "Error %1 when searching for cover:\n"
 "%2"
 msgstr ""
+"შეცდომა %1 ყდის ძებნისას:\n"
+"%2"
 
 #: webimagefetcher.cpp:156
 #, kde-format
@@ -2006,7 +2010,7 @@ msgstr "ჭდე ხელმისაწვდომი არაა"
 #: webimagefetcher.cpp:166
 #, kde-format
 msgid "Downloading cover. Please Wait..."
-msgstr ""
+msgstr "ჭდის გადმოწერა. მოითმინეთ..."
 
 #: webimagefetcher.cpp:183
 #, kde-format
