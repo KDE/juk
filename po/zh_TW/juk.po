@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-24 00:56+0000\n"
-"PO-Revision-Date: 2023-01-22 00:01+0900\n"
+"PO-Revision-Date: 2023-01-24 19:04+0900\n"
 "Last-Translator: Kisaragi Hiu <mail@kisaragi-hiu.com>\n"
 "Language-Team: Traditional Chinese <zh-l10n@linux.org.tw>\n"
 "Language: zh_TW\n"
@@ -572,12 +572,12 @@ msgstr "時間"
 #: juk.cpp:209
 #, kde-format
 msgid "Your album art failed to download."
-msgstr "無法下載您的相簿美工。"
+msgstr "無法下載您的專輯封面。"
 
 #: juk.cpp:211
 #, kde-format
 msgid "Your album art has finished downloading."
-msgstr "已下載您的相簿美工。"
+msgstr "已下載您的專輯封面。"
 
 #: juk.cpp:255 systemtray.cpp:184
 #, kde-format
