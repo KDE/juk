@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-09-29 00:45+0000\n"
-"PO-Revision-Date: 2023-02-02 07:00+0100\n"
+"PO-Revision-Date: 2023-02-08 11:58+0100\n"
 "Last-Translator: Temuri Doghonadze <temuri.doghonadze@gmail.com>\n"
 "Language-Team: Georgian <kde-i18n-doc@kde.org>\n"
 "Language: ka\n"
@@ -1202,7 +1202,7 @@ msgstr "სიჩქარე"
 #: playlist.cpp:1412
 #, kde-format
 msgid "Comment"
-msgstr "კომე_ნტარი"
+msgstr "კომენტარი"
 
 #: playlist.cpp:1413
 #, kde-format

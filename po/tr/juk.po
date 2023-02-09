@@ -23,7 +23,7 @@ msgstr ""
 "Project-Id-Version: kdemultimedia-kde4\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-09-29 00:45+0000\n"
-"PO-Revision-Date: 2023-01-21 15:24+0300\n"
+"PO-Revision-Date: 2023-02-08 19:06+0300\n"
 "Last-Translator: Emir SARI <emir_sari@icloud.com>\n"
 "Language-Team: Turkish <kde-l10n-tr@kde.org>\n"
 "Language: tr\n"
@@ -31,7 +31,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -72,12 +72,12 @@ msgstr "Tümünü eşleştir"
 #, kde-format
 msgctxt "additional search options"
 msgid "More"
-msgstr "Daha çok"
+msgstr "Daha Çok"
 
 #: advancedsearchdialog.cpp:94
 #, kde-format
 msgid "Fewer"
-msgstr "Daha az"
+msgstr "Daha Az"
 
 #: cache.cpp:299
 #, kde-format
@@ -133,8 +133,8 @@ msgstr "Kapak Yöneticisi"
 #, kde-format
 msgid "<b>1</b> file selected."
 msgid_plural "<b>%1</b> files selected."
-msgstr[0] "<b>%1</b> dosya seçildi."
-msgstr[1] "<b>%1</b> dosya seçildi."
+msgstr[0] "<b>%1</b> dosya seçili."
+msgstr[1] "<b>%1</b> dosya seçili."
 
 #: deletedialog.cpp:75
 #, kde-format
@@ -145,12 +145,12 @@ msgstr "<qt>Bu ögeler sabit diskinizden <b>silinecek</b>.</qt>"
 #: deletedialog.cpp:81
 #, kde-format
 msgid "<qt>These items will be moved to the Trash Bin.</qt>"
-msgstr "<qt>Bu ögeler çöp kutusuna gönderilecek.</qt>"
+msgstr "<qt>Bu ögeler çöp kutusuna taşınacak.</qt>"
 
 #: deletedialog.cpp:93
 #, kde-format
 msgid "&Send to Trash"
-msgstr "&Çöpe Gönder"
+msgstr "&Çöp Kutusuna Gönder"
 
 #: deletedialog.cpp:97
 #, kde-format
@@ -169,7 +169,7 @@ msgstr "Bu ögeleri silmek istiyor musunuz?"
 msgid ""
 "If checked, files will be permanently removed instead of being placed in the "
 "Trash Bin"
-msgstr "Seçilmesi halinde periyodik olarak çöplükteki dosyalar silinir"
+msgstr "Seçiliyse periyodik olarak çöplükteki dosyalar silinir"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:143
@@ -182,10 +182,10 @@ msgid ""
 "reliably undelete deleted files.</p></qt>"
 msgstr ""
 "<qt><p>Bu kutunun seçilmesi halinde, çöpteki dosyalar <b>düzenli olarak </"
-"b>·silinir..</p>\n"
+"b>·silinir.</p>\n"
 "\n"
 "<p><em>Bu seçimi çok dikkatli yapın</em>: Bazı dosya sistemleri silinen "
-"dosyaları tekrar geri oluşturma desteği vermeyebilir.</p></qt>"
+"dosyaları yeniden geri oluşturma desteği vermeyebilir.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:146
@@ -812,12 +812,12 @@ msgstr "Çalma Araç Çubuğu"
 #: keydialog.cpp:100
 #, kde-format
 msgid "Configure Shortcuts"
-msgstr "Kısayolları Düzenle"
+msgstr "Kısayolları Yapılandır"
 
 #: keydialog.cpp:116
 #, kde-format
 msgid "Global Shortcuts"
-msgstr "Genel Kısayollar"
+msgstr "Global Kısayollar"
 
 #: keydialog.cpp:122
 #, kde-format
@@ -1563,14 +1563,15 @@ msgstr "Yayınlamayı yapılandır..."
 #: scrobbleconfigdlg.cpp:42
 #, kde-format
 msgid "Test login..."
-msgstr "Test girişi..."
+msgstr "Sınama oturumu..."
 
 #: scrobbleconfigdlg.cpp:49
 #, kde-format
 msgid ""
 "Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
 msgstr ""
-"Lütfen <a href=\"http://last.fm/\">last.fm</a> giriş bilgilerinizi girin:"
+"Lütfen <a href=\"http://last.fm/\">last.fm</a> oturum açma bilgilerinizi "
+"girin:"
 
 #: scrobbleconfigdlg.cpp:53
 #, kde-format
@@ -1599,17 +1600,17 @@ msgstr "K Cüzdan kullanılamıyor"
 #: scrobbleconfigdlg.cpp:126
 #, kde-format
 msgid "Validating login..."
-msgstr "Giriş bilgileri doğrulanıyor..."
+msgstr "Oturum açma bilgileri doğrulanıyor..."
 
 #: scrobbleconfigdlg.cpp:136
 #, kde-format
 msgid "Login invalid."
-msgstr "Giriş başarısız."
+msgstr "Oturum açma geçersiz."
 
 #: scrobbleconfigdlg.cpp:144
 #, kde-format
 msgid "Login valid."
-msgstr "Giriş başarılı."
+msgstr "Oturum açma geçerli."
 
 #: searchwidget.cpp:72
 #, kde-format
