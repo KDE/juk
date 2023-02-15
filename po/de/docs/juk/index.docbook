@@ -2472,7 +2472,7 @@ action="simul"
 ><para
 >Matthias Kretz <email
 >kretz@kde.org</email
->, den freundlichen &arts;-Guru in der Nachbarschaft.</para>
+>, den freundlichen aRts-Guru in der Nachbarschaft.</para>
 </listitem>
 
 <listitem
@@ -2486,7 +2486,9 @@ action="simul"
 ><para
 >Antonio Larrosa Jimenez <email
 >larrosa@kde.org</email
-> für die &DCOP;-Schnittstelle.</para>
+> für die <acronym
+>DCOP</acronym
+>-Schnittstelle.</para>
 </listitem>
 
 <listitem
