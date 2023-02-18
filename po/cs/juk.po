@@ -10,7 +10,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2022-09-29 00:45+0000\n"
-"PO-Revision-Date: 2023-01-31 14:27+0100\n"
+"PO-Revision-Date: 2023-02-16 09:05+0100\n"
 "Last-Translator: Vit Pelcak <vit@pelcak.org>\n"
 "Language-Team: Czech <kde-i18n-doc@kde.org>\n"
 "Language: cs\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Generator: Lokalize 22.12.1\n"
+"X-Generator: Lokalize 22.12.2\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -700,7 +700,7 @@ msgstr "Pohltit &do panelu"
 #: juk.cpp:354
 #, kde-format
 msgid "&Stay in System Tray on Close"
-msgstr "Zů&stat v systémové liště po uzavření"
+msgstr "Po uzavření zů&stat v systémovém panelu"
 
 #: juk.cpp:357
 #, kde-format
@@ -749,7 +749,7 @@ msgstr ""
 #: juk.cpp:550
 #, kde-format
 msgid "Docking in System Tray"
-msgstr "Ukotvení v systémové liště"
+msgstr "Ukotvení v systémovém panelu"
 
 #: juktag.cpp:93
 #, kde-format
@@ -1107,7 +1107,7 @@ msgid ""
 "Use context menu in system tray to restore."
 msgstr ""
 "JuK běží v dokovaném režimu\n"
-"Pro návrat použijte kontextovou nabídky v systémové liště."
+"Pro návrat použijte kontextovou nabídky v systémovém panelu."
 
 #: main.cpp:87
 #, kde-format
