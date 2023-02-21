@@ -1,0 +1,29 @@
+{
+  "app-id": "org.kde.juk",
+  "runtime": "org.kde.Platform",
+  "runtime-version": "5.15-22.08",
+  "sdk": "org.kde.Sdk",
+  "command": "juk",
+  "rename-icon": "juk",
+  "finish-args": [
+      "--device=dri",
+      "--share=ipc",
+      "--share=network",
+      "--socket=wayland",
+      "--socket=fallback-x11",
+      "--socket=pulseaudio",
+      "--filesystem=xdg-music"
+  ],
+  "modules": [
+      {
+          "name": "juk",
+          "buildsystem": "cmake-ninja",
+          "sources": [
+              {
+                  "type": "dir",
+                  "path": "."
+              }
+          ]
+      }
+  ]
+}
