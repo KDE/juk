@@ -1,7 +1,5 @@
 <?xml version="1.0" ?>
 <!DOCTYPE book PUBLIC "-//KDE//DTD DocBook XML V4.5-Based Variant V1.1//EN" "dtd/kdedbx45.dtd" [
-  <!ENTITY package "kdemultimedia">
-  <!ENTITY kappname "&juk;">
   <!ENTITY juk "<application
 >JuK</application
 >">
@@ -2107,21 +2105,6 @@ Cover Manager
 <term
 ><menuchoice
 ><guimenu
->Configurações </guimenu
-> <guimenuitem
->Mostrar a tela de apresentação ao iniciar</guimenuitem
-> </menuchoice>
-</term>
-<listitem
-><para
->Esta é uma ação comutável. Se estiver ativa, o &juk; irá mostrar um tela informativa na inicialização à medida que carrega a sua coleção de músicas.</para>
-</listitem>
-</varlistentry>
-
-<varlistentry>
-<term
-><menuchoice
-><guimenu
 >Configurações</guimenu
 > <guimenuitem
 >Ícone na área de notificação</guimenuitem
@@ -2232,9 +2215,9 @@ Configure scrobbling
 >Configurações</guimenu
 > e <guimenu
 >Ajuda</guimenu
->, comuns do &kde;. Para mais informações, consulte as seções sobre o <ulink url="help:/fundamentals/ui.html#menus-settings"
+>, comuns do &kde;. Para mais informações, consulte as seções sobre o <ulink url="help:/fundamentals/menus.html#menus-settings"
 >Menu Configurações</ulink
-> e o <ulink url="help:/fundamentals/ui.html#menus-help"
+> e o <ulink url="help:/fundamentals/menus.html#menus-help"
 >Menu Ajuda</ulink
 > dos Fundamentos do &kde;. </para>
 
@@ -2530,8 +2513,7 @@ action="simul"
 > e André Marcelo Alvarenga <email
 >alvarenga@kde.org</email
 ></para
-> 
-&underFDL; &underGPL; </chapter>
+> &underFDL; &underGPL; </chapter>
 
 &documentation.index;
 
