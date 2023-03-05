@@ -869,7 +869,7 @@ msgstr ""
 #: main.cpp:39
 #, fuzzy, kde-format
 msgid "Jukebox and music manager by the KDE community"
-msgstr "مدير صندوق الموسيقى لكدي"
+msgstr "مدير صندوق الموسيقى لكِيدِي"
 
 #: main.cpp:40
 #, fuzzy, kde-format
@@ -906,7 +906,7 @@ msgstr ""
 #, fuzzy, kde-format
 #| msgid "Porting to KDE 4 when no one else was around"
 msgid "Porting to KDE Frameworks 5 when no one else was around"
-msgstr "النقل إلى كدي 4 عندما لم يكن هناك أحد"
+msgstr "النقل إلى كِيدِي 4 عندما لم يكن هناك أحد"
 
 #: main.cpp:47
 #, kde-format
@@ -956,7 +956,7 @@ msgstr "Laurent Montel"
 #: main.cpp:51
 #, kde-format
 msgid "Porting to KDE Platform 4 when no one else was around"
-msgstr "النقل إلى كدي 4 عندما لم يكن هناك أحد"
+msgstr "النقل إلى كِيدِي 4 عندما لم يكن هناك أحد"
 
 #: main.cpp:52
 #, kde-format
@@ -2114,7 +2114,7 @@ msgstr ""
 #, fuzzy
 #~| msgid "Porting to KDE 4 when no one else was around"
 #~ msgid "Porting to KF5 when no one else was around"
-#~ msgstr "النقل إلى كدي 4 عندما لم يكن هناك أحد"
+#~ msgstr "النقل إلى كِيدِي 4 عندما لم يكن هناك أحد"
 
 #~ msgid "Querying MusicBrainz server..."
 #~ msgstr "استعلام خادم MusicBrainz..."
