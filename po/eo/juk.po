@@ -6,8 +6,8 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-24 00:56+0000\n"
-"PO-Revision-Date: 2015-03-25 21:58+0100\n"
-"Last-Translator: Axel Rousseau <axel.rousseau@esperanto-france.org>\n"
+"PO-Revision-Date: 2023-03-20 22:31+0100\n"
+"Last-Translator: Oliver Kellogg <okellogg@users.sourceforge.net>\n"
 "Language-Team: esperanto <kde-i18n-eo@kde.org>\n"
 "Language: eo\n"
 "MIME-Version: 1.0\n"
@@ -90,10 +90,9 @@ msgid "Show Playing"
 msgstr ""
 
 #: coverdialog.cpp:37
-#, fuzzy, kde-format
-#| msgid "Artists"
+#, kde-format
 msgid "<All Artists>"
-msgstr "Artistoj"
+msgstr ""
 
 #: coverdialog.cpp:148
 #, kde-format
@@ -205,10 +204,9 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, importPlaylistsCheckBox)
 #: directorylistbase.ui:183
-#, fuzzy, kde-format
-#| msgid "Playlists"
+#, kde-format
 msgid "Import playlists"
-msgstr "Ludlistoj"
+msgstr ""
 
 #: exampleoptions.cpp:56 main.cpp:38 playermanager.cpp:397 playlist.cpp:1419
 #: systemtray.cpp:502 systemtray.cpp:513
@@ -243,10 +241,9 @@ msgstr ""
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_manualGroup)
 #: exampleoptionsbase.ui:91
-#, fuzzy, kde-format
-#| msgid "Example"
+#, kde-format
 msgid "Example Tags"
-msgstr "Ekzemplo"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel1)
 #: exampleoptionsbase.ui:135
@@ -275,10 +272,9 @@ msgstr "Ĝenro:"
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
 #: exampleoptionsbase.ui:175
-#, fuzzy, kde-format
-#| msgid "Track Number"
+#, kde-format
 msgid "Track number:"
-msgstr "Traka numero"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel6)
 #: exampleoptionsbase.ui:185
@@ -396,24 +392,21 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:90
-#, fuzzy, kde-format
-#| msgid "Album"
+#, kde-format
 msgid "Album Tag"
-msgstr "Albumo"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:95
-#, fuzzy, kde-format
-#| msgid "Artist"
+#, kde-format
 msgid "Artist Tag"
-msgstr "Artisto"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:100
-#, fuzzy, kde-format
-#| msgid "Genre"
+#, kde-format
 msgid "Genre Tag"
-msgstr "Ĝenro"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:105
@@ -423,17 +416,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:110
-#, fuzzy, kde-format
-#| msgid "Track Number"
+#, kde-format
 msgid "Track Tag"
-msgstr "Traka numero"
+msgstr ""
 
 #. i18n: ectx: property (text), item, widget (KComboBox, m_category)
 #: filerenamerbase.ui:115
-#, fuzzy, kde-format
-#| msgid "Year"
+#, kde-format
 msgid "Year Tag"
-msgstr "Jaro"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QPushButton, m_insertCategory)
 #: filerenamerbase.ui:123
@@ -520,10 +511,9 @@ msgstr "Malplena"
 
 #. i18n: ectx: property (title), widget (QGroupBox, m_trackGroup)
 #: filerenameroptionsbase.ui:184
-#, fuzzy, kde-format
-#| msgid "Track Number"
+#, kde-format
 msgid "Track numbering"
-msgstr "Traka numero"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel10)
 #: filerenameroptionsbase.ui:196
@@ -854,10 +844,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr ""
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "© 2002 - 2009, Scott Wheeler"
+#, kde-format
 msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
-msgstr "© 2002 - 2009, Scott Wheeler"
+msgstr ""
 
 #: main.cpp:44
 #, kde-format
@@ -1095,17 +1084,15 @@ msgid "Open"
 msgstr "Malfermi"
 
 #: mediafiles.cpp:116
-#, fuzzy, kde-format
-#| msgid "Playlist"
+#, kde-format
 msgid "Save Playlist"
-msgstr "Ludlisto"
+msgstr ""
 
 #: mediafiles.cpp:118
-#, fuzzy, kde-format
-#| msgid "Playlists"
+#, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
-msgstr "Ludlistoj"
+msgstr ""
 
 #: nowplaying.cpp:316
 #, kde-format
@@ -1177,10 +1164,9 @@ msgid "Could not move these files to the Trash"
 msgstr ""
 
 #: playlist.cpp:1403
-#, fuzzy, kde-format
-#| msgid "Track Number"
+#, kde-format
 msgid "Track Name"
-msgstr "Traka numero"
+msgstr ""
 
 #: playlist.cpp:1406
 #, kde-format
@@ -1590,10 +1576,9 @@ msgid "All Visible"
 msgstr ""
 
 #: searchwidget.cpp:199
-#, fuzzy, kde-format
-#| msgid "Search:"
+#, kde-format
 msgid "Search..."
-msgstr "Serĉi:"
+msgstr "Serĉi..."
 
 #: slider.cpp:126
 #, kde-format
@@ -1669,17 +1654,15 @@ msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, fileNameLabel)
 #: tageditor.ui:19
-#, fuzzy, kde-format
-#| msgid "File Name"
+#, kde-format
 msgid "F&ile name:"
-msgstr "Dosiernomo"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, trackLabel)
 #: tageditor.ui:29
-#, fuzzy, kde-format
-#| msgid "Track Number"
+#, kde-format
 msgid "T&rack:"
-msgstr "Traka numero"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QLabel, artistNameLabel)
 #: tageditor.ui:39
@@ -1707,17 +1690,15 @@ msgstr "&Jaro:"
 
 #. i18n: ectx: property (text), widget (QLabel, lengthLabel)
 #: tageditor.ui:96
-#, fuzzy, kde-format
-#| msgid "Length:"
+#, kde-format
 msgid "&Length:"
-msgstr "Longo:"
+msgstr "&Longo:"
 
 #. i18n: ectx: property (text), widget (QLabel, bitrateLabel)
 #: tageditor.ui:106
-#, fuzzy, kde-format
-#| msgid "Bitrate"
+#, kde-format
 msgid "&Bitrate:"
-msgstr "Bitkvanto"
+msgstr "&Bitkvanto:"
 
 #. i18n: ectx: property (text), widget (QLabel, commentLabel)
 #: tageditor.ui:116
@@ -1727,10 +1708,9 @@ msgstr "&Komento:"
 
 #. i18n: ectx: property (text), widget (QLabel, trackNameLabel)
 #: tageditor.ui:184
-#, fuzzy, kde-format
-#| msgid "Track Number"
+#, kde-format
 msgid "Trac&k name:"
-msgstr "Traka numero"
+msgstr ""
 
 #. i18n: ectx: property (text), widget (QCheckBox, artistNameEnable)
 #. i18n: ectx: property (text), widget (QCheckBox, trackNameEnable)
@@ -1780,10 +1760,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, bMoveUp)
 #: tagguesserconfigdlgwidget.ui:42
-#, fuzzy, kde-format
-#| msgid "Remove scheme"
+#, kde-format
 msgid "Move scheme up"
-msgstr "Forigi skemon"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveUp)
 #: tagguesserconfigdlgwidget.ui:45
@@ -1794,10 +1773,9 @@ msgstr ""
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, bMoveDown)
 #: tagguesserconfigdlgwidget.ui:55
-#, fuzzy, kde-format
-#| msgid "Remove scheme"
+#, kde-format
 msgid "Move scheme down"
-msgstr "Forigi skemon"
+msgstr ""
 
 #. i18n: ectx: property (whatsThis), widget (QToolButton, bMoveDown)
 #: tagguesserconfigdlgwidget.ui:58
@@ -2045,29 +2023,3 @@ msgstr ""
 #, kde-format
 msgid "Cover fetched from <a href='https://last.fm/'>last.fm</a>."
 msgstr ""
-
-#~ msgid "1 day"
-#~ msgid_plural "%1 days"
-#~ msgstr[0] "1 tago"
-#~ msgstr[1] "%1 tagoj"
-
-#~ msgid "Music"
-#~ msgstr "Muziko"
-
-#~ msgid "Unable to start K3b."
-#~ msgstr "Ne eblas lanĉi K3b."
-
-#~ msgid "Create K3b Project"
-#~ msgstr "Krei K3b projekton"
-
-#~ msgid "Audio Mode"
-#~ msgstr "Sona moduso"
-
-#~ msgid "Data Mode"
-#~ msgstr "Datuma moduso"
-
-#~ msgid "Store"
-#~ msgstr "Konservi"
-
-#~ msgid "There was a DCOP communication error with K3b."
-#~ msgstr "Okazis DCOP komunika eraro kun K3b."
