@@ -1,21 +1,22 @@
 # Copyright (C) YEAR This file is copyright:
 # This file is distributed under the same license as the juk package.
 # Wantoyo <wantoyek@gmail.com>, 2019, 2020, 2021, 2022.
+# Linerly <linerly@protonmail.com>, 2023.
 #
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-24 00:56+0000\n"
-"PO-Revision-Date: 2022-09-27 17:54+0700\n"
-"Last-Translator: Wantoyèk <wantoyek@gmail.com>\n"
+"PO-Revision-Date: 2023-03-22 00:10+0700\n"
+"Last-Translator: Linerly <linerly@protonmail.com>\n"
 "Language-Team: Indonesian <kde-i18n-doc@kde.org>\n"
 "Language: id\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Generator: Lokalize 21.12.3\n"
+"X-Generator: Lokalize 22.12.3\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -87,10 +88,10 @@ msgid ""
 "\"scan on startup\" list, they will be readded on startup."
 msgstr ""
 "Membuang sebuah butir dari koleksi juga akan menyingkirkannya dari semua "
-"playlist-mu. Apakah kamu yakin ingin meneruskan?\n"
+"daftar putar Anda. Apakah Anda yakin ingin meneruskan?\n"
 "\n"
-"Ingat, perhatikan bahwa jika direktori tempat file-file ini berada di dalam "
-"daftar \"pindai saat pemulaian\", mereka akan dibaca-ulang saat pemulaian."
+"Ingat, perhatikan bahwa jika direktori tempat file ini berada di dalam "
+"daftar \"pindai saat pemulaian\", mereka akan dibaca ulang saat pemulaian."
 
 #: collectionlist.cpp:336
 #, kde-format
@@ -146,7 +147,7 @@ msgstr "Tentang penghapusan file yang dipilih"
 #: deletedialogbase.ui:88
 #, kde-format
 msgid "Are you sure that you want to remove these items?"
-msgstr "Apakah kamu yakin bahwa kamu ingin membuang butir-butir tersebut?"
+msgstr "Apakah Anda yakin bahwa Anda ingin membuang butir-butir tersebut?"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:138
@@ -189,7 +190,7 @@ msgstr "Daftar Folder"
 #: directorylistbase.ui:19
 #, kde-format
 msgid "Please choose the folders where you keep your music:"
-msgstr "Silakan pilih folder mana yang kamu tetapkan sebagai misikmu:"
+msgstr "Silakan pilih folder mana yang Anda tetapkan sebagai musik Anda:"
 
 #. i18n: ectx: property (toolTip), widget (QListView, directoryListView)
 #. i18n: ectx: property (toolTip), widget (QListView, excludeDirectoryListView)
@@ -336,7 +337,7 @@ msgid ""
 "You are about to rename the following files. Are you sure you want to "
 "continue?"
 msgstr ""
-"Sepertinya kamu mengubah-bama file-file berikut ini. Apakah kamu yakin ingin "
+"Sepertinya Anda mengubah nama file berikut ini. Apakah Anda yakin ingin "
 "meneruskan?"
 
 #: filerenamer.cpp:85
@@ -492,8 +493,8 @@ msgid ""
 "you have in your track's %1 tag, plus any additional text that you specify "
 "below."
 msgstr ""
-"Ketika menggunakan pengubah-nama file, file-filemu akan diubah-nama ke nilai "
-"yang kamu miliki dalam tag trek %1 kamu."
+"Ketika menggunakan pengubah nama file, file Anda akan diubah namanya ke "
+"nilai yang Anda miliki dalam tag trek %1 Anda."
 
 #: filerenameroptions.cpp:114
 #, kde-format
@@ -545,7 +546,7 @@ msgid ""
 "digits. You may want to do this for better sorting in file managers."
 msgstr ""
 "JuK bisa memaksa trek yang digunakan dalam sebuah nama file untuk memiliki "
-"jumlah angka minimum. Kamu mungkin ingin melakukan ini untuk mengurutkan "
+"jumlah angka minimum. Anda mungkin ingin melakukan ini untuk mengurutkan "
 "yang lebih baik dalam pengelolaan file."
 
 #. i18n: ectx: property (text), widget (QLabel, textLabel5)
@@ -586,12 +587,12 @@ msgstr "Waktu"
 #: juk.cpp:209
 #, kde-format
 msgid "Your album art failed to download."
-msgstr "Seni albummu gagal diunduh."
+msgstr "Gambar album Anda gagal diunduh."
 
 #: juk.cpp:211
 #, kde-format
 msgid "Your album art has finished downloading."
-msgstr "Seni albummu sudah selesai diunduh."
+msgstr "Gambar album Anda sudah selesai diunduh."
 
 #: juk.cpp:255 systemtray.cpp:184
 #, kde-format
@@ -821,15 +822,15 @@ msgstr "Tuts &standar"
 #: keydialog.cpp:130
 #, kde-format
 msgid "&Multimedia keys"
-msgstr "Tuts &multimedia"
+msgstr "Tombol &multimedia"
 
 #: keydialog.cpp:136
 #, kde-format
 msgid ""
 "Here you can select the keys used as global shortcuts to control the player"
 msgstr ""
-"Di sini kamu bisa pilih tuts yang digunakan sebagai pintasan global untuk "
-"mengendalikan si pemutar"
+"Di sini Anda dapat pilih tombol yang digunakan sebagai pintasan global untuk "
+"mengendalikan pemutar"
 
 #: lyricswidget.cpp:51
 #, kde-format
@@ -1060,7 +1061,7 @@ msgstr "Maks Orlovich"
 #: main.cpp:61
 #, kde-format
 msgid "Making JuK friendlier to people with terabytes of music"
-msgstr "Membuat JuK mudah digunakan orang dengan terabyte musik"
+msgstr "Membuat JuK mudah digunakan orang dengan terabita musik"
 
 #: main.cpp:62
 #, kde-format
@@ -1158,19 +1159,13 @@ msgid "Could not save to file %1."
 msgstr "Tidak bisa menyimpan ke file %1."
 
 #: playlist.cpp:574
-#, fuzzy, kde-format
-#| msgid ""
-#| "You are about to rename the following files. Are you sure you want to "
-#| "continue?"
+#, kde-format
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
-msgstr[0] ""
-"Sepertinya kamu mengubah-bama file-file berikut ini. Apakah kamu yakin ingin "
-"meneruskan?"
+msgstr[0] "Anda akan membuka direktori. Apakah Anda yakin ingin melanjutkan?"
 msgstr[1] ""
-"Sepertinya kamu mengubah-bama file-file berikut ini. Apakah kamu yakin ingin "
-"meneruskan?"
+"Anda akan membuka %1 direktori. Apakah Anda yakin ingin melanjutkan?"
 
 #: playlist.cpp:577 playlistcollection.cpp:999
 #, kde-format
@@ -1180,7 +1175,7 @@ msgstr ""
 #: playlist.cpp:644
 #, kde-format
 msgid "Are you sure you want to delete these covers?"
-msgstr "Apakah kamu yakin ingin menghapus sampul tersebut?"
+msgstr "Apakah Anda yakin ingin menghapus sampul tersebut?"
 
 #: playlist.cpp:646
 #, kde-format
@@ -1281,7 +1276,7 @@ msgstr "Edit '%1'"
 #: playlist.cpp:2178
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
-msgstr "Ini akan mengedit banyak file. Apakah kamu yakin?"
+msgstr "Ini akan mengedit banyak file. Apakah Anda yakin?"
 
 #: playlist.cpp:2237 playlistcollection.h:189
 #, kde-format
@@ -1294,7 +1289,7 @@ msgid ""
 "Manual column widths have been enabled. You can switch back to automatic "
 "column sizes in the view menu."
 msgstr ""
-"Lebar kolom manual sudah difungsikan. Kamu bisa beralih mundur untuk ukuran "
+"Lebar kolom manual sudah difungsikan. Anda dapat beralih mundur untuk ukuran "
 "kolom otomatis di dalam menu tampilan."
 
 #: playlist.cpp:2249
@@ -1321,7 +1316,7 @@ msgstr "Duplikat"
 #: playlistbox.cpp:414
 #, kde-format
 msgid "Do you want to delete these files from the disk as well?"
-msgstr "Apakah kamu ingin menghapus file tersebut dari disk?"
+msgstr "Apakah Anda ingin menghapus file tersebut dari disk?"
 
 #: playlistbox.cpp:415
 #, kde-format
@@ -1336,7 +1331,8 @@ msgstr "Tidak bisa menghapus file-file tersebut."
 #: playlistbox.cpp:435
 #, kde-format
 msgid "Are you sure you want to remove these playlists from your collection?"
-msgstr "Apakah kamu yakin bahwa kamu ingin membuang playlist dari koleksimu?"
+msgstr ""
+"Apakah Anda yakin bahwa kamu ingin membuang playlist dari koleksi Anda?"
 
 #: playlistbox.cpp:438
 #, kde-format
@@ -1374,7 +1370,7 @@ msgstr "Sekarang Memutar"
 msgid ""
 "Do you want to add these items to the current list or to the collection list?"
 msgstr ""
-"Apakah kamu ingin menambahkan butir tersebut ke daftar saat ini atau ke "
+"Apakah Anda ingin menambahkan butir tersebut ke daftar saat ini atau ke "
 "daftar koleksi?"
 
 #: playlistcollection.cpp:361
@@ -1483,7 +1479,7 @@ msgstr "D&uplikatkan..."
 #: playlistcollection.cpp:990
 #, kde-format
 msgid "Reload"
-msgstr "Muat-ulang"
+msgstr "Muat ulang"
 
 #: playlistcollection.cpp:992
 #, kde-format
@@ -1566,7 +1562,7 @@ msgid ""
 "Please enter your <a href=\"https://last.fm/\">last.fm</a> login credentials:"
 msgstr ""
 "Silakan masukkan kredensial login <a href=\"https://last.fm/\">last.fm</a> "
-"kamu:"
+"Anda:"
 
 #: scrobbleconfigdlg.cpp:53
 #, kde-format
@@ -1584,7 +1580,7 @@ msgid ""
 "KWallet is unavailable, your Last.fm credentials will be stored without "
 "encryption."
 msgstr ""
-"KWallet tak tersedia, kredensial Last.fm kamu akan disimpan tanpa enkripsi."
+"KWallet tak tersedia, kredensial Last.fm Anda akan disimpan tanpa enkripsi."
 
 #: scrobbleconfigdlg.cpp:83
 #, kde-format
@@ -1665,7 +1661,7 @@ msgstr "0%"
 #, kde-format
 msgid "Seeking is not supported in this file with your audio settings."
 msgstr ""
-"Penjangkaan tidaklah didukung dalam file ini dengan pengaturan audiomu."
+"Penjangkaan tidaklah didukung dalam file ini dengan pengaturan audio Anda."
 
 #: statuslabel.cpp:85
 #, kde-format
@@ -1697,7 +1693,7 @@ msgstr "&Simpan"
 #: tageditor.cpp:624
 #, kde-format
 msgid "Do you want to save your changes to:\n"
-msgstr "Apakah kamu ingin menyimpan perubahanmu ke:\n"
+msgstr "Apakah Anda ingin menyimpan perubahanmu ke:\n"
 
 #: tageditor.cpp:626
 #, kde-format
@@ -1809,7 +1805,7 @@ msgid ""
 "since the tag guesser will go through the list from the top to the bottom, "
 "and use the first matching scheme."
 msgstr ""
-"Di sini kamu bisa melihat skema-skema nama file yang dikonfigurasi barusan "
+"Di sini Anda dapat melihat skema-skema nama file yang dikonfigurasi terkini "
 "di mana entri \"Informasi Tag Tebakan Dari Nama File\" di dalam menu konteks "
 "lagu yang digunakan untuk mengekstrak informasi tag dari sebuah nama file. "
 "Masing-masing string mungkin berisi salah satu placeholder berikut ini:<ul>\n"
@@ -1821,10 +1817,10 @@ msgstr ""
 "</ul>\n"
 "Misalnya, skema nama file \"[%T] %a - %t\" menjadi \"[01] Deep Purple - "
 "Smoke on the water\" tetapi bukan \"(Deep Purple) Smoke on the water\". "
-"Untuk nama yang kedua tersebut, kamu bisa menggunakan skema \"(%a) %t\".<p/"
+"Untuk nama yang kedua tersebut, Anda dapat menggunakan skema \"(%a) %t\".<p/"
 ">\n"
-"Ingat bahwa urutan skema yang muncul di dalam daftar adalah relefan, karena "
-"penebak tag akan melalui daftar dari atas sampai ke bawah, dan mengggunakan "
+"Ingat bahwa urutan skema yang muncul di dalam daftar adalah relevan, karena "
+"penebak tag akan melalui daftar dari atas sampai ke bawah, dan menggunakan "
 "skema yang cocok dulu."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, bMoveUp)
@@ -1920,7 +1916,7 @@ msgid ""
 "%T: Track\n"
 "%c: Comment"
 msgstr ""
-"Kamu bisa menggunakan placeholder berikut ini:\n"
+"Anda dapat menggunakan placeholder berikut ini:\n"
 "%t: Judul\n"
 "%A: Album\n"
 "%a: Artis\n"
@@ -1944,7 +1940,7 @@ msgid ""
 "Do you want to replace it?"
 msgstr ""
 "File ini sudah ada.\n"
-"Apakah kamu ingin menggantinya?"
+"Apakah Anda ingin menggantinya?"
 
 #: tagtransactionmanager.cpp:112
 #, kde-format
