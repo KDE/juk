@@ -10,20 +10,20 @@
 # Ion Gaztañaga <igaztanaga@gmail.com>, 2005.
 # Julen Landa Alustiza <julen@mundurat.net>, 2009.
 # Iñaki Larrañaga Murgoitio <dooteo@euskalgnu.org>, 2009.
-# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2018, 2019, 2020, 2021.
+# Iñigo Salvador Azurmendi <xalba@euskalnet.net>, 2010, 2018, 2019, 2020, 2021, 2023.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-24 00:56+0000\n"
-"PO-Revision-Date: 2021-07-03 20:25+0200\n"
+"PO-Revision-Date: 2023-04-22 19:11+0200\n"
 "Last-Translator: Iñigo Salvador Azurmendi <xalba@ni.eus>\n"
 "Language-Team: Basque <kde-i18n-eu@kde.org>\n"
 "Language: eu\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Lokalize 21.04.2\n"
+"X-Generator: Lokalize 23.04.0\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #, kde-format
@@ -1101,7 +1101,7 @@ msgstr "Pascal Klein"
 #: main.cpp:64
 #, kde-format
 msgid "Gimper of splash screen"
-msgstr "Plast pantailaren egilea (GIMP erabiliz)"
+msgstr "Plasta pantailaren egilea (GIMP erabiliz)"
 
 #: main.cpp:69
 #, kde-format
