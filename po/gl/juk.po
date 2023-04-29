@@ -5,16 +5,16 @@
 # Manuel A. Vázquez <xixirei@yahoo.es>, 2009.
 # Miguel Branco <mgl.branco@gmail.com>, 2009.
 # Manuel A. Vazquez <xixirei@yahoo.es>, 2011.
-# Manuel A. Vazquez <xixireiATyahooDOTes>, 2011.
 # Marce Villarino <mvillarino@kde-espana.es>, 2012, 2013, 2014.
 # Adrián Chaves Fernández <adriyetichaves@gmail.com>, 2015, 2016, 2017.
-# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019.
+# Adrián Chaves (Gallaecio) <adrian@chaves.io>, 2017, 2018, 2019, 2023.
+# Manuel A. Vazquez <xixireiATyahooDOTes>, 2011.
 msgid ""
 msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-24 00:56+0000\n"
-"PO-Revision-Date: 2019-10-19 21:40+0200\n"
+"PO-Revision-Date: 2023-04-28 19:42+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 19.11.70\n"
+"X-Generator: Lokalize 23.04.0\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -109,10 +109,9 @@ msgid "Show Playing"
 msgstr "Mostrar o tema actual"
 
 #: coverdialog.cpp:37
-#, fuzzy, kde-format
-#| msgid "Artists"
+#, kde-format
 msgid "<All Artists>"
-msgstr "Artistas"
+msgstr "<Todas as artistas>"
 
 #: coverdialog.cpp:148
 #, kde-format
@@ -409,7 +408,7 @@ msgstr "%1 a %2"
 #: filerenamer.cpp:909
 #, kde-format
 msgid "The following rename operations failed:\n"
-msgstr "Fallaron os seguintes renomeamentos:\n"
+msgstr "Fallaron os seguintes cambios de nome:\n"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, FileRenamerBase)
 #: filerenamerbase.ui:20
@@ -728,7 +727,7 @@ msgstr "Gardar a fila de &temas ao saír"
 #: juk.cpp:363
 #, kde-format
 msgid "&Tag Guesser..."
-msgstr "&Adiviñador de etiquetas…"
+msgstr "&Adiviño de etiquetas…"
 
 #: juk.cpp:366
 #, kde-format
@@ -865,6 +864,8 @@ msgstr "<i>Estase a cargar…</i>"
 msgid ""
 "<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
 msgstr ""
+"<i>A letra de %1 non está dispoñíbel neste momento (non hai fornecedor de "
+"letras dispoñíbel)</i>"
 
 #: lyricswidget.cpp:129 lyricswidget.cpp:158
 #, kde-format
@@ -887,10 +888,9 @@ msgid "Jukebox and music manager by the KDE community"
 msgstr "Xestor e reprodutor de música fornecido pola comunidade KDE."
 
 #: main.cpp:40
-#, fuzzy, kde-format
-#| msgid "Copyright © 2002–2019, Scott Wheeler, Michael Pyne, and others"
+#, kde-format
 msgid "Copyright © 2002–2021, Scott Wheeler, Michael Pyne, and others"
-msgstr "© 2002–2019 Scott Wheeler, Michael Pyne e outros"
+msgstr "© 2002–2021 Scott Wheeler, Michael Pyne e máis"
 
 #: main.cpp:44
 #, kde-format
@@ -995,7 +995,7 @@ msgstr "Matthias Kretz"
 #: main.cpp:53
 #, kde-format
 msgid "Friendly, neighborhood aRts guru"
-msgstr "Amigábel gurú da veciñanza de aRts"
+msgstr "Amigo e veciño mestre de aRts"
 
 #: main.cpp:54
 #, kde-format
@@ -1142,11 +1142,10 @@ msgid "Save Playlist"
 msgstr "Gardar a lista de reprodución"
 
 #: mediafiles.cpp:118
-#, fuzzy, kde-format
-#| msgid "Playlists"
+#, kde-format
 msgctxt "For save dialog, %1 is always .m3u"
 msgid "Playlists (*%1)"
-msgstr "Listas de temas"
+msgstr "Listas de reprodución (*%1)"
 
 #: nowplaying.cpp:316
 #, kde-format
@@ -1177,22 +1176,17 @@ msgid "Could not save to file %1."
 msgstr "Non se puido gardar no ficheiro %1."
 
 #: playlist.cpp:574
-#, fuzzy, kde-format
-#| msgid ""
-#| "You are about to rename the following files. Are you sure you want to "
-#| "continue?"
+#, kde-format
 msgid "You are about to open directory. Are you sure you want to continue?"
 msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
-msgstr[0] ""
-"Está a piques de renomear os seguintes ficheiros. Seguro que quere continuar?"
-msgstr[1] ""
-"Está a piques de renomear os seguintes ficheiros. Seguro que quere continuar?"
+msgstr[0] "Está a piques de abrir un cartafol. Seguro que quere continuar?"
+msgstr[1] "Está a piques de abrir %1 cartafoles. Seguro que quere continuar?"
 
 #: playlist.cpp:577 playlistcollection.cpp:999
 #, kde-format
 msgid "Open Containing Folder"
-msgstr ""
+msgstr "Abrir o cartafol contedor"
 
 #: playlist.cpp:644
 #, kde-format
@@ -1643,10 +1637,9 @@ msgid "All Visible"
 msgstr "Todo o visíbel"
 
 #: searchwidget.cpp:199
-#, fuzzy, kde-format
-#| msgid "Edit Search..."
+#, kde-format
 msgid "Search..."
-msgstr "Editar a busca…"
+msgstr "Buscar…"
 
 #: slider.cpp:126
 #, kde-format
@@ -1797,7 +1790,7 @@ msgstr "Activar"
 #: tagguesserconfigdlg.cpp:39
 #, kde-format
 msgid "Tag Guesser Configuration"
-msgstr "Configuración do adiviñador de etiquetas"
+msgstr "Configuración do adiviño de etiquetas"
 
 #. i18n: ectx: property (toolTip), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:18
@@ -1805,6 +1798,7 @@ msgstr "Configuración do adiviñador de etiquetas"
 msgid "Currently used file name schemes"
 msgstr "Esquemas de nomes de ficheiro actualmente usados"
 
+# well-spelled: Tanxugueiras
 #. i18n: ectx: property (whatsThis), widget (QTreeView, lvSchemes)
 #: tagguesserconfigdlgwidget.ui:29
 #, no-c-format, kde-format
@@ -1838,11 +1832,10 @@ msgstr ""
 "<li>%c: Comentario</li>\n"
 "</ul>\n"
 "Por exemplo, o sistema de nomes de ficheiro «[%T] %a - %t» coincidirá con "
-"«[01] Skornabois - Dallecandallecadadelaemiña» pero non con «(Skornabois) "
-"Dallecandallecacadelaemiña». Para este segundo nome, pode usar o sistema "
-"«(%a) %t».<p/>\n"
+"«[01] Tanxugueiras - Terra» pero non con «(Tanxugueiras) Terra». Para este "
+"segundo nome, pode usar o sistema «(%a) %t».<p/>\n"
 "Lembre que a orde na que se mostran os esquemas na lista é relevante, xa que "
-"o adiviñador de etiquetas percorrerá a lista de riba cara baixo, e usará o "
+"o adiviño de etiquetas percorrerá a lista de riba cara baixo, e usará o "
 "primeiro esquema que coincida."
 
 #. i18n: ectx: property (toolTip), widget (QToolButton, bMoveUp)
