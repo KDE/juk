@@ -14,7 +14,7 @@ msgstr ""
 "Project-Id-Version: juk\n"
 "Report-Msgid-Bugs-To: https://bugs.kde.org\n"
 "POT-Creation-Date: 2023-01-24 00:56+0000\n"
-"PO-Revision-Date: 2023-04-28 19:42+0200\n"
+"PO-Revision-Date: 2023-06-05 13:34+0200\n"
 "Last-Translator: Adrián Chaves (Gallaecio) <adrian@chaves.io>\n"
 "Language-Team: Galician <proxecto@trasno.gal>\n"
 "Language: gl\n"
@@ -22,7 +22,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Generator: Lokalize 23.04.0\n"
+"X-Generator: Lokalize 23.04.1\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -583,13 +583,13 @@ msgstr "003"
 #: filerenameroptionsbase.ui:291
 #, kde-format
 msgid "3 ->"
-msgstr "3 ->"
+msgstr "3 →"
 
 #. i18n: ectx: property (text), widget (QLabel, m_doubleDigit)
 #: filerenameroptionsbase.ui:301
 #, kde-format
 msgid "14 ->"
-msgstr "14 ->"
+msgstr "14 →"
 
 #: historyplaylist.cpp:42
 #, kde-format
@@ -864,8 +864,8 @@ msgstr "<i>Estase a cargar…</i>"
 msgid ""
 "<i>Lyrics are currently unavailable for %1 (no available lyrics provider)</i>"
 msgstr ""
-"<i>A letra de %1 non está dispoñíbel neste momento (non hai fornecedor de "
-"letras dispoñíbel)</i>"
+"<i>A letra de %1 non está dispoñíbel (non hai fornecedor de letras "
+"dispoñíbel)</i>"
 
 #: lyricswidget.cpp:129 lyricswidget.cpp:158
 #, kde-format
@@ -1796,7 +1796,7 @@ msgstr "Configuración do adiviño de etiquetas"
 #: tagguesserconfigdlgwidget.ui:18
 #, kde-format
 msgid "Currently used file name schemes"
-msgstr "Esquemas de nomes de ficheiro actualmente usados"
+msgstr "Esquemas de nomes de ficheiro usados"
 
 # well-spelled: Tanxugueiras
 #. i18n: ectx: property (whatsThis), widget (QTreeView, lvSchemes)
@@ -1820,10 +1820,10 @@ msgid ""
 "since the tag guesser will go through the list from the top to the bottom, "
 "and use the first matching scheme."
 msgstr ""
-"Aquí pode ver os sistemas de nome de ficheiro actualmente configurados "
-"usados pola entrada «Adiviñar a información das etiquetas a partir do nome "
-"do ficheiro» para extraer información da etiqueta dun nome de ficheiro. Cada "
-"cadea pode conter unha das seguintes\n"
+"Aquí pode ver os sistemas de nome de ficheiro configurados usados pola "
+"entrada «Adiviñar a información das etiquetas a partir do nome do ficheiro» "
+"para extraer información da etiqueta dun nome de ficheiro. Cada cadea pode "
+"conter unha das seguintes\n"
 "marcas de substitución:<ul>\n"
 "<li>%t: Título</li>\n"
 "<li>%a: Artista</li>\n"
@@ -1863,7 +1863,7 @@ msgstr "Baixar o esquema"
 msgid ""
 "Press this button to move the currently selected scheme one step downwards."
 msgstr ""
-"Prema este botón para baixar o esquema escollido un posto cara a baixo."
+"Prema este botón para baixar o esquema escollido un posto cara a abaixo."
 
 #. i18n: ectx: property (toolTip), widget (QPushButton, bAdd)
 #: tagguesserconfigdlgwidget.ui:68
@@ -1914,8 +1914,7 @@ msgstr "Retirar o esquema"
 #, kde-format
 msgid ""
 "Press this button to remove the currently selected scheme from the list."
-msgstr ""
-"Preme este botón para retirar da lista o esquema actualmente escollido."
+msgstr "Preme este botón para retirar da lista o esquema escollido."
 
 #. i18n: ectx: property (text), widget (QLabel, label)
 #: tagguesserconfigdlgwidget.ui:128
