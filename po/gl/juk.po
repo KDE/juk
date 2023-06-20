@@ -106,7 +106,7 @@ msgstr ""
 #: collectionlist.cpp:336
 #, kde-format
 msgid "Show Playing"
-msgstr "Mostrar o tema actual"
+msgstr "Amosar o tema actual"
 
 #: coverdialog.cpp:37
 #, kde-format
@@ -183,9 +183,8 @@ msgstr ""
 "<qt><p>Se marca esta opción, os ficheiros <b>retiraranse permanentemente</b> "
 "no canto de tirarse no lixo.</p>\n"
 "\n"
-"<p><em>Empregue esta opción con coidado</em>: A maioría dos sistemas de "
-"ficheiros non poden recuperar os ficheiros eliminados de maneira fiábel.</"
-"p></qt>"
+"<p><em>Use esta opción con coidado</em>: A maioría dos sistemas de ficheiros "
+"non poden recuperar os ficheiros eliminados de maneira fiábel.</p></qt>"
 
 #. i18n: ectx: property (text), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:146
@@ -398,7 +397,7 @@ msgstr "Agochar o diálogo de proba do cambiador de nome"
 #: filerenamer.cpp:820 filerenamerbase.ui:257
 #, kde-format
 msgid "Show Renamer Test Dialog"
-msgstr "Mostrar o diálogo de proba do cambiador de nome"
+msgstr "Amosar o diálogo de proba do cambiador de nome"
 
 #: filerenamer.cpp:902
 #, kde-format
@@ -702,7 +701,7 @@ msgstr "Buscar cara atrás"
 #: juk.cpp:343
 #, kde-format
 msgid "Show / Hide"
-msgstr "Mostrar / Agochar"
+msgstr "Amosar / Agochar"
 
 #: juk.cpp:350
 #, kde-format
@@ -847,7 +846,7 @@ msgstr ""
 #: lyricswidget.cpp:51
 #, kde-format
 msgid "Show &Lyrics"
-msgstr "Mostrar a &letra"
+msgstr "Amosar a &letra"
 
 #: lyricswidget.cpp:78
 #, kde-format
@@ -1267,7 +1266,7 @@ msgstr "Nome do ficheiro (ruta absoluta)"
 #: playlist.cpp:1605
 #, kde-format
 msgid "&Show Columns"
-msgstr "&Mostrar as columnas"
+msgstr "&Amosar as columnas"
 
 #: playlist.cpp:1712
 #, kde-format
@@ -1321,7 +1320,7 @@ msgstr "Modos de vista"
 #: playlistbox.cpp:161
 #, kde-format
 msgid "Show &History"
-msgstr "Mostrar o &historial"
+msgstr "Amosar o &historial"
 
 #: playlistbox.cpp:222 playlistcollection.cpp:434
 #, kde-format
@@ -1537,12 +1536,12 @@ msgstr "&Eliminar a portada"
 #: playlistcollection.cpp:1019
 #, kde-format
 msgid "Show Cover &Manager"
-msgstr "Mostrar o &xestor de portadas"
+msgstr "Amosar o &xestor de portadas"
 
 #: playlistcollection.cpp:1023
 #, kde-format
 msgid "Show &Play Queue"
-msgstr "Mostrar a &fila de temas"
+msgstr "Amosar a &fila de temas"
 
 #: playlistcollection.h:192
 #, kde-format
@@ -1552,7 +1551,7 @@ msgstr "Lista de reprodución"
 #: playlistsplitter.cpp:157
 #, kde-format
 msgid "Show &Search Bar"
-msgstr "Mostrar a &barra de buscas"
+msgstr "Amosar a &barra de buscas"
 
 #: playlistsplitter.cpp:160
 #, kde-format
@@ -1692,12 +1691,12 @@ msgstr[1] "%1 elementos"
 #: systemtray.cpp:161
 #, kde-format
 msgid "Redisplay Popup"
-msgstr "Mostrar de novo a notificación"
+msgstr "Amosar de novo a notificación"
 
 #: tageditor.cpp:477
 #, kde-format
 msgid "Show &Tag Editor"
-msgstr "Mostrar o &editor de etiquetas"
+msgstr "Amosar o &editor de etiquetas"
 
 #: tageditor.cpp:481
 #, kde-format
@@ -1834,7 +1833,7 @@ msgstr ""
 "Por exemplo, o sistema de nomes de ficheiro «[%T] %a - %t» coincidirá con "
 "«[01] Tanxugueiras - Terra» pero non con «(Tanxugueiras) Terra». Para este "
 "segundo nome, pode usar o sistema «(%a) %t».<p/>\n"
-"Lembre que a orde na que se mostran os esquemas na lista é relevante, xa que "
+"Lembre que a orde na que se amosan os esquemas na lista é relevante, xa que "
 "o adiviño de etiquetas percorrerá a lista de riba cara baixo, e usará o "
 "primeiro esquema que coincida."
 
