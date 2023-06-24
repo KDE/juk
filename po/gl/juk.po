@@ -407,7 +407,7 @@ msgstr "%1 a %2"
 #: filerenamer.cpp:909
 #, kde-format
 msgid "The following rename operations failed:\n"
-msgstr "Fallaron os seguintes cambios de nome:\n"
+msgstr "Fallaron os seguintes renomeamentos:\n"
 
 #. i18n: ectx: property (windowTitle), widget (QWidget, FileRenamerBase)
 #: filerenamerbase.ui:20
