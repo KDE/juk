@@ -16,7 +16,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: KBabel 1.11.4\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 #, kde-format
 msgctxt "NAME OF TRANSLATORS"
@@ -117,10 +117,11 @@ msgid "Cover Manager"
 msgstr "مدیر پوشش"
 
 #: deletedialog.cpp:62
-#, kde-format
+#, fuzzy, kde-format
 msgid "<b>1</b> file selected."
 msgid_plural "<b>%1</b> files selected."
 msgstr[0] "<b>%1</b> پرونده، برگزیده شد."
+msgstr[1] ""
 
 #: deletedialog.cpp:75
 #, kde-format
@@ -1181,6 +1182,7 @@ msgid_plural ""
 "You are about to open %1 directories. Are you sure you want to continue?"
 msgstr[0] ""
 "در شرف تغییر نام پرونده‌های زیر هستید. مطمئن هستید می‌خواهید ادامه بدهید؟"
+msgstr[1] ""
 
 #: playlist.cpp:577 playlistcollection.cpp:999
 #, kde-format
@@ -1684,10 +1686,11 @@ msgid "Jump to the currently playing item"
 msgstr "پرش به فقره‌ای که در حال حاضر پخش می‌‌شود"
 
 #: statuslabel.cpp:115
-#, kde-format
+#, fuzzy, kde-format
 msgid "1 item"
 msgid_plural "%1 items"
 msgstr[0] "%1 فقره"
+msgstr[1] ""
 
 #: systemtray.cpp:161
 #, kde-format
