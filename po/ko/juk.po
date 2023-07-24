@@ -736,8 +736,8 @@ msgid ""
 "<qt>Closing the main window will keep JuK running in the system tray. Use "
 "Quit from the File menu to quit the application.</qt>"
 msgstr ""
-"<qt>창을 닫아도 시스템 트레이에서 JuK를 실행합니다. 프로그램을 끝내려면 파일 "
-"메뉴의 끝내기 항목을 사용하십시오.</qt>"
+"<qt>창을 닫아도 시스템 트레이에서 JuK를 실행합니다. 앱을 끝내려면 파일 메뉴"
+"의 끝내기 항목을 사용하십시오.</qt>"
 
 #: juk.cpp:550
 #, kde-format
