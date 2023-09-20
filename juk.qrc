@@ -1,0 +1,7 @@
+<!DOCTYPE RCC>
+<RCC version="1.0">
+    <qresource prefix="/kxmlgui5/juk">
+        <file>jukui.rc</file>
+        <file>jukui-rtl.rc</file>
+    </qresource>
+</RCC>

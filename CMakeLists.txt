@@ -130,7 +130,10 @@ set(juk_SRCS
    tagtransactionmanager.cpp
    treeviewitemplaylist.cpp
    upcomingplaylist.cpp
-   viewmode.cpp )
+   viewmode.cpp
+
+   juk.qrc
+)
 
 ecm_qt_declare_logging_category(juk_SRCS HEADER juk_debug.h
                                 IDENTIFIER JUK_LOG CATEGORY_NAME org.kde.juk)
@@ -206,7 +209,6 @@ install(TARGETS juk  ${KDE_INSTALL_TARGETS_DEFAULT_ARGS} )
 ########### install files ###############
 
 install( PROGRAMS org.kde.juk.desktop  DESTINATION  ${KDE_INSTALL_APPDIR} )
-install( FILES jukui.rc jukui-rtl.rc  DESTINATION  ${KDE_INSTALL_KXMLGUI5DIR}/juk )
 install(
     FILES juk.notifyrc
     DESTINATION ${KDE_INSTALL_KNOTIFYRCDIR}
