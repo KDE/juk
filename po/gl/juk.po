@@ -1579,7 +1579,7 @@ msgstr ""
 #: scrobbleconfigdlg.cpp:53
 #, kde-format
 msgid "Username:"
-msgstr "Nome de usuario:"
+msgstr "Nome de usuaria:"
 
 #: scrobbleconfigdlg.cpp:54
 #, kde-format
