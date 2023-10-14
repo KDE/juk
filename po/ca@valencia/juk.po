@@ -161,7 +161,7 @@ msgid ""
 "Trash Bin"
 msgstr ""
 "Si està marcada, els fitxers s'eliminaran definitivament en lloc de moure'ls "
-"a la paperera"
+"cap a dins de la paperera"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:143
@@ -174,7 +174,7 @@ msgid ""
 "reliably undelete deleted files.</p></qt>"
 msgstr ""
 "<qt><p>Si esta casella està marcada, els fitxers <b>s'eliminaran "
-"definitivament</b> en lloc de moure'ls a la paperera.</p>\n"
+"definitivament</b> en lloc de moure'ls cap a dins de la paperera.</p>\n"
 "\n"
 "<p><em>Utilitzeu esta opció amb cura</em>: La majoria dels sistemes de "
 "fitxers no són capaços de recuperar amb seguretat els fitxers suprimits.</"
@@ -1675,7 +1675,7 @@ msgstr ""
 #: statuslabel.cpp:85
 #, kde-format
 msgid "Jump to the currently playing item"
-msgstr "Salta a l'element actualment en reproducció"
+msgstr "Salta fins a l'element actualment en reproducció"
 
 #: statuslabel.cpp:115
 #, kde-format
