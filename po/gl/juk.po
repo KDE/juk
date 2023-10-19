@@ -158,7 +158,7 @@ msgstr "Estás a piques de eliminar os ficheiros escollidos"
 #: deletedialogbase.ui:88
 #, kde-format
 msgid "Are you sure that you want to remove these items?"
-msgstr "Está seguro de que quere retirar estes elementos?"
+msgstr "Seguro que quere retirar estes elementos?"
 
 #. i18n: ectx: property (toolTip), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:138
@@ -1291,7 +1291,7 @@ msgstr "Editar «%1»"
 #: playlist.cpp:2178
 #, kde-format
 msgid "This will edit multiple files. Are you sure?"
-msgstr "Isto editará múltiples ficheiros. Está seguro de que quere isto?"
+msgstr "Isto editará múltiples ficheiros. Seguro que quere isto?"
 
 #: playlist.cpp:2237 playlistcollection.h:189
 #, kde-format
