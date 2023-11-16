@@ -135,7 +135,7 @@ msgstr ""
 #: deletedialog.cpp:81
 #, kde-format
 msgid "<qt>These items will be moved to the Trash Bin.</qt>"
-msgstr "<qt>Estos elements es mouran a la paperera.</qt>"
+msgstr "<qt>Estos elements es mouran cap a dins de la paperera.</qt>"
 
 #: deletedialog.cpp:93
 #, kde-format
@@ -160,8 +160,8 @@ msgid ""
 "If checked, files will be permanently removed instead of being placed in the "
 "Trash Bin"
 msgstr ""
-"Si està marcada, els fitxers s'eliminaran definitivament en lloc de moure'ls "
-"cap a dins de la paperera"
+"Si se selecciona, els fitxers s'eliminaran definitivament en lloc de "
+"moure'ls cap a dins de la paperera"
 
 #. i18n: ectx: property (whatsThis), widget (QCheckBox, ddShouldDelete)
 #: deletedialogbase.ui:143
@@ -173,8 +173,8 @@ msgid ""
 "<p><em>Use this option with caution</em>: Most filesystems are unable to "
 "reliably undelete deleted files.</p></qt>"
 msgstr ""
-"<qt><p>Si esta casella està marcada, els fitxers <b>s'eliminaran "
-"definitivament</b> en lloc de moure'ls cap a dins de la paperera.</p>\n"
+"<qt><p>Si se selecciona, els fitxers <b>s'eliminaran definitivament</b> en "
+"lloc de moure'ls cap a dins de la paperera.</p>\n"
 "\n"
 "<p><em>Utilitzeu esta opció amb cura</em>: La majoria dels sistemes de "
 "fitxers no són capaços de recuperar amb seguretat els fitxers suprimits.</"
@@ -1208,7 +1208,7 @@ msgstr "No s'han pogut suprimir estos fitxers"
 #: playlist.cpp:876
 #, kde-format
 msgid "Could not move these files to the Trash"
-msgstr "No s'han pogut moure estos fitxers a la paperera"
+msgstr "No s'han pogut moure estos fitxers cap a dins de la paperera"
 
 #: playlist.cpp:1403
 #, kde-format
@@ -2037,7 +2037,7 @@ msgstr "Gèneres"
 #: volumepopupbutton.cpp:76
 #, kde-format
 msgid "Mute/Unmute"
-msgstr "Silencia/activa el so"
+msgstr "Silencia o activa el so"
 
 #: volumepopupbutton.cpp:114
 #, kde-format
