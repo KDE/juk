@@ -302,7 +302,7 @@
       <li xml:lang="tr">Koleksiyondaki alanlar değiştiğinde otomatik olarak güncellenen Devingen Arama Çalma Listeleri</li>
       <li xml:lang="uk">Динамічні списки пошуку, які оновлюються автоматично зі зміною у полях даних збірки.</li>
       <li xml:lang="x-test">xxDynamic Search Playlists that are automatically updated as fields in the collection changexx</li>
-      <li xml:lang="zh-CN">动态搜索播放列表，根据输入框的当前内容自动筛选搜索结果</li>
+      <li xml:lang="zh-CN">动态搜索播放列表，根据输入框的当前内容自动过滤搜索结果</li>
       <li xml:lang="zh-TW">動態搜尋播放清單，收藏有變更時自動更新</li>
       <li>A Tree View mode where playlists are automatically generated for sets of albums, artists and genres</li>
       <li xml:lang="bg">Режим на дървовиден изглед, при който списъците за възпроизвеждане се генерират автоматично за колекции от албуми, изпълнители и жанрове</li>
@@ -425,7 +425,7 @@
       <li xml:lang="tr">Görünür ögeleri süzmek için yeniden arama</li>
       <li xml:lang="uk">Вбудована можливість пошуку для фільтрування списку показаних записів.</li>
       <li xml:lang="x-test">xxInline search for filtering the list of visible itemsxx</li>
-      <li xml:lang="zh-CN">内联搜索功能，用于对可见项目列表进行筛选显示</li>
+      <li xml:lang="zh-CN">内联搜索功能，用于对可见项目列表进行过滤显示</li>
       <li xml:lang="zh-TW">清單內搜尋與過濾</li>
       <li>The ability to guess tag information based on the track's file name</li>
       <li xml:lang="bg">Възможност за отгатване на информация за етикета въз основа на името на файла на песента</li>
